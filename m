@@ -1,30 +1,31 @@
-Received: from mail-ww0-f49.google.com ([74.125.82.49])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1PsCah-0003SR-Li
+	(envelope-from <raj.khem@gmail.com>) id 1PsKiW-0001Fn-8A
 	for openembedded-core@lists.linuxtogo.org;
-	Wed, 23 Feb 2011 12:09:08 +0100
-Received: by wwb29 with SMTP id 29so318249wwb.6
+	Wed, 23 Feb 2011 20:49:44 +0100
+Received: by fxm8 with SMTP id 8so3949256fxm.6
 	for <openembedded-core@lists.linuxtogo.org>;
-	Wed, 23 Feb 2011 03:07:48 -0800 (PST)
-Received: by 10.227.152.131 with SMTP id g3mr3465103wbw.107.1298459268204;
-	Wed, 23 Feb 2011 03:07:48 -0800 (PST)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id r6sm3094420weq.44.2011.02.23.03.07.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 23 Feb 2011 03:07:47 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1082)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <D9C39E6A-9CDE-49D3-B159-DB93CD26CAA1@dominion.thruhere.net>
-Date: Wed, 23 Feb 2011 12:07:45 +0100
-Message-Id: <16E7BBC5-39A5-414C-B87E-C157111F57AD@dominion.thruhere.net>
-References: <8E7ADF40-9602-40FD-8298-636A5EF72740@dominion.thruhere.net>
-	<20110221192352.GD10070@sakrah.homelinux.org>
-	<D9C39E6A-9CDE-49D3-B159-DB93CD26CAA1@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.linuxtogo.org>
-X-Mailer: Apple Mail (2.1082)
-Subject: Re: Repo status
+	Wed, 23 Feb 2011 11:48:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:from:date:message-id:subject:to
+	:content-type; bh=wrWCaVGtJQLLw7Jb/nvAXu+b5cH9mChmdFyhSHUtDYE=;
+	b=MWEiPfAtw2fZFxbADq5MOGWCZU7jWOIYvgypdUnAOZFGrcTLKZ41fGxFzUjNOBVHPr
+	Qbvr6LP0RzTr/+/XiHm+WibQkdU6mJcgvLqGzbey21apu5S7eetg+ttINmCGWprgt80T
+	5YeGUcGZ2PtLSuZu7zhNFzymx0E9JgkzeS9j0=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:from:date:message-id:subject:to:content-type;
+	b=GM07znq664vd/cR+kcOnuSaxtFkmJ7/42pYGyNew6xdgRPuMiupHpJfsH1HVPvXrgh
+	Iw/we/rTR83cwFpdBCz3Vzw3POm27F+EHKE1cIbx0DXhKZJGVlyNSh470pz12jb1WjOT
+	YmeZnFaAt/jq4DiEbqjg4huufrT5itykIPDi4=
+Received: by 10.223.79.14 with SMTP id n14mr5801398fak.19.1298490345754; Wed,
+	23 Feb 2011 11:45:45 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.223.30.151 with HTTP; Wed, 23 Feb 2011 11:42:38 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 23 Feb 2011 11:42:38 -0800
+Message-ID: <AANLkTimVvB5r=SDrXMaGu=6sNHWX5PPj1cn+Suqpmv-q@mail.gmail.com>
+To: openembedded-core@lists.linuxtogo.org
+Subject: openembedded-core repo goes live
 X-BeenThere: openembedded-core@lists.linuxtogo.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,41 +40,22 @@ List-Post: <mailto:openembedded-core@lists.linuxtogo.org>
 List-Help: <mailto:openembedded-core-request@lists.linuxtogo.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.linuxtogo.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Feb 2011 11:09:08 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 23 Feb 2011 19:49:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
+Hello all
 
-Op 22 feb 2011, om 19:37 heeft Koen Kooi het volgende geschreven:
+openembedded-core is live now. You can clone it by
 
->=20
-> Op 21 feb 2011, om 20:23 heeft Khem Raj het volgende geschreven:
->=20
->> On (21/02/11 09:31), Koen Kooi wrote:
->>> Hi,
->>>=20
->>> What's the status on the oe-core repo?
->>>=20
->>=20
->> I have it setup. I have also a local copy of yocto ready to be pushed =
-to
->> populate it. I have only removed bitbake from it thus far. I did not
->> push it since I thought to do it after todays meeting and if there =
-were
->> more to come in this regard.
->=20
-> Thanks for the update! I'm asking this because I want to get =
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/setup-scripts/log/?h=
-=3Doe-core into shape so I can have people use that to setup all the =
-layers and do test builds.
+git clone git://git.openembedded.org/openembedded-core
 
+any patches that are sent to openembedded-core mailing list
+are captured by patchwork too at
 
-Thanks to Richards hint of setting BBFETCH2 in shell env the script can =
-now build console-image using bitbake master. So angstrom is in a good =
-shape when OE-core goes live :)
+http://patches.openembedded.org/project/oe-core/list/
 
-regards,
+Thanks
 
-Koen=
+-Khem
 
 
