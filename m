@@ -1,25 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ptd0B-0007FD-Ah
+	(envelope-from <koen@dominion.thruhere.net>) id 1PtcyC-0007DK-Ud
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 10:33:19 +0100
-Received: by wyb38 with SMTP id 38so2800557wyb.6
+	Sun, 27 Feb 2011 10:31:17 +0100
+Received: by mail-ww0-f43.google.com with SMTP id 15so3168700wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:29:40 -0800 (PST)
-Received: by 10.216.183.195 with SMTP id q45mr3521731wem.94.1298798980148;
-	Sun, 27 Feb 2011 01:29:40 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:55 -0800 (PST)
+Received: by 10.227.155.11 with SMTP id q11mr3828625wbw.130.1298798995433;
+	Sun, 27 Feb 2011 01:29:55 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id 16sm989143wet.8.2011.02.27.01.29.39
+	by mx.google.com with ESMTPS id n18sm1285699wee.16.2011.02.27.01.29.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:29:39 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:55 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:14 +0100
-Message-Id: <85167fb28693fbd8c1f9ee0b00b7202a1e073513.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:29 +0100
+Message-Id: <c153f926735da3c4ced00d08dc1c0cbc9f94f933.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 09/50] poky-lsb.conf: remove OVERRIDES
+Subject: [PATCH 22/50] poky-qemu: handle cases where an nfs directory contains -image-
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,31 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Feb 2011 09:33:19 -0000
+X-List-Received-Date: Sun, 27 Feb 2011 09:36:27 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Scott Garman <scott.a.garman@intel.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Previously we mistakenly assumed that any argument which contained
+*-image-* was the name of a rootfs image file. This allows nfs
+directory paths to work correctly when they contain this substring.
+
+This fixes [BUGID #743]
+
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/conf/distro/poky-lsb.conf |    3 +--
- 1 files changed, 1 insertions(+), 2 deletions(-)
+ scripts/poky-qemu |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
 
-diff --git a/meta/conf/distro/poky-lsb.conf b/meta/conf/distro/poky-lsb.conf
-index 9a34a15..749c858 100644
---- a/meta/conf/distro/poky-lsb.conf
-+++ b/meta/conf/distro/poky-lsb.conf
-@@ -1,10 +1,9 @@
- require conf/distro/poky.conf
- 
- DISTRO = "poky-lsb"
--DISTROOVERIDES = "poky:poky-lsb"
-+DISTROOVERRIDES = "poky:poky-lsb"
- 
- DISTRO_FEATURES += "pam"
- PREFERRED_PROVIDER_virtual/libx11 = "libx11"
- 
--OVERRIDES = "local:${MACHINE}:poky:${DISTRO}:${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:fail-fast:pn-${PN}:forcevariable"
- 
+diff --git a/scripts/poky-qemu b/scripts/poky-qemu
+index 1086c3d..c76b3ab 100755
+--- a/scripts/poky-qemu
++++ b/scripts/poky-qemu
+@@ -113,6 +113,12 @@ while [ $i -le $# ]; do
+             if [ -z "$ROOTFS" ]; then
+                 if [ -f "$arg" ]; then
+                     process_filename $arg
++                elif [ -d "$arg" ]; then
++                    # Handle the case where the nfsroot dir has -image-
++                    # in the pathname
++                    echo "Assuming $arg is an nfs rootfs"
++                    FSTYPE=nfs
++                    ROOTFS=$arg
+                 else
+                     ROOTFS=$arg
+                     LAZY_ROOTFS="true"
 -- 
 1.6.6.1
 
