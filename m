@@ -1,25 +1,25 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcxz-0007Dk-Gt
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcxz-0007DK-Ph
 	for openembedded-core@lists.openembedded.org;
 	Sun, 27 Feb 2011 10:31:03 +0100
-Received: by wwb29 with SMTP id 29so736755wwb.0
+Received: by mail-ww0-f43.google.com with SMTP id 15so3168700wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:29:37 -0800 (PST)
-Received: by 10.227.147.5 with SMTP id j5mr3818595wbv.41.1298798976965;
-	Sun, 27 Feb 2011 01:29:36 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:42 -0800 (PST)
+Received: by 10.216.211.92 with SMTP id v70mr3733943weo.23.1298798982233;
+	Sun, 27 Feb 2011 01:29:42 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w25sm2270671wbd.5.2011.02.27.01.29.36
+	by mx.google.com with ESMTPS id j49sm1285477wer.14.2011.02.27.01.29.41
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:29:36 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:42 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:11 +0100
-Message-Id: <5f42aaa9cd05991ec0a545af9a7ed3b54c2273fd.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:16 +0100
+Message-Id: <cecae5a52ba212b68cae582ea7eae95c18bf5c50.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 06/50] poky-lsb.conf: Add DISTROOVERRIDES variable for poky
+Subject: [PATCH 11/50] poky-setup-builddir: Update references to the manual
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,28 +36,39 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 27 Feb 2011 09:31:03 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/distro/poky-lsb.conf |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+ scripts/poky-setup-builddir |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/distro/poky-lsb.conf b/meta/conf/distro/poky-lsb.conf
-index 86514d3..9a34a15 100644
---- a/meta/conf/distro/poky-lsb.conf
-+++ b/meta/conf/distro/poky-lsb.conf
-@@ -1,6 +1,10 @@
- require conf/distro/poky.conf
+diff --git a/scripts/poky-setup-builddir b/scripts/poky-setup-builddir
+index 7a1452f..7a49a8f 100755
+--- a/scripts/poky-setup-builddir
++++ b/scripts/poky-setup-builddir
+@@ -66,8 +66,8 @@ you with some default values. You may wish to edit it to use a different MACHINE
+ cores for example. See the file for more information as common configuration
+ options are commented.
  
- DISTRO = "poky-lsb"
-+DISTROOVERIDES = "poky:poky-lsb"
+-Also, for more information see the Poky handbook:
+-http://pokylinux.org/doc/poky-handbook.html
++Also, for more information see the Poky Reference Manual:
++    http://yoctoproject.org/community/documentation
  
- DISTRO_FEATURES += "pam"
- PREFERRED_PROVIDER_virtual/libx11 = "libx11"
-+
-+OVERRIDES = "local:${MACHINE}:poky:${DISTRO}:${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:fail-fast:pn-${PN}:forcevariable"
-+
+ EOM
+     cp -f $POKYLOCALCONF $BUILDDIR/conf/local.conf
+@@ -82,8 +82,8 @@ You had no conf/bblayers.conf file. Poky has created this configuration file for
+ you with some default values. To add additional metadata layers into your
+ configuration please add entries to this file.
+ 
+-For more information see the Poky handbook:
+-    http://pokylinux.org/doc/poky-handbook.html
++For more information see the Poky Reference Manual:
++    http://yoctoproject.org/community/documentation
+ 
+ EOM
+ 
 -- 
 1.6.6.1
 
