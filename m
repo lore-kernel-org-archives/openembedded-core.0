@@ -1,25 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcy4-0007Da-HE
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcy5-0007DK-RI
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 10:31:08 +0100
-Received: by mail-wy0-f175.google.com with SMTP id 38so2800543wyb.6
+	Sun, 27 Feb 2011 10:31:09 +0100
+Received: by mail-ww0-f43.google.com with SMTP id 15so3168700wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:29:47 -0800 (PST)
-Received: by 10.216.3.144 with SMTP id 16mr1257959weh.45.1298798979099;
-	Sun, 27 Feb 2011 01:29:39 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:48 -0800 (PST)
+Received: by 10.216.54.199 with SMTP id i49mr1088293wec.63.1298798988269;
+	Sun, 27 Feb 2011 01:29:48 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id b54sm1284726wer.21.2011.02.27.01.29.38
+	by mx.google.com with ESMTPS id n18sm1282515wee.40.2011.02.27.01.29.47
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:29:38 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:48 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:13 +0100
-Message-Id: <6ee272f9367f4a3a63d699dc3ab6d5ae69002a6d.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:22 +0100
+Message-Id: <c455847586abbb2889be0ee642af3df4b705c2b0.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 08/50] mtd-utils: Set the revision to use explicitly else failures occur with BB_NO_NETWORK
+Subject: [PATCH 16/50] package.bbclass: Unbreak per file dependencies and blacklist doc packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,30 +34,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Feb 2011 09:31:08 -0000
+X-List-Received-Date: Sun, 27 Feb 2011 09:31:09 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-[BUGID #752]
-
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb |    2 +-
+ meta/classes/package.bbclass |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb b/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
-index 5e6db0e..f2de74d 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_1.4.1.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index fa1abf0..dcece40 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -642,7 +642,7 @@ python package_do_filedeps() {
  
--SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=v${PV} \
-+SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=3c3674a6e1d3f59554b0ff68ca59be2fd4134e0c \
- 		file://add-exclusion-to-mkfs-jffs2-git-2.patch;patch=1"
+ 	# Determine dependencies
+ 	for pkg in packages.split():
+-		if pkg.endswith('-dbg') or pkg.find('-locale-') != -1 or pkg.find('-localedata-') != -1 or pkg.find('-gconv-') != -1  or pkg.find('-charmap-') != -1 or pkg.startswith('kernel-module-') != -1:
++		if pkg.endswith('-dbg') or pkg.endswith('-doc') or pkg.find('-locale-') != -1 or pkg.find('-localedata-') != -1 or pkg.find('-gconv-') != -1  or pkg.find('-charmap-') != -1 or pkg.startswith('kernel-module-'):
+ 			continue
  
- S = "${WORKDIR}/git/"
+ 		# Process provides
 -- 
 1.6.6.1
 
