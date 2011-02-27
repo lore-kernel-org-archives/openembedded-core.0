@@ -1,25 +1,25 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcyj-0007FT-IO
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcyj-0007FI-SN
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 10:31:49 +0100
-Received: by mail-ww0-f43.google.com with SMTP id 15so3169077wwe.24
+	Sun, 27 Feb 2011 10:31:50 +0100
+Received: by mail-wy0-f175.google.com with SMTP id 38so2800700wyb.6
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 27 Feb 2011 01:30:28 -0800 (PST)
-Received: by 10.227.2.83 with SMTP id 19mr3839648wbi.115.1298799027358;
-	Sun, 27 Feb 2011 01:30:27 -0800 (PST)
+Received: by 10.227.24.69 with SMTP id u5mr3771215wbb.223.1298799028545;
+	Sun, 27 Feb 2011 01:30:28 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id u9sm2266098wbg.18.2011.02.27.01.30.26
+	by mx.google.com with ESMTPS id o6sm2267562wbo.15.2011.02.27.01.30.28
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:30:27 -0800 (PST)
+	Sun, 27 Feb 2011 01:30:28 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:30:01 +0100
-Message-Id: <9361361cc7279de152719baa3dac5850554a7c08.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:30:02 +0100
+Message-Id: <b1940c84ce3108ffc2fee3b42ec8f457cb4cd5bd.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 47/50] Fix to the libtool LICENSE field: libtool.inc
+Subject: [PATCH 48/50] Fixing type: license.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,30 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Feb 2011 09:31:49 -0000
+X-List-Received-Date: Sun, 27 Feb 2011 09:31:50 -0000
 
 From: Beth Flanagan <elizabeth.flanagan@intel.com>
 
-License parser should use & not ,
+Munged a tab. Fixing
 
 Signed-off-by: Beth Flanagan <elizabeth.flanagan@intel.com>
 ---
- meta/recipes-devtools/libtool/libtool.inc |    2 +-
+ meta/classes/license.bbclass |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/libtool/libtool.inc b/meta/recipes-devtools/libtool/libtool.inc
-index e066ffa..d423e49 100644
---- a/meta/recipes-devtools/libtool/libtool.inc
-+++ b/meta/recipes-devtools/libtool/libtool.inc
-@@ -4,7 +4,7 @@ Libtool hides the complexity of generating special library types \
- (such as shared libraries) behind a consistent interface."
- HOMEPAGE = "http://www.gnu.org/software/libtool/libtool.html"
- SECTION = "devel"
--LICENSE = "GPLv2, LGPLv2.1"
-+LICENSE = "GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-     file://libltdl/COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
- 
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 9c4ccb3..5e9ebe5 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -69,7 +69,7 @@ python do_populate_lic() {
+     for license_type in ((license_types.replace('+', '').replace('|', '&')
+                           .replace('(', '').replace(')', '').replace(';', '')
+                           .replace(',', '').replace(" ", "").split("&"))):
+-if os.path.isfile(os.path.join(generic_directory, license_type)):
++        if os.path.isfile(os.path.join(generic_directory, license_type)):
+             gen_lic_dest = os.path.join(bb.data.getVar('LICENSE_DIRECTORY', d, True), "common-licenses")
+             try:
+                 bb.mkdirhier(gen_lic_dest)
 -- 
 1.6.6.1
 
