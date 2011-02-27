@@ -1,25 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcxw-0007Da-R0
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcxx-0007DK-73
 	for openembedded-core@lists.openembedded.org;
 	Sun, 27 Feb 2011 10:31:01 +0100
-Received: by wyb38 with SMTP id 38so2800543wyb.6
+Received: by mail-ww0-f43.google.com with SMTP id 15so3168700wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:29:34 -0800 (PST)
-Received: by 10.216.184.139 with SMTP id s11mr1146518wem.13.1298798972341;
-	Sun, 27 Feb 2011 01:29:32 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:40 -0800 (PST)
+Received: by 10.216.25.210 with SMTP id z60mr1080565wez.104.1298798977981;
+	Sun, 27 Feb 2011 01:29:37 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id 16sm990066wet.32.2011.02.27.01.29.31
+	by mx.google.com with ESMTPS id o19sm1283657wee.26.2011.02.27.01.29.37
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:29:32 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:37 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:06 +0100
-Message-Id: <5b78689f48def034daa870fa5bce49f0cfdf91c5.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:12 +0100
+Message-Id: <ad9ceb0a626f661e974bdd12d6a27212ad221f6a.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 02/50] documentation/poky-ref-manual/faq.xml: [BUGID# 628] - Added new question for Python 2.6 requirement.
+Subject: [PATCH 07/50] poky.conf: Weakly set PREMIRRORS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,68 +36,30 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 27 Feb 2011 09:31:01 -0000
 
-From: Scott Rifenbark <scott.m.rifenbark@intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-As part of the fix for #628 I added a new question to the FAQ for use
-of Poky when you do not have Python 2.6.
+We should only weakly set PREMIRRORS as users often want to override this.
 
-Signed-off-by: Scott Rifenbark <scott.m.rifenbark@intel.com>
+[BUGID #753]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- documentation/poky-ref-manual/faq.xml |   41 +++++++++++++++++++++++++++++++++
- 1 files changed, 41 insertions(+), 0 deletions(-)
+ meta/conf/distro/poky.conf |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/documentation/poky-ref-manual/faq.xml b/documentation/poky-ref-manual/faq.xml
-index b209fff..7a891b0 100644
---- a/documentation/poky-ref-manual/faq.xml
-+++ b/documentation/poky-ref-manual/faq.xml
-@@ -20,6 +20,47 @@
-             </para>
-         </answer>
-     </qandaentry>
-+
-+
-+
-+
-+
-+    <qandaentry>
-+        <question>
-+            <para>
-+                I only have Python 2.4 or 2.5 but BitBake requires Python 2.6.
-+                Can I still use Poky?
-+            </para>
-+        </question>
-+        <answer>
-+            <para>
-+                You can use a stand-alone tarball to provide Python 2.6.
-+                You can find pre-built 32 and 64-bit versions of Python 2.6 at the following locations:
-+                <itemizedlist>
-+                    <listitem><para><ulink url='http://autobuilder.yoctoproject.org/downloads/miscsupport/python-nativesdk-standalone-i586.tar.bz2'></ulink></para></listitem>
-+                    <listitem><para><ulink url='http://autobuilder.yoctoproject.org/downloads/miscsupport/python-nativesdk-standalone-x86_64.tar.bz2'></ulink></para></listitem>
-+                </itemizedlist>
-+            </para>
-+            <para>
-+                These tarballs are self-contained with all required libraries and should work 
-+                on most Linux systems.  
-+                To use the tarballs extract them into the root 
-+                directory and run the appropriate command:
-+                <literallayout class='monospaced'>
-+     $ export PATH=/opt/poky/sysroots/i586-pokysdk-linux/usr/bin/:$PATH
-+     $ export PATH=/opt/poky/sysroots/x86_64-pokysdk-linux/usr/bin/:$PATH
-+                </literallayout>
-+            </para>
-+            <para>
-+                Once you run the command, BitBake uses Python 2.6.
-+            </para>
-+        </answer>
-+    </qandaentry>
-+
-+
-+
-+
-+
-     <qandaentry>
-         <question>
-             <para>
+diff --git a/meta/conf/distro/poky.conf b/meta/conf/distro/poky.conf
+index 400b8c2..71e40de 100644
+--- a/meta/conf/distro/poky.conf
++++ b/meta/conf/distro/poky.conf
+@@ -150,7 +150,7 @@ BB_GENERATE_MIRROR_TARBALLS ??= "0"
+ 
+ require conf/distro/include/world-broken.inc
+ 
+-PREMIRRORS =+ "\
++PREMIRRORS ?= "\
+ bzr://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
+ cvs://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
+ git://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
 -- 
 1.6.6.1
 
