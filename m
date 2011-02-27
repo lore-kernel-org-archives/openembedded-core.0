@@ -1,25 +1,25 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcye-0007DK-4p
+	(envelope-from <koen@dominion.thruhere.net>) id 1PtcyS-0007DK-BN
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 10:31:44 +0100
+	Sun, 27 Feb 2011 10:31:32 +0100
 Received: by mail-ww0-f43.google.com with SMTP id 15so3168700wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:30:22 -0800 (PST)
-Received: by 10.216.163.69 with SMTP id z47mr3791817wek.43.1298799022765;
-	Sun, 27 Feb 2011 01:30:22 -0800 (PST)
+	Sun, 27 Feb 2011 01:30:10 -0800 (PST)
+Received: by 10.227.196.65 with SMTP id ef1mr3780901wbb.158.1298799010735;
+	Sun, 27 Feb 2011 01:30:10 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id o19sm1287220wee.2.2011.02.27.01.30.22
+	by mx.google.com with ESMTPS id f27sm2270354wbf.7.2011.02.27.01.30.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:30:22 -0800 (PST)
+	Sun, 27 Feb 2011 01:30:10 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:57 +0100
-Message-Id: <536f17b90bd8dda8511b8ef9e7f5f387db50fc93.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:45 +0100
+Message-Id: <90d9dd3f162cafd06175259eb5a26b662ace0e86.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 44/50] task-poky-lsb: add necessary packages name
+Subject: [PATCH 34/50] package.bbclass: Rewrite package_do_filedeps() to reduce the amount of subprocesses created and improve speed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,113 +34,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Feb 2011 09:36:27 -0000
+X-List-Received-Date: Sun, 27 Feb 2011 09:36:28 -0000
 
-From: Jingdong Lu <jingdong.lu@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-In order to install and run LSB test cases we should add some necessary packages name
-into task-poky-lsb for lsb image.
-
-[sgw: modified the perl and python lists to use the core -modules, removed mesa-dri]
-Signed-off-by: Jingdong Lu <jingdong.lu@windriver.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/tasks/task-poky-lsb.bb |   62 +++++++++++++++++++++++++-
- 1 files changed, 61 insertions(+), 1 deletions(-)
+ meta/classes/package.bbclass |   77 ++++++++++++++++++++++++------------------
+ 1 files changed, 44 insertions(+), 33 deletions(-)
 
-diff --git a/meta/recipes-extended/tasks/task-poky-lsb.bb b/meta/recipes-extended/tasks/task-poky-lsb.bb
-index 9d308e7..5120764 100644
---- a/meta/recipes-extended/tasks/task-poky-lsb.bb
-+++ b/meta/recipes-extended/tasks/task-poky-lsb.bb
-@@ -3,7 +3,7 @@
- #
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index c8adbb0..137de09 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -822,55 +822,66 @@ RPMDEPS = "${STAGING_LIBDIR_NATIVE}/rpm/bin/rpmdeps"
+ #  FILERDEPENDS_filepath_pkg - per file dep
  
- DESCRIPTION = "Create Small Image Tasks"
--PR = "r2"
-+PR = "r3"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${POKYBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${POKYBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-@@ -28,8 +28,14 @@ PACKAGES = "\
-     task-poky-tcl \
-     task-poky-tcl-dbg \
-     task-poky-tcl-dev \
-+    task-poky-lsb-perl-add \
-+    task-poky-lsb-python-add \
-+    task-poky-lsb-graphic-add \
-+    task-poky-lsb-runtime-add \
-+    task-poky-lsb-command-add \
-     "
+ python package_do_filedeps() {
+-	import os
++	import os, re
  
-+
- ALLOW_EMPTY = "1"
+ 	pkgdest = bb.data.getVar('PKGDEST', d, True)
+ 	packages = bb.data.getVar('PACKAGES', d, True)
  
- RDEPENDS_task-poky-lsb = "\
-@@ -39,6 +45,11 @@ RDEPENDS_task-poky-lsb = "\
-     task-poky-perl \
-     task-poky-python \
-     task-poky-tcl \
-+    task-poky-lsb-perl-add \
-+    task-poky-lsb-python-add \
-+    task-poky-lsb-graphic-add \
-+    task-poky-lsb-runtime-add \
-+    task-poky-lsb-command-add \
-     "
+-	cmd = bb.data.expand("${STAGING_LIBDIR_NATIVE}/rpm/perfile_rpmdeps.sh", d)
+ 	rpmdeps = bb.data.expand("${RPMDEPS}", d)
++	r = re.compile(r'[<>=]+ +[^ ]*')
  
- #
-@@ -111,3 +122,52 @@ RDEPENDS_task-poky-misc = "\
-     usbutils \
-     zlib \
-     "
+ 	# Quick routine to process the results of the rpmdeps call...
+-	def process_deps(pipe, pkg, varname):
+-		dep_files = ""
++	def process_deps(pipe, pkg, f, provides_files, requires_files):
++		provides = []
++		requires = []
++		file = f.replace(pkgdest + "/" + pkg, "")
++		file = file.replace("@", "@at@")
++		file = file.replace(" ", "@space@")
++		file = file.replace("\t", "@tab@")
++		file = file.replace("[", "@openbrace@")
++		file = file.replace("]", "@closebrace@")
++		file = file.replace("_", "@underscore@")
 +
-+RDEPENDS_task-poky-lsb-command-add = "\
-+    localedef \
-+    fontconfig-utils \
-+    mailx \
-+    msmtp \
-+"
-+#    cups
+ 		for line in pipe:
+-			key = ""
+-			value = ""
+-			# We expect two items on each line
+-			# 1 - filepath
+-			# 2 - dep list
+-			line_list = line.rstrip().split(None,1);
+-			if len(line_list) <= 0 or len(line_list) > 2:
+-				bb.error("deps list length error! " + len(line_list));
+-			if len(line_list) == 2:
+-				file = line_list[0];
+-				value = line_list[1]
+-				file = file.replace(pkgdest + "/" + pkg, "")
+-				file = file.replace("@", "@at@")
+-				file = file.replace(" ", "@space@")
+-				file = file.replace("\t", "@tab@")
+-				file = file.replace("[", "@openbrace@")
+-				file = file.replace("]", "@closebrace@")
+-				file = file.replace("_", "@underscore@")
+-				dep_files = dep_files + " " + file
+-				key = "FILE" + varname + "_" + file + "_" + pkg
+-				bb.data.setVar(key, value, d)
+-		bb.data.setVar("FILE" + varname + "FLIST_" + pkg, dep_files, d)
++			if line.startswith("Requires:"):
++				i = requires
++			elif line.startswith("Provides:"):
++				i = provides
++			else:
++				continue
++			value = line.split(":", 1)[1].strip()
++			value = r.sub(r'(\g<0>)', value)
++			if value.startswith("rpmlib("):
++				continue
++			i.append(value)
 +
-+RDEPENDS_task-poky-lsb-perl-add = "\
-+    perl-modules \
-+    perl-dev \
-+    perl-misc \
-+    perl-pod \
-+"
++		if len(provides) > 0:
++			provides_files.append(file)
++			key = "FILERPROVIDES_" + file + "_" + pkg
++			bb.data.setVar(key, " ".join(provides), d)
 +
-+RDEPENDS_task-poky-lsb-python-add = "\
-+    python-modules \
-+"
-+
-+RDEPENDS_task-poky-lsb-graphic-add = "\
-+    libqtcore4 \
-+    libqtgui4 \
-+    libqtsql4 \
-+    libqtsvg4 \
-+    libqtxml4 \
-+    libqtnetwork4 \
-+    libqtopengl4 \
-+    libxt \
-+    libxxf86vm \
-+    libdrm \
-+    libglu \
-+    libxi \
-+    libxtst \
-+    qt4-plugin-sqldriver-sqlite \
-+"
-+
-+#    mesa-dri 
-+
-+RDEPENDS_task-poky-lsb-runtime-add = "\
-+    ldd \
-+    pam-plugin-wheel \
-+    e2fsprogs-mke2fs \
-+    eglibc-localedata-posix \
-+    mkfontdir \
-+    liburi-perl \
-+    libxml-parser-perl \
-+    libxml-perl \
-+"
++		if len(requires) > 0:
++			requires_files.append(file)
++			key = "FILERDEPENDS_" + file + "_" + pkg
++			bb.data.setVar(key, " ".join(requires), d)
+ 
+ 	# Determine dependencies
+ 	for pkg in packages.split():
+-		if pkg.endswith('-dbg') or pkg.endswith('-doc') or pkg.find('-locale-') != -1 or pkg.find('-localedata-') != -1 or pkg.find('-gconv-') != -1  or pkg.find('-charmap-') != -1 or pkg.startswith('kernel-module-'):
++		if pkg.endswith('-dbg') or pkg.endswith('-doc') or pkg.find('-locale-') != -1 or pkg.find('-localedata-') != -1 or pkg.find('-gconv-') != -1 or pkg.find('-charmap-') != -1 or pkg.startswith('kernel-module-'):
+ 			continue
+ 
+-		# Process provides
+-		dep_pipe = os.popen(cmd + " --rpmdeps " + rpmdeps + " --provides " + pkgdest + "/" + pkg)
++		provides_files = []
++		requires_files = []
++		for root, dirs, files in os.walk(pkgdest + "/" + pkg):
++			for file in files:
++				f = os.path.join(root, file)
+ 
+-		process_deps(dep_pipe, pkg, 'RPROVIDES')
++				dep_pipe = os.popen(rpmdeps + " --provides --requires -v " + f)
+ 
+-		# Process requirements
+-		dep_pipe = os.popen(cmd + " --rpmdeps " + rpmdeps + " --requires " + pkgdest + "/" + pkg)
++				process_deps(dep_pipe, pkg, f, provides_files, requires_files)
+ 
+-		process_deps(dep_pipe, pkg, 'RDEPENDS')
++		bb.data.setVar("FILERDEPENDSFLIST_" + pkg, " ".join(requires_files), d)
++		bb.data.setVar("FILERPROVIDESFLIST_" + pkg, " ".join(provides_files), d)
+ }
+ 
+ SHLIBSDIR = "${STAGING_DIR_HOST}/shlibs"
 -- 
 1.6.6.1
 
