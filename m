@@ -1,25 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcxy-0007Da-HZ
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcxz-0007Dk-Gt
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 10:31:02 +0100
-Received: by mail-wy0-f175.google.com with SMTP id 38so2800543wyb.6
+	Sun, 27 Feb 2011 10:31:03 +0100
+Received: by wwb29 with SMTP id 29so736755wwb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:29:41 -0800 (PST)
-Received: by 10.227.143.206 with SMTP id w14mr3826512wbu.66.1298798981257;
-	Sun, 27 Feb 2011 01:29:41 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:37 -0800 (PST)
+Received: by 10.227.147.5 with SMTP id j5mr3818595wbv.41.1298798976965;
+	Sun, 27 Feb 2011 01:29:36 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id u9sm2269869wbg.6.2011.02.27.01.29.40
+	by mx.google.com with ESMTPS id w25sm2270671wbd.5.2011.02.27.01.29.36
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:29:40 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:36 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:15 +0100
-Message-Id: <16064ac5184f49454947703a7ba6153f2bb51da4.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:11 +0100
+Message-Id: <5f42aaa9cd05991ec0a545af9a7ed3b54c2273fd.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 10/50] Ensure Bash is used when spawning terminals
+Subject: [PATCH 06/50] poky-lsb.conf: Add DISTROOVERRIDES variable for poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,55 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Feb 2011 09:31:02 -0000
+X-List-Received-Date: Sun, 27 Feb 2011 09:31:03 -0000
 
-From: Joshua Lock <josh@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
 
-We rely on Bashisms when spawning a terminal so ensure that bash is used
-when using devshell and menuconfig.
-
-Fixes [BUGID #119]
-
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/devshell.bbclass |    4 ++--
- meta/classes/kernel.bbclass   |    2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/conf/distro/poky-lsb.conf |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-index 4fb3e63..5f262f4 100644
---- a/meta/classes/devshell.bbclass
-+++ b/meta/classes/devshell.bbclass
-@@ -9,7 +9,8 @@ devshell_do_devshell() {
- 	export XAUTHORITY='${XAUTHORITY}'
- 	export TERMWINDOWTITLE="Bitbake Developer Shell"
- 	export EXTRA_OEMAKE='${EXTRA_OEMAKE}'
--	${TERMCMD}
-+	export SHELLCMDS="bash"
-+	${TERMCMDRUN}
- 	if [ $? -ne 0 ]; then
- 	    echo "Fatal: '${TERMCMD}' not found. Check TERMCMD variable."
- 	    exit 1
-@@ -17,6 +18,5 @@ devshell_do_devshell() {
- }
- addtask devshell after do_patch
+diff --git a/meta/conf/distro/poky-lsb.conf b/meta/conf/distro/poky-lsb.conf
+index 86514d3..9a34a15 100644
+--- a/meta/conf/distro/poky-lsb.conf
++++ b/meta/conf/distro/poky-lsb.conf
+@@ -1,6 +1,10 @@
+ require conf/distro/poky.conf
  
--
- EXPORT_FUNCTIONS do_devshell
+ DISTRO = "poky-lsb"
++DISTROOVERIDES = "poky:poky-lsb"
  
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index a1b1354..5d9b86a 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -202,7 +202,7 @@ do_menuconfig() {
-         export DBUS_SESSION_BUS_ADDRESS='${DBUS_SESSION_BUS_ADDRESS}'
-         export XAUTHORITY='${XAUTHORITY}'
- 	export TERMWINDOWTITLE="${PN} Kernel Configuration"
--	export SHELLCMDS="make menuconfig"
-+	export SHELLCMDS="bash make menuconfig"
- 	${TERMCMDRUN}
- 	if [ $? -ne 0 ]; then
- 		echo "Fatal: '${TERMCMD}' not found. Check TERMCMD variable."
+ DISTRO_FEATURES += "pam"
+ PREFERRED_PROVIDER_virtual/libx11 = "libx11"
++
++OVERRIDES = "local:${MACHINE}:poky:${DISTRO}:${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:fail-fast:pn-${PN}:forcevariable"
++
 -- 
 1.6.6.1
 
