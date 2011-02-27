@@ -1,25 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcy7-0007Da-Rc
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcy8-0007DK-8X
 	for openembedded-core@lists.openembedded.org;
 	Sun, 27 Feb 2011 10:31:12 +0100
-Received: by mail-wy0-f175.google.com with SMTP id 38so2800543wyb.6
+Received: by mail-ww0-f43.google.com with SMTP id 15so3168700wwe.24
 	for <openembedded-core@lists.openembedded.org>;
+	Sun, 27 Feb 2011 01:29:51 -0800 (PST)
+Received: by 10.216.60.193 with SMTP id u43mr1075545wec.103.1298798990595;
 	Sun, 27 Feb 2011 01:29:50 -0800 (PST)
-Received: by 10.227.152.149 with SMTP id g21mr3824665wbw.20.1298798989406;
-	Sun, 27 Feb 2011 01:29:49 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id o6sm2270048wbo.9.2011.02.27.01.29.48
+	by mx.google.com with ESMTPS id r57sm1284343wes.25.2011.02.27.01.29.50
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:29:49 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:50 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:23 +0100
-Message-Id: <a88e99ee65e066f24d3ab3df5adeaf2f73a28f41.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:24 +0100
+Message-Id: <f0a74608d51dd4c81aae4fbadb840b326b788c08.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 17/50] dropbear: add SRC_URI checksums
+Subject: [PATCH 18/50] package.bbclass: Use hard link for package split instead of copy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,24 +36,50 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 27 Feb 2011 09:31:12 -0000
 
-From: Joshua Lock <josh@linux.intel.com>
+From: Dongxiao Xu <dongxiao.xu@intel.com>
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+When doing package split, we use hard link instead of copy, which can
+save about 10% disk space when building poky-image-minimal.
+
+If fail, it will fall back to the copyfile function.
+
+[Updated by Richard to use os.link and avoid an exec() call per file]
+
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/recipes-core/dropbear/dropbear_0.52.bb |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ meta/classes/package.bbclass |   15 +++------------
+ 1 files changed, 3 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-core/dropbear/dropbear_0.52.bb b/meta/recipes-core/dropbear/dropbear_0.52.bb
-index 51217ea..6556bb4 100644
---- a/meta/recipes-core/dropbear/dropbear_0.52.bb
-+++ b/meta/recipes-core/dropbear/dropbear_0.52.bb
-@@ -1,3 +1,6 @@
- require dropbear.inc
- 
-+SRC_URI[md5sum] = "1c69ec674481d7745452f68f2ea5597e"
-+SRC_URI[sha256sum] = "e3a2ca49ed85ce562240c0ac06e2f72826d7e52a83e80d91c067c8b97bf5c108"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index dcece40..2f3e9bf 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -427,22 +427,13 @@ python populate_packages () {
+ 			fpath = os.path.join(root,file)
+ 			dpath = os.path.dirname(fpath)
+ 			bb.mkdirhier(dpath)
+-
+-			# Check if this is a hardlink to something... if it is
+-			# attempt to preserve the link information, instead of copy.
+ 			if not os.path.islink(file):
+-				s = os.stat(file)
+-				if s.st_nlink > 1:
+-					file_reference = "%d_%d" % (s.st_dev, s.st_ino)
+-					if file_reference not in file_links:
+-						# Save the reference for next time...
+-						file_links[file_reference] = fpath
+-					else:
+-						os.link(file_links[file_reference], fpath)
+-						continue
++				os.link(file, fpath)
++				continue
+ 			ret = bb.copyfile(file, fpath)
+ 			if ret is False or ret == 0:
+ 				raise bb.build.FuncFailed("File population failed")
 +
- PR="r0"
+ 		del localdata
+ 	os.chdir(workdir)
+ 
 -- 
 1.6.6.1
 
