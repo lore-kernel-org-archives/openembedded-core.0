@@ -1,25 +1,25 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcxx-0007DK-73
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcxy-0007Da-HZ
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 10:31:01 +0100
-Received: by mail-ww0-f43.google.com with SMTP id 15so3168700wwe.24
+	Sun, 27 Feb 2011 10:31:02 +0100
+Received: by mail-wy0-f175.google.com with SMTP id 38so2800543wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:29:40 -0800 (PST)
-Received: by 10.216.25.210 with SMTP id z60mr1080565wez.104.1298798977981;
-	Sun, 27 Feb 2011 01:29:37 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:41 -0800 (PST)
+Received: by 10.227.143.206 with SMTP id w14mr3826512wbu.66.1298798981257;
+	Sun, 27 Feb 2011 01:29:41 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id o19sm1283657wee.26.2011.02.27.01.29.37
+	by mx.google.com with ESMTPS id u9sm2269869wbg.6.2011.02.27.01.29.40
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:29:37 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:40 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:12 +0100
-Message-Id: <ad9ceb0a626f661e974bdd12d6a27212ad221f6a.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:15 +0100
+Message-Id: <16064ac5184f49454947703a7ba6153f2bb51da4.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 07/50] poky.conf: Weakly set PREMIRRORS
+Subject: [PATCH 10/50] Ensure Bash is used when spawning terminals
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,32 +34,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Feb 2011 09:31:01 -0000
+X-List-Received-Date: Sun, 27 Feb 2011 09:31:02 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Joshua Lock <josh@linux.intel.com>
 
-We should only weakly set PREMIRRORS as users often want to override this.
+We rely on Bashisms when spawning a terminal so ensure that bash is used
+when using devshell and menuconfig.
 
-[BUGID #753]
+Fixes [BUGID #119]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- meta/conf/distro/poky.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/classes/devshell.bbclass |    4 ++--
+ meta/classes/kernel.bbclass   |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/distro/poky.conf b/meta/conf/distro/poky.conf
-index 400b8c2..71e40de 100644
---- a/meta/conf/distro/poky.conf
-+++ b/meta/conf/distro/poky.conf
-@@ -150,7 +150,7 @@ BB_GENERATE_MIRROR_TARBALLS ??= "0"
+diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+index 4fb3e63..5f262f4 100644
+--- a/meta/classes/devshell.bbclass
++++ b/meta/classes/devshell.bbclass
+@@ -9,7 +9,8 @@ devshell_do_devshell() {
+ 	export XAUTHORITY='${XAUTHORITY}'
+ 	export TERMWINDOWTITLE="Bitbake Developer Shell"
+ 	export EXTRA_OEMAKE='${EXTRA_OEMAKE}'
+-	${TERMCMD}
++	export SHELLCMDS="bash"
++	${TERMCMDRUN}
+ 	if [ $? -ne 0 ]; then
+ 	    echo "Fatal: '${TERMCMD}' not found. Check TERMCMD variable."
+ 	    exit 1
+@@ -17,6 +18,5 @@ devshell_do_devshell() {
+ }
+ addtask devshell after do_patch
  
- require conf/distro/include/world-broken.inc
+-
+ EXPORT_FUNCTIONS do_devshell
  
--PREMIRRORS =+ "\
-+PREMIRRORS ?= "\
- bzr://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
- cvs://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
- git://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a1b1354..5d9b86a 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -202,7 +202,7 @@ do_menuconfig() {
+         export DBUS_SESSION_BUS_ADDRESS='${DBUS_SESSION_BUS_ADDRESS}'
+         export XAUTHORITY='${XAUTHORITY}'
+ 	export TERMWINDOWTITLE="${PN} Kernel Configuration"
+-	export SHELLCMDS="make menuconfig"
++	export SHELLCMDS="bash make menuconfig"
+ 	${TERMCMDRUN}
+ 	if [ $? -ne 0 ]; then
+ 		echo "Fatal: '${TERMCMD}' not found. Check TERMCMD variable."
 -- 
 1.6.6.1
 
