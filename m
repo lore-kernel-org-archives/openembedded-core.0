@@ -1,25 +1,25 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcy0-0007DK-K2
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ptcy3-0007Da-G8
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 10:31:04 +0100
-Received: by mail-ww0-f43.google.com with SMTP id 15so3168700wwe.24
+	Sun, 27 Feb 2011 10:31:07 +0100
+Received: by mail-wy0-f175.google.com with SMTP id 38so2800543wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:29:43 -0800 (PST)
-Received: by 10.216.245.11 with SMTP id n11mr1073208wer.108.1298798983351;
-	Sun, 27 Feb 2011 01:29:43 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:46 -0800 (PST)
+Received: by 10.216.186.142 with SMTP id w14mr4293249wem.18.1298798986221;
+	Sun, 27 Feb 2011 01:29:46 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id c54sm1286509wer.6.2011.02.27.01.29.42
+	by mx.google.com with ESMTPS id h39sm1286629wes.5.2011.02.27.01.29.45
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:29:43 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:45 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:17 +0100
-Message-Id: <c2aa8c964e78098f4b82718d3dfcb6a9d5e677fe.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:20 +0100
+Message-Id: <0b8097d56ab693fee680bc5171e4d1defe27f94e.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 12/50] poky-qemu: Update -sdk image name due to recent change to sato-sdk
+Subject: [PATCH 14/50] Suppress useless warnings during udev startup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Feb 2011 09:31:04 -0000
+X-List-Received-Date: Sun, 27 Feb 2011 09:31:07 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Gary Thomas <gary@mlbassoc.com>
 
+I have a number of platforms which have no realtime clock
+(i.e. no sense of what day/time it is).  On these platforms,
+poky dutifully tries to keep somewhat sane with stored
+time stamps that are saved on reboot and restored early
+on during initialization.  A fair compromise.
+
+However, before that code runs, the udev script tries to
+restore well known devices using tar.  This will often
+lead to messages such as these since the kernel has no
+way to set the time:
+   tar: dev/pts: implausibly old time stamp 1970-01-01 00:00:00
+   tar: dev/char/3:134: time stamp 1970-01-01 00:00:09 is 0.435041705 s in the future
+
+The attached patch filters these messages out as they don't
+convey anything useful and indeed are worrisome to more naive
+users.
+
+--
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
+
+From a6773d3e00dbd168817730fff1c3fc7e1b6950f5 Mon Sep 17 00:00:00 2001
+From: Gary Thomas <gary@mlbassoc.com>
+Date: Thu, 17 Feb 2011 11:30:18 -0700
+Subject: [PATCH] Suppress messages about bad time stamps during initial device setup
+
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- scripts/poky-qemu |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-core/udev/udev-164/init |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/scripts/poky-qemu b/scripts/poky-qemu
-index cb08f27..1086c3d 100755
---- a/scripts/poky-qemu
-+++ b/scripts/poky-qemu
-@@ -228,23 +228,23 @@ machine2=`echo $MACHINE | tr 'a-z' 'A-Z' | sed 's/-/_/'`
- # Defaults used when these vars need to be inferred
- QEMUX86_DEFAULT_KERNEL=bzImage-qemux86.bin
- QEMUX86_DEFAULT_FSTYPE=ext3
--QEMUX86_DEFAULT_ROOTFS="poky-image-sdk poky-image-sato poky-image-lsb poky-image-basic poky-image-minimal"
-+QEMUX86_DEFAULT_ROOTFS="poky-image-sato-sdk poky-image-sato poky-image-lsb poky-image-basic poky-image-minimal"
+diff --git a/meta/recipes-core/udev/udev-164/init b/meta/recipes-core/udev/udev-164/init
+index eb5e507..1a8fca5 100644
+--- a/meta/recipes-core/udev/udev-164/init
++++ b/meta/recipes-core/udev/udev-164/init
+@@ -35,7 +35,7 @@ LANG=C awk "\$2 == \"/dev\" && \$4 == \"tmpfs\" { exit 1 }" /proc/mounts && {
+ }
  
- QEMUX86_64_DEFAULT_KERNEL=bzImage-qemux86-64.bin
- QEMUX86_64_DEFAULT_FSTYPE=ext3
--QEMUX86_64_DEFAULT_ROOTFS="poky-image-sdk poky-image-sato poky-image-lsb poky-image-basic poky-image-minimal"
-+QEMUX86_64_DEFAULT_ROOTFS="poky-image-sato-sdk poky-image-sato poky-image-lsb poky-image-basic poky-image-minimal"
+ if [ -e /etc/dev.tar ]; then
+-	(cd /; tar xf /etc/dev.tar)
++	(cd /; tar xf /etc/dev.tar 2>&1 | grep -v 'time stamp')
+ 	not_first_boot=1
+ fi
  
- QEMUARM_DEFAULT_KERNEL=zImage-qemuarm.bin
- QEMUARM_DEFAULT_FSTYPE=ext3
--QEMUARM_DEFAULT_ROOTFS="poky-image-sdk poky-image-sato poky-image-lsb poky-image-basic poky-image-minimal"
-+QEMUARM_DEFAULT_ROOTFS="poky-image-sato-sdk poky-image-sato poky-image-lsb poky-image-basic poky-image-minimal"
- 
- QEMUMIPS_DEFAULT_KERNEL=vmlinux-qemumips.bin
- QEMUMIPS_DEFAULT_FSTYPE=ext3
--QEMUMIPS_DEFAULT_ROOTFS="poky-image-sdk poky-image-sato poky-image-lsb poky-image-basic poky-image-minimal"
-+QEMUMIPS_DEFAULT_ROOTFS="poky-image-sato-sdk poky-image-sato poky-image-lsb poky-image-basic poky-image-minimal"
- 
- QEMUPPC_DEFAULT_KERNEL=zImage-qemuppc.bin
- QEMUPPC_DEFAULT_FSTYPE=ext3
--QEMUPPC_DEFAULT_ROOTFS="poky-image-sdk poky-image-sato poky-image-lsb poky-image-basic poky-image-minimal"
-+QEMUPPC_DEFAULT_ROOTFS="poky-image-sato-sdk poky-image-sato poky-image-lsb poky-image-basic poky-image-minimal"
- 
- AKITA_DEFAULT_KERNEL=zImage-akita.bin
- AKITA_DEFAULT_FSTYPE=jffs2
 -- 
 1.6.6.1
 
