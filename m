@@ -1,25 +1,28 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1PtdDb-0007bf-Nq
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ptk3m-0006h4-81
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 10:47:11 +0100
-Received: by wyb38 with SMTP id 38so2805344wyb.6
+	Sun, 27 Feb 2011 18:05:30 +0100
+Received: by wwe15 with SMTP id 15so3363418wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:45:48 -0800 (PST)
-Received: by 10.216.22.131 with SMTP id t3mr3743960wet.2.1298798974926;
-	Sun, 27 Feb 2011 01:29:34 -0800 (PST)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id f52sm1282660wes.35.2011.02.27.01.29.34
+	Sun, 27 Feb 2011 09:04:06 -0800 (PST)
+Received: by 10.227.144.194 with SMTP id a2mr4074165wbv.94.1298826243338;
+	Sun, 27 Feb 2011 09:04:03 -0800 (PST)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id x1sm2539690wbh.14.2011.02.27.09.04.02
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:29:34 -0800 (PST)
+	Sun, 27 Feb 2011 09:04:02 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1082)
 From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:09 +0100
-Message-Id: <7790c11deb665f5847f31a84a08884a62ab7ec43.1298798633.git.koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 18:04:02 +0100
+Message-Id: <1E24B52E-D324-48D3-94C1-D14301824FBF@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 04/50] xserver-nodm-init: add rootless-x support
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1082)
+Subject: Re: [PATCH 00/50] Merge in yocto changes made since split
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,93 +37,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Feb 2011 09:47:11 -0000
+X-List-Received-Date: Sun, 27 Feb 2011 17:05:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Yu Ke <ke.yu@intel.com>
 
-most rootless X work are already done in the kernel, xserver and
-graphics driver, this patches add the the remaining userspace setting:
+Op 27 feb 2011, om 10:28 heeft Koen Kooi het volgende geschreven:
 
-- create /etc/X11/Xusername to set rootless X user
-- add rootless X user to group video, tty to access /dev/tty[0-4]
-  and /dev/dri/card0
-- grant rootless X user access right to /dev/input/*, /var/log
+> This merges in the yocto changes that were made since we split off =
+oe-core, minus changes made to bitbake since oe-core doesn't ship that =
+anymore.
+>=20
+> Pull URL: =
+git://dominion.thruhere.net/var/cache/git/openembedded-core.git
+>  Branch: poky-merge-20110227
+>  Browse: =
+http://dominion.thruhere.net/git/cgit.cgi/openembedded-core//log/?h=3Dpoky=
+-merge-20110227
+>=20
+> Thanks,
+>     Koen Kooi <koen@dominion.thruhere.net>
 
-Signed-off-by: Yu Ke <ke.yu@intel.com>
----
- .../x11-common/xserver-nodm-init.bb                |   22 +++++++++++++++++++-
- .../x11-common/xserver-nodm-init/Xusername         |    1 +
- .../x11-common/xserver-nodm-init/xserver-nodm      |    4 +++
- 3 files changed, 26 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/x11-common/xserver-nodm-init/Xusername
+After merging all that I get:
 
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-index 03a6ca3..a93acc9 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-@@ -3,10 +3,11 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- SECTION = "x11"
- PRIORITY = "optional"
--PR = "r23"
-+PR = "r24"
- RDEPENDS_${PN} = "dbus-wait sudo"
- 
- SRC_URI = "file://xserver-nodm \
-+           file://Xusername \
-            file://gplv2-license.patch"
- 
- S = ${WORKDIR}
-@@ -17,6 +18,25 @@ do_install() {
-     install -d ${D}/etc
-     install -d ${D}/etc/init.d
-     install xserver-nodm ${D}/etc/init.d
-+    if [ "${ROOTLESS_X}" = "1" ] ; then
-+        install -d ${D}/etc/X11
-+        install Xusername ${D}/etc/X11
-+    fi
-+}
-+
-+pkg_postinst_${PN} () {
-+    if [ "x$D" != "x" ] ; then
-+        exit 1
-+    fi
-+
-+    if [ -f /etc/X11/Xusername ]; then
-+        # create the rootless X user, and add user to group tty, video
-+        username=`cat /etc/X11/Xusername`
-+        adduser --disabled-password $username
-+        # FIXME: use addgroup if busybox addgroup is ready
-+        sed -i -e "s/^video:.*/&${username}/g" /etc/group
-+        sed -i -e "s/^tty:.*/&${username}/g" /etc/group
-+    fi
- }
- 
- inherit update-rc.d
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/Xusername b/meta/recipes-graphics/x11-common/xserver-nodm-init/Xusername
-new file mode 100644
-index 0000000..7060e5e
---- /dev/null
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/Xusername
-@@ -0,0 +1 @@
-+xuser
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-index 69ea949..d8c4ba0 100755
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm
-@@ -30,6 +30,10 @@ case "$1" in
-        echo "Starting Xserver"
-        if [ -f /etc/X11/Xusername ]; then
-            username=`cat /etc/X11/Xusername`
-+           # setting for rootless X
-+           chmod o+w /var/log
-+           chmod g+r /dev/tty[0-3]
-+           chmod o+rw /dev/input/*
-        fi
-        # Using sudo -i here has the nice side effect of making sire
-        # HOME, USER and other previously problematic variables
--- 
-1.6.6.1
+RROR: Error executing a python function in =
+/OE/tentacle/sources/openembedded-core/meta/recipes-kernel/linux-libc-head=
+ers/linux-libc-headers_2.6.37.2.bb:
+TypeError: join_deps() got an unexpected keyword argument 'commasep'
+
+ERROR: The stack trace of python calls that resulted in this =
+exception/failure was:
+ERROR:   File "populate_packages", line 144, in <module>
+ERROR:
+ERROR:   File "populate_packages", line 141, in populate_packages
+ERROR:
+ERROR: The code that was being executed was:
+ERROR:      0140:                               bb.note("%s contains =
+dangling symlink to %s" % (pkg, l))
+ERROR:      0141:               bb.data.setVar('RDEPENDS_' + pkg, =
+bb.utils.join_deps(rdepends, commasep=3DFalse), d)
+ERROR:      0142:
+ERROR:      0143:
+ERROR:  *** 0144:populate_packages(d)
+ERROR:      0145:
+ERROR: (file: 'populate_packages', lineno: 144, function: <module>)
+ERROR:      0137:                                                       =
+rdepends[p] =3D ""
+ERROR:      0138:                                               break
+ERROR:      0139:                       if found =3D=3D False:
+ERROR:      0140:                               bb.note("%s contains =
+dangling symlink to %s" % (pkg, l))
+ERROR:  *** 0141:               bb.data.setVar('RDEPENDS_' + pkg, =
+bb.utils.join_deps(rdepends, commasep=3DFalse), d)
+ERROR:      0142:
+ERROR:      0143:
+ERROR:      0144:populate_packages(d)
+ERROR:      0145:
+ERROR: (file: 'populate_packages', lineno: 141, function: =
+populate_packages)
+ERROR: Function 'populate_packages' failed
+ERROR: Logfile of failure stored in: =
+/OE/tentacle/build/tmp-angstrom_2010_x/work/armv7a-angstrom-linux-gnueabi/=
+linux-libc-headers-2.6.37.2-r0/temp/log.do_package.6059
+Log data follows:
+| sort: open failed: =
+/OE/tentacle/build/tmp-angstrom_2010_x/work/armv7a-angstrom-linux-gnueabi/=
+linux-libc-headers-2.6.37.2-r0/debugsources.list: No such file or =
+directory
+| ERROR: Error executing a python function in =
+/OE/tentacle/sources/openembedded-core/meta/recipes-kernel/linux-libc-head=
+ers/linux-libc-headers_2.6.37.2.bb:
+| TypeError: join_deps() got an unexpected keyword argument 'commasep'
+|
+| ERROR: The stack trace of python calls that resulted in this =
+exception/failure was:
+| ERROR:   File "populate_packages", line 144, in <module>
+| ERROR:
+| ERROR:   File "populate_packages", line 141, in populate_packages
+| ERROR:
+| ERROR: The code that was being executed was:
+| ERROR:      0140:                             bb.note("%s contains =
+dangling symlink to %s" % (pkg, l))
+| ERROR:      0141:             bb.data.setVar('RDEPENDS_' + pkg, =
+bb.utils.join_deps(rdepends, commasep=3DFalse), d)
+| ERROR:      0142:
+| ERROR:      0143:
+| ERROR:  *** 0144:populate_packages(d)
+| ERROR:      0145:
+| ERROR: (file: 'populate_packages', lineno: 144, function: <module>)
+| ERROR:      0137:                                                     =
+rdepends[p] =3D ""
+| ERROR:      0138:                                             break
+| ERROR:      0139:                     if found =3D=3D False:
+| ERROR:      0140:                             bb.note("%s contains =
+dangling symlink to %s" % (pkg, l))
+| ERROR:  *** 0141:             bb.data.setVar('RDEPENDS_' + pkg, =
+bb.utils.join_deps(rdepends, commasep=3DFalse), d)
+| ERROR:      0142:
+| ERROR:      0143:
+| ERROR:      0144:populate_packages(d)
+| ERROR:      0145:
+| ERROR: (file: 'populate_packages', lineno: 141, function: =
+populate_packages)
+| ERROR: Function 'populate_packages' failed
+NOTE: package linux-libc-headers-2.6.37.2-r0: task do_package: Failed
+NOTE: package flex-2.5.35-r2: task do_unpack: Succeeded
+ERROR: Task 1121 =
+(/OE/tentacle/sources/openembedded-core/meta/recipes-kernel/linux-libc-hea=
+ders/linux-libc-headers_2.6.37.2.bb, do_package) failed with exit code =
+'1'
+Waiting for 1 active tasks to finish:
+0: eglibc-2.12-r13 do_compile (pid 19675)
+
+Maybe that's missing something in vanilla bitbake, will have a look =
+again during office hours.
 
 
 
