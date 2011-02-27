@@ -1,25 +1,25 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1PtczI-0007Ip-7o
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ptd0B-0007FD-Ah
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 10:32:24 +0100
-Received: by wwe15 with SMTP id 15so3169325wwe.24
+	Sun, 27 Feb 2011 10:33:19 +0100
+Received: by wyb38 with SMTP id 38so2800557wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:31:00 -0800 (PST)
-Received: by 10.216.179.207 with SMTP id h57mr3797919wem.20.1298799026105;
-	Sun, 27 Feb 2011 01:30:26 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:40 -0800 (PST)
+Received: by 10.216.183.195 with SMTP id q45mr3521731wem.94.1298798980148;
+	Sun, 27 Feb 2011 01:29:40 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id s50sm1284834weh.22.2011.02.27.01.30.25
+	by mx.google.com with ESMTPS id 16sm989143wet.8.2011.02.27.01.29.39
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:30:25 -0800 (PST)
+	Sun, 27 Feb 2011 01:29:39 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:30:00 +0100
-Message-Id: <438b29bb8458d657556e6e685b5908c18e884106.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:14 +0100
+Message-Id: <85167fb28693fbd8c1f9ee0b00b7202a1e073513.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 46/50] Fixing my bad license parsing: license.bbclass
+Subject: [PATCH 09/50] poky-lsb.conf: remove OVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,60 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Feb 2011 09:32:24 -0000
+X-List-Received-Date: Sun, 27 Feb 2011 09:33:19 -0000
 
-From: Beth Flanagan <elizabeth.flanagan@intel.com>
+From: Saul Wold <sgw@linux.intel.com>
 
-Fix to my bad license parsing. Also added the MIT generic license
-files.
-
-Signed-off-by: Beth Flanagan <elizabeth.flanagan@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/license.bbclass         |    7 ++++---
- meta/files/common-licenses/MIT       |    6 ++++++
- meta/files/common-licenses/MIT-style |    1 +
- 3 files changed, 11 insertions(+), 3 deletions(-)
- create mode 100644 meta/files/common-licenses/MIT
- create mode 120000 meta/files/common-licenses/MIT-style
+ meta/conf/distro/poky-lsb.conf |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 4e3cd1c..9c4ccb3 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -66,9 +66,10 @@ python do_populate_lic() {
-     # I'm sure someone has written a logic parser for these fields, but if so, I don't know where it is. 
-     # So what I do is just link to every license mentioned in the license field.
-     
--    for license_type in (' '.join(license_types.replace('&', ' ').replace('+', ' ').replace('|', ' ')
--                         .replace('(', ' ').replace(')', ' ').replace(';', ' ').replace(',', ' ').split())):
--        if os.path.isfile(os.path.join(generic_directory, license_type)):
-+    for license_type in ((license_types.replace('+', '').replace('|', '&')
-+                          .replace('(', '').replace(')', '').replace(';', '')
-+                          .replace(',', '').replace(" ", "").split("&"))):
-+if os.path.isfile(os.path.join(generic_directory, license_type)):
-             gen_lic_dest = os.path.join(bb.data.getVar('LICENSE_DIRECTORY', d, True), "common-licenses")
-             try:
-                 bb.mkdirhier(gen_lic_dest)
-diff --git a/meta/files/common-licenses/MIT b/meta/files/common-licenses/MIT
-new file mode 100644
-index 0000000..d136d5e
---- /dev/null
-+++ b/meta/files/common-licenses/MIT
-@@ -0,0 +1,6 @@
-+The MIT License
-+
-+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-+
-+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-diff --git a/meta/files/common-licenses/MIT-style b/meta/files/common-licenses/MIT-style
-new file mode 120000
-index 0000000..8ab70c0
---- /dev/null
-+++ b/meta/files/common-licenses/MIT-style
-@@ -0,0 +1 @@
-+MIT
-\ No newline at end of file
+diff --git a/meta/conf/distro/poky-lsb.conf b/meta/conf/distro/poky-lsb.conf
+index 9a34a15..749c858 100644
+--- a/meta/conf/distro/poky-lsb.conf
++++ b/meta/conf/distro/poky-lsb.conf
+@@ -1,10 +1,9 @@
+ require conf/distro/poky.conf
+ 
+ DISTRO = "poky-lsb"
+-DISTROOVERIDES = "poky:poky-lsb"
++DISTROOVERRIDES = "poky:poky-lsb"
+ 
+ DISTRO_FEATURES += "pam"
+ PREFERRED_PROVIDER_virtual/libx11 = "libx11"
+ 
+-OVERRIDES = "local:${MACHINE}:poky:${DISTRO}:${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:fail-fast:pn-${PN}:forcevariable"
+ 
 -- 
 1.6.6.1
 
