@@ -1,25 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1PtcyO-0007Da-Qi
+	(envelope-from <koen@dominion.thruhere.net>) id 1PtcyJ-0007DK-8y
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 10:31:28 +0100
-Received: by mail-wy0-f175.google.com with SMTP id 38so2800543wyb.6
+	Sun, 27 Feb 2011 10:31:23 +0100
+Received: by mail-ww0-f43.google.com with SMTP id 15so3168700wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 01:30:07 -0800 (PST)
-Received: by 10.216.163.203 with SMTP id a53mr3529126wel.104.1298799007499;
-	Sun, 27 Feb 2011 01:30:07 -0800 (PST)
+	Sun, 27 Feb 2011 01:30:01 -0800 (PST)
+Received: by 10.216.229.4 with SMTP id g4mr1233575weq.54.1298799001531;
+	Sun, 27 Feb 2011 01:30:01 -0800 (PST)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id 16sm989299wet.8.2011.02.27.01.30.07
+	by mx.google.com with ESMTPS id o33sm1282561wej.37.2011.02.27.01.30.01
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Feb 2011 01:30:07 -0800 (PST)
+	Sun, 27 Feb 2011 01:30:01 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Feb 2011 10:29:41 +0100
-Message-Id: <cb28aa3f51fd18b9331a786c0102b3ca93f67b6f.1298798633.git.koen@dominion.thruhere.net>
+Date: Sun, 27 Feb 2011 10:29:35 +0100
+Message-Id: <c331edb9fefe3f55aadfe3d6162424bc55421e7a.1298798633.git.koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 In-Reply-To: <cover.1298798633.git.koen@dominion.thruhere.net>
 References: <cover.1298798633.git.koen@dominion.thruhere.net>
-Subject: [PATCH 31/50] package.bbclass: Fix debug sources directory creation to reference the target system
+Subject: [PATCH 27/50] documentation/yocto-project-qs/yocto-project-qs.xml: Added Copyright dates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,26 +36,33 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 27 Feb 2011 09:36:27 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Scott Rifenbark <scott.m.rifenbark@intel.com>
 
-Signed-off-by: Richard  Purdie <richard.purdie@linuxfoundation.org>
+Added "Copyright 2010-2011 Linux Foundation" under the title.  For
+now this will have to do.  Once we get the converted website up I
+would like to see all manuals displayed as HTML files within the
+context of the site layout.  At that point we can have a copyright
+and trademark stuff in a persistent footer.
+
+[BUGID #696]
+
+Signed-off-by: Scott Rifenbark <scott.m.rifenbark@intel.com>
 ---
- meta/classes/package.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../yocto-project-qs/yocto-project-qs.xml          |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 59a0601..c8adbb0 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -225,7 +225,7 @@ def splitfile2(debugsrcdir, d):
-     sourcefile = bb.data.expand("${WORKDIR}/debugsources.list", d)
+diff --git a/documentation/yocto-project-qs/yocto-project-qs.xml b/documentation/yocto-project-qs/yocto-project-qs.xml
+index 452282f..14c3f90 100644
+--- a/documentation/yocto-project-qs/yocto-project-qs.xml
++++ b/documentation/yocto-project-qs/yocto-project-qs.xml
+@@ -6,6 +6,7 @@
  
-     if debugsrcdir:
--       bb.mkdirhier(debugsrcdir)
-+       bb.mkdirhier("%s%s" % (dvar, debugsrcdir))
+ <section id='fake-title'>
+     <title>Yocto Project Quick Start</title>
++    <para>Copyright &copy; 2010-2011 Linux Foundation</para>
+ </section>
  
-        processdebugsrc =  "LC_ALL=C ; sort -z -u '%s' | egrep -v -z '(<internal>|<built-in>)$' | "
-        processdebugsrc += "(cd '%s' ; cpio -pd0mL '%s%s' 2>/dev/null)"
+ <section id='welcome'>
 -- 
 1.6.6.1
 
