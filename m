@@ -1,37 +1,24 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1PtmMx-0003cD-73
+	(envelope-from <koen@dominion.thruhere.net>) id 1Pu8gF-0006Ec-5z
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Feb 2011 20:33:27 +0100
-Received: by fxm8 with SMTP id 8so2968186fxm.6
+	Mon, 28 Feb 2011 20:22:51 +0100
+Received: by wyb38 with SMTP id 38so3885840wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Feb 2011 11:32:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=NA/pVOnnAVu0CZIHOum574ksaJWShMel1RexMcLo70w=;
-	b=Lvf2Iz96vOpgXI4R9ce99oYSihzYsmuRurWEf9iuD+t8OUmLzjCmpeRzfwY+ajFkBq
-	Wzivo0Bnln0LrAP1SqdfvRb5QOdg48JYpyLY1cH1Kgsr4ilFhjL5HFpBiNRWlBKNuvHT
-	8zZwzkFHHahg5LIPU60GfeqxtpCiXdFWotsiY=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	b=YLVgo79FDQowL5cpSLuxv0jJk3Rs/AZQtSddtQ5RIXQt0738G45asgrXvdJz+Ndius
-	DCxQpAGH7uQbTFsEJpIBk57xi9nBE+z3vWFEl6YYRsjmiHxvFl/MyNnsQAbfQwaCzQo4
-	ZZO43hYwVwtSqEAYcGtNT4Xa0soTkykVE+9mM=
-Received: by 10.223.52.90 with SMTP id h26mr1702236fag.58.1298835120094; Sun,
-	27 Feb 2011 11:32:00 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.223.30.151 with HTTP; Sun, 27 Feb 2011 11:31:40 -0800 (PST)
-In-Reply-To: <539DB3E2-938D-4446-B786-4732F277FDC8@dominion.thruhere.net>
-References: <539DB3E2-938D-4446-B786-4732F277FDC8@dominion.thruhere.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 27 Feb 2011 11:31:40 -0800
-Message-ID: <AANLkTi=wuVRBFJ4qrm_=iLRxChRy1porE=GsDe4OtRbL@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	Mon, 28 Feb 2011 11:21:26 -0800 (PST)
+Received: by 10.227.30.141 with SMTP id u13mr459478wbc.225.1298920885862;
+	Mon, 28 Feb 2011 11:21:25 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id n18sm2053494wee.16.2011.02.28.11.21.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 28 Feb 2011 11:21:24 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Feb 2011 20:21:07 +0100
+Message-Id: <1298920867-4961-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: Patchwork not picking up patches
+Subject: [PATCH] base.bbclass: add support for SOC_FAMILY in COMPATIBLE_MACHINES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,27 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Feb 2011 19:33:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 28 Feb 2011 19:22:51 -0000
 
-On Sun, Feb 27, 2011 at 9:16 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Hi,
->
-> I guess I tripped gmails spam filter, is there anything we can do to bypass it?
->
+* Add support for using SOC_FAMILY in the COMPATIBLE_MACHINES
+  setting for a recipe.
+* This will allow recipes to work for entire families of
+  devices without having to maintain/update the compatible
+  devices as new devices are added into a family
 
-No you did not. The reason I think is you sent it to
-openembedded-core@lists.openembedded.org and not to linuxtogo address
-and pw is tracking linuxtogo
-I have changed it to track openembedded.org now.
+Based on 07076390358f211bd96779bec2d6eb5eaa0ad699 by Chase Maupin <chase.maupin@ti.com>
 
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/base.bbclass |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index a674f52..aaf99da 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -342,7 +342,9 @@ python () {
+             import re
+             this_machine = bb.data.getVar('MACHINE', d, 1)
+             if this_machine and not re.match(need_machine, this_machine):
+-                raise bb.parse.SkipPackage("incompatible with machine %s" % this_machine)
++                this_soc_family = bb.data.getVar('SOC_FAMILY', d, 1)
++                if (this_soc_family and not re.match(need_machine, this_soc_family)) or not this_soc_family:
++                    raise bb.parse.SkipPackage("incompatible with machine %s" % this_machine)
+ 
+ 
+         dont_want_license = bb.data.getVar('INCOMPATIBLE_LICENSE', d, 1)
+-- 
+1.6.6.1
+
 
 
