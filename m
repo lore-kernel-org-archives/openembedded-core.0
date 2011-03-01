@@ -1,32 +1,37 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1PuVxG-0000B9-W4
+	(envelope-from <raj.khem@gmail.com>) id 1PuZOz-0003r0-T9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 01 Mar 2011 21:13:59 +0100
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1PuVvs-0000so-As from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 01 Mar 2011 12:12:32 -0800
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 1 Mar 2011 12:12:31 -0800
-Received: from [172.30.80.189] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
-	with Microsoft SMTP Server id 14.1.270.1;
-	Tue, 1 Mar 2011 12:12:31 -0800
-Message-ID: <4D6D531D.5080704@mentor.com>
-Date: Tue, 1 Mar 2011 13:12:13 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.13) Gecko/20101208 Lightning/1.0b2 Thunderbird/3.1.7
+	Wed, 02 Mar 2011 00:54:49 +0100
+Received: by fxm8 with SMTP id 8so5212669fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Mar 2011 15:53:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=CCDSAUiWyyTL475lwdhAqE0t6+OPMU5G3Zt1+Ru7sGo=;
+	b=Mn2Y1KnSpkp/C8Ick+H+5U/zSyKmkzFepJBuzpO+7L91AlPzY8fwAGxaOcGSVlVMqL
+	RzkCNsIltn58sLEXzinVG28QirpCaQUBEYhLjHdpnMXUEGGi2GZjUjZxXyP2lz1v2vzK
+	6hmkP8tMwRlYje0DGeDGMwVKM57bL31Q2xypQ=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	b=OgkI6FG4pUQL4yse9axJluLfrdXvsZ16y/9zBGeUlLdF0mSWUzp0wFW34832L/Fqg2
+	0C6Dx81XJjFgrcbAU9ypoupSKc+GjHW6lQgs82bcmeeAOw44FcPTwPjukDBwhnKiSlCD
+	alhkFRwiCIBCysPdzooRil8efPqgqO3kY9Zg0=
+Received: by 10.223.83.134 with SMTP id f6mr8930041fal.1.1299023603126; Tue,
+	01 Mar 2011 15:53:23 -0800 (PST)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+Received: by 10.223.30.151 with HTTP; Tue, 1 Mar 2011 15:53:03 -0800 (PST)
+In-Reply-To: <4D6D531D.5080704@mentor.com>
 References: <1298534465-21119-1-git-send-email-koen@dominion.thruhere.net>
 	<25E4086B-447B-4010-A1EE-17753B281EA8@dominion.thruhere.net>
-In-Reply-To: <25E4086B-447B-4010-A1EE-17753B281EA8@dominion.thruhere.net>
-X-OriginalArrivalTime: 01 Mar 2011 20:12:31.0561 (UTC)
-	FILETIME=[FEE33B90:01CBD84C]
+	<4D6D531D.5080704@mentor.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 1 Mar 2011 15:53:03 -0800
+Message-ID: <AANLkTinzjOtO0=C1kjGjP_=ha-5GXySf4TbSEo0RQBad@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] remove non-qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,17 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Mar 2011 20:14:00 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Mar 2011 23:54:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 03/01/2011 12:56 PM, Koen Kooi wrote:
-> This needs some refreshing to apply, but do you agree with the idea?
+On Tue, Mar 1, 2011 at 12:12 PM, Tom Rini <tom_rini@mentor.com> wrote:
+> On 03/01/2011 12:56 PM, Koen Kooi wrote:
+>>
+>> This needs some refreshing to apply, but do you agree with the idea?
+>
+> As this was agreed on by the TSC, yes.
+>
 
-As this was agreed on by the TSC, yes.
+I have applied this
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+-Khem
+
+> --
+> Tom Rini
+> Mentor Graphics Corporation
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
