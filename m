@@ -1,28 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Pui0O-00031c-9s
-	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Mar 2011 10:06:00 +0100
-Received: by wwe15 with SMTP id 15so6281672wwe.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1PuihA-0003Ws-8a for openembedded-core@lists.openembedded.org;
+	Wed, 02 Mar 2011 10:50:12 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p229mjeK019164
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Mar 2011 01:04:33 -0800 (PST)
-Received: by 10.227.9.74 with SMTP id k10mr7130412wbk.204.1299056200977;
-	Wed, 02 Mar 2011 00:56:40 -0800 (PST)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	bd8sm1219942wbb.13.2011.03.02.00.56.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 Mar 2011 00:56:40 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1082)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1299055045-8096-2-git-send-email-raj.khem@gmail.com>
-Date: Wed, 2 Mar 2011 09:56:38 +0100
-Message-Id: <1DF2ADA1-2EC2-445A-A435-684956523715@dominion.thruhere.net>
-References: <1299055045-8096-1-git-send-email-raj.khem@gmail.com>
-	<1299055045-8096-2-git-send-email-raj.khem@gmail.com>
+	Wed, 2 Mar 2011 09:48:45 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19120-01 for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Mar 2011 09:48:41 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p229mdFb019158
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 2 Mar 2011 09:48:41 GMT
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1082)
+In-Reply-To: <1299055045-8096-2-git-send-email-raj.khem@gmail.com>
+References: <1299055045-8096-1-git-send-email-raj.khem@gmail.com>
+	<1299055045-8096-2-git-send-email-raj.khem@gmail.com>
+Date: Wed, 02 Mar 2011 09:48:37 +0000
+Message-ID: <1299059317.26736.10132.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH v2 1/7] sqlite3: Update version 3.7.3 -> 3.7.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,23 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Mar 2011 09:06:00 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 02 Mar 2011 09:50:12 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Wed, 2011-03-02 at 00:37 -0800, Khem Raj wrote:
+> diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+> index 92c4930..a5e6782 100644
+> --- a/meta/recipes-support/sqlite/sqlite3.inc
+> +++ b/meta/recipes-support/sqlite/sqlite3.inc
+> @@ -3,7 +3,7 @@ HOMEPAGE = "http://www.sqlite.org"
+>  SECTION = "libs"
+>  PRIORITY = "optional"
+>  DEPENDS = "readline ncurses tcl-native"
+> -DEPENDS_virtclass-native = "tcl-native"
+> +DEPENDS_virtclass-native = "tcl-native ncurses-native"
+>  LICENSE = "PD"
 
-Op 2 mrt 2011, om 09:37 heeft Khem Raj het volgende geschreven:
+This missing DEPENDS entry is deliberate since it increases the
+bootstrap time for pseudo-native yet sqlite works fine without curses
+support.
 
-> * Imported from OE commit a2c3af2d608b1b713018d688b00e03873a538993
-> * native version of 3.7.3 does not build
-> 
-> 
-> +
-> +#do_compile_prepend() {
-> +#        oe_runmake sqlite3.h
-> +#        install -m 0644 sqlite3.h ${STAGING_INCDIR}
-> +#}
+I assume some kind of failure triggered this update, what was it?
 
-Is that hunk needed? Looks OK otherwise
+Cheers,
+
+Richard
+
 
 
