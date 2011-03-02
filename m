@@ -1,38 +1,38 @@
-Received: from mail-iw0-f175.google.com ([209.85.214.175])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Pub30-0005YN-Ac
+	(envelope-from <raj.khem@gmail.com>) id 1Pub30-0005Yn-T5
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Mar 2011 02:40:14 +0100
-Received: by mail-iw0-f175.google.com with SMTP id 10so5049771iwn.6
+	Wed, 02 Mar 2011 02:40:15 +0100
+Received: by iyb26 with SMTP id 26so4794282iyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Mar 2011 17:38:49 -0800 (PST)
+	Tue, 01 Mar 2011 17:38:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=F5z4v6iBl2d6OHs99J36JezDQta5p3HSBUU+wy22VWw=;
-	b=tFi4S+7BPQ7loaHeJXJFyuGFru19Suji6AI22LE812sADZNiboyibaPdOGj486aT3w
-	omO1UOMq7arOBLngyGcLzMy+0ZWUc2i5BLHNUMTGnbIlz4rTDYXSVL5HvTKkGTPSnMQC
-	UG0oVPuGRr3hLTFTaYYMo3EP++O5Fnwn9S2zw=
+	bh=XN8zM5q84RL4t/4bNrUi/yTueriI3UiH2SL+KNBzPEc=;
+	b=D43AoCAYHIChbZ+imRlUDdKUTSdHFVFxdavFa4enxmjKIjc6eS/eoLI+YZp4POy90h
+	b1ujVksui77ViXafJ6yMVvhFFFCy4PQpatlRBkkZQq+DYCpK6iLGE9d/QbUy8QEoBFTQ
+	bWCwAKelF14bIS4gq2XZYqku7ZWyvkiPCx9LU=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=SGqetkd9zQRBUfi4NcU6Ec0sumz95RZOD08TN98Ff98ClGCzI2pzW3B77IiGo/58Y0
-	TWQgPAl+JdHWmlUQ67p/RaglxKSI7k4lomN7RJnNGksYBreG83CsxlW1HplKFGkgcGgh
-	adCDgAxMQ9Q3i24U2yo3Y0bYNb6/bM1BvfK8s=
-Received: by 10.231.20.13 with SMTP id d13mr1103711ibb.57.1299029929717;
-	Tue, 01 Mar 2011 17:38:49 -0800 (PST)
+	b=BrMkNBKdTF+wpVTQPxY5lHE0YPyUtKkUGndkc9FEL2HcLW/dGyuDtoeAgZFteUVIYX
+	D2vqQDExEuoiFaYiN2Y4shgUMO7QwQgAVsV93Cq61xhsA81H4AzigP4TwxBFgoPTmCFx
+	kd9Y6SOedS3BZARSmD/lMWfAykbBZ5qX5mlJA=
+Received: by 10.231.156.1 with SMTP id u1mr7000498ibw.52.1299029927548;
+	Tue, 01 Mar 2011 17:38:47 -0800 (PST)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id d21sm6206023ibg.9.2011.03.01.17.38.47
+	by mx.google.com with ESMTPS id d21sm6206023ibg.9.2011.03.01.17.38.45
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 01 Mar 2011 17:38:48 -0800 (PST)
+	Tue, 01 Mar 2011 17:38:46 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Mar 2011 17:38:29 -0800
-Message-Id: <1299029911-3973-5-git-send-email-raj.khem@gmail.com>
+Date: Tue,  1 Mar 2011 17:38:28 -0800
+Message-Id: <1299029911-3973-4-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <1299029911-3973-1-git-send-email-raj.khem@gmail.com>
 References: <1299029911-3973-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 4/6] distro_tracking_fields.inc: Use 2.6.37.2 instead of 2.6.36 for linux-libc-headers
+Subject: [PATCH 3/6] linux-libc-headers_2.6.37.2.bb: Add checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,30 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Mar 2011 01:40:14 -0000
+X-List-Received-Date: Wed, 02 Mar 2011 01:40:15 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+ .../linux-libc-headers_2.6.37.2.bb                 |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 1dab90a..beb18e2 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -2884,9 +2884,9 @@ RECIPE_LAST_UPDATE_pn-libtool = "Nov 8, 2010"
- RECIPE_MAINTAINER_pn-libtool = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.bb
+index dc9d49a..888d9e4 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.bb
+@@ -45,3 +45,5 @@ do_install() {
+ }
  
- RECIPE_STATUS_pn-linux-libc-headers="green" 
--RECIPE_LATEST_VERSION_pn-linux-libc-headers="2.6.36"
--RECIPE_LAST_UPDATE_pn-linux-libc-headers = "Nov 8, 2010"
--RECIPE_MAINTAINER_pn-linux-libc-headers = "Nitin A Kamble <nitin.a.kamble@intel.com>"
-+RECIPE_LATEST_VERSION_pn-linux-libc-headers="2.6.37.2"
-+RECIPE_LAST_UPDATE_pn-linux-libc-headers = "Mar 1, 2011"
-+RECIPE_MAINTAINER_pn-linux-libc-headers = "Khem Raj <raj.khem@gmail.com>"
- 
- RECIPE_STATUS_pn-lsof="green" 
- RECIPE_LATEST_VERSION_pn-lsof="4.84"
+ BBCLASSEXTEND = "nativesdk"
++SRC_URI[md5sum] = "89f681bc7c917a84aa7470da6eed5101"
++SRC_URI[sha256sum] = "2920c4cd3e87fe40ebee96d28779091548867e1c36f71c1fc3d07e6d5802161f"
 -- 
 1.7.4.1
 
