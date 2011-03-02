@@ -1,38 +1,38 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Pub2x-0005YU-Fo
+	(envelope-from <raj.khem@gmail.com>) id 1Pub30-0005YN-Ac
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Mar 2011 02:40:11 +0100
-Received: by iyb26 with SMTP id 26so4794247iyb.6
+	Wed, 02 Mar 2011 02:40:14 +0100
+Received: by mail-iw0-f175.google.com with SMTP id 10so5049771iwn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Mar 2011 17:38:44 -0800 (PST)
+	Tue, 01 Mar 2011 17:38:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=pUryxJViw6SF+CqjQTFmtVJXZE4VmbatF70wNhjL7wc=;
-	b=AA++6QrdYKhqZUg3MknWDc1PDZg55ak7Gag7CxRV9QX1HKqYSu/3cf4tKfqgQMsXSj
-	h9JJxiR5mCirGKob7llx53OgXfjMhzmEOJ7ST0mi9WlnKinu5ygH5/Bfy+KZE6FaaO2n
-	BHkUyIaQnGSr/R3t2W3TDxoGTAB71YQf/mfFk=
+	bh=F5z4v6iBl2d6OHs99J36JezDQta5p3HSBUU+wy22VWw=;
+	b=tFi4S+7BPQ7loaHeJXJFyuGFru19Suji6AI22LE812sADZNiboyibaPdOGj486aT3w
+	omO1UOMq7arOBLngyGcLzMy+0ZWUc2i5BLHNUMTGnbIlz4rTDYXSVL5HvTKkGTPSnMQC
+	UG0oVPuGRr3hLTFTaYYMo3EP++O5Fnwn9S2zw=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=Y5fX/CCMRgYMByAJ716TR8ULs5tCjZqYUfw7YCuyxlhdJqqFs09RBdWY0hVjByrzRt
-	pEaJjF6xaOuDPSe27ztfsyAeRTcmx1uKUh8BuWVVxbpNhKAbv7f0eVafJiwKxsonDIdW
-	SOBDyLz99C8DSYmE+5kcTlbpH2kmM6n8C2CpQ=
-Received: by 10.42.172.199 with SMTP id o7mr7430088icz.381.1299029923999;
-	Tue, 01 Mar 2011 17:38:43 -0800 (PST)
+	b=SGqetkd9zQRBUfi4NcU6Ec0sumz95RZOD08TN98Ff98ClGCzI2pzW3B77IiGo/58Y0
+	TWQgPAl+JdHWmlUQ67p/RaglxKSI7k4lomN7RJnNGksYBreG83CsxlW1HplKFGkgcGgh
+	adCDgAxMQ9Q3i24U2yo3Y0bYNb6/bM1BvfK8s=
+Received: by 10.231.20.13 with SMTP id d13mr1103711ibb.57.1299029929717;
+	Tue, 01 Mar 2011 17:38:49 -0800 (PST)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id d21sm6206023ibg.9.2011.03.01.17.38.42
+	by mx.google.com with ESMTPS id d21sm6206023ibg.9.2011.03.01.17.38.47
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 01 Mar 2011 17:38:43 -0800 (PST)
+	Tue, 01 Mar 2011 17:38:48 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Mar 2011 17:38:26 -0800
-Message-Id: <1299029911-3973-2-git-send-email-raj.khem@gmail.com>
+Date: Tue,  1 Mar 2011 17:38:29 -0800
+Message-Id: <1299029911-3973-5-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <1299029911-3973-1-git-send-email-raj.khem@gmail.com>
 References: <1299029911-3973-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 1/6] sqlite3: Update version 3.7.3 -> 3.7.5
+Subject: [PATCH 4/6] distro_tracking_fields.inc: Use 2.6.37.2 instead of 2.6.36 for linux-libc-headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,72 +47,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Mar 2011 01:40:11 -0000
-
-* Imported from OE commit a2c3af2d608b1b713018d688b00e03873a538993
-* native version of 3.7.3 does not build
+X-List-Received-Date: Wed, 02 Mar 2011 01:40:14 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/sqlite/sqlite3.inc      |    7 ++++++-
- meta/recipes-support/sqlite/sqlite3_3.7.3.bb |    8 --------
- meta/recipes-support/sqlite/sqlite3_3.7.5.bb |   10 ++++++++++
- 3 files changed, 16 insertions(+), 9 deletions(-)
- delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.7.3.bb
- create mode 100644 meta/recipes-support/sqlite/sqlite3_3.7.5.bb
+ .../conf/distro/include/distro_tracking_fields.inc |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index 92c4930..30808a4 100644
---- a/meta/recipes-support/sqlite/sqlite3.inc
-+++ b/meta/recipes-support/sqlite/sqlite3.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.sqlite.org"
- SECTION = "libs"
- PRIORITY = "optional"
- DEPENDS = "readline ncurses tcl-native"
--DEPENDS_virtclass-native = "tcl-native"
-+DEPENDS_virtclass-native = "tcl-native ncurses-native"
- LICENSE = "PD"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 1dab90a..beb18e2 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -2884,9 +2884,9 @@ RECIPE_LAST_UPDATE_pn-libtool = "Nov 8, 2010"
+ RECIPE_MAINTAINER_pn-libtool = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
- SRC_URI = "http://www.sqlite.org/sqlite-${PV}.tar.gz \
-@@ -32,3 +32,8 @@ FILES_lib${PN}-doc = "${docdir} ${mandir} ${infodir}"
- AUTO_LIBNAME_PKGS = "lib${PN}"
+ RECIPE_STATUS_pn-linux-libc-headers="green" 
+-RECIPE_LATEST_VERSION_pn-linux-libc-headers="2.6.36"
+-RECIPE_LAST_UPDATE_pn-linux-libc-headers = "Nov 8, 2010"
+-RECIPE_MAINTAINER_pn-linux-libc-headers = "Nitin A Kamble <nitin.a.kamble@intel.com>"
++RECIPE_LATEST_VERSION_pn-linux-libc-headers="2.6.37.2"
++RECIPE_LAST_UPDATE_pn-linux-libc-headers = "Mar 1, 2011"
++RECIPE_MAINTAINER_pn-linux-libc-headers = "Khem Raj <raj.khem@gmail.com>"
  
- BBCLASSEXTEND = "native nativesdk"
-+
-+do_compile_prepend() {
-+        oe_runmake sqlite3.h
-+        install -m 0644 sqlite3.h ${STAGING_INCDIR}
-+}
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.3.bb b/meta/recipes-support/sqlite/sqlite3_3.7.3.bb
-deleted file mode 100644
-index 7296aba..0000000
---- a/meta/recipes-support/sqlite/sqlite3_3.7.3.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require sqlite3.inc
--
--LIC_FILES_CHKSUM = "file://src/main.c;endline=16;md5=86c9b824e9d68f8a26343a4b57f6d85a"
--
--PR = "r1"
--
--SRC_URI[md5sum] = "5437978aae90350cf984993091e0d695"
--SRC_URI[sha256sum] = "dbf352e8fbb74829f5e7a88f9f6ceeb80a709537f668c36e4b6cdfb271309ef6"
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.5.bb b/meta/recipes-support/sqlite/sqlite3_3.7.5.bb
-new file mode 100644
-index 0000000..212d9e2
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3_3.7.5.bb
-@@ -0,0 +1,10 @@
-+require sqlite3.inc
-+
-+LIC_FILES_CHKSUM = "file://sqlite3.c;endline=19;md5=c1b8048b783961c3ba387c43fd955dc6"
-+
-+SRC_URI = "http://www.sqlite.org/sqlite-autoconf-3070500.tar.gz"
-+S = "${WORKDIR}/sqlite-autoconf-3070500"
-+PR = "r0"
-+
-+SRC_URI[md5sum] = "a9604a82613ade2e7f4c303f233e477f"                                                 
-+SRC_URI[sha256sum] = "cb5b86926ec9f65882b2dddd244f2d620337d911ec73411863f77e48cf6a2f94"              
+ RECIPE_STATUS_pn-lsof="green" 
+ RECIPE_LATEST_VERSION_pn-lsof="4.84"
 -- 
 1.7.4.1
 
