@@ -1,19 +1,19 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1PuqOK-00075g-UK
+	(envelope-from <sgw@linux.intel.com>) id 1PuqOK-00075f-TW
 	for openembedded-core@lists.openembedded.org;
 	Wed, 02 Mar 2011 19:03:19 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Mar 2011 10:00:28 -0800
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 02 Mar 2011 10:00:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,254,1297065600"; d="scan'208";a="396465471"
+X-IronPort-AV: E=Sophos;i="4.62,254,1297065600"; d="scan'208";a="715282307"
 Received: from unknown (HELO localhost) ([10.255.12.100])
-	by azsmga001.ch.intel.com with ESMTP; 02 Mar 2011 10:00:27 -0800
-Message-Id: <fb56ac6021fe09cb386c168f3fe0b11e04214972.1299088354.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 02 Mar 2011 10:00:34 -0800
+Message-Id: <86e355f489437c4d20a717617d203a8a5aa1371a.1299088354.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1299088353.git.sgw@linux.intel.com>
 References: <cover.1299088353.git.sgw@linux.intel.com>
-Old-Date: Fri, 25 Feb 2011 16:16:32 -0600
-Date: Wed, 02 Mar 2011 10:00:26 -0800
+Old-Date: Tue, 1 Mar 2011 08:44:36 -0600
+Date: Wed, 02 Mar 2011 10:00:34 -0800
 To: openembedded-core@lists.openembedded.org,poky@yoctoproject.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Wed, 02 Mar 2011 19:07:49 +0100
@@ -21,7 +21,7 @@ Cc: Scott Rifenbark <scott.m.rifenbark@intel.com>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Liping Ke <liping.ke@intel.com>, Dongxiao Xu <dongxiao.xu@intel.com>,
 	Bruce Ashfield <bruce.ashfield@windriver.com>
-Subject: [PATCH 13/26] [BUGID# 553] - documentation/poky-ref-manual/faq.xml: Fixed pokylinux.org reference
+Subject: [PATCH 19/26] documentation/bsp-guide/bsp-guide.xml: Updated RP email address
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,32 +40,27 @@ X-List-Received-Date: Wed, 02 Mar 2011 18:03:20 -0000
 
 From: Scott Rifenbark <scott.m.rifenbark@intel.com>
 
-[BUGID# 553] - In the FAQ appendix item H.12 there was a reference
-to http://pokylinux.org/sources/* in the question portion.  The
-reference should really be http://autobuilder.yoctoproject.org/sources/*.
-I made the change.
-
-This is a partial fix for bug 553.
+Changed the email address for Richard Purdie in the author title
+page to richard.purdie@linuxfoundation.org.
 
 Signed-off-by: Scott Rifenbark <scott.m.rifenbark@intel.com>
 ---
- documentation/poky-ref-manual/faq.xml |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ documentation/bsp-guide/bsp-guide.xml |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/documentation/poky-ref-manual/faq.xml b/documentation/poky-ref-manual/faq.xml
-index 7a891b0..03ae714 100644
---- a/documentation/poky-ref-manual/faq.xml
-+++ b/documentation/poky-ref-manual/faq.xml
-@@ -248,7 +248,8 @@
-     <qandaentry>
-         <question>
-             <para>
--                I see lots of 404 responses for files on http://pokylinux.org/sources/*. Is something wrong?
-+                I see lots of 404 responses for files on 
-+                http://autobuilder.yoctoproject.org/sources/*. Is something wrong?
-             </para>
-         </question>
-         <answer>
+diff --git a/documentation/bsp-guide/bsp-guide.xml b/documentation/bsp-guide/bsp-guide.xml
+index a591c64..4361a2c 100644
+--- a/documentation/bsp-guide/bsp-guide.xml
++++ b/documentation/bsp-guide/bsp-guide.xml
+@@ -23,7 +23,7 @@
+                 <affiliation>
+                     <orgname>Intel Corporation</orgname>
+                 </affiliation>
+-                <email>richard@linux.intel.com</email>
++                <email>richard.purdie@linuxfoundation.org</email>
+             </author>
+         </authorgroup>
+ 
 -- 
 1.7.1
 
