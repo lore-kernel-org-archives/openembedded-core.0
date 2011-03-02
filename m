@@ -1,29 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1PuaJP-0004od-Hd
+	(envelope-from <raj.khem@gmail.com>) id 1Pub2s-0005YN-N1
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Mar 2011 01:53:07 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p220peVk014386
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 02 Mar 2011 02:40:06 +0100
+Received: by iwn10 with SMTP id 10so5049771iwn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Mar 2011 16:51:40 -0800 (PST)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 1 Mar 2011 16:51:40 -0800
-Message-ID: <4D6D949B.2020801@windriver.com>
-Date: Tue, 1 Mar 2011 18:51:39 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.13) Gecko/20101207 Thunderbird/3.1.7
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1298920867-4961-1-git-send-email-koen@dominion.thruhere.net>	<A632FFDE-18DE-439E-B247-80DE29746320@dominion.thruhere.net>	<4D6D5671.6050903@windriver.com>
-	<4D6D8BE8.9020907@mentor.com>
-In-Reply-To: <4D6D8BE8.9020907@mentor.com>
-X-Originating-IP: [172.25.36.227]
-Subject: Re: [PATCH] base.bbclass: add support for SOC_FAMILY in COMPATIBLE_MACHINES
+	Tue, 01 Mar 2011 17:38:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=pVX5Ooy1fBrwptJdWuWLWJqqVRGo2lVQqgfyZ1cnreY=;
+	b=xQxs4gybv/KniQSPJKIjMHi2Q1CoTchnQWJA+vntX5C/y5Vx6kwUGPnRjOVZGbbuEc
+	k9btlFetWOE7JZXShxnijFVWNrAHYWALnG7uHOWsEDaZ0kU8CAUuaYPOctJTayfqkn3X
+	1yDEuhJVJZAx3FKn+mOM+hVYzsyC7Amvh9yUE=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=HQNjNQDe2CVRx3lfEi7srwLR2+8OdKiIwCZQPCftz7t1bYOynDsWwmBcRf5fwUYml9
+	MoHlsy+wvi8RDJYrJurXwFHDxzysCWkAiYNZcRdEQlCTl+gKAHsOHGJRjwizluYmstlj
+	2IsDMaQ6PvE4eOD0/XqTTmcubzyDyUi8EN+wM=
+Received: by 10.231.39.67 with SMTP id f3mr7030177ibe.42.1299029919338;
+	Tue, 01 Mar 2011 17:38:39 -0800 (PST)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id d21sm6206023ibg.9.2011.03.01.17.38.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 01 Mar 2011 17:38:38 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Mar 2011 17:38:25 -0800
+Message-Id: <1299029911-3973-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/6] Fixes to get oe-core building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,25 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Mar 2011 00:53:08 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Mar 2011 01:40:06 -0000
 
-On 3/1/11 6:14 PM, Tom Rini wrote:
-> On 03/01/2011 01:26 PM, Mark Hatle wrote:
->> On 3/1/11 1:55 PM, Koen Kooi wrote:
->>> ping
->>
->> Do you have an example showing how this is to be used?
-> 
-> For example:
-> http://cgit.openembedded.org/cgit.cgi/openembedded/tree/conf/machine/include/omap3.inc
-> http://cgit.openembedded.org/cgit.cgi/openembedded/tree/recipes/linux/linux-omap3.inc
-> 
+Hi
 
-Thanks, that makes sense to me.  I think it's useful.  (It's already in, no
-objections to that)
 
---Mark
+The attached patches are needed to get the OE core to build
+Please provide feedback
+
+Thanks
+
+-Khem
+
 
 
