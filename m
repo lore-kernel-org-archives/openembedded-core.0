@@ -1,30 +1,28 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1PumyW-00013Y-76
+	(envelope-from <mark.hatle@windriver.com>) id 1Pumzz-00014r-Cm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Mar 2011 15:24:24 +0100
-Received: by wwb29 with SMTP id 29so4050169wwb.0
+	Wed, 02 Mar 2011 15:25:55 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p22EODC5010949
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Mar 2011 06:22:47 -0800 (PST)
-Received: by 10.216.22.131 with SMTP id t3mr7353709wet.2.1299075765796;
-	Wed, 02 Mar 2011 06:22:45 -0800 (PST)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id j49sm3102354wer.14.2011.03.02.06.22.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 Mar 2011 06:22:44 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1082)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAAC3B86-7A58-45EC-AB74-E97D109CA153@dominion.thruhere.net>
-Date: Wed, 2 Mar 2011 15:22:41 +0100
-Message-Id: <3B344EE1-5720-4167-97D5-89DF87BA0DE0@dominion.thruhere.net>
-References: <cover.1298798633.git.koen@dominion.thruhere.net>
-	<1E24B52E-D324-48D3-94C1-D14301824FBF@dominion.thruhere.net>
-	<CAAC3B86-7A58-45EC-AB74-E97D109CA153@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1082)
-Subject: Re: [PATCH 00/50] Merge in yocto changes made since split
+	Wed, 2 Mar 2011 06:24:13 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 2 Mar 2011 06:24:12 -0800
+Message-ID: <4D6E530A.3090305@windriver.com>
+Date: Wed, 2 Mar 2011 08:24:10 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.13) Gecko/20101207 Thunderbird/3.1.7
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <AANLkTimeooOaoAorCseJ4hxUhS3yx2sR+Uhmy4TtMgrp@mail.gmail.com>
+In-Reply-To: <AANLkTimeooOaoAorCseJ4hxUhS3yx2sR+Uhmy4TtMgrp@mail.gmail.com>
+X-Originating-IP: [172.25.36.227]
+Subject: Re: rpm-native fails to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,134 +37,286 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Mar 2011 14:24:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 02 Mar 2011 14:25:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-And Richard fixed it with =
-http://cgit.openembedded.org/cgit.cgi/bitbake/commit/?id=3Dc6c31b5c58a5027=
-03879243ca37585e058e09c71 :)
+On 3/2/11 1:42 AM, Khem Raj wrote:
+> Hi
+> 
+> I am getting following error message while build rpm-native. It seems
+> beecrypt is not getting linked in. My host is ubuntu 11.04/64bit. Any
+> pointers ?
+> 
 
-Op 2 mrt 2011, om 10:00 heeft Koen Kooi het volgende geschreven:
+Everything below looks reasonable (well other then the failure of course!)
 
-> This is still present as of this morning. Richard, you mentioned you =
-had a fix for this?
->=20
-> Op 27 feb 2011, om 18:04 heeft Koen Kooi het volgende geschreven:
->=20
->>=20
->> Op 27 feb 2011, om 10:28 heeft Koen Kooi het volgende geschreven:
->>=20
->>> This merges in the yocto changes that were made since we split off =
-oe-core, minus changes made to bitbake since oe-core doesn't ship that =
-anymore.
->>>=20
->>> Pull URL: =
-git://dominion.thruhere.net/var/cache/git/openembedded-core.git
->>> Branch: poky-merge-20110227
->>> Browse: =
-http://dominion.thruhere.net/git/cgit.cgi/openembedded-core//log/?h=3Dpoky=
--merge-20110227
->>>=20
->>> Thanks,
->>>   Koen Kooi <koen@dominion.thruhere.net>
->>=20
->> After merging all that I get:
->>=20
->> RROR: Error executing a python function in =
-/OE/tentacle/sources/openembedded-core/meta/recipes-kernel/linux-libc-head=
-ers/linux-libc-headers_2.6.37.2.bb:
->> TypeError: join_deps() got an unexpected keyword argument 'commasep'
->>=20
->> ERROR: The stack trace of python calls that resulted in this =
-exception/failure was:
->> ERROR:   File "populate_packages", line 144, in <module>
->> ERROR:
->> ERROR:   File "populate_packages", line 141, in populate_packages
->> ERROR:
->> ERROR: The code that was being executed was:
->> ERROR:      0140:                               bb.note("%s contains =
-dangling symlink to %s" % (pkg, l))
->> ERROR:      0141:               bb.data.setVar('RDEPENDS_' + pkg, =
-bb.utils.join_deps(rdepends, commasep=3DFalse), d)
->> ERROR:      0142:
->> ERROR:      0143:
->> ERROR:  *** 0144:populate_packages(d)
->> ERROR:      0145:
->> ERROR: (file: 'populate_packages', lineno: 144, function: <module>)
->> ERROR:      0137:                                                     =
-  rdepends[p] =3D ""
->> ERROR:      0138:                                               break
->> ERROR:      0139:                       if found =3D=3D False:
->> ERROR:      0140:                               bb.note("%s contains =
-dangling symlink to %s" % (pkg, l))
->> ERROR:  *** 0141:               bb.data.setVar('RDEPENDS_' + pkg, =
-bb.utils.join_deps(rdepends, commasep=3DFalse), d)
->> ERROR:      0142:
->> ERROR:      0143:
->> ERROR:      0144:populate_packages(d)
->> ERROR:      0145:
->> ERROR: (file: 'populate_packages', lineno: 141, function: =
-populate_packages)
->> ERROR: Function 'populate_packages' failed
->> ERROR: Logfile of failure stored in: =
-/OE/tentacle/build/tmp-angstrom_2010_x/work/armv7a-angstrom-linux-gnueabi/=
-linux-libc-headers-2.6.37.2-r0/temp/log.do_package.6059
->> Log data follows:
->> | sort: open failed: =
-/OE/tentacle/build/tmp-angstrom_2010_x/work/armv7a-angstrom-linux-gnueabi/=
-linux-libc-headers-2.6.37.2-r0/debugsources.list: No such file or =
-directory
->> | ERROR: Error executing a python function in =
-/OE/tentacle/sources/openembedded-core/meta/recipes-kernel/linux-libc-head=
-ers/linux-libc-headers_2.6.37.2.bb:
->> | TypeError: join_deps() got an unexpected keyword argument =
-'commasep'
->> |
->> | ERROR: The stack trace of python calls that resulted in this =
-exception/failure was:
->> | ERROR:   File "populate_packages", line 144, in <module>
->> | ERROR:
->> | ERROR:   File "populate_packages", line 141, in populate_packages
->> | ERROR:
->> | ERROR: The code that was being executed was:
->> | ERROR:      0140:                             bb.note("%s contains =
-dangling symlink to %s" % (pkg, l))
->> | ERROR:      0141:             bb.data.setVar('RDEPENDS_' + pkg, =
-bb.utils.join_deps(rdepends, commasep=3DFalse), d)
->> | ERROR:      0142:
->> | ERROR:      0143:
->> | ERROR:  *** 0144:populate_packages(d)
->> | ERROR:      0145:
->> | ERROR: (file: 'populate_packages', lineno: 144, function: <module>)
->> | ERROR:      0137:                                                   =
-  rdepends[p] =3D ""
->> | ERROR:      0138:                                             break
->> | ERROR:      0139:                     if found =3D=3D False:
->> | ERROR:      0140:                             bb.note("%s contains =
-dangling symlink to %s" % (pkg, l))
->> | ERROR:  *** 0141:             bb.data.setVar('RDEPENDS_' + pkg, =
-bb.utils.join_deps(rdepends, commasep=3DFalse), d)
->> | ERROR:      0142:
->> | ERROR:      0143:
->> | ERROR:      0144:populate_packages(d)
->> | ERROR:      0145:
->> | ERROR: (file: 'populate_packages', lineno: 141, function: =
-populate_packages)
->> | ERROR: Function 'populate_packages' failed
->> NOTE: package linux-libc-headers-2.6.37.2-r0: task do_package: Failed
->> NOTE: package flex-2.5.35-r2: task do_unpack: Succeeded
->> ERROR: Task 1121 =
-(/OE/tentacle/sources/openembedded-core/meta/recipes-kernel/linux-libc-hea=
-ders/linux-libc-headers_2.6.37.2.bb, do_package) failed with exit code =
-'1'
->> Waiting for 1 active tasks to finish:
->> 0: eglibc-2.12-r13 do_compile (pid 19675)
->>=20
->> Maybe that's missing something in vanilla bitbake, will have a look =
-again during office hours.
->>=20
->=20
+The beecrypt library is included with RPM, so it should be picking it up from
+../beecrypt (which is in the link line) and the associated libtool call should
+pull in libbeecrypt.la and of course the library.
+
+I've not seen any failures like this on the Yocto side.  Have there been any
+recent changes to libtool in the oe-core?
+
+Is there a specific oe-core branch or patch set I should use to try to reproduce
+this?
+
+--Mark
+
+> | make[3]: Entering directory
+> `/scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/tools'
+> | /bin/sh ../x86_64-linux-libtool --tag=CC   --mode=link ccache gcc
+> -isystem/scratch/oe-core/sysroots/x86_64-linux/usr/include -O2
+> -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -g -D_GNU_SOURCE -D_REENTRANT
+>       -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath-link,/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath,/scratch/oe-core/sysroots/x86_64-linux/usr/lib -Wl,-O1
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath-link,/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath,/scratch/oe-core/sysroots/x86_64-linux/usr/lib -Wl,-O1
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib     -o mtree
+> rpmmtree.o ../lib/librpm.la ../rpmdb/librpmdb.la ../rpmio/librpmio.la
+> ../misc/librpmmisc.la  -lacl -lattr -lpcreposix -lpcre -ldb-5.1
+> -lcrypto -lbz2 -lz -lpopt -lpthread -lrt  -lelf -lpopt   -lssl
+> -lcrypto   -lpcre
+> | /bin/sh ../x86_64-linux-libtool --tag=CC   --mode=link ccache gcc
+> -isystem/scratch/oe-core/sysroots/x86_64-linux/usr/include -O2
+> -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -g -D_GNU_SOURCE -D_REENTRANT
+>       -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath-link,/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath,/scratch/oe-core/sysroots/x86_64-linux/usr/lib -Wl,-O1
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath-link,/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath,/scratch/oe-core/sysroots/x86_64-linux/usr/lib -Wl,-O1
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib     -o rpmcache
+> rpmcache.o ../lib/librpm.la ../rpmdb/librpmdb.la ../rpmio/librpmio.la
+> ../misc/librpmmisc.la  -lacl -lattr -lpcreposix -lpcre -ldb-5.1
+> -lcrypto -lbz2 -lz -lpopt -lpthread -lrt  -lelf -lpopt   -lssl
+> -lcrypto   -lpcre
+> | x86_64-linux-libtool: link: ccache gcc
+> -isystem/scratch/oe-core/sysroots/x86_64-linux/usr/include -O2
+> -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -g -D_GNU_SOURCE -D_REENTRANT
+> -Wl,-rpath-link -Wl,/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath -Wl,/scratch/oe-core/sysroots/x86_64-linux/usr/lib -Wl,-O1
+> -Wl,-rpath-link -Wl,/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath -Wl,/scratch/oe-core/sysroots/x86_64-linux/usr/lib -Wl,-O1
+> -o .libs/mtree rpmmtree.o
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> ../lib/.libs/librpm.so -L../beecrypt -L../syck/lib -L../syck
+> /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmdb/.libs/librpmdb.so
+> ../rpmdb/.libs/librpmdb.so
+> /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so
+> /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/misc/.libs/librpmmisc.so
+> ../rpmio/.libs/librpmio.so -lm ../misc/.libs/librpmmisc.so -ldl
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libacl.so
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libattr.so
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libpcreposix.so
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libdb-5.1.so
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libbz2.so
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libz.so -lpthread -lrt
+> -lelf /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libpopt.so -lssl
+> -lcrypto /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libpcre.so
+> -Wl,-rpath -Wl,/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+>  x86_64-linux-libtool: link: ccache gcc
+> -isystem/scratch/oe-core/sysroots/x86_64-linux/usr/include -O2
+> -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -g -D_GNU_SOURCE -D_REENTRANT
+> -Wl,-rpath-link -Wl,/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath -Wl,/scratch/oe-core/sysroots/x86_64-linux/usr/lib -Wl,-O1
+> -Wl,-rpath-link -Wl,/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath -Wl,/scratch/oe-core/sysroots/x86_64-linux/usr/lib -Wl,-O1
+> -o .libs/rpmcache rpmcache.o
+> -L/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> ../lib/.libs/librpm.so -L../beecrypt -L../syck/lib -L../syck
+> /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmdb/.libs/librpmdb.so
+> ../rpmdb/.libs/librpmdb.so
+> /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so
+> /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/misc/.libs/librpmmisc.so
+> ../rpmio/.libs/librpmio.so -lm ../misc/.libs/librpmmisc.so -ldl
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libacl.so
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libattr.so
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libpcreposix.so
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libdb-5.1.so
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libbz2.so
+> /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libz.so -lpthread -lrt
+> -lelf /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libpopt.so -lssl
+> -lcrypto /scratch/oe-core/sysroots/x86_64-linux/usr/lib/libpcre.so
+> -Wl,-rpath -Wl,/scratch/oe-core/sysroots/x86_64-linux/usr/lib
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `b64encode_chars_per_line'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `md4Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `b64encode'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `b64crc'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpbsethex'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `dlkp_pInit'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd256Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `st_free_table'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd128Reset'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `md4Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_strndup'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `b64encode_eolstr'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd256Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha1Reset'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_parser_taguri_expansion'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `dlkp_pFree'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `md4Reset'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd128Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_new_parser'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_lookup_sym'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha224Reset'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha224Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha384Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpsetw'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `dsasign'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `randomGeneratorContextFree'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `rsakpMake'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpnzero'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha512Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mplshift'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `st_foreach'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `i2osp'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha256Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha512Reset'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `md5Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha256Reset'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha384Reset'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd256Reset'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha1Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd160Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_parser_error_handler'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha224Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd320Reset'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd320Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_seq_read'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd128Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `rsavrfy'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `randomGeneratorContextInit'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_parse'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpnsethex'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_parser_str_auto'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpfprintln'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_parser_handler'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_free_parser'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha256Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpnfree'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd160Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpnsetbin'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_add_sym'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpbnrnd'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_map_read'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha384Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd320Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `rsapricrt'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `dsaparamMake'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `ripemd160Reset'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpbits'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `rsakpFree'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha1Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `dldp_pPair'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `b64decode'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpadd'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `syck_parser_implicit_typing'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `sha512Update'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `randomGeneratorDefault'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `mpzero'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `dsavrfy'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `md5Digest'
+> | /scratch/oe-core/work/x86_64-linux/rpm-native-5.4.0-r13/rpm-5.4.0/rpmio/.libs/librpmio.so:
+> undefined reference to `md5Reset'
+> | collect2: ld returned 1 exit status
+> | make[3]: *** [mtree] Error 1
+> | make[3]: *** Waiting for unfinished jobs....
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
