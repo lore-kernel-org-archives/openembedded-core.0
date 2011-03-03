@@ -1,35 +1,29 @@
-Received: from mail-gw0-f50.google.com ([74.125.83.50])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1PvB6z-0003vm-Bd
+	(envelope-from <koen@dominion.thruhere.net>) id 1PvBIT-00073v-UK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 17:10:45 +0100
-Received: by gwaa20 with SMTP id a20so654578gwa.9
+	Thu, 03 Mar 2011 17:22:38 +0100
+Received: by wwb29 with SMTP id 29so97367wwb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2011 08:09:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=uh84VJ2UxXAeQPNJt1tWiui462iNZGtfQOV3Thxx+8g=;
-	b=cRJRn8/iR38bQ280ZW0PsCxWp6iqJaw98EFRxmjefrywSrbsfR/UCq4YGiq/JqVIAx
-	kQHjxrZtFLw2t1ztjyNUEz92nLVBUuHc4cASEj9wCzhrWWXa5Nm9bMESnpYTYyWRvMXl
-	T6gwy58V+WQBWsXyPBP575eX1xBXeZKZV235k=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=WdwkBqLCBXVM/0I6hlrHrN2ymtpvmfJxsDGJ2SGj1S8loU62+q3jTqErsAATrHSdVT
-	4w4tXlr15IJjaRRaxCzS4+2Gq4VobSb3Gnw3XY8fW5MALfRjZYwQhoSxN1a0GW4Es4Jb
-	dsoBbKdqFtMEWGjsB41HfWMqgKmEpgHXcHhJ0=
-Received: by 10.236.77.132 with SMTP id d4mr1931781yhe.42.1299168551957;
-	Thu, 03 Mar 2011 08:09:11 -0800 (PST)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id f13sm875467yhf.33.2011.03.03.08.09.10
+	Thu, 03 Mar 2011 08:21:08 -0800 (PST)
+Received: by 10.216.24.132 with SMTP id x4mr826491wex.81.1299169268553;
+	Thu, 03 Mar 2011 08:21:08 -0800 (PST)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id m6sm662179wej.34.2011.03.03.08.21.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Mar 2011 08:09:11 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Mar 2011 08:09:06 -0800
-Message-Id: <1299168546-20430-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCHv4 6/6] rpm: Fix linking error encountered in rpm-native
+	Thu, 03 Mar 2011 08:21:07 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <AANLkTikgTx8SWJ1CpZgW=vgJYzrzveMsMMLUopHC57K8@mail.gmail.com>
+Date: Thu, 3 Mar 2011 17:21:06 +0100
+Message-Id: <A19EFEE9-7A3B-479B-B336-FF46C74B77FA@dominion.thruhere.net>
+References: <394EA6D4-E718-4BE7-93A2-6AF67AAF6E0D@dominion.thruhere.net>
+	<AANLkTikgTx8SWJ1CpZgW=vgJYzrzveMsMMLUopHC57K8@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Mailer: Apple Mail (2.1082)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: lots of WARNING: QA Issue: Bit size did not match (32 to 0) warnings, what do they mean?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,72 +38,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 16:10:45 -0000
+X-List-Received-Date: Thu, 03 Mar 2011 16:22:38 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-* This patch passes the correct LDFLAGS to account for
-  additional dependencies of librpmio on libbeecrypt and libsyck
-  and hence fixes the build error.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../rpm/rpm/rpm-tools-mtree-LDFLAGS.patch          |   24 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
- 2 files changed, 26 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
+Op 3 mrt 2011, om 16:53 heeft Khem Raj het volgende geschreven:
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch b/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
-new file mode 100644
-index 0000000..9e7bba0
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
-@@ -0,0 +1,24 @@
-+Source: None
-+Status: Needs to go Upstream
-+Author: Khem Raj <raj.khem@gmail.com>
-+Date: 2011-03-03
-+Description:
-+This patch fixes build issue found when compiling rpm-natibe on ubuntu
-+11.04-alpha. Problem is that linker does not get correct set of dependent
-+libraries when linking mtree binary which results in undefined symbols
-+in librpmio.so. This patch adds correct flags to mtree_LDADD to account
-+for rpmio deps
-+
-+Index: rpm-5.4.0/tools/Makefile.am
-+===================================================================
-+--- rpm-5.4.0.orig/tools/Makefile.am
-++++ rpm-5.4.0/tools/Makefile.am
-+@@ -169,7 +169,7 @@ grep_LDADD =		$(RPMIO_LDADD_COMMON)
-+ 
-+ mtree_SOURCES =		rpmmtree.c
-+ mtree_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
-+-mtree_LDADD =		$(RPM_LDADD_COMMON)
-++mtree_LDADD =		$(RPMIO_LDADD_COMMON)
-+ 
-+ rpmrepo_SOURCES =	rpmrepo.c
-+ rpmrepo_CPPFLAGS =	$(AM_CPPFLAGS) -I$(top_srcdir)/scripts -I$(top_builddir)/scripts $(CPPFLAGS)
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index 0003f48..3704816 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -43,7 +43,7 @@ LICENSE = "LGPL 2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
- DEPENDS = "bzip2 zlib python perl db openssl elfutils expat libpcre attr acl popt"
--PR = "r13"
-+PR = "r14"
- 
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
-@@ -56,6 +56,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;ex
- 	   file://rpm-showrc.patch \
- 	   file://rpm-nofsync.patch \
- 	   file://rpm-solvedb.patch \
-+	   file://rpm-tools-mtree-LDFLAGS.patch \
- 	  "
- 
- #           file://hdraddorappend.patch \
--- 
-1.7.4.1
+> On Thu, Mar 3, 2011 at 7:45 AM, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+>> Hi,
+>>=20
+>> I started noticing a lot of warnings like this:
+>>=20
+>> WARNING: QA Issue: Bit size did not match (32 to 0) on =
+/work/armv7a-angstrom-linux-gnueabi/udev-165-r2/packages-split/udev/sbin/u=
+devd
+>>=20
+>> What do they mean and how can I (help to) fix them?
+>>=20
+>=20
+> Its found due to f17c84c9b1cba52f860752058821b31930674e1a
+> probably can you post the binary so I can take a look
 
+WARNING: QA Issue: Bit size did not match (32 to 0) on =
+/work/armv7a-angstrom-linux-gnueabi/udev-165-r2/packages-split/udev/sbin/u=
+devd
+
+can be found at:
+
+http://dominion.thruhere.net/koen/angstrom/stuff/udevd
+
+regards,
+
+koen=
 
 
