@@ -1,38 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1PuvNn-0007sk-1w
+	(envelope-from <Tom_Rini@mentor.com>) id 1Puwtg-00014H-2K
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 00:23:03 +0100
-Received: by fxm8 with SMTP id 8so575786fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Mar 2011 15:21:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=j0u87O1BSFepS3QPb9OEUYtcwXslLbsYL+y3x6V7MpI=;
-	b=VkcUZEKKUdh+hi7exlMoBKiWcwX4ZjTckJfEzJJ1R7hu6SRmblQvST9sScHWu0+6lL
-	ULu5fEkkE1r8v+o2/ZU5Mt7kEXD/WRo6Y2PV8V8FTZ3xQX9/1GZQcKYbvqPwfipkK4Mt
-	d9OFIUeutBZoXnUDd6h1HGAbph2J9FinirU48=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=nFtotDhPA3lnjd6OBPdpt2uc6kq3NL3BMm0D99740NAx7eNdy3hiIYmhzEbiI+Jj4O
-	7tuKZaoaT3OcHmWw9CI7e3ifleFetZkcXlB0NJdzVaLm+CdGpu6pN1WnuORrZkyh1v4U
-	9YxPrssgBpLqe4xVX5aZaeihABw/kjRjpGrxk=
-Received: by 10.223.95.199 with SMTP id e7mr613264fan.39.1299108095128; Wed,
-	02 Mar 2011 15:21:35 -0800 (PST)
+	Thu, 03 Mar 2011 02:00:04 +0100
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1PuwsF-0007Os-Fn from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 02 Mar 2011 16:58:35 -0800
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 2 Mar 2011 16:58:35 -0800
+Received: from [172.30.80.189] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
+	Wed, 2 Mar 2011 16:58:35 -0800
+Message-ID: <4D6EE7A6.20603@mentor.com>
+Date: Wed, 2 Mar 2011 17:58:14 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.13) Gecko/20101208 Lightning/1.0b2 Thunderbird/3.1.7
 MIME-Version: 1.0
-Received: by 10.223.30.151 with HTTP; Wed, 2 Mar 2011 15:21:15 -0800 (PST)
-In-Reply-To: <4D6EC374.6040709@mentor.com>
-References: <1299055045-8096-1-git-send-email-raj.khem@gmail.com>
-	<1299055045-8096-8-git-send-email-raj.khem@gmail.com>
-	<4D6EC374.6040709@mentor.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 2 Mar 2011 15:21:15 -0800
-Message-ID: <AANLkTikVyQaH+_c2cLRMFDTy0tFjEB+w9Lf31Gi-Xx+N@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 7/7] sanity.bbclass: Check for /proc/sys/vm/mmap_min_addr to be >= 65536
+To: <openembedded-core@lists.openembedded.org>
+References: <4D6E7EB1.5080602@windriver.com>
+	<1299088802.26736.10715.camel@rex>	<BED5DD21-1E73-4DB2-9E29-17E70DF7344C@dominion.thruhere.net>
+	<1299093521.26736.10877.camel@rex>
+In-Reply-To: <1299093521.26736.10877.camel@rex>
+X-OriginalArrivalTime: 03 Mar 2011 00:58:35.0323 (UTC)
+	FILETIME=[1FB338B0:01CBD93E]
+Subject: Re: oe-core cleanup...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,66 +43,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Mar 2011 23:23:03 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 03 Mar 2011 01:00:04 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 2, 2011 at 2:23 PM, Tom Rini <tom_rini@mentor.com> wrote:
-> On 03/02/2011 01:37 AM, Khem Raj wrote:
+On 03/02/2011 12:18 PM, Richard Purdie wrote:
+> On Wed, 2011-03-02 at 19:27 +0100, Koen Kooi wrote:
+>> Op 2 mrt 2011, om 19:00 heeft Richard Purdie het volgende geschreven:
 >>
->> * Now qemu can handle lower values we can chnage this sanity test
->> =C2=A0 to check of values if less than 65536
+>>> Thanks for starting this thread Mark, I've also just been looking at
+>>> this question so its timely.
+>>>
+>>> On Wed, 2011-03-02 at 11:30 -0600, Mark Hatle wrote:
+>>>> I finally got a chance to look at the oe-core and where it currently is..  Some
+>>>> suggestions below:
+>>>>
+>>>> LICENSE file, this may need to be cleaned up to only cover the components
+>>>> actually in the oe-core.
+>>>>
+>>>> README likely needs some revision
+>>>>
+>>>> README.hardware needs a lot of revision.  Anything outside of support for QEMU
+>>>> should be removed.
+>>>>
+>>>> The meta-demoapps and meta-rt components, will those be staying or going?
+>>>>
+>>>> The meta/recipes.txt needs to be verified as still what we want -- I assume it
+>>>> is at this point..
+>>>>
+>>>> meta/recipes-...  sato, qt, gnome, I thought were going elsewhere?
+>>>>
+>>>> Do the items in the "scripts" need to be renamed or is Poky being kept in the
+>>>> naming?  Same with the poky-init-build-env?
+>>>>
+>>>> Then I also assume the items in the documentation directory need to be cleaned
+>>>> up as well...
+>>>>
+>>>> Let me know what you'd like me to try and tackle -- or if we need to bring these
+>>>> items up at the TSC for recommendation.
+>>>
+>>> I'm proposing this change so far:
+>>>
+>>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/roorg&id=891ad22536b49d4fee066a5865ad730f791d36e9
+>>>
+>>> with those relocated files being removed from oe-core. Any objections to
+>>> that to start with?
 >>
->> Signed-off-by: Khem Raj<raj.khem@gmail.com>
->> ---
->> =C2=A0meta/classes/sanity.bbclass | =C2=A0 =C2=A04 ++--
->> =C2=A01 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
->> index 13940f8..4fba852 100644
->> --- a/meta/classes/sanity.bbclass
->> +++ b/meta/classes/sanity.bbclass
->> @@ -171,8 +171,8 @@ def check_sanity(e):
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.exists("/proc=
-/sys/vm/mmap_min_addr"):
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f =3D file=
-("/proc/sys/vm/mmap_min_addr", "r")
->> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (f.read().st=
-rip() !=3D "0"):
->> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0messages =3D messages + "/proc/sys/vm/mmap_min_addr
->> is not 0. This will cause problems with qemu so please fix the value (as
->> root).\n\nTo fix this in later reboots, set vm.mmap_min_addr =3D 0 in
->> /etc/sysctl.conf.\n"
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (int(f.read(=
-).strip())< =C2=A065536):
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0messages =3D messages + "/proc/sys/vm/mmap_min_addr
->> is not>=3D 65536. This will cause problems with qemu so please fix the v=
-alue
->> (as root).\n\nTo fix this in later reboots, set vm.mmap_min_addr =3D 655=
-36 in
->> /etc/sysctl.conf.\n"
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.close()
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except:
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pass
+>> Why not put the recipes in meta-oe? I have need for e.g eds-dbus and would like to have that in meta-oe.
 >
-> Does this work or fail in the case where the file is unreadable? =C2=A0II=
-RC
-> that's the case in certain cases.
+> Which pieces are we talking about? Does oe-core want sato? Should some
+> of these go to meta-gnome and is that what we want? Or do we want all of
+> sato there?
+>
+> I was under the impression sato might not be wanted but I'm open to
+> influence either way on that. Certainly there are some pieces "we" as in
+> Yocto put into recipe-sato that could arguably be positioned elsewhere.
+>
+> Are you also concerned about meta-demoapps or is that fine?
 
-Did not run into that situation but good point
+To me, sato should be however poky wants to deal with it.  But a lot of 
+the deps are common gnome things and so forth that others care about too 
+and we should try for meta-oe.  Again, to me, this is how we can 
+reconcile the bits that poky has better than oe.dev (and vice versa) so 
+both parties win.
 
->
-> --
-> Tom Rini
-> Mentor Graphics Corporation
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
