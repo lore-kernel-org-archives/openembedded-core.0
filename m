@@ -1,38 +1,41 @@
-Received: from mail-gw0-f50.google.com ([74.125.83.50])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Pv2Rc-0007vw-UI
+	(envelope-from <martin.jansa@gmail.com>) id 1Pv2m5-0000BD-Qj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 07:56:38 +0100
-Received: by gwaa20 with SMTP id a20so414923gwa.9
+	Thu, 03 Mar 2011 08:16:37 +0100
+Received: by fxm8 with SMTP id 8so826880fxm.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Mar 2011 22:53:07 -0800 (PST)
+	Wed, 02 Mar 2011 23:15:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=l15M5nx/jqX5KzHbyelWPzCRVxafJ4ZwmDIhJut4rPc=;
-	b=Nbh5vMyWq8zY9qLm/B+F+3c5J3NKNJWd+0dhK88TjkPLIUGIWvesbEJwTDRgyHsSsI
-	t0aIfksmp/yFZIJOIhRYkHwF8Md9Y2ocVNJt2rNWdQ+2jFUZHm8BJiMz6e1af6hV1nV3
-	9yg/wcf02XUUd4a6K1IMKzvX1w80dAWnvftDU=
+	h=domainkey-signature:date:from:to:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=ECGVeo0nrdHSJiZo4zvE6Gmw0kpQUyvDz3B0PH+a6yY=;
+	b=J5DSI8JJOjDKxewl67kK7oAJ+CiWLg8yVV4qdKiTSBZeBJTNlNiT6h/73sOnGx0eXE
+	DmZrkTpuR/Ys8oSLp9JLUxOK7ehQquVQz3bOcTBJ2KLxnjfJSgQx3EurD3AZt2jrUsPf
+	Tx/Mma+p55UC/fECbgJ0UYP13iXWxRfBEaiAI=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=wfaM1rsP4WDiy8PNTuFE763HbDDFmfB53YfvdyLX5gmVo1Gyr0WiR/5y7V8tKyJrZ8
-	2IoNiQB7WVTjwUHsN5H9QlFnVcDC901dhhM2q6eQ7optWA6ievYDRJcxVhDCjQ1A8+3I
-	2q8/5Nl7f/Jc2n8cLSB3i3JQfYuD7++teMBMg=
-Received: by 10.150.161.5 with SMTP id j5mr1158528ybe.305.1299135185646;
-	Wed, 02 Mar 2011 22:53:05 -0800 (PST)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id g27sm595767yhc.8.2011.03.02.22.53.04
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=aB2YgzrQFRfGwrppApSwqgvCij5xKj/Ip4mqUQSQ3Ek8ZSHWB9DCpgKWBja2UzT8AH
+	afhH2x9XdT5pHlzkLfI5UT4hJQEKF88lOsCh4r83GkVzlJmcmdP4tz/2BoUy0at2Cfbh
+	5HqCPQxIpZhARWeqdqodw7nzdRCkYX/b7JbHg=
+Received: by 10.223.98.193 with SMTP id r1mr1014041fan.89.1299136509868;
+	Wed, 02 Mar 2011 23:15:09 -0800 (PST)
+Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
+	by mx.google.com with ESMTPS id a15sm412952faw.1.2011.03.02.23.15.08
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 Mar 2011 22:53:04 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Mar 2011 22:52:47 -0800
-Message-Id: <1299135167-18330-7-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
+	Wed, 02 Mar 2011 23:15:08 -0800 (PST)
+Date: Thu, 3 Mar 2011 08:15:06 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110303071506.GA419@jama.jama.net>
 References: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCHv3 6/6] rpm: Fix linking error encountered in rpm-native
+	<1299135167-18330-5-git-send-email-raj.khem@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1299135167-18330-5-git-send-email-raj.khem@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCHv3 4/6] sanity.bbclass: Check for /proc/sys/vm/mmap_min_addr to be >= 65536
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,61 +50,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 06:56:38 -0000
+X-List-Received-Date: Thu, 03 Mar 2011 07:16:37 -0000
+X-Groupsio-MsgNum: 159
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="HcAYCG3uE/tztfnV"
+Content-Disposition: inline
 
-* This patch passes the correct LDFLAGS to account for
-  additional dependencies of librpmio on libbeecrypt and libsyck
-  and hence fixes the build error.
+--HcAYCG3uE/tztfnV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../rpm/rpm/rpm-tools-mtree-LDFLAGS.patch          |   13 +++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 ++-
- 2 files changed, 15 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
+On Wed, Mar 02, 2011 at 10:52:45PM -0800, Khem Raj wrote:
+> * Now qemu can handle lower values we can chnage this sanity test
+>   to check of values if less than 65536
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/sanity.bbclass |   10 ++++++----
+>  1 files changed, 6 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 13940f8..aae5028 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -170,10 +170,12 @@ def check_sanity(e):
+>          # This path is no longer user-readable in modern (very recent) L=
+inux
+>          try:
+>              if os.path.exists("/proc/sys/vm/mmap_min_addr"):
+> -                f =3D file("/proc/sys/vm/mmap_min_addr", "r")
+> -                if (f.read().strip() !=3D "0"):
+> -                        messages =3D messages + "/proc/sys/vm/mmap_min_a=
+ddr is not 0. This will cause problems with qemu so please fix the value (a=
+s root).\n\nTo fix this in later reboots, set vm.mmap_min_addr =3D 0 in /et=
+c/sysctl.conf.\n"
+> -                f.close()
+> +                f =3D open("/proc/sys/vm/mmap_min_addr", "r")
+> +                try:
+> +                    if (int(f.read().strip()) < 65536):
+> +                        messages =3D messages + "/proc/sys/vm/mmap_min_a=
+ddr is not >=3D 65536. This will cause problems with qemu so please fix the=
+ value (as root).\n\nTo fix this in later reboots, set vm.mmap_min_addr =3D=
+ 65536 in /etc/sysctl.conf.\n"
+> +                finally:
+> +                    f.close()
+>          except:
+>              pass
+> =20
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch b/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
-new file mode 100644
-index 0000000..347d976
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
-@@ -0,0 +1,13 @@
-+Index: rpm-5.4.0/tools/Makefile.am
-+===================================================================
-+--- rpm-5.4.0.orig/tools/Makefile.am
-++++ rpm-5.4.0/tools/Makefile.am
-+@@ -169,7 +169,7 @@ grep_LDADD =		$(RPMIO_LDADD_COMMON)
-+ 
-+ mtree_SOURCES =		rpmmtree.c
-+ mtree_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
-+-mtree_LDADD =		$(RPM_LDADD_COMMON)
-++mtree_LDADD =		$(RPMIO_LDADD_COMMON)
-+ 
-+ rpmrepo_SOURCES =	rpmrepo.c
-+ rpmrepo_CPPFLAGS =	$(AM_CPPFLAGS) -I$(top_srcdir)/scripts -I$(top_builddir)/scripts $(CPPFLAGS)
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index 0003f48..3704816 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -43,7 +43,7 @@ LICENSE = "LGPL 2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
- DEPENDS = "bzip2 zlib python perl db openssl elfutils expat libpcre attr acl popt"
--PR = "r13"
-+PR = "r14"
- 
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
-@@ -56,6 +56,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;ex
- 	   file://rpm-showrc.patch \
- 	   file://rpm-nofsync.patch \
- 	   file://rpm-solvedb.patch \
-+	   file://rpm-tools-mtree-LDFLAGS.patch \
- 	  "
- 
- #           file://hdraddorappend.patch \
--- 
-1.7.4.1
+corner cases when it cannot be read are with kernel between
 
+http://git.kernel.org/?p=3Dlinux/kernel/git/torvalds/linux-2.6.git;a=3Dcomm=
+it;h=3D0e1a6ef2dea88101b056b6d9984f3325c5efced3
+2.6.33-rc2-0e1a6ef2dea88101b056b6d9984f3325c5efced3
 
+and
 
+http://git.kernel.org/?p=3Dlinux/kernel/git/torvalds/linux-2.6.git;a=3Dcomm=
+it;h=3D822cceec7248013821d655545ea45d1c6a9d15b3
+2.6.34-rc3-822cceec7248013821d655545ea45d1c6a9d15b3
+
+see:
+http://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg02=
+340.html
+
+Don't know if any large distribution is using 2.6.34 without that 2nd
+patch backported.
+
+Regards,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--HcAYCG3uE/tztfnV
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
+
+iEYEARECAAYFAk1vP/oACgkQN1Ujt2V2gBwFuQCfZEcQYfKqh99SjVY5yE+UNckC
+1x4An0W1GCdUn8fBUNXMMknwMLfv/7I5
+=2pNE
+-----END PGP SIGNATURE-----
+
+--HcAYCG3uE/tztfnV--
