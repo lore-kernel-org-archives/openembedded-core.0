@@ -1,35 +1,38 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Pv2Qb-0007vM-IE
+	(envelope-from <raj.khem@gmail.com>) id 1Pv2Qd-0007vO-1U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 07:54:26 +0100
-Received: by gyg13 with SMTP id 13so307857gyg.6
+	Thu, 03 Mar 2011 07:54:27 +0100
+Received: by gxk1 with SMTP id 1so286120gxk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Mar 2011 22:52:54 -0800 (PST)
+	Wed, 02 Mar 2011 22:52:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=fL0dheEkox8hkXhOHH//Iq+wgi/IL9Ijke3n5GiZDKo=;
-	b=Dwmc941U2B4LtHsli4JoHNu9vMgQqZKvsOuGT+Vsd2i+c3kFf6aJU4X8Nm/fE4CnxR
-	4kkvT96U/Bo/JH7YNDitcyYyipNE3VSiVkJOqZinMH8KAw3gCDvM/po+Jhv5d2qFbwK8
-	xmF2AY2dOgwjyQ5J82Ooz+uYM1tT17ma1/NmE=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=F5z4v6iBl2d6OHs99J36JezDQta5p3HSBUU+wy22VWw=;
+	b=ri6GcHN+r8Rrmauw/C/Famp3gis55DB/CykTZ+vbQQmDXZuH7Xlx2F8TQ/HI+eJPlA
+	kwlQq4cOU9Q+GqEAn+CzYf9RQvH1pKLnGdk1HT9/4bSYgh78JoAf2vmSuQajsXtk7GRO
+	uTDxXYUwcxOMsvOzMI+WJMBQTw+uwdXsgL8dc=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=Pt18ZV9To8qz2gP0wJdLkkOPWbwpp3EpyAwoXTzxLfY7a99SgjtkSdot+TIEBq4c+G
-	oDoSlcqrXRwOL2n/uyJ5b0qjbYvhQ1Lv1FIQdWFCA413vYQ7cqIhnfmBdyyZXMZLHzyc
-	5AxtdmGb9zipNYPc7MV/lycPIls2RFGXY+gAE=
-Received: by 10.151.39.21 with SMTP id r21mr1358690ybj.296.1299135174205;
-	Wed, 02 Mar 2011 22:52:54 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=jFBEpcodFodie2xyqBJp8XttqHUND2ePVsBifqjXgFZuwEaATAjrjhecq++acJ/OBH
+	drCFxCtecTGUHmzy5+K1vs0+b2UTTTiaeahH+1lXTiynHqNAow6F8GfYrZOldfmYpSTF
+	NvxCVly+uu4T2RNRvGrJdlf+2c6eb3DvzAxVg=
+Received: by 10.150.32.3 with SMTP id f3mr1351235ybf.300.1299135178073;
+	Wed, 02 Mar 2011 22:52:58 -0800 (PST)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id g27sm595767yhc.8.2011.03.02.22.52.52
+	by mx.google.com with ESMTPS id g27sm595767yhc.8.2011.03.02.22.52.56
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 Mar 2011 22:52:53 -0800 (PST)
+	Wed, 02 Mar 2011 22:52:57 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Mar 2011 22:52:41 -0800
-Message-Id: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
+Date: Wed,  2 Mar 2011 22:52:43 -0800
+Message-Id: <1299135167-18330-3-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH V2 0/6] Fixes to get oe-core building
+In-Reply-To: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
+References: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCHv3 2/6] distro_tracking_fields.inc: Use 2.6.37.2 instead of 2.6.36 for linux-libc-headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 06:54:26 -0000
+X-List-Received-Date: Thu, 03 Mar 2011 06:54:27 -0000
 
-Hi
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../conf/distro/include/distro_tracking_fields.inc |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-
-The attached patches are needed to get the OE core to build
-Please provide feedback I have already incorporated the changes
-requested thus far.
-
-V2: Fix the sanity test case to check for new limit
-    Add patch to link gcc cross statically with prerequisite libs
-    Remove do_compile_prepend from sqlite3 upgrade
-
-v3: Drop spurious dependency on ncurses-native for sqlite3 recipe
-    Check if /proc/sys/vm/mmap_min_addr is readable
-    Fix rpm-native build issue encountered on ubuntu natty
-    LINUXLIBCVERSION bump to 2.6.37.2
-
-Thanks
-
--Khem
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 1dab90a..beb18e2 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -2884,9 +2884,9 @@ RECIPE_LAST_UPDATE_pn-libtool = "Nov 8, 2010"
+ RECIPE_MAINTAINER_pn-libtool = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-linux-libc-headers="green" 
+-RECIPE_LATEST_VERSION_pn-linux-libc-headers="2.6.36"
+-RECIPE_LAST_UPDATE_pn-linux-libc-headers = "Nov 8, 2010"
+-RECIPE_MAINTAINER_pn-linux-libc-headers = "Nitin A Kamble <nitin.a.kamble@intel.com>"
++RECIPE_LATEST_VERSION_pn-linux-libc-headers="2.6.37.2"
++RECIPE_LAST_UPDATE_pn-linux-libc-headers = "Mar 1, 2011"
++RECIPE_MAINTAINER_pn-linux-libc-headers = "Khem Raj <raj.khem@gmail.com>"
+ 
+ RECIPE_STATUS_pn-lsof="green" 
+ RECIPE_LATEST_VERSION_pn-lsof="4.84"
+-- 
+1.7.4.1
 
 
 
