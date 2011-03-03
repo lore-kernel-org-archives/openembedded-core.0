@@ -1,35 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Pv7R2-0001uI-39 for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 13:15:15 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p23CDhTm008380
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1Pv7u6-0007Ur-Rl
+	for openembedded-core@lists.openembedded.org;
+	Thu, 03 Mar 2011 13:45:14 +0100
+Received: by wwe15 with SMTP id 15so1128311wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Mar 2011 12:13:43 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07751-10 for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Mar 2011 12:13:39 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p23CDZjj008374
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Mar 2011 12:13:35 GMT
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 03 Mar 2011 04:43:46 -0800 (PST)
+Received: by 10.227.145.17 with SMTP id b17mr859939wbv.152.1299156226037;
+	Thu, 03 Mar 2011 04:43:46 -0800 (PST)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id f52sm554104wes.35.2011.03.03.04.43.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 03 Mar 2011 04:43:45 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1299154021.26736.12912.camel@rex>
+Date: Thu, 3 Mar 2011 13:43:44 +0100
+Message-Id: <7326E7D2-6055-4628-A992-B868095A677C@dominion.thruhere.net>
+References: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
+	<1299135167-18330-7-git-send-email-raj.khem@gmail.com>
+	<1299154021.26736.12912.camel@rex>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20110303071506.GA419@jama.jama.net>
-References: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
-	<1299135167-18330-5-git-send-email-raj.khem@gmail.com>
-	<20110303071506.GA419@jama.jama.net>
-Date: Thu, 03 Mar 2011 12:13:30 +0000
-Message-ID: <1299154410.26736.12932.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCHv3 4/6] sanity.bbclass: Check for /proc/sys/vm/mmap_min_addr to be >= 65536
+X-Mailer: Apple Mail (2.1082)
+Subject: Re: [PATCHv3 6/6] rpm: Fix linking error encountered in rpm-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,65 +39,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 12:15:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Thu, 2011-03-03 at 08:15 +0100, Martin Jansa wrote:
-> On Wed, Mar 02, 2011 at 10:52:45PM -0800, Khem Raj wrote:
-> > * Now qemu can handle lower values we can chnage this sanity test
-> >   to check of values if less than 65536
-> > 
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/classes/sanity.bbclass |   10 ++++++----
-> >  1 files changed, 6 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> > index 13940f8..aae5028 100644
-> > --- a/meta/classes/sanity.bbclass
-> > +++ b/meta/classes/sanity.bbclass
-> > @@ -170,10 +170,12 @@ def check_sanity(e):
-> >          # This path is no longer user-readable in modern (very recent) Linux
-> >          try:
-> >              if os.path.exists("/proc/sys/vm/mmap_min_addr"):
-> > -                f = file("/proc/sys/vm/mmap_min_addr", "r")
-> > -                if (f.read().strip() != "0"):
-> > -                        messages = messages + "/proc/sys/vm/mmap_min_addr is not 0. This will cause problems with qemu so please fix the value (as root).\n\nTo fix this in later reboots, set vm.mmap_min_addr = 0 in /etc/sysctl.conf.\n"
-> > -                f.close()
-> > +                f = open("/proc/sys/vm/mmap_min_addr", "r")
-> > +                try:
-> > +                    if (int(f.read().strip()) < 65536):
-> > +                        messages = messages + "/proc/sys/vm/mmap_min_addr is not >= 65536. This will cause problems with qemu so please fix the value (as root).\n\nTo fix this in later reboots, set vm.mmap_min_addr = 65536 in /etc/sysctl.conf.\n"
-> > +                finally:
-> > +                    f.close()
-> >          except:
-> >              pass
-> >  
-> 
-> corner cases when it cannot be read are with kernel between
-> 
-> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=0e1a6ef2dea88101b056b6d9984f3325c5efced3
-> 2.6.33-rc2-0e1a6ef2dea88101b056b6d9984f3325c5efced3
-> 
-> and
-> 
-> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=822cceec7248013821d655545ea45d1c6a9d15b3
-> 2.6.34-rc3-822cceec7248013821d655545ea45d1c6a9d15b3
-> 
-> see:
-> http://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg02340.html
-> 
-> Don't know if any large distribution is using 2.6.34 without that 2nd
-> patch backported.
-
-My laptop at least is running a kernel where that file isn't
-readable :/. It isn't a standard distro one though.
-
-Cheers,
-
-Richard
+X-List-Received-Date: Thu, 03 Mar 2011 12:45:15 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 3 mrt 2011, om 13:07 heeft Richard Purdie het volgende geschreven:
+
+> Hi Khem,
+>=20
+> On Wed, 2011-03-02 at 22:52 -0800, Khem Raj wrote:
+>> * This patch passes the correct LDFLAGS to account for
+>>  additional dependencies of librpmio on libbeecrypt and libsyck
+>>  and hence fixes the build error.
+>=20
+> This change is fine in itself but I'm going to be a little critical =
+here
+> since we're just getting going and I want to start as we mean to go =
+on.
+>=20
+> Could you add a description of the problem and why the fix is needed =
+to
+> the patch header please, also adding your name and a date.
+>=20
+> The reason why is so in six months time, someone looking at this can
+> work out a) why the patch is needed, b) Who wrote it so they have some
+> idea where it came from and who to talk to if they have a question and
+> c) How long the issue has been around for.
+>=20
+> I appreciate some of this info can be got through the SCM but I've yet
+> to see a good reason for not including it directly in the patch =
+header.
+
+I have customers that make tarball snapshots of OE without the .git, so =
+please put a lot of info in patch headers.
+
+regards,
+
+Koen=
 
 
