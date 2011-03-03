@@ -1,24 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1PvBi5-0003rR-2s
+	(envelope-from <mark.hatle@windriver.com>) id 1PvBiC-0003rb-PE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 17:49:10 +0100
+	Thu, 03 Mar 2011 17:49:17 +0100
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p23Gla5I000111
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p23GlbBV000124
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Mar 2011 08:47:36 -0800 (PST)
+	Thu, 3 Mar 2011 08:47:37 -0800 (PST)
 Received: from localhost.localdomain (172.25.36.229) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.1.255.0; Thu, 3 Mar 2011 08:47:35 -0800
+	(TLS) id 14.1.255.0; Thu, 3 Mar 2011 08:47:37 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 3 Mar 2011 10:47:29 -0600
-Message-ID: <cover.1299170758.git.mark.hatle@windriver.com>
+Date: Thu, 3 Mar 2011 10:47:31 -0600
+Message-ID: <8dc1e9c68a9f0b20188b37720db90a3f836321fd.1299170758.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.4
+In-Reply-To: <cover.1299170758.git.mark.hatle@windriver.com>
+References: <cover.1299170758.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.36.229]
-Subject: [PATCH 0/2] Two minor fixes for oe-core
+Subject: [PATCH 2/2] qa.py: Fix a typo when evaluating bitsize
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,32 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 16:49:10 -0000
+X-List-Received-Date: Thu, 03 Mar 2011 16:49:17 -0000
 Content-Type: text/plain
 
-The first fix implementes the workaround I posted in the oe-core getting
-started.  Simply adding the BBFETCH2=True is all that is needed.
+This should be setting a variable, not performing a comparison.
 
-The second fixes the ELF qa loaders bit size identification.
-
-
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: mhatle/oecore/fixes
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/oecore/fixes
-
-Thanks,
-    Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
+ meta/lib/oe/qa.py |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-
-Mark Hatle (2):
-  poky-env-internal: Add FETCH2 enablement
-  qa.py: Fix a typo when evaluating bitsize
-
- meta/lib/oe/qa.py         |    4 ++--
- scripts/poky-env-internal |    2 ++
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
+diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+index 7adf4d0..d380012 100644
+--- a/meta/lib/oe/qa.py
++++ b/meta/lib/oe/qa.py
+@@ -40,9 +40,9 @@ class ELFFile:
+         self.my_assert(self.data[3], 'F')
+         if self.bits == 0:
+             if self.data[ELFFile.EI_CLASS] == chr(ELFFile.ELFCLASS32):
+-                self.bits == 32
++                self.bits = 32
+             elif self.data[ELFFile.EI_CLASS] == chr(ELFFile.ELFCLASS64):
+-                self.bits == 64
++                self.bits = 64
+             else:
+                 # Not 32-bit or 64.. lets assert
+                 raise Exception("ELF but not 32 or 64 bit.")
 -- 
 1.7.4
 
