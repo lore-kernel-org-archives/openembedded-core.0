@@ -1,28 +1,34 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Pv5IE-0000OD-Va
-	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 10:57:59 +0100
-Received: by wyb38 with SMTP id 38so857274wyb.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Pv7Kq-0007nc-Gx for openembedded-core@lists.openembedded.org;
+	Thu, 03 Mar 2011 13:08:49 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p23C7D5R008329
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2011 01:56:30 -0800 (PST)
-Received: by 10.216.188.201 with SMTP id a51mr372605wen.60.1299146190189;
-	Thu, 03 Mar 2011 01:56:30 -0800 (PST)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id g8sm430383wej.23.2011.03.03.01.56.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Mar 2011 01:56:29 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1082)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1299145156-32150-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Thu, 3 Mar 2011 10:56:27 +0100
-Message-Id: <74B0C439-B6A4-4AF7-9567-0B3E1521F0A8@dominion.thruhere.net>
-References: <1299145156-32150-1-git-send-email-Martin.Jansa@gmail.com>
+	Thu, 3 Mar 2011 12:07:13 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07723-08 for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 Mar 2011 12:07:09 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p23C76IW008323
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 3 Mar 2011 12:07:07 GMT
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1082)
-Subject: Re: [PATCH] sanity.bbclass: some multilib systems have symlink /lib -> /lib64
+In-Reply-To: <1299135167-18330-7-git-send-email-raj.khem@gmail.com>
+References: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
+	<1299135167-18330-7-git-send-email-raj.khem@gmail.com>
+Date: Thu, 03 Mar 2011 12:07:01 +0000
+Message-ID: <1299154021.26736.12912.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCHv3 6/6] rpm: Fix linking error encountered in rpm-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,50 +43,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 09:57:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 03 Mar 2011 12:08:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+Hi Khem,
 
-Op 3 mrt 2011, om 10:39 heeft Martin Jansa het volgende geschreven:
+On Wed, 2011-03-02 at 22:52 -0800, Khem Raj wrote:
+> * This patch passes the correct LDFLAGS to account for
+>   additional dependencies of librpmio on libbeecrypt and libsyck
+>   and hence fixes the build error.
 
-> * ie gentoo has /lib -> /lib64
-> * old test assumed only /lib64 -> /lib
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+This change is fine in itself but I'm going to be a little critical here
+since we're just getting going and I want to start as we mean to go on.
 
-Looks good to me:
+Could you add a description of the problem and why the fix is needed to
+the patch header please, also adding your name and a date.
 
-Acked-by: Koen Kooi <koen@dominion.thruhere.net>
+The reason why is so in six months time, someone looking at this can
+work out a) why the patch is needed, b) Who wrote it so they have some
+idea where it came from and who to talk to if they have a question and
+c) How long the issue has been around for.
 
+I appreciate some of this info can be got through the SCM but I've yet
+to see a good reason for not including it directly in the patch header.
 
+Cheers,
+
+Richard
+
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
-> meta/classes/sanity.bbclass |    2 +-
-> 1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 13940f8..433313b 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -211,7 +211,7 @@ def check_sanity(e):
->     nolibs =3D data.getVar('NO32LIBS', e.data, True)
->     if not nolibs:
->         lib32path =3D '/lib'
-> -        if os.path.exists('/lib64') and os.path.islink('/lib64'):
-> +        if os.path.exists('/lib64') and ( os.path.islink('/lib64') or =
-os.path.islink('/lib') ):
->            lib32path =3D '/lib32'
->=20
->         if os.path.exists('%s/libc.so.6' % lib32path) and not =
-os.path.exists('/usr/include/gnu/stubs-32.h'):
-> --=20
-> 1.7.4.1
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>  .../rpm/rpm/rpm-tools-mtree-LDFLAGS.patch          |   13 +++++++++++++
+>  meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 ++-
+>  2 files changed, 15 insertions(+), 1 deletions(-)
+>  create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
+> 
+> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch b/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
+> new file mode 100644
+> index 0000000..347d976
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rpm/rpm/rpm-tools-mtree-LDFLAGS.patch
+> @@ -0,0 +1,13 @@
+> +Index: rpm-5.4.0/tools/Makefile.am
+> +===================================================================
+> +--- rpm-5.4.0.orig/tools/Makefile.am
+> ++++ rpm-5.4.0/tools/Makefile.am
+> +@@ -169,7 +169,7 @@ grep_LDADD =		$(RPMIO_LDADD_COMMON)
+> + 
+> + mtree_SOURCES =		rpmmtree.c
+> + mtree_LDFLAGS =		@LDFLAGS_STATIC@ $(LDFLAGS)
+> +-mtree_LDADD =		$(RPM_LDADD_COMMON)
+> ++mtree_LDADD =		$(RPMIO_LDADD_COMMON)
+> + 
+> + rpmrepo_SOURCES =	rpmrepo.c
+> + rpmrepo_CPPFLAGS =	$(AM_CPPFLAGS) -I$(top_srcdir)/scripts -I$(top_builddir)/scripts $(CPPFLAGS)
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> index 0003f48..3704816 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> @@ -43,7 +43,7 @@ LICENSE = "LGPL 2.1"
+>  LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+>  
+>  DEPENDS = "bzip2 zlib python perl db openssl elfutils expat libpcre attr acl popt"
+> -PR = "r13"
+> +PR = "r14"
+>  
+>  # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+>  # in order to extract the distribution SRPM into a format we can extract...
+> @@ -56,6 +56,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;ex
+>  	   file://rpm-showrc.patch \
+>  	   file://rpm-nofsync.patch \
+>  	   file://rpm-solvedb.patch \
+> +	   file://rpm-tools-mtree-LDFLAGS.patch \
+>  	  "
+>  
+>  #           file://hdraddorappend.patch \
+
 
 
 
