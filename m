@@ -1,30 +1,30 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Pv9aQ-0002Oy-EE
+	(envelope-from <mark.hatle@windriver.com>) id 1Pv9ma-0002co-Ak
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 15:33:02 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 03 Mar 2011 06:31:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,258,1297065600"; d="scan'208";a="396963539"
-Received: from unknown (HELO [10.255.17.39]) ([10.255.17.39])
-	by azsmga001.ch.intel.com with ESMTP; 03 Mar 2011 06:31:22 -0800
-From: Joshua Lock <josh@linux.intel.com>
-To: Chris Larson <clarson@kergoth.com>
-In-Reply-To: <AANLkTikBJWF_azi5NzsOrSJLWGvcj+Fr+nm0+kFzdT-b@mail.gmail.com>
+	Thu, 03 Mar 2011 15:45:36 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p23Ehv4e006707
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 3 Mar 2011 06:43:57 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 3 Mar 2011 06:43:57 -0800
+Message-ID: <4D6FA92C.5010507@windriver.com>
+Date: Thu, 3 Mar 2011 08:43:56 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.14) Gecko/20110221 Thunderbird/3.1.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
 References: <4D6E7EB1.5080602@windriver.com>
-	<41F9E0FC-E0A1-4C7F-8999-3E1B53FDDEE1@dominion.thruhere.net>
-	<1299157757.2550.5.camel@scimitar>
-	<E900D076-3678-445D-89D2-973EC3A558A8@dominion.thruhere.net>
-	<1299161111.2550.8.camel@scimitar>
-	<AANLkTinAUZ72Tfmm4K8F5kJDLUrfO6AmzEKaLfG9NX5x@mail.gmail.com>
-	<AANLkTikBJWF_azi5NzsOrSJLWGvcj+Fr+nm0+kFzdT-b@mail.gmail.com>
-Date: Thu, 03 Mar 2011 14:31:16 +0000
-Message-ID: <1299162676.2550.21.camel@scimitar>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.1 (2.32.1-1.fc14) 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<1299088802.26736.10715.camel@rex>	<BED5DD21-1E73-4DB2-9E29-17E70DF7344C@dominion.thruhere.net>	<1299093521.26736.10877.camel@rex>
+	<4D6EE7A6.20603@mentor.com>	<A0E1CD11-8650-4AAD-BE14-278241E67042@dominion.thruhere.net>
+	<1299154222.26736.12921.camel@rex>
+In-Reply-To: <1299154222.26736.12921.camel@rex>
+X-Originating-IP: [172.25.36.227]
 Subject: Re: oe-core cleanup...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -40,54 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 14:33:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 03 Mar 2011 14:45:36 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-03-03 at 07:21 -0700, Chris Larson wrote:
-On Thu, Mar 3, 2011 at 7:14 AM, Chris Larson <clarson@kergoth.com>
-wrote:
-> > On Thu, Mar 3, 2011 at 7:05 AM, Joshua Lock <josh@linux.intel.com>
-wrote:
-> >> I agree, in fact yesterday I discovered we have the beginnings of
-such a
-> >> tool (bitbake-layers) written by Chris. Currently it prints out
-which
-> >> recipes are being modified by a .bbappend and .bbappend files for
-which
-> >> no recipe exists.
+On 3/3/11 6:10 AM, Richard Purdie wrote:
+> I'd really at least like the TSC members to comment on those different
+> pieces. I've already seen Chris comment that "poky-init-build-env"
+> shouldn't be in the core for example. What about the rest of the scripts
+> directory?
+
+I think they should be in oe-core, and specifically labeled as self-contained
+examples for oe-core itself.
+
+There must be a simple way for people to setup the environment and run a build
+so they can test the oe-core itself.  But there should be nothing in the system
+that requires all of the components to exist, if there is, it should be clearly
+documented that it's not an example component.  (Even putting the word "example"
+in the name would be fine with me.  i.e. replacing "poky" with "example".)
+
+--Mark
+
+> Cheers,
 > 
-> Note that it also warns about bbappending to a non-preferred version
-> of a recipe, but not bbappending to the preferred version of the
-> recipe, to cover the case where a bump of an earlier layer adds a new
-> version without removing the old.  I was trying to catch all the cases
-> where your local changes might seem "lost" when updating things.
-
-Ah, that's a nice feature that I'd missed (I don't have any such recipes
-in the layers I'm using).
-
-> On another note, I was really surprised at just how painless it was to
-> create a new standalone tool to do this, considering it bypasses much
-> of the infrastructure which the main bitbake tool uses.  There are
-> definitely still some hiccups in bitbake we should fix to make it
-> easier, but it wasn't bad at all, which was great to see, and we'll
-> have to think about what other standalone tools might be useful in the
-> long term.
->
-Yes indeed. I was pleased when I discovered bitbake-layers and even more
-pleased when I saw how concise a program it is.
-
-I'd love to see a wiki-page or some such where we can collaborate on
-tools ideas. I'm slowly understanding more and more of BitBake and
-gaining an increased appreciation of Python so little hack project ideas
-would be welcome.
-
-Cheers,
-Joshua
--- 
-Joshua Lock
-        Yocto Build System Monkey
-        Intel Open Source Technology Centre
+> Richard
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
