@@ -1,38 +1,20 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1PvFdu-00010r-DG
+	(envelope-from <sgw@linux.intel.com>) id 1PvHM7-0005dG-78
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 22:01:02 +0100
-Received: by fxm8 with SMTP id 8so1544033fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2011 12:59:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=AzfXtI5piDW/mepjv6VUzZg2haxlGajAQVzob293sps=;
-	b=voPYe534cJy6ryzaDXNWaFscCnbVMJABoqbeY3ylIXVN7bnSYMzU/LcczCjGtPpzYQ
-	cEtJWJx3jPniOCdiORpCYG15esgGwZHoTLaaKkUKJy1qehExvTJAxCLYsOqP0utV24Pw
-	R8XLJ6lXTdjN7X/XTsvrQbwc92AFV4qxVDZr4=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=YB4kaZ39U2xKRnsFIx/TiK+r8lbZyZPB6t3ZfpI7qLHuTKOpZSXGI7hzOSkK55IuQN
-	DWdvWsQ6iwU69RP+5tC16Tl01jWWfE0TGgpGglIqS1op5f5noY/vxB8xHFUvAdvvrdkr
-	ohW0SrtvQ70jPi1gGZlib2HD7RmV/YChpaOhI=
-Received: by 10.223.100.8 with SMTP id w8mr2079105fan.55.1299185970066; Thu,
-	03 Mar 2011 12:59:30 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.223.30.151 with HTTP; Thu, 3 Mar 2011 12:59:10 -0800 (PST)
-In-Reply-To: <10e14f3105719259ad119b37ff1b49d1bc78a4ce.1299182375.git.sgw@linux.intel.com>
-References: <cover.1299182375.git.sgw@linux.intel.com>
-	<10e14f3105719259ad119b37ff1b49d1bc78a4ce.1299182375.git.sgw@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 3 Mar 2011 12:59:10 -0800
-Message-ID: <AANLkTi=-bWXFhaionzUfRvZJx1ajX9hPqBQAW1FY1kB8@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: poky@yoctoproject.org
-Subject: Re: [PATCH 09/10] recipe: add slang from OE
+	Thu, 03 Mar 2011 23:50:47 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 03 Mar 2011 14:49:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.62,260,1297065600"; d="scan'208";a="715899292"
+Received: from unknown (HELO localhost) ([10.255.12.102])
+	by orsmga001.jf.intel.com with ESMTP; 03 Mar 2011 14:49:17 -0800
+Message-Id: <cover.1299192495.git.sgw@linux.intel.com>
+Old-Date: Thu, 3 Mar 2011 14:48:15 -0800
+Date: Thu, 03 Mar 2011 14:49:16 -0800
+To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
+From: Saul Wold <sgw@linux.intel.com>
+Subject: [PATCH 00/10] Consolidated Pull Request [v2]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,100 +29,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 21:01:02 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 03 Mar 2011 22:50:47 -0000
 
-On Thu, Mar 3, 2011 at 12:02 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> From: Kang Kai <kai.kang@windriver.com>
->
-> slang is the shared library for the S-Lang extension language,
-> and required by newt because of LSB command check
->
-> Signed-off-by: Kang Kai <kai.kang@windriver.com>
+From: Saul Wold <sgw@linux.intel.com>
 
-same thing for recipes imported from OE make note of last commit on the rec=
-ipe
-that it came from. Probably adding patch header to patches would be
-nice to have as well.
+This contains a batch of bug fixes and a set of recipes
+to address some LSB test failures.
 
-> ---
-> =C2=A0meta/recipes-extended/slang/slang/fix-uclibc.patch | =C2=A0 11 ++++=
-++++
-> =C2=A0meta/recipes-extended/slang/slang_2.2.2.bb =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 25 ++++++++++++++++++++
-> =C2=A02 files changed, 36 insertions(+), 0 deletions(-)
-> =C2=A0create mode 100644 meta/recipes-extended/slang/slang/fix-uclibc.pat=
-ch
-> =C2=A0create mode 100644 meta/recipes-extended/slang/slang_2.2.2.bb
->
-> diff --git a/meta/recipes-extended/slang/slang/fix-uclibc.patch b/meta/re=
-cipes-extended/slang/slang/fix-uclibc.patch
-> new file mode 100644
-> index 0000000..c2b8225
-> --- /dev/null
-> +++ b/meta/recipes-extended/slang/slang/fix-uclibc.patch
-> @@ -0,0 +1,11 @@
-> +--- slang-2.1.3.orig/src/slcommon.c =C2=A0 =C2=A02007-01-10 18:09:07.000=
-000000 +0200
-> ++++ slang-2.1.3.orig/src/slcommon.c =C2=A0 =C2=A02008-03-19 16:09:09.000=
-000000 +0200
-> +@@ -191,7 +191,7 @@
-> + =C2=A0 =C2=A0return p;
-> + }
-> +
-> +-#if !defined(HAVE_ISSETUGID) && defined(__GLIBC__) && (__GLIBC__ >=3D 2=
-)
-> ++#if !defined(HAVE_ISSETUGID) && defined(__GLIBC__) && (__GLIBC__ >=3D 2=
-) && !defined(__UCLIBC__)
-> + extern int __libc_enable_secure;
-> + # define HAVE___LIBC_ENABLE_SECURE 1
-> + #endif
-> diff --git a/meta/recipes-extended/slang/slang_2.2.2.bb b/meta/recipes-ex=
-tended/slang/slang_2.2.2.bb
-> new file mode 100644
-> index 0000000..7fe76af
-> --- /dev/null
-> +++ b/meta/recipes-extended/slang/slang_2.2.2.bb
-> @@ -0,0 +1,25 @@
-> +SUMMARY =3D "The shared library for the S-Lang extension language"
-> +
-> +DESCRIPTION =3D "S-Lang is an interpreted language and a programming lib=
-rary. =C2=A0The \
-> +S-Lang language was designed so that it can be easily embedded into \
-> +a program to provide the program with a powerful extension language. \
-> +The S-Lang library, provided in this package, provides the S-Lang \
-> +extension language. =C2=A0S-Lang's syntax resembles C, which makes it ea=
-sy \
-> +to recode S-Lang procedures in C if you need to."
-> +
-> +SECTION =3D "libs"
-> +PRIORITY =3D "optional"
-> +DEPENDS =3D "pcre"
-> +PR =3D "r0"
-> +
-> +LICENSE =3D "GPL Artistic"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c317=
-bb3"
-> +
-> +
-> +SRC_URI =3D "ftp://space.mit.edu/pub/davis/slang/v2.2/OLD/slang-${PV}.ta=
-r.bz2 \
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fix-uclibc.patch"
-> +
-> +inherit autotools
-> +
-> +SRC_URI[md5sum] =3D "974437602a781cfe92ab61433dd16d03"
-> +SRC_URI[sha256sum] =3D "cfaf8551fa3855f9b0043309bb553ef6d457f931b404df5a=
-6ba6a5a69371fc42"
-> --
-> 1.7.1.1
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: distro/oe-core
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=distro/oe-core
+
+Thanks,
+    Saul Wold <sgw@linux.intel.com>
+---
+
+
+Kang Kai (3):
+  recipe: add chkconfig for LSB command test
+  recipe: add newt from OE
+  recipe: add slang from OE
+
+Liping Ke (2):
+  Add libtool-nativesdk for ADT
+  ADT: Bug fix for Suse Linux
+
+Qing He (1):
+  libpcre: fix the name collision with libc
+
+Saul Wold (1):
+  task-poky-lsb: add chkconfig
+
+Zhai Edwin (3):
+  x11vnc: Fix the start failure
+  sato-icon-theme: Explictly use "Sato" as gtk icon theme
+  gstreamer: install the sound card driver of es1370
+
+ .../installer/adt-installer/adt_installer          |    2 +-
+ .../adt-installer/scripts/adt_installer_internal   |    5 +-
+ .../installer/adt-installer/scripts/data_define    |    2 +-
+ .../recipes-extended/chkconfig/chkconfig_1.3.49.bb |   25 +++++++
+ .../newt/files/include-without-python.patch        |   71 ++++++++++++++++++++
+ meta/recipes-extended/newt/libnewt_0.52.12.bb      |   37 ++++++++++
+ meta/recipes-extended/slang/slang/fix-uclibc.patch |   11 +++
+ meta/recipes-extended/slang/slang_2.2.2.bb         |   25 +++++++
+ meta/recipes-extended/tasks/task-poky-lsb.bb       |    1 +
+ .../x11vnc/files/starting-fix.patch                |   18 +++++
+ meta/recipes-graphics/x11vnc/x11vnc_0.9.12.bb      |    3 +-
+ .../gstreamer/gstreamer_0.10.31.bb                 |    3 +
+ .../sato-icon-theme/sato-icon-theme.inc            |    3 +
+ .../libpcre/files/fix-pcre-name-collision.patch    |   40 +++++++++++
+ meta/recipes-support/libpcre/libpcre_8.10.bb       |    5 +-
+ 15 files changed, 245 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-extended/chkconfig/chkconfig_1.3.49.bb
+ create mode 100644 meta/recipes-extended/newt/files/include-without-python.patch
+ create mode 100644 meta/recipes-extended/newt/libnewt_0.52.12.bb
+ create mode 100644 meta/recipes-extended/slang/slang/fix-uclibc.patch
+ create mode 100644 meta/recipes-extended/slang/slang_2.2.2.bb
+ create mode 100644 meta/recipes-graphics/x11vnc/files/starting-fix.patch
+ create mode 100644 meta/recipes-support/libpcre/files/fix-pcre-name-collision.patch
+
 
 
