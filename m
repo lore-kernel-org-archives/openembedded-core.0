@@ -1,22 +1,22 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1PvEl2-0002Te-Vm
+	(envelope-from <sgw@linux.intel.com>) id 1PvEl6-0004wH-B4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 21:04:21 +0100
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Mar 2011 12:02:46 -0800
+	Thu, 03 Mar 2011 21:04:24 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 03 Mar 2011 12:02:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,259,1297065600"; d="scan'208";a="893505474"
+X-IronPort-AV: E=Sophos;i="4.62,259,1297065600"; d="scan'208";a="397158435"
 Received: from unknown (HELO localhost) ([10.255.12.102])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2011 12:02:46 -0800
-Message-Id: <06ae5cd63b3b42d8dafe953ffbce93c321f11ac3.1299182375.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 03 Mar 2011 12:02:44 -0800
+Message-Id: <e5662d07e615cfa5879a5d700df2d1e9049a6413.1299182375.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1299182375.git.sgw@linux.intel.com>
 References: <cover.1299182375.git.sgw@linux.intel.com>
-Old-Date: Thu, 3 Mar 2011 03:18:38 +0800
-Date: Thu, 03 Mar 2011 12:02:46 -0800
+Old-Date: Thu, 3 Mar 2011 19:54:09 +0800
+Date: Thu, 03 Mar 2011 12:02:44 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 06/10] ADT: Bug fix for Suse Linux
+Subject: [PATCH 03/10] sato-icon-theme: Explictly use "Sato" as gtk icon theme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,48 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 20:04:21 -0000
+X-List-Received-Date: Thu, 03 Mar 2011 20:04:24 -0000
 
-From: Liping Ke <liping.ke@intel.com>
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-On Suse linux11.2, we found when using sudo, we must add -E opts
-to preserver some network proxy environment settings. Otherwise,
-opkg-cl can't access files behind firewall. [bug #785]
-Also, we need to add absolute path when sourcing files.
-Fix for [bug #786]
+There is a tricky race condition that "Sato" icons got missing on
+matchbox-desktop as low priority "hicolor" theme was chosen. Explictly
+settting "Sato" in gtk config file to avoid this.
 
-Signed-off-by: Liping Ke <liping.ke@intel.com>
+[BUGID #456] got fixed.
+
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../adt-installer/scripts/adt_installer_internal   |    2 +-
- .../installer/adt-installer/scripts/data_define    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../sato-icon-theme/sato-icon-theme.inc            |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-index b5e304d..df142ff 100755
---- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-@@ -81,7 +81,7 @@ else
- fi
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+index a1669c6..0eff9dd 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+@@ -16,9 +16,12 @@ PACKAGE_ARCH = "all"
  
- #first update repository
--OPKG_CMD="sudo $LOCAL_OPKG_LOC/bin/opkg-cl"
-+OPKG_CMD="sudo -E $LOCAL_OPKG_LOC/bin/opkg-cl"
+ EXTRA_OECONF += "--with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
  
- echo_info "Updating opkg..."
- $OPKG_CMD -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR update &>> $YOCTOADT_INSTALL_LOG_FILE
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/data_define b/meta/recipes-devtools/installer/adt-installer/scripts/data_define
-index 77f8b38..e29cc30 100644
---- a/meta/recipes-devtools/installer/adt-installer/scripts/data_define
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/data_define
-@@ -23,7 +23,7 @@
- # THE SOFTWARE.
- 
- config_file="adt_installer.conf"
--source $config_file
-+source `eval echo $PWD`/$config_file
- 
- LOCAL_OPKG_LOC="./opkg/build/opkg"
- LOCAL_OPKG_FOLDER="./opkg/build"
++#explictly setting "Sato" as default icon theme to avoid icon missing due to
++#tricky race condition
+ pkg_postinst_${PN} () {
+         if [ "x$D" != "x" ]; then
+                 exit 1
+         fi
+         gtk-update-icon-cache -q /usr/share/icons/Sato
++        echo 'gtk-icon-theme-name = "Sato"' >> /etc/gtk-2.0/gtkrc
+ }
 -- 
 1.7.1.1
 
