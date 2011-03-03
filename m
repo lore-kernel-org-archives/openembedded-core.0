@@ -1,27 +1,25 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1PvAFk-0002tT-Kz
+	(envelope-from <koen@dominion.thruhere.net>) id 1PvAVm-00035H-2U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 16:15:44 +0100
-Received: by wwb29 with SMTP id 29so23014wwb.0
+	Thu, 03 Mar 2011 16:32:18 +0100
+Received: by wwe15 with SMTP id 15so1318312wwe.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2011 07:14:14 -0800 (PST)
-Received: by 10.216.20.141 with SMTP id p13mr751691wep.102.1299165254684;
-	Thu, 03 Mar 2011 07:14:14 -0800 (PST)
+	Thu, 03 Mar 2011 07:30:49 -0800 (PST)
+Received: by 10.227.159.204 with SMTP id k12mr1077781wbx.28.1299166249514;
+	Thu, 03 Mar 2011 07:30:49 -0800 (PST)
 Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id c54sm626825wer.30.2011.03.03.07.14.10
+	by mx.google.com with ESMTPS id x1sm968856wbh.14.2011.03.03.07.30.48
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Mar 2011 07:14:13 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1082)
+	Thu, 03 Mar 2011 07:30:49 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1299163569-22016-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Thu, 3 Mar 2011 16:14:10 +0100
-Message-Id: <BBA16B16-F338-4F4F-98B6-A541BB6E4887@dominion.thruhere.net>
-References: <1299163569-22016-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Thu, 3 Mar 2011 16:30:48 +0100
+Message-Id: <F22AC2B7-708D-4036-A493-B95E87C4012B@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1082)
 X-Mailer: Apple Mail (2.1082)
-Subject: Re: [PATCH] debian.bbclass: call auto_libname in reverse sorted AUTO_LIBNAME_PKGS
+Subject: Please keep patchwork up to date
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,61 +34,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 15:15:44 -0000
+X-List-Received-Date: Thu, 03 Mar 2011 15:32:18 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-Op 3 mrt 2011, om 15:46 heeft Martin Jansa het volgende geschreven:
+When applying something to oe-core, please update the patch state to =
+'accepted' and archive it so we can only see outstanding patches when =
+visiting http://patches.openembedded.org/project/oe-core/list/
 
-> * see comment for reason why we need this
-> * more info:
->  =
-http://lists.linuxtogo.org/pipermail/openembedded-devel/2011-February/0298=
-77.html
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+I went throught the list today and archived a bunch of patches, but more =
+people looking after it would be better in the long run :)
 
-Acked-by: Koen Kooi <koen@dominion.thruhere.net>
+regards,
 
-> ---
-> meta/classes/debian.bbclass |    8 +++++++-
-> 1 files changed, 7 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
-> index d35882f..46a9d08 100644
-> --- a/meta/classes/debian.bbclass
-> +++ b/meta/classes/debian.bbclass
-> @@ -107,7 +107,13 @@ python debian_package_name_hook () {
-> 					if newpkg !=3D pkg:
-> 						bb.data.setVar('PKG_' + =
-pkg, newpkg, d)
->=20
-> -	for pkg in (bb.data.getVar('AUTO_LIBNAME_PKGS', d, 1) or =
-"").split():
-> +	# reversed sort is needed when some package is substring of =
-another
-> +	# ie in ncurses we get without reverse sort:=20
-> +	# DEBUG: LIBNAMES: pkgname libtic5 devname libtic pkg =
-ncurses-libtic orig_pkg ncurses-libtic debian_pn None newpkg libtic5
-> +	# and later
-> +	# DEBUG: LIBNAMES: pkgname libtic5 devname libtic pkg =
-ncurses-libticw orig_pkg ncurses-libtic debian_pn None newpkg libticw
-> +	# so we need to handle ncurses-libticw->libticw5 before =
-ncurses-libtic->libtic5
-> +	for pkg in sorted((bb.data.getVar('AUTO_LIBNAME_PKGS', d, 1) or =
-"").split(), reverse=3DTrue):
-> 		auto_libname(packages, pkg)
-> }
->=20
-> --=20
-> 1.7.4.1
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Koen=
 
 
