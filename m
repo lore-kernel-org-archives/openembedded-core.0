@@ -1,29 +1,28 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1PvBIT-00073v-UK
+	(envelope-from <mark.hatle@windriver.com>) id 1PvBKJ-0007UU-TC
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 17:22:38 +0100
-Received: by wwb29 with SMTP id 29so97367wwb.0
+	Thu, 03 Mar 2011 17:24:33 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p23GMr9R025565
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2011 08:21:08 -0800 (PST)
-Received: by 10.216.24.132 with SMTP id x4mr826491wex.81.1299169268553;
-	Thu, 03 Mar 2011 08:21:08 -0800 (PST)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id m6sm662179wej.34.2011.03.03.08.21.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Mar 2011 08:21:07 -0800 (PST)
-Mime-Version: 1.0 (Apple Message framework v1082)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <AANLkTikgTx8SWJ1CpZgW=vgJYzrzveMsMMLUopHC57K8@mail.gmail.com>
-Date: Thu, 3 Mar 2011 17:21:06 +0100
-Message-Id: <A19EFEE9-7A3B-479B-B336-FF46C74B77FA@dominion.thruhere.net>
+	Thu, 3 Mar 2011 08:22:53 -0800 (PST)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 3 Mar 2011 08:22:53 -0800
+Message-ID: <4D6FC05B.6040908@windriver.com>
+Date: Thu, 3 Mar 2011 10:22:51 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.14) Gecko/20110221 Thunderbird/3.1.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
 References: <394EA6D4-E718-4BE7-93A2-6AF67AAF6E0D@dominion.thruhere.net>
-	<AANLkTikgTx8SWJ1CpZgW=vgJYzrzveMsMMLUopHC57K8@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-X-Mailer: Apple Mail (2.1082)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: lots of WARNING: QA Issue: Bit size did not match (32 to 0) warnings, what do they mean?
+In-Reply-To: <394EA6D4-E718-4BE7-93A2-6AF67AAF6E0D@dominion.thruhere.net>
+X-Originating-IP: [172.25.36.227]
+Subject: Re: lots of WARNING: QA Issue: Bit size did not match (32 to	0) warnings, what do they mean?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,39 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 16:22:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 03 Mar 2011 16:24:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
+On 3/3/11 9:45 AM, Koen Kooi wrote:
+> Hi,
+> 
+> I started noticing a lot of warnings like this:
+> 
+> WARNING: QA Issue: Bit size did not match (32 to 0) on /work/armv7a-angstrom-linux-gnueabi/udev-165-r2/packages-split/udev/sbin/udevd
 
-Op 3 mrt 2011, om 16:53 heeft Khem Raj het volgende geschreven:
+If the file is an ELF file, there are specific checks that are performed,
+machine type, os type.. and bit size.  (I suspect the QA message for all of them
+probably need to be improved.)
 
-> On Thu, Mar 3, 2011 at 7:45 AM, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->> Hi,
->>=20
->> I started noticing a lot of warnings like this:
->>=20
->> WARNING: QA Issue: Bit size did not match (32 to 0) on =
-/work/armv7a-angstrom-linux-gnueabi/udev-165-r2/packages-split/udev/sbin/u=
-devd
->>=20
->> What do they mean and how can I (help to) fix them?
->>=20
->=20
-> Its found due to f17c84c9b1cba52f860752058821b31930674e1a
-> probably can you post the binary so I can take a look
+What I find interesting is it came back as "0".  0 indicates that the elf
+comparison loader was never run.. 0 is "unknown".  (32 and 64 are obvious values...)
 
-WARNING: QA Issue: Bit size did not match (32 to 0) on =
-/work/armv7a-angstrom-linux-gnueabi/udev-165-r2/packages-split/udev/sbin/u=
-devd
+The code that determines the size is in meta/lib/oe/qa.py.  The normal use of
+the code is from the meta/classes/insane.bbclass function.  The fact the
+comparison returned a 0 indicates that the qa.py functions did not run.  This
+could be a bug in meta/lib/oe/qa.py, or it could be that the routine call in
+package_qa_walk (in insane.bbclass) failed for some reason and something went
+wrong with the exception handler?
 
-can be found at:
+> What do they mean and how can I (help to) fix them?
 
-http://dominion.thruhere.net/koen/angstrom/stuff/udevd
+First thing to do is check the binary that is being referenced and verify that
+it is infact a valid ARM EABI binary.  Assuming it is file, we need to track
+down the code likely starting in qa.py and figure out why it didn't determine
+the bit size.
 
-regards,
+--Mark
 
-koen=
+> regards,
+> 
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
