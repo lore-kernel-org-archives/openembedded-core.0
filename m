@@ -1,34 +1,33 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Pv9oe-0002h8-A9
+	(envelope-from <Tom_Rini@mentor.com>) id 1Pv9sD-0002lU-G1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 15:47:44 +0100
-Received: by fxm8 with SMTP id 8so1159308fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Mar 2011 06:46:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=e8mS1dNTAMkeUsTpk/oI/Aa2zabC3U+GaKvs3qZgGYs=;
-	b=tcTKVNbJhplhri22pbIDvkq0+HdR/pl1SHKqsVLTzuIqnqXQm99LaFnmo+dzo8ZDNy
-	/rXrX9bA/J4VINcajxOnrTQMRGOcu78u2NNOOM/9H66H+CRkJD/MVfAh/qXkN8Anc+i4
-	Xdp8+wi9muqomOjrOZhHYiHAhH83MZi4kNvhg=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=k4g1blK+aZWRfn+PUqIZ+KNR5M2UBHliv+FPetrJJO1jOLeV6lVeTOFeTFyrm1/sl1
-	8ftV1fy6FZAqU7GUMu+dNWG5TwQ1n21nQCB2/Jgwxph1xIDC0rGojfqVJ2yeRi8d6ozP
-	FAPE5+92vCXv5B5jI/3XNVur0PWleyEHXN4Ko=
-Received: by 10.223.29.217 with SMTP id r25mr1568474fac.87.1299163572901;
-	Thu, 03 Mar 2011 06:46:12 -0800 (PST)
-Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
-	by mx.google.com with ESMTPS id b7sm605081faa.42.2011.03.03.06.46.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 Mar 2011 06:46:11 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Mar 2011 15:46:09 +0100
-Message-Id: <1299163569-22016-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH] debian.bbclass: call auto_libname in reverse sorted AUTO_LIBNAME_PKGS
+	Thu, 03 Mar 2011 15:51:26 +0100
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Pv9qo-00031s-KW from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 03 Mar 2011 06:49:58 -0800
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 3 Mar 2011 06:49:58 -0800
+Received: from [172.30.80.189] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
+	Thu, 3 Mar 2011 06:49:57 -0800
+Message-ID: <4D6FAA81.1020306@mentor.com>
+Date: Thu, 3 Mar 2011 07:49:37 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.13) Gecko/20101208 Lightning/1.0b2 Thunderbird/3.1.7
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <4D6E7EB1.5080602@windriver.com>	<1299088802.26736.10715.camel@rex>	<BED5DD21-1E73-4DB2-9E29-17E70DF7344C@dominion.thruhere.net>	<1299093521.26736.10877.camel@rex>	<4D6EE7A6.20603@mentor.com>	<A0E1CD11-8650-4AAD-BE14-278241E67042@dominion.thruhere.net>	<1299154222.26736.12921.camel@rex>
+	<4D6FA92C.5010507@windriver.com>
+In-Reply-To: <4D6FA92C.5010507@windriver.com>
+X-OriginalArrivalTime: 03 Mar 2011 14:49:58.0488 (UTC)
+	FILETIME=[44622580:01CBD9B2]
+Subject: Re: oe-core cleanup...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,38 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 14:47:44 -0000
+X-List-Received-Date: Thu, 03 Mar 2011 14:51:26 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* see comment for reason why we need this
-* more info:
-  http://lists.linuxtogo.org/pipermail/openembedded-devel/2011-February/029877.html
+On 03/03/2011 07:43 AM, Mark Hatle wrote:
+> On 3/3/11 6:10 AM, Richard Purdie wrote:
+>> I'd really at least like the TSC members to comment on those different
+>> pieces. I've already seen Chris comment that "poky-init-build-env"
+>> shouldn't be in the core for example. What about the rest of the scripts
+>> directory?
+>
+> I think they should be in oe-core, and specifically labeled as self-contained
+> examples for oe-core itself.
+>
+> There must be a simple way for people to setup the environment and run a build
+> so they can test the oe-core itself.  But there should be nothing in the system
+> that requires all of the components to exist, if there is, it should be clearly
+> documented that it's not an example component.  (Even putting the word "example"
+> in the name would be fine with me.  i.e. replacing "poky" with "example".)
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/debian.bbclass |    8 +++++++-
- 1 files changed, 7 insertions(+), 1 deletions(-)
+I agree.  I'd like to see us provide example scripts for running qemu, 
+setting up the build env and so forth.  And I expect that distros will 
+still provide their own version as they see fit.
 
-diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
-index d35882f..46a9d08 100644
---- a/meta/classes/debian.bbclass
-+++ b/meta/classes/debian.bbclass
-@@ -107,7 +107,13 @@ python debian_package_name_hook () {
- 					if newpkg != pkg:
- 						bb.data.setVar('PKG_' + pkg, newpkg, d)
- 
--	for pkg in (bb.data.getVar('AUTO_LIBNAME_PKGS', d, 1) or "").split():
-+	# reversed sort is needed when some package is substring of another
-+	# ie in ncurses we get without reverse sort: 
-+	# DEBUG: LIBNAMES: pkgname libtic5 devname libtic pkg ncurses-libtic orig_pkg ncurses-libtic debian_pn None newpkg libtic5
-+	# and later
-+	# DEBUG: LIBNAMES: pkgname libtic5 devname libtic pkg ncurses-libticw orig_pkg ncurses-libtic debian_pn None newpkg libticw
-+	# so we need to handle ncurses-libticw->libticw5 before ncurses-libtic->libtic5
-+	for pkg in sorted((bb.data.getVar('AUTO_LIBNAME_PKGS', d, 1) or "").split(), reverse=True):
- 		auto_libname(packages, pkg)
- }
- 
 -- 
-1.7.4.1
-
+Tom Rini
+Mentor Graphics Corporation
 
 
