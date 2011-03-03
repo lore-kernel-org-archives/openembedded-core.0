@@ -1,22 +1,22 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1PvHMA-0005dM-CF
+	(envelope-from <sgw@linux.intel.com>) id 1PvHMB-0005dM-71
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 Mar 2011 23:50:50 +0100
+	Thu, 03 Mar 2011 23:50:51 +0100
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Mar 2011 14:49:20 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 03 Mar 2011 14:49:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,260,1297065600"; d="scan'208";a="893570450"
+X-IronPort-AV: E=Sophos;i="4.62,260,1297065600"; d="scan'208";a="893570464"
 Received: from unknown (HELO localhost) ([10.255.12.102])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2011 14:49:19 -0800
-Message-Id: <11232999d1a6f775f7c12961847b6fd6ff6ac832.1299192495.git.sgw@linux.intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2011 14:49:22 -0800
+Message-Id: <268f0194ccedd8bee7092d1e0c7382cd2bc3191c.1299192495.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1299192495.git.sgw@linux.intel.com>
 References: <cover.1299192495.git.sgw@linux.intel.com>
-Old-Date: Thu, 3 Mar 2011 19:54:09 +0800
-Date: Thu, 03 Mar 2011 14:49:19 -0800
+Old-Date: Thu, 3 Mar 2011 12:34:36 +0800
+Date: Thu, 03 Mar 2011 14:49:22 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 04/10] gstreamer: install the sound card driver of es1370
+Subject: [PATCH 09/10] recipe: add slang from OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,35 +31,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 22:50:50 -0000
+X-List-Received-Date: Thu, 03 Mar 2011 22:50:51 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+From: Kang Kai <kai.kang@windriver.com>
 
-When append "audio" to poky-qemu, emulated sound card like es1370 is
-exported to guest. This patch install the kernel driver in the
-poky-image-qemux86/x86_64 to use them.
+slang is the shared library for the S-Lang extension language,
+and required by newt because of LSB command check
 
-[BUGID #751]
+ * this recipe is from OE Commit 92c386850d735ab032a59df62d5a5f132ac58ffb
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- .../gstreamer/gstreamer_0.10.31.bb                 |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ meta/recipes-extended/slang/slang/fix-uclibc.patch |   11 ++++++++
+ meta/recipes-extended/slang/slang_2.2.2.bb         |   25 ++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-extended/slang/slang/fix-uclibc.patch
+ create mode 100644 meta/recipes-extended/slang/slang_2.2.2.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.31.bb
-index f489e83..96c45eb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.31.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.31.bb
-@@ -27,6 +27,9 @@ EXTRA_OECONF = "--disable-docs-build --disable-dependency-tracking --with-check=
- #	mv ${WORKDIR}/gstregistrybinary.[ch] ${S}/gst/
- #}
- 
-+RRECOMMENDS_${PN}_qemux86    += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
-+RRECOMMENDS_${PN}_qemux86-64 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
+diff --git a/meta/recipes-extended/slang/slang/fix-uclibc.patch b/meta/recipes-extended/slang/slang/fix-uclibc.patch
+new file mode 100644
+index 0000000..c2b8225
+--- /dev/null
++++ b/meta/recipes-extended/slang/slang/fix-uclibc.patch
+@@ -0,0 +1,11 @@
++--- slang-2.1.3.orig/src/slcommon.c	2007-01-10 18:09:07.000000000 +0200
+++++ slang-2.1.3.orig/src/slcommon.c	2008-03-19 16:09:09.000000000 +0200
++@@ -191,7 +191,7 @@ 
++    return p;
++ }
++ 
++-#if !defined(HAVE_ISSETUGID) && defined(__GLIBC__) && (__GLIBC__ >= 2)
+++#if !defined(HAVE_ISSETUGID) && defined(__GLIBC__) && (__GLIBC__ >= 2) && !defined(__UCLIBC__)
++ extern int __libc_enable_secure;
++ # define HAVE___LIBC_ENABLE_SECURE 1
++ #endif
+diff --git a/meta/recipes-extended/slang/slang_2.2.2.bb b/meta/recipes-extended/slang/slang_2.2.2.bb
+new file mode 100644
+index 0000000..7fe76af
+--- /dev/null
++++ b/meta/recipes-extended/slang/slang_2.2.2.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "The shared library for the S-Lang extension language"
 +
- FILES_${PN} += " ${libdir}/gstreamer-0.10/*.so"
- FILES_${PN}-dev += " ${libdir}/gstreamer-0.10/*.la ${libdir}/gstreamer-0.10/*.a"
- FILES_${PN}-dbg += " ${libdir}/gstreamer-0.10/.debug/"
++DESCRIPTION = "S-Lang is an interpreted language and a programming library.  The \
++S-Lang language was designed so that it can be easily embedded into \
++a program to provide the program with a powerful extension language. \
++The S-Lang library, provided in this package, provides the S-Lang \
++extension language.  S-Lang's syntax resembles C, which makes it easy \
++to recode S-Lang procedures in C if you need to."
++
++SECTION = "libs"
++PRIORITY = "optional"
++DEPENDS = "pcre"
++PR = "r0"
++
++LICENSE = "GPL Artistic"
++LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
++
++
++SRC_URI = "ftp://space.mit.edu/pub/davis/slang/v2.2/OLD/slang-${PV}.tar.bz2 \
++           file://fix-uclibc.patch"
++
++inherit autotools
++
++SRC_URI[md5sum] = "974437602a781cfe92ab61433dd16d03"
++SRC_URI[sha256sum] = "cfaf8551fa3855f9b0043309bb553ef6d457f931b404df5a6ba6a5a69371fc42"
 -- 
 1.7.1.1
 
