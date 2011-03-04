@@ -1,34 +1,30 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1PvdJP-0002uD-BN
+	(envelope-from <koen@dominion.thruhere.net>) id 1PvdW3-00031k-9h
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Mar 2011 23:17:27 +0100
-Received: by bwz10 with SMTP id 10so2334349bwz.6
+	Fri, 04 Mar 2011 23:30:31 +0100
+Received: by wyb38 with SMTP id 38so2507043wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Mar 2011 14:15:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=JcW9SH3tG6ev8n+Xb5AIlyL/4NoHK2HKcOSp5VWRSXQ=;
-	b=Ve8G/pzokXBmLAUs+KE8NI/rAM2gIj3HPY15FX1hj5JHdnREM7W0DcDE2iQPeflvhU
-	/hhk3E+1Q/1oko6P3Uhtf8uoajMk2thu5SYQqnYZOQfYE+dGgt/ge9PxHrpwUoa6HNtL
-	XUC8VNPwZfzHx3eRKzZRH7JV877F6cAMPHlQg=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=ho29/5/J2kr31l/kBVt/8R76iHpoKiQgpFl3EvPYGcmsZK3WZiaOvKAtmCfkH0q3NL
-	aPNumbdPN4zXRPJZh+Q5wUG2FCtmppoJmMfUExGpMIHkUDAuD0nDFU6d4MEtY9JQ0+42
-	jowTEjwblIFTUd4Bo4kbMa0KYXLOge+XdMvUs=
-Received: by 10.204.81.27 with SMTP id v27mr1005087bkk.115.1299276957183;
-	Fri, 04 Mar 2011 14:15:57 -0800 (PST)
-Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
-	by mx.google.com with ESMTPS id 12sm1885406bki.19.2011.03.04.14.15.55
+	Fri, 04 Mar 2011 14:29:01 -0800 (PST)
+Received: by 10.216.17.202 with SMTP id j52mr1032969wej.36.1299277741001;
+	Fri, 04 Mar 2011 14:29:01 -0800 (PST)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id r6sm1432868weq.44.2011.03.04.14.29.00
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 04 Mar 2011 14:15:56 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Mar 2011 23:15:52 +0100
-Message-Id: <1299276952-24941-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH] distutils-base: Only RDEPEND python-core on target packages
+	Fri, 04 Mar 2011 14:29:00 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4D715D30.3030608@linux.intel.com>
+Date: Fri, 4 Mar 2011 23:28:59 +0100
+Message-Id: <EEFD338A-726B-4502-B995-442E9AB37B9D@dominion.thruhere.net>
+References: <cover.1299267630.git.sgw@linux.intel.com>	<e807fc977770cb64a217768672c18437ea8f3057.1299267630.git.sgw@linux.intel.com>
+	<A53A0FEC-74B3-483C-916C-EB87748A1AC8@dominion.thruhere.net>
+	<4D715D30.3030608@linux.intel.com>
+To: Darren Hart <dvhart@linux.intel.com>
+X-Mailer: Apple Mail (2.1082)
+Cc: openembedded-core@lists.openembedded.org, poky@yoctoproject.org
+Subject: Re: [poky] [PATCH 04/13] module: build hostprogs for each module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,29 +39,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2011 22:17:27 -0000
+X-List-Received-Date: Fri, 04 Mar 2011 22:30:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-* fixes ie setuptools, without this patch it RDEPENDs on python-core-native, which is not RPROVIDED by anything
-* imported from OE 8377b8ec57f35b9e5b81a74c77f68fd6e02949c8
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/distutils-base.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Op 4 mrt 2011, om 22:44 heeft Darren Hart het volgende geschreven:
 
-diff --git a/meta/classes/distutils-base.bbclass b/meta/classes/distutils-base.bbclass
-index 2e151de..e84b0fc 100644
---- a/meta/classes/distutils-base.bbclass
-+++ b/meta/classes/distutils-base.bbclass
-@@ -1,5 +1,5 @@
- DEPENDS  += "${@["python-native python", ""][(bb.data.getVar('PACKAGES', d, 1) == '')]}"
--RDEPENDS += "python-core"
-+RDEPENDS_${PN} += "${@['', 'python-core']['${PN}' == '${BPN}']}"
- 
- inherit distutils-common-base
- 
--- 
-1.7.4.1
+> On 03/04/2011 12:04 PM, Koen Kooi wrote:
+>>=20
+>> Op 4 mrt 2011, om 20:42 heeft Saul Wold het volgende geschreven:
+>>=20
+>>> From: Darren Hart<dvhart@linux.intel.com>
+>>>=20
+>>> This fixes [BUGID #241]
+>>>=20
+>>> The kernel hostprogs are built for the host architecture. They =
+should not be
+>>> deployed to the target, and they should not be included in an sstate =
+package
+>>> which might get reused on a host of a different architecture.
+>>>=20
+>>> As we don't build many out-of-tree modules, this patch takes the =
+approach of
+>>> building the hostprogs as part of the module compile process with a
+>>> do_compile_prepend() routine in module.bbclass.
+>>>=20
+>>> We don't have to clean the hostprogs as modules depend on the kernel =
+being
+>>> populate_staging, so its done with the staging directory by the time =
+we run.
+>>>=20
+>>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
+>>> CC: Gary Thomas<gary@mlbassoc.com>
+>>> ---
+>>> meta/classes/module.bbclass |   12 +++++++++++-
+>>> 1 files changed, 11 insertions(+), 1 deletions(-)
+>>>=20
+>>> diff --git a/meta/classes/module.bbclass =
+b/meta/classes/module.bbclass
+>>> index d16d462..bbceaf7 100644
+>>> --- a/meta/classes/module.bbclass
+>>> +++ b/meta/classes/module.bbclass
+>>> @@ -3,6 +3,13 @@ DEPENDS +=3D "virtual/kernel"
+>>>=20
+>>> inherit module-base
+>>>=20
+>>> +# Ensure the hostprogs are available for module compilation
+>>> +module_do_compile_prepend() {
+>>> +	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>>> +	oe_runmake CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" =
+AR=3D"${KERNEL_AR}" \
+>>> +	           -C ${STAGING_KERNEL_DIR} scripts
+>>> +}
+>>> +
+>>> module_do_compile() {
+>>> 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>>> 	oe_runmake KERNEL_PATH=3D${STAGING_KERNEL_DIR}   \
+>>> @@ -15,7 +22,10 @@ module_do_compile() {
+>>=20
+>> Why not put it in do_compile itself?
+>=20
+> My rationale was that a module recipe may override do_compile for one =
+reason or another, but they will still need the hostprogs which we =
+stripped in kernel.bbclass. This way, even if they override do_compile, =
+the _prepend will still get run and prepare the hostprogs.
 
+Are you sure that actually works? AIUI bitbake will fold the compile and =
+prepend into one when you try to override it.
+
+regards,
+
+Koen=
 
 
