@@ -1,33 +1,22 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Pvakn-0000JF-CJ
+	(envelope-from <sgw@linux.intel.com>) id 1Pvauh-0005pP-7I
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Mar 2011 20:33:33 +0100
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1PvajN-0001av-2f from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Mar 2011 11:32:05 -0800
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Fri, 4 Mar 2011 11:32:04 -0800
-Received: from [172.30.80.235] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
-	Fri, 4 Mar 2011 11:32:04 -0800
-Message-ID: <4D713E31.30501@mentor.com>
-Date: Fri, 4 Mar 2011 12:32:01 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <BFB7E27E-AFA1-4F08-8D64-3B55C21D180C@dominion.thruhere.net>	<4D71175D.4050307@gmail.com>	<4D71192E.3050706@windriver.com>	<B4A135D2-3DE3-4432-9C06-ADAE52BE1209@dominion.thruhere.net>	<4D713485.90507@mentor.com>
-	<4D713714.8030706@windriver.com>
-In-Reply-To: <4D713714.8030706@windriver.com>
-X-OriginalArrivalTime: 04 Mar 2011 19:32:04.0884 (UTC)
-	FILETIME=[D7B6F540:01CBDAA2]
-Subject: Re: Gst-plugin dependencies
+	Fri, 04 Mar 2011 20:43:55 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Mar 2011 11:42:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.62,265,1297065600"; d="scan'208";a="893924662"
+Received: from unknown (HELO localhost) ([10.255.12.102])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2011 11:42:16 -0800
+Message-Id: <da4b22c8bdf00813164d8830e52e1d6ad35cdd94.1299267630.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1299267630.git.sgw@linux.intel.com>
+References: <cover.1299267630.git.sgw@linux.intel.com>
+Old-Date: Fri, 4 Mar 2011 21:11:37 +0800
+Date: Fri, 04 Mar 2011 11:42:16 -0800
+To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
+From: Saul Wold <sgw@linux.intel.com>
+Subject: [PATCH 08/13] x11vnc: fix the endian issue in mips for bug 782
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,67 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2011 19:33:33 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Mar 2011 19:43:55 -0000
 
-On 03/04/2011 12:01 PM, Mark Hatle wrote:
-> On 3/4/11 12:50 PM, Tom Rini wrote:
->> On 03/04/2011 10:12 AM, Koen Kooi wrote:
->>>
->>> Op 4 mrt 2011, om 17:54 heeft Mark Hatle het volgende geschreven:
->>>
->>>> On 3/4/11 10:46 AM, Khem Raj wrote:
->>>>> On 3/4/2011 7:58 AM, Koen Kooi wrote:
->>>>>> Hi,
->>>>>>
->>>>>> The current gst-plguin-<foo>    in oe-core is a bit anemic and the ones in OE are really full featured. How do we want to handle this going forward? I'm a big fan of shifting the pain to buildtime so people can install any plugin they want at runtime instead of needing to rebuild it.
->>>>>> At TI we have cut-down versions of the recipes to save buildtime[1], but it's a pain to maintain those and keep them up to date. It would be nice to come with a way to say you want full featured gstreamer or not. With my angstrom hat on, I would like the full feature set :)
->>>>>>
->>>>>
->>>>> May be controlling it with distro features
->>>>
->>>> Due to the licensing issues in the gst-plugins..  I'd be inclined to say they're
->>>> out of the core myself.  Move it to the distro specific layers.
->>>
->>> Even outside of licensing issues with things like MP3, I would like to have some kind of framework in OE (-core) for gst-plugins that layers can extend to their liking. Having dealt with the recipes over the years, too many things change between versions. It takes someone familiar with gst to maintain those recipes, and there aren't a lot of such people in OE :(
->>
->> I agree with Koen, gstreamer is pretty core to doing a lot of stuff in
->> real world applications.  We just need a way to handle in a good way the
->> use flag type requirements this brings up.
->>
->> Is the TSC ready to talk about USE flags again yet?  I think that could
->> help with the Angstrom hat vs TI hat problem Koen describes too, at
->> least in good part.
->>
->
-> In some ways I think it's a bit more fundamental then that.
->
-> I think we need to have a discussion on what's a "distribution" feature, what's
-> a "FEATURE" and whats a "USE_FLAG" or other things.. and define some of these terms.
->
-> I know I get confused as to the purpose of these various names and what they are
-> used for already -- (I'm not even sure everyone is talking about the same thing
-> when they say these things)
->
-> Let me suggest some:
->
-> A "distribution" feature is one that affects an entire distribution and how it's
-> assembled.  Something like "LSB", "PAM", or "SeLinux" support is a distribution
-> feature to me.
->
-> A "feature" is something specific to a package or subsystem within a
-> distribution.  It will enable or disable an optional component that is local to
-> that area.  (This allows most of the components, not affected by the feature, to
-> be reused.)
+From: Yu Ke <ke.yu@intel.com>
 
-Yes, talking about this will also need to agree on terminology for what 
-should be a distribution feature, a machine feature, a "feature feature" 
-and when they intersect, and what's still outside of that.  But I do 
-agree with what you've said so far.
+x11vnc use LIBVNCSERVER_WORDS_BIGENDIAN to handle the endian, however
+it is not set correctly when cross-compile for mips, thus x11vnc mips
+does not work correctly.
 
+meanwhile, x11vnc has the autconf macro AC_C_BIGENDIAN which can
+handle the endian correctly. so this patch replace the
+LIBVNCSERVER_WORDS_BIGENDIAN with WORDS_BIGENDIAN (generated by
+AC_C_BIGENDIAN) to fix this issue.
+
+this patch fix the bug [YOCTO #782]
+
+this appraoch is suggested by Khem Raj
+
+CC: Khem Raj <raj.khem@gmail.com>
+
+Signed-off-by: Yu Ke <ke.yu@intel.com>
+---
+ .../recipes-graphics/x11vnc/files/endian-fix.patch |   22 ++++++++++++++++++++
+ meta/recipes-graphics/x11vnc/x11vnc_0.9.12.bb      |    5 +++-
+ 2 files changed, 26 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-graphics/x11vnc/files/endian-fix.patch
+
+diff --git a/meta/recipes-graphics/x11vnc/files/endian-fix.patch b/meta/recipes-graphics/x11vnc/files/endian-fix.patch
+new file mode 100644
+index 0000000..0b5e470
+--- /dev/null
++++ b/meta/recipes-graphics/x11vnc/files/endian-fix.patch
+@@ -0,0 +1,22 @@
++libvncserver: replace LIBVNCSERVER_WORDS_BIGENDIAN with WORDS_BIGENDIAN
++
++since macro AC_C_BIGENDIAN is used in autoconf and WORDS_BIGENDIAN is
++automatically set for different arch, it is better to use WORDS_BIGENDIAN
++instead of LIBVNCSERVER_WORDS_BIGENDIAN, which cuase issue in mips.
++
++Signed-off-by: Yu Ke <ke.yu@intel.com>
++
++diff --git a/libvncserver/main.c b/libvncserver/main.c
++index b6bd930..8bbb7bf 100644
++--- a/libvncserver/main.c
+++++ b/libvncserver/main.c
++@@ -47,7 +47,7 @@ static MUTEX(extMutex);
++ 
++ static int rfbEnableLogging=1;
++ 
++-#ifdef LIBVNCSERVER_WORDS_BIGENDIAN
+++#ifdef WORDS_BIGENDIAN
++ char rfbEndianTest = (1==0);
++ #else
++ char rfbEndianTest = (1==1);
++
+diff --git a/meta/recipes-graphics/x11vnc/x11vnc_0.9.12.bb b/meta/recipes-graphics/x11vnc/x11vnc_0.9.12.bb
+index f5a6662..f92eb49 100644
+--- a/meta/recipes-graphics/x11vnc/x11vnc_0.9.12.bb
++++ b/meta/recipes-graphics/x11vnc/x11vnc_0.9.12.bb
+@@ -9,8 +9,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=361b6b837cad26c6900a926b62aada5f \
+ 
+ DEPENDS = "openssl virtual/libx11 libxext avahi jpeg zlib"
+ 
++PR = "r1"
++
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libvncserver/x11vnc-${PV}.tar.gz\
+-           file://starting-fix.patch"
++           file://starting-fix.patch \
++           file://endian-fix.patch "
+ 
+ SRC_URI[md5sum] = "1498a68d02aa7b6c97bf746c073c8d00"
+ SRC_URI[sha256sum] = "60a7cceee2c9a5f1c854340b2bae13f975ac55906237042f81f795b28a154a79"
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.1.1
+
 
 
