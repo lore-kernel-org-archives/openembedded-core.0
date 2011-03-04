@@ -1,32 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1PvIN4-0001iZ-VV for openembedded-core@lists.openembedded.org;
-	Fri, 04 Mar 2011 00:55:51 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p23NOeAI023398;
-	Thu, 3 Mar 2011 23:24:40 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 23025-07; Thu,  3 Mar 2011 23:24:36 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p23NOYMg023392
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 3 Mar 2011 23:24:35 GMT
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <732c81e35c4936d54c7fb495420cbb5c67c474ba.1299192495.git.sgw@linux.intel.com>
-References: <cover.1299192495.git.sgw@linux.intel.com>
-	<732c81e35c4936d54c7fb495420cbb5c67c474ba.1299192495.git.sgw@linux.intel.com>
-Date: Thu, 03 Mar 2011 23:24:28 +0000
-Message-ID: <1299194668.17567.181.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: poky@yoctoproject.org, Zhai Edwin <edwin.zhai@intel.com>
-Subject: Re: [PATCH 03/10] sato-icon-theme: Explictly use "Sato" as gtk icon theme
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1PvNhG-0006C4-J4
+	for openembedded-core@lists.openembedded.org;
+	Fri, 04 Mar 2011 06:37:02 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 03 Mar 2011 21:34:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.62,262,1297065600"; d="scan'208";a="716035368"
+Received: from unknown (HELO localhost) ([10.255.12.133])
+	by orsmga001.jf.intel.com with ESMTP; 03 Mar 2011 21:34:28 -0800
+Message-Id: <6f048077181c39d34af60cce25a89c7e8adf5a34.1299216097.git.dvhart@linux.intel.com>
+In-Reply-To: <cover.1299216097.git.dvhart@linux.intel.com>
+References: <cover.1299216097.git.dvhart@linux.intel.com>
+Old-Date: Tue, 1 Mar 2011 14:17:55 -0800
+Date: Thu, 03 Mar 2011 21:34:28 -0800
+To: openembedded-core@lists.openembedded.org
+From: Darren Hart <dvhart@linux.intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 1/2] module: build hostprogs for each module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,53 +32,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Mar 2011 23:55:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Mar 2011 05:37:02 -0000
 
-On Thu, 2011-03-03 at 14:49 -0800, Saul Wold wrote:
-> From: Zhai Edwin <edwin.zhai@intel.com>
-> 
-> There is a tricky race condition that "Sato" icons got missing on
-> matchbox-desktop as low priority "hicolor" theme was chosen. Explictly
-> settting "Sato" in gtk config file to avoid this.
-> 
-> [BUGID #456] got fixed.
-> 
-> Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-> ---
->  .../sato-icon-theme/sato-icon-theme.inc            |    3 +++
->  1 files changed, 3 insertions(+), 0 deletions(-)
-> 
-> diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-> index a1669c6..0eff9dd 100644
-> --- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-> +++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
-> @@ -16,9 +16,12 @@ PACKAGE_ARCH = "all"
->  
->  EXTRA_OECONF += "--with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
->  
-> +#explictly setting "Sato" as default icon theme to avoid icon missing due to
-> +#tricky race condition
->  pkg_postinst_${PN} () {
->          if [ "x$D" != "x" ]; then
->                  exit 1
->          fi
->          gtk-update-icon-cache -q /usr/share/icons/Sato
-> +        echo 'gtk-icon-theme-name = "Sato"' >> /etc/gtk-2.0/gtkrc
->  }
+From: Darren Hart <dvhart@linux.intel.com>
 
-I've deliberately merged the previous version of this patch as this one
-wipes out any contents of the file! I can live with duplicate lines for
-now.
+This fixes [BUGID #241]
 
-I'd like the bug to remain open on this one as this is a workaround, not
-a proper fix for the problem. It can change priority/target milestone
-though.
+The kernel hostprogs are built for the host architecture. They should not be
+deployed to the target, and they should not be included in an sstate package
+which might get reused on a host of a different architecture.
 
-Cheers,
+As we don't build many out-of-tree modules, this patch takes the approach of
+building the hostprogs as part of the module compile process with a
+do_compile_prepend() routine in module.bbclass.
 
-Richard
+We don't have to clean the hostprogs as modules depend on the kernel being
+populate_staging, so its done with the staging directory by the time we run.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+CC: Gary Thomas <gary@mlbassoc.com>
+---
+ meta/classes/module.bbclass |   12 +++++++++++-
+ 1 files changed, 11 insertions(+), 1 deletions(-)
+
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index d16d462..bbceaf7 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -3,6 +3,13 @@ DEPENDS += "virtual/kernel"
+ 
+ inherit module-base
+ 
++# Ensure the hostprogs are available for module compilation
++module_do_compile_prepend() {
++	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
++	oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
++	           -C ${STAGING_KERNEL_DIR} scripts
++}
++
+ module_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+ 	oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
+@@ -15,7 +22,10 @@ module_do_compile() {
+ 
+ module_do_install() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+-	oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" CC="${KERNEL_CC}" LD="${KERNEL_LD}" modules_install
++	oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" \
++	           KERNEL_SRC=${STAGING_KERNEL_DIR} \
++	           CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
++	           modules_install
+ }
+ 
+ pkg_postinst_append () {
+-- 
+1.7.1
 
 
 
