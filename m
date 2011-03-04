@@ -1,22 +1,20 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Pvav6-0006F3-Rg
+	(envelope-from <sgw@linux.intel.com>) id 1Pvav7-0006F3-P2
 	for openembedded-core@lists.openembedded.org;
 	Fri, 04 Mar 2011 20:44:13 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 04 Mar 2011 11:42:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,265,1297065600"; d="scan'208";a="609190622"
+X-IronPort-AV: E=Sophos;i="4.62,265,1297065600"; d="scan'208";a="609190614"
 Received: from unknown (HELO localhost) ([10.255.12.102])
-	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2011 11:42:11 -0800
-Message-Id: <30343a72b89167b46ff4cc33be6ada2fd4b13a59.1299267630.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1299267630.git.sgw@linux.intel.com>
-References: <cover.1299267630.git.sgw@linux.intel.com>
-Old-Date: Fri, 4 Mar 2011 17:17:05 +0800
-Date: Fri, 04 Mar 2011 11:42:11 -0800
+	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2011 11:42:09 -0800
+Message-Id: <cover.1299267630.git.sgw@linux.intel.com>
+Old-Date: Fri, 4 Mar 2011 11:40:30 -0800
+Date: Fri, 04 Mar 2011 11:42:09 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 02/13] distrodata.bbclass: Get git repo tag information
+Subject: [PATCH 00/13] Consolidated Pull Request from Yocto Team
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,111 +29,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2011 19:44:13 -0000
+X-List-Received-Date: Fri, 04 Mar 2011 19:44:14 -0000
 
-From: Mei Lei <lei.mei@intel.com>
+From: Saul Wold <sgw@linux.intel.com>
 
-For those recipes which use git repo and have tag information, we can use tag to trace the version change. For other no tag recipes, we still use their
-commit checksum to trace their version change.
+This is a batch of fixes for bernard with Documentation
+updates and distro tracking/data updates. This also address
+some LSB related issues.
 
-Signed-off-by: Mei Lei <lei.mei@intel.com>
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: distro/oe-core
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=distro/oe-core
+
+Thanks,
+    Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/distrodata.bbclass |   52 ++++++++++++++++++++++++++++++++------
- 1 files changed, 43 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index d84b306..e2cc8fa 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -347,7 +347,6 @@ python do_checkpkg() {
- 		f = tempfile.NamedTemporaryFile(delete=False, prefix="%s-1-" % pn)
- 		status = internal_fetch_wget(url, d, f)
- 		fhtml = f.read()
--
- 		if status == "SUCC" and len(fhtml):
- 			newver = parse_inter(curver)
- 
-@@ -436,6 +435,10 @@ python do_checkpkg() {
- 			else:
- 				"""newver still contains a full package name string"""
- 				status = re.search("(\d+[\.\-_])*(\d+[0-9a-zA-Z]*)", newver[1]).group()
-+				if "_" in status:
-+					status = re.sub("_",".",status)
-+				elif "-" in status:
-+					status = re.sub("-",".",status)
- 		elif not len(fhtml):
- 			status = "ErrHostNoDir"
- 
-@@ -531,6 +534,12 @@ python do_checkpkg() {
- 	
- 			alturi = bb.encodeurl([type, host, altpath, user, pswd, {}])
- 			newver = check_new_version(alturi, curname, d)
-+			while(newver == "ErrHostNoDir"):
-+				if alturi == "/download":
-+					break
-+				else:
-+					alturi = "/".join(alturi.split("/")[0:-2]) + "/download"
-+					newver = check_new_version(alturi, curname, d)
- 			if not re.match("Err", newver):
- 				pupver = newver
- 				if pupver != pcurver:
-@@ -550,13 +559,38 @@ python do_checkpkg() {
- 			gitproto = parm['protocol']
- 		else:
- 			gitproto = "rsync"
--
--		gitcmd = "git ls-remote %s://%s%s%s HEAD 2>&1" % (gitproto, gituser, host, path)
--		print gitcmd
--		ver = os.popen(gitcmd).read()
--		if ver and re.search("HEAD", ver):
--			pupver = ver.split("\t")[0]
--			if pcurver == pupver:
-+		gitcmd = "git ls-remote %s://%s%s%s *tag* 2>&1" % (gitproto, gituser, host, path)
-+		gitcmd2 = "git ls-remote %s://%s%s%s HEAD 2>&1" % (gitproto, gituser, host, path)
-+		tmp = os.popen(gitcmd).read()
-+		tmp2 = os.popen(gitcmd2).read()
-+		#This is for those repo have tag like: refs/tags/1.2.2
-+		if tmp:
-+			tmpline = tmp.split("\n")
-+			verflag = 0
-+			for line in tmpline:
-+				if len(line)==0:
-+					break;
-+				puptag = line.split("/")[-1]
-+				puptag = re.search("[0-9][0-9|\.|_]+[0-9]", puptag)
-+				if puptag == None:
-+					continue;
-+				puptag = puptag.group()
-+				puptag = re.sub("_",".",puptag)
-+				plocaltag = pversion.split("+")[0]
-+				if "git" in plocaltag:
-+					plocaltag = plocaltag.split("-")[0]
-+				result = bb.utils.vercmp(("0", puptag, ""), ("0", plocaltag, ""))
-+				if result > 0:
-+					verflag = 1
-+					pstatus = "UPADTE"
-+					pupver = puptag
-+				elif verflag == 0 :
-+					pupver = plocaltag
-+					pstatus = "MATCH"
-+		#This is for those no tag repo
-+		elif tmp2:
-+			pupver = tmp2.split("\t")[0]
-+			if pupver in pversion:
- 				pstatus = "MATCH"
- 			else:
- 				pstatus = "UPDATE"
-@@ -580,7 +614,7 @@ python do_checkpkg() {
- 		for line in svninfo.split("\n"):
- 			if re.search("^Last Changed Rev:", line):
- 				pupver = line.split(" ")[-1]
--				if pcurver == pupver:
-+				if pupver in pversion:
- 					pstatus = "MATCH"
- 				else:
- 					pstatus = "UPDATE"
--- 
-1.7.1.1
+
+Darren Hart (2):
+  module: build hostprogs for each module
+  hello-mod: add a module for testing module.bbclass
+
+Jingdong Lu (1):
+  task-poky-lsb: add python-misc
+
+Lianhao Lu (1):
+  toolchain-script.bbclass: Added --sysroot to LDFLAGS.
+
+Mei Lei (1):
+  distrodata.bbclass: Get git repo tag information
+
+Saul Wold (1):
+  distro tracking: Updates to Tracking infor for clutter and other
+    changes
+
+Scott Rifenbark (2):
+  documentation/kernel-manual/figures/kernel-title.png: Updated title
+    graphic
+  documentation/kernel-manual:  Kernel manual Style changes
+
+Xiaofeng Yan (3):
+  LSB_Setup.sh:Install LSB Test Suite and set lsb test environment
+  creat-lsb-image: Add some functions for creating a appropriate image
+    to make lsb test
+  task-poky-lsb: Add packges needed by LSB Test Suite
+
+Yu Ke (1):
+  x11vnc: fix the endian issue in mips for bug 782
+
+Zhai Edwin (1):
+  qemu-script: Remove mmap_min_addr check
+
+ .../kernel-manual/figures/kernel-title.png         |  Bin 14549 -> 14305 bytes
+ documentation/kernel-manual/style.css              |   30 +-
+ .../yocto-project-kernel-manual-customization.xsl  |    2 +-
+ meta/classes/distrodata.bbclass                    |   52 +++-
+ meta/classes/module.bbclass                        |   12 +-
+ meta/classes/toolchain-scripts.bbclass             |    2 +
+ .../conf/distro/include/distro_tracking_fields.inc |   32 +-
+ meta/recipes-core/meta/meta-environment.bb         |    2 +-
+ meta/recipes-core/meta/meta-toolchain.bb           |    2 +-
+ meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh    |   20 +-
+ meta/recipes-extended/tasks/task-poky-lsb.bb       |   17 +-
+ .../recipes-graphics/x11vnc/files/endian-fix.patch |   22 ++
+ meta/recipes-graphics/x11vnc/x11vnc_0.9.12.bb      |    5 +-
+ meta/recipes-kernel/hello-mod/files/COPYING        |  340 ++++++++++++++++++++
+ meta/recipes-kernel/hello-mod/files/Makefile       |   14 +
+ meta/recipes-kernel/hello-mod/files/hello.c        |   33 ++
+ meta/recipes-kernel/hello-mod/hello-mod_0.1.bb     |   15 +
+ scripts/creat-lsb-image                            |  148 +++++----
+ scripts/poky-qemu-internal                         |    7 -
+ 19 files changed, 633 insertions(+), 122 deletions(-)
+ mode change 100755 => 100644 documentation/kernel-manual/figures/kernel-title.png
+ create mode 100644 meta/recipes-graphics/x11vnc/files/endian-fix.patch
+ create mode 100644 meta/recipes-kernel/hello-mod/files/COPYING
+ create mode 100644 meta/recipes-kernel/hello-mod/files/Makefile
+ create mode 100644 meta/recipes-kernel/hello-mod/files/hello.c
+ create mode 100644 meta/recipes-kernel/hello-mod/hello-mod_0.1.bb
 
 
 
