@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1PvWwT-0005WE-04 for openembedded-core@lists.openembedded.org;
-	Fri, 04 Mar 2011 16:29:21 +0100
+	id 1PvWxv-0005Yt-Am for openembedded-core@lists.openembedded.org;
+	Fri, 04 Mar 2011 16:30:51 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p24FRq9e000963
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p24FTM2I000972
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Mar 2011 15:27:52 GMT
+	Fri, 4 Mar 2011 15:29:22 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 00806-03 for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Mar 2011 15:27:48 +0000 (GMT)
+	id 00641-06 for <openembedded-core@lists.openembedded.org>;
+	Fri,  4 Mar 2011 15:29:18 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p24FRhmm000957
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p24FTG2O000966
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Mar 2011 15:27:46 GMT
+	Fri, 4 Mar 2011 15:29:17 GMT
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20110304145329.GE3312@jama.jama.net>
+In-Reply-To: <20110304145713.GF3312@jama.jama.net>
 References: <1299235247-5527-1-git-send-email-Martin.Jansa@gmail.com>
-	<1299247286.17567.1349.camel@rex> <20110304145329.GE3312@jama.jama.net>
-Date: Fri, 04 Mar 2011 15:27:34 +0000
-Message-ID: <1299252454.17567.1454.camel@rex>
+	<1299247286.17567.1349.camel@rex> <20110304145713.GF3312@jama.jama.net>
+Date: Fri, 04 Mar 2011 15:29:08 +0000
+Message-ID: <1299252548.17567.1458.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.28.3 
 X-Virus-Scanned: amavisd-new at rpsys.net
@@ -43,11 +43,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2011 15:29:21 -0000
+X-List-Received-Date: Fri, 04 Mar 2011 15:30:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-03-04 at 15:53 +0100, Martin Jansa wrote:
+On Fri, 2011-03-04 at 15:57 +0100, Martin Jansa wrote:
 > On Fri, Mar 04, 2011 at 02:01:26PM +0000, Richard Purdie wrote:
 > > On Fri, 2011-03-04 at 11:40 +0100, Martin Jansa wrote:
 > > > * sanity check warning user that he still has peristent cache in old location
@@ -75,59 +75,17 @@ On Fri, 2011-03-04 at 15:53 +0100, Martin Jansa wrote:
 > > only two things we place outside of TMPDIR, downloads and sstate data.
 > > Even things like buildstats which you might want to preserve over
 > > different builds are still inside TMPDIR.
-> 
-> From my experience I always had to say:
-> 
-> You have to rebuild from scratch. Just wipe out tmp directory, but don't
-> forget to save&load tmp/cache/bb_persist_data.sqlite3 because that file is
-> really important for upgradable path.
-
-Its really important to a very specific use case albeit a use case that
-you use and therefore prioritise.
-
-It will be an annoyance to general user who doesn't use floating source
-revisions.
-
-> So that was my motivation to move it outside TMPDIR and no strong
-> opinion about keeping it inside conf/toplevel/any other directory.
-> 
+> > 
 > > Can we put it in cache as a top level file rather than machine specific?
 > 
-> "machine specific"?
-> 
-> something like?
-> PERSISTENT_DIR = "${TOPDIR}/persistent"
-> or?
-> PERSISTENT_DIR = "${TOPDIR}/persistent-cache"
-> would be OK?
+> And one more question from #oe to this topic:
+> ./oe-2011-02-25:14:49 < JaMa> RP: I wonder if bb_codeparser.dat from
+> bitbake rev 4b7aab109f746ad9be2699c0fb6f4a4e65d65936 should be in shared
+> PERSISTENT_DIR or machine specific CACHE dir, what do you think?
 
-No, I was meaning to keep it within TMPDIR/cache which is what you want
-to change. I think if we want to move this outside TMPDIR, we need to
-look to solve the overall/underlying problem better.
-
-The list of things that don't really fit TMPDIR I can think of off the
-top of my head are:
-
-* build stats
-* downloads
-* sstate
-* pkghistory
-
-The trouble is the persist cache doesn't fit well against those as the
-above can all be shared between machines over NFS, the persist cache
-can't. I had been thinking about some kind of shared directory but
-persistent data doesn't fit.
-
-Reimplementing it as a flat on disk structure would have the benefit
-that it could then be shared amongst a group of autobuilder type
-machines over NFS. The other solution we've talked about is a single
-daemon talking over the network where the daemon maintains the database.
-We do have the problem of how to control the revision numbers for
-packages looming in the future with the advent of full sstate enablement
-since manual PR bumps will become unneeded which is why I'm thinking
-about this very seriously.
-
-Does anyone else have any thoughts on this?
+The bb_codeparser.dat file doesn't need to be machine specific. It
+doesn't need to be persistent either however. You can delete it and
+whilst you'll hit a little extra parse time, no information is lost.
 
 Cheers,
 
