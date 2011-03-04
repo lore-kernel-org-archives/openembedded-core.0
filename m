@@ -1,22 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1PvawC-0006K0-P0
+	(envelope-from <koen@dominion.thruhere.net>) id 1PvbGT-0006pR-GK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 Mar 2011 20:45:21 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 04 Mar 2011 11:43:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,265,1297065600"; d="scan'208";a="716309877"
-Received: from unknown (HELO localhost) ([10.255.12.102])
-	by orsmga001.jf.intel.com with ESMTP; 04 Mar 2011 11:42:10 -0800
-Message-Id: <3a5fed48f3254ac6aafb4a5c7fa4015ad87b02e7.1299267630.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1299267630.git.sgw@linux.intel.com>
+	Fri, 04 Mar 2011 21:06:17 +0100
+Received: by wyb38 with SMTP id 38so2400068wyb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Mar 2011 12:04:47 -0800 (PST)
+Received: by 10.216.143.17 with SMTP id k17mr905192wej.74.1299269087653;
+	Fri, 04 Mar 2011 12:04:47 -0800 (PST)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id m2sm1014341wer.13.2011.03.04.12.04.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 04 Mar 2011 12:04:46 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <e807fc977770cb64a217768672c18437ea8f3057.1299267630.git.sgw@linux.intel.com>
+Date: Fri, 4 Mar 2011 21:04:45 +0100
+Message-Id: <A53A0FEC-74B3-483C-916C-EB87748A1AC8@dominion.thruhere.net>
 References: <cover.1299267630.git.sgw@linux.intel.com>
-Old-Date: Fri, 4 Mar 2011 09:14:48 -0800
-Date: Fri, 04 Mar 2011 11:42:10 -0800
-To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
-From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 01/13] distro tracking: Updates to Tracking infor for clutter and other changes
+	<e807fc977770cb64a217768672c18437ea8f3057.1299267630.git.sgw@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1082)
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 04/13] module: build hostprogs for each module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,90 +38,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Mar 2011 19:45:21 -0000
+X-List-Received-Date: Fri, 04 Mar 2011 20:06:17 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Saul Wold <sgw@linux.intel.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   32 ++++++++++---------
- 1 files changed, 17 insertions(+), 15 deletions(-)
+Op 4 mrt 2011, om 20:42 heeft Saul Wold het volgende geschreven:
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 1dab90a..1b05341 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -2590,11 +2590,11 @@ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libmusicbrainz="2 years"
- RECIPE_LAST_UPDATE_pn-libmusicbrainz = "Nov 16, 2010"
- RECIPE_MAINTAINER_pn-libmusicbrainz = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
--RECIPE_STATUS_pn-clutter-gst-1.0 = "red"
--DISTRO_PN_ALIAS_pn-clutter-gst-1.0 = "OpenSuSE=clutter-gst Debian=clutter-gst"
--RECIPE_LATEST_VERSION_pn-clutter-gst-1.0 = "0.11.0+git0+d48c6fc67b48304f90e51b520631c1ecc10410af"
--RECIPE_LAST_UPDATE_pn-clutter-gst = "Feb 4, 2010"
--RECIPE_MAINTAINER_pn-clutter-gst-1.0 = "Dongxiao Xu <dongxiao.xu@intel.com>"
-+RECIPE_STATUS_pn-clutter-gst-1.4 = "red"
-+DISTRO_PN_ALIAS_pn-clutter-gst-1.4 = "OpenSuSE=clutter-gst Debian=clutter-gst"
-+RECIPE_LATEST_VERSION_pn-clutter-gst-1.4 = "0.11.0+git0+d48c6fc67b48304f90e51b520631c1ecc10410af"
-+RECIPE_LAST_UPDATE_pn-clutter-gst-1.4 = "Feb 4, 2010"
-+RECIPE_MAINTAINER_pn-clutter-gst-1.4 = "Dongxiao Xu <dongxiao.xu@intel.com>"
- 
- RECIPE_STATUS_pn-farsight2 = "red"
- RECIPE_LATEST_VERSION_pn-farsight2 = "0.0.20"
-@@ -5216,10 +5216,10 @@ RECIPE_STATUS_pn-clutter-box2d = "red"
- RECIPE_LATEST_VERSION_pn-clutter-box2d = "0.10.0"
- RECIPE_MAINTAINER_pn-clutter-box2d = "Edwin Zhai <edwin.zhai@intel.com>"
- 
--RECIPE_STATUS_pn-clutter-gtk-1.0 = "red"
--DISTRO_PN_ALIAS_pn-clutter-gtk-1.0 = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
--RECIPE_LATEST_VERSION_pn-clutter-gtk-1.0 = "0.90.0+git0+e8d828ba1d87937baa571e68fdff22f3e2d79ca8"
--RECIPE_MAINTAINER_pn-clutter-gtk-1.0 = "Edwin Zhai <edwin.zhai@intel.com>"
-+RECIPE_STATUS_pn-clutter-gtk-1.4 = "red"
-+DISTRO_PN_ALIAS_pn-clutter-gtk-1.4 = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
-+RECIPE_LATEST_VERSION_pn-clutter-gtk-1.4 = "0.90.0+git0+e8d828ba1d87937baa571e68fdff22f3e2d79ca8"
-+RECIPE_MAINTAINER_pn-clutter-gtk-1.4 = "Edwin Zhai <edwin.zhai@intel.com>"
- 
- RECIPE_STATUS_pn-tidy = "red"
- RECIPE_LATEST_VERSION_pn-tidy = "0.1.0+git0+e25416e1293e1074bfa6727c80527dcff5b1f3cb"
-@@ -5236,14 +5236,14 @@ RECIPE_LATEST_VERSION_pn-libgalago = "0.5.2"
- RECIPE_LAST_UPDATE_pn-libgalago = "Apr 11, 2007"
- RECIPE_MAINTAINER_pn-libgalago = "Edwin Zhai <edwin.zhai@intel.com>"
- 
--RECIPE_STATUS_pn-clutter-1.0 = "red"
--DISTRO_PN_ALIAS_pn-clutter-1.0 = "Fedora=clutter OpenSuse=clutter Ubuntu=clutter-1.0 Mandriva=clutter Debian=clutter"
--RECIPE_LATEST_VERSION_pn-clutter-1.0 = "1.0+git0+ce5025d0a2b701541ca9343686f9dac858905da4"
--RECIPE_LAST_UPDATE_pn-clutter-1.0 = "Jan 29, 2010"
--RECIPE_MAINTAINER_pn-clutter-1.0 = "Edwin Zhai <edwin.zhai@intel.com>"
-+RECIPE_STATUS_pn-clutter-1.4 = "red"
-+DISTRO_PN_ALIAS_pn-clutter-1.4 = "Fedora=clutter OpenSuse=clutter Ubuntu=clutter-1.0 Mandriva=clutter Debian=clutter"
-+RECIPE_LATEST_VERSION_pn-clutter-1.4 = "1.0+git0+ce5025d0a2b701541ca9343686f9dac858905da4"
-+RECIPE_LAST_UPDATE_pn-clutter-1.4 = "Jan 29, 2010"
-+RECIPE_MAINTAINER_pn-clutter-1.4 = "Edwin Zhai <edwin.zhai@intel.com>"
- 
- RECIPE_STATUS_pn-clutter = "red"
--DISTRO_PN_ALIAS_pn-clutter-gtk-1.0 = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
-+DISTRO_PN_ALIAS_pn-clutter = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
- RECIPE_LATEST_VERSION_pn-clutter = "1.2.8"
- RECIPE_MAINTAINER_pn-clutter = "Edwin Zhai <edwin.zhai@intel.com>"
- 
-@@ -5489,6 +5489,7 @@ RECIPE_COMMENTS_pn-lighttpd = ""
- 
- RECIPE_LATEST_VERSION_pn-adt-installer = "1.0"
- RECIPE_MANUAL_CHECK_DATE_adt-installer = "Jan 17, 2011"
-+DISTRO_PN_ALIAS_pn-adt-installer = "Intel"
- RECIPE_LATEST_VERSION_pn-glew = "1.5.7"
- RECIPE_MANUAL_CHECK_DATE_pn-glew = "Feb 28, 2011"
- RECIPE_LATEST_VERSION_pn-mpeg2dec = "0.4.1"
-@@ -5605,6 +5606,7 @@ RECIPE_MAINTAINER_pn-docbook-utils = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_LATEST_VERSION_pn-task-qte-toolchain-target = "1.0"
- RECIPE_MANUAL_CHECK_DATE_pn-task-qte-toolchain-target = "Feb 28, 2011"
-+DISTRO_PN_ALIAS_pn-task-qte-toolchain-target = "Intel"
- RECIPE_LATEST_VERSION_pn-mailx = "12.4"
- RECIPE_MANUAL_CHECK_DATE_pn-mailx = "Feb 28, 2011"
- RECIPE_LATEST_VERSION_pn-libgcc = "4.5.1"
--- 
-1.7.1.1
+> From: Darren Hart <dvhart@linux.intel.com>
+>=20
+> This fixes [BUGID #241]
+>=20
+> The kernel hostprogs are built for the host architecture. They should =
+not be
+> deployed to the target, and they should not be included in an sstate =
+package
+> which might get reused on a host of a different architecture.
+>=20
+> As we don't build many out-of-tree modules, this patch takes the =
+approach of
+> building the hostprogs as part of the module compile process with a
+> do_compile_prepend() routine in module.bbclass.
+>=20
+> We don't have to clean the hostprogs as modules depend on the kernel =
+being
+> populate_staging, so its done with the staging directory by the time =
+we run.
+>=20
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> CC: Gary Thomas <gary@mlbassoc.com>
+> ---
+> meta/classes/module.bbclass |   12 +++++++++++-
+> 1 files changed, 11 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+> index d16d462..bbceaf7 100644
+> --- a/meta/classes/module.bbclass
+> +++ b/meta/classes/module.bbclass
+> @@ -3,6 +3,13 @@ DEPENDS +=3D "virtual/kernel"
+>=20
+> inherit module-base
+>=20
+> +# Ensure the hostprogs are available for module compilation
+> +module_do_compile_prepend() {
+> +	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS=20
+> +	oe_runmake CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" =
+AR=3D"${KERNEL_AR}" \
+> +	           -C ${STAGING_KERNEL_DIR} scripts
+> +}
+> +
+> module_do_compile() {
+> 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+> 	oe_runmake KERNEL_PATH=3D${STAGING_KERNEL_DIR}   \
+> @@ -15,7 +22,10 @@ module_do_compile() {
 
+Why not put it in do_compile itself?
+
+regards,
+
+Koen=
 
 
