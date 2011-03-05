@@ -1,22 +1,22 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Pvksu-00057q-KQ
+	(envelope-from <sgw@linux.intel.com>) id 1Pvkt1-000585-Bh
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Mar 2011 07:22:36 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2011 22:21:04 -0800
+	Sat, 05 Mar 2011 07:22:43 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 04 Mar 2011 22:21:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,268,1297065600"; d="scan'208";a="716529664"
+X-IronPort-AV: E=Sophos;i="4.62,268,1297065600"; d="scan'208";a="609340705"
 Received: from unknown (HELO localhost) ([10.255.12.181])
-	by orsmga001.jf.intel.com with ESMTP; 04 Mar 2011 22:20:53 -0800
-Message-Id: <91a7ac1af1d57e60de33c53be90da44e56e096f4.1299305989.git.sgw@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 04 Mar 2011 22:20:53 -0800
+Message-Id: <a8bc2ad482e858f41bde9701f0f983486bea9a3b.1299305989.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1299305989.git.sgw@linux.intel.com>
 References: <cover.1299305989.git.sgw@linux.intel.com>
-Old-Date: Fri, 4 Mar 2011 18:34:44 +0800
-Date: Fri, 04 Mar 2011 22:20:52 -0800
+Old-Date: Fri, 4 Mar 2011 17:45:11 -0800
+Date: Fri, 04 Mar 2011 22:20:53 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 2/3] toolchain-script.bbclass: Added --sysroot to LDFLAGS.
+Subject: [PATCH 3/3] linuxdoc-tools-native: Fix build error with txt documentation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,65 +31,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Mar 2011 06:22:36 -0000
+X-List-Received-Date: Sat, 05 Mar 2011 06:22:43 -0000
 
-From: Lianhao Lu <lianhao.lu@intel.com>
+From: Scott Garman <scott.a.garman@intel.com>
 
-[YOCTO #808] Added --sysroot to LDFALGS in environment files.
+Disable building txt documentation. This is a temporary workaround,
+as I have found an Ubuntu 10.10 system which throws errors during
+building this that I'd like to ultimately fix. The error manifests
+itself from the end of LinuxDocTools.pm with the following messages
+during do_install:
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+| - Building txt docs
+| Processing file ./guide
+| troff: fatal error: can't find macro file s
+|  fmt_txt::postASP: Empty output file, error when calling groff. Aborting...
+
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/classes/toolchain-scripts.bbclass     |    2 ++
- meta/recipes-core/meta/meta-environment.bb |    2 +-
- meta/recipes-core/meta/meta-toolchain.bb   |    2 +-
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ .../linuxdoc-tools-native/disable_txt_doc.patch    |   32 ++++++++++++++++++++
+ .../linuxdoc-tools/linuxdoc-tools-native_0.9.66.bb |    3 +-
+ 2 files changed, 34 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_txt_doc.patch
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 2b9cfac..998ff14 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -24,6 +24,7 @@ toolchain_create_sdk_env_script () {
- 	fi
- 	echo 'export CFLAGS="${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
- 	echo 'export CXXFLAGS="${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-+	echo 'export LDFLAGS="--sysroot=${SDKTARGETSYSROOT}"' >> $script
- 	echo 'export POKY_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
- 	echo 'export POKY_TARGET_SYSROOT="${SDKTARGETSYSROOT}"' >> $script
- 	echo 'export POKY_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
-@@ -83,6 +84,7 @@ toolchain_create_sdk_env_script_for_installer () {
- 	fi
- 	echo 'export CFLAGS="${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
- 	echo 'export CXXFLAGS="${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-+	echo 'export LDFLAGS="--sysroot=##SDKTARGETSYSROOT##"' >> $script
- 	echo 'export POKY_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
- 	echo 'export POKY_TARGET_SYSROOT="##SDKTARGETSYSROOT##"' >> $script
- 	echo 'export POKY_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
-diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
-index 0b88260..d2dc544 100644
---- a/meta/recipes-core/meta/meta-environment.bb
-+++ b/meta/recipes-core/meta/meta-environment.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Package of environment files for SDK"
- LIC_FILES_CHKSUM = "file://${POKYBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${POKYBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- LICENSE = "MIT"
--PR = "r2"
-+PR = "r3"
+diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_txt_doc.patch b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_txt_doc.patch
+new file mode 100644
+index 0000000..17c7670
+--- /dev/null
++++ b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_txt_doc.patch
+@@ -0,0 +1,32 @@
++Disable building txt documentation. This is a temporary workaround,
++as I have found an Ubuntu 10.10 system which throws errors during
++building this that I'd like to ultimately fix. The error manifests
++itself from the end of LinuxDocTools.pm with the following messages
++during do_install:
++
++| - Building txt docs
++| Processing file ./guide
++| troff: fatal error: can't find macro file s
++|  fmt_txt::postASP: Empty output file, error when calling groff. Aborting...
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++diff -urN linuxdoc-tools-0.9.66.orig//doc/Makedoc.sh linuxdoc-tools-0.9.66/doc/Makedoc.sh
++--- linuxdoc-tools-0.9.66.orig//doc/Makedoc.sh	2009-11-09 11:58:25.000000000 -0800
+++++ linuxdoc-tools-0.9.66/doc/Makedoc.sh	2011-03-04 17:37:24.788923998 -0800
++@@ -40,11 +40,11 @@
++ 
++ chmod u+x $TMPDIR/linuxdoc
++ 
++-if [ -n "`which groff`" ]; then
++-	ln -s $TMPDIR/linuxdoc $TMPDIR/sgml2txt
++-	echo "- Building txt docs" >&2
++-	$TMPDIR/sgml2txt -b 1 ./guide
++-fi
+++#if [ -n "`which groff`" ]; then
+++#	ln -s $TMPDIR/linuxdoc $TMPDIR/sgml2txt
+++#	echo "- Building txt docs" >&2
+++#	$TMPDIR/sgml2txt -b 1 ./guide
+++#fi
++ 
++ if [ -n "`which latex`" ]; then
++ 	ln -s $TMPDIR/linuxdoc $TMPDIR/sgml2latex
+diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.66.bb b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.66.bb
+index ed45ad9..fbe9219 100644
+--- a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.66.bb
++++ b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.66.bb
+@@ -6,10 +6,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5fbccc46cff2379505ca4e09c7d6ccfe"
  
- EXCLUDE_FROM_WORLD = "1"
+ DEPENDS = "openjade-native"
  
-diff --git a/meta/recipes-core/meta/meta-toolchain.bb b/meta/recipes-core/meta/meta-toolchain.bb
-index 2443b38..92936b6 100644
---- a/meta/recipes-core/meta/meta-toolchain.bb
-+++ b/meta/recipes-core/meta/meta-toolchain.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "Meta package for building a installable toolchain"
- LICENSE = "MIT"
+-PR = "r1"
++PR = "r2"
  
--PR = "r2"
-+PR = "r3"
+ SRC_URI = "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/linuxdoc-tools_${PV}.tar.gz \
+            file://disable_sgml2rtf.patch \
++           file://disable_txt_doc.patch \
+            file://disable_tex_doc.patch \
+            file://disable_dvips_doc.patch"
  
- LIC_FILES_CHKSUM = "file://${POKYBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${POKYBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 -- 
 1.7.1.1
 
