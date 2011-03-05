@@ -1,42 +1,20 @@
-Received: from mail-px0-f175.google.com ([209.85.212.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Pvi3f-0008Tj-8u
+	(envelope-from <sgw@linux.intel.com>) id 1Pvkst-00057q-9O
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Mar 2011 04:21:33 +0100
-Received: by pxi17 with SMTP id 17so409888pxi.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Mar 2011 19:19:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=8Hug/v8MisYoAFrjngSQ5K7StGa2WU6rc9dRu4x/m64=;
-	b=vZiTqmQHeFjub1FGbd6EygvyHUmNShNhZi+Q3bI5XuzNjEZByZxC7z3gER6ZiDxQs0
-	xQpsZRdwqqzml4SBsPc7JbqAxdR6EB7/bLX8YmqGEn+Xn9My0bsl7BQFoMcd+5TwlPnO
-	zfYCyNsLhbf9YO8JTG7fS8X6x6y5xY2J7pWzU=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	b=LGnR9rhpif6wu5WZrHk9AZqWdJKS2FqtG9yJMrSYevc/530FT7pGNHi4QiPQjdlebF
-	5A8cAOHmhdsHqRg301kHbOZOTIrxy/73rcOdTy5h+EdXAODl6MgX1fJbXtN4xJKPKehU
-	iTALGlbua9gRR3bxex+aGghg7lo4/7YkL8rls=
-Received: by 10.142.195.3 with SMTP id s3mr1056112wff.22.1299295192533;
-	Fri, 04 Mar 2011 19:19:52 -0800 (PST)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id d35sm147792wfj.9.2011.03.04.19.19.50
-	(version=SSLv3 cipher=OTHER); Fri, 04 Mar 2011 19:19:51 -0800 (PST)
-Message-ID: <4D71ABD3.1080804@gmail.com>
-Date: Fri, 04 Mar 2011 19:19:47 -0800
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
-	rv:1.9.2.14) Gecko/20110221 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1299276952-24941-1-git-send-email-Martin.Jansa@gmail.com>
-	<A78CAF16-DD5D-4D87-803C-313D07290422@dominion.thruhere.net>
-In-Reply-To: <A78CAF16-DD5D-4D87-803C-313D07290422@dominion.thruhere.net>
-Subject: Re: [PATCH] distutils-base: Only RDEPEND python-core on target packages
+	Sat, 05 Mar 2011 07:22:36 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2011 22:21:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.62,268,1297065600"; d="scan'208";a="716529658"
+Received: from unknown (HELO localhost) ([10.255.12.181])
+	by orsmga001.jf.intel.com with ESMTP; 04 Mar 2011 22:20:51 -0800
+Message-Id: <cover.1299305989.git.sgw@linux.intel.com>
+Old-Date: Fri, 4 Mar 2011 22:19:49 -0800
+Date: Fri, 04 Mar 2011 22:20:51 -0800
+To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
+From: Saul Wold <sgw@linux.intel.com>
+Subject: [PATCH 0/3] 3 Fixes for RC2 (LSB, Docs, and ADT)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,47 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Mar 2011 03:21:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 05 Mar 2011 06:22:36 -0000
 
-On 3/4/2011 2:41 PM, Koen Kooi wrote:
->
-> Op 4 mrt 2011, om 23:15 heeft Martin Jansa het volgende geschreven:
->
->> * fixes ie setuptools, without this patch it RDEPENDs on python-core-native, which is not RPROVIDED by anything
->> * imported from OE 8377b8ec57f35b9e5b81a74c77f68fd6e02949c8
->>
->> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
->> ---
->> meta/classes/distutils-base.bbclass |    2 +-
->> 1 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/classes/distutils-base.bbclass b/meta/classes/distutils-base.bbclass
->> index 2e151de..e84b0fc 100644
->> --- a/meta/classes/distutils-base.bbclass
->> +++ b/meta/classes/distutils-base.bbclass
->> @@ -1,5 +1,5 @@
->> DEPENDS  += "${@["python-native python", ""][(bb.data.getVar('PACKAGES', d, 1) == '')]}"
->> -RDEPENDS += "python-core"
->> +RDEPENDS_${PN} += "${@['', 'python-core']['${PN}' == '${BPN}']}"
->
-> Minor nit: the two check seem to do the same, should we make them the same?
->
+From: Saul Wold <sgw@linux.intel.com>
 
-Do you mean checks for DEPENDS and RDEPEND_${PN}
+Richard:
 
-> For this patch:
->
-> Acked-by: Koen Kooi<koen@dominion.thruhere.net>
->
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+These 3 fixes would like to get into bernard for RC2
+build and stability.
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: distro/oe-core
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=distro/oe-core
+
+Thanks,
+    Saul Wold <sgw@linux.intel.com>
+---
+
+
+Lianhao Lu (1):
+  toolchain-script.bbclass: Added --sysroot to LDFLAGS.
+
+Saul Wold (1):
+  task-poky-lsb: Remove new eglibc-* packages
+
+Scott Garman (1):
+  linuxdoc-tools-native: Fix build error with txt documentation
+
+ meta/classes/toolchain-scripts.bbclass             |    2 +
+ meta/recipes-core/meta/meta-environment.bb         |    2 +-
+ meta/recipes-core/meta/meta-toolchain.bb           |    2 +-
+ .../linuxdoc-tools-native/disable_txt_doc.patch    |   32 ++++++++++++++++++++
+ .../linuxdoc-tools/linuxdoc-tools-native_0.9.66.bb |    3 +-
+ meta/recipes-extended/tasks/task-poky-lsb.bb       |   13 ++++----
+ 6 files changed, 45 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_txt_doc.patch
 
 
 
