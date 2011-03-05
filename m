@@ -1,22 +1,30 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Pvkv9-00059n-HV
+	(envelope-from <koen@dominion.thruhere.net>) id 1Pvmh5-0006tU-RM
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 Mar 2011 07:24:57 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 04 Mar 2011 22:23:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,268,1297065600"; d="scan'208";a="397989012"
-Received: from unknown (HELO localhost) ([10.255.12.181])
-	by azsmga001.ch.intel.com with ESMTP; 04 Mar 2011 22:20:52 -0800
-Message-Id: <98cbe1740021ab15f6ca890c35e3923b3ec11aec.1299305989.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1299305989.git.sgw@linux.intel.com>
-References: <cover.1299305989.git.sgw@linux.intel.com>
-Old-Date: Fri, 4 Mar 2011 14:51:10 -0800
-Date: Fri, 04 Mar 2011 22:20:52 -0800
-To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
-From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 1/3] task-poky-lsb: Remove new eglibc-* packages
+	Sat, 05 Mar 2011 09:18:31 +0100
+Received: by wwe15 with SMTP id 15so3019358wwe.24
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 05 Mar 2011 00:17:01 -0800 (PST)
+Received: by 10.216.200.82 with SMTP id y60mr1364059wen.31.1299313021155;
+	Sat, 05 Mar 2011 00:17:01 -0800 (PST)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id t11sm119111wes.41.2011.03.05.00.17.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 05 Mar 2011 00:17:00 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4D71ABD3.1080804@gmail.com>
+Date: Sat, 5 Mar 2011 09:16:59 +0100
+Message-Id: <86B31F99-7DAC-4364-8C77-6B56FAE764F2@dominion.thruhere.net>
+References: <1299276952-24941-1-git-send-email-Martin.Jansa@gmail.com>
+	<A78CAF16-DD5D-4D87-803C-313D07290422@dominion.thruhere.net>
+	<4D71ABD3.1080804@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1082)
+Subject: Re: [PATCH] distutils-base: Only RDEPEND python-core on target packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,56 +39,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Mar 2011 06:24:57 -0000
+X-List-Received-Date: Sat, 05 Mar 2011 08:18:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Saul Wold <sgw@linux.intel.com>
 
-Remove the new eglibc packages that were part of another
-patch and did not get cleanup here.
+Op 5 mrt 2011, om 04:19 heeft Khem Raj het volgende geschreven:
 
-(From OE-Core rev: bddd9012d2a6393afceef752389d0006f2e47681)
+> On 3/4/2011 2:41 PM, Koen Kooi wrote:
+>>=20
+>> Op 4 mrt 2011, om 23:15 heeft Martin Jansa het volgende geschreven:
+>>=20
+>>> * fixes ie setuptools, without this patch it RDEPENDs on =
+python-core-native, which is not RPROVIDED by anything
+>>> * imported from OE 8377b8ec57f35b9e5b81a74c77f68fd6e02949c8
+>>>=20
+>>> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+>>> ---
+>>> meta/classes/distutils-base.bbclass |    2 +-
+>>> 1 files changed, 1 insertions(+), 1 deletions(-)
+>>>=20
+>>> diff --git a/meta/classes/distutils-base.bbclass =
+b/meta/classes/distutils-base.bbclass
+>>> index 2e151de..e84b0fc 100644
+>>> --- a/meta/classes/distutils-base.bbclass
+>>> +++ b/meta/classes/distutils-base.bbclass
+>>> @@ -1,5 +1,5 @@
+>>> DEPENDS  +=3D "${@["python-native python", =
+""][(bb.data.getVar('PACKAGES', d, 1) =3D=3D '')]}"
+>>> -RDEPENDS +=3D "python-core"
+>>> +RDEPENDS_${PN} +=3D "${@['', 'python-core']['${PN}' =3D=3D =
+'${BPN}']}"
+>>=20
+>> Minor nit: the two check seem to do the same, should we make them the =
+same?
+>>=20
+>=20
+> Do you mean checks for DEPENDS and RDEPEND_${PN}
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-extended/tasks/task-poky-lsb.bb |   13 +++++++------
- 1 files changed, 7 insertions(+), 6 deletions(-)
+yes
 
-diff --git a/meta/recipes-extended/tasks/task-poky-lsb.bb b/meta/recipes-extended/tasks/task-poky-lsb.bb
-index 65b7565..42fd8e0 100644
---- a/meta/recipes-extended/tasks/task-poky-lsb.bb
-+++ b/meta/recipes-extended/tasks/task-poky-lsb.bb
-@@ -163,7 +163,6 @@ RDEPENDS_task-poky-lsb-graphic-add = "\
-     libx11-locale \
-     xorg-minimal-fonts \
-     gdk-pixbuf \
--
- "
- 
- RDEPENDS_task-poky-lsb-graphic-add_qemux86 = "\
-@@ -183,13 +182,15 @@ RDEPENDS_task-poky-lsb-runtime-add = "\
-     liburi-perl \
-     libxml-parser-perl \
-     libxml-perl \
-+    eglibc-localedata-posix \
-     eglibc-extra-nss \
--    eglibc-localedatas \
--    eglibc-gconvs \
--    eglibc-charmaps \
--    eglibc-binarys \
-     eglibc-pcprofile \
-     eglibc-pic \
-     eglibc-utils \
--
- "
-+
-+#    eglibc-localedatas \
-+#    eglibc-gconvs \
-+#    eglibc-charmaps \
-+#    eglibc-binarys \
-+#
--- 
-1.7.1.1
+>=20
+>> For this patch:
+>>=20
+>> Acked-by: Koen Kooi<koen@dominion.thruhere.net>
+>>=20
+>> regards,
+>>=20
+>> Koen
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
