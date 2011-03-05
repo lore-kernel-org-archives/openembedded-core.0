@@ -1,20 +1,22 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Pvkst-00057q-9O
+	(envelope-from <sgw@linux.intel.com>) id 1Pvksu-00057q-KQ
 	for openembedded-core@lists.openembedded.org;
 	Sat, 05 Mar 2011 07:22:36 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2011 22:21:03 -0800
+	by orsmga101.jf.intel.com with ESMTP; 04 Mar 2011 22:21:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,268,1297065600"; d="scan'208";a="716529658"
+X-IronPort-AV: E=Sophos;i="4.62,268,1297065600"; d="scan'208";a="716529664"
 Received: from unknown (HELO localhost) ([10.255.12.181])
-	by orsmga001.jf.intel.com with ESMTP; 04 Mar 2011 22:20:51 -0800
-Message-Id: <cover.1299305989.git.sgw@linux.intel.com>
-Old-Date: Fri, 4 Mar 2011 22:19:49 -0800
-Date: Fri, 04 Mar 2011 22:20:51 -0800
+	by orsmga001.jf.intel.com with ESMTP; 04 Mar 2011 22:20:53 -0800
+Message-Id: <91a7ac1af1d57e60de33c53be90da44e56e096f4.1299305989.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1299305989.git.sgw@linux.intel.com>
+References: <cover.1299305989.git.sgw@linux.intel.com>
+Old-Date: Fri, 4 Mar 2011 18:34:44 +0800
+Date: Fri, 04 Mar 2011 22:20:52 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 0/3] 3 Fixes for RC2 (LSB, Docs, and ADT)
+Subject: [PATCH 2/3] toolchain-script.bbclass: Added --sysroot to LDFLAGS.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,39 +33,65 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 05 Mar 2011 06:22:36 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Lianhao Lu <lianhao.lu@intel.com>
 
-Richard:
+[YOCTO #808] Added --sysroot to LDFALGS in environment files.
 
-These 3 fixes would like to get into bernard for RC2
-build and stability.
-
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: distro/oe-core
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=distro/oe-core
-
-Thanks,
-    Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
+ meta/classes/toolchain-scripts.bbclass     |    2 ++
+ meta/recipes-core/meta/meta-environment.bb |    2 +-
+ meta/recipes-core/meta/meta-toolchain.bb   |    2 +-
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-
-Lianhao Lu (1):
-  toolchain-script.bbclass: Added --sysroot to LDFLAGS.
-
-Saul Wold (1):
-  task-poky-lsb: Remove new eglibc-* packages
-
-Scott Garman (1):
-  linuxdoc-tools-native: Fix build error with txt documentation
-
- meta/classes/toolchain-scripts.bbclass             |    2 +
- meta/recipes-core/meta/meta-environment.bb         |    2 +-
- meta/recipes-core/meta/meta-toolchain.bb           |    2 +-
- .../linuxdoc-tools-native/disable_txt_doc.patch    |   32 ++++++++++++++++++++
- .../linuxdoc-tools/linuxdoc-tools-native_0.9.66.bb |    3 +-
- meta/recipes-extended/tasks/task-poky-lsb.bb       |   13 ++++----
- 6 files changed, 45 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native/disable_txt_doc.patch
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 2b9cfac..998ff14 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -24,6 +24,7 @@ toolchain_create_sdk_env_script () {
+ 	fi
+ 	echo 'export CFLAGS="${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
+ 	echo 'export CXXFLAGS="${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
++	echo 'export LDFLAGS="--sysroot=${SDKTARGETSYSROOT}"' >> $script
+ 	echo 'export POKY_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
+ 	echo 'export POKY_TARGET_SYSROOT="${SDKTARGETSYSROOT}"' >> $script
+ 	echo 'export POKY_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
+@@ -83,6 +84,7 @@ toolchain_create_sdk_env_script_for_installer () {
+ 	fi
+ 	echo 'export CFLAGS="${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
+ 	echo 'export CXXFLAGS="${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
++	echo 'export LDFLAGS="--sysroot=##SDKTARGETSYSROOT##"' >> $script
+ 	echo 'export POKY_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
+ 	echo 'export POKY_TARGET_SYSROOT="##SDKTARGETSYSROOT##"' >> $script
+ 	echo 'export POKY_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index 0b88260..d2dc544 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Package of environment files for SDK"
+ LIC_FILES_CHKSUM = "file://${POKYBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${POKYBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ LICENSE = "MIT"
+-PR = "r2"
++PR = "r3"
+ 
+ EXCLUDE_FROM_WORLD = "1"
+ 
+diff --git a/meta/recipes-core/meta/meta-toolchain.bb b/meta/recipes-core/meta/meta-toolchain.bb
+index 2443b38..92936b6 100644
+--- a/meta/recipes-core/meta/meta-toolchain.bb
++++ b/meta/recipes-core/meta/meta-toolchain.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "Meta package for building a installable toolchain"
+ LICENSE = "MIT"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ LIC_FILES_CHKSUM = "file://${POKYBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${POKYBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-- 
+1.7.1.1
 
 
 
