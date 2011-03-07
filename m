@@ -1,33 +1,24 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1PwOdh-000350-OZ
+	(envelope-from <koen@dominion.thruhere.net>) id 1PwcgB-0006Qx-K9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Mar 2011 01:49:33 +0100
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1PwOcE-0000Xo-G2 from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Sun, 06 Mar 2011 16:48:02 -0800
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Sun, 6 Mar 2011 16:48:02 -0800
-Received: from [172.30.80.235] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
-	Sun, 6 Mar 2011 16:48:01 -0800
-Message-ID: <4D742B3C.9070601@mentor.com>
-Date: Sun, 6 Mar 2011 17:47:56 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1299431945.git.sgw@linux.intel.com>	<c6b0c5720fa0fc2ba7a6792b7f52faad38dd47dc.1299431945.git.sgw@linux.intel.com>
-	<EC897C7E-B45E-415F-A788-9F160A0A60E8@dominion.thruhere.net>
-In-Reply-To: <EC897C7E-B45E-415F-A788-9F160A0A60E8@dominion.thruhere.net>
-X-OriginalArrivalTime: 07 Mar 2011 00:48:02.0320 (UTC)
-	FILETIME=[500DA100:01CBDC61]
-Subject: Re: [poky] [PATCH 1/2] gst-plugins: Added hal to DEPENDS
+	Mon, 07 Mar 2011 16:49:10 +0100
+Received: by ewy8 with SMTP id 8so1277377ewy.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Mar 2011 07:45:48 -0800 (PST)
+Received: by 10.216.140.147 with SMTP id e19mr3576367wej.49.1299512346471;
+	Mon, 07 Mar 2011 07:39:06 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id u2sm1329605weh.36.2011.03.07.07.39.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 07 Mar 2011 07:39:05 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Mar 2011 16:37:20 +0100
+Message-Id: <1299512240-693-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] libgpg-error: extend to nativesdk to catch up with metadata changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,40 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2011 00:49:34 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Mar 2011 15:49:10 -0000
 
-On 03/06/2011 11:34 AM, Koen Kooi wrote:
->
-> Op 6 mrt 2011, om 18:19 heeft Saul Wold het volgende geschreven:
->
->> From: Saul Wold<sgw@linux.intel.com>
->>
->> Fixes [YOCTO #810]
->>
->> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->> ---
->> meta/recipes-multimedia/gstreamer/gst-plugins.inc |    2 +-
->> 1 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins.inc b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
->> index 4edca95..d1abd36 100644
->> --- a/meta/recipes-multimedia/gstreamer/gst-plugins.inc
->> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
->> @@ -3,7 +3,7 @@ HOMEPAGE = "http://gstreamer.freedesktop.org/"
->> BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
->> SECTION = "multimedia"
->> PRIORITY = "optional"
->> -DEPENDS = "gstreamer"
->> +DEPENDS = "gstreamer hal"
->
-> Since hal is being deprecated in favour of udev, do we really want to introduce it as a dependency instead of disabled it?
+libgpg-error was introduced into the dependency tree for meta-toolchain-qte without the needed nativesdk extend
 
-... and making sure the new set of magic works right.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ .../libgpg-error/libgpg-error_1.9.bb               |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb
+index 479a11f..7f26dbd 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb
+@@ -24,3 +24,5 @@ FILES_${PN} = "${libdir}/lib*.so.*"
+ FILES_${PN}-dev += "${bindir}/*"
+ 
+ inherit autotools binconfig pkgconfig
++
++BBCLASSEXTEND = "nativesdk"
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.6.6.1
+
 
 
