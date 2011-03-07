@@ -1,27 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1PwdNs-0007Ln-FB
+	(envelope-from <koen@dominion.thruhere.net>) id 1Pwdk3-0007ll-5K
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 Mar 2011 17:34:13 +0100
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Mar 2011 08:31:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,277,1297065600"; d="scan'208";a="664684496"
-Received: from unknown (HELO [10.255.12.179]) ([10.255.12.179])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Mar 2011 08:30:45 -0800
-Message-ID: <4D750834.2060803@linux.intel.com>
-Date: Mon, 07 Mar 2011 08:30:44 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1299267630.git.sgw@linux.intel.com>	<e807fc977770cb64a217768672c18437ea8f3057.1299267630.git.sgw@linux.intel.com>	<A53A0FEC-74B3-483C-916C-EB87748A1AC8@dominion.thruhere.net>	<4D715D30.3030608@linux.intel.com>	<EEFD338A-726B-4502-B995-442E9AB37B9D@dominion.thruhere.net>	<8BD56976-D3F5-41F0-8CD6-9CF4B3CBB6C1@dominion.thruhere.net>
-	<4D7173CE.2090104@linux.intel.com>
-In-Reply-To: <4D7173CE.2090104@linux.intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>, poky <poky@yoctoproject.org>
-Subject: Re: [poky] [PATCH 04/13] module: build hostprogs for each module
+	Mon, 07 Mar 2011 17:57:07 +0100
+Received: by wyb38 with SMTP id 38so4193559wyb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Mar 2011 08:55:33 -0800 (PST)
+Received: by 10.216.213.29 with SMTP id z29mr3665409weo.19.1299516933545;
+	Mon, 07 Mar 2011 08:55:33 -0800 (PST)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id b54sm1363651wer.45.2011.03.07.08.55.32
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 07 Mar 2011 08:55:32 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Mar 2011 17:53:47 +0100
+Message-Id: <1299516827-23938-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] libgpg-error: extend to nativesdk to catch up with metadata changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,103 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2011 16:34:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Mar 2011 16:57:07 -0000
 
-On 03/04/2011 03:20 PM, Darren Hart wrote:
-> On 03/04/2011 02:30 PM, Koen Kooi wrote:
->>
->> Op 4 mrt 2011, om 23:28 heeft Koen Kooi het volgende geschreven:
->>
->>>
->>> Op 4 mrt 2011, om 22:44 heeft Darren Hart het volgende geschreven:
->>>
->>>> On 03/04/2011 12:04 PM, Koen Kooi wrote:
->>>>>
->>>>> Op 4 mrt 2011, om 20:42 heeft Saul Wold het volgende geschreven:
->>>>>
->>>>>> From: Darren Hart<dvhart@linux.intel.com>
->>>>>>
->>>>>> This fixes [BUGID #241]
->>>>>>
->>>>>> The kernel hostprogs are built for the host architecture. They
->>>>>> should not be
->>>>>> deployed to the target, and they should not be included in an
->>>>>> sstate package
->>>>>> which might get reused on a host of a different architecture.
->>>>>>
->>>>>> As we don't build many out-of-tree modules, this patch takes the
->>>>>> approach of
->>>>>> building the hostprogs as part of the module compile process with a
->>>>>> do_compile_prepend() routine in module.bbclass.
->>>>>>
->>>>>> We don't have to clean the hostprogs as modules depend on the
->>>>>> kernel being
->>>>>> populate_staging, so its done with the staging directory by the
->>>>>> time we run.
->>>>>>
->>>>>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
->>>>>> CC: Gary Thomas<gary@mlbassoc.com>
->>>>>> ---
->>>>>> meta/classes/module.bbclass | 12 +++++++++++-
->>>>>> 1 files changed, 11 insertions(+), 1 deletions(-)
->>>>>>
->>>>>> diff --git a/meta/classes/module.bbclass
->>>>>> b/meta/classes/module.bbclass
->>>>>> index d16d462..bbceaf7 100644
->>>>>> --- a/meta/classes/module.bbclass
->>>>>> +++ b/meta/classes/module.bbclass
->>>>>> @@ -3,6 +3,13 @@ DEPENDS += "virtual/kernel"
->>>>>>
->>>>>> inherit module-base
->>>>>>
->>>>>> +# Ensure the hostprogs are available for module compilation
->>>>>> +module_do_compile_prepend() {
->>>>>> + unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
->>>>>> + oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
->>>>>> + -C ${STAGING_KERNEL_DIR} scripts
->>>>>> +}
->>>>>> +
->>>>>> module_do_compile() {
->>>>>> unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
->>>>>> oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR} \
->>>>>> @@ -15,7 +22,10 @@ module_do_compile() {
->>>>>
->>>>> Why not put it in do_compile itself?
->>>>
->>>> My rationale was that a module recipe may override do_compile for
->>>> one reason or another, but they will still need the hostprogs which
->>>> we stripped in kernel.bbclass. This way, even if they override
->>>> do_compile, the _prepend will still get run and prepare the
->>>> hostprogs.
->>>
->>> Are you sure that actually works? AIUI bitbake will fold the compile
->>> and prepend into one when you try to override it.
->>
->> What I actually meant to say is: If you need to prepend it to
->> do_compile, even when someone will override it, use addtask to insert
->> it between configure and compile. That makes the intention a lot
->> clearer and isn't depending on faulty bitbake behaviour.
->
-> You could be right, I'm not terribly familiar with how the "inheritance"
-> model works. It seems to me the "addtask" method would work regardless
-> as you suggest, and I have no objection to taking that route.
->
-> Richard, do you have a preference? Can you clear up the inheritance
-> question?
->
+libgpg-error was introduced into the dependency tree for meta-toolchain-qte without the needed nativesdk extend
 
-Had a chat with Richard. His suggestion was to use a new function, ie 
-do_hostprogs, which do_compile() calls. If a recipe overrides 
-do_compile() it can call do_hostprogs() or manage it on its own. I'll do 
-some testing and send out a follow-on patch.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ .../libgpg-error/libgpg-error_1.9.bb               |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-Thanks,
-
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb
+index 479a11f..5e474cd 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb
+@@ -10,7 +10,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 
+ 
+ SECTION = "libs"
+-DEPENDS = "gettext"
+ PR = "r0"
+ 
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-${PV}.tar.bz2 \
+@@ -23,4 +22,6 @@ SRC_URI[sha256sum] = "54d9326bfbd46c705963c507953f65a40576d04b374e131008dc5b732f
+ FILES_${PN} = "${libdir}/lib*.so.*"
+ FILES_${PN}-dev += "${bindir}/*"
+ 
+-inherit autotools binconfig pkgconfig
++inherit gettext autotools binconfig pkgconfig
++
++BBCLASSEXTEND = "nativesdk"
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.6.6.1
+
 
 
