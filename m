@@ -1,27 +1,40 @@
-Received: from 3a.49.1343.static.theplanet.com
-	([67.19.73.58] helo=pug.o-hand.com ident=postfix)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@openedhand.com>) id 1Px2Jh-0000Z6-CL
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Px4Og-0005zO-UX
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Mar 2011 20:11:34 +0100
-Received: from [172.10.10.228] (unknown [67.232.160.146])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by pug.o-hand.com (Postfix) with ESMTP id 3DDC912EC1CA;
-	Tue,  8 Mar 2011 13:30:29 -0600 (CST)
-From: Joshua Lock <josh@openedhand.com>
-To: Patches and discussions about the oe-core layer
+	Tue, 08 Mar 2011 22:24:52 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Mar 2011 13:22:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.62,285,1297065600"; d="scan'208";a="665222596"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.226.211])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Mar 2011 13:22:10 -0800
+Received: from orsmsx605.amr.corp.intel.com (10.22.226.10) by
+	orsmsx602.amr.corp.intel.com (10.22.226.211) with Microsoft SMTP Server
+	(TLS) id 8.2.254.0; Tue, 8 Mar 2011 13:22:09 -0800
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx605.amr.corp.intel.com ([10.22.226.10]) with mapi; Tue, 8 Mar 2011
+	13:21:08 -0800
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 8 Mar 2011 13:21:06 -0800
+Thread-Topic: [poky] [PATCH 1/1] gcc-runtime: fix LSB library checks for
+	libstdc++.so.6
+Thread-Index: Acvc7Lk+9xY75VuATsG5sQagFsnSyQA6e7kQ
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE9431E839D9@orsmsx504.amr.corp.intel.com>
+References: <cover.1299516806.git.nitin.a.kamble@intel.com>
+	<0cfc1314469e2fe9412ec0285a9bbe577a195258.1299516806.git.nitin.a.kamble@intel.com>
+	<AANLkTi=ug_MBMiLEWpfYd0=tgMstJVE4r5oVNW6JDA_+@mail.gmail.com>
+In-Reply-To: <AANLkTi=ug_MBMiLEWpfYd0=tgMstJVE4r5oVNW6JDA_+@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <0c04b8bd89465d186d0ccb6912e7c08aae506541.1299544029.git.sgw@linux.intel.com>
-References: <cover.1299544029.git.sgw@linux.intel.com>
-	<0c04b8bd89465d186d0ccb6912e7c08aae506541.1299544029.git.sgw@linux.intel.com>
-Date: Tue, 08 Mar 2011 10:47:01 -0800
-Message-ID: <1299610021.5026.9.camel@scimitar>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.1 (2.32.1-1.fc14) 
-X-Mailman-Approved-At: Tue, 08 Mar 2011 20:18:16 +0100
-Cc: poky <poky@yoctoproject.org>
-Subject: Re: [PATCH 6/8] util-macros: fix DEPENDS in the case of native/nativesdk
+Subject: Re: [poky] [PATCH 1/1] gcc-runtime: fix LSB library checks for libstdc++.so.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,103 +49,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2011 19:11:34 -0000
-X-Groupsio-MsgNum: 329
-Content-Type: multipart/mixed; boundary="=-Wk4h4c454hLcCUWZCUoo"
+X-List-Received-Date: Tue, 08 Mar 2011 21:24:52 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---=-Wk4h4c454hLcCUWZCUoo
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS2hlbSBSYWogW21haWx0
+bzpyYWoua2hlbUBnbWFpbC5jb21dDQo+IFNlbnQ6IE1vbmRheSwgTWFyY2ggMDcsIDIwMTEgOTox
+NCBBTQ0KPiBUbzogS2FtYmxlLCBOaXRpbiBBDQo+IENjOiBwb2t5QHlvY3RvcHJvamVjdC5vcmc7
+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6
+IFtwb2t5XSBbUEFUQ0ggMS8xXSBnY2MtcnVudGltZTogZml4IExTQiBsaWJyYXJ5IGNoZWNrcyBm
+b3INCj4gbGlic3RkYysrLnNvLjYNCj4gDQo+IE9uIE1vbiwgTWFyIDcsIDIwMTEgYXQgODo1NSBB
+TSwgTml0aW4gQSBLYW1ibGUNCj4gPG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4gd3JvdGU6DQo+
+ID4gRnJvbTogTml0aW4gQSBLYW1ibGUgPG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4NCj4gPg0K
+PiA+IFtZT0NUTyAjNzk1XQ0KPiA+DQo+ID4gV2hlbiB3ZSBydW4gbGlicmFyeSBjaGVjayBvZiBM
+U0Igb24gcWVtdXg4NiBhbmQgcWVtdXBwYywgd2UgZ290IHNvbWUNCj4gZmFpbHVyZXMNCj4gPiBh
+Ym91dCAnbGlic3RkYysrLnNvLjYnLg0KPiA+DQo+ID4gVGVzdCBlbnZpcm9ubWVudDoNCj4gPiBQ
+bGF0Zm9ybTogUWVtdS14ODYsIFFlbXUtcHBjDQo+ID4gbHNiIGltYWdlOiBwb2t5LWltYWdlLWxz
+Yi1xZW11eDg2LXRlc3QuZXh0MyhGZWIgMjZ0aCwgYXV0by1idWlsZA0KPiBzZXJ2ZXIpDQo+ID4g
+TGlicmFyeSBjaGVjayBvZiBMU0I6IDQuMS4wLTENCj4gPg0KPiA+IFRoZSBlcnJvciBsb2c6DQo+
+ID4gRGlkIG5vdCBmaW5kIF9aTktTdDVjdHlwZUljRThkb193aWRlbkVQS2NTMl9QYyAoR0xJQkNY
+WF8zLjQpIGluDQo+IGxpYnN0ZGMrKy5zby42DQo+ID4gVW5tYW5nbGVkIHN5bWJvbCBuYW1lOiBz
+dGQ6OmN0eXBlPGNoYXI+Ojpkb193aWRlbihjaGFyIGNvbnN0KiwgY2hhcg0KPiBjb25zdCosDQo+
+ID4gY2hhciopIGNvbnN0DQo+ID4gLi4uDQo+ID4NCj4gPiDCoGZvdW5kIHRoYXQgc29tZSB3ZWFr
+IHN5bWJvbHMgKCdXJykgY2hhbmdlIGludG8gbG9jYWwgKCd0JykgZHVyaW5nDQo+IGxpbmsgdGlt
+ZQ0KPiA+IGFuZCBiZSBzdHJpcHBlZC4gQWNjb3JkaW5nIHRvIGNvbXBpbGluZyBsb2csIHRoZSBv
+cHRpb24NCj4gPiAiLWZ2aXNpYmlsaXR5LWlubGluZXMtaGlkZGVuIiBpcyB1c2VkIGZvciBnY2Mu
+IEFuZCB0aGlzIG9wdGlvbiBjYXVzZWQNCj4gc29tZSB3ZWFrDQo+ID4gc3ltYm9scyBjaGFuZ2Ug
+aW50byBsb2NhbC4NCj4gPg0KPiANCj4gDQo+IHlvdSBjb3VsZCB1c2Ugb2VfZmlsdGVyX291dCBm
+dW5jdGlvbmFsaXR5IHRvIHN0cmlwIG91dCBhIGdpdmVuIG9wdGlvbg0KPiBhbmQgeW91IHdvbnQg
+bmVlZCB0byB0b3VjaCBzbyBtYW55IHBhcnRzLiBKdXN0IGRvIHNvbWV0aGluZyBsaWtlDQo+IA0K
+PiBDWFhGTEFHUyA9ICIke0BvZV9maWx0ZXJfb3V0KCctZnZpc2liaWxpdHktaW5saW5lcy1oaWRk
+ZW4nLA0KPiAnJHtDWFhGTEFHU30nLCBkKX0iIGluIGdjYyBydW50aW1lIHJlY2lwZSBhbmQgeW91
+IHNob3VsZCBiZSBzZXQNCj4gDQo+IFRoYW5rcw0KPiANCj4gLUtoZW0NCkdvb2QgdG8ga25vdyBh
+bm90aGVyIHRyaWNrLiBUaGFua3MgS2hlbS4NCk5pdGluDQoNCg0KPiANCj4gPiBzZWUgaHR0cDov
+L2J1Z3ppbGxhLnBva3lsaW51eC5vcmcvc2hvd19idWcuY2dpP2lkPTc5NSBmb3IgbW9yZQ0KPiBp
+bmZvcm1hdGlvbiBvbiB0aGUgYnVnLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogTml0aW4gQSBL
+YW1ibGUgPG5pdGluLmEua2FtYmxlQGludGVsLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKaW5n
+ZG9uZyBMdSA8amluZ2RvbmcubHVAd2luZHJpdmVyLmNvbT4NCj4gPiAtLS0NCj4gPiDCoG1ldGEv
+Y29uZi9iaXRiYWtlLmNvbmYgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgfCDCoCDCoDIgKy0NCj4gPiDCoG1ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9wb2t5LWVnbGli
+Yy5pbmMgwqAgwqAgwqAgwqAgwqAgfCDCoCDCoDIgKy0NCj4gPiDCoG1ldGEvY29uZi9kaXN0cm8v
+aW5jbHVkZS9wb2t5LWdsaWJjLmluYyDCoCDCoCDCoCDCoCDCoCDCoHwgwqAgwqAyICstDQo+ID4g
+wqBtZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvcG9reS11Y2xpYmMuaW5jIMKgIMKgIMKgIMKgIMKg
+IHwgwqAgwqAyICstDQo+ID4gwqAuLi4vcmVjaXBlcy1kZXZ0b29scy9nY2MvZ2NjLWNvbmZpZ3Vy
+ZS1ydW50aW1lLmluYyB8IMKgIMKgMSArDQo+ID4gwqBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2Nj
+L2djYy1ydW50aW1lXzQuNS4xLmJiIMKgIMKgIHwgwqAgwqAyICstDQo+ID4gwqA2IGZpbGVzIGNo
+YW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1n
+aXQgYS9tZXRhL2NvbmYvYml0YmFrZS5jb25mIGIvbWV0YS9jb25mL2JpdGJha2UuY29uZg0KPiA+
+IGluZGV4IGNmOTlhODEuLjQ3MzMwNmEgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9jb25mL2JpdGJh
+a2UuY29uZg0KPiA+ICsrKyBiL21ldGEvY29uZi9iaXRiYWtlLmNvbmYNCj4gPiBAQCAtNDYzLDcg
+KzQ2Myw3IEBAIGV4cG9ydCBDRkxBR1MgPSAiJHtUQVJHRVRfQ0ZMQUdTfSINCj4gPiDCoGV4cG9y
+dCBUQVJHRVRfQ0ZMQUdTID0gIiR7VEFSR0VUX0NQUEZMQUdTfSAke1NFTEVDVEVEX09QVElNSVpB
+VElPTn0iDQo+ID4NCj4gPiDCoGV4cG9ydCBCVUlMRF9DWFhGTEFHUyA9ICIke0JVSUxEX0NGTEFH
+U30gLWZwZXJtaXNzaXZlIg0KPiA+IC1leHBvcnQgQ1hYRkxBR1MgPSAiJHtUQVJHRVRfQ1hYRkxB
+R1N9Ig0KPiA+ICtleHBvcnQgQ1hYRkxBR1MgPSAiJHtUQVJHRVRfQ1hYRkxBR1N9ICR7Q1hYRkxB
+R1NfRVhUUkF9Ig0KPiA+IMKgZXhwb3J0IFRBUkdFVF9DWFhGTEFHUyA9ICIke1RBUkdFVF9DRkxB
+R1N9IC1mcGVybWlzc2l2ZSINCj4gPg0KPiA+IMKgZXhwb3J0IEJVSUxEX0xERkxBR1MgPSAiLUwk
+e1NUQUdJTkdfTElCRElSX05BVElWRX0gXA0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NvbmYvZGlz
+dHJvL2luY2x1ZGUvcG9reS1lZ2xpYmMuaW5jDQo+IGIvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRl
+L3Bva3ktZWdsaWJjLmluYw0KPiA+IGluZGV4IDNkMmMzNjIuLjQ0YTAxNDYgMTAwNjQ0DQo+ID4g
+LS0tIGEvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL3Bva3ktZWdsaWJjLmluYw0KPiA+ICsrKyBi
+L21ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9wb2t5LWVnbGliYy5pbmMNCj4gPiBAQCAtMTksNyAr
+MTksNyBAQCBQUkVGRVJSRURfUFJPVklERVJfdmlydHVhbC8ke1NES19QUkVGSVh9bGliYy0NCj4g
+aW5pdGlhbC1uYXRpdmVzZGsgPz0gImVnbGliYy1pbml0aWENCj4gPg0KPiA+IMKgVEFSR0VUX09T
+ID0gIiR7R0xJQkNUQVJHRVRPU30iDQo+ID4NCj4gPiAtQ1hYRkxBR1MgKz0gIi1mdmlzaWJpbGl0
+eS1pbmxpbmVzLWhpZGRlbiINCj4gPiArQ1hYRkxBR1NfRVhUUkEgKz0gIi1mdmlzaWJpbGl0eS1p
+bmxpbmVzLWhpZGRlbiINCj4gPg0KPiA+IMKgTElCQ19ERVBFTkRFTkNJRVMgPSAibGlic2VnZmF1
+bHQgXA0KPiA+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGVnbGliYyBcDQo+ID4gZGlm
+ZiAtLWdpdCBhL21ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9wb2t5LWdsaWJjLmluYw0KPiBiL21l
+dGEvY29uZi9kaXN0cm8vaW5jbHVkZS9wb2t5LWdsaWJjLmluYw0KPiA+IGluZGV4IDRiZTcxMjIu
+LmQzZjI4YzAgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL3Bva3kt
+Z2xpYmMuaW5jDQo+ID4gKysrIGIvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL3Bva3ktZ2xpYmMu
+aW5jDQo+ID4gQEAgLTE4LDcgKzE4LDcgQEAgUFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwvJHtT
+REtfUFJFRklYfWxpYmMtDQo+IGluaXRpYWwtbmF0aXZlc2RrID89ICJnbGliYy1pbml0aWFsDQo+
+ID4NCj4gPiDCoFRBUkdFVF9PUyA9ICIke0dMSUJDVEFSR0VUT1N9Ig0KPiA+DQo+ID4gLUNYWEZM
+QUdTICs9ICItZnZpc2liaWxpdHktaW5saW5lcy1oaWRkZW4iDQo+ID4gK0NYWEZMQUdTX0VYVFJB
+ICs9ICItZnZpc2liaWxpdHktaW5saW5lcy1oaWRkZW4iDQo+ID4NCj4gPiDCoExJQkNfREVQRU5E
+RU5DSUVTID0gIlwNCj4gPiDCoCDCoCBsaWJzZWdmYXVsdCBcDQo+ID4gZGlmZiAtLWdpdCBhL21l
+dGEvY29uZi9kaXN0cm8vaW5jbHVkZS9wb2t5LXVjbGliYy5pbmMNCj4gYi9tZXRhL2NvbmYvZGlz
+dHJvL2luY2x1ZGUvcG9reS11Y2xpYmMuaW5jDQo+ID4gaW5kZXggZGVmOWRmZS4uMTNjMTdmOSAx
+MDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvcG9reS11Y2xpYmMuaW5j
+DQo+ID4gKysrIGIvbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL3Bva3ktdWNsaWJjLmluYw0KPiA+
+IEBAIC0xNSw3ICsxNSw3IEBAIFVTRV9OTFNfZ2xpYi0yLjAgPSAieWVzIg0KPiA+DQo+ID4gwqBU
+QVJHRVRfT1MgPSAiJHtVQ0xJQkNUQVJHRVRPU30iDQo+ID4NCj4gPiAtQ1hYRkxBR1MgKz0gIi1m
+dmlzaWJpbGl0eS1pbmxpbmVzLWhpZGRlbiINCj4gPiArQ1hYRkxBR1NfRVhUUkEgKz0gIi1mdmlz
+aWJpbGl0eS1pbmxpbmVzLWhpZGRlbiINCj4gPg0KPiA+IMKgSU1BR0VfTElOR1VBUyA9ICIiDQo+
+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtY29uZmln
+dXJlLXJ1bnRpbWUuaW5jDQo+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtY29uZmln
+dXJlLXJ1bnRpbWUuaW5jDQo+ID4gaW5kZXggNmNjMTFlMi4uZDRkZmJjMiAxMDA2NDQNCj4gPiAt
+LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2NjL2djYy1jb25maWd1cmUtcnVudGltZS5pbmMN
+Cj4gPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2NjL2djYy1jb25maWd1cmUtcnVudGlt
+ZS5pbmMNCj4gPiBAQCAtMSw1ICsxLDYgQEANCj4gPiDCoHJlcXVpcmUgZ2NjLWNvbmZpZ3VyZS1j
+b21tb24uaW5jDQo+ID4NCj4gPiArQ1hYRkxBR1NfRVhUQSA9ICIiDQo+ID4gwqBFWFRSQV9PRUNP
+TkZfUEFUSFMgPSAiIFwNCj4gPiDCoCDCoCAtLXdpdGgtbG9jYWwtcHJlZml4PSR7U1RBR0lOR19E
+SVJfVEFSR0VUfSR7cHJlZml4fSBcDQo+ID4gwqAgwqAgLS13aXRoLWd4eC1pbmNsdWRlLWRpcj0k
+e2luY2x1ZGVkaXJ9L2MrKy8gXA0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvZ2NjL2djYy1ydW50aW1lXzQuNS4xLmJiDQo+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dj
+Yy9nY2MtcnVudGltZV80LjUuMS5iYg0KPiA+IGluZGV4IDA5M2Y5YmYuLmMxZTY4MGQgMTAwNjQ0
+DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtcnVudGltZV80LjUuMS5i
+Yg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvZ2NjLXJ1bnRpbWVfNC41LjEu
+YmINCj4gPiBAQCAtMSw0ICsxLDQgQEANCj4gPiAtUFIgPSAicjIiDQo+ID4gK1BSID0gInIzIg0K
+PiA+DQo+ID4gwqByZXF1aXJlIGdjYy0ke1BWfS5pbmMNCj4gPiDCoHJlcXVpcmUgZ2NjLWNvbmZp
+Z3VyZS1ydW50aW1lLmluYw0KPiA+IC0tDQo+ID4gMS43LjMuNA0KPiA+DQo+ID4gX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gPiBwb2t5IG1haWxpbmcg
+bGlzdA0KPiA+IHBva3lAeW9jdG9wcm9qZWN0Lm9yZw0KPiA+IGh0dHBzOi8vbGlzdHMueW9jdG9w
+cm9qZWN0Lm9yZy9saXN0aW5mby9wb2t5DQo+ID4NCg==
 
-On Mon, 2011-03-07 at 16:29 -0800, Saul Wold wrote:
-From: Dexuan Cui <dexuan.cui@intel.com>
-> 
-> This fixes [YOCTO #814]
-> 
-> Without the line fixing nativesdk, bitbake meta-toolchain-gmae would
-> get the following:
-> 
-> Missing or unbuildable dependency chain was: ['meta-toolchain-gmae',
-'task-sdk-host', 'qemu-nativesdk', 'libsdl-nativesdk',
-'libx11-nativesdk', 'util-macros-nativesdk', 'libgpg-error-nativesdk']
-> ERROR: Nothing PROVIDES 'libgpg-error-nativesdk'
-> 
-> [sgw: inherit gettext]
-> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  .../xorg-util/util-macros_1.11.0.bb                |    5 +++--
->  1 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-b/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-> index 2bfe514..10de96c 100644
-> --- a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-> +++ b/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-> @@ -11,12 +11,13 @@ PE = "1"
->  PR = "r0"
->  
->  # ${PN} is empty so we need to tweak -dev and -dbg package
-dependencies
-> -DEPENDS = "gettext libgpg-error"
-> -DEPENDS_virtclass-native = "gettext"
-> +DEPENDS = "libgpg-error"
->  
->  RDEPENDS_${PN}-dev = ""
->  RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPV})"
->  
-> +inherit gettext
-> +
->  BBCLASSEXTEND = "native nativesdk"
->  
->  SRC_URI[md5sum] = "8580021f3a9e242ab09d23d62e475d53"
-> 
-By making this change you've introduced the requirement for native and
-nativesdk variants of libgpg-error, we don't want nor need this for the
--native* builds which is why we had a line explicitly setting the
-DEPENDS for native.
 
-The right way to do this is to have a similar line for the nativesdk
-DEPENDS as per the attached patch (and my josh/bernard branch on
-poky-contrib).
-
-Cheers,
-Joshua
--- 
-Joshua Lock
-        Yocto Build System Monkey
-        Intel Open Source Technology Centre
-
---=-Wk4h4c454hLcCUWZCUoo
-Content-Disposition: attachment; filename="0001-util-macros-fix-DEPENDS-for-nativesdk.patch"
-Content-Type: text/x-patch; name="0001-util-macros-fix-DEPENDS-for-nativesdk.patch"; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-From 48f856c6bdb8c7ddaf23963238ab52fb8856cdd5 Mon Sep 17 00:00:00 2001
-From: Joshua Lock <josh@linux.intel.com>
-Date: Tue, 8 Mar 2011 10:20:27 -0800
-Subject: [PATCH] util-macros: fix DEPENDS for nativesdk
-
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- .../xorg-util/util-macros_1.11.0.bb                |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
-
-diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb b/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-index 2bfe514..e2c558c 100644
---- a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-+++ b/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-@@ -13,6 +13,7 @@ PR = "r0"
- # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
- DEPENDS = "gettext libgpg-error"
- DEPENDS_virtclass-native = "gettext"
-+DEPENDS_virtclass-nativesdk = "gettext"
- 
- RDEPENDS_${PN}-dev = ""
- RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPV})"
--- 
-1.7.4
-
-
---=-Wk4h4c454hLcCUWZCUoo--
