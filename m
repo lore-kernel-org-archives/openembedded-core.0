@@ -1,37 +1,36 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1PwlZ6-0003D0-HA
+	(envelope-from <raj.khem@gmail.com>) id 1PwqbK-0003Vx-UE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Mar 2011 02:18:20 +0100
-Received: by fxm8 with SMTP id 8so4709003fxm.6
+	Tue, 08 Mar 2011 07:40:59 +0100
+Received: by fxm8 with SMTP id 8so4854651fxm.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Mar 2011 17:16:47 -0800 (PST)
+	Mon, 07 Mar 2011 22:39:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=7dkyV2IHUX5lGDVzFFOJuyQO/PrPTxD3KpOFNakKYbc=;
-	b=smc7T4biqw0sPw23hf6b4LzZdKBXOezO5UmFzrXiDK4KCzlvwtWrWdSagggJgr68wM
-	z46PjvtcWGTO7y10PHxY9GXtrS37aqXi+VTxpzb9U8f7h5s5h3DEsrkJTEEo1UWTxocj
-	I0wvnkEf5IR5PC6sLCySfvfvTDLzeWwAzNxJM=
+	bh=mAVUobYB8ogP5A1eYowyBA/7jtJnSBLSfn628evPQaY=;
+	b=UTeMz0mAujbujew0tOwblt+LUsKfiVwMbinpBg+AiKjMR3cwSdDjL5O06AHa+2WNYp
+	9/c94XoeMpFu6wh4IJiXotoGJ2kcj8zCDVr0v6pQCCAhQ/pZ0bCCSnsisYQiKWjaD0/3
+	0BZ24lICO22+f81vJKu4T1Gye56PmAfHLJ6II=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:content-transfer-encoding;
-	b=XDrRJGauzFsq/fekVIyQSAMQiNpOaqoJ4sa56j1rzWkWHCXcX+tktW2COr2VvtMAhY
-	EmwPg7QXELh2yPLcD3wubWzaEr5E72fA+hXe6I0huEtRbjboaFQfelniLQQ3czwX4o0O
-	J2uvLDPM3JZc17pPfqJsjmW673ym9rHzfkv14=
-Received: by 10.223.76.147 with SMTP id c19mr1886557fak.55.1299547007165; Mon,
-	07 Mar 2011 17:16:47 -0800 (PST)
+	b=Z7ZnH+qmsF42EBc9eiEgPWBONE5UC1ky/uuts4cw6WSHXwmLlRJbmTxeLcMabe8ZxN
+	9zKAVWydsEmwKzibkCXl9Hrivj+pjmgKU5mijr8V2R8zT++eiLNuGAVyt3Jfx1dPWG7Q
+	3YgVKZqVT31a1PgrKwzQdtD+DMteJbU0ZSevw=
+Received: by 10.223.5.3 with SMTP id 3mr3608050fat.0.1299566365157; Mon, 07
+	Mar 2011 22:39:25 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.223.30.151 with HTTP; Mon, 7 Mar 2011 17:16:17 -0800 (PST)
-In-Reply-To: <ddc99853f9ba82192fa6562c6e6732cf4b55445b.1299544029.git.sgw@linux.intel.com>
-References: <cover.1299544029.git.sgw@linux.intel.com>
-	<ddc99853f9ba82192fa6562c6e6732cf4b55445b.1299544029.git.sgw@linux.intel.com>
+Received: by 10.223.30.151 with HTTP; Mon, 7 Mar 2011 22:38:55 -0800 (PST)
+In-Reply-To: <1299135167-18330-4-git-send-email-raj.khem@gmail.com>
+References: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
+	<1299135167-18330-4-git-send-email-raj.khem@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 7 Mar 2011 17:16:17 -0800
-Message-ID: <AANLkTimwBGBU=_0jKY+MW4_wo+CZ6sjG9vzzDkzYyX_i@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [poky] [PATCH 8/8] gcc-runtime: fix LSB library checks for libstdc++.so.6
+Date: Mon, 7 Mar 2011 22:38:55 -0800
+Message-ID: <AANLkTiks0VSWcW4_54mQUv17ZQvb8+CsbWcsDkA_9ZA+@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv3 3/6] gcc: Statically link in support libraries e.g. libmpfr libgmp etc.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,135 +45,350 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2011 01:18:20 -0000
+X-List-Received-Date: Tue, 08 Mar 2011 06:40:59 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 7, 2011 at 4:29 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->
-> [YOCTO #795]
->
-> When we run library check of LSB on qemux86 and qemuppc, we got some fail=
-ures
-> about 'libstdc++.so.6'.
+ping any opinion on this patch ?
 
-Saul
-
-I have provided comments to redo this patch.
-
+On Wed, Mar 2, 2011 at 10:52 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> * This is helpful to get consistent behaviour with gcc on different
+> =C2=A0hosts and linking the libraries in for cross gcc recipes should not
+> =C2=A0be increasing the binary size alarmingly
 >
-> Test environment:
-> Platform: Qemu-x86, Qemu-ppc
-> lsb image: poky-image-lsb-qemux86-test.ext3(Feb 26th, auto-build server)
-> Library check of LSB: 4.1.0-1
->
-> The error log:
-> Did not find _ZNKSt5ctypeIcE8do_widenEPKcS2_Pc (GLIBCXX_3.4) in libstdc++=
-.so.6
-> Unmangled symbol name: std::ctype<char>::do_widen(char const*, char const=
-*,
-> char*) const
-> ...
->
-> =C2=A0found that some weak symbols ('W') change into local ('t') during l=
-ink time
-> and be stripped. According to compiling log, the option
-> "-fvisibility-inlines-hidden" is used for gcc. And this option caused som=
-e weak
-> symbols change into local.
->
-> see http://bugzilla.pokylinux.org/show_bug.cgi?id=3D795 for more informat=
-ion on the bug.
->
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> Signed-off-by: Jingdong Lu <jingdong.lu@windriver.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
-> =C2=A0meta/conf/bitbake.conf =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A02 +-
-> =C2=A0meta/conf/distro/include/poky-eglibc.inc =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | =C2=A0 =C2=A02 +-
-> =C2=A0meta/conf/distro/include/poky-glibc.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+> =C2=A0meta/recipes-devtools/gcc/gcc-configure-common.inc | =C2=A0 =C2=A07=
+ +++++++
+> =C2=A0meta/recipes-devtools/gcc/gcc-configure-cross.inc =C2=A0| =C2=A0 10=
+ ++++++++++
+> =C2=A0meta/recipes-devtools/gcc/gcc-configure-sdk.inc =C2=A0 =C2=A0| =C2=
+=A0 =C2=A08 ++++++++
+> =C2=A0.../gcc/gcc-cross-canadian_4.3.3.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
+> =C2=A0.../gcc/gcc-cross-canadian_4.5.1.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
+> =C2=A0.../gcc/gcc-cross-initial_4.3.3.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A02 +-
+> =C2=A0.../gcc/gcc-cross-initial_4.5.1.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A02 +-
+> =C2=A0.../gcc/gcc-cross-intermediate_4.3.3.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0=
  =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
-> =C2=A0meta/conf/distro/include/poky-uclibc.inc =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | =C2=A0 =C2=A02 +-
-> =C2=A0.../recipes-devtools/gcc/gcc-configure-runtime.inc | =C2=A0 =C2=A01=
- +
+> =C2=A0.../gcc/gcc-cross-intermediate_4.5.1.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
+> =C2=A0.../gcc/gcc-cross-kernel-3.4.4_csl-arm-2005q3.bb =C2=A0 | =C2=A0 =
+=C2=A02 +-
+> =C2=A0meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb =C2=A0 =C2=A0 =C2=A0 |=
+ =C2=A0 =C2=A02 +-
+> =C2=A0meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb =C2=A0 =C2=A0 =C2=A0 |=
+ =C2=A0 =C2=A02 +-
+> =C2=A0.../gcc/gcc-cross_csl-arm-2008q1.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
+> =C2=A0.../gcc/gcc-crosssdk-initial_4.3.3.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
+> =C2=A0.../gcc/gcc-crosssdk-initial_4.5.1.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
+> =C2=A0.../gcc/gcc-crosssdk-intermediate_4.3.3.bb =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | =C2=A0 =C2=A02 +-
+> =C2=A0.../gcc/gcc-crosssdk-intermediate_4.5.1.bb =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | =C2=A0 =C2=A02 +-
+> =C2=A0meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb =C2=A0 =C2=A0| =C2=
+=A0 =C2=A02 +-
+> =C2=A0meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb =C2=A0 =C2=A0 | =C2=
+=A0 =C2=A02 +-
 > =C2=A0meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb =C2=A0 =C2=A0 | =C2=
 =A0 =C2=A02 +-
-> =C2=A06 files changed, 6 insertions(+), 5 deletions(-)
+> =C2=A0meta/recipes-devtools/gcc/gcc_4.3.3.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | =C2=A0 =C2=A02 +-
+> =C2=A0meta/recipes-devtools/gcc/gcc_4.5.1.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | =C2=A0 =C2=A02 +-
+> =C2=A0meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb =C2=A0 =C2=A0| =C2=
+=A0 =C2=A02 +-
+> =C2=A0meta/recipes-devtools/gcc/libgcc_4.5.1.bb =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| =C2=A0 =C2=A02 +-
+> =C2=A024 files changed, 46 insertions(+), 21 deletions(-)
 >
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index cf99a81..473306a 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -463,7 +463,7 @@ export CFLAGS =3D "${TARGET_CFLAGS}"
-> =C2=A0export TARGET_CFLAGS =3D "${TARGET_CPPFLAGS} ${SELECTED_OPTIMIZATIO=
-N}"
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/re=
+cipes-devtools/gcc/gcc-configure-common.inc
+> index 4393777..cdb69fb 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> @@ -85,6 +85,11 @@ do_configure () {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0export CXXFLAGS_FOR_BUILD=3D"${BUILD_CXXFLAGS}=
+"
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0export LDFLAGS_FOR_BUILD=3D"${BUILD_LDFLAGS}"
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0export ARCH_FLAGS_FOR_TARGET=3D"${ARCH_FLAGS_F=
+OR_TARGET}"
+> +
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0# Make sure LDFLAGS are honored.
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i 's/^LDFLAGS =3D $/LDFLAGS =3D @LDFLAG=
+S@/' ${S}/Makefile.in
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i 's/^LDFLAGS =3D $/LDFLAGS =3D @LDFLAG=
+S@/' ${S}/Makefile.tpl
+> +
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0(cd ${S} && gnu-configize) || die "failure run=
+ning gnu-configize"
 >
-> =C2=A0export BUILD_CXXFLAGS =3D "${BUILD_CFLAGS} -fpermissive"
-> -export CXXFLAGS =3D "${TARGET_CXXFLAGS}"
-> +export CXXFLAGS =3D "${TARGET_CXXFLAGS} ${CXXFLAGS_EXTRA}"
-> =C2=A0export TARGET_CXXFLAGS =3D "${TARGET_CFLAGS} -fpermissive"
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0# teach gcc to find correct target includedir =
+when checking libc ssp support
+> @@ -108,5 +113,7 @@ do_configure () {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0echo "#endif /* ! GCC_DEFAULTS_H */" >> ${S}/g=
+cc/defaults.h.new
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0mv ${S}/gcc/defaults.h.new ${S}/gcc/defaults.h
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runconf
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0# make sure that no @LDFLAG@ is left in the =
+generated Makefile
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i "s/@LDFLAGS@//g" ${B}/Makefile
+> =C2=A0}
 >
-> =C2=A0export BUILD_LDFLAGS =3D "-L${STAGING_LIBDIR_NATIVE} \
-> diff --git a/meta/conf/distro/include/poky-eglibc.inc b/meta/conf/distro/=
-include/poky-eglibc.inc
-> index 3d2c362..44a0146 100644
-> --- a/meta/conf/distro/include/poky-eglibc.inc
-> +++ b/meta/conf/distro/include/poky-eglibc.inc
-> @@ -19,7 +19,7 @@ PREFERRED_PROVIDER_virtual/${SDK_PREFIX}libc-initial-na=
-tivesdk ?=3D "eglibc-initia
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-cross.inc b/meta/rec=
+ipes-devtools/gcc/gcc-configure-cross.inc
+> index 346d164..200cbe2 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+> @@ -16,6 +16,16 @@ do_compile_prepend () {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0export LD_FOR_TARGET=3D"${TARGET_SYS}-ld"
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0export NM_FOR_TARGET=3D"${TARGET_SYS}-nm"
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0export CC_FOR_TARGET=3D"${CCACHE} ${TARGET_SYS=
+}-gcc ${TARGET_CC_ARCH}"
+> + =C2=A0 =C2=A0 =C2=A0 export OBJDUMP_FOR_TARGET=3D"${TARGET_SYS}-objdump=
+"
+> + =C2=A0 =C2=A0 =C2=A0 export OBJCOPY_FOR_TARGET=3D"${TARGET_SYS}-objcopy=
+"
+> + =C2=A0 =C2=A0 =C2=A0 export STRIP_FOR_TARGET=3D"${TARGET_SYS}-strip"
+> + =C2=A0 =C2=A0 =C2=A0 # Make sure we use GMP/MPFR statically
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_GMPLIBS =3D\) \(.*\)$/\1 -Wl,-Bs=
+tatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_GMPLIBS =3D\) \(.*\)$/\1 -Wl,-Bs=
+tatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_PPLLIBS =3D\) \(.*\)$/\1 -Wl,-Bs=
+tatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_PPLLIBS =3D\) \(.*\)$/\1 -Wl,-Bs=
+tatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_LIBELFLIBS =3D\) \(.*\)$/\1 -Wl,=
+-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_LIBELFLIBS =3D\) \(.*\)$/\1 -Wl,=
+-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> =C2=A0}
 >
-> =C2=A0TARGET_OS =3D "${GLIBCTARGETOS}"
+> =C2=A0LIBGCCS_VAR =3D "-lgcc_s"
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/recip=
+es-devtools/gcc/gcc-configure-sdk.inc
+> index 756e74e..3eb8992 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+> @@ -39,6 +39,14 @@ do_configure () {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0export CPPFLAGS_FOR_BUILD=3D"${BUILD_CPPFLAGS}=
+"
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0export CXXFLAGS_FOR_BUILD=3D"${BUILD_CXXFLAGS}=
+"
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0export LDFLAGS_FOR_BUILD=3D"${BUILD_LDFLAGS}"
+> + =C2=A0 =C2=A0 =C2=A0 export CC_FOR_TARGET=3D"${CCACHE} ${TARGET_SYS}-gc=
+c ${TARGET_CC_ARCH}"
+> + =C2=A0 =C2=A0 =C2=A0 # Make sure we use GMP/MPFR statically
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_GMPLIBS =3D\) \(.*\)$/\1 -Wl,-Bs=
+tatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_GMPLIBS =3D\) \(.*\)$/\1 -Wl,-Bs=
+tatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_PPLLIBS =3D\) \(.*\)$/\1 -Wl,-Bs=
+tatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_PPLLIBS =3D\) \(.*\)$/\1 -Wl,-Bs=
+tatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_LIBELFLIBS =3D\) \(.*\)$/\1 -Wl,=
+-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> + =C2=A0 =C2=A0 =C2=A0 sed -i 's/^\(HOST_LIBELFLIBS =3D\) \(.*\)$/\1 -Wl,=
+-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0(cd ${S} && gnu-configize) || die "failure run=
+ning gnu-configize"
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runconf
+> =C2=A0}
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.3.3.bb b/meta=
+/recipes-devtools/gcc/gcc-cross-canadian_4.3.3.bb
+> index d420f80..8bf07d7 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.3.3.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.3.3.bb
+> @@ -5,7 +5,7 @@ require gcc-cross-canadian.inc
+> =C2=A0require gcc-configure-sdk.inc
+> =C2=A0require gcc-package-sdk.inc
 >
-> -CXXFLAGS +=3D "-fvisibility-inlines-hidden"
-> +CXXFLAGS_EXTRA +=3D "-fvisibility-inlines-hidden"
+> -PR =3D "r20"
+> +PR =3D "r21"
 >
-> =C2=A0LIBC_DEPENDENCIES =3D "libsegfault \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 egl=
-ibc \
-> diff --git a/meta/conf/distro/include/poky-glibc.inc b/meta/conf/distro/i=
-nclude/poky-glibc.inc
-> index 4be7122..d3f28c0 100644
-> --- a/meta/conf/distro/include/poky-glibc.inc
-> +++ b/meta/conf/distro/include/poky-glibc.inc
-> @@ -18,7 +18,7 @@ PREFERRED_PROVIDER_virtual/${SDK_PREFIX}libc-initial-na=
-tivesdk ?=3D "glibc-initial
+> =C2=A0DEPENDS +=3D "gmp-nativesdk mpfr-nativesdk"
+> =C2=A0RDEPENDS_${PN} +=3D "mpfr-nativesdk"
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb b/meta=
+/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb
+> index 3eea4bc..92708d4 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb
+> @@ -5,7 +5,7 @@ require gcc-cross-canadian.inc
+> =C2=A0require gcc-configure-sdk.inc
+> =C2=A0require gcc-package-sdk.inc
 >
-> =C2=A0TARGET_OS =3D "${GLIBCTARGETOS}"
+> -PR =3D "r3"
+> +PR =3D "r4"
 >
-> -CXXFLAGS +=3D "-fvisibility-inlines-hidden"
-> +CXXFLAGS_EXTRA +=3D "-fvisibility-inlines-hidden"
+> =C2=A0DEPENDS +=3D "gmp-nativesdk mpfr-nativesdk libmpc-nativesdk elfutil=
+s-nativesdk"
+> =C2=A0RDEPENDS_${PN} +=3D "mpfr-nativesdk libmpc-nativesdk elfutils-nativ=
+esdk"
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial_4.3.3.bb b/meta/=
+recipes-devtools/gcc/gcc-cross-initial_4.3.3.bb
+> index 28ac1ab..ef52845 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-initial_4.3.3.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-initial_4.3.3.bb
+> @@ -1,5 +1,5 @@
+> =C2=A0require gcc-cross_${PV}.bb
+> =C2=A0require gcc-cross-initial.inc
 >
-> =C2=A0LIBC_DEPENDENCIES =3D "\
-> =C2=A0 =C2=A0 libsegfault \
-> diff --git a/meta/conf/distro/include/poky-uclibc.inc b/meta/conf/distro/=
-include/poky-uclibc.inc
-> index def9dfe..13c17f9 100644
-> --- a/meta/conf/distro/include/poky-uclibc.inc
-> +++ b/meta/conf/distro/include/poky-uclibc.inc
-> @@ -15,7 +15,7 @@ USE_NLS_glib-2.0 =3D "yes"
+> -PR =3D "r5"
+> +PR =3D "r6"
 >
-> =C2=A0TARGET_OS =3D "${UCLIBCTARGETOS}"
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb b/meta/=
+recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb
+> index b2c257d..38e0964 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb
+> @@ -1,5 +1,5 @@
+> =C2=A0require gcc-cross_${PV}.bb
+> =C2=A0require gcc-cross-initial.inc
 >
-> -CXXFLAGS +=3D "-fvisibility-inlines-hidden"
-> +CXXFLAGS_EXTRA +=3D "-fvisibility-inlines-hidden"
+> -PR =3D "r2"
+> +PR =3D "r3"
 >
-> =C2=A0IMAGE_LINGUAS =3D ""
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.3.3.bb b/=
+meta/recipes-devtools/gcc/gcc-cross-intermediate_4.3.3.bb
+> index a8473b0..deeee37 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.3.3.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.3.3.bb
+> @@ -1,4 +1,4 @@
+> =C2=A0require gcc-cross_${PV}.bb
+> =C2=A0require gcc-cross-intermediate.inc
+> -PR =3D "r5"
+> +PR =3D "r6"
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/r=
-ecipes-devtools/gcc/gcc-configure-runtime.inc
-> index 6cc11e2..d4dfbc2 100644
-> --- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-> @@ -1,5 +1,6 @@
-> =C2=A0require gcc-configure-common.inc
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb b/=
+meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb
+> index e65d5df..9a30cb5 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb
+> @@ -1,4 +1,4 @@
+> =C2=A0require gcc-cross_${PV}.bb
+> =C2=A0require gcc-cross-intermediate.inc
+> -PR =3D "r3"
+> +PR =3D "r4"
 >
-> +CXXFLAGS_EXTA =3D ""
-> =C2=A0EXTRA_OECONF_PATHS =3D " \
-> =C2=A0 =C2=A0 --with-local-prefix=3D${STAGING_DIR_TARGET}${prefix} \
-> =C2=A0 =C2=A0 --with-gxx-include-dir=3D${includedir}/c++/ \
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-kernel-3.4.4_csl-arm-200=
+5q3.bb b/meta/recipes-devtools/gcc/gcc-cross-kernel-3.4.4_csl-arm-2005q3.bb
+> index 88e3842..462104f 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-kernel-3.4.4_csl-arm-2005q3.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-kernel-3.4.4_csl-arm-2005q3.bb
+> @@ -9,7 +9,7 @@ require gcc-cross-kernel.inc
+>
+> =C2=A0DEFAULT_PREFERENCE =3D "-1"
+>
+> -PR =3D "r4"
+> +PR =3D "r5"
+>
+> =C2=A0SRC_URI +=3D "file://gcc-3.4.4-makefile-fix.patch;patch=3D1"
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb b/meta/recipes-=
+devtools/gcc/gcc-cross_4.3.3.bb
+> index 5eaac5f..1a982f5 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb
+> @@ -1,4 +1,4 @@
+> -PR =3D "r17"
+> +PR =3D "r18"
+>
+> =C2=A0require gcc-${PV}.inc
+> =C2=A0require gcc-cross4.inc
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb b/meta/recipes-=
+devtools/gcc/gcc-cross_4.5.1.bb
+> index 399cdf9..78bb05a 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb
+> @@ -1,4 +1,4 @@
+> -PR =3D "r2"
+> +PR =3D "r3"
+>
+> =C2=A0require gcc-${PV}.inc
+> =C2=A0require gcc-cross4.inc
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb b/meta=
+/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
+> index 89534f1..0e7a1ee 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
+> @@ -1,4 +1,4 @@
+> -PR =3D "r5"
+> +PR =3D "r6"
+>
+> =C2=A0require gcc-csl-arm-2008q1.inc
+> =C2=A0require gcc-cross4.inc
+> diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.3.3.bb b/me=
+ta/recipes-devtools/gcc/gcc-crosssdk-initial_4.3.3.bb
+> index b42de47..d3ddcb1 100644
+> --- a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.3.3.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.3.3.bb
+> @@ -1,3 +1,3 @@
+> =C2=A0require gcc-cross-initial_${PV}.bb
+> =C2=A0require gcc-crosssdk-initial.inc
+> -PR =3D "r6"
+> +PR =3D "r7"
+> diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb b/me=
+ta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb
+> index 240caf5..fec53b9 100644
+> --- a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb
+> @@ -1,4 +1,4 @@
+> =C2=A0require gcc-cross-initial_${PV}.bb
+> =C2=A0require gcc-crosssdk-initial.inc
+>
+> -PR =3D "r2"
+> +PR =3D "r3"
+> diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.3.3.bb=
+ b/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.3.3.bb
+> index cd1f966..2be05f1 100644
+> --- a/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.3.3.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.3.3.bb
+> @@ -1,3 +1,3 @@
+> =C2=A0require gcc-cross-intermediate_${PV}.bb
+> =C2=A0require gcc-crosssdk-intermediate.inc
+> -PR =3D "r8"
+> +PR =3D "r9"
+> diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb=
+ b/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb
+> index a6653dd..161d870 100644
+> --- a/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb
+> @@ -1,4 +1,4 @@
+> =C2=A0require gcc-cross-intermediate_${PV}.bb
+> =C2=A0require gcc-crosssdk-intermediate.inc
+>
+> -PR =3D "r2"
+> +PR =3D "r3"
+> diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb b/meta/recip=
+es-devtools/gcc/gcc-crosssdk_4.5.1.bb
+> index 129e8d3..7069088 100644
+> --- a/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb
+> @@ -1,4 +1,4 @@
+> =C2=A0require gcc-cross_${PV}.bb
+> =C2=A0require gcc-crosssdk.inc
+>
+> -PR =3D "r2"
+> +PR =3D "r3"
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb b/meta/recipe=
+s-devtools/gcc/gcc-runtime_4.3.3.bb
+> index 99f927a..2f5cfb5 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb
+> @@ -1,4 +1,4 @@
+> -PR =3D "r18"
+> +PR =3D "r19"
+>
+> =C2=A0require gcc-${PV}.inc
+> =C2=A0require gcc-configure-runtime.inc
 > diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb b/meta/recipe=
 s-devtools/gcc/gcc-runtime_4.5.1.bb
 > index 093f9bf..c1e680d 100644
@@ -186,13 +400,56 @@ s-devtools/gcc/gcc-runtime_4.5.1.bb
 >
 > =C2=A0require gcc-${PV}.inc
 > =C2=A0require gcc-configure-runtime.inc
-> --
-> 1.7.1.1
+> diff --git a/meta/recipes-devtools/gcc/gcc_4.3.3.bb b/meta/recipes-devtoo=
+ls/gcc/gcc_4.3.3.bb
+> index f0471d4..ba6e7b2 100644
+> --- a/meta/recipes-devtools/gcc/gcc_4.3.3.bb
+> +++ b/meta/recipes-devtools/gcc/gcc_4.3.3.bb
+> @@ -1,4 +1,4 @@
+> -PR =3D "r11"
+> +PR =3D "r12"
 >
-> _______________________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
+> =C2=A0require gcc-${PV}.inc
+> =C2=A0require gcc-configure-target.inc
+> diff --git a/meta/recipes-devtools/gcc/gcc_4.5.1.bb b/meta/recipes-devtoo=
+ls/gcc/gcc_4.5.1.bb
+> index 919d4b0..25e455c 100644
+> --- a/meta/recipes-devtools/gcc/gcc_4.5.1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
+> @@ -1,4 +1,4 @@
+> -PR =3D "r2"
+> +PR =3D "r3"
+> =C2=A0require gcc-${PV}.inc
+> =C2=A0require gcc-configure-target.inc
+> =C2=A0require gcc-package-target.inc
+> diff --git a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb b/meta/recip=
+es-devtools/gcc/gcc_csl-arm-2008q1.bb
+> index cc7540a..2df12ef 100644
+> --- a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
+> @@ -1,4 +1,4 @@
+> -PR =3D "r3"
+> +PR =3D "r4"
+>
+> =C2=A0require gcc-${PV}.inc
+> =C2=A0require gcc-configure-target.inc
+> diff --git a/meta/recipes-devtools/gcc/libgcc_4.5.1.bb b/meta/recipes-dev=
+tools/gcc/libgcc_4.5.1.bb
+> index b6cf268..3f7ce0a 100644
+> --- a/meta/recipes-devtools/gcc/libgcc_4.5.1.bb
+> +++ b/meta/recipes-devtools/gcc/libgcc_4.5.1.bb
+> @@ -1,6 +1,6 @@
+> =C2=A0require gcc-${PV}.inc
+>
+> -PR =3D "r0"
+> +PR =3D "r1"
+>
+> =C2=A0INHIBIT_DEFAULT_DEPS =3D "1"
+> =C2=A0DEPENDS =3D "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g+=
++"
+> --
+> 1.7.4.1
+>
 >
 
 
