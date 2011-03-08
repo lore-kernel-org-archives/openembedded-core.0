@@ -1,26 +1,26 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1PwkpP-0002M8-Ki
+	(envelope-from <sgw@linux.intel.com>) id 1PwkpP-0002MB-MC
 	for openembedded-core@lists.openembedded.org;
 	Tue, 08 Mar 2011 01:31:07 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 07 Mar 2011 16:29:36 -0800
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 07 Mar 2011 16:29:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,280,1297065600"; d="scan'208";a="399048515"
+X-IronPort-AV: E=Sophos;i="4.62,280,1297065600"; d="scan'208";a="610129652"
 Received: from unknown (HELO localhost) ([10.255.12.99])
-	by azsmga001.ch.intel.com with ESMTP; 07 Mar 2011 16:29:35 -0800
-Message-Id: <0c04b8bd89465d186d0ccb6912e7c08aae506541.1299544029.git.sgw@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 07 Mar 2011 16:29:32 -0800
+Message-Id: <7ba79b4c25126b42d3697cec9ecdf8d688d6da54.1299544029.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1299544029.git.sgw@linux.intel.com>
 References: <cover.1299544029.git.sgw@linux.intel.com>
-Old-Date: Mon, 7 Mar 2011 16:47:20 +0800
-Date: Mon, 07 Mar 2011 16:29:34 -0800
+Old-Date: Mon, 7 Mar 2011 09:52:41 -0800
+Date: Mon, 07 Mar 2011 16:29:32 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Tue, 08 Mar 2011 08:18:44 +0100
 Cc: Koen Kooi <koen@dominion.thruhere.net>, Liping Ke <liping.ke@intel.com>,
 	Dongxiao Xu <dongxiao.xu@intel.com>,
 	Jingdong Lu <jingdong.lu@windriver.com>
-Subject: [PATCH 6/8] util-macros: fix DEPENDS in the case of native/nativesdk
+Subject: [PATCH 3/8] lsb-live image: add lsb-live and lsb-sdk-live image types
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,44 +37,50 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Mar 2011 00:31:07 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
+From: Saul Wold <sgw@linux.intel.com>
 
-This fixes [YOCTO #814]
-
-Without the line fixing nativesdk, bitbake meta-toolchain-gmae would
-get the following:
-
-Missing or unbuildable dependency chain was: ['meta-toolchain-gmae', 'task-sdk-host', 'qemu-nativesdk', 'libsdl-nativesdk', 'libx11-nativesdk', 'util-macros-nativesdk', 'libgpg-error-nativesdk']
-ERROR: Nothing PROVIDES 'libgpg-error-nativesdk'
-
-[sgw: inherit gettext]
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../xorg-util/util-macros_1.11.0.bb                |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ .../recipes-extended/images/poky-image-lsb-live.bb |   11 +++++++++++
+ .../images/poky-image-lsb-sdk-live.bb              |   11 +++++++++++
+ 2 files changed, 22 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-extended/images/poky-image-lsb-live.bb
+ create mode 100644 meta/recipes-extended/images/poky-image-lsb-sdk-live.bb
 
-diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb b/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-index 2bfe514..10de96c 100644
---- a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-+++ b/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-@@ -11,12 +11,13 @@ PE = "1"
- PR = "r0"
- 
- # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
--DEPENDS = "gettext libgpg-error"
--DEPENDS_virtclass-native = "gettext"
-+DEPENDS = "libgpg-error"
- 
- RDEPENDS_${PN}-dev = ""
- RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPV})"
- 
-+inherit gettext
+diff --git a/meta/recipes-extended/images/poky-image-lsb-live.bb b/meta/recipes-extended/images/poky-image-lsb-live.bb
+new file mode 100644
+index 0000000..baa9ea0
+--- /dev/null
++++ b/meta/recipes-extended/images/poky-image-lsb-live.bb
+@@ -0,0 +1,11 @@
++DESCRIPTION = "LSB Bootable Live Image"
 +
- BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "8580021f3a9e242ab09d23d62e475d53"
++require recipes-core/images/poky-image-live.inc
++
++LABELS += "boot install"
++
++ROOTFS = "${DEPLOY_DIR_IMAGE}/poky-image-lsb-${MACHINE}.ext3"
++
++LICENSE = "MIT"
++
++do_bootimg[depends] += "poky-image-lsb:do_rootfs"
+diff --git a/meta/recipes-extended/images/poky-image-lsb-sdk-live.bb b/meta/recipes-extended/images/poky-image-lsb-sdk-live.bb
+new file mode 100644
+index 0000000..370780a
+--- /dev/null
++++ b/meta/recipes-extended/images/poky-image-lsb-sdk-live.bb
+@@ -0,0 +1,11 @@
++DESCRIPTION = "LSB SDK Bootable Live Image"
++
++require recipes-core/images/poky-image-live.inc
++
++LABELS += "boot install"
++
++ROOTFS = "${DEPLOY_DIR_IMAGE}/poky-image-lsb-sdk-${MACHINE}.ext3"
++
++LICENSE = "MIT"
++
++do_bootimg[depends] += "poky-image-lsb-sdk:do_rootfs"
 -- 
 1.7.1.1
 
