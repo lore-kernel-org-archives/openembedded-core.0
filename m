@@ -1,26 +1,26 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1PwkpP-0002MB-MC
+	(envelope-from <sgw@linux.intel.com>) id 1PwkpR-0002MB-UO
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Mar 2011 01:31:07 +0100
+	Tue, 08 Mar 2011 01:31:10 +0100
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 07 Mar 2011 16:29:33 -0800
+	by orsmga102.jf.intel.com with ESMTP; 07 Mar 2011 16:29:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,280,1297065600"; d="scan'208";a="610129652"
+X-IronPort-AV: E=Sophos;i="4.62,280,1297065600"; d="scan'208";a="610129668"
 Received: from unknown (HELO localhost) ([10.255.12.99])
-	by orsmga002.jf.intel.com with ESMTP; 07 Mar 2011 16:29:32 -0800
-Message-Id: <7ba79b4c25126b42d3697cec9ecdf8d688d6da54.1299544029.git.sgw@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 07 Mar 2011 16:29:37 -0800
+Message-Id: <ddc99853f9ba82192fa6562c6e6732cf4b55445b.1299544029.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1299544029.git.sgw@linux.intel.com>
 References: <cover.1299544029.git.sgw@linux.intel.com>
-Old-Date: Mon, 7 Mar 2011 09:52:41 -0800
-Date: Mon, 07 Mar 2011 16:29:32 -0800
+Old-Date: Sat, 5 Mar 2011 16:37:14 -0800
+Date: Mon, 07 Mar 2011 16:29:37 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Tue, 08 Mar 2011 08:18:44 +0100
 Cc: Koen Kooi <koen@dominion.thruhere.net>, Liping Ke <liping.ke@intel.com>,
 	Dongxiao Xu <dongxiao.xu@intel.com>,
 	Jingdong Lu <jingdong.lu@windriver.com>
-Subject: [PATCH 3/8] lsb-live image: add lsb-live and lsb-sdk-live image types
+Subject: [PATCH 8/8] gcc-runtime: fix LSB library checks for libstdc++.so.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,52 +35,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2011 00:31:07 -0000
+X-List-Received-Date: Tue, 08 Mar 2011 00:31:10 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+[YOCTO #795]
+
+When we run library check of LSB on qemux86 and qemuppc, we got some failures
+about 'libstdc++.so.6'.
+
+Test environment:
+Platform: Qemu-x86, Qemu-ppc
+lsb image: poky-image-lsb-qemux86-test.ext3(Feb 26th, auto-build server)
+Library check of LSB: 4.1.0-1
+
+The error log:
+Did not find _ZNKSt5ctypeIcE8do_widenEPKcS2_Pc (GLIBCXX_3.4) in libstdc++.so.6
+Unmangled symbol name: std::ctype<char>::do_widen(char const*, char const*,
+char*) const
+...
+
+ found that some weak symbols ('W') change into local ('t') during link time
+and be stripped. According to compiling log, the option
+"-fvisibility-inlines-hidden" is used for gcc. And this option caused some weak
+symbols change into local.
+
+see http://bugzilla.pokylinux.org/show_bug.cgi?id=795 for more information on the bug.
+
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Jingdong Lu <jingdong.lu@windriver.com>
 ---
- .../recipes-extended/images/poky-image-lsb-live.bb |   11 +++++++++++
- .../images/poky-image-lsb-sdk-live.bb              |   11 +++++++++++
- 2 files changed, 22 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-extended/images/poky-image-lsb-live.bb
- create mode 100644 meta/recipes-extended/images/poky-image-lsb-sdk-live.bb
+ meta/conf/bitbake.conf                             |    2 +-
+ meta/conf/distro/include/poky-eglibc.inc           |    2 +-
+ meta/conf/distro/include/poky-glibc.inc            |    2 +-
+ meta/conf/distro/include/poky-uclibc.inc           |    2 +-
+ .../recipes-devtools/gcc/gcc-configure-runtime.inc |    1 +
+ meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb     |    2 +-
+ 6 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-extended/images/poky-image-lsb-live.bb b/meta/recipes-extended/images/poky-image-lsb-live.bb
-new file mode 100644
-index 0000000..baa9ea0
---- /dev/null
-+++ b/meta/recipes-extended/images/poky-image-lsb-live.bb
-@@ -0,0 +1,11 @@
-+DESCRIPTION = "LSB Bootable Live Image"
-+
-+require recipes-core/images/poky-image-live.inc
-+
-+LABELS += "boot install"
-+
-+ROOTFS = "${DEPLOY_DIR_IMAGE}/poky-image-lsb-${MACHINE}.ext3"
-+
-+LICENSE = "MIT"
-+
-+do_bootimg[depends] += "poky-image-lsb:do_rootfs"
-diff --git a/meta/recipes-extended/images/poky-image-lsb-sdk-live.bb b/meta/recipes-extended/images/poky-image-lsb-sdk-live.bb
-new file mode 100644
-index 0000000..370780a
---- /dev/null
-+++ b/meta/recipes-extended/images/poky-image-lsb-sdk-live.bb
-@@ -0,0 +1,11 @@
-+DESCRIPTION = "LSB SDK Bootable Live Image"
-+
-+require recipes-core/images/poky-image-live.inc
-+
-+LABELS += "boot install"
-+
-+ROOTFS = "${DEPLOY_DIR_IMAGE}/poky-image-lsb-sdk-${MACHINE}.ext3"
-+
-+LICENSE = "MIT"
-+
-+do_bootimg[depends] += "poky-image-lsb-sdk:do_rootfs"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index cf99a81..473306a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -463,7 +463,7 @@ export CFLAGS = "${TARGET_CFLAGS}"
+ export TARGET_CFLAGS = "${TARGET_CPPFLAGS} ${SELECTED_OPTIMIZATION}"
+ 
+ export BUILD_CXXFLAGS = "${BUILD_CFLAGS} -fpermissive"
+-export CXXFLAGS = "${TARGET_CXXFLAGS}"
++export CXXFLAGS = "${TARGET_CXXFLAGS} ${CXXFLAGS_EXTRA}"
+ export TARGET_CXXFLAGS = "${TARGET_CFLAGS} -fpermissive"
+ 
+ export BUILD_LDFLAGS = "-L${STAGING_LIBDIR_NATIVE} \
+diff --git a/meta/conf/distro/include/poky-eglibc.inc b/meta/conf/distro/include/poky-eglibc.inc
+index 3d2c362..44a0146 100644
+--- a/meta/conf/distro/include/poky-eglibc.inc
++++ b/meta/conf/distro/include/poky-eglibc.inc
+@@ -19,7 +19,7 @@ PREFERRED_PROVIDER_virtual/${SDK_PREFIX}libc-initial-nativesdk ?= "eglibc-initia
+ 
+ TARGET_OS = "${GLIBCTARGETOS}"
+ 
+-CXXFLAGS += "-fvisibility-inlines-hidden"
++CXXFLAGS_EXTRA += "-fvisibility-inlines-hidden"
+ 
+ LIBC_DEPENDENCIES = "libsegfault \
+ 		     eglibc \
+diff --git a/meta/conf/distro/include/poky-glibc.inc b/meta/conf/distro/include/poky-glibc.inc
+index 4be7122..d3f28c0 100644
+--- a/meta/conf/distro/include/poky-glibc.inc
++++ b/meta/conf/distro/include/poky-glibc.inc
+@@ -18,7 +18,7 @@ PREFERRED_PROVIDER_virtual/${SDK_PREFIX}libc-initial-nativesdk ?= "glibc-initial
+ 
+ TARGET_OS = "${GLIBCTARGETOS}"
+ 
+-CXXFLAGS += "-fvisibility-inlines-hidden"
++CXXFLAGS_EXTRA += "-fvisibility-inlines-hidden"
+ 
+ LIBC_DEPENDENCIES = "\
+     libsegfault \
+diff --git a/meta/conf/distro/include/poky-uclibc.inc b/meta/conf/distro/include/poky-uclibc.inc
+index def9dfe..13c17f9 100644
+--- a/meta/conf/distro/include/poky-uclibc.inc
++++ b/meta/conf/distro/include/poky-uclibc.inc
+@@ -15,7 +15,7 @@ USE_NLS_glib-2.0 = "yes"
+ 
+ TARGET_OS = "${UCLIBCTARGETOS}"
+ 
+-CXXFLAGS += "-fvisibility-inlines-hidden"
++CXXFLAGS_EXTRA += "-fvisibility-inlines-hidden"
+ 
+ IMAGE_LINGUAS = ""
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+index 6cc11e2..d4dfbc2 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+@@ -1,5 +1,6 @@
+ require gcc-configure-common.inc
+ 
++CXXFLAGS_EXTA = ""
+ EXTRA_OECONF_PATHS = " \
+     --with-local-prefix=${STAGING_DIR_TARGET}${prefix} \
+     --with-gxx-include-dir=${includedir}/c++/ \
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+index 093f9bf..c1e680d 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+@@ -1,4 +1,4 @@
+-PR = "r2"
++PR = "r3"
+ 
+ require gcc-${PV}.inc
+ require gcc-configure-runtime.inc
 -- 
 1.7.1.1
 
