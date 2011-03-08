@@ -1,24 +1,26 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Pwkr9-0002Nt-Oe
+	(envelope-from <sgw@linux.intel.com>) id 1PwkrA-0002Nt-G1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Mar 2011 01:32:55 +0100
+	Tue, 08 Mar 2011 01:32:58 +0100
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 07 Mar 2011 16:31:20 -0800
+	by orsmga101.jf.intel.com with ESMTP; 07 Mar 2011 16:31:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,280,1297065600"; d="scan'208";a="717410553"
+X-IronPort-AV: E=Sophos;i="4.62,280,1297065600"; d="scan'208";a="717410561"
 Received: from unknown (HELO localhost) ([10.255.12.99])
-	by orsmga001.jf.intel.com with ESMTP; 07 Mar 2011 16:29:29 -0800
-Message-Id: <cover.1299544029.git.sgw@linux.intel.com>
-Old-Date: Mon, 7 Mar 2011 16:27:09 -0800
-Date: Mon, 07 Mar 2011 16:29:28 -0800
+	by orsmga001.jf.intel.com with ESMTP; 07 Mar 2011 16:29:36 -0800
+Message-Id: <ae913c11529a6ba4cd84dcc866932c115dbb4968.1299544029.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1299544029.git.sgw@linux.intel.com>
+References: <cover.1299544029.git.sgw@linux.intel.com>
+Old-Date: Mon, 7 Mar 2011 17:53:47 +0100
+Date: Mon, 07 Mar 2011 16:29:36 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Tue, 08 Mar 2011 08:18:44 +0100
 Cc: Koen Kooi <koen@dominion.thruhere.net>, Liping Ke <liping.ke@intel.com>,
 	Dongxiao Xu <dongxiao.xu@intel.com>,
 	Jingdong Lu <jingdong.lu@windriver.com>
-Subject: [PATCH 0/8] Numerous bug fixes
+Subject: [PATCH 7/8] libgpg-error: extend to nativesdk to catch up with metadata changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,65 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2011 00:32:56 -0000
+X-List-Received-Date: Tue, 08 Mar 2011 00:32:58 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Koen Kooi <koen@dominion.thruhere.net>
 
-This set address a number of bugs found during testing of
-the Bernard release, they may not all be accepeted, I send 
-them here for reference also.
+libgpg-error was introduced into the dependency tree for meta-toolchain-qte without the needed nativesdk extend
 
-
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: distro/oe-dist
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=distro/oe-dist
-
-Thanks,
-    Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
+ .../libgpg-error/libgpg-error_1.9.bb               |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-
-Dexuan Cui (1):
-  util-macros: fix DEPENDS in the case of native/nativesdk
-
-Dongxiao Xu (1):
-  connman: add xuser to the dbus permission list
-
-Koen Kooi (1):
-  libgpg-error: extend to nativesdk to catch up with metadata changes
-
-Liping Ke (1):
-  adt: Update to svn r596 to fix symbolic link issues
-
-Nitin A Kamble (1):
-  gcc-runtime: fix LSB library checks for libstdc++.so.6
-
-Saul Wold (3):
-  gst-plugins: Added hal to DEPENDS
-  attr: Added ncurses to depends
-  lsb-live image: add lsb-live and lsb-sdk-live image types
-
- meta/conf/bitbake.conf                             |    2 +-
- .../conf/distro/include/poky-default-revisions.inc |    1 +
- meta/conf/distro/include/poky-eglibc.inc           |    2 +-
- meta/conf/distro/include/poky-glibc.inc            |    2 +-
- meta/conf/distro/include/poky-uclibc.inc           |    2 +-
- .../connman-0.65/add_xuser_dbus_permission.patch   |   21 ++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_0.65.bb  |    3 +-
- .../recipes-devtools/gcc/gcc-configure-runtime.inc |    1 +
- meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb     |    2 +-
- .../installer/adt-installer/adt_installer          |    2 +-
- .../installer/adt-installer_1.0.bb                 |    8 +++---
- .../recipes-extended/images/poky-image-lsb-live.bb |   11 ++++++++++
- .../images/poky-image-lsb-sdk-live.bb              |   11 ++++++++++
- .../xorg-util/util-macros_1.11.0.bb                |    5 ++-
- meta/recipes-multimedia/gstreamer/gst-plugins.inc  |    2 +-
- meta/recipes-support/attr/attr.inc                 |    2 +
- .../libgpg-error/libgpg-error_1.9.bb               |    5 ++-
- 17 files changed, 66 insertions(+), 16 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman-0.65/add_xuser_dbus_permission.patch
- create mode 100644 meta/recipes-extended/images/poky-image-lsb-live.bb
- create mode 100644 meta/recipes-extended/images/poky-image-lsb-sdk-live.bb
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb
+index 479a11f..5e474cd 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.9.bb
+@@ -10,7 +10,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+ 
+ 
+ SECTION = "libs"
+-DEPENDS = "gettext"
+ PR = "r0"
+ 
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-${PV}.tar.bz2 \
+@@ -23,4 +22,6 @@ SRC_URI[sha256sum] = "54d9326bfbd46c705963c507953f65a40576d04b374e131008dc5b732f
+ FILES_${PN} = "${libdir}/lib*.so.*"
+ FILES_${PN}-dev += "${bindir}/*"
+ 
+-inherit autotools binconfig pkgconfig
++inherit gettext autotools binconfig pkgconfig
++
++BBCLASSEXTEND = "nativesdk"
+-- 
+1.7.1.1
 
 
 
