@@ -1,33 +1,35 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Px225-0008GQ-EZ for openembedded-core@lists.openembedded.org;
-	Tue, 08 Mar 2011 19:53:21 +0100
+	id 1Px23j-0008IG-Ms for openembedded-core@lists.openembedded.org;
+	Tue, 08 Mar 2011 19:55:04 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p28Ipd1B023221;
-	Tue, 8 Mar 2011 18:51:39 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p28IrUfm023271
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Mar 2011 18:53:30 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 22665-10; Tue,  8 Mar 2011 18:51:36 +0000 (GMT)
+	id 23224-01 for <openembedded-core@lists.openembedded.org>;
+	Tue,  8 Mar 2011 18:53:26 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p28IpROX023215
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 8 Mar 2011 18:51:30 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p28IrJFb023234
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Mar 2011 18:53:22 GMT
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <AANLkTi=bCN5b7TmByhECJpRYf05q3i6FKSDk5GSh1-3N@mail.gmail.com>
+In-Reply-To: <AANLkTiks0VSWcW4_54mQUv17ZQvb8+CsbWcsDkA_9ZA+@mail.gmail.com>
 References: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
-	<1299135167-18330-3-git-send-email-raj.khem@gmail.com>
-	<AANLkTi=bCN5b7TmByhECJpRYf05q3i6FKSDk5GSh1-3N@mail.gmail.com>
-Date: Tue, 08 Mar 2011 10:51:24 -0800
-Message-ID: <1299610284.602.99.camel@rex>
+	<1299135167-18330-4-git-send-email-raj.khem@gmail.com>
+	<AANLkTiks0VSWcW4_54mQUv17ZQvb8+CsbWcsDkA_9ZA+@mail.gmail.com>
+Date: Tue, 08 Mar 2011 10:53:16 -0800
+Message-ID: <1299610396.602.104.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.28.3 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: "saul.wold" <saul.wold@intel.com>
-Subject: Re: [PATCHv3 2/6] distro_tracking_fields.inc: Use 2.6.37.2 instead of 2.6.36 for linux-libc-headers
+Subject: Re: [PATCHv3 3/6] gcc: Statically link in support libraries e.g. libmpfr libgmp etc.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,45 +44,353 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Mar 2011 18:53:21 -0000
+X-List-Received-Date: Tue, 08 Mar 2011 18:55:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-03-07 at 22:39 -0800, Khem Raj wrote:
-> On Wed, Mar 2, 2011 at 10:52 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  .../conf/distro/include/distro_tracking_fields.inc |    6 +++---
-> >  1 files changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-> > index 1dab90a..beb18e2 100644
-> > --- a/meta/conf/distro/include/distro_tracking_fields.inc
-> > +++ b/meta/conf/distro/include/distro_tracking_fields.inc
-> > @@ -2884,9 +2884,9 @@ RECIPE_LAST_UPDATE_pn-libtool = "Nov 8, 2010"
-> >  RECIPE_MAINTAINER_pn-libtool = "Nitin A Kamble <nitin.a.kamble@intel.com>"
-> >
-> >  RECIPE_STATUS_pn-linux-libc-headers="green"
-> > -RECIPE_LATEST_VERSION_pn-linux-libc-headers="2.6.36"
-> > -RECIPE_LAST_UPDATE_pn-linux-libc-headers = "Nov 8, 2010"
-> > -RECIPE_MAINTAINER_pn-linux-libc-headers = "Nitin A Kamble <nitin.a.kamble@intel.com>"
-> > +RECIPE_LATEST_VERSION_pn-linux-libc-headers="2.6.37.2"
-> > +RECIPE_LAST_UPDATE_pn-linux-libc-headers = "Mar 1, 2011"
-> > +RECIPE_MAINTAINER_pn-linux-libc-headers = "Khem Raj <raj.khem@gmail.com>"
-> >
-> >  RECIPE_STATUS_pn-lsof="green"
-> >  RECIPE_LATEST_VERSION_pn-lsof="4.84"
-> > --
-> > 1.7.4.1
+On Mon, 2011-03-07 at 22:38 -0800, Khem Raj wrote:
+> ping any opinion on this patch ?
 
-With this patch, I need to work out who "owns" these tracking fields
-going forwards and what the policy is regarding them. I'd like some
-input from Saul on this although it might not happen until next week as
-we're both travelling.
+This change looks rather hacky and I'd really like to understand more
+about why this is needed and whether there is a better way we could
+ensure the right flags get passed around. Can you provide more details
+about whats going on with this. Obviously this change as it stands isn't
+acceptable to upstream gcc and I'd like to see if we could find one that
+was.
 
 Cheers,
 
 Richard
+
+> On Wed, Mar 2, 2011 at 10:52 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > * This is helpful to get consistent behaviour with gcc on different
+> >  hosts and linking the libraries in for cross gcc recipes should not
+> >  be increasing the binary size alarmingly
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-devtools/gcc/gcc-configure-common.inc |    7 +++++++
+> >  meta/recipes-devtools/gcc/gcc-configure-cross.inc  |   10 ++++++++++
+> >  meta/recipes-devtools/gcc/gcc-configure-sdk.inc    |    8 ++++++++
+> >  .../gcc/gcc-cross-canadian_4.3.3.bb                |    2 +-
+> >  .../gcc/gcc-cross-canadian_4.5.1.bb                |    2 +-
+> >  .../gcc/gcc-cross-initial_4.3.3.bb                 |    2 +-
+> >  .../gcc/gcc-cross-initial_4.5.1.bb                 |    2 +-
+> >  .../gcc/gcc-cross-intermediate_4.3.3.bb            |    2 +-
+> >  .../gcc/gcc-cross-intermediate_4.5.1.bb            |    2 +-
+> >  .../gcc/gcc-cross-kernel-3.4.4_csl-arm-2005q3.bb   |    2 +-
+> >  meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb       |    2 +-
+> >  meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb       |    2 +-
+> >  .../gcc/gcc-cross_csl-arm-2008q1.bb                |    2 +-
+> >  .../gcc/gcc-crosssdk-initial_4.3.3.bb              |    2 +-
+> >  .../gcc/gcc-crosssdk-initial_4.5.1.bb              |    2 +-
+> >  .../gcc/gcc-crosssdk-intermediate_4.3.3.bb         |    2 +-
+> >  .../gcc/gcc-crosssdk-intermediate_4.5.1.bb         |    2 +-
+> >  meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb    |    2 +-
+> >  meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb     |    2 +-
+> >  meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb     |    2 +-
+> >  meta/recipes-devtools/gcc/gcc_4.3.3.bb             |    2 +-
+> >  meta/recipes-devtools/gcc/gcc_4.5.1.bb             |    2 +-
+> >  meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb    |    2 +-
+> >  meta/recipes-devtools/gcc/libgcc_4.5.1.bb          |    2 +-
+> >  24 files changed, 46 insertions(+), 21 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> > index 4393777..cdb69fb 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> > @@ -85,6 +85,11 @@ do_configure () {
+> >        export CXXFLAGS_FOR_BUILD="${BUILD_CXXFLAGS}"
+> >        export LDFLAGS_FOR_BUILD="${BUILD_LDFLAGS}"
+> >        export ARCH_FLAGS_FOR_TARGET="${ARCH_FLAGS_FOR_TARGET}"
+> > +
+> > +        # Make sure LDFLAGS are honored.
+> > +        sed -i 's/^LDFLAGS = $/LDFLAGS = @LDFLAGS@/' ${S}/Makefile.in
+> > +        sed -i 's/^LDFLAGS = $/LDFLAGS = @LDFLAGS@/' ${S}/Makefile.tpl
+> > +
+> >        (cd ${S} && gnu-configize) || die "failure running gnu-configize"
+> >
+> >        # teach gcc to find correct target includedir when checking libc ssp support
+> > @@ -108,5 +113,7 @@ do_configure () {
+> >        echo "#endif /* ! GCC_DEFAULTS_H */" >> ${S}/gcc/defaults.h.new
+> >        mv ${S}/gcc/defaults.h.new ${S}/gcc/defaults.h
+> >        oe_runconf
+> > +        # make sure that no @LDFLAG@ is left in the generated Makefile
+> > +        sed -i "s/@LDFLAGS@//g" ${B}/Makefile
+> >  }
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-configure-cross.inc b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+> > index 346d164..200cbe2 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-configure-cross.inc
+> > @@ -16,6 +16,16 @@ do_compile_prepend () {
+> >        export LD_FOR_TARGET="${TARGET_SYS}-ld"
+> >        export NM_FOR_TARGET="${TARGET_SYS}-nm"
+> >        export CC_FOR_TARGET="${CCACHE} ${TARGET_SYS}-gcc ${TARGET_CC_ARCH}"
+> > +       export OBJDUMP_FOR_TARGET="${TARGET_SYS}-objdump"
+> > +       export OBJCOPY_FOR_TARGET="${TARGET_SYS}-objcopy"
+> > +       export STRIP_FOR_TARGET="${TARGET_SYS}-strip"
+> > +       # Make sure we use GMP/MPFR statically
+> > +       sed -i 's/^\(HOST_GMPLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> > +       sed -i 's/^\(HOST_GMPLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> > +       sed -i 's/^\(HOST_PPLLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> > +       sed -i 's/^\(HOST_PPLLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> > +       sed -i 's/^\(HOST_LIBELFLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> > +       sed -i 's/^\(HOST_LIBELFLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> >  }
+> >
+> >  LIBGCCS_VAR = "-lgcc_s"
+> > diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+> > index 756e74e..3eb8992 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+> > @@ -39,6 +39,14 @@ do_configure () {
+> >        export CPPFLAGS_FOR_BUILD="${BUILD_CPPFLAGS}"
+> >        export CXXFLAGS_FOR_BUILD="${BUILD_CXXFLAGS}"
+> >        export LDFLAGS_FOR_BUILD="${BUILD_LDFLAGS}"
+> > +       export CC_FOR_TARGET="${CCACHE} ${TARGET_SYS}-gcc ${TARGET_CC_ARCH}"
+> > +       # Make sure we use GMP/MPFR statically
+> > +       sed -i 's/^\(HOST_GMPLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> > +       sed -i 's/^\(HOST_GMPLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> > +       sed -i 's/^\(HOST_PPLLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> > +       sed -i 's/^\(HOST_PPLLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> > +       sed -i 's/^\(HOST_LIBELFLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.tpl
+> > +       sed -i 's/^\(HOST_LIBELFLIBS =\) \(.*\)$/\1 -Wl,-Bstatic \2 -Wl,-Bdynamic/' ${S}/Makefile.in
+> >        (cd ${S} && gnu-configize) || die "failure running gnu-configize"
+> >        oe_runconf
+> >  }
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.3.3.bb b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.3.3.bb
+> > index d420f80..8bf07d7 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.3.3.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.3.3.bb
+> > @@ -5,7 +5,7 @@ require gcc-cross-canadian.inc
+> >  require gcc-configure-sdk.inc
+> >  require gcc-package-sdk.inc
+> >
+> > -PR = "r20"
+> > +PR = "r21"
+> >
+> >  DEPENDS += "gmp-nativesdk mpfr-nativesdk"
+> >  RDEPENDS_${PN} += "mpfr-nativesdk"
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb
+> > index 3eea4bc..92708d4 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.5.1.bb
+> > @@ -5,7 +5,7 @@ require gcc-cross-canadian.inc
+> >  require gcc-configure-sdk.inc
+> >  require gcc-package-sdk.inc
+> >
+> > -PR = "r3"
+> > +PR = "r4"
+> >
+> >  DEPENDS += "gmp-nativesdk mpfr-nativesdk libmpc-nativesdk elfutils-nativesdk"
+> >  RDEPENDS_${PN} += "mpfr-nativesdk libmpc-nativesdk elfutils-nativesdk"
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial_4.3.3.bb b/meta/recipes-devtools/gcc/gcc-cross-initial_4.3.3.bb
+> > index 28ac1ab..ef52845 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross-initial_4.3.3.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross-initial_4.3.3.bb
+> > @@ -1,5 +1,5 @@
+> >  require gcc-cross_${PV}.bb
+> >  require gcc-cross-initial.inc
+> >
+> > -PR = "r5"
+> > +PR = "r6"
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb
+> > index b2c257d..38e0964 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross-initial_4.5.1.bb
+> > @@ -1,5 +1,5 @@
+> >  require gcc-cross_${PV}.bb
+> >  require gcc-cross-initial.inc
+> >
+> > -PR = "r2"
+> > +PR = "r3"
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.3.3.bb b/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.3.3.bb
+> > index a8473b0..deeee37 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.3.3.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.3.3.bb
+> > @@ -1,4 +1,4 @@
+> >  require gcc-cross_${PV}.bb
+> >  require gcc-cross-intermediate.inc
+> > -PR = "r5"
+> > +PR = "r6"
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb
+> > index e65d5df..9a30cb5 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate_4.5.1.bb
+> > @@ -1,4 +1,4 @@
+> >  require gcc-cross_${PV}.bb
+> >  require gcc-cross-intermediate.inc
+> > -PR = "r3"
+> > +PR = "r4"
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross-kernel-3.4.4_csl-arm-2005q3.bb b/meta/recipes-devtools/gcc/gcc-cross-kernel-3.4.4_csl-arm-2005q3.bb
+> > index 88e3842..462104f 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross-kernel-3.4.4_csl-arm-2005q3.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross-kernel-3.4.4_csl-arm-2005q3.bb
+> > @@ -9,7 +9,7 @@ require gcc-cross-kernel.inc
+> >
+> >  DEFAULT_PREFERENCE = "-1"
+> >
+> > -PR = "r4"
+> > +PR = "r5"
+> >
+> >  SRC_URI += "file://gcc-3.4.4-makefile-fix.patch;patch=1"
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb b/meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb
+> > index 5eaac5f..1a982f5 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb
+> > @@ -1,4 +1,4 @@
+> > -PR = "r17"
+> > +PR = "r18"
+> >
+> >  require gcc-${PV}.inc
+> >  require gcc-cross4.inc
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb
+> > index 399cdf9..78bb05a 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross_4.5.1.bb
+> > @@ -1,4 +1,4 @@
+> > -PR = "r2"
+> > +PR = "r3"
+> >
+> >  require gcc-${PV}.inc
+> >  require gcc-cross4.inc
+> > diff --git a/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
+> > index 89534f1..0e7a1ee 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
+> > @@ -1,4 +1,4 @@
+> > -PR = "r5"
+> > +PR = "r6"
+> >
+> >  require gcc-csl-arm-2008q1.inc
+> >  require gcc-cross4.inc
+> > diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.3.3.bb b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.3.3.bb
+> > index b42de47..d3ddcb1 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.3.3.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.3.3.bb
+> > @@ -1,3 +1,3 @@
+> >  require gcc-cross-initial_${PV}.bb
+> >  require gcc-crosssdk-initial.inc
+> > -PR = "r6"
+> > +PR = "r7"
+> > diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb
+> > index 240caf5..fec53b9 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.5.1.bb
+> > @@ -1,4 +1,4 @@
+> >  require gcc-cross-initial_${PV}.bb
+> >  require gcc-crosssdk-initial.inc
+> >
+> > -PR = "r2"
+> > +PR = "r3"
+> > diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.3.3.bb b/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.3.3.bb
+> > index cd1f966..2be05f1 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.3.3.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.3.3.bb
+> > @@ -1,3 +1,3 @@
+> >  require gcc-cross-intermediate_${PV}.bb
+> >  require gcc-crosssdk-intermediate.inc
+> > -PR = "r8"
+> > +PR = "r9"
+> > diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb
+> > index a6653dd..161d870 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.5.1.bb
+> > @@ -1,4 +1,4 @@
+> >  require gcc-cross-intermediate_${PV}.bb
+> >  require gcc-crosssdk-intermediate.inc
+> >
+> > -PR = "r2"
+> > +PR = "r3"
+> > diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb
+> > index 129e8d3..7069088 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-crosssdk_4.5.1.bb
+> > @@ -1,4 +1,4 @@
+> >  require gcc-cross_${PV}.bb
+> >  require gcc-crosssdk.inc
+> >
+> > -PR = "r2"
+> > +PR = "r3"
+> > diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb
+> > index 99f927a..2f5cfb5 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb
+> > @@ -1,4 +1,4 @@
+> > -PR = "r18"
+> > +PR = "r19"
+> >
+> >  require gcc-${PV}.inc
+> >  require gcc-configure-runtime.inc
+> > diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+> > index 093f9bf..c1e680d 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+> > @@ -1,4 +1,4 @@
+> > -PR = "r2"
+> > +PR = "r3"
+> >
+> >  require gcc-${PV}.inc
+> >  require gcc-configure-runtime.inc
+> > diff --git a/meta/recipes-devtools/gcc/gcc_4.3.3.bb b/meta/recipes-devtools/gcc/gcc_4.3.3.bb
+> > index f0471d4..ba6e7b2 100644
+> > --- a/meta/recipes-devtools/gcc/gcc_4.3.3.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc_4.3.3.bb
+> > @@ -1,4 +1,4 @@
+> > -PR = "r11"
+> > +PR = "r12"
+> >
+> >  require gcc-${PV}.inc
+> >  require gcc-configure-target.inc
+> > diff --git a/meta/recipes-devtools/gcc/gcc_4.5.1.bb b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
+> > index 919d4b0..25e455c 100644
+> > --- a/meta/recipes-devtools/gcc/gcc_4.5.1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
+> > @@ -1,4 +1,4 @@
+> > -PR = "r2"
+> > +PR = "r3"
+> >  require gcc-${PV}.inc
+> >  require gcc-configure-target.inc
+> >  require gcc-package-target.inc
+> > diff --git a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
+> > index cc7540a..2df12ef 100644
+> > --- a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
+> > +++ b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
+> > @@ -1,4 +1,4 @@
+> > -PR = "r3"
+> > +PR = "r4"
+> >
+> >  require gcc-${PV}.inc
+> >  require gcc-configure-target.inc
+> > diff --git a/meta/recipes-devtools/gcc/libgcc_4.5.1.bb b/meta/recipes-devtools/gcc/libgcc_4.5.1.bb
+> > index b6cf268..3f7ce0a 100644
+> > --- a/meta/recipes-devtools/gcc/libgcc_4.5.1.bb
+> > +++ b/meta/recipes-devtools/gcc/libgcc_4.5.1.bb
+> > @@ -1,6 +1,6 @@
+> >  require gcc-${PV}.inc
+> >
+> > -PR = "r0"
+> > +PR = "r1"
+> >
+> >  INHIBIT_DEFAULT_DEPS = "1"
+> >  DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++"
+> > --
+> > 1.7.4.1
+> >
+> >
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+
 
 
 
