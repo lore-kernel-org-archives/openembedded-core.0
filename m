@@ -1,29 +1,44 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-px0-f178.google.com ([209.85.212.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Px8HI-0003HN-Jp
+	(envelope-from <raj.khem@gmail.com>) id 1PxBR8-0005zU-OR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Mar 2011 02:33:28 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 08 Mar 2011 17:30:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,287,1297065600"; 
-	d="scan'208,223";a="399727801"
-Received: from unknown (HELO helios.localnet) ([10.255.17.23])
-	by azsmga001.ch.intel.com with ESMTP; 08 Mar 2011 17:29:39 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-Organization: Intel Corporation (UK)
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 9 Mar 2011 01:29:37 +0000
-User-Agent: KMail/1.13.5 (Linux/2.6.35-27-generic-pae; KDE/4.6.0; i686; ; )
-References: <cover.1299544029.git.sgw@linux.intel.com>
-	<1299610544.602.109.camel@rex>
-In-Reply-To: <1299610544.602.109.camel@rex>
+	Wed, 09 Mar 2011 05:55:50 +0100
+Received: by pxi1 with SMTP id 1so42939pxi.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Mar 2011 20:54:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=2RzkHLD1eLW1yHZ6NKSMBTVR3ghtdukE81W0IIpX6EA=;
+	b=WNNyNK6YOQcItS3eisnJkc8kN14+5e2ecp55LOfGJ3ZrestIy7HCKje4zyRLCJ3QV4
+	IctfpFSF9gGDPY8kIYMqTyrEl7LNI1YV3WpxgaDuqtvjiD7An2sodW9qEBlEZOY3T1D4
+	KJezt/e0Ux2SPPZHvkKkZciNWH02b60rryF7A=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	b=o5S6nt24dJ/3JPhAhlmZLbB3Kl4FqS8TD2I48e6Y5SocE/r56O+FFG4UJPsOVQ13lV
+	ijRdaZKlSEChJFdDBs0ODmZguKkSDj4aslIcjddQPKfP+sZp/7Hg76nBHIcon294cNn3
+	7SE5iyDKkWI0+sMpNdgv7I2s9yoHkUmX15XbA=
+Received: by 10.142.165.21 with SMTP id n21mr5075238wfe.310.1299646450312;
+	Tue, 08 Mar 2011 20:54:10 -0800 (PST)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id o11sm1910047wfa.0.2011.03.08.20.54.06
+	(version=SSLv3 cipher=OTHER); Tue, 08 Mar 2011 20:54:08 -0800 (PST)
+Message-ID: <4D7707E9.3080702@gmail.com>
+Date: Tue, 08 Mar 2011 20:54:01 -0800
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
+	rv:1.9.2.14) Gecko/20110221 Thunderbird/3.1.8
 MIME-Version: 1.0
-Message-Id: <201103090129.37429.paul.eggleton@linux.intel.com>
-Cc: poky@yoctoproject.org
-Subject: Re: [PATCH 0/8] Numerous bug fixes
+To: Nitin A Kamble <nitin.a.kamble@intel.com>
+References: <cover.1299633840.git.nitin.a.kamble@intel.com>
+	<33b26ba051fa171e480bce3a1e4497a619241176.1299633840.git.nitin.a.kamble@intel.com>
+In-Reply-To: <33b26ba051fa171e480bce3a1e4497a619241176.1299633840.git.nitin.a.kamble@intel.com>
+Cc: poky@yoctoproject.org, Jingdong Lu <jingdong.lu@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] gcc-runtime: fix LSB library checks for libstdc++.so.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,94 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2011 01:33:28 -0000
-X-Groupsio-MsgNum: 333
-Content-Type: Multipart/Mixed;
-  boundary="Boundary-00=_BgtdNcfeg2fG2ze"
-
---Boundary-00=_BgtdNcfeg2fG2ze
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Wed, 09 Mar 2011 04:55:51 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tuesday 08 March 2011 18:55:44 Richard Purdie wrote:
-> > Saul Wold (3):
-> >   gst-plugins: Added hal to DEPENDS
-> >   attr: Added ncurses to depends
-> >   lsb-live image: add lsb-live and lsb-sdk-live image types
-> 
-> Merged. I'd like to drop the hal dependency if someone can send me a
-> patch which disables it and everything works.
+On 3/8/2011 5:26 PM, Nitin A Kamble wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>
+> [YOCTO #795]
+>
+> When we run library check of LSB on qemux86 and qemuppc, we got some failures
+> about 'libstdc++.so.6'.
+>
+> Test environment:
+> Platform: Qemu-x86, Qemu-ppc
+> lsb image: poky-image-lsb-qemux86-test.ext3(Feb 26th, auto-build server)
+> Library check of LSB: 4.1.0-1
+>
+> The error log:
+> Did not find _ZNKSt5ctypeIcE8do_widenEPKcS2_Pc (GLIBCXX_3.4) in libstdc++.so.6
+> Unmangled symbol name: std::ctype<char>::do_widen(char const*, char const*,
+> char*) const
+> ...
+>
+>   found that some weak symbols ('W') change into local ('t') during link time
+> and be stripped. According to compiling log, the option
+> "-fvisibility-inlines-hidden" is used for gcc. And this option caused some weak
+> symbols change into local.
+>
+> see http://bugzilla.pokylinux.org/show_bug.cgi?id=795 for more information on the bug.
+>
+> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+> Signed-off-by: Jingdong Lu<jingdong.lu@windriver.com>
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
 
-Patch attached to do this (against oe-core) .
-
-Cheers,
-Paul
-
---Boundary-00=_BgtdNcfeg2fG2ze
-Content-Type: text/x-patch;
-  charset="UTF-8";
-  name="0001-gst-plugins-good-remove-dependency-on-hal.patch"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
-	filename="0001-gst-plugins-good-remove-dependency-on-hal.patch"
-
-From d6f52ebf89e8413f8e24bbc9ab58a0d0e5c45c09 Mon Sep 17 00:00:00 2001
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Wed, 9 Mar 2011 01:21:25 +0000
-Subject: [PATCH] gst-plugins-good: remove dependency on hal
-
-Disable hal usage at configure time to avoid dependency on hal (which is
-deprecated). Only affects "halelements" which is of no use without hal.
-
-Fixes [YOCTO #810] and reverts changes from c6b0c5720fa.
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../gstreamer/gst-plugins-good_0.10.26.bb          |    4 ++--
- meta/recipes-multimedia/gstreamer/gst-plugins.inc  |    2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.26.bb =
-b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.26.bb
-index 78b24fe..ac47ecf 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.26.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.26.bb
-@@ -7,11 +7,11 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da6f89e2100d9b6=
-cdffcea4f398e37343 \
-=20
- DEPENDS +=3D "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag=
- flac \
- 	    speex"
--PR =3D "r0"
-+PR =3D "r1"
-=20
- inherit gettext
-=20
--EXTRA_OECONF +=3D "--disable-aalib --disable-esd --disable-shout2 --disabl=
-e-libcaca --without-check"
-+EXTRA_OECONF +=3D "--disable-aalib --disable-esd --disable-shout2 --disabl=
-e-libcaca --disable-hal --without-check"
-=20
- do_configure_prepend() {
- 	# This m4 file contains nastiness which conflicts with libtool 2.2.2
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins.inc b/meta/recip=
-es-multimedia/gstreamer/gst-plugins.inc
-index d1abd36..4edca95 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-@@ -3,7 +3,7 @@ HOMEPAGE =3D "http://gstreamer.freedesktop.org/"
- BUGTRACKER =3D "https://bugzilla.gnome.org/enter_bug.cgi?product=3DGstream=
-er"
- SECTION =3D "multimedia"
- PRIORITY =3D "optional"
--DEPENDS =3D "gstreamer hal"
-+DEPENDS =3D "gstreamer"
-=20
- inherit autotools pkgconfig
-=20
---=20
-1.7.1
+thank you. Applied it to openembedded-core
 
 
---Boundary-00=_BgtdNcfeg2fG2ze--
