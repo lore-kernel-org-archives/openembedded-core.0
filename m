@@ -1,34 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kevin.tian@intel.com>) id 1PxEjY-00082G-PP
+	(envelope-from <Jingdong.Lu@windriver.com>) id 1PxI97-0002oy-8E
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Mar 2011 09:27:05 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Mar 2011 00:24:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,289,1297065600"; d="scan'208";a="718075742"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga001.jf.intel.com with ESMTP; 09 Mar 2011 00:24:23 -0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.254.0; Wed, 9 Mar 2011 16:23:33 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Wed, 9 Mar 2011
-	16:23:31 +0800
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: "poky@yoctoproject.org" <poky@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 9 Mar 2011 16:23:30 +0800
-Thread-Topic: PERL and FULLPERL from MakeMaker.pm
-Thread-Index: AcveM0YGcH81/0D5RISKxkoSUI7zaw==
-Message-ID: <625BA99ED14B2D499DC4E29D8138F150575567B0A1@shsmsx502.ccr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
+	Wed, 09 Mar 2011 13:05:42 +0100
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p299jWuX008007
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 9 Mar 2011 01:45:32 -0800 (PST)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 9 Mar 2011 01:45:31 -0800
+Message-ID: <4D774C36.3090807@windriver.com>
+Date: Wed, 9 Mar 2011 17:45:26 +0800
+From: Lu Jingdong <jingdong.lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.13) Gecko/20101208 Thunderbird/3.1.7
 MIME-Version: 1.0
-Subject: PERL and FULLPERL from MakeMaker.pm
+To: Nitin A Kamble <nitin.a.kamble@intel.com>
+References: <cover.1299633840.git.nitin.a.kamble@intel.com>
+	<33b26ba051fa171e480bce3a1e4497a619241176.1299633840.git.nitin.a.kamble@intel.com>
+In-Reply-To: <33b26ba051fa171e480bce3a1e4497a619241176.1299633840.git.nitin.a.kamble@intel.com>
+X-Originating-IP: [128.224.162.205]
+X-Mailman-Approved-At: Wed, 09 Mar 2011 13:08:40 +0100
+Cc: poky@yoctoproject.org, Khem, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] gcc-runtime: fix LSB library checks for libstdc++.so.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,45 +38,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2011 08:27:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 09 Mar 2011 12:05:42 -0000
+Content-Type: multipart/alternative;
+	boundary="------------080306050505060608020008"
 
-Hi, all,
+--------------080306050505060608020008
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I just found that several perl-based projects (e.g. sgmlspl and git) failed=
- to find
-ExtUtils modules, when sstate cache is used for perl-native while original =
-build=20
-directory generating sstate packages have been deleted.
+On 03/09/2011 09:26 AM, Nitin A Kamble wrote:
+>   .../recipes-devtools/gcc/gcc-configure-runtime.inc |    3 +++
+>   meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb     |    2 +-
+>   2 files changed, 4 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+> index 6cc11e2..2d214af 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+> @@ -1,5 +1,8 @@
+>   require gcc-configure-common.inc
+>
+> +CXXFLAGS = "${@oe_filter_out('-fvisibility-inlines-hidden',
+> +'${CXXFLAGS}', d)}"
+> +
+I think it should be
 
-We have a perl wrapper to make sure @INC correctly including current build
-sysroot, which however doesn't solve the problem seen here.
+CXXFLAGS*:=*  "${@oe_filter_out('-fvisibility-inlines-hidden',
+'${CXXFLAGS}', d)}"
 
-Those projects make use of MakeMaker.pm to generate their Makefiles on the
-fly, while MakeMaker.pm generates below lines:
+otherwise it will give the following error log.
+NOTE: Error expanding variable CXXFLAGS###############################################################                                 | ETA:  00:00:00
+ERROR: Error parsing xxx.../xxx.bb: variable CXXFLAGS references itself!
 
-PERL =3D /media/builds-0/demo-0309/tmp/sysroots/x86_64-linux/usr/bin/perl.r=
-eal
-FULLPERL =3D
-/media/builds-0/demo-0309/tmp/sysroots/x86_64-linux/usr/bin/perl.real
+It is ok in python, but bitbake/lib/bb/data_smart.py will check it and it will cause error.
 
-I can work around the issues by manually changing Makefile when the error
-occurs.=20
-
-I know little about perl internals, and thus would like to know whether it'=
-s a
-easy issue to tackle. I didn't find any explicit files containing a perl.re=
-al from
-perl-native sstate package, except the perl wrapper script. So it's interes=
-ting
-how MakeMaker.pm finds the perl.real binary.
-
-I reported a bug at:
-http://bugzilla.yoctoproject.org/post_bug.cgi
-
-Thanks,
-Kevin
+>   EXTRA_OECONF_PATHS = " \
+>       --with-local-prefix=${STAGING_DIR_TARGET}${prefix} \
+>       --with-gxx-include-dir=${includedir}/c++/ \
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+> index 093f9bf..c1e680d 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+> @@ -1,4 +1,4 @@
+> -PR = "r2"
+> +PR = "r3"
+>
+>   require gcc-${PV}.inc
+>   require gcc-configure-runtime.inc
 
 
+-- 
+Lu Jingdong
+jingdong.lu@windriver.com
+China, Wind River
+
+
+--------------080306050505060608020008
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#ffffff" text="#000000">
+    <tt>On 03/09/2011 09:26 AM, Nitin A Kamble wrote:</tt>
+    <blockquote
+cite="mid:33b26ba051fa171e480bce3a1e4497a619241176.1299633840.git.nitin.a.kamble@intel.com"
+      type="cite">
+      <pre wrap=""> .../recipes-devtools/gcc/gcc-configure-runtime.inc |    3 +++
+ meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb     |    2 +-
+ 2 files changed, 4 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+index 6cc11e2..2d214af 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+@@ -1,5 +1,8 @@
+ require gcc-configure-common.inc
+ 
++CXXFLAGS = "${@oe_filter_out('-fvisibility-inlines-hidden',
++'${CXXFLAGS}', d)}" 
++
+</pre>
+    </blockquote>
+    <tt>I think it should be </tt><br>
+    <pre wrap="">CXXFLAGS <b>:=</b> "${@oe_filter_out('-fvisibility-inlines-hidden',
+'${CXXFLAGS}', d)}" 
+
+otherwise it will give the following error log.
+NOTE: Error expanding variable CXXFLAGS###############################################################                                 | ETA:  00:00:00
+ERROR: Error parsing xxx.../xxx.bb: variable CXXFLAGS references itself!
+
+It is ok in python, but bitbake/lib/bb/data_smart.py will check it and it will cause error.
+</pre>
+    <blockquote
+cite="mid:33b26ba051fa171e480bce3a1e4497a619241176.1299633840.git.nitin.a.kamble@intel.com"
+      type="cite">
+      <pre wrap=""> EXTRA_OECONF_PATHS = " \
+     --with-local-prefix=${STAGING_DIR_TARGET}${prefix} \
+     --with-gxx-include-dir=${includedir}/c++/ \
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+index 093f9bf..c1e680d 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
+@@ -1,4 +1,4 @@
+-PR = "r2"
++PR = "r3"
+ 
+ require gcc-${PV}.inc
+ require gcc-configure-runtime.inc
+</pre>
+    </blockquote>
+    <br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Lu Jingdong
+<a class="moz-txt-link-abbreviated" href="mailto:jingdong.lu@windriver.com">jingdong.lu@windriver.com</a>
+China, Wind River</pre>
+  </body>
+</html>
+
+--------------080306050505060608020008--
