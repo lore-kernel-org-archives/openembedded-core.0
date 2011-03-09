@@ -1,41 +1,27 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1PxBSH-00060V-Mh
+	(envelope-from <koen@dominion.thruhere.net>) id 1PxEAR-00048B-7W
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 Mar 2011 05:57:01 +0100
-Received: by pzk12 with SMTP id 12so28030pzk.6
+	Wed, 09 Mar 2011 08:50:47 +0100
+Received: by wyb40 with SMTP id 40so200260wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Mar 2011 20:55:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=mDSDt0yRwniauvMaPlnxAFhgy5mtIvPpqn3vRrSfQOU=;
-	b=K84z5dT6Cv79VVOCYzIPfd6R7xetXSgdp7MHKUp1abhfnHOSfN/V4ch4XbJAQ1Hd+z
-	QmBQnvbMF4ujd83Q+xqy7APOsjF4NjoqIdG0f+fd7jtmPSlXxVh7QdSH05MUR+RL6Fc4
-	dzuc8ShQOfBOpivG0uHeuM8xY6L1+0tqUqJys=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	b=uq93czoVhozVEBiCywU9Xs/1Cw4S6Kys+vUBg6dqbIh1fbHQm9jk3zEqHkKAujXnIA
-	SgdlgOwY7sdYH2NH9Di51JjXIlStzcPnhkZ/VQ8oB9BKGv5tYtgMY/ZaFbwUKr3zu5a9
-	3U5cTdsv1Zm1F0nc2YKeOTggZ4Srzkx3wE+84=
-Received: by 10.142.201.13 with SMTP id y13mr5015289wff.198.1299646523823;
-	Tue, 08 Mar 2011 20:55:23 -0800 (PST)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id 25sm1904290wfb.10.2011.03.08.20.55.21
-	(version=SSLv3 cipher=OTHER); Tue, 08 Mar 2011 20:55:22 -0800 (PST)
-Message-ID: <4D770834.9050707@gmail.com>
-Date: Tue, 08 Mar 2011 20:55:16 -0800
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
-	rv:1.9.2.14) Gecko/20110221 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1299544029.git.sgw@linux.intel.com>	<1299610544.602.109.camel@rex>
-	<201103090129.37429.paul.eggleton@linux.intel.com>
+	Tue, 08 Mar 2011 23:49:12 -0800 (PST)
+Received: by 10.216.63.132 with SMTP id a4mr4175374wed.78.1299656892369;
+	Tue, 08 Mar 2011 23:48:12 -0800 (PST)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id n4sm742139wee.28.2011.03.08.23.48.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 08 Mar 2011 23:48:11 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <201103090129.37429.paul.eggleton@linux.intel.com>
+Date: Wed, 9 Mar 2011 08:48:10 +0100
+Message-Id: <09DD7BA4-C30B-40FC-B8C7-B5F2CF74A09B@dominion.thruhere.net>
+References: <cover.1299544029.git.sgw@linux.intel.com>
+	<1299610544.602.109.camel@rex>
+	<201103090129.37429.paul.eggleton@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1082)
 Cc: poky@yoctoproject.org, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [poky] [PATCH 0/8] Numerous bug fixes
@@ -53,31 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Mar 2011 04:57:02 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Mar 2011 07:50:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 3/8/2011 5:29 PM, Paul Eggleton wrote:
+
+Op 9 mrt 2011, om 02:29 heeft Paul Eggleton het volgende geschreven:
+
 > On Tuesday 08 March 2011 18:55:44 Richard Purdie wrote:
 >>> Saul Wold (3):
->>>    gst-plugins: Added hal to DEPENDS
->>>    attr: Added ncurses to depends
->>>    lsb-live image: add lsb-live and lsb-sdk-live image types
->>
+>>>  gst-plugins: Added hal to DEPENDS
+>>>  attr: Added ncurses to depends
+>>>  lsb-live image: add lsb-live and lsb-sdk-live image types
+>>=20
 >> Merged. I'd like to drop the hal dependency if someone can send me a
 >> patch which disables it and everything works.
->
+>=20
 > Patch attached to do this (against oe-core) .
->
 
-patch looks sane to me. We will need Koen to Ack it.
 
+Looks good to me:
+
+Acked-by: Koen Kooi <koen@dominion.thruhere.net>
+
+>=20
 > Cheers,
 > Paul
->
->
->
-> _______________________________________________
+> =
+<0001-gst-plugins-good-remove-dependency-on-hal.patch>____________________=
+___________________________
 > poky mailing list
 > poky@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/poky
