@@ -1,23 +1,23 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Pxj8A-0004G1-7b
+	(envelope-from <sgw@linux.intel.com>) id 1PxjDh-0004it-P9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Mar 2011 17:54:30 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 10 Mar 2011 08:52:44 -0800
+	Thu, 10 Mar 2011 18:00:14 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Mar 2011 08:52:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,297,1297065600"; d="scan'208";a="611382768"
+X-IronPort-AV: E=Sophos;i="4.62,297,1297065600"; d="scan'208";a="665978536"
 Received: from unknown (HELO localhost) ([10.255.17.57])
-	by orsmga002.jf.intel.com with ESMTP; 10 Mar 2011 08:52:35 -0800
-Message-Id: <cd3ef3b1e6b5801f6b7e121fb0ddf6ec2ce79746.1299775598.git.sgw@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 10 Mar 2011 08:51:55 -0800
+Message-Id: <7d67caada2a21c68cc999a8dce134dc5d7f2474e.1299775598.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1299775598.git.sgw@linux.intel.com>
 References: <cover.1299775598.git.sgw@linux.intel.com>
-Old-Date: Thu, 10 Mar 2011 17:27:55 +0800
-Date: Thu, 10 Mar 2011  8:52:33 -0800
+Old-Date: Thu, 10 Mar 2011 12:33:26 +0800
+Date: Thu, 10 Mar 2011  8:51:52 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Dongxiao Xu <dongxiao.xu@intel.com>, Liping Ke <liping.ke@intel.com>
-Subject: [PATCH 8/8] Disable wget server side cache
+Subject: [PATCH 5/8] tinylogin: Fix rotate passwd check logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,65 +32,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2011 16:54:30 -0000
+X-List-Received-Date: Thu, 10 Mar 2011 17:00:14 -0000
 
-From: Liping Ke <liping.ke@intel.com>
+From: Dongxiao Xu <dongxiao.xu@intel.com>
 
-We found some proxy server has wrong cache for long http file name.
-It will cause fetching wrong ipk files from adt repo. To avoid this,
-we use wget options --no-cache to disable all server side cache.
-It will make the fetch speed slower, yet correct always.
+Fix rotate passwd check logic which will write data into un-allocated
+memory.
 
-Signed-off-by: Liping Ke <liping.ke@intel.com>
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+This fixes [YOCTO #735]
+
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- .../installer/adt-installer_1.0.bb                 |    3 ++-
- .../installer/files/wget_cache.patch               |   10 ++++++++++
- 2 files changed, 12 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/installer/files/wget_cache.patch
+ .../tinylogin-1.4/passwd_rotate_check.patch        |   39 ++++++++++++++++++++
+ meta/recipes-core/tinylogin/tinylogin_1.4.bb       |    5 ++-
+ 2 files changed, 42 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/passwd_rotate_check.patch
 
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index 50290f9..ff7afe6 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -36,11 +36,13 @@ PR = "r0"
- ADT_DEPLOY = "${TMPDIR}/deploy/sdk/"
- ADT_DIR = "${WORKDIR}/adt-installer/"
- YOCTOADT_VERSION = "${SDK_VERSION}"
-+S = "${WORKDIR}/trunk"
- 
- inherit deploy
- 
- PV = "0.1.8+svnr${SRCPV}"
- SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
-+           file://wget_cache.patch \
-            file://adt_installer \
-            file://scripts/adt_installer_internal \
-            file://scripts/util \
-@@ -70,7 +72,6 @@ fakeroot do_deploy () {
- 	cp ${WORKDIR}/adt_installer.tar.bz2 ${ADT_DEPLOY}
- }
- 
--do_patch[noexec] = "1"
- do_install[noexec] = "1"
- do_configure[noexec] = "1"
- do_compile[noexec] = "1"
-diff --git a/meta/recipes-devtools/installer/files/wget_cache.patch b/meta/recipes-devtools/installer/files/wget_cache.patch
+diff --git a/meta/recipes-core/tinylogin/tinylogin-1.4/passwd_rotate_check.patch b/meta/recipes-core/tinylogin/tinylogin-1.4/passwd_rotate_check.patch
 new file mode 100644
-index 0000000..6fd38e5
+index 0000000..c602493
 --- /dev/null
-+++ b/meta/recipes-devtools/installer/files/wget_cache.patch
-@@ -0,0 +1,10 @@
-+--- trunk/libopkg/opkg_download.c	2011-03-10 16:41:29.000000000 +0800
-++++ trunk/libopkg/opkg_download.c	2011-03-10 16:42:33.000000000 +0800
-+@@ -162,6 +162,7 @@
++++ b/meta/recipes-core/tinylogin/tinylogin-1.4/passwd_rotate_check.patch
+@@ -0,0 +1,39 @@
++Fix rotate check logic
++
++Rotate passwd checking code has logic error, which writes data into
++un-allocated memory. This patch fixes the issue.
++
++Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
++
++diff --git a/libbb/obscure.c b/libbb/obscure.c
++index 750b611..4a07b5f 100644
++--- a/libbb/obscure.c
+++++ b/libbb/obscure.c
++@@ -135,7 +135,7 @@ password_check(const char *old, const char *newval, const struct passwd *pwdp)
++ {
++ 	const char *msg;
++ 	char *newmono, *wrapped;
++-	int lenwrap;
+++	int lenold, lenwrap;
 + 
-+       argv[i++] = "wget";
-+       argv[i++] = "-q";
-++      argv[i++] = "--no-cache";
-+       if (conf->http_proxy || conf->ftp_proxy) {
-+ 	argv[i++] = "-Y";
-+ 	argv[i++] = "on";
++ 	if (strcmp(newval, old) == 0)
++ 		return "no change";
++@@ -144,7 +144,8 @@ password_check(const char *old, const char *newval, const struct passwd *pwdp)
++ 
++ 	msg = NULL;
++ 	newmono = str_lower(xstrdup(newval));
++-	lenwrap = strlen(old) * 2 + 1;
+++	lenold = strlen(old);
+++	lenwrap = lenold * 2 + 1;
++ 	wrapped = (char *) xmalloc(lenwrap);
++ 	str_lower(strcpy(wrapped, old));
++ 
++@@ -158,7 +159,7 @@ password_check(const char *old, const char *newval, const struct passwd *pwdp)
++ 		msg = "too similiar";
++ 
++ 	else {
++-		safe_strncpy(wrapped + lenwrap, wrapped, lenwrap + 1);
+++		safe_strncpy(wrapped + lenold, wrapped, lenold + 1);
++ 		if (strstr(wrapped, newmono))
++ 			msg = "rotated";
++ 	}
+diff --git a/meta/recipes-core/tinylogin/tinylogin_1.4.bb b/meta/recipes-core/tinylogin/tinylogin_1.4.bb
+index df626cf..0b51b25 100644
+--- a/meta/recipes-core/tinylogin/tinylogin_1.4.bb
++++ b/meta/recipes-core/tinylogin/tinylogin_1.4.bb
+@@ -7,14 +7,15 @@ and groups on an embedded system."
+ HOMEPAGE = "http://tinylogin.busybox.net/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM="file://LICENSE;md5=f1060fa3a366f098b5b1d8c2077ba269"
+-PR = "r5"
++PR = "r6"
+ 
+ SRC_URI = "http://tinylogin.busybox.net/downloads/tinylogin-${PV}.tar.bz2 \
+ 	file://cvs-20040608.patch;patch=1;pnum=1 \
+ 	file://add-system.patch;patch=1;pnum=1 \
+ 	file://adduser-empty_pwd.patch;patch=1 \
+ 	file://remove-index.patch;patch=1 \
+-	file://use_O2_option.patch"
++	file://use_O2_option.patch \
++	file://passwd_rotate_check.patch"
+ 
+ SRC_URI[md5sum] = "44da0ff2b727455669890b24305e351d"
+ SRC_URI[sha256sum] = "5e542e4b7825305a3678bf73136c392feb0d44b8bbf926e8eda5453eea7ddd6b"
 -- 
 1.7.1.1
 
