@@ -1,23 +1,23 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Pxj7p-0004FV-SX
+	(envelope-from <sgw@linux.intel.com>) id 1Pxj8A-0004G1-7b
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 Mar 2011 17:54:10 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 10 Mar 2011 08:52:31 -0800
+	Thu, 10 Mar 2011 17:54:30 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 10 Mar 2011 08:52:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,297,1297065600"; d="scan'208";a="718732201"
+X-IronPort-AV: E=Sophos;i="4.62,297,1297065600"; d="scan'208";a="611382768"
 Received: from unknown (HELO localhost) ([10.255.17.57])
-	by orsmga001.jf.intel.com with ESMTP; 10 Mar 2011 08:52:24 -0800
-Message-Id: <ed0283122b6867cc29d35bb6d0215935406073a4.1299775598.git.sgw@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 10 Mar 2011 08:52:35 -0800
+Message-Id: <cd3ef3b1e6b5801f6b7e121fb0ddf6ec2ce79746.1299775598.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1299775598.git.sgw@linux.intel.com>
 References: <cover.1299775598.git.sgw@linux.intel.com>
-Old-Date: Thu, 10 Mar 2011 13:51:20 +0800
-Date: Thu, 10 Mar 2011  8:52:22 -0800
+Old-Date: Thu, 10 Mar 2011 17:27:55 +0800
+Date: Thu, 10 Mar 2011  8:52:33 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Dongxiao Xu <dongxiao.xu@intel.com>, Liping Ke <liping.ke@intel.com>
-Subject: [PATCH 7/8] gst-plugins-bad: add missing dependency librsvg
+Subject: [PATCH 8/8] Disable wget server side cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +32,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Mar 2011 16:54:10 -0000
+X-List-Received-Date: Thu, 10 Mar 2011 16:54:30 -0000
 
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+From: Liping Ke <liping.ke@intel.com>
 
-Defaultly gst-plugins-bad will configured with option --enable-rsvg.
-Besides, it will check if librsvg really exists by certain configure
-code.
+We found some proxy server has wrong cache for long http file name.
+It will cause fetching wrong ipk files from adt repo. To avoid this,
+we use wget options --no-cache to disable all server side cache.
+It will make the fetch speed slower, yet correct always.
 
-Therefore there will be a certain race condition that, during
-librsvg's populate_sysroot, gst-plugins-bad's do_compile will find
-some header files are still not exists though its configure says the
-library is supported.
-
-Explicitly add librsvg as gst-plugins-bad's dependency could solve
-this issue.
-
-This fixes [YOCTO #831]
-
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+Signed-off-by: Liping Ke <liping.ke@intel.com>
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- .../gstreamer/gst-plugins-bad_0.10.20.bb           |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ .../installer/adt-installer_1.0.bb                 |    3 ++-
+ .../installer/files/wget_cache.patch               |   10 ++++++++++
+ 2 files changed, 12 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/installer/files/wget_cache.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.20.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.20.bb
-index 59e127c..239072d 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.20.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.20.bb
-@@ -7,9 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://gst/qtmux/gstqtmuxmap.h;beginline=1;endline=19;md5=2da8f56a44697c1527c5a4bcf8d5d69b \
-                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=71a904d99ce7ae0c1cf129891b98145c"
+diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+index 50290f9..ff7afe6 100644
+--- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
++++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+@@ -36,11 +36,13 @@ PR = "r0"
+ ADT_DEPLOY = "${TMPDIR}/deploy/sdk/"
+ ADT_DIR = "${WORKDIR}/adt-installer/"
+ YOCTOADT_VERSION = "${SDK_VERSION}"
++S = "${WORKDIR}/trunk"
  
--DEPENDS += "gst-plugins-base libmusicbrainz tremor"
-+DEPENDS += "gst-plugins-base libmusicbrainz tremor librsvg"
+ inherit deploy
  
--PR = "r0"
-+PR = "r1"
+ PV = "0.1.8+svnr${SRCPV}"
+ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
++           file://wget_cache.patch \
+            file://adt_installer \
+            file://scripts/adt_installer_internal \
+            file://scripts/util \
+@@ -70,7 +72,6 @@ fakeroot do_deploy () {
+ 	cp ${WORKDIR}/adt_installer.tar.bz2 ${ADT_DEPLOY}
+ }
  
- inherit gettext
- 
+-do_patch[noexec] = "1"
+ do_install[noexec] = "1"
+ do_configure[noexec] = "1"
+ do_compile[noexec] = "1"
+diff --git a/meta/recipes-devtools/installer/files/wget_cache.patch b/meta/recipes-devtools/installer/files/wget_cache.patch
+new file mode 100644
+index 0000000..6fd38e5
+--- /dev/null
++++ b/meta/recipes-devtools/installer/files/wget_cache.patch
+@@ -0,0 +1,10 @@
++--- trunk/libopkg/opkg_download.c	2011-03-10 16:41:29.000000000 +0800
+++++ trunk/libopkg/opkg_download.c	2011-03-10 16:42:33.000000000 +0800
++@@ -162,6 +162,7 @@
++ 
++       argv[i++] = "wget";
++       argv[i++] = "-q";
+++      argv[i++] = "--no-cache";
++       if (conf->http_proxy || conf->ftp_proxy) {
++ 	argv[i++] = "-Y";
++ 	argv[i++] = "on";
 -- 
 1.7.1.1
 
