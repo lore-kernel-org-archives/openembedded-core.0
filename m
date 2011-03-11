@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1PxrzY-0006tm-Bm
+	(envelope-from <sgw@linux.intel.com>) id 1Pxrzf-0006ty-II
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Mar 2011 03:22:12 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 10 Mar 2011 18:20:34 -0800
+	Fri, 11 Mar 2011 03:22:19 +0100
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 10 Mar 2011 18:20:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,300,1297065600"; d="scan'208";a="400968772"
+X-IronPort-AV: E=Sophos;i="4.62,300,1297065600"; d="scan'208";a="896099201"
 Received: from unknown (HELO localhost) ([10.255.17.57])
-	by azsmga001.ch.intel.com with ESMTP; 10 Mar 2011 18:20:18 -0800
-Message-Id: <1d5ca654a482f582c75faf546140dfd6064da73b.1299809859.git.sgw@linux.intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 10 Mar 2011 18:20:36 -0800
+Message-Id: <c9de88de6487945c3fd27f41020b5b2c9ecc2f05.1299809859.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1299809859.git.sgw@linux.intel.com>
 References: <cover.1299809859.git.sgw@linux.intel.com>
-Old-Date: Thu, 10 Mar 2011 11:58:15 -0600
-Date: Thu, 10 Mar 2011 18:20:17 -0800
+Old-Date: Thu, 10 Mar 2011 16:06:16 -0800
+Date: Thu, 10 Mar 2011 18:20:34 -0800
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 04/12] package_rpm: Fix rootfs generation
+Subject: [PATCH 07/12] openssh: allow the openssh meta package to be empty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2011 02:22:12 -0000
+X-List-Received-Date: Fri, 11 Mar 2011 02:22:19 -0000
 
-From: Mark Hatle <mark.hatle@windriver.com>
+From: Scott Garman <scott.a.garman@intel.com>
 
-[YOCTO #797]
+This allows the openssh meta-package to be used in the
+poky-ssh task. Otherwise there will be no package named
+openssh to install during image creation.
 
-During rootfs generation, if other RPM packages are being wrtten
-this could cause a failure during the solvedb generation.  We
-add a shared lock around the RPM package building.  This will allow
-multiple RPM packages to continue to be written at the same time, but
-prevent rootfs generation and RPM package generation at the same time.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/classes/package_rpm.bbclass |    8 +++++++-
- 1 files changed, 7 insertions(+), 1 deletions(-)
+ meta/recipes-connectivity/openssh/openssh_5.6p1.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 60127d2..4647116 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -777,10 +777,16 @@ python do_package_rpm () {
- 	cmd = cmd + " --define 'debug_package %{nil}'"
- 	cmd = cmd + " -bb " + outspecfile
+diff --git a/meta/recipes-connectivity/openssh/openssh_5.6p1.bb b/meta/recipes-connectivity/openssh/openssh_5.6p1.bb
+index be9ae09..d93a773 100644
+--- a/meta/recipes-connectivity/openssh/openssh_5.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_5.6p1.bb
+@@ -7,7 +7,7 @@ SECTION = "console/network"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=7ae09218173be1643c998a4b71027f9b"
  
--	# Build the spec file!
-+	# Take a shared lock, we can write multiple packages at the same time...
-+	# but we need to stop the rootfs/solver from running while we do...
-+	lf = bb.utils.lockfile(bb.data.expand("${DEPLOY_DIR_RPM}/rpm.lock", d), True)
-+
-+	# Build the rpm package!
- 	bb.data.setVar('BUILDSPEC', cmd + "\n", d)
- 	bb.data.setVarFlag('BUILDSPEC', 'func', '1', d)
- 	bb.build.exec_func('BUILDSPEC', d)
-+
-+	bb.utils.unlockfile(lf)
+-PR = "r0"
++PR = "r1"
+ 
+ DEPENDS = "zlib openssl"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -67,6 +67,8 @@ do_install_append () {
+ 	rmdir ${D}/var/run/sshd ${D}/var/run ${D}/var
  }
  
- python () {
++ALLOW_EMPTY_${PN} = "1"
++
+ PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
+ FILES_${PN}-scp = "${bindir}/scp.${PN}"
+ FILES_${PN}-ssh = "${bindir}/ssh.${PN} ${sysconfdir}/ssh/ssh_config"
 -- 
 1.7.1.1
 
