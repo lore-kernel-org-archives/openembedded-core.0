@@ -1,24 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Pxs06-0006uN-1b
-	for openembedded-core@lists.openembedded.org;
-	Fri, 11 Mar 2011 03:22:46 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 10 Mar 2011 18:21:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,300,1297065600"; d="scan'208";a="718929651"
-Received: from unknown (HELO localhost) ([10.255.17.57])
-	by orsmga001.jf.intel.com with ESMTP; 10 Mar 2011 18:21:07 -0800
-Message-Id: <2e6a51e2b8814a96eb1f5948d894963d311a0f9a.1299809859.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1299809859.git.sgw@linux.intel.com>
-References: <cover.1299809859.git.sgw@linux.intel.com>
-Old-Date: Thu, 10 Mar 2011 17:11:06 -0800
-Date: Thu, 10 Mar 2011 18:21:05 -0800
-To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
-From: Saul Wold <sgw@linux.intel.com>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 12/12] poky-image-basic: add ssh-server to IMAGE_FEATURES
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1PxwbN-0000wf-No for openembedded-core@lists.openembedded.org;
+	Fri, 11 Mar 2011 08:17:35 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2B7A433024683;
+	Fri, 11 Mar 2011 07:10:04 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24060-10; Fri, 11 Mar 2011 07:10:00 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2B79mQc024671
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 11 Mar 2011 07:09:56 GMT
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <cover.1299775598.git.sgw@linux.intel.com>
+References: <cover.1299775598.git.sgw@linux.intel.com>
+Date: Thu, 10 Mar 2011 18:17:05 -0800
+Message-ID: <1299809825.1445.2273.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Dongxiao Xu <dongxiao.xu@intel.com>, poky@yoctoproject.org,
+	Liping Ke <liping.ke@intel.com>
+Subject: Re: [PATCH 0/8] Consolidated Pull Request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Mar 2011 02:22:46 -0000
+X-List-Received-Date: Fri, 11 Mar 2011 07:17:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Scott Garman <scott.a.garman@intel.com>
+On Thu, 2011-03-10 at 08:50 -0800, Saul Wold wrote:
+> From: Saul Wold <sgw@linux.intel.com>
+> 
+> 
+> Richard,
+> 
+> This is a batch request of changes to address issues found as
+> part of Bernard testing.
+> 
+> Pull URL: git://git.pokylinux.org/poky-contrib.git
+>   Branch: distro/oe-core
+>   Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=distro/oe-core
+> 
+> Thanks,
+>     Saul Wold <sgw@linux.intel.com>
 
-And set the default IMAGE_SSH_PROVIDER to openssh.
+Merged into OE-Core and Poky master, thanks.
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- meta/recipes-extended/images/poky-image-basic.bb |    4 +++-
- meta/recipes-extended/tasks/task-poky-basic.bb   |    1 -
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-extended/images/poky-image-basic.bb b/meta/recipes-extended/images/poky-image-basic.bb
-index 537a6e4..cf9dd77 100644
---- a/meta/recipes-extended/images/poky-image-basic.bb
-+++ b/meta/recipes-extended/images/poky-image-basic.bb
-@@ -1,4 +1,6 @@
--IMAGE_FEATURES += "apps-console-core "
-+IMAGE_SSH_PROVIDER = "openssh"
-+
-+IMAGE_FEATURES += "apps-console-core ssh-server"
- 
- IMAGE_INSTALL = "\
-     ${POKY_BASE_INSTALL} \
-diff --git a/meta/recipes-extended/tasks/task-poky-basic.bb b/meta/recipes-extended/tasks/task-poky-basic.bb
-index 3d313f0..0133bad 100644
---- a/meta/recipes-extended/tasks/task-poky-basic.bb
-+++ b/meta/recipes-extended/tasks/task-poky-basic.bb
-@@ -99,7 +99,6 @@ RDEPENDS_task-poky-basic-extended = "\
-     module-init-tools \
-     openssl \
-     "
--#    openssh
- 
- RDEPENDS_task-poky-dev-utils = "\
-     byacc \
--- 
-1.7.1.1
+Richard
 
 
 
