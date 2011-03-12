@@ -1,46 +1,39 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1PyEjk-00045H-OU
-	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Mar 2011 03:39:24 +0100
-Received: by yxn22 with SMTP id 22so1443915yxn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Mar 2011 18:37:46 -0800 (PST)
+	(envelope-from <raj.khem@gmail.com>)
+	id 1PyF7w-0004jM-V6; Sat, 12 Mar 2011 04:04:25 +0100
+Received: by gwb11 with SMTP id 11so1215603gwb.6
+	for <multiple recipients>; Fri, 11 Mar 2011 19:02:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-type
-	:content-disposition:in-reply-to:user-agent;
-	bh=/Cs/iPpYVuJd14OE0kMrPCGvKkZUvQOqBycg0/t6Yzg=;
-	b=HoUhIJY6PdUyfofBtamvg+gJUGN3fVWgx63cy8Vhp2QS9EUx/ltNf0VVowTxsxyXkE
-	oES8yXfbYH+vmOfyPWXycoMkphFyDofKTDSgX5TipRAo+/AfCXmmAe1bQMJVH/VvdIGh
-	7kElRqRz36SFTWUjRsKanh92iTnNgJvKFEyqE=
+	h=domainkey-signature:date:from:to:subject:message-id
+	:mail-followup-to:mime-version:content-type:content-disposition
+	:user-agent; bh=cG4jECobzlhfU6Gw6wqn7In4aUfOVBoIK7xgS7TAsDo=;
+	b=W45fbvB+VqESrRBZHHsPEDR0OA1ZCffN1t2B/JhL+36xs3bx6qZ2YsS2r7lnMV5F1A
+	076yAx/oI6YD1ru+GUrZs/4jDu3RwbH9noGuq18/kxAvzllOfeNK+y/sAbvfLw/JwRPM
+	z2+09Cl3VGD8x4Znnynnwqynyaqd9S7tUEvrk=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:mail-followup-to:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent;
-	b=nXK44m5lrZzNu5v3ihbKZedFSEfXE2n3PkuhOTq9GJkvE7rOt1CXIT+XBF7hDhYgKw
-	a63UMGPZgawdEjze21gU0aQK+yph7TEhyTEoJVRQQmHFVIpWaXMvEFWVvT5NHrUUK1+Z
-	pz68tm23bGXJ1ONpbi8QwJ2DSvC3pjfOUCpbI=
-Received: by 10.150.75.4 with SMTP id x4mr958577yba.410.1299897080707;
-	Fri, 11 Mar 2011 18:31:20 -0800 (PST)
+	h=date:from:to:subject:message-id:mail-followup-to:mime-version
+	:content-type:content-disposition:user-agent;
+	b=xyS3bg88x01Vk7+BBg8cPz5SapvQIZp6kslDe2uhxFBaUkmdJYZEbkoGvr4H/LZ51M
+	5n1Za8bN8Ex3sHevZKdTbgV1Ryu76fsOZDg3t2By04rHZRUTbAi5AnIG4yEBZByTiZ9p
+	xYat2UeEklK7l4lEfYwSqR9FzjWX2EqkayHKg=
+Received: by 10.236.25.194 with SMTP id z42mr2224456yhz.312.1299898633830;
+	Fri, 11 Mar 2011 18:57:13 -0800 (PST)
 Received: from sakrah.homelinux.org
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id q18sm86933ybk.11.2011.03.11.18.31.18
+	by mx.google.com with ESMTPS id x75sm2281996yhn.24.2011.03.11.18.57.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 Mar 2011 18:31:19 -0800 (PST)
-Date: Fri, 11 Mar 2011 18:31:40 -0800
+	Fri, 11 Mar 2011 18:57:13 -0800 (PST)
+Date: Fri, 11 Mar 2011 18:57:34 -0800
 From: Khem Raj <raj.khem@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20110312023140.GA4829@sakrah.homelinux.org>
-Mail-Followup-To: Saul Wold <sgw@linux.intel.com>, poky@yoctoproject.org,
+To: openembedded-devel@lists.openembedded.org,
 	openembedded-core@lists.openembedded.org
-References: <cover.1299891748.git.sgw@linux.intel.com>
-	<4D7ACD9C.3010002@linux.intel.com>
+Message-ID: <20110312025734.GA4556@sakrah.homelinux.org>
+Mail-Followup-To: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-In-Reply-To: <4D7ACD9C.3010002@linux.intel.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [poky] [PATCH 0/1] gnu-config make sure we use perl-native
+Subject: Wiki page for OE feature migration into oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,51 +48,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Mar 2011 02:39:24 -0000
+X-List-Received-Date: Sat, 12 Mar 2011 03:04:25 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On (11/03/11 17:34), Saul Wold wrote:
-> On 03/11/2011 05:15 PM, Saul Wold wrote:
-> >From: Saul Wold<sgw@linux.intel.com>
-> >
-> >During a world build I was getting a perl version mismatch between
-> >the perl-native and the host perl. This change ensures that
-> >perl-native is used always.
-> >
-> 
-> Never mind this patch, Saul's brain is not functioning well today,
-> I completely missed the comment!
+Hi
 
-I discarded my reply :)
-> 
-> Back to the drawing board on why the miss-match is occuring in
-> Config.pm then.
+I have created a page to list all the features we would like to consider
+for getting into oe-core. I have populated it with some basic stuff to
+start of. I am expecting that everyone populate this table and create a
+comprehensive list of tasks out of it.
 
-somewhere there is /usr/bin/perl referred may be a cross recipe ?
+here is URL
+http://wiki.openembedded.org/index.php/List_of_OE_Features_For_oe-core
 
-> 
-> Sau!
-> >Pull URL: git://git.pokylinux.org/poky-contrib.git
-> >   Branch: sgw/gnu-config
-> >   Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgw/gnu-config
-> >
-> >Thanks,
-> >     Saul Wold<sgw@linux.intel.com>
-> >---
-> >
-> >
-> >Saul Wold (1):
-> >   gnu-config: Ensure that we use perl-native to avoid version
-> >     mis-matches
-> >
-> >  .../gnu-config/gnu-config_20080123.bb              |    4 +---
-> >  1 files changed, 1 insertions(+), 3 deletions(-)
-> >
-> _______________________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
+Thanks
 
 -- 
 -Khem
