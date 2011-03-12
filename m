@@ -1,35 +1,40 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1PyPIa-00066H-1T for openembedded-core@lists.openembedded.org;
-	Sat, 12 Mar 2011 14:56:04 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2CCoEdD011314;
-	Sat, 12 Mar 2011 12:50:14 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 11061-04; Sat, 12 Mar 2011 12:50:10 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2CCo3Ao011298
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 12 Mar 2011 12:50:07 GMT
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <AANLkTim62_Vb=EumqASMY_ARCJkS8M7rTAUtpxnMR6gx@mail.gmail.com>
-References: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
-	<1299135167-18330-4-git-send-email-raj.khem@gmail.com>
-	<AANLkTiks0VSWcW4_54mQUv17ZQvb8+CsbWcsDkA_9ZA+@mail.gmail.com>
-	<1299610396.602.104.camel@rex>
-	<AANLkTim62_Vb=EumqASMY_ARCJkS8M7rTAUtpxnMR6gx@mail.gmail.com>
-Date: Sat, 12 Mar 2011 13:50:00 +0100
-Message-ID: <1299934200.1445.3023.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 3/6] gcc: Statically link in support libraries e.g. libmpfr libgmp etc.
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1PyQOi-0001za-FJ
+	for openembedded-core@lists.openembedded.org;
+	Sat, 12 Mar 2011 16:06:28 +0100
+Received: by iyb26 with SMTP id 26so3734914iyb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 12 Mar 2011 07:04:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:mime-version:content-type:content-transfer-encoding;
+	bh=o24dV/D+zgM7+ukmeZB0Irk4di+nYbRShGWBAniUWwY=;
+	b=rofTnKNqScmJ0TKMP+PycGMs2Ch8snP04rHTdkHpN4xRwziJr8fSyDg2NADNb+bJIS
+	kcQpWr9Bf6S6+acloPiuz8HlAmC6J5u70XFrpmGhsROLhgkaQ2O2FYex1KNtM7u/njnv
+	9aLguV+M7Xk2tJZdCOOzv+jOBbzy7vpiEFfjM=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:mime-version
+	:content-type:content-transfer-encoding;
+	b=CsJFowfBcOTNuFAv2EWGTQliUg+UVKalX8qxd+lRqjbP+YEfc7Orsq6/G0FeHJGFh5
+	XJfl5oAJehCw/Bu7Jmo1FFsfV8plk/GkisVljLTyjxQHLRpd8sfASeuTddmK5P5/+NzL
+	xzWy6Rb4+9Oy9fUCBcVX6SQ/UTb1BZuS+tEW8=
+Received: by 10.42.145.198 with SMTP id g6mr3010682icv.131.1299942285442;
+	Sat, 12 Mar 2011 07:04:45 -0800 (PST)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id d21sm4590306ibg.15.2011.03.12.07.04.42
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 12 Mar 2011 07:04:44 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Sat, 12 Mar 2011 07:04:34 -0800
+Message-Id: <cover.1299940883.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Cc: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>,
+	Denys Dmytriyenko <denis@denix.org>
+Subject: [PATCH 0/1] Import own-mirrors class from OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,45 +49,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Mar 2011 13:56:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 12 Mar 2011 15:06:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2011-03-08 at 11:04 -0800, Khem Raj wrote:
-> On Tue, Mar 8, 2011 at 10:53 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Mon, 2011-03-07 at 22:38 -0800, Khem Raj wrote:
-> >> ping any opinion on this patch ?
-> >
-> > This change looks rather hacky and I'd really like to understand more
-> > about why this is needed and whether there is a better way we could
-> > ensure the right flags get passed around. Can you provide more details
-> > about whats going on with this. Obviously this change as it stands isn't
-> > acceptable to upstream gcc and I'd like to see if we could find one that
-> > was.
-> 
-> this is because the supporting libraries like mpc mpfr that are needed
-> by gcc itself to run
-> we might have different versions of these libraries. So depending upon
-> shared objects
-> would mean we need to find same shared objects where say the SDK is installed
-> so either we ship the whole baggage or we link it in statically. This
-> patch makes those libs to
-> linked in statically and cross gcc wont have dependencies on these
-> libs anymore so
-> it can run on all hosts pretty much.
+Hi Richard
 
-If you look at the way the SDK toolchain works in Poky, it automatically
-ships the versions of these libraries that it needs so we don't actually
-have this problem.
 
-Also, looking at the patch again, was the first LDFLAGS change meant to
-be in there, is that related or different to the shared/static
-mpfr/mpc/gmp issue?
 
-Cheers,
+Pull URL: git://git.openembedded.org/openembedded-core-contrib.git
+  Branch: kraj/own-mirror
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/own-mirror
 
-Richard
+Thanks,
+    Khem Raj <raj.khem@gmail.com>
+---
+
+
+Khem Raj (1):
+  own-mirrors.bbclass: Bring own-mirrors.bbclass from oe commit
+    0ef914b250df46a41348479446214575668943fb
+
+ meta/classes/own-mirrors.bbclass |   12 ++++++++++++
+ 1 files changed, 12 insertions(+), 0 deletions(-)
+ create mode 100644 meta/classes/own-mirrors.bbclass
+
+-- 
+1.7.4.1
 
 
 
