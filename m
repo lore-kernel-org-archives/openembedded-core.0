@@ -1,35 +1,31 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1PyQbG-0002CX-Tj
-	for openembedded-core@lists.openembedded.org;
-	Sat, 12 Mar 2011 16:19:27 +0100
-Received: by pvc30 with SMTP id 30so596867pvc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Mar 2011 07:17:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=2n4KNsO//RuAYUxz1XE+5SyBDUX5UnnQYW7hF5rcmiY=;
-	b=jkAhd4+FmfJVRRGKftnBzZ7L96OFVyHKw86GfcH6vtRlm12YuD2N9EqyNkfcb9Z9YV
-	yBEwhUcCzWV2W5Y8NDozrUGPxGc+nncZ+uYApBiOrYBd1I4GvQxNu3tY1mGZiHVXHOZH
-	17guGr0BfXt8ZajhVmsUAuaf2TnIqvcAJGetk=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=eyY93DLgerguV7NMvaPCE/WvHvo7jw+avFhBrRljmZRNT35scaOb7IofrQcuaV7/h2
-	ggFzkmIK6EuFaOBZ9nvpCNSeuBjLzUWzJpO/xhqDnOUoDC57LpoMJ3977iaMFAVuLSn8
-	W8WRJFlxNlJ+M6bU52sKLUFazEsHUF32HFFL8=
-Received: by 10.142.210.1 with SMTP id i1mr8591611wfg.346.1299942738463;
-	Sat, 12 Mar 2011 07:12:18 -0800 (PST)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id 25sm7073957wfb.22.2011.03.12.07.12.16
+	(envelope-from <koen@beagleboard.org>)
+	id 1PyXIv-0001WZ-Mi; Sat, 12 Mar 2011 23:28:57 +0100
+Received: by eye27 with SMTP id 27so1097393eye.6
+	for <multiple recipients>; Sat, 12 Mar 2011 14:27:18 -0800 (PST)
+Received: by 10.213.98.206 with SMTP id r14mr2160757ebn.89.1299967471977;
+	Sat, 12 Mar 2011 14:04:31 -0800 (PST)
+Received: from [192.168.1.72] (ip51cca9fc.adsl-surfen.hetnet.nl
+	[81.204.169.252])
+	by mx.google.com with ESMTPS id x54sm4609803eeh.5.2011.03.12.14.04.30
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 12 Mar 2011 07:12:17 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Date: Sat, 12 Mar 2011 07:12:10 -0800
-Message-Id: <cover.1299942641.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/1] Grok git config sendmail.to if available
+	Sat, 12 Mar 2011 14:04:30 -0800 (PST)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@beagleboard.org>
+In-Reply-To: <AANLkTimiahf+8xJ_nNePkXzB3Lhton2+5JqquPmruN24@mail.gmail.com>
+Date: Sat, 12 Mar 2011 23:03:12 +0100
+Message-Id: <EC0F161F-7C09-42FD-929D-67914A54AC25@dominion.thruhere.net>
+References: <1299958038-25216-1-git-send-email-otavio@ossystems.com.br>
+	<1299958038-25216-6-git-send-email-otavio@ossystems.com.br>
+	<AANLkTimiahf+8xJ_nNePkXzB3Lhton2+5JqquPmruN24@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+X-Mailer: Apple Mail (2.1082)
+X-Mailman-Approved-At: Sat, 12 Mar 2011 23:32:05 +0100
+Cc: Koen Kooi <koen@openembedded.org>,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 05/11] udev (165): move ConsoleKit support to udev-consolekit package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Mar 2011 15:19:27 -0000
+X-List-Received-Date: Sat, 12 Mar 2011 22:28:57 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-Pull URL: git://git.openembedded.org/openembedded-core-contrib.git
-  Branch: kraj/scripts
-  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/scripts
+Op 12 mrt 2011, om 21:21 heeft Otavio Salvador het volgende geschreven:
 
-Thanks,
-    Khem Raj <raj.khem@gmail.com>
----
+> On Sat, Mar 12, 2011 at 16:27, Otavio Salvador =
+<otavio@ossystems.com.br> wrote:
+> ...
+>> -PACKAGES =3D+ "libudev libgudev udev-utils"
+>> +PACKAGES =3D+ "libudev libgudev udev-utils udev-consolekit"
+> ...
+>=20
+> Koen, can you take a look on this change?
+>=20
+> It seems Angstrom is the only used of this version and seems better to
+> not provide support for consolekit by default so adding it as
+> recommends or suggests seems wrong to me.
+
+If someone can quickly explain me what it does then we can see what =
+needs to get changed. Without having looked into it I think adding =
+RRECOMMENDS_${PN} +=3D "udev-consolekit" to the consolekit recipe should =
+fix most possible breakage.
+
+Adding oe-core to CC:
+
+What are the plans in oe-core for udev? There currently is a recipe =
+overlayed in meta-oe because I haven't had time to look into the =
+differences between the oe-dev and oe-core version. If we're going to =
+touch udev we might as well do it properly :)
 
 
-Khem Raj (1):
-  send-pull-request: Fetch TO email address from git config if
-    specified
+regards,
 
- scripts/send-pull-request |   21 +++++++++++++++------
- 1 files changed, 15 insertions(+), 6 deletions(-)
-
--- 
-1.7.4.1
+Koen
 
 
 
