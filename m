@@ -1,32 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Pz6kv-0005cQ-4i
+	(envelope-from <qing.he@intel.com>) id 1Pz6lm-0005dp-LC
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Mar 2011 13:20:13 +0100
-Received: by wyb40 with SMTP id 40so4101634wyb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2011 05:18:31 -0700 (PDT)
-Received: by 10.216.143.89 with SMTP id k67mr2353762wej.25.1300105111053;
-	Mon, 14 Mar 2011 05:18:31 -0700 (PDT)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id n73sm332811wej.12.2011.03.14.05.18.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 14 Mar 2011 05:18:30 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1082)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <201103141151.12235.paul.eggleton@linux.intel.com>
-Date: Mon, 14 Mar 2011 13:18:29 +0100
-Message-Id: <46D5E03C-9927-4F57-A6AC-7024B8478E1C@dominion.thruhere.net>
-References: <cover.1299891748.git.sgw@linux.intel.com>
-	<4D7ACD9C.3010002@linux.intel.com>
-	<20110312023140.GA4829@sakrah.homelinux.org>
-	<201103141151.12235.paul.eggleton@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1082)
-Cc: poky@yoctoproject.org, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [PATCH 0/1] gnu-config make sure we use perl-native
+	Mon, 14 Mar 2011 13:21:06 +0100
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Mar 2011 05:01:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.62,315,1297065600"; d="scan'208";a="667008245"
+Received: from qhe2-db.sh.intel.com ([10.239.13.48])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2011 05:01:41 -0700
+Received: from qhe2 by qhe2-db.sh.intel.com with local (Exim 4.71)
+	(envelope-from <qing.he@intel.com>)
+	id 1Pz6MI-0005FZ-A8; Mon, 14 Mar 2011 19:54:46 +0800
+Message-Id: <d81cc5bb35a36297384f3b5cef473b60449ea51a.1300103431.git.qing.he@intel.com>
+In-Reply-To: <cover.1300103431.git.qing.he@intel.com>
+References: <cover.1300103431.git.qing.he@intel.com>
+Old-Date: Thu, 10 Mar 2011 18:28:55 +0800
+Date: Mon, 14 Mar 2011 19:54:46 +0800
+To: openembedded-core@lists.openembedded.org
+From: Qing He <qing.he@intel.com>
+Subject: [PATCH 1/4] sat-solver: add machine arch support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,37 +34,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2011 12:20:13 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 14 Mar 2011 12:21:06 -0000
 
+From: Qing He <qing.he@intel.com>
 
-Op 14 mrt 2011, om 12:51 heeft Paul Eggleton het volgende geschreven:
+Signed-off-by: Qing He <qing.he@intel.com>
+---
+ .../sat-solver/sat-solver/builtin-arch.patch       |   28 +++++++++++++++++++
+ .../sat-solver/sat-solver/no-builtin-arch.patch    |   29 ++++++++++++++++++++
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |   28 +++++++++++++++++-
+ 3 files changed, 83 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/sat-solver/sat-solver/builtin-arch.patch
+ create mode 100644 meta/recipes-extended/sat-solver/sat-solver/no-builtin-arch.patch
 
-> On Saturday 12 March 2011 02:31:40 Khem Raj wrote:
->>> Back to the drawing board on why the miss-match is occuring in
->>> Config.pm then.
->>=20
->> somewhere there is /usr/bin/perl referred may be a cross recipe ?
->=20
-> I've hit this issue this morning, and have filed a bug report:
->=20
->  http://bugzilla.pokylinux.org/show_bug.cgi?id=3D866
->=20
-> Not sure if it helps but at least it should be easy to reproduce.
+diff --git a/meta/recipes-extended/sat-solver/sat-solver/builtin-arch.patch b/meta/recipes-extended/sat-solver/sat-solver/builtin-arch.patch
+new file mode 100644
+index 0000000..c228c36
+--- /dev/null
++++ b/meta/recipes-extended/sat-solver/sat-solver/builtin-arch.patch
+@@ -0,0 +1,28 @@
++This patch adds the ${MACHINE_ARCH} and ${PACKAGE_ARCH} to
++sat-solver available archs, see do_archpatch in .bb for more
++details, this is the version for ${BASE_PACKAGE_ARCH} already
++recognized in sat-sovler.
++
++Signed-off-by: Qing He <qing.he@intel.com>
++
++diff --git a/src/poolarch.c b/src/poolarch.c
++index 34a14a3..660959b 100644
++--- a/src/poolarch.c
+++++ b/src/poolarch.c
++@@ -21,6 +21,7 @@
++ #include "util.h"
++ 
++ const char *archpolicies[] = {
+++  "@MACHINE_ARCH@",	"@MACHINE_ARCH@:@PKG_ARCH_TAIL@",
++   "x86_64",	"x86_64:i686:i586:i486:i386",
++   "i686",	"i686:i586:i486:i386",
++   "i586",	"i586:i486:i386",
++@@ -72,7 +74,7 @@ pool_setarch(Pool *pool, const char *arch)
++       return;
++     }
++ #ifndef DEBIAN_SEMANTICS
++-  id = ARCH_NOARCH;
+++  id = ARCH_ALL;
++ #else
++   id = ARCH_ALL;
++ #endif
+diff --git a/meta/recipes-extended/sat-solver/sat-solver/no-builtin-arch.patch b/meta/recipes-extended/sat-solver/sat-solver/no-builtin-arch.patch
+new file mode 100644
+index 0000000..225fbfe
+--- /dev/null
++++ b/meta/recipes-extended/sat-solver/sat-solver/no-builtin-arch.patch
+@@ -0,0 +1,29 @@
++This patch adds the ${MACHINE_ARCH} and ${PACKAGE_ARCH} to
++sat-solver available archs, see do_archpatch in .bb for more
++details, this is the version for ${BASE_PACKAGE_ARCH} not
++recognized in sat-sovler.
++
++Signed-off-by: Qing He <qing.he@intel.com>
++
++diff --git a/src/poolarch.c b/src/poolarch.c
++index 34a14a3..36367ba 100644
++--- a/src/poolarch.c
+++++ b/src/poolarch.c
++@@ -21,6 +21,8 @@
++ #include "util.h"
++ 
++ const char *archpolicies[] = {
+++  "@MACHINE_ARCH@",	"@MACHINE_ARCH@:@PKG_ARCH@",
+++  "@PKG_ARCH@",	"@PKG_ARCH@",
++   "x86_64",	"x86_64:i686:i586:i486:i386",
++   "i686",	"i686:i586:i486:i386",
++   "i586",	"i586:i486:i386",
++@@ -72,7 +74,7 @@ pool_setarch(Pool *pool, const char *arch)
++       return;
++     }
++ #ifndef DEBIAN_SEMANTICS
++-  id = ARCH_NOARCH;
+++  id = ARCH_ALL;
++ #else
++   id = ARCH_ALL;
++ #endif
+diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+index 02b6c75..54420cd 100644
+--- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
++++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+@@ -7,14 +7,38 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
+ DEPENDS = "libcheck rpm zlib expat db"
+ 
+ PV = "0.0-git${SRCPV}"
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI = "git://gitorious.org/opensuse/sat-solver.git;protocol=git \
+            file://cmake.patch \
+            file://rpm5.patch \
+-	   file://db5.patch"
++           file://db5.patch \
++           file://builtin-arch.patch;apply=no \
++           file://no-builtin-arch.patch;apply=no \
++          "
+ 
+ S = "${WORKDIR}/git"
+ 
+ EXTRA_OECMAKE += "-DLIB=lib"
++
+ inherit cmake pkgconfig
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
++
++do_archpatch () {
++	PKG_ARCH_TAIL=`sed -n ${S}/src/poolarch.c -e "s|^  \"\(${BASE_PACKAGE_ARCH}\)\",.*\"\(.*\)\",.*$|\2|p"`
++	if [ "x${PKG_ARCH_TAIL}" == x ]; then
++		PATCHFILE=${WORKDIR}/no-builtin-arch.patch
++	else
++		PATCHFILE=${WORKDIR}/builtin-arch.patch
++	fi
++
++	sed -i "${PATCHFILE}" \
++		-e "s|@MACHINE_ARCH@|${MACHINE_ARCH}|g" \
++		-e "s|@PKG_ARCH@|${BASE_PACKAGE_ARCH}|g" \
++		-e "s|@PKG_ARCH_TAIL@|${PKG_ARCH_TAIL}|g"
++
++	patch -p1 -i "${PATCHFILE}"
++}
++
++addtask archpatch before do_patch after do_unpack
+-- 
+1.7.0
 
-I haven't checked if the OE .dev and OE core gnu-config are similar, but =
-have a look at:
-
-=
-http://cgit.openembedded.org/cgit.cgi/openembedded/commit/?id=3Dbe21179c53=
-21bd0afb9221f020ac12ad75c86a3b
-=
-http://cgit.openembedded.org/cgit.cgi/openembedded/commit/?id=3Dedcdefbf6e=
-0675c1bcc1fc4f464f654223380e50
-
-regards,
-
-Koen=
 
 
