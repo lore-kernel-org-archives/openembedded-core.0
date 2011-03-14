@@ -1,26 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1PzFzL-0008SF-4Q
-	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Mar 2011 23:11:43 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Mar 2011 15:10:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,318,1297065600"; d="scan'208";a="612901892"
-Received: from doubt.jf.intel.com (HELO [10.7.199.155]) ([10.7.199.155])
-	by orsmga002.jf.intel.com with ESMTP; 14 Mar 2011 15:10:00 -0700
-Message-ID: <4D7E9231.3050009@linux.intel.com>
-Date: Mon, 14 Mar 2011 15:09:53 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1299942641.git.raj.khem@gmail.com>
-	<9d1bcc0f0467186a24ddd8acd4bd7fbc1ae5ebea.1299942641.git.raj.khem@gmail.com>
-In-Reply-To: <9d1bcc0f0467186a24ddd8acd4bd7fbc1ae5ebea.1299942641.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 1/1] send-pull-request: Fetch TO email address from git config if specified
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1PzHO8-00047f-5l; Tue, 15 Mar 2011 00:41:24 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2ENdhAf009506;
+	Mon, 14 Mar 2011 23:39:43 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09246-04; Mon, 14 Mar 2011 23:39:39 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2ENdZi6009500
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 14 Mar 2011 23:39:35 GMT
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-members <openembedded-members@lists.openembedded.org>,
+	openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Mar 2011 23:39:28 +0000
+Message-ID: <1300145968.30423.803.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Collab Summit + ELC + TSC Meeting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,86 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2011 22:11:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 14 Mar 2011 23:41:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi Khem,
+Again, sorry for cross posting but I want to ensure people see this.
 
-On 03/12/2011 07:12 AM, Khem Raj wrote:
-> Usually people using git send-email has git config sendmail.to
-> configured to the usual mailing list or person so we harness that
-> here.
+There are a few events coming up soon including the Linux Foundation
+Collaboration Summit and the Embedded Linux Conference which are back to
+back in San Francisco at the beginning of April. I mentioned these over
+on the Yocto list:
 
-OK, good idea, couple concerns below.
+https://lists.yoctoproject.org/pipermail/yocto/2011-March/001142.html
 
->
-> Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> ---
->   scripts/send-pull-request |   21 +++++++++++++++------
->   1 files changed, 15 insertions(+), 6 deletions(-)
->
-> diff --git a/scripts/send-pull-request b/scripts/send-pull-request
-> index 7f51a1b..c5dc9a9 100755
-> --- a/scripts/send-pull-request
-> +++ b/scripts/send-pull-request
-> @@ -109,15 +109,17 @@ if [ $AUTO -eq 1 ]; then
->       harvest_recipients CC "^.*-[Bb][Yy]: *"
->   fi
->
-> -if [ -z "$TO" ]&&  [ -z "$CC" ]; then
-> -    echo "ERROR: you have not specified any recipients."
-> -    usage
-> -    exit 1
-> -fi
-> -
->   case "$PULL_MTA" in
->       git)
->           FROM="$(git config sendemail.from)"
-> +	AUTO_TO="$(git config sendemail.to)"
-> +	if [ ! -e "$AUTO_TO" ]; then
+The summary is that at the collab summit, there will be partner oriented
+Yocto meetings and a technical session, between the two events we're
+organising a face to face OE TSC meeting over the weekend and then there
+will be another joint OE/Yocto discussion BoF at ELC. I'm hoping this
+means people don't need to attend both events and will still get to
+raise anything they wish to discuss.
 
--e tests for file existence...
+I'd be happy to see people at either event, whichever the feel is most
+appropriate. Collab Summit is by invitation and limited in numbers but
+we have some allocation. Its probably easiest to talk to me about that
+in the first instance if you're interested in that.
 
-> +	    if [ ! -e $TO ]; then
+Cheers,
 
-Here too, and please quote all shell variables.
+Richard
 
-I think you want -n:
 
-if [ -n "$AUTO_TO" ]; then
-	if [ -n "$TO" ]; then
-
-Thanks,
-
-Darren
-
-> +		TO="$TO,$AUTO_TO"
-> +	    else
-> +		TO="$AUTO_TO"
-> +	    fi
-> +	fi
->           ;;
->       sendmail)
->           if [ -z "$FROM" ]; then
-> @@ -131,6 +133,13 @@ case "$PULL_MTA" in
->           ;;
->   esac
->
-> +if [ -z "$TO" ]&&  [ -z "$CC" ]; then
-> +    echo "ERROR: you have not specified any recipients."
-> +    usage
-> +    exit 1
-> +fi
-> +
-> +
->   # Generate report for the user and require confirmation before sending
->   cat<<EOM
->   The following patches:
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
 
 
