@@ -1,33 +1,33 @@
 Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1PzAvC-0001o0-B1
+	(envelope-from <Tom_Rini@mentor.com>) id 1PzAwM-0001r2-A4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Mar 2011 17:47:06 +0100
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	Mon, 14 Mar 2011 17:48:18 +0100
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
 	by relay1.mentorg.com with esmtp 
-	id 1PzAta-0003cx-TQ from Tom_Rini@mentor.com 
+	id 1PzAuk-0003oH-Sr from Tom_Rini@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Mar 2011 09:45:26 -0700
+	Mon, 14 Mar 2011 09:46:38 -0700
 Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 14 Mar 2011 09:45:15 -0700
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 14 Mar 2011 09:46:27 -0700
 Received: from [172.30.80.14] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
 	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
-	Mon, 14 Mar 2011 09:45:14 -0700
-Message-ID: <4D7E460C.1070606@mentor.com>
-Date: Mon, 14 Mar 2011 09:45:00 -0700
+	Mon, 14 Mar 2011 09:46:38 -0700
+Message-ID: <4D7E4660.5050808@mentor.com>
+Date: Mon, 14 Mar 2011 09:46:24 -0700
 From: Tom Rini <tom_rini@mentor.com>
 Organization: Mentor Graphics Corporation
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1299940883.git.raj.khem@gmail.com>
-	<4D7CE94A.5080706@mlbassoc.com>
-In-Reply-To: <4D7CE94A.5080706@mlbassoc.com>
-X-OriginalArrivalTime: 14 Mar 2011 16:45:15.0230 (UTC)
-	FILETIME=[31A077E0:01CBE267]
-Subject: Re: [PATCH 0/1] Import own-mirrors class from OE
+References: <1299958038-25216-1-git-send-email-otavio@ossystems.com.br>	<1299958038-25216-6-git-send-email-otavio@ossystems.com.br>	<AANLkTimiahf+8xJ_nNePkXzB3Lhton2+5JqquPmruN24@mail.gmail.com>
+	<EC0F161F-7C09-42FD-929D-67914A54AC25@dominion.thruhere.net>
+In-Reply-To: <EC0F161F-7C09-42FD-929D-67914A54AC25@dominion.thruhere.net>
+X-OriginalArrivalTime: 14 Mar 2011 16:46:27.0974 (UTC)
+	FILETIME=[5CFC5260:01CBE267]
+Subject: Re: [PATCH 05/11] udev (165): move ConsoleKit support to udev-consolekit package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,67 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2011 16:47:06 -0000
+X-List-Received-Date: Mon, 14 Mar 2011 16:48:18 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/13/2011 08:56 AM, Gary Thomas wrote:
-> On 03/12/2011 08:04 AM, Khem Raj wrote:
->> Hi Richard
->>
->>
->>
->> Pull URL: git://git.openembedded.org/openembedded-core-contrib.git
->> Branch: kraj/own-mirror
->> Browse:
->> http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/own-mirror
->>
->>
->> Thanks,
->> Khem Raj<raj.khem@gmail.com>
->> ---
->>
->>
->> Khem Raj (1):
->> own-mirrors.bbclass: Bring own-mirrors.bbclass from oe commit
->> 0ef914b250df46a41348479446214575668943fb
->>
->> meta/classes/own-mirrors.bbclass | 12 ++++++++++++
->> 1 files changed, 12 insertions(+), 0 deletions(-)
->> create mode 100644 meta/classes/own-mirrors.bbclass
->>
+On 03/12/2011 03:03 PM, Koen Kooi wrote:
 >
-> Poky/Yocto already has a mechanism for this by overriding PREMIRRORS
-> I would think sticking with one extension method would be better.
+> Op 12 mrt 2011, om 21:21 heeft Otavio Salvador het volgende geschreven:
 >
-> Here's what I have in my [Poky] DISTRO.conf:
+>> On Sat, Mar 12, 2011 at 16:27, Otavio Salvador<otavio@ossystems.com.br>  wrote:
+>> ...
+>>> -PACKAGES =+ "libudev libgudev udev-utils"
+>>> +PACKAGES =+ "libudev libgudev udev-utils udev-consolekit"
+>> ...
+>>
+>> Koen, can you take a look on this change?
+>>
+>> It seems Angstrom is the only used of this version and seems better to
+>> not provide support for consolekit by default so adding it as
+>> recommends or suggests seems wrong to me.
 >
-> SOURCE_DIR ?= "/opt/poky/sources"
-> PREMIRRORS = "\
-> http://.*/.* file://${SOURCE_DIR}/ \n \
-> https://.*/.* file://${SOURCE_DIR}/ \n \
-> ftp://.*/.* file://${SOURCE_DIR}/ \n \
-> bzr://.*/.* file://${SOURCE_DIR}/ \n \
-> cvs://.*/.* file://${SOURCE_DIR}/ \n \
-> git://.*/.* file://${SOURCE_DIR}/ \n \
-> hg://.*/.* file://${SOURCE_DIR}/ \n \
-> osc://.*/.* file://${SOURCE_DIR}/ \n \
-> p4://.*/.* file://${SOURCE_DIR}/ \n \
-> svk://.*/.* file://${SOURCE_DIR}/ \n \
-> svn://.*/.* file://${SOURCE_DIR}/ \n"
+> If someone can quickly explain me what it does then we can see what needs to get changed. Without having looked into it I think adding RRECOMMENDS_${PN} += "udev-consolekit" to the consolekit recipe should fix most possible breakage.
 >
-> Users can have their own mirror by defining SOURCE_DIR in local.conf
+> Adding oe-core to CC:
+>
+> What are the plans in oe-core for udev? There currently is a recipe overlayed in meta-oe because I haven't had time to look into the differences between the oe-dev and oe-core version. If we're going to touch udev we might as well do it properly :)
 
-I know this has been beaten to death, but I want to try answering 
-differently.  What you mention above isn't so much a solution in poky as 
-simply using the normal PREMIRRORS mechanism.  The own-mirrors patch is 
-a wrapper around this logic to make it a 2 line local.conf change.  In 
-your example, this would become:
-INHERIT += "own-mirrors"
-SOURCE_MIRROR_URL = "file:///opt/poky/sources"
-
-(Or http://localhost:8080 and do a python -m SimpleHTTPServer 8080 & in 
-/opt/poky/sources).
+Not sure off hand yet, but udev is one of the things we might need to 
+keep a few versions around of, depending on how far back we want to 
+support kernels out of the box.
 
 -- 
 Tom Rini
