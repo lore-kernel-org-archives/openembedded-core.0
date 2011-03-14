@@ -1,38 +1,32 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1PzCEb-000481-67
+	(envelope-from <koen@dominion.thruhere.net>) id 1PzCFm-00048k-Fe
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Mar 2011 19:11:13 +0100
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1PzCCy-000712-Gv from Tom_Rini@mentor.com ;
-	Mon, 14 Mar 2011 11:09:32 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 14 Mar 2011 11:09:21 -0700
-Received: from [172.30.80.14] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
-	with Microsoft SMTP Server id 14.1.270.1;
-	Mon, 14 Mar 2011 11:09:31 -0700
-Message-ID: <4D7E59CD.8090507@mentor.com>
-Date: Mon, 14 Mar 2011 11:09:17 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1299958038-25216-1-git-send-email-otavio@ossystems.com.br>
-	<1299958038-25216-6-git-send-email-otavio@ossystems.com.br>
-	<AANLkTimiahf+8xJ_nNePkXzB3Lhton2+5JqquPmruN24@mail.gmail.com>
-	<EC0F161F-7C09-42FD-929D-67914A54AC25@dominion.thruhere.net>
-	<4D7E4660.5050808@mentor.com>
-	<AANLkTik7cEA=Yw7fwkEbvOUeV28YseMjpexnBfQuM-jT@mail.gmail.com>
-In-Reply-To: <AANLkTik7cEA=Yw7fwkEbvOUeV28YseMjpexnBfQuM-jT@mail.gmail.com>
-X-OriginalArrivalTime: 14 Mar 2011 18:09:21.0474 (UTC)
-	FILETIME=[F16C3220:01CBE272]
-Cc: Patches and discussions about the oe-core layer
+	Mon, 14 Mar 2011 19:12:26 +0100
+Received: by wyb40 with SMTP id 40so4444778wyb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Mar 2011 11:10:45 -0700 (PDT)
+Received: by 10.216.221.72 with SMTP id q50mr10810733wep.99.1300126245294;
+	Mon, 14 Mar 2011 11:10:45 -0700 (PDT)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id l5sm3972025wej.8.2011.03.14.11.10.43
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 14 Mar 2011 11:10:44 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4D750834.2060803@linux.intel.com>
+Date: Mon, 14 Mar 2011 19:10:43 +0100
+Message-Id: <4A916656-9670-438B-AA5E-21309243FBA1@dominion.thruhere.net>
+References: <cover.1299267630.git.sgw@linux.intel.com>	<e807fc977770cb64a217768672c18437ea8f3057.1299267630.git.sgw@linux.intel.com>	<A53A0FEC-74B3-483C-916C-EB87748A1AC8@dominion.thruhere.net>	<4D715D30.3030608@linux.intel.com>	<EEFD338A-726B-4502-B995-442E9AB37B9D@dominion.thruhere.net>	<8BD56976-D3F5-41F0-8CD6-9CF4B3CBB6C1@dominion.thruhere.net>
+	<4D7173CE.2090104@linux.intel.com>
+	<4D750834.2060803@linux.intel.com>
+To: Darren Hart <dvhart@linux.intel.com>
+X-Mailer: Apple Mail (2.1082)
+Cc: poky <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/11] udev (165): move ConsoleKit support to udev-consolekit package
+Subject: Re: [poky] [PATCH 04/13] module: build hostprogs for each module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,60 +41,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2011 18:11:13 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Mar 2011 18:12:26 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 03/14/2011 11:00 AM, Khem Raj wrote:
-> On Mon, Mar 14, 2011 at 9:46 AM, Tom Rini<tom_rini@mentor.com>  wrote:
->> On 03/12/2011 03:03 PM, Koen Kooi wrote:
->>>
->>> Op 12 mrt 2011, om 21:21 heeft Otavio Salvador het volgende geschreven:
->>>
->>>> On Sat, Mar 12, 2011 at 16:27, Otavio Salvador<otavio@ossystems.com.br>
->>>>   wrote:
->>>> ...
->>>>>
->>>>> -PACKAGES =+ "libudev libgudev udev-utils"
->>>>> +PACKAGES =+ "libudev libgudev udev-utils udev-consolekit"
->>>>
->>>> ...
->>>>
->>>> Koen, can you take a look on this change?
->>>>
->>>> It seems Angstrom is the only used of this version and seems better to
->>>> not provide support for consolekit by default so adding it as
->>>> recommends or suggests seems wrong to me.
->>>
->>> If someone can quickly explain me what it does then we can see what needs
->>> to get changed. Without having looked into it I think adding
->>> RRECOMMENDS_${PN} += "udev-consolekit" to the consolekit recipe should fix
->>> most possible breakage.
->>>
->>> Adding oe-core to CC:
->>>
->>> What are the plans in oe-core for udev? There currently is a recipe
->>> overlayed in meta-oe because I haven't had time to look into the differences
->>> between the oe-dev and oe-core version. If we're going to touch udev we
->>> might as well do it properly :)
->>
->> Not sure off hand yet, but udev is one of the things we might need to keep a
->> few versions around of, depending on how far back we want to support kernels
->> out of the box.
->
-> I would think this should be recommended into BSP layers then
 
-I wouldn't since we don't want every BSP to have to "re-invent" the udev 
-wheel.  And there's other bits of userspace where there's a relationship 
-between the kernel version (the whole kernel headers version and iirc 
-hipox machines thread on oe-devel).
+Op 7 mrt 2011, om 17:30 heeft Darren Hart het volgende geschreven:
 
-I'm not saying we need to keep every version of udev either, I'm just 
-saying we know where there's cutoff points and we should have correct 
-and maintained udev versions in the core.
+> On 03/04/2011 03:20 PM, Darren Hart wrote:
+>> On 03/04/2011 02:30 PM, Koen Kooi wrote:
+>>>=20
+>>> Op 4 mrt 2011, om 23:28 heeft Koen Kooi het volgende geschreven:
+>>>=20
+>>>>=20
+>>>> Op 4 mrt 2011, om 22:44 heeft Darren Hart het volgende geschreven:
+>>>>=20
+>>>>> On 03/04/2011 12:04 PM, Koen Kooi wrote:
+>>>>>>=20
+>>>>>> Op 4 mrt 2011, om 20:42 heeft Saul Wold het volgende geschreven:
+>>>>>>=20
+>>>>>>> From: Darren Hart<dvhart@linux.intel.com>
+>>>>>>>=20
+>>>>>>> This fixes [BUGID #241]
+>>>>>>>=20
+>>>>>>> The kernel hostprogs are built for the host architecture. They
+>>>>>>> should not be
+>>>>>>> deployed to the target, and they should not be included in an
+>>>>>>> sstate package
+>>>>>>> which might get reused on a host of a different architecture.
+>>>>>>>=20
+>>>>>>> As we don't build many out-of-tree modules, this patch takes the
+>>>>>>> approach of
+>>>>>>> building the hostprogs as part of the module compile process =
+with a
+>>>>>>> do_compile_prepend() routine in module.bbclass.
+>>>>>>>=20
+>>>>>>> We don't have to clean the hostprogs as modules depend on the
+>>>>>>> kernel being
+>>>>>>> populate_staging, so its done with the staging directory by the
+>>>>>>> time we run.
+>>>>>>>=20
+>>>>>>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
+>>>>>>> CC: Gary Thomas<gary@mlbassoc.com>
+>>>>>>> ---
+>>>>>>> meta/classes/module.bbclass | 12 +++++++++++-
+>>>>>>> 1 files changed, 11 insertions(+), 1 deletions(-)
+>>>>>>>=20
+>>>>>>> diff --git a/meta/classes/module.bbclass
+>>>>>>> b/meta/classes/module.bbclass
+>>>>>>> index d16d462..bbceaf7 100644
+>>>>>>> --- a/meta/classes/module.bbclass
+>>>>>>> +++ b/meta/classes/module.bbclass
+>>>>>>> @@ -3,6 +3,13 @@ DEPENDS +=3D "virtual/kernel"
+>>>>>>>=20
+>>>>>>> inherit module-base
+>>>>>>>=20
+>>>>>>> +# Ensure the hostprogs are available for module compilation
+>>>>>>> +module_do_compile_prepend() {
+>>>>>>> + unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>>>>>>> + oe_runmake CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" =
+AR=3D"${KERNEL_AR}" \
+>>>>>>> + -C ${STAGING_KERNEL_DIR} scripts
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> module_do_compile() {
+>>>>>>> unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>>>>>>> oe_runmake KERNEL_PATH=3D${STAGING_KERNEL_DIR} \
+>>>>>>> @@ -15,7 +22,10 @@ module_do_compile() {
+>>>>>>=20
+>>>>>> Why not put it in do_compile itself?
+>>>>>=20
+>>>>> My rationale was that a module recipe may override do_compile for
+>>>>> one reason or another, but they will still need the hostprogs =
+which
+>>>>> we stripped in kernel.bbclass. This way, even if they override
+>>>>> do_compile, the _prepend will still get run and prepare the
+>>>>> hostprogs.
+>>>>=20
+>>>> Are you sure that actually works? AIUI bitbake will fold the =
+compile
+>>>> and prepend into one when you try to override it.
+>>>=20
+>>> What I actually meant to say is: If you need to prepend it to
+>>> do_compile, even when someone will override it, use addtask to =
+insert
+>>> it between configure and compile. That makes the intention a lot
+>>> clearer and isn't depending on faulty bitbake behaviour.
+>>=20
+>> You could be right, I'm not terribly familiar with how the =
+"inheritance"
+>> model works. It seems to me the "addtask" method would work =
+regardless
+>> as you suggest, and I have no objection to taking that route.
+>>=20
+>> Richard, do you have a preference? Can you clear up the inheritance
+>> question?
+>>=20
+>=20
+> Had a chat with Richard. His suggestion was to use a new function, ie =
+do_hostprogs, which do_compile() calls. If a recipe overrides =
+do_compile() it can call do_hostprogs() or manage it on its own. I'll do =
+some testing and send out a follow-on patch.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+Any news on this? I just hit the issue:
+
+|   CC [M]  =
+/OE/tentacle/build/tmp-angstrom_2010_x/work/beagleboard-angstrom-linux-gnu=
+eabi/ti-dsplink-1_1_65_00_03-r99i/dsplink_linux_1_65_00_03/dsplink/gpp/src=
+/../../gpp/src/arch/CFG_map.o
+| /bin/sh: scripts/basic/fixdep: No such file or directory
+
+
+regards,
+
+Koen=
 
 
