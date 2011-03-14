@@ -1,33 +1,27 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Pz2hB-0006Ba-AC
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Pz6La-0004Ry-0M
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Mar 2011 09:00:06 +0100
-Received: by wwb17 with SMTP id 17so4621222wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2011 00:58:24 -0700 (PDT)
-Received: by 10.216.11.205 with SMTP id 55mr2019996wex.72.1300089504566;
-	Mon, 14 Mar 2011 00:58:24 -0700 (PDT)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id z50sm954659weq.23.2011.03.14.00.58.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 14 Mar 2011 00:58:23 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1082)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4D7D42A1.80106@mlbassoc.com>
-Date: Mon, 14 Mar 2011 08:58:23 +0100
-Message-Id: <D15BF97D-1018-43F4-A141-E5521023D369@dominion.thruhere.net>
-References: <cover.1299940883.git.raj.khem@gmail.com>
-	<4D7CE94A.5080706@mlbassoc.com>
-	<CCDB3981-855D-444D-A271-A863C2765CC4@dominion.thruhere.net>
-	<4D7CF827.60904@mlbassoc.com>
-	<AANLkTikQ-kF5u6AAKmWojmuP3xGZB4EPR0RkhhSsWAns@mail.gmail.com>
-	<4D7D42A1.80106@mlbassoc.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1082)
-Subject: Re: [PATCH 0/1] Import own-mirrors class from OE
+	Mon, 14 Mar 2011 12:54:02 +0100
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 14 Mar 2011 04:51:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.62,315,1297065600"; d="scan'208";a="402237688"
+Received: from unknown (HELO helios.localnet) ([10.255.12.146])
+	by azsmga001.ch.intel.com with ESMTP; 14 Mar 2011 04:51:13 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+Organization: Intel Corporation (UK)
+To: poky@yoctoproject.org
+Date: Mon, 14 Mar 2011 11:51:11 +0000
+User-Agent: KMail/1.13.5 (Linux/2.6.35-27-generic-pae; KDE/4.6.1; i686; ; )
+References: <cover.1299891748.git.sgw@linux.intel.com>
+	<4D7ACD9C.3010002@linux.intel.com>
+	<20110312023140.GA4829@sakrah.homelinux.org>
+In-Reply-To: <20110312023140.GA4829@sakrah.homelinux.org>
+MIME-Version: 1.0
+Message-Id: <201103141151.12235.paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 0/1] gnu-config make sure we use perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,35 +36,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2011 08:00:07 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 14 Mar 2011 11:54:02 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
+On Saturday 12 March 2011 02:31:40 Khem Raj wrote:
+> > Back to the drawing board on why the miss-match is occuring in
+> > Config.pm then.
+> 
+> somewhere there is /usr/bin/perl referred may be a cross recipe ?
 
-Op 13 mrt 2011, om 23:18 heeft Gary Thomas het volgende geschreven:
+I've hit this issue this morning, and have filed a bug report:
 
-> On 03/13/2011 12:50 PM, Chris Larson wrote:
->> On Sun, Mar 13, 2011 at 10:00 AM, Gary Thomas<gary@mlbassoc.com>  =
-wrote:
->>> Ask Richard?  I was just pointing out that Poky/Yocto already has a
->>> mechanism;
->>> perhaps the OE one is better, who knows.
->>=20
->> There seems to be some confusion here.  PREMIRRORS isn't a
->> "poky/yocto" mechanism.  It started in OE, and stills works just fine
->> there (it's implemented in bitbake).  own-mirrors is simply a
->> convenience to make premirrors manipulation easier for the user.  If
->> convenience and usability isn't a priority for poky/yocto, I'd be
->> curious to hear the reasoning.
->=20
-> Fair enough; I was merely commenting on how I had been told to handle =
-this
-> in Poky/Yocto.  If OE has a better way, perhaps it makes sense for it =
-to
-> be available in both OE-CORE and Poky/Yocto.
+  http://bugzilla.pokylinux.org/show_bug.cgi?id=866
 
-And next time please have a look at the actual patch posted before =
-commenting on it. The patch does *exactly* what you are saying, namely =
-overriding PREMIRRORS.=
+Not sure if it helps but at least it should be easy to reproduce.
+
+Cheers,
+Paul
 
 
