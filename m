@@ -1,30 +1,44 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1PzCoV-0006nA-1M
+	(envelope-from <raj.khem@gmail.com>) id 1PzCru-0003gc-21
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 Mar 2011 19:48:19 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Mar 2011 11:46:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.62,317,1297065600"; d="scan'208";a="720047164"
-Received: from doubt.jf.intel.com (HELO [10.7.199.155]) ([10.7.199.155])
-	by orsmga001.jf.intel.com with ESMTP; 14 Mar 2011 11:46:37 -0700
-Message-ID: <4D7E6289.2050208@linux.intel.com>
-Date: Mon, 14 Mar 2011 11:46:33 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
+	Mon, 14 Mar 2011 19:51:50 +0100
+Received: by fxm19 with SMTP id 19so3148683fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Mar 2011 11:50:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=fYJ6hTSwwikbB8SQ09HA6M79WqGA7odbofP70c1AB8M=;
+	b=HhqCjfJ6j3n1YrBHgMN03ZNTGLqoJ+Dg729aGNHxqdIHRJgVkF9jhTZYEwTRnWKvo+
+	UNSPnoO5QTEPgbkuw3oF/oXWOzP9ZCAed2nlaromyVtuoga9pgXeYWBPl8/HrQy4iv1c
+	AVF/kO8pGBEbEwt/4CdJfQABok6SDShgCAbJs=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	b=Dwzir0dhAgS2cudyH+ybhMtTO+7EXVrRrYbxZeMbjg/Uv077ne3nreL1ALJ2Jwmg7F
+	ykyokY6oPf/cSFWOnr7s2BUN3/PjVDF5ialNgKwDOQpcPb/krcT93DsvvLnLgabZtbZJ
+	03FIrFjlp5lRUwzpDtBjZO6LxzHF6P7fmS9wc=
+Received: by 10.223.143.75 with SMTP id t11mr5985359fau.49.1300128217401; Mon,
+	14 Mar 2011 11:43:37 -0700 (PDT)
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <cover.1299267630.git.sgw@linux.intel.com>	<e807fc977770cb64a217768672c18437ea8f3057.1299267630.git.sgw@linux.intel.com>	<A53A0FEC-74B3-483C-916C-EB87748A1AC8@dominion.thruhere.net>	<4D715D30.3030608@linux.intel.com>	<EEFD338A-726B-4502-B995-442E9AB37B9D@dominion.thruhere.net>	<8BD56976-D3F5-41F0-8CD6-9CF4B3CBB6C1@dominion.thruhere.net>
-	<4D7173CE.2090104@linux.intel.com>
-	<4D750834.2060803@linux.intel.com>
-	<4A916656-9670-438B-AA5E-21309243FBA1@dominion.thruhere.net>
-In-Reply-To: <4A916656-9670-438B-AA5E-21309243FBA1@dominion.thruhere.net>
-Cc: poky <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
+Received: by 10.223.41.89 with HTTP; Mon, 14 Mar 2011 11:42:54 -0700 (PDT)
+In-Reply-To: <1300125666.30423.354.camel@rex>
+References: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>
+	<1299135167-18330-4-git-send-email-raj.khem@gmail.com>
+	<AANLkTiks0VSWcW4_54mQUv17ZQvb8+CsbWcsDkA_9ZA+@mail.gmail.com>
+	<1299610396.602.104.camel@rex>
+	<AANLkTim62_Vb=EumqASMY_ARCJkS8M7rTAUtpxnMR6gx@mail.gmail.com>
+	<1299934200.1445.3023.camel@rex>
+	<AANLkTimM2W1XiRcSJxrXYQDDRd2Hyxg3YAqq_kBVheWK@mail.gmail.com>
+	<1300125666.30423.354.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 14 Mar 2011 11:42:54 -0700
+Message-ID: <AANLkTimHd5MrRoHT1LaUi=bKLbJdX0Xm026RhfDD0XOq@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [PATCH 04/13] module: build hostprogs for each module
+Subject: Re: [PATCHv3 3/6] gcc: Statically link in support libraries e.g. libmpfr libgmp etc.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,119 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2011 18:48:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Mar 2011 18:51:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 03/14/2011 11:10 AM, Koen Kooi wrote:
->
-> Op 7 mrt 2011, om 17:30 heeft Darren Hart het volgende geschreven:
->
->> On 03/04/2011 03:20 PM, Darren Hart wrote:
->>> On 03/04/2011 02:30 PM, Koen Kooi wrote:
->>>>
->>>> Op 4 mrt 2011, om 23:28 heeft Koen Kooi het volgende geschreven:
->>>>
->>>>>
->>>>> Op 4 mrt 2011, om 22:44 heeft Darren Hart het volgende geschreven:
->>>>>
->>>>>> On 03/04/2011 12:04 PM, Koen Kooi wrote:
->>>>>>>
->>>>>>> Op 4 mrt 2011, om 20:42 heeft Saul Wold het volgende geschreven:
->>>>>>>
->>>>>>>> From: Darren Hart<dvhart@linux.intel.com>
->>>>>>>>
->>>>>>>> This fixes [BUGID #241]
->>>>>>>>
->>>>>>>> The kernel hostprogs are built for the host architecture. They
->>>>>>>> should not be
->>>>>>>> deployed to the target, and they should not be included in an
->>>>>>>> sstate package
->>>>>>>> which might get reused on a host of a different architecture.
->>>>>>>>
->>>>>>>> As we don't build many out-of-tree modules, this patch takes the
->>>>>>>> approach of
->>>>>>>> building the hostprogs as part of the module compile process with a
->>>>>>>> do_compile_prepend() routine in module.bbclass.
->>>>>>>>
->>>>>>>> We don't have to clean the hostprogs as modules depend on the
->>>>>>>> kernel being
->>>>>>>> populate_staging, so its done with the staging directory by the
->>>>>>>> time we run.
->>>>>>>>
->>>>>>>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
->>>>>>>> CC: Gary Thomas<gary@mlbassoc.com>
->>>>>>>> ---
->>>>>>>> meta/classes/module.bbclass | 12 +++++++++++-
->>>>>>>> 1 files changed, 11 insertions(+), 1 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/meta/classes/module.bbclass
->>>>>>>> b/meta/classes/module.bbclass
->>>>>>>> index d16d462..bbceaf7 100644
->>>>>>>> --- a/meta/classes/module.bbclass
->>>>>>>> +++ b/meta/classes/module.bbclass
->>>>>>>> @@ -3,6 +3,13 @@ DEPENDS += "virtual/kernel"
->>>>>>>>
->>>>>>>> inherit module-base
->>>>>>>>
->>>>>>>> +# Ensure the hostprogs are available for module compilation
->>>>>>>> +module_do_compile_prepend() {
->>>>>>>> + unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
->>>>>>>> + oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
->>>>>>>> + -C ${STAGING_KERNEL_DIR} scripts
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> module_do_compile() {
->>>>>>>> unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
->>>>>>>> oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR} \
->>>>>>>> @@ -15,7 +22,10 @@ module_do_compile() {
->>>>>>>
->>>>>>> Why not put it in do_compile itself?
->>>>>>
->>>>>> My rationale was that a module recipe may override do_compile for
->>>>>> one reason or another, but they will still need the hostprogs which
->>>>>> we stripped in kernel.bbclass. This way, even if they override
->>>>>> do_compile, the _prepend will still get run and prepare the
->>>>>> hostprogs.
->>>>>
->>>>> Are you sure that actually works? AIUI bitbake will fold the compile
->>>>> and prepend into one when you try to override it.
->>>>
->>>> What I actually meant to say is: If you need to prepend it to
->>>> do_compile, even when someone will override it, use addtask to insert
->>>> it between configure and compile. That makes the intention a lot
->>>> clearer and isn't depending on faulty bitbake behaviour.
->>>
->>> You could be right, I'm not terribly familiar with how the "inheritance"
->>> model works. It seems to me the "addtask" method would work regardless
->>> as you suggest, and I have no objection to taking that route.
->>>
->>> Richard, do you have a preference? Can you clear up the inheritance
->>> question?
->>>
+On Mon, Mar 14, 2011 at 11:01 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2011-03-14 at 10:52 -0700, Khem Raj wrote:
+>> On Sat, Mar 12, 2011 at 4:50 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > If you look at the way the SDK toolchain works in Poky, it automatical=
+ly
+>> > ships the versions of these libraries that it needs so we don't actual=
+ly
+>> > have this problem.
+>> >
 >>
->> Had a chat with Richard. His suggestion was to use a new function, ie do_hostprogs, which do_compile() calls. If a recipe overrides do_compile() it can call do_hostprogs() or manage it on its own. I'll do some testing and send out a follow-on patch.
+>> Yes thats one way of doing it and if you got it working this is fine
+>> but there were issues when referencing
+>> due to ORIGIN mucking. So this was better and cleaner than we link in
+>> this libs into binary itself.
 >
-> Any news on this? I just hit the issue:
+> The $ORIGIN stuff should be working just fine, have you checked this?
 >
-> |   CC [M]  /OE/tentacle/build/tmp-angstrom_2010_x/work/beagleboard-angstrom-linux-gnueabi/ti-dsplink-1_1_65_00_03-r99i/dsplink_linux_1_65_00_03/dsplink/gpp/src/../../gpp/src/arch/CFG_map.o
-> | /bin/sh: scripts/basic/fixdep: No such file or directory
+>> =C2=A0 From
+>> my POV even this solution can be improved by adding the support libs
+>> to gcc build itself as sources
+>> then we dont need to muck with gcc build configury at all. I have been
+>> doing that for non OE related
+>> SDKs and has been best so far.
+>
+> As I mention above, I do think we have a solution for this which is
+> working...
 
-Yes, I have a working solution, but have been trying to polish it up and 
-getting pulled away on other bugs. I'll clean it up and push it out by 
-tonight, although I expect a few review cycles will be needed before we 
-are all happy with it.
 
-The tricky part is balancing the complexity of building the configured 
-source tree with the size it takes up in sysroots. It can be done in as 
-little as 80MB, but the easiest way (and the easiest to maintain going 
-forward) is 500MB. More on that tonight.
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+OK I think then I should withdraw this patch.
 
 
