@@ -1,36 +1,44 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Pz7mi-0007hB-Ma for openembedded-core@lists.openembedded.org;
-	Mon, 14 Mar 2011 14:26:08 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2ECtIx5000905;
-	Mon, 14 Mar 2011 12:55:18 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 00821-01; Mon, 14 Mar 2011 12:55:14 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2ECtAZf000895
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 14 Mar 2011 12:55:13 GMT
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <46D5E03C-9927-4F57-A6AC-7024B8478E1C@dominion.thruhere.net>
-References: <cover.1299891748.git.sgw@linux.intel.com>
-	<4D7ACD9C.3010002@linux.intel.com>
-	<20110312023140.GA4829@sakrah.homelinux.org>
-	<201103141151.12235.paul.eggleton@linux.intel.com>
-	<46D5E03C-9927-4F57-A6AC-7024B8478E1C@dominion.thruhere.net>
-Date: Mon, 14 Mar 2011 12:55:04 +0000
-Message-ID: <1300107304.30423.12.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>, poky@yoctoproject.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [PATCH 0/1] gnu-config make sure we use perl-native
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>)
+	id 1Pz6ze-0006Ay-2t; Mon, 14 Mar 2011 13:35:26 +0100
+Received: by bwz10 with SMTP id 10so4078678bwz.6
+	for <multiple recipients>; Mon, 14 Mar 2011 05:33:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=xjGU9BdtKr23yaDe3hlluXUTaC9AcsOyElVVT9Ng2sM=;
+	b=jg4YksF5fZd376BgU8RFmIE8wWq2/bhU4e+OVkfpsWl+fgOo53KU45zeFMub+CzozK
+	P9nJWRKAA+J7EvYEEgWBuuBeti81FIRQ2VUtZSn7vUyhoAgMpMEBB2VmWZIPxQc507dY
+	5DbBC1Cyaw3nbrQ9aA1e3GDbxuOcQYXWh+RXc=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	b=xAMePsJFwEk1L5nX4MWQ3Skq0qHzNFVxAcXc3h3zoFR+nb9+VSS61Ss0f5/E902WD1
+	rM73moPRQA1twXIzyeNV9RgddyMG3j9Y4z+x6fdFnDOhFNGpyejM1eF7QV15HnMrfKUt
+	ZZICLV4sQA1cAVjSjgqw9y8O11f9Oh5kjIdJA=
+MIME-Version: 1.0
+Received: by 10.204.75.22 with SMTP id w22mr10742644bkj.65.1300106024498; Mon,
+	14 Mar 2011 05:33:44 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.66.143 with HTTP; Mon, 14 Mar 2011 05:33:44 -0700 (PDT)
+In-Reply-To: <EC0F161F-7C09-42FD-929D-67914A54AC25@dominion.thruhere.net>
+References: <1299958038-25216-1-git-send-email-otavio@ossystems.com.br>
+	<1299958038-25216-6-git-send-email-otavio@ossystems.com.br>
+	<AANLkTimiahf+8xJ_nNePkXzB3Lhton2+5JqquPmruN24@mail.gmail.com>
+	<EC0F161F-7C09-42FD-929D-67914A54AC25@dominion.thruhere.net>
+Date: Mon, 14 Mar 2011 09:33:44 -0300
+X-Google-Sender-Auth: mCK1qtJCcxj9UkjMHH0OINIBG3w
+Message-ID: <AANLkTimdtCq5X3j=uMLhgDjM=uEoMPQ4P2fV9Heqh5ay@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Koen Kooi <koen@beagleboard.org>
+X-Mailman-Approved-At: Mon, 14 Mar 2011 15:35:49 +0100
+Cc: Koen Kooi <koen@openembedded.org>,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 05/11] udev (165): move ConsoleKit support to udev-consolekit package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,50 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2011 13:26:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Mar 2011 12:35:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2011-03-14 at 13:18 +0100, Koen Kooi wrote:
-> Op 14 mrt 2011, om 12:51 heeft Paul Eggleton het volgende geschreven:
-> 
-> > On Saturday 12 March 2011 02:31:40 Khem Raj wrote:
-> >>> Back to the drawing board on why the miss-match is occuring in
-> >>> Config.pm then.
-> >> 
-> >> somewhere there is /usr/bin/perl referred may be a cross recipe ?
-> > 
-> > I've hit this issue this morning, and have filed a bug report:
-> > 
-> >  http://bugzilla.pokylinux.org/show_bug.cgi?id=866
-> > 
-> > Not sure if it helps but at least it should be easy to reproduce.
-> 
-> I haven't checked if the OE .dev and OE core gnu-config are similar, but have a look at:
-> 
-> http://cgit.openembedded.org/cgit.cgi/openembedded/commit/?id=be21179c5321bd0afb9221f020ac12ad75c86a3b
-> http://cgit.openembedded.org/cgit.cgi/openembedded/commit/?id=edcdefbf6e0675c1bcc1fc4f464f654223380e50
+On Sat, Mar 12, 2011 at 19:03, Koen Kooi <koen@beagleboard.org> wrote:
+> If someone can quickly explain me what it does then we can see what needs=
+ to get changed. Without having looked into it I think adding RRECOMMENDS_$=
+{PN} +=3D "udev-consolekit" to the consolekit recipe should fix most possib=
+le breakage.
 
-There are a few related patches to this floating around and I know Tom
-did some work in OE.dev to make perl-native an early bootstrap
-dependency.
+I think it manages to register the 'seat' on consolekit. So I think
+this would solve this issue.
 
-I've been giving this some thought and given the various goals we have,
-I think the long term best solution is going to be to place perl into an
-isolated bin directory in sysroots, then for anything using really using
-perl-native, add that directory to PATH. This is similar to what we now
-do with the bootstrap toolchains in OE-Core. This way the dependencies
-are deterministic and either perl is or isn't required but we don't
-instantly need to build perl-native or run the risk of nasty loops in
-the early bootstrap. Anything requiring perl-native would add the
-directory to PATH, probably using a tiny class file.
+> Adding oe-core to CC:
+>
+> What are the plans in oe-core for udev? There currently is a recipe overl=
+ayed in meta-oe because I haven't had time to look into the differences bet=
+ween the oe-dev and oe-core version. If we're going to touch udev we might =
+as well do it properly :)
 
-The above patches still would make sense of course.
+I think 165 ought to be our base there.
 
-Cheers,
-
-Richard
-
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
