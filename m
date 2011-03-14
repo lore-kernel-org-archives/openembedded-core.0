@@ -1,39 +1,27 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from vms173011pub.verizon.net ([206.46.173.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jefro.net@gmail.com>)
-	id 1PzIOz-0001Xn-6G; Tue, 15 Mar 2011 01:46:21 +0100
-Received: by fxm19 with SMTP id 19so88684fxm.6
-	for <multiple recipients>; Mon, 14 Mar 2011 17:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=ormWfx2DVBpeUyLfYYLs3FLvvQ360quu9E4qNylEgAo=;
-	b=nIMBydHb+YoAm4hIln26+J/I6TJHhKUtJaNzhUNC1DtDNu5BOqC/bM8yockPFhT9LX
-	G9n27wm1cIH4F0ANIq0Q9kSJ5TLO6lohV46kt/Xjs3BpskbT24G6V9WbkAaMtonTEQyD
-	Xjs3p8lMGVBr5KLCJb2FO36QtzN+K1kSZ7+qI=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	b=S36VjIYaefkvIVK4sNCBldpA/aez3CyoKfRjOx9D8h4j2jIbytf/KJK6lURfxnNj1u
-	3MLF6DQ8sq5T7g+2OWrg1gwEkDTVNccJT62EMNU+pwYtXJYJrud3SzzMidG59oE6d70n
-	XpIpo/IkAUXn+ZGpByrqk60PGVd3QpzYxblKQ=
-MIME-Version: 1.0
-Received: by 10.223.155.141 with SMTP id s13mr4403964faw.114.1300149879854;
-	Mon, 14 Mar 2011 17:44:39 -0700 (PDT)
-Sender: jefro.net@gmail.com
-Received: by 10.223.126.130 with HTTP; Mon, 14 Mar 2011 17:44:39 -0700 (PDT)
-In-Reply-To: <1300149295.30423.889.camel@rex>
-References: <1300145968.30423.803.camel@rex> <20110314235317.GB28065@denix.org>
-	<1300149295.30423.889.camel@rex>
-Date: Mon, 14 Mar 2011 17:44:39 -0700
-X-Google-Sender-Auth: sMzAAP2fpdi53LVFXCQeRcvY7wA
-Message-ID: <AANLkTikmH2iFaxLYh=HVjX2RjLsCeG1PUJVjQN9kLDk0@mail.gmail.com>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-To: openembedded-devel@lists.openembedded.org
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Cc: yocto@yoctoproject.org, openembedded-members@lists.openembedded.org,
+	(envelope-from <denis@denix.org>) id 1PzIXd-0001re-Jm
+	for openembedded-core@lists.openembedded.org;
+	Tue, 15 Mar 2011 01:55:17 +0100
+Received: from gandalf.denix.org ([unknown] [71.251.48.61])
+	by vms173011.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009))
+	with ESMTPA id <0LI200ANRNOTFPT7@vms173011.mailsrvcs.net>; Mon,
+	14 Mar 2011 18:53:18 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id BA58414AF6A; Mon,
+	14 Mar 2011 19:53:17 -0400 (EDT)
+Date: Mon, 14 Mar 2011 19:53:17 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-members@lists.openembedded.org
+Message-id: <20110314235317.GB28065@denix.org>
+References: <1300145968.30423.803.camel@rex>
+MIME-version: 1.0
+In-reply-to: <1300145968.30423.803.camel@rex>
+User-Agent: Mutt/1.5.16 (2007-06-09)
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
 	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Collab Summit + ELC + TSC Meeting
+Subject: Re: Collab Summit + ELC + TSC Meeting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,31 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2011 00:46:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 15 Mar 2011 00:55:17 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
->
-> > There also was a request for more general purpose OEDAM over the weekend,
-> > maybe in parallel or before/after TSC meeting:
-> >
-> > Any thoughts on that?
->
-> Most of the replies there are from TSC people who are going to be there
-> with the exceptions of yourself and Mike. I'm ok with having a more
-> general meeting if the demand is there and Jefro can arrange it. If
-> there are only a few people, I'd suggest something like meeting after
-> the TSC meeting and finding food/drink together.
->
+On Mon, Mar 14, 2011 at 11:39:28PM +0000, Richard Purdie wrote:
+> Again, sorry for cross posting but I want to ensure people see this.
+> 
+> There are a few events coming up soon including the Linux Foundation
+> Collaboration Summit and the Embedded Linux Conference which are back to
+> back in San Francisco at the beginning of April. I mentioned these over
+> on the Yocto list:
+> 
+> https://lists.yoctoproject.org/pipermail/yocto/2011-March/001142.html
+> 
+> The summary is that at the collab summit, there will be partner oriented
+> Yocto meetings and a technical session, between the two events we're
+> organising a face to face OE TSC meeting over the weekend and then there
+
+Richard,
+
+There also was a request for more general purpose OEDAM over the weekend, 
+maybe in parallel or before/after TSC meeting:
+
+http://thread.gmane.org/gmane.comp.handhelds.openembedded/43069
+
+Any thoughts on that?
 
 
-For those who don't know me, I'm Jefro.  :)
-
-As Richard says, a small crowd would probably interact better over
-refreshments.  If you are interested in such a gathering, send me a note at
-jefro@jefro.net and let me know when you are available, and I'll see what I
-can pull together.
+> will be another joint OE/Yocto discussion BoF at ELC. I'm hoping this
+> means people don't need to attend both events and will still get to
+> raise anything they wish to discuss.
+> 
+> I'd be happy to see people at either event, whichever the feel is most
+> appropriate. Collab Summit is by invitation and limited in numbers but
+> we have some allocation. Its probably easiest to talk to me about that
+> in the first instance if you're interested in that.
 
 -- 
-Jeff Osier-Mixon
-Yocto Community Manager @Intel
+Denys
+
 
