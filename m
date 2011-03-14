@@ -1,34 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1PzElM-0008Nn-8C for openembedded-core@lists.openembedded.org;
-	Mon, 14 Mar 2011 21:53:12 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2EKpVxZ007084
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2011 20:51:31 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06965-02 for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2011 20:51:27 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2EKpQMk007078
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Mar 2011 20:51:26 GMT
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1PzFzL-0008SF-4Q
+	for openembedded-core@lists.openembedded.org;
+	Mon, 14 Mar 2011 23:11:43 +0100
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Mar 2011 15:10:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.62,318,1297065600"; d="scan'208";a="612901892"
+Received: from doubt.jf.intel.com (HELO [10.7.199.155]) ([10.7.199.155])
+	by orsmga002.jf.intel.com with ESMTP; 14 Mar 2011 15:10:00 -0700
+Message-ID: <4D7E9231.3050009@linux.intel.com>
+Date: Mon, 14 Mar 2011 15:09:53 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4D7E44D4.2020701@mentor.com>
-References: <629947F1-FA71-48CF-91BF-CBA98C302DFF@dominion.thruhere.net>
-	<4D7E44D4.2020701@mentor.com>
-Date: Mon, 14 Mar 2011 20:51:20 +0000
-Message-ID: <1300135880.30423.571.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC] Make GNU_HASH failures fatal
+References: <cover.1299942641.git.raj.khem@gmail.com>
+	<9d1bcc0f0467186a24ddd8acd4bd7fbc1ae5ebea.1299942641.git.raj.khem@gmail.com>
+In-Reply-To: <9d1bcc0f0467186a24ddd8acd4bd7fbc1ae5ebea.1299942641.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 1/1] send-pull-request: Fetch TO email address from git config if specified
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,31 +35,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Mar 2011 20:53:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 14 Mar 2011 22:11:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-03-14 at 09:39 -0700, Tom Rini wrote:
-> On 03/14/2011 08:35 AM, Koen Kooi wrote:
-> > Hi,
-> >
-> > GNU_HASH QA failures are nearly gone in .dev, but still rampant in
-> > oe-core. I would like to propose making them fatal so they get fixed.
-> > The most worrysome offenders currently are gcc-runtime and perl.
-> 
-> It's a little worse than that actually.  Nothing is fatal currently.  I 
-> think we should grab warning/error
-> bit I did in oe.dev and pull that in (and then talk about adding RPATH 
-> to the fatal list).
+Hi Khem,
 
-I think there are "fatal" warnings in OECore in that the QA errors
-trigger non-zero exit codes. Warnings don't do that and GNU_HASH is a
-warning, RPATH is an error from what I remember...
+On 03/12/2011 07:12 AM, Khem Raj wrote:
+> Usually people using git send-email has git config sendmail.to
+> configured to the usual mailing list or person so we harness that
+> here.
 
-Cheers,
+OK, good idea, couple concerns below.
 
-Richard
+>
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> ---
+>   scripts/send-pull-request |   21 +++++++++++++++------
+>   1 files changed, 15 insertions(+), 6 deletions(-)
+>
+> diff --git a/scripts/send-pull-request b/scripts/send-pull-request
+> index 7f51a1b..c5dc9a9 100755
+> --- a/scripts/send-pull-request
+> +++ b/scripts/send-pull-request
+> @@ -109,15 +109,17 @@ if [ $AUTO -eq 1 ]; then
+>       harvest_recipients CC "^.*-[Bb][Yy]: *"
+>   fi
+>
+> -if [ -z "$TO" ]&&  [ -z "$CC" ]; then
+> -    echo "ERROR: you have not specified any recipients."
+> -    usage
+> -    exit 1
+> -fi
+> -
+>   case "$PULL_MTA" in
+>       git)
+>           FROM="$(git config sendemail.from)"
+> +	AUTO_TO="$(git config sendemail.to)"
+> +	if [ ! -e "$AUTO_TO" ]; then
 
+-e tests for file existence...
 
+> +	    if [ ! -e $TO ]; then
+
+Here too, and please quote all shell variables.
+
+I think you want -n:
+
+if [ -n "$AUTO_TO" ]; then
+	if [ -n "$TO" ]; then
+
+Thanks,
+
+Darren
+
+> +		TO="$TO,$AUTO_TO"
+> +	    else
+> +		TO="$AUTO_TO"
+> +	    fi
+> +	fi
+>           ;;
+>       sendmail)
+>           if [ -z "$FROM" ]; then
+> @@ -131,6 +133,13 @@ case "$PULL_MTA" in
+>           ;;
+>   esac
+>
+> +if [ -z "$TO" ]&&  [ -z "$CC" ]; then
+> +    echo "ERROR: you have not specified any recipients."
+> +    usage
+> +    exit 1
+> +fi
+> +
+> +
+>   # Generate report for the user and require confirmation before sending
+>   cat<<EOM
+>   The following patches:
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
