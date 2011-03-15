@@ -1,35 +1,35 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chasemaupin03@gmail.com>) id 1PzUMP-0006eE-IJ
+	(envelope-from <chasemaupin03@gmail.com>) id 1PzUMi-0006iQ-NN
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Mar 2011 14:32:29 +0100
-Received: by ywg8 with SMTP id 8so227300ywg.6
+	Tue, 15 Mar 2011 14:32:48 +0100
+Received: by gwb11 with SMTP id 11so224821gwb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2011 06:30:46 -0700 (PDT)
+	Tue, 15 Mar 2011 06:31:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=XCKV9/ZvE9WT/Rr6moZAOuinIyGDYh7aH799ZOu/Fuc=;
-	b=weZVeXTSKwP7YUdOmgwZn4mh1D8WLFl4jdLyyfOzZarCH/uRipvr2Fu9NQpfRxjEt3
-	Vnv+TIDNRWgu9L96fJXt4/SRplJIO0v/bpAUpsMVNXS2TqmgTONwt62qYgaCPSd5Gsfg
-	yWO2XZD5jGvytpHLPAHzymNuTr9jlE+usdK5U=
+	bh=UqcpwK1cyTaZcXS6fufd4U0uRdIgbe9Co2cTHZZLnTA=;
+	b=do3iGja/VahJ8RMzn6g0u1Y0pgUjXLLMzH9EAdFnIYwLH0ScVVGi+tmDaYq4KMjBi6
+	5xzqsQxZgOsKD42T1Zw/CHz62sudKpkY1IXr8hB6js0FBLv+BeHxAHOiqIXk/8yPn98R
+	td/QTZ/j0uCgdchc2bn2zZF9hpWTv26aMF6zY=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=qOC40t6xV9YUcu5BjJgxEJjcD38lwKdjTHVTDW0T87Ux7e0w2PrryUyVJhK8JKQ4Vv
-	ZONHT6TOI70gpZS3565ybcSbeUWS2prLfntatvvLI6qpaLFZDpfVHgs3zsbrTp3dSPlh
-	iAKWNLBCnbnr05jQC6ET3cjfwb91p4dCwo8oU=
-Received: by 10.236.125.138 with SMTP id z10mr8187880yhh.185.1300195846272;
-	Tue, 15 Mar 2011 06:30:46 -0700 (PDT)
+	b=o6nGEGfM2EmSk2LeEbyZxKNWDGkU/K74OT8xHoXFC1V+HSGFCCcFX+XXcEwDS7R2EY
+	d2ogS8f3B4q4Sj2oi/CRCBAP1uXlO+aLIFiTC3qrMKYSHxjns6XCPzUB6TByeahIyRVg
+	kS07/Q9LUsU+bk/kyDGBcJfiuZ57v6pUIN4EA=
+Received: by 10.150.189.4 with SMTP id m4mr783980ybf.344.1300195865778;
+	Tue, 15 Mar 2011 06:31:05 -0700 (PDT)
 Received: from localhost.localdomain (dragon.ti.com [192.94.94.33])
-	by mx.google.com with ESMTPS id y21sm6131926yhc.18.2011.03.15.06.30.44
+	by mx.google.com with ESMTPS id r18sm6232063yba.11.2011.03.15.06.31.04
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 15 Mar 2011 06:30:45 -0700 (PDT)
+	Tue, 15 Mar 2011 06:31:04 -0700 (PDT)
 From: Chase Maupin <chasemaupin03@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Mar 2011 08:30:41 -0500
-Message-Id: <1300195841-21137-1-git-send-email-Chase.Maupin@ti.com>
+Date: Tue, 15 Mar 2011 08:31:01 -0500
+Message-Id: <1300195862-23448-1-git-send-email-Chase.Maupin@ti.com>
 X-Mailer: git-send-email 1.7.0.4
 Cc: Chase Maupin <Chase.Maupin@ti.com>
-Subject: [PATCH][angstrom-layers] u-boot.inc: allow variable make targets
+Subject: [PATCH] u-boot.inc: allow variable make targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,7 +44,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2011 13:32:29 -0000
+X-List-Received-Date: Tue, 15 Mar 2011 13:32:48 -0000
 
 * Later versions of u-boot sometimes have top level make targets
   such as u-boot.imx, u-boot.kwb, and for upcoming TI devices
@@ -57,30 +57,29 @@ X-List-Received-Date: Tue, 15 Mar 2011 13:32:29 -0000
 
 Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
 ---
- BSP/TI/recipes-bsp/u-boot/u-boot.inc |    3 ++-
+ meta/recipes-bsp/uboot/u-boot.inc |    3 ++-
  1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/BSP/TI/recipes-bsp/u-boot/u-boot.inc b/BSP/TI/recipes-bsp/u-boot/u-boot.inc
-index 3859a4c..3a9a72f 100644
---- a/BSP/TI/recipes-bsp/u-boot/u-boot.inc
-+++ b/BSP/TI/recipes-bsp/u-boot/u-boot.inc
-@@ -18,6 +18,7 @@ UBOOT_MACHINE ?= "${MACHINE}_config"
- UBOOT_BINARY ?= "u-boot.bin"
+diff --git a/meta/recipes-bsp/uboot/u-boot.inc b/meta/recipes-bsp/uboot/u-boot.inc
+index d1cebee..058e3ba 100644
+--- a/meta/recipes-bsp/uboot/u-boot.inc
++++ b/meta/recipes-bsp/uboot/u-boot.inc
+@@ -14,13 +14,14 @@ EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX} OPTFLAGS='-O2'"
+ UBOOT_MACHINE ?= "${MACHINE}_config"
  UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.bin"
  UBOOT_SYMLINK ?= "u-boot-${MACHINE}.bin"
 +UBOOT_MAKE_TARGET ?= "all"
  
- do_configure () {
- 	oe_runmake ${UBOOT_MACHINE}
-@@ -27,7 +28,7 @@ do_compile () {
+ do_compile () {
  	unset LDFLAGS
  	unset CFLAGS
  	unset CPPFLAGS
+ 	oe_runmake ${UBOOT_MACHINE}
 -	oe_runmake all
 +	oe_runmake ${UBOOT_MAKE_TARGET}
- 	oe_runmake tools env
  }
  
+ do_deploy () {
 -- 
 1.7.0.4
 
