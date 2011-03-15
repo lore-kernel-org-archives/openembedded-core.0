@@ -1,35 +1,29 @@
-Received: from mail-gw0-f47.google.com ([74.125.83.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chasemaupin03@gmail.com>) id 1PzUMi-0006iQ-NN
+	(envelope-from <koen@dominion.thruhere.net>) id 1PzXET-00014q-Uv
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Mar 2011 14:32:48 +0100
-Received: by gwb11 with SMTP id 11so224821gwb.6
+	Tue, 15 Mar 2011 17:36:30 +0100
+Received: by wyb40 with SMTP id 40so684987wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2011 06:31:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=UqcpwK1cyTaZcXS6fufd4U0uRdIgbe9Co2cTHZZLnTA=;
-	b=do3iGja/VahJ8RMzn6g0u1Y0pgUjXLLMzH9EAdFnIYwLH0ScVVGi+tmDaYq4KMjBi6
-	5xzqsQxZgOsKD42T1Zw/CHz62sudKpkY1IXr8hB6js0FBLv+BeHxAHOiqIXk/8yPn98R
-	td/QTZ/j0uCgdchc2bn2zZF9hpWTv26aMF6zY=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=o6nGEGfM2EmSk2LeEbyZxKNWDGkU/K74OT8xHoXFC1V+HSGFCCcFX+XXcEwDS7R2EY
-	d2ogS8f3B4q4Sj2oi/CRCBAP1uXlO+aLIFiTC3qrMKYSHxjns6XCPzUB6TByeahIyRVg
-	kS07/Q9LUsU+bk/kyDGBcJfiuZ57v6pUIN4EA=
-Received: by 10.150.189.4 with SMTP id m4mr783980ybf.344.1300195865778;
-	Tue, 15 Mar 2011 06:31:05 -0700 (PDT)
-Received: from localhost.localdomain (dragon.ti.com [192.94.94.33])
-	by mx.google.com with ESMTPS id r18sm6232063yba.11.2011.03.15.06.31.04
+	Tue, 15 Mar 2011 09:34:47 -0700 (PDT)
+Received: by 10.227.32.69 with SMTP id b5mr9598218wbd.99.1300206881995;
+	Tue, 15 Mar 2011 09:34:41 -0700 (PDT)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id u9sm896825wbg.12.2011.03.15.09.34.40
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 15 Mar 2011 06:31:04 -0700 (PDT)
-From: Chase Maupin <chasemaupin03@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Mar 2011 08:31:01 -0500
-Message-Id: <1300195862-23448-1-git-send-email-Chase.Maupin@ti.com>
-X-Mailer: git-send-email 1.7.0.4
+	Tue, 15 Mar 2011 09:34:40 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1300195841-21137-1-git-send-email-Chase.Maupin@ti.com>
+Date: Tue, 15 Mar 2011 17:34:39 +0100
+Message-Id: <077BC74A-B64F-44E1-8437-6D565D3D3737@dominion.thruhere.net>
+References: <1300195841-21137-1-git-send-email-Chase.Maupin@ti.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1082)
 Cc: Chase Maupin <Chase.Maupin@ti.com>
-Subject: [PATCH] u-boot.inc: allow variable make targets
+Subject: Re: [PATCH][angstrom-layers] u-boot.inc: allow variable make targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,44 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2011 13:32:48 -0000
+X-List-Received-Date: Tue, 15 Mar 2011 16:36:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-* Later versions of u-boot sometimes have top level make targets
-  such as u-boot.imx, u-boot.kwb, and for upcoming TI devices
-  u-boot.ti.
-* These targets define different calls to the mkimage tool to
-  change the images created, such as changing the load address.
-* This change allows recipes to change the default make target
-  of "all" to something like u-boot.ti or u-boot.imx by setting
-  the UBOOT_MAKE_TARGET variable.
 
-Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
----
- meta/recipes-bsp/uboot/u-boot.inc |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+Op 15 mrt 2011, om 14:30 heeft Chase Maupin het volgende geschreven:
 
-diff --git a/meta/recipes-bsp/uboot/u-boot.inc b/meta/recipes-bsp/uboot/u-boot.inc
-index d1cebee..058e3ba 100644
---- a/meta/recipes-bsp/uboot/u-boot.inc
-+++ b/meta/recipes-bsp/uboot/u-boot.inc
-@@ -14,13 +14,14 @@ EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX} OPTFLAGS='-O2'"
- UBOOT_MACHINE ?= "${MACHINE}_config"
- UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.bin"
- UBOOT_SYMLINK ?= "u-boot-${MACHINE}.bin"
-+UBOOT_MAKE_TARGET ?= "all"
- 
- do_compile () {
- 	unset LDFLAGS
- 	unset CFLAGS
- 	unset CPPFLAGS
- 	oe_runmake ${UBOOT_MACHINE}
--	oe_runmake all
-+	oe_runmake ${UBOOT_MAKE_TARGET}
- }
- 
- do_deploy () {
--- 
-1.7.0.4
+> * Later versions of u-boot sometimes have top level make targets
+>  such as u-boot.imx, u-boot.kwb, and for upcoming TI devices
+>  u-boot.ti.
+> * These targets define different calls to the mkimage tool to
+>  change the images created, such as changing the load address.
+> * This change allows recipes to change the default make target
+>  of "all" to something like u-boot.ti or u-boot.imx by setting
+>  the UBOOT_MAKE_TARGET variable.
+> 
+> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+> ---
+> BSP/TI/recipes-bsp/u-boot/u-boot.inc |    3 ++-
+> 1 files changed, 2 insertions(+), 1 deletions(-)
+
+Thanks, pushed to angstrom-layers master.
+
 
 
 
