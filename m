@@ -1,37 +1,24 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1PzRMR-0005k9-Pl
+	(envelope-from <koen@dominion.thruhere.net>) id 1PzRTs-00061j-AT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Mar 2011 11:20:19 +0100
-Received: by mail-bw0-f47.google.com with SMTP id 10so366014bwz.6
+	Tue, 15 Mar 2011 11:28:00 +0100
+Received: by wyb40 with SMTP id 40so349592wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2011 03:18:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=BmKrkjMGVUhvE9Fv5/zUOVqUzV9mZT83VqiWOvQD+0c=;
-	b=bywbrBsePRnQPtncXKUz9i4b0T3PkzxXGKUfnGXbt1WS1Xq0vGpU//4oDZa13jZwLA
-	iULsSjnTrF26cFo1SS9o58mI2umo80/tb70RIdqgujNe02g3Mdye9M0cLEYkt/QQzjX7
-	OUm5Jrh7pT9cgw3XiYtF73US9lM/vupLyPP1w=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=GYgryLnqU+9dZIRQ8N/j1SGS8cg6Ct8KGu0fCCJnlgdIx9J4CyKobHwm6IGlpOxilK
-	Vww3GDz5aPPribqbCVyfbTA7KU7drDhm1jfpApAKAdei/idkMJW+7sU+Em5l/Cd7yg6X
-	KT1vX9M1IEEu8zAh40Jq7fOuX6MrD1xdOY3l0=
-Received: by 10.204.167.65 with SMTP id p1mr439267bky.207.1300184319390;
-	Tue, 15 Mar 2011 03:18:39 -0700 (PDT)
-Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
-	by mx.google.com with ESMTPS id v21sm5847532bkt.23.2011.03.15.03.18.37
+	Tue, 15 Mar 2011 03:26:18 -0700 (PDT)
+Received: by 10.216.144.134 with SMTP id n6mr12081605wej.27.1300184778228;
+	Tue, 15 Mar 2011 03:26:18 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id n4sm4363752wee.4.2011.03.15.03.26.17
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 15 Mar 2011 03:18:38 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue, 15 Mar 2011 03:26:17 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Mar 2011 11:18:32 +0100
-Message-Id: <0f1bc780b10b22c02114d3184a6535e5bf46a854.1300184240.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1300184240.git.Martin.Jansa@gmail.com>
-References: <cover.1300184240.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 1/1] create-pull-request: switch URL from git.pokylinux.org/poky-contrib to git.openembedded.org/openembedded-core-contrib
+Date: Tue, 15 Mar 2011 11:25:01 +0100
+Message-Id: <1300184701-23833-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Koen Kooi <koen@openembedded.org>
+Subject: [PATCH] kernel bbclass: split do_compile into do_compile and do_compile_modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,47 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2011 10:20:19 -0000
+X-List-Received-Date: Tue, 15 Mar 2011 10:28:00 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+This allows recipes to insert a custom task in between building *Image and modules
+
+From OE .dev revision 615876fe218dc3feb4a3df9e6546a7b1a6376800
+
+Signed-off-by: Koen Kooi <koen@openembedded.org>
+Acked-by: Graeme Gregory <dp@xora.org.uk>
 ---
- scripts/create-pull-request |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
+ meta/classes/kernel.bbclass |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 5ad7666..784b48c 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -2,7 +2,8 @@
- ODIR=pull-$$
- RELATIVE_TO="master"
- COMMIT_ID="HEAD"
--PULL_URL="git://git.pokylinux.org/poky-contrib.git"
-+PULL_URL="git://git.openembedded.org/openembedded-core-contrib"
-+WEB_URL_PREFIX="http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h="
- PREFIX="PATCH"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a1b1354..a9a8f4f 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -77,12 +77,17 @@ kernel_do_compile() {
+ 		oe_runmake dep CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+ 	fi
+ 	oe_runmake ${KERNEL_IMAGETYPE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}"
++}
++
++do_compile_kernelmodules() {
++	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		oe_runmake modules  CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+ 	else
+ 		oenote "no modules to compile"
+ 	fi
+ }
++addtask compile_kernelmodules after do_compile before do_install
  
- usage() {
-@@ -14,7 +15,7 @@ Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to
-   -m msg_body_file    The file containing a blurb to be inserted into the summary email
-   -r relative_to      Starting commit (default: master)
-   -i commit_id        Ending commit (default: HEAD)
--  -b contrib_branch   Branch-name in the git.pokylinux.org/poky-contrib tree
-+  -b contrib_branch   Branch-name in the $PULL_URL
-   -s subject          The subject to be inserted into the summary email
-   -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
- 
-@@ -69,7 +70,7 @@ fi
- 
- # Perform a sanity test on the web URL. Issue a warning if it is not
- # accessible, but do not abort as users may want to run offline.
--WEB_URL="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=$CONTRIB_BRANCH"
-+WEB_URL="$WEB_URL_PREFIX$CONTRIB_BRANCH"
- wget -q $WEB_URL -O /dev/null
- if [ $? -ne 0 ]; then
-     echo "WARNING: Branch '$CONTRIB_BRANCH' was not found on the contrib git tree."
+ kernel_do_install() {
+ 	#
 -- 
-1.7.4.1
+1.6.6.1
 
 
 
