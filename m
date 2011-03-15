@@ -1,30 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1PzIFl-0001Fc-2f; Tue, 15 Mar 2011 01:36:49 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2F0Z8mM010363;
-	Tue, 15 Mar 2011 00:35:08 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09928-08; Tue, 15 Mar 2011 00:35:04 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2F0Z2hW010351
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 15 Mar 2011 00:35:03 GMT
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-members@lists.openembedded.org
-In-Reply-To: <20110314235317.GB28065@denix.org>
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <jefro.net@gmail.com>)
+	id 1PzIOz-0001Xn-6G; Tue, 15 Mar 2011 01:46:21 +0100
+Received: by fxm19 with SMTP id 19so88684fxm.6
+	for <multiple recipients>; Mon, 14 Mar 2011 17:44:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=ormWfx2DVBpeUyLfYYLs3FLvvQ360quu9E4qNylEgAo=;
+	b=nIMBydHb+YoAm4hIln26+J/I6TJHhKUtJaNzhUNC1DtDNu5BOqC/bM8yockPFhT9LX
+	G9n27wm1cIH4F0ANIq0Q9kSJ5TLO6lohV46kt/Xjs3BpskbT24G6V9WbkAaMtonTEQyD
+	Xjs3p8lMGVBr5KLCJb2FO36QtzN+K1kSZ7+qI=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	b=S36VjIYaefkvIVK4sNCBldpA/aez3CyoKfRjOx9D8h4j2jIbytf/KJK6lURfxnNj1u
+	3MLF6DQ8sq5T7g+2OWrg1gwEkDTVNccJT62EMNU+pwYtXJYJrud3SzzMidG59oE6d70n
+	XpIpo/IkAUXn+ZGpByrqk60PGVd3QpzYxblKQ=
+MIME-Version: 1.0
+Received: by 10.223.155.141 with SMTP id s13mr4403964faw.114.1300149879854;
+	Mon, 14 Mar 2011 17:44:39 -0700 (PDT)
+Sender: jefro.net@gmail.com
+Received: by 10.223.126.130 with HTTP; Mon, 14 Mar 2011 17:44:39 -0700 (PDT)
+In-Reply-To: <1300149295.30423.889.camel@rex>
 References: <1300145968.30423.803.camel@rex> <20110314235317.GB28065@denix.org>
-Date: Tue, 15 Mar 2011 00:34:55 +0000
-Message-ID: <1300149295.30423.889.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	<1300149295.30423.889.camel@rex>
+Date: Mon, 14 Mar 2011 17:44:39 -0700
+X-Google-Sender-Auth: sMzAAP2fpdi53LVFXCQeRcvY7wA
+Message-ID: <AANLkTikmH2iFaxLYh=HVjX2RjLsCeG1PUJVjQN9kLDk0@mail.gmail.com>
+From: Jeff Osier-Mixon <jefro@jefro.net>
+To: openembedded-devel@lists.openembedded.org
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Cc: yocto@yoctoproject.org, openembedded-members@lists.openembedded.org,
 	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Collab Summit + ELC + TSC Meeting
+Subject: Re: [oe] Collab Summit + ELC + TSC Meeting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,43 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2011 00:36:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Mar 2011 00:46:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, 2011-03-14 at 19:53 -0400, Denys Dmytriyenko wrote:
-> On Mon, Mar 14, 2011 at 11:39:28PM +0000, Richard Purdie wrote:
-> > Again, sorry for cross posting but I want to ensure people see this.
-> > 
-> > There are a few events coming up soon including the Linux Foundation
-> > Collaboration Summit and the Embedded Linux Conference which are back to
-> > back in San Francisco at the beginning of April. I mentioned these over
-> > on the Yocto list:
-> > 
-> > https://lists.yoctoproject.org/pipermail/yocto/2011-March/001142.html
-> > 
-> > The summary is that at the collab summit, there will be partner oriented
-> > Yocto meetings and a technical session, between the two events we're
-> > organising a face to face OE TSC meeting over the weekend and then there
-> 
-> Richard,
-> 
-> There also was a request for more general purpose OEDAM over the weekend, 
-> maybe in parallel or before/after TSC meeting:
-> 
-> http://thread.gmane.org/gmane.comp.handhelds.openembedded/43069
-> 
-> Any thoughts on that?
-
-Most of the replies there are from TSC people who are going to be there
-with the exceptions of yourself and Mike. I'm ok with having a more
-general meeting if the demand is there and Jefro can arrange it. If
-there are only a few people, I'd suggest something like meeting after
-the TSC meeting and finding food/drink together.
-
-Cheers,
-
-Richard
+>
+> > There also was a request for more general purpose OEDAM over the weekend,
+> > maybe in parallel or before/after TSC meeting:
+> >
+> > Any thoughts on that?
+>
+> Most of the replies there are from TSC people who are going to be there
+> with the exceptions of yourself and Mike. I'm ok with having a more
+> general meeting if the demand is there and Jefro can arrange it. If
+> there are only a few people, I'd suggest something like meeting after
+> the TSC meeting and finding food/drink together.
+>
 
 
+For those who don't know me, I'm Jefro.  :)
+
+As Richard says, a small crowd would probably interact better over
+refreshments.  If you are interested in such a gathering, send me a note at
+jefro@jefro.net and let me know when you are available, and I'll see what I
+can pull together.
+
+-- 
+Jeff Osier-Mixon
+Yocto Community Manager @Intel
 
