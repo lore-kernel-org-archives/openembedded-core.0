@@ -1,31 +1,31 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cliff.brake@gmail.com>) id 1PzZZM-00027Y-Dl
+	(envelope-from <dvhart@linux.intel.com>) id 1PzZvv-0002nU-6n
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 Mar 2011 20:06:12 +0100
-Received: by wwb17 with SMTP id 17so1012526wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Mar 2011 12:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:date:message-id:subject:from:to
-	:content-type; bh=w1a0YcgmcXKAKD2cNYGiAm6EuTiGTc+hBL02v7qWWHw=;
-	b=mQ4EAHt//jjpIEjVZrRBEJlcw9M56Gpjd3ol1s+xx9wJ4PGzn9AUCyMG6Zd3o9Z5AH
-	PjBhCmxDRX1f1HcAUdYeHL1QLtiVIf1b22QWXltKtgi3uyDFjyB1LTyUiJIyW0dPA+gA
-	/h8EdPZfCajX1fkC++CS/ylna2bsXaJIEwT8E=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	b=uQzBy6EOm7R9RNqFLZgue4FxFbZ/uOPJlkTZs9zuZl8kHLSI6s9HMNdcavKZ2hO0OR
-	VdhSt2ZQm7R93+Sp50xddcGv0aneex2k480zCV8zLP3gFbAu2bvfrE4gvhkQ5KSZBgOf
-	LiV56BTwiLO08i3Svc8DGRc+plLAyRUG+S2sI=
+	Tue, 15 Mar 2011 20:29:32 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 15 Mar 2011 12:27:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.63,190,1299484800"; d="scan'208";a="720479673"
+Received: from unknown (HELO [10.255.12.146]) ([10.255.12.146])
+	by orsmga001.jf.intel.com with ESMTP; 15 Mar 2011 12:27:48 -0700
+Message-ID: <4D7FBDAB.7040501@linux.intel.com>
+Date: Tue, 15 Mar 2011 12:27:39 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
 MIME-Version: 1.0
-Received: by 10.216.145.221 with SMTP id p71mr4077843wej.9.1300215866271; Tue,
-	15 Mar 2011 12:04:26 -0700 (PDT)
-Received: by 10.216.47.85 with HTTP; Tue, 15 Mar 2011 12:04:26 -0700 (PDT)
-Date: Tue, 15 Mar 2011 15:04:26 -0400
-Message-ID: <AANLkTi=R+k9xVVp8xT4tTMeqfLY4itBbn08M7u5o3Mef@mail.gmail.com>
-From: Cliff Brake <cliff.brake@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: OE weekly changelog for openembedded-core, 2011-03-07 to 2011-03-14
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <161e1f47c2460d5b2463300e31bf5eebb46b8698.1300172958.git.dvhart@linux.intel.com>	
+	<ACE0CCC0-8D25-4FC2-93B2-73C60636721A@beagleboard.org>	
+	<4D7F9CC2.2030002@linux.intel.com>	
+	<AANLkTikC7yWvzTzf1Od2WLiBhQjz1iactGCaPCN+aAmR@mail.gmail.com>
+	<1300213438.30423.1820.camel@rex>
+In-Reply-To: <1300213438.30423.1820.camel@rex>
+Cc: Koen Kooi <koen@beagleboard.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [RFC] kernel: rework kernel and module classes to allow for building out-of-tree modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,78 +40,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2011 19:06:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-
-OE weekly changelog for openembedded-core, 2011-03-07 to 2011-03-14
-
-Bruce Ashfield (1):
-  linux-yocto: update to 2.6.37.3
-
-Dexuan Cui (2):
-  oprofileui: upgrade to the latest version maintained by the Yocto project
-  distro_tracking_fields.inc: update the info for oprofileui
-
-Dongxiao Xu (4):
-  connman: add xuser to the dbus permission list
-  telepathy-python: Fix parallel make issue.
-  tinylogin: Fix rotate passwd check logic
-  gst-plugins-bad: add missing dependency librsvg
-
-Joshua Lock (1):
-  util-macros: fix DEPENDS for nativesdk
-
-Khem Raj (3):
-  poky-default.inc: Change LINUXLIBCVERSION "2.6.36" -> "2.6.37.2"
-  sanity.bbclass: Check for /proc/sys/vm/mmap_min_addr to be >= 65536
-  gcc-configure-runtime.inc: Add immediate evaluation otherwise it ends in cir
-
-Lianhao Lu (1):
-  gcc/collect2: Added --sysroot support into collect2 in gcc.
-
-Liping Ke (3):
-  adt: Update to svn r596 to fix symbolic link issues
-  adt: removed unused repo source and opkg options
-  Disable wget server side cache
-
-Mark Hatle (4):
-  gcc-runtime: Ensure that gcc-runtime builds a debug package
-  package.bbclass: Change the debug directory to avoid conflicts
-  package_rpm: Fix rootfs generation
-  gcc-runtime: Fix dbg files
-
-Martin Jansa (4):
-  sanity.bbclass: some multilib systems have symlink /lib -> /lib64
-  python: add generate-manifest-2.6.py script and regen
-python-2.6-manifest.in
-  debian.bbclass: call auto_libname in reverse sorted
-AUTO_LIBNAME_PKGS
-  distutils-base: Only RDEPEND python-core on target packages
-
-Nitin A Kamble (2):
-  gcc-runtime: fix LSB library checks for libstdc++.so.6
-  perl: another set of parallel build fixes
-
-Paul Eggleton (1):
-  gst-plugins-good: remove dependency on hal
-
-Richard Purdie (3):
-  sstate: Ensure the SRCURI fetcher cache is not used for sstate
-  autotools.bbclass: Fix automake file race issues
-  sanity.bbclass: Fix inverted mmap_min_addr logic
-
-Saul Wold (3):
-  lsb-live image: add lsb-live and lsb-sdk-live image types
-  cpio: Fix the SHA256 Checksum for the src tarball
-  quilt: add autotools inheritance
-
-Scott Garman (1):
-  openssh: allow the openssh meta package to be empty
+X-List-Received-Date: Tue, 15 Mar 2011 19:29:32 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+
+On 03/15/2011 11:23 AM, Richard Purdie wrote:
+> On Tue, 2011-03-15 at 10:24 -0700, Khem Raj wrote:
+>> On Tue, Mar 15, 2011 at 10:07 AM, Darren Hart<dvhart@linux.intel.com>  wrote:
+>>>
+>>> What are the ownership and perms on those?
+>>>
+>>> I suppose we could avoid the .pc directory - but it's going to require
+>>> something more than cp or some additional scripting. Something like tar's
+>>> exclude functionality might be needed - but I hate to add the intermediate
+>>> step as the kernel recipes are already so slow.
+>>
+>>
+>> hmmm I wonder why those are marked non readable in .pc directory  that
+>> seems wrong to me
+>
+> Its quilt that does this. Kind of annoying but its been doing that for a
+> few versions now...
+
+I recall purging .pc for this reason (just in other development, outside 
+of poky).
+
+I take it deleting .pc from the build dir would be bad as it would make 
+build/hack/build fail to work on the workdir tree. That leaves changing 
+the permissions and copying it, or just avoiding the copy. I'm leaning 
+towards avoiding the copy - but I hate to add a ton of scripting logic 
+in the copy, but that may be the best solution.
+
+>
+> Cheers,
+>
+> Richard
+>
 
 -- 
-=================
-http://bec-systems.com
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
