@@ -1,33 +1,29 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from vms173001pub.verizon.net ([206.46.173.1])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>)
-	id 1PzKhO-0005JH-UR; Tue, 15 Mar 2011 04:13:31 +0100
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1PzKfm-0000nh-FZ from Tom_Rini@mentor.com ;
-	Mon, 14 Mar 2011 20:11:50 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 14 Mar 2011 20:10:55 -0700
-Received: from [172.30.80.14] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
-	with Microsoft SMTP Server id 14.1.270.1;
-	Mon, 14 Mar 2011 20:10:54 -0700
-Message-ID: <4D7ED8AF.6040807@mentor.com>
-Date: Mon, 14 Mar 2011 20:10:39 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: <openembedded-devel@lists.openembedded.org>
-References: <1300145968.30423.803.camel@rex>	<20110314235317.GB28065@denix.org>	<1300149295.30423.889.camel@rex>	<AANLkTikmH2iFaxLYh=HVjX2RjLsCeG1PUJVjQN9kLDk0@mail.gmail.com>
+	(envelope-from <denis@denix.org>) id 1PzLLu-0006df-Nd
+	for openembedded-core@lists.openembedded.org;
+	Tue, 15 Mar 2011 04:55:22 +0100
+Received: from gandalf.denix.org ([unknown] [71.251.48.61])
+	by vms173001.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009))
+	with ESMTPA id <0LI200CV3W09G3Y2@vms173001.mailsrvcs.net>; Mon,
+	14 Mar 2011 21:53:10 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 881F114AF6A; Mon,
+	14 Mar 2011 22:52:57 -0400 (EDT)
+Date: Mon, 14 Mar 2011 22:52:57 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-members@lists.openembedded.org
+Message-id: <20110315025257.GA29668@denix.org>
+References: <1300145968.30423.803.camel@rex> <20110314235317.GB28065@denix.org>
+	<1300149295.30423.889.camel@rex>
+	<AANLkTikmH2iFaxLYh=HVjX2RjLsCeG1PUJVjQN9kLDk0@mail.gmail.com>
 	<4D7EBDAA.2030805@balister.org>
-In-Reply-To: <4D7EBDAA.2030805@balister.org>
-X-OriginalArrivalTime: 15 Mar 2011 03:10:55.0482 (UTC)
-	FILETIME=[995C55A0:01CBE2BE]
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
-	Philip Balister <philip@balister.org>,
-	openembedded-members@lists.openembedded.org, yocto@yoctoproject.org
+MIME-version: 1.0
+In-reply-to: <4D7EBDAA.2030805@balister.org>
+User-Agent: Mutt/1.5.16 (2007-06-09)
+Cc: yocto@yoctoproject.org, openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [oe] Collab Summit + ELC + TSC Meeting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,14 +39,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Mar 2011 03:13:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Mar 2011 03:55:22 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On 03/14/2011 06:15 PM, Philip Balister wrote:
+On Mon, Mar 14, 2011 at 09:15:22PM -0400, Philip Balister wrote:
 > On 03/14/2011 08:44 PM, Jeff Osier-Mixon wrote:
 >>>
->>>> There also was a request for more general purpose OEDAM over the
+>>>> There also was a request for more general purpose OEDAM over the 
 >>>> weekend,
 >>>> maybe in parallel or before/after TSC meeting:
 >>>>
@@ -64,23 +60,21 @@ On 03/14/2011 06:15 PM, Philip Balister wrote:
 >>>
 >>
 >>
->> For those who don't know me, I'm Jefro. :)
+>> For those who don't know me, I'm Jefro.  :)
 >>
 >> As Richard says, a small crowd would probably interact better over
->> refreshments. If you are interested in such a gathering, send me a
->> note at
->> jefro@jefro.net and let me know when you are available, and I'll see
->> what I
+>> refreshments.  If you are interested in such a gathering, send me a note 
+>> at
+>> jefro@jefro.net and let me know when you are available, and I'll see what 
+>> I
 >> can pull together.
 >
-> A quick show of hands, how many OE people can be in San Francisco over
-> the weekend of April 9-10? TSC people, go ahead and chime in for
-> completeness.
+> A quick show of hands, how many OE people can be in San Francisco over the 
+> weekend of April 9-10? TSC people, go ahead and chime in for completeness.
 
-I'm going just for the Sunday bit.
+I plan to be there.
 
 -- 
-Tom Rini
-Mentor Graphics Corporation
+Denys
 
 
