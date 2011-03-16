@@ -1,30 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1PztZr-0006bU-EV
+	(envelope-from <chasemaupin03@gmail.com>) id 1Pztam-0006cW-DC
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Mar 2011 17:28:04 +0100
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p2GGPoSe029843
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Mar 2011 09:25:50 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 16 Mar 2011 09:25:50 -0700
-Message-ID: <4D80E48C.4010902@windriver.com>
-Date: Wed, 16 Mar 2011 11:25:48 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.15) Gecko/20110303 Thunderbird/3.1.9
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1300291424.git.mark.hatle@windriver.com>	
-	<2e2980aae580fa0a143e9450596b64c390bbc236.1300291424.git.mark.hatle@windriver.com>
-	<1300292546.30423.1891.camel@rex>
-In-Reply-To: <1300292546.30423.1891.camel@rex>
-X-Originating-IP: [172.25.36.231]
-Cc: poky@lists.pokylinux.org, openembedded-core@lists.openembedded.org
-Subject: Re: [poky] [PATCH 1/6] package.bbclass: Fix missing debug src files
+	Wed, 16 Mar 2011 17:29:00 +0100
+Received: by gwb11 with SMTP id 11so721389gwb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Mar 2011 09:27:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=FhY0o97UNoCcWd07rpr8onoCBb2LwWf0M19CW2YUSGM=;
+	b=GcNEqd11rJ5iuWh9wPpNgrv5wmo01kOaKMuOubXTqKlHL9RpN8AnWk3ovoge/EaKKi
+	pq+P6C6y69J0VUpwRDbe1lQQeIFLSB8PU8kDNDN78vzJLXuJPXrsU6VXbVvUGHGkfN0X
+	5KG0BAwMSd8NOjFBMl2tZxb7qGgWttxb1cUKI=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=l/o+rZbi3AhZA+R4pYyk+yNLEfrjihc2qNDa2A4YgzWJWQk0RDuEmRfV/o+fB0YoCq
+	aClILPhSpLO7DnDsgWT/dli3EQ9/53tdXO1K6ezpj8qCQu4xr1MVWqcQcGYlWFiQd0Z/
+	O7LLU54vrvR7tdqykqW3DESpDfm5L3oxXOJa0=
+Received: by 10.91.127.5 with SMTP id e5mr246124agn.190.1300292834504;
+	Wed, 16 Mar 2011 09:27:14 -0700 (PDT)
+Received: from localhost.localdomain (dragon.ti.com [192.94.94.33])
+	by mx.google.com with ESMTPS id r8sm1433658ane.19.2011.03.16.09.27.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 16 Mar 2011 09:27:11 -0700 (PDT)
+From: Chase Maupin <chasemaupin03@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Mar 2011 11:27:04 -0500
+Message-Id: <1300292827-21236-1-git-send-email-Chase.Maupin@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+Cc: Chase Maupin <Chase.Maupin@ti.com>
+Subject: [PATCH 1/4][angstrom-layers] matrix-gui-common: update SRCREV and add device support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,47 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Mar 2011 16:28:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Mar 2011 16:29:00 -0000
 
-On 3/16/11 11:22 AM, Richard Purdie wrote:
-> On Wed, 2011-03-16 at 11:15 -0500, Mark Hatle wrote:
->> The previous change used egrep instead of fgrep.  We need to use fgrep because
->> there are expression like syntaxes in some file names, we need exact matches.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->> ---
->>  meta/classes/package.bbclass |    3 ++-
->>  1 files changed, 2 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
->> index a7a5894..ac30cbe 100644
->> --- a/meta/classes/package.bbclass
->> +++ b/meta/classes/package.bbclass
->> @@ -233,9 +233,10 @@ def splitfile2(debugsrcdir, d):
->>         processdebugsrc =  "LC_ALL=C ; sort -z -u '%s' | egrep -v -z '(<internal>|<built-in>)$' | "
->>         # We need to ignore files that are not actually ours
->>         # we do this by only paying attention to items from this package
->> -       processdebugsrc += "egrep -z '%s' | "
->> +       processdebugsrc += "fgrep -z '%s' | "
->>         processdebugsrc += "(cd '%s' ; cpio -pd0mL '%s%s' 2>/dev/null)"
->>  
->> +       bb.note(processdebugsrc % (sourcefile, workbasedir, workparentdir, dvar, debugsrcdir))
->>         os.system(processdebugsrc % (sourcefile, workbasedir, workparentdir, dvar, debugsrcdir))
->>  
->>         # The copy by cpio may have resulted in some empty directories!  Remove these
-> 
-> Did you mean to leave the bb.note() in?
+* Update the SRCREV used for the matrix-gui-common_1.4 package.
+* Add support for svg image formats
+* Add support for the dm368-evm machine type
 
-No, that was supposed to be removed.  Should I yank it and re-push the commit?
+Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+---
+ BSP/TI/recipes-bsp/ti/matrix-gui-common.inc    |    7 ++++---
+ BSP/TI/recipes-bsp/ti/matrix-gui-common_1.4.bb |    4 ++--
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
---Mark
-
-> Cheers,
-> 
-> Richard
-> 
+diff --git a/BSP/TI/recipes-bsp/ti/matrix-gui-common.inc b/BSP/TI/recipes-bsp/ti/matrix-gui-common.inc
+index 58f41d0..b1c9fb8 100644
+--- a/BSP/TI/recipes-bsp/ti/matrix-gui-common.inc
++++ b/BSP/TI/recipes-bsp/ti/matrix-gui-common.inc
+@@ -6,11 +6,12 @@ LIC_FILES_CHKSUM = "file://main.cpp;beginline=1;endline=37;md5=a802a01a3a58f2ebb
+ SECTION = "multimedia"
+ PRIORITY = "optional"
+ 
+-INC_PR = "r6"
++INC_PR = "r7"
+ 
+ COMPATIBLE_MACHINE = "(dm365|omapl138|omap3|ti816x)"
+ 
+-PLATFORM_dm365 = "dm365"
++PLATFORM_dm365-evm = "dm365"
++PLATFORM_dm368-evm = "dm368"
+ PLATFORM_omapl138 = "omapl138"
+ PLATFORM_omap3evm = "omap3530"
+ PLATFORM_dm37x-evm = "dm3730"
+@@ -36,7 +37,7 @@ do_install() {
+     install -m 0644 ${S}/${PLATFORM}/html/* ${D}/${datadir}/matrix/html
+     install -d ${D}/${datadir}/matrix/images
+     install -m 0644 ${S}/images/*.png ${D}/${datadir}/matrix/images/
+-
++    install -m 0644 ${S}/images/*.svg ${D}/${datadir}/matrix/images/
+ }
+ 
+ FILES_${PN} += "${datadir}/matrix/*"
+diff --git a/BSP/TI/recipes-bsp/ti/matrix-gui-common_1.4.bb b/BSP/TI/recipes-bsp/ti/matrix-gui-common_1.4.bb
+index c578a47..609a16a 100644
+--- a/BSP/TI/recipes-bsp/ti/matrix-gui-common_1.4.bb
++++ b/BSP/TI/recipes-bsp/ti/matrix-gui-common_1.4.bb
+@@ -4,5 +4,5 @@ require matrix-gui-common.inc
+ # prebuilt version in the repository.
+ RRECOMMENDS_${PN} = "am-sysinfo"
+ 
+-SRCREV = "192"
+-PR = "${INC_PR}.0"
++SRCREV = "222"
++PR = "${INC_PR}.6"
+-- 
+1.7.0.4
 
 
 
