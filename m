@@ -1,30 +1,32 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1PztuY-0006uV-C9 for openembedded-core@lists.openembedded.org;
-	Wed, 16 Mar 2011 17:49:26 +0100
+	id 1Pztuy-0006vB-Ie for openembedded-core@lists.openembedded.org;
+	Wed, 16 Mar 2011 17:49:52 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2GGldcq005794;
-	Wed, 16 Mar 2011 16:47:39 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2GGm9I1005803;
+	Wed, 16 Mar 2011 16:48:09 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 05467-06; Wed, 16 Mar 2011 16:47:35 +0000 (GMT)
+	id 05543-04; Wed, 16 Mar 2011 16:48:05 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2GGlYHh005788
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2GGm46g005797
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 16 Mar 2011 16:47:34 GMT
+	Wed, 16 Mar 2011 16:48:04 GMT
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Mark Hatle <mark.hatle@windriver.com>
-In-Reply-To: <cover.1300291424.git.mark.hatle@windriver.com>
+In-Reply-To: <4D80E48C.4010902@windriver.com>
 References: <cover.1300291424.git.mark.hatle@windriver.com>
-Date: Wed, 16 Mar 2011 16:47:22 +0000
-Message-ID: <1300294042.30423.1892.camel@rex>
+	<2e2980aae580fa0a143e9450596b64c390bbc236.1300291424.git.mark.hatle@windriver.com>
+	<1300292546.30423.1891.camel@rex>  <4D80E48C.4010902@windriver.com>
+Date: Wed, 16 Mar 2011 16:47:53 +0000
+Message-ID: <1300294073.30423.1893.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.28.3 
 X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: poky@lists.pokylinux.org, openembedded-core@lists.openembedded.org
-Subject: Re: [poky] [PATCH 0/6] Fix a number of rpm/zypper issues and related
+Subject: Re: [poky] [PATCH 1/6] package.bbclass: Fix missing debug src files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,58 +41,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Mar 2011 16:49:26 -0000
+X-List-Received-Date: Wed, 16 Mar 2011 16:49:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-03-16 at 11:15 -0500, Mark Hatle wrote:
-> This set of patches is believed for fix a number packaging, rpm and zypper
-> related problems.
+On Wed, 2011-03-16 at 11:25 -0500, Mark Hatle wrote:
+> On 3/16/11 11:22 AM, Richard Purdie wrote:
+> > On Wed, 2011-03-16 at 11:15 -0500, Mark Hatle wrote:
+> >> The previous change used egrep instead of fgrep.  We need to use fgrep because
+> >> there are expression like syntaxes in some file names, we need exact matches.
+> >>
+> >> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> >> ---
+> >>  meta/classes/package.bbclass |    3 ++-
+> >>  1 files changed, 2 insertions(+), 1 deletions(-)
+> >>
+> >> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> >> index a7a5894..ac30cbe 100644
+> >> --- a/meta/classes/package.bbclass
+> >> +++ b/meta/classes/package.bbclass
+> >> @@ -233,9 +233,10 @@ def splitfile2(debugsrcdir, d):
+> >>         processdebugsrc =  "LC_ALL=C ; sort -z -u '%s' | egrep -v -z '(<internal>|<built-in>)$' | "
+> >>         # We need to ignore files that are not actually ours
+> >>         # we do this by only paying attention to items from this package
+> >> -       processdebugsrc += "egrep -z '%s' | "
+> >> +       processdebugsrc += "fgrep -z '%s' | "
+> >>         processdebugsrc += "(cd '%s' ; cpio -pd0mL '%s%s' 2>/dev/null)"
+> >>  
+> >> +       bb.note(processdebugsrc % (sourcefile, workbasedir, workparentdir, dvar, debugsrcdir))
+> >>         os.system(processdebugsrc % (sourcefile, workbasedir, workparentdir, dvar, debugsrcdir))
+> >>  
+> >>         # The copy by cpio may have resulted in some empty directories!  Remove these
+> > 
+> > Did you mean to leave the bb.note() in?
 > 
-> The first patch is necessary for debug information on packages with specific
-> filenames embedded in them.
-> 
-> The second patch fixes a bug that is likely to affect a system only in the
-> future if rpm, berkeley db or the way the DB is used changes significantly.
-> 
-> The third fix makes a minor change to the way zypper identifies the system
-> release.  I'm not 100% convinced this is necessary, we may choose to skip it
-> as we don't have a file similar to "redhat-release" to scan for, for a
-> system-wide version.
-> 
-> The fourth/fifth packages fix the sat-solver.  Fourth uprevs the 
-> sat-solver to the latest version and enables gdb debugging info.  The fifth
-> adds a workaround suggested by the sat-solver maintainer for an RPM5
-> incompatibility as noted in the comments.
-> 
-> The sixth and final patch finally resolves the "repackage error" message
-> generated by rpm when upgrades or package removals occur.
-> 
-> Pull URL: git://git.pokylinux.org/poky-contrib.git
->   Branch: mhatle/bernard/fixes
->   Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/bernard/fixes
-> 
-> Thanks,
->     Mark Hatle <mark.hatle@windriver.com>
-> ---
-> 
-> 
-> Mark Hatle (6):
->   package.bbclass: Fix missing debug src files
->   rootfs_rpm.bbclass: Add additional system configuration to RPM space
->   libzypp: Fix release query
->   sat-solver: uprev to the latest version
->   sat-solver: Add workaround for RPM 5 db construction
->   rpm: Disable repackage on upgrade/erasure by default
+> No, that was supposed to be removed.  Should I yank it and re-push the commit?
 
-I merged these with the debug line from the package.bbclass removed.
-
-Hopefully this should get zypper working nicely, thanks for the work on
-this.
+Since I'd looked through the rest and they were ok, I just tweaked this
+one.
 
 Cheers,
 
 Richard
+
 
 
 
