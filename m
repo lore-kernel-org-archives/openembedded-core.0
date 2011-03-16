@@ -1,34 +1,29 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1PzuNW-0004F6-KW
+	(envelope-from <koen@dominion.thruhere.net>) id 1PzuvP-00056E-Qa
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Mar 2011 18:19:22 +0100
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1PzuLq-0001PK-BV from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Mar 2011 10:17:38 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Wed, 16 Mar 2011 10:17:17 -0700
-Received: from [172.30.80.14] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
-	with Microsoft SMTP Server id 14.1.270.1;
-	Wed, 16 Mar 2011 10:17:37 -0700
-Message-ID: <4D80F0A0.3090602@mentor.com>
-Date: Wed, 16 Mar 2011 10:17:20 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1299135167-18330-1-git-send-email-raj.khem@gmail.com>	<1299135167-18330-4-git-send-email-raj.khem@gmail.com>	<AANLkTiks0VSWcW4_54mQUv17ZQvb8+CsbWcsDkA_9ZA+@mail.gmail.com>	<1299610396.602.104.camel@rex>	<AANLkTim62_Vb=EumqASMY_ARCJkS8M7rTAUtpxnMR6gx@mail.gmail.com>	<1299934200.1445.3023.camel@rex>
-	<4D7E473E.6010800@mentor.com>	<1300132473.30423.496.camel@rex>
-	<4D7FA2DB.1010605@mentor.com> <1300282036.30423.1873.camel@rex>
-In-Reply-To: <1300282036.30423.1873.camel@rex>
-X-OriginalArrivalTime: 16 Mar 2011 17:17:17.0209 (UTC)
-	FILETIME=[000AB090:01CBE3FE]
-Subject: Re: [PATCHv3 3/6] gcc: Statically link in support libraries e.g. libmpfr libgmp etc.
+	Wed, 16 Mar 2011 18:54:30 +0100
+Received: by wyb40 with SMTP id 40so1791790wyb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Mar 2011 10:50:32 -0700 (PDT)
+Received: by 10.227.200.76 with SMTP id ev12mr264311wbb.141.1300297832063;
+	Wed, 16 Mar 2011 10:50:32 -0700 (PDT)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id p5sm95877wbg.45.2011.03.16.10.50.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 16 Mar 2011 10:50:31 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1300292827-21236-1-git-send-email-Chase.Maupin@ti.com>
+Date: Wed, 16 Mar 2011 18:50:30 +0100
+Message-Id: <854381F1-8D9C-41E5-A46C-CEE0537DD538@dominion.thruhere.net>
+References: <1300292827-21236-1-git-send-email-Chase.Maupin@ti.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1082)
+Cc: Chase Maupin <Chase.Maupin@ti.com>
+Subject: Re: [PATCH 1/4][angstrom-layers] matrix-gui-common: update SRCREV and add device support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,74 +38,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Mar 2011 17:19:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 16 Mar 2011 17:54:30 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 
-On 03/16/2011 06:27 AM, Richard Purdie wrote:
-> On Tue, 2011-03-15 at 10:33 -0700, Tom Rini wrote:
->> On 03/14/2011 12:54 PM, Richard Purdie wrote:
->>> On Mon, 2011-03-14 at 09:50 -0700, Tom Rini wrote:
->>>> On 03/12/2011 05:50 AM, Richard Purdie wrote:
->>>>> On Tue, 2011-03-08 at 11:04 -0800, Khem Raj wrote:
->>>>>> On Tue, Mar 8, 2011 at 10:53 AM, Richard Purdie
->>>>>> <richard.purdie@linuxfoundation.org>    wrote:
->>>>>>> On Mon, 2011-03-07 at 22:38 -0800, Khem Raj wrote:
->>>>>>>> ping any opinion on this patch ?
->>>>>>>
->>>>>>> This change looks rather hacky and I'd really like to understand more
->>>>>>> about why this is needed and whether there is a better way we could
->>>>>>> ensure the right flags get passed around. Can you provide more details
->>>>>>> about whats going on with this. Obviously this change as it stands isn't
->>>>>>> acceptable to upstream gcc and I'd like to see if we could find one that
->>>>>>> was.
->>>>>>
->>>>>> this is because the supporting libraries like mpc mpfr that are needed
->>>>>> by gcc itself to run
->>>>>> we might have different versions of these libraries. So depending upon
->>>>>> shared objects
->>>>>> would mean we need to find same shared objects where say the SDK is installed
->>>>>> so either we ship the whole baggage or we link it in statically. This
->>>>>> patch makes those libs to
->>>>>> linked in statically and cross gcc wont have dependencies on these
->>>>>> libs anymore so
->>>>>> it can run on all hosts pretty much.
->>>>>
->>>>> If you look at the way the SDK toolchain works in Poky, it automatically
->>>>> ships the versions of these libraries that it needs so we don't actually
->>>>> have this problem.
->>>>>
->>>>> Also, looking at the patch again, was the first LDFLAGS change meant to
->>>>> be in there, is that related or different to the shared/static
->>>>> mpfr/mpc/gmp issue?
->>>>
->>>> I think it's time for someone to build one at dig at it, but are you
->>>> sure they're used and shipped and not just used?  That was a problem
->>>> before and unless the exported bits are using a relative $ORIGIN in the
->>>> link path (or we've broken relocatability, which would be another
->>>> problem) there's problems today.
->>>
->>> They are used and shipped. As evidence I submit:
->>>
->>> http://autobuilder.yoctoproject.org/nightly/20110311-1/toolchain/x86_64/poky-lsb-eglibc-x86_64-i586-toolchain-gmae-0.9+snapshot-20110313.tar.bz2
->>
->> Is
->> /opt/poky-lsb/0.9+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/i586-poky-linux/i586-poky-linux-gcc
->> the runs on host targets the target cross compiler the user should use
->> now?  If so, you don't have relocation as the RPATH is hard-coded not
->> $ORIGIN based.  If not, can I have a pointer to the right gcc to poke
->> at?  Thanks :)
->
-> Hmm, this sounds like something is not working with the relocation. I
-> could have sworn we'd made that relocatable :/.
->
-> It shouldn't be hard to fix with the relocation class at least...
 
-Yes, hopefully we just need to add relocatable to the various new 
-classes and that'll be that.
+Op 16 mrt 2011, om 17:27 heeft Chase Maupin het volgende geschreven:
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+> * Update the SRCREV used for the matrix-gui-common_1.4 package.
+> * Add support for svg image formats
+> * Add support for the dm368-evm machine type
+> 
+> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+
+Thanks, all 4 patches are in now.
 
 
