@@ -1,38 +1,30 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <chasemaupin03@gmail.com>) id 1PztgG-0006j9-F9
-	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Mar 2011 17:34:40 +0100
-Received: by yxn22 with SMTP id 22so725205yxn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Mar 2011 09:32:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=mc9qOBywMGIO0vqztQ8Nt7c4ood2lfcindHSr9Hd5HU=;
-	b=FIvwMZ1tE/vpektZ/ihuHXzxHS8NYOkofHYklqSgMq3pNYQkfNYA0vukA/4de2edKn
-	1P82QU9faaNnfjPaYICz86PR58zt/d8lTQH1DOgPFfx62JBjctxmMebIf+dh7DdooCND
-	QrB6j0BcB7TyCHHrF2JYx5qMEAHsDNMuUVZ88=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=c2DpRSN86Fe7atTbbBw67wxiYEXGAqBbIjSDQFzANnQvFmwTkcyxS53SEJWrhJDjRX
-	KHjHd6WpkNK6V3PMSVbcpvMliZoMUSCXucHKzt3Ed1lBJHhOu/+hHWMzCVKp5KjIhQWO
-	bGhm8JAln9v2PBTSkoXm5akKA4AWU3e7XmjYw=
-Received: by 10.100.110.9 with SMTP id i9mr105039anc.152.1300292842953;
-	Wed, 16 Mar 2011 09:27:22 -0700 (PDT)
-Received: from localhost.localdomain (dragon.ti.com [192.94.94.33])
-	by mx.google.com with ESMTPS id r8sm1433658ane.19.2011.03.16.09.27.21
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 16 Mar 2011 09:27:22 -0700 (PDT)
-From: Chase Maupin <chasemaupin03@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Mar 2011 11:27:07 -0500
-Message-Id: <1300292827-21236-4-git-send-email-Chase.Maupin@ti.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1300292827-21236-1-git-send-email-Chase.Maupin@ti.com>
-References: <1300292827-21236-1-git-send-email-Chase.Maupin@ti.com>
-Cc: Chase Maupin <Chase.Maupin@ti.com>
-Subject: [PATCH 4/4][angstrom-layers] matrix-tui: add version 1.1 of matrix-tui
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1PztuY-0006uV-C9 for openembedded-core@lists.openembedded.org;
+	Wed, 16 Mar 2011 17:49:26 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2GGldcq005794;
+	Wed, 16 Mar 2011 16:47:39 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05467-06; Wed, 16 Mar 2011 16:47:35 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2GGlYHh005788
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 16 Mar 2011 16:47:34 GMT
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+In-Reply-To: <cover.1300291424.git.mark.hatle@windriver.com>
+References: <cover.1300291424.git.mark.hatle@windriver.com>
+Date: Wed, 16 Mar 2011 16:47:22 +0000
+Message-ID: <1300294042.30423.1892.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: poky@lists.pokylinux.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 0/6] Fix a number of rpm/zypper issues and related
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,28 +39,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Mar 2011 16:34:40 -0000
+X-List-Received-Date: Wed, 16 Mar 2011 16:49:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Add version 1.1 of the matrix-tui package.
+On Wed, 2011-03-16 at 11:15 -0500, Mark Hatle wrote:
+> This set of patches is believed for fix a number packaging, rpm and zypper
+> related problems.
+> 
+> The first patch is necessary for debug information on packages with specific
+> filenames embedded in them.
+> 
+> The second patch fixes a bug that is likely to affect a system only in the
+> future if rpm, berkeley db or the way the DB is used changes significantly.
+> 
+> The third fix makes a minor change to the way zypper identifies the system
+> release.  I'm not 100% convinced this is necessary, we may choose to skip it
+> as we don't have a file similar to "redhat-release" to scan for, for a
+> system-wide version.
+> 
+> The fourth/fifth packages fix the sat-solver.  Fourth uprevs the 
+> sat-solver to the latest version and enables gdb debugging info.  The fifth
+> adds a workaround suggested by the sat-solver maintainer for an RPM5
+> incompatibility as noted in the comments.
+> 
+> The sixth and final patch finally resolves the "repackage error" message
+> generated by rpm when upgrades or package removals occur.
+> 
+> Pull URL: git://git.pokylinux.org/poky-contrib.git
+>   Branch: mhatle/bernard/fixes
+>   Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/bernard/fixes
+> 
+> Thanks,
+>     Mark Hatle <mark.hatle@windriver.com>
+> ---
+> 
+> 
+> Mark Hatle (6):
+>   package.bbclass: Fix missing debug src files
+>   rootfs_rpm.bbclass: Add additional system configuration to RPM space
+>   libzypp: Fix release query
+>   sat-solver: uprev to the latest version
+>   sat-solver: Add workaround for RPM 5 db construction
+>   rpm: Disable repackage on upgrade/erasure by default
 
-Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
----
- BSP/TI/recipes-bsp/ti/matrix-tui_1.1.bb |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
- create mode 100644 BSP/TI/recipes-bsp/ti/matrix-tui_1.1.bb
+I merged these with the debug line from the package.bbclass removed.
 
-diff --git a/BSP/TI/recipes-bsp/ti/matrix-tui_1.1.bb b/BSP/TI/recipes-bsp/ti/matrix-tui_1.1.bb
-new file mode 100644
-index 0000000..9814d5f
---- /dev/null
-+++ b/BSP/TI/recipes-bsp/ti/matrix-tui_1.1.bb
-@@ -0,0 +1,4 @@
-+require matrix-tui.inc
-+
-+SRCREV = "37"
-+PR = "${INC_PR}.4"
--- 
-1.7.0.4
+Hopefully this should get zypper working nicely, thanks for the work on
+this.
+
+Cheers,
+
+Richard
 
 
 
