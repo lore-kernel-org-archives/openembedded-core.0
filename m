@@ -1,36 +1,30 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Q0GNr-0002oL-BO
-	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Mar 2011 17:49:11 +0100
-Received: by gxk3 with SMTP id 3so472678gxk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2011 09:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=Mk/50xdPoDrttCY2BPyCr/PGK3DBf1KmU+lLmKjQzTg=;
-	b=f9nVmbR9RaSj/uHW4fCis+AcEkd68w2GX3qh6HWn2dkWyQoLWfkrHKlCuqFwUGyf3a
-	LpPxH9EtG6t3exaVF53eNV12oXsZTP6TTO9s9jc+mwD8iHbJo8bf++fqYKO5F8v4irbh
-	FnGPJgim0UN8s2EjsfW2qFi+TUAqG/YbzObrc=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=kXnYZes0UeQdTUel8YFHY2tldeRK57VmiD7v5q1D+D7PXZfTDGEI1TlLIgZJlzsWRq
-	0rtOfAYyzgQkyR/bBQQsz2NnTxh/CyMSKgnkO9kmA0mnAb9PuYav9bwkZXGiCrdTaR27
-	SoVxXxEcwLlcElYCycuSbuFIptpnRbz60O9a0=
-Received: by 10.151.136.2 with SMTP id o2mr36989ybn.204.1300378755197;
-	Thu, 17 Mar 2011 09:19:15 -0700 (PDT)
-Received: from localhost.localdomain (ip24-251-170-95.ph.ph.cox.net
-	[24.251.170.95])
-	by mx.google.com with ESMTPS id u79sm1277609yhn.5.2011.03.17.09.19.14
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 17 Mar 2011 09:19:14 -0700 (PDT)
-From: Chris Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Mar 2011 09:18:58 -0700
-Message-Id: <cover.1300378596.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 1.7.2.3
-Cc: Chris Larson <chris_larson@mentor.com>
-Subject: [PATCH 00/12] Pull request - some sync bits from OE
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q0HKa-00052R-SH for openembedded-core@lists.openembedded.org;
+	Thu, 17 Mar 2011 18:49:56 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2HHm2vb023025;
+	Thu, 17 Mar 2011 17:48:02 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22906-02; Thu, 17 Mar 2011 17:47:58 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2HHloWI023019
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 17 Mar 2011 17:47:54 GMT
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+In-Reply-To: <cover.1300355683.git.sgw@linux.intel.com>
+References: <cover.1300355683.git.sgw@linux.intel.com>
+Date: Thu, 17 Mar 2011 17:47:35 +0000
+Message-ID: <1300384055.30423.2078.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 0/7] Non-GPLv3 Changes & a dependency Fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,72 +39,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2011 16:49:11 -0000
+X-List-Received-Date: Thu, 17 Mar 2011 17:49:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Chris Larson <chris_larson@mentor.com>
+On Thu, 2011-03-17 at 02:58 -0700, Saul Wold wrote:
+> From: Saul Wold <sgw@linux.intel.com>
+>
+> This set of changes enables both poky-image-minimal and poky-image-basic
+> to build non-gplv3 core image. These are bound for bernard
+> 
+> There is also a fix for the gnome-vfs dependency on ACL. This is
+> a potential build stopper and should be considered for bernard
+> 
+> Pull URL: git://git.openembedded.org/openembedded-core-contrib
+>   Branch: sgw/non-gplv3
+>   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/non-gplv3
+> 
+> Thanks,
+>     Saul Wold <sgw@linux.intel.com>
+> ---
+> 
+> 
+> Saul Wold (7):
+>   util-linux: Setup for GPLv2 Recipe
 
-This is primarily a sync of a couple OE features, along with a few minor
-changes to ensure those features work fine for us.  More OE sync bits will be
-forthcoming.  These certainly need review.  In particular, I haven't gotten
-any feedback on how the poky folk feel about this approach to IMAGE_FEATURES
-relative to their own, so please do comment on that, if you would :)
+I don't like this patch at all, there are some typos in it and some
+other issues. Too risky for bernard for sure. I'm leaving it for now.
 
-Pull URL: https://github.com/kergoth/oe-core
-  Branch: oe-sync
-  Browse: https://github.com/kergoth/oe-core/commits/oe-sync
+>   extended tasks: move binutils from basic to lsb
+>   poky-image-basic: remove POKY_BASE_INSTALL
+>   poky.conf: add additional Libraries to the LGPLv2 Whitelist
+>   poky.conf: remove gnome-common from WHITELIST_GPLV3
+>   gettext: Upgrade GPLv2 version to 0.16.1
 
-Thanks,
-    Chris Larson <chris_larson@mentor.com>
----
+I've merged these into OECore and Poky master. Not sure about bernard
+yet.
 
+>   gnome-vfs: add DEPENDS for acl
 
-Chris Larson (12):
-  oe.utils: add bb, bb.data imports
-  oe.patch: add missing imports
-  oe.path: sync up with current OE
-  oe.utils: add inherits (sync from OE)
-  base.bbclass: switch to current OE's imports handling
-  Shift oe import logic out of the event handler
-  Implement variable typing (sync from OE)
-  oe.packagegroup: add code for package groups (sync from OE)
-  Move packagedata code into oe.packagedata (sync from OE)
-  packagedata: don't choke on empty PACKAGES
-  image.bbclass: switch to OE's IMAGE_FEATURES
-  Use oe.data for IMAGE_FEATURES
+I merged a different fix for the gnome-vfs problem into everything
+including bernard.
 
- meta/classes/base.bbclass                          |   44 ++++----
- meta/classes/image.bbclass                         |   41 +++++++-
- meta/classes/package.bbclass                       |    4 +-
- meta/classes/package_rpm.bbclass                   |    3 +-
- meta/classes/packagedata.bbclass                   |   68 +------------
- meta/classes/poky-image.bbclass                    |   88 ++++------------
- meta/classes/typecheck.bbclass                     |   12 ++
- meta/conf/bitbake.conf                             |    1 +
- meta/lib/oe/data.py                                |   13 +++
- meta/lib/oe/maketype.py                            |   97 ++++++++++++++++++
- meta/lib/oe/packagedata.py                         |  107 ++++++++++++++++++++
- meta/lib/oe/packagegroup.py                        |   29 ++++++
- meta/lib/oe/patch.py                               |    2 +
- meta/lib/oe/path.py                                |   21 +++--
- meta/lib/oe/test_types.py                          |   62 +++++++++++
- meta/lib/oe/types.py                               |  104 +++++++++++++++++++
- meta/lib/oe/utils.py                               |    6 +
- meta/recipes-core/images/poky-image-minimal-dev.bb |    2 +-
- meta/recipes-extended/images/poky-image-lsb-dev.bb |    2 +-
- meta/recipes-extended/images/poky-image-lsb-sdk.bb |    2 +-
- meta/recipes-sato/images/poky-image-sato-dev.bb    |    2 +-
- meta/recipes-sato/images/poky-image-sato-sdk.bb    |    2 +-
- 22 files changed, 544 insertions(+), 168 deletions(-)
- create mode 100644 meta/classes/typecheck.bbclass
- create mode 100644 meta/lib/oe/data.py
- create mode 100644 meta/lib/oe/maketype.py
- create mode 100644 meta/lib/oe/packagedata.py
- create mode 100644 meta/lib/oe/packagegroup.py
- create mode 100644 meta/lib/oe/test_types.py
- create mode 100644 meta/lib/oe/types.py
+Cheers,
 
--- 
-1.7.2.3
+Richard
+
 
 
 
