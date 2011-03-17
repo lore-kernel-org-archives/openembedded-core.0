@@ -1,22 +1,34 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Q0A0d-0005b2-8p
+	(envelope-from <gary@mlbassoc.com>) id 1Q0Af0-0000A0-Tm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Mar 2011 11:00:47 +0100
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 Mar 2011 02:58:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,198,1299484800"; d="scan'208";a="404009543"
-Received: from unknown (HELO localhost) ([10.255.12.145])
-	by azsmga001.ch.intel.com with ESMTP; 17 Mar 2011 02:58:44 -0700
-Message-Id: <a3a29e4a75435d4ed2e7a3260c5057f1557e1775.1300355683.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1300355683.git.sgw@linux.intel.com>
-References: <cover.1300355683.git.sgw@linux.intel.com>
-Old-Date: Wed, 16 Mar 2011 15:10:47 -0700
-Date: Thu, 17 Mar 2011  2:58:43 -0700
-To: openembedded-core@lists.openembedded.org,poky@yoctoproject.org
-From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 2/7] extended tasks: move binutils from basic to lsb
+	Thu, 17 Mar 2011 11:42:31 +0100
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id 4894C166037C; Thu, 17 Mar 2011 04:40:47 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2-r929478
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 16C531660375;
+	Thu, 17 Mar 2011 04:40:46 -0600 (MDT)
+Message-ID: <4D81E52E.7030808@mlbassoc.com>
+Date: Thu, 17 Mar 2011 04:40:46 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
+	Thunderbird/3.1.7
+MIME-Version: 1.0
+To: Darren Hart <dvhart@linux.intel.com>
+References: <bf5f59e00a2ee59636426fabe2d4ae935fe2c4a5.1300295087.git.dvhart@linux.intel.com>
+	<13FB91B0-A9A3-41A8-BD13-7F9FB8B2F2CD@beagleboard.org>
+	<4D810ED4.6020107@linux.intel.com>
+In-Reply-To: <4D810ED4.6020107@linux.intel.com>
+Cc: Koen Kooi <koen@beagleboard.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] [RFC] kernel: rework kernel and module classes to allow for building out-of-tree modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,53 +43,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2011 10:00:47 -0000
+X-List-Received-Date: Thu, 17 Mar 2011 10:42:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Saul Wold <sgw@linux.intel.com>
+On 03/16/2011 01:26 PM, Darren Hart wrote:
+> On 03/16/2011 10:54 AM, Koen Kooi wrote:
+>>
+>> Op 16 mrt 2011, om 18:04 heeft Darren Hart het volgende geschreven:
+>>
+>>> NOT FOR INCLUSION
+>>>
+>>> Before we include something like this, it needs review from folks like Koen and
+>>> Gary to confirm it works in their environment as well.
+>>>
+>>> The existing infrastructure uses an external build tree which references the
+>>> kernel source in the work dir. If run with rm work, building external modules
+>>> will fail.
+>>>
+>>> This patch places a configured source tree in sysroots. Striking a balance
+>>> between minimal size and minimal maintenance is difficult. A fully configured
+>>> tree is about 500MB after a clean. This version leans on the side of caution and
+>>> removes only the obviously unecessary parts of the source tree to conserve
+>>> space, resulting in about 170MB. The arch directories would be some additional
+>>> pruning we could do. Given examples from the devel package from distributions, I
+>>> suspect this size could be reduced to 75MB or so, but at the cost of a much more
+>>> complex recipe which is likely to require a great deal more maintenance to keep
+>>> current with kernel releases.
+>>>
+>>> Care is also taken to clean the hostprogs in scripts, and the modules are
+>>> responsible for building them as needed. Although it is unclear to me if this is
+>>> really necessary, especially considering that modules put these bits back as
+>>> soon as they compile. If we are not generating an sstate package, I suspect we
+>>> can ignore these.
+>>>
+>>> Please try this with your modules and let me know how it does. I tried to take
+>>> non linux-yocto kernel recipes into account, but I have only tested with
+>>> linux-yocto and the hello-mod recipe so far.
+>>>
+>>> V2: o Address 000 perm quilt files (don't copy .pc dir)
+>>> o Clear linux-yocto meta dir from sysroots
+>>>
+>>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
+>>
+>> This one works beautifully, so:
+>>
+>> Acked-by: Koen Kooi<koen@dominion.thruhere.net>
+>
+> Thanks Koen.
+>
+> Gary, can you give this version a spin?
+>
+> If it works, I'm going to suggest we take this as is and carefully prune away bits we don't need over time so we can get adequate testing across multiple archs, platforms, and
+> modules. Same for the hostprogs cleaning bits.
+>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-extended/tasks/task-poky-basic.bb |    2 --
- meta/recipes-extended/tasks/task-poky-lsb.bb   |    3 +--
- 2 files changed, 1 insertions(+), 4 deletions(-)
+It also worked for me.  Thanks - you can add
 
-diff --git a/meta/recipes-extended/tasks/task-poky-basic.bb b/meta/recipes-extended/tasks/task-poky-basic.bb
-index 3d313f0..80eac0f 100644
---- a/meta/recipes-extended/tasks/task-poky-basic.bb
-+++ b/meta/recipes-extended/tasks/task-poky-basic.bb
-@@ -99,7 +99,6 @@ RDEPENDS_task-poky-basic-extended = "\
-     module-init-tools \
-     openssl \
-     "
--#    openssh
- 
- RDEPENDS_task-poky-dev-utils = "\
-     byacc \
-@@ -107,7 +106,6 @@ RDEPENDS_task-poky-dev-utils = "\
-     m4 \
-     make \
-     patch \
--    binutils \
-     "
- 
- RDEPENDS_task-poky-initscripts = "\
-diff --git a/meta/recipes-extended/tasks/task-poky-lsb.bb b/meta/recipes-extended/tasks/task-poky-lsb.bb
-index 5e3397e..7b3c41a 100644
---- a/meta/recipes-extended/tasks/task-poky-lsb.bb
-+++ b/meta/recipes-extended/tasks/task-poky-lsb.bb
-@@ -52,9 +52,8 @@ RDEPENDS_task-poky-lsb = "\
-     task-poky-lsb-command-add \
-     "
- 
--#
--# GPLv2 Should List
- RDEPENDS_task-poky-sys-extended = "\
-+    binutils \
-     chkconfig \
-     curl \
-     dhcp-client \
+Acked-by: Gary Thomas <gary@mlbassoc.com>
+
 -- 
-1.7.1.1
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
