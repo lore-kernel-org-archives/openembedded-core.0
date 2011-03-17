@@ -1,26 +1,22 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q0KEl-0004Md-53
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Q0Lnz-0007CU-9q
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Mar 2011 21:56:03 +0100
-Received: by wwb17 with SMTP id 17so3597745wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2011 13:54:15 -0700 (PDT)
-Received: by 10.216.69.7 with SMTP id m7mr209545wed.73.1300394890271;
-	Thu, 17 Mar 2011 13:48:10 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	n18sm1279565wee.16.2011.03.17.13.48.09
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 17 Mar 2011 13:48:09 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Thu, 17 Mar 2011 21:48:09 +0100
-Message-Id: <ADFC9307-B4A2-44E9-BD31-E1BA3310E468@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1082)
-X-Mailer: Apple Mail (2.1082)
-Subject: HEADS UP: meta-oe structure changed
+	Thu, 17 Mar 2011 23:36:31 +0100
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 17 Mar 2011 15:34:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.63,201,1299484800"; d="scan'208";a="721362629"
+Received: from nbuild2.sc.intel.com (HELO localhost) ([172.25.110.37])
+	by orsmga001.jf.intel.com with ESMTP; 17 Mar 2011 15:34:45 -0700
+Message-Id: <ce59dc6e5f253f4ad22a0b7767998cad2c301abc.1300401018.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1300401016.git.nitin.a.kamble@intel.com>
+References: <cover.1300401016.git.nitin.a.kamble@intel.com>
+Old-Date: Tue, 15 Mar 2011 13:18:04 -0700
+Date: Thu, 17 Mar 2011 15:34:45 -0700
+To: poky@yoctoprojectorg,openembedded-core@lists.openembedded.org
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
+Subject: [PATCH 1/7] util-linux: Setup for GPLv2 Recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,21 +31,223 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2011 20:56:03 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 17 Mar 2011 22:36:31 -0000
 
-Hi,
+From: Saul Wold <sgw@linux.intel.com>
 
-To future proof meta-oe all the metadata has been moved into a 'meta-oe' =
-subdir. You need to adjust you bblayers.conf like this:
+ * add task to remove the GPLv3 lscpu code
+ * Add patch to remove the reference to lscpu in Makfiles
 
-=
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/setup-scripts/commit=
-/?h=3Doe-core&id=3D2c811815f70e1f6aac1b495e49c8e50c0c5d19bd
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ .../util-linux-2.17.2/remove-lscpu.patch           |  101 ++++++++++++++++++++
+ meta/recipes-core/util-linux/util-linux.inc        |    5 +-
+ meta/recipes-core/util-linux/util-linux_2.17.2.bb  |   10 ++-
+ meta/recipes-core/util-linux/util-linux_gplv2.bb   |   26 +++++
+ 4 files changed, 137 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-core/util-linux/util-linux-2.17.2/remove-lscpu.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux_gplv2.bb
 
-regards,
+diff --git a/meta/recipes-core/util-linux/util-linux-2.17.2/remove-lscpu.patch b/meta/recipes-core/util-linux/util-linux-2.17.2/remove-lscpu.patch
+new file mode 100644
+index 0000000..200dc2c
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux-2.17.2/remove-lscpu.patch
+@@ -0,0 +1,101 @@
++Take out lscpu stuff from the code
++
++2011/03/17
++Saul Wold <saul.wold@intel.com>
++Nitin A Kamble <nitin.a.kamble@intel.com>
++
++Index: util-linux-ng-2.17.2/sys-utils/Makefile.am
++===================================================================
++--- util-linux-ng-2.17.2.orig/sys-utils/Makefile.am
+++++ util-linux-ng-2.17.2/sys-utils/Makefile.am
++@@ -11,11 +11,11 @@ dist_man_MANS = flock.1 ipcrm.1 ipcs.1 i
++ if LINUX
++ bin_PROGRAMS += dmesg
++ sbin_PROGRAMS += ctrlaltdel
++-usrbin_exec_PROGRAMS += cytune setarch lscpu
+++usrbin_exec_PROGRAMS += cytune setarch
++ usrsbin_exec_PROGRAMS += ldattach tunelp rtcwake
++ 
++ dist_man_MANS += dmesg.1 ctrlaltdel.8 cytune.8 setarch.8 \
++-		ldattach.8 lscpu.1 tunelp.8 rtcwake.8
+++		ldattach.8 tunelp.8 rtcwake.8
++ endif
++ 
++ cytune_SOURCES = cytune.c cyclades.h
++Index: util-linux-ng-2.17.2/sys-utils/Makefile.in
++===================================================================
++--- util-linux-ng-2.17.2.orig/sys-utils/Makefile.in
+++++ util-linux-ng-2.17.2/sys-utils/Makefile.in
++@@ -47,10 +47,10 @@ usrsbin_exec_PROGRAMS = readprofile$(EXE
++ 	$(am__EXEEXT_10)
++ @LINUX_TRUE@am__append_1 = dmesg
++ @LINUX_TRUE@am__append_2 = ctrlaltdel
++-@LINUX_TRUE@am__append_3 = cytune setarch lscpu
+++@LINUX_TRUE@am__append_3 = cytune setarch
++ @LINUX_TRUE@am__append_4 = ldattach tunelp rtcwake
++ @LINUX_TRUE@am__append_5 = dmesg.1 ctrlaltdel.8 cytune.8 setarch.8 \
++-@LINUX_TRUE@		ldattach.8 lscpu.1 tunelp.8 rtcwake.8
+++@LINUX_TRUE@		ldattach.8 tunelp.8 rtcwake.8
++ 
++ @BUILD_FALLOCATE_TRUE@am__append_6 = fallocate
++ @BUILD_FALLOCATE_TRUE@am__append_7 = fallocate.1
++@@ -100,7 +100,7 @@ am__installdirs = "$(DESTDIR)$(bindir)" 
++ @BUILD_PIVOT_ROOT_TRUE@am__EXEEXT_4 = pivot_root$(EXEEXT)
++ @BUILD_SWITCH_ROOT_TRUE@am__EXEEXT_5 = switch_root$(EXEEXT)
++ @LINUX_TRUE@am__EXEEXT_6 = cytune$(EXEEXT) setarch$(EXEEXT) \
++-@LINUX_TRUE@	lscpu$(EXEEXT)
+++@LINUX_TRUE@
++ @BUILD_FALLOCATE_TRUE@am__EXEEXT_7 = fallocate$(EXEEXT)
++ @BUILD_UNSHARE_TRUE@am__EXEEXT_8 = unshare$(EXEEXT)
++ @LINUX_TRUE@am__EXEEXT_9 = ldattach$(EXEEXT) tunelp$(EXEEXT) \
++@@ -141,9 +141,6 @@ ipcs_LDADD = $(LDADD)
++ ldattach_SOURCES = ldattach.c
++ ldattach_OBJECTS = ldattach.$(OBJEXT)
++ ldattach_LDADD = $(LDADD)
++-lscpu_SOURCES = lscpu.c
++-lscpu_OBJECTS = lscpu.$(OBJEXT)
++-lscpu_LDADD = $(LDADD)
++ pivot_root_SOURCES = pivot_root.c
++ pivot_root_OBJECTS = pivot_root.$(OBJEXT)
++ pivot_root_LDADD = $(LDADD)
++@@ -201,11 +198,11 @@ AM_V_GEN = $(am__v_GEN_$(V))
++ am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
++ am__v_GEN_0 = @echo "  GEN   " $@;
++ SOURCES = arch.c ctrlaltdel.c $(cytune_SOURCES) dmesg.c fallocate.c \
++-	flock.c ipcmk.c ipcrm.c ipcs.c ldattach.c lscpu.c pivot_root.c \
+++	flock.c ipcmk.c ipcrm.c ipcs.c ldattach.c pivot_root.c \
++ 	rdev.c readprofile.c renice.c rtcwake.c setarch.c setsid.c \
++ 	switch_root.c $(tunelp_SOURCES) unshare.c
++ DIST_SOURCES = arch.c ctrlaltdel.c $(cytune_SOURCES) dmesg.c \
++-	fallocate.c flock.c ipcmk.c ipcrm.c ipcs.c ldattach.c lscpu.c \
+++	fallocate.c flock.c ipcmk.c ipcrm.c ipcs.c ldattach.c \
++ 	pivot_root.c rdev.c readprofile.c renice.c rtcwake.c setarch.c \
++ 	setsid.c switch_root.c $(tunelp_SOURCES) unshare.c
++ INFO_DEPS = $(srcdir)/ipc.info
++@@ -248,7 +245,7 @@ NROFF = nroff
++ MANS = $(dist_man_MANS) $(man_MANS)
++ am__dist_noinst_DATA_DIST = flock.1 ipcrm.1 ipcs.1 ipcmk.1 renice.1 \
++ 	setsid.1 readprofile.1 dmesg.1 ctrlaltdel.8 cytune.8 setarch.8 \
++-	ldattach.8 lscpu.1 tunelp.8 rtcwake.8 fallocate.1 pivot_root.8 \
+++	ldattach.8 tunelp.8 rtcwake.8 fallocate.1 pivot_root.8 \
++ 	switch_root.8 unshare.1 arch.1 rdev.8
++ DATA = $(dist_noinst_DATA)
++ ETAGS = etags
++@@ -678,9 +675,6 @@ ipcs$(EXEEXT): $(ipcs_OBJECTS) $(ipcs_DE
++ ldattach$(EXEEXT): $(ldattach_OBJECTS) $(ldattach_DEPENDENCIES) 
++ 	@rm -f ldattach$(EXEEXT)
++ 	$(AM_V_CCLD)$(LINK) $(ldattach_OBJECTS) $(ldattach_LDADD) $(LIBS)
++-lscpu$(EXEEXT): $(lscpu_OBJECTS) $(lscpu_DEPENDENCIES) 
++-	@rm -f lscpu$(EXEEXT)
++-	$(AM_V_CCLD)$(LINK) $(lscpu_OBJECTS) $(lscpu_LDADD) $(LIBS)
++ pivot_root$(EXEEXT): $(pivot_root_OBJECTS) $(pivot_root_DEPENDENCIES) 
++ 	@rm -f pivot_root$(EXEEXT)
++ 	$(AM_V_CCLD)$(LINK) $(pivot_root_OBJECTS) $(pivot_root_LDADD) $(LIBS)
++@@ -728,7 +722,6 @@ distclean-compile:
++ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipcrm.Po@am__quote@
++ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ipcs.Po@am__quote@
++ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ldattach.Po@am__quote@
++-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lscpu.Po@am__quote@
++ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pivot_root.Po@am__quote@
++ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rdev.Po@am__quote@
++ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/readprofile.Po@am__quote@
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 6f8bcb3..446c8e4 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -5,9 +5,7 @@ disk partitioning, kernel message management, filesystem creation, and system lo
+ 
+ SECTION = "base"
+ 
+-# note that `lscpu' is under GPLv3+
+ LICENSE = "GPLv2+ & LGPLv2.1+ & BSD"
+-LICENSE_util-linux-lscpu = "GPLv3+"
+ 
+ LIC_FILES_CHKSUM = "file://README.licensing;md5=1530e36fe1304d4535513de90a290df9 \
+                     file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+@@ -30,7 +28,7 @@ SRC_URI = "${KERNELORG_MIRROR}/pub/linux/utils/util-linux-ng/v${MAJOR_VERSION}/u
+ PACKAGES =+ "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-swaponoff \
+                     util-linux-losetup util-linux-umount util-linux-mount util-linux-readprofile \
+                     util-linux-libblkid util-linux-libblkid-dev util-linux-libuuid util-linux-libuuid-dev \
+-                    util-linux-lscpu util-linux-uuidgen \
++                    util-linux-uuidgen \
+                    "
+ 
+ S = "${WORKDIR}/util-linux-ng-${PV}"
+@@ -49,7 +47,6 @@ FILES_util-linux-losetup = "${base_sbindir}/losetup.${PN}"
+ FILES_util-linux-mount = "${base_bindir}/mount.${PN}"
+ FILES_util-linux-umount = "${base_bindir}/umount.${PN}"
+ FILES_util-linux-readprofile = "${base_sbindir}/readprofile"
+-FILES_util-linux-lscpu = "${bindir}/lscpu"
+ FILES_util-linux-uuidgen = "${bindir}/uuidgen"
+ 
+ FILES_util-linux-libblkid = "${libdir}/libblkid.so.*"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.17.2.bb b/meta/recipes-core/util-linux/util-linux_2.17.2.bb
+index 190a9e3..ea59b56 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.17.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.17.2.bb
+@@ -1,6 +1,10 @@
+ MAJOR_VERSION = "2.17"
+ require util-linux.inc
+-PR = "r6"
++PR = "r7"
++
++LICENSE += " & GPLv3+"
++# note that `lscpu' is under GPLv3+
++LICENSE_util-linux-lscpu = "GPLv3+"
+ 
+ SRC_URI += "file://uclibc-compile.patch \
+ 	          file://util-linux-ng-replace-siginterrupt.patch \
+@@ -9,6 +13,10 @@ SRC_URI += "file://uclibc-compile.patch \
+ SRC_URI[md5sum] = "4635725a3eef1c57090bac8ea5e082e6"
+ SRC_URI[sha256sum] = "c9ae801b6a5ab20b7749a278a8bf6830ef53adc5e8b7eb0ac1a9f410c774118f"
+ 
++PACKAGES =+ " util-linux-lscpu "
++
++FILES_util-linux-lscpu = "${bindir}/lscpu"
++
+ # fallocate is glibc 2.10, fallocate64 is glibc 2.11
+ # we need to disable it for older versions
+ EXTRA_OECONF += "ac_cv_func_fallocate=no"
+diff --git a/meta/recipes-core/util-linux/util-linux_gplv2.bb b/meta/recipes-core/util-linux/util-linux_gplv2.bb
+new file mode 100644
+index 0000000..5772770
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux_gplv2.bb
+@@ -0,0 +1,26 @@
++MAJOR_VERSION = "2.17"
++PV = "2.17.2"
++
++require util-linux.inc
++PR = "gplv2.r1"
++
++SRC_URI += "file://uclibc-compile.patch \
++	    file://util-linux-ng-replace-siginterrupt.patch \
++            file://util-linux-ng-2.16-mount_lock_path.patch \
++            file://remove-lscpu.patch"
++
++do_remove_lscpu() {
++	rm -f sys-utils/lscpu.c
++	rm -f sys-utils/lscpu.1
++	rm -rf tests/ts/lscpu
++        rm -rf tests/expected/lscpu
++}
++addtask remove_lscpu before do_configure after do_patch
++
++SRC_URI[md5sum] = "4635725a3eef1c57090bac8ea5e082e6"
++SRC_URI[sha256sum] = "c9ae801b6a5ab20b7749a278a8bf6830ef53adc5e8b7eb0ac1a9f410c774118f"
++
++# fallocate is glibc 2.10, fallocate64 is glibc 2.11
++# we need to disable it for older versions
++EXTRA_OECONF += "ac_cv_func_fallocate=no"
++EXTRA_OECONF_virtclass-native += "--disable-fallocate --disable-use-tty-group"
+-- 
+1.7.3.4
 
-Koen=
 
 
