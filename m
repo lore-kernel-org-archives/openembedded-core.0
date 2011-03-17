@@ -1,36 +1,41 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Q0G14-0002GG-1n
+	(envelope-from <kergoth@gmail.com>) id 1Q0G1S-0002H4-0r
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Mar 2011 17:25:38 +0100
-Received: by iyb26 with SMTP id 26so3049289iyb.6
+	Thu, 17 Mar 2011 17:26:02 +0100
+Received: by yxn22 with SMTP id 22so1177612yxn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Mar 2011 09:23:53 -0700 (PDT)
+	Thu, 17 Mar 2011 09:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=DAPiaTh55+8yqKDSGZRx9ptdt1Hkpzfgfk6OUDJZv9g=;
-	b=i7hz7UI+h6lANKOZ0+uhoWRqmpWh8ZOSe25JeDuWOUnp81vv3HGNdkZYse8r+MKye8
-	HSpoy5eeDDP0Klh06i4TC50X0rPYefLk1Ruyc/yb9EI3YMxKAD4Pn9gV2Y4CJiT2AIaZ
-	uqG3vdceV46yuxGqP2XbDbK4bAyJMEfGO933o=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references:in-reply-to:references;
+	bh=ucQ+TeNpH3h+4ArYi/0TplmGyNkDnhrEy2oSacFGstM=;
+	b=Lti9Ol2lbmR4yKZrivz4hCS4mfkjVAeFvPzraVxFYnyuKyXzKOdQxlCYwOz9Ht15bw
+	DFm/J9yeKFQz68joGxJJynfsHdmNUMo6DYHEeKE9k6atZUk8VbCH/QZYHFPdvDOq36pC
+	w4P6zKFfS1gbWRhLqHb6ukQ/HhCb5S0QWZw5M=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=j5HSMwCzN4ibiwn45ZEKw8Tf7nEL4+qNxFouMC2bQkGFtOb685rb6qosbWYUznuO4V
-	0Xg3ToJf1Oxqd0YD67gvVx+qrXPE5P5zlhHCURhMkW7jSV0H83t+7Dg0GYHY9qzumCZ7
-	3Rq6YTrGnkp00F1bxFaFyqJaTvqz3Xkl9eOsk=
-Received: by 10.42.243.130 with SMTP id lm2mr466751icb.401.1300379032065; Thu,
-	17 Mar 2011 09:23:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.42.176.137 with HTTP; Thu, 17 Mar 2011 09:23:32 -0700 (PDT)
-In-Reply-To: <cover.1300378596.git.chris_larson@mentor.com>
-References: <cover.1300378596.git.chris_larson@mentor.com>
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=VzCFSOlSF0BOvH8ntW79iYOkOtBwUGwqOD4Xyw3BMRX5UoRkiA0YUNQK7hgu613Aii
+	fEex9H6O0S2fLqWP5XlTEpOJ8Gf36dysQcfyw7jX8Nuz5LAguUa2zl1y45jg3BZoFYmx
+	vXBGZIFGs+mWp388sedJCcRsW8+6oHMB7YNFw=
+Received: by 10.150.164.11 with SMTP id m11mr25865ybe.263.1300378567688;
+	Thu, 17 Mar 2011 09:16:07 -0700 (PDT)
+Received: from localhost.localdomain (ip24-251-170-95.ph.ph.cox.net
+	[24.251.170.95])
+	by mx.google.com with ESMTPS id q29sm67146yba.2.2011.03.17.09.16.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 17 Mar 2011 09:16:07 -0700 (PDT)
 From: Chris Larson <kergoth@gmail.com>
-Date: Thu, 17 Mar 2011 09:23:32 -0700
-Message-ID: <AANLkTikTN34eB90o8rLuJq5aaMa=nTE9aDCJmCMO+Rrp@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Mar 2011 09:15:57 -0700
+Message-Id: <a69a4958c90ede3faf4884feff291a2b771c6cd5.1300378309.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 1.7.2.3
+In-Reply-To: <cover.1300378309.git.chris_larson@mentor.com>
+References: <cover.1300378309.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1300378309.git.chris_larson@mentor.com>
+References: <cover.1300378309.git.chris_larson@mentor.com>
 Cc: Chris Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 00/12] Pull request - some sync bits from OE
+Subject: [PATCH 3/4] scripts/bitbake: add -g/--graphviz to NO_BUILD_OPTS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,38 +50,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Mar 2011 16:25:38 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 17 Mar 2011 16:26:02 -0000
 
-On Thu, Mar 17, 2011 at 9:18 AM, Chris Larson <kergoth@gmail.com> wrote:
-> From: Chris Larson <chris_larson@mentor.com>
->
-> This is primarily a sync of a couple OE features, along with a few minor
-> changes to ensure those features work fine for us. =C2=A0More OE sync bit=
-s will be
-> forthcoming. =C2=A0These certainly need review. =C2=A0In particular, I ha=
-ven't gotten
-> any feedback on how the poky folk feel about this approach to IMAGE_FEATU=
-RES
-> relative to their own, so please do comment on that, if you would :)
->
-> Pull URL: https://github.com/kergoth/oe-core
->
-> =C2=A0Branch: oe-sync
-> =C2=A0Browse: https://github.com/kergoth/oe-core/commits/oe-sync
->
->
-> Thanks,
-> =C2=A0 =C2=A0Chris Larson <chris_larson@mentor.com>
+From: Chris Larson <chris_larson@mentor.com>
 
-Erm, I forgot I hadn't yet dealt with ROOTFS_PACKAGEMANAGE_BOOTSTRAP,
-in the IMAGE_FEATURES changes, don't pull this until I resolve that :)
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Signed-off-by: Chris Larson <chris_larson@mentor.com>
+---
+ scripts/bitbake |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/scripts/bitbake b/scripts/bitbake
+index 29e7bcd..437d84e 100755
+--- a/scripts/bitbake
++++ b/scripts/bitbake
+@@ -1,5 +1,5 @@
+ #!/bin/sh
+-NO_BUILD_OPTS="--version -h --help -p --parse-only -s --show-versions -e --environment"
++NO_BUILD_OPTS="--version -h --help -p --parse-only -s --show-versions -e --environment -g --graphviz"
+ needpseudo="1"
+ for opt in $@; do
+ for key in $NO_BUILD_OPTS; do
+-- 
+1.7.2.3
+
 
 
