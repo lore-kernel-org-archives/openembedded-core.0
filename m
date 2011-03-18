@@ -1,30 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q0d08-0001Rm-SA for openembedded-core@lists.openembedded.org;
-	Fri, 18 Mar 2011 17:58:13 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2IGuPhd009287;
-	Fri, 18 Mar 2011 16:56:26 GMT
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09058-04; Fri, 18 Mar 2011 16:56:21 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2IGuHMx009279
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 18 Mar 2011 16:56:17 GMT
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Nitin A Kamble <nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1300465259.git.nitin.a.kamble@intel.com>
-References: <cover.1300465259.git.nitin.a.kamble@intel.com>
-Date: Fri, 18 Mar 2011 16:56:00 +0000
-Message-ID: <1300467360.30423.2208.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.28.3 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [poky] [PATCH 0/7] commits for GPLv2 poky-image-basic image
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1Q0dDE-0001be-J9
+	for openembedded-core@lists.openembedded.org;
+	Fri, 18 Mar 2011 18:11:44 +0100
+Received: by fxm19 with SMTP id 19so3827138fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Mar 2011 10:09:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Tmur5HOm5zp3PizsxOeUsTAW0F8rvcBOdqCI4DXZFPM=;
+	b=DFKmh4foz60pVPn2iHWnuDVhnUU2LW79yuWAKGTtfYwjAUfgGja9D/NrOszw5zzh3V
+	NCce/8OWuyeaQhm37TQ9YYIzN0l6x6WhYqDqS1jlTgOCh7gWPX4AmZDpIfWeoiH+hEiN
+	9GYQ79/Gn99vK5WMOfDfK9QEKGqNwM6/OOQio=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	b=I2kKGl7zXptzqSbLpr4c1HX4Ce9EegKWCBIlrqWO5zY9ehy8UT+vIZ2pcNFCVHI9Qz
+	3fxrZ7JDKeSMCzhK40Kv3EdBFdIzQYHKO4TKBX2vTaLWvgEEJLA9CFNrMZCuDN/o3JP5
+	9H1Xre3QV/4HoUb9oIBE99ztDz42klE1VFe2I=
+Received: by 10.223.26.205 with SMTP id f13mr1539749fac.49.1300468185154; Fri,
+	18 Mar 2011 10:09:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.109.12 with HTTP; Fri, 18 Mar 2011 10:09:15 -0700 (PDT)
+In-Reply-To: <1300441629.30423.2186.camel@rex>
+References: <20110318035922.GA4083@sakrah.homelinux.org>
+	<1300441629.30423.2186.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 18 Mar 2011 10:09:15 -0700
+Message-ID: <AANLkTikVHvfGVYyVVLDMppHD38jNwCAy-d3_k6P3AJf8@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: cleaning perl-native catch 22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,45 +46,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2011 16:58:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Mar 2011 17:11:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2011-03-18 at 09:24 -0700, Nitin A Kamble wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> 
-> 
-> Richard,
->   I have rrebased this to bernard branch. So you may not need all the commits
-> as you have already pulled some of the saul's commits in the OE & master 
-> branch.
-> 
-> Pull URL: git://git.pokylinux.org/poky-contrib.git
->   Branch: nitin/misc
->   Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
-> 
-> Thanks,
->     Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
-> 
-> 
-> Nitin A Kamble (1):
->   coreutils-6.9: fix man page building for the gplv2 recipe
-> 
-> Saul Wold (6):
->   extended tasks: move binutils from basic to lsb
->   poky-image-basic: remove POKY_BASE_INSTALL
->   poky.conf: add additional Libraries to the LGPLv2 Whitelist
->   poky.conf: remove gnome-common from WHITELIST_GPLV3
->   gettext: Upgrade GPLv2 version to 0.16.1
->   util-linux: Setup for GPLv2 Recipe
+On Fri, Mar 18, 2011 at 2:47 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2011-03-17 at 20:59 -0700, Khem Raj wrote:
+>> Hi
+>>
+>> Ubuntu 11.04 decided to put libc in /lib/`uname -m`-linux-gnu/ so
+>> perl-native failed and I patched it and all fine. But here is
+>> interesting thing. When perl-native failed (this is build from scratch)
+>> then I fixed it and as usual tried to do
+>> bitbake -c cleanall perl-native
+>>
+>> and it started to build perl instead since I guess its a dependency for
+>> pseudo (may be) and pseudo is not build yet. So whats the way out here
+>> so is it a catch-22
+>>
+>> So I had to delete the whole tmpdir
+>
+> perl-native is not a dependency of pseudo-native...
 
-Most of these had already merged. I've added the util-linux one to
-master though.
+hmmm then I wonder why it goes on to build/do_compile it when I ask
+bitbake to clean it
 
-Cheers,
-
-Richard
-
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
