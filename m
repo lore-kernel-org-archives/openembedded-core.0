@@ -1,22 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Q0dPb-00028Y-QT
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Q0dPc-00028Y-Je
 	for openembedded-core@lists.openembedded.org;
 	Fri, 18 Mar 2011 18:24:32 +0100
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 Mar 2011 10:21:35 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 18 Mar 2011 10:21:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,206,1299484800"; d="scan'208";a="721673265"
+X-IronPort-AV: E=Sophos;i="4.63,206,1299484800"; d="scan'208";a="614770154"
 Received: from unknown (HELO helios) ([10.255.12.183])
-	by orsmga001.jf.intel.com with SMTP; 18 Mar 2011 10:21:34 -0700
-Received: by helios (sSMTP sendmail emulation); Fri, 18 Mar 2011 17:21:36 +0000
-Message-Id: <cover.1300467808.git.paul.eggleton@linux.intel.com>
-Old-Date: Fri, 18 Mar 2011 17:03:28 +0000
-Date: Fri, 18 Mar 2011 17:21:36 +0000
+	by orsmga002.jf.intel.com with SMTP; 18 Mar 2011 10:21:41 -0700
+Received: by helios (sSMTP sendmail emulation); Fri, 18 Mar 2011 17:21:44 +0000
+Message-Id: <71ef85f4c7c1d32d0103939beb3f1eda42167dfb.1300467808.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1300467808.git.paul.eggleton@linux.intel.com>
+References: <cover.1300467808.git.paul.eggleton@linux.intel.com>
+Old-Date: Wed, 16 Mar 2011 12:10:46 +0000
+Date: Fri, 18 Mar 2011 17:21:44 +0000
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 0/3] Fix errors in startup/shutdown
+Subject: [PATCH 3/3] busybox: enable unmount all feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,31 +37,40 @@ X-List-Received-Date: Fri, 18 Mar 2011 17:24:32 -0000
 
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Fixes a number of minor errors in startup/shutdown. Includes one fix imported
-from OE.
+This allows "umount -f -a -r" in our initscripts to actually do something.
 
-Pull URL: git://git.openembedded.org/openembedded-core-contrib
-  Branch: paule/init-error-fixes
-  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/init-error-fixes
-
-Thanks,
-    Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
-
-
-Paul Eggleton (2):
-  nfs-utils: fix "sh: bad number" error on start/stop of nfsserver
-  busybox: enable unmount all feature
-
-Tom Rini (1):
-  initscripts: Make umountfs a bit more robust, bump PR
-
- .../nfs-utils/nfs-utils/nfsserver                  |    2 +-
  meta/recipes-core/busybox/busybox-1.17.3/defconfig |    2 +-
  meta/recipes-core/busybox/busybox_1.17.3.bb        |    2 +-
- .../initscripts/initscripts-1.0/umountfs           |    6 +++---
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
- 5 files changed, 7 insertions(+), 7 deletions(-)
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/busybox/busybox-1.17.3/defconfig b/meta/recipes-core/busybox/busybox-1.17.3/defconfig
+index 87e6244..5327a64 100644
+--- a/meta/recipes-core/busybox/busybox-1.17.3/defconfig
++++ b/meta/recipes-core/busybox/busybox-1.17.3/defconfig
+@@ -567,7 +567,7 @@ CONFIG_SWAPONOFF=y
+ # CONFIG_FEATURE_SWAPON_PRI is not set
+ CONFIG_SWITCH_ROOT=y
+ CONFIG_UMOUNT=y
+-# CONFIG_FEATURE_UMOUNT_ALL is not set
++CONFIG_FEATURE_UMOUNT_ALL=y
+ 
+ #
+ # Common options for mount/umount
+diff --git a/meta/recipes-core/busybox/busybox_1.17.3.bb b/meta/recipes-core/busybox/busybox_1.17.3.bb
+index c5fbe9c..28342fe 100644
+--- a/meta/recipes-core/busybox/busybox_1.17.3.bb
++++ b/meta/recipes-core/busybox/busybox_1.17.3.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://udhcpscript.patch \
+-- 
+1.7.1
 
 
 
