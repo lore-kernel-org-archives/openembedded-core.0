@@ -1,24 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Q0dPc-00028Y-Je
+	(envelope-from <koen@dominion.thruhere.net>) id 1Q1GUi-0005Rz-0z
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 Mar 2011 18:24:32 +0100
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 18 Mar 2011 10:21:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,206,1299484800"; d="scan'208";a="614770154"
-Received: from unknown (HELO helios) ([10.255.12.183])
-	by orsmga002.jf.intel.com with SMTP; 18 Mar 2011 10:21:41 -0700
-Received: by helios (sSMTP sendmail emulation); Fri, 18 Mar 2011 17:21:44 +0000
-Message-Id: <71ef85f4c7c1d32d0103939beb3f1eda42167dfb.1300467808.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1300467808.git.paul.eggleton@linux.intel.com>
-References: <cover.1300467808.git.paul.eggleton@linux.intel.com>
-Old-Date: Wed, 16 Mar 2011 12:10:46 +0000
-Date: Fri, 18 Mar 2011 17:21:44 +0000
-To: openembedded-core@lists.openembedded.org
-CC: 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/3] busybox: enable unmount all feature
+	Sun, 20 Mar 2011 12:08:24 +0100
+Received: by wwi18 with SMTP id 18so2445028wwi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 20 Mar 2011 04:06:36 -0700 (PDT)
+Received: by 10.216.239.200 with SMTP id c50mr3061581wer.8.1300619195980;
+	Sun, 20 Mar 2011 04:06:35 -0700 (PDT)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id
+	a50sm2198870wer.18.2011.03.20.04.06.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 20 Mar 2011 04:06:35 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sun, 20 Mar 2011 12:06:34 +0100
+Message-Id: <71E89804-8B25-4810-95EE-C9B1880C0103@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1082)
+X-Mailer: Apple Mail (2.1082)
+Subject: Qemu-native requires alsa-libs-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Mar 2011 17:24:32 -0000
+X-List-Received-Date: Sun, 20 Mar 2011 11:08:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+Hi,
 
-This allows "umount -f -a -r" in our initscripts to actually do something.
+While attempting to build the qemuarm machine in oe-core I get this:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-core/busybox/busybox-1.17.3/defconfig |    2 +-
- meta/recipes-core/busybox/busybox_1.17.3.bb        |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+| + =
+/OE/tentacle/build/tmp-angstrom_2010_x/work/x86_64-linux/qemu-native-0.13.=
+0-r1/qemu-0.13.0/configure =
+--prefix=3D/OE/tentacle/build/tmp-angstrom_2010_x/sysroots/x86_64-linux/us=
+r =
+--target-list=3Darm-linux-user,arm-softmmu,i386-linux-user,i386-softmmu,x8=
+6_64-linux-user,x86_64-softmmu,mips-linux-user,mips-softmmu,ppc-linux-user=
+,ppc-softmmu,mipsel-linux-user --disable-werror --disable-vnc-tls =
+--enable-kvm --audio-drv-list=3Doss,alsa --audio-card-list=3Dac97,es1370
+|=20
+| Error: alsa check failed
+| Make sure to have the alsa libs and headers installed.
 
-diff --git a/meta/recipes-core/busybox/busybox-1.17.3/defconfig b/meta/recipes-core/busybox/busybox-1.17.3/defconfig
-index 87e6244..5327a64 100644
---- a/meta/recipes-core/busybox/busybox-1.17.3/defconfig
-+++ b/meta/recipes-core/busybox/busybox-1.17.3/defconfig
-@@ -567,7 +567,7 @@ CONFIG_SWAPONOFF=y
- # CONFIG_FEATURE_SWAPON_PRI is not set
- CONFIG_SWITCH_ROOT=y
- CONFIG_UMOUNT=y
--# CONFIG_FEATURE_UMOUNT_ALL is not set
-+CONFIG_FEATURE_UMOUNT_ALL=y
- 
- #
- # Common options for mount/umount
-diff --git a/meta/recipes-core/busybox/busybox_1.17.3.bb b/meta/recipes-core/busybox/busybox_1.17.3.bb
-index c5fbe9c..28342fe 100644
---- a/meta/recipes-core/busybox/busybox_1.17.3.bb
-+++ b/meta/recipes-core/busybox/busybox_1.17.3.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
--- 
-1.7.1
+But there's not alsa-libs-native in OE-core. Should we add such a recipe =
+or disable also in qemu?
 
+That's with:
+
+OE Build Configuration:
+BB_VERSION        =3D "1.13.0"
+METADATA_BRANCH   =3D "master"
+METADATA_REVISION =3D "f0afe5827570eff5442d2f9a9846b4098e5c3333"
+TARGET_ARCH       =3D "arm"
+TARGET_OS         =3D "linux-gnueabi"
+MACHINE           =3D "qemuarm"
+DISTRO            =3D "angstrom"
+DISTRO_VERSION    =3D "v20110320-core"
+TARGET_FPU        =3D "soft"
+
+
+regards,
+
+Koen=
 
 
