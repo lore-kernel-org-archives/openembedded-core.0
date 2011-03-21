@@ -1,35 +1,38 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q1jbQ-0007kQ-Jz
+	(envelope-from <raj.khem@gmail.com>) id 1Q1jbR-0007kQ-P2
 	for openembedded-core@lists.openembedded.org;
 	Mon, 21 Mar 2011 19:13:17 +0100
-Received: by iyb26 with SMTP id 26so6818907iyb.6
+Received: by mail-iy0-f175.google.com with SMTP id 26so6818907iyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2011 11:11:26 -0700 (PDT)
+	Mon, 21 Mar 2011 11:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=alCg9wgVuxDghqW+1Fc0hj/Dt5/ePr5kSX3YO4zh4x4=;
-	b=SM/4HbwnGcHZc5bdwON62SQdnPvMSw5oG7FdmO/XVoZhn7g0HlTxVnZ1vpVnNhR+TU
-	7cwKQ1WxaaZuyXZDcVdgqyBKuehxjZxYSfOOOvtl1r407ZGsFzDIactfCHSgm0qvgbQh
-	SsjhQGgXUPFku9KCtxX/c4U46DemHPYwKeteY=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=8lwrEikmLGwr1Y3Yrq9aowl1X+HubG5el8CKu86LEMc=;
+	b=NidNdZAHKAO4MCl/pyHwTkJcvtJ5SQNKaMfLAE7eJ1t3qLwuSVptezzhFbz5dxQ87D
+	FaDPrMhEaF3csuLsEjBC+JZr8REPIbYIeB8u7PEWCaTyQYIzBl1cdWANHhZPuIDNOjiE
+	KWaaqjSgeCS/pZOyvHodiLuyAh8tLo7BFRw+I=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=GiUqstEX5aB1bull4rSMZM5BW59rX4qOP+giFW/Y+daVJWbk3CKaIpjtxBf880doz3
-	pfXNUmywode521fZc+0yzp3cmsjqDTrZkqr52VfLuNOkbsrWWfHt6LHfR7tuSFS3V722
-	ftuw5q0HGpzzarcdl2ygPcVjIwgPZPagFpeHE=
-Received: by 10.43.56.197 with SMTP id wd5mr7210225icb.479.1300731086540;
-	Mon, 21 Mar 2011 11:11:26 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=uy7RkNpYbGUSHidMiR5D//K4o1q5k44RjiVgTpGiD6Kk/6SZQwSlu8bXXaseFBedwr
+	S8zGHpssSOB/NMJ2/6eNwVBoct2KIeOfAlQhPglZhA8GRVBLhyMciqx8Pi37lhXxAbrd
+	gxLlFmjJzJmgcK/dfCu5iea8ulfmt+N4slYKs=
+Received: by 10.43.55.78 with SMTP id vx14mr7210144icb.410.1300731090772;
+	Mon, 21 Mar 2011 11:11:30 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id 41sm3847955ibi.61.2011.03.21.11.10.56
+	by mx.google.com with ESMTPS id wo11sm4098736icb.20.2011.03.21.11.11.28
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 21 Mar 2011 11:11:25 -0700 (PDT)
+	Mon, 21 Mar 2011 11:11:29 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Mar 2011 11:10:52 -0700
-Message-Id: <cover.1300730825.git.raj.khem@gmail.com>
+Date: Mon, 21 Mar 2011 11:11:25 -0700
+Message-Id: <00f980d5a81d4cd6273ec10b67e4d288b8fd64de.1300730825.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/3] Prune global compilation flags
+In-Reply-To: <cover.1300730825.git.raj.khem@gmail.com>
+References: <cover.1300730825.git.raj.khem@gmail.com>
+Subject: [PATCH 1/3] bitbake.conf: Prune global OPTIMIZATION flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,37 +47,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2011 18:13:17 -0000
+X-List-Received-Date: Mon, 21 Mar 2011 18:13:18 -0000
 
-This patch series is for removing the unneeded flags in SELECTED_OPTIMIZATIONS
-that gets passed to every recipe build by default. I have also introduced flags
-to remove duplicate debug information which will reduce the debug info sections
+-fexpensive-optimizations is enabled by default at -O2
 
-Tested by building and booting console-image/angstrom on ppc,arm,mips,x86-64,x86
-qemu machines.
+-fomit-frame-pointer is enabled at -O2 selectively by gcc depending upon
+  architecture if debug info is not hurt
 
-Please apply
+-frename-registers - This might have some performance advantage on top
+ of O2 on architectures which have more registers and registers are left
+ after scheduling but it affects debuggability quite a bit so as a i
+ tradeoff we do not use it.
 
-Pull URL: git://git.openembedded.org/openembedded-core-contrib
-  Branch: kraj/global-opts
-  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/global-opts
+-feliminate-dwarf2-dups - We use this option to reduce the size of debug
+ information by removing duplicates this is only valid for dwarf2+ and we
+ use dwarf2 by default
 
-Thanks,
-    Khem Raj <raj.khem@gmail.com>
+-pipe uses buffers instead of temporary files internally it can speed
+ up compilation it has has issues with other assemblers but not
+ with GNU assembler and we use gas.
+
+Separate out debug information related flags into a separate variable
+DEBUG_FLAGS so distros can use/notuse them as they like
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+ meta/conf/bitbake.conf |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-
-Khem Raj (3):
-  bitbake.conf: Prune global OPTIMIZATION flags
-  machine/include/tune-atom.inc: Remove FULL_OPTIMIZATION_pn-gtk+
-  gcc-runtime_4.5.1.bb: Fix ICE in gcc-runtime with
-    -feliminate-dwarf2-dups
-
- meta/conf/bitbake.conf                         |    8 ++++----
- meta/conf/machine/include/tune-atom.inc        |    4 ----
- meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb |    7 ++++++-
- 3 files changed, 10 insertions(+), 9 deletions(-)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index d5f1fc5..52e66a5 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -495,11 +495,11 @@ EXTRA_OEMAKE_prepend_task-compile = "${PARALLEL_MAKE} "
+ ##################################################################
+ # Optimization flags.
+ ##################################################################
+-
+-FULL_OPTIMIZATION = "-fexpensive-optimizations -fomit-frame-pointer -frename-registers -O2 -ggdb -feliminate-unused-debug-types"
+-DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer -g"
++DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types -feliminate-dwarf2-dups"
++FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
++DEBUG_OPTIMIZATION = "-O -fno-omit-frame-pointer ${DEBUG_FLAGS} -pipe"
+ SELECTED_OPTIMIZATION = "${@bb.data.getVar(['FULL_OPTIMIZATION', 'DEBUG_OPTIMIZATION'][bb.data.getVar('DEBUG_BUILD', d, 1) == '1'], d, 1)}"
+-BUILD_OPTIMIZATION = "-O2"
++BUILD_OPTIMIZATION = "-O2 -pipe"
+ 
+ ##################################################################
+ # Bootstrap stuff.
 -- 
 1.7.4.1
 
