@@ -1,36 +1,36 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <jefro.net@gmail.com>)
-	id 1Q1l7m-0001CX-JP; Mon, 21 Mar 2011 20:50:46 +0100
-Received: by fxm19 with SMTP id 19so5832439fxm.6
-	for <multiple recipients>; Mon, 21 Mar 2011 12:48:57 -0700 (PDT)
+	id 1Q1l9t-0001KV-CT; Mon, 21 Mar 2011 20:52:57 +0100
+Received: by fxm19 with SMTP id 19so5834497fxm.6
+	for <multiple recipients>; Mon, 21 Mar 2011 12:51:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:mime-version:sender:date:x-google-sender-auth
 	:message-id:subject:from:to:content-type;
-	bh=+DdLf1x4u7SpliFFkXTz/GlAkpOJMWeiJ6uSShEvN+0=;
-	b=mC6q2V1gYZww5mSSELWchjFhMpC9687BdKUhkZR0HYXlbyyGBgDTnEIpulYO/6YD/Z
-	K+1HoLjRdK2PSa+ce8br1f6zHVGIfY3YhfjKbyFkAAeMScfF0CQ4VeV5cv+HwOIKL2ny
-	KdqeiBia7a7G8N8u5f5cihHmXIVGz+THymtlE=
+	bh=EPb3UIFxRF6JCFBoHK0CWsMLxB6kyv3LnQ+H/foHUDY=;
+	b=aM+m1KxIc7i2xxVzI/JfXXc6EdeAPCdYmEGJ51qoiVLZpWI9i6uFQ0z4nCDudU/KIY
+	XZ2w/GBgDW2A4ryVF9ciWbfhSlLnJDgI4jk72TFMoicX0yNt9JFLH/ff5L19IvUjxHgb
+	wNvEwx0Y9zqGya167GaQ/MvtpyCH8PhpOiV98=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
 	:from:to:content-type;
-	b=lB1WQkntzwrlzY5ee/qnREgxWQ7iDNL9tf4bxANtn+Rl2xWWom4N6oSogh8GNcHl8h
-	V4QO2jLoc9zI8+BqPC9hUZJYqcYFWJ1RtXVhtLIdjRJanTmd0LcVhBwfcSyILljghA22
-	6Iaj3v4vwh3RUzuq6BLhJhOK5fnN6f2gWyYg4=
+	b=n5fX+inAz59bX/FWSBQ/7pPcgFV7vT7waocCLp8TSSQ6nGue4k7b5xRBHjX/Aqw15d
+	hgOu4c8noCZsM53mPRxZyniFo+FqLvMPhKSE0b4gE+Fr01sEl/6VxroL4gOzhYAMccAV
+	yGyozwJy3VLRoKnD+ugbCTqdpbA4do82qOqUI=
 MIME-Version: 1.0
-Received: by 10.223.27.18 with SMTP id g18mr2888723fac.52.1300736937279; Mon,
-	21 Mar 2011 12:48:57 -0700 (PDT)
+Received: by 10.223.57.5 with SMTP id a5mr224369fah.90.1300737065474; Mon, 21
+	Mar 2011 12:51:05 -0700 (PDT)
 Sender: jefro.net@gmail.com
-Received: by 10.223.125.83 with HTTP; Mon, 21 Mar 2011 12:48:56 -0700 (PDT)
-Date: Mon, 21 Mar 2011 12:48:56 -0700
-X-Google-Sender-Auth: Y12Qm0Ln6nQRUKn389-BQm34PXI
-Message-ID: <AANLkTi=zzGdVHSAuvE9gZ-ETWA8T5ATm5NhTzf=Fx3m+@mail.gmail.com>
+Received: by 10.223.125.83 with HTTP; Mon, 21 Mar 2011 12:51:05 -0700 (PDT)
+Date: Mon, 21 Mar 2011 12:51:05 -0700
+X-Google-Sender-Auth: ljCpjZntsJkV_tlSKRtZxmHENsw
+Message-ID: <AANLkTik6HZ5HWgngfS4d4+ZjWZ0Z8NCJTSWzwfoceiMi@mail.gmail.com>
 From: Jeff Osier-Mixon <jefro@jefro.net>
 To: openembedded-devel@lists.openembedded.org, 
-	tsc <tsc@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	tsc <tsc@lists.openembedded.org>
 X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Subject: Minutes, OE TSC meeting, March 10 2011
+Subject: Minutes, OE TSC meeting, March 17 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,8 +45,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2011 19:50:47 -0000
+X-List-Received-Date: Mon, 21 Mar 2011 19:52:57 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+
+CORRECTED: This meeting took place on March 17, not March 10
 
 Attendance: Mark Hatle, Richard Purdie, Khem Raj, Tom Rini, Stefan Schmidt,
 Koen Kooi,
@@ -385,7 +387,7 @@ are there too many for one (or a small group) to handle?
 agree
 (1:34:21 PM) RP__: Those areas of ownership need to be clear
 (1:34:28 PM) RP__: documented in meta-oe actually
-(1:34:31 PM) fray: the question then in areas of ownership, will there be a
+ (1:34:31 PM) fray: the question then in areas of ownership, will there be a
 breakdown recipes-* like oe-core?  or is it still fairly flat?
 (1:34:53 PM) koen: fray:
 http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/
