@@ -1,32 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q1jKy-00075T-99 for openembedded-core@lists.openembedded.org;
-	Mon, 21 Mar 2011 18:56:16 +0100
+	id 1Q1jXp-0007eE-Du for openembedded-core@lists.openembedded.org;
+	Mon, 21 Mar 2011 19:09:33 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2LHsTfF026076;
-	Mon, 21 Mar 2011 17:54:29 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2LI7kV8026312
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Mar 2011 18:07:46 GMT
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 26011-02; Mon, 21 Mar 2011 17:54:25 +0000 (GMT)
+	id 26155-04 for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Mar 2011 18:07:42 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2LHsOLT026069
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 21 Mar 2011 17:54:24 GMT
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2LI7cIf026306
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Mar 2011 18:07:39 GMT
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <AANLkTikTN34eB90o8rLuJq5aaMa=nTE9aDCJmCMO+Rrp@mail.gmail.com>
-References: <cover.1300378596.git.chris_larson@mentor.com>
-	<AANLkTikTN34eB90o8rLuJq5aaMa=nTE9aDCJmCMO+Rrp@mail.gmail.com>
-Date: Mon, 21 Mar 2011 17:53:58 +0000
-Message-ID: <1300730038.30423.3967.camel@rex>
+In-Reply-To: <cover.1300387701.git.raj.khem@gmail.com>
+References: <cover.1300387701.git.raj.khem@gmail.com>
+Date: Mon, 21 Mar 2011 18:07:13 +0000
+Message-ID: <1300730833.30423.3993.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.28.3 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Chris Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 00/12] Pull request - some sync bits from OE
+Subject: Re: [PATCH 0/5] Upgrade qemu to 0.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,35 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2011 17:56:16 -0000
+X-List-Received-Date: Mon, 21 Mar 2011 18:09:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-03-17 at 09:23 -0700, Chris Larson wrote:
-> On Thu, Mar 17, 2011 at 9:18 AM, Chris Larson <kergoth@gmail.com> wrote:
-> > From: Chris Larson <chris_larson@mentor.com>
-> >
-> > This is primarily a sync of a couple OE features, along with a few minor
-> > changes to ensure those features work fine for us.  More OE sync bits will be
-> > forthcoming.  These certainly need review.  In particular, I haven't gotten
-> > any feedback on how the poky folk feel about this approach to IMAGE_FEATURES
-> > relative to their own, so please do comment on that, if you would :)
-> >
-> > Pull URL: https://github.com/kergoth/oe-core
-> >
-> >  Branch: oe-sync
-> >  Browse: https://github.com/kergoth/oe-core/commits/oe-sync
-> >
-> >
-> > Thanks,
-> >    Chris Larson <chris_larson@mentor.com>
+On Thu, 2011-03-17 at 11:52 -0700, Khem Raj wrote:
+> This patchset upgrades qemu in oe-core to 0.14.0
+> The script fixes are done to cope for a bug in 0.14.0
+> as well as to get past a console spawning problem for non-nfs image
+> boots
 > 
-> Erm, I forgot I hadn't yet dealt with ROOTFS_PACKAGEMANAGE_BOOTSTRAP,
-> in the IMAGE_FEATURES changes, don't pull this until I resolve that :)
+> 
+> Pull URL: git://git.openembedded.org/openembedded-core-contrib
+>   Branch: kraj/qemu-update
+>   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu-update
+> 
+> Thanks,
+>     Khem Raj <raj.khem@gmail.com>
+> ---
+> 
+> 
+> Khem Raj (5):
+>   qemu: Upgrade 0.13.0 -> 0.14.0
 
-Ok, I've pulled the first four commits for now since there were fairly
-obvious fixes and not part of what you mention above, I'll wait for
-another pull request for the rest.
+With this change, I'm just doing some checks that certain things work,
+its still in my pending queue.
+
+>   qemu.inc: Add sh4,sh4eb,mips64,mips64el targets
+
+For this, I'd like to make the list of targets a separate variable. I'm
+happy with your default for OECore, I might take out some of the arches
+for Yocto/Poky.
+
+>   lib/oe/patch.py: Cosmetic change to avoid bitbake warning
+>   scripts/poky-qemu-internal: Pass -m <mem_size> always on commandline
+>   scripts/poky-qemu-internal: Add rw to KERNCMDLINE for non nfs boots
+
+I merged these, thanks.
 
 Cheers,
 
