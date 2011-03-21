@@ -1,27 +1,29 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jay@jay-tech.ru>) id 1Q1cXE-0007pM-Uu
+	(envelope-from <koen@dominion.thruhere.net>) id 1Q1de3-0001iN-0s
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Mar 2011 11:40:31 +0100
-Received: by vws2 with SMTP id 2so5135268vws.6
+	Mon, 21 Mar 2011 12:51:35 +0100
+Received: by wwb17 with SMTP id 17so6449891wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2011 03:37:19 -0700 (PDT)
-Received: by 10.220.61.201 with SMTP id u9mr1126402vch.131.1300703477243; Mon,
-	21 Mar 2011 03:31:17 -0700 (PDT)
-MIME-Version: 1.0
-Sender: jay@jay-tech.ru
-Received: by 10.220.41.13 with HTTP; Mon, 21 Mar 2011 03:30:57 -0700 (PDT)
-X-Originating-IP: [78.106.51.95]
-In-Reply-To: <4D86C98C.9060008@intel.com>
-References: <71E89804-8B25-4810-95EE-C9B1880C0103@dominion.thruhere.net>
-	<4D86C98C.9060008@intel.com>
-From: Yury Bushmelev <jay4mail@gmail.com>
-Date: Mon, 21 Mar 2011 13:30:57 +0300
-X-Google-Sender-Auth: CSnhQadpurLpBzz0n7HXSeWd1GU
-Message-ID: <AANLkTi=9CfssdfsA_JNGqP-PDeL7e96N06Hrn9Zg-FTG@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+	Mon, 21 Mar 2011 04:49:46 -0700 (PDT)
+Received: by 10.227.179.138 with SMTP id bq10mr4104937wbb.12.1300708186199;
+	Mon, 21 Mar 2011 04:49:46 -0700 (PDT)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id g7sm2718656wby.31.2011.03.21.04.49.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 21 Mar 2011 04:49:45 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1082)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <63726.2611.qm@web95703.mail.in.yahoo.com>
+Date: Mon, 21 Mar 2011 12:49:43 +0100
+Message-Id: <93102E2F-F094-409F-AB37-B9887256A219@dominion.thruhere.net>
+References: <63726.2611.qm@web95703.mail.in.yahoo.com>
+To: Sparsh Wid hope <sparsh150847@yahoo.com>
+X-Mailer: Apple Mail (2.1082)
+Cc: poky <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Qemu-native requires alsa-libs-native
+Subject: Re: [poky] Need help to build poky image for beagle board
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,35 +38,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2011 10:40:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 21 Mar 2011 11:51:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-2011/3/21 Zhai, Edwin <edwin.zhai@intel.com>:
-> Koen,
-> We enabled alsa in configure for the feature of receiving sound from guest.
-> It is assumed that audio system on host is already enabled.
 
-I see following purposes of qemu-native:
-(1) automated runtime images testing
-(2) manual images testing/using
+Op 21 mrt 2011, om 11:29 heeft Sparsh Wid hope het volgende geschreven:
 
-(1) should be used against small subset of compatible targets. For
-oe-core this is set of qemu machines only. For automated testing
-purposes qemu wav driver may be more suitable than alsa imho. As well
-as vnc instead of sdl. This happens on build (testing?) host, which
-may be node in large build farm. I would prefer to have minimal
-dependencies on such nodes.
+> Hi All,
+>=20
+> I'm trying to build poky image for beagle board.=20
 
-(2) is different. Here we need alsa and sdl. But this should happens
-not on build host in ideal case. In common case user already have X11,
-sdl, alsa, etc on his home workstation. So here we may use anything.
+I'll address the 'beagleboard' portion of your question below.
 
-So, my idea to separate (1) and (2). we may use different recipes.
-qemu-testing and qemu e.g. Then qemu-testing may have minimal set of
-features suitable only for runtime testing but qemu may have full set
-of features suitable for common usage.
+> I got the following error-=20
+> FATAL: Error when parsing []: file classes/packaged-staging.bbclass =
+not found in =
+/home/surya/Surya/pro/POKY/meta-texasinstruments:/home/surya/Surya/pro/POK=
+Y/meta
+>=20
+> I followed the steps below-
+>=20
+> 1.Downloaded the source=20
+> wget -c =
+http://git.pokylinux.org/cgit/cgit.cgi/poky/snapshot/poky-laverne-4.0.1.ta=
+r.bz2
+>=20
+> and rename it as POKY.
+> 2. Get TI's overlay
+> git clone git://github.com/mrchapp/meta-texasinstruments.git
+> cd meta-texasinstruments
+> git checkout -b gitomapzoom --track origin/gitomapzoom
 
--- 
-Yury Bushmelev
+That's not a TI overlay, it's an overlay done by someone to add the =
+dspbridge stuff to OE. If you want better beagleboard support, use the =
+following layer:
+
+http://gitorious.org/angstrom/angstrom-layers/
+
+If you don't want to manually resolve all the layer dependencies have a =
+look at the scripts mentioned in the readme:
+
+http://gitorious.org/angstrom/angstrom-layers/blobs/master/README
+
+The 'better' in the above is aimed at hw support like cpufreq, DSP, =
+1GHz/720MHz, etc. The standard yocto kernel lacks all that because it's =
+focussed at different things like 100% POSIX compliance.
+
+regards,
+
+Koen
+
+>=20
+> 3. Copy configuration
+> cp -p POKY/meta-texasinstruments/conf/misc/local.conf =
+POKY/build/conf/local.conf
+>=20
+> 4. Build!
+> cd POKY
+> source poky-init-build-env
+>=20
+> from the link http://elinux.org/BeagleBoard/Poky
+> Help me to solve this error.
+> Thanks in advance         =20
+>=20
+> _______________________________________________
+> poky mailing list
+> poky@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/poky
+
 
 
