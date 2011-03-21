@@ -1,38 +1,35 @@
-Received: from mail-gx0-f179.google.com ([209.85.161.179])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q1jbd-0007mn-3x
+	(envelope-from <raj.khem@gmail.com>) id 1Q1jjM-00080b-Ds
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Mar 2011 19:13:29 +0100
-Received: by gxk10 with SMTP id 10so2462116gxk.10
+	Mon, 21 Mar 2011 19:21:28 +0100
+Received: by iyb26 with SMTP id 26so6826727iyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2011 11:11:39 -0700 (PDT)
+	Mon, 21 Mar 2011 11:19:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=29PLLOxIPGIb+6ziKXe3vwqp+5/ecMDGyQJuZFzjKxk=;
-	b=vcK+BCNUEGfAT/fRL2MUNTjfX5y4itV/IRWewRnyOr1vKhLP7zsvOQfBB9YxMaRXBn
-	c4eyAH+kMpwtieNA7unq/1L4W5O7UPTsYxNfJhxAMg9//sHp/RIGhMWoeclNNNpIxct1
-	jw8Baj9lvGNTBXhjhIHTfi1P/19ZoyA966XCA=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=qvi7EUVJ7FmAyJRBNlcgVu37V4g891b27aeBdaE3hIE=;
+	b=E8lPfpvQOMhSyCG2ltKZOm5igx9D1Bf1nDm3uOzm8YowPWC3FRZxASZFEIh/bLBa/5
+	lLsEa0cgaUjXJ9CL31TEpuDEvu9bHr7HB5LaSzYg8aL8QsPBBfXYOqvHnTjEGUOog0DC
+	RWi5jEWkCz1Q9RiL8czxgQ8AIQ3c3V4PD8r9k=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=tZlselgXnHFRTfMoPNCgDoxbDg/s6bp9qTR1BZKHUIiEsm118wh+hIMpC25UM6Vv9w
-	Y0e4owYtgG9uP94U4oKlg9JUYtBZp7AwsSDGO1G2RCWuqvg2K6lo3OQ9RnENEu6C2qfi
-	K5kfq1IZRYgOEx9+R595EjOVaByNRDUjR4PYc=
-Received: by 10.236.72.200 with SMTP id t48mr5837851yhd.21.1300731099165;
-	Mon, 21 Mar 2011 11:11:39 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=ixf94gefVjMmeNADI9bJSycjiFgBJku+w5D6SKoQWwFYStdLEaCQIYnL/c/n1f+wrJ
+	erKvL6aMtCd7eawqPMVDrn53ME8aXRcJPVDEpyLWL054C3ZNlbW2ta9IVCks0yx8ycZU
+	rK9+4biGb07w7kCERsxk45WpLJjjT07PkCNek=
+Received: by 10.42.156.135 with SMTP id z7mr7477803icw.59.1300731578342;
+	Mon, 21 Mar 2011 11:19:38 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id x76sm1317900yhn.94.2011.03.21.11.11.37
+	by mx.google.com with ESMTPS id wo11sm4102203icb.20.2011.03.21.11.19.36
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 21 Mar 2011 11:11:38 -0700 (PDT)
+	Mon, 21 Mar 2011 11:19:37 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Mar 2011 11:11:33 -0700
-Message-Id: <a24f4837fa1e26b4a5797f31c095c94c4c3f9c95.1300730825.git.raj.khem@gmail.com>
+Date: Mon, 21 Mar 2011 11:19:33 -0700
+Message-Id: <cover.1300731432.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1300730825.git.raj.khem@gmail.com>
-References: <cover.1300730825.git.raj.khem@gmail.com>
-Subject: [PATCH 3/3] gcc-runtime_4.5.1.bb: Fix ICE in gcc-runtime with -feliminate-dwarf2-dups
+Subject: [PATCH 0/1] Call stty sane before exiting qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,35 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2011 18:13:29 -0000
+X-List-Received-Date: Mon, 21 Mar 2011 18:21:28 -0000
 
-GCC 4.5 ends up in an ICE when compiling libstdc++ pre compiled header
-so we eliminate -feliminate-dwarf2-dups for gcc-runtime
+In nographic mode when qemu is exited e.g. qemuppc then the shell
+does not respond as expected (experienced on ubuntu). So we add
+a call to stty sane just before exit which fixes the issue.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: kraj/qemu-sane-stty
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu-sane-stty
+
+Thanks,
+    Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
-index 9eb658b..9d4e158 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
-+++ b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
-@@ -1,4 +1,4 @@
--PR = "r4"
-+PR = "r5"
- 
- require gcc-${PV}.inc
- require gcc-configure-runtime.inc
-@@ -9,3 +9,8 @@ SRC_URI_append = "file://fortran-cross-compile-hack.patch"
- ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
- 
- EXTRA_OECONF += "--disable-libunwind-exceptions"
-+
-+# gcc 4.5 ends up in ICE when using -feliminate-dwarf2-dups in libstdc++
-+# compiling pre compiled headers so we remove this option when compiling
-+# to workaround it
-+CXXFLAGS := "${@oe_filter_out('-feliminate-dwarf2-dups', '${CXXFLAGS}', d)}"
+
+Khem Raj (1):
+  scripts/poky-qemu-internal: Add call to stty
+
+ scripts/poky-qemu-internal |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
 -- 
 1.7.4.1
 
