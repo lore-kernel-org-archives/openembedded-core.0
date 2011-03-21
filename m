@@ -1,24 +1,27 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q1bcU-0007vI-4K
+	(envelope-from <jay@jay-tech.ru>) id 1Q1cXE-0007pM-Uu
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Mar 2011 10:41:50 +0100
-Received: by wwb17 with SMTP id 17so6308159wwb.24
+	Mon, 21 Mar 2011 11:40:31 +0100
+Received: by vws2 with SMTP id 2so5135268vws.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Mar 2011 02:39:58 -0700 (PDT)
-Received: by 10.216.11.205 with SMTP id 55mr4775452wex.72.1300700398292;
-	Mon, 21 Mar 2011 02:39:58 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ed10sm2667716wbb.49.2011.03.21.02.39.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 21 Mar 2011 02:39:57 -0700 (PDT)
-From: koen@dominion.thruhere.net
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Mar 2011 10:38:39 +0100
-Message-Id: <1300700320-25880-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 1/2] alsa-lib: extend to -native for qemu-native
+	Mon, 21 Mar 2011 03:37:19 -0700 (PDT)
+Received: by 10.220.61.201 with SMTP id u9mr1126402vch.131.1300703477243; Mon,
+	21 Mar 2011 03:31:17 -0700 (PDT)
+MIME-Version: 1.0
+Sender: jay@jay-tech.ru
+Received: by 10.220.41.13 with HTTP; Mon, 21 Mar 2011 03:30:57 -0700 (PDT)
+X-Originating-IP: [78.106.51.95]
+In-Reply-To: <4D86C98C.9060008@intel.com>
+References: <71E89804-8B25-4810-95EE-C9B1880C0103@dominion.thruhere.net>
+	<4D86C98C.9060008@intel.com>
+From: Yury Bushmelev <jay4mail@gmail.com>
+Date: Mon, 21 Mar 2011 13:30:57 +0300
+X-Google-Sender-Auth: CSnhQadpurLpBzz0n7HXSeWd1GU
+Message-ID: <AANLkTi=9CfssdfsA_JNGqP-PDeL7e96N06Hrn9Zg-FTG@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Qemu-native requires alsa-libs-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,32 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2011 09:41:50 -0000
+X-List-Received-Date: Mon, 21 Mar 2011 10:40:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Koen Kooi <koen@dominion.thruhere.net>
+2011/3/21 Zhai, Edwin <edwin.zhai@intel.com>:
+> Koen,
+> We enabled alsa in configure for the feature of receiving sound from guest.
+> It is assumed that audio system on host is already enabled.
 
-Qemu-needed is needed for the qemu* machines to build, but needs alsa-lib
+I see following purposes of qemu-native:
+(1) automated runtime images testing
+(2) manual images testing/using
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-multimedia/alsa/alsa-lib_1.0.23.bb |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+(1) should be used against small subset of compatible targets. For
+oe-core this is set of qemu machines only. For automated testing
+purposes qemu wav driver may be more suitable than alsa imho. As well
+as vnc instead of sdl. This happens on build (testing?) host, which
+may be node in large build farm. I would prefer to have minimal
+dependencies on such nodes.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.23.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.23.bb
-index db58abb..936f299 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.23.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.23.bb
-@@ -6,6 +6,8 @@ LICENSE = "LGPLv2.1 & GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
-                     file://src/socket.c;beginline=1;endline=26;md5=11ff89a8a7a4a690a5c78effe8159545"
- 
-+BBCLASSEXTEND = "native"
-+
- # configure.in sets -D__arm__ on the command line for any arm system
- # (not just those with the ARM instruction set), this should be removed,
- # (or replaced by a permitted #define).
+(2) is different. Here we need alsa and sdl. But this should happens
+not on build host in ideal case. In common case user already have X11,
+sdl, alsa, etc on his home workstation. So here we may use anything.
+
+So, my idea to separate (1) and (2). we may use different recipes.
+qemu-testing and qemu e.g. Then qemu-testing may have minimal set of
+features suitable only for runtime testing but qemu may have full set
+of features suitable for common usage.
+
 -- 
-1.6.6.1
-
+Yury Bushmelev
 
 
