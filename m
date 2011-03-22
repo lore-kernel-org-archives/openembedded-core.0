@@ -1,38 +1,27 @@
-Received: from mail-iw0-f175.google.com ([209.85.214.175])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q2649-00030m-N7
+	(envelope-from <Tom_Rini@mentor.com>) id 1Q26FT-0006hA-Tb
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Mar 2011 19:12:34 +0100
-Received: by iwn10 with SMTP id 10so7997326iwn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2011 11:10:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=7fhyd6xKshKLHx/umM04LWb+72vndIRetgrEW82EaQ8=;
-	b=uqMfle5xd1v21ibAZPHgotLqSg3YDQpGZApdAMuEBXrmq8emDVLia38fIcrCB5htLY
-	LFmfVMxzgjzSv/ipyok3Gi/043wsuGt/I3/2w3SW9BuotIscyUxASCDiwH4cSfuoqals
-	cv8x2VLUNFkaa+JMhcmQm2aXhyt7KZxiKWsa8=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	b=kpVXYN8Oyyg1sOQSasAS8REaCb0Zc/U+a74w7Ci9+rc/PUYtRFd4CnU2HHpOoSCELF
-	XcA1rETSDugaJQibO2USmCqt/e6tvGVkOfCDMuZVY1KNdXfwUE/XcST60IRLRhkPZHXI
-	7KRijZRRKcaoZ8jvy+gtUouH2TG3R7ijC10CU=
-Received: by 10.42.138.4 with SMTP id a4mr6631408icu.258.1300817433758;
-	Tue, 22 Mar 2011 11:10:33 -0700 (PDT)
-Received: from sakrah.homelinux.org
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id s1sm1802085iba.24.2011.03.22.11.10.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 22 Mar 2011 11:10:32 -0700 (PDT)
-Date: Tue, 22 Mar 2011 11:10:37 -0700
-From: Khem Raj <raj.khem@gmail.com>
+	Tue, 22 Mar 2011 19:24:08 +0100
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1Q26Df-0001ej-Ps from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 22 Mar 2011 11:22:15 -0700
+Received: from na2-mail.mgc.mentorg.com ([134.86.114.213]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Tue, 22 Mar 2011 11:21:23 -0700
+Received: from localhost.localdomain ([172.30.80.248]) by
+	na2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
+	Tue, 22 Mar 2011 12:22:14 -0600
+From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20110322181037.GA26336@sakrah.homelinux.org>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: MIPS rootfs creation failure
+Date: Tue, 22 Mar 2011 11:21:50 -0700
+Message-Id: <cover.1300817337.git.tom_rini@mentor.com>
+X-Mailer: git-send-email 1.7.0.4
+X-OriginalArrivalTime: 22 Mar 2011 18:22:14.0565 (UTC)
+	FILETIME=[11868550:01CBE8BE]
+Subject: [PATCH 0/2] coreutils-native and gettext fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,28 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2011 18:12:49 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 22 Mar 2011 18:24:08 -0000
 
-Hi
+They following changes do two things.  First up, this re-syncs
+coreutils-native with the changes I just made in openembedded.master
+to opt out of gmp-native rather than DEPEND on it (oe.master had neither
+previously).  The second change was that in testing the above I ran into
+gettext.bbclass + BBCLASSEXTEND breakage that I had fixed in oe.master
+previously.  I've extended what I did slightly to also cover crosssdk
+here.  After talking with Khem there's further cleanups that we can do
+but are separate.
 
-I did an update of oe-core yesterday and now mips is failing with this
-error. It was not there 2 days back.
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: trini/misc-fixes
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/misc-fixes
 
-| Configuring sysvinit.
-| Collected errors:
-|  * satisfy_dependencies_for: Cannot satisfy the following dependencies
-for task-base:
-|  *    kernel-misc *
-|  * opkg_install_cmd: Cannot install package task-base.
-NOTE: package console-image-1.0-r0: task do_rootfs: Failed
+Thanks,
+    Tom Rini <tom_rini@mentor.com>
+---
 
-I have not bisected but if anyone else is seeing it I would like to know
 
-Thanks
+Tom Rini (2):
+  coreutils: Switch to disabling gmp support
+  gettext.bbclass: Fix cases where we lost DEPENDS_GETTEXT
 
--- 
--Khem
+ meta/classes/gettext.bbclass                 |    8 ++++++--
+ meta/recipes-core/coreutils/coreutils_8.9.bb |    6 ++++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
+
 
 
