@@ -1,42 +1,42 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q26PQ-0001ug-Au
+	(envelope-from <raj.khem@gmail.com>) id 1Q26Qb-0002sB-PD
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 Mar 2011 19:34:24 +0100
-Received: by iyb26 with SMTP id 26so8015654iyb.6
+	Tue, 22 Mar 2011 19:35:37 +0100
+Received: by iwn10 with SMTP id 10so8021421iwn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Mar 2011 11:32:33 -0700 (PDT)
+	Tue, 22 Mar 2011 11:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:date:from:to:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=o0VPjd01e70s6cV2X0SqkZbXeI92oKeJJjsTWKaIBDM=;
-	b=H55nJZm8Apm9Yp+NI7kO7kJsqRYSkRTjhD2bWHfZByDUklEot050E/UXLweB5L3kvi
-	vSIBDVaMylyrndtPfmhYxLx7JGkN3JosAPJGMh5Gl5CJC3qf0l8oBBSusPx1J4B+ihok
-	hO1aDqw127Y0kzFo7fQyLCy8UxNTK83snISjQ=
+	:user-agent; bh=M8TLikM5ZNWyJelZiyH7bJIomxTcKo8Hn++VhnOQEUs=;
+	b=P62dxxIKJK52kvKpIOi0vafAxCDzjZXIlbB6fYfN/BszOPn51OCDjrXx6RLjmBgvRW
+	DLfj8CQyg8F/Yz4l1pZKeNJWyCENYRrbeRi2K+sS5PpAJT6lLwjq1+3PZQk1SIRP49Of
+	kjX8ixOcytvh4HC/zcAKjr8IVhRtHDxvylqNc=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	b=X8lErh7MlRz6j25s4PRChH87b/wPMEP6yQO+HrcKlt3GnhzuSZQDYxpNY5aJ2eoh8b
-	JwW7a5pdjO+67vXNIWBTUVC+Ce7zL4Vlha+5vHg+vQJC8CrUNyMr8jg50cZ2+X+hs52T
-	R7JWGP7bIeIlxrrCSkqbaKGaAsficDuScKlEs=
-Received: by 10.43.131.201 with SMTP id hr9mr9631179icc.53.1300818752213;
-	Tue, 22 Mar 2011 11:32:32 -0700 (PDT)
+	b=kXoQkvu2pOMmw1U7t792hvPzQbiCzSw4UpfFE3AIhyEwCla7sSTZSAnQaTKKMFqdna
+	KayT2epxvg6kO/o0fogToHwM4JGHmqT6fnnzQszDlWWwG4IoOGinvvYyqML5IrKWBzvU
+	FAQJIKuU3JHN5ws4BdpkhLZBn9lsraX1TXYE4=
+Received: by 10.42.147.199 with SMTP id o7mr8912384icv.448.1300818823783;
+	Tue, 22 Mar 2011 11:33:43 -0700 (PDT)
 Received: from sakrah.homelinux.org
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id i20sm4542967iby.14.2011.03.22.11.32.30
+	by mx.google.com with ESMTPS id 8sm4545494iba.38.2011.03.22.11.33.41
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 22 Mar 2011 11:32:31 -0700 (PDT)
-Date: Tue, 22 Mar 2011 11:32:45 -0700
+	Tue, 22 Mar 2011 11:33:41 -0700 (PDT)
+Date: Tue, 22 Mar 2011 11:33:57 -0700
 From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110322183245.GC26336@sakrah.homelinux.org>
+Message-ID: <20110322183357.GD26336@sakrah.homelinux.org>
 References: <cover.1300817337.git.tom_rini@mentor.com>
-	<3c41c3e7dc35b364f0c16d3694397adea2aa184a.1300817337.git.tom_rini@mentor.com>
+	<3f44e1b84aa48bcf4c9a92639b0146ebecc90538.1300817337.git.tom_rini@mentor.com>
 MIME-Version: 1.0
-In-Reply-To: <3c41c3e7dc35b364f0c16d3694397adea2aa184a.1300817337.git.tom_rini@mentor.com>
+In-Reply-To: <3f44e1b84aa48bcf4c9a92639b0146ebecc90538.1300817337.git.tom_rini@mentor.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH 1/2] coreutils: Switch to disabling gmp support
+Subject: Re: [PATCH 2/2] gettext.bbclass: Fix cases where we lost DEPENDS_GETTEXT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,57 +51,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Mar 2011 18:34:25 -0000
+X-List-Received-Date: Tue, 22 Mar 2011 18:35:37 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 On (22/03/11 11:21), Tom Rini wrote:
-> Coreutils can optionally build with libgmp support and for our uses
-> it's fine to just not build it rather than add the dependency.
+> This is a partial sync-up with 2a9a834ce426f4dc97162870ef1632540ff044f1
+> of openembedded master.  After consulting with Khem there's a few things
+> that we can do to further improve the situation but doing this fixes
+> the cases such as BBCLASSEXTEND where we can loose DEPENDS_GETTEXT
+> and trigger the QA error about missing inherit gettext (when we aren't).
 > 
-To be clear What we lose here is entry for coreutils release notes
-
-* Noteworthy changes in release 7.0 (2008-10-05) [beta] 
-
-   If the GNU MP library is available at configure time, factor and 
-   expr support arbitrarily large numbers.  Pollard's rho algorithm is 
-   used to factor large numbers. 
-
-and I think we never intended to use it. Its just that now it finds the
-library staged due to gcc requiring it.
-
-Acked-by: Khem Raj <raj.khem@gmail.com>
-
 > Signed-off-by: Tom Rini <tom_rini@mentor.com>
+
+I think this one needs testing patch looks ok though
+
 > ---
->  meta/recipes-core/coreutils/coreutils_8.9.bb |    6 ++++--
->  1 files changed, 4 insertions(+), 2 deletions(-)
+>  meta/classes/gettext.bbclass |    8 ++++++--
+>  1 files changed, 6 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.9.bb b/meta/recipes-core/coreutils/coreutils_8.9.bb
-> index 4b9a655..d75c080 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.9.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.9.bb
-> @@ -7,9 +7,9 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
->  LICENSE = "GPLv3+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
->                      file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
-> -PR = "r0"
-> +PR = "r1"
->  DEPENDS = "perl-native gmp"
-> -DEPENDS_virtclass-native = "perl-native gmp-native"
-> +DEPENDS_virtclass-native = "perl-native"
+> diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+> index a40e74f..45e883f 100644
+> --- a/meta/classes/gettext.bbclass
+> +++ b/meta/classes/gettext.bbclass
+> @@ -4,7 +4,7 @@ def gettext_after_parse(d):
+>          cfg = oe_filter_out('^--(dis|en)able-nls$', bb.data.getVar('EXTRA_OECONF', d, 1) or "", d)
+>          cfg += " --disable-nls"
+>          depends = bb.data.getVar('DEPENDS', d, 1) or ""
+> -        bb.data.setVar('DEPENDS', oe_filter_out('^(virtual/libiconv|virtual/libintl)$', depends, d), d)
+> +        bb.data.setVar('DEPENDS', oe_filter_out('^(gettext|gettext-native|virtual/libiconv|virtual/libintl)$', depends, d), d)
+>          bb.data.setVar('EXTRA_OECONF', cfg, d)
 >  
->  inherit autotools gettext
+>  python () {
+> @@ -13,5 +13,9 @@ python () {
 >  
-> @@ -18,6 +18,8 @@ SRC_URI = "http://ftp.gnu.org/gnu/coreutils/${BP}.tar.gz"
->  SRC_URI[md5sum] = "36909ae68840d73a800120cf74af794a"
->  SRC_URI[sha256sum] = "aa991fa4296b22ff929a31a5cb5528bb783c84cdef4503c4ff311cfbeaebf50a"
+>  DEPENDS_GETTEXT = "gettext gettext-native"
 >  
-> +EXTRA_OECONF_virtclass-native = "--without-gmp"
-> +
->  # [ gets a special treatment and is not included in this
->  bindir_progs = "base64 basename chcon cksum comm csplit cut dir dircolors dirname du \
->                  env expand expr factor fmt fold groups head hostid id install \
+> -DEPENDS =+ "${DEPENDS_GETTEXT}"
+> +DEPENDS_prepend += "${DEPENDS_GETTEXT} "
+> +DEPENDS_virtclass-native_prepend = "${DEPENDS_GETTEXT} "
+> +DEPENDS_virtclass-nativesdk_prepend = "${DEPENDS_GETTEXT} "
+> +DEPENDS_virtclass-cross_prepend = "${DEPENDS_GETTEXT} "
+> +DEPENDS_virtclass-crosssdk_prepend = "${DEPENDS_GETTEXT} "
+>  EXTRA_OECONF += "--enable-nls"
 > -- 
 > 1.7.0.4
 > 
