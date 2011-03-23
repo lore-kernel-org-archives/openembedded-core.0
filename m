@@ -1,37 +1,37 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q2UY1-000695-Qn
-	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Mar 2011 21:20:53 +0100
-Received: by mail-fx0-f47.google.com with SMTP id 19so7913991fxm.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q2X6A-0002G0-Nc for openembedded-core@lists.openembedded.org;
+	Thu, 24 Mar 2011 00:04:18 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2NN2QKL014583
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2011 13:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=Ulx1UfiuShQdCT9wERp5l5anCOwD84Dwc9H7FU05vkw=;
-	b=uVCCX7P0HVp1sZe2m76X6a2MUijziODGhkLZ/mGL9glAc1j4iJucPgiVkepYCJ/rPg
-	MmleP3yaNh8Khx9lM2ZgGh58vDpukhI+5WnjY6cSEl8mLHJEjkTfYfHcCymOh/RT+0mA
-	/3DnGedc9FWn7KD0eyEXu9f8gV+AiCg3tLc8w=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=Th4pCcVoOtfzQNJ2im5ry5u5124PGQqMJbKM3qaHwLGB7A1k+H6vle4oBVFPCGamet
-	QqDA/r1I/joWW+bdn/cIfDX+98ZrMUSsazGQfvMuUTZvDf9Zd49X1bJ1d9uhj8GR44CC
-	nFOo/2ZP3lsEnZ6S/Jn8EVoSW0QUAzdE/fyx8=
-Received: by 10.223.26.205 with SMTP id f13mr317323fac.49.1300911544320; Wed,
-	23 Mar 2011 13:19:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.109.12 with HTTP; Wed, 23 Mar 2011 13:18:34 -0700 (PDT)
-In-Reply-To: <1300910131-9827-1-git-send-email-koen@dominion.thruhere.net>
-References: <1300910131-9827-1-git-send-email-koen@dominion.thruhere.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 23 Mar 2011 13:18:34 -0700
-Message-ID: <AANLkTimczMoBaP67GMz+pc11A0arZejWj4=yQrki52W-@mail.gmail.com>
+	Wed, 23 Mar 2011 23:02:26 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13389-07 for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2011 23:02:22 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2NN2KlK014573
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2011 23:02:21 GMT
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: koen@dominion.thruhere.net
-Subject: Re: [PATCH] kernel.bbclass: blacklist 'kernel-misc' from kernel-modules
+In-Reply-To: <20110323175229.GN2224@xora-desktop.xora.org.uk>
+References: <6CA3B184-AD05-4A9B-90CE-25AE38DECA39@dominion.thruhere.net>
+	<AANLkTimcd8-9jd31uJe0EGLCit0YitBRmH9tuF8G50qn@mail.gmail.com>
+	<20110323154018.GI2224@xora-desktop.xora.org.uk>
+	<1300896184.3488.17.camel@scimitar>
+	<20110323175229.GN2224@xora-desktop.xora.org.uk>
+Date: Wed, 23 Mar 2011 23:02:17 +0000
+Message-ID: <1300921337.3018.45.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [RFC] recipes-efl inside meta-oe or meta-efl next to meta-oe?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,55 +46,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2011 20:20:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 23 Mar 2011 23:04:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 23, 2011 at 12:55 PM,  <koen@dominion.thruhere.net> wrote:
-> From: Koen Kooi <koen@dominion.thruhere.net>
->
-> When 'kernel-misc' is empty do_rootfs will fail when including 'kernel-mo=
-dules'
->
-> The proper fix would be to have a whitelist for the 'kernel-modules' meta=
--pkg
->
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+On Wed, 2011-03-23 at 17:52 +0000, Graeme Gregory wrote:
+> On Wed, Mar 23, 2011 at 04:03:04PM +0000, Joshua Lock wrote:
+> > On Wed, 2011-03-23 at 15:40 +0000, Graeme Gregory wrote:
+> > > On Wed, Mar 23, 2011 at 08:19:31AM -0700, Khem Raj wrote:
+> > > > On Wed, Mar 23, 2011 at 4:49 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> > > > > Hi,
+> > > > >
+> > > > > I'd like to import the EFL recipes Martin did from meta-shr into the meta-openembedded repo. Before I go bothering Martin about it, what would be the best place to put them?
+> > > > >
+> > > > > Inside meta-oe:
+> > > > >
+> > > > > meta-openembedded/
+> > > > >        meta-oe/
+> > > > >                recipes-efl
+> > > > 
+> > > > Can efl we layered directly on top of oe-core  ? i.e. without needing meta-oe
+> > > > in that case its better to be an independent layer. otherwise I would say put
+> > > > them under recipes-efl
+> > > > 
+> > > That is certainly not how I see layers being built up. I am expecting
+> > > in future us to have things like.
+> > > 
+> > > meta-gnome
+> > > meta-kde
+> > > meta-efl
+> > > meta-lxde
+> > > meta-xorg
+> > 
+> > Me too, in fact I think this image from the Yocto Project website
+> > succinctly portrays the goal:
+> > http://www.yoctoproject.org/sites/default/files/yocto-layers_1.png
+> > 
+> > Possibly less the meta-yocto but you get the point.
+> > 
+> I hope not as thats a truly horrible diagram.
+> 
+> I dont think there is anyway in modern linux to produce a nice neat stack
+> like that. Once you move beyond trivial images.
 
-Worked nicely.
+The diagram is idealised but I think the concepts there are valid, for
+example, bring in the meta-linaro layer to use the linaro toolchain,
+bring in a BSP layer for a particular piece of hardware support and so
+forth. Certainly, a developer is likely to have local tweaks in a layer
+of their own on top.
 
-Tested-by: Khem Raj <raj.khem@gmail.com>
+Why wouldn't that work?
 
-> ---
-> =C2=A0meta/classes/kernel.bbclass | =C2=A0 =C2=A02 +-
-> =C2=A01 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 3eb6659..9f014d4 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -429,7 +429,7 @@ python populate_packages_prepend () {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0metapkg =3D "kernel-modules"
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.data.setVar('ALLOW_EMPTY_' + metapkg, "1", =
-d)
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.data.setVar('FILES_' + metapkg, "", d)
-> - =C2=A0 =C2=A0 =C2=A0 blacklist =3D [ 'kernel-dev', 'kernel-image', 'ker=
-nel-base', 'kernel-vmlinux', 'perf' ]
-> + =C2=A0 =C2=A0 =C2=A0 blacklist =3D [ 'kernel-dev', 'kernel-image', 'ker=
-nel-base', 'kernel-vmlinux', 'perf', 'kernel-misc' ]
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0for l in module_deps.values():
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for i in l:
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0pkg =3D module_pattern % legitimize_package_name(re.match(module_=
-regex, os.path.basename(i)).group(1))
-> --
-> 1.6.6.1
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Cheers,
+
+Richard
+
+
 
 
