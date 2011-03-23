@@ -1,38 +1,33 @@
-Received: from www.xora.org.uk ([80.68.91.202] helo=xora.vm.bytemark.co.uk)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dp@xora.org.uk>) id 1Q2SG2-0004Yi-61
-	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Mar 2011 18:54:24 +0100
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q2SI4-0004bm-RF for openembedded-core@lists.openembedded.org;
+	Wed, 23 Mar 2011 18:56:17 +0100
 Received: from localhost (localhost [127.0.0.1])
-	by xora.vm.bytemark.co.uk (Postfix) with ESMTP id 404391404E
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2NHAnGU002894
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2011 17:52:17 +0000 (GMT)
-X-Virus-Scanned: Debian amavisd-new at xora.vm.bytemark.co.uk
-Received: from xora.vm.bytemark.co.uk ([127.0.0.1])
-	by localhost (xora.vm.bytemark.co.uk [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id NrfS+SyP0Yul
+	Wed, 23 Mar 2011 17:10:49 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02108-07 for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2011 17:10:45 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2NHAioE002886
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2011 17:52:16 +0000 (GMT)
-Received: from xora-desktop (188-220-34-37.zone11.bethere.co.uk
-	[188.220.34.37])
-	by xora.vm.bytemark.co.uk (Postfix) with ESMTPSA id 04C04A4832
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2011 17:52:16 +0000 (GMT)
-Received: by xora-desktop (Postfix, from userid 1000)
-	id 11898101FCB; Wed, 23 Mar 2011 17:52:30 +0000 (GMT)
-Date: Wed, 23 Mar 2011 17:52:30 +0000
-From: Graeme Gregory <dp@xora.org.uk>
+	Wed, 23 Mar 2011 17:10:44 GMT
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110323175229.GN2224@xora-desktop.xora.org.uk>
-References: <6CA3B184-AD05-4A9B-90CE-25AE38DECA39@dominion.thruhere.net>
-	<AANLkTimcd8-9jd31uJe0EGLCit0YitBRmH9tuF8G50qn@mail.gmail.com>
-	<20110323154018.GI2224@xora-desktop.xora.org.uk>
-	<1300896184.3488.17.camel@scimitar>
-MIME-Version: 1.0
-In-Reply-To: <1300896184.3488.17.camel@scimitar>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [RFC] recipes-efl inside meta-oe or meta-efl next to meta-oe?
+In-Reply-To: <cover.1300730825.git.raj.khem@gmail.com>
+References: <cover.1300730825.git.raj.khem@gmail.com>
+Date: Wed, 23 Mar 2011 17:10:42 +0000
+Message-ID: <1300900242.3018.33.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/3] Prune global compilation flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,49 +42,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2011 17:54:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 23 Mar 2011 17:56:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 23, 2011 at 04:03:04PM +0000, Joshua Lock wrote:
-> On Wed, 2011-03-23 at 15:40 +0000, Graeme Gregory wrote:
-> > On Wed, Mar 23, 2011 at 08:19:31AM -0700, Khem Raj wrote:
-> > > On Wed, Mar 23, 2011 at 4:49 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> > > > Hi,
-> > > >
-> > > > I'd like to import the EFL recipes Martin did from meta-shr into the meta-openembedded repo. Before I go bothering Martin about it, what would be the best place to put them?
-> > > >
-> > > > Inside meta-oe:
-> > > >
-> > > > meta-openembedded/
-> > > >        meta-oe/
-> > > >                recipes-efl
-> > > 
-> > > Can efl we layered directly on top of oe-core  ? i.e. without needing meta-oe
-> > > in that case its better to be an independent layer. otherwise I would say put
-> > > them under recipes-efl
-> > > 
-> > That is certainly not how I see layers being built up. I am expecting
-> > in future us to have things like.
-> > 
-> > meta-gnome
-> > meta-kde
-> > meta-efl
-> > meta-lxde
-> > meta-xorg
+On Mon, 2011-03-21 at 11:10 -0700, Khem Raj wrote:
+> This patch series is for removing the unneeded flags in SELECTED_OPTIMIZATIONS
+> that gets passed to every recipe build by default. I have also introduced flags
+> to remove duplicate debug information which will reduce the debug info sections
 > 
-> Me too, in fact I think this image from the Yocto Project website
-> succinctly portrays the goal:
-> http://www.yoctoproject.org/sites/default/files/yocto-layers_1.png
+> Tested by building and booting console-image/angstrom on ppc,arm,mips,x86-64,x86
+> qemu machines.
 > 
-> Possibly less the meta-yocto but you get the point.
+> Please apply
 > 
-I hope not as thats a truly horrible diagram.
+> Pull URL: git://git.openembedded.org/openembedded-core-contrib
+>   Branch: kraj/global-opts
+>   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/global-opts
+> 
+> Thanks,
+>     Khem Raj <raj.khem@gmail.com>
+> ---
+> 
+> 
+> Khem Raj (3):
+>   bitbake.conf: Prune global OPTIMIZATION flags
+>   machine/include/tune-atom.inc: Remove FULL_OPTIMIZATION_pn-gtk+
+>   gcc-runtime_4.5.1.bb: Fix ICE in gcc-runtime with
+>     -feliminate-dwarf2-dups
 
-I dont think there is anyway in modern linux to produce a nice neat stack
-like that. Once you move beyond trivial images.
+Merged into master, thanks.
 
-Graeme
+Richard
 
 
 
