@@ -1,34 +1,40 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from www.xora.org.uk ([80.68.91.202] helo=xora.vm.bytemark.co.uk)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Q2X9S-0002J2-5e
+	(envelope-from <dp@xora.org.uk>) id 1Q2Xt6-0002g0-Aw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Mar 2011 00:07:42 +0100
-Received: by bwz10 with SMTP id 10so6970414bwz.6
+	Thu, 24 Mar 2011 00:54:52 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by xora.vm.bytemark.co.uk (Postfix) with ESMTP id 11B2C1404F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2011 16:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=xOaEjsE5o0uv9AXOPVUdIU9Ly3/fAZgsV5ke3tAB6OE=;
-	b=oLoww5Vxb0Js3tryodhZ0CadF8a3HbYVx8jI8lSQPgZnreSl4Duuitv7D6EmWOGGb5
-	CqvUXXjzZe2Y2cyAf+wKNsvh5/MWiN18U/3sCrlm63q2CNN9KlSwzETmcypqNInqGno0
-	vLt9P9Xd8IlV96bS87BxIq6bhGzKNH67sk5zk=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=Aluz9ro9V8JECWUVXFbe61CWOCL7j8017PmBOPDjkgyY66DLlxJeEQSTJcigk38FEW
-	254FS14RWNaF/HF6mZoeMux7PY9QeI58/G1AKgK7bAU52FOzUDcE+OCFYqAw2Di9cOOY
-	pUp1PxZzu4UVUlgawarJktvFDuA2K2Vb24nsY=
-Received: by 10.204.126.152 with SMTP id c24mr6933393bks.4.1300921548918;
-	Wed, 23 Mar 2011 16:05:48 -0700 (PDT)
-Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
-	by mx.google.com with ESMTPS id l1sm2523151bkl.1.2011.03.23.16.05.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 23 Mar 2011 16:05:48 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Mar 2011 00:05:40 +0100
-Message-Id: <1300921540-30288-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH] sstate: use only unique set of SSTATETASK
+	Wed, 23 Mar 2011 23:52:59 +0000 (GMT)
+X-Virus-Scanned: Debian amavisd-new at xora.vm.bytemark.co.uk
+Received: from xora.vm.bytemark.co.uk ([127.0.0.1])
+	by localhost (xora.vm.bytemark.co.uk [127.0.0.1]) (amavisd-new,
+	port 10024) with ESMTP id G0dJKud9fTvi
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2011 23:52:58 +0000 (GMT)
+Received: from xora-desktop (188-220-34-37.zone11.bethere.co.uk
+	[188.220.34.37])
+	by xora.vm.bytemark.co.uk (Postfix) with ESMTPSA id 422681404E
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Mar 2011 23:52:58 +0000 (GMT)
+Received: by xora-desktop (Postfix, from userid 1000)
+	id 657B9101FCB; Wed, 23 Mar 2011 23:53:16 +0000 (GMT)
+Date: Wed, 23 Mar 2011 23:53:16 +0000
+From: Graeme Gregory <dp@xora.org.uk>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110323235316.GQ2224@xora-desktop.xora.org.uk>
+References: <6CA3B184-AD05-4A9B-90CE-25AE38DECA39@dominion.thruhere.net>
+	<AANLkTimcd8-9jd31uJe0EGLCit0YitBRmH9tuF8G50qn@mail.gmail.com>
+	<20110323154018.GI2224@xora-desktop.xora.org.uk>
+	<1300896184.3488.17.camel@scimitar>
+	<20110323175229.GN2224@xora-desktop.xora.org.uk>
+	<1300921337.3018.45.camel@rex>
+MIME-Version: 1.0
+In-Reply-To: <1300921337.3018.45.camel@rex>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [RFC] recipes-efl inside meta-oe or meta-efl next to meta-oe?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,49 +49,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2011 23:07:42 -0000
+X-List-Received-Date: Wed, 23 Mar 2011 23:54:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-* otherwise strange error like this:
-  ERROR: Logfile of failure stored in: /OE/shr-core/tmp/work/armv7a-oe-linux-gnueabi/libtool-cross-2.4-r1/temp/log.do_package_write_ipk.25551
-  Log data follows:
-  | ERROR: Package already staged (/OE/shr-core/tmp/sstate-control/manifest-nokia900-libtool-cross.deploy-ipk)?!
-  | ERROR: Function 'sstate_task_postfunc' failed
-  NOTE: package libtool-cross-2.4-r1: task do_package_write_ipk: Failed
-  ERROR: Task 11 (/OE/shr-core/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.4.bb, do_package_write_ipk) failed with exit code '1'
+On Wed, Mar 23, 2011 at 11:02:17PM +0000, Richard Purdie wrote:
+> On Wed, 2011-03-23 at 17:52 +0000, Graeme Gregory wrote:
+> > On Wed, Mar 23, 2011 at 04:03:04PM +0000, Joshua Lock wrote:
+> > > On Wed, 2011-03-23 at 15:40 +0000, Graeme Gregory wrote:
+> > > > On Wed, Mar 23, 2011 at 08:19:31AM -0700, Khem Raj wrote:
+> > > > > On Wed, Mar 23, 2011 at 4:49 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> > > > > > Hi,
+> > > > > >
+> > > > > > I'd like to import the EFL recipes Martin did from meta-shr into the meta-openembedded repo. Before I go bothering Martin about it, what would be the best place to put them?
+> > > > > >
+> > > > > > Inside meta-oe:
+> > > > > >
+> > > > > > meta-openembedded/
+> > > > > >        meta-oe/
+> > > > > >                recipes-efl
+> > > > > 
+> > > > > Can efl we layered directly on top of oe-core  ? i.e. without needing meta-oe
+> > > > > in that case its better to be an independent layer. otherwise I would say put
+> > > > > them under recipes-efl
+> > > > > 
+> > > > That is certainly not how I see layers being built up. I am expecting
+> > > > in future us to have things like.
+> > > > 
+> > > > meta-gnome
+> > > > meta-kde
+> > > > meta-efl
+> > > > meta-lxde
+> > > > meta-xorg
+> > > 
+> > > Me too, in fact I think this image from the Yocto Project website
+> > > succinctly portrays the goal:
+> > > http://www.yoctoproject.org/sites/default/files/yocto-layers_1.png
+> > > 
+> > > Possibly less the meta-yocto but you get the point.
+> > > 
+> > I hope not as thats a truly horrible diagram.
+> > 
+> > I dont think there is anyway in modern linux to produce a nice neat stack
+> > like that. Once you move beyond trivial images.
+> 
+> The diagram is idealised but I think the concepts there are valid, for
+> example, bring in the meta-linaro layer to use the linaro toolchain,
+> bring in a BSP layer for a particular piece of hardware support and so
+> forth. Certainly, a developer is likely to have local tweaks in a layer
+> of their own on top.
+> 
+> Why wouldn't that work?
+> 
+The diagram demonstrates a nice stack, but what about if you want two
+gui layers. Real life example, gnome and kde have cross dependencies on
+each other.
 
-  is shown in this case with package_ipk twice in INHERIT
+In a real system you just cant pile up a nice little stack of components. It
+works more like lego where you have multiple components that fit together
+depending on multiple components to hold them up.
 
-* Thanks to Richard for fix
+The diagram is overly idealised to the point of zero information, fit for
+marketing but not engineering.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/sstate.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index d57c183..00a709b 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -40,7 +40,7 @@ python () {
-         bb.data.setVar('SSTATE_SCAN_CMD', scan_cmd, d)
- 
-     namemap = []
--    for task in (bb.data.getVar('SSTATETASKS', d, True) or "").split():
-+    for task in set((bb.data.getVar('SSTATETASKS', d, True) or "").split()):
-         namemap.append(bb.data.getVarFlag(task, 'sstate-name', d))
-         funcs = bb.data.getVarFlag(task, 'prefuncs', d) or ""
-         funcs = "sstate_task_prefunc " + funcs
-@@ -195,7 +195,7 @@ def sstate_clean_cachefile(ss, d):
-     oe.path.remove(sstatepkgfile)
- 
- def sstate_clean_cachefiles(d):
--    for task in (bb.data.getVar('SSTATETASKS', d, True) or "").split():
-+    for task in set((bb.data.getVar('SSTATETASKS', d, True) or "").split()):
-         ss = sstate_state_fromvars(d, task[3:])
-         sstate_clean_cachefile(ss, d)
- 
--- 
-1.7.4.1
+Graeme
 
 
 
