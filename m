@@ -1,38 +1,24 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q2SbG-0005H5-Hb
+	(envelope-from <koen@dominion.thruhere.net>) id 1Q2UBV-0000BT-Un
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Mar 2011 19:16:06 +0100
-Received: by fxm19 with SMTP id 19so7797975fxm.6
+	Wed, 23 Mar 2011 20:57:37 +0100
+Received: by wyb40 with SMTP id 40so7876204wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2011 11:14:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=34yjaoTr9G4+imkPGufMr5HqCU/HzV3hADwFxKjUprU=;
-	b=dXVilvr+jzU8LQmAe3Vpl46T9TjZIsTgUEDkph2259IlVRj20kl+AmynV91lM9eHt/
-	2ZQiQZq3nYzyZ5T59K8RuAgRQTHZSoiT7Sy77TXaCr+fTFL9hdvGscX8sJ+MeevhC+Bc
-	y9wxuPn9PWzRvVSVG5R/yfBjrDBPTIvoFNjKc=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=Z15fIiIyAGlBS6Hgp4of/r0kw8kxgRTA+9JV96yCWg6DBt340r9GVIgUEsoBomwmsF
-	eIWUdCZykRN5V3s6U7rSVuf8qTqmjLA/eaqaaCbcSP7HEDAWSZ68HUe5yHeA50+gLnSt
-	WgR2P/avT0uTIne+rkS0xgu9J0aneNe6PrkJs=
-Received: by 10.223.56.220 with SMTP id z28mr82526fag.11.1300904028548; Wed,
-	23 Mar 2011 11:13:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.109.12 with HTTP; Wed, 23 Mar 2011 11:13:16 -0700 (PDT)
-In-Reply-To: <1300899232.3018.31.camel@rex>
-References: <cover.1300732395.git.raj.khem@gmail.com>
-	<2a46643e032d11e07f6dfec471cadea8e9dba827.1300732395.git.raj.khem@gmail.com>
-	<1300899232.3018.31.camel@rex>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 23 Mar 2011 11:13:16 -0700
-Message-ID: <AANLkTik_K3kuEfaSoSfNqVxyKpmbvYWXh80gfc8DySNX@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] scripts/poky-qemu-internal: Add call to stty
+	Wed, 23 Mar 2011 12:55:43 -0700 (PDT)
+Received: by 10.216.166.2 with SMTP id f2mr231257wel.24.1300910138709;
+	Wed, 23 Mar 2011 12:55:38 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id p5sm560354wbg.28.2011.03.23.12.55.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 23 Mar 2011 12:55:37 -0700 (PDT)
+From: koen@dominion.thruhere.net
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Mar 2011 20:55:31 +0100
+Message-Id: <1300910131-9827-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] kernel.bbclass: blacklist 'kernel-misc' from kernel-modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,60 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Mar 2011 18:16:06 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 23 Mar 2011 19:57:38 -0000
 
-On Wed, Mar 23, 2011 at 9:53 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2011-03-21 at 11:34 -0700, Khem Raj wrote:
->> When qemu is booted into console with -nographics
->> then after exiting the terminal line settings are messed
->> up. This patch calls stty sane to restore the terminal
->> settings to default.
->>
->> stty is part of coreutils which is installed on all
->> host distros hence there is no need to warn about it
->> being available or not
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> =C2=A0scripts/poky-qemu-internal | =C2=A0 =C2=A01 +
->> =C2=A01 files changed, 1 insertions(+), 0 deletions(-)
->>
->> diff --git a/scripts/poky-qemu-internal b/scripts/poky-qemu-internal
->> index 8fd1834..556ce69 100755
->> --- a/scripts/poky-qemu-internal
->> +++ b/scripts/poky-qemu-internal
->> @@ -189,6 +189,7 @@ cleanup() {
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo "poky-export-rootfs stop $ROOTFS"
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0poky-export-rootfs stop $ROOTFS
->> =C2=A0 =C2=A0 =C2=A0fi
->> + =C2=A0 =C2=A0stty sane
->> =C2=A0}
->>
->> =C2=A0n1=3D$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
->
-> With the recent change to the script to run:
->
-> $QEMUBIN -kernel $KERNEL $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU=
-_OPT $SCRIPT_QEMU_EXTRA_OPT --append "$KERNCMDLINE $SCRIPT_KERNEL_OPT" || s=
-tty sane
->
-> is the above change still needed?
+From: Koen Kooi <koen@dominion.thruhere.net>
 
-this will only execute if the command fails I guess. But the problem
-happens even if qemu ran well.
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+When 'kernel-misc' is empty do_rootfs will fail when including 'kernel-modules'
+
+The proper fix would be to have a whitelist for the 'kernel-modules' meta-pkg
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/kernel.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 3eb6659..9f014d4 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -429,7 +429,7 @@ python populate_packages_prepend () {
+ 	metapkg = "kernel-modules"
+ 	bb.data.setVar('ALLOW_EMPTY_' + metapkg, "1", d)
+ 	bb.data.setVar('FILES_' + metapkg, "", d)
+-	blacklist = [ 'kernel-dev', 'kernel-image', 'kernel-base', 'kernel-vmlinux', 'perf' ]
++	blacklist = [ 'kernel-dev', 'kernel-image', 'kernel-base', 'kernel-vmlinux', 'perf', 'kernel-misc' ]
+ 	for l in module_deps.values():
+ 		for i in l:
+ 			pkg = module_pattern % legitimize_package_name(re.match(module_regex, os.path.basename(i)).group(1))
+-- 
+1.6.6.1
+
 
 
