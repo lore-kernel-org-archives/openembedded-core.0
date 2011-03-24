@@ -1,18 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1Q2lyK-0006pg-CZ
+	(envelope-from <koen@dominion.thruhere.net>) id 1Q2mfE-0000U8-1T
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Mar 2011 15:57:12 +0100
-Received: by rex (Postfix, from userid 1000)
-	id C378E21AB2; Thu, 24 Mar 2011 14:49:29 +0000 (GMT)
-Message-Id: <3c534247e08700eb18b27886d80e874006ee0cb8.1300978024.git.richard.purdie@linuxfoundation.org>
+	Thu, 24 Mar 2011 16:41:32 +0100
+Received: by wyb40 with SMTP id 40so62062wyb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Mar 2011 08:39:39 -0700 (PDT)
+Received: by 10.227.53.73 with SMTP id l9mr7767332wbg.19.1300981179520;
+	Thu, 24 Mar 2011 08:39:39 -0700 (PDT)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id x1sm11834wbh.53.2011.03.24.08.39.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 24 Mar 2011 08:39:38 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <cover.1300978024.git.richard.purdie@linuxfoundation.org>
+Date: Thu, 24 Mar 2011 16:39:36 +0100
+Message-Id: <43A4384F-8595-4A7A-8EC5-93DF7DCFEE39@dominion.thruhere.net>
 References: <cover.1300978024.git.richard.purdie@linuxfoundation.org>
-Old-Date: Thu, 24 Mar 2011 14:32:40 +0000
-Date: Thu, 24 Mar 2011 14:49:29 +0000
-To: openembedded-core@lists.openembedded.org
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/2] image_types.bbclass: Drop IMAGE_EXTRA_OPTION in favour of the more standard EXTRA_IMAGECMD
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 0/2] Split IMAGE* variables into a separate class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,74 +36,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2011 14:57:13 -0000
+X-List-Received-Date: Thu, 24 Mar 2011 15:41:32 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/image_types.bbclass |   13 +++++++++----
- meta/conf/bitbake.conf           |    3 ---
- 2 files changed, 9 insertions(+), 7 deletions(-)
+Op 24 mrt 2011, om 15:49 heeft Richard Purdie het volgende geschreven:
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 5c9bcd1..f11a7ed 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -23,21 +23,21 @@ runimagecmd () {
- IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${EXTRA_IMAGECMD}"
- IMAGE_CMD_yaffs2 = "mkyaffs2image ${EXTRA_IMAGECMD} ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.yaffs2"
- IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
--IMAGE_CMD_ext2 = "genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${IMAGE_EXTRA_OPTION} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2 ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_ext2 = "genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2"
- IMAGE_CMD_ext2.gz () {
- 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
--	genext2fs -b ${IMAGE_ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${IMAGE_EXTRA_OPTION} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2 ${EXTRA_IMAGECMD}
-+	genext2fs -b ${IMAGE_ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
- 	gzip -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
- 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.gz
- 	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz
- }
- IMAGE_CMD_ext3 () {
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${IMAGE_EXTRA_OPTION} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3 ${EXTRA_IMAGECMD}
-+	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
- 	tune2fs -j ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
- }
- IMAGE_CMD_ext3.gz () {
- 	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
--	genext2fs -b ${IMAGE_ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${IMAGE_EXTRA_OPTION} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3 ${EXTRA_IMAGECMD}
-+	genext2fs -b ${IMAGE_ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
- 	tune2fs -j ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
- 	gzip -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
- 	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3.gz
-@@ -65,6 +65,11 @@ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_
- EXTRA_IMAGECMD = ""
- EXTRA_IMAGECMD_jffs2 = "--pad --little-endian --eraseblock=0x40000"
- EXTRA_IMAGECMD_yaffs2 = "1"
-+# Change these if you want default genext2fs behavior (i.e. create minimal inode number)
-+EXTRA_IMAGECMD_ext2 ?= "-i 8192"
-+EXTRA_IMAGECMD_ext2.gz ?= "-i 8192"
-+EXTRA_IMAGECMD_ext3 ?= "-i 8192"
-+EXTRA_IMAGECMD_ext3.gz ?= "-i 8192"
- 
- IMAGE_DEPENDS = ""
- IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 8e89945..6b6b2ee 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -352,9 +352,6 @@ IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
- # fixed extra space
- IMAGE_OVERHEAD_FACTOR ?= 1.3
- 
--# Comment this option if you want default genext2fs behavior (i.e. create minimal inode number)
--IMAGE_EXTRA_OPTION ?= "-i 8192"
--
- EXTRA_IMAGEDEPENDS = ""
- 
- ##################################################################
--- 
-1.7.4.1
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> These patches split the IMAGE* variables out into a separate class
+> to improve readabilty. 
 
+I like it!
 
 
