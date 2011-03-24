@@ -1,19 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Q2pMo-0008Mi-Fa
+	(envelope-from <Tom_Rini@mentor.com>) id 1Q2scK-0005XE-27
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Mar 2011 19:34:47 +0100
-Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
-	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p2OIWi3N016762;
-	Thu, 24 Mar 2011 11:32:44 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: rpurdie@linux.intel.com
-Date: Thu, 24 Mar 2011 14:37:58 -0400
-Message-Id: <cover.1300991725.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] linux-yocto: update to v2.6.37.5
+	Thu, 24 Mar 2011 23:02:56 +0100
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1Q2saW-00041L-EW from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 24 Mar 2011 15:01:04 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 24 Mar 2011 14:59:51 -0700
+Received: from [172.30.80.38] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
+	with Microsoft SMTP Server id 14.1.270.1;
+	Thu, 24 Mar 2011 15:00:53 -0700
+Message-ID: <4D8BBEFB.4040107@mentor.com>
+Date: Thu, 24 Mar 2011 15:00:27 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1300978024.git.richard.purdie@linuxfoundation.org>
+	<43A4384F-8595-4A7A-8EC5-93DF7DCFEE39@dominion.thruhere.net>
+In-Reply-To: <43A4384F-8595-4A7A-8EC5-93DF7DCFEE39@dominion.thruhere.net>
+X-OriginalArrivalTime: 24 Mar 2011 21:59:51.0365 (UTC)
+	FILETIME=[CCCF9750:01CBEA6E]
+Subject: Re: [PATCH 0/2] Split IMAGE* variables into a separate class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,31 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2011 18:34:47 -0000
+X-List-Received-Date: Thu, 24 Mar 2011 22:02:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I missed 2.6.37.4 when I was away for a week, so now that
-2.6.37.5 is out, we can grab both of them a single update.
+On 03/24/2011 08:39 AM, Koen Kooi wrote:
+>
+> Op 24 mrt 2011, om 15:49 heeft Richard Purdie het volgende geschreven:
+>
+>> From: Richard Purdie<richard.purdie@linuxfoundation.org>
+>>
+>> These patches split the IMAGE* variables out into a separate class
+>> to improve readabilty.
+>
+> I like it!
 
-As the patch indicates, I built and booted this on all the
-relevant qemu targets.
+Agreed.  This will help us clean up the N instances of make an ext2 
+image, modify.
 
-This is against meta master, if I've got it in the wrong place,
-just let know.
-
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: zedd/kernel
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Thanks,
-    Bruce Ashfield <bruce.ashfield@windriver.com>
----
-
-
-Bruce Ashfield (1):
-  linux-yocto: update to 2.6.37.5
-
- .../conf/distro/include/poky-default-revisions.inc |   24 ++++++++++----------
- 1 files changed, 12 insertions(+), 12 deletions(-)
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
