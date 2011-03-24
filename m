@@ -1,39 +1,44 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q2bVt-0000yJ-HJ
+	(envelope-from <raj.khem@gmail.com>) id 1Q2c94-0001k9-NJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Mar 2011 04:47:09 +0100
-Received: by iyb26 with SMTP id 26so9695212iyb.6
+	Thu, 24 Mar 2011 05:27:39 +0100
+Received: by iyb26 with SMTP id 26so9721195iyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Mar 2011 20:45:17 -0700 (PDT)
+	Wed, 23 Mar 2011 21:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=u1Dv7wRVGwBKhl6PSnagRzlvQ531sZ9WqG5uWJuUik4=;
-	b=nfxX868QsQyntB1zYptg8yf2bQZpCY/dD8FmLj7MR5nzlZQXolQcfmJ2oclhezd1kr
-	3BvqRs3pvruOy/FYlYMTppZw4FuuQih6qk1qEEMLUAEgEqPLbDiopAsIMr65tBn6JQwm
-	DapRDg0HMAa7bOiXFHrTfnqBugdCEzobbYKE4=
+	h=domainkey-signature:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=011VTeO/qVO5A7q8beHrYIZItAKjgGdH31B+T7VsPF4=;
+	b=rErnoDE5uu99QBVzOgx22AfAJQCJDKfcgTqiN7Why1ihcxqiPtPdr1jmLv+4yhfg0n
+	ObDmHM1aoRbSkOwxF29WwAU1abp/aDPOCriIqCtCl42Kw4Mi4gH9AQ2hfI1cQG7L4uK/
+	9wf6NIn1sp6lLKqYFDq12wn5jlPoZp1Rbwiws=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	b=aNyptHeHqXCdCh7K4UkG1nbIc1E6OuE5qNyWklL4tdsTpoFGzmkcNloK/rm4aQUTH6
-	efWf5G1aR3cyZxTvyTQnwoq8Tkxujad4u+gjH6Tz45vNyc3Ai3QnBvdd1JpxSWqcn+CS
-	ATTnW9l1X02lWPfboVQiOus1IImiyhEzc7YXk=
-Received: by 10.231.23.129 with SMTP id r1mr7700728ibb.30.1300938317400;
-	Wed, 23 Mar 2011 20:45:17 -0700 (PDT)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=r30UHm+5W/s2A03tW9l+95oNS0IkdxiiuWTuxxF/mnfPvlZdz1+VR4dtqJb8ooERTr
+	SSQJp0z/qybUoudnWBuUR5YLF+0RPqBkV/2Kp78IurLLfxcXb14Dj+IY9ZUgxzRKhoVQ
+	SIXar/0jXZ1dwz4xkbhB7ch+zbf/RtjsrEEgs=
+Received: by 10.42.29.131 with SMTP id r3mr8910106icc.99.1300940746100;
+	Wed, 23 Mar 2011 21:25:46 -0700 (PDT)
 Received: from sakrah.homelinux.org
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id mv26sm2509996ibb.11.2011.03.23.20.45.15
+	by mx.google.com with ESMTPS id c4sm5704069ict.19.2011.03.23.21.25.44
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 23 Mar 2011 20:45:16 -0700 (PDT)
-Date: Wed, 23 Mar 2011 20:45:37 -0700
+	Wed, 23 Mar 2011 21:25:45 -0700 (PDT)
+Date: Wed, 23 Mar 2011 21:26:10 -0700
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20110324034537.GA31158@sakrah.homelinux.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Message-ID: <20110324042610.GB9120@sakrah.homelinux.org>
+References: <6CA3B184-AD05-4A9B-90CE-25AE38DECA39@dominion.thruhere.net>
+	<AANLkTimcd8-9jd31uJe0EGLCit0YitBRmH9tuF8G50qn@mail.gmail.com>
+	<F4596E6F-7714-4DC4-B5C5-C647CCFFAC26@dominion.thruhere.net>
 MIME-Version: 1.0
+In-Reply-To: <F4596E6F-7714-4DC4-B5C5-C647CCFFAC26@dominion.thruhere.net>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Subject: Parsing error when adding a python function in .inc file
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] recipes-efl inside meta-oe or meta-efl next to meta-oe?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,42 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2011 03:47:09 -0000
-Content-Type: multipart/mixed; boundary="Q68bSM7Ycu6FN28Q"
-Content-Disposition: inline
-
---Q68bSM7Ycu6FN28Q
+X-List-Received-Date: Thu, 24 Mar 2011 04:27:39 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi
+On (23/03/11 16:33), Koen Kooi wrote:
+> 
+> Op 23 mrt 2011, om 16:19 heeft Khem Raj het volgende geschreven:
+> 
+> > On Wed, Mar 23, 2011 at 4:49 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> >> Hi,
+> >> 
+> >> I'd like to import the EFL recipes Martin did from meta-shr into the meta-openembedded repo. Before I go bothering Martin about it, what would be the best place to put them?
+> >> 
+> >> Inside meta-oe:
+> >> 
+> >> meta-openembedded/
+> >>        meta-oe/
+> >>                recipes-efl
+> > 
+> > Can efl we layered directly on top of oe-core  ? i.e. without needing meta-oe
+> > in that case its better to be an independent layer. otherwise I would say put
+> > them under recipes-efl
+> 
+> I think that's a misleading heuristic, I would like to give people the option to opt-in for extra recipes (parse time, legal sign-off, etc), instead of stuffing 5k recipes into meta-oe.
+> If the person looking after efl* wants it in meta-oe, so be it, it's the maintainers call.
 
-I am facing a strange problem. I am trying to add a small python function to qemu.inc and bitbake keeps telling me this
+Obviously I was thinking of plug and play layers but that may not work
+always in practice
 
-NOTE: Out of date cache found, rebuilding...
-ERROR: Error parsing
-/home/kraj/work/newoe/sources/openembedded-core/meta/recipes-devtools/qemu/qemu_git.bb:
-Failure expanding variable EXTRA_OECONF, expression was
-${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls
---enable-kvm --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370
-which triggered exception NameError: name 'get_qemu_target_list' is not
-defined
-ERROR: Command execution failed: Exited with 1
-
-
-Now if I move this function into a separate file say qemu-targets.inc
-and require qemu-targets.inc inside qemu.inc then it works correctly
-
-There is similar kind of code in gcc-common.inc which is used in
-different inc files in gcc. I tried to use the python function defined
-in gcc-common.inc in same gcc-common.inc file and it worked so I dont
-know why qemu.inc case is special.
-
-Any insights ?
-
-I have attached the patch which I am using
+> 
+> regards,
+> 
+> Koen
 
 -- 
 -Khem
 
---Q68bSM7Ycu6FN28Q--
+
