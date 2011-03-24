@@ -1,42 +1,24 @@
-Received: from www.xora.org.uk ([80.68.91.202] helo=xora.vm.bytemark.co.uk)
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dp@xora.org.uk>) id 1Q2fJp-0001wn-UD
+	(envelope-from <koen@dominion.thruhere.net>) id 1Q2gze-0001LU-38
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Mar 2011 08:50:57 +0100
-Received: from localhost (localhost [127.0.0.1])
-	by xora.vm.bytemark.co.uk (Postfix) with ESMTP id 165D61C108
+	Thu, 24 Mar 2011 10:38:14 +0100
+Received: by wwi18 with SMTP id 18so6687040wwi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2011 07:49:04 +0000 (GMT)
-X-Virus-Scanned: Debian amavisd-new at xora.vm.bytemark.co.uk
-Received: from xora.vm.bytemark.co.uk ([127.0.0.1])
-	by localhost (xora.vm.bytemark.co.uk [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id aXS4LiayTp-1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2011 07:49:03 +0000 (GMT)
-Received: from xora-desktop (188-220-34-37.zone11.bethere.co.uk
-	[188.220.34.37])
-	by xora.vm.bytemark.co.uk (Postfix) with ESMTPSA id 70A0FA4996
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Mar 2011 07:49:03 +0000 (GMT)
-Received: by xora-desktop (Postfix, from userid 1000)
-	id 103C9100995; Thu, 24 Mar 2011 07:49:27 +0000 (GMT)
-Date: Thu, 24 Mar 2011 07:49:27 +0000
-From: Graeme Gregory <dp@xora.org.uk>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110324074926.GR2224@xora-desktop.xora.org.uk>
-References: <6CA3B184-AD05-4A9B-90CE-25AE38DECA39@dominion.thruhere.net>
-	<AANLkTimcd8-9jd31uJe0EGLCit0YitBRmH9tuF8G50qn@mail.gmail.com>
-	<20110323154018.GI2224@xora-desktop.xora.org.uk>
-	<1300896184.3488.17.camel@scimitar>
-	<20110323175229.GN2224@xora-desktop.xora.org.uk>
-	<1300921337.3018.45.camel@rex>
-	<20110323235316.GQ2224@xora-desktop.xora.org.uk>
-	<4D8A88FF.8070600@balister.org> <1300926448.3018.69.camel@rex>
-MIME-Version: 1.0
-In-Reply-To: <1300926448.3018.69.camel@rex>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [RFC] recipes-efl inside meta-oe or meta-efl next to meta-oe?
+	Thu, 24 Mar 2011 02:36:22 -0700 (PDT)
+Received: by 10.216.90.79 with SMTP id d57mr465755wef.65.1300959381891;
+	Thu, 24 Mar 2011 02:36:21 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id b20sm4224420wbb.67.2011.03.24.02.36.21
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 24 Mar 2011 02:36:21 -0700 (PDT)
+From: koen@dominion.thruhere.net
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Mar 2011 10:36:12 +0100
+Message-Id: <1300959372-27675-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] gnutls: add BBCLASSEXTEND = native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,43 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Mar 2011 07:50:58 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 24 Mar 2011 09:38:14 -0000
 
-On Thu, Mar 24, 2011 at 12:27:28AM +0000, Richard Purdie wrote:
-> Have either of you ever tried to explain some of the concepts we're
-> dealing with to people who aren't deeply engaged engineers?
-> 
-Yes, everytime I apply for a new job/contract getting quite used to
-explaining it.
+From: Koen Kooi <koen@dominion.thruhere.net>
 
-> Having a model showing the kinds of things layers can do is extremely
-> helpful in explaining the concept to people.
-> 
-> Part of OE's problem and the number one complaint about it is that its
-> hard to understand. If as I/others try and put things into terms that
-> others can understand get undermined with this kind of response its just
-> going to further the impression that OE is nice but never going to be
-> useful in the real world.
-> 
-> As for whether that diagram is practical, I actually believe it is in
-> some cases, like the one I described above. Certainly not all but its
-> worth trying to strive to simplify and make things fit simpler models
-> if/when we can. If we don't even bother trying, there is no chance
-> things will improve.
-> 
+This is needed for the native recipes in meta-efl
 
-You miss my point, Joshua's email reads to me like "our goal is to make OE
-like this diagram" which if true would cripple OE to being incredibly simple
-and non flexible.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-support/gnutls/gnutls.inc |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-My vision of a seperated out OE is to seperate components out into logical
-boxes. Ie the gnome box, the kde box, the xorg box. Then like we used to do
-with our lego or mecheno sets. When we want to build something we know what
-components we want so we select the boxes that contain those components.
-
-Graeme
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index 76f4ca6..a795585 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -3,6 +3,8 @@ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
+ BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
+ DEPENDS = "zlib lzo gettext libtasn1 libgcrypt (>= 1.4.2)"
+ 
++BBCLASSEXTEND = "native"
++
+ LICENSE = "GPLv3+ & LGPLv2.1+"
+ LICENSE_${PN} = "LGPLv2.1+"
+ LICENSE_${PN}-xx = "GPLv2.1+"
+-- 
+1.6.6.1
 
 
 
