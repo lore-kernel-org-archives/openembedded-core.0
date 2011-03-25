@@ -1,35 +1,38 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q3GZu-0007WT-Bl
+	(envelope-from <raj.khem@gmail.com>) id 1Q3GZu-0007WS-FF
 	for openembedded-core@lists.openembedded.org;
-	Sat, 26 Mar 2011 00:38:02 +0100
-Received: by iye7 with SMTP id 7so1114353iye.6
+	Sat, 26 Mar 2011 00:38:03 +0100
+Received: by pzk35 with SMTP id 35so225377pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Mar 2011 16:36:04 -0700 (PDT)
+	Fri, 25 Mar 2011 16:36:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=AgOzMCV3Y+JvzGCUxp59kPprZeRjAxr9RNKdEuquQJw=;
-	b=ZPPJw2CJCHH7t8hFD+MwUpkPahhobmA51ebcxR67+JlWgHWo9RUZqjDtG6kEQBj3Ks
-	jSHAOpsHbTdjI/lGCQJN7R5qweNQpv6zqCTwybKExctrrLvTEIrMPi2jV6jD3sdvZe5s
-	dQloexw+Eg+7M3WhtKUUSbJA8CUeHq36xxPqQ=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=zRMxT0z54a3yYnlw1Waa02VgWujTA2XSu9sBGfVchNA=;
+	b=qUETpTVbdc7QFCjVd8UO7G3XIQoIDnaVDkEQqf1X+6QGkcU9RYRzJPoC1bGK+QHnKz
+	4YgmIrGCwxw5vCtX4W3GUv2giCJzryAlmkNxJBMgf9/+29ZgXJ7gGxPVNMzKOacnYQwW
+	XR5k7hwo4o0JnQdNXnNszAafXdDjARCqdJXvw=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=C7bWL9OUF8bXnJ9FVY4Zsl5sPKj6kUMO/OBO1eXx08nDU2oGxgSyZ6WS0plTUbuWsL
-	/7iES97faHLpfTFBSaoy/zgeVkvQyb31uuYm9nTcAzyVUc+BQhCiCqjrJguOK4806Akq
-	qwvHdGVh5Cgqunfs0yd8/VWzz6Ru3dkWA2Lkg=
-Received: by 10.42.221.196 with SMTP id id4mr2038023icb.141.1301096163832;
-	Fri, 25 Mar 2011 16:36:03 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=YWLNbMaR70CzTx07JXEnayrQ7nQjR3Osuy8qHw4LdbsSQN4qqYrbzJTjOHrtYtNhPG
+	kQ1xFqZss1pFqpDLbkLur0YqMik60VdLivROv8kCHym8mHBh8/UM2bDGIHoF/dG+JCsc
+	mYI52sB20atO3vYGMeeQskI0/JJK4KcZQY78c=
+Received: by 10.142.148.16 with SMTP id v16mr1099632wfd.447.1301096167464;
+	Fri, 25 Mar 2011 16:36:07 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id 19sm952507ibx.52.2011.03.25.16.36.00
+	by mx.google.com with ESMTPS id m10sm1935126wfl.23.2011.03.25.16.36.05
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 25 Mar 2011 16:36:01 -0700 (PDT)
+	Fri, 25 Mar 2011 16:36:06 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Mar 2011 16:35:56 -0700
-Message-Id: <cover.1301095943.git.raj.khem@gmail.com>
+Date: Fri, 25 Mar 2011 16:36:02 -0700
+Message-Id: <f237830edbabedd254ea7e56e741ece13418a8b0.1301095943.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/2] Call stty sane always and expand qemu target list
+In-Reply-To: <cover.1301095943.git.raj.khem@gmail.com>
+References: <cover.1301095943.git.raj.khem@gmail.com>
+Subject: [PATCH V3 1/2] scripts/poky-qemu-internal: call stty sane before exit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,36 +47,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Mar 2011 23:38:02 -0000
+X-List-Received-Date: Fri, 25 Mar 2011 23:38:03 -0000
 
-This patch series has two patches, one calls stty sane always before exit
-previously it was only called if qemu crashed
+When qemu is booted into console with -nographics
+then after exiting the terminal line settings are messed
+up. This patch calls stty sane to restore the terminal
+settings to default.
 
-Second patch introduces a new variable called QEMU_TARGET which
-can be set by distributions or appended in layers to select
-reduced set of targets to build in qemu-native
-It weakly assigned and list is expanded to include SH and MIPS64
-to help oe distros.
+stty is part of coreutils which is installed on all
+host distros hence there is no need to warn about it
+being available or not
 
-Pull URL: git://git.openembedded.org/openembedded-core-contrib
-  Branch: kraj/qemu
-  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu
-
-Thanks,
-    Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+ scripts/poky-qemu-internal |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-
-Khem Raj (2):
-  scripts/poky-qemu-internal: call stty sane before exit
-  qemu.inc: Add sh4,sh4eb,mips64,mips64el targets
-
- meta/recipes-devtools/qemu/qemu-targets.inc |   18 ++++++++++++++++++
- meta/recipes-devtools/qemu/qemu.inc         |   12 +++++++++---
- scripts/poky-qemu-internal                  |    6 ++++--
- 3 files changed, 31 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu-targets.inc
-
+diff --git a/scripts/poky-qemu-internal b/scripts/poky-qemu-internal
+index 8fd1834..c88d711 100755
+--- a/scripts/poky-qemu-internal
++++ b/scripts/poky-qemu-internal
+@@ -189,6 +189,9 @@ cleanup() {
+         echo "poky-export-rootfs stop $ROOTFS"
+         poky-export-rootfs stop $ROOTFS
+     fi
++    # If QEMU crashes or somehow tty properties are not restored
++    # after qemu exits, we need to run stty sane
++    stty sane
+ }
+ 
+ n1=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
+@@ -458,8 +461,7 @@ fi
+ echo "Running $QEMU..."
+ # -no-reboot is a mandatory option - see bug #100
+ echo $QEMUBIN -kernel $KERNEL $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT --append '"'$KERNCMDLINE $SCRIPT_KERNEL_OPT'"'
+-# If QEMU crashes, we need to run stty sane
+-$QEMUBIN -kernel $KERNEL $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT --append "$KERNCMDLINE $SCRIPT_KERNEL_OPT" || stty sane
++$QEMUBIN -kernel $KERNEL $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT --append "$KERNCMDLINE $SCRIPT_KERNEL_OPT"
+ 
+ 
+ cleanup
 -- 
 1.7.4.1
 
