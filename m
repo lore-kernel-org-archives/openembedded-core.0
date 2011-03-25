@@ -1,35 +1,35 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q3G5A-00079t-Pm
+	(envelope-from <raj.khem@gmail.com>) id 1Q3GZu-0007WT-Bl
 	for openembedded-core@lists.openembedded.org;
-	Sat, 26 Mar 2011 00:06:16 +0100
-Received: by fxm19 with SMTP id 19so1657661fxm.6
+	Sat, 26 Mar 2011 00:38:02 +0100
+Received: by iye7 with SMTP id 7so1114353iye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Mar 2011 16:04:23 -0700 (PDT)
+	Fri, 25 Mar 2011 16:36:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:content-transfer-encoding;
-	bh=dZv2FszmqWo+TePUWf/wO0tvb50b7coh/4cZTNaX1q4=;
-	b=lXr9ImzuPUjYT5LqTZ0fItBRFZIF3d3dfYDfWiv2nU83Pn9ZFCNcw7IBs3J8nv+x+N
-	OVdg3Gf3cbnAXRwqL8OAafGsmXSAnZE5LvHx1htPeSdYM84ECe1XWoBX6AHxReB5GnTj
-	gGcPEjeqXWPsWZXdfjkZESWbGkIdOW1z01juM=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=AgOzMCV3Y+JvzGCUxp59kPprZeRjAxr9RNKdEuquQJw=;
+	b=ZPPJw2CJCHH7t8hFD+MwUpkPahhobmA51ebcxR67+JlWgHWo9RUZqjDtG6kEQBj3Ks
+	jSHAOpsHbTdjI/lGCQJN7R5qweNQpv6zqCTwybKExctrrLvTEIrMPi2jV6jD3sdvZe5s
+	dQloexw+Eg+7M3WhtKUUSbJA8CUeHq36xxPqQ=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	b=Q4dSCQ6hnp/fGzSrV6MmDMnl1YBujycfTZ8P14RzGdSem4P5Gx9rHeF/GWOWNFadvh
-	HGMaJwEIdLxCuA7Iotcfy+SP1V6CXs96/TluTkScHcDHu4zLPvF2RDldaEhVrfAdpKWX
-	G2ys1RZKOjo0sWy59WnDcI5m9yfaFkiqgHPQ0=
-Received: by 10.223.56.220 with SMTP id z28mr1529551fag.11.1301094263097; Fri,
-	25 Mar 2011 16:04:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.109.12 with HTTP; Fri, 25 Mar 2011 16:03:53 -0700 (PDT)
-In-Reply-To: <20110325225924.GA11423@sakrah.homelinux.org>
-References: <20110325225924.GA11423@sakrah.homelinux.org>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=C7bWL9OUF8bXnJ9FVY4Zsl5sPKj6kUMO/OBO1eXx08nDU2oGxgSyZ6WS0plTUbuWsL
+	/7iES97faHLpfTFBSaoy/zgeVkvQyb31uuYm9nTcAzyVUc+BQhCiCqjrJguOK4806Akq
+	qwvHdGVh5Cgqunfs0yd8/VWzz6Ru3dkWA2Lkg=
+Received: by 10.42.221.196 with SMTP id id4mr2038023icb.141.1301096163832;
+	Fri, 25 Mar 2011 16:36:03 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id 19sm952507ibx.52.2011.03.25.16.36.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 25 Mar 2011 16:36:01 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 25 Mar 2011 16:03:53 -0700
-Message-ID: <AANLkTi=PooO6FYw9j4tpJ4Uv7LUcGy4aNzfvJYryPHDA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: Testcases to show bitbake malfunction when using python functions in recipes
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Fri, 25 Mar 2011 16:35:56 -0700
+Message-Id: <cover.1301095943.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/2] Call stty sane always and expand qemu target list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,42 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Mar 2011 23:06:16 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 25 Mar 2011 23:38:02 -0000
 
-On Fri, Mar 25, 2011 at 3:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Hi
->
-> Attached are two patched good.patch and bad.patch both can be applied on
-> top of oe-core independently in two trees.
->
-> Then bitbake -p or bitbake -e qemu-native and search for EXTRA_OECONF
->
-> You will see that good.patch works but bad.patch does not
->
-> What I observed is it
->
-> put the python func in .bb - work
-> in .inc included by .bb - Does not work
-> in .inc -> .inc -> .bb - works
-> in =C2=A0.inc -> .inc -> .inc -> .bb - Does not work
->
-> So there seems to be a pattern here
->
-> Let me =C2=A0know if more info is needed
->
->
-> --
-> -Khem
->
+This patch series has two patches, one calls stty sane always before exit
+previously it was only called if qemu crashed
 
-the patches were stripped again. I wonder if its the mailman because
-they appear fine in my sent folder
+Second patch introduces a new variable called QEMU_TARGET which
+can be set by distributions or appended in layers to select
+reduced set of targets to build in qemu-native
+It weakly assigned and list is expanded to include SH and MIPS64
+to help oe distros.
 
-Here they are put again
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: kraj/qemu
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu
 
-http://uclibc.org/~kraj/bad.patch
-http://uclibc.org/~kraj/good.patch
+Thanks,
+    Khem Raj <raj.khem@gmail.com>
+---
+
+
+Khem Raj (2):
+  scripts/poky-qemu-internal: call stty sane before exit
+  qemu.inc: Add sh4,sh4eb,mips64,mips64el targets
+
+ meta/recipes-devtools/qemu/qemu-targets.inc |   18 ++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu.inc         |   12 +++++++++---
+ scripts/poky-qemu-internal                  |    6 ++++--
+ 3 files changed, 31 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu-targets.inc
+
+-- 
+1.7.4.1
+
 
 
