@@ -1,26 +1,30 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q36gi-0001IM-26
-	for openembedded-core@lists.openembedded.org;
-	Fri, 25 Mar 2011 14:04:24 +0100
-Received: by wye20 with SMTP id 20so531997wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Mar 2011 06:02:30 -0700 (PDT)
-Received: by 10.216.123.69 with SMTP id u47mr697418weh.16.1301058150486;
-	Fri, 25 Mar 2011 06:02:30 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id f30sm338789wef.7.2011.03.25.06.02.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 25 Mar 2011 06:02:29 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1300959372-27675-1-git-send-email-koen@dominion.thruhere.net>
-Date: Fri, 25 Mar 2011 14:02:28 +0100
-Message-Id: <0C913ED4-C8C5-4A15-BFFD-E86AB68C1B3A@dominion.thruhere.net>
-References: <1300959372-27675-1-git-send-email-koen@dominion.thruhere.net>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q3749-0007XU-Ob for openembedded-core@lists.openembedded.org;
+	Fri, 25 Mar 2011 14:28:39 +0100
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2PDQaid018839;
+	Fri, 25 Mar 2011 13:26:36 GMT
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 18582-01; Fri, 25 Mar 2011 13:26:32 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2PDQRYG018831
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 25 Mar 2011 13:26:28 GMT
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
+In-Reply-To: <1300959372-27675-1-git-send-email-koen@dominion.thruhere.net>
+References: <1300959372-27675-1-git-send-email-koen@dominion.thruhere.net>
+Date: Fri, 25 Mar 2011 13:26:20 +0000
+Message-ID: <1301059580.3018.123.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
 Subject: Re: [PATCH] gnutls: add BBCLASSEXTEND = native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,41 +40,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Mar 2011 13:04:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 25 Mar 2011 13:28:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Any comments?
-
-Op 24 mrt 2011, om 10:36 heeft koen@dominion.thruhere.net het volgende =
-geschreven:
-
+On Thu, 2011-03-24 at 10:36 +0100, koen@dominion.thruhere.net wrote:
 > From: Koen Kooi <koen@dominion.thruhere.net>
->=20
+> 
 > This is needed for the native recipes in meta-efl
->=20
+> 
 > Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 > ---
-> meta/recipes-support/gnutls/gnutls.inc |    2 ++
-> 1 files changed, 2 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/recipes-support/gnutls/gnutls.inc =
-b/meta/recipes-support/gnutls/gnutls.inc
-> index 76f4ca6..a795585 100644
-> --- a/meta/recipes-support/gnutls/gnutls.inc
-> +++ b/meta/recipes-support/gnutls/gnutls.inc
-> @@ -3,6 +3,8 @@ HOMEPAGE =3D "http://www.gnu.org/software/gnutls/"
-> BUGTRACKER =3D "https://savannah.gnu.org/support/?group=3Dgnutls"
-> DEPENDS =3D "zlib lzo gettext libtasn1 libgcrypt (>=3D 1.4.2)"
->=20
-> +BBCLASSEXTEND =3D "native"
-> +
-> LICENSE =3D "GPLv3+ & LGPLv2.1+"
-> LICENSE_${PN} =3D "LGPLv2.1+"
-> LICENSE_${PN}-xx =3D "GPLv2.1+"
-> --=20
-> 1.6.6.1
->=20
+>  meta/recipes-support/gnutls/gnutls.inc |    2 ++
+>  1 files changed, 2 insertions(+), 0 deletions(-)
+
+Merged to master, thanks.
+
+Richard
 
 
 
