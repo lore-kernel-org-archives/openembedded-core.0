@@ -1,38 +1,38 @@
 Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q3y0f-0001n0-DP
+	(envelope-from <kergoth@gmail.com>) id 1Q3z1e-0002hU-Qt
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Mar 2011 00:00:33 +0200
-Received: by iwn10 with SMTP id 10so3258437iwn.6
+	Mon, 28 Mar 2011 01:05:39 +0200
+Received: by iwn10 with SMTP id 10so3296262iwn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Mar 2011 14:58:36 -0700 (PDT)
+	Sun, 27 Mar 2011 16:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=8AVe1HPg7mJ1DaxOJOU8DIbr2avnLGIT8l1CL7amg2Y=;
-	b=aGSbNjGqGSFOaE7vrilmzkL7kLWYw6Dyf8akaBzLy7qKpbP2F3u4CpzSAzskD5Glv2
-	P1Mn/jLj8yvd1yre8oaLeGKNiZS14hm4BpvdL6Ah5L2Oac8mK9083nq+074FgqH9JQoX
-	Bd7Sqs1giAcBFElytO+6d/tno7zujozTUdRko=
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
+	:date:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=bOCCJ8ah9AByjMfOIuEM/1RR9nGm4VzGlviZD+OHM1o=;
+	b=gWGj+ljM8cFBm5Z9RJiHuIJpoYuqpUK3u8vA/okowbyMPEJpS7RZi3GFdSUkDrJ5IU
+	oBhBk6cWDAPIZO33FYOGEl1CFM12xfAkK5ID9pZPgRQp8kmmB/3dP0JZLYUPHUcTgWdz
+	OL40M0MOHwKBj9gJo5EuYnsfcYz07NiSHPPEc=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	b=I+bTGI6yIA1dbEpVYJ+xx02AHYSlt3HONGnt52ms0Ac9K7Ibc298XgHo8gHpjy/sAe
-	oEajLRoOcGC8aEFlECsvH26JH25R54H38on557mLBAsW33AjtDYI0bDpXasH1cDq/0oB
-	Fq7/fVGScsvn5T6SpvoqQ4unbV5JSNe6ALpPE=
-Received: by 10.43.58.148 with SMTP id wk20mr5622839icb.242.1301263116771;
-	Sun, 27 Mar 2011 14:58:36 -0700 (PDT)
-Received: from sakrah.homelinux.org
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id i20sm2469405iby.14.2011.03.27.14.58.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Mar 2011 14:58:36 -0700 (PDT)
-Date: Sun, 27 Mar 2011 14:59:23 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20110327215923.GA24098@sakrah.homelinux.org>
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	b=CtTRhCVblkRvOuCQ8gi0hP/lVzUKRVzLFYAZUpdT4rnBZ7i/gEDQfRizqCL6mrYP9g
+	BKc7RtktgV/PoBc5w/5VNauajr3HEJZu6Sf5/g5Piq5003UrTJF+bvEOG4tRpJIRUPHL
+	o9+FToJN783nL7Gf5u2aK6jLx3MtEk41pzvZo=
+Received: by 10.43.131.5 with SMTP id ho5mr2587973icc.257.1301267022116; Sun,
+	27 Mar 2011 16:03:42 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: SRCREV in recipes or in a single file e.g. meta/conf/distro/include/poky-default-revisions.inc
+Sender: kergoth@gmail.com
+Received: by 10.42.135.130 with HTTP; Sun, 27 Mar 2011 16:03:22 -0700 (PDT)
+In-Reply-To: <20110327200802.GA23980@sakrah.homelinux.org>
+References: <20110327200802.GA23980@sakrah.homelinux.org>
+From: Chris Larson <clarson@kergoth.com>
+Date: Sun, 27 Mar 2011 16:03:22 -0700
+X-Google-Sender-Auth: qAcSA3CQSs2XiOQ4aarO1Ew5VzM
+Message-ID: <AANLkTi=NeEXCqdyiQWaxA=aU96-Osuj+gE-zGRwkPH6-@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: DEPENDS tranlation with BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,25 +47,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Mar 2011 22:00:33 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sun, 27 Mar 2011 23:05:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi
+On Sun, Mar 27, 2011 at 1:08 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> I observed that if I have
+> DEPENDS = "a b" in recipe.bb which has BBCLASSEXTEND = "native"
+> then dependecies for recipe-native shows a-native b-native so far so
+> good
+>
+> Now if I want to add a dependency which only is needed for native recipe
+> I do
+>
+> DEPENDS_virtclass-native += "c-native"
+>
+> what this does is it will ignore a-native and b-native dependencies and
+> only adds "c-native" to depends of native recipe
+>
+> DEPENDS_virtclass-native_append = " c-native"
+>
+> This does what I wanted i.e. have deps on a-native b-native c-native
+>
+> I think behavior of += or _append should be similar. Is my understanding
+> correct ?
 
-I have been using oe-core with angstrom and using qemu machines which
-are defined in oe-core. Kernel started to fail in do_patch and while
-looking at this the problem is that recipe is not locking SRCREV but
-they are locked in poky-default-revisions.inc, In OE we have started
-to let recipe define the stable srcrev what is oe-core's policy here ?
-
-I would prefer recipes to lock the srcrev so they can be used identical
-across layers. If someone wants to really use a different version
-then they can override the default.
-
-Thx
-
+They've never been the same.  += is immediate, _append is delayed.  If
+a class, say, native.bbclass, defines the variable with ?=, and you
+used += before the inherit, then it will have a value, and the ?=
+won't assign.  I assume native.bbclass does it this way today so you
+can override the automatic behavior by defining the variable yourself,
+but I'll let Richard speak to that decision.
 -- 
--Khem
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
