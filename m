@@ -1,30 +1,38 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q3wa2-00008M-1f
+	(envelope-from <raj.khem@gmail.com>) id 1Q3y0f-0001n0-DP
 	for openembedded-core@lists.openembedded.org;
-	Sun, 27 Mar 2011 22:28:58 +0200
-Received: by wwb17 with SMTP id 17so2769214wwb.24
+	Mon, 28 Mar 2011 00:00:33 +0200
+Received: by iwn10 with SMTP id 10so3258437iwn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Mar 2011 13:26:11 -0700 (PDT)
-Received: by 10.216.69.15 with SMTP id m15mr2917100wed.70.1301257571576;
-	Sun, 27 Mar 2011 13:26:11 -0700 (PDT)
-Received: from [172.20.2.72] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id t72sm1224914wei.44.2011.03.27.13.26.09
+	Sun, 27 Mar 2011 14:58:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:subject:message-id:mime-version
+	:content-type:content-disposition:user-agent;
+	bh=8AVe1HPg7mJ1DaxOJOU8DIbr2avnLGIT8l1CL7amg2Y=;
+	b=aGSbNjGqGSFOaE7vrilmzkL7kLWYw6Dyf8akaBzLy7qKpbP2F3u4CpzSAzskD5Glv2
+	P1Mn/jLj8yvd1yre8oaLeGKNiZS14hm4BpvdL6Ah5L2Oac8mK9083nq+074FgqH9JQoX
+	Bd7Sqs1giAcBFElytO+6d/tno7zujozTUdRko=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	b=I+bTGI6yIA1dbEpVYJ+xx02AHYSlt3HONGnt52ms0Ac9K7Ibc298XgHo8gHpjy/sAe
+	oEajLRoOcGC8aEFlECsvH26JH25R54H38on557mLBAsW33AjtDYI0bDpXasH1cDq/0oB
+	Fq7/fVGScsvn5T6SpvoqQ4unbV5JSNe6ALpPE=
+Received: by 10.43.58.148 with SMTP id wk20mr5622839icb.242.1301263116771;
+	Sun, 27 Mar 2011 14:58:36 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id i20sm2469405iby.14.2011.03.27.14.58.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 27 Mar 2011 13:26:10 -0700 (PDT)
-References: <600E597B-5D02-419E-A378-5EE511B848FA@dominion.thruhere.net>
-	<20110327193405.GA23957@sakrah.homelinux.org>
-In-Reply-To: <20110327193405.GA23957@sakrah.homelinux.org>
-Mime-Version: 1.0 (iPhone Mail 8G4)
-Message-Id: <4CF3B010-EDBD-4A51-8078-50AFE191CC98@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPhone Mail (8G4)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Sun, 27 Mar 2011 22:26:05 +0200
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Using meta-toolchain output as prebuilt toolchains
+	Sun, 27 Mar 2011 14:58:36 -0700 (PDT)
+Date: Sun, 27 Mar 2011 14:59:23 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20110327215923.GA24098@sakrah.homelinux.org>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: SRCREV in recipes or in a single file e.g. meta/conf/distro/include/poky-default-revisions.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,55 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Mar 2011 20:28:58 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Sun, 27 Mar 2011 22:00:33 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi
 
+I have been using oe-core with angstrom and using qemu machines which
+are defined in oe-core. Kernel started to fail in do_patch and while
+looking at this the problem is that recipe is not locking SRCREV but
+they are locked in poky-default-revisions.inc, In OE we have started
+to let recipe define the stable srcrev what is oe-core's policy here ?
 
-Op 27 mrt. 2011 om 21:34 heeft Khem Raj <raj.khem@gmail.com> het volgende ge=
-schreven:
+I would prefer recipes to lock the srcrev so they can be used identical
+across layers. If someone wants to really use a different version
+then they can override the default.
 
-> On (27/03/11 13:44), Koen Kooi wrote:
->> Hi,
->>=20
->> What is the preferred way of 'importing' prebuilt toolchains into OE-core=
-? In oe.dev I can use this: http://cgit.openembedded.org/cgit.cgi/openembedd=
-ed/tree/recipes/meta/external-toolchain-angstrom.bb to 'import' an angstrom t=
-oolchain built with 'bitbake meta-toolchain', but I'm not sure how to do tha=
-t in OE-core.
->>=20
->> My actual use case is actually 2 use-cases:
->>=20
->> 1) Hand people a prebuilt angstrom toolchain and migrate them to OE while=
- keeping the toolchain
->=20
-> Did you mean "migrate them to OE-core" ? or are there totaly n00b to OE
->=20
+Thx
 
-Total n00bs :)
-
-
->> 2) "Get started in 10 minutes" type of thing, I suspect an sstate mirror m=
-ight be better.
->>=20
->> So any suggestions for #2 as well?
->>=20
->> regards,
->>=20
->> Koen
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
-> --=20
-> -Khem
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
+-Khem
 
 
