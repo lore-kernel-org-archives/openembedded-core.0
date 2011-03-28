@@ -1,22 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Q4DUL-0007Gk-1H
-	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Mar 2011 16:32:29 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Mar 2011 07:28:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,255,1299484800"; d="scan'208";a="672394700"
-Received: from unknown (HELO localhost) ([10.255.16.125])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Mar 2011 07:28:50 -0700
-Message-Id: <c004e2cc4593f5fd3309a57b3bc4d5507fdeaa57.1301322225.git.josh@linux.intel.com>
-In-Reply-To: <cover.1301322225.git.josh@linux.intel.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q4Erj-0004ks-Rg for openembedded-core@lists.openembedded.org;
+	Mon, 28 Mar 2011 18:00:28 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2SFwTCw031232;
+	Mon, 28 Mar 2011 16:58:29 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 31143-02; Mon, 28 Mar 2011 16:58:25 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2SFwJLj031226
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 28 Mar 2011 16:58:20 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <7049c8b55628f8d6269cefe4a06f994cc60d49c2.1301322225.git.josh@linux.intel.com>
 References: <cover.1301322225.git.josh@linux.intel.com>
-Old-Date: Mon, 28 Mar 2011 13:14:37 +0100
-Date: Mon, 28 Mar 2011 15:28:44 +0100
-To: openembedded-core@lists.openembedded.org,poky@yoctoproject.org
-From: Joshua Lock <josh@linux.intel.com>
-Subject: [PATCH 3/4] clutter-box2d: add version 0.10.0 for use with clutter 1.6
+	<7049c8b55628f8d6269cefe4a06f994cc60d49c2.1301322225.git.josh@linux.intel.com>
+Date: Mon, 28 Mar 2011 16:58:15 +0100
+Message-ID: <1301327895.3018.200.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: poky@yoctoproject.org
+Subject: Re: [PATCH 2/4] clutter-gst: add 1.3.6 for use with clutter 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,114 +41,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2011 14:32:30 -0000
+X-List-Received-Date: Mon, 28 Mar 2011 16:00:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Joshua Lock <josh@linux.intel.com>
+On Mon, 2011-03-28 at 15:28 +0100, Joshua Lock wrote:
+> From: Joshua Lock <josh@linux.intel.com>
+> 
+> The inc file should be usable across clutter versions, plus this is already
+> set in the clutter-box2d-1.4_git.bb recipe
+> 
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+> ---
+>  .../clutter/clutter-gst-1.6_1.3.6.bb               |   16 ++++++++++++++++
+>  meta/recipes-graphics/clutter/clutter-gst.inc      |    3 ++-
+>  2 files changed, 18 insertions(+), 1 deletions(-)
+>  create mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.6_1.3.6.bb
+> 
+[...]
+> diff --git a/meta/recipes-graphics/clutter/clutter-gst.inc b/meta/recipes-graphics/clutter/clutter-gst.inc
+> index 614c62d..b1c8617 100644
+> --- a/meta/recipes-graphics/clutter/clutter-gst.inc
+> +++ b/meta/recipes-graphics/clutter/clutter-gst.inc
+> @@ -2,7 +2,7 @@ DESCRIPTION = "Clutter GStreamer"
+>  HOMEPAGE = "http://www.clutter-project.org/"
+>  LICENSE = "LGPLv2+"
+>  
+> -DEPENDS = "clutter-1.4 gstreamer gst-plugins-base"
+> +DEPENDS = "gstreamer gst-plugins-base"
+>  
+>  FILESPATH = "${FILE_DIRNAME}/clutter-gst"
+>  
+> @@ -11,3 +11,4 @@ FILES_${PN}-examples = "${bindir}/video-player ${bindir}/video-sink"
+>  
+>  inherit autotools pkgconfig gtk-doc
+>  
+> +FILESPATH = "${FILE_DIRNAME}/clutter-gst"
 
-Don't specificy dependant clutter version in inc file, this enables the inc
-file to be re-used accross Clutter versions.
+Why is FILESPATH set twice to the same thing?
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- .../clutter/clutter-box2d-1.6_0.10.0.bb            |   20 ++++++++++++++
- meta/recipes-graphics/clutter/clutter-box2d.inc    |    4 +-
- .../clutter-box2d/fix-disable-introspection.patch  |   28 ++++++++++++++++++++
- meta/recipes-graphics/clutter/clutter-box2d_git.bb |    2 +-
- 4 files changed, 51 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb
- create mode 100644 meta/recipes-graphics/clutter/clutter-box2d/fix-disable-introspection.patch
+Cheers,
 
-diff --git a/meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb b/meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb
-new file mode 100644
-index 0000000..cad8cfc
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb
-@@ -0,0 +1,20 @@
-+require clutter-box2d.inc
-+
-+PR = "r0"
-+
-+SRC_URI = "http://source.clutter-project.org/sources/clutter-box2d/0.10/clutter-box2d-${PV}.tar.bz2 \
-+           file://fix-disable-introspection.patch"
-+
-+S = "${WORKDIR}/clutter-box2d-${PV}"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
-+
-+BASE_CONF += "--disable-introspection"
-+
-+do_configure_prepend () {
-+	# Disable DOLT
-+	sed -i -e 's/^DOLT//' ${S}/configure.ac
-+}
-+
-+SRC_URI[md5sum] = "51618976ca6a5d536c4eac5f0e120d9d"
-+SRC_URI[sha256sum] = "1e42d0cea429e4dc953a1f652672dbd322b3938846e99bab35f463de6fd8ae7f"
-diff --git a/meta/recipes-graphics/clutter/clutter-box2d.inc b/meta/recipes-graphics/clutter/clutter-box2d.inc
-index 0249984..0574db3 100644
---- a/meta/recipes-graphics/clutter/clutter-box2d.inc
-+++ b/meta/recipes-graphics/clutter/clutter-box2d.inc
-@@ -2,8 +2,6 @@ DESCRIPTION = "Clutter Box2D"
- HOMEPAGE = "http://www.clutter-project.org/"
- LICENSE = "Catto"
- 
--DEPENDS = "clutter-1.4"
--
- # The main clutter lib is machine specific so we need to be too
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
-@@ -13,3 +11,5 @@ do_install_append () {
- 	install -d ${D}${bindir}
- 	install ${S}/examples/.libs/blockbox ${D}${bindir}
- }
-+
-+FILESPATH = "${FILE_DIRNAME}/clutter-box2d"
-diff --git a/meta/recipes-graphics/clutter/clutter-box2d/fix-disable-introspection.patch b/meta/recipes-graphics/clutter/clutter-box2d/fix-disable-introspection.patch
-new file mode 100644
-index 0000000..cfb50dc
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-box2d/fix-disable-introspection.patch
-@@ -0,0 +1,28 @@
-+Even with introspection disabled clutter-box2d would try to install the gir
-+files.
-+This patch ignored the while introspection related section of the Makefile if
-+introspection is disabled.
-+
-+JL 28/03/11
-+josh@linux.intel.com
-+
-+Index: clutter-box2d-0.10.0/clutter-box2d/Makefile.am
-+===================================================================
-+--- clutter-box2d-0.10.0.orig/clutter-box2d/Makefile.am
-++++ clutter-box2d-0.10.0/clutter-box2d/Makefile.am
-+@@ -41,6 +41,8 @@ EXTRA_DIST = \
-+ 
-+ BUILT_GIRSOURCES =
-+ 
-++if HAVE_INTROSPECTION
-++
-+ ClutterBox2D-@CLUTTER_BOX2D_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libclutter-box2d-@CLUTTER_BOX2D_API_VERSION@.la
-+ 	$(QUIET_GEN)$(INTROSPECTION_SCANNER) -v \
-+ 		--namespace ClutterBox2D --nsversion=@CLUTTER_BOX2D_API_VERSION@ \
-+@@ -70,3 +72,5 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=
-+ 
-+ CLEANFILES=
-+ CLEANFILES += $(BUILT_GIRSOURCES) $(typelibs_DATA)
-++
-++endif
-+\ No newline at end of file
-diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-index 6b718d5..62b5c80 100644
---- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-+++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-@@ -9,4 +9,4 @@ SRC_URI = "git://git.clutter-project.org/clutter-box2d.git;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
--
-+DEPENDS += "clutter-1.4"
--- 
-1.7.4
+Richard
 
 
 
