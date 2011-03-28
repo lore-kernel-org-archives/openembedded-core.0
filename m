@@ -1,23 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Q4HuC-0006O8-Ok
+	(envelope-from <raj.khem@gmail.com>) id 1Q4ITG-0006tQ-Rf
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Mar 2011 21:15:13 +0200
-Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
-	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p2SHP3iH027262;
-	Mon, 28 Mar 2011 10:25:05 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon, 28 Mar 2011 13:31:19 -0400
-Message-Id: <4291f28327101ce51565d8b81558d0484914f8ab.1301333355.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1301333355.git.bruce.ashfield@windriver.com>
-References: <cover.1301333355.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1301333355.git.bruce.ashfield@windriver.com>
-References: <cover.1301333355.git.bruce.ashfield@windriver.com>
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] linux-yocto/meta: fix SRCREV
+	Mon, 28 Mar 2011 21:51:26 +0200
+Received: by fxm19 with SMTP id 19so3242201fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Mar 2011 12:49:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=VGxSeqta8y85BXL+h3UuZd9Qaklibiv4YHcYXQ/vjtc=;
+	b=A6zYkRcAh/BhYugJW6GO2tyehwFdL+/Lz20Bmy8aZBr4GyVtgvIJIUN56Z4f2bYSIp
+	yGvCES3WnTgL3UBMPKKHSgSntEz2SfcT3Lveav0dcxfAk4XE3CCW9C+4fGcKxAOqRKUU
+	R3wrVuM0a+7YTlFZiebb0e24s2BkXHiPZ2rkQ=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	b=b+p9CRKPWmChVAQNmvB18DOs/4Sh2NzWRqa56hW6DaXIZJ7ZC2JwIvJFtUh9PlCRHj
+	bxy2rUwTiYrf0AGibrCHEBHzyHleI2u1P52US5agpQqH6ltYx1BJual26ViWrws7lrsP
+	8tuXmGoM7Q3uiTM/0rPqh3AzRT8uHrB+I1EyY=
+Received: by 10.223.5.26 with SMTP id 26mr2385537fat.68.1301341758195; Mon, 28
+	Mar 2011 12:49:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.109.12 with HTTP; Mon, 28 Mar 2011 12:48:48 -0700 (PDT)
+In-Reply-To: <4D90DB8A.3010609@mentor.com>
+References: <20110327200802.GA23980@sakrah.homelinux.org>
+	<AANLkTi=NeEXCqdyiQWaxA=aU96-Osuj+gE-zGRwkPH6-@mail.gmail.com>
+	<4D90DB8A.3010609@mentor.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Mar 2011 12:48:48 -0700
+Message-ID: <AANLkTi=Fc8N4ikQvH_6gA-1NkgjXiSmjwc9sn5m4G0Dm@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: DEPENDS tranlation with BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,35 +47,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2011 19:15:13 -0000
+X-List-Received-Date: Mon, 28 Mar 2011 19:51:26 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The SRCREV that was pushed to meta isn't even a commit Id
-on the meta branch. As a result, the recovery code for bad
-SRCREV can't trigger and fix things up due to conflicting
-files between the branches.
+On Mon, Mar 28, 2011 at 12:03 PM, Tom Rini <tom_rini@mentor.com> wrote:
+> On 03/27/2011 04:03 PM, Chris Larson wrote:
+>> On Sun, Mar 27, 2011 at 1:08 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>> I observed that if I have
+>>> DEPENDS =3D "a b" in recipe.bb which has BBCLASSEXTEND =3D "native"
+>>> then dependecies for recipe-native shows a-native b-native so far so
+>>> good
+>>>
+>>> Now if I want to add a dependency which only is needed for native recip=
+e
+>>> I do
+>>>
+>>> DEPENDS_virtclass-native +=3D "c-native"
+>>>
+>>> what this does is it will ignore a-native and b-native dependencies and
+>>> only adds "c-native" to depends of native recipe
+>>>
+>>> DEPENDS_virtclass-native_append =3D " c-native"
+>>>
+>>> This does what I wanted i.e. have deps on a-native b-native c-native
+>>>
+>>> I think behavior of +=3D or _append should be similar. Is my understand=
+ing
+>>> correct ?
+>>
+>> They've never been the same. =C2=A0+=3D is immediate, _append is delayed=
+. =C2=A0If
+>> a class, say, native.bbclass, defines the variable with ?=3D, and you
+>> used +=3D before the inherit, then it will have a value, and the ?=3D
+>> won't assign. =C2=A0I assume native.bbclass does it this way today so yo=
+u
+>> can override the automatic behavior by defining the variable yourself,
+>> but I'll let Richard speak to that decision.
+>
+> As Richard said, this is a good summary. =C2=A0And a shorter still summar=
+y
+> (as Chris reminds me everytime I forget) is that since BBCLASSEXTENDS
+> makes use of an override already (virtclass-native/cross/etc) you must
+> keep that in mind when further modifying it as you get not what you
+> expected but what you asked for.
+>
 
-Updating to the right SRCEV fixes the problem.
+Yes no doubt on how it works and can be coded to likings of what we
+have but I think
+that having +=3D and friends as well as _append and _prepend could be
+combined into one logic
+immediate appending/prepending operation may be confusing IMO while
+immediate assignments
+I think still are ok. We have more than one directives doing very
+similar yet semantically different operations
+It becomes hard for recipe writers. May be I am over simplifying
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- .../conf/distro/include/poky-default-revisions.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/conf/distro/include/poky-default-revisions.inc b/meta/conf/distro/include/poky-default-revisions.inc
-index 6ec74ba..d195a9d 100644
---- a/meta/conf/distro/include/poky-default-revisions.inc
-+++ b/meta/conf/distro/include/poky-default-revisions.inc
-@@ -109,7 +109,7 @@ SRCREV_machine_pn-linux-yocto_routerstationpro ?= "78214d7ac1c3103840fe69d3bbbf8
- SRCREV_machine_pn-linux-yocto_mpc8315e-rdb ?= "f700964852b98d6e5c7f5da24ade0256f97cd8cb"
- SRCREV_machine_pn-linux-yocto_beagleboard ?= "17e49db8624324d090dd5aaa18ef977bb2dd5f6d"
- SRCREV_machine_pn-linux-yocto ?= "2b2ef940457f0bb40e0fb76937c921c2962364ca"
--SRCREV_meta_pn-linux-yocto ?= "17e49db8624324d090dd5aaa18ef977bb2dd5f6d"
-+SRCREV_meta_pn-linux-yocto ?= "212cae404e57ff9dc58c808035770d51325c3512"
- SRCREV_pn-linux-libc-headers-yocto ??= "17e49db8624324d090dd5aaa18ef977bb2dd5f6d"
- SRCREV_pn-matchbox-config-gtk ??= "3ed74dfb7c57be088a5ab36e446c0ccde9fa1028"
- SRCREV_pn-matchbox-desktop-sato ??= "76"
--- 
-1.7.0.4
-
+> --
+> Tom Rini
+> Mentor Graphics Corporation
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
