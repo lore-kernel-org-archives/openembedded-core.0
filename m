@@ -1,32 +1,35 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Q4Hhs-00068t-8I
-	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Mar 2011 21:02:28 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1Q4Hfy-0004Dq-D7 from Tom_Rini@mentor.com ;
-	Mon, 28 Mar 2011 12:00:30 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 28 Mar 2011 12:00:30 -0700
-Received: from [172.30.80.76] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
-	with Microsoft SMTP Server id 14.1.270.1;
-	Mon, 28 Mar 2011 12:00:28 -0700
-Message-ID: <4D90DAC7.3080103@mentor.com>
-Date: Mon, 28 Mar 2011 12:00:23 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4D90B1B4.7050406@balister.org>
-In-Reply-To: <4D90B1B4.7050406@balister.org>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 28 Mar 2011 19:00:30.0240 (UTC)
-	FILETIME=[68553A00:01CBED7A]
-Subject: Re: What is OE core?
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q4Hik-0006AQ-ND for openembedded-core@lists.openembedded.org;
+	Mon, 28 Mar 2011 21:03:22 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2SJ1O6A001315
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Mar 2011 20:01:24 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01141-03 for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Mar 2011 20:01:21 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2SJ1F9m001309
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Mar 2011 20:01:16 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1301337825.6397.15.camel@scimitar>
+References: <cover.1301322225.git.josh@linux.intel.com>
+	<201103281944.03722.schnitzeltony@gmx.de>
+	<1301337825.6397.15.camel@scimitar>
+Date: Mon, 28 Mar 2011 20:01:12 +0100
+Message-ID: <1301338872.24596.0.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/4] Recipes for Clutter 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,23 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2011 19:02:28 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Mon, 28 Mar 2011 19:03:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 03/28/2011 09:05 AM, Philip Balister wrote:
-> It occurs to me that I do not have a good definition of what OE-core is.
-> What I am looking for is an explanation of what software can go into
-> core, and what cannot. (Not, oe-core is the evolution of Poky and/or OE)
+On Mon, 2011-03-28 at 19:43 +0100, Joshua Lock wrote: 
+> On Mon, 2011-03-28 at 19:44 +0200, Andreas Mueller wrote:
+> > On Monday 28 March 2011 16:28:23 Joshua Lock wrote:
+> > > From: Joshua Lock <josh@linux.intel.com>
+
+> > >  create mode 100644 meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb
+> > >  create mode 100644
+> > > meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb create mode
+> > > 100644
+> > > meta/recipes-graphics/clutter/clutter-box2d/fix-disable-introspection.patc
+> > > h create mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.6_1.3.6.bb
+> > Is version in recipe name really required (it clutters all the dependent 
+> > recipes)?
 > 
-> Does anything like this exist?
+> I'm just following precedent set by the existing recipes in oe-core. I'm
+> not particularly fond of it myself either.
+> 
+> I'm not sure if we're able to set a specific recipe version in the
+> DEPENDS without doing something like this, however. At least if we can
+> do it I've not seen it.
 
-This is something the TSC has talked about and has a draft of.  Mark has
-the AI I believe of either posting it for more comments or putting it up
-on the wiki (I forget which off the top of my head).
+Clutter is a special case as by design, its meant to be parallel
+installable and you need to depend on a specific library version. The
+versions are not backwards compatible. We're therefore following the
+projects requirements by doing this and don't have much choice.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+Cheers,
+
+Richard
+
+
 
 
