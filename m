@@ -1,22 +1,38 @@
-Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1Q4EyC-0004pk-1c
-	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Mar 2011 18:07:08 +0200
-Received: (qmail 1899 invoked by uid 1003); 28 Mar 2011 16:05:00 -0000
-Received: from unknown (HELO ?192.168.1.167?)
-	(philip@opensdr.com@96.240.183.40)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	28 Mar 2011 16:05:00 -0000
-Message-ID: <4D90B1B4.7050406@balister.org>
-Date: Mon, 28 Mar 2011 12:05:08 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc14
-	Thunderbird/3.1.7
+	(envelope-from <raj.khem@gmail.com>)
+	id 1Q4Fbm-0005ME-Vx; Mon, 28 Mar 2011 18:48:03 +0200
+Received: by fxm19 with SMTP id 19so3080616fxm.6
+	for <multiple recipients>; Mon, 28 Mar 2011 09:46:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=rWSxdsBDPuCxUAsX54EiF3owWJHOiJLxtU0aWoRcaCw=;
+	b=UmHcAgr8YROAJ8xFv9hY1UfWL9rMP9efTHfSc3hVcQslFOL20pV/ySaHAfOxAXDlXy
+	1H80fTS7S2FE2eLENrca+dC5zdpRQhvkKHyqdc6r+ojyXSnhm2tTkmxa4lgj6LS5vYHj
+	dvBDqoDNvYARHgTjScTh9L1dtAf499B5Y21mM=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	b=G706emoSJSAkxrCRis1+8GhZO0ZhOk/SMLO+g6Lpy/3P0jE9P/5owCvQ8mp7+qefku
+	q0p1XrBFtAvWiqPQzBFIatZXN655gXeAe559jhJiccFHL8NKJAOmTDre2fLdXMDtmGbx
+	e/pne18Dvt9xDQWseLh+wWph6kMmhACwGRj3M=
+Received: by 10.223.5.26 with SMTP id 26mr2160373fat.68.1301330376039; Mon, 28
+	Mar 2011 09:39:36 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: What is OE core?
+Received: by 10.223.109.12 with HTTP; Mon, 28 Mar 2011 09:39:03 -0700 (PDT)
+In-Reply-To: <1301316136.3018.189.camel@rex>
+References: <4D832AA4.1020701@matrix-vision.de>
+	<AB78D48B-B478-47DF-A7CF-94FF96C313AC@dominion.thruhere.net>
+	<1301060302.3018.129.camel@rex> <4D8CA329.10407@matrix-vision.de>
+	<1301064949.3018.147.camel@rex> <4D8CBCA4.2070603@matrix-vision.de>
+	<1301316136.3018.189.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Mar 2011 09:39:03 -0700
+Message-ID: <AANLkTikwK_F7Wep4pfj05PMrMsgcaQkBi9aUvtu07+GV@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Cc: koen@dominion.thruhere.net, openembedded-core@lists.openembedded.org
+Subject: Re: [oe] staging & using kernel headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,16 +47,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2011 16:07:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Mar 2011 16:48:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-It occurs to me that I do not have a good definition of what OE-core is. 
-What I am looking for is an explanation of what software can go into 
-core, and what cannot. (Not, oe-core is the evolution of Poky and/or OE)
+On Mon, Mar 28, 2011 at 5:42 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+>> OK, so here's what I'm realizing, please correct me if I'm wrong:
+>> What I did unconventionally (ie. wrong) was to use a kernel version
+>> newer than my linux-libc-headers were. =C2=A0I should create a new
+>> linux-libc-headers recipe, as I had done with the kernel recipe, and
+>> build glibc and linux-libc-headers using my 2.6.38 kernel.
+>
+> We should *always* be using linux-libc-headers >=3D to the kernel version
+> being used.
+>
 
-Does anything like this exist?
-
-Philip
+If you use newer kernel should work ok why is that a problem ? kernel
+syscalls are backward compatible
+and we use oldest kernel version of like 2.6.16 for eglibc to build
+against so it should not be a problem
+to use different versions for kernel and kernel-headers. I think your
+problem lies elsewhere
 
 
