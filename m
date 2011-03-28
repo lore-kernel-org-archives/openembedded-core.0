@@ -1,34 +1,30 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Q4Hl0-0006Db-49
-	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Mar 2011 21:05:42 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1Q4Hj6-0004Ud-SQ from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Mar 2011 12:03:44 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 28 Mar 2011 12:02:21 -0700
-Received: from [172.30.80.76] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
-	with Microsoft SMTP Server id 14.1.270.1;
-	Mon, 28 Mar 2011 12:03:43 -0700
-Message-ID: <4D90DB8A.3010609@mentor.com>
-Date: Mon, 28 Mar 2011 12:03:38 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <20110327200802.GA23980@sakrah.homelinux.org>
-	<AANLkTi=NeEXCqdyiQWaxA=aU96-Osuj+gE-zGRwkPH6-@mail.gmail.com>
-In-Reply-To: <AANLkTi=NeEXCqdyiQWaxA=aU96-Osuj+gE-zGRwkPH6-@mail.gmail.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 28 Mar 2011 19:02:21.0724 (UTC)
-	FILETIME=[AAC855C0:01CBED7A]
-Subject: Re: DEPENDS tranlation with BBCLASSEXTEND
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q4HtV-0006LZ-0O for openembedded-core@lists.openembedded.org;
+	Mon, 28 Mar 2011 21:14:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2SJCW5a001436;
+	Mon, 28 Mar 2011 20:12:32 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01025-07; Mon, 28 Mar 2011 20:12:26 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2SJCN84001430
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 28 Mar 2011 20:12:24 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1301333355.git.bruce.ashfield@windriver.com>
+References: <cover.1301333355.git.bruce.ashfield@windriver.com>
+Date: Mon, 28 Mar 2011 20:12:20 +0100
+Message-ID: <1301339540.24596.1.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] linux-yocto/meta: fix SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,47 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Mar 2011 19:05:42 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Mon, 28 Mar 2011 19:14:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 03/27/2011 04:03 PM, Chris Larson wrote:
-> On Sun, Mar 27, 2011 at 1:08 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> I observed that if I have
->> DEPENDS = "a b" in recipe.bb which has BBCLASSEXTEND = "native"
->> then dependecies for recipe-native shows a-native b-native so far so
->> good
->>
->> Now if I want to add a dependency which only is needed for native recipe
->> I do
->>
->> DEPENDS_virtclass-native += "c-native"
->>
->> what this does is it will ignore a-native and b-native dependencies and
->> only adds "c-native" to depends of native recipe
->>
->> DEPENDS_virtclass-native_append = " c-native"
->>
->> This does what I wanted i.e. have deps on a-native b-native c-native
->>
->> I think behavior of += or _append should be similar. Is my understanding
->> correct ?
+On Mon, 2011-03-28 at 13:31 -0400, Bruce Ashfield wrote:
+> The SRCREV that was pushed to meta isn't even a commit Id
+> on the meta branch. As a result, the recovery code for bad
+> SRCREV can't trigger and fix things up due to conflicting
+> files between the branches.
 > 
-> They've never been the same.  += is immediate, _append is delayed.  If
-> a class, say, native.bbclass, defines the variable with ?=, and you
-> used += before the inherit, then it will have a value, and the ?=
-> won't assign.  I assume native.bbclass does it this way today so you
-> can override the automatic behavior by defining the variable yourself,
-> but I'll let Richard speak to that decision.
+> Updating to the right SRCREV fixes the problem.
+> 
+> Pull URL: git://git.pokylinux.org/poky-contrib.git
+>   Branch: zedd/kernel
+>   Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+> 
+> Thanks,
+>     Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+> 
+> 
+> Bruce Ashfield (1):
+>   linux-yocto/meta: fix SRCREV
 
-As Richard said, this is a good summary.  And a shorter still summary
-(as Chris reminds me everytime I forget) is that since BBCLASSEXTENDS
-makes use of an override already (virtclass-native/cross/etc) you must
-keep that in mind when further modifying it as you get not what you
-expected but what you asked for.
+Merged to master, thanks.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+Cheers,
+
+Richard
+
 
 
