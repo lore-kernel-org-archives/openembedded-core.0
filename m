@@ -1,32 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q4WQf-0008Uu-Nv for openembedded-core@lists.openembedded.org;
-	Tue, 29 Mar 2011 12:45:41 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2TAhieK018683;
-	Tue, 29 Mar 2011 11:43:44 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18643-01; Tue, 29 Mar 2011 11:43:40 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2TAhZvb018677
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 29 Mar 2011 11:43:38 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <gary@mlbassoc.com>) id 1Q4XC4-00005b-M3
+	for openembedded-core@lists.openembedded.org;
+	Tue, 29 Mar 2011 13:34:40 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id A6D1216601F5; Tue, 29 Mar 2011 05:32:44 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2-r929478
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id B661D16601B1;
+	Tue, 29 Mar 2011 05:32:43 -0600 (MDT)
+Message-ID: <4D91C35B.50708@mlbassoc.com>
+Date: Tue, 29 Mar 2011 05:32:43 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
+	Thunderbird/3.1.7
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <c9789f2d0873c6b8ff2ae3a7b338b72527cfbf02.1301388474.git.dexuan.cui@intel.com>
-References: <cover.1301388474.git.dexuan.cui@intel.com>
-	<c9789f2d0873c6b8ff2ae3a7b338b72527cfbf02.1301388474.git.dexuan.cui@intel.com>
-Date: Tue, 29 Mar 2011 11:43:30 +0100
-Message-ID: <1301395410.24596.22.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: poky@yoctoproject.org
-Subject: Re: [PATCH 1/1] qt4: remove the option -feliminate-dwarf2-dups to fix the build
+References: <600E597B-5D02-419E-A378-5EE511B848FA@dominion.thruhere.net>
+	<4D90DA4A.3030605@mentor.com>
+In-Reply-To: <4D90DA4A.3030605@mentor.com>
+Subject: Re: Using meta-toolchain output as prebuilt toolchains
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,42 +40,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Mar 2011 10:45:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 29 Mar 2011 11:34:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-03-29 at 16:52 +0800, Dexuan Cui wrote:
-> From: Dexuan Cui <dexuan.cui@intel.com>
-> 
-> [YOCTO #932]
-> 
-> After commit 5ea06dc295b657383fd97545c15255b294cf1a79(bitbake.conf: Prune
-> global OPTIMIZATION flags) that adds an option -feliminate-dwarf2-dups,
-> gcc 4.5 reports such an internal compiler error when building Qt4 if the
-> option is used:
-> 
-> | graphicsview/qgridlayoutengine.cpp:1553:1: internal compiler error: in build_abbrev_table, at dwarf2out.c:9806
-> | Please submit a full bug report,
-> | with preprocessed source if appropriate.
-> | See <http://gcc.gnu.org/bugs.html> for instructions.
-> 
-> This is a gcc bug: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=47361
-> 
-> At present we can remove the option as a workaround.
-> 
-> Thanks Robert Berger for reporting the bug and his investigation in gcc
-> bugzilla and thanks Khem Raj for the quick suggestion about removing
-> the option.
+On 03/28/2011 12:58 PM, Tom Rini wrote:
+> On 03/27/2011 04:44 AM, Koen Kooi wrote:
+>> Hi,
+>>
+>> What is the preferred way of 'importing' prebuilt toolchains into OE-core? In oe.dev I can use this: http://cgit.openembedded.org/cgit.cgi/openembedded/tree/recipes/meta/external-toolchain-angstrom.bb to 'import' an angstrom toolchain built with 'bitbake meta-toolchain', but I'm not sure how to do that in OE-core.
+>>
+>> My actual use case is actually 2 use-cases:
+>>
+>> 1) Hand people a prebuilt angstrom toolchain and migrate them to OE while keeping the toolchain
+>> 2) "Get started in 10 minutes" type of thing, I suspect an sstate mirror might be better.
+>>
+>> So any suggestions for #2 as well?
+>
+> sstate is the best way to catch #2 and I know in general there's "look
+> at this URI for the file you want" bits.  I haven't yet started kicking
+> the tires on sstate as hard as I have for packaged-staging however.
 
-How about we add the patch for this issue:
+This is the approach I've been working on to pass on to my customers.  The
+idea that I can give them a packaged bundle which includes prebuilt tools
+is far more attractive than a simple poky (or oe-core plus layers) tree
+which involves many hours of building to produce a simple image.
 
-http://gcc.gnu.org/ml/gcc-patches/2011-01/msg01647.html
+Hopefully, the sstate method will become more stable over time.  The problem
+I've had with it recently is that there are so many variables which are used
+to decide if the sstate data is valid (see Richard's description on how this
+works) that if the smallest thing changes, the whole lot becomes useless :-(
+so it's really only valid for a [fairly] static repository.
 
-?
+>
+> For #1, I believe external toolchains are to be supported still, but I
+> don't know off hand if the recipes still work (but there is both an old
+> CSL one as well as a poky toolchain one in meta/recipes-core/meta/).
+> Another area on my TODO list...
+>
 
-Cheers,
-
-Richard
-
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
