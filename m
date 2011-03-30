@@ -1,24 +1,28 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q4uqv-0007t5-6a
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Mar 2011 14:50:25 +0200
-Received: by wwb17 with SMTP id 17so1275409wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Mar 2011 05:48:26 -0700 (PDT)
-Received: by 10.227.178.14 with SMTP id bk14mr1198416wbb.102.1301489305958;
-	Wed, 30 Mar 2011 05:48:25 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id x1sm36764wbh.2.2011.03.30.05.48.25
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 30 Mar 2011 05:48:25 -0700 (PDT)
-From: koen@dominion.thruhere.net
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Mar 2011 14:48:20 +0200
-Message-Id: <1301489300-9174-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] qemu: there is no glflags.patch in the repo, so remove it from SRC_URI
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q4wiH-0003RD-39 for openembedded-core@lists.openembedded.org;
+	Wed, 30 Mar 2011 16:49:37 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2UElZsp008230;
+	Wed, 30 Mar 2011 15:47:35 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07262-06; Wed, 30 Mar 2011 15:47:31 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2UElSvT008207
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 30 Mar 2011 15:47:29 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "poky@yoctoproject.org" <poky@yoctoproject.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Mar 2011 15:47:27 +0100
+Message-ID: <1301496447.24596.100.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: lconfig-native is not endian safe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2011 12:50:25 -0000
+X-List-Received-Date: Wed, 30 Mar 2011 14:49:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Koen Kooi <koen@dominion.thruhere.net>
+Hi,
 
-Probably not the best solution, but I couldn't locate a matching glflags.patch
+Poky has had a ldconfig-native recipe in for a while. Back in the times
+our RPATHS were totally broken adding in an ld.so.cache was useful. In
+modern times I'm having trouble working out when this would be useful on
+a standard system as libraries are pretty much always in one of the two
+default search locations.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-devtools/qemu/qemu.inc |    1 -
- 1 files changed, 0 insertions(+), 1 deletions(-)
+ldconfig-native is 32/64 bit safe. I've just been looking at PPC and it
+is certainly not endian safe though. The endianess of the target system
+need to match that of the build system for it to work. It wouldn't be
+much work to make it endian safe though although the codebase will
+diverge further from that in (e)glibc though.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index f41b49c..83d7407 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -31,7 +31,6 @@ do_configure() {
-     chmod a+x ${S}/target-i386/beginend_funcs.sh
- }
- 
--SRC_URI_append_virtclass-nativesdk = " file://glflags.patch;patch=1"
- DEPENDS_virtclass-nativesdk = "zlib-nativesdk libsdl-nativesdk qemugl-nativesdk"
- RDEPENDS_virtclass-nativesdk = "libsdl-nativesdk"
- EXTRA_OECONF_virtclass-nativesdk = "--target-list=arm-linux-user,arm-softmmu,i386-softmmu,x86_64-softmmu,mips-linux-user,mipsel-linux-user,mips-softmmu,ppc-softmmu --disable-vnc-tls --cross-prefix=${TARGET_PREFIX}"
--- 
-1.6.6.1
+Short term we need to disable it at least for ppc, longer term what
+should we do?
+
+Cheers,
+
+Richard
 
 
 
