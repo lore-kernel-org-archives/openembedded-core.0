@@ -1,24 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Q4yhx-0007Bn-Du
+	(envelope-from <mark.hatle@windriver.com>) id 1Q520T-0008DU-C8
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 Mar 2011 18:57:30 +0200
-Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
-	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p2UGsiPT024272;
-	Wed, 30 Mar 2011 09:54:47 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Wed, 30 Mar 2011 12:55:14 -0400
-Message-Id: <80eb591ef244f2a9ebaeca3ed2da985c72b98daf.1301503818.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1301503818.git.bruce.ashfield@windriver.com>
-References: <cover.1301503818.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1301503818.git.bruce.ashfield@windriver.com>
-References: <cover.1301503818.git.bruce.ashfield@windriver.com>
-Cc: dvhart@linux.intel.com, poky@yoctoproject.org,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-yocto/qemux86-64: enable profiling and latency
+	Wed, 30 Mar 2011 22:28:45 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p2UKQiJE002997
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 30 Mar 2011 13:26:44 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 30 Mar 2011 13:26:43 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <poky@yoctoproject.org>, <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Mar 2011 15:29:12 -0500
+Message-ID: <c5634cb91376bafa6377dd0376cb7cb9cbf928c5.1301516765.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1301516765.git.mark.hatle@windriver.com>
+References: <cover.1301516765.git.mark.hatle@windriver.com>
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 1/3] Fix sat-solver & RPM5 integration issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +34,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2011 16:57:31 -0000
+X-List-Received-Date: Wed, 30 Mar 2011 20:28:45 -0000
+Content-Type: text/plain
 
-The configuration chunks for profiling and latency top have
-been enabled in tree now, so we can drop optional feature
-additions in the recipe itself.
+From Michael Schroeder, fix the configuration of how RPM5 handles obsoletes
+within the sat-solver.
 
-build tests show identical configurations.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto_git.bb |    4 ----
- 1 files changed, 0 insertions(+), 4 deletions(-)
+ .../sat-solver/sat-solver_obsolete.patch           |   20 ++++++++++++++++++++
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |    3 ++-
+ 2 files changed, 22 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-extended/sat-solver/sat-solver/sat-solver_obsolete.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_git.bb
-index f35d1a2..38fbba3 100644
---- a/meta/recipes-kernel/linux/linux-yocto_git.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_git.bb
-@@ -31,10 +31,6 @@ KERNEL_FEATURES="features/netfilter"
- KERNEL_FEATURES_append_qemux86=" cfg/sound"
- KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
+diff --git a/meta/recipes-extended/sat-solver/sat-solver/sat-solver_obsolete.patch b/meta/recipes-extended/sat-solver/sat-solver/sat-solver_obsolete.patch
+new file mode 100644
+index 0000000..7685057
+--- /dev/null
++++ b/meta/recipes-extended/sat-solver/sat-solver/sat-solver_obsolete.patch
+@@ -0,0 +1,20 @@
++Fix obsolete settings with RPM5.
++
++The following patch is from Michael Schroeder <mls@suse.de>
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
++diff -ur git.orig/src/pool.c git/src/pool.c
++--- git.orig/src/pool.c	2011-03-25 15:49:34.885834194 -0500
+++++ git/src/pool.c	2011-03-28 10:55:13.138786524 -0500
++@@ -70,6 +70,10 @@
++   pool->disttype = DISTTYPE_DEB;
++ # endif
++ #endif
+++#ifdef RPM5
+++  pool->obsoleteusesprovides = 1;
+++  pool->implicitobsoleteusesprovides = 1;
+++#endif
++   return pool;
++ }
++ 
+diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+index ba5af67..33bf939 100644
+--- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
++++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+@@ -7,10 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
+ DEPENDS = "libcheck rpm zlib expat db"
  
--# Temporary fix for oprofile and latencytop on qemux86-64
--KERNEL_FEATURES_append_qemux86-64=" features/profiling"
--KERNEL_FEATURES_append_qemux86-64=" features/latencytop"
--
- # extra tasks
- addtask kernel_link_vmlinux after do_compile before do_install
- addtask validate_branches before do_patch after do_kernel_checkout
+ PV = "0.0-git${SRCPV}"
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI = "git://gitorious.org/opensuse/sat-solver.git;protocol=git \
+            file://sat-solver_rpm5.patch \
++           file://sat-solver_obsolete.patch \
+            file://cmake.patch \
+            file://db5.patch \
+            file://builtin-arch.patch;apply=no \
 -- 
-1.7.0.4
+1.7.3.4
 
 
 
