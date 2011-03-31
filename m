@@ -1,27 +1,36 @@
-Received: from vms173009pub.verizon.net ([206.46.173.9])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1Q5Og3-00062G-Of
-	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 22:41:13 +0200
-Received: from gandalf.denix.org ([unknown] [108.18.140.4])
-	by vms173009.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0LIX00H0TT4VUZB1@vms173009.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 14:36:37 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 2CA0A14AF6C; Thu,
-	31 Mar 2011 15:36:31 -0400 (EDT)
-Date: Thu, 31 Mar 2011 15:36:31 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-id: <20110331193631.GG23178@denix.org>
-References: <600E597B-5D02-419E-A378-5EE511B848FA@dominion.thruhere.net>
-	<1301340308.24596.9.camel@rex>
-MIME-version: 1.0
-In-reply-to: <1301340308.24596.9.camel@rex>
-User-Agent: Mutt/1.5.16 (2007-06-09)
-Subject: Re: Using meta-toolchain output as prebuilt toolchains
+Received: from mail-out.m-online.net ([212.18.0.9])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1Q5PUe-0006bW-LV for openembedded-core@lists.openembedded.org;
+	Thu, 31 Mar 2011 23:33:28 +0200
+Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id 85A031C0F567;
+	Thu, 31 Mar 2011 23:31:28 +0200 (CEST)
+X-Auth-Info: DQEqxIe6UN1p+OEtgZzYvd9O8sCoLrNqh800xVm0X2s=
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216])
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 251381C00086;
+	Thu, 31 Mar 2011 23:31:28 +0200 (CEST)
+Received: from gemini.denx.de (unknown [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id 01EC9329A66F;
+	Thu, 31 Mar 2011 23:31:27 +0200 (CEST)
+Received: from gemini.denx.de (localhost.localdomain [127.0.0.1])
+	by gemini.denx.de (Postfix) with ESMTP id 70E96F03208;
+	Thu, 31 Mar 2011 23:31:27 +0200 (CEST)
+To: Darren Hart <dvhart@linux.intel.com>
+From: Wolfgang Denk <wd@denx.de>
+MIME-Version: 1.0
+In-reply-to: <4D94ACBA.90409@linux.intel.com>
+References: <cover.1301578942.git.paul.eggleton@linux.intel.com>
+	<41ae31ba057b63d3c518e2edf217109c59b64603.1301578942.git.paul.eggleton@linux.intel.com>
+	<20110331141920.3B1C5F03208@gemini.denx.de>
+	<4D94ACBA.90409@linux.intel.com>
+Comments: In-reply-to Darren Hart <dvhart@linux.intel.com>
+	message dated "Thu, 31 Mar 2011 09:32:58 -0700."
+Date: Thu, 31 Mar 2011 23:31:27 +0200
+Message-Id: <20110331213127.70E96F03208@gemini.denx.de>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>, poky@yoctoproject.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 1/1] README.hardware: remove u-boot flashing instructions for mpc8315e-rdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,79 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 20:41:13 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Thu, 31 Mar 2011 21:33:28 -0000
+Content-type: text/plain; charset=ISO-8859-1
+Content-transfer-encoding: 8bit
 
-On Mon, Mar 28, 2011 at 08:25:08PM +0100, Richard Purdie wrote:
-> On Sun, 2011-03-27 at 13:44 +0200, Koen Kooi wrote:
-> > What is the preferred way of 'importing' prebuilt toolchains into
-> > OE-core? In oe.dev I can use this:
-> > http://cgit.openembedded.org/cgit.cgi/openembedded/tree/recipes/meta/external-toolchain-angstrom.bb to 'import' an angstrom toolchain built with 'bitbake meta-toolchain', but I'm not sure how to do that in OE-core.
-> 
-> In theory, something like that recipe should also work against the
-> output of OECore's "bitbake meta-toolchain" output.
-> 
-> I would however suggest looking at this for inspiration:
-> http://git.openembedded.net/cgit.cgi/openembedded-core/tree/meta/recipes-core/meta/external-csl-toolchain_2008q3-72.bb
-> 
-> as the:
-> 
-> GLIBC_INTERNAL_USE_BINARY_LOCALE ?= "compile"
-> inherit libc-package
-> 
-> might save duplicating half the libc packaging code. You also get the
-> cross locale generation as an added bonus so no qemu! :)
-> 
-> There is a poky-external-toolchain recipe there too but its broken.
-> Everything that did, sstate now does better so that should really be
-> removed. Its advantage was not having to repackage the libc locales but
-> it was so much hacky code to implement, wasn't multiple package manager
-> safe and sstate replaces it much more neatly. If anyone does want to use
-> external toolchains like that, I'd suggest the csl example above as the
-> way to do it now.
+Dear Darren Hart,
 
-Richard,
+In message <4D94ACBA.90409@linux.intel.com> you wrote:
+> 
+> Absolutely, this wasn't intended as a final "solution". The issue 
+> appears to be related to the 4.5.1 version of gcc failing in various 
+> ways to build either u-boot master or v2010.09, or v2010.12. I will 
+> report this to the u-boot mailing list just as soon as I can get back to it.
 
-Those 2 lines indeed make the recipe much smaller and easier to read! I wish 
-we had that support in OE when I worked on the original CSL and Angstrom 
-external toolchain recipes... Although, they were inspired by and based on the 
-old Poky recipes, but evolved quite a lot since then.
+Why did you not enter this as a bug in bugzilla, then?
 
-Anyway, I'll try to get some time to port the external recipes to oe-core 
-using this new libc-package class. Thanks.
+Will we have a Yocto 1.0 releasse soon, with such known bugs?
+
+Best regards,
+
+Wolfgang Denk
 
 -- 
-Denys
-
-
-> > My actual use case is actually 2 use-cases:
-> > 
-> > 1) Hand people a prebuilt angstrom toolchain and migrate them to OE while keeping the toolchain
-> > 2) "Get started in 10 minutes" type of thing, I suspect an sstate mirror might be better.
-> 
-> sstate mirrors are the way I think things will work well in the future.
-> They're being used heavily by the yocto development team internally,
-> support in Yocto 1.0 is looking good for sstate and hence its looking
-> good for OE-Core.
-> 
-> To use it simply share the sstate-cache directory over http or nfs or
-> whatever and then set:
-> 
-> SSTATE_MIRRORS ?= "\
-> file://.* http://someserver.tld/share/sstate/ \n \
-> file://.* file:///some/local/dir/sstate/"
-> 
-> to point at wherever the files are...
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+A conservative is a man who believes that nothing should be done for
+the first time.                                   - Alfred E. Wiggam
 
 
