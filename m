@@ -1,31 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q5JA7-0007Mh-35 for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 16:47:51 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2VEjn65027228;
-	Thu, 31 Mar 2011 15:45:49 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27145-02; Thu, 31 Mar 2011 15:45:45 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2VEjgH7027222
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 31 Mar 2011 15:45:42 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1301489300-9174-1-git-send-email-koen@dominion.thruhere.net>
-References: <1301489300-9174-1-git-send-email-koen@dominion.thruhere.net>
-Date: Thu, 31 Mar 2011 15:45:38 +0100
-Message-ID: <1301582738.24596.113.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] qemu: there is no glflags.patch in the repo, so remove it from SRC_URI
+Received: from relay1.mentorg.com ([192.94.38.131])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Tom_Rini@mentor.com>) id 1Q5K7d-0000tq-Rr
+	for openembedded-core@lists.openembedded.org;
+	Thu, 31 Mar 2011 17:49:22 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Q5K5i-0001tk-9X from Tom_Rini@mentor.com ;
+	Thu, 31 Mar 2011 08:47:22 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 31 Mar 2011 08:47:22 -0700
+Received: from [172.30.80.77] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
+	Thu, 31 Mar 2011 08:47:21 -0700
+Message-ID: <4D94A1FF.1010909@mentor.com>
+Date: Thu, 31 Mar 2011 08:47:11 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
+MIME-Version: 1.0
+To: Ben Gardiner <bengardiner@nanometrics.ca>
+References: <a5c403f0fc71f38c0669691da7f637303ea09a27.1300978024.git.richard.purdie@linuxfoundation.org>
+	<cover.1301544780.git.bengardiner@nanometrics.ca>
+In-Reply-To: <cover.1301544780.git.bengardiner@nanometrics.ca>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 31 Mar 2011 15:47:22.0114 (UTC)
+	FILETIME=[EC82C620:01CBEFBA]
+Cc: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] port oe-dev ,ubifs.img link support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,23 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 14:47:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 31 Mar 2011 15:49:23 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-03-30 at 14:48 +0200, koen@dominion.thruhere.net wrote:
-> From: Koen Kooi <koen@dominion.thruhere.net>
+On 03/30/2011 09:36 PM, Ben Gardiner wrote:
+> I made some changes in oe-dev to normalize the link names used for the 
+> ubifs images created when the type is ubifs vs. when the type is UBI. 
+> The changes we two-fold: make symlinks to either .rootfs.<type> or 
+> <type>.img and use the <type>.img extension for the ubifs images when 
+> they are intermediate for UBI image generation as well as the final 
+> target.
 > 
-> Probably not the best solution, but I couldn't locate a matching glflags.patch
+> The changes were accepted by Tom Rini for oe-dev and Denys Dmytriyenko 
+> for arago.
 > 
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> I've only just begun following the oe-core list and I noticed your 
+> (Richard's) changes to introduce image_type.bbclass to oe-core. When I 
+> looked closer at the changes I could see that there had been no sync-up 
+> from oe-dev to oe-core since the changes I mentioned above.
+> 
+> This changeset should align oe-core with those recent changes in oe-dev; 
+> the changes I made were dependent on Bernhard's change to replace the 
+> symlink target with 'ln -f' instead of 'rm'ing it first; so I ported his 
+> commit also.
+> 
+> I'm sorry to say that there has been no testing of these changes with 
+> oe-core. I would be interested in trying a test build... but I must admit
+> I don't know what MACHINE+DISTRO+image to try as a simple test build.
+> 
+> Ben Gardiner (2):
+>   image_types.bbclass: add link to .rootfs.<type> or .<type>.img
+>   image_types.bbclass: use .ubifs.img extension in IMAGE_CMD_ubi
+> 
+> Bernhard Reutner-Fischer (1):
+>   image_types.bbclass: rm symlink destination via ln
+> 
+>  meta/classes/image_types.bbclass | 11 +++++++----
+>  1 files changed, 7 insertions(+), 4 deletions(-)
 
-It was accidentally removed by Khem in the qemu upgrade and is still
-needed. I've added it back.
+Thanks for doing this.  The whole series looks good to me,
+Acked-by: Tom Rini <tom_rini@mentor.com>
 
-Cheers,
-
-Richard
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
