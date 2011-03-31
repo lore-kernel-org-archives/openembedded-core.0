@@ -1,20 +1,21 @@
 Received: from [74.127.214.27] (helo=localhost)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bengardiner@localhost>) id 1Q59lh-0007mi-Et
+	(envelope-from <bengardiner@localhost>) id 1Q59lh-0007mh-F2
 	for openembedded-core@lists.openembedded.org;
 	Thu, 31 Mar 2011 06:46:02 +0200
 Received: by localhost (Postfix, from userid 1001)
-	id 2F528D402E; Thu, 31 Mar 2011 00:36:38 -0400 (EDT)
+	id 414CED402A; Thu, 31 Mar 2011 00:36:38 -0400 (EDT)
 From: Ben Gardiner <bengardiner@nanometrics.ca>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 31 Mar 2011 00:36:35 -0400
-Message-Id: <cover.1301544780.git.bengardiner@nanometrics.ca> 
+Date: Thu, 31 Mar 2011 00:36:36 -0400
+Message-Id: <7c809bbb4acd86fcd133a2fb4f902bde3afc7e88.1301544780.git.bengardiner@nanometrics.ca>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <a5c403f0fc71f38c0669691da7f637303ea09a27.1300978024.git.richard.purdie@linuxfoundation.org>
+In-Reply-To: <cover.1301544780.git.bengardiner@nanometrics.ca>
 References: <a5c403f0fc71f38c0669691da7f637303ea09a27.1300978024.git.richard.purdie@linuxfoundation.org>
+	<cover.1301544780.git.bengardiner@nanometrics.ca>
 Cc: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Subject: [PATCH 0/3] port oe-dev ,ubifs.img link support
+Subject: [PATCH 1/3] image_types.bbclass: rm symlink destination via ln
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,39 +32,37 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 31 Mar 2011 04:46:02 -0000
 
-I made some changes in oe-dev to normalize the link names used for the 
-ubifs images created when the type is ubifs vs. when the type is UBI. 
-The changes we two-fold: make symlinks to either .rootfs.<type> or 
-<type>.img and use the <type>.img extension for the ubifs images when 
-they are intermediate for UBI image generation as well as the final 
-target.
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
 
-The changes were accepted by Tom Rini for oe-dev and Denys Dmytriyenko 
-for arago.
+( This is a port of commit ffdf56431d26ce54377d672764a8bba61dcaf853
+from git://git.openembedded.org/openembedded )
 
-I've only just begun following the oe-core list and I noticed your 
-(Richard's) changes to introduce image_type.bbclass to oe-core. When I 
-looked closer at the changes I could see that there had been no sync-up 
-from oe-dev to oe-core since the changes I mentioned above.
+Rather than rm'ing the destination-file manually, do ln -f
 
-This changeset should align oe-core with those recent changes in oe-dev; 
-the changes I made were dependent on Bernhard's change to replace the 
-symlink target with 'ln -f' instead of 'rm'ing it first; so I ported his 
-commit also.
+Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Acked-by: Roman I Khimov <khimov@altell.ru>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Ben Gardiner <bengardiner@nanometrics.ca>
+---
+ meta/classes/image_types.bbclass |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
 
-I'm sorry to say that there has been no testing of these changes with 
-oe-core. I would be interested in trying a test build... but I must admit
-I don't know what MACHINE+DISTRO+image to try as a simple test build.
-
-Ben Gardiner (2):
-  image_types.bbclass: add link to .rootfs.<type> or .<type>.img
-  image_types.bbclass: use .ubifs.img extension in IMAGE_CMD_ubi
-
-Bernhard Reutner-Fischer (1):
-  image_types.bbclass: rm symlink destination via ln
-
- meta/classes/image_types.bbclass | 11 +++++++----
- 1 files changed, 7 insertions(+), 4 deletions(-)
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index f11a7ed..696e978 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -16,8 +16,7 @@ runimagecmd () {
+ 	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{size = $1 * ${IMAGE_OVERHEAD_FACTOR}; print (size > ${IMAGE_ROOTFS_SIZE} ? size : ${IMAGE_ROOTFS_SIZE}) }'`
+ 	${cmd}
+ 	cd ${DEPLOY_DIR_IMAGE}/
+-	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${type}
+-	ln -s ${IMAGE_NAME}.rootfs.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${type}
++	ln -fs ${IMAGE_NAME}.rootfs.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${type}
+ }
+ 
+ IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${EXTRA_IMAGECMD}"
+-- 
+1.7.0.4
 
 
 
