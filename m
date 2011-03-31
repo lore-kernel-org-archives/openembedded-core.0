@@ -1,34 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from [74.127.214.27] (helo=localhost)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Q57Rz-0000bE-UY
+	(envelope-from <bengardiner@localhost>) id 1Q59lh-0007mi-Et
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 04:17:32 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Mar 2011 19:09:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,271,1299484800"; d="scan'208";a="673538796"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Mar 2011 19:09:04 -0700
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx603.amr.corp.intel.com ([10.22.226.49]) with mapi;
-	Wed, 30 Mar 2011 19:09:03 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Mar 2011 19:09:00 -0700
-Thread-Topic: [OE-core] lconfig-native is not endian safe
-Thread-Index: Acvu8WDciY2k6meURxqBJo3FoaW/5AAVdTeQAAASnmAAADUm4A==
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94510B84B1@orsmsx504.amr.corp.intel.com>
-References: <1301496447.24596.100.camel@rex> <4D934FBC.40802@windriver.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94510B849E@orsmsx504.amr.corp.intel.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94510B84A7@orsmsx504.amr.corp.intel.com>
-In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94510B84A7@orsmsx504.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Subject: Re: lconfig-native is not endian safe
+	Thu, 31 Mar 2011 06:46:02 +0200
+Received: by localhost (Postfix, from userid 1001)
+	id 2F528D402E; Thu, 31 Mar 2011 00:36:38 -0400 (EDT)
+From: Ben Gardiner <bengardiner@nanometrics.ca>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 31 Mar 2011 00:36:35 -0400
+Message-Id: <cover.1301544780.git.bengardiner@nanometrics.ca> 
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <a5c403f0fc71f38c0669691da7f637303ea09a27.1300978024.git.richard.purdie@linuxfoundation.org>
+References: <a5c403f0fc71f38c0669691da7f637303ea09a27.1300978024.git.richard.purdie@linuxfoundation.org>
+Cc: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Subject: [PATCH 0/3] port oe-dev ,ubifs.img link support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,114 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 02:17:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 31 Mar 2011 04:46:02 -0000
 
+I made some changes in oe-dev to normalize the link names used for the 
+ubifs images created when the type is ubifs vs. when the type is UBI. 
+The changes we two-fold: make symlinks to either .rootfs.<type> or 
+<type>.img and use the <type>.img extension for the ubifs images when 
+they are intermediate for UBI image generation as well as the final 
+target.
 
+The changes were accepted by Tom Rini for oe-dev and Denys Dmytriyenko 
+for arago.
 
-> > I have updated the ldconfig-native to match the version of eglibc
-> > 2.12.1, but that still does not solve the endienness problem of cross
-> > ppc.
->=20
-> BTW ldconfig's endienness issue is also for mips & armeb.
+I've only just begun following the oe-core list and I noticed your 
+(Richard's) changes to introduce image_type.bbclass to oe-core. When I 
+looked closer at the changes I could see that there had been no sync-up 
+from oe-dev to oe-core since the changes I mentioned above.
 
-Another solution I was thinking of was:
-  Use the target ldconfig in qemu shell. (like the glibc locales were gener=
-ated earlier).
-Does it make sense to do it that way, or is it better to just not generate =
-the ld.so.cache?
+This changeset should align oe-core with those recent changes in oe-dev; 
+the changes I made were dependent on Bernhard's change to replace the 
+symlink target with 'ln -f' instead of 'rm'ing it first; so I ported his 
+commit also.
 
+I'm sorry to say that there has been no testing of these changes with 
+oe-core. I would be interested in trying a test build... but I must admit
+I don't know what MACHINE+DISTRO+image to try as a simple test build.
 
->=20
-> >
-> > Thanks,
-> > Nitin
-> >
-> >
-> > > -----Original Message-----
-> > > From: openembedded-core-bounces@lists.openembedded.org
-> > > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> > Of
-> > > Mark Hatle
-> > > Sent: Wednesday, March 30, 2011 8:44 AM
-> > > To: openembedded-core@lists.openembedded.org
-> > > Subject: Re: [OE-core] lconfig-native is not endian safe
-> > >
-> > > On 3/30/11 9:47 AM, Richard Purdie wrote:
-> > > > Hi,
-> > > >
-> > > > Poky has had a ldconfig-native recipe in for a while. Back in the
-> > > times
-> > > > our RPATHS were totally broken adding in an ld.so.cache was
-> useful.
-> > > In
-> > > > modern times I'm having trouble working out when this would be
-> > useful
-> > > on
-> > > > a standard system as libraries are pretty much always in one of
-> the
-> > > two
-> > > > default search locations.
-> > > >
-> > > > ldconfig-native is 32/64 bit safe. I've just been looking at PPC
-> > and
-> > > it
-> > > > is certainly not endian safe though. The endianess of the target
-> > > system
-> > > > need to match that of the build system for it to work. It
-> wouldn't
-> > be
-> > > > much work to make it endian safe though although the codebase
-> will
-> > > > diverge further from that in (e)glibc though.
-> > > >
-> > > > Short term we need to disable it at least for ppc, longer term
-> what
-> > > > should we do?
-> > >
-> > > On ARM, are the structures packed in the same way as the target
-> > system?
-> > >
-> > > I know I prefer to NOT use ldconfig in the systems I design, but I
-> > > understand
-> > > why people want it.
-> > >
-> > > I suggest we disable it on PPC for now, and work on updating endian
-> > > support,
-> > > (packing if necessary) and make sure that it supports the latest
-> > > ldconfig
-> > > features of being able to use referenced directories and such.
-> > >
-> > > --Mark
-> > >
-> > > > Cheers,
-> > > >
-> > > > Richard
-> > > >
-> > > >
-> > > > _______________________________________________
-> > > > Openembedded-core mailing list
-> > > > Openembedded-core@lists.openembedded.org
-> > > > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-
-> > core
-> > >
-> > >
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-
-> core
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Ben Gardiner (2):
+  image_types.bbclass: add link to .rootfs.<type> or .<type>.img
+  image_types.bbclass: use .ubifs.img extension in IMAGE_CMD_ubi
+
+Bernhard Reutner-Fischer (1):
+  image_types.bbclass: rm symlink destination via ln
+
+ meta/classes/image_types.bbclass | 11 +++++++----
+ 1 files changed, 7 insertions(+), 4 deletions(-)
+
 
 
