@@ -1,33 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q5J6n-0007IW-35 for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 16:44:25 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2VEgOxt027092
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 15:42:24 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26603-09 for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 15:42:20 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2VEgH7f027085
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 15:42:17 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1301095943.git.raj.khem@gmail.com>
-References: <cover.1301095943.git.raj.khem@gmail.com>
-Date: Thu, 31 Mar 2011 15:42:13 +0100
-Message-ID: <1301582533.24596.112.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/2] Call stty sane always and expand qemu target list
+Received: from mail-out.m-online.net ([212.18.0.9])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1Q5J9g-0007LV-IS for openembedded-core@lists.openembedded.org;
+	Thu, 31 Mar 2011 16:47:25 +0200
+Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id B2DC51C01F91;
+	Thu, 31 Mar 2011 16:45:24 +0200 (CEST)
+X-Auth-Info: sOG3szHZxJMNpxFnxQQtjeK12G9zvBefsty6tvrkO+w=
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216])
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id A6A841C00095;
+	Thu, 31 Mar 2011 16:45:24 +0200 (CEST)
+Received: from gemini.denx.de (unknown [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id 91EE8329A66F;
+	Thu, 31 Mar 2011 16:45:24 +0200 (CEST)
+Received: from gemini.denx.de (localhost.localdomain [127.0.0.1])
+	by gemini.denx.de (Postfix) with ESMTP id 151DBF03208;
+	Thu, 31 Mar 2011 16:45:24 +0200 (CEST)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Wolfgang Denk <wd@denx.de>
+MIME-Version: 1.0
+In-reply-to: <AANLkTikSYNW=0rdzvaNnq9LO8agu0Vz67b_Fi-pNJmyx@mail.gmail.com>
+References: <cover.1301578942.git.paul.eggleton@linux.intel.com>
+	<41ae31ba057b63d3c518e2edf217109c59b64603.1301578942.git.paul.eggleton@linux.intel.com>
+	<20110331141920.3B1C5F03208@gemini.denx.de>
+	<AANLkTikSYNW=0rdzvaNnq9LO8agu0Vz67b_Fi-pNJmyx@mail.gmail.com>
+Comments: In-reply-to Bruce Ashfield <bruce.ashfield@gmail.com>
+	message dated "Thu, 31 Mar 2011 10:23:31 -0400."
+Date: Thu, 31 Mar 2011 16:45:24 +0200
+Message-Id: <20110331144524.151DBF03208@gemini.denx.de>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>, poky@yoctoproject.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 1/1] README.hardware: remove u-boot flashing instructions for mpc8315e-rdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,36 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 14:44:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 Mar 2011 14:47:25 -0000
+Content-type: text/plain; charset=ISO-8859-1
+Content-transfer-encoding: 8bit
 
-On Fri, 2011-03-25 at 16:35 -0700, Khem Raj wrote:
-> This patch series has two patches, one calls stty sane always before exit
-> previously it was only called if qemu crashed
-> 
-> Second patch introduces a new variable called QEMU_TARGET which
-> can be set by distributions or appended in layers to select
-> reduced set of targets to build in qemu-native
-> It weakly assigned and list is expanded to include SH and MIPS64
-> to help oe distros.
-> 
-> Pull URL: git://git.openembedded.org/openembedded-core-contrib
->   Branch: kraj/qemu
->   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu
-> 
-> Thanks,
->     Khem Raj <raj.khem@gmail.com>
-> ---
-> 
-> 
-> Khem Raj (2):
->   scripts/poky-qemu-internal: call stty sane before exit
->   qemu.inc: Add sh4,sh4eb,mips64,mips64el targets
+Dear Bruce Ashfield,
 
-Merged to master, thanks.
+In message <AANLkTikSYNW=0rdzvaNnq9LO8agu0Vz67b_Fi-pNJmyx@mail.gmail.com> you wrote:
+>
+> There were a couple of build errors using u-boot master and
+> some specific branch tags, errors that we didn't see when using
+> some older toolchains. But the reports are not confirmed/formalized
+> yet. When we know more, the plan is to definitely address them and
+> hopefully do better than a bug report .. produce a patch.
 
-Richard
+If there are issues, please Cc: the U-Boot mailing list.
 
+
+Best regards,
+
+Wolfgang Denk
+
+-- 
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+Reader, suppose you were an idiot. And suppose you were a  member  of
+Congress. But I repeat myself.                           - Mark Twain
 
 
