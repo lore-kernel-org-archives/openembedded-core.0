@@ -1,21 +1,35 @@
-Received: from [74.127.214.27] (helo=localhost)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bengardiner@localhost>) id 1Q59vI-00080q-IU
+	(envelope-from <mark.hatle@windriver.com>) id 1Q5DnQ-0006cn-9a
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 06:55:58 +0200
-Received: by localhost (Postfix, from userid 1001)
-	id 63617D402D; Thu, 31 Mar 2011 00:36:38 -0400 (EDT)
-From: Ben Gardiner <bengardiner@nanometrics.ca>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 31 Mar 2011 00:36:37 -0400
-Message-Id: <907dd3d266c8fe4fcbdb698b23937687cb88ec15.1301544780.git.bengardiner@nanometrics.ca>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1301544780.git.bengardiner@nanometrics.ca>
-References: <a5c403f0fc71f38c0669691da7f637303ea09a27.1300978024.git.richard.purdie@linuxfoundation.org>
-	<cover.1301544780.git.bengardiner@nanometrics.ca>
-Cc: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-Subject: [PATCH 2/3] image_types.bbclass: add link to .rootfs.<type> or .<type>.img
+	Thu, 31 Mar 2011 11:04:04 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb [147.11.189.41])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p2V9221X020796
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2011 02:02:03 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.2.108]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.01.0255.000;
+	Thu, 31 Mar 2011 02:02:01 -0700
+From: "Hatle, Mark" <mark.hatle@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] lconfig-native is not endian safe
+Thread-Index: AQHL7ulyI73mnplbhkC/qfp5zOZXQZRGehQAgACsGQCAAACvgIAAAdwA///+DPI=
+Date: Thu, 31 Mar 2011 09:02:00 +0000
+Message-ID: <A1E6FA6F-3108-4E38-8E8F-2F231E6E1685@windriver.com>
+References: <1301496447.24596.100.camel@rex> <4D934FBC.40802@windriver.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94510B849E@orsmsx504.amr.corp.intel.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94510B84A7@orsmsx504.amr.corp.intel.com>,
+	<9DA5872FEF993D41B7173F58FCF6BE94510B84B1@orsmsx504.amr.corp.intel.com>
+In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94510B84B1@orsmsx504.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+MIME-Version: 1.0
+Subject: Re: lconfig-native is not endian safe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,48 +44,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 04:55:58 -0000
+X-List-Received-Date: Thu, 31 Mar 2011 09:04:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-( This is a port of commit cfde49e8d0f1cf09d589910f1a342849db148519
-from git://git.openembedded.org/openembedded )
+My opinion is to avoid it vs run in a qemu shell.  I really don't like bein=
+g forced to have qemu to run a build of any type.
 
-The current image link-creation code will unconditionaly create a link
-from .<type> pointing to the .rootfs.<type> output.
 
-This is not compatible with the UBIFS images produced which have
-.<type>.img extension since they are not considered to be valid rootfs
-images when they are not included in a UBI container.
 
-Check for existence of the link target .rootfs.<type> before creating the
-link and fallback to a check for the .<type>.img target after that.
+On Mar 30, 2011, at 9:15 PM, "Kamble, Nitin A" <nitin.a.kamble@intel.com> w=
+rote:
 
-Signed-off-by: Ben Gardiner <bengardiner@nanometrics.ca>
-Acked-by: Denys Dmytriyenko <denys@ti.com>
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
-Signed-off-by: Ben Gardiner <bengardiner@nanometrics.ca>
----
- meta/classes/image_types.bbclass |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 696e978..6a66d21 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -16,7 +16,11 @@ runimagecmd () {
- 	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{size = $1 * ${IMAGE_OVERHEAD_FACTOR}; print (size > ${IMAGE_ROOTFS_SIZE} ? size : ${IMAGE_ROOTFS_SIZE}) }'`
- 	${cmd}
- 	cd ${DEPLOY_DIR_IMAGE}/
--	ln -fs ${IMAGE_NAME}.rootfs.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${type}
-+	if [ -f ${IMAGE_NAME}.rootfs.${type} ]; then
-+		ln -fs ${IMAGE_NAME}.rootfs.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${type}
-+	elif [ -f ${IMAGE_NAME}.${type}.img ]; then
-+		ln -fs ${IMAGE_NAME}.${type}.img ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${type}
-+	fi
- }
- 
- IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${EXTRA_IMAGECMD}"
--- 
-1.7.0.4
-
+>=20
+>=20
+>>> I have updated the ldconfig-native to match the version of eglibc
+>>> 2.12.1, but that still does not solve the endienness problem of cross
+>>> ppc.
+>>=20
+>> BTW ldconfig's endienness issue is also for mips & armeb.
+>=20
+> Another solution I was thinking of was:
+>  Use the target ldconfig in qemu shell. (like the glibc locales were gene=
+rated earlier).
+> Does it make sense to do it that way, or is it better to just not generat=
+e the ld.so.cache?
+>=20
+>=20
+>>=20
+>>>=20
+>>> Thanks,
+>>> Nitin
+>>>=20
+>>>=20
+>>>> -----Original Message-----
+>>>> From: openembedded-core-bounces@lists.openembedded.org
+>>>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+>>> Of
+>>>> Mark Hatle
+>>>> Sent: Wednesday, March 30, 2011 8:44 AM
+>>>> To: openembedded-core@lists.openembedded.org
+>>>> Subject: Re: [OE-core] lconfig-native is not endian safe
+>>>>=20
+>>>> On 3/30/11 9:47 AM, Richard Purdie wrote:
+>>>>> Hi,
+>>>>>=20
+>>>>> Poky has had a ldconfig-native recipe in for a while. Back in the
+>>>> times
+>>>>> our RPATHS were totally broken adding in an ld.so.cache was
+>> useful.
+>>>> In
+>>>>> modern times I'm having trouble working out when this would be
+>>> useful
+>>>> on
+>>>>> a standard system as libraries are pretty much always in one of
+>> the
+>>>> two
+>>>>> default search locations.
+>>>>>=20
+>>>>> ldconfig-native is 32/64 bit safe. I've just been looking at PPC
+>>> and
+>>>> it
+>>>>> is certainly not endian safe though. The endianess of the target
+>>>> system
+>>>>> need to match that of the build system for it to work. It
+>> wouldn't
+>>> be
+>>>>> much work to make it endian safe though although the codebase
+>> will
+>>>>> diverge further from that in (e)glibc though.
+>>>>>=20
+>>>>> Short term we need to disable it at least for ppc, longer term
+>> what
+>>>>> should we do?
+>>>>=20
+>>>> On ARM, are the structures packed in the same way as the target
+>>> system?
+>>>>=20
+>>>> I know I prefer to NOT use ldconfig in the systems I design, but I
+>>>> understand
+>>>> why people want it.
+>>>>=20
+>>>> I suggest we disable it on PPC for now, and work on updating endian
+>>>> support,
+>>>> (packing if necessary) and make sure that it supports the latest
+>>>> ldconfig
+>>>> features of being able to use referenced directories and such.
+>>>>=20
+>>>> --Mark
+>>>>=20
+>>>>> Cheers,
+>>>>>=20
+>>>>> Richard
+>>>>>=20
+>>>>>=20
+>>>>> _______________________________________________
+>>>>> Openembedded-core mailing list
+>>>>> Openembedded-core@lists.openembedded.org
+>>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-
+>>> core
+>>>>=20
+>>>>=20
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-
+>> core
+>>>=20
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>=20
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
