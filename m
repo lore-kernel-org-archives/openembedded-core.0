@@ -1,23 +1,34 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Q5IES-0003pt-Ea
-	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 15:48:17 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 31 Mar 2011 06:46:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,275,1299484800"; d="scan'208";a="673728749"
-Received: from unknown (HELO helios) ([10.255.12.217])
-	by fmsmga002.fm.intel.com with SMTP; 31 Mar 2011 06:46:15 -0700
-Received: by helios (sSMTP sendmail emulation); Thu, 31 Mar 2011 14:46:14 +0100
-Message-Id: <41ae31ba057b63d3c518e2edf217109c59b64603.1301578942.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1301578942.git.paul.eggleton@linux.intel.com>
-References: <cover.1301578942.git.paul.eggleton@linux.intel.com>
-Old-Date: Thu, 31 Mar 2011 14:33:16 +0100
-Date: Thu, 31 Mar 2011 14:46:14 +0100
-To: openembedded-core@lists.openembedded.org,poky@yoctoproject.org
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] README.hardware: remove u-boot flashing instructions for mpc8315e-rdb
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q5Irp-0006on-DH for openembedded-core@lists.openembedded.org;
+	Thu, 31 Mar 2011 16:28:57 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2VEQnSH026600
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2011 15:26:49 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26001-10 for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2011 15:26:45 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2VEQhMn026594
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2011 15:26:43 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <ca0ffb747b87caed609b2edf08f963751dbc8873.1301567822.git.Martin.Jansa@gmail.com>
+References: <cover.1301567822.git.Martin.Jansa@gmail.com>
+	<ca0ffb747b87caed609b2edf08f963751dbc8873.1301567822.git.Martin.Jansa@gmail.com>
+Date: Thu, 31 Mar 2011 15:26:39 +0100
+Message-ID: <1301581599.24596.106.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/3] distutils-common-base.bbclass: Prepend STAGING_LIBDIR to linker library search path.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,69 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 13:48:17 -0000
+X-List-Received-Date: Thu, 31 Mar 2011 14:28:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+On Thu, 2011-03-31 at 12:40 +0200, Martin Jansa wrote:
+> * This was done generically in bitbake.conf this should be done on
+>   demand and distutils based recipes seem to need it. So we define it
+>   here.
+> * imported from OE 629ae87eadeec1068c3778e14488b549029adffb
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/distutils-common-base.bbclass |    2 ++
+>  1 files changed, 2 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
+> index f66a5cd..b6caf24 100644
+> --- a/meta/classes/distutils-common-base.bbclass
+> +++ b/meta/classes/distutils-common-base.bbclass
+> @@ -4,6 +4,8 @@ EXTRA_OEMAKE = ""
+>  
+>  export STAGING_INCDIR
+>  export STAGING_LIBDIR
+> +# libtool 2.4 does not export with LDFLAGS but distutils need it
+> +LDFLAGS_prepend = "-L${STAGING_LIBDIR} "
 
-Upgrading u-boot is apparently not necessary with current board revisions,
-and these instructions may not work properly anyway (our toolchain seems not
-to be able to compile u-boot in the way described), and given that they are
-potentially risky they should be removed.
+This should not be needed, the linker itself should automatically look
+in that path at link time. What problem are you seeing?
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- README.hardware |   29 +++--------------------------
- 1 files changed, 3 insertions(+), 26 deletions(-)
+Cheers,
 
-diff --git a/README.hardware b/README.hardware
-index 79607f7..025c678 100644
---- a/README.hardware
-+++ b/README.hardware
-@@ -234,32 +234,7 @@ You will need the following:
- * nfs root setup on your workstation
- * tftp server installed on your workstation
- 
--The original U-Boot image on board can't boot kernel versions 2.6.34 or later
--successfully, so the U-Boot image should be upgraded to the latest U-Boot.
--
-- 1. First build a new U-Boot image for mpc8315e-rdb, u-boot.bin.mpc8315erdb,
--    then make it available on your tftp server. To compile the new u-boot:
--
-- $ git clone git://git.denx.de/u-boot.git
-- $ cd u-boot
-- $ git checkout -b v2010.09-mpc8315erdb v2010.09
-- $ make ARCH=powerpc CROSS_COMPILE=<powerpc cross compiler path> MPC8315ERDB_config
-- $ make ARCH=powerpc CROSS_COMPILE=<powerpc cross compiler path> all
-- $ cp u-boot.bin u-boot.bin.mpc8315erdb
--
-- 2. Set up the environment in U-Boot:
--
-- =>setenv ipaddr <board ip>
-- =>setenv serverip <tftp server ip>
--
-- 3. Flash the new U-Boot image:
--
-- =>tftp 200000 u-boot.bin.mpc8315erdb
-- =>protect off all
-- =>erase fe000000 +60000
-- =>cp.b 200000 fe000000 60000
--
--Then the kernel can be booted successfully:
-+Load the kernel and boot it as follows:
- 
-  1. Get the kernel (uImage.mpc8315erdb) and dtb (mpc8315erdb.dtb) files from
-     the Poky build tmp/deploy directory, and make them available on your tftp
-@@ -267,6 +242,8 @@ Then the kernel can be booted successfully:
- 
-  2. Set up the environment in U-Boot:
- 
-+ =>setenv ipaddr <board ip>
-+ =>setenv serverip <tftp server ip>
-  =>setenv bootargs root=/dev/nfs rw nfsroot=<nfsroot ip>:<rootfs path> ip=<board ip>:<server ip>:<gateway ip>:255.255.255.0:mpc8315e:eth0:off console=ttyS0,115200
- 
-  3. Download kernel and dtb to boot kernel.
--- 
-1.7.1
+Richard
 
 
 
