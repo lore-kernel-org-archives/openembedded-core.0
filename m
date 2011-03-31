@@ -1,36 +1,26 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jefro.net@gmail.com>)
-	id 1Q5KbO-000223-QG; Thu, 31 Mar 2011 18:20:06 +0200
-Received: by fxm19 with SMTP id 19so2239482fxm.6
-	for <multiple recipients>; Thu, 31 Mar 2011 09:18:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:date:x-google-sender-auth
-	:message-id:subject:from:to:content-type;
-	bh=cm+QY1AK/uLhkgme+l1muJce9V879E1iWdUrzmV7Ijg=;
-	b=BsEfyJEijBlKTK04BAyhmGuSHPCK1OQvjOJgNyE0RHxVvFi9mt/4peTAZW3lDkM8pm
-	1lQLjHdNGoVEyWRHAEeZg/A40bXPEiZlM8mtRzLTto8IzwyibIPXW2UMQ/nC/CPTHlkX
-	TTBCjefZIfZyxae7h9CGHUmTlhbvL4I58GbF4=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type;
-	b=LYbI2Eq9Bo63hiF70jYHwdERMbVvT9vMPbCncUFvvoj1ee0vr32umXbkotZbFmt9xF
-	Z9NAOxZ3TOaGozaR/FcTl7OyVPZ4qai0w40GDXIswZi/hvv1lURL63hjJynHhYeZG9rZ
-	dj/C6xpK6hmdya2K8YUOFZzKM6ciceeiNYvY8=
+	(envelope-from <dvhart@linux.intel.com>) id 1Q5Kki-0002MX-7E
+	for openembedded-core@lists.openembedded.org;
+	Thu, 31 Mar 2011 18:29:44 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 31 Mar 2011 09:27:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.63,276,1299484800"; d="scan'208";a="621703837"
+Received: from doubt.jf.intel.com (HELO [10.24.0.166]) ([10.24.0.166])
+	by orsmga002.jf.intel.com with ESMTP; 31 Mar 2011 09:27:42 -0700
+Message-ID: <4D94AB7E.4030603@linux.intel.com>
+Date: Thu, 31 Mar 2011 09:27:42 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
 MIME-Version: 1.0
-Received: by 10.223.102.80 with SMTP id f16mr1219845fao.33.1301588286635; Thu,
-	31 Mar 2011 09:18:06 -0700 (PDT)
-Sender: jefro.net@gmail.com
-Received: by 10.223.58.139 with HTTP; Thu, 31 Mar 2011 09:18:06 -0700 (PDT)
-Date: Thu, 31 Mar 2011 09:18:06 -0700
-X-Google-Sender-Auth: c9UVpUAiigs4DVP6A46WiKm_eVU
-Message-ID: <AANLkTi=ka97U0ocV3z_w=Xt1d93F7NmLkUK9ypt4v3PQ@mail.gmail.com>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-To: openembedded-devel@lists.openembedded.org, 
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	tsc <tsc@lists.openembedded.org>
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Subject: AGENDA: OpenEmbedded Technical Steering Committee, 31 March 2011
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1301578942.git.paul.eggleton@linux.intel.com>
+	<41ae31ba057b63d3c518e2edf217109c59b64603.1301578942.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <41ae31ba057b63d3c518e2edf217109c59b64603.1301578942.git.paul.eggleton@linux.intel.com>
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 1/1] README.hardware: remove u-boot flashing	instructions for mpc8315e-rdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,75 +35,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 16:20:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 31 Mar 2011 16:29:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This agenda is posted for comment
 
-AGENDA: OpenEmbedded Technical Steering Committee, 31 March 2011
-___________________________________
- 01) Agree on meeting chair
-___________________________________
- 02) Status report on oe-core
 
-action items:
-  general: encourage more distros to participate in oe-core
-  general: invite more people to meta-oe on the oe-devel mailing list
-  interested parties: discuss documentation
-  Jefro volunteers to wikify checklist if someone sends
-___________________________________
- 03) Status report on pull model, contrib repo and guidelines
+On 03/31/2011 06:46 AM, Paul Eggleton wrote:
+> From: Paul Eggleton<paul.eggleton@linux.intel.com>
+>
+> Upgrading u-boot is apparently not necessary with current board revisions,
+> and these instructions may not work properly anyway (our toolchain seems not
+> to be able to compile u-boot in the way described), and given that they are
+> potentially risky they should be removed.
+>
+> Signed-off-by: Paul Eggleton<paul.eggleton@linux.intel.com>
 
-action items:
-  khem will try to write up how to use contrib repos
-  Mark hopes to post commit/patch policy guidelines tomorrow, has feedback
-to incorporate
-  Koen would like to copy oe-core guidelines as much as possible for meta-oe
-layer
-___________________________________
- 04) Status report on board support layer guidelines
+Acked-by: Darren Hart <dvhart@linux.intel.com>
 
-action items:
-  Richard has action to write proposal for YP steering group, won't have
-answer until their meeting
-___________________________________
- 05) Status report on version retention policy and interaction with
- oe-core / meta-oe / $distro layers
-
-previous action items:
-  Tom will wiki it
-___________________________________
- 06) Status on layer splitting of metadata
-
-action items:
-  general: keep discussions going
-  RP: will take notes of experiences and needs
-___________________________________
- 07) DISTRO_FEATURE/MACHINE_FEATURE/libc features and other
-    "flags" discussion
-  [ Proposed: Tom Rini ]
-
-action item:
-  all: discuss on mailing list
-___________________________________
- 08) Continue discussion on posting of policies and guidelines
-
-___________________________________
- 09) Continue discussions on infrastructure items
-
-action item:
-  Jefro: write a blurb describing the change for a TSC member to post
-___________________________________
- 10) Last patchwork weekend for patchwork.or.org mid april.
-  [ Proposed: Stefan ]
-
-   After this weekend we should remove all patches from it and only
-   use patches.oe.org from now.
-
-action item:
-   Stefan will send out mails for this.
+> ---
+>   README.hardware |   29 +++--------------------------
+>   1 files changed, 3 insertions(+), 26 deletions(-)
+>
+> diff --git a/README.hardware b/README.hardware
+> index 79607f7..025c678 100644
+> --- a/README.hardware
+> +++ b/README.hardware
+> @@ -234,32 +234,7 @@ You will need the following:
+>   * nfs root setup on your workstation
+>   * tftp server installed on your workstation
+>
+> -The original U-Boot image on board can't boot kernel versions 2.6.34 or later
+> -successfully, so the U-Boot image should be upgraded to the latest U-Boot.
+> -
+> - 1. First build a new U-Boot image for mpc8315e-rdb, u-boot.bin.mpc8315erdb,
+> -    then make it available on your tftp server. To compile the new u-boot:
+> -
+> - $ git clone git://git.denx.de/u-boot.git
+> - $ cd u-boot
+> - $ git checkout -b v2010.09-mpc8315erdb v2010.09
+> - $ make ARCH=powerpc CROSS_COMPILE=<powerpc cross compiler path>  MPC8315ERDB_config
+> - $ make ARCH=powerpc CROSS_COMPILE=<powerpc cross compiler path>  all
+> - $ cp u-boot.bin u-boot.bin.mpc8315erdb
+> -
+> - 2. Set up the environment in U-Boot:
+> -
+> - =>setenv ipaddr<board ip>
+> - =>setenv serverip<tftp server ip>
+> -
+> - 3. Flash the new U-Boot image:
+> -
+> - =>tftp 200000 u-boot.bin.mpc8315erdb
+> - =>protect off all
+> - =>erase fe000000 +60000
+> - =>cp.b 200000 fe000000 60000
+> -
+> -Then the kernel can be booted successfully:
+> +Load the kernel and boot it as follows:
+>
+>    1. Get the kernel (uImage.mpc8315erdb) and dtb (mpc8315erdb.dtb) files from
+>       the Poky build tmp/deploy directory, and make them available on your tftp
+> @@ -267,6 +242,8 @@ Then the kernel can be booted successfully:
+>
+>    2. Set up the environment in U-Boot:
+>
+> + =>setenv ipaddr<board ip>
+> + =>setenv serverip<tftp server ip>
+>    =>setenv bootargs root=/dev/nfs rw nfsroot=<nfsroot ip>:<rootfs path>  ip=<board ip>:<server ip>:<gateway ip>:255.255.255.0:mpc8315e:eth0:off console=ttyS0,115200
+>
+>    3. Download kernel and dtb to boot kernel.
 
 -- 
-Jeff Osier-Mixon http://jefro.net/blog
-Yocto Project Community Manager @Intel http://yoctoproject.org
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
 
