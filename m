@@ -1,27 +1,40 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Q5Kpp-0002Qp-DJ
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Q5LgD-0004bG-0c
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 18:35:01 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 31 Mar 2011 09:32:59 -0700
+	Thu, 31 Mar 2011 19:29:09 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 31 Mar 2011 10:27:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,276,1299484800"; d="scan'208";a="411792672"
-Received: from doubt.jf.intel.com (HELO [10.24.0.166]) ([10.24.0.166])
-	by azsmga001.ch.intel.com with ESMTP; 31 Mar 2011 09:32:58 -0700
-Message-ID: <4D94ACBA.90409@linux.intel.com>
-Date: Thu, 31 Mar 2011 09:32:58 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
+X-IronPort-AV: E=Sophos;i="4.63,276,1299484800"; d="scan'208";a="673817090"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by fmsmga002.fm.intel.com with ESMTP; 31 Mar 2011 10:27:05 -0700
+Received: from orsmsx605.amr.corp.intel.com (10.22.226.10) by
+	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 31 Mar 2011 10:27:03 -0700
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx605.amr.corp.intel.com ([10.22.226.10]) with mapi;
+	Thu, 31 Mar 2011 10:27:03 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 31 Mar 2011 10:27:02 -0700
+Thread-Topic: [OE-core] ldconfig-native is not endian safe
+Thread-Index: AcvvkBxxRge+fJ/ySuyp0Lf2dXc6BgAOIHSg
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE945111C624@orsmsx504.amr.corp.intel.com>
+References: <1301496447.24596.100.camel@rex> <4D934FBC.40802@windriver.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94510B849E@orsmsx504.amr.corp.intel.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94510B84A7@orsmsx504.amr.corp.intel.com>	,
+	<9DA5872FEF993D41B7173F58FCF6BE94510B84B1@orsmsx504.amr.corp.intel.com>
+	<A1E6FA6F-3108-4E38-8E8F-2F231E6E1685@windriver.com>
+	<1301568031.24596.104.camel@rex>
+In-Reply-To: <1301568031.24596.104.camel@rex>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
 MIME-Version: 1.0
-To: Wolfgang Denk <wd@denx.de>
-References: <cover.1301578942.git.paul.eggleton@linux.intel.com>	<41ae31ba057b63d3c518e2edf217109c59b64603.1301578942.git.paul.eggleton@linux.intel.com>
-	<20110331141920.3B1C5F03208@gemini.denx.de>
-In-Reply-To: <20110331141920.3B1C5F03208@gemini.denx.de>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>, poky@yoctoproject.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [poky] [PATCH 1/1] README.hardware: remove u-boot flashing	instructions for mpc8315e-rdb
+Subject: Re: ldconfig-native is not endian safe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,58 +49,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 16:35:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 Mar 2011 17:29:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
 
-On 03/31/2011 07:19 AM, Wolfgang Denk wrote:
-> Dear Paul Eggleton,
->
-> In message<41ae31ba057b63d3c518e2edf217109c59b64603.1301578942.git.paul.eggleton@linux.intel.com>  you wrote:
->> From: Paul Eggleton<paul.eggleton@linux.intel.com>
->>
->> Upgrading u-boot is apparently not necessary with current board revisions,
->> and these instructions may not work properly anyway (our toolchain seems not
->> to be able to compile u-boot in the way described), and given that they are
->> potentially risky they should be removed.
->
-> The instructions you delete appear to be pretty generic ones, and I
-> see no reason why they would not work.
->
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: Thursday, March 31, 2011 3:41 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] lconfig-native is not endian safe
+>=20
+> On Thu, 2011-03-31 at 09:02 +0000, Hatle, Mark wrote:
+> > My opinion is to avoid it vs run in a qemu shell.  I really don't
+> like
+> > being forced to have qemu to run a build of any type.
+>=20
+> Agreed, I think we can avoid this.
+>=20
+> For reference, I have half he endian problem resolved with:
+>=20
+> http://git.yoctoproject.org/cgit.cgi/poky-
+> contrib/commit/?h=3Drpurdie/gcc-
+> sharedwork&id=3D0711c7c065c6e1caa04f452069d08a056c3caabe
+>=20
+> which handles reading in the data from the elf files in an endian safe
+> way. Someone needs to go through and change the dl cache file handling
+> code to be endian safe though, then compare the result with a file
+> generated on a target device.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 
-When I followed them I ended up with a dead mpc3815e-rdb. I suspect my 
-u-boot image was bad in some way, but my concern was that others would 
-end up in the same situation following the instructions. Since the 
-existing u-boot version was able to boot the linux-yocto kernel recipe, 
-there appears to be no need to reflash u-boot.
+Richard,
+  I upgraded ldconfig-native to 2.12.1 ( our eglibc version), I rebased you=
+r patch to it, and will implement rest of the endianness handling code.
+Thanks,
+Nitin
 
-> If the Poky too chain has issues with this, then there is a problem
-> with that tool chain, and you should enter a bug report.
->
-> What exactly would that problem be?
-
-Absolutely, this wasn't intended as a final "solution". The issue 
-appears to be related to the 4.5.1 version of gcc failing in various 
-ways to build either u-boot master or v2010.09, or v2010.12. I will 
-report this to the u-boot mailing list just as soon as I can get back to it.
-
---
-Darren
-
->
-> In any case, just papering over the problems seems not a good
-> startegy to me.
->
-> Best regards,
->
-> Wolfgang Denk
->
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
