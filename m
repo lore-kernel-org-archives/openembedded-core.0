@@ -1,28 +1,37 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q5EZv-0003hO-0x
+	(envelope-from <martin.jansa@gmail.com>) id 1Q5FKl-0001jE-8n
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 11:54:11 +0200
-Received: by wwb17 with SMTP id 17so2230201wwb.24
+	Thu, 31 Mar 2011 12:42:35 +0200
+Received: by bwz5 with SMTP id 5so1711285bwz.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 02:52:06 -0700 (PDT)
-Received: by 10.216.11.205 with SMTP id 55mr1813532wex.72.1301565126474;
-	Thu, 31 Mar 2011 02:52:06 -0700 (PDT)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id z50sm418759weq.47.2011.03.31.02.52.05
+	Thu, 31 Mar 2011 03:40:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=rJUWx+R8L3SOo932/UrM3kKUImtd6UukLcAWaYPtllE=;
+	b=iEbCrHQwl82weY5/eGlMogT7yv/zIebHNnwyNL+mdKu2HYBjEIisxzHJBNQBdoOpi7
+	p3sMrJgaLPpD7z/OeoHLu9x28hCcwex4MxqbpuV+fsmZbjXBw9KbI4jNiX5GhzfY6Ks4
+	X3rL7OAHZ0HJ8gOWlNR6j2qmKZjOa4OTg1WXw=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=KdYXM/zcZqkwNoj6whLqFjTJGh2uTt5LJRdVdEiiQrfvHY5N2Oj8UBMrI/HltEyHH9
+	7SGbNZtjg1OGapeUMtf9Nwga/iufsb9GtttMtvwmq/dd2n8g9a38oOwYtm1voaUglWLh
+	trULT5MpC2+LCvt7E3JV3bpzQ8Bo3AiP+lrmY=
+Received: by 10.204.81.224 with SMTP id y32mr2189365bkk.152.1301568016329;
+	Thu, 31 Mar 2011 03:40:16 -0700 (PDT)
+Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
+	by mx.google.com with ESMTPS id v21sm649125bkt.11.2011.03.31.03.40.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 Mar 2011 02:52:05 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1301489300-9174-1-git-send-email-koen@dominion.thruhere.net>
-Date: Thu, 31 Mar 2011 11:52:05 +0200
-Message-Id: <68DA01AC-A0C8-4632-B19D-4021CB4253C1@dominion.thruhere.net>
-References: <1301489300-9174-1-git-send-email-koen@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] qemu: there is no glflags.patch in the repo, so remove it from SRC_URI
+	Thu, 31 Mar 2011 03:40:15 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Mar 2011 12:40:08 +0200
+Message-Id: <ca0ffb747b87caed609b2edf08f963751dbc8873.1301567822.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1301567822.git.Martin.Jansa@gmail.com>
+References: <cover.1301567822.git.Martin.Jansa@gmail.com>
+Subject: [PATCH 1/3] distutils-common-base.bbclass: Prepend STAGING_LIBDIR to linker library search path.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,46 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 09:54:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 31 Mar 2011 10:42:35 -0000
 
-ping
+* This was done generically in bitbake.conf this should be done on
+  demand and distutils based recipes seem to need it. So we define it
+  here.
+* imported from OE 629ae87eadeec1068c3778e14488b549029adffb
 
-Op 30 mrt 2011, om 14:48 heeft koen@dominion.thruhere.net het volgende =
-geschreven:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/distutils-common-base.bbclass |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-> From: Koen Kooi <koen@dominion.thruhere.net>
->=20
-> Probably not the best solution, but I couldn't locate a matching =
-glflags.patch
->=20
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
-> meta/recipes-devtools/qemu/qemu.inc |    1 -
-> 1 files changed, 0 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc =
-b/meta/recipes-devtools/qemu/qemu.inc
-> index f41b49c..83d7407 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -31,7 +31,6 @@ do_configure() {
->     chmod a+x ${S}/target-i386/beginend_funcs.sh
-> }
->=20
-> -SRC_URI_append_virtclass-nativesdk =3D " =
-file://glflags.patch;patch=3D1"
-> DEPENDS_virtclass-nativesdk =3D "zlib-nativesdk libsdl-nativesdk =
-qemugl-nativesdk"
-> RDEPENDS_virtclass-nativesdk =3D "libsdl-nativesdk"
-> EXTRA_OECONF_virtclass-nativesdk =3D =
-"--target-list=3Darm-linux-user,arm-softmmu,i386-softmmu,x86_64-softmmu,mi=
-ps-linux-user,mipsel-linux-user,mips-softmmu,ppc-softmmu =
---disable-vnc-tls --cross-prefix=3D${TARGET_PREFIX}"
-> --=20
-> 1.6.6.1
->=20
+diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
+index f66a5cd..b6caf24 100644
+--- a/meta/classes/distutils-common-base.bbclass
++++ b/meta/classes/distutils-common-base.bbclass
+@@ -4,6 +4,8 @@ EXTRA_OEMAKE = ""
+ 
+ export STAGING_INCDIR
+ export STAGING_LIBDIR
++# libtool 2.4 does not export with LDFLAGS but distutils need it
++LDFLAGS_prepend = "-L${STAGING_LIBDIR} "
+ 
+ PACKAGES = "${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
+ 
+-- 
+1.7.4.1
 
 
 
