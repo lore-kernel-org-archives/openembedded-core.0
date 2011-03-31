@@ -1,37 +1,38 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Q5FKl-0001jE-8n
-	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 12:42:35 +0200
-Received: by bwz5 with SMTP id 5so1711285bwz.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q5FKr-0001jN-4K for openembedded-core@lists.openembedded.org;
+	Thu, 31 Mar 2011 12:42:41 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2VAefW9023908
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 03:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=rJUWx+R8L3SOo932/UrM3kKUImtd6UukLcAWaYPtllE=;
-	b=iEbCrHQwl82weY5/eGlMogT7yv/zIebHNnwyNL+mdKu2HYBjEIisxzHJBNQBdoOpi7
-	p3sMrJgaLPpD7z/OeoHLu9x28hCcwex4MxqbpuV+fsmZbjXBw9KbI4jNiX5GhzfY6Ks4
-	X3rL7OAHZ0HJ8gOWlNR6j2qmKZjOa4OTg1WXw=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=KdYXM/zcZqkwNoj6whLqFjTJGh2uTt5LJRdVdEiiQrfvHY5N2Oj8UBMrI/HltEyHH9
-	7SGbNZtjg1OGapeUMtf9Nwga/iufsb9GtttMtvwmq/dd2n8g9a38oOwYtm1voaUglWLh
-	trULT5MpC2+LCvt7E3JV3bpzQ8Bo3AiP+lrmY=
-Received: by 10.204.81.224 with SMTP id y32mr2189365bkk.152.1301568016329;
-	Thu, 31 Mar 2011 03:40:16 -0700 (PDT)
-Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
-	by mx.google.com with ESMTPS id v21sm649125bkt.11.2011.03.31.03.40.14
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 Mar 2011 03:40:15 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Mar 2011 12:40:08 +0200
-Message-Id: <ca0ffb747b87caed609b2edf08f963751dbc8873.1301567822.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1301567822.git.Martin.Jansa@gmail.com>
-References: <cover.1301567822.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 1/3] distutils-common-base.bbclass: Prepend STAGING_LIBDIR to linker library search path.
+	Thu, 31 Mar 2011 11:40:41 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23688-04 for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2011 11:40:37 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2VAeYRN023902
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Mar 2011 11:40:35 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <A1E6FA6F-3108-4E38-8E8F-2F231E6E1685@windriver.com>
+References: <1301496447.24596.100.camel@rex> <4D934FBC.40802@windriver.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94510B849E@orsmsx504.amr.corp.intel.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94510B84A7@orsmsx504.amr.corp.intel.com>
+	,
+	<9DA5872FEF993D41B7173F58FCF6BE94510B84B1@orsmsx504.amr.corp.intel.com>
+	<A1E6FA6F-3108-4E38-8E8F-2F231E6E1685@windriver.com>
+Date: Thu, 31 Mar 2011 11:40:31 +0100
+Message-ID: <1301568031.24596.104.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: lconfig-native is not endian safe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,33 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 10:42:35 -0000
+X-List-Received-Date: Thu, 31 Mar 2011 10:42:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* This was done generically in bitbake.conf this should be done on
-  demand and distutils based recipes seem to need it. So we define it
-  here.
-* imported from OE 629ae87eadeec1068c3778e14488b549029adffb
+On Thu, 2011-03-31 at 09:02 +0000, Hatle, Mark wrote:
+> My opinion is to avoid it vs run in a qemu shell.  I really don't like
+> being forced to have qemu to run a build of any type.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/distutils-common-base.bbclass |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+Agreed, I think we can avoid this.
 
-diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
-index f66a5cd..b6caf24 100644
---- a/meta/classes/distutils-common-base.bbclass
-+++ b/meta/classes/distutils-common-base.bbclass
-@@ -4,6 +4,8 @@ EXTRA_OEMAKE = ""
- 
- export STAGING_INCDIR
- export STAGING_LIBDIR
-+# libtool 2.4 does not export with LDFLAGS but distutils need it
-+LDFLAGS_prepend = "-L${STAGING_LIBDIR} "
- 
- PACKAGES = "${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
- 
--- 
-1.7.4.1
+For reference, I have half he endian problem resolved with:
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/gcc-sharedwork&id=0711c7c065c6e1caa04f452069d08a056c3caabe
+
+which handles reading in the data from the elf files in an endian safe
+way. Someone needs to go through and change the dl cache file handling
+code to be endian safe though, then compare the result with a file
+generated on a target device.
+
+Cheers,
+
+Richard
+
 
 
 
