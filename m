@@ -1,35 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Q5DnQ-0006cn-9a
+	(envelope-from <koen@dominion.thruhere.net>) id 1Q5EZv-0003hO-0x
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 11:04:04 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb [147.11.189.41])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p2V9221X020796
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 31 Mar 2011 11:54:11 +0200
+Received: by wwb17 with SMTP id 17so2230201wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 02:02:03 -0700 (PDT)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.2.108]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.01.0255.000;
-	Thu, 31 Mar 2011 02:02:01 -0700
-From: "Hatle, Mark" <mark.hatle@windriver.com>
+	Thu, 31 Mar 2011 02:52:06 -0700 (PDT)
+Received: by 10.216.11.205 with SMTP id 55mr1813532wex.72.1301565126474;
+	Thu, 31 Mar 2011 02:52:06 -0700 (PDT)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id z50sm418759weq.47.2011.03.31.02.52.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 31 Mar 2011 02:52:05 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1301489300-9174-1-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 31 Mar 2011 11:52:05 +0200
+Message-Id: <68DA01AC-A0C8-4632-B19D-4021CB4253C1@dominion.thruhere.net>
+References: <1301489300-9174-1-git-send-email-koen@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] lconfig-native is not endian safe
-Thread-Index: AQHL7ulyI73mnplbhkC/qfp5zOZXQZRGehQAgACsGQCAAACvgIAAAdwA///+DPI=
-Date: Thu, 31 Mar 2011 09:02:00 +0000
-Message-ID: <A1E6FA6F-3108-4E38-8E8F-2F231E6E1685@windriver.com>
-References: <1301496447.24596.100.camel@rex> <4D934FBC.40802@windriver.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94510B849E@orsmsx504.amr.corp.intel.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94510B84A7@orsmsx504.amr.corp.intel.com>,
-	<9DA5872FEF993D41B7173F58FCF6BE94510B84B1@orsmsx504.amr.corp.intel.com>
-In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94510B84B1@orsmsx504.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-MIME-Version: 1.0
-Subject: Re: lconfig-native is not endian safe
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH] qemu: there is no glflags.patch in the repo, so remove it from SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,127 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 09:04:04 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 31 Mar 2011 09:54:11 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-My opinion is to avoid it vs run in a qemu shell.  I really don't like bein=
-g forced to have qemu to run a build of any type.
+ping
 
+Op 30 mrt 2011, om 14:48 heeft koen@dominion.thruhere.net het volgende =
+geschreven:
 
+> From: Koen Kooi <koen@dominion.thruhere.net>
+>=20
+> Probably not the best solution, but I couldn't locate a matching =
+glflags.patch
+>=20
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+> meta/recipes-devtools/qemu/qemu.inc |    1 -
+> 1 files changed, 0 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc =
+b/meta/recipes-devtools/qemu/qemu.inc
+> index f41b49c..83d7407 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -31,7 +31,6 @@ do_configure() {
+>     chmod a+x ${S}/target-i386/beginend_funcs.sh
+> }
+>=20
+> -SRC_URI_append_virtclass-nativesdk =3D " =
+file://glflags.patch;patch=3D1"
+> DEPENDS_virtclass-nativesdk =3D "zlib-nativesdk libsdl-nativesdk =
+qemugl-nativesdk"
+> RDEPENDS_virtclass-nativesdk =3D "libsdl-nativesdk"
+> EXTRA_OECONF_virtclass-nativesdk =3D =
+"--target-list=3Darm-linux-user,arm-softmmu,i386-softmmu,x86_64-softmmu,mi=
+ps-linux-user,mipsel-linux-user,mips-softmmu,ppc-softmmu =
+--disable-vnc-tls --cross-prefix=3D${TARGET_PREFIX}"
+> --=20
+> 1.6.6.1
+>=20
 
-On Mar 30, 2011, at 9:15 PM, "Kamble, Nitin A" <nitin.a.kamble@intel.com> w=
-rote:
-
->=20
->=20
->>> I have updated the ldconfig-native to match the version of eglibc
->>> 2.12.1, but that still does not solve the endienness problem of cross
->>> ppc.
->>=20
->> BTW ldconfig's endienness issue is also for mips & armeb.
->=20
-> Another solution I was thinking of was:
->  Use the target ldconfig in qemu shell. (like the glibc locales were gene=
-rated earlier).
-> Does it make sense to do it that way, or is it better to just not generat=
-e the ld.so.cache?
->=20
->=20
->>=20
->>>=20
->>> Thanks,
->>> Nitin
->>>=20
->>>=20
->>>> -----Original Message-----
->>>> From: openembedded-core-bounces@lists.openembedded.org
->>>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
->>> Of
->>>> Mark Hatle
->>>> Sent: Wednesday, March 30, 2011 8:44 AM
->>>> To: openembedded-core@lists.openembedded.org
->>>> Subject: Re: [OE-core] lconfig-native is not endian safe
->>>>=20
->>>> On 3/30/11 9:47 AM, Richard Purdie wrote:
->>>>> Hi,
->>>>>=20
->>>>> Poky has had a ldconfig-native recipe in for a while. Back in the
->>>> times
->>>>> our RPATHS were totally broken adding in an ld.so.cache was
->> useful.
->>>> In
->>>>> modern times I'm having trouble working out when this would be
->>> useful
->>>> on
->>>>> a standard system as libraries are pretty much always in one of
->> the
->>>> two
->>>>> default search locations.
->>>>>=20
->>>>> ldconfig-native is 32/64 bit safe. I've just been looking at PPC
->>> and
->>>> it
->>>>> is certainly not endian safe though. The endianess of the target
->>>> system
->>>>> need to match that of the build system for it to work. It
->> wouldn't
->>> be
->>>>> much work to make it endian safe though although the codebase
->> will
->>>>> diverge further from that in (e)glibc though.
->>>>>=20
->>>>> Short term we need to disable it at least for ppc, longer term
->> what
->>>>> should we do?
->>>>=20
->>>> On ARM, are the structures packed in the same way as the target
->>> system?
->>>>=20
->>>> I know I prefer to NOT use ldconfig in the systems I design, but I
->>>> understand
->>>> why people want it.
->>>>=20
->>>> I suggest we disable it on PPC for now, and work on updating endian
->>>> support,
->>>> (packing if necessary) and make sure that it supports the latest
->>>> ldconfig
->>>> features of being able to use referenced directories and such.
->>>>=20
->>>> --Mark
->>>>=20
->>>>> Cheers,
->>>>>=20
->>>>> Richard
->>>>>=20
->>>>>=20
->>>>> _______________________________________________
->>>>> Openembedded-core mailing list
->>>>> Openembedded-core@lists.openembedded.org
->>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-
->>> core
->>>>=20
->>>>=20
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-
->> core
->>>=20
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>=20
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
