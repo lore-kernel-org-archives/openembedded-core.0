@@ -1,34 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q5Irp-0006on-DH for openembedded-core@lists.openembedded.org;
-	Thu, 31 Mar 2011 16:28:57 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2VEQnSH026600
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1Q5Itf-0006vw-NE
+	for openembedded-core@lists.openembedded.org;
+	Thu, 31 Mar 2011 16:30:53 +0200
+Received: by wwb17 with SMTP id 17so2516191wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 15:26:49 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26001-10 for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 15:26:45 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p2VEQhMn026594
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 15:26:43 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 31 Mar 2011 07:28:47 -0700 (PDT)
+Received: by 10.216.195.139 with SMTP id p11mr2596452wen.67.1301581727405;
+	Thu, 31 Mar 2011 07:28:47 -0700 (PDT)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id n2sm534507wej.46.2011.03.31.07.28.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 31 Mar 2011 07:28:47 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 31 Mar 2011 16:28:46 +0200
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <ca0ffb747b87caed609b2edf08f963751dbc8873.1301567822.git.Martin.Jansa@gmail.com>
-References: <cover.1301567822.git.Martin.Jansa@gmail.com>
-	<ca0ffb747b87caed609b2edf08f963751dbc8873.1301567822.git.Martin.Jansa@gmail.com>
-Date: Thu, 31 Mar 2011 15:26:39 +0100
-Message-ID: <1301581599.24596.106.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/3] distutils-common-base.bbclass: Prepend STAGING_LIBDIR to linker library search path.
+	<openembedded-core@lists.openembedded.org>, 
+	Discussion of the angstrom distribution development
+	<angstrom-distro-devel@linuxtogo.org>
+Message-Id: <97683FC9-5A69-4D7A-80A4-4FEA70730EA8@dominion.thruhere.net>
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: [Announce] Angstrom-layers has been deprecated, manual bblayers.conf editing needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,38 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Mar 2011 14:28:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 Mar 2011 14:30:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2011-03-31 at 12:40 +0200, Martin Jansa wrote:
-> * This was done generically in bitbake.conf this should be done on
->   demand and distutils based recipes seem to need it. So we define it
->   here.
-> * imported from OE 629ae87eadeec1068c3778e14488b549029adffb
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/distutils-common-base.bbclass |    2 ++
->  1 files changed, 2 insertions(+), 0 deletions(-)
-> 
-> diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
-> index f66a5cd..b6caf24 100644
-> --- a/meta/classes/distutils-common-base.bbclass
-> +++ b/meta/classes/distutils-common-base.bbclass
-> @@ -4,6 +4,8 @@ EXTRA_OEMAKE = ""
->  
->  export STAGING_INCDIR
->  export STAGING_LIBDIR
-> +# libtool 2.4 does not export with LDFLAGS but distutils need it
-> +LDFLAGS_prepend = "-L${STAGING_LIBDIR} "
+Apologies for crossposting, please vet the addresses when replying.
 
-This should not be needed, the linker itself should automatically look
-in that path at link time. What problem are you seeing?
+When starting the yocto support in angstrom we started with a single =
+repo with a few layers, angstrom-layers. Over time various layers were =
+split out and moved (e.g. meta-oe) to make development easier and have =
+clearer seperatation.Today the last piece of angstrom-layers has been =
+split out into its own repo, which makes it obsolete. The necessary =
+changes to the angstrom setup scripts have been made:
 
-Cheers,
+=
+http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/setup-scripts/commit=
+/?h=3Doe-core
 
-Richard
+For existing users you need to make a similar change to =
+build/conf/bblayers.conf.
 
+The new, but temporary, location for the TI BSP is now at =
+http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-texasinstrument=
+s/. The final location is unknown, since OE hasn't made up their mind =
+about hosting BSPs on OE.org yet and TI needs to decide internally which =
+location would be best (oe.org, angstrom, yocto, something else). But =
+for the time being it will live on the angstrom server.
+
+=46rom now on there should only be layer additions :)
+
+regards,
+
+Koen=
 
 
