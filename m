@@ -1,38 +1,38 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q5W0d-0004q3-Ib
+	(envelope-from <raj.khem@gmail.com>) id 1Q5W0k-0004v2-3a
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 06:30:55 +0200
-Received: by mail-pv0-f175.google.com with SMTP id 30so571564pvc.6
+	Fri, 01 Apr 2011 06:31:02 +0200
+Received: by mail-iy0-f175.google.com with SMTP id 7so3385901iye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 21:28:56 -0700 (PDT)
+	Thu, 31 Mar 2011 21:29:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=7ZVVCnRckohuzn6M68YFMwcR0KLWq4kHi7WXaD+CCBw=;
-	b=A8oS0skze8OJzxCriEYcLI0RI93PdwVCUMx/orw3B0eCbCEb1BW1fuqg/eeJLCtjJu
-	rcYCq2hLSc3GkDaLdWGnAT2+sIoBwCEMystisE8vePBI9jQp1DU92dK6S6IAbK2TT+lD
-	DLRYmdpyGioBrYzZuU8enSsdtGbPVuX3J9M3U=
+	bh=8P5l/rvmNabKObVohRku+0/G3PldLTjQkhl4wWKXirM=;
+	b=nxFYi7S0KKNCzCMr7kMILl0ALoo0G5I2dTy/gJFRVljEpv/p/SsZYcI9KP51fvIn9c
+	u7ntIhqfsdOD7xHUMOaE+2A+InDJCHIDlA+qi3hy+VXwe2Yh+yTSAslMEsuWBiS1RuTl
+	kPVuYImnr/OWYZEmkgO4IPlxuqdb+0sDijGrY=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=Uo50tIyYKac0PigtYyqsElZhOeCc+ZphQQ7HmnoEuNa0/afVROgpeBugJIPMlvEbnk
-	LHHWrnK5E9nS3wme2kGYZDbKnPg9LFFZ+Xp6jLDt7vCkOiAHT3GXqglahC/HZVCGgDHz
-	zdOkhe3lfxeq0Lin4FeVLMbKONBBVPVLo71Sc=
-Received: by 10.143.26.4 with SMTP id d4mr2621422wfj.243.1301632136403;
-	Thu, 31 Mar 2011 21:28:56 -0700 (PDT)
+	b=Zup7OnYQCtRUjajQrSh5ZYyn5D9eIYYD8sf/2YYq8jbigacKJt0jP5ZIVdqodONEji
+	bnk6O/FWKxvrnARtejOSIyg86r/yG6ITonv+eIcX7MT1ZmmXIHrkafLzBKycBbIOX+z8
+	Rum3bZZ6YgtuMoc6PhYeK676+4Vca6O/+yXoM=
+Received: by 10.43.49.199 with SMTP id vb7mr4744103icb.270.1301632143426;
+	Thu, 31 Mar 2011 21:29:03 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id y2sm2382326wfd.20.2011.03.31.21.28.54
+	by mx.google.com with ESMTPS id 19sm1183221ibx.18.2011.03.31.21.29.01
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 Mar 2011 21:28:55 -0700 (PDT)
+	Thu, 31 Mar 2011 21:29:02 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Mar 2011 21:28:48 -0700
-Message-Id: <d22a618d7ca6e992f2b3539c5089842d0d8541eb.1301631488.git.raj.khem@gmail.com>
+Date: Thu, 31 Mar 2011 21:28:54 -0700
+Message-Id: <f21d6d34b97edc9d8089ab2f1ab24fa1dc02c5cd.1301631488.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1301631488.git.raj.khem@gmail.com>
 References: <cover.1301631488.git.raj.khem@gmail.com>
-Subject: [PATCH 13/46] gettext_0.17.bb: Use linux-uclibceabi instead of linux-uclibcgnueabi
+Subject: [PATCH 15/46] util-linux.inc: remove virtual/libintl from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,26 +47,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2011 04:30:55 -0000
+X-List-Received-Date: Fri, 01 Apr 2011 04:31:02 -0000
+
+inherit gettext should do it.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/gettext/gettext_0.17.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/gettext/gettext_0.17.bb b/meta/recipes-core/gettext/gettext_0.17.bb
-index 3a9f893..b9c4e1c 100644
---- a/meta/recipes-core/gettext/gettext_0.17.bb
-+++ b/meta/recipes-core/gettext/gettext_0.17.bb
-@@ -19,7 +19,7 @@ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
-           "
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 913bb1b..447e5b7 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -13,10 +13,10 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=1530e36fe1304d4535513de90a290df9
+                     file://licenses/COPYING.UCB;md5=263860f8968d8bafa5392cab74285262 \
+                     file://getopt/COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
  
- SRC_URI_append_linux-uclibc = " file://gettext-error_print_progname.patch;patch=1"
--SRC_URI_append_linux-uclibcgnueabi = " file://gettext-error_print_progname.patch;patch=1"
-+SRC_URI_append_linux-uclibceabi = " file://gettext-error_print_progname.patch;patch=1"
+-DEPENDS = "zlib ncurses virtual/libintl"
+-DEPENDS_virtclass-native = "zlib-native ncurses-native lzo-native gettext-native"
+-
+ inherit autotools gettext
++DEPENDS = "zlib ncurses"
++DEPENDS_virtclass-native_append = " lzo-native"
++
  
- SRC_URI[md5sum] = "58a2bc6d39c0ba57823034d55d65d606"
- SRC_URI[sha256sum] = "209638bb8e162f22c281145a34e220c66f1f6e9ff5e4c50c6f2ef2ded59537ba"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux-ng/v${MAJOR_VERSION}/util-linux-ng-${PV}.tar.bz2 \
+            file://MCONFIG \
 -- 
 1.7.4.1
 
