@@ -1,23 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Q5eoM-0002oM-36
+	(envelope-from <josh@linux.intel.com>) id 1Q5eoM-0002p8-3d
 	for openembedded-core@lists.openembedded.org;
 	Fri, 01 Apr 2011 15:54:53 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Apr 2011 06:52:43 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 01 Apr 2011 06:52:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,282,1299484800"; d="scan'208";a="904497872"
+X-IronPort-AV: E=Sophos;i="4.63,282,1299484800"; d="scan'208";a="622197303"
 Received: from unknown (HELO localhost) ([10.255.12.172])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Apr 2011 06:52:39 -0700
-Message-Id: <b136a1104b381dca04f7fa41f0caedc33d90a4f2.1301665368.git.josh@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 01 Apr 2011 06:52:45 -0700
+Message-Id: <5cf1c19fa00ca31eb717a31b9554662c5e468e6b.1301665368.git.josh@linux.intel.com>
 In-Reply-To: <cover.1301665368.git.josh@linux.intel.com>
 References: <cover.1301665368.git.josh@linux.intel.com>
-Old-Date: Thu, 31 Mar 2011 01:05:01 +0100
-Date: Fri, 01 Apr 2011 14:52:17 +0100
+Old-Date: Thu, 31 Mar 2011 13:43:41 +0100
+Date: Fri, 01 Apr 2011 14:52:44 +0100
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Joshua Lock <josh@linux.intel.com>
-Subject: [PATCH 3/7] libx11: add missing SRC_URI hashes
+Subject: [PATCH 4/7] xorg-[lib-common|proto-common]: disable use of fop document generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,25 +36,39 @@ X-List-Received-Date: Fri, 01 Apr 2011 13:54:57 -0000
 
 From: Joshua Lock <josh@linux.intel.com>
 
+On Fedora 15 I see a huge Java backtrace when document generation runs for
+some xorg libs. As fop is automatically detected, with the possibility of
+detecting fop on the host whilst doing target builds, the safest bet is to
+explicitly disable fop for document generation.
+
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    2 +-
+ .../xorg-proto/xorg-proto-common.inc               |    1 +
+ 2 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb b/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
-index aaeb38e..c572d5e 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
-@@ -10,6 +10,9 @@ SRC_URI += "file://x11_disable_makekeys.patch \
-             file://nodolt.patch \
-             file://include_fix.patch"
+diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+index 4ed8c86..d843d65 100644
+--- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
++++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+@@ -13,4 +13,4 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
  
-+SRC_URI[md5sum] = "f65c9c7ecbfb64c19dbd7927160d63fd"
-+SRC_URI[sha256sum] = "88d7238ce5f7cd123450567de7a3b56a43556e4ccc45df38b8324147c889a844"
-+
- DEPENDS += "bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
-             libxdmcp xf86bigfontproto kbproto inputproto xproto-native gettext"
+ inherit autotools pkgconfig
  
+-EXTRA_OECONF = "--enable-malloc0returnsnull"
++EXTRA_OECONF = "--enable-malloc0returnsnull --with-fop=no"
+diff --git a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+index 92aa1fe..ab1af28 100644
+--- a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
++++ b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+@@ -14,6 +14,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
+ DEPENDS = "util-macros"
+ 
+ inherit autotools pkgconfig
++EXTRA_OECONF = "--with-fop=no"
+ 
+ # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
+ RDEPENDS_${PN}-dev = ""
 -- 
 1.7.4.1
 
