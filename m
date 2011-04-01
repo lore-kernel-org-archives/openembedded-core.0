@@ -1,23 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Q5eoO-0002pE-QI
+	(envelope-from <josh@linux.intel.com>) id 1Q5eoW-00032U-36
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 15:54:54 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Apr 2011 06:52:48 -0700
+	Fri, 01 Apr 2011 15:55:01 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 01 Apr 2011 06:52:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,282,1299484800"; d="scan'208";a="904497892"
+X-IronPort-AV: E=Sophos;i="4.63,282,1299484800"; d="scan'208";a="622197381"
 Received: from unknown (HELO localhost) ([10.255.12.172])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Apr 2011 06:52:47 -0700
-Message-Id: <40b58fbe809c92bf15d1fcb7962af95ad04a92fc.1301665368.git.josh@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 01 Apr 2011 06:52:57 -0700
+Message-Id: <6c5efd6a47d772c90c530fb65446b28fb7a551b0.1301665368.git.josh@linux.intel.com>
 In-Reply-To: <cover.1301665368.git.josh@linux.intel.com>
 References: <cover.1301665368.git.josh@linux.intel.com>
-Old-Date: Thu, 31 Mar 2011 13:54:45 +0100
-Date: Fri, 01 Apr 2011 14:52:46 +0100
+Old-Date: Fri, 1 Apr 2011 09:39:36 +0100
+Date: Fri, 01 Apr 2011 14:52:51 +0100
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Joshua Lock <josh@linux.intel.com>
-Subject: [PATCH 5/7] libx11: disable building of specs
+Subject: [PATCH 7/7] xserver-xf86: explicitly disable fop document generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,31 +32,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2011 13:54:57 -0000
+X-List-Received-Date: Fri, 01 Apr 2011 13:55:03 -0000
 
 From: Joshua Lock <josh@linux.intel.com>
 
-Generating Postscript specs fails on Fedora 15, I don't *think* we need them
-so disable them.
-
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libx11.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../xorg-xserver/xserver-xf86-common.inc           |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index 267a03a..030b0db 100644
---- a/meta/recipes-graphics/xorg-lib/libx11.inc
-+++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -11,7 +11,7 @@ PROVIDES = "virtual/libx11"
- XORG_PN = "libX11"
- LEAD_SONAME = "libX11.so"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
+index f9ea0e4..b1a0f08 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
+@@ -34,3 +34,4 @@ FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
  
--EXTRA_OECONF += "--with-keysymdef=${STAGING_INCDIR}/X11/keysymdef.h"
-+EXTRA_OECONF += "--with-keysymdef=${STAGING_INCDIR}/X11/keysymdef.h --disable-specs"
+ SRC_URI += "file://macro_tweak.patch"
  
- FILES_${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${libdir}/X11/Xcms.txt"
- FILES_${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
++EXTRA_OECONF = "--with-fop=no"
 -- 
 1.7.4.1
 
