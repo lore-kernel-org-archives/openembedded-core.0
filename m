@@ -1,38 +1,38 @@
 Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q5W1a-0005BA-OX
+	(envelope-from <raj.khem@gmail.com>) id 1Q5W1d-0005BL-4K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 06:31:54 +0200
-Received: by iwn10 with SMTP id 10so3432253iwn.6
+	Fri, 01 Apr 2011 06:31:57 +0200
+Received: by iwn10 with SMTP id 10so3432302iwn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 21:29:50 -0700 (PDT)
+	Thu, 31 Mar 2011 21:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=VTYUls5TlnFUqViUshP+yCyTP3LVjaqk/FxaJm2me7Y=;
-	b=ZfIDwUvZ+76UiD7XpuTHGD5I3zow6JqGQMYGOm4htAuFFWpD6HTV6VJvkQyPju+S3N
-	OcIHgqjbXvchSVWpDHbEdMTJBPqLQmE+hFH8UriGQY957BJtZ4Qi7c2VSoOJ5HOiOvyf
-	oP2TZLhwSqPew5/LV/Up59NbUX3TzlDBIWx88=
+	bh=+SyfTAlyprG7+0JAICsSKd1QV0tbXodYvZvHnn6uflk=;
+	b=UW30npaOzgfPk6cCgWnsFMpHQXJgzoJ4ovc1KwECvojSf69cInUjktSUf4BUzc9BKo
+	Hxv4BcXYW87pRNRTsXJzq1W7OAj6uROL7Z8clnEElUGwQDre9g1yS0Pex8zf0HVE80cT
+	kfvEulPU45aRLWf9oFma7f8sx/jUE8FqtU7wo=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=ZyYgaZZO0kBTiKrkXo6KcOmMR+0PkRnvoP2N0/EY3+UkLtrNIXCDjE+R2Hk2e6ZcMy
-	ofd2tHui0vg8NENc9tCReYBtoGGAJR5q8TNe/oXLvoKDXmNGRaDQfgIamIHMd4W54SCs
-	/YhzSNCUkMtGOM0HgrXJ2f+5wYcyWA1UAOlNk=
-Received: by 10.231.117.157 with SMTP id r29mr3412611ibq.128.1301632178830;
-	Thu, 31 Mar 2011 21:29:38 -0700 (PDT)
+	b=GO9QSytOaLTiYtGgw1Z4k2oKvxHilgMXSIN91k9iGARMb6CyfSY75iJfv4Y1VOOOWJ
+	/orCF/WvHeFH8stl9EzDvHt377dOik724ti83YJmYHaRr6RVRZAEbbft5RJIOOAHZVYS
+	fecm9nnTk33nc3HH0b8EYVZWs7rXjxZ8Ld8X8=
+Received: by 10.43.58.18 with SMTP id wi18mr4499078icb.489.1301632196040;
+	Thu, 31 Mar 2011 21:29:56 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id gy41sm1182554ibb.22.2011.03.31.21.29.37
+	by mx.google.com with ESMTPS id o3sm1184612ibd.10.2011.03.31.21.29.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 Mar 2011 21:29:38 -0700 (PDT)
+	Thu, 31 Mar 2011 21:29:55 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Mar 2011 21:29:30 -0700
-Message-Id: <9a48f0f3f9de28625cb8b0d86690a9a42fc0ea45.1301631488.git.raj.khem@gmail.com>
+Date: Thu, 31 Mar 2011 21:29:47 -0700
+Message-Id: <0f14a3f39c28f21ab059aa8ab133785a0cb645dd.1301631488.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1301631488.git.raj.khem@gmail.com>
 References: <cover.1301631488.git.raj.khem@gmail.com>
-Subject: [PATCH 25/46] gcc-runtime_4.5.1.bb: Do not filter out -feliminate-dwarf2-dups
+Subject: [PATCH 30/46] sed: inherit gettext class instead of adding gettext to DEPENDS directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,28 +47,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2011 04:31:55 -0000
-
-This is already taken care by bitbake.conf
+X-List-Received-Date: Fri, 01 Apr 2011 04:31:57 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb |    5 -----
- 1 files changed, 0 insertions(+), 5 deletions(-)
+ meta/recipes-extended/sed/sed_4.1.2.bb |    4 +---
+ meta/recipes-extended/sed/sed_4.2.1.bb |    4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
-index 9d4e158..2127eb6 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
-+++ b/meta/recipes-devtools/gcc/gcc-runtime_4.5.1.bb
-@@ -9,8 +9,3 @@ SRC_URI_append = "file://fortran-cross-compile-hack.patch"
- ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
+diff --git a/meta/recipes-extended/sed/sed_4.1.2.bb b/meta/recipes-extended/sed/sed_4.1.2.bb
+index 80d4b03..89b1f34 100644
+--- a/meta/recipes-extended/sed/sed_4.1.2.bb
++++ b/meta/recipes-extended/sed/sed_4.1.2.bb
+@@ -6,12 +6,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ SECTION = "console/utils"
+ PR = "r5"
  
- EXTRA_OECONF += "--disable-libunwind-exceptions"
+-DEPENDS = "gettext"
 -
--# gcc 4.5 ends up in ICE when using -feliminate-dwarf2-dups in libstdc++
--# compiling pre compiled headers so we remove this option when compiling
--# to workaround it
--CXXFLAGS := "${@oe_filter_out('-feliminate-dwarf2-dups', '${CXXFLAGS}', d)}"
+ SRC_URI = "${GNU_MIRROR}/sed/sed-${PV}.tar.gz \
+            file://fix_return_type.patch"
+ 
+-inherit autotools update-alternatives
++inherit autotools update-alternatives gettext
+ 
+ do_install () {
+ 	autotools_do_install
+diff --git a/meta/recipes-extended/sed/sed_4.2.1.bb b/meta/recipes-extended/sed/sed_4.2.1.bb
+index 045fd66..d775d44 100644
+--- a/meta/recipes-extended/sed/sed_4.2.1.bb
++++ b/meta/recipes-extended/sed/sed_4.2.1.bb
+@@ -6,14 +6,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
+ SECTION = "console/utils"
+ PR = "r1"
+ 
+-DEPENDS = "gettext"
+-
+ SRC_URI = "${GNU_MIRROR}/sed/sed-${PV}.tar.gz"
+ 
+ SRC_URI[md5sum] = "f0fd4d7da574d4707e442285fd2d3b86"
+ SRC_URI[sha256sum] = "8773541ce097fdc4c5b9e7da12a82dffbb30cd91f7bc169f52f05f93b7fc3060"
+ 
+-inherit autotools update-alternatives
++inherit autotools update-alternatives gettext
+ 
+ do_install () {
+ 	autotools_do_install
 -- 
 1.7.4.1
 
