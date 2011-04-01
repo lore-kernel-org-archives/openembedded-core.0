@@ -1,23 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Q5eoW-00032U-36
+	(envelope-from <Tom_Rini@mentor.com>) id 1Q5fVq-00088Q-Pe
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 15:55:01 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 01 Apr 2011 06:52:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,282,1299484800"; d="scan'208";a="622197381"
-Received: from unknown (HELO localhost) ([10.255.12.172])
-	by orsmga002.jf.intel.com with ESMTP; 01 Apr 2011 06:52:57 -0700
-Message-Id: <6c5efd6a47d772c90c530fb65446b28fb7a551b0.1301665368.git.josh@linux.intel.com>
-In-Reply-To: <cover.1301665368.git.josh@linux.intel.com>
-References: <cover.1301665368.git.josh@linux.intel.com>
-Old-Date: Fri, 1 Apr 2011 09:39:36 +0100
-Date: Fri, 01 Apr 2011 14:52:51 +0100
+	Fri, 01 Apr 2011 16:39:46 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Q5fTs-0002da-MG from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 01 Apr 2011 07:37:44 -0700
+Received: from na2-mail.mgc.mentorg.com ([134.86.114.213]) by
+	svr-orw-fem-01.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 1 Apr 2011 07:37:44 -0700
+Received: from localhost.localdomain ([172.30.80.69]) by
+	na2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
+	Fri, 1 Apr 2011 08:37:43 -0600
+From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-CC: 
-From: Joshua Lock <josh@linux.intel.com>
-Subject: [PATCH 7/7] xserver-xf86: explicitly disable fop document generation
+Date: Fri,  1 Apr 2011 07:37:40 -0700
+Message-Id: <cover.1301668619.git.tom_rini@mentor.com>
+X-Mailer: git-send-email 1.7.0.4
+X-OriginalArrivalTime: 01 Apr 2011 14:37:43.0330 (UTC)
+	FILETIME=[5C2CB020:01CBF07A]
+Subject: [PATCH 0/2] Bring in and use patchdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,26 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2011 13:55:03 -0000
+X-List-Received-Date: Fri, 01 Apr 2011 14:39:47 -0000
 
-From: Joshua Lock <josh@linux.intel.com>
+The following series brings in the 'patchdir' parameter from openembedded
+so that we can say that a patch needs to be applied in a subdir.  This
+allows us to re-write the db change for how we apply the arm patch to
+be just ';subdir=..' and in meta-oe and other layers will help a number
+of other patches be cleanly applied.
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: trini/use-patchdir-for-nonstd-paths
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/use-patchdir-for-nonstd-paths
+
+Thanks,
+    Tom Rini <tom_rini@mentor.com>
 ---
- .../xorg-xserver/xserver-xf86-common.inc           |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc b/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
-index f9ea0e4..b1a0f08 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-common.inc
-@@ -34,3 +34,4 @@ FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
- 
- SRC_URI += "file://macro_tweak.patch"
- 
-+EXTRA_OECONF = "--with-fop=no"
--- 
-1.7.4.1
+
+Tom Rini (2):
+  patch.bbclass: allow importing patches into other dirs
+  db: Switch to patchdir rather than applying in do_configure
+
+ meta/classes/patch.bbclass           |   19 ++++++++++++++++---
+ meta/recipes-support/db/db_5.1.19.bb |    6 +-----
+ 2 files changed, 17 insertions(+), 8 deletions(-)
 
 
 
