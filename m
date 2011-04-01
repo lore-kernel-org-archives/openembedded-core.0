@@ -1,38 +1,38 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q5W1T-00059U-AB
+	(envelope-from <raj.khem@gmail.com>) id 1Q5W1T-00059V-DB
 	for openembedded-core@lists.openembedded.org;
 	Fri, 01 Apr 2011 06:31:47 +0200
-Received: by pvc30 with SMTP id 30so571774pvc.6
+Received: by gxk3 with SMTP id 3so1294555gxk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 21:29:46 -0700 (PDT)
+	Thu, 31 Mar 2011 21:29:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=kL0A1GbCxmhDtEnmp/Mgye4O/G7sC8nTTpWHs/Jz2ho=;
-	b=u7ZKrEXPH+eTYcVIXeMvsEqcgAUuYsncCnHRV3XBIWqr/eT0H84/v+sYU59pOEta1+
-	CzJtM6GcqtaVOyOnwcP6pNyKITtMgZ9cb4F24zme1YuRDq1Ck2wOOi3Cz9nDWOND52iH
-	fWGO7lJ7YkdQtcs3IC27FLiOc2FXb2+C2yfHE=
+	bh=7+Cj7QnAzY2sdeEMQgYUfvI9bd5EDqjmFd4J+KZoyJ4=;
+	b=JRpOIFNXrW6CGnib8dT/IjLlQFu6HYZ7hfWgZV2z3DDh4EwjDMWv962kiYvwSLRtR+
+	snEBAgbjojUt0eWEUAzgk0UHaT318FdLHxcFzygwaNNfxPFPD8sH8jN5YfroOSWpoMBw
+	1Gl1e9DKGT0mBhumxn7EeEIbYVEXW7swGyCtc=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=su8uXL24LgLzSBbuQvSAwj+N2Of+JqqfGn8r6x0Qx/WStrswBEsxgmj20zoxUNvZDj
-	vFfPYHu0zv2Q649XjAx/iYUN3n0tmOHRX75Lb0dmKFY8Cgcfqv/Xl006M5XJ/AzQLHHQ
-	wWkayP7VbG2gPiSXd4dfcAMJo4YalOZFKbFps=
-Received: by 10.142.142.13 with SMTP id p13mr2837483wfd.324.1301632185933;
-	Thu, 31 Mar 2011 21:29:45 -0700 (PDT)
+	b=gbU2b4Pa4hHNWLSFEAyi2gh8zrP5RqLoh2aajFF6+gccxOFvQuwyMiiU+FO/3Qf94y
+	uLyNIPCkis1zfaLmQRA6b+scVqmUo90Ij0l11XVRcWF2uyefFYFMdbo8MfscAenQ4N2g
+	v3rszuLTVaETfATT1+Y4mLOpROxBp4H06RE1M=
+Received: by 10.236.78.36 with SMTP id f24mr2623866yhe.250.1301632182620;
+	Thu, 31 Mar 2011 21:29:42 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id n4sm2393507wfl.2.2011.03.31.21.29.44
+	by mx.google.com with ESMTPS id l65sm948517yhn.39.2011.03.31.21.29.41
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 Mar 2011 21:29:45 -0700 (PDT)
+	Thu, 31 Mar 2011 21:29:42 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Mar 2011 21:29:37 -0700
-Message-Id: <f214e8a888be526701b896c97fb89706b82f6204.1301631488.git.raj.khem@gmail.com>
+Date: Thu, 31 Mar 2011 21:29:33 -0700
+Message-Id: <727e14088ae90f5662a7905c3ced4a5a39eb9ce3.1301631488.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1301631488.git.raj.khem@gmail.com>
 References: <cover.1301631488.git.raj.khem@gmail.com>
-Subject: [PATCH 27/46] xorg-proto: inherit gettext class instead of adding gettext to DEPENDS directly
+Subject: [PATCH 26/46] perl_5.12.2.bb: By defualt undefine features not found in uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,68 +47,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2011 04:31:47 -0000
+X-List-Received-Date: Fri, 01 Apr 2011 04:31:48 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../xorg-proto/bigreqsproto_1.1.1.bb               |    2 --
- meta/recipes-graphics/xorg-proto/kbproto_1.0.5.bb  |    2 --
- .../xorg-proto/xcmiscproto_1.2.1.bb                |    2 --
- .../xorg-proto/xf86bigfontproto_1.2.0.bb           |    2 --
- 4 files changed, 0 insertions(+), 8 deletions(-)
+ meta/recipes-devtools/perl/perl-5.12.2/config.sh |   14 +++++++-------
+ meta/recipes-devtools/perl/perl_5.12.2.bb        |   10 ++++++++++
+ 2 files changed, 17 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/bigreqsproto_1.1.1.bb b/meta/recipes-graphics/xorg-proto/bigreqsproto_1.1.1.bb
-index 19fe328..9c31a39 100644
---- a/meta/recipes-graphics/xorg-proto/bigreqsproto_1.1.1.bb
-+++ b/meta/recipes-graphics/xorg-proto/bigreqsproto_1.1.1.bb
-@@ -3,8 +3,6 @@ require xorg-proto-common.inc
- PR = "r0"
- PE = "1"
+diff --git a/meta/recipes-devtools/perl/perl-5.12.2/config.sh b/meta/recipes-devtools/perl/perl-5.12.2/config.sh
+index 12d44a8..77067e1 100644
+--- a/meta/recipes-devtools/perl/perl-5.12.2/config.sh
++++ b/meta/recipes-devtools/perl/perl-5.12.2/config.sh
+@@ -87,7 +87,7 @@ cat='cat'
+ cc='gcc'
+ cccdlflags='-fPIC'
+ ccdlflags='-Wl,-E -Wl,-rpath,/usr/lib/perl5/5.12.2/@ARCH@-thread-multi/CORE'
+-ccflags='-D_REENTRANT -D_GNU_SOURCE -fno-strict-aliasing -pipe -fstack-protector -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'
++ccflags='-D_REENTRANT -D_GNU_SOURCE -fno-strict-aliasing -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'
+ ccflags_uselargefiles='-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'
+ ccname='gcc'
+ ccsymbols=''
+@@ -108,7 +108,7 @@ cpio=''
+ cpp='cpp'
+ cpp_stuff='42'
+ cppccsymbols=''
+-cppflags='-D_REENTRANT -D_GNU_SOURCE -fno-strict-aliasing -pipe -fstack-protector'
++cppflags='-D_REENTRANT -D_GNU_SOURCE -fno-strict-aliasing -pipe'
+ cpplast='-'
+ cppminus='-'
+ cpprun='gcc -E'
+@@ -194,7 +194,7 @@ d_dosuid='undef'
+ d_drand48_r='define'
+ d_drand48proto='define'
+ d_dup2='define'
+-d_eaccess='define'
++d_eaccess='undef'
+ d_endgrent='define'
+ d_endgrent_r='undef'
+ d_endhent='define'
+@@ -490,12 +490,12 @@ d_statfs_f_flags='undef'
+ d_statfs_s='define'
+ d_statvfs='define'
+ d_stdio_cnt_lval='undef'
+-d_stdio_ptr_lval='define'
++d_stdio_ptr_lval='undef'
+ d_stdio_ptr_lval_nochange_cnt='undef'
+-d_stdio_ptr_lval_sets_cnt='define'
++d_stdio_ptr_lval_sets_cnt='undef'
+ d_stdio_stream_array='undef'
+-d_stdiobase='define'
+-d_stdstdio='define'
++d_stdiobase='undef'
++d_stdstdio='undef'
+ d_strchr='define'
+ d_strcoll='define'
+ d_strctcpy='define'
+diff --git a/meta/recipes-devtools/perl/perl_5.12.2.bb b/meta/recipes-devtools/perl/perl_5.12.2.bb
+index 184e1e7..0a6cf14 100644
+--- a/meta/recipes-devtools/perl/perl_5.12.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.12.2.bb
+@@ -145,6 +145,16 @@ do_configure() {
+ 	       -e 's,/perl5,/perl,g' \
+             config.sh-${TARGET_ARCH}-${TARGET_OS}
  
--DEPENDS += "gettext"
--
- SUMMARY = "BigReqs: X Big Requests extension headers"
- 
- DESCRIPTION = "This package provides the wire protocol for the \
-diff --git a/meta/recipes-graphics/xorg-proto/kbproto_1.0.5.bb b/meta/recipes-graphics/xorg-proto/kbproto_1.0.5.bb
-index cd62534..f1f7cbb 100644
---- a/meta/recipes-graphics/xorg-proto/kbproto_1.0.5.bb
-+++ b/meta/recipes-graphics/xorg-proto/kbproto_1.0.5.bb
-@@ -13,8 +13,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7dd6ea99e2a83a552c02c80963623c38 \
- PR = "r0"
- PE = "1"
- 
--DEPENDS += "gettext"
--
- BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "e7edb59a3f54af15f749e8f3e314ee62"
-diff --git a/meta/recipes-graphics/xorg-proto/xcmiscproto_1.2.1.bb b/meta/recipes-graphics/xorg-proto/xcmiscproto_1.2.1.bb
-index 1b34a5d..af5ddfd 100644
---- a/meta/recipes-graphics/xorg-proto/xcmiscproto_1.2.1.bb
-+++ b/meta/recipes-graphics/xorg-proto/xcmiscproto_1.2.1.bb
-@@ -12,8 +12,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=09d83047c15994e05db29b423ed6662e"
- PR = "r0"
- PE = "1"
- 
--DEPENDS += "gettext"
--
- BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "cd7372cd827bfd7ca7e9238f2ce274b1"
-diff --git a/meta/recipes-graphics/xorg-proto/xf86bigfontproto_1.2.0.bb b/meta/recipes-graphics/xorg-proto/xf86bigfontproto_1.2.0.bb
-index d80c0f1..969fc91 100644
---- a/meta/recipes-graphics/xorg-proto/xf86bigfontproto_1.2.0.bb
-+++ b/meta/recipes-graphics/xorg-proto/xf86bigfontproto_1.2.0.bb
-@@ -12,8 +12,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e01e66e4b317088cf869bc98e6af4fb6"
- PR = "r1"
- PE = "1"
- 
--DEPENDS += "gettext"
--
- BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "120e226ede5a4687b25dd357cc9b8efe"
++       case "${TARGET_ARCH}" in                                                                      
++                x86_64 | powerpc | s390)                                                              
++                        sed -i -e "s,\(need_va_copy=\)'undef',\1'define',g" \                         
++                                config.sh-${TARGET_ARCH}-${TARGET_OS}                                 
++                        ;;                                                                            
++                arm)                                                                                  
++                        sed -i -e "s,\(d_u32align=\)'undef',\1'define',g" \                           
++                                config.sh-${TARGET_ARCH}-${TARGET_OS}                                 
++                        ;;                                                                            
++        esac                                                                                          
+         # These are strewn all over the source tree
+         for foo in `grep -I -m1 \/usr\/include\/.*\\.h ${WORKDIR}/* -r | cut -f 1 -d ":"` ; do
+             echo Fixing: $foo
 -- 
 1.7.4.1
 
