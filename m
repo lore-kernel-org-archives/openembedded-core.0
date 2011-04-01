@@ -1,29 +1,29 @@
 Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Q5fVr-0008AA-57
+	(envelope-from <Tom_Rini@mentor.com>) id 1Q5fVt-0008Cv-OQ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 16:39:47 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	Fri, 01 Apr 2011 16:39:49 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
 	by relay1.mentorg.com with esmtp 
-	id 1Q5fTv-0002dn-FB from Tom_Rini@mentor.com 
+	id 1Q5fTy-0002e5-28 from Tom_Rini@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 07:37:47 -0700
+	Fri, 01 Apr 2011 07:37:50 -0700
 Received: from na2-mail.mgc.mentorg.com ([134.86.114.213]) by
-	svr-orw-fem-01.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Fri, 1 Apr 2011 07:37:47 -0700
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 1 Apr 2011 07:36:07 -0700
 Received: from localhost.localdomain ([172.30.80.69]) by
 	na2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Fri, 1 Apr 2011 08:37:46 -0600
+	Fri, 1 Apr 2011 08:37:48 -0600
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Apr 2011 07:37:44 -0700
-Message-Id: <42c05490fe14aa1366ccac99964248c82fe3b2ea.1301668619.git.tom_rini@mentor.com>
+Date: Fri,  1 Apr 2011 07:37:46 -0700
+Message-Id: <40f91fb897a0ed40cdd05a71432b70ad4e39d2f9.1301668619.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1301668619.git.tom_rini@mentor.com>
 References: <cover.1301668619.git.tom_rini@mentor.com>
-X-OriginalArrivalTime: 01 Apr 2011 14:37:46.0236 (UTC)
-	FILETIME=[5DE81BC0:01CBF07A]
-Subject: [PATCH 1/2] patch.bbclass: allow importing patches into other dirs
+X-OriginalArrivalTime: 01 Apr 2011 14:37:48.0720 (UTC)
+	FILETIME=[5F632300:01CBF07A]
+Subject: [PATCH 2/2] db: Switch to patchdir rather than applying in do_configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,64 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2011 14:39:47 -0000
-
-This is taken from openembedded.master:
-commit 9d0d70da60ca8ef278916f442125d41161846f38
-Author: Chris Larson <chris_larson@mentor.com>
-Date:   Mon Aug 23 13:03:55 2010 -0400
-
-    patch: allow importing patches into other dirs
-
-    Use the 'patchdir' flag.  If relative, it's assumed to be relative to ${S}.
-    It creates a patchset class per patch directory, so for quilt this results i
-    multiple .pc/patches directories to manage each of the patchsets.
-
-    Signed-off-by: Chris Larson <chris_larson@mentor.com>
+X-List-Received-Date: Fri, 01 Apr 2011 14:39:49 -0000
 
 Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- meta/classes/patch.bbclass |   19 ++++++++++++++++---
- 1 files changed, 16 insertions(+), 3 deletions(-)
+ meta/recipes-support/db/db_5.1.19.bb |    6 +-----
+ 1 files changed, 1 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-index 80fd45f..7622163 100644
---- a/meta/classes/patch.bbclass
-+++ b/meta/classes/patch.bbclass
-@@ -31,10 +31,8 @@ python patch_do_patch() {
+diff --git a/meta/recipes-support/db/db_5.1.19.bb b/meta/recipes-support/db/db_5.1.19.bb
+index 94ce180..7b7c4dd 100644
+--- a/meta/recipes-support/db/db_5.1.19.bb
++++ b/meta/recipes-support/db/db_5.1.19.bb
+@@ -17,7 +17,7 @@ CONFLICTS = "db3"
+ PR = "r2"
  
- 	path = os.getenv('PATH')
- 	os.putenv('PATH', bb.data.getVar('PATH', d, 1))
--	patchset = cls(s, d)
--	patchset.Clean()
+ SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
+-SRC_URI += "file://arm-thumb-mutex_db5.patch;apply=no"
++SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.."
  
--	resolver = rcls(patchset)
-+	classes = {}
+ SRC_URI[md5sum] = "76fcbfeebfcd09ba0b4d96bfdf8d884d"
+ SRC_URI[sha256sum] = "0194d4ca9266ba1a1c0bfbc233b18bfd05f63163453c81ebcdfdc7112d5ac850"
+@@ -79,10 +79,6 @@ do_configure() {
+ 	oe_runconf
+ }
  
- 	workdir = bb.data.getVar('WORKDIR', d, 1)
- 	for url in src_uri:
-@@ -117,6 +115,21 @@ python patch_do_patch() {
- 				bb.note("Patch '%s' doesn't apply to revision" % pname)
- 				continue
- 
-+		if "patchdir" in parm:
-+			patchdir = parm["patchdir"]
-+			if not os.path.isabs(patchdir):
-+				patchdir = os.path.join(s, patchdir)
-+		else:
-+			patchdir = s
-+
-+		if not patchdir in classes:
-+			patchset = cls(patchdir, d)
-+			resolver = rcls(patchset)
-+			classes[patchdir] = (patchset, resolver)
-+			patchset.Clean()
-+		else:
-+			patchset, resolver = classes[patchdir]
-+
- 		bb.note("Applying patch '%s' (%s)" % (pname, oe.path.format_display(local, d)))
- 		try:
- 			patchset.Import({"file":local, "remote":url, "strippath": striplevel}, True)
+-do_patch_append() {
+-	os.system("cd ${S}/.. ; patch -p1 -i ${WORKDIR}/arm-thumb-mutex_db5.patch")
+-}
+-
+ do_install_append() {
+ 	mkdir -p ${D}/${includedir}/db51
+ 	#mv ${D}/${includedir}/db_185.h ${D}/${includedir}/db51/.
 -- 
 1.7.0.4
 
