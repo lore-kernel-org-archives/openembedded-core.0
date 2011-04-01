@@ -1,38 +1,38 @@
-Received: from mail-gw0-f47.google.com ([74.125.83.47])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q5W18-00056w-CW
+	(envelope-from <raj.khem@gmail.com>) id 1Q5W1B-000571-PK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 06:31:26 +0200
-Received: by gwb11 with SMTP id 11so1296067gwb.6
+	Fri, 01 Apr 2011 06:31:30 +0200
+Received: by pzk35 with SMTP id 35so573669pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 21:29:25 -0700 (PDT)
+	Thu, 31 Mar 2011 21:29:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=8DKq7LTivD/RGLQiEedKoBvQw2utHKtJMeL7P0DqOdo=;
-	b=Zc0QoJvxx0GeWZoM387LjRf/qvFwRWelL2VTB7JvVYgr+wfyoodtGaCR1vAWimtBjs
-	+RnXJsMditxn0l5Y0M/PvdFw/e3kFOA1nrr8sctuOaZpKiRKK5s202RRG9NX/EFvYvA+
-	qkv1MlLhoo/oaI2WhQRasqqD/8ug0EYHK9FRY=
+	bh=clbHJTA+h5bscWZFeUhTkZmhtEII0oEWud+SbjSTvn4=;
+	b=dFR74BcmUcfv17o7qFQXtORiJB7QMJ545PocH9VtP26FgISIIJldCX0XIM6VrxNItF
+	1W6uSl5Bto9iUrW/eg3yQt5EFQ3G3hV4bA1+S+ePdG0vajbUuPl9casKRg1jMbDlYHFc
+	Cp7itAUlG3YbJfV5YIPXpibwkRzpCdvqLrsQs=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=QmJT2eyQ6K8kBWWfRUYxif3GFRL9Cony5zZj/6Tv3lQqmuh4SyLmp1wt2lHC0MRmTZ
-	a/pVV5jM56rpYLu+fPfQM1qDfbRS8eAQRoWwCAiuZIuunFUsh1604kSO/60f+4XwHrGi
-	7n2Hh/wF2OJEOH5BGGNNzN4svmcXOpQvZ3T6M=
-Received: by 10.91.202.13 with SMTP id e13mr3944267agq.33.1301632164953;
-	Thu, 31 Mar 2011 21:29:24 -0700 (PDT)
+	b=wcYX5jXNp8xsO/JadcOaF27Y/9It83C685oMVTTq6a1o4sCaSkJr3IGnD4sR043avJ
+	Ulns4+SrCvE7TF6R5rnSxTlaLV8JAQ5ncrKjtb2PWqcwGtixIkQzY04zcxXZoEIgAAtH
+	6dBau6IgpJEMwBxaCnG5cvbWLJh2o1fYjT9g4=
+Received: by 10.142.118.23 with SMTP id q23mr2860976wfc.7.1301632168380;
+	Thu, 31 Mar 2011 21:29:28 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id 35sm1898151ano.11.2011.03.31.21.29.23
+	by mx.google.com with ESMTPS id p40sm2390656wfc.5.2011.03.31.21.29.26
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 Mar 2011 21:29:24 -0700 (PDT)
+	Thu, 31 Mar 2011 21:29:27 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Mar 2011 21:29:15 -0700
-Message-Id: <95edfecd7cd1e99ac5b901096b729e19d2a63e6d.1301631488.git.raj.khem@gmail.com>
+Date: Thu, 31 Mar 2011 21:29:19 -0700
+Message-Id: <0fe42395ba7e0e69f4d6a93af1345d9f6466db54.1301631488.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1301631488.git.raj.khem@gmail.com>
 References: <cover.1301631488.git.raj.khem@gmail.com>
-Subject: [PATCH 21/46] liboil_0.3.17.bb: Enable x86_64 unaligned memory access
+Subject: [PATCH 22/46] e2fsprogs.inc: inherit gettext class instead of adding gettext to DEPENDS directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,59 +47,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2011 04:31:26 -0000
-
-Patch imported from OE
+X-List-Received-Date: Fri, 01 Apr 2011 04:31:30 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../liboil-0.3.17/fix-unaligned-whitelist.patch    |   17 +++++++++++++++++
- meta/recipes-support/liboil/liboil_0.3.17.bb       |    6 ++++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/liboil/liboil-0.3.17/fix-unaligned-whitelist.patch
+ meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/liboil/liboil-0.3.17/fix-unaligned-whitelist.patch b/meta/recipes-support/liboil/liboil-0.3.17/fix-unaligned-whitelist.patch
-new file mode 100644
-index 0000000..79d53b6
---- /dev/null
-+++ b/meta/recipes-support/liboil/liboil-0.3.17/fix-unaligned-whitelist.patch
-@@ -0,0 +1,17 @@
-+Upstream: https://bugs.freedesktop.org/show_bug.cgi?id=31358
-+
-+configure: fix whitelisting of x86_64 unaligned memory access
-+
-+Fix typo in whitelist so cross-compile works for x86_64.
-+
-+--- liboil-0.3.17/m4/as-unaligned-access.m4.orig	2009-02-26 14:40:08.000000000 -0500
-++++ liboil-0.3.17/m4/as-unaligned-access.m4	2010-11-03 12:19:55.000000000 -0400
-+@@ -9,7 +9,7 @@
-+         _AS_ECHO_N([(blacklisted) ])
-+         as_cv_unaligned_access=no
-+ 	;;
-+-      i?86*|x86_64|amd64|powerpc*|m68k*|cris*)
-++      i?86*|x86_64*|amd64*|powerpc*|m68k*|cris*)
-+         _AS_ECHO_N([(whitelisted) ])
-+         as_cv_unaligned_access=yes
-+ 	;;
-diff --git a/meta/recipes-support/liboil/liboil_0.3.17.bb b/meta/recipes-support/liboil/liboil_0.3.17.bb
-index fe8a22f..f342a82 100644
---- a/meta/recipes-support/liboil/liboil_0.3.17.bb
-+++ b/meta/recipes-support/liboil/liboil_0.3.17.bb
-@@ -10,10 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ad80780d9c5205d63481a0184e199a15 \
-                     file://testsuite/trans.c;endline=29;md5=380ecd43121fe3dcc0d8d7e5984f283d"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+index 1ef6340..1a1a7b8 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+@@ -18,10 +18,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b48f21d765b875bd10400975d12c1ca2 \
+                       file://lib/et/et_name.c;beginline=1;endline=11;md5=ead236447dac7b980dbc5b4804d8c836 \
+                       file://lib/ss/ss.h;beginline=1;endline=20;md5=6e89ad47da6e75fecd2b5e0e81e1d4a6"
+ SECTION = "base"
+-DEPENDS = "gettext util-linux"
++DEPENDS = "util-linux"
  
- DEPENDS = "glib-2.0"
--PR = "r2"
-+PR = "r3"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/e2fsprogs/e2fsprogs-${PV}.tar.gz \
+            file://mkdir.patch;apply=yes"
  
- SRC_URI = "http://liboil.freedesktop.org/download/${P}.tar.gz \
--           file://no-tests.patch;patch=1"
-+           file://no-tests.patch \
-+           file://fix-unaligned-whitelist.patch \
-+          "
+-inherit autotools
++inherit autotools gettext
  
- SRC_URI[md5sum] = "47dc734f82faeb2964d97771cfd2e701"
- SRC_URI[sha256sum] = "105f02079b0b50034c759db34b473ecb5704ffa20a5486b60a8b7698128bfc69"
 -- 
 1.7.4.1
 
