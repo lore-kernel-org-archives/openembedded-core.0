@@ -1,38 +1,38 @@
 Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q5W1v-0005GC-JL
+	(envelope-from <raj.khem@gmail.com>) id 1Q5W1x-0005GC-7z
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 06:32:15 +0200
-Received: by ywg8 with SMTP id 8so1292687ywg.6
+	Fri, 01 Apr 2011 06:32:17 +0200
+Received: by mail-yw0-f47.google.com with SMTP id 8so1292687ywg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 21:30:14 -0700 (PDT)
+	Thu, 31 Mar 2011 21:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=srPwk5hDtNdePaqLPDGeT3xDo4v9YaxXLe4sWHbokuQ=;
-	b=YJa+/rS1l1ucGLLrBoIwM8pHP33Sl+bQ/KXKpr2y1IQwhiK6xEs+dN1R26J5oTUido
-	/2ante9dzIEbg7spb1oNFnuBagoUiG3tNwLbBWVJk816ZsjPGec4UZbRAFuWRQyYQB49
-	7u18yuC+bxh+ntJgRCdhh29hRj6PsybcoOuo8=
+	bh=84ktQCfV2WmVeC7IbavD5EDZwqdWQYfFNyRVYnW+FCI=;
+	b=fg3nUPYx0l+ohc9rH6iUt+FTUviNtJY0rnCr1mVm3S1YVc34mqVuE+XMWCUBclSl5W
+	EBsrl7q331kUV7g7nDYCOmXEgrGYDqBXiuURebWAUws+Jta2m10A+i050zw7K4PJAHbB
+	TrW+GuCCHVO0/TD4NZ/+UEq8AWHMcQn2iQJrU=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=I5RyfLE4CwZunSI/JPEg467qBGScOEEXn+HmiI4BSxRVn2ogx9cVaBxTuHoJ87aJy4
-	7ZkGvqcub8M0qsEBceq6kfsrcLQdL8ofYAd+WhN8U3gALq17OadGCrgJa6tXptb/VkS3
-	Wi3vZNBS+tRtDQeZHIM1FtV54Yw0vmG0oN/lc=
-Received: by 10.236.190.194 with SMTP id e42mr5301773yhn.70.1301632214463;
-	Thu, 31 Mar 2011 21:30:14 -0700 (PDT)
+	b=BBunH49NEfM3LS3z2Gf7o2MdVpSL1p+MUcxTtDgcqdVeJrSF4RigNBonQHZxmz1JYP
+	5TMJfM0nQAjCvu05WbCBRNW6TWDIr2uULq96HiWd8KmM8XBcs8RjhuOw6N2/tUgBDnu6
+	Df9g7yY6Zgo965BwFHWeczKps0jpIZoQnwtsg=
+Received: by 10.236.154.169 with SMTP id h29mr5054079yhk.3.1301632218509;
+	Thu, 31 Mar 2011 21:30:18 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id z7sm950448yhc.17.2011.03.31.21.30.11
+	by mx.google.com with ESMTPS id h44sm946397yhm.63.2011.03.31.21.30.16
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 Mar 2011 21:30:12 -0700 (PDT)
+	Thu, 31 Mar 2011 21:30:17 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Mar 2011 21:30:04 -0700
-Message-Id: <b1dcf78668c97b29783d6c687bccd69ac2bc547f.1301631488.git.raj.khem@gmail.com>
+Date: Thu, 31 Mar 2011 21:30:09 -0700
+Message-Id: <a81ee99573fd5e56198117bd7e80d856fb8911c2.1301631488.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1301631488.git.raj.khem@gmail.com>
 References: <cover.1301631488.git.raj.khem@gmail.com>
-Subject: [PATCH 35/46] gdk-pixbuf_2.22.1.bb: inherit gettext class instead of adding gettext to DEPENDS directly
+Subject: [PATCH 36/46] libgdata_0.7.1.bb: inherit gettext class instead of adding gettext to DEPENDS directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,35 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2011 04:32:15 -0000
+X-List-Received-Date: Fri, 01 Apr 2011 04:32:17 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb |    4 ++--
+ meta/recipes-gnome/gnome/libgdata_0.7.1.bb |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
-index 78f108a..211234e 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
- SECTION = "libs"
- PRIORITY = "optional"
+diff --git a/meta/recipes-gnome/gnome/libgdata_0.7.1.bb b/meta/recipes-gnome/gnome/libgdata_0.7.1.bb
+index c332994..c3f4047 100644
+--- a/meta/recipes-gnome/gnome/libgdata_0.7.1.bb
++++ b/meta/recipes-gnome/gnome/libgdata_0.7.1.bb
+@@ -7,9 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24 \
+                     file://gdata/gdata.h;endline=20;md5=079a554efcf65d46f96a515806e7e99a \
+                     file://gdata/gdata-types.h;endline=20;md5=7399b111aac8718da13888fc634be6ef"
  
--DEPENDS = "libpng gettext glib-2.0 jpeg"
-+DEPENDS = "libpng glib-2.0 jpeg"
- PR = "r0"
+-DEPENDS = "gettext libxml2 glib-2.0 libsoup-2.4"
++DEPENDS = "libxml2 glib-2.0 libsoup-2.4"
  
- SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.22/gdk-pixbuf-${PV}.tar.gz \
-@@ -20,7 +20,7 @@ SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.22/gdk-pixbuf-${
- SRC_URI[md5sum] = "fcfc854e9aec7dbb2bb3059484d44556"
- SRC_URI[sha256sum] = "bbb57364ffba70d64f5fcfe6eda1d67249b3d58844edb06dc0f94d1ad599b4ec"
+-inherit gnome pkgconfig autotools
++inherit gnome pkgconfig autotools gettext
  
--inherit autotools pkgconfig
-+inherit autotools pkgconfig gettext
- 
- LIBV = "2.10.0"
- 
+ SRC_URI[archive.md5sum] = "ec5262cbcb07b63b58d45aa3ac636096"
+ SRC_URI[archive.sha256sum] = "fb244138276a5ce98510b0e2408bbf6f9ce0fd8cdcf86f07cd4be38afbb7c2bc"
 -- 
 1.7.4.1
 
