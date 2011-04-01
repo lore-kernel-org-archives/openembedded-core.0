@@ -1,38 +1,38 @@
-Received: from mail-iw0-f175.google.com ([209.85.214.175])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q5W0z-0004q6-QO
+	(envelope-from <raj.khem@gmail.com>) id 1Q5W12-0004v2-0z
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 06:31:17 +0200
-Received: by mail-iw0-f175.google.com with SMTP id 10so3431291iwn.6
+	Fri, 01 Apr 2011 06:31:20 +0200
+Received: by mail-iy0-f175.google.com with SMTP id 7so3385901iye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Mar 2011 21:29:19 -0700 (PDT)
+	Thu, 31 Mar 2011 21:29:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=k/eUP4WhlN8+/9x7fiz22d2pSp7kGbzu6AyglnckJwQ=;
-	b=g/AcC6T26IMdjCE4RPXTj5KJJVJXlsWAxjulPWHPav5V+UrZ9l6JSDvJwZ0ggSE2RF
-	VM9QDIJ8xrJ7NFpxm9VcVzVlaEYlTusoLJWUIHpzq6E4+1CMDmJr+/oty3FhYoPFbh9N
-	tEpV3NN+eJlH9RtDiAJ/dxGvlDVDnf1oyPMIk=
+	bh=LYTeMShmpQTR71b9vrHZ/8aFMbzWDfH1ROQ3UjZg5UA=;
+	b=fJbBgmL4ZCHz4bqpxBcdTvEDDV8++61V+gGztnu39Rfsv6GYB6NKvFqd2B+mpic+Sy
+	p6x6q5MXFd3/TFHqnH5bbf81S5spIpRiDKsZl+VKd8JSuaWXmXeod71AWR/gY1akGEhD
+	nlTA5ohG8N3AAS0fAGW2TNsRovSi9GvbLqMtw=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=dH509HbMdwvNAcCr95lz37WYnR9fICAaO5u7//OwYmmv+/VNplgfEyuGwQtxtCUAW4
-	vVwWtlnMHM30seqyQyKyHUhnEnIT5bMHjaik9QLEgHRtYgkCTz5xJtqZzy0iAHEvITJw
-	uPr5n4cusAhs9LAlKwuGab23j1A1SCfSfiV0Y=
-Received: by 10.43.46.194 with SMTP id up2mr1420612icb.124.1301632157625;
-	Thu, 31 Mar 2011 21:29:17 -0700 (PDT)
+	b=oTOgcMjg/+pYKfAkqUhT5kEDT8SYNrJUYV1q27uZowGPAb9u52CnAJS9QCUCiT7z7e
+	nYttDro0QycC+95tcxfQOCPv5OY92afKMKpGEWuO8hZQ7XKoQNf89Dl8MqSEEiDKR9VF
+	y7UaGwA0X8fFsWdqFwDXcCAnL7U0Ux1w4a834=
+Received: by 10.231.193.133 with SMTP id du5mr3553475ibb.100.1301632161098;
+	Thu, 31 Mar 2011 21:29:21 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id he40sm1178956ibb.67.2011.03.31.21.29.16
+	by mx.google.com with ESMTPS id d10sm1179255ibb.51.2011.03.31.21.29.19
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 Mar 2011 21:29:17 -0700 (PDT)
+	Thu, 31 Mar 2011 21:29:20 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Mar 2011 21:29:08 -0700
-Message-Id: <617974af705728499138fd7114ace5bbb3a256a3.1301631488.git.raj.khem@gmail.com>
+Date: Thu, 31 Mar 2011 21:29:12 -0700
+Message-Id: <edb45ced7ae04186018ee875568a334933a3829f.1301631488.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1301631488.git.raj.khem@gmail.com>
 References: <cover.1301631488.git.raj.khem@gmail.com>
-Subject: [PATCH 19/46] libpam_1.1.3.bb: Fix compilation on uclibc when innetgr is absent
+Subject: [PATCH 20/46] alsa-utils_1.0.23.bb: Remove xmlto requirement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,126 +47,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2011 04:31:18 -0000
+X-List-Received-Date: Fri, 01 Apr 2011 04:31:20 -0000
+
+Patch imported from OE
+
+Use uclibceabi instead of uclibcgnueabi
+
+inherit gettext class instead of adding gettext to DEPENDS directly
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../pam/libpam/pam-no-innetgr.patch                |   92 ++++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.1.3.bb          |    2 +
- 2 files changed, 94 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-extended/pam/libpam/pam-no-innetgr.patch
+ .../alsa-utils-remove-xmlto.patch                  |   18 ++++++++++++++++++
+ meta/recipes-multimedia/alsa/alsa-utils_1.0.23.bb  |   12 +++++++-----
+ 2 files changed, 25 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-utils-1.0.23/alsa-utils-remove-xmlto.patch
 
-diff --git a/meta/recipes-extended/pam/libpam/pam-no-innetgr.patch b/meta/recipes-extended/pam/libpam/pam-no-innetgr.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-1.0.23/alsa-utils-remove-xmlto.patch b/meta/recipes-multimedia/alsa/alsa-utils-1.0.23/alsa-utils-remove-xmlto.patch
 new file mode 100644
-index 0000000..e622a0d
+index 0000000..53ff95a
 --- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/pam-no-innetgr.patch
-@@ -0,0 +1,92 @@
-+innetgr may not be there so make sure that when innetgr is not present
-+then we inform about it and not use it.
-+
-+-Khem
-+Index: Linux-PAM-1.1.3/modules/pam_group/pam_group.c
++++ b/meta/recipes-multimedia/alsa/alsa-utils-1.0.23/alsa-utils-remove-xmlto.patch
+@@ -0,0 +1,18 @@
++Index: alsa-utils-1.0.19/alsactl/Makefile.am
 +===================================================================
-+--- Linux-PAM-1.1.3.orig/modules/pam_group/pam_group.c
-++++ Linux-PAM-1.1.3/modules/pam_group/pam_group.c
-+@@ -659,7 +659,11 @@ static int check_account(pam_handle_t *p
-+ 	}
-+ 	/* If buffer starts with @, we are using netgroups */
-+ 	if (buffer[0] == '@')
-+-	  good &= innetgr (&buffer[1], NULL, user, NULL);
-++#ifdef HAVE_INNETGR
-++           good &= innetgr (&buffer[1], NULL, user, NULL);
-++#else
-++           pam_syslog (pamh, LOG_ERR, "pam_group does not have netgroup support");
-++#endif
-+ 	/* otherwise, if the buffer starts with %, it's a UNIX group */
-+ 	else if (buffer[0] == '%')
-+           good &= pam_modutil_user_in_group_nam_nam(pamh, user, &buffer[1]);
-+Index: Linux-PAM-1.1.3/modules/pam_time/pam_time.c
-+===================================================================
-+--- Linux-PAM-1.1.3.orig/modules/pam_time/pam_time.c
-++++ Linux-PAM-1.1.3/modules/pam_time/pam_time.c
-+@@ -555,9 +555,13 @@ check_account(pam_handle_t *pamh, const
-+ 	  }
-+ 	  /* If buffer starts with @, we are using netgroups */
-+ 	  if (buffer[0] == '@')
-+-	    good &= innetgr (&buffer[1], NULL, user, NULL);
-++#ifdef HAVE_INNETGR
-++	       good &= innetgr (&buffer[1], NULL, user, NULL);
-++#else
-++	       pam_syslog (pamh, LOG_ERR, "pam_time does not have netgroup support");
-++#endif
-+ 	  else
-+-	    good &= logic_field(pamh, user, buffer, count, is_same);
-++	       good &= logic_field(pamh, user, buffer, count, is_same);
-+ 	  D(("with user: %s", good ? "passes":"fails" ));
++--- alsa-utils-1.0.19.orig/alsactl/Makefile.am	2009-06-24 01:08:16.000000000 -0400
+++++ alsa-utils-1.0.19/alsactl/Makefile.am	2009-06-24 01:08:26.000000000 -0400
++@@ -2,13 +2,7 @@
 + 
-+ 	  /* here we get the time field */
-+Index: Linux-PAM-1.1.3/modules/pam_succeed_if/pam_succeed_if.c
-+===================================================================
-+--- Linux-PAM-1.1.3.orig/modules/pam_succeed_if/pam_succeed_if.c
-++++ Linux-PAM-1.1.3/modules/pam_succeed_if/pam_succeed_if.c
-+@@ -231,18 +231,27 @@ evaluate_notingroup(pam_handle_t *pamh,
-+ }
-+ /* Return PAM_SUCCESS if the (host,user) is in the netgroup. */
-+ static int
-+-evaluate_innetgr(const char *host, const char *user, const char *group)
-++evaluate_innetgr(const pam_handle_t* pamh, const char *host, const char *user, const char *group)
-+ {
-++#ifdef HAVE_INNETGR
-+ 	if (innetgr(group, host, user, NULL) == 1)
-+ 		return PAM_SUCCESS;
-++#else
-++        pam_syslog (pamh, LOG_ERR, "pam_succeed_if does not have netgroup support");
-++#endif
-++
-+ 	return PAM_AUTH_ERR;
-+ }
-+ /* Return PAM_SUCCESS if the (host,user) is NOT in the netgroup. */
-+ static int
-+-evaluate_notinnetgr(const char *host, const char *user, const char *group)
-++evaluate_notinnetgr(const pam_handle_t* pamh, const char *host, const char *user, const char *group)
-+ {
-++#ifdef HAVE_INNETGR
-+ 	if (innetgr(group, host, user, NULL) == 0)
-+ 		return PAM_SUCCESS;
-++#else
-++	pam_syslog (pamh, LOG_ERR, "pam_succeed_if does not have netgroup support");
-++#endif
-+ 	return PAM_AUTH_ERR;
-+ }
++ sbin_PROGRAMS=alsactl
++ man_MANS=alsactl.1
++-if USE_XMLTO
++-man_MANS += alsactl_init.7
++-endif
++ EXTRA_DIST=alsactl.1 alsactl_init.xml
 + 
-+@@ -361,14 +370,14 @@ evaluate(pam_handle_t *pamh, int debug,
-+ 		const void *rhost;
-+ 		if (pam_get_item(pamh, PAM_RHOST, &rhost) != PAM_SUCCESS)
-+ 			rhost = NULL;
-+-		return evaluate_innetgr(rhost, user, right);
-++		return evaluate_innetgr(pamh, rhost, user, right);
-+ 	}
-+ 	/* (Rhost, user) is not in this group. */
-+ 	if (strcasecmp(qual, "notinnetgr") == 0) {
-+ 		const void *rhost;
-+ 		if (pam_get_item(pamh, PAM_RHOST, &rhost) != PAM_SUCCESS)
-+ 			rhost = NULL;
-+-		return evaluate_notinnetgr(rhost, user, right);
-++		return evaluate_notinnetgr(pamh, rhost, user, right);
-+ 	}
-+ 	/* Fail closed. */
-+ 	return PAM_SERVICE_ERR;
-diff --git a/meta/recipes-extended/pam/libpam_1.1.3.bb b/meta/recipes-extended/pam/libpam_1.1.3.bb
-index 9d6c317..b62e2f2 100644
---- a/meta/recipes-extended/pam/libpam_1.1.3.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.3.bb
-@@ -19,6 +19,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/pam/library/Linux-PAM-${PV}.tar.bz2 \
-            file://99_pam \
-            file://pam.d/*"
++ alsactl_SOURCES=alsactl.c state.c utils.c init_parse.c
++ noinst_HEADERS=alsactl.h list.h init_sysdeps.c init_utils_string.c init_utils_run.c init_sysfs.c
++-
++-%.7: %.xml
++-	xmlto man $?
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.23.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.23.bb
+index 46283cc..c03c61a 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.23.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.23.bb
+@@ -5,11 +5,13 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
+-DEPENDS = "alsa-lib ncurses gettext"
+-PR = "r0"
++DEPENDS = "alsa-lib ncurses"
++PR = "r1"
  
-+SRC_URI_append_libc-uclibc = " file://pam-no-innetgr.patch"
-+
- SRC_URI[md5sum] = "6db7fcb5db6253350e3a4648ceac40e7"
- SRC_URI[sha256sum] = "17b268789b935a76e736a1150210dd12f156972973e79347668f828d43632652"
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+-           file://ncursesfix.patch;patch=1 "
++           file://ncursesfix.patch \
++           file://alsa-utils-remove-xmlto.patch \
++          "
  
+ SRC_URI[md5sum] = "cb0cf46029ac9549cf3a31bff6a4f4e1"
+ SRC_URI[sha256sum] = "b7d05e915e25f8540ad151c6dd558cf0fc1e9bb0ee23052d531c983666a1f7b0"
+@@ -20,9 +22,9 @@ SRC_URI[sha256sum] = "b7d05e915e25f8540ad151c6dd558cf0fc1e9bb0ee23052d531c983666
+ #
+ EXTRA_OECONF = "--disable-xmlto"
+ EXTRA_OECONF_linux-uclibc = "--disable-nls"
+-EXTRA_OECONF_linux-uclibcgnueabi = "--disable-nls"
++EXTRA_OECONF_linux-uclibceabi = "--disable-nls"
+ 
+-inherit autotools
++inherit autotools gettext
+ 
+ # This are all packages that we need to make. Also, the now empty alsa-utils
+ # ipk depend on them.
 -- 
 1.7.4.1
 
