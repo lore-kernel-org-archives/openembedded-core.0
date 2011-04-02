@@ -1,29 +1,26 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Q5fVt-0008Cv-OQ
+	(envelope-from <dvhart@linux.intel.com>) id 1Q5tfm-0002zx-Vj
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 16:39:49 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1Q5fTy-0002e5-28 from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Apr 2011 07:37:50 -0700
-Received: from na2-mail.mgc.mentorg.com ([134.86.114.213]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Fri, 1 Apr 2011 07:36:07 -0700
-Received: from localhost.localdomain ([172.30.80.69]) by
-	na2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Fri, 1 Apr 2011 08:37:48 -0600
-From: Tom Rini <tom_rini@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Apr 2011 07:37:46 -0700
-Message-Id: <40f91fb897a0ed40cdd05a71432b70ad4e39d2f9.1301668619.git.tom_rini@mentor.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1301668619.git.tom_rini@mentor.com>
-References: <cover.1301668619.git.tom_rini@mentor.com>
-X-OriginalArrivalTime: 01 Apr 2011 14:37:48.0720 (UTC)
-	FILETIME=[5F632300:01CBF07A]
-Subject: [PATCH 2/2] db: Switch to patchdir rather than applying in do_configure
+	Sat, 02 Apr 2011 07:46:59 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 01 Apr 2011 22:44:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.63,287,1299484800"; d="scan'208";a="674429856"
+Received: from unknown (HELO [10.255.12.195]) ([10.255.12.195])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Apr 2011 22:44:47 -0700
+Message-ID: <4D96B7CF.5050908@linux.intel.com>
+Date: Fri, 01 Apr 2011 22:44:47 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
+MIME-Version: 1.0
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <cover.1301503818.git.bruce.ashfield@windriver.com>
+	<80eb591ef244f2a9ebaeca3ed2da985c72b98daf.1301503818.git.bruce.ashfield@windriver.com>
+In-Reply-To: <80eb591ef244f2a9ebaeca3ed2da985c72b98daf.1301503818.git.bruce.ashfield@windriver.com>
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] linux-yocto/qemux86-64: enable profiling and latency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,39 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Apr 2011 14:39:49 -0000
+X-List-Received-Date: Sat, 02 Apr 2011 05:46:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
----
- meta/recipes-support/db/db_5.1.19.bb |    6 +-----
- 1 files changed, 1 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/db/db_5.1.19.bb b/meta/recipes-support/db/db_5.1.19.bb
-index 94ce180..7b7c4dd 100644
---- a/meta/recipes-support/db/db_5.1.19.bb
-+++ b/meta/recipes-support/db/db_5.1.19.bb
-@@ -17,7 +17,7 @@ CONFLICTS = "db3"
- PR = "r2"
- 
- SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
--SRC_URI += "file://arm-thumb-mutex_db5.patch;apply=no"
-+SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.."
- 
- SRC_URI[md5sum] = "76fcbfeebfcd09ba0b4d96bfdf8d884d"
- SRC_URI[sha256sum] = "0194d4ca9266ba1a1c0bfbc233b18bfd05f63163453c81ebcdfdc7112d5ac850"
-@@ -79,10 +79,6 @@ do_configure() {
- 	oe_runconf
- }
- 
--do_patch_append() {
--	os.system("cd ${S}/.. ; patch -p1 -i ${WORKDIR}/arm-thumb-mutex_db5.patch")
--}
--
- do_install_append() {
- 	mkdir -p ${D}/${includedir}/db51
- 	#mv ${D}/${includedir}/db_185.h ${D}/${includedir}/db51/.
+
+On 03/30/2011 09:55 AM, Bruce Ashfield wrote:
+> The configuration chunks for profiling and latency top have
+> been enabled in tree now, so we can drop optional feature
+> additions in the recipe itself.
+>
+> build tests show identical configurations.
+>
+> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
+
+Acked-by: Darren Hart <dvhart@linux.intel.com>
+
+> ---
+>   meta/recipes-kernel/linux/linux-yocto_git.bb |    4 ----
+>   1 files changed, 0 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_git.bb
+> index f35d1a2..38fbba3 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_git.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_git.bb
+> @@ -31,10 +31,6 @@ KERNEL_FEATURES="features/netfilter"
+>   KERNEL_FEATURES_append_qemux86=" cfg/sound"
+>   KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
+>
+> -# Temporary fix for oprofile and latencytop on qemux86-64
+> -KERNEL_FEATURES_append_qemux86-64=" features/profiling"
+> -KERNEL_FEATURES_append_qemux86-64=" features/latencytop"
+> -
+>   # extra tasks
+>   addtask kernel_link_vmlinux after do_compile before do_install
+>   addtask validate_branches before do_patch after do_kernel_checkout
+
 -- 
-1.7.0.4
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
