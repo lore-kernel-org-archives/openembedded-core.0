@@ -1,36 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q6X2u-00016z-Jk
-	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Apr 2011 01:49:28 +0200
-Received: by fxm19 with SMTP id 19so4143154fxm.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q6iDw-0003Fh-Qe for openembedded-core@lists.openembedded.org;
+	Mon, 04 Apr 2011 13:46:17 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p34BhXjC015476
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Apr 2011 16:47:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=ehNirH73SQy6Gv/cO2+veMydtBT8y1Dnqckngb9sm+Q=;
-	b=GbaQnWegsEF4VwcVeih45PzynFjD25dO2R46BTxB9I0q2ybt0AUbxSKf1tjNHirceg
-	25dgfUjKIFWNlil7DOrj74iOOM10b9q7/dNaoGp+R39IT75UyTqLtbodnXqHIlD0OdCz
-	WI6pXOb9kOAUwOZoMN6ZSfWEo7q56dppXr0I8=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=oWngbhCAw3KnMlU4psC2OZIO6hajf5a+3SR1U7uNnpNtu6elFDXptb4sxvQJlSdyYL
-	Swyk6aUxZRfhkOd/J7KVw+p/i7NpVD2iexv5OBFoFKrvVccm5hoUdAkZXkwM4GGrJkdq
-	yaI0xZ3gdA6QdqyUE97graCMA9arCf+LGb7Hw=
-Received: by 10.223.77.71 with SMTP id f7mr2087676fak.141.1301874443121; Sun,
-	03 Apr 2011 16:47:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.23.136 with HTTP; Sun, 3 Apr 2011 16:46:53 -0700 (PDT)
-In-Reply-To: <674f01045f776753ffafa72d9df37473cb50f397.1301631488.git.raj.khem@gmail.com>
+	Mon, 4 Apr 2011 12:43:33 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14972-08 for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Apr 2011 12:43:29 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p34BhQkw015470
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Apr 2011 12:43:27 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <9778c2218ffe94c96e816b203ded8569b19a1faf.1301631488.git.raj.khem@gmail.com>
 References: <cover.1301631488.git.raj.khem@gmail.com>
-	<674f01045f776753ffafa72d9df37473cb50f397.1301631488.git.raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 3 Apr 2011 16:46:53 -0700
-Message-ID: <BANLkTikmRJnFCaTnxW-9CH+_0QFUGeYroQ@mail.gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 46/46] linux-tools.inc: Dummify do_compile_perf and do_install_perf for uclibc
+	<9778c2218ffe94c96e816b203ded8569b19a1faf.1301631488.git.raj.khem@gmail.com>
+Date: Mon, 04 Apr 2011 12:43:23 +0100
+Message-ID: <1301917403.24596.335.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 02/46] classes: Use virtual/libintl instead of gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,55 +43,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Apr 2011 23:49:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 04 Apr 2011 11:46:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 31, 2011 at 9:30 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Perf wants elfutils and elfutils on uclibc does not work due to
-> its usage of obstack_printf functionality missing from uclibc.
->
+Hi Khem,
 
-this patch does not work well yet but is independent of other patches
-in series. This problem needs to be
-sorted differently.
+I have some comments about this patch.
+
+On Thu, 2011-03-31 at 21:28 -0700, Khem Raj wrote:
+> uclibc can use a proxy-libintl to provide dummy
+> gettext functionality so we need to make sure
+> we operate on virtual/libintl
+> 
+> gettext class is fixed so we can always use
+> inherit gettext to create proper dependencies
+> on gettext
+> 
+> insane class check for virtual/libintl and
+> error message is enhanced to print out gettext
+> package name it reports. Code is rearranged
+> for cosmetics.
+
+Can you try and split things into units of logical changes please? There
+are several separate things this patch is doing and whilst I can
+separate them out in my mind, it does make the patch harder to review.
+
+In particular, some of this is a cosmetic change and those should always
+be separate.
+
+As an example of the opposite problem, sending 20 patches which change
+DEPENDS = "gettext" to "inherit gettext" isn't especially useful and we
+could do that as one patch.
+
+The explanation above of "gettext class is fixed so we can always use
+inherit gettext to create proper dependencies on gettext" doesn't really
+explain anything about what the problem is or how its being fixed.
+
+Instead something like:
+
+* Change gettext.bbclass to use virtual/libintl instead of the 
+  hardcoded gettext dependency
+* Ensure gettext and gettext-native are removed from DEPENDS
+* Use _append instead of =+ to ensure dependencies are always added 
+  correctly as in some cases += will get overwritten by other overrides.
+
+gives much more information about what is changing and why.
 
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
-> =C2=A0meta/recipes-kernel/linux/linux-tools.inc | =C2=A0 12 ++++++++----
-> =C2=A01 files changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipes-ker=
-nel/linux/linux-tools.inc
-> index 2ac74a5..9ddebed 100644
-> --- a/meta/recipes-kernel/linux/linux-tools.inc
-> +++ b/meta/recipes-kernel/linux/linux-tools.inc
-> @@ -1,6 +1,11 @@
-> =C2=A0# included by kernel recipes if they want to build/provide
-> =C2=A0# perf functionality from their tree.
+>  meta/classes/autotools.bbclass |    8 +++++++-
+>  meta/classes/gettext.bbclass   |    8 ++++----
+>  meta/classes/insane.bbclass    |   23 +++++++++++------------
+>  3 files changed, 22 insertions(+), 17 deletions(-)
+> 
+> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+> index bc891f9..c128c39 100644
+> --- a/meta/classes/autotools.bbclass
+> +++ b/meta/classes/autotools.bbclass
+> @@ -134,7 +134,13 @@ autotools_do_configure() {
+>  			    echo "no" | glib-gettextize --force --copy
+>  			  fi
+>  			else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
+> -			  cp ${STAGING_DATADIR}/gettext/config.rpath ${S}/
+> +			  if ! echo ${EXTRA_OECONF} | grep -q "\-\-disable-nls"; then
+> +			    if [ -e ${STAGING_DATADIR}/gettext/config.rpath ]; then
+> +			      cp ${STAGING_DATADIR}/gettext/config.rpath ${S}/
+> +			    else
+> +			      oenote config.rpath not found in target sysroot. gettext is not staged. Usually happens when building with uclibc
+> +			    fi
+> +			  fi
+>  			fi
+
+This looks likely to cause errors based on my experience if the
+dependencies go wrong somehow. Can we make this more explicit about the
+three cases we expect (gettext/libintl/disable-nls) and what to do in
+each of them. We can then still error if gettext is enabled and that
+file isn't present. The error message can then be much more specific too
+about what the problem is.
+
+> diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+> index a40e74f..f49b595 100644
+> --- a/meta/classes/gettext.bbclass
+> +++ b/meta/classes/gettext.bbclass
+> @@ -3,15 +3,15 @@ def gettext_after_parse(d):
+>      if bb.data.getVar('USE_NLS', d, 1) == 'no':
+>          cfg = oe_filter_out('^--(dis|en)able-nls$', bb.data.getVar('EXTRA_OECONF', d, 1) or "", d)
+>          cfg += " --disable-nls"
+> -        depends = bb.data.getVar('DEPENDS', d, 1) or ""
+> -        bb.data.setVar('DEPENDS', oe_filter_out('^(virtual/libiconv|virtual/libintl)$', depends, d), d)
+> +        depends = bb.data.getVar('DEPENDS', d, True) or ""
+> +        bb.data.setVar('DEPENDS', oe_filter_out('^(virtual/libiconv|virtual/libintl|gettext|gettext-native)$', depends, d), d)
+>          bb.data.setVar('EXTRA_OECONF', cfg, d)
+>  
+>  python () {
+>      gettext_after_parse(d)
+>  }
+>  
+> -DEPENDS_GETTEXT = "gettext gettext-native"
+> +DEPENDS_GETTEXT = "virtual/libintl gettext-native"
+
+I doubt there should be be a gettext-native here in the uclibc case?
+
+How about simplifying this to:
+
+DEPENDS_GETTEXT = "gettext gettext-native"
+DEPENDS_GETTEXT_libc-uclibc = "virtual/libintl"
+
+> -DEPENDS =+ "${DEPENDS_GETTEXT}"
+> +DEPENDS_append = " ${DEPENDS_GETTEXT}"
+>  EXTRA_OECONF += "--enable-nls"
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 8124384..a2bcaae 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -553,10 +553,6 @@ python do_package_qa () {
+>      bb.note("DONE with PACKAGE QA")
+>  }
+>  
 > -
-> +do_compile_perf_libc-uclibc () {
-> + =C2=A0 =C2=A0 =C2=A0 :
-> +}
-> +do_install_perf_libc-uclibc () {
-> + =C2=A0 =C2=A0 =C2=A0 :
-> +}
-> =C2=A0do_compile_perf() {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake -C ${S}/tools/perf CC=3D"${CC}" LD=
-=3D"${LD}" prefix=3D${prefix}
-> =C2=A0}
-> @@ -14,6 +19,5 @@ do_install_perf() {
-> =C2=A0addtask compile_perf after do_compile before do_install
-> =C2=A0addtask install_perf after do_install before do_package
->
-> -do_compile_perf[depends] =3D =C2=A0"virtual/libc:do_populate_sysroot"
-> -do_compile_perf[depends] =3D+ "elfutils:do_populate_sysroot"
-> -RDEPENDS_perf +=3D "python perl elfutils"
-> +DEPENDS_perf_libc-glibc +=3D "elfutils virtual/libc"
-> +RDEPENDS_perf_libc-glibc +=3D "python perl elfutils"
-> --
-> 1.7.4.1
->
->
+> -# The Staging Func, to check all staging
+> -#addtask qa_staging after do_populate_sysroot before do_build
+> -do_populate_sysroot[postfuncs] += "do_qa_staging "
+>  python do_qa_staging() {
+>      bb.note("QA checking staging")
+>  
+> @@ -564,10 +560,6 @@ python do_qa_staging() {
+>          bb.fatal("QA staging was broken by the package built above")
+>  }
+>  
+> -# Check broken config.log files, for packages requiring Gettext which don't
+> -# have it in DEPENDS and for correct LIC_FILES_CHKSUM
+> -#addtask qa_configure after do_configure before do_compile
+> -do_configure[postfuncs] += "do_qa_configure "
+>  python do_qa_configure() {
+>      configs = []
+>      workdir = bb.data.getVar('WORKDIR', d, True)
+> @@ -585,21 +577,28 @@ Rerun configure task after fixing this. The path was '%s'""" % root)
+>          if "configure.in" in files:
+>              configs.append(os.path.join(root, "configure.in"))
+>  
+> -    if "gettext" not in bb.data.getVar('P', d, True) and "gcc-runtime" not in bb.data.getVar('P', d, True):
+> +    cnf = bb.data.getVar('EXTRA_OECONF', d, True) or ""
+> +    if "gettext" not in bb.data.getVar('P', d, True) and "gcc-runtime" not in bb.data.getVar('P', d, True) and "--disable-nls" not in cnf:
+>         if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('nativesdk', d):
+>            gt = "gettext-native"
+>         elif bb.data.inherits_class('cross-canadian', d):
+>            gt = "gettext-nativesdk"
+>         else:
+> -          gt = "gettext"
+> +          gt = "virtual/libintl"
+>         deps = bb.utils.explode_deps(bb.data.getVar('DEPENDS', d, True) or "")
+>         if gt not in deps:
+>            for config in configs:
+>                gnu = "grep \"^[[:space:]]*AM_GNU_GETTEXT\" %s >/dev/null" % config
+>                if os.system(gnu) == 0:
+> -                 bb.fatal("""Gettext required but not in DEPENDS for file %s.
+> -Missing inherit gettext?""" % config)
+> +                 bb.fatal("""%s required but not in DEPENDS for file %s. Missing inherit gettext?""" % (gt, config))
+>  
+>      if not package_qa_check_license(workdir, d):
+>          bb.fatal("Licensing Error: LIC_FILES_CHKSUM does not match, please fix")
+>  }
+> +do_populate_sysroot[postfuncs] += "do_qa_staging "
+> +
+> +# Check broken config.log files, for packages requiring Gettext which don't
+> +# have it in DEPENDS and for correct LIC_FILES_CHKSUM
+> +#addtask qa_configure after do_configure before do_compile
+> +
+> +do_configure[postfuncs] += "do_qa_configure "
+
+
 
 
