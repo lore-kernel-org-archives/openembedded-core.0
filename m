@@ -1,34 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q6iUv-0002xN-N2 for openembedded-core@lists.openembedded.org;
-	Mon, 04 Apr 2011 14:03:21 +0200
+	id 1Q6ixJ-0004Wb-Ch for openembedded-core@lists.openembedded.org;
+	Mon, 04 Apr 2011 14:32:29 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p34C0xru015695
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p34CUQvi015906
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Apr 2011 13:00:59 +0100
+	Mon, 4 Apr 2011 13:30:26 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 15522-05 for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Apr 2011 13:00:55 +0100 (BST)
+	id 15522-09 for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Apr 2011 13:30:18 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p34C0qu8015689
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p34CUEDq015889
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Apr 2011 13:00:52 +0100
+	Mon, 4 Apr 2011 13:30:15 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <89bd2dfb441de55bbac4e7588ba4ef4ffde35913.1301631488.git.raj.khem@gmail.com>
+In-Reply-To: <d6269e02c09499e0d603777a2315ff3600bc2489.1301631488.git.raj.khem@gmail.com>
 References: <cover.1301631488.git.raj.khem@gmail.com>
-	<89bd2dfb441de55bbac4e7588ba4ef4ffde35913.1301631488.git.raj.khem@gmail.com>
-Date: Mon, 04 Apr 2011 13:00:49 +0100
-Message-ID: <1301918449.24596.345.camel@rex>
+	<d6269e02c09499e0d603777a2315ff3600bc2489.1301631488.git.raj.khem@gmail.com>
+Date: Mon, 04 Apr 2011 13:30:11 +0100
+Message-ID: <1301920211.24596.346.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 28/46] xorg-lib: inherit gettext class instead of adding gettext to DEPENDS directly
+Subject: Re: [PATCH 24/46] elfutils_0.148.bb: Fix compilation issues on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,64 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2011 12:03:22 -0000
+X-List-Received-Date: Mon, 04 Apr 2011 12:32:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Thu, 2011-03-31 at 21:29 -0700, Khem Raj wrote:
+> * Add -luargp and -lintl to linker flags
+> * __mempcpy is not there on uclibc so define it to mempcpy
+> 
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/recipes-graphics/xorg-lib/libxau_1.0.6.bb     |    2 +-
->  meta/recipes-graphics/xorg-lib/libxdmcp_1.1.0.bb   |    2 --
->  meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    2 +-
->  meta/recipes-graphics/xorg-lib/xtrans_1.2.6.bb     |    1 -
->  4 files changed, 2 insertions(+), 5 deletions(-)
+>  .../elfutils/elfutils-0.148/mempcpy.patch          |   14 ++++++++++++++
+>  meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    8 +++++---
+>  2 files changed, 19 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.148/mempcpy.patch
 > 
-> diff --git a/meta/recipes-graphics/xorg-lib/libxau_1.0.6.bb b/meta/recipes-graphics/xorg-lib/libxau_1.0.6.bb
-> index 79078ef..c96b6e9 100644
-> --- a/meta/recipes-graphics/xorg-lib/libxau_1.0.6.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libxau_1.0.6.bb
-> @@ -9,7 +9,7 @@ require xorg-lib-common.inc
->  LICENSE = "MIT-style"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=7908e342491198401321cec1956807ec"
->  
-> -DEPENDS += " xproto gettext"
-> +DEPENDS += " xproto"
->  PROVIDES = "xau"
->  
->  PR = "r0"
-> diff --git a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.0.bb b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.0.bb
-> index d897dab..8ac8e38 100644
-> --- a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.0.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.0.bb
-> @@ -17,8 +17,6 @@ PROVIDES = "xdmcp"
->  PR = "r0"
->  PE = "1"
->  
-> -DEPENDS += "gettext"
-> -
->  XORG_PN = "libXdmcp"
->  
->  BBCLASSEXTEND = "native nativesdk"
-> diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> index 4ed8c86..9b4ce1e 100644
-> --- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> +++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> @@ -11,6 +11,6 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.bz2"
->  
->  S = "${WORKDIR}/${XORG_PN}-${PV}"
->  
-> -inherit autotools pkgconfig
-> +inherit autotools pkgconfig gettext
+> diff --git a/meta/recipes-devtools/elfutils/elfutils-0.148/mempcpy.patch b/meta/recipes-devtools/elfutils/elfutils-0.148/mempcpy.patch
+> new file mode 100644
+> index 0000000..f4af7c4
+> --- /dev/null
+> +++ b/meta/recipes-devtools/elfutils/elfutils-0.148/mempcpy.patch
+> @@ -0,0 +1,14 @@
+> +Index: elfutils-0.148/libelf/elf_begin.c
+> +===================================================================
+> +--- elfutils-0.148.orig/libelf/elf_begin.c
+> ++++ elfutils-0.148/libelf/elf_begin.c
+> +@@ -68,6 +68,9 @@
+> + #include "libelfP.h"
+> + #include "common.h"
+> + 
+> ++#ifdef __UCLIBC__
+> ++#define __mempcpy mempcpy
+> ++#endif
+> + 
+> + /* Create descriptor for archive in memory.  */
+> + static inline Elf *
 
-NAK. Please don't add gettext dependencies to every xorg library because
-three of them require it. Please add the inherits to the individual
-recipes that need it. This improves parallel build performance as some
-things can start compiling before gettext is built.
+The patch description is missing...
 
 Cheers,
 
 Richard
+
 
 
 
