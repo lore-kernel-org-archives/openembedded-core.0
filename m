@@ -1,22 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Q6pQM-00080l-8X
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Q6pQU-00081X-B0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Apr 2011 21:26:54 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Apr 2011 12:24:40 -0700
+	Mon, 04 Apr 2011 21:27:02 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 04 Apr 2011 12:24:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,299,1299484800"; d="scan'208";a="905453619"
+X-IronPort-AV: E=Sophos;i="4.63,299,1299484800"; d="scan'208";a="413640427"
 Received: from nbuild1.sc.intel.com (HELO localhost) ([172.25.110.36])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Apr 2011 12:24:40 -0700
-Message-Id: <9f80f893644fe051ebf4f751561532926f68952d.1301921659.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1301921659.git.nitin.a.kamble@intel.com>
-References: <cover.1301921659.git.nitin.a.kamble@intel.com>
-Old-Date: Tue, 29 Mar 2011 10:46:45 -0700
-Date: Mon, 04 Apr 2011  5:56:21 -0700
+	by azsmga001.ch.intel.com with ESMTP; 04 Apr 2011 12:24:40 -0700
+Message-Id: <cover.1301921659.git.nitin.a.kamble@intel.com>
+Old-Date: Mon, 4 Apr 2011 05:54:19 -0700
+Date: Mon, 04 Apr 2011  5:56:20 -0700
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
-Subject: [PATCH 2/3] libxcb: fix for broken library link in the image
+Subject: [PATCH 0/3] ldconfig cache generation in cross way
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,82 +29,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2011 19:26:54 -0000
+X-List-Received-Date: Mon, 04 Apr 2011 19:27:02 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-log.do_package:
-NOTE: the following files were installed but not shipped in any package:
-NOTE:   /usr/lib/libxcb-dri2.so.0
-NOTE:   /usr/lib/libxcb-dri2.so.0.0.0
-NOTE: libxcb-dev contains dangling symlink to
-/usr/lib/libxcb-dri2.so.0.0.0
+This brings few commits related to the yocto bug #780
 
-Then because of the dangling symlink, ldconfig fails at the time of
-rootfs creation of image.
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: nitin/bug780
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/bug780
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Thanks,
+    Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-graphics/xcb/libxcb.inc       |    4 +++-
- meta/recipes-graphics/xcb/libxcb_1.1.91.bb |    2 +-
- meta/recipes-graphics/xcb/libxcb_1.7.bb    |    2 +-
- meta/recipes-graphics/xcb/libxcb_git.bb    |    1 +
- 4 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/xcb/libxcb.inc b/meta/recipes-graphics/xcb/libxcb.inc
-index 81d4a20..3bb210a 100644
---- a/meta/recipes-graphics/xcb/libxcb.inc
-+++ b/meta/recipes-graphics/xcb/libxcb.inc
-@@ -19,10 +19,12 @@ PACKAGES =+ "libxcb-composite libxcb-damage libxcb-dpms libxcb-glx \
-              libxcb-randr libxcb-record libxcb-render libxcb-res \
-              libxcb-screensaver libxcb-shape libxcb-shm libxcb-sync \
-              libxcb-xevie libxcb-xf86dri libxcb-xfixes libxcb-xlib \
--             libxcb-xprint libxcb-xtest libxcb-xv libxcb-xvmc"
-+             libxcb-xprint libxcb-xtest libxcb-xv libxcb-xvmc \
-+             libxcb-dri2"
- 
- FILES_${PN} = "${libdir}/libxcb.so.*"
- #FILES_${PN}-dev = "${libdir}/libxcb.* ${libdir}/pkgconfig/*.pc ${includedir}/xcb/*.h"
-+FILES_libxcb-dri2 = "${libdir}/libxcb-dri2.so.*"
- FILES_libxcb-composite = "${libdir}/libxcb-composite.so.*"
- FILES_libxcb-damage = "${libdir}/libxcb-damage.so.*"
- FILES_libxcb-dpms = "${libdir}/libxcb-dpms.so.*"
-diff --git a/meta/recipes-graphics/xcb/libxcb_1.1.91.bb b/meta/recipes-graphics/xcb/libxcb_1.1.91.bb
-index ae0cc57..7ea7451 100644
---- a/meta/recipes-graphics/xcb/libxcb_1.1.91.bb
-+++ b/meta/recipes-graphics/xcb/libxcb_1.1.91.bb
-@@ -1,5 +1,5 @@
- include libxcb.inc
--PR = "r1"
-+PR = "r2"
- 
- DEPENDS += "libpthread-stubs xcb-proto-native"
- 
-diff --git a/meta/recipes-graphics/xcb/libxcb_1.7.bb b/meta/recipes-graphics/xcb/libxcb_1.7.bb
-index 426f790..0f30c88 100644
---- a/meta/recipes-graphics/xcb/libxcb_1.7.bb
-+++ b/meta/recipes-graphics/xcb/libxcb_1.7.bb
-@@ -3,7 +3,7 @@ include libxcb.inc
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7"
- 
--PR = "r0"
-+PR = "r1"
- 
- DEPENDS += "libpthread-stubs xcb-proto-native"
- 
-diff --git a/meta/recipes-graphics/xcb/libxcb_git.bb b/meta/recipes-graphics/xcb/libxcb_git.bb
-index faa5231..86ba036 100644
---- a/meta/recipes-graphics/xcb/libxcb_git.bb
-+++ b/meta/recipes-graphics/xcb/libxcb_git.bb
-@@ -2,6 +2,7 @@ DEFAULT_PREFERENCE = "-1"
- 
- include libxcb.inc
- PV = "1.1.90.1+gitr${SRCPV}"
-+PR = "r1"
- 
- DEPENDS += "libpthread-stubs xcb-proto-native"
- 
+
+Nitin A Kamble (3):
+  image.bbclass: make execution ldconfig verbose
+  libxcb: fix for broken library link in the image
+  ldconfig-native-2.12.1: newer recipe with eglibc sources
+
+ meta/classes/image.bbclass                         |    3 +-
+ .../ldconfig-native-2.12.1}/32and64bit.patch       |   94 +++--
+ .../eglibc/ldconfig-native-2.12.1/README           |    8 +
+ .../endian-ness_handling.patch                     |  451 ++++++++++++++++++++
+ .../eglibc/ldconfig-native-2.12.1/flag_fix.patch   |   22 +
+ .../ldconfig-native-2.12.1.tar.bz2                 |  Bin 0 -> 21491 bytes
+ .../ldconfig-native-2.12.1}/ldconfig.patch         |  125 +++---
+ .../ldconfig_aux-cache_path_fix.patch              |   34 ++
+ meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb |   27 ++
+ .../ldconfig-native-2.5.tar.bz2                    |  Bin 19454 -> 0 bytes
+ meta/recipes-core/glibc/ldconfig-native_2.5.bb     |   24 -
+ meta/recipes-graphics/xcb/libxcb.inc               |    4 +-
+ meta/recipes-graphics/xcb/libxcb_1.1.91.bb         |    2 +-
+ meta/recipes-graphics/xcb/libxcb_1.7.bb            |    2 +-
+ meta/recipes-graphics/xcb/libxcb_git.bb            |    1 +
+ 15 files changed, 680 insertions(+), 117 deletions(-)
+ rename meta/recipes-core/{glibc/ldconfig-native-2.5 => eglibc/ldconfig-native-2.12.1}/32and64bit.patch (78%)
+ create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/README
+ create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/endian-ness_handling.patch
+ create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/flag_fix.patch
+ create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig-native-2.12.1.tar.bz2
+ rename meta/recipes-core/{glibc/ldconfig-native-2.5 => eglibc/ldconfig-native-2.12.1}/ldconfig.patch (84%)
+ create mode 100644 meta/recipes-core/eglibc/ldconfig-native-2.12.1/ldconfig_aux-cache_path_fix.patch
+ create mode 100644 meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb
+ delete mode 100644 meta/recipes-core/glibc/ldconfig-native-2.5/ldconfig-native-2.5.tar.bz2
+ delete mode 100644 meta/recipes-core/glibc/ldconfig-native_2.5.bb
+
 -- 
 1.7.2.2
 
