@@ -1,23 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Q6jue-0003G4-QT
+	(envelope-from <koen@dominion.thruhere.net>) id 1Q6k2M-0003MY-G5
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Apr 2011 15:33:50 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 04 Apr 2011 06:31:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,297,1299484800"; d="scan'208";a="728871691"
-Received: from unknown (HELO localhost) ([10.255.13.9])
-	by orsmga001.jf.intel.com with ESMTP; 04 Apr 2011 06:31:42 -0700
-Message-Id: <2e4f37c9d2f3272fde3bce903f03ef0c2c275ce0.1301923706.git.josh@linux.intel.com>
+	Mon, 04 Apr 2011 15:41:46 +0200
+Received: by wye20 with SMTP id 20so5036251wye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Apr 2011 06:39:41 -0700 (PDT)
+Received: by 10.227.197.199 with SMTP id el7mr4013180wbb.32.1301924381605;
+	Mon, 04 Apr 2011 06:39:41 -0700 (PDT)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id
+	o23sm2929229wbc.10.2011.04.04.06.39.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 04 Apr 2011 06:39:41 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <cover.1301923706.git.josh@linux.intel.com>
+Date: Mon, 4 Apr 2011 15:39:40 +0200
+Message-Id: <52BC8856-1494-4AC6-B04F-0A9DC5A8AB2B@dominion.thruhere.net>
 References: <cover.1301923706.git.josh@linux.intel.com>
-Old-Date: Mon, 4 Apr 2011 14:26:40 +0100
-Date: Mon, 04 Apr 2011 14:31:41 +0100
-To: openembedded-core@lists.openembedded.org
-CC: 
-From: Joshua Lock <josh@linux.intel.com>
-Subject: [PATCH 1/1] clutter-1.6: fix tarball md5sum and add json-glib to dependencies
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 0/1] Clutter-1.6 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,49 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Apr 2011 13:33:50 -0000
+X-List-Received-Date: Mon, 04 Apr 2011 13:41:46 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Joshua Lock <josh@linux.intel.com>
 
-* As of Clutter 1.5.2 the project no longer ships an internal version of
-json-glib so we must explicitly add it to the DEPENDS.
-* Fix the SRC_URI[md5sum]
+Op 4 apr 2011, om 15:31 heeft Joshua Lock het volgende geschreven:
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
+> From: Joshua Lock <josh@linux.intel.com>
+>=20
+> I found a couple of issues with the Clutter 1.6 recipes I submitted =
+recently
+> which I've addressed in the attached patch.
+>=20
+> As an aside I've noticed that we have a COMPATIBLE_MACHINE line in
+> clutter.inc, I think we're going to need to find a more suitable =
+mechanism
+> for specifying compatible machines for this recipe set going forwards.
+>=20
+> Any ideas? Perhaps some MACHINE_FEATURE which must exist for Clutter =
+(and
+> other GL dependent recipes) to build?
 
-diff --git a/meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb b/meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb
-index 7ead5f9..ffcc42d 100644
---- a/meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb
-+++ b/meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb
-@@ -2,6 +2,9 @@ require recipes-graphics/clutter/clutter.inc
- 
- PR = "r0"
- 
-+# Internal json-glib was removed in Clutter 1.5.2
-+STDDEPENDS += "json-glib"
-+
- PACKAGES =+ "${PN}-examples"
- FILES_${PN}-examples = "${bindir}/test-* ${pkgdatadir}/redhand.png"
- 
-@@ -14,12 +17,10 @@ S = "${WORKDIR}/clutter-1.6.8"
- 
- BASE_CONF += "--disable-introspection"
- 
--EXTRA_OECONF += "--with-json=check"
--
- do_configure_prepend () {
- 	# Disable DOLT
- 	sed -i -e 's/^DOLT//' ${S}/configure.ac
- }
- 
--SRC_URI[md5sum] = "5a3c6d8414d4e286aba0a936f344c9b1""
-+SRC_URI[md5sum] = "9eedac4216f709a9f144940d24bfbb3e"
- SRC_URI[sha256sum] = "cc147b8e7e62ed4b9b8a83df3db9788cf37db0c83970ba876228433f32bda442"
--- 
-1.7.4.1
+What we did in OE .dev was:
 
+1) introduce SOC_FAMILY to group, well, SOC families (e.g. OMAP3)
+2) Extend base.bbclass to allow COMPATIBLE_MACHINE =3D $SOC_FAMILY.
+3) Add COMPATIBLE_MACHINE =3D omap3 to the GLES recipes
+4) DEPENDS_omap3 =3D libgles-omap3 in clutter.inc
+
+So for machines in the omap3 class it will build libgles-omap3 and not =
+for others. So the compatibility is defined at the GL level instead of =
+the clutter level.
+
+regards,
+
+Koen=
 
 
