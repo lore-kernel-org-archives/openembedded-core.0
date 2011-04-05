@@ -1,26 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q77B0-0007UN-J6
+	(envelope-from <josh@linux.intel.com>) id 1Q79Qt-0005Bx-Sw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Apr 2011 16:24:16 +0200
-Received: by wye20 with SMTP id 20so394850wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Apr 2011 07:21:59 -0700 (PDT)
-Received: by 10.216.68.193 with SMTP id l43mr5298405wed.53.1302013319791;
-	Tue, 05 Apr 2011 07:21:59 -0700 (PDT)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id g32sm2802153wej.3.2011.04.05.07.21.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 05 Apr 2011 07:21:59 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 5 Apr 2011 16:21:58 +0200
-Message-Id: <9A5D9D9C-17D4-44A0-8E20-E7BA913A4678@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1084)
-X-Mailer: Apple Mail (2.1084)
-Subject: shared-mime-info-native fails to build
+	Tue, 05 Apr 2011 18:48:48 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Apr 2011 09:46:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.63,305,1299484800"; d="scan'208";a="905865130"
+Received: from unknown (HELO [10.255.12.235]) ([10.255.12.235])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2011 09:46:25 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 05 Apr 2011 17:46:24 +0100
+In-Reply-To: <4D9A772C.4070409@gmail.com>
+References: <cover.1301665368.git.josh@linux.intel.com>
+	<43e615baf63929e99aacd8d2a0927c9d3f342fb6.1301665368.git.josh@linux.intel.com>
+	<4D9A772C.4070409@gmail.com>
+X-Mailer: Evolution 2.91.92 (2.91.92-2.fc15) 
+Message-ID: <1302021985.2511.16.camel@scimitar>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/7] elfutils: fix builds with gcc 4.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,52 +34,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2011 14:24:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 05 Apr 2011 16:48:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Mon, 2011-04-04 at 18:58 -0700, Khem Raj wrote:
+> On 4/1/2011 6:51 AM, Joshua Lock wrote:
+> > From: Joshua Lock<josh@linux.intel.com>
+> >
+> > gcc 4.6 (as used in Fedora 15) adds some extra warnings which are
+> > included with Werror. The new unused-but-set variable warning causes
+> > an error in libasm of elfutils. Work around this by removing
+> > unused-but-set from Werror.
+> >
+> > Signed-off-by: Joshua Lock<josh@linux.intel.com>
+> > ---
+> >   meta/recipes-devtools/elfutils/elfutils_0.148.bb |    4 ++++
+> >   1 files changed, 4 insertions(+), 0 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+> > index b2f700e..c395be8 100644
+> > --- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+> > +++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+> > @@ -40,6 +40,10 @@ SRC_URI += "\
+> >
+> >   inherit autotools
+> >
+> > +# GCC 4.6.0 raises an unused-but-set warning in libasm, for now remove
+> > +# this warning from Werror
+> > +CFLAGS_virtclass-native += "-Wno-error=unused-but-set-variable"
+> > +
+> 
+> unused-but-set-variable is a new option in gcc 4.6 which means this will 
+> cause problems with older gcc's as they wont recognize this option and 
+> not all distros have gcc 4.6
+> as base compiler. Have you tried compiling this patchset on a build 
+> machine which has older gcc ? say 4.5
 
-I've noticed this a few days ago, but it persists with builds from =
-scratch:
+I had not but thanks for pointing this out. I'll work up a new patch and
+make sure to test it on a machine with an older GCC.
 
-| CREATED freedesktop.org.xml
-| if test -n =
-/OE/tentacle/build/tmp-angstrom_2010_x/sysroots/x86_64-linux/usr/bin/xmlli=
-nt ; then \
-|               if test -e ./freedesktop.org.xml; then \
-|               xmllint --noout --valid ./freedesktop.org.xml;  \
-|               else \|               xmllint --noout --valid =
-./freedesktop.org.xml;  \
-|               fi \
-|       fi
-| ./freedesktop.org.xml:5516: parser error : Extra content at the end of =
-the document| </mime-info>-Zeichnung</comment>
-|             ^
-| make: *** [check] Error 1
-| + die 'oe_runmake failed'
-| + oefatal 'oe_runmake failed'
-| + echo FATAL: 'oe_runmake failed'
-| FATAL: oe_runmake failed
+Cheers,
+Joshua
+-- 
+Joshua Lock
+        Yocto Build System Monkey
+        Intel Open Source Technology Centre
 
-Did our xmllint get more strict or have we never run it before?
-
-This is with:
-
-OE Build Configuration:
-BB_VERSION        =3D "1.13.0"
-METADATA_BRANCH   =3D "master"
-METADATA_REVISION =3D "694db055f3729662e0e0193a31f2098be599877f"
-TARGET_ARCH       =3D "arm"
-TARGET_OS         =3D "linux-gnueabi"
-MACHINE           =3D "beagleboard"
-DISTRO            =3D "angstrom"
-DISTRO_VERSION    =3D "v20110405-core"
-TARGET_FPU        =3D "hard"
-
-
-regards,
-
-Koen=
 
 
