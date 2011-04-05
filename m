@@ -1,41 +1,41 @@
 Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Q7CvP-0007vv-L8
+	(envelope-from <kergoth@gmail.com>) id 1Q7CvP-0007vu-Rw
 	for openembedded-core@lists.openembedded.org;
 	Tue, 05 Apr 2011 22:32:31 +0200
-Received: by ywg8 with SMTP id 8so325519ywg.6
+Received: by ywg8 with SMTP id 8so325538ywg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Apr 2011 13:30:22 -0700 (PDT)
+	Tue, 05 Apr 2011 13:30:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references:in-reply-to:references;
-	bh=tMatQul1vW34glwj+cZDoMqfMjv4U+6SjhkfBJkvzeQ=;
-	b=CvMgXf5m0r7DgDAFwbv5LWWzWDf8ysc+jCtd8mlu7kYkZD/FOTgdjNwHQUdsgG7Oo2
-	s01VUM2jHfTxpFe9AAuRxlUx8W3TCbXf3A8aKDrzwfj/RvgjGonsheIRW9H8NfE/AxvB
-	/F1V9aQQuodocgBj9e3GYG9RpXhjk4p8DtcAI=
+	bh=MuJF2kJV73a5w027kECpStQvG/c0rGnaVcE/cjVP9fM=;
+	b=fuDhZH0NgTJoqz76KVSqRHQMepn7UNdJbigJyeju9Ne9H7Ylggf+7V5R9IfYUr2rml
+	fgydZGi798CvBELOx25Yj6NRxvFq97bMIwdVOALhROhNN/ihfVDKXRzTtb0/oUxmflMp
+	94Pu1yvVz6xS6fBoieQb0hZlU+kr/cqIfyEi4=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=V42AWVY1umrW6g5AlKfv+CQ/jz7DY9tSIusy3sPeOJsVIU3dbWUR3S05/vDiEIlhMD
-	TtSnsj6DvDyGemJeYeyL+OXCSuMW/Gcq98icvsSISWcWl/rBJO63LCNJijdtAxnmoogB
-	EJLuRuzbvJYmYVQPYZblPv+/QJOvWsuhHQfPw=
-Received: by 10.151.158.18 with SMTP id k18mr1000343ybo.299.1302035422127;
-	Tue, 05 Apr 2011 13:30:22 -0700 (PDT)
+	b=S0oE9z2QnOMUcci2QuhGdEpJ9eX8p2cEdzumeknZH+z5V+UdfXsRRoLoA/dpICFj8c
+	nl/0Y3HFoWNltMaP2ifnq1lxxiBsDhS8STtSDtiHdOyS0OzUCWzDD0BDqxboXwOTFibg
+	K5tteKG9UdePtWP7zx8caas+3lUnOTeduMVBE=
+Received: by 10.150.63.4 with SMTP id l4mr968928yba.337.1302035424993;
+	Tue, 05 Apr 2011 13:30:24 -0700 (PDT)
 Received: from localhost.localdomain (ip24-251-170-95.ph.ph.cox.net
 	[24.251.170.95])
-	by mx.google.com with ESMTPS id q18sm282484ybk.26.2011.04.05.13.30.20
+	by mx.google.com with ESMTPS id q18sm282484ybk.26.2011.04.05.13.30.23
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 05 Apr 2011 13:30:21 -0700 (PDT)
+	Tue, 05 Apr 2011 13:30:24 -0700 (PDT)
 From: Chris Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Apr 2011 13:30:13 -0700
-Message-Id: <8109d803d93d3101593825d3ee1abe4d7ac84ac4.1302034944.git.chris_larson@mentor.com>
+Date: Tue,  5 Apr 2011 13:30:15 -0700
+Message-Id: <e8fe9dbbda23e705e780d98daef050dbbe69a6ca.1302034944.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1302034944.git.chris_larson@mentor.com>
 References: <cover.1302034944.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1302034944.git.chris_larson@mentor.com>
 References: <cover.1302034944.git.chris_larson@mentor.com>
 Cc: Chris Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/3] oe.classutils: add module
+Subject: [PATCH 3/3] oe.terminal: improve how we spawn screen
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,49 +50,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2011 20:32:31 -0000
+X-List-Received-Date: Tue, 05 Apr 2011 20:32:32 -0000
 
 From: Chris Larson <chris_larson@mentor.com>
 
-This adds a ClassRegistry utility metaclass, as maintaining a class registry
-is a fairly common thing to do.
+- Name the screen session 'devshell', to avoid confusion if running bitbake
+  itself under a screen session.
+- Display a warning message when spawning screen, so it's clear to the user
+  that screen has been run (otherwise do_devshell just appears to hang).
 
 Signed-off-by: Chris Larson <chris_larson@mentor.com>
 ---
- meta/lib/oe/classutils.py |   24 ++++++++++++++++++++++++
- 1 files changed, 24 insertions(+), 0 deletions(-)
- create mode 100644 meta/lib/oe/classutils.py
+ meta/lib/oe/terminal.py |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
-diff --git a/meta/lib/oe/classutils.py b/meta/lib/oe/classutils.py
-new file mode 100644
-index 0000000..855d2fa
---- /dev/null
-+++ b/meta/lib/oe/classutils.py
-@@ -0,0 +1,24 @@
-+class ClassRegistry(type):
-+    """Maintain a registry of classes, indexed by name.
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 5336167..bbff8d0 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -71,7 +71,12 @@ class Rxvt(XTerminal):
+     priority = 1
+ 
+ class Screen(Terminal):
+-    command = 'screen -D -m -t "{title}" {command}'
++    command = 'screen -D -m -t "{title}" -S devshell {command}'
 +
-+    The name in the registry can be overridden via the 'name' attribute of the
-+    class, and the 'priority' attribute controls priority.  The prioritized()
-+    method returns the registered classes in priority order."""
-+    registry = {}
-+    priority = 0
-+
-+    def __init__(cls, name, bases, attrs):
-+        super(ClassRegistry, cls).__init__(name, bases, attrs)
-+        if not hasattr(cls, name):
-+            cls.name = name
-+        cls.registry[cls.name] = cls
-+
-+    @classmethod
-+    def prioritized(tcls):
-+        return sorted(tcls.registry.values(),
-+                      key=lambda v: v.priority, reverse=True)
-+
-+    def unregister(cls):
-+        for key in cls.registry.keys():
-+            if cls.registry[key] is cls:
-+                del cls.registry[key]
++    def __init__(self, command, title=None):
++        Terminal.__init__(self, command, title)
++        logger.warn('Screen started. Please connect in another terminal with '
++                    '"screen -r devshell"')
+ 
+ 
+ def prioritized():
 -- 
 1.7.4.1
 
