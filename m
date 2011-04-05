@@ -1,25 +1,25 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Q7E8k-0000yV-N0
+	(envelope-from <sgw@linux.intel.com>) id 1Q7E8l-0000yV-EB
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Apr 2011 23:50:22 +0200
+	Tue, 05 Apr 2011 23:50:23 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 05 Apr 2011 14:48:00 -0700
+	by orsmga102.jf.intel.com with ESMTP; 05 Apr 2011 14:48:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,307,1299484800"; d="scan'208";a="729554178"
+X-IronPort-AV: E=Sophos;i="4.63,307,1299484800"; d="scan'208";a="729554197"
 Received: from unknown (HELO localhost) ([10.255.12.228])
-	by orsmga001.jf.intel.com with ESMTP; 05 Apr 2011 14:47:59 -0700
-Message-Id: <ea33942ad5dd079dd448353f450cd894a599d082.1302039585.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 05 Apr 2011 14:48:03 -0700
+Message-Id: <8a1a7c5d90e26c39dc06820da8768f87de7b82f3.1302039585.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1302039585.git.sgw@linux.intel.com>
 References: <cover.1302039585.git.sgw@linux.intel.com>
-Old-Date: Tue, 22 Mar 2011 16:55:10 +0800
-Date: Tue, 05 Apr 2011 14:47:59 -0700
+Old-Date: Fri, 25 Mar 2011 16:18:21 +0800
+Date: Tue, 05 Apr 2011 14:48:03 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Scott Rifenbark <scott.m.rifenbark@intel.com>,
 	Xiaofeng Yan <xiaofeng.yan@windriver.com>,
 	Dongxiao Xu <dongxiao.xu@intel.com>, Kang Kai <kai.kang@windriver.com>
-Subject: [PATCH 1/6] xdg-utils: add xdg-utils to pass the lsb test
+Subject: [PATCH 6/6] distrodata.bbclass: Merge the get_pkg_info.log into checkpkg.csv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,53 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2011 21:50:22 -0000
+X-List-Received-Date: Tue, 05 Apr 2011 21:50:23 -0000
 
-From: Kang Kai <kai.kang@windriver.com>
+From: Mei Lei <lei.mei@intel.com>
 
-xdg-utils provides xdg-* scripts to pass the LSB 4.1 command check
-Import from OE and add DESCRIPTION, PR and LIC_FILES_CHKSUM.
+For easy view the check package result, merge the two files into checkpkg.csv, after that, the package report system will use checkpkg.csv instead of get_pkg_info.log.
 
-(From OE rev: 44985d56bc556786812a0a02d6219afd31a7381d)
-
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
+Signed-off-by: Mei Lei <lei.mei@intel.com>
 ---
- meta/recipes-extended/xdg-utils/xdg-utils_1.0.2.bb |   26 ++++++++++++++++++++
- 1 files changed, 26 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-extended/xdg-utils/xdg-utils_1.0.2.bb
+ meta/classes/distrodata.bbclass |   29 +++++++----------------------
+ 1 files changed, 7 insertions(+), 22 deletions(-)
 
-diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.0.2.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.0.2.bb
-new file mode 100644
-index 0000000..695e4f3
---- /dev/null
-+++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.0.2.bb
-@@ -0,0 +1,26 @@
-+SUMMARY = "Basic desktop integration functions"
-+
-+DESCRIPTION = "The xdg-utils package is a set of simple scripts that provide basic \
-+desktop integration functions for any Free Desktop, such as Linux. \
-+They are intended to provide a set of defacto standards. \
-+The following scripts are provided at this time: \
-+xdg-desktop-icon \     
-+xdg-desktop-menu \  
-+xdg-email \ 
-+xdg-icon-resource \
-+xdg-mime \       
-+xdg-open \     
-+xdg-screensaver \ 
-+"
-+
-+PR="r0"
-+
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=a5367a90934098d6b05af3b746405014"
-+
-+SRC_URI = "http://portland.freedesktop.org/download/${PN}-${PV}.tgz"
-+
-+inherit autotools
-+
-+SRC_URI[md5sum] = "348a5b91dc66426505022c74a64b2940"
-+SRC_URI[sha256sum] = "21aeb7d16b2529b8d3975118f59eec09953e09f9a68d718159e98c90474b01ac"
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index e2cc8fa..905dad7 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -225,17 +225,9 @@ python checkpkg_eventhandler() {
+ 
+ 	lf = bb.utils.lockfile(logfile + ".lock")
+ 	f = open(logfile, "a")
+-	f.write("Package\tOwner\tURI Type\tVersion\tTracking\tUpstream\tTMatch\tRMatch\n")
++	f.write("Package\tVersion\tUpver\tLicense\tSection\tHome\tRelease\tPriority\tDepends\tBugTracker\tPE\tDescription\tStatus\tTracking\tURI\tMAINTAINER\n")
+         f.close()
+         bb.utils.unlockfile(lf)
+-	"""initialize log files for package report system"""
+-	logfile2 = os.path.join(logpath, "get_pkg_info.%s.log" % bb.data.getVar('DATETIME', e.data, 1))
+-	if not os.path.exists(logfile2):
+-		slogfile2 = os.path.join(logpath, "get_pkg_info.log")
+-		if os.path.exists(slogfile2):
+-			os.remove(slogfile2)
+-		os.system("touch %s" % logfile2)
+-		os.symlink(logfile2, slogfile2)
+     return
+ }
+ 
+@@ -459,8 +451,6 @@ python do_checkpkg() {
+ 	logpath = bb.data.getVar('LOG_DIR', d, 1)
+ 	bb.utils.mkdirhier(logpath)
+ 	logfile = os.path.join(logpath, "checkpkg.csv")
+-	"""initialize log files for package report system"""
+-	logfile2 = os.path.join(logpath, "get_pkg_info.log")
+ 
+ 	"""generate package information from .bb file"""
+ 	pname = bb.data.getVar('PN', d, 1)
+@@ -582,7 +572,7 @@ python do_checkpkg() {
+ 				result = bb.utils.vercmp(("0", puptag, ""), ("0", plocaltag, ""))
+ 				if result > 0:
+ 					verflag = 1
+-					pstatus = "UPADTE"
++					pstatus = "UPDATE"
+ 					pupver = puptag
+ 				elif verflag == 0 :
+ 					pupver = plocaltag
+@@ -646,20 +636,15 @@ python do_checkpkg() {
+ 			pmstatus = "UPDATE"
+ 	
+ 	maintainer = bb.data.getVar('RECIPE_MAINTAINER', d, True)
++	psrcuri = psrcuri.split()[0]
++	pdepends = "".join(pdepends.split("\t"))
++	pdesc = "".join(pdesc.split("\t"))
+ 	lf = bb.utils.lockfile(logfile + ".lock")
+ 	f = open(logfile, "a")
+-	f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % \
+-		  (pname, maintainer, pproto, pcurver, pmver, pupver, pmstatus, pstatus))
++	f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % \
++		  (pname,pversion,pupver,plicense,psection, phome,prelease, ppriority,pdepends,pbugtracker,ppe,pdesc,pstatus,pmver,psrcuri,maintainer))
+ 	f.close()
+ 	bb.utils.unlockfile(lf)
+-
+-	"""write into get_pkg_info log file to supply data for package report system"""
+-	lf2 = bb.utils.lockfile(logfile2 + ".lock")
+-	f2 = open(logfile2, "a")
+-	f2.write("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n" % \
+-		  (pname,pversion,pupver,plicense,psection, phome,prelease, ppriority,pdepends,pbugtracker,ppe,pdesc,pstatus,pmver,psrcuri))
+-	f2.close()
+-	bb.utils.unlockfile(lf2)
+ }
+ 
+ addtask checkpkgall after do_checkpkg
 -- 
 1.7.1
 
