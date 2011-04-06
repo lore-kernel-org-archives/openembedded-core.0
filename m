@@ -1,34 +1,30 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Q7YJn-0002Un-2U
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 21:23:09 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1Q7YHc-0001eH-F6 from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 12:20:52 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Wed, 6 Apr 2011 12:18:43 -0700
-Received: from [172.30.80.151] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
-	with Microsoft SMTP Server id 14.1.270.1;
-	Wed, 6 Apr 2011 12:20:51 -0700
-Message-ID: <4D9CBD0B.3090608@mentor.com>
-Date: Wed, 6 Apr 2011 12:20:43 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1302050252.git.tom_rini@mentor.com>	<95d636004deffc0d6473c67ee9b5ce62937dc085.1302050252.git.tom_rini@mentor.com>	<BANLkTi=RTLB21JAz4N2B2kPWu6H3uTHn1w@mail.gmail.com>
-	<1302115114.22904.77.camel@rex>
-In-Reply-To: <1302115114.22904.77.camel@rex>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 06 Apr 2011 19:18:43.0037 (UTC)
-	FILETIME=[716890D0:01CBF48F]
-Subject: Re: [PATCH 1/1] ncurses: Update to 5.9
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q7YK2-0003qh-Og for openembedded-core@lists.openembedded.org;
+	Wed, 06 Apr 2011 21:23:24 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p36JLDcD028741;
+	Wed, 6 Apr 2011 20:21:13 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28567-02; Wed,  6 Apr 2011 20:21:09 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p36JL4F7028734
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 6 Apr 2011 20:21:06 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1302101718.git.paul.eggleton@linux.intel.com>
+References: <cover.1302101718.git.paul.eggleton@linux.intel.com>
+Date: Wed, 06 Apr 2011 11:10:06 -0700
+Message-ID: <1302113406.22904.71.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 0/2] Update Qt4 to 4.7.2, security update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,31 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 19:23:09 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Wed, 06 Apr 2011 19:23:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/06/2011 11:38 AM, Richard Purdie wrote:
-> On Tue, 2011-04-05 at 23:18 -0700, Khem Raj wrote:
->> On Tue, Apr 5, 2011 at 5:38 PM, Tom Rini <tom_rini@mentor.com> wrote:
->>> The previous 5.7 release was relatively close to 5.8 due to it bringing
->>> in a patch to sync with upstream work-in-progress.  We skip over the
->>> 5.8 release and move to 5.9.
->>
->>
->> there already are patches for 5.9 available too
->> ftp://invisible-island.net/ncurses/5.9/ncurses-5.9.patch.gz
+On Wed, 2011-04-06 at 15:57 +0100, Paul Eggleton wrote:
+> From: Paul Eggleton <paul.eggleton@linux.intel.com>
 > 
-> Can someone summarise what the benefits of these patches are? I'm
-> trying to figure out whether we lose anything due to this upgrade or
-> not...
+> Move Qt 4.7.x from 4.7.1 to 4.7.2 and apply security patch from OE.
+> 
+> Pull URL: git://git.openembedded.org/openembedded-core-contrib
+>   Branch: paule/qt-4.7.2
+>   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt-4.7.2
+> 
+> Thanks,
+>     Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+> 
+> 
+> Denys Dmytriyenko (1):
+>   qt4: security advisory - blacklist fraudulent comodo certificates
+> 
+> Paul Eggleton (1):
+>   qt4: replace 4.7.1 with version 4.7.2
 
-The patches we applied to 5.7 are part of the 5.8 release and 5.9 of
-course replaces 5.8.  The invisible-island.net patch sets are things
-taken from the official source repo and put out there for use.
+Merged to master, thanks.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+Richard
+
 
 
