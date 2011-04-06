@@ -1,28 +1,40 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q7W3A-0000Cc-HX
+	(envelope-from <raj.khem@gmail.com>) id 1Q7WDS-0002kb-UI
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 18:57:48 +0200
-Received: by wye20 with SMTP id 20so1598726wye.6
+	Wed, 06 Apr 2011 19:08:29 +0200
+Received: by bwz5 with SMTP id 5so1373986bwz.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Apr 2011 09:55:41 -0700 (PDT)
-Received: by 10.216.58.200 with SMTP id q50mr1220250wec.83.1302108940959;
-	Wed, 06 Apr 2011 09:55:40 -0700 (PDT)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id g32sm392290wej.3.2011.04.06.09.55.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 06 Apr 2011 09:55:40 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1302101718.git.paul.eggleton@linux.intel.com>
-Date: Wed, 6 Apr 2011 18:55:38 +0200
-Message-Id: <7909D0E3-C521-4A68-9F31-D95C15524AEB@dominion.thruhere.net>
-References: <cover.1302101718.git.paul.eggleton@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [poky] [PATCH 0/2] Update Qt4 to 4.7.2, security update
+	Wed, 06 Apr 2011 10:06:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=ZUPV7pJ5Zar9JRyXVVKQUpmA/sDvUdphp/Ku4cjtubw=;
+	b=ODUOrS5CAz9sGJwL2FvvtKMKbgkR/w03lolAjHkyzfHjfrv5TbuSt8A3DYnQE+aBrV
+	sC1mZBG9p+9Rhyhsx6vYeA7cfSmibmECA8QbuHf28iJiLIxR7jUEZAX4CM9Wy5VQGnme
+	jFkN/EoJQXtvnnM8gRkUSAxWU+T+uJPSM5mcw=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	b=PJZQ4K+GKjC1ABMKitmEUEQIsrtEMCIhxqtedEPfei8et/FbhvPJHC71HIa9lD4qC6
+	oQ18VgUWmnMaCuEHgj+zvX0mb3fgwfuwDVPa5zVZm7FBR5tSLTMT5nPNcWKITFxiSMOc
+	uLMu8qGtC4cZHX630d+hAeSU3remTJvG8szUk=
+Received: by 10.204.74.21 with SMTP id s21mr1110756bkj.62.1302109579909; Wed,
+	06 Apr 2011 10:06:19 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.23.136 with HTTP; Wed, 6 Apr 2011 10:05:36 -0700 (PDT)
+In-Reply-To: <4D9C78F5.1090808@mentor.com>
+References: <cover.1302050252.git.tom_rini@mentor.com>
+	<95d636004deffc0d6473c67ee9b5ce62937dc085.1302050252.git.tom_rini@mentor.com>
+	<BANLkTi=RTLB21JAz4N2B2kPWu6H3uTHn1w@mail.gmail.com>
+	<4D9C78F5.1090808@mentor.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 6 Apr 2011 10:05:36 -0700
+Message-ID: <BANLkTi=UeQ22hquxLPihJAnLzpW8ODpAkg@mail.gmail.com>
+To: Tom Rini <tom_rini@mentor.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ncurses: Update to 5.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,23 +49,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 16:57:48 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 06 Apr 2011 17:08:31 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+On Wed, Apr 6, 2011 at 7:30 AM, Tom Rini <tom_rini@mentor.com> wrote:
+> On 04/05/2011 11:18 PM, Khem Raj wrote:
+>> On Tue, Apr 5, 2011 at 5:38 PM, Tom Rini <tom_rini@mentor.com> wrote:
+>>> The previous 5.7 release was relatively close to 5.8 due to it bringing
+>>> in a patch to sync with upstream work-in-progress. =C2=A0We skip over t=
+he
+>>> 5.8 release and move to 5.9.
+>>
+>>
+>> there already are patches for 5.9 available too
+>> ftp://invisible-island.net/ncurses/5.9/ncurses-5.9.patch.gz
+>
+> Wrong link? =C2=A0That reverse applies to ncurses 5.9 release. But
+> regardless, is ncurses something we need to be tracking top of tree for?
+> =C2=A0It seems like we needed to for 5.7 since there had been a lot going=
+ on
+> without a release but that seems to have changed now.
+>
 
-Op 6 apr 2011, om 16:57 heeft Paul Eggleton het volgende geschreven:
+those patches usually contain critical bug fixes including security updates
+so it will be of interest to keep track of it
 
-> From: Paul Eggleton <paul.eggleton@linux.intel.com>
->=20
-> Move Qt 4.7.x from 4.7.1 to 4.7.2 and apply security patch from OE.
->=20
-> Pull URL: git://git.openembedded.org/openembedded-core-contrib
->  Branch: paule/qt-4.7.2
->  Browse: =
-http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3Dpa=
-ule/qt-4.7.2
-
-I haven't tested it, but it looks good to me.=
+> --
+> Tom Rini
+> Mentor Graphics Corporation
+>
 
 
