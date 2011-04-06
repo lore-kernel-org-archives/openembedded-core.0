@@ -1,33 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Q7X9w-0000sa-Fr
+	(envelope-from <Tom_Rini@mentor.com>) id 1Q7XSZ-0001Di-QQ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 20:08:52 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p36I6ESW001866
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 6 Apr 2011 11:06:14 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.1.73]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.01.0255.000;
-	Wed, 6 Apr 2011 11:06:14 -0700
-From: "Hatle, Mark" <mark.hatle@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [poky] [OE-core] Proposed Multilib Implementation Brainstorming
-Thread-Index: AQHL89fR9iSKERjfLEG0K3fk5c3eRJRQ/CCAgABffYD//8dVkQ==
-Date: Wed, 6 Apr 2011 18:06:14 +0000
-Message-ID: <2345F3C7-C595-4F8F-9B31-9F680587B179@windriver.com>
-References: <1302001365.24596.459.camel@rex>
-	<BANLkTim4ouc6ssOhfU4Dd8OfEq81MfC_gQ@mail.gmail.com>,
-	<1302100143.22904.68.camel@rex>
-In-Reply-To: <1302100143.22904.68.camel@rex>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
+	Wed, 06 Apr 2011 20:28:08 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1Q7XQX-0004RV-Lk from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 06 Apr 2011 11:26:01 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 6 Apr 2011 11:23:52 -0700
+Received: from [172.30.80.151] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
+	Wed, 6 Apr 2011 11:26:00 -0700
+Message-ID: <4D9CB030.5020409@mentor.com>
+Date: Wed, 6 Apr 2011 11:25:52 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
 MIME-Version: 1.0
-Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] Proposed Multilib Implementation Brainstorming
+To: <openembedded-core@lists.openembedded.org>
+References: <1302001365.24596.459.camel@rex>
+	<BANLkTim4ouc6ssOhfU4Dd8OfEq81MfC_gQ@mail.gmail.com>
+In-Reply-To: <BANLkTim4ouc6ssOhfU4Dd8OfEq81MfC_gQ@mail.gmail.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 06 Apr 2011 18:23:52.0474 (UTC)
+	FILETIME=[C8147FA0:01CBF487]
+Subject: Re: Proposed Multilib Implementation Brainstorming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,65 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 18:08:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 06 Apr 2011 18:28:08 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
+On 04/06/2011 01:47 AM, Frans Meulenbroeks wrote:
+> 2011/4/5 Richard Purdie <richard.purdie@linuxfoundation.org>:
+> 
+> [...]
+>>
+>> Does this make sense to everyone, are there any questions/ objections/
+>> concerns/ things I've missed?
+> 
+> I think most embedded systems would only use one lib. To take your
+> lib/lib64 example:
+> If I am developing for an embedded system I know whether it will run
+> as 32 or 64 bit, so there is no need to have both.
 
+What about the case of new 64bit hardware and legacy software that's
+still 32bit?  This is a problem that embedded systems have and OE needs
+to support
 
+> multilib has its merits when it comes to supporting multiple hardware systems.
+> However as in the embedded world one is typically targeting a specific
+> hardware configuration.
+> (actually I don't recall having seen requests for multilib on the ML
+> before, although I could have missed it).
 
+You missed it :)  Roman Khimov posted a very basic thing years ago for
+dealing with the x86/x86_64 problem.
 
-On Apr 6, 2011, at 7:29 AM, "Richard Purdie" <richard.purdie@linuxfoundatio=
-n.org> wrote:
+> Also I'm somewhat worried by the actual complexity this adds (to the
+> build process and the recipes, and timewise probably also to the
+> bootstrap process as additional packages have to be built).
 
-> On Wed, 2011-04-06 at 10:47 +0200, Frans Meulenbroeks wrote:
->> I think most embedded systems would only use one lib. To take your
->> lib/lib64 example:
->> If I am developing for an embedded system I know whether it will run
->> as 32 or 64 bit, so there is no need to have both.
->=20
-> I agree that this is the most common usecase and that remains unchanged.
->=20
+I agree, we do need to be careful to make sure the non-multilib case
+isn't made more difficult by all of this.
 
-I'd like to stress that existing use-case behavior (non multilib) is impera=
-tive to keep the same as we have today.  Multilib is a specialized use case=
- that covers large enough space that it needs to be supported.
-
->> multilib has its merits when it comes to supporting multiple hardware sy=
-stems.
->> However as in the embedded world one is typically targeting a specific
->> hardware configuration.
->> (actually I don't recall having seen requests for multilib on the ML
->> before, although I could have missed it).
->=20
-> These have been requests I've received verbally in general but you'll
-> see from the replies on the mailing list, Montavista is interested, Koen
-> is as are a number of others.
->=20
-
-I'll add Wind River has customers that directly need this functionality.  M=
-any of their products are similar to specialized servers, but really are em=
-bedded.
-
->> Also I'm somewhat worried by the actual complexity this adds (to the
->> build process and the recipes, and timewise probably also to the
->> bootstrap process as additional packages have to be built).
->>=20
->> Not sure if that is a desirable route forward, but if we (we as in OE
->> members + developers) feel that OE should go that way, I would
->> sugggest to have a way to opt-in or opt-out
->=20
-> Multilib will be opt-in. Things will operate just as they do today
-> unless you specify you want a multilib configuration.
->=20
-> Cheers,
->=20
-> Richard
->=20
-> _______________________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
