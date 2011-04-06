@@ -1,32 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q7TlU-0006w2-NA for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 16:31:24 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p36ETICp019235;
-	Wed, 6 Apr 2011 15:29:18 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19202-01; Wed,  6 Apr 2011 15:29:14 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p36ET8eo019229
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 6 Apr 2011 15:29:11 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from relay1.mentorg.com ([192.94.38.131])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Tom_Rini@mentor.com>) id 1Q7TmY-0006yj-I1
+	for openembedded-core@lists.openembedded.org;
+	Wed, 06 Apr 2011 16:32:30 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Q7TkW-0002Wc-N0 from Tom_Rini@mentor.com ;
+	Wed, 06 Apr 2011 07:30:24 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 6 Apr 2011 07:30:24 -0700
+Received: from [172.30.80.151] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
+	with Microsoft SMTP Server id 14.1.270.1;
+	Wed, 6 Apr 2011 07:30:22 -0700
+Message-ID: <4D9C78F5.1090808@mentor.com>
+Date: Wed, 6 Apr 2011 07:30:13 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1302050252.git.tom_rini@mentor.com>
+	<95d636004deffc0d6473c67ee9b5ce62937dc085.1302050252.git.tom_rini@mentor.com>
+	<BANLkTi=RTLB21JAz4N2B2kPWu6H3uTHn1w@mail.gmail.com>
+In-Reply-To: <BANLkTi=RTLB21JAz4N2B2kPWu6H3uTHn1w@mail.gmail.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 06 Apr 2011 14:30:24.0560 (UTC)
+	FILETIME=[2AB67300:01CBF467]
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTim4ouc6ssOhfU4Dd8OfEq81MfC_gQ@mail.gmail.com>
-References: <1302001365.24596.459.camel@rex>
-	<BANLkTim4ouc6ssOhfU4Dd8OfEq81MfC_gQ@mail.gmail.com>
-Date: Wed, 06 Apr 2011 07:29:03 -0700
-Message-ID: <1302100143.22904.68.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: poky@yoctoproject.org
-Subject: Re: Proposed Multilib Implementation Brainstorming
+Subject: Re: [PATCH 1/1] ncurses: Update to 5.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,42 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 14:31:25 -0000
+X-List-Received-Date: Wed, 06 Apr 2011 14:32:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-04-06 at 10:47 +0200, Frans Meulenbroeks wrote:
-> I think most embedded systems would only use one lib. To take your
-> lib/lib64 example:
-> If I am developing for an embedded system I know whether it will run
-> as 32 or 64 bit, so there is no need to have both.
-
-I agree that this is the most common usecase and that remains unchanged.
-
-> multilib has its merits when it comes to supporting multiple hardware systems.
-> However as in the embedded world one is typically targeting a specific
-> hardware configuration.
-> (actually I don't recall having seen requests for multilib on the ML
-> before, although I could have missed it).
-
-These have been requests I've received verbally in general but you'll
-see from the replies on the mailing list, Montavista is interested, Koen
-is as are a number of others.
-
-> Also I'm somewhat worried by the actual complexity this adds (to the
-> build process and the recipes, and timewise probably also to the
-> bootstrap process as additional packages have to be built).
+On 04/05/2011 11:18 PM, Khem Raj wrote:
+> On Tue, Apr 5, 2011 at 5:38 PM, Tom Rini <tom_rini@mentor.com> wrote:
+>> The previous 5.7 release was relatively close to 5.8 due to it bringing
+>> in a patch to sync with upstream work-in-progress.  We skip over the
+>> 5.8 release and move to 5.9.
 > 
-> Not sure if that is a desirable route forward, but if we (we as in OE
-> members + developers) feel that OE should go that way, I would
-> sugggest to have a way to opt-in or opt-out
+> 
+> there already are patches for 5.9 available too
+> ftp://invisible-island.net/ncurses/5.9/ncurses-5.9.patch.gz
 
-Multilib will be opt-in. Things will operate just as they do today
-unless you specify you want a multilib configuration.
+Wrong link?  That reverse applies to ncurses 5.9 release. But
+regardless, is ncurses something we need to be tracking top of tree for?
+ It seems like we needed to for 5.7 since there had been a lot going on
+without a release but that seems to have changed now.
 
-Cheers,
-
-Richard
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
