@@ -1,38 +1,39 @@
-Received: from [77.233.226.4] (helo=mail.doredevelopment.dk)
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eha@dev.doredevelopment.dk>) id 1Q7Zm6-0008Gb-Oc
+	(envelope-from <raj.khem@gmail.com>) id 1Q7Zmd-0008Hg-2i
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 22:56:27 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.doredevelopment.dk (Postfix) with ESMTP id C681064F0;
-	Wed,  6 Apr 2011 22:54:14 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at dev.doredevelopment.dk
-Received: from mail.doredevelopment.dk ([127.0.0.1])
-	by localhost (public.doredevelopment.dk [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id DtdyoxWMSVP0; Wed,  6 Apr 2011 22:54:13 +0200 (CEST)
-Received: from eha (0x55532124.adsl.cybercity.dk [85.83.33.36])
-	(Authenticated sender: eha)
-	by mail.doredevelopment.dk (Postfix) with ESMTPA id CED80A85;
-	Wed,  6 Apr 2011 22:54:11 +0200 (CEST)
-Received: by eha (Postfix, from userid 1000)
-	id 26B3AA51C7; Wed,  6 Apr 2011 22:54:11 +0200 (CEST)
-From: Esben Haabendal <eha@dev.doredevelopment.dk>
-To: "Hatle\, Mark" <mark.hatle@windriver.com>
-References: <1302001365.24596.459.camel@rex>
-	<87y63n5028.fsf@eha.doredevelopment.dk>
-	<1302091554.22904.18.camel@rex>
-	<A69B9A48-C42D-48B5-B09F-46AA5281C048@windriver.com>
-Date: Wed, 06 Apr 2011 22:54:11 +0200
-In-Reply-To: <A69B9A48-C42D-48B5-B09F-46AA5281C048@windriver.com> (Mark
-	Hatle's message of "Wed, 6 Apr 2011 18:01:18 +0000")
-Message-ID: <87mxk3drt8.fsf@eha.doredevelopment.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+	Wed, 06 Apr 2011 22:56:59 +0200
+Received: by fxm19 with SMTP id 19so1441785fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Apr 2011 13:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=Hw6QZdEJPHcHs0yyGkolKMwVX/4pQY/l8uvEobFp1z0=;
+	b=LX+mV6860J5ADmF3LbwhGDoL9uNmRM+fVJ+HnF/zzXA6N+HNW8y2zIRG9/Rr40lGia
+	FJNcQtov1T5+bLyW4WbpEZRZX8J8QAkV6c179AyVQCNjQrTwrpkp3CfuAq7p2vWgTlNB
+	zfvFSC1oY5voD1ExCcTgsTeAkAdcEm+bgy8Jw=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	b=VOxmCIy+dvsWVfuzwu1k+T1VYRVl7kOf4FUeiQyc+hn1VWs6USxPXbPgPaKkHn+y2T
+	blDkyRMQ9zfwZ8C8v9/9xrQ+zy1jEyIMH1MBobMaXailb7e7N07I88jMEQJkEYxiQWzt
+	C2hMR+5QSyt8g6Hb4FYYq1jg7Kho24psRU1d4=
+Received: by 10.223.29.4 with SMTP id o4mr81217fac.27.1302123283150; Wed, 06
+	Apr 2011 13:54:43 -0700 (PDT)
 MIME-Version: 1.0
-Cc: poky <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
+Received: by 10.223.23.136 with HTTP; Wed, 6 Apr 2011 13:54:13 -0700 (PDT)
+In-Reply-To: <1302115114.22904.77.camel@rex>
+References: <cover.1302050252.git.tom_rini@mentor.com>
+	<95d636004deffc0d6473c67ee9b5ce62937dc085.1302050252.git.tom_rini@mentor.com>
+	<BANLkTi=RTLB21JAz4N2B2kPWu6H3uTHn1w@mail.gmail.com>
+	<1302115114.22904.77.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 6 Apr 2011 13:54:13 -0700
+Message-ID: <BANLkTinQ-SJWwYs7rUmbOU8Kxpz-nfepRQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] Proposed Multilib Implementation Brainstorming
+Subject: Re: [PATCH 1/1] ncurses: Update to 5.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,71 +48,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 20:56:27 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 06 Apr 2011 20:56:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-"Hatle, Mark" <mark.hatle@windriver.com> writes:
-
-> On Apr 6, 2011, at 5:06 AM, "Richard Purdie" <richard.purdie@linuxfoundation.org> wrote:
+On Wed, Apr 6, 2011 at 11:38 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2011-04-05 at 23:18 -0700, Khem Raj wrote:
+>> On Tue, Apr 5, 2011 at 5:38 PM, Tom Rini <tom_rini@mentor.com> wrote:
+>> > The previous 5.7 release was relatively close to 5.8 due to it bringin=
+g
+>> > in a patch to sync with upstream work-in-progress. =C2=A0We skip over =
+the
+>> > 5.8 release and move to 5.9.
+>>
+>>
+>> there already are patches for 5.9 available too
+>> ftp://invisible-island.net/ncurses/5.9/ncurses-5.9.patch.gz
 >
->> On Wed, 2011-04-06 at 09:08 +0200, Esben Haabendal wrote:
->>> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
->>> 
->>>> One of the items on our post 1.0 schedule is multilib and we need a plan
->>>> of implementation. I've been thinking about this for a while and at
->>>> least have some ideas how some of the issues can be handled.
->>>> ....
->>>> Does this make sense to everyone, are there any questions/ objections/
->>>> concerns/ things I've missed?
->>> 
->>> Which actual OE use-cases justify this kind of addition to OE?
->> 
->> Several people wanting to use OECore have a requirement of multilib
->> support. The typical embedded use case is where you have one main
->> application which you might want to run in some kind of large memory
->> mode or with some special optimisation (think a database engine) whilst
->> the rest of the system is "standard". This requires the ability to mix
->> different libraries.
+> Can someone summarise what the benefits of these patches are? I'm
+> trying to figure out whether we lose anything due to this upgrade or
+> not...
 >
-> This is a very popular use-case in carrier grade systems.  Back haul
-> voice, data, etc applications that require large routing databases or
-> billing databases.  The other use I've seen for multilibs is some very
-> specialized DVR systems where large amount of video need to stay in
-> memory for quick retrieval.
 
-None of which really resembles the systems the typical OE developer is
-working on.  My point being that what might be important goals for YP
-might not be equally important for community OE as such.  Not that it
-necesarely is a real conflict, but I believe it is worth keeping in
-mind.
+ftp://invisible-island.net/ncurses/5.9/README
 
->>> I know it is on the Yocto post 1.0 schedule, but is it actually a good
->>> thing for OE?  Maintaining OE recipes is clearly not going to get any
->>> easier with multilibs support.
->> 
->> As detailed in the proposal you will see that the complexity added is
->> minimal. It requires a simple enhancement to BBCLASSEXTEND which is
->> likely desirable for other reasons too and that is the only real bitbake
->> change required. For the metadata, individual recipes remain unaffected
->> and also the core conf files are unchanged too. The toolchain dependency
->> changes will be the only change affecting users at the recipe level and
->> most of the class/machine configuration will be opt in by anyone using
->> multilib. The only other invasive change is the package manager
->> integration. For rpm, it has good support for multilib already and we're
->> just enabling that. For opkg, we still need to determine the best
->> approach but the simplistic approach I mentioned will probably suffice
->> and anyone wanting true support at the package manager level can use
->> rpm.
->> 
->> For day to day recipe maintenance I don't see much direct impact.
+> Cheers,
 >
-> What I've seen in the past is the ability to build multilibs has
-> improved the quality of the software integration by finding poorly
-> constructed headers, hard coded library paths, etc... All things we
-> should fix.
-
-Cannot really be against improving software quality :-)
-
-/Esben
+> Richard
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
