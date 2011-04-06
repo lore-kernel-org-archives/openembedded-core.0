@@ -1,34 +1,44 @@
 Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Q7Xfy-0001WK-5l
+	(envelope-from <Tom_Rini@mentor.com>) id 1Q7XoF-0001d8-6j
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 20:41:58 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	Wed, 06 Apr 2011 20:50:31 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
 	by relay1.mentorg.com with esmtp 
-	id 1Q7Xdu-0005kC-R5 from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 11:39:50 -0700
+	id 1Q7XmD-0006cw-G1 from Tom_Rini@mentor.com ;
+	Wed, 06 Apr 2011 11:48:25 -0700
 Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 6 Apr 2011 11:39:50 -0700
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 6 Apr 2011 11:46:16 -0700
 Received: from [172.30.80.151] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
 	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
-	Wed, 6 Apr 2011 11:39:49 -0700
-Message-ID: <4D9CB36D.5060406@mentor.com>
-Date: Wed, 6 Apr 2011 11:39:41 -0700
+	Wed, 6 Apr 2011 11:48:23 -0700
+Message-ID: <4D9CB570.3010405@mentor.com>
+Date: Wed, 6 Apr 2011 11:48:16 -0700
 From: Tom Rini <tom_rini@mentor.com>
 Organization: Mentor Graphics Corporation
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1302001365.24596.459.camel@rex>
-	<51BF8F9A-3607-4DBF-9A6C-03E2FC1BD284@windriver.com>
-In-Reply-To: <51BF8F9A-3607-4DBF-9A6C-03E2FC1BD284@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1302050252.git.tom_rini@mentor.com>
+	<95d636004deffc0d6473c67ee9b5ce62937dc085.1302050252.git.tom_rini@mentor.com>
+	<BANLkTi=RTLB21JAz4N2B2kPWu6H3uTHn1w@mail.gmail.com>
+	<4D9C78F5.1090808@mentor.com>
+	<BANLkTi=UeQ22hquxLPihJAnLzpW8ODpAkg@mail.gmail.com>
+	<4D9C9E75.1060203@mentor.com>
+	<BANLkTimuM8GCHd11cuH5ULA6jL=3kZDk6w@mail.gmail.com>
+	<4D9CA452.1020205@mentor.com>
+	<BANLkTima10dD9MWq92OqTouOBqbMzAidqQ@mail.gmail.com>
+	<4D9CB116.4010401@mentor.com>
+	<BANLkTikqvNUWT5dDbJ6XDGCnnWH+3AeBxg@mail.gmail.com>
+In-Reply-To: <BANLkTikqvNUWT5dDbJ6XDGCnnWH+3AeBxg@mail.gmail.com>
 X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 06 Apr 2011 18:39:50.0714 (UTC)
-	FILETIME=[033C51A0:01CBF48A]
-Subject: Re: Proposed Multilib Implementation Brainstorming
+X-OriginalArrivalTime: 06 Apr 2011 18:46:16.0224 (UTC)
+	FILETIME=[E9047A00:01CBF48A]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ncurses: Update to 5.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,57 +53,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 18:41:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Wed, 06 Apr 2011 18:50:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/06/2011 11:26 AM, Hatle, Mark wrote:
-> A few comments to the original proposal below...
-> 
-> 
-> 
-> On Apr 5, 2011, at 2:24 PM, "Richard Purdie"
-> <richard.purdie@linuxfoundation.org> wrote:
-[snip]
->> and all the multilib class would need to do is to manipulation of 
->> variables including OVERRIDES in a similar way to native.bbclass
->> with the complication of handling the parameter.
->> 
-> 
-> One of the complications though is deciding what packages to build
-> for which multilibs.  We will need a way to say the default system
-> libraries and components should be say 32-bit.  But I need this one
-> component to be 64-bit....
+On 04/06/2011 11:32 AM, Khem Raj wrote:
+> On Wed, Apr 6, 2011 at 11:29 AM, Tom Rini <tom_rini@mentor.com> wrote:
+>> On 04/06/2011 11:27 AM, Khem Raj wrote:
+>>> On Wed, Apr 6, 2011 at 10:35 AM, Tom Rini <tom_rini@mentor.com> wrote:
+>>>> On 04/06/2011 10:26 AM, Khem Raj wrote:
+>>>>> On Wed, Apr 6, 2011 at 10:10 AM, Tom Rini <tom_rini@mentor.com> wrote:
+>>>>>> On 04/06/2011 10:05 AM, Khem Raj wrote:
+>>>>>>> On Wed, Apr 6, 2011 at 7:30 AM, Tom Rini <tom_rini@mentor.com> wrote:
+>>>>>>>> On 04/05/2011 11:18 PM, Khem Raj wrote:
+>>>>>>>>> On Tue, Apr 5, 2011 at 5:38 PM, Tom Rini <tom_rini@mentor.com> wrote:
+>>>>>>>>>> The previous 5.7 release was relatively close to 5.8 due to it bringing
+>>>>>>>>>> in a patch to sync with upstream work-in-progress.  We skip over the
+>>>>>>>>>> 5.8 release and move to 5.9.
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> there already are patches for 5.9 available too
+>>>>>>>>> ftp://invisible-island.net/ncurses/5.9/ncurses-5.9.patch.gz
+>>>>>>>>
+>>>>>>>> Wrong link?  That reverse applies to ncurses 5.9 release. But
+>>>>>>>> regardless, is ncurses something we need to be tracking top of tree for?
+>>>>>>>>  It seems like we needed to for 5.7 since there had been a lot going on
+>>>>>>>> without a release but that seems to have changed now.
+>>>>>>>>
+>>>>>>>
+>>>>>>> those patches usually contain critical bug fixes including security updates
+>>>>>>> so it will be of interest to keep track of it
+>>>>>>
+>>>>>> Well, it doesn't currently.  And while I agree we need to do a good job,
+>>>>>> everywhere, of keeping track of security updates, I don't think we
+>>>>>> should move back to depending on a site that frequently removes patches.
+>>>>>>
+>>>>>
+>>>>> yes. cache the patches like yocto did for 5.7 recipes
+>>>>
+>>>> That still leaves the problem of there not being a valid patch there at
+>>>> the moment.  And I still don't see why ncurses needs to be in the bucket
+>>>> of recipes we track the scm for rather than relying on the latest stable
+>>>> release.
+>>>
+>>> 5.9 was released few days back so that patch might be lean for now
+>>> but I assume overtime it will get fatter
+>>
+>> It's invalid at the moment, yes.  But you haven't explained why ncurses
+>> needs to be in the bleeding edge bucket.  Usually this is for stuff that
+>> hasn't really reached a stability point.
+>>
+> It does not have to be but those patches are cumulative fixed that are done
+> on top of a release. I am sure we will also run into the problems those will
+> fix thats why its better to keep and eye on them
 
-To be clear (and I think you agree), it also needs to be vice-versa
-(64bit except...) and rather arbitrary on what recipes get which treatment.
-
->> The toolchain bootstrap process would become a little complicated
->> by this. We'll need to be able to iterate over the list of
->> multilibs and configure the compiler with a configuration
->> appropriate to the multilibs requested. The compiler should then
->> take care of generating a suitable libgcc for each multilib. Where
->> the compiler currently depends on virtual/libc-initial, we'll need
->> with a function called to generate the dependecies so for example:
->> "virtual/libc virtual/libc-initial-lib32"
->> 
-> 
-> I think the toolchain bootstrap is a place where the implementation
-> of the toolchain can make this easier or MUCH harder.  In the
-> environments I am used to using (code sorcery based toolchain) its a
-> single binary that enables the user to use many different multilibs.
-> However, this is likely not the best/easiest approach for source
-> based toolchain builds.  It's much easier for use to just iteratively
-> build toolchains for each multlib.  Using unique filenames can make
-> this fairly easy to implement with minimal changes to the recipes.
-> 
-> Using something more complex like the CS toolchains, you can do
-> simply by creating specific wrappers that call the base common
-> toolchain with the right parameters to switch the multlib settings..
-
-Putting my community hat on, why not replicate what the CS folks do?
-Even with sstate and the yocto 1.1 goal of quicker builds, no one likes
-how long the toolchain bottleneck is.
+That can be said for just about every recipe we have.  It sounds like
+you're suggesting we need _svn recipe or similar recipe for ncurses as
+well.  I still don't see why ncurses is special in this regard and ask
+that when you see a worthwhile patch for ncurses 5.9 that you do another
+pull request.  I'm just trying to keep oe-core in sync with
+openembedded.master.
 
 -- 
 Tom Rini
