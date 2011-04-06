@@ -1,48 +1,26 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q7ZoX-0008Jw-58
+	(envelope-from <sgw@linux.intel.com>) id 1Q7aPw-0002ZO-7X
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 22:58:57 +0200
-Received: by fxm19 with SMTP id 19so1443023fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Apr 2011 13:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=6O9GzaNlHpTCyWH7fioqwCLO21rQRYoto5WjCLH5s3I=;
-	b=HDFiGD8JG8EJlubCYM/o7fdhYqJ+W9DyZQPGtNMvCf9ovD0rkePCRrTbhYCWI+u1UE
-	LPilfBdodM0QLdJs62GodZ9iru8vVcq+cto2UAlQhPq4uI+zKROU6TiDVPUnOnOzw7gF
-	HDRNM+9v6sGqvG9F/geN3PZZdJLdEJmVh/z8c=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=IhPewwNiuE/faHT+lqKH1OHZmcOtgAq7c6ZbMue9oX/ouynhKFLp7B+Vcf4Dup2sAt
-	kii/wdxcxcxu6pVEdTgrK5gC7uPXR6bii0LgA/SxbvYJ5hFPZOsYUlUIBdlM0wDxgdLF
-	j2p0jmrmfNrhIh+qenD1Hks+3XhP3B2soZsFs=
-Received: by 10.223.14.137 with SMTP id g9mr84942faa.8.1302123410104; Wed, 06
-	Apr 2011 13:56:50 -0700 (PDT)
+	Wed, 06 Apr 2011 23:37:36 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Apr 2011 14:35:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.63,312,1299484800"; d="scan'208";a="624659297"
+Received: from unknown (HELO [10.255.12.228]) ([10.255.12.228])
+	by orsmga002.jf.intel.com with ESMTP; 06 Apr 2011 14:35:27 -0700
+Message-ID: <4D9CDC9E.6090009@linux.intel.com>
+Date: Wed, 06 Apr 2011 14:35:26 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
 MIME-Version: 1.0
-Received: by 10.223.23.136 with HTTP; Wed, 6 Apr 2011 13:56:20 -0700 (PDT)
-In-Reply-To: <4D9CB570.3010405@mentor.com>
-References: <cover.1302050252.git.tom_rini@mentor.com>
-	<95d636004deffc0d6473c67ee9b5ce62937dc085.1302050252.git.tom_rini@mentor.com>
-	<BANLkTi=RTLB21JAz4N2B2kPWu6H3uTHn1w@mail.gmail.com>
-	<4D9C78F5.1090808@mentor.com>
-	<BANLkTi=UeQ22hquxLPihJAnLzpW8ODpAkg@mail.gmail.com>
-	<4D9C9E75.1060203@mentor.com>
-	<BANLkTimuM8GCHd11cuH5ULA6jL=3kZDk6w@mail.gmail.com>
-	<4D9CA452.1020205@mentor.com>
-	<BANLkTima10dD9MWq92OqTouOBqbMzAidqQ@mail.gmail.com>
-	<4D9CB116.4010401@mentor.com>
-	<BANLkTikqvNUWT5dDbJ6XDGCnnWH+3AeBxg@mail.gmail.com>
-	<4D9CB570.3010405@mentor.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 6 Apr 2011 13:56:20 -0700
-Message-ID: <BANLkTinf=yjOqxwXS48gQVUVRdMromyk5Q@mail.gmail.com>
-To: Tom Rini <tom_rini@mentor.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ncurses: Update to 5.9
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1302101718.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1302101718.git.paul.eggleton@linux.intel.com>
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 0/2] Update Qt4 to 4.7.2, security update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,99 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 20:58:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 06 Apr 2011 21:37:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 6, 2011 at 11:48 AM, Tom Rini <tom_rini@mentor.com> wrote:
-> On 04/06/2011 11:32 AM, Khem Raj wrote:
->> On Wed, Apr 6, 2011 at 11:29 AM, Tom Rini <tom_rini@mentor.com> wrote:
->>> On 04/06/2011 11:27 AM, Khem Raj wrote:
->>>> On Wed, Apr 6, 2011 at 10:35 AM, Tom Rini <tom_rini@mentor.com> wrote:
->>>>> On 04/06/2011 10:26 AM, Khem Raj wrote:
->>>>>> On Wed, Apr 6, 2011 at 10:10 AM, Tom Rini <tom_rini@mentor.com> wrot=
-e:
->>>>>>> On 04/06/2011 10:05 AM, Khem Raj wrote:
->>>>>>>> On Wed, Apr 6, 2011 at 7:30 AM, Tom Rini <tom_rini@mentor.com> wro=
-te:
->>>>>>>>> On 04/05/2011 11:18 PM, Khem Raj wrote:
->>>>>>>>>> On Tue, Apr 5, 2011 at 5:38 PM, Tom Rini <tom_rini@mentor.com> w=
-rote:
->>>>>>>>>>> The previous 5.7 release was relatively close to 5.8 due to it =
-bringing
->>>>>>>>>>> in a patch to sync with upstream work-in-progress. =C2=A0We ski=
-p over the
->>>>>>>>>>> 5.8 release and move to 5.9.
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> there already are patches for 5.9 available too
->>>>>>>>>> ftp://invisible-island.net/ncurses/5.9/ncurses-5.9.patch.gz
->>>>>>>>>
->>>>>>>>> Wrong link? =C2=A0That reverse applies to ncurses 5.9 release. Bu=
-t
->>>>>>>>> regardless, is ncurses something we need to be tracking top of tr=
-ee for?
->>>>>>>>> =C2=A0It seems like we needed to for 5.7 since there had been a l=
-ot going on
->>>>>>>>> without a release but that seems to have changed now.
->>>>>>>>>
->>>>>>>>
->>>>>>>> those patches usually contain critical bug fixes including securit=
-y updates
->>>>>>>> so it will be of interest to keep track of it
->>>>>>>
->>>>>>> Well, it doesn't currently. =C2=A0And while I agree we need to do a=
- good job,
->>>>>>> everywhere, of keeping track of security updates, I don't think we
->>>>>>> should move back to depending on a site that frequently removes pat=
-ches.
->>>>>>>
->>>>>>
->>>>>> yes. cache the patches like yocto did for 5.7 recipes
->>>>>
->>>>> That still leaves the problem of there not being a valid patch there =
-at
->>>>> the moment. =C2=A0And I still don't see why ncurses needs to be in th=
-e bucket
->>>>> of recipes we track the scm for rather than relying on the latest sta=
-ble
->>>>> release.
->>>>
->>>> 5.9 was released few days back so that patch might be lean for now
->>>> but I assume overtime it will get fatter
->>>
->>> It's invalid at the moment, yes. =C2=A0But you haven't explained why nc=
-urses
->>> needs to be in the bleeding edge bucket. =C2=A0Usually this is for stuf=
-f that
->>> hasn't really reached a stability point.
->>>
->> It does not have to be but those patches are cumulative fixed that are d=
-one
->> on top of a release. I am sure we will also run into the problems those =
-will
->> fix thats why its better to keep and eye on them
+On 04/06/2011 07:57 AM, Paul Eggleton wrote:
+> From: Paul Eggleton<paul.eggleton@linux.intel.com>
 >
-> That can be said for just about every recipe we have. =C2=A0It sounds lik=
-e
-> you're suggesting we need _svn recipe or similar recipe for ncurses as
-> well. =C2=A0I still don't see why ncurses is special in this regard and a=
-sk
-> that when you see a worthwhile patch for ncurses 5.9 that you do another
-> pull request. =C2=A0I'm just trying to keep oe-core in sync with
-> openembedded.master.
+> Move Qt 4.7.x from 4.7.1 to 4.7.2 and apply security patch from OE.
+>
+Paul could you please create or update the distro_tracking_fields.inc 
+file. Entries are needed for each recipe that has a distinct PN.
+
+Please refer to this wiki page for details: 
+https://wiki.yoctoproject.org/wiki/Best_Known_Methods_%28BKMs%29_for_Package_Updating#Distro_Tracking_Fields
+
+Thanks
+	Sau!
+
+
+> Pull URL: git://git.openembedded.org/openembedded-core-contrib
+>    Branch: paule/qt-4.7.2
+>    Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt-4.7.2
+>
+> Thanks,
+>      Paul Eggleton<paul.eggleton@linux.intel.com>
+> ---
+>
+>
+> Denys Dmytriyenko (1):
+>    qt4: security advisory - blacklist fraudulent comodo certificates
+>
+> Paul Eggleton (1):
+>    qt4: replace 4.7.1 with version 4.7.2
+>
+>   ...klist-fraudulent-comodo-certificates-patch.diff |  134 ++++++++++++++++++++
+>   meta/recipes-qt/qt4/qt-4.6.3.inc                   |    1 +
+>   meta/recipes-qt/qt4/{qt-4.7.1.inc =>  qt-4.7.2.inc} |    5 +-
+>   .../0001-Added-Openembedded-crossarch-option.patch |    0
+>   .../recipes-qt/qt4/{qt-4.7.1 =>  qt-4.7.2}/g++.conf |    0
+>   .../hack-out-pg2-4.7.0.patch                       |    0
+>   .../qt4/{qt-4.7.1 =>  qt-4.7.2}/linux.conf          |    0
+>   meta/recipes-qt/qt4/qt4-embedded_4.6.3.bb          |    2 +-
+>   ...qt4-embedded_4.7.1.bb =>  qt4-embedded_4.7.2.bb} |    0
+>   ...s-native_4.7.1.bb =>  qt4-tools-native_4.7.2.bb} |    4 +-
+>   meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.1.bb   |    6 -
+>   meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.2.bb   |    6 +
+>   meta/recipes-qt/qt4/qt4-x11-free_4.6.3.bb          |    2 +-
+>   ...qt4-x11-free_4.7.1.bb =>  qt4-x11-free_4.7.2.bb} |    0
+>   14 files changed, 148 insertions(+), 12 deletions(-)
+>   create mode 100644 meta/recipes-qt/qt4/files/blacklist-fraudulent-comodo-certificates-patch.diff
+>   rename meta/recipes-qt/qt4/{qt-4.7.1.inc =>  qt-4.7.2.inc} (89%)
+>   rename meta/recipes-qt/qt4/{qt-4.7.1 =>  qt-4.7.2}/0001-Added-Openembedded-crossarch-option.patch (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.7.1 =>  qt-4.7.2}/g++.conf (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.7.1 =>  qt-4.7.2}/hack-out-pg2-4.7.0.patch (100%)
+>   rename meta/recipes-qt/qt4/{qt-4.7.1 =>  qt-4.7.2}/linux.conf (100%)
+>   rename meta/recipes-qt/qt4/{qt4-embedded_4.7.1.bb =>  qt4-embedded_4.7.2.bb} (100%)
+>   rename meta/recipes-qt/qt4/{qt4-tools-native_4.7.1.bb =>  qt4-tools-native_4.7.2.bb} (61%)
+>   delete mode 100644 meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.1.bb
+>   create mode 100644 meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.2.bb
+>   rename meta/recipes-qt/qt4/{qt4-x11-free_4.7.1.bb =>  qt4-x11-free_4.7.2.bb} (100%)
+>
+> _______________________________________________
+> poky mailing list
+> poky@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/poky
 >
 
-Those patches are not same as all patches that would be applied to say
-svn version these are fixes on top of a release e.g. 5.9 I was merely
-suggesting that your upgrade patch is fine please see if there already
-are some fixes on top of 5.9 that we need
-thats all
-
-
-> --
-> Tom Rini
-> Mentor Graphics Corporation
->
 
 
