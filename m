@@ -1,28 +1,35 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q7N0K-0001a7-74
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1Q7OQZ-00028g-W4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 09:18:16 +0200
-Received: by wwi18 with SMTP id 18so3491739wwi.0
+	Wed, 06 Apr 2011 10:49:28 +0200
+Received: by iye7 with SMTP id 7so1331160iye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Apr 2011 00:16:09 -0700 (PDT)
-Received: by 10.216.182.20 with SMTP id n20mr600914wem.113.1302074168733;
-	Wed, 06 Apr 2011 00:16:08 -0700 (PDT)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id m2sm100202wer.37.2011.04.06.00.16.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 06 Apr 2011 00:16:08 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Wed, 06 Apr 2011 01:47:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type;
+	bh=JPxMsQfR7jQJBOGIa82zuiC33dVLtiqkDGbtQqI8OAU=;
+	b=UjC1w79/sHE8oJ5mp68+EwvOHZD4CdVG4iVR2z4/KKo0BrLubLJklHrBEvWDQifhWK
+	763UsRAOXzIItRnDQfwQJWh8+n5VP2uIQ/lImnimQsLv7cugZVjWZcRa7LgFLo5Apt6g
+	rlPQqfZIjyOTuYECO6e4gBbH+UekC4EmS3NYk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type;
+	b=cKjCJXrRi1YeECKEPwUCOA6CdnTjnMJcQ0fEfdFES4hm3bvUAgmPXg2VyCWrr5dfj2
+	wws5u3vtBrJ+akC3FoBMekGEQucN0Kyv0R0mf/xM9za7IRyNySTCEjMK41wymv6zQPAz
+	q5LPHechM3xug0fexNCJmpm2GQM/KgmDuhK+U=
+MIME-Version: 1.0
+Received: by 10.231.3.76 with SMTP id 12mr677502ibm.166.1302079637550; Wed, 06
+	Apr 2011 01:47:17 -0700 (PDT)
+Received: by 10.231.19.204 with HTTP; Wed, 6 Apr 2011 01:47:17 -0700 (PDT)
 In-Reply-To: <1302001365.24596.459.camel@rex>
-Date: Wed, 6 Apr 2011 09:16:07 +0200
-Message-Id: <14238F4D-1D3B-450D-8CE2-FF9D0C4362A1@dominion.thruhere.net>
 References: <1302001365.24596.459.camel@rex>
+Date: Wed, 6 Apr 2011 10:47:17 +0200
+Message-ID: <BANLkTim4ouc6ssOhfU4Dd8OfEq81MfC_gQ@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Cc: poky <poky@yoctoproject.org>
+	<openembedded-core@lists.openembedded.org>, poky@yoctoproject.org
 Subject: Re: Proposed Multilib Implementation Brainstorming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,35 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 07:18:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 06 Apr 2011 08:49:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+2011/4/5 Richard Purdie <richard.purdie@linuxfoundation.org>:
 
-Op 5 apr 2011, om 13:02 heeft Richard Purdie het volgende geschreven:
+[...]
+>
+> Does this make sense to everyone, are there any questions/ objections/
+> concerns/ things I've missed?
 
-> One of the items on our post 1.0 schedule is multilib and we need a =
-plan
-> of implementation. I've been thinking about this for a while and at
-> least have some ideas how some of the issues can be handled.
->=20
-> In case anyone isn't familiar with the idea of multilibs, the most
-> common example are x86 systems which have both 32 bit and 64 bit
-> libraries installed at the same time in /lib/ and /lib64/ directories =
-or
-> similar and hence both types of binaries can be used.
->=20
-> The number of libs isn't limited to two choices as for example the =
-mips
-> platform has three choices which can be used in parallel. The x32 ABI
-> would mean three possible x86 options too.=20
+I think most embedded systems would only use one lib. To take your
+lib/lib64 example:
+If I am developing for an embedded system I know whether it will run
+as 32 or 64 bit, so there is no need to have both.
 
-Sweet, this opens the door for arm multilibs as well. With this can =
-finally build an armv7a without NEON and with NEON in "one" go and use =
-hwcaps to load the right lib.
+multilib has its merits when it comes to supporting multiple hardware systems.
+However as in the embedded world one is typically targeting a specific
+hardware configuration.
+(actually I don't recall having seen requests for multilib on the ML
+before, although I could have missed it).
 
-regards,
+Also I'm somewhat worried by the actual complexity this adds (to the
+build process and the recipes, and timewise probably also to the
+bootstrap process as additional packages have to be built).
 
-Koen=
+Not sure if that is a desirable route forward, but if we (we as in OE
+members + developers) feel that OE should go that way, I would
+sugggest to have a way to opt-in or opt-out
+
+Frans
 
 
