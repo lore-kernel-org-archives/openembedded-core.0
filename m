@@ -1,35 +1,38 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from [77.233.226.4] (helo=mail.doredevelopment.dk)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q7YUF-0007Vc-Df
+	(envelope-from <eha@dev.doredevelopment.dk>) id 1Q7Zm6-0008Gb-Oc
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 21:33:55 +0200
-Received: by wye20 with SMTP id 20so1740766wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Apr 2011 12:31:48 -0700 (PDT)
-Received: by 10.216.161.205 with SMTP id w55mr1349299wek.104.1302118307620;
-	Wed, 06 Apr 2011 12:31:47 -0700 (PDT)
-Received: from [172.20.2.72] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id f30sm461229wef.7.2011.04.06.12.31.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 06 Apr 2011 12:31:46 -0700 (PDT)
-References: <cover.1302039585.git.sgw@linux.intel.com>
-	<23fdb7fffa0e21931f4d6ddd2b02a0a44a450a61.1302039585.git.sgw@linux.intel.com>
-	<46C1DB33-0AC8-486D-9E88-7D33EE44CF93@dominion.thruhere.net>
-	<1302114663.22904.75.camel@rex>
-In-Reply-To: <1302114663.22904.75.camel@rex>
-Mime-Version: 1.0 (iPhone Mail 8G4)
-Message-Id: <92E073DC-42BC-423D-B48C-C1C8DADFA2AF@dominion.thruhere.net>
-X-Mailer: iPhone Mail (8G4)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 6 Apr 2011 21:31:39 +0200
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Dongxiao Xu <dongxiao.xu@intel.com>, Kang Kai <kai.kang@windriver.com>,
-	Xiaofeng Yan <xiaofeng.yan@windriver.com>,
-	Scott Rifenbark <scott.m.rifenbark@intel.com>,
+	Wed, 06 Apr 2011 22:56:27 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.doredevelopment.dk (Postfix) with ESMTP id C681064F0;
+	Wed,  6 Apr 2011 22:54:14 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at dev.doredevelopment.dk
+Received: from mail.doredevelopment.dk ([127.0.0.1])
+	by localhost (public.doredevelopment.dk [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id DtdyoxWMSVP0; Wed,  6 Apr 2011 22:54:13 +0200 (CEST)
+Received: from eha (0x55532124.adsl.cybercity.dk [85.83.33.36])
+	(Authenticated sender: eha)
+	by mail.doredevelopment.dk (Postfix) with ESMTPA id CED80A85;
+	Wed,  6 Apr 2011 22:54:11 +0200 (CEST)
+Received: by eha (Postfix, from userid 1000)
+	id 26B3AA51C7; Wed,  6 Apr 2011 22:54:11 +0200 (CEST)
+From: Esben Haabendal <eha@dev.doredevelopment.dk>
+To: "Hatle\, Mark" <mark.hatle@windriver.com>
+References: <1302001365.24596.459.camel@rex>
+	<87y63n5028.fsf@eha.doredevelopment.dk>
+	<1302091554.22904.18.camel@rex>
+	<A69B9A48-C42D-48B5-B09F-46AA5281C048@windriver.com>
+Date: Wed, 06 Apr 2011 22:54:11 +0200
+In-Reply-To: <A69B9A48-C42D-48B5-B09F-46AA5281C048@windriver.com> (Mark
+	Hatle's message of "Wed, 6 Apr 2011 18:01:18 +0000")
+Message-ID: <87mxk3drt8.fsf@eha.doredevelopment.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
+MIME-Version: 1.0
+Cc: poky <poky@yoctoproject.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] gst-meta-base: Support http/https remote streams
+Subject: Re: [poky] Proposed Multilib Implementation Brainstorming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,56 +47,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 19:33:55 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Wed, 06 Apr 2011 20:56:27 -0000
+Content-Type: text/plain; charset=us-ascii
 
+"Hatle, Mark" <mark.hatle@windriver.com> writes:
 
+> On Apr 6, 2011, at 5:06 AM, "Richard Purdie" <richard.purdie@linuxfoundation.org> wrote:
+>
+>> On Wed, 2011-04-06 at 09:08 +0200, Esben Haabendal wrote:
+>>> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+>>> 
+>>>> One of the items on our post 1.0 schedule is multilib and we need a plan
+>>>> of implementation. I've been thinking about this for a while and at
+>>>> least have some ideas how some of the issues can be handled.
+>>>> ....
+>>>> Does this make sense to everyone, are there any questions/ objections/
+>>>> concerns/ things I've missed?
+>>> 
+>>> Which actual OE use-cases justify this kind of addition to OE?
+>> 
+>> Several people wanting to use OECore have a requirement of multilib
+>> support. The typical embedded use case is where you have one main
+>> application which you might want to run in some kind of large memory
+>> mode or with some special optimisation (think a database engine) whilst
+>> the rest of the system is "standard". This requires the ability to mix
+>> different libraries.
+>
+> This is a very popular use-case in carrier grade systems.  Back haul
+> voice, data, etc applications that require large routing databases or
+> billing databases.  The other use I've seen for multilibs is some very
+> specialized DVR systems where large amount of video need to stay in
+> memory for quick retrieval.
 
-Op 6 apr. 2011 om 20:31 heeft Richard Purdie <richard.purdie@linuxfoundation=
-.org> het volgende geschreven:
+None of which really resembles the systems the typical OE developer is
+working on.  My point being that what might be important goals for YP
+might not be equally important for community OE as such.  Not that it
+necesarely is a real conflict, but I believe it is worth keeping in
+mind.
 
-> On Wed, 2011-04-06 at 09:11 +0200, Koen Kooi wrote:
->> Op 5 apr 2011, om 23:48 heeft Saul Wold het volgende geschreven:
->>=20
->>> From: Dongxiao Xu <dongxiao.xu@intel.com>
->>>=20
->>> Add libgstsouphttpsrc library to support remote stream playing via
->>> http/https protocols.
->>>=20
->>> This solves the mp4 playing issue by regel from mediatomb file server.
->>>=20
->>> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
->>>=20
->>> -    gst-plugins-good-autodetect"
->>> +    gst-plugins-good-autodetect \
->>> +    gst-plugins-good-souphttpsrc"
->>=20
->> FWIW, souphttpsrc is quite heavy in dependencies, so in the future we
->> should look for something lighter (GIO?).
->=20
-> Sounds like a good plan. Does something already exist or does code need
-> writing for that?
+>>> I know it is on the Yocto post 1.0 schedule, but is it actually a good
+>>> thing for OE?  Maintaining OE recipes is clearly not going to get any
+>>> easier with multilibs support.
+>> 
+>> As detailed in the proposal you will see that the complexity added is
+>> minimal. It requires a simple enhancement to BBCLASSEXTEND which is
+>> likely desirable for other reasons too and that is the only real bitbake
+>> change required. For the metadata, individual recipes remain unaffected
+>> and also the core conf files are unchanged too. The toolchain dependency
+>> changes will be the only change affecting users at the recipe level and
+>> most of the class/machine configuration will be opt in by anyone using
+>> multilib. The only other invasive change is the package manager
+>> integration. For rpm, it has good support for multilib already and we're
+>> just enabling that. For opkg, we still need to determine the best
+>> approach but the simplistic approach I mentioned will probably suffice
+>> and anyone wanting true support at the package manager level can use
+>> rpm.
+>> 
+>> For day to day recipe maintenance I don't see much direct impact.
+>
+> What I've seen in the past is the ability to build multilibs has
+> improved the quality of the software integration by finding poorly
+> constructed headers, hard coded library paths, etc... All things we
+> should fix.
 
-It has been over a year since I looked at it, but back then GIO used libsoup=
- as backend, so doing http with gstreamer bloated up your product.
-I'll have a look at the current state when I get some time.
+Cannot really be against improving software quality :-)
 
-regards,
-
-koen
-
-
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+/Esben
 
 
