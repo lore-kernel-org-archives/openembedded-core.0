@@ -1,32 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q7YBq-0002GE-D6 for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 21:14:54 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p36JCeFL027222;
-	Wed, 6 Apr 2011 20:12:40 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 23922-06; Wed,  6 Apr 2011 20:12:29 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p36JCMTN027171
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 6 Apr 2011 20:12:24 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jeremy Puhlman <jpuhlman@mvista.com>
-In-Reply-To: <4D9BA594.3030005@mvista.com>
-References: <1302001365.24596.459.camel@rex>  <4D9BA594.3030005@mvista.com>
-Date: Wed, 06 Apr 2011 11:53:06 -0700
-Message-ID: <1302115986.22904.83.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: poky <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Proposed Multilib Implementation Brainstorming
+Received: from relay1.mentorg.com ([192.94.38.131])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Tom_Rini@mentor.com>) id 1Q7YJn-0002Un-2U
+	for openembedded-core@lists.openembedded.org;
+	Wed, 06 Apr 2011 21:23:09 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1Q7YHc-0001eH-F6 from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 06 Apr 2011 12:20:52 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 6 Apr 2011 12:18:43 -0700
+Received: from [172.30.80.151] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
+	with Microsoft SMTP Server id 14.1.270.1;
+	Wed, 6 Apr 2011 12:20:51 -0700
+Message-ID: <4D9CBD0B.3090608@mentor.com>
+Date: Wed, 6 Apr 2011 12:20:43 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1302050252.git.tom_rini@mentor.com>	<95d636004deffc0d6473c67ee9b5ce62937dc085.1302050252.git.tom_rini@mentor.com>	<BANLkTi=RTLB21JAz4N2B2kPWu6H3uTHn1w@mail.gmail.com>
+	<1302115114.22904.77.camel@rex>
+In-Reply-To: <1302115114.22904.77.camel@rex>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 06 Apr 2011 19:18:43.0037 (UTC)
+	FILETIME=[716890D0:01CBF48F]
+Subject: Re: [PATCH 1/1] ncurses: Update to 5.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,87 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 19:14:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 06 Apr 2011 19:23:09 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-04-05 at 16:28 -0700, Jeremy Puhlman wrote:
-> > 
-> > To do this I'm thinking of a new set of include files of the form
-> > conf/machine/include/multilib-xxxx.inc, similar in nature to the
-> > tune-xxx.inc files. A given setup would include each of the multilibs it
-> > requred. Each multilib include file would look something like:
-> > 
-> > conf/machine/include/multilib-x86-lib32.inc:
-> > 
-> > MULTILIBS += "lib32"
-> > 
-> > BASE_PACKAGE_ARCH_virtclass-multilib-lib32 = "core2-lib32"
-> > TARGET_CC_ARCH_virtclass-multilib-lib32 = "-m32 -march=core2"
-> > PACKAGE_EXTRA_ARCHS += "core2-lib32"
-> > 
-> > libdir_virtclass-multilib-lib32 = "${exec_prefix}/lib32"
-> > base_libdir_virtclass-multilib-lib32 = "${base_prefix}/lib32"
-> > 
-> > i.e. use overrides to change the target cc architecture specifying the
-> > required flags to the compiler and also alter the library paths as
-> > required.
-> > 
-> > I'm envisaging passing an optional new parameter to classes in
-> > BBCLASSEXTEND so for example the definition of a multilib could look
-> > something like:
-> > 
-> > BBCLASSEXTEND_append = " multilib:x86-lib32"
-> > 
-> > and all the multilib class would need to do is to manipulation of
-> > variables including OVERRIDES in a similar way to native.bbclass with
-> > the complication of handling the parameter.
+On 04/06/2011 11:38 AM, Richard Purdie wrote:
+> On Tue, 2011-04-05 at 23:18 -0700, Khem Raj wrote:
+>> On Tue, Apr 5, 2011 at 5:38 PM, Tom Rini <tom_rini@mentor.com> wrote:
+>>> The previous 5.7 release was relatively close to 5.8 due to it bringing
+>>> in a patch to sync with upstream work-in-progress.  We skip over the
+>>> 5.8 release and move to 5.9.
+>>
+>>
+>> there already are patches for 5.9 available too
+>> ftp://invisible-island.net/ncurses/5.9/ncurses-5.9.patch.gz
 > 
-> It is possible to do it with out changes to bitbake, but adding
-> parametrization to BBCLASSEXTEND would be useful in a number of ways,
-> and much more elegant then doing it with out it, and cleaner for that
-> matter. Unrelated to multilib, would the full path to the sub parameters
-> be configurable via the extended class? i.e. "conf/machine/include/" be
-> a configurable value from the multilib class?
+> Can someone summarise what the benefits of these patches are? I'm
+> trying to figure out whether we lose anything due to this upgrade or
+> not...
 
-I've been thinking this would be the other way around. The act of adding
-some conf/machine/include/* files would then trigger the inheritance of
-the multilib class with the parameter specified at the point of the
-inclusion.
+The patches we applied to 5.7 are part of the 5.8 release and 5.9 of
+course replaces 5.8.  The invisible-island.net patch sets are things
+taken from the official source repo and put out there for use.
 
-> > For opkg there are multiple levels we can take the integration to. It
-> > should be possible for example to install the "weaker" multilibs first,
-> > then just install the stronger ones over the top, assuming any file
-> > overwriting is ok and can be ignored. 
-> 
-> If there isn't any kind of compartmentalization of binaries(i.e. the
-> alternate abi having a set of packages that only contian runtime libs),
-> wouldn't this render the package management on opkg based systems post
-> install largely useless other then just adding new components?
-
-Its use case specific and I agree the above is hacky. It would be better
-to have that option with known caveats that none at all though.
-
->  Most
-> applications are getting better about it(openssl comes to mind), but
-> some may still place arch specific headers in common locations. Many
-> like openssl started switching over to arch wrapper headers, but there
-> may be some stuff still lurking out there. Could probably be handled on
-> a case by case basis.
-
-Yes, we've going to have to watch for this kind of issue and get it
-fixed as and where we find it.
-
-> I have been kicking around a still broken POC implementation to this for
-> a bit, but this is basically the line of thought(minus the
-> parametrization of BBCLASSEXTEND) for a while on the subject. This looks
-> mostly right to me.
-
-Great, thanks for the feedback!
-
-Cheers,
-
-Richard
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
