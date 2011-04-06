@@ -1,31 +1,27 @@
-Received: from [77.233.226.4] (helo=mail.doredevelopment.dk)
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eha@dev.doredevelopment.dk>) id 1Q7Mya-0007w5-GM
+	(envelope-from <koen@dominion.thruhere.net>) id 1Q7N0K-0001a7-74
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 09:16:28 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.doredevelopment.dk (Postfix) with ESMTP id 334E364F0;
-	Wed,  6 Apr 2011 09:08:34 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at dev.doredevelopment.dk
-Received: from mail.doredevelopment.dk ([127.0.0.1])
-	by localhost (public.doredevelopment.dk [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id imSjWXmEPrq2; Wed,  6 Apr 2011 09:08:32 +0200 (CEST)
-Received: from eha (unknown [192.168.18.101]) (Authenticated sender: eha)
-	by mail.doredevelopment.dk (Postfix) with ESMTPA id 505BE2CC8;
-	Wed,  6 Apr 2011 09:08:32 +0200 (CEST)
-Received: by eha (Postfix, from userid 1000)
-	id ECD6CA51B0; Wed,  6 Apr 2011 09:08:31 +0200 (CEST)
-From: Esben Haabendal <eha@dev.doredevelopment.dk>
+	Wed, 06 Apr 2011 09:18:16 +0200
+Received: by wwi18 with SMTP id 18so3491739wwi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Apr 2011 00:16:09 -0700 (PDT)
+Received: by 10.216.182.20 with SMTP id n20mr600914wem.113.1302074168733;
+	Wed, 06 Apr 2011 00:16:08 -0700 (PDT)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id m2sm100202wer.37.2011.04.06.00.16.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 06 Apr 2011 00:16:08 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1302001365.24596.459.camel@rex>
+Date: Wed, 6 Apr 2011 09:16:07 +0200
+Message-Id: <14238F4D-1D3B-450D-8CE2-FF9D0C4362A1@dominion.thruhere.net>
+References: <1302001365.24596.459.camel@rex>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1302001365.24596.459.camel@rex>
-Date: Wed, 06 Apr 2011 09:08:31 +0200
-In-Reply-To: <1302001365.24596.459.camel@rex> (Richard Purdie's message of
-	"Tue, 05 Apr 2011 12:02:45 +0100")
-Message-ID: <87y63n5028.fsf@eha.doredevelopment.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1 (gnu/linux)
-MIME-Version: 1.0
+X-Mailer: Apple Mail (2.1084)
 Cc: poky <poky@yoctoproject.org>
 Subject: Re: Proposed Multilib Implementation Brainstorming
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -42,24 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Apr 2011 07:16:28 -0000
+X-List-Received-Date: Wed, 06 Apr 2011 07:18:16 -0000
 Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-> One of the items on our post 1.0 schedule is multilib and we need a plan
+Op 5 apr 2011, om 13:02 heeft Richard Purdie het volgende geschreven:
+
+> One of the items on our post 1.0 schedule is multilib and we need a =
+plan
 > of implementation. I've been thinking about this for a while and at
 > least have some ideas how some of the issues can be handled.
-> ....
-> Does this make sense to everyone, are there any questions/ objections/
-> concerns/ things I've missed?
+>=20
+> In case anyone isn't familiar with the idea of multilibs, the most
+> common example are x86 systems which have both 32 bit and 64 bit
+> libraries installed at the same time in /lib/ and /lib64/ directories =
+or
+> similar and hence both types of binaries can be used.
+>=20
+> The number of libs isn't limited to two choices as for example the =
+mips
+> platform has three choices which can be used in parallel. The x32 ABI
+> would mean three possible x86 options too.=20
 
-Which actual OE use-cases justify this kind of addition to OE?
+Sweet, this opens the door for arm multilibs as well. With this can =
+finally build an armv7a without NEON and with NEON in "one" go and use =
+hwcaps to load the right lib.
 
-I know it is on the Yocto post 1.0 schedule, but is it actually a good
-thing for OE?  Maintaining OE recipes is clearly not going to get any
-easier with multilibs support.
+regards,
 
-/Esben
+Koen=
 
 
