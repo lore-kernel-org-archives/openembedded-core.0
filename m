@@ -1,34 +1,27 @@
 Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Q7dEL-0005Hu-Ch
+	(envelope-from <Tom_Rini@mentor.com>) id 1Q7dSv-0005Re-WE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Apr 2011 02:37:49 +0200
+	Thu, 07 Apr 2011 02:52:54 +0200
 Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
 	by relay1.mentorg.com with esmtp 
-	id 1Q7dCI-0003rA-Tv from Tom_Rini@mentor.com 
+	id 1Q7dQu-0004ba-6Z from Tom_Rini@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Apr 2011 17:35:42 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 6 Apr 2011 17:35:42 -0700
-Received: from [172.30.80.151] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
-	with Microsoft SMTP Server id 14.1.270.1;
-	Wed, 6 Apr 2011 17:35:41 -0700
-Message-ID: <4D9D06D5.1020907@mentor.com>
-Date: Wed, 6 Apr 2011 17:35:33 -0700
+	Wed, 06 Apr 2011 17:50:48 -0700
+Received: from na2-mail.mgc.mentorg.com ([134.86.114.213]) by
+	svr-orw-fem-01.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 6 Apr 2011 17:50:48 -0700
+Received: from localhost.localdomain ([172.30.80.151]) by
+	na2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
+	Wed, 6 Apr 2011 18:50:46 -0600
 From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1302050252.git.tom_rini@mentor.com>	<95d636004deffc0d6473c67ee9b5ce62937dc085.1302050252.git.tom_rini@mentor.com>	<BANLkTi=RTLB21JAz4N2B2kPWu6H3uTHn1w@mail.gmail.com>	<4D9C78F5.1090808@mentor.com>	<BANLkTi=UeQ22hquxLPihJAnLzpW8ODpAkg@mail.gmail.com>	<4D9C9E75.1060203@mentor.com>	<BANLkTimuM8GCHd11cuH5ULA6jL=3kZDk6w@mail.gmail.com>	<4D9CA452.1020205@mentor.com>
-	<1302124601.22904.88.camel@rex>
-In-Reply-To: <1302124601.22904.88.camel@rex>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 07 Apr 2011 00:35:42.0451 (UTC)
-	FILETIME=[B9DCD430:01CBF4BB]
-Subject: Re: [PATCH 1/1] ncurses: Update to 5.9
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Apr 2011 17:50:38 -0700
+Message-Id: <cover.1302137428.git.tom_rini@mentor.com>
+X-Mailer: git-send-email 1.7.0.4
+X-OriginalArrivalTime: 07 Apr 2011 00:50:46.0927 (UTC)
+	FILETIME=[D4F8E9F0:01CBF4BD]
+Subject: [PATCH 0/1] v2: Update ncurses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,59 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Apr 2011 00:37:49 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Apr 2011 00:52:54 -0000
 
-On 04/06/2011 02:16 PM, Richard Purdie wrote:
-> On Wed, 2011-04-06 at 10:35 -0700, Tom Rini wrote:
->> On 04/06/2011 10:26 AM, Khem Raj wrote:
->>> On Wed, Apr 6, 2011 at 10:10 AM, Tom Rini <tom_rini@mentor.com> wrote:
->>>> On 04/06/2011 10:05 AM, Khem Raj wrote:
->>>>> On Wed, Apr 6, 2011 at 7:30 AM, Tom Rini <tom_rini@mentor.com> wrote:
->>>>>> On 04/05/2011 11:18 PM, Khem Raj wrote:
->>>>>>> On Tue, Apr 5, 2011 at 5:38 PM, Tom Rini <tom_rini@mentor.com> wrote:
->>>>>>>> The previous 5.7 release was relatively close to 5.8 due to it bringing
->>>>>>>> in a patch to sync with upstream work-in-progress.  We skip over the
->>>>>>>> 5.8 release and move to 5.9.
->>>>>>>
->>>>>>>
->>>>>>> there already are patches for 5.9 available too
->>>>>>> ftp://invisible-island.net/ncurses/5.9/ncurses-5.9.patch.gz
->>>>>>
->>>>>> Wrong link?  That reverse applies to ncurses 5.9 release. But
->>>>>> regardless, is ncurses something we need to be tracking top of tree for?
->>>>>>  It seems like we needed to for 5.7 since there had been a lot going on
->>>>>> without a release but that seems to have changed now.
->>>>>>
->>>>>
->>>>> those patches usually contain critical bug fixes including security updates
->>>>> so it will be of interest to keep track of it
->>>>
->>>> Well, it doesn't currently.  And while I agree we need to do a good job,
->>>> everywhere, of keeping track of security updates, I don't think we
->>>> should move back to depending on a site that frequently removes patches.
->>>>
->>>
->>> yes. cache the patches like yocto did for 5.7 recipes
->>
->> That still leaves the problem of there not being a valid patch there at
->> the moment.  And I still don't see why ncurses needs to be in the bucket
->> of recipes we track the scm for rather than relying on the latest stable
->> release.
-> 
-> It sounds like these patches are more like tracking an SCM rather than a
-> source of specific security patches or critical updates.
-> 
-> I think it might be wise to note this location in the recipe as a
-> comment (can someone please send an updated patch) but I don't think we
-> should be including these patches by default, particular if upstream are
-> making regular releases again.
+This updates ncurses to 5.9.  While less of a deal for oe-core where we
+had the patch we applied on top of 5.7 mirrored and referenced that
+openembedded.master did not and the patch recently went away.  Fortunately
+there's now a 5.8 and 5.9 release of ncurses and our 5.7 + patch was
+close to 5.8 making this an easy update.  While at this we move most of
+the important parts of ncurses_5.x.bb into ncurses.inc which has previously
+been unused.  Finally, we add a comment saying that invisible-island.net
+may have useful additional patches.
 
-I'll go v2 it
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: trini/update-ncurses
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/update-ncurses
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+Thanks,
+    Tom Rini <tom_rini@mentor.com>
+---
+
+
+Tom Rini (1):
+  ncurses: Update to 5.9
+
+ .../{ncurses-5.7 => ncurses-5.9}/config.cache      |    0
+ .../{ncurses-5.7 => ncurses-5.9}/tic-hang.patch    |    0
+ meta/recipes-core/ncurses/ncurses.inc              |  256 +++++++++++++++-----
+ meta/recipes-core/ncurses/ncurses_5.7.bb           |  246 -------------------
+ meta/recipes-core/ncurses/ncurses_5.9.bb           |   10 +
+ 5 files changed, 204 insertions(+), 308 deletions(-)
+ rename meta/recipes-core/ncurses/{ncurses-5.7 => ncurses-5.9}/config.cache (100%)
+ rename meta/recipes-core/ncurses/{ncurses-5.7 => ncurses-5.9}/tic-hang.patch (100%)
+ delete mode 100644 meta/recipes-core/ncurses/ncurses_5.7.bb
+ create mode 100644 meta/recipes-core/ncurses/ncurses_5.9.bb
+
 
 
