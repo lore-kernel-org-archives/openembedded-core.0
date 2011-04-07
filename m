@@ -1,34 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Q7slD-00045t-2T
+	(envelope-from <sgw@linux.intel.com>) id 1Q7wvY-0008M4-Hy
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Apr 2011 19:13:01 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p37HAcoF008595
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 7 Apr 2011 10:10:38 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.1.73]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.01.0255.000;
-	Thu, 7 Apr 2011 10:10:38 -0700
-From: "Hatle, Mark" <mark.hatle@windriver.com>
-To: "Hatle, Mark" <mark.hatle@windriver.com>
-Thread-Topic: [poky] Proposed Multilib Implementation Brainstorming
-Thread-Index: AQHL9TmKZrKlv9+FdE6IOU3UGMc605RSkjeQgACBZ4CAAAKnAP//jLWP
-Date: Thu, 7 Apr 2011 17:10:37 +0000
-Message-ID: <237DA919-9324-4813-B358-CFD19230B496@windriver.com>
-References: <1302001365.24596.459.camel@rex>
-	<BANLkTinaGY_6Ks7pTfwYcVaDxs3ANbT2Gg@mail.gmail.com>
-	<9024C872-9FD7-4016-B40C-89DE43199F66@windriver.com>
-	<BANLkTimCkUNZcm+gb4vAouMJ6mUopFvFAw@mail.gmail.com>,
-	<D6DCA675-3B27-43B5-A7B8-CAA93048A49B@windriver.com>
-In-Reply-To: <D6DCA675-3B27-43B5-A7B8-CAA93048A49B@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
-	poky <poky@yoctoproject.org>, Colin Walters <walters@verbum.org>
-Subject: Re: [poky] Proposed Multilib Implementation Brainstorming
+	Thu, 07 Apr 2011 23:39:45 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Apr 2011 14:37:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.63,319,1299484800"; d="scan'208";a="906923601"
+Received: from unknown (HELO localhost) ([10.255.12.228])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Apr 2011 14:37:34 -0700
+Message-Id: <b0c524eac124b2857a48a93ceb35fdfb34f6b343.1302211549.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1302211549.git.sgw@linux.intel.com>
+References: <cover.1302211549.git.sgw@linux.intel.com>
+Old-Date: Wed, 6 Apr 2011 15:15:56 -0700
+Date: Thu, 07 Apr 2011 14:37:34 -0700
+To: openembedded-core@lists.openembedded.org
+From: Saul Wold <sgw@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 01/11] createrepo: Update to 0.9.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,86 +33,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Apr 2011 17:13:40 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 07 Apr 2011 21:39:45 -0000
 
-Sorry to reply to myself but I forgot one thing..
+From: Saul Wold <sgw@linux.intel.com>
 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../createrepo/createrepo/fix-native-install.patch |   88 ++++++++++---------
+ .../{createrepo_0.4.11.bb => createrepo_0.9.9.bb}  |    7 +-
+ 2 files changed, 49 insertions(+), 46 deletions(-)
+ rename meta/recipes-support/createrepo/{createrepo_0.4.11.bb => createrepo_0.9.9.bb} (73%)
 
+diff --git a/meta/recipes-support/createrepo/createrepo/fix-native-install.patch b/meta/recipes-support/createrepo/createrepo/fix-native-install.patch
+index 2ed2202..53266b5 100644
+--- a/meta/recipes-support/createrepo/createrepo/fix-native-install.patch
++++ b/meta/recipes-support/createrepo/createrepo/fix-native-install.patch
+@@ -4,19 +4,24 @@ There are two fixes:
+   1. -native needs to customize prefix
+   2. needs to change python reference in binaries
+ 
++Upstream-Status: Inappropriate [native]
++
+ Signed-off-by: Qing He <qing.he@intel.com>
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ 
+-diff --git a/Makefile b/Makefile
+-index b2d1a32..3c3639f 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -3,22 +3,22 @@ VERSION = 0.4.11
++Index: createrepo-0.9.9/Makefile
++===================================================================
++--- createrepo-0.9.9.orig/Makefile	2011-01-26 09:14:30.000000000 -0800
+++++ createrepo-0.9.9/Makefile	2011-04-06 14:12:06.608923997 -0700
++@@ -10,22 +10,22 @@
+  SHELL = /bin/sh
+  top_srcdir = .
+  srcdir = .
+ -prefix = /usr
+ -exec_prefix = ${prefix}
+--
+++prefix ?= /usr
+++exec_prefix ?= ${prefix}
++ 
+ -bindir = ${exec_prefix}/bin
+ -sbindir = ${exec_prefix}/sbin
+ -libexecdir = ${exec_prefix}/libexec
+@@ -26,9 +31,6 @@ index b2d1a32..3c3639f 100644
+ -localstatedir = ${prefix}/var
+ -libdir = ${exec_prefix}/lib
+ -infodir = ${prefix}/info
+-+prefix ?= /usr
+-+exec_prefix ?= ${prefix}
+-+
+ +bindir ?= ${exec_prefix}/bin
+ +sbindir ?= ${exec_prefix}/sbin
+ +libexecdir ?= ${exec_prefix}/libexec
+@@ -45,19 +47,21 @@ index b2d1a32..3c3639f 100644
+ -mandir = ${prefix}/share/man
+ +mandir ?= ${prefix}/share/man
+  
+- pkgdatadir = $(datadir)/$(PACKAGE)
+- pkglibdir = $(libdir)/$(PACKAGE)
+-diff --git a/bin/Makefile b/bin/Makefile
+-index 52c1f50..e30610e 100644
+---- a/bin/Makefile
+-+++ b/bin/Makefile
++ pkgdatadir = $(datadir)/$(PKGNAME)
++ pkglibdir = $(libdir)/$(PKGNAME)
++Index: createrepo-0.9.9/bin/Makefile
++===================================================================
++--- createrepo-0.9.9.orig/bin/Makefile	2011-01-26 09:14:30.000000000 -0800
+++++ createrepo-0.9.9/bin/Makefile	2011-04-06 14:15:07.212923998 -0700
+ @@ -1,22 +1,22 @@
+  SHELL = /bin/sh
+  top_srcdir = ..
+  srcdir = ../bin
+ -prefix = /usr
+ -exec_prefix = ${prefix}
+--
+++prefix ?= /usr
+++exec_prefix ?= ${prefix}
++ 
+ -bindir = ${exec_prefix}/bin
+ -sbindir = ${exec_prefix}/sbin
+ -libexecdir = ${exec_prefix}/libexec
+@@ -67,9 +71,6 @@ index 52c1f50..e30610e 100644
+ -localstatedir = ${prefix}/var
+ -libdir = ${exec_prefix}/lib
+ -infodir = ${prefix}/info
+-+prefix ?= /usr
+-+exec_prefix ?= ${prefix}
+-+
+ +bindir ?= ${exec_prefix}/bin
+ +sbindir ?= ${exec_prefix}/sbin
+ +libexecdir ?= ${exec_prefix}/libexec
+@@ -86,49 +87,55 @@ index 52c1f50..e30610e 100644
+ -mandir = ${prefix}/man
+ +mandir ?= ${prefix}/man
+  
+- pkgdatadir = $(datadir)/$(PACKAGE)
+- pkglibdir = $(libdir)/$(PACKAGE)
+-@@ -40,8 +40,11 @@ all: $(srcdir)/$(PACKAGE)
++ pkgdatadir = $(datadir)/$(PKGNAME)
++ pkglibdir = $(libdir)/$(PKGNAME)
++@@ -41,9 +41,14 @@
+  
+  
+  install: all installdirs
+--	$(INSTALL_BIN) $(srcdir)/$(PACKAGE) $(DESTDIR)$(bindir)/$(PACKAGE)
++-	$(INSTALL_BIN) $(srcdir)/$(PKGNAME) $(DESTDIR)$(bindir)/$(PKGNAME)
+ -	$(INSTALL_BIN) $(srcdir)/modifyrepo $(DESTDIR)$(bindir)/modifyrepo
++-	$(INSTALL_BIN) $(srcdir)/mergerepo $(DESTDIR)$(bindir)/mergerepo
+ +	sed -e "s|@DATADIR@|$(datadir)|" $(srcdir)/$(PACKAGE) > $(srcdir)/$(PACKAGE).tmp
+ +	sed -e "s|@DATADIR@|$(datadir)|" $(srcdir)/modifyrepo > $(srcdir)/modifyrepo.tmp
+++	sed -e "s|@DATADIR@|$(datadir)|" $(srcdir)/mergerepo > $(srcdir)/mergerepo.tmp
+ +	$(INSTALL_BIN) $(srcdir)/$(PACKAGE).tmp $(DESTDIR)$(bindir)/$(PACKAGE)
+ +	$(INSTALL_BIN) $(srcdir)/modifyrepo.tmp $(DESTDIR)$(bindir)/modifyrepo
+-+	rm -f $(srcdir)/$(PACKAGE).tmp $(srcdir)/modifyrepo.tmp
+++	$(INSTALL_BIN) $(srcdir)/mergerepo.tmp $(DESTDIR)$(bindir)/mergerepo
+++	rm -f $(srcdir)/$(PACKAGE).tmp $(srcdir)/modifyrepo.tmp $(srcdir)/mergerepo.tmp
+++
+  
+  
+  uninstall:
+-diff --git a/bin/createrepo b/bin/createrepo
+-index b0de515..eaacb39 100755
+---- a/bin/createrepo
+-+++ b/bin/createrepo
++Index: createrepo-0.9.9/bin/createrepo
++===================================================================
++--- createrepo-0.9.9.orig/bin/createrepo	2011-01-26 09:14:30.000000000 -0800
+++++ createrepo-0.9.9/bin/createrepo	2011-04-06 14:12:06.608923997 -0700
+ @@ -1,2 +1,2 @@
+  #!/bin/sh
+ -exec /usr/share/createrepo/genpkgmetadata.py "$@"
+ +exec @DATADIR@/createrepo/genpkgmetadata.py "$@"
+-diff --git a/bin/modifyrepo b/bin/modifyrepo
+-index c9732d8..6f7c1d4 100755
+---- a/bin/modifyrepo
+-+++ b/bin/modifyrepo
++Index: createrepo-0.9.9/bin/modifyrepo
++===================================================================
++--- createrepo-0.9.9.orig/bin/modifyrepo	2011-01-26 09:14:30.000000000 -0800
+++++ createrepo-0.9.9/bin/modifyrepo	2011-04-06 14:12:06.608923997 -0700
+ @@ -1,2 +1,2 @@
+  #!/bin/sh
+ -exec /usr/share/createrepo/modifyrepo.py "$@"
+ +exec @DATADIR@/createrepo/modifyrepo.py "$@"
+-diff --git a/docs/Makefile b/docs/Makefile
+-index 0a41179..e128c85 100644
+---- a/docs/Makefile
+-+++ b/docs/Makefile
++Index: createrepo-0.9.9/docs/Makefile
++===================================================================
++--- createrepo-0.9.9.orig/docs/Makefile	2011-01-26 09:14:30.000000000 -0800
+++++ createrepo-0.9.9/docs/Makefile	2011-04-06 14:12:06.608923997 -0700
+ @@ -1,22 +1,22 @@
+  SHELL = /bin/sh
+  top_srcdir = ..
+  srcdir = ../docs
+ -prefix = /usr
+ -exec_prefix = ${prefix}
+--
+++prefix ?= /usr
+++exec_prefix ?= ${prefix}
++ 
+ -bindir = ${exec_prefix}/bin
+ -sbindir = ${exec_prefix}/sbin
+ -libexecdir = ${exec_prefix}/libexec
+@@ -138,9 +145,6 @@ index 0a41179..e128c85 100644
+ -localstatedir = ${prefix}/var
+ -libdir = ${exec_prefix}/lib
+ -infodir = ${prefix}/info
+-+prefix ?= /usr
+-+exec_prefix ?= ${prefix}
+-+
+ +bindir ?= ${exec_prefix}/bin
+ +sbindir ?= ${exec_prefix}/sbin
+ +libexecdir ?= ${exec_prefix}/libexec
+@@ -157,5 +161,5 @@ index 0a41179..e128c85 100644
+ -mandir = ${datadir}/man
+ +mandir ?= ${datadir}/man
+  
+- pkgdatadir = $(datadir)/$(PACKAGE)
+- pkglibdir = $(libdir)/$(PACKAGE)
++ pkgdatadir = $(datadir)/$(PKGNAME)
++ pkglibdir = $(libdir)/$(PKGNAME)
+diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb b/meta/recipes-support/createrepo/createrepo_0.9.9.bb
+similarity index 73%
+rename from meta/recipes-support/createrepo/createrepo_0.4.11.bb
+rename to meta/recipes-support/createrepo/createrepo_0.9.9.bb
+index ba1d04b..89f18f4 100644
+--- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
++++ b/meta/recipes-support/createrepo/createrepo_0.9.9.bb
+@@ -4,14 +4,13 @@ HOMEPAGE = "http://createrepo.baseurl.org/"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+ 
+-PR = "r1"
++PR = "r0"
+ 
+ SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
+           file://fix-native-install.patch \
+          "
+-
+-SRC_URI[md5sum] = "3e9ccf4abcffe3f49af078c83611eda2"
+-SRC_URI[sha256sum] = "a73ae11a0dcde8bde36d900bc3f7f8f1083ba752c70a5c61b72d1e1e7608f21b"
++SRC_URI[md5sum] = "10641f19a40e9f633b300e23dde00349"
++SRC_URI[sha256sum] = "ee897463837b299fb20bf6e970f8c5324cd8b7f26ad3675a9938a2d7ae42ff03"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-- 
+1.7.1
 
-On Apr 7, 2011, at 10:05 AM, "Hatle, Mark" <mark.hatle@windriver.com> wrote=
-:
-
->=20
->=20
->=20
->=20
-> On Apr 7, 2011, at 9:53 AM, "Colin Walters" <walters@verbum.org> wrote:
->=20
->> On Thu, Apr 7, 2011 at 12:10 PM, Hatle, Mark <mark.hatle@windriver.com> =
-wrote:
->>>=20
->>> I think definition may be an issue here.  When I speak of multilibs I a=
-m talking primarily about multiliple non-conflicting, ABI incompatible libr=
-aries being installed at the same time.  This is the ELF 32 and ELF 64 case=
- where the items can't be linked together, but can be installed and jrun on=
- the same machine.
->>=20
->> Right, that's "multilib".
->>=20
->>> The alternative is the case on ARM where we have one single ABI but mul=
-tiple ways to implement the code.. Thumb, neon, vfp, etc being options.  We=
- want to do this as well, but while related, I see it as a diffent use case=
-.
->>=20
->> Isn't this already covered by glibc's support for
->> /lib/$processor_feature?  On my Fedora 14 x86_64 system I have
->> /lib/i686/nosegneg for example, and a simple "strace true" shows us
->> trying to find a variant of libc that is built for TLS (and not
->> finding it):
->>=20
->=20
-> The needs for the arm case include both executables and libraries.  The p=
-rocessor feature can be used, but that only covers the libraries themselves=
-.  We want a mechanism to say that the whole system is built thumb2, except=
- for a particular compilation modules, library and/or application.  (genera=
-lly is done on a full recipe basis, and not on a single compilation module.=
-.)
->=20
-
-From an RPM perspective the real difference is that one type uses multiple =
-recipe builds and let's install time policy decide what to install.. (this =
-is the multilib mentioned above)
-
-The ARM case I mentioned is really optimization based.. There are a few key=
- components like gcc that need to be configured for the multiple types of s=
-ystems, but the decision on what to install (a.k.a. What special optimizati=
-ons are required) are made at recipe compile time.
-
-This is why they're related cases, we need a common way to specify these mu=
-ltiple library type optimization and configuration flags... But the eventua=
-l result install-time vs compile-time is what makes them different.
-
-> The other issue on ARM embedded systems is that the processor feature app=
-roach typically makes the system larger, by providing both the lesser optim=
-ized and more completely optimized libraries....  I've had resistence to th=
-is approach from customer over that reason.  (mind you I'm in favor of maki=
-ng that easier to use in OE as well.)
->=20
->> $ strace true
->> execve("/bin/true", ["true"], [/* 54 vars */]) =3D 0
->> brk(0)                                  =3D 0xe59000
->> mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1,
->> 0) =3D 0x7f54472b0000
->> access("/etc/ld.so.preload", R_OK)      =3D -1 ENOENT (No such file or d=
-irectory)
->> open("/src/build/jhbuild/lib64/tls/x86_64/libc.so.6", O_RDONLY) =3D -1
->> ENOENT (No such file or directory)
-> _______________________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
 
 
