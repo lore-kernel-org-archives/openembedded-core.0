@@ -1,36 +1,23 @@
-Received: from leibniz.math.fu-berlin.de ([160.45.40.10]
-	helo=mail.math.fu-berlin.de) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1Q87lu-0001fS-RI
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dexuan.cui@intel.com>) id 1Q88XW-000836-7m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Apr 2011 11:14:32 +0200
-Received: (qmail 15670 invoked from network); 8 Apr 2011 11:10:22 +0200
-Received: from hydra.imp.fu-berlin.de (HELO hydra) (160.45.117.149)
-	by leibniz.math.fu-berlin.de with SMTP; 8 Apr 2011 11:10:22 +0200
-X-Virus-Scanned: Debian amavisd-new on 'hydra':10024 at mi.fu-berlin.de
-Received: from math.fu-berlin.de ([160.45.40.10])
-	by hydra (hydra.imp.fu-berlin.de [160.45.117.149]) (amavisd-new,
-	port 10024) with SMTP id AfK0FXMnuR60
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Apr 2011 11:10:19 +0200 (CEST)
-Received: (Qmail 15654 invoked from network); 8 Apr 2011 11:10:19 +0200
-Received: From andorra.imp.fu-berlin.de (160.45.42.84)
-	by leibniz.math.fu-berlin.de with SMTP; 8 Apr 2011 09:10:19 -0000
-Received: from heinold by andorra.imp.fu-berlin.de with local (Exim 4.72 #1
-	(Debian)) id 1Q87hr-0001tg-Jt; Fri, 08 Apr 2011 11:10:19 +0200
-Date: Fri, 8 Apr 2011 11:10:19 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110408091019.GA6796@mi.fu-berlin.de>
-References: <cover.1302211549.git.sgw@linux.intel.com>
-	<0731e077767fa0755d2c5fb41e932e8016a43ca1.1302211549.git.sgw@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <0731e077767fa0755d2c5fb41e932e8016a43ca1.1302211549.git.sgw@linux.intel.com>
-User-Agent: Mutt/1.5.18 (2008-05-17)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Darren Hart <dvhart@linux.intel.com>
-Subject: Re: [PATCH 02/11] directfb: Update to 1.4.6
+	Fri, 08 Apr 2011 12:03:46 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 Apr 2011 03:01:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.63,322,1299484800"; d="scan'208";a="730752812"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
+	by orsmga001.jf.intel.com with ESMTP; 08 Apr 2011 03:01:31 -0700
+Message-Id: <fc76573f371abbc27406f552524635f935af308c.1302256139.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1302256139.git.dexuan.cui@intel.com>
+References: <cover.1302256139.git.dexuan.cui@intel.com>
+Old-Date: Fri, 8 Apr 2011 17:44:07 +0800
+Date: Fri, 08 Apr 2011 17:59:33 +0800
+To: openembedded-core@lists.openembedded.org
+CC: 
+From: Dexuan Cui <dexuan.cui@intel.com>
+Subject: [PATCH 2/2] lsbsetup: Fix LIC_FILE_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,12 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Apr 2011 09:14:32 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 08 Apr 2011 10:03:58 -0000
 
-Hi please adjust the commit-msg you are adding 1.4.6 and 1.4.12
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-Bye Henning
+Fix [YOCTO #961]
+
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+---
+ meta/recipes-extended/lsb/lsbsetup_0.9.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-extended/lsb/lsbsetup_0.9.bb b/meta/recipes-extended/lsb/lsbsetup_0.9.bb
+index 08e1d99..8cbaf1e 100644
+--- a/meta/recipes-extended/lsb/lsbsetup_0.9.bb
++++ b/meta/recipes-extended/lsb/lsbsetup_0.9.bb
+@@ -4,7 +4,7 @@ PRIORITY = "required"
+ LICENSE = "GPLv2"
+ PR = "r0"
+ 
+-LIC_FILES_CHKSUM = "file://LSB_Setup.sh;md5=9cc166e6ee4b327fb94d6da63af9556c"
++LIC_FILES_CHKSUM = "file://LSB_Setup.sh;md5=7391be3e70a02d44e1b183fa103b0585"
+ 
+ SRC_URI = "file://LSB_Setup.sh"
+ 
+-- 
+1.7.2
+
 
 
