@@ -1,30 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q8FWn-0004ry-Gm for openembedded-core@lists.openembedded.org;
-	Fri, 08 Apr 2011 19:31:25 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p38HTGvU010235;
-	Fri, 8 Apr 2011 18:29:16 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09848-07; Fri,  8 Apr 2011 18:29:12 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p38HT6p1010201
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 8 Apr 2011 18:29:09 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-In-Reply-To: <1302277262.22904.136.camel@rex>
-References: <1302277262.22904.136.camel@rex>
-Date: Fri, 08 Apr 2011 10:29:05 -0700
-Message-ID: <1302283745.22904.146.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: poky <poky@lists.yoctoproject.org>
-Subject: Re: [poky] Illustration of task latency
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <gary@mlbassoc.com>) id 1Q8GVe-0003eu-1R
+	for openembedded-core@lists.openembedded.org;
+	Fri, 08 Apr 2011 20:34:18 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id 85CF616606B5; Fri,  8 Apr 2011 12:32:04 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2-r929478
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 4599016606B3;
+	Fri,  8 Apr 2011 12:32:02 -0600 (MDT)
+Message-ID: <4D9F54A2.7010109@mlbassoc.com>
+Date: Fri, 08 Apr 2011 12:32:02 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
+	Thunderbird/3.1.7
+MIME-Version: 1.0
+To: Saul Wold <saul.wold@intel.com>
+References: <cover.1301388474.git.dexuan.cui@intel.com>	<c9789f2d0873c6b8ff2ae3a7b338b72527cfbf02.1301388474.git.dexuan.cui@intel.com>	<1301395410.24596.22.camel@rex>	<1865303E0DED764181A9D882DEF65FB68A3F6A15D4@shsmsx502.ccr.corp.intel.com>
+	<4D9F5166.1020500@intel.com>
+In-Reply-To: <4D9F5166.1020500@intel.com>
+Cc: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>,
+	"poky@yoctoproject.org" <poky@yoctoproject.org>
+Subject: Re: [poky] [PATCH 1/1] qt4: remove the option -feliminate-dwarf2-dups to fix the build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,46 +42,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Apr 2011 17:31:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Apr 2011 18:34:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-04-08 at 08:41 -0700, Richard Purdie wrote:
-> We've done a lot of good work in optimising task execution and latency
-> however I was looking at some of our build data and I think we still
-> have work to do. The attached picture is a "bootchart" style picture
-> showing the task execution at the start of a build. Each vertical
-> division represents one second. As you can see, the fetch/patch tasks
-> themselves run very quickly. Those markers are from the task entry/exit.
-> 
-> The worrying part is the empty space between the tasks which looks to be
-> about 1.5 seconds in size *per task*. This is a scary amount of latency
-> to be losing for task execution when you consider we have 4500 of these
-> for our reference build.
-> 
-> More investigation is needed to figure out where this time is being
-> spent but I'm guessing a significant fraction is in parsing the recipe
-> of the task that is about to be executed. We need to confirm that but if
-> that is the case but one possible optimisation is we should ensure we're
-> not parsing every BBCLASSEXTEND variant of the recipe, just the one we
-> want to run. I'm sure there are other ways we might be able to improve
-> this too.
+On 04/08/2011 12:18 PM, Saul Wold wrote:
+> On 03/29/2011 04:43 AM, Cui, Dexuan wrote:
+>> Richard Purdie wrote:
+>>> On Tue, 2011-03-29 at 16:52 +0800, Dexuan Cui wrote:
+>>>> From: Dexuan Cui<dexuan.cui@intel.com>
+>>>>
+>>>> [YOCTO #932]
+>>>>
+>>>> After commit 5ea06dc295b657383fd97545c15255b294cf1a79(bitbake.conf:
+>>>> Prune global OPTIMIZATION flags) that adds an option
+>>>> -feliminate-dwarf2-dups, gcc 4.5 reports such an internal compiler
+>>>> error when building Qt4 if the option is used:
+>>>>
+>>>>> graphicsview/qgridlayoutengine.cpp:1553:1: internal compiler error:
+>>>>> in build_abbrev_table, at dwarf2out.c:9806 Please submit a full bug
+>>>>> report,
+>>>>> with preprocessed source if appropriate.
+>>>>> See<http://gcc.gnu.org/bugs.html> for instructions.
+>>>>
+>>>> This is a gcc bug: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=47361
+>>>>
+>>>> At present we can remove the option as a workaround.
+>>>>
+>>>> Thanks Robert Berger for reporting the bug and his investigation in
+>>>> gcc bugzilla and thanks Khem Raj for the quick suggestion about
+>>>> removing
+>>>> the option.
+>>>
+>>> How about we add the patch for this issue:
+>>>
+>>> http://gcc.gnu.org/ml/gcc-patches/2011-01/msg01647.html
+>> Ok, I'll apply the patch to g++ and test building qt4.
+>>
+> Any update on this patch?
 
-To follow up on this, I added instrumentation to runqueue.py
-fork_off_task(). There are two things of note. On my laptop which is a
-much slower system than the one I showed in the benchmark (a quad core),
-the task overhead isn't 1+ seconds as shown in the graph but 0.4 seconds
-per task. I think the reason is there is a compile job running in
-parallel on the other graph which is starving new tasks of CPU.
+Does this matter any more, since Richard removed that option globally?
 
-The second thing of note is 95% of the 0.4 seconds are in the
-loadDataFull() call as suspected. I did notice that the logging changes
-around that point in the code can distort timings but the time is really
-being spent there.
-
-Cheers,
-
-Richard
-
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
