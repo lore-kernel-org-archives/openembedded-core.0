@@ -1,20 +1,22 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Q8EcB-0006Ba-Cu
+	(envelope-from <sgw@linux.intel.com>) id 1Q8EcC-0006Bb-0G
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Apr 2011 18:32:55 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 08 Apr 2011 09:30:45 -0700
+	Fri, 08 Apr 2011 18:32:56 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 Apr 2011 09:30:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,324,1299484800"; d="scan'208";a="625616019"
+X-IronPort-AV: E=Sophos;i="4.63,324,1299484800"; d="scan'208";a="730879466"
 Received: from unknown (HELO localhost) ([10.255.13.36])
-	by orsmga002.jf.intel.com with ESMTP; 08 Apr 2011 09:30:45 -0700
-Message-Id: <cover.1302279301.git.sgw@linux.intel.com>
-Old-Date: Fri, 8 Apr 2011 09:15:01 -0700
-Date: Fri, 08 Apr 2011  9:30:44 -0700
+	by orsmga001.jf.intel.com with ESMTP; 08 Apr 2011 09:30:45 -0700
+Message-Id: <35df2c71cf3c0114a77750bc248341bf654ba757.1302279301.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1302279301.git.sgw@linux.intel.com>
+References: <cover.1302279301.git.sgw@linux.intel.com>
+Old-Date: Fri, 8 Apr 2011 09:07:54 -0700
+Date: Fri, 08 Apr 2011  9:30:45 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 0/2] fix MACHINE_ARCH issue in keymaps
+Subject: [PATCH 1/2] keymaps: Fix MACHINE -> MACHINE_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,29 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Apr 2011 16:32:55 -0000
+X-List-Received-Date: Fri, 08 Apr 2011 16:32:56 -0000
 
 From: Saul Wold <sgw@linux.intel.com>
 
-This fixes a build failure on the autobuilder
+Fixes [YOCTO #960]
 
-
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: oe-work
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=oe-work
-
-Thanks,
-    Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
-
-
-Saul Wold (2):
-  keymaps: Fix MACHINE -> MACHINE_ARCH
-  bitbake.conf: fix PACKAGE_ARCH[vardepsexclude]
-
- meta/conf/bitbake.conf                  |    6 +++---
  meta/recipes-bsp/keymaps/keymaps_1.0.bb |    4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-bsp/keymaps/keymaps_1.0.bb b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
+index 88823ae..7f2211a 100644
+--- a/meta/recipes-bsp/keymaps/keymaps_1.0.bb
++++ b/meta/recipes-bsp/keymaps/keymaps_1.0.bb
+@@ -4,8 +4,8 @@ SECTION = "base"
+ RDEPENDS_${PN} = "initscripts console-tools"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PACKAGE_ARCH = "${MACHINE}"
+-PR = "r17"
++PACKAGE_ARCH = "${MACHINE_ARCH}"
++PR = "r18"
+ 
+ inherit update-rc.d
+ 
+-- 
+1.7.1
 
 
 
