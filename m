@@ -1,27 +1,29 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Q8Doa-0001HM-Re
-	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Apr 2011 17:41:40 +0200
-Received: by wwb17 with SMTP id 17so3855741wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Apr 2011 08:39:31 -0700 (PDT)
-Received: by 10.216.25.202 with SMTP id z52mr77891wez.14.1302277171441;
-	Fri, 08 Apr 2011 08:39:31 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	e13sm1782083wbi.40.2011.04.08.08.39.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 08 Apr 2011 08:39:30 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4D9F2423.7060900@mlbassoc.com>
-Date: Fri, 8 Apr 2011 17:39:30 +0200
-Message-Id: <DD53E7EC-88AD-4F21-B670-6A846E74B03D@dominion.thruhere.net>
-References: <4D9F2423.7060900@mlbassoc.com>
-To: openembedded-core oe-core layer <openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [poky] [PATCH] Control over when package init scripts are run
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Q8Dse-0001KM-LT for openembedded-core@lists.openembedded.org;
+	Fri, 08 Apr 2011 17:45:53 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p38FhhGV008651;
+	Fri, 8 Apr 2011 16:43:43 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08536-02; Fri,  8 Apr 2011 16:43:39 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p38FhUvK008641
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 8 Apr 2011 16:43:36 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, poky
+	<poky@lists.yoctoproject.org>
+Date: Fri, 08 Apr 2011 08:41:02 -0700
+Message-ID: <1302277262.22904.136.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Subject: Illustration of task latency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,39 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Apr 2011 15:41:41 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Apr 2011 15:45:53 -0000
+Content-Type: multipart/mixed; boundary="=-ok2I1kpa37HbnsEGydmr"
 
-Something like this would be better:
+--=-ok2I1kpa37HbnsEGydmr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-=
-http://cgit.openembedded.org/cgit.cgi/openembedded/commit/?id=3De124d03f53=
-2aad2ee22c60fda6824a8a1f2ef88f
+We've done a lot of good work in optimising task execution and latency
+however I was looking at some of our build data and I think we still
+have work to do. The attached picture is a "bootchart" style picture
+showing the task execution at the start of a build. Each vertical
+division represents one second. As you can see, the fetch/patch tasks
+themselves run very quickly. Those markers are from the task entry/exit.
 
-Op 8 apr 2011, om 17:05 heeft Gary Thomas het volgende geschreven:
+The worrying part is the empty space between the tasks which looks to be
+about 1.5 seconds in size *per task*. This is a scary amount of latency
+to be losing for task execution when you consider we have 4500 of these
+for our reference build.
 
-> The script /etc/rcS.d/S98configure is run on the first boot only
-> to process any postponed package post-install scripts.  The default
-> position of this (98 =3D=3D last) can be wrong, so let the =
-distribution
-> set this (just a matter of ?=3D assignment).  This patch also removes
-> some slugos stuff and extends the flexibility to systems which use
-> RPM packaging as well.
->=20
-> Tested on my PowerPC router, running as S00configure - works a treat.
->=20
-> --=20
-> ------------------------------------------------------------
-> Gary Thomas                 |  Consulting for the
-> MLB Associates              |    Embedded world
-> ------------------------------------------------------------
-> =
-<0001-Allow-target-distribution-to-specify-when-to-run-pac.patch>_________=
-______________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
+More investigation is needed to figure out where this time is being
+spent but I'm guessing a significant fraction is in parsing the recipe
+of the task that is about to be executed. We need to confirm that but if
+that is the case but one possible optimisation is we should ensure we're
+not parsing every BBCLASSEXTEND variant of the recipe, just the one we
+want to run. I'm sure there are other ways we might be able to improve
+this too.
 
+Cheers,
 
+Richard
 
+--=-ok2I1kpa37HbnsEGydmr--
