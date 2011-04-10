@@ -1,31 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Q8b1k-0006Xl-Qf for openembedded-core@lists.openembedded.org;
-	Sat, 09 Apr 2011 18:28:49 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p39GQcv1025574;
-	Sat, 9 Apr 2011 17:26:38 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25326-04; Sat,  9 Apr 2011 17:26:34 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p39GQOOw025568
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 9 Apr 2011 17:26:30 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1302283745.22904.146.camel@rex>
-References: <1302277262.22904.136.camel@rex> <1302283745.22904.146.camel@rex>
-Date: Sat, 09 Apr 2011 09:26:20 -0700
-Message-ID: <1302366380.22904.153.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: poky <poky@lists.yoctoproject.org>
-Subject: Re: [poky] Illustration of task latency
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1Q8kHH-0003nl-HO
+	for openembedded-core@lists.openembedded.org;
+	Sun, 10 Apr 2011 04:21:27 +0200
+Received: by pwj9 with SMTP id 9so1734443pwj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 09 Apr 2011 19:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=puiBmYznkNTHVUDpNPAqImMFOyzvl/wbjrSeFZgUuTM=;
+	b=E2BHM9WdjvbLvZP7IvMxLm55UHD9azK6AH9Dhp4g6PbYwafBYxTjBVKxjHHlowoBC+
+	4mt2gAFCEcCnW9m2mkwFgOhBV7iXHgyS26hfbW/BLoD5vtRED8r6xGmUpMygX1RZX/tE
+	KqKNSb+UgSc9+5HnzXPWgRf5sejoc7FQXiiYc=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	b=e1S71maOqTiaM7bfkOiJ86EjnqLY3CZ56xTYE4+E5f3SY180f+BkbuRz8py073HuU5
+	SkxmAzxhFv7qsvt2+pfqi81gQbuf46p7vRtzQ84kGIJv73j3wYPnoMNUxTLDqYTrCOOS
+	iU7ev9InzbiAB8AmreFsRNpURi10xW4obhKog=
+Received: by 10.142.194.3 with SMTP id r3mr3399033wff.352.1302401955470;
+	Sat, 09 Apr 2011 19:19:15 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id x11sm6003744wfd.13.2011.04.09.19.19.13
+	(version=SSLv3 cipher=OTHER); Sat, 09 Apr 2011 19:19:14 -0700 (PDT)
+Message-ID: <4DA113A2.8070705@gmail.com>
+Date: Sat, 09 Apr 2011 19:19:14 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
+	rv:1.9.2.15) Gecko/20110303 Thunderbird/3.1.9
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1302034944.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1302034944.git.chris_larson@mentor.com>
+Subject: Re: [PATCH 0/3][v2] Rework the devshell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,40 +50,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Apr 2011 16:28:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 10 Apr 2011 02:21:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-04-08 at 10:29 -0700, Richard Purdie wrote:
-> To follow up on this, I added instrumentation to runqueue.py
-> fork_off_task(). There are two things of note. On my laptop which is a
-> much slower system than the one I showed in the benchmark (a quad core),
-> the task overhead isn't 1+ seconds as shown in the graph but 0.4 seconds
-> per task. I think the reason is there is a compile job running in
-> parallel on the other graph which is starving new tasks of CPU.
-> 
-> The second thing of note is 95% of the 0.4 seconds are in the
-> loadDataFull() call as suspected. I did notice that the logging changes
-> around that point in the code can distort timings but the time is really
-> being spent there.
-
-I've dug into this a bit. When running a given task, it is parsing all
-bbclassextend variants again. I have a simple patch which fixes that
-which I'll cleanup and share.
-
-What I also noticed which was more odd was that the first finalise()
-call was taking 0.2s, subsequent ones were taking 0.1s. It turns out
-that the parsercache which is used by the siggen code isn't functioning
-the way it should with a lot of cache misses. I think this is related to
-the parallel parsing and only saving out cached data from the core, not
-the individual recipes (i.e. the cache from the parser subthreads). I
-suspect we could get some performance improvement by fixing this.
-
-Cheers,
-
-Richard
+On 4/5/2011 1:30 PM, Chris Larson wrote:
+> From: Chris Larson<chris_larson@mentor.com>
+>
+> - Adds a utility metaclass for maintaining class registries
+> - Shifts the handling of spawning a terminal into a new 'terminal' python
+>   module
+> - Automatically selects an appropriate terminal based on what you have
+>   available on your machine
+> - Still allows manual selection, but in a more convenient way, and falls back
+>   to auto if you select an invalid or unavailable (not installed) terminal
+> - Improves how we spawn screen:
+>
+>   - Shows a warning when spawning it, so do_devshell doesn't appear to hang
+>   - Spawns a named screen session 'devshell', to avoid confusion when the user
+>     already has other screen sessions running
+>
 
 
+works nicely. I usually use screen and it helped
+
+> Pull URL: https://github.com/kergoth/oe-core
+>    Branch: devshell
+>    Browse: https://github.com/kergoth/oe-core/commits/devshell
+>
+> Thanks,
+>      Chris Larson<chris_larson@mentor.com>
+> ---
+>
+>
+> Chris Larson (3):
+>    oe.classutils: add module
+>    Rework how the devshell functions
+>    oe.terminal: improve how we spawn screen
+>
+>   meta/classes/devshell.bbclass |   26 ++++-------
+>   meta/classes/terminal.bbclass |   30 +++++++++++
+>   meta/lib/oe/classutils.py     |   45 +++++++++++++++++
+>   meta/lib/oe/terminal.py       |  107 +++++++++++++++++++++++++++++++++++++++++
+>   4 files changed, 191 insertions(+), 17 deletions(-)
+>   create mode 100644 meta/classes/terminal.bbclass
+>   create mode 100644 meta/lib/oe/classutils.py
+>   create mode 100644 meta/lib/oe/terminal.py
+>
 
 
 
