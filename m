@@ -1,41 +1,28 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from vms173007pub.verizon.net ([206.46.173.7])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Q8kHH-0003nl-HO
+	(envelope-from <denis@denix.org>) id 1Q8knO-0004FI-4s
 	for openembedded-core@lists.openembedded.org;
-	Sun, 10 Apr 2011 04:21:27 +0200
-Received: by pwj9 with SMTP id 9so1734443pwj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Apr 2011 19:19:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=puiBmYznkNTHVUDpNPAqImMFOyzvl/wbjrSeFZgUuTM=;
-	b=E2BHM9WdjvbLvZP7IvMxLm55UHD9azK6AH9Dhp4g6PbYwafBYxTjBVKxjHHlowoBC+
-	4mt2gAFCEcCnW9m2mkwFgOhBV7iXHgyS26hfbW/BLoD5vtRED8r6xGmUpMygX1RZX/tE
-	KqKNSb+UgSc9+5HnzXPWgRf5sejoc7FQXiiYc=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	b=e1S71maOqTiaM7bfkOiJ86EjnqLY3CZ56xTYE4+E5f3SY180f+BkbuRz8py073HuU5
-	SkxmAzxhFv7qsvt2+pfqi81gQbuf46p7vRtzQ84kGIJv73j3wYPnoMNUxTLDqYTrCOOS
-	iU7ev9InzbiAB8AmreFsRNpURi10xW4obhKog=
-Received: by 10.142.194.3 with SMTP id r3mr3399033wff.352.1302401955470;
-	Sat, 09 Apr 2011 19:19:15 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id x11sm6003744wfd.13.2011.04.09.19.19.13
-	(version=SSLv3 cipher=OTHER); Sat, 09 Apr 2011 19:19:14 -0700 (PDT)
-Message-ID: <4DA113A2.8070705@gmail.com>
-Date: Sat, 09 Apr 2011 19:19:14 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
-	rv:1.9.2.15) Gecko/20110303 Thunderbird/3.1.9
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1302034944.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1302034944.git.chris_larson@mentor.com>
-Subject: Re: [PATCH 0/3][v2] Rework the devshell
+	Sun, 10 Apr 2011 04:54:38 +0200
+Received: from gandalf.denix.org ([unknown] [108.18.140.4])
+	by vms173007.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0LJE006ERYJB22A0@vms173007.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Sat, 09 Apr 2011 20:52:24 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 9394914AF5B; Sat,
+	09 Apr 2011 21:52:23 -0400 (EDT)
+Date: Sat, 09 Apr 2011 21:52:23 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-id: <20110410015223.GA672@denix.org>
+References: <cover.1301923706.git.josh@linux.intel.com>
+	<52BC8856-1494-4AC6-B04F-0A9DC5A8AB2B@dominion.thruhere.net>
+	<1302088073.2355.3.camel@scimitar>
+MIME-version: 1.0
+In-reply-to: <1302088073.2355.3.camel@scimitar>
+User-Agent: Mutt/1.5.16 (2007-06-09)
+Subject: Re: [PATCH 0/1] Clutter-1.6 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,53 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Apr 2011 02:21:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 10 Apr 2011 02:54:38 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On 4/5/2011 1:30 PM, Chris Larson wrote:
-> From: Chris Larson<chris_larson@mentor.com>
->
-> - Adds a utility metaclass for maintaining class registries
-> - Shifts the handling of spawning a terminal into a new 'terminal' python
->   module
-> - Automatically selects an appropriate terminal based on what you have
->   available on your machine
-> - Still allows manual selection, but in a more convenient way, and falls back
->   to auto if you select an invalid or unavailable (not installed) terminal
-> - Improves how we spawn screen:
->
->   - Shows a warning when spawning it, so do_devshell doesn't appear to hang
->   - Spawns a named screen session 'devshell', to avoid confusion when the user
->     already has other screen sessions running
->
+On Wed, Apr 06, 2011 at 12:07:52PM +0100, Joshua Lock wrote:
+> On Mon, 2011-04-04 at 15:39 +0200, Koen Kooi wrote:
+> > Op 4 apr 2011, om 15:31 heeft Joshua Lock het volgende geschreven:
+> > 
+> > > From: Joshua Lock <josh@linux.intel.com>
+> > > 
+> > > I found a couple of issues with the Clutter 1.6 recipes I submitted recently
+> > > which I've addressed in the attached patch.
+> > > 
+> > > As an aside I've noticed that we have a COMPATIBLE_MACHINE line in
+> > > clutter.inc, I think we're going to need to find a more suitable mechanism
+> > > for specifying compatible machines for this recipe set going forwards.
+> > > 
+> > > Any ideas? Perhaps some MACHINE_FEATURE which must exist for Clutter (and
+> > > other GL dependent recipes) to build?
+> > 
+> > What we did in OE .dev was:
+> > 
+> > 1) introduce SOC_FAMILY to group, well, SOC families (e.g. OMAP3)
+> > 2) Extend base.bbclass to allow COMPATIBLE_MACHINE = $SOC_FAMILY.
+> > 3) Add COMPATIBLE_MACHINE = omap3 to the GLES recipes
+> > 4) DEPENDS_omap3 = libgles-omap3 in clutter.inc
+> > 
+> > So for machines in the omap3 class it will build libgles-omap3 and not
+> > for others. So the compatibility is defined at the GL level instead of
+> > the clutter level.
+> 
+> Thanks for sharing Koen. This sounds like a reasonable approach. I'd be
+> curious to hear if there are any objections before I try and work up a
+> patch series.
 
+FWIW, it would be very nice to bring SOC_FAMILY feature from OE to oe-core, as 
+it's being heavily used in many TI recipes, not just omap3...
 
-works nicely. I usually use screen and it helped
-
-> Pull URL: https://github.com/kergoth/oe-core
->    Branch: devshell
->    Browse: https://github.com/kergoth/oe-core/commits/devshell
->
-> Thanks,
->      Chris Larson<chris_larson@mentor.com>
-> ---
->
->
-> Chris Larson (3):
->    oe.classutils: add module
->    Rework how the devshell functions
->    oe.terminal: improve how we spawn screen
->
->   meta/classes/devshell.bbclass |   26 ++++-------
->   meta/classes/terminal.bbclass |   30 +++++++++++
->   meta/lib/oe/classutils.py     |   45 +++++++++++++++++
->   meta/lib/oe/terminal.py       |  107 +++++++++++++++++++++++++++++++++++++++++
->   4 files changed, 191 insertions(+), 17 deletions(-)
->   create mode 100644 meta/classes/terminal.bbclass
->   create mode 100644 meta/lib/oe/classutils.py
->   create mode 100644 meta/lib/oe/terminal.py
->
-
+-- 
+Denys
 
 
