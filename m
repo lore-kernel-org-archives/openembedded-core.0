@@ -1,22 +1,29 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from vms173009pub.verizon.net ([206.46.173.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1Q95sE-0005qi-U5
+	(envelope-from <denis@denix.org>) id 1Q99W2-0006vy-GN
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Apr 2011 03:25:03 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 10 Apr 2011 18:21:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.63,336,1299484800"; d="scan'208";a="677398702"
-Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.102])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Apr 2011 18:21:45 -0700
-Message-Id: <4d6dd4ddbbcea1c13330c6e09537a1ac2332c9e0.1302485033.git.ke.yu@intel.com>
-In-Reply-To: <cover.1302485033.git.ke.yu@intel.com>
-References: <cover.1302485033.git.ke.yu@intel.com>
-Old-Date: Sat, 9 Apr 2011 22:27:12 +0800
-Date: Mon, 11 Apr 2011  9:28:56 +0800
-To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
-From: Yu Ke <ke.yu@intel.com>
-Subject: [PATCH 9/9] xkbcomp: upgrade from 1.2.0 to 1.2.1
+	Mon, 11 Apr 2011 07:18:23 +0200
+Received: from gandalf.denix.org ([unknown] [108.18.140.4])
+	by vms173009.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0LJH005EF2MHMAT2@vms173009.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 11 Apr 2011 00:15:59 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 9A8CD14AF5B; Mon,
+	11 Apr 2011 01:15:53 -0400 (EDT)
+Date: Mon, 11 Apr 2011 01:15:53 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-id: <20110411051553.GA7131@denix.org>
+References: <cover.1301923706.git.josh@linux.intel.com>
+	<52BC8856-1494-4AC6-B04F-0A9DC5A8AB2B@dominion.thruhere.net>
+	<1302088073.2355.3.camel@scimitar> <20110410015223.GA672@denix.org>
+	<4171961B-5671-4411-80AB-11A99D364310@dominion.thruhere.net>
+MIME-version: 1.0
+In-reply-to: <4171961B-5671-4411-80AB-11A99D364310@dominion.thruhere.net>
+User-Agent: Mutt/1.5.16 (2007-06-09)
+Subject: Re: [PATCH 0/1] Clutter-1.6 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,83 +38,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Apr 2011 01:25:03 -0000
+X-List-Received-Date: Mon, 11 Apr 2011 05:18:24 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-From: Yu Ke <ke.yu@intel.com>
+On Sun, Apr 10, 2011 at 08:12:45AM -0700, Koen Kooi wrote:
+> 
+> 
+> Op 9 apr. 2011 om 18:52 heeft Denys Dmytriyenko <denis@denix.org> het volgende geschreven:
+> 
+> > On Wed, Apr 06, 2011 at 12:07:52PM +0100, Joshua Lock wrote:
+> >> On Mon, 2011-04-04 at 15:39 +0200, Koen Kooi wrote:
+> >>> Op 4 apr 2011, om 15:31 heeft Joshua Lock het volgende geschreven:
+> >>> 
+> >>>> From: Joshua Lock <josh@linux.intel.com>
+> >>>> 
+> >>>> I found a couple of issues with the Clutter 1.6 recipes I submitted recently
+> >>>> which I've addressed in the attached patch.
+> >>>> 
+> >>>> As an aside I've noticed that we have a COMPATIBLE_MACHINE line in
+> >>>> clutter.inc, I think we're going to need to find a more suitable mechanism
+> >>>> for specifying compatible machines for this recipe set going forwards.
+> >>>> 
+> >>>> Any ideas? Perhaps some MACHINE_FEATURE which must exist for Clutter (and
+> >>>> other GL dependent recipes) to build?
+> >>> 
+> >>> What we did in OE .dev was:
+> >>> 
+> >>> 1) introduce SOC_FAMILY to group, well, SOC families (e.g. OMAP3)
+> >>> 2) Extend base.bbclass to allow COMPATIBLE_MACHINE = $SOC_FAMILY.
+> >>> 3) Add COMPATIBLE_MACHINE = omap3 to the GLES recipes
+> >>> 4) DEPENDS_omap3 = libgles-omap3 in clutter.inc
+> >>> 
+> >>> So for machines in the omap3 class it will build libgles-omap3 and not
+> >>> for others. So the compatibility is defined at the GL level instead of
+> >>> the clutter level.
+> >> 
+> >> Thanks for sharing Koen. This sounds like a reasonable approach. I'd be
+> >> curious to hear if there are any objections before I try and work up a
+> >> patch series.
+> > 
+> > FWIW, it would be very nice to bring SOC_FAMILY feature from OE to oe-core, as 
+> > it's being heavily used in many TI recipes, not just omap3...
+> 
+> It is already in :)
 
-- Also remove the cross compiling patch, since it is already included
- in 1.2.1 release
+Ah, I see now. Your original post made it sound like it was still OE-only 
+feature not available in oe-core... :)
 
-Signed-off-by: Yu Ke <ke.yu@intel.com>
----
- .../xorg-app/xkbcomp/cross-compile-fix.patch       |   35 --------------------
- .../{xkbcomp_1.2.0.bb => xkbcomp_1.2.1.bb}         |    5 +--
- 2 files changed, 2 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-app/xkbcomp/cross-compile-fix.patch
- rename meta/recipes-graphics/xorg-app/{xkbcomp_1.2.0.bb => xkbcomp_1.2.1.bb} (72%)
+> fwiw, atmel is using it as well for at91
 
-diff --git a/meta/recipes-graphics/xorg-app/xkbcomp/cross-compile-fix.patch b/meta/recipes-graphics/xorg-app/xkbcomp/cross-compile-fix.patch
-deleted file mode 100644
-index ca65345..0000000
---- a/meta/recipes-graphics/xorg-app/xkbcomp/cross-compile-fix.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--commit cc55d8f5ab021861308b071aab9c03016be15187
--Author: Gaetan Nadon <memsize@videotron.ca>
--Date:   Sun Oct 31 20:35:24 2010 -0400
--
--    config: replace AC_CHECK_FILE with test -f as it fails to cross-compile
--    
--    Testing for the presence of xkbparse.c is legitimate as this is a build
--    file, but the Autoconf macro assumes it is testing on the host system
--    and fails.
--    
--    Tested-by: Abdoulaye Walsimou Gaye <awg@embtoolkit.org>
--    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
--
--diff --git a/configure.ac b/configure.ac
--index c69230b..8e6bd6e 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -34,11 +34,14 @@ XORG_DEFAULT_OPTIONS
-- 
-- AM_CONFIG_HEADER(config.h)
-- 
--+# If both the C file and YACC are missing, the package cannot be build.
-- AC_PROG_YACC
-- AC_PATH_PROG([YACC_INST], $YACC)
---AC_CHECK_FILE([$srcdir/xkbparse.c], [],
---              [test -z "$YACC_INST" && AC_MSG_ERROR([yacc not found - unable to compile xkbparse.y])])
---
--+if test ! -f "$srcdir/xkbparse.c"; then
--+   if test -z "$YACC_INST"; then
--+      AC_MSG_ERROR([yacc not found - unable to compile xkbparse.y])
--+   fi
--+fi
-- 
-- AC_CHECK_FUNCS([strdup strcasecmp])
-- 
-diff --git a/meta/recipes-graphics/xorg-app/xkbcomp_1.2.0.bb b/meta/recipes-graphics/xorg-app/xkbcomp_1.2.1.bb
-similarity index 72%
-rename from meta/recipes-graphics/xorg-app/xkbcomp_1.2.0.bb
-rename to meta/recipes-graphics/xorg-app/xkbcomp_1.2.1.bb
-index f574690..0cf334a 100644
---- a/meta/recipes-graphics/xorg-app/xkbcomp_1.2.0.bb
-+++ b/meta/recipes-graphics/xorg-app/xkbcomp_1.2.1.bb
-@@ -11,9 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=08436e4f4476964e2e2dd7e7e41e076a"
- 
- DEPENDS += "libxkbfile"
- 
--SRC_URI += "file://cross-compile-fix.patch"
-+SRC_URI[md5sum] = "885b4d8a7c8c7afb3312d31934cb3549"
-+SRC_URI[sha256sum] = "b7612527914402d091424a93bc16f0d4d8778b4a874171f3f3dc681c690e65eb"
- 
- BBCLASSEXTEND = "native"
- 
--SRC_URI[md5sum] = "0f55995cd8da9b2d88553e1a2e17cd0a"
--SRC_URI[sha256sum] = "2c64aa414755e764ca548ae5c93e95f7b5bbd5e01bca16bf226fd32bfae77ea4"
 -- 
-1.7.0.4
-
+Denys
 
 
