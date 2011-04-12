@@ -1,23 +1,23 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1Q9ShN-0000Fr-Il
+	(envelope-from <dexuan.cui@intel.com>) id 1Q9U9b-0003Kf-7n
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Apr 2011 03:47:21 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 11 Apr 2011 18:45:07 -0700
+	Tue, 12 Apr 2011 05:20:35 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Apr 2011 20:18:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,193,1301900400"; d="scan'208";a="627091731"
-Received: from yocto-build8.sh.intel.com (HELO localhost) ([10.239.48.1])
-	by orsmga002.jf.intel.com with ESMTP; 11 Apr 2011 18:45:07 -0700
-Message-Id: <45df8d07a8e35223e8a53033b4e0d208d8829c04.1302572384.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1302572384.git.edwin.zhai@intel.com>
-References: <cover.1302572384.git.edwin.zhai@intel.com>
-Old-Date: Wed, 6 Apr 2011 16:12:17 +0800
-Date: Tue, 12 Apr 2011  9:42:46 +0800
+X-IronPort-AV: E=Sophos;i="4.64,193,1301900400"; d="scan'208";a="677867065"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Apr 2011 20:18:20 -0700
+Message-Id: <b2cf6a6558e9931f2be1e6ff142ef71fddcf7074.1302576423.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1302576423.git.dexuan.cui@intel.com>
+References: <cover.1302576423.git.dexuan.cui@intel.com>
+Old-Date: Tue, 12 Apr 2011 00:57:27 +0800
+Date: Tue, 12 Apr 2011 11:16:18 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
-From: Zhai Edwin <edwin.zhai@intel.com>
-Subject: [PATCH 1/1] qemu: Fix the qemu GL application start failure.
+From: Dexuan Cui <dexuan.cui@intel.com>
+Subject: [PATCH 01/12] oprofileui: upgrade to latest git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,112 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2011 01:47:22 -0000
+X-List-Received-Date: Tue, 12 Apr 2011 03:20:35 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-Some turn-on macro/variable are re-arranged, buffer pointer is extended to
-support 32/64b combination of target/host.
-
-[YOCTO #688] fixed.
-
-Signed-off-by:  Zhai Edwin <edwin.zhai@intel.com>
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../qemu/qemu-0.14.0/qemugl-fix.patch              |   70 ++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_0.14.0.bb          |    1 +
- 2 files changed, 71 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu-0.14.0/qemugl-fix.patch
+ .../conf/distro/include/poky-default-revisions.inc |    2 +-
+ meta/recipes-kernel/oprofile/oprofileui_git.bb     |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu-0.14.0/qemugl-fix.patch b/meta/recipes-devtools/qemu/qemu-0.14.0/qemugl-fix.patch
-new file mode 100644
-index 0000000..c395b60
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-0.14.0/qemugl-fix.patch
-@@ -0,0 +1,70 @@
-+This patch fix GL application start failure on qemu 0.14.0.
-+
-+Some turn-on macro/variable are re-arranged, buffer pointer is extended to
-+support 32/64b combination of target/host.
-+
-+This is not perfect fix, and we need consider other GL alternatives in future.
-+
-+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-+Index: qemu-0.14.0/target-i386/opengl_func.h
-+===================================================================
-+--- qemu-0.14.0.orig/target-i386/opengl_func.h	2011-04-08 16:43:46.000000000 +0800
-++++ qemu-0.14.0/target-i386/opengl_func.h	2011-04-08 16:45:55.000000000 +0800
-+@@ -26,8 +26,9 @@
-+ #include "mesa_glext.h"
-+ 
-+ /* Argument list are internally of a type that can hold a target pointer
-+- * or a host pointer.  */
-+-typedef target_phys_addr_t arg_t;
-++ * or a host pointer. If 32b target runs on 64b host, it should be big enough
-++ * to hold host pointer */
-++typedef long unsigned int arg_t;
-+ 
-+ enum {
-+     TYPE_NONE,
-+Index: qemu-0.14.0/target-i386/translate.c
-+===================================================================
-+--- qemu-0.14.0.orig/target-i386/translate.c	2011-04-08 16:19:15.000000000 +0800
-++++ qemu-0.14.0/target-i386/translate.c	2011-04-08 16:22:03.000000000 +0800
-+@@ -2652,17 +2652,19 @@
-+     s->is_jmp = DISAS_TB_JUMP;
-+ }
-+ 
-+-int enable_gl = 0;
-++extern int enable_gl;
-+ 
-+ /* an interrupt is different from an exception because of the
-+    privilege checks */
-+ static void gen_interrupt(DisasContext *s, int intno,
-+                           target_ulong cur_eip, target_ulong next_eip)
-+ {
-++#if !defined(CONFIG_USER_ONLY)
-+     if (enable_gl && intno == 0x99) {
-+         gen_helper_opengl();
-+         return;
-+     }
-++#endif
-+ 
-+     if (s->cc_op != CC_OP_DYNAMIC)
-+         gen_op_set_cc_op(s->cc_op);
-+Index: qemu-0.14.0/vl.c
-+===================================================================
-+--- qemu-0.14.0.orig/vl.c	2011-04-08 16:11:43.000000000 +0800
-++++ qemu-0.14.0/vl.c	2011-04-08 16:20:05.000000000 +0800
-+@@ -229,7 +229,7 @@
-+ unsigned int nb_prom_envs = 0;
-+ const char *prom_envs[MAX_PROM_ENVS];
-+ int boot_menu;
-+-extern int enable_gl;
-++int enable_gl = 0;
-+ 
-+ typedef struct FWBootEntry FWBootEntry;
-+ 
-+@@ -1909,6 +1909,7 @@
-+     return popt;
-+ }
-+ 
-++#define TARGET_OPENGL_OK
-+ int main(int argc, char **argv, char **envp)
-+ {
-+     const char *gdbstub_dev = NULL;
-diff --git a/meta/recipes-devtools/qemu/qemu_0.14.0.bb b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-index d8535b2..e440759 100644
---- a/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-@@ -24,6 +24,7 @@ SRC_URI = "\
-     file://spice-qxl-locking-fix-for-qemu-kvm.patch \
-     file://Detect-and-use-GCC-atomic-builtins-for-locking.patch \
-     file://larger_default_ram_size.patch \
-+    file://qemugl-fix.patch \
-     "
- SRC_URI[md5sum] = "f9d145d5c09de9f0984ffe9bd1229970"
- SRC_URI[sha256sum] = "ba21e84d7853217830e167dae9999cdbff481189c6a0bb600ac7fb7201453108"
+diff --git a/meta/conf/distro/include/poky-default-revisions.inc b/meta/conf/distro/include/poky-default-revisions.inc
+index 9a3ae7e..5e7ab66 100644
+--- a/meta/conf/distro/include/poky-default-revisions.inc
++++ b/meta/conf/distro/include/poky-default-revisions.inc
+@@ -146,7 +146,7 @@ SRCREV_pn-opkg-nogpg-native ??= "${OPKGSRCREV}"
+ SRCREV_pn-opkg-nogpg-nativesdk ??= "${OPKGSRCREV}"
+ SRCREV_pn-opkg-utils-native ??= "4747"
+ SRCREV_pn-opkg-utils ??= "4747"
+-SRCREV_pn-oprofileui ??= "2387488fb520725ca9cff888bc1ed25788276b13"
++SRCREV_pn-oprofileui ??= "0c3c32fa754c1d0b70e65767ea7048914f776396"
+ SRCREV_pn-tcf-agent ??= "1078"
+ SRCREV_pn-osc-native ??= "9096"
+ SRCREV_pn-owl-video ??= "394"
+diff --git a/meta/recipes-kernel/oprofile/oprofileui_git.bb b/meta/recipes-kernel/oprofile/oprofileui_git.bb
+index c83d43c..44adcb7 100644
+--- a/meta/recipes-kernel/oprofile/oprofileui_git.bb
++++ b/meta/recipes-kernel/oprofile/oprofileui_git.bb
+@@ -1,7 +1,7 @@
+ require oprofileui.inc
+ 
+ PV = "0.0+git${SRCPV}"
+-PR = "r3"
++PR = "r4"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
-1.7.1
+1.7.2
 
 
 
