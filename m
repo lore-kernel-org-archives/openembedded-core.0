@@ -1,23 +1,23 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1Q9U9d-0003Kg-13
+	(envelope-from <dexuan.cui@intel.com>) id 1Q9U9d-0003Ki-R8
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Apr 2011 05:20:37 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 11 Apr 2011 20:18:22 -0700
+	Tue, 12 Apr 2011 05:20:38 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Apr 2011 20:18:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,193,1301900400"; d="scan'208";a="417545542"
+X-IronPort-AV: E=Sophos;i="4.64,193,1301900400"; d="scan'208";a="732076275"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by azsmga001.ch.intel.com with ESMTP; 11 Apr 2011 20:18:22 -0700
-Message-Id: <8e625a63cef86324f710ce1ca3af36a512c2d2bb.1302576423.git.dexuan.cui@intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 11 Apr 2011 20:18:23 -0700
+Message-Id: <9c161a84575ca8568c1b5ccf3d9d4cc851408528.1302576423.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1302576423.git.dexuan.cui@intel.com>
 References: <cover.1302576423.git.dexuan.cui@intel.com>
-Old-Date: Tue, 12 Apr 2011 00:58:46 +0800
-Date: Tue, 12 Apr 2011 11:16:19 +0800
+Old-Date: Tue, 12 Apr 2011 00:59:58 +0800
+Date: Tue, 12 Apr 2011 11:16:20 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Dexuan Cui <dexuan.cui@intel.com>
-Subject: [PATCH 02/12] libxt: update from 1.0.9 to the latest version 1.1.1
+Subject: [PATCH 03/12] libxi: upgrade from 1.4.0 to the latest version 1.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,40 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Apr 2011 03:20:37 -0000
+X-List-Received-Date: Tue, 12 Apr 2011 03:20:38 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
+Add --enable-specs=no to disable spec generation to work around the issue:
+SEVERE: Error with opening URL 'http://docbook.sourceforge.net/release/images/draft.png': No route to host
+Apr 11, 2011 4:06:18 PM org.apache.fop.fo.properties.CommonBorderPaddingBackground <init>
+SEVERE: Background image not available: http://docbook.sourceforge.net/release/images/draft.png
+
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../xorg-lib/{libxt_1.0.9.bb => libxt_1.1.1.bb}    |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxt_1.0.9.bb => libxt_1.1.1.bb} (85%)
+ .../xorg-lib/{libxi_1.4.0.bb => libxi_1.4.2.bb}    |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.4.0.bb => libxi_1.4.2.bb} (76%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxt_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libxt_1.1.1.bb
-similarity index 85%
-rename from meta/recipes-graphics/xorg-lib/libxt_1.0.9.bb
-rename to meta/recipes-graphics/xorg-lib/libxt_1.1.1.bb
-index 63119ae..f06739f 100644
---- a/meta/recipes-graphics/xorg-lib/libxt_1.0.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxt_1.1.1.bb
-@@ -13,7 +13,7 @@ independent of any particular user interface policy or style."
- require xorg-lib-common.inc
+diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.4.0.bb b/meta/recipes-graphics/xorg-lib/libxi_1.4.2.bb
+similarity index 76%
+rename from meta/recipes-graphics/xorg-lib/libxi_1.4.0.bb
+rename to meta/recipes-graphics/xorg-lib/libxi_1.4.2.bb
+index c7fb9d5..50ff426 100644
+--- a/meta/recipes-graphics/xorg-lib/libxi_1.4.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxi_1.4.2.bb
+@@ -16,6 +16,7 @@ PE = "1"
  
- LICENSE = "MIT & MIT-style"
--LIC_FILES_CHKSUM = "file://COPYING;md5=917881a51be1013bee30d7f3f5ba9f55"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=3239170e81427c5948287df07691f03f"
+ XORG_PN = "libXi"
  
++EXTRA_OECONF_append = " --enable-specs=no"
  
- DEPENDS += "libsm virtual/libx11 kbproto libxdmcp"
-@@ -39,5 +39,5 @@ do_compile() {
- 	oe_runmake
- }
- 
--SRC_URI[md5sum] = "8a414f8f2327aaa616ca2dcac1f5d8c3"
--SRC_URI[sha256sum] = "eab91b594b801f7f07a20f936dda70a629028858cbcf541becf94f2786ae6b01"
-+SRC_URI[md5sum] = "eb22c0a1f172b06b97a3f5ae89768412"
-+SRC_URI[sha256sum] = "a2a1c29c684e3c9082cdb920b5aea802b179d19107b9ab2170fda07575559da7"
+-SRC_URI[md5sum] = "4ccdfe866f94c99b9190d16ffcfb3bdc"
+-SRC_URI[sha256sum] = "42efe95a08c7bd28bc913bf8c34ed026abcc62504307626fc5150ca360b93283"
++SRC_URI[md5sum] = "3d14f7bfc4a4335cf0144de9b67a5444"
++SRC_URI[sha256sum] = "272b8041efc0a0203fb0ba33481ddec989539aed862181b58c8c3e410e325691"
 -- 
 1.7.2
 
