@@ -1,25 +1,37 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <qing.he@intel.com>) id 1Q9wVX-0006DH-4b
+	(envelope-from <raj.khem@gmail.com>) id 1QA2A2-0004HR-1f
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Apr 2011 11:37:13 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Apr 2011 02:34:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,203,1301900400"; d="scan'208";a="908946497"
-Received: from qhe2-db.sh.intel.com ([10.239.13.48])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Apr 2011 02:34:06 -0700
-Received: from qhe2 by qhe2-db.sh.intel.com with local (Exim 4.71)
-	(envelope-from <qing.he@intel.com>)
-	id 1Q9wLM-0004mj-TB; Wed, 13 Apr 2011 17:26:36 +0800
-Message-Id: <e97fe275402062a86c56f70560b9660786d07db7.1302686656.git.qing.he@intel.com>
-In-Reply-To: <cover.1302686656.git.qing.he@intel.com>
+	Wed, 13 Apr 2011 17:39:18 +0200
+Received: by fxm19 with SMTP id 19so628693fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Apr 2011 08:37:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=UdniMfsQYTdr5zych9oVDRH3R9SoCLQdOl1ELCjaxhM=;
+	b=Awa0xY7Fgd6NK02HJaWiBj9LhI0WBIWvjIOeYtU4RLATw45TWTBCOa3B9rKjqz3e6/
+	ZvPf399P1V7sdq9nQUJRFN3fF/fRKnyPEwdTaublUty3wT6nJMAF8rTgi43VPlTvrU/2
+	vbVpWEcCSdL/lwwHXznJBm8xnIiYIk/yJY+4Q=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	b=poZX6Bs/3kHgrNSQ15BTl7YIAhZ+/oGkjplJcW3rzT0PLI+hhzbHdIdPBg5epcykuZ
+	lBCD523OCuGaF5n+Kp3oUuSfdtDrukbzYM6+GvKP5SfaYVWsfyqz0j1pfeAHFGHoEmp7
+	Bf6scpdRwSfLaNDeYs+w4rRIRJBvYj017eVX0=
+Received: by 10.223.106.78 with SMTP id w14mr1274736fao.35.1302709020139; Wed,
+	13 Apr 2011 08:37:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.115.82 with HTTP; Wed, 13 Apr 2011 08:36:30 -0700 (PDT)
+In-Reply-To: <b94c6ce5656dd4bd312feda0eaf2423cae505ccd.1302686656.git.qing.he@intel.com>
 References: <cover.1302686656.git.qing.he@intel.com>
-Old-Date: Wed, 13 Apr 2011 16:59:22 +0800
-Date: Wed, 13 Apr 2011 17:26:36 +0800
-To: openembedded-core@lists.openembedded.org
-From: Qing He <qing.he@intel.com>
-Subject: [PATCH 1/2] sat-solver: fix arch=all packages
+	<b94c6ce5656dd4bd312feda0eaf2423cae505ccd.1302686656.git.qing.he@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 13 Apr 2011 08:36:30 -0700
+Message-ID: <BANLkTikg2Bb8bCrnjJU3JyP0mHTYHFoRgg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] quilt: fix test for target build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,75 +46,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Apr 2011 09:37:13 -0000
+X-List-Received-Date: Wed, 13 Apr 2011 15:39:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Qing He <qing.he@intel.com>
+On Wed, Apr 13, 2011 at 2:26 AM, Qing He <qing.he@intel.com> wrote:
+> From: Qing He <qing.he@intel.com>
+>
+> fixes [YOCTO #969]
+>
+> Signed-off-by: Qing He <qing.he@intel.com>
+> ---
+> =C2=A0.../quilt/quilt/gnu_patch_test_fix_target.patch =C2=A0 =C2=A0| =C2=
+=A0 66 ++++++++++++++++++++
+> =C2=A0meta/recipes-devtools/quilt/quilt_0.48.bb =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| =C2=A0 =C2=A06 +-
+> =C2=A02 files changed, 70 insertions(+), 2 deletions(-)
+> =C2=A0create mode 100644 meta/recipes-devtools/quilt/quilt/gnu_patch_test=
+_fix_target.patch
+>
+> diff --git a/meta/recipes-devtools/quilt/quilt/gnu_patch_test_fix_target.=
+patch b/meta/recipes-devtools/quilt/quilt/gnu_patch_test_fix_target.patch
+> new file mode 100644
+> index 0000000..784fe76
+> --- /dev/null
+> +++ b/meta/recipes-devtools/quilt/quilt/gnu_patch_test_fix_target.patch
+> @@ -0,0 +1,66 @@
+> +The test of patch and diff should not be run for cross build,
+> +rather, assume them as gnu version is rather safe. This is a
+> +workaround to remove it altogether.
+> +
 
-add a new options to set noarch archs as all so platform independent
-packages can be recognized and installed.
+why is this patch needed. I assume all linux distributions use GNU
+diff and patch
+and that what is being checked so why remove the checks ? these messages
+are atleast useful for folks who are trying other build hosts e.g. darwin
 
-Signed-off-by: Qing He <qing.he@intel.com>
----
- .../sat-solver/sat-solver/sat-solver_poky.patch    |   19 +++++++++++++++++++
- meta/recipes-extended/sat-solver/sat-solver_git.bb |    4 ++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-extended/sat-solver/sat-solver/sat-solver_poky.patch b/meta/recipes-extended/sat-solver/sat-solver/sat-solver_poky.patch
-index b762bac..e055545 100644
---- a/meta/recipes-extended/sat-solver/sat-solver/sat-solver_poky.patch
-+++ b/meta/recipes-extended/sat-solver/sat-solver/sat-solver_poky.patch
-@@ -5,8 +5,27 @@ Add a missing "any" architecture type and update the semantics to use it.
- Disable the built-in archpolicies structure, and replace it with one
- we generate in the recipe.
- 
-+Also add poky semantics option in CMake.
-+
- Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+Signed-off-by: Qing He <qing.he@intel.com>
- 
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 443281e..4456a87 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -45,6 +45,11 @@ MESSAGE(STATUS "Building for Debian")
-+ ADD_DEFINITIONS( -DDEBIAN -DDEBIAN_SEMANTICS)
-+ ENDIF ( DEBIAN )
-+ 
-++IF ( POKY )
-++MESSAGE(STATUS "Building for Poky")
-++ADD_DEFINITIONS( -DPOKY -DPOKY_SEMANTICS)
-++ENDIF ( POKY )
-++
-+ IF ( MULTI_SEMANTICS )
-+ MESSAGE(STATUS "Enabling multi dist support")
-+ ADD_DEFINITIONS( -DMULTI_SEMANTICS)
- diff --git a/src/knownid.h b/src/knownid.h
- index 7757ae0..4b8bee7 100644
- --- a/src/knownid.h
-diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb b/meta/recipes-extended/sat-solver/sat-solver_git.bb
-index a693776..0d5a5e6 100644
---- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
-+++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
- DEPENDS = "libcheck rpm zlib expat db"
- 
- PV = "0.0-git${SRCPV}"
--PR = "r8"
-+PR = "r9"
- 
- SRC_URI = "git://gitorious.org/opensuse/sat-solver.git;protocol=git \
-            file://sat-solver_rpm5.patch \
-@@ -19,7 +19,7 @@ SRC_URI = "git://gitorious.org/opensuse/sat-solver.git;protocol=git \
- 
- S = "${WORKDIR}/git"
- 
--EXTRA_OECMAKE += "-DLIB=lib -DRPM5=RPM5"
-+EXTRA_OECMAKE += "-DLIB=lib -DRPM5=RPM5 -DPOKY=POKY"
- 
- inherit cmake pkgconfig
- 
--- 
-1.7.0
-
+> +Signed-off-by: Qing He <qing.he@intel.com>
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index 026a36c..7b45ca4 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -245,55 +245,6 @@ fi
+> + QUILT_COMPAT_PROG_PATH(DIFF, diff)
+> + QUILT_COMPAT_PROG_PATH(PATCH, patch)
+> +
+> +-# Sun diff and others will not work because GNU patch options are used.
+> +-AC_MSG_CHECKING([the version of $DIFF])
+> +-if $DIFF --version 2>/dev/null | grep GNU >/dev/null; then
+> +- =C2=A0set -- `$DIFF --version 2>/dev/null | $AWK '{ print $NF; exit }'=
+`
+> +- =C2=A0diff_version=3D$1
+> +- =C2=A0AC_MSG_RESULT($diff_version)
+> +- =C2=A0saved_IFS=3D$IFS; IFS=3D'.'
+> +- =C2=A0set -- $diff_version
+> +- =C2=A0IFS=3D$saved_IFS
+> +- =C2=A0set -- `echo $1 | $TR -cd 0-9` `echo $2 | $TR -cd 0-9`
+> +- =C2=A0if test 0$1 -lt 2 || test 0$1 -eq 2 -a 0$2 -lt 7 ; then
+> +- =C2=A0 =C2=A0diff_version=3D
+> +- =C2=A0fi
+> +-else
+> +- =C2=A0AC_MSG_RESULT(no GNU diff)
+> +-fi
+> +-if test -z "$diff_version" ; then
+> +- =C2=A0AC_MSG_ERROR([
+> +-$PACKAGE_NAME requires at least version 2.7 of GNU diffutils. You can
+> +-download a current version of patch from ftp.gnu.org, or if you already
+> +-have GNU diff then you can supply its path with the '--with-diff=3D' op=
+tion.
+> +-])
+> +-fi
+> +-
+> +-
+> +-# Sun's patch, and others, do not work because GNU patch options are us=
+ed.
+> +-AC_MSG_CHECKING([the version of $PATCH])
+> +-if $PATCH --version 2> /dev/null | grep GNU >/dev/null; then
+> +- =C2=A0set -- `$PATCH --version 2> /dev/null`
+> +- =C2=A0patch_version=3D$2
+> +- =C2=A0AC_MSG_RESULT($patch_version)
+> +- =C2=A0saved_IFS=3D$IFS; IFS=3D'.'
+> +- =C2=A0set -- $patch_version
+> +- =C2=A0IFS=3D$saved_IFS
+> +- =C2=A0set -- `echo $1 | $TR -cd 0-9` `echo $2 | $TR -cd 0-9`
+> +- =C2=A0if test 0$1 -lt 2 || test 0$1 -eq 2 -a 0$2 -lt 4 ; then
+> +- =C2=A0 =C2=A0patch_version=3D
+> +- =C2=A0fi
+> +-else
+> +- =C2=A0AC_MSG_RESULT(no GNU patch)
+> +-fi
+> +-if test -z "$patch_version" ; then
+> +- =C2=A0AC_MSG_ERROR([
+> +-$PACKAGE_NAME requires at least version 2.4 of GNU patch. You can downl=
+oad a
+> +-current version of patch from ftp.gnu.org, or if you already have GNU p=
+atch
+> +-then you can supply its path with the '--with-patch=3D' option.
+> +-])
+> +-fi
+> +-
+> + QUILT_COMPAT_PROG_PATH(FIND, find)
+> +
+> + AC_MSG_CHECKING([whether $FIND -path works])
+> diff --git a/meta/recipes-devtools/quilt/quilt_0.48.bb b/meta/recipes-dev=
+tools/quilt/quilt_0.48.bb
+> index 20a708d..124e2cd 100644
+> --- a/meta/recipes-devtools/quilt/quilt_0.48.bb
+> +++ b/meta/recipes-devtools/quilt/quilt_0.48.bb
+> @@ -2,8 +2,10 @@ require quilt.inc
+> =C2=A0LICENSE=3D"GPLv2"
+> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df0=
+79bae19f"
+> =C2=A0RDEPENDS_${PN} +=3D "patch diffstat bzip2 util-linux"
+> -PR =3D "r0"
+> -SRC_URI +=3D "file://aclocal.patch"
+> +PR =3D "r1"
+> +SRC_URI +=3D "file://aclocal.patch \
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://gnu_patch_test_fix_targ=
+et.patch \
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "
+>
+> =C2=A0SRC_URI[md5sum] =3D "f77adda60039ffa753f3c584a286f12b"
+> =C2=A0SRC_URI[sha256sum] =3D "73fd760d3b5cbf06417576591dc37d67380d189392d=
+b9000c21b7cbebee49ffc"
+> --
+> 1.7.0
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
