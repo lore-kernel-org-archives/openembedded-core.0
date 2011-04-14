@@ -1,40 +1,26 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QAOQj-0000ql-Sk
+	(envelope-from <sgw@linux.intel.com>) id 1QATPz-0000FE-IR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Apr 2011 17:26:01 +0200
-Received: by fxm19 with SMTP id 19so1483609fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Apr 2011 08:23:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=qPSw7D0H+8Wt51TK545g59kokhrFTBiszIGklTQ4730=;
-	b=XDgmKhGyqKXj2ToR4Nm5Wro8r2soaEMvF4Syn0Xdoa4FQ9s+N/DOUdXVn08F8KiYtF
-	pfEv511ySizoLnI5ku7r0/aY6eiTc+Km1Ln5ACiuPtdvoeCdyszenFOKtVir1ShUXSrG
-	HWLkgnVgqQLvcxBPEyPWxTh7oAlv1d+Q3zzMQ=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=pTnnxnOwBcdl4m2f3CUvKj0PZwnEVXTcHR5QFi3hHVp9ocLbOA0SASaljkXM2Jkqap
-	zTB5W13NUCKBh85hLnYWpIzJx5bq/NDIYsYOsnRfzVo3ZEtT9ImlziNaletkkdAuWnAL
-	bs0FQR7LX+bmG6AJLiATgaDtbblHVTwasSfn4=
-Received: by 10.223.6.198 with SMTP id a6mr940966faa.130.1302794623837; Thu,
-	14 Apr 2011 08:23:43 -0700 (PDT)
+	Thu, 14 Apr 2011 22:45:36 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Apr 2011 13:43:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,213,1301900400"; d="scan'208";a="679180228"
+Received: from unknown (HELO [10.255.12.232]) ([10.255.12.232])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Apr 2011 13:43:02 -0700
+Message-ID: <4DA75C55.5070509@linux.intel.com>
+Date: Thu, 14 Apr 2011 13:43:01 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
 MIME-Version: 1.0
-Received: by 10.223.115.82 with HTTP; Thu, 14 Apr 2011 08:23:13 -0700 (PDT)
-In-Reply-To: <20110414020059.GA21398@qhe2-db>
-References: <cover.1302686656.git.qing.he@intel.com>
-	<b94c6ce5656dd4bd312feda0eaf2423cae505ccd.1302686656.git.qing.he@intel.com>
-	<BANLkTikg2Bb8bCrnjJU3JyP0mHTYHFoRgg@mail.gmail.com>
-	<20110414020059.GA21398@qhe2-db>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 14 Apr 2011 08:23:13 -0700
-Message-ID: <BANLkTi=Y454r0KQuorJM2HxUafA+Gkzmag@mail.gmail.com>
-To: Qing He <qing.he@intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] quilt: fix test for target build
+References: <1302785059-27608-1-git-send-email-michael.lippautz@gmail.com>
+In-Reply-To: <1302785059-27608-1-git-send-email-michael.lippautz@gmail.com>
+Subject: Re: [PATCH] util-macros/preferred-xorg-versions: Update to	1.13.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,95 +35,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Apr 2011 15:26:02 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 14 Apr 2011 20:45:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 13, 2011 at 7:00 PM, Qing He <qing.he@intel.com> wrote:
-> On Wed, 2011-04-13 at 23:36 +0800, Khem Raj wrote:
->> On Wed, Apr 13, 2011 at 2:26 AM, Qing He <qing.he@intel.com> wrote:
->> > From: Qing He <qing.he@intel.com>
->> >
->> > fixes [YOCTO #969]
->> >
->> > Signed-off-by: Qing He <qing.he@intel.com>
->> > ---
->> > ??.../quilt/quilt/gnu_patch_test_fix_target.patch ?? ??| ?? 66 +++++++=
-+++++++++++++
->> > ??meta/recipes-devtools/quilt/quilt_0.48.bb ?? ?? ?? ?? ??| ?? ??6 +-
->> > ??2 files changed, 70 insertions(+), 2 deletions(-)
->> > ??create mode 100644 meta/recipes-devtools/quilt/quilt/gnu_patch_test_=
-fix_target.patch
->> >
->> > diff --git a/meta/recipes-devtools/quilt/quilt/gnu_patch_test_fix_targ=
-et.patch b/meta/recipes-devtools/quilt/quilt/gnu_patch_test_fix_target.patc=
-h
->> > new file mode 100644
->> > index 0000000..784fe76
->> > --- /dev/null
->> > +++ b/meta/recipes-devtools/quilt/quilt/gnu_patch_test_fix_target.patc=
-h
->> > @@ -0,0 +1,66 @@
->> > +The test of patch and diff should not be run for cross build,
->> > +rather, assume them as gnu version is rather safe. This is a
->> > +workaround to remove it altogether.
->> > +
->>
->> why is this patch needed. I assume all linux distributions use GNU
->> diff and patch
->> and that what is being checked so why remove the checks ? these messages
->> are atleast useful for folks who are trying other build hosts e.g. darwi=
-n
->
-> Because patch is used at runtime rather than build time. It is used
-> mainly in patch-wrapper and some other scripts.
->
-> configure.ac of quilt practically doesn't differentiate them,
-> this leads to problems in cross-compiling:
-> =C2=A01. the QUILT_COMPAT_PROG_PATH finds the wrong patch, say we are
-> =C2=A0 =C2=A0 building on darwin with a non-GNU patch, host patch found i=
-n
-> =C2=A0 =C2=A0 /usr/bin or /sw/bin is irrelevant, what should be tested is
-> =C2=A0 =C2=A0 <target sysroot>/path/to/patch(which may not be /usr/bin), =
-and
-> =C2=A0 =C2=A0 then @PATCH@ should be set to a value with <target sysroot>
-> =C2=A0 =C2=A0 removed.
-> =C2=A02. the test is performed by running "patch --version", this obvious=
-ly
-> =C2=A0 =C2=A0 doesn't work for cross-compiling.
->
-> The right way to do this may be something like:
-> =C2=A0if test "x$cross_compiling" =3D "xyes"; then
-> =C2=A0 =C2=A0AC_CHECK_PROG in target sysroot
-> =C2=A0 =C2=A0PATCH=3Dstrip sysroot in the absolute path
-> =C2=A0else
-> =C2=A0 =C2=A0QUILT_COPAT_PROG_PATH
-> =C2=A0 =C2=A0original test
-> =C2=A0fi
->
-> This is troublesome and error prone, since a separate SYSROOT needs to
-> be handled by configure, and target patch may as well not in a standard
-> path. The simplest way to do it is to remove the test, as we have
-> separate recipes for quilt and quilt-native.
->
->
-> The reason to touch this part of code is that the test itself doesn't
-> work for newer versions of GNU patch, see:
-> =C2=A0http://lists.nongnu.org/archive/html/quilt-dev/2010-06/msg00002.htm=
-l
-> This surely fixes the configure error, but is logically not suitable for
-> cross compiling.
+On 04/14/2011 05:44 AM, Michael Lippautz wrote:
+> * Deps are taken from org.openembedded.dev
+Which Deps changed?
 
-As I understand you are trying to fix quilt target recipe. Then may it
-will be better to take the above
-patch for both target and native but apply this
-workaround conditionally only for target recipe
+> * Required by libx11 1.4.3+
+>
+> Signed-off-by: Michael Lippautz<michael.lippautz@gmail.com>
+> ---
+>   .../distro/include/preferred-xorg-versions.inc     |    4 +-
+>   meta/recipes-graphics/xorg-util/util-macros.inc    |   18 +++++++++++++++
+>   .../xorg-util/util-macros_1.11.0.bb                |   24 --------------------
+>   .../xorg-util/util-macros_1.13.0.bb                |    7 +++++
+>   4 files changed, 27 insertions(+), 26 deletions(-)
+>   create mode 100644 meta/recipes-graphics/xorg-util/util-macros.inc
+>   delete mode 100644 meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
+>   create mode 100644 meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
+>
+Why did you split this into an include file based recipe?
 
-there are options --with-patch --with-diff also
-there to point these utilities
->
-> Thanks,
-> Qing
->
+
+> diff --git a/meta/conf/distro/include/preferred-xorg-versions.inc b/meta/conf/distro/include/preferred-xorg-versions.inc
+> index b164b77..dd67d95 100644
+> --- a/meta/conf/distro/include/preferred-xorg-versions.inc
+> +++ b/meta/conf/distro/include/preferred-xorg-versions.inc
+> @@ -92,8 +92,8 @@ PREFERRED_VERSION_renderproto-nativesdk ?= "0.11.1"
+>   PREFERRED_VERSION_resourceproto ?= "1.1.1"
+>   PREFERRED_VERSION_scrnsaverproto ?= "1.2.1"
+>   PREFERRED_VERSION_trapproto ?= "3.4.3"
+> -PREFERRED_VERSION_util-macros ?= "1.11.0"
+> -PREFERRED_VERSION_util-macros-native ?= "1.11.0"
+> +PREFERRED_VERSION_util-macros ?= "1.13.0"
+> +PREFERRED_VERSION_util-macros-native ?= "1.13.0"
+>   PREFERRED_VERSION_videoproto ?= "2.3.1"
+>   PREFERRED_VERSION_windowswmproto ?= "1.0.4"
+>   PREFERRED_VERSION_x11perf ?= "1.5.2"
+> diff --git a/meta/recipes-graphics/xorg-util/util-macros.inc b/meta/recipes-graphics/xorg-util/util-macros.inc
+> new file mode 100644
+> index 0000000..06e3b0f
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-util/util-macros.inc
+> @@ -0,0 +1,18 @@
+> +require xorg-util-common.inc
+> +
+> +SUMMARY = "X autotools macros"
+> +DESCRIPTION = "M4 autotools macros used by various X.org programs."
+> +LICENSE = "MIT&  MIT-style"
+Minor nits:
+
+This should have a space between the "MIT &"
+> +
+> +INC_PR = "r2"
+Since this is a new .inc, we start from r0
+
+> +PE = "1"
+> +
+> +ALLOW_EMPTY = "1"
+> +BBCLASSEXTEND = "native nativesdk"
+> +
+> +DEPENDS = "libgpg-error"
+> +DEPENDS_virtclass-native = "gettext"
+> +DEPENDS_virtclass-nativesdk = "gettext"
+> +
+> +RDEPENDS_${PN}-dev = ""
+> +RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPV})"
+> diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb b/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
+> deleted file mode 100644
+> index 765a577..0000000
+> --- a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
+> +++ /dev/null
+> @@ -1,24 +0,0 @@
+> -SUMMARY = "X autotools macros"
+> -
+> -DESCRIPTION = "M4 autotools macros used by various X.org programs."
+> -
+> -require xorg-util-common.inc
+> -
+> -LICENSE = "MIT&  MIT-style"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=1970511fddd439b07a6ba789d28ff662"
+> -
+> -PE = "1"
+> -PR = "r0"
+> -
+> -# ${PN} is empty so we need to tweak -dev and -dbg package dependencies
+> -DEPENDS = "libgpg-error"
+> -DEPENDS_virtclass-native = "gettext"
+> -DEPENDS_virtclass-nativesdk = "gettext"
+> -
+> -RDEPENDS_${PN}-dev = ""
+> -RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPV})"
+> -
+> -BBCLASSEXTEND = "native nativesdk"
+> -
+> -SRC_URI[md5sum] = "8580021f3a9e242ab09d23d62e475d53"
+> -SRC_URI[sha256sum] = "212c3d14474d7cffdbc22437d4896211a5dce6b99b02b96229c9be7d963c90cf"
+> diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb b/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
+> new file mode 100644
+> index 0000000..0eff870
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
+> @@ -0,0 +1,7 @@
+> +require util-macros.inc
+> +
+> +PR = "${INC_PR}.0"
+> +
+> +SRC_URI[archive.md5sum] = "31e9ddcbc1d8bc8c09ab180443974dd1"
+> +SRC_URI[archive.sha256sum] = "7bff944fb120192e7fe1706e9c0b7e41666e7983ce3e2bdef0b7734392d9e695"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=1970511fddd439b07a6ba789d28ff662"
 
 
