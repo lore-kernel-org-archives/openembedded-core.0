@@ -1,23 +1,23 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QAIQ1-0000DZ-OP
+	(envelope-from <dexuan.cui@intel.com>) id 1QAIQ1-0000DY-TT
 	for openembedded-core@lists.openembedded.org;
 	Thu, 14 Apr 2011 11:00:54 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Apr 2011 01:58:37 -0700
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 14 Apr 2011 01:58:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,210,1301900400"; d="scan'208";a="628438307"
+X-IronPort-AV: E=Sophos;i="4.64,210,1301900400"; d="scan'208";a="419029024"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by orsmga002.jf.intel.com with ESMTP; 14 Apr 2011 01:58:36 -0700
-Message-Id: <f8bded041e137583bc6f3db3d8ca5e868c146643.1302770941.git.dexuan.cui@intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 14 Apr 2011 01:58:39 -0700
+Message-Id: <686fc493b6b4a8e1cbecd39380c513c4d493b26c.1302770941.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1302770941.git.dexuan.cui@intel.com>
 References: <cover.1302770941.git.dexuan.cui@intel.com>
-Old-Date: Tue, 12 Apr 2011 00:58:46 +0800
-Date: Thu, 14 Apr 2011 16:56:31 +0800
+Old-Date: Tue, 12 Apr 2011 01:00:59 +0800
+Date: Thu, 14 Apr 2011 16:56:33 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Dexuan Cui <dexuan.cui@intel.com>
-Subject: [v2 02/12] libxt: update from 1.0.9 to the latest version 1.1.1
+Subject: [v2 04/12] fixesproto: upgrade from 4.1.2 to the latest version 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,40 +36,41 @@ X-List-Received-Date: Thu, 14 Apr 2011 09:00:54 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
-Update LIC_FILES_CHKSUM due to the only change to COPYING.
--Copyright (c) 1993, Oracle and/or its affiliates. All rights reserved.
-+Copyright (c) 1993, 2011, Oracle and/or its affiliates. All rights reserved.
+Update LIC_FILES_CHKSUM as both the files added a new line
++Copyright 2010 Red Hat, Inc.
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../xorg-lib/{libxt_1.0.9.bb => libxt_1.1.1.bb}    |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxt_1.0.9.bb => libxt_1.1.1.bb} (85%)
+ .../{fixesproto_4.1.2.bb => fixesproto_5.0.bb}     |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{fixesproto_4.1.2.bb => fixesproto_5.0.bb} (56%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxt_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libxt_1.1.1.bb
-similarity index 85%
-rename from meta/recipes-graphics/xorg-lib/libxt_1.0.9.bb
-rename to meta/recipes-graphics/xorg-lib/libxt_1.1.1.bb
-index 63119ae..f06739f 100644
---- a/meta/recipes-graphics/xorg-lib/libxt_1.0.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxt_1.1.1.bb
-@@ -13,7 +13,7 @@ independent of any particular user interface policy or style."
- require xorg-lib-common.inc
+diff --git a/meta/recipes-graphics/xorg-proto/fixesproto_4.1.2.bb b/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
+similarity index 56%
+rename from meta/recipes-graphics/xorg-proto/fixesproto_4.1.2.bb
+rename to meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
+index 853ffa8..d65922b 100644
+--- a/meta/recipes-graphics/xorg-proto/fixesproto_4.1.2.bb
++++ b/meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb
+@@ -9,8 +9,8 @@ system."
+ 
  
  LICENSE = "MIT & MIT-style"
--LIC_FILES_CHKSUM = "file://COPYING;md5=917881a51be1013bee30d7f3f5ba9f55"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=3239170e81427c5948287df07691f03f"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3bd0f26ecf86d0f24922125195d5b70a \
+-                    file://xfixesproto.h;endline=43;md5=27614675897bb1cdc611ba7de506cddc"
++LIC_FILES_CHKSUM = "file://COPYING;md5=262a7a87da56e66dd639bf7334a110c6 \
++                    file://xfixesproto.h;endline=43;md5=c3a9ee6db3532ed0d44dea266cfc97f4"
  
+ CONFLICTS = "fixesext"
+ PR = "r0"
+@@ -18,5 +18,5 @@ PE = "1"
  
- DEPENDS += "libsm virtual/libx11 kbproto libxdmcp"
-@@ -39,5 +39,5 @@ do_compile() {
- 	oe_runmake
- }
+ BBCLASSEXTEND = "nativesdk"
  
--SRC_URI[md5sum] = "8a414f8f2327aaa616ca2dcac1f5d8c3"
--SRC_URI[sha256sum] = "eab91b594b801f7f07a20f936dda70a629028858cbcf541becf94f2786ae6b01"
-+SRC_URI[md5sum] = "eb22c0a1f172b06b97a3f5ae89768412"
-+SRC_URI[sha256sum] = "a2a1c29c684e3c9082cdb920b5aea802b179d19107b9ab2170fda07575559da7"
+-SRC_URI[md5sum] = "bdb58ecc313b509247036d5c11fa99df"
+-SRC_URI[sha256sum] = "de4cbfccb533c190073445eb2a891d997e89f6fb58204f68ae82871de044f857"
++SRC_URI[md5sum] = "e7431ab84d37b2678af71e29355e101d"
++SRC_URI[sha256sum] = "ba2f3f31246bdd3f2a0acf8bd3b09ba99cab965c7fb2c2c92b7dc72870e424ce"
 -- 
 1.7.2
 
