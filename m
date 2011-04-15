@@ -1,34 +1,26 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QAouN-0006Iu-OZ
+	(envelope-from <dvhart@linux.intel.com>) id 1QArgQ-00070I-SO
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Apr 2011 21:42:23 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QAosB-0007Sn-Fy from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Apr 2011 12:40:07 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Fri, 15 Apr 2011 12:37:11 -0700
-Received: from [172.30.80.157] (147.34.91.1) by svr-orw-fem-05 (147.34.97.43)
-	with Microsoft SMTP Server id 14.1.270.1;
-	Fri, 15 Apr 2011 12:40:06 -0700
-Message-ID: <4DA89F12.7040205@mentor.com>
-Date: Fri, 15 Apr 2011 12:40:02 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	Sat, 16 Apr 2011 00:40:11 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 15 Apr 2011 15:37:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,221,1301900400"; d="scan'208";a="734072271"
+Received: from unknown (HELO [10.255.12.222]) ([10.255.12.222])
+	by orsmga001.jf.intel.com with ESMTP; 15 Apr 2011 15:37:51 -0700
+Message-ID: <4DA8C8C0.4060403@linux.intel.com>
+Date: Fri, 15 Apr 2011 15:37:52 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1302846043.git.ke.yu@intel.com>
-	<38033f4ff7f7cd735acf7d2e11ba078f4c2aafb6.1302846043.git.ke.yu@intel.com>
-In-Reply-To: <38033f4ff7f7cd735acf7d2e11ba078f4c2aafb6.1302846043.git.ke.yu@intel.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 15 Apr 2011 19:37:11.0584 (UTC)
-	FILETIME=[83DF2A00:01CBFBA4]
-Subject: Re: [PATCH 4/9] mesa: upgrade to 7.10.2
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1302886579.git.paul.eggleton@linux.intel.com>
+	<72ccbf03bcbec48a34d830c356e591a9139e3794.1302886579.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <72ccbf03bcbec48a34d830c356e591a9139e3794.1302886579.git.paul.eggleton@linux.intel.com>
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 2/3] netbase: automatically bring up usb0 on	beagleboard
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +35,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Apr 2011 19:42:24 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Fri, 15 Apr 2011 22:40:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 04/14/2011 10:44 PM, Yu Ke wrote:
-> From: Yu Ke <ke.yu@intel.com>
-> 
-> - also remove the talloc-removal.patch because it is already
->   included in this version
-> @@ -15,6 +14,6 @@ LIB_DEPS = "virtual/libx11 libxext libxxf86vm libxdamage libxfixes libxml2-nativ
->  DEPENDS = "${PROTO_DEPS}  ${LIB_DEPS} makedepend-native"
 
-While we're in here, the mesa stuff needs python-native as a DEPENDS.
+
+On 04/15/2011 10:00 AM, Paul Eggleton wrote:
+> From: Paul Eggleton <paul.eggleton@linux.intel.com>
+> 
+> Avoids manual configuration of the BeagleBoard xM's ethernet port (which
+> shows up as usb0).
+> 
+> Fixes [YOCTO #930]
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  .../netbase/netbase-4.45/beagleboard/interfaces    |   27 ++++++++++++++++++++
+>  1 files changed, 27 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-core/netbase/netbase-4.45/beagleboard/interfaces
+> 
+> diff --git a/meta/recipes-core/netbase/netbase-4.45/beagleboard/interfaces b/meta/recipes-core/netbase/netbase-4.45/beagleboard/interfaces
+> new file mode 100644
+> index 0000000..b6935c1
+> --- /dev/null
+> +++ b/meta/recipes-core/netbase/netbase-4.45/beagleboard/interfaces
+> @@ -0,0 +1,27 @@
+> +# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
+> + 
+> +# The loopback interface
+> +auto lo
+> +iface lo inet loopback
+> +
+> +# Wireless interfaces
+> +iface wlan0 inet dhcp
+> +	wireless_mode managed
+> +	wireless_essid any
+> +	wpa-driver wext
+> +	wpa-conf /etc/wpa_supplicant.conf
+> +
+> +iface atml0 inet dhcp
+> +
+> +# Wired or wireless interfaces
+> +auto eth0
+> +iface eth0 inet dhcp
+> +iface eth1 inet dhcp
+
+Since we're adding a this specifically for the beagleboard, I don't see
+the value of adding eth0 or eth1. I'm not sure about wifi and bluetooth,
+I believe there are modules out there.
+
+I suppose it doesn't hurt to have them there as examples.
+
+> +
+> +# Ethernet/RNDIS gadget (g_ether) or LAN9514 on BeagleBoard xM
+> +auto usb0
+> +iface usb0 inet dhcp
+> +
+> +# Bluetooth networking
+> +iface bnep0 inet dhcp
+> +
 
 -- 
-Tom Rini
-Mentor Graphics Corporation
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
