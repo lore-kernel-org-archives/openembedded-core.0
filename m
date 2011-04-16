@@ -1,19 +1,19 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QAzQn-0006EI-93
+	(envelope-from <sgw@linux.intel.com>) id 1QAzQq-0006Eg-3a
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Apr 2011 08:56:33 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Apr 2011 23:54:15 -0700
+	Sat, 16 Apr 2011 08:56:36 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 15 Apr 2011 23:54:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="679865481"
+X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="420319723"
 Received: from unknown (HELO localhost) ([10.255.12.232])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Apr 2011 23:54:14 -0700
-Message-Id: <8ad77c49827deb3b171fdfda31ade69637002c77.1302936483.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 15 Apr 2011 23:54:15 -0700
+Message-Id: <c3fe5e312ca2dcd396daed78b23c2e69785d0163.1302936483.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1302936483.git.sgw@linux.intel.com>
 References: <cover.1302936483.git.sgw@linux.intel.com>
-Old-Date: Tue, 12 Apr 2011 01:05:12 +0800
-Date: Fri, 15 Apr 2011 23:54:13 -0700
+Old-Date: Tue, 12 Apr 2011 01:05:52 +0800
+Date: Fri, 15 Apr 2011 23:54:15 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 16 Apr 2011 12:03:17 +0200
@@ -21,7 +21,7 @@ Cc: Scott Rifenbark <scott.m.rifenbark@intel.com>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Jingdong Lu <jingdong.lu@windriver.com>, Kang Kai <kai.kang@windriver.com>,
 	Xiaofeng Yan <xiaofeng.yan@windriver.com>
-Subject: [PATCH 25/58] gnome-doc-utils: upgrade from 0.20.4 to the latest version 0.20.5
+Subject: [PATCH 26/58] xextproto: upgrade from 7.1.2 to the latest version 7.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,31 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Apr 2011 06:56:33 -0000
+X-List-Received-Date: Sat, 16 Apr 2011 06:56:36 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
+Add  --enable-specs=no.
+
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- ...c-utils_0.20.4.bb => gnome-doc-utils_0.20.5.bb} |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gnome/{gnome-doc-utils_0.20.4.bb => gnome-doc-utils_0.20.5.bb} (53%)
+ .../{xextproto_7.1.2.bb => xextproto_7.2.0.bb}     |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{xextproto_7.1.2.bb => xextproto_7.2.0.bb} (76%)
 
-diff --git a/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.4.bb b/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.5.bb
-similarity index 53%
-rename from meta/recipes-gnome/gnome/gnome-doc-utils_0.20.4.bb
-rename to meta/recipes-gnome/gnome/gnome-doc-utils_0.20.5.bb
-index a8cbcf0..94b5aec 100644
---- a/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.4.bb
-+++ b/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.5.bb
-@@ -3,5 +3,5 @@ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=eb723b61539feef013de476e68b5c50a \
- 		    file://COPYING.LGPL;md5=a6f89e2100d9b6cdffcea4f398e37343"
- PR = "r0"
+diff --git a/meta/recipes-graphics/xorg-proto/xextproto_7.1.2.bb b/meta/recipes-graphics/xorg-proto/xextproto_7.2.0.bb
+similarity index 76%
+rename from meta/recipes-graphics/xorg-proto/xextproto_7.1.2.bb
+rename to meta/recipes-graphics/xorg-proto/xextproto_7.2.0.bb
+index b079736..09eb59a 100644
+--- a/meta/recipes-graphics/xorg-proto/xextproto_7.1.2.bb
++++ b/meta/recipes-graphics/xorg-proto/xextproto_7.2.0.bb
+@@ -17,7 +17,9 @@ PE = "1"
  
--SRC_URI[archive.md5sum] = "6872b68dd081fc033e07d5877b4c0645"
--SRC_URI[archive.sha256sum] = "97c6465ffb15969a9fe1761f16f30c1028977fb24ecda89a0b479170f6412e4d"
-+SRC_URI[archive.md5sum] = "3aa1f651834714090cdbf898ec090a98"
-+SRC_URI[archive.sha256sum] = "08d99b8ab813fadd3407873e4a30282debce92e22eb1b45430a8bb9c120e2130"
+ inherit gettext
+ 
++EXTRA_OECONF_append = " --enable-specs=no"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[md5sum] = "263ae968b223c23b2986603d84e5c30e"
+-SRC_URI[sha256sum] = "f6f829e112c8eca7c2f10b2193e8d927b9b7722283d647cfd2aea09758159199"
++SRC_URI[md5sum] = "220732210ceffb01bf1caf970e3b1bfb"
++SRC_URI[sha256sum] = "d2bc4208c6b1883ebe00bc5c0048e5d825038cda56775f74bb4aa89afdc576d5"
 -- 
 1.7.1.1
 
