@@ -1,19 +1,19 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QAzRO-0006H6-Sb
+	(envelope-from <sgw@linux.intel.com>) id 1QAzRn-0006IE-57
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Apr 2011 08:57:11 +0200
+	Sat, 16 Apr 2011 08:57:35 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 15 Apr 2011 23:54:54 -0700
+	by orsmga101.jf.intel.com with ESMTP; 15 Apr 2011 23:55:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="734220204"
+X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="734220345"
 Received: from unknown (HELO localhost) ([10.255.12.232])
-	by orsmga001.jf.intel.com with ESMTP; 15 Apr 2011 23:54:41 -0700
-Message-Id: <eee3fb921c3e9c6439df2540a552719c9327ebd4.1302936483.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 15 Apr 2011 23:55:15 -0700
+Message-Id: <ce5a5b738541e18cc84540b3205d4cca6ea2943b.1302936483.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1302936483.git.sgw@linux.intel.com>
 References: <cover.1302936483.git.sgw@linux.intel.com>
-Old-Date: Tue, 12 Apr 2011 10:39:42 +0800
-Date: Fri, 15 Apr 2011 23:54:40 -0700
+Old-Date: Sat, 9 Apr 2011 21:33:50 +0800
+Date: Fri, 15 Apr 2011 23:55:15 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 16 Apr 2011 12:03:17 +0200
@@ -21,7 +21,7 @@ Cc: Scott Rifenbark <scott.m.rifenbark@intel.com>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Jingdong Lu <jingdong.lu@windriver.com>, Kang Kai <kai.kang@windriver.com>,
 	Xiaofeng Yan <xiaofeng.yan@windriver.com>
-Subject: [PATCH 37/58] gnu-config-native: add dependency on perl-native
+Subject: [PATCH 42/58] pango: upgrade from 1.28.3 to 1.28.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,49 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Apr 2011 06:57:11 -0000
+X-List-Received-Date: Sat, 16 Apr 2011 06:57:36 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
+From: Yu Ke <ke.yu@intel.com>
 
-Fixes [YOCTO #968]
-
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Signed-off-by: Yu Ke <ke.yu@intel.com>
 ---
- .../gnu-config/config-guess-uclibc.patch           |    2 ++
- .../gnu-config/gnu-config_20080123.bb              |    6 ++++--
+ .../{pango-1.28.3 => pango-1.28.4}/no-tests.patch  |    4 ++++
+ .../pango/{pango_1.28.3.bb => pango_1.28.4.bb}     |    4 ++--
  2 files changed, 6 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/pango/{pango-1.28.3 => pango-1.28.4}/no-tests.patch (72%)
+ rename meta/recipes-graphics/pango/{pango_1.28.3.bb => pango_1.28.4.bb} (50%)
 
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config/config-guess-uclibc.patch b/meta/recipes-devtools/gnu-config/gnu-config/config-guess-uclibc.patch
-index f820cef..f862c83 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config/config-guess-uclibc.patch
-+++ b/meta/recipes-devtools/gnu-config/gnu-config/config-guess-uclibc.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
+diff --git a/meta/recipes-graphics/pango/pango-1.28.3/no-tests.patch b/meta/recipes-graphics/pango/pango-1.28.4/no-tests.patch
+similarity index 72%
+rename from meta/recipes-graphics/pango/pango-1.28.3/no-tests.patch
+rename to meta/recipes-graphics/pango/pango-1.28.4/no-tests.patch
+index 4a74d8c..6d9e74b 100644
+--- a/meta/recipes-graphics/pango/pango-1.28.3/no-tests.patch
++++ b/meta/recipes-graphics/pango/pango-1.28.4/no-tests.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Inappropriate [ disable tests make sense in embedded, but not appropriate for upstream]
 +
- Patch courtesy gentoo-portage/sys-devel/gnuconfig/files/automake-1.8.5-config-guess-uclibc.patch.
- 
- updated to 20050516 by Marcin 'Hrw' Juszkiewicz (by hand)
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20080123.bb b/meta/recipes-devtools/gnu-config/gnu-config_20080123.bb
-index e0a8155..897984d 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config_20080123.bb
-+++ b/meta/recipes-devtools/gnu-config/gnu-config_20080123.bb
-@@ -3,12 +3,14 @@ DESCRIPTION = "Tool that installs the GNU config.guess / config.sub into a direc
- SECTION = "devel"
- LICENSE = "GPLv1+"
- LIC_FILES_CHKSUM = "file://config.guess;endline=39;md5=a089987af4a25cb0419d1c2fd6d495e3"
--DEPENDS = ""
++Signed-off-by: Yu Ke <ke.yu@intel.com>
 +
-+DEPENDS_virtclass-native = "perl-native"
-+
- INHIBIT_DEFAULT_DEPS = "1"
+ Index: pango-1.22.2/Makefile.am
+ ===================================================================
+ --- pango-1.22.2.orig/Makefile.am
+diff --git a/meta/recipes-graphics/pango/pango_1.28.3.bb b/meta/recipes-graphics/pango/pango_1.28.4.bb
+similarity index 50%
+rename from meta/recipes-graphics/pango/pango_1.28.3.bb
+rename to meta/recipes-graphics/pango/pango_1.28.4.bb
+index 228aae7..600f00b 100644
+--- a/meta/recipes-graphics/pango/pango_1.28.3.bb
++++ b/meta/recipes-graphics/pango/pango_1.28.4.bb
+@@ -6,7 +6,7 @@ PR = "r0"
  
- FIXEDSRCDATE = "${@bb.data.getVar('FILE', d, 1).split('_')[-1].split('.')[0]}"
- PV = "0.1+cvs${FIXEDSRCDATE}"
--PR = "r2"
-+PR = "r3"
+ SRC_URI += "file://no-tests.patch"
  
- SRC_URI = "cvs://anonymous@cvs.sv.gnu.org/cvsroot/config;module=config;method=pserver;date=${FIXEDSRCDATE} \
- 	   file://config-guess-uclibc.patch \
+-SRC_URI[archive.md5sum] = "caa74baea47e7e16bc73c89f9089d522"
+-SRC_URI[archive.sha256sum] = "5e278bc9430cc7bb00270f183360d262c5006b51248e8b537ea904573f200632"
++SRC_URI[archive.md5sum] = "3f3989700f04e9117d30544a9078b3a0"
++SRC_URI[archive.sha256sum] = "7eb035bcc10dd01569a214d5e2bc3437de95d9ac1cfa9f50035a687c45f05a9f"
+ 
+ #PARALLEL_MAKE = ""
 -- 
 1.7.1.1
 
