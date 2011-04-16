@@ -1,19 +1,19 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QAzS9-0006Jq-Vi
+	(envelope-from <sgw@linux.intel.com>) id 1QAzSA-0006KT-Gf
 	for openembedded-core@lists.openembedded.org;
 	Sat, 16 Apr 2011 08:57:58 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 15 Apr 2011 23:55:42 -0700
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 15 Apr 2011 23:55:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="734220549"
+X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="420320367"
 Received: from unknown (HELO localhost) ([10.255.12.232])
-	by orsmga001.jf.intel.com with ESMTP; 15 Apr 2011 23:55:40 -0700
-Message-Id: <040e9015cc62767bd5f75a2f305d103a86a6b303.1302936483.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 15 Apr 2011 23:55:38 -0700
+Message-Id: <388040c3ffbf7d5115455dc1068c56953328e0dd.1302936483.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1302936483.git.sgw@linux.intel.com>
 References: <cover.1302936483.git.sgw@linux.intel.com>
-Old-Date: Fri, 15 Apr 2011 07:32:40 -0500
-Date: Fri, 15 Apr 2011 23:55:40 -0700
+Old-Date: Fri, 15 Apr 2011 18:05:29 +0800
+Date: Fri, 15 Apr 2011 23:55:38 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 16 Apr 2011 12:03:17 +0200
@@ -21,7 +21,7 @@ Cc: Scott Rifenbark <scott.m.rifenbark@intel.com>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Jingdong Lu <jingdong.lu@windriver.com>, Kang Kai <kai.kang@windriver.com>,
 	Xiaofeng Yan <xiaofeng.yan@windriver.com>
-Subject: [PATCH 52/58] documentation/adt-manual/adt-prepare.xml: Fixed URL for nightly builds
+Subject: [PATCH 51/58] rsync: upgrade to version 3.0.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,29 +38,41 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 16 Apr 2011 06:57:58 -0000
 
-From: Scott Rifenbark <scott.m.rifenbark@intel.com>
+From: Qing He <qing.he@intel.com>
 
-There was a stray "0.9" in an URL for the Yocto source downloads.
-I changed it to 1.0.
+[YOCTO #983]
 
-Signed-off-by: Scott Rifenbark <scott.m.rifenbark@intel.com>
+from 3.0.7
+fixes CVE-2011-1097
+
+Signed-off-by: Qing He <qing.he@intel.com>
 ---
- documentation/adt-manual/adt-prepare.xml |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../rsync/{rsync_3.0.7.bb => rsync_3.0.8.bb}       |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/rsync/{rsync_3.0.7.bb => rsync_3.0.8.bb} (71%)
 
-diff --git a/documentation/adt-manual/adt-prepare.xml b/documentation/adt-manual/adt-prepare.xml
-index 1733141..f27f603 100644
---- a/documentation/adt-manual/adt-prepare.xml
-+++ b/documentation/adt-manual/adt-prepare.xml
-@@ -232,7 +232,7 @@
-             architectures (x86, x86-64, mips, powerpc, and arm) that can be used 
-             unaltered in the QEMU emulator.  
-             These kernels and filesystem images reside in the Yocto Project release 
--            area - <ulink url='http://autobuilder.yoctoproject.org/downloads/yocto-0.9/'></ulink>
-+            area - <ulink url='http://autobuilder.yoctoproject.org/downloads/yocto-1.0/'></ulink>
-             and are ideal for experimentation within Yocto Project.
-         </note>
-     </para>
+diff --git a/meta/recipes-devtools/rsync/rsync_3.0.7.bb b/meta/recipes-devtools/rsync/rsync_3.0.8.bb
+similarity index 71%
+rename from meta/recipes-devtools/rsync/rsync_3.0.7.bb
+rename to meta/recipes-devtools/rsync/rsync_3.0.8.bb
+index 971fd54..33ab271 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.0.7.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.0.8.bb
+@@ -1,11 +1,11 @@
+ require rsync.inc
+ 
+-PR = "r1"
++PR = "r0"
+ 
+ SRC_URI += "file://acinclude.m4"
+ 
+-SRC_URI[md5sum] = "b53525900817cf1ba7ad3a516ab5bfe9"
+-SRC_URI[sha256sum] = "9ee00d16c023c486328cbb61f59928a954b24b7b7173c3517ebb0d6c3edfe7c8"
++SRC_URI[md5sum] = "0ee8346ce16bdfe4c88a236e94c752b4"
++SRC_URI[sha256sum] = "4b3fc271f4c96036b4c73fb019be078e4d8cce2defe1e7ae7cde1117859a2114"
+ 
+ EXTRA_OECONF += "--disable-xattr-support --disable-acl-support"
+ 
 -- 
 1.7.1.1
 
