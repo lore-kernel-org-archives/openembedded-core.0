@@ -1,19 +1,19 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QAzR6-0006GE-5e
+	(envelope-from <sgw@linux.intel.com>) id 1QAzRD-0006GV-KX
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Apr 2011 08:56:52 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Apr 2011 23:54:33 -0700
+	Sat, 16 Apr 2011 08:57:00 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Apr 2011 23:54:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="629635148"
+X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="679865641"
 Received: from unknown (HELO localhost) ([10.255.12.232])
-	by orsmga002.jf.intel.com with ESMTP; 15 Apr 2011 23:54:31 -0700
-Message-Id: <239503d115a1fc9433397cc978c13aa3ba300f15.1302936483.git.sgw@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 15 Apr 2011 23:54:36 -0700
+Message-Id: <e06d30d62da0d7f4977ef78759bba4c84df288f3.1302936483.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1302936483.git.sgw@linux.intel.com>
 References: <cover.1302936483.git.sgw@linux.intel.com>
-Old-Date: Thu, 7 Apr 2011 17:15:46 +0800
-Date: Fri, 15 Apr 2011 23:54:31 -0700
+Old-Date: Sat, 9 Apr 2011 22:27:12 +0800
+Date: Fri, 15 Apr 2011 23:54:35 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 16 Apr 2011 12:03:17 +0200
@@ -21,7 +21,7 @@ Cc: Scott Rifenbark <scott.m.rifenbark@intel.com>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Jingdong Lu <jingdong.lu@windriver.com>, Kang Kai <kai.kang@windriver.com>,
 	Xiaofeng Yan <xiaofeng.yan@windriver.com>
-Subject: [PATCH 33/58] evieext: upgrade from 1.1.0 to 1.1.1
+Subject: [PATCH 35/58] xkbcomp: upgrade from 1.2.0 to 1.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,57 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Apr 2011 06:56:52 -0000
+X-List-Received-Date: Sat, 16 Apr 2011 06:57:00 -0000
 
 From: Yu Ke <ke.yu@intel.com>
 
-- also change license checksum, the license is still MIT-X, but corp name
-  is changed from SUN to Oracle
+- Also remove the cross compiling patch, since it is already included
+ in 1.2.1 release
 
-[sgw: merged perferred-xorg-versions.inc]
 Signed-off-by: Yu Ke <ke.yu@intel.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../distro/include/preferred-xorg-versions.inc     |    2 +-
- .../{evieext_1.1.0.bb => evieext_1.1.1.bb}         |    8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{evieext_1.1.0.bb => evieext_1.1.1.bb} (54%)
+ .../xorg-app/xkbcomp/cross-compile-fix.patch       |   35 --------------------
+ .../{xkbcomp_1.2.0.bb => xkbcomp_1.2.1.bb}         |    5 +--
+ 2 files changed, 2 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-app/xkbcomp/cross-compile-fix.patch
+ rename meta/recipes-graphics/xorg-app/{xkbcomp_1.2.0.bb => xkbcomp_1.2.1.bb} (72%)
 
-diff --git a/meta/conf/distro/include/preferred-xorg-versions.inc b/meta/conf/distro/include/preferred-xorg-versions.inc
-index 8e7b9b4..07eb35d 100644
---- a/meta/conf/distro/include/preferred-xorg-versions.inc
-+++ b/meta/conf/distro/include/preferred-xorg-versions.inc
-@@ -9,7 +9,7 @@ PREFERRED_VERSION_bigreqsproto-nativesdk ?= "1.1.1"
- PREFERRED_VERSION_compositeproto ?= "0.4.2"
- PREFERRED_VERSION_damageproto ?= "1.2.1"
- PREFERRED_VERSION_dmxproto ?= "2.3.1"
--PREFERRED_VERSION_evieext ?= "1.1.0"
-+PREFERRED_VERSION_evieext ?= "1.1.1"
- PREFERRED_VERSION_fixesproto ?= "5.0"
- PREFERRED_VERSION_fontcacheproto ?= "0.1.3"
- PREFERRED_VERSION_fontcacheproto-native ?= "0.1.3"
-diff --git a/meta/recipes-graphics/xorg-proto/evieext_1.1.0.bb b/meta/recipes-graphics/xorg-proto/evieext_1.1.1.bb
-similarity index 54%
-rename from meta/recipes-graphics/xorg-proto/evieext_1.1.0.bb
-rename to meta/recipes-graphics/xorg-proto/evieext_1.1.1.bb
-index 5800af1..271398d 100644
---- a/meta/recipes-graphics/xorg-proto/evieext_1.1.0.bb
-+++ b/meta/recipes-graphics/xorg-proto/evieext_1.1.1.bb
-@@ -6,10 +6,10 @@ DESCRIPTION = "This package provides the wire protocol for the X Event \
- Interception Extension.  This extension allows the interception of \
- keyboard and mouse events."
+diff --git a/meta/recipes-graphics/xorg-app/xkbcomp/cross-compile-fix.patch b/meta/recipes-graphics/xorg-app/xkbcomp/cross-compile-fix.patch
+deleted file mode 100644
+index ca65345..0000000
+--- a/meta/recipes-graphics/xorg-app/xkbcomp/cross-compile-fix.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-commit cc55d8f5ab021861308b071aab9c03016be15187
+-Author: Gaetan Nadon <memsize@videotron.ca>
+-Date:   Sun Oct 31 20:35:24 2010 -0400
+-
+-    config: replace AC_CHECK_FILE with test -f as it fails to cross-compile
+-    
+-    Testing for the presence of xkbparse.c is legitimate as this is a build
+-    file, but the Autoconf macro assumes it is testing on the host system
+-    and fails.
+-    
+-    Tested-by: Abdoulaye Walsimou Gaye <awg@embtoolkit.org>
+-    Signed-off-by: Gaetan Nadon <memsize@videotron.ca>
+-
+-diff --git a/configure.ac b/configure.ac
+-index c69230b..8e6bd6e 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -34,11 +34,14 @@ XORG_DEFAULT_OPTIONS
+- 
+- AM_CONFIG_HEADER(config.h)
+- 
+-+# If both the C file and YACC are missing, the package cannot be build.
+- AC_PROG_YACC
+- AC_PATH_PROG([YACC_INST], $YACC)
+--AC_CHECK_FILE([$srcdir/xkbparse.c], [],
+--              [test -z "$YACC_INST" && AC_MSG_ERROR([yacc not found - unable to compile xkbparse.y])])
+--
+-+if test ! -f "$srcdir/xkbparse.c"; then
+-+   if test -z "$YACC_INST"; then
+-+      AC_MSG_ERROR([yacc not found - unable to compile xkbparse.y])
+-+   fi
+-+fi
+- 
+- AC_CHECK_FUNCS([strdup strcasecmp])
+- 
+diff --git a/meta/recipes-graphics/xorg-app/xkbcomp_1.2.0.bb b/meta/recipes-graphics/xorg-app/xkbcomp_1.2.1.bb
+similarity index 72%
+rename from meta/recipes-graphics/xorg-app/xkbcomp_1.2.0.bb
+rename to meta/recipes-graphics/xorg-app/xkbcomp_1.2.1.bb
+index f574690..0cf334a 100644
+--- a/meta/recipes-graphics/xorg-app/xkbcomp_1.2.0.bb
++++ b/meta/recipes-graphics/xorg-app/xkbcomp_1.2.1.bb
+@@ -11,9 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=08436e4f4476964e2e2dd7e7e41e076a"
  
--PR = "r1"
-+PR = "r0"
- PE = "1"
+ DEPENDS += "libxkbfile"
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=6cf85dc8217152304ac976db1e240ebe"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4db9fc6a58e873c6392eec53082d89b5"
+-SRC_URI += "file://cross-compile-fix.patch"
++SRC_URI[md5sum] = "885b4d8a7c8c7afb3312d31934cb3549"
++SRC_URI[sha256sum] = "b7612527914402d091424a93bc16f0d4d8778b4a874171f3f3dc681c690e65eb"
  
--SRC_URI[md5sum] = "5c74f61d6f77b2e6a083b2b31000be42"
--SRC_URI[sha256sum] = "47881a52a8d9da1e41e4f028ed32a8b44f738afbead819c0a07253fdc1641885"
-+SRC_URI[md5sum] = "98bd86a13686f65f0873070fdee6efc7"
-+SRC_URI[sha256sum] = "1cf74114436d99f56577a90b6438a32ba31b8128c9e63842bb179aba592733fe"
+ BBCLASSEXTEND = "native"
+ 
+-SRC_URI[md5sum] = "0f55995cd8da9b2d88553e1a2e17cd0a"
+-SRC_URI[sha256sum] = "2c64aa414755e764ca548ae5c93e95f7b5bbd5e01bca16bf226fd32bfae77ea4"
 -- 
 1.7.1.1
 
