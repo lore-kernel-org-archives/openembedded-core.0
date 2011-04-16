@@ -1,19 +1,19 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QAzPr-00069F-5j
+	(envelope-from <sgw@linux.intel.com>) id 1QAzPr-00069I-JL
 	for openembedded-core@lists.openembedded.org;
 	Sat, 16 Apr 2011 08:55:35 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 15 Apr 2011 23:53:19 -0700
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 15 Apr 2011 23:53:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="734219485"
+X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="420319255"
 Received: from unknown (HELO localhost) ([10.255.12.232])
-	by orsmga001.jf.intel.com with ESMTP; 15 Apr 2011 23:53:17 -0700
-Message-Id: <c52b9d7b277b949210f013a15859f6ffb51b3527.1302936483.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 15 Apr 2011 23:53:14 -0700
+Message-Id: <eda12ac0c29ab13b415ddefd6a4dbfac03617b48.1302936483.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1302936483.git.sgw@linux.intel.com>
 References: <cover.1302936483.git.sgw@linux.intel.com>
-Old-Date: Tue, 12 Apr 2011 16:39:18 +0800
-Date: Fri, 15 Apr 2011 23:53:16 -0700
+Old-Date: Tue, 12 Apr 2011 16:08:54 +0800
+Date: Fri, 15 Apr 2011 23:53:12 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 16 Apr 2011 12:03:17 +0200
@@ -21,7 +21,7 @@ Cc: Scott Rifenbark <scott.m.rifenbark@intel.com>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Jingdong Lu <jingdong.lu@windriver.com>, Kang Kai <kai.kang@windriver.com>,
 	Xiaofeng Yan <xiaofeng.yan@windriver.com>
-Subject: [PATCH 02/58] gst-plugins-base: upgrade to version 0.10.32
+Subject: [PATCH 01/58] gstreamer: upgrade to vesion 0.10.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +42,75 @@ From: Dongxiao Xu <dongxiao.xu@intel.com>
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- .../gst-plugins-base-tremor.patch                  |    2 ++
- ...base_0.10.31.bb => gst-plugins-base_0.10.32.bb} |    6 +++---
- 2 files changed, 5 insertions(+), 3 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-plugins-base-0.10.31 => gst-plugins-base-0.10.32}/gst-plugins-base-tremor.patch (94%)
- rename meta/recipes-multimedia/gstreamer/{gst-plugins-base_0.10.31.bb => gst-plugins-base_0.10.32.bb} (86%)
+ .../check_fix.patch                                |    2 ++
+ .../gst-inspect-check-error.patch                  |    2 ++
+ .../gstregistrybinary.c                            |    0
+ .../gstregistrybinary.h                            |    0
+ .../{gstreamer_0.10.31.bb => gstreamer_0.10.32.bb} |    4 ++--
+ 5 files changed, 6 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.31 => gstreamer-0.10.32}/check_fix.patch (93%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.31 => gstreamer-0.10.32}/gst-inspect-check-error.patch (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.31 => gstreamer-0.10.32}/gstregistrybinary.c (100%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer-0.10.31 => gstreamer-0.10.32}/gstregistrybinary.h (100%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer_0.10.31.bb => gstreamer_0.10.32.bb} (91%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.31/gst-plugins-base-tremor.patch b/meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.32/gst-plugins-base-tremor.patch
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.31/gst-plugins-base-tremor.patch
-rename to meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.32/gst-plugins-base-tremor.patch
-index a6494fd..224bf1a 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.31/gst-plugins-base-tremor.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base-0.10.32/gst-plugins-base-tremor.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.31/check_fix.patch b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/check_fix.patch
+similarity index 93%
+rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.31/check_fix.patch
+rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/check_fix.patch
+index 72c3f64..5d8bb13 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.31/check_fix.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/check_fix.patch
 @@ -1,6 +1,8 @@
- Remove -DTREMOR option since Tremor has dropped its internal
- libogg2, and gst-plugins-base has dependency on that.
+ # gstreamer: Fix a problem with configure if check has already been built
+ # Richard Purdie <rpurdie@linux.intel.com>
  
 +Upstream-Status: Inappropriate [configuration]
 +
- Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+ diff -urN gstreamer-0.10.29-orig/configure.ac gstreamer-0.10.29/configure.ac
+ --- gstreamer-0.10.29-orig/configure.ac	2010-06-26 12:49:27.774930773 +0800
+ +++ gstreamer-0.10.29/configure.ac	2010-06-26 12:51:12.899200233 +0800
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.31/gst-inspect-check-error.patch b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gst-inspect-check-error.patch
+similarity index 96%
+rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.31/gst-inspect-check-error.patch
+rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gst-inspect-check-error.patch
+index 4ca1dbe..30be85f 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.31/gst-inspect-check-error.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gst-inspect-check-error.patch
+@@ -1,6 +1,8 @@
+ # Fix crash with gst-inspect
+ # Chris Lord <chris@openedhand.com>
  
- diff -ruN gst-plugins-base-0.10.30-orig/ext/vorbis/Makefile.am gst-plugins-base-0.10.30/ext/vorbis/Makefile.am
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-similarity index 86%
-rename from meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.31.bb
-rename to meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-index 8bf243e..2d09c6c 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.31.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-@@ -12,10 +12,10 @@ RDEPENDS_${PN} += "gnome-vfs-plugin-file gnome-vfs-plugin-http gnome-vfs-plugin-
++Upstream-Status: Pending
++
+ --- gstreamer-0.10.9/tools/gst-inspect.c.old	2006-09-12 11:56:53.000000000 +0100
+ +++ gstreamer-0.10.9/tools/gst-inspect.c	2006-09-12 11:57:27.000000000 +0100
+ @@ -1123,7 +1123,7 @@
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.31/gstregistrybinary.c b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gstregistrybinary.c
+similarity index 100%
+rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.31/gstregistrybinary.c
+rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gstregistrybinary.c
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer-0.10.31/gstregistrybinary.h b/meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gstregistrybinary.h
+similarity index 100%
+rename from meta/recipes-multimedia/gstreamer/gstreamer-0.10.31/gstregistrybinary.h
+rename to meta/recipes-multimedia/gstreamer/gstreamer-0.10.32/gstregistrybinary.h
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.32.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer_0.10.31.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer_0.10.32.bb
+index dc1d07c..901ade5 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.31.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.32.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.bz
+            file://check_fix.patch \
+            file://gst-inspect-check-error.patch"
  
- SRC_URI += " file://gst-plugins-base-tremor.patch"
+-SRC_URI[md5sum] = "a21fb08bdb578d972c7c14e77da8fbb6"
+-SRC_URI[sha256sum] = "7f737e6d047c1ebeb4e1e0725fc377c5d9f12ee89186de7960be3cbba709ab84"
++SRC_URI[md5sum] = "442bc3d37b8511a73379143e7531d726"
++SRC_URI[sha256sum] = "3bf4e46a186ee9a1f5e212aaf651d67cffb4f5f05345a7c99ae71d5d992be133"
  
--SRC_URI[md5sum] = "9baa0d87e81c88b2477a3554ab629c46"
--SRC_URI[sha256sum] = "abb006c78222cfb69d31e983268d1d5219e9d4e0da24c6c4cd687968af7a33bd"
-+SRC_URI[md5sum] = "2920af2b3162f3d9fbaa7fabc8ed4d38"
-+SRC_URI[sha256sum] = "e9aabfac83f6480896da0686e9c911989f896fbad634821b7771ed84a446172b"
- 
--PR = "r1"
-+PR = "r0"
- 
- inherit gettext
+ inherit autotools pkgconfig gettext
  
 -- 
 1.7.1.1
