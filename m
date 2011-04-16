@@ -1,19 +1,19 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QAzQu-0006F9-AQ
+	(envelope-from <sgw@linux.intel.com>) id 1QAzQx-0006FZ-Vs
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Apr 2011 08:56:40 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 15 Apr 2011 23:54:21 -0700
+	Sat, 16 Apr 2011 08:56:45 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Apr 2011 23:54:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="629635053"
+X-IronPort-AV: E=Sophos;i="4.64,223,1301900400"; d="scan'208";a="679865550"
 Received: from unknown (HELO localhost) ([10.255.12.232])
-	by orsmga002.jf.intel.com with ESMTP; 15 Apr 2011 23:54:20 -0700
-Message-Id: <5fef376d11e4dab13f7cf4ae151e0b48b18a03b5.1302936483.git.sgw@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 15 Apr 2011 23:54:23 -0700
+Message-Id: <0f05e005d7669f2d4d9f4fe3f1e041f7549486c0.1302936483.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1302936483.git.sgw@linux.intel.com>
 References: <cover.1302936483.git.sgw@linux.intel.com>
-Old-Date: Tue, 12 Apr 2011 01:07:59 +0800
-Date: Fri, 15 Apr 2011 23:54:19 -0700
+Old-Date: Tue, 12 Apr 2011 01:09:23 +0800
+Date: Fri, 15 Apr 2011 23:54:23 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 16 Apr 2011 12:03:17 +0200
@@ -21,7 +21,7 @@ Cc: Scott Rifenbark <scott.m.rifenbark@intel.com>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Jingdong Lu <jingdong.lu@windriver.com>, Kang Kai <kai.kang@windriver.com>,
 	Xiaofeng Yan <xiaofeng.yan@windriver.com>
-Subject: [PATCH 28/58] cronie: upgrade from 1.4.6 to the latest version 1.4.7
+Subject: [PATCH 30/58] distro_tracking_fields.inc: update the info for the following recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,33 +36,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Apr 2011 06:56:40 -0000
+X-List-Received-Date: Sat, 16 Apr 2011 06:56:45 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
+oprofileui
+tcf-agent
+libxt
+libxi
+fixesproto
+xproto
+gnome-doc-utils
+pixman
+xextproto
+libpciaccess
+cronie
+
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../cronie/{cronie_1.4.6.bb => cronie_1.4.7.bb}    |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/cronie/{cronie_1.4.6.bb => cronie_1.4.7.bb} (93%)
+ .../conf/distro/include/distro_tracking_fields.inc |   83 ++++++++++----------
+ 1 files changed, 42 insertions(+), 41 deletions(-)
 
-diff --git a/meta/recipes-extended/cronie/cronie_1.4.6.bb b/meta/recipes-extended/cronie/cronie_1.4.7.bb
-similarity index 93%
-rename from meta/recipes-extended/cronie/cronie_1.4.6.bb
-rename to meta/recipes-extended/cronie/cronie_1.4.7.bb
-index 09714c7..7d6093a 100644
---- a/meta/recipes-extended/cronie/cronie_1.4.6.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.4.7.bb
-@@ -20,8 +20,8 @@ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
-            file://crond.init \
-            file://crontab"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index a507ce2..ac6feec 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -1943,13 +1943,13 @@ RECIPE_MAINTAINER_pn-cpio = "Scott Garman <scott.a.garman@intel.com>"
  
--SRC_URI[md5sum] = "968e3d3e7c8e1d0588d533883482d3fa"
--SRC_URI[sha256sum] = "4435484c28a4452ee37db27182675660cdebf16d8956771b28c8a6f2e9c8048b"
-+SRC_URI[md5sum] = "dfc26c47756d0c40ee27ae3c7ee98e0d"
-+SRC_URI[sha256sum] = "83bae15ae5504454ba74f4142f5db3aa22be594327fea19d2534f65803137fbd"
+ RECIPE_STATUS_pn-cronie = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-cronie = "not done"
+-RECIPE_LATEST_VERSION_pn-cronie = "1.4.4"
+-RECIPE_MANUAL_CHECK_DATE_pn-cronie = "Jan 28, 2011"
++RECIPE_LATEST_VERSION_pn-cronie = "1.4.7"
++RECIPE_MANUAL_CHECK_DATE_pn-cronie = "Apr 11, 2011"
+ RECIPE_INTEL_SECTION_pn-cronie = "base"
+ RECIPE_NO_OF_PATCHES_pn-cronie = "0"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-cronie = "3 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-cronie = "02/2010"
+-RECIPE_LAST_UPDATE_pn-cronie = "Nov 24, 2010"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-cronie = "5 months"
++RECIPE_LATEST_RELEASE_DATE_pn-cronie = "Mar 17, 2011"
++RECIPE_LAST_UPDATE_pn-cronie = "Apr 11, 2011"
+ RECIPE_MAINTAINER_pn-cronie = "Dexuan Cui <dexuan.cui@intel.com>"
  
- inherit autotools update-rc.d
+ RECIPE_STATUS_pn-grep = "green" 
+@@ -2685,14 +2685,14 @@ RECIPE_MAINTAINER_pn-libsamplerate0 = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ RECIPE_STATUS_pn-oprofileui = "green"
+ DISTRO_PN_ALIAS_pn-oprofileui = "Fedora=oprofileui Ubuntu=oprofile-gui Debian=oprofile-gui"
+ RECIPE_DEPENDENCY_CHECK_pn-oprofileui = "not done"
+-RECIPE_LATEST_VERSION_pn-oprofileui = "0.0+git0+e2d998d8a55dc1e49d1588841f83eff8e6809753"
++RECIPE_LATEST_VERSION_pn-oprofileui = "0.0+git0+0c3c32fa754c1d0b70e65767ea7048914f776396"
+ RECIPE_NO_OF_PATCHES_pn-oprofileui = "1"
+ RECIPE_PATCH_pn-oprofileui+dso_linking_change_build_fix = "fix the build by explicitely passing -lm to linker"
+ RECIPE_INTEL_SECTION_pn-oprofileui = "sdk-tools"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-oprofileui = "5 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-oprofileui = "Dec 10, 2010"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-oprofileui = "20 days"
++RECIPE_LATEST_RELEASE_DATE_pn-oprofileui = "Apr 4, 2011"
+ RECIPE_COMMENTS_pn-oprofileui = ""
+-RECIPE_LAST_UPDATE_pn-oprofileui = "Mar 9, 2011"
++RECIPE_LAST_UPDATE_pn-oprofileui = "Apr 11, 2011"
+ RECIPE_MAINTAINER_pn-oprofileui = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-oprofile = "green"
+@@ -2739,6 +2739,8 @@ RECIPE_STATUS_pn-tcf-agent = "green"
+ DISTRO_PN_ALIAS_pn-tcf-agent = "WindRiver upstream=http://www.eclipse.org/dsdp/tm/"
+ RECIPE_DEPENDENCY_CHECK_pn-tcf-agent = "not done"
+ RECIPE_LATEST_VERSION_pn-tcf-agent = "0.3.0+svnr1078"
++RECIPE_MANUAL_CHECK_DATE_pn-tcf-agent = "Apr 11, 2011"
++RECIPE_NO_UPDATE_REASON_pn-tcf-agent = "Do not upgrade to version: (998)? because upstraem hasn't defined a formal release tag."
+ RECIPE_NO_OF_PATCHES_pn-tcf-agent = "2"
+ RECIPE_PATCH_pn-tcf-agent+terminals_agent = "we might get the patch from git://git.pokylinux.org/eclipse-poky.git in future"
+ RECIPE_PATCH_pn-tcf-agent+fix_tcf-agent.init = "a proper script /etc/init.d/tcf-agent"
+@@ -3737,13 +3739,13 @@ RECIPE_MAINTAINER_pn-dmxproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ RECIPE_STATUS_pn-fixesproto = "green"
+ DISTRO_PN_ALIAS_pn-fixesproto = "Meego=xorg-x11-proto-fixesproto"
+ RECIPE_DEPENDENCY_CHECK_pn-fixesproto = "not done"
+-RECIPE_LATEST_VERSION_pn-fixesproto = "4.1.2"
++RECIPE_LATEST_VERSION_pn-fixesproto = "5.0"
+ RECIPE_NO_OF_PATCHES_pn-fixesproto = "0"
+ RECIPE_INTEL_SECTION_pn-fixesproto = "x11/libs"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-fixesproto = "1 year"
+-RECIPE_LATEST_RELEASE_DATE_pn-fixesproto = "Oct 29, 2010"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-fixesproto = "1+ years"
++RECIPE_LATEST_RELEASE_DATE_pn-fixesproto = "Mar 8, 2011"
+ RECIPE_COMMENTS_pn-fixesproto = ""
+-RECIPE_LAST_UPDATE_pn-fixesproto = "Nov 16, 2010"
++RECIPE_LAST_UPDATE_pn-fixesproto = "Apr 11, 2011"
+ RECIPE_MAINTAINER_pn-fixesproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-fontcacheproto = "green"
+@@ -3819,13 +3821,13 @@ RECIPE_MAINTAINER_pn-libdmx = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-libxi = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-libxi = "not done"
+-RECIPE_LATEST_VERSION_pn-libxi = "1.3"
++RECIPE_LATEST_VERSION_pn-libxi = "1.4.2"
+ RECIPE_NO_OF_PATCHES_pn-libxi = "0"
+ RECIPE_INTEL_SECTION_pn-libxi = "x11/libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxi = "2 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-libxi = "10/2009"
++RECIPE_LATEST_RELEASE_DATE_pn-libxi = "Mar 18, 2011"
+ RECIPE_COMMENTS_pn-libxi = ""
+-RECIPE_LAST_UPDATE_pn-libxi = "Nov 24, 2010"
++RECIPE_LAST_UPDATE_pn-libxi = "Apr 11, 2011"
+ RECIPE_MAINTAINER_pn-libxi = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-libxinerama = "green"
+@@ -4067,13 +4069,13 @@ RECIPE_MAINTAINER_pn-xcb-proto = "Dexuan Cui <dexuan.cui@intel.com>"
+ RECIPE_STATUS_pn-xextproto = "green"
+ DISTRO_PN_ALIAS_pn-xextproto = "Meego=xorg-x11-proto-xextproto"
+ RECIPE_DEPENDENCY_CHECK_pn-xextproto = "not done"
+-RECIPE_LATEST_VERSION_pn-xextproto = "7.1.2"
++RECIPE_LATEST_VERSION_pn-xextproto = "7.2.0"
+ RECIPE_NO_OF_PATCHES_pn-xextproto = "0"
+ RECIPE_INTEL_SECTION_pn-xextproto = "x11/libs"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xextproto = "1 year"
+-RECIPE_LATEST_RELEASE_DATE_pn-xextproto = "Aug 10, 2010"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xextproto = "6+ months"
++RECIPE_LATEST_RELEASE_DATE_pn-xextproto = "Feb 27, 2011"
+ RECIPE_COMMENTS_pn-xextproto = ""
+-RECIPE_LAST_UPDATE_pn-xextproto = "Nov 16, 2010"
++RECIPE_LAST_UPDATE_pn-xextproto = "Apr 11, 2011"
+ RECIPE_MAINTAINER_pn-xextproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-xf86vidmodeproto = "green"
+@@ -4091,13 +4093,13 @@ RECIPE_MAINTAINER_pn-xf86vidmodeproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ RECIPE_STATUS_pn-xproto = "green"
+ DISTRO_PN_ALIAS_pn-xproto = "Meego=xorg-x11-proto-xproto Fedora=xorg-x11-proto-devel Ubuntu=x11proto-core-dev Debian=x11proto-core-dev Opensuse=xorg-x11-proto-devel Mandriva=x11-proto-devel"
+ RECIPE_DEPENDENCY_CHECK_pn-xproto = "not done"
+-RECIPE_LATEST_VERSION_pn-xproto = "7.0.20"
++RECIPE_LATEST_VERSION_pn-xproto = "7.0.21"
+ RECIPE_NO_OF_PATCHES_pn-xproto = "0"
+ RECIPE_INTEL_SECTION_pn-xproto = "x11/libs"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xproto = "1 month"
+-RECIPE_LATEST_RELEASE_DATE_pn-xproto = "Dec 7, 2010"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xproto = "3+ months"
++RECIPE_LATEST_RELEASE_DATE_pn-xproto = "Mar 22, 2011"
+ RECIPE_COMMENTS_pn-xproto = ""
+-RECIPE_LAST_UPDATE_pn-xproto = "Jan 5, 2011"
++RECIPE_LAST_UPDATE_pn-xproto = "Apr 11, 2011"
+ RECIPE_MAINTAINER_pn-xproto = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-liberation-fonts = "green"
+@@ -4239,13 +4241,13 @@ RECIPE_MAINTAINER_pn-libxres = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-libxt = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-libxt = "not done"
+-RECIPE_LATEST_VERSION_pn-libxt = "1.0.8"
++RECIPE_LATEST_VERSION_pn-libxt = "1.1.1"
+ RECIPE_NO_OF_PATCHES_pn-libxt = "0"
+ RECIPE_INTEL_SECTION_pn-libxt = "x11/libs"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxt = "5 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-libxt = "03/2010"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxt = "6 days"
++RECIPE_LATEST_RELEASE_DATE_pn-libxt = "Mar 10, 2011"
+ RECIPE_COMMENTS_pn-libxt = ""
+-RECIPE_LAST_UPDATE_pn-libxt = "Nov 24, 2010"
++RECIPE_LAST_UPDATE_pn-libxt = "Apr 11, 2011"
+ RECIPE_MAINTAINER_pn-libxt = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-libxv = "green"
+@@ -4372,12 +4374,12 @@ RECIPE_MAINTAINER_pn-libxkbfile = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-pixman = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-pixman = "not done"
+-RECIPE_LATEST_VERSION_pn-pixman = "0.21.4"
+-RECIPE_NO_UPDATE_REASON_pn-pixman = "Do not upgrade to version: 0.21.4 because it's a development snapshot. pixman's stable releases have even minor version numbers."
++RECIPE_LATEST_VERSION_pn-pixman = "0.21.6"
++RECIPE_NO_UPDATE_REASON_pn-pixman = "Do not upgrade to version: 0.21.6 because it's a development snapshot. pixman's stable releases have even minor version numbers."
+ RECIPE_NO_OF_PATCHES_pn-pixman = "0"
+ RECIPE_INTEL_SECTION_pn-pixman = "x11/libs"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-pixman = "2 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-pixman = "Jan 19, 2011"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-pixman = "1+ month"
++RECIPE_LATEST_RELEASE_DATE_pn-pixman = "Feb 22, 2011"
+ RECIPE_COMMENTS_pn-pixman = ""
+ RECIPE_LAST_UPDATE_pn-pixman = "Jan 31, 2011"
+ RECIPE_MAINTAINER_pn-pixman = "Dexuan Cui <dexuan.cui@intel.com>"
+@@ -4406,13 +4408,13 @@ RECIPE_MAINTAINER_pn-libxmu = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-libpciaccess = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-libpciaccess = "not done"
+-RECIPE_LATEST_VERSION_pn-libpciaccess = "0.11.0"
++RECIPE_LATEST_VERSION_pn-libpciaccess = "0.12.1"
+ RECIPE_NO_OF_PATCHES_pn-libpciaccess = "0"
+ RECIPE_INTEL_SECTION_pn-libpciaccess = "x11/libs"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libpciaccess = "1+ years"
+-RECIPE_LATEST_RELEASE_DATE_pn-libpciaccess = "12/2009"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libpciaccess = "6+ months"
++RECIPE_LATEST_RELEASE_DATE_pn-libpciaccess = "Feb 2, 2011"
+ RECIPE_COMMENTS_pn-libpciaccess = ""
+-RECIPE_LAST_UPDATE_pn-libpciaccess = "Nov 24, 2010"
++RECIPE_LAST_UPDATE_pn-libpciaccess = "Apr 11, 2011"
+ RECIPE_MAINTAINER_pn-libpciaccess = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-xkeyboard-config = "green"
+@@ -4547,13 +4549,13 @@ RECIPE_MAINTAINER_pn-galago-daemon = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-gnome-doc-utils = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-gnome-doc-utils = "not done"
+-RECIPE_LATEST_VERSION_pn-gnome-doc-utils = "0.20.4"
++RECIPE_LATEST_VERSION_pn-gnome-doc-utils = "0.20.5"
+ RECIPE_NO_OF_PATCHES_pn-gnome-doc-utils = "0"
+ RECIPE_INTEL_SECTION_pn-gnome-doc-utils = "utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gnome-doc-utils = "less than 1 month"
+-RECIPE_LATEST_RELEASE_DATE_pn-gnome-doc-utils = "Jan 10, 2011"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gnome-doc-utils = "2+ months"
++RECIPE_LATEST_RELEASE_DATE_pn-gnome-doc-utils = "Mar 22, 2011"
+ RECIPE_COMMENTS_pn-gnome-doc-utils = ""
+-RECIPE_LAST_UPDATE_pn-gnome-doc-utils = "Jan 28, 2011"
++RECIPE_LAST_UPDATE_pn-gnome-doc-utils = "Apr 11, 2011"
+ RECIPE_MAINTAINER_pn-gnome-doc-utils = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-gnome-settings-daemon = "red"
+@@ -5423,7 +5425,6 @@ DISTRO_PN_ALIAS_pn-screenshot = "OpenedHand"
+ DISTRO_PN_ALIAS_pn-web-webkit = "OpenedHand"
+ DISTRO_PN_ALIAS_pn-xcursor-transparent-theme = "OpenedHand"
+ DISTRO_PN_ALIAS_pn-qemugl = "OpenedHand"
+-DISTRO_PN_ALIAS_pn-oprofileui = "OpenedHand"
+ DISTRO_PN_ALIAS_pn-gaku = "OpenedHand"
+ DISTRO_PN_ALIAS_pn-xvideo-tests = "OpenedHand"
  
 -- 
 1.7.1.1
