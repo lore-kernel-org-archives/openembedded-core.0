@@ -1,45 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QBjtL-0007YU-4b
-	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 10:33:07 +0200
-Received: by fxm19 with SMTP id 19so3293599fxm.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QBjxf-0007bB-Lp for openembedded-core@lists.openembedded.org;
+	Mon, 18 Apr 2011 10:37:35 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I8ZCnR010148
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 01:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:references
-	:mime-version:content-type:content-disposition
-	:content-transfer-encoding:in-reply-to:user-agent;
-	bh=qsOahNsq6BvtPff3pK7szupvXKV+5cvTzZyCfRoqvQg=;
-	b=feIj8zPEEX6nuIujXVyjnbX60IGefcsPPP/OT1S9KS6yc0WnpNq3ir135DJLejPjHS
-	V/uXshKi+GprkZlKP34Jpd/6VHK9q0j4agO8+/svTTXmhORfTfjSHzxfmAGBqj7vm5KX
-	sFdVovcbVjn9ziymLB7qSej/8DSBy4fiisZFY=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	b=DHCWEEc2uUNgHwsmpL7rxga+rylgnZ7NXUNVeIBIPkyxINEvi/c6w3PF23p9R/jUfm
-	coewxwzR5G/L/SVzpwlDDOUVhlttPTcV6GG4oDD17+/nmgMvgeP/sdJT/6QOlN0anJBL
-	H6FVJ3T/S9n5Lr/oBQ5zerdiTglPmAexonmfM=
-Received: by 10.223.77.4 with SMTP id e4mr1905209fak.51.1303115439830;
-	Mon, 18 Apr 2011 01:30:39 -0700 (PDT)
-Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
-	by mx.google.com with ESMTPS id e17sm1580565fak.24.2011.04.18.01.30.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 18 Apr 2011 01:30:38 -0700 (PDT)
-Date: Mon, 18 Apr 2011 10:30:37 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon, 18 Apr 2011 09:35:12 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10049-02 for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2011 09:35:08 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I8Z4Ej010134
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2011 09:35:04 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110418083037.GA24192@jama.jama.net>
-References: <1303107421.5518.45.camel@rex>
-	<20110418065013.GI25122@jama.jama.net>
-	<1303110555.5518.64.camel@rex>
-	<B4EB4EB4-C631-481F-94DE-65C7789136F2@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <B4EB4EB4-C631-481F-94DE-65C7789136F2@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: RFC: Layer tooling brainstorming
+In-Reply-To: <f78273c64ab21b1a0691585a2140d5fdf24f3f3a.1303113405.git.Martin.Jansa@gmail.com>
+References: <cover.1303113405.git.Martin.Jansa@gmail.com>
+	<f78273c64ab21b1a0691585a2140d5fdf24f3f3a.1303113405.git.Martin.Jansa@gmail.com>
+Date: Mon, 18 Apr 2011 09:34:55 +0100
+Message-ID: <1303115695.5518.70.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 3/4] task-base: allow distribution to define apm provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,88 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 08:33:07 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 18 Apr 2011 08:37:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 18, 2011 at 10:01:59AM +0200, Koen Kooi wrote:
->=20
-> Op 18 apr 2011, om 09:09 heeft Richard Purdie het volgende geschreven:
->=20
-> > On Mon, 2011-04-18 at 08:50 +0200, Martin Jansa wrote:
-> >> On Mon, Apr 18, 2011 at 07:17:01AM +0100, Richard Purdie wrote:
-> >>=20
-> >> maybe I've missed something, but
-> >> * Parsing error when ie foo_1.0.bbappend is found, but foo_1.0.bb in
-> >>  upper layer was upgraded to foo_1.1.bb
-> >>=20
-> >> This can cause big problems when distribution explicitly enables
-> >> something in .bbappend with EXTRA_OECONF, and someone updates all
-> >> layers, builds foo_1.1.bb and installs it on targets before noticing
-> >> that foo_1.0.bbappend wasn't used. Then he has to bump PR after adding
-> >> foo_1.1.bbappend to distro layer (to fix foo on targets), so I would
-> >> prefer parsing error in this case (won't help if upper layer keeps both
-> >> versions foo_1.0.bb and foo_1.1.bb ;/).
-> >>=20
-> >> This should be combined with your 2nd point and person who changes
-> >> versioned dependency on upper layer should check that all needed
-> >> .bbappends still apply.
-> >=20
-> > Agreed but I thought we already had a tool to handle at least some of
-> > this though? Certainly integration of that with the above is essential
-> > though.
->=20
-> This is what I get for my setup:
->=20
-> koen@dominion:/OE/tentacle/build$ bitbake-layers=20
-> <string>:1: DeprecationWarning: Call to deprecated function bb.parse.pars=
-e_py.BBHandler.vars_from_file: Please use bb.parse.vars_from_file instead.
-> <string>:6: DeprecationWarning: Call to deprecated function bb.which: Ple=
-ase use bb.utils.which instead.
-> WARNING: Bitbake has not been run using the bitbake wrapper (scripts/bitb=
-ake); this is likely because your PATH has been altered from that normally =
-set up by the poky-init-build-env script. Not using the wrapper may result =
-in failures during package installation, so it is highly recommended that y=
-ou set your PATH back so that the wrapper script is being executed.
-> WARNING: Pseudo is not functioning correctly, which will cause failures d=
-uring package installation. Please check your configuration.
-> Parsing recipes..<string>:1: DeprecationWarning: Call to deprecated funct=
-ion bb.which: Please use bb.utils.which instead.
-> <string>:1: DeprecationWarning: Call to deprecated function bb.which: Ple=
-ase use bb.utils.which instead.
-> <string>:1: DeprecationWarning: Call to deprecated function bb.which: Ple=
-ase use bb.utils.which instead.
-> done.
-> INFO: State of append files:
-> INFO: base-files_3.0.14.bb:
-> INFO:   /OE/tentacle/sources/meta-angstrom/recipes-core/base-files/base-f=
-iles_3.0.14.bbappend
-> INFO: libusb-compat_0.1.3.bb:
-> INFO:   /OE/tentacle/sources/meta-openembedded/meta-oe/recipes-support/li=
-busb/libusb-compat_0.1.3.bbappend
-> INFO: sysvinit_2.88dsf.bb:
-> INFO:   /OE/tentacle/sources/meta-angstrom/recipes-core/sysvinit/sysvinit=
-_2.88dsf.bbappend
-> koen@dominion:/OE/tentacle/build$=20
+On Mon, 2011-04-18 at 10:00 +0200, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-core/tasks/task-base.bb |    5 ++++-
+>  1 files changed, 4 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-core/tasks/task-base.bb b/meta/recipes-core/tasks/task-base.bb
+> index 138e617..10f3af4 100644
+> --- a/meta/recipes-core/tasks/task-base.bb
+> +++ b/meta/recipes-core/tasks/task-base.bb
+> @@ -179,8 +179,11 @@ RDEPENDS_task-base-acpi = "\
+>      acpid \
+>      libacpi "
+>  
+> +# Distro can override apm provider
+> +DISTRO_APM ?= "apm"
+> +
+>  RDEPENDS_task-base-apm = "\
+> -    apm \
+> +    ${DISTRO_APM} \
+>      apmd"
 
-This is great for distro maintainer who maintains also those required
-revisions for upper layers, if distro building scripts (oebb.sh or our
-SHR Makefile) allows such revision locking.
+Can you explain a little more about why a distro would do this please?
+I'm a little worried this whole file could become a set of DISTRO_*
+variables :/.
 
-But I don't expect regular distro builder to do such test after every
-git pull in some layer (that's why I think parsing error would be
-better).
+Cheers,
 
-My workaround for revision locking is using branches oe-core-contrib/shr
-meta-oe-contrib/shr from SHR Makefile, where I can stash some patches
-not yet applied from pull request or even not yet sent in any pull
-request and also control which upstream revision will be used (rebased
-on).
+Richard
 
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
