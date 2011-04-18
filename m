@@ -1,35 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QBgWP-0007Pb-Gp for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 06:57:13 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I4soVU008132;
-	Mon, 18 Apr 2011 05:54:50 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07459-07; Mon, 18 Apr 2011 05:54:46 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I4sg87008126
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 18 Apr 2011 05:54:42 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1302936483.git.sgw@linux.intel.com>
-References: <cover.1302936483.git.sgw@linux.intel.com>
-Date: Mon, 18 Apr 2011 05:54:35 +0100
-Message-ID: <1303102475.5518.31.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Jingdong Lu <jingdong.lu@windriver.com>,
-	Xiaofeng Yan <xiaofeng.yan@windriver.com>,
-	Scott Rifenbark <scott.m.rifenbark@intel.com>,
-	Kang Kai <kai.kang@windriver.com>
-Subject: Re: [PATCH 00/58] Consolidated Updates and Bug Fixes
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ke.yu@intel.com>) id 1QBhCI-00085E-5z
+	for openembedded-core@lists.openembedded.org;
+	Mon, 18 Apr 2011 07:40:30 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Apr 2011 22:38:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,231,1301900400"; d="scan'208";a="910948753"
+Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.102])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2011 22:38:07 -0700
+Message-Id: <cover.1303105369.git.ke.yu@intel.com>
+Old-Date: Mon, 18 Apr 2011 13:42:49 +0800
+Date: Mon, 18 Apr 2011 13:45:38 +0800
+To: openembedded-core@lists.openembedded.org
+From: Yu Ke <ke.yu@intel.com>
+Subject: [PATCH 0/3] misc recipe upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,39 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 04:57:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Apr 2011 05:40:31 -0000
 
-On Fri, 2011-04-15 at 23:53 -0700, Saul Wold wrote:
-> Folks have been busy while we were away at ELC!
-> 
-> There are package updates, patch classifications, and bug fixes 
-> including some CVEs that need to be back ported to 1.0.1
-> 
-> I still don't have access to openembedded-core-contrib, so please 
-> find these in the poky-contrib area.
-> 
-> Clutter-1.6 has a dependency on json-glib, which Joshua will be fixing
-> next week, it's not an issue for most builds right now.
-> 
-> I did rejects some patches due to issue with build or patch classificiations.
-> 
-> Hope we can get these in for next week.
+From: Yu Ke <ke.yu@intel.com>
 
-I took these with the exception of:
+ these are some remaining patches on my hand:
+ - remove old mesa recipe to cleanup mesa
+ - add python dependcy for mesa
+ - reassign Kevin's recipe
 
-[PATCH 37/58] gnu-config-native: add dependency on perl-native
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: kyu3/upgrade-04-18
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kyu3/upgrade-04-18
 
-which I've commented on and:
+Thanks,
+    Yu Ke <ke.yu@intel.com>
+---
 
-[PATCH 47/58] setuptools: Make options for setup.py more flexible
 
-which I agree shouldn't be merged.
+Yu Ke (3):
+  mesa 7.10.2: add python-native dependency
+  mesa: cleanup and remove the old version 7.5, 7.7 and 7.8.2
+  distro tracking: reassign Kevin's recipe
 
-Cheers,
-
-Richard
+ .../conf/distro/include/distro_tracking_fields.inc |   66 ++++++++++----------
+ meta/recipes-graphics/mesa/mesa-dri/cross2.patch   |    2 +
+ meta/recipes-graphics/mesa/mesa-dri/crossfix.patch |    2 +
+ meta/recipes-graphics/mesa/mesa-dri_7.10.2.bb      |    2 +-
+ meta/recipes-graphics/mesa/mesa-dri_7.5.bb         |   48 --------------
+ meta/recipes-graphics/mesa/mesa-dri_7.7.bb         |   49 ---------------
+ meta/recipes-graphics/mesa/mesa-dri_7.8.2.bb       |   56 -----------------
+ 7 files changed, 38 insertions(+), 187 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mesa/mesa-dri_7.5.bb
+ delete mode 100644 meta/recipes-graphics/mesa/mesa-dri_7.7.bb
+ delete mode 100644 meta/recipes-graphics/mesa/mesa-dri_7.8.2.bb
 
 
 
