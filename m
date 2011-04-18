@@ -1,35 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QBmUT-0002nn-VO
-	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 13:19:38 +0200
-Received: by wwb17 with SMTP id 17so4641169wwb.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QBmfo-0005sA-Lu for openembedded-core@lists.openembedded.org;
+	Mon, 18 Apr 2011 13:31:22 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3IBT1xC011828
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 04:17:17 -0700 (PDT)
-Received: by 10.216.237.65 with SMTP id x43mr1586076weq.70.1303125437520;
-	Mon, 18 Apr 2011 04:17:17 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	t72sm2523655wei.44.2011.04.18.04.17.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 18 Apr 2011 04:17:17 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1303124673.5518.115.camel@rex>
-Date: Mon, 18 Apr 2011 13:17:16 +0200
-Message-Id: <01BD5540-E3ED-4514-8912-06A6AB2BE163@dominion.thruhere.net>
-References: <cover.1302886579.git.paul.eggleton@linux.intel.com>
-	<72ccbf03bcbec48a34d830c356e591a9139e3794.1302886579.git.paul.eggleton@linux.intel.com>
-	<4DA88DE3.2050702@linux.intel.com>
-	<201104181017.59589.paul.eggleton@linux.intel.com>
-	<E3CCB8FD-559F-4700-B922-FC7C86033E40@dominion.thruhere.net>
-	<1303120390.5518.88.camel@rex>
-	<22E1FECB-BC83-4638-9555-6C5571C3C176@dominion.thruhere.net>
-	<1303124673.5518.115.camel@rex>
+	Mon, 18 Apr 2011 12:29:01 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 11661-03 for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2011 12:28:57 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3IBSsoE011822
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2011 12:28:55 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [poky] [PATCH 2/3] netbase: automatically bring up usb0 on beagleboard
+In-Reply-To: <43EE53C2-2A83-4F54-B8CF-F0614AB390B0@dominion.thruhere.net>
+References: <43EE53C2-2A83-4F54-B8CF-F0614AB390B0@dominion.thruhere.net>
+Date: Mon, 18 Apr 2011 12:28:45 +0100
+Message-ID: <1303126125.5518.118.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Is BBCLASSEXTEND in .bbappend supposed to work?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,88 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 11:19:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 18 Apr 2011 11:31:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Mon, 2011-04-18 at 12:55 +0200, Koen Kooi wrote:
+> Martin did some Xorg cleanup in meta-oe today and we're seeing some strange behaviour.  The recipe in question:
+> 
+> koen@dominion:/OE/tentacle/sources/meta-openembedded/meta-oe$ cat recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
+> BBCLASSEXTEND = "native nativesdk"
+> koen@dominion:/OE/tentacle/sources/meta-openembedded/meta-oe$ 
+> 
+> Bitbake-layers tells me:
+> 
+> INFO: libxrender_0.9.6.bb:
+> INFO:   /OE/tentacle/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
+> 
+> So the append is getting picked up, but bitbake gives me:
+> 
+> ERROR: Nothing PROVIDES 'libxrender-native'
+> NOTE: Runtime target 'libnss-mdns' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['libnss-mdns', 'avahi', 'gtk+', 'gtk+-native', 'libxrender-native']
+> 
+> This is with HEAD of bitbake master.
+
+I did some experimentation here and this looks like bitbake-layers is
+seeing the file but bitbake is not. If I touch the libxrender .bb file
+and then run bitbake -DDD, I see the file mentioned in the logs:
+
+$ touch recipes-graphics/xorg-lib/libxrender_0.9.6.bb
+$ bitbake libxrender-native -DDD | grep append
+DEBUG: Appending .bbappend file /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend to /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bb
+DEBUG: BB /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend: handle(data, include)
+DEBUG: LOAD /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
+
+Can you confirm you're seeing that? Admittedly I just hacked a local
+checkout and I'm not using meta-oe.
+
+Do you need to add *.bbappend to BBFILES in layer.conf ?
+
+Cheers,
+
+Richard
 
 
-Op 18 apr 2011, om 13:04 heeft Richard Purdie het volgende geschreven:
-
-> On Mon, 2011-04-18 at 12:48 +0200, Koen Kooi wrote:
->> Op 18 apr 2011, om 11:53 heeft Richard Purdie het volgende =
-geschreven:
->>=20
->>> On Mon, 2011-04-18 at 11:30 +0200, Koen Kooi wrote:
->>>> Op 18 apr 2011, om 11:17 heeft Paul Eggleton het volgende =
-geschreven:
->>>>=20
->>>>> On Friday 15 April 2011 19:26:43 Saul Wold wrote:
->>>>>> There was some initial discussion at ELC this last week about =
-what goes
->>>>>> where and how layers are going to work moving forward.  I know =
-that we
->>>>>> are committed to the qemu* machines in oe-core (meta), and that
->>>>>> currently meta-yocto contains a set of core HW (beagleboard among =
-them),
->>>>>> so the question then is should the HW specific stuff, such as =
-this patch
->>>>>> move to meta-yocto or some other layer?  There are a couple other
->>>>>> recipes such as x-load and formfactor that contain HW specific =
-files.
->>>>>=20
->>>>> Ah, yes, you're right - we definitely don't want this file in =
-oe-core. I should=20
->>>>> have pushed this particular patch to meta-yocto=20
->>>>=20
->>>> You mean meta-texasinstruments, right? Or do you yocto folks keep
->>>> going to deny that there's an upstream layer for beagleboard =
-support?
->>>=20
->>> To quote my email from earlier today:
->>>=20
->>> """
->>>> It should live in the upstream beagleboard BSP layer, which =
-currently
->>>> is meta-texasinstruments
->>>=20
->>> That is the goal, yes. It was agreed that until we sort out the =
-layer
->>> tooling, there would be some code in meta-yocto which would be a =
-copy of
->>> various upstream parts which includes beagleboard. Over time I'm =
-hoping
->>> to see these pieces converge, then we when get the tooling right it =
-will
->>> become automated.
->>> """
->>>=20
->>> which I'd hardly call denial. There is a plan indicated above which =
-we
->>> agreed to and we intend to follow unless there is a problem?
->>=20
->> This=20
->>=20
->>>>> I should=20
->>>>> have pushed this particular patch to meta-yocto=20
->>=20
->> bit from Pauls email indicates a problem. Since that is not pushing =
-to
->> upstream first (implied by the use of 'copy'), but keeping fixes only
->> in the yocto layer.
->=20
-> One step at a time. Getting pieces in roughly the right places is a =
-good
-> start, then we can look at syncing up any differences.
->=20
-> I can start jumping up and down every time someone duplicates =
-something
-> in meta-oe to be synced "later" if it would help? ;-)
-
-That would actually be very helpfull, there's too much crud in there =
-that needs a cleanup. Which is slowly improving, though :)
-
-regards,
-
-Koen=
 
 
