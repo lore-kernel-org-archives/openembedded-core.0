@@ -1,32 +1,31 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QBu0T-0008Rw-VV
+	(envelope-from <jpuhlman@mvista.com>) id 1QBuWe-0000lc-Vp
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 21:21:10 +0200
-Received: by bwz5 with SMTP id 5so4521055bwz.6
+	Mon, 18 Apr 2011 21:54:25 +0200
+Received: by pvc30 with SMTP id 30so2483054pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 12:18:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:from:date:message-id:subject:to
-	:content-type; bh=FDoeggtx4uzvFk5AJWKBal7G04Lfw9nbxS8lK2VP5aU=;
-	b=q80NXIGdkwpRfMrIimn7q/NdaGoAaGDyQD/QwXlCdRp7NzQmiIh8ZyF7Kk9enfGp0U
-	p8aAIm4Q/0mdnWs02585rU5qShGyTyVkJtXog5xMXS+7+SKg+xE0ic+/jjiych0zTlb+
-	UB3I2eaONqsLM3XDEFxwe9AxdNx7NpoY52aVo=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	b=xAbvWwr2Jaixkv9GszyuxzpE8WoMha6IIRlaZTw5RR005Ey+ANxLO06vBaINZpehZ0
-	ji+DZsMXkHHFivqHrQEFDdq6+MHKbLfgrto6GZRGHs4OHiCJ4m2WMEsZQnJ/harKP7c1
-	tQbdV/Xb7/XDYf0+R6K/IEGd2yng2xr6lnH58=
-Received: by 10.204.46.27 with SMTP id h27mr173965bkf.61.1303154329156; Mon,
-	18 Apr 2011 12:18:49 -0700 (PDT)
+	Mon, 18 Apr 2011 12:51:55 -0700 (PDT)
+Received: by 10.68.49.166 with SMTP id v6mr7777794pbn.322.1303156315392;
+	Mon, 18 Apr 2011 12:51:55 -0700 (PDT)
+Received: from [192.168.1.17] (c-67-187-204-11.hsd1.ca.comcast.net
+	[67.187.204.11])
+	by mx.google.com with ESMTPS id g3sm1802094pbl.92.2011.04.18.12.51.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 18 Apr 2011 12:51:54 -0700 (PDT)
+Message-ID: <4DAC965A.7010402@mvista.com>
+Date: Mon, 18 Apr 2011 12:51:54 -0700
+From: Jeremy Puhlman <jpuhlman@mvista.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
+	rv:1.9.2.15) Gecko/20110303 Lightning/1.0b2 Thunderbird/3.1.9
+	ThunderBrowse/3.3.5
 MIME-Version: 1.0
-Received: by 10.204.167.66 with HTTP; Mon, 18 Apr 2011 12:18:19 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 18 Apr 2011 12:18:19 -0700
-Message-ID: <BANLkTini7EDvr-GoW1AP3aaQWjv6tYjOLQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: gcc 4.6 recipes naming
+References: <1303107421.5518.45.camel@rex>
+In-Reply-To: <1303107421.5518.45.camel@rex>
+X-Enigmail-Version: 1.1.1
+Subject: Re: RFC: Layer tooling brainstorming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,33 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 19:21:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 18 Apr 2011 19:54:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Hi
+So we(montavista) basically have run through this process before, though
+using collections implementation. Difference in overall implementation
+aside, the issues are largely the same.
 
-I have gcc 4.6 under progress here. As we know the current release is
-4.6.0. I have been calling the recipes
-to omit the minor release number so the recipes are called
-<recipes>_4.6.bb based on my experiences
-with gcc releases over the years.
+> * This layer tooling probably belongs at a higher level on the stack 
+>   than bitbake itself
 
-Since the minor releases are bug fix releases and when next bug fix
-release happens the total diff
-of changes from 4.6.0 to 4.6.1 are also released as a single diff
-which can be applied on top of existing
-4.6.0 tar file to reach 4.6.1
+This is most definately true, and has worked well for us. We have a set
+of content tools that describes the distribution of each of the
+collections and prebuilt componets that get shipped to the end user.
 
-This makes the upgrade easier for minor releases. I decided not to
-track the release branch since
-that complicates the gcc download as in classic oe
+> * Maybe need to split into "bootstrap" steps (e.g where pseduo is 
+>   established, layers downloaded etc)
 
-So for upgrades we can either just take the diff from 4.6.0 to 4.6.1
-and apply on top of 4.6.0 or
-decide to use the new 4.6.1 tar both would be ok as we decide that later.
+Internally we extended collections to act upon remote collections of
+with any kind fetching bitbake supports. The collections implementation
+has a "built-in" bootstrap step. The actual nice thing about the layers
+implimentation, is you could implement the remote fetching with out
+having the re-execution of bitbake. That being said there is a clear
+need for a method of adding bootstrap steps to address things like
+pseudo. I think trying to put something extensible here would probably
+be good.
 
-Let me know your thoughts.
 
--Khem
 
 
