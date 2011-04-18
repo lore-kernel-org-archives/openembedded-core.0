@@ -1,22 +1,38 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QBhCW-00087T-Ob
+	(envelope-from <dexuan.cui@intel.com>) id 1QBhHu-0008E8-Rb
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 07:40:45 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 Apr 2011 22:38:23 -0700
+	Mon, 18 Apr 2011 07:46:19 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 17 Apr 2011 22:43:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,231,1301900400"; d="scan'208";a="421001317"
-Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.102])
-	by azsmga001.ch.intel.com with ESMTP; 17 Apr 2011 22:38:11 -0700
-Message-Id: <104cf8a8fe3ed92f781e5a4bb189a1eea2749819.1303105369.git.ke.yu@intel.com>
-In-Reply-To: <cover.1303105369.git.ke.yu@intel.com>
-References: <cover.1303105369.git.ke.yu@intel.com>
-Old-Date: Sat, 16 Apr 2011 13:34:58 +0800
-Date: Mon, 18 Apr 2011 13:45:42 +0800
-To: openembedded-core@lists.openembedded.org
-From: Yu Ke <ke.yu@intel.com>
-Subject: [PATCH 2/3] mesa: cleanup and remove the old version 7.5, 7.7 and 7.8.2
+X-IronPort-AV: E=Sophos;i="4.64,231,1301900400"; d="scan'208";a="630322567"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by orsmga002.jf.intel.com with ESMTP; 17 Apr 2011 22:43:54 -0700
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Mon, 18 Apr 2011 13:43:44 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Mon, 18 Apr 2011 13:43:43 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Apr 2011 13:43:42 +0800
+Thread-Topic: [OE-core] [PATCH 37/58] gnu-config-native: add dependency on
+	perl-native
+Thread-Index: Acv9hL0a6FfodeD5SoCvU+fMWi89kAAA0iFg
+Message-ID: <1865303E0DED764181A9D882DEF65FB6900D7D5708@shsmsx502.ccr.corp.intel.com>
+References: <cover.1302936483.git.sgw@linux.intel.com>
+	<eee3fb921c3e9c6439df2540a552719c9327ebd4.1302936483.git.sgw@linux.intel.com>
+	<1303102414.5518.30.camel@rex>
+In-Reply-To: <1303102414.5518.30.camel@rex>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 37/58] gnu-config-native: add dependency on perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,220 +47,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 05:40:45 -0000
+X-List-Received-Date: Mon, 18 Apr 2011 05:46:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Yu Ke <ke.yu@intel.com>
+Richard Purdie wrote:
+> On Fri, 2011-04-15 at 23:54 -0700, Saul Wold wrote:
+>> From: Dexuan Cui <dexuan.cui@intel.com>
+>>=20
+>> Fixes [YOCTO #968]
+>>=20
+>> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20080123.bb
+>> b/meta/recipes-devtools/gnu-config/gnu-config_20080123.bb=20
+>> index e0a8155..897984d 100644
+>> --- a/meta/recipes-devtools/gnu-config/gnu-config_20080123.bb
+>> +++ b/meta/recipes-devtools/gnu-config/gnu-config_20080123.bb
+>> @@ -3,12 +3,14 @@ DESCRIPTION =3D "Tool that installs the GNU
+>>  config.guess / config.sub into a direc  SECTION =3D "devel" LICENSE =3D
+>>  "GPLv1+" LIC_FILES_CHKSUM =3D
+>> "file://config.guess;endline=3D39;md5=3Da089987af4a25cb0419d1c2fd6d495e3=
+"
+>> -DEPENDS =3D "" + +DEPENDS_virtclass-native =3D "perl-native"
+>> +
+>>  INHIBIT_DEFAULT_DEPS =3D "1"
+>>=20
+>=20
+>=20
+> I haven't taken this. Having looked at the shear number of horrible
+> perl-native issues, I'd like to take the same approach we took with
+> the toolchain staging and place perl into its own bin directory we
+> add to PATH when needed.=20
+Hi RP,
+If a recipe does need perl-native but we fail to realize that, the host's p=
+erl (e.g. /usr/bin/perl) will be used -- this will further hinder us from r=
+ealizing the recipe needs perl-native.
 
- - mesa 7.8.2 is kept to have a version without GPLv3 talloc. now 7.10.2 has removed the talloc, 7.8.2 can be removed safely.
- - mesa 7.5 and 7.7 is a legacy recips from original poky, also can removed.
- - mesa-dri-glsl-native_7.8.2 is a dependecy recipe only used by mesa 7.8.2, should also be removed along with mesa 7.8.2
- - aslo update the patch upstream status
+As to bug #968, the build failure happens because perl-native's do_populate=
+_sysroot has begun but hasn't finished. If perl-native hasn't started to po=
+pulate_sysroot, running gnu-configize won't fail since host's perl will be =
+used.
 
-Signed-off-by: Yu Ke <ke.yu@intel.com>
----
- meta/recipes-graphics/mesa/mesa-dri/cross2.patch   |    2 +
- meta/recipes-graphics/mesa/mesa-dri/crossfix.patch |    2 +
- meta/recipes-graphics/mesa/mesa-dri_7.5.bb         |   48 -----------------
- meta/recipes-graphics/mesa/mesa-dri_7.7.bb         |   49 -----------------
- meta/recipes-graphics/mesa/mesa-dri_7.8.2.bb       |   56 --------------------
- 5 files changed, 4 insertions(+), 153 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/mesa-dri_7.5.bb
- delete mode 100644 meta/recipes-graphics/mesa/mesa-dri_7.7.bb
- delete mode 100644 meta/recipes-graphics/mesa/mesa-dri_7.8.2.bb
+so I've 3 questions:
+1) in poky how to exclude host's perl from PATH? need to write a python fun=
+ction to filter out various possible host perl paths? e.g., ~/bin/perl, /us=
+r/local/bin/perl, /usr/bin/perl, /bin/perl,... too many paths...
 
-diff --git a/meta/recipes-graphics/mesa/mesa-dri/cross2.patch b/meta/recipes-graphics/mesa/mesa-dri/cross2.patch
-index d214791..264c153 100644
---- a/meta/recipes-graphics/mesa/mesa-dri/cross2.patch
-+++ b/meta/recipes-graphics/mesa/mesa-dri/cross2.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
-+
- Index: git/configure.ac
- ===================================================================
- --- git.orig/configure.ac	2009-09-01 16:38:26.000000000 +0100
-diff --git a/meta/recipes-graphics/mesa/mesa-dri/crossfix.patch b/meta/recipes-graphics/mesa/mesa-dri/crossfix.patch
-index 84be428..d300e2f 100644
---- a/meta/recipes-graphics/mesa/mesa-dri/crossfix.patch
-+++ b/meta/recipes-graphics/mesa/mesa-dri/crossfix.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
-+
- Index: Mesa-7.5/bin/mklib
- ===================================================================
- --- Mesa-7.5.orig/bin/mklib	2009-08-12 13:01:34.000000000 +0100
-diff --git a/meta/recipes-graphics/mesa/mesa-dri_7.5.bb b/meta/recipes-graphics/mesa/mesa-dri_7.5.bb
-deleted file mode 100644
-index b50cee8..0000000
---- a/meta/recipes-graphics/mesa/mesa-dri_7.5.bb
-+++ /dev/null
-@@ -1,48 +0,0 @@
--include mesa-common.inc
--
--SRC_URI += "file://crossfix.patch;patch=1"
--#            file://mesa-DRI2Swapbuffer.patch;patch=1
--
--PROTO_DEPS = "xf86driproto glproto dri2proto"
--LIB_DEPS = "libdrm virtual/libx11 libxext libxxf86vm libxdamage libxfixes expat"
--
--DEPENDS = "${PROTO_DEPS}  ${LIB_DEPS}"
--
--PR = "r12"
--
--# most of our targets do not have DRI so will use mesa-xlib
--DEFAULT_PREFERENCE = "-1"
--
--# Atom PCs have DRI support so use mesa-dri by default
--DEFAULT_PREFERENCE_atom-pc = "1"
--
--PACKAGES =+ "${PN}-xprogs"
--PACKAGES_DYNAMIC = "mesa-dri-driver-*"
--
--FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
--FILES_${PN}-xprogs = "${bindir}/glxdemo ${bindir}/glxgears ${bindir}/glxheads ${bindir}/glxinfo"
--
--LEAD_SONAME = "libGL.so.1"
--
--EXTRA_OECONF += "--with-driver=dri --disable-egl --disable-gallium"
--
--do_install_append () {
--    install -d ${D}/usr/bin
--    install -m 0755 ${S}/progs/xdemos/{glxdemo,glxgears,glxheads,glxinfo} ${D}/usr/bin/
--}
--
--python populate_packages_prepend() {
--	import os.path
--
--	dri_drivers_root = os.path.join(bb.data.getVar('libdir', d, 1), "dri")
--
--	do_split_packages(d, dri_drivers_root, '^(.*)_dri\.so$', 'mesa-dri-driver-%s', 'Mesa %s DRI driver', extra_depends='')
--}
--
--COMPATIBLE_HOST = '(i.86.*-linux|x86_64.*-linux)'
--
--
--#
--# Header generated by i586-poky-linux-gcc gen_matypes.c -o gen_matypes -I ../../../include/GL -I ../../../include -I .. -I ../main/ -I ../math -I ../glapi/ -I ../tnl
--# then run gen_matypes > matypes.h on device
--#
-diff --git a/meta/recipes-graphics/mesa/mesa-dri_7.7.bb b/meta/recipes-graphics/mesa/mesa-dri_7.7.bb
-deleted file mode 100644
-index 4cae9c8..0000000
---- a/meta/recipes-graphics/mesa/mesa-dri_7.7.bb
-+++ /dev/null
-@@ -1,49 +0,0 @@
--include mesa-common.inc
--
--SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/7.7/MesaLib-${PV}.tar.bz2 \
--           ftp://ftp.freedesktop.org/pub/mesa/7.7/MesaDemos-${PV}.tar.bz2  \
--           file://crossfix.patch;patch=1"
--
--PROTO_DEPS = "xf86driproto glproto dri2proto"
--LIB_DEPS = "libdrm virtual/libx11 libxext libxxf86vm libxdamage libxfixes expat"
--
--DEPENDS = "${PROTO_DEPS}  ${LIB_DEPS}"
--
--PR = "r12"
--
--# most of our targets do not have DRI so will use mesa-xlib
--DEFAULT_PREFERENCE = "-1"
--
--# Atom PCs have DRI support so use mesa-dri by default
--DEFAULT_PREFERENCE_atom-pc = "1"
--
--PACKAGES =+ "${PN}-xprogs"
--PACKAGES_DYNAMIC = "mesa-dri-driver-*"
--
--FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
--FILES_${PN}-xprogs = "${bindir}/glxdemo ${bindir}/glxgears ${bindir}/glxheads ${bindir}/glxinfo"
--
--LEAD_SONAME = "libGL.so.1"
--
--EXTRA_OECONF += "--with-driver=dri --disable-egl --disable-gallium"
--
--do_install_append () {
--    install -d ${D}/usr/bin
--    install -m 0755 ${S}/progs/xdemos/{glxdemo,glxgears,glxheads,glxinfo} ${D}/usr/bin/
--}
--
--python populate_packages_prepend() {
--	import os.path
--
--	dri_drivers_root = os.path.join(bb.data.getVar('libdir', d, 1), "dri")
--
--	do_split_packages(d, dri_drivers_root, '^(.*)_dri\.so$', 'mesa-dri-driver-%s', 'Mesa %s DRI driver', extra_depends='')
--}
--
--COMPATIBLE_HOST = '(i.86.*-linux|x86_64.*-linux)'
--
--
--#
--# Header generated by i586-poky-linux-gcc gen_matypes.c -o gen_matypes -I ../../../include/GL -I ../../../include -I .. -I ../main/ -I ../math -I ../glapi/ -I ../tnl
--# then run gen_matypes > matypes.h on device
--#
-diff --git a/meta/recipes-graphics/mesa/mesa-dri_7.8.2.bb b/meta/recipes-graphics/mesa/mesa-dri_7.8.2.bb
-deleted file mode 100644
-index 1b4606d..0000000
---- a/meta/recipes-graphics/mesa/mesa-dri_7.8.2.bb
-+++ /dev/null
-@@ -1,56 +0,0 @@
--include mesa-common.inc
--
--LIC_FILES_CHKSUM = "file://docs/license.html;md5=7a3373c039b6b925c427755a4f779c1d"
--
--PROTO_DEPS = "xf86driproto glproto dri2proto"
--LIB_DEPS = "libdrm virtual/libx11 libxext libxxf86vm libxdamage libxfixes expat"
--
--DEPENDS = "${PROTO_DEPS}  ${LIB_DEPS} mesa-dri-glsl-native"
--
--PR = "r3"
--
--SRC_URI += "file://crossfix.patch"
--
--SRC_URI[mesalib.md5sum] = "6be2d343a0089bfd395ce02aaf8adb57"
--SRC_URI[mesalib.sha256sum] = "505bf418dceba05837f4ea1b1972b9620c35f8cb94bc4d1e6d573c15f562576d"
--
--SRC_URI[mesademos.md5sum] = "757d9e2e06f48b1a52848be9b0307ced"
--SRC_URI[mesademos.sha256sum] = "ea7b9ebfb7a80de2b275c0c9124c8a505382ec48411a2794ab82542f9885ac3c"
--
--# most of our targets do not have DRI so will use mesa-xlib
--DEFAULT_PREFERENCE = "-1"
--
--LEAD_SONAME = "libGL.so.1"
--
--EXTRA_OECONF += "--with-driver=dri --disable-egl --disable-gallium"
--
--# We need glsl-compile built for buildhost arch instead of target (is provided by mesa-dri-glsl-native)"
--do_configure_prepend() {
--	sed -i "s#^GLSL_CL = .*\$#GLSL_CL = ${STAGING_BINDIR_NATIVE}/glsl-compile#g" ${S}/src/mesa/shader/slang/library/Makefile
--}
--
--do_install_append () {
--	install -d ${D}/usr/bin
--	install -m 0755 ${S}/progs/xdemos/{glxdemo,glxgears,glxheads,glxinfo} ${D}/usr/bin/
--}
--
--python populate_packages_prepend() {
--	import os.path
--
--	dri_drivers_root = os.path.join(bb.data.getVar('libdir', d, 1), "dri")
--
--	do_split_packages(d, dri_drivers_root, '^(.*)_dri\.so$', 'mesa-dri-driver-%s', 'Mesa %s DRI driver', extra_depends='')
--}
--
--COMPATIBLE_HOST = '(i.86.*-linux|x86_64.*-linux)'
--
--PACKAGES =+ "${PN}-xprogs"
--PACKAGES_DYNAMIC = "mesa-dri-driver-*"
--
--FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
--FILES_${PN}-xprogs = "${bindir}/glxdemo ${bindir}/glxgears ${bindir}/glxheads ${bindir}/glxinfo"
--
--#
--# Header generated by i586-poky-linux-gcc gen_matypes.c -o gen_matypes -I ../../../include/GL -I ../../../include -I .. -I ../main/ -I ../math -I ../glapi/ -I ../tnl
--# then run gen_matypes > matypes.h on device
--#
--- 
-1.7.0.4
+2) how to identify the recipes that need perl-native? I think we have to id=
+entify them manually one by one? This is time comsuming?
 
+3) Even if we solve the above 2 issues, we still need to add perl-native in=
+to the recipes' (that need perl-native) DEPENDS, correct?
+
+I'm not sure my above understanding is ok. Please correct me if I'm wrong.
+
+Thanks,
+-- Dexuan=
 
 
