@@ -1,35 +1,34 @@
-Received: from www.xora.org.uk ([80.68.91.202] helo=xora.vm.bytemark.co.uk)
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dp@xora.org.uk>) id 1QBnXf-0003ch-So
+	(envelope-from <martin.jansa@gmail.com>) id 1QBnrC-0003tY-T8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 14:27:00 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by xora.vm.bytemark.co.uk (Postfix) with ESMTP id E2108A4A5C
+	Mon, 18 Apr 2011 14:47:10 +0200
+Received: by fxm19 with SMTP id 19so3338588fxm.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 13:24:35 +0100 (BST)
-X-Virus-Scanned: Debian amavisd-new at xora.vm.bytemark.co.uk
-Received: from xora.vm.bytemark.co.uk ([127.0.0.1])
-	by localhost (xora.vm.bytemark.co.uk [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id IbNEX-7VjpId
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 13:24:35 +0100 (BST)
-Received: from xora-eee (188-220-38-49.zone11.bethere.co.uk [188.220.38.49])
-	by xora.vm.bytemark.co.uk (Postfix) with ESMTPSA id 5F870A4A5A
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 13:24:35 +0100 (BST)
-Received: by xora-eee (Postfix, from userid 1000)
-	id 91A8F82317; Mon, 18 Apr 2011 13:24:35 +0100 (BST)
-Date: Mon, 18 Apr 2011 13:24:35 +0100
-From: Graeme Gregory <dp@xora.org.uk>
+	Mon, 18 Apr 2011 05:44:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=94kO66+o1yyVuZ1bz1HxZG41mRkD8MU9vM8Htn8OJxM=;
+	b=vEzC9yKfVU3pkuZ4xz0QwoLcEwZ9VhwajE4J8/YqunEKz2xO/m0FAxr0Bvpjs94KKg
+	coBRhB3WOyc6WXwPjPgEy8WIU6BWlbpbf4KPxb4OO+pi8mgi7CQV75GMzp8EeSGe2Afv
+	I0+pTLIE5PRvr+HZJHaOyECKuVDuXg7apdUS8=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=aVjjhbG6RdFdY5Rhn155enPtDZvzimJi8eeW9cKJ0tQtgS8vvWogLzsGTsuv7CbN4i
+	GWG5C3eBxSyrOCrRiBnTFh7ExwihmqejqWknULAgF1VGhqrOW3wKmK+S10UiUA4it70h
+	ZVeGD2r+a/UdIMBYEECHZcTT2hUffAhHtCVhY=
+Received: by 10.223.67.210 with SMTP id s18mr2241921fai.41.1303130690531;
+	Mon, 18 Apr 2011 05:44:50 -0700 (PDT)
+Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
+	by mx.google.com with ESMTPS id 13sm849167fau.16.2011.04.18.05.44.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 18 Apr 2011 05:44:49 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20110418122435.GH2268@xora-eee.xora.org.uk>
-References: <cover.1303122650.git.Martin.Jansa@gmail.com>
-	<20110418104421.GG2268@xora-eee.xora.org.uk>
-	<ioh60l$vaq$1@dough.gmane.org>
-MIME-Version: 1.0
-In-Reply-To: <ioh60l$vaq$1@dough.gmane.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [oe] [meta-oe][PATCH 00/13] Pull request #8
+Date: Mon, 18 Apr 2011 14:44:38 +0200
+Message-Id: <1303130678-975-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.5.rc1
+Subject: [RFC][PATCH] git: use DESTDIR=$D instead prefixing all variables by $D
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,34 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 12:27:00 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Apr 2011 12:47:11 -0000
 
-On Mon, Apr 18, 2011 at 01:07:01PM +0200, Koen Kooi wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
-> 
-> On 18-04-11 12:44, Graeme Gregory wrote:
-> > Not an issue with this checkin, but it raises a question for me,
-> > 
-> > Should xorg stuff be in OE core? Its not really that core in my mind.
-> 
-> OE-core still isn't fleshed out completely, but the current way of
-> thinking is "if enough layers depend on <foo>, <foo> should get
-> considered for oe-core".
-> I have been thinking out a meta-xorg this morning, but I'm trying to
-> stop myself from creating a gazillion layers just because I can :)
-> 
-> Can you move this discussion to the oe-core ml?
-> 
-Doesnt this just make oe-core OE with a pull model?
+* with git-native and rm_work enabled I've noticed git fetcher errors like:
+  warning: templates not found /OE/shr-core/tmp/work/x86_64-linux/git-native-1.7.3.4-r0/image/OE/shr-core/tmp/sysroots/x86_64-linux/usr/share/git-core/templates
+  fatal: Unable to find remote helper for 'http'
+  for every recipe using http:// for git repo
+* after this change template_dir points to
+  /OE/shr-core/tmp/sysroots/x86_64-linux/usr/share/git-core/templates
+  without that workdir prefix
+* haven't tested target recipe, but I guess it needs different fix or
+  maybe it worked before and gets broken by this change (that's why this
+  is just RFC)
 
-This may not be a bad thing, but it does get us into some of the same troubles
-as the guys who like to hack bitbake and gcc might not be the same guys who
-have a keen interest in things like gnome/xorg/kde/......
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/git/git.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Graeme
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index e1d1c71..843a1d3 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -14,8 +14,8 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl --without-tcltk"
+ inherit autotools
+ 
+ do_install () {
+-	oe_runmake install prefix=${D} bindir=${D}${bindir} gitexecdir=${D}${gitexecdir} \
+-		template_dir=${D}${datadir}/git-core/templates \
++	oe_runmake install DESTDIR="${D}" bindir=${bindir} gitexecdir=${gitexecdir} \
++		template_dir=${datadir}/git-core/templates \
+ 		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
+ }
+ 
+-- 
+1.7.5.rc1
 
 
 
