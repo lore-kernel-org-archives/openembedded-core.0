@@ -1,40 +1,34 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QBiKA-00072C-LM
-	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 08:52:42 +0200
-Received: by fxm19 with SMTP id 19so3278480fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Apr 2011 23:50:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=Pcx8qSa0rqPvBrvFXtSOCpNilAtEbGsQOaDYSse04OE=;
-	b=VRFstFW3jaJhZ5cjTWERPofzJRPSF6YmWokSOJIXPHwSjIhPeEmeur97l5N3t2i4xP
-	vAHwliyDmATDrAG8LTkVdQ3tgwGKcP2faPXm0grGGmfEfC0RHLqiSNHqA8B1Dioglws+
-	gcJTdbbswt626CcehIO+VlZSsgoM59/4j17JU=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	b=X8etBf/wwBsLR64Ah8/hTScc8f8PiXmC5tOWi6QhHbSet4otKq9cGvpuCvXt0Bndmm
-	QERiBQZlTVjESoKd8zISSTi6zco2VQYtLG5An8ZbQFPcxhRxynl4FzGaJrkczlthaDgC
-	+8OgcJqh5kiOXv/hE4ZiX+4OZsVkwzCG0AAyk=
-Received: by 10.223.66.70 with SMTP id m6mr4650761fai.34.1303109420378;
-	Sun, 17 Apr 2011 23:50:20 -0700 (PDT)
-Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
-	by mx.google.com with ESMTPS id b18sm1556805fak.8.2011.04.17.23.50.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 17 Apr 2011 23:50:19 -0700 (PDT)
-Date: Mon, 18 Apr 2011 08:50:13 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QBiO5-00075e-KG for openembedded-core@lists.openembedded.org;
+	Mon, 18 Apr 2011 08:56:45 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I6sLDP009281;
+	Mon, 18 Apr 2011 07:54:21 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08813-08; Mon, 18 Apr 2011 07:54:17 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I6sG1C009275
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 18 Apr 2011 07:54:16 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Cui, Dexuan" <dexuan.cui@intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6900D7D5708@shsmsx502.ccr.corp.intel.com>
+References: <cover.1302936483.git.sgw@linux.intel.com>
+	<eee3fb921c3e9c6439df2540a552719c9327ebd4.1302936483.git.sgw@linux.intel.com>
+	<1303102414.5518.30.camel@rex>
+	<1865303E0DED764181A9D882DEF65FB6900D7D5708@shsmsx502.ccr.corp.intel.com>
+Date: Mon, 18 Apr 2011 07:54:07 +0100
+Message-ID: <1303109647.5518.54.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110418065013.GI25122@jama.jama.net>
-References: <1303107421.5518.45.camel@rex>
-MIME-Version: 1.0
-In-Reply-To: <1303107421.5518.45.camel@rex>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: RFC: Layer tooling brainstorming
+Subject: Re: [PATCH 37/58] gnu-config-native: add dependency on perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,62 +43,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 06:52:42 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Apr 2011 06:56:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 18, 2011 at 07:17:01AM +0100, Richard Purdie wrote:
-> Layer Tooling for OpenEmbedded
-> ==============================
+On Mon, 2011-04-18 at 13:43 +0800, Cui, Dexuan wrote:
+> Richard Purdie wrote:
+> > On Fri, 2011-04-15 at 23:54 -0700, Saul Wold wrote:
+> >> @@ -3,12 +3,14 @@ DESCRIPTION = "Tool that installs the GNU
+> >>  config.guess / config.sub into a direc  SECTION = "devel" LICENSE =
+> >>  "GPLv1+" LIC_FILES_CHKSUM =
+> >> "file://config.guess;endline=39;md5=a089987af4a25cb0419d1c2fd6d495e3"
+> >> -DEPENDS = "" + +DEPENDS_virtclass-native = "perl-native"
+> >> +
+> >>  INHIBIT_DEFAULT_DEPS = "1"
+> > 
+> > I haven't taken this. Having looked at the shear number of horrible
+> > perl-native issues, I'd like to take the same approach we took with
+> > the toolchain staging and place perl into its own bin directory we
+> > add to PATH when needed. 
+>
+> If a recipe does need perl-native but we fail to realize that, the
+> host's perl (e.g. /usr/bin/perl) will be used -- this will further
+> hinder us from realizing the recipe needs perl-native.
 > 
-> As we move forward with encouraging the use of metadata layers, a number
-> of issues are appearing which imply the need for either infrastructure
-> improvements to the layer construction, or better tools to handle the
-> layers. The OS TSC discussed layers and layer tooling at the face to
-> face TSC meeting in San Francisco. Some example problems that were
-> identified that currently need addressing in some form are:
+> As to bug #968, the build failure happens because perl-native's
+> do_populate_sysroot has begun but hasn't finished. If perl-native
+> hasn't started to populate_sysroot, running gnu-configize won't fail
+> since host's perl will be used.
 > 
-> * There is no dependency information between layers (layer X depends on 
->   layer Y and Z)
-> * There is no version information present (layer X needs version A of 
->   layer Y)
-> * There is no layer "ABI" version number present in layers
-> * Layer specific sanity checks? (other types of sanity checks on Yocto 
->   1.1 roadmap)
-> * Ability to fetch layers from other repositories
->   - Multi SCM?
->   - Use bitbake fetcher?
-> * Ability to generate repositories representing composited layers (Poky,
->   RP has hacky scripts)
-> * Tool to seperate patch into one for different composited parts
-> * Ability to include partial components of repositories (e.g. only 
->   beagleboard from meta-ti)
-> * Tool to merge (flatten) several layers into one
-> * Able to visualise dependencies between layers
-> * When bitbake prints banner of branch/commit, need to cover all layer 
->   components present
-> * bitbake -e on steroids to highlight differences due to layer changes? 
->   (long term goal)
+> so I've 3 questions:
+> 1) in poky how to exclude host's perl from PATH? need to write a
+> python function to filter out various possible host perl paths? e.g.,
+> ~/bin/perl, /usr/local/bin/perl, /usr/bin/perl, /bin/perl,... too many
+> paths...
+> 
+> 2) how to identify the recipes that need perl-native? I think we have
+> to identify them manually one by one? This is time comsuming?
+> 
+> 3) Even if we solve the above 2 issues, we still need to add
+> perl-native into the recipes' (that need perl-native) DEPENDS,
+> correct?
+> 
+> I'm not sure my above understanding is ok. Please correct me if I'm
+> wrong.
 
-maybe I've missed something, but
-* Parsing error when ie foo_1.0.bbappend is found, but foo_1.0.bb in
-  upper layer was upgraded to foo_1.1.bb
+What I'd like to do is have perl install into a bindir which isn't part
+of our PATH by default. For anything which has DEPENDS = "perl-native",
+we add this directory to PATH. Anything that doesn't have the DEPENDS
+doesn't see it. We can probably make this a perlnative.bbclass or
+something which just contains
 
-This can cause big problems when distribution explicitly enables
-something in .bbappend with EXTRA_OECONF, and someone updates all
-layers, builds foo_1.1.bb and installs it on targets before noticing
-that foo_1.0.bbappend wasn't used. Then he has to bump PR after adding
-foo_1.1.bbappend to distro layer (to fix foo on targets), so I would
-prefer parsing error in this case (won't help if upper layer keeps both
-versions foo_1.0.bb and foo_1.1.bb ;/).
+PATH_prepend = "${STAGING_BINDIR_NATIVE}/perl-native:"
+DEPENDS += "perl-native"
 
-This should be combined with your 2nd point and person who changes
-versioned dependency on upper layer should check that all needed
-.bbappends still apply.
+This should ensure that anything that really needs perl-native finds it
+but we don't have *everything* depending on it unnecessarily.
 
-Regards,
+Cheers,
 
--- 
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
+
 
 
