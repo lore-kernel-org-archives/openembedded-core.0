@@ -1,34 +1,42 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QBjz3-0007db-Qn for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 10:39:04 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I8agkR010179
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1QBk7e-0007le-NI
+	for openembedded-core@lists.openembedded.org;
+	Mon, 18 Apr 2011 10:47:54 +0200
+Received: by fxm19 with SMTP id 19so3296379fxm.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 09:36:42 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09965-05 for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 09:36:38 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I8abJ9010173
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 09:36:38 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 18 Apr 2011 01:45:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=QxRhfSJSRyOVA1l9NSO+7MxVxrG9bhDTwF8k5b2gygk=;
+	b=iPpFdp/VwSBVRfcCFeP/UisK4zQyUfSGZuzf1aziiwPu37hOtVpahiqG77MMBRTnjQ
+	rHhz6X8uDnO1TEGyXAoM6IRdc5nxUhoaVhbCqANE6dNHpNZyNtb49wQCi0uj54DkRma6
+	J4bGLq+LxMuyUlk1zjNNuzQmlc8fplAhbEZtQ=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=t3I92UvKBNGEC5ZYB+b1ThS6h5T/TmrTt//0lV1yzaYdelM7Lsj8Th+Nhr5eV4HwsM
+	/fduWnd8AiYFIT1d68lpnYRsIJGibv16nBL3NZV+bk9g4XfRd6z0VBb+YL2ZfUlkBlqW
+	FHSdkmwUKwPD3klezjEA5RF4G84BGUGAAntOA=
+Received: by 10.223.97.142 with SMTP id l14mr4719236fan.111.1303116327650;
+	Mon, 18 Apr 2011 01:45:27 -0700 (PDT)
+Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
+	by mx.google.com with ESMTPS id b18sm1585727fak.32.2011.04.18.01.45.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 18 Apr 2011 01:45:26 -0700 (PDT)
+Date: Mon, 18 Apr 2011 10:45:20 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <82e7534dc19afc4236082b989988c65e025efb80.1303113405.git.Martin.Jansa@gmail.com>
+Message-ID: <20110418084520.GB24192@jama.jama.net>
 References: <cover.1303113405.git.Martin.Jansa@gmail.com>
-	<82e7534dc19afc4236082b989988c65e025efb80.1303113405.git.Martin.Jansa@gmail.com>
-Date: Mon, 18 Apr 2011 09:36:29 +0100
-Message-ID: <1303115789.5518.72.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 4/4] python-dir.bbclass: define default PYTHON_BASEVERSION
+	<f78273c64ab21b1a0691585a2140d5fdf24f3f3a.1303113405.git.Martin.Jansa@gmail.com>
+	<1303115695.5518.70.camel@rex>
+MIME-Version: 1.0
+In-Reply-To: <1303115695.5518.70.camel@rex>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 3/4] task-base: allow distribution to define apm provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,28 +51,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 08:39:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Apr 2011 08:47:54 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 2011-04-18 at 10:00 +0200, Martin Jansa wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/python-dir.bbclass |    1 +
->  1 files changed, 1 insertions(+), 0 deletions(-)
+On Mon, Apr 18, 2011 at 09:34:55AM +0100, Richard Purdie wrote:
+> On Mon, 2011-04-18 at 10:00 +0200, Martin Jansa wrote:
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/recipes-core/tasks/task-base.bb |    5 ++++-
+> >  1 files changed, 4 insertions(+), 1 deletions(-)
+> > 
+> > diff --git a/meta/recipes-core/tasks/task-base.bb b/meta/recipes-core/tasks/task-base.bb
+> > index 138e617..10f3af4 100644
+> > --- a/meta/recipes-core/tasks/task-base.bb
+> > +++ b/meta/recipes-core/tasks/task-base.bb
+> > @@ -179,8 +179,11 @@ RDEPENDS_task-base-acpi = "\
+> >      acpid \
+> >      libacpi "
+> >  
+> > +# Distro can override apm provider
+> > +DISTRO_APM ?= "apm"
+> > +
+> >  RDEPENDS_task-base-apm = "\
+> > -    apm \
+> > +    ${DISTRO_APM} \
+> >      apmd"
 > 
-> diff --git a/meta/classes/python-dir.bbclass b/meta/classes/python-dir.bbclass
-> index a072a93..1ceb929 100644
-> --- a/meta/classes/python-dir.bbclass
-> +++ b/meta/classes/python-dir.bbclass
-> @@ -1,2 +1,3 @@
-> +PYTHON_BASEVERSION ?= "2.6"
->  PYTHON_DIR = "python${PYTHON_BASEVERSION}"
->  PYTHON_SITEPACKAGES_DIR = "${libdir}/${PYTHON_DIR}/site-packages"
+> Can you explain a little more about why a distro would do this please?
+> I'm a little worried this whole file could become a set of DISTRO_*
+> variables :/.
+> 
+> Cheers,
+> 
+> Richard
 
-Merged to master, thanks.
+For example in SHR we're using FSO which provides apm replacement called fso-apm which 
+conflicts with standard apm.
 
-Richard
+We can rename it to VIRTUAL-RUNTIME_apm (like
+VIRTUAL-RUNTIME_update-alternatives) if you prefer such namespace.
 
+Cheers,
+
+-- 
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
