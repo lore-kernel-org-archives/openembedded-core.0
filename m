@@ -1,32 +1,35 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from www.xora.org.uk ([80.68.91.202] helo=xora.vm.bytemark.co.uk)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1QBnQd-0003W6-PP
+	(envelope-from <dp@xora.org.uk>) id 1QBnXf-0003ch-So
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 14:19:44 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id E1C3716601A3; Mon, 18 Apr 2011 06:17:20 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2-r929478
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 6D3A71660145;
-	Mon, 18 Apr 2011 06:17:09 -0600 (MDT)
-Message-ID: <4DAC2BC5.4020107@mlbassoc.com>
-Date: Mon, 18 Apr 2011 06:17:09 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
-	Thunderbird/3.1.7
+	Mon, 18 Apr 2011 14:27:00 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by xora.vm.bytemark.co.uk (Postfix) with ESMTP id E2108A4A5C
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2011 13:24:35 +0100 (BST)
+X-Virus-Scanned: Debian amavisd-new at xora.vm.bytemark.co.uk
+Received: from xora.vm.bytemark.co.uk ([127.0.0.1])
+	by localhost (xora.vm.bytemark.co.uk [127.0.0.1]) (amavisd-new,
+	port 10024) with ESMTP id IbNEX-7VjpId
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2011 13:24:35 +0100 (BST)
+Received: from xora-eee (188-220-38-49.zone11.bethere.co.uk [188.220.38.49])
+	by xora.vm.bytemark.co.uk (Postfix) with ESMTPSA id 5F870A4A5A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Apr 2011 13:24:35 +0100 (BST)
+Received: by xora-eee (Postfix, from userid 1000)
+	id 91A8F82317; Mon, 18 Apr 2011 13:24:35 +0100 (BST)
+Date: Mon, 18 Apr 2011 13:24:35 +0100
+From: Graeme Gregory <dp@xora.org.uk>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20110418122435.GH2268@xora-eee.xora.org.uk>
+References: <cover.1303122650.git.Martin.Jansa@gmail.com>
+	<20110418104421.GG2268@xora-eee.xora.org.uk>
+	<ioh60l$vaq$1@dough.gmane.org>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <43EE53C2-2A83-4F54-B8CF-F0614AB390B0@dominion.thruhere.net>	<1303126125.5518.118.camel@rex>
-	<0E9C83CD-3E86-46B3-B749-6FAFB94E4BAF@dominion.thruhere.net>
-In-Reply-To: <0E9C83CD-3E86-46B3-B749-6FAFB94E4BAF@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: Is BBCLASSEXTEND in .bbappend supposed to work?
+In-Reply-To: <ioh60l$vaq$1@dough.gmane.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [oe] [meta-oe][PATCH 00/13] Pull request #8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,69 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 12:19:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Apr 2011 12:27:00 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 04/18/2011 05:34 AM, Koen Kooi wrote:
->
-> Op 18 apr 2011, om 13:28 heeft Richard Purdie het volgende geschreven:
->
->> On Mon, 2011-04-18 at 12:55 +0200, Koen Kooi wrote:
->>> Martin did some Xorg cleanup in meta-oe today and we're seeing some strange behaviour.  The recipe in question:
->>>
->>> koen@dominion:/OE/tentacle/sources/meta-openembedded/meta-oe$ cat recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
->>> BBCLASSEXTEND = "native nativesdk"
->>> koen@dominion:/OE/tentacle/sources/meta-openembedded/meta-oe$
->>>
->>> Bitbake-layers tells me:
->>>
->>> INFO: libxrender_0.9.6.bb:
->>> INFO:   /OE/tentacle/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
->>>
->>> So the append is getting picked up, but bitbake gives me:
->>>
->>> ERROR: Nothing PROVIDES 'libxrender-native'
->>> NOTE: Runtime target 'libnss-mdns' is unbuildable, removing...
->>> Missing or unbuildable dependency chain was: ['libnss-mdns', 'avahi', 'gtk+', 'gtk+-native', 'libxrender-native']
->>>
->>> This is with HEAD of bitbake master.
->>
->> I did some experimentation here and this looks like bitbake-layers is
->> seeing the file but bitbake is not. If I touch the libxrender .bb file
->> and then run bitbake -DDD, I see the file mentioned in the logs:
->>
->> $ touch recipes-graphics/xorg-lib/libxrender_0.9.6.bb
->> $ bitbake libxrender-native -DDD | grep append
->> DEBUG: Appending .bbappend file /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend to /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bb
->> DEBUG: BB /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend: handle(data, include)
->> DEBUG: LOAD /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
->>
->> Can you confirm you're seeing that? Admittedly I just hacked a local
->> checkout and I'm not using meta-oe.
->
-> I get:
->
-> koen@dominion:/OE/tentacle/build$ touch ../sources/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bb
-> koen@dominion:/OE/tentacle/build$ bitbake libxrender-native -DDD | grep append
-> DEBUG: Appending .bbappend file /OE/tentacle/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend to /OE/tentacle/sources/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bb
-> DEBUG: BB /OE/tentacle/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend: handle(data, include)
-> DEBUG: LOAD /OE/tentacle/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
->
-> It then chokes on renderproto-native, which gets fixes by touching the .bb. So it looks like bitbake has some caching issues.
+On Mon, Apr 18, 2011 at 01:07:01PM +0200, Koen Kooi wrote:
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA1
+> 
+> On 18-04-11 12:44, Graeme Gregory wrote:
+> > Not an issue with this checkin, but it raises a question for me,
+> > 
+> > Should xorg stuff be in OE core? Its not really that core in my mind.
+> 
+> OE-core still isn't fleshed out completely, but the current way of
+> thinking is "if enough layers depend on <foo>, <foo> should get
+> considered for oe-core".
+> I have been thinking out a meta-xorg this morning, but I'm trying to
+> stop myself from creating a gazillion layers just because I can :)
+> 
+> Can you move this discussion to the oe-core ml?
+> 
+Doesnt this just make oe-core OE with a pull model?
 
-I have seen exactly this behaviour.  Rebuilding the cache makes it work.  Is there an easy way
-to force the cache to rebuild?  (I just touch a .conf file...)
+This may not be a bad thing, but it does get us into some of the same troubles
+as the guys who like to hack bitbake and gcc might not be the same guys who
+have a keen interest in things like gnome/xorg/kde/......
 
->>
->> Do you need to add *.bbappend to BBFILES in layer.conf ?
->
-> I have that already :)
+Graeme
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
 
 
