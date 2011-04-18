@@ -1,36 +1,36 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QBiR5-00078Q-2J for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 08:59:51 +0200
+	id 1QBiYl-0007Yn-SU for openembedded-core@lists.openembedded.org;
+	Mon, 18 Apr 2011 09:07:48 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I6vW0N009316
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 07:57:32 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I75HOu009432;
+	Mon, 18 Apr 2011 08:05:17 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 08813-09 for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 07:57:28 +0100 (BST)
+	id 09365-01; Mon, 18 Apr 2011 08:05:13 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I6vNGB009310
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 07:57:23 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3I758Lm009423
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 18 Apr 2011 08:05:09 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20110418055406.GH25122@jama.jama.net>
-References: <cover.1301567822.git.Martin.Jansa@gmail.com>
-	<ca0ffb747b87caed609b2edf08f963751dbc8873.1301567822.git.Martin.Jansa@gmail.com>
-	<1301581599.24596.106.camel@rex> <20110404183138.GA30816@jama.jama.net>
-	<20110418055406.GH25122@jama.jama.net>
-Date: Mon, 18 Apr 2011 07:57:14 +0100
-Message-ID: <1303109834.5518.57.camel@rex>
+To: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <9480BCD7-8617-488A-B034-B30D1195E9C4@dominion.thruhere.net>
+References: <cover.1302886579.git.paul.eggleton@linux.intel.com>
+	<72ccbf03bcbec48a34d830c356e591a9139e3794.1302886579.git.paul.eggleton@linux.intel.com>
+	<4DA88DE3.2050702@linux.intel.com>
+	<9480BCD7-8617-488A-B034-B30D1195E9C4@dominion.thruhere.net>
+Date: Mon, 18 Apr 2011 08:05:01 +0100
+Message-ID: <1303110301.5518.62.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/3] distutils-common-base.bbclass: Prepend STAGING_LIBDIR to linker library search path.
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"poky@yoctoproject.org" <poky@yoctoproject.org>
+Subject: Re: [poky] [PATCH 2/3] netbase: automatically bring up usb0 on beagleboard
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,71 +45,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 06:59:51 -0000
+X-List-Received-Date: Mon, 18 Apr 2011 07:07:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-04-18 at 07:54 +0200, Martin Jansa wrote:
-> On Thu, Mar 31, 2011 at 03:26:39PM +0100, Richard Purdie wrote:
-> > On Thu, 2011-03-31 at 12:40 +0200, Martin Jansa wrote:
-> > > * This was done generically in bitbake.conf this should be done on
-> > >   demand and distutils based recipes seem to need it. So we define it
-> > >   here.
-> > > * imported from OE 629ae87eadeec1068c3778e14488b549029adffb
-> > > 
-> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > > ---
-> > >  meta/classes/distutils-common-base.bbclass |    2 ++
-> > >  1 files changed, 2 insertions(+), 0 deletions(-)
-> > > 
-> > > diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
-> > > index f66a5cd..b6caf24 100644
-> > > --- a/meta/classes/distutils-common-base.bbclass
-> > > +++ b/meta/classes/distutils-common-base.bbclass
-> > > @@ -4,6 +4,8 @@ EXTRA_OEMAKE = ""
-> > >  
-> > >  export STAGING_INCDIR
-> > >  export STAGING_LIBDIR
-> > > +# libtool 2.4 does not export with LDFLAGS but distutils need it
-> > > +LDFLAGS_prepend = "-L${STAGING_LIBDIR} "
+On Sat, 2011-04-16 at 06:31 +0200, Koen Kooi wrote:
+> 
+> Op 15 apr. 2011 om 20:26 heeft Saul Wold <sgw@linux.intel.com> het volgende geschreven:
+> 
+> > On 04/15/2011 10:00 AM, Paul Eggleton wrote:
+> >> From: Paul Eggleton<paul.eggleton@linux.intel.com>
+> >> 
+> >> Avoids manual configuration of the BeagleBoard xM's ethernet port (which
+> >> shows up as usb0).
+> >> 
+> >> Fixes [YOCTO #930]
+> >> 
+> >> Signed-off-by: Paul Eggleton<paul.eggleton@linux.intel.com>
+> >> ---
+> >>  .../netbase/netbase-4.45/beagleboard/interfaces    |   27 ++++++++++++++++++++
+> >>  1 files changed, 27 insertions(+), 0 deletions(-)
+> >>  create mode 100644 meta/recipes-core/netbase/netbase-4.45/beagleboard/interfaces
+> >> 
+> > I know this time would come!
 > > 
-> > This should not be needed, the linker itself should automatically look
-> > in that path at link time. What problem are you seeing?
+> > So this is up for discussion in a big way!
+> > 
+> > There was some initial discussion at ELC this last week about what
+> goes where and how layers are going to work moving forward.  I know
+> that we are committed to the qemu* machines in oe-core (meta), and
+> that currently meta-yocto contains a set of core HW (beagleboard among
+> them), so the question then is should the HW specific stuff, such as
+> this patch move to meta-yocto or some other layer?  There are a couple
+> other recipes such as x-load and formfactor that contain HW specific
+> files.
 > 
-> sorry for delay, my previous reply was refused by mailman at Mon, 04 Apr 2011
-> with "The message's content type was not explicitly allowed", maybe PGP
-> sign is not allowed? ;/.
-> 
-> 
-> when building any python extra module ie python-numeric I get error like
-> this
-> 
-> | arm-oe-linux-gnueabi-gcc -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp -mthumb-interwork -mno-thumb --sysroot=/OE/shr-core/tmp/sysroots/nokia900 -DNDEBUG -g -O3 -Wall -Wstrict-prototypes -fexpensive-optimizations -fomit-frame-pointer -frename-registers -Os -g -feliminate-unused-debug-types -fPIC -IInclude -IPackages/FFT/Include -IPackages/RNG/Include -I/OE/shr-core/tmp/sysroots/arm-oe-linux-gnueabi/usr/include/python2.6 -I/OE/shr-core/tmp/sysroots/nokia900/usr/include/python2.6 -c Src/ufuncobject.c -o build/temp.linux-x86_64-2.6/Src/ufuncobject.o
-> | arm-oe-linux-gnueabi-gcc -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp -mthumb-interwork -mno-thumb -D__SOFTFP__ --sysroot=/OE/shr-core/tmp/sysroots/nokia900 -shared -Wl,-O1 -Wl,--hash-style=gnu -fexpensive-optimizations -fomit-frame-pointer -frename-registers -Os -g -feliminate-unused-debug-types build/temp.linux-x86_64-2.6/Src/_numpymodule.o build/temp.linux-x86_64-2.6/Src/arrayobject.o build/temp.linux-x86_64-2.6/Src/ufuncobject.o -L/usr/lib -lpython2.6 -o build/lib.linux-x86_64-2.6/_numpy.so
-> | /OE/shr-core/tmp/sysroots/x86_64-linux/usr/libexec/armv7a-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.5.3/ldERROR: Function 'do_compile' failed (see /OE/shr-core/tmp/work/armv7a-oe-linux-gnueabi/python-numeric-24.2-ml1/temp/log.do_compile.16227 for further information)
-> | : warning: library search path "/usr/lib" is unsafe for cross-compilation
-> | /OE/shr-core/tmp/sysroots/x86_64-linux/usr/libexec/armv7a-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.5.3/ld: skipping incompatible /usr/lib/libc.so when searching for -lc
-> | /usr/lib/libc.a: could not read symbols: File format not recognized
-> | collect2: ld returned 1 exit status
-> | error: command 'arm-oe-linux-gnueabi-gcc' failed with exit status 1
-> | FATAL: python setup.py build_ext execution failed.
-> NOTE: package python-numeric-24.2-ml1: task do_compile: Failed
-> ERROR: Task 4075 (/OE/shr-core/meta-shr/recipes-devtools/python/python-numeric_24.2.bb, do_compile) failed with exit code '1'
-> 
-> in oe we had the same problem after switching to libtool 
-> with sysroot support IIRC and this was fix for it 
-> (and it helps with oe-core too)
+> It should live in the upstream beagleboard BSP layer, which currently
+> is meta-texasinstruments
 
-This isn't a libtool problem, we've patched that problem out in oe-core
-(and I think in OE-dev too now). In this case something is adding
-"-L/usr/lib" to the compiler arguments and that is the reason things are
-failing. I'd suggesting finding out where that is coming from and fixing
-it at source. Yes, it so happens adding other search paths first masks
-the problem but it is just masking it, its not a proper fix.
+That is the goal, yes. It was agreed that until we sort out the layer
+tooling, there would be some code in meta-yocto which would be a copy of
+various upstream parts which includes beagleboard. Over time I'm hoping
+to see these pieces converge, then we when get the tooling right it will
+become automated.
 
 Cheers,
 
 Richard
+
 
 
 
