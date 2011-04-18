@@ -1,39 +1,27 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QBqMN-0006nq-Cl
+	(envelope-from <dvhart@linux.intel.com>) id 1QBr1J-0007iU-KN
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 17:27:31 +0200
-Received: by iye7 with SMTP id 7so4471265iye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 08:25:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
-	:date:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=MM6KF131Qqj4oKJZAAFAERL8gvaWpGJKQg6adRHZXdg=;
-	b=Qz38rExTFQ6OCjiJF+IKhJ+Tvs6IBRmFGRhqmg4iKm/JATOQZxrMBQfGzEB9/mErxg
-	kfsjEMDPJ5gGrbg4AmmPIjeMKbJWJda5E91d4I31nvZmTJ7i7I45IQPbUEJ+J50e+b1V
-	dI6mEa8+rRLmWPFKu+IQwPWBsRSCZgelGIrDQ=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	b=jmR01U5hT+tVBa7Wi5PI+4fXSPLws5/wNP4J43BrtbLdKnw6R7DhvP8vueEIHHoWlG
-	c17peWCv/L9bYtEJvkSXJ7JaSIPqO5CY4jokI0sHIWftO9L8p5isLNV7TlH24nUXY2lP
-	MDFGBVRV2u+Vd2t83wffjn9OjxFqTekOfUBMU=
-Received: by 10.42.225.65 with SMTP id ir1mr5601869icb.264.1303140310080; Mon,
-	18 Apr 2011 08:25:10 -0700 (PDT)
+	Mon, 18 Apr 2011 18:09:49 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 18 Apr 2011 09:07:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,233,1301900400"; d="scan'208";a="735105448"
+Received: from doubt.jf.intel.com (HELO [10.24.5.31]) ([10.24.5.31])
+	by orsmga001.jf.intel.com with ESMTP; 18 Apr 2011 09:07:26 -0700
+Message-ID: <4DAC61C1.4070406@linux.intel.com>
+Date: Mon, 18 Apr 2011 09:07:29 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.42.165.73 with HTTP; Mon, 18 Apr 2011 08:24:50 -0700 (PDT)
-In-Reply-To: <201104181459.00492.paul.eggleton@linux.intel.com>
-References: <1303107421.5518.45.camel@rex>
-	<201104181459.00492.paul.eggleton@linux.intel.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Mon, 18 Apr 2011 08:24:50 -0700
-X-Google-Sender-Auth: 7xZ2_7FWPkxNfulHll2nvXmqqPs
-Message-ID: <BANLkTi=6OLfi62ezsKJreGM1bda2HeQkGA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Layer tooling brainstorming
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1302886579.git.paul.eggleton@linux.intel.com>
+	<4DA8CA18.3000801@mlbassoc.com> <4DA8CE4A.6090408@linux.intel.com>
+	<201104181012.13920.paul.eggleton@linux.intel.com>
+In-Reply-To: <201104181012.13920.paul.eggleton@linux.intel.com>
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 2/3] netbase: automatically bring up usb0 on beagleboard
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,40 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 15:27:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 18 Apr 2011 16:09:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 18, 2011 at 6:59 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> * Show easily which recipes are being used and which are overridden. We have
-> bitbake-layers, but this clearly needs some extension. I think long term we
-> would want to be able to analyse overrides accross a set of layers to figure
-> out where common stuff in non-core layers needs pushing up to oe-core.
 
-I think we'll definitely need multiple views into the information.
 
-> * Allow layer maintainers to easily pull a version of a recipe into their own
-> layer if it's about to be removed from oe-core - with some complicated recipes
-> that could be painful/annoying to pick out all the necessary files by hand.
+On 04/18/2011 02:12 AM, Paul Eggleton wrote:
+> On Saturday 16 April 2011 00:01:30 Darren Hart wrote:
+>> On 04/15/2011 03:43 PM, Gary Thomas wrote:
+>>> eth1 yes, but doesn't the BeagleBoard xM have eth0?
+>>
+>> No. The onboard device is usb0.
+> 
+> Looks like we're not the only ones confused by this:
+> 
+> https://bugs.launchpad.net/linux-linaro/+bug/622429
+> 
 
-The newcollection class in OE does this.  It's not perfect, but it
-gets you 90% of the way there.  I was thinking it may be useful as a
-separate script, indeed.
+Perhaps I am missing some context, but I don't see any problem with
+having the name usb0. In fact, I find it informative, and helps to
+explain why things like tftp don't work from u-boot, etc.
 
-> * Recipe maintenance tools that take advantage of bitbake's parsing logic to
-> aid blanket updates (e.g. variable renames). This should help mitigate the
-> increased difficulty of having recipes spread out over multiple repositories
-> when doing these kinds of updates.
+While the community remains divided, I plan to stay in the usb0 camp.
 
-This is non-trivial, but doable given zecke's ast implementation.  I
-expect we need an API function in the parse package to parse a
-string/file and hand back the AST nodes, which we could then
-manipulate, and write code to generate the file back out of the ast.
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
