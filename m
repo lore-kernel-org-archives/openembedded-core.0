@@ -1,34 +1,24 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QBnrC-0003tY-T8
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QBp15-0002Mi-A6
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Apr 2011 14:47:10 +0200
-Received: by fxm19 with SMTP id 19so3338588fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Apr 2011 05:44:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=94kO66+o1yyVuZ1bz1HxZG41mRkD8MU9vM8Htn8OJxM=;
-	b=vEzC9yKfVU3pkuZ4xz0QwoLcEwZ9VhwajE4J8/YqunEKz2xO/m0FAxr0Bvpjs94KKg
-	coBRhB3WOyc6WXwPjPgEy8WIU6BWlbpbf4KPxb4OO+pi8mgi7CQV75GMzp8EeSGe2Afv
-	I0+pTLIE5PRvr+HZJHaOyECKuVDuXg7apdUS8=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=aVjjhbG6RdFdY5Rhn155enPtDZvzimJi8eeW9cKJ0tQtgS8vvWogLzsGTsuv7CbN4i
-	GWG5C3eBxSyrOCrRiBnTFh7ExwihmqejqWknULAgF1VGhqrOW3wKmK+S10UiUA4it70h
-	ZVeGD2r+a/UdIMBYEECHZcTT2hUffAhHtCVhY=
-Received: by 10.223.67.210 with SMTP id s18mr2241921fai.41.1303130690531;
-	Mon, 18 Apr 2011 05:44:50 -0700 (PDT)
-Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
-	by mx.google.com with ESMTPS id 13sm849167fau.16.2011.04.18.05.44.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 18 Apr 2011 05:44:49 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon, 18 Apr 2011 16:01:27 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Apr 2011 06:59:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,232,1301900400"; d="scan'208";a="911096977"
+Received: from unknown (HELO helios.localnet) ([10.255.12.202])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Apr 2011 06:59:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+Organization: Intel Corporation (UK)
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Apr 2011 14:44:38 +0200
-Message-Id: <1303130678-975-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.5.rc1
-Subject: [RFC][PATCH] git: use DESTDIR=$D instead prefixing all variables by $D
+Date: Mon, 18 Apr 2011 14:59:00 +0100
+User-Agent: KMail/1.13.5 (Linux/2.6.35-28-generic-pae; KDE/4.6.1; i686; ; )
+References: <1303107421.5518.45.camel@rex>
+In-Reply-To: <1303107421.5518.45.camel@rex>
+MIME-Version: 1.0
+Message-Id: <201104181459.00492.paul.eggleton@linux.intel.com>
+Subject: Re: RFC: Layer tooling brainstorming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,41 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Apr 2011 12:47:11 -0000
+X-List-Received-Date: Mon, 18 Apr 2011 14:01:27 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
-* with git-native and rm_work enabled I've noticed git fetcher errors like:
-  warning: templates not found /OE/shr-core/tmp/work/x86_64-linux/git-native-1.7.3.4-r0/image/OE/shr-core/tmp/sysroots/x86_64-linux/usr/share/git-core/templates
-  fatal: Unable to find remote helper for 'http'
-  for every recipe using http:// for git repo
-* after this change template_dir points to
-  /OE/shr-core/tmp/sysroots/x86_64-linux/usr/share/git-core/templates
-  without that workdir prefix
-* haven't tested target recipe, but I guess it needs different fix or
-  maybe it worked before and gets broken by this change (that's why this
-  is just RFC)
+Some of the ideas I've been thinking of for layer tools, other than what's 
+been mentioned already:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/git/git.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+* Show easily which recipes are being used and which are overridden. We have 
+bitbake-layers, but this clearly needs some extension. I think long term we 
+would want to be able to analyse overrides accross a set of layers to figure 
+out where common stuff in non-core layers needs pushing up to oe-core.
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index e1d1c71..843a1d3 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -14,8 +14,8 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl --without-tcltk"
- inherit autotools
- 
- do_install () {
--	oe_runmake install prefix=${D} bindir=${D}${bindir} gitexecdir=${D}${gitexecdir} \
--		template_dir=${D}${datadir}/git-core/templates \
-+	oe_runmake install DESTDIR="${D}" bindir=${bindir} gitexecdir=${gitexecdir} \
-+		template_dir=${datadir}/git-core/templates \
- 		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
- }
- 
+* Allow layer maintainers to easily pull a version of a recipe into their own 
+layer if it's about to be removed from oe-core - with some complicated recipes 
+that could be painful/annoying to pick out all the necessary files by hand.
+
+* Recipe maintenance tools that take advantage of bitbake's parsing logic to 
+aid blanket updates (e.g. variable renames). This should help mitigate the 
+increased difficulty of having recipes spread out over multiple repositories 
+when doing these kinds of updates.
+
+* Some kind of central registration of layers. I'm guessing a wiki page would 
+do for starters but something with a database behind it would enable us to 
+show "live" metadata such as when the layer was last updated, info read from 
+layer.conf etc.
+
+Cheers,
+Paul
+
 -- 
-1.7.5.rc1
 
+Paul Eggleton
+Intel Open Source Technology Centre (UK)
 
 
