@@ -1,35 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QCJah-0005TW-Ig for openembedded-core@lists.openembedded.org;
-	Wed, 20 Apr 2011 00:40:15 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3JMbqcg009137
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2011 23:37:52 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08559-10 for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2011 23:37:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3JMbkPZ009131
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2011 23:37:46 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTi=shye_RULY2_AZuz9Kca8+N_qNxQ@mail.gmail.com>
-References: <BANLkTini7EDvr-GoW1AP3aaQWjv6tYjOLQ@mail.gmail.com>
-	<1303225305.5518.219.camel@rex>
-	<BANLkTi=shye_RULY2_AZuz9Kca8+N_qNxQ@mail.gmail.com>
-Date: Tue, 19 Apr 2011 23:37:33 +0100
-Message-ID: <1303252653.5518.293.camel@rex>
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <josh@linux.intel.com>) id 1QCJcL-0005Vj-H9
+	for openembedded-core@lists.openembedded.org;
+	Wed, 20 Apr 2011 00:41:58 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 19 Apr 2011 15:39:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,241,1301900400"; d="scan'208";a="422204414"
+Received: from unknown (HELO [10.255.13.54]) ([10.255.13.54])
+	by azsmga001.ch.intel.com with ESMTP; 19 Apr 2011 15:39:34 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Apr 2011 15:39:33 -0700
+In-Reply-To: <94E3D283-290D-43EE-AADF-ABDE9398214B@dominion.thruhere.net>
+References: <cover.1303246083.git.josh@linux.intel.com>
+	<94E3D283-290D-43EE-AADF-ABDE9398214B@dominion.thruhere.net>
+X-Mailer: Evolution 3.0.0 (3.0.0-1.fc15) 
+Message-ID: <1303252774.28219.0.camel@scimitar>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: gcc 4.6 recipes naming
+Subject: Re: [PATCH 0/2] Fix clutter-1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,43 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2011 22:40:15 -0000
+X-List-Received-Date: Tue, 19 Apr 2011 22:41:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-04-19 at 10:33 -0700, Khem Raj wrote:
-> On Tue, Apr 19, 2011 at 8:01 AM, Richard Purdie
-> > I think this is just going to confuse people to be honest. I'm happy to
-> > stick to the 4.6.0 naming, then move to 4.6.1 and so forth over time.
-> > People expect to see the .X number else they just get confused about
-> > which patch revision we're at.
-> >
-> > What I'm thinking we will do differently to OE is not to have every
-> > point release available but try and stick to the latest. The exception
-> > would be when there is a problem in the point release version which we
-> > don't have a fix for.
+On Tue, 2011-04-19 at 23:57 +0200, Koen Kooi wrote:
+> Op 19 apr 2011, om 22:50 heeft Joshua Lock het volgende geschreven:
 > 
-> usually later minor release will always be better (since they are bugfixes only)
-> so chances are less that we will regress
-
-Agreed, I'm just being clear what the expectations are! :)
-
-> > Does that sound reasonable?
-> >
+> > From: Joshua Lock <josh@linux.intel.com>
+> > 
+> > With a recent patchset I changed clutter to depend on a json-glib recipe then
+> > promptly didn't include that recipe in the patch series - apologies.
+> > 
+> > Further I've removed a patch from the 1.6 recipe which is no longer required.
 > 
-> Yes having just one minor release at a time makes it easier certainly.
-> I was trying to make it easy to push updates and we could avoid some
-> git operations and logs would be straighter too since recipes would live
-> longer otherwise we will be git mv'ing them every 6 months when release happens.
+> Since we started discussing this series the clutter people have had a few new releases, any volunteers for adding the latest 1.6.x?
 
-I think this is fine, we do this for the other recipes too.
+Good point, give me a few minutes.
 
-Cheers,
-
-Richard
-
-
-
+Joshua
+-- 
+Joshua Lock
+        Yocto Build System Monkey
+        Intel Open Source Technology Centre
 
 
 
