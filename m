@@ -1,23 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QCJmD-0005hm-Ht
-	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Apr 2011 00:52:09 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Apr 2011 15:49:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,241,1301900400"; d="scan'208";a="911892372"
-Received: from unknown (HELO localhost) ([10.255.13.54])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Apr 2011 15:49:43 -0700
-Message-Id: <44742f32e77375c4967e399246630631eb2768b2.1303253280.git.josh@linux.intel.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QCK6n-0006L5-Uu for openembedded-core@lists.openembedded.org;
+	Wed, 20 Apr 2011 01:13:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3JNB5nO009791
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Apr 2011 00:11:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09080-07 for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Apr 2011 00:11:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3JNAviY009785
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Apr 2011 00:10:58 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 In-Reply-To: <cover.1303253280.git.josh@linux.intel.com>
 References: <cover.1303253280.git.josh@linux.intel.com>
-Old-Date: Tue, 19 Apr 2011 13:44:02 -0700
-Date: Tue, 19 Apr 2011 15:49:43 -0700
-To: openembedded-core@lists.openembedded.org
-CC: 
-From: Joshua Lock <josh@linux.intel.com>
-Subject: [PATCH v2 2/3] clutter-1.6: drop no longer required patch
+Date: Wed, 20 Apr 2011 00:10:45 +0100
+Message-ID: <1303254645.5518.294.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH v2 0/3] Fix and update clutter-1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,41 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2011 22:52:09 -0000
+X-List-Received-Date: Tue, 19 Apr 2011 23:13:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Joshua Lock <josh@linux.intel.com>
+On Tue, 2011-04-19 at 15:49 -0700, Joshua Lock wrote:
+> From: Joshua Lock <josh@linux.intel.com>
+> 
+> Same as the v1 patch set only with an extra patch to update to the latest
+> release in the Clutter 1.6 stable series.
+> 
+> With a recent patchset I changed clutter to depend on a json-glib recipe then
+> promptly didn't include that recipe in the patch series - apologies.
+> 
+> Further I've removed a patch from the 1.6 recipe which is no longer required.
+> 
+> Finally, Clutter 1.6.14 - hurrah!
+> 
+> Pull URL: git://git.openembedded.org/openembedded-core-contrib
+>   Branch: josh/clutter
+>   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/clutter
+> 
+> Thanks,
+>     Joshua Lock <josh@linux.intel.com>
+> ---
+> 
+> 
+> Joshua Lock (3):
+>   json-glib: new recipe required by clutter
+>   clutter-1.6: drop no longer required patch
+>   clutter-1.6: update to 1.6.14
 
-The test-conformance-fix.patch is no longer required for clutter-1.6
+Merged to master, thanks.
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb |    5 ++---
- 1 files changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb b/meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb
-index ffcc42d..f30398d 100644
---- a/meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb
-+++ b/meta/recipes-graphics/clutter/clutter-1.6_1.6.8.bb
-@@ -1,6 +1,6 @@
- require recipes-graphics/clutter/clutter.inc
- 
--PR = "r0"
-+PR = "r1"
- 
- # Internal json-glib was removed in Clutter 1.5.2
- STDDEPENDS += "json-glib"
-@@ -9,8 +9,7 @@ PACKAGES =+ "${PN}-examples"
- FILES_${PN}-examples = "${bindir}/test-* ${pkgdatadir}/redhand.png"
- 
- SRC_URI = "http://source.clutter-project.org/sources/clutter/1.6/clutter-${PV}.tar.bz2 \
--           file://enable_tests-1.4.patch \
--           file://test-conformance-fix.patch"
-+           file://enable_tests-1.4.patch"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- S = "${WORKDIR}/clutter-1.6.8"
--- 
-1.7.4.4
+Richard
 
 
 
