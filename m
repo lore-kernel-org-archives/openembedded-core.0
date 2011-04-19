@@ -1,33 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QCCTc-00076K-Lp for openembedded-core@lists.openembedded.org;
-	Tue, 19 Apr 2011 17:04:28 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3JF25W5001843
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2011 16:02:05 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 00502-08 for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2011 16:02:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3JF1thh001831
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2011 16:01:56 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTini7EDvr-GoW1AP3aaQWjv6tYjOLQ@mail.gmail.com>
-References: <BANLkTini7EDvr-GoW1AP3aaQWjv6tYjOLQ@mail.gmail.com>
-Date: Tue, 19 Apr 2011 16:01:45 +0100
-Message-ID: <1303225305.5518.219.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: gcc 4.6 recipes naming
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1QCCco-0008Q7-HC
+	for openembedded-core@lists.openembedded.org;
+	Tue, 19 Apr 2011 17:13:59 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Apr 2011 08:11:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,240,1301900400"; d="scan'208";a="911686767"
+Received: from unknown (HELO localhost) ([10.255.12.227])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Apr 2011 08:11:35 -0700
+Message-Id: <cover.1303170477.git.dvhart@linux.intel.com>
+Old-Date: Mon, 18 Apr 2011 16:47:57 -0700
+Date: Tue, 19 Apr 2011  8:11:35 -0700
+To: openembedded-core@lists.openembedded.org
+From: Darren Hart <dvhart@linux.intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 0/2] kernel.bbclass fix and cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +30,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2011 15:04:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Apr 2011 15:13:59 -0000
 
-Hi Khem,
+From: Darren Hart <dvhart@linux.intel.com>
 
-On Mon, 2011-04-18 at 12:18 -0700, Khem Raj wrote:
-> I have gcc 4.6 under progress here. As we know the current release is
-> 4.6.0. I have been calling the recipes
-> to omit the minor release number so the recipes are called
-> <recipes>_4.6.bb based on my experiences
-> with gcc releases over the years.
-> 
-> Since the minor releases are bug fix releases and when next bug fix
-> release happens the total diff
-> of changes from 4.6.0 to 4.6.1 are also released as a single diff
-> which can be applied on top of existing
-> 4.6.0 tar file to reach 4.6.1
-> 
-> This makes the upgrade easier for minor releases. I decided not to
-> track the release branch since
-> that complicates the gcc download as in classic oe
-> 
-> So for upgrades we can either just take the diff from 4.6.0 to 4.6.1
-> and apply on top of 4.6.0 or
-> decide to use the new 4.6.1 tar both would be ok as we decide that later.
+The following commit introduced a build bug and left some debug lying around.
 
-I think this is just going to confuse people to be honest. I'm happy to
-stick to the 4.6.0 naming, then move to 4.6.1 and so forth over time.
-People expect to see the .X number else they just get confused about
-which patch revision we're at.
+commit 3b49416fc7a7ee9bfe722f2e6089aa18df41dc58
+Author: Darren Hart <dvhart@linux.intel.com>
+Date:   Tue Mar 8 17:09:10 2011 -0800
+kernel/bbclass: rework kernel and module classes to allow for building
+out-of-tree modules
 
-What I'm thinking we will do differently to OE is not to have every
-point release available but try and stick to the latest. The exception
-would be when there is a problem in the point release version which we
-don't have a fix for.
+The following 2 patches address that.
 
-Does that sound reasonable?
+Thanks,
+    Darren Hart <dvhart@linux.intel.com>
+---
 
-Cheers,
 
-Richard
+Darren Hart (2):
+  kernel: Copy over bzImage to sysroots during install
+  kernel: Remove debug statements
+
+ meta/classes/kernel.bbclass |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
+
+-- 
+1.7.3.4
 
 
 
