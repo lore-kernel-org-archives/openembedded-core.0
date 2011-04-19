@@ -1,28 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QC7qv-0006H9-Mo
-	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Apr 2011 12:08:13 +0200
-Received: by wwb17 with SMTP id 17so5682287wwb.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QCCTc-00076K-Lp for openembedded-core@lists.openembedded.org;
+	Tue, 19 Apr 2011 17:04:28 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3JF25W5001843
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2011 03:05:51 -0700 (PDT)
-Received: by 10.216.72.20 with SMTP id s20mr5754029wed.80.1303207551427;
-	Tue, 19 Apr 2011 03:05:51 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	g32sm2998525wej.27.2011.04.19.03.05.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 19 Apr 2011 03:05:50 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1303130678-975-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Tue, 19 Apr 2011 12:05:49 +0200
-Message-Id: <DB1810A8-F63D-41D0-9E77-B008C3DEA5A8@dominion.thruhere.net>
-References: <1303130678-975-1-git-send-email-Martin.Jansa@gmail.com>
+	Tue, 19 Apr 2011 16:02:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 00502-08 for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Apr 2011 16:02:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3JF1thh001831
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Apr 2011 16:01:56 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [RFC][PATCH] git: use DESTDIR=$D instead prefixing all variables by $D
+In-Reply-To: <BANLkTini7EDvr-GoW1AP3aaQWjv6tYjOLQ@mail.gmail.com>
+References: <BANLkTini7EDvr-GoW1AP3aaQWjv6tYjOLQ@mail.gmail.com>
+Date: Tue, 19 Apr 2011 16:01:45 +0100
+Message-ID: <1303225305.5518.219.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: gcc 4.6 recipes naming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,21 +42,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2011 10:08:14 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 Apr 2011 15:04:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+Hi Khem,
 
-Op 18 apr 2011, om 14:44 heeft Martin Jansa het volgende geschreven:
+On Mon, 2011-04-18 at 12:18 -0700, Khem Raj wrote:
+> I have gcc 4.6 under progress here. As we know the current release is
+> 4.6.0. I have been calling the recipes
+> to omit the minor release number so the recipes are called
+> <recipes>_4.6.bb based on my experiences
+> with gcc releases over the years.
+> 
+> Since the minor releases are bug fix releases and when next bug fix
+> release happens the total diff
+> of changes from 4.6.0 to 4.6.1 are also released as a single diff
+> which can be applied on top of existing
+> 4.6.0 tar file to reach 4.6.1
+> 
+> This makes the upgrade easier for minor releases. I decided not to
+> track the release branch since
+> that complicates the gcc download as in classic oe
+> 
+> So for upgrades we can either just take the diff from 4.6.0 to 4.6.1
+> and apply on top of 4.6.0 or
+> decide to use the new 4.6.1 tar both would be ok as we decide that later.
 
-> * with git-native and rm_work enabled I've noticed git fetcher errors =
-like:
->  warning: templates not found =
-/OE/shr-core/tmp/work/x86_64-linux/git-native-1.7.3.4-r0/image/OE/shr-core=
-/tmp/sysroots/x86_64-linux/usr/share/git-core/templates
->  fatal: Unable to find remote helper for 'http'
->  for every recipe using http:// for git repo
+I think this is just going to confuse people to be honest. I'm happy to
+stick to the 4.6.0 naming, then move to 4.6.1 and so forth over time.
+People expect to see the .X number else they just get confused about
+which patch revision we're at.
 
-I can confirm that git-native is broken when using rm_work.=
+What I'm thinking we will do differently to OE is not to have every
+point release available but try and stick to the latest. The exception
+would be when there is a problem in the point release version which we
+don't have a fix for.
+
+Does that sound reasonable?
+
+Cheers,
+
+Richard
+
 
 
