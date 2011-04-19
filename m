@@ -1,28 +1,31 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QCIy1-00055Q-Ar
-	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Apr 2011 00:00:17 +0200
-Received: by wye20 with SMTP id 20so154507wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Apr 2011 14:57:51 -0700 (PDT)
-Received: by 10.216.6.27 with SMTP id 27mr6408320wem.69.1303250271429;
-	Tue, 19 Apr 2011 14:57:51 -0700 (PDT)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id r80sm162228wei.15.2011.04.19.14.57.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 19 Apr 2011 14:57:50 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1303246083.git.josh@linux.intel.com>
-Date: Tue, 19 Apr 2011 23:57:49 +0200
-Message-Id: <94E3D283-290D-43EE-AADF-ABDE9398214B@dominion.thruhere.net>
-References: <cover.1303246083.git.josh@linux.intel.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QCJZE-0005RW-1z for openembedded-core@lists.openembedded.org;
+	Wed, 20 Apr 2011 00:38:44 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3JMaLuG009077;
+	Tue, 19 Apr 2011 23:36:21 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08479-10; Tue, 19 Apr 2011 23:36:17 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3JMaFU8009071
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 19 Apr 2011 23:36:16 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 0/2] Fix clutter-1.6
+In-Reply-To: <cover.1303170477.git.dvhart@linux.intel.com>
+References: <cover.1303170477.git.dvhart@linux.intel.com>
+Date: Tue, 19 Apr 2011 23:36:03 +0100
+Message-ID: <1303252563.5518.291.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: Re: [PATCH 0/2] kernel.bbclass fix and cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,27 +40,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2011 22:00:17 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 Apr 2011 22:38:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Tue, 2011-04-19 at 08:11 -0700, Darren Hart wrote:
+> From: Darren Hart <dvhart@linux.intel.com>
+> 
+> The following commit introduced a build bug and left some debug lying around.
+> 
+> commit 3b49416fc7a7ee9bfe722f2e6089aa18df41dc58
+> Author: Darren Hart <dvhart@linux.intel.com>
+> Date:   Tue Mar 8 17:09:10 2011 -0800
+> kernel/bbclass: rework kernel and module classes to allow for building
+> out-of-tree modules
+> 
+> The following 2 patches address that.
+> 
+> Thanks,
+>     Darren Hart <dvhart@linux.intel.com>
+> ---
+> 
+> 
+> Darren Hart (2):
+>   kernel: Copy over bzImage to sysroots during install
+>   kernel: Remove debug statements
 
-Op 19 apr 2011, om 22:50 heeft Joshua Lock het volgende geschreven:
+Merged to master, thanks.
 
-> From: Joshua Lock <josh@linux.intel.com>
->=20
-> With a recent patchset I changed clutter to depend on a json-glib =
-recipe then
-> promptly didn't include that recipe in the patch series - apologies.
->=20
-> Further I've removed a patch from the 1.6 recipe which is no longer =
-required.
+Richard
 
-Since we started discussing this series the clutter people have had a =
-few new releases, any volunteers for adding the latest 1.6.x?
-
-regards,
-
-Koen=
 
 
