@@ -1,24 +1,21 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QCJcL-0005Vj-H9
+	(envelope-from <josh@linux.intel.com>) id 1QCJm9-0005hb-Ee
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Apr 2011 00:41:58 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 19 Apr 2011 15:39:34 -0700
+	Wed, 20 Apr 2011 00:52:05 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Apr 2011 15:49:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,241,1301900400"; d="scan'208";a="422204414"
-Received: from unknown (HELO [10.255.13.54]) ([10.255.13.54])
-	by azsmga001.ch.intel.com with ESMTP; 19 Apr 2011 15:39:34 -0700
-From: Joshua Lock <josh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.64,241,1301900400"; d="scan'208";a="681223412"
+Received: from unknown (HELO localhost) ([10.255.13.54])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Apr 2011 15:49:40 -0700
+Message-Id: <cover.1303253280.git.josh@linux.intel.com>
+Old-Date: Tue, 19 Apr 2011 15:48:00 -0700
+Date: Tue, 19 Apr 2011 15:49:40 -0700
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Apr 2011 15:39:33 -0700
-In-Reply-To: <94E3D283-290D-43EE-AADF-ABDE9398214B@dominion.thruhere.net>
-References: <cover.1303246083.git.josh@linux.intel.com>
-	<94E3D283-290D-43EE-AADF-ABDE9398214B@dominion.thruhere.net>
-X-Mailer: Evolution 3.0.0 (3.0.0-1.fc15) 
-Message-ID: <1303252774.28219.0.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: [PATCH 0/2] Fix clutter-1.6
+CC: 
+From: Joshua Lock <josh@linux.intel.com>
+Subject: [PATCH v2 0/3] Fix and update clutter-1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Apr 2011 22:41:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Apr 2011 22:52:05 -0000
 
-On Tue, 2011-04-19 at 23:57 +0200, Koen Kooi wrote:
-> Op 19 apr 2011, om 22:50 heeft Joshua Lock het volgende geschreven:
-> 
-> > From: Joshua Lock <josh@linux.intel.com>
-> > 
-> > With a recent patchset I changed clutter to depend on a json-glib recipe then
-> > promptly didn't include that recipe in the patch series - apologies.
-> > 
-> > Further I've removed a patch from the 1.6 recipe which is no longer required.
-> 
-> Since we started discussing this series the clutter people have had a few new releases, any volunteers for adding the latest 1.6.x?
+From: Joshua Lock <josh@linux.intel.com>
 
-Good point, give me a few minutes.
+Same as the v1 patch set only with an extra patch to update to the latest
+release in the Clutter 1.6 stable series.
 
-Joshua
+With a recent patchset I changed clutter to depend on a json-glib recipe then
+promptly didn't include that recipe in the patch series - apologies.
+
+Further I've removed a patch from the 1.6 recipe which is no longer required.
+
+Finally, Clutter 1.6.14 - hurrah!
+
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: josh/clutter
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/clutter
+
+Thanks,
+    Joshua Lock <josh@linux.intel.com>
+---
+
+
+Joshua Lock (3):
+  json-glib: new recipe required by clutter
+  clutter-1.6: drop no longer required patch
+  clutter-1.6: update to 1.6.14
+
+ meta/recipes-gnome/json-glib/json-glib_0.12.2.bb   |   20 ++++++++++++++++++++
+ ...{clutter-1.6_1.6.8.bb => clutter-1.6_1.6.14.bb} |    9 ++++-----
+ 2 files changed, 24 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-gnome/json-glib/json-glib_0.12.2.bb
+ rename meta/recipes-graphics/clutter/{clutter-1.6_1.6.8.bb => clutter-1.6_1.6.14.bb} (66%)
+
 -- 
-Joshua Lock
-        Yocto Build System Monkey
-        Intel Open Source Technology Centre
+1.7.4.4
 
 
 
