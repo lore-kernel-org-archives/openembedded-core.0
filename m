@@ -1,23 +1,23 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QCRwJ-0008A6-1s
+	(envelope-from <dexuan.cui@intel.com>) id 1QCRwK-0008A7-8S
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Apr 2011 09:35:07 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 20 Apr 2011 00:32:43 -0700
+	Wed, 20 Apr 2011 09:35:08 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 20 Apr 2011 00:32:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,245,1301900400"; d="scan'208";a="422439297"
+X-IronPort-AV: E=Sophos;i="4.64,245,1301900400"; d="scan'208";a="631357966"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by azsmga001.ch.intel.com with ESMTP; 20 Apr 2011 00:32:43 -0700
-Message-Id: <50f8254f7aeed0a7b439eb88b92c9f678096771e.1303284287.git.dexuan.cui@intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 20 Apr 2011 00:32:40 -0700
+Message-Id: <f83bb42cf57e6af77d47858595d40414bc13711f.1303284287.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1303284287.git.dexuan.cui@intel.com>
 References: <cover.1303284287.git.dexuan.cui@intel.com>
-Old-Date: Tue, 19 Apr 2011 13:19:08 +0800
-Date: Wed, 20 Apr 2011 15:30:31 +0800
+Old-Date: Tue, 19 Apr 2011 13:17:56 +0800
+Date: Wed, 20 Apr 2011 15:30:28 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Dexuan Cui <dexuan.cui@intel.com>
-Subject: [PATCH 3/9] preferred-xorg-versions.inc: update libxfixes, util-macros, xorg-cf-files
+Subject: [PATCH 1/9] libxfixes: upgrade from 4.0.5 to the latest version 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,48 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2011 07:35:07 -0000
+X-List-Received-Date: Wed, 20 Apr 2011 07:35:09 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../distro/include/preferred-xorg-versions.inc     |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+ .../{libxfixes_4.0.5.bb => libxfixes_5.0.bb}       |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxfixes_4.0.5.bb => libxfixes_5.0.bb} (79%)
 
-diff --git a/meta/conf/distro/include/preferred-xorg-versions.inc b/meta/conf/distro/include/preferred-xorg-versions.inc
-index 23eaace..da730e6 100644
---- a/meta/conf/distro/include/preferred-xorg-versions.inc
-+++ b/meta/conf/distro/include/preferred-xorg-versions.inc
-@@ -51,7 +51,7 @@ PREFERRED_VERSION_libxdmcp-nativesdk ?= "1.1.0"
- PREFERRED_VERSION_libxevie ?= "1.0.2"
- PREFERRED_VERSION_libxext ?= "1.2.0"
- PREFERRED_VERSION_libxext-nativesdk ?= "1.2.0"
--PREFERRED_VERSION_libxfixes ?= "4.0.5"
-+PREFERRED_VERSION_libxfixes ?= "5.0"
- PREFERRED_VERSION_libxfont ?= "1.4.3"
- PREFERRED_VERSION_libxfont-native ?= "1.4.3"
- PREFERRED_VERSION_libxfontcache ?= "1.0.5"
-@@ -92,8 +92,8 @@ PREFERRED_VERSION_renderproto-nativesdk ?= "0.11.1"
- PREFERRED_VERSION_resourceproto ?= "1.1.1"
- PREFERRED_VERSION_scrnsaverproto ?= "1.2.1"
- PREFERRED_VERSION_trapproto ?= "3.4.3"
--PREFERRED_VERSION_util-macros ?= "1.11.0"
--PREFERRED_VERSION_util-macros-native ?= "1.11.0"
-+PREFERRED_VERSION_util-macros ?= "1.13.0"
-+PREFERRED_VERSION_util-macros-native ?= "1.13.0"
- PREFERRED_VERSION_videoproto ?= "2.3.1"
- PREFERRED_VERSION_windowswmproto ?= "1.0.4"
- PREFERRED_VERSION_x11perf ?= "1.5.3"
-@@ -119,7 +119,7 @@ PREFERRED_VERSION_xhost ?= "1.0.4"
- PREFERRED_VERSION_xinit ?= "1.3.0"
- PREFERRED_VERSION_xineramaproto ?= "1.2.1"
- PREFERRED_VERSION_xmodmap ?= "1.0.5"
--PREFERRED_VERSION_xorg-cf-files ?= "1.0.3"
-+PREFERRED_VERSION_xorg-cf-files ?= "1.0.4"
- PREFERRED_VERSION_xprop ?= "1.2.0"
- PREFERRED_VERSION_xproto ?= "7.0.21"
- PREFERRED_VERSION_xproto-native ?= "7.0.21"
+diff --git a/meta/recipes-graphics/xorg-lib/libxfixes_4.0.5.bb b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
+similarity index 79%
+rename from meta/recipes-graphics/xorg-lib/libxfixes_4.0.5.bb
+rename to meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
+index a69d5fd..0883cd1 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfixes_4.0.5.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.bb
+@@ -19,5 +19,5 @@ XORG_PN = "libXfixes"
+ 
+ BBCLASSEXTEND = "nativesdk"
+ 
+-SRC_URI[md5sum] = "1b4b8386bd5d1751b2c7177223ad4629"
+-SRC_URI[sha256sum] = "2e6cd020460e4ef5d5a1d9b5d21143e9f5e580036a79c7de26ae539d7bcb8d74"
++SRC_URI[md5sum] = "678071bd7f9f7467e2fc712d81022318"
++SRC_URI[sha256sum] = "537a2446129242737a35db40081be4bbcc126e56c03bf5f2b142b10a79cda2e3"
 -- 
 1.7.2
 
