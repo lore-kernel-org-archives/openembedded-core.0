@@ -1,23 +1,21 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QCRwL-0008A8-6I
+	(envelope-from <dexuan.cui@intel.com>) id 1QCRwL-0008A7-Hn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Apr 2011 09:35:09 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Apr 2011 00:32:45 -0700
+	Wed, 20 Apr 2011 09:35:10 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Apr 2011 00:32:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,245,1301900400"; d="scan'208";a="912088345"
+X-IronPort-AV: E=Sophos;i="4.64,245,1301900400"; d="scan'208";a="735912012"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Apr 2011 00:32:45 -0700
-Message-Id: <53f69f1b59d519a53541548a4a79928b95f1b4ad.1303284287.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1303284287.git.dexuan.cui@intel.com>
-References: <cover.1303284287.git.dexuan.cui@intel.com>
-Old-Date: Tue, 19 Apr 2011 16:54:46 +0800
-Date: Wed, 20 Apr 2011 15:30:33 +0800
+	by orsmga001.jf.intel.com with ESMTP; 20 Apr 2011 00:32:39 -0700
+Message-Id: <cover.1303284287.git.dexuan.cui@intel.com>
+Old-Date: Wed, 20 Apr 2011 15:24:47 +0800
+Date: Wed, 20 Apr 2011 15:30:27 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Dexuan Cui <dexuan.cui@intel.com>
-Subject: [PATCH 5/9] liburcu: upgrade from 0.5.2 to 0.5.4
+Subject: [PATCH 0/9] upgrades for libx11 libx, sdk-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,44 +34,64 @@ X-List-Received-Date: Wed, 20 Apr 2011 07:35:10 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
-Add arm into COMPATIBLE_HOST since liburcu started to support
-pre-ARMv7 from 0.5.3 on.
+Most of the changes are about filename/chksum.
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Also removed unnecessary patches from SRC_URI since the new versions have
+integrated them.
+
+Updated task-poky-tools.bb and task-sdk-gmae.inc to enable lttng-ust for
+ARM since lttng-ust can build on ARM from 0.12 on.
+
+Tested on qemux86 and qemuarm with building poky-image-sato-sdk and
+meta-toolchain-gmae.
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: dcui/master
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/master
+
+Thanks,
+    Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../liburcu/{liburcu_0.5.2.bb => liburcu_0.5.4.bb} |   11 ++++-------
- 1 files changed, 4 insertions(+), 7 deletions(-)
+
+
+Dexuan Cui (9):
+  libxfixes: upgrade from 4.0.5 to the latest version 5.0
+  util-macros: upgrade from 1.11.0 to 1.13.0
+  preferred-xorg-versions.inc: update libxfixes, util-macros,
+    xorg-cf-files
+  mdadm: upgrade from 3.1.4 to the latest version 3.2.1
+  liburcu: upgrade from 0.5.2 to 0.5.4
+  lttng-ust: upgrade from 0.11 to the latest version 0.12
+  task-poky-tools.bb, task-sdk-gmae.inc: enable lttng-ust for ARM
+  lttng-viewer: upgrade from 0.12.36 to the latest version 0.12.38
+  distro_tracking_fields.inc: update the info for the following recipes
+
+ .../conf/distro/include/distro_tracking_fields.inc |   65 ++++++++--------
+ .../distro/include/preferred-xorg-versions.inc     |    8 +-
+ meta/recipes-core/tasks/task-poky-tools.bb         |    7 +-
+ meta/recipes-extended/mdadm/files/fix-z-now.patch  |   15 ----
+ .../mdadm/{mdadm_3.1.4.bb => mdadm_3.2.1.bb}       |    9 +-
+ meta/recipes-gnome/tasks/task-poky-sdk-gmae.bb     |    2 +-
+ .../tasks/task-poky-standalone-gmae-sdk-target.bb  |    2 +-
+ meta/recipes-gnome/tasks/task-sdk-gmae.inc         |    1 +
+ .../{libxfixes_4.0.5.bb => libxfixes_5.0.bb}       |    4 +-
+ ...util-macros_1.11.0.bb => util-macros_1.13.0.bb} |    4 +-
+ ...remove_ppc_specific_time_reading_function.patch |   85 --------------------
+ meta/recipes-kernel/lttng/lttng-ust_0.11.bb        |   32 --------
+ meta/recipes-kernel/lttng/lttng-ust_0.12.bb        |   28 +++++++
+ ...g-viewer_0.12.36.bb => lttng-viewer_0.12.38.bb} |    6 +-
+ .../liburcu/{liburcu_0.5.2.bb => liburcu_0.5.4.bb} |   11 +--
+ 15 files changed, 87 insertions(+), 192 deletions(-)
+ delete mode 100644 meta/recipes-extended/mdadm/files/fix-z-now.patch
+ rename meta/recipes-extended/mdadm/{mdadm_3.1.4.bb => mdadm_3.2.1.bb} (78%)
+ rename meta/recipes-graphics/xorg-lib/{libxfixes_4.0.5.bb => libxfixes_5.0.bb} (79%)
+ rename meta/recipes-graphics/xorg-util/{util-macros_1.11.0.bb => util-macros_1.13.0.bb} (79%)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust-0.11/remove_ppc_specific_time_reading_function.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_0.11.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust_0.12.bb
+ rename meta/recipes-kernel/lttng/{lttng-viewer_0.12.36.bb => lttng-viewer_0.12.38.bb} (85%)
  rename meta/recipes-support/liburcu/{liburcu_0.5.2.bb => liburcu_0.5.4.bb} (61%)
 
-diff --git a/meta/recipes-support/liburcu/liburcu_0.5.2.bb b/meta/recipes-support/liburcu/liburcu_0.5.4.bb
-similarity index 61%
-rename from meta/recipes-support/liburcu/liburcu_0.5.2.bb
-rename to meta/recipes-support/liburcu/liburcu_0.5.4.bb
-index fa9ddb3..8e17e5d 100644
---- a/meta/recipes-support/liburcu/liburcu_0.5.2.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.5.4.bb
-@@ -11,17 +11,14 @@ PR = "r0"
- 
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "a2978395806eed5d9a2de1e22efe70e0"
--SRC_URI[sha256sum] = "2f22966fe4b00ef547976a31c1c6a7c7bea3449ffa838806d9610e7424e184dd"
-+SRC_URI[md5sum] = "04147d24749be75200173859839207f7"
-+SRC_URI[sha256sum] = "02aedbb16c16bd034e246d5c9637a9232be559c66fc2fe4eb28948e234bd89f1"
- 
- S = "${WORKDIR}/userspace-rcu-${PV}"
- 
- inherit autotools
- 
- # liburcu, which is only used by lttng-ust, may not build on other
--# platforms, e.g., on ARM, liburcu is only supported on ARMv7l while poky
--# only supports armv4/armv4t/armv5te. 1 more example: liburcu doesn't support
--# MIPS now.
--# So here let us first suppport x86/powerpc platforms now.
--COMPATIBLE_HOST = '(x86_64.*|i.86.*|powerpc.*)-linux'
-+# platforms, like MIPS.
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
- 
 -- 
 1.7.2
 
