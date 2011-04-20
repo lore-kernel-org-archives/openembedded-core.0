@@ -1,38 +1,28 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QCTXj-0000rm-EV
+	(envelope-from <koen@dominion.thruhere.net>) id 1QCTyF-0005lb-3z
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Apr 2011 11:17:58 +0200
-Received: by bwz5 with SMTP id 5so492438bwz.6
+	Wed, 20 Apr 2011 11:45:15 +0200
+Received: by wye20 with SMTP id 20so504254wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2011 02:15:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=gNR/s7xyDlTDIqcpn9/s+b/fuPZ4ffL9ua1UON+SjEY=;
-	b=ZFPIoHoDfQL8tL3S2Bvz22hLwz30IR/Q/RT15N9K1LO2wwhXQ44I/hO4Sdf7mCqXr9
-	iYTc/PUqofDAk6NlPOPt8Sran1ra19UYdx0DeythorFUihm9j5VBk6VkKv66l+6UFw2H
-	2lgjto3pw4nzJdr+ihKKoSltV1yOZax0/quQQ=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	b=dczHuzizmhJVQwwV5Wzj9DU2QEgIYZIMZ3li4I0iVVdRKgNPfly9QMOqjMSNf0tbJM
-	H7KtdH9BgKuVEIQAoKlyopmTrY5GEiEeLlSdEiehE9wej1QcjJz+tK8dIbMuQFY20EJ2
-	Rdw8Wgw9GKKP6T2uEoHHkeji3tFzTZV7oKnDY=
-Received: by 10.204.188.65 with SMTP id cz1mr2878412bkb.108.1303290924528;
-	Wed, 20 Apr 2011 02:15:24 -0700 (PDT)
-Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
-	by mx.google.com with ESMTPS id y9sm863668faj.0.2011.04.20.02.15.23
+	Wed, 20 Apr 2011 02:42:52 -0700 (PDT)
+Received: by 10.216.237.138 with SMTP id y10mr644219weq.30.1303292465504;
+	Wed, 20 Apr 2011 02:41:05 -0700 (PDT)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id r80sm348315wei.39.2011.04.20.02.41.04
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 20 Apr 2011 02:15:23 -0700 (PDT)
-Date: Wed, 20 Apr 2011 11:15:23 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 20 Apr 2011 02:41:04 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <20110420091523.GH5675@jama.jama.net>
+Date: Wed, 20 Apr 2011 11:41:03 +0200
+Message-Id: <89CD9535-8ECD-4B21-AF00-DC47EEF03418@dominion.thruhere.net>
+References: <20110420091523.GH5675@jama.jama.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110420091523.GH5675@jama.jama.net>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Mailman refusing multipart/signed Content-Type
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: Mailman refusing multipart/signed Content-Type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,28 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2011 09:17:58 -0000
+X-List-Received-Date: Wed, 20 Apr 2011 09:45:16 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi, 
 
-mailman always refuse gpg signed e-mails from me when I forgot to
-disable default sign.
+Op 20 apr 2011, om 11:15 heeft Martin Jansa het volgende geschreven:
 
-Complete header is:
-Content-Type: multipart/signed; micalg=pgp-sha1; protocol="application/pgp-signature"; boundary="cvVnyQ+4j833TQvp"
-Content-Disposition: inline
+> Hi,=20
+>=20
+> mailman always refuse gpg signed e-mails from me when I forgot to
+> disable default sign.
+>=20
+> Complete header is:
+> Content-Type: multipart/signed; micalg=3Dpgp-sha1; =
+protocol=3D"application/pgp-signature"; boundary=3D"cvVnyQ+4j833TQvp"
+> Content-Disposition: inline
+>=20
+> Mailman message is:
+> The message's content type was not explicitly allowed
+>=20
+> Other LTG lists don't have problem with this, is it intentional or =
+could
+> someone fix oe-core ML configuration?
 
-Mailman message is:
-The message's content type was not explicitly allowed
+I added 'multipart/signed' to the whitelist, could you try and see if it =
+works?
 
-Other LTG lists don't have problem with this, is it intentional or could
-someone fix oe-core ML configuration?
+regards,
 
-Thanks
-
--- 
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Koen=
 
 
