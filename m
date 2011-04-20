@@ -1,41 +1,23 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QCRWX-00078m-V3
+	(envelope-from <dexuan.cui@intel.com>) id 1QCRwJ-0008A6-1s
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Apr 2011 09:08:29 +0200
-Received: by fxm19 with SMTP id 19so308509fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Apr 2011 00:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=cu2p4JuDZsnxe3UBGN3sGssU+5dzn7R4aHXNv3gvf5k=;
-	b=IQAtYS0F45BC4Gl+lb2GKNnTn/qDFko0N/5aN4GRgL7qrR3qaxuWEirJSpFNelP20o
-	0XAbiw9Qn2PzDL8tQdDl8Dg9S2kka1cRdm8ikZA1FLHR7XqNumTOJOM9gD942jJ3UztV
-	1e8diNGJsg03OPqmld6XHOvvWUeySjhN/i6nU=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:content-transfer-encoding:in-reply-to
-	:user-agent;
-	b=JYJswyJvhaXR9sBGcKs/xH6wHpgYVeVO6PAzADdyy+UH75xik5kyYGR1tVpYDVLJJ2
-	EeTJD/fimOhzJ7fm7qqfytIv35/aGD02xP5P+PjAi0w7exi69eBGxGs03Uas4z/sciOh
-	q94ifFAjCHwC6pYOvbIIv5yuFOrcttd7Aaj80=
-Received: by 10.223.161.133 with SMTP id r5mr1697058fax.78.1303283167523;
-	Wed, 20 Apr 2011 00:06:07 -0700 (PDT)
-Received: from localhost (161-24.13.24.78.awnet.cz [78.24.13.161])
-	by mx.google.com with ESMTPS id g5sm186271faa.2.2011.04.20.00.06.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 20 Apr 2011 00:06:06 -0700 (PDT)
-Date: Wed, 20 Apr 2011 09:06:05 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110420070605.GC5675@jama.jama.net>
-MIME-Version: 1.0
-In-Reply-To: <F7021822-B24C-446D-9A4E-8B1F7DAD9791@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 2/4] xf86-video-omapfb: add SRCREV to recipe
+	Wed, 20 Apr 2011 09:35:07 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 20 Apr 2011 00:32:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,245,1301900400"; d="scan'208";a="422439297"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
+	by azsmga001.ch.intel.com with ESMTP; 20 Apr 2011 00:32:43 -0700
+Message-Id: <50f8254f7aeed0a7b439eb88b92c9f678096771e.1303284287.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1303284287.git.dexuan.cui@intel.com>
+References: <cover.1303284287.git.dexuan.cui@intel.com>
+Old-Date: Tue, 19 Apr 2011 13:19:08 +0800
+Date: Wed, 20 Apr 2011 15:30:31 +0800
+To: openembedded-core@lists.openembedded.org
+CC: 
+From: Dexuan Cui <dexuan.cui@intel.com>
+Subject: [PATCH 3/9] preferred-xorg-versions.inc: update libxfixes, util-macros, xorg-cf-files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,51 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Apr 2011 07:08:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Apr 2011 07:35:07 -0000
 
-On Mon, Apr 18, 2011 at 10:03:05AM +0200, Koen Kooi wrote:
->=20
-> Op 18 apr 2011, om 10:00 heeft Martin Jansa het volgende geschreven:
->=20
-> > * taken from meta/conf/distro/include/poky-default-revisions.inc for
-> >  those who want xf86-video-omapfb and are not using poky
->=20
-> Use the one in meta-oe :)
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-Koen: I do, just got this recipe once and wanted to make it usable. Not all
-people using oe-core use poky as distro or their include files.
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+---
+ .../distro/include/preferred-xorg-versions.inc     |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-RP: Is there any problem with those 2 SRCREV patches? I've sent both twice
-already.
+diff --git a/meta/conf/distro/include/preferred-xorg-versions.inc b/meta/conf/distro/include/preferred-xorg-versions.inc
+index 23eaace..da730e6 100644
+--- a/meta/conf/distro/include/preferred-xorg-versions.inc
++++ b/meta/conf/distro/include/preferred-xorg-versions.inc
+@@ -51,7 +51,7 @@ PREFERRED_VERSION_libxdmcp-nativesdk ?= "1.1.0"
+ PREFERRED_VERSION_libxevie ?= "1.0.2"
+ PREFERRED_VERSION_libxext ?= "1.2.0"
+ PREFERRED_VERSION_libxext-nativesdk ?= "1.2.0"
+-PREFERRED_VERSION_libxfixes ?= "4.0.5"
++PREFERRED_VERSION_libxfixes ?= "5.0"
+ PREFERRED_VERSION_libxfont ?= "1.4.3"
+ PREFERRED_VERSION_libxfont-native ?= "1.4.3"
+ PREFERRED_VERSION_libxfontcache ?= "1.0.5"
+@@ -92,8 +92,8 @@ PREFERRED_VERSION_renderproto-nativesdk ?= "0.11.1"
+ PREFERRED_VERSION_resourceproto ?= "1.1.1"
+ PREFERRED_VERSION_scrnsaverproto ?= "1.2.1"
+ PREFERRED_VERSION_trapproto ?= "3.4.3"
+-PREFERRED_VERSION_util-macros ?= "1.11.0"
+-PREFERRED_VERSION_util-macros-native ?= "1.11.0"
++PREFERRED_VERSION_util-macros ?= "1.13.0"
++PREFERRED_VERSION_util-macros-native ?= "1.13.0"
+ PREFERRED_VERSION_videoproto ?= "2.3.1"
+ PREFERRED_VERSION_windowswmproto ?= "1.0.4"
+ PREFERRED_VERSION_x11perf ?= "1.5.3"
+@@ -119,7 +119,7 @@ PREFERRED_VERSION_xhost ?= "1.0.4"
+ PREFERRED_VERSION_xinit ?= "1.3.0"
+ PREFERRED_VERSION_xineramaproto ?= "1.2.1"
+ PREFERRED_VERSION_xmodmap ?= "1.0.5"
+-PREFERRED_VERSION_xorg-cf-files ?= "1.0.3"
++PREFERRED_VERSION_xorg-cf-files ?= "1.0.4"
+ PREFERRED_VERSION_xprop ?= "1.2.0"
+ PREFERRED_VERSION_xproto ?= "7.0.21"
+ PREFERRED_VERSION_xproto-native ?= "7.0.21"
+-- 
+1.7.2
 
-Koen's advertiesment of meta-oe version is not reason to ignore oe-core
-recipe I guess..
-
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> > .../xorg-driver/xf86-video-omapfb_git.bb           |    1 +
-> > 1 files changed, 1 insertions(+), 0 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb=
- b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-> > index 2714786..5281665 100644
-> > --- a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-> > +++ b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-> > @@ -13,6 +13,7 @@ PE =3D "1"
-> > PR =3D "r1"
-> > PV =3D "0.1.1+git${SRCPV}"
-> >=20
-> > +SRCREV =3D "044617665d6737f4909aab96f91b06261dff05d2"
-> > SRC_URI =3D "git://git.pingu.fi/xf86-video-omapfb.git;protocol=3Dhttp \
-> >             file://omap-revert-set-CRTC-limit.patch \
-> >             file://omap-revert-set-virtual-size.patch \
-> > --=20
-> > 1.7.5.rc1
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
