@@ -1,30 +1,22 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QCztj-0007Ns-0b
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QD0Ti-000166-PS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2011 21:50:43 +0200
-Received: by wwb17 with SMTP id 17so49027wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2011 12:48:18 -0700 (PDT)
-Received: by 10.216.9.141 with SMTP id 13mr2367906wet.73.1303415298586;
-	Thu, 21 Apr 2011 12:48:18 -0700 (PDT)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id g22sm1112611wes.36.2011.04.21.12.48.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 21 Apr 2011 12:48:17 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1303414084.5518.363.camel@rex>
-Date: Thu, 21 Apr 2011 21:48:15 +0200
-Message-Id: <C5EA4061-5E0F-4897-A45D-3028A0E2E899@dominion.thruhere.net>
-References: <cover.1303412254.git.raj.khem@gmail.com>
-	<9efd8eca294cb7e3206e47e3b9bea503f3c87ac8.1303412254.git.raj.khem@gmail.com>
-	<1303414084.5518.363.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 1/1] pcmciautils: Upgrade 017 -> 018
+	Thu, 21 Apr 2011 22:27:55 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 21 Apr 2011 13:25:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,252,1301900400"; d="scan'208";a="632249605"
+Received: from nbuild1.sc.intel.com (HELO localhost) ([172.25.110.36])
+	by orsmga002.jf.intel.com with ESMTP; 21 Apr 2011 13:25:29 -0700
+Message-Id: <7d9b6cfc17cd73e2259cc7b8291264b645ea1b7c.1303417346.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1303417346.git.nitin.a.kamble@intel.com>
+References: <cover.1303417346.git.nitin.a.kamble@intel.com>
+Old-Date: Thu, 7 Apr 2011 10:48:14 -0700
+Date: Thu, 21 Apr 2011 13:25:03 -0700
+To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
+Subject: [PATCH 3/8] git: upgrade from 1.7.3.4 to 1.7.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,26 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2011 19:50:43 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Apr 2011 20:27:55 -0000
 
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Op 21 apr 2011, om 21:28 heeft Richard Purdie het volgende geschreven:
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ meta/recipes-devtools/git/files/autotools.patch    |    2 ++
+ .../git/{git_1.7.3.4.bb => git_1.7.4.3.bb}         |    4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/git/{git_1.7.3.4.bb => git_1.7.4.3.bb} (59%)
 
-> On Thu, 2011-04-21 at 11:59 -0700, Khem Raj wrote:
->> version workaround is done in recipe itself
->> by adding PV to CFLAGS
->> 
->> Since we define LIBC and pcmciutils use it too
->> which hinders build when we define LIBC in
->> environment. Its not used in the builds anyway
->> so we get rid of depending on it
-> 
-> Why are you defining LIBC in the environment? That sounds like a
-> seriously bad idea. Our current environment handling should stop it
-> leaking into a build anyway shouldn't it?
+diff --git a/meta/recipes-devtools/git/files/autotools.patch b/meta/recipes-devtools/git/files/autotools.patch
+index 1c69c22..c190019 100644
+--- a/meta/recipes-devtools/git/files/autotools.patch
++++ b/meta/recipes-devtools/git/files/autotools.patch
+@@ -1,3 +1,5 @@
++Upstream-Status="Inappropriate [configuration]"
++
+ Index: git-1.7.2.1/configure.ac
+ ===================================================================
+ --- git-1.7.2.1.orig/configure.ac	2010-07-28 18:03:43.000000000 +0100
+diff --git a/meta/recipes-devtools/git/git_1.7.3.4.bb b/meta/recipes-devtools/git/git_1.7.4.3.bb
+similarity index 59%
+rename from meta/recipes-devtools/git/git_1.7.3.4.bb
+rename to meta/recipes-devtools/git/git_1.7.4.3.bb
+index 2765ef7..603d2fd 100644
+--- a/meta/recipes-devtools/git/git_1.7.3.4.bb
++++ b/meta/recipes-devtools/git/git_1.7.4.3.bb
+@@ -6,5 +6,5 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
+                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+                  "
+ 
+-SRC_URI[md5sum] = "3a2602016f98c529cda7b9fad1a6e216"
+-SRC_URI[sha256sum] = "3e5e2b6547ee4aae82b4c5f589ff084996e9e6e0e2b52c92365e6baa1e4a0171"
++SRC_URI[md5sum] = "da6c8f4967393342a4397b955db72cb1"
++SRC_URI[sha256sum] = "44b3ebc87d83b34468718fb6fa424420877e1f66c190389d693d090662a3556d"
+-- 
+1.7.2.2
 
-In OE .dev we unexport LIBC for that exact reason :)
 
 
