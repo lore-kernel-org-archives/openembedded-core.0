@@ -1,33 +1,40 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1QClbq-0006q3-LK
+	(envelope-from <dexuan.cui@intel.com>) id 1QCmgp-0007mp-B4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2011 06:35:18 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 20 Apr 2011 21:31:50 -0700
+	Thu, 21 Apr 2011 07:44:31 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Apr 2011 22:42:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,249,1301900400"; d="scan'208";a="631860309"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga002.jf.intel.com with ESMTP; 20 Apr 2011 21:31:50 -0700
+X-IronPort-AV: E=Sophos;i="4.64,249,1301900400"; d="scan'208";a="736367226"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by orsmga001.jf.intel.com with ESMTP; 20 Apr 2011 22:42:06 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 21 Apr 2011 13:41:21 +0800
 Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 21 Apr 2011 12:31:48 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 21 Apr 2011 13:41:21 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
 	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Thu, 21 Apr 2011 12:31:47 +0800
-From: "Mei, Lei" <lei.mei@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Apr 2011 12:31:47 +0800
-Thread-Topic: [RFC] Request for your comment on package report system
-Thread-Index: Acv/3QZ1DxGFxayhS2SsXXa9wqn0yQ==
-Message-ID: <749B9D3DBF0F054390025D9EAFF47F224A66A191@shsmsx501.ccr.corp.intel.com>
+	Thu, 21 Apr 2011 13:41:20 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Saul Wold' <sgw@linux.intel.com>, Patches and discussions about the
+	oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Apr 2011 13:41:19 +0800
+Thread-Topic: [OE-core] [PATCH 2/9] util-macros: upgrade from 1.11.0 to 1.13.0
+Thread-Index: Acv/cZ/K/yiaBoNuSr+HYRalYav1OQAdHz3A
+Message-ID: <1865303E0DED764181A9D882DEF65FB6911CBC1666@shsmsx502.ccr.corp.intel.com>
+References: <cover.1303284287.git.dexuan.cui@intel.com>
+	<0a4528e92190a055233b52e7d4e9bbfe0400e959.1303284287.git.dexuan.cui@intel.com>
+	<4DAEFEFF.4080102@linux.intel.com>
+In-Reply-To: <4DAEFEFF.4080102@linux.intel.com>
 Accept-Language: zh-CN, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-Subject: [RFC] Request for your comment on package report system
+Subject: Re: [PATCH 2/9] util-macros: upgrade from 1.11.0 to 1.13.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,70 +49,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2011 04:35:18 -0000
+X-List-Received-Date: Thu, 21 Apr 2011 05:44:31 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,
-	This is a description for package report system, please help to review and=
- give your comments on this system. Thanks a lot!
+Saul Wold wrote:
+> On 04/20/2011 12:30 AM, Dexuan Cui wrote:
+>>   ...util-macros_1.11.0.bb =3D>  util-macros_1.13.0.bb} |    4 ++--
+>>   1 files changed, 2 insertions(+), 2 deletions(-)
+>>   rename meta/recipes-graphics/xorg-util/{util-macros_1.11.0.bb =3D>=20
+>> util-macros_1.13.0.bb} (79%)=20
+> I will pull this patch today, but you need to determine if the
+> util-macros/xaw.patch is still needed and if not, please remove it
+> from the tree.
+Hi Saul,
+Thanks a lot for the reminder!=20
+The file xaw.patch is not needed now since no recipe uses it.
+I made a new commit for the upgrading of util-macros:
+http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/master=
+_util_macros&id=3D3cfb9f508b11c4a33aace97d306956f36b137992
 
-The system link is below:
-http://packages.yoctoproject.org/
+Please pull this new commit (the commit is in a new branch dcui/master_util=
+_macros)
 
+Thanks!
 
-Yocto package report system is a tool/website which could help people to ch=
-eck the latest package information and track the latest/history version inf=
-ormation. Below is description of its functionalities.
-
-
-1) List all packages information
-	It will list all packages latest information like version, upstream versio=
-n, license, maintainer and so on.
-
-2) Support sort
-	We can sort packages by their name, license, maintainer and so on.
-
-3) Support search package.
-	We can search package by its name, version, license, section, revision or =
-priority.
-
-4) Track the upstream version change and send notification to mail list.
-	The report system will track the package upstream version change and remin=
-d maintainers to upgrade them by send mail to mail list weekly.=20
-	It also lists all need to upgrade packages name on the webpage for easy re=
-view.
-	However, there are certain recipes which need manual upstream version chec=
-k(currently the total number is about 60), their name also will be listed o=
-n the webpage. We need to manual check these recipes periodically and chang=
-e their status in distro_tracking_fields.inc.
-
-5) Generate report=20
-	We can get a report of all packages detail information in a csv spreadshee=
-t
-
-6) Generate bar chart of upgrade history and manual check history
-	We can check the history informaiton through those bar chart, so we can se=
-e the number of need to upgrade recipes or need to manual check recipes mor=
-e clearly during upgrade work.
-
-7) History database access
-	We can access history database by their date so that we can track the upgr=
-ade or manual check history data.
-
-
-Now we want to do some enhancement for this system in 1.0.1 plan, so do you=
- have any comment or thought?
-Any feedback is welcome :)
-
-
----
-Mei, Lei
-Email: lei.mei@intel.com
-
-
-
-
+-- Dexuan=
 
 
