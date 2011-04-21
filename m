@@ -1,40 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QCmgp-0007mp-B4
+	(envelope-from <koen@dominion.thruhere.net>) id 1QCoxL-00083t-Un
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2011 07:44:31 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 20 Apr 2011 22:42:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,249,1301900400"; d="scan'208";a="736367226"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by orsmga001.jf.intel.com with ESMTP; 20 Apr 2011 22:42:06 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 21 Apr 2011 13:41:21 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 21 Apr 2011 13:41:21 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Thu, 21 Apr 2011 13:41:20 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Saul Wold' <sgw@linux.intel.com>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Apr 2011 13:41:19 +0800
-Thread-Topic: [OE-core] [PATCH 2/9] util-macros: upgrade from 1.11.0 to 1.13.0
-Thread-Index: Acv/cZ/K/yiaBoNuSr+HYRalYav1OQAdHz3A
-Message-ID: <1865303E0DED764181A9D882DEF65FB6911CBC1666@shsmsx502.ccr.corp.intel.com>
-References: <cover.1303284287.git.dexuan.cui@intel.com>
-	<0a4528e92190a055233b52e7d4e9bbfe0400e959.1303284287.git.dexuan.cui@intel.com>
-	<4DAEFEFF.4080102@linux.intel.com>
-In-Reply-To: <4DAEFEFF.4080102@linux.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/9] util-macros: upgrade from 1.11.0 to 1.13.0
+	Thu, 21 Apr 2011 10:09:44 +0200
+Received: by wwb17 with SMTP id 17so1477938wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Apr 2011 01:07:20 -0700 (PDT)
+Received: by 10.216.155.17 with SMTP id i17mr1228845wek.71.1303373238880;
+	Thu, 21 Apr 2011 01:07:18 -0700 (PDT)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id d59sm814993wed.45.2011.04.21.01.07.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 21 Apr 2011 01:07:17 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1303342638.5518.325.camel@rex>
+Date: Thu, 21 Apr 2011 10:07:16 +0200
+Message-Id: <D7FBAE99-F5F4-4293-8DC5-BC356F7CF903@dominion.thruhere.net>
+References: <1303342638.5518.325.camel@rex>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Cc: poky <poky@lists.yoctoproject.org>
+Subject: Re: OE-Core Rebranding Phase 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,32 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2011 05:44:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 21 Apr 2011 08:09:44 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Saul Wold wrote:
-> On 04/20/2011 12:30 AM, Dexuan Cui wrote:
->>   ...util-macros_1.11.0.bb =3D>  util-macros_1.13.0.bb} |    4 ++--
->>   1 files changed, 2 insertions(+), 2 deletions(-)
->>   rename meta/recipes-graphics/xorg-util/{util-macros_1.11.0.bb =3D>=20
->> util-macros_1.13.0.bb} (79%)=20
-> I will pull this patch today, but you need to determine if the
-> util-macros/xaw.patch is still needed and if not, please remove it
-> from the tree.
-Hi Saul,
-Thanks a lot for the reminder!=20
-The file xaw.patch is not needed now since no recipe uses it.
-I made a new commit for the upgrading of util-macros:
-http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/master=
-_util_macros&id=3D3cfb9f508b11c4a33aace97d306956f36b137992
 
-Please pull this new commit (the commit is in a new branch dcui/master_util=
-_macros)
+Op 21 apr 2011, om 01:37 heeft Richard Purdie het volgende geschreven:
 
-Thanks!
+> Hi,
+>=20
+> At the face to face OE TSC meeting we talked over the "branding" =
+issues
+> on OE-Core and what we were going to do about removing many of the =
+poky
+> references.
+>=20
+> This email represents a turning point for OE-Core as it marks the =
+first
+> pass of rebranding and is based on decisions the TSC made at that
+> meeting. I'm not going to claim its 100% complete yet but it does give
+> us a good start at it. =46rom this point on, I'll be taking patches =
+from
+> people to assist with this. The key changes I've made so far are:
+>=20
+> * poky-init-build-env -> oe-init-build-env
+> * poky-image-* -> core-image-*
+> * task-poky-* -> task-core-*
+> * git.pokylinux.org -> git.yoctoproject.org
+> * POKYBASE -> COREBASE
+> * poky-qemu -> runqemu
+> * Sanitised local.conf.sample from Poky references
+> * POKY_NATIVE_SYSROOT -> OECORE_NATIVE_SYSROOT
+> * Renamed scrips/poky-* to scripts/oe-*
+> * Renamed the poky-sb override to linuxstdbase
+> * POKY_CONF_VERSION -> LOCALCONF_VERSION
+> * Made sanity versions weak assignment
 
--- Dexuan=
+Richard,
+
+Thanks for taking the time to do this. I did a quick check and meta-oe, =
+meta-efl, meta-angstrom, meta-texasinstruments and meta-shr seem to be =
+up to date with those changes now.
+
+regards,
+
+Koen=
 
 
