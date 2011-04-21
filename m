@@ -1,32 +1,26 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QCyEm-0006b3-8R
+	(envelope-from <koen@dominion.thruhere.net>) id 1QCyNb-0006gF-LC
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2011 20:04:20 +0200
-Received: by wwi18 with SMTP id 18so38037wwi.0
+	Thu, 21 Apr 2011 20:13:27 +0200
+Received: by wwb17 with SMTP id 17so2008439wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2011 11:01:55 -0700 (PDT)
-Received: by 10.216.254.39 with SMTP id g39mr193655wes.108.1303408914425;
-	Thu, 21 Apr 2011 11:01:54 -0700 (PDT)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id r80sm1074221wei.39.2011.04.21.11.01.52
+	Thu, 21 Apr 2011 11:11:03 -0700 (PDT)
+Received: by 10.216.62.130 with SMTP id y2mr2368282wec.20.1303409463171;
+	Thu, 21 Apr 2011 11:11:03 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id d54sm1082404wej.10.2011.04.21.11.11.02
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 21 Apr 2011 11:01:53 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
+	Thu, 21 Apr 2011 11:11:02 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1303407705.9960.51.camel@vorpal>
-Date: Thu, 21 Apr 2011 20:01:51 +0200
-Message-Id: <2B83A357-FCB2-4C9A-8631-9B58153A1063@dominion.thruhere.net>
-References: <8313867A-EA5C-473D-A82B-D8338186BF5F@dominion.thruhere.net>
-	<201104211605.28351.paul.eggleton@linux.intel.com>
-	<1303404025.9960.6.camel@vorpal>
-	<6252772B-4D5D-4E5D-BCD5-1A53C1D25AFA@dominion.thruhere.net>
-	<1303407705.9960.51.camel@vorpal>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [RFC] Working toward a GNOME layer
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Apr 2011 20:10:44 +0200
+Message-Id: <1303409452-19263-2-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+In-Reply-To: <1303409452-19263-1-git-send-email-koen@dominion.thruhere.net>
+References: <1303409452-19263-1-git-send-email-koen@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [meta-gnome 02/10] wv: import from oe-core rev 0a6f77f549c095692045825f4b5c4c5a2edff73c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,72 +35,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2011 18:04:21 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Apr 2011 18:13:28 -0000
 
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ .../recipes-gnome/wv/wv-1.2.0/pkgconfig.patch      |   13 +++++++++++++
+ meta-gnome/recipes-gnome/wv/wv_1.2.0.bb            |   14 ++++++++++++++
+ 2 files changed, 27 insertions(+), 0 deletions(-)
+ create mode 100644 meta-gnome/recipes-gnome/wv/wv-1.2.0/pkgconfig.patch
+ create mode 100644 meta-gnome/recipes-gnome/wv/wv_1.2.0.bb
 
-Op 21 apr 2011, om 19:41 heeft Joshua Lock het volgende geschreven:
+diff --git a/meta-gnome/recipes-gnome/wv/wv-1.2.0/pkgconfig.patch b/meta-gnome/recipes-gnome/wv/wv-1.2.0/pkgconfig.patch
+new file mode 100644
+index 0000000..136d893
+--- /dev/null
++++ b/meta-gnome/recipes-gnome/wv/wv-1.2.0/pkgconfig.patch
+@@ -0,0 +1,13 @@
++Index: wv-1.2.0/wv-1.0.pc.in
++===================================================================
++--- wv-1.2.0.orig/wv-1.0.pc.in	2008-03-19 22:25:18.000000000 +0000
+++++ wv-1.2.0/wv-1.0.pc.in	2008-03-19 22:26:32.000000000 +0000
++@@ -6,5 +6,6 @@
++ Name: wvWare
++ Description: Word Document Filter library and utilities
++ Version: @VERSION@
++-Libs: -L${libdir} -lwv @WMF_LIBS@ @XML_LIBS@ @GLIB_LIBS@ @GSF_LIBS@ @PNG_LIBS@ @ZLIB_LIBS@ @LIBS@ -lm
++-Cflags: -I${includedir}/wv @GSF_CFLAGS@
+++Requires: libgsf-1
+++Libs: -L${libdir} -lwv @WMF_LIBS@ @XML_LIBS@ @PNG_LIBS@ @ZLIB_LIBS@ @LIBS@ -lm
+++Cflags: -I${includedir}/wv
+diff --git a/meta-gnome/recipes-gnome/wv/wv_1.2.0.bb b/meta-gnome/recipes-gnome/wv/wv_1.2.0.bb
+new file mode 100644
+index 0000000..c4c115b
+--- /dev/null
++++ b/meta-gnome/recipes-gnome/wv/wv_1.2.0.bb
+@@ -0,0 +1,14 @@
++DESCRIPTION = "Programs for accessing Microsoft Word documents"
++HOMEPAGE = "http://wvware.sourceforge.net/"
++LICENSE = "GPLv2"
++DEPENDS = "libgsf glib-2.0"
++PR = "r3"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/wvware/wv-${PV}.tar.gz \
++           file://pkgconfig.patch;patch=1"
++
++inherit autotools pkgconfig
++
++S = "${WORKDIR}/${PN}-${PV}"
++
++EXTRA_OECONF = ""
+-- 
+1.6.6.1
 
-> On Thu, 2011-04-21 at 19:29 +0200, Koen Kooi wrote:
->> Op 21 apr 2011, om 18:40 heeft Joshua Lock het volgende geschreven:
->>=20
->>> On Thu, 2011-04-21 at 16:05 +0100, Paul Eggleton wrote:
->>>> On Thursday 21 April 2011 15:02:49 Koen Kooi wrote:
->>>>> and possibly more. I would like to create a meta-gnome layer in =
-the
->>>>> meta-openembedded repository where new recipes get added and =
-things from
->>>>> meta-demoapps can get moved over into. Long term recipes-gnome in =
-oe-core
->>>>> should move there as well.
->>>>>=20
->>>>> What are your thoughts on this?
->>>=20
->>> +1
->>>=20
->>>>=20
->>>> =46rom my perspective this sounds like a great idea. The only =
-question would be=20
->>>> how much of the "GNOME" libs would remain in oe-core as some of =
-them are quite=20
->>>> widely used outside of GNOME proper; however that can easily be =
-worked out as=20
->>>> these things mature.
->>>=20
->>> +1
->>>=20
->>> My personal opinion would be that we start with glib & gtk+ (plus =
-their
->>> dependencies, i.e. pango, atk, etc) in core and move the rest out to =
-a
->>> layer.
->>>=20
->>> I feel that Gtk+ is used by enough non-gnome software that it =
-belongs in
->>> core but others may disagree?
->>>=20
->>> Between meta/recipes-gnome and meta-demoapps we have a reasonable =
-start
->>> to a meta-gnome/
->>=20
->> Where did meta-demoapps go? It's not in OE-core anymore by the looks =
-of it.
->=20
-> Hmm, still exists for me:
->=20
-> joshual@vorpal:~/Projects/Yocto/oe-core/meta-demoapps[master]
-> $ pwd
-> /home/joshual/Projects/Yocto/oe-core/meta-demoapps
-
-Ah, I see why:
-
-koen@dominion:/OE/tentacle$ find sources/openembedded-core/ -name =
-"layer.conf"
-sources/openembedded-core/meta/conf/layer.conf
-sources/openembedded-core/meta-rt/conf/layer.conf
-koen@dominion:/OE/tentacle$=20
-
-it has no layer.conf :)=
 
 
