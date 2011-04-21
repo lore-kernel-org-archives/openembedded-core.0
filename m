@@ -1,22 +1,22 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QD0Tj-000166-Ih
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QD0Tk-000166-9l
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2011 22:27:55 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	Thu, 21 Apr 2011 22:27:56 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 21 Apr 2011 13:25:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,252,1301900400"; d="scan'208";a="736667191"
+X-IronPort-AV: E=Sophos;i="4.64,252,1301900400"; d="scan'208";a="632249618"
 Received: from nbuild1.sc.intel.com (HELO localhost) ([172.25.110.36])
-	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2011 13:25:30 -0700
-Message-Id: <47ed53398f5da2324935a1fd57c93c21ae45feb5.1303417346.git.nitin.a.kamble@intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 21 Apr 2011 13:25:30 -0700
+Message-Id: <06f86de47864a95c4c537a75685023953f2377af.1303417346.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1303417346.git.nitin.a.kamble@intel.com>
 References: <cover.1303417346.git.nitin.a.kamble@intel.com>
-Old-Date: Fri, 15 Apr 2011 18:54:04 -0700
-Date: Thu, 21 Apr 2011 13:25:03 -0700
+Old-Date: Fri, 8 Apr 2011 02:49:44 -0700
+Date: Thu, 21 Apr 2011 13:25:04 -0700
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
-Subject: [PATCH 4/8] python-pycairo: fix installation path of __init__.py
+Subject: [PATCH 8/8] distro_tracking: recipe information update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,43 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2011 20:27:55 -0000
+X-List-Received-Date: Thu, 21 Apr 2011 20:27:56 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This fixes Bug [YOCTO #477]
-
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../python/python-pycairo_1.8.10.bb                |    8 +++++++-
- 1 files changed, 7 insertions(+), 1 deletions(-)
+ .../conf/distro/include/distro_tracking_fields.inc |    7 +++++--
+ 1 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-pycairo_1.8.10.bb b/meta/recipes-devtools/python/python-pycairo_1.8.10.bb
-index 7d73dc2..24b3ff2 100644
---- a/meta/recipes-devtools/python/python-pycairo_1.8.10.bb
-+++ b/meta/recipes-devtools/python/python-pycairo_1.8.10.bb
-@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1 & MPLv1.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f2e071ab72978431b294a0d696327421"
- # cairo >= 1.8.8
- DEPENDS = "cairo"
--PR = "ml0"
-+PR = "r1"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 7663ffa..33f2d76 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -91,6 +91,7 @@ RECIPE_MAINTAINER_pn-minicom = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ RECIPE_STATUS_pn-patch = "green"
+ RECIPE_LATEST_VERIONS_pn-patch = "2.6.1"
+ RECIPE_LAST_UPDATE_pn-patch = "Dec 7, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-patch = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-patch = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
- SRC_URI = "http://cairographics.org/releases/py2cairo-${PV}.tar.gz"
+ RECIPE_STATUS_pn-python-imaging = "green"
+@@ -2873,11 +2874,13 @@ RECIPE_STATUS_pn-fstests="green"
+ RECIPE_LATEST_VERSION_pn-fstests="0.0+svnr426"
+ DISTRO_PN_ALIAS_pn-fstests = "OpenedHand"
+ RECIPE_LAST_UPDATE_pn-fstests = "Dec 7, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-fstests = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-fstests = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
-@@ -16,6 +16,12 @@ S = "${WORKDIR}/pycairo-${PV}"
+ RECIPE_STATUS_pn-gdb="green" 
+ RECIPE_LATEST_VERSION_pn-gdb="7.2"
+ RECIPE_LAST_UPDATE_pn-gdb = "Nov 8, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-gdb = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-gdb = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
- inherit distutils pkgconfig
+ RECIPE_STATUS_pn-intltool="green" 
+@@ -2911,7 +2914,7 @@ RECIPE_MAINTAINER_pn-postinsts = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
-+do_compile_prepend() {
-+#fix the installation path of __init__.py
-+#It was going in the sysroot instead of target install location
-+	sed -i -e "s#dsy.get_python_lib()#'${D}${PYTHON_SITEPACKAGES_DIR}'#" ${S}/setup.py
-+}
-+
- do_install_append () {
- 	install -d ${D}${includedir}
- 	install -d ${D}${libdir}
+ RECIPE_STATUS_pn-nasm="green" 
+ RECIPE_LATEST_VERSION_pn-nasm="2.07"
+-RECIPE_MANUAL_CHECK_DATE_pn-nasm = "Jan 25, 2011" 
++RECIPE_MANUAL_CHECK_DATE_pn-nasm = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-nasm = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-perl="red" # upgrade needed
+@@ -2997,7 +3000,7 @@ RECIPE_MAINTAINER_pn-gnu-config = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-mpfr="green"
+ RECIPE_LATEST_VERSION_pn-mpfr="3.0.0"
+-RECIPE_MANUAL_CHECK_DATE_pn-mpfr = "Jan 25, 2011" 
++RECIPE_MANUAL_CHECK_DATE_pn-mpfr = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-mpfr = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-gmp="green"
 -- 
 1.7.2.2
 
