@@ -1,29 +1,30 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QCxhL-0005sh-0K
+	(envelope-from <koen@dominion.thruhere.net>) id 1QCxjX-0005vB-90
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2011 19:29:47 +0200
-Received: by wwb17 with SMTP id 17so1979657wwb.24
+	Thu, 21 Apr 2011 19:32:03 +0200
+Received: by wwb17 with SMTP id 17so1981199wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2011 10:27:22 -0700 (PDT)
-Received: by 10.227.12.13 with SMTP id v13mr196616wbv.134.1303406842744;
-	Thu, 21 Apr 2011 10:27:22 -0700 (PDT)
+	Thu, 21 Apr 2011 10:29:39 -0700 (PDT)
+Received: by 10.216.254.82 with SMTP id g60mr2310003wes.36.1303406979472;
+	Thu, 21 Apr 2011 10:29:39 -0700 (PDT)
 Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id w12sm1308957wby.41.2011.04.21.10.27.20
+	by mx.google.com with ESMTPS id h39sm1063108wes.29.2011.04.21.10.29.38
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 21 Apr 2011 10:27:21 -0700 (PDT)
+	Thu, 21 Apr 2011 10:29:38 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1084)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20110421165711.GA25621@xora-desktop.xora.org.uk>
-Date: Thu, 21 Apr 2011 19:27:18 +0200
-Message-Id: <D92FBC8F-FB70-4551-96DE-5B7AC333DB89@dominion.thruhere.net>
-References: <201104211704.37707.paul.eggleton@linux.intel.com>
-	<20110421165711.GA25621@xora-desktop.xora.org.uk>
+In-Reply-To: <1303404025.9960.6.camel@vorpal>
+Date: Thu, 21 Apr 2011 19:29:37 +0200
+Message-Id: <6252772B-4D5D-4E5D-BCD5-1A53C1D25AFA@dominion.thruhere.net>
+References: <8313867A-EA5C-473D-A82B-D8338186BF5F@dominion.thruhere.net>
+	<201104211605.28351.paul.eggleton@linux.intel.com>
+	<1303404025.9960.6.camel@vorpal>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: [RFC] meta-handheld
+Subject: Re: [RFC] Working toward a GNOME layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,57 +39,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2011 17:29:47 -0000
+X-List-Received-Date: Thu, 21 Apr 2011 17:32:03 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 21 apr 2011, om 18:57 heeft Graeme Gregory het volgende geschreven:
+Op 21 apr 2011, om 18:40 heeft Joshua Lock het volgende geschreven:
 
-> On Thu, Apr 21, 2011 at 05:04:37PM +0100, Paul Eggleton wrote:
->> Hi all,
->>=20
->> I've discussed the possibility with a few people on IRC of creating a =
-meta-
->> handheld layer for support of older handheld devices - this would =
-include=20
->> Zaurus, iPAQ, SimPad, etc; possibly even EZX phones if they aren't in =
-a layer=20
->> of their own. These machines share a fair amount of commonality and I =
-don't=20
->> think that they will all survive if each one has to be put into a BSP =
-of its=20
->> own. Response so far seems to be positive but I'd like to hear =
-thoughts from=20
->> others on this.
->>=20
->> I have access to many of these devices, and this is something I am =
-prepared to=20
->> maintain on my own time, although I would appreciate help from =
-others. I have=20
->> the basis of a layer from what was left in oe-core and meta-extras =
-but quite a=20
->> lot of it would need to be brought over from OE.
->>=20
->> If people agree that this is a good idea, the next question would be =
-where to=20
->> host it - is this something that could be within the meta-oe =
-repository?
->>=20
-> Grabbing all of these barely supported machines into their own layer =
-sounds
-> like a good plan to me.
+> On Thu, 2011-04-21 at 16:05 +0100, Paul Eggleton wrote:
+>> On Thursday 21 April 2011 15:02:49 Koen Kooi wrote:
+>>> and possibly more. I would like to create a meta-gnome layer in the
+>>> meta-openembedded repository where new recipes get added and things =
+from
+>>> meta-demoapps can get moved over into. Long term recipes-gnome in =
+oe-core
+>>> should move there as well.
+>>>=20
+>>> What are your thoughts on this?
 >=20
-> Id suggest just hosting it on gitorious, if its inside OE then there =
-is the
-> magic assumption from the public that they should work (which is what =
-happens
-> now). Then people get really dissapointed when I tell them getting it =
-to work
-> is likely to be a hard slog.
+> +1
+>=20
+>>=20
+>> =46rom my perspective this sounds like a great idea. The only =
+question would be=20
+>> how much of the "GNOME" libs would remain in oe-core as some of them =
+are quite=20
+>> widely used outside of GNOME proper; however that can easily be =
+worked out as=20
+>> these things mature.
+>=20
+> +1
+>=20
+> My personal opinion would be that we start with glib & gtk+ (plus =
+their
+> dependencies, i.e. pango, atk, etc) in core and move the rest out to a
+> layer.
+>=20
+> I feel that Gtk+ is used by enough non-gnome software that it belongs =
+in
+> core but others may disagree?
+>=20
+> Between meta/recipes-gnome and meta-demoapps we have a reasonable =
+start
+> to a meta-gnome/
 
-I agree with Graeme on the hosting bit. I also have all the devices you =
-mentioned near my desk, so testing should be easy :)
+Where did meta-demoapps go? It's not in OE-core anymore by the looks of =
+it.
+
+> I'd be happy to help with this layer.
+
+Awesome, do you have any objection to put meta-gnome into the =
+meta-openembedded repo for the time being? Once we get better tooling we =
+can move it elsewhere, of course.
 
 regards,
 
