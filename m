@@ -1,29 +1,31 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QCyNi-0006gF-Hq
+	(envelope-from <koen@dominion.thruhere.net>) id 1QCyNm-0006gF-ET
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2011 20:13:34 +0200
+	Thu, 21 Apr 2011 20:13:39 +0200
 Received: by mail-ww0-f43.google.com with SMTP id 17so2008439wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2011 11:11:12 -0700 (PDT)
-Received: by 10.227.130.130 with SMTP id t2mr287133wbs.7.1303409469391;
-	Thu, 21 Apr 2011 11:11:09 -0700 (PDT)
+	Thu, 21 Apr 2011 11:11:16 -0700 (PDT)
+Received: by 10.216.22.79 with SMTP id s57mr2271745wes.94.1303409473933;
+	Thu, 21 Apr 2011 11:11:13 -0700 (PDT)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id y29sm1329356wbd.38.2011.04.21.11.11.08
+	by mx.google.com with ESMTPS id d54sm1078702wej.34.2011.04.21.11.11.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 21 Apr 2011 11:11:08 -0700 (PDT)
+	Thu, 21 Apr 2011 11:11:12 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Apr 2011 20:10:47 +0200
-Message-Id: <1303409452-19263-5-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 21 Apr 2011 20:10:49 +0200
+Message-Id: <1303409452-19263-7-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
-In-Reply-To: <1303409452-19263-4-git-send-email-koen@dominion.thruhere.net>
+In-Reply-To: <1303409452-19263-6-git-send-email-koen@dominion.thruhere.net>
 References: <1303409452-19263-1-git-send-email-koen@dominion.thruhere.net>
 	<1303409452-19263-2-git-send-email-koen@dominion.thruhere.net>
 	<1303409452-19263-3-git-send-email-koen@dominion.thruhere.net>
 	<1303409452-19263-4-git-send-email-koen@dominion.thruhere.net>
+	<1303409452-19263-5-git-send-email-koen@dominion.thruhere.net>
+	<1303409452-19263-6-git-send-email-koen@dominion.thruhere.net>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [meta-gnome 05/10] libgnomekdb: import from oe-core rev 0a6f77f549c095692045825f4b5c4c5a2edff73c
+Subject: [meta-gnome 07/10] gnome-terminal: import from oe-core rev 0a6f77f549c095692045825f4b5c4c5a2edff73c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,33 +40,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2011 18:13:34 -0000
+X-List-Received-Date: Thu, 21 Apr 2011 18:13:39 -0000
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- .../recipes-gnome/gnome/libgnomekbd_2.26.0.bb      |   14 ++++++++++++++
- 1 files changed, 14 insertions(+), 0 deletions(-)
- create mode 100644 meta-gnome/recipes-gnome/gnome/libgnomekbd_2.26.0.bb
+ .../30f29e7d8e1b67c40cd18a7155ba30c4382692d5.patch |   20 ++++++++++++++++++++
+ .../recipes-gnome/gnome/gnome-terminal_2.26.3.bb   |   16 ++++++++++++++++
+ 2 files changed, 36 insertions(+), 0 deletions(-)
+ create mode 100644 meta-gnome/recipes-gnome/gnome/gnome-terminal/30f29e7d8e1b67c40cd18a7155ba30c4382692d5.patch
+ create mode 100644 meta-gnome/recipes-gnome/gnome/gnome-terminal_2.26.3.bb
 
-diff --git a/meta-gnome/recipes-gnome/gnome/libgnomekbd_2.26.0.bb b/meta-gnome/recipes-gnome/gnome/libgnomekbd_2.26.0.bb
+diff --git a/meta-gnome/recipes-gnome/gnome/gnome-terminal/30f29e7d8e1b67c40cd18a7155ba30c4382692d5.patch b/meta-gnome/recipes-gnome/gnome/gnome-terminal/30f29e7d8e1b67c40cd18a7155ba30c4382692d5.patch
 new file mode 100644
-index 0000000..f2e4ec5
+index 0000000..0358ed8
 --- /dev/null
-+++ b/meta-gnome/recipes-gnome/gnome/libgnomekbd_2.26.0.bb
-@@ -0,0 +1,14 @@
-+DESCRIPTION = "GNOME keyboard library"
-+LICENSE = "LGPL"
++++ b/meta-gnome/recipes-gnome/gnome/gnome-terminal/30f29e7d8e1b67c40cd18a7155ba30c4382692d5.patch
+@@ -0,0 +1,20 @@
++From 30f29e7d8e1b67c40cd18a7155ba30c4382692d5 Mon Sep 17 00:00:00 2001
++From: Seán de Búrca <leftmostcat@gmail.com>
++Date: Fri, 07 Aug 2009 00:38:52 +0000
++Subject: Remove useless Plural-Forms line which breaks build with gnome-doc-utils master
 +
-+DEPENDS = "gconf-dbus dbus libxklavier gtk+"
++---
++diff --git a/help/el/el.po b/help/el/el.po
++index ab77264..635b68f 100644
++--- a/help/el/el.po
+++++ b/help/el/el.po
++@@ -10,7 +10,6 @@ msgstr ""
++ "MIME-Version: 1.0\n"
++ "Content-Type: text/plain; charset=UTF-8\n"
++ "Content-Transfer-Encoding: 8bit\n"
++-"Plural-Forms: 2\n"
++ "X-Poedit-Language: Greek\n"
++ "X-Poedit-Country: GREECE\n"
++ "X-Generator: Lokalize 0.2\n"
++--
++cgit v0.8.3.1
+diff --git a/meta-gnome/recipes-gnome/gnome/gnome-terminal_2.26.3.bb b/meta-gnome/recipes-gnome/gnome/gnome-terminal_2.26.3.bb
+new file mode 100644
+index 0000000..73f0b99
+--- /dev/null
++++ b/meta-gnome/recipes-gnome/gnome/gnome-terminal_2.26.3.bb
+@@ -0,0 +1,16 @@
++DESCRIPTION = "GNOME Terminal"
++LICENSE = "GPL"
++DEPENDS = "gtk+ glib-2.0 startup-notification dbus-glib vte"
++PR = "r2"
 +
 +inherit gnome
 +
-+do_configure_append() {
-+        find ${S} -name Makefile | xargs sed -i s:'-I$(includedir)':'-I.':g
-+        find ${S} -name Makefile | xargs sed -i s:'-I/usr/include':'-I${STAGING_INCDIR}':g
++SRC_URI += "file://30f29e7d8e1b67c40cd18a7155ba30c4382692d5.patch;patch=1"
++
++EXTRA_OECONF += "--disable-scrollkeeper"
++
++# Remove an autogenerated file that needs to be rebuilt
++do_configure_prepend () {
++	rm -f ${S}/src/terminal-type-builtins.c
 +}
-+
-+
 +
 -- 
 1.6.6.1
