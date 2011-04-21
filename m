@@ -1,24 +1,31 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QCqAE-0004DK-P2
-	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Apr 2011 11:27:06 +0200
-Received: by wwb17 with SMTP id 17so1547685wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Apr 2011 02:24:43 -0700 (PDT)
-Received: by 10.227.209.137 with SMTP id gg9mr4010204wbb.124.1303377883008;
-	Thu, 21 Apr 2011 02:24:43 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id bs4sm1061700wbb.52.2011.04.21.02.24.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 21 Apr 2011 02:24:42 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Apr 2011 11:24:29 +0200
-Message-Id: <1303377869-7822-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QCr6q-0001ek-TI for openembedded-core@lists.openembedded.org;
+	Thu, 21 Apr 2011 12:27:52 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3LAPGEG003507;
+	Thu, 21 Apr 2011 11:25:16 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03052-06; Thu, 21 Apr 2011 11:25:11 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3LAP4eR003489
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 21 Apr 2011 11:25:08 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1303377869-7822-1-git-send-email-koen@dominion.thruhere.net>
+References: <1303377869-7822-1-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 21 Apr 2011 11:24:48 +0100
+Message-ID: <1303381488.5518.348.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] cronie 1.4.7: fix packaging
+Subject: Re: [PATCH] cronie 1.4.7: fix packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,59 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Apr 2011 09:27:06 -0000
+X-List-Received-Date: Thu, 21 Apr 2011 10:27:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Syslog is full with entries like:
+On Thu, 2011-04-21 at 11:24 +0200, Koen Kooi wrote:
+> Syslog is full with entries like:
+> 
+> /usr/sbin/crond[773]: (CRON) STAT FAILED (/etc/cron.d): No such file or directory
+> 
+> Checking the package yields
+> 
+> Package cronie (1.4.6-r0) is installed on root and has the following files:
+> /usr/sbin/crond
+> /etc/init.d/crond
+> /usr/bin/crontab
+> /etc/sysconfig/crond
+> 
+> Which is missing most of what do_install_append installs, this commit fixes that
+> 
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 
-/usr/sbin/crond[773]: (CRON) STAT FAILED (/etc/cron.d): No such file or directory
+Merged to master, thanks.
 
-Checking the package yields
-
-Package cronie (1.4.6-r0) is installed on root and has the following files:
-/usr/sbin/crond
-/etc/init.d/crond
-/usr/bin/crontab
-/etc/sysconfig/crond
-
-Which is missing most of what do_install_append installs, this commit fixes that
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-extended/cronie/cronie_1.4.7.bb |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-extended/cronie/cronie_1.4.7.bb b/meta/recipes-extended/cronie/cronie_1.4.7.bb
-index 7d6093a..6318d0e 100644
---- a/meta/recipes-extended/cronie/cronie_1.4.7.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.4.7.bb
-@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=963ea0772a2adbdcd607a9b2ec320c11 \
- 
- SECTION = "utils"
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
-            file://crond.init \
-@@ -37,13 +37,15 @@ do_install_append () {
- 	# below are necessary for a complete cron environment
- 	install -d ${D}${localstatedir}/spool/cron
- 	install -m 0755 ${WORKDIR}/crontab ${D}${sysconfdir}/
--        mkdir -p ${D}${sysconfdir}/cron.d
-+	mkdir -p ${D}${sysconfdir}/cron.d
- 	mkdir -p ${D}${sysconfdir}/cron.hourly
- 	mkdir -p ${D}${sysconfdir}/cron.daily
- 	mkdir -p ${D}${sysconfdir}/cron.weekly
- 	mkdir -p ${D}${sysconfdir}/cron.monthly
- }
- 
-+FILES_${PN} += "${sysconfdir}/cron*"
-+
- pkg_postinst_${PN} () {
- 	if [ "x$D" != "x" ] ; then
- 		exit 1
--- 
-1.6.6.1
+Richard
 
 
 
