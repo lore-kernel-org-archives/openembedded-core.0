@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDAm0-0001tT-K6
+	(envelope-from <sgw@linux.intel.com>) id 1QDAm3-0001tt-3b
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 09:27:28 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2011 00:25:05 -0700
+	Fri, 22 Apr 2011 09:27:31 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 22 Apr 2011 00:25:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="632520424"
+X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="423747896"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2011 00:25:04 -0700
-Message-Id: <3942cafa92e7afc8f47caad6ff1c8970988b4612.1303453279.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 22 Apr 2011 00:25:02 -0700
+Message-Id: <ca7dbf877d2f74b25e94000f33e971bcb7836075.1303453279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303453279.git.sgw@linux.intel.com>
 References: <cover.1303453279.git.sgw@linux.intel.com>
-Old-Date: Thu, 21 Apr 2011 23:13:53 -0700
-Date: Fri, 22 Apr 2011  0:25:04 -0700
+Old-Date: Fri, 8 Apr 2011 02:24:13 -0700
+Date: Fri, 22 Apr 2011  0:25:02 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Fri, 22 Apr 2011 09:33:35 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 33/33] qemu-helper-nativesdk: Update LIC_FILE_CHKSUM for renamed helper
+Subject: [PATCH 31/33] libxml-parser-perl: upgrade from 2.36 to 2.40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 07:27:28 -0000
+X-List-Received-Date: Fri, 22 Apr 2011 07:27:31 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../qemu/qemu-helper-nativesdk_1.0.bb              |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ ...e_2.36.bb => libxml-parser-perl-native_2.40.bb} |    0
+ ...ser-perl_2.36.bb => libxml-parser-perl_2.40.bb} |    8 ++++----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/perl/{libxml-parser-perl-native_2.36.bb => libxml-parser-perl-native_2.40.bb} (100%)
+ rename meta/recipes-devtools/perl/{libxml-parser-perl_2.36.bb => libxml-parser-perl_2.40.bb} (61%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu-helper-nativesdk_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-nativesdk_1.0.bb
-index 15f872b..a3dca3d 100644
---- a/meta/recipes-devtools/qemu/qemu-helper-nativesdk_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-helper-nativesdk_1.0.bb
-@@ -6,7 +6,7 @@ PR = "r9"
- FILESPATH = "${FILE_DIRNAME}/qemu-helper"
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl-native_2.36.bb b/meta/recipes-devtools/perl/libxml-parser-perl-native_2.40.bb
+similarity index 100%
+rename from meta/recipes-devtools/perl/libxml-parser-perl-native_2.36.bb
+rename to meta/recipes-devtools/perl/libxml-parser-perl-native_2.40.bb
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.36.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
+similarity index 61%
+rename from meta/recipes-devtools/perl/libxml-parser-perl_2.36.bb
+rename to meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
+index 3287d26..c2d1bdb 100644
+--- a/meta/recipes-devtools/perl/libxml-parser-perl_2.36.bb
++++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
+@@ -1,14 +1,14 @@
+ SECTION = "libs"
+ LICENSE = "Artistic"
+-LIC_FILES_CHKSUM = "file://README;endline=6;md5=fa7bbbd54d37d6ecf4ef33b7c98b9cd7"
++LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e42d1cf8b51f1"
+ DEPENDS += "expat expat-native"
  
- LIC_FILES_CHKSUM = "file://${WORKDIR}/tunctl.c;endline=4;md5=ff3a09996bc5fff6bc5d4e0b4c28f999 \
--                    file://${COREBASE}/scripts/runqemu;endline=18;md5=ce52af3dd295e20ad1d849611b83690b"
-+                    file://${COREBASE}/scripts/runqemu;endline=18;md5=77fbe442a88b1bcdc29c3ba67733b21b"
+-PR = "r1"
++PR = "r0"
  
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
  
- SRC_URI = "file://${COREBASE}/scripts/runqemu \
+-SRC_URI[md5sum] = "1b868962b658bd87e1563ecd56498ded"
+-SRC_URI[sha256sum] = "9fd529867402456bd826fe0e5588d35b3a2e27e586a2fd838d1352b71c2ed73f"
++SRC_URI[md5sum] = "c66e9adba003d0667cc40115ccd837a5"
++SRC_URI[sha256sum] = "e5e433684e799ef7b6b852c0ca31b71054717628555444d3dc9fceac0df71512"
+ 
+ S = "${WORKDIR}/XML-Parser-${PV}"
+ 
 -- 
 1.7.1
 
