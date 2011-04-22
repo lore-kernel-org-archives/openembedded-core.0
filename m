@@ -1,34 +1,46 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QDKHn-00048k-4L
+	(envelope-from <raj.khem@gmail.com>) id 1QDKVv-0004MD-5u
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 19:36:55 +0200
-Received: by wwb17 with SMTP id 17so642767wwb.24
+	Fri, 22 Apr 2011 19:51:31 +0200
+Received: by pwj9 with SMTP id 9so422498pwj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2011 10:34:30 -0700 (PDT)
-Received: by 10.216.240.3 with SMTP id d3mr931926wer.51.1303493670208;
-	Fri, 22 Apr 2011 10:34:30 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	g22sm1486921wes.36.2011.04.22.10.34.28
+	Fri, 22 Apr 2011 10:49:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=ohVMrrzSHWRqb51qaHgCtMzlSBy2k5mmr2RUwXM8lPU=;
+	b=K87sBg2ln5ILGVgdxpNyVohh36jJ876ZxP5hd7DzcfcjVZF148YX6AbOKuHiCtyPaY
+	yj1hMUsIgXDv7vgN9Fuj/29kVlKWFuThifWAsFqQhR2WgbzrcQ84wnOPmJbfsanhklFH
+	TSQbq64OxRUiMCyj0VUAXdSkxyojHxxhelLUA=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=wOivK7e6DWZcw4e+Hpy/AxgKAs6rX/UA6cmk9Db3Z75fLyZbvS9fQ3zy9Ml0J+ESGH
+	x+iIf66po9w0OuANN9Iog+tN8jgRXDW4E9FrmHFfKzUkbmAMmx0uIxSl8e+qhD9Y9szc
+	S/I/ZoVsTcS1of/KKQ5kVXf9d09yjkYU3ySug=
+Received: by 10.142.154.20 with SMTP id b20mr736698wfe.371.1303494544330;
+	Fri, 22 Apr 2011 10:49:04 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id k7sm665213wfa.14.2011.04.22.10.48.58
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 22 Apr 2011 10:34:29 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1303489384.2293.5.camel@scimitar>
-Date: Fri, 22 Apr 2011 19:34:27 +0200
-Message-Id: <A64BF647-3F77-4108-BAED-FBF48FE567D7@dominion.thruhere.net>
-References: <8313867A-EA5C-473D-A82B-D8338186BF5F@dominion.thruhere.net>
-	<201104211605.28351.paul.eggleton@linux.intel.com>
-	<1303404025.9960.6.camel@vorpal>
-	<6252772B-4D5D-4E5D-BCD5-1A53C1D25AFA@dominion.thruhere.net>
-	<1303407705.9960.51.camel@vorpal>
-	<76BC4841-53CE-4F09-A5CE-7B627922451E@dominion.thruhere.net>
-	<1303489384.2293.5.camel@scimitar>
+	Fri, 22 Apr 2011 10:49:01 -0700 (PDT)
+Date: Fri, 22 Apr 2011 10:48:51 -0700
+From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [RFC] Working toward a GNOME layer
+Message-ID: <20110422174851.GA5060@sakrah.homelinux.org>
+References: <cover.1301567822.git.Martin.Jansa@gmail.com>
+	<ca0ffb747b87caed609b2edf08f963751dbc8873.1301567822.git.Martin.Jansa@gmail.com>
+	<1301581599.24596.106.camel@rex>
+	<20110404183138.GA30816@jama.jama.net>
+	<20110418055406.GH25122@jama.jama.net>
+	<1303109834.5518.57.camel@rex>
+MIME-Version: 1.0
+In-Reply-To: <1303109834.5518.57.camel@rex>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH 1/3] distutils-common-base.bbclass: Prepend STAGING_LIBDIR to linker library search path.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,127 +55,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 17:36:55 -0000
+X-List-Received-Date: Fri, 22 Apr 2011 17:51:31 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
+On (18/04/11 07:57), Richard Purdie wrote:
+> On Mon, 2011-04-18 at 07:54 +0200, Martin Jansa wrote:
+> > On Thu, Mar 31, 2011 at 03:26:39PM +0100, Richard Purdie wrote:
+> > > On Thu, 2011-03-31 at 12:40 +0200, Martin Jansa wrote:
+> > > > * This was done generically in bitbake.conf this should be done on
+> > > >   demand and distutils based recipes seem to need it. So we define it
+> > > >   here.
+> > > > * imported from OE 629ae87eadeec1068c3778e14488b549029adffb
+> > > > 
+> > > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > > ---
+> > > >  meta/classes/distutils-common-base.bbclass |    2 ++
+> > > >  1 files changed, 2 insertions(+), 0 deletions(-)
+> > > > 
+> > > > diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
+> > > > index f66a5cd..b6caf24 100644
+> > > > --- a/meta/classes/distutils-common-base.bbclass
+> > > > +++ b/meta/classes/distutils-common-base.bbclass
+> > > > @@ -4,6 +4,8 @@ EXTRA_OEMAKE = ""
+> > > >  
+> > > >  export STAGING_INCDIR
+> > > >  export STAGING_LIBDIR
+> > > > +# libtool 2.4 does not export with LDFLAGS but distutils need it
+> > > > +LDFLAGS_prepend = "-L${STAGING_LIBDIR} "
+> > > 
+> > > This should not be needed, the linker itself should automatically look
+> > > in that path at link time. What problem are you seeing?
+> > 
+> > sorry for delay, my previous reply was refused by mailman at Mon, 04 Apr 2011
+> > with "The message's content type was not explicitly allowed", maybe PGP
+> > sign is not allowed? ;/.
+> > 
+> > 
+> > when building any python extra module ie python-numeric I get error like
+> > this
+> > 
+> > | arm-oe-linux-gnueabi-gcc -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp -mthumb-interwork -mno-thumb --sysroot=/OE/shr-core/tmp/sysroots/nokia900 -DNDEBUG -g -O3 -Wall -Wstrict-prototypes -fexpensive-optimizations -fomit-frame-pointer -frename-registers -Os -g -feliminate-unused-debug-types -fPIC -IInclude -IPackages/FFT/Include -IPackages/RNG/Include -I/OE/shr-core/tmp/sysroots/arm-oe-linux-gnueabi/usr/include/python2.6 -I/OE/shr-core/tmp/sysroots/nokia900/usr/include/python2.6 -c Src/ufuncobject.c -o build/temp.linux-x86_64-2.6/Src/ufuncobject.o
+> > | arm-oe-linux-gnueabi-gcc -march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp -mthumb-interwork -mno-thumb -D__SOFTFP__ --sysroot=/OE/shr-core/tmp/sysroots/nokia900 -shared -Wl,-O1 -Wl,--hash-style=gnu -fexpensive-optimizations -fomit-frame-pointer -frename-registers -Os -g -feliminate-unused-debug-types build/temp.linux-x86_64-2.6/Src/_numpymodule.o build/temp.linux-x86_64-2.6/Src/arrayobject.o build/temp.linux-x86_64-2.6/Src/ufuncobject.o -L/usr/lib -lpython2.6 -o build/lib.linux-x86_64-2.6/_numpy.so
+> > | /OE/shr-core/tmp/sysroots/x86_64-linux/usr/libexec/armv7a-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.5.3/ldERROR: Function 'do_compile' failed (see /OE/shr-core/tmp/work/armv7a-oe-linux-gnueabi/python-numeric-24.2-ml1/temp/log.do_compile.16227 for further information)
+> > | : warning: library search path "/usr/lib" is unsafe for cross-compilation
+> > | /OE/shr-core/tmp/sysroots/x86_64-linux/usr/libexec/armv7a-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.5.3/ld: skipping incompatible /usr/lib/libc.so when searching for -lc
+> > | /usr/lib/libc.a: could not read symbols: File format not recognized
+> > | collect2: ld returned 1 exit status
+> > | error: command 'arm-oe-linux-gnueabi-gcc' failed with exit status 1
+> > | FATAL: python setup.py build_ext execution failed.
+> > NOTE: package python-numeric-24.2-ml1: task do_compile: Failed
+> > ERROR: Task 4075 (/OE/shr-core/meta-shr/recipes-devtools/python/python-numeric_24.2.bb, do_compile) failed with exit code '1'
+> > 
+> > in oe we had the same problem after switching to libtool 
+> > with sysroot support IIRC and this was fix for it 
+> > (and it helps with oe-core too)
+> 
+> This isn't a libtool problem, we've patched that problem out in oe-core
+> (and I think in OE-dev too now). In this case something is adding
+> "-L/usr/lib" to the compiler arguments and that is the reason things are
+> failing. I'd suggesting finding out where that is coming from and fixing
+> it at source. Yes, it so happens adding other search paths first masks
+> the problem but it is just masking it, its not a proper fix.
 
-Op 22 apr 2011, om 18:23 heeft Joshua Lock het volgende geschreven:
+Its added by distutils IIRC when I fixed it in oe.dev with this rev
+629ae87eadeec1068c3778e14488b549029adffb this would nullify the addition
+since we now have staging libdir before it. 
 
-> On Thu, 2011-04-21 at 20:12 +0200, Koen Kooi wrote:
->> Op 21 apr 2011, om 19:41 heeft Joshua Lock het volgende geschreven:
->>=20
->>> On Thu, 2011-04-21 at 19:29 +0200, Koen Kooi wrote:
->>>> Op 21 apr 2011, om 18:40 heeft Joshua Lock het volgende geschreven:
->>>>=20
->>>>> On Thu, 2011-04-21 at 16:05 +0100, Paul Eggleton wrote:
->>>>>> On Thursday 21 April 2011 15:02:49 Koen Kooi wrote:
->>>>>>> and possibly more. I would like to create a meta-gnome layer in =
-the
->>>>>>> meta-openembedded repository where new recipes get added and =
-things from
->>>>>>> meta-demoapps can get moved over into. Long term recipes-gnome =
-in oe-core
->>>>>>> should move there as well.
->>>>>>>=20
->>>>>>> What are your thoughts on this?
->>>>>=20
->>>>> +1
->>>>>=20
->>>>>>=20
->>>>>> =46rom my perspective this sounds like a great idea. The only =
-question would be=20
->>>>>> how much of the "GNOME" libs would remain in oe-core as some of =
-them are quite=20
->>>>>> widely used outside of GNOME proper; however that can easily be =
-worked out as=20
->>>>>> these things mature.
->>>>>=20
->>>>> +1
->>>>>=20
->>>>> My personal opinion would be that we start with glib & gtk+ (plus =
-their
->>>>> dependencies, i.e. pango, atk, etc) in core and move the rest out =
-to a
->>>>> layer.
->>>>>=20
->>>>> I feel that Gtk+ is used by enough non-gnome software that it =
-belongs in
->>>>> core but others may disagree?
->>>>>=20
->>>>> Between meta/recipes-gnome and meta-demoapps we have a reasonable =
-start
->>>>> to a meta-gnome/
->>>>=20
->>>> Where did meta-demoapps go? It's not in OE-core anymore by the =
-looks of it.
->>>=20
->>> Hmm, still exists for me:
->>>=20
->>> joshual@vorpal:~/Projects/Yocto/oe-core/meta-demoapps[master]
->>> $ pwd
->>> /home/joshual/Projects/Yocto/oe-core/meta-demoapps
->>>=20
->>>=20
->>>>=20
->>>>> I'd be happy to help with this layer.
->>>>=20
->>>> Awesome, do you have any objection to put meta-gnome into the =
-meta-openembedded repo for the time being? Once we get better tooling we =
-can move it elsewhere, of course.
->>>=20
->>> None whatsoever. I keep meaning to push some recipes into that layer
->>> anyway.
->>=20
->> I just sent out 10 patches for review that import recipes-gnome from =
-meta-demoapps into meta-gnome. Please review :)
->=20
-> The way I see it there are two approaches, tidy & test the recipes =
-then
-> merge *or* merge then fix.
->=20
-> If we're going for the latter approach let's get your patches merged!
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-While I'd love the first approach, the second is a lot more practical =
-for 'yocto' recipes, I would reserve the vetting for the ones imported =
-from OE. Does that sound OK?
-
-> This does raise another question, is meta-oe striving for the same
-> standards of metadata as oe-core? i.e. SRC_URI & license checksums,
-> updated patch syntax, etc.
-
-It does, but it still has crud in it from "the early days" which needs =
-to get cleaned up. No license checksum is fatal, so that one is covered, =
-but the source checksums aren't.  I would be nice to make the following =
-errors fatal (if they haven't already):
-
-1) license checksums
-2) LDFLAGS (gnu-hash)
-3) source checksums
-
-> Also, how much gnome do we want to support? Are we trying to be all =
-new
-> and shiny and drop deprecated libraries (gnome-vfs)?
-
-Personally I would go for importing 2.30 from OE and see if there are =
-2.32 updates available. 2.30 should be relatively gnome-vfs free. So for =
-this specific example, let's try to avoid gnome-vfs. In a broader sense, =
-let's get gnome 2 in and look at gnome 3 later. I suspect gnome 3 will =
-be a world of hurt with its clutter and hence openGL requirements.
-
-> Just trying to work out what patches to work on ;-)
-
-Which reminds me, the gtk+ in meta-oe needs to get compared to the one =
-in oe-core to see what's different, I don't want to keep a copy in =
-meta-oe.
-
-> Perhaps we can
-> define a policy of what's appropriate for the layer in a README?
-
-Are you volunteering to draft a README? If so, go for it :)
-
-regards,
-
-Koen=
+-- 
+-Khem
 
 
