@@ -1,30 +1,35 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QDE67-00065w-8H
+	(envelope-from <scott.m.rifenbark@intel.com>) id 1QDHDS-0006lB-9v
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 13:00:27 +0200
-Received: by eye27 with SMTP id 27so147021eye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2011 03:58:02 -0700 (PDT)
-Received: by 10.14.137.204 with SMTP id y52mr318364eei.228.1303469880974;
-	Fri, 22 Apr 2011 03:58:00 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id k57sm203754eei.10.2011.04.22.03.57.58
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 22 Apr 2011 03:57:59 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4DB151C6.1040605@intel.com>
-Date: Fri, 22 Apr 2011 12:57:53 +0200
-Message-Id: <3C230BDD-2655-4DCA-96FF-AD36631A3E93@dominion.thruhere.net>
-References: <cover.1303453279.git.sgw@linux.intel.com>
-	<5ef17f7591a3e53a8e21bf529d117b906fe611bb.1303453279.git.sgw@linux.intel.com>
-	<4DB151C6.1040605@intel.com>
-To: Scott Garman <scott.a.garman@intel.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/33] cdrtools: upgrade to v3.00
+	Fri, 22 Apr 2011 16:20:14 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2011 07:16:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="737047143"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2011 07:16:36 -0700
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx604.amr.corp.intel.com ([10.250.113.17]) with mapi;
+	Fri, 22 Apr 2011 07:16:35 -0700
+From: "Rifenbark, Scott M" <scott.m.rifenbark@intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>, Patches and discussions about the
+	oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Apr 2011 07:16:33 -0700
+Thread-Topic: [poky] [OE-core] OE-Core Rebranding Phase 1
+Thread-Index: Acv/+yoYtNsmbHbRRyGSuvWSnw8lFAA++Clw
+Message-ID: <DE8BA75F34A0404282AC5E15F691BC765136F5ED@orsmsx504.amr.corp.intel.com>
+References: <1303342638.5518.325.camel@rex>
+	<D7FBAE99-F5F4-4293-8DC5-BC356F7CF903@dominion.thruhere.net>
+In-Reply-To: <D7FBAE99-F5F4-4293-8DC5-BC356F7CF903@dominion.thruhere.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+X-Mailman-Approved-At: Fri, 22 Apr 2011 16:22:40 +0200
+Cc: poky <poky@lists.yoctoproject.org>
+Subject: Re: [poky] OE-Core Rebranding Phase 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,45 +44,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 11:00:27 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 22 Apr 2011 14:20:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
+I grep'd all the XML files in the documentation directory and got three hit=
+s:
 
-Op 22 apr 2011, om 12:00 heeft Scott Garman het volgende geschreven:
+ * 'meta/recipes-sata/tasks/task-poky.bb' appears in the Poky Reference man=
+ual
+ * '$ bitbake -c clean task-boot task-base task-poky' appears in the Poky R=
+eference manual
+ * 'local.conf.sample' appears in the Poky Reference manual.
 
-> On 04/22/2011 12:24 AM, Saul Wold wrote:
->> From: Scott Garman<scott.a.garman@intel.com>
->>=20
->> * Addresses CVE-2003-0655
->> * Fixes [YOCTO #976]
->>=20
->> Note that the license has changed to the CDDL for most utilities.
->>=20
->> Note the following discussion of distribution issues with mixing GPL
->> and CDDL licenses:
->>=20
->> http://lwn.net/Articles/195167/
->>=20
->> This should not impact us at this is a -native recipe only.
->>=20
->> Recipe changes derived from OpenEmbedded.
->>=20
->> Signed-off-by: Scott Garman<scott.a.garman@intel.com>
+Should these be the following:
+
+ * meta/recipes-sata/tasks/task-core.bb
+ * $ bitbake -c clean task-boot task-base task-core
+
+Not sure what to do with the occurrence of 'local.conf.sample'.  Just remov=
+e it?
+
+ScottR
+
+-----Original Message-----
+From: poky-bounces@yoctoproject.org [mailto:poky-bounces@yoctoproject.org] =
+On Behalf Of Koen Kooi
+Sent: Thursday, April 21, 2011 1:07 AM
+To: Patches and discussions about the oe-core layer
+Cc: poky
+Subject: Re: [poky] [OE-core] OE-Core Rebranding Phase 1
+
+
+Op 21 apr 2011, om 01:37 heeft Richard Purdie het volgende geschreven:
+
+> Hi,
 >=20
-> Please skip this patch - the CDDL is a weird license and may pose =
-problems for us to distribute its sstate-cache.
+> At the face to face OE TSC meeting we talked over the "branding" issues
+> on OE-Core and what we were going to do about removing many of the poky
+> references.
 >=20
-> The problem reported in the CVE is in a particular utility within =
-cdrtools that we don't need, so I'm going to resolve the security =
-advisory by not packaging that file, and stick with the GPL version we =
-were previously using.
+> This email represents a turning point for OE-Core as it marks the first
+> pass of rebranding and is based on decisions the TSC made at that
+> meeting. I'm not going to claim its 100% complete yet but it does give
+> us a good start at it. From this point on, I'll be taking patches from
+> people to assist with this. The key changes I've made so far are:
+>=20
+> * poky-init-build-env -> oe-init-build-env
+> * poky-image-* -> core-image-*
+> * task-poky-* -> task-core-*
+> * git.pokylinux.org -> git.yoctoproject.org
+> * POKYBASE -> COREBASE
+> * poky-qemu -> runqemu
+> * Sanitised local.conf.sample from Poky references
+> * POKY_NATIVE_SYSROOT -> OECORE_NATIVE_SYSROOT
+> * Renamed scrips/poky-* to scripts/oe-*
+> * Renamed the poky-sb override to linuxstdbase
+> * POKY_CONF_VERSION -> LOCALCONF_VERSION
+> * Made sanity versions weak assignment
 
-In OE.dev we switched to cdrkit to get rid of the Schilly factor, maybe =
-oe-core can do something similar.
+Richard,
+
+Thanks for taking the time to do this. I did a quick check and meta-oe, met=
+a-efl, meta-angstrom, meta-texasinstruments and meta-shr seem to be up to d=
+ate with those changes now.
 
 regards,
 
-Koen=
+Koen
+_______________________________________________
+poky mailing list
+poky@yoctoproject.org
+https://lists.yoctoproject.org/listinfo/poky
 
 
