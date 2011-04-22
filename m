@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDAlp-0001pp-99
+	(envelope-from <sgw@linux.intel.com>) id 1QDAlq-0001pp-PN
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 09:27:17 +0200
+	Fri, 22 Apr 2011 09:27:19 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Apr 2011 00:24:49 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 22 Apr 2011 00:24:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="913034190"
+X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="913034221"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2011 00:24:48 -0700
-Message-Id: <d7713f5af57179a5850e0aac705a2067d4a43f4d.1303453279.git.sgw@linux.intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2011 00:24:54 -0700
+Message-Id: <28ae024eeae08bcbf151f7d197b38aab6eac2157.1303453279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303453279.git.sgw@linux.intel.com>
 References: <cover.1303453279.git.sgw@linux.intel.com>
-Old-Date: Mon, 18 Apr 2011 11:15:59 +0800
-Date: Fri, 22 Apr 2011  0:24:48 -0700
+Old-Date: Tue, 19 Apr 2011 16:19:29 -0700
+Date: Fri, 22 Apr 2011  0:24:54 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Fri, 22 Apr 2011 09:33:35 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 19/33] distro_tracking_fields.inc: update the info for the following recipes
+Subject: [PATCH 24/33] pcmciautils: Upgrade 017 -> 018
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,178 +33,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 07:27:17 -0000
+X-List-Received-Date: Fri, 22 Apr 2011 07:27:19 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-powertop
-latencytop
-libxfixes
-util-macros
-mdadm
-lttng-control
-liburcu
-lttng-ust
-lttng-viewer
+version workaround is done in recipe itself
+by adding PV to CFLAGS
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Since we define LIBC and pcmciutils use it too
+which hinders build when we define LIBC in
+environment. Its not used in the builds anyway
+so we get rid of depending on it
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   65 ++++++++++----------
- 1 files changed, 33 insertions(+), 32 deletions(-)
+ .../pcmciautils-017/version_workaround.patch       |   16 ------
+ .../makefile_fix.patch                             |   58 ++++++++++++++++----
+ meta/recipes-bsp/pcmciautils/pcmciautils.inc       |    1 +
+ meta/recipes-bsp/pcmciautils/pcmciautils_017.bb    |   12 ----
+ meta/recipes-bsp/pcmciautils/pcmciautils_018.bb    |   11 ++++
+ 5 files changed, 59 insertions(+), 39 deletions(-)
+ delete mode 100644 meta/recipes-bsp/pcmciautils/pcmciautils-017/version_workaround.patch
+ rename meta/recipes-bsp/pcmciautils/{pcmciautils-017 => pcmciautils-018}/makefile_fix.patch (63%)
+ delete mode 100644 meta/recipes-bsp/pcmciautils/pcmciautils_017.bb
+ create mode 100644 meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 7663ffa..4598f3c 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -976,13 +976,13 @@ RECIPE_MAINTAINER_pn-quota = "Dongxiao Xu <dongxiao.xu@intel.com>"
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils-017/version_workaround.patch b/meta/recipes-bsp/pcmciautils/pcmciautils-017/version_workaround.patch
+deleted file mode 100644
+index 57efa68..0000000
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils-017/version_workaround.patch
++++ /dev/null
+@@ -1,16 +0,0 @@
+-PCMCIAUTILS_VERSION is specified on the commandline but doesn't compile properly 
+-under arm gcc 3.4.x so we work around it.
+-
+-Index: pcmciautils-013/src/pccardctl.c
+-===================================================================
+---- pcmciautils-013.orig/src/pccardctl.c	2006-03-26 11:56:41.000000000 +0100
+-+++ pcmciautils-013/src/pccardctl.c	2006-05-09 22:11:09.000000000 +0100
+-@@ -350,7 +350,7 @@
+- }
+- 
+- static void print_header(void) {
+--	printf("pcmciautils %s\n", PCMCIAUTILS_VERSION);
+-+	printf("pcmciautils 017\n");
+- 	printf("Copyright (C) 2004-2005 Dominik Brodowski, (C) 1999 David A. Hinds\n");
+- 	printf("Report errors and bugs to <linux-pcmcia@lists.infradead.org>, please.\n");
+- }
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils-017/makefile_fix.patch b/meta/recipes-bsp/pcmciautils/pcmciautils-018/makefile_fix.patch
+similarity index 63%
+rename from meta/recipes-bsp/pcmciautils/pcmciautils-017/makefile_fix.patch
+rename to meta/recipes-bsp/pcmciautils/pcmciautils-018/makefile_fix.patch
+index 82dbfa8..295c810 100644
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils-017/makefile_fix.patch
++++ b/meta/recipes-bsp/pcmciautils/pcmciautils-018/makefile_fix.patch
+@@ -1,16 +1,19 @@
+-rebase the patch to 017, removing hardcoded path for true
++Hardcoded paths are bad...
++This lets us use the install from OE's native sysroot
++rebase the patch to 018, removing hardcoded path for true
+ as well. Removing of -D in install invocation is a little
+ questionable, is it some GNU extention?
++Also remove LIBC from makefiles. We do not need it
++since we link against staged libc correctly.
  
- RECIPE_STATUS_pn-mdadm = "green"
- RECIPE_DEPENDENCY_CHECK_pn-mdadm = "not done"
--RECIPE_LATEST_VERSION_pn-mdadm = "3.1.4"
-+RECIPE_LATEST_VERSION_pn-mdadm = "3.2.1"
- RECIPE_NO_OF_PATCHES_pn-mdadm = "0"
- RECIPE_INTEL_SECTION_pn-mdadm = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mdadm = "25 days"
--RECIPE_LATEST_RELEASE_DATE_pn-mdadm = "Aug 31, 2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-mdadm = "1+ months"
-+RECIPE_LATEST_RELEASE_DATE_pn-mdadm = "Mar 28, 2011"
- RECIPE_COMMENTS_pn-mdadm = ""
--RECIPE_LAST_UPDATE_pn-mdadm = "Aug 31, 2010"
-+RECIPE_LAST_UPDATE_pn-mdadm = "Apr 20, 2011"
- RECIPE_MAINTAINER_pn-mdadm = "Dexuan Cui <dexuan.cui@intel.com>"
+-07/14/2010 - qhe, original patch note follows
++-Khem Raj <raj.khem@gmail.com>
  
- RECIPE_STATUS_pn-screen = "green"
-@@ -2710,13 +2710,14 @@ RECIPE_MAINTAINER_pn-oprofile = "Dexuan Cui <dexuan.cui@intel.com>"
- RECIPE_STATUS_pn-powertop = "green"
- DISTRO_PN_ALIAS_pn-powertop ="Meego=powertop Fedora=powertop Debian=powertop OpenSuSE=powertop Mandriva=powertop"
- RECIPE_DEPENDENCY_CHECK_pn-powertop = "not done"
--RECIPE_LATEST_VERSION_pn-powertop = "1.13"
--RECIPE_MANUAL_CHECK_DATE_pn-powertop = "Jan 28, 2011"
-+RECIPE_LATEST_VERSION_pn-powertop = "1.97"
-+RECIPE_MANUAL_CHECK_DATE_pn-powertop = "Apr 20, 2011"
-+RECIPE_NO_UPDATE_REASON_pn-powertop = "Do not upgrade to version 1.97 since it's a beta release of the comming PowerTOP 2.0"
- RECIPE_NO_OF_PATCHES_pn-powertop = "1"
- RECIPE_PATCH_pn-powertop+stub_out_the_ncurses_calls_in_dump_mode = "stub out the ncurses calls in dump mode; this fixes a segfault"
- RECIPE_INTEL_SECTION_pn-powertop = "sdk-tools"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-powertop = "11 months"
--RECIPE_LATEST_RELEASE_DATE_pn-powertop = "07/2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-powertop = "3 days"
-+RECIPE_LATEST_RELEASE_DATE_pn-powertop = "Jan 5, 2011"
- RECIPE_COMMENTS_pn-powertop = ""
- RECIPE_LAST_UPDATE_pn-powertop = "Aug 27, 2010"
- RECIPE_MAINTAINER_pn-powertop = "Dexuan Cui <dexuan.cui@intel.com>"
-@@ -2725,12 +2726,12 @@ RECIPE_STATUS_pn-latencytop = "green"
- DISTRO_PN_ALIAS_pn-latencytop = "Meego=latencytop Fedora=latencytop Debian=latencytop OpenSuSE=latencytop"
- RECIPE_DEPENDENCY_CHECK_pn-latencytop = "not done"
- RECIPE_LATEST_VERSION_pn-latencytop = "0.5"
--RECIPE_MANUAL_CHECK_DATE_pn-latencytop = "Jan 28, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-latencytop = "Apr 20, 2011"
- RECIPE_NO_OF_PATCHES_pn-latencytop = "1"
- RECIPE_PATCH_pn-latencytop+latencytop-makefile = "-lncursesw ==> -lncurses; gcc ==> CC ?= gcc, and use $(CC); install:mkdir -p $(DESTDIR)/$(SBINDIR)"
- RECIPE_INTEL_SECTION_pn-latencytop = "sdk-tools"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-latencytop = "1 year"
--RECIPE_LATEST_RELEASE_DATE_pn-latencytop = "04/2009"
-+RECIPE_LATEST_RELEASE_DATE_pn-latencytop = "Apr 28, 2009"
- RECIPE_COMMENTS_pn-latencytop = ""
- RECIPE_LAST_UPDATE_pn-latencytop = "Jul 22, 2010"
- RECIPE_MAINTAINER_pn-latencytop = "Dexuan Cui <dexuan.cui@intel.com>"
-@@ -2754,31 +2755,32 @@ RECIPE_MAINTAINER_pn-tcf-agent = "Dexuan Cui <dexuan.cui@intel.com>"
- RECIPE_STATUS_pn-liburcu = "green"
- DISTRO_PN_ALIAS_pn-liburcu = "Fedora=userspace-rcu Ubuntu=liburcu0"
- RECIPE_DEPENDENCY_CHECK_pn-liburcu = "not done"
--RECIPE_LATEST_VERSION_pn-liburcu = "0.5.2"
-+RECIPE_LATEST_VERSION_pn-liburcu = "0.5.4"
- RECIPE_NO_OF_PATCHES_pn-liburcu = "0"
- RECIPE_INTEL_SECTION_pn-liburcu = "libs"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-liburcu = "29 minutes"
--RECIPE_LATEST_RELEASE_DATE_pn-liburcu = "Nov 18, 2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-liburcu = "20 hours"
-+RECIPE_LATEST_RELEASE_DATE_pn-liburcu = "Mar 4, 2011"
- RECIPE_COMMENTS_pn-liburcu = ""
--RECIPE_LAST_UPDATE_pn-liburcu = "Jan 28, 2011"
-+RECIPE_LAST_UPDATE_pn-liburcu = "Apr 20, 2011"
- RECIPE_MAINTAINER_pn-liburcu = "Dexuan Cui <dexuan.cui@intel.com>"
+-Hardcoded paths are bad...
  
- RECIPE_STATUS_pn-lttng-ust = "green"
- DISTRO_PN_ALIAS_pn-lttng-ust = "OSPDT upstream=http://lttng.org/"
- RECIPE_DEPENDENCY_CHECK_pn-lttng-ust = "not done"
--RECIPE_LATEST_VERSION_pn-lttng-ust = "0.11"
-+RECIPE_LATEST_VERSION_pn-lttng-ust = "0.12"
- RECIPE_NO_OF_PATCHES_pn-lttng-ust = "0"
- RECIPE_INTEL_SECTION_pn-lttng-ust = "sdk-tools"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-lttng-ust = "12+ hours"
--RECIPE_LATEST_RELEASE_DATE_pn-lttng-ust = "Jan 14, 2011"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-lttng-ust = "2 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-lttng-ust = "Mar 15, 2011"
- RECIPE_COMMENTS_pn-lttng-ust = ""
--RECIPE_LAST_UPDATE_pn-lttng-ust = "Jan 28, 2011"
-+RECIPE_LAST_UPDATE_pn-lttng-ust = "Apr 20, 2011"
- RECIPE_MAINTAINER_pn-lttng-ust = "Dexuan Cui <dexuan.cui@intel.com>"
+-diff --git a/Makefile b/Makefile
+-index 26f3e4b..31f0cdf 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -69,7 +69,7 @@ sbindir =	${exec_prefix}/sbin
++Index: pcmciautils-018/Makefile
++===================================================================
++--- pcmciautils-018.orig/Makefile
+++++ pcmciautils-018/Makefile
++@@ -76,7 +76,7 @@ sbindir =	${exec_prefix}/sbin
+  mandir =	${prefix}/usr/share/man
+  udevdir =	${prefix}/lib/udev
+  
+@@ -19,7 +22,7 @@ index 26f3e4b..31f0cdf 100644
+  INSTALL_PROGRAM = ${INSTALL}
+  INSTALL_DATA  = ${INSTALL} -m 644
+  INSTALL_SCRIPT = ${INSTALL_PROGRAM}
+-@@ -171,7 +171,7 @@ endif
++@@ -180,7 +180,7 @@ endif
+  # if DEBUG is enabled, then we do not strip or optimize
+  ifeq ($(strip $(DEBUG)),true)
+  	CFLAGS  += -O1 -g -DDEBUG -D_GNU_SOURCE
+@@ -28,7 +31,40 @@ index 26f3e4b..31f0cdf 100644
+  else
+  	CFLAGS  += $(OPTIMIZATION) -fomit-frame-pointer -D_GNU_SOURCE
+  	STRIPCMD = $(STRIP) -s --remove-section=.note --remove-section=.comment
+-@@ -264,30 +264,32 @@ clean:
++@@ -234,15 +234,15 @@ build/ccdv: build/ccdv.c
++ 	mv y.tab.c $*.c
++ 	mv y.tab.h $*.h
++ 
++-$(PCCARDCTL): $(LIBC) src/$(PCCARDCTL).o src/$(PCCARDCTL).c $(OBJS) $(HEADERS)
+++$(PCCARDCTL): src/$(PCCARDCTL).o src/$(PCCARDCTL).c $(OBJS) $(HEADERS)
++ 	$(QUIET) $(LD) $(LDFLAGS) -o $@ $(CRT0) src/$(PCCARDCTL).o $(LIB_OBJS) $(ARCH_LIB_OBJS)
++ 	$(QUIET) $(STRIPCMD) $@
++ 
++-$(PCMCIA_CHECK_BROKEN_CIS): $(LIBC) src/$(PCMCIA_CHECK_BROKEN_CIS).o src/read-cis.o $(OBJS) $(HEADERS)
+++$(PCMCIA_CHECK_BROKEN_CIS): src/$(PCMCIA_CHECK_BROKEN_CIS).o src/read-cis.o $(OBJS) $(HEADERS)
++ 	$(QUIET) $(LD) $(LDFLAGS) -o $@ $(CRT0) src/$(PCMCIA_CHECK_BROKEN_CIS).o src/read-cis.o $(LIB_PLAIN_OBJS) $(ARCH_LIB_OBJS)
++ 	$(QUIET) $(STRIPCMD) $@
++ 
++-$(PCMCIA_SOCKET_STARTUP): $(LIBC) src/startup.o src/yacc_config.o src/lex_config.o $(OBJS) $(HEADERS)
+++$(PCMCIA_SOCKET_STARTUP): src/startup.o src/yacc_config.o src/lex_config.o $(OBJS) $(HEADERS)
++ 	$(QUIET) $(LD) $(LDFLAGS) -o $@ $(CRT0) src/startup.o src/yacc_config.o src/lex_config.o $(LIB_OBJS) $(ARCH_LIB_OBJS)
++ 	$(QUIET) $(STRIPCMD) $@
++ 
++@@ -251,11 +251,11 @@ yacc_config.o lex_config.o: %.o: %.c
++ 
++ debugtools: ccdv $(CBDUMP) $(CISDUMP)
++ 
++-$(CBDUMP): $(LIBC) debug/cbdump.o
+++$(CBDUMP): debug/cbdump.o
++ 	$(QUIET) $(LD) $(LDFLAGS) -o $@ $(CRT0) debug/$(CBDUMP).o $(LIB_PCI_OBJS) $(ARCH_LIB_OBJS)
++ 	$(QUIET) $(STRIPCMD) $@
++ 
++-$(CISDUMP): $(LIBC) src/read-cis.o debug/parse_cis.o debug/dump_cis.o
+++$(CISDUMP): src/read-cis.o debug/parse_cis.o debug/dump_cis.o
++ 	$(QUIET) $(LD) $(LDFLAGS) -o $@ $(CRT0) debug/$(CISDUMP).o src/read-cis.o debug/parse_cis.o $(LIB_OBJS) $(ARCH_LIB_OBJS)
++ 	$(QUIET) $(STRIPCMD) $@
++ 
++@@ -273,30 +273,32 @@ clean:
+  
+  install-hotplug:
+  	$(INSTALL) -d $(DESTDIR)$(hotplugdir)
+@@ -68,7 +104,7 @@ index 26f3e4b..31f0cdf 100644
+  
+  uninstall-tools:
+  	- rm -f $(DESTDIR)$(sbindir)/$(PCCARDCTL)
+-@@ -296,22 +298,24 @@ uninstall-tools:
++@@ -305,22 +307,24 @@ uninstall-tools:
+  
+  install-config:
+  	$(INSTALL) -d $(DESTDIR)$(pcmciaconfdir)
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils.inc b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+index 260cccb..410fa5d 100644
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
++++ b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+@@ -22,6 +22,7 @@ export udevrulesdir = "${sysconfdir}/udev/rules.d"
+ export UDEV = "1"
+ LD = "${CC}"
+ CFLAGS =+ "-I${S}/src"
++CFLAGS =+ -DPCMCIAUTILS_VERSION=\'${PV}\'
  
- RECIPE_STATUS_pn-lttng-control = "green"
- DISTRO_PN_ALIAS_pn-lttng-control = "OSPDT upstream=http://lttng.org/"
- RECIPE_DEPENDENCY_CHECK_pn-lttng-control = "not done"
- RECIPE_LATEST_VERSION_pn-lttng-control = "0.88-09242010"
-+RECIPE_NO_UPDATE_REASON_pn-lttng-control = "0.88-09242010 has been the latest version."
- RECIPE_NO_OF_PATCHES_pn-lttng-control = "0"
- RECIPE_INTEL_SECTION_pn-lttng-control = "sdk-tools"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-lttng-control = "3 months"
-@@ -2790,13 +2792,14 @@ RECIPE_MAINTAINER_pn-lttng-control = "Dexuan Cui <dexuan.cui@intel.com>"
- RECIPE_STATUS_pn-lttng-viewer = "green"
- DISTRO_PN_ALIAS_pn-lttng-viewer = "OSPDT upstream=http://lttng.org/"
- RECIPE_DEPENDENCY_CHECK_pn-lttng-viewer = "not done"
--RECIPE_LATEST_VERSION_pn-lttng-viewer = "0.12.36-18112010"
-+RECIPE_LATEST_VERSION_pn-lttng-viewer = "0.12.38-21032011"
-+RECIPE_NO_UPDATE_REASON_pn-lttng-viewer = "0.12.38-21032011 has been the latest version."
- RECIPE_NO_OF_PATCHES_pn-lttng-viewer = "0"
- RECIPE_INTEL_SECTION_pn-lttng-viewer = "sdk-tools"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-lttng-viewer = "3 months"
--RECIPE_LATEST_RELEASE_DATE_pn-lttng-viewer = "Nov 18, 2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-lttng-viewer = "1 month"
-+RECIPE_LATEST_RELEASE_DATE_pn-lttng-viewer = "Mar 21, 2011"
- RECIPE_COMMENTS_pn-lttng-viewer = ""
--RECIPE_LAST_UPDATE_pn-lttng-viewer = "Jan 28, 2011"
-+RECIPE_LAST_UPDATE_pn-lttng-viewer = "Apr 20, 2011"
- RECIPE_MAINTAINER_pn-lttng-viewer = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-blktrace = "red"
-@@ -4340,13 +4343,13 @@ RECIPE_MAINTAINER_pn-libxext = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-libxfixes = "green"
- RECIPE_DEPENDENCY_CHECK_pn-libxfixes = "not done"
--RECIPE_LATEST_VERSION_pn-libxfixes = "4.0.4"
-+RECIPE_LATEST_VERSION_pn-libxfixes = "5.0"
- RECIPE_NO_OF_PATCHES_pn-libxfixes = "0"
- RECIPE_INTEL_SECTION_pn-libxfixes = "x11/libs"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxfixes = "3 years"
--RECIPE_LATEST_RELEASE_DATE_pn-libxfixes = "10/2009"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxfixes = "9 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-libxfixes = "Mar 8, 2011"
- RECIPE_COMMENTS_pn-libxfixes = ""
--RECIPE_LAST_UPDATE_pn-libxfixes = "Nov 24, 2010"
-+RECIPE_LAST_UPDATE_pn-libxfixes = "Apr 20, 2011"
- RECIPE_MAINTAINER_pn-libxfixes = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-libxft = "green"
-@@ -4431,14 +4434,12 @@ RECIPE_MAINTAINER_pn-xkeyboard-config = "Dexuan Cui <dexuan.cui@intel.com>"
- RECIPE_STATUS_pn-util-macros = "green"
- DISTRO_PN_ALIAS_pn-util-macros = "Meego=xorg-x11-util-macros Fedora=xorg-x11-util-macros Mandriva=x11-util-macros"
- RECIPE_DEPENDENCY_CHECK_pn-util-macros = "not done"
--RECIPE_LATEST_VERSION_pn-util-macros = "1.10.0"
--RECIPE_NO_OF_PATCHES_pn-util-macros = "1"
--RECIPE_PATCH_pn-util-macros+unbreak_cross_compile = "the patch isn't needed any longer since the upstream has fixed the cross-compile issue, so is removed from the recipe file"
-+RECIPE_LATEST_VERSION_pn-util-macros = "1.13.0"
- RECIPE_INTEL_SECTION_pn-util-macros = "x11/utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-util-macros = "2 days"
--RECIPE_LATEST_RELEASE_DATE_pn-util-macros = "06/2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-util-macros = "17 days"
-+RECIPE_LATEST_RELEASE_DATE_pn-util-macros = "Mar 14, 2011"
- RECIPE_COMMENTS_pn-util-macros = ""
--RECIPE_LAST_UPDATE_pn-util-macros = "Nov 24, 2010"
-+RECIPE_LAST_UPDATE_pn-util-macros = "Apr 20, 2011"
- RECIPE_MAINTAINER_pn-util-macros = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-fontconfig = "green"
+ PARALLEL_MAKE = ""
+ EXTRA_OEMAKE = "-e 'STRIP=echo' 'LIB_OBJS=-lc -lsysfs' 'LEX=flex'"
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils_017.bb b/meta/recipes-bsp/pcmciautils/pcmciautils_017.bb
+deleted file mode 100644
+index ff67f7b..0000000
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils_017.bb
++++ /dev/null
+@@ -1,12 +0,0 @@
+-require pcmciautils.inc
+-
+-PR = "r0"
+-
+-SRC_URI += "file://makefile_fix.patch \
+-            file://version_workaround.patch"
+-
+-SRC_URI[md5sum] = "5245af28eeba57ec0606a874d44d10f7"
+-SRC_URI[sha256sum] = "2045f0e8f837f44aed72ac91c1a8cf3b899caf098a25d04f47982be6386bd4e1"
+-
+-FILES_${PN}-dbg += "${libdir}/udev/.debug"
+-FILES_${PN} += "${libdir}/udev"
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+new file mode 100644
+index 0000000..202437a
+--- /dev/null
++++ b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+@@ -0,0 +1,11 @@
++require pcmciautils.inc
++
++SRC_URI += "file://makefile_fix.patch"
++
++SRC_URI[md5sum] = "5d85669b3440baa4532363da6caaf1b4"
++SRC_URI[sha256sum] = "79e6ae441278e178c07501d492394ed2c0326fdb66894f6d040ec811b0dc8ed5"
++
++PR = "r0"
++
++FILES_${PN}-dbg += "${libdir}/udev/.debug"
++FILES_${PN} += "${libdir}/udev"
 -- 
 1.7.1
 
