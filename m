@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDAlj-0001ox-13
+	(envelope-from <sgw@linux.intel.com>) id 1QDAll-0001pg-3u
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 09:27:11 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2011 00:24:47 -0700
+	Fri, 22 Apr 2011 09:27:13 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Apr 2011 00:24:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="736914135"
+X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="913034138"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2011 00:24:46 -0700
-Message-Id: <dfc8e34c33a5c827f802790d371f038a818678d1.1303453279.git.sgw@linux.intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2011 00:24:33 -0700
+Message-Id: <f9bd3b00b4e5546b8531469bb953e9fafc9078d6.1303453279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303453279.git.sgw@linux.intel.com>
 References: <cover.1303453279.git.sgw@linux.intel.com>
-Old-Date: Wed, 20 Apr 2011 10:44:52 +0800
-Date: Fri, 22 Apr 2011  0:24:46 -0700
+Old-Date: Wed, 13 Apr 2011 10:46:02 +0800
+Date: Fri, 22 Apr 2011  0:24:33 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Fri, 22 Apr 2011 09:33:35 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 17/33] task-poky-tools.bb, task-sdk-gmae.inc: enable lttng-ust for ARM
+Subject: [PATCH 04/33] avahi: Upgrade to 0.6.30 (from 0.6.28)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,101 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 07:27:11 -0000
+X-List-Received-Date: Fri, 22 Apr 2011 07:27:13 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-lttng-ust can build on ARM from 0.12 on.
-Merged with rebranding
+This upgrade fix the one security issue:
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1002
+[YOCTO #975] fixed.
 
-Fixes [YOCTO #856]
+This should be included in the Bernard point-release.
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- meta/recipes-core/tasks/task-core-tools.bb         |    8 ++++----
- meta/recipes-gnome/tasks/task-core-sdk-gmae.bb     |    4 ++--
- .../tasks/task-core-standalone-gmae-sdk-target.bb  |    4 ++--
- meta/recipes-gnome/tasks/task-sdk-gmae.inc         |    1 +
- 4 files changed, 9 insertions(+), 8 deletions(-)
+ meta/recipes-connectivity/avahi/avahi.inc          |    2 +-
+ .../avahi/{avahi_0.6.28.bb => avahi_0.6.30.bb}     |    6 +++---
+ .../avahi/files/initscript.patch                   |    2 ++
+ 3 files changed, 6 insertions(+), 4 deletions(-)
+ rename meta/recipes-connectivity/avahi/{avahi_0.6.28.bb => avahi_0.6.30.bb} (82%)
 
-diff --git a/meta/recipes-core/tasks/task-core-tools.bb b/meta/recipes-core/tasks/task-core-tools.bb
-index 958dff1..9b2a4ce 100644
---- a/meta/recipes-core/tasks/task-core-tools.bb
-+++ b/meta/recipes-core/tasks/task-core-tools.bb
-@@ -2,11 +2,11 @@
- # Copyright (C) 2008 OpenedHand Ltd.
- #
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index 6d4b830..b2fa8ca 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -24,7 +24,7 @@ RRECOMMENDS_${PN}_append_libc-glibc = "libnss-mdns"
+ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
+         file://00avahi-autoipd \
+         file://99avahi-autoipd \
+-        file://initscript.patch;patch=1"
++        file://initscript.patch"
  
--DESCRIPTION = "Tools tasks for Poky"
-+DESCRIPTION = "Tools tasks for OE-Core"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r8"
-+PR = "r9"
+ inherit autotools pkgconfig update-rc.d gettext
  
- PACKAGES = "\
-     task-core-tools-debug \
-@@ -57,9 +57,9 @@ RRECOMMENDS_task-core-tools-profile = "\
- #    exmap-server
+diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.28.bb b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
+similarity index 82%
+rename from meta/recipes-connectivity/avahi/avahi_0.6.28.bb
+rename to meta/recipes-connectivity/avahi/avahi_0.6.30.bb
+index 6e034b0..1084c04 100644
+--- a/meta/recipes-connectivity/avahi/avahi_0.6.28.bb
++++ b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
  
- # At present we only build lttng-ust on
--# qemux86/qemux86-64/qemuppc/emenlow/atom-pc since upstream liburcu
-+# qemux86/qemux86-64/qemuppc/qemuarm/emenlow/atom-pc since upstream liburcu
- # (which is required by lttng-ust) may not build on other platforms, like
--# MIPS and qemu ARMv5te that poky uses now.
-+# MIPS.
- RDEPENDS_task-core-tools-profile_append_qemux86 = " valgrind lttng-ust systemtap"
- RDEPENDS_task-core-tools-profile_append_qemux86-64 = " lttng-ust systemtap"
- RDEPENDS_task-core-tools-profile_append_qemuppc = " lttng-ust systemtap"
-diff --git a/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb b/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb
-index 6cb1410..d56aa07 100644
---- a/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb
-+++ b/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb
-@@ -2,11 +2,11 @@
- # Copyright (C) 2007 OpenedHand Ltd.
- #
+ RDEPENDS_avahi-daemon = "sysvinit-pidof"
+-PR = "r2"
++PR = "r0"
  
--DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OpenedHand Poky"
-+DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OE-Core"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r10"
-+PR = "r11"
+ EXTRA_OECONF += "--disable-gtk3"
  
- ALLOW_EMPTY = "1"
+@@ -15,5 +15,5 @@ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+                        ${sysconfdir}/avahi/avahi-autoipd.action \
+ 		       ${sysconfdir}/dhcp3/*/avahi-autoipd"
  
-diff --git a/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb b/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb
-index 32e60a8..42d4148 100644
---- a/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb
-+++ b/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb
-@@ -2,11 +2,11 @@
- # Copyright (C) 2007 OpenedHand Ltd.
- #
- 
--DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OpenedHand Poky"
-+DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OE-Core"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r12"
-+PR = "r13"
- 
- ALLOW_EMPTY = "1"
- 
-diff --git a/meta/recipes-gnome/tasks/task-sdk-gmae.inc b/meta/recipes-gnome/tasks/task-sdk-gmae.inc
-index 0ab0b6e..2071089 100644
---- a/meta/recipes-gnome/tasks/task-sdk-gmae.inc
-+++ b/meta/recipes-gnome/tasks/task-sdk-gmae.inc
-@@ -35,5 +35,6 @@ SDK-EXTRAS ?= ""
- SDK-EXTRAS_qemux86 ?= " valgrind lttng-ust-dev"
- SDK-EXTRAS_qemux86-64 ?= " lttng-ust-dev"
- SDK-EXTRAS_qemuppc ?= " lttng-ust-dev"
-+SDK-EXTRAS_qemuarm ?= " lttng-ust-dev"
- SDK-EXTRAS_emenlow ?= " lttng-ust-dev"
- SDK-EXTRAS_atom-pc ?= " lttng-ust-dev"
+-SRC_URI[md5sum] = "d0143a5aa3265019072e53ab497818d0"
+-SRC_URI[sha256sum] = "a0d80aac88212b9f9d5331c248091d3c9c9209f0e41985421636ebd14230fc91"
++SRC_URI[md5sum] = "e4db89a2a403ff4c47d66ac66fad1f43"
++SRC_URI[sha256sum] = "f9e4316c2339d0020726edd846d01bee0c39980906db0c247479e5807457ff1f"
+diff --git a/meta/recipes-connectivity/avahi/files/initscript.patch b/meta/recipes-connectivity/avahi/files/initscript.patch
+index f76a965..193889e 100644
+--- a/meta/recipes-connectivity/avahi/files/initscript.patch
++++ b/meta/recipes-connectivity/avahi/files/initscript.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Pending
++
+ diff --git a/initscript/debian/avahi-daemon.in b/initscript/debian/avahi-daemon.in
+ index 30a2c2f..b5848a8 100755
+ --- a/initscript/debian/avahi-daemon.in
 -- 
 1.7.1
 
