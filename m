@@ -1,39 +1,32 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1QDPWB-0003mD-65
+	(envelope-from <jpuhlman@mvista.com>) id 1QDPpV-0003yO-3H
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Apr 2011 01:12:07 +0200
-Received: by pvc30 with SMTP id 30so502467pvc.6
+	Sat, 23 Apr 2011 01:32:05 +0200
+Received: by pzk35 with SMTP id 35so506824pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2011 16:09:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=WHohii4Ahm9qopw+X4ZjOLEkmxoA/0XQvGBGsOGX7BI=;
-	b=d/nvJwst87pq45ieACKG2SpyOWe0vvGL1y2eFqVxnict8d/zNqIXOeguoVHLjwLZss
-	Re6FJ6KrJmh6P0RQtNX3XemR5aoDG9WASYYvZOENn+C56iLxaMeAnMBPwB8dl/fDj1RU
-	HVzeQHU1oyGSJ+SKUzLz50F9oceXRN3TlMZ6I=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type;
-	b=BM74XyDsPAYyvpdaEJVS83g1qT42ESBNGOD+6UXVnXkTb+sWY83Kt6DqiK/z/+CACl
-	hTBIjlq3TsEiZV9NM/fXtYYCdUOxHTA4Rw9bnGqphlAeIB+XIgg9O67rerZJEmtXdjyn
-	GlzaLE8B3eYI75RH+cMcMRilYCESV1YqzNkrs=
+	Fri, 22 Apr 2011 16:29:38 -0700 (PDT)
+Received: by 10.68.15.231 with SMTP id a7mr2325191pbd.239.1303514977881;
+	Fri, 22 Apr 2011 16:29:37 -0700 (PDT)
+Received: from [192.168.1.32] (c-67-187-204-11.hsd1.ca.comcast.net
+	[67.187.204.11])
+	by mx.google.com with ESMTPS id j2sm14249pbo.79.2011.04.22.16.29.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 22 Apr 2011 16:29:36 -0700 (PDT)
+Message-ID: <4DB20F61.7060103@mvista.com>
+Date: Fri, 22 Apr 2011 16:29:37 -0700
+From: Jeremy Puhlman <jpuhlman@mvista.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
+	rv:1.9.2.15) Gecko/20110303 Lightning/1.0b2 Thunderbird/3.1.9
+	ThunderBrowse/3.3.5
 MIME-Version: 1.0
-Received: by 10.142.52.20 with SMTP id z20mr892388wfz.212.1303513778826; Fri,
-	22 Apr 2011 16:09:38 -0700 (PDT)
-Received: by 10.142.223.2 with HTTP; Fri, 22 Apr 2011 16:09:38 -0700 (PDT)
-In-Reply-To: <1303413680.5518.359.camel@rex>
-References: <201104211704.37707.paul.eggleton@linux.intel.com>
-	<20110421165711.GA25621@xora-desktop.xora.org.uk>
-	<D92FBC8F-FB70-4551-96DE-5B7AC333DB89@dominion.thruhere.net>
-	<1303413680.5518.359.camel@rex>
-Date: Sat, 23 Apr 2011 01:09:38 +0200
-Message-ID: <BANLkTime-0+ye-PRrZW5F9zSu9WNvSERYg@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] meta-handheld
+References: <1303107421.5518.45.camel@rex>
+In-Reply-To: <1303107421.5518.45.camel@rex>
+X-Enigmail-Version: 1.1.1
+Cc: Chris Larson <clarson@mvista.com>
+Subject: Re: RFC: Layer tooling brainstorming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,47 +41,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 23:12:07 -0000
+X-List-Received-Date: Fri, 22 Apr 2011 23:32:05 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-snip
+> * Maybe need to split into "bootstrap" steps (e.g where pseduo is
+>   established, layers downloaded etc)
 
->> >> If people agree that this is a good idea, the next question would be where to
->> >> host it - is this something that could be within the meta-oe repository?
->> >>
->> > Grabbing all of these barely supported machines into their own layer sounds
->> > like a good plan to me.
->> >
->> > Id suggest just hosting it on gitorious, if its inside OE then there is the
->> > magic assumption from the public that they should work (which is what happens
->> > now). Then people get really dissapointed when I tell them getting it to work
->> > is likely to be a hard slog.
->>
->> I agree with Graeme on the hosting bit. I also have all the devices you mentioned near my desk, so testing should be easy :)
->
-> I'm going to disagree, this is exactly the kind of layer fragmentation
-> I'd not like to see layers cause. Which website do I go to where I can
-> see a list of layers that exist? Who is going to maintain that list? If
-> its off on gitorious nobody will be able to easily find it.
->
-> The easiest solution is if git.openembedded.org or git.yoctoproject.org
-> can host the majority of the meta-* repositories.
->
-> Equally, I don't really see why this can't be a specific meta- group in
-> meta-oe. The README can clearly spell out what the expectations of the
-> layer are...
->
-> Cheers,
->
-> Richard
+So for the most part, the last product we shipped was largely arranged
+in this manner. We were using collections, but in many cases layers is
+just a reimplementation at a lower level(which is definitely goodness).
+During ELC I had a number of discussions primarily around remote layer
+fetch and most of the responses were meh, or that they wanted to make
+the tool external to bitbake. So after the conference was over I went
+ahead and worked out a version of the implementation  that could be done
+either in a include or in the bitbake code itself. The version in the
+git repo below is obviously just the bitbake implementation.
 
-I agree with Richard, for keeping it as meta- group.
-About expectations, at least for Zaurus I don't see problems: vanilla
-2.6.38 kernel, actual udev, imminent move to xorg-xserver if kdrive is
-finally doomed.
+I have a rough implementation largely based off of collection.inc + some
+enhancements we made internally for remote collection fetching. Some of
+it is messy(setting up the early fetching vars with out using another
+config), but for the ones I list in the patch header it appears to work
+well.
 
-Ipaq's seem suffering more bitrot...
+I do not believe that this is complete, but it is probably a reasonable
+starting point.
 
-Andrea
+Pull URL: git://gitorious.org/jpwork/bb.git
+Branch: remote-layering
+Browse: https://gitorious.org/jpwork/bb/trees/remote-layering
+
+
+---
+Add support for remote layering.
+
+The bulk of this patch is based on Chris Larson's collection.inc,
+but refactored for use inside bitbake, and for layers.
+
+Adds two new configuration options:
+
+LAYER_UNPACKDIR - directory to unpack downloaded layers for use in
+configuration.
+LAYER_REMOTE_STASH - location to store downloaded layers for use in
+configuration.
+
+Layers can be specified in the current manner:
+BBLAYERS = " \
+   /path/to/layer/one \
+   /path/to/layer/two \
+"
+
+Or you can specify uris:
+
+BBLAYERS = " \
+	http://url.to.my.tarball/tarball.tar.gz \
+	git://gitserver.com/git/repo;proto=http \
+        /path/to/layer/three \
+        file:///path/to/layer/four \
+"
+
+Currently there is a single layer option, that can be added to a uri,
+layerBase=<subpath>.
+This option would be used to specify if a layer starts somewhere other
+then the base of the
+tarball/scm repository. For example if you wanted to add oe-core you
+would do:
+
+BBLAYERS  =
+"git://git.openembedded.org/openembedded-core;protocol=git;tag=master;layerBase=meta"
+
+Currently for fetch the following uris should work  :
+'git','http','https','ftp','file'
+Currently for fetch2 the following uris should work :
+'git','http','https','ftp','file','svn'
+
+There are certainly some ugly bits in here, and there are certainly lots
+of places to improve,
+but this gets a good chunk of the base support in.
+
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+Diff rendering mode:inlineside by side
 
 
