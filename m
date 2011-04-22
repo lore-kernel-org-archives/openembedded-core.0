@@ -1,35 +1,40 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.m.rifenbark@intel.com>) id 1QDHDS-0006lB-9v
+	(envelope-from <dexuan.cui@intel.com>) id 1QDIJM-0007iB-7y
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 16:20:14 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2011 07:16:43 -0700
+	Fri, 22 Apr 2011 17:30:24 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2011 08:27:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="737047143"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2011 07:16:36 -0700
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx604.amr.corp.intel.com ([10.250.113.17]) with mapi;
-	Fri, 22 Apr 2011 07:16:35 -0700
-From: "Rifenbark, Scott M" <scott.m.rifenbark@intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Apr 2011 07:16:33 -0700
-Thread-Topic: [poky] [OE-core] OE-Core Rebranding Phase 1
-Thread-Index: Acv/+yoYtNsmbHbRRyGSuvWSnw8lFAA++Clw
-Message-ID: <DE8BA75F34A0404282AC5E15F691BC765136F5ED@orsmsx504.amr.corp.intel.com>
-References: <1303342638.5518.325.camel@rex>
-	<D7FBAE99-F5F4-4293-8DC5-BC356F7CF903@dominion.thruhere.net>
-In-Reply-To: <D7FBAE99-F5F4-4293-8DC5-BC356F7CF903@dominion.thruhere.net>
-Accept-Language: en-US
+X-IronPort-AV: E=Sophos;i="4.64,254,1301900400"; d="scan'208";a="632686452"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2011 08:27:57 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 22 Apr 2011 23:27:39 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 22 Apr 2011 23:27:38 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Fri, 22 Apr 2011 23:27:38 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Saul Wold' <sgw@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Apr 2011 23:27:37 +0800
+Thread-Topic: [PATCH 12/33] util-macros: upgrade from 1.11.0 to 1.13.0
+Thread-Index: AcwAvluQ7a3R4HOPQembcwDcP/r3QgAQznAg
+Message-ID: <1865303E0DED764181A9D882DEF65FB6911CBC166B@shsmsx502.ccr.corp.intel.com>
+References: <cover.1303453279.git.sgw@linux.intel.com>
+	<28d135771bcfa88a48a56696c82aaf3400b20abf.1303453279.git.sgw@linux.intel.com>
+In-Reply-To: <28d135771bcfa88a48a56696c82aaf3400b20abf.1303453279.git.sgw@linux.intel.com>
+Accept-Language: zh-CN, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 22 Apr 2011 16:22:40 +0200
-Cc: poky <poky@lists.yoctoproject.org>
-Subject: Re: [poky] OE-Core Rebranding Phase 1
+Subject: Re: [PATCH 12/33] util-macros: upgrade from 1.11.0 to 1.13.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,78 +49,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 14:20:14 -0000
+X-List-Received-Date: Fri, 22 Apr 2011 15:30:24 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-I grep'd all the XML files in the documentation directory and got three hit=
-s:
-
- * 'meta/recipes-sata/tasks/task-poky.bb' appears in the Poky Reference man=
-ual
- * '$ bitbake -c clean task-boot task-base task-poky' appears in the Poky R=
-eference manual
- * 'local.conf.sample' appears in the Poky Reference manual.
-
-Should these be the following:
-
- * meta/recipes-sata/tasks/task-core.bb
- * $ bitbake -c clean task-boot task-base task-core
-
-Not sure what to do with the occurrence of 'local.conf.sample'.  Just remov=
-e it?
-
-ScottR
-
------Original Message-----
-From: poky-bounces@yoctoproject.org [mailto:poky-bounces@yoctoproject.org] =
-On Behalf Of Koen Kooi
-Sent: Thursday, April 21, 2011 1:07 AM
-To: Patches and discussions about the oe-core layer
-Cc: poky
-Subject: Re: [poky] [OE-core] OE-Core Rebranding Phase 1
-
-
-Op 21 apr 2011, om 01:37 heeft Richard Purdie het volgende geschreven:
-
-> Hi,
+Saul Wold wrote:
+> From: Dexuan Cui <dexuan.cui@intel.com>
 >=20
-> At the face to face OE TSC meeting we talked over the "branding" issues
-> on OE-Core and what we were going to do about removing many of the poky
-> references.
+> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+> ---
+>  ...util-macros_1.11.0.bb =3D> util-macros_1.13.0.bb} |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-graphics/xorg-util/{util-macros_1.11.0.bb =3D>
+> util-macros_1.13.0.bb} (79%)=20
 >=20
-> This email represents a turning point for OE-Core as it marks the first
-> pass of rebranding and is based on decisions the TSC made at that
-> meeting. I'm not going to claim its 100% complete yet but it does give
-> us a good start at it. From this point on, I'll be taking patches from
-> people to assist with this. The key changes I've made so far are:
+> diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
+> b/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb similarity
+> index 79%=20
+> rename from meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
+> rename to meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
+> index 765a577..a708ed0 100644
+> --- a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
+> +++ b/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
+> @@ -20,5 +20,5 @@ RRECOMMENDS_${PN}-dbg =3D "${PN}-dev (=3D ${EXTENDPV})"
 >=20
-> * poky-init-build-env -> oe-init-build-env
-> * poky-image-* -> core-image-*
-> * task-poky-* -> task-core-*
-> * git.pokylinux.org -> git.yoctoproject.org
-> * POKYBASE -> COREBASE
-> * poky-qemu -> runqemu
-> * Sanitised local.conf.sample from Poky references
-> * POKY_NATIVE_SYSROOT -> OECORE_NATIVE_SYSROOT
-> * Renamed scrips/poky-* to scripts/oe-*
-> * Renamed the poky-sb override to linuxstdbase
-> * POKY_CONF_VERSION -> LOCALCONF_VERSION
-> * Made sanity versions weak assignment
+>  BBCLASSEXTEND =3D "native nativesdk"
+>=20
+> -SRC_URI[md5sum] =3D "8580021f3a9e242ab09d23d62e475d53"
+> -SRC_URI[sha256sum] =3D
+> "212c3d14474d7cffdbc22437d4896211a5dce6b99b02b96229c9be7d963c90cf"
+> +SRC_URI[md5sum] =3D "31e9ddcbc1d8bc8c09ab180443974dd1"
+> +SRC_URI[sha256sum] =3D
+> "7bff944fb120192e7fe1706e9c0b7e41666e7983ce3e2bdef0b7734392d9e695" =20
 
-Richard,
+Hi Saul,
+As you reminded me before,   the file xaw.patch is not needed now since no =
+recipe uses it.
+I made a new commit for the upgrading of util-macros:
+http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/master=
+_util_macros&id=3D3cfb9f508b11c4a33aace97d306956f36b137992
 
-Thanks for taking the time to do this. I did a quick check and meta-oe, met=
-a-efl, meta-angstrom, meta-texasinstruments and meta-shr seem to be up to d=
-ate with those changes now.
+Please use this new commit (the commit is in a new branch dcui/master_util_=
+macros)
 
-regards,
+Thanks!
 
-Koen
-_______________________________________________
-poky mailing list
-poky@yoctoproject.org
-https://lists.yoctoproject.org/listinfo/poky
+-- Dexuan=
 
 
