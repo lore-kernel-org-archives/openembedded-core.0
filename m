@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDAlj-0001ob-A5
+	(envelope-from <sgw@linux.intel.com>) id 1QDAlj-0001ox-13
 	for openembedded-core@lists.openembedded.org;
 	Fri, 22 Apr 2011 09:27:11 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2011 00:24:48 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2011 00:24:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="632520219"
+X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="736914135"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2011 00:24:47 -0700
-Message-Id: <0460963419da43ab48df25da8a488c5286fcef49.1303453279.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2011 00:24:46 -0700
+Message-Id: <dfc8e34c33a5c827f802790d371f038a818678d1.1303453279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303453279.git.sgw@linux.intel.com>
 References: <cover.1303453279.git.sgw@linux.intel.com>
-Old-Date: Wed, 20 Apr 2011 11:02:51 +0800
-Date: Fri, 22 Apr 2011  0:24:47 -0700
+Old-Date: Wed, 20 Apr 2011 10:44:52 +0800
+Date: Fri, 22 Apr 2011  0:24:46 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Fri, 22 Apr 2011 09:33:35 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 18/33] lttng-viewer: upgrade from 0.12.36 to the latest version 0.12.38
+Subject: [PATCH 17/33] task-poky-tools.bb, task-sdk-gmae.inc: enable lttng-ust for ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,35 +37,97 @@ X-List-Received-Date: Fri, 22 Apr 2011 07:27:11 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- ...g-viewer_0.12.36.bb => lttng-viewer_0.12.38.bb} |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-viewer_0.12.36.bb => lttng-viewer_0.12.38.bb} (85%)
+lttng-ust can build on ARM from 0.12 on.
+Merged with rebranding
 
-diff --git a/meta/recipes-kernel/lttng/lttng-viewer_0.12.36.bb b/meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
-similarity index 85%
-rename from meta/recipes-kernel/lttng/lttng-viewer_0.12.36.bb
-rename to meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
-index fc13210..b8f2f2c 100644
---- a/meta/recipes-kernel/lttng/lttng-viewer_0.12.36.bb
-+++ b/meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
-@@ -14,12 +14,12 @@ DEPENDS = "gtk+ pango popt"
+Fixes [YOCTO #856]
+
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/tasks/task-core-tools.bb         |    8 ++++----
+ meta/recipes-gnome/tasks/task-core-sdk-gmae.bb     |    4 ++--
+ .../tasks/task-core-standalone-gmae-sdk-target.bb  |    4 ++--
+ meta/recipes-gnome/tasks/task-sdk-gmae.inc         |    1 +
+ 4 files changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-core/tasks/task-core-tools.bb b/meta/recipes-core/tasks/task-core-tools.bb
+index 958dff1..9b2a4ce 100644
+--- a/meta/recipes-core/tasks/task-core-tools.bb
++++ b/meta/recipes-core/tasks/task-core-tools.bb
+@@ -2,11 +2,11 @@
+ # Copyright (C) 2008 OpenedHand Ltd.
+ #
  
- SECTION = "devel"
+-DESCRIPTION = "Tools tasks for Poky"
++DESCRIPTION = "Tools tasks for OE-Core"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-PR = "r8"
++PR = "r9"
  
--ALTNAME = "lttv-${PV}-18112010"
-+ALTNAME = "lttv-${PV}-21032011"
+ PACKAGES = "\
+     task-core-tools-debug \
+@@ -57,9 +57,9 @@ RRECOMMENDS_task-core-tools-profile = "\
+ #    exmap-server
  
- SRC_URI = "http://lttng.org/files/packages/${ALTNAME}.tar.gz"
+ # At present we only build lttng-ust on
+-# qemux86/qemux86-64/qemuppc/emenlow/atom-pc since upstream liburcu
++# qemux86/qemux86-64/qemuppc/qemuarm/emenlow/atom-pc since upstream liburcu
+ # (which is required by lttng-ust) may not build on other platforms, like
+-# MIPS and qemu ARMv5te that poky uses now.
++# MIPS.
+ RDEPENDS_task-core-tools-profile_append_qemux86 = " valgrind lttng-ust systemtap"
+ RDEPENDS_task-core-tools-profile_append_qemux86-64 = " lttng-ust systemtap"
+ RDEPENDS_task-core-tools-profile_append_qemuppc = " lttng-ust systemtap"
+diff --git a/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb b/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb
+index 6cb1410..d56aa07 100644
+--- a/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb
++++ b/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb
+@@ -2,11 +2,11 @@
+ # Copyright (C) 2007 OpenedHand Ltd.
+ #
  
--SRC_URI[md5sum] = "967f7c9c843a43e2ec2ef9216edabc70"
--SRC_URI[sha256sum] = "a7d14ae84f9bb123298840922730d3121fa073dc036dccac63083d9686adeacd"
-+SRC_URI[md5sum] = "071bf3dd13e7562c08ee8f8971cfc76d"
-+SRC_URI[sha256sum] = "cf87ffcf5d266b18979418e610a180a0b4214de41677f0be867885e15b2f7647"
- S = "${WORKDIR}/${ALTNAME}"
+-DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OpenedHand Poky"
++DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OE-Core"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-PR = "r10"
++PR = "r11"
  
- inherit autotools
+ ALLOW_EMPTY = "1"
+ 
+diff --git a/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb b/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb
+index 32e60a8..42d4148 100644
+--- a/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb
++++ b/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb
+@@ -2,11 +2,11 @@
+ # Copyright (C) 2007 OpenedHand Ltd.
+ #
+ 
+-DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OpenedHand Poky"
++DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OE-Core"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-PR = "r12"
++PR = "r13"
+ 
+ ALLOW_EMPTY = "1"
+ 
+diff --git a/meta/recipes-gnome/tasks/task-sdk-gmae.inc b/meta/recipes-gnome/tasks/task-sdk-gmae.inc
+index 0ab0b6e..2071089 100644
+--- a/meta/recipes-gnome/tasks/task-sdk-gmae.inc
++++ b/meta/recipes-gnome/tasks/task-sdk-gmae.inc
+@@ -35,5 +35,6 @@ SDK-EXTRAS ?= ""
+ SDK-EXTRAS_qemux86 ?= " valgrind lttng-ust-dev"
+ SDK-EXTRAS_qemux86-64 ?= " lttng-ust-dev"
+ SDK-EXTRAS_qemuppc ?= " lttng-ust-dev"
++SDK-EXTRAS_qemuarm ?= " lttng-ust-dev"
+ SDK-EXTRAS_emenlow ?= " lttng-ust-dev"
+ SDK-EXTRAS_atom-pc ?= " lttng-ust-dev"
 -- 
 1.7.1
 
