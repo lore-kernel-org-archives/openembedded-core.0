@@ -1,22 +1,22 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QD4fE-0005E7-0G
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QD4fE-0005E6-1n
 	for openembedded-core@lists.openembedded.org;
 	Fri, 22 Apr 2011 02:56:04 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 21 Apr 2011 17:53:38 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Apr 2011 17:53:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,252,1301900400"; d="scan'208";a="423613709"
+X-IronPort-AV: E=Sophos;i="4.64,252,1301900400"; d="scan'208";a="912931629"
 Received: from nbuild1.sc.intel.com (HELO localhost) ([172.25.110.36])
-	by azsmga001.ch.intel.com with ESMTP; 21 Apr 2011 17:53:38 -0700
-Message-Id: <ed52523a20031b3836b01525ac6ba0f0dd7bfe34.1303433480.git.nitin.a.kamble@intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 21 Apr 2011 17:53:38 -0700
+Message-Id: <ecf9dcd12702cc9de24f4435b6dc6023074cb384.1303433480.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1303433480.git.nitin.a.kamble@intel.com>
 References: <cover.1303433480.git.nitin.a.kamble@intel.com>
-Old-Date: Thu, 7 Apr 2011 10:47:16 -0700
-Date: Thu, 21 Apr 2011 17:53:12 -0700
+Old-Date: Fri, 15 Apr 2011 18:54:04 -0700
+Date: Thu, 21 Apr 2011 17:53:13 -0700
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
-Subject: [PATCH 2/8] python-gst: upgrade from 0.10.19 to 0.10.21
+Subject: [PATCH 4/8] python-pycairo: fix installation path of __init__.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,47 +35,39 @@ X-List-Received-Date: Fri, 22 Apr 2011 00:56:04 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
+This fixes Bug [YOCTO #477]
+
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../python/python-gst/python-path.patch            |    2 ++
- ...python-gst_0.10.19.bb => python-gst_0.10.21.bb} |    6 +++---
- 2 files changed, 5 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python-gst_0.10.19.bb => python-gst_0.10.21.bb} (82%)
+ .../python/python-pycairo_1.8.10.bb                |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-gst/python-path.patch b/meta/recipes-devtools/python/python-gst/python-path.patch
-index 00bab2c..21b5bbf 100644
---- a/meta/recipes-devtools/python/python-gst/python-path.patch
-+++ b/meta/recipes-devtools/python/python-gst/python-path.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status:Pending
+diff --git a/meta/recipes-devtools/python/python-pycairo_1.8.10.bb b/meta/recipes-devtools/python/python-pycairo_1.8.10.bb
+index 7d73dc2..24b3ff2 100644
+--- a/meta/recipes-devtools/python/python-pycairo_1.8.10.bb
++++ b/meta/recipes-devtools/python/python-pycairo_1.8.10.bb
+@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1 & MPLv1.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f2e071ab72978431b294a0d696327421"
+ # cairo >= 1.8.8
+ DEPENDS = "cairo"
+-PR = "ml0"
++PR = "r1"
+ 
+ SRC_URI = "http://cairographics.org/releases/py2cairo-${PV}.tar.gz"
+ 
+@@ -16,6 +16,12 @@ S = "${WORKDIR}/pycairo-${PV}"
+ 
+ inherit distutils pkgconfig
+ 
++do_compile_prepend() {
++#fix the installation path of __init__.py
++#It was going in the sysroot instead of target install location
++	sed -i -e "s#dsy.get_python_lib()#'${D}${PYTHON_SITEPACKAGES_DIR}'#" ${S}/setup.py
++}
 +
- Index: gst-python-0.10.19/acinclude.m4
- ===================================================================
- --- gst-python-0.10.19.orig/acinclude.m4	2010-04-21 15:23:44.000000000 -0700
-diff --git a/meta/recipes-devtools/python/python-gst_0.10.19.bb b/meta/recipes-devtools/python/python-gst_0.10.21.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python-gst_0.10.19.bb
-rename to meta/recipes-devtools/python/python-gst_0.10.21.bb
-index 22d6339..dd1ad5f 100644
---- a/meta/recipes-devtools/python/python-gst_0.10.19.bb
-+++ b/meta/recipes-devtools/python/python-gst_0.10.21.bb
-@@ -3,13 +3,13 @@ SECTION = "devel/python"
- LICENSE = "LGPLv2.1"
- DEPENDS = "gstreamer gst-plugins-base python-pygobject"
- RDEPENDS_${PN} += "python-pygtk"
--PR = "r1"
-+PR = "r0"
- 
- SRC_URI = "http://gstreamer.freedesktop.org/src/gst-python/gst-python-${PV}.tar.bz2 \
-            file://python-path.patch"
- 
--SRC_URI[md5sum] = "ddcef7d00bd88b0591cd6d910c36ec4b"
--SRC_URI[sha256sum] = "956f81a8c15daa3f17e688a0dc5a5d18a3118141066952d3b201a6ac0c52b415"
-+SRC_URI[md5sum] = "31340ae3e877797a10d088a226d74b16"
-+SRC_URI[sha256sum] = "d5962132c84b88b54d0f63832b8dfcc383a7805827da5abc2d1d215ba86a6f92"
- S = "${WORKDIR}/gst-python-${PV}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=39ff67e932b7bdfa9b78bad67151690b"
+ do_install_append () {
+ 	install -d ${D}${includedir}
+ 	install -d ${D}${libdir}
 -- 
 1.7.2.2
 
