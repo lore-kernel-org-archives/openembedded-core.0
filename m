@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDAlv-0001tH-MT
+	(envelope-from <sgw@linux.intel.com>) id 1QDAlx-0001tT-Lx
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 09:27:23 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 22 Apr 2011 00:24:58 -0700
+	Fri, 22 Apr 2011 09:27:25 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2011 00:25:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="423747853"
+X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="632520359"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by azsmga001.ch.intel.com with ESMTP; 22 Apr 2011 00:24:56 -0700
-Message-Id: <b2c2f1c710ee9aecfc6caea420839acee701bc99.1303453279.git.sgw@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2011 00:24:59 -0700
+Message-Id: <0daf49a24c9ff05b60377dad60234107009efbdb.1303453279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303453279.git.sgw@linux.intel.com>
 References: <cover.1303453279.git.sgw@linux.intel.com>
-Old-Date: Thu, 7 Apr 2011 10:47:16 -0700
-Date: Fri, 22 Apr 2011  0:24:55 -0700
+Old-Date: Fri, 15 Apr 2011 18:54:04 -0700
+Date: Fri, 22 Apr 2011  0:24:59 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Fri, 22 Apr 2011 09:33:35 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 26/33] python-gst: upgrade from 0.10.19 to 0.10.21
+Subject: [PATCH 28/33] python-pycairo: fix installation path of __init__.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 07:27:24 -0000
+X-List-Received-Date: Fri, 22 Apr 2011 07:27:26 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
+This fixes Bug [YOCTO #477]
+
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../python/python-gst/python-path.patch            |    2 ++
- ...python-gst_0.10.19.bb => python-gst_0.10.21.bb} |    6 +++---
- 2 files changed, 5 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python-gst_0.10.19.bb => python-gst_0.10.21.bb} (82%)
+ .../python/python-pycairo_1.8.10.bb                |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-gst/python-path.patch b/meta/recipes-devtools/python/python-gst/python-path.patch
-index 00bab2c..21b5bbf 100644
---- a/meta/recipes-devtools/python/python-gst/python-path.patch
-+++ b/meta/recipes-devtools/python/python-gst/python-path.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status:Pending
+diff --git a/meta/recipes-devtools/python/python-pycairo_1.8.10.bb b/meta/recipes-devtools/python/python-pycairo_1.8.10.bb
+index 7d73dc2..24b3ff2 100644
+--- a/meta/recipes-devtools/python/python-pycairo_1.8.10.bb
++++ b/meta/recipes-devtools/python/python-pycairo_1.8.10.bb
+@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1 & MPLv1.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f2e071ab72978431b294a0d696327421"
+ # cairo >= 1.8.8
+ DEPENDS = "cairo"
+-PR = "ml0"
++PR = "r1"
+ 
+ SRC_URI = "http://cairographics.org/releases/py2cairo-${PV}.tar.gz"
+ 
+@@ -16,6 +16,12 @@ S = "${WORKDIR}/pycairo-${PV}"
+ 
+ inherit distutils pkgconfig
+ 
++do_compile_prepend() {
++#fix the installation path of __init__.py
++#It was going in the sysroot instead of target install location
++	sed -i -e "s#dsy.get_python_lib()#'${D}${PYTHON_SITEPACKAGES_DIR}'#" ${S}/setup.py
++}
 +
- Index: gst-python-0.10.19/acinclude.m4
- ===================================================================
- --- gst-python-0.10.19.orig/acinclude.m4	2010-04-21 15:23:44.000000000 -0700
-diff --git a/meta/recipes-devtools/python/python-gst_0.10.19.bb b/meta/recipes-devtools/python/python-gst_0.10.21.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python-gst_0.10.19.bb
-rename to meta/recipes-devtools/python/python-gst_0.10.21.bb
-index 22d6339..dd1ad5f 100644
---- a/meta/recipes-devtools/python/python-gst_0.10.19.bb
-+++ b/meta/recipes-devtools/python/python-gst_0.10.21.bb
-@@ -3,13 +3,13 @@ SECTION = "devel/python"
- LICENSE = "LGPLv2.1"
- DEPENDS = "gstreamer gst-plugins-base python-pygobject"
- RDEPENDS_${PN} += "python-pygtk"
--PR = "r1"
-+PR = "r0"
- 
- SRC_URI = "http://gstreamer.freedesktop.org/src/gst-python/gst-python-${PV}.tar.bz2 \
-            file://python-path.patch"
- 
--SRC_URI[md5sum] = "ddcef7d00bd88b0591cd6d910c36ec4b"
--SRC_URI[sha256sum] = "956f81a8c15daa3f17e688a0dc5a5d18a3118141066952d3b201a6ac0c52b415"
-+SRC_URI[md5sum] = "31340ae3e877797a10d088a226d74b16"
-+SRC_URI[sha256sum] = "d5962132c84b88b54d0f63832b8dfcc383a7805827da5abc2d1d215ba86a6f92"
- S = "${WORKDIR}/gst-python-${PV}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=39ff67e932b7bdfa9b78bad67151690b"
+ do_install_append () {
+ 	install -d ${D}${includedir}
+ 	install -d ${D}${libdir}
 -- 
 1.7.1
 
