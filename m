@@ -1,22 +1,22 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QD4fG-0005E2-AM
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QD4fF-0005E5-UD
 	for openembedded-core@lists.openembedded.org;
 	Fri, 22 Apr 2011 02:56:06 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 21 Apr 2011 17:53:43 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Apr 2011 17:53:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,252,1301900400"; d="scan'208";a="736774705"
+X-IronPort-AV: E=Sophos;i="4.64,252,1301900400"; d="scan'208";a="682231250"
 Received: from nbuild1.sc.intel.com (HELO localhost) ([172.25.110.36])
-	by orsmga001.jf.intel.com with ESMTP; 21 Apr 2011 17:53:42 -0700
-Message-Id: <e02f54341eb35b3773d87ecb4de9a1f1ade1c8d2.1303433480.git.nitin.a.kamble@intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 21 Apr 2011 17:53:43 -0700
+Message-Id: <a4d11da13d74349569d4a2d5f2d6b11e15b08877.1303433480.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1303433480.git.nitin.a.kamble@intel.com>
 References: <cover.1303433480.git.nitin.a.kamble@intel.com>
-Old-Date: Wed, 20 Apr 2011 16:27:09 -0700
-Date: Thu, 21 Apr 2011 17:53:13 -0700
+Old-Date: Fri, 8 Apr 2011 02:49:44 -0700
+Date: Thu, 21 Apr 2011 17:53:17 -0700
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
-Subject: [PATCH 6/8] cpan.bbclass: export PERLHOSTLIB for perl modules
+Subject: [PATCH 8/8] distro_tracking: recipe information update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,70 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 00:56:06 -0000
+X-List-Received-Date: Fri, 22 Apr 2011 00:56:07 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This makes sure that native perl .so can get loaded at the buildtime, and
-avoids following kind of errors while building perl modules:
-
-Nitin A Kamble <nitin.a.kamble@intel.com> 2011/04/20
-
-+ perl Makefile.PL
-EXPATLIBPATH=/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib
-EXPATINCPATH=/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/include
-*** Module name IN:
-/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/Cwd.pm
-*** Module name OUT:
-/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/Cwd.pm
-*** Module name IN:
-/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/Fcntl.pm
-*** Module name OUT:
-/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/Fcntl.pm
-Can't load
-'/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/auto/Fcntl/Fcntl.so'
-for module Fcntl:
-/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/auto/Fcntl/Fcntl.so:
-wrong ELF class: ELFCLASS32 at
-/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/XSLoader.pm
-line 79.
- at
-/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/Fcntl.pm
-line 215
-BEGIN failed--compilation aborted at
-/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/Fcntl.pm
-line 216.
-Compilation failed in require at
-/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/File/Temp.pm
-line 146.
-BEGIN failed--compilation aborted at
-/disk0/pokybuild/build0/tmp/sysroots/qemux86/usr/lib/perl/5.12.2/File/Temp.pm
-line 146.
-Compilation failed in require at inc/Devel/CheckLib.pm line 12.
-BEGIN failed--compilation aborted at inc/Devel/CheckLib.pm line 12.
-Compilation failed in require at Makefile.PL line 5.
-BEGIN failed--compilation aborted at Makefile.PL line 5.
-ERROR: Function 'do_configure' failed (see
-/disk0/pokybuild/build0/tmp/work/i586-poky-linux/libxml-parser-perl-2.40-r0/temp/log.do_configure.16956
-for further information)
-
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/classes/cpan.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ .../conf/distro/include/distro_tracking_fields.inc |    7 +++++--
+ 1 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
-index 1cfd022..9b8431b 100644
---- a/meta/classes/cpan.bbclass
-+++ b/meta/classes/cpan.bbclass
-@@ -13,6 +13,7 @@ export PERLCONFIGTARGET = "${@is_target(d)}"
- export PERL_INC = "${STAGING_LIBDIR}/perl/${@get_perl_version(d)}/CORE"
- export PERL_LIB = "${STAGING_LIBDIR}/perl/${@get_perl_version(d)}"
- export PERL_ARCHLIB = "${STAGING_LIBDIR}/perl/${@get_perl_version(d)}"
-+export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl/${@get_perl_version(d)}/"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 7663ffa..33f2d76 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -91,6 +91,7 @@ RECIPE_MAINTAINER_pn-minicom = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ RECIPE_STATUS_pn-patch = "green"
+ RECIPE_LATEST_VERIONS_pn-patch = "2.6.1"
+ RECIPE_LAST_UPDATE_pn-patch = "Dec 7, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-patch = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-patch = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
- cpan_do_configure () {
- 	export PERL5LIB="${PERL_ARCHLIB}"
+ RECIPE_STATUS_pn-python-imaging = "green"
+@@ -2873,11 +2874,13 @@ RECIPE_STATUS_pn-fstests="green"
+ RECIPE_LATEST_VERSION_pn-fstests="0.0+svnr426"
+ DISTRO_PN_ALIAS_pn-fstests = "OpenedHand"
+ RECIPE_LAST_UPDATE_pn-fstests = "Dec 7, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-fstests = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-fstests = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-gdb="green" 
+ RECIPE_LATEST_VERSION_pn-gdb="7.2"
+ RECIPE_LAST_UPDATE_pn-gdb = "Nov 8, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-gdb = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-gdb = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-intltool="green" 
+@@ -2911,7 +2914,7 @@ RECIPE_MAINTAINER_pn-postinsts = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-nasm="green" 
+ RECIPE_LATEST_VERSION_pn-nasm="2.07"
+-RECIPE_MANUAL_CHECK_DATE_pn-nasm = "Jan 25, 2011" 
++RECIPE_MANUAL_CHECK_DATE_pn-nasm = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-nasm = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-perl="red" # upgrade needed
+@@ -2997,7 +3000,7 @@ RECIPE_MAINTAINER_pn-gnu-config = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-mpfr="green"
+ RECIPE_LATEST_VERSION_pn-mpfr="3.0.0"
+-RECIPE_MANUAL_CHECK_DATE_pn-mpfr = "Jan 25, 2011" 
++RECIPE_MANUAL_CHECK_DATE_pn-mpfr = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-mpfr = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-gmp="green"
 -- 
 1.7.2.2
 
