@@ -1,24 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDAm3-0001tt-3b
+	(envelope-from <sgw@linux.intel.com>) id 1QDAm4-0001uJ-JY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 09:27:31 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 22 Apr 2011 00:25:03 -0700
+	Fri, 22 Apr 2011 09:27:33 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2011 00:25:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="423747896"
+X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="736914215"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by azsmga001.ch.intel.com with ESMTP; 22 Apr 2011 00:25:02 -0700
-Message-Id: <ca7dbf877d2f74b25e94000f33e971bcb7836075.1303453279.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2011 00:25:03 -0700
+Message-Id: <3cbeda2826aa716f8dc1004cc8b2dac2346512bf.1303453279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303453279.git.sgw@linux.intel.com>
 References: <cover.1303453279.git.sgw@linux.intel.com>
-Old-Date: Fri, 8 Apr 2011 02:24:13 -0700
-Date: Fri, 22 Apr 2011  0:25:02 -0700
+Old-Date: Fri, 8 Apr 2011 02:49:44 -0700
+Date: Fri, 22 Apr 2011  0:25:03 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Fri, 22 Apr 2011 09:33:35 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 31/33] libxml-parser-perl: upgrade from 2.36 to 2.40
+Subject: [PATCH 32/33] distro_tracking: recipe information update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,47 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 07:27:31 -0000
+X-List-Received-Date: Fri, 22 Apr 2011 07:27:33 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- ...e_2.36.bb => libxml-parser-perl-native_2.40.bb} |    0
- ...ser-perl_2.36.bb => libxml-parser-perl_2.40.bb} |    8 ++++----
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/perl/{libxml-parser-perl-native_2.36.bb => libxml-parser-perl-native_2.40.bb} (100%)
- rename meta/recipes-devtools/perl/{libxml-parser-perl_2.36.bb => libxml-parser-perl_2.40.bb} (61%)
+ .../conf/distro/include/distro_tracking_fields.inc |    7 +++++--
+ 1 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl-native_2.36.bb b/meta/recipes-devtools/perl/libxml-parser-perl-native_2.40.bb
-similarity index 100%
-rename from meta/recipes-devtools/perl/libxml-parser-perl-native_2.36.bb
-rename to meta/recipes-devtools/perl/libxml-parser-perl-native_2.40.bb
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.36.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
-similarity index 61%
-rename from meta/recipes-devtools/perl/libxml-parser-perl_2.36.bb
-rename to meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
-index 3287d26..c2d1bdb 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.36.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
-@@ -1,14 +1,14 @@
- SECTION = "libs"
- LICENSE = "Artistic"
--LIC_FILES_CHKSUM = "file://README;endline=6;md5=fa7bbbd54d37d6ecf4ef33b7c98b9cd7"
-+LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e42d1cf8b51f1"
- DEPENDS += "expat expat-native"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 4598f3c..e7201b0 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -91,6 +91,7 @@ RECIPE_MAINTAINER_pn-minicom = "Dongxiao Xu <dongxiao.xu@intel.com>"
+ RECIPE_STATUS_pn-patch = "green"
+ RECIPE_LATEST_VERIONS_pn-patch = "2.6.1"
+ RECIPE_LAST_UPDATE_pn-patch = "Dec 7, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-patch = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-patch = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
--PR = "r1"
-+PR = "r0"
+ RECIPE_STATUS_pn-python-imaging = "green"
+@@ -2876,11 +2877,13 @@ RECIPE_STATUS_pn-fstests="green"
+ RECIPE_LATEST_VERSION_pn-fstests="0.0+svnr426"
+ DISTRO_PN_ALIAS_pn-fstests = "OpenedHand"
+ RECIPE_LAST_UPDATE_pn-fstests = "Dec 7, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-fstests = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-fstests = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
- SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
+ RECIPE_STATUS_pn-gdb="green" 
+ RECIPE_LATEST_VERSION_pn-gdb="7.2"
+ RECIPE_LAST_UPDATE_pn-gdb = "Nov 8, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-gdb = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-gdb = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
--SRC_URI[md5sum] = "1b868962b658bd87e1563ecd56498ded"
--SRC_URI[sha256sum] = "9fd529867402456bd826fe0e5588d35b3a2e27e586a2fd838d1352b71c2ed73f"
-+SRC_URI[md5sum] = "c66e9adba003d0667cc40115ccd837a5"
-+SRC_URI[sha256sum] = "e5e433684e799ef7b6b852c0ca31b71054717628555444d3dc9fceac0df71512"
+ RECIPE_STATUS_pn-intltool="green" 
+@@ -2914,7 +2917,7 @@ RECIPE_MAINTAINER_pn-postinsts = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
- S = "${WORKDIR}/XML-Parser-${PV}"
+ RECIPE_STATUS_pn-nasm="green" 
+ RECIPE_LATEST_VERSION_pn-nasm="2.07"
+-RECIPE_MANUAL_CHECK_DATE_pn-nasm = "Jan 25, 2011" 
++RECIPE_MANUAL_CHECK_DATE_pn-nasm = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-nasm = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
+ RECIPE_STATUS_pn-perl="red" # upgrade needed
+@@ -3000,7 +3003,7 @@ RECIPE_MAINTAINER_pn-gnu-config = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-mpfr="green"
+ RECIPE_LATEST_VERSION_pn-mpfr="3.0.0"
+-RECIPE_MANUAL_CHECK_DATE_pn-mpfr = "Jan 25, 2011" 
++RECIPE_MANUAL_CHECK_DATE_pn-mpfr = "Apr 7, 2011" 
+ RECIPE_MAINTAINER_pn-mpfr = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ 
+ RECIPE_STATUS_pn-gmp="green"
 -- 
 1.7.1
 
