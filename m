@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDAlr-0001ro-LV
+	(envelope-from <sgw@linux.intel.com>) id 1QDAlu-0001ob-0O
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 09:27:19 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Apr 2011 00:24:40 -0700
+	Fri, 22 Apr 2011 09:27:22 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2011 00:24:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="682382247"
+X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="736914162"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2011 00:24:39 -0700
-Message-Id: <6fa2516be25b4e1dac756e2dcaf8d513f4aca1d8.1303453279.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2011 00:24:58 -0700
+Message-Id: <11f938c172e74a2b99ae85cfb5c31ffcd55240e1.1303453279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303453279.git.sgw@linux.intel.com>
 References: <cover.1303453279.git.sgw@linux.intel.com>
-Old-Date: Tue, 19 Apr 2011 16:34:05 -0700
-Date: Fri, 22 Apr 2011  0:24:39 -0700
+Old-Date: Thu, 7 Apr 2011 10:48:14 -0700
+Date: Fri, 22 Apr 2011  0:24:58 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Fri, 22 Apr 2011 09:33:35 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 10/33] qemu: disable sdl for target build
+Subject: [PATCH 27/33] git: upgrade from 1.7.3.4 to 1.7.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,38 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 07:27:19 -0000
+X-List-Received-Date: Fri, 22 Apr 2011 07:27:22 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This allows qemu  to build for the target in the world build.
-Not sure this would make sense to run on the target.
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc |    8 ++++++--
- 1 files changed, 6 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/git/files/autotools.patch    |    2 ++
+ .../git/{git_1.7.3.4.bb => git_1.7.4.3.bb}         |    4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/git/{git_1.7.3.4.bb => git_1.7.4.3.bb} (59%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 412bdfd..362e9f3 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -8,9 +8,13 @@ QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
- 
- require qemu-targets.inc
- 
--EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls --enable-kvm --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370"
-+SDL ?= "--disable-sdl"
-+SDL_virtclass-native ?= ""
-+SDL_virtclass-nativesdk ?= ""
- 
--#EXTRA_OECOF += "--disable-sdl"
-+EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls --enable-kvm --audio-drv-list=oss,alsa --audio-card-list=ac97,es1370 ${SDL}"
+diff --git a/meta/recipes-devtools/git/files/autotools.patch b/meta/recipes-devtools/git/files/autotools.patch
+index 1c69c22..cb21193 100644
+--- a/meta/recipes-devtools/git/files/autotools.patch
++++ b/meta/recipes-devtools/git/files/autotools.patch
+@@ -1,3 +1,5 @@
++Upstream-Status:Inappropriate [configuration]
 +
-+#EXTRA_OECONF += "--disable-sdl"
+ Index: git-1.7.2.1/configure.ac
+ ===================================================================
+ --- git-1.7.2.1.orig/configure.ac	2010-07-28 18:03:43.000000000 +0100
+diff --git a/meta/recipes-devtools/git/git_1.7.3.4.bb b/meta/recipes-devtools/git/git_1.7.4.3.bb
+similarity index 59%
+rename from meta/recipes-devtools/git/git_1.7.3.4.bb
+rename to meta/recipes-devtools/git/git_1.7.4.3.bb
+index 2765ef7..603d2fd 100644
+--- a/meta/recipes-devtools/git/git_1.7.3.4.bb
++++ b/meta/recipes-devtools/git/git_1.7.4.3.bb
+@@ -6,5 +6,5 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
+                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+                  "
  
- inherit autotools
- 
+-SRC_URI[md5sum] = "3a2602016f98c529cda7b9fad1a6e216"
+-SRC_URI[sha256sum] = "3e5e2b6547ee4aae82b4c5f589ff084996e9e6e0e2b52c92365e6baa1e4a0171"
++SRC_URI[md5sum] = "da6c8f4967393342a4397b955db72cb1"
++SRC_URI[sha256sum] = "44b3ebc87d83b34468718fb6fa424420877e1f66c190389d693d090662a3556d"
 -- 
 1.7.1
 
