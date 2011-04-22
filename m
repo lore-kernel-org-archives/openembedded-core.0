@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDAll-0001pg-3u
+	(envelope-from <sgw@linux.intel.com>) id 1QDAlk-0001pX-Tg
 	for openembedded-core@lists.openembedded.org;
 	Fri, 22 Apr 2011 09:27:13 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Apr 2011 00:24:34 -0700
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 22 Apr 2011 00:24:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="913034138"
+X-IronPort-AV: E=Sophos;i="4.64,253,1301900400"; d="scan'208";a="423747811"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2011 00:24:33 -0700
-Message-Id: <f9bd3b00b4e5546b8531469bb953e9fafc9078d6.1303453279.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 22 Apr 2011 00:24:45 -0700
+Message-Id: <4774e8db18fca707f31f774103ff7040da939772.1303453279.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303453279.git.sgw@linux.intel.com>
 References: <cover.1303453279.git.sgw@linux.intel.com>
-Old-Date: Wed, 13 Apr 2011 10:46:02 +0800
-Date: Fri, 22 Apr 2011  0:24:33 -0700
+Old-Date: Wed, 20 Apr 2011 10:29:53 +0800
+Date: Fri, 22 Apr 2011  0:24:45 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Fri, 22 Apr 2011 09:33:35 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 04/33] avahi: Upgrade to 0.6.30 (from 0.6.28)
+Subject: [PATCH 16/33] lttng-ust: upgrade from 0.11 to the latest version 0.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,69 +35,185 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Apr 2011 07:27:13 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-This upgrade fix the one security issue:
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1002
-[YOCTO #975] fixed.
+Updated LIC_FILES_CHKSUM as a new Copyright holder was added.
+Removed the patch since 0.12 has integrated that.
+Added arm into COMPATIBLE_HOST as 0.12 can build on arm now.
 
-This should be included in the Bernard point-release.
-
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc          |    2 +-
- .../avahi/{avahi_0.6.28.bb => avahi_0.6.30.bb}     |    6 +++---
- .../avahi/files/initscript.patch                   |    2 ++
- 3 files changed, 6 insertions(+), 4 deletions(-)
- rename meta/recipes-connectivity/avahi/{avahi_0.6.28.bb => avahi_0.6.30.bb} (82%)
+ ...remove_ppc_specific_time_reading_function.patch |   85 --------------------
+ meta/recipes-kernel/lttng/lttng-ust_0.11.bb        |   32 --------
+ meta/recipes-kernel/lttng/lttng-ust_0.12.bb        |   28 +++++++
+ 3 files changed, 28 insertions(+), 117 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust-0.11/remove_ppc_specific_time_reading_function.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_0.11.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust_0.12.bb
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 6d4b830..b2fa8ca 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -24,7 +24,7 @@ RRECOMMENDS_${PN}_append_libc-glibc = "libnss-mdns"
- SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-         file://00avahi-autoipd \
-         file://99avahi-autoipd \
--        file://initscript.patch;patch=1"
-+        file://initscript.patch"
- 
- inherit autotools pkgconfig update-rc.d gettext
- 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.28.bb b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-similarity index 82%
-rename from meta/recipes-connectivity/avahi/avahi_0.6.28.bb
-rename to meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-index 6e034b0..1084c04 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.6.28.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
- 
- RDEPENDS_avahi-daemon = "sysvinit-pidof"
--PR = "r2"
-+PR = "r0"
- 
- EXTRA_OECONF += "--disable-gtk3"
- 
-@@ -15,5 +15,5 @@ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
-                        ${sysconfdir}/avahi/avahi-autoipd.action \
- 		       ${sysconfdir}/dhcp3/*/avahi-autoipd"
- 
--SRC_URI[md5sum] = "d0143a5aa3265019072e53ab497818d0"
--SRC_URI[sha256sum] = "a0d80aac88212b9f9d5331c248091d3c9c9209f0e41985421636ebd14230fc91"
-+SRC_URI[md5sum] = "e4db89a2a403ff4c47d66ac66fad1f43"
-+SRC_URI[sha256sum] = "f9e4316c2339d0020726edd846d01bee0c39980906db0c247479e5807457ff1f"
-diff --git a/meta/recipes-connectivity/avahi/files/initscript.patch b/meta/recipes-connectivity/avahi/files/initscript.patch
-index f76a965..193889e 100644
---- a/meta/recipes-connectivity/avahi/files/initscript.patch
-+++ b/meta/recipes-connectivity/avahi/files/initscript.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
+diff --git a/meta/recipes-kernel/lttng/lttng-ust-0.11/remove_ppc_specific_time_reading_function.patch b/meta/recipes-kernel/lttng/lttng-ust-0.11/remove_ppc_specific_time_reading_function.patch
+deleted file mode 100644
+index c5487fd..0000000
+--- a/meta/recipes-kernel/lttng/lttng-ust-0.11/remove_ppc_specific_time_reading_function.patch
++++ /dev/null
+@@ -1,85 +0,0 @@
+-Dexuan Cui <dexuan.cui@intel.com>: I got the following patch from lttng dev
+-mailing list:
+-http://lists.casi.polymtl.ca/pipermail/ltt-dev/2011-February/003903.html
+-The patch looks good and I think it would be in next release. At present,
+-let's add it into SRC_URI.
+-
+------------------------------------------------------------------
+-The PPC version of the trace_clock_read64 was using the TB register
+-which is not constant accross implementations. The currently
+-measured time base on PPC was not accurate.
+-So, for now, we rely on the CLOCK_MONOTONIC.
+-
+-This patch remove a bunch of #ifdef for x86 and PPC, since we now rely on
+-the same base clock. It also fix the build on PPC that was currently broken
+-
+-Signed-off-by: Yannick Brosseau <yannick.brosseau@gmail.com>
+------------------------------------------------------------------
+-
+---- a/include/ust/clock.h
+-+++ b/include/ust/clock.h
+-@@ -39,7 +39,6 @@
+-    precision and monotonicity.
+- */
+- 
+--#if __i386__ || __x86_64__
+- /* Only available for x86 arch */
+- #define CLOCK_TRACE_FREQ  14
+- #define CLOCK_TRACE  15
+-@@ -47,36 +46,10 @@
+- 	struct timespec ts;
+- 	u64 lttng_ts;
+- };
+--#endif /* __i386__ || __x86_64__ */
+- 
+- extern int ust_clock_source;
+- 
+- /* Choosing correct trace clock */
+--#if __PPC__
+--static __inline__ u64 trace_clock_read64(void)
+--{
+--	unsigned long tb_l;
+--	unsigned long tb_h;
+--	unsigned long tb_h2;
+--	u64 tb;
+--
+--	__asm__ (
+--		"1:\n\t"
+--		"mftbu %[rhigh]\n\t"
+--		"mftb %[rlow]\n\t"
+--		"mftbu %[rhigh2]\n\t"
+--		"cmpw %[rhigh],%[rhigh2]\n\t"
+--		"bne 1b\n\t"
+--		: [rhigh] "=r" (tb_h), [rhigh2] "=r" (tb_h2), [rlow] "=r" (tb_l));
+--
+--	tb = tb_h;
+--	tb <<= 32;
+--	tb |= tb_l;
+--
+--	return tb;
+--}
+--
+--#else	/* !__PPC__ */
+- 
+- static __inline__ u64 trace_clock_read64(void)
+- {
+-@@ -101,17 +74,17 @@
+- 	return retval;
+- }
+- 
+--#endif /* __PPC__ */
+--
+- static __inline__ u64 trace_clock_frequency(void)
+- {
+- 	struct timespec ts;
+- 	union lttng_timespec *lts = (union lttng_timespec *) &ts;
+- 
+-+#if __i386__ || __x86_64__
+- 	if (likely(ust_clock_source == CLOCK_TRACE)) {
+- 		clock_gettime(CLOCK_TRACE_FREQ, &ts);
+- 		return lts->lttng_ts;
+- 	}
+-+#endif
+- 	return 1000000000LL;
+- }
+- 
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_0.11.bb b/meta/recipes-kernel/lttng/lttng-ust_0.11.bb
+deleted file mode 100644
+index 9d2063a..0000000
+--- a/meta/recipes-kernel/lttng/lttng-ust_0.11.bb
++++ /dev/null
+@@ -1,32 +0,0 @@
+-SUMMARY = "Linux Trace Toolkit Userspace Tracer"
+-DESCRIPTION = "The LTTng Userspace Tracer (UST) is a library accompanied by a set of tools to trace userspace code"
+-HOMEPAGE = "http://lttng.org/ust"
+-BUGTRACKER = "n/a"
+-
+-LICENSE = "LGPLv2.1+ & BSD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=e647752e045a8c45b6f583771bd561ef \
+-                    file://ustctl/ustctl.c;endline=16;md5=eceeaab8a5574f24d62f7950b9d1adf4 \
+-                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
+-
+-DEPENDS = "liburcu"
+-
+-PR = "r1"
+-
+-SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz \
+-           file://remove_ppc_specific_time_reading_function.patch \
+-           "
+-
+-SRC_URI[md5sum] = "0a23fa60df4da3fb5188e314001eb49c"
+-SRC_URI[sha256sum] = "af8f699019ae260103bb401b6738d5e417e79732a509859b42a52e9a0f5edb35"
+-
+-S = "${WORKDIR}/ust-${PV}"
+-
+-inherit autotools
+-
+-# Due to liburcu not building on ARM or MIPS currently this recipe needs to
+-# be limited also.
+-# So here let us first suppport x86/powerpc platforms now.
+-COMPATIBLE_HOST = '(x86_64.*|i.86.*|powerpc.*)-linux'
+-
+-
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_0.12.bb b/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
+new file mode 100644
+index 0000000..7dadc04
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
+@@ -0,0 +1,28 @@
++SUMMARY = "Linux Trace Toolkit Userspace Tracer"
++DESCRIPTION = "The LTTng Userspace Tracer (UST) is a library accompanied by a set of tools to trace userspace code"
++HOMEPAGE = "http://lttng.org/ust"
++BUGTRACKER = "n/a"
 +
- diff --git a/initscript/debian/avahi-daemon.in b/initscript/debian/avahi-daemon.in
- index 30a2c2f..b5848a8 100755
- --- a/initscript/debian/avahi-daemon.in
++LICENSE = "LGPLv2.1+ & BSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=e647752e045a8c45b6f583771bd561ef \
++                    file://ustctl/ustctl.c;endline=16;md5=b50c6fa0307175bb1ce0db49d752c03b \
++                    file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
++
++DEPENDS = "liburcu"
++
++PR = "r0"
++
++SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "fae6e324a56016658c5b83ec14ba0043"
++SRC_URI[sha256sum] = "215b05f47d0c9e3a2934926a7d14fa9c67025db917c3a1f641df40b08314ab0c"
++
++S = "${WORKDIR}/ust-${PV}"
++
++inherit autotools
++
++# Due to liburcu not building on MIPS currently this recipe needs to
++# be limited also.
++# So here let us first suppport x86/arm/powerpc platforms now.
++COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
++
 -- 
 1.7.1
 
