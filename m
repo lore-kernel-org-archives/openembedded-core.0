@@ -1,25 +1,39 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QDJF9-00035F-Cq
+	(envelope-from <raj.khem@gmail.com>) id 1QDJeB-0003LJ-4o
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 18:30:07 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2011 09:27:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,254,1301900400"; d="scan'208";a="632711527"
-Received: from unknown (HELO [10.255.12.218]) ([10.255.12.218])
-	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2011 09:27:26 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Apr 2011 09:27:26 -0700
-In-Reply-To: <DE8BA75F34A0404282AC5E15F691BC765136F5ED@orsmsx504.amr.corp.intel.com>
-References: <1303342638.5518.325.camel@rex>
-	<D7FBAE99-F5F4-4293-8DC5-BC356F7CF903@dominion.thruhere.net>
-	<DE8BA75F34A0404282AC5E15F691BC765136F5ED@orsmsx504.amr.corp.intel.com>
-X-Mailer: Evolution 3.0.0 (3.0.0-1.fc15) 
-Message-ID: <1303489646.2293.9.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: [poky] OE-Core Rebranding Phase 1
+	Fri, 22 Apr 2011 18:55:59 +0200
+Received: by eye27 with SMTP id 27so212744eye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Apr 2011 09:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=KLT54vsM+GNKRtlP4n2RmGB33qIKDr26KTGLkU/3Re4=;
+	b=fhzJ9sU4+IlYGxjAL3vYZ9MEBjn00sOlD9pnyILsboBJ2pW258H0sYZVefbqpa1sw9
+	pNZ5f0yBotNpyIrPzvqRsVfhKFh5FY68toQpe+xjCF5q1PKWaTbL58ij131CZ/tdHRJq
+	ERBXWqVlP1Q4tIGcpH10yB9E5Ll8BcKGmat8o=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	b=lazDrFaSgbgLSnz3py/BlXyFY87BG/dYyMGXUYMpY01nMdcQmBuR6Cn+HG1hRHxq7C
+	HEQWqg2XrQ3iSal5CMw4c+nrkkGQAq51U4Fj49FygzpUvrY2K2k5QfXD0HudJDXq6TMC
+	UrpzMLMJvxktyT9OjzNPbsObi/UXI09uShaHk=
+Received: by 10.14.125.146 with SMTP id z18mr435264eeh.28.1303491210079; Fri,
+	22 Apr 2011 09:53:30 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.119.196 with HTTP; Fri, 22 Apr 2011 09:53:00 -0700 (PDT)
+In-Reply-To: <1a8652d5f06208f11f999288582c57e5d00f44d9.1303453279.git.sgw@linux.intel.com>
+References: <cover.1303453279.git.sgw@linux.intel.com>
+	<1a8652d5f06208f11f999288582c57e5d00f44d9.1303453279.git.sgw@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 22 Apr 2011 09:53:00 -0700
+Message-ID: <BANLkTikwMv4WWPmmcOog4LRLbtuaNi4mHQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailman-Approved-At: Fri, 22 Apr 2011 19:25:49 +0200
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 23/33] ofono: add bluze to DEPENDS list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,40 +48,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 16:30:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Apr 2011 16:55:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2011-04-22 at 07:16 -0700, Rifenbark, Scott M wrote:
-> I grep'd all the XML files in the documentation directory and got three hits:
-> 
->  * 'meta/recipes-sata/tasks/task-poky.bb' appears in the Poky Reference manual
->  * '$ bitbake -c clean task-boot task-base task-poky' appears in the Poky Reference manual
->  * 'local.conf.sample' appears in the Poky Reference manual.
-> 
-> Should these be the following:
-> 
->  * meta/recipes-sata/tasks/task-core.bb
+On Fri, Apr 22, 2011 at 12:24 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> From: Saul Wold <sgw@linux.intel.com>
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-correct bar the typo:  meta/recipes-sato/tasks/task-core.bb 
+there is a typo in commit message
 
->  * $ bitbake -c clean task-boot task-base task-core
-
-correct
-
-> 
-> Not sure what to do with the occurrence of 'local.conf.sample'.  Just remove it?
-
-We still use and need that file, the only thing that's changed in it are
-some variables it sets have been renamed. Please leave local.conf.sample
-in.
-
-Cheers,
-Joshua
--- 
-Joshua Lock
-        Yocto Build System Monkey
-        Intel Open Source Technology Centre
-
+> ---
+> =C2=A0meta/recipes-connectivity/ofono/ofono.inc | =C2=A0 =C2=A02 +-
+> =C2=A01 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-con=
+nectivity/ofono/ofono.inc
+> index 9089670..ee3bc3e 100644
+> --- a/meta/recipes-connectivity/ofono/ofono.inc
+> +++ b/meta/recipes-connectivity/ofono/ofono.inc
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Deb723b61539fee=
+f013de476e68b5c50a \
+>
+> =C2=A0inherit autotools pkgconfig update-rc.d
+>
+> -DEPENDS =C2=A0=3D "dbus glib-2.0 udev"
+> +DEPENDS =C2=A0=3D "dbus glib-2.0 udev bluez4"
+>
+> =C2=A0INITSCRIPT_NAME =3D "ofono"
+> =C2=A0INITSCRIPT_PARAMS =3D "defaults 22"
+> --
+> 1.7.1
+>
+>
 
 
