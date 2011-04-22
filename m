@@ -1,40 +1,28 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QDIJM-0007iB-7y
+	(envelope-from <josh@linux.intel.com>) id 1QDJAg-00030B-WB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Apr 2011 17:30:24 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2011 08:27:58 -0700
+	Fri, 22 Apr 2011 18:25:31 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Apr 2011 09:23:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,254,1301900400"; d="scan'208";a="632686452"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2011 08:27:57 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 22 Apr 2011 23:27:39 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 22 Apr 2011 23:27:38 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Fri, 22 Apr 2011 23:27:38 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Saul Wold' <sgw@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Apr 2011 23:27:37 +0800
-Thread-Topic: [PATCH 12/33] util-macros: upgrade from 1.11.0 to 1.13.0
-Thread-Index: AcwAvluQ7a3R4HOPQembcwDcP/r3QgAQznAg
-Message-ID: <1865303E0DED764181A9D882DEF65FB6911CBC166B@shsmsx502.ccr.corp.intel.com>
-References: <cover.1303453279.git.sgw@linux.intel.com>
-	<28d135771bcfa88a48a56696c82aaf3400b20abf.1303453279.git.sgw@linux.intel.com>
-In-Reply-To: <28d135771bcfa88a48a56696c82aaf3400b20abf.1303453279.git.sgw@linux.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 12/33] util-macros: upgrade from 1.11.0 to 1.13.0
+X-IronPort-AV: E=Sophos;i="4.64,254,1301900400"; d="scan'208";a="737101196"
+Received: from unknown (HELO [10.255.12.218]) ([10.255.12.218])
+	by orsmga001.jf.intel.com with ESMTP; 22 Apr 2011 09:23:04 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Apr 2011 09:23:04 -0700
+In-Reply-To: <76BC4841-53CE-4F09-A5CE-7B627922451E@dominion.thruhere.net>
+References: <8313867A-EA5C-473D-A82B-D8338186BF5F@dominion.thruhere.net>
+	<201104211605.28351.paul.eggleton@linux.intel.com>
+	<1303404025.9960.6.camel@vorpal>
+	<6252772B-4D5D-4E5D-BCD5-1A53C1D25AFA@dominion.thruhere.net>
+	<1303407705.9960.51.camel@vorpal>
+	<76BC4841-53CE-4F09-A5CE-7B627922451E@dominion.thruhere.net>
+X-Mailer: Evolution 3.0.0 (3.0.0-1.fc15) 
+Message-ID: <1303489384.2293.5.camel@scimitar>
+Mime-Version: 1.0
+Subject: Re: [RFC] Working toward a GNOME layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,52 +37,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 15:30:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 22 Apr 2011 16:25:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Saul Wold wrote:
-> From: Dexuan Cui <dexuan.cui@intel.com>
->=20
-> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> ---
->  ...util-macros_1.11.0.bb =3D> util-macros_1.13.0.bb} |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-graphics/xorg-util/{util-macros_1.11.0.bb =3D>
-> util-macros_1.13.0.bb} (79%)=20
->=20
-> diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-> b/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb similarity
-> index 79%=20
-> rename from meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-> rename to meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
-> index 765a577..a708ed0 100644
-> --- a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-> +++ b/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
-> @@ -20,5 +20,5 @@ RRECOMMENDS_${PN}-dbg =3D "${PN}-dev (=3D ${EXTENDPV})"
->=20
->  BBCLASSEXTEND =3D "native nativesdk"
->=20
-> -SRC_URI[md5sum] =3D "8580021f3a9e242ab09d23d62e475d53"
-> -SRC_URI[sha256sum] =3D
-> "212c3d14474d7cffdbc22437d4896211a5dce6b99b02b96229c9be7d963c90cf"
-> +SRC_URI[md5sum] =3D "31e9ddcbc1d8bc8c09ab180443974dd1"
-> +SRC_URI[sha256sum] =3D
-> "7bff944fb120192e7fe1706e9c0b7e41666e7983ce3e2bdef0b7734392d9e695" =20
+On Thu, 2011-04-21 at 20:12 +0200, Koen Kooi wrote:
+> Op 21 apr 2011, om 19:41 heeft Joshua Lock het volgende geschreven:
+> 
+> > On Thu, 2011-04-21 at 19:29 +0200, Koen Kooi wrote:
+> >> Op 21 apr 2011, om 18:40 heeft Joshua Lock het volgende geschreven:
+> >> 
+> >>> On Thu, 2011-04-21 at 16:05 +0100, Paul Eggleton wrote:
+> >>>> On Thursday 21 April 2011 15:02:49 Koen Kooi wrote:
+> >>>>> and possibly more. I would like to create a meta-gnome layer in the
+> >>>>> meta-openembedded repository where new recipes get added and things from
+> >>>>> meta-demoapps can get moved over into. Long term recipes-gnome in oe-core
+> >>>>> should move there as well.
+> >>>>> 
+> >>>>> What are your thoughts on this?
+> >>> 
+> >>> +1
+> >>> 
+> >>>> 
+> >>>> From my perspective this sounds like a great idea. The only question would be 
+> >>>> how much of the "GNOME" libs would remain in oe-core as some of them are quite 
+> >>>> widely used outside of GNOME proper; however that can easily be worked out as 
+> >>>> these things mature.
+> >>> 
+> >>> +1
+> >>> 
+> >>> My personal opinion would be that we start with glib & gtk+ (plus their
+> >>> dependencies, i.e. pango, atk, etc) in core and move the rest out to a
+> >>> layer.
+> >>> 
+> >>> I feel that Gtk+ is used by enough non-gnome software that it belongs in
+> >>> core but others may disagree?
+> >>> 
+> >>> Between meta/recipes-gnome and meta-demoapps we have a reasonable start
+> >>> to a meta-gnome/
+> >> 
+> >> Where did meta-demoapps go? It's not in OE-core anymore by the looks of it.
+> > 
+> > Hmm, still exists for me:
+> > 
+> > joshual@vorpal:~/Projects/Yocto/oe-core/meta-demoapps[master]
+> > $ pwd
+> > /home/joshual/Projects/Yocto/oe-core/meta-demoapps
+> > 
+> > 
+> >> 
+> >>> I'd be happy to help with this layer.
+> >> 
+> >> Awesome, do you have any objection to put meta-gnome into the meta-openembedded repo for the time being? Once we get better tooling we can move it elsewhere, of course.
+> > 
+> > None whatsoever. I keep meaning to push some recipes into that layer
+> > anyway.
+> 
+> I just sent out 10 patches for review that import recipes-gnome from meta-demoapps into meta-gnome. Please review :)
 
-Hi Saul,
-As you reminded me before,   the file xaw.patch is not needed now since no =
-recipe uses it.
-I made a new commit for the upgrading of util-macros:
-http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/master=
-_util_macros&id=3D3cfb9f508b11c4a33aace97d306956f36b137992
+The way I see it there are two approaches, tidy & test the recipes then
+merge *or* merge then fix.
 
-Please use this new commit (the commit is in a new branch dcui/master_util_=
-macros)
+If we're going for the latter approach let's get your patches merged!
 
-Thanks!
+This does raise another question, is meta-oe striving for the same
+standards of metadata as oe-core? i.e. SRC_URI & license checksums,
+updated patch syntax, etc.
 
--- Dexuan=
+Also, how much gnome do we want to support? Are we trying to be all new
+and shiny and drop deprecated libraries (gnome-vfs)?
+
+Just trying to work out what patches to work on ;-) Perhaps we can
+define a policy of what's appropriate for the layer in a README?
+
+Cheers,
+Joshua
+-- 
+Joshua Lock
+        Yocto Build System Monkey
+        Intel Open Source Technology Centre
+
 
 
