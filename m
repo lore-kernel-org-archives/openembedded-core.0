@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDWNi-00059M-8A
+	(envelope-from <sgw@linux.intel.com>) id 1QDWNj-00059S-IF
 	for openembedded-core@lists.openembedded.org;
 	Sat, 23 Apr 2011 08:31:51 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Apr 2011 23:29:26 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 22 Apr 2011 23:29:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="682838286"
+X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="682838261"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2011 23:29:25 -0700
-Message-Id: <06d75b1e554791daf7e7cfeebc78d7f240969c97.1303539961.git.sgw@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2011 23:29:15 -0700
+Message-Id: <943553b83c2ae946f2996d301082b69aae9fb259.1303539961.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303539961.git.sgw@linux.intel.com>
 References: <cover.1303539961.git.sgw@linux.intel.com>
-Old-Date: Fri, 22 Apr 2011 14:03:53 +0800
-Date: Fri, 22 Apr 2011 23:29:25 -0700
+Old-Date: Thu, 21 Apr 2011 12:05:40 -0700
+Date: Fri, 22 Apr 2011 23:29:14 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 23 Apr 2011 08:41:36 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>, Kang Kai <kai.kang@windriver.com>
-Subject: [PATCH 31/37] lsbsetup: add some workaround for LSB tests
+Subject: [PATCH 21/37] ofono: add bluez4 to DEPENDS list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,76 +35,26 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 23 Apr 2011 06:31:51 -0000
 
-From: Kang Kai <kai.kang@windriver.com>
+From: Saul Wold <sgw@linux.intel.com>
 
-Add some workaround for LSB libstdcpp and tcl tests.
-Recreate locales for libstdcpp test, and resolve localhost is for
-tcl test [Yocto 898]
-Bump PR, update LICENSE information and installed file mode
-
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh |   15 ++++++++++++++-
- meta/recipes-extended/lsb/lsbsetup_0.9.bb       |    8 ++++----
- 2 files changed, 18 insertions(+), 5 deletions(-)
+ meta/recipes-connectivity/ofono/ofono.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh b/meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh
-index 7ce823e..a8189e5 100644
---- a/meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh
-+++ b/meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh
-@@ -1,6 +1,6 @@
- #!/bin/bash
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index 9089670..ee3bc3e 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
  
--# Copyright (c) 2005-2010 Wind River Systems, Inc.
-+# Copyright (C) 2010-2011 Wind River Systems, Inc.
- #
- # This program is free software; you can redistribute it and/or modify
- # it under the terms of the GNU General Public License version 2 as
-@@ -201,6 +201,19 @@ fi
- addr=`ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}'|sed s/[[:space:]][[:space:]]Bcast//g`
- echo -e "you should input ${addr}:8888 on your browser"
+ inherit autotools pkgconfig update-rc.d
  
-+#workaround to add part of locales for LSB test
-+localedef -i ja_JP -f EUC-JP ja_JP.eucjp
-+localedef -i en_US -f ISO-8859-15  en_US.ISO-8859-15
-+localedef -i en_US -f UTF-8 en_US.UTF-8
-+localedef -i se_NO -f UTF-8 se_NO.UTF-8
-+localedef -i de_DE -f ISO-8859-1 de_DE
-+
-+#resolve localhost 
-+LOCALHOST=`hostname`
-+if ! `grep -F -q "$LOCALHOST" /etc/hosts`; then
-+    echo "127.0.0.1 $LOCALHOST" >> /etc/hosts
-+fi
-+
- #Step 10
- echo "Done!!"
+-DEPENDS  = "dbus glib-2.0 udev"
++DEPENDS  = "dbus glib-2.0 udev bluez4"
  
-diff --git a/meta/recipes-extended/lsb/lsbsetup_0.9.bb b/meta/recipes-extended/lsb/lsbsetup_0.9.bb
-index 8cbaf1e..5fd0584 100644
---- a/meta/recipes-extended/lsb/lsbsetup_0.9.bb
-+++ b/meta/recipes-extended/lsb/lsbsetup_0.9.bb
-@@ -2,9 +2,9 @@ DESCRIPTION = "auto-setup environment for lsb test"
- SECTION = "console/utils"
- PRIORITY = "required"
- LICENSE = "GPLv2"
--PR = "r0"
-+PR = "r1"
- 
--LIC_FILES_CHKSUM = "file://LSB_Setup.sh;md5=7391be3e70a02d44e1b183fa103b0585"
-+LIC_FILES_CHKSUM = "file://LSB_Setup.sh;beginline=3;endline=16;md5=97451c7c0786ce5bbe9ac58042945583"
- 
- SRC_URI = "file://LSB_Setup.sh"
- 
-@@ -12,6 +12,6 @@ S=${WORKDIR}
- 
- do_install() {
-         # Only install file if it has a contents
--	install -d ${D}/usr/bin
--        install -m 0644 ${S}/LSB_Setup.sh ${D}/usr/bin
-+        install -d ${D}/usr/bin
-+        install -m 0755 ${S}/LSB_Setup.sh ${D}/usr/bin
- }
+ INITSCRIPT_NAME = "ofono"
+ INITSCRIPT_PARAMS = "defaults 22"
 -- 
 1.7.1.1
 
