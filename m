@@ -1,24 +1,23 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDWOI-0005C0-8E
+	(envelope-from <sgw@linux.intel.com>) id 1QDWYI-0005nC-7C
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Apr 2011 08:32:27 +0200
+	Sat, 23 Apr 2011 08:42:47 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 22 Apr 2011 23:30:02 -0700
+	by azsmga102.ch.intel.com with ESMTP; 22 Apr 2011 23:29:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="424248410"
+X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="424248308"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by azsmga001.ch.intel.com with ESMTP; 22 Apr 2011 23:29:33 -0700
-Message-Id: <49c9863d3b97318fb053848cb5d2981c94f07487.1303539961.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1303539961.git.sgw@linux.intel.com>
-References: <cover.1303539961.git.sgw@linux.intel.com>
-Old-Date: Fri, 22 Apr 2011 15:27:30 +0800
-Date: Fri, 22 Apr 2011 23:29:32 -0700
+	by azsmga001.ch.intel.com with ESMTP; 22 Apr 2011 23:28:50 -0700
+Message-Id: <cover.1303539961.git.sgw@linux.intel.com>
+Old-Date: Fri, 22 Apr 2011 23:26:01 -0700
+MIME-Version: 1.0
+Date: Fri, 22 Apr 2011 23:28:50 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
-X-Mailman-Approved-At: Sat, 23 Apr 2011 08:41:36 +0200
+X-Mailman-Approved-At: Sat, 23 Apr 2011 10:00:03 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>, Kang Kai <kai.kang@windriver.com>
-Subject: [PATCH 37/37] create-lsb-image:Rename creat-lsb-image and fix some bugs
+Subject: [PATCH 00/37] V2 - Consolidated Pull Request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,459 +32,243 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Apr 2011 06:32:27 -0000
+X-List-Received-Date: Sat, 23 Apr 2011 06:42:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+From: Saul Wold <sgw@linux.intel.com>
 
-Rename creat-lsb-image to create-lsb-image
-Fix some fuctions for more practical
+Richard,
+
+Please pull this request, based on some cleanups and
+additional changes.  This has been built on multiple 
+machines.
+
+Sau!
+
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: sgw/stage
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Thanks,
+    Saul Wold <sgw@linux.intel.com>
 ---
- scripts/creat-lsb-image  |  198 ----------------------------------------
- scripts/create-lsb-image |  228 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 228 insertions(+), 198 deletions(-)
+
+
+Dexuan Cui (9):
+  libxfixes: upgrade from 4.0.5 to the latest version 5.0
+  util-macros: upgrade from 1.11.0 to 1.13.0
+  preferred-xorg-versions.inc: update libxfixes, util-macros,
+    xorg-cf-files
+  mdadm: upgrade from 3.1.4 to the latest version 3.2.1
+  liburcu: upgrade from 0.5.2 to 0.5.4
+  lttng-ust: upgrade from 0.11 to the latest version 0.12
+  task-poky-tools.bb, task-sdk-gmae.inc: enable lttng-ust for ARM
+  lttng-viewer: upgrade from 0.12.36 to the latest version 0.12.38
+  distro_tracking_fields.inc: update the info for the following recipes
+
+Gary Thomas (1):
+  Control over when package init scripts are run
+
+Kang Kai (1):
+  lsbsetup: add some workaround for LSB tests
+
+Khem Raj (1):
+  pcmciautils: Upgrade 017 -> 018
+
+Koen Kooi (1):
+  librsvg 2.32.1: fix postinst script
+
+Martin Jansa (3):
+  gconf-dbus: add SRCREV to recipe
+  xf86-video-omapfb: add SRCREV to recipe
+  task-base: allow distribution to define apm provider
+
+Nitin A Kamble (8):
+  mpfr: upgrade from 3.0.0 to 3.0.1
+  python-gst: upgrade from 0.10.19 to 0.10.21
+  git: upgrade from 1.7.3.4 to 1.7.4.3
+  python-pycairo: fix installation path of __init__.py
+  perl-5.12.2: use of PERLHOSTLIB var fix
+  cpan.bbclass: export PERLHOSTLIB for perl modules
+  libxml-parser-perl: upgrade from 2.36 to 2.40
+  distro_tracking: recipe information update
+
+Petr Štetiar (1):
+  modutils-initscripts: fix wrong order of module loading happening in
+    udev
+
+Saul Wold (4):
+  slang: Fix host contamination issue
+  qemu: disable sdl for target build
+  ofono: add bluez4 to DEPENDS list
+  qemu-helper-nativesdk: Update LIC_FILE_CHKSUM for renamed helper
+
+Tom Zanussi (1):
+  linux-tools.inc: turn off newt and dwarf for perf
+
+Xiaofeng Yan (1):
+  create-lsb-image:Rename creat-lsb-image and fix some bugs
+
+Zhai Edwin (6):
+  tasks: Upgrade to 0.19 (from 0.18)
+  avahi: Upgrade to 0.6.30 (from 0.6.28)
+  consolekit: Upgrade to 0.4.4 (from 0.4.3)
+  libgpg-error: Upgrade to 1.10 (from 1.9)
+  jpeg: Upgrade to 8c (from 8b)
+  puzzles: Upgrade to svn r9151 (from r9084)
+
+ meta/classes/cpan.bbclass                          |    1 +
+ meta/classes/rootfs_rpm.bbclass                    |   11 +-
+ .../conf/distro/include/distro_tracking_fields.inc |   72 ++++---
+ .../distro/include/preferred-xorg-versions.inc     |    8 +-
+ .../pcmciautils-017/version_workaround.patch       |   16 --
+ .../makefile_fix.patch                             |   24 +-
+ meta/recipes-bsp/pcmciautils/pcmciautils.inc       |    1 +
+ meta/recipes-bsp/pcmciautils/pcmciautils_017.bb    |   12 -
+ meta/recipes-bsp/pcmciautils/pcmciautils_018.bb    |   11 +
+ meta/recipes-connectivity/avahi/avahi.inc          |    2 +-
+ .../avahi/{avahi_0.6.28.bb => avahi_0.6.30.bb}     |    6 +-
+ .../avahi/files/initscript.patch                   |    2 +
+ meta/recipes-connectivity/ofono/ofono.inc          |    2 +-
+ .../{jpeg-8b => jpeg-8c}/debian-libjpeg7_7-1.diff  |    4 +
+ meta/recipes-core/jpeg/{jpeg_8b.bb => jpeg_8c.bb}  |    8 +-
+ meta/recipes-core/tasks/task-base.bb               |    5 +-
+ meta/recipes-core/tasks/task-core-tools.bb         |    8 +-
+ meta/recipes-devtools/git/files/autotools.patch    |    2 +
+ .../git/{git_1.7.3.4.bb => git_1.7.4.3.bb}         |    4 +-
+ meta/recipes-devtools/opkg/opkg.inc                |    4 +
+ meta/recipes-devtools/opkg/opkg_0.1.8.bb           |   13 +-
+ meta/recipes-devtools/opkg/opkg_svn.bb             |   13 +-
+ .../libperl-5.8.3-create-libperl-soname.patch      |   11 -
+ ...e_2.36.bb => libxml-parser-perl-native_2.40.bb} |    0
+ ...ser-perl_2.36.bb => libxml-parser-perl_2.40.bb} |    8 +-
+ .../perl/perl-5.12.2/09_fix_installperl.patch      |    2 +
+ .../Configure-multilib.patch                       |    2 +
+ .../perl/perl-5.12.2/Makefile.SH.patch             |    2 +
+ .../perl/perl-5.12.2/Makefile.patch                |    2 +
+ .../perl/perl-5.12.2/asm-pageh-fix.patch           |    2 +
+ .../perl/perl-5.12.2/cross-generate_uudmap.patch   |    2 +
+ .../perl/perl-5.12.2/debian/arm_optim.diff         |    2 +
+ .../debian/arm_thread_stress_timeout.diff          |    2 +
+ .../perl/perl-5.12.2/debian/cpan_config_path.diff  |    2 +
+ .../perl-5.12.2/debian/cpan_definstalldirs.diff    |    2 +
+ .../perl-5.12.2/debian/cpanplus_config_path.diff   |    2 +
+ .../debian/cpanplus_definstalldirs.diff            |    2 +
+ .../perl/perl-5.12.2/debian/db_file_ver.diff       |    2 +
+ .../perl-5.12.2/debian/deprecate-with-apt.diff     |    2 +
+ .../debian/devel-ppport-ia64-optim.diff            |    2 +
+ .../perl-5.12.2/debian/disable-zlib-bundling.diff  |    2 +
+ .../perl/perl-5.12.2/debian/doc_info.diff          |    2 +
+ .../perl/perl-5.12.2/debian/enc2xs_inc.diff        |    2 +
+ .../perl/perl-5.12.2/debian/errno_ver.diff         |    2 +
+ .../perl/perl-5.12.2/debian/extutils_hacks.diff    |    2 +
+ .../perl/perl-5.12.2/debian/fakeroot.diff          |    2 +
+ .../perl-5.12.2/debian/fixes/autodie-flock.diff    |    2 +
+ .../debian/fixes/concat-stack-corruption.diff      |    2 +
+ .../debian/fixes/cpanplus-without-home.diff        |    2 +
+ .../perl-5.12.2/debian/fixes/h2ph-gcc-4.5.diff     |    2 +
+ .../perl-5.12.2/debian/fixes/hurd-ccflags.diff     |    2 +
+ .../perl-5.12.2/debian/fixes/lc-numeric-docs.diff  |    2 +
+ .../debian/fixes/lc-numeric-sprintf.diff           |    2 +
+ .../perl-5.12.2/debian/fixes/net_smtp_docs.diff    |    2 +
+ .../perl/perl-5.12.2/debian/fixes/processPL.diff   |    2 +
+ .../perl/perl-5.12.2/debian/instmodsh_doc.diff     |    2 +
+ .../perl/perl-5.12.2/debian/ld_run_path.diff       |    2 +
+ .../perl-5.12.2/debian/libnet_config_path.diff     |    2 +
+ .../perl-5.12.2/debian/m68k_thread_stress.diff     |    2 +
+ .../perl/perl-5.12.2/debian/mod_paths.diff         |    2 +
+ .../debian/module_build_man_extensions.diff        |    2 +
+ .../perl/perl-5.12.2/debian/perlivp.diff           |    2 +
+ .../perl/perl-5.12.2/debian/prune_libs.diff        |    2 +
+ .../debian/squelch-locale-warnings.diff            |    2 +
+ .../perl/perl-5.12.2/generate-sh.patch             |    2 +
+ .../perl/perl-5.12.2/installperl.patch             |    2 +
+ .../{files => perl-5.12.2}/letgcc-find-errno.patch |    2 +
+ .../perl/perl-5.12.2/native-nopacklist.patch       |    2 +
+ .../perl/perl-5.12.2/native-perlinc.patch          |    2 +
+ .../perl/perl-5.12.2/native-ssp.patch              |    2 +
+ .../perl/perl-5.12.2/parallel_build_fix_1.patch    |    2 +
+ .../perl/perl-5.12.2/parallel_build_fix_2.patch    |    2 +
+ .../perl/perl-5.12.2/parallel_build_fix_3.patch    |    2 +
+ .../perl/perl-5.12.2/parallel_build_fix_4.patch    |    2 +
+ .../perl/perl-5.12.2/parallel_build_fix_5.patch    |    2 +
+ .../perl/perl-5.12.2/parallel_build_fix_6.patch    |    2 +
+ .../perl/perl-5.12.2/perl-configpm-switch.patch    |    2 +
+ .../perl/perl-5.12.2/perl-dynloader.patch          |   12 +-
+ .../perl/perl-5.12.2/perl-enable-gdbm.patch        |    2 +
+ .../perl/perl-5.12.2/perl-moreconfig.patch         |    2 +
+ meta/recipes-devtools/perl/perl_5.12.2.bb          |    2 +-
+ .../python/python-gst/python-path.patch            |    2 +
+ ...python-gst_0.10.19.bb => python-gst_0.10.21.bb} |    6 +-
+ .../python/python-pycairo_1.8.10.bb                |    8 +-
+ .../qemu/qemu-helper-nativesdk_1.0.bb              |    2 +-
+ meta/recipes-devtools/qemu/qemu.inc                |    8 +-
+ meta/recipes-extended/lsb/lsbsetup/LSB_Setup.sh    |   15 ++-
+ meta/recipes-extended/lsb/lsbsetup_0.9.bb          |    8 +-
+ meta/recipes-extended/mdadm/files/fix-z-now.patch  |   15 --
+ .../mdadm/{mdadm_3.1.4.bb => mdadm_3.2.1.bb}       |    9 +-
+ meta/recipes-extended/slang/slang_2.2.4.bb         |    3 +-
+ meta/recipes-gnome/gnome/gconf-dbus_svn.bb         |    1 +
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |   10 +-
+ meta/recipes-gnome/tasks/task-core-sdk-gmae.bb     |    4 +-
+ .../tasks/task-core-standalone-gmae-sdk-target.bb  |    4 +-
+ meta/recipes-gnome/tasks/task-sdk-gmae.inc         |    1 +
+ .../xorg-driver/xf86-video-omapfb_git.bb           |    1 +
+ .../{libxfixes_4.0.5.bb => libxfixes_5.0.bb}       |    4 +-
+ .../xorg-util/util-macros/xaw.patch                |   14 --
+ ...util-macros_1.11.0.bb => util-macros_1.13.0.bb} |    4 +-
+ meta/recipes-kernel/linux/linux-tools.inc          |    4 +-
+ ...remove_ppc_specific_time_reading_function.patch |   85 --------
+ meta/recipes-kernel/lttng/lttng-ust_0.11.bb        |   32 ---
+ meta/recipes-kernel/lttng/lttng-ust_0.12.bb        |   28 +++
+ ...g-viewer_0.12.36.bb => lttng-viewer_0.12.38.bb} |    6 +-
+ .../modutils/modutils-initscripts.bb               |    4 +-
+ meta/recipes-sato/pimlico/tasks/tasks-owl.diff     |    5 +
+ .../pimlico/{tasks_0.18.bb => tasks_0.19.bb}       |    4 +-
+ .../puzzles/files/oh-puzzles-owl-menu.patch        |    5 +
+ .../puzzles/{puzzles_r9084.bb => puzzles_r9151.bb} |    2 +-
+ .../{consolekit_0.4.3.bb => consolekit_0.4.4.bb}   |   10 +-
+ .../consolekit/files/nopolkit.patch                |    2 +
+ .../pkgconfig.patch                                |    2 +
+ .../{libgpg-error_1.9.bb => libgpg-error_1.10.bb}  |    6 +-
+ .../liburcu/{liburcu_0.5.2.bb => liburcu_0.5.4.bb} |   11 +-
+ .../mpfr/{mpfr_3.0.0.bb => mpfr_3.0.1.bb}          |    4 +-
+ scripts/creat-lsb-image                            |  198 -----------------
+ scripts/create-lsb-image                           |  228 ++++++++++++++++++++
+ 118 files changed, 594 insertions(+), 531 deletions(-)
+ delete mode 100644 meta/recipes-bsp/pcmciautils/pcmciautils-017/version_workaround.patch
+ rename meta/recipes-bsp/pcmciautils/{pcmciautils-017 => pcmciautils-018}/makefile_fix.patch (89%)
+ delete mode 100644 meta/recipes-bsp/pcmciautils/pcmciautils_017.bb
+ create mode 100644 meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+ rename meta/recipes-connectivity/avahi/{avahi_0.6.28.bb => avahi_0.6.30.bb} (82%)
+ rename meta/recipes-core/jpeg/{jpeg-8b => jpeg-8c}/debian-libjpeg7_7-1.diff (98%)
+ rename meta/recipes-core/jpeg/{jpeg_8b.bb => jpeg_8c.bb} (85%)
+ rename meta/recipes-devtools/git/{git_1.7.3.4.bb => git_1.7.4.3.bb} (59%)
+ delete mode 100644 meta/recipes-devtools/perl/files/libperl-5.8.3-create-libperl-soname.patch
+ rename meta/recipes-devtools/perl/{libxml-parser-perl-native_2.36.bb => libxml-parser-perl-native_2.40.bb} (100%)
+ rename meta/recipes-devtools/perl/{libxml-parser-perl_2.36.bb => libxml-parser-perl_2.40.bb} (61%)
+ rename meta/recipes-devtools/perl/{files => perl-5.12.2}/Configure-multilib.patch (96%)
+ rename meta/recipes-devtools/perl/{files => perl-5.12.2}/letgcc-find-errno.patch (96%)
+ rename meta/recipes-devtools/python/{python-gst_0.10.19.bb => python-gst_0.10.21.bb} (82%)
+ delete mode 100644 meta/recipes-extended/mdadm/files/fix-z-now.patch
+ rename meta/recipes-extended/mdadm/{mdadm_3.1.4.bb => mdadm_3.2.1.bb} (78%)
+ rename meta/recipes-graphics/xorg-lib/{libxfixes_4.0.5.bb => libxfixes_5.0.bb} (79%)
+ delete mode 100644 meta/recipes-graphics/xorg-util/util-macros/xaw.patch
+ rename meta/recipes-graphics/xorg-util/{util-macros_1.11.0.bb => util-macros_1.13.0.bb} (79%)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust-0.11/remove_ppc_specific_time_reading_function.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_0.11.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust_0.12.bb
+ rename meta/recipes-kernel/lttng/{lttng-viewer_0.12.36.bb => lttng-viewer_0.12.38.bb} (85%)
+ rename meta/recipes-sato/pimlico/{tasks_0.18.bb => tasks_0.19.bb} (78%)
+ rename meta/recipes-sato/puzzles/{puzzles_r9084.bb => puzzles_r9151.bb} (94%)
+ rename meta/recipes-support/consolekit/{consolekit_0.4.3.bb => consolekit_0.4.4.bb} (75%)
+ rename meta/recipes-support/libgpg-error/{libgpg-error-1.9 => libgpg-error-1.10}/pkgconfig.patch (98%)
+ rename meta/recipes-support/libgpg-error/{libgpg-error_1.9.bb => libgpg-error_1.10.bb} (82%)
+ rename meta/recipes-support/liburcu/{liburcu_0.5.2.bb => liburcu_0.5.4.bb} (61%)
+ rename meta/recipes-support/mpfr/{mpfr_3.0.0.bb => mpfr_3.0.1.bb} (70%)
  delete mode 100755 scripts/creat-lsb-image
  create mode 100755 scripts/create-lsb-image
-
-diff --git a/scripts/creat-lsb-image b/scripts/creat-lsb-image
-deleted file mode 100755
-index 657784c..0000000
---- a/scripts/creat-lsb-image
-+++ /dev/null
-@@ -1,198 +0,0 @@
--#!/bin/bash
--#
--# Copyright (c) 2005-2010 Wind River Systems, Inc.
--#
--# This program is free software; you can redistribute it and/or modify
--# it under the terms of the GNU General Public License version 2 as
--# published by the Free Software Foundation.
--#
--# This program is distributed in the hope that it will be useful,
--# but WITHOUT ANY WARRANTY; without even the implied warranty of
--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
--# See the GNU General Public License for more details.
--#
--# You should have received a copy of the GNU General Public License
--# along with this program; if not, write to the Free Software
--# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
--
--
--red='\E[31;40m'
--green='\E[32;40m'
--USER=`whoami`
--ARCH=$1
--MACHINE_ARCH=` bitbake -e | grep ^MACHINE_ARCH | cut -d '=' -f2 | cut -d '"' -f2`
--IMAGE_PATH=` bitbake -e | grep ^COREBASE | cut -d '=' -f2 | cut -d '"' -f2`/build/tmp/deploy/images/
--
--
--ECHO()
--{
--    echo -e "${green}$@"
--    tput sgr0
--}
--
--exit_check()
--{
--    if [ ! $? -eq 0 ]; then
--        exit $?
--    fi
--}
--
--usage()
--{
--    ECHO "${red}usage:you should input one of the next commmands according to detailed target platform:"
--    ECHO "creat-lsb-image x86"
--    ECHO "creat-lsb-image x86_64"
--    ECHO "creat-lsb-image ppc32"
--}
--
--#There should be a patameter to get machine type
--if [ $# -ne 1 ]; then
--    usage
--    exit 1
--fi
--
--#check lsb image
--if [ ! -d $IMAGE_PATH ];then
--    ECHO "${red}There isn't image directory"
--    exit 1
--fi
--ECHO "Enter directory $IMAGE_PATH"
--cd $IMAGE_PATH
--
--#get architecture
--PN=`find . -name core-image-lsb-${MACHINE_ARCH}\*.rootfs.tar.bz2 -type f | awk -F- 'BEGIN{ max=0;} {if( NR!=0 && $5>max ) max=$5 }END{ printf "%d" ,max ;}'`
--if [ "XPN" == "X" ];then
--   ECHO "${red}Don't find lsb image on platform, Please run \"core-image-lsb\" to generate lsb image"
--   exit 1
--fi
--
--if [ $PN -eq 0 ];then
--	ECHO "${red}Can't ${MACHINE_ARCH} rootfs.tar.gz,Please run core-image-lsb to get lsb image"
--	exit 1
--fi
--#set varible ARCH
--if [ ${ARCH} == x86 ];then
--	T_ARCH=ia32
--    P_ARCH=i486
--elif [ ${ARCH} == x86_64 ];then
--	T_ARCH=ia64
--    P_ARCH=ia64
--else
--	P_ARCH=ppc
--	T_ARCH=${ARCH}
--fi
--
--#umount lsbtmp 
--if [ -d lsbtmp ];then
--	sudo umount lsbtmp
--fi
-- 
--#download lsb test suite
--mkdir -p lsb-test-suite-${MACHINE_ARCH} 
--if [ -d lsb-test-suite-${MACHINE_ARCH} ];then
--	cd lsb-test-suite-${MACHINE_ARCH}
--	ECHO "Download lsb test suite, it could take some time..."
--    wget -c -t 5  http://ftp.linuxfoundation.org/pub/lsb/bundles/released-4.1.0/dist-testkit/lsb-dist-testkit-4.1.0-5.${T_ARCH}.tar.gz
--    exit_check
--	ECHO "Download lsb-xdg-utils-4.0.0-2.${P_ARCH}.rpm"
--	wget -c -t 5 http://ftp.linux-foundation.org/pub/lsb/lsbdev/released-4.1.0/binary/${T_ARCH}/lsb-xdg-utils-4.0.0-2.${P_ARCH}.rpm
--    exit_check
--	ECHO "Downlocad lsb-apache-2.2.8-2.lsb4.${P_ARCH}.rpm"
--	wget -c -t 5 http://ftp.linux-foundation.org/pub/lsb/app-battery/released-4.1.0/${T_ARCH}/lsb-apache-2.2.14-3.lsb4.${P_ARCH}.rpm
--    exit_check
--	ECHO "Downlocad lsb-tcl-8.5.1-2.lsb4.${P_ARCH}.rpm"
--	wget -c -t 5 http://ftp.linux-foundation.org/pub/lsb/app-battery/released-4.1.0/${T_ARCH}/lsb-tcl-8.5.7-6.lsb4.${P_ARCH}.rpm
--    exit_check
--	ECHO "Downlocad lsb-expect-5.43.0-7.lsb4.${P_ARCH}.rpm"
--	wget -c -t 5 http://ftp.linux-foundation.org/pub/lsb/app-battery/released-4.1.0/${T_ARCH}/lsb-expect-5.43.0-11.lsb4.${P_ARCH}.rpm 
--    exit_check
--	ECHO "Downlocad lsb-groff-1.19.2-4.lsb4.${P_ARCH}.rpm"
--	wget -c -t 5 http://ftp.linux-foundation.org/pub/lsb/app-battery/released-4.1.0/${T_ARCH}/lsb-groff-1.20.1-5.lsb4.${P_ARCH}.rpm  
--    exit_check
--	ECHO "Downlocad lsb-raptor-1.4.16-2.lsb4.${P_ARCH}.rpm"
--	wget -c -t 5 http://ftp.linux-foundation.org/pub/lsb/app-battery/released-4.1.0/${T_ARCH}/lsb-raptor-1.4.19-3.lsb4.${P_ARCH}.rpm 
--    exit_check
--	ECHO "Downlocad lsb-xpdf-1.01-7.lsb4.${P_ARCH}.rpm"
--	wget -c -t 5 http://ftp.linux-foundation.org/pub/lsb/app-battery/released-4.1.0/${T_ARCH}/lsb-xpdf-1.01-10.lsb4.${P_ARCH}.rpm
--    exit_check
--	ECHO "Downlocad lsb-samba-3.0.28a-3.lsb4.${P_ARCH}.rpm"
--	wget -c -t 5 http://ftp.linux-foundation.org/pub/lsb/app-battery/released-4.1.0/${T_ARCH}/lsb-samba-3.4.3-5.lsb4.${P_ARCH}.rpm 
--    exit_check
--	ECHO "Downlocad lsb-rsync-3.0.0-2.lsb4.${P_ARCH}.rpm"
--	wget -c -t 5 http://ftp.linux-foundation.org/pub/lsb/app-battery/released-4.1.0/${T_ARCH}/lsb-rsync-3.0.6-3.lsb4.${P_ARCH}.rpm
--    exit_check
--else
--	ECHO "Can't find lsb test suite for ${MACHINE_ARCH}"
--fi
--cd ..
--if [ -L core-image-lsb-${MACHINE_ARCH}.ext3 ];then
--    /bin/rm core-image-lsb-${MACHINE_ARCH}.ext3
--    exit_check
--fi
--
--#creat lsb image
--if [ -f core-image-lsb-${MACHINE_ARCH}-test.ext3 ];then
--	if [ -d lsbtmp ];then
--    	sudo umount lsbtmp
--	fi
--	ECHO "Remove old lsb image..."
--	/bin/rm core-image-lsb-${MACHINE_ARCH}-test.ext3
--fi	
--ECHO "creat a big ext3 file for lsb image with 5G..."
--dd if=/dev/zero of=core-image-lsb-${MACHINE_ARCH}-test.ext3 bs=1M count=5000
--exit_check
--ECHO "Format ext3 image,please input \"y\""
--mkfs.ext3 core-image-lsb-${MACHINE_ARCH}-test.ext3
--tune2fs -j  core-image-lsb-${MACHINE_ARCH}-test.ext3
--
--
--ECHO "get a lsb image with lsb test suite"
--if [ ! -d lsbtmp ];then
--	mkdir lsbtmp
--fi
--
--
--#install file system and lsb test suite to lsb image
--sudo mount -o loop core-image-lsb-${MACHINE_ARCH}-test.ext3 lsbtmp
--exit_check
--
--ECHO "  ->Install file system..."
--sudo tar jxf core-image-lsb-${MACHINE_ARCH}-${PN}.rootfs.tar.bz2 -C lsbtmp
--exit_check
--
--ECHO "  ->Install lsb test suite..."
--cd lsb-test-suite-${MACHINE_ARCH}
--sudo tar zxf lsb-dist-testkit-4.1.0-5.${T_ARCH}.tar.gz -C ../lsbtmp
--exit_check
--sudo mkdir ../lsbtmp/lsb-Application
--sudo cp *.rpm ../lsbtmp/lsb-Application
--exit_check
--cd ..
--
--if [ -f modules-*-${MACHINE_ARCH}.tgz ];then
--ECHO "  ->Install moules of driver..."	
--	sudo tar zxf modules-*-${MACHINE_ARCH}.tgz -C lsbtmp/
--fi
--
--
--#unmount lsbtmp
--sudo umount lsbtmp
--exit_check
--sudo rm -rf lsbtmp
--
--#change file attribute
--sudo chown ${USER}:${USER} core-image-lsb-${MACHINE_ARCH}-test.ext3 
--exit_check
--sudo chmod 755 core-image-lsb-${MACHINE_ARCH}-test.ext3
--exit_check
--
--#set up link
--if [ -L core-image-lsb-${MACHINE_ARCH}.ext3 ];then
--ECHO "Set up link"
--    /bin/rm core-image-lsb-${MACHINE_ARCH}.ext3
--    exit_check
--fi
--ln -s core-image-lsb-${MACHINE_ARCH}-test.ext3 core-image-lsb-${MACHINE_ARCH}.ext3
--
--ECHO "LSB test environment is set successfully, Please run this image on platform ${MACHINE_ARCH}"
--
-diff --git a/scripts/create-lsb-image b/scripts/create-lsb-image
-new file mode 100755
-index 0000000..94cb337
---- /dev/null
-+++ b/scripts/create-lsb-image
-@@ -0,0 +1,228 @@
-+#!/bin/bash
-+#
-+# Copyright (C) 2010-2011 Wind River Systems, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-+# See the GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, write to the Free Software
-+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-+
-+
-+red='\E[31;40m'
-+green='\E[32;40m'
-+
-+#Get current owner
-+OWNER=`whoami` 
-+#Get group 
-+GROUP=`id -gn ${USER}`
-+MACHINE_ARCH=`bitbake -e | sed -n 's/^MACHINE_ARCH=\"\(.*\)\"/\1/p'`
-+DEPLOY_DIR_IMAGE=`bitbake -e | sed -n 's/^DEPLOY_DIR_IMAGE=\"\(.*\)\"/\1/p'`
-+#Get value of varibale MACHINE_INE and DEPLOY_DIR_IMAGE
-+LSB_IMAGE=poky-image-lsb-${MACHINE_ARCH}-test.ext3
-+
-+ECHO()
-+{
-+    echo -e "${green}$@"
-+    tput sgr0
-+}
-+
-+ERROR()
-+{
-+    echo -e "${red}$@"
-+    tput sgr0
-+    exit 1
-+}
-+
-+exit_check()
-+{
-+    [ $? -ne 0 ] && exit $? 
-+}
-+
-+usage()
-+{
-+    ECHO "Usage: PC\$ create-lsb-image ARCH ROOTFS_IMAGE"
-+    ECHO "       ARCH: x86 or x86-64 or ppc32"
-+    ECHO "       ROOTFS_IMAGE: \
-+Name of the rootfs image with suffix \"tar.bz2\""
-+
-+
-+    ECHO ""
-+    ECHO "Examples:"
-+    ECHO "       PC\$ creat-lsb-image \
-+x86 poky-image-lsb-qemux86-20110317030443.rootfs.tar.bz2"
-+    exit 1
-+}
-+
-+#There should be two parameters to get machine type and name of image
-+if [ $# -ne 2 ]; then
-+    usage
-+fi
-+
-+#Get list for lsb test suite
-+case ${1} in
-+"x86")
-+    T_ARCH=ia32
-+    P_ARCH=i486
-+    COM_PACKAGE_LIST="lsb-dist-testkit-4.1.0-5.${T_ARCH}.tar.gz"
-+    ;;
-+"x86-64")
-+    T_ARCH=amd64
-+    P_ARCH=x86_64
-+    MACHINE_ARCH=${MACHINE_ARCH/x86_64/x86-64}
-+    COM_PACKAGE_LIST="lsb-dist-testkit-4.1.0-5.${P_ARCH}.tar.gz"
-+    ;;
-+"ppc32")
-+    P_ARCH=ppc
-+    T_ARCH=${ARCH}
-+    COM_PACKAGE_LIST="lsb-dist-testkit-4.1.0-5.${T_ARCH}.tar.gz"
-+    ;;
-+*)
-+   usage
-+   ;;
-+esac
-+
-+APP_PACKAGE_RPMLIST="lsb-apache-2.2.14-3.lsb4.${P_ARCH}.rpm \
-+                     lsb-tcl-8.5.7-6.lsb4.${P_ARCH}.rpm \
-+                     lsb-expect-5.43.0-11.lsb4.${P_ARCH}.rpm \
-+                     lsb-groff-1.20.1-5.lsb4.${P_ARCH}.rpm \
-+                     lsb-raptor-1.4.19-3.lsb4.${P_ARCH}.rpm \
-+                     lsb-xpdf-1.01-10.lsb4.${P_ARCH}.rpm \
-+                     lsb-samba-3.4.3-5.lsb4.${P_ARCH}.rpm \
-+                     lsb-rsync-3.0.6-3.lsb4.${P_ARCH}.rpm"
-+
-+APP_PACKAGE_SOURCELIST="expect-tests.tar \
-+                        tcl-tests.tar \
-+                        raptor-tests.tar \
-+                        test1.pdf \
-+                        test2.pdf"
-+
-+PACKAGE_LIST="${COM_PACKAGE_LIST} \
-+              ${APP_PACKAGE_RPMLIST} \
-+              ${APP_PACKAGE_SOURCELIST}"
-+
-+#Version for lsb test suite
-+RELEASE=released-4.1.0 
-+#Tools of download packages 
-+WGET="wget -c -t 5" 
-+SERVER1="\
-+http://ftp.linuxfoundation.org/pub/lsb/bundles/${RELEASE}/dist-testkit" 
-+SERVER2="\
-+http://ftp.linux-foundation.org/pub/lsb/app-battery/${RELEASE}/${T_ARCH}"
-+SERVER3="http://ftp.linuxfoundation.org/pub/lsb/snapshots/appbat/tests"
-+
-+
-+#Function for downloading package from URL pointed
-+download()
-+{
-+
-+    for i in $@; do
-+        ECHO "  -->Downloading package \"${i}\""
-+        PACKAGE_NAME=${i}
-+        suffix=${PACKAGE_NAME##*.}
-+        if [ "$suffix" = "gz" ];then
-+            ${WGET} ${SERVER1}/${i}
-+        elif [ "$suffix" = "rpm" ];then
-+            ${WGET} ${SERVER2}/${i}
-+        else
-+            ${WGET} ${SERVER3}/${i}
-+        fi
-+    done
-+}
-+
-+#Check lsb image
-+[ ! -d $DEPLOY_DIR_IMAGE ] && ERROR "\ 
-+Image directory does not exist: ${DEPLOY_DIR_IMAGE}"
-+
-+ECHO "Entering directory $DEPLOY_DIR_IMAGE"
-+cd $DEPLOY_DIR_IMAGE
-+
-+if [ ! -f ${2} ]; then
-+    ECHO "rootfs image \"${2}\" not found in ${DEPLOY_DIR_IMAGE}"
-+    ECHO "Please copy \"${2}\" to \"${DEPLOY_DIR_IMAGE}\""
-+    exit 1
-+fi
-+
-+#Umount lsbtmp 
-+[ ! -d lsbtmp ] && mkdir lsbtmp 
-+ 
-+#Download lsb test suite
-+mkdir -p lsb-test-suite-${MACHINE_ARCH} || \
-+ERROR "Couldn't find lsb test suite for ${MACHINE_ARCH}"
-+cd lsb-test-suite-${MACHINE_ARCH}
-+ECHO "Downloading lsb test suite, it would take some time..."
-+download ${PACKAGE_LIST}
-+
-+cd ..
-+
-+#Creat lsb image
-+if [ -f ${LSB_IMAGE} ];then
-+    sudo umount lsbtmp > /dev/null 2>&1
-+    ECHO "Removing old lsb image..."
-+    /bin/rm ${LSB_IMAGE} > /dev/null 2>&1
-+fi	
-+
-+ECHO "Creating a 8GB file for the lsb image"
-+dd if=/dev/zero of=${LSB_IMAGE} bs=1M count=8000 > /dev/null 2>&1
-+exit_check
-+
-+ECHO "Formatting ext3 image..."
-+mkfs.ext3 -q -F ${LSB_IMAGE} > /dev/null 2>&1
-+tune2fs -j  ${LSB_IMAGE} > /dev/null 2>&1
-+
-+
-+ECHO "Generating final image"
-+[ ! -d lsbtmp ] && mkdir lsbtmp
-+
-+
-+#Install file system and lsb test suite to lsb image
-+sudo mount -o loop ${LSB_IMAGE} lsbtmp
-+exit_check
-+
-+ECHO "  ->Installing rootfs..."
-+sudo tar jpxf ${2} -C lsbtmp
-+exit_check
-+
-+ECHO "  ->Installing lsb test suite..."
-+cd lsb-test-suite-${MACHINE_ARCH}
-+if [ "${1}" = "x86-64" ]; then
-+    sudo tar zpxf lsb-dist-testkit-4.1.0-5.${P_ARCH}.tar.gz -C ../lsbtmp
-+else
-+    sudo tar zpxf lsb-dist-testkit-4.1.0-5.${T_ARCH}.tar.gz -C ../lsbtmp
-+fi
-+exit_check
-+
-+sudo mkdir ../lsbtmp/lsb-Application
-+sudo cp *.rpm *.tar *.pdf ../lsbtmp/lsb-Application
-+exit_check
-+cd ..
-+
-+if [ -f modules-*-${MACHINE_ARCH}.tgz ];then
-+ECHO "  ->Installing moudles of driver..."	
-+    sudo tar zpxf modules-*-${MACHINE_ARCH}.tgz -C lsbtmp/
-+fi
-+
-+
-+#Unmount lsbtmp
-+sudo umount lsbtmp
-+exit_check
-+sudo rm -rf lsbtmp
-+
-+#Change file attribute
-+sudo chown ${OWNER}:${GROUP} ${LSB_IMAGE} 
-+exit_check
-+sudo chmod 755 ${LSB_IMAGE}
-+exit_check
-+
-+#Set up link
-+ln -sf ${LSB_IMAGE} poky-image-lsb-${MACHINE_ARCH}.ext3
-+
-+ECHO "The LSB test environment has been setup successfully."
-+ECHO "Please run this image on platform ${MACHINE_ARCH}"
--- 
-1.7.1.1
 
 
 
