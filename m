@@ -1,25 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDWYJ-0005nC-Ky
+	(envelope-from <sgw@linux.intel.com>) id 1QDWYK-0005nC-FL
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Apr 2011 08:42:47 +0200
+	Sat, 23 Apr 2011 08:42:48 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 22 Apr 2011 23:29:06 -0700
+	by azsmga102.ch.intel.com with ESMTP; 22 Apr 2011 23:29:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="424248314"
+X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="424248335"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by azsmga001.ch.intel.com with ESMTP; 22 Apr 2011 23:28:58 -0700
-Message-Id: <a0629aa0dc55829565b7ab1725875eac065ab2f1.1303539961.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 22 Apr 2011 23:29:10 -0700
+Message-Id: <a23cf65b090df76ea739b8d51111589dee7fd5a1.1303539961.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303539961.git.sgw@linux.intel.com>
 References: <cover.1303539961.git.sgw@linux.intel.com>
-Old-Date: Fri, 8 Apr 2011 15:36:37 +0200
-MIME-Version: 1.0
-Date: Fri, 22 Apr 2011 23:28:58 -0700
+Old-Date: Wed, 20 Apr 2011 11:02:51 +0800
+Date: Fri, 22 Apr 2011 23:29:09 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 23 Apr 2011 10:00:03 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>, Kang Kai <kai.kang@windriver.com>
-Subject: [PATCH 07/37] modutils-initscripts: fix wrong order of module loading happening in udev
+Subject: [PATCH 17/37] lttng-viewer: upgrade from 0.12.36 to the latest version 0.12.38
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,74 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Apr 2011 06:42:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 23 Apr 2011 06:42:48 -0000
 
-From: =?UTF-8?q?Petr=20=C5=A0tetiar?= <ynezz@true.cz>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-In the current state, udev init script is loaded as 3rd and modutils.sh as
-20th, so udevadm called in udev init script loads all kernel modules in some
-unpredictable order, not honoring in any way specified order of modules in
-/etc/modules. This causes some troubles mainly in the first boot. So to fix
-this we now move loading of the kernel modules just before we exec udev init
-script. Example of the current state:
-
-	Starting udev
-	rtc-m48t86 rtc-m48t86: rtc core: registered m48t86 as rtc0
-	rtc-m48t86 rtc-m48t86: battery ok
-	ep93xx-rtc ep93xx-rtc: rtc core: registered ep93xx-rtc as rtc1
-
-	root@ts72xx:~# cat /etc/modules
-	rtc-ep93xx
-	ohci-hcd
-	ts72xx_sbcinfo
-	rtc-m48t86
-
-As you can guess, this is really wrong behaviour, because I've rtc1 as the
-main time source for my system.
-
-	root@ts72xx:~# cat /etc/default/hwclock
-	HWCLOCKACCESS=yes
-	HWCLOCKDEVICE=/dev/rtc1
-
-Expected behaviour with this patch applied:
-
-	Please wait: booting...
-	ep93xx-rtc ep93xx-rtc: rtc core: registered ep93xx-rtc as rtc0
-	usbcore: registered new device driver usb
-	ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
-	...
-	rtc-m48t86 rtc-m48t86: rtc core: registered m48t86 as rtc1
-	rtc-m48t86 rtc-m48t86: battery ok
-	Starting udev
-
-Signed-off-by: Petr Štetiar <ynezz@true.cz>
-
-(based on http://patches.openembedded.org/patch/1917/)
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../modutils/modutils-initscripts.bb               |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ ...g-viewer_0.12.36.bb => lttng-viewer_0.12.38.bb} |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-viewer_0.12.36.bb => lttng-viewer_0.12.38.bb} (85%)
 
-diff --git a/meta/recipes-kernel/modutils/modutils-initscripts.bb b/meta/recipes-kernel/modutils/modutils-initscripts.bb
-index 1665955..5ae34b4 100644
---- a/meta/recipes-kernel/modutils/modutils-initscripts.bb
-+++ b/meta/recipes-kernel/modutils/modutils-initscripts.bb
-@@ -4,10 +4,10 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=7bf87fc37976e93ec66ad84fac58c098"
- SRC_URI = "file://modutils.sh \
- 	   file://PD.patch"
--PR = "r4"
-+PR = "r5"
+diff --git a/meta/recipes-kernel/lttng/lttng-viewer_0.12.36.bb b/meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
+similarity index 85%
+rename from meta/recipes-kernel/lttng/lttng-viewer_0.12.36.bb
+rename to meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
+index fc13210..b8f2f2c 100644
+--- a/meta/recipes-kernel/lttng/lttng-viewer_0.12.36.bb
++++ b/meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb
+@@ -14,12 +14,12 @@ DEPENDS = "gtk+ pango popt"
  
- INITSCRIPT_NAME = "modutils.sh"
--INITSCRIPT_PARAMS = "start 20 S ."
-+INITSCRIPT_PARAMS = "start 2 S ."
+ SECTION = "devel"
  
- inherit update-rc.d
+-ALTNAME = "lttv-${PV}-18112010"
++ALTNAME = "lttv-${PV}-21032011"
  
+ SRC_URI = "http://lttng.org/files/packages/${ALTNAME}.tar.gz"
+ 
+-SRC_URI[md5sum] = "967f7c9c843a43e2ec2ef9216edabc70"
+-SRC_URI[sha256sum] = "a7d14ae84f9bb123298840922730d3121fa073dc036dccac63083d9686adeacd"
++SRC_URI[md5sum] = "071bf3dd13e7562c08ee8f8971cfc76d"
++SRC_URI[sha256sum] = "cf87ffcf5d266b18979418e610a180a0b4214de41677f0be867885e15b2f7647"
+ S = "${WORKDIR}/${ALTNAME}"
+ 
+ inherit autotools
 -- 
 1.7.1.1
 
