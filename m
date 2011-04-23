@@ -1,42 +1,24 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QDQDC-0004Cq-Bh
+	(envelope-from <sgw@linux.intel.com>) id 1QDWNE-00058d-Ki
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Apr 2011 01:56:34 +0200
-Received: by ewy5 with SMTP id 5so275745ewy.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Apr 2011 16:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=U5nNOCZFhOPEbaiXTvaXh1ARGFlJTysPNtvA12fDSLw=;
-	b=bUpmqonFEE8z7CWeefSOx2WBOhWozpXiORyYb8d9uNcbh50MGB1Z60LHgmVn98I++S
-	LBbd5hCO6gHGmbbX1BACmiFK3zjYP0vHfILawpCOZMAEW7+StBRYPFDuDoTS6L+o6QMw
-	50/TSABfNtwOw9HwuV/zhCPaoncqmJnj9TABc=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=TAylfXAWNO9C1TKWovhlnMW7G87NdlncrhKBAnGx2tQUrhBr4xZWP4i3N6831f+hj4
-	PDuzLyRlm9doZIhg93R9IMTaOfgw+YR5+nm6+Biqz40xCuuxQyrhk6bmcSmt6dcSSqz0
-	Yyac7/VOz/g7pu43C7m6xh/mlH6zYlmbQZ0hQ=
-Received: by 10.14.133.141 with SMTP id q13mr547053eei.156.1303516449103; Fri,
-	22 Apr 2011 16:54:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.119.196 with HTTP; Fri, 22 Apr 2011 16:53:39 -0700 (PDT)
-In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE9451693F01@orsmsx504.amr.corp.intel.com>
-References: <cover.1303453279.git.sgw@linux.intel.com>
-	<0daf49a24c9ff05b60377dad60234107009efbdb.1303453279.git.sgw@linux.intel.com>
-	<BANLkTiksRbTcCmjcJDeiK=dzhY01N=O6CA@mail.gmail.com>
-	<9DA5872FEF993D41B7173F58FCF6BE9451693F01@orsmsx504.amr.corp.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Apr 2011 16:53:39 -0700
-Message-ID: <BANLkTinZAnhpu1fheLmp5HWT218ysN0=vg@mail.gmail.com>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+	Sat, 23 Apr 2011 08:31:20 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Apr 2011 23:28:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="682838202"
+Received: from unknown (HELO localhost) ([10.255.12.237])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2011 23:28:52 -0700
+Message-Id: <39c044b6c329f4243dea3584d51ea4baf01465f4.1303539961.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1303539961.git.sgw@linux.intel.com>
+References: <cover.1303539961.git.sgw@linux.intel.com>
+Old-Date: Tue, 19 Apr 2011 12:21:53 -0700
+Date: Fri, 22 Apr 2011 23:28:51 -0700
+To: openembedded-core@lists.openembedded.org
+From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 23 Apr 2011 08:41:36 +0200
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 28/33] python-pycairo: fix installation path of __init__.py
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Kang Kai <kai.kang@windriver.com>
+Subject: [PATCH 01/37] slang: Fix host contamination issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,27 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Apr 2011 23:56:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 23 Apr 2011 06:31:20 -0000
 
-On Fri, Apr 22, 2011 at 3:28 PM, Kamble, Nitin A
-<nitin.a.kamble@intel.com> wrote:
->> > =C2=A0# cairo >=3D 1.8.8
->> > =C2=A0DEPENDS =3D "cairo"
->> > -PR =3D "ml0"
->> > +PR =3D "r1"
->>
->> any reason not to use mlX
->
-> The r1 kind of notation makes it consistent with rest of the recipes.
+From: Saul Wold <sgw@linux.intel.com>
 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-extended/slang/slang_2.2.4.bb |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-It does, I was just curious about 'ml'
->
-> Thanks,
-> Nitin
->
->
+diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+index 2b000a4..4257b05 100644
+--- a/meta/recipes-extended/slang/slang_2.2.4.bb
++++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+@@ -24,7 +24,8 @@ inherit autotools
+ SRC_URI[md5sum] = "7fcfd447e378f07dd0c0bae671fe6487"
+ SRC_URI[sha256sum] = "9a8257a9a2a55099af858b13338dc8f3a06dd2069f46f0df2c9c3bb84a01d5db"
+ 
+-EXTRA_OECONF += " --without-png"
++EXTRA_OECONF += " --without-z --without-png --x-includes=${STAGING_DIR_HOST}/usr/include/X11 --x-libraries=${STAGING_DIR_HOST}/usr/lib"
++
+ do_install() {
+ 	oe_runmake install DESTDIR=${D} -e 'INST_LIB_DIR=${STAGING_DIR_HOST}/usr/lib'
+ }
+-- 
+1.7.1.1
+
 
 
