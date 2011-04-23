@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDWNe-00059S-Fs
+	(envelope-from <sgw@linux.intel.com>) id 1QDWNe-00059M-Lt
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Apr 2011 08:31:46 +0200
+	Sat, 23 Apr 2011 08:31:47 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Apr 2011 23:29:03 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 22 Apr 2011 23:29:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="682838231"
+X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="682838245"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2011 23:29:03 -0700
-Message-Id: <93e699efd90a11677d32434f9c41fe08c25f0160.1303539961.git.sgw@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2011 23:29:09 -0700
+Message-Id: <13d967d68bb2f01119d1b14a98b89a98fc3ee6ef.1303539961.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303539961.git.sgw@linux.intel.com>
 References: <cover.1303539961.git.sgw@linux.intel.com>
-Old-Date: Tue, 19 Apr 2011 16:06:08 +0800
-Date: Fri, 22 Apr 2011 23:29:02 -0700
+Old-Date: Wed, 20 Apr 2011 10:44:52 +0800
+Date: Fri, 22 Apr 2011 23:29:09 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 23 Apr 2011 08:41:36 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>, Kang Kai <kai.kang@windriver.com>
-Subject: [PATCH 11/37] util-macros: upgrade from 1.11.0 to 1.13.0
+Subject: [PATCH 16/37] task-poky-tools.bb, task-sdk-gmae.inc: enable lttng-ust for ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,55 +33,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Apr 2011 06:31:46 -0000
+X-List-Received-Date: Sat, 23 Apr 2011 06:31:47 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
-removed xaw.patch since it's not used by any recipe now.
+lttng-ust can build on ARM from 0.12 on.
+Merged with rebranding
+
+Fixes [YOCTO #856]
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../xorg-util/util-macros/xaw.patch                |   14 --------------
- ...util-macros_1.11.0.bb => util-macros_1.13.0.bb} |    4 ++--
- 2 files changed, 2 insertions(+), 16 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-util/util-macros/xaw.patch
- rename meta/recipes-graphics/xorg-util/{util-macros_1.11.0.bb => util-macros_1.13.0.bb} (79%)
+ meta/recipes-core/tasks/task-core-tools.bb         |    8 ++++----
+ meta/recipes-gnome/tasks/task-core-sdk-gmae.bb     |    4 ++--
+ .../tasks/task-core-standalone-gmae-sdk-target.bb  |    4 ++--
+ meta/recipes-gnome/tasks/task-sdk-gmae.inc         |    1 +
+ 4 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-util/util-macros/xaw.patch b/meta/recipes-graphics/xorg-util/util-macros/xaw.patch
-deleted file mode 100644
-index 8b39869..0000000
---- a/meta/recipes-graphics/xorg-util/util-macros/xaw.patch
-+++ /dev/null
-@@ -1,14 +0,0 @@
--Index: util-macros-1.2.1/xorg-macros.m4.in
--===================================================================
----- util-macros-1.2.1.orig/xorg-macros.m4.in	2009-01-15 13:49:56.000000000 +0000
--+++ util-macros-1.2.1/xorg-macros.m4.in	2009-01-15 13:52:22.000000000 +0000
--@@ -456,3 +456,9 @@
-- fi
-- AC_SUBST(CWARNFLAGS)
-- ]) # XORG_CWARNFLAGS
--+
--+AC_DEFUN([XAW_CHECK_XPRINT_SUPPORT], [
--+PKG_CHECK_MODULES(TMP_XAW, xaw7)
--+$1_CFLAGS=$TMP_XAW_CFLAGS
--+$1_LIBS=$TMP_XAW_LIBS
--+])
-diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb b/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
-similarity index 79%
-rename from meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-rename to meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
-index 765a577..a708ed0 100644
---- a/meta/recipes-graphics/xorg-util/util-macros_1.11.0.bb
-+++ b/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
-@@ -20,5 +20,5 @@ RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPV})"
+diff --git a/meta/recipes-core/tasks/task-core-tools.bb b/meta/recipes-core/tasks/task-core-tools.bb
+index 958dff1..9b2a4ce 100644
+--- a/meta/recipes-core/tasks/task-core-tools.bb
++++ b/meta/recipes-core/tasks/task-core-tools.bb
+@@ -2,11 +2,11 @@
+ # Copyright (C) 2008 OpenedHand Ltd.
+ #
  
- BBCLASSEXTEND = "native nativesdk"
+-DESCRIPTION = "Tools tasks for Poky"
++DESCRIPTION = "Tools tasks for OE-Core"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-PR = "r8"
++PR = "r9"
  
--SRC_URI[md5sum] = "8580021f3a9e242ab09d23d62e475d53"
--SRC_URI[sha256sum] = "212c3d14474d7cffdbc22437d4896211a5dce6b99b02b96229c9be7d963c90cf"
-+SRC_URI[md5sum] = "31e9ddcbc1d8bc8c09ab180443974dd1"
-+SRC_URI[sha256sum] = "7bff944fb120192e7fe1706e9c0b7e41666e7983ce3e2bdef0b7734392d9e695"
+ PACKAGES = "\
+     task-core-tools-debug \
+@@ -57,9 +57,9 @@ RRECOMMENDS_task-core-tools-profile = "\
+ #    exmap-server
+ 
+ # At present we only build lttng-ust on
+-# qemux86/qemux86-64/qemuppc/emenlow/atom-pc since upstream liburcu
++# qemux86/qemux86-64/qemuppc/qemuarm/emenlow/atom-pc since upstream liburcu
+ # (which is required by lttng-ust) may not build on other platforms, like
+-# MIPS and qemu ARMv5te that poky uses now.
++# MIPS.
+ RDEPENDS_task-core-tools-profile_append_qemux86 = " valgrind lttng-ust systemtap"
+ RDEPENDS_task-core-tools-profile_append_qemux86-64 = " lttng-ust systemtap"
+ RDEPENDS_task-core-tools-profile_append_qemuppc = " lttng-ust systemtap"
+diff --git a/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb b/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb
+index 6cb1410..d56aa07 100644
+--- a/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb
++++ b/meta/recipes-gnome/tasks/task-core-sdk-gmae.bb
+@@ -2,11 +2,11 @@
+ # Copyright (C) 2007 OpenedHand Ltd.
+ #
+ 
+-DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OpenedHand Poky"
++DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OE-Core"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-PR = "r10"
++PR = "r11"
+ 
+ ALLOW_EMPTY = "1"
+ 
+diff --git a/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb b/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb
+index 32e60a8..42d4148 100644
+--- a/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb
++++ b/meta/recipes-gnome/tasks/task-core-standalone-gmae-sdk-target.bb
+@@ -2,11 +2,11 @@
+ # Copyright (C) 2007 OpenedHand Ltd.
+ #
+ 
+-DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OpenedHand Poky"
++DESCRIPTION = "Gnome Mobile And Embedded Software Development Kit for OE-Core"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-PR = "r12"
++PR = "r13"
+ 
+ ALLOW_EMPTY = "1"
+ 
+diff --git a/meta/recipes-gnome/tasks/task-sdk-gmae.inc b/meta/recipes-gnome/tasks/task-sdk-gmae.inc
+index 0ab0b6e..2071089 100644
+--- a/meta/recipes-gnome/tasks/task-sdk-gmae.inc
++++ b/meta/recipes-gnome/tasks/task-sdk-gmae.inc
+@@ -35,5 +35,6 @@ SDK-EXTRAS ?= ""
+ SDK-EXTRAS_qemux86 ?= " valgrind lttng-ust-dev"
+ SDK-EXTRAS_qemux86-64 ?= " lttng-ust-dev"
+ SDK-EXTRAS_qemuppc ?= " lttng-ust-dev"
++SDK-EXTRAS_qemuarm ?= " lttng-ust-dev"
+ SDK-EXTRAS_emenlow ?= " lttng-ust-dev"
+ SDK-EXTRAS_atom-pc ?= " lttng-ust-dev"
 -- 
 1.7.1.1
 
