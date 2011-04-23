@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QDWO3-0005Br-Gh
+	(envelope-from <sgw@linux.intel.com>) id 1QDWO9-0005C0-GQ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Apr 2011 08:32:11 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Apr 2011 23:29:42 -0700
+	Sat, 23 Apr 2011 08:32:21 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 22 Apr 2011 23:29:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="632967563"
+X-IronPort-AV: E=Sophos;i="4.64,257,1301900400"; d="scan'208";a="424248355"
 Received: from unknown (HELO localhost) ([10.255.12.237])
-	by orsmga002.jf.intel.com with ESMTP; 22 Apr 2011 23:29:29 -0700
-Message-Id: <b3abd9ec051aff5e87ba29cb5c2994d5b57d9d5b.1303539961.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 22 Apr 2011 23:29:15 -0700
+Message-Id: <22a386fda1829f9ac1dd5f2818ba95be690e34d7.1303539961.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303539961.git.sgw@linux.intel.com>
 References: <cover.1303539961.git.sgw@linux.intel.com>
-Old-Date: Thu, 31 Mar 2011 08:50:31 +0200
-Date: Fri, 22 Apr 2011 23:29:29 -0700
+Old-Date: Thu, 7 Apr 2011 04:20:10 -0700
+Date: Fri, 22 Apr 2011 23:29:15 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Sat, 23 Apr 2011 08:41:36 +0200
 Cc: Koen Kooi <koen@dominion.thruhere.net>, Kang Kai <kai.kang@windriver.com>
-Subject: [PATCH 34/37] xf86-video-omapfb: add SRCREV to recipe
+Subject: [PATCH 22/37] mpfr: upgrade from 3.0.0 to 3.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Apr 2011 06:32:11 -0000
+X-List-Received-Date: Sat, 23 Apr 2011 06:32:21 -0000
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-* taken from meta/conf/distro/include/poky-default-revisions.inc for
-  those who want xf86-video-omapfb and are not using poky
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../xorg-driver/xf86-video-omapfb_git.bb           |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ .../mpfr/{mpfr_3.0.0.bb => mpfr_3.0.1.bb}          |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/mpfr/{mpfr_3.0.0.bb => mpfr_3.0.1.bb} (70%)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-index 2714786..5281665 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-@@ -13,6 +13,7 @@ PE = "1"
- PR = "r1"
- PV = "0.1.1+git${SRCPV}"
+diff --git a/meta/recipes-support/mpfr/mpfr_3.0.0.bb b/meta/recipes-support/mpfr/mpfr_3.0.1.bb
+similarity index 70%
+rename from meta/recipes-support/mpfr/mpfr_3.0.0.bb
+rename to meta/recipes-support/mpfr/mpfr_3.0.1.bb
+index 846cdc0..9079e4b 100644
+--- a/meta/recipes-support/mpfr/mpfr_3.0.0.bb
++++ b/meta/recipes-support/mpfr/mpfr_3.0.1.bb
+@@ -7,8 +7,8 @@ PR = "r0"
  
-+SRCREV = "044617665d6737f4909aab96f91b06261dff05d2"
- SRC_URI = "git://git.pingu.fi/xf86-video-omapfb.git;protocol=http \
-             file://omap-revert-set-CRTC-limit.patch \
-             file://omap-revert-set-virtual-size.patch \
+ SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "f45bac3584922c8004a10060ab1a8f9f"
+-SRC_URI[sha256sum] = "8f4e5f9c53536cb798a30455ac429b1f9fc75a0f8af32d6e0ac31ebf1024821f"
++SRC_URI[md5sum] = "bfbecb2eacb6d48432ead5cfc3f7390a"
++SRC_URI[sha256sum] = "e1977099bb494319c0f0c1f85759050c418a56884e9c6cef1c540b9b13e38e7f"
+ S = "${WORKDIR}/mpfr-${PV}"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.1.1
 
