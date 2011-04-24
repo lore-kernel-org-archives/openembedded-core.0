@@ -1,37 +1,26 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1QE5bV-00072B-9H
+	(envelope-from <sgw@linux.intel.com>) id 1QE5mE-00078x-Mn
 	for openembedded-core@lists.openembedded.org;
-	Sun, 24 Apr 2011 22:08:25 +0200
-Received: by yxn22 with SMTP id 22so517806yxn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Apr 2011 13:05:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=DCl9pxuVz5m7kF/nYDwmjeiOd33UG46b5w1QkzgQR44=;
-	b=e4SZbDAgBZSHUgl0auXJCYNnPMUe5qDqcVYvxfRqv0T1lYb38mrtAfirEN25gx6+8d
-	+ZIgWDqWnRBQxxTVfpcIkbV/uWkbvBgOLDwdLrBs8D8cXtgBc1zpVfdCu99iRFNOnhR4
-	mntgDjFmY/Fb6KJVCMfj3P7ukE8UloLbBScl0=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type;
-	b=R1lwmlhUDBk3ra/Y0I4moq/9pWysoOAHmvxAFSkmJkX174Wf5xvWjQvSBztjXLMhBF
-	PfXroGfxe8NB8dh5updkOClpZz7d72rIjcZJvuMZZxL/jF+nU9TC2k6/2PZ7Vnyr38Wv
-	jwVBWA6VKA9kFRhMgOfhzNz4VT8bfVOenO8X4=
+	Sun, 24 Apr 2011 22:19:31 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Apr 2011 13:16:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,263,1301900400"; d="scan'208";a="683260176"
+Received: from unknown (HELO [10.255.12.237]) ([10.255.12.237])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Apr 2011 13:16:51 -0700
+Message-ID: <4DB48532.3030605@linux.intel.com>
+Date: Sun, 24 Apr 2011 13:16:50 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
 MIME-Version: 1.0
-Received: by 10.90.215.7 with SMTP id n7mr2779570agg.146.1303675550569; Sun,
-	24 Apr 2011 13:05:50 -0700 (PDT)
-Received: by 10.90.141.8 with HTTP; Sun, 24 Apr 2011 13:05:50 -0700 (PDT)
-In-Reply-To: <BANLkTimoLw8aG6xm8zUgJXUfHRvJuqOdyA@mail.gmail.com>
-References: <BANLkTimoLw8aG6xm8zUgJXUfHRvJuqOdyA@mail.gmail.com>
-Date: Sun, 24 Apr 2011 22:05:50 +0200
-Message-ID: <BANLkTikSwpDo9uUuz_6V9SB0zLinu1B2Lg@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-To: Patches and discussions about the oe-core layer
+To: "Cui, Dexuan" <dexuan.cui@intel.com>, 
+	'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Subject: Re: Perl 5.12.2 no more fetchable
+Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>
+Subject: gdb and lttng-ust 0.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,18 +35,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Apr 2011 20:08:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 24 Apr 2011 20:19:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-2011/4/23 Khem Raj <raj.khem@gmail.com>
 
-> Since the latest stable is 5.12.3 this mirror we use in SRC_URI has
-> decided to dump 5.12.2 tarball. Either we upgrade to 5.12.3 or find  a
-> mirror which still have 5.12.2 e.g.
-> http://search.cpan.org/CPAN/authors/id/J/JE/JESSE/perl-5.12.2.tar.gz
->
-> Source is still at http://www.cpan.org/src/5.0/perl-5.12.2.tar.gz
-This is a better location than www.cpan.org/src
+Dexuan,
 
-Enjoy, Frans
+It seems that when you updated lttng-ust to 0.12, it installed an 
+/usr/include/ust directory that GDB now finds.  This caused the 
+gdbserver code to not build.
+
+I investigated this and it seems to be due to gdb having a dependency on 
+UST that causes GDB not to compile.  I think at this point we may want 
+to continue with UST disabled in gdb.
+
+To reproduce this, ensure that lttng-ust-0.12 is built before building 
+gdb and you should see a compilation failure.
+
+My concern here is that if fix the GDB compilation failures, what else 
+is going to fail as far as debugging with UST enabled on the remote, I 
+know this feature is something we want, and should probably report to 
+the GDB upstream.
+
+The fix seems to be as simple as adding "--without-ust" to the gdb 
+EXTRA_OECONF line.
+
+Comments?
+
+-- 
+     Sau!
+
+Saul Wold
+Yocto Component Wrangler @ Intel
+Yocto Project / Poky Build System
+
+Error while compiling tracepoint.c -> tracepoint-ipa.o (note it's -ipa.o 
+so a different set of flags).
+
+
+| ccache i586-poky-linux-gcc -march=i586 
+--sysroot=/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/sysroots/qemux86 
+-c  -Wall    -I. 
+-I/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver 
+-I/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/../common 
+-I/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/../regformats 
+-I/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/../../include 
+-O2 -pipe -g -feliminate-unused-debug-types 
+-DCONFIG_UST_GDB_INTEGRATION -fPIC -DGDBSERVER -DIN_PROCESS_AGENT 
+-fvisibility=hidden 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c 
+-o tracepoint-ipa.o
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c: 
+In function 'first_marker':
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7009:3: 
+warning: return from incompatible pointer type
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c: 
+In function 'next_marker':
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7024:23: 
+warning: comparison of distinct pointer types lacks a cast
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7027:4: 
+warning: return from incompatible pointer type
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c: 
+In function 'unprobe_marker_at':
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7105:33: 
+error: request for member 'location' in something not a structure or union
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7109:51: 
+error: request for member 'channel' in something not a structure or union
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7110:23: 
+error: request for member 'name' in something not a structure or union
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7114:17: 
+error: request for member 'channel' in something not a structure or union
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7114:39: 
+error: request for member 'name' in something not a structure or union
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c: 
+In function 'probe_marker_at':
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7135:43: 
+warning: assignment from incompatible pointer type
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7137:42: 
+warning: assignment from incompatible pointer type
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c: 
+In function 'cmd_qtstmat':
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7180:43: 
+warning: assignment from incompatible pointer type
+| 
+/vol/1/sgw/autobuilder/poky-slave/poky-full-ia/build/build/tmp/work/i586-poky-linux/gdb-7.2-r0/gdb-7.2/gdb/gdbserver/tracepoint.c:7182:42: 
+warning: assignment from incompatible pointer type
+| make[4]: *** [tracepoint-ipa.o] Error 1
+
+
+
+
 
