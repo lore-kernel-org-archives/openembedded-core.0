@@ -1,35 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QDoa8-00080G-Ra
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QDvbK-0002ZZ-PE
 	for openembedded-core@lists.openembedded.org;
-	Sun, 24 Apr 2011 03:57:53 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Apr 2011 18:55:25 -0700
+	Sun, 24 Apr 2011 11:27:34 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 24 Apr 2011 02:25:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,260,1301900400"; d="scan'208";a="683053894"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Apr 2011 18:55:25 -0700
-Received: from orsmsx605.amr.corp.intel.com (10.22.226.10) by
-	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Sat, 23 Apr 2011 18:55:24 -0700
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx605.amr.corp.intel.com ([10.22.226.10]) with mapi;
-	Sat, 23 Apr 2011 18:55:24 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 23 Apr 2011 18:55:23 -0700
-Thread-Topic: [OE-core] Perl 5.12.2 no more fetchable
-Thread-Index: AcwB9NWU4XbkEIYaRmqzaV5HoP9EIAALZt7w
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94D80E6DF4@orsmsx504.amr.corp.intel.com>
-References: <BANLkTimoLw8aG6xm8zUgJXUfHRvJuqOdyA@mail.gmail.com>
-In-Reply-To: <BANLkTimoLw8aG6xm8zUgJXUfHRvJuqOdyA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
+X-IronPort-AV: E=Sophos;i="4.64,262,1301900400"; d="scan'208";a="737632206"
+Received: from unknown (HELO helios.localnet) ([10.255.12.207])
+	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2011 02:25:06 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+Organization: Intel Corporation (UK)
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 24 Apr 2011 10:25:03 +0100
+User-Agent: KMail/1.13.5 (Linux/2.6.35-28-generic-pae; KDE/4.6.1; i686; ; )
+References: <201104211704.37707.paul.eggleton@linux.intel.com>
+	<1303413680.5518.359.camel@rex>
+	<BANLkTime-0+ye-PRrZW5F9zSu9WNvSERYg@mail.gmail.com>
+In-Reply-To: <BANLkTime-0+ye-PRrZW5F9zSu9WNvSERYg@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: Perl 5.12.2 no more fetchable
+Message-Id: <201104241025.03973.paul.eggleton@linux.intel.com>
+Subject: Re: [RFC] meta-handheld
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,40 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Apr 2011 01:57:53 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 24 Apr 2011 09:27:35 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Khem,
-After seeing your email now, I am trying to upgrade perl from 5.12.2 to 5.1=
-2.3. Let's see how does it turn out. Looking at changelog seems like not mu=
-ch API kind of changes there, just bugfixes, so I am hoping it will work ou=
-t easily.
+On Saturday 23 April 2011 00:09:38 Andrea Adami wrote:
+> I agree with Richard, for keeping it as meta- group.
+> About expectations, at least for Zaurus I don't see problems: vanilla
+> 2.6.38 kernel, actual udev, imminent move to xorg-xserver if kdrive is
+> finally doomed.
+>
+> Ipaq's seem suffering more bitrot...
 
-Thanks,
-Nitin
+This is a problem, yes. Most of the iPAQs require 2.6.21-hh which is ancient 
+and unmaintained and as we know presents difficulties with modern udev. Some of 
+the iPAQs will work with mainline but many functions will be unavailable. This 
+is something I hope can be sorted out - surely by now a lot of the "ip blocks" 
+used within iPAQs and other PDAs are now in mainline already and all that's 
+necessary is some plumbing...?
 
+Anyway, I'm concerned that if these machines get pushed out to some random 
+repo it's only going to make things worse. I think we can mitigate the 
+concerns about people rushing in only to find that the level of support for 
+their device is less than they hoped simply by being crystal clear about each 
+device's status in documentation (e.g. a wiki page), something which we have 
+not been good at recently. (Am I volunteering to maintain this information as 
+well? Naturally :) )
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Khem Raj
-> Sent: Saturday, April 23, 2011 1:26 PM
-> To: Patches and discussions about the oe-core layer
-> Subject: [OE-core] Perl 5.12.2 no more fetchable
->=20
-> Since the latest stable is 5.12.3 this mirror we use in SRC_URI has
-> decided to dump 5.12.2 tarball. Either we upgrade to 5.12.3 or find  a
-> mirror which still have 5.12.2 e.g.
-> http://search.cpan.org/CPAN/authors/id/J/JE/JESSE/perl-5.12.2.tar.gz
->=20
-> Thanks
-> -Khem
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre (UK)
 
 
