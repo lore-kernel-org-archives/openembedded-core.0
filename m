@@ -1,38 +1,38 @@
 Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QEQyx-0003op-C4
+	(envelope-from <raj.khem@gmail.com>) id 1QEQz1-0003op-Oa
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Apr 2011 20:58:03 +0200
+	Mon, 25 Apr 2011 20:58:07 +0200
 Received: by mail-pw0-f47.google.com with SMTP id 9so1388561pwj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2011 11:55:36 -0700 (PDT)
+	Mon, 25 Apr 2011 11:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=lmdeFyBk+rFORmLxx6nCl6WxTNXsnYAlR8Jd7VMo53o=;
-	b=hDZdAGXYShlNPo86vObI67/bsY6G+4mqmSWgwC+lR5o9oIUv8qAPKe3KyWllhSpIek
-	0s023NiF54G4AFpY2IHuik3o96pnk1WnRTetudtXYd+LFlprERUKIyibOL0ijS6ZitLn
-	9YASmL+RaK58MYGlFwdf8I0oAXuOkfZu4vgIg=
+	bh=BQuPT4ugf5lcEo036mtIVkHL1T8CX4J5eVIsiUPtPu8=;
+	b=aw1h5wkOC09odT0vUO+XWPwWLyKmq/MxMS2if80e7AWmgmw3Xm5DCp7LG9rqyHNGTR
+	acoAnYhAWYs4DuFrfArhFr8CiDEMWqyFbpvrBTnIdIkD6NCk4DSrq3Yky8NCNnZeOnTz
+	mEj0OVsNUCzusamDFEctN2gGzxm1qRJ3VrY0g=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=m7DbuS0kRQJYJY+T9IbFxy0c+bzAmmiti1n3RQslUbnEfTRBqK67L0am3oJFSX8eNj
-	Ut7Ymfg6Bhyw5lSpTKYUAQV0y8qIScFn+qyH1C998tyXtaR1vOWtYkLmc21LIGh4PrHs
-	bbIxBhD7cAhefP41MTjDVaVaHmC6b+Q3OqjX4=
-Received: by 10.68.23.65 with SMTP id k1mr7207327pbf.414.1303757736717;
-	Mon, 25 Apr 2011 11:55:36 -0700 (PDT)
+	b=thjbyAb6txtQBgi+AhQJEdwj62rX3t1xVf9ag0m8Rm93/wQCrsh/J+NgRwRKAWhDKb
+	aCdaXkqWXyNOtSbHEElR+P/VcI3s6dzUpMWh9f4UAD0dNYjw3djADdzZae2XN4n7oPId
+	GHPVLAfyVjjq84DN2WN3GF7NjwprscGQDyVfw=
+Received: by 10.68.40.9 with SMTP id t9mr7007838pbk.495.1303757740322;
+	Mon, 25 Apr 2011 11:55:40 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id p2sm4060876pbq.6.2011.04.25.11.55.34
+	by mx.google.com with ESMTPS id k1sm408758pbd.94.2011.04.25.11.55.38
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 25 Apr 2011 11:55:35 -0700 (PDT)
+	Mon, 25 Apr 2011 11:55:39 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2011 11:55:30 -0700
-Message-Id: <cdfaebc1801cd2f95f9f41e27da8278600f5c2ac.1303757256.git.raj.khem@gmail.com>
+Date: Mon, 25 Apr 2011 11:55:35 -0700
+Message-Id: <0064cec8338efcf4cc7c80e52a8a2c91ce2a6504.1303757256.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1303757256.git.raj.khem@gmail.com>
 References: <cover.1303757256.git.raj.khem@gmail.com>
-Subject: [PATCH 14/17] xorg-lib: inherit gettext class instead of adding gettext to DEPENDS directly
+Subject: [PATCH 15/17] attr: Fix compilation on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,69 +47,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2011 18:58:03 -0000
+X-List-Received-Date: Mon, 25 Apr 2011 18:58:08 -0000
+
+It needs -lintl added to LDFLAGS for uclibc
+
+inherit gettext class instead of adding gettext to DEPENDS directly
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-graphics/xorg-lib/libxau_1.0.6.bb   |    4 +++-
- meta/recipes-graphics/xorg-lib/libxdmcp_1.1.0.bb |    4 ++--
- meta/recipes-graphics/xorg-lib/xtrans_1.2.6.bb   |    3 ++-
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ meta/recipes-support/attr/attr.inc   |    4 ++++
+ meta/recipes-support/attr/ea-acl.inc |    4 +---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxau_1.0.6.bb b/meta/recipes-graphics/xorg-lib/libxau_1.0.6.bb
-index 79078ef..793008b 100644
---- a/meta/recipes-graphics/xorg-lib/libxau_1.0.6.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxau_1.0.6.bb
-@@ -6,10 +6,12 @@ both client-side and server-side."
- 
- require xorg-lib-common.inc
- 
-+inherit gettext
+diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+index c110340..b2ed9a1 100644
+--- a/meta/recipes-support/attr/attr.inc
++++ b/meta/recipes-support/attr/attr.inc
+@@ -20,3 +20,7 @@ do_install_append() {
+ 	sed -i ${D}${libdir}/libattr.la -e \
+ 	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
+ }
 +
- LICENSE = "MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7908e342491198401321cec1956807ec"
- 
--DEPENDS += " xproto gettext"
-+DEPENDS += " xproto"
- PROVIDES = "xau"
- 
- PR = "r0"
-diff --git a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.0.bb b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.0.bb
-index d897dab..483dce3 100644
---- a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.0.bb
-@@ -8,6 +8,8 @@ autonomous display."
- 
- require xorg-lib-common.inc
- 
-+inherit gettext
++# Only append ldflags for target recipe
++LDFLAGS_libc-uclibc += "${@['', '-lintl']['${PN}' == '${BPN}']}"
 +
- LICENSE = "MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d559fb26e129626022e052a5e6e0e123"
+diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
+index bc93107..a09c31c 100644
+--- a/meta/recipes-support/attr/ea-acl.inc
++++ b/meta/recipes-support/attr/ea-acl.inc
+@@ -1,11 +1,9 @@
+ # this build system is mostly shared by attr and acl
  
-@@ -17,8 +19,6 @@ PROVIDES = "xdmcp"
- PR = "r0"
- PE = "1"
- 
--DEPENDS += "gettext"
+-DEPENDS =+ "gettext"
 -
- XORG_PN = "libXdmcp"
+ SRC_URI += "file://relative-libdir.patch;striplevel=0 \
+             file://no-fixed-prog-path.patch"
  
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-graphics/xorg-lib/xtrans_1.2.6.bb b/meta/recipes-graphics/xorg-lib/xtrans_1.2.6.bb
-index 335f020..19abe5a 100644
---- a/meta/recipes-graphics/xorg-lib/xtrans_1.2.6.bb
-+++ b/meta/recipes-graphics/xorg-lib/xtrans_1.2.6.bb
-@@ -16,7 +16,8 @@ PE = "1"
- PR = "r0"
+-inherit autotools
++inherit autotools gettext
  
- RDEPENDS_${PN}-dev = ""
--DEPENDS += "gettext"
-+
-+inherit gettext
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+ # the package comes with a custom config.h.in, it cannot be
+ # overwritten by autoheader
 -- 
 1.7.4.1
 
