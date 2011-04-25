@@ -1,35 +1,31 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1QEPOn-0001Yi-UG
+	(envelope-from <koen@dominion.thruhere.net>) id 1QEQYR-0002zP-K0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Apr 2011 19:16:47 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id 1179416602D8; Mon, 25 Apr 2011 11:14:07 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2-r929478
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 0FD5316600FF;
-	Mon, 25 Apr 2011 11:14:04 -0600 (MDT)
-Message-ID: <4DB5ABDB.9070201@mlbassoc.com>
-Date: Mon, 25 Apr 2011 11:14:03 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
-	Thunderbird/3.1.7
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1303539961.git.sgw@linux.intel.com>
-	<a0629aa0dc55829565b7ab1725875eac065ab2f1.1303539961.git.sgw@linux.intel.com>
-	<4DB562CF.1020100@mlbassoc.com> <4DB59811.5040109@linux.intel.com>
-In-Reply-To: <4DB59811.5040109@linux.intel.com>
-X-Mailman-Approved-At: Mon, 25 Apr 2011 20:21:58 +0200
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org, Kang Kai <kai.kang@windriver.com>
-Subject: Re: [PATCH 07/37] modutils-initscripts: fix wrong order of module loading happening in udev
+	Mon, 25 Apr 2011 20:30:39 +0200
+Received: by wwi18 with SMTP id 18so1574457wwi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Apr 2011 11:28:10 -0700 (PDT)
+Received: by 10.227.140.77 with SMTP id h13mr4101588wbu.217.1303756090826;
+	Mon, 25 Apr 2011 11:28:10 -0700 (PDT)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id
+	o23sm3394871wbc.61.2011.04.25.11.28.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 25 Apr 2011 11:28:09 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4DB5AB17.2060806@linux.intel.com>
+Date: Mon, 25 Apr 2011 20:28:07 +0200
+Message-Id: <D62ACE6C-3786-4C60-91EE-316D4EC49EB6@dominion.thruhere.net>
+References: <73DFD7AC-9837-4C27-BB34-2B2AC7D1DD8B@dominion.thruhere.net>
+	<4DB5AB17.2060806@linux.intel.com>
+To: Darren Hart <dvhart@linux.intel.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: Bruce Ashfield <Bruce.Ashfield@windriver.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] don't run make clean on kernel_do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,109 +40,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2011 17:16:47 -0000
-Content-Type: multipart/mixed; boundary="------------090307070008050507050901"
-
---------------090307070008050507050901
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Mon, 25 Apr 2011 18:30:39 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On 04/25/2011 09:49 AM, Saul Wold wrote:
-> On 04/25/2011 05:02 AM, Gary Thomas wrote:
->> On 04/23/2011 12:28 AM, Saul Wold wrote:
->>> From: =3D?UTF-8?q?Petr=3D20=3DC5=3DA0tetiar?=3D<ynezz@true.cz>
->>>
->>> In the current state, udev init script is loaded as 3rd and
->>> modutils.sh as
->>> 20th, so udevadm called in udev init script loads all kernel modules
->>> in some
->>> unpredictable order, not honoring in any way specified order of
->>> modules in
->>> /etc/modules. This causes some troubles mainly in the first boot. So
->>> to fix
->>> this we now move loading of the kernel modules just before we exec
->>> udev init
->>> script. Example of the current state:
->>>
->>> Starting udev
->>> rtc-m48t86 rtc-m48t86: rtc core: registered m48t86 as rtc0
->>> rtc-m48t86 rtc-m48t86: battery ok
->>> ep93xx-rtc ep93xx-rtc: rtc core: registered ep93xx-rtc as rtc1
->>>
->>> root@ts72xx:~# cat /etc/modules
->>> rtc-ep93xx
->>> ohci-hcd
->>> ts72xx_sbcinfo
->>> rtc-m48t86
->>>
->>> As you can guess, this is really wrong behaviour, because I've rtc1 a=
-s
->>> the
->>> main time source for my system.
->>>
->>> root@ts72xx:~# cat /etc/default/hwclock
->>> HWCLOCKACCESS=3Dyes
->>> HWCLOCKDEVICE=3D/dev/rtc1
->>>
->>> Expected behaviour with this patch applied:
->>>
->>> Please wait: booting...
->>> ep93xx-rtc ep93xx-rtc: rtc core: registered ep93xx-rtc as rtc0
->>> usbcore: registered new device driver usb
->>> ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
->>> ...
->>> rtc-m48t86 rtc-m48t86: rtc core: registered m48t86 as rtc1
->>> rtc-m48t86 rtc-m48t86: battery ok
->>> Starting udev
->>>
->>> Signed-off-by: Petr =C5=A0tetiar<ynezz@true.cz>
->>>
->>> (based on http://patches.openembedded.org/patch/1917/)
->>> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
->>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->>> ---
->>> .../modutils/modutils-initscripts.bb | 4 ++--
->>> 1 files changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-kernel/modutils/modutils-initscripts.bb
->>> b/meta/recipes-kernel/modutils/modutils-initscripts.bb
->>> index 1665955..5ae34b4 100644
->>> --- a/meta/recipes-kernel/modutils/modutils-initscripts.bb
->>> +++ b/meta/recipes-kernel/modutils/modutils-initscripts.bb
->>> @@ -4,10 +4,10 @@ LICENSE =3D "PD"
->>> LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D7bf87fc37976e93ec66ad84fac=
-58c098"
->>> SRC_URI =3D "file://modutils.sh \
->>> file://PD.patch"
->>> -PR =3D "r4"
->>> +PR =3D "r5"
->>>
->>> INITSCRIPT_NAME =3D "modutils.sh"
->>> -INITSCRIPT_PARAMS =3D "start 20 S ."
->>> +INITSCRIPT_PARAMS =3D "start 2 S ."
->>>
->>> inherit update-rc.d
->>>
->>
->> Should there not be a corresponding change to modutils_2.4.27.bb? It's
->> not clear to me
->> where there are these two separate recipes, but they should at least b=
-e
->> kept in sync.
->>
-> Gary,
->
-> Could you please resend this as a proper patch with Signed-off-by and c=
-ommit info.
 
-Attached.  However, as Koen pointed out, perhaps this recipe should just =
-be dropped,
-at least for Poky?  I don't know that 2.4 kernels are built or supported?
+Op 25 apr 2011, om 19:10 heeft Darren Hart het volgende geschreven:
 
---=20
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+> Hi Koen,
+>=20
+> On 04/23/2011 07:47 AM, Koen Kooi wrote:
+>> Hi,
+>>=20
+>> Over the holidays I was trying to build some externel kernel modules
+>> and they failed to build because linux/bounds.h wasn't in sysroots.
+>>=20
+>=20
+>=20
+> According the the linux Makefile:
+>=20
+> ###
+> # Cleaning is done on three levels.
+> # make clean     Delete most generated files
+> #                Leave enough to build external modules
+>=20
+> The kernel Makefile should not be deleting it.
+>=20
+> And indeed:
+> https://bugzilla.kernel.org/show_bug.cgi?id=3D11475
+>=20
+> This was addressed by the following in 2.6.27:
+> 7d3cc8b6d899e53222c22a78d98bb53a695f7962
+> Don't clean bounds.h and asm-offsets.h
+>=20
+> Later, bounds.h moved as well in 2.6.33:
+> 01fc0ac198eabcbf460e1ed058860a935b6c2c9a
+> kbuild: move bounds.h to include/generated
+>=20
+>=20
+> Which kernel version are you attempting to build?
 
---------------090307070008050507050901--
+The 2.6.32 kernel from TI
+
+>=20
+> We shouldn't add code to address a bug in a specific kernel version in =
+a
+> kernel base class. That belongs in the specific recipe. I suggest =
+trying
+> to add the 7d3cc8b6d899e53222c22a78d98bb53a695f7962 patch to your =
+kernel
+> recipe and see if that resolves the issue for you without resorting to
+> recreating the clean process in the base class.
+
+That's already in :(
+
+=
+koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x/work/beagleboard-angs=
+trom-linux-gnueabi/linux-omap-psp-2.6.32-r99a+gitr5fc29e7b2a76a64a739f8578=
+58ef0b98294aa155/git$ grep bound Kbuild=20
+# 1) Generate bounds.h
+# 2) Generate asm-offsets.h (may need bounds.h)
+# 1) Generate bounds.h
+bounds-file :=3D include/linux/bounds.h
+always  :=3D $(bounds-file)
+targets :=3D $(bounds-file) kernel/bounds.s
+quiet_cmd_bounds =3D GEN     $@
+define cmd_bounds
+kernel/bounds.s: kernel/bounds.c FORCE
+$(obj)/$(bounds-file): kernel/bounds.s Kbuild
+	$(call cmd,bounds)
+                                      $(obj)/$(bounds-file) FORCE
+clean-files :=3D $(addprefix $(objtree)/,$(filter-out $(bounds-file) =
+$(offsets-file),$(targets)))
+
+I'll dig a bit deeper to see why bounds.h is getting cleaned.
+
+regards,
+
+Koen
+
+
+>=20
+> --
+> Darren
+>=20
+>> I did this quick hack to work around it:
+>>=20
+>> --- a/meta-oe/classes/kernel.bbclass
+>> +++ b/meta-oe/classes/kernel.bbclass
+>> @@ -159,7 +159,8 @@ kernel_do_install() {
+>>        # we clean the scripts dir while leaving the generated config
+>>        # and include files.
+>>        #
+>> -       oe_runmake -C $kerneldir CC=3D"${KERNEL_CC}" =
+LD=3D"${KERNEL_LD}" clean
+>> +       find $kerneldir -name "*.o" -delete
+>> +       #oe_runmake -C $kerneldir CC=3D"${KERNEL_CC}" =
+LD=3D"${KERNEL_LD}"
+> clean
+>>        make -C $kerneldir _mrproper_scripts
+>>        find $kerneldir -path $kerneldir/scripts -prune -o -name
+> "*.[csS]" -exec rm '{}' \;
+>>        find $kerneldir/Documentation -name "*.txt" -exec rm '{}' \;
+>>=20
+>> I'm not convinced that the above is the right way to solve it, but I
+>> lack the required kbuild knowledge to come up with a better one. Does
+>> anyone have a hint on how to approach this problem in a better way?
+>>=20
+>> regards,
+>>=20
+>> Koen
+>=20
+> --=20
+> Darren Hart
+> Intel Open Source Technology Center
+> Yocto Project - Linux Kernel
+
+
+
