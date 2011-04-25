@@ -1,38 +1,38 @@
-Received: from mail-px0-f178.google.com ([209.85.212.178])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QEQy0-0003kl-0n
+	(envelope-from <raj.khem@gmail.com>) id 1QEQy0-0003kf-HW
 	for openembedded-core@lists.openembedded.org;
 	Mon, 25 Apr 2011 20:57:04 +0200
-Received: by pxi1 with SMTP id 1so1933668pxi.9
+Received: by mail-pv0-f175.google.com with SMTP id 30so1379643pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2011 11:54:33 -0700 (PDT)
+	Mon, 25 Apr 2011 11:54:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=dSys24jpJwxxxfp2TUC2gTu+3r/PlrEOV/F+CrBrmDQ=;
-	b=Xj1XZ5nJlEBjz/oWdYhC8v+BPW1srAHJ7aEb1B+Xn3c0X7K2MYCVw91bCEUZMMo3v/
-	fOPSmjX8EAH+AW0SSfnfpy+gj4uSI/+LdRdHL8rIIfQZZg2N0Qimc7rIgEt0z24YcURC
-	+Vs920BOdXM/YzVl+lG5xvpJEO6oTIYQOWw/4=
+	bh=HxW8uY59GXMlX2FQ+ppFtZxBAQ7OgVtHtFVCGjY3XR4=;
+	b=VbK5FNtMHNNMGZ7K8f4VgIII4SvKql68+RZiCt1Hwd3alF2Hbd0LXS5YBvCF3HIPys
+	ykWYaBoc9e6kJxQ91TxIdL0iHUpbkVOFaZRlUb0v4myCI2C/ghQJlZRvsySh5/xPBHqo
+	MqA+1Lra7GofZqoHTCm1skpgfrQD0hh8wr9h0=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=mLR3mvEHnMZm28D8hhrowF6Aoyjedvzq+VqdazGkTsy6Hs8QxN7Hq0C8qyCVkG+HhL
-	q73pC9ATsGfRsu0MMwPWR/tIk628rYSkxwf77HkBAZqP/VPHXUX1rGkLNY3CwYr0s+lL
-	bHnVFiXRERnsrVzB4FhX6n2ZqBMuwXBCJIkCQ=
-Received: by 10.68.59.1 with SMTP id v1mr7151458pbq.291.1303757673684;
-	Mon, 25 Apr 2011 11:54:33 -0700 (PDT)
+	b=nF/GRnQk+0sJOd1guEI57vY7sAsTkN/V+rS95mJGx0ABDdThJDzWv19W6/76MxJNFI
+	T78gF+8/Gv24J2b669cn8xqPTlJjd8lbMJ3rxI9CVy7+V4mX355sB+A5JX9BDJLT2Fzo
+	Y7ndkNyakl8m+zSFAOykEXL8TZEeqq492ZENw=
+Received: by 10.68.49.66 with SMTP id s2mr5658597pbn.139.1303757677372;
+	Mon, 25 Apr 2011 11:54:37 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id u8sm1798335pbm.78.2011.04.25.11.54.30
+	by mx.google.com with ESMTPS id a6sm945671pbt.36.2011.04.25.11.54.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 25 Apr 2011 11:54:31 -0700 (PDT)
+	Mon, 25 Apr 2011 11:54:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2011 11:54:27 -0700
-Message-Id: <3dffaaff83e2874214aaeb430ba47fa9b8a7b625.1303757256.git.raj.khem@gmail.com>
+Date: Mon, 25 Apr 2011 11:54:32 -0700
+Message-Id: <6fb58e21a9764ca2528ed3c83379cb81eb2c7344.1303757256.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1303757256.git.raj.khem@gmail.com>
 References: <cover.1303757256.git.raj.khem@gmail.com>
-Subject: [PATCH 02/17] insane.bbclass: Move code to add function to tasks toward the end
+Subject: [PATCH 03/17] insane.bbclass: Checking for NLS too when checking gettext dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,50 +49,48 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 25 Apr 2011 18:57:04 -0000
 
-Cosmetic change to make syntax highlighters happy
+Checking for gettext is not needed when --disable-nls is used
+
+Let user know what variant of gettext is missing e.g. gettext-native,
+gettext-nativesdk etc, reveals a bit more for user
+
+Check for virtual/gettext
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/insane.bbclass |   15 ++++++++-------
- 1 files changed, 8 insertions(+), 7 deletions(-)
+ meta/classes/insane.bbclass |    9 +++++----
+ 1 files changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 22a5086..98acf7f 100644
+index 98acf7f..742be5e 100644
 --- a/meta/classes/insane.bbclass
 +++ b/meta/classes/insane.bbclass
-@@ -554,9 +554,6 @@ python do_package_qa () {
- }
+@@ -578,20 +578,21 @@ Rerun configure task after fixing this. The path was '%s'""" % root)
+         if "configure.in" in files:
+             configs.append(os.path.join(root, "configure.in"))
  
+-    if "gettext" not in bb.data.getVar('P', d, True) and "gcc-runtime" not in bb.data.getVar('P', d, True):
++    cnf = bb.data.getVar('EXTRA_OECONF', d, True) or ""
++    if "gettext" not in bb.data.getVar('P', d, True) and "gcc-runtime" not in bb.data.getVar('P', d, True) and "--disable-nls" not in cnf:
+        if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('nativesdk', d):
+           gt = "gettext-native"
+        elif bb.data.inherits_class('cross-canadian', d):
+           gt = "gettext-nativesdk"
+        else:
+-          gt = "gettext"
++          gt = "virtual/gettext"
+        deps = bb.utils.explode_deps(bb.data.getVar('DEPENDS', d, True) or "")
+        if gt not in deps:
+           for config in configs:
+               gnu = "grep \"^[[:space:]]*AM_GNU_GETTEXT\" %s >/dev/null" % config
+               if os.system(gnu) == 0:
+-                 bb.fatal("""Gettext required but not in DEPENDS for file %s.
+-Missing inherit gettext?""" % config)
++                 bb.fatal("""%s required but not in DEPENDS for file %s.
++Missing inherit gettext?""" % (gt, config))
  
--# The Staging Func, to check all staging
--#addtask qa_staging after do_populate_sysroot before do_build
--do_populate_sysroot[postfuncs] += "do_qa_staging "
- python do_qa_staging() {
-     bb.note("QA checking staging")
- 
-@@ -564,10 +561,6 @@ python do_qa_staging() {
-         bb.fatal("QA staging was broken by the package built above")
- }
- 
--# Check broken config.log files, for packages requiring Gettext which don't
--# have it in DEPENDS and for correct LIC_FILES_CHKSUM
--#addtask qa_configure after do_configure before do_compile
--do_configure[postfuncs] += "do_qa_configure "
- python do_qa_configure() {
-     configs = []
-     workdir = bb.data.getVar('WORKDIR', d, True)
-@@ -603,3 +596,11 @@ Missing inherit gettext?""" % config)
      if not package_qa_check_license(workdir, d):
          bb.fatal("Licensing Error: LIC_FILES_CHKSUM does not match, please fix")
- }
-+# The Staging Func, to check all staging
-+#addtask qa_staging after do_populate_sysroot before do_build
-+do_populate_sysroot[postfuncs] += "do_qa_staging "
-+
-+# Check broken config.log files, for packages requiring Gettext which don't
-+# have it in DEPENDS and for correct LIC_FILES_CHKSUM
-+#addtask qa_configure after do_configure before do_compile
-+do_configure[postfuncs] += "do_qa_configure "
 -- 
 1.7.4.1
 
