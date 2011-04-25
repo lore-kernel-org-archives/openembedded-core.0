@@ -1,38 +1,38 @@
-Received: from mail-px0-f178.google.com ([209.85.212.178])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QEQyA-0003ks-PM
+	(envelope-from <raj.khem@gmail.com>) id 1QEQyH-0003kf-Rf
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Apr 2011 20:57:14 +0200
-Received: by mail-px0-f178.google.com with SMTP id 1so1933578pxi.9
+	Mon, 25 Apr 2011 20:57:22 +0200
+Received: by mail-pv0-f175.google.com with SMTP id 30so1379643pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2011 11:54:47 -0700 (PDT)
+	Mon, 25 Apr 2011 11:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=GI+Zz9lQ3Mc/42RZKOgNzPm5xHBMk6lwFeQZMoIpWOo=;
-	b=NfUwmcxE/E8b9XsYYet0zweebm8mKIkxJ15rz0I7cTCAngK8qY6cueOK/D/caoTt/u
-	E7XYuECjmPB+oNxdxJQi2wmU+7DxrWAvLy9SAm1VdO5JrwMtt+piG7hGCRpH4Cvo6UmG
-	1WngDlGGPVILyiii9JAivCRioVEAqYVxbTAok=
+	bh=JbYihcekU8X5zlW0UPG1d8FqJ/rlRg0rLOh7t3h0qnU=;
+	b=oOrWgXsd39kEjVVFyZOSiv2mWMqK8ra/WEWwdxXxfMt1gndWUEOD269KAv670HCimr
+	SENiItY1R1FkP5W53zSHOEGjdc9RGgQ+nvLHXMkOgn81NCMosQzyWdCpWBWXJO7HolCS
+	dkx1pBe5wKlFr2XoE//oUsKZpOZ3TG2Kl9hQc=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=TOJTCEUU7Swk5fNRR6LcaZCIIxtSKg0ywtmOk3kXp4P768y6wkfeDQuizsn4FIFRPg
-	zlDmn7GLmVQj8CwJwqWqfbHY6Ia1mytqwl373FqTQh2lilFWOiSldYhCR2VY0Njg6Ixy
-	plXdskNYOA+tEgzFVe577y4+ZAJanyMzElyB8=
-Received: by 10.143.157.1 with SMTP id j1mr2570617wfo.407.1303757687694;
-	Mon, 25 Apr 2011 11:54:47 -0700 (PDT)
+	b=GRU5g2PEyGcGmmFonIzd8iu9dA9OjMB35T7ycozvDgSXLCDFUrneLFHK8WS+LKWrPZ
+	8qGD4rhjVvkdDwmm0Yn5XwMs2GxJNlKRDm6gTnNsvQwvo2XHCHEL02WSZaycZGSpGGQp
+	1+/1P6//sZZUTfhH4flzXJ1FWB8VQ/ix172gU=
+Received: by 10.68.39.69 with SMTP id n5mr1339249pbk.182.1303757694820;
+	Mon, 25 Apr 2011 11:54:54 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id w14sm7236347wfh.8.2011.04.25.11.54.45
+	by mx.google.com with ESMTPS id o3sm1187126pbt.61.2011.04.25.11.54.52
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 25 Apr 2011 11:54:46 -0700 (PDT)
+	Mon, 25 Apr 2011 11:54:53 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2011 11:54:41 -0700
-Message-Id: <5ef797b38b6ea202b06e3226c2e3cc21a2ea24c4.1303757256.git.raj.khem@gmail.com>
+Date: Mon, 25 Apr 2011 11:54:49 -0700
+Message-Id: <8f93225c993b39516f88caa24eef0af409834812.1303757256.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1303757256.git.raj.khem@gmail.com>
 References: <cover.1303757256.git.raj.khem@gmail.com>
-Subject: [PATCH 05/17] sstate.bbclass: Reduce SSTATE_MANIFESTS assignment to be weak
+Subject: [PATCH 07/17] gettext_0.17.bb: PROVIDE virtual/gettext and RCONFLICT with proxy-libintl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,29 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2011 18:57:15 -0000
-
-Distributions can then override this variable if needed
-useful e.g. when building uclibc/eglibc both using
-same tmpdir
+X-List-Received-Date: Mon, 25 Apr 2011 18:57:22 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/sstate.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-core/gettext/gettext_0.17.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index be650c4..553c6a2 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -1,6 +1,6 @@
- SSTATE_VERSION = "2"
- 
--SSTATE_MANIFESTS = "${TMPDIR}/sstate-control"
-+SSTATE_MANIFESTS ?= "${TMPDIR}/sstate-control"
- SSTATE_MANFILEBASE = "${SSTATE_MANIFESTS}/manifest-${SSTATE_MANMACH}-"
- SSTATE_MANFILEPREFIX = "${SSTATE_MANFILEBASE}${PN}"
- 
+diff --git a/meta/recipes-core/gettext/gettext_0.17.bb b/meta/recipes-core/gettext/gettext_0.17.bb
+index bfcb5ea..ce5fc3e 100644
+--- a/meta/recipes-core/gettext/gettext_0.17.bb
++++ b/meta/recipes-core/gettext/gettext_0.17.bb
+@@ -8,9 +8,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ PR = "r5"
+ DEPENDS = "gettext-native virtual/libiconv ncurses expat"
+ DEPENDS_virtclass-native = ""
+-PROVIDES = "virtual/libintl"
++PROVIDES = "virtual/libintl virtual/gettext"
+ PROVIDES_virtclass-native = ""
+-
++CONFLICTS_${PN} = "proxy-libintl"
+ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
+            file://autotools.patch;patch=1 \
+            file://wchar-uclibc.patch;patch=1 \
 -- 
 1.7.4.1
 
