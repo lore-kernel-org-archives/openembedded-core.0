@@ -1,38 +1,38 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-px0-f178.google.com ([209.85.212.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QEQyr-0003wn-UZ
+	(envelope-from <raj.khem@gmail.com>) id 1QEQyw-0003y8-16
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Apr 2011 20:57:59 +0200
-Received: by pvc30 with SMTP id 30so1380158pvc.6
+	Mon, 25 Apr 2011 20:58:02 +0200
+Received: by pxi1 with SMTP id 1so1934504pxi.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2011 11:55:28 -0700 (PDT)
+	Mon, 25 Apr 2011 11:55:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=IzMhn2z9FOJWx7W8TSZ5Jy0abzyybJpGXgFp6Hbz/HM=;
-	b=OYAQ2A0WZQtWj/gtXRnrzpN5z5q8+FXRYsiF//qHYm5KLWaVEnLAfrZZzI/Q23w/JG
-	fCg/qSae/v0093G9hcK8Zpyf7mMORwkM3Ip2RfLCUEnoftMaxbPrfKiNsAHSTZpUVTZ1
-	AMsHGLW3ifFaeWs5D6QLSTufT+TP+nOvIwS9M=
+	bh=+8KsPWjma4B6bFyy5wxg5XU4Q1mWYDxssglJhc/6J7Y=;
+	b=kG6qTent+icSWjBnvGBaAF1+DhSCn5PZWVNI4tegNj/2Jw9kDD6hee46IiC8EeNz0T
+	135fu6EuiOv4S99JepZ1l90oX+SNvyrBbw3I4iwtm3xBGHp7BsJWy99WXdCbSh8evUU+
+	1mFoykKLB+o5K6ef8ykW6BUx1MI40wMwaR8Iw=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=R/jDDoren2qPdXrrou0sBmvouxwxLm4Mjr6oKfxGteueExLoBJDx4EWVbE5LM7AHcg
-	M8r+QEKLCQnGXeaHWmnWSjQukQ9oCCZjIR/67oDDUh4meQcg4SGp3/OlMzOLD0jJRM4a
-	JvKkwlecbUSrIds3pDDGJc2/qx3oapQt0bB+s=
-Received: by 10.68.57.235 with SMTP id l11mr2318663pbq.478.1303757717506;
-	Mon, 25 Apr 2011 11:55:17 -0700 (PDT)
+	b=PaDTP8O/cCgk90KIEaKUl7nwOMQZFNw90oN7HlnXXDcPIoNHsbfN8mT3ttVWCGqh4o
+	SRh6KMv0qmpqIQyfBs30NUc77u7sP8BCfpO+U0YaS2D24FyqlbLKzo4edqT4Flc3PB3G
+	brmtGkmX1zg7+0MArmb7kZqSBRpM0/VIIve5o=
+Received: by 10.68.47.6 with SMTP id z6mr6338407pbm.310.1303757730958;
+	Mon, 25 Apr 2011 11:55:30 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id p17sm1014978pbt.83.2011.04.25.11.55.15
+	by mx.google.com with ESMTPS id s7sm4060104pba.18.2011.04.25.11.55.28
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 25 Apr 2011 11:55:16 -0700 (PDT)
+	Mon, 25 Apr 2011 11:55:29 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2011 11:55:11 -0700
-Message-Id: <a3b739ff07fc5bef7a9b66ffdd6533004b55f8bf.1303757256.git.raj.khem@gmail.com>
+Date: Mon, 25 Apr 2011 11:55:24 -0700
+Message-Id: <e5c0091a01641a3a2b55321cf5b4a5a9e91ef8e5.1303757256.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1303757256.git.raj.khem@gmail.com>
 References: <cover.1303757256.git.raj.khem@gmail.com>
-Subject: [PATCH 10/17] glib-2.0: Inherit gettext should provide right libintl so remove from DEPENDS
+Subject: [PATCH 13/17] perl_5.12.2.bb: Undefine features not found in uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,185 +47,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2011 18:57:59 -0000
-
-Add no-iconv.patch to provide dummy libiconv in case of uclibc
+X-List-Received-Date: Mon, 25 Apr 2011 18:58:02 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/glib-2.0/glib-2.0/no-iconv.patch |  104 ++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.26.1.bb      |    4 +-
- meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb      |    5 +-
- meta/recipes-core/glib-2.0/glib.inc                |    2 +-
- 4 files changed, 112 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/no-iconv.patch
+ .../perl/perl-5.12.2/native-ssp.patch              |   16 ----------------
+ meta/recipes-devtools/perl/perl_5.12.2.bb          |   16 ++++++++++++++++
+ 2 files changed, 16 insertions(+), 16 deletions(-)
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/no-iconv.patch b/meta/recipes-core/glib-2.0/glib-2.0/no-iconv.patch
-new file mode 100644
-index 0000000..cca57d4
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/no-iconv.patch
-@@ -0,0 +1,104 @@
-+We provide dummy implementation of iconv functionality if it does not find
-+iconv which will be case with uclibc. We remove the check for iconv in configure
-+
-+This is needed when libintl and libiconv is not available. It wont have any
-+impact on case when they are available.
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+
-+Index: glib-2.26.1/glib/gconvert.c
-+===================================================================
-+--- glib-2.26.1.orig/glib/gconvert.c
-++++ glib-2.26.1/glib/gconvert.c
-+@@ -23,7 +23,7 @@
-+ #include "config.h"
-+ #include "glibconfig.h"
-+ 
-+-#ifndef G_OS_WIN32
-++#if !defined G_OS_WIN32 && defined HAVE_ICONV_H
-+ #include <iconv.h>
-+ #endif
-+ #include <errno.h>
-+@@ -65,6 +65,28 @@
-+ #error GNU libiconv not in use but included iconv.h is from libiconv
-+ #endif
-+ 
-++#ifndef HAVE_ICONV_H
-++typedef void *iconv_t;
-++
-++iconv_t iconv_open(const char *tocode, const char *fromcode)
-++{
-++	return (iconv_t)(-1);
-++}
-++
-++int iconv_close(iconv_t cd)
-++{
-++	free(cd);
-++
-++	return 0;
-++}
-++size_t iconv (iconv_t __cd, char **__inbuf,
-++                     size_t *__inbytesleft,
-++                     char **__outbuf,
-++                     size_t *__outbytesleft)
-++{
-++	return 0;
-++}
-++#endif
-+ 
-+ /**
-+  * SECTION:conversions
-+Index: glib-2.26.1/configure.ac
-+===================================================================
-+--- glib-2.26.1.orig/configure.ac
-++++ glib-2.26.1/configure.ac
-+@@ -373,46 +373,8 @@ dnl *** Tests for iconv ***
-+ dnl ***********************
-+ dnl
-+ dnl We do this before the gettext checks, to avoid distortion
-+-
-+-dnl On Windows we use a native implementation
-+-
-+-if test x"$glib_native_win32" = xyes; then
-+-  with_libiconv=native
-+-else
-+-  AC_ARG_WITH(libiconv,
-+-	      [AC_HELP_STRING([--with-libiconv=@<:@no/gnu/native@:>@],
-+-			      [use the libiconv library])],,
-+-	      [with_libiconv=maybe])
-+-
-+-  found_iconv=no
-+-  case $with_libiconv in
-+-    maybe)
-+-      # Check in the C library first
-+-      AC_CHECK_FUNC(iconv_open, [with_libiconv=no; found_iconv=yes])
-+-      # Check if we have GNU libiconv
-+-      if test $found_iconv = "no"; then
-+-	AC_CHECK_LIB(iconv, libiconv_open, [with_libiconv=gnu; found_iconv=yes])
-+-      fi
-+-      # Check if we have a iconv in -liconv, possibly from vendor
-+-      if test $found_iconv = "no"; then
-+-	AC_CHECK_LIB(iconv, iconv_open, [with_libiconv=native; found_iconv=yes])
-+-      fi
-+-      ;;
-+-    no)
-+-      AC_CHECK_FUNC(iconv_open, [with_libiconv=no; found_iconv=yes])
-+-      ;;
-+-    gnu|yes)
-+-      AC_CHECK_LIB(iconv, libiconv_open, [with_libiconv=gnu; found_iconv=yes])
-+-      ;;
-+-    native)
-+-      AC_CHECK_LIB(iconv, iconv_open, [with_libiconv=native; found_iconv=yes])
-+-      ;;
-+-  esac
-+-
-+-  if test "x$found_iconv" = "xno" ; then
-+-     AC_MSG_ERROR([*** No iconv() implementation found in C library or libiconv])
-+-  fi
-+-fi
-++found_iconv=yes
-++with_libiconv=no
-+ 
-+ gl_GLIBC21
-+ AC_ARG_ENABLE(iconv-cache, 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.26.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.26.1.bb
-index 6a1fb6c..256abc1 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.26.1.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.26.1.bb
-@@ -1,13 +1,15 @@
- require glib.inc
+diff --git a/meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch b/meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch
+deleted file mode 100644
+index e1e6f08..0000000
+--- a/meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch
++++ /dev/null
+@@ -1,16 +0,0 @@
+-Upstream-Status:Inappropriate [embedded specific]
+-
+-Fix for compiling with ssp enabled gcc:
+-See http://bugs.openembedded.net/show_bug.cgi?id=1980
+-
+-diff -Naur perl-5.8.7.orig/cflags.SH perl-5.8.7/cflags.SH
+---- perl-5.8.7.orig/cflags.SH	2002-09-30 10:59:07.000000000 +0000
+-+++ perl-5.8.7/cflags.SH	2005-10-02 04:08:39.000000000 +0000
+-@@ -165,6 +165,8 @@
+- esac
+- 
+-     : Can we perhaps use $ansi2knr here
+-+    [[ $file == regcomp ]] && export ccflags="${ccflags} -fno-stack-protector"
+-+    [[ $file == regexec ]] && export ccflags="${ccflags} -fno-stack-protector"
+-     echo "$cc -c -DPERL_CORE $ccflags $optimize $warn"
+-     eval "$also "'"$cc -DPERL_CORE -c $ccflags $optimize $warn"'
+diff --git a/meta/recipes-devtools/perl/perl_5.12.2.bb b/meta/recipes-devtools/perl/perl_5.12.2.bb
+index 9ce8156..b841e7d 100644
+--- a/meta/recipes-devtools/perl/perl_5.12.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.12.2.bb
+@@ -131,6 +131,12 @@ do_configure() {
+                        -e "s,\(getnetent_r_proto=\)'\w+',\1'0',g" \
+                        -e "s,\(d_sockatmark=\)'define',\1'undef',g" \
+                        -e "s,\(d_sockatmarkproto=\)'\w+',\1'0',g" \
++                       -e "s,\(d_eaccess=\)'define',\1'undef',g" \
++                       -e "s,\(d_stdio_ptr_lval=\)'define',\1'undef',g" \
++                       -e "s,\(d_stdio_ptr_lval_sets_cnt=\)'define',\1'undef',g" \
++                       -e "s,\(d_stdiobase=\)'define',\1'undef',g" \
++                       -e "s,\(d_stdstdio=\)'define',\1'undef',g" \
++                       -e "s,-fstack-protector,-fno-stack-protector,g" \
+                     config.sh-${TARGET_ARCH}-${TARGET_OS}
+         fi
  
- PE = "1"
--PR = "r0"
-+PR = "r1"
+@@ -145,6 +151,16 @@ do_configure() {
+ 	       -e 's,/perl5,/perl,g' \
+             config.sh-${TARGET_ARCH}-${TARGET_OS}
  
- SRC_URI = "${GNOME_MIRROR}/glib/2.26/glib-${PV}.tar.bz2 \
-            file://configure-libtool.patch \
-            file://60_wait-longer-for-threads-to-die.patch \
-            file://g_once_init_enter.patch \
-           "
-+# Only apply this patch for target recipe on uclibc
-+SRC_URI_append_libc-uclibc = " ${@['', 'file://no-iconv.patch']['${PN}' == '${BPN}']}"
- 
- SRC_URI[md5sum] = "17535accceef55bcb17a74d73f9c2aef"
- SRC_URI[sha256sum] = "7a74ff12b6b9dee1f2d0e520b56b68b621920c4f4250bdf23468e515625c28d5"
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb
-index 4014a1b..776284e 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb
-@@ -1,6 +1,6 @@
- require glib.inc
- 
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "${GNOME_MIRROR}/glib/2.27/glib-${PV}.tar.bz2 \
-            file://configure-libtool.patch \
-@@ -13,6 +13,9 @@ SRC_URI[sha256sum] = "aad3038db865b762e01b1dc455ffd601b4083c069018d290e5fdfe1a61
- 
- SRC_URI_append_virtclass-native = " file://glib-gettextize-dir.patch"
- 
-+# Only apply this patch for target recipe on uclibc
-+SRC_URI_append_libc-uclibc = " ${@['', 'file://no-iconv.patch']['${PN}' == '${BPN}']}"
-+
- BBCLASSEXTEND = "native nativesdk"
- 
- DEFAULT_PREFERENCE = "-1"
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 5ebff68..756b9ef 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -15,7 +15,7 @@ SECTION = "libs"
- 
- require glib-2.0.inc
- 
--DEPENDS = "glib-2.0-native gtk-doc-native virtual/libiconv virtual/libintl zip dbus"
-+DEPENDS = "glib-2.0-native gtk-doc-native zip dbus"
- DEPENDS_virtclass-native = "gtk-doc-native pkgconfig-native gettext-native dbus-native"
- DEPENDS_virtclass-nativesdk = "libtool-nativesdk"
- PACKAGES =+ "glib-2.0-utils "
++       case "${TARGET_ARCH}" in                                                                      
++                x86_64 | powerpc | s390)                                                              
++                        sed -i -e "s,\(need_va_copy=\)'undef',\1'define',g" \                         
++                                config.sh-${TARGET_ARCH}-${TARGET_OS}                                 
++                        ;;                                                                            
++                arm)                                                                                  
++                        sed -i -e "s,\(d_u32align=\)'undef',\1'define',g" \                           
++                                config.sh-${TARGET_ARCH}-${TARGET_OS}                                 
++                        ;;                                                                            
++        esac                                                                                          
+         # These are strewn all over the source tree
+         for foo in `grep -I -m1 \/usr\/include\/.*\\.h ${WORKDIR}/* -r | cut -f 1 -d ":"` ; do
+             echo Fixing: $foo
 -- 
 1.7.4.1
 
