@@ -1,36 +1,29 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QEEBM-0002Vq-8W
+	(envelope-from <sgw@linux.intel.com>) id 1QEEK1-0002b7-Gi
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Apr 2011 07:18:00 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Apr 2011 22:15:10 -0700
+	Mon, 25 Apr 2011 07:26:57 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2011 22:24:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,264,1301900400"; d="scan'208";a="913950620"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Apr 2011 22:15:09 -0700
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Mon, 25 Apr 2011 13:15:00 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Mon, 25 Apr 2011 13:14:59 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Saul Wold' <sgw@linux.intel.com>, 'Patches and discussions about the
-	oe-core layer' <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2011 13:14:57 +0800
-Thread-Topic: gdb and lttng-ust 0.12
-Thread-Index: AcwCvI2yChmt5WNXRPWLnEhSH8PswgALP8PgAAdoBKA=
-Message-ID: <1865303E0DED764181A9D882DEF65FB69317AB0EDB@shsmsx502.ccr.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="4.64,264,1301900400"; d="scan'208";a="737953436"
+Received: from unknown (HELO [10.255.12.237]) ([10.255.12.237])
+	by orsmga001.jf.intel.com with ESMTP; 24 Apr 2011 22:24:27 -0700
+Message-ID: <4DB5058B.3090904@linux.intel.com>
+Date: Sun, 24 Apr 2011 22:24:27 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
+MIME-Version: 1.0
+To: "Cui, Dexuan" <dexuan.cui@intel.com>
 References: <4DB48532.3030605@linux.intel.com>
 	<1865303E0DED764181A9D882DEF65FB69317AB0ED9@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB69317AB0ED9@shsmsx502.ccr.corp.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Cc: "'poky@yoctoproject.org'" <poky@yoctoproject.org>
+	<1865303E0DED764181A9D882DEF65FB69317AB0EDB@shsmsx502.ccr.corp.intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB69317AB0EDB@shsmsx502.ccr.corp.intel.com>
+Cc: "'poky@yoctoproject.org'" <poky@yoctoproject.org>,
+	'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: gdb and lttng-ust 0.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -46,125 +39,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2011 05:18:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 25 Apr 2011 05:26:57 -0000
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 8bit
 
-SGkgU2F1bCwNCkkgcHJlZmVyICJjb250aW51ZSB3aXRoIFVTVCBkaXNhYmxlZCBpbiBnZGIiIGZv
-ciBub3cuDQoNCkknbSBpbnZlc3RpZ2F0aW5nIG1vcmUgdG8gZ2V0IGFuIGluLWRlcHRoIHVuZGVy
-c3RhbmRpbmcgYWJvdXQgdGhlIGlzc3VlLiBlLmcuLCB1c3QtMC4xMSBkb2Vzbid0IGJyZWFrIGJ1
-aWxkaW5nIGdkYiB3aGlsZSB1c3QtMC4xMiBkb2VzIC0tIGhvd2V2ZXIgYm90aCAwLjExIGFuZCAw
-LjEyIGluc3RhbGwgL3Vzci9pbmNsdWRlL3VzdC8uDQoNClRoYW5rcywNCi0tIERleHVhbg0KDQot
-LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQ3VpLCBEZXh1YW4gDQpTZW50OiAyMDEx
-xOo01MIyNcjVIDk6NTcNClRvOiAnU2F1bCBXb2xkJzsgJ1BhdGNoZXMgYW5kIGRpc2N1c3Npb25z
-IGFib3V0IHRoZSBvZS1jb3JlIGxheWVyJw0KQ2M6IHBva3lAeW9jdG9wcm9qZWN0Lm9yZw0KU3Vi
-amVjdDogUkU6IGdkYiBhbmQgbHR0bmctdXN0IDAuMTINCg0KSGkgU2F1bCwNClRoYW5rcyB2ZXJ5
-IG11Y2ggZm9yIHRoZSBpbnZlc3RpZ2F0aW9uISANCkkgY2FuIHJlcHJvZHVjZSB0aGUgaXNzdWUg
-bm93IHdoZW4gSSBidWlsZCBnZGIgYWZ0ZXIgYnVpbGRpbmcgbHR0bmctdXN0IChwcmV2aW91c2x5
-IGxvb2tzIEkgYnVpbHQgdGhlbSBpbiB0aGUgcmV2ZXJzZSBvcmRlciwgc28gZGlkbid0IGNhdGNo
-IGl0LikNCg0KSSBoYXZlbid0IHVuZGVyc3Rvb2Qgd2h5IHRoaXMgaXNzdWUgb2NjdXJyZWQgYWZ0
-ZXIgSSB1cGdyYWRlZCB1c3QgZnJvbSAwLjExIHRvIDAuMTIgYXMgMC4xMSBhY3R1YWxseSBpbnN0
-YWxscyAvdXNyL2luY2x1ZGUvdXN0LCB0b28uIEFuZCBnZGIgd2FzIG5vdCB1cGdyYWRlZCByZWNl
-bnRseS4NCg0KSSdtIGxvb2tpbmcgaW50byB0aGlzIG5vdyBhbmQgd2lsbCB1cGRhdGUgYXNhcC4N
-Cg0KVGhhbmtzLA0KLS0gRGV4dWFuDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9t
-OiBTYXVsIFdvbGQgW21haWx0bzpzZ3dAbGludXguaW50ZWwuY29tXSANClNlbnQ6IDIwMTHE6jTU
-wjI1yNUgNDoxNw0KVG86IEN1aSwgRGV4dWFuOyAnUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJv
-dXQgdGhlIG9lLWNvcmUgbGF5ZXInDQpDYzogcG9reUB5b2N0b3Byb2plY3Qub3JnDQpTdWJqZWN0
-OiBnZGIgYW5kIGx0dG5nLXVzdCAwLjEyDQoNCg0KRGV4dWFuLA0KDQpJdCBzZWVtcyB0aGF0IHdo
-ZW4geW91IHVwZGF0ZWQgbHR0bmctdXN0IHRvIDAuMTIsIGl0IGluc3RhbGxlZCBhbiANCi91c3Iv
-aW5jbHVkZS91c3QgZGlyZWN0b3J5IHRoYXQgR0RCIG5vdyBmaW5kcy4gIFRoaXMgY2F1c2VkIHRo
-ZSANCmdkYnNlcnZlciBjb2RlIHRvIG5vdCBidWlsZC4NCg0KSSBpbnZlc3RpZ2F0ZWQgdGhpcyBh
-bmQgaXQgc2VlbXMgdG8gYmUgZHVlIHRvIGdkYiBoYXZpbmcgYSBkZXBlbmRlbmN5IG9uIA0KVVNU
-IHRoYXQgY2F1c2VzIEdEQiBub3QgdG8gY29tcGlsZS4gIEkgdGhpbmsgYXQgdGhpcyBwb2ludCB3
-ZSBtYXkgd2FudCANCnRvIGNvbnRpbnVlIHdpdGggVVNUIGRpc2FibGVkIGluIGdkYi4NCg0KVG8g
-cmVwcm9kdWNlIHRoaXMsIGVuc3VyZSB0aGF0IGx0dG5nLXVzdC0wLjEyIGlzIGJ1aWx0IGJlZm9y
-ZSBidWlsZGluZyANCmdkYiBhbmQgeW91IHNob3VsZCBzZWUgYSBjb21waWxhdGlvbiBmYWlsdXJl
-Lg0KDQpNeSBjb25jZXJuIGhlcmUgaXMgdGhhdCBpZiBmaXggdGhlIEdEQiBjb21waWxhdGlvbiBm
-YWlsdXJlcywgd2hhdCBlbHNlIA0KaXMgZ29pbmcgdG8gZmFpbCBhcyBmYXIgYXMgZGVidWdnaW5n
-IHdpdGggVVNUIGVuYWJsZWQgb24gdGhlIHJlbW90ZSwgSSANCmtub3cgdGhpcyBmZWF0dXJlIGlz
-IHNvbWV0aGluZyB3ZSB3YW50LCBhbmQgc2hvdWxkIHByb2JhYmx5IHJlcG9ydCB0byANCnRoZSBH
-REIgdXBzdHJlYW0uDQoNClRoZSBmaXggc2VlbXMgdG8gYmUgYXMgc2ltcGxlIGFzIGFkZGluZyAi
-LS13aXRob3V0LXVzdCIgdG8gdGhlIGdkYiANCkVYVFJBX09FQ09ORiBsaW5lLg0KDQpDb21tZW50
-cz8NCg0KLS0gDQogICAgIFNhdSENCg0KU2F1bCBXb2xkDQpZb2N0byBDb21wb25lbnQgV3Jhbmds
-ZXIgQCBJbnRlbA0KWW9jdG8gUHJvamVjdCAvIFBva3kgQnVpbGQgU3lzdGVtDQoNCkVycm9yIHdo
-aWxlIGNvbXBpbGluZyB0cmFjZXBvaW50LmMgLT4gdHJhY2Vwb2ludC1pcGEubyAobm90ZSBpdCdz
-IC1pcGEubyANCnNvIGEgZGlmZmVyZW50IHNldCBvZiBmbGFncykuDQoNCg0KfCBjY2FjaGUgaTU4
-Ni1wb2t5LWxpbnV4LWdjYyAtbWFyY2g9aTU4NiANCi0tc3lzcm9vdD0vdm9sLzEvc2d3L2F1dG9i
-dWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC9zeXNyb290cy9x
-ZW11eDg2IA0KLWMgIC1XYWxsICAgIC1JLiANCi1JL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5
-LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgv
-Z2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIgDQotSS92b2wvMS9zZ3cvYXV0b2J1aWxk
-ZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5
-LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVyLy4uL2NvbW1vbiANCi1JL3Zv
-bC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90
-bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIv
-Li4vcmVnZm9ybWF0cyANCi1JL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3kt
-ZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9n
-ZGItNy4yL2dkYi9nZGJzZXJ2ZXIvLi4vLi4vaW5jbHVkZSANCi1PMiAtcGlwZSAtZyAtZmVsaW1p
-bmF0ZS11bnVzZWQtZGVidWctdHlwZXMgDQotRENPTkZJR19VU1RfR0RCX0lOVEVHUkFUSU9OIC1m
-UElDIC1ER0RCU0VSVkVSIC1ESU5fUFJPQ0VTU19BR0VOVCANCi1mdmlzaWJpbGl0eT1oaWRkZW4g
-DQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1
-aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNl
-cnZlci90cmFjZXBvaW50LmMgDQotbyB0cmFjZXBvaW50LWlwYS5vDQp8IA0KL3ZvbC8xL3Nndy9h
-dXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9p
-NTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2lu
-dC5jOiANCkluIGZ1bmN0aW9uICdmaXJzdF9tYXJrZXInOg0KfCANCi92b2wvMS9zZ3cvYXV0b2J1
-aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1w
-b2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVyL3RyYWNlcG9pbnQuYzo3
-MDA5OjM6IA0Kd2FybmluZzogcmV0dXJuIGZyb20gaW5jb21wYXRpYmxlIHBvaW50ZXIgdHlwZQ0K
-fCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQv
-YnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ri
-c2VydmVyL3RyYWNlcG9pbnQuYzogDQpJbiBmdW5jdGlvbiAnbmV4dF9tYXJrZXInOg0KfCANCi92
-b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQv
-dG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVy
-L3RyYWNlcG9pbnQuYzo3MDI0OjIzOiANCndhcm5pbmc6IGNvbXBhcmlzb24gb2YgZGlzdGluY3Qg
-cG9pbnRlciB0eXBlcyBsYWNrcyBhIGNhc3QNCnwgDQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bv
-a3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51
-eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6NzAyNzo0OiAN
-Cndhcm5pbmc6IHJldHVybiBmcm9tIGluY29tcGF0aWJsZSBwb2ludGVyIHR5cGUNCnwgDQovdm9s
-LzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3Rt
-cC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90
-cmFjZXBvaW50LmM6IA0KSW4gZnVuY3Rpb24gJ3VucHJvYmVfbWFya2VyX2F0JzoNCnwgDQovdm9s
-LzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3Rt
-cC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90
-cmFjZXBvaW50LmM6NzEwNTozMzogDQplcnJvcjogcmVxdWVzdCBmb3IgbWVtYmVyICdsb2NhdGlv
-bicgaW4gc29tZXRoaW5nIG5vdCBhIHN0cnVjdHVyZSBvciB1bmlvbg0KfCANCi92b2wvMS9zZ3cv
-YXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsv
-aTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVyL3RyYWNlcG9p
-bnQuYzo3MTA5OjUxOiANCmVycm9yOiByZXF1ZXN0IGZvciBtZW1iZXIgJ2NoYW5uZWwnIGluIHNv
-bWV0aGluZyBub3QgYSBzdHJ1Y3R1cmUgb3IgdW5pb24NCnwgDQovdm9sLzEvc2d3L2F1dG9idWls
-ZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9r
-eS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6NzEx
-MDoyMzogDQplcnJvcjogcmVxdWVzdCBmb3IgbWVtYmVyICduYW1lJyBpbiBzb21ldGhpbmcgbm90
-IGEgc3RydWN0dXJlIG9yIHVuaW9uDQp8IA0KL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNs
-YXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2Ri
-LTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5jOjcxMTQ6MTc6IA0KZXJy
-b3I6IHJlcXVlc3QgZm9yIG1lbWJlciAnY2hhbm5lbCcgaW4gc29tZXRoaW5nIG5vdCBhIHN0cnVj
-dHVyZSBvciB1bmlvbg0KfCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5
-LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAv
-Z2RiLTcuMi9nZGIvZ2Ric2VydmVyL3RyYWNlcG9pbnQuYzo3MTE0OjM5OiANCmVycm9yOiByZXF1
-ZXN0IGZvciBtZW1iZXIgJ25hbWUnIGluIHNvbWV0aGluZyBub3QgYSBzdHJ1Y3R1cmUgb3IgdW5p
-b24NCnwgDQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1
-aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2Ri
-L2dkYnNlcnZlci90cmFjZXBvaW50LmM6IA0KSW4gZnVuY3Rpb24gJ3Byb2JlX21hcmtlcl9hdCc6
-DQp8IA0KL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWls
-ZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9n
-ZGJzZXJ2ZXIvdHJhY2Vwb2ludC5jOjcxMzU6NDM6IA0Kd2FybmluZzogYXNzaWdubWVudCBmcm9t
-IGluY29tcGF0aWJsZSBwb2ludGVyIHR5cGUNCnwgDQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bv
-a3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51
-eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6NzEzNzo0Mjog
-DQp3YXJuaW5nOiBhc3NpZ25tZW50IGZyb20gaW5jb21wYXRpYmxlIHBvaW50ZXIgdHlwZQ0KfCAN
-Ci92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVp
-bGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2Vy
-dmVyL3RyYWNlcG9pbnQuYzogDQpJbiBmdW5jdGlvbiAnY21kX3F0c3RtYXQnOg0KfCANCi92b2wv
-MS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1w
-L3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVyL3Ry
-YWNlcG9pbnQuYzo3MTgwOjQzOiANCndhcm5pbmc6IGFzc2lnbm1lbnQgZnJvbSBpbmNvbXBhdGli
-bGUgcG9pbnRlciB0eXBlDQp8IA0KL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bv
-a3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1y
-MC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5jOjcxODI6NDI6IA0Kd2FybmluZzog
-YXNzaWdubWVudCBmcm9tIGluY29tcGF0aWJsZSBwb2ludGVyIHR5cGUNCnwgbWFrZVs0XTogKioq
-IFt0cmFjZXBvaW50LWlwYS5vXSBFcnJvciAxDQoNCg0KDQo=
+On 04/24/2011 10:14 PM, Cui, Dexuan wrote:
+> Hi Saul,
+> I prefer "continue with UST disabled in gdb" for now.
+> 
+Ok, I have a patch queue'ed up already with this fix, I will push it as
+part of a consolidated request later tonight.
+
+> I'm investigating more to get an in-depth understanding about the issue. e.g., ust-0.11 doesn't break building gdb while ust-0.12 does -- however both 0.11 and 0.12 install /usr/include/ust/.
+>
+I agree, I am not sure why this is happening also, I thought that I did
+installs of 0.11 and did not see the ust directory, maybe I did not
+force or something.  Maybe diff the marker.h files and see if there are
+differences?
+
+Sau!
+
+
+> Thanks,
+> -- Dexuan
+> 
+> -----Original Message-----
+> From: Cui, Dexuan
+> Sent: 2011年4月25日 9:57
+> To: 'Saul Wold'; 'Patches and discussions about the oe-core layer'
+> Cc: poky@yoctoproject.org
+> Subject: RE: gdb and lttng-ust 0.12
+> 
+> Hi Saul,
+> Thanks very much for the investigation!
+> I can reproduce the issue now when I build gdb after building lttng-ust (previously looks I built them in the reverse order, so didn't catch it.)
+> 
+> I haven't understood why this issue occurred after I upgraded ust from 0.11 to 0.12 as 0.11 actually installs /usr/include/ust, too. And gdb was not upgraded recently.
+> 
+> I'm looking into this now and will update asap.
+> 
+> Thanks,
+> -- Dexuan
+> 
+> -----Original Message-----
+> From: Saul Wold [mailto:sgw@linux.intel.com]
+> Sent: 2011年4月25日 4:17
+> To: Cui, Dexuan; 'Patches and discussions about the oe-core layer'
+> Cc: poky@yoctoproject.org
+> Subject: gdb and lttng-ust 0.12
+> 
+> 
+> Dexuan,
+> 
+> It seems that when you updated lttng-ust to 0.12, it installed an
+> /usr/include/ust directory that GDB now finds.  This caused the
+> gdbserver code to not build.
+> 
+> I investigated this and it seems to be due to gdb having a dependency on
+> UST that causes GDB not to compile.  I think at this point we may want
+> to continue with UST disabled in gdb.
+> 
+> To reproduce this, ensure that lttng-ust-0.12 is built before building
+> gdb and you should see a compilation failure.
+> 
+> My concern here is that if fix the GDB compilation failures, what else
+> is going to fail as far as debugging with UST enabled on the remote, I
+> know this feature is something we want, and should probably report to
+> the GDB upstream.
+> 
+> The fix seems to be as simple as adding "--without-ust" to the gdb
+> EXTRA_OECONF line.
+> 
+> Comments?
+> 
 
 
