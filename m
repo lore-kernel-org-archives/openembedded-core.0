@@ -1,38 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QEHni-0006TX-SP
+	(envelope-from <gary@mlbassoc.com>) id 1QEKXD-0001AU-D8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Apr 2011 11:09:51 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 25 Apr 2011 02:07:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,265,1301900400"; d="scan'208";a="633714341"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by orsmga002.jf.intel.com with ESMTP; 25 Apr 2011 02:07:20 -0700
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Mon, 25 Apr 2011 17:06:44 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Mon, 25 Apr 2011 17:06:44 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Saul Wold' <sgw@linux.intel.com>, 'Patches and discussions about the
-	oe-core layer' <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2011 17:06:43 +0800
-Thread-Topic: gdb and lttng-ust 0.12
-Thread-Index: AcwCvI2yChmt5WNXRPWLnEhSH8PswgALP8PgAAdoBKAABr6OQA==
-Message-ID: <1865303E0DED764181A9D882DEF65FB69317AB0EDE@shsmsx502.ccr.corp.intel.com>
-References: <4DB48532.3030605@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB69317AB0ED9@shsmsx502.ccr.corp.intel.com>
-	<1865303E0DED764181A9D882DEF65FB69317AB0EDB@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB69317AB0EDB@shsmsx502.ccr.corp.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Mon, 25 Apr 2011 14:04:59 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id EF1C61660176; Mon, 25 Apr 2011 06:02:28 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2-r929478
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 74B0D1660153;
+	Mon, 25 Apr 2011 06:02:23 -0600 (MDT)
+Message-ID: <4DB562CF.1020100@mlbassoc.com>
+Date: Mon, 25 Apr 2011 06:02:23 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
+	Thunderbird/3.1.7
 MIME-Version: 1.0
-Cc: "'poky@yoctoproject.org'" <poky@yoctoproject.org>
-Subject: Re: gdb and lttng-ust 0.12
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1303539961.git.sgw@linux.intel.com>
+	<a0629aa0dc55829565b7ab1725875eac065ab2f1.1303539961.git.sgw@linux.intel.com>
+In-Reply-To: <a0629aa0dc55829565b7ab1725875eac065ab2f1.1303539961.git.sgw@linux.intel.com>
+X-Mailman-Approved-At: Mon, 25 Apr 2011 17:36:53 +0200
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org, Kang Kai <kai.kang@windriver.com>
+Subject: Re: [PATCH 07/37] modutils-initscripts: fix wrong order of module loading happening in udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,138 +42,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2011 09:09:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 25 Apr 2011 12:04:59 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-SGkgU2F1bCwNCkR1ZSB0byB0aGUgQVBJIGNoYW5nZSBpbiB1c3QtMC4xMiwgd2UnbGwgaGF2ZSB0
-byB3YWl0IHVwc3RyZWFtIGdkYidzIGZpeCAoSSB2ZXJpZmllZCB0aGUgbGF0ZXN0IGdkYiBzbmFw
-c2hvdCBnZGItNy4yLjkwLjIwMTEwNDI1IGhhcyB0aGUgc2FtZSBpc3N1ZS4gSSB3aWxsIHJlcG9y
-dCBhIGJ1ZyBpbiBnZGIgYnVnemlsbGEpIC4NCkkndmUgcmVwb3J0ZWQgaHR0cDovL2J1Z3ppbGxh
-LnBva3lsaW51eC5vcmcvc2hvd19idWcuY2dpP2lkPTEwMDUgdG8gcmVjb3JkIHRoaXMgaXNzdWUu
-DQoNClRoYW5rcywNCi0tIERleHVhbg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJv
-bTogcG9reS1ib3VuY2VzQHlvY3RvcHJvamVjdC5vcmcgW21haWx0bzpwb2t5LWJvdW5jZXNAeW9j
-dG9wcm9qZWN0Lm9yZ10gT24gQmVoYWxmIE9mIEN1aSwgRGV4dWFuDQpTZW50OiAyMDExxOo01MIy
-NcjVIDEzOjE1DQpUbzogJ1NhdWwgV29sZCc7ICdQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91
-dCB0aGUgb2UtY29yZSBsYXllcicNCkNjOiAncG9reUB5b2N0b3Byb2plY3Qub3JnJw0KU3ViamVj
-dDogUmU6IFtwb2t5XSBnZGIgYW5kIGx0dG5nLXVzdCAwLjEyDQoNCkhpIFNhdWwsDQpJIHByZWZl
-ciAiY29udGludWUgd2l0aCBVU1QgZGlzYWJsZWQgaW4gZ2RiIiBmb3Igbm93Lg0KDQpJJ20gaW52
-ZXN0aWdhdGluZyBtb3JlIHRvIGdldCBhbiBpbi1kZXB0aCB1bmRlcnN0YW5kaW5nIGFib3V0IHRo
-ZSBpc3N1ZS4gZS5nLiwgdXN0LTAuMTEgZG9lc24ndCBicmVhayBidWlsZGluZyBnZGIgd2hpbGUg
-dXN0LTAuMTIgZG9lcyAtLSBob3dldmVyIGJvdGggMC4xMSBhbmQgMC4xMiBpbnN0YWxsIC91c3Iv
-aW5jbHVkZS91c3QvLg0KDQpUaGFua3MsDQotLSBEZXh1YW4NCg0KLS0tLS1PcmlnaW5hbCBNZXNz
-YWdlLS0tLS0NCkZyb206IEN1aSwgRGV4dWFuIA0KU2VudDogMjAxMcTqNNTCMjXI1SA5OjU3DQpU
-bzogJ1NhdWwgV29sZCc7ICdQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29y
-ZSBsYXllcicNCkNjOiBwb2t5QHlvY3RvcHJvamVjdC5vcmcNClN1YmplY3Q6IFJFOiBnZGIgYW5k
-IGx0dG5nLXVzdCAwLjEyDQoNCkhpIFNhdWwsDQpUaGFua3MgdmVyeSBtdWNoIGZvciB0aGUgaW52
-ZXN0aWdhdGlvbiEgDQpJIGNhbiByZXByb2R1Y2UgdGhlIGlzc3VlIG5vdyB3aGVuIEkgYnVpbGQg
-Z2RiIGFmdGVyIGJ1aWxkaW5nIGx0dG5nLXVzdCAocHJldmlvdXNseSBsb29rcyBJIGJ1aWx0IHRo
-ZW0gaW4gdGhlIHJldmVyc2Ugb3JkZXIsIHNvIGRpZG4ndCBjYXRjaCBpdC4pDQoNCkkgaGF2ZW4n
-dCB1bmRlcnN0b29kIHdoeSB0aGlzIGlzc3VlIG9jY3VycmVkIGFmdGVyIEkgdXBncmFkZWQgdXN0
-IGZyb20gMC4xMSB0byAwLjEyIGFzIDAuMTEgYWN0dWFsbHkgaW5zdGFsbHMgL3Vzci9pbmNsdWRl
-L3VzdCwgdG9vLiBBbmQgZ2RiIHdhcyBub3QgdXBncmFkZWQgcmVjZW50bHkuDQoNCkknbSBsb29r
-aW5nIGludG8gdGhpcyBub3cgYW5kIHdpbGwgdXBkYXRlIGFzYXAuDQoNClRoYW5rcywNCi0tIERl
-eHVhbg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogU2F1bCBXb2xkIFttYWls
-dG86c2d3QGxpbnV4LmludGVsLmNvbV0gDQpTZW50OiAyMDExxOo01MIyNcjVIDQ6MTcNClRvOiBD
-dWksIERleHVhbjsgJ1BhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxh
-eWVyJw0KQ2M6IHBva3lAeW9jdG9wcm9qZWN0Lm9yZw0KU3ViamVjdDogZ2RiIGFuZCBsdHRuZy11
-c3QgMC4xMg0KDQoNCkRleHVhbiwNCg0KSXQgc2VlbXMgdGhhdCB3aGVuIHlvdSB1cGRhdGVkIGx0
-dG5nLXVzdCB0byAwLjEyLCBpdCBpbnN0YWxsZWQgYW4gDQovdXNyL2luY2x1ZGUvdXN0IGRpcmVj
-dG9yeSB0aGF0IEdEQiBub3cgZmluZHMuICBUaGlzIGNhdXNlZCB0aGUgDQpnZGJzZXJ2ZXIgY29k
-ZSB0byBub3QgYnVpbGQuDQoNCkkgaW52ZXN0aWdhdGVkIHRoaXMgYW5kIGl0IHNlZW1zIHRvIGJl
-IGR1ZSB0byBnZGIgaGF2aW5nIGEgZGVwZW5kZW5jeSBvbiANClVTVCB0aGF0IGNhdXNlcyBHREIg
-bm90IHRvIGNvbXBpbGUuICBJIHRoaW5rIGF0IHRoaXMgcG9pbnQgd2UgbWF5IHdhbnQgDQp0byBj
-b250aW51ZSB3aXRoIFVTVCBkaXNhYmxlZCBpbiBnZGIuDQoNClRvIHJlcHJvZHVjZSB0aGlzLCBl
-bnN1cmUgdGhhdCBsdHRuZy11c3QtMC4xMiBpcyBidWlsdCBiZWZvcmUgYnVpbGRpbmcgDQpnZGIg
-YW5kIHlvdSBzaG91bGQgc2VlIGEgY29tcGlsYXRpb24gZmFpbHVyZS4NCg0KTXkgY29uY2VybiBo
-ZXJlIGlzIHRoYXQgaWYgZml4IHRoZSBHREIgY29tcGlsYXRpb24gZmFpbHVyZXMsIHdoYXQgZWxz
-ZSANCmlzIGdvaW5nIHRvIGZhaWwgYXMgZmFyIGFzIGRlYnVnZ2luZyB3aXRoIFVTVCBlbmFibGVk
-IG9uIHRoZSByZW1vdGUsIEkgDQprbm93IHRoaXMgZmVhdHVyZSBpcyBzb21ldGhpbmcgd2Ugd2Fu
-dCwgYW5kIHNob3VsZCBwcm9iYWJseSByZXBvcnQgdG8gDQp0aGUgR0RCIHVwc3RyZWFtLg0KDQpU
-aGUgZml4IHNlZW1zIHRvIGJlIGFzIHNpbXBsZSBhcyBhZGRpbmcgIi0td2l0aG91dC11c3QiIHRv
-IHRoZSBnZGIgDQpFWFRSQV9PRUNPTkYgbGluZS4NCg0KQ29tbWVudHM/DQoNCi0tIA0KICAgICBT
-YXUhDQoNClNhdWwgV29sZA0KWW9jdG8gQ29tcG9uZW50IFdyYW5nbGVyIEAgSW50ZWwNCllvY3Rv
-IFByb2plY3QgLyBQb2t5IEJ1aWxkIFN5c3RlbQ0KDQpFcnJvciB3aGlsZSBjb21waWxpbmcgdHJh
-Y2Vwb2ludC5jIC0+IHRyYWNlcG9pbnQtaXBhLm8gKG5vdGUgaXQncyAtaXBhLm8gDQpzbyBhIGRp
-ZmZlcmVudCBzZXQgb2YgZmxhZ3MpLg0KDQoNCnwgY2NhY2hlIGk1ODYtcG9reS1saW51eC1nY2Mg
-LW1hcmNoPWk1ODYgDQotLXN5c3Jvb3Q9L3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZl
-L3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvc3lzcm9vdHMvcWVtdXg4NiANCi1jICAtV2Fs
-bCAgICAtSS4gDQotSS92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwt
-aWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcu
-Mi9nZGIvZ2Ric2VydmVyIA0KLUkvdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9r
-eS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIw
-L2dkYi03LjIvZ2RiL2dkYnNlcnZlci8uLi9jb21tb24gDQotSS92b2wvMS9zZ3cvYXV0b2J1aWxk
-ZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5
-LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVyLy4uL3JlZ2Zvcm1hdHMgDQot
-SS92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVp
-bGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2Vy
-dmVyLy4uLy4uL2luY2x1ZGUgDQotTzIgLXBpcGUgLWcgLWZlbGltaW5hdGUtdW51c2VkLWRlYnVn
-LXR5cGVzIA0KLURDT05GSUdfVVNUX0dEQl9JTlRFR1JBVElPTiAtZlBJQyAtREdEQlNFUlZFUiAt
-RElOX1BST0NFU1NfQUdFTlQgDQotZnZpc2liaWxpdHk9aGlkZGVuIA0KL3ZvbC8xL3Nndy9hdXRv
-YnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2
-LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5j
-IA0KLW8gdHJhY2Vwb2ludC1pcGEubw0KfCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1z
-bGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dk
-Yi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVyL3RyYWNlcG9pbnQuYzogDQpJbiBmdW5jdGlv
-biAnZmlyc3RfbWFya2VyJzoNCnwgDQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUv
-cG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4y
-LXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6NzAwOTozOiANCndhcm5pbmc6
-IHJldHVybiBmcm9tIGluY29tcGF0aWJsZSBwb2ludGVyIHR5cGUNCnwgDQovdm9sLzEvc2d3L2F1
-dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1
-ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50
-LmM6IA0KSW4gZnVuY3Rpb24gJ25leHRfbWFya2VyJzoNCnwgDQovdm9sLzEvc2d3L2F1dG9idWls
-ZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9r
-eS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6NzAy
-NDoyMzogDQp3YXJuaW5nOiBjb21wYXJpc29uIG9mIGRpc3RpbmN0IHBvaW50ZXIgdHlwZXMgbGFj
-a3MgYSBjYXN0DQp8IA0KL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVs
-bC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGIt
-Ny4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5jOjcwMjc6NDogDQp3YXJuaW5nOiByZXR1cm4g
-ZnJvbSBpbmNvbXBhdGlibGUgcG9pbnRlciB0eXBlDQp8IA0KL3ZvbC8xL3Nndy9hdXRvYnVpbGRl
-ci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3kt
-bGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5jOiANCklu
-IGZ1bmN0aW9uICd1bnByb2JlX21hcmtlcl9hdCc6DQp8IA0KL3ZvbC8xL3Nndy9hdXRvYnVpbGRl
-ci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3kt
-bGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5jOjcxMDU6
-MzM6IA0KZXJyb3I6IHJlcXVlc3QgZm9yIG1lbWJlciAnbG9jYXRpb24nIGluIHNvbWV0aGluZyBu
-b3QgYSBzdHJ1Y3R1cmUgb3IgdW5pb24NCnwgDQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3kt
-c2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9n
-ZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6NzEwOTo1MTogDQpl
-cnJvcjogcmVxdWVzdCBmb3IgbWVtYmVyICdjaGFubmVsJyBpbiBzb21ldGhpbmcgbm90IGEgc3Ry
-dWN0dXJlIG9yIHVuaW9uDQp8IA0KL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bv
-a3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1y
-MC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5jOjcxMTA6MjM6IA0KZXJyb3I6IHJl
-cXVlc3QgZm9yIG1lbWJlciAnbmFtZScgaW4gc29tZXRoaW5nIG5vdCBhIHN0cnVjdHVyZSBvciB1
-bmlvbg0KfCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEv
-YnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9n
-ZGIvZ2Ric2VydmVyL3RyYWNlcG9pbnQuYzo3MTE0OjE3OiANCmVycm9yOiByZXF1ZXN0IGZvciBt
-ZW1iZXIgJ2NoYW5uZWwnIGluIHNvbWV0aGluZyBub3QgYSBzdHJ1Y3R1cmUgb3IgdW5pb24NCnwg
-DQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1
-aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNl
-cnZlci90cmFjZXBvaW50LmM6NzExNDozOTogDQplcnJvcjogcmVxdWVzdCBmb3IgbWVtYmVyICdu
-YW1lJyBpbiBzb21ldGhpbmcgbm90IGEgc3RydWN0dXJlIG9yIHVuaW9uDQp8IA0KL3ZvbC8xL3Nn
-dy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29y
-ay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vw
-b2ludC5jOiANCkluIGZ1bmN0aW9uICdwcm9iZV9tYXJrZXJfYXQnOg0KfCANCi92b2wvMS9zZ3cv
-YXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsv
-aTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVyL3RyYWNlcG9p
-bnQuYzo3MTM1OjQzOiANCndhcm5pbmc6IGFzc2lnbm1lbnQgZnJvbSBpbmNvbXBhdGlibGUgcG9p
-bnRlciB0eXBlDQp8IA0KL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVs
-bC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGIt
-Ny4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5jOjcxMzc6NDI6IA0Kd2FybmluZzogYXNzaWdu
-bWVudCBmcm9tIGluY29tcGF0aWJsZSBwb2ludGVyIHR5cGUNCnwgDQovdm9sLzEvc2d3L2F1dG9i
-dWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYt
-cG9reS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6
-IA0KSW4gZnVuY3Rpb24gJ2NtZF9xdHN0bWF0JzoNCnwgDQovdm9sLzEvc2d3L2F1dG9idWlsZGVy
-L3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1s
-aW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6NzE4MDo0
-MzogDQp3YXJuaW5nOiBhc3NpZ25tZW50IGZyb20gaW5jb21wYXRpYmxlIHBvaW50ZXIgdHlwZQ0K
-fCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQv
-YnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ri
-c2VydmVyL3RyYWNlcG9pbnQuYzo3MTgyOjQyOiANCndhcm5pbmc6IGFzc2lnbm1lbnQgZnJvbSBp
-bmNvbXBhdGlibGUgcG9pbnRlciB0eXBlDQp8IG1ha2VbNF06ICoqKiBbdHJhY2Vwb2ludC1pcGEu
-b10gRXJyb3IgMQ0KDQoNCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18NCnBva3kgbWFpbGluZyBsaXN0DQpwb2t5QHlvY3RvcHJvamVjdC5vcmcNCmh0dHBz
-Oi8vbGlzdHMueW9jdG9wcm9qZWN0Lm9yZy9saXN0aW5mby9wb2t5DQo=
+On 04/23/2011 12:28 AM, Saul Wold wrote:
+> From: =3D?UTF-8?q?Petr=3D20=3DC5=3DA0tetiar?=3D<ynezz@true.cz>
+>
+> In the current state, udev init script is loaded as 3rd and modutils.sh=
+ as
+> 20th, so udevadm called in udev init script loads all kernel modules in=
+ some
+> unpredictable order, not honoring in any way specified order of modules=
+ in
+> /etc/modules. This causes some troubles mainly in the first boot. So to=
+ fix
+> this we now move loading of the kernel modules just before we exec udev=
+ init
+> script. Example of the current state:
+>
+> 	Starting udev
+> 	rtc-m48t86 rtc-m48t86: rtc core: registered m48t86 as rtc0
+> 	rtc-m48t86 rtc-m48t86: battery ok
+> 	ep93xx-rtc ep93xx-rtc: rtc core: registered ep93xx-rtc as rtc1
+>
+> 	root@ts72xx:~# cat /etc/modules
+> 	rtc-ep93xx
+> 	ohci-hcd
+> 	ts72xx_sbcinfo
+> 	rtc-m48t86
+>
+> As you can guess, this is really wrong behaviour, because I've rtc1 as =
+the
+> main time source for my system.
+>
+> 	root@ts72xx:~# cat /etc/default/hwclock
+> 	HWCLOCKACCESS=3Dyes
+> 	HWCLOCKDEVICE=3D/dev/rtc1
+>
+> Expected behaviour with this patch applied:
+>
+> 	Please wait: booting...
+> 	ep93xx-rtc ep93xx-rtc: rtc core: registered ep93xx-rtc as rtc0
+> 	usbcore: registered new device driver usb
+> 	ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+> 	...
+> 	rtc-m48t86 rtc-m48t86: rtc core: registered m48t86 as rtc1
+> 	rtc-m48t86 rtc-m48t86: battery ok
+> 	Starting udev
+>
+> Signed-off-by: Petr =C5=A0tetiar<ynezz@true.cz>
+>
+> (based on http://patches.openembedded.org/patch/1917/)
+> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+> ---
+>   .../modutils/modutils-initscripts.bb               |    4 ++--
+>   1 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/modutils/modutils-initscripts.bb b/met=
+a/recipes-kernel/modutils/modutils-initscripts.bb
+> index 1665955..5ae34b4 100644
+> --- a/meta/recipes-kernel/modutils/modutils-initscripts.bb
+> +++ b/meta/recipes-kernel/modutils/modutils-initscripts.bb
+> @@ -4,10 +4,10 @@ LICENSE =3D "PD"
+>   LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D7bf87fc37976e93ec66ad84fac=
+58c098"
+>   SRC_URI =3D "file://modutils.sh \
+>   	   file://PD.patch"
+> -PR =3D "r4"
+> +PR =3D "r5"
+>
+>   INITSCRIPT_NAME =3D "modutils.sh"
+> -INITSCRIPT_PARAMS =3D "start 20 S ."
+> +INITSCRIPT_PARAMS =3D "start 2 S ."
+>
+>   inherit update-rc.d
+>
+
+Should there not be a corresponding change to modutils_2.4.27.bb?  It's n=
+ot clear to me
+where there are these two separate recipes, but they should at least be k=
+ept in sync.
+
+diff --git a/meta/recipes-kernel/modutils/modutils_2.4.27.bb b/meta/recip=
+es-kernel/modutils/modutils_2.4.27.bb
+index 1ebc90c..2944201 100644
+--- a/meta/recipes-kernel/modutils/modutils_2.4.27.bb
++++ b/meta/recipes-kernel/modutils/modutils_2.4.27.bb
+@@ -5,7 +5,7 @@ manageable for all users, administrators and distribution=
+ maintainers."
+  LICENSE =3D "GPLv2"
+  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D8ca43cbc842c2336e835926c2166=
+c28b"
+  DEPENDS =3D "bison-native"
+-PR =3D "r9"
++PR =3D "r10"
+
+  SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/kernel/modutils/v2.4/modut=
+ils-${PV}.tar.bz2 \
+             file://lex.l.diff;patch=3D1 \
+@@ -51,7 +51,7 @@ if test -n "$D"; then
+                 done
+         fi
+  fi
+-update-rc.d $D modutils.sh start 20 S .
++update-rc.d $D modutils.sh start 2 S .
+  }
+
+  pkg_prerm_modutils () {
+
+--=20
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
