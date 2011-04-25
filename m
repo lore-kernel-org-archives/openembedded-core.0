@@ -1,31 +1,38 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QEQYR-0002zP-K0
+	(envelope-from <raj.khem@gmail.com>) id 1QEQxu-0003kf-Cs
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Apr 2011 20:30:39 +0200
-Received: by wwi18 with SMTP id 18so1574457wwi.0
+	Mon, 25 Apr 2011 20:56:58 +0200
+Received: by pvc30 with SMTP id 30so1379643pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2011 11:28:10 -0700 (PDT)
-Received: by 10.227.140.77 with SMTP id h13mr4101588wbu.217.1303756090826;
-	Mon, 25 Apr 2011 11:28:10 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	o23sm3394871wbc.61.2011.04.25.11.28.08
+	Mon, 25 Apr 2011 11:54:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=fzqcOCpiBdHCDlCbDe5OsGRdiddKSCyyXWEUn4n6X3k=;
+	b=WRinKZERqAAEj2dnQrHMFrRILdFxNzG0nRf6BtEOBtkDvCoPPbQp4KfRwSFBniIrZw
+	snueHcKN+y56xxKwX4NxU7mz/JLMRRkSNEyyq76q9+5/BM9MlBMrnLRqhCF1B8Pw5aQo
+	2SMSgfnJOJW/Zw+qbN9ts9EdzFC4Vb/skzhtU=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=Nx1/Xhx36aUxmAA8jzQBz6jW6G2V/l+RhgXbaE91Z4MZRHIbjJPJmTwhTphtvN6U+9
+	ruEx+xqqDUlV7b8rA4qNkusOyi3TBPwwtBX2yQvDmwrqMFR5uvO/hwuEeBJYaxy+RCet
+	yxqxc3nhGk1zA7pYUy4m0bYMfeDdhBTfCkiz0=
+Received: by 10.143.177.5 with SMTP id e5mr2599265wfp.50.1303757668994;
+	Mon, 25 Apr 2011 11:54:28 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id z10sm8091760wfj.12.2011.04.25.11.54.26
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 25 Apr 2011 11:28:09 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4DB5AB17.2060806@linux.intel.com>
-Date: Mon, 25 Apr 2011 20:28:07 +0200
-Message-Id: <D62ACE6C-3786-4C60-91EE-316D4EC49EB6@dominion.thruhere.net>
-References: <73DFD7AC-9837-4C27-BB34-2B2AC7D1DD8B@dominion.thruhere.net>
-	<4DB5AB17.2060806@linux.intel.com>
-To: Darren Hart <dvhart@linux.intel.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: Bruce Ashfield <Bruce.Ashfield@windriver.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] don't run make clean on kernel_do_install
+	Mon, 25 Apr 2011 11:54:27 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Apr 2011 11:54:23 -0700
+Message-Id: <4e4ad27e7940760928c4ed79ca0b1948912ac881.1303757256.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1303757256.git.raj.khem@gmail.com>
+References: <cover.1303757256.git.raj.khem@gmail.com>
+Subject: [PATCH 01/17] gettext.bbclass: Use _append instead of =+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,121 +47,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2011 18:30:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 25 Apr 2011 18:56:58 -0000
 
+Ensure gettext and gettext-native are removed from DEPENDS when
+not using NLS
 
-Op 25 apr 2011, om 19:10 heeft Darren Hart het volgende geschreven:
+Use append instead of += to get gettext dependecies processed
+correctly in all cases
 
-> Hi Koen,
->=20
-> On 04/23/2011 07:47 AM, Koen Kooi wrote:
->> Hi,
->>=20
->> Over the holidays I was trying to build some externel kernel modules
->> and they failed to build because linux/bounds.h wasn't in sysroots.
->>=20
->=20
->=20
-> According the the linux Makefile:
->=20
-> ###
-> # Cleaning is done on three levels.
-> # make clean     Delete most generated files
-> #                Leave enough to build external modules
->=20
-> The kernel Makefile should not be deleting it.
->=20
-> And indeed:
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D11475
->=20
-> This was addressed by the following in 2.6.27:
-> 7d3cc8b6d899e53222c22a78d98bb53a695f7962
-> Don't clean bounds.h and asm-offsets.h
->=20
-> Later, bounds.h moved as well in 2.6.33:
-> 01fc0ac198eabcbf460e1ed058860a935b6c2c9a
-> kbuild: move bounds.h to include/generated
->=20
->=20
-> Which kernel version are you attempting to build?
+Dont remove gettext-native for native recipes as ENABLE_NLS is
+only for target and not for native recipes
 
-The 2.6.32 kernel from TI
+Replace using 1 for a boolean type with True
 
->=20
-> We shouldn't add code to address a bug in a specific kernel version in =
-a
-> kernel base class. That belongs in the specific recipe. I suggest =
-trying
-> to add the 7d3cc8b6d899e53222c22a78d98bb53a695f7962 patch to your =
-kernel
-> recipe and see if that resolves the issue for you without resorting to
-> recreating the clean process in the base class.
+Honor INHIBIT_DEFAULT_DEPS
 
-That's already in :(
+Remove the added dependencies for gettext if INHIBIT_DEFAULT_DEPS is non
+null
 
-=
-koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x/work/beagleboard-angs=
-trom-linux-gnueabi/linux-omap-psp-2.6.32-r99a+gitr5fc29e7b2a76a64a739f8578=
-58ef0b98294aa155/git$ grep bound Kbuild=20
-# 1) Generate bounds.h
-# 2) Generate asm-offsets.h (may need bounds.h)
-# 1) Generate bounds.h
-bounds-file :=3D include/linux/bounds.h
-always  :=3D $(bounds-file)
-targets :=3D $(bounds-file) kernel/bounds.s
-quiet_cmd_bounds =3D GEN     $@
-define cmd_bounds
-kernel/bounds.s: kernel/bounds.c FORCE
-$(obj)/$(bounds-file): kernel/bounds.s Kbuild
-	$(call cmd,bounds)
-                                      $(obj)/$(bounds-file) FORCE
-clean-files :=3D $(addprefix $(objtree)/,$(filter-out $(bounds-file) =
-$(offsets-file),$(targets)))
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/gettext.bbclass |   31 +++++++++++++++++++------------
+ 1 files changed, 19 insertions(+), 12 deletions(-)
 
-I'll dig a bit deeper to see why bounds.h is getting cleaned.
-
-regards,
-
-Koen
-
-
->=20
-> --
-> Darren
->=20
->> I did this quick hack to work around it:
->>=20
->> --- a/meta-oe/classes/kernel.bbclass
->> +++ b/meta-oe/classes/kernel.bbclass
->> @@ -159,7 +159,8 @@ kernel_do_install() {
->>        # we clean the scripts dir while leaving the generated config
->>        # and include files.
->>        #
->> -       oe_runmake -C $kerneldir CC=3D"${KERNEL_CC}" =
-LD=3D"${KERNEL_LD}" clean
->> +       find $kerneldir -name "*.o" -delete
->> +       #oe_runmake -C $kerneldir CC=3D"${KERNEL_CC}" =
-LD=3D"${KERNEL_LD}"
-> clean
->>        make -C $kerneldir _mrproper_scripts
->>        find $kerneldir -path $kerneldir/scripts -prune -o -name
-> "*.[csS]" -exec rm '{}' \;
->>        find $kerneldir/Documentation -name "*.txt" -exec rm '{}' \;
->>=20
->> I'm not convinced that the above is the right way to solve it, but I
->> lack the required kbuild knowledge to come up with a better one. Does
->> anyone have a hint on how to approach this problem in a better way?
->>=20
->> regards,
->>=20
->> Koen
->=20
-> --=20
-> Darren Hart
-> Intel Open Source Technology Center
-> Yocto Project - Linux Kernel
+diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+index a40e74f..a6f80f2 100644
+--- a/meta/classes/gettext.bbclass
++++ b/meta/classes/gettext.bbclass
+@@ -1,17 +1,24 @@
+ def gettext_after_parse(d):
+-    # Remove the NLS bits if USE_NLS is no.
+-    if bb.data.getVar('USE_NLS', d, 1) == 'no':
+-        cfg = oe_filter_out('^--(dis|en)able-nls$', bb.data.getVar('EXTRA_OECONF', d, 1) or "", d)
+-        cfg += " --disable-nls"
+-        depends = bb.data.getVar('DEPENDS', d, 1) or ""
+-        bb.data.setVar('DEPENDS', oe_filter_out('^(virtual/libiconv|virtual/libintl)$', depends, d), d)
+-        bb.data.setVar('EXTRA_OECONF', cfg, d)
+-
++   # Remove the NLS bits if USE_NLS is no.
++   if bb.data.getVar('USE_NLS', d, True) == 'no':
++       cfg = oe_filter_out('^--(dis|en)able-nls$', bb.data.getVar('EXTRA_OECONF', d, 1) or "", d)
++       cfg += " --disable-nls"
++       depends = bb.data.getVar('DEPENDS', d, True) or ""
++       depends = oe_filter_out('^(virtual/libiconv|virtual/libintl|virtual/gettext|gettext)$', depends, d)
++       if not oe.utils.inherits(d, 'native', 'nativesdk', 'cross', 'crosssdk'):
++           depends = oe_filter_out('^(gettext-native)$', depends, d)
++       bb.data.setVar('DEPENDS', depends, d)
++       bb.data.setVar('EXTRA_OECONF', cfg, d)
++   # check if INHIBIT_DEFAULT_DEPS is 1 then we forcibly remove dependencies
++   # added by this class through DEPENDS_GETTEXT
++   if bb.data.getVar('INHIBIT_DEFAULT_DEPS', d, True):
++       depends = bb.data.getVar('DEPENDS', d, True) or ""
++       gettext_deps = '^(' + bb.data.getVar('DEPENDS_GETTEXT', d, True) + ')$'
++       depends = oe_filter_out(gettext_deps, depends, d)
++       bb.data.setVar('DEPENDS', depends, d)
+ python () {
+     gettext_after_parse(d)
+ }
+-
+-DEPENDS_GETTEXT = "gettext gettext-native"
+-
+-DEPENDS =+ "${DEPENDS_GETTEXT}"
+ EXTRA_OECONF += "--enable-nls"
++DEPENDS_GETTEXT ?= "virtual/gettext"
++DEPENDS_append = " ${DEPENDS_GETTEXT} "
+-- 
+1.7.4.1
 
 
 
