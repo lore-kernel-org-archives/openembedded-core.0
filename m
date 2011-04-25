@@ -1,39 +1,27 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QEB5Q-0003yZ-Vl
+	(envelope-from <sgw@linux.intel.com>) id 1QEDME-0006Kt-QG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Apr 2011 03:59:41 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 24 Apr 2011 18:57:12 -0700
+	Mon, 25 Apr 2011 06:25:11 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 24 Apr 2011 21:22:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,264,1301900400"; d="scan'208";a="633547619"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga002.jf.intel.com with ESMTP; 24 Apr 2011 18:56:58 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Mon, 25 Apr 2011 09:56:50 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Mon, 25 Apr 2011 09:56:49 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Mon, 25 Apr 2011 09:56:48 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Saul Wold' <sgw@linux.intel.com>, 'Patches and discussions about the
-	oe-core layer' <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2011 09:56:48 +0800
-Thread-Topic: gdb and lttng-ust 0.12
-Thread-Index: AcwCvI2yChmt5WNXRPWLnEhSH8PswgALP8Pg
-Message-ID: <1865303E0DED764181A9D882DEF65FB69317AB0ED9@shsmsx502.ccr.corp.intel.com>
-References: <4DB48532.3030605@linux.intel.com>
-In-Reply-To: <4DB48532.3030605@linux.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+X-IronPort-AV: E=Sophos;i="4.64,264,1301900400"; d="scan'208";a="424854379"
+Received: from unknown (HELO [10.255.12.237]) ([10.255.12.237])
+	by azsmga001.ch.intel.com with ESMTP; 24 Apr 2011 21:22:35 -0700
+Message-ID: <4DB4F70B.2090805@linux.intel.com>
+Date: Sun, 24 Apr 2011 21:22:35 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
 MIME-Version: 1.0
-Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>
-Subject: Re: gdb and lttng-ust 0.12
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1303388485-25698-1-git-send-email-koen@dominion.thruhere.net>
+In-Reply-To: <1303388485-25698-1-git-send-email-koen@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] librsvg 2.32.1: fix postinst script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,116 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2011 01:59:41 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 25 Apr 2011 04:25:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGkgU2F1bCwNClRoYW5rcyB2ZXJ5IG11Y2ggZm9yIHRoZSBpbnZlc3RpZ2F0aW9uISANCkkgY2Fu
-IHJlcHJvZHVjZSB0aGUgaXNzdWUgbm93IHdoZW4gSSBidWlsZCBnZGIgYWZ0ZXIgYnVpbGRpbmcg
-bHR0bmctdXN0IChwcmV2aW91c2x5IGxvb2tzIEkgYnVpbHQgdGhlbSBpbiB0aGUgcmV2ZXJzZSBv
-cmRlciwgc28gZGlkbid0IGNhdGNoIGl0LikNCg0KSSBoYXZlbid0IHVuZGVyc3Rvb2Qgd2h5IHRo
-aXMgaXNzdWUgb2NjdXJyZWQgYWZ0ZXIgSSB1cGdyYWRlZCB1c3QgZnJvbSAwLjExIHRvIDAuMTIg
-YXMgMC4xMSBhY3R1YWxseSBpbnN0YWxscyAvdXNyL2luY2x1ZGUvdXN0LCB0b28uIEFuZCBnZGIg
-d2FzIG5vdCB1cGdyYWRlZCByZWNlbnRseS4NCg0KSSdtIGxvb2tpbmcgaW50byB0aGlzIG5vdyBh
-bmQgd2lsbCB1cGRhdGUgYXNhcC4NCg0KVGhhbmtzLA0KLS0gRGV4dWFuDQoNCi0tLS0tT3JpZ2lu
-YWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBTYXVsIFdvbGQgW21haWx0bzpzZ3dAbGludXguaW50ZWwu
-Y29tXSANClNlbnQ6IDIwMTHE6jTUwjI1yNUgNDoxNw0KVG86IEN1aSwgRGV4dWFuOyAnUGF0Y2hl
-cyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXInDQpDYzogcG9reUB5b2N0
-b3Byb2plY3Qub3JnDQpTdWJqZWN0OiBnZGIgYW5kIGx0dG5nLXVzdCAwLjEyDQoNCg0KRGV4dWFu
-LA0KDQpJdCBzZWVtcyB0aGF0IHdoZW4geW91IHVwZGF0ZWQgbHR0bmctdXN0IHRvIDAuMTIsIGl0
-IGluc3RhbGxlZCBhbiANCi91c3IvaW5jbHVkZS91c3QgZGlyZWN0b3J5IHRoYXQgR0RCIG5vdyBm
-aW5kcy4gIFRoaXMgY2F1c2VkIHRoZSANCmdkYnNlcnZlciBjb2RlIHRvIG5vdCBidWlsZC4NCg0K
-SSBpbnZlc3RpZ2F0ZWQgdGhpcyBhbmQgaXQgc2VlbXMgdG8gYmUgZHVlIHRvIGdkYiBoYXZpbmcg
-YSBkZXBlbmRlbmN5IG9uIA0KVVNUIHRoYXQgY2F1c2VzIEdEQiBub3QgdG8gY29tcGlsZS4gIEkg
-dGhpbmsgYXQgdGhpcyBwb2ludCB3ZSBtYXkgd2FudCANCnRvIGNvbnRpbnVlIHdpdGggVVNUIGRp
-c2FibGVkIGluIGdkYi4NCg0KVG8gcmVwcm9kdWNlIHRoaXMsIGVuc3VyZSB0aGF0IGx0dG5nLXVz
-dC0wLjEyIGlzIGJ1aWx0IGJlZm9yZSBidWlsZGluZyANCmdkYiBhbmQgeW91IHNob3VsZCBzZWUg
-YSBjb21waWxhdGlvbiBmYWlsdXJlLg0KDQpNeSBjb25jZXJuIGhlcmUgaXMgdGhhdCBpZiBmaXgg
-dGhlIEdEQiBjb21waWxhdGlvbiBmYWlsdXJlcywgd2hhdCBlbHNlIA0KaXMgZ29pbmcgdG8gZmFp
-bCBhcyBmYXIgYXMgZGVidWdnaW5nIHdpdGggVVNUIGVuYWJsZWQgb24gdGhlIHJlbW90ZSwgSSAN
-Cmtub3cgdGhpcyBmZWF0dXJlIGlzIHNvbWV0aGluZyB3ZSB3YW50LCBhbmQgc2hvdWxkIHByb2Jh
-Ymx5IHJlcG9ydCB0byANCnRoZSBHREIgdXBzdHJlYW0uDQoNClRoZSBmaXggc2VlbXMgdG8gYmUg
-YXMgc2ltcGxlIGFzIGFkZGluZyAiLS13aXRob3V0LXVzdCIgdG8gdGhlIGdkYiANCkVYVFJBX09F
-Q09ORiBsaW5lLg0KDQpDb21tZW50cz8NCg0KLS0gDQogICAgIFNhdSENCg0KU2F1bCBXb2xkDQpZ
-b2N0byBDb21wb25lbnQgV3JhbmdsZXIgQCBJbnRlbA0KWW9jdG8gUHJvamVjdCAvIFBva3kgQnVp
-bGQgU3lzdGVtDQoNCkVycm9yIHdoaWxlIGNvbXBpbGluZyB0cmFjZXBvaW50LmMgLT4gdHJhY2Vw
-b2ludC1pcGEubyAobm90ZSBpdCdzIC1pcGEubyANCnNvIGEgZGlmZmVyZW50IHNldCBvZiBmbGFn
-cykuDQoNCg0KfCBjY2FjaGUgaTU4Ni1wb2t5LWxpbnV4LWdjYyAtbWFyY2g9aTU4NiANCi0tc3lz
-cm9vdD0vdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxk
-L2J1aWxkL3RtcC9zeXNyb290cy9xZW11eDg2IA0KLWMgIC1XYWxsICAgIC1JLiANCi1JL3ZvbC8x
-L3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAv
-d29yay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIgDQot
-SS92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVp
-bGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2Vy
-dmVyLy4uL2NvbW1vbiANCi1JL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3kt
-ZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9n
-ZGItNy4yL2dkYi9nZGJzZXJ2ZXIvLi4vcmVnZm9ybWF0cyANCi1JL3ZvbC8xL3Nndy9hdXRvYnVp
-bGRlci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBv
-a3ktbGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvLi4vLi4vaW5jbHVkZSAN
-Ci1PMiAtcGlwZSAtZyAtZmVsaW1pbmF0ZS11bnVzZWQtZGVidWctdHlwZXMgDQotRENPTkZJR19V
-U1RfR0RCX0lOVEVHUkFUSU9OIC1mUElDIC1ER0RCU0VSVkVSIC1ESU5fUFJPQ0VTU19BR0VOVCAN
-Ci1mdmlzaWJpbGl0eT1oaWRkZW4gDQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUv
-cG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4y
-LXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmMgDQotbyB0cmFjZXBvaW50LWlw
-YS5vDQp8IA0KL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9i
-dWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dk
-Yi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5jOiANCkluIGZ1bmN0aW9uICdmaXJzdF9tYXJrZXInOg0K
-fCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQv
-YnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ri
-c2VydmVyL3RyYWNlcG9pbnQuYzo3MDA5OjM6IA0Kd2FybmluZzogcmV0dXJuIGZyb20gaW5jb21w
-YXRpYmxlIHBvaW50ZXIgdHlwZQ0KfCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2
-ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03
-LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVyL3RyYWNlcG9pbnQuYzogDQpJbiBmdW5jdGlvbiAn
-bmV4dF9tYXJrZXInOg0KfCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5
-LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAv
-Z2RiLTcuMi9nZGIvZ2Ric2VydmVyL3RyYWNlcG9pbnQuYzo3MDI0OjIzOiANCndhcm5pbmc6IGNv
-bXBhcmlzb24gb2YgZGlzdGluY3QgcG9pbnRlciB0eXBlcyBsYWNrcyBhIGNhc3QNCnwgDQovdm9s
-LzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3Rt
-cC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90
-cmFjZXBvaW50LmM6NzAyNzo0OiANCndhcm5pbmc6IHJldHVybiBmcm9tIGluY29tcGF0aWJsZSBw
-b2ludGVyIHR5cGUNCnwgDQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1m
-dWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dk
-Yi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6IA0KSW4gZnVuY3Rpb24gJ3VucHJvYmVf
-bWFya2VyX2F0JzoNCnwgDQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1m
-dWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dk
-Yi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6NzEwNTozMzogDQplcnJvcjogcmVxdWVz
-dCBmb3IgbWVtYmVyICdsb2NhdGlvbicgaW4gc29tZXRoaW5nIG5vdCBhIHN0cnVjdHVyZSBvciB1
-bmlvbg0KfCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEv
-YnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9n
-ZGIvZ2Ric2VydmVyL3RyYWNlcG9pbnQuYzo3MTA5OjUxOiANCmVycm9yOiByZXF1ZXN0IGZvciBt
-ZW1iZXIgJ2NoYW5uZWwnIGluIHNvbWV0aGluZyBub3QgYSBzdHJ1Y3R1cmUgb3IgdW5pb24NCnwg
-DQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1
-aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNl
-cnZlci90cmFjZXBvaW50LmM6NzExMDoyMzogDQplcnJvcjogcmVxdWVzdCBmb3IgbWVtYmVyICdu
-YW1lJyBpbiBzb21ldGhpbmcgbm90IGEgc3RydWN0dXJlIG9yIHVuaW9uDQp8IA0KL3ZvbC8xL3Nn
-dy9hdXRvYnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29y
-ay9pNTg2LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vw
-b2ludC5jOjcxMTQ6MTc6IA0KZXJyb3I6IHJlcXVlc3QgZm9yIG1lbWJlciAnY2hhbm5lbCcgaW4g
-c29tZXRoaW5nIG5vdCBhIHN0cnVjdHVyZSBvciB1bmlvbg0KfCANCi92b2wvMS9zZ3cvYXV0b2J1
-aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1w
-b2t5LWxpbnV4L2dkYi03LjItcjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVyL3RyYWNlcG9pbnQuYzo3
-MTE0OjM5OiANCmVycm9yOiByZXF1ZXN0IGZvciBtZW1iZXIgJ25hbWUnIGluIHNvbWV0aGluZyBu
-b3QgYSBzdHJ1Y3R1cmUgb3IgdW5pb24NCnwgDQovdm9sLzEvc2d3L2F1dG9idWlsZGVyL3Bva3kt
-c2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3RtcC93b3JrL2k1ODYtcG9reS1saW51eC9n
-ZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90cmFjZXBvaW50LmM6IA0KSW4gZnVuY3Rp
-b24gJ3Byb2JlX21hcmtlcl9hdCc6DQp8IA0KL3ZvbC8xL3Nndy9hdXRvYnVpbGRlci9wb2t5LXNs
-YXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2Ri
-LTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5jOjcxMzU6NDM6IA0Kd2Fy
-bmluZzogYXNzaWdubWVudCBmcm9tIGluY29tcGF0aWJsZSBwb2ludGVyIHR5cGUNCnwgDQovdm9s
-LzEvc2d3L2F1dG9idWlsZGVyL3Bva3ktc2xhdmUvcG9reS1mdWxsLWlhL2J1aWxkL2J1aWxkL3Rt
-cC93b3JrL2k1ODYtcG9reS1saW51eC9nZGItNy4yLXIwL2dkYi03LjIvZ2RiL2dkYnNlcnZlci90
-cmFjZXBvaW50LmM6NzEzNzo0MjogDQp3YXJuaW5nOiBhc3NpZ25tZW50IGZyb20gaW5jb21wYXRp
-YmxlIHBvaW50ZXIgdHlwZQ0KfCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9w
-b2t5LWZ1bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjIt
-cjAvZ2RiLTcuMi9nZGIvZ2Ric2VydmVyL3RyYWNlcG9pbnQuYzogDQpJbiBmdW5jdGlvbiAnY21k
-X3F0c3RtYXQnOg0KfCANCi92b2wvMS9zZ3cvYXV0b2J1aWxkZXIvcG9reS1zbGF2ZS9wb2t5LWZ1
-bGwtaWEvYnVpbGQvYnVpbGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L2dkYi03LjItcjAvZ2Ri
-LTcuMi9nZGIvZ2Ric2VydmVyL3RyYWNlcG9pbnQuYzo3MTgwOjQzOiANCndhcm5pbmc6IGFzc2ln
-bm1lbnQgZnJvbSBpbmNvbXBhdGlibGUgcG9pbnRlciB0eXBlDQp8IA0KL3ZvbC8xL3Nndy9hdXRv
-YnVpbGRlci9wb2t5LXNsYXZlL3Bva3ktZnVsbC1pYS9idWlsZC9idWlsZC90bXAvd29yay9pNTg2
-LXBva3ktbGludXgvZ2RiLTcuMi1yMC9nZGItNy4yL2dkYi9nZGJzZXJ2ZXIvdHJhY2Vwb2ludC5j
-OjcxODI6NDI6IA0Kd2FybmluZzogYXNzaWdubWVudCBmcm9tIGluY29tcGF0aWJsZSBwb2ludGVy
-IHR5cGUNCnwgbWFrZVs0XTogKioqIFt0cmFjZXBvaW50LWlwYS5vXSBFcnJvciAxDQoNCg0KDQo=
+On 04/21/2011 05:21 AM, Koen Kooi wrote:
+> The symptom:
+>
+> root@pandaboard-core:~# sh /var/lib/opkg/info/librsvg-2-gtk.postinst
+> g_module_open() failed for /home/root/--update-cache: /home/root/--update-cache.so: cannot open shared object file: No such file or directory
+> root@pandaboard-core:~#
+>
+> the gdk-pixbuf-query-loaders app doesn't support arguments, only .so names, so remove --update-cache
+>
+> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+> ---
+>   meta/recipes-gnome/librsvg/librsvg_2.32.1.bb |    4 ++--
+>   1 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> index ea9456d..08ac01d 100644
+> --- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> +++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>   SECTION = "x11/utils"
+>   DEPENDS = "gtk+ libcroco cairo libxml2 popt"
+>
+> -PR = "r0"
+> +PR = "r1"
+>
+>   inherit autotools pkgconfig gnome
+>
+> @@ -43,6 +43,6 @@ if [ "x$D" != "x" ]; then
+>     exit 1
+>   fi
+>
+> -test -x ${bindir}/gdk-pixbuf-query-loaders&&  { GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders --update-cache ; }
+> +test -x ${bindir}/gdk-pixbuf-query-loaders&&  { GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders ; }
+>   test -x ${bindir}/gtk-update-icon-cache&&  gtk-update-icon-cache  -q ${datadir}/icons/hicolor
+>   }
+Pulled into OE-Core and Poky/Master
+
+Thanks
+	Sau!
 
 
