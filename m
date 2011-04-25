@@ -1,38 +1,38 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QEQyo-0003op-FR
+	(envelope-from <raj.khem@gmail.com>) id 1QEQyr-0003kf-9r
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Apr 2011 20:57:56 +0200
-Received: by mail-pw0-f47.google.com with SMTP id 9so1388561pwj.6
+	Mon, 25 Apr 2011 20:57:58 +0200
+Received: by mail-pv0-f175.google.com with SMTP id 30so1379643pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Apr 2011 11:55:26 -0700 (PDT)
+	Mon, 25 Apr 2011 11:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=ESPVsiV9Q21ptSWeysvjuQ1dP+5mbxoFBr94d0Y7d9g=;
-	b=Fm5/VKoS3bo6aGtPjzN2Z9jOC2MgPDTTG7LHiqlbCg5f4RTP+xGb1MZc6BYbI/1rdN
-	9xSmSWSwz/wzr5TIpV3pJ53H8hpgzReTdgkY47H2M74HBHm/ZCC617p8eXWSzQJc/tJE
-	Oyv7fL9innR4YgkAKA3hSQCL1FMDC/+ZRVtQU=
+	bh=8P5l/rvmNabKObVohRku+0/G3PldLTjQkhl4wWKXirM=;
+	b=Bl2aUG9dyLaEDA5Zy4qArEBxVgpukhpsAwKqC/WMRHL7Gw2ZeMQvk/aprIhqG2P0Nj
+	2n8JXegLyC7QXG37t4THQ0xLRUPr8biggTMck2KSiXrvGf04dVqi2RYzx44UGqitH3CM
+	zsq8UGfGJK2I3D4WAThC6F9IYQgdZXOyOoDxc=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=ZGkT4A1e8YLfbwGRz/4iWfX6Zow4WiG5u6VNNt9NqawDeDkLdqcNITAd68vxh+o2xf
-	uic/o5Tgbd3Ojjla0jsqvJ6NPKeBrVyBfPbdNyK+FddZd1I9Ry00VNwODLZg7BIycZSo
-	VX4NB5CXrpu6CbiY7ULXlpug90JTR+spY7lNE=
-Received: by 10.143.87.1 with SMTP id p1mr2634860wfl.271.1303757726236;
-	Mon, 25 Apr 2011 11:55:26 -0700 (PDT)
+	b=EuMJSR1TfRe7uauX63Rhau5UZXlS43Mr/bUW8GCt47Aii0iBoJlC2U9c4xDwOaZb7U
+	E6iEYqefPxqroU2GZsImb4Tg5j5/mMdTY4sobAA8piMoZaNw/46Rt4rNX0kXe17uGSgr
+	UnYRYV+x/ZhRhOBFGrsSDf3R5t0fAFIs86fwk=
+Received: by 10.68.58.37 with SMTP id n5mr7461087pbq.33.1303757721944;
+	Mon, 25 Apr 2011 11:55:21 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id k7sm4608804wfa.2.2011.04.25.11.55.24
+	by mx.google.com with ESMTPS id g3sm4056243pbl.92.2011.04.25.11.55.19
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 25 Apr 2011 11:55:25 -0700 (PDT)
+	Mon, 25 Apr 2011 11:55:20 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Apr 2011 11:55:21 -0700
-Message-Id: <0b3020f4f678ce33d421c608b694b9d0f8c5a5c0.1303757256.git.raj.khem@gmail.com>
+Date: Mon, 25 Apr 2011 11:55:16 -0700
+Message-Id: <2249f04c7e346c33e7d2777281d40a816f80cf94.1303757256.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1303757256.git.raj.khem@gmail.com>
 References: <cover.1303757256.git.raj.khem@gmail.com>
-Subject: [PATCH 12/17] elfutils_0.148.bb: Fix compilation issues on uclibc
+Subject: [PATCH 11/17] util-linux.inc: remove virtual/libintl from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,79 +47,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Apr 2011 18:57:56 -0000
+X-List-Received-Date: Mon, 25 Apr 2011 18:57:58 -0000
 
-* Add -luargp and -lintl to linker flags
-* __mempcpy is not there on uclibc so define it to mempcpy
+inherit gettext should do it.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../elfutils/elfutils-0.148/mempcpy.patch          |   23 ++++++++++++++++++++
- meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    6 +++-
- 2 files changed, 27 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.148/mempcpy.patch
+ meta/recipes-core/util-linux/util-linux.inc |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.148/mempcpy.patch b/meta/recipes-devtools/elfutils/elfutils-0.148/mempcpy.patch
-new file mode 100644
-index 0000000..e1e4ad0
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.148/mempcpy.patch
-@@ -0,0 +1,23 @@
-+uclibc does not export __mempcpy like glibc so we alias it here.
-+This patch may make sense for upstream but elfutils uses more
-+glibc specific features like obstack_printf which are missing in
-+uclibc they need to be fixed along to make it work all the way
-+
-+Upstream-status: Inappropriate[Elfutils uses more glibc specific features]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: elfutils-0.148/libelf/elf_begin.c
-+===================================================================
-+--- elfutils-0.148.orig/libelf/elf_begin.c
-++++ elfutils-0.148/libelf/elf_begin.c
-+@@ -68,6 +68,9 @@
-+ #include "libelfP.h"
-+ #include "common.h"
-+ 
-++#ifdef __UCLIBC__
-++#define __mempcpy mempcpy
-++#endif
-+ 
-+ /* Create descriptor for archive in memory.  */
-+ static inline Elf *
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-index a55b98d..df933f6 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-@@ -28,8 +28,8 @@ SRC_URI += "\
-         file://elf_additions.diff \
- 	file://elfutils-fsize.patch \
- 	file://remove-unused.patch \
-+	file://mempcpy.patch \
- "
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 913bb1b..447e5b7 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -13,10 +13,10 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=1530e36fe1304d4535513de90a290df9
+                     file://licenses/COPYING.UCB;md5=263860f8968d8bafa5392cab74285262 \
+                     file://getopt/COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+ 
+-DEPENDS = "zlib ncurses virtual/libintl"
+-DEPENDS_virtclass-native = "zlib-native ncurses-native lzo-native gettext-native"
 -
- # The buildsystem wants to generate 2 .h files from source using a binary it just built,
- # which can not pass the cross compiling, so let's work around it by adding 2 .h files
- # along with the do_configure_prepend()
-@@ -38,7 +38,6 @@ SRC_URI += "\
-         file://i386_dis.h \
-         file://x86_64_dis.h \
- "
--
- inherit autotools
- 
- EXTRA_OECONF = "--program-prefix=eu-"
-@@ -49,6 +48,9 @@ do_configure_prepend() {
- 	cp ${WORKDIR}/*dis.h ${S}/libcpu
- }
- 
-+# Only append ldflags for target recipe
-+TARGET_LDFLAGS_libc-uclibc += "${@['', '-lintl -luargp']['${PN}' == '${BPN}']}"
+ inherit autotools gettext
++DEPENDS = "zlib ncurses"
++DEPENDS_virtclass-native_append = " lzo-native"
 +
- BBCLASSEXTEND = "native nativesdk"
  
- # Package utilities separately
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux-ng/v${MAJOR_VERSION}/util-linux-ng-${PV}.tar.bz2 \
+            file://MCONFIG \
 -- 
 1.7.4.1
 
