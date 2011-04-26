@@ -1,22 +1,23 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QEjRl-0004Uj-Sc
+	(envelope-from <sgw@linux.intel.com>) id 1QEl0f-0003Tw-N5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Apr 2011 16:41:02 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 26 Apr 2011 07:38:31 -0700
+	Tue, 26 Apr 2011 18:21:09 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Apr 2011 09:18:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,268,1301900400"; d="scan'208";a="425713879"
+X-IronPort-AV: E=Sophos;i="4.64,269,1301900400"; d="scan'208";a="914631719"
 Received: from unknown (HELO [10.255.12.231]) ([10.255.12.231])
-	by azsmga001.ch.intel.com with ESMTP; 26 Apr 2011 07:38:30 -0700
-Message-ID: <4DB6D8E6.90706@linux.intel.com>
-Date: Tue, 26 Apr 2011 07:38:30 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 26 Apr 2011 09:18:30 -0700
+Message-ID: <4DB6F055.7010505@linux.intel.com>
+Date: Tue, 26 Apr 2011 09:18:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
 	Thunderbird/3.0.5
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 References: <cover.1303757256.git.raj.khem@gmail.com>
 	<e5c0091a01641a3a2b55321cf5b4a5a9e91ef8e5.1303757256.git.raj.khem@gmail.com>
 In-Reply-To: <e5c0091a01641a3a2b55321cf5b4a5a9e91ef8e5.1303757256.git.raj.khem@gmail.com>
@@ -35,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2011 14:41:02 -0000
+X-List-Received-Date: Tue, 26 Apr 2011 16:21:09 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -47,12 +48,16 @@ On 04/25/2011 11:55 AM, Khem Raj wrote:
 >   2 files changed, 16 insertions(+), 16 deletions(-)
 >   delete mode 100644 meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch
 >
-Khem, Nitin:
+Khem,
 
-With perl being updated to 5.12.3 at this point, can you confirm this 
-patch removal is still correct
+Looking further at this patch, what affects will removing these features 
+have on LSB for example?
+
+What's the bigger affect of removing the stack-protector flags, in the 
+do_configure?
 
 Sau!
+
 
 > diff --git a/meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch b/meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch
 > deleted file mode 100644
