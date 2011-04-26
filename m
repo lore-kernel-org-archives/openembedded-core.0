@@ -1,39 +1,40 @@
 Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QEmP9-0002cA-Qa
+	(envelope-from <raj.khem@gmail.com>) id 1QEmTR-0002jw-5k
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Apr 2011 19:50:31 +0200
-Received: by ewy5 with SMTP id 5so281796ewy.6
+	Tue, 26 Apr 2011 19:54:57 +0200
+Received: by ewy5 with SMTP id 5so283122ewy.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Apr 2011 10:48:02 -0700 (PDT)
+	Tue, 26 Apr 2011 10:52:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=MFZIRdMxVW86LSSAGuea1cd6+4P1I9DjI/wE/5QlOvw=;
-	b=ogyc/V5KrLBGUWdiqAdpUMGb2QkETg7IQPprOxFnJ2ycjSt1oqPYmxxkkJaYSRq5SG
-	gkPfmq9u0XzVsp3JZF/eJGgr82PpDtqE0GWoifWizYRolz/VCYysF6xjZOgRAel1/KWf
-	e+nzivNXo0MbJl7mAGji31L0USbuZlDEopvag=
+	bh=cr8hEdTX2208NTK9cs9Rq/In7GNryF6YzZAcu7oW/0k=;
+	b=ZDz4nZFcLlpKLlakQv/dfS9FFNov7wLiiYv61C0sU+iA2lLWMR89TgjJ2z2HJLWRTi
+	P9rTSOCv4oDtZJdV5ChJO5AaKQ8KOCSXfYzOTh1sZSIZfrSmxNkoyAp4uz1Bz4eoLCxi
+	vdaWGoZTPOvgw9sIRCF48kT5f5anR66t7einw=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:content-transfer-encoding;
-	b=XZBK+kgEDEFAQmOa1pyHHlk7yI9PEFWaKjkR93cHiqd5o9fBnzHVc788r49oZ7Vqp4
-	HHegDZJrZxo2odBnMkBKb3X+d/e86NGUga8wbziGMNZ7LjCpQ7XIUXguczbvj4eQdjYj
-	YfGPzly5MLPIsFTuL8iJgzBLkIjKQYnb1W3DU=
-Received: by 10.14.34.88 with SMTP id r64mr509470eea.77.1303840081342; Tue, 26
-	Apr 2011 10:48:01 -0700 (PDT)
+	b=Bq/HS32aQ9WNPL4KaDuBbrXhM1WV87in3tJQNm0zclWAXJ/AYzyy8v+4MggNiPj2Un
+	WmWla3nqTIjxfF2yuBiXj793rXebD+VAETg5Lku2UpuT//E1ob2x4v+1hcBJGC/Ndrbc
+	w8ewxGHyuylU27eNKVtxauRV4vP11ZFBsk8mg=
+Received: by 10.14.17.103 with SMTP id i79mr512682eei.13.1303840335145; Tue,
+	26 Apr 2011 10:52:15 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.47.139 with HTTP; Tue, 26 Apr 2011 10:47:30 -0700 (PDT)
-In-Reply-To: <4DB6F055.7010505@linux.intel.com>
-References: <cover.1303757256.git.raj.khem@gmail.com>
-	<e5c0091a01641a3a2b55321cf5b4a5a9e91ef8e5.1303757256.git.raj.khem@gmail.com>
-	<4DB6F055.7010505@linux.intel.com>
+Received: by 10.14.47.139 with HTTP; Tue, 26 Apr 2011 10:51:44 -0700 (PDT)
+In-Reply-To: <4DB65C5B.2050409@linux.intel.com>
+References: <cover.1303539961.git.sgw@linux.intel.com>
+	<a0629aa0dc55829565b7ab1725875eac065ab2f1.1303539961.git.sgw@linux.intel.com>
+	<4DB562CF.1020100@mlbassoc.com> <4DB59811.5040109@linux.intel.com>
+	<4DB5ABDB.9070201@mlbassoc.com> <4DB65C5B.2050409@linux.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 26 Apr 2011 10:47:30 -0700
-Message-ID: <BANLkTi=ugN3zEb-B6VoRr9ZFhbt1RZhVaA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+Date: Tue, 26 Apr 2011 10:51:44 -0700
+Message-ID: <BANLkTik6odYsapq-n82ytd0H7HdYKTLV5g@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/17] perl_5.12.2.bb: Undefine features not found in uclibc
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Kang Kai <kai.kang@windriver.com>
+Subject: Re: [PATCH 07/37] modutils-initscripts: fix wrong order of module loading happening in udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,131 +49,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Apr 2011 17:50:32 -0000
+X-List-Received-Date: Tue, 26 Apr 2011 17:54:57 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 26, 2011 at 9:18 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 04/25/2011 11:55 AM, Khem Raj wrote:
+On Mon, Apr 25, 2011 at 10:47 PM, Darren Hart <dvhart@linux.intel.com> wrot=
+e:
+> On 04/25/2011 10:14 AM, Gary Thomas wrote:
+>> On 04/25/2011 09:49 AM, Saul Wold wrote:
+>>> On 04/25/2011 05:02 AM, Gary Thomas wrote:
+>>>> On 04/23/2011 12:28 AM, Saul Wold wrote:
+>>>>> From: =3D?UTF-8?q?Petr=3D20=3DC5=3DA0tetiar?=3D<ynezz@true.cz>
+>>>>>
+>>>>> In the current state, udev init script is loaded as 3rd and
+>>>>> modutils.sh as
+>>>>> 20th, so udevadm called in udev init script loads all kernel modules
+>>>>> in some
+>>>>> unpredictable order, not honoring in any way specified order of
+>>>>> modules in
+>>>>> /etc/modules. This causes some troubles mainly in the first boot. So
+>>>>> to fix
+>>>>> this we now move loading of the kernel modules just before we exec
+>>>>> udev init
+>>>>> script. Example of the current state:
+>>>>>
+>>>>> Starting udev
+>>>>> rtc-m48t86 rtc-m48t86: rtc core: registered m48t86 as rtc0
+>>>>> rtc-m48t86 rtc-m48t86: battery ok
+>>>>> ep93xx-rtc ep93xx-rtc: rtc core: registered ep93xx-rtc as rtc1
+>>>>>
+>>>>> root@ts72xx:~# cat /etc/modules
+>>>>> rtc-ep93xx
+>>>>> ohci-hcd
+>>>>> ts72xx_sbcinfo
+>>>>> rtc-m48t86
+>>>>>
+>>>>> As you can guess, this is really wrong behaviour, because I've rtc1 a=
+s
+>>>>> the
+>>>>> main time source for my system.
+>>>>>
+>>>>> root@ts72xx:~# cat /etc/default/hwclock
+>>>>> HWCLOCKACCESS=3Dyes
+>>>>> HWCLOCKDEVICE=3D/dev/rtc1
+>>>>>
+>>>>> Expected behaviour with this patch applied:
+>>>>>
+>>>>> Please wait: booting...
+>>>>> ep93xx-rtc ep93xx-rtc: rtc core: registered ep93xx-rtc as rtc0
+>>>>> usbcore: registered new device driver usb
+>>>>> ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+>>>>> ...
+>>>>> rtc-m48t86 rtc-m48t86: rtc core: registered m48t86 as rtc1
+>>>>> rtc-m48t86 rtc-m48t86: battery ok
+>>>>> Starting udev
+>>>>>
+>>>>> Signed-off-by: Petr =C5=A0tetiar<ynezz@true.cz>
+>>>>>
+>>>>> (based on http://patches.openembedded.org/patch/1917/)
+>>>>> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+>>>>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+>>>>> ---
+>>>>> .../modutils/modutils-initscripts.bb | 4 ++--
+>>>>> 1 files changed, 2 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/meta/recipes-kernel/modutils/modutils-initscripts.bb
+>>>>> b/meta/recipes-kernel/modutils/modutils-initscripts.bb
+>>>>> index 1665955..5ae34b4 100644
+>>>>> --- a/meta/recipes-kernel/modutils/modutils-initscripts.bb
+>>>>> +++ b/meta/recipes-kernel/modutils/modutils-initscripts.bb
+>>>>> @@ -4,10 +4,10 @@ LICENSE =3D "PD"
+>>>>> LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D7bf87fc37976e93ec66ad84fac=
+58c098"
+>>>>> SRC_URI =3D "file://modutils.sh \
+>>>>> file://PD.patch"
+>>>>> -PR =3D "r4"
+>>>>> +PR =3D "r5"
+>>>>>
+>>>>> INITSCRIPT_NAME =3D "modutils.sh"
+>>>>> -INITSCRIPT_PARAMS =3D "start 20 S ."
+>>>>> +INITSCRIPT_PARAMS =3D "start 2 S ."
+>>>>>
+>>>>> inherit update-rc.d
+>>>>>
+>>>>
+>>>> Should there not be a corresponding change to modutils_2.4.27.bb? It's
+>>>> not clear to me
+>>>> where there are these two separate recipes, but they should at least b=
+e
+>>>> kept in sync.
+>>>>
+>>> Gary,
+>>>
+>>> Could you please resend this as a proper patch with Signed-off-by and c=
+ommit info.
 >>
->> Signed-off-by: Khem Raj<raj.khem@gmail.com>
->> ---
->> =C2=A0.../perl/perl-5.12.2/native-ssp.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 16
->> ----------------
->> =C2=A0meta/recipes-devtools/perl/perl_5.12.2.bb =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| =C2=A0 16
->> ++++++++++++++++
->> =C2=A02 files changed, 16 insertions(+), 16 deletions(-)
->> =C2=A0delete mode 100644
->> meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch
->>
-> Khem,
+>> Attached. =C2=A0However, as Koen pointed out, perhaps this recipe should=
+ just be dropped,
+>> at least for Poky? =C2=A0I don't know that 2.4 kernels are built or supp=
+orted?
 >
-> Looking further at this patch, what affects will removing these features
-> have on LSB for example?
 >
-> What's the bigger affect of removing the stack-protector flags, in the
-> do_configure?
+> Right, so for clarification, for 2.4 kernels, images should be built
+> using just the modutils_2.4.27.bb recipe. For 2.6 kernels, images should
+> be built using module_init_tools and modutils-initscripts.
 >
+> In oe-core, task-base requires module-init-tools and task-core-boot
+> requires modutils-initscripts. That actually seems backwards to me as
+> modutils-initscripts is useless without module-init-tools.
+>
+> There is a considerable amount of cruft in the kernel base classes
+> related to older kernels which I'd like to see purged. Perhaps a
+> meta-linux-2.4 layer would be a good place to keep things like these as
+> well as the modutils_2.4.27 recipe.
 
-No effect. Patch was not applied. It is useless to keep unapplied
-patches. and the real changes are only for uclibc based targets
-so it has no effect for eglibc builds
+Do we have usecases to even support 2.4 anymore ? I would suggest
+to remove it if no use cases are reported.
 
-> Sau!
 >
+> However, in terms of the immediate issue, I agree with Gary's patch.
 >
->> diff --git a/meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch
->> b/meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch
->> deleted file mode 100644
->> index e1e6f08..0000000
->> --- a/meta/recipes-devtools/perl/perl-5.12.2/native-ssp.patch
->> +++ /dev/null
->> @@ -1,16 +0,0 @@
->> -Upstream-Status:Inappropriate [embedded specific]
->> -
->> -Fix for compiling with ssp enabled gcc:
->> -See http://bugs.openembedded.net/show_bug.cgi?id=3D1980
->> -
->> -diff -Naur perl-5.8.7.orig/cflags.SH perl-5.8.7/cflags.SH
->> ---- perl-5.8.7.orig/cflags.SH =C2=A02002-09-30 10:59:07.000000000 +0000
->> -+++ perl-5.8.7/cflags.SH =C2=A0 =C2=A0 =C2=A0 2005-10-02 04:08:39.00000=
-0000 +0000
->> -@@ -165,6 +165,8 @@
->> - esac
->> -
->> - =C2=A0 =C2=A0 : Can we perhaps use $ansi2knr here
->> -+ =C2=A0 =C2=A0[[ $file =3D=3D regcomp ]]&& =C2=A0export ccflags=3D"${c=
-cflags}
->> -fno-stack-protector"
->> -+ =C2=A0 =C2=A0[[ $file =3D=3D regexec ]]&& =C2=A0export ccflags=3D"${c=
-cflags}
->> -fno-stack-protector"
->> - =C2=A0 =C2=A0 echo "$cc -c -DPERL_CORE $ccflags $optimize $warn"
->> - =C2=A0 =C2=A0 eval "$also "'"$cc -DPERL_CORE -c $ccflags $optimize $wa=
-rn"'
->> diff --git a/meta/recipes-devtools/perl/perl_5.12.2.bb
->> b/meta/recipes-devtools/perl/perl_5.12.2.bb
->> index 9ce8156..b841e7d 100644
->> --- a/meta/recipes-devtools/perl/perl_5.12.2.bb
->> +++ b/meta/recipes-devtools/perl/perl_5.12.2.bb
->> @@ -131,6 +131,12 @@ do_configure() {
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 -e "s,\(getnetent_r_proto=3D\)'\w+',\1'0',g" \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 -e "s,\(d_sockatmark=3D\)'define',\1'undef',g" \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 -e "s,\(d_sockatmarkproto=3D\)'\w+',\1'0',g" \
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 -e "s,\(d_eaccess=3D\)'define',\1'undef',g" \
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 -e "s,\(d_stdio_ptr_lval=3D\)'define',\1'undef',g" \
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 -e
->> "s,\(d_stdio_ptr_lval_sets_cnt=3D\)'define',\1'undef',g" \
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 -e "s,\(d_stdiobase=3D\)'define',\1'undef',g" \
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 -e "s,\(d_stdstdio=3D\)'define',\1'undef',g" \
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 -e "s,-fstack-protector,-fno-stack-protector,g" \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0config.sh-${TARGET_ARCH}-${TARGET_OS}
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
->>
->> @@ -145,6 +151,16 @@ do_configure() {
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e 's,/perl5,/perl,g' \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0config.sh-${TARGET_ARCH}=
--${TARGET_OS}
->>
->> + =C2=A0 =C2=A0 =C2=A0 case "${TARGET_ARCH}" in
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0x86_64 | powerp=
-c | s390)
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0sed -i -e
->> "s,\(need_va_copy=3D\)'undef',\1'define',g" \
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0config.sh-${TARGET_ARCH}-${TARGET_=
-OS}
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0;;
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arm)
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0sed -i -e "s,\(d_u32align=3D\)'undef',\1'define',g"
->> \
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0config.sh-${TARGET_ARCH}-${TARGET_=
-OS}
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0;;
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0esac
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# These are strewn all over the source=
- tree
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for foo in `grep -I -m1 \/usr\/include=
-\/.*\\.h ${WORKDIR}/* -r |
->> cut -f 1 -d ":"` ; do
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo Fixing: $foo
+> --
+> Darren Hart
+> Intel Open Source Technology Center
+> Yocto Project - Linux Kernel
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
 
