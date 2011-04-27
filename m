@@ -1,25 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QEzET-0005Ol-EJ
+	(envelope-from <sgw@linux.intel.com>) id 1QEzEU-0005O8-7M
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Apr 2011 09:32:21 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 27 Apr 2011 00:29:50 -0700
+	Wed, 27 Apr 2011 09:32:23 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Apr 2011 00:29:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,273,1301900400"; d="scan'208";a="634683289"
+X-IronPort-AV: E=Sophos;i="4.64,273,1301900400"; d="scan'208";a="684550400"
 Received: from unknown (HELO localhost) ([10.255.12.245])
-	by orsmga002.jf.intel.com with ESMTP; 27 Apr 2011 00:29:49 -0700
-Message-Id: <877ce168510cded8f23ea173c33c882f966ebe49.1303889119.git.sgw@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 27 Apr 2011 00:29:51 -0700
+Message-Id: <9b8518e100fc826c9695024b06e6221e6d5a2ee3.1303889119.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303889119.git.sgw@linux.intel.com>
 References: <cover.1303889119.git.sgw@linux.intel.com>
-Old-Date: Thu, 31 Mar 2011 21:13:38 -0700
-Date: Wed, 27 Apr 2011  0:29:49 -0700
+Old-Date: Mon, 25 Apr 2011 12:48:47 -0700
+Date: Wed, 27 Apr 2011  0:29:51 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Wed, 27 Apr 2011 09:50:50 +0200
 Cc: Darren Hart <dvhart@linux.intel.com>, Chris Larson <clarson@kergoth.com>,
 	Antonio Ospite <ospite@studenti.unina.it>
-Subject: [PATCH 28/52] linux-tools.inc: Dummify do_compile_perf and do_install_perf for uclibc
+Subject: [PATCH 30/52] cdrtools: recipe and patch cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,49 +34,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2011 07:32:21 -0000
+X-List-Received-Date: Wed, 27 Apr 2011 07:32:23 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Scott Garman <scott.a.garman@intel.com>
 
-Perf wants elfutils and elfutils on uclibc does not work due to
-its usage of obstack_printf functionality missing from uclibc.
+* Recipe cleanup, added missing metadata fields and fixed
+  whitespace issues
+* Added Upstream-Status to patches
+* Confirmed that CVE-2003-0655 does not apply to this recipe
+  as rscsi is not packaged
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/recipes-kernel/linux/linux-tools.inc |   17 +++++++++++++----
- 1 files changed, 13 insertions(+), 4 deletions(-)
+ .../cdrtools-native/glibc-conflict-rename.patch    |    8 +++++++
+ .../cdrtools/cdrtools-native/no_usr_src.patch      |    7 ++++++
+ .../cdrtools/cdrtools-native_2.01.bb               |   22 +++++++++++--------
+ 3 files changed, 28 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipes-kernel/linux/linux-tools.inc
-index d64c9be..ef81650 100644
---- a/meta/recipes-kernel/linux/linux-tools.inc
-+++ b/meta/recipes-kernel/linux/linux-tools.inc
-@@ -1,6 +1,11 @@
- # included by kernel recipes if they want to build/provide
- # perf functionality from their tree.
--
-+do_compile_perf_libc-uclibc () {
-+	:
-+}
-+do_install_perf_libc-uclibc () {
-+	:
-+}
- do_compile_perf() {
- 	oe_runmake -C ${S}/tools/perf CC="${CC}" LD="${LD}" prefix=${prefix} NO_NEWT=1 NO_DWARF=1
- }
-@@ -14,6 +19,10 @@ do_install_perf() {
- addtask compile_perf after do_compile before do_install
- addtask install_perf after do_install before do_package
- 
--do_compile_perf[depends] =  "virtual/libc:do_populate_sysroot"
--do_compile_perf[depends] =+ "elfutils:do_populate_sysroot"
--RDEPENDS_perf += "python perl elfutils"
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch b/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch
+index 0b9b892..2fd5696 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch
+@@ -1,3 +1,11 @@
++This patch fixes collisions between locally defined functions
++and glibc's fexecve() and getline() functions.
 +
-+PERFDEPENDS = "virtual/libc:do_populate_sysroot elfutils:do_populate_sysroot"
-+PERFDEPENDS_libc-uclibc = ""
-+PERFRDEPENDS = "python perl elfutils"
-+PERFRDEPENDS_libc-uclibc = ""
-+do_compile_perf[depends] = "${PERFDEPENDS}"
-+RDEPENDS_perf += "${PERFRDEPENDS}"
++Upstream-Status: Inappropriate [Other]
++Upstream no longer maintains a GPL version of this utility.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ Index: cdrtools-2.01/include/schily.h
+ ===================================================================
+ --- cdrtools-2.01.orig/include/schily.h	2009-06-18 11:30:45.000000000 +0100
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch b/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
+index 0318d31..82e57d1 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
+@@ -1,3 +1,10 @@
++Remove hard-coded references to /usr/src/linux/include to avoid
++host contamination.
++
++Upstream-Status: [Other (build-system specific)]
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ Index: cdrtools-2.01/DEFAULTS/Defaults.gnu
+ ===================================================================
+ --- cdrtools-2.01.orig/DEFAULTS/Defaults.gnu	2008-09-22 12:42:12.000000000 +0100
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb
+index 769e5e2..aba6a45 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb
+@@ -1,21 +1,25 @@
+ # cdrtools-native OE build file
+ # Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
+ # Released under the MIT license (see packages/COPYING)
+-
+-LICENSE="GPL"
+-DESCRIPTION="A set of tools for CD recording, including cdrecord"
+-HOMEPAGE="http://cdrecord.berlios.de/old/private/cdrecord.html"
++SUMMARY = "A set of tools for CD recording, including cdrecord"
++DESCRIPTION = "A set of tools for CD recording, including cdrecord"
++HOMEPAGE = "http://cdrecord.berlios.de/private/cdrecord.html"
++SECTION = "console/utils"
++PRIORITY = "optional"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ PR = "r2"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
++SRC_URI = "ftp://ftp.berlios.de/pub/cdrecord/cdrtools-${PV}.tar.bz2 \
++           file://no_usr_src.patch \
++           file://glibc-conflict-rename.patch"
+ 
+-SRC_URI="ftp://ftp.berlios.de/pub/cdrecord/cdrtools-${PV}.tar.bz2 \
+-         file://no_usr_src.patch;patch=1 \
+-         file://glibc-conflict-rename.patch;patch=1"
++SRC_URI[md5sum] = "d44a81460e97ae02931c31188fe8d3fd"
++SRC_URI[sha256sum] = "728b6175069a77c4d7d92ae60108cbda81fbbf7bc7aa02e25153ccf2092f6c22"
+ 
+ inherit native
+ 
+-STAGE_TEMP="${WORKDIR}/image-temp"
++STAGE_TEMP = "${WORKDIR}/image-temp"
+ 
+ do_install() {
+ 	install -d ${STAGE_TEMP}
 -- 
 1.7.1.1
 
