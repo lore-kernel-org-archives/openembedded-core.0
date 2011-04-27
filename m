@@ -1,25 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QEzEB-0005KM-31
+	(envelope-from <sgw@linux.intel.com>) id 1QEzEC-0005Kp-0G
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Apr 2011 09:32:03 +0200
+	Wed, 27 Apr 2011 09:32:04 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Apr 2011 00:29:30 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2011 00:29:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,273,1301900400"; d="scan'208";a="914945460"
+X-IronPort-AV: E=Sophos;i="4.64,273,1301900400"; d="scan'208";a="914945497"
 Received: from unknown (HELO localhost) ([10.255.12.245])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Apr 2011 00:29:29 -0700
-Message-Id: <a67634a0022142ac905f054bd5711595ca75af9c.1303889119.git.sgw@linux.intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 27 Apr 2011 00:29:35 -0700
+Message-Id: <619984ae530d01fb7f607e93e6f3ed93f0805ea0.1303889119.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303889119.git.sgw@linux.intel.com>
 References: <cover.1303889119.git.sgw@linux.intel.com>
-Old-Date: Tue, 19 Apr 2011 14:58:37 +0800
-Date: Wed, 27 Apr 2011  0:29:29 -0700
+Old-Date: Wed, 20 Apr 2011 13:45:02 +0800
+Date: Wed, 27 Apr 2011  0:29:34 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Wed, 27 Apr 2011 09:50:50 +0200
 Cc: Darren Hart <dvhart@linux.intel.com>, Chris Larson <clarson@kergoth.com>,
 	Antonio Ospite <ospite@studenti.unina.it>
-Subject: [PATCH 09/52] rxvt-unicode: upgrade to version 9.10
+Subject: [PATCH 14/52] glib-2.0: upgrade to version 2.28.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,284 +34,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2011 07:32:03 -0000
+X-List-Received-Date: Wed, 27 Apr 2011 07:32:04 -0000
 
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 
-Remove some patches since some logic doesn't exist in upstream.
-This upgrades fixes CVE:
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2006-0126
-
-Also it fixes [Yocto #980]
-
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- .../recipes-sato/rxvt-unicode/files/makefile.patch |   20 ----------
- meta/recipes-sato/rxvt-unicode/files/rxvt.desktop  |   11 ------
- .../rxvt-unicode/files/signedchar.patch            |   11 ------
- meta/recipes-sato/rxvt-unicode/files/xwc.patch     |   28 --------------
- .../rxvt-unicode/rxvt-unicode-5.6/xwc.patch        |   24 ------------
- .../rxvt-unicode/rxvt-unicode-9.10/rxvt.desktop    |    9 +++++
- .../{files => rxvt-unicode-9.10}/rxvt.png          |  Bin 2847 -> 2847 bytes
- .../rxvt-unicode/rxvt-unicode-9.10/xwc.patch       |   26 +++++++++++++
- .../{rxvt-unicode_5.6.bb => rxvt-unicode_9.10.bb}  |   39 ++++++++------------
- 9 files changed, 51 insertions(+), 117 deletions(-)
- delete mode 100644 meta/recipes-sato/rxvt-unicode/files/makefile.patch
- delete mode 100644 meta/recipes-sato/rxvt-unicode/files/rxvt.desktop
- delete mode 100644 meta/recipes-sato/rxvt-unicode/files/signedchar.patch
- delete mode 100644 meta/recipes-sato/rxvt-unicode/files/xwc.patch
- delete mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode-5.6/xwc.patch
- create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.10/rxvt.desktop
- rename meta/recipes-sato/rxvt-unicode/{files => rxvt-unicode-9.10}/rxvt.png (100%)
- create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.10/xwc.patch
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_5.6.bb => rxvt-unicode_9.10.bb} (69%)
+ .../60_wait-longer-for-threads-to-die.patch        |    2 ++
+ .../glib-2.0/glib-2.0/configure-libtool.patch      |    2 ++
+ .../glib-2.0/glib-2.0/g_once_init_enter.patch      |    2 ++
+ .../glib-2.0/glib-2.0/glib-gettextize-dir.patch    |    2 ++
+ .../{glib-2.0_2.26.1.bb => glib-2.0_2.28.6.bb}     |    6 +++---
+ meta/recipes-core/glib-2.0/glib.inc                |    2 +-
+ 6 files changed, 12 insertions(+), 4 deletions(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.26.1.bb => glib-2.0_2.28.6.bb} (59%)
 
-diff --git a/meta/recipes-sato/rxvt-unicode/files/makefile.patch b/meta/recipes-sato/rxvt-unicode/files/makefile.patch
-deleted file mode 100644
-index 86f82ee..0000000
---- a/meta/recipes-sato/rxvt-unicode/files/makefile.patch
-+++ /dev/null
-@@ -1,20 +0,0 @@
----- ../rxvt-unicode-cvs-r0/rxvt-unicode/Makefile.in	2004-08-12 22:32:40 +01:00
--+++ rxvt-unicode/Makefile.in	2004-12-24 03:09:00 +00:00
--@@ -9,7 +9,7 @@
-- first_rule: all
-- dummy:
-- 
---subdirs = src doc src/test
--+subdirs = src src/test
-- allsubdirs = W11 $(subdirs)
-- 
-- DIST =	INSTALL README.configure configure Makefile Makefile.in ChangeLog
--@@ -24,7 +24,7 @@
-- 
-- #-------------------------------------------------------------------------
-- 
---all allbin alldoc tags:
--+all allbin tags:
-- 	@if test x@host_os@ = xcygwin; then (cd W11; ${MAKE} $@) || exit 1; fi
-- 	@for I in ${subdirs}; do (cd $$I; ${MAKE} $@) || exit 1; done
-- 
-diff --git a/meta/recipes-sato/rxvt-unicode/files/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/files/rxvt.desktop
-deleted file mode 100644
-index a419c98..0000000
---- a/meta/recipes-sato/rxvt-unicode/files/rxvt.desktop
-+++ /dev/null
-@@ -1,11 +0,0 @@
--[Desktop Entry]
--Encoding=UTF-8
--Name=Terminal
--Comment=When all else fails.
--Exec=/usr/bin/rxvt
--Icon=utilities-terminal.png
--Terminal=false
--Type=Application
--Categories=Utility
--StartupNotify=false
--
-diff --git a/meta/recipes-sato/rxvt-unicode/files/signedchar.patch b/meta/recipes-sato/rxvt-unicode/files/signedchar.patch
-deleted file mode 100644
-index 6faa175..0000000
---- a/meta/recipes-sato/rxvt-unicode/files/signedchar.patch
-+++ /dev/null
-@@ -1,11 +0,0 @@
----- ../rxvt-unicode-cvs-r0/rxvt-unicode/src/command.C	2004-12-21 06:43:00 +00:00
--+++ rxvt-unicode/src/command.C	2004-12-24 02:31:36 +00:00
--@@ -1862,7 +1862,7 @@
-- #endif				/* NO_SCROLLBAR_REPORT */
-- 
--         {
---          char            upordown = 0;
--+          signed char            upordown = 0;
-- 
--           if (scrollBar.style == R_SB_NEXT)
--             {
-diff --git a/meta/recipes-sato/rxvt-unicode/files/xwc.patch b/meta/recipes-sato/rxvt-unicode/files/xwc.patch
-deleted file mode 100644
-index 7cf5965..0000000
---- a/meta/recipes-sato/rxvt-unicode/files/xwc.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--
--#
--# Patch managed by http://www.holgerschurig.de/patcher.html
--#
--
----- rxvt-unicode-4.8/src/screen.C~xwc.c
--+++ rxvt-unicode-4.8/src/screen.C
--@@ -3058,7 +3058,7 @@
--   else
--     rxvt_warn ("can't get primary selection, ignoring.\n");
-- 
---#if 0
--+#ifdef HAVE_XWC
--   XTextProperty ct;
-- 
--   if (XwcTextListToTextProperty (display->display, &selection.text, 1, XStringStyle, &ct) >= 0)
--@@ -3632,9 +3632,11 @@
--         }
--       else
-- #endif
--+#ifdef HAVE_XWC
--       if (XwcTextListToTextProperty (display->display, &cl, 1, (XICCEncodingStyle) style, &ct) >= 0)
--         freect = 1;
--       else
--+#endif
--         {
--           /* if we failed to convert then send it raw */
--           ct.value = (unsigned char *)cl;
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-5.6/xwc.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-5.6/xwc.patch
-deleted file mode 100644
-index eb87b84..0000000
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-5.6/xwc.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--diff -urNd ../rxvt-unicode-5.3-r2/rxvt-unicode-5.3/src/screen.C rxvt-unicode-5.3/src/screen.C
----- ../rxvt-unicode-5.3-r2/rxvt-unicode-5.3/src/screen.C	2005-02-22 21:39:10 +00:00
--+++ rxvt-unicode-5.3/src/screen.C	2005-04-05 22:12:45 +01:00
--@@ -3064,7 +3064,7 @@
--   else
--     rxvt_warn ("can't get primary selection, ignoring.\n");
-- 
---#if 0
--+#ifdef HAVE_XWC
--   XTextProperty ct;
-- 
--   if (XwcTextListToTextProperty (display->display, &selection.text, 1, XStringStyle, &ct) >= 0)
--@@ -3648,9 +3648,11 @@
--         }
--       else
-- #endif
--+#ifdef HAVE_XWC
--       if (XwcTextListToTextProperty (disp, &cl, 1, (XICCEncodingStyle) style, &ct) >= 0)
--         freect = 1;
--       else
--+#endif
--         {
--           /* if we failed to convert then send it raw */
--           ct.value = (unsigned char *)cl;
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.10/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.10/rxvt.desktop
-new file mode 100644
-index 0000000..882ea41
---- /dev/null
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.10/rxvt.desktop
-@@ -0,0 +1,9 @@
-+[Desktop Entry]
-+Version=1.0
-+Name=Terminal
-+Comment=A unicode capable rxvt clone
-+Exec=rxvt
-+Icon=terminal
-+Terminal=false
-+Type=Application
-+Categories=Utility;TerminalEmulator;
-diff --git a/meta/recipes-sato/rxvt-unicode/files/rxvt.png b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.10/rxvt.png
-similarity index 100%
-rename from meta/recipes-sato/rxvt-unicode/files/rxvt.png
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.10/rxvt.png
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.10/xwc.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.10/xwc.patch
-new file mode 100644
-index 0000000..16efeef
---- /dev/null
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.10/xwc.patch
-@@ -0,0 +1,26 @@
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/60_wait-longer-for-threads-to-die.patch b/meta/recipes-core/glib-2.0/glib-2.0/60_wait-longer-for-threads-to-die.patch
+index 8195bd4..b65a474 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/60_wait-longer-for-threads-to-die.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/60_wait-longer-for-threads-to-die.patch
+@@ -2,6 +2,8 @@ copy from OE, said to borrow from Ubuntu. Not in glib-2.0 upstream yet. Add for
+ Added to poky by Kevin Tian <kevin.tian@intel.com>, 06/25/2010
+ Rebased for glib-2.27.3 by Dongxiao Xu <dongxiao.xu@intel.com>, 11/16/2010
+ 
++Upstream-Status: Inappropriate [patches for test code]
++
+ diff -ruN glib-2.27.3-orig/tests/threadpool-test.c glib-2.27.3/tests/threadpool-test.c
+ --- glib-2.27.3-orig/tests/threadpool-test.c	2009-04-01 07:04:21.000000000 +0800
+ +++ glib-2.27.3/tests/threadpool-test.c	2010-11-16 12:28:09.002172678 +0800
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch b/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
+index 7c170be..c21e378 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/configure-libtool.patch
+@@ -4,6 +4,8 @@
+ # from PATH though
+ # Rebased to glib-2.27.3 by Dongxiao Xu <dongxiao.xu@intel.com>
+ 
++Upstream-Status: Inappropriate [configuration]
++
+ diff -ruN glib-2.27.3-orig/configure.ac glib-2.27.3/configure.ac
+ --- glib-2.27.3-orig/configure.ac	2010-11-03 11:02:05.000000000 +0800
+ +++ glib-2.27.3/configure.ac	2010-11-16 12:38:12.610485990 +0800
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/g_once_init_enter.patch b/meta/recipes-core/glib-2.0/glib-2.0/g_once_init_enter.patch
+index a2a506c..2eaa19b 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/g_once_init_enter.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/g_once_init_enter.patch
+@@ -7,6 +7,8 @@ http://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg005
+ 
+ Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+ 
 +Upstream-Status: Pending
 +
-+diff -ruN rxvt-unicode-9.10-orig//src/screen.C rxvt-unicode-9.10/src/screen.C
-+--- rxvt-unicode-9.10-orig//src/screen.C	2011-04-19 13:34:01.327664984 +0800
-++++ rxvt-unicode-9.10/src/screen.C	2011-04-19 13:34:47.037665001 +0800
-+@@ -3152,7 +3152,7 @@
-+       return false;
-+     }
-+ 
-+-#if 0
-++#if HAVE_XWC
-+   XTextProperty ct;
-+ 
-+   if (XwcTextListToTextProperty (dpy, &selection.text, 1, XStringStyle, &ct) >= 0)
-+@@ -3734,9 +3734,11 @@
-+         }
-+       else
-+ #endif
-++#ifdef HAVE_XWC
-+       if (XwcTextListToTextProperty (dpy, &cl, 1, (XICCEncodingStyle) style, &ct) >= 0)
-+         freect = 1;
-+       else
-++#endif
-+         {
-+           /* if we failed to convert then send it raw */
-+           ct.value = (unsigned char *)cl;
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_5.6.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.10.bb
-similarity index 69%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode_5.6.bb
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.10.bb
-index d130895..9657e21 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_5.6.bb
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.10.bb
-@@ -5,13 +5,14 @@ terminal emulator rxvt, modified to store text in Unicode \
- (either UCS-2 or UCS-4) and to use locale-correct input and \
- output. It also supports mixing multiple fonts at the \
- same time, including Xft fonts."
--LICENSE = "GPL"
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-+                    file://src/main.C;beginline=1;endline=31;md5=633e23cdeb89fe980ded9a3af4f335c2"
- SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
--	   file://xwc.patch;patch=1 \
--	   file://signedchar.patch;patch=1 \
-+	   file://xwc.patch \
- 	   file://rxvt.desktop \
- 	   file://rxvt.png"
--PR = "r5"
-+PR = "r0"
+ Index: glib-2.27.5/glib/gthread.h
+ ===================================================================
+ --- glib-2.27.5.orig/glib/gthread.h
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/glib-gettextize-dir.patch b/meta/recipes-core/glib-2.0/glib-2.0/glib-gettextize-dir.patch
+index e54a8e5..ee43511 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/glib-gettextize-dir.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/glib-gettextize-dir.patch
+@@ -8,6 +8,8 @@
+ # by Kevin Tian <kevin.tian@intel.com>, 06/25/2010
+ # Rebased by Dongxiao Xu <dongxiao.xu@intel.com>, 11/16/2010
  
- inherit autotools update-alternatives
- 
-@@ -35,29 +36,18 @@ EXTRA_OECONF = "--enable-menubar --enable-xim \
- 		--enable-text-blink --enable-rxvt-scroll \
- 		--enable-combining --enable-shared \
- 		--enable-xgetdefault \
-+                --disable-perl \
- 		--with-x=${STAGING_DIR_HOST}${prefix}"
--EXTRA_OEMAKE = "'XINC=-I${STAGING_INCDIR}' \
--		'XLIB=-L${STAGING_LIBDIR} -lX11'"
- 
--do_configure () {
--	mv autoconf/configure.in . || true
--	rm autoconf/libtool.m4
--	libtoolize --force
--	autotools_do_configure
--	echo '#define RXVT_UTMP_FILE "${localstatedir}/run/utmp"' >> config.h
--	echo '#define RXVT_WTMP_FILE "${localstatedir}/log/wtmp"' >> config.h
--	echo '#define RXVT_LASTLOG_FILE "${localstatedir}/log/lastlog"' >> config.h
--	echo '#define HAVE_XLOCALE 1' >> config.h
-+do_configure_prepend () {
-+	cp aclocal.m4 acinclude.m4
- }
- 
--do_compile () {
--	if test -e ${S}/${HOST_SYS}-libtool; then
--		LIBTOOL=${S}/${HOST_SYS}-libtool
--	else
--		LIBTOOL=${S}/libtool
--	fi
--	# docs need "yodl" and I have no idea what that is
--	oe_runmake -C src "LIBTOOL=$LIBTOOL"
-+do_compile_prepend () {
-+	echo '#define UTMP_FILE "${localstatedir}/run/utmp"' >> config.h
-+	echo '#define WTMP_FILE "${localstatedir}/log/wtmp"' >> config.h
-+	echo '#define LASTLOG_FILE "${localstatedir}/log/lastlog"' >> config.h
-+	echo '#define HAVE_XLOCALE 1' >> config.h
- }
- 
- do_install_append () {
-@@ -70,3 +60,6 @@ do_install_append () {
- }
- 
- FILES_${PN} += "${datadir}/applications/rxvt.desktop ${datadir}/pixmaps/rxvt.png"
++Upstream-Status: Inappropriate [configuration]
 +
-+SRC_URI[md5sum] = "a23aa40b31e843878b6f9c44768de430"
-+SRC_URI[sha256sum] = "1c238f7e545b1a8da81239b826fb2a7d196c73effbcbd211db7a50995a0a067a"
+ diff -ruN glib-2.27.3-orig/glib-gettextize.in glib-2.27.3/glib-gettextize.in
+ --- glib-2.27.3-orig/glib-gettextize.in	2009-04-01 07:04:20.000000000 +0800
+ +++ glib-2.27.3/glib-gettextize.in	2010-11-16 12:55:06.874605916 +0800
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.26.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.28.6.bb
+similarity index 59%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.26.1.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.28.6.bb
+index 6a1fb6c..6b6c1f5 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.26.1.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.28.6.bb
+@@ -3,14 +3,14 @@ require glib.inc
+ PE = "1"
+ PR = "r0"
+ 
+-SRC_URI = "${GNOME_MIRROR}/glib/2.26/glib-${PV}.tar.bz2 \
++SRC_URI = "${GNOME_MIRROR}/glib/2.28/glib-${PV}.tar.bz2 \
+            file://configure-libtool.patch \
+            file://60_wait-longer-for-threads-to-die.patch \
+            file://g_once_init_enter.patch \
+           "
+ 
+-SRC_URI[md5sum] = "17535accceef55bcb17a74d73f9c2aef"
+-SRC_URI[sha256sum] = "7a74ff12b6b9dee1f2d0e520b56b68b621920c4f4250bdf23468e515625c28d5"
++SRC_URI[md5sum] = "7d8fc15ae70d5111c0cf2a79d50ef717"
++SRC_URI[sha256sum] = "557fb7c39d21b9359fbac51fd6b0b883bc97a2561c0166eef993a4078312f578"
+ 
+ SRC_URI_append_virtclass-native = " file://glib-gettextize-dir.patch"
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 5ebff68..9b6e17b 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+                     file://gmodule/COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+                     file://gmodule/gmodule.h;startline=4;endline=17;md5=76ab161b37202cd004073c42fac276ed \
+                     file://glib/pcre/COPYING;md5=266ebc3ff74ee9ce6fad65577667c0f4 \
+-                    file://glib/pcre/pcre.h;startline=11;endline=35;md5=cc0858840d3c312ec3e45b28077eb0d8 \
++                    file://glib/pcre/pcre.h;startline=11;endline=35;md5=ce867cf87ebbd2bb55e980d90328390d \
+                     file://docs/reference/COPYING;md5=f51a5100c17af6bae00735cd791e1fcc"
+ BUGTRACKER = "http://bugzilla.gnome.org"
+ SECTION = "libs"
 -- 
 1.7.1.1
 
