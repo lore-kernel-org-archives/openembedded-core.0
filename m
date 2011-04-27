@@ -1,26 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QF90d-0003iM-Ig
+	(envelope-from <josh@linux.intel.com>) id 1QF9OK-0005iy-0p
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Apr 2011 19:58:43 +0200
+	Wed, 27 Apr 2011 20:23:12 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2011 10:56:11 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 27 Apr 2011 11:20:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,275,1301900400"; d="scan'208";a="684851162"
-Received: from unknown (HELO [10.255.13.11]) ([10.255.13.11])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Apr 2011 10:56:10 -0700
-Message-ID: <4DB858B9.3030901@linux.intel.com>
-Date: Wed, 27 Apr 2011 10:56:09 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1303922644.git.paul.eggleton@linux.intel.com>
-	<318c3139745e74177a23f323881dbd76ddc42006.1303922644.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <318c3139745e74177a23f323881dbd76ddc42006.1303922644.git.paul.eggleton@linux.intel.com>
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [poky] [PATCH 1/1] initscripts: remove -i from halt/reboot	arguments and allow override
+X-IronPort-AV: E=Sophos;i="4.64,275,1301900400"; d="scan'208";a="684862073"
+Received: from unknown (HELO [10.255.13.15]) ([10.255.13.15])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Apr 2011 11:20:30 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Apr 2011 11:20:30 -0700
+In-Reply-To: <62bdbb0395a252561a1b9779633b29403b049304.1303890720.git.liping.ke@intel.com>
+References: <cover.1303890720.git.liping.ke@intel.com>
+	<62bdbb0395a252561a1b9779633b29403b049304.1303890720.git.liping.ke@intel.com>
+X-Mailer: Evolution 3.0.0 (3.0.0-1.fc15) 
+Message-ID: <1303928430.2242.7.camel@scimitar>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] Image Creator: Make bitbake servertype configurable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,88 +33,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2011 17:58:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 27 Apr 2011 18:23:12 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/27/2011 09:49 AM, Paul Eggleton wrote:
-> From: Paul Eggleton <paul.eggleton@linux.intel.com>
+On Wed, 2011-04-27 at 15:53 +0800, Liping Ke wrote:
+> From: Liping Ke <liping.ke@intel.com>
 > 
-> Introduces a variable HALTARGS which specifies the arguments sent to
-> halt and reboot, and sets the default value to "-d -f", dropping the
-> previous -i (shut down all network interfaces before halt/reboot, which
-> causes a freeze with NFS root.)
+> add -t options for configuring bitbake server (xmlrpc, none)
 > 
-> Fixes [YOCTO #997].
-
-Is the SED_* tag a common search/replace mechanism in OE recipes? It's
-fine, I'm just wondering if there is an accepted best practice for this
-sort of thing. I know we do some sed replacements of /usr/bin and /etc.
-
-> 
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-
-Acked-by: Darren Hart <dvhart@linux.intel.com>
-
+> Signed-off-by: Liping Ke <liping.ke@intel.com>
 > ---
->  meta/recipes-core/initscripts/initscripts-1.0/halt |    2 +-
->  .../initscripts/initscripts-1.0/reboot             |    2 +-
->  meta/recipes-core/initscripts/initscripts_1.0.bb   |    9 ++++++++-
->  3 files changed, 10 insertions(+), 3 deletions(-)
+>  bitbake/bin/bitbake |   18 +++++++++++++-----
+>  1 files changed, 13 insertions(+), 5 deletions(-)
 > 
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/halt b/meta/recipes-core/initscripts/initscripts-1.0/halt
-> index 609b793..021d9be 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/halt
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/halt
-> @@ -24,6 +24,6 @@ then
->  	hddown=""
->  fi
+> diff --git a/bitbake/bin/bitbake b/bitbake/bin/bitbake
+> index 6d05289..9e8d9a1 100755
+> --- a/bitbake/bin/bitbake
+> +++ b/bitbake/bin/bitbake
+> @@ -39,8 +39,6 @@ import bb.msg
+>  from bb import cooker
+>  from bb import ui
+>  from bb import server
+> -from bb.server import none
+> -#from bb.server import xmlrpc
 >  
-> -halt -d -f -i -p $hddown
-> +halt SED_HALTARGS -p $hddown
+>  __version__ = "1.11.0"
+>  logger = logging.getLogger("BitBake")
+> @@ -71,7 +69,7 @@ def get_ui(config):
+>          return getattr(module, interface).main
+>      except AttributeError:
+>          sys.exit("FATAL: Invalid user interface '%s' specified.\n"
+> -                 "Valid interfaces: depexp, goggle, ncurses, knotty [default]." % interface)
+> +                 "Valid interfaces: depexp, goggle, ncurses, hob, knotty [default]." % interface)
 >  
->  : exit 0
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/reboot b/meta/recipes-core/initscripts/initscripts-1.0/reboot
-> index 4c55885..cf32e95 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/reboot
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/reboot
-> @@ -12,4 +12,4 @@
->  PATH=/sbin:/bin:/usr/sbin:/usr/bin
+> 
+>  # Display bitbake/OE warnings via the BitBake.Warnings logger, ignoring others"""
+> @@ -161,6 +159,9 @@ Default BBFILES are the .bb files in the current directory.""")
+>      parser.add_option("-u", "--ui", help = "userinterface to use",
+>                 action = "store", dest = "ui")
 >  
->  echo -n "Rebooting... "
-> -reboot -d -f -i
-> +reboot SED_HALTARGS
-> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> index d990925..720c252 100644
-> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> @@ -6,7 +6,7 @@ DEPENDS = "makedevs"
->  RDEPENDS_${PN} = "makedevs"
->  LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-> -PR = "r124"
-> +PR = "r125"
->  
->  SRC_URI = "file://functions \
->             file://halt \
-> @@ -38,6 +38,13 @@ SRC_URI_append_arm = " file://alignment.sh"
->  
->  KERNEL_VERSION = ""
->  
-> +HALTARGS ?= "-d -f"
+> +    parser.add_option("-t", "--servertype", help = "choose which server to user, none or xmlrpc",
+> +               action = "store", dest = "servertype")
 > +
-> +do_configure() {
-> +	sed -i -e "s:SED_HALTARGS:${HALTARGS}:g" ${WORKDIR}/halt
-> +	sed -i -e "s:SED_HALTARGS:${HALTARGS}:g" ${WORKDIR}/reboot
-> +}
+>      parser.add_option("", "--revisions-changed", help = "Set the exit code depending on whether upstream floating revisions have changed or not",
+>                 action = "store_true", dest = "revisions_changed", default = False)
+>  
+> @@ -175,8 +176,15 @@ Default BBFILES are the .bb files in the current directory.""")
+>      loghandler = event.LogHandler()
+>      logger.addHandler(loghandler)
+>  
+> -    #server = bb.server.xmlrpc
+> -    server = bb.server.none
+> +    # Server type could be xmlrpc or none currently, if nothing is specified,
+> +    # default server would be none
+> +    if configuration.servertype:
+> +        server_type = configuration.servertype
+> +    else:
+> +        server_type = 'none'
 > +
->  do_install () {
->  #
->  # Create directories and install device independent scripts
+> +    module = __import__("bb.server", fromlist = [server_type])
+> +    server = getattr(module, server_type)
 
+What if the module import fails? You'll note that the similar code to
+allow selection of the UI with a switch is wrapped in a try/except.
+Can we do the same here?
+
+Thanks,
+Joshua
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+Joshua Lock
+        Yocto Build System Monkey
+        Intel Open Source Technology Centre
+
 
 
