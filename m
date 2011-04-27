@@ -1,25 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QEzEU-0005O8-7M
+	(envelope-from <sgw@linux.intel.com>) id 1QEzEU-0005P8-V8
 	for openembedded-core@lists.openembedded.org;
 	Wed, 27 Apr 2011 09:32:23 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Apr 2011 00:29:52 -0700
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 27 Apr 2011 00:29:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,273,1301900400"; d="scan'208";a="684550400"
+X-IronPort-AV: E=Sophos;i="4.64,273,1301900400"; d="scan'208";a="426203253"
 Received: from unknown (HELO localhost) ([10.255.12.245])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Apr 2011 00:29:51 -0700
-Message-Id: <9b8518e100fc826c9695024b06e6221e6d5a2ee3.1303889119.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 27 Apr 2011 00:29:36 -0700
+Message-Id: <8d985acf09b36a24bc83b578e628318fe7591174.1303889119.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303889119.git.sgw@linux.intel.com>
 References: <cover.1303889119.git.sgw@linux.intel.com>
-Old-Date: Mon, 25 Apr 2011 12:48:47 -0700
-Date: Wed, 27 Apr 2011  0:29:51 -0700
+Old-Date: Wed, 20 Apr 2011 13:57:30 +0800
+Date: Wed, 27 Apr 2011  0:29:36 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Wed, 27 Apr 2011 09:50:50 +0200
 Cc: Darren Hart <dvhart@linux.intel.com>, Chris Larson <clarson@kergoth.com>,
 	Antonio Ospite <ospite@studenti.unina.it>
-Subject: [PATCH 30/52] cdrtools: recipe and patch cleanup
+Subject: [PATCH 16/52] polkit: upgrade to version 0.101.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,91 +36,158 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Apr 2011 07:32:23 -0000
 
-From: Scott Garman <scott.a.garman@intel.com>
+From: Dongxiao Xu <dongxiao.xu@intel.com>
 
-* Recipe cleanup, added missing metadata fields and fixed
-  whitespace issues
-* Added Upstream-Status to patches
-* Confirmed that CVE-2003-0655 does not apply to this recipe
-  as rscsi is not packaged
+Derive introspection.patch from gobject to fix autoconf issue.
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- .../cdrtools-native/glibc-conflict-rename.patch    |    8 +++++++
- .../cdrtools/cdrtools-native/no_usr_src.patch      |    7 ++++++
- .../cdrtools/cdrtools-native_2.01.bb               |   22 +++++++++++--------
- 3 files changed, 28 insertions(+), 9 deletions(-)
+ .../polkit/polkit-0.101/introspection.patch        |  104 ++++++++++++++++++++
+ .../polkit/{polkit_0.99.bb => polkit_0.101.bb}     |   11 +-
+ 2 files changed, 110 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-extended/polkit/polkit-0.101/introspection.patch
+ rename meta/recipes-extended/polkit/{polkit_0.99.bb => polkit_0.101.bb} (77%)
 
-diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch b/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch
-index 0b9b892..2fd5696 100644
---- a/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch
-+++ b/meta/recipes-devtools/cdrtools/cdrtools-native/glibc-conflict-rename.patch
-@@ -1,3 +1,11 @@
-+This patch fixes collisions between locally defined functions
-+and glibc's fexecve() and getline() functions.
+diff --git a/meta/recipes-extended/polkit/polkit-0.101/introspection.patch b/meta/recipes-extended/polkit/polkit-0.101/introspection.patch
+new file mode 100644
+index 0000000..58c27ab
+--- /dev/null
++++ b/meta/recipes-extended/polkit/polkit-0.101/introspection.patch
+@@ -0,0 +1,104 @@
++Copied from gobject-introspection/m4/introspection.m4
 +
-+Upstream-Status: Inappropriate [Other]
-+Upstream no longer maintains a GPL version of this utility.
++Upstream-Status: Inappropriate [configuration]
 +
-+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++Signed-off-By: Dongxiao Xu <dongxiao.xu@intel.com>
 +
- Index: cdrtools-2.01/include/schily.h
- ===================================================================
- --- cdrtools-2.01.orig/include/schily.h	2009-06-18 11:30:45.000000000 +0100
-diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch b/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
-index 0318d31..82e57d1 100644
---- a/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
-+++ b/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
-@@ -1,3 +1,10 @@
-+Remove hard-coded references to /usr/src/linux/include to avoid
-+host contamination.
-+
-+Upstream-Status: [Other (build-system specific)]
-+
-+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-+
- Index: cdrtools-2.01/DEFAULTS/Defaults.gnu
- ===================================================================
- --- cdrtools-2.01.orig/DEFAULTS/Defaults.gnu	2008-09-22 12:42:12.000000000 +0100
-diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb
-index 769e5e2..aba6a45 100644
---- a/meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb
-+++ b/meta/recipes-devtools/cdrtools/cdrtools-native_2.01.bb
-@@ -1,21 +1,25 @@
- # cdrtools-native OE build file
- # Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
- # Released under the MIT license (see packages/COPYING)
--
--LICENSE="GPL"
--DESCRIPTION="A set of tools for CD recording, including cdrecord"
--HOMEPAGE="http://cdrecord.berlios.de/old/private/cdrecord.html"
-+SUMMARY = "A set of tools for CD recording, including cdrecord"
-+DESCRIPTION = "A set of tools for CD recording, including cdrecord"
-+HOMEPAGE = "http://cdrecord.berlios.de/private/cdrecord.html"
-+SECTION = "console/utils"
-+PRIORITY = "optional"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- PR = "r2"
++diff -ruN polkit-0.101-orig/m4/introspection.m4 polkit-0.101/m4/introspection.m4
++--- polkit-0.101-orig/m4/introspection.m4	1970-01-01 08:00:00.000000000 +0800
+++++ polkit-0.101/m4/introspection.m4	2010-12-06 11:08:16.000000000 +0800
++@@ -0,0 +1,94 @@
+++dnl -*- mode: autoconf -*-
+++dnl Copyright 2009 Johan Dahlin
+++dnl
+++dnl This file is free software; the author(s) gives unlimited
+++dnl permission to copy and/or distribute it, with or without
+++dnl modifications, as long as this notice is preserved.
+++dnl
+++
+++# serial 1
+++
+++m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
+++[
+++    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
+++    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
+++    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
+++
+++    dnl enable/disable introspection
+++    m4_if([$2], [require],
+++    [dnl
+++        enable_introspection=yes
+++    ],[dnl
+++        AC_ARG_ENABLE(introspection,
+++                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
+++                                 [Enable introspection for this build]),, 
+++                                 [enable_introspection=auto])
+++    ])dnl
+++
+++    AC_MSG_CHECKING([for gobject-introspection])
+++
+++    dnl presence/version checking
+++    AS_CASE([$enable_introspection],
+++    [no], [dnl
+++        found_introspection="no (disabled, use --enable-introspection to enable)"
+++    ],dnl
+++    [yes],[dnl
+++        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
+++                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
+++        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
+++                         found_introspection=yes,
+++                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
+++    ],dnl
+++    [auto],[dnl
+++        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
+++    ],dnl
+++    [dnl	
+++        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
+++    ])dnl
+++
+++    AC_MSG_RESULT([$found_introspection])
+++
+++    INTROSPECTION_SCANNER=
+++    INTROSPECTION_COMPILER=
+++    INTROSPECTION_GENERATE=
+++    INTROSPECTION_GIRDIR=
+++    INTROSPECTION_TYPELIBDIR=
+++    if test "x$found_introspection" = "xyes"; then
+++       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
+++       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
+++       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
+++       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
+++       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
+++       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
+++       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
+++       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
+++    fi
+++    AC_SUBST(INTROSPECTION_SCANNER)
+++    AC_SUBST(INTROSPECTION_COMPILER)
+++    AC_SUBST(INTROSPECTION_GENERATE)
+++    AC_SUBST(INTROSPECTION_GIRDIR)
+++    AC_SUBST(INTROSPECTION_TYPELIBDIR)
+++    AC_SUBST(INTROSPECTION_CFLAGS)
+++    AC_SUBST(INTROSPECTION_LIBS)
+++    AC_SUBST(INTROSPECTION_MAKEFILE)
+++
+++    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
+++])
+++
+++
+++dnl Usage:
+++dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
+++
+++AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
+++[
+++  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
+++])
+++
+++dnl Usage:
+++dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
+++
+++
+++AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
+++[
+++  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
+++])
+diff --git a/meta/recipes-extended/polkit/polkit_0.99.bb b/meta/recipes-extended/polkit/polkit_0.101.bb
+similarity index 77%
+rename from meta/recipes-extended/polkit/polkit_0.99.bb
+rename to meta/recipes-extended/polkit/polkit_0.101.bb
+index 7f96979..6769914 100644
+--- a/meta/recipes-extended/polkit/polkit_0.99.bb
++++ b/meta/recipes-extended/polkit/polkit_0.101.bb
+@@ -4,10 +4,11 @@ HOMEPAGE = "http://code.google.com/p/polkit/"
+ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
+                     file://src/polkit/polkit.h;beginline=1;endilne=20;md5=9f797b8912dac8a806be820c14e783f8 \
+-                    file://docs/polkit/html/license.html;md5=54750ec6ece444c50b823234d445dd99"
++                    file://docs/polkit/html/license.html;md5=07ddbf5f29e44c80c99be19c1690ec1f"
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+SRC_URI = "ftp://ftp.berlios.de/pub/cdrecord/cdrtools-${PV}.tar.bz2 \
-+           file://no_usr_src.patch \
-+           file://glibc-conflict-rename.patch"
+-SRC_URI = "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz"
+-PR = "r1"
++SRC_URI = "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
++           file://introspection.patch"
++PR = "r0"
+ DEPENDS = "libpam expat dbus-glib eggdbus intltool"
+ RDEPENDS_${PN} = "libpam"
+ EXTRA_OECONF = "--with-authfw=pam --with-os-type=moblin --disable-man-pages --disable-gtk-doc --disable-introspection"
+@@ -19,5 +20,5 @@ FILES_${PN} += "${libdir}/${PN}-1/extensions/*.so \
+                 ${datadir}/dbus-1/system-services/*"
+ FILES_${PN}-dbg += "${libdir}/${PN}-1/extensions/.debug/*.so"
  
--SRC_URI="ftp://ftp.berlios.de/pub/cdrecord/cdrtools-${PV}.tar.bz2 \
--         file://no_usr_src.patch;patch=1 \
--         file://glibc-conflict-rename.patch;patch=1"
-+SRC_URI[md5sum] = "d44a81460e97ae02931c31188fe8d3fd"
-+SRC_URI[sha256sum] = "728b6175069a77c4d7d92ae60108cbda81fbbf7bc7aa02e25153ccf2092f6c22"
- 
- inherit native
- 
--STAGE_TEMP="${WORKDIR}/image-temp"
-+STAGE_TEMP = "${WORKDIR}/image-temp"
- 
- do_install() {
- 	install -d ${STAGE_TEMP}
+-SRC_URI[md5sum] = "fcc4d7b19c08ad54d3ce0eae0ab12398"
+-SRC_URI[sha256sum] = "f612c7c26ec822f67751420057a4ae113fc50ab51070758faacf2ad30bb3583f"
++SRC_URI[md5sum] = "f925ac93aba3c072977370c1e27feb7f"
++SRC_URI[sha256sum] = "927f65760e4fce23d7cdeae90245c22986eb0a39335a344915302158f73f9f1b"
 -- 
 1.7.1.1
 
