@@ -1,25 +1,25 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QEzE8-0005K8-UA
+	(envelope-from <sgw@linux.intel.com>) id 1QEzE9-0005Jx-1H
 	for openembedded-core@lists.openembedded.org;
 	Wed, 27 Apr 2011 09:32:01 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 27 Apr 2011 00:29:32 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2011 00:29:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,273,1301900400"; d="scan'208";a="426203220"
+X-IronPort-AV: E=Sophos;i="4.64,273,1301900400"; d="scan'208";a="684550292"
 Received: from unknown (HELO localhost) ([10.255.12.245])
-	by azsmga001.ch.intel.com with ESMTP; 27 Apr 2011 00:29:31 -0700
-Message-Id: <b026b60dcbdf5fa4613ecdc54753166be2e0870a.1303889119.git.sgw@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 27 Apr 2011 00:29:25 -0700
+Message-Id: <540308cee396e80f84c7dfb3866b10db35311685.1303889119.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303889119.git.sgw@linux.intel.com>
 References: <cover.1303889119.git.sgw@linux.intel.com>
-Old-Date: Tue, 19 Apr 2011 15:57:41 +0800
-Date: Wed, 27 Apr 2011  0:29:31 -0700
+Old-Date: Sun, 24 Apr 2011 22:22:09 -0700
+Date: Wed, 27 Apr 2011  0:29:25 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Wed, 27 Apr 2011 09:50:50 +0200
 Cc: Darren Hart <dvhart@linux.intel.com>, Chris Larson <clarson@kergoth.com>,
 	Antonio Ospite <ospite@studenti.unina.it>
-Subject: [PATCH 11/52] bluez-hcidump: upgrade to version 2.0
+Subject: [PATCH 05/52] gdb: set --without-ust for EXTRA_OEFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,39 +36,33 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Apr 2011 07:32:01 -0000
 
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+From: Saul Wold <sgw@linux.intel.com>
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+Disable using UST since there are some compiler errors with
+the newer version of lttng-ust 0.12, there may be other unknow
+problems, so wait for upstream fixes.
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- ...{bluez-hcidump_1.42.bb => bluez-hcidump_2.0.bb} |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-connectivity/bluez/{bluez-hcidump_1.42.bb => bluez-hcidump_2.0.bb} (69%)
+ meta/recipes-devtools/gdb/gdb-common.inc |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bluez/bluez-hcidump_1.42.bb b/meta/recipes-connectivity/bluez/bluez-hcidump_2.0.bb
-similarity index 69%
-rename from meta/recipes-connectivity/bluez/bluez-hcidump_1.42.bb
-rename to meta/recipes-connectivity/bluez/bluez-hcidump_2.0.bb
-index 7291548..67dd2c6 100644
---- a/meta/recipes-connectivity/bluez/bluez-hcidump_1.42.bb
-+++ b/meta/recipes-connectivity/bluez/bluez-hcidump_2.0.bb
-@@ -7,13 +7,13 @@ PRIORITY = "optional"
- DEPENDS = "bluez4"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
--                    file://src/hcidump.c;beginline=1;endline=23;md5=22f51010959a0cd483c4d7f0bd77aaa3"
-+                    file://src/hcidump.c;beginline=1;endline=23;md5=3bee3a162dff43a5be7470710b99fbcf"
- PR = "r0"
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index 84e36ba..95a38b5 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -29,7 +29,10 @@ EXPAT = "--without-expat"
  
--SRC_URI = "http://bluez.sourceforge.net/download/bluez-hcidump-${PV}.tar.gz"
-+SRC_URI = "http://www.kernel.org/pub/linux/bluetooth/bluez-hcidump-${PV}.tar.gz"
+ EXTRA_OECONF = "--disable-gdbtk --disable-tui --disable-x \
+                 --with-curses --disable-multilib --with-system-readline --disable-sim \
+-                ${GDBPROPREFIX} --with-libelf=${STAGING_DIR_TARGET} ${EXPAT}"
++                ${GDBPROPREFIX} --with-libelf=${STAGING_DIR_TARGET} ${EXPAT} \
++                --without-ust \
++               "
++
+ GDBPROPREFIX = "--program-prefix=''"
  
--SRC_URI[md5sum] = "5704737aaf72104eeaf77335218a1827"
--SRC_URI[sha256sum] = "689e39f9432ab90af5f390d86cb46e06c35693d01ea29aec4e41c4f9e315f49f"
-+SRC_URI[md5sum] = "5c2e3ef0a68b2845047867ba51ff8ac9"
-+SRC_URI[sha256sum] = "b3b64fd0b18301df07d3aaf34c037c1e4808b4aaf702294822d62b5424f617fd"
- S = "${WORKDIR}/bluez-hcidump-${PV}"
- 
- EXTRA_OECONF = "--with-bluez-libs=${STAGING_LIBDIR} --with-bluez-includes=${STAGING_INCDIR}"
+ do_configure () {
 -- 
 1.7.1.1
 
