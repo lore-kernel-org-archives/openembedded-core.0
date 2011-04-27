@@ -1,22 +1,39 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QEwab-0002nn-CG
+	(envelope-from <michael.lippautz@gmail.com>) id 1QEzSP-0005ao-Pc
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Apr 2011 06:43:01 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Apr 2011 21:40:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,272,1301900400"; d="scan'208";a="684492337"
-Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Apr 2011 21:40:27 -0700
-Message-Id: <73f9675c0e2ea187dafb85330f3e0f6c4902add8.1303879603.git.ke.yu@intel.com>
-In-Reply-To: <cover.1303879603.git.ke.yu@intel.com>
-References: <cover.1303879603.git.ke.yu@intel.com>
-Old-Date: Mon, 18 Apr 2011 13:53:53 +0800
-Date: Wed, 27 Apr 2011 12:48:22 +0800
-To: openembedded-core@lists.openembedded.org
-From: Yu Ke <ke.yu@intel.com>
-Subject: [PATCH 1/1] git fetcher: make tag back to work, fix Yocto bug 972
+	Wed, 27 Apr 2011 09:46:45 +0200
+Received: by fxm19 with SMTP id 19so1103688fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Apr 2011 00:44:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=Qpvhn3Y3ji8MAUaMGcRhK/Oowp2N3LjxsaVoh+NvRNg=;
+	b=aSu/JWtln2mJkVj2Y8jH/Ly58qtY3Hr/2NIiVXf8gVK1iCnv69vpFVWXua9Cu60NJY
+	rUAVviBVQglSd3KllSPs7n+0t5vdmpwXAJqLvTOMp5f4t/ZBcOnyX7jiLF7puq6nFzq7
+	/52pSAPp+WHNfUUbtPYFhG/VBNEzCqtqUY3YM=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type;
+	b=ig6u0KRgCRWfU7L/07dNCemnJ4jjz8R0+9VvVJppeMDwTFxAi6S3A8po2UMhk8eBvG
+	6Yb5lVaxsXFuDcKvWcdB8ABxsxN5ayewEW7hCDJA/qe1Of5hAj2HBLOiHZLfDIxGP/Cs
+	ErPnzjDJuhEnUnRMT3d2Aq3+ErcmwecfoJvI0=
+Received: by 10.223.27.14 with SMTP id g14mr1454385fac.129.1303890255050; Wed,
+	27 Apr 2011 00:44:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.161.14 with HTTP; Wed, 27 Apr 2011 00:43:55 -0700 (PDT)
+In-Reply-To: <1303109834.5518.57.camel@rex>
+References: <cover.1301567822.git.Martin.Jansa@gmail.com>
+	<ca0ffb747b87caed609b2edf08f963751dbc8873.1301567822.git.Martin.Jansa@gmail.com>
+	<1301581599.24596.106.camel@rex> <20110404183138.GA30816@jama.jama.net>
+	<20110418055406.GH25122@jama.jama.net> <1303109834.5518.57.camel@rex>
+From: Michael Lippautz <michael.lippautz@gmail.com>
+Date: Wed, 27 Apr 2011 09:43:55 +0200
+Message-ID: <BANLkTikFic0tCbDWFMwP3HxmjvhF+KOrEQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] distutils-common-base.bbclass: Prepend STAGING_LIBDIR to linker library search path.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,37 +48,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2011 04:43:01 -0000
+X-List-Received-Date: Wed, 27 Apr 2011 07:46:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Yu Ke <ke.yu@intel.com>
+> This isn't a libtool problem, we've patched that problem out in oe-core
+> (and I think in OE-dev too now). In this case something is adding
+> "-L/usr/lib" to the compiler arguments and that is the reason things are
+> failing. I'd suggesting finding out where that is coming from and fixing
+> it at source.
+>
+Right.
 
-In current git fetcher, tag does not work due to commit http://git.pokylinux.org/cgit/cgit.cgi/poky/commit/?id=5920e85c561624e657c126df58f5c378a8950bbc. Tag is not in sha256 form, so it will be treated invalid, and silently replaced by latest revision.
+I also noticed this behaviour and started to look after the cause. It
+seems that distutils somehow grabs the target (python configured)
+Makefile instead of the staging one.
 
-To fix it, this patch treat tag name as branches name, thus it will be handled correctly later. Thanks Richard for reviewing and proposing the better approach.
+Start of the trouble seems to be [1] where LIBDIR should point into
+staging but is reported to be -L/usr/lib from sysconfig.
 
-Fix [YOCTO #972]
+Maybe someone with more experience on python staging that can follow up.
 
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>
+Regards,
+Michael
 
-Signed-off-by: Yu Ke <ke.yu@intel.com>
----
- bitbake/lib/bb/fetch2/git.py |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
-
-diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
-index d462acf..811acbf 100644
---- a/bitbake/lib/bb/fetch2/git.py
-+++ b/bitbake/lib/bb/fetch2/git.py
-@@ -81,6 +81,7 @@ class Git(FetchMethod):
-         for name in ud.names:
-             # Ensure anything that doesn't look like a sha256 checksum/revision is translated into one
-             if not ud.revisions[name] or len(ud.revisions[name]) != 40  or (False in [c in "abcdef0123456789" for c in ud.revisions[name]]):
-+                ud.branches[name] = ud.revisions[name]
-                 ud.revisions[name] = self.latest_revision(ud.url, ud, d, name)
- 
-     def localpath(self, url, ud, d):
--- 
-1.7.0.4
-
+[1] https://bitbucket.org/carljm/python-distutils/src/48c42eeaee44/command/build_ext.py#cl-286
 
 
