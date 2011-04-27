@@ -1,28 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QF8jS-0003UJ-0Q
+	(envelope-from <dvhart@linux.intel.com>) id 1QF90d-0003iM-Ig
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Apr 2011 19:40:58 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 Apr 2011 10:38:26 -0700
+	Wed, 27 Apr 2011 19:58:43 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Apr 2011 10:56:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,275,1301900400"; d="scan'208";a="739264255"
-Received: from unknown (HELO [10.255.13.18]) ([10.255.13.18])
-	by orsmga001.jf.intel.com with ESMTP; 27 Apr 2011 10:38:25 -0700
-Message-ID: <4DB85490.6040907@linux.intel.com>
-Date: Wed, 27 Apr 2011 10:38:24 -0700
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.64,275,1301900400"; d="scan'208";a="684851162"
+Received: from unknown (HELO [10.255.13.11]) ([10.255.13.11])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Apr 2011 10:56:10 -0700
+Message-ID: <4DB858B9.3030901@linux.intel.com>
+Date: Wed, 27 Apr 2011 10:56:09 -0700
+From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
-	Thunderbird/3.0.5
+	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
 MIME-Version: 1.0
-To: Antonio Ospite <ospite@studenti.unina.it>
-References: <cover.1303889119.git.sgw@linux.intel.com>
-	<20110427101724.e5dd0056.ospite@studenti.unina.it>
-In-Reply-To: <20110427101724.e5dd0056.ospite@studenti.unina.it>
-Cc: Darren Hart <dvhart@linux.intel.com>, Chris Larson <clarson@kergoth.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/52] Updated Consolidated pull
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1303922644.git.paul.eggleton@linux.intel.com>
+	<318c3139745e74177a23f323881dbd76ddc42006.1303922644.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <318c3139745e74177a23f323881dbd76ddc42006.1303922644.git.paul.eggleton@linux.intel.com>
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 1/1] initscripts: remove -i from halt/reboot	arguments and allow override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,35 +35,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2011 17:40:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 27 Apr 2011 17:58:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 04/27/2011 01:17 AM, Antonio Ospite wrote:
-> On Wed, 27 Apr 2011  0:29:17 -0700
-> Saul Wold<sgw@linux.intel.com>  wrote:
->
->> From: Saul Wold<sgw@linux.intel.com>
->>
->
-> Hi Saul, any particular reason I am in CC on this? I mean my
-> involvement in OE has been quite marginal so far.
->
-Antonio,
+On 04/27/2011 09:49 AM, Paul Eggleton wrote:
+> From: Paul Eggleton <paul.eggleton@linux.intel.com>
+> 
+> Introduces a variable HALTARGS which specifies the arguments sent to
+> halt and reboot, and sets the default value to "-d -f", dropping the
+> previous -i (shut down all network interfaces before halt/reboot, which
+> causes a freeze with NFS root.)
+> 
+> Fixes [YOCTO #997].
 
-I pulled in a patch of your from OE-Dev and since you had the 
-Signed-off-by, it cc'ed you (as it should).
+Is the SED_* tag a common search/replace mechanism in OE recipes? It's
+fine, I'm just wondering if there is an accepted best practice for this
+sort of thing. I know we do some sed replacements of /usr/bin and /etc.
 
-> Anyhow, since I'm in on this one I do have a couple of minor
-> comments, see replies to the corresponding messages.
->
-Yes, thanks for those comments.
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Sau!
+Acked-by: Darren Hart <dvhart@linux.intel.com>
 
+> ---
+>  meta/recipes-core/initscripts/initscripts-1.0/halt |    2 +-
+>  .../initscripts/initscripts-1.0/reboot             |    2 +-
+>  meta/recipes-core/initscripts/initscripts_1.0.bb   |    9 ++++++++-
+>  3 files changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/halt b/meta/recipes-core/initscripts/initscripts-1.0/halt
+> index 609b793..021d9be 100755
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/halt
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/halt
+> @@ -24,6 +24,6 @@ then
+>  	hddown=""
+>  fi
+>  
+> -halt -d -f -i -p $hddown
+> +halt SED_HALTARGS -p $hddown
+>  
+>  : exit 0
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/reboot b/meta/recipes-core/initscripts/initscripts-1.0/reboot
+> index 4c55885..cf32e95 100755
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/reboot
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/reboot
+> @@ -12,4 +12,4 @@
+>  PATH=/sbin:/bin:/usr/sbin:/usr/bin
+>  
+>  echo -n "Rebooting... "
+> -reboot -d -f -i
+> +reboot SED_HALTARGS
+> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> index d990925..720c252 100644
+> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> @@ -6,7 +6,7 @@ DEPENDS = "makedevs"
+>  RDEPENDS_${PN} = "makedevs"
+>  LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+> -PR = "r124"
+> +PR = "r125"
+>  
+>  SRC_URI = "file://functions \
+>             file://halt \
+> @@ -38,6 +38,13 @@ SRC_URI_append_arm = " file://alignment.sh"
+>  
+>  KERNEL_VERSION = ""
+>  
+> +HALTARGS ?= "-d -f"
+> +
+> +do_configure() {
+> +	sed -i -e "s:SED_HALTARGS:${HALTARGS}:g" ${WORKDIR}/halt
+> +	sed -i -e "s:SED_HALTARGS:${HALTARGS}:g" ${WORKDIR}/reboot
+> +}
+> +
+>  do_install () {
+>  #
+>  # Create directories and install device independent scripts
 
-> Regards,
->     Antonio
->
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
