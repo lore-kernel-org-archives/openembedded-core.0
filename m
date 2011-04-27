@@ -1,28 +1,41 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QF9SD-0005ni-KF
+	(envelope-from <raj.khem@gmail.com>) id 1QF9kI-0006K8-Fd
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Apr 2011 20:27:13 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 27 Apr 2011 11:24:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,275,1301900400"; d="scan'208";a="426574519"
-Received: from unknown (HELO [10.255.13.18]) ([10.255.13.18])
-	by azsmga001.ch.intel.com with ESMTP; 27 Apr 2011 11:24:41 -0700
-Message-ID: <4DB85F68.6030405@linux.intel.com>
-Date: Wed, 27 Apr 2011 11:24:40 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
-	Thunderbird/3.0.5
+	Wed, 27 Apr 2011 20:45:55 +0200
+Received: by eye27 with SMTP id 27so621456eye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Apr 2011 11:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=ehBDI1u4KxhClkVf4PAps7yqsZHMbCT5QZQFXy0r86A=;
+	b=pHXkfPRFp5qXcFS+zWRcpGk+cVpJXvKM9mzYAPE0JS+HxgwKTVLiTiKOsl3BlM0Kfx
+	oBHTTmzJ1HSF0GXDyH/lrmGRZoxfra4T0E4oGZiNo0r9przQwHFYDTFbQDw4UH//AizG
+	AO/GsXXBu5ouBHSekd+qJ/KReltUholQM8iUg=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	b=AKQhVEzgjOyor0EAje5Is4bdRtp8Ea83xaFIdeIbQesnA9p/P+wPiWFXWfPEzIEVc9
+	kt8lmHlfzGaCJjvHfY2BcZ7LnfNEYet6lwwPGJIT8Yn6crgHIZIz7qYUH+LFd6rrQrTu
+	X5073nKDbL4hZMPsis5ZIKfX/N/cdHmcrFjWQ=
+Received: by 10.14.125.4 with SMTP id y4mr1123810eeh.109.1303929802861; Wed,
+	27 Apr 2011 11:43:22 -0700 (PDT)
 MIME-Version: 1.0
-To: Antonio Ospite <ospite@studenti.unina.it>
-References: <cover.1303889119.git.sgw@linux.intel.com>	<bd0798120559a8aca726db8e962bbbafb80c2a54.1303889119.git.sgw@linux.intel.com>
-	<20110427102440.8b5f8ec7.ospite@studenti.unina.it>
-In-Reply-To: <20110427102440.8b5f8ec7.ospite@studenti.unina.it>
+Received: by 10.14.47.139 with HTTP; Wed, 27 Apr 2011 11:42:52 -0700 (PDT)
+In-Reply-To: <4DB85F2D.3010505@linux.intel.com>
+References: <cover.1303889119.git.sgw@linux.intel.com>
+	<451b67c736a7b67baf6b0bda5fee38b44b4a24cd.1303889119.git.sgw@linux.intel.com>
+	<20110427101712.bd2c2d0f.ospite@studenti.unina.it>
+	<4DB85F2D.3010505@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Apr 2011 11:42:52 -0700
+Message-ID: <BANLkTinsityEJyx2-CH9d=gtkydW8OGXYg@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
 Cc: Darren Hart <dvhart@linux.intel.com>, Chris Larson <clarson@kergoth.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/52] sat-solver: fix arch=all packages
+	openembedded-core@lists.openembedded.org,
+	Antonio Ospite <ospite@studenti.unina.it>
+Subject: Re: [PATCH 03/52] gcc: Add recipes for 4.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,33 +50,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2011 18:27:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Apr 2011 18:45:55 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 04/27/2011 01:24 AM, Antonio Ospite wrote:
-> On Wed, 27 Apr 2011  0:29:19 -0700
-> Saul Wold<sgw@linux.intel.com>  wrote:
+On Wed, Apr 27, 2011 at 11:23 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 04/27/2011 01:17 AM, Antonio Ospite wrote:
+>>
+>> On Wed, 27 Apr 2011 =C2=A00:29:21 -0700
+>> Saul Wold<sgw@linux.intel.com> =C2=A0wrote:
+>>
+>>> From: Khem Raj<raj.khem@gmail.com>
+>>>
+>>> Hi
+>>>
+>>> This is initial set of patches for testing them out
+>>> The patches need documentation is pending
+>>> Some patches especially uclibc related are not
+>>> needed they must be dropped.
+>>>
+>>> This is not the final version yet. But I would like
+>>> folks to help trying them out and report issues
+>>>
+>>
+>> If these changes turned to be the final ones then the commit message
+>> should be updated, shouldn't it?
+>>
+> Not final yet, I am pushing it now so people can set their local GCCVERSI=
+ON
+> and SDKGCCVERSION to test if they would like.
 >
->> From: Qing He<qing.he@intel.com>
->>
->> add a new options to set noarch archs as all so platform independent
->> packages can be recognized and installed.
->>
->> fixes [YOCTO #993]
->>
->
-Yes this is the Yocto Project Bugzilla, located at 
-http://bugzilla.yoctoproject.org.
 
-> This is a question rather than a comment: would it make sense to use an
-> actual URL for issues? I mean can [YOCTO #993] be found in some
-> publicly accessible bug tracking system for people to see what it is
-> about?
+There are some patches which seem redundant. So there will be updates
+but for major testing this should do.
+
+> Sau!
 >
->> Signed-off-by: Qing He<qing.he@intel.com>
->> ---
->
+>>> I have tried to boot uclibc/arm on it but qemu
+>>> died on me. so please boot the images you build
+>>> and I would be interested to know the results.
+>>>
+>>> -Khem
+>>>
+>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+>>> ---
+>>
+>> [...]
+>>
 >
 
 
