@@ -1,38 +1,37 @@
 Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QFB5Z-0007iy-Dv
+	(envelope-from <raj.khem@gmail.com>) id 1QFBAH-0007na-7h
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Apr 2011 22:11:58 +0200
-Received: by ewy5 with SMTP id 5so647789ewy.6
+	Wed, 27 Apr 2011 22:16:49 +0200
+Received: by ewy5 with SMTP id 5so649222ewy.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Apr 2011 13:09:25 -0700 (PDT)
+	Wed, 27 Apr 2011 13:14:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:content-transfer-encoding;
-	bh=WV3Ez3hgirdPJ1DUW9KYrqDDHZSTXtgLz+ALzCpyuis=;
-	b=rcEC8zztIjkelJA6aN+BJ8YlMmLyTr8WzAasO8MjgDqIQCY6IHKGtAh381yWE+f+T7
-	s2yRol02X51ACird/sfReM2htg6dPEseDFXIaNSTmJ9x1iWHquEapT94c9AJPD9yYNdF
-	yXGBukr62n7moJzKXuAcbvCtrwewjFS5XQlU0=
+	:message-id:subject:to:content-type;
+	bh=h/o+WlNeri7BoGARojM37R9yByWUHNfJmw5sDltxN8Y=;
+	b=Sju6VdqZ1iuCL9HfmUeH4S61Z9saZdqtfiMn5SpAEWgHeC1NQTKzMEVge/9AawTv4z
+	AQR2jhvxKl2RCNHES36syxyPKYWyu1Pc21UDHdBIcFJvb+bHXRAqEyXyJp3Yza8c5LnH
+	2GbhcuyPf5JrZO6dStSbaxZbA2Rd7co4GMWKY=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	b=Xfj6Q3K2j9+HwiKmgtUW3GF6d+pEThRThiHVDueX7nlOUlWX6YMwd+gS1bapz5WF5+
-	G9xWBWgWspdqu5C4qGqK0Uu+vLiJTaSjI3pywsM81zQCxAcHSawfbDyYayIP+u7swHmo
-	mIW+7IYP6VEKQ8vCHJbDw7GBba2M5rHiQ1lxI=
-Received: by 10.14.34.88 with SMTP id r64mr1197449eea.77.1303934965607; Wed,
-	27 Apr 2011 13:09:25 -0700 (PDT)
+	:content-type;
+	b=FVcOVCfTfnB5ojV4qAG8zVIu6ovWd86yahVOl8L6lJU5dkUSMS24hsUJfrptCepQsC
+	HoGG0dlMWKVTDLs/l7w5c6hMgBHlMDnpA44WKSDH7BrHVsRDy4Xw/5xjxizx4OBkGViy
+	5LaOK/oGlHr3B2ZLM3QXvVuQENe4EriQVQH8M=
+Received: by 10.14.52.132 with SMTP id e4mr1249407eec.173.1303935258253; Wed,
+	27 Apr 2011 13:14:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.47.139 with HTTP; Wed, 27 Apr 2011 13:08:53 -0700 (PDT)
-In-Reply-To: <20110418084520.GB24192@jama.jama.net>
-References: <cover.1303113405.git.Martin.Jansa@gmail.com>
-	<f78273c64ab21b1a0691585a2140d5fdf24f3f3a.1303113405.git.Martin.Jansa@gmail.com>
-	<1303115695.5518.70.camel@rex> <20110418084520.GB24192@jama.jama.net>
+Received: by 10.14.47.139 with HTTP; Wed, 27 Apr 2011 13:13:48 -0700 (PDT)
+In-Reply-To: <B7450533-1402-4465-A3C8-6CFF10BF4A82@dominion.thruhere.net>
+References: <BANLkTimY=T0BNMLWm+Ez9N1ug+_XOdaGpg@mail.gmail.com>
+	<B7450533-1402-4465-A3C8-6CFF10BF4A82@dominion.thruhere.net>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 Apr 2011 13:08:53 -0700
-Message-ID: <BANLkTimB1pq=f=62d=RC6MjOtqbzrS7OUg@mail.gmail.com>
+Date: Wed, 27 Apr 2011 13:13:48 -0700
+Message-ID: <BANLkTikjpjVK40B4OO6a4BqB3ys_7hxbmA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] task-base: allow distribution to define apm provider
+Subject: Re: eglibc 2.13 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,58 +46,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2011 20:11:59 -0000
+X-List-Received-Date: Wed, 27 Apr 2011 20:16:49 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 18, 2011 at 1:45 AM, Martin Jansa <martin.jansa@gmail.com> wrot=
-e:
-> On Mon, Apr 18, 2011 at 09:34:55AM +0100, Richard Purdie wrote:
->> On Mon, 2011-04-18 at 10:00 +0200, Martin Jansa wrote:
->> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> > ---
->> > =C2=A0meta/recipes-core/tasks/task-base.bb | =C2=A0 =C2=A05 ++++-
->> > =C2=A01 files changed, 4 insertions(+), 1 deletions(-)
->> >
->> > diff --git a/meta/recipes-core/tasks/task-base.bb b/meta/recipes-core/=
-tasks/task-base.bb
->> > index 138e617..10f3af4 100644
->> > --- a/meta/recipes-core/tasks/task-base.bb
->> > +++ b/meta/recipes-core/tasks/task-base.bb
->> > @@ -179,8 +179,11 @@ RDEPENDS_task-base-acpi =3D "\
->> > =C2=A0 =C2=A0 =C2=A0acpid \
->> > =C2=A0 =C2=A0 =C2=A0libacpi "
->> >
->> > +# Distro can override apm provider
->> > +DISTRO_APM ?=3D "apm"
->> > +
->> > =C2=A0RDEPENDS_task-base-apm =3D "\
->> > - =C2=A0 =C2=A0apm \
->> > + =C2=A0 =C2=A0${DISTRO_APM} \
->> > =C2=A0 =C2=A0 =C2=A0apmd"
->>
->> Can you explain a little more about why a distro would do this please?
->> I'm a little worried this whole file could become a set of DISTRO_*
->> variables :/.
->>
+On Wed, Apr 27, 2011 at 9:44 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> Why not move those srcrevs into the recipe? IIRC these ones aren't affected by RPs concerns
 
-may be define virtual/apm package and use that in RDEPENDS
+I am ok doing that but here
+http://lists.linuxtogo.org/pipermail/openembedded-core/2011-April/001536.html
 
->> Cheers,
+it seems we still need to investigate it before we start moving
+SRCREVs to recipes.
+
+>
+> Op 27 apr. 2011 om 18:21 heeft Khem Raj <raj.khem@gmail.com> het volgende geschreven:
+>
+>> Hi
 >>
->> Richard
->
-> For example in SHR we're using FSO which provides apm replacement called =
-fso-apm which
-> conflicts with standard apm.
->
-> We can rename it to VIRTUAL-RUNTIME_apm (like
-> VIRTUAL-RUNTIME_update-alternatives) if you prefer such namespace.
->
-> Cheers,
->
-> --
-> Martin 'JaMa' Jansa =C2=A0 =C2=A0 jabber: Martin.Jansa@gmail.com
+>> I have eglibc 2.13 upgrade done locally and has been building fine for
+>> all architectures. I have added 2.13 recipes and not
+>> deleted the 2.12, This works ok except when setting the SRCREV. Since
+>> we have a single file called
+>> conf/distro/include/poky-default-revisions.inc to store this
+>> information there can not be two SRCREV for two versions of same
+>> package unless we move them to
+>> recipes which is under work but not yet done. Thats one reason to hold
+>> these patches. I can propose them if we are ok with
+>> removing 2.12 recipes then it becomes straight forward
+>>
+>> Opinions ?
+>>
+>> -Khem
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 > _______________________________________________
 > Openembedded-core mailing list
