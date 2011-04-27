@@ -1,25 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QEzEQ-0005O8-Ff
+	(envelope-from <sgw@linux.intel.com>) id 1QEzES-0005Ol-JZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Apr 2011 09:32:18 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Apr 2011 00:29:47 -0700
+	Wed, 27 Apr 2011 09:32:20 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 27 Apr 2011 00:29:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,273,1301900400"; d="scan'208";a="684550378"
+X-IronPort-AV: E=Sophos;i="4.64,273,1301900400"; d="scan'208";a="739028460"
 Received: from unknown (HELO localhost) ([10.255.12.245])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Apr 2011 00:29:46 -0700
-Message-Id: <0a5c1d3a021e288374ca47ccc2b2b1ed132ce884.1303889119.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 27 Apr 2011 00:29:48 -0700
+Message-Id: <5054fd5af9f2ff06924fa59459a26d965c555a18.1303889119.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1303889119.git.sgw@linux.intel.com>
 References: <cover.1303889119.git.sgw@linux.intel.com>
-Old-Date: Thu, 31 Mar 2011 20:56:35 -0700
-Date: Wed, 27 Apr 2011  0:29:46 -0700
+Old-Date: Thu, 31 Mar 2011 21:00:44 -0700
+Date: Wed, 27 Apr 2011  0:29:48 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 X-Mailman-Approved-At: Wed, 27 Apr 2011 09:50:50 +0200
 Cc: Darren Hart <dvhart@linux.intel.com>, Chris Larson <clarson@kergoth.com>,
 	Antonio Ospite <ospite@studenti.unina.it>
-Subject: [PATCH 25/52] perl_5.12.2.bb: Undefine features not found in uclibc
+Subject: [PATCH 27/52] attr: Fix compilation on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,49 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2011 07:32:18 -0000
+X-List-Received-Date: Wed, 27 Apr 2011 07:32:20 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
+It needs -lintl added to LDFLAGS for uclibc
+
+inherit gettext class instead of adding gettext to DEPENDS directly
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/perl/perl_5.12.3.bb |   16 ++++++++++++++++
- 1 files changed, 16 insertions(+), 0 deletions(-)
+ meta/recipes-support/attr/attr.inc   |    4 ++++
+ meta/recipes-support/attr/ea-acl.inc |    4 +---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.12.3.bb b/meta/recipes-devtools/perl/perl_5.12.3.bb
-index 584d643..07b8eac 100644
---- a/meta/recipes-devtools/perl/perl_5.12.3.bb
-+++ b/meta/recipes-devtools/perl/perl_5.12.3.bb
-@@ -134,6 +134,12 @@ do_configure() {
-                        -e "s,\(getnetent_r_proto=\)'\w+',\1'0',g" \
-                        -e "s,\(d_sockatmark=\)'define',\1'undef',g" \
-                        -e "s,\(d_sockatmarkproto=\)'\w+',\1'0',g" \
-+                       -e "s,\(d_eaccess=\)'define',\1'undef',g" \
-+                       -e "s,\(d_stdio_ptr_lval=\)'define',\1'undef',g" \
-+                       -e "s,\(d_stdio_ptr_lval_sets_cnt=\)'define',\1'undef',g" \
-+                       -e "s,\(d_stdiobase=\)'define',\1'undef',g" \
-+                       -e "s,\(d_stdstdio=\)'define',\1'undef',g" \
-+                       -e "s,-fstack-protector,-fno-stack-protector,g" \
-                     config.sh-${TARGET_ARCH}-${TARGET_OS}
-         fi
+diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+index c110340..b2ed9a1 100644
+--- a/meta/recipes-support/attr/attr.inc
++++ b/meta/recipes-support/attr/attr.inc
+@@ -20,3 +20,7 @@ do_install_append() {
+ 	sed -i ${D}${libdir}/libattr.la -e \
+ 	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
+ }
++
++# Only append ldflags for target recipe
++LDFLAGS_libc-uclibc += "${@['', '-lintl']['${PN}' == '${BPN}']}"
++
+diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
+index bc93107..a09c31c 100644
+--- a/meta/recipes-support/attr/ea-acl.inc
++++ b/meta/recipes-support/attr/ea-acl.inc
+@@ -1,11 +1,9 @@
+ # this build system is mostly shared by attr and acl
  
-@@ -148,6 +154,16 @@ do_configure() {
- 	       -e 's,/perl5,/perl,g' \
-             config.sh-${TARGET_ARCH}-${TARGET_OS}
+-DEPENDS =+ "gettext"
+-
+ SRC_URI += "file://relative-libdir.patch;striplevel=0 \
+             file://no-fixed-prog-path.patch"
  
-+	case "${TARGET_ARCH}" in
-+		x86_64 | powerpc | s390)
-+			sed -i -e "s,\(need_va_copy=\)'undef',\1'define',g" \
-+				config.sh-${TARGET_ARCH}-${TARGET_OS}
-+			;;
-+		arm)
-+			sed -i -e "s,\(d_u32align=\)'undef',\1'define',g" \
-+				config.sh-${TARGET_ARCH}-${TARGET_OS}
-+			;;
-+	esac
-         # These are strewn all over the source tree
-         for foo in `grep -I -m1 \/usr\/include\/.*\\.h ${WORKDIR}/* -r | cut -f 1 -d ":"` ; do
-             echo Fixing: $foo
+-inherit autotools
++inherit autotools gettext
+ 
+ # the package comes with a custom config.h.in, it cannot be
+ # overwritten by autoheader
 -- 
 1.7.1.1
 
