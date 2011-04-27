@@ -1,24 +1,28 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QF9OK-0005iy-0p
+	(envelope-from <sgw@linux.intel.com>) id 1QF9RH-0005m4-6O
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Apr 2011 20:23:12 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Apr 2011 11:20:36 -0700
+	Wed, 27 Apr 2011 20:26:15 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 27 Apr 2011 11:23:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,275,1301900400"; d="scan'208";a="684862073"
-Received: from unknown (HELO [10.255.13.15]) ([10.255.13.15])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Apr 2011 11:20:30 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Apr 2011 11:20:30 -0700
-In-Reply-To: <62bdbb0395a252561a1b9779633b29403b049304.1303890720.git.liping.ke@intel.com>
-References: <cover.1303890720.git.liping.ke@intel.com>
-	<62bdbb0395a252561a1b9779633b29403b049304.1303890720.git.liping.ke@intel.com>
-X-Mailer: Evolution 3.0.0 (3.0.0-1.fc15) 
-Message-ID: <1303928430.2242.7.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] Image Creator: Make bitbake servertype configurable
+X-IronPort-AV: E=Sophos;i="4.64,275,1301900400"; d="scan'208";a="426574036"
+Received: from unknown (HELO [10.255.13.18]) ([10.255.13.18])
+	by azsmga001.ch.intel.com with ESMTP; 27 Apr 2011 11:23:42 -0700
+Message-ID: <4DB85F2D.3010505@linux.intel.com>
+Date: Wed, 27 Apr 2011 11:23:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
+MIME-Version: 1.0
+To: Antonio Ospite <ospite@studenti.unina.it>
+References: <cover.1303889119.git.sgw@linux.intel.com>	<451b67c736a7b67baf6b0bda5fee38b44b4a24cd.1303889119.git.sgw@linux.intel.com>
+	<20110427101712.bd2c2d0f.ospite@studenti.unina.it>
+In-Reply-To: <20110427101712.bd2c2d0f.ospite@studenti.unina.it>
+Cc: Darren Hart <dvhart@linux.intel.com>, Chris Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 03/52] gcc: Add recipes for 4.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,78 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Apr 2011 18:23:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 27 Apr 2011 18:26:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-04-27 at 15:53 +0800, Liping Ke wrote:
-> From: Liping Ke <liping.ke@intel.com>
-> 
-> add -t options for configuring bitbake server (xmlrpc, none)
-> 
-> Signed-off-by: Liping Ke <liping.ke@intel.com>
-> ---
->  bitbake/bin/bitbake |   18 +++++++++++++-----
->  1 files changed, 13 insertions(+), 5 deletions(-)
-> 
-> diff --git a/bitbake/bin/bitbake b/bitbake/bin/bitbake
-> index 6d05289..9e8d9a1 100755
-> --- a/bitbake/bin/bitbake
-> +++ b/bitbake/bin/bitbake
-> @@ -39,8 +39,6 @@ import bb.msg
->  from bb import cooker
->  from bb import ui
->  from bb import server
-> -from bb.server import none
-> -#from bb.server import xmlrpc
->  
->  __version__ = "1.11.0"
->  logger = logging.getLogger("BitBake")
-> @@ -71,7 +69,7 @@ def get_ui(config):
->          return getattr(module, interface).main
->      except AttributeError:
->          sys.exit("FATAL: Invalid user interface '%s' specified.\n"
-> -                 "Valid interfaces: depexp, goggle, ncurses, knotty [default]." % interface)
-> +                 "Valid interfaces: depexp, goggle, ncurses, hob, knotty [default]." % interface)
->  
-> 
->  # Display bitbake/OE warnings via the BitBake.Warnings logger, ignoring others"""
-> @@ -161,6 +159,9 @@ Default BBFILES are the .bb files in the current directory.""")
->      parser.add_option("-u", "--ui", help = "userinterface to use",
->                 action = "store", dest = "ui")
->  
-> +    parser.add_option("-t", "--servertype", help = "choose which server to user, none or xmlrpc",
-> +               action = "store", dest = "servertype")
-> +
->      parser.add_option("", "--revisions-changed", help = "Set the exit code depending on whether upstream floating revisions have changed or not",
->                 action = "store_true", dest = "revisions_changed", default = False)
->  
-> @@ -175,8 +176,15 @@ Default BBFILES are the .bb files in the current directory.""")
->      loghandler = event.LogHandler()
->      logger.addHandler(loghandler)
->  
-> -    #server = bb.server.xmlrpc
-> -    server = bb.server.none
-> +    # Server type could be xmlrpc or none currently, if nothing is specified,
-> +    # default server would be none
-> +    if configuration.servertype:
-> +        server_type = configuration.servertype
-> +    else:
-> +        server_type = 'none'
-> +
-> +    module = __import__("bb.server", fromlist = [server_type])
-> +    server = getattr(module, server_type)
+On 04/27/2011 01:17 AM, Antonio Ospite wrote:
+> On Wed, 27 Apr 2011  0:29:21 -0700
+> Saul Wold<sgw@linux.intel.com>  wrote:
+>
+>> From: Khem Raj<raj.khem@gmail.com>
+>>
+>> Hi
+>>
+>> This is initial set of patches for testing them out
+>> The patches need documentation is pending
+>> Some patches especially uclibc related are not
+>> needed they must be dropped.
+>>
+>> This is not the final version yet. But I would like
+>> folks to help trying them out and report issues
+>>
+>
+> If these changes turned to be the final ones then the commit message
+> should be updated, shouldn't it?
+>
+Not final yet, I am pushing it now so people can set their local 
+GCCVERSION and SDKGCCVERSION to test if they would like.
 
-What if the module import fails? You'll note that the similar code to
-allow selection of the UI with a switch is wrapped in a try/except.
-Can we do the same here?
+Sau!
 
-Thanks,
-Joshua
--- 
-Joshua Lock
-        Yocto Build System Monkey
-        Intel Open Source Technology Centre
-
+>> I have tried to boot uclibc/arm on it but qemu
+>> died on me. so please boot the images you build
+>> and I would be interested to know the results.
+>>
+>> -Khem
+>>
+>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+>> ---
+>
+> [...]
+>
 
 
