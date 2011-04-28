@@ -1,35 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QFNWm-0007X0-Vy for openembedded-core@lists.openembedded.org;
-	Thu, 28 Apr 2011 11:28:53 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3S9QIeZ016431;
-	Thu, 28 Apr 2011 10:26:18 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 16094-08; Thu, 28 Apr 2011 10:26:14 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3S9QDax016425
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 28 Apr 2011 10:26:13 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTik6odYsapq-n82ytd0H7HdYKTLV5g@mail.gmail.com>
-References: <cover.1303539961.git.sgw@linux.intel.com>
-	<a0629aa0dc55829565b7ab1725875eac065ab2f1.1303539961.git.sgw@linux.intel.com>
-	<4DB562CF.1020100@mlbassoc.com> <4DB59811.5040109@linux.intel.com>
-	<4DB5ABDB.9070201@mlbassoc.com> <4DB65C5B.2050409@linux.intel.com>
-	<BANLkTik6odYsapq-n82ytd0H7HdYKTLV5g@mail.gmail.com>
-Date: Thu, 28 Apr 2011 10:25:41 +0100
-Message-ID: <1303982741.21461.48.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>, Kang Kai <kai.kang@windriver.com>
-Subject: Re: [PATCH 07/37] modutils-initscripts: fix wrong order of module loading happening in udev
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QFOGh-0000BT-Js
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Apr 2011 12:16:19 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 28 Apr 2011 03:13:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,279,1301900400"; d="scan'208";a="739605410"
+Received: from unknown (HELO helios.localnet) ([10.255.13.71])
+	by orsmga001.jf.intel.com with ESMTP; 28 Apr 2011 03:13:46 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+Organization: Intel Corporation (UK)
+To: Darren Hart <dvhart@linux.intel.com>
+Date: Thu, 28 Apr 2011 11:13:45 +0100
+User-Agent: KMail/1.13.5 (Linux/2.6.35-28-generic-pae; KDE/4.6.2; i686; ; )
+References: <cover.1303922644.git.paul.eggleton@linux.intel.com>
+	<318c3139745e74177a23f323881dbd76ddc42006.1303922644.git.paul.eggleton@linux.intel.com>
+	<4DB858B9.3030901@linux.intel.com>
+In-Reply-To: <4DB858B9.3030901@linux.intel.com>
+MIME-Version: 1.0
+Message-Id: <201104281113.45335.paul.eggleton@linux.intel.com>
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [poky] [PATCH 1/1] initscripts: remove -i from halt/reboot arguments and allow override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,37 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2011 09:28:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 28 Apr 2011 10:16:19 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-04-26 at 10:51 -0700, Khem Raj wrote:
-> On Mon, Apr 25, 2011 at 10:47 PM, Darren Hart <dvhart@linux.intel.com> wrote:
-> > On 04/25/2011 10:14 AM, Gary Thomas wrote:
-> >
-> > Right, so for clarification, for 2.4 kernels, images should be built
-> > using just the modutils_2.4.27.bb recipe. For 2.6 kernels, images should
-> > be built using module_init_tools and modutils-initscripts.
-> >
-> > In oe-core, task-base requires module-init-tools and task-core-boot
-> > requires modutils-initscripts. That actually seems backwards to me as
-> > modutils-initscripts is useless without module-init-tools.
-> >
-> > There is a considerable amount of cruft in the kernel base classes
-> > related to older kernels which I'd like to see purged. Perhaps a
-> > meta-linux-2.4 layer would be a good place to keep things like these as
-> > well as the modutils_2.4.27 recipe.
-> 
-> Do we have usecases to even support 2.4 anymore ? I would suggest
-> to remove it if no use cases are reported.
+On Wednesday 27 April 2011 18:56:09 Darren Hart wrote:
+> Is the SED_* tag a common search/replace mechanism in OE recipes? It's
+> fine, I'm just wondering if there is an accepted best practice for this
+> sort of thing. I know we do some sed replacements of /usr/bin and /etc.
 
-I think the time has come for OE-Core to clean out kernel.bbclass of the
-2.4 code. If anyone does want to support 2.4, they can do it with a
-separate kernel-2.4 class.
+Is there a more appropriate mechanism for substituting values of variables 
+into files (genuinely asking)? If this is the best mechanism it's possible we 
+might want to have a standard naming scheme though, I just made this one up on 
+the spot - I see in some other places we've used FIXMExxxx, so at least it's 
+not the worst :)
 
 Cheers,
+Paul
 
-Richard
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
