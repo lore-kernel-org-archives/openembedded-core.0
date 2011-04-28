@@ -1,39 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <liping.ke@intel.com>) id 1QFJv5-00055S-4e
+	(envelope-from <koen@dominion.thruhere.net>) id 1QFLU4-0006FN-0K
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Apr 2011 07:37:43 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 27 Apr 2011 22:34:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,278,1301900400"; d="scan'208";a="635161036"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by orsmga002.jf.intel.com with ESMTP; 27 Apr 2011 22:34:04 -0700
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 28 Apr 2011 13:34:00 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Thu, 28 Apr 2011 13:33:56 +0800
-From: "Ke, Liping" <liping.ke@intel.com>
-To: Patches and discussions about the oe-core layer
+	Thu, 28 Apr 2011 09:17:57 +0200
+Received: by wwb17 with SMTP id 17so2236627wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Apr 2011 00:15:20 -0700 (PDT)
+Received: by 10.227.28.8 with SMTP id k8mr3170190wbc.159.1303974920278;
+	Thu, 28 Apr 2011 00:15:20 -0700 (PDT)
+Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id x1sm891586wbh.36.2011.04.28.00.15.18
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 28 Apr 2011 00:15:19 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <C10D3FB0CD45994C8A51FEC1227CE22F2311C1C837@shsmsx502.ccr.corp.intel.com>
+Date: Thu, 28 Apr 2011 09:15:16 +0200
+Message-Id: <2CC91F61-B0AF-4E0F-AC34-EF901E8E4E2A@dominion.thruhere.net>
+References: <C10D3FB0CD45994C8A51FEC1227CE22F2311C1C837@shsmsx502.ccr.corp.intel.com>
+To: "Lu, Lianhao" <lianhao.lu@intel.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: poky <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Apr 2011 13:33:54 +0800
-Thread-Topic: [OE-core] [PATCH 1/1] Image Creator: Make bitbake server	type
-	configuration (xmlrpc, none)
-Thread-Index: AcwEsIojkvPVseTNQ+6Yps9VHdKX9QAALDBAAC0gBdA=
-Message-ID: <789F9655DD1B8F43B48D77C5D30659734C09E079@shsmsx501.ccr.corp.intel.com>
-References: <cover.1303889896.git.liping.ke@intel.com>
-	<904d24a2315fcb32d56e0c166ce27d99106a3d9e.1303889896.git.liping.ke@intel.com>
-	<789F9655DD1B8F43B48D77C5D30659734C09DC54@shsmsx501.ccr.corp.intel.com>
-In-Reply-To: <789F9655DD1B8F43B48D77C5D30659734C09DC54@shsmsx501.ccr.corp.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Cc: "Lock, Joshua" <joshua.lock@intel.com>
-Subject: Re: [PATCH 1/1] Image Creator: Make bitbake server	type	configuration (xmlrpc, none)
+Subject: Re: [poky] RFC: design of network based PR service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,138 +39,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2011 05:37:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 28 Apr 2011 07:17:57 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Hi, Josh
+Adding oe-core list to CC:
 
-Thanks for the feedback! I will resend the patch today seems I use the wron=
-g patch.
+Op 28 apr 2011, om 09:08 heeft Lu, Lianhao het volgende geschreven:
 
-Thanks a lot!
+> Hi Guys,
+>=20
+> Here is the design of network based PR service, please help to review =
+and=20
+> give you comment. Thanks a lot!
+>=20
+> By changing the BB_SIGNATURE_HANDLER from "basic" to "basichash", the=20=
 
-criping
+> task checksum will be in the stamp file, so this implies the end of PR =
+bumps=20
+> since whenever a recipe change happens, the checksum of the =
+appropriate=20
+> tasks will change so everything depends on that tasks will =
+automatically got=20
+> rebuilt. (The checksum mechanism was introduced here at =
+https://lists.yoctoproject.org/pipermail/yocto/2011-March/001157.html).
+>=20
+> But there is one piece of building block missing there. Because the =
+package=20
+> feeds needs the PR bumps because some relevant fields in the package =
+file(i.e.=20
+> Version field in .ipk and .deb file, Release field in .rpm file) need =
+it so the=20
+> generated package feeds can be used to upgrade/install new packages in =
+the=20
+> user's linux distribution. So RP proposed this network based PR =
+service at=20
+> =
+https://lists.yoctoproject.org/pipermail/poky/2011-January/002123.html.=20=
 
+>=20
+> Each embedded linux distribution entity using Yocto to build their =
+distributions=20
+> should have a single network based PR service. Multiple build sources =
+could send=20
+> the tuple (PN, task checksum) to this network based PR service. If the =
+PR service=20
+> finds the corresponding (PN, task checksum) in its database, it will =
+return the PR=20
+> values to the client. If not, it will bump the PR for that PN and =
+return the new value=20
+> to the client. The returned value will only goes into the generated =
+package files.
+>=20
+> The PR network service will be a separate process other than bitbake, =
+using the=20
+> XMLPRC to communicate with the client(i.e. bitbake process) and =
+sqlite3 as the=20
+> backend database. The table definition would be something like
+> (
+>  PN TEXT,
+>  CheckSum TEXT PRIMARY KEY,
+>  PR INT
+> )
+>=20
+> Because different type of package files are generated in different =
+tasks, (e.g.
+> do_package_write_ipk, do_package_write_rpm), we will use the task =
+checksum=20
+> of do_package to ask for PR value, so all the package files will have =
+the same PR value.
+>=20
+> To be backward compatible, if the PR value is already set in the =
+recipe, the final PR value=20
+> that goes into the package files will be "PR in recipe.PR returned by =
+the service".
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Ke, Liping
-> Sent: Wednesday, April 27, 2011 4:05 PM
-> To: Patches and discussions about the oe-core layer
-> Cc: Lock, Joshua; Zhang, Jessica
-> Subject: Re: [OE-core] [PATCH 1/1] Image Creator: Make bitbake server typ=
-e
-> configuration (xmlrpc, none)
->=20
-> Hi, Josh Saul
-> I have resent the patch for removing the left debugging line. Please look=
-@ the
-> newer email:)
->=20
-> Thanks a lot for your help!
-> criping
+> Lianhao Lu
+> OTC SSG, Intel APAC R&D Ltd.
+> 86-21-61167139
 >=20
 >=20
 >=20
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Liping Ke
-> Sent: Wednesday, April 27, 2011 3:45 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 1/1] Image Creator: Make bitbake server type
-> configuration (xmlrpc, none)
->=20
-> From: Liping Ke <liping.ke@intel.com>
->=20
-> Add -t parameters for configuring xmlrpc or none server.
->=20
-> Signed-off-by: Liping Ke <liping.ke@intel.com>
-> ---
->  bitbake/bin/bitbake |   20 +++++++++++++++-----
->  1 files changed, 15 insertions(+), 5 deletions(-)
->=20
-> diff --git a/bitbake/bin/bitbake b/bitbake/bin/bitbake
-> index 6d05289..754517a 100755
-> --- a/bitbake/bin/bitbake
-> +++ b/bitbake/bin/bitbake
-> @@ -39,8 +39,6 @@ import bb.msg
->  from bb import cooker
->  from bb import ui
->  from bb import server
-> -from bb.server import none
-> -#from bb.server import xmlrpc
->=20
->  __version__ =3D "1.11.0"
->  logger =3D logging.getLogger("BitBake")
-> @@ -71,7 +69,7 @@ def get_ui(config):
->          return getattr(module, interface).main
->      except AttributeError:
->          sys.exit("FATAL: Invalid user interface '%s' specified.\n"
-> -                 "Valid interfaces: depexp, goggle, ncurses, knotty
-> [default]." % interface)
-> +                 "Valid interfaces: depexp, goggle, ncurses, hob, knotty
-> [default]." % interface)
->=20
->=20
->  # Display bitbake/OE warnings via the BitBake.Warnings logger, ignoring
-> others"""
-> @@ -161,6 +159,9 @@ Default BBFILES are the .bb files in the current
-> directory.""")
->      parser.add_option("-u", "--ui", help =3D "userinterface to use",
->                 action =3D "store", dest =3D "ui")
->=20
-> +    parser.add_option("-t", "--servertype", help =3D "choose which serve=
-r to
-> user, none or xmlrpc",
-> +               action =3D "store", dest =3D "servertype")
-> +
->      parser.add_option("", "--revisions-changed", help =3D "Set the exit =
-code
-> depending on whether upstream floating revisions have changed or not",
->                 action =3D "store_true", dest =3D "revisions_changed", de=
-fault
-> =3D False)
->=20
-> @@ -175,8 +176,17 @@ Default BBFILES are the .bb files in the current
-> directory.""")
->      loghandler =3D event.LogHandler()
->      logger.addHandler(loghandler)
->=20
-> -    #server =3D bb.server.xmlrpc
-> -    server =3D bb.server.none
-> +    # Server type could be xmlrpc or none currently, if nothing is speci=
-fied,
-> +    # default server would be none
-> +    if configuration.servertype:
-> +        server_type =3D configuration.servertype
-> +    else:
-> +        server_type =3D 'none'
-> +
-> +    module =3D __import__("bb.server", fromlist =3D [server_type])
-> +    server =3D getattr(module, server_type)
-> +
-> +    print ("lke: servertype: ", server_type)
->=20
->      # Save a logfile for cooker into the current working directory. When=
- the
->      # server is daemonized this logfile will be truncated.
-> --
-> 1.7.0.4
 >=20
 >=20
 > _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> poky mailing list
+> poky@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/poky
+
 
 
