@@ -1,34 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QFNA4-00074O-2A for openembedded-core@lists.openembedded.org;
-	Thu, 28 Apr 2011 11:05:24 +0200
+	id 1QFNB7-00076C-WA for openembedded-core@lists.openembedded.org;
+	Thu, 28 Apr 2011 11:06:30 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3S92k1R016101;
-	Thu, 28 Apr 2011 10:02:46 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3S93phx016110;
+	Thu, 28 Apr 2011 10:03:51 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 15864-05; Thu, 28 Apr 2011 10:02:42 +0100 (BST)
+	id 16094-01; Thu, 28 Apr 2011 10:03:47 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3S92fq1016095
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3S93gu1016104
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 28 Apr 2011 10:02:42 +0100
+	Thu, 28 Apr 2011 10:03:42 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <ee54f2998bde83872fa1f48c4b1f55f7dfc5774b.1303889119.git.sgw@linux.intel.com>
+In-Reply-To: <6eb38936408c2f16fdc64b5d792e3391aad73694.1303889119.git.sgw@linux.intel.com>
 References: <cover.1303889119.git.sgw@linux.intel.com>
-	<ee54f2998bde83872fa1f48c4b1f55f7dfc5774b.1303889119.git.sgw@linux.intel.com>
-Date: Thu, 28 Apr 2011 10:02:10 +0100
-Message-ID: <1303981330.21461.40.camel@rex>
+	<6eb38936408c2f16fdc64b5d792e3391aad73694.1303889119.git.sgw@linux.intel.com>
+Date: Thu, 28 Apr 2011 10:03:11 +0100
+Message-ID: <1303981391.21461.41.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: Darren Hart <dvhart@linux.intel.com>,
 	Antonio Ospite <ospite@studenti.unina.it>,
 	Chris Larson <clarson@kergoth.com>
-Subject: Re: [PATCH 38/52] insane.bbclass: Checking for NLS too when checking gettext dependency
+Subject: Re: [PATCH 44/52] util-linux.inc: remove virtual/libintl from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,27 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2011 09:05:24 -0000
+X-List-Received-Date: Thu, 28 Apr 2011 09:06:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-04-27 at 00:29 -0700, Saul Wold wrote:
+On Wed, 2011-04-27 at 00:30 -0700, Saul Wold wrote:
 > From: Khem Raj <raj.khem@gmail.com>
 > 
-> Checking for gettext is not needed when --disable-nls is used
-> 
-> Let user know what variant of gettext is missing e.g. gettext-native,
-> gettext-nativesdk etc, reveals a bit more for user
-> 
-> Check for virtual/gettext
+> inherit gettext should do it.
 > 
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/classes/insane.bbclass |    9 +++++----
->  1 files changed, 5 insertions(+), 4 deletions(-)
+>  meta/recipes-core/util-linux/util-linux.inc |    6 +++---
+>  1 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+> index 913bb1b..447e5b7 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -13,10 +13,10 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=1530e36fe1304d4535513de90a290df9
+>                      file://licenses/COPYING.UCB;md5=263860f8968d8bafa5392cab74285262 \
+>                      file://getopt/COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+>  
+> -DEPENDS = "zlib ncurses virtual/libintl"
+> -DEPENDS_virtclass-native = "zlib-native ncurses-native lzo-native gettext-native"
+> -
+>  inherit autotools gettext
+> +DEPENDS = "zlib ncurses"
+> +DEPENDS_virtclass-native_append = " lzo-native"
+> +
+>  
+>  SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux-ng/v${MAJOR_VERSION}/util-linux-ng-${PV}.tar.bz2 \
+>             file://MCONFIG \
 
-This depends on the gettext.bbclass changes so I didn't take this
-either.
+I wasn't sure if this depended on the gettext.bbclass changes so again,
+I didn't take it.
 
 Cheers,
 
