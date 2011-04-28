@@ -1,36 +1,42 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QFNMI-0007IA-Nf for openembedded-core@lists.openembedded.org;
-	Thu, 28 Apr 2011 11:18:02 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3S9FRlT016283;
-	Thu, 28 Apr 2011 10:15:27 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 16094-05; Thu, 28 Apr 2011 10:15:19 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p3S9FEaV016268
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 28 Apr 2011 10:15:14 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4DB85F2D.3010505@linux.intel.com>
-References: <cover.1303889119.git.sgw@linux.intel.com>
-	<451b67c736a7b67baf6b0bda5fee38b44b4a24cd.1303889119.git.sgw@linux.intel.com>
-	<20110427101712.bd2c2d0f.ospite@studenti.unina.it>
-	<4DB85F2D.3010505@linux.intel.com>
-Date: Thu, 28 Apr 2011 10:14:43 +0100
-Message-ID: <1303982083.21461.46.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	Antonio Ospite <ospite@studenti.unina.it>,
-	Chris Larson <clarson@kergoth.com>
-Subject: Re: [PATCH 03/52] gcc: Add recipes for 4.6.0
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1QFNT9-0007Q7-T9
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Apr 2011 11:25:08 +0200
+Received: by bwz5 with SMTP id 5so2382639bwz.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Apr 2011 02:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=6bGjhHTTNgyHjc8F+ACBLOpqDTpEwDkDYLrboavX5IQ=;
+	b=qqDoBc5OdWNoQZOgz60+5qITlDZyKppaDityBisVWuCPGo1QzPiHH/1ZzuJQX7e+FJ
+	1kgsnfFdvRoMnK9Xh7EVa1gc2x8LU1et9H+uII7IP6BE0DupyT1fncwcoxDe+GDYodYW
+	gp0B9896lpxaDctqIa9Qz5huNT/HxwDDJCIE0=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=Kbc+h/8h5nc+8ih9St70XmsIoUqfm3SPr8VOmFyfirbbRrgSVvf+fBVmzLlNqUMFi7
+	CjOZ8qGZRAXgzfjNtNSH0wbgO47PZFkQ9Sm3WnhvzTLz8z1fCP5hMBoaTGy3BHBW9qAw
+	uTMO3AzgF4W0h38foHegd/+SbMy9ac+UpqGn4=
+Received: by 10.204.19.5 with SMTP id y5mr1926124bka.194.1303982556257;
+	Thu, 28 Apr 2011 02:22:36 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id l1sm901354bkl.1.2011.04.28.02.22.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 28 Apr 2011 02:22:34 -0700 (PDT)
+Date: Thu, 28 Apr 2011 11:22:33 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Lu, Lianhao" <lianhao.lu@intel.com>
+Message-ID: <20110428092232.GA3259@jama.jama.net>
+References: <C10D3FB0CD45994C8A51FEC1227CE22F2311C1C837@shsmsx502.ccr.corp.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <C10D3FB0CD45994C8A51FEC1227CE22F2311C1C837@shsmsx502.ccr.corp.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [poky] RFC: design of network based PR service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,44 +51,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2011 09:18:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Apr 2011 09:25:08 -0000
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="+HP7ph2BbKc20aGI"
+Content-Disposition: inline
 
-On Wed, 2011-04-27 at 11:23 -0700, Saul Wold wrote:
-> On 04/27/2011 01:17 AM, Antonio Ospite wrote:
-> > On Wed, 27 Apr 2011  0:29:21 -0700
-> > Saul Wold<sgw@linux.intel.com>  wrote:
-> >
-> >> From: Khem Raj<raj.khem@gmail.com>
-> >>
-> >> Hi
-> >>
-> >> This is initial set of patches for testing them out
-> >> The patches need documentation is pending
-> >> Some patches especially uclibc related are not
-> >> needed they must be dropped.
-> >>
-> >> This is not the final version yet. But I would like
-> >> folks to help trying them out and report issues
-> >>
-> >
-> > If these changes turned to be the final ones then the commit message
-> > should be updated, shouldn't it?
-> >
-> Not final yet, I am pushing it now so people can set their local 
-> GCCVERSION and SDKGCCVERSION to test if they would like.
+--+HP7ph2BbKc20aGI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Independently, I also thought the commit messaged should have been
-tweaked, see the other emails ;-).
+On Thu, Apr 28, 2011 at 03:08:03PM +0800, Lu, Lianhao wrote:
+> Hi Guys,
+>=20
+> Here is the design of network based PR service, please help to review and=
+=20
+> give you comment. Thanks a lot!
 
-The original message read like a request for testing but it wasn't ready
-for merging into the repo. Now its being submitted, it either is ready
-or it was a mistake and it could easily look like the latter.
+Hi,
 
-Cheers,
+looks good, just wondering if we can use the same mechanism for
+LOCALCOUNT numbers in SRCPV, we can even use same table if we prefix
+first column ie LOCALCOUNT_${PN} and CheckSum in 2nd column would be
+actuall git hash (from SRCREV or HEAD for AUTOREV) or 2nd table with
+similar structure.
 
-Richard
+But it wont work very well if one builder is using AUTOREV and another
+one isn't, but that can be resolved by allowing only trusted builders
+with same configuration (wrt AUTOREV) to send such tuples.
 
+Do we have at least 2 groups of "users".
+1) trusted which increments PR when hash is not found
+2) public which can query PR for given hash (not sure what they should
+   do if hash is not found)
 
+Regards,
 
+> By changing the BB_SIGNATURE_HANDLER from "basic" to "basichash", the=20
+> task checksum will be in the stamp file, so this implies the end of PR bu=
+mps=20
+> since whenever a recipe change happens, the checksum of the appropriate=
+=20
+> tasks will change so everything depends on that tasks will automatically =
+got=20
+> rebuilt. (The checksum mechanism was introduced here at https://lists.yoc=
+toproject.org/pipermail/yocto/2011-March/001157.html).
+>=20
+> But there is one piece of building block missing there. Because the packa=
+ge=20
+> feeds needs the PR bumps because some relevant fields in the package file=
+(i.e.=20
+> Version field in .ipk and .deb file, Release field in .rpm file) need it =
+so the=20
+> generated package feeds can be used to upgrade/install new packages in th=
+e=20
+> user's linux distribution. So RP proposed this network based PR service a=
+t=20
+> https://lists.yoctoproject.org/pipermail/poky/2011-January/002123.html.=
+=20
+>=20
+> Each embedded linux distribution entity using Yocto to build their distri=
+butions=20
+> should have a single network based PR service. Multiple build sources cou=
+ld send=20
+> the tuple (PN, task checksum) to this network based PR service. If the PR=
+ service=20
+> finds the corresponding (PN, task checksum) in its database, it will retu=
+rn the PR=20
+> values to the client. If not, it will bump the PR for that PN and return =
+the new value=20
+> to the client. The returned value will only goes into the generated packa=
+ge files.
+>=20
+> The PR network service will be a separate process other than bitbake, usi=
+ng the=20
+> XMLPRC to communicate with the client(i.e. bitbake process) and sqlite3 a=
+s the=20
+> backend database. The table definition would be something like
+> (
+>   PN TEXT,
+>   CheckSum TEXT PRIMARY KEY,
+>   PR INT
+> )
+>=20
+> Because different type of package files are generated in different tasks,=
+ (e.g.
+> do_package_write_ipk, do_package_write_rpm), we will use the task checksu=
+m=20
+> of do_package to ask for PR value, so all the package files will have the=
+ same PR value.
+>=20
+> To be backward compatible, if the PR value is already set in the recipe, =
+the final PR value=20
+> that goes into the package files will be "PR in recipe.PR returned by the=
+ service".
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Lianhao Lu
+> OTC SSG, Intel APAC R&D Ltd.
+> 86-21-61167139
+>=20
+>=20
+>=20
+>=20
+>=20
+> _______________________________________________
+> poky mailing list
+> poky@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/poky
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--+HP7ph2BbKc20aGI--
