@@ -1,30 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QFYj2-0000vD-Sa
+	(envelope-from <raj.khem@gmail.com>) id 1QFYkV-0000ws-9Y
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Apr 2011 23:26:21 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p3SLNeZo003002
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Apr 2011 14:23:40 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 28 Apr 2011 14:23:40 -0700
-Message-ID: <4DB9DADA.1020304@windriver.com>
-Date: Thu, 28 Apr 2011 16:23:38 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.15) Gecko/20110303 Thunderbird/3.1.9
+	Thu, 28 Apr 2011 23:27:47 +0200
+Received: by ewy5 with SMTP id 5so991837ewy.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Apr 2011 14:25:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:content-transfer-encoding;
+	bh=koytmOVo5SmNXWqZaHj3jOffF7eyTz+zB3VmuDqwTMI=;
+	b=RZ2znHdX2TNWowizoQam4thktHuAToparwUlwOXJ7OAwJ53pMvpzQhBYD4cSfC7cjW
+	FjFEpIvyqNQCbYawTaZU7nKIL3Ii7oINeMR2AitbJFcJRQLioxdiQLpd8O3zRA2uDwEC
+	NbSXxf1T6s2ShSMyHs4ZvfONBEa/owF2oPcho=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	b=iQB56T1eT4gPUDQs8UIFeFZHH+AU2IHKHJnJW+do0VWFhMDlLdkMRS4Tb8rb3e2rcb
+	lEuCzBH74cbm3eHF6z/RfyZUaZ/GtWixmv752+neK+3vP1N5CSTG39JF26Z9IGOiZnoi
+	BXilFAatRc2EhIRkE4rN+2XUkhxGkMWh1G/Y8=
+Received: by 10.14.17.103 with SMTP id i79mr1858577eei.13.1304025913160; Thu,
+	28 Apr 2011 14:25:13 -0700 (PDT)
 MIME-Version: 1.0
-To: Joshua Lock <josh@linux.intel.com>
-References: <C10D3FB0CD45994C8A51FEC1227CE22F2311C1C837@shsmsx502.ccr.corp.intel.com>	
-	<20110428092232.GA3259@jama.jama.net>
-	<4DB9859D.7070609@windriver.com> <1304024672.2171.396.camel@vorpal>
-In-Reply-To: <1304024672.2171.396.camel@vorpal>
-Cc: poky@yoctoproject.org, Patches and discussions about the oe-core layer
+Received: by 10.14.47.139 with HTTP; Thu, 28 Apr 2011 14:24:43 -0700 (PDT)
+In-Reply-To: <4DB9D856.7030709@windriver.com>
+References: <4DB9D856.7030709@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 28 Apr 2011 14:24:43 -0700
+Message-ID: <BANLkTik8RuWrHsg6sNPq7peW6=9agGYwuA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] RFC: design of network based PR service
+Subject: Re: OE-Core and MacOS X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,87 +45,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2011 21:26:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Apr 2011 21:27:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-(adding oe-core back to the list as it got dropped off my previous reply)
+On Thu, Apr 28, 2011 at 2:12 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> I've started working on getting bitbake and OE-Core building on MacOS X. =
+=C2=A0So far
+> what I have are some pretty hacky patches.. but they should be a reasonab=
+le start.
+>
 
-On 4/28/11 4:04 PM, Joshua Lock wrote:
-> On Thu, 2011-04-28 at 10:19 -0500, Mark Hatle wrote:
->> On 4/28/11 4:22 AM, Martin Jansa wrote:
->>> On Thu, Apr 28, 2011 at 03:08:03PM +0800, Lu, Lianhao wrote:
->>>> Hi Guys,
->>>>
->>>> Here is the design of network based PR service, please help to review and 
->>>> give you comment. Thanks a lot!
->>>
->>> Hi,
->>>
->>> looks good, just wondering if we can use the same mechanism for
->>> LOCALCOUNT numbers in SRCPV, we can even use same table if we prefix
->>> first column ie LOCALCOUNT_${PN} and CheckSum in 2nd column would be
->>> actuall git hash (from SRCREV or HEAD for AUTOREV) or 2nd table with
->>> similar structure.
->>>
->>> But it wont work very well if one builder is using AUTOREV and another
->>> one isn't, but that can be resolved by allowing only trusted builders
->>> with same configuration (wrt AUTOREV) to send such tuples.
->>>
->>> Do we have at least 2 groups of "users".
->>> 1) trusted which increments PR when hash is not found
->>> 2) public which can query PR for given hash (not sure what they should
->>>    do if hash is not found)
->>
->> I think this points our something necessary.  There are manual indications of a
->> change.  I.e. the current "PR" usage.  If I change the recipe, patches, etc I
->> should expect to update the 'PR' to the next value.  However, if something ELSE
->> changes (affecting the checksum), or an end user forgets to change the PR, the
->> auto increment should be used.
-> 
-> Why would you need to update the PR manually? Detecting changes in the
-> recipe/patches/etc should all be handled by the checksumming.
+You might be interested in
+http://git.openembedded.org/cgit.cgi/openembedded/log/?h=3Dkoen/darwin-host=
+-fixes
+there might be some interesting bits still relevant
 
-Checksums and timestamps are not enough to determine a logical progression of
-the components.
-
-We need something that informs the user where these changes fit in the grand
-scheme of things.  Are they newer or older then a recipe of the same name (and
-package version)?
-
-So this really allows us to visualize multiple levels of upstream work:
-
-Level 1 - Upstream "version"  (PV)
-
-Level 2 - Upstream (oe-core) recipe versioning (PR)
-
-...
-
-Level N - Local build and configuration versioning (checksum based & auto
-incrementing)
-
-
-In a lot of projects 1, 2 and N are enough.. but it's understandable to add in
-other intermediate levels to indicate different upstreams along the way.  (Such
-as if a company has their own internal distribution..)
-
-I've seen cases where a level 3 exists to indicate a "distribution version"..
-
-Level N (when done manually) has usually captured major system configuration
-changes and rebuilding in order to enable solver tools to upgrade properly.
-
-
-While the checksum will be able to point a unique instance of the recipe to a
-given PR... it doesn't guaranty any type of logical numbering.. other then a new
-checksum is a new (presumably larger) PR number.  By adding in the various
-levels of version information the checksum becomes "more" unique as it only
-refers to specific 'upstream' revisions, and make it more logical that a level
-1, 2, ... N change means it's a "newer" version of the package.
-
---Mark
-
-> Cheers,
-> Joshua
-
+> I've pushed my changes to the git://git.pokylinux.org/poky-contrib.git
+> repository and the "mhatle/macosx/bitbake" and "mhatle/macosx/oe-core" br=
+anches.
+>
+> The way I am doing builds is:
+>
+> git clone git://git.pokylinux.org/poky-contrib.git oe-core
+> cd oe-core
+> git checkout mhatle/macosx/oe-core
+> git clone . bitbake
+> cd bitbake
+> git checkout mhatle/macosx/bitbake
+> cd ..
+> . ./oe-init-build-env build-macosx
+>
+>
+> Then you edit the conf/local.conf, add the following to the top of the fi=
+le:
+>
+> BUILD_ARCH =3D "x86_64"
+> TARGET_OS =3D "linux"
+>
+> PREFERRED_VERSION_pseudo-native =3D "1.0+git%"
+> PSEUDOSRCREV =3D "481c6ff64f8aa6de01d3cb4042914f8e9f8d0abb"
+>
+> PATCHRESOLVE =3D 'noop'
+>
+> DISTRO =3D 'poky'
+>
+>
+> This allows me to build through the stage 1 part of the build (pseudo) an=
+d onto
+> the second stage.. it gets the 'gmp' and fails.
+>
+> On my Mac OS X machine, I need to install the following items (beyond the=
+ normal
+> BSD tools):
+>
+> gawk, git, mercurial, sed, tar and wget
+>
+> --Mark
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
