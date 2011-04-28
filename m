@@ -1,38 +1,23 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QFVuj-00077o-U6
+Received: from smarthost.mvista.com ([206.112.117.56])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <jpuhlman@mvista.com>) id 1QFW1q-0007D6-UQ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Apr 2011 20:26:09 +0200
-Received: by eye27 with SMTP id 27so939967eye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2011 11:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=FX7HALF/+1VNkI7WJtzu97jW+JF8XBjH/+kUCh5KoHk=;
-	b=J5Q4Hll/E9G49G/VUkHRv1CS9b1tzvcDzQST5kqMiNcCTEPwLgjmwRoCZvvdlgJR1t
-	WM0IBLa7q4uzrqqAWlMDgxyIljTUn/t2O9eLg95UNctmj3sFBYU/c2UYrnbj/5AqmHWw
-	ozzb8iC11jpxRRvN7MmaKxFad8gPIxRyCxvJw=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=Wtti3A9XgXk8KQ9xwkJk1zpaMp5k9GQQ+76qvSaulGZlU/FkGrcr0Bbzf1ZtyCw6z8
-	s+WyvEgCmKaQWvCwnpNKPHFAl17t9Tgq8cYXW0Hinjrhu+XrXsNEjgrDioy2Me+XAmPE
-	6IleGbnJTrVwcFFOsZ1hz1F+U+nqnGI+swZTQ=
-Received: by 10.14.34.88 with SMTP id r64mr1797133eea.77.1304015017469; Thu,
-	28 Apr 2011 11:23:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.47.139 with HTTP; Thu, 28 Apr 2011 11:23:07 -0700 (PDT)
-In-Reply-To: <4DB99F31.4000308@mlbassoc.com>
-References: <4DB99F31.4000308@mlbassoc.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 28 Apr 2011 11:23:07 -0700
-Message-ID: <BANLkTikaf3MHYrnbvHDno3dSv_LhsLyFVg@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: Poky Project <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] GCC 4.6.0 on ARM?
+	Thu, 28 Apr 2011 20:33:41 +0200
+Received: from scratch-1.sh.mvista.com (scratch-1.sh.mvista.com [10.40.0.72])
+	by smarthost.mvista.com (Postfix) with ESMTP id 3F09C9804E;
+	Thu, 28 Apr 2011 11:10:10 -0700 (PDT)
+Received: from jpuhlman by scratch-1.sh.mvista.com with local (Exim 4.63)
+	(envelope-from <jpuhlman@scratch-1.sh.mvista.com>)
+	id 1QFVfG-00005B-6p; Thu, 28 Apr 2011 11:10:10 -0700
+From: Jeremy Puhlman <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Apr 2011 11:09:38 -0700
+Message-Id: <1304014179-32612-1-git-send-email-jpuhlman@mvista.com>
+X-Mailer: git-send-email 1.7.3.2
+In-Reply-To: <RFC: Layer tooling brainstorming>
+References: <RFC: Layer tooling brainstorming>
+Cc: chris_larson@mentor.com
+Subject: [PATCH] Add support for remote layering.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,35 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2011 18:26:10 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 28 Apr 2011 18:33:41 -0000
 
-On Thu, Apr 28, 2011 at 10:09 AM, Gary Thomas <gary@mlbassoc.com> wrote:
-> I got my OMAP target to build with GCC-4.6.0 using the latest
-> Poky tree after a fresh rebuild. =C2=A0Sadly, the Linux kernel (2.6.37.3)
-> does not run correctly when built with this compiler. =C2=A0It
-> fails when enumerating the USB bus :-(
->
-> Are there known issues with the Linux kernel on ARM and GCC-4.6?
->
 
-There has been fixes on top of 4.6.0 the one we have right now is vanilla
-4.6.0 release. I plan to add second set of patches but you have to dig a bi=
-t
-more to identify the problem
+> * Maybe need to split into "bootstrap" steps (e.g where pseduo is
+   established, layers downloaded etc)
 
-> --
-> ------------------------------------------------------------
-> Gary Thomas =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=
-=A0Consulting for the
-> MLB Associates =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =
-=C2=A0Embedded world
-> ------------------------------------------------------------
-> _______________________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
->
+ So for the most part, the last product we shipped was largely arranged
+in this manner. We were using collections, but in many cases layers is
+just a reimplementation at a lower level(which is definitely goodness).
+During ELC I had a number of discussions primarily around remote layer
+fetch and most of the responses were meh, or that they wanted to make
+the tool external to bitbake. So after the conference was over I went
+ahead and worked out a version of the implementation  that could be done
+either in a include or in the bitbake code itself. The version in the
+git repo below is obviously just the bitbake implementation.
+
+I have a rough implementation largely based off of collection.inc + some
+enhancements we made internally for remote collection fetching. Some of
+it is messy(setting up the early fetching vars with out using another
+config), but for the ones I list in the patch header it appears to work
+well.
+
+I do not believe that this is complete, but it is probably a reasonable
+starting point.
+
+Pull URL: git://gitorious.org/jpwork/bb.git
+Branch: remote-layering
+Browse: https://gitorious.org/jpwork/bb/trees/remote-layering
+
+
 
 
