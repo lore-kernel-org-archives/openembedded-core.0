@@ -1,26 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QFWRT-0007YS-Mx
+	(envelope-from <mark.hatle@windriver.com>) id 1QFYYb-0000ol-Qc
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Apr 2011 20:59:59 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Apr 2011 11:57:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,282,1301900400"; d="scan'208";a="635478645"
-Received: from unknown (HELO [10.255.13.11]) ([10.255.13.11])
-	by orsmga002.jf.intel.com with ESMTP; 28 Apr 2011 11:57:16 -0700
-Message-ID: <4DB9B883.3050302@linux.intel.com>
-Date: Thu, 28 Apr 2011 11:57:07 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.14) Gecko/20110223 Lightning/1.0b2 Thunderbird/3.1.8
+	Thu, 28 Apr 2011 23:15:33 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p3SLCtPf001456
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Apr 2011 14:12:55 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 28 Apr 2011 14:12:55 -0700
+Message-ID: <4DB9D856.7030709@windriver.com>
+Date: Thu, 28 Apr 2011 16:12:54 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.15) Gecko/20110303 Thunderbird/3.1.9
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1303922644.git.paul.eggleton@linux.intel.com>	<318c3139745e74177a23f323881dbd76ddc42006.1303922644.git.paul.eggleton@linux.intel.com>	<4DB858B9.3030901@linux.intel.com>
-	<201104281113.45335.paul.eggleton@linux.intel.com>
-In-Reply-To: <201104281113.45335.paul.eggleton@linux.intel.com>
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [poky] [PATCH 1/1] initscripts: remove -i from halt/reboot	arguments and allow override
+To: <openembedded-core@lists.openembedded.org>
+Subject: OE-Core and MacOS X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2011 19:00:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 28 Apr 2011 21:15:33 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
+I've started working on getting bitbake and OE-Core building on MacOS X.  So far
+what I have are some pretty hacky patches.. but they should be a reasonable start.
+
+I've pushed my changes to the git://git.pokylinux.org/poky-contrib.git
+repository and the "mhatle/macosx/bitbake" and "mhatle/macosx/oe-core" branches.
+
+The way I am doing builds is:
+
+git clone git://git.pokylinux.org/poky-contrib.git oe-core
+cd oe-core
+git checkout mhatle/macosx/oe-core
+git clone . bitbake
+cd bitbake
+git checkout mhatle/macosx/bitbake
+cd ..
+. ./oe-init-build-env build-macosx
 
 
-On 04/28/2011 03:13 AM, Paul Eggleton wrote:
-> On Wednesday 27 April 2011 18:56:09 Darren Hart wrote:
->> Is the SED_* tag a common search/replace mechanism in OE recipes? It's
->> fine, I'm just wondering if there is an accepted best practice for this
->> sort of thing. I know we do some sed replacements of /usr/bin and /etc.
-> 
-> Is there a more appropriate mechanism for substituting values of variables 
-> into files (genuinely asking)? If this is the best mechanism it's possible we 
-> might want to have a standard naming scheme though, I just made this one up on 
-> the spot - I see in some other places we've used FIXMExxxx, so at least it's 
-> not the worst :)
+Then you edit the conf/local.conf, add the following to the top of the file:
 
-There is an effort to document how to do initscripts, so including
-something along these lines would be appropriate there. I have no
-objection to SED_.... FIXMExxx that's a different story ;-)
+BUILD_ARCH = "x86_64"
+TARGET_OS = "linux"
 
-> 
-> Cheers,
-> Paul
-> 
+PREFERRED_VERSION_pseudo-native = "1.0+git%"
+PSEUDOSRCREV = "481c6ff64f8aa6de01d3cb4042914f8e9f8d0abb"
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+PATCHRESOLVE = 'noop'
+
+DISTRO = 'poky'
+
+
+This allows me to build through the stage 1 part of the build (pseudo) and onto
+the second stage.. it gets the 'gmp' and fails.
+
+On my Mac OS X machine, I need to install the following items (beyond the normal
+BSD tools):
+
+gawk, git, mercurial, sed, tar and wget
+
+--Mark
 
 
