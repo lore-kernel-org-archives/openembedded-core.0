@@ -1,37 +1,41 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <michael.lippautz@gmail.com>) id 1QFmDv-0005Vu-ET
+	(envelope-from <raj.khem@gmail.com>) id 1QFqL1-0001tR-LC
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Apr 2011 13:51:03 +0200
-Received: by fxm19 with SMTP id 19so2829237fxm.6
+	Fri, 29 Apr 2011 18:14:39 +0200
+Received: by ewy5 with SMTP id 5so1208944ewy.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Apr 2011 04:48:30 -0700 (PDT)
+	Fri, 29 Apr 2011 09:12:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:content-transfer-encoding;
-	bh=WS4y/u0mUNiEsgfiVdRR8zGDxyY4RTTZ0PW31bNs6Y0=;
-	b=DmjogV7VS2rw9oCTxIvujwHYneCBt/uMZ/1wkk/aN4rTbadYCpgLMpvMJwZK+6LB7r
-	ir3fLbl07BJ2ivBL75mmc5mCjt5RjFcE9aXGEbiJAO2BCbHRoyE8+o618s1ESRk5KAPd
-	eZvtHj33XQVmw28Ic7nt4UKlHZPAijxfcy2z0=
+	:message-id:subject:to:cc:content-type;
+	bh=B4JPBUGl4wgEbEiidx1vyLeEk8IA/7hn8AEgAllAwcU=;
+	b=iTFtPdP8YN+eAcRSLtt4JCr56W8i3eDgRxeh4sRPaoRjwJajH4OzrxCWsv1dTvglpX
+	XjHbOW0hAAkLoUnbsfdrPtbt1OKBx1z+WPg5flSNePFPkDVZVDZJQ5blolaIA+YJGXDQ
+	58IEzbQOKSFjPTQuNQvcwtAbOmHNBBLRhSVzI=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	b=G6t/Yn5Kor7UKbSU6XWv73Eebr70ZRPym7wfpW5b/IVr7eTr82DVzrLxYPZFT3MKeC
-	DHuqYEG/ONwtOjeTV5ZYAly3eHqqppQ8QqJQD1k6v2hu8O6y6o/xWkJxAZumFZgATnF8
-	otImkArtJ7Z5kyd3mERZvoWweJk1FRnsUghTQ=
-Received: by 10.223.43.145 with SMTP id w17mr13956fae.12.1304077710209; Fri,
-	29 Apr 2011 04:48:30 -0700 (PDT)
+	:cc:content-type;
+	b=GobJEyPhhzR42rPN30FE8zHY6mikX6q3/3iOFHVZrHSeQ/DsGckqhdqlwVBKM7ImGn
+	hpA4yAza5emivY1iHIgUV9hKEeuomdwT4BKB6R8edowflZ0+TbfR3AmoZ78YuC+PKGqA
+	zLDhwbbDJf50AWJ+aJ2NnYOK/EzGmdi+JTQvg=
+Received: by 10.14.125.4 with SMTP id y4mr2297936eeh.109.1304093526346; Fri,
+	29 Apr 2011 09:12:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.119.4 with HTTP; Fri, 29 Apr 2011 04:48:10 -0700 (PDT)
-In-Reply-To: <9AB9810D-F908-4477-888F-056039505DCF@dominion.thruhere.net>
-References: <1304073898-12204-1-git-send-email-michael.lippautz@gmail.com>
-	<9AB9810D-F908-4477-888F-056039505DCF@dominion.thruhere.net>
-From: Michael Lippautz <michael.lippautz@gmail.com>
-Date: Fri, 29 Apr 2011 13:48:10 +0200
-Message-ID: <BANLkTik1anmE4n7fKMp4uV9ZSLK1Gx_C0g@mail.gmail.com>
+Received: by 10.14.47.139 with HTTP; Fri, 29 Apr 2011 09:11:36 -0700 (PDT)
+In-Reply-To: <1303981290.21461.39.camel@rex>
+References: <cover.1303889119.git.sgw@linux.intel.com>
+	<ed1614da74a5bf5820855d9d5bd9ab6213bc36de.1303889119.git.sgw@linux.intel.com>
+	<1303981290.21461.39.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 29 Apr 2011 09:11:36 -0700
+Message-ID: <BANLkTimx4ry=vZdiNzYna1EE121Q85mUOA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH]] python: Unbreak Python third-party extensions
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Antonio Ospite <ospite@studenti.unina.it>,
+	Chris Larson <clarson@kergoth.com>
+Subject: Re: [PATCH 36/52] gettext.bbclass: Use _append instead of =+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,61 +50,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Apr 2011 11:51:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 29 Apr 2011 16:14:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-2011/4/29 Koen Kooi <koen@dominion.thruhere.net>:
+On Thu, Apr 28, 2011 at 2:01 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> We can make this simpler. We should just setVar("DEPENDS_GETTEXT", "")
+> in the INHIBIT_DEFAULT_DEPS case. If anything is expanding the variables
+> somewhere, we should fix that.
 >
-> Op 29 apr 2011, om 12:44 heeft Michael Lippautz het volgende geschreven:
+
+Infact the virtclass stuff complicates this since they are evaluated
+specially and I am not clear weather _append gets
+evaluation before that or after and also the anon python function
+evaluation as the one we are defining in this class.
+
+I tried to empty out DEPENDS_GETTEXT but it does not work in nativesdk cases.
+
+> In fact, rather than all this ugly manipulation can't we just set
+> DEPENDS_GETTEXT to "" in the INHIBIT_DEFAULT_DEPS or USE_NLS cases? If
+> that doesn't work, the recipes dependencies are broken and should be
+> fixed to inherit this class, right?
 >
->> This fixes compilation/linking of Python 3rd party extensions.
->>
->> ${STAGING_LIBDIR}/python<pyver>/config/Makefile needs the correct
->> INCDIR and LIBDIR settings to be used in cross compilation for the
->> target. 3rd party module use distutils.sysconfig which uses this
->> Makefile to create compiler/linker flags.
->>
->> Workflow:
->> 1) compile needs the staged/sysroot Makefile since it is needed
->> =A0 for compilation/linking
->> 2) install needs the unmodified Makefile to install files (i.e.
->> =A0 headers) into the right directores. (otherwise they would be
->> =A0 installed in ${D}/${STAGING_...}
->> 3) staging needs modified Makefile again
->> 4) packaging needs unmodified to make compilation on the target
->> =A0 possible
->
-> Does any of the sysroot leak into the 3rd party extensions after this pat=
-ch? Apart from that question, the patch looks good to me, although I needed=
- a cup of coffee to work out the flow.
-
-Nothing leaks into the 3rd party extensions as far as I know. The
-Makefile is used by distutils (i.e. distutils.sysconfig) to determine
-the compiler settings.
-
-In the case of a 3rd partyextension the flow is as follows:
-* distutils.bbclass uses python-native + distutils-native to generate
-the package
-* distutils-native looks up the compiler settings via
-distutils.sysconfig (-native) in
-${STAGING_LIBDIR}/python<pyver>/config/Makefile
-  (it is thus important that STAGING_LIBDIR is set by distutils.bbclass)
-* 3rd party extension is compiled using the settings from this Makefile
-
-The compilation on the target should still be possible (although I
-didn't test it), because the target's Makefile is untouched.
-
-The actual problem was that the targets Makefile did get staged and
-the compiler and linker have been invoked with the targets libs, for
-instance -L/usr/lib.
-
-> regards,
->
-> Koen
-
-(I needed more than one coffee to figure out this flow)
-
--Michael
 
 
