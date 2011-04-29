@@ -1,40 +1,31 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QFZmF-00041u-Hy
+	(envelope-from <gary@mlbassoc.com>) id 1QFcOV-0007BG-NG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Apr 2011 00:33:39 +0200
-Received: by ewy5 with SMTP id 5so1006201ewy.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Apr 2011 15:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=8wEpki41AvTRUVc5r6XBQlXi8mgnQ3Ww/g5/9nH5FLA=;
-	b=aeh6JFaFwlVqj8J8hWFi72bvbl1pioUc0GsBkErDrJLYAoakutyByN2u+BXLzoeX6/
-	e1vyP77tMmQg5S0T3xTSBaAP5GI7zUJZs7f3FcGMbaN/7EmJ3PPTXdhaF3ZemBCqz2hL
-	DDTLJamoNcIopM9w6yv13mk1GG0Wm/is+FXDs=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=Ai7dWMIgdcypSaFFhE31CxY6/PAZAKLa+H77MXP+oqfeefW3Y0R9yI0xgK1k+nVSKe
-	Wyp1rMacrTUcP1NuLa97KKcoXxkNXfm6j/q0W/aJ+BbjvG9OeUvXNWhVoOCztkKeTkux
-	ma65yxmH9Kj8vnyppiHKsrLWz3tNXVw+U+FEg=
-Received: by 10.14.11.132 with SMTP id 4mr1875754eex.45.1304029867331; Thu, 28
-	Apr 2011 15:31:07 -0700 (PDT)
+	Fri, 29 Apr 2011 03:21:22 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id F30FF1660339; Thu, 28 Apr 2011 19:18:41 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2-r929478
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 4572D166030A;
+	Thu, 28 Apr 2011 19:18:41 -0600 (MDT)
+Message-ID: <4DBA11F0.8090409@mlbassoc.com>
+Date: Thu, 28 Apr 2011 19:18:40 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
+	Thunderbird/3.1.7
 MIME-Version: 1.0
-Received: by 10.14.47.139 with HTTP; Thu, 28 Apr 2011 15:30:37 -0700 (PDT)
-In-Reply-To: <4DB9E439.5020009@linux.intel.com>
-References: <BANLkTimY=T0BNMLWm+Ez9N1ug+_XOdaGpg@mail.gmail.com>
-	<B7450533-1402-4465-A3C8-6CFF10BF4A82@dominion.thruhere.net>
-	<BANLkTikjpjVK40B4OO6a4BqB3ys_7hxbmA@mail.gmail.com>
-	<4DB9E439.5020009@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 28 Apr 2011 15:30:37 -0700
-Message-ID: <BANLkTi=OLNtQ1Ab5ncLzP-7UD47pLfrErQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: eglibc 2.13 upgrade
+References: <cover.1300731672.git.raj.khem@gmail.com>	<c9c4958668d457bef286c0c1e4038db23fc099c2.1300731672.git.raj.khem@gmail.com>
+	<4D87C5EA.1040602@mentor.com>
+In-Reply-To: <4D87C5EA.1040602@mentor.com>
+Subject: Re: [PATCH 1/1] perl-native_5.12.2.bb: Fix compliation on	ubuntu 11.04-alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,83 +40,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Apr 2011 22:33:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 29 Apr 2011 01:21:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 28, 2011 at 3:03 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 04/27/2011 01:13 PM, Khem Raj wrote:
+On 03/21/2011 03:40 PM, Tom Rini wrote:
+> On 03/21/2011 11:23 AM, Khem Raj wrote:
+>> Ubuntu has moved eglibc to /usr/lib/${arch}-linux-gnu and
+>> /lib/${arch}-linux-gnu so we need that to be added to glibpth in
+>> Configure.
 >>
->> On Wed, Apr 27, 2011 at 9:44 AM, Koen Kooi<koen@dominion.thruhere.net>
->> =C2=A0wrote:
->>>
->>> Why not move those srcrevs into the recipe? IIRC these ones aren't
->>> affected by RPs concerns
+>> Currently we set LD=ld in environment for recipes inheriting native
+>> class. This overrides the LD settings in the Makefiles of perl and
+>> it tries to link by calling ld which does not work since its using
+>> -l<x> on commandline and ubuntu linker seems not to look into
+>> the new location for these libraries. Its better to use gcc for linking
+>> here anyway
 >>
->> I am ok doing that but here
+>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>> ---
+>> .../perl/files/Configure-multilib.patch | 10 +++++++---
+>> meta/recipes-devtools/perl/perl-native_5.12.2.bb | 4 +++-
+>> 2 files changed, 10 insertions(+), 4 deletions(-)
 >>
->> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-April/001536=
-.html
+>> diff --git a/meta/recipes-devtools/perl/files/Configure-multilib.patch b/meta/recipes-devtools/perl/files/Configure-multilib.patch
+>> index d3948a9..b561b6a 100644
+>> --- a/meta/recipes-devtools/perl/files/Configure-multilib.patch
+>> +++ b/meta/recipes-devtools/perl/files/Configure-multilib.patch
+>> @@ -1,11 +1,15 @@
+>> ---- perl-5.8.7/Configure.orig 2006-01-30 10:50:04.000000000 +0000
+>> -+++ perl-5.8.7/Configure 2006-01-30 10:51:18.000000000 +0000
+>> -@@ -1240,7 +1240,7 @@
+>> +Index: perl-5.12.2/Configure
+>> +===================================================================
+>> +--- perl-5.12.2.orig/Configure
+>> ++++ perl-5.12.2/Configure
+>> +@@ -1316,8 +1316,9 @@ loclibpth="/usr/local/lib /opt/local/lib
+>> loclibpth="$loclibpth /opt/gnu/lib /usr/GNU/lib /opt/GNU/lib"
 >>
->> it seems we still need to investigate it before we start moving
->> SRCREVs to recipes.
+>> : general looking path for locating libraries
+>> -glibpth="/lib /usr/lib $xlibpth"
+>> +glibpth="/lib /usr/lib /lib64 /usr/lib64 $xlibpth"
+>> glibpth="$glibpth /usr/ccs/lib /usr/ucblib /usr/local/lib"
+>> ++test -f /usr/lib/`uname -m`-linux-gnu/libc.so&& glibpth="/usr/lib/`uname -m`-linux-gnu $glibpth"
+>> test -f /usr/shlib/libc.so&& glibpth="/usr/shlib $glibpth"
+>> test -f /shlib/libc.so&& glibpth="/shlib $glibpth"
+>> + test -d /usr/lib64&& glibpth="$glibpth /lib64 /usr/lib64 /usr/local/lib64"
+>> diff --git a/meta/recipes-devtools/perl/perl-native_5.12.2.bb b/meta/recipes-devtools/perl/perl-native_5.12.2.bb
+>> index 9af7b06..6776aed 100644
+>> --- a/meta/recipes-devtools/perl/perl-native_5.12.2.bb
+>> +++ b/meta/recipes-devtools/perl/perl-native_5.12.2.bb
+>> @@ -4,7 +4,7 @@ SECTION = "libs"
+>> LICENSE = "Artistic|GPL"
+>> LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+>> file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+>> -PR = "r7"
+>> +PR = "r8"
 >>
-> We are days away from having this implemented (early next week is the pla=
-n
-> right now). Once you see the big pull that moves SRCREVs, then you can go
-> ahead with your upgrade.
+>> LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+>> file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+>> @@ -28,6 +28,8 @@ S = "${WORKDIR}/perl-${PV}"
+>>
+>> inherit native
+>>
+>> +export LD="${CC}"
 >
-> Also creating a new recipe instead of moving the old one will cause a los=
-e
-> of history in git, we would prefer moves or create new / delete.
+> We have CCLD for when we want to use CC as our LD (and yes, this usually just ends up as CC, but lets be clear please).
+>
 
-I would move if we decide that its an upgrade and we dont need
-2.12 anymore othereise It will be created new along side 2.12 problem
-with creating
-new is that it carries lot of history from 2.12 but does not associate
-with it directly
-renaming/moving will atleast have that link but thats besides
+This change is not working for me on Ubuntu 11.04 {released}.
+The libraries are found in /lib/i386-linux-gnu and /usr/lib/i386-linux-gnu
+At least on the machine where it fails, uname -m gives i686, so the test
+   >> ++test -f /usr/lib/`uname -m`-linux-gnu/libc.so&& glibpth="/usr/lib/`uname -m`-linux-gnu $glibpth"
+fails.
 
->
-> Sau!
->
->>>
->>> Op 27 apr. 2011 om 18:21 heeft Khem Raj<raj.khem@gmail.com> =C2=A0het v=
-olgende
->>> geschreven:
->>>
->>>> Hi
->>>>
->>>> I have eglibc 2.13 upgrade done locally and has been building fine for
->>>> all architectures. I have added 2.13 recipes and not
->>>> deleted the 2.12, This works ok except when setting the SRCREV. Since
->>>> we have a single file called
->>>> conf/distro/include/poky-default-revisions.inc to store this
->>>> information there can not be two SRCREV for two versions of same
->>>> package unless we move them to
->>>> recipes which is under work but not yet done. Thats one reason to hold
->>>> these patches. I can propose them if we are ok with
->>>> removing 2.12 recipes then it becomes straight forward
->>>>
->>>> Opinions ?
->>>>
->>>> -Khem
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+I hard coded the i386-linux-gnu paths and was able to build perl-native on Ubuntu 11.04
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
