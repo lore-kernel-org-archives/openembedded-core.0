@@ -1,38 +1,38 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QGIM7-00024n-8u
+	(envelope-from <raj.khem@gmail.com>) id 1QGIM8-00024Y-CX
 	for openembedded-core@lists.openembedded.org;
-	Sun, 01 May 2011 00:09:39 +0200
-Received: by pvc30 with SMTP id 30so2816378pvc.6
+	Sun, 01 May 2011 00:09:41 +0200
+Received: by mail-pw0-f47.google.com with SMTP id 9so2272452pwj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Apr 2011 15:07:04 -0700 (PDT)
+	Sat, 30 Apr 2011 15:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=HxW8uY59GXMlX2FQ+ppFtZxBAQ7OgVtHtFVCGjY3XR4=;
-	b=dyXwnTpj0/Fgefm9YxZcMysOOlmyPIEL/Do9uOGDHcGg3+qdfswerBcxvn4NUyqvIi
-	fpLtq+YIIsODXnJXutf3RDT6p3liLQCivx5WyAJNr5EuYHJyo1DPFrNtvuBRIpqYFGFq
-	FFG4k2AXfUvrQz6qAC/jVEr8ohXLb/zajgd6c=
+	bh=+MjHrhemvF1wk5lYNuF/xCU00CRyGtfETMTNXEM6qFo=;
+	b=kdUlcKPGWCD8o7TvczQhTCWx1IH78jByk8BC9dMU9GsskV568dw24+nbaAdRZqeFa5
+	BVh/RARij4fgQt8Kf73NYlLeg9gaAQtPWSs/jDm7pdMRDQSs4k08rB9jX0aDz5g69GI5
+	MmA9eUH7OtdA7eJyKwmQ+gMlK2JD+J7hC+jq0=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=TtmVzSVcfEiFkSy5NrZWyk4tDvBwiyksKAkyhHwwH1lrR2bUunN+c27CGZy8/jKpsb
-	aWEyXTEEcik8zbuzj502sXCV42fV0ZuVdvyTZKdzha+rBdFZZjKrcBuoPRY75fdwiQo4
-	4nA0RW6Yx4kvy3uFzVWcSgS/+zhvsnBF5oHV4=
-Received: by 10.68.64.225 with SMTP id r1mr7422363pbs.250.1304201224236;
-	Sat, 30 Apr 2011 15:07:04 -0700 (PDT)
+	b=mCm4LJezySlTs1x+Twgx9HGLlKjSSXfzov56rHW0s7visLkJF7cjSiogqxoFYBSfmD
+	EV+5O6tmeFE9X3n3DvBAamx2qzAaxcNmVmvUk0MV+lR0mZLx1TO8Qf9THr2PN6Ofp6q9
+	wRiJ9+ic/AZKnmEku70hg8u3DMxuIvRvLpt2g=
+Received: by 10.143.27.23 with SMTP id e23mr2360214wfj.274.1304201227843;
+	Sat, 30 Apr 2011 15:07:07 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id m5sm2786580pbh.70.2011.04.30.15.07.02
+	by mx.google.com with ESMTPS id z10sm4974966wfj.12.2011.04.30.15.07.05
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 30 Apr 2011 15:07:03 -0700 (PDT)
+	Sat, 30 Apr 2011 15:07:06 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Sat, 30 Apr 2011 15:06:54 -0700
-Message-Id: <fd0c9b724a268371eb1d9fb656f2862d79f5a750.1304200899.git.raj.khem@gmail.com>
+Date: Sat, 30 Apr 2011 15:06:57 -0700
+Message-Id: <de9484337b54df02c3934f11feeec30938b2a2aa.1304200899.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1304200899.git.raj.khem@gmail.com>
 References: <cover.1304200899.git.raj.khem@gmail.com>
-Subject: [PATCH 2/4] insane.bbclass: Checking for NLS too when checking gettext dependency
+Subject: [PATCH 3/4] libx11: Use inherit gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,50 +47,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Apr 2011 22:09:39 -0000
+X-List-Received-Date: Sat, 30 Apr 2011 22:09:41 -0000
 
-Checking for gettext is not needed when --disable-nls is used
-
-Let user know what variant of gettext is missing e.g. gettext-native,
-gettext-nativesdk etc, reveals a bit more for user
-
-Check for virtual/gettext
+Avoid direct depependency on gettext, inherit class instead
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/insane.bbclass |    9 +++++----
- 1 files changed, 5 insertions(+), 4 deletions(-)
+ meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb |    3 ++-
+ meta/recipes-graphics/xorg-lib/libx11_git.bb   |    6 ++++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 98acf7f..742be5e 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -578,20 +578,21 @@ Rerun configure task after fixing this. The path was '%s'""" % root)
-         if "configure.in" in files:
-             configs.append(os.path.join(root, "configure.in"))
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb b/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
+index c572d5e..08ba07b 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
+@@ -1,4 +1,5 @@
+ require libx11.inc
++inherit gettext
  
--    if "gettext" not in bb.data.getVar('P', d, True) and "gcc-runtime" not in bb.data.getVar('P', d, True):
-+    cnf = bb.data.getVar('EXTRA_OECONF', d, True) or ""
-+    if "gettext" not in bb.data.getVar('P', d, True) and "gcc-runtime" not in bb.data.getVar('P', d, True) and "--disable-nls" not in cnf:
-        if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('nativesdk', d):
-           gt = "gettext-native"
-        elif bb.data.inherits_class('cross-canadian', d):
-           gt = "gettext-nativesdk"
-        else:
--          gt = "gettext"
-+          gt = "virtual/gettext"
-        deps = bb.utils.explode_deps(bb.data.getVar('DEPENDS', d, True) or "")
-        if gt not in deps:
-           for config in configs:
-               gnu = "grep \"^[[:space:]]*AM_GNU_GETTEXT\" %s >/dev/null" % config
-               if os.system(gnu) == 0:
--                 bb.fatal("""Gettext required but not in DEPENDS for file %s.
--Missing inherit gettext?""" % config)
-+                 bb.fatal("""%s required but not in DEPENDS for file %s.
-+Missing inherit gettext?""" % (gt, config))
+ LICENSE = "MIT & MIT-style & BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bf75bfe4d05068311b5e6862d4b5f2c5"
+@@ -14,7 +15,7 @@ SRC_URI[md5sum] = "f65c9c7ecbfb64c19dbd7927160d63fd"
+ SRC_URI[sha256sum] = "88d7238ce5f7cd123450567de7a3b56a43556e4ccc45df38b8324147c889a844"
  
-     if not package_qa_check_license(workdir, d):
-         bb.fatal("Licensing Error: LIC_FILES_CHKSUM does not match, please fix")
+ DEPENDS += "bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
+-            libxdmcp xf86bigfontproto kbproto inputproto xproto-native gettext"
++            libxdmcp xf86bigfontproto kbproto inputproto xproto-native"
+ 
+ EXTRA_OECONF += "--without-xcb"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_git.bb b/meta/recipes-graphics/xorg-lib/libx11_git.bb
+index a976a16..aa69f4a 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_git.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_git.bb
+@@ -1,11 +1,13 @@
+ require libx11.inc
+ require libx11_git.inc
+ 
++inherit gettext
++
+ PR = "r2"
+ 
+ DEPENDS = "xproto xextproto xcmiscproto xf86bigfontproto kbproto inputproto \
+-           bigreqsproto xtrans libxau libxcb libxdmcp util-macros gettext"
++           bigreqsproto xtrans libxau libxcb libxdmcp util-macros"
+ 
+ DEFAULT_PREFERENCE = "-1"
+ 
+-BBCLASSEXTEND = "nativesdk"
+\ No newline at end of file
++BBCLASSEXTEND = "nativesdk"
 -- 
 1.7.4.1
 
