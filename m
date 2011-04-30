@@ -1,28 +1,32 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QG5Tw-0001yS-Ki
+	(envelope-from <raj.khem@gmail.com>) id 1QGDAn-0005Gc-TL
 	for openembedded-core@lists.openembedded.org;
-	Sat, 30 Apr 2011 10:24:52 +0200
-Received: by wye20 with SMTP id 20so3704100wye.6
+	Sat, 30 Apr 2011 18:37:38 +0200
+Received: by eye27 with SMTP id 27so1412456eye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Apr 2011 01:22:19 -0700 (PDT)
-Received: by 10.216.121.201 with SMTP id r51mr5926852weh.56.1304151737367;
-	Sat, 30 Apr 2011 01:22:17 -0700 (PDT)
-Received: from [172.20.0.255] (ip545070eb.adsl-surfen.hetnet.nl
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id m2sm1690961wer.37.2011.04.30.01.22.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 30 Apr 2011 01:22:16 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1304151675-8653-1-git-send-email-koen@dominion.thruhere.net>
-Date: Sat, 30 Apr 2011 10:22:14 +0200
-Message-Id: <A6996345-EB9D-4298-942F-9CCDBA49BC30@dominion.thruhere.net>
-References: <1304151675-8653-1-git-send-email-koen@dominion.thruhere.net>
+	Sat, 30 Apr 2011 09:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:from:date:message-id:subject:to
+	:content-type; bh=JCzKak+zRvPiIjAeNAgb2gdYHyBLqZRl6ysP5J5k6GY=;
+	b=U17X47yw5gLv5t2vcEw/Ino6TwrnKtuh8OCDA+E9bBD4Gdo8L+RpE62hpeWLmyQVI3
+	PIs6TFUX1qMqV3+qik0Fbrl8rriZ2myDl9oziRu6t/rbHgzOpzon5lpbiZHMXRxMJ2ro
+	oWS3nmVO5Duv8EbaObVlYCVMLmklCp+HAVtm4=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:from:date:message-id:subject:to:content-type;
+	b=DqvC33Y0TQ57WnPMH7FaUDZwzqF6xBVahq3K3kLLzejF5X+FKG0wku9Gz4HBJGwarX
+	DpGzpSbZo0yR14fg9cYoJQS9PnhJb71RLuSdPw2PVeBwujo+9AeZFLNViSC1ylSDScMq
+	VkCN/oNOolymJO+JX3r/uJpJXqRfECo0YKMrw=
+Received: by 10.14.4.32 with SMTP id 32mr2620274eei.141.1304181300307; Sat, 30
+	Apr 2011 09:35:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.47.139 with HTTP; Sat, 30 Apr 2011 09:34:30 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 30 Apr 2011 09:34:30 -0700
+Message-ID: <BANLkTi=f-GL8RbJLCAikFTtkON5C9NDvDw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] git: make it work on the target
+Subject: qemu segfaulting when booting ext3 image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,105 +41,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Apr 2011 08:24:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 30 Apr 2011 16:37:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Saul, this depends on http://patches.openembedded.org/patch/3031/
+Hi
 
-Op 30 apr 2011, om 10:21 heeft Koen Kooi het volgende geschreven:
+I am seeing qemu segfaulting when booting ext3 image. The same rootfs
+boots fine over nfs. It does not give any useful message
+as to what happened. I am using the runqemu script. Same used to work
+fine 3 weeks back. I tried to blame compilers but the behavior
+is same irrespective of gcc version I use or even eglibc/uclibc
 
-> Packaging is synced with OE .dev, but without the -large, thanks to =
-pseudo we retain all (hard)links properly:
->=20
-> * git-perltools holds all the utils requiring perl and adds =
-appropriate RDEPENDS
-> * git-tk holds the tcl/tk utils once they get activate
-> * git now packages /usr/libexec/git-core
->=20
-> The result:
->=20
-> 8.5M	ipk/armv7a/git_1.7.4.3-r2_armv7a.ipk
-> 3.1M	ipk/armv7a/git-dbg_1.7.4.3-r2_armv7a.ipk
-> 4.0K	ipk/armv7a/git-dev_1.7.4.3-r2_armv7a.ipk
-> 12K	ipk/armv7a/git-doc_1.7.4.3-r2_armv7a.ipk
-> 136K	ipk/armv7a/git-perltools_1.7.4.3-r2_armv7a.ipk
->=20
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
-> meta/recipes-devtools/git/git.inc        |   32 =
-++++++++++++++++++++++++++++-
-> meta/recipes-devtools/git/git_1.7.4.3.bb |    2 +-
-> 2 files changed, 31 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/git/git.inc =
-b/meta/recipes-devtools/git/git.inc
-> index 843a1d3..7f12859 100644
-> --- a/meta/recipes-devtools/git/git.inc
-> +++ b/meta/recipes-devtools/git/git.inc
-> @@ -14,11 +14,39 @@ EXTRA_OECONF =3D =
-"--with-perl=3D${STAGING_BINDIR_NATIVE}/perl --without-tcltk"
-> inherit autotools
->=20
-> do_install () {
-> -	oe_runmake install DESTDIR=3D"${D}" bindir=3D${bindir} =
-gitexecdir=3D${gitexecdir} \
-> +	oe_runmake install DESTDIR=3D"${D}" bindir=3D${bindir} \
-> 		template_dir=3D${datadir}/git-core/templates \
-> 		GIT_PYTHON_DIR=3D${D}${datadir}/git-core/python
-> }
->=20
-> -FILES_${PN} +=3D "${datadir}/git-core"
-> +FILES_${PN} +=3D "${datadir}/git-core ${libxecdir}/git-core/"
-> +FILES_${PN}-dbg +=3D "${libexecdir}/git-core/.debug"
-> +
-> +# Git tools requiring perl
-> +PACKAGES =3D+ "${PN}-perltools"
-> +FILES_${PN}-perltools +=3D " \
-> +    ${libexecdir}/git-core/git-add--interactive \
-> +    ${libexecdir}/git-core/git-archimport \
-> +    ${libexecdir}/git-core/git-cvsexportcommit \
-> +    ${libexecdir}/git-core/git-cvsimport \
-> +    ${libexecdir}/git-core/git-cvsserver \
-> +    ${bindir}/git-cvsserver \
-> +    ${libexecdir}/git-core/git-difftool \
-> +    ${libexecdir}/git-core/git-relink \
-> +    ${libexecdir}/git-core/git-send-email \
-> +    ${libexecdir}/git-core/git-svn \
-> +    ${datadir}/perl \
-> +"
-> +RDEPENDS_${PN}-perltools =3D "${PN} perl perl-module-file-path =
-findutils"
-> +
-> +# git-tk package with gitk and git-gui
-> +PACKAGES =3D+ "${PN}-tk"
-> +RDEPENDS_${PN}-tk =3D "${PN} tk tcl"
-> +EXTRA_OEMAKE =3D "TCL_PATH=3D${STAGING_BINDIR_CROSS}/tclsh"
-> +FILES_${PN}-tk =3D " \
-> +    ${bindir}/gitk \
-> +    ${datadir}/gitk \
-> +"
-> +
->=20
-> BBCLASSEXTEND =3D "native"
-> diff --git a/meta/recipes-devtools/git/git_1.7.4.3.bb =
-b/meta/recipes-devtools/git/git_1.7.4.3.bb
-> index 2ff1ed5..45ef61b 100644
-> --- a/meta/recipes-devtools/git/git_1.7.4.3.bb
-> +++ b/meta/recipes-devtools/git/git_1.7.4.3.bb
-> @@ -1,6 +1,6 @@
-> require git.inc
->=20
-> -PR =3D "r1"
-> +PR =3D "r2"
->=20
-> EXTRA_OECONF +=3D "ac_cv_snprintf_returns_bogus=3Dno =
-ac_cv_c_c99_format=3Dyes \
->                  =
-ac_cv_fread_reads_directories=3D${ac_cv_fread_reads_directories=3Dyes} \
-> --=20
-> 1.6.6.1
->=20
+Its on x86_64/ubuntu 11.04 host.
 
+Anyone experiencing it ? bisecting can be a long excercise for this.
+
+Thanks
+-Khem
 
 
