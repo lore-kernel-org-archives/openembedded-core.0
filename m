@@ -1,41 +1,32 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QGfbg-0003QF-Sx
+	(envelope-from <raj.khem@gmail.com>) id 1QGhlU-0005gX-1w
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 May 2011 00:59:16 +0200
-Received: by bwz5 with SMTP id 5so4699477bwz.6
+	Mon, 02 May 2011 03:17:32 +0200
+Received: by ewy5 with SMTP id 5so1608350ewy.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 May 2011 15:56:41 -0700 (PDT)
+	Sun, 01 May 2011 18:14:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=HzgpkBnQSTj0QzkA8tgCGm/5tmqe1WiDfwKhBPbqKKA=;
-	b=FUPM+E11m1EsfzDdHUVT9qCQj9D7vzn7g5jjo2059vFVsr+dCCZW3eqMhLdz1JZbeX
-	lSBZI2nofuL/T+az7XLVQQbBSC27FI8aVJlYFqZydbktQ11mWPOUTklKhpJD8xcFT1qY
-	4H7uUlL5qP5yXmp3GPDLxESrW5Zng60QdwIoA=
+	h=domainkey-signature:mime-version:from:date:message-id:subject:to
+	:content-type; bh=qC8ys2TEc+BxQq7+1U8lBD+XgAlqmw1VIghg9R3vIT8=;
+	b=oNnmHJ9vhA6iGJ4iQWXL5gtRoX02qthHbJ9kqRL9cRDwXplChmnFtkbVKMjLMp++Js
+	z2uMO3LHweWeN8ScKE08bOUnCQ7ksciZ9xCpBaenNgLLbIq3dKRCoNphC9GaYJmu8ToJ
+	3KUSDjJ3dxT9RMv/Mpy3rwwLiK86rRvp8+0SI=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	b=d28q7IN4sMKIDpzX/x7bFEebpPNziTE9kM8kPyIRIao+7J6+xSUJg8ihKg+JR6QPCG
-	6IsMVYyF9xw1CYP4Iqa/mr4tjZpkBYcQj97oODb+jSTI+DymJ6Uf9jgTMPHCGAOLyUoS
-	6VgZD4Mej1vNnMhMSRy4uK/9Cb9JNunYleugQ=
+	h=mime-version:from:date:message-id:subject:to:content-type;
+	b=qCXkDQE1UTlytY5agORuxAW+U6O4I61gwiO77+Zu5DdmucIqD/vA4LbVWfgXRpZWXz
+	ImSGbb9Y0he/F+WLZ5igviPyDCmwvOx6+FrRbldXE7Vzn1ohPVbDN81L3GobzYojBxCU
+	LSl7Rq4SizGe+ELdQJfrSCMmXeKgfLrdK4Mko=
+Received: by 10.14.125.4 with SMTP id y4mr3109095eeh.109.1304298895448; Sun,
+	01 May 2011 18:14:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.204.169.130 with SMTP id z2mr2758640bky.137.1304290600555;
-	Sun, 01 May 2011 15:56:40 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.70.138 with HTTP; Sun, 1 May 2011 15:56:40 -0700 (PDT)
-In-Reply-To: <f79ca6085cffcc03b657191214f5a5a301adb2eb.1304200899.git.raj.khem@gmail.com>
-References: <cover.1304200899.git.raj.khem@gmail.com>
-	<f79ca6085cffcc03b657191214f5a5a301adb2eb.1304200899.git.raj.khem@gmail.com>
-Date: Sun, 1 May 2011 19:56:40 -0300
-X-Google-Sender-Auth: Oi9AUa22eDvK24Icd-aJTasT8Q4
-Message-ID: <BANLkTikv=skcyS0GaQGmH+BQ4gsQ2VqwsQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by 10.14.47.139 with HTTP; Sun, 1 May 2011 18:14:25 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 1 May 2011 18:14:25 -0700
+Message-ID: <BANLkTi=9fddo=qaHhom4cw9mBLrNP1rs8w@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] alsa-utils_1.0.24.2.bb: Fix build for uclibc targets
+Subject: How to patch yocto kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,23 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 May 2011 22:59:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 02 May 2011 01:17:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Sat, Apr 30, 2011 at 19:07, Khem Raj <raj.khem@gmail.com> wrote:
-...
-> +uclibc does not have exp10 function which is glibc extension.
-> +Bur we can get the same behavior by using pow()
-...
+Hi
 
-Typo! s/Bur/But/
+I am trying to test this patch
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+http://uclibc.org/~kraj/perf-tool-Fix-gcc-4.6.0-issues.patch
+
+to fix the build using gcc 4.6.0 but the kernel patching for yocto is
+not as usual as other recipes
+since it uses entire set of tooling around it.
+
+I tried to look around for documentation and few references I found
+
+https://wiki.pokylinux.org/wiki/Wind_River_Kernel
+
+discourages putting patches in metadata. and in another document it
+says it uses git to do patching but does not explain how.
+
+So if someone can explain in simple terms how to patch a linux-yocto
+would be really helpful from a
+developer POV or any documentation will be helpful.
+
+How do people develop/test patches on linux-yocto I understand
+eventually they are desired to be part
+of linux-yocto git but that comes after they are tried and tested locally
+
+I would have preferred to have the usual SRC_URI patching atleast for
+local testing. As of now
+it seems not to use normal OE recipe procedures.
+
+Thanks
+-Khem
 
 
