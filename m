@@ -1,25 +1,39 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QH0On-0007lr-7U
+	(envelope-from <raj.khem@gmail.com>) id 1QH1S3-0000EE-Fe
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 May 2011 23:11:22 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p42L8hcX026766
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 2 May 2011 14:08:43 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 2 May 2011 14:08:42 -0700
-Message-ID: <4DBF1D59.2050506@windriver.com>
-Date: Mon, 2 May 2011 16:08:41 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Tue, 03 May 2011 00:18:47 +0200
+Received: by eye27 with SMTP id 27so1888840eye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 May 2011 15:16:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:content-transfer-encoding;
+	bh=sNRnY2VxsyTNLWvdCOkXXOSL+BVQtRbiQ1UAsVJzkZU=;
+	b=GQzpLlNsHnan6FLHgxv3vNaUIrnZlpHaXaIeuHZT33krD13HpfA5iDiipJ5DfcClv+
+	L816+lgefoEqcFgn8u3ckSuIe0zcaRKjNOfRN4ZnOExdo2TG/VMifjtkbPX13S33MP9x
+	MDt7N5p3YxX0p33qj3EhPcg6e3iOIliVzw6cQ=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	b=Ai9n+BbGtRtA8ZXLEsGRFwDGPCXUEuGakIH46nrxcu67MRG0SfMiRrAkIJD7HyZ/qy
+	6OtupHvtbh0wjzPxFzVeCNfPhtw92Pn8NAaRRSVfii/s6mo7+LKf8phFU51GyVspjBAn
+	WeZVL6CPe3ENSTzYA6ONObQC2acImkV6/z2DM=
+Received: by 10.14.34.88 with SMTP id r64mr3513028eea.77.1304374569349; Mon,
+	02 May 2011 15:16:09 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.14.47.139 with HTTP; Mon, 2 May 2011 15:15:39 -0700 (PDT)
+In-Reply-To: <BANLkTinyr-cj4BEWQ553AkSH4uoCmfETpA@mail.gmail.com>
+References: <BANLkTi=9fddo=qaHhom4cw9mBLrNP1rs8w@mail.gmail.com>
+	<BANLkTikw8npv5q-gbhHWiOpxtVAwMo-XGA@mail.gmail.com>
+	<BANLkTimvDmHUpEHEVJ4oS4N9RUX0n8ndLA@mail.gmail.com>
+	<BANLkTinyr-cj4BEWQ553AkSH4uoCmfETpA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 2 May 2011 15:15:39 -0700
+Message-ID: <BANLkTinbvBtPZ-8e9bycgTrkbhyi5pyaUg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, poky <poky@yoctoproject.org>
-Subject: RFC: Recipe based User & Group addition, modification and deletion
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: How to patch yocto kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,145 +48,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2011 21:11:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 May 2011 22:18:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-RFC: Recipe based User & Group addition, modification and deletion
+On Sun, May 1, 2011 at 10:31 PM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+> On Sun, May 1, 2011 at 11:56 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> On Sun, May 1, 2011 at 7:40 PM, Bruce Ashfield <bruce.ashfield@gmail.com=
+> wrote:
+>>> On Sun, May 1, 2011 at 9:14 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>> Hi
+>>>>
+>>>> I am trying to test this patch
+>>>>
+>>>> http://uclibc.org/~kraj/perf-tool-Fix-gcc-4.6.0-issues.patch
+>>>>
+>>>> to fix the build using gcc 4.6.0 but the kernel patching for yocto is
+>>>> not as usual as other recipes
+>>>> since it uses entire set of tooling around it.
+>>>>
+>>>> I tried to look around for documentation and few references I found
+>>>>
+>>>> https://wiki.pokylinux.org/wiki/Wind_River_Kernel
+>>>>
+>>>> discourages putting patches in metadata. and in another document it
+>>>> says it uses git to do patching but does not explain how.
+>>>>
+>>>> So if someone can explain in simple terms how to patch a linux-yocto
+>>>> would be really helpful from a
+>>>> developer POV or any documentation will be helpful.
+>>>>
+>>>> How do people develop/test patches on linux-yocto I understand
+>>>> eventually they are desired to be part
+>>>> of linux-yocto git but that comes after they are tried and tested loca=
+lly
+>>>>
+>>>> I would have preferred to have the usual SRC_URI patching atleast for
+>>>> local testing. As of now
+>>>> it seems not to use normal OE recipe procedures.
+>>>
+>>> Are you actually not =C2=A0seeing this work ? I put in place compatibil=
+ity
+>>> with existing patching via the SRC_URI for just this reason. A patch
+>>> specified in the SRC_URI will be picked up by the tools and applied
+>>> to the end of the BSP branch during the patching phase.
+>>>
+>>
+>> if it worked. I would not be writing this email :)
+>
+> :) you never know, I didn't see your error message so I didn't want
+> to presume.
+>
+> But I spoke too soon earlier, I had a bbappend in my layers that
+> meant I was modifying the wrong SRC_URI to have your patch
+> applied.
+>
+> When I modified the right SRC_URI like so:
+>
+> +SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-2.6.37;protocol=3Dgi=
+t;nocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta\
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://perf-tool-Fix-gcc-4.6.0-issue=
+s.patch"
+>
+> (i.e. the obvious way)
+>
+> I see the patch applied to the end of my BSP branch:
+>
+>> git branch
+> =C2=A0master
+> =C2=A0meta
+> =C2=A0yocto/base
+> =C2=A0yocto/eg20t
+> =C2=A0yocto/emgd
+> =C2=A0yocto/gma500
+> =C2=A0yocto/standard/arm-versatile-926ejs
+> =C2=A0yocto/standard/base
+> =C2=A0yocto/standard/beagleboard
+> =C2=A0yocto/standard/common-pc-64/base
+> =C2=A0yocto/standard/common-pc-64/jasperforest
+> =C2=A0yocto/standard/common-pc-64/sugarbay
+> =C2=A0yocto/standard/common-pc/atom-pc
+> * yocto/standard/common-pc/base
+>
+> commit 2500f7dc4d6c0d8b2f5ddad6369ee4541456533a
+> Author: Kyle McMartin <kyle@mcmartin.ca>
+> Date: =C2=A0 Mon May 2 01:26:49 2011 -0400
+>
+> =C2=A0 =C2=A0commit fb7d0b3cefb80a105f7fd26bbc62e0cbf9192822 upstream.
+>
+> =C2=A0 =C2=A0GCC 4.6.0 in Fedora rawhide turned up some compile errors in=
+ tools/perf
+> =C2=A0 =C2=A0due to the -Werror=3Dunused-but-set-variable flag.
+>
+> =C2=A0 =C2=A0I've gone through and annotated some of the assignments that=
+ had side
+> =C2=A0 =C2=A0effects (ie: return value from a function) with the __used a=
+nnotation,
+> =C2=A0 =C2=A0and in some cases, just removed unused code.
+>
+> =C2=A0 =C2=A0In a few cases, we were assigning something useful, but not =
+using it in
+> =C2=A0 =C2=A0later parts of the function.
+>
+> =C2=A0 =C2=A0kyle@dreadnought:~/src% gcc --version
+> =C2=A0 =C2=A0gcc (GCC) 4.6.0 20110122 (Red Hat 4.6.0-0.3)
+>
+> =C2=A0 =C2=A0Cc: Ingo Molnar <mingo@redhat.com>
+> =C2=A0 =C2=A0LKML-Reference: <20110124161304.GK27353@bombadil.infradead.o=
+rg>
+> =C2=A0 =C2=A0Signed-off-by: Kyle McMartin <kyle@redhat.com>
+> =C2=A0 =C2=A0[ committer note: Fixed up the annotation fixes, as that cod=
+e
+> moved recently ]
+> =C2=A0 =C2=A0Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+> =C2=A0 =C2=A0[Backported to 2.6.38.2 by deleting unused but set variables=
+]
+> =C2=A0 =C2=A0Signed-off-by: Thomas Meyer <thomas@m3y3r.de>
+> =C2=A0 =C2=A0Signed-off-by: Greg Kroah-Hartman <gregkh@suse.de>
+> =C2=A0 =C2=A0[Backported to linux-yocto kernel git version]
+> =C2=A0 =C2=A0Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+> I did modify the patch format slightly, since git am needs to be able to
+> grok the patch for it to apply.
+>
+> Did you get any sort of error message when your patch didn't apply ?
+>
 
-Problem:
+yes it would not apply the patch and instead complained it could not
+checkout a branch because tree was dirty
+I dont have exact message handy. I will see if I can reproduce it
 
-In OE-Core we need a method for dynamically adding non-standard user and group
-entries to the system.  This system must be flexible, extensible and easy to use
-by the recipe authors.  We require this functionality in order to address
-numerous system wide security requirements.  Among these requirements is the
-necessity to enable non-root owned files (and eventually directories) in the
-packages constructed by the build system.
-
-Architecture:
-
-The architecture design is based in part on the existing update-rc.d
-infrastructure.  As such three choices for architecture were considered.  In
-each of the descriptions below any references to the passwd file should also
-assume a shadow file may exist, similarly any references to a group file should
-assume a gshadow file may exist.
-
-1) Enable a small set of native tools that can be used to manipulate the passwd
-and group files in both pre and post install scripts as specified in the recipes.
-
-The small set of tools should include: adduser, addgroup, moduser, modgroup,
-deluser, delgroup, passwd and gpasswd.
-
-This set of tools will enable the addition, modification and removal of specific
-user and group entries, as well as enable the ability to set the corresponding
-passwords for a given entry.  The tools in question also need to support shadow
-password files.
-
-In order to leverage the existing tooling it is expected that they will each be
-modified to add a "--root" parameter that enables the program to either chroot
-into a specific directory using the facilities provided by pseudo, or using the
-item as an alternative mechanism to locate files on the disk.
-
-A set of example pre and post install recipe instructions will be generated as
-examples.
-
-2) We add a new variable to the recipe syntax.  The variable will need to allow
-a recipe to specify an arbitrary number of new users and groups, along with
-their corresponding settings.
-
-The update-rc.d.bbclass is used as an example for this item.  The new class
-_useradd.bbclass_ will use a small number of variables to control user and group
-creation.  As with update-rc.d, an 'inherit useradd' will be required in the
-recipe to use this functionality.
-
-The variable USERADD_PACKAGES will control which binary packages will have the
-special user add code.  The corresponding USERADD_PARAM_pkg variable will
-contain a list of parameters in the format of the command line useradd program
-as document by useradd(8) man page.  Multiple parameters will be separated by a
-semicolon (";").
-
-For example, to add two new users for sendmail, you could use:
-
-USERADD_PACKAGES = "sendmail"
-USERADD_PARAM_sendmail = "-u 47 -d /var/spool/mqueue -r -s /bin/true mailnull ;
--u 51 -d /var/spool/mqueue -r -s /bin/true smmsp"
-
-This would add two users, and their corresponding groups based on the rules of
-the useradd program parameters.
-
-For GROUP control, the vales would be changed to GROUPADD_PACKAGES and
-GROUPADD_PARAM_pkg.  Note, many groups are automatically generated as part of a
-useradd -- so specific group adds are only required in specific circumstances.
-
-If both USERADD and GROUPADD are specified, the GROUPADD will always run before
-the USERADD.  This ensures that new users can rely on similarly new groups.
-
-Removal and modification of existing users is not supported by this approach.
-
-The implementation of the actual add of user and group entries is up to the
-packaging approach with a reasonable default approach specified.
-
-3) Combine approaches 1 and 2.  Ensure that the recipe variable approach (2)
-uses the mechanisms as implemented and defined in the command approach (1).
-
-This will allow for the most flexibility, but also ensure that if a recipe needs
-more then simple 'add' control it can be achieved.
-
----
-
-It is recommended that the 3rd choice above be selected as the architecture for
-the new functionality.  However, no matter which choice above is selected -- or
-potentially even ones that are not listed above there are still some additional
-items that will need to be resolved.
-
-Any pre-installation steps will need to be preformed prior to the do_install()
-stage of recipe building.  Otherwise the necessary user/group entries may not be
-available which could lead to incorrect packaging occurring.  The passwd and
-group files manipulated by this pre-install step will need to be global to the
-sysroot, with PSEUDO specified to use this specific passwd and group file.
-(PSEUDO_PASSWD environment variable specifies the path to a directory containing
-a passwd and group file.)
-
-The above will enable the ability to do, chown new_user:new_group path/file.
-within a do_install() step.
-
-During rootfs image creation, the pre-install steps will also need to be
-executed prior to the package being installed -- or a suitable cleanup step run
-that ensures the correct owners and groups for files (and directories) exist
-after installation.  This will likely require changes to the various rootfs
-classes.  Note, user and group creation will generally have to wait until after
-the default passwd and group files have been installed.
-
-Note, there is no guaranty that the sysroot and rootfs will match.  This is
-intentional as dynamic user and group assignment is expected to create entries
-specific to a given configuration.
-
-The sstate items will need to also be verified to correctly maintain user and
-group entries within the cache, as well as run the pre-install operation against
-the sysroot before the do_install-like sstate operations occur.
-
-Post install script changes can be left as currently implemented, as they will
-not directly affect the rootfs image creation.
-
-Finally some user and group creation policies should be put in place.  This
-policy should include:
-
-1) What are the default user and groups on a system?  (Recommendation LSB or a
-subset of the LSB.)
-
-2) When adding a user and group, should user and group numbers be assigned or
-done dynamically?  (Recommendation done dynamically whenever possible, as this
-avoid conflicting numbers)
-
-3) When adding a user and group, if a specific user/group number must be used
-how do we avoid conflicts.  (Specifically in the case a package embeds the
-user/group id number.  Do we define a registry, or some other mechanism?)
-
-4) When adding a user and group, how to determine if the user and group should
-be a system account or not.
-
----
-
-Any comments on the above?
+> Cheers,
+>
+> Bruce
+>
+>>
+>>> It has definitely worked during all the development cycles, so if you
+>>> are seeing it not work, it's a bug and I'll fix it.
+>>>
+>>> Cheers,
+>>>
+>>> Bruce
+>>>
+>>>>
+>>>> Thanks
+>>>> -Khem
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>>
+>>>
+>>>
+>>>
+>>> --
+>>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>>> thee at its end"
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
