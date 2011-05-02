@@ -1,20 +1,20 @@
 Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1QGrUK-0002m0-9m
+	(envelope-from <gary@mlbassoc.com>) id 1QGsji-0004uP-5q
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 May 2011 13:40:28 +0200
+	Mon, 02 May 2011 15:00:26 +0200
 Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id 41700166015F; Mon,  2 May 2011 05:37:50 -0600 (MDT)
+	id 210DC1660135; Mon,  2 May 2011 06:57:41 -0600 (MDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
 	hermes.chez-thomas.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
 	autolearn=unavailable version=3.3.2-r929478
 Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 593171660129;
-	Mon,  2 May 2011 05:37:49 -0600 (MDT)
-Message-ID: <4DBE978D.8020209@mlbassoc.com>
-Date: Mon, 02 May 2011 05:37:49 -0600
+	by mail.chez-thomas.org (Postfix) with ESMTP id 4A2611660086;
+	Mon,  2 May 2011 06:57:17 -0600 (MDT)
+Message-ID: <4DBEAA2C.1020601@mlbassoc.com>
+Date: Mon, 02 May 2011 06:57:16 -0600
 From: Gary Thomas <gary@mlbassoc.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
@@ -43,8 +43,8 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2011 11:40:29 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Mon, 02 May 2011 13:00:26 -0000
+Content-Type: text/plain; charset=windows-1250; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 04/30/2011 04:10 PM, Khem Raj wrote:
@@ -75,12 +75,8 @@ On 04/30/2011 04:10 PM, Khem Raj wrote:
 >
 > All, please try these patches and provide any feedback
 
-There seem to be some missing pieces:
-| ERROR: Function 'Fetcher failure for URL: 'file://gcc-4_6-branch-backports/0055-Remove-svn-mergeinfo.patch'. Unable to fetch URL 
-file://gcc-4_6-branch-backports/0055-Remove-svn-mergeinfo.patch from any source.' failed
-
-I don't see either gcc-4_6-branch-backports or linaro directories
-(full of patches) in the tree.
+I was able to build my kernel (ARM OMAP/3530 based) using this, but
+the USB still doesn't work, so no improvement, sorry.
 
 -- 
 ------------------------------------------------------------
