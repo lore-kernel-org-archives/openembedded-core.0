@@ -1,32 +1,36 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QGhlU-0005gX-1w
+	(envelope-from <bruce.ashfield@gmail.com>) id 1QGj6T-0006l6-9m
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 May 2011 03:17:32 +0200
-Received: by ewy5 with SMTP id 5so1608350ewy.6
+	Mon, 02 May 2011 04:43:17 +0200
+Received: by gyf1 with SMTP id 1so1964771gyf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 May 2011 18:14:55 -0700 (PDT)
+	Sun, 01 May 2011 19:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:from:date:message-id:subject:to
-	:content-type; bh=qC8ys2TEc+BxQq7+1U8lBD+XgAlqmw1VIghg9R3vIT8=;
-	b=oNnmHJ9vhA6iGJ4iQWXL5gtRoX02qthHbJ9kqRL9cRDwXplChmnFtkbVKMjLMp++Js
-	z2uMO3LHweWeN8ScKE08bOUnCQ7ksciZ9xCpBaenNgLLbIq3dKRCoNphC9GaYJmu8ToJ
-	3KUSDjJ3dxT9RMv/Mpy3rwwLiK86rRvp8+0SI=
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type;
+	bh=rHrrIqP3pdllfN46MNusqWuKXhuGh/X47bixSkqXA3E=;
+	b=iSaNYJ6RTz+2kh1CVcgz3R7CDCL4zHx6Ewh2oCJHwDWMYNXIWqDTEjs9AKQmzvQ+Mb
+	r8/i5ZTwUTJgkt7Di27qR2y1jkd3iJCELkSFRNt+USzLTWrEVRw2YMtr0h/j89KcY09h
+	aqEFMq3Q6HJZScmXJ63qCFFYswM4qqJgzB4E4=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	b=qCXkDQE1UTlytY5agORuxAW+U6O4I61gwiO77+Zu5DdmucIqD/vA4LbVWfgXRpZWXz
-	ImSGbb9Y0he/F+WLZ5igviPyDCmwvOx6+FrRbldXE7Vzn1ohPVbDN81L3GobzYojBxCU
-	LSl7Rq4SizGe+ELdQJfrSCMmXeKgfLrdK4Mko=
-Received: by 10.14.125.4 with SMTP id y4mr3109095eeh.109.1304298895448; Sun,
-	01 May 2011 18:14:55 -0700 (PDT)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type;
+	b=pjmZV89Pw4uWJbK+MQOpO0Zc/Y970sPwGyuhWEyXgHBUzuk3Kn0rXzCOzCU1xb30mP
+	9NGGGT1Rd1IDIo15jXkHrM/aWgDYaX1UAyi2aOby+FlHW8624aMKlsPiiji+zB74Ea2h
+	9fNFYFj1n8Rq4/PzW/4yBETgL6Hvs1e7wOVB0=
 MIME-Version: 1.0
-Received: by 10.14.47.139 with HTTP; Sun, 1 May 2011 18:14:25 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 1 May 2011 18:14:25 -0700
-Message-ID: <BANLkTi=9fddo=qaHhom4cw9mBLrNP1rs8w@mail.gmail.com>
+Received: by 10.90.136.1 with SMTP id j1mr6214015agd.85.1304304040579; Sun, 01
+	May 2011 19:40:40 -0700 (PDT)
+Received: by 10.90.104.11 with HTTP; Sun, 1 May 2011 19:40:40 -0700 (PDT)
+In-Reply-To: <BANLkTi=9fddo=qaHhom4cw9mBLrNP1rs8w@mail.gmail.com>
+References: <BANLkTi=9fddo=qaHhom4cw9mBLrNP1rs8w@mail.gmail.com>
+Date: Sun, 1 May 2011 22:40:40 -0400
+Message-ID: <BANLkTikw8npv5q-gbhHWiOpxtVAwMo-XGA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: How to patch yocto kernel
+Subject: Re: How to patch yocto kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,39 +45,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2011 01:17:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 May 2011 02:43:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hi
+On Sun, May 1, 2011 at 9:14 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> Hi
+>
+> I am trying to test this patch
+>
+> http://uclibc.org/~kraj/perf-tool-Fix-gcc-4.6.0-issues.patch
+>
+> to fix the build using gcc 4.6.0 but the kernel patching for yocto is
+> not as usual as other recipes
+> since it uses entire set of tooling around it.
+>
+> I tried to look around for documentation and few references I found
+>
+> https://wiki.pokylinux.org/wiki/Wind_River_Kernel
+>
+> discourages putting patches in metadata. and in another document it
+> says it uses git to do patching but does not explain how.
+>
+> So if someone can explain in simple terms how to patch a linux-yocto
+> would be really helpful from a
+> developer POV or any documentation will be helpful.
+>
+> How do people develop/test patches on linux-yocto I understand
+> eventually they are desired to be part
+> of linux-yocto git but that comes after they are tried and tested locally
+>
+> I would have preferred to have the usual SRC_URI patching atleast for
+> local testing. As of now
+> it seems not to use normal OE recipe procedures.
 
-I am trying to test this patch
+Are you actually not  seeing this work ? I put in place compatibility
+with existing patching via the SRC_URI for just this reason. A patch
+specified in the SRC_URI will be picked up by the tools and applied
+to the end of the BSP branch during the patching phase.
 
-http://uclibc.org/~kraj/perf-tool-Fix-gcc-4.6.0-issues.patch
+It has definitely worked during all the development cycles, so if you
+are seeing it not work, it's a bug and I'll fix it.
 
-to fix the build using gcc 4.6.0 but the kernel patching for yocto is
-not as usual as other recipes
-since it uses entire set of tooling around it.
+Cheers,
 
-I tried to look around for documentation and few references I found
+Bruce
 
-https://wiki.pokylinux.org/wiki/Wind_River_Kernel
+>
+> Thanks
+> -Khem
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-discourages putting patches in metadata. and in another document it
-says it uses git to do patching but does not explain how.
 
-So if someone can explain in simple terms how to patch a linux-yocto
-would be really helpful from a
-developer POV or any documentation will be helpful.
 
-How do people develop/test patches on linux-yocto I understand
-eventually they are desired to be part
-of linux-yocto git but that comes after they are tried and tested locally
-
-I would have preferred to have the usual SRC_URI patching atleast for
-local testing. As of now
-it seems not to use normal OE recipe procedures.
-
-Thanks
--Khem
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
