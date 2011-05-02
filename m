@@ -1,34 +1,34 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1QGsji-0004uP-5q
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QGwTZ-00034M-N8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 May 2011 15:00:26 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id 210DC1660135; Mon,  2 May 2011 06:57:41 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2-r929478
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 4A2611660086;
-	Mon,  2 May 2011 06:57:17 -0600 (MDT)
-Message-ID: <4DBEAA2C.1020601@mlbassoc.com>
-Date: Mon, 02 May 2011 06:57:16 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
-	Thunderbird/3.1.7
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <4DB99F31.4000308@mlbassoc.com>
-	<BANLkTikaf3MHYrnbvHDno3dSv_LhsLyFVg@mail.gmail.com>
-	<BANLkTi=G-4UfXNdnJSy7qF3gb0-xLr6+4Q@mail.gmail.com>
-In-Reply-To: <BANLkTi=G-4UfXNdnJSy7qF3gb0-xLr6+4Q@mail.gmail.com>
-Cc: Poky Project <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
+	Mon, 02 May 2011 19:00:02 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 02 May 2011 09:57:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,303,1301900400"; d="scan'208";a="428994390"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by azsmga001.ch.intel.com with ESMTP; 02 May 2011 09:57:23 -0700
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx604.amr.corp.intel.com ([10.250.113.17]) with mapi;
+	Mon, 2 May 2011 09:57:18 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] GCC 4.6.0 on ARM?
+Date: Mon, 2 May 2011 09:57:18 -0700
+Thread-Topic: [OE-core] [PATCH]] python: Unbreak Python third-party extensions
+Thread-Index: AcwGY2SzLatulOd1QFig6z7iT61TjQChguwA
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94D86872CF@orsmsx504.amr.corp.intel.com>
+References: <1304073898-12204-1-git-send-email-michael.lippautz@gmail.com>
+	<9AB9810D-F908-4477-888F-056039505DCF@dominion.thruhere.net>
+	<BANLkTik1anmE4n7fKMp4uV9ZSLK1Gx_C0g@mail.gmail.com>
+In-Reply-To: <BANLkTik1anmE4n7fKMp4uV9ZSLK1Gx_C0g@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH]] python: Unbreak Python third-party extensions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,45 +43,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2011 13:00:26 -0000
-Content-Type: text/plain; charset=windows-1250; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 May 2011 17:00:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On 04/30/2011 04:10 PM, Khem Raj wrote:
-> On Thu, Apr 28, 2011 at 11:23 AM, Khem Raj<raj.khem@gmail.com>  wrote:
->> On Thu, Apr 28, 2011 at 10:09 AM, Gary Thomas<gary@mlbassoc.com>  wrote:
->>> I got my OMAP target to build with GCC-4.6.0 using the latest
->>> Poky tree after a fresh rebuild.  Sadly, the Linux kernel (2.6.37.3)
->>> does not run correctly when built with this compiler.  It
->>> fails when enumerating the USB bus :-(
->>>
->>> Are there known issues with the Linux kernel on ARM and GCC-4.6?
->>>
->>
->> There has been fixes on top of 4.6.0 the one we have right now is vanilla
->> 4.6.0 release. I plan to add second set of patches but you have to dig a bit
->> more to identify the problem
->>
->
-> I have some updates for gcc 4.6.0
-> they are staged in
->
-> http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/gcc-4.6
->
-> (top 3 patches)
->
-> Please test them out and if you are lucky
-> your problem might be fixed too.
->
-> All, please try these patches and provide any feedback
+> > Op 29 apr 2011, om 12:44 heeft Michael Lippautz het volgende
+> geschreven:
+> >
+> >> This fixes compilation/linking of Python 3rd party extensions.
+> >>
+> >> ${STAGING_LIBDIR}/python<pyver>/config/Makefile needs the correct
+> >> INCDIR and LIBDIR settings to be used in cross compilation for the
+> >> target. 3rd party module use distutils.sysconfig which uses this
+> >> Makefile to create compiler/linker flags.
+> >>
+> >> Workflow:
+> >> 1) compile needs the staged/sysroot Makefile since it is needed
+> >> =A0 for compilation/linking
+> >> 2) install needs the unmodified Makefile to install files (i.e.
+> >> =A0 headers) into the right directores. (otherwise they would be
+> >> =A0 installed in ${D}/${STAGING_...}
+> >> 3) staging needs modified Makefile again
+> >> 4) packaging needs unmodified to make compilation on the target
+> >> =A0 possible
+> >
+> > Does any of the sysroot leak into the 3rd party extensions after this
+> patch? Apart from that question, the patch looks good to me, although I
+> needed a cup of coffee to work out the flow.
+>=20
+> Nothing leaks into the 3rd party extensions as far as I know. The
+> Makefile is used by distutils (i.e. distutils.sysconfig) to determine
+> the compiler settings.
+>=20
+> In the case of a 3rd partyextension the flow is as follows:
+> * distutils.bbclass uses python-native + distutils-native to generate
+> the package
+> * distutils-native looks up the compiler settings via
+> distutils.sysconfig (-native) in
+> ${STAGING_LIBDIR}/python<pyver>/config/Makefile
+>   (it is thus important that STAGING_LIBDIR is set by
+> distutils.bbclass)
+> * 3rd party extension is compiled using the settings from this Makefile
+>=20
+> The compilation on the target should still be possible (although I
+> didn't test it), because the target's Makefile is untouched.
+>=20
+> The actual problem was that the targets Makefile did get staged and
+> the compiler and linker have been invoked with the targets libs, for
+> instance -L/usr/lib.
+>=20
+> > regards,
+> >
+> > Koen
+>=20
+> (I needed more than one coffee to figure out this flow)
+>=20
+> -Michael
 
-I was able to build my kernel (ARM OMAP/3530 based) using this, but
-the USB still doesn't work, so no improvement, sorry.
+Michael,
+   This patch is invasive for python recipe but looks fine to me. How much =
+testing have you done? We have few python extensions in yocto repo, and non=
+e of them were hit by this issue. So which python extensions are seeing the=
+ issue?
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Thanks,
+Nitin
+
+
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
