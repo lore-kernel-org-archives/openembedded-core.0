@@ -1,39 +1,25 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QGyXa-0005Vi-MH
+	(envelope-from <mark.hatle@windriver.com>) id 1QH0On-0007lr-7U
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 May 2011 21:12:19 +0200
-Received: by mail-gy0-f175.google.com with SMTP id 1so2199733gyf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 May 2011 12:09:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
-	:x-mailer:in-reply-to:references;
-	bh=qjs17XOxbGYzuCggkwXC1zFiG44S0UWRm+0NGfkEVXk=;
-	b=ve2tnyIVLE76FP6KgwoTp5n1kxrFP9KexZS59BQwLaUjtbifdWnwX7A3LhJtba+Xzw
-	4j8bs+yXnd6be6kqMgSh1n5edfu2Z/sa2rVeRu7tV8FuRUksbMkKa0j4aJru3OU57Vn0
-	nvpwcUfmUmSC90pppAKLmYeK4eSazcTZmv7JM=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references;
-	b=dSjGwcb1WGdkrzqGIb7LafjdA8WoAadaEex9CyICP9hSQ5OKAw4ewAB9GHy66yhIbb
-	C+xxlyU7hYQ2E7PlvMtDsx8rcnJ7CPQxyoiEmYoPz3J/AlhYG0rh3ifYNuPuiohi0j1j
-	Gn2NjIREslClmmjeeEDUAwzDMwo/b2CtHaBzc=
-Received: by 10.151.134.30 with SMTP id l30mr6719939ybn.136.1304363383821;
-	Mon, 02 May 2011 12:09:43 -0700 (PDT)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id r9sm856452yba.16.2011.05.02.12.09.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 02 May 2011 12:09:42 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 May 2011 19:09:16 +0000
-Message-Id: <1304363356-27535-4-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <1304363356-27535-1-git-send-email-otavio@ossystems.com.br>
-References: <1304363356-27535-1-git-send-email-otavio@ossystems.com.br>
-Subject: [PATCH 4/4] busybox: add support to mdev
+	Mon, 02 May 2011 23:11:22 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p42L8hcX026766
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 2 May 2011 14:08:43 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 2 May 2011 14:08:42 -0700
+Message-ID: <4DBF1D59.2050506@windriver.com>
+Date: Mon, 2 May 2011 16:08:41 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, poky <poky@yoctoproject.org>
+Subject: RFC: Recipe based User & Group addition, modification and deletion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,145 +34,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 May 2011 19:12:19 -0000
+X-List-Received-Date: Mon, 02 May 2011 21:11:22 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-This changes the packaging only if the configuration used has mdev
-support enabled.
+RFC: Recipe based User & Group addition, modification and deletion
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Problem:
+
+In OE-Core we need a method for dynamically adding non-standard user and group
+entries to the system.  This system must be flexible, extensible and easy to use
+by the recipe authors.  We require this functionality in order to address
+numerous system wide security requirements.  Among these requirements is the
+necessity to enable non-root owned files (and eventually directories) in the
+packages constructed by the build system.
+
+Architecture:
+
+The architecture design is based in part on the existing update-rc.d
+infrastructure.  As such three choices for architecture were considered.  In
+each of the descriptions below any references to the passwd file should also
+assume a shadow file may exist, similarly any references to a group file should
+assume a gshadow file may exist.
+
+1) Enable a small set of native tools that can be used to manipulate the passwd
+and group files in both pre and post install scripts as specified in the recipes.
+
+The small set of tools should include: adduser, addgroup, moduser, modgroup,
+deluser, delgroup, passwd and gpasswd.
+
+This set of tools will enable the addition, modification and removal of specific
+user and group entries, as well as enable the ability to set the corresponding
+passwords for a given entry.  The tools in question also need to support shadow
+password files.
+
+In order to leverage the existing tooling it is expected that they will each be
+modified to add a "--root" parameter that enables the program to either chroot
+into a specific directory using the facilities provided by pseudo, or using the
+item as an alternative mechanism to locate files on the disk.
+
+A set of example pre and post install recipe instructions will be generated as
+examples.
+
+2) We add a new variable to the recipe syntax.  The variable will need to allow
+a recipe to specify an arbitrary number of new users and groups, along with
+their corresponding settings.
+
+The update-rc.d.bbclass is used as an example for this item.  The new class
+_useradd.bbclass_ will use a small number of variables to control user and group
+creation.  As with update-rc.d, an 'inherit useradd' will be required in the
+recipe to use this functionality.
+
+The variable USERADD_PACKAGES will control which binary packages will have the
+special user add code.  The corresponding USERADD_PARAM_pkg variable will
+contain a list of parameters in the format of the command line useradd program
+as document by useradd(8) man page.  Multiple parameters will be separated by a
+semicolon (";").
+
+For example, to add two new users for sendmail, you could use:
+
+USERADD_PACKAGES = "sendmail"
+USERADD_PARAM_sendmail = "-u 47 -d /var/spool/mqueue -r -s /bin/true mailnull ;
+-u 51 -d /var/spool/mqueue -r -s /bin/true smmsp"
+
+This would add two users, and their corresponding groups based on the rules of
+the useradd program parameters.
+
+For GROUP control, the vales would be changed to GROUPADD_PACKAGES and
+GROUPADD_PARAM_pkg.  Note, many groups are automatically generated as part of a
+useradd -- so specific group adds are only required in specific circumstances.
+
+If both USERADD and GROUPADD are specified, the GROUPADD will always run before
+the USERADD.  This ensures that new users can rely on similarly new groups.
+
+Removal and modification of existing users is not supported by this approach.
+
+The implementation of the actual add of user and group entries is up to the
+packaging approach with a reasonable default approach specified.
+
+3) Combine approaches 1 and 2.  Ensure that the recipe variable approach (2)
+uses the mechanisms as implemented and defined in the command approach (1).
+
+This will allow for the most flexibility, but also ensure that if a recipe needs
+more then simple 'add' control it can be achieved.
+
 ---
- meta/recipes-core/busybox/busybox.inc       |   15 ++++++++++-
- meta/recipes-core/busybox/busybox_1.17.3.bb |    4 ++-
- meta/recipes-core/busybox/files/mdev        |    7 +++++
- meta/recipes-core/busybox/files/mdev.conf   |   35 +++++++++++++++++++++++++++
- 4 files changed, 58 insertions(+), 3 deletions(-)
- create mode 100755 meta/recipes-core/busybox/files/mdev
- create mode 100644 meta/recipes-core/busybox/files/mdev.conf
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 9f2d64c..164d089 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -12,23 +12,28 @@ SECTION = "base"
- PRIORITY = "required"
- 
- export EXTRA_CFLAGS = "${CFLAGS}"
--PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog"
-+PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev"
- 
- FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
- FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog.conf*"
-+FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf"
- FILES_${PN}-udhcpd = "${sysconfdir}/init.d/busybox-udhcpd"
- FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc ${sysconfdir}/init.d/busybox-udhcpc"
- 
--INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-udhcpc"
-+INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-udhcpc ${PN}-mdev"
- 
- INITSCRIPT_NAME_${PN}-httpd = "busybox-httpd"
- INITSCRIPT_NAME_${PN}-syslog = "syslog"
-+INITSCRIPT_NAME_${PN}-mdev = "mdev"
- INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd" 
- INITSCRIPT_NAME_${PN}-udhcpc = "busybox-udhcpc" 
- CONFFILES_${PN}-syslog = "${sysconfdir}/syslog.conf.${PN}"
-+CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
- 
- RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
- 
-+INITSCRIPT_PARAMS_${PN}-mdev = "start 06 S ."
-+
- # This disables the syslog startup links in slugos (see slugos-init)
- INITSCRIPT_PARAMS_${PN}-syslog_slugos = "start 20 ."
- 
-@@ -103,6 +108,12 @@ do_install () {
- 		install -m 0755 ${WORKDIR}/default.script ${D}${datadir}/udhcpc/default.script
- 		install -m 0755 ${WORKDIR}/busybox-udhcpc ${D}${sysconfdir}/init.d/
- 	fi
-+	if grep "CONFIG_MDEV=y" ${WORKDIR}/defconfig; then
-+		install -m 0755 ${WORKDIR}/mdev ${D}${sysconfdir}/init.d/mdev
-+		if grep "CONFIG_FEATURE_MDEV_CONF=y" ${WORKDIR}/defconfig; then
-+			install -m 644 ${WORKDIR}/mdev.conf ${D}${sysconfdir}/mdev.conf
-+		fi
-+	fi
- 
- 	install -m 0644 ${S}/busybox.links ${D}${sysconfdir}
- 
-diff --git a/meta/recipes-core/busybox/busybox_1.17.3.bb b/meta/recipes-core/busybox/busybox_1.17.3.bb
-index 28342fe..2d98ad3 100644
---- a/meta/recipes-core/busybox/busybox_1.17.3.bb
-+++ b/meta/recipes-core/busybox/busybox_1.17.3.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
-@@ -21,6 +21,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://mount.busybox \
-            file://syslog \
-            file://syslog.conf \
-+           file://mdev \
-+           file://mdev.conf \
-            file://umount.busybox \
-            file://defconfig"
- 
-diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
-new file mode 100755
-index 0000000..4eba619
---- /dev/null
-+++ b/meta/recipes-core/busybox/files/mdev
-@@ -0,0 +1,7 @@
-+#!/bin/sh
-+
-+mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
-+mkdir /dev/pts /dev/shm
-+mount -t devpts devpts /dev/pts
-+echo "/sbin/mdev" > /proc/sys/kernel/hotplug
-+mdev -s
-diff --git a/meta/recipes-core/busybox/files/mdev.conf b/meta/recipes-core/busybox/files/mdev.conf
-new file mode 100644
-index 0000000..0e1d6bc
---- /dev/null
-+++ b/meta/recipes-core/busybox/files/mdev.conf
-@@ -0,0 +1,35 @@
-+console 0:0 0600 
-+cpu_dma_latency 0:0 0660 
-+fb0:0 44 0660 
-+full 0:0 0666 
-+initctl 0:0 0600 
-+ircomm[0-9].* 0:20 0660 
-+kmem 0:15 0640 
-+kmsg 0:0 0660 
-+log 0:0 0666 
-+loop[0-9].* 0:6 0640 
-+mem 0:15 0640 
-+network_latency 0:0 0660 
-+network_throughput 0:0 0660 
-+null 0:0 0666 
-+port 0:15 0640 
-+ptmx 0:5 0666 
-+ram[0-9].* 0:6 0640 
-+random 0:0 0666 
-+sda 0:6 0640 
-+tty 0:5 0666 
-+tty.* 0:0 0620 
-+urandom 0:0 0666 
-+usbdev.* 0:0 0660 */etc/mdev/usb.sh
-+vcs.* 0:5 0660 
-+zero 0:0 0666 
-+ 
-+pcm.* 0:0 0660 =snd/ 
-+control.* 0:0 0660 =snd/ 
-+timer 0:0 0660 =snd/ 
-+
-+event.* 0:0 0660 =input/ @/etc/mdev/find-touchscreen.sh
-+mice 0:0 0660 =input/ 
-+mouse.* 0:0 0660 =input/
-+
-+tun[0-9]* 0:0 0660 =net/
--- 
-1.7.2.5
+It is recommended that the 3rd choice above be selected as the architecture for
+the new functionality.  However, no matter which choice above is selected -- or
+potentially even ones that are not listed above there are still some additional
+items that will need to be resolved.
 
+Any pre-installation steps will need to be preformed prior to the do_install()
+stage of recipe building.  Otherwise the necessary user/group entries may not be
+available which could lead to incorrect packaging occurring.  The passwd and
+group files manipulated by this pre-install step will need to be global to the
+sysroot, with PSEUDO specified to use this specific passwd and group file.
+(PSEUDO_PASSWD environment variable specifies the path to a directory containing
+a passwd and group file.)
+
+The above will enable the ability to do, chown new_user:new_group path/file.
+within a do_install() step.
+
+During rootfs image creation, the pre-install steps will also need to be
+executed prior to the package being installed -- or a suitable cleanup step run
+that ensures the correct owners and groups for files (and directories) exist
+after installation.  This will likely require changes to the various rootfs
+classes.  Note, user and group creation will generally have to wait until after
+the default passwd and group files have been installed.
+
+Note, there is no guaranty that the sysroot and rootfs will match.  This is
+intentional as dynamic user and group assignment is expected to create entries
+specific to a given configuration.
+
+The sstate items will need to also be verified to correctly maintain user and
+group entries within the cache, as well as run the pre-install operation against
+the sysroot before the do_install-like sstate operations occur.
+
+Post install script changes can be left as currently implemented, as they will
+not directly affect the rootfs image creation.
+
+Finally some user and group creation policies should be put in place.  This
+policy should include:
+
+1) What are the default user and groups on a system?  (Recommendation LSB or a
+subset of the LSB.)
+
+2) When adding a user and group, should user and group numbers be assigned or
+done dynamically?  (Recommendation done dynamically whenever possible, as this
+avoid conflicting numbers)
+
+3) When adding a user and group, if a specific user/group number must be used
+how do we avoid conflicts.  (Specifically in the case a package embeds the
+user/group id number.  Do we define a registry, or some other mechanism?)
+
+4) When adding a user and group, how to determine if the user and group should
+be a system account or not.
+
+---
+
+Any comments on the above?
 
 
