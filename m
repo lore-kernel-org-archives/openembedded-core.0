@@ -1,31 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QHM9W-0006qk-Pb; Tue, 03 May 2011 22:25:02 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p43KMP7l021088;
-	Tue, 3 May 2011 21:22:25 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20592-10; Tue,  3 May 2011 21:22:21 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p43KMINf021082
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 3 May 2011 21:22:19 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-members@lists.openembedded.org
-In-Reply-To: <BANLkTincDz4WZSH919f7+G4q49OkixH7Uw@mail.gmail.com>
-References: <4DC05B11.6070506@balister.org>
-	<BANLkTincDz4WZSH919f7+G4q49OkixH7Uw@mail.gmail.com>
-Date: Tue, 03 May 2011 21:22:17 +0100
-Message-ID: <1304454137.21461.135.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: yocto@yoctoproject.org, openembedded-devel@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded eV membership drive
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <scott.a.garman@intel.com>) id 1QHMGA-00070O-VI
+	for openembedded-core@lists.openembedded.org;
+	Tue, 03 May 2011 22:31:55 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 03 May 2011 13:29:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,310,1301900400"; d="scan'208";a="687602862"
+Received: from unknown (HELO [10.255.13.82]) ([10.255.13.82])
+	by fmsmga002.fm.intel.com with ESMTP; 03 May 2011 13:29:16 -0700
+Message-ID: <4DC0659C.10808@intel.com>
+Date: Tue, 03 May 2011 13:29:16 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.14) Gecko/20110223 Thunderbird/3.1.8
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <BANLkTi=f-GL8RbJLCAikFTtkON5C9NDvDw@mail.gmail.com>	<4DBF4F26.90404@intel.com>	<BANLkTimUw9+kWHwdw5dZ0=kUZuNSsorsdA@mail.gmail.com>	<4DC03C43.8080507@windriver.com>
+	<4DC04CCA.2030100@intel.com>
+In-Reply-To: <4DC04CCA.2030100@intel.com>
+Subject: Re: qemu segfaulting when booting ext3 image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,49 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2011 20:25:03 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 03 May 2011 20:31:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-05-03 at 22:05 +0200, Frans Meulenbroeks wrote:
-> 2011/5/3 Philip Balister <philip@balister.org>
-> 
-> [...]
->         
->         People ask me why they should join the eV. Besides being a
->         good way to show your support for the OpenEmbedded project,
->         the Technical Steering Committee is elected by the eV members.
->         
-> Sorry but the current TSC is NOT elected by the eV members. 
+On 05/03/2011 11:43 AM, Scott Garman wrote:
+> On 05/03/2011 10:32 AM, Mark Hatle wrote:
+>> On 5/3/11 12:27 PM, Khem Raj wrote:
+>>> On Mon, May 2, 2011 at 5:41 PM, Zhai, Edwin<edwin.zhai@intel.com> wrote:
+>>>> Did you installed Nvidia proprietary driver? Any error mesg from the
+>>>> runqemu
+>>>> script?
+>>>
+>>> yes I did and I think that could be a culprit but then why would it
+>>> work with nfs boot.
+>>> there is no useful message from script it just collapses
+>>
+>> The script tries to detect the nvidia drivers. If it finds them is
+>> supposed to
+>> issue a warning. Sounds like your system might not have a version that
+>> it knows
+>> how to detect.
+>
+> The Nvidia libGL bug caused a segfault in qemu when booting images, so
+> it should be pretty obvious if that's what's causing it.
+>
+> Given that Khem is booting the nfs version successfully, and not seeing
+> any error message, I think this might be a new error.
 
-The current situation was making the best of a bad set of circumstances,
-the plan is to hold elections and nothing has changed in that regard.
+Of course, after replying to this message, I read the subject line when 
+it reappeared on the list. My apologizes for not understanding that qemu 
+is indeed segfaulting.
 
-> Actually the board even fails to meet its own "rules" stipulated when
-> they installed this interim TSC.
-> 
-> From Philip's email from feb 10:
-> This interim TSC will operate for 2 months when we shall start elections
-> at two month intervals for the 5 positions on the TSC. The new elected
-> TSC members will operate under the charter detailed on the wiki here
-> 
-> http://wiki.openembedded.org/index.php/TSCCharter.
-> We're now almost 3 months later and no election has been held!
+So it's quite possible Khem is running into the same bug.
 
-This was discussed at the last TSC meeting and we reviewed the TSC
-meeting minutes where it was recorded that:
+Scott
 
-"""
-Election wise, we'll elect the seats in the order from the board
-announcement email until we have 5 elected members. We will rely on the
-board to call the first election in May. 
-"""
-
-which the TSC has reminded the board about last week.
-
-Cheers,
-
-Richard
-
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
