@@ -1,28 +1,46 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QHJrl-0001kU-NW
+	(envelope-from <raj.khem@gmail.com>) id 1QHK0t-0002GZ-70
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 May 2011 19:58:34 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p43Hts15015613
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 03 May 2011 20:07:59 +0200
+Received: by pvc30 with SMTP id 30so151260pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 May 2011 10:55:54 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 3 May 2011 10:55:54 -0700
-Message-ID: <4DC041A9.5020108@windriver.com>
-Date: Tue, 3 May 2011 12:55:53 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Tue, 03 May 2011 11:05:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=w4IxqlqaDFkSvEI6dih/Lr1r+x+h3nWOd3EzPaKCQjQ=;
+	b=RTQqvQVdX9C/S1F6z2YKtayHqklVWdUnudTh4meS6S+HZQBoMsb/9X7KScrQgBiqEf
+	Mio/44G6uef3r48VZcAmXd2Y3Oi3tjhW9I9UxPTzmQwK4j2UNiEOIETgfkG7yLNqJYKS
+	CFg2os1zTyxrSkEyDYlRCkaIERQK0FRAPLL7Y=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=THwfZYM/ZFbl8HhlfjS64aB0YBHjYvei/Ioq11Xi2ZTWdjdKV3/pqF7R4g+ZJM1tyF
+	l2yLConvxpbxO/rNmGqCXN6tDEQO7Zn1dwLaGgGyp1ZPuZhy0VkmsmMfXos6inO6pUL5
+	9Oqws9e3fdXnXIIc5T/rvTaNCaGJ1Nqw3Bo/A=
+Received: by 10.68.3.100 with SMTP id b4mr162659pbb.325.1304445920011;
+	Tue, 03 May 2011 11:05:20 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id a4sm177989pbf.56.2011.05.03.11.05.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 03 May 2011 11:05:18 -0700 (PDT)
+Date: Tue, 3 May 2011 11:04:47 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20110503180447.GB5436@sakrah.homelinux.org>
+References: <cover.1303889119.git.sgw@linux.intel.com>
+	<ed1614da74a5bf5820855d9d5bd9ab6213bc36de.1303889119.git.sgw@linux.intel.com>
+	<1303981290.21461.39.camel@rex>
+	<BANLkTimx4ry=vZdiNzYna1EE121Q85mUOA@mail.gmail.com>
+	<1304424898.21461.107.camel@rex>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <BANLkTi=f-GL8RbJLCAikFTtkON5C9NDvDw@mail.gmail.com>	<4DBF4F26.90404@intel.com>	<BANLkTimUw9+kWHwdw5dZ0=kUZuNSsorsdA@mail.gmail.com>	<4DC03C43.8080507@windriver.com>
-	<20110503174732.GA5436@sakrah.homelinux.org>
-In-Reply-To: <20110503174732.GA5436@sakrah.homelinux.org>
-Subject: Re: qemu segfaulting when booting ext3 image
+In-Reply-To: <1304424898.21461.107.camel@rex>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 36/52] gettext.bbclass: Use _append instead of =+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,33 +55,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2011 17:58:34 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 May 2011 18:07:59 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 5/3/11 12:47 PM, Khem Raj wrote:
-> On (03/05/11 12:32), Mark Hatle wrote:
->>>> I can't figure out one case that nfs root works and ext3 image doesn't...
->>
->> Good question, I don't know.  In my experience both NFS and ext3 root crashes
->> with the nvidia drivers.  I have a patch to the version of QEMU I use that
->> disables all of GL to work around the problem.
+On (03/05/11 13:14), Richard Purdie wrote:
+> On Fri, 2011-04-29 at 09:11 -0700, Khem Raj wrote:
+> > On Thu, Apr 28, 2011 at 2:01 AM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > We can make this simpler. We should just setVar("DEPENDS_GETTEXT", "")
+> > > in the INHIBIT_DEFAULT_DEPS case. If anything is expanding the variables
+> > > somewhere, we should fix that.
+> > >
+> > 
+> > Infact the virtclass stuff complicates this since they are evaluated
+> > specially and I am not clear weather _append gets
+> > evaluation before that or after and also the anon python function
+> > evaluation as the one we are defining in this class.
+> > 
+> > I tried to empty out DEPENDS_GETTEXT but it does not work in nativesdk cases.
 > 
-> just pass "<-nographic>" to the script
+> I still think we can simplify this. Could you try the following patch
+> please?:
 > 
->>
->> I believe it's mhatle/qemu on poky-contrib... but it hasn't been updated for a
->> while now.
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index 4f20bc2..3b83e42 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -89,9 +89,11 @@ def base_dep_prepend(d):
+>  			deps += " virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}compilerlibs virtual/libc "
+>  	return deps
+>  
+> -DEPENDS_prepend="${@base_dep_prepend(d)} "
+> -DEPENDS_virtclass-native_prepend="${@base_dep_prepend(d)} "
+> -DEPENDS_virtclass-nativesdk_prepend="${@base_dep_prepend(d)} "
+> +BASEDEPENDS = "${@base_dep_prepend(d)}"
+> +
+> +DEPENDS_prepend="${BASEDEPENDS} "
+> +DEPENDS_virtclass-native_prepend="${BASEDEPENDS} "
+> +DEPENDS_virtclass-nativesdk_prepend="${BASEDEPENDS} "
+>  
+>  FILESPATH = "${@base_set_filespath([ "${FILE_DIRNAME}/${PF}", "${FILE_DIRNAME}/${P}", "${FILE_DIRNAME}/${PN}", "${FILE_DIRNAME}/${BP}", "${FILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files", "${FILE_DIRNAME}" ], d)}"
+>  # THISDIR only works properly with imediate expansion as it has to run
+> diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+> index a40e74f..57b551e 100644
+> --- a/meta/classes/gettext.bbclass
+> +++ b/meta/classes/gettext.bbclass
+> @@ -1,17 +1,17 @@
+>  def gettext_after_parse(d):
+>      # Remove the NLS bits if USE_NLS is no.
+> -    if bb.data.getVar('USE_NLS', d, 1) == 'no':
+> -        cfg = oe_filter_out('^--(dis|en)able-nls$', bb.data.getVar('EXTRA_OECONF', d, 1) or "", d)
+> -        cfg += " --disable-nls"
+> -        depends = bb.data.getVar('DEPENDS', d, 1) or ""
+> -        bb.data.setVar('DEPENDS', oe_filter_out('^(virtual/libiconv|virtual/libintl)$', depends, d), d)
+> -        bb.data.setVar('EXTRA_OECONF', cfg, d)
+> +    if bb.data.getVar('USE_NLS', d, True) == 'no':
+> +        bb.data.setVar('DEPENDS_GETTEXT', "", d)
+> +        bb.data.setVar('OECONFNLSOPTION', '--disable-nls', d)
+> +    if bb.data.getVar('INHIBIT_DEFAULT_DEPS', d, True) and not oe.utils.inherits(d, 'cross-canadian'):
+> +        bb.data.setVar('DEPENDS_GETTEXT', "", d)
+>  
+>  python () {
+>      gettext_after_parse(d)
+>  }
+>  
+> -DEPENDS_GETTEXT = "gettext gettext-native"
+> +DEPENDS_GETTEXT = "virtual/gettext gettext-native"
+> +OECONFNLSOPTION = "--enable-nls"
+>  
+> -DEPENDS =+ "${DEPENDS_GETTEXT}"
+> -EXTRA_OECONF += "--enable-nls"
+> +BASEDEPENDS =+ "${DEPENDS_GETTEXT}"
+> +EXTRA_OECONF += "${OECONFNLSOPTION}"
+> 
+> 
+> 
 
--nographic was not enough as the libGL system was still be initialized, and that
-for me is where the crash occurred..
+This has the same problem It empties out DEPENDS_GETTEXT after they have
+have already been added to DEPENDS via virtclass e.g. when you build
+gcc-runtime-nativesdk it will report a dep loop since now it depends on
+virtual/gettext-nativesdk (added by gettext class)
+and virtual/gettext-nativesdk depends on compilerlibs
+provided by gcc-runtime-nativesdk. This was same problem I was trying to
+circumvent
 
---Mark
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+-- 
+-Khem
 
 
