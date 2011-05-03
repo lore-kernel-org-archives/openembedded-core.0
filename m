@@ -1,26 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QHPJR-0001qN-CF
+	(envelope-from <sgw@linux.intel.com>) id 1QHPJR-0001in-RY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 May 2011 01:47:29 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 May 2011 16:44:52 -0700
+	Wed, 04 May 2011 01:47:30 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 May 2011 16:44:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,312,1301900400"; d="scan'208";a="637467210"
+X-IronPort-AV: E=Sophos;i="4.64,312,1301900400"; d="scan'208";a="917582067"
 Received: from unknown (HELO localhost) ([10.255.13.11])
-	by orsmga002.jf.intel.com with ESMTP; 03 May 2011 16:44:51 -0700
-Message-Id: <8658d1f447d3cf3d46d08cc7f25da766f3b1d463.1304465724.git.sgw@linux.intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 03 May 2011 16:44:53 -0700
+Message-Id: <e24fb20e93b278115a784dd1c9620a70db564a9e.1304465724.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1304465724.git.sgw@linux.intel.com>
 References: <cover.1304465724.git.sgw@linux.intel.com>
-Old-Date: Sat, 30 Apr 2011 10:21:15 +0200
-Date: Tue, 03 May 2011 16:44:51 -0700
+Old-Date: Fri, 22 Apr 2011 11:28:08 -0700
+Date: Tue, 03 May 2011 16:44:52 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Xiaofeng Yan <xiaofeng.yan@windriver.com>, Ilya Yanok <yanok@emcraft.com>,
 	Darren Hart <dvhart@linux.intel.com>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Kang Kai <kai.kang@windriver.com>, Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 23/33] git: make it work on the target
+Subject: [PATCH 24/33] insane.bbclass: Checking for NLS too when checking gettext dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,87 +37,50 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 May 2011 23:47:30 -0000
 
-From: Koen Kooi <koen@dominion.thruhere.net>
+From: Khem Raj <raj.khem@gmail.com>
 
-Packaging is synced with OE .dev, but without the -large, thanks to pseudo we retain all (hard)links properly:
+Checking for gettext is not needed when --disable-nls is used
 
-* git-perltools holds all the utils requiring perl and adds appropriate RDEPENDS
-* git-tk holds the tcl/tk utils once they get activate
-* git now packages /usr/libexec/git-core
+Let user know what variant of gettext is missing e.g. gettext-native,
+gettext-nativesdk etc, reveals a bit more for user
 
-The result:
+Check for virtual/gettext
 
-8.5M	ipk/armv7a/git_1.7.4.3-r2_armv7a.ipk
-3.1M	ipk/armv7a/git-dbg_1.7.4.3-r2_armv7a.ipk
-4.0K	ipk/armv7a/git-dev_1.7.4.3-r2_armv7a.ipk
-12K	ipk/armv7a/git-doc_1.7.4.3-r2_armv7a.ipk
-136K	ipk/armv7a/git-perltools_1.7.4.3-r2_armv7a.ipk
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/git/git.inc        |   32 ++++++++++++++++++++++++++++-
- meta/recipes-devtools/git/git_1.7.4.3.bb |    2 +-
- 2 files changed, 31 insertions(+), 3 deletions(-)
+ meta/classes/insane.bbclass |    9 +++++----
+ 1 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 843a1d3..7f12859 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -14,11 +14,39 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl --without-tcltk"
- inherit autotools
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 98acf7f..742be5e 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -578,20 +578,21 @@ Rerun configure task after fixing this. The path was '%s'""" % root)
+         if "configure.in" in files:
+             configs.append(os.path.join(root, "configure.in"))
  
- do_install () {
--	oe_runmake install DESTDIR="${D}" bindir=${bindir} gitexecdir=${gitexecdir} \
-+	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
- 		template_dir=${datadir}/git-core/templates \
- 		GIT_PYTHON_DIR=${D}${datadir}/git-core/python
- }
+-    if "gettext" not in bb.data.getVar('P', d, True) and "gcc-runtime" not in bb.data.getVar('P', d, True):
++    cnf = bb.data.getVar('EXTRA_OECONF', d, True) or ""
++    if "gettext" not in bb.data.getVar('P', d, True) and "gcc-runtime" not in bb.data.getVar('P', d, True) and "--disable-nls" not in cnf:
+        if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('nativesdk', d):
+           gt = "gettext-native"
+        elif bb.data.inherits_class('cross-canadian', d):
+           gt = "gettext-nativesdk"
+        else:
+-          gt = "gettext"
++          gt = "virtual/gettext"
+        deps = bb.utils.explode_deps(bb.data.getVar('DEPENDS', d, True) or "")
+        if gt not in deps:
+           for config in configs:
+               gnu = "grep \"^[[:space:]]*AM_GNU_GETTEXT\" %s >/dev/null" % config
+               if os.system(gnu) == 0:
+-                 bb.fatal("""Gettext required but not in DEPENDS for file %s.
+-Missing inherit gettext?""" % config)
++                 bb.fatal("""%s required but not in DEPENDS for file %s.
++Missing inherit gettext?""" % (gt, config))
  
--FILES_${PN} += "${datadir}/git-core"
-+FILES_${PN} += "${datadir}/git-core ${libxecdir}/git-core/"
-+FILES_${PN}-dbg += "${libexecdir}/git-core/.debug"
-+
-+# Git tools requiring perl
-+PACKAGES =+ "${PN}-perltools"
-+FILES_${PN}-perltools += " \
-+    ${libexecdir}/git-core/git-add--interactive \
-+    ${libexecdir}/git-core/git-archimport \
-+    ${libexecdir}/git-core/git-cvsexportcommit \
-+    ${libexecdir}/git-core/git-cvsimport \
-+    ${libexecdir}/git-core/git-cvsserver \
-+    ${bindir}/git-cvsserver \
-+    ${libexecdir}/git-core/git-difftool \
-+    ${libexecdir}/git-core/git-relink \
-+    ${libexecdir}/git-core/git-send-email \
-+    ${libexecdir}/git-core/git-svn \
-+    ${datadir}/perl \
-+"
-+RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path findutils"
-+
-+# git-tk package with gitk and git-gui
-+PACKAGES =+ "${PN}-tk"
-+RDEPENDS_${PN}-tk = "${PN} tk tcl"
-+EXTRA_OEMAKE = "TCL_PATH=${STAGING_BINDIR_CROSS}/tclsh"
-+FILES_${PN}-tk = " \
-+    ${bindir}/gitk \
-+    ${datadir}/gitk \
-+"
-+
- 
- BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/git/git_1.7.4.3.bb b/meta/recipes-devtools/git/git_1.7.4.3.bb
-index 2ff1ed5..45ef61b 100644
---- a/meta/recipes-devtools/git/git_1.7.4.3.bb
-+++ b/meta/recipes-devtools/git/git_1.7.4.3.bb
-@@ -1,6 +1,6 @@
- require git.inc
- 
--PR = "r1"
-+PR = "r2"
- 
- EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
-                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+     if not package_qa_check_license(workdir, d):
+         bb.fatal("Licensing Error: LIC_FILES_CHKSUM does not match, please fix")
 -- 
 1.7.4.1
 
