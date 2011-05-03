@@ -1,26 +1,33 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jay@jay-tech.ru>) id 1QHNCU-0007zh-2g
-	for openembedded-core@lists.openembedded.org;
-	Tue, 03 May 2011 23:32:10 +0200
-Received: by bwz5 with SMTP id 5so560085bwz.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 May 2011 14:29:32 -0700 (PDT)
-Received: by 10.204.25.20 with SMTP id x20mr334105bkb.112.1304458172188; Tue,
-	03 May 2011 14:29:32 -0700 (PDT)
-MIME-Version: 1.0
-Sender: jay@jay-tech.ru
-Received: by 10.204.54.80 with HTTP; Tue, 3 May 2011 14:29:11 -0700 (PDT)
-X-Originating-IP: [95.29.102.212]
-In-Reply-To: <4DBF1D59.2050506@windriver.com>
-References: <4DBF1D59.2050506@windriver.com>
-From: Yury Bushmelev <jay4mail@gmail.com>
-Date: Wed, 4 May 2011 01:29:11 +0400
-X-Google-Sender-Auth: ie9xT0zK2SvtVQg8F25WpBgA9Ck
-Message-ID: <BANLkTinExi7U9S2M6qzkTB62zYeuGE-4eA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Recipe based User & Group addition, modification and deletion
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QHNYo-0008CK-OI; Tue, 03 May 2011 23:55:14 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p43Lqckx022314;
+	Tue, 3 May 2011 22:52:38 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22106-03; Tue,  3 May 2011 22:52:34 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p43LqVxJ022308
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 3 May 2011 22:52:32 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-members@lists.openembedded.org
+In-Reply-To: <BANLkTimX8LO1SSDrs+ekB2fZESQw0xY83g@mail.gmail.com>
+References: <4DC05B11.6070506@balister.org>
+	<BANLkTincDz4WZSH919f7+G4q49OkixH7Uw@mail.gmail.com>
+	<1304454137.21461.135.camel@rex>
+	<BANLkTimX8LO1SSDrs+ekB2fZESQw0xY83g@mail.gmail.com>
+Date: Tue, 03 May 2011 22:52:29 +0100
+Message-ID: <1304459549.21461.142.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: yocto@yoctoproject.org, openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded eV membership drive
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 May 2011 21:32:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 03 May 2011 21:55:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-2011/5/3 Mark Hatle <mark.hatle@windriver.com>:
-> RFC: Recipe based User & Group addition, modification and deletion
+On Tue, 2011-05-03 at 23:15 +0200, Frans Meulenbroeks wrote:
+> 2011/5/3 Richard Purdie <richard.purdie@linuxfoundation.org>
 
-[skip]
+>         This was discussed at the last TSC meeting and we reviewed the
+>         TSC
+>         meeting minutes where it was recorded that:
+>         
+>         """
+>         Election wise, we'll elect the seats in the order from the
+>         board
+>         announcement email until we have 5 elected members. We will
+>         rely on the
+>         board to call the first election in May.
+>         """
+>         
+>         which the TSC has reminded the board about last week.
 
-> Any comments on the above?
+>         
+> I don't think it is up to the TSC to decide on the re-election
+> timeframe. As it stands the TSC got a 2 month mandate. See the quote
+> above (from Philip's email from feb 10).
+> That is all I wanted to indicate.
 
-As a former FreeBSD admin I'll show how this is done in 'ports'
-collection (JFYI):
+The TSC was asked by the board to figure out the details of the election
+which we did in the first meeting as requested and provided our feedback
+back to the board. The board naturally has the ultimate say in this.
 
-# USERS			- List of users to create at install time. Each login must
-# 				  have a corresponding entry in ${UID_FILES}.
-# GROUPS		- List of groups to create at install time. Each group must
-# 				  have a corresponding entry in ${GID_FILES}.
+Cheers,
 
-Sample usage from databases/mysql51-server/Makefile:
-USERS=          mysql
-GROUPS=         mysql
+Richard
 
-UID_FILES and GID_FILES are pointing to UIDs and GIDs files in ports dir.
-
-Sample record from UIDs file:
-mysql:*:88:88::0:0:MySQL Daemon:/var/db/mysql:/usr/sbin/nologin
-
-Sample record from GIDs file:
-mysql:*:88:
-
--- 
-Yury Bushmelev
 
 
