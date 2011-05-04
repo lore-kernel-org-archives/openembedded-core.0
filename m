@@ -1,48 +1,34 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QHR2Z-0003of-HI
-	for openembedded-core@lists.openembedded.org;
-	Wed, 04 May 2011 03:38:12 +0200
-Received: by pvc30 with SMTP id 30so305149pvc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 May 2011 18:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:references:in-reply-to:mime-version
-	:content-transfer-encoding:content-type:message-id:cc:x-mailer:from
-	:subject:date:to;
-	bh=DI6Axwib336i3/pY3WJ0rVwcADVkjIyPCChloLIx87w=;
-	b=h7U3tthpKmFZFMcqi5CjlxyjwS1N6cJO+7oh8q+1St5mC3vOZGPQD5RA+GetKsuWLL
-	VJYHB3HxQHIbSJq3vfCVNaKepB42vd4GcCifGMgVWPbUtbzNSnrDbwsNc9P9fwDgiDt4
-	hUZ0rAVS+ofjc1xEHBTTR9hjKGJxSFkxsMqmk=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=references:in-reply-to:mime-version:content-transfer-encoding
-	:content-type:message-id:cc:x-mailer:from:subject:date:to;
-	b=f8W7Gra0auUQwVW82Ks58LbzzICnRk5Gsone/tzlpgR1+JUpwfwWCRB+O6a1OL2V5S
-	ASu3KwykUwx5ApDslWP/zBRscGFodFcjheiXK7FbLB7OQLkZRZmPnzCsoKcaIL9NBjb6
-	Bl8uTsp4zMHp1pHuXwaITfKgDQOvVITVKgsC0=
-Received: by 10.68.56.104 with SMTP id z8mr765367pbp.81.1304472484255;
-	Tue, 03 May 2011 18:28:04 -0700 (PDT)
-Received: from [192.168.1.81] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id t6sm389899pbc.21.2011.05.03.18.28.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 03 May 2011 18:28:02 -0700 (PDT)
-References: <cover.1304465724.git.sgw@linux.intel.com>
-	<e573adeeb0272294c005c4ae5c03346dd9c938d3.1304465724.git.sgw@linux.intel.com>
-In-Reply-To: <e573adeeb0272294c005c4ae5c03346dd9c938d3.1304465724.git.sgw@linux.intel.com>
-Mime-Version: 1.0 (iPad Mail 8H7)
-Message-Id: <82674A6C-C8D1-4E5F-85CA-C4F4CF3EA4CD@gmail.com>
-X-Mailer: iPad Mail (8H7)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 3 May 2011 18:28:00 -0700
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QHWtk-0006aj-E5 for openembedded-core@lists.openembedded.org;
+	Wed, 04 May 2011 09:53:28 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p447oKxH028288;
+	Wed, 4 May 2011 08:50:20 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27764-05; Wed,  4 May 2011 08:50:16 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p447oCn6028279
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 4 May 2011 08:50:12 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Saul Wold <sgw@linux.intel.com>
+In-Reply-To: <cover.1304465724.git.sgw@linux.intel.com>
+References: <cover.1304465724.git.sgw@linux.intel.com>
+Date: Wed, 04 May 2011 08:50:08 +0100
+Message-ID: <1304495408.21461.151.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: Xiaofeng Yan <xiaofeng.yan@windriver.com>, Ilya Yanok <yanok@emcraft.com>,
 	Darren Hart <dvhart@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
+	openembedded-core@lists.openembedded.org, Tom,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Kang Kai <kai.kang@windriver.com>, Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH 32/33] perl: fix Configure-multilib.patch
+Subject: Re: [PATCH 00/33] Consolidated Pull Request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,47 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2011 01:38:12 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Wed, 04 May 2011 07:53:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Tue, 2011-05-03 at 16:44 -0700, Saul Wold wrote:
+> This has a dependency on your tweaks to gettext.bbclass
+> and base.bbclass.  Otherwise this set has been well tested.
+> It also contains patches that need to backported to bernard.
 
+I merged these apart from:
 
-On May 3, 2011, at 4:45 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> Koen Kooi (1):
+>   git: make it work on the target
+> 
+> Saul Wold (5):
+>   git: Disable gitk from by default
 
-> From: Saul Wold <sgw@linux.intel.com>
->=20
-> Thanks to Gary Thomas for his input on fixing this for Ubuntu 11.04
+Since I don't think having tcltk-native as a dependency for git-native
+is particularly desireable (but its ok for the target package) yet the
+attempt to change this above still needs work.
 
-Looks good=20
+Cheers,
 
+Richard
 
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> .../perl/perl-5.12.3/Configure-multilib.patch      |    2 +-
-> 1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/perl/perl-5.12.3/Configure-multilib.pat=
-ch b/meta/recipes-devtools/perl/perl-5.12.3/Configure-multilib.patch
-> index ef2be3d..9625b0b 100644
-> --- a/meta/recipes-devtools/perl/perl-5.12.3/Configure-multilib.patch
-> +++ b/meta/recipes-devtools/perl/perl-5.12.3/Configure-multilib.patch
-> @@ -11,7 +11,7 @@ Index: perl-5.12.3/Configure
-> -glibpth=3D"/lib /usr/lib $xlibpth"
-> +glibpth=3D"/lib /usr/lib /lib64 /usr/lib64 $xlibpth"
->  glibpth=3D"$glibpth /usr/ccs/lib /usr/ucblib /usr/local/lib"
-> -+test -f /usr/lib/`uname -m`-linux-gnu/libc.so && glibpth=3D"/usr/lib/`un=
-ame -m`-linux-gnu $glibpth"
-> ++test -f /usr/lib/*-linux-gnu/libc.so && glibpth=3D"/usr/lib/*-linux-gnu $=
-glibpth"
->  test -f /usr/shlib/libc.so && glibpth=3D"/usr/shlib $glibpth"
->  test -f /shlib/libc.so     && glibpth=3D"/shlib $glibpth"
->  test -d /usr/lib64         && glibpth=3D"$glibpth /lib64 /usr/lib64 /usr/=
-local/lib64"
-> --=20
-> 1.7.4.1
->=20
 
 
