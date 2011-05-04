@@ -1,23 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QHdSv-00075e-HM
+	(envelope-from <gary@mlbassoc.com>) id 1QHdi8-0007cD-LT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 May 2011 16:54:14 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 04 May 2011 07:51:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,314,1301900400"; d="scan'208";a="688058727"
-Received: from unknown (HELO helios) ([10.255.13.83])
-	by fmsmga002.fm.intel.com with SMTP; 04 May 2011 07:51:31 -0700
-Received: by helios (sSMTP sendmail emulation); Wed, 04 May 2011 15:51:30 +0100
-Message-Id: <21e4929e2ef79647b16852bb6f15537939012b02.1304520272.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1304520272.git.paul.eggleton@linux.intel.com>
+	Wed, 04 May 2011 17:09:56 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id 10B6E1660101; Wed,  4 May 2011 09:07:18 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2-r929478
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 49E8616600BB;
+	Wed,  4 May 2011 09:07:17 -0600 (MDT)
+Message-ID: <4DC16BA5.1090508@mlbassoc.com>
+Date: Wed, 04 May 2011 09:07:17 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
+	Thunderbird/3.1.7
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 References: <cover.1304520272.git.paul.eggleton@linux.intel.com>
-Old-Date: Thu, 21 Apr 2011 17:49:08 +0100
-Date: Wed, 04 May 2011 15:51:30 +0100
-To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/3] meta-yocto: add pieces removed from oe-core for beagleboard & atom-pc
+	<a6ff3eaba2e8868cf24775725be334f3479d905c.1304520272.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <a6ff3eaba2e8868cf24775725be334f3479d905c.1304520272.git.paul.eggleton@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>, poky@yoctoproject.org
+Subject: Re: [PATCH 1/3] Remove machine-specific metadata for machines no longer in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,291 +41,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2011 14:54:14 -0000
+X-List-Received-Date: Wed, 04 May 2011 15:09:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+On 05/04/2011 08:51 AM, Paul Eggleton wrote:
+   ...
+> diff --git a/meta/recipes-core/netbase/netbase_4.45.bb b/meta/recipes-core/netbase/netbase_4.45.bb
+> index 319afa7..85daa16 100644
+> --- a/meta/recipes-core/netbase/netbase_4.45.bb
+> +++ b/meta/recipes-core/netbase/netbase_4.45.bb
+> @@ -40,7 +40,7 @@ do_install () {
+>
+>   	# Disable network manager on machines that commonly do NFS booting
+>   	case "${MACHINE}" in
+> -		"omap-3430sdp" | "omap-3430ldp" | "omap-2430sdp" | "qemuarm" | "qemux86" | "qemux86-64" )
+> +		"qemuarm" | "qemux86" | "qemux86-64" | "qemumips" | "qemuppc" )
+>   			touch ${D}${sysconfdir}/network/nm-disabled-eth0
+>   			;;
+>   		*)
+> @@ -50,9 +50,6 @@ do_install () {
+>
+>   CONFFILES_${PN} = "${sysconfdir}/hosts ${sysconfdir}/network/interfaces"
+>
+> -PACKAGE_ARCH_omap-3430sdp = "${MACHINE_ARCH}"
+> -PACKAGE_ARCH_omap-3430ldp = "${MACHINE_ARCH}"
+> -PACKAGE_ARCH_omap-2430sdp = "${MACHINE_ARCH}"
+>   PACKAGE_ARCH_qemuarm = "${MACHINE_ARCH}"
+>   PACKAGE_ARCH_qemux86 = "${MACHINE_ARCH}"
+>   PACKAGE_ARCH_qemux86-64 = "${MACHINE_ARCH}"
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../formfactor/formfactor/atom-pc/machconfig       |    6 ++
- .../formfactor/formfactor/beagleboard/machconfig   |    3 +
- .../recipes-bsp/formfactor/formfactor_0.0.bbappend |    3 +
- .../recipes-core/tasks/task-core-tools.bbappend    |    2 +
- .../uclibc/uclibc/atom-pc/uClibc.machine           |   69 ++++++++++++++++++++
- .../recipes-core/uclibc/uclibc_0.9.30.1.bbappend   |    3 +
- .../tasks/task-poky-sdk-gmae.bbappend              |    1 +
- .../task-poky-standalone-gmae-sdk-target.bbappend  |    1 +
- .../clutter/clutter-1.4_1.4.2.bbappend             |    4 +
- .../clutter/clutter-1.6_1.6.14.bbappend            |    4 +
- .../recipes-graphics/clutter/clutter_git.bbappend  |    4 +
- .../recipes-graphics/mesa/mesa-dri_7.10.2.bbappend |    3 +
- .../recipes-graphics/mesa/mesa-dri_git.bbappend    |    3 +
- .../xserver-xf86-config/atom-pc/xorg.conf          |   26 +++++++
- .../xorg-xserver/xserver-xf86-config_0.1.bbappend  |    3 +
- .../recipes-qt/qt4/qt4-x11-free_4.6.3.bbappend     |    2 +
- .../recipes-qt/qt4/qt4-x11-free_4.7.2.bbappend     |    2 +
- 17 files changed, 139 insertions(+), 0 deletions(-)
- create mode 100644 meta-yocto/recipes-bsp/formfactor/formfactor/atom-pc/machconfig
- create mode 100755 meta-yocto/recipes-bsp/formfactor/formfactor/beagleboard/machconfig
- create mode 100644 meta-yocto/recipes-bsp/formfactor/formfactor_0.0.bbappend
- create mode 100644 meta-yocto/recipes-core/tasks/task-core-tools.bbappend
- create mode 100644 meta-yocto/recipes-core/uclibc/uclibc/atom-pc/uClibc.machine
- create mode 100644 meta-yocto/recipes-core/uclibc/uclibc_0.9.30.1.bbappend
- create mode 100644 meta-yocto/recipes-gnome/tasks/task-poky-sdk-gmae.bbappend
- create mode 100644 meta-yocto/recipes-gnome/tasks/task-poky-standalone-gmae-sdk-target.bbappend
- create mode 100644 meta-yocto/recipes-graphics/clutter/clutter-1.4_1.4.2.bbappend
- create mode 100644 meta-yocto/recipes-graphics/clutter/clutter-1.6_1.6.14.bbappend
- create mode 100644 meta-yocto/recipes-graphics/clutter/clutter_git.bbappend
- create mode 100644 meta-yocto/recipes-graphics/mesa/mesa-dri_7.10.2.bbappend
- create mode 100644 meta-yocto/recipes-graphics/mesa/mesa-dri_git.bbappend
- create mode 100644 meta-yocto/recipes-graphics/xorg-xserver/xserver-xf86-config/atom-pc/xorg.conf
- create mode 100644 meta-yocto/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bbappend
- create mode 100644 meta-yocto/recipes-qt/qt4/qt4-x11-free_4.6.3.bbappend
- create mode 100644 meta-yocto/recipes-qt/qt4/qt4-x11-free_4.7.2.bbappend
+Perhaps it makes sense to always package netbase in ${MACHINE_ARCH} since it almost
+always will have machine specific data?
 
-diff --git a/meta-yocto/recipes-bsp/formfactor/formfactor/atom-pc/machconfig b/meta-yocto/recipes-bsp/formfactor/formfactor/atom-pc/machconfig
-new file mode 100644
-index 0000000..bef4ce3
---- /dev/null
-+++ b/meta-yocto/recipes-bsp/formfactor/formfactor/atom-pc/machconfig
-@@ -0,0 +1,6 @@
-+HAVE_TOUCHSCREEN=0
-+HAVE_KEYBOARD=1
-+ 
-+DISPLAY_CAN_ROTATE=0
-+DISPLAY_ORIENTATION=0
-+DISPLAY_DPI=133
-diff --git a/meta-yocto/recipes-bsp/formfactor/formfactor/beagleboard/machconfig b/meta-yocto/recipes-bsp/formfactor/formfactor/beagleboard/machconfig
-new file mode 100755
-index 0000000..a46859f
---- /dev/null
-+++ b/meta-yocto/recipes-bsp/formfactor/formfactor/beagleboard/machconfig
-@@ -0,0 +1,3 @@
-+# Assume a USB mouse and touchscreen are connected
-+HAVE_TOUCHSCREEN=0
-+HAVE_KEYBOARD=1
-diff --git a/meta-yocto/recipes-bsp/formfactor/formfactor_0.0.bbappend b/meta-yocto/recipes-bsp/formfactor/formfactor_0.0.bbappend
-new file mode 100644
-index 0000000..4b8d0e6
---- /dev/null
-+++ b/meta-yocto/recipes-bsp/formfactor/formfactor_0.0.bbappend
-@@ -0,0 +1,3 @@
-+THISDIR := "${@os.path.dirname(bb.data.getVar('FILE', d, True))}"
-+FILESPATH =. "${@base_set_filespath(["${THISDIR}/${PN}"], d)}:"
-+
-diff --git a/meta-yocto/recipes-core/tasks/task-core-tools.bbappend b/meta-yocto/recipes-core/tasks/task-core-tools.bbappend
-new file mode 100644
-index 0000000..ad9dcf4
---- /dev/null
-+++ b/meta-yocto/recipes-core/tasks/task-core-tools.bbappend
-@@ -0,0 +1,2 @@
-+RDEPENDS_task-core-tools-profile_append_atom-pc = " lttng-ust systemtap"
-+
-diff --git a/meta-yocto/recipes-core/uclibc/uclibc/atom-pc/uClibc.machine b/meta-yocto/recipes-core/uclibc/uclibc/atom-pc/uClibc.machine
-new file mode 100644
-index 0000000..5df15f9
---- /dev/null
-+++ b/meta-yocto/recipes-core/uclibc/uclibc/atom-pc/uClibc.machine
-@@ -0,0 +1,69 @@
-+#
-+# Automatically generated make config: don't edit
-+# Fri Nov 23 15:49:33 2007
-+#
-+# TARGET_alpha is not set
-+# TARGET_arm is not set
-+# TARGET_bfin is not set
-+# TARGET_cris is not set
-+# TARGET_e1 is not set
-+# TARGET_frv is not set
-+# TARGET_h8300 is not set
-+# TARGET_hppa is not set
-+TARGET_i386=y
-+# TARGET_i960 is not set
-+# TARGET_ia64 is not set
-+# TARGET_m68k is not set
-+# TARGET_microblaze is not set
-+# TARGET_mips is not set
-+# TARGET_nios is not set
-+# TARGET_nios2 is not set
-+# TARGET_powerpc is not set
-+# TARGET_sh is not set
-+# TARGET_sh64 is not set
-+# TARGET_sparc is not set
-+# TARGET_v850 is not set
-+# TARGET_vax is not set
-+# TARGET_x86_64 is not set
-+
-+#
-+# Target Architecture Features and Options
-+#
-+TARGET_ARCH="i386"
-+FORCE_OPTIONS_FOR_ARCH=y
-+CONFIG_GENERIC_386=y
-+# CONFIG_386 is not set
-+# CONFIG_486 is not set
-+# CONFIG_586 is not set
-+# CONFIG_586MMX is not set
-+# CONFIG_686 is not set
-+# CONFIG_PENTIUMII is not set
-+# CONFIG_PENTIUMIII is not set
-+# CONFIG_PENTIUM4 is not set
-+# CONFIG_K6 is not set
-+# CONFIG_K7 is not set
-+# CONFIG_ELAN is not set
-+# CONFIG_CRUSOE is not set
-+# CONFIG_WINCHIPC6 is not set
-+# CONFIG_WINCHIP2 is not set
-+# CONFIG_CYRIXIII is not set
-+# CONFIG_NEHEMIAH is not set
-+TARGET_SUBARCH=""
-+
-+#
-+# Using ELF file format
-+#
-+ARCH_LITTLE_ENDIAN=y
-+
-+#
-+# Using Little Endian
-+#
-+ARCH_HAS_MMU=y
-+ARCH_USE_MMU=y
-+UCLIBC_HAS_FLOATS=y
-+UCLIBC_HAS_FPU=y
-+DO_C99_MATH=y
-+KERNEL_HEADERS="/usr/include"
-+HAVE_DOT_CONFIG=y
-+
-+UCLIBC_HAS_FENV=y
-diff --git a/meta-yocto/recipes-core/uclibc/uclibc_0.9.30.1.bbappend b/meta-yocto/recipes-core/uclibc/uclibc_0.9.30.1.bbappend
-new file mode 100644
-index 0000000..4b8d0e6
---- /dev/null
-+++ b/meta-yocto/recipes-core/uclibc/uclibc_0.9.30.1.bbappend
-@@ -0,0 +1,3 @@
-+THISDIR := "${@os.path.dirname(bb.data.getVar('FILE', d, True))}"
-+FILESPATH =. "${@base_set_filespath(["${THISDIR}/${PN}"], d)}:"
-+
-diff --git a/meta-yocto/recipes-gnome/tasks/task-poky-sdk-gmae.bbappend b/meta-yocto/recipes-gnome/tasks/task-poky-sdk-gmae.bbappend
-new file mode 100644
-index 0000000..0105ade
---- /dev/null
-+++ b/meta-yocto/recipes-gnome/tasks/task-poky-sdk-gmae.bbappend
-@@ -0,0 +1 @@
-+SDK-EXTRAS_atom-pc ?= " lttng-ust-dev"
-diff --git a/meta-yocto/recipes-gnome/tasks/task-poky-standalone-gmae-sdk-target.bbappend b/meta-yocto/recipes-gnome/tasks/task-poky-standalone-gmae-sdk-target.bbappend
-new file mode 100644
-index 0000000..0105ade
---- /dev/null
-+++ b/meta-yocto/recipes-gnome/tasks/task-poky-standalone-gmae-sdk-target.bbappend
-@@ -0,0 +1 @@
-+SDK-EXTRAS_atom-pc ?= " lttng-ust-dev"
-diff --git a/meta-yocto/recipes-graphics/clutter/clutter-1.4_1.4.2.bbappend b/meta-yocto/recipes-graphics/clutter/clutter-1.4_1.4.2.bbappend
-new file mode 100644
-index 0000000..c7cc683
---- /dev/null
-+++ b/meta-yocto/recipes-graphics/clutter/clutter-1.4_1.4.2.bbappend
-@@ -0,0 +1,4 @@
-+DEPENDS_atom-pc = "${STDDEPENDS} virtual/xserver-xf86 virtual/libgl"
-+EXTRA_OECONF_atom-pc = "${BASE_CONF} --with-flavour=glx"
-+PACKAGE_ARCH_atom-pc = "${MACHINE_ARCH}"
-+
-diff --git a/meta-yocto/recipes-graphics/clutter/clutter-1.6_1.6.14.bbappend b/meta-yocto/recipes-graphics/clutter/clutter-1.6_1.6.14.bbappend
-new file mode 100644
-index 0000000..c7cc683
---- /dev/null
-+++ b/meta-yocto/recipes-graphics/clutter/clutter-1.6_1.6.14.bbappend
-@@ -0,0 +1,4 @@
-+DEPENDS_atom-pc = "${STDDEPENDS} virtual/xserver-xf86 virtual/libgl"
-+EXTRA_OECONF_atom-pc = "${BASE_CONF} --with-flavour=glx"
-+PACKAGE_ARCH_atom-pc = "${MACHINE_ARCH}"
-+
-diff --git a/meta-yocto/recipes-graphics/clutter/clutter_git.bbappend b/meta-yocto/recipes-graphics/clutter/clutter_git.bbappend
-new file mode 100644
-index 0000000..c7cc683
---- /dev/null
-+++ b/meta-yocto/recipes-graphics/clutter/clutter_git.bbappend
-@@ -0,0 +1,4 @@
-+DEPENDS_atom-pc = "${STDDEPENDS} virtual/xserver-xf86 virtual/libgl"
-+EXTRA_OECONF_atom-pc = "${BASE_CONF} --with-flavour=glx"
-+PACKAGE_ARCH_atom-pc = "${MACHINE_ARCH}"
-+
-diff --git a/meta-yocto/recipes-graphics/mesa/mesa-dri_7.10.2.bbappend b/meta-yocto/recipes-graphics/mesa/mesa-dri_7.10.2.bbappend
-new file mode 100644
-index 0000000..61d3891
---- /dev/null
-+++ b/meta-yocto/recipes-graphics/mesa/mesa-dri_7.10.2.bbappend
-@@ -0,0 +1,3 @@
-+# Atom PCs have DRI support so use mesa-dri by default
-+DEFAULT_PREFERENCE_atom-pc = "1"
-+
-diff --git a/meta-yocto/recipes-graphics/mesa/mesa-dri_git.bbappend b/meta-yocto/recipes-graphics/mesa/mesa-dri_git.bbappend
-new file mode 100644
-index 0000000..61d3891
---- /dev/null
-+++ b/meta-yocto/recipes-graphics/mesa/mesa-dri_git.bbappend
-@@ -0,0 +1,3 @@
-+# Atom PCs have DRI support so use mesa-dri by default
-+DEFAULT_PREFERENCE_atom-pc = "1"
-+
-diff --git a/meta-yocto/recipes-graphics/xorg-xserver/xserver-xf86-config/atom-pc/xorg.conf b/meta-yocto/recipes-graphics/xorg-xserver/xserver-xf86-config/atom-pc/xorg.conf
-new file mode 100644
-index 0000000..e18b911
---- /dev/null
-+++ b/meta-yocto/recipes-graphics/xorg-xserver/xserver-xf86-config/atom-pc/xorg.conf
-@@ -0,0 +1,26 @@
-+Section "Device"
-+    Identifier    "Intel Graphics Driver"
-+    Driver        "intel"
-+EndSection
-+
-+Section "Monitor"
-+    Identifier    "Generic Monitor"
-+    Option        "DPMS"
-+EndSection
-+
-+Section "Screen"
-+    Identifier    "Default Screen"
-+    Device        "Intel Graphics Driver"
-+    Monitor        "Generic Monitor"
-+    DefaultDepth    24
-+EndSection
-+
-+Section "ServerLayout"
-+    Identifier    "Default Layout"
-+    Screen        "Default Screen"
-+EndSection
-+
-+Section "ServerFlags"
-+    Option        "DontZap"  "0"
-+    Option	  "AutoAddDevices" "False"
-+EndSection
-diff --git a/meta-yocto/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bbappend b/meta-yocto/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bbappend
-new file mode 100644
-index 0000000..4b8d0e6
---- /dev/null
-+++ b/meta-yocto/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bbappend
-@@ -0,0 +1,3 @@
-+THISDIR := "${@os.path.dirname(bb.data.getVar('FILE', d, True))}"
-+FILESPATH =. "${@base_set_filespath(["${THISDIR}/${PN}"], d)}:"
-+
-diff --git a/meta-yocto/recipes-qt/qt4/qt4-x11-free_4.6.3.bbappend b/meta-yocto/recipes-qt/qt4/qt4-x11-free_4.6.3.bbappend
-new file mode 100644
-index 0000000..076ade2
---- /dev/null
-+++ b/meta-yocto/recipes-qt/qt4/qt4-x11-free_4.6.3.bbappend
-@@ -0,0 +1,2 @@
-+QT_GLFLAGS_atom-pc = "-opengl"
-+
-diff --git a/meta-yocto/recipes-qt/qt4/qt4-x11-free_4.7.2.bbappend b/meta-yocto/recipes-qt/qt4/qt4-x11-free_4.7.2.bbappend
-new file mode 100644
-index 0000000..076ade2
---- /dev/null
-+++ b/meta-yocto/recipes-qt/qt4/qt4-x11-free_4.7.2.bbappend
-@@ -0,0 +1,2 @@
-+QT_GLFLAGS_atom-pc = "-opengl"
-+
+Also, what about these overrides?  (There may be others, I just noticed these)
+./meta/recipes-core/base-passwd/base-passwd_3.5.22.bb:do_install_append_openmn() {
+./meta/recipes-core/netbase/netbase_4.45.bb:INITSCRIPT_PARAMS_openmn = "start 85 1 2 3 4 5 . stop 85 0 6 1 ."
+./meta/recipes-core/busybox/busybox.inc:INITSCRIPT_PARAMS_${PN}-syslog_slugos = "start 20 ."
+./meta/recipes-core/netbase/netbase_4.45.bb:INITSCRIPT_PARAMS_slugos = "start 42 S 0 6 ."
+./meta/recipes-core/base-files/base-files_3.0.14.bb:hostname_slugos = "nslu2"
+./meta/recipes-core/base-files/base-files_3.0.14.bb:do_install_append_slugos() {
+./meta/recipes-core/base-files/base-files_3.0.14.bb:CONFFILES_${PN}_slugos = "${sysconfdir}/resolv.conf ${sysconfdir}/fstab ${sysconfdir}/hostname"
+./meta/recipes-devtools/dpkg/dpkg.inc:DPKG_INIT_POSITION_slugos = "41"
+
 -- 
-1.7.4.1
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
