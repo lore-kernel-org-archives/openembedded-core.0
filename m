@@ -1,40 +1,37 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1QHfdX-00028X-0S
+	(envelope-from <leon.woestenberg@gmail.com>) id 1QHkKb-00073N-En
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 May 2011 19:13:19 +0200
-Received: by gxk3 with SMTP id 3so511354gxk.6
+	Thu, 05 May 2011 00:14:05 +0200
+Received: by pxi6 with SMTP id 6so1058779pxi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 May 2011 10:10:39 -0700 (PDT)
+	Wed, 04 May 2011 15:11:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=YcSK328RgqZPjKK1WNal2g7RjYK+tNglxSWVFVvUdsc=;
-	b=BJ4zwpU+tc5PltCRm06/Ysukkvlheq5bM14cz4f2z07qoHeFyJMGVIursCzbyeFSDu
-	BxmLjiK9eOERJQ4BW6Utjz6Vs+iPLziySdxctpYpfhRchhxkubX3aP2tGW6Wh9MiKVbM
-	PEXDUv6hrLj33G9MpndERlBVW6YARbEtBZUSQ=
+	:message-id:subject:from:to:content-type:content-transfer-encoding;
+	bh=3z0i3tVXV9h2o+RSWsluvftoYqEPUvvzWfNF7AiohYQ=;
+	b=HwrW/75IRStE11/aQ/9cYZU6ENg180RBQdkpzL44VRIShEDDda+Fnp55CkN53zLu1p
+	ZBHzeaCi9IWbrtI8wKqqqMcV52Om1mdOxk1zxAR7hfzOO6wYMhP8Vz8zETzApxE+/+8g
+	z9KmtuhHj19RPKEfKrsf97OAEOgiEx0RWGh0o=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type;
-	b=Q+8y6WhhntqSzCfkI+xEm98Jt6JZqYaX3BvZ3gGsGMlr2BZlNRMLBET3enmx1sIjN7
-	lO+iWmKtRj5GeUDsK/39jVmprOrQBCFURIZDxhq3MdNaAR6BAnsVFQ+r7f/i1/hfclfX
-	y7Bgxda3FyAoI0YRzHeKk3Bg2U1OUGZgcYPK8=
+	:content-type:content-transfer-encoding;
+	b=lJ2n71ryWLqGPdj16ja1HK04r1+urV3Vs3MPLdDPja2Y4CdtC8yHe8dpM59QSifRt8
+	F66ytAiFyCEKRILE8b7PMqT+GtnzzE4FVFa82xPFl1uBaFEX/ZWK5o5iw2UXoG6Hg3TP
+	nl6z7Yq5YysDau1PlwPR1kaj0qRa0lgZtenRw=
 MIME-Version: 1.0
-Received: by 10.91.92.1 with SMTP id u1mr1303893agl.128.1304529037905; Wed, 04
-	May 2011 10:10:37 -0700 (PDT)
-Received: by 10.90.32.18 with HTTP; Wed, 4 May 2011 10:10:37 -0700 (PDT)
-In-Reply-To: <1304524804.21461.158.camel@rex>
-References: <cover.1304515719.git.ke.yu@intel.com>
-	<1304518043.21461.154.camel@rex>
-	<BANLkTinduv4VofN2=adDN2-HZozYTO45ew@mail.gmail.com>
-	<1304524804.21461.158.camel@rex>
-Date: Wed, 4 May 2011 19:10:37 +0200
-Message-ID: <BANLkTikZai0KEv6hJ25GatZ9YUzdg6N+Hg@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+Received: by 10.68.25.166 with SMTP id d6mr2144879pbg.136.1304547085344; Wed,
+	04 May 2011 15:11:25 -0700 (PDT)
+Received: by 10.68.56.161 with HTTP; Wed, 4 May 2011 15:11:25 -0700 (PDT)
+In-Reply-To: <4DC08242.4030009@windriver.com>
+References: <BANLkTikxo4jWt7zKciXt1w4iiJYHg=WnqQ@mail.gmail.com>
+	<4DC08242.4030009@windriver.com>
+Date: Thu, 5 May 2011 00:11:25 +0200
+Message-ID: <BANLkTi=1tm0iGL6m168cHxP6uaLN5CVj3A@mail.gmail.com>
+From: Leon Woestenberg <leon.woestenberg@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Subject: Re: [PATCH 0/1] poky-default-revisions: move SRCREV to every recipe
+Subject: Re: error: LOOP: udev/ libudev during do_rootfs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,38 +46,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 May 2011 17:13:19 -0000
+X-List-Received-Date: Wed, 04 May 2011 22:14:05 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-2011/5/4 Richard Purdie <richard.purdie@linuxfoundation.org>
+Hello Mark,
 
-> On Wed, 2011-05-04 at 16:24 +0200, Frans Meulenbroeks wrote:
-> > Most of the time the SRCREV is before the PV, but not always (and
-> sometimes
-> > separated with an empty line and sometimes not).
+thanks for your response.
+
+On Wed, May 4, 2011 at 12:31 AM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> On 5/3/11 5:19 PM, Leon Woestenberg wrote:
+>> on oe-core I'm testing the addition of powerpc-linux-gnuspe targets.
+>> | error: LOOP:
+>> | error: removing udev-164-r1.ppce500v2 "Requires: libudev0 >=3D 164"
+>> from tsort relations.
+>> | error: removing libudev0-164-r1.ppce500v2 "Requires: udev =3D 164-r1"
+>> from tsort relations.
+>> | Preparing... =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0##########################=
+########################
+>> | ERROR: Function 'do_rootfs' failed (see
 >
-> Patches welcome...
+> In the past I've only seen this type of "mystery" failure when PSEUDO was=
+ not be
+> run properly. =A0(pseudo is being configured by the "bitbake" wrapper, lo=
+cated in
+> the scripts directory. =A0It has to be preloaded by the wrapper for perfo=
+rmance
+> reasons during the build.) =A0If you are not using the bitbake wrapper sc=
+ript
+> (automatically added to your environment when you use the environment set=
+up
+> script oe-init-build-env) you will need to either use the environment set=
+up
+> script, or add the wrapper to your path [or call it directly].
 >
-
-I know. It was more a hint for future changes.
-Also this probably should be part of a more global style cleanup to make
-things more according to the style guide.
-
-[...]
-
-> >
-> > PS: speaking of yaffs2 utils: it could be considered to move to a
-> somewhat
-> > newer version (not that I care as I do not use yaffs2)
+> If the wrapper is being invoked, I have some further checks to verify beh=
+avior
+> on your system.
 >
-> It is something we should look at going, yes although I don't think
-> yaffs2 has changed that much in a while.
+> If the failures continue, what type of host system do you have (distro), =
+and
+> what version of libc? =A0Do you have both 32-bit and 64-bit libraries and
+> executables installed?
 >
-> The latest changes are about 13 months old, but there seem to be quite some
-changes since 2007 (although quite some seem cosmetical).
+Ubuntu 10.04 32-bit only, glibc 2.11.1
+Linux sideways 2.6.32-25-generic-pae #44-Ubuntu SMP Fri Sep 17
+21:57:48 UTC 2010 i686 GNU/Linux
 
-(btw there is also an abiword cvs recipe with a srcdate of 2007; somehow odd
-given the number of regular releases abiword has).
+$ . oe-init-build-env
+$ which bitbake
+/home/leon/sandbox/sidebranch/yocto/oe-core/scripts/bitbake
 
-Frans.
+OE Build Configuration:
+BB_VERSION        =3D "1.13.0"
+METADATA_BRANCH   =3D "master"
+METADATA_REVISION =3D "472c04ed1a8715243de0c5430883bc23d60aca19"
+TARGET_ARCH       =3D "powerpc"
+TARGET_OS         =3D "linux-gnuspe"
+MACHINE           =3D "p2020rdb"
+DISTRO            =3D "poky"
+DISTRO_VERSION    =3D "0.9+snapshot-20110504"
+TARGET_FPU        =3D ""
+
+I could reproduce twice from scratch, and the problem repeats by
+running bitbake core-image-minimal again.
+
+On an earlier snapshot of oe-core with meta-openembedded, I didn't run
+into this.
+
+I will now rerun against MACHINE=3Dmpc8315e-rdb.
+
+Regards,
+
+Leon.
+
 
