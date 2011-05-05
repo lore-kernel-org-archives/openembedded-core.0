@@ -1,26 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QHtTj-0003GR-DE
+	(envelope-from <sgw@linux.intel.com>) id 1QHtTk-0002yt-H2
 	for openembedded-core@lists.openembedded.org;
 	Thu, 05 May 2011 10:00:08 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 05 May 2011 00:57:27 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 05 May 2011 00:57:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,318,1301900400"; d="scan'208";a="430915751"
+X-IronPort-AV: E=Sophos;i="4.64,318,1301900400"; d="scan'208";a="918293027"
 Received: from unknown (HELO localhost) ([10.255.13.11])
-	by azsmga001.ch.intel.com with ESMTP; 05 May 2011 00:57:25 -0700
-Message-Id: <5811918639835ba1db4567f7c6f7e97ea71eebf9.1304581770.git.sgw@linux.intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 05 May 2011 00:57:30 -0700
+Message-Id: <3a34a8ef854bc1d75b2ea6079ccf7f0f91c880a0.1304581770.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1304581769.git.sgw@linux.intel.com>
 References: <cover.1304581769.git.sgw@linux.intel.com>
-Old-Date: Wed, 4 May 2011 10:35:41 -0700
-Date: Thu, 05 May 2011  0:57:25 -0700
+Old-Date: Wed, 4 May 2011 21:23:35 -0700
+Date: Thu, 05 May 2011  0:57:30 -0700
 To: openembedded-core@lists.openembedded.org,bruce.ashfield@windriver.com
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Kyle McMartin <kyle@redhat.com>, Greg Kroah-Hartman <gregkh@suse.de>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Arnaldo Carvalho de Melo <acme@redhat.com>,
 	Kang Kai <kai.kang@windriver.com>, Thomas Meyer <thomas@m3y3r.de>
-Subject: [PATCH 19/26] linux-yocto_git.bb: Backport upstream fix for gcc 4.6 compilation
+Subject: [PATCH 22/26] gnome-doc-utils: Add -nonet option to xsltproc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,304 +35,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2011 08:00:08 -0000
+X-List-Received-Date: Thu, 05 May 2011 08:00:09 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Scott Garman <scott.a.garman@intel.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+This adds the -nonet option to xsltproc invocations, which fixes
+compile errors when building gnome-doc-xslt-de.omf.
+
+Also add intltool-native to DEPENDS, which was discovered to be
+needed when building this recipe.
+
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- .../perf-tool-Fix-gcc-4.6.0-issues.patch           |  266 ++++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto_git.bb       |    4 +-
- 2 files changed, 269 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto/perf-tool-Fix-gcc-4.6.0-issues.patch
+ meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    2 +-
+ .../gnome/gnome-doc-utils/xsltproc_nonet.patch     |   34 ++++++++++++++++++++
+ meta/recipes-gnome/gnome/gnome-doc-utils_0.20.5.bb |    4 ++-
+ 3 files changed, 38 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/xsltproc_nonet.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto/perf-tool-Fix-gcc-4.6.0-issues.patch b/meta/recipes-kernel/linux/linux-yocto/perf-tool-Fix-gcc-4.6.0-issues.patch
+diff --git a/meta/recipes-gnome/gnome/gnome-doc-utils.inc b/meta/recipes-gnome/gnome/gnome-doc-utils.inc
+index 30cff36..903d080 100644
+--- a/meta/recipes-gnome/gnome/gnome-doc-utils.inc
++++ b/meta/recipes-gnome/gnome/gnome-doc-utils.inc
+@@ -1,6 +1,6 @@
+ LICENSE = "GPL LGPL"
+ DEPENDS = "libxml2 libxslt libxslt-native gnome-doc-utils-native"
+-DEPENDS_virtclass-native = "libxml2-native libxslt-native"
++DEPENDS_virtclass-native = "libxml2-native libxslt-native intltool-native"
+ 
+ inherit gnome gettext
+ 
+diff --git a/meta/recipes-gnome/gnome/gnome-doc-utils/xsltproc_nonet.patch b/meta/recipes-gnome/gnome/gnome-doc-utils/xsltproc_nonet.patch
 new file mode 100644
-index 0000000..c3510ad
+index 0000000..73d22bf
 --- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto/perf-tool-Fix-gcc-4.6.0-issues.patch
-@@ -0,0 +1,266 @@
-+Backported to linux-yocto kernel git version
++++ b/meta/recipes-gnome/gnome/gnome-doc-utils/xsltproc_nonet.patch
+@@ -0,0 +1,34 @@
++This adds the -nonet option to xsltproc invocations, which fixes
++compile errors when building gnome-doc-xslt-de.omf.
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
 +
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
-+From patchwork Tue Apr 19 20:09:19 2011
-+Content-Type: text/plain; charset="utf-8"
-+MIME-Version: 1.0
-+Content-Transfer-Encoding: 7bit
-+Subject: [70/70] perf tool: Fix gcc 4.6.0 issues
-+Date: Tue, 19 Apr 2011 20:09:19 -0000
-+From: Greg Kroah-Hartman <gregkh@suse.de>
-+X-Patchwork-Id: 719212
-+Message-Id: <20110419201050.665258193@clark.kroah.org>
-+To: linux-kernel@vger.kernel.org, stable@kernel.org
-+Cc: stable-review@kernel.org, torvalds@linux-foundation.org,
-+ akpm@linux-foundation.org, alan@lxorguk.ukuu.org.uk,
-+ Ingo Molnar <mingo@redhat.com>, Kyle McMartin <kyle@redhat.com>,
-+ Arnaldo Carvalho de Melo <acme@redhat.com>, Thomas Meyer <thomas@m3y3r.de>
++diff -urN gnome-doc-utils-0.20.5.orig//doc/xslt/Makefile.am gnome-doc-utils-0.20.5/doc/xslt/Makefile.am
++--- gnome-doc-utils-0.20.5.orig//doc/xslt/Makefile.am	2011-03-22 06:56:17.000000000 -0700
+++++ gnome-doc-utils-0.20.5/doc/xslt/Makefile.am	2011-05-04 21:03:29.382491164 -0700
++@@ -21,14 +21,14 @@
++ 
++ $(xsldoc_docs): $(xsldoc_xsls) xsldoc.awk xsldoc-fill.xsl
++ 	$(GDU_AWK) -f "$(srcdir)/xsldoc.awk" "$(filter %/$(basename $(notdir $@)).xsl,$(xsldoc_xsls))" \
++-	| xsltproc -o "$@" \
+++	| xsltproc -nonet -o "$@" \
++ 	--stringparam basename "$(basename $(notdir $@))" \
++ 	--stringparam xsl_file "$(filter %/$(basename $(notdir $@)).xsl,$(xsldoc_xsls))" \
++ 	"$(srcdir)/xsldoc-fill.xsl" -
++ 
++ $(xsldoc_xmls): xsldoc-docbook.xsl
++ $(xsldoc_xmls): C/%.xml : C/%.xsldoc
++-	xsltproc -o "$@" \
+++	xsltproc -nonet -o "$@" \
++ 	--stringparam basename "$(basename $(notdir $@))" \
++ 	--stringparam xsl_file "$(filter %/$(basename $(notdir $@)).xsl,$(xsldoc_xsls))" \
++ 	"$(srcdir)/xsldoc-docbook.xsl" "$<"
++@@ -75,4 +75,4 @@
++ DOC_MODULE = gnome-doc-xslt
++ DOC_INCLUDES = legal.xml translating.xml $(patsubst %,%.xml,$(xsldoc_base))
++ 
++-DOC_LINGUAS = de
++\ No newline at end of file
+++DOC_LINGUAS = de
+diff --git a/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.5.bb b/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.5.bb
+index 94b5aec..1c864b2 100644
+--- a/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.5.bb
++++ b/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.5.bb
+@@ -1,7 +1,9 @@
+ require gnome-doc-utils.inc
+ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=eb723b61539feef013de476e68b5c50a \
+ 		    file://COPYING.LGPL;md5=a6f89e2100d9b6cdffcea4f398e37343"
+-PR = "r0"
++PR = "r1"
 +
-+2.6.38-stable review patch.  If anyone has any objections, please let us know.
-+
-+------------------
-+
-+From: Kyle McMartin <kyle@mcmartin.ca>
-+
-+commit fb7d0b3cefb80a105f7fd26bbc62e0cbf9192822 upstream.
-+
-+GCC 4.6.0 in Fedora rawhide turned up some compile errors in tools/perf
-+due to the -Werror=unused-but-set-variable flag.
-+
-+I've gone through and annotated some of the assignments that had side
-+effects (ie: return value from a function) with the __used annotation,
-+and in some cases, just removed unused code.
-+
-+In a few cases, we were assigning something useful, but not using it in
-+later parts of the function.
-+
-+kyle@dreadnought:~/src% gcc --version
-+gcc (GCC) 4.6.0 20110122 (Red Hat 4.6.0-0.3)
-+
-+Cc: Ingo Molnar <mingo@redhat.com>
-+LKML-Reference: <20110124161304.GK27353@bombadil.infradead.org>
-+Signed-off-by: Kyle McMartin <kyle@redhat.com>
-+[ committer note: Fixed up the annotation fixes, as that code moved recently ]
-+Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-+[Backported to 2.6.38.2 by deleting unused but set variables]
-+Signed-off-by: Thomas Meyer <thomas@m3y3r.de>
-+Signed-off-by: Greg Kroah-Hartman <gregkh@suse.de>
-+
-+---
-+tools/perf/bench/sched-pipe.c                          |    2 +-
-+ tools/perf/builtin-sched.c                             |   12 +++---------
-+ tools/perf/builtin-top.c                               |    5 +----
-+ tools/perf/util/header.c                               |    2 +-
-+ tools/perf/util/hist.c                                 |    3 ---
-+ tools/perf/util/scripting-engines/trace-event-python.c |    3 +--
-+ tools/perf/util/symbol.c                               |    4 ++--
-+ tools/perf/util/trace-event-parse.c                    |    2 +-
-+ tools/perf/util/ui/browsers/map.c                      |    2 +-
-+ 9 files changed, 11 insertions(+), 24 deletions(-)
-+
-+
-+
-+--
-+To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-+the body of a message to majordomo@vger.kernel.org
-+More majordomo info at  http://vger.kernel.org/majordomo-info.html
-+Please read the FAQ at  http://www.tux.org/lkml/
-+
-+Index: linux/tools/perf/bench/sched-pipe.c
-+===================================================================
-+--- linux.orig/tools/perf/bench/sched-pipe.c
-++++ linux/tools/perf/bench/sched-pipe.c
-+@@ -55,7 +55,7 @@ int bench_sched_pipe(int argc, const cha
-+ 	 * discarding returned value of read(), write()
-+ 	 * causes error in building environment for perf
-+ 	 */
-+-	int ret, wait_stat;
-++	int __used ret, wait_stat;
-+ 	pid_t pid, retpid;
-+ 
-+ 	argc = parse_options(argc, argv, options,
-+Index: linux/tools/perf/builtin-sched.c
-+===================================================================
-+--- linux.orig/tools/perf/builtin-sched.c
-++++ linux/tools/perf/builtin-sched.c
-+@@ -369,11 +369,6 @@ static void
-+ process_sched_event(struct task_desc *this_task __used, struct sched_atom *atom)
-+ {
-+ 	int ret = 0;
-+-	u64 now;
-+-	long long delta;
-+-
-+-	now = get_nsecs();
-+-	delta = start_time + atom->timestamp - now;
-+ 
-+ 	switch (atom->type) {
-+ 		case SCHED_EVENT_RUN:
-+@@ -561,7 +556,7 @@ static void wait_for_tasks(void)
-+ 
-+ static void run_one_test(void)
-+ {
-+-	u64 T0, T1, delta, avg_delta, fluct, std_dev;
-++	u64 T0, T1, delta, avg_delta, fluct;
-+ 
-+ 	T0 = get_nsecs();
-+ 	wait_for_tasks();
-+@@ -577,7 +572,6 @@ static void run_one_test(void)
-+ 	else
-+ 		fluct = delta - avg_delta;
-+ 	sum_fluct += fluct;
-+-	std_dev = sum_fluct / nr_runs / sqrt(nr_runs);
-+ 	if (!run_avg)
-+ 		run_avg = delta;
-+ 	run_avg = (run_avg*9 + delta)/10;
-+@@ -798,7 +792,7 @@ replay_switch_event(struct trace_switch_
-+ 		    u64 timestamp,
-+ 		    struct thread *thread __used)
-+ {
-+-	struct task_desc *prev, *next;
-++	struct task_desc *prev, __used *next;
-+ 	u64 timestamp0;
-+ 	s64 delta;
-+ 
-+@@ -1403,7 +1397,7 @@ map_switch_event(struct trace_switch_eve
-+ 		 u64 timestamp,
-+ 		 struct thread *thread __used)
-+ {
-+-	struct thread *sched_out, *sched_in;
-++	struct thread *sched_out __used, *sched_in;
-+ 	int new_shortname;
-+ 	u64 timestamp0;
-+ 	s64 delta;
-+Index: linux/tools/perf/builtin-top.c
-+===================================================================
-+--- linux.orig/tools/perf/builtin-top.c
-++++ linux/tools/perf/builtin-top.c
-+@@ -180,7 +180,6 @@ static int parse_source(struct sym_entry
-+ 	FILE *file;
-+ 	char command[PATH_MAX*2];
-+ 	const char *path;
-+-	u64 len;
-+ 
-+ 	if (!syme)
-+ 		return -1;
-+@@ -209,8 +208,6 @@ static int parse_source(struct sym_entry
-+ 	}
-+ 	path = map->dso->long_name;
-+ 
-+-	len = sym->end - sym->start;
-+-
-+ 	sprintf(command,
-+ 		"objdump --start-address=%#0*Lx --stop-address=%#0*Lx -dS %s",
-+ 		BITS_PER_LONG / 4, map__rip_2objdump(map, sym->start),
-+@@ -1263,7 +1260,7 @@ static int __cmd_top(void)
-+ {
-+ 	pthread_t thread;
-+ 	int i, counter;
-+-	int ret;
-++	int ret __used;
-+ 	/*
-+ 	 * FIXME: perf_session__new should allow passing a O_MMAP, so that all this
-+ 	 * mmap reading, etc is encapsulated in it. Use O_WRONLY for now.
-+Index: linux/tools/perf/util/header.c
-+===================================================================
-+--- linux.orig/tools/perf/util/header.c
-++++ linux/tools/perf/util/header.c
-+@@ -1113,7 +1113,7 @@ int event__synthesize_tracing_data(int f
-+ {
-+ 	event_t ev;
-+ 	ssize_t size = 0, aligned_size = 0, padding;
-+-	int err = 0;
-++	int err __used = 0;
-+ 
-+ 	memset(&ev, 0, sizeof(ev));
-+ 
-+Index: linux/tools/perf/util/hist.c
-+===================================================================
-+--- linux.orig/tools/perf/util/hist.c
-++++ linux/tools/perf/util/hist.c
-+@@ -1091,7 +1091,6 @@ int hist_entry__annotate(struct hist_ent
-+ 	char command[PATH_MAX * 2];
-+ 	FILE *file;
-+ 	int err = 0;
-+-	u64 len;
-+ 
-+ 	if (filename == NULL) {
-+ 		if (dso->has_build_id) {
-+@@ -1128,8 +1127,6 @@ fallback:
-+ 		 filename, sym->name, map->unmap_ip(map, sym->start),
-+ 		 map->unmap_ip(map, sym->end));
-+ 
-+-	len = sym->end - sym->start;
-+-
-+ 	pr_debug("annotating [%p] %30s : [%p] %30s\n",
-+ 		 dso, dso->long_name, sym, sym->name);
-+ 
-+Index: linux/tools/perf/util/scripting-engines/trace-event-python.c
-+===================================================================
-+--- linux.orig/tools/perf/util/scripting-engines/trace-event-python.c
-++++ linux/tools/perf/util/scripting-engines/trace-event-python.c
-+@@ -248,8 +248,7 @@ static void python_process_event(int cpu
-+ 	context = PyCObject_FromVoidPtr(scripting_context, NULL);
-+ 
-+ 	PyTuple_SetItem(t, n++, PyString_FromString(handler_name));
-+-	PyTuple_SetItem(t, n++,
-+-			PyCObject_FromVoidPtr(scripting_context, NULL));
-++	PyTuple_SetItem(t, n++, context);
-+ 
-+ 	if (handler) {
-+ 		PyTuple_SetItem(t, n++, PyInt_FromLong(cpu));
-+Index: linux/tools/perf/util/symbol.c
-+===================================================================
-+--- linux.orig/tools/perf/util/symbol.c
-++++ linux/tools/perf/util/symbol.c
-+@@ -1481,8 +1481,8 @@ int dso__load(struct dso *self, struct m
-+ 			snprintf(name, size, "%s", self->long_name);
-+ 			break;
-+ 		case DSO__ORIG_GUEST_KMODULE:
-+-			if (map->groups && map->groups->machine)
-+-				root_dir = map->groups->machine->root_dir;
-++			if (map->groups && machine)
-++				root_dir = machine->root_dir;
-+ 			else
-+ 				root_dir = "";
-+ 			snprintf(name, size, "%s%s", root_dir, self->long_name);
-+Index: linux/tools/perf/util/trace-event-parse.c
-+===================================================================
-+--- linux.orig/tools/perf/util/trace-event-parse.c
-++++ linux/tools/perf/util/trace-event-parse.c
-+@@ -153,7 +153,7 @@ void parse_proc_kallsyms(char *file, uns
-+ 	char *next = NULL;
-+ 	char *addr_str;
-+ 	char ch;
-+-	int ret;
-++	int ret __used;
-+ 	int i;
-+ 
-+ 	line = strtok_r(file, "\n", &next);
-+Index: linux/tools/perf/util/ui/browsers/map.c
-+===================================================================
-+--- linux.orig/tools/perf/util/ui/browsers/map.c
-++++ linux/tools/perf/util/ui/browsers/map.c
-+@@ -40,7 +40,7 @@ static int ui_entry__read(const char *ti
-+ out_free_form:
-+ 	newtPopWindow();
-+ 	newtFormDestroy(form);
-+-	return 0;
-++	return err;
-+ }
-+ 
-+ struct map_browser {
-+Index: linux/tools/perf/builtin-stat.c
-+===================================================================
-+--- linux.orig/tools/perf/builtin-stat.c
-++++ linux/tools/perf/builtin-stat.c
-+@@ -211,7 +211,7 @@ static void read_counter(int counter)
-+ 	u64 count[3], single_count[3];
-+ 	int cpu;
-+ 	size_t res, nv;
-+-	int scaled;
-++	int scaled __used;
-+ 	int i, thread;
-+ 
-+ 	count[0] = count[1] = count[2] = 0;
-diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_git.bb
-index 8a46e02..834b773 100644
---- a/meta/recipes-kernel/linux/linux-yocto_git.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_git.bb
-@@ -35,7 +35,9 @@ PR = "r16"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- SRCREV_FORMAT = "meta_machine"
++SRC_URI += "file://xsltproc_nonet.patch"
  
--SRC_URI = "git://git.yoctoproject.org/linux-yocto-2.6.37;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-2.6.37;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta \
-+           file://perf-tool-Fix-gcc-4.6.0-issues.patch \
-+          "
- 
- COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64|mpc8315e-rdb|routerstationpro|beagleboard)"
- 
+ SRC_URI[archive.md5sum] = "3aa1f651834714090cdbf898ec090a98"
+ SRC_URI[archive.sha256sum] = "08d99b8ab813fadd3407873e4a30282debce92e22eb1b45430a8bb9c120e2130"
 -- 
 1.7.1.1
 
