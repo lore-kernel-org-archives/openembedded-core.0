@@ -1,26 +1,29 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QHtU7-0003Qz-8q
+	(envelope-from <koen@dominion.thruhere.net>) id 1QHtfE-0003en-2s
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 May 2011 10:00:31 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 05 May 2011 00:57:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,318,1301900400"; d="scan'208";a="638340094"
-Received: from unknown (HELO localhost) ([10.255.13.11])
-	by orsmga002.jf.intel.com with ESMTP; 05 May 2011 00:57:35 -0700
-Message-Id: <58459111d610bd06ffe5a88eaa412a8af729c5f2.1304581770.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1304581769.git.sgw@linux.intel.com>
+	Thu, 05 May 2011 10:12:00 +0200
+Received: by wwb17 with SMTP id 17so1714468wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 May 2011 01:09:15 -0700 (PDT)
+Received: by 10.227.157.134 with SMTP id b6mr1708457wbx.59.1304582953387;
+	Thu, 05 May 2011 01:09:13 -0700 (PDT)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id
+	z13sm1183142wbd.29.2011.05.05.01.09.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 05 May 2011 01:09:09 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <70f1d28d6c05982c3b06abe5ce069705dfd1fee9.1304581769.git.sgw@linux.intel.com>
+Date: Thu, 5 May 2011 10:09:07 +0200
+Message-Id: <35853380-9ABD-432A-BAE2-239E0536B654@dominion.thruhere.net>
 References: <cover.1304581769.git.sgw@linux.intel.com>
-Old-Date: Wed, 4 May 2011 22:42:26 -0500
-Date: Thu, 05 May 2011  0:57:35 -0700
-To: openembedded-core@lists.openembedded.org,bruce.ashfield@windriver.com
-From: Saul Wold <sgw@linux.intel.com>
-Cc: Kyle McMartin <kyle@redhat.com>, Greg Kroah-Hartman <gregkh@suse.de>,
-	Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Kang Kai <kai.kang@windriver.com>, Thomas Meyer <thomas@m3y3r.de>
-Subject: [PATCH 26/26] boot-directdisk: fix bzImage source location
+	<70f1d28d6c05982c3b06abe5ce069705dfd1fee9.1304581769.git.sgw@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 05/26] setuptools: Make options for setup.py more flexible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +38,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2011 08:00:31 -0000
+X-List-Received-Date: Thu, 05 May 2011 08:12:00 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Tom Zanussi <tom.zanussi@intel.com>
+I NAK'ed this before, and will NAK it again.
 
-Fixes yocto [BUGID #876]
+See =
+http://lists.linuxtogo.org/pipermail/openembedded-core/2011-April/001265.h=
+tml
 
-boot-directdisk.class looks in the wrong location for the bzImage to
-install.  Make it look in the right place.
+Op 5 mei 2011, om 09:55 heeft Saul Wold het volgende geschreven:
 
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
----
- meta/classes/boot-directdisk.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-index d87dc22..8879ba8 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -49,7 +49,7 @@ build_boot_dd() {
- 	IMAGE=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect
- 
- 	install -d ${HDDDIR}
--	install -m 0644 ${STAGING_DIR}/${MACHINE}${HOST_VENDOR}-${HOST_OS}/kernel/bzImage ${HDDDIR}/vmlinuz
-+	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage ${HDDDIR}/vmlinuz
- 	install -m 444 ${STAGING_LIBDIR}/syslinux/ldlinux.sys ${HDDDIR}/ldlinux.sys
- 
- 	BLOCKS=`du -bks ${HDDDIR} | cut -f 1`
--- 
-1.7.1.1
+> From: Gary Thomas <gary@mlbassoc.com>
+>=20
+> The setuptools class uses hard-wired options for 'setup.py' during
+> the install step.  In particular, not all versions of setup.py
+> support the "--single-version-externally-managed" option.  This
+> patch allows for a recipe to easily override these options, while
+> leaving the majority (important) setup options intact.
+>=20
+> --
+> ------------------------------------------------------------
+> Gary Thomas                 |  Consulting for the
+> MLB Associates              |    Embedded world
+> ------------------------------------------------------------
+>=20
+>> =46rom 0afbe6b9477c207e37009c8ef5aa47b3438640a9 Mon Sep 17 00:00:00 =
+2001
+> From: Gary Thomas <gary@mlbassoc.com>
+> Date: Wed, 13 Apr 2011 15:12:57 -0600
+> Subject: [PATCH] setuptools: Make options for setup.py more flexible
+>=20
+> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> meta/classes/setuptools.bbclass |    3 ++-
+> 1 files changed, 2 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/classes/setuptools.bbclass =
+b/meta/classes/setuptools.bbclass
+> index ced9509..cf1c224 100644
+> --- a/meta/classes/setuptools.bbclass
+> +++ b/meta/classes/setuptools.bbclass
+> @@ -2,7 +2,8 @@ inherit distutils
+>=20
+> DEPENDS +=3D "python-setuptools-native"
+>=20
+> +DISTUTILS_INSTALL_OPTS ?=3D "--single-version-externally-managed "
+> DISTUTILS_INSTALL_ARGS =3D "--root=3D${D} \
+> -    --single-version-externally-managed \
+> +    ${DISTUTILS_INSTALL_OPTS} \
+>     --prefix=3D${prefix} \
+>     --install-data=3D${datadir}"
+> --=20
+> 1.7.1.1
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
