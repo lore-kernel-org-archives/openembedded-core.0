@@ -1,26 +1,26 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QHtTp-0003KW-Uu
+	(envelope-from <sgw@linux.intel.com>) id 1QHtTq-0003KW-MA
 	for openembedded-core@lists.openembedded.org;
 	Thu, 05 May 2011 10:00:14 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 05 May 2011 00:57:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,318,1301900400"; d="scan'208";a="742664714"
+X-IronPort-AV: E=Sophos;i="4.64,318,1301900400"; d="scan'208";a="742664707"
 Received: from unknown (HELO localhost) ([10.255.13.11])
-	by orsmga001.jf.intel.com with ESMTP; 05 May 2011 00:57:20 -0700
-Message-Id: <e9657c6bea34cdd406957589c3ec5e94130f8f74.1304581770.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 05 May 2011 00:57:13 -0700
+Message-Id: <937d8a605c88f76608a174e7eeed29f31564447b.1304581770.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1304581769.git.sgw@linux.intel.com>
 References: <cover.1304581769.git.sgw@linux.intel.com>
-Old-Date: Wed, 4 May 2011 16:39:23 -0700
-Date: Thu, 05 May 2011  0:57:20 -0700
+Old-Date: Tue, 3 May 2011 16:45:21 +0800
+Date: Thu, 05 May 2011  0:57:13 -0700
 To: openembedded-core@lists.openembedded.org,bruce.ashfield@windriver.com
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Kyle McMartin <kyle@redhat.com>, Greg Kroah-Hartman <gregkh@suse.de>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Arnaldo Carvalho de Melo <acme@redhat.com>,
 	Kang Kai <kai.kang@windriver.com>, Thomas Meyer <thomas@m3y3r.de>
-Subject: [PATCH 15/26] clutter-gtk-1.4: Rebase patches
+Subject: [PATCH 10/26] foomatic-filters: added to pass LSB commands check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,68 +37,46 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 May 2011 08:00:14 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Kang Kai <kai.kang@windriver.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+foomatic-filters provided foomatic-rip to pass LSB commands check
+Part fixes [Yocto 520]
+
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- .../clutter/clutter-gtk/disable_deprecated.patch   |   22 ++++++++++----------
- .../clutter/clutter-gtk/enable_tests.patch         |   11 ++++-----
- 2 files changed, 16 insertions(+), 17 deletions(-)
+ .../foomatic/foomatic-filters_4.0.7.bb             |   23 ++++++++++++++++++++
+ 1 files changed, 23 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-extended/foomatic/foomatic-filters_4.0.7.bb
 
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk/disable_deprecated.patch b/meta/recipes-graphics/clutter/clutter-gtk/disable_deprecated.patch
-index df0c52c..d11c34e 100644
---- a/meta/recipes-graphics/clutter/clutter-gtk/disable_deprecated.patch
-+++ b/meta/recipes-graphics/clutter/clutter-gtk/disable_deprecated.patch
-@@ -6,14 +6,14 @@ Signed-off-by: Saul Wold <sgw@linux.intel.com>
- 
- Index: git/clutter-gtk/Makefile.am
- ===================================================================
----- git.orig/clutter-gtk/Makefile.am	2011-01-30 13:10:29.000000000 +0800
--+++ git/clutter-gtk/Makefile.am	2011-01-30 13:15:09.000000000 +0800
--@@ -15,8 +15,6 @@
-- 	-DCLUTTER_GTK_COMPILATION	\
-- 	-DG_DISABLE_DEPRECATED		\
-- 	-DGDK_PIXBUF_DISABLE_DEPRECATED	\
---	-DGDK_DISABLE_DEPRECATED	\
---	-DGTK_DISABLE_DEPRECATED	\
-- 	-DCLUTTER_DISABLE_DEPRECATED	\
-- 	$(CLUTTER_GTK_DEBUG_CFLAGS) 	\
-- 	$(NULL)
-+--- git.orig/clutter-gtk/Makefile.am	2011-05-04 14:07:20.000000000 -0700
-++++ git/clutter-gtk/Makefile.am	2011-05-04 14:25:34.013984328 -0700
-+@@ -8,8 +8,6 @@
-+         -DCLUTTER_GTK_COMPILATION               \
-+         -DG_DISABLE_DEPRECATED                  \
-+         -DGDK_PIXBUF_DISABLE_DEPRECATED         \
-+-        -DGDK_DISABLE_DEPRECATED                \
-+-        -DGTK_DISABLE_DEPRECATED                \
-+ 	-DCLUTTER_DISABLE_DEPRECATED
-+ 
-+ AM_CPPFLAGS = \
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk/enable_tests.patch b/meta/recipes-graphics/clutter/clutter-gtk/enable_tests.patch
-index c18ffec..8e3e552 100644
---- a/meta/recipes-graphics/clutter/clutter-gtk/enable_tests.patch
-+++ b/meta/recipes-graphics/clutter/clutter-gtk/enable_tests.patch
-@@ -4,14 +4,13 @@ Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
- 
- Index: git/examples/Makefile.am
- ===================================================================
----- git.orig/examples/Makefile.am	2011-01-31 09:58:47.000000000 +0800
--+++ git/examples/Makefile.am	2011-01-31 09:59:02.000000000 +0800
--@@ -2,7 +2,7 @@
-- 
-+--- git.orig/examples/Makefile.am	2011-05-04 14:07:20.000000000 -0700
-++++ git/examples/Makefile.am	2011-05-04 14:38:29.785984519 -0700
-+@@ -1,6 +1,6 @@
-  NULL =
-  
- -noinst_PROGRAMS = \
- +bin_PROGRAMS = \
-- 	animated-notebook \
-- 	expose-test \
-  	gtk-clutter-events \
-+ 	gtk-clutter-multistage \
-+ 	gtk-clutter-test \
+diff --git a/meta/recipes-extended/foomatic/foomatic-filters_4.0.7.bb b/meta/recipes-extended/foomatic/foomatic-filters_4.0.7.bb
+new file mode 100644
+index 0000000..8d70400
+--- /dev/null
++++ b/meta/recipes-extended/foomatic/foomatic-filters_4.0.7.bb
+@@ -0,0 +1,23 @@
++SUMMARY = "OpenPrinting printer support - filters"
++DESCRIPTION = "Foomatic is a printer database designed to make it easier to set up \
++common printers for use with UNIX-like operating systems.\
++It provides the "glue" between a print spooler (like CUPS or lpr) and \
++the printer, by processing files sent to the printer. \
++ \
++This package consists of filters used by the printer spoolers \
++to convert the incoming PostScript data into the printer's native \
++format using a printer-specific, but spooler-independent PPD file. \
++"
++
++DEPENDS += "cups perl libxml2"
++PR = "r0"
++
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://${WORKDIR}/foomatic-filters-${PV}/COPYING;md5=393a5ca445f6965873eca0259a17f833"
++
++SRC_URI = "http://www.openprinting.org/download/foomatic/foomatic-filters-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "20abd25c1c98b2dae68709062a132a7d"
++SRC_URI[sha256sum] = "090313fae40b177f505d9c9b93d7a4d7188b6d5d18b6ae41ab24903ac983478d"
++
++inherit autotools
 -- 
 1.7.1.1
 
