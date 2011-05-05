@@ -1,31 +1,34 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QHx37-0001EI-U7
-	for openembedded-core@lists.openembedded.org;
-	Thu, 05 May 2011 13:48:53 +0200
-Received: by wye20 with SMTP id 20so1730483wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 May 2011 04:46:14 -0700 (PDT)
-Received: by 10.216.82.77 with SMTP id n55mr2388705wee.52.1304595973728;
-	Thu, 05 May 2011 04:46:13 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	t11sm1045468wes.41.2011.05.05.04.46.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 05 May 2011 04:46:12 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1304595529.20791.25.camel@rex>
-Date: Thu, 5 May 2011 13:46:10 +0200
-Message-Id: <40F9395F-41E1-4780-9E0C-6F0A91362CEB@dominion.thruhere.net>
-References: <cover.1304520272.git.paul.eggleton@linux.intel.com>
-	<21e4929e2ef79647b16852bb6f15537939012b02.1304520272.git.paul.eggleton@linux.intel.com>
-	<1304595529.20791.25.camel@rex>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QHx3A-0001EO-Vb for openembedded-core@lists.openembedded.org;
+	Thu, 05 May 2011 13:48:57 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p45BkHgK010530;
+	Thu, 5 May 2011 12:46:17 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10496-01; Thu,  5 May 2011 12:46:14 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p45Bk9p4010524
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 5 May 2011 12:46:10 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
+In-Reply-To: <201105041621.25113.paul.eggleton@linux.intel.com>
+References: <cover.1304520272.git.paul.eggleton@linux.intel.com>
+	<a6ff3eaba2e8868cf24775725be334f3479d905c.1304520272.git.paul.eggleton@linux.intel.com>
+	<4DC16BA5.1090508@mlbassoc.com>
+	<201105041621.25113.paul.eggleton@linux.intel.com>
+Date: Thu, 05 May 2011 12:46:08 +0100
+Message-ID: <1304595968.20791.26.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: poky@yoctoproject.org
-Subject: Re: [PATCH 3/3] meta-yocto: add pieces removed from oe-core for beagleboard & atom-pc
+Subject: Re: [poky] [PATCH 1/3] Remove machine-specific metadata for machines no longer in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,44 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2011 11:48:54 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 May 2011 11:48:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Wed, 2011-05-04 at 16:21 +0100, Paul Eggleton wrote:
+> On Wednesday 04 May 2011 16:07:17 Gary Thomas wrote:
+> > Perhaps it makes sense to always package netbase in ${MACHINE_ARCH} since
+> > it almost always will have machine specific data?
+> 
+> I'll let someone else comment on this, I don't have a hard opinion either way.
 
-Op 5 mei 2011, om 13:38 heeft Richard Purdie het volgende geschreven:
+Since the exception machines are clearly listed I think its fine as it
+stands at the moment. If we start getting lots of overrides there we can
+rethink it though. Lets see how it goes...
 
-> Hi Paul,
->=20
-> Great work in doing this, thanks. I was just looking at it with a view
-> to making machine support cleaner and I think there are still things =
-we
-> can likely to do help with this. As one example:
->=20
-> On Wed, 2011-05-04 at 15:51 +0100, Paul Eggleton wrote:
->> +++ b/meta-yocto/recipes-qt/qt4/qt4-x11-free_4.6.3.bbappend
->> @@ -0,0 +1,2 @@
->> +QT_GLFLAGS_atom-pc =3D "-opengl"
->> +
->> diff --git a/meta-yocto/recipes-qt/qt4/qt4-x11-free_4.7.2.bbappend =
-b/meta-yocto/recipes-qt/qt4/qt4-x11-free_4.7.2.bbappend
->> new file mode 100644
->> index 0000000..076ade2
->> --- /dev/null
->> +++ b/meta-yocto/recipes-qt/qt4/qt4-x11-free_4.7.2.bbappend
->> @@ -0,0 +1,2 @@
->> +QT_GLFLAGS_atom-pc =3D "-opengl"
->=20
-> could we set QT_GLFLAGS in the machine.conf file instead of using a
-> bbappend?
+Cheers,
 
-Putting such USEFLAGS in machines sounds like a bad idea. In this case =
-enabling it globally and falling back to mesa sw rendering at runtime is =
-a better idea. The GL flag only enables extra API and libs, so it's good =
-to have.
+Richard
 
-regards,
-
-Koen=
 
 
