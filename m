@@ -1,24 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1QHqaW-0008Pz-Am
+	(envelope-from <sgw@linux.intel.com>) id 1QHqoB-0000Tq-AU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 May 2011 06:54:56 +0200
-Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
-	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p454q5rL013993;
-	Wed, 4 May 2011 21:52:11 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Thu,  5 May 2011 00:53:24 -0400
-Message-Id: <f3217350764c369cda717c4da00da1ad1d5408fb.1304570401.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1304570401.git.bruce.ashfield@windriver.com>
-References: <cover.1304570401.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1304570401.git.bruce.ashfield@windriver.com>
-References: <cover.1304570401.git.bruce.ashfield@windriver.com>
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org,
-	poky@yoctoproject.org, saul.wold@intel.com
-Subject: [PATCH 3/3] linux-yocto: update SRCREVs
+	Thu, 05 May 2011 07:09:04 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 04 May 2011 22:06:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,318,1301900400"; d="scan'208";a="430846111"
+Received: from unknown (HELO [10.255.13.11]) ([10.255.13.11])
+	by azsmga001.ch.intel.com with ESMTP; 04 May 2011 22:06:21 -0700
+Message-ID: <4DC2304D.70205@linux.intel.com>
+Date: Wed, 04 May 2011 22:06:21 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1303889119.git.sgw@linux.intel.com>	<ed1614da74a5bf5820855d9d5bd9ab6213bc36de.1303889119.git.sgw@linux.intel.com>	<1303981290.21461.39.camel@rex>	<BANLkTimx4ry=vZdiNzYna1EE121Q85mUOA@mail.gmail.com>	<1304424898.21461.107.camel@rex>	<20110503180447.GB5436@sakrah.homelinux.org>	<1304462379.21461.144.camel@rex>	<BANLkTi=y+rFFeojpoX_OB2uoswF373P_Ww@mail.gmail.com>
+	<20110505041912.GA10374@sakrah.homelinux.org>
+In-Reply-To: <20110505041912.GA10374@sakrah.homelinux.org>
+Subject: Re: [PATCH 36/52] gettext.bbclass: Use _append instead of =+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,89 +36,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2011 04:54:57 -0000
+X-List-Received-Date: Thu, 05 May 2011 05:09:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Updating the linux-yocto/2.6.37 SRCREVs to pickup:
+On 05/04/2011 09:19 PM, Khem Raj wrote:
+> On (04/05/11 18:07), Khem Raj wrote:
+>> On Tue, May 3, 2011 at 3:39 PM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org>  wrote:
+>>> On Tue, 2011-05-03 at 11:04 -0700, Khem Raj wrote:
+>>>> This has the same problem It empties out DEPENDS_GETTEXT after they have
+>>>> have already been added to DEPENDS via virtclass e.g. when you build
+>>>> gcc-runtime-nativesdk it will report a dep loop since now it depends on
+>>>> virtual/gettext-nativesdk (added by gettext class)
+>>>> and virtual/gettext-nativesdk depends on compilerlibs
+>>>> provided by gcc-runtime-nativesdk. This was same problem I was trying to
+>>>> circumvent
+>>>
+>>> Ok, how about this version:
+>>>
+>>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+>>> index 4f20bc2..3b83e42 100644
+>>> --- a/meta/classes/base.bbclass
+>>> +++ b/meta/classes/base.bbclass
+>>> @@ -89,9 +89,11 @@ def base_dep_prepend(d):
+>>>                         deps += " virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}compilerlibs virtual/libc "
+>>>         return deps
+>>>
+>>> -DEPENDS_prepend="${@base_dep_prepend(d)} "
+>>> -DEPENDS_virtclass-native_prepend="${@base_dep_prepend(d)} "
+>>> -DEPENDS_virtclass-nativesdk_prepend="${@base_dep_prepend(d)} "
+>>> +BASEDEPENDS = "${@base_dep_prepend(d)}"
+>>> +
+>>> +DEPENDS_prepend="${BASEDEPENDS} "
+>>> +DEPENDS_virtclass-native_prepend="${BASEDEPENDS} "
+>>> +DEPENDS_virtclass-nativesdk_prepend="${BASEDEPENDS} "
+>>>
+>>>   FILESPATH = "${@base_set_filespath([ "${FILE_DIRNAME}/${PF}", "${FILE_DIRNAME}/${P}", "${FILE_DIRNAME}/${PN}", "${FILE_DIRNAME}/${BP}", "${FILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files", "${FILE_DIRNAME}" ], d)}"
+>>>   # THISDIR only works properly with imediate expansion as it has to run
+>>> diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+>>> index a40e74f..6f79e5e 100644
+>>> --- a/meta/classes/gettext.bbclass
+>>> +++ b/meta/classes/gettext.bbclass
+>>> @@ -1,17 +1,17 @@
+>>> -def gettext_after_parse(d):
+>>> -    # Remove the NLS bits if USE_NLS is no.
+>>> -    if bb.data.getVar('USE_NLS', d, 1) == 'no':
+>>> -        cfg = oe_filter_out('^--(dis|en)able-nls$', bb.data.getVar('EXTRA_OECONF', d, 1) or "", d)
+>>> -        cfg += " --disable-nls"
+>>> -        depends = bb.data.getVar('DEPENDS', d, 1) or ""
+>>> -        bb.data.setVar('DEPENDS', oe_filter_out('^(virtual/libiconv|virtual/libintl)$', depends, d), d)
+>>> -        bb.data.setVar('EXTRA_OECONF', cfg, d)
+>>> +def gettext_dependencies(d):
+>>> +    if d.getVar('USE_NLS', True) == 'no':
+>>> +        return ""
+>>> +    if bb.data.getVar('INHIBIT_DEFAULT_DEPS', d, True) and not oe.utils.inherits(d, 'cross-canadian'):
+>>> +        return ""
+>>> +    return d.getVar('DEPENDS_GETTEXT', False)
+>>>
+>>> -python () {
+>>> -    gettext_after_parse(d)
+>>> -}
+>>> +def gettext_oeconf(d):
+>>> +    # Remove the NLS bits if USE_NLS is no.
+>>> +    if d.getVar('USE_NLS', True) == 'no':
+>>> +        return '--disable-nls'
+>>> +    return "--enable-nls"
+>>>
+>>> -DEPENDS_GETTEXT = "gettext gettext-native"
+>>> +DEPENDS_GETTEXT = "virtual/gettext gettext-native"
+>>>
+>>> -DEPENDS =+ "${DEPENDS_GETTEXT}"
+>>> -EXTRA_OECONF += "--enable-nls"
+>>> +BASEDEPENDS =+ "${@gettext_dependencies(d)}"
+>>> +EXTRA_OECONF += "${@gettext_oeconf(d)}"
+>>>
+>>>
+>>
+>> a build from scratch revealed few more issues with this patch too.
+>>
+>> 1. We have to only remove gettext from dependencies if its a target
+>> package for all other it still it needed otherwise all native and
+>> cross tools start failing to build
+>>   e.g. binutils-cross this can be easily solved by a patch
+>>
+>> iff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+>> index 6f79e5e..cc39204 100644
+>> --- a/meta/classes/gettext.bbclass
+>> +++ b/meta/classes/gettext.bbclass
+>> @@ -1,5 +1,5 @@
+>>   def gettext_dependencies(d):
+>> -    if d.getVar('USE_NLS', True) == 'no':
+>> +    if d.getVar('USE_NLS', True) == 'no' and not oe.utils.inherits(d,
+>> 'native', 'nativesdk', 'cross')
+>>           return ""
+>>       if bb.data.getVar('INHIBIT_DEFAULT_DEPS', d, True) and not
+>> oe.utils.inherits(d, 'cross-canadian')
+>>           return ""
+>>
+>>
+>> second problem is that EXTRA_OECONF when recipes override it instead
+>> of += or appending etc.
+>> then --enable|--disable-nls that we added via gettext_oeconf() is lost
+>> as a result some packages complain about config.rpath
+>> when USE_NLS is set to no the reason is their configure is missing the
+>> argument --disable-nls this works ok
+>> for eglibc based targets since default is to enable-nls if nothing is
+>> specified but uclibc fails. As a testcase try to preprocess
+>> utils-linux
+>> recipe and check the contents of EXTRA_OECONF
+>
+> attached is a patch on top of this patch which fixes both the issues I
+> mentioned. I also thought of defining USE_NLS to yes in
+> native/cross/nativesdk classes but then I resorted to add the check in
+> gettext.bbclass
+>
+Khem,
 
-    perf tool: Fix gcc 4.6.0 issues
+Are you refering to the changes above?  If so, it would be better to 
+have it in a proper patch email, if you could resend with just the patch 
+and comments that would be most appreciated.
 
-    1/1 [
-    Author: Kyle McMartin
-    Email: kyle@mcmartin.ca
-    Subject: perf tool: Fix gcc 4.6.0 issues
-    Date: Thu, 5 May 2011 00:06:01 -0400
+Thanks
+	Sau!
 
-    commit fb7d0b3cefb80a105f7fd26bbc62e0cbf9192822 upstream.
-
-    GCC 4.6.0 in Fedora rawhide turned up some compile errors in tools/perf
-    due to the -Werror=unused-but-set-variable flag.
-
-    I've gone through and annotated some of the assignments that had side
-    effects (ie: return value from a function) with the __used annotation,
-    and in some cases, just removed unused code.
-
-    In a few cases, we were assigning something useful, but not using it in
-    later parts of the function.
-
-    kyle@dreadnought:~/src% gcc --version
-    gcc (GCC) 4.6.0 20110122 (Red Hat 4.6.0-0.3)
-
-    Cc: Ingo Molnar <mingo@redhat.com>
-    LKML-Reference: <20110124161304.GK27353@bombadil.infradead.org>
-    Signed-off-by: Kyle McMartin <kyle@redhat.com>
-    [ committer note: Fixed up the annotation fixes, as that code moved recently ]
-    Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-    [Backported to 2.6.38.2 by deleting unused but set variables]
-    Signed-off-by: Thomas Meyer <thomas@m3y3r.de>
-    Signed-off-by: Greg Kroah-Hartman <gregkh@suse.de>
-    [Backported to linux-yocto kernel git version]
-    Signed-off-by: Khem Raj <raj.khem@gmail.com>
-    ]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto_git.bb |   24 ++++++++++++------------
- 1 files changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_git.bb
-index 8a46e02..3b4e77e 100644
---- a/meta/recipes-kernel/linux/linux-yocto_git.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_git.bb
-@@ -18,20 +18,20 @@ KMETA = meta
- LINUX_VERSION ?= "2.6.37"
- LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
- 
--SRCREV_machine_qemuarm = "e5ca41def834db9d18b28393a45d53a8d18f3d05"
--SRCREV_machine_qemumips = "9bbc8e3432406429923fab0de038af5d3e647901"
--SRCREV_machine_qemuppc = "f0ff494e62bfaa921e844c1ec7fe6cf4a977980a"
--SRCREV_machine_qemux86 = "cb0537a40dadea20f12bc10e0986fd2a70290b42"
--SRCREV_machine_qemux86-64 = "69cfbdf9f1ff461a75e5b77d6d7ba35e97db4cc3"
--SRCREV_machine_emenlow = "2215a346eb4f9e09053d00bdf61ed999ff80e029"
--SRCREV_machine_atom-pc = "69cfbdf9f1ff461a75e5b77d6d7ba35e97db4cc3"
--SRCREV_machine_routerstationpro = "8db69980d76e1f863af409e70175963f23de83ab"
--SRCREV_machine_mpc8315e-rdb = "6861d8a4d58f8aa75997f7678cc454791544507a"
--SRCREV_machine_beagleboard = "69cfbdf9f1ff461a75e5b77d6d7ba35e97db4cc3"
--SRCREV_machine = "69cfbdf9f1ff461a75e5b77d6d7ba35e97db4cc3"
-+SRCREV_machine_qemuarm = "b0375c21e29453458f9aa9986dc3f1ec69bf1aef"
-+SRCREV_machine_qemumips = "f5d26f2eda2be8b942172cda8f27de33ebf38ec3"
-+SRCREV_machine_qemuppc = "7eb6c68d977d9039a2b5a734172b064a9d19cdc1"
-+SRCREV_machine_qemux86 = "ad62d1aab734513cd96c8f4517f816420a218e77"
-+SRCREV_machine_qemux86-64 = "b906f358fd404a1e74a961f25079274e0d933ee1"
-+SRCREV_machine_emenlow = "c3bbcb676f929c4fc0511a6e66494b8770d015a1"
-+SRCREV_machine_atom-pc = "b906f358fd404a1e74a961f25079274e0d933ee1"
-+SRCREV_machine_routerstationpro = "95ca94d2e71ca2db6822a37a7f575fa79c3d05d0"
-+SRCREV_machine_mpc8315e-rdb = "53c800c244e73d81d2832f6da306eeae3b09e5dc"
-+SRCREV_machine_beagleboard = "b906f358fd404a1e74a961f25079274e0d933ee1"
-+SRCREV_machine = "b906f358fd404a1e74a961f25079274e0d933ee1"
- SRCREV_meta = "ecab1e2bc12a8b0c4d064a00acc3260f6e8528c5"
- 
--PR = "r16"
-+PR = "r17"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- SRCREV_FORMAT = "meta_machine"
- 
--- 
-1.7.0.4
-
+> Please review and apply if appropriate
+>
+> Thanks
+>
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
