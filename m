@@ -1,45 +1,36 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QI1w0-0004Lc-V4
-	for openembedded-core@lists.openembedded.org;
-	Thu, 05 May 2011 19:01:53 +0200
-Received: by ewy5 with SMTP id 5so729300ewy.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 May 2011 09:59:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=GoqWyNN5SMr6fW+rgR/hAyutyZLRJl6ejpDppSeo5FE=;
-	b=rHU9Ua+JKxJph5f+mh4yMHFyRctQiakrEvTMSHYZ8Jdv8tEuGrKzpugQRiLYGbqHdc
-	CcorBvep/spqN/w+GSSre53IcP0AB+X46KDsnVpq1Oj6EJ4Gyq+NoFU2FyTm29kMiwQw
-	EtH8CJL3lMZb6YfqN3Cc3d84mavGnnFxTPNC4=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=f1wVGTkCxVteDfWGHaYLrGywCocCcF+O7yox2sHNl5fStN9T/rbPiEMXXNhQ0KZ8vm
-	vyipRobXecROX5LIVoj6HmB7cUIWWCWkqwfi6rxgmU3g+2DQf8cFIgYTR5SimUTLoXyX
-	V9IMdQDI2MMIQqrMNQD7iBM3oxo9d/Y+rqrS4=
-Received: by 10.14.125.4 with SMTP id y4mr1345769eeh.109.1304614750119; Thu,
-	05 May 2011 09:59:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.47.139 with HTTP; Thu, 5 May 2011 09:58:39 -0700 (PDT)
-In-Reply-To: <1304588513.20791.15.camel@rex>
-References: <cover.1303889119.git.sgw@linux.intel.com>
-	<ed1614da74a5bf5820855d9d5bd9ab6213bc36de.1303889119.git.sgw@linux.intel.com>
-	<1303981290.21461.39.camel@rex>
-	<BANLkTimx4ry=vZdiNzYna1EE121Q85mUOA@mail.gmail.com>
-	<1304424898.21461.107.camel@rex>
-	<20110503180447.GB5436@sakrah.homelinux.org>
-	<1304462379.21461.144.camel@rex>
-	<BANLkTi=y+rFFeojpoX_OB2uoswF373P_Ww@mail.gmail.com>
-	<1304588513.20791.15.camel@rex>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 May 2011 09:58:39 -0700
-Message-ID: <BANLkTimaLRjHoPa4DfA0gZShMpP6ZKxAKA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QI7AQ-0002GG-HC for openembedded-core@lists.openembedded.org;
+	Fri, 06 May 2011 00:37:06 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p45MYMra016809;
+	Thu, 5 May 2011 23:34:22 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 16554-04; Thu,  5 May 2011 23:34:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p45MYC1S016803
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 5 May 2011 23:34:16 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Cui, Dexuan" <dexuan.cui@intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB69334F4BD75@shsmsx502.ccr.corp.intel.com>
+References: <cover.1302936483.git.sgw@linux.intel.com>
+	<eee3fb921c3e9c6439df2540a552719c9327ebd4.1302936483.git.sgw@linux.intel.com>
+	<1303102414.5518.30.camel@rex>
+	<1865303E0DED764181A9D882DEF65FB6900D7D5708@shsmsx502.ccr.corp.intel.com>
+	<1303109647.5518.54.camel@rex>
+	<1865303E0DED764181A9D882DEF65FB69334F4BD75@shsmsx502.ccr.corp.intel.com>
+Date: Thu, 05 May 2011 23:34:11 +0100
+Message-ID: <1304634851.30391.54.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 36/52] gettext.bbclass: Use _append instead of =+
+Subject: Re: [PATCH 37/58] gnu-config-native: add dependency on perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,66 +45,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2011 17:01:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 May 2011 22:37:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 5, 2011 at 2:41 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2011-05-04 at 18:07 -0700, Khem Raj wrote:
->> a build from scratch revealed few more issues with this patch too.
->>
->> 1. We have to only remove gettext from dependencies if its a target
->> package for all other it still it needed otherwise all native and
->> cross tools start failing to build
->> =C2=A0e.g. binutils-cross this can be easily solved by a patch
->>
->> iff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
->> index 6f79e5e..cc39204 100644
->> --- a/meta/classes/gettext.bbclass
->> +++ b/meta/classes/gettext.bbclass
->> @@ -1,5 +1,5 @@
->> =C2=A0def gettext_dependencies(d):
->> - =C2=A0 =C2=A0if d.getVar('USE_NLS', True) =3D=3D 'no':
->> + =C2=A0 =C2=A0if d.getVar('USE_NLS', True) =3D=3D 'no' and not oe.utils=
-.inherits(d,
->> 'native', 'nativesdk', 'cross')
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ""
->> =C2=A0 =C2=A0 =C2=A0if bb.data.getVar('INHIBIT_DEFAULT_DEPS', d, True) a=
-nd not
->> oe.utils.inherits(d, 'cross-canadian')
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ""
->
-> This looks reasonable, its still much clearer what is happening and why
-> compared to the original version...
->
->> second problem is that EXTRA_OECONF when recipes override it instead
->> of +=3D or appending etc.
->> then --enable|--disable-nls that we added via gettext_oeconf() is lost
->> as a result some packages complain about config.rpath
->> when USE_NLS is set to no the reason is their configure is missing the
->> argument --disable-nls this works ok
->> for eglibc based targets since default is to enable-nls if nothing is
->> specified but uclibc fails. As a testcase try to preprocess
->> utils-linux
->> recipe and check the contents of EXTRA_OECONF
->
-> I suspect we can fix this with:
->
-> -EXTRA_OECONF +=3D "${@gettext_oeconf(d)}"
-> +EXTRA_OECONF_append =3D " ${@gettext_oeconf(d)}"
->
-> ?
->
-yes something like that
-somehow the patch I attached did not make it to ml
-I have sent it separately now.
+On Thu, 2011-05-05 at 22:18 +0800, Cui, Dexuan wrote:
+> (Sorry for my delay for the task as I was working on other bugs...)
+> Recently I have been looking into it and I've made some commits (the
+> top 5 small commits) in
+> http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/log/?h=dcui/master_perl-native 
+> BTW: the work is not done completely as some recipes don't build
+> with the changes. Please have a look anyway to see if I'm in the correct direction.
+> 
+> However, I've got some difficulties and hope to get your help:
+> 1)  As you said, after we install perl-native into its own directory,
+> any recipe not depending on perl-native doesn't see
+> ${STAGING_BINDIR_NATIVE}/perl-native/perl unnecessarily.
+> However, if we keep the current code, what's the bad consequence if
+> the recipe not depending on perl-native does see perl of perl-native?
+> looks no?
 
+We have an assumption that perl is already on the system we're building
+on. Perl is a relatively stable language with defined compatibility and
+interoperability. Most recipes are therefore fine using perl from the
+build system directly and don't need perl-native. I think we defined a
+special name for the build system perl (perl-native-runtime?). Better
+names are welcome but we should ensure we use the right dependency in
+the right places.
 
-> Cheers,
->
-> Richard
->
->
+The time to use perl-native instead of perl-native-runtime is where any
+perl module is being built, perl itself is being built or anything that
+has an explicit dependency on the perl version present.
+
+> 2) In poky, I see many places hardcodedly use the system
+> perl(i.e., /usr/bin/perl) explicitly or implicitly(e.g,
+> meta/recipes-devtools/gnu-config/gnu-config/gnu-configize.in
+> contains /usr/bin/perl; another example,  in perl-5.12.3's source
+> code, Cross/generate_config_sh also contains #!/usr/bin/perl). Should
+> we fix all of them?
+
+Most of these should be generated locations and I think this is fine
+since most of these are "perl-native-runtime" uses and its fine to use
+the build system perl.
+
+>    And what's the relationship between the system perl and
+> perl-native? Since perl-native is not less functional than the system
+> perl, will we eliminate the system perl as a prerequisite to bitbake
+> in future?
+
+No, I think you have this backwards. The intent is to have
+"perl-native-runtime" denoting a requirement on the build system perl
+and "perl-native" being a perl that exactly the same as the target perl
+for cross purposes.
+
+> 3) In gnu-config_20080123.bb's do_install, I don't understand this lines: here the "!=" should be "="?
+>     if [ "${BUILD_ARCH}" != "${TARGET_ARCH}" ]; then
+>         sed -i -e 's,/usr/bin/env,${bindir}/env,g' ${D}${bindir}/gnu-configize
+>     fi
+
+This means it only applies for non-native packages. (native has
+BUILD_ARCH=TARGET_ARCH). The path to env is ${bindir} and this assists
+with things like the nativesdk packages where bindir != "/usr/bin".
+
+> e.g. when building gnu-config-native for MACHINE qemux86 on a 32-bit
+> host,  BUILD_ARCH=TARGET_ARCH=i686-linux and the sed isn't invoked;
+> when building gnu-config, the sed will be invoked, but bindir is
+> just /usr/bin, so the replacement operation actually does nothing.
+
+You can define a system where exec_prefix is "" and bindir is hence
+"/bin" when it wouldn't do nothing.
+
+> And for gnu-config-native, I think we need do a 
+> sed -i -e 's,/usr/bin/perl,${STAGING_BINDIR_NATIVE}/perl-native/perl,g' ${D}${bindir}/gnu-configize
+> Correct?
+
+No, the whole point is to stop it seeing perl-native. Only perl itself
+and modules should be using perl-native.
+
+> 4) My last commit of the top 5 commits is a chaos... I'm trying to
+> replace every "DEPENDS on perl-native" with "inherit perlnative".
+> I'm now stuck in fixing the build issues for libxml-parser-perl and libxml-parser-perl-native.
+> I don't know how to fix get_perl_version and perl_get_libdirs in
+> cpan-base.bbclass -- for libxml-parser-perl-native, I have to manage
+> to add a "/perl-native" into STAGING_LIBDIR and libdir, but for
+> libxml-parser-perl, I can't change STAGING_LIBDIR and libdir. Can you
+> please help me out?
+
+I'd suggest splitting this into two steps:
+
+a) Check through all perl-native references and correct the ones that 
+   should be perl-native-runtime.
+b) Replace all remaining perl-native references with the class 
+   dependency.
+
+In step a), gnu-config would have a dependency on perl-native-runtime so
+wouldn't use the perlnative class.
+
+Just for reference, using perl-native-runtime means that someone can
+remove it from ASSUME_PROVIDED and provide a version of it themselves if
+they so wish (using perl-native or otherwise).
+
+I suspect you'll still have the libxml-parser-perl problem but lets take
+this one step at a time! :)
+
+Cheers,
+
+Richard
+
 
 
