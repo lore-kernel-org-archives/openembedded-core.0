@@ -1,26 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QHtTl-0002yt-Hu
+	(envelope-from <sgw@linux.intel.com>) id 1QHtTn-0003GR-Af
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 May 2011 10:00:09 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 May 2011 00:57:31 -0700
+	Thu, 05 May 2011 10:00:11 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 05 May 2011 00:57:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,318,1301900400"; d="scan'208";a="688482745"
+X-IronPort-AV: E=Sophos;i="4.64,318,1301900400"; d="scan'208";a="430915816"
 Received: from unknown (HELO localhost) ([10.255.13.11])
-	by fmsmga002.fm.intel.com with ESMTP; 05 May 2011 00:57:31 -0700
-Message-Id: <c23a8013d8c4e7a538ed7186e42bc8712b2080ed.1304581770.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 05 May 2011 00:57:32 -0700
+Message-Id: <73317446c722abae9aeb70c4453fb7d6598e4b48.1304581770.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1304581769.git.sgw@linux.intel.com>
 References: <cover.1304581769.git.sgw@linux.intel.com>
-Old-Date: Sun, 3 Apr 2011 23:50:19 -0400
-Date: Thu, 05 May 2011  0:57:31 -0700
+Old-Date: Fri, 8 Apr 2011 00:01:35 -0400
+Date: Thu, 05 May 2011  0:57:32 -0700
 To: openembedded-core@lists.openembedded.org,bruce.ashfield@windriver.com
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Kyle McMartin <kyle@redhat.com>, Greg Kroah-Hartman <gregkh@suse.de>,
 	Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Arnaldo Carvalho de Melo <acme@redhat.com>,
 	Kang Kai <kai.kang@windriver.com>, Thomas Meyer <thomas@m3y3r.de>
-Subject: [PATCH 23/26] linux-yocto: apply meta data to external repos
+Subject: [PATCH 24/26] linux-yocto: safely process unbranched repositories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,89 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2011 08:00:09 -0000
+X-List-Received-Date: Thu, 05 May 2011 08:00:13 -0000
 
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-To support quick uprev and testing, it is desireable to build
-repositories that do not have embedded meta data. In this scenario
-the meta data can be automatically created or provided externally.
-This commit supports the first situation by detecting the lack
-of meta data and then automatically creating a base set of meta
-files.
+The BSP bootstrap and -dev use cases can be applied against
+unbranched or repos without meta data. To allow the proper
+and safe processing of those repositories, slight modifications
+to the tools are required to pass the branch on the command
+line (rather than detecting it always) and to only checkout
+branches that exist.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel-yocto.bbclass                  |   27 +++++++++++++++----
+ meta/classes/kernel-yocto.bbclass                  |    7 +++++--
  .../kern-tools/kern-tools-native_git.bb            |    2 +-
- 2 files changed, 22 insertions(+), 7 deletions(-)
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index fc9f3a7..78a1309 100644
+index 78a1309..ffc0b4c 100644
 --- a/meta/classes/kernel-yocto.bbclass
 +++ b/meta/classes/kernel-yocto.bbclass
-@@ -66,8 +66,15 @@ IFS='
+@@ -25,7 +25,7 @@ do_patch() {
+ 			addon_features="$addon_features --feature $feat"
+ 		done
  	fi
- 	cd ${S}
- 
--	# checkout and clobber and unimportant files
--	git checkout -f ${KBRANCH}
-+	set +e
-+	git show-ref --quiet --verify -- "refs/heads/${KBRANCH}"
-+	if [ $? -eq 0 ]; then
-+		# checkout and clobber and unimportant files
-+		git checkout -f ${KBRANCH}
+-	updateme ${addon_features} ${ARCH} ${MACHINE} ${WORKDIR}
++	updateme --branch ${kbranch} ${addon_features} ${ARCH} ${MACHINE} ${WORKDIR}
+ 	if [ $? -ne 0 ]; then
+ 		echo "ERROR. Could not update ${kbranch}"
+ 		exit 1
+@@ -87,9 +87,12 @@ do_kernel_configme() {
+ 	if [ -n "${YOCTO_KERNEL_EXTERNAL_BRANCH}" ]; then
+            # switch from a generic to a specific branch
+            kbranch=${YOCTO_KERNEL_EXTERNAL_BRANCH}
++           cd ${S}
++           git checkout ${kbranch}
 +	else
-+		echo "Not checking out ${KBRANCH}, it will be created later"
-+		git checkout -f master
-+	fi
- }
- do_kernel_checkout[dirs] = "${S}"
++	   cd ${S}
+ 	fi
  
-@@ -105,21 +112,29 @@ python do_kernel_configcheck() {
-     bb.plain( "%s" % result )
- }
- 
-+# overrides the base kernel_do_configure, since we don't want all the
-+# defconfig processing in there
-+kernel_do_configure() {
-+        yes '' | oe_runmake oldconfig
-+}
-+
-+
- # Ensure that the branches (BSP and meta) are on the locatios specified by
- # their SRCREV values. If they are NOT on the right commits, the branches
- # are reset to the correct commit.
- do_validate_branches() {
- 	cd ${S}
-- 	branch_head=`git show-ref -s --heads ${KBRANCH}`
-- 	meta_head=`git show-ref -s --heads ${KMETA}`
-- 	target_branch_head="${SRCREV_machine}"
-- 	target_meta_head="${SRCREV_meta}"
- 
- 	# nothing to do if bootstrapping
-  	if [ -n "${YOCTO_KERNEL_EXTERNAL_BRANCH}" ]; then
-  	 	return
-  	fi
- 
-+ 	branch_head=`git show-ref -s --heads ${KBRANCH}`
-+ 	meta_head=`git show-ref -s --heads ${KMETA}`
-+ 	target_branch_head="${SRCREV_machine}"
-+ 	target_meta_head="${SRCREV_meta}"
-+
- 	current=`git branch |grep \*|sed 's/^\* //'`
- 	if [ -n "$target_branch_head" ] && [ "$branch_head" != "$target_branch_head" ]; then
- 		if [ -n "${KERNEL_REVISION_CHECKING}" ]; then
+-	cd ${S}
+ 	configme --reconfig --output ${B} ${kbranch} ${MACHINE}
+ 	if [ $? -ne 0 ]; then
+ 		echo "ERROR. Could not configure ${KMACHINE}-${LINUX_KERNEL_TYPE}"
 diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index 00cc666..cc71179 100644
+index cc71179..820765e 100644
 --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
 +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
 @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d8
  
  DEPENDS = "git-native guilt-native"
  
--SRCREV = "8f61abb6344e78677450994e8930cabc86102d78"
-+SRCREV = "92b965b02e3ac32badde3ee71a1e7d3a85cedeb8"
+-SRCREV = "92b965b02e3ac32badde3ee71a1e7d3a85cedeb8"
++SRCREV = "c5896a60acc61f8966cfee3bb241ff564610cea4"
  PR = r10
  PV = "0.1+git${SRCPV}"
  
