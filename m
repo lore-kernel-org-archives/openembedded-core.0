@@ -1,27 +1,43 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QHmoP-0000ol-AS
+	(envelope-from <raj.khem@gmail.com>) id 1QHn5F-0001OI-It
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 May 2011 02:53:01 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 May 2011 17:50:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,317,1301900400"; d="scan'208";a="742542563"
-Received: from kyu3-desk.ccr.corp.intel.com (HELO [10.238.154.142])
-	([10.238.154.142])
-	by orsmga001.jf.intel.com with ESMTP; 04 May 2011 17:50:18 -0700
-Message-ID: <4DC1F44A.3020708@intel.com>
-Date: Thu, 05 May 2011 08:50:18 +0800
-From: Yu Ke <ke.yu@intel.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Thu, 05 May 2011 03:10:25 +0200
+Received: by ewy5 with SMTP id 5so520009ewy.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 May 2011 18:07:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=Bpcr7+OnTTRIvwCt/au2ZOpCrGdwlE5S/j8TJP5XAoc=;
+	b=Wf25djuJaYugjRfuV0DKn6SIP7VemnY5vZiT7Er3tF+UhU6+5KfgOWRWC9ojwhoJW4
+	zoxtZ9NzkJZ5Rs0rSbf1udYwyeAxPbbPPk5Ua4nW6cTENa3lvbZRF5TejLNFu7nGvjIg
+	lEXOgWH3BV9C3/J2Lw5Z88gAM071/1iULtejg=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	b=HwE3KRJhqEEwZ9bpTbiz+UosubT33MvbSeHPqNytmkVk3pU6djyc1MhARXCdX09Sh0
+	kBCNGn2VUn5N7K57++1/NsaAXZq6OMan5yEaPQ+9qfW9JYYnKdHuxb6oPtL2F20EuT62
+	Rq0eNSiGQyME/7Twof7QP4VSXp/0GXn1CJyNo=
+Received: by 10.14.4.32 with SMTP id 32mr826994eei.141.1304557662170; Wed, 04
+	May 2011 18:07:42 -0700 (PDT)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Received: by 10.14.47.139 with HTTP; Wed, 4 May 2011 18:07:12 -0700 (PDT)
+In-Reply-To: <1304462379.21461.144.camel@rex>
+References: <cover.1303889119.git.sgw@linux.intel.com>
+	<ed1614da74a5bf5820855d9d5bd9ab6213bc36de.1303889119.git.sgw@linux.intel.com>
+	<1303981290.21461.39.camel@rex>
+	<BANLkTimx4ry=vZdiNzYna1EE121Q85mUOA@mail.gmail.com>
+	<1304424898.21461.107.camel@rex>
+	<20110503180447.GB5436@sakrah.homelinux.org>
+	<1304462379.21461.144.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 4 May 2011 18:07:12 -0700
+Message-ID: <BANLkTi=y+rFFeojpoX_OB2uoswF373P_Ww@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1304515719.git.ke.yu@intel.com>	<1304518043.21461.154.camel@rex>
-	<BANLkTinduv4VofN2=adDN2-HZozYTO45ew@mail.gmail.com>
-In-Reply-To: <BANLkTinduv4VofN2=adDN2-HZozYTO45ew@mail.gmail.com>
-Subject: Re: [PATCH 0/1] poky-default-revisions: move SRCREV to every recipe
+Subject: Re: [PATCH 36/52] gettext.bbclass: Use _append instead of =+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,75 +52,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2011 00:53:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 May 2011 01:10:25 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-on 2011-5-4 22:24, Frans Meulenbroeks wrote:
-> 2011/5/4 Richard Purdie<richard.purdie@linuxfoundation.org>
+On Tue, May 3, 2011 at 3:39 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2011-05-03 at 11:04 -0700, Khem Raj wrote:
+>> This has the same problem It empties out DEPENDS_GETTEXT after they have
+>> have already been added to DEPENDS via virtclass e.g. when you build
+>> gcc-runtime-nativesdk it will report a dep loop since now it depends on
+>> virtual/gettext-nativesdk (added by gettext class)
+>> and virtual/gettext-nativesdk depends on compilerlibs
+>> provided by gcc-runtime-nativesdk. This was same problem I was trying to
+>> circumvent
 >
->> On Wed, 2011-05-04 at 22:05 +0800, Yu Ke wrote:
->>> From: Yu Ke<ke.yu@intel.com>
->>>
->>> move the SRCREV from poky-default-revisions.inc to its corresponding
->> recipe,
->>> in this case, those non poky distro can also use its SRCREV.
->>>
->>> Pull URL: git://git.pokylinux.org/poky-contrib.git
->>>    Branch: kyu3/srcrev-recipe
->>>    Browse:
->> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kyu3/srcrev-recipe
->>>
->>> Thanks,
->>>      Yu Ke<ke.yu@intel.com>
->>> ---
->>>
->>>
->>> Yu Ke (1):
->>>    poky-default-revisions: move the SRCREV to recipe file
->>
->> Merged to master, thanks for resolving this issue! :)
->>
->> Cheers,
->>
->> Richard
->>
->> I would have preferred a more standardised placement of SRCREV.
-> Most of the time the SRCREV is before the PV, but not always (and sometimes
-> separated with an empty line and sometimes not).
+> Ok, how about this version:
 >
-> Also there is at least one error introduced:
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index 4f20bc2..3b83e42 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -89,9 +89,11 @@ def base_dep_prepend(d):
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0deps +=3D " virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}c=
+ompilerlibs virtual/libc "
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0return deps
 >
-> diff --git a/meta/recipes-devtools/yaffs2/yaffs2-utils_cvs.bbb/meta/recipes-devtools/yaffs2/
-> yaffs2-utils_cvs.bb
-> index 6171fe5..c729c7c 100644
-> --- a/meta/recipes-devtools/yaffs2/yaffs2-utils_cvs.bb<http://git.pokylinux.org/cgit.cgi/poky-contrib/tree/meta/recipes-devtools/yaffs2/yaffs2-utils_cvs.bb?h=kyu3/srcrev-recipe&id=d2e078aa046ae6c4f169695f546cf229db5be1f7>
-> +++ b/meta/recipes-devtools/yaffs2/yaffs2-utils_cvs.bb<http://git.pokylinux.org/cgit.cgi/poky-contrib/tree/meta/recipes-devtools/yaffs2/yaffs2-utils_cvs.bb?h=kyu3/srcrev-recipe&id=c75b49ff5cfd10f5187af2b66a0a8d5513460374>
-> @@ -1,3 +1,4 @@
-> require yaffs2-utils.inc
-> PR = "r1"
-> +SRCDAT = "20071107"
+> -DEPENDS_prepend=3D"${@base_dep_prepend(d)} "
+> -DEPENDS_virtclass-native_prepend=3D"${@base_dep_prepend(d)} "
+> -DEPENDS_virtclass-nativesdk_prepend=3D"${@base_dep_prepend(d)} "
+> +BASEDEPENDS =3D "${@base_dep_prepend(d)}"
+> +
+> +DEPENDS_prepend=3D"${BASEDEPENDS} "
+> +DEPENDS_virtclass-native_prepend=3D"${BASEDEPENDS} "
+> +DEPENDS_virtclass-nativesdk_prepend=3D"${BASEDEPENDS} "
 >
-> That should be SRCDATE. There might be more of these, my eye just fell on
-> this one.
+> =C2=A0FILESPATH =3D "${@base_set_filespath([ "${FILE_DIRNAME}/${PF}", "${=
+FILE_DIRNAME}/${P}", "${FILE_DIRNAME}/${PN}", "${FILE_DIRNAME}/${BP}", "${F=
+ILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files", "${FILE_DIRNAME}" ], d)}"
+> =C2=A0# THISDIR only works properly with imediate expansion as it has to =
+run
+> diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+> index a40e74f..6f79e5e 100644
+> --- a/meta/classes/gettext.bbclass
+> +++ b/meta/classes/gettext.bbclass
+> @@ -1,17 +1,17 @@
+> -def gettext_after_parse(d):
+> - =C2=A0 =C2=A0# Remove the NLS bits if USE_NLS is no.
+> - =C2=A0 =C2=A0if bb.data.getVar('USE_NLS', d, 1) =3D=3D 'no':
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0cfg =3D oe_filter_out('^--(dis|en)able-nls$'=
+, bb.data.getVar('EXTRA_OECONF', d, 1) or "", d)
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0cfg +=3D " --disable-nls"
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0depends =3D bb.data.getVar('DEPENDS', d, 1) =
+or ""
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.data.setVar('DEPENDS', oe_filter_out('^(v=
+irtual/libiconv|virtual/libintl)$', depends, d), d)
+> - =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.data.setVar('EXTRA_OECONF', cfg, d)
+> +def gettext_dependencies(d):
+> + =C2=A0 =C2=A0if d.getVar('USE_NLS', True) =3D=3D 'no':
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return ""
+> + =C2=A0 =C2=A0if bb.data.getVar('INHIBIT_DEFAULT_DEPS', d, True) and not=
+ oe.utils.inherits(d, 'cross-canadian'):
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return ""
+> + =C2=A0 =C2=A0return d.getVar('DEPENDS_GETTEXT', False)
+>
+> -python () {
+> - =C2=A0 =C2=A0gettext_after_parse(d)
+> -}
+> +def gettext_oeconf(d):
+> + =C2=A0 =C2=A0# Remove the NLS bits if USE_NLS is no.
+> + =C2=A0 =C2=A0if d.getVar('USE_NLS', True) =3D=3D 'no':
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0return '--disable-nls'
+> + =C2=A0 =C2=A0return "--enable-nls"
+>
+> -DEPENDS_GETTEXT =3D "gettext gettext-native"
+> +DEPENDS_GETTEXT =3D "virtual/gettext gettext-native"
+>
+> -DEPENDS =3D+ "${DEPENDS_GETTEXT}"
+> -EXTRA_OECONF +=3D "--enable-nls"
+> +BASEDEPENDS =3D+ "${@gettext_dependencies(d)}"
+> +EXTRA_OECONF +=3D "${@gettext_oeconf(d)}"
+>
+>
 
-Thanks for pointing it out. For unknown reason, my proxy does not work 
-in cvs fetcher , so this recipe is untested. I should take more care on 
-this. A patch is just sent out to fix it.
+a build from scratch revealed few more issues with this patch too.
 
-Regards
-Ke
+1. We have to only remove gettext from dependencies if its a target
+package for all other it still it needed otherwise all native and
+cross tools start failing to build
+ e.g. binutils-cross this can be easily solved by a patch
 
->
-> Frans
->
-> PS: speaking of yaffs2 utils: it could be considered to move to a somewhat
-> newer version (not that I care as I do not use yaffs2)
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+iff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+index 6f79e5e..cc39204 100644
+--- a/meta/classes/gettext.bbclass
++++ b/meta/classes/gettext.bbclass
+@@ -1,5 +1,5 @@
+ def gettext_dependencies(d):
+-    if d.getVar('USE_NLS', True) =3D=3D 'no':
++    if d.getVar('USE_NLS', True) =3D=3D 'no' and not oe.utils.inherits(d,
+'native', 'nativesdk', 'cross')
+         return ""
+     if bb.data.getVar('INHIBIT_DEFAULT_DEPS', d, True) and not
+oe.utils.inherits(d, 'cross-canadian')
+         return ""
 
+
+second problem is that EXTRA_OECONF when recipes override it instead
+of +=3D or appending etc.
+then --enable|--disable-nls that we added via gettext_oeconf() is lost
+as a result some packages complain about config.rpath
+when USE_NLS is set to no the reason is their configure is missing the
+argument --disable-nls this works ok
+for eglibc based targets since default is to enable-nls if nothing is
+specified but uclibc fails. As a testcase try to preprocess
+utils-linux
+recipe and check the contents of EXTRA_OECONF
 
 
