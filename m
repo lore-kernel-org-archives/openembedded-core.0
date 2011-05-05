@@ -1,44 +1,27 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1QHztl-0001uh-Gw
+	(envelope-from <Tom_Rini@mentor.com>) id 1QI0AS-0002U1-ST
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 May 2011 16:51:25 +0200
-Received: by ywg8 with SMTP id 8so842845ywg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 May 2011 07:48:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=gkPK6G+MBeT/HH/gjjg293DZX2+IjPt0WFW1kIKxzKY=;
-	b=f4h73Ti1k3PtLyWBgXGVbNkxoAOyyeuSS+fmxNhmwFMsfHZSBjf/wW5RXP4Bkz6WA0
-	c3G1xI3cIYbHGrRtYDRQ2NpBt5VG4cqJlS1dmr8JddyBIlOZb+XVdFP+MHbyFeooccL7
-	j8TNQ8YKPLtG3lU/nykAM6ifc2v3Sk+4HirBE=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	b=NPA7/EtK8bu+KhZf/iVJzHa4ZUYU4qE+aaB2/kNafIj3zaPd5HpyryibzDjObrmZpV
-	pfIXiZ8l0bJZZ949NZ6RSXcNZIUaM4ONJsmA4VsMIuOxBzJfXVgU67zHHOy19fEx1Qd2
-	djVst4Gl7+MZsU7UwyIdE8a4UMbg/MJBUaIkU=
-MIME-Version: 1.0
-Received: by 10.91.126.14 with SMTP id d14mr2356004agn.58.1304606924927; Thu,
-	05 May 2011 07:48:44 -0700 (PDT)
-Received: by 10.90.104.11 with HTTP; Thu, 5 May 2011 07:48:44 -0700 (PDT)
-In-Reply-To: <BANLkTi=VizL4=DUReoOUeZfov5EYsyPQGQ@mail.gmail.com>
-References: <cover.1304581769.git.sgw@linux.intel.com>
-	<a2366eef6e0784848f35b93827407038eeea7ebc.1304581770.git.sgw@linux.intel.com>
-	<20110505141219.GB6461@suse.de>
-	<BANLkTi=VizL4=DUReoOUeZfov5EYsyPQGQ@mail.gmail.com>
-Date: Thu, 5 May 2011 10:48:44 -0400
-Message-ID: <BANLkTin9dd5ZdBMkk6HwVpFr1cKWmYBfCA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Kyle McMartin <kyle@redhat.com>,
-	Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Kang Kai <kai.kang@windriver.com>, Thomas Meyer <thomas@m3y3r.de>
-Subject: Re: [PATCH 25/26] linux-yocto: update SRCREVs
+	Thu, 05 May 2011 17:08:41 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QI07s-0005d5-Bp from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 05 May 2011 08:06:00 -0700
+Received: from na2-mail.mgc.mentorg.com ([134.86.114.213]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 5 May 2011 08:04:42 -0700
+Received: from localhost.localdomain ([172.30.0.24]) by
+	na2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
+	Thu, 5 May 2011 09:05:59 -0600
+From: Tom Rini <tom_rini@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 May 2011 08:05:47 -0700
+Message-Id: <cover.1304607797.git.tom_rini@mentor.com>
+X-Mailer: git-send-email 1.7.0.4
+X-OriginalArrivalTime: 05 May 2011 15:05:59.0141 (UTC)
+	FILETIME=[F1006950:01CC0B35]
+Subject: [PATCH 0/4] Misc sync up changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,63 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2011 14:51:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 May 2011 15:08:41 -0000
 
-On Thu, May 5, 2011 at 10:45 AM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Thu, May 5, 2011 at 10:12 AM, Greg KH <gregkh@suse.de> wrote:
->> On Thu, May 05, 2011 at 12:57:33AM -0700, Saul Wold wrote:
->>> From: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>
->>> Updating the linux-yocto/2.6.37 SRCREVs to pickup:
->>>
->>> =A0 =A0 perf tool: Fix gcc 4.6.0 issues
->>
->> <snip>
->>
->> Because of this one patch, you sent mail to a whole bunch of people who
->> don't care anything about the yocto project, or any of these 27 emails.
->>
->> Please be more careful in the future to not do this again.
->
-> Argh. Sorry about that, I was on a box that didn't have supress-cc
-> turned on.
+The following series brings in a few fixups I pushed to openembedded today.
+In short, in gcc/binutils we were referencing TARGET_SYS in places where we
+had told configure to mangle things based on TARGET_PREFIX and in the
+cases where they don't match, it wasn't working.  I had also just run into
+some missing DEPENDS cases so they are included in this branch as well.
 
-... that, and  I can't read.
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: trini/misc-sync-up
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/misc-sync-up
 
-My initial send looks to have gone out properly, without the cc's.
-
-Sorry for two extra email in your inbox, but I wanted to ensure that
-my claim of misconfiguration didn't prevent the problem from being
-addressed.
-
-Bruce
-
->
-> Bruce
->
->>
->> greg k-h
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
->
+Thanks,
+    Tom Rini <tom_rini@mentor.com>
+---
 
 
+Tom Rini (4):
+  gcc-package-target: Switch to TARGET_PREFIX in symlinks
+  binutils.inc: Switch to TARGET_PREFIX not TARGET_SYS
+  sysstat.inc: Switch to inherit gettext
+  bash.inc: Add bison-native to DEPENDS
 
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+ meta/recipes-devtools/binutils/binutils.inc      |   10 +++++-----
+ meta/recipes-devtools/gcc/gcc-package-target.inc |   10 +++++-----
+ meta/recipes-extended/bash/bash.inc              |    2 +-
+ meta/recipes-extended/sysstat/sysstat.inc        |    4 +---
+ meta/recipes-extended/sysstat/sysstat_9.1.5.bb   |    2 +-
+ 5 files changed, 13 insertions(+), 15 deletions(-)
+
 
 
