@@ -1,42 +1,35 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QI1oF-0003uf-7f
+	(envelope-from <raj.khem@gmail.com>) id 1QI1v7-0004KC-0u
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 May 2011 18:53:51 +0200
-Received: by eye27 with SMTP id 27so726935eye.6
+	Thu, 05 May 2011 19:00:57 +0200
+Received: by pvc30 with SMTP id 30so1084601pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 May 2011 09:51:11 -0700 (PDT)
+	Thu, 05 May 2011 09:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=4PG4UtlXtSaX55B2uzYE1AkbYA7Yu7xWKOANj+ifOWM=;
-	b=glsMUxHF/MGFj/i5U4rZ30A1e8wTtYJ7H4ZgwBA4BpCUZzKx2HKeziO9GCi4Ms6mrX
-	j4ldBLUEAy5yziFGSSyc+URP/x8YksK1F9IDSqDfhPsmfZtHUEqJUX8LJV0A9slEugyL
-	4x9Ga5BKuz5DaxLxs4mUVRUmdspT7NQPD+5G8=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=kkZ3nZovLut3lx8maEekPxGF2m6Mg6OCuDcBzTIgodo=;
+	b=P/WKQAedjnPMQvqSHYFZjQLCXGNP+d+YcJk1BOlnfQg/PSX+Y0oeuflh6OdMclV6PR
+	mQzBAwIzy+avWz5FXawuGJqLfXBXuPKv4pHMwnwXicJhBb7c1T8UjcugWudWDi8bSCiJ
+	7UG/LTLEnG5VeOynaOCm3Sy7YnKktykqxB9Dk=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=mQgTM41C8tgHrbkCQPmJQpfsC6qxW1gui4e0n690DpvQAKHkT/5Y3mT50ubnr1ryzZ
-	CFOlp20F2w777QV+C3xkj9A+3qA0VeBQIp+Bx3R5uZdy6r9qz66CbZeKLbJPlslZ9FrS
-	Z77cDbhB636MZkz4ELVV3scPUQRpu4CxyVi8k=
-Received: by 10.14.52.132 with SMTP id e4mr1389664eec.173.1304614271158; Thu,
-	05 May 2011 09:51:11 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.47.139 with HTTP; Thu, 5 May 2011 09:50:41 -0700 (PDT)
-In-Reply-To: <4a158b6ef125b555225472eefbe1ea226dc47c2c.1304581769.git.sgw@linux.intel.com>
-References: <cover.1304581769.git.sgw@linux.intel.com>
-	<4a158b6ef125b555225472eefbe1ea226dc47c2c.1304581769.git.sgw@linux.intel.com>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=vH/Z35Rq880L+x2L7Y9LGSLW3WRUDNP5v2Fq35P0W9fTP8z2eGij75wJX5Kk479Pn4
+	wlFEPFxG3j/gR8sbmG6ItDS8mXQBmu6eo+RYpDKSCE4ACyrIDUWs6sqoSDrq1w7aX+rm
+	kw6eRBOwU7Ey4WY7GYJM7AZbMsP2lYxWLFCFo=
+Received: by 10.68.41.36 with SMTP id c4mr3381297pbl.479.1304614696007;
+	Thu, 05 May 2011 09:58:16 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id q2sm1544750pbs.5.2011.05.05.09.58.13
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 05 May 2011 09:58:14 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 May 2011 09:50:41 -0700
-Message-ID: <BANLkTi=KUxO5zZFU2RRJQ0CouhspAJuKSw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Kyle McMartin <kyle@redhat.com>,
-	Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	openembedded-core@lists.openembedded.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Kang Kai <kai.kang@windriver.com>, Thomas Meyer <thomas@m3y3r.de>
-Subject: Re: [PATCH 03/26] util-linux.inc: remove virtual/libintl from DEPENDS
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Thu,  5 May 2011 09:57:56 -0700
+Message-Id: <1304614676-7334-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH] gettext.bbclass, bitbake.conf: Append nls options to EXTRA_OECONF instead of +=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,50 +44,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 May 2011 16:53:51 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 May 2011 17:00:57 -0000
 
-On Thu, May 5, 2011 at 12:55 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> From: Khem Raj <raj.khem@gmail.com>
->
-> inherit gettext should do it.
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> =C2=A0meta/recipes-core/util-linux/util-linux.inc | =C2=A0 =C2=A06 +++---
-> =C2=A01 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
-ore/util-linux/util-linux.inc
-> index 913bb1b..447e5b7 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -13,10 +13,10 @@ LIC_FILES_CHKSUM =3D "file://README.licensing;md5=3D1=
-530e36fe1304d4535513de90a290df9
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fil=
-e://licenses/COPYING.UCB;md5=3D263860f8968d8bafa5392cab74285262 \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fil=
-e://getopt/COPYING;md5=3D8ca43cbc842c2336e835926c2166c28b"
->
-> -DEPENDS =3D "zlib ncurses virtual/libintl"
-> -DEPENDS_virtclass-native =3D "zlib-native ncurses-native lzo-native gett=
-ext-native"
-> -
-> =C2=A0inherit autotools gettext
-> +DEPENDS =3D "zlib ncurses"
-> +DEPENDS_virtclass-native_append =3D " lzo-native"
-> +
->
+Some recipes do not defined EXTRA_OECONF in such cases += drops
+the --enable|--disable-nls options. In another case where recipe
+defines EXTRA_OECONF instead of adding/appending to it then
+--enable|--disable-nls options are lost from EXTRA_OECONF
 
-This patch is not needed with the applied gettext changes
+We define EXTRA_OECONF = "" in bitbake.conf so the variable exists
+always.
 
-> =C2=A0SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linux-ng/v${MAJOR=
-_VERSION}/util-linux-ng-${PV}.tar.bz2 \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://MCONFIG \
-> --
-> 1.7.1.1
->
->
+We use _append instead of += so the option is added at very end
+and not lost.
+
+We only return empty gettext dependencies if its a target recipe
+in case when USE_NLS is not set because the native/cross/nativesdk recipes still
+need the gettext dependencies
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/gettext.bbclass |    6 +++---
+ meta/conf/bitbake.conf       |    2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+index 6f79e5e..86b505b 100644
+--- a/meta/classes/gettext.bbclass
++++ b/meta/classes/gettext.bbclass
+@@ -1,7 +1,7 @@
+ def gettext_dependencies(d):
+-    if d.getVar('USE_NLS', True) == 'no':
++    if d.getVar('USE_NLS', True) == 'no' and not oe.utils.inherits(d, 'native', 'nativesdk', 'cross'):
+         return ""
+-    if bb.data.getVar('INHIBIT_DEFAULT_DEPS', d, True) and not oe.utils.inherits(d, 'cross-canadian'):
++    if d.getVar('INHIBIT_DEFAULT_DEPS', True) and not oe.utils.inherits(d, 'cross-canadian'):
+         return ""
+     return d.getVar('DEPENDS_GETTEXT', False)
+ 
+@@ -14,4 +14,4 @@ def gettext_oeconf(d):
+ DEPENDS_GETTEXT = "virtual/gettext gettext-native"
+ 
+ BASEDEPENDS =+ "${@gettext_dependencies(d)}"
+-EXTRA_OECONF += "${@gettext_oeconf(d)}"
++EXTRA_OECONF_append = " ${@gettext_oeconf(d)}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a2b36bd..4a1bfa1 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -395,7 +395,7 @@ export BUILD_NM = "${BUILD_PREFIX}nm"
+ 
+ export MAKE = "make"
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
+-
++EXTRA_OECONF = ""
+ export LC_ALL = "C"
+ 
+ ##################################################################
+-- 
+1.7.4.1
+
 
 
