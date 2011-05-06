@@ -1,44 +1,24 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QIOMf-0006hP-TQ
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QIQ2Q-0005lF-9e
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 May 2011 18:58:53 +0200
-Received: by bwz5 with SMTP id 5so3002258bwz.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 May 2011 09:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=Zs16Ii7Q+33sy36BpBhZiTPFwg2G4lS+OLhq/gUw+0o=;
-	b=LZc625X4pvok0bKlDoNOihlJrUWBe0PPPkoRx4x067l7g1t5LogcFWAco0eSXYc5n3
-	xYqVfeLEDq4OyLLX9YNDqLscFKby807Tvimi+ZlXPwrUgFuNpRWYQDWR9CmZ3bJbZK5J
-	fi6yql/qEEDQJgSjtazisrZpRAInuaWGtwjyQ=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	b=tUbtT0h4aIpLB/iskjOrAlIveyf0lYF7mtBAukC6zJfwyq4AaOCNlkoUnJFl+9JL9r
-	ykM0+3M6Wr+CwluqVgxwoUUSuSRJlkaAIBi+Eqh6C4UGDzdj21Goi/iAtU4pHjav7/xw
-	gp55lQhv6ZBONwBY7ARFjgOLcB5d++Jr0irwU=
-MIME-Version: 1.0
-Received: by 10.204.118.211 with SMTP id w19mr884819bkq.83.1304700972875; Fri,
-	06 May 2011 09:56:12 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.70.138 with HTTP; Fri, 6 May 2011 09:56:12 -0700 (PDT)
-In-Reply-To: <FC216C43-4A6A-41B8-9565-2462C914D6C7@dominion.thruhere.net>
-References: <E927045D-259E-49B7-A318-7755EEA7DCE0@dominion.thruhere.net>
-	<1304691622.30391.124.camel@rex>
-	<1B7A477C-E4A5-4EBC-A7E3-CAA30A583ADF@dominion.thruhere.net>
-	<BANLkTi=yVmeX5xH8qHwOHwoeoXqi5Hs2uA@mail.gmail.com>
-	<FC216C43-4A6A-41B8-9565-2462C914D6C7@dominion.thruhere.net>
-Date: Fri, 6 May 2011 13:56:12 -0300
-X-Google-Sender-Auth: 2SBnAm8ylS4C5pZ0_GAWiZzeavs
-Message-ID: <BANLkTikm-w75t=E9kzjUjWEvspo_VD_nSw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] systemd units packaging
+	Fri, 06 May 2011 20:46:07 +0200
+Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
+	[128.224.146.167])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p46Igj9O017707;
+	Fri, 6 May 2011 11:42:47 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Fri,  6 May 2011 14:44:20 -0400
+Message-Id: <a258388e5b8d134009bb37cfc9f6b1c1dd8ba94e.1304707341.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1304707341.git.bruce.ashfield@windriver.com>
+References: <cover.1304707341.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1304707341.git.bruce.ashfield@windriver.com>
+References: <cover.1304707341.git.bruce.ashfield@windriver.com>
+Cc: yocto@yoctoproject.org, dvhart@linux.intel.com,
+	openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 1/1] linux-yocto: move non-core machines to meta-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,38 +33,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2011 16:58:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 06 May 2011 18:46:07 -0000
 
-On Fri, May 6, 2011 at 13:06, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
-> Op 6 mei 2011, om 17:36 heeft Otavio Salvador het volgende geschreven:
->
->> On Fri, May 6, 2011 at 11:51, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
->>> So, is having both sets inside ${PN} a dealbreaker?
->>
->> I think it is not BUT this choice could be a distro choice.
->
-> Everything can be a distro choice, you can make gtk/qt or even qt-x11/qt-=
-e a distro choice. The point is to see what is an image choice and what isn=
-'t. Defaulting to distro choice is a recipe for disaster (pun intended)
->
-> I do *NOT* want to write a new distro.conf for every silly option out the=
-re.
+The machine configuration of the non-core (non-qemu) machines
+has moved to meta-yocto. Moving the branch mappings, compatibility
+and SRCREVs of these machines to meta-yocto should also be
+done.
 
-Sure and I agree; that's why I said to default to 'both' so most
-common case would be fulfill by the image choice of putting sysv or
-systemd but giving the option to "disable" sysv or systemd at distro
-level allow for minimal and very space contrain systems to be done
-without needing to hack too much.
+Anyone using meta-yocto to build these machines will see no impact
+from this change.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta-yocto/conf/layer.conf                         |    3 ++-
+ .../linux/linux-yocto-stable_git.bbappend          |   12 ++++++++++++
+ .../recipes-kernel/linux/linux-yocto_git.bbappend  |   12 ++++++++++++
+ .../recipes-kernel/linux/linux-yocto-stable_git.bb |   10 +---------
+ meta/recipes-kernel/linux/linux-yocto_git.bb       |   11 +----------
+ 5 files changed, 28 insertions(+), 20 deletions(-)
+ create mode 100644 meta-yocto/recipes-kernel/linux/linux-yocto-stable_git.bbappend
+ create mode 100644 meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend
+
+diff --git a/meta-yocto/conf/layer.conf b/meta-yocto/conf/layer.conf
+index f11d8ed..68786b2 100644
+--- a/meta-yocto/conf/layer.conf
++++ b/meta-yocto/conf/layer.conf
+@@ -2,7 +2,8 @@
+ BBPATH := "${BBPATH}:${LAYERDIR}"
+ 
+ # We have a packages directory, add to BBFILES
+-BBFILES := "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb"
++BBFILES := "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb \
++            ${LAYERDIR}/recipes-*/*/*.bbappend"
+ 
+ BBFILE_COLLECTIONS += "yocto"
+ BBFILE_PATTERN_yocto := "^${LAYERDIR}/"
+diff --git a/meta-yocto/recipes-kernel/linux/linux-yocto-stable_git.bbappend b/meta-yocto/recipes-kernel/linux/linux-yocto-stable_git.bbappend
+new file mode 100644
+index 0000000..ea0287d
+--- /dev/null
++++ b/meta-yocto/recipes-kernel/linux/linux-yocto-stable_git.bbappend
+@@ -0,0 +1,12 @@
++KMACHINE_atom-pc  = "atom-pc"
++KMACHINE_routerstationpro = "routerstationpro"
++KMACHINE_mpc8315e-rdb = "fsl-mpc8315e-rdb"
++KMACHINE_beagleboard = "beagleboard"
++
++SRCREV_machine_atom-pc = "72ca49ab08b8eb475cec82a10049503602325791"
++SRCREV_machine_routerstationpro = "49745cd45c92a89e70c6e2334caa80818c134562"
++SRCREV_machine_mpc8315e-rdb = "a1c0ed6bf4060c10874b2a8547d81b3169dcf16a"
++SRCREV_machine_beagleboard = "ef7f944e773950d4016b7643f9ecf052bbe250cd"
++
++COMPATIBLE_MACHINE += "(atom-pc|routerstationpro|mpc8315e-rdb|beagleboard)"
++
+diff --git a/meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend b/meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend
+new file mode 100644
+index 0000000..e4aa7fd
+--- /dev/null
++++ b/meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend
+@@ -0,0 +1,12 @@
++KMACHINE_atom-pc  = "yocto/standard/common-pc/atom-pc"
++KMACHINE_routerstationpro = "yocto/standard/routerstationpro"
++KMACHINE_mpc8315e-rdb = "yocto/standard/fsl-mpc8315e-rdb"
++KMACHINE_beagleboard = "yocto/standard/beagleboard"
++
++SRCREV_machine_emenlow = "c3bbcb676f929c4fc0511a6e66494b8770d015a1"
++SRCREV_machine_atom-pc = "b906f358fd404a1e74a961f25079274e0d933ee1"
++SRCREV_machine_routerstationpro = "95ca94d2e71ca2db6822a37a7f575fa79c3d05d0"
++SRCREV_machine_mpc8315e-rdb = "53c800c244e73d81d2832f6da306eeae3b09e5dc"
++SRCREV_machine_beagleboard = "b906f358fd404a1e74a961f25079274e0d933ee1"
++
++COMPATIBLE_MACHINE = "(mpc8315e-rdb|routerstationpro|beagleboard)"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-stable_git.bb b/meta/recipes-kernel/linux/linux-yocto-stable_git.bb
+index 93b06fd..66991ae 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-stable_git.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-stable_git.bb
+@@ -7,10 +7,6 @@ KMACHINE_qemux86-64  = "common_pc_64"
+ KMACHINE_qemuppc  = "qemu_ppc32"
+ KMACHINE_qemumips = "mti_malta32_be"
+ KMACHINE_qemuarm  = "arm_versatile_926ejs"
+-KMACHINE_atom-pc  = "atom-pc"
+-KMACHINE_routerstationpro = "routerstationpro"
+-KMACHINE_mpc8315e-rdb = "fsl-mpc8315e-rdb"
+-KMACHINE_beagleboard = "beagleboard"
+ 
+ LINUX_VERSION ?= "2.6.34"
+ LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE_EXTENSION}"
+@@ -23,10 +19,6 @@ SRCREV_machine_qemumips = "c32d40f960e3c89d07f079bec4c96dcbfc749f0b"
+ SRCREV_machine_qemuppc = "96d6bc31d3caaf62a966255479cc5cee0e76b1e9"
+ SRCREV_machine_qemux86 = "72ca49ab08b8eb475cec82a10049503602325791"
+ SRCREV_machine_qemux86-64 = "72ca49ab08b8eb475cec82a10049503602325791"
+-SRCREV_machine_atom-pc = "72ca49ab08b8eb475cec82a10049503602325791"
+-SRCREV_machine_routerstationpro = "49745cd45c92a89e70c6e2334caa80818c134562"
+-SRCREV_machine_mpc8315e-rdb = "a1c0ed6bf4060c10874b2a8547d81b3169dcf16a"
+-SRCREV_machine_beagleboard = "ef7f944e773950d4016b7643f9ecf052bbe250cd"
+ SRCREV_machine = "72ca49ab08b8eb475cec82a10049503602325791"
+ SRCREV_meta = "ec26387cb168e9e0976999b528b5a9dd62e3157a"
+ 
+@@ -34,7 +26,7 @@ PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ SRCREV_FORMAT = "meta_machine"
+ 
+-COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64|atom-pc|routerstationpro|mpc8315e-rdb|beagleboard)"
++COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
+ 
+ # this performs a fixup on historical kernel types with embedded _'s
+ python __anonymous () {
+diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_git.bb
+index 3b4e77e..d4f2ece 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_git.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_git.bb
+@@ -7,10 +7,6 @@ KMACHINE_qemux86-64  = "yocto/standard/common-pc-64/base"
+ KMACHINE_qemuppc  = "yocto/standard/qemu-ppc32"
+ KMACHINE_qemumips = "yocto/standard/mti-malta32-be"
+ KMACHINE_qemuarm  = "yocto/standard/arm-versatile-926ejs"
+-KMACHINE_atom-pc  = "yocto/standard/common-pc/atom-pc"
+-KMACHINE_routerstationpro = "yocto/standard/routerstationpro"
+-KMACHINE_mpc8315e-rdb = "yocto/standard/fsl-mpc8315e-rdb"
+-KMACHINE_beagleboard = "yocto/standard/beagleboard"
+ 
+ KBRANCH = ${KMACHINE}
+ KMETA = meta
+@@ -23,11 +19,6 @@ SRCREV_machine_qemumips = "f5d26f2eda2be8b942172cda8f27de33ebf38ec3"
+ SRCREV_machine_qemuppc = "7eb6c68d977d9039a2b5a734172b064a9d19cdc1"
+ SRCREV_machine_qemux86 = "ad62d1aab734513cd96c8f4517f816420a218e77"
+ SRCREV_machine_qemux86-64 = "b906f358fd404a1e74a961f25079274e0d933ee1"
+-SRCREV_machine_emenlow = "c3bbcb676f929c4fc0511a6e66494b8770d015a1"
+-SRCREV_machine_atom-pc = "b906f358fd404a1e74a961f25079274e0d933ee1"
+-SRCREV_machine_routerstationpro = "95ca94d2e71ca2db6822a37a7f575fa79c3d05d0"
+-SRCREV_machine_mpc8315e-rdb = "53c800c244e73d81d2832f6da306eeae3b09e5dc"
+-SRCREV_machine_beagleboard = "b906f358fd404a1e74a961f25079274e0d933ee1"
+ SRCREV_machine = "b906f358fd404a1e74a961f25079274e0d933ee1"
+ SRCREV_meta = "ecab1e2bc12a8b0c4d064a00acc3260f6e8528c5"
+ 
+@@ -37,7 +28,7 @@ SRCREV_FORMAT = "meta_machine"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-2.6.37;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+-COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64|mpc8315e-rdb|routerstationpro|beagleboard)"
++COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
+ 
+ # Functionality flags
+ KERNEL_REVISION_CHECKING ?= "t"
+-- 
+1.7.0.4
+
 
 
