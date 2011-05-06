@@ -1,35 +1,21 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QIDCi-0003du-5v
+	(envelope-from <edwin.zhai@intel.com>) id 1QIGYi-0002rb-3c
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 May 2011 07:03:52 +0200
-Received: by pwj9 with SMTP id 9so1331076pwj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 May 2011 22:01:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=FSm3qbXketB3wjVIfB2PV4HM2oDH7FDFfDxVuojHtjc=;
-	b=QKG+1LZg1UXgDNvSxPCHQGxqzC7gW7GUATtWpsvPONgTJCUTMacslSlJtn8DUWMG6e
-	c2by/S4AxD/WKdJFaGJtbyIPrFbod9ZLTKTWRGN4bCoky+bJ9fIx1Pqw/S+IEhuMKWGf
-	fSqenljrU+hZQisXC18JFAkAUKIBkSzZtRKBQ=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=fmzz/SxxwBecTGythsXITHc2drpcfz53yGu1roUvbAh8fwr2pTdDCuTXySK30G2M5L
-	213fUEkcHOYF1/0/mqztOqkt7XeaiwQx6YTgvLb0EBZilA+e02hRQMKRARGIsJq1XqXA
-	dtsNaELQipaZ4ooSqeiIW48pxKottnsbTdk58=
-Received: by 10.68.17.6 with SMTP id k6mr4105303pbd.191.1304658070400;
-	Thu, 05 May 2011 22:01:10 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id e4sm1898287pbj.4.2011.05.05.22.01.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 05 May 2011 22:01:09 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Date: Thu,  5 May 2011 22:00:53 -0700
-Message-Id: <1304658053-15502-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH] conf/layer.conf: Use .= to append to BBPATH and += for BBFILES
+	Fri, 06 May 2011 10:38:48 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 06 May 2011 01:36:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,325,1301900400"; d="scan'208";a="743220413"
+Received: from yocto-build3.sh.intel.com (HELO localhost) ([10.239.48.58])
+	by orsmga001.jf.intel.com with ESMTP; 06 May 2011 01:36:06 -0700
+Message-Id: <cover.1304670670.git.edwin.zhai@intel.com>
+Old-Date: Fri, 6 May 2011 16:31:10 +0800
+Date: Fri, 06 May 2011 16:36:14 +0800
+To: openembedded-core@lists.openembedded.org
+CC: 
+From: Zhai Edwin <edwin.zhai@intel.com>
+Subject: [PATCH 0/1] qemu-script: Fix qemu segfault with Nvidia's proprietary driver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,34 +30,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2011 05:03:52 -0000
+X-List-Received-Date: Fri, 06 May 2011 08:38:48 -0000
 
-This helps bitbake in organising BBPATH and BBFILES with given
-BBFILE_PRIORITY order
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Previsous solution is only giving warnings as different distro has different
+path of mesa libGL. This patch try to use different path for different distro
+after looking at /etc/lsb-release per Raj's suggestion. Ubuntu is there, and
+other distro handling can be easily added.
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: gzhai/fix3
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/fix3
+
+Thanks,
+    Zhai Edwin <edwin.zhai@intel.com>
 ---
- meta/conf/layer.conf |    5 ++---
- 1 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 5287417..3f63c7d 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -1,9 +1,8 @@
- BBPATH ?= ""
- # We have a conf and classes directory, add to BBPATH
--BBPATH := "${BBPATH}:${LAYERDIR}"
--
-+BBPATH .= ":${LAYERDIR}"
- # We have a packages directory, add to BBFILES
--BBFILES := "${BBFILES} ${LAYERDIR}/packages/*/*.bb ${LAYERDIR}/recipes-*/*/*.bb"
-+BBFILES += "${LAYERDIR}/packages/*/*.bb ${LAYERDIR}/recipes-*/*/*.bb"
- 
- BBFILE_COLLECTIONS += "normal"
- BBFILE_PATTERN_normal := "^${LAYERDIR}/"
--- 
-1.7.4.1
+
+Zhai Edwin (1):
+  qemu-script: Fix qemu seg fault if install Nvidia proprietary driver.
+
+ scripts/poky-qemu-internal |   13 +++++++++++--
+ 1 files changed, 11 insertions(+), 2 deletions(-)
 
 
 
