@@ -1,32 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QIKup-0000IF-RZ for openembedded-core@lists.openembedded.org;
-	Fri, 06 May 2011 15:17:56 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p46DFE3B023890;
-	Fri, 6 May 2011 14:15:14 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 23729-03; Fri,  6 May 2011 14:15:10 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p46DF4fE023878
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 6 May 2011 14:15:05 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QILI1-0000Xj-9g
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 May 2011 15:41:53 +0200
+Received: by wye20 with SMTP id 20so2709925wye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 May 2011 06:39:12 -0700 (PDT)
+Received: by 10.216.246.74 with SMTP id p52mr3749356wer.41.1304689152203;
+	Fri, 06 May 2011 06:39:12 -0700 (PDT)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id
+	bd8sm2003735wbb.48.2011.05.06.06.39.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 06 May 2011 06:39:11 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Fri, 6 May 2011 15:39:09 +0200
+Message-Id: <E927045D-259E-49B7-A318-7755EEA7DCE0@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1304014179-32612-2-git-send-email-jpuhlman@mvista.com>
-References: <RFC: Layer tooling brainstorming>
-	<1304014179-32612-2-git-send-email-jpuhlman@mvista.com>
-Date: Fri, 06 May 2011 14:15:02 +0100
-Message-ID: <1304687702.30391.109.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: chris_larson@mentor.com
-Subject: Re: [PATCH] Add support for remote layering.
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: [RFC] systemd units packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,92 +35,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2011 13:17:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 May 2011 13:41:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jeremy,
+Hi,
 
-Sorry for the delayed response, I took the opportunity to take some
-vacation for a change and its taken me a few days to catch up on email.
+The past few days I have gotten systemd to work in OE.dev and I have =
+some questions on how to do in the oe-core universe. First some =
+background:
 
-Thanks for posting this. Whilst some of what I mention below may sound
-negative, its not meant this way and what you have gives a nice basis to
-start some discussion from on this topic. I do want to take a step back
-and ensure we integrate this functionality at the right level within the
-stack. I've made comments below.
+Systemd is a /sbin/init replacement using ideas from apples launchd like =
+socket activation. Startup scripts are replaced by .ini like files:
 
-On Thu, 2011-04-28 at 11:09 -0700, Jeremy Puhlman wrote:
-> The bulk of this patch is based on Chris Larson's collection.inc,
-> but refactored for use inside bitbake, and for layers.
-> 
-> Adds two new configuration options:
-> 
-> LAYER_UNPACKDIR - directory to unpack downloaded layers for use in configuration.
-> LAYER_REMOTE_STASH - location to store downloaded layers for use in configuration.
-> 
-> Layers can be specified in the current manner:
-> BBLAYERS = " \
->    /path/to/layer/one \
->    /path/to/layer/two \
-> "
-> 
-> Or you can specify uris:
-> 
-> BBLAYERS = " \
-> 	http://url.to.my.tarball/tarball.tar.gz \
-> 	git://gitserver.com/git/repo;proto=http \
->         /path/to/layer/three \
->         file:///path/to/layer/four \
-> "
+sshd.socket:
+------------------------------------------
+[Unit]
+Description=3DOpenSSH Server Socket.
+Conflicts=3Dsshd.service
 
-This is good but what I don't really like about this is that whilst you
-can specify where to get the layer from, it isn't clear where the layer
-ends up locally. Compare the above to something like:
+[Socket]
+ListenStream=3D22
+Accept=3Dyes
 
-BBLAYERS = " \
- 	/path/to/layer/one;srcuri=http://url.to.my.tarball/tarball.tar.gz \
- 	/path/to/layer/two;srcuri=git://gitserver.com/git/repo;proto=http \
-        /path/to/layer/three \
-        /path/to/layer/four \
-"
+[Install]
+WantedBy=3Dsockets.target
+------------------------------------------
 
-This is more ugly but it does clearly set an expectation for both where
-its coming from and where it ends up on disk. It also means we can then
-set specific revisions to checkout or other information e.g. whether the
-revisions should auto-increment. The syntax would probably come
-naturally to anyone who has used SRC_URI (and hence it also flows nicely
-into the fetcher code).
+sshd@.service
+------------------------------------------
+[Unit]
+Description=3DOpenSSH per connection server daemon.
+After=3Dsyslog.target=20
 
-> Currently there is a single layer option, that can be added to a uri, layerBase=<subpath>.
-> This option would be used to specify if a layer starts somewhere other then the base of the
-> tarball/scm repository. For example if you wanted to add oe-core you would do:
+[Service]
+ExecStartPre=3D/usr/sbin/sshd -t
+ExecStart=3D-/usr/sbin/sshd -i
+StandardInput=3Dsocket
+------------------------------------------
 
-Ideally this could become an option that any of our fetchers would
-support...
+The above 2 units combined will start openssh as soon as port 22 is =
+being accessed. This is comparable with inetd. For sysV style init you =
+can use something like this:
 
->  lib/bb/cooker.py       |    3 +-
->  lib/bb/fetch/layer.py  |   65 ++++++++++++++++
->  lib/bb/fetch2/layer.py |   76 ++++++++++++++++++
->  lib/bb/remotelayer.py  |  197 ++++++++++++++++++++++++++++++++++++++++++++++++
+sshd.service:
+------------------------------------------
+[Unit]
+Description=3DOpenSSH server daemon.
+After=3Dsyslog.target network.target
 
-I'm not going to dive into the patches at this point but "layer" isn't
-really a fetcher as such as it doesn't correspond to a specific source
-type, its just a wrapper around other fetch methods. I'm therefore a
-little worried this confuses the abstraction we currently have there.
+[Service]
+Type=3Dforking
+PIDFile=3D/var/run/sshd.pid
+EnvironmentFile=3D/etc/sysconfig/sshd
+ExecStartPre=3D/usr/sbin/sshd -t
+ExecStart=3D/usr/sbin/sshd $OPTIONS
 
-Going back to the high level approach discussion, I'm also wondering if
-there should be some "bblayers" tool which gets run prior to bitbake
-(maybe automatically in some cases) which handles the parsing of the
-BBLAYERS options and does whatever is needed to handle the setup there,
-then hands off to bitbake itself.
+[Install]
+WantedBy=3Dmulti-user.target
+------------------------------------------
 
-I'm very keen to get the abstraction level of this code right so I'd be
-interested in your (and others) thoughts on this...
+All those files are placed in /lib/systemd/system. You can make those =
+exec the old sysv scripts if you wish.
 
-Cheers,
+Now onto my issues:
 
-Richard
+packaging:
+	In OE .dev I added FILES_${PN} +=3D "${base_libdir}/systemd" to =
+udev, dbus, rsyslog and avahi. This means we end up with both sysV =
+script and systemd units. What I would like to have is ${PN}-sysvinit =
+and ${PN}-systemd and the image recipe can choose which init systems =
+gets used. Is something like that possible? Are there better ways? Note =
+that systemd support sysV initscripts as well, but it needs some care =
+with naming. As I understand it, if a unit is found with the same name =
+as a sysV script, only the unit will get used.
+A rootfs postprocess command that deletes /etc/init.d won't work, since =
+it will come back when upgrading the packages.
 
+building:
+	At the moment systemd enabled software installs the units =
+regardless or config options. What should be do with software that has =
+an option for that? And what if we need to patch the units files in? The =
+initsystem is a choice at the image level, so artificially limiting it =
+to a distro choice is not a good idea.
+
+sharing:
+	The Arch people have a github with their custom units: =
+https://github.com/falconindy/systemd-arch-units/ Do we use those? Do we =
+use fedora ones https://bugzilla.redhat.com/show_bug.cgi?id=3D697698 ? =
+People on #systemd are talking about a shared repo on fd.o, but nothing =
+tangible yet.
+
+And related to this: how do I get the "installed but not packaged" =
+output back? The bitbake logging changes are hiding it now, which is =
+counterproductive.=20
+
+So, what are your thoughts on all this?
+
+regards,
+
+Koen=
 
 
