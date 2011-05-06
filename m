@@ -1,26 +1,32 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QIMW2-00081J-8p
+	(envelope-from <Tom_Rini@mentor.com>) id 1QIMrR-0008M1-JR
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 May 2011 17:00:26 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p46EviR6007469
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 May 2011 07:57:44 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 6 May 2011 07:57:44 -0700
-Message-ID: <4DC40C67.8080609@windriver.com>
-Date: Fri, 6 May 2011 09:57:43 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Fri, 06 May 2011 17:22:33 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QIMoq-0006ej-9u from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 May 2011 08:19:52 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 6 May 2011 08:18:29 -0700
+Received: from [172.30.0.24] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1; Fri, 6 May 2011
+	08:19:51 -0700
+Message-ID: <4DC4118B.7030205@mentor.com>
+Date: Fri, 6 May 2011 08:19:39 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
 References: <1304693308-5625-1-git-send-email-koen@dominion.thruhere.net>
 In-Reply-To: <1304693308-5625-1-git-send-email-koen@dominion.thruhere.net>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 06 May 2011 15:18:29.0157 (UTC)
+	FILETIME=[DA758550:01CC0C00]
 Subject: Re: [PATCH] package.bbclass: convert unpackaged file message from 'info' to 'warn' so that it shows up on the console
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,13 +42,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2011 15:00:26 -0000
+X-List-Received-Date: Fri, 06 May 2011 15:22:33 -0000
 Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-Acked-by: Mark Hatle <mark.hatle@windriver.com>
-
-On 5/6/11 9:48 AM, Koen Kooi wrote:
+On 05/06/2011 07:48 AM, Koen Kooi wrote:
 > Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 > ---
 >  meta/classes/package.bbclass |    4 ++--
@@ -65,5 +69,10 @@ On 5/6/11 9:48 AM, Koen Kooi wrote:
 >  	bb.build.exec_func("package_name_hook", d)
 >  
 
+Acked-by: Tom Rini <tom_rini@mentor.com>
+
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
