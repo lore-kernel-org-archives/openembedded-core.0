@@ -1,26 +1,32 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QILjG-00012V-Ku
-	for openembedded-core@lists.openembedded.org;
-	Fri, 06 May 2011 16:10:03 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p46E7Hg9028633
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QILw7-0004fu-59 for openembedded-core@lists.openembedded.org;
+	Fri, 06 May 2011 16:23:19 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p46EKYhs024539
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 May 2011 07:07:17 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 6 May 2011 07:07:16 -0700
-Message-ID: <4DC40093.8070701@windriver.com>
-Date: Fri, 6 May 2011 09:07:15 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <E927045D-259E-49B7-A318-7755EEA7DCE0@dominion.thruhere.net>
+	Fri, 6 May 2011 15:20:34 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24190-06 for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 May 2011 15:20:30 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p46EKPsl024533
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 6 May 2011 15:20:26 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 In-Reply-To: <E927045D-259E-49B7-A318-7755EEA7DCE0@dominion.thruhere.net>
+References: <E927045D-259E-49B7-A318-7755EEA7DCE0@dominion.thruhere.net>
+Date: Fri, 06 May 2011 15:20:22 +0100
+Message-ID: <1304691622.30391.124.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [RFC] systemd units packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,99 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2011 14:10:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Fri, 06 May 2011 14:23:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 5/6/11 8:39 AM, Koen Kooi wrote:
-> Hi,
-> 
-> The past few days I have gotten systemd to work in OE.dev and I have some questions on how to do in the oe-core universe. First some background:
-> 
-> Systemd is a /sbin/init replacement using ideas from apples launchd like socket activation. Startup scripts are replaced by .ini like files:
-
-I really want to start experimenting with systemd inside of oe-core.  Can we use
-something like the distro flags we had briefly talked about in the TSC meetings
-to control which init system is used?
-
-Also a somewhat related question, does this belong in meta-oe or oe-core...
-(This might be a good example in meta-oe of extending items within oe-core,
-besides being a good place to experiment and prove out the functionality before
-it goes into oe-core.)
-
-...
-
+On Fri, 2011-05-06 at 15:39 +0200, Koen Kooi wrote:
 > Now onto my issues:
 > 
 > packaging:
-> In OE .dev I added FILES_${PN} += "${base_libdir}/systemd" to
-> udev, dbus, rsyslog and avahi. This means we end up with both sysV script
-> and systemd units. What I would like to have is ${PN}-sysvinit and 
-> ${PN}-systemd and the image recipe can choose which init systems gets used.
-> Is something like that possible? Are there better ways? Note that systemd
-> support sysV initscripts as well, but it needs some care with naming. As I
-> understand it, if a unit is found with the same name as a sysV script, only
-> the unit will get used. A rootfs postprocess command that deletes /etc/init.d
-> won't work, since itwill come back when upgrading the packages.>
+> 	In OE .dev I added FILES_${PN} += "${base_libdir}/systemd" to udev,
+> dbus, rsyslog and avahi. This means we end up with both sysV script
+> and systemd units. What I would like to have is ${PN}-sysvinit and
+> ${PN}-systemd and the image recipe can choose which init systems gets
+> used. Is something like that possible?
 
-This is where I think the distro flags could be useful..
+I'm not sure that it is to be honest. We simply don't have the
+capability in the package managers to be able to say "if systemd is
+installed, install *-systemd where * is any currently installed
+package". Its the same problem we have with locales.
 
-The question is what is the best way to control the initscript files.  Should
-they be bundled in with the base FILES_${PN}, and then at build-time it's
-selected which type of initscript/configuration is enabled -- or should we add a
-runtime requirement of ${PN}-init, and provide two alternative ways of
-satisfying this.. one sysvinit and one systemd.. (both with appropriate run-time
-dependencies)... of course that leads to rootfs construction issues, how does it
-know which to select..  <thinking outloud a bit on this>
+Now if we had that functionality, great, but we simply don't :(.
 
+>  Are there better ways? Note that systemd support sysV initscripts as
+> well, but it needs some care with naming. As I understand it, if a
+> unit is found with the same name as a sysV script, only the unit will
+> get used.
+> A rootfs postprocess command that deletes /etc/init.d won't work,
+> since it will come back when upgrading the packages.
+> 
 > building:
-> At the moment systemd enabled software installs the units regardless or 
-> config options. What should be do with software that has an option for that?
-> And what if we need to patch the units files in? The initsystem is a choice
-> at the image level, so artificially limiting it to a distro choice is not a
-> good idea.
+> 	At the moment systemd enabled software installs the units regardless
+> or config options. What should be do with software that has an option
+> for that? And what if we need to patch the units files in? The
+> initsystem is a choice at the image level, so artificially limiting it
+> to a distro choice is not a good idea.
 
-I think we need to define what the distro flags/choices end up meaning.  And if
-we want the policy to be image generation time or distribution build-time.
-While it would be possible to build a distro both ways, and determine strategy
-at image creation time, the complexities noted above may help make a decision.
+Its an artificial limit but our tools don't give us any other option,
+for now I think this has to be a distro config choice.
 
-> sharing:
-> The Arch people have a github with their custom units:
-> https://github.com/falconindy/systemd-arch-units/ Do we use those? Do we use
-> fedora ones https://bugzilla.redhat.com/show_bug.cgi?id=697698 ? People on
-> #systemd are talking about a shared repo on fd.o, but nothing tangible yet.
+> And related to this: how do I get the "installed but not packaged"
+> output back? The bitbake logging changes are hiding it now, which is
+> counterproductive. 
 
-We've got a few people starting to look into PAM.  I think it's somewhat similar
-in that there are different ways things can be patches and configured -- we just
-have to find a strategy and determine whats best.  If we don't have a systemd
-lead within OE, then the best approach is likely to pick a distro that is close
-enough to our needs to be used as a starting point.  (For something like PAM,
-that is likely Fedora... while for systemd, Arch might be a good choice.. but I
-don't know for sure.)
+As others have said, this should be a bb.warn.
 
-I'm definitely for re-use, but it'd be nice to have someone to champion this and
-help define and describe policies.
+Cheers,
 
-> And related to this: how do I get the "installed but not packaged" output
-> back? The bitbake logging changes are hiding it now, which is
-> counterproductive.
-
-Looks like this may have been a bit too aggressive of filtering.  IMHO this
-should be a warning not "info" which is filter out.
-
---Mark
-
-> 
-> So, what are your thoughts on all this?
-> 
-> regards,
-> 
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Richard
 
 
 
