@@ -1,33 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QILw7-0004fu-59 for openembedded-core@lists.openembedded.org;
-	Fri, 06 May 2011 16:23:19 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p46EKYhs024539
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 May 2011 15:20:34 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24190-06 for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 May 2011 15:20:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p46EKPsl024533
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 May 2011 15:20:26 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <E927045D-259E-49B7-A318-7755EEA7DCE0@dominion.thruhere.net>
-References: <E927045D-259E-49B7-A318-7755EEA7DCE0@dominion.thruhere.net>
-Date: Fri, 06 May 2011 15:20:22 +0100
-Message-ID: <1304691622.30391.124.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC] systemd units packaging
+Received: from relay1.mentorg.com ([192.94.38.131])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Tom_Rini@mentor.com>) id 1QIM2W-0004kp-Lp
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 May 2011 16:29:56 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QILzu-00024e-IJ from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 May 2011 07:27:14 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 6 May 2011 07:25:51 -0700
+Received: from [172.30.0.24] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1; Fri, 6 May 2011
+	07:27:14 -0700
+Message-ID: <4DC40535.6060102@mentor.com>
+Date: Fri, 6 May 2011 07:27:01 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1302936483.git.sgw@linux.intel.com>	<eee3fb921c3e9c6439df2540a552719c9327ebd4.1302936483.git.sgw@linux.intel.com>	<1303102414.5518.30.camel@rex>	<1865303E0DED764181A9D882DEF65FB6900D7D5708@shsmsx502.ccr.corp.intel.com>	<1303109647.5518.54.camel@rex>	<1865303E0DED764181A9D882DEF65FB69334F4BD75@shsmsx502.ccr.corp.intel.com>
+	<1304634851.30391.54.camel@rex>
+In-Reply-To: <1304634851.30391.54.camel@rex>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 06 May 2011 14:25:51.0594 (UTC)
+	FILETIME=[8067A4A0:01CC0BF9]
+Subject: Re: [PATCH 37/58] gnu-config-native: add dependency on perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,53 +43,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 May 2011 14:23:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 06 May 2011 14:29:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-05-06 at 15:39 +0200, Koen Kooi wrote:
-> Now onto my issues:
+On 05/05/2011 03:34 PM, Richard Purdie wrote:
+> On Thu, 2011-05-05 at 22:18 +0800, Cui, Dexuan wrote:
+>> (Sorry for my delay for the task as I was working on other bugs...)
+>> Recently I have been looking into it and I've made some commits (the
+>> top 5 small commits) in
+>> http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/log/?h=dcui/master_perl-native 
+>> BTW: the work is not done completely as some recipes don't build
+>> with the changes. Please have a look anyway to see if I'm in the correct direction.
+>>
+>> However, I've got some difficulties and hope to get your help:
+>> 1)  As you said, after we install perl-native into its own directory,
+>> any recipe not depending on perl-native doesn't see
+>> ${STAGING_BINDIR_NATIVE}/perl-native/perl unnecessarily.
+>> However, if we keep the current code, what's the bad consequence if
+>> the recipe not depending on perl-native does see perl of perl-native?
+>> looks no?
 > 
-> packaging:
-> 	In OE .dev I added FILES_${PN} += "${base_libdir}/systemd" to udev,
-> dbus, rsyslog and avahi. This means we end up with both sysV script
-> and systemd units. What I would like to have is ${PN}-sysvinit and
-> ${PN}-systemd and the image recipe can choose which init systems gets
-> used. Is something like that possible?
-
-I'm not sure that it is to be honest. We simply don't have the
-capability in the package managers to be able to say "if systemd is
-installed, install *-systemd where * is any currently installed
-package". Its the same problem we have with locales.
-
-Now if we had that functionality, great, but we simply don't :(.
-
->  Are there better ways? Note that systemd support sysV initscripts as
-> well, but it needs some care with naming. As I understand it, if a
-> unit is found with the same name as a sysV script, only the unit will
-> get used.
-> A rootfs postprocess command that deletes /etc/init.d won't work,
-> since it will come back when upgrading the packages.
+> We have an assumption that perl is already on the system we're building
+> on. Perl is a relatively stable language with defined compatibility and
+> interoperability. Most recipes are therefore fine using perl from the
+> build system directly and don't need perl-native. I think we defined a
+> special name for the build system perl (perl-native-runtime?). Better
+> names are welcome but we should ensure we use the right dependency in
+> the right places.
 > 
-> building:
-> 	At the moment systemd enabled software installs the units regardless
-> or config options. What should be do with software that has an option
-> for that? And what if we need to patch the units files in? The
-> initsystem is a choice at the image level, so artificially limiting it
-> to a distro choice is not a good idea.
+> The time to use perl-native instead of perl-native-runtime is where any
+> perl module is being built, perl itself is being built or anything that
+> has an explicit dependency on the perl version present.
 
-Its an artificial limit but our tools don't give us any other option,
-for now I think this has to be a distro config choice.
+The problem that follows up is that once we have built any sort of
+perl-native we then have to go and be really really really careful that
+nothing that's not (a) target perl (b) some perl module we built and
+need to run uses it.  Otherwise we run into the problems I think that've
+been hit here.  Problems like this are why for OE I just made
+perl-native be the perl we rely on for everything.
 
-> And related to this: how do I get the "installed but not packaged"
-> output back? The bitbake logging changes are hiding it now, which is
-> counterproductive. 
+I know we talked about this before and you had a strong desire to try
+and do something else but I think this shows maybe we need to try going
+down the perl-native everywhere path first and then see if we can't do
+something different.
 
-As others have said, this should be a bb.warn.
-
-Cheers,
-
-Richard
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
