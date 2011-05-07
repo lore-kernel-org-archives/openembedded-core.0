@@ -1,38 +1,38 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QIcNX-0006tS-57
+	(envelope-from <raj.khem@gmail.com>) id 1QIcNd-00070s-Ja
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 May 2011 09:56:43 +0200
-Received: by mail-pw0-f47.google.com with SMTP id 9so1800424pwj.6
+	Sat, 07 May 2011 09:56:50 +0200
+Received: by pzk36 with SMTP id 36so1800607pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 May 2011 00:54:03 -0700 (PDT)
+	Sat, 07 May 2011 00:54:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=++nV8cE8lbtOUmFB/K7+7RKWlKV45jj3sPw75MY3Be8=;
-	b=ehp+xK9sE7quKwrhgeLfUFCSXBewT7UTingts0X1AopIgH8Fxv53Iz/o/XgUYzdxyu
-	CQGocHST80pLE2MD7aXmQ/NEkQ2V6+/ddags0Yo+zvrPvrNAtFtp1rfkw8813AVZSTmU
-	BlxAz2QKh0nWptxLOYdvMhWB54KxAYJlwZwPw=
+	bh=1cRme6sZeXqeFfSUNxRGy6FuHSKG3UnqEPyPRg2IUWc=;
+	b=M7i+IkeAa0irw3KQG1YNNBWmNsdBaG0K4assaZYGCG61r0vHT5DkvCFzUChUKXj/b4
+	PGdLsNE9Pk2bnMHIrVo1TmHIB2Bs0VEiihGkQtb/lONT1zDChaT990jmNj6uxjfjMXtp
+	a5Lk9CDHEkHVh2SspaO7iIv84QoLb4oHCdTDU=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=YKTLlbQUW2tMfmXgXpfGDM99RW+ol4/LlEyYpKPuSPod2R/27x5g3KvJtZfIxFkQ3G
-	Q9VBnvtFwkaET0McAdJPGpsqf3AOAwDHi99Asj+FT8QkU42+CzfoLtBorOJaYN4UIivj
-	nHYXvzcLkkIjM5f3km/ECNsfyKElzBABvK2rY=
-Received: by 10.68.1.170 with SMTP id 10mr5943524pbn.189.1304754843111;
-	Sat, 07 May 2011 00:54:03 -0700 (PDT)
+	b=CRh74wWxB76dVkwtN7L4ZD+GAVJar22ENOb5n7kw74cfWvglfCkW9Fcd7ZeNpT+uNv
+	dHPxmMSQKtzg0NhU62OobIt0qlV5u2eHnzZu2Bt3yIGivSF4/JxcAb82J/8N3YtJbzc6
+	7J+EQCq6JruXLYeU5yrUHMq3lkC0c4eUt5wMM=
+Received: by 10.142.141.18 with SMTP id o18mr2343533wfd.303.1304754847056;
+	Sat, 07 May 2011 00:54:07 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id c10sm2675953pbi.67.2011.05.07.00.54.01
+	by mx.google.com with ESMTPS id z10sm5209740wfj.15.2011.05.07.00.54.05
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 07 May 2011 00:54:02 -0700 (PDT)
+	Sat, 07 May 2011 00:54:06 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Sat,  7 May 2011 00:53:59 -0700
-Message-Id: <299c3a716b067eebdb1fc01e036d33119bfbc4cb.1304754527.git.raj.khem@gmail.com>
+Date: Sat,  7 May 2011 00:54:02 -0700
+Message-Id: <0a674cfa8f7de53b7b75c0213a483aad0276986f.1304754527.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1304754527.git.raj.khem@gmail.com>
 References: <cover.1304754527.git.raj.khem@gmail.com>
-Subject: [PATCH 7/8] lttng-ust_0.12.bb: Fix compilation on uclibc
+Subject: [PATCH 8/8] scripts/send-pull-request: Add CC selectively
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,89 +47,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 May 2011 07:56:43 -0000
+X-List-Received-Date: Sat, 07 May 2011 07:56:50 -0000
 
-We provide alternative implementation of sched_getcpu()
-when compiling for uclibc
+Currently a consolidated pull request adds all the participants
+to every patch, which in essence is good but might lose focus
+of developers who would be interested to know about the patch
+that developer contributed to. This patch fixes the script by
+extracting the to and cc information from each patch one by one
+and add it to patch mail header instead of doing a sweeping one
+pass over all patches to collect all email addresses. It should
+reduce some email traffic for developers.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../lttng/lttng-ust/uclibc-sched_getcpu.patch      |   50 ++++++++++++++++++++
- meta/recipes-kernel/lttng/lttng-ust_0.12.bb        |    4 +-
- 2 files changed, 53 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
+ scripts/send-pull-request |   51 +++++++++++++++++++++++++-------------------
+ 1 files changed, 29 insertions(+), 22 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch b/meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
-new file mode 100644
-index 0000000..7102a69
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
-@@ -0,0 +1,50 @@
-+uClibc does not have sched_getcpu() implemented. So we create a wrapper
-+to getcpu syscall when compiling for uclibc.
-+
-+So far execinfo.h does not exist on uclibc but it turns out to be that
-+this header is not needed even in eglibc case so it can be removed
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-status: Pending
-+
-+Index: ust-0.12/libust/tracer.h
-+===================================================================
-+--- ust-0.12.orig/libust/tracer.h
-++++ ust-0.12/libust/tracer.h
-+@@ -342,14 +342,22 @@ static __inline__ void ltt_write_trace_h
-+ 	header->start_freq = trace->start_freq;
-+ 	header->freq_scale = trace->freq_scale;
-+ }
-+-
-++#ifdef __UCLIBC__
-++#define sched_getcpu(cpu, node, cache) syscall(__NR_getcpu, cpu, node, cache)
-++#endif
-+ #ifndef UST_VALGRIND
-+ 
-+ static __inline__ int ust_get_cpu(void)
-+ {
-+ 	int cpu;
-+ 
-++#ifdef __UCLIBC__
-++	int c, s;
-++	s = syscall(__NR_getcpu, &c, NULL, NULL);
-++	cpu = (s == -1) ? s : c;
-++#else
-+ 	cpu = sched_getcpu();
-++#endif
-+ 	if (likely(cpu >= 0))
-+ 		return cpu;
-+ 	/*
-+Index: ust-0.12/libustcomm/ustcomm.c
-+===================================================================
-+--- ust-0.12.orig/libustcomm/ustcomm.c
-++++ ust-0.12/libustcomm/ustcomm.c
-+@@ -31,7 +31,6 @@
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+-#include <execinfo.h>
-+ 
-+ #include "ustcomm.h"
-+ #include "usterr.h"
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_0.12.bb b/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
-index 7dadc04..5fca949 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
-@@ -12,7 +12,9 @@ DEPENDS = "liburcu"
+diff --git a/scripts/send-pull-request b/scripts/send-pull-request
+index 3af2a9f..36a89f4 100755
+--- a/scripts/send-pull-request
++++ b/scripts/send-pull-request
+@@ -29,24 +29,38 @@ EOM
+ # Collect To and CC addresses from the patch files if they exist
+ # $1: Which header to add the recipients to, "TO" or "CC"
+ # $2: The regex to match and strip from the line with email addresses
++# $3: The patch which we are preparing to send
+ harvest_recipients()
+ {
+     TO_CC=$1
+     REGX=$2
++    PATCH=$3
+     export IFS=$',\n'
+-    for PATCH in $PDIR/*.patch; do
+-        # Grab To addresses
+-        for EMAIL in $(sed '/^---$/q' $PATCH | grep -e "$REGX" | sed "s/$REGX//"); do
+-            if [ "$TO_CC" == "TO" ] && [ "${TO/$EMAIL/}" == "$TO" ] && [ -n "$EMAIL" ]; then
+-                if [ -z "$TO" ]; then TO=$EMAIL; else TO="$TO,$EMAIL"; fi
+-            elif [ "$TO_CC" == "CC" ] && [ "${CC/$EMAIL/}" == "$CC" ] && [ -n "$EMAIL" ]; then
+-                if [ -z "$CC" ]; then CC=$EMAIL; else CC="$CC,$EMAIL"; fi
+-            fi
+-        done
++    # Grab To addresses
++    for EMAIL in $(sed '/^---$/q' $PATCH | grep -e "$REGX" | sed "s/$REGX//"); do
++        if [ "$TO_CC" == "TO" ] && [ "${TO/$EMAIL/}" == "$TO" ] && [ -n "$EMAIL" ]; then
++           if [ -z "$TO" ]; then TO=$EMAIL; else TO="$TO,$EMAIL"; fi
++        elif [ "$TO_CC" == "CC" ] && [ "${CC/$EMAIL/}" == "$CC" ] && [ -n "$EMAIL" ]; then
++           if [ -z "$CC" ]; then CC=$EMAIL; else CC="$CC,$EMAIL"; fi
++        fi
+     done
+     unset IFS
+ }
  
- PR = "r0"
++# $1: The given patch
++create_recipient_lists()
++{
++    THEPATCH=$1
++    # Harvest emails from the generated patch and populate the TO and CC variables
++    # In addition to To and CC headers/lines, the common Signed-off-by, Tested-by,
++    # etc. (*-by) will be added to CC.
++    if [ $AUTO -eq 1 ]; then
++        harvest_recipients TO "^[Tt][Oo]: *" $THEPATCH
++        harvest_recipients CC "^[Cc][Cc]: *" $THEPATCH
++        harvest_recipients CC "^.*-[Bb][Yy]: *" $THEPATCH
++    fi
++}
++
  
--SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz"
-+SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz \
-+           file://uclibc-sched_getcpu.patch \
-+          "
+ # Parse and verify arguments
+ while getopts "af:ghp:t:" OPT; do
+@@ -100,15 +114,6 @@ for TOKEN in SUBJECT BLURB; do
+ done
  
- SRC_URI[md5sum] = "fae6e324a56016658c5b83ec14ba0043"
- SRC_URI[sha256sum] = "215b05f47d0c9e3a2934926a7d14fa9c67025db917c3a1f641df40b08314ab0c"
+ 
+-# Harvest emails from the generated patches and populate the TO and CC variables
+-# In addition to To and CC headers/lines, the common Signed-off-by, Tested-by,
+-# etc. (*-by) will be added to CC.
+-if [ $AUTO -eq 1 ]; then
+-    harvest_recipients TO "^[Tt][Oo]: *"
+-    harvest_recipients CC "^[Cc][Cc]: *"
+-    harvest_recipients CC "^.*-[Bb][Yy]: *"
+-fi
+-
+ case "$PULL_MTA" in
+     git)
+         FROM="$(git config sendemail.from)"
+@@ -158,11 +163,12 @@ if [ "$cont" == "y" ] || [ "$cont" == "Y" ]; then
+     ERROR=0
+     case "$PULL_MTA" in
+         git)
+-            export IFS=$','
+-            GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
+-            GIT_CC=$(for R in $CC; do echo -n "--cc='$R' "; done)
+-            unset IFS
+             for PATCH in $PDIR/*patch; do
++                create_recipient_lists $PATCH
++                export IFS=$','
++                GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
++                GIT_CC=$(for R in $CC; do echo -n "--cc='$R' "; done)
++                unset IFS
+                 # We harvest the emails manually, so force git not to.
+                 eval "git send-email $GIT_TO $GIT_CC --no-chain-reply-to --suppress-cc=all $PATCH"
+                 if [ $? -eq 1 ]; then
+@@ -172,6 +178,7 @@ if [ "$cont" == "y" ] || [ "$cont" == "Y" ]; then
+             ;;
+         sendmail)
+             for PATCH in $PDIR/*patch; do
++                create_recipient_lists $PATCH
+                 # Insert To and CC headers via formail to keep them separate and
+                 # appending them to the sendmail command as -- $TO $CC has
+                 # proven to be an exercise in futility.
 -- 
 1.7.4.1
 
