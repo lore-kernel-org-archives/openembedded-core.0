@@ -1,39 +1,42 @@
 Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QJVQc-0005fq-4r
+	(envelope-from <raj.khem@gmail.com>) id 1QJVQg-0005fq-1B
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 May 2011 20:43:35 +0200
+	Mon, 09 May 2011 20:43:38 +0200
 Received: by mail-px0-f172.google.com with SMTP id 6so3954525pxi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 May 2011 11:40:51 -0700 (PDT)
+	Mon, 09 May 2011 11:40:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=++nV8cE8lbtOUmFB/K7+7RKWlKV45jj3sPw75MY3Be8=;
-	b=uf+iL4EG4UYBhBKO/Yv4LY0KyLoVbwNQGfp1nkLGB8yKM0rjwWqFouqM/EVUdbWIDH
-	ZnAIuI5SFt+tFOa/D/fonG7CWtNN5ARAD7mVIbbZNjcKDZF0FXzxlvb+tIcGjaQnPxFn
-	0Bk3fgx+JNAHGljT191k8Smqpt+Yy07BHgMBI=
+	:in-reply-to:references:mime-version:content-type
+	:content-transfer-encoding;
+	bh=jCRgbc/uchfK3P7QQ4XqEeKOFdkxpqE8yc1BdKLqLpM=;
+	b=atU+WwbeCy+s8gqAtvzil3X52GEQGis9URjluKIAg8+l6yOMoLKO1q3lZh0ZGLkDkw
+	upl98ERtqwArtd32AVjAMxCUV73JspLmMV+prT8PSF7dGPVOCkgHY0Ni1qlt2vWnvQMO
+	7c4mnQWSCtojrCK8KgOp6PUWvH99LRqvMj3nA=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=U5xpY2oMqhBTCzgAls7XI9E+S5vlhDSnxras6pEY5hxcXx3mSCo0xCuLixo7re2YxM
-	6+jia8bS77zE5gYwbcl1+lQtp4D+bIy7PZWdRDh+K/EWgxD1o1HpEHa8ht4ukGkCixKI
-	NXvuvPVlE9yLyqljXvW/uQ/iOh9ipt/NRSyjY=
-Received: by 10.68.41.103 with SMTP id e7mr1337608pbl.43.1304966451467;
-	Mon, 09 May 2011 11:40:51 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	b=UTqm9rdUUEmsTBF2Z4kCg70h5Kh/dYwVMd2sPweSevj0WblGZ81CplcF+uQFSphtjn
+	cW19PGRv4cglHE/phdo/Nn330cADSyFL0YRqjbPJtkr2eL0BLEit90mPPFQPyt+MyX7T
+	P51CJ30uFxcfV76j8dltRITt+zOsaRzmqe9B8=
+Received: by 10.68.15.101 with SMTP id w5mr10043455pbc.134.1304966455392;
+	Mon, 09 May 2011 11:40:55 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id i4sm4262643pbr.42.2011.05.09.11.40.49
+	by mx.google.com with ESMTPS id o4sm4262100pbl.98.2011.05.09.11.40.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 09 May 2011 11:40:50 -0700 (PDT)
+	Mon, 09 May 2011 11:40:54 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Mon,  9 May 2011 11:40:45 -0700
-Message-Id: <8fd4c9c428942addfa3c07a93c3726bb5659df4d.1304966147.git.raj.khem@gmail.com>
+Date: Mon,  9 May 2011 11:40:48 -0700
+Message-Id: <3db0d3e0bd1cc46050b05d9490087dc0a73b412d.1304966147.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1304966147.git.raj.khem@gmail.com>
 References: <cover.1304966147.git.raj.khem@gmail.com>
+MIME-Version: 1.0
 Cc: Chris Larson <chris_larson@mentor.com>
-Subject: [PATCH 5/6] lttng-ust_0.12.bb: Fix compilation on uclibc
+Subject: [PATCH 6/6] oe/patch.py: Remove series file during Clean()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,89 +51,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2011 18:43:36 -0000
+X-List-Received-Date: Mon, 09 May 2011 18:43:39 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-We provide alternative implementation of sched_getcpu()
-when compiling for uclibc
+Currently if there is a failed do_patch the series files get appended
+so if there were two patches
+
+a.patch
+b.patch
+and b.patch failed during next run it would append a.patch again
+a.patch
+b.patch
+a.patch
+
+and this would keep growing.
+
+We can remove series file in Clean() because we populate it in Import()
+anyway
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Acked-by: Chris Larson <chris_larson@mentor.com>
+Acked-by: Eric Bénard <eric@eukrea.com>
 ---
- .../lttng/lttng-ust/uclibc-sched_getcpu.patch      |   50 ++++++++++++++++++++
- meta/recipes-kernel/lttng/lttng-ust_0.12.bb        |    4 +-
- 2 files changed, 53 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
+ meta/lib/oe/patch.py |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch b/meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
-new file mode 100644
-index 0000000..7102a69
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
-@@ -0,0 +1,50 @@
-+uClibc does not have sched_getcpu() implemented. So we create a wrapper
-+to getcpu syscall when compiling for uclibc.
-+
-+So far execinfo.h does not exist on uclibc but it turns out to be that
-+this header is not needed even in eglibc case so it can be removed
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-status: Pending
-+
-+Index: ust-0.12/libust/tracer.h
-+===================================================================
-+--- ust-0.12.orig/libust/tracer.h
-++++ ust-0.12/libust/tracer.h
-+@@ -342,14 +342,22 @@ static __inline__ void ltt_write_trace_h
-+ 	header->start_freq = trace->start_freq;
-+ 	header->freq_scale = trace->freq_scale;
-+ }
-+-
-++#ifdef __UCLIBC__
-++#define sched_getcpu(cpu, node, cache) syscall(__NR_getcpu, cpu, node, cache)
-++#endif
-+ #ifndef UST_VALGRIND
-+ 
-+ static __inline__ int ust_get_cpu(void)
-+ {
-+ 	int cpu;
-+ 
-++#ifdef __UCLIBC__
-++	int c, s;
-++	s = syscall(__NR_getcpu, &c, NULL, NULL);
-++	cpu = (s == -1) ? s : c;
-++#else
-+ 	cpu = sched_getcpu();
-++#endif
-+ 	if (likely(cpu >= 0))
-+ 		return cpu;
-+ 	/*
-+Index: ust-0.12/libustcomm/ustcomm.c
-+===================================================================
-+--- ust-0.12.orig/libustcomm/ustcomm.c
-++++ ust-0.12/libustcomm/ustcomm.c
-+@@ -31,7 +31,6 @@
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+-#include <execinfo.h>
-+ 
-+ #include "ustcomm.h"
-+ #include "usterr.h"
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_0.12.bb b/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
-index 7dadc04..5fca949 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
-@@ -12,7 +12,9 @@ DEPENDS = "liburcu"
- 
- PR = "r0"
- 
--SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz"
-+SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz \
-+           file://uclibc-sched_getcpu.patch \
-+          "
- 
- SRC_URI[md5sum] = "fae6e324a56016658c5b83ec14ba0043"
- SRC_URI[sha256sum] = "215b05f47d0c9e3a2934926a7d14fa9c67025db917c3a1f641df40b08314ab0c"
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 16d3d08..1406e19 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -198,6 +198,7 @@ class QuiltTree(PatchSet):
+     def Clean(self):
+         try:
+             self._runcmd(["pop", "-a", "-f"])
++            oe.path.remove(os.path.join(self.dir, "patches","series"))
+         except Exception:
+             pass
+         self.initialized = True
 -- 
 1.7.4.1
 
