@@ -1,33 +1,26 @@
-Received: from mail.fim.uni-passau.de ([132.231.1.31])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <leitl@fim.uni-passau.de>) id 1QJCWe-000114-Br
+	(envelope-from <ke.yu@intel.com>) id 1QJJof-0004ao-2M
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 May 2011 00:32:33 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.fim.uni-passau.de (Postfix) with ESMTP id D6C079223D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2011 00:29:50 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.fim.uni-passau.de
-Received: from mail.fim.uni-passau.de ([127.0.0.1])
-	by localhost (mail.fim.uni-passau.de [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id GcaQUd3q4R4X
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2011 00:29:50 +0200 (CEST)
-Received: from darkx.localnet (p5DC74DAD.dip.t-dialin.net [93.199.77.173])
-	by mail.fim.uni-passau.de (Postfix) with ESMTPSA id 8C774921BC
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2011 00:29:50 +0200 (CEST)
-From: Franz Leitl <leitl@fim.uni-passau.de>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 9 May 2011 00:30:17 +0200
-User-Agent: KMail/1.13.6 (Linux/2.6.38.4-23-default; KDE/4.6.1; x86_64; ; )
-References: <201105090016.46391.leitl@fim.uni-passau.de>
-In-Reply-To: <201105090016.46391.leitl@fim.uni-passau.de>
+	Mon, 09 May 2011 08:19:37 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 08 May 2011 23:16:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,338,1301900400"; d="scan'208";a="689989443"
+Received: from kyu3-desk.ccr.corp.intel.com (HELO [10.238.154.142])
+	([10.238.154.142])
+	by fmsmga002.fm.intel.com with ESMTP; 08 May 2011 23:16:51 -0700
+Message-ID: <4DC786D1.2000404@intel.com>
+Date: Mon, 09 May 2011 14:16:49 +0800
+From: Yu Ke <ke.yu@intel.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-Message-Id: <201105090030.17354.leitl@fim.uni-passau.de>
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Subject: Re: Patch for fixing build issues with external kernel modules.
+To: Philip Balister <philip@balister.org>
+References: <4DC05B11.6070506@balister.org>
+In-Reply-To: <4DC05B11.6070506@balister.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] OpenEmbedded eV membership drive
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,76 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 May 2011 22:32:33 -0000
-Content-Type: Multipart/Mixed;
-  boundary="Boundary-00=_5lxxNqRbPpQYg1E"
-
---Boundary-00=_5lxxNqRbPpQYg1E
-Content-Type: Text/Plain;
-  charset="utf-8"
+X-List-Received-Date: Mon, 09 May 2011 06:19:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
+on 2011-5-4 3:44, Philip Balister wrote:
+> e of the things we would like to do is vote in new members to the eV
+> (for the .us guys, think 501c3). If you are interested in becoming a
+> member, read the Organization web page and send me an email indicating
+> your desire to become a member. Please include a short paragraph
+> explaining who you are and how you are involved with OpenEmbedded.
 
-Hopefully this time the patch is "attached".
+Hi Philip,
+
+I have the interests to become the member of eV. Below is my short bio.
+
+Biography: Yu Ke is a senior software engineer in Intel Open Source 
+Technology Center. Currently he is working in Yocto Project as tech 
+leader of Yocto PRC team. Ke begin to play with OpenEmbedded when join 
+Yocto project since its creation. He is involved in various areas in the 
+project, including core package maintenance and build system development.
 
 Regards
-Franz
+Yu Ke
 
----
- meta/classes/kernel.bbclass |    2 +-
- meta/classes/module.bbclass |    9 ++++++++-
- 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 70a782f..9835130 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -149,7 +149,7 @@ kernel_do_install() {
-        #
-        oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
-        make -C $kerneldir _mrproper_scripts
--       find $kerneldir -path $kerneldir/scripts -prune -o -name "*.[csS]" -
-exec rm '{}' \;
-+       find $kerneldir -path $kerneldir/scripts -prune -o -name "*.[sS]" -
-exec rm '{}' \;
-        find $kerneldir/Documentation -name "*.txt" -exec rm '{}' \;
- 
-        # Remove the following binaries which cause strip errors
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 572df0d..e5b705a 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -11,13 +11,18 @@ inherit module-base
- do_make_scripts() {
-        unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
-        oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
--                  -C ${STAGING_KERNEL_DIR} scripts
-+               -C ${STAGING_KERNEL_DIR} scripts
-+        oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-+                -C ${STAGING_KERNEL_DIR} prepare
- }
- 
- module_do_compile() {
-+
-+
-        do_make_scripts
-        unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-        oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
-+                   KERNELDIR=${STAGING_KERNEL_DIR}  \
-                   KERNEL_SRC=${STAGING_KERNEL_DIR}    \
-                   KERNEL_VERSION=${KERNEL_VERSION}    \
-                   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
-@@ -28,6 +33,8 @@ module_do_compile() {
- module_do_install() {
-        unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-        oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" \
-+                   KERNEL_PATH=${STAGING_KERNEL_DIR}   \
-+                   KERNELDIR=${STAGING_KERNEL_DIR}  \
-                   KERNEL_SRC=${STAGING_KERNEL_DIR} \
-                   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
-                   modules_install
--- 
-1.7.1
-
---Boundary-00=_5lxxNqRbPpQYg1E--
