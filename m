@@ -1,27 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QJVA5-0003TT-EX
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QJVIG-0003ca-Fi
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 May 2011 20:26:30 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 May 2011 11:23:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,341,1301900400"; d="scan'208";a="744605338"
-Received: from doubt.jf.intel.com (HELO [10.7.199.57]) ([10.7.199.57])
-	by orsmga001.jf.intel.com with ESMTP; 09 May 2011 11:23:19 -0700
-Message-ID: <4DC83117.8000205@linux.intel.com>
-Date: Mon, 09 May 2011 11:23:19 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <201105090016.46391.leitl@fim.uni-passau.de>	<1304958486.18625.11.camel@doubt>	<201105091932.06238.leitl@fim.uni-passau.de>
-	<69719FEB-AD08-4D01-B1B0-D8291AD1DEFC@dominion.thruhere.net>
-In-Reply-To: <69719FEB-AD08-4D01-B1B0-D8291AD1DEFC@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: Patch for fixing build issues with external kernel modules.
+	Mon, 09 May 2011 20:34:56 +0200
+Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
+	[128.224.146.167])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p49IW3FF027948;
+	Mon, 9 May 2011 11:32:07 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon,  9 May 2011 14:34:05 -0400
+Message-Id: <0cdc29c1cc8b21919c4bab1661f6603e8935b2ef.1304965560.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1304965560.git.bruce.ashfield@windriver.com>
+References: <cover.1304965560.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1304965560.git.bruce.ashfield@windriver.com>
+References: <cover.1304965560.git.bruce.ashfield@windriver.com>
+Cc: yocto@yoctoproject.org, dvhart@linux.intel.com,
+	openembedded-core@lists.openembedded.org, poky@yoctoproject.org,
+	saul.wold@intel.com
+Subject: [PATCH 2/3] linux-yocto: move non-core machines to meta-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,65 +34,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2011 18:26:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 May 2011 18:34:56 -0000
 
+The non-qemu compatibility references have been removed from
+the main linux-yocto recipe. This change restores them in the
+meta-yocto layer.
 
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Acked-by: Darren Hart <dvhart@linux.intel.com>
+---
+ meta-yocto/conf/layer.conf                         |    3 ++-
+ .../linux/linux-yocto-stable_git.bbappend          |   12 ++++++++++++
+ .../recipes-kernel/linux/linux-yocto_git.bbappend  |   12 ++++++++++++
+ 3 files changed, 26 insertions(+), 1 deletions(-)
+ create mode 100644 meta-yocto/recipes-kernel/linux/linux-yocto-stable_git.bbappend
+ create mode 100644 meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend
 
-On 05/09/2011 10:53 AM, Koen Kooi wrote:
-> 
-> Op 9 mei 2011, om 19:32 heeft Franz Leitl het volgende geschreven:
-> 
->> Hi,
->>
->> Am Montag 09 Mai 2011, 18:28:06 schrieben Sie:
->>>> I've tried to get compcache kernel module building against 2.6.34 from
->>>> shr- core but found some issues with kernel.bbclass and module.bbclass.
->>>>
->>>> The kernel.bbclass deletes the .c files from scripts directory which are
->>>> later needed by make prepare to recreate bound.h and other files.
->>>> Compcache kernel module, for example, depends on bounds.h.
->>>
->>> The bounds.h should not need to be recreated. It is created during the
->>> build of the kernel, and since 2.6.26, the makefile knows not to remove
->>> it.
->> Compache does not build without bounds.h and this file is missing in the staging directory for what ever reason.
-> 
-> I ran into the same and I did the following:
-> 
-> http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-texasinstruments/commit/?id=7bcba149f05cc9c5d8ce956ee40e2c6849601470
-
-Thanks Koen, I knew we had discussed this once before. In your case,
-IIRC, you found that the "make clean" deleted bounds.h, even with the
-fix from 2.6.26 applied.
-
-At the time we agreed that patching the kernel bbclasses for a bug in a
-particular kernel version wasn't a good plan. I'm concerned that Franz
-is hitting this with 2.6.34.
-
-Franz, can you confirm that bounds.h exists before the clean and does
-not exist after the clean? Some simple instrumentation to kernel.bbclass
-should be able to do this.
-
-If so, we need to look into why that is happening. Simply not deleting
-the C files from the source isn't an acceptable fix to save 1 file.
-
---
-Darren
-
-> 
-> regards,
-> 
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+diff --git a/meta-yocto/conf/layer.conf b/meta-yocto/conf/layer.conf
+index f11d8ed..68786b2 100644
+--- a/meta-yocto/conf/layer.conf
++++ b/meta-yocto/conf/layer.conf
+@@ -2,7 +2,8 @@
+ BBPATH := "${BBPATH}:${LAYERDIR}"
+ 
+ # We have a packages directory, add to BBFILES
+-BBFILES := "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb"
++BBFILES := "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb \
++            ${LAYERDIR}/recipes-*/*/*.bbappend"
+ 
+ BBFILE_COLLECTIONS += "yocto"
+ BBFILE_PATTERN_yocto := "^${LAYERDIR}/"
+diff --git a/meta-yocto/recipes-kernel/linux/linux-yocto-stable_git.bbappend b/meta-yocto/recipes-kernel/linux/linux-yocto-stable_git.bbappend
+new file mode 100644
+index 0000000..ea0287d
+--- /dev/null
++++ b/meta-yocto/recipes-kernel/linux/linux-yocto-stable_git.bbappend
+@@ -0,0 +1,12 @@
++KMACHINE_atom-pc  = "atom-pc"
++KMACHINE_routerstationpro = "routerstationpro"
++KMACHINE_mpc8315e-rdb = "fsl-mpc8315e-rdb"
++KMACHINE_beagleboard = "beagleboard"
++
++SRCREV_machine_atom-pc = "72ca49ab08b8eb475cec82a10049503602325791"
++SRCREV_machine_routerstationpro = "49745cd45c92a89e70c6e2334caa80818c134562"
++SRCREV_machine_mpc8315e-rdb = "a1c0ed6bf4060c10874b2a8547d81b3169dcf16a"
++SRCREV_machine_beagleboard = "ef7f944e773950d4016b7643f9ecf052bbe250cd"
++
++COMPATIBLE_MACHINE += "(atom-pc|routerstationpro|mpc8315e-rdb|beagleboard)"
++
+diff --git a/meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend b/meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend
+new file mode 100644
+index 0000000..e4aa7fd
+--- /dev/null
++++ b/meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend
+@@ -0,0 +1,12 @@
++KMACHINE_atom-pc  = "yocto/standard/common-pc/atom-pc"
++KMACHINE_routerstationpro = "yocto/standard/routerstationpro"
++KMACHINE_mpc8315e-rdb = "yocto/standard/fsl-mpc8315e-rdb"
++KMACHINE_beagleboard = "yocto/standard/beagleboard"
++
++SRCREV_machine_emenlow = "c3bbcb676f929c4fc0511a6e66494b8770d015a1"
++SRCREV_machine_atom-pc = "b906f358fd404a1e74a961f25079274e0d933ee1"
++SRCREV_machine_routerstationpro = "95ca94d2e71ca2db6822a37a7f575fa79c3d05d0"
++SRCREV_machine_mpc8315e-rdb = "53c800c244e73d81d2832f6da306eeae3b09e5dc"
++SRCREV_machine_beagleboard = "b906f358fd404a1e74a961f25079274e0d933ee1"
++
++COMPATIBLE_MACHINE = "(mpc8315e-rdb|routerstationpro|beagleboard)"
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.7.0.4
+
 
 
