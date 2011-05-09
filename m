@@ -1,27 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QJLNT-0005uQ-PK
-	for openembedded-core@lists.openembedded.org;
-	Mon, 09 May 2011 09:59:39 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 May 2011 00:56:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,339,1301900400"; d="scan'208";a="744327694"
-Received: from shxpwgzhai1a.ccr.corp.intel.com (HELO [10.239.48.130])
-	([10.239.48.130])
-	by orsmga001.jf.intel.com with ESMTP; 09 May 2011 00:56:54 -0700
-Message-ID: <4DC79E45.3020601@intel.com>
-Date: Mon, 09 May 2011 15:56:53 +0800
-From: "Zhai, Edwin" <edwin.zhai@intel.com>
-User-Agent: Thunderbird 2.0.0.17 (Windows/20080914)
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1304670670.git.edwin.zhai@intel.com>
-	<4DC49C10.4060507@linux.intel.com>
-In-Reply-To: <4DC49C10.4060507@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QJN7p-0003av-VL for openembedded-core@lists.openembedded.org;
+	Mon, 09 May 2011 11:51:38 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p499mmTf025907;
+	Mon, 9 May 2011 10:48:48 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25378-08; Mon,  9 May 2011 10:48:44 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p499mZoP025901
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 9 May 2011 10:48:39 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] qemu-script: Fix qemu segfault with Nvidia's proprietary driver
+In-Reply-To: <1304787012.8459.1.camel@doubt>
+References: <1304693308-5625-1-git-send-email-koen@dominion.thruhere.net>
+	<1304787012.8459.1.camel@doubt>
+Date: Mon, 09 May 2011 10:48:28 +0100
+Message-ID: <1304934508.30391.195.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] package.bbclass: convert unpackaged file message from 'info' to 'warn' so that it shows up on the console
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,47 +41,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2011 07:59:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 09 May 2011 09:51:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Sat, 2011-05-07 at 09:50 -0700, Darren Hart wrote:
+> According to my discussion with RP, bb.note() is supposed to appear on
+> the console. If it doesn't, that is a bug in bitbake, not the recipe
+> logging. I used this information to document the intended use of the
+> similarly named bbnote() in logging.bbclass.
 
+What we said was that bb.note from "core" context appears on the
+console, bb.note from task context does not as it makes the default
+console too verbose.
 
-Saul Wold wrote:
->
-> On 05/06/2011 01:36 AM, Zhai Edwin wrote:
-> >
-> >
-> > Pull URL: git://git.pokylinux.org/poky-contrib.git
-> >    Branch: gzhai/fix3
-> >    Browse: 
-> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/fix3
-> >
-> > Zhai Edwin (1):
-> >    qemu-script: Fix qemu seg fault if install Nvidia proprietary 
-> driver.
-> >
-> >   scripts/poky-qemu-internal |   13 +++++++++++--
->
-> I think that you are using the old script name, I think that you should
-> be changing runqemu-internal, not poky-qemu-internal
->
+I'm in agreement that unpackaged files should be a warning.
 
-Done. Pls. pull @ the same branch
-Thanks,
-edwin
+Cheers,
 
-> Please correct this.
->
-> Sau!
->
-> >   1 files changed, 11 insertions(+), 2 deletions(-)
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Richard
+
 
 
