@@ -1,23 +1,23 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QJKUC-0003hN-Bm
+	(envelope-from <sgw@linux.intel.com>) id 1QJKUD-0003hO-2V
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 May 2011 09:02:32 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 08 May 2011 23:59:47 -0700
+	Mon, 09 May 2011 09:02:33 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 May 2011 23:59:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,339,1301900400"; d="scan'208";a="432782635"
+X-IronPort-AV: E=Sophos;i="4.64,339,1301900400"; d="scan'208";a="744305260"
 Received: from unknown (HELO localhost) ([10.255.12.42])
-	by azsmga001.ch.intel.com with ESMTP; 08 May 2011 23:59:46 -0700
-Message-Id: <5e887d4088056a6f65f2f3bef7ccb179177498fd.1304924223.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 08 May 2011 23:59:50 -0700
+Message-Id: <634649e150af01e303553295d0fbdab48efecae7.1304924223.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1304924223.git.sgw@linux.intel.com>
 References: <cover.1304924223.git.sgw@linux.intel.com>
-Old-Date: Thu, 5 May 2011 10:49:33 -0700
-Date: Sun, 08 May 2011 23:59:46 -0700
+Old-Date: Tue, 3 May 2011 15:57:14 -0700
+Date: Sun, 08 May 2011 23:59:49 -0700
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 02/20] clutter-gst-1.4: Add missing patch
+Subject: [PATCH 08/20] subversion: update upstream status for patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,37 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2011 07:02:32 -0000
+X-List-Received-Date: Mon, 09 May 2011 07:02:33 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../clutter/clutter-gst/enable_tests-1.4.patch     |   15 +++++++++++++++
- 1 files changed, 15 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.4.patch
+ .../subversion/disable-revision-install.patch      |    2 ++
+ .../subversion/subversion/libtool2.patch           |    2 ++
+ .../subversion/subversion/neon-detection.patch     |    2 ++
+ 3 files changed, 6 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.4.patch b/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.4.patch
-new file mode 100644
-index 0000000..f1f68ac
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gst/enable_tests-1.4.patch
-@@ -0,0 +1,15 @@
-+Install example binary needed for core-image-clutter
+diff --git a/meta/recipes-devtools/subversion/subversion/disable-revision-install.patch b/meta/recipes-devtools/subversion/subversion/disable-revision-install.patch
+index ad716d0..ffe6330 100644
+--- a/meta/recipes-devtools/subversion/subversion/disable-revision-install.patch
++++ b/meta/recipes-devtools/subversion/subversion/disable-revision-install.patch
+@@ -1,3 +1,5 @@
++Upstream-Status="Inappropriate [embedded specific]"
 +
-+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-+Index: git/examples/Makefile.am
-+===================================================================
-+--- git.orig/examples/Makefile.am	2011-05-04 14:07:21.000000000 -0700
-++++ git/examples/Makefile.am	2011-05-04 14:24:38.625984314 -0700
-+@@ -1,6 +1,6 @@
-+ NULL = #
-+ 
-+-noinst_PROGRAMS = video-player video-sink audio-player
-++bin_PROGRAMS = video-player video-sink audio-player
-+ 
-+ INCLUDES = -I$(top_srcdir) \
-+ 	   $(MAINTAINER_CFLAGS) \
+ Index: subversion-1.6.15/Makefile.in
+ ===================================================================
+ --- subversion-1.6.15.orig/Makefile.in	2010-11-17 06:47:23.000000000 -0800
+diff --git a/meta/recipes-devtools/subversion/subversion/libtool2.patch b/meta/recipes-devtools/subversion/subversion/libtool2.patch
+index 08343b0..12872db 100644
+--- a/meta/recipes-devtools/subversion/subversion/libtool2.patch
++++ b/meta/recipes-devtools/subversion/subversion/libtool2.patch
+@@ -1,3 +1,5 @@
++Upstream-Status="Inappropriate [embedded specific]"
++
+ Index: subversion-1.5.5/configure.ac
+ ===================================================================
+ --- subversion-1.5.5.orig/configure.ac	2008-08-26 18:27:56.000000000 +0100
+diff --git a/meta/recipes-devtools/subversion/subversion/neon-detection.patch b/meta/recipes-devtools/subversion/subversion/neon-detection.patch
+index eaf6de0..3d28fb2 100644
+--- a/meta/recipes-devtools/subversion/subversion/neon-detection.patch
++++ b/meta/recipes-devtools/subversion/subversion/neon-detection.patch
+@@ -1,3 +1,5 @@
++Upstream-Status="Inappropriate [embedded specific]"
++
+ Index: subversion-1.6.13/build/ac-macros/neon.m4
+ ===================================================================
+ --- subversion-1.6.13.orig/build/ac-macros/neon.m4
 -- 
 1.7.1.1
 
