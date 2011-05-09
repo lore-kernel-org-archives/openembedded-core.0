@@ -1,20 +1,23 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QJYHB-0006va-MO
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QJYHB-0006vb-JK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 May 2011 23:46:01 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 09 May 2011 14:43:15 -0700
+	Mon, 09 May 2011 23:46:02 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 09 May 2011 14:43:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,342,1301900400"; d="scan'208";a="433218803"
+X-IronPort-AV: E=Sophos;i="4.64,342,1301900400"; 
+   d="scan'208";a="21784"
 Received: from nbuild2.sc.intel.com (HELO localhost) ([172.25.110.37])
-	by azsmga001.ch.intel.com with ESMTP; 09 May 2011 14:43:15 -0700
-Message-Id: <cover.1304977276.git.nitin.a.kamble@intel.com>
-Old-Date: Mon, 9 May 2011 14:41:16 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 09 May 2011 14:43:16 -0700
+Message-Id: <88ec3bed8311442a27ac5e314fb9bb87ee7bcfda.1304977277.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1304977276.git.nitin.a.kamble@intel.com>
+References: <cover.1304977276.git.nitin.a.kamble@intel.com>
+Old-Date: Fri, 6 May 2011 10:23:21 -0700
 Date: Mon, 09 May 2011 14:43:15 -0700
 To: openembedded-core@lists.openembedded.org,poky@yoctoproject.org
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
-Subject: [PATCH 0/5] Misc fixes related to gcc 4.6.0
+Subject: [PATCH 2/5] mdadm: compilation fix for gcc 4.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,56 +36,210 @@ X-List-Received-Date: Mon, 09 May 2011 21:46:02 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: nitin/misc
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
-
-Thanks,
-    Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
-
-
-Khem Raj (1):
-  gcc-4.6.0: Apply linaro patches
-
-Nitin A Kamble (4):
-  mdadm: compilation fix for gcc 4.6.0
-  pax: fix for compiling with gcc 4.6.0
-  systemtap: fix for compilation with gcc 4.6.0
-  kexec-tools: fix compiler errors with gcc 4.6.0
-
- meta/recipes-devtools/gcc/gcc-4.6.0.inc            |    4 +
- .../gcc-4.6.0/linaro/gcc-4.6-linaro-r106720.patch  |   51 ++
- .../gcc-4.6.0/linaro/gcc-4.6-linaro-r106723.patch  |   63 ++
- .../gcc-4.6.0/linaro/gcc-4.6-linaro-r106729.patch  |   32 +
- .../gcc-4.6.0/linaro/gcc-4.6-linaro-r106731.patch  |   28 +
- .../gcc-4.6.0/linaro/gcc-4.6-linaro-r106733.patch  |  653 ++++++++++++++++++++
- .../gcc-4.6.0/linaro/gcc-4.6-linaro-r106737.patch  |  126 ++++
- .../gcc-4.6.0/linaro/gcc-4.6-linaro-r106738.patch  |  177 ++++++
- .../gcc/gcc-4_6-branch-linaro-backports.inc        |    9 +
- .../mdadm/fix_for_compilation_with_gcc-4.6.0.patch |  174 ++++++
+ .../mdadm/fix_for_compilation_with_gcc-4.6.0.patch |  174 ++++++++++++++++++++
  meta/recipes-extended/mdadm/mdadm_3.2.1.bb         |    5 +-
- .../pax/pax/fix_for_compile_with_gcc-4.6.0.patch   |   25 +
- meta/recipes-extended/pax/pax_3.4.bb               |    5 +-
- .../fix_for_compiling_with_gcc-4.6.0.patch         |   40 ++
- meta/recipes-kernel/kexec/kexec-tools_2.0.2.bb     |    3 +-
- .../fix_for_compilation_with_gcc-4.6.0.patch       |  119 ++++
- meta/recipes-kernel/systemtap/systemtap_git.bb     |    3 +-
- 17 files changed, 1511 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/linaro/gcc-4.6-linaro-r106720.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/linaro/gcc-4.6-linaro-r106723.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/linaro/gcc-4.6-linaro-r106729.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/linaro/gcc-4.6-linaro-r106731.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/linaro/gcc-4.6-linaro-r106733.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/linaro/gcc-4.6-linaro-r106737.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/linaro/gcc-4.6-linaro-r106738.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4_6-branch-linaro-backports.inc
+ 2 files changed, 177 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-extended/mdadm/mdadm/fix_for_compilation_with_gcc-4.6.0.patch
- create mode 100644 meta/recipes-extended/pax/pax/fix_for_compile_with_gcc-4.6.0.patch
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/fix_for_compiling_with_gcc-4.6.0.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/fix_for_compilation_with_gcc-4.6.0.patch
 
+diff --git a/meta/recipes-extended/mdadm/mdadm/fix_for_compilation_with_gcc-4.6.0.patch b/meta/recipes-extended/mdadm/mdadm/fix_for_compilation_with_gcc-4.6.0.patch
+new file mode 100644
+index 0000000..31fc83c
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/mdadm/fix_for_compilation_with_gcc-4.6.0.patch
+@@ -0,0 +1,174 @@
++Upstream-Status="Pending"
++
++Nitin A Kamble <nitin.a.kamble@intel.com> 2011/05/06
++
++Fix these compilation errors with gcc 4.6.0
++
++| super1.c: In function 'calc_sb_1_csum':
++| super1.c:114:6: error: variable 'i' set but not used [-Werror=unused-but-set-variable]
++| Query.c: In function 'Query':
++| Query.c:38:16: error: variable 'superrno' set but not used [-Werror=unused-but-set-variable]
++| super1.c: In function 'examine_super1':
++| super1.c:390:7: error: variable 'me' set but not used [-Werror=unused-but-set-variable]
++| cc1: all warnings being treated as errors
++| 
++| make: *** [Query.o] Error 1
++| make: *** Waiting for unfinished jobs....
++| mdadm.c: In function 'main':
++| mdadm.c:106:6: error: variable 'auto_update_home' set but not used [-Werror=unused-but-set-variable]
++| mdmon.c: In function 'mdmon':
++| mdmon.c:354:6: error: variable 'ignore' set but not used [-Werror=unused-but-set-variable]
++| cc1: all warnings being treated as errors
++| 
++| make: *** [mdmon.o] Error 1
++| cc1: all warnings being treated as errors
++| 
++| sysfs.c: In function 'sysfs_uevent':
++| sysfs.c:421:6: error: variable 'n' set but not used [-Werror=unused-but-set-variable]
++| cc1: all warnings being treated as errors
++| 
++| make: *** [mdadm.o] Error 1
++| make: *** [super1.o] Error 1
++| cc1: all warnings being treated as errors
++| 
++| make: *** [sysfs.o] Error 1
++| Grow.c: In function 'Grow_reshape':
++| Grow.c:1315:6: error: variable 'changed' set but not used [-Werror=unused-but-set-variable]
++| cc1: all warnings being treated as errors
++| 
++| make: *** [Grow.o] Error 1
++| ERROR: oe_runmake failed
++
++Index: mdadm-3.2.1/Grow.c
++===================================================================
++--- mdadm-3.2.1.orig/Grow.c
+++++ mdadm-3.2.1/Grow.c
++@@ -1312,7 +1312,6 @@ int Grow_reshape(char *devname, int fd, 
++ 	char *subarray = NULL;
++ 
++ 	int frozen;
++-	int changed = 0;
++ 	char *container = NULL;
++ 	char container_buf[20];
++ 	int cfd = -1;
++@@ -1479,7 +1478,6 @@ int Grow_reshape(char *devname, int fd, 
++ 		if (!quiet)
++ 			fprintf(stderr, Name ": component size of %s has been set to %lluK\n",
++ 				devname, size);
++-		changed = 1;
++ 	} else if (array.level != LEVEL_CONTAINER) {
++ 		size = get_component_size(fd)/2;
++ 		if (size == 0)
++Index: mdadm-3.2.1/Query.c
++===================================================================
++--- mdadm-3.2.1.orig/Query.c
+++++ mdadm-3.2.1/Query.c
++@@ -35,7 +35,7 @@ int Query(char *dev)
++ 	int fd = open(dev, O_RDONLY);
++ 	int vers;
++ 	int ioctlerr;
++-	int superror, superrno;
+++	int superror;
++ 	struct mdinfo info;
++ 	mdu_array_info_t array;
++ 	struct supertype *st = NULL;
++@@ -84,7 +84,6 @@ int Query(char *dev)
++ 	st = guess_super(fd);
++ 	if (st) {
++ 		superror = st->ss->load_super(st, fd, dev);
++-		superrno = errno;
++ 	} else
++ 		superror = -1;
++ 	close(fd);
++Index: mdadm-3.2.1/mdadm.c
++===================================================================
++--- mdadm-3.2.1.orig/mdadm.c
+++++ mdadm-3.2.1/mdadm.c
++@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
++ 	char *shortopt = short_options;
++ 	int dosyslog = 0;
++ 	int rebuild_map = 0;
++-	int auto_update_home = 0;
+++	int __attribute__((__unused__)) auto_update_home = 0;
++ 	char *subarray = NULL;
++ 	char *remove_path = NULL;
++ 	char *udev_filename = NULL;
++Index: mdadm-3.2.1/mdmon.c
++===================================================================
++--- mdadm-3.2.1.orig/mdmon.c
+++++ mdadm-3.2.1/mdmon.c
++@@ -351,7 +351,6 @@ static int mdmon(char *devname, int devn
++ 	struct sigaction act;
++ 	int pfd[2];
++ 	int status;
++-	int ignore;
++ 	pid_t victim = -1;
++ 	int victim_sock = -1;
++ 
++@@ -459,7 +458,6 @@ static int mdmon(char *devname, int devn
++ 	if (victim >= 0)
++ 		victim_sock = connect_monitor(container->devname);
++ 
++-	ignore = chdir("/");
++ 	if (!takeover && victim > 0 && victim_sock >= 0) {
++ 		if (fping_monitor(victim_sock) == 0) {
++ 			fprintf(stderr, "mdmon: %s already managed\n",
++@@ -507,10 +505,8 @@ static int mdmon(char *devname, int devn
++ 	close(0);
++ 	open("/dev/null", O_RDWR);
++ 	close(1);
++-	ignore = dup(0);
++ #ifndef DEBUG
++ 	close(2);
++-	ignore = dup(0);
++ #endif
++ 
++ 	do_manager(container);
++Index: mdadm-3.2.1/super1.c
++===================================================================
++--- mdadm-3.2.1.orig/super1.c
+++++ mdadm-3.2.1/super1.c
++@@ -111,7 +111,6 @@ static unsigned int calc_sb_1_csum(struc
++ 	unsigned long long newcsum;
++ 	int size = sizeof(*sb) + __le32_to_cpu(sb->max_dev)*2;
++ 	unsigned int *isuper = (unsigned int*)sb;
++-	int i;
++ 
++ /* make sure I can count... */
++ 	if (offsetof(struct mdp_superblock_1,data_offset) != 128 ||
++@@ -123,7 +122,7 @@ static unsigned int calc_sb_1_csum(struc
++ 	disk_csum = sb->sb_csum;
++ 	sb->sb_csum = 0;
++ 	newcsum = 0;
++-	for (i=0; size>=4; size -= 4 ) {
+++	for (; size>=4; size -= 4 ) {
++ 		newcsum += __le32_to_cpu(*isuper);
++ 		isuper++;
++ 	}
++@@ -387,13 +386,10 @@ static void examine_super1(struct supert
++ 	printf("   Array State : ");
++ 	for (d=0; d<__le32_to_cpu(sb->raid_disks) + delta_extra; d++) {
++ 		int cnt = 0;
++-		int me = 0;
++ 		unsigned int i;
++ 		for (i=0; i< __le32_to_cpu(sb->max_dev); i++) {
++ 			unsigned int role = __le16_to_cpu(sb->dev_roles[i]);
++ 			if (role == d) {
++-				if (i == __le32_to_cpu(sb->dev_number))
++-					me = 1;
++ 				cnt++;
++ 			}
++ 		}
++Index: mdadm-3.2.1/sysfs.c
++===================================================================
++--- mdadm-3.2.1.orig/sysfs.c
+++++ mdadm-3.2.1/sysfs.c
++@@ -418,7 +418,7 @@ int sysfs_set_num(struct mdinfo *sra, st
++ int sysfs_uevent(struct mdinfo *sra, char *event)
++ {
++ 	char fname[50];
++-	int n;
+++	int __attribute__((__unused__)) n;
++ 	int fd;
++ 
++ 	sprintf(fname, "/sys/block/%s/uevent",
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.2.1.bb b/meta/recipes-extended/mdadm/mdadm_3.2.1.bb
+index 937abad..80fe520 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.2.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.2.1.bb
+@@ -8,9 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://mdmon.c;beginline=4;endline=18;md5=af7d8444d9c4d3e5c7caac0d9d34039d \
+                     file://mdadm.h;beglinlne=4;endline=22;md5=462bc9936ac0d3da110191a3f9994161"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2"
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.bz2 \
++	file://fix_for_compilation_with_gcc-4.6.0.patch"
+ 
+ SRC_URI[md5sum] = "d1e2549202bd79d9e99f1498d1109530"
+ SRC_URI[sha256sum] = "7f68f149c6c0e8893d0b9220ac255b46af08e6a6b81223cab57ed54d628ae125"
 -- 
 1.7.3.4
 
