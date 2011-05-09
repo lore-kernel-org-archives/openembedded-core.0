@@ -1,21 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1QJVIG-0003cY-I3
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QJVIH-0003cd-K5
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 May 2011 20:34:56 +0200
+	Mon, 09 May 2011 20:34:57 +0200
 Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
 	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p49IW3FD027948;
-	Mon, 9 May 2011 11:32:05 -0700 (PDT)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p49IW3FG027948;
+	Mon, 9 May 2011 11:32:09 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Mon,  9 May 2011 14:34:03 -0400
-Message-Id: <cover.1304965560.git.bruce.ashfield@windriver.com>
+Date: Mon,  9 May 2011 14:34:06 -0400
+Message-Id: <16e2837c338d7ca6cbcc6f7e6d8d3c3327c4705d.1304965560.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1304965560.git.bruce.ashfield@windriver.com>
+References: <cover.1304965560.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1304965560.git.bruce.ashfield@windriver.com>
+References: <cover.1304965560.git.bruce.ashfield@windriver.com>
 Cc: yocto@yoctoproject.org, dvhart@linux.intel.com,
 	openembedded-core@lists.openembedded.org, poky@yoctoproject.org,
 	saul.wold@intel.com
-Subject: [PATCH 0/3] linux-yocto: consolidated pull request
+Subject: [PATCH 3/3] linux-yocto: error if meta data not present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,59 +34,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2011 18:34:57 -0000
+X-List-Received-Date: Mon, 09 May 2011 18:34:58 -0000
 
-Saul/Richard,
+There are valid reasons to build repositories without meta
+data present and there are times when this is an error. This
+change adds sanity tests to the build process to detect missing
+meta data and throw an informative error message.
 
-The first two patches are a split and resend of the machine
-movement patch:
+Sanity checking is only triggered from recipes (linux-yocto)
+that always require meta data to be present. Other recipes
+are not impacted and can auto-generate meta data as required.
 
-[
-   linux-yocto: move non-core machines to meta-yocto
+Without this change the build process suceeds, but incorrect
+meta data will be used (with no user knowledge), which is not
+the desired behaviour.
 
-   The machine configuration of the non-core (non-qemu) machines
-   has moved to meta-yocto. Moving the branch mappings, compatibility
-   and SRCREVs of these machines to meta-yocto should also be
-   done.
-
-  Anyone using meta-yocto to build these machines will see no impact
-  from this change.
-]
-
-Patch #3 is a sanity check that shows a problem that Tom managed
-to hit, and cause us some significant debug time. If for some 
-reason (we still don't have a root cause) the kernel repo is cloned
-without tags and/or meta data, we can now detect it and throw an
-informative error message rather than generating meta data and
-building "something".
-
-cc: Darren Hart <dvhart@linux.intel.com> 
-cc: Tom Zanussi <tom.zanussi@intel.com>
-
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: zedd/kernel
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Thanks,
-    Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
-
-
-Bruce Ashfield (3):
-  linux-yocto: remove non-core (qemu) machine compatibility
-  linux-yocto: move non-core machines to meta-yocto
-  linux-yocto: error if meta data not present
-
- meta-yocto/conf/layer.conf                         |    3 ++-
- .../linux/linux-yocto-stable_git.bbappend          |   12 ++++++++++++
- .../recipes-kernel/linux/linux-yocto_git.bbappend  |   12 ++++++++++++
  meta/classes/kernel-yocto.bbclass                  |    5 ++++-
  .../kern-tools/kern-tools-native_git.bb            |    2 +-
- .../recipes-kernel/linux/linux-yocto-stable_git.bb |   10 +---------
- meta/recipes-kernel/linux/linux-yocto_git.bb       |   15 ++++-----------
- 7 files changed, 36 insertions(+), 23 deletions(-)
- create mode 100644 meta-yocto/recipes-kernel/linux/linux-yocto-stable_git.bbappend
- create mode 100644 meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend
+ meta/recipes-kernel/linux/linux-yocto_git.bb       |    4 +++-
+ 3 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index ffc0b4c..818a07e 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -13,7 +13,10 @@ do_patch() {
+ 	fi
+ 
+ 	# simply ensures that a branch of the right name has been created
+-	createme ${ARCH} ${kbranch} ${defconfig}
++	if [ -n "${YOCTO_KERNEL_META_DATA}" ]; then
++		createme_flags="--disable-meta-gen"
++	fi
++	createme ${createme_flags} ${ARCH} ${kbranch} ${defconfig}
+ 	if [ $? -ne 0 ]; then
+ 		echo "ERROR. Could not create ${kbranch}"
+ 		exit 1
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 820765e..c808e17 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d8
+ 
+ DEPENDS = "git-native guilt-native"
+ 
+-SRCREV = "c5896a60acc61f8966cfee3bb241ff564610cea4"
++SRCREV = "ab49d8e48b7e66d1b4f924385d65d062d25e44f7"
+ PR = r10
+ PV = "0.1+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_git.bb
+index d4f2ece..f54033d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_git.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_git.bb
+@@ -22,7 +22,7 @@ SRCREV_machine_qemux86-64 = "b906f358fd404a1e74a961f25079274e0d933ee1"
+ SRCREV_machine = "b906f358fd404a1e74a961f25079274e0d933ee1"
+ SRCREV_meta = "ecab1e2bc12a8b0c4d064a00acc3260f6e8528c5"
+ 
+-PR = "r17"
++PR = "r18"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ SRCREV_FORMAT = "meta_machine"
+ 
+@@ -36,6 +36,8 @@ KERNEL_FEATURES="features/netfilter"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
+ 
++YOCTO_KERNEL_META_DATA=t
++
+ # extra tasks
+ addtask kernel_link_vmlinux after do_compile before do_install
+ addtask validate_branches before do_patch after do_kernel_checkout
+-- 
+1.7.0.4
 
 
 
