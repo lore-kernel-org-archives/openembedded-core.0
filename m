@@ -1,34 +1,39 @@
-Received: from mail.fim.uni-passau.de ([132.231.1.31])
+Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <leitl@fim.uni-passau.de>) id 1QJVNj-0003kx-RQ
+	(envelope-from <raj.khem@gmail.com>) id 1QJVQQ-0005fq-O9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 May 2011 20:40:35 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.fim.uni-passau.de (Postfix) with ESMTP id 8F2949223D
+	Mon, 09 May 2011 20:43:25 +0200
+Received: by pxi6 with SMTP id 6so3954525pxi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2011 20:37:50 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.fim.uni-passau.de
-Received: from mail.fim.uni-passau.de ([127.0.0.1])
-	by localhost (mail.fim.uni-passau.de [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id oEfbzLc6jALW
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2011 20:37:50 +0200 (CEST)
-Received: from darkx.localnet (p5DC74A89.dip.t-dialin.net [93.199.74.137])
-	by mail.fim.uni-passau.de (Postfix) with ESMTPSA id 4345C92239
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 May 2011 20:37:50 +0200 (CEST)
-From: Franz Leitl <leitl@fim.uni-passau.de>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 9 May 2011 20:38:15 +0200
-User-Agent: KMail/1.13.6 (Linux/2.6.38.4-23-default; KDE/4.6.1; x86_64; ; )
-References: <201105090016.46391.leitl@fim.uni-passau.de>
-	<69719FEB-AD08-4D01-B1B0-D8291AD1DEFC@dominion.thruhere.net>
-	<4DC83117.8000205@linux.intel.com>
-In-Reply-To: <4DC83117.8000205@linux.intel.com>
-MIME-Version: 1.0
-Message-Id: <201105092038.15641.leitl@fim.uni-passau.de>
-Subject: Re: Patch for fixing build issues with external kernel modules.
+	Mon, 09 May 2011 11:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=Q5xJZe/iE9uFzQmvrWWIAAMdNku4sGpmr24xSPUypVE=;
+	b=quYLCMta/Ev117Z+mTwsb4ZhiAOVpysdZtmRQtA7/w7XkgtwBQOuwKtSf8pPTBilMt
+	cqJ4EknFchkLXlm+vm6moCqeAxHtPm4Czq/yTOuTZhOSmX8WxDeABZQsVoeFmpwr3VMQ
+	U6wsTMwJfLaqvgFfwJfN4TqobX/XE5BtEsnIA=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=Pq6m7+Ovme0ur8wRBiWvrfDZ2JluaKAlDU1nT2sA/2cbd2fIm41N4+wHoYkCPuTNmJ
+	O3d4/gRUoSHxAQWV/JbRI/6DXdsGDpD4OIyN9h58yRPMS7yH/19CXyWIv1M/uLIlsPB0
+	g4vZLk1CmtC47xvykmL1Dcu0nPFuCDQWMArGw=
+Received: by 10.68.29.9 with SMTP id f9mr10159435pbh.350.1304966436542;
+	Mon, 09 May 2011 11:40:36 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id u1sm4262205pbm.41.2011.05.09.11.40.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 09 May 2011 11:40:35 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Mon,  9 May 2011 11:40:29 -0700
+Message-Id: <cc8f8da47fc3811a35a4fb4d31ef415668ec0a11.1304966147.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1304966147.git.raj.khem@gmail.com>
+References: <cover.1304966147.git.raj.khem@gmail.com>
+Cc: Chris Larson <chris_larson@mentor.com>
+Subject: [PATCH 1/6] recipes: Replace gconf-dbus with gconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,64 +48,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 May 2011 18:40:36 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 May 2011 18:43:27 -0000
 
-Am Montag 09 Mai 2011, 20:23:19 schrieb Darren Hart:
-> On 05/09/2011 10:53 AM, Koen Kooi wrote:
-> > Op 9 mei 2011, om 19:32 heeft Franz Leitl het volgende geschreven:
-> >> Hi,
-> >> 
-> >> Am Montag 09 Mai 2011, 18:28:06 schrieben Sie:
-> >>>> I've tried to get compcache kernel module building against 2.6.34 from
-> >>>> shr- core but found some issues with kernel.bbclass and
-> >>>> module.bbclass.
-> >>>> 
-> >>>> The kernel.bbclass deletes the .c files from scripts directory which
-> >>>> are later needed by make prepare to recreate bound.h and other files.
-> >>>> Compcache kernel module, for example, depends on bounds.h.
-> >>> 
-> >>> The bounds.h should not need to be recreated. It is created during the
-> >>> build of the kernel, and since 2.6.26, the makefile knows not to remove
-> >>> it.
-> >> 
-> >> Compache does not build without bounds.h and this file is missing in the
-> >> staging directory for what ever reason.
-> > 
-> > I ran into the same and I did the following:
-> > 
-> > http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-texasinstrumen
-> > ts/commit/?id=7bcba149f05cc9c5d8ce956ee40e2c6849601470
-> 
-> Thanks Koen, I knew we had discussed this once before. In your case,
-> IIRC, you found that the "make clean" deleted bounds.h, even with the
-> fix from 2.6.26 applied.
-> 
-> At the time we agreed that patching the kernel bbclasses for a bug in a
-> particular kernel version wasn't a good plan. I'm concerned that Franz
-> is hitting this with 2.6.34.
-> 
-> Franz, can you confirm that bounds.h exists before the clean and does
-> not exist after the clean? Some simple instrumentation to kernel.bbclass
-> should be able to do this.
-I'll try to find out.
+Some distributions e.g. angstrom do not support gconf-dbus
+anymore since its now provided by gconf and in oe-core we
+have PREFERRED_PROVIDER_gconf tunable, here we replace all
+dependencies on gconf-dbus with gconf, which should work
+in both cases where poky defines
+PREFERRED_PROVIDER-gconf = "gconf-dbus" and for angstrom
+it is simply gconf
 
-> If so, we need to look into why that is happening. Simply not deleting
-> the C files from the source isn't an acceptable fix to save 1 file.
-The c files are deleted by the kernel.bbclass not by "make clean" while make 
-clean deletes the bounds.h... Who is doing the wrong thing now? kernel.bbclass 
-removing the bounds.c, kernel's make clean removing the bounds.h or the module 
-author relying on modules.h?
+Without this meta-toolchain-sdk ends up with conflicts in
+runqueue and does not build
 
-I don't know if/what the problem is with regenerating some things in 
-module.bbclass. It is already done with "make scripts". Cleaning up 
-things to save diskspace and recreating if needed does not seem to 
-bad to me. Am I missing something?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../recipes-gnome/gnome/libgnomekbd_2.26.0.bb      |    2 +-
+ meta/recipes-gnome/gnome/gnome-desktop.inc         |    2 +-
+ meta/recipes-gnome/gthumb/gthumb_2.12.2.bb         |    2 +-
+ meta/recipes-gnome/tasks/task-sdk-gmae.inc         |    2 +-
+ meta/recipes-support/libproxy/libproxy_0.4.6.bb    |    2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/meta-demoapps/recipes-gnome/gnome/libgnomekbd_2.26.0.bb b/meta-demoapps/recipes-gnome/gnome/libgnomekbd_2.26.0.bb
+index f2e4ec5..68e4eee 100644
+--- a/meta-demoapps/recipes-gnome/gnome/libgnomekbd_2.26.0.bb
++++ b/meta-demoapps/recipes-gnome/gnome/libgnomekbd_2.26.0.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "GNOME keyboard library"
+ LICENSE = "LGPL"
+ 
+-DEPENDS = "gconf-dbus dbus libxklavier gtk+"
++DEPENDS = "gconf dbus libxklavier gtk+"
+ 
+ inherit gnome
+ 
+diff --git a/meta/recipes-gnome/gnome/gnome-desktop.inc b/meta/recipes-gnome/gnome/gnome-desktop.inc
+index 123f82d..336b87f 100644
+--- a/meta/recipes-gnome/gnome/gnome-desktop.inc
++++ b/meta/recipes-gnome/gnome/gnome-desktop.inc
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "GNOME library for reading .desktop files"
+ SECTION = "x11/gnome"
+ LICENSE = "GPLv2 & LGPLv2"
+-DEPENDS = "gconf-dbus libxrandr virtual/libx11 gtk+ glib-2.0 gnome-doc-utils"
++DEPENDS = "gconf libxrandr virtual/libx11 gtk+ glib-2.0 gnome-doc-utils"
+ 
+ EXTRA_OECONF = "--disable-scrollkeeper --disable-desktop-docs"
+ 
+diff --git a/meta/recipes-gnome/gthumb/gthumb_2.12.2.bb b/meta/recipes-gnome/gthumb/gthumb_2.12.2.bb
+index 0b3bd1a..258f2d5 100644
+--- a/meta/recipes-gnome/gthumb/gthumb_2.12.2.bb
++++ b/meta/recipes-gnome/gthumb/gthumb_2.12.2.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "gThumb is an image viewer and browser for the GNOME Desktop"
+ SECTION = "x11/gnome"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+-DEPENDS = "glib-2.0 gtk+ libxml2 gnome-doc-utils libunique gconf-dbus libpng gstreamer jpeg tiff gst-plugins-base"
++DEPENDS = "glib-2.0 gtk+ libxml2 gnome-doc-utils libunique gconf libpng gstreamer jpeg tiff gst-plugins-base"
+ PR = "r0"
+ 
+ EXTRA_OECONF = "--disable-gnome-keyring --disable-libsoup --disable-exiv2 --disable-clutter"
+diff --git a/meta/recipes-gnome/tasks/task-sdk-gmae.inc b/meta/recipes-gnome/tasks/task-sdk-gmae.inc
+index 586d76f..b24fc9e 100644
+--- a/meta/recipes-gnome/tasks/task-sdk-gmae.inc
++++ b/meta/recipes-gnome/tasks/task-sdk-gmae.inc
+@@ -4,7 +4,7 @@ SDK-GMAE = " \
+     gtk+-dev \
+     gstreamer-dev \
+     bluez4-dev \
+-    gconf-dbus-dev \
++    gconf-dev \
+     avahi-dev \
+     telepathy-glib-dev \
+     eds-dbus-dev \
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.6.bb b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+index 255cd5b..2e18065 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.6.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+                     file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
+ 
+ 
+-DEPENDS = "virtual/libx11 xmu gconf-dbus"
++DEPENDS = "virtual/libx11 xmu gconf"
+ 
+ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
+ 
+-- 
+1.7.4.1
 
-Regards,
-Franz
 
 
