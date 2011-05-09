@@ -1,39 +1,39 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QJVQa-0005hW-M8
+	(envelope-from <raj.khem@gmail.com>) id 1QJVQc-0005fq-4r
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 May 2011 20:43:33 +0200
-Received: by mail-pz0-f47.google.com with SMTP id 36so2591605pzk.6
+	Mon, 09 May 2011 20:43:35 +0200
+Received: by mail-px0-f172.google.com with SMTP id 6so3954525pxi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 May 2011 11:40:50 -0700 (PDT)
+	Mon, 09 May 2011 11:40:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=K08AoewR3gfhTGH0DsKLUdTH85p4kfhzAQuvlYLZHp8=;
-	b=DEcQ/Tj/4pdrRmEasbqxpc1uwYn1bwS48iZxlKnFe4TYCzr5a76nLJ2hbrlkhDR+BK
-	Pd2zISzckgg5WSbtHDjOgEmqbdej31IJehNp0XyLgvlv2nX5uJ5d8P4TTFOsTN2DDRSF
-	kOIYLCcs0Bkz/3Fr2trFPCjFmOUubYIeJHlWM=
+	bh=++nV8cE8lbtOUmFB/K7+7RKWlKV45jj3sPw75MY3Be8=;
+	b=uf+iL4EG4UYBhBKO/Yv4LY0KyLoVbwNQGfp1nkLGB8yKM0rjwWqFouqM/EVUdbWIDH
+	ZnAIuI5SFt+tFOa/D/fonG7CWtNN5ARAD7mVIbbZNjcKDZF0FXzxlvb+tIcGjaQnPxFn
+	0Bk3fgx+JNAHGljT191k8Smqpt+Yy07BHgMBI=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=UJSzRAaRp9OpbPNG7B6fL7RS7FBLnqt4nF/72gzT5vpRTtxHPohLxEsFAGXASTAfpt
-	TKC6VDqusJBZzxOPRJGzHe6Z/LEXpJgVq/H0bIgXAyYhICZZa1VLWNeifZpapl5pvvN5
-	c4Vs+B7ljtRHRiF0FJAWSOv8UDYohIlCVPlrM=
-Received: by 10.142.149.10 with SMTP id w10mr4034718wfd.69.1304966447662;
-	Mon, 09 May 2011 11:40:47 -0700 (PDT)
+	b=U5xpY2oMqhBTCzgAls7XI9E+S5vlhDSnxras6pEY5hxcXx3mSCo0xCuLixo7re2YxM
+	6+jia8bS77zE5gYwbcl1+lQtp4D+bIy7PZWdRDh+K/EWgxD1o1HpEHa8ht4ukGkCixKI
+	NXvuvPVlE9yLyqljXvW/uQ/iOh9ipt/NRSyjY=
+Received: by 10.68.41.103 with SMTP id e7mr1337608pbl.43.1304966451467;
+	Mon, 09 May 2011 11:40:51 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id e4sm4265139pbj.4.2011.05.09.11.40.45
+	by mx.google.com with ESMTPS id i4sm4262643pbr.42.2011.05.09.11.40.49
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 09 May 2011 11:40:46 -0700 (PDT)
+	Mon, 09 May 2011 11:40:50 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Mon,  9 May 2011 11:40:41 -0700
-Message-Id: <2b56cbef70730ecbe0686cd958a1da751105058c.1304966147.git.raj.khem@gmail.com>
+Date: Mon,  9 May 2011 11:40:45 -0700
+Message-Id: <8fd4c9c428942addfa3c07a93c3726bb5659df4d.1304966147.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1304966147.git.raj.khem@gmail.com>
 References: <cover.1304966147.git.raj.khem@gmail.com>
 Cc: Chris Larson <chris_larson@mentor.com>
-Subject: [PATCH 4/6] liburcu_0.5.4.bb: Let it build on uclibc targets
+Subject: [PATCH 5/6] lttng-ust_0.12.bb: Fix compilation on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,29 +50,87 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 May 2011 18:43:36 -0000
 
-uclibc requires -D_GNU_SOURCE to be defined for it
-to enable GNU extensions which CPU_SET/CPU_ZERO are
-used by this package. So we add -D_GNU_SOURCE to
-CFLAGS when compiling for uclibc.
+We provide alternative implementation of sched_getcpu()
+when compiling for uclibc
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/liburcu/liburcu_0.5.4.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../lttng/lttng-ust/uclibc-sched_getcpu.patch      |   50 ++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-ust_0.12.bb        |    4 +-
+ 2 files changed, 53 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
 
-diff --git a/meta/recipes-support/liburcu/liburcu_0.5.4.bb b/meta/recipes-support/liburcu/liburcu_0.5.4.bb
-index 8e17e5d..b83d708 100644
---- a/meta/recipes-support/liburcu/liburcu_0.5.4.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.5.4.bb
-@@ -15,7 +15,7 @@ SRC_URI[md5sum] = "04147d24749be75200173859839207f7"
- SRC_URI[sha256sum] = "02aedbb16c16bd034e246d5c9637a9232be559c66fc2fe4eb28948e234bd89f1"
+diff --git a/meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch b/meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
+new file mode 100644
+index 0000000..7102a69
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
+@@ -0,0 +1,50 @@
++uClibc does not have sched_getcpu() implemented. So we create a wrapper
++to getcpu syscall when compiling for uclibc.
++
++So far execinfo.h does not exist on uclibc but it turns out to be that
++this header is not needed even in eglibc case so it can be removed
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Upstream-status: Pending
++
++Index: ust-0.12/libust/tracer.h
++===================================================================
++--- ust-0.12.orig/libust/tracer.h
+++++ ust-0.12/libust/tracer.h
++@@ -342,14 +342,22 @@ static __inline__ void ltt_write_trace_h
++ 	header->start_freq = trace->start_freq;
++ 	header->freq_scale = trace->freq_scale;
++ }
++-
+++#ifdef __UCLIBC__
+++#define sched_getcpu(cpu, node, cache) syscall(__NR_getcpu, cpu, node, cache)
+++#endif
++ #ifndef UST_VALGRIND
++ 
++ static __inline__ int ust_get_cpu(void)
++ {
++ 	int cpu;
++ 
+++#ifdef __UCLIBC__
+++	int c, s;
+++	s = syscall(__NR_getcpu, &c, NULL, NULL);
+++	cpu = (s == -1) ? s : c;
+++#else
++ 	cpu = sched_getcpu();
+++#endif
++ 	if (likely(cpu >= 0))
++ 		return cpu;
++ 	/*
++Index: ust-0.12/libustcomm/ustcomm.c
++===================================================================
++--- ust-0.12.orig/libustcomm/ustcomm.c
+++++ ust-0.12/libustcomm/ustcomm.c
++@@ -31,7 +31,6 @@
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <string.h>
++-#include <execinfo.h>
++ 
++ #include "ustcomm.h"
++ #include "usterr.h"
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_0.12.bb b/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
+index 7dadc04..5fca949 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_0.12.bb
+@@ -12,7 +12,9 @@ DEPENDS = "liburcu"
  
- S = "${WORKDIR}/userspace-rcu-${PV}"
--
-+CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
- inherit autotools
+ PR = "r0"
  
- # liburcu, which is only used by lttng-ust, may not build on other
+-SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz"
++SRC_URI = "http://lttng.org/files/ust/releases/ust-${PV}.tar.gz \
++           file://uclibc-sched_getcpu.patch \
++          "
+ 
+ SRC_URI[md5sum] = "fae6e324a56016658c5b83ec14ba0043"
+ SRC_URI[sha256sum] = "215b05f47d0c9e3a2934926a7d14fa9c67025db917c3a1f641df40b08314ab0c"
 -- 
 1.7.4.1
 
