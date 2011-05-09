@@ -1,23 +1,23 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QJKUK-0003hQ-8j
+	(envelope-from <sgw@linux.intel.com>) id 1QJKUK-0003lF-5U
 	for openembedded-core@lists.openembedded.org;
 	Mon, 09 May 2011 09:02:40 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 08 May 2011 23:59:56 -0700
+	by orsmga102.jf.intel.com with ESMTP; 08 May 2011 23:59:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,339,1301900400"; d="scan'208";a="639948980"
+X-IronPort-AV: E=Sophos;i="4.64,339,1301900400"; d="scan'208";a="639948970"
 Received: from unknown (HELO localhost) ([10.255.12.42])
-	by orsmga002.jf.intel.com with ESMTP; 08 May 2011 23:59:56 -0700
-Message-Id: <c47c783ddca8427aa7381e1df254a8d29ff0fe78.1304924223.git.sgw@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 08 May 2011 23:59:53 -0700
+Message-Id: <c4365aac40718286d7cc74a0b387cdb8f47e7723.1304924223.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1304924223.git.sgw@linux.intel.com>
 References: <cover.1304924223.git.sgw@linux.intel.com>
-Old-Date: Thu, 5 May 2011 09:57:56 -0700
-Date: Sun, 08 May 2011 23:59:55 -0700
+Old-Date: Fri, 6 May 2011 16:48:28 +0200
+Date: Sun, 08 May 2011 23:59:52 -0700
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 19/20] gettext.bbclass, bitbake.conf: Append nls options to EXTRA_OECONF instead of +=
+Subject: [PATCH 14/20] package.bbclass: convert unpackaged file message from 'info' to 'warn' so that it shows up on the console
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,62 +34,29 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 May 2011 07:02:40 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Koen Kooi <koen@dominion.thruhere.net>
 
-Some recipes do not defined EXTRA_OECONF in such cases += drops
-the --enable|--disable-nls options. In another case where recipe
-defines EXTRA_OECONF instead of adding/appending to it then
---enable|--disable-nls options are lost from EXTRA_OECONF
-
-We define EXTRA_OECONF = "" in bitbake.conf so the variable exists
-always.
-
-We use _append instead of += so the option is added at very end
-and not lost.
-
-We only return empty gettext dependencies if its a target recipe
-in case when USE_NLS is not set because the native/cross/nativesdk recipes still
-need the gettext dependencies
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/classes/gettext.bbclass |    6 +++---
- meta/conf/bitbake.conf       |    2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/package.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
-index 6f79e5e..86b505b 100644
---- a/meta/classes/gettext.bbclass
-+++ b/meta/classes/gettext.bbclass
-@@ -1,7 +1,7 @@
- def gettext_dependencies(d):
--    if d.getVar('USE_NLS', True) == 'no':
-+    if d.getVar('USE_NLS', True) == 'no' and not oe.utils.inherits(d, 'native', 'nativesdk', 'cross'):
-         return ""
--    if bb.data.getVar('INHIBIT_DEFAULT_DEPS', d, True) and not oe.utils.inherits(d, 'cross-canadian'):
-+    if d.getVar('INHIBIT_DEFAULT_DEPS', True) and not oe.utils.inherits(d, 'cross-canadian'):
-         return ""
-     return d.getVar('DEPENDS_GETTEXT', False)
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index e6b3df7..082f233 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -676,9 +676,9 @@ python populate_packages () {
+ 				unshipped.append(path)
  
-@@ -14,4 +14,4 @@ def gettext_oeconf(d):
- DEPENDS_GETTEXT = "virtual/gettext gettext-native"
+ 	if unshipped != []:
+-		bb.note("the following files were installed but not shipped in any package:")
++		bb.warn("the following files were installed but not shipped in any package:")
+ 		for f in unshipped:
+-			bb.note("  " + f)
++			bb.warn("  " + f)
  
- BASEDEPENDS =+ "${@gettext_dependencies(d)}"
--EXTRA_OECONF += "${@gettext_oeconf(d)}"
-+EXTRA_OECONF_append = " ${@gettext_oeconf(d)}"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index a2b36bd..4a1bfa1 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -395,7 +395,7 @@ export BUILD_NM = "${BUILD_PREFIX}nm"
+ 	bb.build.exec_func("package_name_hook", d)
  
- export MAKE = "make"
- EXTRA_OEMAKE = "-e MAKEFLAGS="
--
-+EXTRA_OECONF = ""
- export LC_ALL = "C"
- 
- ##################################################################
 -- 
 1.7.1.1
 
