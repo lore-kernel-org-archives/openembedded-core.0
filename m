@@ -1,36 +1,44 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QJsGk-0000l4-Ud for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 21:06:55 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4AJ49Wo009664
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QJsRQ-0000tc-R2
+	for openembedded-core@lists.openembedded.org;
+	Tue, 10 May 2011 21:17:56 +0200
+Received: by wwb17 with SMTP id 17so6000414wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 20:04:09 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09491-03 for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 20:04:05 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4AJ41wb009657
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 20:04:02 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4DC98507.6070103@mentor.com>
+	Tue, 10 May 2011 12:15:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=i+hihtaAUHgSrstf565ctTVGxV3Spp7xiA4jNk5Hf7k=;
+	b=a60UGt16Z9z2/yZMd0bbs/aLKDM8VqNEZInZ4tvZF8yKCGqQn6yByZjniD8uW4ZPH7
+	kYBq9CgUoYIPm/7p8STZBGswkhY2Vq4EsXHZxoNE0LartG8FpVYUuvMqaBBVj2W6olDn
+	9uhomIdg38tbVR+Wf2PIolweKSy1jPwK/rpd8=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	b=fi4myiEBclajUJoZtX0ORJu+tj0aB2qVnoKgDia8d86Vkc2rnuwPFTsKy+0jmDejBs
+	escv65MILdET5V6Y1papNry84Xao+UWfxqYtcbtxRZH441/E9ekyrdYQauPkPn08whsz
+	qCy3tDJvA1DgMIy3TCIGVfnDwcE2TpEbYNnMU=
+MIME-Version: 1.0
+Received: by 10.216.232.8 with SMTP id m8mr1785603weq.22.1305054910477; Tue,
+	10 May 2011 12:15:10 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.216.93.195 with HTTP; Tue, 10 May 2011 12:15:10 -0700 (PDT)
+In-Reply-To: <1305054238.30391.283.camel@rex>
 References: <BANLkTi=424KO0PMR6b_2QC98qtUryMykdQ@mail.gmail.com>
 	<4DC8CA7E.4020302@linux.intel.com>
 	<BANLkTi=G0wk3a5N4hvTzRcC09U7n-HFH1Q@mail.gmail.com>
 	<4DC97D27.9080602@linux.intel.com>
 	<20110510181314.GF3673@jama.jama.net> <4DC98507.6070103@mentor.com>
-Date: Tue, 10 May 2011 20:03:57 +0100
-Message-ID: <1305054238.30391.283.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1305054238.30391.283.camel@rex>
+Date: Tue, 10 May 2011 16:15:10 -0300
+X-Google-Sender-Auth: HfusVmpPZ7tj-6qcuKOaaYI6EL0
+Message-ID: <BANLkTinT7bN=-QfQg24GtrOaRW4U3vv-zQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Pull request with misc changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -46,52 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 19:06:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 May 2011 19:17:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-05-10 at 11:33 -0700, Tom Rini wrote:
-> On 05/10/2011 11:13 AM, Martin Jansa wrote:
-> > I'm using slightly modified script for pull requests from gitorious.
-> > 
-> > send-pull-request are the same as long as you use git send-email and
-> > have sendemail.to defined in repo.
-> > 
-> > To modify it for github is as simple as this I guess.
-> > 
-> > $ diff -uNr shr-core/openembedded-core/scripts/create-pull-request ~/bin/meta-efl-create-pull-request 
-> > --- shr-core/openembedded-core/scripts/create-pull-request 2011-04-04 09:35:47.973626385 +0200
-> > +++ /OE/bin/meta-efl-create-pull-request        2011-05-10 13:33:20.349688815 +0200
-> > @@ -2,9 +2,11 @@
-> >  ODIR=pull-$$
-> >  RELATIVE_TO="master"
-> >  COMMIT_ID="HEAD"
-> > -PULL_URL="git://git.openembedded.org/openembedded-core-contrib"
-> > -WEB_URL_PREFIX="http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h="
-> > -PREFIX="PATCH"
-> > +#PULL_URL="git://git.openembedded.org/meta-openembedded-contrib"
-> > +#WEB_URL_PREFIX="http://git.openembedded.org/cgit.cgi/meta-openembedded-contrib/log/?h="
-> > +PULL_URL="git://gitorious.org/shr/meta-openembedded.git"
-> > +WEB_URL_PREFIX="http://gitorious.org/shr/meta-openembedded/commits/"
-> > +PREFIX="meta-efl][PATCH"
-> >  
-> >  usage() {
-> >  CMD=$(basename $0)
-> 
-> Hmmm.  I'm going to take a stab at making this a create-pull-request
-> option...
+On Tue, May 10, 2011 at 16:03, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>> Hmmm. =A0I'm going to take a stab at making this a create-pull-request
+>> option...
+>
+> Martin/Tom: Serious question - why not use the contrib repo for this?
+>
+> I have nightmares about all the development being spread to all the
+> corners of the globe and people not being able to see what is being
+> worked on. For short lived branches its not so much of a problem but as
+> we take on longer lived feature development it will be a problem. I'd
+> therefore like to understand why the dislike of it...
 
-Martin/Tom: Serious question - why not use the contrib repo for this?
+Welcome to Distribute Source Control Management World; this is the
+beauty of it and I see no reason to restrict or enforce people to use
+a repository.
 
-I have nightmares about all the development being spread to all the
-corners of the globe and people not being able to see what is being
-worked on. For short lived branches its not so much of a problem but as
-we take on longer lived feature development it will be a problem. I'd
-therefore like to understand why the dislike of it...
+In my personal case we have been using GitHub as a central place to
+put projects that O.S. Systems is contributing and this is good to
+gather us some visibility so OE will be there too.
 
-Cheers,
+So I won't use contrib to share patches. I can send them to mailing
+list (as I have been doing). A merge on a topic branch is a git pull
+command from you so I see not much problem for you or whom is doing
+the pull job.
 
-Richard
+As an example:
 
+ git checkout -b otavio-20110510-review
+ git pull git://github.com/OSSystems/oe-core.git master
+ git shortlog origin/master..
+
+Is that so difficult?
+
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
