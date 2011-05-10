@@ -1,23 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QJfVN-0001SZ-L0
+	(envelope-from <sgw@linux.intel.com>) id 1QJfVP-0001Xh-3v
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 07:29:10 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 09 May 2011 22:26:26 -0700
+	Tue, 10 May 2011 07:29:11 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 09 May 2011 22:26:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,345,1301900400"; d="scan'208";a="640479345"
+X-IronPort-AV: E=Sophos;i="4.64,345,1301900400"; 
+   d="scan'208";a="163200"
 Received: from unknown (HELO localhost) ([10.255.12.75])
-	by orsmga002.jf.intel.com with ESMTP; 09 May 2011 22:26:26 -0700
-Message-Id: <c0f7ebbe59b32dace3ae8a4a5dab8622b09f895b.1305004776.git.sgw@linux.intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 09 May 2011 22:26:26 -0700
+Message-Id: <118af5382d7c13327de95c46e4976ed7863ba3d0.1305004776.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305004776.git.sgw@linux.intel.com>
 References: <cover.1305004776.git.sgw@linux.intel.com>
-Old-Date: Sun, 8 May 2011 17:45:39 +0000
-Date: Mon, 09 May 2011 22:26:25 -0700
+Old-Date: Sun, 8 May 2011 18:13:14 +0000
+Date: Mon, 09 May 2011 22:26:26 -0700
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 25/30] cmake.bbclass: fix qmake and rpath issues
+Subject: [PATCH 26/30] qmake_base.bbclass: add generate_qt_config_file task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,59 +37,42 @@ X-List-Received-Date: Tue, 10 May 2011 05:29:12 -0000
 
 From: Otavio Salvador <otavio@ossystems.com.br>
 
-Sync with OE at 3b7d83362027fde4f6850533ab83277d95dda961 however
-without changing the way of generating the toolchain file and making
-it branding agnostic.
+This writes a qt.conf inside WORKDIR to properly configure projects
+based on CMake. This is required since qmake variables (returned
+by -query command) are fixed into the binary and can only be
+changed using a qt.conf file.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes/cmake.bbclass |   19 +++++++++++++++++--
- 1 files changed, 17 insertions(+), 2 deletions(-)
+ meta/classes/qmake_base.bbclass |   15 +++++++++++++++
+ 1 files changed, 15 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index a4b0c12..ac7bd62 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -24,15 +24,23 @@ OECMAKE_CXX_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${TARGET_CPPFLAGS} -f
- OECMAKE_C_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} -DNDEBUG"
- OECMAKE_CXX_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} -DNDEBUG"
+diff --git a/meta/classes/qmake_base.bbclass b/meta/classes/qmake_base.bbclass
+index 24a0f11..37c44c7 100644
+--- a/meta/classes/qmake_base.bbclass
++++ b/meta/classes/qmake_base.bbclass
+@@ -31,6 +31,21 @@ oe_qmake_mkspecs () {
+     done
+ }
  
-+OECMAKE_RPATH ?= ""
-+python __anonymous() {
-+    # Only set OECMAKE_RPATH if we build a native recipe
-+    if bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
-+        bb.data.setVar('OECMAKE_RPATH', '${libdir}', d)
++do_generate_qt_config_file() {
++	export QT_CONF_PATH=${WORKDIR}/qt.conf
++	bbwarn "${WORKDIR}/qt.conf"
++	cat > ${WORKDIR}/qt.conf <<EOF
++[Paths]
++Prefix = ${STAGING_DIR}
++Binaries = ${BUILD_SYS}${bindir_native}
++Headers = ${MACHINE}${prefix}/include/qt4
++Plugins = ${MACHINE}${prefix}/lib/qt4/plugins/
++Mkspecs = ${MACHINE}${prefix}/share/qt4/mkspecs/
++EOF
 +}
 +
- cmake_do_generate_toolchain_file() {
- 	cat > ${WORKDIR}/toolchain.cmake <<EOF
- # CMake system name must be something like "Linux".
- # This is important for cross-compiling.
- set( CMAKE_SYSTEM_NAME `echo ${SDK_OS} | sed 's/^./\u&/'` )
-+set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
- set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
- set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
--set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "poky CFLAGS" )
--set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "poky CXXFLAGS" )
-+set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
-+set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
- set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "CFLAGS for release" )
- set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXXFLAGS for release" )
- 
-@@ -43,6 +51,13 @@ set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
- 
-+# Use qt.conf settings
-+set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
++addtask generate_qt_config_file after do_patch before do_configure
 +
-+# We need to set the rpath to the correct directory as cmake does not provide any
-+# directory as rpath by default
-+set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
-+
- # Use native cmake modules
- set( CMAKE_MODULE_PATH ${STAGING_DATADIR}/cmake/Modules/ )
- EOF
+ qmake_base_do_configure() {
+ 	case ${QMAKESPEC} in
+ 	*linux-oe-g++|*linux-uclibc-oe-g++|*linux-gnueabi-oe-g++)
 -- 
 1.7.1.1
 
