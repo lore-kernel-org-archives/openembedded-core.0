@@ -1,23 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QJfVc-0001is-2m
+	(envelope-from <sgw@linux.intel.com>) id 1QJfVd-0001me-Kq
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 07:29:24 +0200
+	Tue, 10 May 2011 07:29:26 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 09 May 2011 22:26:38 -0700
+	by azsmga102.ch.intel.com with ESMTP; 09 May 2011 22:26:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,345,1301900400"; d="scan'208";a="433404907"
+X-IronPort-AV: E=Sophos;i="4.64,345,1301900400"; d="scan'208";a="433405018"
 Received: from unknown (HELO localhost) ([10.255.12.75])
-	by azsmga001.ch.intel.com with ESMTP; 09 May 2011 22:26:15 -0700
-Message-Id: <491cfc546a2843493cf466c1e1af11ec8ac2dcee.1305004776.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 09 May 2011 22:26:27 -0700
+Message-Id: <5b4f5ac5548dc44f88eaf9b7994b2fec77a7baf5.1305004776.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305004776.git.sgw@linux.intel.com>
 References: <cover.1305004776.git.sgw@linux.intel.com>
-Old-Date: Thu, 5 May 2011 21:58:58 -0700
-Date: Mon, 09 May 2011 22:26:14 -0700
+Old-Date: Wed, 22 Sep 2010 13:59:21 -0700
+MIME-Version: 1.0
+Date: Mon, 09 May 2011 22:26:27 -0700
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 03/30] conf/layer.conf: Use .= to append to BBPATH and =+ for BBFILES
+Subject: [PATCH 28/30] oe/patch.py: Remove series file during Clean()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,41 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 05:29:25 -0000
+X-List-Received-Date: Tue, 10 May 2011 05:29:26 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 From: Khem Raj <raj.khem@gmail.com>
 
-Appending to BBPATH gives a definite order to BBLAYERS which
-means paths are preferred in order from left to right.
+Currently if there is a failed do_patch the series files get appended
+so if there were two patches
 
-[sgw: merged in comment]
+a.patch
+b.patch
+and b.patch failed during next run it would append a.patch again
+a.patch
+b.patch
+a.patch
+
+and this would keep growing.
+
+We can remove series file in Clean() because we populate it in Import()
+anyway
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Acked-by: Chris Larson <chris_larson@mentor.com>
+Acked-by: Eric Bénard <eric@eukrea.com>
 ---
- meta/conf/layer.conf |   10 +++++++++-
- 1 files changed, 9 insertions(+), 1 deletions(-)
+ meta/lib/oe/patch.py |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 3f63c7d..10a6948 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -2,7 +2,15 @@ BBPATH ?= ""
- # We have a conf and classes directory, add to BBPATH
- BBPATH .= ":${LAYERDIR}"
- # We have a packages directory, add to BBFILES
--BBFILES += "${LAYERDIR}/packages/*/*.bb ${LAYERDIR}/recipes-*/*/*.bb"
-+# packages is still there because metadata_scm.bbclass still uses
-+# it to deduce the repo directory and thats the reason to prepend
-+# to BBFILES here because this class uses the first entry in
-+# BBFILES to calculate the scm base.
-+# since the order of BBFLILES is not that important its acted upon
-+# using BBFILES_PRIORITY we are ok to keep the oe-core BBFILES dir
-+# at top
-+
-+BBFILES =+ "${LAYERDIR}/packages/*/*.bb ${LAYERDIR}/recipes-*/*/*.bb"
- 
- BBFILE_COLLECTIONS += "normal"
- BBFILE_PATTERN_normal := "^${LAYERDIR}/"
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 16d3d08..1406e19 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -198,6 +198,7 @@ class QuiltTree(PatchSet):
+     def Clean(self):
+         try:
+             self._runcmd(["pop", "-a", "-f"])
++            oe.path.remove(os.path.join(self.dir, "patches","series"))
+         except Exception:
+             pass
+         self.initialized = True
 -- 
 1.7.1.1
 
