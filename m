@@ -1,16 +1,16 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QJfBL-0001E3-36
+	(envelope-from <sgw@linux.intel.com>) id 1QJfNH-0001L7-3o
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 07:08:27 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 May 2011 22:05:41 -0700
+	Tue, 10 May 2011 07:20:47 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 May 2011 22:17:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,344,1301900400"; d="scan'208";a="690494511"
+X-IronPort-AV: E=Sophos;i="4.64,344,1301900400"; d="scan'208";a="744872250"
 Received: from unknown (HELO [10.255.12.75]) ([10.255.12.75])
-	by fmsmga002.fm.intel.com with ESMTP; 09 May 2011 22:05:41 -0700
-Message-ID: <4DC8C7A5.5090009@linux.intel.com>
-Date: Mon, 09 May 2011 22:05:41 -0700
+	by orsmga001.jf.intel.com with ESMTP; 09 May 2011 22:17:51 -0700
+Message-ID: <4DC8CA7E.4020302@linux.intel.com>
+Date: Mon, 09 May 2011 22:17:50 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
@@ -18,10 +18,9 @@ User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1304995908.git.dexuan.cui@intel.com>	<29a6f5e598717a6c701495174db9ef4f448e64e7.1304995908.git.dexuan.cui@intel.com>	<4DC8C6C3.6070000@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6933502FCC3@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6933502FCC3@shsmsx502.ccr.corp.intel.com>
-Subject: Re: [PATCH 1/1] rsync (GPLv2): fix security vulnerability CVE-2007-4091
+References: <BANLkTi=424KO0PMR6b_2QC98qtUryMykdQ@mail.gmail.com>
+In-Reply-To: <BANLkTi=424KO0PMR6b_2QC98qtUryMykdQ@mail.gmail.com>
+Subject: Re: Pull request with misc changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,157 +35,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 05:08:27 -0000
-Content-Type: text/plain; charset=GB2312
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 May 2011 05:20:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 05/09/2011 10:03 PM, He, Qing wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Saul
->> Wold
->> Sent: 2011Äê5ÔÂ10ÈÕ 13:02
->> To: Patches and discussions about the oe-core layer
->> Subject: Re: [OE-core] [PATCH 1/1] rsync (GPLv2): fix security vulnerability
->> CVE-2007-4091
->>
->> On 05/09/2011 07:54 PM, Dexuan Cui wrote:
->>> From: Dexuan Cui<dexuan.cui@intel.com>
->>>
->>> Added a patch to fix
->>> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4091
->>>
->> This is missing a [YOCTO #bugid], please add and resend. (update branch
->> is OK).
-> 
-> Saul,
-> 	Before the other two CVEs are specifically addressed, I don't think we can call a close on this bug.
-> 
-Yes, that's true, but it's important to know that this patch addresses a
-part of that bug.
+On 05/09/2011 12:15 PM, Otavio Salvador wrote:
+> Hello,
+>
+> This pull request fixes some issues I found since the last pull
+> request and should be preferred against the first.
+>
+Otavio,
 
-Sau!
+Next time, please use the create-pull-request script, which will 
+generate a set of patch emails so that we can review this information 
+via email. I will make a couple of additional comments below associated 
+with each patch.
 
-> Thanks,
-> Qing
-> 
->>
->> Sau!
->>
->>> Signed-off-by: Dexuan Cui<dexuan.cui@intel.com>
->>> ---
->>>    .../rsync/rsync-2.6.9/rsync-2.6.9-fname-obo.patch  |   70
->> ++++++++++++++++++++
->>>    meta/recipes-devtools/rsync/rsync_2.6.9.bb         |    3 +-
->>>    2 files changed, 72 insertions(+), 1 deletions(-)
->>>    create mode 100644
->> meta/recipes-devtools/rsync/rsync-2.6.9/rsync-2.6.9-fname-obo.patch
->>>
->>> diff --git a/meta/recipes-devtools/rsync/rsync-2.6.9/rsync-2.6.9-fname-obo.patch
->> b/meta/recipes-devtools/rsync/rsync-2.6.9/rsync-2.6.9-fname-obo.patch
->>> new file mode 100644
->>> index 0000000..f054452
->>> --- /dev/null
->>> +++ b/meta/recipes-devtools/rsync/rsync-2.6.9/rsync-2.6.9-fname-obo.patch
->>> @@ -0,0 +1,70 @@
->>> +Upstream-Status: Backport [ The patch is rsync-2.6.9 specific ]
->>> +
->>> +The patch is from https://issues.rpath.com/browse/RPL-1647 and is used to
->>> +address http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4091
->>> +
->>> +Date:   Tue May 10 10:07:36 2011 +0800
->>> +Dexuan Cui<dexuan.cui@intel.com>
->>> +
->>> +diff --git a/sender.c b/sender.c
->>> +index 6fcaa65..053a8f1 100644
->>> +--- a/sender.c
->>> ++++ b/sender.c
->>> +@@ -123,6 +123,7 @@ void successful_send(int ndx)
->>> + 	char fname[MAXPATHLEN];
->>> + 	struct file_struct *file;
->>> + 	unsigned int offset;
->>> ++	size_t l = 0;
->>> +
->>> + 	if (ndx<   0 || ndx>= the_file_list->count)
->>> + 		return;
->>> +@@ -133,6 +134,20 @@ void successful_send(int ndx)
->>> + 				    file->dir.root, "/", NULL);
->>> + 	} else
->>> + 		offset = 0;
->>> ++
->>> ++	l = offset + 1;
->>> ++	if (file) {
->>> ++		if (file->dirname)
->>> ++			l += strlen(file->dirname);
->>> ++		if (file->basename)
->>> ++			l += strlen(file->basename);
->>> ++	}
->>> ++
->>> ++	if (l>= sizeof(fname)) {
->>> ++		rprintf(FERROR, "Overlong pathname\n");
->>> ++		exit_cleanup(RERR_FILESELECT);
->>> ++	}
->>> ++
->>> + 	f_name(file, fname + offset);
->>> + 	if (remove_source_files) {
->>> + 		if (do_unlink(fname) == 0) {
->>> +@@ -224,6 +239,7 @@ void send_files(struct file_list *flist, int f_out, int f_in)
->>> + 	enum logcode log_code = log_before_transfer ? FLOG : FINFO;
->>> + 	int f_xfer = write_batch<   0 ? batch_fd : f_out;
->>> + 	int i, j;
->>> ++	size_t l = 0;
->>> +
->>> + 	if (verbose>   2)
->>> + 		rprintf(FINFO, "send_files starting\n");
->>> +@@ -259,6 +275,20 @@ void send_files(struct file_list *flist, int f_out, int f_in)
->>> + 				fname[offset++] = '/';
->>> + 		} else
->>> + 			offset = 0;
->>> ++
->>> ++		l = offset + 1;
->>> ++		if (file) {
->>> ++			if (file->dirname)
->>> ++				l += strlen(file->dirname);
->>> ++			if (file->basename)
->>> ++				l += strlen(file->basename);
->>> ++		}
->>> ++
->>> ++		if (l>= sizeof(fname)) {
->>> ++			rprintf(FERROR, "Overlong pathname\n");
->>> ++			exit_cleanup(RERR_FILESELECT);
->>> ++		}
->>> ++
->>> + 		fname2 = f_name(file, fname + offset);
->>> +
->>> + 		if (verbose>   2)
->>> diff --git a/meta/recipes-devtools/rsync/rsync_2.6.9.bb
->> b/meta/recipes-devtools/rsync/rsync_2.6.9.bb
->>> index 4337982..17c18a4 100644
->>> --- a/meta/recipes-devtools/rsync/rsync_2.6.9.bb
->>> +++ b/meta/recipes-devtools/rsync/rsync_2.6.9.bb
->>> @@ -8,6 +8,7 @@ PRIORITY = "optional"
->>>    DEPENDS = "popt"
->>>
->>>    SRC_URI = "http://rsync.samba.org/ftp/rsync/src/rsync-${PV}.tar.gz \
->>> +           file://rsync-2.6.9-fname-obo.patch \
->>>               file://rsyncd.conf"
->>>
->>>    inherit autotools
->>> @@ -22,4 +23,4 @@ EXTRA_OEMAKE='STRIP=""'
->>>    LICENSE = "GPLv2+"
->>>    LIC_FILES_CHKSUM =
->> "file://COPYING;md5=6d5a9d4c4d3af25cd68fd83e8a8cb09c"
->>>
->>> -PR = "r2"
->>> +PR = "r3"
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> The following changes since commit d0dc2b5bb02ef55a41e7a97b6831c72391ae7f36:
+>
+>    u-boot: correct COPYING MD5SUM (2011-05-08 23:56:11 -0700)
+>
+> are available in the git repository at:
+>    git://github.com/OSSystems/oe-core master
+>
+> Otavio Salvador (10):
+>        meta/conf/local.conf.sample: fix mklibs comment line split and typo
+>        scripts/oe-setup-builddir: fix typo
+>        syslinux: improve packaging
+>        busybox: add support to mdev
+>        libxkbfile: disable xcb
+>        insane.bbclass: skip license checksum if LICENSE is "CLOSED"
+I assume you are adding this for layers and commercial work, we should 
+never have CLOSED in any open layer.
+
+>        cmake.bbclass: fix qmake and rpath issues
+>        qmake_base.bbclass: add generate_qt_config_file task
+>        cmake: add support for oe qt4 tools names
+Please add a comment to the patch explaining it's purpose and origin, 
+and include a Signed-off-by: if appropriate. Any patches that you have 
+modified or added should include the above info.
+
+>        fuse: drop since it is not used by other recipes
+>
+>   .../fuse-2.7.2/not-run-updaterc.d-on-host.patch    |   15 ----
+>   meta-demoapps/recipes-kernel/fuse/fuse.inc         |   13 ---
+>   meta-demoapps/recipes-kernel/fuse/fuse_2.7.2.bb    |   22 -----
+>   meta/classes/cmake.bbclass                         |   19 ++++-
+>   meta/classes/insane.bbclass                        |    4 +
+>   meta/classes/qmake_base.bbclass                    |   15 ++++
+>   meta/conf/local.conf.sample                        |    7 +-
+>   meta/recipes-core/busybox/busybox.inc              |   14 +++-
+>   meta/recipes-core/busybox/busybox_1.18.4.bb        |    2 +
+>   meta/recipes-core/busybox/files/mdev               |    7 ++
+>   meta/recipes-core/busybox/files/mdev.conf          |   35 ++++++++
+>   meta/recipes-devtools/cmake/cmake-native_2.8.3.bb  |    2 +-
+>   meta/recipes-devtools/cmake/cmake.inc              |    3 +-
+>   .../cmake/cmake/support-oe-qt4-tools-names.patch   |   85 ++++++++++++++++++++
+>   meta/recipes-devtools/syslinux/syslinux_4.03.bb    |   12 +++-
+>   meta/recipes-graphics/xorg-lib/libxkbfile_1.0.7.bb |    4 +-
+>   scripts/oe-setup-builddir                          |    2 +-
+>   17 files changed, 199 insertions(+), 62 deletions(-)
+>   delete mode 100644
+> meta-demoapps/recipes-kernel/fuse/fuse-2.7.2/not-run-updaterc.d-on-host.patch
+>   delete mode 100644 meta-demoapps/recipes-kernel/fuse/fuse.inc
+>   delete mode 100644 meta-demoapps/recipes-kernel/fuse/fuse_2.7.2.bb
+>   create mode 100755 meta/recipes-core/busybox/files/mdev
+>   create mode 100644 meta/recipes-core/busybox/files/mdev.conf
+>   create mode 100644
+> meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.patch
+>
+>
 
 
