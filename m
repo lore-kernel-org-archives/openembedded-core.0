@@ -1,19 +1,19 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QJnX6-0005qp-KG
+	(envelope-from <richard@tim.rpsys.net>) id 1QJnX6-0005qq-Ku
 	for openembedded-core@lists.openembedded.org;
 	Tue, 10 May 2011 16:03:29 +0200
 Received: by rex (Postfix, from userid 1000)
-	id 2CA9820C47; Tue, 10 May 2011 15:00:39 +0100 (BST)
-Message-Id: <6a6f3589dba7aff0cb89f233807e5d051d8d3e08.1305035617.git.richard.purdie@linuxfoundation.org>
+	id 81A3820C5F; Tue, 10 May 2011 15:00:40 +0100 (BST)
+Message-Id: <0a007e99bacaaf9afaf3641635724fdb78974770.1305035617.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
 References: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
-Old-Date: Tue, 10 May 2011 12:53:25 +0100
-Date: Tue, 10 May 2011 15:00:39 +0100
+Old-Date: Tue, 10 May 2011 14:04:57 +0100
+Date: Tue, 10 May 2011 15:00:40 +0100
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/6] bitbake.conf: Include the new default-providers.inc and default-versions.inc files
+Subject: [PATCH 3/6] distro: Add defaultsetup.conf, a set of default configuration providing sane overrridable default for commonly used options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,220 +32,265 @@ X-List-Received-Date: Tue, 10 May 2011 14:03:29 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-These are the minimal defaults to allow OE-Core to function standalone with
-no distro set and are constucted such that the distro can either override values,
-or totally replace the include file entirely as needed.
+The intent is to allow distros to share common core config but still allow
+customisations. The core should work with no distro set but users
+can still customise in any ways needed.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf                            |    3 +
- meta/conf/distro/include/default-providers.inc    |   34 ++++++++++++
- meta/conf/distro/include/default-versions.inc     |   18 ++++++
- meta/conf/distro/include/poky-fixed-revisions.inc |   27 ---------
- meta/conf/distro/poky.conf                        |   59 +--------------------
- 5 files changed, 56 insertions(+), 85 deletions(-)
- create mode 100644 meta/conf/distro/include/default-providers.inc
- create mode 100644 meta/conf/distro/include/default-versions.inc
- delete mode 100644 meta/conf/distro/include/poky-fixed-revisions.inc
+ meta/conf/bitbake.conf                             |    4 +-
+ meta/conf/distro/defaultsetup.conf                 |   23 ++++++++++
+ .../include/{poky-eglibc.inc => tclibc-eglibc.inc} |    6 ++-
+ .../include/{poky-glibc.inc => tclibc-glibc.inc}   |    6 ++-
+ .../include/{poky-uclibc.inc => tclibc-uclibc.inc} |    4 ++
+ .../{poky-default.inc => tcmode-default.inc}       |   13 +++---
+ meta/conf/distro/poky.conf                         |   46 +++++--------------
+ 7 files changed, 54 insertions(+), 48 deletions(-)
+ create mode 100644 meta/conf/distro/defaultsetup.conf
+ rename meta/conf/distro/include/{poky-eglibc.inc => tclibc-eglibc.inc} (92%)
+ rename meta/conf/distro/include/{poky-glibc.inc => tclibc-glibc.inc} (91%)
+ rename meta/conf/distro/include/{poky-uclibc.inc => tclibc-uclibc.inc} (86%)
+ rename meta/conf/distro/include/{poky-default.inc => tcmode-default.inc} (85%)
 
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 4a1bfa1..d843e70 100644
+index d843e70..ce74a9b 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
-@@ -627,6 +627,9 @@ include conf/build/${BUILD_SYS}.conf
+@@ -627,9 +627,7 @@ include conf/build/${BUILD_SYS}.conf
  include conf/target/${TARGET_SYS}.conf
  include conf/machine/${MACHINE}.conf
  include conf/machine-sdk/${SDKMACHINE}.conf
-+include conf/distro/include/default-providers.inc
-+include conf/distro/include/default-versions.inc
-+include conf/distro/include/world-broken.inc
+-include conf/distro/include/default-providers.inc
+-include conf/distro/include/default-versions.inc
+-include conf/distro/include/world-broken.inc
++include conf/distro/defaultsetup.conf
  include conf/distro/${DISTRO}.conf
  include conf/documentation.conf
  require conf/sanity.conf
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
 new file mode 100644
-index 0000000..d51ac64
+index 0000000..af5ef7b
 --- /dev/null
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -0,0 +1,34 @@
-+#
-+# Default virtual providers
-+#
-+PREFERRED_PROVIDER_virtual/db ?= "db"
-+PREFERRED_PROVIDER_virtual/db-native ?= "db-native"
-+PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xf86"
-+PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xf86-dri-lite"
-+PREFERRED_PROVIDER_virtual/libgl ?= "mesa-xlib"
-+PREFERRED_PROVIDER_virtual/update-alternatives ?= "update-alternatives-cworth"
-+PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
-+PREFERRED_PROVIDER_virtual/libx11 ?= "libx11-trim"
-+PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
++++ b/meta/conf/distro/defaultsetup.conf
+@@ -0,0 +1,23 @@
++include conf/distro/include/default-providers.inc
++include conf/distro/include/default-versions.inc
++include conf/distro/include/world-broken.inc
 +
-+#
-+# Default virtual runtime providers
-+#
-+VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
++TARGET_VENDOR ?= "-oecore"
 +
-+#
-+# Default recipe providers
-+#
-+PREFERRED_PROVIDER_dbus-glib ?= "dbus-glib"
-+PREFERRED_PROVIDER_dbus-glib-native ?= "dbus-glib-native"
-+PREFERRED_PROVIDER_gconf ?= "gconf-dbus"
-+PREFERRED_PROVIDER_gdk-pixbuf ?= "gdk-pixbuf"
-+PREFERRED_PROVIDER_libgcc ?= "libgcc"
-+PREFERRED_PROVIDER_libgcc-nativesdk ?= "libgcc-nativesdk"
-+PREFERRED_PROVIDER_linux-libc-headers ?= "linux-libc-headers"
-+PREFERRED_PROVIDER_linux-libc-headers-nativesdk ?= "linux-libc-headers-nativesdk"
-+PREFERRED_PROVIDER_matchbox-panel ?= "matchbox-panel-2"
-+PREFERRED_PROVIDER_opkg ?= "opkg"
-+PREFERRED_PROVIDER_opkg-native ?= "opkg-native"
-+PREFERRED_PROVIDER_opkg-nativesdk ?= "opkg-nativesdk"
++TARGET_FPU_arm ?= "soft"
++TARGET_FPU_armeb ?= "soft"
 +
-diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-new file mode 100644
-index 0000000..0abbd8f
---- /dev/null
-+++ b/meta/conf/distro/include/default-versions.inc
-@@ -0,0 +1,18 @@
-+#
-+# Default preferred versions
-+#
-+PULSEAUDIOVERSION ?= "0.9.22"
-+PULSEAUDIOVERSION_arm ?= "0.9.15"
-+PREFERRED_VERSION_pulseaudio ?= "${PULSEAUDIOVERSION}"
++TCMODE ?= "default"
++require conf/distro/include/tcmode-${TCMODE}.inc
 +
-+# Force the python versions in one place
-+PYTHON_BASEVERSION ?= "2.6"
-+PREFERRED_VERSION_python ?= "2.6.6"
-+PREFERRED_VERSION_python-native ?= "2.6.6"
++TCLIBC ?= "eglibc"
++require conf/distro/include/tclibc-${TCLIBC}.inc
 +
-+# Force the older version of liberation-fonts until we fix the fontforge issue
-+PREFERRED_VERSION_liberation-fonts ?= "1.04"
++CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(bb.data.getVar('MACHINE', d, 1))][bool(bb.data.getVar('MACHINE', d, 1))]}${@['', '/' + str(bb.data.getVar('SDKMACHINE', d, 1))][bool(bb.data.getVar('SDKMACHINE', d, 1))]}"
 +
++USER_CLASSES ?= ""
++PACKAGE_CLASSES ?= "package_ipk"
++INHERIT_INSANE ?= "insane"
++INHERIT_DISTRO ?= "debian devshell sstate license"
++INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_INSANE} ${INHERIT_DISTRO}"
 +
+diff --git a/meta/conf/distro/include/poky-eglibc.inc b/meta/conf/distro/include/tclibc-eglibc.inc
+similarity index 92%
+rename from meta/conf/distro/include/poky-eglibc.inc
+rename to meta/conf/distro/include/tclibc-eglibc.inc
+index 3d2c362..16625e3 100644
+--- a/meta/conf/distro/include/poky-eglibc.inc
++++ b/meta/conf/distro/include/tclibc-eglibc.inc
+@@ -2,6 +2,10 @@
+ # eglibc specific configuration
+ #
+ 
++TARGET_OS = "linux"
++TARGET_OS_arm = "linux-gnueabi"
++TARGET_OS_armeb = "linux-gnueabi"
 +
-+
-diff --git a/meta/conf/distro/include/poky-fixed-revisions.inc b/meta/conf/distro/include/poky-fixed-revisions.inc
-deleted file mode 100644
-index 9486080..0000000
---- a/meta/conf/distro/include/poky-fixed-revisions.inc
-+++ /dev/null
-@@ -1,27 +0,0 @@
--# Preferred Versions:
--#
--PREFERRED_VERSION_libmatchbox ?= "1.9"
--PREFERRED_VERSION_matchbox-theme-sato ?= "0.1"
--PREFERRED_VERSION_elfutils ?= "0.89"
--PREFERRED_VERSION_hal ?= "0.5.14"
--PREFERRED_VERSION_hal-info ?= "20091130"
--PREFERRED_VERSION_udev ?= "164"
--PREFERRED_VERSION_wpa-supplicant ?= "0.7.3"
--PREFERRED_VERSION_pseudo = "1.0"
--PREFERRED_VERSION_pseudo-native = "1.0"
+ # Add glibc overrides to the overrides for eglibc.
+ OVERRIDES .= ":libc-glibc"
+ 
+@@ -17,8 +21,6 @@ PREFERRED_PROVIDER_virtual/libiconv-nativesdk ?= "eglibc-nativesdk"
+ PREFERRED_PROVIDER_virtual/libc-nativesdk ?= "eglibc-nativesdk"
+ PREFERRED_PROVIDER_virtual/${SDK_PREFIX}libc-initial-nativesdk ?= "eglibc-initial-nativesdk"
+ 
+-TARGET_OS = "${GLIBCTARGETOS}"
 -
--PULSEAUDIOVERSION ?= "0.9.22"
--PULSEAUDIOVERSION_arm ?= "0.9.15"
--PREFERRED_VERSION_pulseaudio ?= "${PULSEAUDIOVERSION}"
+ CXXFLAGS += "-fvisibility-inlines-hidden"
+ 
+ LIBC_DEPENDENCIES = "libsegfault \
+diff --git a/meta/conf/distro/include/poky-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
+similarity index 91%
+rename from meta/conf/distro/include/poky-glibc.inc
+rename to meta/conf/distro/include/tclibc-glibc.inc
+index 4be7122..79da986 100644
+--- a/meta/conf/distro/include/poky-glibc.inc
++++ b/meta/conf/distro/include/tclibc-glibc.inc
+@@ -2,6 +2,10 @@
+ # glibc specific configuration
+ #
+ 
++TARGET_OS = "linux"
++TARGET_OS_arm = "linux-gnueabi"
++TARGET_OS_armeb = "linux-gnueabi"
++
+ # Add glibc to the overrides.
+ OVERRIDES =. "libc-glibc:"
+ 
+@@ -16,8 +20,6 @@ PREFERRED_PROVIDER_virtual/libiconv-nativesdk ?= "glibc-nativesdk"
+ PREFERRED_PROVIDER_virtual/libc-nativesdk ?= "glibc-nativesdk"
+ PREFERRED_PROVIDER_virtual/${SDK_PREFIX}libc-initial-nativesdk ?= "glibc-initial-nativesdk"
+ 
+-TARGET_OS = "${GLIBCTARGETOS}"
 -
--# Force the python versions in one place
--PYTHON_BASEVERSION ?= "2.6"
--PREFERRED_VERSION_python ?= "2.6.6"
--PREFERRED_VERSION_python-native ?= "2.6.6"
+ CXXFLAGS += "-fvisibility-inlines-hidden"
+ 
+ LIBC_DEPENDENCIES = "\
+diff --git a/meta/conf/distro/include/poky-uclibc.inc b/meta/conf/distro/include/tclibc-uclibc.inc
+similarity index 86%
+rename from meta/conf/distro/include/poky-uclibc.inc
+rename to meta/conf/distro/include/tclibc-uclibc.inc
+index def9dfe..18748fa 100644
+--- a/meta/conf/distro/include/poky-uclibc.inc
++++ b/meta/conf/distro/include/tclibc-uclibc.inc
+@@ -2,6 +2,10 @@
+ # uclibc specific configuration
+ #
+ 
++TARGET_OS = "linux-uclibc"
++TARGET_OS_arm = "linux-uclibceabi"
++TARGET_OS_armeb = "linux-uclibceabi"
++
+ # Add uclibc overrides to the overrides.
+ OVERRIDES =. "libc-uclibc:"
+ 
+diff --git a/meta/conf/distro/include/poky-default.inc b/meta/conf/distro/include/tcmode-default.inc
+similarity index 85%
+rename from meta/conf/distro/include/poky-default.inc
+rename to meta/conf/distro/include/tcmode-default.inc
+index 91985b3..909d802 100644
+--- a/meta/conf/distro/include/poky-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -1,18 +1,16 @@
+ #
+-# Poky's default configuration
++# Default toolchain configuration
+ #
+ 
+-TARGET_VENDOR = "-poky"
 -
--# Force the older version of liberation-fonts until we fix the fontforge issue
--PREFERRED_VERSION_liberation-fonts ?= "1.04"
+-PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-for-gcc = "${POKYLIBC}"
++PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-for-gcc = "${TCLIBC}"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}binutils = "binutils-cross"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc-initial = "gcc-cross-initial"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc-intermediate = "gcc-cross-intermediate"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc = "gcc-cross"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}g++ = "gcc-cross"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}compilerlibs = "gcc-runtime"
+-PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${POKYLIBC}-initial"
+-PREFERRED_PROVIDER_virtual/${SDK_PREFIX}libc-for-gcc-nativesdk ?= "${POKYLIBC}-nativesdk"
++PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
++PREFERRED_PROVIDER_virtual/${SDK_PREFIX}libc-for-gcc-nativesdk ?= "${TCLIBC}-nativesdk"
+ 
+ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+ 
+@@ -50,6 +48,7 @@ PREFERRED_VERSION_elfutils ?= "0.148"
+ # some packages using an archive format incompatible with earlier gzip
+ PREFERRED_VERSION_gzip-native ?= "1.4"
+ 
++# Setup suitable toolchain flags
+ require conf/distro/include/as-needed.inc
 -
--
--
--
++TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][bb.data.getVar('TARGET_ARCH', d, True) in ['mips', 'mipsel', 'mips64', 'mips64el']]}"
+ 
 diff --git a/meta/conf/distro/poky.conf b/meta/conf/distro/poky.conf
-index 37fde0f..2e9d327 100644
+index 2e9d327..f13a67f 100644
 --- a/meta/conf/distro/poky.conf
 +++ b/meta/conf/distro/poky.conf
-@@ -1,5 +1,3 @@
--#@TYPE: Distribution#@NAME: Poky
--#@DESCRIPTION: Distribution configuration for the Yocto Project build by Poky
- 
+@@ -1,56 +1,29 @@
+-
  DISTRO = "poky"
- DISTRO_NAME = "Yocto (Built by Poky 4.0)"
-@@ -28,29 +26,8 @@ QA_LOGFILE = "${TMPDIR}/qa.log"
+-DISTRO_NAME = "Yocto (Built by Poky 4.0)"
+-DISTRO_VERSION = "0.9+snapshot-${DATE}"
++DISTRO_NAME = "Yocto (Built by Poky 5.0)"
++DISTRO_VERSION = "1.0+snapshot-${DATE}"
++SDK_VENDOR = "-pokysdk"
+ SDK_VERSION := "${@'${DISTRO_VERSION}'.replace('snapshot-${DATE}','snapshot')}"
+ 
+ MAINTAINER = "Poky <poky@yoctoproject.org>"
+ 
+-USER_CLASSES ?= ""
+-
+-PACKAGE_CLASSES ?= "package_ipk"
+-INHERIT_INSANE ?= "insane"
+-INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} debian devshell ${INHERIT_INSANE} sstate license"
+-# For some reason, this doesn't work
+-# TARGET_OS ?= "linux"
+-# TARGET_VENDOR ?= "-poky"
+-# Set by POKYMODE instead
+-TARGET_OS = "linux"
+-TARGET_FPU_arm ?= "soft"
+-TARGET_FPU_armeb ?= "soft"
+-TARGET_FPU_nokia800 = "hard"
+-
+-TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][bb.data.getVar('TARGET_ARCH', d, True) in ['mips', 'mipsel', 'mips64', 'mips64el']]}"
++TARGET_VENDOR = "-poky"
+ 
+ QA_LOGFILE = "${TMPDIR}/qa.log"
  
  IMAGE_ROOTFS_SIZE_ext2 ?= "131072"
  
--#IPK_FEED_URIS += " \
--#           upgrades##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/upgrades/ \
--#upgrades-${MACHINE}##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/upgrades/${MACHINE} \
--#            machine##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/machine/${MACHINE} \
--#               base##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/base/ \
--#               libs##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/libs/ \
--#            console##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/console \
--#              devel##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/devel"
--
--#RPM_FEED_URIS += " \
--#           upgrades##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/upgrades/ \
--#upgrades-${MACHINE}##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/upgrades/${MACHINE} \
--#            machine##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/machine/${MACHINE} \
--#               base##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/base/ \
--#               libs##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/libs/ \
--#            console##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/console \
--#              devel##http://openzaurus.org/official/unstable/${DISTRO_VERSION}/feed/devel"
--
++LOCALCONF_VERSION = "1"
++
  OEINCLUDELOGS = "yes"
  KERNEL_CONSOLE = "ttyS0"
--#DEBUG_OPTIMIZATION = "-O -g3"
--#DEBUG_BUILD = "1"
--#INHIBIT_PACKAGE_STRIP = "1"
  
- # Default to TARGETOS values for EABI on arm
- GLIBCTARGETOS = "linux${@['','-gnueabi'][bb.data.getVar('TARGET_ARCH',d,1) in ['arm', 'armeb']]}"
-@@ -67,39 +44,7 @@ SDKPATH = "/opt/${DISTRO}/${SDK_VERSION}"
+-# Default to TARGETOS values for EABI on arm
+-GLIBCTARGETOS = "linux${@['','-gnueabi'][bb.data.getVar('TARGET_ARCH',d,1) in ['arm', 'armeb']]}"
+-UCLIBCTARGETOS = "linux${@['-uclibc','-uclibceabi'][bb.data.getVar('TARGET_ARCH',d,1) in ['arm', 'armeb']]}"
+-
+-POKYMODE ?= "default"
+-require conf/distro/include/poky-${POKYMODE}.inc
+-
+-POKYLIBC ?= "eglibc"
+-require conf/distro/include/poky-${POKYLIBC}.inc
+-
+-SDK_NAME = "${DISTRO}-${POKYLIBC}-${SDK_ARCH}-${TARGET_ARCH}"
++SDK_NAME = "${DISTRO}-${TCLIBC}-${SDK_ARCH}-${TARGET_ARCH}"
+ SDKPATH = "/opt/${DISTRO}/${SDK_VERSION}"
  
- CACHE = "${TMPDIR}/cache/${POKYMODE}-${POKYLIBC}${@['', '/' + str(bb.data.getVar('MACHINE', d, 1))][bool(bb.data.getVar('MACHINE', d, 1))]}${@['', '/' + str(bb.data.getVar('SDKMACHINE', d, 1))][bool(bb.data.getVar('SDKMACHINE', d, 1))]}"
- 
--#
--# Preferred providers:
--#
+-CACHE = "${TMPDIR}/cache/${POKYMODE}-${POKYLIBC}${@['', '/' + str(bb.data.getVar('MACHINE', d, 1))][bool(bb.data.getVar('MACHINE', d, 1))]}${@['', '/' + str(bb.data.getVar('SDKMACHINE', d, 1))][bool(bb.data.getVar('SDKMACHINE', d, 1))]}"
 -
--# Virtuals:
--PREFERRED_PROVIDER_virtual/db ?= "db"
--PREFERRED_PROVIDER_virtual/db-native ?= "db-native"
--PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xf86"
--PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xf86-dri-lite"
--PREFERRED_PROVIDER_virtual/libgl ?= "mesa-xlib"
--PREFERRED_PROVIDER_virtual/update-alternatives ?= "update-alternatives-cworth"
--PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
--PREFERRED_PROVIDER_virtual/libx11 ?= "libx11-trim"
--PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
 -
--VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
--
--# Others:
--PREFERRED_PROVIDER_linux-libc-headers ?= "linux-libc-headers"
--PREFERRED_PROVIDER_linux-libc-headers-nativesdk ?= "linux-libc-headers-nativesdk"
--PREFERRED_PROVIDER_libgcc ?= "libgcc"
--PREFERRED_PROVIDER_libgcc-nativesdk ?= "libgcc-nativesdk"
--PREFERRED_PROVIDER_dbus-glib ?= "dbus-glib"
--PREFERRED_PROVIDER_dbus-glib-native ?= "dbus-glib-native"
--PREFERRED_PROVIDER_gconf ?= "gconf-dbus"
--PREFERRED_PROVIDER_matchbox-panel ?= "matchbox-panel-2"
--PREFERRED_PROVIDER_opkg ?= "opkg"
--PREFERRED_PROVIDER_opkg-native ?= "opkg-native"
--PREFERRED_PROVIDER_opkg-nativesdk ?= "opkg-nativesdk"
--
--PREFERRED_PROVIDER_gdk-pixbuf ?= "gdk-pixbuf"
--
--require conf/distro/include/poky-fixed-revisions.inc
-+
  require conf/distro/include/preferred-xorg-versions.inc
  
  PCMCIA_MANAGER ?= "pcmciautils"
-@@ -148,8 +93,6 @@ COMMON_LICENSE_DIR ??= "${COREBASE}/meta/files/common-licenses"
+ 
+-#IMAGE_LINGUAS ?= "en-gb en-us"
+-#LIMIT_BUILT_LOCALES ?= "en_GB en_US"
+ IMAGE_LINGUAS ?= "en-us en-gb"
+ LIMIT_BUILT_LOCALES ?= "POSIX en_US en_GB"
+ ENABLE_BINARY_LOCALE_GENERATION ?= "1"
+@@ -62,6 +35,8 @@ POKY_EXTRA_RDEPENDS = "task-core-boot"
+ POKY_EXTRA_RDEPENDS_qemuarm = "qemu-config"
+ POKY_EXTRA_RDEPENDS_qemuarmv6 = "qemu-config"
+ POKY_EXTRA_RDEPENDS_qemuarmv7 = "qemu-config"
++POKY_EXTRA_RDEPENDS_qemumips = "qemu-config"
++POKY_EXTRA_RDEPENDS_qemuppc = "qemu-config"
+ POKY_EXTRA_RDEPENDS_qemux86 = "qemu-config"
+ POKY_EXTRA_RDEPENDS_qemux86-64 = "qemu-config"
+ 
+@@ -93,6 +68,9 @@ COMMON_LICENSE_DIR ??= "${COREBASE}/meta/files/common-licenses"
  
  BB_GENERATE_MIRROR_TARBALLS ??= "0"
  
--require conf/distro/include/world-broken.inc
--
++QEMU_TARGETS ?= "arm i386 mips mipsel ppc x86_64"
++# Other QEMU_TARGETS "mips64 mips64el sh4"
++
  PREMIRRORS ?= "\
  bzr://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
  cvs://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
