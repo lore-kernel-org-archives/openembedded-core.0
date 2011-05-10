@@ -1,47 +1,38 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QJnqv-0006Tb-7K
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1QJnwQ-0006aX-3g
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 16:23:58 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 10 May 2011 07:21:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,346,1301900400"; d="scan'208";a="433618392"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by azsmga001.ch.intel.com with ESMTP; 10 May 2011 07:21:10 -0700
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 10 May 2011 22:20:57 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Tue, 10 May 2011 22:20:56 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Richard Purdie' <richard.purdie@linuxfoundation.org>
-Date: Tue, 10 May 2011 22:20:55 +0800
-Thread-Topic: [OE-core] [PATCH 37/58] gnu-config-native: add dependency on
-	perl-native
-Thread-Index: AcwPHAyKi1BbccqbQymfJ4OVgEMteAAAHcZg
-Message-ID: <1865303E0DED764181A9D882DEF65FB69334F4BD8C@shsmsx502.ccr.corp.intel.com>
-References: <cover.1302936483.git.sgw@linux.intel.com>
-	<eee3fb921c3e9c6439df2540a552719c9327ebd4.1302936483.git.sgw@linux.intel.com>
-	<1303102414.5518.30.camel@rex>
-	<1865303E0DED764181A9D882DEF65FB6900D7D5708@shsmsx502.ccr.corp.intel.com>
-	<1303109647.5518.54.camel@rex>
-	<1865303E0DED764181A9D882DEF65FB69334F4BD75@shsmsx502.ccr.corp.intel.com>
-	<1304634851.30391.54.camel@rex>
-	<1865303E0DED764181A9D882DEF65FB69334F4BD82@shsmsx502.ccr.corp.intel.com>
-	<1304681508.30391.84.camel@rex>
-	<1865303E0DED764181A9D882DEF65FB69334F4BD8A@shsmsx502.ccr.corp.intel.com>
-	<1305036626.30391.276.camel@rex>
-In-Reply-To: <1305036626.30391.276.camel@rex>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Tue, 10 May 2011 16:29:38 +0200
+Received: by gyf1 with SMTP id 1so2348379gyf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 May 2011 07:26:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type;
+	bh=MqnqRFqU1A+JpiYRFPNHuh57mkuSIpb9LkfQZXtynbw=;
+	b=Ez0NI52cFK5jl0eeDgXbgvf1WXiMenndpgzs630GxDrLq/M03JWYvXy8cq7J1frc2e
+	kfhvbsZE26HrAXRkfDgxIt9vbuEI/4pZd0YKKNI2UfPpGMf3aBaoN9ZKZ1wUOU7J0Nm8
+	JjVzsVVdeOWztQlholZLysyOmGneimmsriW7M=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type;
+	b=lZwihK9wSKGpY64gMlsgjneAbbjjk8eUVN4Zd7rhwiaOgiHp52Tk+RCu6Te2xMVc7S
+	9tEyEAw9vIadgJ5kNH4TlOHWaiCUPJnOVQVztvZSxsSwlFRyG2UCt5b6QhJ/3wZO6uW5
+	EavxpvXn/b5PGpVnLicexC7dFJh7e/rJs9PBA=
 MIME-Version: 1.0
-Cc: 'Patches and discussions about the oe-core layer'
+Received: by 10.91.201.31 with SMTP id d31mr4595086agq.182.1305037611915; Tue,
+	10 May 2011 07:26:51 -0700 (PDT)
+Received: by 10.90.32.18 with HTTP; Tue, 10 May 2011 07:26:51 -0700 (PDT)
+In-Reply-To: <2b5ed98c067c8f517a669ba8b857ebe1c08e1bb3.1305035617.git.richard.purdie@linuxfoundation.org>
+References: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
+	<2b5ed98c067c8f517a669ba8b857ebe1c08e1bb3.1305035617.git.richard.purdie@linuxfoundation.org>
+Date: Tue, 10 May 2011 16:26:51 +0200
+Message-ID: <BANLkTimcGCLPFM0ShJPyaDqm+X8PaX1DXQ@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 37/58] gnu-config-native: add dependency on perl-native
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Subject: Re: [PATCH 5/6] conf/distro/include/default-distrovars.inc: Create set of default 'distro' variable values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,47 +47,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 14:23:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 May 2011 14:29:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Richard Purdie wrote:
-> On Tue, 2011-05-10 at 22:02 +0800, Cui, Dexuan wrote:
->>> or we hardcode to /usr/bin/perl. Since the perl-native binary won't
->>> be in the path for any of these, autodetecting and letting it
->>> hardcode is probably fine. It has the advantage that if there are
->>> any binary modules ever involved, they'll match the version of perl
->>> they were built for regardless of whether perl-native is a
->>> dependency or not. If someone adds a perl-native dependency to
->>> autoconf-native, it will also still select the "correct" perl.
->>>=20
->>> Whilst doing this we need to keep bug #968 in mind and ensure that
->>> if perl-native is used, all of perl-native is in the sysroot. That
->>> bug is where the perl binary was installed, the library was not and
->>> an error occurred. If it is in its own directory which is only
->>> added to the PATH for users with the correct dependency, we avoid
->>> this.=20
->>>=20
->>> As for bug #941, the bottom line is that however autoconf-native
->>> selects its perl version, the strings encoded in gnu-config should
->>> really match those in the other autoconf-native scripts.
->> I saw a commit that was once suspended was pushed into poky
->> master yesterday:
->> http://git.pokylinux.org/cgit/cgit.cgi/poky/commit/?id=3D605141a93443df0=
-42634b2219a8628a9004be023
->> Actually it does fix(or at least workaround) bug #941 and bug #968.
->>=20
->> Looks there are much work to do if we install perl-native to its own
->> sysroot. At present we can use the above commit as a workaround.
->=20
-> Its merged as a workaround but I still think we need to clean this up
-> properly and we need to continue working on it.
-I actually meant the priority could be lowered since we have a workaround. =
-:-)
-Surely, I'll continue to investigate it.
+Some minor remarks on the default-distrovars.inc contents:
 
-Thanks,
--- Dexuan=
+2011/5/10 Richard Purdie <richard.purdie@linuxfoundation.org>
+[...]
 
+> diff --git a/meta/conf/distro/include/default-distrovars.inc
+> b/meta/conf/distro/include/default-distrovars.inc
+> new file mode 100644
+> index 0000000..ab26a30
+> --- /dev/null
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -0,0 +1,43 @@
+> +QA_LOGFILE = "${TMPDIR}/qa.log"
+>
+Should this be here? I would expect the class file that uses this to have
+this as default and/or have this in local.conf.sample.
+This does not seem too distro specific
+
+> +
+> +IMAGE_ROOTFS_SIZE_ext2 ?= "131072"
+>
+Hm, again something that is probalby not distro related. And why only for
+_ext2 and not eg for _ext3 or for _jffs2
+Personally I always stuff this in my image recipe
+
+> +
+> +OEINCLUDELOGS ?= "yes"
+>
+in local.conf.sample?
+
+> +KERNEL_CONSOLE ?= "ttyS0"
+>
+I'm inclined to put this into the machine conf. Is this really a distro
+thing?
+
+> +
+> +require conf/distro/include/preferred-xorg-versions.inc
+> +
+> +PCMCIA_MANAGER ?= "pcmciautils"
+> +
+> +IMAGE_LINGUAS ?= "en-us en-gb"
+> +LIMIT_BUILT_LOCALES ?= "POSIX en_US en_GB"
+> +ENABLE_BINARY_LOCALE_GENERATION ?= "1"
+> +LOCALE_UTF8_ONLY ?= "0"
+>
+Again something I tend to do in image recipes; then again this might be
+because I do not use feeds, only make images.
+
+> +
+> +DISTRO_FEATURES ?= "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi
+> nfs zeroconf pci"
+>
+Is this the complete range? I would expect all features to be enabled by
+default (and let MACHINE_FEATURES reduce that set)
+
+> +
+> +DISTRO_EXTRA_RDEPENDS += "task-core-boot"
+> +DISTRO_EXTRA_RRECOMMENDS += "kernel-module-af-packet"
+> +
+> +IMAGE_FEATURES ?= ""
+>
+Has a var with ?= assignment of an empty string any meaning. Thought an
+empty string would be the default.
+
+> +
+> +# This is a list of packages that are used by the build system to build
+> the distribution, they are not
+> +# directly part of the distribution.
+> +HOSTTOOLS_WHITELIST_GPLv3 ?= ""
+> +WHITELIST_GPLv3 ?= "less"
+>
+I'm not sure why less is listed in the line above:
+the less license is not gpl (at least not less 443)
+
+
+> +LGPLv2_WHITELIST_GPLv3 ?= "libassuan gnutls libtasn1 libidn libgcc
+> gcc-runtime"
+> +
+> +# This is a list of packages that require a commercial license to ship
+> +# product. If shipped as part of an image these packages may have
+> +# implications so they are disabled by default
+> +COMMERCIAL_LICENSE ?= "lame gst-fluendo-mp3 libmad mpeg2dec ffmpeg qmmp"
+> +COMMERCIAL_AUDIO_PLUGINS ?= ""
+> +# COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad
+> gst-plugins-ugly-mpegaudioparse"
+> +COMMERCIAL_VIDEO_PLUGINS ?= ""
+> +# COMMERCIAL_VIDEO_PLUGINS ?= "gst-plugins-ugly-mpeg2dec
+> gst-plugins-ugly-mpegstream gst-plugins-bad-mpegvideoparse"
+> +COMMERCIAL_QT ?= ""
+> +# COMMERCIAL_QT ?= "qmmp"
+> +# Set of common licenses used for license.bbclass
+> +COMMON_LICENSE_DIR ??= "${COREBASE}/meta/files/common-licenses"
+>
+maybe the above could be in a separate license.inc file or so.
+
+> +
+> +BB_GENERATE_MIRROR_TARBALLS ??= "0"
+>
+local.conf.sample ?
+
+Enjoy! Frans
 
