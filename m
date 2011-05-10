@@ -1,34 +1,43 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QJlbn-0007Ks-Jw
+	(envelope-from <otavio.salvador@gmail.com>) id 1QJmJM-0008Lz-4Z
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 14:00:13 +0200
-Received: by fxm19 with SMTP id 19so4768599fxm.6
+	Tue, 10 May 2011 14:45:12 +0200
+Received: by wwb17 with SMTP id 17so5642595wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 04:57:26 -0700 (PDT)
+	Tue, 10 May 2011 05:42:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=Eerf9+5fsw2gPaeMKcMUSRG2zMd7j67XdygcmuXgpqg=;
-	b=iyyqWmIwBOVQtXJZu7MypEHhbBFJa68oZ0ePuxcO9vx3go4auBiVdF3vpn1FskdjTW
-	et5WNkvkXArtYhNT/XpMsQ4tysefMp7TalE3d8w7zHcM1gWJO38bfdxgYXSoidkl3cun
-	6gVz0bdsezesc6hb+Ah5LlNBgwPzRqxCDQnQo=
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=cn74haO9RRR731B2EJert3z14YLz8NDQniKBcG6fofo=;
+	b=iMBH08jLWVoZtG9kBLVks+uxfNiUpNiSBb2LTjtFYa7XxA4ibb84XH53w5c5+KsBAh
+	6ELVYnTCAr4v68XbbkV4SmhcqjTW65mk76IJFMzVOkvP0+TdvmOwxSNx5NguK2JQoXqN
+	vxF1u3awWB8tOB8NnS4dfopuLBidxHN1hZNLA=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=xZQnWTy2KTpaRp20eiWg0SwiCg1W5z+llyO1qZ/uxC4uMwXW//puKfobthpG/bB3DG
-	dj7HxQi24lHihM9strtHWR41iuVns1PqF7GJCoEcZxbssgL5rEUSkKI9gyl16VP9vjnA
-	3g+gz5j3uDT6j88iwx7dlsBtkxPakgqhHSeSY=
-Received: by 10.223.83.141 with SMTP id f13mr743738fal.22.1305028645822;
-	Tue, 10 May 2011 04:57:25 -0700 (PDT)
-Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id c22sm2351104fat.38.2011.05.10.04.57.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 May 2011 04:57:25 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 May 2011 13:57:14 +0200
-Message-Id: <1305028634-27912-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.5.rc3
-Subject: [RFC] nativesdk.bbclass: define empty PACKAGES/PACKAGES_DYNAMIC
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	b=xKYt2xo0fcBCzjgN7inJX9KfnrfcboKSt2EoT+Mo/zL4eMbHclmuWsCBBBwKvcvsUa
+	p9PSl7okLkBCTaU5QloXfB8lJFxtignU5K1j4ERFEAGgd7SpiWYusL0TsUfpNwABfNVb
+	t24LsbR4r8ZDyICUFnMTtfS3L7GaTDLWZ7xFg=
+MIME-Version: 1.0
+Received: by 10.216.82.77 with SMTP id n55mr115188wee.52.1305031346811; Tue,
+	10 May 2011 05:42:26 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.216.93.195 with HTTP; Tue, 10 May 2011 05:42:26 -0700 (PDT)
+In-Reply-To: <1305017425.30391.252.camel@rex>
+References: <cover.1305004776.git.sgw@linux.intel.com>
+	<c0f7ebbe59b32dace3ae8a4a5dab8622b09f895b.1305004776.git.sgw@linux.intel.com>
+	<1305017425.30391.252.camel@rex>
+Date: Tue, 10 May 2011 09:42:26 -0300
+X-Google-Sender-Auth: PiguAem2otH9rpXxGsyuqLhc7Sc
+Message-ID: <BANLkTin2N5edkKyWu-wKfqkeB6VUJVdTrQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 25/30] cmake.bbclass: fix qmake and rpath issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,51 +52,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 12:00:13 -0000
+X-List-Received-Date: Tue, 10 May 2011 12:45:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-* we had similar patch for native.bbclass
-  41d77ac37f606e54293826ba1e94a4254bddbfa6
-  I have no idea if the same could be used for nativesdk, because I'm
-  not using generated SDKs at all, that's why it's RFC and if there are
-  better ways to hide such errors, please let me know
+On Tue, May 10, 2011 at 05:50, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+...
+> We could unconditionally make native.bbclass set the override too...
 
-* maybe PACKAGES just don't get extra prefix -nativesdk like
-  glib-2.0-utils-nativesdk
+I can revert this part of this and provide a patch to native.bbclass for it=
+.
 
-* those errors are shown like this:
-  ERROR: Trying to resolve runtime dependency glibc-charmap-utf-8 resulted
-  in conflicting PREFERRED_PROVIDER entries being found.
-  The providers found were: ['/OE/shr-core/openembedded-core/meta/recipes-core/eglibc/eglibc_2.12.bb', 'virtual:nativesdk:/OE/shr-core/openembedded-core/meta/recipes-core/eglibc/eglibc_2.12.bb']
-  The PREFERRED_PROVIDER entries resulting in this conflict were: ['PREFERRED_PROVIDER_virtual/libc = eglibc', 'PREFERRED_PROVIDER_virtual/libc-nativesdk = eglibc-nativesdk']
-
-  NOTE: multiple providers are available for runtime glibc-charmap-utf-8 (eglibc-nativesdk, eglibc, glibc, glibc-nativesdk)
-  NOTE: consider defining a PREFERRED_PROVIDER entry to match glibc-charmap-utf-8
-  NOTE: multiple providers are available for runtime glib-2.0-utils (glib-2.0-nativesdk, glib-2.0)
-  NOTE: consider defining a PREFERRED_PROVIDER entry to match glib-2.0-utils
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/nativesdk.bbclass |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index cd34a79..1edb7ab 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -4,6 +4,11 @@ EXCLUDE_FROM_WORLD = "1"
- 
- STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${SDK_VENDOR}-${SDK_OS}"
- 
-+PACKAGES = ""
-+PACKAGES_virtclass-nativesdk = ""
-+PACKAGES_DYNAMIC = ""
-+PACKAGES_DYNAMIC_virtclass-nativesdk = ""
-+
- #
- # Update BASE_PACKAGE_ARCH and PACKAGE_ARCHS
- #
--- 
-1.7.5.rc3
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
