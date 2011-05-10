@@ -1,39 +1,39 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QJoL1-0007hy-Q1
+	(envelope-from <otavio.salvador@gmail.com>) id 1QJoKx-0007dp-UE
 	for openembedded-core@lists.openembedded.org;
 	Tue, 10 May 2011 16:55:12 +0200
-Received: by yia13 with SMTP id 13so2362303yia.6
+Received: by yxn22 with SMTP id 22so2361309yxn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 07:52:17 -0700 (PDT)
+	Tue, 10 May 2011 07:52:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
 	:x-mailer:in-reply-to:references;
-	bh=HzyJCG6uY1f2Mf1hugdMe/f0ltBRm6S9FPv9Gi3xRNA=;
-	b=bj7XUgO8fvzrlt5wA7czGqcERctlBeE5L49P5yUjW2WPLBKT9IyGIJt7skLMfRJzOE
-	hnRa0+1GVnx750uRBQgcszuU2Q29LtYgNOG45KzTqXpEvIZkXyVt/3UsOqCrWdHG7i6X
-	hjzd1f1MR/xnkKYIS9QpJmdHfHh34QVh3G6Ms=
+	bh=x+B8Z0Td2cXvsqsrDER+NCwMOhAFpiQso/oFO883I7Q=;
+	b=soXZ1s2R54zurWnEH6E/WgA9OMX3ecL29uf24x8UmdBqm3YXpozYXRm/RdLMZ5nsE5
+	9Rms9FhvbKynS+ALSZlLlfZ46plrIj5JaTBq2PNW1r4YkJRNycr8boLXmCNfis/2IkWl
+	SeJWnpWrue7EAYn5S143u9CBtwx3VcBnQnoEI=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
 	:references;
-	b=PRv3760dgJvKSLjwiGg1iQto9cMwn+0xXLuUdaR0fPBvCfFO6gw8LiGvjYOPgYdHy6
-	IJOF60pjPI44qD02x7Ey5xJN6yN03JOMrRxeyBL1r+gh7pRwsUvz9DtgqhcIbgMnLKFt
-	meq1miz4dcZIX5Ht0pdyn/Udh0J6yC/WmsivM=
-Received: by 10.151.4.8 with SMTP id g8mr817691ybi.224.1305039135983;
-	Tue, 10 May 2011 07:52:15 -0700 (PDT)
+	b=Jr5EMlciWqmCrOEGrt7B3jZWoCZFyB9Fs596W4Xu5YCh+aXL0jO+BBu0ssmja51ArQ
+	T89199s3McGP3zKrxzKlcFSCQnIE3clR1DevaWEdD7gQDX/IxHdoKlb2he+BeTxn08C7
+	iG835f4T5VmSjYOJPqY+wS8O4qXaGtOEItmIc=
+Received: by 10.150.47.6 with SMTP id u6mr626034ybu.31.1305039133766;
+	Tue, 10 May 2011 07:52:13 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id u20sm3193051yba.15.2011.05.10.07.52.13
+	by mx.google.com with ESMTPS id u20sm3193051yba.15.2011.05.10.07.52.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 May 2011 07:52:15 -0700 (PDT)
+	Tue, 10 May 2011 07:52:12 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 May 2011 14:51:59 +0000
-Message-Id: <1305039119-1469-3-git-send-email-otavio@ossystems.com.br>
+Date: Tue, 10 May 2011 14:51:58 +0000
+Message-Id: <1305039119-1469-2-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
 In-Reply-To: <1305039119-1469-1-git-send-email-otavio@ossystems.com.br>
 References: <1305039119-1469-1-git-send-email-otavio@ossystems.com.br>
-Subject: [PATCH 3/3] cmake: add support for oe qt4 tools names
+Subject: [PATCH 2/3] qmake_base.bbclass: add generate_qt_config_file task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,137 +50,41 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 10 May 2011 14:55:15 -0000
 
+This writes a qt.conf inside WORKDIR to properly configure projects
+based on CMake. This is required since qmake variables (returned
+by -query command) are fixed into the binary and can only be
+changed using a qt.conf file.
+
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-devtools/cmake/cmake-native_2.8.3.bb  |    2 +-
- meta/recipes-devtools/cmake/cmake.inc              |    3 +-
- .../cmake/cmake/support-oe-qt4-tools-names.patch   |   90 ++++++++++++++++++++
- 3 files changed, 93 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.patch
+ meta/classes/qmake_base.bbclass |   14 ++++++++++++++
+ 1 files changed, 14 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.3.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.3.bb
-index 1595416..29b3d87 100644
---- a/meta/recipes-devtools/cmake/cmake-native_2.8.3.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_2.8.3.bb
-@@ -1,7 +1,7 @@
- CMAKE_MAJOR_VERSION="2.8"
- require cmake.inc
- inherit native
--PR = "r0"
-+PR = "r1"
+diff --git a/meta/classes/qmake_base.bbclass b/meta/classes/qmake_base.bbclass
+index 24a0f11..a054efd 100644
+--- a/meta/classes/qmake_base.bbclass
++++ b/meta/classes/qmake_base.bbclass
+@@ -31,6 +31,20 @@ oe_qmake_mkspecs () {
+     done
+ }
  
- SRC_URI[md5sum] = "a76a44b93acf5e3badda9de111385921"
- SRC_URI[sha256sum] = "689ed02786b5cefa5515c7716784ee82a82e8ece6be5a3d629ac3cc0c05fc288"
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index f6b1c3b..eed9346 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -9,7 +9,8 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://Copyright.txt;md5=f372516292ff7c33337bf16a74a5f9a8 \
-                     file://Source/cmake.h;beginline=1;endline=10;md5=341736dae83c9e344b53eeb1bc7d7bc2"
- 
--SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz"
-+SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-+           file://support-oe-qt4-tools-names.patch"
- 
- inherit autotools
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.patch b/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.patch
-new file mode 100644
-index 0000000..ab07670
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.patch
-@@ -0,0 +1,90 @@
-+This allows the usage of OE qt4 tools binaries. It has been created by
-+O.S. Systems.
++do_generate_qt_config_file() {
++	export QT_CONF_PATH=${WORKDIR}/qt.conf
++	cat > ${WORKDIR}/qt.conf <<EOF
++[Paths]
++Prefix =
++Binaries = ${STAGING_BINDIR_NATIVE}
++Headers = ${STAGING_INCDIR}/qt4
++Plugins = ${STAGING_LIBDIR}/qt4/plugins/
++Mkspecs = ${STAGING_DATADIR}/qt4/mkspecs/
++EOF
++}
 +
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++addtask generate_qt_config_file after do_patch before do_configure
 +
-+--- a/Modules/FindQt4.cmake
-++++ b/Modules/FindQt4.cmake
-+@@ -461,7 +461,7 @@
-+ # check for qmake
-+ # Debian uses qmake-qt4
-+ # macports' Qt uses qmake-mac
-+-FIND_PROGRAM(QT_QMAKE_EXECUTABLE NAMES qmake qmake4 qmake-qt4 qmake-mac PATHS
-++FIND_PROGRAM(QT_QMAKE_EXECUTABLE NAMES qmake qmake2 qmake4 qmake-qt4 qmake-mac PATHS
-+   "[HKEY_CURRENT_USER\\Software\\Trolltech\\Qt3Versions\\4.0.0;InstallDir]/bin"
-+   "[HKEY_CURRENT_USER\\Software\\Trolltech\\Versions\\4.0.0;InstallDir]/bin"
-+   "[HKEY_CURRENT_USER\\Software\\Trolltech\\Versions\\${qt_install_version};InstallDir]/bin"
-+@@ -988,13 +988,13 @@
-+   ENDIF(QT_QMAKE_CHANGED)
-+   
-+   FIND_PROGRAM(QT_MOC_EXECUTABLE
-+-    NAMES moc-qt4 moc
-++    NAMES moc-qt4 moc4 moc
-+     PATHS ${QT_BINARY_DIR}
-+     NO_DEFAULT_PATH
-+     )
-+ 
-+   FIND_PROGRAM(QT_UIC_EXECUTABLE
-+-    NAMES uic-qt4 uic
-++    NAMES uic-qt4 uic4 uic
-+     PATHS ${QT_BINARY_DIR}
-+     NO_DEFAULT_PATH
-+     )
-+@@ -1006,49 +1006,49 @@
-+     )
-+ 
-+   FIND_PROGRAM(QT_RCC_EXECUTABLE 
-+-    NAMES rcc
-++    NAMES rcc4 rcc
-+     PATHS ${QT_BINARY_DIR}
-+     NO_DEFAULT_PATH
-+     )
-+ 
-+   FIND_PROGRAM(QT_DBUSCPP2XML_EXECUTABLE 
-+-    NAMES qdbuscpp2xml
-++    NAMES qdbuscpp2xml4 qdbuscpp2xml
-+     PATHS ${QT_BINARY_DIR}
-+     NO_DEFAULT_PATH
-+     )
-+ 
-+   FIND_PROGRAM(QT_DBUSXML2CPP_EXECUTABLE 
-+-    NAMES qdbusxml2cpp
-++    NAMES qdbusxml2cpp4 qdbusxml2cpp
-+     PATHS ${QT_BINARY_DIR}
-+     NO_DEFAULT_PATH
-+     )
-+ 
-+   FIND_PROGRAM(QT_LUPDATE_EXECUTABLE
-+-    NAMES lupdate-qt4 lupdate
-++    NAMES lupdate-qt4 lupdate4 lupdate
-+     PATHS ${QT_BINARY_DIR}
-+     NO_DEFAULT_PATH
-+     )
-+ 
-+   FIND_PROGRAM(QT_LRELEASE_EXECUTABLE
-+-    NAMES lrelease-qt4 lrelease
-++    NAMES lrelease-qt4 lrelease4 lrelease
-+     PATHS ${QT_BINARY_DIR}
-+     NO_DEFAULT_PATH
-+     )
-+ 
-+   FIND_PROGRAM(QT_QCOLLECTIONGENERATOR_EXECUTABLE
-+-    NAMES qcollectiongenerator-qt4 qcollectiongenerator
-++    NAMES qcollectiongenerator-qt4 qcollectiongenerator4 qcollectiongenerator
-+     PATHS ${QT_BINARY_DIR}
-+     NO_DEFAULT_PATH
-+     )
-+ 
-+   FIND_PROGRAM(QT_DESIGNER_EXECUTABLE
-+-    NAMES designer-qt4 designer
-++    NAMES designer-qt4 designer4 designer
-+     PATHS ${QT_BINARY_DIR}
-+     NO_DEFAULT_PATH
-+     )
-+ 
-+   FIND_PROGRAM(QT_LINGUIST_EXECUTABLE
-+-    NAMES linguist-qt4 linguist
-++    NAMES linguist-qt4 linguist4 linguist
-+     PATHS ${QT_BINARY_DIR}
-+     NO_DEFAULT_PATH
-+     )
+ qmake_base_do_configure() {
+ 	case ${QMAKESPEC} in
+ 	*linux-oe-g++|*linux-uclibc-oe-g++|*linux-gnueabi-oe-g++)
 -- 
 1.7.2.5
 
