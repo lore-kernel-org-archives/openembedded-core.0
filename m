@@ -1,33 +1,32 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail.fim.uni-passau.de ([132.231.1.31])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QJuZW-0003lL-5w
+	(envelope-from <leitl@fim.uni-passau.de>) id 1QJvmx-00051e-HT
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 23:34:26 +0200
-Received: by wwb17 with SMTP id 17so6097452wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 14:31:40 -0700 (PDT)
-Received: by 10.216.221.200 with SMTP id r50mr5261351wep.102.1305063100291;
-	Tue, 10 May 2011 14:31:40 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id r29sm64683weq.45.2011.05.10.14.31.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 May 2011 14:31:39 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20110510202417.GB5171@jama.jama.net>
-Date: Tue, 10 May 2011 23:31:37 +0200
-Message-Id: <76CE61E5-D8C9-494F-930C-56670AD14422@dominion.thruhere.net>
-References: <BANLkTi=424KO0PMR6b_2QC98qtUryMykdQ@mail.gmail.com>
-	<4DC8CA7E.4020302@linux.intel.com>
-	<BANLkTi=G0wk3a5N4hvTzRcC09U7n-HFH1Q@mail.gmail.com>
-	<4DC97D27.9080602@linux.intel.com>
-	<20110510181314.GF3673@jama.jama.net>
-	<4DC98507.6070103@mentor.com> <1305054238.30391.283.camel@rex>
-	<20110510202417.GB5171@jama.jama.net>
-To: Patches and discussions about the oe-core layer
+	Wed, 11 May 2011 00:52:23 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.fim.uni-passau.de (Postfix) with ESMTP id A830792239;
+	Wed, 11 May 2011 00:49:39 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.fim.uni-passau.de
+Received: from mail.fim.uni-passau.de ([127.0.0.1])
+	by localhost (mail.fim.uni-passau.de [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id E-Up4gfePWRW; Wed, 11 May 2011 00:49:39 +0200 (CEST)
+Received: from darkx.localnet (p5DC751CD.dip.t-dialin.net [93.199.81.205])
+	by mail.fim.uni-passau.de (Postfix) with ESMTPSA id 6E61292236;
+	Wed, 11 May 2011 00:49:39 +0200 (CEST)
+From: Franz Leitl <leitl@fim.uni-passau.de>
+To: "Patches and discussions about the oe-core layer"
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: Pull request with misc changes
+Date: Wed, 11 May 2011 00:50:04 +0200
+User-Agent: KMail/1.13.6 (Linux/2.6.38.4-23-default; KDE/4.6.1; x86_64; ; )
+References: <201105090016.46391.leitl@fim.uni-passau.de>
+	<201105100356.05227.leitl@fim.uni-passau.de>
+	<4DC99EB1.1090506@linux.intel.com>
+In-Reply-To: <4DC99EB1.1090506@linux.intel.com>
+MIME-Version: 1.0
+Message-Id: <201105110050.04234.leitl@fim.uni-passau.de>
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: Re: Patch for fixing build issues with external kernel modules.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,28 +41,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 21:34:26 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 10 May 2011 22:52:23 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
+Hi Darren,
 
-Op 10 mei 2011, om 22:24 heeft Martin Jansa het volgende geschreven:
-
-> On Tue, May 10, 2011 at 08:03:57PM +0100, Richard Purdie wrote:
->> Martin/Tom: Serious question - why not use the contrib repo for this?
-> 
-> I have nothing against contrib repo and I'm using oe-core-contrib for
-> oe-core stuff, but I had gitorious repos for meta-oe before
-> meta-oe-contrib was created and now I didn't feel the need to change it
-> and update my modified meta-oe-create-pull-request header :) but I will
-> if you or koen find it better to pull from *-contrib (I'm pushing shr
-> branch there already anyways).
+Am Dienstag 10 Mai 2011, 22:23:13 schrieben Sie:
+> Hi Franz, I'm not ignoring you, I'm laid up in bed with a nasty stomach
+> flu and not thinking very clearly right now. I'll try and responds as
+> soon as I can...
+No need to rush. I can wait. I used the workaround from Koen Kooi for getting 
+the bounds.h in the meantime and changed the Makefile to use KERNEL_SRC. Just 
+cannot test anything as I pulled the latest stuff from openembedded-core and 
+something is broken now. I'm also busy with other things, so it's not too 
+important to me.
 
 
-I have no preference either way.
-
-regards,
-
-Koen
+Regards,
+Franz
 
 
