@@ -1,19 +1,19 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QJnX6-0005qr-L1
+	(envelope-from <richard@tim.rpsys.net>) id 1QJnX6-0005qs-Ku
 	for openembedded-core@lists.openembedded.org;
 	Tue, 10 May 2011 16:03:29 +0200
 Received: by rex (Postfix, from userid 1000)
-	id 4614820C4C; Tue, 10 May 2011 15:00:39 +0100 (BST)
-Message-Id: <cf19c8e3bfa76b6bcd76acd348073944dd92bee1.1305035617.git.richard.purdie@linuxfoundation.org>
+	id AAABE20C7A; Tue, 10 May 2011 15:00:40 +0100 (BST)
+Message-Id: <20873170e916330b15702e8164de2c4ebf5b1568.1305035617.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
 References: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
-Old-Date: Tue, 10 May 2011 12:51:49 +0100
-Date: Tue, 10 May 2011 15:00:39 +0100
+Old-Date: Tue, 10 May 2011 14:51:52 +0100
+Date: Tue, 10 May 2011 15:00:40 +0100
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH 1/6] Drop poky-floating-revisions.inc, poky-bleeding.conf and poky-lsb.conf
+Subject: [PATCH 6/6] preferred-xorg-versions.inc: Drop this, it makes no sense given we only have one version of these recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,130 +34,178 @@ From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../distro/include/poky-floating-revisions.inc     |   83 --------------------
- meta/conf/distro/poky-bleeding.conf                |    8 --
- meta/conf/distro/poky-lsb.conf                     |    9 --
- 3 files changed, 0 insertions(+), 100 deletions(-)
- delete mode 100644 meta/conf/distro/include/poky-floating-revisions.inc
- delete mode 100644 meta/conf/distro/poky-bleeding.conf
- delete mode 100644 meta/conf/distro/poky-lsb.conf
+ meta/conf/distro/include/default-distrovars.inc    |    2 -
+ .../distro/include/preferred-xorg-versions.inc     |  150 --------------------
+ 2 files changed, 0 insertions(+), 152 deletions(-)
+ delete mode 100644 meta/conf/distro/include/preferred-xorg-versions.inc
 
-diff --git a/meta/conf/distro/include/poky-floating-revisions.inc b/meta/conf/distro/include/poky-floating-revisions.inc
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index ab26a30..9b1d0ee 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -5,8 +5,6 @@ IMAGE_ROOTFS_SIZE_ext2 ?= "131072"
+ OEINCLUDELOGS ?= "yes"
+ KERNEL_CONSOLE ?= "ttyS0"
+ 
+-require conf/distro/include/preferred-xorg-versions.inc
+-
+ PCMCIA_MANAGER ?= "pcmciautils"
+ 
+ IMAGE_LINGUAS ?= "en-us en-gb"
+diff --git a/meta/conf/distro/include/preferred-xorg-versions.inc b/meta/conf/distro/include/preferred-xorg-versions.inc
 deleted file mode 100644
-index 22b4c38..0000000
---- a/meta/conf/distro/include/poky-floating-revisions.inc
+index da730e6..0000000
+--- a/meta/conf/distro/include/preferred-xorg-versions.inc
 +++ /dev/null
-@@ -1,83 +0,0 @@
+@@ -1,150 +0,0 @@
 -#
--# Package Versions for cutting edge testing:
+-# The latest Xorg package versions
 -#
 -
--SRCREV_pn-exmap-console ?= "${AUTOREV}"
--#SRCREV_pn-opkg-native ?= "${AUTOREV}"
--#SRCREV_pn-opkg-sdk ?= "${AUTOREV}"
--#SRCREV_pn-opkg ?= "${AUTOREV}"
--#SRCREV_pn-opkg-utils-naitve ?= "${AUTOREV}"
--#SRCREV_pn-opkg-utils ?= "${AUTOREV}"
--SRCREV_pn-gconf-dbus ?= "${AUTOREV}"
--SRCREV_pn-contacts ?= "${AUTOREV}"
--SRCREV_pn-dates ?= "${AUTOREV}"
--#SRCREV_pn-gtkhtml2 ?= "${AUTOREV}"
--SRCREV_pn-web ?= "${AUTOREV}"
--SRCREV_pn-eds-dbus ?= "${AUTOREV}"
--SRCREV_pn-matchbox-common ?= "${AUTOREV}"
--SRCREV_pn-matchbox-config-gtk ?= "${AUTOREV}"
--SRCREV_pn-matchbox-desktop ?= "${AUTOREV}"
--SRCREV_pn-matchbox-keyboard ?= "${AUTOREV}"
--SRCREV_pn-matchbox-panel ?= "${AUTOREV}"
--SRCREV_pn-matchbox-panel-2 ?= "${AUTOREV}"
--SRCREV_pn-matchbox-stroke ?= "${AUTOREV}"
--SRCREV_pn-matchbox-themes-extra ?= "${AUTOREV}"
--SRCREV_pn-matchbox-terminal ?= "${AUTOREV}"
--SRCREV_pn-matchbox-wm ?= "${AUTOREV}"
--SRCREV_pn-matchbox-wm-2 ?= "${AUTOREV}"
--SRCREV_pn-settings-daemon ?= "${AUTOREV}"
--SRCREV_pn-screenshot ?= "${AUTOREV}"
--SRCREV_pn-libfakekey ?= "${AUTOREV}"
--SRCREV_pn-oprofileui ?= "${AUTOREV}"
--SRCREV_pn-zaurusd ?= "${AUTOREV}"
--SRCREV_pn-libowl-av ?= "${AUTOREV}"
--SRCREV_pn-owl-video ?= "${AUTOREV}"
--SRCREV_pn-psplash ?= "${AUTOREV}"
--SRCREV_pn-exmap-console ?= "${AUTOREV}"
--SRCREV_pn-gtk-sato-engine ?= "${AUTOREV}"
--SRCREV_pn-matchbox-theme-sato ?= "${AUTOREV}"
--SRCREV_pn-matchbox-theme-sato-2 ?= "${AUTOREV}"
--SRCREV_pn-tasks ?= "${AUTOREV}"
--SRCREV_pn-sato-icon-theme ?= "${AUTOREV}"
--SRCREV_pn-matchbox-desktop-sato ?= "${AUTOREV}"
--SRCREV_pn-oh-puzzles ?= "${AUTOREV}"
--SRCREV_pn-libowl ?= "${AUTOREV}"
--SRCREV_pn-matchbox-applet-light ?= "${AUTOREV}"
--SRCREV_pn-fstests ?= "${AUTOREV}"
--SRCREV_pn-xvideo-tests ?= "${AUTOREV}"
--SRCREV_pn-clutter ?= "${AUTOREV}"
--SRCREV_pn-clutter-gst ?= "${AUTOREV}"
--SRCREV_pn-gaku ?= "${AUTOREV}"
--SRCREV_pn-gypsy ?= "${AUTOREV}"
--#SRCREV_pn-webkit-gtk ?= "${AUTOREV}"
--SRCREV_pn-aaina ?= "${AUTOREV}"
--SRCREV_pn-clutter-cairo ?= "${AUTOREV}"
--SRCREV_pn-table ?= "${AUTOREV}"
--SRCREV_pn-libmatchbox ?= "${AUTOREV}"
--SRCREV_pn-tasks ?= "${AUTOREV}"
--SRCREV_pn-mutter ?= "${AUTOREV}"
--SRCREV_pn-ofono ?= "${AUTOREV}"
--
--SRCREV_pn-dri2proto = "${AUTOREV}"
--#PREFERRED_VERSION_dri2proto ?= "1.99.1+git${SRCREV}"
--SRCREV_pn-libdrm = "${AUTOREV}"
--#PREFERRED_VERSION_libdrm ?= "2.4.0+git${SRCREV}"
--SRCREV_pn-libxcb = "${AUTOREV}"
--#PREFERRED_VERSION_libxcb ?= "1.1.90.1+gitr${SRCREV}"
--SRCREV_pn-lib-proto = "${AUTOREV}"
--#PREFERRED_VERSION_xcb-proto ?= "1.2+gitr${SRCREV}"
--SRCREV_pn-libxcb-sdk = "${AUTOREV}"
--#PREFERRED_VERSION_libxcb-sdk ?= "1.1.90.1+gitr${SRCREV}"
--SRCREV_pn-xf86-input-evdev = "${AUTOREV}"
--#PREFERRED_VERSION_xf86-input-evdev ?= "2.0.4"
--SRCREV_pn-xf86-input-mouse = "${AUTOREV}"
--#PREFERRED_VERSION_xf86-input-mouse ?= "1.3.0+git${SRCREV}"
--SRCREV_pn-xf86-input-keyboard = "${AUTOREV}"
--#PREFERRED_VERSION_xf86-input-keyboard ?= "1.3.1+git${SRCREV}"
--SRCREV_pn-xf86-input-synaptics = "${AUTOREV}"
--#PREFERRED_VERSION_xf86-input-synaptics ?= "0.15.2+git${SRCREV}"
--
--#SRCDATE_oprofile ?= "${DATE}"
--
--PREFERRED_VERSION_oprofile ?= "0.9.4+cvs${SRCDATE_oprofile}"
--
-diff --git a/meta/conf/distro/poky-bleeding.conf b/meta/conf/distro/poky-bleeding.conf
-deleted file mode 100644
-index 328acfe..0000000
---- a/meta/conf/distro/poky-bleeding.conf
-+++ /dev/null
-@@ -1,8 +0,0 @@
--PREFERRED_VERSION_glib-2.0 ?= "2.17.4"
--PREFERRED_VERSION_glib-2.0-native ?= "2.17.4"
--PREFERRED_VERSION_atk ?= "1.22.0"
--PREFERRED_VERSION_pango ?= "1.21.2"
--PREFERRED_VERSION_gtk+ ?= "2.13.3"
--
--require conf/distro/include/poky-floating-revisions.inc
--require conf/distro/poky.conf
-diff --git a/meta/conf/distro/poky-lsb.conf b/meta/conf/distro/poky-lsb.conf
-deleted file mode 100644
-index 5bc97ec..0000000
---- a/meta/conf/distro/poky-lsb.conf
-+++ /dev/null
-@@ -1,9 +0,0 @@
--require conf/distro/poky.conf
--
--DISTRO = "linuxstdbase"
--DISTROOVERRIDES = "poky:linuxstdbase"
--
--DISTRO_FEATURES += "pam largefile"
--PREFERRED_PROVIDER_virtual/libx11 = "libx11"
+-PREFERRED_VERSION_applewmproto ?= "1.4.1"
+-PREFERRED_VERSION_bigreqsproto ?= "1.1.1"
+-PREFERRED_VERSION_bigreqsproto-native ?= "1.1.1"
+-PREFERRED_VERSION_bigreqsproto-nativesdk ?= "1.1.1"
+-PREFERRED_VERSION_compositeproto ?= "0.4.2"
+-PREFERRED_VERSION_damageproto ?= "1.2.1"
+-PREFERRED_VERSION_dmxproto ?= "2.3.1"
+-PREFERRED_VERSION_evieext ?= "1.1.1"
+-PREFERRED_VERSION_fixesproto ?= "5.0"
+-PREFERRED_VERSION_fontcacheproto ?= "0.1.3"
+-PREFERRED_VERSION_fontcacheproto-native ?= "0.1.3"
+-PREFERRED_VERSION_fontsproto ?= "2.1.1"
+-PREFERRED_VERSION_fontsproto-native ?= "2.1.1"
+-PREFERRED_VERSION_gccmakedep ?= "1.0.2"
+-PREFERRED_VERSION_glproto ?= "1.4.12"
+-PREFERRED_VERSION_imake ?= "1.0.4"
+-PREFERRED_VERSION_inputproto ?= "2.0.1"
+-PREFERRED_VERSION_inputproto-native ?= "2.0.1"
+-PREFERRED_VERSION_inputproto-nativesdk ?= "2.0.1"
+-PREFERRED_VERSION_kbproto ?= "1.0.5"
+-PREFERRED_VERSION_kbproto-native ?= "1.0.5"
+-PREFERRED_VERSION_kbproto-nativesdk ?= "1.0.5"
+-PREFERRED_VERSION_libapplewm ?= "1.0.0"
+-PREFERRED_VERSION_libdmx ?= "1.1.1"
+-PREFERRED_VERSION_libfontenc ?= "1.1.0"
+-PREFERRED_VERSION_libfontenc-native ?= "1.1.0"
+-PREFERRED_VERSION_libice ?= "1.0.7"
+-PREFERRED_VERSION_liblbxutil ?= "1.1.0"
+-PREFERRED_VERSION_liboldx ?= "1.0.1"
+-PREFERRED_VERSION_libsm ?= "1.2.0"
+-PREFERRED_VERSION_libwindowswm ?= "1.0.0"
+-PREFERRED_VERSION_libx11 ?= "1.3.4"
+-PREFERRED_VERSION_libx11-diet ?= "1.3"
+-PREFERRED_VERSION_libx11-native ?= "1.3.4"
+-PREFERRED_VERSION_libx11-nativesdk ?= "1.3.4"
+-PREFERRED_VERSION_libx11-trim ?= "1.3.4"
+-PREFERRED_VERSION_libxau ?= "1.0.6"
+-PREFERRED_VERSION_libxau-native ?= "1.0.6"
+-PREFERRED_VERSION_libxau-nativesdk ?= "1.0.6"
+-PREFERRED_VERSION_libxaw ?= "1.0.5"
+-PREFERRED_VERSION_libxcomposite ?= "0.4.3"
+-PREFERRED_VERSION_libxcursor ?= "1.1.11"
+-PREFERRED_VERSION_libxdamage ?= "1.1.3"
+-PREFERRED_VERSION_libxdmcp ?= "1.1.0"
+-PREFERRED_VERSION_libxdmcp-native ?= "1.1.0"
+-PREFERRED_VERSION_libxdmcp-nativesdk ?= "1.1.0"
+-PREFERRED_VERSION_libxevie ?= "1.0.2"
+-PREFERRED_VERSION_libxext ?= "1.2.0"
+-PREFERRED_VERSION_libxext-nativesdk ?= "1.2.0"
+-PREFERRED_VERSION_libxfixes ?= "5.0"
+-PREFERRED_VERSION_libxfont ?= "1.4.3"
+-PREFERRED_VERSION_libxfont-native ?= "1.4.3"
+-PREFERRED_VERSION_libxfontcache ?= "1.0.5"
+-PREFERRED_VERSION_libxft ?= "2.2.0"
+-PREFERRED_VERSION_libxi ?= "1.4.2"
+-PREFERRED_VERSION_libxinerama ?= "1.1.1"
+-PREFERRED_VERSION_libxkbfile ?= "1.0.7"
+-PREFERRED_VERSION_libxkbui ?= "1.0.2"
+-PREFERRED_VERSION_libxmu ?= "1.1.0"
+-PREFERRED_VERSION_libxp ?= "1.0.1"
+-PREFERRED_VERSION_libxpm ?= "3.5.9"
+-PREFERRED_VERSION_libxprintapputil ?= "1.0.1"
+-PREFERRED_VERSION_libxprintutil ?= "1.0.1"
+-PREFERRED_VERSION_libxrandr ?= "1.3.1"
+-PREFERRED_VERSION_libxrandr-nativesdk ?= "1.3.1"
+-PREFERRED_VERSION_libxrender ?= "0.9.6"
+-PREFERRED_VERSION_libxrender-nativesdk ?= "0.9.6"
+-PREFERRED_VERSION_libxres ?= "1.0.5"
+-PREFERRED_VERSION_libxscrnsaver ?= "1.2.1"
+-PREFERRED_VERSION_libxt ?= "1.1.1"
+-PREFERRED_VERSION_libxtrap ?= "1.0.0"
+-PREFERRED_VERSION_libxtst ?= "1.2.0"
+-PREFERRED_VERSION_libxv ?= "1.0.6"
+-PREFERRED_VERSION_libxvmc ?= "1.0.6"
+-PREFERRED_VERSION_libxxf86dga ?= "1.1.2"
+-PREFERRED_VERSION_libxxf86misc ?= "1.0.3"
+-PREFERRED_VERSION_libxxf86vm ?= "1.1.1"
+-PREFERRED_VERSION_lndir ?= "1.0.1"
+-PREFERRED_VERSION_makedepend ?= "1.0.3"
+-PREFERRED_VERSION_makedepend-native ?= "1.0.3"
+-PREFERRED_VERSION_pixman ?= "0.20.2"
+-PREFERRED_VERSION_printproto ?= "1.0.5"
+-PREFERRED_VERSION_randrproto ?= "1.3.2"
+-PREFERRED_VERSION_randrproto-nativesdk ?= "1.3.2"
+-PREFERRED_VERSION_recordproto ?= "1.14.1"
+-PREFERRED_VERSION_renderproto ?= "0.11.1"
+-PREFERRED_VERSION_renderproto-nativesdk ?= "0.11.1"
+-PREFERRED_VERSION_resourceproto ?= "1.1.1"
+-PREFERRED_VERSION_scrnsaverproto ?= "1.2.1"
+-PREFERRED_VERSION_trapproto ?= "3.4.3"
+-PREFERRED_VERSION_util-macros ?= "1.13.0"
+-PREFERRED_VERSION_util-macros-native ?= "1.13.0"
+-PREFERRED_VERSION_videoproto ?= "2.3.1"
+-PREFERRED_VERSION_windowswmproto ?= "1.0.4"
+-PREFERRED_VERSION_x11perf ?= "1.5.3"
+-PREFERRED_VERSION_xauth ?= "1.0.5"
+-PREFERRED_VERSION_xcmiscproto ?= "1.2.1"
+-PREFERRED_VERSION_xcmiscproto-native ?= "1.2.1"
+-PREFERRED_VERSION_xcmiscproto-nativesdk ?= "1.2.1"
+-PREFERRED_VERSION_xdpyinfo ?= "1.2.0"
+-PREFERRED_VERSION_xev ?= "1.0.3"
+-PREFERRED_VERSION_xextproto ?= "7.2.0"
+-PREFERRED_VERSION_xextproto-native ?= "7.2.0"
+-PREFERRED_VERSION_xextproto-nativesdk ?= "7.2.0"
+-PREFERRED_VERSION_xf86bigfontproto ?= "1.2.0"
+-PREFERRED_VERSION_xf86bigfontproto-native ?= "1.2.0"
+-PREFERRED_VERSION_xf86bigfontproto-nativesdk ?= "1.2.0"
+-PREFERRED_VERSION_xf86dgaproto ?= "2.1"
+-PREFERRED_VERSION_xf86driproto ?= "2.1.1"
+-PREFERRED_VERSION_dri2proto ?= "2.3"
+-PREFERRED_VERSION_xf86miscproto ?= "0.9.3"
+-PREFERRED_VERSION_xf86rushproto ?= "1.1.2"
+-PREFERRED_VERSION_xf86vidmodeproto ?= "2.3.1"
+-PREFERRED_VERSION_xhost ?= "1.0.4"
+-PREFERRED_VERSION_xinit ?= "1.3.0"
+-PREFERRED_VERSION_xineramaproto ?= "1.2.1"
+-PREFERRED_VERSION_xmodmap ?= "1.0.5"
+-PREFERRED_VERSION_xorg-cf-files ?= "1.0.4"
+-PREFERRED_VERSION_xprop ?= "1.2.0"
+-PREFERRED_VERSION_xproto ?= "7.0.21"
+-PREFERRED_VERSION_xproto-native ?= "7.0.21"
+-PREFERRED_VERSION_xproto-nativesdk ?= "7.0.21"
+-PREFERRED_VERSION_xproxymanagementprotocol ?= "1.0.3"
+-PREFERRED_VERSION_xrandr ?= "1.3.4"
+-PREFERRED_VERSION_xrdb ?= "1.0.5"
+-PREFERRED_VERSION_xserver-kdrive ?= "1.7.99.2"
+-PREFERRED_VERSION_xserver-xf86-dri-lite ?= "1.9.3"
+-PREFERRED_VERSION_xset ?= "1.2.1"
+-PREFERRED_VERSION_xtrans ?= "1.2.6"
+-PREFERRED_VERSION_xtrans-native ?= "1.2.6"
+-PREFERRED_VERSION_xtrans-nativesdk ?= "1.2.6"
+-PREFERRED_VERSION_xvinfo ?= "1.1.1"
+-PREFERRED_VERSION_xwininfo ?= "1.1.1"
+-PREFERRED_VERSION_mesa-dri ?= "7.10.2"
+-PREFERRED_VERSION_libdrm ?= "2.4.25"
+-PREFERRED_VERSION_xcb-proto ?= "1.6"
+-PREFERRED_VERSION_libxcb ?= "1.7"
+-PREFERRED_VERSION_libxcb-nativesdk ?= "1.7"
+-PREFERRED_VERSION_libpciaccess ?= "0.12.1"
+-PREFERRED_VERSION_xf86-input-evdev ?= "2.6.0"
+-PREFERRED_VERSION_xf86-input-mouse ?= "1.7.0"
+-PREFERRED_VERSION_xf86-input-keyboard ?= "1.6.0"
+-PREFERRED_VERSION_xf86-input-synaptics ?= "1.4.0"
+-PREFERRED_VERSION_xf86-video-intel ?= "2.14.0"
 -
 -
 -- 
