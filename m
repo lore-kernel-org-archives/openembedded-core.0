@@ -1,25 +1,41 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QJt89-0001jj-RM
+	(envelope-from <otavio.salvador@gmail.com>) id 1QJtDP-0001nq-Nd
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 22:02:06 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 10 May 2011 12:59:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,347,1301900400"; d="scan'208";a="433825030"
-Received: from unknown (HELO [10.255.12.75]) ([10.255.12.75])
-	by azsmga001.ch.intel.com with ESMTP; 10 May 2011 12:59:16 -0700
-Message-ID: <4DC99913.1060403@linux.intel.com>
-Date: Tue, 10 May 2011 12:59:15 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
-	Thunderbird/3.0.5
+	Tue, 10 May 2011 22:07:31 +0200
+Received: by wwb17 with SMTP id 17so6037084wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 May 2011 13:04:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=G2xox2yYkh6NgFxl61H/qUZ23nDpNjRDY61puYXNYs4=;
+	b=JZEg2W5D3Ze+9BVDxwj8cFH/UbmaX3QWz/pVQmdLHQOd/wOD5dQzFN9fHqUktLXLF0
+	urYOOQWq3w+GHSYuOfg0ZpQ7NayKQPIMCyWiFsV8Hq6zPrIHqHSjuU/kqUlXx6wpBtbG
+	RYhv/P5T4TCLgmKLD5VBBF2tGd8cMZGaIlrlQ=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	b=pTuliffTQsTeeluJbucowE+UQdgVHRdzvx9UylC/6Z4w/5ihFnyOeMqVU30WY9KElY
+	j5pi7hAcP5ze2asBwxjLbgBb2m8xJEdZdWs4JslvZlgst4IHvjTt7wY4NQJO+kfcyhu/
+	YKa7kHArJWSWI9a9BKnCy2JXZdWjmUaxtYMlQ=
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Received: by 10.216.230.153 with SMTP id j25mr44478weq.22.1305057884111; Tue,
+	10 May 2011 13:04:44 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.216.93.195 with HTTP; Tue, 10 May 2011 13:04:44 -0700 (PDT)
+In-Reply-To: <4DC99913.1060403@linux.intel.com>
 References: <1305039119-1469-1-git-send-email-otavio@ossystems.com.br>
-In-Reply-To: <1305039119-1469-1-git-send-email-otavio@ossystems.com.br>
+	<4DC99913.1060403@linux.intel.com>
+Date: Tue, 10 May 2011 17:04:44 -0300
+X-Google-Sender-Auth: hRnOXz3BAMJEvVXmyt6G4j0nQNw
+Message-ID: <BANLkTimnZyL-Jr0Dyd-CgPKk9k_n_HBT-g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/3] cmake.bbclass: fix qmake and rpath issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,78 +51,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 20:02:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 May 2011 20:07:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 05/10/2011 07:51 AM, Otavio Salvador wrote:
-> Sync with OE at 3b7d83362027fde4f6850533ab83277d95dda961 however
-> without changing the way of generating the toolchain file and making
-> it branding agnostic.
->
-> Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
-> ---
->   meta/classes/cmake.bbclass  |   14 ++++++++++++--
->   meta/classes/native.bbclass |    4 ++++
->   2 files changed, 16 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index a4b0c12..011c232 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -24,15 +24,18 @@ OECMAKE_CXX_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${TARGET_CPPFLAGS} -f
->   OECMAKE_C_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} -DNDEBUG"
->   OECMAKE_CXX_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} -DNDEBUG"
->
-> +OECMAKE_RPATH ?= ""
-> +
->   cmake_do_generate_toolchain_file() {
->   	cat>  ${WORKDIR}/toolchain.cmake<<EOF
->   # CMake system name must be something like "Linux".
->   # This is important for cross-compiling.
->   set( CMAKE_SYSTEM_NAME `echo ${SDK_OS} | sed 's/^./\u&/'` )
-> +set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
->   set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
->   set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
-> -set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "poky CFLAGS" )
-> -set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "poky CXXFLAGS" )
-> +set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
-> +set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
->   set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "CFLAGS for release" )
->   set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXXFLAGS for release" )
->
-> @@ -43,6 +46,13 @@ set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )
->   set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
->   set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
->
-> +# Use qt.conf settings
-> +set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
-> +
-> +# We need to set the rpath to the correct directory as cmake does not provide any
-> +# directory as rpath by default
-> +set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
-> +
->   # Use native cmake modules
->   set( CMAKE_MODULE_PATH ${STAGING_DATADIR}/cmake/Modules/ )
->   EOF
-> diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-> index d9e67f6..e06f02a 100644
-> --- a/meta/classes/native.bbclass
-> +++ b/meta/classes/native.bbclass
-> @@ -11,6 +11,10 @@ PACKAGES_DYNAMIC = ""
->   PACKAGES_DYNAMIC_virtclass-native = ""
->   PACKAGE_ARCH = "${BUILD_ARCH}"
->
-> +# used by cmake class
-> +OECMAKE_RPATH = "${libdir}"
-> +OECMAKE_RPATH_virtclass-native = "${libdir}"
-> +
-In Richard's email he proposed one or the other be set, why do you need 
-to set both here?  If both need to be set then you don't need the override.
+On Tue, May 10, 2011 at 16:59, Saul Wold <sgw@linux.intel.com> wrote:
+> In Richard's email he proposed one or the other be set, why do you need t=
+o
+> set both here? =A0If both need to be set then you don't need the override=
+.
 
-Sau!
->   BASE_PACKAGE_ARCH = "${BUILD_ARCH}"
->   BASEPKG_HOST_SYS = "${BUILD_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
->   BASEPKG_TARGET_SYS = "${BUILD_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
+Because they're different no? Otherwise native.bbclass has those for others=
+ too:
+
+...
+PACKAGES =3D ""
+PACKAGES_virtclass-native =3D ""
+PACKAGES_DYNAMIC =3D ""
+PACKAGES_DYNAMIC_virtclass-native =3D ""
+...
+
+Seems logical, no?
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
