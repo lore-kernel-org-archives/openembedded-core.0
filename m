@@ -1,22 +1,22 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QJuKc-0003Kg-EW
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QJuKd-0003Km-3H
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 23:19:02 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 10 May 2011 14:16:15 -0700
+	Tue, 10 May 2011 23:19:03 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 10 May 2011 14:16:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,347,1301900400"; d="scan'208";a="433888057"
+X-IronPort-AV: E=Sophos;i="4.64,347,1301900400"; d="scan'208";a="745285953"
 Received: from nbuild2.sc.intel.com (HELO localhost) ([172.25.110.37])
-	by azsmga001.ch.intel.com with ESMTP; 10 May 2011 14:16:14 -0700
-Message-Id: <cf6e6c761a6612311146c8a3a810e96779ac889c.1305062028.git.nitin.a.kamble@intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 10 May 2011 14:16:13 -0700
+Message-Id: <1624765bbbd8985d9023da1a708d71a6d0ca7c1d.1305062028.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1305062026.git.nitin.a.kamble@intel.com>
 References: <cover.1305062026.git.nitin.a.kamble@intel.com>
-Old-Date: Tue, 10 May 2011 13:16:41 -0700
-Date: Tue, 10 May 2011 14:16:14 -0700
+Old-Date: Tue, 10 May 2011 13:11:11 -0700
+Date: Tue, 10 May 2011 14:16:13 -0700
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
-Subject: [PATCH 14/16] patch-2.6.1: fix upstream-status format
+Subject: [PATCH 09/16] sat-solver: fix Upstream-Status format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,25 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 21:19:02 -0000
+X-List-Received-Date: Tue, 10 May 2011 21:19:03 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../patch/patch-2.6.1/global-reject-file.diff      |    2 +-
+ .../sat-solver/fix_gcc-4.6.0_compile_issue.patch   |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/patch/patch-2.6.1/global-reject-file.diff b/meta/recipes-devtools/patch/patch-2.6.1/global-reject-file.diff
-index c88bc80..2eaee8a 100644
---- a/meta/recipes-devtools/patch/patch-2.6.1/global-reject-file.diff
-+++ b/meta/recipes-devtools/patch/patch-2.6.1/global-reject-file.diff
+diff --git a/meta/recipes-extended/sat-solver/sat-solver/fix_gcc-4.6.0_compile_issue.patch b/meta/recipes-extended/sat-solver/sat-solver/fix_gcc-4.6.0_compile_issue.patch
+index 11c727d..0a55069 100644
+--- a/meta/recipes-extended/sat-solver/sat-solver/fix_gcc-4.6.0_compile_issue.patch
++++ b/meta/recipes-extended/sat-solver/sat-solver/fix_gcc-4.6.0_compile_issue.patch
 @@ -1,4 +1,4 @@
--Upstream-Status="Inappropriate [debian patch]"
-+Upstream-Status: Inappropriate [debian patch]
+-Upstream-Status="Pending"
++Upstream-Status: Pending
  
- Index: patch-2.6.1/patch.man
- ===================================================================
+ Fix the following compilation issues with gcc 4.6.0
+ 
 -- 
 1.7.3.4
 
