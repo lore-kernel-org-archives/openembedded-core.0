@@ -1,22 +1,23 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QJuKa-0003KZ-PS
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QJuKb-0003KX-Hc
 	for openembedded-core@lists.openembedded.org;
 	Tue, 10 May 2011 23:19:01 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 10 May 2011 14:16:11 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 10 May 2011 14:16:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,347,1301900400"; d="scan'208";a="640907865"
+X-IronPort-AV: E=Sophos;i="4.64,347,1301900400"; 
+   d="scan'208";a="562831"
 Received: from nbuild2.sc.intel.com (HELO localhost) ([172.25.110.37])
-	by orsmga002.jf.intel.com with ESMTP; 10 May 2011 14:16:11 -0700
-Message-Id: <3f98b71da8450bb558811913a58d274e73237dc4.1305062028.git.nitin.a.kamble@intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 10 May 2011 14:16:13 -0700
+Message-Id: <c68094d5340318c251748f1a6541c4b0485efef7.1305062028.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1305062026.git.nitin.a.kamble@intel.com>
 References: <cover.1305062026.git.nitin.a.kamble@intel.com>
-Old-Date: Mon, 9 May 2011 09:01:42 -0700
-Date: Tue, 10 May 2011 14:16:11 -0700
+Old-Date: Tue, 10 May 2011 13:14:22 -0700
+Date: Tue, 10 May 2011 14:16:13 -0700
 To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
-Subject: [PATCH 04/16] systemtap: fix for compilation with gcc 4.6.0
+Subject: [PATCH 11/16] subversion: fix upstream-status format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,153 +38,41 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../fix_for_compilation_with_gcc-4.6.0.patch       |  119 ++++++++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.bb     |    3 +-
- 2 files changed, 121 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/fix_for_compilation_with_gcc-4.6.0.patch
+ .../subversion/disable-revision-install.patch      |    2 +-
+ .../subversion/subversion/libtool2.patch           |    2 +-
+ .../subversion/subversion/neon-detection.patch     |    2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/fix_for_compilation_with_gcc-4.6.0.patch b/meta/recipes-kernel/systemtap/systemtap/fix_for_compilation_with_gcc-4.6.0.patch
-new file mode 100644
-index 0000000..a322175
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/fix_for_compilation_with_gcc-4.6.0.patch
-@@ -0,0 +1,119 @@
-+Upstream-Status: Pending
-+
-+Fix following compiler errors with gcc 4.6.0:
-+Nitin A Kamble <nitin.a.kamble@intel.com> 2011/05/09
-+
-+| tapsets.cxx: In member function 'void sdt_query::handle_probe_entry()':
-+| tapsets.cxx:5295:8: error: variable 'kprobe_found' set but not used [-Werror=unused-but-set-variable]
-+| tapsets.cxx: In member function 'virtual void hwbkpt_builder::build(systemtap_session&, probe*, probe_point*, const literal_map_t&, std::vector<derived_probe*>&)':
-+| tapsets.cxx:7655:18: error: variable 'has_symbol_str' set but not used [-Werror=unused-but-set-variable]
-+| cc1plus: all warnings being treated as errors
-+| 
-+| make[2]: *** [stap-tapsets.o] Error 1
-+| translate.cxx: In member function 'virtual void c_unparser::visit_print_format(print_format*)':
-+| translate.cxx:4431:6: error: variable 'width_ix' set but not used [-Werror=unused-but-set-variable]
-+| cc1plus: all warnings being treated as errors
-+| 
-+| make[2]: *** [stap-translate.o] Error 1
-+| common.c: In function 'fatal_handler':
-+| common.c:397:13: error: variable 'rc' set but not used [-Werror=unused-but-set-variable]
-+| cc1: all warnings being treated as errors
-+| 
-+| make[3]: *** [common.o] Error 1
-+| make[3]: *** Waiting for unfinished jobs....
-+| common.c: In function 'fatal_handler':
-+| common.c:397:13: error: variable 'rc' set but not used [-Werror=unused-but-set-variable]
-+| cc1: all warnings being treated as errors
-+| 
-+| mainloop.c: In function 'chld_proc':
-+| mainloop.c:56:11: error: variable 'rc' set but not used [-Werror=unused-but-set-variable]
-+| mainloop.c: In function 'stp_main_loop':
-+| mainloop.c:623:17: error: variable 'rc' set but not used [-Werror=unused-but-set-variable]
-+| cc1: all warnings being treated as errors
-+| 
-+
-+Index: git/tapsets.cxx
-+===================================================================
-+--- git.orig/tapsets.cxx
-++++ git/tapsets.cxx
-+@@ -5292,7 +5292,6 @@ sdt_query::handle_probe_entry()
-+   probe *new_base = convert_location();
-+   probe_point *new_location = new_base->locations[0];
-+ 
-+-  bool kprobe_found = false;
-+   bool need_debug_info = false;
-+ 
-+   Dwarf_Addr bias;
-+@@ -5302,7 +5301,6 @@ sdt_query::handle_probe_entry()
-+   if (have_kprobe())
-+     {
-+       convert_probe(new_base);
-+-      kprobe_found = true;
-+       // Expand the local variables in the probe body
-+       sdt_kprobe_var_expanding_visitor svv (module_val,
-+ 					    provider_name,
-+@@ -7652,7 +7650,7 @@ hwbkpt_builder::build(systemtap_session 
-+ {
-+   string symbol_str_val;
-+   int64_t hwbkpt_address, len;
-+-  bool has_addr, has_symbol_str, has_write, has_rw, has_len;
-++  bool has_addr, has_write, has_rw, has_len;
-+ 
-+   if (! (sess.kernel_config["CONFIG_PERF_EVENTS"] == string("y")))
-+       throw semantic_error ("CONFIG_PERF_EVENTS not available on this kernel",
-+@@ -7662,7 +7660,6 @@ hwbkpt_builder::build(systemtap_session 
-+                             location->components[0]->tok);
-+ 
-+   has_addr = get_param (parameters, TOK_HWBKPT, hwbkpt_address);
-+-  has_symbol_str = get_param (parameters, TOK_HWBKPT, symbol_str_val);
-+   has_len = get_param (parameters, TOK_LENGTH, len);
-+   has_write = (parameters.find(TOK_HWBKPT_WRITE) != parameters.end());
-+   has_rw = (parameters.find(TOK_HWBKPT_RW) != parameters.end());
-+Index: git/translate.cxx
-+===================================================================
-+--- git.orig/translate.cxx
-++++ git/translate.cxx
-+@@ -4428,7 +4428,7 @@ c_unparser::visit_print_format (print_fo
-+ 	  continue;
-+ 
-+ 	/* Take note of the width and precision arguments, if any.  */
-+-	int width_ix = -1, prec_ix= -1;
-++	int __attribute((__unused__)) width_ix = -1, prec_ix= -1;
-+ 	if (components[i].widthtype == print_format::width_dynamic)
-+ 	  width_ix = arg_ix++;
-+ 	if (components[i].prectype == print_format::prec_dynamic)
-+Index: git/runtime/staprun/common.c
-+===================================================================
-+--- git.orig/runtime/staprun/common.c
-++++ git/runtime/staprun/common.c
-+@@ -394,7 +394,7 @@ void parse_modpath(const char *inpath)
-+ #define ERR_MSG "\nUNEXPECTED FATAL ERROR in staprun. Please file a bug report.\n"
-+ static void fatal_handler (int signum)
-+ {
-+-        int rc;
-++        int __attribute__((__unused__)) rc;
-+         char *str = strsignal(signum);
-+         rc = write (STDERR_FILENO, ERR_MSG, sizeof(ERR_MSG));
-+         rc = write (STDERR_FILENO, str, strlen(str));
-+Index: git/runtime/staprun/mainloop.c
-+===================================================================
-+--- git.orig/runtime/staprun/mainloop.c
-++++ git/runtime/staprun/mainloop.c
-+@@ -53,7 +53,7 @@ static void *signal_thread(void *arg)
-+ 
-+ static void chld_proc(int signum)
-+ {
-+-  int32_t rc, btype = STP_EXIT;
-++  int32_t __attribute__((__unused__)) rc, btype = STP_EXIT;
-+   dbug(2, "chld_proc %d (%s)\n", signum, strsignal(signum));
-+   pid_t pid = waitpid(-1, NULL, WNOHANG);
-+   if (pid != target_pid)
-+@@ -620,7 +620,7 @@ int stp_main_loop(void)
-+       {
-+         /* module asks us to start exiting, so send STP_EXIT */
-+         dbug(2, "got STP_REQUEST_EXIT\n");
-+-        int32_t rc, btype = STP_EXIT;
-++        int32_t __attribute__((__unused__))rc, btype = STP_EXIT;
-+         rc = write(control_channel, &btype, sizeof(btype));
-+         break;
-+       }
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 4df0947..8ac4c14 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -5,10 +5,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- DEPENDS = "elfutils"
+diff --git a/meta/recipes-devtools/subversion/subversion/disable-revision-install.patch b/meta/recipes-devtools/subversion/subversion/disable-revision-install.patch
+index ffe6330..66450fa 100644
+--- a/meta/recipes-devtools/subversion/subversion/disable-revision-install.patch
++++ b/meta/recipes-devtools/subversion/subversion/disable-revision-install.patch
+@@ -1,4 +1,4 @@
+-Upstream-Status="Inappropriate [embedded specific]"
++Upstream-Status: Inappropriate [embedded specific]
  
- SRCREV = "4ab3a1863bf4f472acae7a809bf2b38d91658aa8"
--PR = r0
-+PR = "r1"
- PV = "1.4+git${SRCPV}"
+ Index: subversion-1.6.15/Makefile.in
+ ===================================================================
+diff --git a/meta/recipes-devtools/subversion/subversion/libtool2.patch b/meta/recipes-devtools/subversion/subversion/libtool2.patch
+index 12872db..32f88b7 100644
+--- a/meta/recipes-devtools/subversion/subversion/libtool2.patch
++++ b/meta/recipes-devtools/subversion/subversion/libtool2.patch
+@@ -1,4 +1,4 @@
+-Upstream-Status="Inappropriate [embedded specific]"
++Upstream-Status: Inappropriate [embedded specific]
  
- SRC_URI = "git://sources.redhat.com/git/systemtap.git;protocol=git \
-+	file://fix_for_compilation_with_gcc-4.6.0.patch \
-           "
+ Index: subversion-1.5.5/configure.ac
+ ===================================================================
+diff --git a/meta/recipes-devtools/subversion/subversion/neon-detection.patch b/meta/recipes-devtools/subversion/subversion/neon-detection.patch
+index 3d28fb2..2a9cf1f 100644
+--- a/meta/recipes-devtools/subversion/subversion/neon-detection.patch
++++ b/meta/recipes-devtools/subversion/subversion/neon-detection.patch
+@@ -1,4 +1,4 @@
+-Upstream-Status="Inappropriate [embedded specific]"
++Upstream-Status: Inappropriate [embedded specific]
  
- EXTRA_OECONF = "--prefix=${D} --with-libelf=${STAGING_DIR_TARGET} --without-rpm \
+ Index: subversion-1.6.13/build/ac-macros/neon.m4
+ ===================================================================
 -- 
 1.7.3.4
 
