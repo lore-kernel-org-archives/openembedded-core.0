@@ -1,26 +1,43 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QJfNH-0001L7-3o
+	(envelope-from <dexuan.cui@intel.com>) id 1QJfOU-0001NM-Ll
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 07:20:47 +0200
+	Tue, 10 May 2011 07:22:02 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 May 2011 22:17:51 -0700
+	by orsmga102.jf.intel.com with ESMTP; 09 May 2011 22:19:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,344,1301900400"; d="scan'208";a="744872250"
-Received: from unknown (HELO [10.255.12.75]) ([10.255.12.75])
-	by orsmga001.jf.intel.com with ESMTP; 09 May 2011 22:17:51 -0700
-Message-ID: <4DC8CA7E.4020302@linux.intel.com>
-Date: Mon, 09 May 2011 22:17:50 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
-	Thunderbird/3.0.5
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+X-IronPort-AV: E=Sophos;i="4.64,344,1301900400"; d="scan'208";a="744873158"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by orsmga001.jf.intel.com with ESMTP; 09 May 2011 22:19:16 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 10 May 2011 13:18:27 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 10 May 2011 13:18:26 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Tue, 10 May 2011 13:18:25 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-References: <BANLkTi=424KO0PMR6b_2QC98qtUryMykdQ@mail.gmail.com>
-In-Reply-To: <BANLkTi=424KO0PMR6b_2QC98qtUryMykdQ@mail.gmail.com>
-Subject: Re: Pull request with misc changes
+Date: Tue, 10 May 2011 13:18:24 +0800
+Thread-Topic: [OE-core] [PATCH 1/1] rsync (GPLv2): fix security
+	vulnerability CVE-2007-4091
+Thread-Index: AcwOz/BTCetS2spUTeqg50NQfPiGFAAADyxQ
+Message-ID: <1865303E0DED764181A9D882DEF65FB69334F4BD88@shsmsx502.ccr.corp.intel.com>
+References: <cover.1304995908.git.dexuan.cui@intel.com>
+	<29a6f5e598717a6c701495174db9ef4f448e64e7.1304995908.git.dexuan.cui@intel.com>
+	<4DC8C6C3.6070000@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6933502FCC3@shsmsx502.ccr.corp.intel.com>
+	<4DC8C7A5.5090009@linux.intel.com>
+In-Reply-To: <4DC8C7A5.5090009@linux.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] rsync (GPLv2): fix security vulnerability CVE-2007-4091
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,76 +52,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 05:20:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 May 2011 05:22:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-On 05/09/2011 12:15 PM, Otavio Salvador wrote:
-> Hello,
->
-> This pull request fixes some issues I found since the last pull
-> request and should be preferred against the first.
->
-Otavio,
-
-Next time, please use the create-pull-request script, which will 
-generate a set of patch emails so that we can review this information 
-via email. I will make a couple of additional comments below associated 
-with each patch.
-
-> The following changes since commit d0dc2b5bb02ef55a41e7a97b6831c72391ae7f36:
->
->    u-boot: correct COPYING MD5SUM (2011-05-08 23:56:11 -0700)
->
-> are available in the git repository at:
->    git://github.com/OSSystems/oe-core master
->
-> Otavio Salvador (10):
->        meta/conf/local.conf.sample: fix mklibs comment line split and typo
->        scripts/oe-setup-builddir: fix typo
->        syslinux: improve packaging
->        busybox: add support to mdev
->        libxkbfile: disable xcb
->        insane.bbclass: skip license checksum if LICENSE is "CLOSED"
-I assume you are adding this for layers and commercial work, we should 
-never have CLOSED in any open layer.
-
->        cmake.bbclass: fix qmake and rpath issues
->        qmake_base.bbclass: add generate_qt_config_file task
->        cmake: add support for oe qt4 tools names
-Please add a comment to the patch explaining it's purpose and origin, 
-and include a Signed-off-by: if appropriate. Any patches that you have 
-modified or added should include the above info.
-
->        fuse: drop since it is not used by other recipes
->
->   .../fuse-2.7.2/not-run-updaterc.d-on-host.patch    |   15 ----
->   meta-demoapps/recipes-kernel/fuse/fuse.inc         |   13 ---
->   meta-demoapps/recipes-kernel/fuse/fuse_2.7.2.bb    |   22 -----
->   meta/classes/cmake.bbclass                         |   19 ++++-
->   meta/classes/insane.bbclass                        |    4 +
->   meta/classes/qmake_base.bbclass                    |   15 ++++
->   meta/conf/local.conf.sample                        |    7 +-
->   meta/recipes-core/busybox/busybox.inc              |   14 +++-
->   meta/recipes-core/busybox/busybox_1.18.4.bb        |    2 +
->   meta/recipes-core/busybox/files/mdev               |    7 ++
->   meta/recipes-core/busybox/files/mdev.conf          |   35 ++++++++
->   meta/recipes-devtools/cmake/cmake-native_2.8.3.bb  |    2 +-
->   meta/recipes-devtools/cmake/cmake.inc              |    3 +-
->   .../cmake/cmake/support-oe-qt4-tools-names.patch   |   85 ++++++++++++++++++++
->   meta/recipes-devtools/syslinux/syslinux_4.03.bb    |   12 +++-
->   meta/recipes-graphics/xorg-lib/libxkbfile_1.0.7.bb |    4 +-
->   scripts/oe-setup-builddir                          |    2 +-
->   17 files changed, 199 insertions(+), 62 deletions(-)
->   delete mode 100644
-> meta-demoapps/recipes-kernel/fuse/fuse-2.7.2/not-run-updaterc.d-on-host.patch
->   delete mode 100644 meta-demoapps/recipes-kernel/fuse/fuse.inc
->   delete mode 100644 meta-demoapps/recipes-kernel/fuse/fuse_2.7.2.bb
->   create mode 100755 meta/recipes-core/busybox/files/mdev
->   create mode 100644 meta/recipes-core/busybox/files/mdev.conf
->   create mode 100644
-> meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.patch
->
->
+U2F1bCBXb2xkIHdyb3RlOg0KPiBPbiAwNS8wOS8yMDExIDEwOjAzIFBNLCBIZSwgUWluZyB3cm90
+ZToNCj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4+IEZyb206IG9wZW5lbWJlZGRl
+ZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPj4+IFttYWlsdG86b3BlbmVt
+YmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYNCj4+
+PiBPZiBTYXVsIFdvbGQgU2VudDogMjAxMcTqNdTCMTDI1SAxMzowMg0KPj4+IFRvOiBQYXRjaGVz
+IGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KPj4+IFN1YmplY3Q6IFJl
+OiBbT0UtY29yZV0gW1BBVENIIDEvMV0gcnN5bmMgKEdQTHYyKTogZml4IHNlY3VyaXR5DQo+Pj4g
+dnVsbmVyYWJpbGl0eSBDVkUtMjAwNy00MDkxIA0KPj4+IA0KPj4+IE9uIDA1LzA5LzIwMTEgMDc6
+NTQgUE0sIERleHVhbiBDdWkgd3JvdGU6DQo+Pj4+IEZyb206IERleHVhbiBDdWk8ZGV4dWFuLmN1
+aUBpbnRlbC5jb20+DQo+Pj4+IA0KPj4+PiBBZGRlZCBhIHBhdGNoIHRvIGZpeA0KPj4+PiBodHRw
+Oi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAwNy00MDkx
+DQo+Pj4+IA0KPj4+IFRoaXMgaXMgbWlzc2luZyBhIFtZT0NUTyAjYnVnaWRdLCBwbGVhc2UgYWRk
+IGFuZCByZXNlbmQuICh1cGRhdGUNCj4+PiBicmFuY2ggDQo+Pj4gaXMgT0spLg0KPj4gDQo+PiBT
+YXVsLA0KPj4gCUJlZm9yZSB0aGUgb3RoZXIgdHdvIENWRXMgYXJlIHNwZWNpZmljYWxseSBhZGRy
+ZXNzZWQsIEkgZG9uJ3QgdGhpbmsNCj4+IHdlIGNhbiBjYWxsIGEgY2xvc2Ugb24gdGhpcyBidWcu
+IA0KPj4gDQo+IFllcywgdGhhdCdzIHRydWUsIGJ1dCBpdCdzIGltcG9ydGFudCB0byBrbm93IHRo
+YXQgdGhpcyBwYXRjaA0KPiBhZGRyZXNzZXMgYSBwYXJ0IG9mIHRoYXQgYnVnLg0KSGkgU2F1bCwN
+CkkgYWRkZWQgIltZT0NUTyAjOTg0XSBpcyBwYXJ0aWFsbHkgZml4ZWQgYnkgdGhpcyBjb21taXQi
+ICBhbmQgZGlkICJnaXQgcHVzaCIganVzdCBub3cuDQpQbGVhc2UgdXNlIHRoZSBzYW1lIGJyYW5j
+aCANCmh0dHA6Ly9naXQucG9reWxpbnV4Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bva3ktY29udHJpYi9j
+b21taXQvP2g9ZGN1aS9tYXN0ZXImaWQ9ODk4Y2UyZGRmNzc0NjQ2Nzk2YWY1Yzg3MDAxMzA5MTZh
+ZmU2ZGJjMQ0KDQoNClRoYW5rcywNCi0tIERleHVhbg0K
 
 
