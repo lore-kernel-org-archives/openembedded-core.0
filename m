@@ -1,42 +1,26 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QJtDP-0001nq-Nd
+	(envelope-from <dvhart@linux.intel.com>) id 1QJtVE-0002k4-Av
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 22:07:31 +0200
-Received: by wwb17 with SMTP id 17so6037084wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 13:04:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=G2xox2yYkh6NgFxl61H/qUZ23nDpNjRDY61puYXNYs4=;
-	b=JZEg2W5D3Ze+9BVDxwj8cFH/UbmaX3QWz/pVQmdLHQOd/wOD5dQzFN9fHqUktLXLF0
-	urYOOQWq3w+GHSYuOfg0ZpQ7NayKQPIMCyWiFsV8Hq6zPrIHqHSjuU/kqUlXx6wpBtbG
-	RYhv/P5T4TCLgmKLD5VBBF2tGd8cMZGaIlrlQ=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	b=pTuliffTQsTeeluJbucowE+UQdgVHRdzvx9UylC/6Z4w/5ihFnyOeMqVU30WY9KElY
-	j5pi7hAcP5ze2asBwxjLbgBb2m8xJEdZdWs4JslvZlgst4IHvjTt7wY4NQJO+kfcyhu/
-	YKa7kHArJWSWI9a9BKnCy2JXZdWjmUaxtYMlQ=
+	Tue, 10 May 2011 22:25:56 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 10 May 2011 13:23:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,347,1301900400"; d="scan'208";a="433853299"
+Received: from unknown (HELO [10.255.12.71]) ([10.255.12.71])
+	by azsmga001.ch.intel.com with ESMTP; 10 May 2011 13:23:08 -0700
+Message-ID: <4DC99EB1.1090506@linux.intel.com>
+Date: Tue, 10 May 2011 13:23:13 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-Received: by 10.216.230.153 with SMTP id j25mr44478weq.22.1305057884111; Tue,
-	10 May 2011 13:04:44 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.216.93.195 with HTTP; Tue, 10 May 2011 13:04:44 -0700 (PDT)
-In-Reply-To: <4DC99913.1060403@linux.intel.com>
-References: <1305039119-1469-1-git-send-email-otavio@ossystems.com.br>
-	<4DC99913.1060403@linux.intel.com>
-Date: Tue, 10 May 2011 17:04:44 -0300
-X-Google-Sender-Auth: hRnOXz3BAMJEvVXmyt6G4j0nQNw
-Message-ID: <BANLkTimnZyL-Jr0Dyd-CgPKk9k_n_HBT-g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] cmake.bbclass: fix qmake and rpath issues
+References: <201105090016.46391.leitl@fim.uni-passau.de>	<4DC8543F.3090501@linux.intel.com>	<201105100340.04862.leitl@fim.uni-passau.de>
+	<201105100356.05227.leitl@fim.uni-passau.de>
+In-Reply-To: <201105100356.05227.leitl@fim.uni-passau.de>
+Subject: Re: Patch for fixing build issues with external kernel modules.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,33 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 20:07:31 -0000
+X-List-Received-Date: Tue, 10 May 2011 20:25:56 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 10, 2011 at 16:59, Saul Wold <sgw@linux.intel.com> wrote:
-> In Richard's email he proposed one or the other be set, why do you need t=
-o
-> set both here? =A0If both need to be set then you don't need the override=
-.
+Hi Franz, I'm not ignoring you, I'm laid up in bed with a nasty stomach
+flu and not thinking very clearly right now. I'll try and responds as
+soon as I can...
 
-Because they're different no? Otherwise native.bbclass has those for others=
- too:
+--
+Darren
 
-...
-PACKAGES =3D ""
-PACKAGES_virtclass-native =3D ""
-PACKAGES_DYNAMIC =3D ""
-PACKAGES_DYNAMIC_virtclass-native =3D ""
-...
+On 05/09/2011 06:56 PM, Franz Leitl wrote:
+> Hi,
+> 
+> Am Dienstag 10 Mai 2011, 03:40:04 schrieb Franz Leitl:
+>> Am Montag 09 Mai 2011, 22:53:19 schrieben Sie:
+>>> The kernel should not remove bounds.h, that is documented in the
+>>> Makefile. If it does, it's a bug.
+>>
+>> After executing "bitbake -f -c compile virtual/kernel"  I get bounds.h in
+>> "${S}/includes/generated/".
+>> Seems as if both
+>>     oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
+>> and
+>>     make -C $kerneldir _mrproper_scripts
+>> in kernel.bbclass are to blame for removing bounds.h from
+>> "$kerneldir/includes/generated/".
+>> I tested it twice. Only in case both lines are commented out bounds.h stays
+>> in "$kerneldir/includes/generated/"
+> I still would like to know, what to do next.
+> 
+>> What to do with module.bbclass not setting KERNEL_PATH in
+>> module_do_install? My Makefile relies on it, if KERNEL_PATH is not set it
+>> will use
+>> "/lib/modules/$(shell uname -r)/build" instead. But uname returns the
+>> host's kernel version.
+>> Is there any reason why oe_runmake in module_do_compile sets
+>> "KERNEL_PATH=${STAGING_KERNEL_DIR}" while in module_do_install it doesn't?
+>> Should I overwrite the do_install in my recipe or should module.bbclass be
+>> fixed?
+> Ok, I just remembered the hint to recipes-kernel/hello-mod/files/Makefile. Works 
+> as KERNEL_SRC is also set to ${STAGING_KERNEL_DIR}. But it does not explain what 
+> the real difference between KERNEL_SRC and KERNEL_PATH is, as both are set to 
+> the same value and why does module_do_install not set KERNEL_PATH but 
+> module_do_compile does?
+> 
+> 
+> Regards,
+> Franz
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Seems logical, no?
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
