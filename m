@@ -1,26 +1,46 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QJtVE-0002k4-Av
+	(envelope-from <martin.jansa@gmail.com>) id 1QJtWO-0002pc-U0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 22:25:56 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 10 May 2011 13:23:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,347,1301900400"; d="scan'208";a="433853299"
-Received: from unknown (HELO [10.255.12.71]) ([10.255.12.71])
-	by azsmga001.ch.intel.com with ESMTP; 10 May 2011 13:23:08 -0700
-Message-ID: <4DC99EB1.1090506@linux.intel.com>
-Date: Tue, 10 May 2011 13:23:13 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
+	Tue, 10 May 2011 22:27:14 +0200
+Received: by fxm19 with SMTP id 19so5165439fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 May 2011 13:24:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=PisdvmbNVkmfDh++0bQ8NG2cphxmcv5M63+epw3eNME=;
+	b=JTvAV1Tk8NC+YHDZhbNm0t4MtJSQYRmfJzzt77oDofpRHsT11aBVst/oVeA8jlpYEO
+	894O3jBGRGXP62muFCxRgc48oiln5dnYMZGSdP/vNsi0LVY/md2fBO3uk6w8lrZp3WES
+	iRJWT31u3M7wVBfJbUmo3PbT3x7oTkfbgdSp0=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=GglxM1DUKN99hyqJGdQdpjiAnOpFBDqBX263853MhrispzulnaC9CVuzPZBMGJXTkW
+	sHMkB0sGD5LW8x5QWB79Cbjdz1+mtI6fv1/qpi/2pDvLXk5CbVp7CAunU0GpxXlkM1oc
+	bKpOZnCQgCj70H9K7ifDq9ZhSUcxEw26FuovM=
+Received: by 10.223.64.80 with SMTP id d16mr351162fai.88.1305059059431;
+	Tue, 10 May 2011 13:24:19 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id 5sm1123795faz.0.2011.05.10.13.24.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 10 May 2011 13:24:18 -0700 (PDT)
+Date: Tue, 10 May 2011 22:24:17 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <201105090016.46391.leitl@fim.uni-passau.de>	<4DC8543F.3090501@linux.intel.com>	<201105100340.04862.leitl@fim.uni-passau.de>
-	<201105100356.05227.leitl@fim.uni-passau.de>
-In-Reply-To: <201105100356.05227.leitl@fim.uni-passau.de>
-Subject: Re: Patch for fixing build issues with external kernel modules.
+Message-ID: <20110510202417.GB5171@jama.jama.net>
+References: <BANLkTi=424KO0PMR6b_2QC98qtUryMykdQ@mail.gmail.com>
+	<4DC8CA7E.4020302@linux.intel.com>
+	<BANLkTi=G0wk3a5N4hvTzRcC09U7n-HFH1Q@mail.gmail.com>
+	<4DC97D27.9080602@linux.intel.com>
+	<20110510181314.GF3673@jama.jama.net> <4DC98507.6070103@mentor.com>
+	<1305054238.30391.283.camel@rex>
+MIME-Version: 1.0
+In-Reply-To: <1305054238.30391.283.camel@rex>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Subject: Re: Pull request with misc changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,64 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 20:25:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 May 2011 20:27:18 -0000
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="/NkBOFFp2J2Af1nK"
+Content-Disposition: inline
 
-Hi Franz, I'm not ignoring you, I'm laid up in bed with a nasty stomach
-flu and not thinking very clearly right now. I'll try and responds as
-soon as I can...
+--/NkBOFFp2J2Af1nK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
---
-Darren
+On Tue, May 10, 2011 at 08:03:57PM +0100, Richard Purdie wrote:
+> Martin/Tom: Serious question - why not use the contrib repo for this?
 
-On 05/09/2011 06:56 PM, Franz Leitl wrote:
-> Hi,
-> 
-> Am Dienstag 10 Mai 2011, 03:40:04 schrieb Franz Leitl:
->> Am Montag 09 Mai 2011, 22:53:19 schrieben Sie:
->>> The kernel should not remove bounds.h, that is documented in the
->>> Makefile. If it does, it's a bug.
->>
->> After executing "bitbake -f -c compile virtual/kernel"  I get bounds.h in
->> "${S}/includes/generated/".
->> Seems as if both
->>     oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
->> and
->>     make -C $kerneldir _mrproper_scripts
->> in kernel.bbclass are to blame for removing bounds.h from
->> "$kerneldir/includes/generated/".
->> I tested it twice. Only in case both lines are commented out bounds.h stays
->> in "$kerneldir/includes/generated/"
-> I still would like to know, what to do next.
-> 
->> What to do with module.bbclass not setting KERNEL_PATH in
->> module_do_install? My Makefile relies on it, if KERNEL_PATH is not set it
->> will use
->> "/lib/modules/$(shell uname -r)/build" instead. But uname returns the
->> host's kernel version.
->> Is there any reason why oe_runmake in module_do_compile sets
->> "KERNEL_PATH=${STAGING_KERNEL_DIR}" while in module_do_install it doesn't?
->> Should I overwrite the do_install in my recipe or should module.bbclass be
->> fixed?
-> Ok, I just remembered the hint to recipes-kernel/hello-mod/files/Makefile. Works 
-> as KERNEL_SRC is also set to ${STAGING_KERNEL_DIR}. But it does not explain what 
-> the real difference between KERNEL_SRC and KERNEL_PATH is, as both are set to 
-> the same value and why does module_do_install not set KERNEL_PATH but 
-> module_do_compile does?
-> 
-> 
-> Regards,
-> Franz
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+I have nothing against contrib repo and I'm using oe-core-contrib for
+oe-core stuff, but I had gitorious repos for meta-oe before
+meta-oe-contrib was created and now I didn't feel the need to change it
+and update my modified meta-oe-create-pull-request header :) but I will
+if you or koen find it better to pull from *-contrib (I'm pushing shr
+branch there already anyways).
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+> I have nightmares about all the development being spread to all the
+> corners of the globe and people not being able to see what is being
+> worked on. For short lived branches its not so much of a problem but as
+> we take on longer lived feature development it will be a problem. I'd
+> therefore like to understand why the dislike of it...
+>=20
+> Cheers,
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--/NkBOFFp2J2Af1nK--
