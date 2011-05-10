@@ -1,43 +1,22 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QJfOU-0001NM-Ll
+	(envelope-from <sgw@linux.intel.com>) id 1QJfVD-0001SF-Mm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 07:22:02 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 May 2011 22:19:16 -0700
+	Tue, 10 May 2011 07:29:00 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 09 May 2011 22:26:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,344,1301900400"; d="scan'208";a="744873158"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga001.jf.intel.com with ESMTP; 09 May 2011 22:19:16 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 10 May 2011 13:18:27 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 10 May 2011 13:18:26 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Tue, 10 May 2011 13:18:25 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 10 May 2011 13:18:24 +0800
-Thread-Topic: [OE-core] [PATCH 1/1] rsync (GPLv2): fix security
-	vulnerability CVE-2007-4091
-Thread-Index: AcwOz/BTCetS2spUTeqg50NQfPiGFAAADyxQ
-Message-ID: <1865303E0DED764181A9D882DEF65FB69334F4BD88@shsmsx502.ccr.corp.intel.com>
-References: <cover.1304995908.git.dexuan.cui@intel.com>
-	<29a6f5e598717a6c701495174db9ef4f448e64e7.1304995908.git.dexuan.cui@intel.com>
-	<4DC8C6C3.6070000@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6933502FCC3@shsmsx502.ccr.corp.intel.com>
-	<4DC8C7A5.5090009@linux.intel.com>
-In-Reply-To: <4DC8C7A5.5090009@linux.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+X-IronPort-AV: E=Sophos;i="4.64,345,1301900400"; d="scan'208";a="640479283"
+Received: from unknown (HELO localhost) ([10.255.12.75])
+	by orsmga002.jf.intel.com with ESMTP; 09 May 2011 22:26:13 -0700
+Message-Id: <cover.1305004776.git.sgw@linux.intel.com>
+Old-Date: Mon, 9 May 2011 22:19:36 -0700
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] rsync (GPLv2): fix security vulnerability CVE-2007-4091
+Date: Mon, 09 May 2011 22:26:13 -0700
+To: openembedded-core@lists.openembedded.org
+CC: 
+From: Saul Wold <sgw@linux.intel.com>
+Subject: [PATCH 00/30] Consolidated Pull Request for 5/10/2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,32 +31,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 05:22:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 10 May 2011 05:29:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-U2F1bCBXb2xkIHdyb3RlOg0KPiBPbiAwNS8wOS8yMDExIDEwOjAzIFBNLCBIZSwgUWluZyB3cm90
-ZToNCj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4+IEZyb206IG9wZW5lbWJlZGRl
-ZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPj4+IFttYWlsdG86b3BlbmVt
-YmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYNCj4+
-PiBPZiBTYXVsIFdvbGQgU2VudDogMjAxMcTqNdTCMTDI1SAxMzowMg0KPj4+IFRvOiBQYXRjaGVz
-IGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KPj4+IFN1YmplY3Q6IFJl
-OiBbT0UtY29yZV0gW1BBVENIIDEvMV0gcnN5bmMgKEdQTHYyKTogZml4IHNlY3VyaXR5DQo+Pj4g
-dnVsbmVyYWJpbGl0eSBDVkUtMjAwNy00MDkxIA0KPj4+IA0KPj4+IE9uIDA1LzA5LzIwMTEgMDc6
-NTQgUE0sIERleHVhbiBDdWkgd3JvdGU6DQo+Pj4+IEZyb206IERleHVhbiBDdWk8ZGV4dWFuLmN1
-aUBpbnRlbC5jb20+DQo+Pj4+IA0KPj4+PiBBZGRlZCBhIHBhdGNoIHRvIGZpeA0KPj4+PiBodHRw
-Oi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAwNy00MDkx
-DQo+Pj4+IA0KPj4+IFRoaXMgaXMgbWlzc2luZyBhIFtZT0NUTyAjYnVnaWRdLCBwbGVhc2UgYWRk
-IGFuZCByZXNlbmQuICh1cGRhdGUNCj4+PiBicmFuY2ggDQo+Pj4gaXMgT0spLg0KPj4gDQo+PiBT
-YXVsLA0KPj4gCUJlZm9yZSB0aGUgb3RoZXIgdHdvIENWRXMgYXJlIHNwZWNpZmljYWxseSBhZGRy
-ZXNzZWQsIEkgZG9uJ3QgdGhpbmsNCj4+IHdlIGNhbiBjYWxsIGEgY2xvc2Ugb24gdGhpcyBidWcu
-IA0KPj4gDQo+IFllcywgdGhhdCdzIHRydWUsIGJ1dCBpdCdzIGltcG9ydGFudCB0byBrbm93IHRo
-YXQgdGhpcyBwYXRjaA0KPiBhZGRyZXNzZXMgYSBwYXJ0IG9mIHRoYXQgYnVnLg0KSGkgU2F1bCwN
-CkkgYWRkZWQgIltZT0NUTyAjOTg0XSBpcyBwYXJ0aWFsbHkgZml4ZWQgYnkgdGhpcyBjb21taXQi
-ICBhbmQgZGlkICJnaXQgcHVzaCIganVzdCBub3cuDQpQbGVhc2UgdXNlIHRoZSBzYW1lIGJyYW5j
-aCANCmh0dHA6Ly9naXQucG9reWxpbnV4Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bva3ktY29udHJpYi9j
-b21taXQvP2g9ZGN1aS9tYXN0ZXImaWQ9ODk4Y2UyZGRmNzc0NjQ2Nzk2YWY1Yzg3MDAxMzA5MTZh
-ZmU2ZGJjMQ0KDQoNClRoYW5rcywNCi0tIERleHVhbg0K
+From: Saul Wold <sgw@linux.intel.com>
+
+Richard,
+
+There is a matching request to poky - master for the kernel
+recipe, please ensure you pull that one also.
+
+This contains support for the microblaze from Adrian and some 
+uclibc from Khem, along with some changes from Otavio. I passed
+through the insane LICENSE == CLOSED check, but need to think more
+about this (ie we should never see this kind of license in oe-core).
+
+
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: sgw/stage
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Thanks,
+    Saul Wold <sgw@linux.intel.com>
+---
+
+
+Adrian Alonso (7):
+  insane: add micrblaze target info
+  kernel-arch: add microblaze to valid archs
+  siteinfo: add microblaze target info
+  linux-libc-headers: add microblaze ARCH definition
+  image-mklibs: add microblaze arch support
+  package_rpm: use target vendor information
+  readline: update version
+
+Bruce Ashfield (2):
+  linux-yocto: remove non-core (qemu) machine compatibility
+  linux-yocto: error if meta data not present
+
+Ilya Yanok (1):
+  toolchain-qte: include cross-compiler and fix env script
+
+Khem Raj (6):
+  recipes: Replace gconf-dbus with gconf
+  conf/layer.conf: Use .= to append to BBPATH and =+ for BBFILES
+  libgalago_0.5.2.bb: Fix compile for uclibc
+  liburcu_0.5.4.bb: Let it build on uclibc targets
+  lttng-ust_0.12.bb: Fix compilation on uclibc
+  oe/patch.py: Remove series file during Clean()
+
+Otavio Salvador (9):
+  scripts/oe-setup-builddir: fix typo
+  syslinux: improve packaging
+  meta/conf/local.conf.sample: fix mklibs comment line split and typo
+  busybox: add support to mdev
+  libxkbfile: disable xcb
+  insane.bbclass: skip license checksum if LICENSE is "CLOSED"
+  cmake.bbclass: fix qmake and rpath issues
+  qmake_base.bbclass: add generate_qt_config_file task
+  fuse: drop since it is not used by other recipes
+
+Saul Wold (2):
+  web-sato: Update for svn -> git transtion
+  gtkhtml2: Update to 1161
+
+Scott Garman (1):
+  gnome-doc-utils: Add additional missing -nonet options to xsltproc
+
+Xiaofeng Yan (1):
+  libxmu: Add native function
+
+Zhai Edwin (1):
+  qemu-script: Fix qemu seg fault if install Nvidia proprietary driver.
+
+ .../recipes-gnome/gnome/libgnomekbd_2.26.0.bb      |    2 +-
+ .../fuse-2.7.2/not-run-updaterc.d-on-host.patch    |   15 ----
+ meta-demoapps/recipes-kernel/fuse/fuse.inc         |   13 ----
+ meta-demoapps/recipes-kernel/fuse/fuse_2.7.2.bb    |   22 ------
+ meta/classes/cmake.bbclass                         |   19 +++++-
+ meta/classes/image-mklibs.bbclass                  |    2 +-
+ meta/classes/insane.bbclass                        |    8 ++-
+ meta/classes/kernel-arch.bbclass                   |    3 +-
+ meta/classes/kernel-yocto.bbclass                  |    5 +-
+ meta/classes/package_rpm.bbclass                   |    3 +-
+ meta/classes/qmake_base.bbclass                    |   15 ++++
+ meta/classes/siteinfo.bbclass                      |    1 +
+ meta/conf/layer.conf                               |   10 +++-
+ meta/conf/local.conf.sample                        |    7 +-
+ meta/lib/oe/patch.py                               |    1 +
+ .../recipes-connectivity/galago/libgalago_0.5.2.bb |    4 +
+ meta/recipes-core/busybox/busybox.inc              |   14 ++++-
+ meta/recipes-core/busybox/busybox_1.18.4.bb        |    2 +
+ meta/recipes-core/busybox/files/mdev               |    7 ++
+ meta/recipes-core/busybox/files/mdev.conf          |   35 ++++++++++
+ meta/recipes-core/readline/readline_6.2.bb         |    6 ++
+ meta/recipes-devtools/syslinux/syslinux_4.03.bb    |   12 +++-
+ meta/recipes-gnome/gnome/gnome-desktop.inc         |    2 +-
+ .../gnome/gnome-doc-utils/xsltproc_nonet.patch     |   70 +++++++++++++++++++-
+ meta/recipes-gnome/gnome/gnome-doc-utils_0.20.5.bb |    2 +-
+ meta/recipes-gnome/gthumb/gthumb_2.12.2.bb         |    2 +-
+ meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb        |    2 +-
+ meta/recipes-gnome/tasks/task-sdk-gmae.inc         |    2 +-
+ meta/recipes-graphics/xorg-lib/libxkbfile_1.0.7.bb |    4 +-
+ meta/recipes-graphics/xorg-lib/libxmu_1.1.0.bb     |    2 +
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ .../linux-libc-headers_2.6.37.2.bb                 |    3 +-
+ .../recipes-kernel/linux/linux-yocto-stable_git.bb |   10 +---
+ meta/recipes-kernel/linux/linux-yocto_git.bb       |   15 +---
+ .../lttng/lttng-ust/uclibc-sched_getcpu.patch      |   50 ++++++++++++++
+ meta/recipes-kernel/lttng/lttng-ust_0.12.bb        |    4 +-
+ meta/recipes-qt/meta/meta-toolchain-qte.bb         |   33 +++++-----
+ meta/recipes-sato/web/{web_svn.bb => web_git.bb}   |   10 ++--
+ meta/recipes-support/libproxy/libproxy_0.4.6.bb    |    2 +-
+ meta/recipes-support/liburcu/liburcu_0.5.4.bb      |    2 +-
+ scripts/oe-setup-builddir                          |    2 +-
+ scripts/runqemu-internal                           |   13 +++-
+ 42 files changed, 316 insertions(+), 122 deletions(-)
+ delete mode 100644 meta-demoapps/recipes-kernel/fuse/fuse-2.7.2/not-run-updaterc.d-on-host.patch
+ delete mode 100644 meta-demoapps/recipes-kernel/fuse/fuse.inc
+ delete mode 100644 meta-demoapps/recipes-kernel/fuse/fuse_2.7.2.bb
+ create mode 100755 meta/recipes-core/busybox/files/mdev
+ create mode 100644 meta/recipes-core/busybox/files/mdev.conf
+ create mode 100644 meta/recipes-core/readline/readline_6.2.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
+ rename meta/recipes-sato/web/{web_svn.bb => web_git.bb} (72%)
+
 
 
