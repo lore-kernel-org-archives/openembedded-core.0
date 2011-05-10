@@ -1,28 +1,40 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QJrBk-0007YY-8Z
+	(envelope-from <kergoth@gmail.com>) id 1QJrDv-0007aW-98
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 19:57:40 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 10 May 2011 10:54:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,346,1301900400"; 
-   d="scan'208";a="431738"
-Received: from unknown (HELO [10.255.12.75]) ([10.255.12.75])
-	by fmsmga001.fm.intel.com with ESMTP; 10 May 2011 10:54:53 -0700
-Message-ID: <4DC97BED.6040200@linux.intel.com>
-Date: Tue, 10 May 2011 10:54:53 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
-	Thunderbird/3.0.5
+	Tue, 10 May 2011 19:59:55 +0200
+Received: by vws2 with SMTP id 2so819251vws.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 May 2011 10:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
+	:date:x-google-sender-auth:message-id:subject:to:content-type;
+	bh=JBZdgQFCiF0O1yCHu0zzsxpzQ/OgjmohXoo5Imoj1xc=;
+	b=nN+n4DWa5SkOeMhBlDyYG0seABo7sn7K0CrIlzKllsSOGbfgFuPkoWrusyZB/l5jcT
+	rD0CwVxKMi3pbhhnbT4O/wo2abf/CRtPPAUWtZtByfvPdyGlwYhRDVQ6MKYvJVLSxd4L
+	qCYUqeQZ5eMng+1R9pmX//rPOSFmworjo/dhU=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type;
+	b=ql9JfTnrLqjkoZViAeN3exnVpUDolfocGIVTJrYbUC+hIH7hfIGkFtvf6Km57vkQN8
+	VbTLeaT4NfUkiikpmgmlGg4wsTpMaYpLq4u8j/AM7XHMBxiq7q/QG+WyWFjDaNM8eclI
+	TiDPD+55KBS5Hp9KMPaNpFrLjnlwMDHilAyyE=
+Received: by 10.52.77.3 with SMTP id o3mr2826159vdw.101.1305050226094; Tue, 10
+	May 2011 10:57:06 -0700 (PDT)
 MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.52.114.233 with HTTP; Tue, 10 May 2011 10:56:46 -0700 (PDT)
+In-Reply-To: <1305017649.30391.255.camel@rex>
+References: <cover.1305004776.git.sgw@linux.intel.com>
+	<491cfc546a2843493cf466c1e1af11ec8ac2dcee.1305004776.git.sgw@linux.intel.com>
+	<1305017649.30391.255.camel@rex>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 10 May 2011 10:56:46 -0700
+X-Google-Sender-Auth: iRTAd4QyeGInj5GnCIv8q2u7ivU
+Message-ID: <BANLkTi=46eCWm2KQVHgr-z_Kdo7iChPuyQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1304966147.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1304966147.git.raj.khem@gmail.com>
-Cc: Chris Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 0/6] Fix recipes for uclibc and others
+Subject: Re: [PATCH 03/30] conf/layer.conf: Use .= to append to BBPATH and =+ for BBFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,53 +49,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 17:57:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 May 2011 17:59:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 05/09/2011 11:40 AM, Khem Raj wrote:
-> These patches address build failures when using uclibc
-> oe/patch.py fix is a backport from oe, we need to fix
-> BBFILES for oe-core since some class code expects it
-> to be first entry in BBFILES. gconf-dbus to dbus is needed
-> for SDKs to compile for angstrom
+On Tue, May 10, 2011 at 1:54 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Er, how about we actually fix metadata_scm.bbclass instead of making the
+> world more complicated and fragile? :)
 >
-> Pull URL: git://git.openembedded.org/openembedded-core-contrib
->    Branch: kraj/misc-fixes
->    Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-fixes
->
-> Thanks,
->      Khem Raj<raj.khem@gmail.com>
-> ---
->
->
-> Khem Raj (6):
->    recipes: Replace gconf-dbus with gconf
->    conf/layer.conf: Use .= to append to BBPATH and =+ for BBFILES
-Not merged, see Richard's follow-up
->    libgalago_0.5.2.bb: Fix compile for uclibc
->    liburcu_0.5.4.bb: Let it build on uclibc targets
->    lttng-ust_0.12.bb: Fix compilation on uclibc
->    oe/patch.py: Remove series file during Clean()
->
->   .../recipes-gnome/gnome/libgnomekbd_2.26.0.bb      |    2 +-
->   meta/conf/layer.conf                               |   10 ++++-
->   meta/lib/oe/patch.py                               |    1 +
->   .../recipes-connectivity/galago/libgalago_0.5.2.bb |    4 ++
->   meta/recipes-gnome/gnome/gnome-desktop.inc         |    2 +-
->   meta/recipes-gnome/gthumb/gthumb_2.12.2.bb         |    2 +-
->   meta/recipes-gnome/tasks/task-sdk-gmae.inc         |    2 +-
->   .../lttng/lttng-ust/uclibc-sched_getcpu.patch      |   50 ++++++++++++++++++++
->   meta/recipes-kernel/lttng/lttng-ust_0.12.bb        |    4 +-
->   meta/recipes-support/libproxy/libproxy_0.4.6.bb    |    2 +-
->   meta/recipes-support/liburcu/liburcu_0.5.4.bb      |    2 +-
->   11 files changed, 73 insertions(+), 8 deletions(-)
->   create mode 100644 meta/recipes-kernel/lttng/lttng-ust/uclibc-sched_getcpu.patch
->
+> I suspect metadata_scm could use the COREBASE variable and be much nicer
+> code...
 
-All but conf/layer.conf merged into oe-core
-
-Thanks
-	Sau!
+I'd really like to see it gather information about the current state
+of all layers which are scm working copies and summarize this in the
+build summary, rather than grabbing one specific bit of information,
+personally.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
