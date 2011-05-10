@@ -1,23 +1,23 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QJfVP-0001Xi-9S
+	(envelope-from <sgw@linux.intel.com>) id 1QJfVP-0001Zb-S1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 07:29:11 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	Tue, 10 May 2011 07:29:12 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 09 May 2011 22:26:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,345,1301900400"; d="scan'208";a="744876627"
+X-IronPort-AV: E=Sophos;i="4.64,345,1301900400"; d="scan'208";a="640479355"
 Received: from unknown (HELO localhost) ([10.255.12.75])
-	by orsmga001.jf.intel.com with ESMTP; 09 May 2011 22:26:28 -0700
-Message-Id: <a676d19c4eb75a37c824dea7128c372702c0a4ea.1305004776.git.sgw@linux.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 09 May 2011 22:26:28 -0700
+Message-Id: <c63242fb343c8a541efbb655da3dc3423e58f732.1305004776.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305004776.git.sgw@linux.intel.com>
 References: <cover.1305004776.git.sgw@linux.intel.com>
-Old-Date: Fri, 29 Apr 2011 16:55:16 +0800
-Date: Mon, 09 May 2011 22:26:27 -0700
+Old-Date: Mon, 9 May 2011 23:12:55 +0200
+Date: Mon, 09 May 2011 22:26:28 -0700
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 29/30] libxmu: Add native function
+Subject: [PATCH 30/30] toolchain-qte: include cross-compiler and fix env script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,27 +34,66 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 10 May 2011 05:29:12 -0000
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+From: Ilya Yanok <yanok@emcraft.com>
 
-Add native function to libxmu_1.1.0.bb file because qt3 native depends on its native.
+This patch fixes the meta-toolchain-qte recipe:
+ 1. cross-compiler added to the TOOLCHAIN_HOST_TASK.
+ 2. Corrected paths in the environment script.
+ 3. TOOLCHAIN_OUTPUTNAME used instead of SDK_SUFFIX.
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+Signed-off-by: Ilya Yanok <yanok@emcraft.com>
 ---
- meta/recipes-graphics/xorg-lib/libxmu_1.1.0.bb |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+ meta/recipes-qt/meta/meta-toolchain-qte.bb |   33 ++++++++++++++-------------
+ 1 files changed, 17 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxmu_1.1.0.bb b/meta/recipes-graphics/xorg-lib/libxmu_1.1.0.bb
-index 59f2c28..4195306 100644
---- a/meta/recipes-graphics/xorg-lib/libxmu_1.1.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxmu_1.1.0.bb
-@@ -28,5 +28,7 @@ PACKAGES =+ "libxmuu libxmuu-dev"
- FILES_libxmuu = "${libdir}/libXmuu.so.*"
- FILES_libxmuu-dev = "${libdir}/libXmuu.so"
+diff --git a/meta/recipes-qt/meta/meta-toolchain-qte.bb b/meta/recipes-qt/meta/meta-toolchain-qte.bb
+index da0dda7..72fa702 100644
+--- a/meta/recipes-qt/meta/meta-toolchain-qte.bb
++++ b/meta/recipes-qt/meta/meta-toolchain-qte.bb
+@@ -1,26 +1,27 @@
+ # Qt Embedded toolchain
+ PR = "r5"
+-TOOLCHAIN_HOST_TASK = "task-qte-toolchain-host"
++TOOLCHAIN_HOST_TASK = "task-qte-toolchain-host task-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+ TOOLCHAIN_TARGET_TASK = "task-qte-toolchain-target"
++TOOLCHAIN_OUTPUTNAME = "${SDK_NAME}-toolchain-qte-${DISTRO_VERSION}"
  
-+BBCLASSEXTEND = "native"
-+
- SRC_URI[md5sum] = "6836883a0120e8346cf7f58dc42e465a"
- SRC_URI[sha256sum] = "0fa91f303b70decc1ef6201c88c8a5f0b4ecd68c6c88bdcc891ecd1a689d36ad"
+ require recipes-core/meta/meta-toolchain.bb
+-SDK_SUFFIX = "toolchain-qte"
+ 
+ QT_DIR_NAME = "qtopia"
++QT_TOOLS_PREFIX = "${SDKPATHNATIVE}${bindir_nativesdk}"
+ 
+ toolchain_create_sdk_env_script_append() {
+-    echo 'export OE_QMAKE_CC=${TARGET_SYS}-gcc' >> $script
+-    echo 'export OE_QMAKE_CXX=${TARGET_SYS}-g++' >> $script
+-    echo 'export OE_QMAKE_LINK=${TARGET_SYS}-g++' >> $script
+-    echo 'export OE_QMAKE_AR=${TARGET_SYS}-ar' >> $script
+-    echo 'export OE_QMAKE_LIBDIR_QT=${SDKPATH}/${TARGET_SYS}/${libdir}' >> $script
+-    echo 'export OE_QMAKE_INCDIR_QT=${SDKPATH}/${TARGET_SYS}/${includedir}/${QT_DIR_NAME}' >> $script
+-    echo 'export OE_QMAKE_MOC=${SDKPATH}/bin/moc4' >> $script
+-    echo 'export OE_QMAKE_UIC=${SDKPATH}/bin/uic4' >> $script
+-    echo 'export OE_QMAKE_UIC3=${SDKPATH}/bin/uic34' >> $script
+-    echo 'export OE_QMAKE_RCC=${SDKPATH}/bin/rcc4' >> $script
+-    echo 'export OE_QMAKE_QDBUSCPP2XML=${SDKPATH}/bin/qdbuscpp2xml4' >> $script
+-    echo 'export OE_QMAKE_QDBUSXML2CPP=${SDKPATH}/bin/qdbusxml2cpp4' >> $script
+-    echo 'export OE_QMAKE_QT_CONFIG=${SDKPATH}/${TARGET_SYS}/${datadir}/${QT_DIR_NAME}/mkspecs/qconfig.pri' >> $script
+-    echo 'export QMAKESPEC=${SDKPATH}/${TARGET_SYS}/${datadir}/${QT_DIR_NAME}/mkspecs/linux-g++' >> $script
++    echo 'export OE_QMAKE_CC=${TARGET_PREFIX}gcc' >> $script
++    echo 'export OE_QMAKE_CXX=${TARGET_PREFIX}g++' >> $script
++    echo 'export OE_QMAKE_LINK=${TARGET_PREFIX}g++' >> $script
++    echo 'export OE_QMAKE_AR=${TARGET_PREFIX}ar' >> $script
++    echo 'export OE_QMAKE_LIBDIR_QT=${SDKTARGETSYSROOT}/${libdir}' >> $script
++    echo 'export OE_QMAKE_INCDIR_QT=${SDKTARGETSYSROOT}/${includedir}/${QT_DIR_NAME}' >> $script
++    echo 'export OE_QMAKE_MOC=${QT_TOOLS_PREFIX}/moc4' >> $script
++    echo 'export OE_QMAKE_UIC=${QT_TOOLS_PREFIX}/uic4' >> $script
++    echo 'export OE_QMAKE_UIC3=${QT_TOOLS_PREFIX}/uic34' >> $script
++    echo 'export OE_QMAKE_RCC=${QT_TOOLS_PREFIX}/rcc4' >> $script
++    echo 'export OE_QMAKE_QDBUSCPP2XML=${QT_TOOLS_PREFIX}/qdbuscpp2xml4' >> $script
++    echo 'export OE_QMAKE_QDBUSXML2CPP=${QT_TOOLS_PREFIX}/qdbusxml2cpp4' >> $script
++    echo 'export OE_QMAKE_QT_CONFIG=${SDKTARGETSYSROOT}/${datadir}/${QT_DIR_NAME}/mkspecs/qconfig.pri' >> $script
++    echo 'export QMAKESPEC=${SDKTARGETSYSROOT}/${datadir}/${QT_DIR_NAME}/mkspecs/linux-g++' >> $script
+ }
 -- 
 1.7.1.1
 
