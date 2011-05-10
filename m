@@ -1,25 +1,44 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <aalonso@secretlab.ca>) id 1QJrWl-0008HB-TC
+	(envelope-from <otavio.salvador@gmail.com>) id 1QJraa-0008Ko-TR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 20:19:24 +0200
-Received: by iye7 with SMTP id 7so6028296iye.6
+	Tue, 10 May 2011 20:23:21 +0200
+Received: by wwb17 with SMTP id 17so5952727wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 11:16:36 -0700 (PDT)
-Received: by 10.42.217.66 with SMTP id hl2mr7969591icb.474.1305051396050;
-	Tue, 10 May 2011 11:16:36 -0700 (PDT)
-Received: from localhost.localdomain
-	(adsl-99-61-231-223.dsl.emhril.sbcglobal.net [99.61.231.223])
-	by mx.google.com with ESMTPS id ui7sm2921811icb.14.2011.05.10.11.16.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 May 2011 11:16:35 -0700 (PDT)
-From: Adrian Alonso <aalonso@secretlab.ca>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 May 2011 13:16:12 -0500
-Message-Id: <1305051372-9137-1-git-send-email-aalonso@secretlab.ca>
-X-Mailer: git-send-email 1.7.4.4
-Cc: Adrian Alonso <aalonso@secretlab.ca>
-Subject: [PATCH][v2] readline: update version
+	Tue, 10 May 2011 11:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=5KpFuGgVLPThFJ8b7dsNIydsXnLs+Mp+CwNdqY01Vd0=;
+	b=JQAdizsDUHLSetKIfa+8rLPO4+AnQBj+w74CSfyMngcSaj9ooBArVEGnKFqwG4rODi
+	lCEB3YcyPaAW3B01azoWgdwWe4W8098N+m+bSIN02z2jmXrjEEoXtlQSjFYGzMD/cMNZ
+	IVEunnDsU6s5/YUwPWCDzzPo9mSTZFzay8+8w=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	b=Uk3x2Tc2gwm+AB6+iFsuHVQ1FkrxeBXQK5VthU+BtQ3OjGzc7WWseoD4LMqWPCPVtD
+	oDFiyqhNDN+xAtfEM7eV4sskYoa1khDTOJuITSITE7oGp5zWX8pAqEOOHizy1zLeQRyN
+	uCm3wDrlqplOUCjotQx/at7JTPsMNzweP6gsw=
+MIME-Version: 1.0
+Received: by 10.216.230.153 with SMTP id j25mr4738928weq.22.1305051635050;
+	Tue, 10 May 2011 11:20:35 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.216.93.195 with HTTP; Tue, 10 May 2011 11:20:34 -0700 (PDT)
+In-Reply-To: <4DC97D27.9080602@linux.intel.com>
+References: <BANLkTi=424KO0PMR6b_2QC98qtUryMykdQ@mail.gmail.com>
+	<4DC8CA7E.4020302@linux.intel.com>
+	<BANLkTi=G0wk3a5N4hvTzRcC09U7n-HFH1Q@mail.gmail.com>
+	<4DC97D27.9080602@linux.intel.com>
+Date: Tue, 10 May 2011 15:20:34 -0300
+X-Google-Sender-Auth: 5p6A4pl08JzmCqOO3-3EIFQ0qq0
+Message-ID: <BANLkTikrvH3Z2R3u+tBFL_O=C=Cg8nqFew@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Pull request with misc changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,46 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 18:19:24 -0000
+X-List-Received-Date: Tue, 10 May 2011 18:23:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-* v2 redo commit to include remove previous version
-* Readline new recipe version 6.2
-* Readline remove version 6.1
+On Tue, May 10, 2011 at 15:00, Saul Wold <sgw@linux.intel.com> wrote:
+> Is there a reason you can't use the oe-core-contrib repo and create a bra=
+nch
+> there? =A0Can the script be modified to support github also?
 
-Signed-off-by: Adrian Alonso <aalonso@secretlab.ca>
----
- meta/recipes-core/readline/readline_6.1.bb |    6 ------
- meta/recipes-core/readline/readline_6.2.bb |    6 ++++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-core/readline/readline_6.1.bb
- create mode 100644 meta/recipes-core/readline/readline_6.2.bb
+Not a hard one but I prefer to have it into our repository since
+people can fork it there and follow it.
 
-diff --git a/meta/recipes-core/readline/readline_6.1.bb b/meta/recipes-core/readline/readline_6.1.bb
-deleted file mode 100644
-index b6773b2..0000000
---- a/meta/recipes-core/readline/readline_6.1.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require readline.inc
--
--PR = "r0"
--
--SRC_URI[md5sum] = "fc2f7e714fe792db1ce6ddc4c9fb4ef3"
--SRC_URI[sha256sum] = "f0caf608c06ccd6d56b3bee1843458d509c53f9b53dffffe07cc11d8f03fa969"
-diff --git a/meta/recipes-core/readline/readline_6.2.bb b/meta/recipes-core/readline/readline_6.2.bb
-new file mode 100644
-index 0000000..5e32bb5
---- /dev/null
-+++ b/meta/recipes-core/readline/readline_6.2.bb
-@@ -0,0 +1,6 @@
-+require readline.inc
-+
-+PR = "r0"
-+
-+SRC_URI[md5sum] = "67948acb2ca081f23359d0256e9a271c"
-+SRC_URI[sha256sum] = "79a696070a058c233c72dd6ac697021cc64abd5ed51e59db867d66d196a89381"
--- 
-1.7.4.4
+> It creates get another remote that we need to fetch from.
 
+Or it creates another remote I need to push to.
+
+To merge you don't need to add a remote but pull from the git URL
+included into the pull command line.
+
+...
+>> On the patch itself? Any doc describing an example of it?
+>>
+> Mark Hatle has (or will have shortly) a proposal out to the OE community =
+for
+> commit and patch message guidelines, as a starting point, you can look at
+> the wiki:
+>
+> https://wiki.yoctoproject.org/wiki/Recipe_%26_Patch_Style_Guide
+
+I have pushed it already. It is available on the mailing list, please
+take a look.
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
