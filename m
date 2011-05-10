@@ -1,39 +1,30 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QJqnm-00074V-Rv
+	(envelope-from <koen@dominion.thruhere.net>) id 1QJqtg-00078n-9C
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 19:32:56 +0200
-Received: by ewy5 with SMTP id 5so1918033ewy.6
+	Tue, 10 May 2011 19:39:00 +0200
+Received: by wwb17 with SMTP id 17so5914064wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 10:30:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=Xn/0YkxWbXLL0zJFHJKS6UJLUXUJqewbi8N//ZA1D+c=;
-	b=Z82Bj34NYfUeDn26bmbKHJqb3DBwTZSFvIgJ6OHAHr8ZPcWTYixLQtrc3e1RRqr6W2
-	FK/wnvMLBM9iY7zUGdVJ4YGSYUSTycfYG02qrkJtd7z/20MYpECzncpqBsx9JoPCbPwf
-	l0/MP53TiI0nN7xHH7d71nz469w3FofTiNe3o=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=W2y1axzujFHfQYS7z4bMGuRAr2KVsqxIdIqDSm5KJSCOix5fIQuuzPF4vhc3S2pzrk
-	5VEqZOdAwvoB3VdllMDm3IrTAvqgTzOsNBy6eHRuj26/6iItriUkQ551lHhNIm+Sy0ja
-	mxyR7TNucJAkkcAPzIZaPlw8oeLgO9mzF3z/s=
-Received: by 10.14.15.78 with SMTP id e54mr3904511eee.80.1305048608716; Tue,
-	10 May 2011 10:30:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.53.5 with HTTP; Tue, 10 May 2011 10:29:38 -0700 (PDT)
-In-Reply-To: <1305017649.30391.255.camel@rex>
-References: <cover.1305004776.git.sgw@linux.intel.com>
-	<491cfc546a2843493cf466c1e1af11ec8ac2dcee.1305004776.git.sgw@linux.intel.com>
-	<1305017649.30391.255.camel@rex>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 10 May 2011 10:29:38 -0700
-Message-ID: <BANLkTi=yx-0gCZ81mp0UZh+N52Ht5YYOqg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 10 May 2011 10:36:14 -0700 (PDT)
+Received: by 10.217.4.66 with SMTP id t44mr4227239wes.104.1305048973703;
+	Tue, 10 May 2011 10:36:13 -0700 (PDT)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id y35sm372433weq.15.2011.05.10.10.36.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 10 May 2011 10:36:12 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4DC97379.9020702@linux.intel.com>
+Date: Tue, 10 May 2011 19:36:10 +0200
+Message-Id: <9115F978-6F2D-4074-919C-F5911681601E@dominion.thruhere.net>
+References: <1304151675-8653-1-git-send-email-koen@dominion.thruhere.net>
+	<A6996345-EB9D-4298-942F-9CCDBA49BC30@dominion.thruhere.net>
+	<4DC97379.9020702@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1084)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/30] conf/layer.conf: Use .= to append to BBPATH and =+ for BBFILES
+Subject: Re: [PATCH] git: make it work on the target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,56 +39,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 17:32:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 May 2011 17:39:00 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 10, 2011 at 1:54 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2011-05-09 at 22:26 -0700, Saul Wold wrote:
->> From: Khem Raj <raj.khem@gmail.com>
->>
->> Appending to BBPATH gives a definite order to BBLAYERS which
->> means paths are preferred in order from left to right.
->>
->> [sgw: merged in comment]
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> ---
->> =C2=A0meta/conf/layer.conf | =C2=A0 10 +++++++++-
->> =C2=A01 files changed, 9 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
->> index 3f63c7d..10a6948 100644
->> --- a/meta/conf/layer.conf
->> +++ b/meta/conf/layer.conf
->> @@ -2,7 +2,15 @@ BBPATH ?=3D ""
->> =C2=A0# We have a conf and classes directory, add to BBPATH
->> =C2=A0BBPATH .=3D ":${LAYERDIR}"
->> =C2=A0# We have a packages directory, add to BBFILES
->> -BBFILES +=3D "${LAYERDIR}/packages/*/*.bb ${LAYERDIR}/recipes-*/*/*.bb"
->> +# packages is still there because metadata_scm.bbclass still uses
->> +# it to deduce the repo directory and thats the reason to prepend
->> +# to BBFILES here because this class uses the first entry in
->> +# BBFILES to calculate the scm base.
->> +# since the order of BBFLILES is not that important its acted upon
->> +# using BBFILES_PRIORITY we are ok to keep the oe-core BBFILES dir
->> +# at top
->
-> Er, how about we actually fix metadata_scm.bbclass instead of making the
-> world more complicated and fragile? :)
->
-> I suspect metadata_scm could use the COREBASE variable and be much nicer
-> code...
->
-yes
-OK let me see
 
-> Cheers,
->
-> Richard
->
->
->
+Op 10 mei 2011, om 19:18 heeft Saul Wold het volgende geschreven:
+
+>=20
+> Koen,
+>=20
+> Have you built this against oe-core without a TK library available?
+
+I see what you mean now, without a tk recipe available, I tested with a =
+recipe available, but without having tk in sysroots. I'll send a patch =
+to fix this shortly
+
+>=20
+> We did pull this patch into oe-core, but it breaks the world build.
+>=20
+> This was the problem I was trying to address the other day on the =
+patch
+> that RP bounced.  The inclusion of gitk/git-gui needs to be flexible =
+based on TK and X11's availability.
+>=20
+> Thanks
+> 	Sau!
+>=20
+>=20
+> On 04/30/2011 01:22 AM, Koen Kooi wrote:
+>> Saul, this depends on http://patches.openembedded.org/patch/3031/
+>>=20
+>> Op 30 apr 2011, om 10:21 heeft Koen Kooi het volgende geschreven:
+>>=20
+>>> Packaging is synced with OE .dev, but without the -large, thanks to =
+pseudo we retain all (hard)links properly:
+>>>=20
+>>> * git-perltools holds all the utils requiring perl and adds =
+appropriate RDEPENDS
+>>> * git-tk holds the tcl/tk utils once they get activate
+>>> * git now packages /usr/libexec/git-core
+>>>=20
+>>> The result:
+>>>=20
+>>> 8.5M	ipk/armv7a/git_1.7.4.3-r2_armv7a.ipk
+>>> 3.1M	ipk/armv7a/git-dbg_1.7.4.3-r2_armv7a.ipk
+>>> 4.0K	ipk/armv7a/git-dev_1.7.4.3-r2_armv7a.ipk
+>>> 12K	ipk/armv7a/git-doc_1.7.4.3-r2_armv7a.ipk
+>>> 136K	ipk/armv7a/git-perltools_1.7.4.3-r2_armv7a.ipk
+>>>=20
+>>> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+>>> ---
+>>> meta/recipes-devtools/git/git.inc        |   32 =
+++++++++++++++++++++++++++++-
+>>> meta/recipes-devtools/git/git_1.7.4.3.bb |    2 +-
+>>> 2 files changed, 31 insertions(+), 3 deletions(-)
+>>>=20
+>>> diff --git a/meta/recipes-devtools/git/git.inc =
+b/meta/recipes-devtools/git/git.inc
+>>> index 843a1d3..7f12859 100644
+>>> --- a/meta/recipes-devtools/git/git.inc
+>>> +++ b/meta/recipes-devtools/git/git.inc
+>>> @@ -14,11 +14,39 @@ EXTRA_OECONF =3D =
+"--with-perl=3D${STAGING_BINDIR_NATIVE}/perl --without-tcltk"
+>>> inherit autotools
+>>>=20
+>>> do_install () {
+>>> -	oe_runmake install DESTDIR=3D"${D}" bindir=3D${bindir} =
+gitexecdir=3D${gitexecdir} \
+>>> +	oe_runmake install DESTDIR=3D"${D}" bindir=3D${bindir} \
+>>> 		template_dir=3D${datadir}/git-core/templates \
+>>> 		GIT_PYTHON_DIR=3D${D}${datadir}/git-core/python
+>>> }
+>>>=20
+>>> -FILES_${PN} +=3D "${datadir}/git-core"
+>>> +FILES_${PN} +=3D "${datadir}/git-core ${libxecdir}/git-core/"
+>>> +FILES_${PN}-dbg +=3D "${libexecdir}/git-core/.debug"
+>>> +
+>>> +# Git tools requiring perl
+>>> +PACKAGES =3D+ "${PN}-perltools"
+>>> +FILES_${PN}-perltools +=3D " \
+>>> +    ${libexecdir}/git-core/git-add--interactive \
+>>> +    ${libexecdir}/git-core/git-archimport \
+>>> +    ${libexecdir}/git-core/git-cvsexportcommit \
+>>> +    ${libexecdir}/git-core/git-cvsimport \
+>>> +    ${libexecdir}/git-core/git-cvsserver \
+>>> +    ${bindir}/git-cvsserver \
+>>> +    ${libexecdir}/git-core/git-difftool \
+>>> +    ${libexecdir}/git-core/git-relink \
+>>> +    ${libexecdir}/git-core/git-send-email \
+>>> +    ${libexecdir}/git-core/git-svn \
+>>> +    ${datadir}/perl \
+>>> +"
+>>> +RDEPENDS_${PN}-perltools =3D "${PN} perl perl-module-file-path =
+findutils"
+>>> +
+>>> +# git-tk package with gitk and git-gui
+>>> +PACKAGES =3D+ "${PN}-tk"
+>>> +RDEPENDS_${PN}-tk =3D "${PN} tk tcl"
+>>> +EXTRA_OEMAKE =3D "TCL_PATH=3D${STAGING_BINDIR_CROSS}/tclsh"
+>>> +FILES_${PN}-tk =3D " \
+>>> +    ${bindir}/gitk \
+>>> +    ${datadir}/gitk \
+>>> +"
+>>> +
+>>>=20
+>>> BBCLASSEXTEND =3D "native"
+>>> diff --git a/meta/recipes-devtools/git/git_1.7.4.3.bb =
+b/meta/recipes-devtools/git/git_1.7.4.3.bb
+>>> index 2ff1ed5..45ef61b 100644
+>>> --- a/meta/recipes-devtools/git/git_1.7.4.3.bb
+>>> +++ b/meta/recipes-devtools/git/git_1.7.4.3.bb
+>>> @@ -1,6 +1,6 @@
+>>> require git.inc
+>>>=20
+>>> -PR =3D "r1"
+>>> +PR =3D "r2"
+>>>=20
+>>> EXTRA_OECONF +=3D "ac_cv_snprintf_returns_bogus=3Dno =
+ac_cv_c_c99_format=3Dyes \
+>>>                  =
+ac_cv_fread_reads_directories=3D${ac_cv_fread_reads_directories=3Dyes} \
+>>> --
+>>> 1.6.6.1
+>>>=20
+>>=20
+>>=20
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
