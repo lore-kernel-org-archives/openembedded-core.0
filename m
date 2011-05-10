@@ -1,39 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QJt46-0001Jp-Vx for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 21:57:55 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4AJt6BC010032
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 20:55:06 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09936-02 for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 20:55:02 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4AJsrVf009998
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 May 2011 20:54:54 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1QJt89-0001jj-RM
+	for openembedded-core@lists.openembedded.org;
+	Tue, 10 May 2011 22:02:06 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 10 May 2011 12:59:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,347,1301900400"; d="scan'208";a="433825030"
+Received: from unknown (HELO [10.255.12.75]) ([10.255.12.75])
+	by azsmga001.ch.intel.com with ESMTP; 10 May 2011 12:59:16 -0700
+Message-ID: <4DC99913.1060403@linux.intel.com>
+Date: Tue, 10 May 2011 12:59:15 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTinT7bN=-QfQg24GtrOaRW4U3vv-zQ@mail.gmail.com>
-References: <BANLkTi=424KO0PMR6b_2QC98qtUryMykdQ@mail.gmail.com>
-	<4DC8CA7E.4020302@linux.intel.com>
-	<BANLkTi=G0wk3a5N4hvTzRcC09U7n-HFH1Q@mail.gmail.com>
-	<4DC97D27.9080602@linux.intel.com>
-	<20110510181314.GF3673@jama.jama.net>
-	<4DC98507.6070103@mentor.com> <1305054238.30391.283.camel@rex>
-	<BANLkTinT7bN=-QfQg24GtrOaRW4U3vv-zQ@mail.gmail.com>
-Date: Tue, 10 May 2011 20:32:50 +0100
-Message-ID: <1305055971.30391.295.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Pull request with misc changes
+References: <1305039119-1469-1-git-send-email-otavio@ossystems.com.br>
+In-Reply-To: <1305039119-1469-1-git-send-email-otavio@ossystems.com.br>
+Subject: Re: [PATCH 1/3] cmake.bbclass: fix qmake and rpath issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,58 +35,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 19:57:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 May 2011 20:02:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-05-10 at 16:15 -0300, Otavio Salvador wrote:
-> On Tue, May 10, 2011 at 16:03, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >> Hmmm.  I'm going to take a stab at making this a create-pull-request
-> >> option...
-> >
-> > Martin/Tom: Serious question - why not use the contrib repo for this?
-> >
-> > I have nightmares about all the development being spread to all the
-> > corners of the globe and people not being able to see what is being
-> > worked on. For short lived branches its not so much of a problem but as
-> > we take on longer lived feature development it will be a problem. I'd
-> > therefore like to understand why the dislike of it...
-> 
-> Welcome to Distribute Source Control Management World; this is the
-> beauty of it and I see no reason to restrict or enforce people to use
-> a repository.
+On 05/10/2011 07:51 AM, Otavio Salvador wrote:
+> Sync with OE at 3b7d83362027fde4f6850533ab83277d95dda961 however
+> without changing the way of generating the toolchain file and making
+> it branding agnostic.
+>
+> Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
+> ---
+>   meta/classes/cmake.bbclass  |   14 ++++++++++++--
+>   meta/classes/native.bbclass |    4 ++++
+>   2 files changed, 16 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index a4b0c12..011c232 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -24,15 +24,18 @@ OECMAKE_CXX_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${TARGET_CPPFLAGS} -f
+>   OECMAKE_C_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} -DNDEBUG"
+>   OECMAKE_CXX_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} -DNDEBUG"
+>
+> +OECMAKE_RPATH ?= ""
+> +
+>   cmake_do_generate_toolchain_file() {
+>   	cat>  ${WORKDIR}/toolchain.cmake<<EOF
+>   # CMake system name must be something like "Linux".
+>   # This is important for cross-compiling.
+>   set( CMAKE_SYSTEM_NAME `echo ${SDK_OS} | sed 's/^./\u&/'` )
+> +set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
+>   set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
+>   set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
+> -set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "poky CFLAGS" )
+> -set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "poky CXXFLAGS" )
+> +set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
+> +set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
+>   set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "CFLAGS for release" )
+>   set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXXFLAGS for release" )
+>
+> @@ -43,6 +46,13 @@ set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )
+>   set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+>   set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
+>
+> +# Use qt.conf settings
+> +set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
+> +
+> +# We need to set the rpath to the correct directory as cmake does not provide any
+> +# directory as rpath by default
+> +set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
+> +
+>   # Use native cmake modules
+>   set( CMAKE_MODULE_PATH ${STAGING_DATADIR}/cmake/Modules/ )
+>   EOF
+> diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+> index d9e67f6..e06f02a 100644
+> --- a/meta/classes/native.bbclass
+> +++ b/meta/classes/native.bbclass
+> @@ -11,6 +11,10 @@ PACKAGES_DYNAMIC = ""
+>   PACKAGES_DYNAMIC_virtclass-native = ""
+>   PACKAGE_ARCH = "${BUILD_ARCH}"
+>
+> +# used by cmake class
+> +OECMAKE_RPATH = "${libdir}"
+> +OECMAKE_RPATH_virtclass-native = "${libdir}"
+> +
+In Richard's email he proposed one or the other be set, why do you need 
+to set both here?  If both need to be set then you don't need the override.
 
-Nobody wants to force anyone. I just asked for the reasons why people
-weren't using it as if there was anything we could fix, we could look
-into it.
-
-> In my personal case we have been using GitHub as a central place to
-> put projects that O.S. Systems is contributing and this is good to
-> gather us some visibility so OE will be there too.
-> 
-> So I won't use contrib to share patches. I can send them to mailing
-> list (as I have been doing). A merge on a topic branch is a git pull
-> command from you so I see not much problem for you or whom is doing
-> the pull job.
-> 
-> As an example:
-> 
->  git checkout -b otavio-20110510-review
->  git pull git://github.com/OSSystems/oe-core.git master
->  git shortlog origin/master..
-> 
-> Is that so difficult?
-
-I didn't say it was difficult ;-).
-
-Thanks for answering the question, there is little we can do to change
-your reasons for what you do and that's fine. I've ensured we're not
-doing something that forces you elsewhere at least.
-
-Cheers,
-
-Richard
-
+Sau!
+>   BASE_PACKAGE_ARCH = "${BUILD_ARCH}"
+>   BASEPKG_HOST_SYS = "${BUILD_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
+>   BASEPKG_TARGET_SYS = "${BUILD_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
 
 
