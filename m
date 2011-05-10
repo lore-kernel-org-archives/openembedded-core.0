@@ -1,23 +1,23 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QJfVG-0001SF-5I
+	(envelope-from <sgw@linux.intel.com>) id 1QJfVG-0001SG-7k
 	for openembedded-core@lists.openembedded.org;
 	Tue, 10 May 2011 07:29:02 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 09 May 2011 22:26:18 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 May 2011 22:26:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,345,1301900400"; d="scan'208";a="640479307"
+X-IronPort-AV: E=Sophos;i="4.64,345,1301900400"; d="scan'208";a="690502000"
 Received: from unknown (HELO localhost) ([10.255.12.75])
-	by orsmga002.jf.intel.com with ESMTP; 09 May 2011 22:26:18 -0700
-Message-Id: <a0d8db448a63f8389845ac43b6fe688a0fca32da.1305004776.git.sgw@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 09 May 2011 22:26:17 -0700
+Message-Id: <d879b2f2d3532c9faa17a256afb631d1939be87d.1305004776.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305004776.git.sgw@linux.intel.com>
 References: <cover.1305004776.git.sgw@linux.intel.com>
-Old-Date: Thu, 5 May 2011 11:32:30 -0500
-Date: Mon, 09 May 2011 22:26:18 -0700
+Old-Date: Thu, 5 May 2011 11:26:28 -0500
+Date: Mon, 09 May 2011 22:26:16 -0700
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 10/30] linux-libc-headers: add microblaze ARCH definition
+Subject: [PATCH 07/30] insane: add micrblaze target info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,34 +36,30 @@ X-List-Received-Date: Tue, 10 May 2011 05:29:02 -0000
 
 From: Adrian Alonso <aalonso@secretlab.ca>
 
-* Add Microblaze ARCH definition
-* Bump PR
+* package_qa_get_machine_dict
+* Add microblaze dic entry for QA
+* Prebuilt toolchain triplet microblaze-unknown-linux-gnu-
+* TARGET_OS is linux-gnu for this toolchain
 
 Signed-off-by: Adrian Alonso <aalonso@secretlab.ca>
 ---
- .../linux-libc-headers_2.6.37.2.bb                 |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/classes/insane.bbclass |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.bb
-index 888d9e4..51c4926 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.bb
-@@ -2,7 +2,7 @@ require linux-libc-headers.inc
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 742be5e..e9d4bfa 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -85,7 +85,9 @@ def package_qa_get_machine_dict():
+             "linux-uclibcspe" : {
+                         "powerpc":    (20,     0,    0,          False,         32),
+                       },
+-
++            "linux-gnu" :       {
++                        "microblaze": (47787,  0,    0,          False,         32),
++                      },
+        }
  
- INHIBIT_DEFAULT_DEPS = "1"
- DEPENDS += "unifdef-native"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI += " file://connector-msg-size-fix.patch"
- 
-@@ -26,6 +26,7 @@ set_arch() {
- 		x86_64*)  ARCH=x86_64 ;;
- 		avr32*)   ARCH=avr32 ;;
- 		bfin*)    ARCH=blackfin ;;
-+		microblaze*) ARCH=microblaze ;;
- 	esac
- }
  
 -- 
 1.7.1.1
