@@ -1,27 +1,36 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QJs8K-0000Jl-L2
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 20:58:12 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1QJs5e-0000gz-GT from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 11:55:26 -0700
-Received: from na2-mail.mgc.mentorg.com ([134.86.114.213]) by
-	svr-orw-fem-01.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 10 May 2011 11:55:26 -0700
-Received: from localhost.localdomain ([172.30.12.232]) by
-	na2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Tue, 10 May 2011 12:55:24 -0600
-From: Tom Rini <tom_rini@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 May 2011 11:55:06 -0700
-Message-Id: <1305053706-19572-1-git-send-email-tom_rini@mentor.com>
-X-Mailer: git-send-email 1.7.0.4
-X-OriginalArrivalTime: 10 May 2011 18:55:24.0960 (UTC)
-	FILETIME=[D2227200:01CC0F43]
-Subject: [PATCH] create-pull-request: Add -l location switch
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QJs9w-0000LN-Ln for openembedded-core@lists.openembedded.org;
+	Tue, 10 May 2011 20:59:53 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4AIv7JH009572
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 May 2011 19:57:07 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09335-04 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 May 2011 19:57:03 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4AIuu15009566
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 May 2011 19:57:00 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <BANLkTi=46eCWm2KQVHgr-z_Kdo7iChPuyQ@mail.gmail.com>
+References: <cover.1305004776.git.sgw@linux.intel.com>
+	<491cfc546a2843493cf466c1e1af11ec8ac2dcee.1305004776.git.sgw@linux.intel.com>
+	<1305017649.30391.255.camel@rex>
+	<BANLkTi=46eCWm2KQVHgr-z_Kdo7iChPuyQ@mail.gmail.com>
+Date: Tue, 10 May 2011 19:56:51 +0100
+Message-ID: <1305053812.30391.280.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 03/30] conf/layer.conf: Use .= to append to BBPATH and =+ for BBFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,63 +45,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 18:58:12 -0000
+X-List-Received-Date: Tue, 10 May 2011 18:59:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add a -l switch that takes an argument of either github or gitorious
-and will make the cover letter have a fill-in-the-blank of where the
-changes are on either github or gitorious.
+On Tue, 2011-05-10 at 10:56 -0700, Chris Larson wrote:
+> On Tue, May 10, 2011 at 1:54 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > Er, how about we actually fix metadata_scm.bbclass instead of making the
+> > world more complicated and fragile? :)
+> >
+> > I suspect metadata_scm could use the COREBASE variable and be much nicer
+> > code...
+> 
+> I'd really like to see it gather information about the current state
+> of all layers which are scm working copies and summarize this in the
+> build summary, rather than grabbing one specific bit of information,
+> personally.
 
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
----
- scripts/create-pull-request |   19 ++++++++++++++++++-
- 1 files changed, 18 insertions(+), 1 deletions(-)
+I'd also agree with this and have said as much somewhere (layer tooling
+discussions?) but I'll take the COREBASE change short term.
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 784b48c..2e02d82 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -18,6 +18,7 @@ Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to
-   -b contrib_branch   Branch-name in the $PULL_URL
-   -s subject          The subject to be inserted into the summary email
-   -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
-+  -l location         The location (github or gitorious) where the changes are if not in the default contrib repository
- 
-  Examples:
-    $CMD -b nitin/basic
-@@ -28,7 +29,7 @@ EOM
- }
- 
- # Parse and validate arguments
--while getopts "b:hi:m:o:r:s:p:" OPT; do
-+while getopts "b:hi:i:l:m:o:r:s:p:" OPT; do
-     case $OPT in
-     b)
-         CONTRIB_BRANCH="$OPTARG"
-@@ -40,6 +41,22 @@ while getopts "b:hi:m:o:r:s:p:" OPT; do
-     i)
-         COMMIT_ID="$OPTARG"
-         ;;
-+    l)
-+        case $OPTARG in
-+        github)
-+            PULL_URL="git://github.com/PROJECT/REPO.git"
-+            WEB_URL_PREFIX="https://github.com/PROJECT/REPO/tree/"
-+            ;;
-+        gitorious)
-+            PULL_URL="git://gitorious.org/PROJECT/REPO.git"
-+            WEB_URL_PREFIX="http://gitorious.org/PROJECTS/REPO/commits/"
-+            ;;
-+        *)
-+            echo "ERROR: Unknown location where the changes are hosted"
-+            exit 1
-+            ;;
-+        esac
-+        ;;
-     m)
-         BODY="$OPTARG"
-         if [ ! -e "$BODY" ]; then
--- 
-1.7.0.4
+Cheers,
+
+Richard
 
 
 
