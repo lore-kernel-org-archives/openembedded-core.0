@@ -1,35 +1,38 @@
 Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <leon.woestenberg@gmail.com>) id 1QK6iq-0007YM-JK
+	(envelope-from <leon.woestenberg@gmail.com>) id 1QK6iw-0007YM-6T
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 May 2011 12:32:52 +0200
-Received: by eye27 with SMTP id 27so101827eye.6
+	Wed, 11 May 2011 12:32:58 +0200
+Received: by mail-ey0-f175.google.com with SMTP id 27so101827eye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2011 03:30:06 -0700 (PDT)
+	Wed, 11 May 2011 03:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:subject:date:message-id:x-mailer;
-	bh=Q3dw7peAaH7t7HWQ7H5E6harQ3RmzsKtg1R14lfjcoI=;
-	b=N3Ijo8YcTW9aEQV+QHG1y2tP1H8J1JntecysgLnc5LS6ZD/NvbhATksS10EXXGglfP
-	ZpAf5g4H69kJhiYp4cBYXnOHC0n8FZbnRXyt89Cnnhwic1B2kQuIXFbcwZogK6qsW0fm
-	1n18RXlvsZy8S/chCMDGHgckhibtemiBVu4r4=
+	h=domainkey-signature:from:to:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=YejkrNR8+JRtW6/GF7RKkZJPfvg4kS/4g4HeCA6p9CQ=;
+	b=Fhcwy7McME/8TelRsSKy2UNPmlix0CxGyn3QHCxN2/1TqQ8eenbnfpeGRY5fo+PCE3
+	L1LcjL1Hs5c9yUcyRpgAZJKvS0t7/bROSldXk8E5VEOUpqrG+4SITZ/wLKtrbW6frc0v
+	UrAg0U4v+V/zC2cGxp6iv4DLYlkh9YyNdVCRo=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer;
-	b=k2AOT/w0VVpkrnS1ec6hOwfDxs1ZqGpKzQc7h5j9XXaanU987e2Ihmh2198Vm7K6cz
-	wg3ofT3VQIFRZpc5uHY2GaiOJp9X4G+RUgfbeBu4rZjYIMH3Sd3dGX0fNVTMPYBNYilU
-	i9mwYX/IWDx9PP1Q7iGypHTwqnoLQZ6uiXnHc=
-Received: by 10.213.26.195 with SMTP id f3mr163567ebc.50.1305109806063;
-	Wed, 11 May 2011 03:30:06 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=eV6xbKf3uruYRsEVY8dDc63ZdXKQzYVijhpGFQG4cVrwwpVAv/WE9hcvC57vxL6+Mo
+	NICPfWSzlghmblCaW94SGowQ6pZbF4RC3sWmXcQ+OFv2NT7hhh5gO2quM+2iIE/zt8XC
+	zRR2b3BGRTirRyDEbBIICLBpDVD9l5EaKcjmY=
+Received: by 10.14.25.144 with SMTP id z16mr4439291eez.61.1305109813469;
+	Wed, 11 May 2011 03:30:13 -0700 (PDT)
 Received: from localhost.localdomain (095-097-098-131.static.chello.nl
 	[95.97.98.131])
-	by mx.google.com with ESMTPS id x5sm5007898eea.14.2011.05.11.03.30.01
+	by mx.google.com with ESMTPS id z1sm1450536eeb.21.2011.05.11.03.30.09
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 11 May 2011 03:30:01 -0700 (PDT)
+	Wed, 11 May 2011 03:30:10 -0700 (PDT)
 From: Leon Woestenberg <leon.woestenberg@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 May 2011 12:29:47 +0200
-Message-Id: <cover.1305109178.git.leon@sidebranch.com>
+Date: Wed, 11 May 2011 12:29:55 +0200
+Message-Id: <687fb20407ee32261a840c9e475b489319d8ee62.1305109178.git.leon@sidebranch.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/1] Re-add powerpc-linux-gnuspe support.
+In-Reply-To: <cover.1305109178.git.leon@sidebranch.com>
+References: <cover.1305109178.git.leon@sidebranch.com>
+Subject: [PATCH 1/1] siteinfo.bbclass: Add powerpc-linux-gnuspe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +47,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2011 10:32:52 -0000
+X-List-Received-Date: Wed, 11 May 2011 10:32:58 -0000
 
 From: Leon Woestenberg <leon@sidebranch.com>
 
-(Re-)add powerpc-linux-gnuspe support, as from OpenEmbedded.
+Re-add powerpc-linux-gnuspe, from OpenEmbedded. Also adds support
+to poky.conf so that minimal-core-image builds with DISTRO=poky,
 
-Pull URL: git://git.openembedded.org/openembedded-core-contrib
-  Branch: likewise/gnuspe
-  Browse: http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=likewise/gnuspe
-
-Thanks,
-    Leon Woestenberg <leon@sidebranch.com>
+Signed-off-by: Leon Woestenberg <leon@sidebranch.com>
 ---
-
-
-Leon Woestenberg (1):
-  siteinfo.bbclass: Add powerpc-linux-gnuspe.
-
  meta/classes/siteinfo.bbclass |    1 +
  meta/conf/distro/poky.conf    |    1 +
  2 files changed, 2 insertions(+), 0 deletions(-)
+
+diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
+index df29097..731ccd1 100644
+--- a/meta/classes/siteinfo.bbclass
++++ b/meta/classes/siteinfo.bbclass
+@@ -47,6 +47,7 @@ def get_siteinfo_list(d):
+                "powerpc-darwin":          "endian-big bit-32 common-darwin",\
+                "ppc-linux":               "endian-big bit-32 common-glibc powerpc-common",\ 
+ 	       "powerpc-linux":           "endian-big bit-32 common-glibc powerpc-common",\
++               "powerpc-linux-gnuspe":    "endian-big bit-32 common-glibc powerpc-common",\
+                "powerpc-linux-uclibc":    "endian-big bit-32 common-uclibc powerpc-common",\
+                "sh3-linux":               "endian-little bit-32 common-glibc sh-common",\
+                "sh4-linux":               "endian-little bit-32 common-glibc sh-common",\
+diff --git a/meta/conf/distro/poky.conf b/meta/conf/distro/poky.conf
+index 71e40de..536fdc9 100644
+--- a/meta/conf/distro/poky.conf
++++ b/meta/conf/distro/poky.conf
+@@ -55,6 +55,7 @@ KERNEL_CONSOLE = "ttyS0"
+ # Default to TARGETOS values for EABI on arm
+ GLIBCTARGETOS = "linux${@['','-gnueabi'][bb.data.getVar('TARGET_ARCH',d,1) in ['arm', 'armeb']]}"
+ UCLIBCTARGETOS = "linux${@['-uclibc','-uclibcgnueabi'][bb.data.getVar('TARGET_ARCH',d,1) in ['arm', 'armeb']]}"
++GLIBCTARGETOS = "linux${@['','-gnuspe'][bb.data.getVar('BASE_PACKAGE_ARCH',d,1) in ['ppce500', 'ppce500v2']]}" 
+ 
+ POKYMODE ?= "default"
+ require conf/distro/include/poky-${POKYMODE}.inc
+-- 
+1.7.0.4
 
 
 
