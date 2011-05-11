@@ -1,36 +1,35 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1QKBZ9-0006NQ-HL
-	for openembedded-core@lists.openembedded.org;
-	Wed, 11 May 2011 17:43:12 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id 38E8F1660165; Wed, 11 May 2011 09:40:25 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2-r929478
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 81FD81660350;
-	Wed, 11 May 2011 09:39:44 -0600 (MDT)
-Message-ID: <4DCAADC0.9030106@mlbassoc.com>
-Date: Wed, 11 May 2011 09:39:44 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
-	Thunderbird/3.1.7
-MIME-Version: 1.0
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-References: <4DB99F31.4000308@mlbassoc.com>	<BANLkTikaf3MHYrnbvHDno3dSv_LhsLyFVg@mail.gmail.com>	<BANLkTi=G-4UfXNdnJSy7qF3gb0-xLr6+4Q@mail.gmail.com>
-	<4DBEAA2C.1020601@mlbassoc.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94D88F0101@orsmsx504.amr.corp.intel.com>
-	<4DCA6C60.6050203@mlbassoc.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94D88F0328@orsmsx504.amr.corp.intel.com>
-In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94D88F0328@orsmsx504.amr.corp.intel.com>
-Cc: Poky Project <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QKBe5-0006RE-AD for openembedded-core@lists.openembedded.org;
+	Wed, 11 May 2011 17:48:17 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4BFjVvw021375
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 May 2011 16:45:31 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20995-09 for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 May 2011 16:45:27 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4BFjNs6021369
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 May 2011 16:45:23 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] GCC 4.6.0 on ARM?
+In-Reply-To: <1305103217-18419-1-git-send-email-michael.lippautz@gmail.com>
+References: <1305103217-18419-1-git-send-email-michael.lippautz@gmail.com>
+Date: Wed, 11 May 2011 16:45:17 +0100
+Message-ID: <1305128717.30391.382.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	p4BFjVvw021375
+Subject: Re: [PATCH] python-native: Add ctypes patch to native build (as in cross-compilation)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,26 +44,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2011 15:43:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 May 2011 15:48:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 05/11/2011 09:35 AM, Kamble, Nitin A wrote:
->> Yes, that's the only change.  Building the kernel from the same
->> source repository with 4.5.2 (using patches from you and Khem Raj)
->> works perfectly.
->>
-> Hi Gary,
->    The yocto-linux kernel had to go through few changes to mute some compiler warnings with gcc 4.6.0. Are you building your own kernel?
+On Wed, 2011-05-11 at 10:40 +0200, Michael Lippautz wrote:
+> This fix makes ctypes build for python-native which may be needed by ex=
+tensions
+> that utilize ctypes and use setuptools/distutils as their build system.
+>=20
+> Tested building pyudev for beagleboard target using =C3=82ngstrom distr=
+o.
+>=20
+> Signed-off-by: Michael Lippautz <michael.lippautz@gmail.com>
 
-Yes.  It's roughly based on the Angstrom 2.6.37 with BeagleBoard
-support (I have additional OMAP boards which are not in the public
-tree).
+Merged to master, thanks.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Richard
+
 
 
