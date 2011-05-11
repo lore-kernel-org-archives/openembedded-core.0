@@ -1,34 +1,28 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QJvyL-0005TO-Vu
+	(envelope-from <sgw@linux.intel.com>) id 1QJxfm-0006eZ-BY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 May 2011 01:04:10 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QJvvh-0004Yt-43 from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 May 2011 16:01:25 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 10 May 2011 15:59:40 -0700
-Received: from [172.30.12.232] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
-	Tue, 10 May 2011 16:01:24 -0700
-Message-ID: <4DC9C3B2.3050201@mentor.com>
-Date: Tue, 10 May 2011 16:01:06 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	Wed, 11 May 2011 02:53:06 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 10 May 2011 17:50:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,349,1301900400"; 
+   d="scan'208";a="658940"
+Received: from unknown (HELO [10.255.12.75]) ([10.255.12.75])
+	by fmsmga001.fm.intel.com with ESMTP; 10 May 2011 17:50:19 -0700
+Message-ID: <4DC9DD4A.1040205@linux.intel.com>
+Date: Tue, 10 May 2011 17:50:18 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1305053706-19572-1-git-send-email-tom_rini@mentor.com>
-	<BANLkTin42LTK6D9ui-C_SXmWiNLAz1T66Q@mail.gmail.com>
-In-Reply-To: <BANLkTin42LTK6D9ui-C_SXmWiNLAz1T66Q@mail.gmail.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 10 May 2011 22:59:40.0313 (UTC)
-	FILETIME=[F167D890:01CC0F65]
-Subject: Re: [PATCH] create-pull-request: Add -l location switch
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1302936483.git.sgw@linux.intel.com>	<eee3fb921c3e9c6439df2540a552719c9327ebd4.1302936483.git.sgw@linux.intel.com>	<1303102414.5518.30.camel@rex>	<1865303E0DED764181A9D882DEF65FB6900D7D5708@shsmsx502.ccr.corp.intel.com>	<1303109647.5518.54.camel@rex>	<1865303E0DED764181A9D882DEF65FB69334F4BD75@shsmsx502.ccr.corp.intel.com>	<1304634851.30391.54.camel@rex>	<1865303E0DED764181A9D882DEF65FB69334F4BD82@shsmsx502.ccr.corp.intel.com>	<1304681508.30391.84.camel@rex>	<1865303E0DED764181A9D882DEF65FB69334F4BD8A@shsmsx502.ccr.corp.intel.com>	<1305036626.30391.276.camel@rex>
+	<1865303E0DED764181A9D882DEF65FB69334F4BD8C@shsmsx502.ccr.corp.intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB69334F4BD8C@shsmsx502.ccr.corp.intel.com>
+Subject: Re: [PATCH 37/58] gnu-config-native: add dependency on perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 May 2011 23:04:10 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Wed, 11 May 2011 00:53:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/10/2011 12:18 PM, Otavio Salvador wrote:
-> On Tue, May 10, 2011 at 15:55, Tom Rini <tom_rini@mentor.com> wrote:
->> Add a -l switch that takes an argument of either github or gitorious
->> and will make the cover letter have a fill-in-the-blank of where the
->> changes are on either github or gitorious.
-> 
-> Another possibility would be to use git config interface to store
-> those. You might have something like:
-> 
-> [oe-core-pull-request]
-> mode = github
-> user = foo
-> 
-> or
-> 
-> [oe-core-pull-request]
-> mode = gitorious
-> user = bar
-> 
-> This could be used to fill the fields in a proper way since those are
-> predictable.
+On 05/10/2011 07:20 AM, Cui, Dexuan wrote:
+> Richard Purdie wrote:
+>> On Tue, 2011-05-10 at 22:02 +0800, Cui, Dexuan wrote:
+>>>> or we hardcode to /usr/bin/perl. Since the perl-native binary won't
+>>>> be in the path for any of these, autodetecting and letting it
+>>>> hardcode is probably fine. It has the advantage that if there are
+>>>> any binary modules ever involved, they'll match the version of perl
+>>>> they were built for regardless of whether perl-native is a
+>>>> dependency or not. If someone adds a perl-native dependency to
+>>>> autoconf-native, it will also still select the "correct" perl.
+>>>>
+>>>> Whilst doing this we need to keep bug #968 in mind and ensure that
+>>>> if perl-native is used, all of perl-native is in the sysroot. That
+>>>> bug is where the perl binary was installed, the library was not and
+>>>> an error occurred. If it is in its own directory which is only
+>>>> added to the PATH for users with the correct dependency, we avoid
+>>>> this.
+>>>>
+>>>> As for bug #941, the bottom line is that however autoconf-native
+>>>> selects its perl version, the strings encoded in gnu-config should
+>>>> really match those in the other autoconf-native scripts.
+>>> I saw a commit that was once suspended was pushed into poky
+>>> master yesterday:
+>>> http://git.pokylinux.org/cgit/cgit.cgi/poky/commit/?id=605141a93443df042634b2219a8628a9004be023
+>>> Actually it does fix(or at least workaround) bug #941 and bug #968.
+>>>
+>>> Looks there are much work to do if we install perl-native to its own
+>>> sysroot. At present we can use the above commit as a workaround.
+>>
+>> Its merged as a workaround but I still think we need to clean this up
+>> properly and we need to continue working on it.
+> I actually meant the priority could be lowered since we have a workaround. :-)
+> Surely, I'll continue to investigate it.
+>
+Just to be clear, just because we have a work around does not mean we 
+can lower the priority, this is still a valid bug that needs a proper 
+patch in a timely manner.
 
-If I had a good bit more time, I might re-write the script in python and
-parse .ini files (same syntax as gitconfig) so that lots of useful
-defaults could be saved.  But here's the real test, given that you're an
-intended user, would you use the -l switch or just make a local change
-to the script like Martin showed?
+941 is still a major bug and requires a fix before the milestone 1 
+release stabilization period (May 20), which is 10 days from now.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+Sau!
+
+
+> Thanks,
+> -- Dexuan
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 
 
