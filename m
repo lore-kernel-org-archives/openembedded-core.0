@@ -1,40 +1,38 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QK09S-0000aO-Fj
-	for openembedded-core@lists.openembedded.org;
-	Wed, 11 May 2011 05:31:54 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 10 May 2011 20:29:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,350,1301900400"; 
-   d="scan'208";a="702382"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by fmsmga001.fm.intel.com with ESMTP; 10 May 2011 20:28:54 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.226.213) by
-	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 10 May 2011 20:28:54 -0700
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx601.amr.corp.intel.com ([10.22.226.213]) with mapi;
-	Tue, 10 May 2011 20:28:54 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Gary Thomas <gary@mlbassoc.com>, Khem Raj <raj.khem@gmail.com>
-Date: Tue, 10 May 2011 20:28:53 -0700
-Thread-Topic: [poky] GCC 4.6.0 on ARM?
-Thread-Index: AcwIyJNbynKMIDwESuGhducxL+Cx2wGwuZoQ
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94D88F0101@orsmsx504.amr.corp.intel.com>
-References: <4DB99F31.4000308@mlbassoc.com>
-	<BANLkTikaf3MHYrnbvHDno3dSv_LhsLyFVg@mail.gmail.com>
-	<BANLkTi=G-4UfXNdnJSy7qF3gb0-xLr6+4Q@mail.gmail.com>
-	<4DBEAA2C.1020601@mlbassoc.com>
-In-Reply-To: <4DBEAA2C.1020601@mlbassoc.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
+	(envelope-from <raj.khem@gmail.com>)
+	id 1QK0N7-0000gw-9L; Wed, 11 May 2011 05:46:01 +0200
+Received: by ewy5 with SMTP id 5so31836ewy.6
+	for <multiple recipients>; Tue, 10 May 2011 20:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:content-transfer-encoding;
+	bh=+x1eKY2YugAHegdTTYyuByjFXq22+5Z+C8Sh+6XpRbo=;
+	b=T9cWWEWD864QUjuJI+52NJlCWfUFytEXeqfwcEcyG1iY0KopMmnlG36LcdQ4lo6/Ct
+	IBVYE1l6qgdX51EV4jBmjozOiBiR9I05yReTsADzCSBT/ST2XHga+4jR88O1EDrmll51
+	tqX1G3rZWkdjeI6/wAk5GArQyCviUpI21hVnY=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	b=YvndthH3BCAIu+TheVyEZ0WcgM2Q/jG9fIszUL06HwJBwnCQqp91yDu0nQyic1rnyT
+	n4saX6nhVAbdSWGxCbMpmuojEQnc991fRyk7t9ePDpEptEotAuuTGh6XK6XICRss83CA
+	NNP9gDt9UPNmm+D1JxK+uuDBosWN/z8gH0T3k=
+Received: by 10.14.15.20 with SMTP id e20mr4282400eee.16.1305085395133; Tue,
+	10 May 2011 20:43:15 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Poky Project <poky@yoctoproject.org>, Patches,
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] GCC 4.6.0 on ARM?
+Received: by 10.14.53.5 with HTTP; Tue, 10 May 2011 20:42:45 -0700 (PDT)
+In-Reply-To: <BANLkTi=uvN8_u6SQhKfs2BwOnSOCQApKSQ@mail.gmail.com>
+References: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
+	<BANLkTim0hVFjUd+8j5jTR5dv7TwSMk=4qA@mail.gmail.com>
+	<1305036525.30391.275.camel@rex>
+	<BANLkTi=uvN8_u6SQhKfs2BwOnSOCQApKSQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 10 May 2011 20:42:45 -0700
+Message-ID: <BANLkTinJV3eAmnfx+-dcKkhu3aQy2xEkMQ@mail.gmail.com>
+To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/6] RFC Distro config changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,73 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2011 03:31:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 11 May 2011 03:46:01 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+---------- Forwarded message ----------
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, May 10, 2011 at 8:35 PM
+Subject: Re: [OE-core] [PATCH 0/6] RFC Distro config changes
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 
-> -----Original Message-----
-> From: poky-bounces@yoctoproject.org [mailto:poky-
-> bounces@yoctoproject.org] On Behalf Of Gary Thomas
-> Sent: Monday, May 02, 2011 5:57 AM
-> To: Khem Raj
-> Cc: Poky Project; Patches and discussions about the oe-core layer
-> Subject: Re: [poky] GCC 4.6.0 on ARM?
->=20
-> On 04/30/2011 04:10 PM, Khem Raj wrote:
-> > On Thu, Apr 28, 2011 at 11:23 AM, Khem Raj<raj.khem@gmail.com>
-> wrote:
-> >> On Thu, Apr 28, 2011 at 10:09 AM, Gary Thomas<gary@mlbassoc.com>
-> wrote:
-> >>> I got my OMAP target to build with GCC-4.6.0 using the latest
-> >>> Poky tree after a fresh rebuild.  Sadly, the Linux kernel
-> (2.6.37.3)
-> >>> does not run correctly when built with this compiler.  It
-> >>> fails when enumerating the USB bus :-(
-> >>>
-> >>> Are there known issues with the Linux kernel on ARM and GCC-4.6?
-> >>>
-> >>
-> >> There has been fixes on top of 4.6.0 the one we have right now is
-> vanilla
-> >> 4.6.0 release. I plan to add second set of patches but you have to
-> dig a bit
-> >> more to identify the problem
-> >>
-> >
-> > I have some updates for gcc 4.6.0
-> > they are staged in
-> >
-> > http://git.openembedded.org/cgit.cgi/openembedded-core-
-> contrib/log/?h=3Dkraj/gcc-4.6
-> >
-> > (top 3 patches)
-> >
-> > Please test them out and if you are lucky
-> > your problem might be fixed too.
-> >
-> > All, please try these patches and provide any feedback
->=20
-> I was able to build my kernel (ARM OMAP/3530 based) using this, but
-> the USB still doesn't work, so no improvement, sorry.
+On Tue, May 10, 2011 at 7:08 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>> THere is something wrong with git.
+>> If I browse to the 2nd url I get:
+>> Bad object id: rpurdie/distro
+>> going to git and navigating to the branch gives the same result.
+>>
+>> =C2=A0Anyway, although I am not able to review the changes on git, a thu=
+mbs up
+>> for the initiative.
+>
+> I've noticed this happening with branches on that repository for the
+> past couple of days, its not just this branch.
+>
+> Khem/Cliff/Tom: Who might be able to look into and help fix this?
 
-Gary,
- Is the USB breakage is due to gcc 4.6.0 ?
+Hi
 
-Thanks,
-Nitin
+This was a url rewrite problem when I tried to redirect gitweb traffic to c=
+git
+the regexp was too liberal. I have rewritten the rewrite rules and now
+everything should be hunky dory
 
->=20
-> --
-> ------------------------------------------------------------
-> Gary Thomas                 |  Consulting for the
-> MLB Associates              |    Embedded world
-> ------------------------------------------------------------
-> _______________________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
+Let me know if you run into problems
+
+Sorry for inconvenience
+
+-Khem
 
 
