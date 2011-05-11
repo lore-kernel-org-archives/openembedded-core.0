@@ -1,26 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QKEBo-0000tF-5b
+	(envelope-from <Tom_Rini@mentor.com>) id 1QKEJ3-00010S-Oz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 May 2011 20:31:16 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 11 May 2011 11:28:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,354,1301900400"; d="scan'208";a="434461101"
-Received: from unknown (HELO [10.255.12.71]) ([10.255.12.71])
-	by azsmga001.ch.intel.com with ESMTP; 11 May 2011 11:28:28 -0700
-Message-ID: <4DCAD557.3080502@linux.intel.com>
-Date: Wed, 11 May 2011 11:28:39 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	Wed, 11 May 2011 20:38:46 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1QKEGL-0003PS-Iv from Tom_Rini@mentor.com ;
+	Wed, 11 May 2011 11:35:57 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 11 May 2011 11:35:47 -0700
+Received: from [172.30.80.16] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
+	Wed, 11 May 2011 11:35:46 -0700
+Message-ID: <4DCAD6EE.5050609@mentor.com>
+Date: Wed, 11 May 2011 11:35:26 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1305053706-19572-1-git-send-email-tom_rini@mentor.com>	<BANLkTin42LTK6D9ui-C_SXmWiNLAz1T66Q@mail.gmail.com>	<4DC9C3B2.3050201@mentor.com>
-	<1305133418.30391.425.camel@rex>
-In-Reply-To: <1305133418.30391.425.camel@rex>
-Subject: Re: [PATCH] create-pull-request: Add -l location switch
+To: Darren Hart <dvhart@linux.intel.com>
+References: <4DCAB609.8030601@linux.intel.com>
+In-Reply-To: <4DCAB609.8030601@linux.intel.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 11 May 2011 18:35:47.0162 (UTC)
+	FILETIME=[3E867BA0:01CC100A]
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	"poky@yoctoproject.org" <poky@yoctoproject.org>
+Subject: Re: RFC: create-pull-request / send-pull-request updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,55 +45,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2011 18:31:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 11 May 2011 18:38:46 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
+On 05/11/2011 09:15 AM, Darren Hart wrote:
+> Between myself and others, there are several outstanding proposals to
+> modify the pull-request scripts. Patches have been sent, but nothing has
+> been merged due to a lack of consensus. I thought I would summarize what
+> I see to be the current weaknesses of the scripts and my proposal to
+> address them. I would like your feedback to ensure we have tools that
+> meet the needs of a broad user base. Once we agree, I'll be happy to
+> write up the patches or help review those written by others.
 
+Thanks for taking this up!
 
-On 05/11/2011 10:03 AM, Richard Purdie wrote:
-> On Tue, 2011-05-10 at 16:01 -0700, Tom Rini wrote:
->> On 05/10/2011 12:18 PM, Otavio Salvador wrote:
->>> On Tue, May 10, 2011 at 15:55, Tom Rini <tom_rini@mentor.com> wrote:
->>>> Add a -l switch that takes an argument of either github or gitorious
->>>> and will make the cover letter have a fill-in-the-blank of where the
->>>> changes are on either github or gitorious.
->>>
->>> Another possibility would be to use git config interface to store
->>> those. You might have something like:
->>>
->>> [oe-core-pull-request]
->>> mode = github
->>> user = foo
->>>
->>> or
->>>
->>> [oe-core-pull-request]
->>> mode = gitorious
->>> user = bar
->>>
->>> This could be used to fill the fields in a proper way since those are
->>> predictable.
->>
->> If I had a good bit more time, I might re-write the script in python and
->> parse .ini files (same syntax as gitconfig) so that lots of useful
->> defaults could be saved.  But here's the real test, given that you're an
->> intended user, would you use the -l switch or just make a local change
->> to the script like Martin showed?
+[snip]
+> 2) create-pull-request needs to facilitate the use of multiple
+>    repositories (Tom Rini)
+
+So long as (a) it's supported and (b) it's easy to use, I'm fine with
+however you want to implement it :)  Which brings me to...
+
+[snip]
+> 3) Rewrite the scripts in python (Tom)
 > 
-> FWIW, we could at least extract a url from the .config of the git
-> repository with a command like "git remote -v show oe-core-pull-request"
+>    While I agree that anything of any significant complexity is better
+>    written in python than bash, I feel that with the above changes, the
+>    current scripts will be smaller and remain simple enough for bash to
+>    be a viable option.
+> 
+>    I propose we leave the scripts in bash for the time being, leaving
+>    the door open to rewrite them at a later date should their complexity
+>    increase to merit the effort.
 
-It just depends on specific naming... hrm... or we could specify the
-remote on the command line instead of the full URL. That would make the
-specification each time much less onerous.
-
-We would have to rewrite 'ssh://git@' to 'git://' for some URLs as I
-suspect most users don't have different push/fetch URLs (I don't).
+To me, dealing with some sort of prefs file means non-bash.  But if you
+can figure out everything that's needed with a little bit of asking git
+and a little bit of standard-shell-magic (which it sounds like you can),
+yeah, keeping it in bash is fine.
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+Tom Rini
+Mentor Graphics Corporation
 
 
