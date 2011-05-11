@@ -1,22 +1,26 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QK2CV-0006Si-9C
+	(envelope-from <dvhart@linux.intel.com>) id 1QK2Cu-0006Yo-Dx
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 May 2011 07:43:11 +0200
+	Wed, 11 May 2011 07:43:36 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 10 May 2011 22:40:24 -0700
+	by azsmga101.ch.intel.com with ESMTP; 10 May 2011 22:39:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,350,1301900400"; d="scan'208";a="434092094"
-Received: from nbuild2.sc.intel.com (HELO localhost) ([172.25.110.37])
-	by azsmga001.ch.intel.com with ESMTP; 10 May 2011 22:40:20 -0700
-Message-Id: <c6f9857df1a8971ad71df4ac2a8fd8b2828e0ac5.1305092349.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1305092348.git.nitin.a.kamble@intel.com>
-References: <cover.1305092348.git.nitin.a.kamble@intel.com>
-Old-Date: Tue, 10 May 2011 22:12:57 -0700
-Date: Tue, 10 May 2011 22:40:20 -0700
-To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
-Subject: [PATCH 2/5] matchbox-wm-2: fix typo in Makefile
+X-IronPort-AV: E=Sophos;i="4.64,350,1301900400"; d="scan'208";a="434091811"
+Received: from unknown (HELO [10.255.12.71]) ([10.255.12.71])
+	by azsmga001.ch.intel.com with ESMTP; 10 May 2011 22:39:43 -0700
+Message-ID: <4DCA2127.7090006@linux.intel.com>
+Date: Tue, 10 May 2011 22:39:51 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <BANLkTi=424KO0PMR6b_2QC98qtUryMykdQ@mail.gmail.com>	<4DC8CA7E.4020302@linux.intel.com>	<BANLkTi=G0wk3a5N4hvTzRcC09U7n-HFH1Q@mail.gmail.com>	<4DC97D27.9080602@linux.intel.com>
+	<BANLkTikrvH3Z2R3u+tBFL_O=C=Cg8nqFew@mail.gmail.com>
+In-Reply-To: <BANLkTikrvH3Z2R3u+tBFL_O=C=Cg8nqFew@mail.gmail.com>
+Subject: Re: Pull request with misc changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,60 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2011 05:43:11 -0000
+X-List-Received-Date: Wed, 11 May 2011 05:43:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../matchbox-wm-2/matchbox-wm-2/fix_makefile.patch |   19 +++++++++++++++++++
- .../matchbox-wm-2/matchbox-wm-2_svn.bb             |    3 ++-
- 2 files changed, 21 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2/fix_makefile.patch
 
-diff --git a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2/fix_makefile.patch b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2/fix_makefile.patch
-new file mode 100644
-index 0000000..8c40e85
---- /dev/null
-+++ b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2/fix_makefile.patch
-@@ -0,0 +1,19 @@
-+Upstream-Status: Pending
-+
-+Nitin A Kamble <nitin.a.kamble@intel.com> 2011/05/10
-+Fix following build error:
-+| Makefile:734: *** missing separator (did you mean TAB instead of 8 spaces?).  Stop.
-+| ERROR: oe_runmake failed
-+
-+Index: matchbox-window-manager-2/Makefile.am
-+===================================================================
-+--- matchbox-window-manager-2.orig/Makefile.am
-++++ matchbox-window-manager-2/Makefile.am
-+@@ -3,6 +3,6 @@ SUBDIRS = matchbox data doc util
-+ # Extra clean files so that maintainer-clean removes *everything*
-+ 
-+ snapshot:
-+-        $(MAKE) dist distdir=$(PACKAGE)-snapshot-`date +"%Y%m%d"`
-++	$(MAKE) dist distdir=$(PACKAGE)-snapshot-`date +"%Y%m%d"`
-+ 
-+ MAINTAINERCLEANFILES = aclocal.m4 compile config.guess config.sub configure depcomp install-sh ltmain.sh Makefile.in missing
-diff --git a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_svn.bb b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_svn.bb
-index 3332891..0b5e3f1 100644
---- a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_svn.bb
-+++ b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_svn.bb
-@@ -7,9 +7,10 @@ DEPENDS = "virtual/libx11 libxext libxrender startup-notification expat gconf pa
- 
- SRCREV = "2106"
- PV = "0.0+svnr${SRCPV}"
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "svn://svn.o-hand.com/repos/matchbox/trunk;module=matchbox-window-manager-2;proto=http \
-+	file://fix_makefile.patch \
- 	  "
- 
- S = "${WORKDIR}/matchbox-window-manager-2"
+On 05/10/2011 11:20 AM, Otavio Salvador wrote:
+> On Tue, May 10, 2011 at 15:00, Saul Wold <sgw@linux.intel.com> wrote:
+>> Is there a reason you can't use the oe-core-contrib repo and create a branch
+>> there?  Can the script be modified to support github also?
+> 
+> Not a hard one but I prefer to have it into our repository since
+> people can fork it there and follow it.
+
+I use the script for multiple repositories (poky, oe-core, meta-intel,
+and various other layers). A configurable remote URL would be a
+reasonable thing to add to the script. Perhaps leveraging something from
+the current .git/config ? I haven't really looked into it, but if
+someone else wants to I am not opposed to discussing it.
+
+--
+Darren
+
+> 
+>> It creates get another remote that we need to fetch from.
+> 
+> Or it creates another remote I need to push to.
+> 
+> To merge you don't need to add a remote but pull from the git URL
+> included into the pull command line.
+> 
+> ...
+>>> On the patch itself? Any doc describing an example of it?
+>>>
+>> Mark Hatle has (or will have shortly) a proposal out to the OE community for
+>> commit and patch message guidelines, as a starting point, you can look at
+>> the wiki:
+>>
+>> https://wiki.yoctoproject.org/wiki/Recipe_%26_Patch_Style_Guide
+> 
+> I have pushed it already. It is available on the mailing list, please
+> take a look.
+> 
+
 -- 
-1.7.3.4
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
