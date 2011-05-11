@@ -1,38 +1,35 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1QK0N7-0000gw-9L; Wed, 11 May 2011 05:46:01 +0200
-Received: by ewy5 with SMTP id 5so31836ewy.6
-	for <multiple recipients>; Tue, 10 May 2011 20:43:15 -0700 (PDT)
+	(envelope-from <raj.khem@gmail.com>) id 1QK1C0-0005K0-K8
+	for openembedded-core@lists.openembedded.org;
+	Wed, 11 May 2011 06:38:36 +0200
+Received: by pvc30 with SMTP id 30so77336pvc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 May 2011 21:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:content-transfer-encoding;
-	bh=+x1eKY2YugAHegdTTYyuByjFXq22+5Z+C8Sh+6XpRbo=;
-	b=T9cWWEWD864QUjuJI+52NJlCWfUFytEXeqfwcEcyG1iY0KopMmnlG36LcdQ4lo6/Ct
-	IBVYE1l6qgdX51EV4jBmjozOiBiR9I05yReTsADzCSBT/ST2XHga+4jR88O1EDrmll51
-	tqX1G3rZWkdjeI6/wAk5GArQyCviUpI21hVnY=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=hBLrLvwes8CaWiYbpPc384GdTorz1ryd8Qz6cGJsjtk=;
+	b=rkGSyEWgdZnL7a8ZZc82GIomzYG3RSdIw1aRflZPVwJ78rcVGnSfBT7w8MC2A5SFkB
+	EKYf3XXEYRYMz6ka33+Ey2Med8Fx72/7AyueqmYBj6JcjZOy1Xm7lWIn0csuZMH1mZDk
+	NZ7KFSn7g3TgwgxZYrEOqAvmFbZyxcvcbm0rA=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	b=YvndthH3BCAIu+TheVyEZ0WcgM2Q/jG9fIszUL06HwJBwnCQqp91yDu0nQyic1rnyT
-	n4saX6nhVAbdSWGxCbMpmuojEQnc991fRyk7t9ePDpEptEotAuuTGh6XK6XICRss83CA
-	NNP9gDt9UPNmm+D1JxK+uuDBosWN/z8gH0T3k=
-Received: by 10.14.15.20 with SMTP id e20mr4282400eee.16.1305085395133; Tue,
-	10 May 2011 20:43:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.53.5 with HTTP; Tue, 10 May 2011 20:42:45 -0700 (PDT)
-In-Reply-To: <BANLkTi=uvN8_u6SQhKfs2BwOnSOCQApKSQ@mail.gmail.com>
-References: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
-	<BANLkTim0hVFjUd+8j5jTR5dv7TwSMk=4qA@mail.gmail.com>
-	<1305036525.30391.275.camel@rex>
-	<BANLkTi=uvN8_u6SQhKfs2BwOnSOCQApKSQ@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=QrwjMT0POlrARR0Q5Hv7gx1lebaDc9zbilWnXJeCEpMlZIXytdy1GYApPuY/jBkWFG
+	POJH+wKWv8vpVxK9eez6jGf0cofxYxd6OMkHV+4zELyna9C88lJ9QfbsY+P2K4xuo7fh
+	wzdLQNOIYCnFX6dl0C2LxAPCDZlvSxx3Lbyeg=
+Received: by 10.142.195.12 with SMTP id s12mr5032205wff.307.1305088548235;
+	Tue, 10 May 2011 21:35:48 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id 25sm10356869wfb.10.2011.05.10.21.35.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 10 May 2011 21:35:47 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 10 May 2011 20:42:45 -0700
-Message-ID: <BANLkTinJV3eAmnfx+-dcKkhu3aQy2xEkMQ@mail.gmail.com>
-To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH 0/6] RFC Distro config changes
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 May 2011 21:35:44 -0700
+Message-Id: <cover.1305088327.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/2] Do not depend on BBFILES to compute scm dirs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,44 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2011 03:46:01 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 11 May 2011 04:38:37 -0000
 
----------- Forwarded message ----------
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, May 10, 2011 at 8:35 PM
-Subject: Re: [OE-core] [PATCH 0/6] RFC Distro config changes
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+This fixes the problem that I described in 
+http://lists.linuxtogo.org/pipermail/openembedded-core/2011-May/001966.html
+
+Additionally we do not need directories with */packages/* in BBFILES
+anymore
+
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: kraj/misc-fixes
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-fixes
+
+Thanks,
+    Khem Raj <raj.khem@gmail.com>
+---
 
 
-On Tue, May 10, 2011 at 7:08 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->> THere is something wrong with git.
->> If I browse to the 2nd url I get:
->> Bad object id: rpurdie/distro
->> going to git and navigating to the branch gives the same result.
->>
->> =C2=A0Anyway, although I am not able to review the changes on git, a thu=
-mbs up
->> for the initiative.
->
-> I've noticed this happening with branches on that repository for the
-> past couple of days, its not just this branch.
->
-> Khem/Cliff/Tom: Who might be able to look into and help fix this?
+Khem Raj (2):
+  metadata_scm.bbclass: Use COREBASE to grok for SCM operations
+  meta/conf/layer.conf: Remove packages/*bb from BBFILES
 
-Hi
+ meta/classes/metadata_scm.bbclass |    5 +----
+ meta/conf/layer.conf              |    2 +-
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-This was a url rewrite problem when I tried to redirect gitweb traffic to c=
-git
-the regexp was too liberal. I have rewritten the rewrite rules and now
-everything should be hunky dory
+-- 
+1.7.4.1
 
-Let me know if you run into problems
-
-Sorry for inconvenience
-
--Khem
 
 
