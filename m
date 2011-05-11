@@ -1,22 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QK3mL-0003bT-S0
+	(envelope-from <ke.yu@intel.com>) id 1QK3mO-0003bc-LY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 May 2011 09:24:18 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 11 May 2011 00:21:31 -0700
+	Wed, 11 May 2011 09:24:20 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 May 2011 00:21:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,350,1301900400"; 
-   d="scan'208";a="765957"
+X-IronPort-AV: E=Sophos;i="4.64,350,1301900400"; d="scan'208";a="745563863"
 Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
-	by fmsmga001.fm.intel.com with ESMTP; 11 May 2011 00:21:29 -0700
-Message-Id: <cover.1305098201.git.ke.yu@intel.com>
-Old-Date: Wed, 11 May 2011 15:16:41 +0800
-Date: Wed, 11 May 2011 15:27:46 +0800
+	by orsmga001.jf.intel.com with ESMTP; 11 May 2011 00:21:33 -0700
+Message-Id: <0002456a563997ba6e69f99733292136a5419d1a.1305098201.git.ke.yu@intel.com>
+In-Reply-To: <cover.1305098201.git.ke.yu@intel.com>
+References: <cover.1305098201.git.ke.yu@intel.com>
+Old-Date: Sun, 8 May 2011 21:09:26 +0800
+Date: Wed, 11 May 2011 15:27:49 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Yu Ke <ke.yu@intel.com>
-Subject: [PATCH 0/5] recipes upgrade: xserver, sqlite3, xf86-video-intel
+Subject: [PATCH 2/5] sqlite: upgrade from 3.7.5 to 3.7.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,86 +32,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 May 2011 07:24:18 -0000
+X-List-Received-Date: Wed, 11 May 2011 07:24:20 -0000
 
 From: Yu Ke <ke.yu@intel.com>
 
-Test with qemux86, qemuarm, and atom-pc
+- also remove the libtool.patch since it is already in the release version
+- update the LIC_FILES_CHKSUM, the license is not changed, just use
+  sqlite3.h as more appropriate license file. the original sqlite3.c
+  is actually not point to license content.
 
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: kyu3/upgrade-05-11
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kyu3/upgrade-05-11
-
-Thanks,
-    Yu Ke <ke.yu@intel.com>
+Signed-off-by: Yu Ke <ke.yu@intel.com>
 ---
-
-
-Yu Ke (5):
-  xf86-video-intel: upgrade from 2.14.0 to 2.15.0
-  sqlite: upgrade from 3.7.5 to 3.7.6.2
-  xserver-xf86-dri-lite: upgrade from 1.9.3 to 1.10.1
-  xserver-xf86-dri-lite_git: upgrade to 1.10.2 RC1 snapshot
-  xserver-xf86-lite: upgrade to from 1.7 RC2 to 1.10.1
-
- .../distro/include/preferred-xorg-versions.inc     |    4 +-
- ...-intel_2.14.0.bb => xf86-video-intel_2.15.0.bb} |    6 +-
- .../cache-xkbcomp-output-for-fast-start-up.patch   |    2 +
- .../xserver-xf86-dri-lite/crosscompile.patch       |    2 +
- .../xserver-xf86-dri-lite/doublefix.patch          |   13 -
- .../xserver-xf86-dri-lite/drmfix.patch             |   13 -
- .../xserver-xf86-dri-lite/fix_macros.patch         |   21 --
- .../xserver-xf86-dri-lite/fix_macros1.patch        |    2 +
- .../fix_open_max_preprocessor_error.patch          |    2 +
- .../libdri-xinerama-symbol.patch                   |   50 ----
- .../xserver-xf86-dri-lite/macro_tweak.patch        |    2 +
- .../xserver-xf86-dri-lite/nodolt.patch             |   12 -
- .../xorg-server-disable-dri_sarea.patch            |   12 -
- .../xorg-server-enable-dri2.patch                  |   23 --
- .../xserver-1.5.0-bg-none-root.patch               |  156 ------------
- .../xserver-DRI2Swapbuffer.patch                   |  179 --------------
- .../xserver-xf86-dri-lite/xserver-boottime.patch   |   38 ---
- .../xserver-xf86-dri-lite/xserver-no-root-2.patch  |  105 --------
- .../xorg-xserver/xserver-xf86-dri-lite_1.10.1.bb   |   20 ++
- .../xorg-xserver/xserver-xf86-dri-lite_1.9.3.bb    |   22 --
- .../xorg-xserver/xserver-xf86-dri-lite_git.bb      |   21 +-
- .../xserver-xf86-lite/crosscompile.patch           |   35 ++--
- .../xorg-xserver/xserver-xf86-lite/drmfix.patch    |   13 -
- .../xserver-xf86-lite/libdri-xinerama-symbol.patch |   50 ----
- .../xserver-xf86-lite/macro_tweak.patch            |   30 +++
- .../xorg-xserver/xserver-xf86-lite/nodolt.patch    |   12 -
- ...make_sys_c_use_unaligned_access_functions.patch |  256 --------------------
- .../xorg-xserver/xserver-xf86-lite_1.10.1.bb       |   12 +
- .../xorg-xserver/xserver-xf86-lite_1.7.99.2.bb     |   12 -
- meta/recipes-support/sqlite/sqlite3.inc            |    5 -
- meta/recipes-support/sqlite/sqlite3/libtool.patch  |   25 --
- meta/recipes-support/sqlite/sqlite3_3.7.5.bb       |   10 -
- meta/recipes-support/sqlite/sqlite3_3.7.6.2.bb     |   10 +
- 33 files changed, 113 insertions(+), 1062 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.14.0.bb => xf86-video-intel_2.15.0.bb} (83%)
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/doublefix.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/drmfix.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/fix_macros.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/libdri-xinerama-symbol.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/nodolt.patch
- delete mode 100755 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/xorg-server-disable-dri_sarea.patch
- delete mode 100755 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/xorg-server-enable-dri2.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/xserver-1.5.0-bg-none-root.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/xserver-DRI2Swapbuffer.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/xserver-boottime.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite/xserver-no-root-2.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_1.10.1.bb
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-dri-lite_1.9.3.bb
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/drmfix.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/libdri-xinerama-symbol.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/macro_tweak.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/nodolt.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/revert_make_sys_c_use_unaligned_access_functions.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.10.1.bb
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.7.99.2.bb
+ meta/recipes-support/sqlite/sqlite3.inc           |    5 ----
+ meta/recipes-support/sqlite/sqlite3/libtool.patch |   25 ---------------------
+ meta/recipes-support/sqlite/sqlite3_3.7.5.bb      |   10 --------
+ meta/recipes-support/sqlite/sqlite3_3.7.6.2.bb    |   10 ++++++++
+ 4 files changed, 10 insertions(+), 40 deletions(-)
  delete mode 100644 meta/recipes-support/sqlite/sqlite3/libtool.patch
  delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.7.5.bb
  create mode 100644 meta/recipes-support/sqlite/sqlite3_3.7.6.2.bb
+
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+index 92c4930..d8ef8dc 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -6,11 +6,6 @@ DEPENDS = "readline ncurses tcl-native"
+ DEPENDS_virtclass-native = "tcl-native"
+ LICENSE = "PD"
+ 
+-SRC_URI = "http://www.sqlite.org/sqlite-${PV}.tar.gz \
+-	   file://libtool.patch"
+-
+-S = "${WORKDIR}/sqlite-${PV}"
+-
+ inherit autotools pkgconfig
+ 
+ EXTRA_OECONF = "--disable-tcl --enable-shared --enable-threadsafe"
+diff --git a/meta/recipes-support/sqlite/sqlite3/libtool.patch b/meta/recipes-support/sqlite/sqlite3/libtool.patch
+deleted file mode 100644
+index ccf9993..0000000
+--- a/meta/recipes-support/sqlite/sqlite3/libtool.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-Index: sqlite-3.2.1/Makefile.in
+-===================================================================
+---- sqlite-3.2.1.orig/Makefile.in	2005-03-23 17:09:39.000000000 +0100
+-+++ sqlite-3.2.1/Makefile.in	2005-04-25 23:11:20.000000000 +0200
+-@@ -15,7 +15,10 @@
+- # The toplevel directory of the source tree.  This is the directory
+- # that contains this "Makefile.in" and the "configure.in" script.
+- #
+--TOP = @srcdir@
+-+TOP = $(srcdir)
+-+srcdir = @srcdir@
+-+top_srcdir = @top_srcdir@
+-+top_builddir = .
+- 
+- # C Compiler and options for use in building executables that
+- # will run on the platform that is doing the build.
+-@@ -96,7 +99,7 @@
+- exec_prefix = @exec_prefix@
+- libdir = @libdir@
+- INSTALL = @INSTALL@
+--LIBTOOL = ./libtool
+-+LIBTOOL = @LIBTOOL@
+- ALLOWRELEASE = @ALLOWRELEASE@
+- 
+- # libtool compile/link/install
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.5.bb b/meta/recipes-support/sqlite/sqlite3_3.7.5.bb
+deleted file mode 100644
+index 212d9e2..0000000
+--- a/meta/recipes-support/sqlite/sqlite3_3.7.5.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require sqlite3.inc
+-
+-LIC_FILES_CHKSUM = "file://sqlite3.c;endline=19;md5=c1b8048b783961c3ba387c43fd955dc6"
+-
+-SRC_URI = "http://www.sqlite.org/sqlite-autoconf-3070500.tar.gz"
+-S = "${WORKDIR}/sqlite-autoconf-3070500"
+-PR = "r0"
+-
+-SRC_URI[md5sum] = "a9604a82613ade2e7f4c303f233e477f"                                                 
+-SRC_URI[sha256sum] = "cb5b86926ec9f65882b2dddd244f2d620337d911ec73411863f77e48cf6a2f94"              
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.7.6.2.bb b/meta/recipes-support/sqlite/sqlite3_3.7.6.2.bb
+new file mode 100644
+index 0000000..34d1653
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3_3.7.6.2.bb
+@@ -0,0 +1,10 @@
++require sqlite3.inc
++
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
++
++SRC_URI = "http://www.sqlite.org/sqlite-autoconf-3070602.tar.gz"
++S = "${WORKDIR}/sqlite-autoconf-3070602"
++PR = "r0"
++
++SRC_URI[md5sum] = "f16c08617968b4087b3d591fd575f59f"
++SRC_URI[sha256sum] = "53aa66f30d8ff87230d4173b7979814432b8084da77fba05992223f76593fc81"
+-- 
+1.7.0.4
 
 
 
