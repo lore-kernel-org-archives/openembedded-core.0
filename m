@@ -1,23 +1,23 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QKThF-0000ic-2T
+	(envelope-from <edwin.zhai@intel.com>) id 1QKThD-0000nB-RH
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2011 13:04:45 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 May 2011 04:01:59 -0700
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 12 May 2011 04:01:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="641704618"
+X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="434860907"
 Received: from yocto-build3.sh.intel.com (HELO localhost) ([10.239.48.58])
-	by orsmga002.jf.intel.com with ESMTP; 12 May 2011 04:01:58 -0700
-Message-Id: <d2c5fb3bcdb8d202531e76b799ff1ee9f0e1267c.1305197864.git.edwin.zhai@intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 12 May 2011 04:01:57 -0700
+Message-Id: <a54a363450ab3cf6cf4192e4d9e247adb5545f33.1305197864.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1305197864.git.edwin.zhai@intel.com>
 References: <cover.1305197864.git.edwin.zhai@intel.com>
-Old-Date: Thu, 12 May 2011 18:38:34 +0800
-Date: Thu, 12 May 2011 19:01:56 +0800
+Old-Date: Thu, 12 May 2011 16:33:16 +0800
+Date: Thu, 12 May 2011 19:01:54 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Zhai Edwin <edwin.zhai@intel.com>
-Subject: [PATCH 54/54] matchbox-panel-2: Add Upstream-Status
+Subject: [PATCH 53/54] table: Add Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,33 +38,19 @@ From: Zhai Edwin <edwin.zhai@intel.com>
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../matchbox-panel-2/gcc-4.6.0-compile.patch       |    2 ++
- .../recipes-sato/matchbox-panel-2/startup_fix.diff |    2 ++
- 2 files changed, 4 insertions(+), 0 deletions(-)
+ .../recipes-graphics/clutter/table/fixes.patch     |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-sato/matchbox-panel-2/gcc-4.6.0-compile.patch b/meta/recipes-sato/matchbox-panel-2/gcc-4.6.0-compile.patch
-index 54ca74d..71a4727 100644
---- a/meta/recipes-sato/matchbox-panel-2/gcc-4.6.0-compile.patch
-+++ b/meta/recipes-sato/matchbox-panel-2/gcc-4.6.0-compile.patch
+diff --git a/meta-demoapps/recipes-graphics/clutter/table/fixes.patch b/meta-demoapps/recipes-graphics/clutter/table/fixes.patch
+index a7cdc43..323bf13 100644
+--- a/meta-demoapps/recipes-graphics/clutter/table/fixes.patch
++++ b/meta-demoapps/recipes-graphics/clutter/table/fixes.patch
 @@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [other] - need clean up
-+
- diff -ur git.ORIG/applets/startup/startup.c git/applets/startup/startup.c
- --- git.ORIG/applets/startup/startup.c	2011-04-28 08:13:25.000000000 -0600
- +++ git/applets/startup/startup.c	2011-04-28 09:36:48.521990746 -0600
-diff --git a/meta/recipes-sato/matchbox-panel-2/startup_fix.diff b/meta/recipes-sato/matchbox-panel-2/startup_fix.diff
-index 9262d33..d9a0876 100644
---- a/meta/recipes-sato/matchbox-panel-2/startup_fix.diff
-+++ b/meta/recipes-sato/matchbox-panel-2/startup_fix.diff
-@@ -2,6 +2,8 @@ Fixed the compile error caused by typo, upstream also need this.
- 
- Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
- 
 +Upstream-Status: Pending
 +
- Index: matchbox-panel-2/applets/startup/startup.c
+ Index: table/Makefile
  ===================================================================
- --- matchbox-panel-2/applets/startup/startup.c	(revision 2109)
+ --- table.orig/Makefile	2007-07-10 13:24:18.000000000 +0100
 -- 
 1.7.1
 
