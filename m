@@ -1,23 +1,23 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QKTgO-0000MC-G4
+	(envelope-from <edwin.zhai@intel.com>) id 1QKTgO-0000Hk-L5
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2011 13:03:52 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 12 May 2011 04:01:01 -0700
+	by azsmga101.ch.intel.com with ESMTP; 12 May 2011 04:01:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="434860441"
+X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="434860467"
 Received: from yocto-build3.sh.intel.com (HELO localhost) ([10.239.48.58])
-	by azsmga001.ch.intel.com with ESMTP; 12 May 2011 04:01:01 -0700
-Message-Id: <6e4dd889c55032dbcbea293ee37a0515d679f42c.1305197864.git.edwin.zhai@intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 12 May 2011 04:01:04 -0700
+Message-Id: <605312e635a60d78bc10933ec830a180120b7d5a.1305197864.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1305197864.git.edwin.zhai@intel.com>
 References: <cover.1305197864.git.edwin.zhai@intel.com>
-Old-Date: Thu, 12 May 2011 09:32:43 +0800
-Date: Thu, 12 May 2011 19:00:58 +0800
+Old-Date: Thu, 12 May 2011 09:36:11 +0800
+Date: Thu, 12 May 2011 19:01:01 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Zhai Edwin <edwin.zhai@intel.com>
-Subject: [PATCH 10/54] matchbox-keyboard: Add Upstream-Status
+Subject: [PATCH 12/54] matchbox-theme-sato: Add Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,32 +38,22 @@ From: Zhai Edwin <edwin.zhai@intel.com>
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../matchbox-keyboard/files/configure_fix.patch    |    2 ++
- .../matchbox-keyboard/files/single-instance.patch  |    1 +
- 2 files changed, 3 insertions(+), 0 deletions(-)
+ .../matchbox-theme-sato-2/png_rename.patch         |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-sato/matchbox-keyboard/files/configure_fix.patch b/meta/recipes-sato/matchbox-keyboard/files/configure_fix.patch
-index 52cea0e..800bf3b 100644
---- a/meta/recipes-sato/matchbox-keyboard/files/configure_fix.patch
-+++ b/meta/recipes-sato/matchbox-keyboard/files/configure_fix.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [configuration]
+diff --git a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato-2/png_rename.patch b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato-2/png_rename.patch
+index b12e920..d8f264f 100644
+--- a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato-2/png_rename.patch
++++ b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato-2/png_rename.patch
+@@ -2,6 +2,8 @@ Background Image name was changed from background.png to template.png
+ 
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ 
++Upstream-Status: Pending
 +
- Index: matchbox-window-manager/configure.ac
+ Index: matchbox-sato/Sato/matchbox2/Makefile.am
  ===================================================================
- --- matchbox-window-manager.orig/configure.ac	2007-11-14 12:02:28.000000000 +0000
-diff --git a/meta/recipes-sato/matchbox-keyboard/files/single-instance.patch b/meta/recipes-sato/matchbox-keyboard/files/single-instance.patch
-index d0adc47..18b6c41 100644
---- a/meta/recipes-sato/matchbox-keyboard/files/single-instance.patch
-+++ b/meta/recipes-sato/matchbox-keyboard/files/single-instance.patch
-@@ -9,6 +9,7 @@ on demand.
- 
- Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
- 
-+Upstream-Status: Inappropriate [configuration]
- 
- Index: matchbox-keyboard/matchbox-keyboard.desktop
- ===================================================================
+ --- matchbox-sato.orig/Sato/matchbox2/Makefile.am	2010-12-29 13:08:43.000000000 -0800
 -- 
 1.7.1
 
