@@ -1,43 +1,42 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QKK8z-000899-AF
+	(envelope-from <otavio.salvador@gmail.com>) id 1QKKEG-0008Cc-S8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 May 2011 02:52:45 +0200
-Received: by bwz5 with SMTP id 5so1002016bwz.6
+	Thu, 12 May 2011 02:58:12 +0200
+Received: by bwz5 with SMTP id 5so1005065bwz.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2011 17:49:58 -0700 (PDT)
+	Wed, 11 May 2011 17:55:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:x-google-sender-auth:message-id:subject:from:to:content-type
 	:content-transfer-encoding;
-	bh=Qb3fOJm8iKBac7XJa5krJEZduUdgseXxaKs00JaW4tc=;
-	b=RpAAiBpGjzyjVqFT3Mgnmh0MI78YlRC+FVarN7IEu9SvxkcW54odMOUeVWasUCq7kz
-	EyEK1gYHf9VDh4TaGWpVJ0U+Qkt2T+hcWrFf6rYvq90Qc9FHngaVgJB+CkgQDO+p+onk
-	/aXWE5ym2cjJm3SuybTRr+NQdZahypcqMjBRI=
+	bh=ZeOaZdm/kP5YK+B8PHRKM2yZkvgysNqnkslp6HuFutI=;
+	b=WuXlW6wpUR6zSJsaKnDZlCmxTET6rseTd1bmIDtHEE+q+dXTKyXGBiNZOG/YWaBS8K
+	jsDal4AMQiR3lDa4adAKSKcD41H0FtDlFemjfoMRwrQfvOrl0KhbMZTGb1F7/NToPXJP
+	6OBLYX/Vs92aJcraPrkOkBa9+H2Jg5vZzZRtQ=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:x-google-sender-auth:message-id:subject:from:to:content-type
 	:content-transfer-encoding;
-	b=WgDIpUUsQ7pAo1coTm2AB0ChwBdnkuIfjAydB2o89xxSmP4ddPlB0pcUbPiOWYf1ck
-	8POadV/T3ML8eQAH6kSBMoOKzQVEeUbC1x75gINVj3H8BLK0mVRsru0r1WZW1jolOFas
-	QkCP4s65qPguWi48oW1coIm+dCZx2J5ZyciX8=
+	b=ENO9o7xCJAouXYWDylx4HZAJazKvE6fBJaMeZbeNeoLwuwbPbP2I8o1Gp7nQHVcg5X
+	Mh/leiL8eAhgprs5JcgrEsNwm4R9em76JqIDDcGs9Aic3UZxLOktBq7Po39VxdT1qFiz
+	mF7luW9PjgMPXKx1Mpb5uUOX1wrpTfSSAJfnk=
 MIME-Version: 1.0
-Received: by 10.205.33.194 with SMTP id sp2mr1872035bkb.27.1305161395514; Wed,
-	11 May 2011 17:49:55 -0700 (PDT)
+Received: by 10.204.40.70 with SMTP id j6mr471236bke.81.1305161725850; Wed, 11
+	May 2011 17:55:25 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.204.79.70 with HTTP; Wed, 11 May 2011 17:49:55 -0700 (PDT)
-In-Reply-To: <4DCAB609.8030601@linux.intel.com>
-References: <4DCAB609.8030601@linux.intel.com>
-Date: Wed, 11 May 2011 21:49:55 -0300
-X-Google-Sender-Auth: OCBLjcjp6HvMDYW7m371ghpF484
-Message-ID: <BANLkTin57YObLPt7fVrutB0zCLANqe_j2A@mail.gmail.com>
+Received: by 10.204.79.70 with HTTP; Wed, 11 May 2011 17:55:25 -0700 (PDT)
+In-Reply-To: <4DC9C3B2.3050201@mentor.com>
+References: <1305053706-19572-1-git-send-email-tom_rini@mentor.com>
+	<BANLkTin42LTK6D9ui-C_SXmWiNLAz1T66Q@mail.gmail.com>
+	<4DC9C3B2.3050201@mentor.com>
+Date: Wed, 11 May 2011 21:55:25 -0300
+X-Google-Sender-Auth: ZT3sGWbTxXeKpZzIm-r7n3Y3VGY
+Message-ID: <BANLkTi=-aqvW4UgaC26r8gaVNJRo1VkBqw@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"poky@yoctoproject.org" <poky@yoctoproject.org>
-Subject: Re: RFC: create-pull-request / send-pull-request updates
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] create-pull-request: Add -l location switch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,44 +51,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2011 00:52:45 -0000
+X-List-Received-Date: Thu, 12 May 2011 00:58:12 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 11, 2011 at 13:15, Darren Hart <dvhart@linux.intel.com> wrote:
-> 2) create-pull-request needs to facilitate the use of multiple
-> =A0 repositories (Tom Rini)
+On Tue, May 10, 2011 at 20:01, Tom Rini <tom_rini@mentor.com> wrote:
+> On 05/10/2011 12:18 PM, Otavio Salvador wrote:
+>> On Tue, May 10, 2011 at 15:55, Tom Rini <tom_rini@mentor.com> wrote:
+>>> Add a -l switch that takes an argument of either github or gitorious
+>>> and will make the cover letter have a fill-in-the-blank of where the
+>>> changes are on either github or gitorious.
+>>
+>> Another possibility would be to use git config interface to store
+>> those. You might have something like:
+>>
+>> [oe-core-pull-request]
+>> mode =3D github
+>> user =3D foo
+>>
+>> or
+>>
+>> [oe-core-pull-request]
+>> mode =3D gitorious
+>> user =3D bar
+>>
+>> This could be used to fill the fields in a proper way since those are
+>> predictable.
 >
-> =A0 Some folks find gitorious or github work best for their use. It is
-> =A0 also reasonable to want to use this script with independent layers.
-> =A0 Tom proposed a -l option to specify the PULL_URL leaving some
-> =A0 boiler-plate text in the cover-letter for the user to populate.
->
-> =A0 This dovetails with something I've been considering. Rather than
-> =A0 duplicate the generation of a pull request cover letter, I'd like to
-> =A0 see us re-use the output of 'git request-pull'. This has the added
-> =A0 benefit of sanity checking the URL and commits. It does however
-> =A0 remove the concept of the BROWSE_URL. We could add the BROWSE_URL
-> =A0 back for recognized locations (git.yoctoproject.org, gitorious, and
-> =A0 github I believe).
->
-> =A0 Some have expressed a desire for the URL to be automatically
-> =A0 discoverable. We could try and extract this information from the
-> =A0 current branch and a remote of a specific name, with some URL
-> =A0 rewrites to convert ssh access to generic git access. Unfortunately,
-> =A0 this approach breaks under several conditions. I would prefer that
-> =A0 these scripts not be tied to any particular naming conventions for
-> =A0 the git branches or remotes.
->
-> =A0 I propose we go with something very similar to Tom's -l PULL_URL
-> =A0 proposal and replace the cover letter generation with the output of
-> =A0 'git request-pull'. The PULL_URL should also be able to be specified
-> =A0 via an environment variable. Now that we are sending patches for
-> =A0 review and not just the pull request itself, I feel we can drop the
-> =A0 BROWSE_URL.
+> If I had a good bit more time, I might re-write the script in python and
+> parse .ini files (same syntax as gitconfig) so that lots of useful
+> defaults could be saved. =A0But here's the real test, given that you're a=
+n
+> intended user, would you use the -l switch or just make a local change
+> to the script like Martin showed?
 
-I'd prefer to have it stored into git config backend and don't need to
-retype it for every call.
+(devel)~/hacking/el/openembedded-core% git config --add --path
+oe-pull-request.mode github
+(devel)~/hacking/el/openembedded-core% git config --get oe-pull-request.mod=
+e
+github
+
+This does the trick! ;-)
 
 --=20
 Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
