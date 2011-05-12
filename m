@@ -1,23 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QKTgm-0000ac-65
+	(envelope-from <edwin.zhai@intel.com>) id 1QKTgn-0000aw-K5
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 May 2011 13:04:17 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 May 2011 04:01:27 -0700
+	Thu, 12 May 2011 13:04:18 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 12 May 2011 04:01:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="641704433"
+X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; 
+   d="scan'208";a="737663"
 Received: from yocto-build3.sh.intel.com (HELO localhost) ([10.239.48.58])
-	by orsmga002.jf.intel.com with ESMTP; 12 May 2011 04:01:27 -0700
-Message-Id: <ac514d92cbe19c48e47f806673ed49cb90a79792.1305197864.git.edwin.zhai@intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 12 May 2011 04:01:28 -0700
+Message-Id: <8f68a413a7d9339860ed4879b29172fb29100542.1305197864.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1305197864.git.edwin.zhai@intel.com>
 References: <cover.1305197864.git.edwin.zhai@intel.com>
-Old-Date: Thu, 12 May 2011 14:09:47 +0800
-Date: Thu, 12 May 2011 19:01:24 +0800
+Old-Date: Thu, 12 May 2011 14:12:55 +0800
+Date: Thu, 12 May 2011 19:01:25 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Zhai Edwin <edwin.zhai@intel.com>
-Subject: [PATCH 30/54] clutter-gtk: Add Upstream-Status
+Subject: [PATCH 31/54] tidy: Add Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,36 +39,30 @@ From: Zhai Edwin <edwin.zhai@intel.com>
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../clutter/clutter-gtk/disable_deprecated.patch   |    2 ++
- .../clutter/clutter-gtk/enable_tests.patch         |    2 ++
+ .../recipes-graphics/clutter/tidy/autofoo.patch    |    2 ++
+ .../clutter/tidy/tidy-enable-tests.patch           |    2 ++
  2 files changed, 4 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk/disable_deprecated.patch b/meta/recipes-graphics/clutter/clutter-gtk/disable_deprecated.patch
-index d11c34e..f44755b 100644
---- a/meta/recipes-graphics/clutter/clutter-gtk/disable_deprecated.patch
-+++ b/meta/recipes-graphics/clutter/clutter-gtk/disable_deprecated.patch
-@@ -4,6 +4,8 @@ This patch enables the macros that clutter-gtk is still using
- 
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
- 
+diff --git a/meta-demoapps/recipes-graphics/clutter/tidy/autofoo.patch b/meta-demoapps/recipes-graphics/clutter/tidy/autofoo.patch
+index 7f54a33..51b4eea 100644
+--- a/meta-demoapps/recipes-graphics/clutter/tidy/autofoo.patch
++++ b/meta-demoapps/recipes-graphics/clutter/tidy/autofoo.patch
+@@ -1,3 +1,5 @@
 +Upstream-Status: Inappropriate [configuration]
 +
- Index: git/clutter-gtk/Makefile.am
+ Index: tidy/doc/reference/Makefile.am
  ===================================================================
- --- git.orig/clutter-gtk/Makefile.am	2011-05-04 14:07:20.000000000 -0700
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk/enable_tests.patch b/meta/recipes-graphics/clutter/clutter-gtk/enable_tests.patch
-index 8e3e552..bedf80e 100644
---- a/meta/recipes-graphics/clutter/clutter-gtk/enable_tests.patch
-+++ b/meta/recipes-graphics/clutter/clutter-gtk/enable_tests.patch
-@@ -2,6 +2,8 @@ Install the test binary needed for core-image-clutter
- 
- Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
- 
+ --- tidy.orig/doc/reference/Makefile.am  2007-11-06 19:36:56.000000000 +0000
+diff --git a/meta-demoapps/recipes-graphics/clutter/tidy/tidy-enable-tests.patch b/meta-demoapps/recipes-graphics/clutter/tidy/tidy-enable-tests.patch
+index c5e1660..6942577 100644
+--- a/meta-demoapps/recipes-graphics/clutter/tidy/tidy-enable-tests.patch
++++ b/meta-demoapps/recipes-graphics/clutter/tidy/tidy-enable-tests.patch
+@@ -1,3 +1,5 @@
 +Upstream-Status: Inappropriate [configuration]
 +
- Index: git/examples/Makefile.am
+ Index: trunk/tests/Makefile.am
  ===================================================================
- --- git.orig/examples/Makefile.am	2011-05-04 14:07:20.000000000 -0700
+ --- trunk.orig/tests/Makefile.am	2008-03-04 12:22:10.000000000 +0000
 -- 
 1.7.1
 
