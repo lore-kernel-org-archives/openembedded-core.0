@@ -1,24 +1,34 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QKZbF-0000Sf-86
+	(envelope-from <jpuhlman@mvista.com>) id 1QKZop-0000cG-Hw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 May 2011 19:22:57 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 12 May 2011 10:20:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,359,1301900400"; 
-   d="scan'208";a="894417"
-Received: from unknown (HELO localhost) ([10.255.12.88])
-	by fmsmga002.fm.intel.com with ESMTP; 12 May 2011 10:20:08 -0700
-Message-Id: <d391e28d3cb9c89249431ce943392493b25978df.1305220736.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1305220736.git.sgw@linux.intel.com>
-References: <cover.1305220736.git.sgw@linux.intel.com>
-Old-Date: Thu, 12 May 2011 10:15:40 -0700
-Date: Thu, 12 May 2011 10:20:08 -0700
-To: openembedded-core@lists.openembedded.org
-CC: 
-From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 1/1] distcc: Update SRC_URI
+	Thu, 12 May 2011 19:37:00 +0200
+Received: by pxi6 with SMTP id 6so1351400pxi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 May 2011 10:34:07 -0700 (PDT)
+Received: by 10.68.19.227 with SMTP id i3mr631877pbe.303.1305221647631;
+	Thu, 12 May 2011 10:34:07 -0700 (PDT)
+Received: from [10.0.10.113] (gateway-1237.mvista.com [206.112.117.35])
+	by mx.google.com with ESMTPS id q20sm790853pbt.72.2011.05.12.10.34.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 12 May 2011 10:34:05 -0700 (PDT)
+Message-ID: <4DCC1A0B.3040802@mvista.com>
+Date: Thu, 12 May 2011 10:34:03 -0700
+From: Jeremy Puhlman <jpuhlman@mvista.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
+	rv:1.9.2.17) Gecko/20110414 Lightning/1.0b2 Thunderbird/3.1.10
+	ThunderBrowse/3.3.5
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <RFC: Layer tooling
+	brainstorming>	<1304014179-32612-2-git-send-email-jpuhlman@mvista.com>
+	<1304687702.30391.109.camel@rex> <4DCBDC96.1080306@mvista.com>
+In-Reply-To: <4DCBDC96.1080306@mvista.com>
+X-Enigmail-Version: 1.1.1
+Cc: "paul.eggleton@linux.intel.com >> Paul Eggleton"
+	<paul.eggleton@linux.intel.com>, chris_larson@mentor.com
+Subject: Re: [PATCH] Add support for remote layering.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2011 17:22:57 -0000
+X-List-Received-Date: Thu, 12 May 2011 17:37:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-From: Saul Wold <sgw@linux.intel.com>
 
-The distcc source location moved from samba.org to googlecode.com
+> So currently it gets stashed in the locations specified above. Currently
+> the code has the ability to extract values out of the uri as new bits.
+> The above would be reasonable, but you could do as well:
+> 
+>  BBLAYERS = " \
+>>  	http://url.to.my.tarball/tarball.tar.gz;local=/path/to/layer \
+>>  	git://gitserver.com/git/repo;proto=httplocalLayer=/path/to/layer/two \
+>>         /path/to/layer/three \
+>>         /path/to/layer/four \
+> 
+> With the current implementation the above is fairly straight forward.
+> (not that I am implying implementation should necessarily dictate the
+> what is done, just noting the above is significantly easier to implement
+> from the point the code is now.)
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-devtools/distcc/distcc_2.18.3.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Arg. Too early this morning. That should have been something like:
 
-diff --git a/meta/recipes-devtools/distcc/distcc_2.18.3.bb b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-index b6b7b78..1f5c2af 100644
---- a/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-+++ b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-@@ -11,8 +11,8 @@ RRECOMMENDS_${PN} = "avahi-daemon"
- 
- # Upstream change this patch periodically so store locally
- # http://0pointer.de/public/distcc-avahi.patch
--SRC_URI = "http://distcc.samba.org/ftp/distcc/distcc-${PV}.tar.bz2 \
--           file://distcc-avahi.patch;patch=1 \	  
-+SRC_URI = "http://distcc.googlecode.com/files/${PN}-${PV}.tar.bz2 \
-+           file://distcc-avahi.patch \	  
- 	   file://default \
- 	   file://distccmon-gnome.desktop \
- 	   file://distcc"
--- 
-1.7.1.1
+>  BBLAYERS = " \
+>>  	http://url.to.my.tarball/tarball.tar.gz;localLayer=/path/to/layer \
+>>  	git://gitserver.com/git/repo;proto=http;localLayer=/path/to/layer/two \
+>>         /path/to/layer/three \
+>>         /path/to/layer/four \
+>
 
+or something to that effect.
 
 
