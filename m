@@ -1,23 +1,23 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QKTgO-0000Hk-L5
+	(envelope-from <edwin.zhai@intel.com>) id 1QKTgO-0000J5-Mb
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2011 13:03:52 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 12 May 2011 04:01:04 -0700
+	by azsmga101.ch.intel.com with ESMTP; 12 May 2011 04:01:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="434860467"
+X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="434860485"
 Received: from yocto-build3.sh.intel.com (HELO localhost) ([10.239.48.58])
-	by azsmga001.ch.intel.com with ESMTP; 12 May 2011 04:01:04 -0700
-Message-Id: <605312e635a60d78bc10933ec830a180120b7d5a.1305197864.git.edwin.zhai@intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 12 May 2011 04:01:05 -0700
+Message-Id: <49f236d8329fe61929a1ca25fe67915f34fbf678.1305197864.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1305197864.git.edwin.zhai@intel.com>
 References: <cover.1305197864.git.edwin.zhai@intel.com>
-Old-Date: Thu, 12 May 2011 09:36:11 +0800
-Date: Thu, 12 May 2011 19:01:01 +0800
+Old-Date: Thu, 12 May 2011 09:40:26 +0800
+Date: Thu, 12 May 2011 19:01:02 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Zhai Edwin <edwin.zhai@intel.com>
-Subject: [PATCH 12/54] matchbox-theme-sato: Add Upstream-Status
+Subject: [PATCH 13/54] owl-video-widget: Add Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,22 +38,36 @@ From: Zhai Edwin <edwin.zhai@intel.com>
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../matchbox-theme-sato-2/png_rename.patch         |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+ .../owl-video/gtk_multithread_safe.patch           |    2 ++
+ .../owl-video-widget/owl-video/make-382.patch      |    2 ++
+ 2 files changed, 4 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato-2/png_rename.patch b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato-2/png_rename.patch
-index b12e920..d8f264f 100644
---- a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato-2/png_rename.patch
-+++ b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato-2/png_rename.patch
-@@ -2,6 +2,8 @@ Background Image name was changed from background.png to template.png
+diff --git a/meta/recipes-sato/owl-video-widget/owl-video/gtk_multithread_safe.patch b/meta/recipes-sato/owl-video-widget/owl-video/gtk_multithread_safe.patch
+index e153c5e..437f72b 100644
+--- a/meta/recipes-sato/owl-video-widget/owl-video/gtk_multithread_safe.patch
++++ b/meta/recipes-sato/owl-video-widget/owl-video/gtk_multithread_safe.patch
+@@ -7,6 +7,8 @@ multi-thread operation.
  
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
  
 +Upstream-Status: Pending
 +
- Index: matchbox-sato/Sato/matchbox2/Makefile.am
+ diff -ruN video-orig/src/video.c video/src/video.c
+ --- video-orig/src/video.c	2010-10-15 16:07:26.522346398 +0800
+ +++ video/src/video.c	2010-10-15 16:25:51.780296717 +0800
+diff --git a/meta/recipes-sato/owl-video-widget/owl-video/make-382.patch b/meta/recipes-sato/owl-video-widget/owl-video/make-382.patch
+index 7d8aff7..d219c31 100644
+--- a/meta/recipes-sato/owl-video-widget/owl-video/make-382.patch
++++ b/meta/recipes-sato/owl-video-widget/owl-video/make-382.patch
+@@ -2,6 +2,8 @@ Make 3.82 is much stricter and demands tabs. Obey.
+ 
+ JL - 15/12/10
+ 
++Upstream-Status: Inappropriate [configuration]
++
+ Index: video/Makefile.am
  ===================================================================
- --- matchbox-sato.orig/Sato/matchbox2/Makefile.am	2010-12-29 13:08:43.000000000 -0800
+ --- video.orig/Makefile.am
 -- 
 1.7.1
 
