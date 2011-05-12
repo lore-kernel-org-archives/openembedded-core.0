@@ -1,24 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QKTgz-0000Tg-0q
+	(envelope-from <edwin.zhai@intel.com>) id 1QKTgz-0000h0-4V
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2011 13:04:30 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 12 May 2011 04:01:36 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 12 May 2011 04:01:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; 
-   d="scan'208";a="1286008"
+X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="641704512"
 Received: from yocto-build3.sh.intel.com (HELO localhost) ([10.239.48.58])
-	by fmsmga001.fm.intel.com with ESMTP; 12 May 2011 04:01:36 -0700
-Message-Id: <2421c67d4c5f81881410ab2febecc9822afc6ae4.1305197864.git.edwin.zhai@intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 12 May 2011 04:01:40 -0700
+Message-Id: <96ea33e795d0aae2066c83a9be4c3dfb6d15d854.1305197864.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1305197864.git.edwin.zhai@intel.com>
 References: <cover.1305197864.git.edwin.zhai@intel.com>
-Old-Date: Thu, 12 May 2011 15:20:52 +0800
-Date: Thu, 12 May 2011 19:01:33 +0800
+Old-Date: Thu, 12 May 2011 15:29:41 +0800
+Date: Thu, 12 May 2011 19:01:37 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Zhai Edwin <edwin.zhai@intel.com>
-Subject: [PATCH 37/54] dates: Add Upstream-Status
+Subject: [PATCH 40/54] apr-util: Add Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,50 +38,63 @@ From: Zhai Edwin <edwin.zhai@intel.com>
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../pimlico/dates/dates-owl-window-menu.patch      |    2 ++
- .../dates/dso_linking_change_build_fix.patch       |    2 ++
- meta/recipes-sato/pimlico/dates/make-382.patch     |    2 ++
- 3 files changed, 6 insertions(+), 0 deletions(-)
+ meta/recipes-support/apr/apr-util/configfix.patch  |    2 +
+ .../apr/apr-util/configure_fixes.patch             |    2 +
+ .../apr/apr-util/configure_fixes.patch.old         |   25 --------------------
+ 3 files changed, 4 insertions(+), 25 deletions(-)
+ delete mode 100644 meta/recipes-support/apr/apr-util/configure_fixes.patch.old
 
-diff --git a/meta/recipes-sato/pimlico/dates/dates-owl-window-menu.patch b/meta/recipes-sato/pimlico/dates/dates-owl-window-menu.patch
-index d590165..714623e 100644
---- a/meta/recipes-sato/pimlico/dates/dates-owl-window-menu.patch
-+++ b/meta/recipes-sato/pimlico/dates/dates-owl-window-menu.patch
-@@ -4,6 +4,8 @@
-  src/dates_platform.h |    2 +-
-  3 files changed, 7 insertions(+), 7 deletions(-)
- 
-+Upstream-Status: Inappropriate [enable feature]
+diff --git a/meta/recipes-support/apr/apr-util/configfix.patch b/meta/recipes-support/apr/apr-util/configfix.patch
+index a8953e5..dbb1148 100644
+--- a/meta/recipes-support/apr/apr-util/configfix.patch
++++ b/meta/recipes-support/apr/apr-util/configfix.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Inappropriate [configuration]
 +
- Index: git/src/dates_gtk.c
+ Index: apr-util-1.3.4/apu-config.in
  ===================================================================
- --- git.orig/src/dates_gtk.c	2009-08-18 12:44:56.000000000 +0100
-diff --git a/meta/recipes-sato/pimlico/dates/dso_linking_change_build_fix.patch b/meta/recipes-sato/pimlico/dates/dso_linking_change_build_fix.patch
-index 07a0264..eccc782 100644
---- a/meta/recipes-sato/pimlico/dates/dso_linking_change_build_fix.patch
-+++ b/meta/recipes-sato/pimlico/dates/dso_linking_change_build_fix.patch
-@@ -30,6 +30,8 @@ file, libtool should have added these needed libraries in there.
- Nitin A Kamble <nitin.a.kamble@intel.com>
- Date: 2011/01/19
- 
-+Upstream-Status: Pending
+ --- apr-util-1.3.4.orig/apu-config.in	2009-01-12 17:08:06.000000000 +0000
+diff --git a/meta/recipes-support/apr/apr-util/configure_fixes.patch b/meta/recipes-support/apr/apr-util/configure_fixes.patch
+index 0b2a090..1925236 100644
+--- a/meta/recipes-support/apr/apr-util/configure_fixes.patch
++++ b/meta/recipes-support/apr/apr-util/configure_fixes.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Inappropriate [configuration]
 +
- Index: git/src/Makefile.am
+ Index: apr-util-1.3.4/configure.in
  ===================================================================
- --- git.orig/src/Makefile.am
-diff --git a/meta/recipes-sato/pimlico/dates/make-382.patch b/meta/recipes-sato/pimlico/dates/make-382.patch
-index 9147361..fad3c58 100644
---- a/meta/recipes-sato/pimlico/dates/make-382.patch
-+++ b/meta/recipes-sato/pimlico/dates/make-382.patch
-@@ -3,6 +3,8 @@ in upstream git.
- 
- JL - 15/12/10
- 
-+Upstream-Status: Accepted
-+
- Index: git/Makefile.am
- ===================================================================
- --- git.orig/Makefile.am
+ --- apr-util-1.3.4.orig/configure.in
+diff --git a/meta/recipes-support/apr/apr-util/configure_fixes.patch.old b/meta/recipes-support/apr/apr-util/configure_fixes.patch.old
+deleted file mode 100644
+index 16f88b3..0000000
+--- a/meta/recipes-support/apr/apr-util/configure_fixes.patch.old
++++ /dev/null
+@@ -1,25 +0,0 @@
+-Index: apr-util-1.2.12/configure.in
+-===================================================================
+---- apr-util-1.2.12.orig/configure.in	2008-03-08 19:15:00.000000000 +0000
+-+++ apr-util-1.2.12/configure.in	2008-03-08 19:15:13.000000000 +0000
+-@@ -8,13 +8,13 @@
+- AC_CONFIG_HEADER(include/private/apu_config.h)
+- AC_CONFIG_AUX_DIR(build)
+- 
+--sinclude(build/apu-conf.m4)
+--sinclude(build/apu-iconv.m4)
+--sinclude(build/apu-hints.m4)
+--sinclude(build/apr_common.m4)
+--sinclude(build/find_apr.m4)
+--sinclude(build/dbm.m4)
+--sinclude(build/dbd.m4)
+-+#sinclude(build/apu-conf.m4)
+-+#sinclude(build/apu-iconv.m4)
+-+#sinclude(build/apu-hints.m4)
+-+#sinclude(build/apr_common.m4)
+-+#sinclude(build/find_apr.m4)
+-+#sinclude(build/dbm.m4)
+-+#sinclude(build/dbd.m4)
+- 
+- dnl Generate ./config.nice for reproducing runs of configure
+- dnl 
 -- 
 1.7.1
 
