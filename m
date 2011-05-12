@@ -1,27 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>)
-	id 1QKdCX-00057f-Bj; Thu, 12 May 2011 23:13:41 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4CLAp0w000213
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 May 2011 14:10:52 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 12 May 2011 14:10:51 -0700
-Message-ID: <4DCC4CDA.6050701@windriver.com>
-Date: Thu, 12 May 2011 16:10:50 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	(envelope-from <dvhart@linux.intel.com>)
+	id 1QKdDB-0005CV-G7; Thu, 12 May 2011 23:14:22 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 May 2011 14:11:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,360,1301900400"; d="scan'208";a="746459020"
+Received: from doubt.jf.intel.com (HELO [10.7.199.57]) ([10.7.199.57])
+	by orsmga001.jf.intel.com with ESMTP; 12 May 2011 14:11:32 -0700
+Message-ID: <4DCC4D17.7000600@linux.intel.com>
+Date: Thu, 12 May 2011 14:11:51 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
 References: <4DCC3BA6.3010406@windriver.com> <4DCC4A51.9010309@linux.intel.com>
 In-Reply-To: <4DCC4A51.9010309@linux.intel.com>
-Cc: the oe-core layer <openembedded-core@lists.openembedded.org>,
-	openembedded-devel@lists.openembedded.org,
-	poky <poky@yoctoproject.org>, Patches
+Cc: poky <poky@yoctoproject.org>, openembedded-devel@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [poky] Commit and Patch message guidelines - fifth draft
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,11 +35,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2011 21:13:42 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Thu, 12 May 2011 21:14:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 5/12/11 4:00 PM, Darren Hart wrote:
+One more thing. There is a great deal of cross-posting to the various
+lists. We should discourage this. At least mentioning somewhere in here
+that patches should be sent to the appropriate list with maintainers and
+involved developers on CC and not cross posted would be a help.
+
+--
+Darren
+
+On 05/12/2011 02:00 PM, Darren Hart wrote:
 > Hi Mark,
 > 
 > Thanks for writing this up. I think this is on the right track. A few
@@ -144,13 +150,7 @@ On 5/12/11 4:00 PM, Darren Hart wrote:
 > Reviewed-by: /   implies a certain degree of authority over the affected
 > Tested-by:       code.
 > Reported-by:
-
-These were in the original guidelines, but it was decided by the OE-TSC, and
-general comments from the OE users/developers that Signed-off-by is all that is
-needed.
-
-Anything beyond this is acceptable, but not part of the overall guidlines.
-
+> 
 > 
 >>
 >>
@@ -218,9 +218,7 @@ Anything beyond this is acceptable, but not part of the overall guidlines.
 > recently proposed a new automated system for dealing with this for LKML.
 > We might want to do something similar.
 > 
-
-Sounds like something worth looking into.  Do you have a reference to the message?
-
+> 
 >>    The foo setting in bar was decreased from X to X-50% in order to
 >>    ensure we don't exhaust all system memory with foobar threads.
 >>
@@ -269,17 +267,7 @@ Sounds like something worth looking into.  Do you have a reference to the messag
 > Linux kernel, which you reference above, many (most?) patches have
 > multiple SOB lines.
 > 
-
-Ohh you found a mistake.  This was originally written when we had additional
-tags beyond simply signed-off-by.  I will correct this in the next revision, the
-purpose is that you can only add your OWN signed-off-by line, you may not add a
-line for the original author, if they did not already add it.
-
-Agree with the rest of the comments.  I will adjust them as appropriate for the
-sixth draft..
-
---Mark
-
+> 
 >>
 >> It is also required that the origin of the work be fully documented. The origin
 >> should be specified as part of the commit message in a way that an average
@@ -522,5 +510,9 @@ sixth draft..
 > Thanks,
 > 
 
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
