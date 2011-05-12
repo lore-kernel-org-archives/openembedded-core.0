@@ -1,36 +1,25 @@
-Received: from comal.ext.ti.com ([198.47.26.152])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <wmills@ti.com>)
-	id 1QKeEB-0007Jm-8P; Fri, 13 May 2011 00:19:27 +0200
-Received: from dlep36.itg.ti.com ([157.170.170.91])
-	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id p4CM5i03023116
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 12 May 2011 17:05:44 -0500
-Received: from dlep26.itg.ti.com (localhost [127.0.0.1])
-	by dlep36.itg.ti.com (8.13.8/8.13.8) with ESMTP id p4CM5iEl021430;
-	Thu, 12 May 2011 17:05:44 -0500 (CDT)
-Received: from dlee73.ent.ti.com (localhost [127.0.0.1])
-	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id p4CM5i5k006963;
-	Thu, 12 May 2011 17:05:44 -0500 (CDT)
-Received: from dlelxv22.itg.ti.com (172.17.1.197) by DLEE73.ent.ti.com
-	(157.170.170.88) with Microsoft SMTP Server id 8.3.106.1;
-	Thu, 12 May 2011 17:05:43 -0500
-Received: from gtwmills.gt.design.ti.com (gtwmills.gt.design.ti.com
-	[158.218.100.52])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
-	p4CM5hdG006246;	Thu, 12 May 2011 17:05:43 -0500
-Message-ID: <4DCC59B7.1070309@ti.com>
-Date: Thu, 12 May 2011 18:05:43 -0400
-From: William Mills <wmills@ti.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.14) Gecko/20110223 Thunderbird/3.1.8
+	(envelope-from <dvhart@linux.intel.com>) id 1QKfg2-0000Vq-9R
+	for openembedded-core@lists.openembedded.org;
+	Fri, 13 May 2011 01:52:18 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 May 2011 16:49:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,361,1301900400"; d="scan'208";a="746521042"
+Received: from doubt.jf.intel.com (HELO [10.7.199.57]) ([10.7.199.57])
+	by orsmga001.jf.intel.com with ESMTP; 12 May 2011 16:49:29 -0700
+Message-ID: <4DCC721D.8000705@linux.intel.com>
+Date: Thu, 12 May 2011 16:49:49 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
+To: William Mills <wmills@ti.com>
 References: <4DCC3BA6.3010406@windriver.com> <4DCC4A51.9010309@linux.intel.com>
-	<4DCC4D17.7000600@linux.intel.com>
-In-Reply-To: <4DCC4D17.7000600@linux.intel.com>
-X-Mailman-Approved-At: Fri, 13 May 2011 00:51:19 +0200
-Cc: poky <poky@yoctoproject.org>, "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
+	<4DCC4D17.7000600@linux.intel.com> <4DCC59B7.1070309@ti.com>
+In-Reply-To: <4DCC59B7.1070309@ti.com>
+Cc: poky <poky@yoctoproject.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [poky] Commit and Patch message guidelines - fifth draft
@@ -48,24 +37,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2011 22:19:27 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 12 May 2011 23:52:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 05/12/2011 05:11 PM, Darren Hart wrote:
-> One more thing. There is a great deal of cross-posting to the various
-> lists. We should discourage this. At least mentioning somewhere in here
-> that patches should be sent to the appropriate list with maintainers and
-> involved developers on CC and not cross posted would be a help.
 
-Ok, so I am going to go ahead and ask the dumb question.  Where is the 
-write up that say what list is for what?
 
-It seems to me there is a whole bunch of discussion happening on the 
-poky list about making changes that that would effect everyone using 
-openembedded-core.  Do we have two lists for discussion of stuff that 
-effect the oe-core?
+On 05/12/2011 03:05 PM, William Mills wrote:
+> On 05/12/2011 05:11 PM, Darren Hart wrote:
+>> One more thing. There is a great deal of cross-posting to the various
+>> lists. We should discourage this. At least mentioning somewhere in here
+>> that patches should be sent to the appropriate list with maintainers and
+>> involved developers on CC and not cross posted would be a help.
+> 
+> Ok, so I am going to go ahead and ask the dumb question.  Where is the 
+> write up that say what list is for what?
 
--- Bill
+Not a dumb question at all! Unfortunately, I think a lot of people are
+confused about this, which is natural as much of this separation is
+still new to people.
+
+There is: http://www.yoctoproject.org/community/mailing-lists
+
+Which needs to be updated to better reflect the oe-core aspect I think.
+
+And: http://openembedded.org/index.php/Mailing_lists
+
+This accurately describes oe-core (and other oe specific lists).
+
+> 
+> It seems to me there is a whole bunch of discussion happening on the 
+> poky list about making changes that that would effect everyone using 
+> openembedded-core.  Do we have two lists for discussion of stuff that 
+> effect the oe-core?
+
+No. As I understand it, things that go into poky.git/meta and things
+that go into oe-core should be sent to the openembedded-core list. Patch
+series for poky.git should be isolated in such a way so that they do not
+include changes to meta (oe-core) and other areas at the same time.
+
+Does anyone have a different view?
+
+> 
+> -- Bill
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
