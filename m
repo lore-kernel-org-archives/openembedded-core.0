@@ -1,41 +1,21 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QKLvN-0001je-Kh
+	(envelope-from <dexuan.cui@intel.com>) id 1QKTUe-0008DA-Sv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 May 2011 04:46:49 +0200
-Received: by eye27 with SMTP id 27so326072eye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 May 2011 19:44:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=tjpJmsD+kwybWDJYLF+f0SzNqZkSZnvhsbuKfLZLyHU=;
-	b=KcvZ4p8y4H/WcMdClnLi+/BEHPJOvZFFUVg9+d/1CeYX/affOF1Z4/FacP61ISts4E
-	wQo8cSnqkCQHJgR51LgD4nhXvMihh2glAWHxQbS+ctwpItOrpnQzSazJZLfp9+ZfD1ys
-	3yUPiB2EBS4QqA6JdwqiEdbw6x+bDlhd2xGik=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	b=ghgp6QnuquXtgh7KGX/ULT31GF16ImqIi9uRDoiak3kfqFIFriM7NZjHdGF4UvFdSB
-	sIjKs9EzyNNQlTvsIpXu4yYsZ8UPSTAUeYxQLe34z6HQgUR2KhMcoa8un3hu+VsAMJFt
-	laiewtzcHu+NuW0bNLYuqWoVe1tUd4VS1o1qo=
-Received: by 10.14.15.20 with SMTP id e20mr4742176eee.16.1305168242148; Wed,
-	11 May 2011 19:44:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.53.5 with HTTP; Wed, 11 May 2011 19:43:32 -0700 (PDT)
-In-Reply-To: <1305135637.30391.455.camel@rex>
-References: <4DCAB609.8030601@linux.intel.com>
-	<BANLkTintvgFGKUUUdvq2M7Q=m+gYuzs2-A@mail.gmail.com>
-	<1305135637.30391.455.camel@rex>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 11 May 2011 19:43:32 -0700
-Message-ID: <BANLkTikco5DBEeucjhRsMsrGhy7XTTJ8Kw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Martin Jansa <martin.jansa@gmail.com>, Darren Hart <dvhart@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"poky@yoctoproject.org" <poky@yoctoproject.org>
-Subject: Re: RFC: create-pull-request / send-pull-request updates
+	Thu, 12 May 2011 12:51:45 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 12 May 2011 03:48:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="434856559"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
+	by azsmga001.ch.intel.com with ESMTP; 12 May 2011 03:48:55 -0700
+Message-Id: <cover.1305196874.git.dexuan.cui@intel.com>
+Old-Date: Thu, 12 May 2011 18:41:14 +0800
+Date: Thu, 12 May 2011 18:49:27 +0800
+To: openembedded-core@lists.openembedded.org
+CC: 
+From: Dexuan Cui <dexuan.cui@intel.com>
+Subject: [PATCH 0/1] Automatically generate package repos for rpm and deb [bug #1024]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,41 +30,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 May 2011 02:46:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 12 May 2011 10:51:45 -0000
 
-On Wed, May 11, 2011 at 10:40 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2011-05-11 at 10:01 -0700, Khem Raj wrote:
->> On Wed, May 11, 2011 at 9:15 AM, Darren Hart <dvhart@linux.intel.com> wrote:
->> >
->> > Thoughts/Comments?
->> >
->>
->> I would suggest to alter the process a bit and get rid of the scripts
->> completely. Patches are sent to mailing list for review once reviewed
->> the final patches are
->> sent as git pull-request. It would simplify things.
->
-> I'd argue that it doesn't. It just means the requests come in different
-> formats, sometimes with key pieces of information missing which means
-> the people trying to handle the requests (like me) get frustrated.
->
-> I find it easiest to deal with requests that have come through those
-> scripts.
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-I think review process and pull process are different. and pull follows reviews
-right now they are sort of mixed. There are multiple pull requests that are sent
-and sometimes one patch appears in multiple pull requests. Signoffs
-acks etc. are not collected. Thats why I was suggesting
-to use emails for reviews and there will be trail and then create pull requests
+This was made to address http://bugzilla.yoctoproject.org/show_bug.cgi?id=1024.
+Please comment.
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: dcui/master
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/master
+
+Thanks,
+    Dexuan Cui <dexuan.cui@intel.com>
+---
 
 
->
-> Cheers,
->
-> Richard
->
->
+Dexuan Cui (1):
+  package-index-{ipk, rpm, deb}.bb: add the package-index for rpm and
+    deb
+
+ meta/recipes-core/meta/package-index-deb.bb        |   10 ++++++++++
+ meta/recipes-core/meta/package-index-ipk.bb        |   11 +++++++++++
+ meta/recipes-core/meta/package-index-rpm.bb        |   10 ++++++++++
+ .../meta/{package-index.bb => package-index.inc}   |    8 --------
+ 4 files changed, 31 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-core/meta/package-index-deb.bb
+ create mode 100644 meta/recipes-core/meta/package-index-ipk.bb
+ create mode 100644 meta/recipes-core/meta/package-index-rpm.bb
+ rename meta/recipes-core/meta/{package-index.bb => package-index.inc} (69%)
+
+-- 
+1.7.2
+
 
 
