@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QKTgE-0000Ff-NI
+	(envelope-from <edwin.zhai@intel.com>) id 1QKTgF-0000Fn-Fk
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2011 13:03:43 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 12 May 2011 04:00:52 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 12 May 2011 04:00:55 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; 
-   d="scan'208";a="1285774"
+   d="scan'208";a="1285786"
 Received: from yocto-build3.sh.intel.com (HELO localhost) ([10.239.48.58])
-	by fmsmga001.fm.intel.com with ESMTP; 12 May 2011 04:00:52 -0700
-Message-Id: <97f49f77e49318b3bb6507c447b6abb31af343c3.1305197864.git.edwin.zhai@intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 12 May 2011 04:00:54 -0700
+Message-Id: <7d06418d8edd004c285a4c9e3394abaf181ab77c.1305197864.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1305197864.git.edwin.zhai@intel.com>
 References: <cover.1305197864.git.edwin.zhai@intel.com>
-Old-Date: Thu, 12 May 2011 08:48:17 +0800
-Date: Thu, 12 May 2011 19:00:49 +0800
+Old-Date: Thu, 12 May 2011 09:04:00 +0800
+Date: Thu, 12 May 2011 19:00:52 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Zhai Edwin <edwin.zhai@intel.com>
-Subject: [PATCH 03/54] gnome-common: Add Upstream-Status
+Subject: [PATCH 05/54] matchbox-wm: Add Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,19 +39,19 @@ From: Zhai Edwin <edwin.zhai@intel.com>
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../gnome/gnome-common-2.28.0/omf.patch            |    2 ++
+ .../matchbox-wm/matchbox-wm/configure_fix.patch    |    2 ++
  1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gnome-common-2.28.0/omf.patch b/meta/recipes-gnome/gnome/gnome-common-2.28.0/omf.patch
-index 0d85b00..0f9b13c 100644
---- a/meta/recipes-gnome/gnome/gnome-common-2.28.0/omf.patch
-+++ b/meta/recipes-gnome/gnome/gnome-common-2.28.0/omf.patch
+diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm/configure_fix.patch b/meta/recipes-graphics/matchbox-wm/matchbox-wm/configure_fix.patch
+index 52cea0e..800bf3b 100644
+--- a/meta/recipes-graphics/matchbox-wm/matchbox-wm/configure_fix.patch
++++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm/configure_fix.patch
 @@ -1,3 +1,5 @@
-+Upstream-Status: Pending
++Upstream-Status: Inappropriate [configuration]
 +
- --- gnome-common-2.4.0/doc-build/omf.make	2003-05-24 08:16:25.000000000 -0700
- +++ gnome-common-2.4.0.new/doc-build/omf.make	2004-11-15 14:01:12.185155192 -0700
- @@ -43,7 +43,9 @@
+ Index: matchbox-window-manager/configure.ac
+ ===================================================================
+ --- matchbox-window-manager.orig/configure.ac	2007-11-14 12:02:28.000000000 +0000
 -- 
 1.7.1
 
