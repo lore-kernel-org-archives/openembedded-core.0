@@ -1,23 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QKTgZ-0000Rv-Kk
+	(envelope-from <edwin.zhai@intel.com>) id 1QKTga-0000Oi-Vr
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 May 2011 13:04:04 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 May 2011 04:01:15 -0700
+	Thu, 12 May 2011 13:04:05 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 12 May 2011 04:01:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="641704233"
+X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; 
+   d="scan'208";a="737600"
 Received: from yocto-build3.sh.intel.com (HELO localhost) ([10.239.48.58])
-	by orsmga002.jf.intel.com with ESMTP; 12 May 2011 04:01:14 -0700
-Message-Id: <5222f106f461f535d4927c2bfef931b045d63c30.1305197864.git.edwin.zhai@intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 12 May 2011 04:01:15 -0700
+Message-Id: <a91c1cbf52f3ac4846770729a4a6097f755b80b4.1305197864.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1305197864.git.edwin.zhai@intel.com>
 References: <cover.1305197864.git.edwin.zhai@intel.com>
-Old-Date: Thu, 12 May 2011 09:59:51 +0800
-Date: Thu, 12 May 2011 19:01:11 +0800
+Old-Date: Thu, 12 May 2011 10:00:30 +0800
+Date: Thu, 12 May 2011 19:01:13 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Zhai Edwin <edwin.zhai@intel.com>
-Subject: [PATCH 20/54] metacity: Add Upstream-Status
+Subject: [PATCH 21/54] apr: Add Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,22 +39,55 @@ From: Zhai Edwin <edwin.zhai@intel.com>
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../gnome/metacity/crosscompile.patch              |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+ meta/recipes-support/apr/apr/buildconf_fix.patch   |    2 ++
+ meta/recipes-support/apr/apr/cleanup.patch         |    2 ++
+ meta/recipes-support/apr/apr/configfix.patch       |    2 ++
+ meta/recipes-support/apr/apr/configure_fixes.patch |    2 ++
+ 4 files changed, 8 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/metacity/crosscompile.patch b/meta/recipes-gnome/gnome/metacity/crosscompile.patch
-index 8d86134..7a1942a 100644
---- a/meta/recipes-gnome/gnome/metacity/crosscompile.patch
-+++ b/meta/recipes-gnome/gnome/metacity/crosscompile.patch
-@@ -3,6 +3,8 @@ rather than target binary in cross-compile environment.
+diff --git a/meta/recipes-support/apr/apr/buildconf_fix.patch b/meta/recipes-support/apr/apr/buildconf_fix.patch
+index 641340b..2c9d62e 100644
+--- a/meta/recipes-support/apr/apr/buildconf_fix.patch
++++ b/meta/recipes-support/apr/apr/buildconf_fix.patch
+@@ -4,6 +4,8 @@ so fall back to old detection.
  
  Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
  
-+Upstream-Status: Inappropriate [embedded specific]
++Upstream-Status: Inappropriate [configuration]
 +
- Index: metacity-2.30.3/src/Makefile.am
+ Index: apr-1.4.2/buildconf
  ===================================================================
- --- metacity-2.30.3.orig/src/Makefile.am	2010-09-05 00:09:52.000000000 +0800
+ --- apr-1.4.2.orig/buildconf	2009-11-13 06:19:49.000000000 +0800
+diff --git a/meta/recipes-support/apr/apr/cleanup.patch b/meta/recipes-support/apr/apr/cleanup.patch
+index 47f1c42..b6784e0 100644
+--- a/meta/recipes-support/apr/apr/cleanup.patch
++++ b/meta/recipes-support/apr/apr/cleanup.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Inappropriate [configuration]
++
+ Index: apr-1.4.2/build/buildcheck.sh
+ ===================================================================
+ --- apr-1.4.2.orig/build/buildcheck.sh	2009-11-13 08:27:16.000000000 +0800
+diff --git a/meta/recipes-support/apr/apr/configfix.patch b/meta/recipes-support/apr/apr/configfix.patch
+index 995555e..605c4f6 100644
+--- a/meta/recipes-support/apr/apr/configfix.patch
++++ b/meta/recipes-support/apr/apr/configfix.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Inappropriate [configuration]
++
+ Index: apr-1.3.3/apr-config.in
+ ===================================================================
+ --- apr-1.3.3.orig/apr-config.in	2009-01-12 15:16:31.000000000 +0000
+diff --git a/meta/recipes-support/apr/apr/configure_fixes.patch b/meta/recipes-support/apr/apr/configure_fixes.patch
+index 86ceb8c..0514000 100644
+--- a/meta/recipes-support/apr/apr/configure_fixes.patch
++++ b/meta/recipes-support/apr/apr/configure_fixes.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Inappropriate [configuration]
++
+ Index: apr-1.3.3/configure.in
+ ===================================================================
+ --- apr-1.3.3.orig/configure.in
 -- 
 1.7.1
 
