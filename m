@@ -1,23 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QKTgb-0000Rk-SU
+	(envelope-from <edwin.zhai@intel.com>) id 1QKTgb-0000Tg-NB
 	for openembedded-core@lists.openembedded.org;
 	Thu, 12 May 2011 13:04:06 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 May 2011 04:01:20 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 12 May 2011 04:01:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; d="scan'208";a="746178292"
+X-IronPort-AV: E=Sophos;i="4.64,357,1301900400"; 
+   d="scan'208";a="1285907"
 Received: from yocto-build3.sh.intel.com (HELO localhost) ([10.239.48.58])
-	by orsmga001.jf.intel.com with ESMTP; 12 May 2011 04:01:19 -0700
-Message-Id: <49f59769918b48f37ee73cebaec13d304d3c26de.1305197864.git.edwin.zhai@intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 12 May 2011 04:01:16 -0700
+Message-Id: <d79da696502d5212e0b6403394ec971ac0edb2df.1305197864.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1305197864.git.edwin.zhai@intel.com>
 References: <cover.1305197864.git.edwin.zhai@intel.com>
-Old-Date: Thu, 12 May 2011 10:13:13 +0800
-Date: Thu, 12 May 2011 19:01:16 +0800
+Old-Date: Thu, 12 May 2011 10:03:30 +0800
+Date: Thu, 12 May 2011 19:01:14 +0800
 To: openembedded-core@lists.openembedded.org
 CC: 
 From: Zhai Edwin <edwin.zhai@intel.com>
-Subject: [PATCH 24/54] gpgme: Add Upstream-Status
+Subject: [PATCH 22/54] gdk-pixbuf: Add Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,21 +39,33 @@ From: Zhai Edwin <edwin.zhai@intel.com>
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../gpgme/gpgme-1.3.0/disable_gpgconf_check.patch  |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ .../gdk-pixbuf-2.22.1/configure_fix.patch          |    2 ++
+ .../gdk-pixbuf-2.22.1/hardcoded_libtool.patch      |    2 ++
+ 2 files changed, 4 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-support/gpgme/gpgme-1.3.0/disable_gpgconf_check.patch b/meta/recipes-support/gpgme/gpgme-1.3.0/disable_gpgconf_check.patch
-index f56f35b..df09530 100644
---- a/meta/recipes-support/gpgme/gpgme-1.3.0/disable_gpgconf_check.patch
-+++ b/meta/recipes-support/gpgme/gpgme-1.3.0/disable_gpgconf_check.patch
-@@ -13,6 +13,7 @@ non-cross-compile environment.
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/configure_fix.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/configure_fix.patch
+index bbf239c..b141690 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/configure_fix.patch
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/configure_fix.patch
+@@ -4,6 +4,8 @@ This patch simple disables it.
  
  Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
  
 +Upstream-Status: Inappropriate [embedded specific]
- 
- Index: gpgme-1.3.0/configure.ac
++
+ Index: gdk-pixbuf-2.22.1/configure.ac
  ===================================================================
+ --- gdk-pixbuf-2.22.1.orig/configure.ac	2010-11-25 16:26:41.000000000 +0800
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/hardcoded_libtool.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/hardcoded_libtool.patch
+index ae16927..ecca62a 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/hardcoded_libtool.patch
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.22.1/hardcoded_libtool.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Inappropriate [configuration]
++
+ Index: gdk-pixbuf-2.22.1/configure.ac
+ ===================================================================
+ --- gdk-pixbuf-2.22.1.orig/configure.ac	2010-11-26 09:06:34.000000000 +0800
 -- 
 1.7.1
 
