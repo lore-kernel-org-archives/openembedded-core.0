@@ -1,24 +1,20 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1QKcOa-0003o3-KG
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QKcOa-0003o4-Pv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 May 2011 22:22:04 +0200
+	Thu, 12 May 2011 22:22:05 +0200
 Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
 	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4CKIiwT020967;
-	Thu, 12 May 2011 13:18:45 -0700 (PDT)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4CKIiwS020967;
+	Thu, 12 May 2011 13:18:44 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Thu, 12 May 2011 16:21:16 -0400
-Message-Id: <0c9a2ad77557ecbb3251d3c74f28751082b10c8d.1305229934.git.bruce.ashfield@windriver.com>
+Date: Thu, 12 May 2011 16:21:15 -0400
+Message-Id: <cover.1305229934.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1305229934.git.bruce.ashfield@windriver.com>
-References: <cover.1305229934.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1305229934.git.bruce.ashfield@windriver.com>
-References: <cover.1305229934.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org, dvhart@linux.intel.com,
 	poky@yoctoproject.org, saul.wold@intel.com
-Subject: [PATCH 1/1] kern-tools: error if features are not found
+Subject: [PATCH 0/1] kern-tools: error if features are not found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,9 +32,11 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Thu, 12 May 2011 20:22:05 -0000
 
 Richard/Saul,
+    
+I'll repeat the patch contents here, since they explain
+the change
 
-I'll just repeat the patch contents here:
-
+---->---->---->---->---->---->
 Fixes bug: [YOCTO #955]
 
 Updating the SRCREV to pickup the kern-tools change:
@@ -53,31 +51,34 @@ Updating the SRCREV to pickup the kern-tools change:
     Passing --no-strict to the script disables this new functionality
     if for some reason a feature description is missing on purpose.
 ]
+---->---->---->---->---->---->
 
-We ran into this during 1.0 development, if someone tags an
-extra feature into a bbapend (or wherever) and that feature
-isn't valid they get a log to the console, and the build stops.
+This takes care of one thing we hit during 1.0 development,
+and provides a clear message about features that are not
+part of the kernel being built.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+In a test of a forced invalid feature, the output is:
+
+| WARNING: addon feature "cfg/non-exisistent" was not found
+| ERROR: required features were not found. aborting
+
+.. and the build stops.
+
+Thanks,
+    Bruce Ashfield <bruce.ashfield@windriver.com>
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: zedd/kernel
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
 ---
+
+
+Bruce Ashfield (1):
+  kern-tools: error if features are not found
+
  .../kern-tools/kern-tools-native_git.bb            |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index c808e17..829d105 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d8
- 
- DEPENDS = "git-native guilt-native"
- 
--SRCREV = "ab49d8e48b7e66d1b4f924385d65d062d25e44f7"
-+SRCREV = "ecbdf3cdf6705a63dcb3c50bb24c311046f0b35c"
- PR = r10
- PV = "0.1+git${SRCPV}"
- 
--- 
-1.7.0.4
 
 
 
