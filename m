@@ -1,44 +1,46 @@
 Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QKqrq-0001pR-2S
+	(envelope-from <otavio.salvador@gmail.com>) id 1QKrVy-0002ml-Ns
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 May 2011 13:49:14 +0200
-Received: by wye20 with SMTP id 20so2086945wye.6
+	Fri, 13 May 2011 14:30:42 +0200
+Received: by wye20 with SMTP id 20so2114798wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2011 04:46:25 -0700 (PDT)
+	Fri, 13 May 2011 05:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
 	:content-transfer-encoding;
-	bh=rsRKIO+xzXdguIjlOl1Mh7cxIDvmDOaWMDeu7ayTLE8=;
-	b=haZzRQSoJ3mwq8KKVsm/NXhOkNEL9ZAlhkxUYWhLlEjwHSZ294497NVYrVhuxPcf3H
-	N7054uPV+HV0JX4bfbNqMCRo4hPJ3cpZ/wQ7JMKIN0Ovp9zr33ejmGNIzQS4LSRsrYVf
-	67j/xbuB3keXXdpKtWaUImV+Ww16LXiK6yTFw=
+	bh=ogBJZhTGDvkpSThxEB+49uQBOl9vF/ful5ZlyEE22+Y=;
+	b=gwoFtopbmVF5QpLbJs+UfEjrC2K0YTYutgaybSH77xYceKCUvmaRzbXpL0SsZBI++B
+	ZkPyTfegiX7rKFe5n8MmrGHYW084aQvFfZF8YI7Sdx9cGBEYrYefOccp7e7IG4e/q0+v
+	OdBvVcjFFXKJPSN4Hr9BakcXPw5ihROB8FZU0=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
 	:content-transfer-encoding;
-	b=iieBUrN6l2VxVYbPlz3uCAPO0PQwU4zLdILGzXTJ2lkSd885qgY+klbzykjc0yRpGo
-	IQVUa9vRkjU3boGRjY/sVZz8i78ijfCXEfWCsfrZjvYfAVrZB9fmgj6ltsZM2jBR0ct/
-	pEn+LuTYwaIguDVDh0+OhcMUO3Pw3k+ljUvoY=
+	b=nh/X2LaI9kss9OdN0nDaEn5cKA9DdzmXz5XOXrk7nnXtbPmaTILNE3vy/K+wMXlCS+
+	EqIsmM2qmiwSeUvgzXeO7pjL0EcF7KbfOpeuXJcS8oeFy782TdDofbtTNorFfN9MaekM
+	TcyvA/8+l3xP1eYQ3kIFWvRwxcAE0JKMbrqg8=
 MIME-Version: 1.0
-Received: by 10.216.50.142 with SMTP id z14mr258120web.37.1305287185186; Fri,
-	13 May 2011 04:46:25 -0700 (PDT)
+Received: by 10.216.78.212 with SMTP id g62mr1390781wee.22.1305289673873; Fri,
+	13 May 2011 05:27:53 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.216.93.195 with HTTP; Fri, 13 May 2011 04:46:25 -0700 (PDT)
-In-Reply-To: <A8547C1F-B908-46D2-B77D-9CEEB73E8BCD@dominion.thruhere.net>
+Received: by 10.216.93.195 with HTTP; Fri, 13 May 2011 05:27:53 -0700 (PDT)
+In-Reply-To: <4DCD2355.4020902@emcraft.com>
 References: <1305157370-3264-1-git-send-email-yanok@emcraft.com>
 	<201105131117.29367.paul.eggleton@linux.intel.com>
 	<A8547C1F-B908-46D2-B77D-9CEEB73E8BCD@dominion.thruhere.net>
-Date: Fri, 13 May 2011 08:46:25 -0300
-X-Google-Sender-Auth: 76wsYLWOsTKXcGmLJp_NeDl9YJI
-Message-ID: <BANLkTikM6CULces4sHCYVcxnaZSczSsmCA@mail.gmail.com>
+	<BANLkTikM6CULces4sHCYVcxnaZSczSsmCA@mail.gmail.com>
+	<4DCD2355.4020902@emcraft.com>
+Date: Fri, 13 May 2011 09:27:53 -0300
+X-Google-Sender-Auth: _xsMSpzQ4aGWmhySy-qnkHPiuDE
+Message-ID: <BANLkTimDvoiH0BKQXO=wP69181FrtNKLJA@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+To: Ilya Yanok <yanok@emcraft.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	"poky@yoctoproject.org" <poky@yoctoproject.org>,
-	Ilya Yanok <yanok@emcraft.com>
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [poky] [RFC][PATCH] qt4: add target qmake to qt4-tools package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -54,16 +56,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 11:49:14 -0000
+X-List-Received-Date: Fri, 13 May 2011 12:30:42 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 13, 2011 at 08:05, Koen Kooi <koen@dominion.thruhere.net> wrote=
-:
-> Putting it in qttools would be fine by me
+On Fri, May 13, 2011 at 09:25, Ilya Yanok <yanok@emcraft.com> wrote:
+> To use qt4-native for what? We are talking about _target_ version of
+> qmake which is currently not provided by any package...
 
-It would be much better to use qt4-native as being done on OE dev currently=
-.
+Oh ok; I missed this.
+
 --=20
 Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
 .S. Systems
