@@ -1,16 +1,16 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QL0h6-0001HV-HX
+	(envelope-from <sgw@linux.intel.com>) id 1QL0pJ-0001UB-V4
 	for openembedded-core@lists.openembedded.org;
-	Sat, 14 May 2011 00:18:49 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 May 2011 15:15:58 -0700
+	Sat, 14 May 2011 00:27:18 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 13 May 2011 15:23:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,366,1301900400"; d="scan'208";a="642494629"
+X-IronPort-AV: E=Sophos;i="4.64,366,1301900400"; d="scan'208";a="747018385"
 Received: from unknown (HELO [10.255.12.119]) ([10.255.12.119])
-	by orsmga002.jf.intel.com with ESMTP; 13 May 2011 15:15:57 -0700
-Message-ID: <4DCDAD9D.8020507@linux.intel.com>
-Date: Fri, 13 May 2011 15:15:57 -0700
+	by orsmga001.jf.intel.com with ESMTP; 13 May 2011 15:23:50 -0700
+Message-ID: <4DCDAF76.7020701@linux.intel.com>
+Date: Fri, 13 May 2011 15:23:50 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
@@ -18,9 +18,10 @@ User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1305197864.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1305197864.git.edwin.zhai@intel.com>
-Subject: Re: [PATCH 00/54] Update patch Upstream-Status, Edwin, May12, 2011
+References: <cover.1305279161.git.dexuan.cui@intel.com>
+	<abd335f0e36fe2a96316b77d5e04e00b8ddb4ea9.1305279161.git.dexuan.cui@intel.com>
+In-Reply-To: <abd335f0e36fe2a96316b77d5e04e00b8ddb4ea9.1305279161.git.dexuan.cui@intel.com>
+Subject: Re: [RFC][v2] [PATCH 1/1] package-index.bb: add support for	deb and rpm.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,271 +36,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 22:18:49 -0000
+X-List-Received-Date: Fri, 13 May 2011 22:27:18 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/12/2011 04:00 AM, Zhai Edwin wrote:
-> From: Zhai Edwin<edwin.zhai@intel.com>
+On 05/13/2011 02:53 AM, Dexuan Cui wrote:
+> From: Dexuan Cui<dexuan.cui@intel.com>
 >
-> Saul,
-> These are Upstream-Status update.
+> [YOCTO #1024]
+> Currently package-index.bb only supports ipk. This commit addes the support
+> for rpm and deb, too.
 >
-> Thanks,
-> edwin
+> ------------------------------
+> How to generate and use repos:
 >
-> Pull URL: git://git.pokylinux.org/poky-contrib.git
->    Branch: gzhai/fix3
->    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/fix3
+> 1) run "bitbake package-index" after building some target,
+> e.g., core-image-sato-sdk;
 >
-> Thanks,
->      Zhai Edwin<edwin.zhai@intel.com>
+> 2) export ${DEPLOY_DIR_RPM}, ${DEPLOY_DIR_IPK} and ${DEPLOY_DIR_DEB} by a
+> webserver on the host, assuming the host IP is 192.168.7.1, at
+> http://192.168.7.1/rpm
+> http://192.168.7.1/ipk
+> http://192.168.7.1/deb
+>
+> 3) inside the target, according to the packaging system (rpm, ipk or deb) used
+> when we generate the target image, we can use different ways to manage
+> packages:
+>
+> 3.1) RPM
+>      run "zypper addrepo http://192.168.7.1/rpm main; zypper refresh"
+>      to retrieve info about the repo; next, we can use "zypper install/remove"
+>      to manage packages.
+>
+> 3.2) IPK
+>      add the repo info into opkg config file, i.e., in
+>      /etc/opkg/arch.conf, we can add something like
+>      "src i586 http://192.168.7.1/ipk/i586", and next, we run "opkg update" to
+>      make opkg update the list of available packages. And later, we can use
+>      "opkg install/remove" to manage packages.
+>
+> 3.3) DEB
+>      Currently in target, some important config files, like
+> /etc/apt/sources.list, for deb/apt are missing. So we can't install/remove package
+> in target at present.
+>
+> Signed-off-by: Dexuan Cui<dexuan.cui@intel.com>
 > ---
+>   meta/classes/package_deb.bbclass        |    9 +++++++++
+>   meta/classes/package_ipk.bbclass        |   12 ++++++++++++
+>   meta/classes/package_rpm.bbclass        |    7 +++++++
+>   meta/recipes-core/meta/package-index.bb |    8 --------
+>   4 files changed, 28 insertions(+), 8 deletions(-)
 >
+> diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+> index 4faeb4a..4cc0b69 100644
+> --- a/meta/classes/package_deb.bbclass
+> +++ b/meta/classes/package_deb.bbclass
+> @@ -431,3 +431,12 @@ python do_package_write_deb () {
+>   do_package_write_deb[dirs] = "${PKGWRITEDIRDEB}"
+>   addtask package_write_deb before do_package_write after do_package
 >
-> Zhai Edwin (54):
->    gtk+: Add Upstream-Status
->    ed: Add Upstream-Status
->    gnome-common: Add Upstream-Status
->    libmatchbox: Add Upstream-Status
->    matchbox-wm: Add Upstream-Status
->    x11vnc: Add Upstream-Status
->    xtscal: Add Upstream-Status
->    eds-dbus: Add Upstream-Status
->    matchbox-desktop: Add Upstream-Status
->    matchbox-keyboard: Add Upstream-Status
->    matchbox-stroke: Add Upstream-Status
->    matchbox-theme-sato: Add Upstream-Status
->    owl-video-widget: Add Upstream-Status
->    beecrypt: Add Upstream-Status
->    gnome-icon-theme: Add Upstream-Status
->    tslib: Add Upstream-Status
->    libowl-av: Add Upstream-Status
->    sato-icon-theme: Add Upstream-Status
->    web-webkit: Add Upstream-Status
->    metacity: Add Upstream-Status
->    apr: Add Upstream-Status
->    gdk-pixbuf: Add Upstream-Status
->    pcmanfm: Add Upstream-Status
->    gpgme: Add Upstream-Status
->    eee-acpi-scripts: Add Upstream-Status
->    libgalago: Add Upstream-Status
->    python-pygtk: Add Upstream-Status
->    gnome-mime-data: Add Upstream-Status
->    clutter: Add Upstream-Status
->    clutter-gtk: Add Upstream-Status
->    tidy: Add Upstream-Status
->    mutter: Add Upstream-Status
->    xcursor-transparent-theme: Add Upstream-Status
->    leafpad: Add Upstream-Status
->    matchbox-config-gtk: Add Upstream-Status
->    contacts: Add Upstream-Status
->    dates: Add Upstream-Status
->    web: Add Upstream-Status
->    webkit: Add Upstream-Status
->    apr-util: Add Upstream-Status
->    libcroco: Add Upstream-Status
->    liboil: Add Upstream-Status
->    libxslt: Add Upstream-Status
->    libglade: Add Upstream-Status
->    gnome-terminal: Add Upstream-Status
->    xev: Add Upstream-Status
->    claws-mail: Add Upstream-Status
->    clipboard-manager: Add Upstream-Status
->    epdfview: Add Upstream-Status
->    kf: Add Upstream-Status
->    qemu: Add Upstream-Status
->    clutter-gst: Add Upstream-Status
->    table: Add Upstream-Status
->    matchbox-panel-2: Add Upstream-Status
->
->   .../30f29e7d8e1b67c40cd18a7155ba30c4382692d5.patch |    2 +
->   .../recipes-graphics/clutter/table/fixes.patch     |    2 +
->   .../recipes-graphics/clutter/tidy/autofoo.patch    |    2 +
->   .../clutter/tidy/tidy-enable-tests.patch           |    2 +
->   .../recipes-graphics/xorg-app/xev/diet-x11.patch   |    2 +
->   .../recipes-sato/claws-mail/files/desktop.patch    |    2 +
->   .../recipes-sato/claws-mail/files/fix-build.patch  |    2 +
->   .../claws-mail/files/owl-window-menu.patch         |    2 +
->   .../claws-mail/files/streamline-ui.patch           |    2 +
->   .../clipboard-manager/files/daemonize.patch        |    2 +
->   .../clipboard-manager/files/makefile.patch         |    2 +
->   .../clipboard-manager/files/script.patch           |    2 +
->   .../recipes-sato/epdfview/epdfview/owl-menus.patch |    2 +
->   .../recipes-sato/kf/files/fix-configure.patch      |    2 +
->   .../recipes-sato/kf/files/fix-desktop-file.patch   |    2 +
->   meta-demoapps/recipes-sato/kf/files/gcc4.patch     |    2 +
->   .../eee-acpi-scripts/files/powerbtn.patch          |    2 +
->   .../eee-acpi-scripts/files/remove-doc-check.patch  |    2 +
->   .../galago/libgalago-0.5.2/mkdir.patch             |    2 +
->   .../galago/libgalago-0.5.2/pkgconfig.patch         |    2 +
->   .../python/python-pygtk/fix-gtkunixprint.patch     |    2 +
->   .../python/python-pygtk/nodocs.patch               |    2 +
->   .../prevent_to_get_display_during_import.patch     |    2 +
->   ...t-and-use-GCC-atomic-builtins-for-locking.patch |    2 +
->   .../qemu/qemu-0.14.0/enable-i386-linux-user.patch  |    2 +
->   .../fallback-to-safe-mmap_min_addr.patch           |    2 +
->   .../qemu/qemu-0.14.0/fix-configure-checks.patch    |    2 +
->   .../qemu/qemu-0.14.0/fix-nogl.patch                |    2 +
->   .../qemu/qemu-0.14.0/glflags.patch                 |    2 +
->   .../qemu/qemu-0.14.0/init-info.patch               |    2 +
->   .../qemu/qemu-0.14.0/larger_default_ram_size.patch |    2 +
->   .../qemu/qemu-0.14.0/linker-flags.patch            |    3 ++
->   .../qemu/qemu-0.14.0/no-strip.patch                |    2 +
->   .../qemu/qemu-0.14.0/opengl-sdl-fix.patch          |    2 +
->   .../qemu/qemu-0.14.0/qemu-git-qemugl-host.patch    |    2 +
->   .../qemu/qemu-0.14.0/qemu-vmware-vga-depth.patch   |    3 ++
->   .../qemugl-allow-glxcontext-release.patch          |    2 +
->   .../qemu/qemu-0.14.0/qemugl-fix.patch              |    2 +
->   .../spice-qxl-locking-fix-for-qemu-kvm.patch       |    2 +
->   meta/recipes-extended/ed/ed-1.5/ed-1.2-build.patch |    2 +
->   .../gdk-pixbuf-2.22.1/configure_fix.patch          |    2 +
->   .../gdk-pixbuf-2.22.1/hardcoded_libtool.patch      |    2 +
->   .../gnome/gnome-common-2.28.0/omf.patch            |    2 +
->   .../gnome/gnome-icon-theme/iconpath-option.patch   |    3 ++
->   .../gnome/gnome-mime-data/pkgconfig.patch          |    2 +
->   .../gnome/metacity/crosscompile.patch              |    2 +
->   .../gtk+/gtk+-2.12.7/cellrenderer-cairo.patch      |    2 +
->   .../gtk+/gtk+-2.12.7/combo-arrow-size.patch        |    2 +
->   .../gtk+/gtk+-2.12.7/disable-print.patch           |    2 +
->   .../gtk+/gtk+-2.12.7/entry-cairo.patch             |    2 +
->   .../gtk+/gtk+-2.12.7/filechooser-default.patch     |    2 +
->   .../gtk+/gtk+-2.12.7/filechooser-sizefix.patch     |    2 +
->   .../gtk+/gtk+-2.12.7/filesystem-volumes.patch      |    2 +
->   .../gtk+/gtk+-2.12.7/gtklabel-resize-patch         |    2 +
->   .../gtk+/gtk+-2.12.7/hardcoded_libtool.patch       |    2 +
->   .../gtk+/gtk+-2.12.7/menu-deactivate.patch         |    2 +
->   meta/recipes-gnome/gtk+/gtk+-2.12.7/no-demos.patch |    2 +
->   .../gtk+/gtk+-2.12.7/pangoxft2.10.6.diff           |    2 +
->   .../gtk+/gtk+-2.12.7/range-no-redraw.patch         |    3 ++
->   .../gtk+/gtk+-2.12.7/run-iconcache.patch           |    2 +
->   .../gtk+/gtk+-2.12.7/scrolled-placement.patch      |    2 +
->   .../gtk+/gtk+-2.12.7/toggle-font.diff              |    2 +
->   .../recipes-gnome/gtk+/gtk+-2.12.7/xsettings.patch |    2 +
->   ...Duplicate-the-exec-string-returned-by-gtk.patch |    2 +
->   .../gtk+/gtk+-2.16.6/cellrenderer-cairo.patch      |    2 +
->   .../gtk+-2.16.6/disable-gio-png-sniff-test.diff    |    2 +
->   .../gtk+/gtk+-2.16.6/entry-cairo.patch             |    2 +
->   .../gtk+/gtk+-2.16.6/hardcoded_libtool.patch       |    2 +
->   meta/recipes-gnome/gtk+/gtk+-2.16.6/no-demos.patch |    2 +
->   .../gtk+/gtk+-2.16.6/run-iconcache.patch           |    2 +
->   .../gtk+/gtk+-2.16.6/toggle-font.diff              |    2 +
->   .../recipes-gnome/gtk+/gtk+-2.16.6/xsettings.patch |    2 +
->   ...Duplicate-the-exec-string-returned-by-gtk.patch |    2 +
->   .../gtk+/gtk+-2.22.1/cellrenderer-cairo.patch      |    2 +
->   .../gtk+/gtk+-2.22.1/configurefix.patch            |    2 +
->   .../recipes-gnome/gtk+/gtk+-2.22.1/doc-fixes.patch |    3 ++
->   .../gtk+/gtk+-2.22.1/entry-cairo.patch             |    2 +
->   .../gtk+/gtk+-2.22.1/hardcoded_libtool.patch       |    2 +
->   meta/recipes-gnome/gtk+/gtk+-2.22.1/no-demos.patch |    2 +
->   .../gtk+/gtk+-2.22.1/run-iconcache.patch           |    2 +
->   .../gtk+/gtk+-2.22.1/toggle-font.diff              |    2 +
->   .../recipes-gnome/gtk+/gtk+-2.22.1/xsettings.patch |    2 +
->   .../libglade/libglade-2.6.4/glade-cruft.patch      |    2 +
->   .../libglade/libglade-2.6.4/no-deprecation.patch   |    2 +
->   .../libglade/libglade-2.6.4/no-xml2.patch          |    2 +
->   .../clutter/clutter-gst/autofoo-0.4.patch          |    2 +
->   ...-9db4a61a25677764bb927369c5c68ada958fb65c.patch |    2 +
->   .../clutter/clutter-gst/autofoo.patch              |    2 +
->   .../clutter/clutter-gst/enable_tests-1.4.patch     |    3 ++
->   .../clutter/clutter-gst/enable_tests.patch         |    3 ++
->   .../clutter/clutter-gtk/disable_deprecated.patch   |    2 +
->   .../clutter/clutter-gtk/enable_tests.patch         |    2 +
->   .../clutter/clutter/build-fix.patch                |    2 +
->   .../clutter/clutter/enable_tests-0.6.patch         |    2 +
->   .../clutter/clutter/enable_tests-0.8.patch         |    2 +
->   .../clutter/clutter/enable_tests-1.0.patch         |    2 +
->   .../clutter/clutter/enable_tests-1.4.patch         |    2 +
->   ...-654c26a1301c9bc5f8e3e5e3b68af5eb1b2e0673.patch |    2 +
->   .../clutter/clutter/enable_tests.patch             |    2 +
->   .../clutter/clutter/symconflict.patch              |    2 +
->   .../clutter/clutter/test-conformance-fix.patch     |    2 +
->   .../libmatchbox/files/16bppfixes-2.patch           |    2 +
->   .../libmatchbox/files/16bppfixes.patch             |    2 +
->   .../libmatchbox/files/autofoo.patch                |    2 +
->   .../libmatchbox/files/configure_fixes.patch        |    2 +
->   .../libmatchbox/files/fix-configure-for-1.9.patch  |    2 +
->   .../libmatchbox/files/matchbox-start-fix.patch     |    2 +
->   .../matchbox-wm/matchbox-wm/configure_fix.patch    |    2 +
->   .../mutter/mutter/crosscompile.patch               |    2 +
->   ...-7adb574bb3fa3880eb85dbc86e580cf3452d57c4.patch |    2 +
->   .../mutter/mutter/fix_pkgconfig.patch              |    2 +
->   meta/recipes-graphics/mutter/mutter/nodocs.patch   |    2 +
->   meta/recipes-graphics/mutter/mutter/nozenity.patch |    2 +
->   .../tslib/tslib/32bitBE-support.patch              |    3 ++
->   .../recipes-graphics/tslib/tslib/fix_version.patch |    2 +
->   meta/recipes-graphics/tslib/tslib/multievent.patch |    2 +
->   .../recipes-graphics/x11vnc/files/endian-fix.patch |    2 +
->   .../x11vnc/files/starting-fix.patch                |    3 ++
->   .../fix_watch_cursor.patch                         |    2 +
->   .../use-relative-symlinks.patch                    |    2 +
->   .../xtscal/xtscal/change-cross.patch               |    2 +
->   meta/recipes-graphics/xtscal/xtscal/cleanup.patch  |    2 +
->   .../xtscal/dso_linking_change_build_fix.patch      |    2 +
->   .../eds/eds-dbus-2.20.0/no_iconv_test.patch        |    2 +
->   .../eds/eds-dbus-2.20.0/oh-contact.patch           |    2 +
->   .../eds/eds-dbus/new-contact-fix.patch             |    2 +
->   meta/recipes-sato/eds/eds-dbus/nossl.patch         |    2 +
->   meta/recipes-sato/eds/eds-dbus/oh-contact.patch    |    2 +
->   meta/recipes-sato/eds/eds-dbus/old-gdk-api.patch   |    2 +
->   .../eds/eds-dbus/optional_imapx_provider.patch     |    2 +
->   meta/recipes-sato/eds/eds-dbus/parallelmake.patch  |    2 +
->   meta/recipes-sato/leafpad/files/owl-menu.patch     |    2 +
->   .../matchbox-config-gtk/files/no-handed.patch      |    2 +
->   .../files/dso_linking_change_build_fix.patch       |    2 +
->   .../matchbox-desktop/files/window-resize-fix.patch |    2 +
->   .../matchbox-keyboard/files/configure_fix.patch    |    2 +
->   .../matchbox-keyboard/files/single-instance.patch  |    1 +
->   .../matchbox-panel-2/gcc-4.6.0-compile.patch       |    2 +
->   .../recipes-sato/matchbox-panel-2/startup_fix.diff |    2 +
->   .../matchbox-stroke/files/configure_fix.patch      |    2 +
->   .../files/dso_linking_change_build_fix.patch       |    1 +
->   .../matchbox-stroke/files/single-instance.patch    |    1 +
->   .../matchbox-theme-sato-2/png_rename.patch         |    2 +
->   .../libowl-av/gst_change_state.patch               |    2 +
->   .../owl-video-widget/libowl-av/make-382.patch      |    2 +
->   .../owl-video/gtk_multithread_safe.patch           |    2 +
->   .../owl-video-widget/owl-video/make-382.patch      |    2 +
->   .../pcmanfm/files/cross-compile-fix.patch          |    2 +
->   .../pcmanfm/files/owl-window-menu.patch            |    2 +
->   .../contacts/contacts-owl-window-menu.patch        |    2 +
->   meta/recipes-sato/pimlico/contacts/make-382.patch  |    2 +
->   .../pimlico/dates/dates-owl-window-menu.patch      |    2 +
->   .../dates/dso_linking_change_build_fix.patch       |    2 +
->   meta/recipes-sato/pimlico/dates/make-382.patch     |    2 +
->   .../sato-icon-theme/iconpath-option.patch          |    2 +
->   .../web/web-webkit/link-with-g++.patch             |    3 ++
->   meta/recipes-sato/web/web-webkit/make-382.patch    |    2 +
->   meta/recipes-sato/web/web/owl-window-menu.patch    |    2 +
->   meta/recipes-sato/webkit/files/nodolt.patch        |    3 ++
->   meta/recipes-support/apr/apr-util/configfix.patch  |    2 +
->   .../apr/apr-util/configure_fixes.patch             |    2 +
->   .../apr/apr-util/configure_fixes.patch.old         |   25 --------------------
->   meta/recipes-support/apr/apr/buildconf_fix.patch   |    2 +
->   meta/recipes-support/apr/apr/cleanup.patch         |    2 +
->   meta/recipes-support/apr/apr/configfix.patch       |    2 +
->   meta/recipes-support/apr/apr/configure_fixes.patch |    2 +
->   .../beecrypt/beecrypt/disable-icu-check.patch      |    2 +
->   .../beecrypt/beecrypt/fix-security.patch           |    3 ++
->   .../gpgme/gpgme-1.3.0/disable_gpgconf_check.patch  |    1 +
->   meta/recipes-support/libcroco/files/croco.patch    |    2 +
->   .../liboil-0.3.17/fix-unaligned-whitelist.patch    |    2 +
->   .../liboil/liboil-0.3.17/no-tests.patch            |    2 +
->   .../libxslt/libxslt/pkgconfig_fix.patch            |    2 +
->   173 files changed, 352 insertions(+), 25 deletions(-)
->   delete mode 100644 meta/recipes-sato/webkit/files/fix_im.patch
->   delete mode 100644 meta/recipes-support/apr/apr-util/configure_fixes.patch.old
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-Merged
+> +
+> +do_package_index[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
+> +do_package_index[recrdeptask] += "package_update_index_deb"
+> +
+> +do_package_index() {
+> +   set -ex
+> +   package_update_index_deb
+> +   set +ex
+> +}
 
-Thanks
-	Sau!
+Why do you continue to include the do_package_index here, it's no longer 
+needed with the setting of do_package_index[recrdeptask], this is true 
+below also.
+
+> diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+> index 3c2472b..2a2d9c3 100644
+> --- a/meta/classes/package_ipk.bbclass
+> +++ b/meta/classes/package_ipk.bbclass
+> @@ -386,3 +386,15 @@ python do_package_write_ipk () {
+>   }
+>   do_package_write_ipk[dirs] = "${PKGWRITEDIRIPK}"
+>   addtask package_write_ipk before do_package_write after do_package
+> +
+> +
+> +do_package_index[depends] += "opkg-utils-native:do_populate_sysroot"
+> +do_package_index[depends] += "opkg-native:do_populate_sysroot"
+> +do_package_index[recrdeptask] += "package_update_index_ipk"
+> +
+> +do_package_index() {
+> +   set -ex
+> +   package_update_index_ipk
+> +   set +ex
+> +}
+
+The do_package_index() function is not needed any longer here
+
+> +
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index 70170d1..d9470d6 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -814,3 +814,10 @@ python do_package_write_rpm () {
+>   do_package_write_rpm[dirs] = "${PKGWRITEDIRRPM}"
+>   addtask package_write_rpm before do_package_write after do_package
+>
+> +do_package_index[depends] += "createrepo-native:do_populate_sysroot"
+> +do_package_index() {
+> +    set -ex
+> +    package_update_index_rpm
+> +    createrepo "${DEPLOY_DIR_RPM}"
+> +    set +ex
+> +}
+
+Nor this do_package_index() function, why no 
+do_package_index[recrdeptask] setting in RPM?  If you need a special 
+function here them call it do_package_index_rpm() and set the 
+do_package_index[recrdeptask] to that function.
+
+
+
+> diff --git a/meta/recipes-core/meta/package-index.bb b/meta/recipes-core/meta/package-index.bb
+> index 3c642cb..3f1caea 100644
+> --- a/meta/recipes-core/meta/package-index.bb
+> +++ b/meta/recipes-core/meta/package-index.bb
+> @@ -19,14 +19,6 @@ do_package_write_deb[noexec] = "1"
+>   do_populate_sysroot[noexec] = "1"
+>
+>   do_package_index[nostamp] = "1"
+> -do_package_index[dirs] = "${DEPLOY_DIR_IPK}"
+Does the dirs need to be saved or moved to the packagers?
+
+> -do_package_index[depends] += "opkg-utils-native:do_populate_sysroot"
+> -do_package_index[depends] += "opkg-native:do_populate_sysroot"
+>
+> -do_package_index() {
+> -	set -ex
+> -	package_update_index_ipk
+> -	set +ex
+> -}
+>   addtask do_package_index before do_build
+>   EXCLUDE_FROM_WORLD = "1"
 
 
 
