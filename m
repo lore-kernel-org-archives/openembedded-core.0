@@ -1,29 +1,44 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QKqEQ-0001F9-2o
+	(envelope-from <otavio.salvador@gmail.com>) id 1QKqrq-0001pR-2S
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 May 2011 13:08:30 +0200
-Received: by fxm19 with SMTP id 19so1883767fxm.6
+	Fri, 13 May 2011 13:49:14 +0200
+Received: by wye20 with SMTP id 20so2086945wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2011 04:05:41 -0700 (PDT)
-Received: by 10.223.37.153 with SMTP id x25mr1534288fad.117.1305284741502;
-	Fri, 13 May 2011 04:05:41 -0700 (PDT)
-Received: from [10.17.6.224] ([217.237.167.130])
-	by mx.google.com with ESMTPS id f14sm803977fai.17.2011.05.13.04.05.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 13 May 2011 04:05:39 -0700 (PDT)
+	Fri, 13 May 2011 04:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=rsRKIO+xzXdguIjlOl1Mh7cxIDvmDOaWMDeu7ayTLE8=;
+	b=haZzRQSoJ3mwq8KKVsm/NXhOkNEL9ZAlhkxUYWhLlEjwHSZ294497NVYrVhuxPcf3H
+	N7054uPV+HV0JX4bfbNqMCRo4hPJ3cpZ/wQ7JMKIN0Ovp9zr33ejmGNIzQS4LSRsrYVf
+	67j/xbuB3keXXdpKtWaUImV+Ww16LXiK6yTFw=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	b=iieBUrN6l2VxVYbPlz3uCAPO0PQwU4zLdILGzXTJ2lkSd885qgY+klbzykjc0yRpGo
+	IQVUa9vRkjU3boGRjY/sVZz8i78ijfCXEfWCsfrZjvYfAVrZB9fmgj6ltsZM2jBR0ct/
+	pEn+LuTYwaIguDVDh0+OhcMUO3Pw3k+ljUvoY=
+MIME-Version: 1.0
+Received: by 10.216.50.142 with SMTP id z14mr258120web.37.1305287185186; Fri,
+	13 May 2011 04:46:25 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.216.93.195 with HTTP; Fri, 13 May 2011 04:46:25 -0700 (PDT)
+In-Reply-To: <A8547C1F-B908-46D2-B77D-9CEEB73E8BCD@dominion.thruhere.net>
 References: <1305157370-3264-1-git-send-email-yanok@emcraft.com>
 	<201105131117.29367.paul.eggleton@linux.intel.com>
-In-Reply-To: <201105131117.29367.paul.eggleton@linux.intel.com>
-Mime-Version: 1.0 (iPhone Mail 8J2)
-Message-Id: <A8547C1F-B908-46D2-B77D-9CEEB73E8BCD@dominion.thruhere.net>
-X-Mailer: iPhone Mail (8J2)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 13 May 2011 13:05:36 +0200
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>,
-	Ilya Yanok <yanok@emcraft.com>, "openembedded-core@lists.openembedded.org"
+	<A8547C1F-B908-46D2-B77D-9CEEB73E8BCD@dominion.thruhere.net>
+Date: Fri, 13 May 2011 08:46:25 -0300
+X-Google-Sender-Auth: 76wsYLWOsTKXcGmLJp_NeDl9YJI
+Message-ID: <BANLkTikM6CULces4sHCYVcxnaZSczSsmCA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"poky@yoctoproject.org" <poky@yoctoproject.org>,
+	Ilya Yanok <yanok@emcraft.com>
 Subject: Re: [poky] [RFC][PATCH] qt4: add target qmake to qt4-tools package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -39,34 +54,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 11:08:30 -0000
+X-List-Received-Date: Fri, 13 May 2011 11:49:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-Putting it in qttools would be fine by me
+On Fri, May 13, 2011 at 08:05, Koen Kooi <koen@dominion.thruhere.net> wrote=
+:
+> Putting it in qttools would be fine by me
 
-Op 13 mei 2011 om 12:17 heeft Paul Eggleton <paul.eggleton@linux.intel.com> h=
-et volgende geschreven:
-
-> This exclusion of qmake of course comes from OE, and I'm not sure but I'm=20=
-
-> guessing the reason this was not installed is because qmake is already=20
-> provided by the qmake2 package in OE. We don't have that currently in oe-c=
-ore=20
-> and the question is do we want to bring that over rather than simply=20
-> installing it as part of qt4*tools?
->=20
-> Cheers,
-> Paul
->=20
-> --=20
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
-> _______________________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
+It would be much better to use qt4-native as being done on OE dev currently=
+.
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
