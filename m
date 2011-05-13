@@ -1,23 +1,40 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QKv86-0001EN-5O
+	(envelope-from <otavio.salvador@gmail.com>) id 1QKvIw-0001Ql-49
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 May 2011 18:22:18 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 13 May 2011 09:19:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,365,1301900400"; 
-   d="scan'208";a="1869501"
-Received: from unknown (HELO helios.localnet) ([10.255.16.107])
-	by fmsmga001.fm.intel.com with ESMTP; 13 May 2011 09:19:11 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-Organization: Intel Corporation (UK)
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 May 2011 17:19:10 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+	Fri, 13 May 2011 18:33:30 +0200
+Received: by bwz5 with SMTP id 5so2557159bwz.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 May 2011 09:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=JJFG5T6SSYzVDPy0pK+2fY1zDsx3lA6w4/bunx2KBCs=;
+	b=OCZ+wEslw46Pyht4Brwst//vDVSErLKeJ8lI7gsqS/0+eWbHJgmUhflpnmKtS48CtR
+	bMCEPxPknj4AXSkSnuLpmBDyqVY0t2GQ2veSMDrSDQ7ULd/WOsr6lvwMGdRHx9ntbaJq
+	uJhgkI/x9vJpXFt8sH1lEB3ue4rW8FbmR0tvk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	b=eFYCoAl5Wjl/2QhxkrAvgDaS2YSbx/Upc4JDAttZgQmx8mAuKqpV9xXPP2jtFcILId
+	1afpu5PkZ6LkBwMnU924NlViJLJvkVwORNpSypzo8GMDrearr2HzIV4VTeNJo2a3M4rn
+	bo1r8hpI96OEqIYBAXU0fPMO7IC9pXMmQocZE=
 MIME-Version: 1.0
-Message-Id: <201105131719.10997.paul.eggleton@linux.intel.com>
-Subject: RFC: Qt4 - removal of 4.6.3
+Received: by 10.204.143.88 with SMTP id t24mr699731bku.189.1305304239567; Fri,
+	13 May 2011 09:30:39 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.79.70 with HTTP; Fri, 13 May 2011 09:30:39 -0700 (PDT)
+In-Reply-To: <201105131719.10997.paul.eggleton@linux.intel.com>
+References: <201105131719.10997.paul.eggleton@linux.intel.com>
+Date: Fri, 13 May 2011 13:30:39 -0300
+X-Google-Sender-Auth: cKaxcdg2SpJQIYQcL4PYjIcU2QY
+Message-ID: <BANLkTin7JgN9YrFmMiKDZvpwZyHPjkkZkA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: Qt4 - removal of 4.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,26 +49,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 16:22:18 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 May 2011 16:33:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+On Fri, May 13, 2011 at 13:19, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Saul has suggested that we remove Qt 4.6.3 from oe-core in line with our
+> policy of only having one version of a package that doesn't have GPLv2/v3
+> versions. Is this going to be OK?
 
-Saul has suggested that we remove Qt 4.6.3 from oe-core in line with our 
-policy of only having one version of a package that doesn't have GPLv2/v3 
-versions. Is this going to be OK?
+I also think it is a better way to go.
 
-FWIW 4.7.x should be binary compatible with 4.6.3, although there may of 
-course still be some vendor support concerns.
-
-Thanks,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
