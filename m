@@ -1,34 +1,21 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QKs2t-0004jX-0V
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QKswo-00065f-AS
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 May 2011 15:04:43 +0200
-Received: by fxm19 with SMTP id 19so1948686fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2011 06:01:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:subject:date:message-id:x-mailer;
-	bh=L/5GcbNYz2FzCNi+Sg6oLSYscdBe9Ls7EnzVM9LwQ6I=;
-	b=kvW2sGcJ1MA6dKLw64pWrZsZ4IVl1wR2QfqUGcLMBkw7KixyabxGwf4gBV97lffjMq
-	x1ZsZPnPSR+PmkN7UOVVyzxqpS5DOjo85QblJsALsRoIFnC21uaYCZosRzuOjERCH5cX
-	o8GbMNIE9oafamT34+7UkDvhiJ+bP8rwShRQU=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer;
-	b=CtKRLw3oiCJaqDttYW4pMGkR0vjwdpD80TVbtEgydXq42mZw4C4cNWP70i0lhUGW+r
-	5Gd/jtpJ8ebSPZs8GlPPNQOBlXjN710ulZk9IZSqaj14saDE5gb5quoppz4BwqCJPl/+
-	8MuBlT7Dg+OGjnVdqLMS3vePzRtEvvVbCk6bA=
-Received: by 10.223.48.139 with SMTP id r11mr878369faf.63.1305291272824;
-	Fri, 13 May 2011 05:54:32 -0700 (PDT)
-Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id j18sm836267faa.18.2011.05.13.05.54.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 13 May 2011 05:54:31 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 May 2011 14:54:25 +0200
-Message-Id: <cover.1305291184.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.5.rc3
-Subject: [PATCH 0/3] Misc fixes
+	Fri, 13 May 2011 16:02:30 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 13 May 2011 06:59:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,364,1301900400"; d="scan'208";a="435610091"
+Received: from unknown (HELO helios) ([10.255.16.107])
+	by azsmga001.ch.intel.com with SMTP; 13 May 2011 06:59:38 -0700
+Received: by helios (sSMTP sendmail emulation); Fri, 13 May 2011 14:59:37 +0100
+Message-Id: <cover.1305295079.git.paul.eggleton@linux.intel.com>
+Old-Date: Fri, 13 May 2011 14:57:59 +0100
+Date: Fri, 13 May 2011 14:59:37 +0100
+To: poky@yoctoproject.org,openembedded-core@lists.openembedded.org
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCH 0/3] Qt4 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,32 +30,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 13:04:43 -0000
+X-List-Received-Date: Fri, 13 May 2011 14:02:30 -0000
 
-Pull URL: git://git.openembedded.org/openembedded-core-contrib
-  Branch: jansa/pull
-  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+These patches update Qt 4.7 series from 4.7.2 to 4.7.3, and make it easier
+for other layers such as meta-oe to enable more SQL drivers.
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: paule/qt-4.7.3
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=paule/qt-4.7.3
 
 Thanks,
-    Martin Jansa <Martin.Jansa@gmail.com>
+    Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
 
 
-Martin Jansa (3):
-  lib/oe/process.py: import from OE
-  glib-2.0: use PN instead of glib-2.0 in PACKAGES and FILES
-  bitbake.conf: move VENDOR variables from bitbake.conf to
-    defaultsetup.conf
+Paul Eggleton (3):
+  qt4: update from 4.7.2 to 4.7.3
+  distro_tracking_fields.inc: update for qt 4.7.3 upgrade
+  qt4: split out SQL driver config flags to QT_SQL_DRIVER_FLAGS
 
- meta/conf/bitbake.conf              |    4 --
- meta/conf/distro/defaultsetup.conf  |    5 ++-
- meta/lib/oe/process.py              |   74 +++++++++++++++++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib.inc |    4 +-
- 4 files changed, 80 insertions(+), 7 deletions(-)
- create mode 100644 meta/lib/oe/process.py
+ .../conf/distro/include/distro_tracking_fields.inc |   32 ++++++++++----------
+ meta/recipes-qt/qt4/{qt-4.7.2.inc => qt-4.7.3.inc} |    5 +--
+ .../0001-Added-Openembedded-crossarch-option.patch |    0
+ .../recipes-qt/qt4/{qt-4.7.2 => qt-4.7.3}/g++.conf |    0
+ .../hack-out-pg2-4.7.0.patch                       |    0
+ .../qt4/{qt-4.7.2 => qt-4.7.3}/linux.conf          |    0
+ ...qt4-embedded_4.7.2.bb => qt4-embedded_4.7.3.bb} |    2 +-
+ ...s-native_4.7.2.bb => qt4-tools-native_4.7.3.bb} |    4 +-
+ meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.2.bb   |    6 ----
+ meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.3.bb   |    6 ++++
+ ...qt4-x11-free_4.7.2.bb => qt4-x11-free_4.7.3.bb} |    2 +-
+ meta/recipes-qt/qt4/qt4.inc                        |    4 ++-
+ 12 files changed, 31 insertions(+), 30 deletions(-)
+ rename meta/recipes-qt/qt4/{qt-4.7.2.inc => qt-4.7.3.inc} (89%)
+ rename meta/recipes-qt/qt4/{qt-4.7.2 => qt-4.7.3}/0001-Added-Openembedded-crossarch-option.patch (100%)
+ rename meta/recipes-qt/qt4/{qt-4.7.2 => qt-4.7.3}/g++.conf (100%)
+ rename meta/recipes-qt/qt4/{qt-4.7.2 => qt-4.7.3}/hack-out-pg2-4.7.0.patch (100%)
+ rename meta/recipes-qt/qt4/{qt-4.7.2 => qt-4.7.3}/linux.conf (100%)
+ rename meta/recipes-qt/qt4/{qt4-embedded_4.7.2.bb => qt4-embedded_4.7.3.bb} (87%)
+ rename meta/recipes-qt/qt4/{qt4-tools-native_4.7.2.bb => qt4-tools-native_4.7.3.bb} (61%)
+ delete mode 100644 meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.2.bb
+ create mode 100644 meta/recipes-qt/qt4/qt4-tools-nativesdk_4.7.3.bb
+ rename meta/recipes-qt/qt4/{qt4-x11-free_4.7.2.bb => qt4-x11-free_4.7.3.bb} (88%)
 
 -- 
-1.7.5.rc3
+1.7.4.4
 
 
 
