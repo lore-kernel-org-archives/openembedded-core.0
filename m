@@ -1,39 +1,39 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from arroyo.ext.ti.com ([192.94.94.40])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QKh6v-0002hv-MO
+	(envelope-from <wmills@ti.com>) id 1QKhpt-0003Xy-9h
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 May 2011 03:24:09 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 May 2011 18:21:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,361,1301900400"; d="scan'208";a="746555503"
-Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
-	by orsmga001.jf.intel.com with ESMTP; 12 May 2011 18:21:19 -0700
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 13 May 2011 09:21:05 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Fri, 13 May 2011 09:21:04 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: "Wold, Saul" <saul.wold@intel.com>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 May 2011 09:21:02 +0800
-Thread-Topic: [OE-core] [PATCH 0/1] Automatically generate package repos for
-	rpm	and deb [bug #1024]
-Thread-Index: AcwQ1Gx/GSI2iipaSSiJOmVth1aLBQAM7R8g
-Message-ID: <1865303E0DED764181A9D882DEF65FB69334F4BD9A@shsmsx502.ccr.corp.intel.com>
-References: <cover.1305196874.git.dexuan.cui@intel.com>
-	<1865303E0DED764181A9D882DEF65FB69334F4BD99@shsmsx502.ccr.corp.intel.com>
-	<4DCC2A34.7040709@intel.com>
-In-Reply-To: <4DCC2A34.7040709@intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Fri, 13 May 2011 04:10:37 +0200
+Received: from dlep36.itg.ti.com ([157.170.170.91])
+	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id p4D23LU2007142
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 12 May 2011 21:03:21 -0500
+Received: from dlep26.itg.ti.com (localhost [127.0.0.1])
+	by dlep36.itg.ti.com (8.13.8/8.13.8) with ESMTP id p4D23KM1015511;
+	Thu, 12 May 2011 21:03:20 -0500 (CDT)
+Received: from dlee74.ent.ti.com (localhost [127.0.0.1])
+	by dlep26.itg.ti.com (8.13.8/8.13.8) with ESMTP id p4D23KD5017651;
+	Thu, 12 May 2011 21:03:20 -0500 (CDT)
+Received: from dlelxv22.itg.ti.com (172.17.1.197) by dlee74.ent.ti.com
+	(157.170.170.8) with Microsoft SMTP Server id 8.3.106.1;
+	Thu, 12 May 2011 21:03:20 -0500
+Received: from gtwmills.gt.design.ti.com (gtwmills.gt.design.ti.com
+	[158.218.100.52])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
+	p4D23K2x026235;	Thu, 12 May 2011 21:03:20 -0500
+Message-ID: <4DCC9168.1090100@ti.com>
+Date: Thu, 12 May 2011 22:03:20 -0400
+From: William Mills <wmills@ti.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.14) Gecko/20110223 Thunderbird/3.1.8
 MIME-Version: 1.0
-Cc: 'Qing He' <qing.x.he@gmail.com>
-Subject: Re: [PATCH 0/1] Automatically generate package repos for rpm	and deb [bug #1024]
+To: Darren Hart <dvhart@linux.intel.com>
+References: <4DCC3BA6.3010406@windriver.com> <4DCC4A51.9010309@linux.intel.com>
+	<4DCC4D17.7000600@linux.intel.com> <4DCC59B7.1070309@ti.com>
+	<4DCC721D.8000705@linux.intel.com>
+In-Reply-To: <4DCC721D.8000705@linux.intel.com>
+Cc: poky <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [poky] Commit and Patch message guidelines - fifth draft
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,72 +48,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 01:24:09 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 May 2011 02:10:37 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Wold, Saul wrote:
-> On 05/12/2011 04:38 AM, Cui, Dexuan wrote:
->> Dexuan Cui wrote:
->>> From: Dexuan Cui<dexuan.cui@intel.com>
->>>=20
->>> This was made to address
->>> http://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1024. Please
->>> comment.=20
->>>=20
->>> Pull URL: git://git.pokylinux.org/poky-contrib.git
->>>    Branch: dcui/master
->>>    Browse:
->>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Ddcui/master
->>=20
->> This is an improved and simple version that keeps 1  package-index
->> recipe and updates the 3 kinds of packages at the same time:
->> http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/pac=
-kage-index&id=3Dfb26e81dcb6e27e2908294e406a3011baed0120d
->> This avoids forcing the user to remember which package type they
->> enabled when running "bitbake package-index". (I also past the new
->> version at the end of this mail for easy reviewing) =20
->>=20
-> Dexuan,
->=20
-> I am not sure that this is the correct approach.  I think that you
-> should look at how the packages get generated based on which package
-> classes are included via PACKAGE_CLASSES, then in each of those
-> classes set it up so that when the package-index task is called you
-> know which indexer to run. This would be moving what you have in the
-> package-index-<packager>.bb files to their respective
-> package_<packager>.bbclass files and use
->=20
-> do_package_index[recrdeptask] +=3D package_index_<packager>
->=20
-> in the case of ipk it would be in package_ipk.bbclass
->=20
-> do_package_index[recrdeptask] +=3D "package_update_index_ipk"
->=20
-> You will also need to move the do_package_index[depends]
-OK, thanks very much for the detailed suggestion! I'll change to this bette=
-r method.
 
-> Another thing to verify is the current package_update_index_* correct
-> for the different package types? Looking at package_update_index_rpm,
-> I am not sure since it does not call createrepo, there might be a
-> reason for this that Mark H or Qing can comment on.
-My understanding about package_update_index_rpm vs. createrepo is:
-both can be used to generate rpm repo;
-package_update_index_rpm generates the metadata about the packages in solve=
-db to have rpm install the packages into target rootfs. This is the current=
- method used in do_rootfs for rpm. This is complex and the generated repo i=
-s not suitable to be exported (e.g., via http) for general use;
-createrepo generated the metadata in .xml files and the generated repo can =
-be easily exported via http and can be used easily by standard zypper (and =
-yum) tools.
-So in package-index.bb, I adopt createrepo for rpm.
+On 05/12/2011 07:49 PM, Darren Hart wrote:
+> There is: http://www.yoctoproject.org/community/mailing-lists
+>
+> Which needs to be updated to better reflect the oe-core aspect I think.
 
-Let me Cc Qing and Mark for comments about this.
+This might be at least one source of the cross posting as people are not 
+sure poky vs oe-core.
 
-Thanks!
--- Dexuan
-=20
+>> It seems to me there is a whole bunch of discussion happening on the
+>> poky list about making changes that that would effect everyone using
+>> openembedded-core.  Do we have two lists for discussion of stuff that
+>> effect the oe-core?
+>
+> No. As I understand it, things that go into poky.git/meta and things
+> that go into oe-core should be sent to the openembedded-core list. Patch
+> series for poky.git should be isolated in such a way so that they do not
+> include changes to meta (oe-core) and other areas at the same time.
+ >
+ > Does anyone have a different view?
+ >
+
+This seems logical to me. Thanks.  I also think discussion of a 
+potential patch should be done on the list that the patch would go to yes?
+
+Maybe we could drive that definition to ground and get the mailing list 
+page updated.
+
+---
+
+So above, perhaps my "whole bunch" was overstated.  Let me retract that 
+and say at least some.
+
+I don't mean to pick on you Darren; I really am just trying to 
+understand and an example is often helpful.  Earlier you and Richard 
+were discussing directdisc images [1] with a suggestion that it might be 
+ripe for removal.  Should that have been on oe-core?
+
+[1] https://lists.yoctoproject.org/pipermail/poky/2011-May/006106.htm
+
+Thanks,
+Bill
 
 
