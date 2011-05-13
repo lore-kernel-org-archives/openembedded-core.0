@@ -1,38 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QL1f3-0002h5-JM
+	(envelope-from <dvhart@linux.intel.com>) id 1QL1wl-0002ry-L0
 	for openembedded-core@lists.openembedded.org;
-	Sat, 14 May 2011 01:20:45 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 13 May 2011 16:17:55 -0700
+	Sat, 14 May 2011 01:39:03 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 13 May 2011 16:36:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,366,1301900400"; d="scan'208";a="747035632"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by orsmga001.jf.intel.com with ESMTP; 13 May 2011 16:17:54 -0700
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Sat, 14 May 2011 07:17:53 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Sat, 14 May 2011 07:17:52 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Saul Wold' <sgw@linux.intel.com>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Sat, 14 May 2011 07:17:51 +0800
-Thread-Topic: [OE-core] [RFC][v2] [PATCH 1/1] package-index.bb: add support
-	for	deb and rpm.
-Thread-Index: AcwRvHShAaU4Mi6zQsiSpzO8gYy3KgABcMMg
-Message-ID: <1865303E0DED764181A9D882DEF65FB69334F4BDA2@shsmsx502.ccr.corp.intel.com>
-References: <cover.1305279161.git.dexuan.cui@intel.com>
-	<abd335f0e36fe2a96316b77d5e04e00b8ddb4ea9.1305279161.git.dexuan.cui@intel.com>
-	<4DCDAF76.7020701@linux.intel.com>
-In-Reply-To: <4DCDAF76.7020701@linux.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [RFC][v2] [PATCH 1/1] package-index.bb: add support for	deb and rpm.
+X-IronPort-AV: E=Sophos;i="4.64,367,1301900400"; 
+   d="scan'208";a="1488573"
+Received: from unknown (HELO localhost) ([10.255.12.78])
+	by fmsmga002.fm.intel.com with ESMTP; 13 May 2011 16:36:12 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 May 2011 16:35:59 -0700
+Message-Id: <cover.1305329659.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.1
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Koen Kooi <koen@dominion.thruhere.net>,
+	Paul Eggleton <paul.eggleton@intel.com>
+Subject: [RFC PATCH 00/10] *-pull-request: cleanup and overhaul
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,87 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 23:20:45 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 May 2011 23:39:03 -0000
 
-Saul Wold wrote:
-> On 05/13/2011 02:53 AM, Dexuan Cui wrote:
->> From: Dexuan Cui<dexuan.cui@intel.com>
->>=20
->> diff --git a/meta/classes/package_deb.bbclass
->> b/meta/classes/package_deb.bbclass=20
->> index 4faeb4a..4cc0b69 100644
->> --- a/meta/classes/package_deb.bbclass
->> +++ b/meta/classes/package_deb.bbclass
->> @@ -431,3 +431,12 @@ python do_package_write_deb () {
->>   do_package_write_deb[dirs] =3D "${PKGWRITEDIRDEB}"
->>   addtask package_write_deb before do_package_write after do_package
->>=20
->> +
->> +do_package_index[depends] +=3D "dpkg-native:do_populate_sysroot
->> apt-native:do_populate_sysroot" +do_package_index[recrdeptask] +=3D
->> "package_update_index_deb" + +do_package_index() {
->> +   set -ex
->> +   package_update_index_deb
->> +   set +ex
->> +}
->=20
-> Why do you continue to include the do_package_index here, it's no
-> longer needed with the setting of do_package_index[recrdeptask], this
-> is true below also.
-Sorry, I didn't use the recrdeptask flag and I guess I still don't quite un=
-derstand it.
+After some discussion on the oe-core list regarding the *-pull-request scripts
+I provided a proposal, received some feedback, and these patches are the result
+of that discussion. The Cc list varies from patch to patch a bit more wildly
+than is typical as a final sanity test, although it does reflect who commented
+and expressed interest in which parts of the overhaul.
 
-Here removing the do_package_index() I will get such an ERROR:
-ERROR: Task do_package_index from /distro/dcui/pc1/meta/recipes-core/meta/p=
-ackage-index.bb seems to be empty?!##########################              =
-     | ETA:  00:00:00
-ERROR: Error parsing /distro/dcui/pc1/meta/recipes-core/meta/package-index.=
-bb: md5() argument 1 must be string or read-only buffer, not None          =
-     | ETA:  00:00:00
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
 
-About the recrdeptask  flag: "These are specified with the 'recrdeptask' fl=
-ag and is used signify the task(s) of each RDEPENDS which must have complet=
-ed before that task can be executed. It applies recursively so also, the RD=
-EPENDS of each item in the original RDEPENDS must be met and so on. It also=
- runs all DEPENDS first too".
-I even added RDEPENDS +=3D " package-index" in package-index.bb, but no cha=
-nge.
+The following changes since commit 65e5ebc1d27b0a6cb2e33596d6d32c536b857f0d:
 
-I'm trying to figure this out. Please point out my issue once this is obvio=
-us to you. :-)
+  tcmode-default: fix a typo (2011-05-13 11:02:20 +0100)
 
-BTW: using the recrdeptask method, we have no chance to do "set -ex" and as=
- a result we lose some debug info in the log file. Is this ok?
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib.git dvhart/git-pull
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/git-pull
 
->> +
->> diff --git a/meta/classes/package_rpm.bbclass
->> b/meta/classes/package_rpm.bbclass=20
->> index 70170d1..d9470d6 100644
->> --- a/meta/classes/package_rpm.bbclass
->> +++ b/meta/classes/package_rpm.bbclass
->> @@ -814,3 +814,10 @@ python do_package_write_rpm () {
->>   do_package_write_rpm[dirs] =3D "${PKGWRITEDIRRPM}"
->>   addtask package_write_rpm before do_package_write after do_package
->>=20
->> +do_package_index[depends] +=3D
->> "createrepo-native:do_populate_sysroot" +do_package_index() { +  =20
->> set -ex +    package_update_index_rpm
->> +    createrepo "${DEPLOY_DIR_RPM}"
->> +    set +ex
->> +}
->=20
-> Nor this do_package_index() function, why no
-> do_package_index[recrdeptask] setting in RPM?  If you need a special
-> function here them call it do_package_index_rpm() and set the
-> do_package_index[recrdeptask] to that function.
-Yes, I should have added a new function including package_update_index_rpm =
-and  createrepo "${DEPLOY_DIR_RPM}". and set do_package_index[recrdeptask] =
-to it.=20
+Darren Hart (10):
+  create-pull-request: alphabetize arguments
+  create-pull-request: whitespace cleanup
+  create-pull-request: use git request-pull and arbitrary remotes
+  create-pull-request: rewrite known private URLs to public URLs
+  create-pull-request: provide an RFC mode via -c argument
+  send-pull-request: whitespace cleanup
+  send-pull-request: remove local mta support
+  send-pull-request: fix greedy auto-cc regex
+  send-pull-request: don't send all patches to everyone even with -a
+  send-pull-request: verify git sendemail config
 
-Thanks,
--- Dexuan
+ scripts/create-pull-request |  176 +++++++++++++++++++----------
+ scripts/send-pull-request   |  265 ++++++++++++++++++-------------------------
+ 2 files changed, 228 insertions(+), 213 deletions(-)
+
 
 
