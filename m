@@ -1,38 +1,35 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QKoXx-0006h6-Gu
-	for openembedded-core@lists.openembedded.org;
-	Fri, 13 May 2011 11:20:33 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 13 May 2011 02:17:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,363,1301900400"; 
-   d="scan'208";a="1733933"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga001.fm.intel.com with ESMTP; 13 May 2011 02:17:43 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 13 May 2011 17:16:41 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 13 May 2011 17:16:41 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Fri, 13 May 2011 17:16:40 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: "openembedded-core@lists.openembedded.org"
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QKogW-0006oE-55 for openembedded-core@lists.openembedded.org;
+	Fri, 13 May 2011 11:29:24 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4D9Qacl014720
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 May 2011 10:26:36 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14427-06 for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 May 2011 10:26:28 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4D9QP9D014708
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 May 2011 10:26:26 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 13 May 2011 17:16:39 +0800
-Thread-Topic: [meta-intel] n450-audio.bb: ${POKYBASE} --> ${COREBASE}
-Thread-Index: AcwRTodSEkbYqC9MSreNTbqGXRoalw==
-Message-ID: <1865303E0DED764181A9D882DEF65FB69334F4BDA0@shsmsx502.ccr.corp.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Cc: "Wold, Saul" <saul.wold@intel.com>
-Subject: [meta-intel] n450-audio.bb: ${POKYBASE} --> ${COREBASE}
+In-Reply-To: <BANLkTi=C-5rjKtd0675Y70VX+g4MdL64Uw@mail.gmail.com>
+References: <cover.1305109178.git.leon@sidebranch.com>
+	<687fb20407ee32261a840c9e475b489319d8ee62.1305109178.git.leon@sidebranch.com>
+	<BANLkTi=C-5rjKtd0675Y70VX+g4MdL64Uw@mail.gmail.com>
+Date: Fri, 13 May 2011 10:26:14 +0100
+Message-ID: <1305278774.19606.29.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] siteinfo.bbclass: Add powerpc-linux-gnuspe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,32 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 09:20:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 May 2011 09:29:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Currently n450 can't build due to the issue:
+On Thu, 2011-05-12 at 20:50 -0700, Khem Raj wrote:
+> On Wed, May 11, 2011 at 3:29 AM, Leon Woestenberg
+> <leon.woestenberg@gmail.com> wrote:
+> > From: Leon Woestenberg <leon@sidebranch.com>
+> >
+> > Re-add powerpc-linux-gnuspe, from OpenEmbedded. Also adds support
+> > to poky.conf so that minimal-core-image builds with DISTRO=poky,
+> >
+> 
+> you need to rebase this patch on latest oe-core
 
-diff --git a/meta-n450/recipes-bsp/n450-audio/n450-audio.bb b/meta-n450/rec=
-ipes-bsp/n450-audio/n450-audio.bb
-index 90ec267..27904e3 100644
---- a/meta-n450/recipes-bsp/n450-audio/n450-audio.bb
-+++ b/meta-n450/recipes-bsp/n450-audio/n450-audio.bb
-@@ -2,7 +2,7 @@ SUMMARY =3D "Provide a basic init script to enable audio"
- DESCRIPTION =3D "Set the volume and unmute the Front mixer setting during =
-boot."
- SECTION =3D "base"
- LICENSE =3D "MIT"
--LIC_FILES_CHKSUM =3D "file://${POKYBASE}/LICENSE;md5=3D3f40d7994397109285e=
-c7b81fdeb3b58"
-+LIC_FILES_CHKSUM =3D "file://${COREBASE}/LICENSE;md5=3D3f40d7994397109285e=
-c7b81fdeb3b58"
+I resolved the conflict when I merged this:
 
- PR =3D "r4"
+http://git.openembedded.net/cgit.cgi/openembedded-core/commit/?id=701a725d118c1a2edd1e54798d85e864b45e19a2
 
-Thanks,
--- Dexuan
-=20
+Cheers,
+
+Richard
+
 
 
