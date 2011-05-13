@@ -1,22 +1,22 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QL1xG-0002tT-9T
+	(envelope-from <dvhart@linux.intel.com>) id 1QL1xs-0002ur-Nc
 	for openembedded-core@lists.openembedded.org;
-	Sat, 14 May 2011 01:39:34 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 May 2011 16:36:43 -0700
+	Sat, 14 May 2011 01:40:12 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 13 May 2011 16:37:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,367,1301900400"; d="scan'208";a="642516294"
+X-IronPort-AV: E=Sophos;i="4.64,367,1301900400"; d="scan'208";a="435896252"
 Received: from unknown (HELO localhost) ([10.255.12.78])
-	by orsmga002.jf.intel.com with ESMTP; 13 May 2011 16:36:43 -0700
+	by azsmga001.ch.intel.com with ESMTP; 13 May 2011 16:37:20 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 May 2011 16:36:19 -0700
-Message-Id: <f2b71f7e3ede5b5dda0acfad436fc8295621e014.1305329659.git.dvhart@linux.intel.com>
+Date: Fri, 13 May 2011 16:36:49 -0700
+Message-Id: <e251063dc87feecb4dd21fd5c380b3e3cf796f2e.1305329659.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1305329659.git.dvhart@linux.intel.com>
 References: <cover.1305329659.git.dvhart@linux.intel.com>
-Subject: [RFC PATCH 01/10] create-pull-request: alphabetize arguments
+Subject: [RFC PATCH 02/10] create-pull-request: whitespace cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,47 +31,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 23:39:34 -0000
+X-List-Received-Date: Fri, 13 May 2011 23:40:13 -0000
 
-Some initial cleanup prior to a significant overhaul.
+Indent with tabs, not spaces, to be consistent with other bash scripts.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- scripts/create-pull-request |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+ scripts/create-pull-request |   78 +++++++++++++++++++++---------------------
+ 1 files changed, 39 insertions(+), 39 deletions(-)
 
 diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 5ad7666..225a89a 100755
+index 225a89a..b7e015a 100755
 --- a/scripts/create-pull-request
 +++ b/scripts/create-pull-request
-@@ -9,14 +9,14 @@ usage() {
- CMD=$(basename $0)
- cat <<EOM
- Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -b contrib_branch
-+  -b contrib_branch   Branch-name in the git.pokylinux.org/poky-contrib tree
-   -h                  Display this help message
--  -o output_dir       Specify the output directory for the messages (default: pull-PID)
-+  -i commit_id        Ending commit (default: HEAD)
-   -m msg_body_file    The file containing a blurb to be inserted into the summary email
-+  -o output_dir       Specify the output directory for the messages (default: pull-PID)
-+  -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
-   -r relative_to      Starting commit (default: master)
--  -i commit_id        Ending commit (default: HEAD)
--  -b contrib_branch   Branch-name in the git.pokylinux.org/poky-contrib tree
-   -s subject          The subject to be inserted into the summary email
--  -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
- 
-  Examples:
-    $CMD -b nitin/basic
-@@ -27,7 +27,7 @@ EOM
- }
+@@ -28,42 +28,42 @@ EOM
  
  # Parse and validate arguments
--while getopts "b:hi:m:o:r:s:p:" OPT; do
-+while getopts "b:hi:m:o:p:r:s:" OPT; do
-     case $OPT in
-     b)
-         CONTRIB_BRANCH="$OPTARG"
+ while getopts "b:hi:m:o:p:r:s:" OPT; do
+-    case $OPT in
+-    b)
+-        CONTRIB_BRANCH="$OPTARG"
+-        ;;
+-    h)
+-        usage
+-        exit 0
+-        ;;
+-    i)
+-        COMMIT_ID="$OPTARG"
+-        ;;
+-    m)
+-        BODY="$OPTARG"
+-        if [ ! -e "$BODY" ]; then
+-            echo "ERROR: Body file does not exist"
+-            exit 1
+-        fi
+-        ;;
+-    o)
+-        ODIR="$OPTARG"
+-        ;;
+-    p)
+-        PREFIX="$OPTARG"
+-        ;;
+-    r)
+-        RELATIVE_TO="$OPTARG"
+-        ;;
+-    s)
+-        SUBJECT="$OPTARG"
+-        ;;
+-    esac
++	case $OPT in
++	b)
++		CONTRIB_BRANCH="$OPTARG"
++		;;
++	h)
++		usage
++		exit 0
++		;;
++	i)
++		COMMIT_ID="$OPTARG"
++		;;
++	m)
++		BODY="$OPTARG"
++		if [ ! -e "$BODY" ]; then
++			echo "ERROR: Body file does not exist"
++			exit 1
++		fi
++		;;
++	o)
++		ODIR="$OPTARG"
++		;;
++	p)
++		PREFIX="$OPTARG"
++		;;
++	r)
++		RELATIVE_TO="$OPTARG"
++		;;
++	s)
++		SUBJECT="$OPTARG"
++		;;
++	esac
+ done
+ 
+ if [ -z "$CONTRIB_BRANCH" ]; then
+-    usage
+-    exit 1
++	usage
++	exit 1
+ fi
+ 
+ 
+@@ -72,9 +72,9 @@ fi
+ WEB_URL="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=$CONTRIB_BRANCH"
+ wget -q $WEB_URL -O /dev/null
+ if [ $? -ne 0 ]; then
+-    echo "WARNING: Branch '$CONTRIB_BRANCH' was not found on the contrib git tree."
+-    echo "         Please check your contrib-branch parameter before sending."
+-    echo ""
++	echo "WARNING: Branch '$CONTRIB_BRANCH' was not found on the contrib git tree."
++	echo "         Please check your contrib-branch parameter before sending."
++	echo ""
+ fi
+ 
+ if [ -e $ODIR ]; then
+@@ -106,13 +106,13 @@ EOM
+ # If the user specified a message body, insert it into the cover letter and
+ # remove the BLURB token.
+ if [ -n "$BODY" ]; then
+-    sed -i "/BLURB HERE/ r $BODY" "$CL"
+-    sed -i "/BLURB HERE/ d" "$CL"
++	sed -i "/BLURB HERE/ r $BODY" "$CL"
++	sed -i "/BLURB HERE/ d" "$CL"
+ fi
+ 
+ # If the user specified a subject, replace the SUBJECT token with it.
+ if [ -n "$SUBJECT" ]; then
+-    sed -i -e "s/\*\*\* SUBJECT HERE \*\*\*/$SUBJECT/" "$CL"
++	sed -i -e "s/\*\*\* SUBJECT HERE \*\*\*/$SUBJECT/" "$CL"
+ fi
+ 
+ 
 -- 
 1.7.1
 
