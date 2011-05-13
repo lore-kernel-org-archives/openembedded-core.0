@@ -1,40 +1,27 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from vms173005pub.verizon.net ([206.46.173.5])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QKvIw-0001Ql-49
-	for openembedded-core@lists.openembedded.org;
-	Fri, 13 May 2011 18:33:30 +0200
-Received: by bwz5 with SMTP id 5so2557159bwz.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2011 09:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=JJFG5T6SSYzVDPy0pK+2fY1zDsx3lA6w4/bunx2KBCs=;
-	b=OCZ+wEslw46Pyht4Brwst//vDVSErLKeJ8lI7gsqS/0+eWbHJgmUhflpnmKtS48CtR
-	bMCEPxPknj4AXSkSnuLpmBDyqVY0t2GQ2veSMDrSDQ7ULd/WOsr6lvwMGdRHx9ntbaJq
-	uJhgkI/x9vJpXFt8sH1lEB3ue4rW8FbmR0tvk=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	b=eFYCoAl5Wjl/2QhxkrAvgDaS2YSbx/Upc4JDAttZgQmx8mAuKqpV9xXPP2jtFcILId
-	1afpu5PkZ6LkBwMnU924NlViJLJvkVwORNpSypzo8GMDrearr2HzIV4VTeNJo2a3M4rn
-	bo1r8hpI96OEqIYBAXU0fPMO7IC9pXMmQocZE=
-MIME-Version: 1.0
-Received: by 10.204.143.88 with SMTP id t24mr699731bku.189.1305304239567; Fri,
-	13 May 2011 09:30:39 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.79.70 with HTTP; Fri, 13 May 2011 09:30:39 -0700 (PDT)
-In-Reply-To: <201105131719.10997.paul.eggleton@linux.intel.com>
-References: <201105131719.10997.paul.eggleton@linux.intel.com>
-Date: Fri, 13 May 2011 13:30:39 -0300
-X-Google-Sender-Auth: cKaxcdg2SpJQIYQcL4PYjIcU2QY
-Message-ID: <BANLkTin7JgN9YrFmMiKDZvpwZyHPjkkZkA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
+	(envelope-from <denis@denix.org>)
+	id 1QKvkR-0002Iz-0J; Fri, 13 May 2011 19:01:55 +0200
+Received: from gandalf.denix.org ([unknown] [108.18.140.4])
+	by vms173005.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009))
+	with ESMTPA id <0LL500B0H8IBMVAY@vms173005.mailsrvcs.net>; Fri,
+	13 May 2011 11:59:00 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 7660814AF5B; Fri,
+	13 May 2011 12:58:59 -0400 (EDT)
+Date: Fri, 13 May 2011 12:58:59 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-devel@lists.openembedded.org
+Message-id: <20110513165859.GT25606@denix.org>
+References: <BANLkTinm-YXGM0z1CFJamQG7N0Em442VHw@mail.gmail.com>
+	<1305280030.2421.57.camel@phil-desktop>
+MIME-version: 1.0
+In-reply-to: <1305280030.2421.57.camel@phil-desktop>
+User-Agent: Mutt/1.5.16 (2007-06-09)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Qt4 - removal of 4.6.3
+Subject: Re: [oe] Where to host new layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,23 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 16:33:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 May 2011 17:01:55 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On Fri, May 13, 2011 at 13:19, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Saul has suggested that we remove Qt 4.6.3 from oe-core in line with our
-> policy of only having one version of a package that doesn't have GPLv2/v3
-> versions. Is this going to be OK?
+On Fri, May 13, 2011 at 10:47:10AM +0100, Phil Blundell wrote:
+> On Fri, 2011-05-13 at 02:10 -0700, Khem Raj wrote:
+> > I have created couple of layers namely meta-slugos (distro layer) and
+> > meta-nslu ( machine layer). I was  looking for place to host those
+> > layers. Would they be good under meta-openembedded ? I dont think
+> > http://www.nslu2-linux.org/
+> > has git infrastructure otherwise that would be one place to put it.
+> 
+> In the longer term I don't think there's any reason we couldn't host
+> those kinds of distro layers on openembedded.org, either in separate
+> repositories or a single shared one.  I know there was some board
+> discussion a few months ago about whether or not oe.org should be in the
+> business of hosting third party BSPs but I'm not quite sure what the
+> outcome of that was.
 
-I also think it is a better way to go.
+The outcome for the short term was to allow community-developed layers on 
+openembedded.org (where slugos/nslu should fall into that category, AFAICS) 
+and not yet the commercial layers/BSPs from manufacturers (those should be 
+directed to Yocto or asked to provide own hosting).
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+One of the reasons named was infrastructure limitations on openembedded.org as 
+of now. There were several possible solutions to hosting limitations discussed 
+few weeks ago by the board and involved parties...
+
+-- 
+Denys
 
 
