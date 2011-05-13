@@ -1,38 +1,25 @@
-Received: from mail-px0-f172.google.com ([209.85.212.172])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QKxQ2-0005W4-Cm
+	(envelope-from <sgw@linux.intel.com>) id 1QL0ex-000187-Bh
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 May 2011 20:48:58 +0200
-Received: by pxi6 with SMTP id 6so2142610pxi.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 May 2011 11:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=UewmTBKLyyQrATp2+bBojCX1qRvC3rwiNoPiFuMplZ0=;
-	b=vpbmQQb4RxBW9RuUny9fnGzTgerbyN0nrdZEzZvdPRimUJABFuSVjryxhi35rAkabz
-	0wQzShAhPRaP/kWhGO4vPfClSuqazIKBwZks/JFFqev+0QVd0AjiNAW912ifEOKHmck8
-	iz9B/LGfTIbe6yCYq07d3TTQxAQujYYd2UMwg=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=fJMMWS/plve0505Ym0mEKbhkFDMCvnRSb1UEHmBZRx0+A3nX1FagcUrn9MdVWIAZV5
-	wPLCEtpHg7wG2yRocCFMqbau1ddoMfy96507ujShruT5O3mQQTj1fv0HFXx3V5f9j3Kl
-	0TrBgDt2P8RLms4tbf0n9ShRc6W3GVxEnLUTQ=
-Received: by 10.68.56.130 with SMTP id a2mr2615833pbq.3.1305312368662;
-	Fri, 13 May 2011 11:46:08 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id p17sm1514533pbt.83.2011.05.13.11.46.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 13 May 2011 11:46:06 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 May 2011 11:46:01 -0700
-Message-Id: <40b6bd5baa980cd13fc33ba15509be078239bdbc.1305312304.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1305312304.git.raj.khem@gmail.com>
-References: <cover.1305312304.git.raj.khem@gmail.com>
-Subject: [PATCH 2/2] util-linux: inherit pkgconfig
+	Sat, 14 May 2011 00:16:35 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 13 May 2011 15:13:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.64,366,1301900400"; d="scan'208";a="642493946"
+Received: from unknown (HELO [10.255.12.119]) ([10.255.12.119])
+	by orsmga002.jf.intel.com with ESMTP; 13 May 2011 15:13:44 -0700
+Message-ID: <4DCDAD17.2040401@linux.intel.com>
+Date: Fri, 13 May 2011 15:13:43 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1305229934.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1305229934.git.bruce.ashfield@windriver.com>
+Subject: Re: [PATCH 0/1] kern-tools: error if features are not found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,31 +34,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 May 2011 18:48:58 -0000
+X-List-Received-Date: Fri, 13 May 2011 22:16:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Configure of util-linux used pkg-config to poke for gtk-doc versions
-so we need this dependency on pkgconfig
+On 05/12/2011 01:21 PM, Bruce Ashfield wrote:
+> Richard/Saul,
+>
+> I'll repeat the patch contents here, since they explain
+> the change
+>
+> ---->---->---->---->---->---->
+> Fixes bug: [YOCTO #955]
+>
+> Updating the SRCREV to pickup the kern-tools change:
+>
+> [
+>      updateme: error if features are not found
+>
+>      Rather than silently dropping addon features, we emit a warning
+>      and then exit with a failure code. The caller can then abort a
+>      build and not simply miss features.
+>
+>      Passing --no-strict to the script disables this new functionality
+>      if for some reason a feature description is missing on purpose.
+> ]
+> ---->---->---->---->---->---->
+>
+> This takes care of one thing we hit during 1.0 development,
+> and provides a clear message about features that are not
+> part of the kernel being built.
+>
+> In a test of a forced invalid feature, the output is:
+>
+> | WARNING: addon feature "cfg/non-exisistent" was not found
+> | ERROR: required features were not found. aborting
+>
+> .. and the build stops.
+>
+> Thanks,
+>      Bruce Ashfield<bruce.ashfield@windriver.com>
+>
+> Pull URL: git://git.pokylinux.org/poky-contrib.git
+>    Branch: zedd/kernel
+>    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>
+> ---
+>
+>
+> Bruce Ashfield (1):
+>    kern-tools: error if features are not found
+>
+>   .../kern-tools/kern-tools-native_git.bb            |    2 +-
+>   1 files changed, 1 insertions(+), 1 deletions(-)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+Merged into oe-core and master.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/util-linux/util-linux.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 447e5b7..489ec1a 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=1530e36fe1304d4535513de90a290df9
-                     file://licenses/COPYING.UCB;md5=263860f8968d8bafa5392cab74285262 \
-                     file://getopt/COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
- 
--inherit autotools gettext
-+inherit autotools gettext pkgconfig
- DEPENDS = "zlib ncurses"
- DEPENDS_virtclass-native_append = " lzo-native"
- 
--- 
-1.7.4.1
+Thanks
+	Sau!
 
 
 
