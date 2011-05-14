@@ -1,24 +1,28 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QL2Xs-0003ne-NL
+	(envelope-from <dvhart@linux.intel.com>) id 1QL2nq-0003yW-7I
 	for openembedded-core@lists.openembedded.org;
-	Sat, 14 May 2011 02:17:25 +0200
+	Sat, 14 May 2011 02:33:54 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 May 2011 17:14:34 -0700
+	by orsmga102.jf.intel.com with ESMTP; 13 May 2011 17:31:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.64,367,1301900400"; d="scan'208";a="747054133"
-Received: from scimitar.jf.intel.com (HELO [10.7.199.58]) ([10.7.199.58])
-	by orsmga001.jf.intel.com with ESMTP; 13 May 2011 17:14:34 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 May 2011 17:14:34 -0700
-In-Reply-To: <dda204962f3a3818351452fc0eae4c8364b685ae.1305329659.git.dvhart@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.64,367,1301900400"; d="scan'208";a="747058713"
+Received: from unknown (HELO [10.255.12.78]) ([10.255.12.78])
+	by orsmga001.jf.intel.com with ESMTP; 13 May 2011 17:31:03 -0700
+Message-ID: <4DCDCD4D.8050202@linux.intel.com>
+Date: Fri, 13 May 2011 17:31:09 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
 References: <cover.1305329659.git.dvhart@linux.intel.com>
-	<dda204962f3a3818351452fc0eae4c8364b685ae.1305329659.git.dvhart@linux.intel.com>
-X-Mailer: Evolution 3.0.1 (3.0.1-1.fc15) 
-Message-ID: <1305332074.2023.62.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: [RFC PATCH 03/10] create-pull-request: use git request-pull and arbitrary remotes
+	<502617737ac9c95e9bd4a172cb8e70a24be1b14b.1305329659.git.dvhart@linux.intel.com>
+	<BANLkTiku_-qK483An7J9RNEs2xoEcPcHmA@mail.gmail.com>
+In-Reply-To: <BANLkTiku_-qK483An7J9RNEs2xoEcPcHmA@mail.gmail.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 09/10] send-pull-request: don't send all patches to everyone even with -a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,169 +37,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 May 2011 00:17:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 14 May 2011 00:33:54 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-05-13 at 16:37 -0700, Darren Hart wrote:
-> Allow for arbitrary remotes via a new -u argument. Remove the hard coded
-> references to the pokylinux repositories. Create the WEB_URL from known
-> remotes. Future patches can add additional WEB_URL mappings for remotes
-> like Git Hub, Gitorious, and kernel.org.
-> 
-> Rather than duplicating the git request-pull command ourselves, just use
-> the existing one.
-> 
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> Cc: Tom Rini <tom_rini@mentor.com>
-> Cc: Martin Jansa <martin.jansa@gmail.com>
-> Cc: Otavio Salvador <otavio@ossystems.com.br>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  scripts/create-pull-request |   74 ++++++++++++++++++++++++++++--------------
->  1 files changed, 49 insertions(+), 25 deletions(-)
-> 
-> diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-> index b7e015a..c6cf817 100755
-> --- a/scripts/create-pull-request
-> +++ b/scripts/create-pull-request
-> @@ -2,14 +2,13 @@
->  ODIR=pull-$$
->  RELATIVE_TO="master"
->  COMMIT_ID="HEAD"
-> -PULL_URL="git://git.pokylinux.org/poky-contrib.git"
->  PREFIX="PATCH"
->  
->  usage() {
->  CMD=$(basename $0)
->  cat <<EOM
-> -Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -b contrib_branch
-> -  -b contrib_branch   Branch-name in the git.pokylinux.org/poky-contrib tree
-> +Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -u remote -b branch
-> +  -b branch           Branch name in the specified remote
->    -h                  Display this help message
->    -i commit_id        Ending commit (default: HEAD)
->    -m msg_body_file    The file containing a blurb to be inserted into the summary email
-> @@ -17,20 +16,21 @@ Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to
->    -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
->    -r relative_to      Starting commit (default: master)
->    -s subject          The subject to be inserted into the summary email
-> +  -u remote           The git remote where the branch is located
->  
->   Examples:
-> -   $CMD -b nitin/basic
-> -   $CMD -r distro/master -i nitin/distro -b nitin/distro
-> -   $CMD -r master -i misc -b nitin/misc -o pull-misc
-> -   $CMD -p "RFC PATCH" -b nitin/experimental
-> +   $CMD -u contrib -b nitin/basic
-> +   $CMD -u contrib -r distro/master -i nitin/distro -b nitin/distro
-> +   $CMD -u contrib -r master -i misc -b nitin/misc -o pull-misc
-> +   $CMD -u contrib -p "RFC PATCH" -b nitin/experimental
->  EOM
->  }
->  
->  # Parse and validate arguments
-> -while getopts "b:hi:m:o:p:r:s:" OPT; do
-> +while getopts "b:hi:m:o:p:r:s:u:" OPT; do
->  	case $OPT in
->  	b)
-> -		CONTRIB_BRANCH="$OPTARG"
-> +		BRANCH="$OPTARG"
->  		;;
->  	h)
->  		usage
-> @@ -58,23 +58,42 @@ while getopts "b:hi:m:o:p:r:s:" OPT; do
->  	s)
->  		SUBJECT="$OPTARG"
->  		;;
-> +	u)
-> +		REMOTE="$OPTARG"
-> +		REMOTE_URL=$(git config remote.$REMOTE.url)
-> +		if [ $? -ne 0 ]; then
-> +			echo "ERROR: git config failed to find a url for '$REMOTE'"
-> +			exit 1
-> +		fi
-> +		;;
->  	esac
->  done
->  
-> -if [ -z "$CONTRIB_BRANCH" ]; then
-> +if [ -z "$BRANCH" ] || [ -z "$REMOTE_URL" ]; then
->  	usage
->  	exit 1
->  fi
->  
-> 
-> +# Set WEB_URL from known remotes
-> +case "$REMOTE_URL" in
-> +	*git.yoctoproject.org*)
-> +		WEB_URL="http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=$BRANCH"
-> +		;;
-> +	*git.pokylinux.org*)
-> +		WEB_URL="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=$BRANCH"
-> +		;;
-> +esac
 
-Nit: what about if this is a remote branch on that server but not for
-that repo?
 
-> +
->  # Perform a sanity test on the web URL. Issue a warning if it is not
->  # accessible, but do not abort as users may want to run offline.
-> -WEB_URL="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=$CONTRIB_BRANCH"
-> -wget -q $WEB_URL -O /dev/null
-> -if [ $? -ne 0 ]; then
-> -	echo "WARNING: Branch '$CONTRIB_BRANCH' was not found on the contrib git tree."
-> -	echo "         Please check your contrib-branch parameter before sending."
-> -	echo ""
-> +if [ -n "$WEB_URL" ]; then
-> +	wget -q $WEB_URL -O /dev/null
-> +	if [ $? -ne 0 ]; then
-> +		echo "WARNING: Branch '$BRANCH' was not found on the contrib git tree."
-> +		echo "         Please check your remote and branch parameter before sending."
-> +		echo ""
-> +	fi
->  fi
->  
->  if [ -e $ODIR ]; then
-> @@ -90,18 +109,23 @@ git format-patch -M --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --co
->  
->  # Customize the cover letter
->  CL="$ODIR/0000-cover-letter.patch"
-> -(cat <<EOM
-> +PM="$ODIR/pull-msg"
-> +git request-pull $RELATIVE_TO $REMOTE_URL $COMMIT_ID > "$PM"
-> +if [ $? -ne 0 ]; then
-> +	echo "ERROR: git request-pull reported an error"
-> +	exit 1
-> +fi
->  
-> -Pull URL: $PULL_URL
-> -  Branch: $CONTRIB_BRANCH
-> -  Browse: $WEB_URL
-> +# The cover letter already has a diffstat, remove it from the pull-msg
-> +# before inserting it.
-> +sed -n "0,\#$REMOTE_URL# p" "$PM" | sed -i "/BLURB HERE/ r /dev/stdin" "$CL"
-> +rm "$PM"
->  
-> -Thanks,
-> -    $(git config user.name) <$(git config user.email)>
-> ----
-> +# Insert the WEB_URL if there is one
-> +if [ -n "$WEB_URL" ]; then
-> +	echo "  $WEB_URL" | sed -i "\#$REMOTE_URL# r /dev/stdin" "$CL"
-> +fi
->  
-> -EOM
-> -) | sed -i "/BLURB HERE/ r /dev/stdin" "$CL"
->  
->  # If the user specified a message body, insert it into the cover letter and
->  # remove the BLURB token.
+On 05/13/2011 04:44 PM, Khem Raj wrote:
+> On Fri, May 13, 2011 at 4:38 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+>> Rather than sending every patch to every recipient of the entire series when
+>> -a is used, only send the cover letter to everyone and use git's
+>> --signed-off-by-cc feature to generate an auto cc list for the individual
+>> patches.
+>>
+>> Using git to harvest the Cc list means only collecting Signed-off-by and Cc
+>> lines, rather than the more generic *-by lines previously. This is a fair
+>> trade-off for significantly reduced complexity. If users want to add Acked-by
+>> and Tested-by lines and want to use the -a feature, they should include those
+>> recipients as Cc lines as well.
+>>
+>> Now that we rely on git for auto-cc for the individual patches,
+>> make sure the user is prompted before sending each patch by forcing
+>> --confirm=always.
+> 
+> it can be tedious for large patchsets say 30-40 patches. and moreover
+
+
+or 10.... <cough>
+
+
+> if something is wrong in middle of sending series of patches say a CC
+> list is wrong then what to do as some of the patches would have
+> already been sent.
+
+
+We already break the process up by creating the patches in a directory
+for people review. Do we really need a third stage?
+
+
+> So I would suggest a dry pass
+> where it will show you the email headers and CC list so sender can be
+> assured that all is well
+> and then he can send them all at once.
+
+
+I was pondering this one, wondering who would catch it first ;-)
+
+We currently loop through all the patches and send them individually,
+this is an artifact of the old code. We could send the cover letter with
+one git command, and all the rest with one more. This would much more
+closer match a typical git-send-email session, and would allow for using
+the "all" option from git-send-email.
+
+As for a dry run followed by a send... that would be selecting no for
+all the send requests and validating them, then:
+
+$ yes | ./send-pull-request ...
+
+We could add a --dry-run (or -d I guess) option to make the first pass
+easier.
+
+THoughts?
+
+--
+Darren
+
+> 
+>>
+>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>> Cc: Khem Raj <raj.khem@gmail.com>
+>> Cc: Koen Kooi <koen@dominion.thruhere.net>
+>> ---
+>>  scripts/send-pull-request |   60 +++++++++++++++++++++++++++------------------
+>>  1 files changed, 36 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/scripts/send-pull-request b/scripts/send-pull-request
+>> index b294d35..f94596f 100755
+>> --- a/scripts/send-pull-request
+>> +++ b/scripts/send-pull-request
+>> @@ -4,33 +4,34 @@ AUTO=0
+>>  # Prevent environment leakage to these vars.
+>>  unset TO
+>>  unset CC
+>> +unset AUTO_CC
+>>
+>>  usage()
+>>  {
+>>  cat <<EOM
+>>  Usage: $(basename $0) [-h] [-a] [[-t email]...] -p pull-dir
+>>   -t email     Explicitly add email to the recipients
+>> -  -a           Automatically harvest recipients from "*-by: email" lines
+>> -               in the patches in the pull-dir
+>> +  -a           Automatically harvest recipients from Cc and Signed-off-by lines
+>> +               in the patches in the pull-dir. These will be used on a per
+>> +               patch basis. The cover-letter will be sent to all addresses.
+>>   -p pull-dir  Directory containing summary and patch files
+>>  EOM
+>>  }
+>>
+>> -# Collect To and CC addresses from the patch files if they exist
+>> -# $1: Which header to add the recipients to, "TO" or "CC"
+>> -# $2: The regex to match and strip from the line with email addresses
+>> +# Collect addresses from a patch into AUTO_CC
+>> +# $1: a patch file
+>>  harvest_recipients()
+>>  {
+>> -       TO_CC=$1
+>> -       REGX=$2
+>> +       PATCH=$1
+>>        export IFS=$',\n'
+>> -       for PATCH in $PDIR/*.patch; do
+>> -               # Grab To addresses
+>> +       for REGX in "^[Cc][Cc]: *" "^[Ss]igned-[Oo]ff-[Bb]y: *"; do
+>>                for EMAIL in $(sed '/^---$/q' $PATCH | grep -e "$REGX" | sed "s/$REGX//"); do
+>> -                       if [ "$TO_CC" == "TO" ] && [ "${TO/$EMAIL/}" == "$TO" ] && [ -n "$EMAIL" ]; then
+>> -                               if [ -z "$TO" ]; then TO=$EMAIL; else TO="$TO,$EMAIL"; fi
+>> -                       elif [ "$TO_CC" == "CC" ] && [ "${CC/$EMAIL/}" == "$CC" ] && [ -n "$EMAIL" ]; then
+>> -                               if [ -z "$CC" ]; then CC=$EMAIL; else CC="$CC,$EMAIL"; fi
+>> +                       if [ "${AUTO_CC/$EMAIL/}" == "$AUTO_CC" ] && [ -n "$EMAIL" ]; then
+>> +                               if [ -z "$AUTO_CC" ]; then
+>> +                                       AUTO_CC=$EMAIL;
+>> +                               else
+>> +                                       AUTO_CC="$AUTO_CC,$EMAIL";
+>> +                               fi
+>>                        fi
+>>                done
+>>        done
+>> @@ -84,13 +85,11 @@ for TOKEN in SUBJECT BLURB; do
+>>  done
+>>
+>>
+>> -# Harvest emails from the generated patches and populate the TO and CC variables
+>> -# In addition to To and CC headers/lines, the common Signed-off-by, Tested-by,
+>> -# etc. (*-by) will be added to CC.
+>> +# Harvest emails from the generated patches and populate AUTO_CC.
+>>  if [ $AUTO -eq 1 ]; then
+>> -       harvest_recipients TO "^[Tt][Oo]: *"
+>> -       harvest_recipients CC "^[Cc][Cc]: *"
+>> -       harvest_recipients CC "^[A-Z][A-Za-z-]*-[Bb][Yy]: *"
+>> +       for PATCH in $PDIR/*.patch; do
+>> +               harvest_recipients $PATCH
+>> +       done
+>>  fi
+>>
+>>  AUTO_TO="$(git config sendemail.to)"
+>> @@ -102,7 +101,7 @@ if [ -n "$AUTO_TO" ]; then
+>>        fi
+>>  fi
+>>
+>> -if [ -z "$TO" ] && [ -z "$CC" ]; then
+>> +if [ -z "$TO" ] && [ -z "$AUTO_CC" ]; then
+>>        echo "ERROR: you have not specified any recipients."
+>>        usage
+>>        exit 1
+>> @@ -114,7 +113,8 @@ cat <<EOM
+>>  The following patches:
+>>  $(for PATCH in $PDIR/*.patch; do echo "    $PATCH"; done)
+>>
+>> -will now be sent via the git send-email command.
+>> +will now be sent via the git send-email command. Git will prompt you before
+>> +sending any email.
+>>
+>>  EOM
+>>  echo "Continue? [y/N] "
+>> @@ -124,11 +124,23 @@ if [ "$cont" == "y" ] || [ "$cont" == "Y" ]; then
+>>        ERROR=0
+>>        export IFS=$','
+>>        GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
+>> -       GIT_CC=$(for R in $CC; do echo -n "--cc='$R' "; done)
+>> +       GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
+>>        unset IFS
+>>        for PATCH in $PDIR/*patch; do
+>> -               # We harvest the emails manually, so force git not to.
+>> -               eval "git send-email $GIT_TO $GIT_CC --no-chain-reply-to --suppress-cc=all $PATCH"
+>> +               if [ $AUTO -eq 1 ]; then
+>> +                       if [ $PATCH == "$CL" ]; then
+>> +                               # Send the cover letter to every recipient, both
+>> +                               # specified as well as harvested.
+>> +                               eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
+>> +                       else
+>> +                               # Send the patch to the specified recipients and
+>> +                               # those git finds in this specific patch.
+>> +                               eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --signed-off-by-cc $PATCH"
+>> +                       fi
+>> +               else
+>> +                       # Only send to the explicitly specified recipients
+>> +                       eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
+>> +               fi
+>>                if [ $? -eq 1 ]; then
+>>                        ERROR=1
+>>                fi
+>> --
+>> 1.7.1
+>>
+>>
 
 -- 
-Joshua Lock
-        Yocto Build System Monkey
-        Intel Open Source Technology Centre
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
