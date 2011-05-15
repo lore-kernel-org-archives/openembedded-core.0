@@ -1,36 +1,42 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <leon.woestenberg@gmail.com>)
-	id 1QLctf-0004jC-J5; Sun, 15 May 2011 17:06:19 +0200
-Received: by pvc30 with SMTP id 30so1826854pvc.6
-	for <multiple recipients>; Sun, 15 May 2011 08:03:27 -0700 (PDT)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QLeHK-0006tZ-Ht
+	for openembedded-core@lists.openembedded.org;
+	Sun, 15 May 2011 18:34:50 +0200
+Received: by bwz5 with SMTP id 5so3565917bwz.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 May 2011 09:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=dkLcyLHTP7GgwJgXOhUsEZNjqohZMfka3Yetf35jKTA=;
-	b=vprpcq6ddCRK4/lgfNLciIBVtS/oGSjUPaMZqxk7SWCHwmwnoqRbwb4kw72C5LBy2K
-	F8Eqzf8Rd0kscR+sctlUmMpO8C3pbs2nFSIguOp0krdG80CWQHgEq/ZeCp4XpvJKFVbi
-	Me8h2VBXXbckkIk/FhL7CG1eeAz5GyrC0OR7g=
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=XIAC2OKdiEjpOedEmc3bwmQ/NqSZFSuZZA16JlExNgA=;
+	b=BLw7i5VIL5S0xJigpXwiYoh92cFBYnv1+lSw3EQdyzKh/UchbWJowOz6wVb5CYowht
+	JU7CKtdAUP42kGkt/pG6zEZkzrSDIKbQZPNIS44K3RcU9lzfUURYg7cCrzBylxfZv12p
+	es1rBJ5vns2XwTochC6S8y0G/cU9H5P7rdRZc=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	b=lr/KX/vmnADhsa1x31IBvr7vTkDS+5ImSkp+9suOjeBUM064u2CFbLLNdajkBvNwT0
-	et0cRW7ZE4x5oQqUDIve+jMgignIG8tflR7+dprBqqeb5K5oDMC/WutSKwp1OCEfgAcZ
-	T48TlwDh+tBS9GH2qdhJMr4j0pZUe7wWH9kaA=
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	b=KgXE697ar0XWKLyobGKXWQO7Xg0RDV5mOKySQMxAkZzpUYVfI/vSSH3DJt46c5IWwk
+	jKieElU9sFz2SfT4i7pKFI7BPwV41lyINWT4ZcMrGczs4HXrifGl2HronZhzJZbgVaka
+	BHB2lKzWrx2GzeAxlTyJUAqoyekqfys4545gE=
 MIME-Version: 1.0
-Received: by 10.68.57.42 with SMTP id f10mr5517507pbq.2.1305471806805; Sun, 15
-	May 2011 08:03:26 -0700 (PDT)
-Received: by 10.68.52.232 with HTTP; Sun, 15 May 2011 08:03:26 -0700 (PDT)
-In-Reply-To: <4DCC3BA6.3010406@windriver.com>
-References: <4DCC3BA6.3010406@windriver.com>
-Date: Sun, 15 May 2011 17:03:26 +0200
-Message-ID: <BANLkTikB0P15uj-PveHCPJD-wjyn1gHqFw@mail.gmail.com>
-From: Leon Woestenberg <leon.woestenberg@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: poky <poky@yoctoproject.org>, openembedded-devel@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
+Received: by 10.204.134.207 with SMTP id k15mr3384884bkt.135.1305477119205;
+	Sun, 15 May 2011 09:31:59 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.79.70 with HTTP; Sun, 15 May 2011 09:31:59 -0700 (PDT)
+In-Reply-To: <cover.1305422996.git.sgw@linux.intel.com>
+References: <cover.1305422996.git.sgw@linux.intel.com>
+Date: Sun, 15 May 2011 13:31:59 -0300
+X-Google-Sender-Auth: -3y6H1Jnm4jHpYc16RQuTJHR_5E
+Message-ID: <BANLkTim0qhXCPJgQhD1bkbA_PxYuNp0yLw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] Commit and Patch message guidelines - fifth draft
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Kang Kai <kai.kang@windriver.com>
+Subject: Re: [PATCH 00/15] 14-May Consolidated Pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,25 +51,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 May 2011 15:06:20 -0000
+X-List-Received-Date: Sun, 15 May 2011 16:34:50 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hello Mark,
+On Sat, May 14, 2011 at 22:32, Saul Wold <sgw@linux.intel.com> wrote:
+> Some LSB Fixes from Kang, ARM and MACHINEOVERRIDES tweaks from
+> Khem, and some glib and defaultsetup changes from Martin.
+> Along with a QT4 Update from Paul.
 
-On Thu, May 12, 2011 at 9:57 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> <...> Let the code
-> tell the story of the mechanics of the change (as much as possible), and let
-> your comment tell the other details -- i.e. what the problem was, how it
-> manifested itself (symptoms), and if necessary, the justification for why the
-> fix was done in manner that it was.
->
-In other words, the long commit message must describe *why* the change
-was needed (instead of what has changed).
+You missed my last version of:
 
-I find this item the most lacking in current OpenEmbedded/Poky related commits.
+cmake: add support for oe qt4 tools names
 
-Thanks for working on this,
--- 
-Leon
+Please add it.
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
