@@ -1,37 +1,46 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QLiHy-0005tU-NN
+	(envelope-from <raj.khem@gmail.com>) id 1QLiyA-0006uK-VY
 	for openembedded-core@lists.openembedded.org;
-	Sun, 15 May 2011 22:51:46 +0200
-Received: by eye27 with SMTP id 27so1143179eye.6
+	Sun, 15 May 2011 23:35:24 +0200
+Received: by pxi6 with SMTP id 6so3049907pxi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2011 13:48:55 -0700 (PDT)
+	Sun, 15 May 2011 14:32:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:content-transfer-encoding;
-	bh=jk5EaFO2FpaybScu7jnIX3S0+S8gAKz4JEteAVW3HnE=;
-	b=xBCu3UEwM+fhU+dUUIXI0CpeLamRpb1lIkpaar+tEy+TH2mARND2qPCmBDdlhoQG2v
-	FcT5hDJEUlOdHgS1iFPJwBzbqKSIXI4Su0Ej4a21Sm3hmPXTgzrNNAEEUHLP0MZ1zE9a
-	iq93h9RNK3qlfNgvWfs5DvUW+ODCLFbN9GhRQ=
+	h=domainkey-signature:date:from:to:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=tvBGT7Id5NQ9tJyvyxiFVUA6soxoKgf7u3Vj/jRwnvs=;
+	b=u6ibtCDofGupnJemM1H/aGiEHoDIePe3V+nyhp2VtFKpFk6jbF0D3O1vt6pPbR9mVy
+	CJE+AdvlMtofw+1Wpi7ZkEh1OM4+bN+hmMjv7Gls/WsylBAbVcXpb9fBaPcaLWm/0Dhq
+	ZIjuIxRfDp221F8x5Mabz8orECs7xQrdvqQJo=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	b=LVmof4oEiCsU3p7e74Qvb+sO8JBKMuRf3THZZdbNY3hWo7CKCgPst+N/5phXkF0Nmt
-	fx/bEw2oncu6al5Ydxfp8gwkoaZhfnNadzB1cEZ1IQaPK1G0VNQWp+U9SaV1DoypV68i
-	J9F9IM8jSfc/fibvh8cCwsvfGFFq0giSb1NsY=
-Received: by 10.14.9.18 with SMTP id 18mr1481999ees.236.1305492535273; Sun, 15
-	May 2011 13:48:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.53.78 with HTTP; Sun, 15 May 2011 13:48:25 -0700 (PDT)
-In-Reply-To: <2b5ed98c067c8f517a669ba8b857ebe1c08e1bb3.1305035617.git.richard.purdie@linuxfoundation.org>
-References: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
-	<2b5ed98c067c8f517a669ba8b857ebe1c08e1bb3.1305035617.git.richard.purdie@linuxfoundation.org>
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=sIhUEsKUq0njDyrjjFR3wIlU8uIpUoGyeXqdZa3kVb4wLnKkZnRC2ycIXURBJ1DlNM
+	qFY2K6YVlw22DzLlIYIb66ByXem+W2x+t9ItlHuVMDYAyLY9uxigsweIhC9tx8y0/9W5
+	aFtNBbGSyHJSOXCx398NUTxnhiWJCu0LfjzqM=
+Received: by 10.68.51.201 with SMTP id m9mr6157379pbo.135.1305495150355;
+	Sun, 15 May 2011 14:32:30 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id y5sm2841525pbq.57.2011.05.15.14.32.28
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 15 May 2011 14:32:29 -0700 (PDT)
+Date: Sun, 15 May 2011 14:31:28 -0700
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 15 May 2011 13:48:25 -0700
-Message-ID: <BANLkTikP2DEjqVfw36bjFAn7y6ordKTA6Q@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/6] conf/distro/include/default-distrovars.inc: Create set of default 'distro' variable values
+Message-ID: <20110515213128.GA24670@sakrah.homelinux.org>
+References: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
+	<4B81AF14-3B09-4B77-884C-AAF3BE237FA9@dominion.thruhere.net>
+	<1305107117.30391.325.camel@rex>
+	<D098457C-E05A-40F8-A61C-36604A51A2E1@dominion.thruhere.net>
+	<1305111264.30391.338.camel@rex>
+	<7FB783C6-3AD6-45DD-A957-40E4AA393F58@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <7FB783C6-3AD6-45DD-A957-40E4AA393F58@dominion.thruhere.net>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH 0/6] RFC Distro config changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,73 +55,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 May 2011 20:51:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 15 May 2011 21:35:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, May 10, 2011 at 7:00 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> =C2=A0meta/conf/distro/defaultsetup.conf =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A01 +
-> =C2=A0meta/conf/distro/include/default-distrovars.inc | =C2=A0 43 +++++++=
-+++++++++++++
-> =C2=A0meta/conf/distro/poky.conf =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 48 +----------------------
-> =C2=A03 files changed, 46 insertions(+), 46 deletions(-)
-> =C2=A0create mode 100644 meta/conf/distro/include/default-distrovars.inc
->
-> diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaul=
-tsetup.conf
-> index af5ef7b..8da6c0a 100644
-> --- a/meta/conf/distro/defaultsetup.conf
-> +++ b/meta/conf/distro/defaultsetup.conf
-> @@ -1,5 +1,6 @@
-> =C2=A0include conf/distro/include/default-providers.inc
-> =C2=A0include conf/distro/include/default-versions.inc
-> +include conf/distro/include/default-distrovars.inc
-> =C2=A0include conf/distro/include/world-broken.inc
->
-> =C2=A0TARGET_VENDOR ?=3D "-oecore"
-> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/=
-distro/include/default-distrovars.inc
-> new file mode 100644
-> index 0000000..ab26a30
-> --- /dev/null
-> +++ b/meta/conf/distro/include/default-distrovars.inc
-> @@ -0,0 +1,43 @@
-> +QA_LOGFILE =3D "${TMPDIR}/qa.log"
-> +
-> +IMAGE_ROOTFS_SIZE_ext2 ?=3D "131072"
-> +
-> +OEINCLUDELOGS ?=3D "yes"
-> +KERNEL_CONSOLE ?=3D "ttyS0"
-> +
-> +require conf/distro/include/preferred-xorg-versions.inc
-> +
-> +PCMCIA_MANAGER ?=3D "pcmciautils"
-> +
-> +IMAGE_LINGUAS ?=3D "en-us en-gb"
-> +LIMIT_BUILT_LOCALES ?=3D "POSIX en_US en_GB"
-> +ENABLE_BINARY_LOCALE_GENERATION ?=3D "1"
-> +LOCALE_UTF8_ONLY ?=3D "0"
-> +
-> +DISTRO_FEATURES ?=3D "alsa bluetooth ext2 irda pcmcia usbgadget usbhost =
-wifi nfs zeroconf pci"
-> +
-> +DISTRO_EXTRA_RDEPENDS +=3D "task-core-boot"
-> +DISTRO_EXTRA_RRECOMMENDS +=3D "kernel-module-af-packet"
-> +
+On (11/05/11 13:45), Koen Kooi wrote:
+> 
+> Op 11 mei 2011, om 12:54 heeft Richard Purdie het volgende geschreven:
+> 
+> > On Wed, 2011-05-11 at 12:13 +0200, Koen Kooi wrote:
+> >> Op 11 mei 2011, om 11:45 heeft Richard Purdie het volgende geschreven:
+> >>> For the uclibc bits, I'm proposing
+> >>> to add:
+> >>> 
+> >>> +DEPLOY_DIR_append = "-uclibc"
+> >>> +STAGING_DIR_TARGET_append = "-uclibc"
+> >>> +STAGING_DIR_HOST_append = "-uclibc"
+> >>> +SSTATE_MANIFESTS_append = "-uclibc"
+> >>> 
+> >>> to tclibc-uclibc.inc.
+> >> 
+> >> Can we use _append_libc-uclibc = "uclibc" or even plain ${TCLIBC} in a
+> >> generic include file? That would be a lot more readable and fix glibc
+> >> vs eglibc.
+> > 
+> > Changing uclibc around is ok as its not something that has worked well
+> > in with OE-Core for a while. What I'm trying to avoid is having to bump
+> > all the versions of the sstate files, the sysroot layout and associated
+> > version numbers which is what would have to happen if we change the
+> > eglibc layout :(.
+> > 
+> > Obviously, if angstrom switches layout its pain for you though so I
+> > suspect someone loses with this either way :/.
+> 
+> I would think consistency is best, so either set always append TCLIBC or never. This isn't a lot more pain than the '-' to '_' change in machine names a while ago. And that even had runtime pains!
+> 
 
+I would agree we should always append TCLIBC
 
-others can be overridden but the above two are a problem. they are forcing
-distros to have these in RDEPENDS and RRECOMMENDS e.g. a distro
-which does not want kernel-module-af-packet will have to have some way
-to remove it. My opinion is do not add them to policy
+> regards,
+> 
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+-- 
 -Khem
 
 
