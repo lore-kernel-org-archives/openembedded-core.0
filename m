@@ -1,38 +1,36 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QLVJE-0000Bf-Sk
-	for openembedded-core@lists.openembedded.org;
-	Sun, 15 May 2011 09:00:13 +0200
-Received: by pzk36 with SMTP id 36so1764808pzk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 May 2011 23:57:21 -0700 (PDT)
+	(envelope-from <leon.woestenberg@gmail.com>)
+	id 1QLctf-0004jC-J5; Sun, 15 May 2011 17:06:19 +0200
+Received: by pvc30 with SMTP id 30so1826854pvc.6
+	for <multiple recipients>; Sun, 15 May 2011 08:03:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=r5YXYEHM2m2FSWSELcWi9wP4t0U8IcqBrwKSS6Z8Wfs=;
-	b=Tm02CbQ3CqZAB7AxBzl/btLTPRknHkE0ztt1zA94OX08HX4SRP5dPtN2bM7W7xOsXZ
-	8kEOHN7hzyehkN112kXs9ay809aaA2Y4nQZU5IjDa0ozKhnCKJ8xc6zpm4uHlzYWoY1f
-	u6WaH0T8ZXkdlEu5lWy/0tz5y0VsfyW7GVBV8=
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=dkLcyLHTP7GgwJgXOhUsEZNjqohZMfka3Yetf35jKTA=;
+	b=vprpcq6ddCRK4/lgfNLciIBVtS/oGSjUPaMZqxk7SWCHwmwnoqRbwb4kw72C5LBy2K
+	F8Eqzf8Rd0kscR+sctlUmMpO8C3pbs2nFSIguOp0krdG80CWQHgEq/ZeCp4XpvJKFVbi
+	Me8h2VBXXbckkIk/FhL7CG1eeAz5GyrC0OR7g=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=qi4WmavzJbLkKfrS0Sx6Ab8/FijrERRx6ueJLGhZQaIpviI2N/KRs8j+0JwhFhLZnc
-	hYMbCpdl9mkTJbd5PLZkBIqhgx7ck0VMUfkjkjHLrTLabCnn6bVV/kqpJ2WUp9njsOpD
-	OPYNs8u2+/KRdO9JNUeSUE5rovOJERtcCUrsA=
-Received: by 10.68.63.69 with SMTP id e5mr4865074pbs.307.1305442641352;
-	Sat, 14 May 2011 23:57:21 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id 9sm2482672pbt.46.2011.05.14.23.57.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 14 May 2011 23:57:20 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Date: Sat, 14 May 2011 23:57:14 -0700
-Message-Id: <184aa7f54d9b91f55f40fd273e639a3a9b7a2be9.1305442428.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1305442428.git.raj.khem@gmail.com>
-References: <cover.1305442428.git.raj.khem@gmail.com>
-Subject: [PATCH 2/2] e2fsprogs_1.41.14.bb: Package libraries into separate packages
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	b=lr/KX/vmnADhsa1x31IBvr7vTkDS+5ImSkp+9suOjeBUM064u2CFbLLNdajkBvNwT0
+	et0cRW7ZE4x5oQqUDIve+jMgignIG8tflR7+dprBqqeb5K5oDMC/WutSKwp1OCEfgAcZ
+	T48TlwDh+tBS9GH2qdhJMr4j0pZUe7wWH9kaA=
+MIME-Version: 1.0
+Received: by 10.68.57.42 with SMTP id f10mr5517507pbq.2.1305471806805; Sun, 15
+	May 2011 08:03:26 -0700 (PDT)
+Received: by 10.68.52.232 with HTTP; Sun, 15 May 2011 08:03:26 -0700 (PDT)
+In-Reply-To: <4DCC3BA6.3010406@windriver.com>
+References: <4DCC3BA6.3010406@windriver.com>
+Date: Sun, 15 May 2011 17:03:26 +0200
+Message-ID: <BANLkTikB0P15uj-PveHCPJD-wjyn1gHqFw@mail.gmail.com>
+From: Leon Woestenberg <leon.woestenberg@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: poky <poky@yoctoproject.org>, openembedded-devel@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [poky] Commit and Patch message guidelines - fifth draft
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,40 +45,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 May 2011 07:00:13 -0000
+X-List-Received-Date: Sun, 15 May 2011 15:06:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-add libcomerr libss libe2p libext2fs packages
-helps in reducing the root file system size
+Hello Mark,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../e2fsprogs/e2fsprogs_1.41.14.bb                 |    6 ++++++
- 1 files changed, 6 insertions(+), 0 deletions(-)
+On Thu, May 12, 2011 at 9:57 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> <...> Let the code
+> tell the story of the mechanics of the change (as much as possible), and let
+> your comment tell the other details -- i.e. what the problem was, how it
+> manifested itself (symptoms), and if necessary, the justification for why the
+> fix was done in manner that it was.
+>
+In other words, the long commit message must describe *why* the change
+was needed (instead of what has changed).
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.41.14.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.41.14.bb
-index d493f6f..91a783d 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.41.14.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.41.14.bb
-@@ -39,11 +39,17 @@ do_install () {
- RDEPENDS_e2fsprogs = "e2fsprogs-blkid e2fsprogs-badblocks"
- 
- PACKAGES =+ "e2fsprogs-blkid e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-fsck e2fsprogs-tune2fs e2fsprogs-badblocks"
-+PACKAGES =+ "libcomerr libss libe2p libext2fs"
-+
- FILES_e2fsprogs-blkid = "${base_sbindir}/blkid"
- FILES_e2fsprogs-fsck = "${base_sbindir}/fsck"
- FILES_e2fsprogs-e2fsck = "${base_sbindir}/e2fsck ${base_sbindir}/fsck.ext*"
- FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs ${base_sbindir}/mkfs.ext*"
- FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs ${base_sbindir}/e2label ${base_sbindir}/findfs"
- FILES_e2fsprogs-badblocks = "${base_sbindir}/badblocks"
-+FILES_libcomerr = "${libdir}/libcom_err.so.*"
-+FILES_libss = "${libdir}/libss.so.*"
-+FILES_libe2p = "${libdir}/libe2p.so.*"
-+FILES_libext2fs = "${libdir}/e2initrd_helper ${libdir}/libext2fs.so.*"
- 
- BBCLASSEXTEND = "native"
+I find this item the most lacking in current OpenEmbedded/Poky related commits.
+
+Thanks for working on this,
 -- 
-1.7.4.1
-
+Leon
 
 
