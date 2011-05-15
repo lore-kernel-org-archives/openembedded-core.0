@@ -1,44 +1,42 @@
 Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QLiyA-0006uK-VY
+	(envelope-from <raj.khem@gmail.com>) id 1QLj0c-0006yB-1i
 	for openembedded-core@lists.openembedded.org;
-	Sun, 15 May 2011 23:35:24 +0200
-Received: by pxi6 with SMTP id 6so3049907pxi.3
+	Sun, 15 May 2011 23:37:54 +0200
+Received: by pxi6 with SMTP id 6so3050537pxi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2011 14:32:30 -0700 (PDT)
+	Sun, 15 May 2011 14:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:date:from:to:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=tvBGT7Id5NQ9tJyvyxiFVUA6soxoKgf7u3Vj/jRwnvs=;
-	b=u6ibtCDofGupnJemM1H/aGiEHoDIePe3V+nyhp2VtFKpFk6jbF0D3O1vt6pPbR9mVy
-	CJE+AdvlMtofw+1Wpi7ZkEh1OM4+bN+hmMjv7Gls/WsylBAbVcXpb9fBaPcaLWm/0Dhq
-	ZIjuIxRfDp221F8x5Mabz8orECs7xQrdvqQJo=
+	:user-agent; bh=hMyekFzXKvgVhjz8rBxwj2bgjU0VJid7ipiwC9mHI4M=;
+	b=BIK4j4MueJzwmxJVl+y2oy7PBkTxXsuS7W+z9QB5InoUQx2zGh0QKRAH0XLf/vvWq8
+	4vHDddGXqOxKHIsmnNBHznXW3mrqP5ZKGHTiMiosG4V/vpu0u0nZZuU9Yeu5DKwPV6T5
+	OSDTT4MlP9qSXhKimyaeIbzRCCBQ2fhed5FUg=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	b=sIhUEsKUq0njDyrjjFR3wIlU8uIpUoGyeXqdZa3kVb4wLnKkZnRC2ycIXURBJ1DlNM
-	qFY2K6YVlw22DzLlIYIb66ByXem+W2x+t9ItlHuVMDYAyLY9uxigsweIhC9tx8y0/9W5
-	aFtNBbGSyHJSOXCx398NUTxnhiWJCu0LfjzqM=
-Received: by 10.68.51.201 with SMTP id m9mr6157379pbo.135.1305495150355;
-	Sun, 15 May 2011 14:32:30 -0700 (PDT)
+	b=SUzuFFexhGQPDLmUcCiaGOY2zm0radhJEHE81hJJAaxc+ngKkbC/bal6wLcVfMEQEH
+	Fu88TJqc7Moxd3+S0ova2IxiFBnT8vp2rCoZoQRsYDR5J1oOvgNt+STTGKHd2eff0I/g
+	PAor/egWpE9CMVsYHfxQeU9/uYCm+HdmfvlQM=
+Received: by 10.68.9.196 with SMTP id c4mr6034245pbb.461.1305495301300;
+	Sun, 15 May 2011 14:35:01 -0700 (PDT)
 Received: from sakrah.homelinux.org
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id y5sm2841525pbq.57.2011.05.15.14.32.28
+	by mx.google.com with ESMTPS id 10sm2843567pbo.48.2011.05.15.14.34.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 15 May 2011 14:32:29 -0700 (PDT)
-Date: Sun, 15 May 2011 14:31:28 -0700
+	Sun, 15 May 2011 14:35:00 -0700 (PDT)
+Date: Sun, 15 May 2011 14:34:03 -0700
 From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110515213128.GA24670@sakrah.homelinux.org>
+Message-ID: <20110515213403.GB24670@sakrah.homelinux.org>
 References: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
 	<4B81AF14-3B09-4B77-884C-AAF3BE237FA9@dominion.thruhere.net>
 	<1305107117.30391.325.camel@rex>
-	<D098457C-E05A-40F8-A61C-36604A51A2E1@dominion.thruhere.net>
-	<1305111264.30391.338.camel@rex>
-	<7FB783C6-3AD6-45DD-A957-40E4AA393F58@dominion.thruhere.net>
+	<BANLkTimX6d0r_Jz2VwJO4m7C9-4qL8RvWQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <7FB783C6-3AD6-45DD-A957-40E4AA393F58@dominion.thruhere.net>
+In-Reply-To: <BANLkTimX6d0r_Jz2VwJO4m7C9-4qL8RvWQ@mail.gmail.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
 Subject: Re: [PATCH 0/6] RFC Distro config changes
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,53 +53,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 May 2011 21:35:24 -0000
+X-List-Received-Date: Sun, 15 May 2011 21:37:54 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On (11/05/11 13:45), Koen Kooi wrote:
+On (15/05/11 13:22), Khem Raj wrote:
+> On Wed, May 11, 2011 at 2:45 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Tue, 2011-05-10 at 17:58 +0200, Koen Kooi wrote:
+> > +DEPLOY_DIR_append = "-uclibc"
+> > +STAGING_DIR_TARGET_append = "-uclibc"
+> > +STAGING_DIR_HOST_append = "-uclibc"
+> > +SSTATE_MANIFESTS_append = "-uclibc"
+> >
 > 
-> Op 11 mei 2011, om 12:54 heeft Richard Purdie het volgende geschreven:
-> 
-> > On Wed, 2011-05-11 at 12:13 +0200, Koen Kooi wrote:
-> >> Op 11 mei 2011, om 11:45 heeft Richard Purdie het volgende geschreven:
-> >>> For the uclibc bits, I'm proposing
-> >>> to add:
-> >>> 
-> >>> +DEPLOY_DIR_append = "-uclibc"
-> >>> +STAGING_DIR_TARGET_append = "-uclibc"
-> >>> +STAGING_DIR_HOST_append = "-uclibc"
-> >>> +SSTATE_MANIFESTS_append = "-uclibc"
-> >>> 
-> >>> to tclibc-uclibc.inc.
-> >> 
-> >> Can we use _append_libc-uclibc = "uclibc" or even plain ${TCLIBC} in a
-> >> generic include file? That would be a lot more readable and fix glibc
-> >> vs eglibc.
-> > 
-> > Changing uclibc around is ok as its not something that has worked well
-> > in with OE-Core for a while. What I'm trying to avoid is having to bump
-> > all the versions of the sstate files, the sysroot layout and associated
-> > version numbers which is what would have to happen if we change the
-> > eglibc layout :(.
-> > 
-> > Obviously, if angstrom switches layout its pain for you though so I
-> > suspect someone loses with this either way :/.
-> 
-> I would think consistency is best, so either set always append TCLIBC or never. This isn't a lot more pain than the '-' to '_' change in machine names a while ago. And that even had runtime pains!
-> 
+> this wont work. Since virtclasses empty out some of these vars e.g. native
+> resets STAGING_DIR_HOST but this will still append -uclibc to it since append
+> happens at the end
 
-I would agree we should always append TCLIBC
+Something like below can serve us better
 
-> regards,
-> 
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+--- a/meta/conf/distro/include/tclibc-uclibc.inc
++++ b/meta/conf/distro/include/tclibc-uclibc.inc
+@@ -21,10 +21,10 @@ CXXFLAGS += "-fvisibility-inlines-hidden"
+ IMAGE_LINGUAS = ""
 
--- 
--Khem
+ DEPLOY_DIR_IMAGE = "${TMPDIR}/deploy/images"
+-DEPLOY_DIR_append = "-uclibc"
+-STAGING_DIR_TARGET_append = "-uclibc"
+-STAGING_DIR_HOST_append = "-uclibc"
+-SSTATE_MANIFESTS_append = "-uclibc"
++DEPLOY_DIR_append = "${@["-uclibc", ""][oe.utils.inherits(d, 'native', 'nativesdk')]}"
++STAGING_DIR_TARGET_append = "${@["-uclibc", ""][oe.utils.inherits(d, 'native', 'nativesdk')]}"
++STAGING_DIR_HOST_append = "${@["-uclibc", ""][oe.utils.inherits(d, 'native', 'nativesdk')]}"
++SSTATE_MANIFESTS_append = "${@["-uclibc", ""][oe.utils.inherits(d, 'native', 'nativesdk')]}"
+
+ LIBC_DEPENDENCIES = "\
+     uclibc \
 
 
