@@ -1,41 +1,37 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QLhy0-0005VD-NN
+	(envelope-from <raj.khem@gmail.com>) id 1QLiHy-0005tU-NN
 	for openembedded-core@lists.openembedded.org;
-	Sun, 15 May 2011 22:31:08 +0200
-Received: by bwz5 with SMTP id 5so3650969bwz.6
+	Sun, 15 May 2011 22:51:46 +0200
+Received: by eye27 with SMTP id 27so1143179eye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2011 13:27:59 -0700 (PDT)
+	Sun, 15 May 2011 13:48:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=b9fQEhQ28W93XT/5AKiQ9jK1gQNPChEwF1GLCJAcI3M=;
-	b=lDZ+WRzpht0x1laMWCnFt25P6We5OPM99X8cts3L+V3Bkx55rfJDMUJVje1MibqHGa
-	/Hf2k3RJjoQouy9LDnKZbPj8JY/N0BQZNyOrkfAIhH1x9bEp5Ykdb8VZtXq3IkHfw2/U
-	S8iG+eDyo9ymwEPeZVzIDUMECMKBMKIeXJqXg=
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:content-transfer-encoding;
+	bh=jk5EaFO2FpaybScu7jnIX3S0+S8gAKz4JEteAVW3HnE=;
+	b=xBCu3UEwM+fhU+dUUIXI0CpeLamRpb1lIkpaar+tEy+TH2mARND2qPCmBDdlhoQG2v
+	FcT5hDJEUlOdHgS1iFPJwBzbqKSIXI4Su0Ej4a21Sm3hmPXTgzrNNAEEUHLP0MZ1zE9a
+	iq93h9RNK3qlfNgvWfs5DvUW+ODCLFbN9GhRQ=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	b=DC7HK5znT9i9bhiXTY37ZaXSzuxO+oXAmtJgT/TSgo03eJMDgvlGK/TPzmGWn+T/F1
-	B/y4WxQShwQ3z55TjpfwQunMMxOq0vkXp2qM/apozBUXrczHVv/xyd/AxCvwVasU6tZT
-	A40mvbY21J5hjW+DOh7aqKETHYqln45rYpDl4=
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	b=LVmof4oEiCsU3p7e74Qvb+sO8JBKMuRf3THZZdbNY3hWo7CKCgPst+N/5phXkF0Nmt
+	fx/bEw2oncu6al5Ydxfp8gwkoaZhfnNadzB1cEZ1IQaPK1G0VNQWp+U9SaV1DoypV68i
+	J9F9IM8jSfc/fibvh8cCwsvfGFFq0giSb1NsY=
+Received: by 10.14.9.18 with SMTP id 18mr1481999ees.236.1305492535273; Sun, 15
+	May 2011 13:48:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.204.138.205 with SMTP id b13mr917054bku.27.1305491278723; Sun,
-	15 May 2011 13:27:58 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.79.70 with HTTP; Sun, 15 May 2011 13:27:58 -0700 (PDT)
-In-Reply-To: <1305120614.30391.349.camel@rex>
+Received: by 10.14.53.78 with HTTP; Sun, 15 May 2011 13:48:25 -0700 (PDT)
+In-Reply-To: <2b5ed98c067c8f517a669ba8b857ebe1c08e1bb3.1305035617.git.richard.purdie@linuxfoundation.org>
 References: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
-	<1305120614.30391.349.camel@rex>
-Date: Sun, 15 May 2011 17:27:58 -0300
-X-Google-Sender-Auth: irXOW1PM14duaYa35tOHczz90uc
-Message-ID: <BANLkTi=_=Ei4+Gn3HAi=pZrQaXYH_5MwnA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	<2b5ed98c067c8f517a669ba8b857ebe1c08e1bb3.1305035617.git.richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 15 May 2011 13:48:25 -0700
+Message-ID: <BANLkTikP2DEjqVfw36bjFAn7y6ordKTA6Q@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] RFC Distro config changes
+Subject: Re: [PATCH 5/6] conf/distro/include/default-distrovars.inc: Create set of default 'distro' variable values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,26 +46,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 May 2011 20:31:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 15 May 2011 20:51:47 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 11, 2011 at 10:30, Richard Purdie
+On Tue, May 10, 2011 at 7:00 AM, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
-> I've taken feedback on board, tweaked the series and then merged it. My
-> reasoning is that whilst this might not be 100% perfect in every way, it
-> moves us a lot closer to where we want to be. We were going to start
-> seeing patch conflicts if it was out of tree for too long and that
-> didn't seem worthwhile.
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> =C2=A0meta/conf/distro/defaultsetup.conf =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A01 +
+> =C2=A0meta/conf/distro/include/default-distrovars.inc | =C2=A0 43 +++++++=
++++++++++++++
+> =C2=A0meta/conf/distro/poky.conf =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 48 +----------------------
+> =C2=A03 files changed, 46 insertions(+), 46 deletions(-)
+> =C2=A0create mode 100644 meta/conf/distro/include/default-distrovars.inc
+>
+> diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaul=
+tsetup.conf
+> index af5ef7b..8da6c0a 100644
+> --- a/meta/conf/distro/defaultsetup.conf
+> +++ b/meta/conf/distro/defaultsetup.conf
+> @@ -1,5 +1,6 @@
+> =C2=A0include conf/distro/include/default-providers.inc
+> =C2=A0include conf/distro/include/default-versions.inc
+> +include conf/distro/include/default-distrovars.inc
+> =C2=A0include conf/distro/include/world-broken.inc
+>
+> =C2=A0TARGET_VENDOR ?=3D "-oecore"
+> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/=
+distro/include/default-distrovars.inc
+> new file mode 100644
+> index 0000000..ab26a30
+> --- /dev/null
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -0,0 +1,43 @@
+> +QA_LOGFILE =3D "${TMPDIR}/qa.log"
+> +
+> +IMAGE_ROOTFS_SIZE_ext2 ?=3D "131072"
+> +
+> +OEINCLUDELOGS ?=3D "yes"
+> +KERNEL_CONSOLE ?=3D "ttyS0"
+> +
+> +require conf/distro/include/preferred-xorg-versions.inc
+> +
+> +PCMCIA_MANAGER ?=3D "pcmciautils"
+> +
+> +IMAGE_LINGUAS ?=3D "en-us en-gb"
+> +LIMIT_BUILT_LOCALES ?=3D "POSIX en_US en_GB"
+> +ENABLE_BINARY_LOCALE_GENERATION ?=3D "1"
+> +LOCALE_UTF8_ONLY ?=3D "0"
+> +
+> +DISTRO_FEATURES ?=3D "alsa bluetooth ext2 irda pcmcia usbgadget usbhost =
+wifi nfs zeroconf pci"
+> +
+> +DISTRO_EXTRA_RDEPENDS +=3D "task-core-boot"
+> +DISTRO_EXTRA_RRECOMMENDS +=3D "kernel-module-af-packet"
+> +
 
-I have expected at least another review cycle since this is a huge
-change and potential to change a lot of stuff for users...
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+others can be overridden but the above two are a problem. they are forcing
+distros to have these in RDEPENDS and RRECOMMENDS e.g. a distro
+which does not want kernel-module-af-packet will have to have some way
+to remove it. My opinion is do not add them to policy
+
+-Khem
 
 
