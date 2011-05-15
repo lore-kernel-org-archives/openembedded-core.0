@@ -1,25 +1,25 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QLQEm-00068T-11
+	(envelope-from <sgw@linux.intel.com>) id 1QLQEm-00068T-Vo
 	for openembedded-core@lists.openembedded.org;
-	Sun, 15 May 2011 03:35:16 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 May 2011 18:32:21 -0700
+	Sun, 15 May 2011 03:35:17 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 14 May 2011 18:32:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.64,368,1301900400"; 
-   d="scan'208";a="1790500"
+   d="scan'208";a="2310644"
 Received: from unknown (HELO localhost) ([10.255.12.119])
-	by fmsmga002.fm.intel.com with ESMTP; 14 May 2011 18:32:21 -0700
-Message-Id: <8ad4aa73a6a3d172a4524351cce3d53cb00f8cf4.1305422996.git.sgw@linux.intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 14 May 2011 18:32:24 -0700
+Message-Id: <d6a464b8ba49142540811cf41b78157a2300ca5b.1305422996.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305422996.git.sgw@linux.intel.com>
 References: <cover.1305422996.git.sgw@linux.intel.com>
-Old-Date: Fri, 6 May 2011 10:17:59 +0800
-Date: Sat, 14 May 2011 18:32:21 -0700
+Old-Date: Fri, 13 May 2011 10:17:16 +0100
+Date: Sat, 14 May 2011 18:32:24 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	Kang Kai <kai.kang@windriver.com>
-Subject: [PATCH 01/15] libxml-sax-perl: added to create LSB olver test report
+Subject: [PATCH 05/15] distro_tracking_fields.inc: update for qt 4.7.3 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,82 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 May 2011 01:35:16 -0000
+X-List-Received-Date: Sun, 15 May 2011 01:35:17 -0000
 
-From: Kang Kai <kai.kang@windriver.com>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-libxml-sax-perl is need to create LSB olver test report,
-so import it and its dependecy libxml-namespacesupport-perl from oe.
-Add LICENSE and reset PR.
-
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- .../perl/libxml-namespacesupport-perl_1.11.bb      |   22 ++++++++++++++++
- meta/recipes-extended/perl/libxml-sax-perl_0.96.bb |   26 ++++++++++++++++++++
- 2 files changed, 48 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb
- create mode 100644 meta/recipes-extended/perl/libxml-sax-perl_0.96.bb
+ .../conf/distro/include/distro_tracking_fields.inc |   32 ++++++++++----------
+ 1 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb
-new file mode 100644
-index 0000000..d96430e
---- /dev/null
-+++ b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb
-@@ -0,0 +1,22 @@
-+SUMMARY = "Perl module for supporting simple generic namespaces"
-+DESCRIPTION = "XML::NamespaceSupport offers a simple way to process namespace-based XML names. \
-+                It also helps maintain a prefix-to-namespace URI map, and provides a number of \
-+                basic checks. "
-+
-+SECTION = "libs"
-+LICENSE = "Artistic|GPLv1+"
-+PR = "r0"
-+
-+LIC_FILES_CHKSUM = "file://META.yml;beginline=22;endline=22;md5=3b2b564dae8b9af9e8896e85c07dcbe5"
-+
-+SRC_URI = "http://search.cpan.org/CPAN/authors/id/P/PE/PERIGRIN/XML-NamespaceSupport-${PV}.tar.gz"
-+SRC_URI[md5sum] = "222cca76161cd956d724286d36b607da"
-+SRC_URI[sha256sum] = "6d8151f0a3f102313d76b64bfd1c2d9ed46bfe63a16f038e7d860fda287b74ea"
-+
-+
-+S = "${WORKDIR}/XML-NamespaceSupport-${PV}"
-+
-+inherit cpan
-+
-+BBCLASSEXTEND="native"
-+
-diff --git a/meta/recipes-extended/perl/libxml-sax-perl_0.96.bb b/meta/recipes-extended/perl/libxml-sax-perl_0.96.bb
-new file mode 100644
-index 0000000..13956cb
---- /dev/null
-+++ b/meta/recipes-extended/perl/libxml-sax-perl_0.96.bb
-@@ -0,0 +1,26 @@
-+SUMMARY = "Perl module for using and building Perl SAX2 XML processors" 
-+DESCRIPTION = "XML::SAX consists of several framework classes for using and \
-+building Perl SAX2 XML parsers, filters, and drivers.  It is designed \ 
-+around the need to be able to "plug in" different SAX parsers to an \
-+application without requiring programmer intervention.  Those of you \
-+familiar with the DBI will be right at home.  Some of the designs \
-+come from the Java JAXP specification (SAX part), only without the \
-+javaness."
-+
-+SECTION = "libs"
-+LICENSE = "Artistic|GPLv1+"
-+DEPENDS += "libxml-namespacesupport-perl-native"
-+RDEPENDS_${PN} += "libxml-namespacesupport-perl perl-module-file-temp"
-+PR = "r0"
-+
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=65c4cd8f39c24c7135ed70dacbcb09e3"
-+
-+SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-${PV}.tar.gz"
-+SRC_URI[md5sum] = "bdcd4119a62505184e211e9dfaef0ab1"
-+SRC_URI[sha256sum] = "9bbef613afa42c46df008d537decc5a61df7e92d65463f3c900769f39e5c8e08"
-+
-+S = "${WORKDIR}/XML-SAX-${PV}"
-+
-+inherit cpan
-+
-+BBCLASSEXTEND = "native"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index d9fe02c..ad45b94 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -3352,32 +3352,32 @@ RECIPE_LAST_UPDATE_pn-imake = "Nov 21, 2010"
+ RECIPE_MAINTAINER_pn-imake = "Yu Ke <ke.yu@intel.com>"
+ 
+ RECIPE_STATUS_pn-qt4-tools-native = "green" # no update needed
+-RECIPE_LATEST_VERSION_pn-qt4-tools-native = "4.7.2"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-tools-native = "4 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-native = "2011/03/01"
+-RECIPE_LAST_UPDATE_pn-qt4-tools-native = "Apr 6, 2011"
++RECIPE_LATEST_VERSION_pn-qt4-tools-native = "4.7.3"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-tools-native = "2 months"
++RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-native = "2011/05/04"
++RECIPE_LAST_UPDATE_pn-qt4-tools-native = "May 12, 2011"
+ RECIPE_MAINTAINER_pn-qt4-tools-native = "Paul Eggleton <paul.eggleton@linux.intel.com>"
+ DISTRO_PN_ALIAS_pn-qt4-tools-native = "Mandriva=libqt4-devel Ubuntu=libqt4-dev"
+ 
+ RECIPE_STATUS_pn-qt4-tools-nativesdk = "green"
+-RECIPE_LATEST_VERSION_pn-qt4-tools-nativesdk = "4.7.2"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-tools-nativesdk = "4 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-nativesdk = "2011/03/01"
+-RECIPE_LAST_UPDATE_pn-qt4-tools-nativesdk = "Apr 6, 2011"
++RECIPE_LATEST_VERSION_pn-qt4-tools-nativesdk = "4.7.3"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-tools-nativesdk = "2 months"
++RECIPE_LATEST_RELEASE_DATE_pn-qt4-tools-nativesdk = "2011/05/04"
++RECIPE_LAST_UPDATE_pn-qt4-tools-nativesdk = "May 12, 2011"
+ RECIPE_MAINTAINER_pn-qt4-tools-nativesdk = "Paul Eggleton <paul.eggleton@linux.intel.com>"
+ 
+ RECIPE_STATUS_pn-qt4-embedded = "green"
+-RECIPE_LATEST_VERSION_pn-qt4-embedded = "4.7.2"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-embedded = "4 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-qt4-embedded = "2011/03/01"
+-RECIPE_LAST_UPDATE_pn-qt4-embedded = "Apr 6, 2011"
++RECIPE_LATEST_VERSION_pn-qt4-embedded = "4.7.3"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-embedded = "2 months"
++RECIPE_LATEST_RELEASE_DATE_pn-qt4-embedded = "2011/05/04"
++RECIPE_LAST_UPDATE_pn-qt4-embedded = "May 12, 2011"
+ RECIPE_MAINTAINER_pn-qt4-embedded = "Paul Eggleton <paul.eggleton@linux.intel.com>"
+ 
+ RECIPE_STATUS_pn-qt4-x11-free = "green"
+-RECIPE_LATEST_VERSION_pn-qt4-x11-free = "4.7.2"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-x11-free = "4 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-qt4-x11-free = "2011/03/01"
+-RECIPE_LAST_UPDATE_pn-qt4-x11-free = "Apr 6, 2011"
++RECIPE_LATEST_VERSION_pn-qt4-x11-free = "4.7.3"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-qt4-x11-free = "2 months"
++RECIPE_LATEST_RELEASE_DATE_pn-qt4-x11-free = "2011/05/04"
++RECIPE_LAST_UPDATE_pn-qt4-x11-free = "May 12, 2011"
+ RECIPE_MAINTAINER_pn-qt4-x11-free = "Paul Eggleton <paul.eggleton@linux.intel.com"
+ DISTRO_PN_ALIAS_pn-qt4-x11-free = "Ubuntu=qt-x11-free Debian=qt-x11-free"
+ 
 -- 
 1.7.1.1
 
