@@ -1,31 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QLz4n-0005sx-GV for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 16:47:17 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GEiLSf020410;
-	Mon, 16 May 2011 15:44:21 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20015-08; Mon, 16 May 2011 15:44:17 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GEiCX5020404
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 16 May 2011 15:44:13 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QLz5l-0005un-8x
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 May 2011 16:48:17 +0200
+Received: by wwb17 with SMTP id 17so4321626wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2011 07:45:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:date:x-google-sender-auth
+	:message-id:subject:from:to:content-type:content-transfer-encoding;
+	bh=yIkUNwqQzULWP+N21BfShlIWUUbcae5pyiDwR93tLSk=;
+	b=PFbF8fSw+Ah8goFph6tpQ1x4Rc6aDXhAEA/UAYW0r2TidjhEhZ/yOraTsheKBaJLeN
+	x+SpLoVaJo+rGBDREXl2mf7g+/mERJgnOvFcTTZPorvXG4mUp3zSpKKOKXnfwfXOGt0S
+	+RL7WNPLogV5iJD/m6UZmmzGcXG2QbAda8FgM=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type:content-transfer-encoding;
+	b=CN+1bajQyj8E3ElWGSoWlQE8zinGPbgyGKBlzGvML852Dtc8XePYx2AN3asLQVBPbL
+	FqWNS/lxCMGAVkpq2zWEp9mfgSmdrAt0WTR5Kf1XZFxTb2jh5yzbJu/Anp7KBuuEjK/F
+	NU3li4hg9Yza4t1BXtuADJsjntgO1jvNnVqnw=
+MIME-Version: 1.0
+Received: by 10.216.241.132 with SMTP id g4mr131679wer.9.1305557124880; Mon,
+	16 May 2011 07:45:24 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.216.19.19 with HTTP; Mon, 16 May 2011 07:45:24 -0700 (PDT)
+Date: Mon, 16 May 2011 11:45:24 -0300
+X-Google-Sender-Auth: ba5TgXVtBQB4ykJz0rf4_VaIyCs
+Message-ID: <BANLkTi==buTZVpyhU3Kjf6ZTsNCL0XxAww@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <212bfaaefe0979c155069b6d3a0d42205a398a67.1305422996.git.sgw@linux.intel.com>
-References: <cover.1305422996.git.sgw@linux.intel.com>
-	<212bfaaefe0979c155069b6d3a0d42205a398a67.1305422996.git.sgw@linux.intel.com>
-Date: Mon, 16 May 2011 15:44:11 +0100
-Message-ID: <1305557051.3424.88.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 11/15] gcc-common.inc: Consider hardfp knob for configuring toolchain
+Subject: Usage of linux (instead of linux-yocto) recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,56 +45,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 14:47:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 May 2011 14:48:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hi Khem,
+Hello,
 
-I've a concern about ending up with several different variables all
-doing the same thing. Why do we need both TARGET_FPU and ARM_FP_ABI?
-Couldn't we just have values or "hard, sort or empty" for TARGET_FPU?
+Is someone using  regular linux recipes with oe-core (or meta-oe)?
 
-Cheers,
-
-Richard
-
-On Sat, 2011-05-14 at 18:32 -0700, Saul Wold wrote:
-> From: Khem Raj <raj.khem@gmail.com>
-> 
-> pass --with-float=hard|soft depending upon ARM_FP_ABI settings
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-common.inc |   13 ++++++++++---
->  1 files changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-> index a3fa234..8b7c3ad 100644
-> --- a/meta/recipes-devtools/gcc/gcc-common.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-common.inc
-> @@ -8,10 +8,17 @@ NATIVEDEPS = ""
->  inherit autotools gettext
->  
->  FILESDIR = "${@os.path.dirname(bb.data.getVar('FILE',d,1))}/gcc-${PV}"
-> -
->  def get_gcc_fpu_setting(bb, d):
-> -    if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:
-> -        return "--with-float=soft"
-> +    if bb.data.getVar('TARGET_FPU', d, True) in [ 'soft', 'hard'] and bb.data.getVar('TARGET_OS', d, True).find('linux') >= 0 :
-> +        # ARM_FP_ABI could be either 'hardfp' or 'softfp'
-> +        arm_fpabi = bb.data.getVar('ARM_FP_ABI', d, True) or ""
-> +        if arm_fpabi != "":
-> +            if arm_fpabi  == "hardfp":
-> +                # reset it to whatever gcc --with-float configure expects which is either 'softfp' or 'hard'
-> +                arm_fpabi = "hard"
-> +            return "--with-float=" + arm_fpabi
-> +        else:
-> +            return "--with-float=" + bb.data.getVar('TARGET_FPU', d, True)
->      return ""
->  
->  def get_gcc_mips_plt_setting(bb, d):
-
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
