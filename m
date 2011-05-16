@@ -1,23 +1,22 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QM5d2-0003R0-EH
+	(envelope-from <sgw@linux.intel.com>) id 1QM5d2-0003Sd-E2
 	for openembedded-core@lists.openembedded.org;
 	Mon, 16 May 2011 23:47:04 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 16 May 2011 14:44:13 -0700
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 16 May 2011 14:44:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,221,1304319600"; 
-   d="scan'208";a="2999822"
+X-IronPort-AV: E=Sophos;i="4.65,221,1304319600"; d="scan'208";a="437102384"
 Received: from unknown (HELO localhost) ([10.255.12.119])
-	by fmsmga001.fm.intel.com with ESMTP; 16 May 2011 14:44:13 -0700
-Message-Id: <7c8ef74ba300f5704ffff52debf9d4d4315f1144.1305580484.git.sgw@linux.intel.com>
+	by azsmga001.ch.intel.com with ESMTP; 16 May 2011 14:44:09 -0700
+Message-Id: <da0858a85deb199824d4f8e3059d22e4e79e1dd4.1305580484.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305580484.git.sgw@linux.intel.com>
 References: <cover.1305580484.git.sgw@linux.intel.com>
-Old-Date: Mon, 16 May 2011 13:13:01 -0700
-Date: Mon, 16 May 2011 14:44:12 -0700
+Old-Date: Mon, 16 May 2011 11:42:28 -0400
+Date: Mon, 16 May 2011 14:44:09 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 12/14] openssh: Don't use ${libdir}exec
+Subject: [PATCH 09/14] linux-yocto: detect and avoid branch revision checking for AUTOREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,30 +33,53 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 16 May 2011 21:47:04 -0000
 
-From: Tom Rini <tom_rini@mentor.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-This is 1259e0289ce53198cc6c57a9616c8a1623be502a in OE.
+When a BSP or layer specifies an AUTOREV for SRCREV, the logic
+that matches expected vs real branch heads doesn't apply. We
+always want the latest.
 
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
+To solve the issues with invalid git revs causing validation
+failures, we detect the AUTOINC value and do a early return,
+skipping validation.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-connectivity/openssh/openssh_5.6p1.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/kernel-yocto.bbclass                  |    7 +++++++
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ 2 files changed, 8 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_5.6p1.bb b/meta/recipes-connectivity/openssh/openssh_5.6p1.bb
-index d93a773..df7fcad 100644
---- a/meta/recipes-connectivity/openssh/openssh_5.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_5.6p1.bb
-@@ -75,8 +75,8 @@ FILES_${PN}-ssh = "${bindir}/ssh.${PN} ${sysconfdir}/ssh/ssh_config"
- FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
- FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config"
- FILES_${PN}-sftp = "${bindir}/sftp"
--FILES_${PN}-sftp-server = "${libdir}exec/sftp-server"
--FILES_${PN}-misc = "${bindir}/ssh* ${libdir}exec/ssh*"
-+FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
-+FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
- FILES_${PN}-keygen = "${bindir}/ssh-keygen"
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 818a07e..536434f 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -136,6 +136,13 @@ do_validate_branches() {
+  	 	return
+  	fi
  
- RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
++	# nothing to do if SRCREV=${AUTOREV}
++	if [ "${SRCREV_machine}" = "AUTOINC" ]; then
++		# restore the branch for builds
++		git checkout -f ${KBRANCH}
++		return
++	fi
++
+  	branch_head=`git show-ref -s --heads ${KBRANCH}`
+  	meta_head=`git show-ref -s --heads ${KMETA}`
+  	target_branch_head="${SRCREV_machine}"
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 829d105..f7600ca 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d8
+ 
+ DEPENDS = "git-native guilt-native"
+ 
+-SRCREV = "ecbdf3cdf6705a63dcb3c50bb24c311046f0b35c"
++SRCREV = "f8eb067b023d590b6cd8deddf6f96d6a820997af"
+ PR = r10
+ PV = "0.1+git${SRCPV}"
+ 
 -- 
 1.7.1.1
 
