@@ -1,38 +1,31 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QLyFA-0008UB-Vu for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 15:53:58 +0200
+	id 1QLylO-00057A-0g for openembedded-core@lists.openembedded.org;
+	Mon, 16 May 2011 16:27:14 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GDopVj020012
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 14:50:51 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GEOJeT020235;
+	Mon, 16 May 2011 15:24:19 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 19500-10 for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 14:50:47 +0100 (BST)
+	id 20015-04; Mon, 16 May 2011 15:24:15 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GDohaF020006
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 14:50:44 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GEOEag020229
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 16 May 2011 15:24:14 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <982B5C11-301B-48C4-91A9-E73BF47FEF8D@dominion.thruhere.net>
-References: <cover.1305525725.git.raj.khem@gmail.com>
-	<ca9a918a98510eac991c84ce1ebe8fecbdf38361.1305525725.git.raj.khem@gmail.com>
-	<13617913-C458-40F1-AA46-489ACEADF340@dominion.thruhere.net>
-	<BANLkTik7k7pd5+cc+5-K3-Di7+hdryow9Q@mail.gmail.com>
-	<1305546068.3424.33.camel@rex>
-	<982B5C11-301B-48C4-91A9-E73BF47FEF8D@dominion.thruhere.net>
-Date: Mon, 16 May 2011 14:50:41 +0100
-Message-ID: <1305553841.3424.76.camel@rex>
+In-Reply-To: <51c904d03751c96d848617bb425f85635c33be87.1305422996.git.sgw@linux.intel.com>
+References: <cover.1305422996.git.sgw@linux.intel.com>
+	<51c904d03751c96d848617bb425f85635c33be87.1305422996.git.sgw@linux.intel.com>
+Date: Mon, 16 May 2011 15:24:13 +0100
+Message-ID: <1305555853.3424.78.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/2] tclibc-uclibc.inc: Append -uclibc only to target recipes
+Subject: Re: [PATCH 09/15] bitbake.conf: move VENDOR variables from bitbake.conf to defaultsetup.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,42 +40,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 13:53:58 -0000
+X-List-Received-Date: Mon, 16 May 2011 14:27:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-05-16 at 15:11 +0200, Koen Kooi wrote:
-> Op 16 mei 2011, om 13:41 heeft Richard Purdie het volgende geschreven:
+On Sat, 2011-05-14 at 18:32 -0700, Saul Wold wrote:
+> From: Martin Jansa <Martin.Jansa@gmail.com>
 > 
-> > On Mon, 2011-05-16 at 02:55 -0700, Khem Raj wrote:
-> >> On Sun, May 15, 2011 at 11:58 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> >>> 
-> >>> Op 16 mei 2011, om 08:04 heeft Khem Raj het volgende geschreven:
-> >>> 
-> >>>> Do not define DEPLOY_DIR_IMAGE
-> >>>> Append -uclibc to STAGING_DIR_TARGET only for target recipe and cross
-> >>>> recipes
-> >>>> Append -uclibc to STAGING_DIR_HOST only for target recipes.
-> >>>> 
-> >>>> These changes make sure that we still share the native sysroot
-> >>> 
-> >>> I still stay we append tclibc unconditionally.
-> >> 
-> >> yes thats would simplify things if we agree to use TCLIBC in bitbake.conf
-> > 
-> > We can't depend on TCLIBC in bitbake.conf since someone still has the
-> > option of not using the standard configuration boilerplate we're
-> > providing.
+> * empty TARGET_VENDOR was set before weak assignment in defaultsetup.conf
+> * -oecore was changed to -oe to be more consistent with SDK_VENDOR as we had -oesdk as SDK_VENDOR and not -oecoresdk
 > 
-> So we can't add TCLIBC ??= eglibc to bitbake.conf?
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-No, I can just see the bug reports for uclibc building in a directory
-called XXX-eglibc as the user had only set the PREFERRED_PROVIDER
-variables.
+I know I probably indicated otherwise but looking at this patch, I think
+moving all these entries into distrosetup.conf is not desirable. The
+real issue here is the default:
+
+TARGET_VENDOR = "${BUILD_VENDOR}"
+
+which when you think about it doesn't actually make much sense. I'm
+happy for the default just to become:
+
+TARGET_VENDOR = "-oe"
+
+in bitbake.conf.
 
 Cheers,
 
 Richard
+
+
+> ---
+>  meta/conf/bitbake.conf             |    4 ----
+>  meta/conf/distro/defaultsetup.conf |    5 ++++-
+>  2 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 7c72de1..418a15d 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -62,7 +62,6 @@ target_datadir := "${datadir}"
+>  
+>  BUILD_ARCH = "${@os.uname()[4]}"
+>  BUILD_OS = "${@os.uname()[0].lower()}"
+> -BUILD_VENDOR = ""
+>  BUILD_SYS = "${BUILD_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
+>  BUILD_PREFIX = ""
+>  BUILD_CC_ARCH = ""
+> @@ -70,7 +69,6 @@ BUILD_EXEEXT = ""
+>  
+>  HOST_ARCH = "${TARGET_ARCH}"
+>  HOST_OS = "${TARGET_OS}"
+> -HOST_VENDOR = "${TARGET_VENDOR}"
+>  HOST_SYS = "${HOST_ARCH}${HOST_VENDOR}-${HOST_OS}"
+>  HOST_PREFIX = "${TARGET_PREFIX}"
+>  HOST_CC_ARCH = "${TARGET_CC_ARCH}"
+> @@ -78,14 +76,12 @@ HOST_EXEEXT = ""
+>  
+>  TARGET_ARCH = "INVALID"
+>  TARGET_OS = "INVALID"
+> -TARGET_VENDOR = "${BUILD_VENDOR}"
+>  TARGET_SYS = "${TARGET_ARCH}${TARGET_VENDOR}${@['-' + bb.data.getVar('TARGET_OS', d, 1), ''][bb.data.getVar('TARGET_OS', d, 1) == ('' or 'custom')]}"
+>  TARGET_PREFIX = "${TARGET_SYS}-"
+>  TARGET_CC_ARCH = ""
+>  
+>  SDK_ARCH = "${BUILD_ARCH}"
+>  SDK_OS = "${BUILD_OS}"
+> -SDK_VENDOR = "-oesdk"
+>  SDK_SYS = "${SDK_ARCH}${SDK_VENDOR}${@['-' + bb.data.getVar('SDK_OS', d, 1), ''][bb.data.getVar('SDK_OS', d, 1) == ('' or 'custom')]}"
+>  SDK_PREFIX = "${SDK_SYS}-"
+>  SDK_CC_ARCH = "${BUILD_CC_ARCH}"
+> diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
+> index 8da6c0a..dd9ffc3 100644
+> --- a/meta/conf/distro/defaultsetup.conf
+> +++ b/meta/conf/distro/defaultsetup.conf
+> @@ -3,7 +3,10 @@ include conf/distro/include/default-versions.inc
+>  include conf/distro/include/default-distrovars.inc
+>  include conf/distro/include/world-broken.inc
+>  
+> -TARGET_VENDOR ?= "-oecore"
+> +BUILD_VENDOR ?= ""
+> +TARGET_VENDOR ?= "-oe"
+> +HOST_VENDOR ?= "${TARGET_VENDOR}"
+> +SDK_VENDOR ?= "-oesdk"
+>  
+>  TARGET_FPU_arm ?= "soft"
+>  TARGET_FPU_armeb ?= "soft"
+
 
 
 
