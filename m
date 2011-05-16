@@ -1,23 +1,19 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1QM3p2-00013u-2N
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QM3pR-00015D-La
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 21:51:20 +0200
+	Mon, 16 May 2011 21:51:46 +0200
 Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
 	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4GJmMZw017174;
-	Mon, 16 May 2011 12:48:23 -0700 (PDT)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4GJmMZv017174;
+	Mon, 16 May 2011 12:48:22 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Mon, 16 May 2011 15:48:20 -0400
-Message-Id: <3ea19a555d0c0fe29c7bbffc3e1cd8ed972a7f63.1305575014.git.bruce.ashfield@windriver.com>
+Date: Mon, 16 May 2011 15:48:19 -0400
+Message-Id: <cover.1305575014.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1305575014.git.bruce.ashfield@windriver.com>
-References: <cover.1305575014.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1305575014.git.bruce.ashfield@windriver.com>
-References: <cover.1305575014.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 1/1] linux-yocto: update meta SRCREV
+Subject: [PATCH/PULL 0/1] linux-yocto: update meta SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,59 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 19:51:20 -0000
+X-List-Received-Date: Mon, 16 May 2011 19:51:46 -0000
 
-Updating the meta branch to pickup two recent commits for
-BSP support:
+Richard/Saul,
 
-[
-    commit 79669230fd82a3e7e254cf8b596a2388a4333e62
-    Author: Tom Zanussi <tom.zanussi@intel.com>
-    Date:   Fri Apr 22 15:55:12 2011 -0500
+Just a quick update of the linux-yocto SRCREV to pickup a
+couple of x86 BSP changes that have been done recently, and
+will be used in some upcoming development work.
 
-        bsp/crownbay: merge emgd branch
+cc: Tom Zanussi <tom.zanussi@intel.com>
 
-        Add scc commands to merge the yocto/emgd branch into the crownbay BSP.
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: zedd/emgd
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/emgd
 
-        Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-
-    :100644 100644 89a0725... 0d02b98... M  meta/cfg/kernel-cache/bsp/crownbay/crownbay.scc
-
-    commit ceb1744ec55408cb637929a3f154379e42642890
-    Author: Tom Zanussi <tom.zanussi@intel.com>
-    Date:   Mon Apr 25 18:15:14 2011 -0500
-
-        meta/romley: create initial BSP infrastructure
-
-        Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-
-    :000000 100644 0000000... 54ec614... A  meta/cfg/kernel-cache/bsp/romley/romley-standard.scc
-    :000000 100644 0000000... 61e5506... A  meta/cfg/kernel-cache/bsp/romley/romley.cfg
-    :000000 100644 0000000... 1c4a657... A  meta/cfg/kernel-cache/bsp/romley/romley.scc
-
-    commit ecab1e2bc12a8b0c4d064a00acc3260f6e8528c5
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Thanks,
+    Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
+
+
+Bruce Ashfield (1):
+  linux-yocto: update meta SRCREV
+
  meta/recipes-kernel/linux/linux-yocto_git.bb |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_git.bb
-index f54033d..3e828c2 100644
---- a/meta/recipes-kernel/linux/linux-yocto_git.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_git.bb
-@@ -20,7 +20,7 @@ SRCREV_machine_qemuppc = "7eb6c68d977d9039a2b5a734172b064a9d19cdc1"
- SRCREV_machine_qemux86 = "ad62d1aab734513cd96c8f4517f816420a218e77"
- SRCREV_machine_qemux86-64 = "b906f358fd404a1e74a961f25079274e0d933ee1"
- SRCREV_machine = "b906f358fd404a1e74a961f25079274e0d933ee1"
--SRCREV_meta = "ecab1e2bc12a8b0c4d064a00acc3260f6e8528c5"
-+SRCREV_meta = "79669230fd82a3e7e254cf8b596a2388a4333e62"
- 
- PR = "r18"
- PV = "${LINUX_VERSION}+git${SRCPV}"
--- 
-1.7.0.4
 
 
 
