@@ -1,38 +1,23 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QM2Y6-0007qp-4C
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QM3p2-00013u-2N
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 20:29:46 +0200
-Received: by pvc30 with SMTP id 30so2284353pvc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 11:26:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=Rj6x86Gza2N3gnDsFihUUfIEAKHCRFNneFOJHrzxfbk=;
-	b=dgGxtixClDc/f6fVD1AefhV5dehoR2yIPgOMDE2WY1/7t0Q3XN3c7uvPxLW/FmKA7n
-	RV5U82BPOgb34JtRPvKi7uKeXeWXgP9LWBO1KR99CSfc2DJAGI1IWrhVmlra5yBrMs3J
-	+T+6cCwKl0EWcTKQBq1nLhflBL2mLVFGE4rbA=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=Ww4wt9jiA/sdR06DoffUhknFGuaaf3mHWEo9Gc9Xb03WKN2jLQ9l0n/jkyAq5KwDFe
-	s/2DwJQir2UOBbbItTT7M8wxcIB3BHOta2VXJX8lbNscJtNMAi++oU4oyh+fUfCzBDt3
-	nx7ZSEY0jh1d30t9CrG4r/ME959iAKSDm3NgE=
-Received: by 10.68.39.74 with SMTP id n10mr2135388pbk.242.1305570412943;
-	Mon, 16 May 2011 11:26:52 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id l9sm3446433pbc.14.2011.05.16.11.26.51
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 16 May 2011 11:26:51 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 May 2011 11:26:44 -0700
-Message-Id: <59af7ac39a70fc410f15e8c0b0c7aa3678401d02.1305570339.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1305570339.git.raj.khem@gmail.com>
-References: <cover.1305570339.git.raj.khem@gmail.com>
-Subject: [PATCH 1/1] base.bbclass: Fix PR increment bug when PR number is a single digit
+	Mon, 16 May 2011 21:51:20 +0200
+Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
+	[128.224.146.167])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4GJmMZw017174;
+	Mon, 16 May 2011 12:48:23 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 16 May 2011 15:48:20 -0400
+Message-Id: <3ea19a555d0c0fe29c7bbffc3e1cd8ed972a7f63.1305575014.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1305575014.git.bruce.ashfield@windriver.com>
+References: <cover.1305575014.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1305575014.git.bruce.ashfield@windriver.com>
+References: <cover.1305575014.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 1/1] linux-yocto: update meta SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,60 +32,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 18:29:46 -0000
+X-List-Received-Date: Mon, 16 May 2011 19:51:20 -0000
 
-PRINC which should add to base PR value has a problem when
-the PR is single digit e.g. r0 - r9. Current algorithm
-needed atleasts 2 digits to successfully populate end and begin
-markers.
+Updating the meta branch to pickup two recent commits for
+BSP support:
 
-We reimplement the incrementing algorithm using regular expressions
-which addressed the above mentioned problem and
-simplifies the logic a bit and gets rid of loops and conditionals
+[
+    commit 79669230fd82a3e7e254cf8b596a2388a4333e62
+    Author: Tom Zanussi <tom.zanussi@intel.com>
+    Date:   Fri Apr 22 15:55:12 2011 -0500
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+        bsp/crownbay: merge emgd branch
+
+        Add scc commands to merge the yocto/emgd branch into the crownbay BSP.
+
+        Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+
+    :100644 100644 89a0725... 0d02b98... M  meta/cfg/kernel-cache/bsp/crownbay/crownbay.scc
+
+    commit ceb1744ec55408cb637929a3f154379e42642890
+    Author: Tom Zanussi <tom.zanussi@intel.com>
+    Date:   Mon Apr 25 18:15:14 2011 -0500
+
+        meta/romley: create initial BSP infrastructure
+
+        Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+
+    :000000 100644 0000000... 54ec614... A  meta/cfg/kernel-cache/bsp/romley/romley-standard.scc
+    :000000 100644 0000000... 61e5506... A  meta/cfg/kernel-cache/bsp/romley/romley.cfg
+    :000000 100644 0000000... 1c4a657... A  meta/cfg/kernel-cache/bsp/romley/romley.scc
+
+    commit ecab1e2bc12a8b0c4d064a00acc3260f6e8528c5
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/base.bbclass |   19 ++++++-------------
- 1 files changed, 6 insertions(+), 13 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto_git.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index d9ed15f..23095ec 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -233,25 +233,18 @@ do_build () {
- }
+diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_git.bb
+index f54033d..3e828c2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_git.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_git.bb
+@@ -20,7 +20,7 @@ SRCREV_machine_qemuppc = "7eb6c68d977d9039a2b5a734172b064a9d19cdc1"
+ SRCREV_machine_qemux86 = "ad62d1aab734513cd96c8f4517f816420a218e77"
+ SRCREV_machine_qemux86-64 = "b906f358fd404a1e74a961f25079274e0d933ee1"
+ SRCREV_machine = "b906f358fd404a1e74a961f25079274e0d933ee1"
+-SRCREV_meta = "ecab1e2bc12a8b0c4d064a00acc3260f6e8528c5"
++SRCREV_meta = "79669230fd82a3e7e254cf8b596a2388a4333e62"
  
- python () {
--    import exceptions, string
-+    import exceptions, string, re
- 
-     # If PRINC is set, try and increase the PR value by the amount specified
-     princ = bb.data.getVar('PRINC', d, True)
-     if princ:
-         pr = bb.data.getVar('PR', d, True)
--        start = -1
--        end = -1
--        for i in range(len(pr)):
--            if pr[i] in string.digits:
--                if start == -1:
--                    start = i
--                else:
--                    end = i
--        if start == -1 or end == -1:
-+        pr_prefix = re.search("\D+",pr)
-+        prval = re.search("\d+",pr)
-+        if pr_prefix is None or prval is None:
-             bb.error("Unable to analyse format of PR variable: %s" % pr)
--        prval = pr[start:end+1]
--        prval = int(prval) + int(princ)
--        pr = pr[0:start] + str(prval) + pr[end:len(pr)-1]
-+        nval = int(prval.group(0)) + int(princ)
-+        pr = pr_prefix.group(0) + str(nval) + pr[prval.end():]
-         bb.data.setVar('PR', pr, d)
- 
-     pn = bb.data.getVar('PN', d, 1)
+ PR = "r18"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
-1.7.4.1
+1.7.0.4
 
 
 
