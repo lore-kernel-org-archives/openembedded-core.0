@@ -1,40 +1,38 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QM6QS-0005zc-3p
+	(envelope-from <gary@mlbassoc.com>) id 1QM6bL-0006En-3X
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 00:38:08 +0200
-Received: by ewy5 with SMTP id 5so1442816ewy.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 15:35:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:content-transfer-encoding;
-	bh=KkwJ5t80ou1gqBoOU5bkjGwn2MIWWqmTM6PKqd5BUcA=;
-	b=NFfTZAGwjmhY4lD8m0d74NOCIYLS4G5gnauGPPSpqXSzvOJSCnZnDOWg8/wTgZUqt4
-	2WQ9ggwlRGblyyb2wb3qSo4hzzoV5GjYtxoL1l+U+r5qV4M9BuRqgcpHmwmFjDlz42Q4
-	5u8udeNRX2RFPfs/Y998HlPNJDeGaHy878hKI=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	b=Qe6+O50aN0+T7hiWuG+MQmR0kwEf4bJzHBnAF0FXzNB7wDul1zeCckTG8pIFBAvkjS
-	1R/ULAQedFj0+7ITUZB0dgtCA2pbveIaaoJz/We8Mde80Ue+Qk9fSmNH3wKp3SBtHxF7
-	RC3lZ4oUrFdldagdVbhj7VSxTUEiPOZVi38A8=
-Received: by 10.14.119.1 with SMTP id m1mr1840142eeh.44.1305585315405; Mon, 16
-	May 2011 15:35:15 -0700 (PDT)
+	Tue, 17 May 2011 00:49:24 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id 6FB1616601F4; Mon, 16 May 2011 16:46:28 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2-r929478
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 45FEF16600EF;
+	Mon, 16 May 2011 16:46:26 -0600 (MDT)
+Message-ID: <4DD1A942.7060400@mlbassoc.com>
+Date: Mon, 16 May 2011 16:46:26 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
+	Thunderbird/3.1.7
 MIME-Version: 1.0
-Received: by 10.14.53.78 with HTTP; Mon, 16 May 2011 15:34:45 -0700 (PDT)
-In-Reply-To: <4DD18DA1.4080501@intel.com>
-References: <cover.1305418871.git.sgw@linux.intel.com>
-	<E943FF3D-A282-4E6D-8B5A-B954A678A0E1@gmail.com>
-	<4DD13B6F.4010009@intel.com>
-	<BANLkTi=0TcHgXmYpwCjX6P5h6+y9O2YQFw@mail.gmail.com>
-	<1305575479.3424.102.camel@rex> <4DD18DA1.4080501@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 16 May 2011 15:34:45 -0700
-Message-ID: <BANLkTi=dSy1J3oP-aRH7QGSLeB3vy7Ykjw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+References: <4DB99F31.4000308@mlbassoc.com>	<BANLkTikaf3MHYrnbvHDno3dSv_LhsLyFVg@mail.gmail.com>	<BANLkTi=G-4UfXNdnJSy7qF3gb0-xLr6+4Q@mail.gmail.com>
+	<4DBEAA2C.1020601@mlbassoc.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94D88F0101@orsmsx504.amr.corp.intel.com>
+	<4DCA6C60.6050203@mlbassoc.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94D88F0328@orsmsx504.amr.corp.intel.com>
+	<4DCAADC0.9030106@mlbassoc.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94D8A2E4FE@orsmsx504.amr.corp.intel.com>
+In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94D8A2E4FE@orsmsx504.amr.corp.intel.com>
+Cc: Poky Project <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC 0/3] Move Old Recipes to meta-extras
+Subject: Re: [poky] GCC 4.6.0 on ARM?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,73 +47,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 22:38:08 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 16 May 2011 22:49:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 16, 2011 at 1:48 PM, Saul Wold <saul.wold@intel.com> wrote:
-> On 05/16/2011 12:51 PM, Richard Purdie wrote:
->>
->> On Mon, 2011-05-16 at 10:08 -0700, Khem Raj wrote:
->>>
->>> On Mon, May 16, 2011 at 7:57 AM, Saul Wold<saul.wold@intel.com> =C2=A0w=
-rote:
->>>>
->>>> On 05/15/2011 11:19 PM, Khem Raj wrote:
->>>>>
->>>>>
->>>>> On May 14, 2011, at 5:23 PM, Saul Wold<sgw@linux.intel.com> =C2=A0 wr=
-ote:
->>>>>
->>>>>> From: Saul Wold<sgw@linux.intel.com>
->>>>>>
->>>>>> This proposes to move the YAFFS2-utils, older clutter-1.4
->>>>>> and older GCC version (4.3.3 and 3.4.4) as they are unused
->>>>>> and currently unbuildable.
->>>>>>
->>>>>
->>>>> Are we left with any GPLv2 version of gcc after this ?
->>>>>
->>>> Khem,
->>>>
->>>> Is not having a GPLv2 version of gcc an issue? For the non-gplv3
->>>> version, my
->>>> understanding is to have an installed user-space for oe-core for a
->>>> non-development system, therefore gcc is not an issue.
->>>>
->>>
->>> there are certain parts of gcc which go onto target e.g. libgcc libstdc=
-++
->>
->> These have specific license exceptions allowing non-gpl code to use them
->> as system libraries though?
->>
-> Richard is correct, there are exception for the runtime parts of GCC.
-> Sorry Khem, I was not catching to original gist of the question.
+On 05/16/2011 03:26 PM, Kamble, Nitin A wrote:
+> Gary,
+>   I tried with qemuarm machine in the yocto tree. And I find the usb devices are working when compiled with gcc 4.6.0
 
-exceptions yes but they are not same exceptions between GPLv2 and GPLv3 gcc=
-.
+Can you try it on the beagleboard?
 
+Also, it's not that the USB device isn't found, rather no devices connected to
+the USB bus are discovered.
+
+> root@qemuarm:~# usb-devices
 >
-> Sau!
+> T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=12  MxCh= 3
+> D:  Ver= 1.10 Cls=09(hub  ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+> P:  Vendor=1d6b ProdID=0001 Rev=02.06
+> S:  Manufacturer=Linux 2.6.37.6-yocto-standard+ ohci_hcd
+> S:  Product=OHCI Host Controller
+> S:  SerialNumber=0000:00:0c.0
+> C:  #Ifs= 1 Cfg#= 1 Atr=e0 MxPwr=0mA
+> I:  If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
 >
->> Cheers,
->>
->> Richard
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
+> T:  Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
+> D:  Ver= 1.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
+> P:  Vendor=056a ProdID=0000 Rev=42.10
+> S:  Manufacturer=QEMU 0.14.0
+> S:  Product=Wacom PenPartner
+> S:  SerialNumber=1
+> C:  #Ifs= 1 Cfg#= 1 Atr=80 MxPwr=80mA
+> I:  If#= 0 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=01 Prot=02 Driver=wacom
+>
+> root@qemuarm:~# dmesg | head
+> Linux version 2.6.37.6-yocto-standard+ (nitin@nbuild2.sc.intel.com) (gcc version 4.6.0 (GCC) ) #1 PREEMPT Fri May 13 13:55:35 PDT 2011
+> CPU: ARM926EJ-S [41069265] revision 5 (ARMv5TEJ), cr=00093177
+> CPU: VIVT data cache, VIVT instruction cache
+> Machine: ARM-Versatile PB
+> Memory policy: ECC disabled, Data cache writeback
+> On node 0 totalpages: 32768
+> free_area_init_node: node 0, pgdat c05640c0, node_mem_map c05c0000
+>    Normal zone: 256 pages used for memmap
+>    Normal zone: 0 pages reserved
+>    Normal zone: 32512 pages, LIFO batch:7
 >
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
+>> -----Original Message-----
+>> From: Gary Thomas [mailto:gary@mlbassoc.com]
+>> Sent: Wednesday, May 11, 2011 8:40 AM
+>> To: Kamble, Nitin A
+>> Cc: Khem Raj; Poky Project; Patches and discussions about the oe-core
+>> layer
+>> Subject: Re: [poky] GCC 4.6.0 on ARM?
+>>
+>> On 05/11/2011 09:35 AM, Kamble, Nitin A wrote:
+>>>> Yes, that's the only change.  Building the kernel from the same
+>>>> source repository with 4.5.2 (using patches from you and Khem Raj)
+>>>> works perfectly.
+>>>>
+>>> Hi Gary,
+>>>     The yocto-linux kernel had to go through few changes to mute some
+>> compiler warnings with gcc 4.6.0. Are you building your own kernel?
+>>
+>> Yes.  It's roughly based on the Angstrom 2.6.37 with BeagleBoard
+>> support (I have additional OMAP boards which are not in the public
+>> tree).
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
