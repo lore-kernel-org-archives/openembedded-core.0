@@ -1,22 +1,25 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QM6Hp-0005gt-FC
+	(envelope-from <dvhart@linux.intel.com>) id 1QM6Hp-0005dQ-GC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 00:29:13 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 16 May 2011 15:26:10 -0700
+	Tue, 17 May 2011 00:29:14 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 16 May 2011 15:26:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,221,1304319600"; d="scan'208";a="437124185"
+X-IronPort-AV: E=Sophos;i="4.65,221,1304319600"; 
+   d="scan'208";a="2486189"
 Received: from unknown (HELO localhost) ([10.255.12.172])
-	by azsmga001.ch.intel.com with ESMTP; 16 May 2011 15:26:10 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 16 May 2011 15:26:15 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 May 2011 15:26:01 -0700
-Message-Id: <eb4a98eeef982194542a33be0dd615a5c2bf3ed8.1305584418.git.dvhart@linux.intel.com>
+Date: Mon, 16 May 2011 15:26:07 -0700
+Message-Id: <e86e6642765e2433ebc90a3dfe4637e06b18573d.1305584418.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <eb4a98eeef982194542a33be0dd615a5c2bf3ed8.1305584418.git.dvhart@linux.intel.com>
+References: <eb4a98eeef982194542a33be0dd615a5c2bf3ed8.1305584418.git.dvhart@linux.intel.com>
 In-Reply-To: <cover.1305584418.git.dvhart@linux.intel.com>
 References: <cover.1305584418.git.dvhart@linux.intel.com>
-Subject: [RFC PATCH v2 01/15] create-pull-request: alphabetize arguments
+Subject: [RFC PATCH v2 07/15] send-pull-request: remove local mta support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +36,181 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 16 May 2011 22:29:14 -0000
 
-Some initial cleanup prior to a significant overhaul.
+There is no real value in supporting sendmail directly when git
+can be configured to use it. The script used to generate the
+pull request mails relies heavily on git, so doing so here does
+not impose any additional dependencies and it greatly reduces the
+complexity of this script.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- scripts/create-pull-request |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+ scripts/send-pull-request |  108 +++++++++------------------------------------
+ 1 files changed, 21 insertions(+), 87 deletions(-)
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 784b48c..658b9c2 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -10,14 +10,14 @@ usage() {
- CMD=$(basename $0)
- cat <<EOM
- Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -b contrib_branch
-+  -b contrib_branch   Branch-name in the $PULL_URL
-   -h                  Display this help message
--  -o output_dir       Specify the output directory for the messages (default: pull-PID)
-+  -i commit_id        Ending commit (default: HEAD)
-   -m msg_body_file    The file containing a blurb to be inserted into the summary email
-+  -o output_dir       Specify the output directory for the messages (default: pull-PID)
-+  -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
-   -r relative_to      Starting commit (default: master)
--  -i commit_id        Ending commit (default: HEAD)
--  -b contrib_branch   Branch-name in the $PULL_URL
-   -s subject          The subject to be inserted into the summary email
--  -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
+diff --git a/scripts/send-pull-request b/scripts/send-pull-request
+index 76dd7a2..d265c47 100755
+--- a/scripts/send-pull-request
++++ b/scripts/send-pull-request
+@@ -1,15 +1,9 @@
+ #!/bin/bash
+ AUTO=0
  
-  Examples:
-    $CMD -b nitin/basic
-@@ -28,7 +28,7 @@ EOM
+-# Check env for any default settings, command line options will override these.
+-if [ -z "$PULL_MTA" ]; then
+-    PULL_MTA="sendmail"
+-fi
+-
+ # Prevent environment leakage to these vars.
+ unset TO
+ unset CC
+-# allow the user to set FROM in the environment
+ 
+ usage()
+ {
+@@ -18,10 +12,6 @@ Usage: $(basename $0) [-h] [-a] [[-t email]...] -p pull-dir
+   -t email     Explicitly add email to the recipients
+   -a           Automatically harvest recipients from "*-by: email" lines
+                in the patches in the pull-dir
+-  -f           Specify a FROM address, you can also use the FROM environment
+-               variable. If you do not specify one, it will try to use the one
+-               from your git config. This is ignored if -g is used.
+-  -g           Use git-send-email to send mail instead of sendmail
+   -p pull-dir  Directory containing summary and patch files
+ EOM
  }
+@@ -49,17 +39,11 @@ harvest_recipients()
  
- # Parse and validate arguments
--while getopts "b:hi:m:o:r:s:p:" OPT; do
-+while getopts "b:hi:m:o:p:r:s:" OPT; do
-     case $OPT in
-     b)
-         CONTRIB_BRANCH="$OPTARG"
+ 
+ # Parse and verify arguments
+-while getopts "af:ghp:t:" OPT; do
++while getopts "ahp:t:" OPT; do
+ 	case $OPT in
+ 	a)
+ 		AUTO=1
+ 		;;
+-	f)
+-		FROM="$OPTARG"
+-		;;
+-	g)
+-		PULL_MTA="git"
+-		;;
+ 	h)
+ 		usage
+ 		exit 0
+@@ -109,29 +93,14 @@ if [ $AUTO -eq 1 ]; then
+ 	harvest_recipients CC "^.*-[Bb][Yy]: *"
+ fi
+ 
+-case "$PULL_MTA" in
+-git)
+-	FROM="$(git config sendemail.from)"
+-	AUTO_TO="$(git config sendemail.to)"
+-	if [ -n "$AUTO_TO" ]; then
+-		if [ -n "$TO" ]; then
+-			TO="$TO,$AUTO_TO"
+-		else
+-			TO="$AUTO_TO"
+-		fi
++AUTO_TO="$(git config sendemail.to)"
++if [ -n "$AUTO_TO" ]; then
++	if [ -n "$TO" ]; then
++		TO="$TO,$AUTO_TO"
++	else
++		TO="$AUTO_TO"
+ 	fi
+-	;;
+-sendmail)
+-	if [ -z "$FROM" ]; then
+-		FROM="$(git config user.name) <$(git config user.email)>"
+-		if [ -z "$FROM" ]; then
+-			echo "ERROR: unable to determine a FROM address"
+-			usage
+-			exit 1
+-		fi
+-	fi
+-	;;
+-esac
++fi
+ 
+ if [ -z "$TO" ] && [ -z "$CC" ]; then
+ 	echo "ERROR: you have not specified any recipients."
+@@ -145,10 +114,7 @@ cat <<EOM
+ The following patches:
+ $(for PATCH in $PDIR/*.patch; do echo "    $PATCH"; done)
+ 
+-will be sent with the following headers:
+-  From: $FROM
+-    To: $TO
+-    CC: $CC
++will now be sent via the git send-email command.
+ 
+ EOM
+ echo "Continue? [y/N] "
+@@ -156,52 +122,20 @@ read cont
+ 
+ if [ "$cont" == "y" ] || [ "$cont" == "Y" ]; then
+ 	ERROR=0
+-	case "$PULL_MTA" in
+-	git)
+-		export IFS=$','
+-		GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
+-		GIT_CC=$(for R in $CC; do echo -n "--cc='$R' "; done)
+-		unset IFS
+-		for PATCH in $PDIR/*patch; do
+-			# We harvest the emails manually, so force git not to.
+-			eval "git send-email $GIT_TO $GIT_CC --no-chain-reply-to --suppress-cc=all $PATCH"
+-			if [ $? -eq 1 ]; then
+-				ERROR=1
+-			fi
+-		done
+-		;;
+-	sendmail)
+-		for PATCH in $PDIR/*patch; do
+-			# Insert To and CC headers via formail to keep them separate and
+-			# appending them to the sendmail command as -- $TO $CC has
+-			# proven to be an exercise in futility.
+-			#
+-			# Clear the From header, leaving it up to sendmail to insert an
+-			# appropriate one. Insert the original sender (per git) into the
+-			# body of the message.
+-			#
+-			# Use tail to remove the email envelope from git or formail as
+-			# msmtp (sendmail) would choke on them.
+-			#
+-			# Modify the patch date for sequential delivery, but retain the
+-			# original date as "Old-Date".
+-			DATE=$(date +"%a, %d %b %Y %k:%M:%S %z")
+-			GIT_FROM=$(cat $PATCH | formail -X "From:")
+-			cat $PATCH | formail -I "To: $TO" -I "CC: $CC" -I "From: $FROM" -i "Date: $DATE" | sed "0,/^$/s/^$/\n$GIT_FROM\n/" | tail -n +2 | sendmail -t
+-			if [ $? -eq 1 ]; then
+-				ERROR=1
+-			fi
+-		done
+-		;;
+-	*)
+-		echo "ERROR: unknown MTA: $PULL_MTA"
+-		usage
+-		exit 1
+-		;;
+-	esac
++	export IFS=$','
++	GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
++	GIT_CC=$(for R in $CC; do echo -n "--cc='$R' "; done)
++	unset IFS
++	for PATCH in $PDIR/*patch; do
++		# We harvest the emails manually, so force git not to.
++		eval "git send-email $GIT_TO $GIT_CC --no-chain-reply-to --suppress-cc=all $PATCH"
++		if [ $? -eq 1 ]; then
++			ERROR=1
++		fi
++	done
+ 
+ 	if [ $ERROR -eq 1 ]; then
+-		echo "ERROR: Failed to send one or more messages. Check your MTA log for details."
++		echo "ERROR: Failed to send one or more messages."
+ 	fi
+ else
+ 	echo "Send aborted."
 -- 
 1.7.1
 
