@@ -1,35 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QLwte-0005RG-Aa for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 14:27:38 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GCOkoY019314
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QLxdR-00076d-KR
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 May 2011 15:15:00 +0200
+Received: by wye20 with SMTP id 20so3786718wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 13:24:46 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18999-07 for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 13:24:42 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GCOdLB019308
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 13:24:40 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 16 May 2011 06:12:02 -0700 (PDT)
+Received: by 10.227.200.212 with SMTP id ex20mr4260931wbb.52.1305551522509;
+	Mon, 16 May 2011 06:12:02 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id l24sm3139310wbc.13.2011.05.16.06.11.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 May 2011 06:11:55 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1305546068.3424.33.camel@rex>
+Date: Mon, 16 May 2011 15:11:52 +0200
+Message-Id: <982B5C11-301B-48C4-91A9-E73BF47FEF8D@dominion.thruhere.net>
+References: <cover.1305525725.git.raj.khem@gmail.com>
+	<ca9a918a98510eac991c84ce1ebe8fecbdf38361.1305525725.git.raj.khem@gmail.com>
+	<13617913-C458-40F1-AA46-489ACEADF340@dominion.thruhere.net>
+	<BANLkTik7k7pd5+cc+5-K3-Di7+hdryow9Q@mail.gmail.com>
+	<1305546068.3424.33.camel@rex>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTi=_=Ei4+Gn3HAi=pZrQaXYH_5MwnA@mail.gmail.com>
-References: <cover.1305035617.git.richard.purdie@linuxfoundation.org>
-	<1305120614.30391.349.camel@rex>
-	<BANLkTi=_=Ei4+Gn3HAi=pZrQaXYH_5MwnA@mail.gmail.com>
-Date: Mon, 16 May 2011 13:24:38 +0100
-Message-ID: <1305548678.3424.55.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/6] RFC Distro config changes
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 2/2] tclibc-uclibc.inc: Append -uclibc only to target recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,30 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 12:27:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Sun, 2011-05-15 at 17:27 -0300, Otavio Salvador wrote:
-> On Wed, May 11, 2011 at 10:30, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > I've taken feedback on board, tweaked the series and then merged it. My
-> > reasoning is that whilst this might not be 100% perfect in every way, it
-> > moves us a lot closer to where we want to be. We were going to start
-> > seeing patch conflicts if it was out of tree for too long and that
-> > didn't seem worthwhile.
-> 
-> I have expected at least another review cycle since this is a huge
-> change and potential to change a lot of stuff for users...
-
-Its a process of iterative improvement. I'm not calling what is there
-now 100% complete, just a lot better than what preceded it. If there are
-further changes needed, lets discuss them! :)
-
-Cheers,
-
-Richard
+X-List-Received-Date: Mon, 16 May 2011 13:15:00 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 16 mei 2011, om 13:41 heeft Richard Purdie het volgende geschreven:
+
+> On Mon, 2011-05-16 at 02:55 -0700, Khem Raj wrote:
+>> On Sun, May 15, 2011 at 11:58 PM, Koen Kooi =
+<koen@dominion.thruhere.net> wrote:
+>>>=20
+>>> Op 16 mei 2011, om 08:04 heeft Khem Raj het volgende geschreven:
+>>>=20
+>>>> Do not define DEPLOY_DIR_IMAGE
+>>>> Append -uclibc to STAGING_DIR_TARGET only for target recipe and =
+cross
+>>>> recipes
+>>>> Append -uclibc to STAGING_DIR_HOST only for target recipes.
+>>>>=20
+>>>> These changes make sure that we still share the native sysroot
+>>>=20
+>>> I still stay we append tclibc unconditionally.
+>>=20
+>> yes thats would simplify things if we agree to use TCLIBC in =
+bitbake.conf
+>=20
+> We can't depend on TCLIBC in bitbake.conf since someone still has the
+> option of not using the standard configuration boilerplate we're
+> providing.
+
+So we can't add TCLIBC ??=3D eglibc to bitbake.conf?=
 
 
