@@ -1,38 +1,33 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1QM6bL-0006En-3X
-	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 00:49:24 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id 6FB1616601F4; Mon, 16 May 2011 16:46:28 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2-r929478
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 45FEF16600EF;
-	Mon, 16 May 2011 16:46:26 -0600 (MDT)
-Message-ID: <4DD1A942.7060400@mlbassoc.com>
-Date: Mon, 16 May 2011 16:46:26 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
-	Thunderbird/3.1.7
-MIME-Version: 1.0
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-References: <4DB99F31.4000308@mlbassoc.com>	<BANLkTikaf3MHYrnbvHDno3dSv_LhsLyFVg@mail.gmail.com>	<BANLkTi=G-4UfXNdnJSy7qF3gb0-xLr6+4Q@mail.gmail.com>
-	<4DBEAA2C.1020601@mlbassoc.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94D88F0101@orsmsx504.amr.corp.intel.com>
-	<4DCA6C60.6050203@mlbassoc.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94D88F0328@orsmsx504.amr.corp.intel.com>
-	<4DCAADC0.9030106@mlbassoc.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94D8A2E4FE@orsmsx504.amr.corp.intel.com>
-In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94D8A2E4FE@orsmsx504.amr.corp.intel.com>
-Cc: Poky Project <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QM72B-0006xG-L6 for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 01:17:08 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GNDssR025134
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 00:13:54 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24987-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 00:13:51 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GNDgcK025128
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 00:13:46 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] GCC 4.6.0 on ARM?
+In-Reply-To: <46AB3A39-160F-4EB9-B92E-8DE957C1284D@dominion.thruhere.net>
+References: <46AB3A39-160F-4EB9-B92E-8DE957C1284D@dominion.thruhere.net>
+Date: Tue, 17 May 2011 00:13:39 +0100
+Message-ID: <1305587619.3424.134.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: sstate breakage with multimachine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,78 +42,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 22:49:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 16 May 2011 23:17:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/16/2011 03:26 PM, Kamble, Nitin A wrote:
-> Gary,
->   I tried with qemuarm machine in the yocto tree. And I find the usb devices are working when compiled with gcc 4.6.0
+On Mon, 2011-05-16 at 13:20 +0200, Koen Kooi wrote:
+> This bug gets reintroduced every other week, so let's try to fix it
+> properly this time. The situation:
+> 
+> 2 machines (beagleboard, pandaboard) using the same base architecture
+> (armv7a).
+> 
+> step 0: rm build pseudone -rf
+> step 1: MACHINE=beagleboard bitbake console-image
+> step 2: MACHINE=omap4430-panda bitbake console-image
+> 
+> Step 0 and 1 work great, but I can't get step 2 to work. Attached is
+> the complete output of step 2. As you can see without any updates to
+> the repositories it wants to rebuild (e)glibc.
+> 
+> Why does it wants to rebuild all that? Why does it fail?
 
-Can you try it on the beagleboard?
+I had a look at this. Firstly, I figured out I needed an incantation to
+reproduce which turned out to be:
 
-Also, it's not that the USB device isn't found, rather no devices connected to
-the USB bus are discovered.
+git clone git://git.angstrom-distribution.org/setup-scripts
+git checkout oe-core
+MACHINE=beagleboard ./oebb.sh config beagleboard
+MACHINE=beagleboard ./oebb.sh bitbake console-image -S
+MACHINE=omap4430-panda ./oebb.sh bitbake console-image -S
 
-> root@qemuarm:~# usb-devices
->
-> T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=12  MxCh= 3
-> D:  Ver= 1.10 Cls=09(hub  ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-> P:  Vendor=1d6b ProdID=0001 Rev=02.06
-> S:  Manufacturer=Linux 2.6.37.6-yocto-standard+ ohci_hcd
-> S:  Product=OHCI Host Controller
-> S:  SerialNumber=0000:00:0c.0
-> C:  #Ifs= 1 Cfg#= 1 Atr=e0 MxPwr=0mA
-> I:  If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
->
-> T:  Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
-> D:  Ver= 1.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
-> P:  Vendor=056a ProdID=0000 Rev=42.10
-> S:  Manufacturer=QEMU 0.14.0
-> S:  Product=Wacom PenPartner
-> S:  SerialNumber=1
-> C:  #Ifs= 1 Cfg#= 1 Atr=80 MxPwr=80mA
-> I:  If#= 0 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=01 Prot=02 Driver=wacom
->
-> root@qemuarm:~# dmesg | head
-> Linux version 2.6.37.6-yocto-standard+ (nitin@nbuild2.sc.intel.com) (gcc version 4.6.0 (GCC) ) #1 PREEMPT Fri May 13 13:55:35 PDT 2011
-> CPU: ARM926EJ-S [41069265] revision 5 (ARMv5TEJ), cr=00093177
-> CPU: VIVT data cache, VIVT instruction cache
-> Machine: ARM-Versatile PB
-> Memory policy: ECC disabled, Data cache writeback
-> On node 0 totalpages: 32768
-> free_area_init_node: node 0, pgdat c05640c0, node_mem_map c05c0000
->    Normal zone: 256 pages used for memmap
->    Normal zone: 0 pages reserved
->    Normal zone: 32512 pages, LIFO batch:7
->
->
->
->> -----Original Message-----
->> From: Gary Thomas [mailto:gary@mlbassoc.com]
->> Sent: Wednesday, May 11, 2011 8:40 AM
->> To: Kamble, Nitin A
->> Cc: Khem Raj; Poky Project; Patches and discussions about the oe-core
->> layer
->> Subject: Re: [poky] GCC 4.6.0 on ARM?
->>
->> On 05/11/2011 09:35 AM, Kamble, Nitin A wrote:
->>>> Yes, that's the only change.  Building the kernel from the same
->>>> source repository with 4.5.2 (using patches from you and Khem Raj)
->>>> works perfectly.
->>>>
->>> Hi Gary,
->>>     The yocto-linux kernel had to go through few changes to mute some
->> compiler warnings with gcc 4.6.0. Are you building your own kernel?
->>
->> Yes.  It's roughly based on the Angstrom 2.6.37 with BeagleBoard
->> support (I have additional OMAP boards which are not in the public
->> tree).
+I added the -S option to dump sigdata files into the stamp directory so
+I didn't need to run two builds before being able to look at this. Sure
+enough, if you look
+at /media/build2/builds/angstrom/setup-scripts/build/tmp-angstrom_2010_x/stamps/all-angstrom-linux-gnueabi
+update-rc.d* then the do_populate_lic task is duplicated as are the
+do_package and its subsequent tasks.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Diffing the do_populate_lic task, it shows DEPLOY_DIR_IMAGE has a
+dependency on the MACHINE variable so its correctly rerunning the task
+for that reason. This is an Angstrom specific change and adding: 
+
+ DEPLOY_DIR_IMAGE = "${DEPLOY_DIR}/images/${MACHINE}"
++DEPLOY_DIR_IMAGE[vardepsexclude] = "MACHINE"
+ 
+to conf/distro/include/angstrom.inc makes it go away. I'm not claiming
+its the correct fix, it just proves where the problem is.
+
+Secondly, the do_package task was depending on eglibc do_package. This
+is almost certainly due to the default dependencies on things like
+virtual/libc which we add. Being an "all" PACKAGE_ARCH, it clearly
+doesn't depend on this so adding INHIBIT_DEFAULT_DEPS = "1" to the
+update-rc.d recipe removed that problem and meant packaging didn't
+rerun.
+
+Further investigation is needed and these fixes need some thought and
+creation of proper patches but hopefully this gives a handle on whats
+going on and it turns out its not that hard to figure out (although some
+scripts to compare two such runs would be interesting and/or some proper
+test cases).
+
+Note that the DEPLOY_DIR_IMAGE[vardepsexclude] is not correct. The
+do_populate_lic task is putting files into the directory and the system
+is therefore totally correct in deciding that the task needed to rerun
+as the files were being placed in a different directory. do_populate_lic
+could likely use some work in that regard as I'm not sure this is the
+right place to be putting its data though.
+
+Cheers,
+
+Richard
+
 
 
