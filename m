@@ -1,31 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QLynM-00059A-QN for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 16:29:17 +0200
+	id 1QLyvR-0005cD-Ka for openembedded-core@lists.openembedded.org;
+	Mon, 16 May 2011 16:37:37 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GEQJ3p020272;
-	Mon, 16 May 2011 15:26:19 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GEYjou020348
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2011 15:34:45 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 20015-05; Mon, 16 May 2011 15:26:15 +0100 (BST)
+	id 19826-10 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2011 15:34:41 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GEQB01020266
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 16 May 2011 15:26:11 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GEYc08020342
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2011 15:34:38 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <7ff23718bcda1a8b46a60373eb12463e0b7745d7.1305422996.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1305422996.git.sgw@linux.intel.com>
 References: <cover.1305422996.git.sgw@linux.intel.com>
-	<7ff23718bcda1a8b46a60373eb12463e0b7745d7.1305422996.git.sgw@linux.intel.com>
-Date: Mon, 16 May 2011 15:26:10 +0100
-Message-ID: <1305555970.3424.80.camel@rex>
+Date: Mon, 16 May 2011 15:34:37 +0100
+Message-ID: <1305556477.3424.82.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 14/15] task-core-nfs: fix a bitbake error
+Subject: Re: [PATCH 00/15] 14-May Consolidated Pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,42 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 14:29:17 -0000
+X-List-Received-Date: Mon, 16 May 2011 14:37:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Sat, 2011-05-14 at 18:32 -0700, Saul Wold wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> From: Saul Wold <sgw@linux.intel.com>
 > 
-> THis fixes following issue:
+> Richard,
 > 
-> NOTE: Runtime target 'glibc-utilsglibc-utils' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['glibc-utilsglibc-utils']
-> NOTE: Runtime target 'task-core-nfs-server' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['task-core-nfs-server', 'glibc-utilsglibc-utils']
+> Some LSB Fixes from Kang, ARM and MACHINEOVERRIDES tweaks from
+> Khem, and some glib and defaultsetup changes from Martin.
+> Along with a QT4 Update from Paul.
 > 
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->  meta/recipes-core/tasks/task-core-nfs.bb |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/recipes-core/tasks/task-core-nfs.bb b/meta/recipes-core/tasks/task-core-nfs.bb
-> index d5d8291..087f4f0 100644
-> --- a/meta/recipes-core/tasks/task-core-nfs.bb
-> +++ b/meta/recipes-core/tasks/task-core-nfs.bb
-> @@ -20,7 +20,7 @@ RDEPENDS_task-core-nfs-server = "\
->      nfs-utils"
->  
->  # rpcinfo can be useful but only with glibc images
-> -GLIBC_DEPENDENCIES = "glibc-utils"
-> +GLIBC_DEPENDENCIES = " glibc-utils"
->  
->  RRECOMMENDS_task-core-nfs-server_append_linux = "${GLIBC_DEPENDENCIES}"
->  RRECOMMENDS_task-core-nfs-server_append_linux-gnueabi = "${GLIBC_DEPENDENCIES}"
+> Pull URL: git://git.openembedded.org/openembedded-core-contrib
+>   Branch: sgw/stage
+>   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-This is the wrong place to be adding the space. The space issue is
-coming from the _append in the lines below and the space should
-therefore be added there to make it clear why its there.
+I took these apart from:
+
+> Khem Raj (4):
+>   tune-cortexa8.inc: Define variable for controlling FP ABI
+>   gcc-common.inc: Consider hardfp knob for configuring toolchain
+>
+> Martin Jansa (3):
+>   bitbake.conf: move VENDOR variables from bitbake.conf to
+>     defaultsetup.conf
+> 
+> Nitin A Kamble (1):
+>   task-core-nfs: fix a bitbake error
+
+Which I've sent replies about.
 
 Cheers,
 
