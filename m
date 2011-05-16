@@ -1,43 +1,31 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1QLzaK-00076X-Fy
+	(envelope-from <koen@dominion.thruhere.net>) id 1QLzes-0007Do-UQ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 17:19:52 +0200
-Received: by gyf1 with SMTP id 1so1668657gyf.6
+	Mon, 16 May 2011 17:24:35 +0200
+Received: by wwb17 with SMTP id 17so4358345wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 08:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=1Uc1+lpwzTmXBctsv7G/q5ypbFxOFyJSLWIlv4RSPhY=;
-	b=XOe2mV5Gq0A3FsArJF/dYBvj8/EyBADUBbQ2yAbH+QIDw1mGNW6U9O12Wu9bltzatd
-	AZ2EGGMb/McCeJmbRZedkbcyDdlhZw4s1ZESQscGUHrpEzyS00wwtsWk7XyHfAV59S9N
-	/zx53CoLA6SWccO8y1BWF/qhHRIwyq43CBJzg=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	b=xT/P2nxGd30Wn950rsV6CNZO2VJBRl6NpLTOoqKQkLr375kWpGuoEn5AEvUzxJOe2p
-	4/27ertLAI+zdFZP4ybHKl4DHY9XVNLsIparHGDjt8u7G61jqZVfxQU9VdrvfkyMwjDC
-	PpnKpo5NK4qlLOBc+18vnwATKweiwpDCwhA0g=
-MIME-Version: 1.0
-Received: by 10.91.67.7 with SMTP id u7mr3383083agk.103.1305559019662; Mon, 16
-	May 2011 08:16:59 -0700 (PDT)
-Received: by 10.90.7.20 with HTTP; Mon, 16 May 2011 08:16:59 -0700 (PDT)
-In-Reply-To: <4DD13F02.4030506@linux.intel.com>
-References: <cover.1305329659.git.dvhart@linux.intel.com>
-	<33b417d1457fc40c41c4957d62e6758ec1cfcc42.1305329659.git.dvhart@linux.intel.com>
-	<BANLkTinVmZDFvLVz9+pf3m9O=CeHRx4ddA@mail.gmail.com>
-	<4DCECDC0.7060708@linux.intel.com>
-	<BANLkTinQc5CtwEa9VO1-2AQriVA1u8fO=g@mail.gmail.com>
-	<4DD13F02.4030506@linux.intel.com>
-Date: Mon, 16 May 2011 11:16:59 -0400
-Message-ID: <BANLkTinY46oeAVnzWinEjDHL_=+3uRYb7Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
+	Mon, 16 May 2011 08:21:42 -0700 (PDT)
+Received: by 10.227.197.201 with SMTP id el9mr4427044wbb.22.1305559302461;
+	Mon, 16 May 2011 08:21:42 -0700 (PDT)
+Received: from [172.20.2.72] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id w12sm3205776wby.58.2011.05.16.08.21.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 May 2011 08:21:41 -0700 (PDT)
+References: <cover.1305422996.git.sgw@linux.intel.com>
+	<212bfaaefe0979c155069b6d3a0d42205a398a67.1305422996.git.sgw@linux.intel.com>
+	<1305557051.3424.88.camel@rex>
+In-Reply-To: <1305557051.3424.88.camel@rex>
+Mime-Version: 1.0 (iPhone Mail 8J2)
+Message-Id: <5542601C-464E-4D1B-9D8F-2A25EA8CA532@dominion.thruhere.net>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 10/10] send-pull-request: verify git sendemail config
+X-Mailer: iPhone Mail (8J2)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 16 May 2011 17:21:33 +0200
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 11/15] gcc-common.inc: Consider hardfp knob for configuring toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,154 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 15:19:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 16 May 2011 15:24:35 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Mon, May 16, 2011 at 11:13 AM, Darren Hart <dvhart@linux.intel.com> wrot=
-e:
-> On 05/14/2011 07:48 PM, Bruce Ashfield wrote:
->> On Sat, May 14, 2011 at 2:45 PM, Darren Hart <dvhart@linux.intel.com> wr=
-ote:
->>>
->>>
->>> On 05/13/2011 10:43 PM, Bruce Ashfield wrote:
->>>> On Fri, May 13, 2011 at 7:38 PM, Darren Hart <dvhart@linux.intel.com> =
-wrote:
->>>>> Perform a quick sanity check to be able to direct users to configure
->>>>> git.sendemail if they haven't yet.
->>>>>
->>>>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
->>>>> ---
->>>>> =A0scripts/send-pull-request | =A0 15 +++++++++++++++
->>>>> =A01 files changed, 15 insertions(+), 0 deletions(-)
->>>>>
->>>>> diff --git a/scripts/send-pull-request b/scripts/send-pull-request
->>>>> index f94596f..2ccb8e8 100755
->>>>> --- a/scripts/send-pull-request
->>>>> +++ b/scripts/send-pull-request
->>>>> @@ -38,6 +38,18 @@ harvest_recipients()
->>>>> =A0 =A0 =A0 =A0unset IFS
->>>>> =A0}
->>>>>
->>>>> +check_git_sendemail_config()
->>>>> +{
->>>>> + =A0 =A0 =A0 GIT_SMTP=3D$(git config sendemail.smtpserver)
->>>>> + =A0 =A0 =A0 GIT_FROM=3D$(git config sendemail.from)
->>>>> + =A0 =A0 =A0 if [ -z "$GIT_SMTP" ] || [ -z "$GIT_FROM" ]; then
->>>>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo "ERROR: git sendemail is not confi=
-gured."
->>>>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo "Please read GIT-SEND-EMAIL(1) and=
- configure:"
->>>>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo " =A0sendemail.smtpserver"
->>>>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo " =A0sendemail.from"
->>>>
->>>> I was going to ask for this to be optional, since I always pass the sm=
-tp
->>>> settings on the command line .. but then I realized that I invoke git =
-send-email
->>>> directly anyway, so I don't need it to be optional. :)
->>>>
->>>> Regardless, reading this from git config is good idea, so the above is
->>>> only a comment.
->>>
->>> This only impacts the send-pull-request script which requires
->>> git-send-email to be configured in order to work, so it really can't be
->>> an optional thing.
->>
->> I meant making it optional from being in your .gitconfig. I use
->> git send-email with a smtp server almost every day .. and it's
->> not in my .gitconfig :)
->
-> Right, duh. OK, so it order to make this optional, we would have to add
-> all the necessary options to pass through from the script to
-> git-send-email. I'd really rather avoid that.
+both softp and hardfp use the actual hardware fpu, but have different callin=
+g conventions and are incompatible. So you need vars.
 
-Exactly. that's why I dropped my idea of asking for it to be optional, you'=
-d
-need to chain it down, and that's a bad idea.
+Op 16 mei 2011 om 16:44 heeft Richard Purdie <richard.purdie@linuxfoundation=
+.org> het volgende geschreven:
 
->
-> What is your objection to having a default smtp/from in your git config?
-> You can always override it on the command line, and with confirm=3Dalways
-> in your git config (you're sane right?) there is little risk of sending
-> from the wrong account accidentally.
-
-I just have a zillion boxes, some with different connectivity, so that is
-typically left out of my config. The hard error would cause me minimal
-pain, but I invoke git send-email by hand, so it's no problem for me in
-the long run.
-
-So there's nothing here for you to change, if I needed something, I
-could do it locally.
-
-Cheers,
-
-Bruce
-
-
->
-> --
-> Darren
->
->>
->> Bruce
->>
->>>
->>> --
->>> Darren
->>>
->>>>
->>>> Bruce
->>>>
->>>>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 exit 1
->>>>> + =A0 =A0 =A0 fi
->>>>> +}
->>>>>
->>>>> =A0# Parse and verify arguments
->>>>> =A0while getopts "ahp:t:" OPT; do
->>>>> @@ -67,6 +79,9 @@ while getopts "ahp:t:" OPT; do
->>>>> =A0 =A0 =A0 =A0esac
->>>>> =A0done
->>>>>
->>>>> +# Abort early if git-send-email is not properly configured
->>>>> +check_git_sendemail_config
->>>>> +
->>>>> =A0if [ -z "$PDIR" ]; then
->>>>> =A0 =A0 =A0 =A0echo "ERROR: you must specify a pull-dir."
->>>>> =A0 =A0 =A0 =A0usage
->>>>> --
->>>>> 1.7.1
->>>>>
->>>>>
->>>>> _______________________________________________
->>>>> Openembedded-core mailing list
->>>>> Openembedded-core@lists.openembedded.org
->>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>>>
->>>>
->>>>
->>>>
->>>
->>> --
->>> Darren Hart
->>> Intel Open Source Technology Center
->>> Yocto Project - Linux Kernel
->>>
->>
->>
->>
->
-> --
-> Darren Hart
-> Intel Open Source Technology Center
-> Yocto Project - Linux Kernel
->
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+> Hi Khem,
+>=20
+> I've a concern about ending up with several different variables all
+> doing the same thing. Why do we need both TARGET_FPU and ARM_FP_ABI?
+> Couldn't we just have values or "hard, sort or empty" for TARGET_FPU?
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+> On Sat, 2011-05-14 at 18:32 -0700, Saul Wold wrote:
+>> From: Khem Raj <raj.khem@gmail.com>
+>>=20
+>> pass --with-float=3Dhard|soft depending upon ARM_FP_ABI settings
+>>=20
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>> meta/recipes-devtools/gcc/gcc-common.inc |   13 ++++++++++---
+>> 1 files changed, 10 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devt=
+ools/gcc/gcc-common.inc
+>> index a3fa234..8b7c3ad 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-common.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-common.inc
+>> @@ -8,10 +8,17 @@ NATIVEDEPS =3D ""
+>> inherit autotools gettext
+>>=20
+>> FILESDIR =3D "${@os.path.dirname(bb.data.getVar('FILE',d,1))}/gcc-${PV}"
+>> -
+>> def get_gcc_fpu_setting(bb, d):
+>> -    if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:
+>> -        return "--with-float=3Dsoft"
+>> +    if bb.data.getVar('TARGET_FPU', d, True) in [ 'soft', 'hard'] and bb=
+.data.getVar('TARGET_OS', d, True).find('linux') >=3D 0 :
+>> +        # ARM_FP_ABI could be either 'hardfp' or 'softfp'
+>> +        arm_fpabi =3D bb.data.getVar('ARM_FP_ABI', d, True) or ""
+>> +        if arm_fpabi !=3D "":
+>> +            if arm_fpabi  =3D=3D "hardfp":
+>> +                # reset it to whatever gcc --with-float configure expect=
+s which is either 'softfp' or 'hard'
+>> +                arm_fpabi =3D "hard"
+>> +            return "--with-float=3D" + arm_fpabi
+>> +        else:
+>> +            return "--with-float=3D" + bb.data.getVar('TARGET_FPU', d, T=
+rue)
+>>     return ""
+>>=20
+>> def get_gcc_mips_plt_setting(bb, d):
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
