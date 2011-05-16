@@ -1,38 +1,35 @@
 Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QLqxe-00050B-70
+	(envelope-from <raj.khem@gmail.com>) id 1QLqxl-00050J-13
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 08:07:22 +0200
-Received: by pxi6 with SMTP id 6so3225565pxi.3
+	Mon, 16 May 2011 08:07:30 +0200
+Received: by pxi6 with SMTP id 6so3225525pxi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2011 23:04:29 -0700 (PDT)
+	Sun, 15 May 2011 23:04:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=nvDiZSIC9AxNOMZ4+gpPYu69WwHhOlB+NdwYPqjPsyI=;
-	b=GI3Qfyd+aXOH//2CsB/0QZD149ZaIhBwq4o2hSPi5SBTj5QGUvu1astynGoeSSlIsi
-	SKvq+wkSxHk8QdIA4uv7NLkQh0I/7mNQkO+Px0052H3IOVe6a0uGdjZjHHpwy1nn5D7q
-	SjnNbPG39slkZAUC1DeYkbYqlfpbAU9U5IxKw=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=HbYFl1TD1BO8QQwnaD7yVdrPyz0PSvY4LG1NhDhZFoU=;
+	b=F0Ebqbiv034J5VzD8hm8/F22O3NrEiIjrRImBTG6wKA4pWIetAtEXiej5QUJDF/o47
+	x6n8NBSsJWqFfUBH+SXdsZ4fnJ1Sr+YQyhJspyZkfy0W3v+SPjehdt5PIv2f8k+SmU1h
+	sF9cf4ME0lR1tfvZWgzmmG7Q0hHCQ9SFZ7/XA=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=IgkzuC3DkoZHwemrNe0bbl6trsW1diRAqBGH9OLr8jdinU8hIXLCbgetPad9SyMp1N
-	Z1WBB7RSZ0q/K8s5eWg4Psv3D3iZaPbz6SVx9UqEa3gZcyxAxqk/oVw8tbcwschnsNRY
-	Fnr4xGK46OUP0l2UCHFZEVRC7or4j0QOluHdw=
-Received: by 10.68.20.138 with SMTP id n10mr4738250pbe.280.1305525869003;
-	Sun, 15 May 2011 23:04:29 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=FuRiUTrajIymaSKmr/3LYXO14aDOEoMzmH4k4s9r9KZBRkXZZZTWWWdN1jVFQ5vTh7
+	WdC0X/wGa9dcuyK76HEINX5niyJrPpLKYOPHH/iL8QjffQidbmFc981JNPqlbP77c5/8
+	hjv6FAVeHSjafrJQsEvPemLez578AkTc3BOPo=
+Received: by 10.68.68.243 with SMTP id z19mr6626274pbt.276.1305525862084;
+	Sun, 15 May 2011 23:04:22 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id k8sm1880364pbk.66.2011.05.15.23.04.27
+	by mx.google.com with ESMTPS id p2sm3086877pbq.6.2011.05.15.23.04.20
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 15 May 2011 23:04:28 -0700 (PDT)
+	Sun, 15 May 2011 23:04:21 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Sun, 15 May 2011 23:04:21 -0700
-Message-Id: <ca9a918a98510eac991c84ce1ebe8fecbdf38361.1305525725.git.raj.khem@gmail.com>
+Date: Sun, 15 May 2011 23:04:13 -0700
+Message-Id: <cover.1305525725.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1305525725.git.raj.khem@gmail.com>
-References: <cover.1305525725.git.raj.khem@gmail.com>
-Subject: [PATCH 2/2] tclibc-uclibc.inc: Append -uclibc only to target recipes
+Subject: [PATCH 0/2] Adjust default distrovars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,37 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 06:07:22 -0000
+X-List-Received-Date: Mon, 16 May 2011 06:07:30 -0000
 
-Do not define DEPLOY_DIR_IMAGE
-Append -uclibc to STAGING_DIR_TARGET only for target recipe and cross
-recipes
-Append -uclibc to STAGING_DIR_HOST only for target recipes.
+These changes make sure that uclibc based images still build
+and some tasks do not get added forcibly to distros
 
-These changes make sure that we still share the native sysroot
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: kraj/default-distro
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/default-distro
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Thanks,
+    Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/tclibc-uclibc.inc |    5 ++---
- 1 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/distro/include/tclibc-uclibc.inc b/meta/conf/distro/include/tclibc-uclibc.inc
-index 27f6ec6..4bd313f 100644
---- a/meta/conf/distro/include/tclibc-uclibc.inc
-+++ b/meta/conf/distro/include/tclibc-uclibc.inc
-@@ -20,10 +20,9 @@ CXXFLAGS += "-fvisibility-inlines-hidden"
- 
- IMAGE_LINGUAS = ""
- 
--DEPLOY_DIR_IMAGE = "${TMPDIR}/deploy/images"
- DEPLOY_DIR_append = "-uclibc"
--STAGING_DIR_TARGET_append = "-uclibc"
--STAGING_DIR_HOST_append = "-uclibc"
-+STAGING_DIR_TARGET_append = "${@['-uclibc', ''][oe.utils.inherits(d, 'native', 'nativesdk')]}"
-+STAGING_DIR_HOST_append = "${@['-uclibc', ''][oe.utils.inherits(d, 'native', 'nativesdk', 'cross', 'crosssdk')]}"
- SSTATE_MANIFESTS_append = "-uclibc"
- 
- LIBC_DEPENDENCIES = "\
+
+Khem Raj (2):
+  default-distrovars.inc: Do not add DISTRO_EXTRA_RDEPENDS and
+    DISTRO_EXTRA_RRECOMMENDS
+  tclibc-uclibc.inc: Append -uclibc only to target recipes
+
+ meta/conf/distro/include/default-distrovars.inc |    3 ---
+ meta/conf/distro/include/tclibc-uclibc.inc      |    5 ++---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+
 -- 
 1.7.4.1
 
