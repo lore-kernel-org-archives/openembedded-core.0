@@ -1,35 +1,44 @@
 Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QLqxl-00050J-13
+	(envelope-from <raj.khem@gmail.com>) id 1QLrC9-0005HH-Jp
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 08:07:30 +0200
-Received: by pxi6 with SMTP id 6so3225525pxi.3
+	Mon, 16 May 2011 08:22:22 +0200
+Received: by pxi6 with SMTP id 6so3231975pxi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 May 2011 23:04:22 -0700 (PDT)
+	Sun, 15 May 2011 23:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=HbYFl1TD1BO8QQwnaD7yVdrPyz0PSvY4LG1NhDhZFoU=;
-	b=F0Ebqbiv034J5VzD8hm8/F22O3NrEiIjrRImBTG6wKA4pWIetAtEXiej5QUJDF/o47
-	x6n8NBSsJWqFfUBH+SXdsZ4fnJ1Sr+YQyhJspyZkfy0W3v+SPjehdt5PIv2f8k+SmU1h
-	sF9cf4ME0lR1tfvZWgzmmG7Q0hHCQ9SFZ7/XA=
+	h=domainkey-signature:references:in-reply-to:mime-version
+	:content-transfer-encoding:content-type:message-id:cc:x-mailer:from
+	:subject:date:to;
+	bh=S++2Jsj1B2QA2sO13ush9vk+It1GoQNV6kSSHPg6zPs=;
+	b=Gf/mlL2Hmks4laJ5OWZsTkARAwGucMt3Z8A+5L/kfyH3zqnc0q+hvOSVt9hOkZTO9d
+	yHWtV0VTRE5Tb1Rcvy6iH7dRrmanhQIf4zakVaUvyF8osML5vb2xSjtJrT4mWPv9eNdE
+	XVWKlnau90MrSFWk2kROwKBnFlNUwjoX7yw6k=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=FuRiUTrajIymaSKmr/3LYXO14aDOEoMzmH4k4s9r9KZBRkXZZZTWWWdN1jVFQ5vTh7
-	WdC0X/wGa9dcuyK76HEINX5niyJrPpLKYOPHH/iL8QjffQidbmFc981JNPqlbP77c5/8
-	hjv6FAVeHSjafrJQsEvPemLez578AkTc3BOPo=
-Received: by 10.68.68.243 with SMTP id z19mr6626274pbt.276.1305525862084;
-	Sun, 15 May 2011 23:04:22 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id p2sm3086877pbq.6.2011.05.15.23.04.20
+	h=references:in-reply-to:mime-version:content-transfer-encoding
+	:content-type:message-id:cc:x-mailer:from:subject:date:to;
+	b=uGWMye3zzcbg9bi5twey15ZrVU7vyVli8YruzUWnJUlaW0se7EYQQGytK/w8L20Us6
+	9hC5bjWEuFbvCqTHHdn+lKwciEN72CgQeB5tbzutIJOqYwkm9hWIyKEUj4GoOy1DPkCb
+	KGUaVnjMeMUdIkOCy60oURUHt/lohnWEGMzxw=
+Received: by 10.68.5.164 with SMTP id t4mr6648882pbt.167.1305526767223;
+	Sun, 15 May 2011 23:19:27 -0700 (PDT)
+Received: from [192.168.1.81] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id i10sm3093102pbd.28.2011.05.15.23.19.24
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 15 May 2011 23:04:21 -0700 (PDT)
+	Sun, 15 May 2011 23:19:26 -0700 (PDT)
+References: <cover.1305418871.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1305418871.git.sgw@linux.intel.com>
+Mime-Version: 1.0 (iPad Mail 8J2)
+Message-Id: <E943FF3D-A282-4E6D-8B5A-B954A678A0E1@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPad Mail (8J2)
 From: Khem Raj <raj.khem@gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Date: Sun, 15 May 2011 23:04:13 -0700
-Message-Id: <cover.1305525725.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/2] Adjust default distrovars
+Date: Sun, 15 May 2011 23:19:43 -0700
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC 0/3] Move Old Recipes to meta-extras
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,31 +53,301 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 06:07:30 -0000
-
-These changes make sure that uclibc based images still build
-and some tasks do not get added forcibly to distros
-
-Pull URL: git://git.openembedded.org/openembedded-core-contrib
-  Branch: kraj/default-distro
-  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/default-distro
-
-Thanks,
-    Khem Raj <raj.khem@gmail.com>
----
+X-List-Received-Date: Mon, 16 May 2011 06:22:22 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
-Khem Raj (2):
-  default-distrovars.inc: Do not add DISTRO_EXTRA_RDEPENDS and
-    DISTRO_EXTRA_RRECOMMENDS
-  tclibc-uclibc.inc: Append -uclibc only to target recipes
 
- meta/conf/distro/include/default-distrovars.inc |    3 ---
- meta/conf/distro/include/tclibc-uclibc.inc      |    5 ++---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+On May 14, 2011, at 5:23 PM, Saul Wold <sgw@linux.intel.com> wrote:
 
--- 
-1.7.4.1
+> From: Saul Wold <sgw@linux.intel.com>
+>=20
+> This proposes to move the YAFFS2-utils, older clutter-1.4
+> and older GCC version (4.3.3 and 3.4.4) as they are unused
+> and currently unbuildable.
+>=20
 
+Are we left with any GPLv2 version of gcc after this ?
+
+> Pull URL: git://git.openembedded.org/openembedded-core-contrib
+>  Branch: sgw/rfc
+>  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/lo=
+g/?h=3Dsgw/rfc
+>=20
+> Thanks,
+>    Saul Wold <sgw@linux.intel.com>
+> ---
+>=20
+>=20
+> Saul Wold (3):
+>  yaffs2: Remove yaffs2 from oe-core
+>  clutter: Clean up old recipes
+>  gcc: Move 4.3.3 and Special kernel gcc-3.4.4 to meta-extras
+>=20
+> meta/classes/image_types.bbclass                   |    3 -
+> meta/recipes-devtools/gcc/gcc-4.3.3.inc            |   71 -
+> .../gcc/gcc-4.3.3/100-uclibc-conf.patch            |   37 -
+> .../gcc/gcc-4.3.3/103-uclibc-conf-noupstream.patch |   11 -
+> .../gcc/gcc-4.3.3/110-arm-eabi.patch               |   27 -
+> .../gcc/gcc-4.3.3/200-uclibc-locale.patch          | 2833 ---------
+> .../gcc/gcc-4.3.3/203-uclibc-locale-no__x.patch    |  233 -
+> .../gcc-4.3.3/204-uclibc-locale-wchar_fix.patch    |   48 -
+> .../gcc/gcc-4.3.3/205-uclibc-locale-update.patch   |  519 --
+> .../gcc/gcc-4.3.3/300-libstdc++-pic.patch          |   46 -
+> .../gcc/gcc-4.3.3/301-missing-execinfo_h.patch     |   11 -
+> .../gcc/gcc-4.3.3/302-c99-snprintf.patch           |   13 -
+> .../gcc/gcc-4.3.3/303-c99-complex-ugly-hack.patch  |   12 -
+> .../gcc/gcc-4.3.3/304-index_macro.patch            |   24 -
+> .../gcc-4.3.3/305-libmudflap-susv3-legacy.patch    |   49 -
+> .../gcc/gcc-4.3.3/306-libstdc++-namespace.patch    |   36 -
+> .../gcc/gcc-4.3.3/307-locale_facets.patch          |   19 -
+> .../gcc-4.3.3/402-libbackend_dep_gcov-iov.h.patch  |   13 -
+> .../gcc/gcc-4.3.3/602-sdk-libstdc++-includes.patch |   20 -
+> .../recipes-devtools/gcc/gcc-4.3.3/64bithack.patch |   33 -
+> .../gcc/gcc-4.3.3/740-sh-pr24836.patch             |   25 -
+> .../gcc/gcc-4.3.3/800-arm-bigendian.patch          |   34 -
+> .../gcc/gcc-4.3.3/801-arm-bigendian-eabi.patch     |   14 -
+> .../gcc/gcc-4.3.3/904-flatten-switch-stmt-00.patch |  153 -
+> .../gcc/gcc-4.3.3/arm-nolibfloat.patch             |   24 -
+> .../gcc/gcc-4.3.3/arm-softfloat.patch              |   16 -
+> .../gcc/gcc-4.3.3/arm-thumb-cache.patch            |   29 -
+> .../recipes-devtools/gcc/gcc-4.3.3/arm-thumb.patch |   43 -
+> .../gcc/gcc-4.3.3/cache-amnesia.patch              |   31 -
+> .../debian/arm-unbreak-eabi-armv4t.dpatch          |   36 -
+> .../gcc/gcc-4.3.3/debian/gcc-ice-hack.dpatch       |  331 -
+> .../gcc/gcc-4.3.3/debian/libstdc++-pic.dpatch      |   71 -
+> .../gcc/gcc-4.3.3/debian/pr30961.dpatch            |  179 -
+> .../fedora/gcc43-c++-builtin-redecl.patch          |  102 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-cpp-pragma.patch    |  284 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-i386-libgomp.patch  |   61 -
+> .../gcc-4.3.3/fedora/gcc43-ia64-libunwind.patch    |  538 --
+> .../fedora/gcc43-java-debug-iface-type.patch       |   17 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-java-nomulti.patch  |   44 -
+> .../gcc-4.3.3/fedora/gcc43-libgomp-speedup.patch   | 2797 --------
+> .../gcc/gcc-4.3.3/fedora/gcc43-ppc32-retaddr.patch |   86 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-pr27898.patch       |   16 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-pr32139.patch       |   19 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-pr33763.patch       |  153 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-pr35440.patch       |   56 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-pr35751.patch       |  114 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-rh251682.patch      |   89 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-rh330771.patch      |   34 -
+> .../gcc/gcc-4.3.3/fedora/gcc43-rh341221.patch      |   28 -
+> .../gcc/gcc-4.3.3/fortran-cross-compile-hack.patch |   30 -
+> .../gcc/gcc-4.3.3/fortran-static-linking.patch     |   48 -
+> .../gcc/gcc-4.3.3/gcc-4.0.2-e300c2c3.patch         |  319 -
+> .../gcc-4.3.3/gcc-4.2.3-linux-multilib-fix.patch   |   23 -
+> .../gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch          |   31 -
+> .../gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch      | 6691 ----------------=
+----
+> .../gcc/gcc-4.3.3/gcc-arm-frename-registers.patch  |   25 -
+> .../gcc/gcc-4.3.3/gcc-flags-for-build.patch        |  279 -
+> .../gcc-release-branch/PR-36500-fix-neon.patch     |  265 -
+> .../gcc/gcc-4.3.3/gcc41-configure.in.patch         |   22 -
+> .../gcc/gcc-4.3.3/gcc43-build-id.patch             |   74 -
+> .../gcc/gcc-4.3.3/gcc43-ppc64-ia64-GNU-stack.patch |   86 -
+> meta/recipes-devtools/gcc/gcc-4.3.3/gfortran.patch |   40 -
+> .../gcc/gcc-4.3.3/headerpath.patch                 |   42 -
+> .../gcc/gcc-4.3.3/intermask-bigendian.patch        |   24 -
+> meta/recipes-devtools/gcc/gcc-4.3.3/ldflags.patch  |   22 -
+> .../gcc/gcc-4.3.3/optional_libstdc.patch           |   23 -
+> meta/recipes-devtools/gcc/gcc-4.3.3/pr34130.patch  |   16 -
+> meta/recipes-devtools/gcc/gcc-4.3.3/pr35942.patch  |   38 -
+> .../gcc/gcc-4.3.3/sdk-libstdc++-includes.patch     |   22 -
+> .../gcc/gcc-4.3.3/sh3-installfix-fixheaders.patch  |   11 -
+> .../recipes-devtools/gcc/gcc-4.3.3/sh_unwind.patch |   18 -
+> .../gcc/gcc-4.3.3/sparseset_rule.patch             |   20 -
+> .../gcc/gcc-4.3.3/unbreak-armv4t.patch             |   12 -
+> .../gcc/gcc-4.3.3/zecke-no-host-includes.patch     |   31 -
+> .../gcc/gcc-4.3.3/zecke-xgcc-cpp.patch             |   28 -
+> .../gcc/gcc-cross-canadian_4.3.3.bb                |   24 -
+> .../gcc/gcc-cross-initial_4.3.3.bb                 |    5 -
+> .../gcc/gcc-cross-intermediate_4.3.3.bb            |    4 -
+> .../gcc/gcc-cross-kernel-3.4.4_csl-arm-2005q3.bb   |   15 -
+> meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb       |   10 -
+> .../gcc/gcc-crosssdk-initial_4.3.3.bb              |    3 -
+> .../gcc/gcc-crosssdk-intermediate_4.3.3.bb         |    3 -
+> meta/recipes-devtools/gcc/gcc-crosssdk_4.3.3.bb    |    3 -
+> meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb     |   11 -
+> meta/recipes-devtools/gcc/gcc_4.3.3.bb             |   10 -
+> .../yaffs2/files/mkyaffs2image.patch               |  351 -
+> .../yaffs2/files/yaffs2-unioob.patch               |  218 -
+> meta/recipes-devtools/yaffs2/yaffs2-utils.inc      |   28 -
+> meta/recipes-devtools/yaffs2/yaffs2-utils_cvs.bb   |    4 -
+> meta/recipes-graphics/clutter/clutter-1.4_1.4.2.bb |   25 -
+> meta/recipes-graphics/clutter/clutter-box2d_git.bb |    4 +-
+> .../clutter/clutter-gst-1.4/enable_tests.patch     |   15 -
+> .../clutter/clutter-gst-1.4_git.bb                 |   19 -
+> .../clutter/clutter-gtk-1.4_git.bb                 |   18 -
+> 94 files changed, 2 insertions(+), 18490 deletions(-)
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3.inc
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/100-uclibc-conf.pat=
+ch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/103-uclibc-conf-nou=
+pstream.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/110-arm-eabi.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/200-uclibc-locale.p=
+atch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/203-uclibc-locale-n=
+o__x.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/204-uclibc-locale-w=
+char_fix.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/205-uclibc-locale-u=
+pdate.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/300-libstdc++-pic.p=
+atch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/301-missing-execinf=
+o_h.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/302-c99-snprintf.pa=
+tch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/303-c99-complex-ugl=
+y-hack.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/304-index_macro.pat=
+ch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/305-libmudflap-susv=
+3-legacy.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/306-libstdc++-names=
+pace.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/307-locale_facets.p=
+atch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/402-libbackend_dep_=
+gcov-iov.h.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/602-sdk-libstdc++-i=
+ncludes.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/64bithack.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/740-sh-pr24836.patc=
+h
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/800-arm-bigendian.p=
+atch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/801-arm-bigendian-e=
+abi.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/904-flatten-switch-=
+stmt-00.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/arm-nolibfloat.patc=
+h
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/arm-softfloat.patch=
+
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/arm-thumb-cache.pat=
+ch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/arm-thumb.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/cache-amnesia.patch=
+
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/debian/arm-unbreak-=
+eabi-armv4t.dpatch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/debian/gcc-ice-hack=
+.dpatch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/debian/libstdc++-pi=
+c.dpatch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/debian/pr30961.dpat=
+ch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-c++-bu=
+iltin-redecl.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-cpp-pr=
+agma.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-i386-l=
+ibgomp.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-ia64-l=
+ibunwind.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-java-d=
+ebug-iface-type.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-java-n=
+omulti.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-libgom=
+p-speedup.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-ppc32-=
+retaddr.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-pr2789=
+8.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-pr3213=
+9.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-pr3376=
+3.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-pr3544=
+0.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-pr3575=
+1.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-rh2516=
+82.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-rh3307=
+71.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fedora/gcc43-rh3412=
+21.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fortran-cross-compi=
+le-hack.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/fortran-static-link=
+ing.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gcc-4.0.2-e300c2c3.=
+patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gcc-4.2.3-linux-mul=
+tilib-fix.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gcc-4.3.1-ARCH_FLAG=
+S_FOR_TARGET.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gcc-4.3.3-SYSROOT_C=
+FLAGS_FOR_TARGET.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gcc-arm-frename-reg=
+isters.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gcc-flags-for-build=
+.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gcc-release-branch/=
+PR-36500-fix-neon.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gcc41-configure.in.=
+patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gcc43-build-id.patc=
+h
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gcc43-ppc64-ia64-GN=
+U-stack.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/gfortran.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/headerpath.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/intermask-bigendian=
+.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/ldflags.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/optional_libstdc.pa=
+tch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/pr34130.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/pr35942.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/sdk-libstdc++-inclu=
+des.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/sh3-installfix-fixh=
+eaders.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/sh_unwind.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/sparseset_rule.patc=
+h
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/unbreak-armv4t.patc=
+h
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/zecke-no-host-inclu=
+des.patch
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-4.3.3/zecke-xgcc-cpp.patc=
+h
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-cross-canadian_4.3.3.bb
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-cross-initial_4.3.3.bb
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-cross-intermediate_4.3.3.=
+bb
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-cross-kernel-3.4.4_csl-ar=
+m-2005q3.bb
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-cross_4.3.3.bb
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-crosssdk-initial_4.3.3.bb=
+
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.3=
+.3.bb
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-crosssdk_4.3.3.bb
+> delete mode 100644 meta/recipes-devtools/gcc/gcc-runtime_4.3.3.bb
+> delete mode 100644 meta/recipes-devtools/gcc/gcc_4.3.3.bb
+> delete mode 100644 meta/recipes-devtools/yaffs2/files/mkyaffs2image.patch
+> delete mode 100644 meta/recipes-devtools/yaffs2/files/yaffs2-unioob.patch
+> delete mode 100644 meta/recipes-devtools/yaffs2/yaffs2-utils.inc
+> delete mode 100644 meta/recipes-devtools/yaffs2/yaffs2-utils_cvs.bb
+> delete mode 100644 meta/recipes-graphics/clutter/clutter-1.4_1.4.2.bb
+> delete mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.4/enable_te=
+sts.patch
+> delete mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.4_git.bb
+> delete mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.4_git.bb
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
