@@ -1,34 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QM3rx-000175-VL for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 21:54:22 +0200
+	id 1QM3xq-0001WO-2I for openembedded-core@lists.openembedded.org;
+	Mon, 16 May 2011 22:00:26 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GJpR07022934;
-	Mon, 16 May 2011 20:51:27 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GJvXMY023009
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2011 20:57:33 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 22901-01; Mon, 16 May 2011 20:51:23 +0100 (BST)
+	id 22597-08 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2011 20:57:29 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GJpLFP022928
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 16 May 2011 20:51:21 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GJvORB023003
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2011 20:57:24 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTi=0TcHgXmYpwCjX6P5h6+y9O2YQFw@mail.gmail.com>
-References: <cover.1305418871.git.sgw@linux.intel.com>
-	<E943FF3D-A282-4E6D-8B5A-B954A678A0E1@gmail.com>
-	<4DD13B6F.4010009@intel.com>
-	<BANLkTi=0TcHgXmYpwCjX6P5h6+y9O2YQFw@mail.gmail.com>
-Date: Mon, 16 May 2011 20:51:19 +0100
-Message-ID: <1305575479.3424.102.camel@rex>
+In-Reply-To: <1305563063.2429.65.camel@phil-desktop>
+References: <1305563063.2429.65.camel@phil-desktop>
+Date: Mon, 16 May 2011 20:57:22 +0100
+Message-ID: <1305575842.3424.105.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Saul Wold <saul.wold@intel.com>
-Subject: Re: [RFC 0/3] Move Old Recipes to meta-extras
+Subject: Re: LIC_FILES_CHKSUM fatal?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,42 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 19:54:22 -0000
+X-List-Received-Date: Mon, 16 May 2011 20:00:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-05-16 at 10:08 -0700, Khem Raj wrote:
-> On Mon, May 16, 2011 at 7:57 AM, Saul Wold <saul.wold@intel.com> wrote:
-> > On 05/15/2011 11:19 PM, Khem Raj wrote:
-> >>
-> >>
-> >> On May 14, 2011, at 5:23 PM, Saul Wold<sgw@linux.intel.com>  wrote:
-> >>
-> >>> From: Saul Wold<sgw@linux.intel.com>
-> >>>
-> >>> This proposes to move the YAFFS2-utils, older clutter-1.4
-> >>> and older GCC version (4.3.3 and 3.4.4) as they are unused
-> >>> and currently unbuildable.
-> >>>
-> >>
-> >> Are we left with any GPLv2 version of gcc after this ?
-> >>
-> > Khem,
-> >
-> > Is not having a GPLv2 version of gcc an issue? For the non-gplv3 version, my
-> > understanding is to have an installed user-space for oe-core for a
-> > non-development system, therefore gcc is not an issue.
-> >
+On Mon, 2011-05-16 at 17:24 +0100, Phil Blundell wrote:
+> This change, from commit d2d5456cd3b3bd3e52a5dedccca4d46e3a7986d1:
 > 
-> there are certain parts of gcc which go onto target e.g. libgcc libstdc++
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 225530a..71ed5b6 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -349,7 +349,7 @@ def package_qa_check_license(workdir, d):
+>          # just throw a warning now. Once licensing data in entered for enough of the recipes,
+>          # this will be converted into error and False will be returned.
+>          bb.error(pn + ": Recipe file does not have license file information (LIC_FILES_CHKSUM)")
+> -        return True
+> +        return False
+> 
+> means that, contrary to what the comment says, lack of LIC_FILES_CHKSUM
+> is now a fatal error.  Was this a deliberate change or an oversight? 
+> 
 
-These have specific license exceptions allowing non-gpl code to use them
-as system libraries though?
+It was a deliberate change, the comment was missed in the change though.
+
+Yes, its annoying and we can have some way to turn it off but for at
+least the core, having them present is a good thing.
 
 Cheers,
 
 Richard
-
 
 
 
