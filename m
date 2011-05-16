@@ -1,31 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QLzes-0007Do-UQ
+	(envelope-from <koen@dominion.thruhere.net>) id 1QLzzx-0001GN-EO
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 17:24:35 +0200
-Received: by wwb17 with SMTP id 17so4358345wwb.24
+	Mon, 16 May 2011 17:46:21 +0200
+Received: by wye20 with SMTP id 20so3931798wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 08:21:42 -0700 (PDT)
-Received: by 10.227.197.201 with SMTP id el9mr4427044wbb.22.1305559302461;
-	Mon, 16 May 2011 08:21:42 -0700 (PDT)
-Received: from [172.20.2.72] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w12sm3205776wby.58.2011.05.16.08.21.40
+	Mon, 16 May 2011 08:43:29 -0700 (PDT)
+Received: by 10.227.182.135 with SMTP id cc7mr3920607wbb.91.1305560608944;
+	Mon, 16 May 2011 08:43:28 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id o23sm3222454wbc.10.2011.05.16.08.43.27
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 16 May 2011 08:21:41 -0700 (PDT)
-References: <cover.1305422996.git.sgw@linux.intel.com>
-	<212bfaaefe0979c155069b6d3a0d42205a398a67.1305422996.git.sgw@linux.intel.com>
-	<1305557051.3424.88.camel@rex>
-In-Reply-To: <1305557051.3424.88.camel@rex>
-Mime-Version: 1.0 (iPhone Mail 8J2)
-Message-Id: <5542601C-464E-4D1B-9D8F-2A25EA8CA532@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPhone Mail (8J2)
+	Mon, 16 May 2011 08:43:27 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
 From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Mon, 16 May 2011 17:21:33 +0200
+In-Reply-To: <1305553841.3424.76.camel@rex>
+Date: Mon, 16 May 2011 17:43:26 +0200
+Message-Id: <28BB305A-8F6D-413B-A590-D1592E8416CE@dominion.thruhere.net>
+References: <cover.1305525725.git.raj.khem@gmail.com>
+	<ca9a918a98510eac991c84ce1ebe8fecbdf38361.1305525725.git.raj.khem@gmail.com>
+	<13617913-C458-40F1-AA46-489ACEADF340@dominion.thruhere.net>
+	<BANLkTik7k7pd5+cc+5-K3-Di7+hdryow9Q@mail.gmail.com>
+	<1305546068.3424.33.camel@rex>
+	<982B5C11-301B-48C4-91A9-E73BF47FEF8D@dominion.thruhere.net>
+	<1305553841.3424.76.camel@rex>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/15] gcc-common.inc: Consider hardfp knob for configuring toolchain
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 2/2] tclibc-uclibc.inc: Append -uclibc only to target recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,72 +42,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 15:24:35 -0000
+X-List-Received-Date: Mon, 16 May 2011 15:46:21 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-both softp and hardfp use the actual hardware fpu, but have different callin=
-g conventions and are incompatible. So you need vars.
 
-Op 16 mei 2011 om 16:44 heeft Richard Purdie <richard.purdie@linuxfoundation=
-.org> het volgende geschreven:
+Op 16 mei 2011, om 15:50 heeft Richard Purdie het volgende geschreven:
 
-> Hi Khem,
->=20
-> I've a concern about ending up with several different variables all
-> doing the same thing. Why do we need both TARGET_FPU and ARM_FP_ABI?
-> Couldn't we just have values or "hard, sort or empty" for TARGET_FPU?
->=20
-> Cheers,
->=20
-> Richard
->=20
-> On Sat, 2011-05-14 at 18:32 -0700, Saul Wold wrote:
->> From: Khem Raj <raj.khem@gmail.com>
+> On Mon, 2011-05-16 at 15:11 +0200, Koen Kooi wrote:
+>> Op 16 mei 2011, om 13:41 heeft Richard Purdie het volgende =
+geschreven:
 >>=20
->> pass --with-float=3Dhard|soft depending upon ARM_FP_ABI settings
+>>> On Mon, 2011-05-16 at 02:55 -0700, Khem Raj wrote:
+>>>> On Sun, May 15, 2011 at 11:58 PM, Koen Kooi =
+<koen@dominion.thruhere.net> wrote:
+>>>>>=20
+>>>>> Op 16 mei 2011, om 08:04 heeft Khem Raj het volgende geschreven:
+>>>>>=20
+>>>>>> Do not define DEPLOY_DIR_IMAGE
+>>>>>> Append -uclibc to STAGING_DIR_TARGET only for target recipe and =
+cross
+>>>>>> recipes
+>>>>>> Append -uclibc to STAGING_DIR_HOST only for target recipes.
+>>>>>>=20
+>>>>>> These changes make sure that we still share the native sysroot
+>>>>>=20
+>>>>> I still stay we append tclibc unconditionally.
+>>>>=20
+>>>> yes thats would simplify things if we agree to use TCLIBC in =
+bitbake.conf
+>>>=20
+>>> We can't depend on TCLIBC in bitbake.conf since someone still has =
+the
+>>> option of not using the standard configuration boilerplate we're
+>>> providing.
 >>=20
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> meta/recipes-devtools/gcc/gcc-common.inc |   13 ++++++++++---
->> 1 files changed, 10 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devt=
-ools/gcc/gcc-common.inc
->> index a3fa234..8b7c3ad 100644
->> --- a/meta/recipes-devtools/gcc/gcc-common.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-common.inc
->> @@ -8,10 +8,17 @@ NATIVEDEPS =3D ""
->> inherit autotools gettext
->>=20
->> FILESDIR =3D "${@os.path.dirname(bb.data.getVar('FILE',d,1))}/gcc-${PV}"
->> -
->> def get_gcc_fpu_setting(bb, d):
->> -    if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:
->> -        return "--with-float=3Dsoft"
->> +    if bb.data.getVar('TARGET_FPU', d, True) in [ 'soft', 'hard'] and bb=
-.data.getVar('TARGET_OS', d, True).find('linux') >=3D 0 :
->> +        # ARM_FP_ABI could be either 'hardfp' or 'softfp'
->> +        arm_fpabi =3D bb.data.getVar('ARM_FP_ABI', d, True) or ""
->> +        if arm_fpabi !=3D "":
->> +            if arm_fpabi  =3D=3D "hardfp":
->> +                # reset it to whatever gcc --with-float configure expect=
-s which is either 'softfp' or 'hard'
->> +                arm_fpabi =3D "hard"
->> +            return "--with-float=3D" + arm_fpabi
->> +        else:
->> +            return "--with-float=3D" + bb.data.getVar('TARGET_FPU', d, T=
-rue)
->>     return ""
->>=20
->> def get_gcc_mips_plt_setting(bb, d):
+>> So we can't add TCLIBC ??=3D eglibc to bitbake.conf?
 >=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> No, I can just see the bug reports for uclibc building in a directory
+> called XXX-eglibc as the user had only set the PREFERRED_PROVIDER
+> variables.
+
+Do you really care about such usecases? Someone who thinks he is too =
+smart to use the includes can 'fix' the paths himself, no?=
 
 
