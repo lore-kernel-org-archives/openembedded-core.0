@@ -1,24 +1,25 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QM6Hl-0005dL-T3
+	(envelope-from <dvhart@linux.intel.com>) id 1QM6Hm-0005dL-Mc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 00:29:10 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	Tue, 17 May 2011 00:29:11 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 16 May 2011 15:26:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,221,1304319600"; d="scan'208";a="748139195"
+X-IronPort-AV: E=Sophos;i="4.65,221,1304319600"; d="scan'208";a="643485607"
 Received: from unknown (HELO localhost) ([10.255.12.172])
-	by orsmga001.jf.intel.com with ESMTP; 16 May 2011 15:26:18 -0700
+	by orsmga002.jf.intel.com with ESMTP; 16 May 2011 15:26:17 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 May 2011 15:26:10 -0700
-Message-Id: <317bb4eca14f234d7e85ecd924661941b83d1318.1305584418.git.dvhart@linux.intel.com>
+Date: Mon, 16 May 2011 15:26:09 -0700
+Message-Id: <6e537cbf69d1ea45eac44bf36ed1219fc05f5593.1305584418.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <eb4a98eeef982194542a33be0dd615a5c2bf3ed8.1305584418.git.dvhart@linux.intel.com>
 References: <eb4a98eeef982194542a33be0dd615a5c2bf3ed8.1305584418.git.dvhart@linux.intel.com>
 In-Reply-To: <cover.1305584418.git.dvhart@linux.intel.com>
 References: <cover.1305584418.git.dvhart@linux.intel.com>
-Subject: [RFC PATCH v2 10/15] send-pull-request: verify git sendemail config
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [RFC PATCH v2 09/15] send-pull-request: don't send all patches to everyone even with -a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,49 +34,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 22:29:10 -0000
+X-List-Received-Date: Mon, 16 May 2011 22:29:11 -0000
 
-Perform a quick sanity check to be able to direct users to configure
-git.sendemail if they haven't yet.
+Rather than sending every patch to every recipient of the entire series when
+-a is used, only send the cover letter to everyone and use git's
+--signed-off-by-cc feature to generate an auto cc list for the individual
+patches.
+
+Add a -c option to use --signed-off-by-cc to auto cc recipeients at the
+individual patch level. This is implied by -a.
+
+Using git to harvest the Cc list means only collecting Signed-off-by and Cc
+lines, rather than the more generic *-by lines previously. This is a fair
+trade-off for significantly reduced complexity. If users want to add Acked-by
+and Tested-by lines and want to use the -a feature, they should include those
+recipients as Cc lines as well.
+
+Now that we rely on git for auto-cc for the individual patches,
+make sure the user is prompted before sending each patch by forcing
+--confirm=always.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
 ---
- scripts/send-pull-request |   15 +++++++++++++++
- 1 files changed, 15 insertions(+), 0 deletions(-)
+ scripts/send-pull-request |   75 ++++++++++++++++++++++++++++-----------------
+ 1 files changed, 47 insertions(+), 28 deletions(-)
 
 diff --git a/scripts/send-pull-request b/scripts/send-pull-request
-index 5a11d1f..21eb302 100755
+index b294d35..5a11d1f 100755
 --- a/scripts/send-pull-request
 +++ b/scripts/send-pull-request
-@@ -41,6 +41,18 @@ harvest_recipients()
- 	unset IFS
+@@ -1,36 +1,40 @@
+ #!/bin/bash
+ AUTO=0
++AUTO_CL=0
+ 
+ # Prevent environment leakage to these vars.
+ unset TO
+ unset CC
++unset AUTO_CC
+ 
+ usage()
+ {
+ cat <<EOM
+-Usage: $(basename $0) [-h] [-a] [[-t email]...] -p pull-dir 
+-  -t email     Explicitly add email to the recipients
+-  -a           Automatically harvest recipients from "*-by: email" lines
+-               in the patches in the pull-dir
++Usage: $(basename $0) [-h] [-a] [-c] [[-t email]...] -p pull-dir 
++  -a           Send the cover letter to every recipient listed in Cc and
++               Signed-off-by lines found in the cover letter and the patches.
++	       This option implies -c.
++  -c           Expand the Cc list for the individual patches using the Cc and
++               Signed-off-by lines from the same patch.
+   -p pull-dir  Directory containing summary and patch files
++  -t email     Explicitly add email to the recipients
+ EOM
  }
  
-+check_git_sendemail_config()
-+{
-+	GIT_SMTP=$(git config sendemail.smtpserver)
-+	GIT_FROM=$(git config sendemail.from)
-+	if [ -z "$GIT_SMTP" ] || [ -z "$GIT_FROM" ]; then
-+		echo "ERROR: git sendemail is not configured."
-+		echo "Please read GIT-SEND-EMAIL(1) and configure:"
-+		echo "  sendemail.smtpserver"
-+		echo "  sendemail.from"
-+		exit 1
-+	fi
-+}
+-# Collect To and CC addresses from the patch files if they exist
+-# $1: Which header to add the recipients to, "TO" or "CC"
+-# $2: The regex to match and strip from the line with email addresses
++# Collect addresses from a patch into AUTO_CC
++# $1: a patch file
+ harvest_recipients()
+ {
+-	TO_CC=$1
+-	REGX=$2
++	PATCH=$1
+ 	export IFS=$',\n'
+-	for PATCH in $PDIR/*.patch; do
+-		# Grab To addresses
++	for REGX in "^[Cc][Cc]: *" "^[Ss]igned-[Oo]ff-[Bb]y: *"; do
+ 		for EMAIL in $(sed '/^---$/q' $PATCH | grep -e "$REGX" | sed "s/$REGX//"); do
+-			if [ "$TO_CC" == "TO" ] && [ "${TO/$EMAIL/}" == "$TO" ] && [ -n "$EMAIL" ]; then
+-				if [ -z "$TO" ]; then TO=$EMAIL; else TO="$TO,$EMAIL"; fi
+-			elif [ "$TO_CC" == "CC" ] && [ "${CC/$EMAIL/}" == "$CC" ] && [ -n "$EMAIL" ]; then
+-				if [ -z "$CC" ]; then CC=$EMAIL; else CC="$CC,$EMAIL"; fi
++			if [ "${AUTO_CC/$EMAIL/}" == "$AUTO_CC" ] && [ -n "$EMAIL" ]; then
++				if [ -z "$AUTO_CC" ]; then
++					AUTO_CC=$EMAIL;
++				else
++					AUTO_CC="$AUTO_CC,$EMAIL";
++				fi
+ 			fi
+ 		done
+ 	done
+@@ -39,9 +43,13 @@ harvest_recipients()
+ 
  
  # Parse and verify arguments
- while getopts "achp:t:" OPT; do
-@@ -74,6 +86,9 @@ while getopts "achp:t:" OPT; do
- 	esac
+-while getopts "ahp:t:" OPT; do
++while getopts "achp:t:" OPT; do
+ 	case $OPT in
+ 	a)
++		AUTO_CL=1
++		AUTO=1
++		;;
++	c)
+ 		AUTO=1
+ 		;;
+ 	h)
+@@ -84,13 +92,11 @@ for TOKEN in SUBJECT BLURB; do
  done
  
-+# Abort early if git-send-email is not properly configured
-+check_git_sendemail_config
-+
- if [ -z "$PDIR" ]; then
- 	echo "ERROR: you must specify a pull-dir."
+ 
+-# Harvest emails from the generated patches and populate the TO and CC variables
+-# In addition to To and CC headers/lines, the common Signed-off-by, Tested-by,
+-# etc. (*-by) will be added to CC.
+-if [ $AUTO -eq 1 ]; then
+-	harvest_recipients TO "^[Tt][Oo]: *"
+-	harvest_recipients CC "^[Cc][Cc]: *"
+-	harvest_recipients CC "^[A-Z][A-Za-z-]*-[Bb][Yy]: *"
++# Harvest emails from the generated patches and populate AUTO_CC.
++if [ $AUTO_CL -eq 1 ]; then
++	for PATCH in $PDIR/*.patch; do
++		harvest_recipients $PATCH
++	done
+ fi
+ 
+ AUTO_TO="$(git config sendemail.to)"
+@@ -102,7 +108,7 @@ if [ -n "$AUTO_TO" ]; then
+ 	fi
+ fi
+ 
+-if [ -z "$TO" ] && [ -z "$CC" ]; then
++if [ -z "$TO" ] && [ -z "$AUTO_CC" ]; then
+ 	echo "ERROR: you have not specified any recipients."
  	usage
+ 	exit 1
+@@ -114,7 +120,8 @@ cat <<EOM
+ The following patches:
+ $(for PATCH in $PDIR/*.patch; do echo "    $PATCH"; done)
+ 
+-will now be sent via the git send-email command.
++will now be sent via the git send-email command. Git will prompt you before
++sending any email.
+ 
+ EOM
+ echo "Continue? [y/N] "
+@@ -124,11 +131,23 @@ if [ "$cont" == "y" ] || [ "$cont" == "Y" ]; then
+ 	ERROR=0
+ 	export IFS=$','
+ 	GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
+-	GIT_CC=$(for R in $CC; do echo -n "--cc='$R' "; done)
++	GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
+ 	unset IFS
+ 	for PATCH in $PDIR/*patch; do
+-		# We harvest the emails manually, so force git not to.
+-		eval "git send-email $GIT_TO $GIT_CC --no-chain-reply-to --suppress-cc=all $PATCH"
++		if [ $AUTO -eq 1 ]; then
++			if [ $PATCH == "$CL" ] && [ $AUTO_CL -eq 1 ]; then
++				# Send the cover letter to every recipient, both
++				# specified as well as harvested.
++				eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
++			else
++				# Send the patch to the specified recipients and
++				# those git finds in this specific patch.
++				eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --signed-off-by-cc $PATCH"
++			fi
++		else
++			# Only send to the explicitly specified recipients
++			eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
++		fi
+ 		if [ $? -eq 1 ]; then
+ 			ERROR=1
+ 		fi
 -- 
 1.7.1
 
