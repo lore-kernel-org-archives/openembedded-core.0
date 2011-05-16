@@ -1,23 +1,22 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QM5cz-0003S5-Q2
+	(envelope-from <sgw@linux.intel.com>) id 1QM5d0-0003Re-LF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 23:47:02 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 16 May 2011 14:44:08 -0700
+	Mon, 16 May 2011 23:47:03 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 16 May 2011 14:44:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,221,1304319600"; 
-   d="scan'208";a="2999789"
+X-IronPort-AV: E=Sophos;i="4.65,221,1304319600"; d="scan'208";a="748097312"
 Received: from unknown (HELO localhost) ([10.255.12.119])
-	by fmsmga001.fm.intel.com with ESMTP; 16 May 2011 14:44:07 -0700
-Message-Id: <ee633cec452b6f1c9def4f856755cb1c6b7b31fd.1305580484.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 16 May 2011 14:44:10 -0700
+Message-Id: <bfcbeb1e42471e4728cae50ba7786ce1a855797b.1305580484.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305580484.git.sgw@linux.intel.com>
 References: <cover.1305580484.git.sgw@linux.intel.com>
-Old-Date: Mon, 16 May 2011 14:04:12 +0800
-Date: Mon, 16 May 2011 14:44:07 -0700
+Old-Date: Mon, 16 May 2011 19:06:21 +0800
+Date: Mon, 16 May 2011 14:44:10 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
-Subject: [PATCH 07/14] Upstream-Status update for several recipes
+Subject: [PATCH 10/14] Add a new task checklicense and fix some bugs in distro_check.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,300 +31,400 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 21:47:03 -0000
+X-List-Received-Date: Mon, 16 May 2011 21:47:04 -0000
 
-From: Yu Ke <ke.yu@intel.com>
+From: Mei Lei <lei.mei@intel.com>
 
- - modutils
- - module-init-tools
- - libacpi
- - keymaps
- - initscripts
- - console-tools
- - mesa-demos
- - xserver-xf86-lite
+distro_check.py: Create a new function called create_log_file to reduce a lot of repeat code in distrodata.bbclass.
+                 We needn't to create log file in function save_distro_check_result, because the log file has been generated in check_eventhandler.
+                 Another bug is that we maybe access the /tmp/Meego-1.0 before we create this file.
+                 Add a judge statement to decide whether we need to create this file firstly.
+distrodata.bbclass: Add a new task checklicense to collect missing text license information.
+                    This can help package-report system to know how many recipes are missing license text.
 
-Signed-off-by: Yu Ke <ke.yu@intel.com>
+Signed-off-by: Mei Lei <lei.mei@intel.com>
 ---
- meta/recipes-bsp/keymaps/files/GPLv2.patch         |    2 ++
- meta/recipes-bsp/libacpi/files/makefile-fix.patch  |    2 ++
- .../console-tools-0.3.2/codepage.patch             |    1 +
- .../console-tools-0.3.2/compile.patch              |    2 ++
- .../console-tools-0.3.2/configure.patch            |    1 +
- .../console-tools-0.3.2/kbdrate.patch              |    2 ++
- .../console-tools-0.3.2/uclibc-fileno.patch        |    2 ++
- .../initscripts/initscripts-1.0/GPLv2.patch        |    2 ++
- .../mesa-demos/dso_linking_change_build_fix.patch  |    1 +
- .../fix_open_max_preprocessor_error.patch          |    2 ++
- .../module-init-tools/files/disable_man.patch      |    2 ++
- .../files/grab_module_memset.patch                 |    2 ++
- .../files/ignore_arch_directory.patch              |    2 ++
- .../files/modutils_extension.patch                 |    3 +++
- .../files/no-static-binaries.patch                 |    2 ++
- meta/recipes-kernel/modutils/files/PD.patch        |    2 ++
- meta/recipes-kernel/modutils/files/armeb.patch     |    2 ++
- meta/recipes-kernel/modutils/files/configure.patch |    1 +
- meta/recipes-kernel/modutils/files/gcc4.patch      |    2 ++
- meta/recipes-kernel/modutils/files/lex.l.diff      |    2 ++
- .../modutils/files/modutils-notest.patch           |    2 ++
- .../modutils/files/program_prefix.patch            |    2 ++
- .../modutils/modutils-cross/module.h.diff          |    2 ++
- 23 files changed, 43 insertions(+), 0 deletions(-)
+ meta/classes/distrodata.bbclass |  177 ++++++++++++++++++++++-----------------
+ meta/lib/oe/distro_check.py     |   27 ++++--
+ 2 files changed, 119 insertions(+), 85 deletions(-)
 
-diff --git a/meta/recipes-bsp/keymaps/files/GPLv2.patch b/meta/recipes-bsp/keymaps/files/GPLv2.patch
-index 2611f22..1ee8181 100644
---- a/meta/recipes-bsp/keymaps/files/GPLv2.patch
-+++ b/meta/recipes-bsp/keymaps/files/GPLv2.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [licensing]
-+
- diff --git a/COPYING b/COPYING
- new file mode 100644
- index 0000000..d511905
-diff --git a/meta/recipes-bsp/libacpi/files/makefile-fix.patch b/meta/recipes-bsp/libacpi/files/makefile-fix.patch
-index 9193929..c34ef34 100644
---- a/meta/recipes-bsp/libacpi/files/makefile-fix.patch
-+++ b/meta/recipes-bsp/libacpi/files/makefile-fix.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
-+
- ---
-  Makefile  |    6 +++---
-  config.mk |    3 ++-
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/codepage.patch b/meta/recipes-core/console-tools/console-tools-0.3.2/codepage.patch
-index f6bd91e..c287014 100644
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/codepage.patch
-+++ b/meta/recipes-core/console-tools/console-tools-0.3.2/codepage.patch
-@@ -1,3 +1,4 @@
-+Upstream-Status: Pending
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index 905dad7..f24cff8 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -4,19 +4,9 @@ addhandler distro_eventhandler
+ python distro_eventhandler() {
  
- #
- # Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/compile.patch b/meta/recipes-core/console-tools/console-tools-0.3.2/compile.patch
-index 29012fe..c93f511 100644
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/compile.patch
-+++ b/meta/recipes-core/console-tools/console-tools-0.3.2/compile.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
-+
- --- console-tools-0.3.2/kbdtools/showkey.c~compile	1999-08-25 17:20:08.000000000 -0400
- +++ console-tools-0.3.2/kbdtools/showkey.c	2004-05-09 03:03:23.000000000 -0400
- @@ -264,7 +264,6 @@
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/configure.patch b/meta/recipes-core/console-tools/console-tools-0.3.2/configure.patch
-index f5b7532..60ee8ff 100644
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/configure.patch
-+++ b/meta/recipes-core/console-tools/console-tools-0.3.2/configure.patch
-@@ -1,3 +1,4 @@
-+Upstream-Status: Pending
+     if bb.event.getName(e) == "BuildStarted":
+-	"""initialize log files."""
+-	logpath = bb.data.getVar('LOG_DIR', e.data, 1)
+-	bb.utils.mkdirhier(logpath)
+-	logfile = os.path.join(logpath, "distrodata.%s.csv" % bb.data.getVar('DATETIME', e.data, 1))
+-	if not os.path.exists(logfile):
+-		slogfile = os.path.join(logpath, "distrodata.csv")
+-		if os.path.exists(slogfile):
+-			os.remove(slogfile)
+-		os.system("touch %s" % logfile)
+-		os.symlink(logfile, slogfile)
+-		bb.data.setVar('LOG_FILE', logfile, e.data)
+-
+-	lf = bb.utils.lockfile(logfile + ".lock")
++	import oe.distro_check as dc
++	logfile = dc.create_log_file(e.data, "distrodata.csv")
++	lf = bb.utils.lockfile("%s.lock" % logfile)
+ 	f = open(logfile, "a")
+ 	f.write("Package,Description,Owner,License,ChkSum,Status,VerMatch,Version,Upsteam,Non-Update,Reason,Recipe Status\n")
+         f.close()
+@@ -33,9 +23,9 @@ python do_distrodata_np() {
+         bb.note("Package Name: %s" % pn)
  
- #
- # Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/kbdrate.patch b/meta/recipes-core/console-tools/console-tools-0.3.2/kbdrate.patch
-index 47d7ea5..f370be8 100644
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/kbdrate.patch
-+++ b/meta/recipes-core/console-tools/console-tools-0.3.2/kbdrate.patch
-@@ -1,6 +1,8 @@
- Patch from Matthias Goebl <oe@m.goebl.net>
- Added via OE bugtracker: bug #478
+         import oe.distro_check as dist_check
+-        tmpdir = bb.data.getVar('TMPDIR', d, 1)
++        tmpdir = bb.data.getVar('TMPDIR', d, True)
+         distro_check_dir = os.path.join(tmpdir, "distro_check")
+-        datetime = bb.data.getVar('DATETIME', localdata, 1)
++        datetime = bb.data.getVar('DATETIME', localdata, True)
+         dist_check.update_distro_data(distro_check_dir, datetime)
  
-+Upstream-Status: Pending
-+
- --- console-tools-0.3.2/kbdtools/kbd_mode.c.orig
- +++ console-tools-0.3.2/kbdtools/kbd_mode.c
- @@ -29,11 +29,16 @@
-diff --git a/meta/recipes-core/console-tools/console-tools-0.3.2/uclibc-fileno.patch b/meta/recipes-core/console-tools/console-tools-0.3.2/uclibc-fileno.patch
-index c73d8a3..0c95068 100644
---- a/meta/recipes-core/console-tools/console-tools-0.3.2/uclibc-fileno.patch
-+++ b/meta/recipes-core/console-tools/console-tools-0.3.2/uclibc-fileno.patch
-@@ -1,6 +1,8 @@
- Fixing the locale issues isn't enough, console-tools also does a couple of
- other pretty stupid things (like FILE *f; f->_fileno instead of fileno(f)),
+ 	if pn.find("-native") != -1:
+@@ -111,15 +101,15 @@ python do_distrodata_np() {
+ addtask distrodata
+ do_distrodata[nostamp] = "1"
+ python do_distrodata() {
+-	logpath = bb.data.getVar('LOG_DIR', d, 1)
++	logpath = bb.data.getVar('LOG_DIR', d, True)
+ 	bb.utils.mkdirhier(logpath)
+ 	logfile = os.path.join(logpath, "distrodata.csv")
  
-+Upstream-Status: Pending
-+
- --- console-tools-0.3.2/lib/cfont/fontstruct.c.ark	2005-05-22 19:12:38.000000000 +0000
- +++ console-tools-0.3.2/lib/cfont/fontstruct.c	2005-05-22 19:13:23.000000000 +0000
- @@ -50,8 +50,7 @@
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/GPLv2.patch b/meta/recipes-core/initscripts/initscripts-1.0/GPLv2.patch
-index 2611f22..1ee8181 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/GPLv2.patch
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/GPLv2.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [licensing]
-+
- diff --git a/COPYING b/COPYING
- new file mode 100644
- index 0000000..d511905
-diff --git a/meta/recipes-graphics/mesa/mesa-demos/dso_linking_change_build_fix.patch b/meta/recipes-graphics/mesa/mesa-demos/dso_linking_change_build_fix.patch
-index aa2faf9..9b5e952 100644
---- a/meta/recipes-graphics/mesa/mesa-demos/dso_linking_change_build_fix.patch
-+++ b/meta/recipes-graphics/mesa/mesa-demos/dso_linking_change_build_fix.patch
-@@ -11,6 +11,7 @@ This patch avoids these linking errors:
- Nitin A Kamble <nitin.a.kamble@intel.com>
- Date: 2011/02/03
+         import oe.distro_check as dist_check
+ 	localdata = bb.data.createCopy(d)
+-        tmpdir = bb.data.getVar('TMPDIR', d, 1)
++        tmpdir = bb.data.getVar('TMPDIR', d, True)
+         distro_check_dir = os.path.join(tmpdir, "distro_check")
+-        datetime = bb.data.getVar('DATETIME', localdata, 1)
++        datetime = bb.data.getVar('DATETIME', localdata, True)
+         dist_check.update_distro_data(distro_check_dir, datetime)
  
-+Upstream-Status: Pending
+         pn = bb.data.getVar("PN", d, True)
+@@ -189,7 +179,7 @@ python do_distrodata() {
+         # do the comparison
+         result = dist_check.compare_in_distro_packages_list(distro_check_dir, localdata)
  
- Index: mesa-demos-8.0.1/src/egl/opengl/Makefile.am
- ===================================================================
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/fix_open_max_preprocessor_error.patch b/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/fix_open_max_preprocessor_error.patch
-index 565832e..2f62972 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/fix_open_max_preprocessor_error.patch
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite/fix_open_max_preprocessor_error.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
+-	lf = bb.utils.lockfile(logfile + ".lock")
++	lf = bb.utils.lockfile("%s.lock" % logfile)
+ 	f = open(logfile, "a")
+ 	f.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s," % \
+ 		  (pname, pdesc, maintainer, plicense, pchksum, hasrstatus, vermatch, pcurver, pupver, noupdate, noupdate_reason, rstatus))
+@@ -211,19 +201,10 @@ do_distrodataall() {
+ addhandler checkpkg_eventhandler
+ python checkpkg_eventhandler() {
+     if bb.event.getName(e) == "BuildStarted":
+-	"""initialize log files."""
+-	logpath = bb.data.getVar('LOG_DIR', e.data, 1)
+-	bb.utils.mkdirhier(logpath)
+-	logfile = os.path.join(logpath, "checkpkg.%s.csv" % bb.data.getVar('DATETIME', e.data, 1))
+-	if not os.path.exists(logfile):
+-		slogfile = os.path.join(logpath, "checkpkg.csv")
+-		if os.path.exists(slogfile):
+-			os.remove(slogfile)
+-		os.system("touch %s" % logfile)
+-		os.symlink(logfile, slogfile)
+-		bb.data.setVar('LOG_FILE', logfile, e.data)
+-
+-	lf = bb.utils.lockfile(logfile + ".lock")
++	import oe.distro_check as dc
++	logfile = dc.create_log_file(e.data, "checkpkg.csv")
 +
- Index: git/os/osdep.h
- ===================================================================
- --- git.orig/os/osdep.h	2008-10-07 18:38:21.000000000 +0100
-diff --git a/meta/recipes-kernel/module-init-tools/files/disable_man.patch b/meta/recipes-kernel/module-init-tools/files/disable_man.patch
-index daf5824..95ad9cf 100644
---- a/meta/recipes-kernel/module-init-tools/files/disable_man.patch
-+++ b/meta/recipes-kernel/module-init-tools/files/disable_man.patch
-@@ -2,6 +2,8 @@
- #
- # by Kevin Tian <kevin.tian@intel.com>, 2010-07-21
++	lf = bb.utils.lockfile("%s.lock" % logfile)
+ 	f = open(logfile, "a")
+ 	f.write("Package\tVersion\tUpver\tLicense\tSection\tHome\tRelease\tPriority\tDepends\tBugTracker\tPE\tDescription\tStatus\tTracking\tURI\tMAINTAINER\n")
+         f.close()
+@@ -304,7 +285,7 @@ python do_checkpkg() {
+ 		Clear internal url cache as it's a temporary check. Not doing so will have 
+ 		bitbake check url multiple times when looping through a single url
+ 		"""
+-		fn = bb.data.getVar('FILE', d, 1)
++		fn = bb.data.getVar('FILE', d, True)
+ 		bb.fetch2.urldata_cache[fn] = {}
  
-+Upstream-Status: Inappropriate [disable feature]
-+
- diff --git a/Makefile.am b/Makefile.am
- index 6f83c12..32972a8 100644
- --- a/Makefile.am
-diff --git a/meta/recipes-kernel/module-init-tools/files/grab_module_memset.patch b/meta/recipes-kernel/module-init-tools/files/grab_module_memset.patch
-index 9550255..31dc0e9 100644
---- a/meta/recipes-kernel/module-init-tools/files/grab_module_memset.patch
-+++ b/meta/recipes-kernel/module-init-tools/files/grab_module_memset.patch
-@@ -5,6 +5,8 @@
- #
- # Kevin Tian <kevin.tian@intel.com>, 2010-08-06
+ 		"""
+@@ -335,7 +316,7 @@ python do_checkpkg() {
+ 	Return new version if success, or else error in "Errxxxx" style
+ 	"""
+ 	def check_new_dir(url, curver, d):
+-		pn = bb.data.getVar('PN', d, 1)
++		pn = bb.data.getVar('PN', d, True)
+ 		f = tempfile.NamedTemporaryFile(delete=False, prefix="%s-1-" % pn)
+ 		status = internal_fetch_wget(url, d, f)
+ 		fhtml = f.read()
+@@ -394,7 +375,7 @@ python do_checkpkg() {
+ 		"""possible to have no version in pkg name, such as spectrum-fw"""
+ 		if not re.search("\d+", curname):
+ 			return pcurver
+-		pn = bb.data.getVar('PN', d, 1)
++		pn = bb.data.getVar('PN', d, True)
+ 		f = tempfile.NamedTemporaryFile(delete=False, prefix="%s-2-" % pn)
+ 		status = internal_fetch_wget(url, d, f)
+ 		fhtml = f.read()
+@@ -437,35 +418,35 @@ python do_checkpkg() {
+ 		f.close()
+ 		"""if host hasn't directory information, no need to save tmp file"""
+ 		if status != "ErrHostNoDir" and re.match("Err", status):
+-			logpath = bb.data.getVar('LOG_DIR', d, 1)
++			logpath = bb.data.getVar('LOG_DIR', d, True)
+ 			os.system("cp %s %s/" % (f.name, logpath))
+ 		os.unlink(f.name)
+ 		return status
  
-+Upstream-Status: Pending
-+
- diff --git a/depmod.c b/depmod.c
- index 647e5e6..46e03e0 100644
- --- a/depmod.c
-diff --git a/meta/recipes-kernel/module-init-tools/files/ignore_arch_directory.patch b/meta/recipes-kernel/module-init-tools/files/ignore_arch_directory.patch
-index 7b30824..d29957d 100644
---- a/meta/recipes-kernel/module-init-tools/files/ignore_arch_directory.patch
-+++ b/meta/recipes-kernel/module-init-tools/files/ignore_arch_directory.patch
-@@ -2,6 +2,8 @@
- #
- # comments added by Kevin Tian <kevin.tian@intel.com>, 2010-07-21
+ 	"""first check whether a uri is provided"""
+-	src_uri = bb.data.getVar('SRC_URI', d, 1)
++	src_uri = bb.data.getVar('SRC_URI', d, True)
+ 	if not src_uri:
+ 		return
  
-+Upstream-Status: Pending
-+
- diff -ruN module-init-tools-3.12.orig/modprobe.8 module-init-tools-3.12/modprobe.8
- --- module-init-tools-3.12/modprobe.8.orig
- +++ module-init-tools-3.12/modprobe.8
-diff --git a/meta/recipes-kernel/module-init-tools/files/modutils_extension.patch b/meta/recipes-kernel/module-init-tools/files/modutils_extension.patch
-index 128c953..4a6e0fe 100644
---- a/meta/recipes-kernel/module-init-tools/files/modutils_extension.patch
-+++ b/meta/recipes-kernel/module-init-tools/files/modutils_extension.patch
-@@ -1,6 +1,9 @@
- # poky uses new name to differentiate from modutils, so reflect this new name in source
- #
- # comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-21
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
- --- module-init-tools-3.0-pre10.orig/generate-modprobe.conf
- +++ module-init-tools-3.0-pre10/generate-modprobe.conf
- @@ -45,12 +45,12 @@
-diff --git a/meta/recipes-kernel/module-init-tools/files/no-static-binaries.patch b/meta/recipes-kernel/module-init-tools/files/no-static-binaries.patch
-index ca83ec0..33fb6e0 100644
---- a/meta/recipes-kernel/module-init-tools/files/no-static-binaries.patch
-+++ b/meta/recipes-kernel/module-init-tools/files/no-static-binaries.patch
-@@ -9,6 +9,8 @@
- #
- # by Kevin Tian <kevin.tian@intel.com>, 2010-07-21
+ 	"""initialize log files."""
+-	logpath = bb.data.getVar('LOG_DIR', d, 1)
++	logpath = bb.data.getVar('LOG_DIR', d, True)
+ 	bb.utils.mkdirhier(logpath)
+ 	logfile = os.path.join(logpath, "checkpkg.csv")
  
-+Upstream-Status: Pending
-+
- Index: module-init-tools-3.2.2/Makefile.am
- ===================================================================
- --- module-init-tools-3.2.2.orig/Makefile.am	2010-05-26 15:43:16.000000000 -0400
-diff --git a/meta/recipes-kernel/modutils/files/PD.patch b/meta/recipes-kernel/modutils/files/PD.patch
-index 6e7b76a..21ac49c 100644
---- a/meta/recipes-kernel/modutils/files/PD.patch
-+++ b/meta/recipes-kernel/modutils/files/PD.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [licensing]
-+
- Index: modutils-initscripts-1.0/LICENSE
- ===================================================================
- --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-diff --git a/meta/recipes-kernel/modutils/files/armeb.patch b/meta/recipes-kernel/modutils/files/armeb.patch
-index a26a3a2..3198553 100644
---- a/meta/recipes-kernel/modutils/files/armeb.patch
-+++ b/meta/recipes-kernel/modutils/files/armeb.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
-+
- --- modutils-2.4.27/include/elf_arm.h.orig	2004-09-21 18:37:00.000000000 -0400
- +++ modutils-2.4.27/include/elf_arm.h	2004-09-21 18:38:18.000000000 -0400
- @@ -1,7 +1,11 @@
-diff --git a/meta/recipes-kernel/modutils/files/configure.patch b/meta/recipes-kernel/modutils/files/configure.patch
-index cdf5015..63e80d7 100644
---- a/meta/recipes-kernel/modutils/files/configure.patch
-+++ b/meta/recipes-kernel/modutils/files/configure.patch
-@@ -1,3 +1,4 @@
-+Upstream-Status: Pending
+ 	"""generate package information from .bb file"""
+-	pname = bb.data.getVar('PN', d, 1)
+-	pdesc = bb.data.getVar('DESCRIPTION', d, 1)
+-	pgrp = bb.data.getVar('SECTION', d, 1)
+-	pversion = bb.data.getVar('PV', d, 1)
+-	plicense = bb.data.getVar('LICENSE',d,1)
+-	psection = bb.data.getVar('SECTION',d,1)
+-	phome = bb.data.getVar('HOMEPAGE', d, 1)
+-	prelease = bb.data.getVar('PR',d,1)
+-	ppriority = bb.data.getVar('PRIORITY',d,1)
+-	pdepends = bb.data.getVar('DEPENDS',d,1)
+-	pbugtracker = bb.data.getVar('BUGTRACKER',d,1)
+-	ppe = bb.data.getVar('PE',d,1)
+-	psrcuri = bb.data.getVar('SRC_URI',d,1)
++	pname = bb.data.getVar('PN', d, True)
++	pdesc = bb.data.getVar('DESCRIPTION', d, True)
++	pgrp = bb.data.getVar('SECTION', d, True)
++	pversion = bb.data.getVar('PV', d, True)
++	plicense = bb.data.getVar('LICENSE', d, True)
++	psection = bb.data.getVar('SECTION', d, True)
++	phome = bb.data.getVar('HOMEPAGE', d, True)
++	prelease = bb.data.getVar('PR', d, True)
++	ppriority = bb.data.getVar('PRIORITY', d, True)
++	pdepends = bb.data.getVar('DEPENDS', d, True)
++	pbugtracker = bb.data.getVar('BUGTRACKER', d, True)
++	ppe = bb.data.getVar('PE', d, True)
++	psrcuri = bb.data.getVar('SRC_URI', d, True)
  
- #
- # Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
-diff --git a/meta/recipes-kernel/modutils/files/gcc4.patch b/meta/recipes-kernel/modutils/files/gcc4.patch
-index 53750bc..4507b03 100644
---- a/meta/recipes-kernel/modutils/files/gcc4.patch
-+++ b/meta/recipes-kernel/modutils/files/gcc4.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
-+
- Index: modutils-2.4.27/depmod/depmod.c
- ===================================================================
- --- modutils-2.4.27.orig/depmod/depmod.c
-diff --git a/meta/recipes-kernel/modutils/files/lex.l.diff b/meta/recipes-kernel/modutils/files/lex.l.diff
-index 65904b6..b2419a4 100644
---- a/meta/recipes-kernel/modutils/files/lex.l.diff
-+++ b/meta/recipes-kernel/modutils/files/lex.l.diff
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
-+
- --- modutils-2.4.26.orig/genksyms/lex.l
- +++ modutils-2.4.26/genksyms/lex.l
- @@ -130,6 +130,7 @@
-diff --git a/meta/recipes-kernel/modutils/files/modutils-notest.patch b/meta/recipes-kernel/modutils/files/modutils-notest.patch
-index 0e15a10..ab100f2 100644
---- a/meta/recipes-kernel/modutils/files/modutils-notest.patch
-+++ b/meta/recipes-kernel/modutils/files/modutils-notest.patch
-@@ -2,6 +2,8 @@ This test disables the annoying
-    Note: /etc/modules.conf is more recent than /lib/modules/2.4.19-rmk6-pxa1/modules.dep
- message.
+ 	found = 0
+ 	for uri in src_uri.split():
+@@ -483,9 +464,9 @@ python do_checkpkg() {
  
-+Upstream-Status: Inappropriate [disable feature]
+ 	(type, host, path, user, pswd, parm) = bb.decodeurl(uri)
+ 	if type in ['http', 'https', 'ftp']:
+-		pcurver = bb.data.getVar('PV', d, 1)
++		pcurver = bb.data.getVar('PV', d, True)
+ 	else:
+-		pcurver = bb.data.getVar("SRCREV", d, 1)
++		pcurver = bb.data.getVar("SRCREV", d, True)
+ 
+ 	if type in ['http', 'https', 'ftp']:
+ 		newver = pcurver
+@@ -509,7 +490,7 @@ python do_checkpkg() {
+ 			newver = check_new_dir(alturi, dirver, d)
+ 			altpath = path
+ 			if not re.match("Err", newver) and dirver != newver:
+-				altpath = altpath.replace(dirver, newver, 1)
++				altpath = altpath.replace(dirver, newver, True)
+ 				
+ 		"""Now try to acquire all remote files in current directory"""
+ 		if not re.match("Err", newver):
+@@ -625,7 +606,7 @@ python do_checkpkg() {
+ 		pstatus += ":%s%s" % (host, path)
+ 
+ 	"""Read from manual distro tracking fields as alternative"""
+-	pmver = bb.data.getVar("RECIPE_LATEST_VERSION", d, 1)
++	pmver = bb.data.getVar("RECIPE_LATEST_VERSION", d, True)
+ 	if not pmver:
+ 		pmver = "N/A"
+ 		pmstatus = "ErrNoRecipeData"
+@@ -639,7 +620,7 @@ python do_checkpkg() {
+ 	psrcuri = psrcuri.split()[0]
+ 	pdepends = "".join(pdepends.split("\t"))
+ 	pdesc = "".join(pdesc.split("\t"))
+-	lf = bb.utils.lockfile(logfile + ".lock")
++	lf = bb.utils.lockfile("%s.lock" % logfile)
+ 	f = open(logfile, "a")
+ 	f.write("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n" % \
+ 		  (pname,pversion,pupver,plicense,psection, phome,prelease, ppriority,pdepends,pbugtracker,ppe,pdesc,pstatus,pmver,psrcuri,maintainer))
+@@ -654,25 +635,12 @@ do_checkpkgall() {
+ 	:
+ }
+ 
+-#addhandler check_eventhandler
+-python check_eventhandler() {
++addhandler distro_check_eventhandler
++python distro_check_eventhandler() {
+     if bb.event.getName(e) == "BuildStarted":
+-        import oe.distro_check as dc
+-        tmpdir = bb.data.getVar('TMPDIR', e.data, 1)
+-        distro_check_dir = os.path.join(tmpdir, "distro_check")
+-        datetime = bb.data.getVar('DATETIME', e.data, 1)
+         """initialize log files."""
+-        logpath = bb.data.getVar('LOG_DIR', e.data, 1)
+-        bb.utils.mkdirhier(logpath)
+-        logfile = os.path.join(logpath, "distrocheck.%s.csv" % bb.data.getVar('DATETIME', e.data, 1))
+-        if not os.path.exists(logfile):
+-                slogfile = os.path.join(logpath, "distrocheck.csv")
+-                if os.path.exists(slogfile):
+-                        os.remove(slogfile)
+-                os.system("touch %s" % logfile)
+-                os.symlink(logfile, slogfile)
+-                bb.data.setVar('LOG_FILE', logfile, e.data)
+-
++        import oe.distro_check as dc
++        result_file = dc.create_log_file(e.data, "distrocheck.csv")
+     return
+ }
+ 
+@@ -681,18 +649,23 @@ do_distro_check[nostamp] = "1"
+ python do_distro_check() {
+     """checks if the package is present in other public Linux distros"""
+     import oe.distro_check as dc
++    import bb
++    import shutil
+     localdata = bb.data.createCopy(d)
+     bb.data.update_data(localdata)
+-    tmpdir = bb.data.getVar('TMPDIR', d, 1)
++    tmpdir = bb.data.getVar('TMPDIR', d, True)
+     distro_check_dir = os.path.join(tmpdir, "distro_check")
+-    datetime = bb.data.getVar('DATETIME', localdata, 1)
++    logpath = bb.data.getVar('LOG_DIR', d, True)
++    bb.utils.mkdirhier(logpath)
++    result_file = os.path.join(logpath, "distrocheck.csv")
++    datetime = bb.data.getVar('DATETIME', localdata, True)
+     dc.update_distro_data(distro_check_dir, datetime)
+ 
+     # do the comparison
+     result = dc.compare_in_distro_packages_list(distro_check_dir, d)
+ 
+     # save the results
+-    dc.save_distro_check_result(result, datetime, d)
++    dc.save_distro_check_result(result, datetime, result_file, d)
+ }
+ 
+ addtask distro_checkall after do_distro_check
+@@ -701,3 +674,55 @@ do_distro_checkall[nostamp] = "1"
+ do_distro_checkall() {
+ 	:
+ }
++#
++#Check Missing License Text.
++#Use this task to generate the missing license text data for pkg-report system,
++#then we can search those recipes which license text isn't exsit in common-licenses directory
++#
++addhandler checklicense_eventhandler
++python checklicense_eventhandler() {
++    if bb.event.getName(e) == "BuildStarted":
++        """initialize log files."""
++        import oe.distro_check as dc
++        logfile = dc.create_log_file(e.data, "missinglicense.csv")
++        lf = bb.utils.lockfile("%s.lock" % logfile)
++        f = open(logfile, "a")
++        f.write("Package\tLicense\tMissingLicense\n")
++        f.close()
++        bb.utils.unlockfile(lf)
++    return
++}
 +
- --- modutils-2.4.6/insmod/modprobe.c~notest	Mon Feb 26 02:07:17 2001
- +++ modutils-2.4.6/insmod/modprobe.c	Wed Feb 19 14:31:52 2003
- @@ -785,7 +785,6 @@
-diff --git a/meta/recipes-kernel/modutils/files/program_prefix.patch b/meta/recipes-kernel/modutils/files/program_prefix.patch
-index 2927a23..973705e 100644
---- a/meta/recipes-kernel/modutils/files/program_prefix.patch
-+++ b/meta/recipes-kernel/modutils/files/program_prefix.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
++addtask checklicense
++do_checklicense[nostamp] = "1"
++python do_checklicense() {
++    import os
++    import bb
++    import shutil
++    logpath = bb.data.getVar('LOG_DIR', d, True)
++    bb.utils.mkdirhier(logpath)
++    pn = bb.data.getVar('PN', d, True)
++    logfile = os.path.join(logpath, "missinglicense.csv")
++    generic_directory = bb.data.getVar('COMMON_LICENSE_DIR', d, True)
++    license_types = bb.data.getVar('LICENSE', d, True)
++    for license_type in ((license_types.replace('+', '').replace('|', '&')
++                          .replace('(', '').replace(')', '').replace(';', '')
++                          .replace(',', '').replace(" ", "").split("&"))):
++        if not os.path.isfile(os.path.join(generic_directory, license_type)):
++            lf = bb.utils.lockfile("%s.lock" % logfile)
++            f = open(logfile, "a")
++            f.write("%s\t%s\t%s\n" % \
++                (pn,license_types,license_type))
++            f.close()
++            bb.utils.unlockfile(lf)
++    return
++}
 +
- --- modutils-2.4.25/Makefile.common.in	Sun Nov 24 21:23:35 2002
- +++ modutils-2.4.25/Makefile.common.in	Thu Jan 29 17:16:30 2004
- @@ -7,6 +7,7 @@
-diff --git a/meta/recipes-kernel/modutils/modutils-cross/module.h.diff b/meta/recipes-kernel/modutils/modutils-cross/module.h.diff
-index 077baaf..e9f1224 100644
---- a/meta/recipes-kernel/modutils/modutils-cross/module.h.diff
-+++ b/meta/recipes-kernel/modutils/modutils-cross/module.h.diff
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
++addtask checklicenseall after do_checklicense
++do_checklicenseall[recrdeptask] = "do_checklicense"
++do_checklicenseall[nostamp] = "1"
++do_checklicenseall() {
++	:
++}
 +
- diff -urN modutils-2.4.27.orig/include/module.h modutils-2.4.27/include/module.h
- --- modutils-2.4.27.orig/include/module.h	2003-01-27 11:22:02.000000000 -0500
- +++ modutils-2.4.27/include/module.h	2004-08-23 19:52:34.756772712 -0400
++
+diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
+index c85d4fb..55cdcad 100644
+--- a/meta/lib/oe/distro_check.py
++++ b/meta/lib/oe/distro_check.py
+@@ -73,7 +73,8 @@ def clean_package_list(package_list):
+ def get_latest_released_meego_source_package_list():
+     "Returns list of all the name os packages in the latest meego distro"
+ 
+-    
++    if not os.path.isfile("/tmp/Meego-1.0"):
++        os.mknod("/tmp/Meego-1.0")
+     f = open("/tmp/Meego-1.0", "r")
+     package_names = []
+     for line in f:
+@@ -341,7 +342,22 @@ def compare_in_distro_packages_list(distro_check_dir, d):
+     bb.note("Matching: %s" % matching_distros)
+     return matching_distros
+ 
+-def save_distro_check_result(result, datetime, d):
++def create_log_file(d, logname):
++    logpath = bb.data.getVar('LOG_DIR', d, True)
++    bb.utils.mkdirhier(logpath)
++    logfn, logsuffix = os.path.splitext(logname)
++    logfile = os.path.join(logpath, "%s.%s%s" % (logfn, bb.data.getVar('DATETIME', d, True), logsuffix))
++    if not os.path.exists(logfile):
++            slogfile = os.path.join(logpath, logname)
++            if os.path.exists(slogfile):
++                    os.remove(slogfile)
++            os.system("touch %s" % logfile)
++            os.symlink(logfile, slogfile)
++            bb.data.setVar('LOG_FILE', logfile, d)
++    return logfile
++
++
++def save_distro_check_result(result, datetime, result_file, d):
+     pn = bb.data.getVar('PN', d, True)
+     logdir = bb.data.getVar('LOG_DIR', d, True)
+     if not logdir:
+@@ -349,16 +365,9 @@ def save_distro_check_result(result, datetime, d):
+         return
+     if not os.path.isdir(logdir):
+         os.makedirs(logdir)
+-    result_file = os.path.join(logdir, "distrocheck.%s.csv" % datetime)
+     line = pn
+     for i in result:
+         line = line + "," + i
+-    if not os.path.exists(result_file):
+-        sresult_file = os.path.join(logdir, "distrocheck.csv")
+-	if os.path.exists(sresult_file):
+-	    os.remove(sresult_file)
+-	os.system("touch %s" % result_file)
+-	os.symlink(result_file, sresult_file)
+     f = open(result_file, "a")
+     import fcntl
+     fcntl.lockf(f, fcntl.LOCK_EX)
 -- 
 1.7.1.1
 
