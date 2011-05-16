@@ -1,29 +1,27 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QM4IC-0001qa-S7
+	(envelope-from <saul.wold@intel.com>) id 1QM4lD-0002Q2-9c
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 22:21:29 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QM4FD-0000Ou-GS from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 13:18:23 -0700
-Received: from na2-mail.mgc.mentorg.com ([134.86.114.213]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 16 May 2011 13:16:09 -0700
-Received: from localhost.localdomain ([172.30.80.14]) by
-	na2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Mon, 16 May 2011 14:18:22 -0600
-From: Tom Rini <tom_rini@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 May 2011 13:18:17 -0700
-Message-Id: <1aa9f65465fedd448f96fdf6eeaee89d2bfc7ad6.1305577030.git.tom_rini@mentor.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1305577030.git.tom_rini@mentor.com>
-References: <cover.1305577030.git.tom_rini@mentor.com>
-X-OriginalArrivalTime: 16 May 2011 20:18:22.0340 (UTC)
-	FILETIME=[675CDC40:01CC1406]
-Subject: [PATCH 1/2] openssh: Don't use ${libdir}exec
+	Mon, 16 May 2011 22:51:27 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 16 May 2011 13:48:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,221,1304319600"; d="scan'208";a="643450189"
+Received: from unknown (HELO [10.255.12.119]) ([10.255.12.119])
+	by orsmga002.jf.intel.com with ESMTP; 16 May 2011 13:48:33 -0700
+Message-ID: <4DD18DA1.4080501@intel.com>
+Date: Mon, 16 May 2011 13:48:33 -0700
+From: Saul Wold <saul.wold@intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.1.10) Gecko/20100621 Fedora/3.0.5-1.fc13 Lightning/1.0b2pre
+	Thunderbird/3.0.5
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1305418871.git.sgw@linux.intel.com>	<E943FF3D-A282-4E6D-8B5A-B954A678A0E1@gmail.com>	<4DD13B6F.4010009@intel.com>	<BANLkTi=0TcHgXmYpwCjX6P5h6+y9O2YQFw@mail.gmail.com>
+	<1305575479.3424.102.camel@rex>
+In-Reply-To: <1305575479.3424.102.camel@rex>
+Subject: Re: [RFC 0/3] Move Old Recipes to meta-extras
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,32 +36,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 20:21:29 -0000
+X-List-Received-Date: Mon, 16 May 2011 20:51:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is 1259e0289ce53198cc6c57a9616c8a1623be502a in OE.
+On 05/16/2011 12:51 PM, Richard Purdie wrote:
+> On Mon, 2011-05-16 at 10:08 -0700, Khem Raj wrote:
+>> On Mon, May 16, 2011 at 7:57 AM, Saul Wold<saul.wold@intel.com>  wrote:
+>>> On 05/15/2011 11:19 PM, Khem Raj wrote:
+>>>>
+>>>>
+>>>> On May 14, 2011, at 5:23 PM, Saul Wold<sgw@linux.intel.com>   wrote:
+>>>>
+>>>>> From: Saul Wold<sgw@linux.intel.com>
+>>>>>
+>>>>> This proposes to move the YAFFS2-utils, older clutter-1.4
+>>>>> and older GCC version (4.3.3 and 3.4.4) as they are unused
+>>>>> and currently unbuildable.
+>>>>>
+>>>>
+>>>> Are we left with any GPLv2 version of gcc after this ?
+>>>>
+>>> Khem,
+>>>
+>>> Is not having a GPLv2 version of gcc an issue? For the non-gplv3 version, my
+>>> understanding is to have an installed user-space for oe-core for a
+>>> non-development system, therefore gcc is not an issue.
+>>>
+>>
+>> there are certain parts of gcc which go onto target e.g. libgcc libstdc++
+>
+> These have specific license exceptions allowing non-gpl code to use them
+> as system libraries though?
+>
+Richard is correct, there are exception for the runtime parts of GCC.
+Sorry Khem, I was not catching to original gist of the question.
 
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
----
- meta/recipes-connectivity/openssh/openssh_5.6p1.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Sau!
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_5.6p1.bb b/meta/recipes-connectivity/openssh/openssh_5.6p1.bb
-index d93a773..df7fcad 100644
---- a/meta/recipes-connectivity/openssh/openssh_5.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_5.6p1.bb
-@@ -75,8 +75,8 @@ FILES_${PN}-ssh = "${bindir}/ssh.${PN} ${sysconfdir}/ssh/ssh_config"
- FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
- FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config"
- FILES_${PN}-sftp = "${bindir}/sftp"
--FILES_${PN}-sftp-server = "${libdir}exec/sftp-server"
--FILES_${PN}-misc = "${bindir}/ssh* ${libdir}exec/ssh*"
-+FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
-+FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
- FILES_${PN}-keygen = "${bindir}/ssh-keygen"
- 
- RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
--- 
-1.7.0.4
+> Cheers,
+>
+> Richard
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
