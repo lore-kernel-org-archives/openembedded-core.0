@@ -1,36 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QLwDZ-00065C-Gu for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 13:44:09 +0200
+	id 1QLwe9-0004j9-60 for openembedded-core@lists.openembedded.org;
+	Mon, 16 May 2011 14:11:37 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GBfIql019006
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GC8jlo019206
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 12:41:18 +0100
+	Mon, 16 May 2011 13:08:45 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 18804-04 for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 12:41:14 +0100 (BST)
+	id 18804-08 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2011 13:08:41 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GBfA8B019000
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GC8Zxf019198
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 May 2011 12:41:11 +0100
+	Mon, 16 May 2011 13:08:36 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTik7k7pd5+cc+5-K3-Di7+hdryow9Q@mail.gmail.com>
-References: <cover.1305525725.git.raj.khem@gmail.com>
-	<ca9a918a98510eac991c84ce1ebe8fecbdf38361.1305525725.git.raj.khem@gmail.com>
-	<13617913-C458-40F1-AA46-489ACEADF340@dominion.thruhere.net>
-	<BANLkTik7k7pd5+cc+5-K3-Di7+hdryow9Q@mail.gmail.com>
-Date: Mon, 16 May 2011 12:41:08 +0100
-Message-ID: <1305546068.3424.33.camel@rex>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 16 May 2011 13:08:34 +0100
+Message-ID: <1305547714.3424.51.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/2] tclibc-uclibc.inc: Append -uclibc only to target recipes
+Subject: Performance - Staus and plans
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,33 +39,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 11:44:09 -0000
+X-List-Received-Date: Mon, 16 May 2011 12:11:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-05-16 at 02:55 -0700, Khem Raj wrote:
-> On Sun, May 15, 2011 at 11:58 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> >
-> > Op 16 mei 2011, om 08:04 heeft Khem Raj het volgende geschreven:
-> >
-> >> Do not define DEPLOY_DIR_IMAGE
-> >> Append -uclibc to STAGING_DIR_TARGET only for target recipe and cross
-> >> recipes
-> >> Append -uclibc to STAGING_DIR_HOST only for target recipes.
-> >>
-> >> These changes make sure that we still share the native sysroot
-> >
-> > I still stay we append tclibc unconditionally.
-> 
-> yes thats would simplify things if we agree to use TCLIBC in bitbake.conf
+I'm going to cover both disk usage and build time in this list with a
+summary of the currently identified tasks we're working on and their
+status as I understand them:
 
-We can't depend on TCLIBC in bitbake.conf since someone still has the
-option of not using the standard configuration boilerplate we're
-providing.
+a) Split libc locale generation from libc do_install/do_package
+
+   Status: Dongxiao has a WIP patch. Do we have an ETA on that?
+
+b) Share the source directories for gcc, glibc and maybe others
+
+   Status: RP wrote a proof of concept patch, needs further work, on 
+   Yocto schedule for 1.1
+
+c) Set CCACHE on a per recipe basis. need to figure out whether ccache 
+   data can be shared and under what circumstances.
+
+   Status: Idea talked about, no code yet
+
+d) Cache do_configure autoreconf result
+
+   Status: We know this is about 50% of the time on configure, no code 
+   yet. Need fixes to SRC_URI variable dependency code to include 
+   checksums (which we need to fix regardless)
+
+e) Remove perl-native from most build dependencies by installing it 
+   into its own sysroot
+
+   Status: WIP
+
+f) Document performance best practises (e.g. no premempt in kernel, 
+   use server kernel on ubuntu)
+
+   Status: Not done yet.
+
+Further investigative ideas I've been wondering about:
+
+a) Consider current dependency tree and see if any dependencies could 
+   be avoided?
+
+b) Consider contents of our standard images and what could be removed 
+   for what build time improvement?
+
+c) Find a system with complete symbol data present, then run a minimal 
+   build under oprofile and see if anything significant bottle necks 
+   appear? To get good debug data we might do a build under a poky 
+   generated image! :)
+
+d) Consider better ways to enable pseudo to be prebuilt in parallel 
+   with other native recipes as this takes a significant chunk of time 
+   when we aren't using parallelism.
+
+e) Compare the build time of "bitbake glibc -c populate_sysroot; 
+   bitbake core-image-sato" with "bitbake core-image-sato"
+
+My big concern is that whilst I think if we keep working at it, we can
+get the standard build time to 90 minutes (currently master is 102), we
+don't currently have any gain identified that could get us to the 60
+minute build time.
 
 Cheers,
 
 Richard
+
+
+
 
 
 
