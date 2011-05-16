@@ -1,24 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QM7O7-0000iT-TJ
+	(envelope-from <josh@linux.intel.com>) id 1QM7PD-0000lD-RV
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 01:39:48 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 May 2011 16:36:53 -0700
+	Tue, 17 May 2011 01:40:58 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 May 2011 16:36:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,222,1304319600"; d="scan'208";a="748171204"
+X-IronPort-AV: E=Sophos;i="4.65,222,1304319600"; d="scan'208";a="643514606"
 Received: from vorpal.jf.intel.com (HELO [10.7.199.57]) ([10.7.199.57])
-	by orsmga001.jf.intel.com with ESMTP; 16 May 2011 16:36:51 -0700
+	by orsmga002.jf.intel.com with ESMTP; 16 May 2011 16:36:59 -0700
 From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 May 2011 16:40:24 -0700
-In-Reply-To: <8ca2a8e517f83c09ba0f1a591d55b338f24c328a.1305584418.git.dvhart@linux.intel.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Date: Mon, 16 May 2011 16:40:32 -0700
+In-Reply-To: <442f31a687cb0362e9e0a3492eed6bb4ad5d8366.1305584418.git.dvhart@linux.intel.com>
 References: <eb4a98eeef982194542a33be0dd615a5c2bf3ed8.1305584418.git.dvhart@linux.intel.com>
-	<8ca2a8e517f83c09ba0f1a591d55b338f24c328a.1305584418.git.dvhart@linux.intel.com>
+	<442f31a687cb0362e9e0a3492eed6bb4ad5d8366.1305584418.git.dvhart@linux.intel.com>
 X-Mailer: Evolution 3.0.1 (3.0.1-1.fc15) 
-Message-ID: <1305589224.1771.20.camel@vorpal.jf.intel.com>
+Message-ID: <1305589232.1771.21.camel@vorpal.jf.intel.com>
 Mime-Version: 1.0
-Subject: Re: [RFC PATCH v2 04/15] create-pull-request: rewrite known private URLs to public URLs
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH v2 14/15] send-pull-request: streamline git-send-email usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,57 +34,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 23:39:48 -0000
+X-List-Received-Date: Mon, 16 May 2011 23:40:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Mon, 2011-05-16 at 15:26 -0700, Darren Hart wrote:
-> Rather than requiring users to have public remotes and private remotes when
-> their development remotes are ssh based (and therefor unsuitable for a pull
-> request URL), rewrite the ones we know about from ssh://git@ to git://.
+> The script was sending one patch at a time, which defeats the internal
+> confirmation mechanism of git-send-email (which would otherwise allow
+> the user to send all patches or abort immediately).
 > 
-> As the remote url vary from remote to remote, do the REMOTE_REPO regex per
-> remote.
+> Rework the sending logic to use no more than two commands. Use two
+> commands when the cover letter is to be sent to all recipients with
+> the -a argument. Otherwise, send all patches via the same command.
 > 
-> With this infrastructure in place, future patches can augment the list of
-> known remotes for things like Git Hub, Gitorious, kernel.org, etc.
+> The script duplicates git's send confirmation, eliminate that.
 > 
 > Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> Reported-by: Khem Raj <raj.khem@gmail.com>
 Acked-by: Joshua Lock <josh@linux.intel.com>
 
-> Cc: Tom Rini <tom_rini@mentor.com>
-> Cc: Martin Jansa <martin.jansa@gmail.com>
-> Cc: Otavio Salvador <otavio@ossystems.com.br>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Khem Raj <raj.khem@gmail.com>
+> Cc: Joshua Lock <josh@linux.intel.com>
 > ---
->  scripts/create-pull-request |   14 +++++++++++++-
->  1 files changed, 13 insertions(+), 1 deletions(-)
+>  scripts/send-pull-request |   68 +++++++++++++++++---------------------------
+>  1 files changed, 26 insertions(+), 42 deletions(-)
 > 
-> diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-> index 8f7f767..429421b 100755
-> --- a/scripts/create-pull-request
-> +++ b/scripts/create-pull-request
-> @@ -65,7 +65,19 @@ while getopts "b:hi:m:o:p:r:s:u:" OPT; do
->  			echo "ERROR: git config failed to find a url for '$REMOTE'"
->  			exit 1
->  		fi
-> -		REMOTE_REPO=$(echo $REMOTE_URL | sed "s#.*/\(.*\)#\1#")
-> +
-> +		# Rewrite known private URLs to public URLs
-> +		# Determine the repository name for use in the WEB_URL later
-> +		case "$REMOTE_URL" in
-> +		ssh://git@git.pokylinux.org*)
-> +			REMOTE_REPO=$(echo $REMOTE_URL | sed "s#.*/\(.*\)#\1#")
-> +			REMOTE_URL=${REMOTE_URL/'ssh://git@'/'git://'}
-> +			;;
-> +		ssh://git@git.yoctoproject.org*)
-> +			REMOTE_REPO=$(echo $REMOTE_URL | sed "s#.*/\(.*\)#\1#")
-> +			REMOTE_URL=${REMOTE_URL/"ssh://git@"/"git://"}
-> +			;;
-> +		esac
->  		# The .git suffix is optional in the URL, drop in for the REPO
->  		REMOTE_REPO=${REMOTE_REPO%.git}
+> diff --git a/scripts/send-pull-request b/scripts/send-pull-request
+> index 21eb302..8d0bd34 100755
+> --- a/scripts/send-pull-request
+> +++ b/scripts/send-pull-request
+> @@ -1,6 +1,7 @@
+>  #!/bin/bash
+>  AUTO=0
+>  AUTO_CL=0
+> +GITSOBCC=""
+>  
+>  # Prevent environment leakage to these vars.
+>  unset TO
+> @@ -59,10 +60,11 @@ while getopts "achp:t:" OPT; do
+>  	case $OPT in
+>  	a)
+>  		AUTO_CL=1
+> -		AUTO=1
+> -		;;
+> +		# Fall through to include -c
+> +		;&
+>  	c)
+>  		AUTO=1
+> +		GITSOBCC="--signed-off-by-cc"
 >  		;;
+>  	h)
+>  		usage
+> @@ -130,48 +132,30 @@ if [ -z "$TO" ] && [ -z "$AUTO_CC" ]; then
+>  fi
+>  
+> 
+> -# Generate report for the user and require confirmation before sending
+> -cat <<EOM
+> -The following patches:
+> -$(for PATCH in $PDIR/*.patch; do echo "    $PATCH"; done)
+> +# Convert the collected addresses into git-send-email argument strings
+> +export IFS=$','
+> +GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
+> +GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
+> +unset IFS
+>  
+> -will now be sent via the git send-email command. Git will prompt you before
+> -sending any email.
+>  
+> -EOM
+> -echo "Continue? [y/N] "
+> -read cont
+> -
+> -if [ "$cont" == "y" ] || [ "$cont" == "Y" ]; then
+> -	ERROR=0
+> -	export IFS=$','
+> -	GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
+> -	GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
+> -	unset IFS
+> -	for PATCH in $PDIR/*patch; do
+> -		if [ $AUTO -eq 1 ]; then
+> -			if [ $PATCH == "$CL" ] && [ $AUTO_CL -eq 1 ]; then
+> -				# Send the cover letter to every recipient, both
+> -				# specified as well as harvested.
+> -				eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
+> -			else
+> -				# Send the patch to the specified recipients and
+> -				# those git finds in this specific patch.
+> -				eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --signed-off-by-cc $PATCH"
+> -			fi
+> -		else
+> -			# Only send to the explicitly specified recipients
+> -			eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
+> -		fi
+> -		if [ $? -eq 1 ]; then
+> -			ERROR=1
+> -		fi
+> -	done
+> -
+> -	if [ $ERROR -eq 1 ]; then
+> -		echo "ERROR: Failed to send one or more messages."
+> +# Handoff to git-send-email. It will perform the send confirmation.
+> +PATCHES=$(echo $PDIR/*.patch)
+> +if [ $AUTO_CL -eq 1 ]; then
+> +	# Send the cover letter to every recipient, both specified as well as
+> +	# harvested. Then remove it from the patches list.
+> +	eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $CL"
+> +	if [ $? -eq 1 ]; then
+> +		echo "ERROR: failed to send cover-letter with automatic recipients."
+> +		exit 1
+>  	fi
+> -else
+> -	echo "Send aborted."
+> +	PATCHES=${PATCHES/"$CL"/}
+>  fi
+>  
+> +# Send the patch to the specified recipients and, if -c was specified, those git
+> +# finds in this specific patch.
+> +eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to $GITSOBCC $PATCHES"
+> +if [ $? -eq 1 ]; then
+> +	echo "ERROR: failed to send patches."
+> +	exit 1
+> +fi
 
 -- 
 Joshua Lock
