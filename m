@@ -1,19 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1QM3pR-00015D-La
-	for openembedded-core@lists.openembedded.org;
-	Mon, 16 May 2011 21:51:46 +0200
-Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
-	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4GJmMZv017174;
-	Mon, 16 May 2011 12:48:22 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon, 16 May 2011 15:48:19 -0400
-Message-Id: <cover.1305575014.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH/PULL 0/1] linux-yocto: update meta SRCREV
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QM3rx-000175-VL for openembedded-core@lists.openembedded.org;
+	Mon, 16 May 2011 21:54:22 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GJpR07022934;
+	Mon, 16 May 2011 20:51:27 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22901-01; Mon, 16 May 2011 20:51:23 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4GJpLFP022928
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 16 May 2011 20:51:21 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <BANLkTi=0TcHgXmYpwCjX6P5h6+y9O2YQFw@mail.gmail.com>
+References: <cover.1305418871.git.sgw@linux.intel.com>
+	<E943FF3D-A282-4E6D-8B5A-B954A678A0E1@gmail.com>
+	<4DD13B6F.4010009@intel.com>
+	<BANLkTi=0TcHgXmYpwCjX6P5h6+y9O2YQFw@mail.gmail.com>
+Date: Mon, 16 May 2011 20:51:19 +0100
+Message-ID: <1305575479.3424.102.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Saul Wold <saul.wold@intel.com>
+Subject: Re: [RFC 0/3] Move Old Recipes to meta-extras
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,30 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 19:51:46 -0000
+X-List-Received-Date: Mon, 16 May 2011 19:54:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Richard/Saul,
+On Mon, 2011-05-16 at 10:08 -0700, Khem Raj wrote:
+> On Mon, May 16, 2011 at 7:57 AM, Saul Wold <saul.wold@intel.com> wrote:
+> > On 05/15/2011 11:19 PM, Khem Raj wrote:
+> >>
+> >>
+> >> On May 14, 2011, at 5:23 PM, Saul Wold<sgw@linux.intel.com>  wrote:
+> >>
+> >>> From: Saul Wold<sgw@linux.intel.com>
+> >>>
+> >>> This proposes to move the YAFFS2-utils, older clutter-1.4
+> >>> and older GCC version (4.3.3 and 3.4.4) as they are unused
+> >>> and currently unbuildable.
+> >>>
+> >>
+> >> Are we left with any GPLv2 version of gcc after this ?
+> >>
+> > Khem,
+> >
+> > Is not having a GPLv2 version of gcc an issue? For the non-gplv3 version, my
+> > understanding is to have an installed user-space for oe-core for a
+> > non-development system, therefore gcc is not an issue.
+> >
+> 
+> there are certain parts of gcc which go onto target e.g. libgcc libstdc++
 
-Just a quick update of the linux-yocto SRCREV to pickup a
-couple of x86 BSP changes that have been done recently, and
-will be used in some upcoming development work.
+These have specific license exceptions allowing non-gpl code to use them
+as system libraries though?
 
-cc: Tom Zanussi <tom.zanussi@intel.com>
+Cheers,
 
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: zedd/emgd
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/emgd
+Richard
 
-Thanks,
-    Bruce Ashfield <bruce.ashfield@windriver.com>
----
-
-
-Bruce Ashfield (1):
-  linux-yocto: update meta SRCREV
-
- meta/recipes-kernel/linux/linux-yocto_git.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
 
 
 
