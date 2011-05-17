@@ -1,25 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QMH5Q-0007tt-W4 for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 12:01:09 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QMH2g-0004Vu-02
-	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 11:58:18 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1305588971.3424.142.camel@rex>
-References: <cover.1305580484.git.sgw@linux.intel.com>
-	<3f105b122736772aa2cf11d4b346d764239b2a68.1305580484.git.sgw@linux.intel.com>
-	<1305588971.3424.142.camel@rex>
-Organization: Phil Blundell Consulting Ltd
-Date: Tue, 17 May 2011 10:58:16 +0100
-Message-ID: <1305626296.2429.179.camel@phil-desktop>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QMHFO-00081o-FZ for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 12:11:26 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HA8UUD008509
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 11:08:30 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03909-07 for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 11:08:26 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HA8LTA008487
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 11:08:21 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 May 2011 11:08:18 +0100
+Message-ID: <1305626898.3424.223.camel@rex>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH 04/14] xserver-kdrive: upgrade from 1.7.99.2 to 1.10.1
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [RFC PATCH] distro/defaultsetup.conf: Append TCLIBC to TMPDIR by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,30 +39,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 10:01:09 -0000
+X-List-Received-Date: Tue, 17 May 2011 10:11:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-05-17 at 00:36 +0100, Richard Purdie wrote:
-> As far as I can tell, we can throw away xtscal, libxcalibrate, and
-> calibrateproto after that change since they need that X extension. Its a
-> good example of why changes need to get upstream as if the build fix was
-> there, they'd have had less reason to remove it. 
+The current solutions to share uclibc, eglibc and glibc builds in the
+same tree all have various issues associated with them. Appending the
+suffix to TMPDIR seems like the best solution since sstate (which
+defaults to outside TMPDIR) will allow reuse of any components.
 
-It is a bit of a shame that XCALIBRATE has been removed upstream, but
-it's fairly self-contained and it wouldn't be all that hard for
-oe[-core] to patch it back in again.
+This avoids messy changes to the core with other approaches to this
+problem inevitably entail, usually in code where this abstraction isn;'t
+logically best placed.
 
-> We probably are going to need to rewrite xtscal to use XI2 at this
-> point :/.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Yes, or that might be a better answer in the long term.  I do have a
-certain fondness for XCALIBRATE but it was never an especially elegant
-solution to the problem.  If XI2 can do the same thing more neatly then
-updating xtscal to use it is probably the right thing.  Patches welcome
-I guess :-}
-
-p.
+diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
+index 8da6c0a..e7636b4 100644
+--- a/meta/conf/distro/defaultsetup.conf
++++ b/meta/conf/distro/defaultsetup.conf
+@@ -14,6 +14,10 @@ require conf/distro/include/tcmode-${TCMODE}.inc
+ TCLIBC ?= "eglibc"
+ require conf/distro/include/tclibc-${TCLIBC}.inc
+ 
++# Allow single libc distros to disable this code
++TCLIBCAPPEND ?= "-${TCLIBC}"
++TMPDIR_append = "${TCLIBCAPPEND}"
++
+ CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(bb.data.getVar('MACHINE', d, 1))][bool(bb.data.getVar('MACHINE', d, 1))
+ 
+ USER_CLASSES ?= ""
+diff --git a/meta/conf/distro/include/tclibc-uclibc.inc b/meta/conf/distro/include/tclibc-uclibc.inc
+index 27f6ec6..83418d6 100644
+--- a/meta/conf/distro/include/tclibc-uclibc.inc
++++ b/meta/conf/distro/include/tclibc-uclibc.inc
+@@ -20,12 +20,6 @@ CXXFLAGS += "-fvisibility-inlines-hidden"
+ 
+ IMAGE_LINGUAS = ""
+ 
+-DEPLOY_DIR_IMAGE = "${TMPDIR}/deploy/images"
+-DEPLOY_DIR_append = "-uclibc"
+-STAGING_DIR_TARGET_append = "-uclibc"
+-STAGING_DIR_HOST_append = "-uclibc"
+-SSTATE_MANIFESTS_append = "-uclibc"
+-
+ LIBC_DEPENDENCIES = "\
+     uclibc \
+     uclibc-dbg \
 
 
 
