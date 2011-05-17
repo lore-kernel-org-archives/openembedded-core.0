@@ -1,20 +1,28 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QMI6K-0000jU-Au for openembedded-core@lists.linuxtogo.org;
-	Tue, 17 May 2011 13:06:08 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QMHbT-0004Wd-LG
-	for openembedded-core@lists.linuxtogo.org;
-	Tue, 17 May 2011 12:34:15 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: openembedded-core@lists.linuxtogo.org
-Organization: Phil Blundell Consulting Ltd
-Date: Tue, 17 May 2011 11:34:14 +0100
-Message-ID: <1305628454.2429.187.camel@phil-desktop>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QMIED-0000op-NK for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 13:14:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HBBIBQ015262;
+	Tue, 17 May 2011 12:11:18 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10415-07; Tue, 17 May 2011 12:11:14 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HBB8bT015240
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 17 May 2011 12:11:09 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Tom King <ka6sox@gmail.com>
+Date: Tue, 17 May 2011 12:11:05 +0100
+Message-ID: <1305630665.3424.227.camel@rex>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: [PATCH] guilt-native: eliminate hardcoded "/usr" in do_install
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: OE-Core repo broken again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,30 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 11:06:08 -0000
+X-List-Received-Date: Tue, 17 May 2011 11:14:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-For some reason guilt-native seems to have gone out of its way to refer explicitly to /usr, which breaks on micro. 
-Let's use ${prefix} instead.
+Hi Guys,
 
----
- meta/recipes-devtools/guilt/guilt-native_0.33.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Something is broken with the oe-core repository as I can't push to it:
 
-diff --git a/meta/recipes-devtools/guilt/guilt-native_0.33.bb b/meta/recipes-devtools/guilt/guilt-native_0.33.bb
-index 6261330..7d0246e 100644
---- a/meta/recipes-devtools/guilt/guilt-native_0.33.bb
-+++ b/meta/recipes-devtools/guilt/guilt-native_0.33.bb
-@@ -28,5 +28,5 @@ do_compile() {
- }
-
- do_install() {
--       oe_runmake PREFIX=${D}/${base_prefix}/usr install
-+       oe_runmake PREFIX=${D}/${prefix} install
- }
+$ git push origin master:master
+Counting objects: 9, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (5/5), 628 bytes, done.
+Total 5 (delta 4), reused 0 (delta 0)
+remote: sed: can't read ./description: No such file or directory
+remote: *** Project description file hasn't been set
+remote: error: hook declined to update refs/heads/master
+To ssh://git@git.openembedded.org/openembedded-core
+ ! [remote rejected] master -> master (hook declined)
+error: failed to push some refs to 'ssh://git@git.openembedded.org/openembedded-core'
 
 
+Cheers,
+
+Richard
 
 
 
