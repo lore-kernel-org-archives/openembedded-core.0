@@ -1,24 +1,38 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QMLeH-0006et-Oe for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 16:53:25 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QMLbW-0005c8-HX
-	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 16:50:34 +0200
-From: Phil Blundell <pb@pbcl.net>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QMM4A-0007Hb-1o for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 17:20:10 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HFHG6k017854
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 16:17:16 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17364-10 for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 16:17:12 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HFHAJ7017848
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 16:17:11 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1305642273.3424.244.camel@rex>
-References: <1305640549.2429.226.camel@phil-desktop>
-	<1305642273.3424.244.camel@rex>
-Organization: Phil Blundell Consulting Ltd
-Date: Tue, 17 May 2011 15:50:33 +0100
-Message-ID: <1305643833.2429.264.camel@phil-desktop>
+In-Reply-To: <1305643637.2429.260.camel@phil-desktop>
+References: <1305633118.2429.188.camel@phil-desktop>
+	<1305633770.3424.229.camel@rex>
+	<1305634164.2429.193.camel@phil-desktop>
+	<1305641835.2429.228.camel@phil-desktop>
+	<1305642925.3424.251.camel@rex>
+	<1305643637.2429.260.camel@phil-desktop>
+Date: Tue, 17 May 2011 16:17:09 +0100
+Message-ID: <1305645429.3424.254.camel@rex>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH] rootfs_ipk: respect ONLINE_PACKAGE_MANAGEMENT
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH v2] image-prelink: remove hardcoded path assumptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +47,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 14:53:25 -0000
+X-List-Received-Date: Tue, 17 May 2011 15:20:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-05-17 at 15:24 +0100, Richard Purdie wrote:
-> What's wrong with:
+On Tue, 2011-05-17 at 15:47 +0100, Phil Blundell wrote:
+> On Tue, 2011-05-17 at 15:35 +0100, Richard Purdie wrote:
+> > The patch description and what it does don't quite match (the rm is
+> > removed and options are added to prelink).
 > 
-> ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
+> The added "-c ..." option is necessary in case ${sysconfdir_native} and
+> ${sysconfdir} are not the same thing.
 > 
-> as used in the minimal image? The nice thing about this is it works over
-> several package backends too...
+> The "-N" tells prelink to not generate a cache file, which seems a
+> better plan than having it generate one which we then have to delete.
+> But I can drop that change, and/or send it as a separate patch if you
+> prefer.
 
-Well, conceptually it seems a bit nicer to have the rootfs constructor
-obey the same variable that is used to control package management
-functionality elsewhere (not that oe-core currently has any "elsewhere",
-but oe master does and I would like to backport that functionality to
-oe-core as well). 
+I'm fine with the change, I'd just like the commit message to match :)
 
-There's also the minor issue that rootfs_ipk's implementation of
-remove_packaging_data_files() does leave an empty directory behind,
-which I don't especially want in the O_P_M=none case, so I'd end up
-having to do some further cleanup of my own.
+Cheers,
 
-I guess I could teach remove_packaging_data_files() to not create the
-empty directory if O_P_M=="none".  Would you be happier with that?
-
-p.
-
+Richard
 
 
 
