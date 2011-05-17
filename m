@@ -1,31 +1,43 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1QMB5x-0004la-Ag; Tue, 17 May 2011 05:37:17 +0200
-Received: by eye27 with SMTP id 27so24916eye.6
-	for <multiple recipients>; Mon, 16 May 2011 20:34:24 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>) id 1QMCQS-0001eH-Ni
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 07:02:32 +0200
+Received: by fxm19 with SMTP id 19so291964fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 May 2011 21:59:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:from:date:message-id:subject:to
-	:content-type; bh=jM435ebG/Dj/aLEL3ja+NrXGLA9M6yUPOR99uZReNTw=;
-	b=BlTnIDCoXGzQzrYkun/j2ERLjSm8B9F8Oaikw7MPNU9hBzzeERxs/NdLMgf9qCXyGC
-	zT9lGXZTBqeGBkNF86yR0VPT9qiTNNu6ndMGe1INkzvjMANPWej/VTlidJT5l4CbW85N
-	Oy8UlMV+JDJOz1E2wJ5vj37dZnA9z+e6Fo45A=
+	h=domainkey-signature:date:from:to:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=uudNlJ60IRiCfC9N27uDljjtcfhqmRe3ZGvfjyOvNsI=;
+	b=WW8Bw+zYZ1nQ9pUUEi1HwcFyT8uz394N2/JSWwsC+AExFieblhK/g6hiMl6SdJKMNF
+	cXRllAUTTEvxXLh0Y1lucXjP1fRyy+JHakVB1lkYFKlsYyoeA0mwI/H14zKk6mmX5JGK
+	ZeF1quLxRJWNXJPqnohBsGCZQeIzp/Glbnp70=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	b=Wnei/cpJM4igSC2uywSAM0ZushM1z0x9XlcuN4Z5SgrJDeUvHcXjXfqp9sGjPt+N9O
-	pEVzaA2HvweYQJJ1QPNppw7xU5rmbKtVZdIEOETYQ8eGsjgauuARe41z6KIgwrQ5dtSK
-	P9frbCjpD91SEmQDrp0V3UYQsu6ZO2Uiq1hqw=
-Received: by 10.14.7.198 with SMTP id 46mr42028eep.108.1305603264212; Mon, 16
-	May 2011 20:34:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.53.78 with HTTP; Mon, 16 May 2011 20:33:54 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 16 May 2011 20:33:54 -0700
-Message-ID: <BANLkTins9Bp0bJ9=08OD7b9cvinJ06r9ng@mail.gmail.com>
-To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=pKQ8oeXH8+TWBL0mz02NFFQPSLC6AQYMPZaWF7VD3gW71dYV7kQSY9E+i+iXuH+ZBl
+	SwmCVqbZBwj4sjofJEHIGPzHF2ugvPpsmcTH2rnKqJBhEuX289Fon31kYrOlNjKT/ltF
+	gxXysq28e409DOkIWjcAtKVSXFWvr0tVxf6qI=
+Received: by 10.223.54.148 with SMTP id q20mr242916fag.84.1305608379770;
+	Mon, 16 May 2011 21:59:39 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id t15sm47762fau.0.2011.05.16.21.59.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 May 2011 21:59:38 -0700 (PDT)
+Date: Tue, 17 May 2011 06:59:31 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: SlugOS layers on top of openembedded-core/meta-openembedded available
+Message-ID: <20110517045931.GB3509@jama.jama.net>
+References: <cover.1305580484.git.sgw@linux.intel.com>
+	<3f105b122736772aa2cf11d4b346d764239b2a68.1305580484.git.sgw@linux.intel.com>
+	<1305588971.3424.142.camel@rex>
+MIME-Version: 1.0
+In-Reply-To: <1305588971.3424.142.camel@rex>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Subject: Re: [PATCH 04/14] xserver-kdrive: upgrade from 1.7.99.2 to 1.10.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,36 +52,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 03:37:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 17 May 2011 05:02:32 -0000
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="0ntfKIWw70PvrIHh"
+Content-Disposition: inline
 
-Hi,
+--0ntfKIWw70PvrIHh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have ported over the slugos distributon as collection of layers on
-top of oe-core and meta-oe. There are two new layers
-created namely meta-sluos the distro layer and meta-nslu2 the machine
-layer for nslu2. There is a third repo which is the master
-project which contains the makefile and supporting scripts to do the
-layering and setup. Right now its able to build slugos-images for
-nslu2be based on both uclibc and eglibc
+On Tue, May 17, 2011 at 12:36:11AM +0100, Richard Purdie wrote:
+> On Mon, 2011-05-16 at 14:44 -0700, Saul Wold wrote:
+> > From: Yu Ke <ke.yu@intel.com>
+> >=20
+> > - remove the patches
+> >   * xserver-kdrive-1.3.0.0/*: no longer used
+> >   * disable-xf86-dga-xorgcfg.patch: no longer used
+> >   * nodolt.patch: already in upstream
+> >   * enable-xcalibrate.patch: it is invalid now, because XCALIBRATE
+> >     extension has been removed since commit edcceedb
+>=20
+> Er, has anyone actually tried touchscreens with these changes,
+> particularly trying to calibrate a touchscreen under X with xtscal?=20
+>=20
+> As far as I can tell, we can throw away xtscal, libxcalibrate, and
+> calibrateproto after that change since they need that X extension. Its a
+> good example of why changes need to get upstream as if the build fix was
+> there, they'd have had less reason to remove it. We probably are going
+> to need to rewrite xtscal to use XI2 at this point :/.
 
-If you are interested to play around please give it a shot. The procedure is
+Cannot we use xinput-calibrator like with xserver-xorg?
+=20
+Cheers,
 
-Clone the slugos-setup repo
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-$ git clone git://github.com/kraj/slugos-setup.git
-$ cd slugos-setup
-$ make
-
-and see the magic unfold
-
-I would be interested in problem reports anybody runs into.
-
-The layer repositories are currently hosted on github.com until they
-find another place
-
-Enjoy
-
--Khem
-
-
+--0ntfKIWw70PvrIHh--
