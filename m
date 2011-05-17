@@ -1,26 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <qing.he@intel.com>) id 1QMHKF-00086x-Hd
+	(envelope-from <koen@dominion.thruhere.net>) id 1QMHsI-000070-2a
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 12:16:28 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 May 2011 03:13:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,224,1304319600"; 
-   d="scan'208";a="2705754"
-Received: from qhe2-db.sh.intel.com ([10.239.13.48])
-	by fmsmga002.fm.intel.com with ESMTP; 17 May 2011 03:13:16 -0700
-Received: from qhe2 by qhe2-db.sh.intel.com with local (Exim 4.71)
-	(envelope-from <qing.he@intel.com>)
-	id 1QMH9I-0002oj-Aj; Tue, 17 May 2011 18:05:08 +0800
-Message-Id: <496fc66775f98df87ae658784003cc3de65fc503.1305626622.git.qing.he@intel.com>
-In-Reply-To: <cover.1305626622.git.qing.he@intel.com>
-References: <cover.1305626622.git.qing.he@intel.com>
-Old-Date: Tue, 17 May 2011 10:23:48 +0800
-Date: Tue, 17 May 2011 18:05:08 +0800
+	Tue, 17 May 2011 12:51:38 +0200
+Received: by wye20 with SMTP id 20so286450wye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 03:48:44 -0700 (PDT)
+Received: by 10.216.152.193 with SMTP id d43mr475324wek.53.1305629324506;
+	Tue, 17 May 2011 03:48:44 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id o78sm200089wep.24.2011.05.17.03.48.42
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 17 May 2011 03:48:43 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-From: Qing He <qing.he@intel.com>
-Subject: [PATCH 1/1] update patch upstream status
+Date: Tue, 17 May 2011 12:48:29 +0200
+Message-Id: <1305629309-16745-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Subject: [PATCH] distro/defaultsetup.conf: Append TCLIBC to TMPDIR by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,183 +32,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 10:16:28 -0000
+X-List-Received-Date: Tue, 17 May 2011 10:51:38 -0000
 
-From: Qing He <qing.he@intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-for the following recipes:
-  pcmciautils openssl udev apt gdm
+The current solutions to share uclibc, eglibc and glibc builds in the
+same tree all have various issues associated with them. Appending the
+suffix to TMPDIR seems like the best solution since sstate (which
+defaults to outside TMPDIR) will allow reuse of any components.
 
-Signed-off-by: Qing He <qing.he@intel.com>
+This avoids messy changes to the core with other approaches to this
+problem inevitably entail, usually in code where this abstraction isn;'t
+logically best placed.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../pcmciautils/pcmciautils-018/makefile_fix.patch |    2 ++
- .../openssh/openssh-5.6p1/nostrip.patch            |    2 ++
- meta/recipes-core/udev/udev-145/enable-gudev.patch |    2 ++
- meta/recipes-core/udev/udev-145/noasmlinkage.patch |    2 ++
- meta/recipes-core/udev/udev-145/unbreak.patch      |    2 ++
- .../apt/apt-0.7.14/includes-fix.patch              |    2 ++
- .../apt/apt-0.7.14/no-ko-translation.patch         |    2 ++
- .../apt/apt-0.7.14/noconfigure.patch               |    2 ++
- meta/recipes-devtools/apt/apt-0.7.14/nodoc.patch   |    2 ++
- .../recipes-devtools/apt/apt-0.7.14/use-host.patch |    2 ++
- .../apt/files/db_linking_hack.patch                |    2 ++
- meta/recipes-devtools/apt/files/environment.patch  |    2 ++
- meta/recipes-devtools/apt/files/no-curl.patch      |    2 ++
- .../gdbm/gdbm-1.8.3/libtool-mode.patch             |    2 ++
- .../recipes-support/gdbm/gdbm-1.8.3/makefile.patch |    1 +
- 15 files changed, 29 insertions(+), 0 deletions(-)
+ meta/conf/distro/defaultsetup.conf         |    4 ++++
+ meta/conf/distro/include/tclibc-uclibc.inc |    6 ------
+ 2 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils-018/makefile_fix.patch b/meta/recipes-bsp/pcmciautils/pcmciautils-018/makefile_fix.patch
-index 81269c9..7b0ce21 100644
---- a/meta/recipes-bsp/pcmciautils/pcmciautils-018/makefile_fix.patch
-+++ b/meta/recipes-bsp/pcmciautils/pcmciautils-018/makefile_fix.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [configuration]
-+
- Hardcoded paths are bad...
- This lets us use the install from OE's native sysroot
- rebase the patch to 018, removing hardcoded path for true
-diff --git a/meta/recipes-connectivity/openssh/openssh-5.6p1/nostrip.patch b/meta/recipes-connectivity/openssh/openssh-5.6p1/nostrip.patch
-index a88e18e..85846e2 100644
---- a/meta/recipes-connectivity/openssh/openssh-5.6p1/nostrip.patch
-+++ b/meta/recipes-connectivity/openssh/openssh-5.6p1/nostrip.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [configuration]
-+
- # Disable stripping binaries during make install.
- #
- # Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-diff --git a/meta/recipes-core/udev/udev-145/enable-gudev.patch b/meta/recipes-core/udev/udev-145/enable-gudev.patch
-index 45fd373..8ee402b 100644
---- a/meta/recipes-core/udev/udev-145/enable-gudev.patch
-+++ b/meta/recipes-core/udev/udev-145/enable-gudev.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [configuration]
-+
- Index: udev-145/configure.ac
- ===================================================================
- --- udev-145.orig/configure.ac	2010-01-29 14:41:29.000000000 +0000
-diff --git a/meta/recipes-core/udev/udev-145/noasmlinkage.patch b/meta/recipes-core/udev/udev-145/noasmlinkage.patch
-index 6f9fe94..6d22b1d 100644
---- a/meta/recipes-core/udev/udev-145/noasmlinkage.patch
-+++ b/meta/recipes-core/udev/udev-145/noasmlinkage.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [legacy version]
-+
- Index: udev-141/udev/test-udev.c
- ===================================================================
- --- udev-141.orig/udev/test-udev.c	2008-10-24 09:07:24.000000000 +0100
-diff --git a/meta/recipes-core/udev/udev-145/unbreak.patch b/meta/recipes-core/udev/udev-145/unbreak.patch
-index bb5988d..ef45c09 100644
---- a/meta/recipes-core/udev/udev-145/unbreak.patch
-+++ b/meta/recipes-core/udev/udev-145/unbreak.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [legacy version]
-+
- Index: udev-141/extras/volume_id/lib/Makefile.am
- ===================================================================
- --- udev-141.orig/extras/volume_id/lib/Makefile.am	2009-05-17 23:36:16.000000000 +0100
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/includes-fix.patch b/meta/recipes-devtools/apt/apt-0.7.14/includes-fix.patch
-index f466164..c85c388 100644
---- a/meta/recipes-devtools/apt/apt-0.7.14/includes-fix.patch
-+++ b/meta/recipes-devtools/apt/apt-0.7.14/includes-fix.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Backport
-+
- Add missing includes required when building with modern toolchain, based on
- patch from Debian bugzilla:
- http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=505954
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/no-ko-translation.patch b/meta/recipes-devtools/apt/apt-0.7.14/no-ko-translation.patch
-index 5f3634b..7fd1db8 100644
---- a/meta/recipes-devtools/apt/apt-0.7.14/no-ko-translation.patch
-+++ b/meta/recipes-devtools/apt/apt-0.7.14/no-ko-translation.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [configuration]
-+
- ---
-  po/LINGUAS |    2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/noconfigure.patch b/meta/recipes-devtools/apt/apt-0.7.14/noconfigure.patch
-index 682a96d..04e721d 100644
---- a/meta/recipes-devtools/apt/apt-0.7.14/noconfigure.patch
-+++ b/meta/recipes-devtools/apt/apt-0.7.14/noconfigure.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [configuration]
-+
- ---
-  apt-pkg/packagemanager.cc |    4 ++++
-  1 file changed, 4 insertions(+)
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/nodoc.patch b/meta/recipes-devtools/apt/apt-0.7.14/nodoc.patch
-index db8cf93..216c091 100644
---- a/meta/recipes-devtools/apt/apt-0.7.14/nodoc.patch
-+++ b/meta/recipes-devtools/apt/apt-0.7.14/nodoc.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [configuration]
-+
- ---
-  Makefile |    2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/use-host.patch b/meta/recipes-devtools/apt/apt-0.7.14/use-host.patch
-index 09698a6..485ad7b 100644
---- a/meta/recipes-devtools/apt/apt-0.7.14/use-host.patch
-+++ b/meta/recipes-devtools/apt/apt-0.7.14/use-host.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [configuration]
-+
- ---
-  buildlib/sizetable |    4 +++-
-  configure.in       |    2 +-
-diff --git a/meta/recipes-devtools/apt/files/db_linking_hack.patch b/meta/recipes-devtools/apt/files/db_linking_hack.patch
-index 3c8368b..d2246b3 100644
---- a/meta/recipes-devtools/apt/files/db_linking_hack.patch
-+++ b/meta/recipes-devtools/apt/files/db_linking_hack.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Backport
-+
- Index: apt-0.7.3/configure.in
- ===================================================================
- --- apt-0.7.3.orig/configure.in	2007-07-01 10:38:45.000000000 +0000
-diff --git a/meta/recipes-devtools/apt/files/environment.patch b/meta/recipes-devtools/apt/files/environment.patch
-index 5bea1a0..9a03038 100644
---- a/meta/recipes-devtools/apt/files/environment.patch
-+++ b/meta/recipes-devtools/apt/files/environment.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Backport
-+
- Index: apt-0.6.46.2/buildlib/environment.mak.in
- ===================================================================
- --- apt-0.6.46.2.orig/buildlib/environment.mak.in	2007-03-29 11:38:58.000000000 +0100
-diff --git a/meta/recipes-devtools/apt/files/no-curl.patch b/meta/recipes-devtools/apt/files/no-curl.patch
-index 4e07c8f..eb2f100 100644
---- a/meta/recipes-devtools/apt/files/no-curl.patch
-+++ b/meta/recipes-devtools/apt/files/no-curl.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [configuration]
-+
- ---
-  configure.in     |    6 ------
-  methods/makefile |    7 -------
-diff --git a/meta/recipes-support/gdbm/gdbm-1.8.3/libtool-mode.patch b/meta/recipes-support/gdbm/gdbm-1.8.3/libtool-mode.patch
-index c56bac2..0f9d04f 100644
---- a/meta/recipes-support/gdbm/gdbm-1.8.3/libtool-mode.patch
-+++ b/meta/recipes-support/gdbm/gdbm-1.8.3/libtool-mode.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
-+
- --- gdbm-1.8.3/Makefile.in.orig	2006-02-16 15:17:25.000000000 +0000
- +++ gdbm-1.8.3/Makefile.in	2006-02-16 15:18:08.000000000 +0000
- @@ -131,7 +131,7 @@
-diff --git a/meta/recipes-support/gdbm/gdbm-1.8.3/makefile.patch b/meta/recipes-support/gdbm/gdbm-1.8.3/makefile.patch
-index 5350c53..369145c 100644
---- a/meta/recipes-support/gdbm/gdbm-1.8.3/makefile.patch
-+++ b/meta/recipes-support/gdbm/gdbm-1.8.3/makefile.patch
-@@ -1,3 +1,4 @@
-+Upstream-Status: Pending
+diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
+index 8da6c0a..e7636b4 100644
+--- a/meta/conf/distro/defaultsetup.conf
++++ b/meta/conf/distro/defaultsetup.conf
+@@ -14,6 +14,10 @@ require conf/distro/include/tcmode-${TCMODE}.inc
+ TCLIBC ?= "eglibc"
+ require conf/distro/include/tclibc-${TCLIBC}.inc
  
- #
- # Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
++# Allow single libc distros to disable this code
++TCLIBCAPPEND ?= "-${TCLIBC}"
++TMPDIR_append = "${TCLIBCAPPEND}"
++
+ CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(bb.data.getVar('MACHINE', d, 1))][bool(bb.data.getVar('MACHINE', d, 1))]}${@['', '/' + str(bb.data.getVar('SDKMACHINE', d, 1))][bool(bb.data.getVar('SDKMACHINE', d, 1))]}"
+ 
+ USER_CLASSES ?= ""
+diff --git a/meta/conf/distro/include/tclibc-uclibc.inc b/meta/conf/distro/include/tclibc-uclibc.inc
+index 27f6ec6..83418d6 100644
+--- a/meta/conf/distro/include/tclibc-uclibc.inc
++++ b/meta/conf/distro/include/tclibc-uclibc.inc
+@@ -20,12 +20,6 @@ CXXFLAGS += "-fvisibility-inlines-hidden"
+ 
+ IMAGE_LINGUAS = ""
+ 
+-DEPLOY_DIR_IMAGE = "${TMPDIR}/deploy/images"
+-DEPLOY_DIR_append = "-uclibc"
+-STAGING_DIR_TARGET_append = "-uclibc"
+-STAGING_DIR_HOST_append = "-uclibc"
+-SSTATE_MANIFESTS_append = "-uclibc"
+-
+ LIBC_DEPENDENCIES = "\
+     uclibc \
+     uclibc-dbg \
 -- 
-1.7.0
+1.6.6.1
 
 
 
