@@ -1,33 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QMTWu-0000RC-Hx for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 01:18:20 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HNFRIv021720
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 00:15:27 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21281-08 for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 00:15:19 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HNFFek021705
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 00:15:15 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dexuan.cui@intel.com>) id 1QMTrR-0000of-Oz
+	for openembedded-core@lists.openembedded.org;
+	Wed, 18 May 2011 01:39:33 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 17 May 2011 16:36:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,228,1304319600"; 
+   d="scan'208";a="51667"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by orsmga001.jf.intel.com with ESMTP; 17 May 2011 16:36:38 -0700
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 18 May 2011 07:36:35 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Wed, 18 May 2011 07:36:34 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4DD2FE07.4030708@linux.intel.com>
-References: <4DD2FE07.4030708@linux.intel.com>
-Date: Wed, 18 May 2011 00:15:13 +0100
-Message-ID: <1305674113.3424.292.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC PATCH] u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
+Date: Wed, 18 May 2011 07:36:33 +0800
+Thread-Topic: [OE-core] [RFC][v2] [PATCH 1/1] package-index.bb: add support
+	for deb and rpm.
+Thread-Index: AcwUsSGVt1ZJZLL3SLi5hqrEe6GwxwAOPB6A
+Message-ID: <1865303E0DED764181A9D882DEF65FB694322A3FCE@shsmsx502.ccr.corp.intel.com>
+References: <cover.1305279161.git.dexuan.cui@intel.com>
+	<abd335f0e36fe2a96316b77d5e04e00b8ddb4ea9.1305279161.git.dexuan.cui@intel.com>
+	<1305650390.3424.267.camel@rex>
+In-Reply-To: <1305650390.3424.267.camel@rex>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Subject: Re: [RFC][v2] [PATCH 1/1] package-index.bb: add support for deb and rpm.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,38 +48,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 23:18:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 May 2011 23:39:34 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-05-17 at 16:00 -0700, Darren Hart wrote:
-> oe-core does not define any machines, so it does not make sense to
-> add machine specific information in the oe-core u-boot recipe and
-> infrastructure.
-> 
-> Since every machine wishing to use the u-boot recipe would need to add itself to
-> COMPATIBLE_MACHINES, typically via a bbappend recipe, the mechanism loses any
-> utility it may have had and unecessarily complicates using the u-boot recipe. By
-> removing it, we simplify the task of adding support for new machines.
+Richard Purdie wrote:
+> Hi Dexuan,
+>=20
+> When I read Saul's original emails I thought this approach would work
+> although it wasn't the first one that came to my mind.
+>=20
+> Looking at the code you have, the problem is you have nowhere you can
+> call the "addtask" for the individual tasks and we don't want to the
+> overhead system wide for every recipe as it makes no sense.
+Yes, I realized this later.
 
-NAK.
+> I'd therefore like to suggest we tweak this approach a little. Each
+> package_xxx.bbclass defines a function which updates the index for
+> that packaging backend:
+I agree. I've actually made a patch in branch dcui/package-index, but the b=
+elow implementation you suggested is obviously much better! :-)
+Thank you very much for the detailed suggestion!
 
-This break usability of things like "bitbake world" since all of a
-sudden it will try and build u-boot in cases where it makes no sense
-(qemu* machines for example).
+> package_ipk.bbclass:
+>=20
+> PACKAGEINDEXES +=3D "package_index_ipk();"
+> PACKAGEINDEXDEPS +=3D "opkg-utils-native:do_populate_sysroot"
+> PACKAGEINDEXDEPS +=3D "opkg-native:do_populate_sysroot"
+> package_index_ipk[dirs] =3D "${DEPLOY_DIR_IPK}"
+>=20
+> package_index_ipk() {
+>        set -ex
+>        package_update_index_ipk
+>        set +ex
+> }
+>=20
+> The key is the addition to the PACKAGEINDEXES variable and its
+> dependencies in PACKAGEINDEXDEPS.
+>=20
+> In package-index.bb we can then just have:
+>=20
+> do_package_index[depends] +=3D "${PACKAGEINDEXDEPS}"
+>=20
+> do_package_index() {
+> 	${PACKAGEINDEXES}
+> }
+>=20
+> and these variables should always have the things we need in them
+> depending on the package backends available.
+>=20
+> Ideally we should cover the case there is no package backend enabled
+> and just return too rather than error (or bbwarn "No package backends
+> enabled, doing nothing").
+Oh, I didn't realize this... I'll remember to handle this, too.
 
-I know it sounds strange but we do want this recipe enabled on a case by
-case basis (and we have the beagleboard as a reference platform using it
-which is handy). This means the default of no supported machine is
-correct even if it looks odd.
-
-Having the recipe deselect itself (raise a skip parsing event) if
-UBOOT_MACHINE isn't set instead of using COMPATIBLE_MACHINE would be
-acceptable though.
-
-Cheers,
-
-Richard
-
+Thanks,
+-- Dexuan=
 
 
