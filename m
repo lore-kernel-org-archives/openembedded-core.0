@@ -1,39 +1,22 @@
-Received: from mail-px0-f172.google.com ([209.85.212.172])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QMSFt-0006LC-E5
+	(envelope-from <dvhart@linux.intel.com>) id 1QMTI3-0008M1-4A
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 23:56:41 +0200
-Received: by pxi6 with SMTP id 6so733014pxi.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2011 14:53:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=3Oy0Q/rBnI3IZkjm7GaDVW00KBbweHUMOnXkLb5Hp6U=;
-	b=gwI0AH6yIHPOfzB1bgqoOpGl/Q54tADmgTXDfRSyost/TWFRDtqc1qxBlXTbedv3Vv
-	DxSDcVlnPf1KmG+/ay8jV7OXp1MCwrQPczgkl/pa1DgeoggM3C0XxZOvOvKJTjVnYUy2
-	rhxTHt6CObafT/KIKeNcwugl9PhSKImxlNgi8=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=TMSop/1lLVDrANuSaDv/A6HjwSY3Dv4yFUCIiCXqPx4Y2MKZbdaf1dswidTipsy+Te
-	OjgBhNyog4xsFGO3VKyWJ/oneov3pRTXHXIPVDt2VHQHIdYBOQXTCV+RJltrPTsz8sfi
-	DCeRjerpg3dOF1WHyqg/bGj2RV/YenBB8Ch0I=
-Received: by 10.142.44.5 with SMTP id r5mr652092wfr.300.1305669226423;
-	Tue, 17 May 2011 14:53:46 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id k6sm807551wfa.17.2011.05.17.14.53.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 May 2011 14:53:45 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: koen@dominion.thruhere.net,
-	OE core <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 May 2011 14:53:37 -0700
-Message-Id: <69cc3dbe4f5d1158edfa9347356875abcbbead4d.1305668854.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1305668854.git.raj.khem@gmail.com>
-References: <cover.1305668854.git.raj.khem@gmail.com>
-Subject: [PATCHv2 1/1] conf: Create distro overridable IMAGE varibales
+	Wed, 18 May 2011 01:03:01 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 17 May 2011 16:00:03 -0700
+X-ExtLoop1: 1
+Received: from doubt.jf.intel.com (HELO [10.7.199.57]) ([10.7.199.57])
+	by orsmga002.jf.intel.com with ESMTP; 17 May 2011 16:00:03 -0700
+Message-ID: <4DD2FE07.4030708@linux.intel.com>
+Date: Tue, 17 May 2011 16:00:23 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [RFC PATCH] u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,86 +31,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 21:56:41 -0000
+X-List-Received-Date: Tue, 17 May 2011 23:03:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-With default-setup being pulled in via bitbake.conf and task-core-boot
-being pulled into all images in distros, we need
-to have some variables that distro's can override if need be
-This is a backport from angstrom/OE. It will help distros which
-e.g. would like to use busybox-mdev instead of udev and similarly
-for login manager these variables can be defined in distro policies
+oe-core does not define any machines, so it does not make sense to
+add machine specific information in the oe-core u-boot recipe and
+infrastructure.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Since every machine wishing to use the u-boot recipe would need to add itself to
+COMPATIBLE_MACHINES, typically via a bbappend recipe, the mechanism loses any
+utility it may have had and unecessarily complicates using the u-boot recipe. By
+removing it, we simplify the task of adding support for new machines.
+
+With these two variables removed from the base recipe, UBOOT_MACHINE must now be
+specified in each machine config that requires u-boot. This is already the case
+for UBOOT_ENTRYPOINT and UBOOT_LOADADDRESS, so the change is minimal. For
+example, a beagleboard machine config currently contains:
+
+UBOOT_ENTRYPOINT = "0x80008000"
+UBOOT_LOADADDRESS = "0x80008000"
+
+With this change, it must now contain:
+
+UBOOT_MACHINE = "omap3_beagle_config"
+UBOOT_ENTRYPOINT = "0x80008000"
+UBOOT_LOADADDRESS = "0x80008000"
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- meta/classes/image.bbclass                      |    9 ++++++++-
- meta/conf/distro/include/default-distrovars.inc |   13 +++++++++++++
- meta/recipes-core/tasks/task-core-boot.bb       |    4 ----
- 3 files changed, 21 insertions(+), 5 deletions(-)
+ meta/recipes-bsp/uboot/u-boot_git.bb |    9 ++++-----
+ 1 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 2469442..d360a18 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -5,7 +5,14 @@ inherit imagetest-${IMAGETEST}
+diff --git a/meta/recipes-bsp/uboot/u-boot_git.bb b/meta/recipes-bsp/uboot/u-boot_git.bb
+index c5583ff..1fa0da2 100644
+--- a/meta/recipes-bsp/uboot/u-boot_git.bb
++++ b/meta/recipes-bsp/uboot/u-boot_git.bb
+@@ -1,5 +1,9 @@
+ require u-boot.inc
  
- LICENSE = "MIT"
- PACKAGES = ""
--RDEPENDS += "${IMAGE_INSTALL}"
++# To build u-boot for your machine, provide the following lines in your machine
++# config, replacing "omap3_beagle" with the appropriate value for your machine.
++# UBOOT_MACHINE = "omap3_beagle_config"
 +
-+IMAGE_BOOT ?= "${IMAGE_INITSCRIPTS} \
-+               ${IMAGE_DEV_MANAGER} \
-+               ${IMAGE_INIT_MANAGER} \
-+               ${IMAGE_LOGIN_MANAGER}"
-+
-+
-+RDEPENDS += "${IMAGE_INSTALL} ${IMAGE_BOOT}"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+                     file://README;beginline=1;endline=22;md5=3a00ef51d3fc96e9d6c1bc4708ccd3b5"
+@@ -12,11 +16,6 @@ PR="r3"
  
- INHIBIT_DEFAULT_DEPS = "1"
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
  
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 9b1d0ee..3b78d66 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -6,6 +6,19 @@ OEINCLUDELOGS ?= "yes"
- KERNEL_CONSOLE ?= "ttyS0"
+-UBOOT_MACHINE_beagleboard = "omap3_beagle_config"
+-UBOOT_MACHINE_overo = "omap3_overo_config"
+-
+ S = "${WORKDIR}/git"
  
- PCMCIA_MANAGER ?= "pcmciautils"
-+#
-+# udev, devfsd, busybox-mdev (from busybox) or none
-+#
-+IMAGE_DEV_MANAGER ?= "udev"
-+#
-+# sysvinit, upstart
-+#
-+IMAGE_INIT_MANAGER ?= "sysvinit"
-+IMAGE_INITSCRIPTS ?= "initscripts"
-+#
-+# tinylogin, getty
-+#
-+IMAGE_LOGIN_MANAGER ?= "tinylogin"
- 
- IMAGE_LINGUAS ?= "en-us en-gb"
- LIMIT_BUILT_LOCALES ?= "POSIX en_US en_GB"
-diff --git a/meta/recipes-core/tasks/task-core-boot.bb b/meta/recipes-core/tasks/task-core-boot.bb
-index 5aea771..b575e4d 100644
---- a/meta/recipes-core/tasks/task-core-boot.bb
-+++ b/meta/recipes-core/tasks/task-core-boot.bb
-@@ -21,13 +21,9 @@ RDEPENDS_task-core-boot = "\
-     base-files \
-     base-passwd \
-     busybox \
--    initscripts \
-     ${@base_contains("MACHINE_FEATURES", "keyboard", "keymaps", "", d)} \
-     modutils-initscripts \
-     netbase \
--    sysvinit \
--    tinylogin \
--    udev \
-     ${VIRTUAL-RUNTIME_update-alternatives} \
-     ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS}"
- 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+-
+-COMPATIBLE_MACHINE = "(beagleboard|overo)"
 -- 
-1.7.4.1
-
+1.7.1
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
