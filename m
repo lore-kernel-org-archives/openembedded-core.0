@@ -1,31 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QMNMG-0000Jo-7q for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 18:42:57 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HGdvwH018603;
-	Tue, 17 May 2011 17:39:57 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18371-05; Tue, 17 May 2011 17:39:53 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HGdpSh018597
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 17 May 2011 17:39:51 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <abd335f0e36fe2a96316b77d5e04e00b8ddb4ea9.1305279161.git.dexuan.cui@intel.com>
-References: <cover.1305279161.git.dexuan.cui@intel.com>
-	<abd335f0e36fe2a96316b77d5e04e00b8ddb4ea9.1305279161.git.dexuan.cui@intel.com>
-Date: Tue, 17 May 2011 17:39:50 +0100
-Message-ID: <1305650390.3424.267.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC][v2] [PATCH 1/1] package-index.bb: add support for deb and rpm.
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1QMNcs-0000pB-HI
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 19:00:07 +0200
+Received: by ewy5 with SMTP id 5so208386ewy.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 09:57:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=0ZQRGQ+khD+Kf653Se2n50YQq2ZsgKwNNGYaxopdous=;
+	b=qpULrljbIJzEA7j7m9lC485meqSA8LcJ3cXfyXxd9QQ6khs3L3Vb3sUFo7+bF8Yaju
+	Kqq0Jik7hI+j0hiFzsQv3eg8Y9H3lcKpOMbQ2+fDRxXdZPBdO0SJamQJkONI2gC0DURw
+	93BcjRw5330kK/lB1O8+uJYeRe7I+NYQocGJ8=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	b=XwFs38paNSCsyn49ZcfwYhhtU629jH0h8SRK6EjsTPg0MfhFHNSBaFbYFHLOj3xG7P
+	isBXuO95eLgY3XPuQ1C751+l2Go1e7gZ5LFYl/an5W9dwM1svx0yKJvTBnI2N/89d2/E
+	xOcjHNRXQVpWxJ1bl0onswWw9k/n37yU2JMjg=
+Received: by 10.14.47.8 with SMTP id s8mr267938eeb.140.1305651429343; Tue, 17
+	May 2011 09:57:09 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.53.78 with HTTP; Tue, 17 May 2011 09:56:35 -0700 (PDT)
+In-Reply-To: <1305630665.3424.227.camel@rex>
+References: <1305630665.3424.227.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 17 May 2011 09:56:35 -0700
+Message-ID: <BANLkTikgu6bKT603XFgpvK2b0ikroOTZhQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Tom King <ka6sox@gmail.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OE-Core repo broken again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,58 +46,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 16:42:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 May 2011 17:00:07 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Dexuan,
+On Tue, May 17, 2011 at 4:11 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Hi Guys,
+>
+> Something is broken with the oe-core repository as I can't push to it:
+>
+> $ git push origin master:master
+> Counting objects: 9, done.
+> Delta compression using up to 2 threads.
+> Compressing objects: 100% (5/5), done.
+> Writing objects: 100% (5/5), 628 bytes, done.
+> Total 5 (delta 4), reused 0 (delta 0)
+> remote: sed: can't read ./description: No such file or directory
+> remote: *** Project description file hasn't been set
+> remote: error: hook declined to update refs/heads/master
+> To ssh://git@git.openembedded.org/openembedded-core
+> =C2=A0! [remote rejected] master -> master (hook declined)
+> error: failed to push some refs to 'ssh://git@git.openembedded.org/openem=
+bedded-core'
+>
+>
 
-When I read Saul's original emails I thought this approach would work
-although it wasn't the first one that came to my mind.
-
-Looking at the code you have, the problem is you have nowhere you can
-call the "addtask" for the individual tasks and we don't want to the
-overhead system wide for every recipe as it makes no sense.
-
-I'd therefore like to suggest we tweak this approach a little. Each
-package_xxx.bbclass defines a function which updates the index for that
-packaging backend:
-
-package_ipk.bbclass:
-
-PACKAGEINDEXES += "package_index_ipk();"
-PACKAGEINDEXDEPS += "opkg-utils-native:do_populate_sysroot"
-PACKAGEINDEXDEPS += "opkg-native:do_populate_sysroot"
-package_index_ipk[dirs] = "${DEPLOY_DIR_IPK}"
-
-package_index_ipk() {
-       set -ex
-       package_update_index_ipk
-       set +ex
-}
-
-The key is the addition to the PACKAGEINDEXES variable and its
-dependencies in PACKAGEINDEXDEPS.
-
-In package-index.bb we can then just have:
-
-do_package_index[depends] += "${PACKAGEINDEXDEPS}"
- 
-do_package_index() {
-	${PACKAGEINDEXES}
-}
-
-and these variables should always have the things we need in them
-depending on the package backends available.
-
-Ideally we should cover the case there is no package backend enabled and
-just return too rather than error (or bbwarn "No package backends
-enabled, doing nothing").
-
-Cheers,
-
-Richard
+its the same error I fixed last time. Somehow the description files in
+repo got lost after melo rebooted. I have put them back
+can you try and confirm if it works now ?
 
 
+> Cheers,
+>
+> Richard
+>
+>
 
 
