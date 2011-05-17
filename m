@@ -1,25 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QML84-00064Z-2h for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 16:20:08 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QML5I-0005El-Sd
-	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 16:17:17 +0200
-From: Phil Blundell <pb@pbcl.net>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QMLFJ-0006B3-5Z for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 16:27:37 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HEOiTl017361
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 15:24:44 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 16971-10 for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 15:24:39 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HEOY4n017355
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 15:24:34 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1305634164.2429.193.camel@phil-desktop>
-References: <1305633118.2429.188.camel@phil-desktop>
-	<1305633770.3424.229.camel@rex>
-	<1305634164.2429.193.camel@phil-desktop>
-Organization: Phil Blundell Consulting Ltd
-Date: Tue, 17 May 2011 15:17:15 +0100
-Message-ID: <1305641835.2429.228.camel@phil-desktop>
+In-Reply-To: <1305640549.2429.226.camel@phil-desktop>
+References: <1305640549.2429.226.camel@phil-desktop>
+Date: Tue, 17 May 2011 15:24:33 +0100
+Message-ID: <1305642273.3424.244.camel@rex>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH v2] image-prelink: remove hardcoded path assumptions
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] rootfs_ipk: respect ONLINE_PACKAGE_MANAGEMENT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,55 +42,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 14:20:08 -0000
+X-List-Received-Date: Tue, 17 May 2011 14:27:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Tue, 2011-05-17 at 14:55 +0100, Phil Blundell wrote:
+> This makes it work more or less the same way as the current tip of oe
+> master, except that I didn't copy over the behaviour for O_P_M="add"
+> because it seemed slightly bogus to me.  
+> 
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>  meta/classes/rootfs_ipk.bbclass |   12 ++++++++++--
+>  1 files changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+> index 5727d15..c7c8325 100644
+> --- a/meta/classes/rootfs_ipk.bbclass
+> +++ b/meta/classes/rootfs_ipk.bbclass
+> @@ -69,8 +69,16 @@ fakeroot rootfs_ipk_do_rootfs () {
+>  	echo ${BUILDNAME} > ${IMAGE_ROOTFS}/${sysconfdir}/version
+>  
+>  	${ROOTFS_POSTPROCESS_COMMAND}
+> -	
+> -	rm -f ${IMAGE_ROOTFS}${opkglibdir}/lists/*
+> +
+> +	case "${ONLINE_PACKAGE_MANAGEMENT}" in
+> +	none)
+> + 		rm -rf ${IMAGE_ROOTFS}${opkglibdir}
+> +		;;
+> +
+> +	*)
+> +		rm -f ${IMAGE_ROOTFS}${opkglibdir}/lists/*
+> +		;;
+> +	esac
+>  
+>  	log_check rootfs 	
+>  }
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/classes/image-prelink.bbclass |   13 +++++--------
- 1 files changed, 5 insertions(+), 8 deletions(-)
+What's wrong with:
 
-diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
-index ee0951c..350c29d 100644
---- a/meta/classes/image-prelink.bbclass
-+++ b/meta/classes/image-prelink.bbclass
-@@ -12,25 +12,22 @@ prelink_image () {
- 	echo "Size before prelinking $pre_prelink_size."
- 
- 	# We need a prelink conf on the filesystem, add one if it's missing
--	if [ ! -e ${IMAGE_ROOTFS}/etc/prelink.conf ]; then
--		cp ${STAGING_DIR_NATIVE}/etc/prelink.conf \
--			${IMAGE_ROOTFS}/etc/prelink.conf
-+	if [ ! -e ${IMAGE_ROOTFS}${sysconfdir}/prelink.conf ]; then
-+		cp ${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf \
-+			${IMAGE_ROOTFS}${sysconfdir}/prelink.conf
- 		dummy_prelink_conf=true;
- 	else
- 		dummy_prelink_conf=false;
- 	fi
- 
- 	# prelink!
--	${STAGING_DIR_NATIVE}/usr/sbin/prelink --root ${IMAGE_ROOTFS} -amR
-+	${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf
- 
- 	# Remove the prelink.conf if we had to add it.
- 	if [ "$dummy_prelink_conf" == "true" ]; then
--		rm -f ${IMAGE_ROOTFS}/etc/prelink.conf
-+		rm -f ${IMAGE_ROOTFS}${sysconfdir}/prelink.conf
- 	fi
- 
--	# Cleanup temporary file, it's not needed...
--	rm -f ${IMAGE_ROOTFS}/etc/prelink.cache
--
- 	pre_prelink_size=`du -ks ${IMAGE_ROOTFS} | awk '{size = $1 ; print size }'`
- 	echo "Size after prelinking $pre_prelink_size."
- }
--- 
-1.7.1
+ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
 
+as used in the minimal image? The nice thing about this is it works over
+several package backends too...
 
+Cheers,
+
+Richard
 
 
 
