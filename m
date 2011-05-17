@@ -1,25 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QM7PD-0000lD-RV
-	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 01:40:58 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 16 May 2011 16:36:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,222,1304319600"; d="scan'208";a="643514606"
-Received: from vorpal.jf.intel.com (HELO [10.7.199.57]) ([10.7.199.57])
-	by orsmga002.jf.intel.com with ESMTP; 16 May 2011 16:36:59 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Date: Mon, 16 May 2011 16:40:32 -0700
-In-Reply-To: <442f31a687cb0362e9e0a3492eed6bb4ad5d8366.1305584418.git.dvhart@linux.intel.com>
-References: <eb4a98eeef982194542a33be0dd615a5c2bf3ed8.1305584418.git.dvhart@linux.intel.com>
-	<442f31a687cb0362e9e0a3492eed6bb4ad5d8366.1305584418.git.dvhart@linux.intel.com>
-X-Mailer: Evolution 3.0.1 (3.0.1-1.fc15) 
-Message-ID: <1305589232.1771.21.camel@vorpal.jf.intel.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QM7y3-0001SM-SV for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 02:16:56 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4H0E0f5025741;
+	Tue, 17 May 2011 01:14:00 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25538-04; Tue, 17 May 2011 01:13:56 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4H0DrYp025735
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 17 May 2011 01:13:54 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <ca9a918a98510eac991c84ce1ebe8fecbdf38361.1305525725.git.raj.khem@gmail.com>
+References: <cover.1305525725.git.raj.khem@gmail.com>
+	<ca9a918a98510eac991c84ce1ebe8fecbdf38361.1305525725.git.raj.khem@gmail.com>
+Date: Tue, 17 May 2011 01:13:51 +0100
+Message-ID: <1305591231.3424.152.camel@rex>
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH v2 14/15] send-pull-request: streamline git-send-email usage
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 2/2] tclibc-uclibc.inc: Append -uclibc only to target recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,133 +40,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 May 2011 23:40:58 -0000
+X-List-Received-Date: Tue, 17 May 2011 00:16:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-05-16 at 15:26 -0700, Darren Hart wrote:
-> The script was sending one patch at a time, which defeats the internal
-> confirmation mechanism of git-send-email (which would otherwise allow
-> the user to send all patches or abort immediately).
+On Sun, 2011-05-15 at 23:04 -0700, Khem Raj wrote:
+> Do not define DEPLOY_DIR_IMAGE
+> Append -uclibc to STAGING_DIR_TARGET only for target recipe and cross
+> recipes
+> Append -uclibc to STAGING_DIR_HOST only for target recipes.
 > 
-> Rework the sending logic to use no more than two commands. Use two
-> commands when the cover letter is to be sent to all recipients with
-> the -a argument. Otherwise, send all patches via the same command.
+> These changes make sure that we still share the native sysroot
 > 
-> The script duplicates git's send confirmation, eliminate that.
-> 
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> Reported-by: Khem Raj <raj.khem@gmail.com>
-Acked-by: Joshua Lock <josh@linux.intel.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-> Cc: Khem Raj <raj.khem@gmail.com>
-> Cc: Joshua Lock <josh@linux.intel.com>
-> ---
->  scripts/send-pull-request |   68 +++++++++++++++++---------------------------
->  1 files changed, 26 insertions(+), 42 deletions(-)
-> 
-> diff --git a/scripts/send-pull-request b/scripts/send-pull-request
-> index 21eb302..8d0bd34 100755
-> --- a/scripts/send-pull-request
-> +++ b/scripts/send-pull-request
-> @@ -1,6 +1,7 @@
->  #!/bin/bash
->  AUTO=0
->  AUTO_CL=0
-> +GITSOBCC=""
->  
->  # Prevent environment leakage to these vars.
->  unset TO
-> @@ -59,10 +60,11 @@ while getopts "achp:t:" OPT; do
->  	case $OPT in
->  	a)
->  		AUTO_CL=1
-> -		AUTO=1
-> -		;;
-> +		# Fall through to include -c
-> +		;&
->  	c)
->  		AUTO=1
-> +		GITSOBCC="--signed-off-by-cc"
->  		;;
->  	h)
->  		usage
-> @@ -130,48 +132,30 @@ if [ -z "$TO" ] && [ -z "$AUTO_CC" ]; then
->  fi
->  
-> 
-> -# Generate report for the user and require confirmation before sending
-> -cat <<EOM
-> -The following patches:
-> -$(for PATCH in $PDIR/*.patch; do echo "    $PATCH"; done)
-> +# Convert the collected addresses into git-send-email argument strings
-> +export IFS=$','
-> +GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
-> +GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
-> +unset IFS
->  
-> -will now be sent via the git send-email command. Git will prompt you before
-> -sending any email.
->  
-> -EOM
-> -echo "Continue? [y/N] "
-> -read cont
-> -
-> -if [ "$cont" == "y" ] || [ "$cont" == "Y" ]; then
-> -	ERROR=0
-> -	export IFS=$','
-> -	GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
-> -	GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
-> -	unset IFS
-> -	for PATCH in $PDIR/*patch; do
-> -		if [ $AUTO -eq 1 ]; then
-> -			if [ $PATCH == "$CL" ] && [ $AUTO_CL -eq 1 ]; then
-> -				# Send the cover letter to every recipient, both
-> -				# specified as well as harvested.
-> -				eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
-> -			else
-> -				# Send the patch to the specified recipients and
-> -				# those git finds in this specific patch.
-> -				eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --signed-off-by-cc $PATCH"
-> -			fi
-> -		else
-> -			# Only send to the explicitly specified recipients
-> -			eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
-> -		fi
-> -		if [ $? -eq 1 ]; then
-> -			ERROR=1
-> -		fi
-> -	done
-> -
-> -	if [ $ERROR -eq 1 ]; then
-> -		echo "ERROR: Failed to send one or more messages."
-> +# Handoff to git-send-email. It will perform the send confirmation.
-> +PATCHES=$(echo $PDIR/*.patch)
-> +if [ $AUTO_CL -eq 1 ]; then
-> +	# Send the cover letter to every recipient, both specified as well as
-> +	# harvested. Then remove it from the patches list.
-> +	eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $CL"
-> +	if [ $? -eq 1 ]; then
-> +		echo "ERROR: failed to send cover-letter with automatic recipients."
-> +		exit 1
->  	fi
-> -else
-> -	echo "Send aborted."
-> +	PATCHES=${PATCHES/"$CL"/}
->  fi
->  
-> +# Send the patch to the specified recipients and, if -c was specified, those git
-> +# finds in this specific patch.
-> +eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to $GITSOBCC $PATCHES"
-> +if [ $? -eq 1 ]; then
-> +	echo "ERROR: failed to send patches."
-> +	exit 1
-> +fi
+The more I looked at that patch, the more holes I could see in what we
+were doing (and what Angstrom currently does). I started playing around
+with the patch below which tried to improve on that idea.
 
--- 
-Joshua Lock
-        Yocto Project Build Monkey
-        Intel Open Source Technology Centre
+I then concluded that we might be able to do something like:
+
+MACHINEOVERRIDES := "${MACHINE}"
+MACHINE_append = "-uclibc"
+
+since what we're really trying to do in the uclibc case is replace
+anything MACHINE specific with something containing uclibc?
+
+Thoughts?
+
+Cheers,
+
+Richard
+
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 553c6a2..354668f 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -23,7 +23,7 @@ python () {
+         bb.data.setVar('SSTATE_PKGARCH', bb.data.getVar('BUILD_ARCH', d), d)
+     elif bb.data.inherits_class('cross', d):
+         bb.data.setVar('SSTATE_PKGARCH', bb.data.expand("${BUILD_ARCH}_${BASE_PACKAGE_ARCH}", d), d)
+-        bb.data.setVar('SSTATE_MANMACH', bb.data.expand("${BUILD_ARCH}_${MACHINE}", d), d)
++        bb.data.setVar('SSTATE_MANMACH', bb.data.expand("${BUILD_ARCH}_${STAGING_MACHNAME}", d), d)
+     elif bb.data.inherits_class('crosssdk', d):
+         bb.data.setVar('SSTATE_PKGARCH', bb.data.expand("${BUILD_ARCH}_${BASE_PACKAGE_ARCH}", d), d)
+     elif bb.data.inherits_class('nativesdk', d):
+@@ -31,7 +31,7 @@ python () {
+     elif bb.data.inherits_class('cross-canadian', d):
+         bb.data.setVar('SSTATE_PKGARCH', bb.data.expand("${SDK_ARCH}_${BASE_PACKAGE_ARCH}", d), d)
+     else:
+-        bb.data.setVar('SSTATE_MANMACH', bb.data.expand("${MACHINE}", d), d)
++        bb.data.setVar('SSTATE_MANMACH', bb.data.expand("${STAGING_MACHNAME}", d), d)
+ 
+     # These classes encode staging paths into their scripts data so can only be
+     # reused if we manipulate the paths
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index fef6457..c2e4e50 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -91,7 +91,7 @@ SSTATETASKS += "do_populate_sysroot"
+ do_populate_sysroot[sstate-name] = "populate-sysroot"
+ do_populate_sysroot[sstate-inputdirs] = "${SYSROOT_DESTDIR}"
+ do_populate_sysroot[sstate-outputdirs] = "${STAGING_DIR_HOST}/"
+-do_populate_sysroot[stamp-extra-info] = "${MACHINE}"
++do_populate_sysroot[stamp-extra-info] = "${STAGING_MACHNAME}"
+ 
+ python do_populate_sysroot_setscene () {
+ 	sstate_setscene(d)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8b6236e..141b942 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -300,7 +300,8 @@ STAGING_DATADIR_NATIVE = "${STAGING_DIR_NATIVE}${datadir_native}"
+ 
+ # This should really be MULTIMACH_HOST_SYS but that breaks "all" and machine 
+ # specific packages - hack around it for now.
+-STAGING_DIR_HOST = "${STAGING_DIR}/${MACHINE}"
++STAGING_MACHNAME ??= "${MACHINE}"
++STAGING_DIR_HOST = "${STAGING_DIR}/${STAGING_MACHNAME}"
+ STAGING_BINDIR = "${STAGING_DIR_HOST}${bindir}"
+ STAGING_LIBDIR = "${STAGING_DIR_HOST}${libdir}"
+ STAGING_INCDIR = "${STAGING_DIR_HOST}${includedir}"
+@@ -312,7 +313,7 @@ STAGING_PYDIR = "${STAGING_DIR}/lib/python2.4"
+ 
+ # This should really be MULTIMACH_TARGET_SYS but that breaks "all" and machine 
+ # specific packages - hack around it for now.
+-STAGING_DIR_TARGET = "${STAGING_DIR}/${MACHINE}"
++STAGING_DIR_TARGET = "${STAGING_DIR}/${STAGING_MACHNAME}"
+ STAGING_DIR_TCBOOTSTRAP = "${STAGING_DIR_TARGET}-tcbootstrap"
+ 
+ # Setting DEPLOY_DIR outside of TMPDIR is helpful, when you are using
+@@ -344,8 +345,8 @@ STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/kernel"
+ 
+ IMAGE_ROOTFS = "${WORKDIR}/rootfs"
+ IMAGE_BASENAME = "${PN}"
+-IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
+-IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
++IMAGE_NAME = "${IMAGE_BASENAME}-${STAGING_MACHNAME}-${DATETIME}"
++IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${STAGING_MACHNAME}"
+ 
+ # This option allows for a precentage overage of the actaul image size rather than a
+ # fixed extra space
+diff --git a/meta/conf/distro/include/tclibc-uclibc.inc b/meta/conf/distro/include/tclibc-uclibc.inc
+index 27f6ec6..e84da81 100644
+--- a/meta/conf/distro/include/tclibc-uclibc.inc
++++ b/meta/conf/distro/include/tclibc-uclibc.inc
+@@ -20,11 +20,7 @@ CXXFLAGS += "-fvisibility-inlines-hidden"
+ 
+ IMAGE_LINGUAS = ""
+ 
+-DEPLOY_DIR_IMAGE = "${TMPDIR}/deploy/images"
+-DEPLOY_DIR_append = "-uclibc"
+-STAGING_DIR_TARGET_append = "-uclibc"
+-STAGING_DIR_HOST_append = "-uclibc"
+-SSTATE_MANIFESTS_append = "-uclibc"
++STAGING_MACHNAME = "${MACHINE}-uclibc"
+ 
+ LIBC_DEPENDENCIES = "\
+     uclibc \
 
 
 
