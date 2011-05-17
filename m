@@ -1,36 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QMMqf-0008KM-LK for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 18:10:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HG7KVO018257
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2011 17:07:20 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18079-04 for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2011 17:07:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HG7Dxk018251
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2011 17:07:14 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1305647579.2429.271.camel@phil-desktop>
-References: <1305633118.2429.188.camel@phil-desktop>
-	<1305633770.3424.229.camel@rex>
-	<1305634164.2429.193.camel@phil-desktop>
-	<1305647579.2429.271.camel@phil-desktop>
-Date: Tue, 17 May 2011 17:07:13 +0100
-Message-ID: <1305648433.3424.255.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH v3] image-prelink: remove hardcoded path assumptions, don't generate cache file
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QMMvi-0008Qf-QC
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 18:15:32 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 17 May 2011 09:12:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,226,1304319600"; d="scan'208";a="437595454"
+Received: from unknown (HELO helios.localnet) ([10.255.16.110])
+	by azsmga001.ch.intel.com with ESMTP; 17 May 2011 09:12:32 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+Organization: Intel Corporation (UK)
+To: "Yu, Ke" <ke.yu@intel.com>
+Date: Tue, 17 May 2011 17:12:31 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+MIME-Version: 1.0
+Message-Id: <201105171712.31423.paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Qt4 mips-relocate.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,25 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 16:10:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 17 May 2011 16:15:32 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-05-17 at 16:52 +0100, Phil Blundell wrote:
-> Pass -N option to prelink so that no cache file is generated (obviates need for deleting it afterwards).
-> Use symbolic names, ${sysconfdir} et al., rather than hardcoded paths. 
-> Pass explicit -c option to prelink in case ${sysconfdir} and ${sysconfdir_native} are different.
-> 
-> Signed-off-by: Phil Blundell <philb@gnu.org>
-> ---
->  meta/classes/image-prelink.bbclass |   13 +++++--------
->  1 files changed, 5 insertions(+), 8 deletions(-)
+Hi there,
 
-Merged to master (will be when it becomes accessible again), thanks.
+I was going through patches for Qt4 and found that (among others) mips-
+relocate.patch was not being applied for Qt 4.7.x. From the comment it seems 
+it was intended to fix a link-time error when building qt4-x11-free for mips - 
+some kind of issue with binutils 2.20 [1]. However I just built qt4-x11-free 
+4.7.3 with MACHINE=qemumips without the patch and it built just fine. We're 
+using binutils 2.21 now, I checked and there is nothing relevant that I can 
+see in the binutils changelog to suggest that a mips/symbolic-functions issue 
+was fixed, and we are apparently still enabling the option that originally 
+triggered the problem when building Qt 4.7.x.
 
-Richard
+Ke / anyone else, any ideas? If the problem can no longer reproduced can we 
+simply remove this patch?
 
+Cheers,
+Paul
 
+[1] http://bugzilla.pokylinux.org/show_bug.cgi?id=271
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
