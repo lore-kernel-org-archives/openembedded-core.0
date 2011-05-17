@@ -1,38 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QMO2f-0001lR-Gt for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 19:26:45 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HHNphF018985
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2011 18:23:51 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18928-02 for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2011 18:23:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HHNkCI018979
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2011 18:23:46 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTi=dSy1J3oP-aRH7QGSLeB3vy7Ykjw@mail.gmail.com>
-References: <cover.1305418871.git.sgw@linux.intel.com>
-	<E943FF3D-A282-4E6D-8B5A-B954A678A0E1@gmail.com>
-	<4DD13B6F.4010009@intel.com>
-	<BANLkTi=0TcHgXmYpwCjX6P5h6+y9O2YQFw@mail.gmail.com>
-	<1305575479.3424.102.camel@rex> <4DD18DA1.4080501@intel.com>
-	<BANLkTi=dSy1J3oP-aRH7QGSLeB3vy7Ykjw@mail.gmail.com>
-Date: Tue, 17 May 2011 18:23:45 +0100
-Message-ID: <1305653025.3424.269.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC 0/3] Move Old Recipes to meta-extras
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1QMOGD-0001ve-Qu
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 19:40:46 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 17 May 2011 10:37:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,226,1304319600"; 
+   d="scan'208";a="2890248"
+Received: from doubt.jf.intel.com (HELO [10.7.199.57]) ([10.7.199.57])
+	by fmsmga002.fm.intel.com with ESMTP; 17 May 2011 10:37:50 -0700
+Message-ID: <4DD2B281.6000300@linux.intel.com>
+Date: Tue, 17 May 2011 10:38:09 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1305584418.git.dvhart@linux.intel.com>
+	<eb4a98eeef982194542a33be0dd615a5c2bf3ed8.1305584418.git.dvhart@linux.intel.com>
+	<442f31a687cb0362e9e0a3492eed6bb4ad5d8366.1305584418.git.dvhart@linux.intel.com>
+	<BANLkTinDQ5rsDKuaXcyYxPnCoGnMNQ+7=Q@mail.gmail.com>
+In-Reply-To: <BANLkTinDQ5rsDKuaXcyYxPnCoGnMNQ+7=Q@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH v2 14/15] send-pull-request: streamline git-send-email usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,55 +38,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 17:26:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 17 May 2011 17:40:46 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-05-16 at 15:34 -0700, Khem Raj wrote:
-> On Mon, May 16, 2011 at 1:48 PM, Saul Wold <saul.wold@intel.com> wrote:
-> > On 05/16/2011 12:51 PM, Richard Purdie wrote:
-> >>
-> >> On Mon, 2011-05-16 at 10:08 -0700, Khem Raj wrote:
-> >>>
-> >>> On Mon, May 16, 2011 at 7:57 AM, Saul Wold<saul.wold@intel.com>  wrote:
-> >>>>
-> >>>> On 05/15/2011 11:19 PM, Khem Raj wrote:
-> >>>>>
-> >>>>>
-> >>>>> On May 14, 2011, at 5:23 PM, Saul Wold<sgw@linux.intel.com>   wrote:
-> >>>>>
-> >>>>>> From: Saul Wold<sgw@linux.intel.com>
-> >>>>>>
-> >>>>>> This proposes to move the YAFFS2-utils, older clutter-1.4
-> >>>>>> and older GCC version (4.3.3 and 3.4.4) as they are unused
-> >>>>>> and currently unbuildable.
-> >>>>>>
-> >>>>>
-> >>>>> Are we left with any GPLv2 version of gcc after this ?
-> >>>>>
-> >>>> Khem,
-> >>>>
-> >>>> Is not having a GPLv2 version of gcc an issue? For the non-gplv3
-> >>>> version, my
-> >>>> understanding is to have an installed user-space for oe-core for a
-> >>>> non-development system, therefore gcc is not an issue.
-> >>>>
-> >>>
-> >>> there are certain parts of gcc which go onto target e.g. libgcc libstdc++
-> >>
-> >> These have specific license exceptions allowing non-gpl code to use them
-> >> as system libraries though?
-> >>
-> > Richard is correct, there are exception for the runtime parts of GCC.
-> > Sorry Khem, I was not catching to original gist of the question.
+
+
+On 05/17/2011 10:05 AM, Khem Raj wrote:
+> On Mon, May 16, 2011 at 3:26 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+>> The script was sending one patch at a time, which defeats the internal
+>> confirmation mechanism of git-send-email (which would otherwise allow
+>> the user to send all patches or abort immediately).
+>>
+>> Rework the sending logic to use no more than two commands. Use two
+>> commands when the cover letter is to be sent to all recipients with
+>> the -a argument. Otherwise, send all patches via the same command.
+>>
+>> The script duplicates git's send confirmation, eliminate that.
+>>
+>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>> Reported-by: Khem Raj <raj.khem@gmail.com>
+>> Cc: Khem Raj <raj.khem@gmail.com>
+>> Cc: Joshua Lock <josh@linux.intel.com>
+>> ---
+>>  scripts/send-pull-request |   68 +++++++++++++++++---------------------------
+>>  1 files changed, 26 insertions(+), 42 deletions(-)
+>>
+>> diff --git a/scripts/send-pull-request b/scripts/send-pull-request
+>> index 21eb302..8d0bd34 100755
+>> --- a/scripts/send-pull-request
+>> +++ b/scripts/send-pull-request
+>> @@ -1,6 +1,7 @@
+>>  #!/bin/bash
+>>  AUTO=0
+>>  AUTO_CL=0
+>> +GITSOBCC=""
+>>
+>>  # Prevent environment leakage to these vars.
+>>  unset TO
+>> @@ -59,10 +60,11 @@ while getopts "achp:t:" OPT; do
+>>        case $OPT in
+>>        a)
+>>                AUTO_CL=1
+>> -               AUTO=1
+>> -               ;;
+>> +               # Fall through to include -c
+>> +               ;&
+>>        c)
+>>                AUTO=1
+>> +               GITSOBCC="--signed-off-by-cc"
+>>                ;;
+>>        h)
+>>                usage
+>> @@ -130,48 +132,30 @@ if [ -z "$TO" ] && [ -z "$AUTO_CC" ]; then
+>>  fi
+>>
+>>
+>> -# Generate report for the user and require confirmation before sending
+>> -cat <<EOM
+>> -The following patches:
+>> -$(for PATCH in $PDIR/*.patch; do echo "    $PATCH"; done)
+>> +# Convert the collected addresses into git-send-email argument strings
+>> +export IFS=$','
+>> +GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
+>> +GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
+>> +unset IFS
+>>
+>> -will now be sent via the git send-email command. Git will prompt you before
+>> -sending any email.
+>>
+>> -EOM
+>> -echo "Continue? [y/N] "
+>> -read cont
+>> -
+>> -if [ "$cont" == "y" ] || [ "$cont" == "Y" ]; then
+>> -       ERROR=0
+>> -       export IFS=$','
+>> -       GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
+>> -       GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
+>> -       unset IFS
+>> -       for PATCH in $PDIR/*patch; do
+>> -               if [ $AUTO -eq 1 ]; then
+>> -                       if [ $PATCH == "$CL" ] && [ $AUTO_CL -eq 1 ]; then
+>> -                               # Send the cover letter to every recipient, both
+>> -                               # specified as well as harvested.
+>> -                               eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
+>> -                       else
+>> -                               # Send the patch to the specified recipients and
+>> -                               # those git finds in this specific patch.
+>> -                               eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --signed-off-by-cc $PATCH"
+>> -                       fi
+>> -               else
+>> -                       # Only send to the explicitly specified recipients
+>> -                       eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
+>> -               fi
+>> -               if [ $? -eq 1 ]; then
+>> -                       ERROR=1
+>> -               fi
+>> -       done
+>> -
+>> -       if [ $ERROR -eq 1 ]; then
+>> -               echo "ERROR: Failed to send one or more messages."
+>> +# Handoff to git-send-email. It will perform the send confirmation.
+>> +PATCHES=$(echo $PDIR/*.patch)
+>> +if [ $AUTO_CL -eq 1 ]; then
+>> +       # Send the cover letter to every recipient, both specified as well as
+>> +       # harvested. Then remove it from the patches list.
+>> +       eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $CL"
+>> +       if [ $? -eq 1 ]; then
+>> +               echo "ERROR: failed to send cover-letter with automatic recipients."
+>> +               exit 1
+>>        fi
+>> -else
+>> -       echo "Send aborted."
+>> +       PATCHES=${PATCHES/"$CL"/}
+>>  fi
+>>
+>> +# Send the patch to the specified recipients and, if -c was specified, those git
+>> +# finds in this specific patch.
+>> +eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to $GITSOBCC $PATCHES"
+>> +if [ $? -eq 1 ]; then
+>> +       echo "ERROR: failed to send patches."
+>> +       exit 1
+>> +fi
 > 
-> exceptions yes but they are not same exceptions between GPLv2 and GPLv3 gcc.
+> 
+> now it will ask the usual git confirmation once for all the patches
+> are now mentioned on the commandline instead of a loop.
+> So I can say 'a'  all in the confirmation and then it will take that
+> to send all patches. Is my understanding right ?
+> 
+> If so then it seems ok to me
 
-Is there a problem here though? What impact are you concerned with?
+That is the case if -a is not used. If -a is used, then you will get a
+git confirmation for the cover letter and another for the rest of the
+series, which you can say 'a' to and send all of them. This is because
+-a uses a different recipients list for the cover-letter than the rest
+of the patches.
 
-Cheers,
+This also allows for a dry-run by:
 
-Richard
+yes "n" | send-pull-request ...
 
+
+> 
+>> --
+>> 1.7.1
+>>
+>>
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
