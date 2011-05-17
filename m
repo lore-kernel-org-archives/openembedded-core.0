@@ -1,27 +1,31 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QMHzB-0000HF-Nq
-	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 12:58:46 +0200
-Received: by wwb17 with SMTP id 17so349106wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2011 03:55:52 -0700 (PDT)
-Received: by 10.227.131.31 with SMTP id v31mr504034wbs.19.1305629751999;
-	Tue, 17 May 2011 03:55:51 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id bi13sm252779wbb.25.2011.05.17.03.55.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 May 2011 03:55:51 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1305626898.3424.223.camel@rex>
-Date: Tue, 17 May 2011 12:55:48 +0200
-Message-Id: <C5F8CD4D-94B2-4A39-94AA-BA094957A6CA@dominion.thruhere.net>
-References: <1305626898.3424.223.camel@rex>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QMI1A-0000fb-PP for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 13:00:48 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HAvqOh013839;
+	Tue, 17 May 2011 11:57:52 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10415-05; Tue, 17 May 2011 11:57:48 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4HAvi7f013819
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 17 May 2011 11:57:44 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [RFC PATCH] distro/defaultsetup.conf: Append TCLIBC to TMPDIR by default
+In-Reply-To: <1305625673-28395-1-git-send-email-koen@dominion.thruhere.net>
+References: <1305625673-28395-1-git-send-email-koen@dominion.thruhere.net>
+Date: Tue, 17 May 2011 11:57:41 +0100
+Message-ID: <1305629861.3424.225.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] license bbclass: put licenses in DEPLOY_DIR/licenses to avoid sstate problems when MACHINE is part of DEPLOY_DIR_IMAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,43 +40,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 10:58:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 17 May 2011 11:00:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Tue, 2011-05-17 at 11:47 +0200, Koen Kooi wrote:
+> See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-May/002535.html for more info.
+> 
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+>  meta/classes/license.bbclass |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index d0a1418..4fd1f85 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -8,7 +8,7 @@
+>  #  licenses.conf and compare them to the license names in the recipes. You'll see some
+>  #  differences and that should be corrected.
+>  
+> -LICENSE_DIRECTORY ??= "${DEPLOY_DIR_IMAGE}/licenses"
+> +LICENSE_DIRECTORY ??= "${DEPLOY_DIR}/licenses"
+>  LICSSTATEDIR = "${WORKDIR}/license-destdir/"
+>  
+>  addtask populate_lic after do_patch before do_package 
 
-Op 17 mei 2011, om 12:08 heeft Richard Purdie het volgende geschreven:
+Merged to master, thanks.
 
-> The current solutions to share uclibc, eglibc and glibc builds in the
-> same tree all have various issues associated with them. Appending the
-> suffix to TMPDIR seems like the best solution since sstate (which
-> defaults to outside TMPDIR) will allow reuse of any components.
->=20
-> This avoids messy changes to the core with other approaches to this
-> problem inevitably entail, usually in code where this abstraction =
-isn;'t
-> logically best placed.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> diff --git a/meta/conf/distro/defaultsetup.conf =
-b/meta/conf/distro/defaultsetup.conf
-> index 8da6c0a..e7636b4 100644
-> --- a/meta/conf/distro/defaultsetup.conf
-> +++ b/meta/conf/distro/defaultsetup.conf
-> @@ -14,6 +14,10 @@ require conf/distro/include/tcmode-${TCMODE}.inc
-> TCLIBC ?=3D "eglibc"
-> require conf/distro/include/tclibc-${TCLIBC}.inc
->=20
-> +# Allow single libc distros to disable this code
-> +TCLIBCAPPEND ?=3D "-${TCLIBC}"
-> +TMPDIR_append =3D "${TCLIBCAPPEND}"
-> +
-> CACHE =3D "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + =
-str(bb.data.getVar('MACHINE', d, 1))][bool(bb.data.getVar('MACHINE', d, =
-1))
+Richard
 
-The line above has whitespace damage, I rediffed it and sent it to this =
-list so people don't have to manually fix the patch=
 
 
