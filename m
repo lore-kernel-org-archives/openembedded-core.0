@@ -1,24 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QMPBT-0004Hn-Fd
+	(envelope-from <Tom_Rini@mentor.com>) id 1QMPaI-0005uf-Cr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 May 2011 20:39:55 +0200
-Received: by wwb17 with SMTP id 17so765156wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2011 11:37:01 -0700 (PDT)
-Received: by 10.227.5.210 with SMTP id 18mr985026wbw.18.1305657421719;
-	Tue, 17 May 2011 11:37:01 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id h11sm505440wbc.9.2011.05.17.11.37.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 May 2011 11:37:00 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 May 2011 20:36:54 +0200
-Message-Id: <1305657414-20099-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] update-rc.d: fix after repo move
+	Tue, 17 May 2011 21:05:34 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QMPXL-0001Lj-RR from Tom_Rini@mentor.com ;
+	Tue, 17 May 2011 12:02:31 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Tue, 17 May 2011 12:00:12 -0700
+Received: from [172.30.80.14] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
+	Tue, 17 May 2011 12:02:31 -0700
+Message-ID: <4DD2C641.8020906@mentor.com>
+Date: Tue, 17 May 2011 12:02:25 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Darren Hart <dvhart@linux.intel.com>
+References: <cover.1305584418.git.dvhart@linux.intel.com>
+In-Reply-To: <cover.1305584418.git.dvhart@linux.intel.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 17 May 2011 19:00:12.0954 (UTC)
+	FILETIME=[A6AF17A0:01CC14C4]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH v2 00/15] *-pull-request: cleanup and overhaul
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 18:39:55 -0000
+X-List-Received-Date: Tue, 17 May 2011 19:05:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-The git repo layout is different from the cvs repo layout
+On 05/16/2011 03:25 PM, Darren Hart wrote:
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-core/update-rc.d/update-rc.d_0.7.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+...
+> Darren Hart (13):
+>   create-pull-request: alphabetize arguments
+>   create-pull-request: whitespace cleanup
+>   create-pull-request: use git request-pull and arbitrary remotes
+>   create-pull-request: rewrite known private URLs to public URLs
+>   create-pull-request: provide an RFC mode via -c argument
+>   send-pull-request: whitespace cleanup
+>   send-pull-request: remove local mta support
+>   send-pull-request: fix greedy auto-cc regex
+>   send-pull-request: don't send all patches to everyone even with -a
+>   send-pull-request: verify git sendemail config
+>   create-pull-request: add untested oe repository support
+>   send-pull-request: streamline git-send-email usage
+>   *pull-request: add copyright, license, and descriptions
+> 
+> Otavio Salvador (2):
+>   create-pull-request: do not check certificate
+>   create-pull-request: add GitHub remote support
 
-diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
-index 403056a..6a43d80 100644
---- a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
-+++ b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
-@@ -10,9 +10,9 @@ LIC_FILES_CHKSUM = "file://update-rc.d;beginline=5;endline=15;md5=148a48321b10eb
- PR = "r3"
- 
- SRC_URI = "git://github.com/philb/update-rc.d.git;tag=update-rc.d_${PV};protocol=git \
--           file://add-verbose.patch;apply=yes"
-+           file://add-verbose.patch;striplevel=1"
- 
--S = "${WORKDIR}/update-rc.d"
-+S = "${WORKDIR}/git"
- 
- 
- do_compile() {
+For the bits I'm cc'd on:
+Acked-by: Tom Rini <tom_rini@mentor.com>
+
+and thanks again for picking this up and running with it!
+
 -- 
-1.6.6.1
-
+Tom Rini
+Mentor Graphics Corporation
 
 
