@@ -1,20 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QMKFA-0000at-9s for openembedded-core@lists.linuxtogo.org;
-	Tue, 17 May 2011 15:23:24 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QMKCP-0004bU-1F
-	for openembedded-core@lists.linuxtogo.org;
-	Tue, 17 May 2011 15:20:33 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: openembedded-core@lists.linuxtogo.org
-Organization: Phil Blundell Consulting Ltd
-Date: Tue, 17 May 2011 14:20:31 +0100
-Message-ID: <1305638431.2429.215.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: [PATCH] eglibc: backport fix from oe master to stop libc.so leaking into ${PN}
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <edwin.zhai@intel.com>) id 1QMKUk-0000ww-H8
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 May 2011 15:39:30 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 17 May 2011 06:36:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,225,1304319600"; 
+   d="scan'208";a="2772123"
+Received: from yocto-build3.sh.intel.com (HELO localhost) ([10.239.48.58])
+	by fmsmga002.fm.intel.com with ESMTP; 17 May 2011 06:36:35 -0700
+Message-Id: <6a45c0729404ded8851b080e75c0c7c1674c47ee.1305639192.git.edwin.zhai@intel.com>
+In-Reply-To: <cover.1305639192.git.edwin.zhai@intel.com>
+References: <cover.1305639192.git.edwin.zhai@intel.com>
+Old-Date: Tue, 17 May 2011 21:26:36 +0800
+Date: Tue, 17 May 2011 21:36:23 +0800
+To: openembedded-core@lists.openembedded.org
+CC: 
+From: Zhai Edwin <edwin.zhai@intel.com>
+Subject: [PATCH 1/1] Upstream-Status: Update patch upstream-status for GPLv2 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,31 +33,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 13:23:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 May 2011 13:39:30 -0000
 
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
+Including gzip and mtoools
+
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- meta/recipes-core/eglibc/eglibc-package.inc        |    2 +-
- 3 files changed, 24 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc/lds-warnings.patch
+ .../mtools/mtools/mtools-makeinfo.patch            |    2 ++
+ meta/recipes-devtools/mtools/mtools/mtools.patch   |    2 ++
+ meta/recipes-devtools/mtools/mtools/no-x11.patch   |    2 ++
+ .../gzip/gzip-1.3.12/dup-def-fix.patch             |    3 +++
+ .../gzip/gzip-1.3.12/m4-extensions-fix.patch       |    3 +++
+ 5 files changed, 12 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-index fa6dc3c..1d3fa9e 100644
---- a/meta/recipes-core/eglibc/eglibc-package.inc
-+++ b/meta/recipes-core/eglibc/eglibc-package.inc
-@@ -74,7 +74,7 @@ RPROVIDES_eglibc-extra-nss = "glibc-extra-nss"
- RPROVIDES_eglibc-thread-db = "glibc-thread-db"
- RPROVIDES_eglibc-pcprofile = "glibc-pcprofile"
- RPROVIDES_eglibc-dbg = "glibc-dbg"
--libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${base_libdir}/libc*.so.* ${base_libdir}/libc*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
-+libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${base_libdir}/libc*.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
+diff --git a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
+index 35fae44..2e2873a 100644
+--- a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
++++ b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Inappropriate [licensing]
++
+ --- mtools-3.9.9/configure.in.orig	2006-04-14 16:05:54.337655192 -0600
+ +++ mtools-3.9.9/configure.in	2006-04-14 16:12:29.736545424 -0600
+ @@ -21,6 +21,33 @@
+diff --git a/meta/recipes-devtools/mtools/mtools/mtools.patch b/meta/recipes-devtools/mtools/mtools/mtools.patch
+index 2abf534..15a3208 100644
+--- a/meta/recipes-devtools/mtools/mtools/mtools.patch
++++ b/meta/recipes-devtools/mtools/mtools/mtools.patch
+@@ -4,6 +4,8 @@ $NetBSD: patch-aa,v 1.10 2007/08/17 20:55:34 joerg Exp $
+  Makefile.in |   74 ++++++++++++++++++++++++++----------------------------------
+  1 file changed, 33 insertions(+), 41 deletions(-)
  
- FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${@base_conditional('USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf', '', d)}"
- FILES_ldd${PKGSUFFIX} = "${bindir}/ldd"
-
++Upstream-Status: Inappropriate [licensing]
++
+ Index: mtools-3.9.9/Makefile.in
+ ===================================================================
+ --- mtools-3.9.9.orig/Makefile.in	2007-10-12 11:18:46.000000000 +0100
+diff --git a/meta/recipes-devtools/mtools/mtools/no-x11.patch b/meta/recipes-devtools/mtools/mtools/no-x11.patch
+index 300f43f..705b629 100644
+--- a/meta/recipes-devtools/mtools/mtools/no-x11.patch
++++ b/meta/recipes-devtools/mtools/mtools/no-x11.patch
+@@ -2,6 +2,8 @@
+  Makefile.in |    2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
++Upstream-Status: Inappropriate [licensing]
++
+ --- mtools-3.9.9.orig/Makefile.in
+ +++ mtools-3.9.9/Makefile.in
+ @@ -128,11 +128,11 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
+diff --git a/meta/recipes-extended/gzip/gzip-1.3.12/dup-def-fix.patch b/meta/recipes-extended/gzip/gzip-1.3.12/dup-def-fix.patch
+index 8308865..d9e8d21 100644
+--- a/meta/recipes-extended/gzip/gzip-1.3.12/dup-def-fix.patch
++++ b/meta/recipes-extended/gzip/gzip-1.3.12/dup-def-fix.patch
+@@ -1,6 +1,9 @@
+ gzip uses gnulib, whose header conflict with glibc. This patch rename some function to avoid conflict.
+ 
+ Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
++
++Upstream-Status: Inappropriate [licensing]
++
+ Index: gzip-1.3.12/gzip.c
+ ===================================================================
+ --- gzip-1.3.12.orig/gzip.c	2010-08-13 10:29:38.000000000 +0800
+diff --git a/meta/recipes-extended/gzip/gzip-1.3.12/m4-extensions-fix.patch b/meta/recipes-extended/gzip/gzip-1.3.12/m4-extensions-fix.patch
+index 9273772..6b2f698 100644
+--- a/meta/recipes-extended/gzip/gzip-1.3.12/m4-extensions-fix.patch
++++ b/meta/recipes-extended/gzip/gzip-1.3.12/m4-extensions-fix.patch
+@@ -2,6 +2,9 @@ remove AC_USE_SYSTEM_EXTENSIONS to fix the autoconf error "AC_REQUIRE: circular
+ dependency of AC_GNU_SOURCE"
+ 
+ Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
++
++Upstream-Status: Inappropriate [licensing]
++
+ Index: gzip-1.3.12/m4/extensions.m4
+ ===================================================================
+ --- gzip-1.3.12.orig/m4/extensions.m4	2010-08-16 14:18:16.000000000 +0800
+-- 
+1.7.1
 
 
 
