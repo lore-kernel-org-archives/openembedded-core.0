@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QMh5W-0001Rj-Pe for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 15:46:58 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4IDWUpq028382
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QMh6M-0001Ts-7e
+	for openembedded-core@lists.openembedded.org;
+	Wed, 18 May 2011 15:47:50 +0200
+Received: by wwb17 with SMTP id 17so1454186wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 14:32:30 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28212-04 for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 14:32:26 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4IDWON6028376
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 14:32:24 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1305709034.git.paul.eggleton@linux.intel.com>
-References: <cover.1305709034.git.paul.eggleton@linux.intel.com>
-Date: Wed, 18 May 2011 14:32:21 +0100
-Message-ID: <1305725541.3424.317.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/3] Qt4 cleanup
+	Wed, 18 May 2011 06:44:55 -0700 (PDT)
+Received: by 10.216.150.153 with SMTP id z25mr1789713wej.89.1305726295578;
+	Wed, 18 May 2011 06:44:55 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id t58sm794339weq.16.2011.05.18.06.44.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 18 May 2011 06:44:55 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 May 2011 15:44:45 +0200
+Message-Id: <1305726289-9546-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/5] diffutils: fix libc overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,39 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 13:46:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 May 2011 13:47:50 -0000
 
-On Wed, 2011-05-18 at 10:08 +0100, Paul Eggleton wrote:
-> From: Paul Eggleton <paul.eggleton@linux.intel.com>
-> 
-> Remove Qt 4.6.3 in favour of 4.7.3 (which should be binary compatible with
-> 4.6.x), add Upstream-Status to remaining patches and re-enable some patches
-> that were missed with the original upgrade to 4.7.x.
-> 
-> Pull URL: git://git.openembedded.org/openembedded-core-contrib
->   Branch: paule/qt4-cleanup-core
->   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt4-cleanup-core
-> 
-> Thanks,
->     Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
-> 
-> 
-> Paul Eggleton (3):
->   qt4: remove Qt 4.6.3
->   qt4: add comments and Upstream-Status to all patches
->   qt4: re-enable two 4.6.x patches in 4.7.3
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-extended/diffutils/diffutils_2.8.1.bb |    2 +-
+ meta/recipes-extended/diffutils/diffutils_3.0.bb   |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-I think the previous questions on the mailing list provided enough time
-for discussion of this so merged to master, thanks. 
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-extended/diffutils/diffutils_2.8.1.bb b/meta/recipes-extended/diffutils/diffutils_2.8.1.bb
+index 9489b35..0fb3a31 100644
+--- a/meta/recipes-extended/diffutils/diffutils_2.8.1.bb
++++ b/meta/recipes-extended/diffutils/diffutils_2.8.1.bb
+@@ -20,7 +20,7 @@ inherit autotools update-alternatives gettext
+ # standard functionality.  regex.c actually breaks compilation
+ # because it uses __mempcpy, there are other things (TBD:
+ # see diffutils.mk in buildroot)
+-EXTRA_OECONF_linux-uclibc = "--without-included-regex"
++EXTRA_OECONF_libc-uclibc = "--without-included-regex"
+ 
+ ALTERNATIVE_LINKS = "${bindir}/diff ${bindir}/cmp"
+ ALTERNATIVE_PRIORITY = "100"
+diff --git a/meta/recipes-extended/diffutils/diffutils_3.0.bb b/meta/recipes-extended/diffutils/diffutils_3.0.bb
+index 427efdf..ecff5cc 100644
+--- a/meta/recipes-extended/diffutils/diffutils_3.0.bb
++++ b/meta/recipes-extended/diffutils/diffutils_3.0.bb
+@@ -16,7 +16,7 @@ inherit autotools update-alternatives gettext
+ # standard functionality.  regex.c actually breaks compilation
+ # because it uses __mempcpy, there are other things (TBD:
+ # see diffutils.mk in buildroot)
+-EXTRA_OECONF_linux-uclibc = "--without-included-regex"
++EXTRA_OECONF_libc-uclibc = "--without-included-regex"
+ 
+ ALTERNATIVE_LINKS = "${bindir}/diff ${bindir}/cmp"
+ ALTERNATIVE_PRIORITY = "100"
+-- 
+1.6.6.1
 
 
 
