@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QMc5j-0000wy-L2
+	(envelope-from <sgw@linux.intel.com>) id 1QMc5k-0000wy-MQ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 10:26:52 +0200
+	Wed, 18 May 2011 10:26:53 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 18 May 2011 01:17:52 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 18 May 2011 01:17:58 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,230,1304319600"; 
-   d="scan'208";a="3233846"
+   d="scan'208";a="3233864"
 Received: from unknown (HELO localhost) ([10.255.12.160])
-	by fmsmga002.fm.intel.com with ESMTP; 18 May 2011 01:17:52 -0700
-Message-Id: <d4c9dfd910f7392a289f4e6cc1b797b0389ac7d3.1305702436.git.sgw@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 18 May 2011 01:17:56 -0700
+Message-Id: <5761fd4e75e39be9e610c02eff1a86e6b8b3559c.1305702436.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305702436.git.sgw@linux.intel.com>
 References: <cover.1305702436.git.sgw@linux.intel.com>
-Old-Date: Fri, 13 May 2011 19:22:10 -0700
-Date: Wed, 18 May 2011  1:17:52 -0700
+Old-Date: Tue, 17 May 2011 09:35:57 -0600
+Date: Wed, 18 May 2011  1:17:56 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Robert Yang <liezhi.yang@windriver.com>
-Subject: [PATCH 03/15] clutter: Clean up old recipes
+Subject: [PATCH 08/15] Add pidofproc to ${sysconfdir}/init.d/functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,146 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 08:26:52 -0000
+X-List-Received-Date: Wed, 18 May 2011 08:26:53 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-clutter-1.4 is moved to meta-extras
-clutter-box2d is migrated to latest 1.6 version
+Add pidofproc to ${sysconfdir}/init.d/functions, this is used for
+getting the pid of the process. It uses pidof to implement currently, it
+may also use the pidfile or ps to implement in the future.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-graphics/clutter/clutter-1.4_1.4.2.bb |   25 --------------------
- meta/recipes-graphics/clutter/clutter-box2d_git.bb |    4 +-
- .../clutter/clutter-gst-1.4/enable_tests.patch     |   15 ------------
- .../clutter/clutter-gst-1.4_git.bb                 |   19 ---------------
- .../clutter/clutter-gtk-1.4_git.bb                 |   18 --------------
- 5 files changed, 2 insertions(+), 79 deletions(-)
- delete mode 100644 meta/recipes-graphics/clutter/clutter-1.4_1.4.2.bb
- delete mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.4/enable_tests.patch
- delete mode 100644 meta/recipes-graphics/clutter/clutter-gst-1.4_git.bb
- delete mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.4_git.bb
+ .../initscripts/initscripts-1.0/functions          |   32 ++++++++++++++++++-
+ 1 files changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-1.4_1.4.2.bb b/meta/recipes-graphics/clutter/clutter-1.4_1.4.2.bb
-deleted file mode 100644
-index b736846..0000000
---- a/meta/recipes-graphics/clutter/clutter-1.4_1.4.2.bb
-+++ /dev/null
-@@ -1,25 +0,0 @@
--require clutter.inc
--
--PR = "r1"
--
--PACKAGES =+ "${PN}-examples"
--FILES_${PN}-examples = "${bindir}/test-* ${pkgdatadir}/redhand.png"
--
--SRC_URI = "http://source.clutter-project.org/sources/clutter/1.4/clutter-${PV}.tar.bz2 \
--           file://enable_tests-1.4.patch;patch=1 \
--           file://test-conformance-fix.patch;patch=1 "
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
--S = "${WORKDIR}/clutter-1.4.2"
--
--BASE_CONF += "--disable-introspection"
--
--EXTRA_OECONF += "--with-json=check"
--
--do_configure_prepend () {
--	# Disable DOLT
--	sed -i -e 's/^DOLT//' ${S}/configure.ac
--}
--
--SRC_URI[md5sum] = "5a3c6d8414d4e286aba0a936f344c9b1"
--SRC_URI[sha256sum] = "92fd67acce5105c933e54ad0c87d0f5ace1202fd0f87949cb49a3759e6e38892"
-diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-index 7671530..4c1c003 100644
---- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-+++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-@@ -2,7 +2,7 @@ require clutter-box2d.inc
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/functions b/meta/recipes-core/initscripts/initscripts-1.0/functions
+index ac99e11..c1eac3e 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/functions
++++ b/meta/recipes-core/initscripts/initscripts-1.0/functions
+@@ -3,6 +3,35 @@
+ # functions     This file contains functions to be used by most or all
+ #               shell scripts in the /etc/init.d directory.
+ #
++# NOTE: The pidofproc () doesn't support the process which is a script unless
++#       the pidof supports "-x" option. If you want to use it for such a
++#       process:
++#       1) If there is no "pidof -x", replace the "pidof $1" with another
++#          command like(for core-image-minimal):
++#            ps | awk '/'"$1"'/ {print $1}'
++#       Or
++#       2) If there is "pidof -x", replace "pidof" with "pidof -x".
++#
++# pidofproc - print the pid of a process
++# $1: the name of the process
++pidofproc () {
++
++	# pidof output null when no program is running, so no "2>/dev/null".
++	pid=`pidof $1`
++	case $? in
++	0)
++		echo $pid
++		return 0
++		;;
++	127)
++		echo "ERROR: command pidof not found" >&2
++		exit 127
++		;;
++	*)
++		return $?
++		;;
++	esac
++}
  
- LIC_FILES_CHKSUM = "file://box2d/License.txt;md5=e5d39ad91f7dc4692dcdb1d85139ec6b"
+ machine_id() { # return the machine ID
+ 	awk 'BEGIN { FS=": " } /Hardware/ \
+@@ -10,6 +39,5 @@ machine_id() { # return the machine ID
+ }
  
--SRCREV = "92b44f79a8667a31b46b861236392bdf32b7d6c2"
-+SRCREV = "4799ac10ae8cb7da936a2b999aba58fe62eb1ee3"
- PV = "0.10.1+git${SRCPV}"
- PR = "r0"
- 
-@@ -10,4 +10,4 @@ SRC_URI = "git://git.clutter-project.org/clutter-box2d.git;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
--DEPENDS += "clutter-1.4"
-+DEPENDS += "clutter-1.6"
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-1.4/enable_tests.patch b/meta/recipes-graphics/clutter/clutter-gst-1.4/enable_tests.patch
-deleted file mode 100644
-index f1f68ac..0000000
---- a/meta/recipes-graphics/clutter/clutter-gst-1.4/enable_tests.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--Install example binary needed for core-image-clutter
--
--Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
--Index: git/examples/Makefile.am
--===================================================================
----- git.orig/examples/Makefile.am	2011-05-04 14:07:21.000000000 -0700
--+++ git/examples/Makefile.am	2011-05-04 14:24:38.625984314 -0700
--@@ -1,6 +1,6 @@
-- NULL = #
-- 
---noinst_PROGRAMS = video-player video-sink audio-player
--+bin_PROGRAMS = video-player video-sink audio-player
-- 
-- INCLUDES = -I$(top_srcdir) \
-- 	   $(MAINTAINER_CFLAGS) \
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-1.4_git.bb b/meta/recipes-graphics/clutter/clutter-gst-1.4_git.bb
-deleted file mode 100644
-index 1ab867d..0000000
---- a/meta/recipes-graphics/clutter/clutter-gst-1.4_git.bb
-+++ /dev/null
-@@ -1,19 +0,0 @@
--require clutter-gst.inc
--
--SRCREV = "8a087fabc888a6a4a939760c392109dbb610adbf"
--PV = "1.3.4+git${SRCPV}"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
--                    file://clutter-gst/clutter-gst.h;beginline=1;endline=24;md5=3275ae5179d58dccf8852cdad3a44574"
--
--DEPENDS += "clutter-1.4"
--
--SRC_URI = "git://git.clutter-project.org/clutter-gst.git;protocol=git;branch=master \
--           file://enable_tests-1.4.patch"
--
--S = "${WORKDIR}/git"
--
--do_configure_prepend () {
--       # Disable DOLT
--       sed -i -e 's/^DOLT//' ${S}/configure.ac
--}
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk-1.4_git.bb b/meta/recipes-graphics/clutter/clutter-gtk-1.4_git.bb
-deleted file mode 100644
-index 12822c0..0000000
---- a/meta/recipes-graphics/clutter/clutter-gtk-1.4_git.bb
-+++ /dev/null
-@@ -1,18 +0,0 @@
--require clutter-gtk.inc
--
--SRCREV = "b92329c4c1288019e2dea6567e2b5e98eb0a9992"
--PV = "0.90.0+git${SRCPV}"
--PR = "r0"
--
--SRC_URI =  "git://git.clutter-project.org/clutter-gtk.git;protocol=git;branch=master \
--           file://disable_deprecated.patch \
--           file://enable_tests.patch \
--           "
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
--
--S = "${WORKDIR}/git"
--
--DEPENDS += "clutter-1.4"
--
--EXTRA_OECONF += "--disable-introspection"
+ killproc() { # kill the named process(es)
+-	pid=`/bin/pidof $1`
+-	[ "$pid" != "" ] && kill $pid
++	pid=`pidofproc $1` && kill $pid
+ }
 -- 
 1.7.3.4
 
