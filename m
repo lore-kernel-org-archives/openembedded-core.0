@@ -1,23 +1,23 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QMpFz-0003uj-8i
+	(envelope-from <sgw@linux.intel.com>) id 1QMpG0-0003ul-DF
 	for openembedded-core@lists.openembedded.org;
 	Thu, 19 May 2011 00:30:20 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 May 2011 15:27:22 -0700
+	by orsmga101.jf.intel.com with ESMTP; 18 May 2011 15:27:23 -0700
 X-ExtLoop1: 1
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.160])
 	by orsmga002.jf.intel.com with ESMTP; 18 May 2011 15:27:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2011 15:26:44 -0700
-Message-Id: <bbe950b26d267d333a0794fa9d302edb75194449.1305756950.git.sgw@linux.intel.com>
+Date: Wed, 18 May 2011 15:26:45 -0700
+Message-Id: <d63da1d695d792339ef4668919b9612df3e3b9c0.1305756950.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <fc7402495a8a30b203d5535e73383bc4412e2a1f.1305756950.git.sgw@linux.intel.com>
 References: <fc7402495a8a30b203d5535e73383bc4412e2a1f.1305756950.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305756950.git.sgw@linux.intel.com>
 References: <cover.1305756950.git.sgw@linux.intel.com>
-Subject: [PATCH 15/30] create-pull-request: alphabetize arguments
+Subject: [PATCH 16/30] create-pull-request: whitespace cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,47 +36,125 @@ X-List-Received-Date: Wed, 18 May 2011 22:30:20 -0000
 
 From: Darren Hart <dvhart@linux.intel.com>
 
-Some initial cleanup prior to a significant overhaul.
+Indent with tabs, not spaces, to be consistent with other bash scripts.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 Cc: Otavio Salvador <otavio@ossystems.com.br>
 ---
- scripts/create-pull-request |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+ scripts/create-pull-request |   78 +++++++++++++++++++++---------------------
+ 1 files changed, 39 insertions(+), 39 deletions(-)
 
 diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 784b48c..658b9c2 100755
+index 658b9c2..b911a64 100755
 --- a/scripts/create-pull-request
 +++ b/scripts/create-pull-request
-@@ -10,14 +10,14 @@ usage() {
- CMD=$(basename $0)
- cat <<EOM
- Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -b contrib_branch
-+  -b contrib_branch   Branch-name in the $PULL_URL
-   -h                  Display this help message
--  -o output_dir       Specify the output directory for the messages (default: pull-PID)
-+  -i commit_id        Ending commit (default: HEAD)
-   -m msg_body_file    The file containing a blurb to be inserted into the summary email
-+  -o output_dir       Specify the output directory for the messages (default: pull-PID)
-+  -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
-   -r relative_to      Starting commit (default: master)
--  -i commit_id        Ending commit (default: HEAD)
--  -b contrib_branch   Branch-name in the $PULL_URL
-   -s subject          The subject to be inserted into the summary email
--  -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
- 
-  Examples:
-    $CMD -b nitin/basic
-@@ -28,7 +28,7 @@ EOM
- }
+@@ -29,42 +29,42 @@ EOM
  
  # Parse and validate arguments
--while getopts "b:hi:m:o:r:s:p:" OPT; do
-+while getopts "b:hi:m:o:p:r:s:" OPT; do
-     case $OPT in
-     b)
-         CONTRIB_BRANCH="$OPTARG"
+ while getopts "b:hi:m:o:p:r:s:" OPT; do
+-    case $OPT in
+-    b)
+-        CONTRIB_BRANCH="$OPTARG"
+-        ;;
+-    h)
+-        usage
+-        exit 0
+-        ;;
+-    i)
+-        COMMIT_ID="$OPTARG"
+-        ;;
+-    m)
+-        BODY="$OPTARG"
+-        if [ ! -e "$BODY" ]; then
+-            echo "ERROR: Body file does not exist"
+-            exit 1
+-        fi
+-        ;;
+-    o)
+-        ODIR="$OPTARG"
+-        ;;
+-    p)
+-        PREFIX="$OPTARG"
+-        ;;
+-    r)
+-        RELATIVE_TO="$OPTARG"
+-        ;;
+-    s)
+-        SUBJECT="$OPTARG"
+-        ;;
+-    esac
++	case $OPT in
++	b)
++		CONTRIB_BRANCH="$OPTARG"
++		;;
++	h)
++		usage
++		exit 0
++		;;
++	i)
++		COMMIT_ID="$OPTARG"
++		;;
++	m)
++		BODY="$OPTARG"
++		if [ ! -e "$BODY" ]; then
++			echo "ERROR: Body file does not exist"
++			exit 1
++		fi
++		;;
++	o)
++		ODIR="$OPTARG"
++		;;
++	p)
++		PREFIX="$OPTARG"
++		;;
++	r)
++		RELATIVE_TO="$OPTARG"
++		;;
++	s)
++		SUBJECT="$OPTARG"
++		;;
++	esac
+ done
+ 
+ if [ -z "$CONTRIB_BRANCH" ]; then
+-    usage
+-    exit 1
++	usage
++	exit 1
+ fi
+ 
+ 
+@@ -73,9 +73,9 @@ fi
+ WEB_URL="$WEB_URL_PREFIX$CONTRIB_BRANCH"
+ wget -q $WEB_URL -O /dev/null
+ if [ $? -ne 0 ]; then
+-    echo "WARNING: Branch '$CONTRIB_BRANCH' was not found on the contrib git tree."
+-    echo "         Please check your contrib-branch parameter before sending."
+-    echo ""
++	echo "WARNING: Branch '$CONTRIB_BRANCH' was not found on the contrib git tree."
++	echo "         Please check your contrib-branch parameter before sending."
++	echo ""
+ fi
+ 
+ if [ -e $ODIR ]; then
+@@ -107,13 +107,13 @@ EOM
+ # If the user specified a message body, insert it into the cover letter and
+ # remove the BLURB token.
+ if [ -n "$BODY" ]; then
+-    sed -i "/BLURB HERE/ r $BODY" "$CL"
+-    sed -i "/BLURB HERE/ d" "$CL"
++	sed -i "/BLURB HERE/ r $BODY" "$CL"
++	sed -i "/BLURB HERE/ d" "$CL"
+ fi
+ 
+ # If the user specified a subject, replace the SUBJECT token with it.
+ if [ -n "$SUBJECT" ]; then
+-    sed -i -e "s/\*\*\* SUBJECT HERE \*\*\*/$SUBJECT/" "$CL"
++	sed -i -e "s/\*\*\* SUBJECT HERE \*\*\*/$SUBJECT/" "$CL"
+ fi
+ 
+ 
 -- 
 1.7.3.4
 
