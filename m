@@ -1,24 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1QMjjx-0004qY-E0
+	(envelope-from <raj.khem@gmail.com>) id 1QMjqO-0004xP-1K
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 18:36:59 +0200
-Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
-	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4IGX8HK015331;
-	Wed, 18 May 2011 09:33:10 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Wed, 18 May 2011 12:33:01 -0400
-Message-Id: <571a38c8159faa54135bc73a485567462e87de75.1305736112.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1305736112.git.bruce.ashfield@windriver.com>
-References: <cover.1305736112.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1305736112.git.bruce.ashfield@windriver.com>
-References: <cover.1305736112.git.bruce.ashfield@windriver.com>
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: [PATCH 2/2] linux-yocto/meta-yocto: fix gcc 4.6.0 compilation failures
+	Wed, 18 May 2011 18:43:32 +0200
+Received: by ewy5 with SMTP id 5so523169ewy.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 May 2011 09:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:content-transfer-encoding;
+	bh=dth1BhMruKa0vT7OSopoC6DZslFjw2+tYbP0b17Bqgs=;
+	b=xBbiK9/YllzulI9iiOPHuTplTSJwu3g+QOCST1GbMUZfaly9+vZ0J5wv2ucw+rhMRn
+	p4ifP+UVVdLuX2dJ1Du2nVv4ICqlPUjxTrAXBrKVuh1CnGYjxfdqfocBHcNl4gGnfe0v
+	/UIT2nKUHOnDh0hcyCyvba1SfXvxY2BpyDZZs=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	b=J/6R3uMSMqk5uCy6Pjw3IfAcT/woCNtkRI0hgBUb/wl8cLo5FZfYncptWEPv70DqDM
+	Jow5ubauB0vJwPioN9jdZmXGoA11RiLISG8+Lfl58VCiNf1cAB0szJc1SwHmc6vQt7dY
+	8+B4QWpBrisFgMhgdo4YaabgSlUmTDhoKTnCM=
+Received: by 10.14.11.203 with SMTP id 51mr677175eex.204.1305736837098; Wed,
+	18 May 2011 09:40:37 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.53.78 with HTTP; Wed, 18 May 2011 09:40:04 -0700 (PDT)
+In-Reply-To: <1305734038.18415.108.camel@lenovo.internal.reciva.com>
+References: <cover.1305665459.git.raj.khem@gmail.com>
+	<cc2e6337ae338737455bf63bd43278dee302fb5c.1305665459.git.raj.khem@gmail.com>
+	<1305734038.18415.108.camel@lenovo.internal.reciva.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 18 May 2011 09:40:04 -0700
+Message-ID: <BANLkTikiNW0UEfLM_UtKeekTcrW5UNNfUA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] default-distrovars.inc, task-core-boot.bb: Create distro overridable varibales
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,60 +47,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 16:36:59 -0000
+X-List-Received-Date: Wed, 18 May 2011 16:43:32 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Fixes gcc 4.6.0 compliation issues by importing the upstream change:
+On Wed, May 18, 2011 at 8:53 AM, Phil Blundell <pb@pbcl.net> wrote:
+> On Tue, 2011-05-17 at 13:57 -0700, Khem Raj wrote:
+>> With default-setup being pulled in via bitbake.conf and task-core-boot
+>> being pulled into all images in distros, we need
+>> to have some variables that distro's can override if need be
+>> This is a backport from angstrom/OE. It will help distros which
+>> e.g. would like to use busybox-mdev instead of udev and similarly
+>> for login manager these variables can be defined in distro policies
+>
+> I'm not massively convinced that this proliferation of extra switches is
+> a very good thing. =C2=A0With each DISTRO now having its own layer, it's
+> quite straightforward for it to provide its own customised rootfs
+> recipes which contain exactly the set of packages that it wants. =C2=A0Tr=
+ying
+> to create a sort of "generic" rootfs recipe in which every other
+> dependency can be tweaked by some obscure variable doesn't seem like an
+> especially productive way to proceed.
+>
 
-    Author: Michal Marek <mmarek@suse.cz>
-    Date:   Mon May 2 12:13:01 2011 +0000
+Problem I have is, I dont want udev in RDEPENDS which is added by
+task-core-boot
+and task-core-boot is added to DISTRO_EXTRA_RDEPENDS through
+default-distrovars.inc -> defaultsetup.conf -> bitbake.conf
 
-        kbuild: Fix passing -Wno-* options to gcc 4.4+
+and my distro adds DISTRO_EXTRA_RDEPENDS to its RDEPENDS
+as I think the variable is meant for distro's to define some extra
+stuff if needed.
 
-        Starting with 4.4, gcc will happily accept -Wno-<anything> in the
-        cc-option test and complain later when compiling a file that has some
-        other warning. This rather unexpected behavior is intentional as per
-        http://gcc.gnu.org/PR28322, so work around it by testing for support of
-        the opposite option (without the no-). Introduce a new Makefile function
-        cc-disable-warning that does this and update two uses of cc-option in
-        the toplevel Makefile.
+How should I solve this problem ?
 
-        Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-        Signed-off-by: Michal Marek <mmarek@suse.cz>
-        Tested-by: Stephen Rothwell <sfr@canb.auug.org.au>
-        Integrated-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-    :100644 100644 0ef00bd... 1d8e7e9... M  Documentation/kbuild/makefiles.txt
-    :100644 100644 7bd863e0.. 74bac80... M  Makefile
-    :100644 100644 ed2773e... ba25c44... M  scripts/Kbuild.include
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- .../recipes-kernel/linux/linux-yocto_git.bbappend  |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend b/meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend
-index 052831d..e053fe9 100644
---- a/meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend
-+++ b/meta-yocto/recipes-kernel/linux/linux-yocto_git.bbappend
-@@ -3,11 +3,11 @@ KMACHINE_routerstationpro = "yocto/standard/routerstationpro"
- KMACHINE_mpc8315e-rdb = "yocto/standard/fsl-mpc8315e-rdb"
- KMACHINE_beagleboard = "yocto/standard/beagleboard"
- 
--SRCREV_machine_emenlow = "c3bbcb676f929c4fc0511a6e66494b8770d015a1"
--SRCREV_machine_atom-pc = "b906f358fd404a1e74a961f25079274e0d933ee1"
--SRCREV_machine_routerstationpro = "95ca94d2e71ca2db6822a37a7f575fa79c3d05d0"
--SRCREV_machine_mpc8315e-rdb = "53c800c244e73d81d2832f6da306eeae3b09e5dc"
--SRCREV_machine_beagleboard = "b906f358fd404a1e74a961f25079274e0d933ee1"
-+SRCREV_machine_emenlow = "5d0d346c0e4b2d837cd98dccbf043f1988e2058a"
-+SRCREV_machine_atom-pc = "79d6188d99bdf63da9a0ba27c010792266e337f9"
-+SRCREV_machine_routerstationpro = "d6aadb767fdcbb9886c430e90b92f49cd3a9ddcc"
-+SRCREV_machine_mpc8315e-rdb = "e5c67f6a64b8b7393ca3a9c80b3ac197be0a8d5f"
-+SRCREV_machine_beagleboard = "e53debfc6896bb89174ebb74154ed9b3bc72b59c"
- 
- COMPATIBLE_MACHINE_mpc8315e-rdb = "mpc8315e-rdb"
- COMPATIBLE_MACHINE_routerstationpro = "routerstationpro"
--- 
-1.7.0.4
-
+> Also, any new variable which is added to default-distrovars.inc will be
+> included in the parsed metadata for everything and, although the
+> marginal cost (in memory/performance terms) of adding one extra global
+> variable is not that great, it's not zero either. =C2=A0Perhaps more
+> significantly, there is also a cost in terms of metadata
+> comprehensibility: one of the common complaints about "classic oe" was
+> that it was difficult to get your head around the myriad little
+> variables that you could tweak in some or other configuration file.
+>
+> So, all in all, I think we should try to keep a lid on the amount of
+> stuff that goes into default-distrovars and its friends. =C2=A0If the ide=
+a of
+> a sort of templated rootfs image really seems like a valuable one then
+> maybe we could put those vars in a dedicated config file which is only
+> included by the rootfs recipes.
+>
+> p.
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
