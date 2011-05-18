@@ -1,23 +1,23 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QMpFz-0003uu-3v
+	(envelope-from <sgw@linux.intel.com>) id 1QMpFz-0003uj-8i
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 00:30:19 +0200
+	Thu, 19 May 2011 00:30:20 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 May 2011 15:27:21 -0700
+	by orsmga101.jf.intel.com with ESMTP; 18 May 2011 15:27:22 -0700
 X-ExtLoop1: 1
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.160])
-	by orsmga002.jf.intel.com with ESMTP; 18 May 2011 15:27:21 -0700
+	by orsmga002.jf.intel.com with ESMTP; 18 May 2011 15:27:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2011 15:26:42 -0700
-Message-Id: <6120cf003d616b12d150a49938dc7073b909d59e.1305756950.git.sgw@linux.intel.com>
+Date: Wed, 18 May 2011 15:26:44 -0700
+Message-Id: <bbe950b26d267d333a0794fa9d302edb75194449.1305756950.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <fc7402495a8a30b203d5535e73383bc4412e2a1f.1305756950.git.sgw@linux.intel.com>
 References: <fc7402495a8a30b203d5535e73383bc4412e2a1f.1305756950.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305756950.git.sgw@linux.intel.com>
 References: <cover.1305756950.git.sgw@linux.intel.com>
-Subject: [PATCH 13/30] usbutils: Update to 0.91
+Subject: [PATCH 15/30] create-pull-request: alphabetize arguments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,30 +34,49 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 18 May 2011 22:30:20 -0000
 
-Also move the upstream location to kernel.org
+From: Darren Hart <dvhart@linux.intel.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Some initial cleanup prior to a significant overhaul.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../{usbutils_0.86.bb => usbutils_0.91.bb}         |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
- rename meta/recipes-bsp/usbutils/{usbutils_0.86.bb => usbutils_0.91.bb} (91%)
+ scripts/create-pull-request |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-bsp/usbutils/usbutils_0.86.bb b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
-similarity index 91%
-rename from meta/recipes-bsp/usbutils/usbutils_0.86.bb
-rename to meta/recipes-bsp/usbutils/usbutils_0.91.bb
-index 239de24..db04253 100644
---- a/meta/recipes-bsp/usbutils/usbutils_0.86.bb
-+++ b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
-@@ -11,7 +11,7 @@ DEPENDS = "libusb zlib"
- RDEPENDS_${PN} = "${PN}-ids"
- PR = "r1"
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 784b48c..658b9c2 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -10,14 +10,14 @@ usage() {
+ CMD=$(basename $0)
+ cat <<EOM
+ Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -b contrib_branch
++  -b contrib_branch   Branch-name in the $PULL_URL
+   -h                  Display this help message
+-  -o output_dir       Specify the output directory for the messages (default: pull-PID)
++  -i commit_id        Ending commit (default: HEAD)
+   -m msg_body_file    The file containing a blurb to be inserted into the summary email
++  -o output_dir       Specify the output directory for the messages (default: pull-PID)
++  -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
+   -r relative_to      Starting commit (default: master)
+-  -i commit_id        Ending commit (default: HEAD)
+-  -b contrib_branch   Branch-name in the $PULL_URL
+   -s subject          The subject to be inserted into the summary email
+-  -p prefix           Use [prefix N/M] instead of [PATCH N/M] as the subject prefix
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/linux-usb/usbutils-${PV}.tar.gz"
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils-${PV}.tar.gz"
+  Examples:
+    $CMD -b nitin/basic
+@@ -28,7 +28,7 @@ EOM
+ }
  
- SRC_URI[md5sum] = "34979f675d2bcb3e1b45012fa830a53f"
- SRC_URI[sha256sum] = "b3b2bea6d2cd87660c8201a47071bf2a9889d8ed90c7203cc768b597799c12f4"
+ # Parse and validate arguments
+-while getopts "b:hi:m:o:r:s:p:" OPT; do
++while getopts "b:hi:m:o:p:r:s:" OPT; do
+     case $OPT in
+     b)
+         CONTRIB_BRANCH="$OPTARG"
 -- 
 1.7.3.4
 
