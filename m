@@ -1,38 +1,35 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QMhBK-0001dL-Vg
+	(envelope-from <bruce.ashfield@gmail.com>) id 1QMhO4-0002BB-Cd
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 15:52:59 +0200
-Received: by bwz5 with SMTP id 5so1623659bwz.6
+	Wed, 18 May 2011 16:06:10 +0200
+Received: by gxk3 with SMTP id 3so586506gxk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 06:50:04 -0700 (PDT)
+	Wed, 18 May 2011 07:03:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=MXVGExrYngKx0rMq9cpcIo/8pfIRSrVa6SmWvk5qciw=;
-	b=IgpuXQVspXJFgt1rtXsdrwVBuy2ukoP2zRwZH7Dj7aQ80aEkIk16O+A5p5ChJq0wcG
-	8qR6mF7xRbAPI6+Eii554eYK8/9jlIdry+CnKnNBtMcWIFFaKFXVOvxP2n9LR2OwtlBl
-	X7l1znk+hzgmGKJBXU+MGR86d7yj7FudsQs1c=
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type:content-transfer-encoding;
+	bh=0LsA8riPw0pqlTodN1/N5Jl4oYLRsL+Akt3fnXrmbw4=;
+	b=mS7lPhxxb9W1lHS3I4ugKstGqJgak8SNp4UDNiQTscK66+D5sUJ0Sq67zozu0tDVAh
+	ZS95VY6i9Hu5NxIBe7N7pKpPyb8b1z8AGS2LCrGSoOhWP//ShlqrvtV8inuCo9bb/X13
+	l8rEYBE9Zc+qb31whncb1ViueDuP1/0Mcn/Ro=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	b=WzgDFzmdKmH8kmr8ATDdP583dZG3NWPr5TPEI/zoZlDI8tob+dSonREX64Vei/khbq
-	rSK43489p67xYvJKxdznGY6Axn7uYwTIIcRviK9c1TdzqmVBabSN5RUUXAA8Nu5AWicN
-	sOuTvmoSEikVWu9SdVzSOUJ7sDUpppmm+Eum8=
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	b=kE+XC4W+ESdiF4ylDsOvkVdpGNcS3Qexa9C5k26x92g32IsM7KxE1NimGCo2I2l7o2
+	Dx23+7lUkF0P1EMZUlx7mBEI/+4aF6qvcx11s9sDTWhJbho65m8Os41p/MN5r2tuvPt3
+	ffa7Y1EglQEuYC9FoMeO0WasybrbTwi5EJdWg=
 MIME-Version: 1.0
-Received: by 10.204.138.205 with SMTP id b13mr2009369bku.27.1305726603677;
-	Wed, 18 May 2011 06:50:03 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.79.70 with HTTP; Wed, 18 May 2011 06:50:03 -0700 (PDT)
-In-Reply-To: <1305725413.3424.316.camel@rex>
+Received: by 10.91.47.1 with SMTP id z1mr1503767agj.22.1305727391322; Wed, 18
+	May 2011 07:03:11 -0700 (PDT)
+Received: by 10.90.7.20 with HTTP; Wed, 18 May 2011 07:03:11 -0700 (PDT)
+In-Reply-To: <BANLkTimZ4JWUnxC54mHKWiqWozmaodxsGA@mail.gmail.com>
 References: <cover.1305702436.git.sgw@linux.intel.com>
 	<1305725413.3424.316.camel@rex>
-Date: Wed, 18 May 2011 10:50:03 -0300
-X-Google-Sender-Auth: WR1Ljh-HUYua4TpreXOWx0JgjpI
-Message-ID: <BANLkTimZ4JWUnxC54mHKWiqWozmaodxsGA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	<BANLkTimZ4JWUnxC54mHKWiqWozmaodxsGA@mail.gmail.com>
+Date: Wed, 18 May 2011 10:03:11 -0400
+Message-ID: <BANLkTik2wSMqoOsZ2Xo6Ug0sqHWO-MYsFA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/15] 18-May-2011 Consolidated Pull
@@ -50,34 +47,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 13:52:59 -0000
+X-List-Received-Date: Wed, 18 May 2011 14:06:10 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 18, 2011 at 10:30, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2011-05-18 at 01:17 -0700, Saul Wold wrote:
->> This requests includes the removal of clutter, yaffs and older
->> gcc version, along with the GCC 4.6 Update for x86 and arm.
+On Wed, May 18, 2011 at 9:50 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> On Wed, May 18, 2011 at 10:30, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Wed, 2011-05-18 at 01:17 -0700, Saul Wold wrote:
+>>> This requests includes the removal of clutter, yaffs and older
+>>> gcc version, along with the GCC 4.6 Update for x86 and arm.
+>>>
+>>> There is the start of the meta-skeleton layer, which I believe
+>>> we want to be part of oe-core for solid examples to developers.
+>>>
+>>> As of this writing there is a problem with perl which I think a
+>>> change to the utils.bbclass might fix (adding readlink -fn $0), but
+>>> I am still testing this.
 >>
->> There is the start of the meta-skeleton layer, which I believe
->> we want to be part of oe-core for solid examples to developers.
->>
->> As of this writing there is a problem with perl which I think a
->> change to the utils.bbclass might fix (adding readlink -fn $0), but
->> I am still testing this.
+>> I merged this with the exception of the change to gcc 4.6 by default.
+>> I'm a little hesitant to make that switch until a few more people have
+>> tried using it (e.g. I noticed Bruce was having problems yesterday).
 >
-> I merged this with the exception of the change to gcc 4.6 by default.
-> I'm a little hesitant to make that switch until a few more people have
-> tried using it (e.g. I noticed Bruce was having problems yesterday).
+> His problems where fixed dropping sstate-cache.
 
-His problems where fixed dropping sstate-cache.
+This was my solution, and that seems to have fixed things. So I'd
+be comfortable saying that gcc 4.6.0 alone is fine, but if you switch
+to it with an existing sstate-cache .. some very non obvious things
+happen.
+
+Which would likely be something lurking in that cache code. I'll revisit
+it once I've sent out my gcc 4.6.0 kernel fixes.
+
+Cheers,
+
+Bruce
+
+>
+> --
+> Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0O.S. Systems
+> E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+> Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.oss=
+ystems.com.br
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+
 
 --=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
