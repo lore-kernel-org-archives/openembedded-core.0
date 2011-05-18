@@ -1,23 +1,23 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QMpG3-0003ul-0T
+	(envelope-from <sgw@linux.intel.com>) id 1QMpG4-0003uu-Aq
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 00:30:23 +0200
+	Thu, 19 May 2011 00:30:25 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 May 2011 15:27:26 -0700
+	by orsmga101.jf.intel.com with ESMTP; 18 May 2011 15:27:27 -0700
 X-ExtLoop1: 1
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.160])
-	by orsmga002.jf.intel.com with ESMTP; 18 May 2011 15:27:26 -0700
+	by orsmga002.jf.intel.com with ESMTP; 18 May 2011 15:27:27 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2011 15:26:53 -0700
-Message-Id: <a7394ee35306d57e0985f0981cb16183aa9ab82b.1305756950.git.sgw@linux.intel.com>
+Date: Wed, 18 May 2011 15:26:55 -0700
+Message-Id: <98d16afb5719d4fdb6a33d73db04578d1a428e0b.1305756950.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <fc7402495a8a30b203d5535e73383bc4412e2a1f.1305756950.git.sgw@linux.intel.com>
 References: <fc7402495a8a30b203d5535e73383bc4412e2a1f.1305756950.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305756950.git.sgw@linux.intel.com>
 References: <cover.1305756950.git.sgw@linux.intel.com>
-Subject: [PATCH 24/30] send-pull-request: verify git sendemail config
+Subject: [PATCH 26/30] create-pull-request: add GitHub remote support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,53 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 22:30:24 -0000
+X-List-Received-Date: Wed, 18 May 2011 22:30:27 -0000
 
-From: Darren Hart <dvhart@linux.intel.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 
-Perform a quick sanity check to be able to direct users to configure
-git.sendemail if they haven't yet.
-
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
 ---
- scripts/send-pull-request |   15 +++++++++++++++
- 1 files changed, 15 insertions(+), 0 deletions(-)
+ scripts/create-pull-request |    7 +++++++
+ 1 files changed, 7 insertions(+), 0 deletions(-)
 
-diff --git a/scripts/send-pull-request b/scripts/send-pull-request
-index 5a11d1f..21eb302 100755
---- a/scripts/send-pull-request
-+++ b/scripts/send-pull-request
-@@ -41,6 +41,18 @@ harvest_recipients()
- 	unset IFS
- }
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 9dbd55a..a9cf6f9 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -82,6 +82,10 @@ while getopts "b:chi:m:o:p:r:s:u:" OPT; do
+ 			REMOTE_REPO=$(echo $REMOTE_URL | sed "s#.*/\(.*\)#\1#")
+ 			REMOTE_URL=${REMOTE_URL/"ssh://git@"/"git://"}
+ 			;;
++		git@github.com:*)
++			REMOTE_REPO=$(echo $REMOTE_URL | sed 's#.*:\(.*\)\(\.git\)$#\1#')
++			REMOTE_URL=${REMOTE_URL/"git@github.com:"/"git://github.com/"}
++			;;
+ 		esac
+ 		# The .git suffix is optional in the URL, drop in for the REPO
+ 		REMOTE_REPO=${REMOTE_REPO%.git}
+@@ -107,6 +111,9 @@ case "$REMOTE_URL" in
+ 	*git.pokylinux.org*)
+ 		WEB_URL="http://git.pokylinux.org/cgit.cgi/$REMOTE_REPO/log/?h=$BRANCH"
+ 		;;
++	*github.com*)
++		WEB_URL="https://github.com/$REMOTE_REPO/tree/$BRANCH"
++		;;
+ esac
  
-+check_git_sendemail_config()
-+{
-+	GIT_SMTP=$(git config sendemail.smtpserver)
-+	GIT_FROM=$(git config sendemail.from)
-+	if [ -z "$GIT_SMTP" ] || [ -z "$GIT_FROM" ]; then
-+		echo "ERROR: git sendemail is not configured."
-+		echo "Please read GIT-SEND-EMAIL(1) and configure:"
-+		echo "  sendemail.smtpserver"
-+		echo "  sendemail.from"
-+		exit 1
-+	fi
-+}
- 
- # Parse and verify arguments
- while getopts "achp:t:" OPT; do
-@@ -74,6 +86,9 @@ while getopts "achp:t:" OPT; do
- 	esac
- done
- 
-+# Abort early if git-send-email is not properly configured
-+check_git_sendemail_config
-+
- if [ -z "$PDIR" ]; then
- 	echo "ERROR: you must specify a pull-dir."
- 	usage
+ # Perform a sanity test on the web URL. Issue a warning if it is not
 -- 
 1.7.3.4
 
