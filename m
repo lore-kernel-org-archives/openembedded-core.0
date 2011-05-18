@@ -1,24 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QMkRU-0005mc-Jf
+	(envelope-from <dvhart@linux.intel.com>) id 1QMkRV-0005lS-BU
 	for openembedded-core@lists.openembedded.org;
 	Wed, 18 May 2011 19:21:53 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 18 May 2011 10:18:55 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 18 May 2011 10:18:50 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,232,1304319600"; 
+   d="scan'208";a="4095385"
 Received: from unknown (HELO localhost) ([10.255.12.192])
-	by orsmga002.jf.intel.com with ESMTP; 18 May 2011 10:18:53 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 18 May 2011 10:18:49 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2011 10:18:29 -0700
-Message-Id: <15e64ac760b5d68d64e266f00b7481a0ea191e26.1305738598.git.dvhart@linux.intel.com>
+Date: Wed, 18 May 2011 10:18:25 -0700
+Message-Id: <ac637805a4eccc355d094f13b2225df9096cdb4f.1305738598.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <a1cda1da640a96baf3d45b7d4e9577b8b74efbd3.1305738598.git.dvhart@linux.intel.com>
 References: <a1cda1da640a96baf3d45b7d4e9577b8b74efbd3.1305738598.git.dvhart@linux.intel.com>
 In-Reply-To: <cover.1305738598.git.dvhart@linux.intel.com>
 References: <cover.1305738598.git.dvhart@linux.intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 09/15] send-pull-request: don't send all patches to everyone even with -a
+Cc: Paul Eggleton <paul.eggleton@intel.com>
+Subject: [PATCH 05/15] create-pull-request: provide an RFC mode via -c argument
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,173 +37,97 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 18 May 2011 17:21:53 -0000
 
-Rather than sending every patch to every recipient of the entire series when
--a is used, only send the cover letter to everyone and use git's
---signed-off-by-cc feature to generate an auto cc list for the individual
-patches.
+Currently it is difficult to know if a pull request is being sent for review
+or just to be pulled.
 
-Add a -c option to use --signed-off-by-cc to auto cc recipeients at the
-individual patch level. This is implied by -a.
-
-Using git to harvest the Cc list means only collecting Signed-off-by and Cc
-lines, rather than the more generic *-by lines previously. This is a fair
-trade-off for significantly reduced complexity. If users want to add Acked-by
-and Tested-by lines and want to use the -a feature, they should include those
-recipients as Cc lines as well.
-
-Now that we rely on git for auto-cc for the individual patches,
-make sure the user is prompted before sending each patch by forcing
---confirm=always.
+Add a -c argument to add RFC to the subject prefix and a blurb requesting
+review to the cover letter.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Acked-by: Joshua Lock <josh@linux.intel.com>
 Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Khem Raj <raj.khem@gmail.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Saul Wold <sgw@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@intel.com>
+Cc: Joshua Lock <josh@linux.intel.com>
 Cc: Otavio Salvador <otavio@ossystems.com.br>
 ---
- scripts/send-pull-request |   75 ++++++++++++++++++++++++++++-----------------
- 1 files changed, 47 insertions(+), 28 deletions(-)
+ scripts/create-pull-request |   24 ++++++++++++++++++++++--
+ 1 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/send-pull-request b/scripts/send-pull-request
-index b294d35..5a11d1f 100755
---- a/scripts/send-pull-request
-+++ b/scripts/send-pull-request
-@@ -1,36 +1,40 @@
- #!/bin/bash
- AUTO=0
-+AUTO_CL=0
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 429421b..202d99d 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -3,12 +3,14 @@ ODIR=pull-$$
+ RELATIVE_TO="master"
+ COMMIT_ID="HEAD"
+ PREFIX="PATCH"
++RFC=0
  
- # Prevent environment leakage to these vars.
- unset TO
- unset CC
-+unset AUTO_CC
- 
- usage()
- {
+ usage() {
+ CMD=$(basename $0)
  cat <<EOM
--Usage: $(basename $0) [-h] [-a] [[-t email]...] -p pull-dir 
--  -t email     Explicitly add email to the recipients
--  -a           Automatically harvest recipients from "*-by: email" lines
--               in the patches in the pull-dir
-+Usage: $(basename $0) [-h] [-a] [-c] [[-t email]...] -p pull-dir 
-+  -a           Send the cover letter to every recipient listed in Cc and
-+               Signed-off-by lines found in the cover letter and the patches.
-+	       This option implies -c.
-+  -c           Expand the Cc list for the individual patches using the Cc and
-+               Signed-off-by lines from the same patch.
-   -p pull-dir  Directory containing summary and patch files
-+  -t email     Explicitly add email to the recipients
- EOM
+ Usage: $CMD [-h] [-o output_dir] [-m msg_body_file] [-s subject] [-r relative_to] [-i commit_id] -u remote -b branch
+   -b branch           Branch name in the specified remote
++  -c                  Create an RFC (Request for Comment) patch series
+   -h                  Display this help message
+   -i commit_id        Ending commit (default: HEAD)
+   -m msg_body_file    The file containing a blurb to be inserted into the summary email
+@@ -27,11 +29,14 @@ EOM
  }
  
--# Collect To and CC addresses from the patch files if they exist
--# $1: Which header to add the recipients to, "TO" or "CC"
--# $2: The regex to match and strip from the line with email addresses
-+# Collect addresses from a patch into AUTO_CC
-+# $1: a patch file
- harvest_recipients()
- {
--	TO_CC=$1
--	REGX=$2
-+	PATCH=$1
- 	export IFS=$',\n'
--	for PATCH in $PDIR/*.patch; do
--		# Grab To addresses
-+	for REGX in "^[Cc][Cc]: *" "^[Ss]igned-[Oo]ff-[Bb]y: *"; do
- 		for EMAIL in $(sed '/^---$/q' $PATCH | grep -e "$REGX" | sed "s/$REGX//"); do
--			if [ "$TO_CC" == "TO" ] && [ "${TO/$EMAIL/}" == "$TO" ] && [ -n "$EMAIL" ]; then
--				if [ -z "$TO" ]; then TO=$EMAIL; else TO="$TO,$EMAIL"; fi
--			elif [ "$TO_CC" == "CC" ] && [ "${CC/$EMAIL/}" == "$CC" ] && [ -n "$EMAIL" ]; then
--				if [ -z "$CC" ]; then CC=$EMAIL; else CC="$CC,$EMAIL"; fi
-+			if [ "${AUTO_CC/$EMAIL/}" == "$AUTO_CC" ] && [ -n "$EMAIL" ]; then
-+				if [ -z "$AUTO_CC" ]; then
-+					AUTO_CC=$EMAIL;
-+				else
-+					AUTO_CC="$AUTO_CC,$EMAIL";
-+				fi
- 			fi
- 		done
- 	done
-@@ -39,9 +43,13 @@ harvest_recipients()
- 
- 
- # Parse and verify arguments
--while getopts "ahp:t:" OPT; do
-+while getopts "achp:t:" OPT; do
+ # Parse and validate arguments
+-while getopts "b:hi:m:o:p:r:s:u:" OPT; do
++while getopts "b:chi:m:o:p:r:s:u:" OPT; do
  	case $OPT in
- 	a)
-+		AUTO_CL=1
-+		AUTO=1
-+		;;
-+	c)
- 		AUTO=1
+ 	b)
+ 		BRANCH="$OPTARG"
  		;;
++	c)
++		RFC=1
++		;;
  	h)
-@@ -84,13 +92,11 @@ for TOKEN in SUBJECT BLURB; do
- done
- 
- 
--# Harvest emails from the generated patches and populate the TO and CC variables
--# In addition to To and CC headers/lines, the common Signed-off-by, Tested-by,
--# etc. (*-by) will be added to CC.
--if [ $AUTO -eq 1 ]; then
--	harvest_recipients TO "^[Tt][Oo]: *"
--	harvest_recipients CC "^[Cc][Cc]: *"
--	harvest_recipients CC "^[A-Z][A-Za-z-]*-[Bb][Yy]: *"
-+# Harvest emails from the generated patches and populate AUTO_CC.
-+if [ $AUTO_CL -eq 1 ]; then
-+	for PATCH in $PDIR/*.patch; do
-+		harvest_recipients $PATCH
-+	done
- fi
- 
- AUTO_TO="$(git config sendemail.to)"
-@@ -102,7 +108,7 @@ if [ -n "$AUTO_TO" ]; then
- 	fi
- fi
- 
--if [ -z "$TO" ] && [ -z "$CC" ]; then
-+if [ -z "$TO" ] && [ -z "$AUTO_CC" ]; then
- 	echo "ERROR: you have not specified any recipients."
- 	usage
+ 		usage
+ 		exit 0
+@@ -89,6 +94,10 @@ if [ -z "$BRANCH" ] || [ -z "$REMOTE_URL" ]; then
  	exit 1
-@@ -114,7 +120,8 @@ cat <<EOM
- The following patches:
- $(for PATCH in $PDIR/*.patch; do echo "    $PATCH"; done)
+ fi
  
--will now be sent via the git send-email command.
-+will now be sent via the git send-email command. Git will prompt you before
-+sending any email.
++if [ $RFC -eq 1 ]; then
++	PREFIX="RFC $PREFIX"
++fi
++
  
- EOM
- echo "Continue? [y/N] "
-@@ -124,11 +131,23 @@ if [ "$cont" == "y" ] || [ "$cont" == "Y" ]; then
- 	ERROR=0
- 	export IFS=$','
- 	GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
--	GIT_CC=$(for R in $CC; do echo -n "--cc='$R' "; done)
-+	GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
- 	unset IFS
- 	for PATCH in $PDIR/*patch; do
--		# We harvest the emails manually, so force git not to.
--		eval "git send-email $GIT_TO $GIT_CC --no-chain-reply-to --suppress-cc=all $PATCH"
-+		if [ $AUTO -eq 1 ]; then
-+			if [ $PATCH == "$CL" ] && [ $AUTO_CL -eq 1 ]; then
-+				# Send the cover letter to every recipient, both
-+				# specified as well as harvested.
-+				eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
-+			else
-+				# Send the patch to the specified recipients and
-+				# those git finds in this specific patch.
-+				eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --signed-off-by-cc $PATCH"
-+			fi
-+		else
-+			# Only send to the explicitly specified recipients
-+			eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
-+		fi
- 		if [ $? -eq 1 ]; then
- 			ERROR=1
- 		fi
+ # Set WEB_URL from known remotes
+ case "$REMOTE_URL" in
+@@ -125,7 +134,7 @@ git format-patch -M --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --co
+ # Customize the cover letter
+ CL="$ODIR/0000-cover-letter.patch"
+ PM="$ODIR/pull-msg"
+-git request-pull $RELATIVE_TO $REMOTE_URL $COMMIT_ID > "$PM"
++git request-pull $RELATIVE_TO $REMOTE_URL $COMMIT_ID >> "$PM"
+ if [ $? -ne 0 ]; then
+ 	echo "ERROR: git request-pull reported an error"
+ 	exit 1
+@@ -136,6 +145,17 @@ fi
+ sed -n "0,\#$REMOTE_URL# p" "$PM" | sed -i "/BLURB HERE/ r /dev/stdin" "$CL"
+ rm "$PM"
+ 
++# If this is an RFC, make that clear in the cover letter
++if [ $RFC -eq 1 ]; then
++(cat <<EOM
++Please review the following changes for suitability for inclusion. If you have
++any objections or suggestions for improvement, please respond to the patches. If
++you agree with the changes, please provide your Acked-by.
++
++EOM
++) | sed -i "/BLURB HERE/ r /dev/stdin" "$CL"
++fi
++
+ # Insert the WEB_URL if there is one
+ if [ -n "$WEB_URL" ]; then
+ 	echo "  $WEB_URL" | sed -i "\#$REMOTE_URL# r /dev/stdin" "$CL"
 -- 
 1.7.1
 
