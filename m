@@ -1,27 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QMh1A-0001NM-1v
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 15:43:36 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4IDdT4R007845
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QMh5W-0001Rj-Pe for openembedded-core@lists.openembedded.org;
+	Wed, 18 May 2011 15:46:58 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4IDWUpq028382
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 06:39:29 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 18 May 2011 06:39:28 -0700
-Message-ID: <4DD3CC0F.7070702@windriver.com>
-Date: Wed, 18 May 2011 08:39:27 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1865303E0DED764181A9D882DEF65FB694322A3FD4@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB694322A3FD4@shsmsx502.ccr.corp.intel.com>
-Subject: Re: dpkg's admindir: /var/dpkg or /var/lib/dpkg?
+	Wed, 18 May 2011 14:32:30 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28212-04 for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 May 2011 14:32:26 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4IDWON6028376
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 May 2011 14:32:24 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <cover.1305709034.git.paul.eggleton@linux.intel.com>
+References: <cover.1305709034.git.paul.eggleton@linux.intel.com>
+Date: Wed, 18 May 2011 14:32:21 +0100
+Message-ID: <1305725541.3424.317.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/3] Qt4 cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,35 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 13:43:36 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Wed, 18 May 2011 13:46:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 5/18/11 4:27 AM, Cui, Dexuan wrote:
-> Hi, I happened to find a bug: in target,  "dpkg --list" shows "dpkg-query: failed to open package info file `/var/lib/dpkg/status' for reading: No such file or directory"
+On Wed, 2011-05-18 at 10:08 +0100, Paul Eggleton wrote:
+> From: Paul Eggleton <paul.eggleton@linux.intel.com>
 > 
-> Actually the files(status and available) does exist, but not in /var/lib/dpkg/ -- they're in /var/dpkg/. "ln -s /var/dpkg/{status, available} /var/lib/dpkg" can resolve the issue.
+> Remove Qt 4.6.3 in favour of 4.7.3 (which should be binary compatible with
+> 4.6.x), add Upstream-Status to remaining patches and re-enable some patches
+> that were missed with the original upgrade to 4.7.x.
 > 
-> grepping '/var/dpkg' shows there are many files(package_deb.bbclass, rootfs_deb.bbclass, populate_sdk_deb.bbclas, apt.conf ) in which '/var/dpkg' is used and /var/lib/dpkg is not used at all.
+> Pull URL: git://git.openembedded.org/openembedded-core-contrib
+>   Branch: paule/qt4-cleanup-core
+>   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt4-cleanup-core
 > 
-> However, looks dpkg's default admindir is /var/lib/dpkg -- e.g., Ubuntu uses this.
-> 
-> What should we do? Looks fixing the package dpkg's admindir in the do_configure needs the least coding.
-
-I would say that /var/lib/dpkg is the "correct" directory to use.  This matches
-the behavior on other deb bases systems.  (It also mimics other pkg managers who
-place their data into /var/lib/...)
-
---Mark
-
 > Thanks,
-> -- Dexuan
->  
+>     Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
 > 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+> Paul Eggleton (3):
+>   qt4: remove Qt 4.6.3
+>   qt4: add comments and Upstream-Status to all patches
+>   qt4: re-enable two 4.6.x patches in 4.7.3
+
+I think the previous questions on the mailing list provided enough time
+for discussion of this so merged to master, thanks. 
+
+Cheers,
+
+Richard
+
+
 
 
 
