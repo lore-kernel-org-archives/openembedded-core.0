@@ -1,32 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QMfFe-0005TH-B2 for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 13:49:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4IBkMl3027494;
-	Wed, 18 May 2011 12:46:22 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27421-02; Wed, 18 May 2011 12:46:18 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4IBkEPh027488
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 18 May 2011 12:46:14 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Darren Hart <dvhart@linux.intel.com>
-In-Reply-To: <4DD306A2.7030702@linux.intel.com>
-References: <4DD2FE07.4030708@linux.intel.com>
-	<1305674113.3424.292.camel@rex>  <4DD306A2.7030702@linux.intel.com>
-Date: Wed, 18 May 2011 12:46:11 +0100
-Message-ID: <1305719171.3424.314.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH] u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dexuan.cui@intel.com>) id 1QMgYX-0000ib-FE
+	for openembedded-core@lists.openembedded.org;
+	Wed, 18 May 2011 15:12:53 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 18 May 2011 06:09:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,231,1304319600"; d="scan'208";a="438255412"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
+	by azsmga001.ch.intel.com with ESMTP; 18 May 2011 06:09:57 -0700
+Message-Id: <cover.1305722976.git.dexuan.cui@intel.com>
+Old-Date: Wed, 18 May 2011 20:49:36 +0800
+Date: Wed, 18 May 2011 21:10:22 +0800
+To: openembedded-core@lists.openembedded.org
+CC: 
+From: Dexuan Cui <dexuan.cui@intel.com>
+Subject: [PATCH 0/1][v3] Automatically generate package repos for rpmand deb [bug #1024]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,65 +30,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 11:49:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 May 2011 13:12:53 -0000
 
-On Tue, 2011-05-17 at 16:37 -0700, Darren Hart wrote:
-> 
-> On 05/17/2011 04:15 PM, Richard Purdie wrote:
-> > On Tue, 2011-05-17 at 16:00 -0700, Darren Hart wrote:
-> >> oe-core does not define any machines, so it does not make sense to
-> >> add machine specific information in the oe-core u-boot recipe and
-> >> infrastructure.
-> >>
-> >> Since every machine wishing to use the u-boot recipe would need to add itself to
-> >> COMPATIBLE_MACHINES, typically via a bbappend recipe, the mechanism loses any
-> >> utility it may have had and unecessarily complicates using the u-boot recipe. By
-> >> removing it, we simplify the task of adding support for new machines.
-> > 
-> > NAK.
-> > 
-> > This break usability of things like "bitbake world" since all of a
-> > sudden it will try and build u-boot in cases where it makes no sense
-> > (qemu* machines for example).
-> 
-> OK, I thought there might be something like that surrounding
-> COMPATIBLE_MACHINE, thus the RFC.
-> 
-> > 
-> > I know it sounds strange but we do want this recipe enabled on a case by
-> > case basis (and we have the beagleboard as a reference platform using it
-> > which is handy). This means the default of no supported machine is
-> > correct even if it looks odd.
-> > 
-> > Having the recipe deselect itself (raise a skip parsing event) if
-> > UBOOT_MACHINE isn't set instead of using COMPATIBLE_MACHINE would be
-> > acceptable though.
-> 
-> That sounds promising. I'd like to avoid having to create a
-> u-boot_git.bbappend everytime you want to use u-boot. Is there an
-> example you can think of that does this? greping for "deselect" and
-> "skip pars" didn't yield any results.
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-grepping base.bbclass for COMPATIBLE_MACHINE might be more productive :)
+This was made to address http://bugzilla.yoctoproject.org/show_bug.cgi?id=1024.
 
-The key piece is:
+Thanks a lot to RP and Saul's suggestions, the patch becomes much cleaner now.
 
-need_machine = bb.data.getVar('COMPATIBLE_MACHINE', d, 1)
-if need_machine:
-    import re
-        this_machine = bb.data.getVar('MACHINE', d, 1)
-        if this_machine and not re.match(need_machine, this_machine):
-                raise bb.parse.SkipPackage("incompatible with machine %s" % this_machine)
+As to DEB, I found currently in target, some important config files, like
+/etc/apt/sources.list, for deb/apt are missing. As a result, we can't
+install/remove package in target at all.
+I tried to resolve this by add "deb http://192.168.7.1/deb/all/ ./" into
+target's /etc/apt/sources.list, but later "apt-get update" failes -- it
+tries to find a file named Packages.gz, but the direcory only has
+Packages.bz2 -- not sure why apt-get here doesn't try to find Packages.bz2
+when it can't find Packages.gz and do_rootfs does succeed with Packages.bz2.
+Later after I tried to manually generate Packages.gz from Packages.bz2 and did
+"mkdir -p /var/cache/apt/archives/partial/; mkdir -p /var/log/apt/",
+"apt-get update" and "apt-get remove" finally can work, but "apt-get install"
+could still fail: "package architecture (arm) does not match system (armel)".
+The issues need more effort to be fixed.
 
-which I think shows what I'm talking about clearly. And yes, ideally
-this would have been called SkipRecipe but its from the days when we
-were much more confused about terminology ;-).
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: dcui/master
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/master
 
-Cheers,
+Thanks,
+    Dexuan Cui <dexuan.cui@intel.com>
+---
 
-Richard
+
+Dexuan Cui (1):
+  package-index.bb: add support for deb and rpm.
+
+ meta/classes/package_deb.bbclass        |    9 +++++++++
+ meta/classes/package_ipk.bbclass        |    9 +++++++++
+ meta/classes/package_rpm.bbclass        |    9 +++++++++
+ meta/recipes-core/meta/package-index.bb |    6 ++----
+ 4 files changed, 29 insertions(+), 4 deletions(-)
+
+-- 
+1.7.2
 
 
 
