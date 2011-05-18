@@ -1,42 +1,40 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QMVT7-00072S-25
+	(envelope-from <ke.yu@intel.com>) id 1QMVgw-0007Bu-NX
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 03:22:39 +0200
-Received: by ewy5 with SMTP id 5so321913ewy.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 May 2011 18:19:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:content-transfer-encoding;
-	bh=9wTCsyFZcsoTr2PzlmhGSA3i5ams5d5gSycjRiat4CA=;
-	b=rzWPTMm6B4LA2nYW+1vAwcbI6PjedNfGpvekRMHRNGx8UQh8g8mjzioZMWNH5I2CZR
-	l23miBfp89QktsLU2PNgTb2O8kcix2Xt456zRQFHbi4BP6L7mteLiPuOwFXqjO8XBrbe
-	tatWTQKwQI6FF8jpQpbd/hQuGpCKpiv7lzS4Q=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	b=F/kElG7li5Nrs8bt87AcJtm7Vj9mMCg7fXf5fYf5CJWnTcuvH/ROXQBqHE9QmXEhZ0
-	fw+iHLmswTAwQce3rJVW+lLn1gPTipX5FGDD4KglgT1ag5R88OIWrOtmpJGzCfzWEHMX
-	cVXPD53lVgB4mFRwqJhitfUI5c6hVcVdsKme8=
-Received: by 10.14.9.18 with SMTP id 18mr444853ees.236.1305681570124; Tue, 17
-	May 2011 18:19:30 -0700 (PDT)
+	Wed, 18 May 2011 03:36:50 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 17 May 2011 18:33:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,228,1304319600"; 
+   d="scan'208";a="93955"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by orsmga001.jf.intel.com with ESMTP; 17 May 2011 18:33:55 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 18 May 2011 09:32:37 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 18 May 2011 09:32:37 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Wed, 18 May 2011 09:32:34 +0800
+From: "Yu, Ke" <ke.yu@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Wed, 18 May 2011 09:32:32 +0800
+Thread-Topic: Qt4 mips-relocate.patch
+Thread-Index: AcwUrT7SCYPrU9mLQgGe/9wtuEYD5gASg5+Q
+Message-ID: <33AB447FBD802F4E932063B962385B35546E7C23@shsmsx501.ccr.corp.intel.com>
+References: <201105171712.31423.paul.eggleton@linux.intel.com>
+In-Reply-To: <201105171712.31423.paul.eggleton@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
 MIME-Version: 1.0
-Received: by 10.14.53.78 with HTTP; Tue, 17 May 2011 18:19:00 -0700 (PDT)
-In-Reply-To: <1305653025.3424.269.camel@rex>
-References: <cover.1305418871.git.sgw@linux.intel.com>
-	<E943FF3D-A282-4E6D-8B5A-B954A678A0E1@gmail.com>
-	<4DD13B6F.4010009@intel.com>
-	<BANLkTi=0TcHgXmYpwCjX6P5h6+y9O2YQFw@mail.gmail.com>
-	<1305575479.3424.102.camel@rex> <4DD18DA1.4080501@intel.com>
-	<BANLkTi=dSy1J3oP-aRH7QGSLeB3vy7Ykjw@mail.gmail.com>
-	<1305653025.3424.269.camel@rex>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 17 May 2011 18:19:00 -0700
-Message-ID: <BANLkTinvrh+z_GzaaHQ19WsiELkpfxuqDg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC 0/3] Move Old Recipes to meta-extras
+Subject: Re: Qt4 mips-relocate.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,80 +49,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 01:22:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 18 May 2011 01:36:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 17, 2011 at 10:23 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2011-05-16 at 15:34 -0700, Khem Raj wrote:
->> On Mon, May 16, 2011 at 1:48 PM, Saul Wold <saul.wold@intel.com> wrote:
->> > On 05/16/2011 12:51 PM, Richard Purdie wrote:
->> >>
->> >> On Mon, 2011-05-16 at 10:08 -0700, Khem Raj wrote:
->> >>>
->> >>> On Mon, May 16, 2011 at 7:57 AM, Saul Wold<saul.wold@intel.com> =C2=
-=A0wrote:
->> >>>>
->> >>>> On 05/15/2011 11:19 PM, Khem Raj wrote:
->> >>>>>
->> >>>>>
->> >>>>> On May 14, 2011, at 5:23 PM, Saul Wold<sgw@linux.intel.com> =C2=A0=
- wrote:
->> >>>>>
->> >>>>>> From: Saul Wold<sgw@linux.intel.com>
->> >>>>>>
->> >>>>>> This proposes to move the YAFFS2-utils, older clutter-1.4
->> >>>>>> and older GCC version (4.3.3 and 3.4.4) as they are unused
->> >>>>>> and currently unbuildable.
->> >>>>>>
->> >>>>>
->> >>>>> Are we left with any GPLv2 version of gcc after this ?
->> >>>>>
->> >>>> Khem,
->> >>>>
->> >>>> Is not having a GPLv2 version of gcc an issue? For the non-gplv3
->> >>>> version, my
->> >>>> understanding is to have an installed user-space for oe-core for a
->> >>>> non-development system, therefore gcc is not an issue.
->> >>>>
->> >>>
->> >>> there are certain parts of gcc which go onto target e.g. libgcc libs=
-tdc++
->> >>
->> >> These have specific license exceptions allowing non-gpl code to use t=
-hem
->> >> as system libraries though?
->> >>
->> > Richard is correct, there are exception for the runtime parts of GCC.
->> > Sorry Khem, I was not catching to original gist of the question.
->>
->> exceptions yes but they are not same exceptions between GPLv2 and GPLv3 =
-gcc.
->
-> Is there a problem here though? What impact are you concerned with?
+Hi Paul,
 
-Not much concern from my own POV.
+This patch is to fix the issue which is specifically found in Qt4.6.x with =
+binutils 2.20.  and the upgrade of either Qt or binutils may fix this issue=
+. Since you have go through the binutils change, and did not find relevant =
+commit, probably the relevant change lies in Qt upgrade, or more specifical=
+ly, the change with libQtWebKit.=20
 
-But I thought we have decided to keep GPLv2 versions around. In gcc 4.3.3
-even though gcc itself is under GPLv3. the runtime is still under
-GPLv2+exceptions
-like all prior gcc versions so parts that go on target were still gplv2
+Regardless of where the root cause may be, since the combination of QT4.7 a=
+nd bintuils 2.21 can pass the build now, I think it is safe to remove this =
+patch and reenable the "-Bsymbolic-functions" flag. It is will also benefit=
+ the runtime performance.
 
-For newer versions e.g. 4.5 and 4.6 that we have recipes for the runtime is
-licenced under GPLv3+ new GCC Runtime Library Exception as described
+Regards
+Ke
 
-But I am fine if thats no more a concern
+-----Original Message-----
+From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]=20
+Sent: Wednesday, May 18, 2011 12:13 AM
+To: Yu, Ke
+Cc: openembedded-core@lists.openembedded.org
+Subject: Qt4 mips-relocate.patch
 
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Hi there,
+
+I was going through patches for Qt4 and found that (among others) mips- rel=
+ocate.patch was not being applied for Qt 4.7.x. From the comment it seems i=
+t was intended to fix a link-time error when building qt4-x11-free for mips=
+ - some kind of issue with binutils 2.20 [1]. However I just built qt4-x11-=
+free
+4.7.3 with MACHINE=3Dqemumips without the patch and it built just fine. We'=
+re using binutils 2.21 now, I checked and there is nothing relevant that I =
+can see in the binutils changelog to suggest that a mips/symbolic-functions=
+ issue was fixed, and we are apparently still enabling the option that orig=
+inally triggered the problem when building Qt 4.7.x.
+
+Ke / anyone else, any ideas? If the problem can no longer reproduced can we=
+ simply remove this patch?
+
+Cheers,
+Paul
+
+[1] http://bugzilla.pokylinux.org/show_bug.cgi?id=3D271
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
