@@ -1,26 +1,42 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QMTrX-0000of-OC
+	(envelope-from <raj.khem@gmail.com>) id 1QMVT7-00072S-25
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 01:39:41 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 17 May 2011 16:36:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,228,1304319600"; 
-   d="scan'208";a="51795"
-Received: from doubt.jf.intel.com (HELO [10.7.199.57]) ([10.7.199.57])
-	by orsmga001.jf.intel.com with ESMTP; 17 May 2011 16:36:47 -0700
-Message-ID: <4DD306A2.7030702@linux.intel.com>
-Date: Tue, 17 May 2011 16:37:06 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	Wed, 18 May 2011 03:22:39 +0200
+Received: by ewy5 with SMTP id 5so321913ewy.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 May 2011 18:19:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:content-transfer-encoding;
+	bh=9wTCsyFZcsoTr2PzlmhGSA3i5ams5d5gSycjRiat4CA=;
+	b=rzWPTMm6B4LA2nYW+1vAwcbI6PjedNfGpvekRMHRNGx8UQh8g8mjzioZMWNH5I2CZR
+	l23miBfp89QktsLU2PNgTb2O8kcix2Xt456zRQFHbi4BP6L7mteLiPuOwFXqjO8XBrbe
+	tatWTQKwQI6FF8jpQpbd/hQuGpCKpiv7lzS4Q=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	b=F/kElG7li5Nrs8bt87AcJtm7Vj9mMCg7fXf5fYf5CJWnTcuvH/ROXQBqHE9QmXEhZ0
+	fw+iHLmswTAwQce3rJVW+lLn1gPTipX5FGDD4KglgT1ag5R88OIWrOtmpJGzCfzWEHMX
+	cVXPD53lVgB4mFRwqJhitfUI5c6hVcVdsKme8=
+Received: by 10.14.9.18 with SMTP id 18mr444853ees.236.1305681570124; Tue, 17
+	May 2011 18:19:30 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.14.53.78 with HTTP; Tue, 17 May 2011 18:19:00 -0700 (PDT)
+In-Reply-To: <1305653025.3424.269.camel@rex>
+References: <cover.1305418871.git.sgw@linux.intel.com>
+	<E943FF3D-A282-4E6D-8B5A-B954A678A0E1@gmail.com>
+	<4DD13B6F.4010009@intel.com>
+	<BANLkTi=0TcHgXmYpwCjX6P5h6+y9O2YQFw@mail.gmail.com>
+	<1305575479.3424.102.camel@rex> <4DD18DA1.4080501@intel.com>
+	<BANLkTi=dSy1J3oP-aRH7QGSLeB3vy7Ykjw@mail.gmail.com>
+	<1305653025.3424.269.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 17 May 2011 18:19:00 -0700
+Message-ID: <BANLkTinvrh+z_GzaaHQ19WsiELkpfxuqDg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4DD2FE07.4030708@linux.intel.com> <1305674113.3424.292.camel@rex>
-In-Reply-To: <1305674113.3424.292.camel@rex>
-Subject: Re: [RFC PATCH] u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
+Subject: Re: [RFC 0/3] Move Old Recipes to meta-extras
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,52 +51,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 May 2011 23:39:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 May 2011 01:22:39 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 05/17/2011 04:15 PM, Richard Purdie wrote:
-> On Tue, 2011-05-17 at 16:00 -0700, Darren Hart wrote:
->> oe-core does not define any machines, so it does not make sense to
->> add machine specific information in the oe-core u-boot recipe and
->> infrastructure.
+On Tue, May 17, 2011 at 10:23 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2011-05-16 at 15:34 -0700, Khem Raj wrote:
+>> On Mon, May 16, 2011 at 1:48 PM, Saul Wold <saul.wold@intel.com> wrote:
+>> > On 05/16/2011 12:51 PM, Richard Purdie wrote:
+>> >>
+>> >> On Mon, 2011-05-16 at 10:08 -0700, Khem Raj wrote:
+>> >>>
+>> >>> On Mon, May 16, 2011 at 7:57 AM, Saul Wold<saul.wold@intel.com> =C2=
+=A0wrote:
+>> >>>>
+>> >>>> On 05/15/2011 11:19 PM, Khem Raj wrote:
+>> >>>>>
+>> >>>>>
+>> >>>>> On May 14, 2011, at 5:23 PM, Saul Wold<sgw@linux.intel.com> =C2=A0=
+ wrote:
+>> >>>>>
+>> >>>>>> From: Saul Wold<sgw@linux.intel.com>
+>> >>>>>>
+>> >>>>>> This proposes to move the YAFFS2-utils, older clutter-1.4
+>> >>>>>> and older GCC version (4.3.3 and 3.4.4) as they are unused
+>> >>>>>> and currently unbuildable.
+>> >>>>>>
+>> >>>>>
+>> >>>>> Are we left with any GPLv2 version of gcc after this ?
+>> >>>>>
+>> >>>> Khem,
+>> >>>>
+>> >>>> Is not having a GPLv2 version of gcc an issue? For the non-gplv3
+>> >>>> version, my
+>> >>>> understanding is to have an installed user-space for oe-core for a
+>> >>>> non-development system, therefore gcc is not an issue.
+>> >>>>
+>> >>>
+>> >>> there are certain parts of gcc which go onto target e.g. libgcc libs=
+tdc++
+>> >>
+>> >> These have specific license exceptions allowing non-gpl code to use t=
+hem
+>> >> as system libraries though?
+>> >>
+>> > Richard is correct, there are exception for the runtime parts of GCC.
+>> > Sorry Khem, I was not catching to original gist of the question.
 >>
->> Since every machine wishing to use the u-boot recipe would need to add itself to
->> COMPATIBLE_MACHINES, typically via a bbappend recipe, the mechanism loses any
->> utility it may have had and unecessarily complicates using the u-boot recipe. By
->> removing it, we simplify the task of adding support for new machines.
-> 
-> NAK.
-> 
-> This break usability of things like "bitbake world" since all of a
-> sudden it will try and build u-boot in cases where it makes no sense
-> (qemu* machines for example).
+>> exceptions yes but they are not same exceptions between GPLv2 and GPLv3 =
+gcc.
+>
+> Is there a problem here though? What impact are you concerned with?
 
-OK, I thought there might be something like that surrounding
-COMPATIBLE_MACHINE, thus the RFC.
+Not much concern from my own POV.
 
-> 
-> I know it sounds strange but we do want this recipe enabled on a case by
-> case basis (and we have the beagleboard as a reference platform using it
-> which is handy). This means the default of no supported machine is
-> correct even if it looks odd.
-> 
-> Having the recipe deselect itself (raise a skip parsing event) if
-> UBOOT_MACHINE isn't set instead of using COMPATIBLE_MACHINE would be
-> acceptable though.
+But I thought we have decided to keep GPLv2 versions around. In gcc 4.3.3
+even though gcc itself is under GPLv3. the runtime is still under
+GPLv2+exceptions
+like all prior gcc versions so parts that go on target were still gplv2
 
-That sounds promising. I'd like to avoid having to create a
-u-boot_git.bbappend everytime you want to use u-boot. Is there an
-example you can think of that does this? greping for "deselect" and
-"skip pars" didn't yield any results.
+For newer versions e.g. 4.5 and 4.6 that we have recipes for the runtime is
+licenced under GPLv3+ new GCC Runtime Library Exception as described
 
-Thanks,
+But I am fine if thats no more a concern
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
