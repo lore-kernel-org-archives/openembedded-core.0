@@ -1,36 +1,41 @@
 Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QMkQi-0005dY-W1
+	(envelope-from <kergoth@gmail.com>) id 1QMkQl-0005dZ-3j
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 19:21:05 +0200
-Received: by pwj9 with SMTP id 9so878170pwj.6
+	Wed, 18 May 2011 19:21:07 +0200
+Received: by pwj9 with SMTP id 9so878198pwj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 10:18:09 -0700 (PDT)
+	Wed, 18 May 2011 10:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=9/6FfoikerVDR2ZcejNqwiHGayjvNVdqI+zwE56BQI8=;
-	b=V1dLK9rk13UdbU0q5t6WIeesoTbfQKzYEuSV013BSwbTZWwDl2nXk4P+Ugic6Af7lh
-	lWZn4EDTUzIminPwjZ9ygs/uSjcMsSp3WHdM5riVuQP4qyWoUGt/YSlpxqahh1u8X76F
-	Qcqk5ZAKHp6Om6AWYqFJL3KMZbY/ZhH+VaENs=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references:in-reply-to:references;
+	bh=kkOvbRSi7O8quHsWe3+Hxkkv4a/jalbI1AguW8U0m7E=;
+	b=MJFlXWpDtQW87auNOQLURB7fy7OeQ59WZrmxCFhckOOschUdMzIxOEtBpZs99kUEpo
+	P4CVuz2QZfaiJP56lrjIsGeuKyguCq5+ln1NzgpHKBXlgkt9ynzKuOHQ9bRXB6VZywU+
+	uwV5xRtahQw8sG8Uw+8Ep9vyueGxLT2TTmdJ4=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=mGofSEnPgim7wOeXwEogVJj+GKXlrpBca1lJyqQpv5d/KQOyy5RPXBOgghLz77d2jT
-	YVp8LhK05tIsGtjJp/hxFLTnpUteRt5El/e2PZn8FM1vnvquruyAJTTx5hoTteABjxWO
-	XSFWTRqf4zQvHmkOyVNtVLjEHl8h4F2nw9pDA=
-Received: by 10.143.21.34 with SMTP id y34mr1162493wfi.395.1305739089208;
-	Wed, 18 May 2011 10:18:09 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=COOkXRvve7j8mjRG20aPPyQFnVvt/lcSBiJM+2FFpJLRQSw6vyveQCArfteC1jdgoF
+	95Vv3rcf4MurCI+evE14USsBrLv1Dl8DLVr6LL8ayDImi8xll74WUrK3f9F8zenb2HgI
+	0R+a5pwQeDJpsSfGMkGu9twX7iShjFKZwwVjY=
+Received: by 10.142.191.1 with SMTP id o1mr1153476wff.396.1305739090742;
+	Wed, 18 May 2011 10:18:10 -0700 (PDT)
 Received: from localhost.localdomain (ip24-251-173-232.ph.ph.cox.net
 	[24.251.173.232])
-	by mx.google.com with ESMTPS id 25sm1550869wfb.10.2011.05.18.10.18.07
+	by mx.google.com with ESMTPS id 25sm1550869wfb.10.2011.05.18.10.18.09
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 May 2011 10:18:08 -0700 (PDT)
+	Wed, 18 May 2011 10:18:10 -0700 (PDT)
 From: Chris Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2011 10:17:58 -0700
-Message-Id: <cover.1305737923.git.chris_larson@mentor.com>
+Date: Wed, 18 May 2011 10:17:59 -0700
+Message-Id: <95c1c690d14f493b615eafeb349d57aa67366b5d.1305737923.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1305737923.git.chris_larson@mentor.com>
+References: <cover.1305737923.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1305737923.git.chris_larson@mentor.com>
+References: <cover.1305737923.git.chris_larson@mentor.com>
 Cc: Chris Larson <chris_larson@mentor.com>
-Subject: [PATCH (v2,resend) 0/3] Rework the devshell
+Subject: [PATCH (v2,resend) 1/3] oe.classutils: add module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,49 +50,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 17:21:05 -0000
+X-List-Received-Date: Wed, 18 May 2011 17:21:07 -0000
 
 From: Chris Larson <chris_larson@mentor.com>
 
-- Adds a utility metaclass for maintaining class registries
-- Shifts the handling of spawning a terminal into a new 'terminal' python
- module
-- Automatically selects an appropriate terminal based on what you have
- available on your machine
-- Still allows manual selection, but in a more convenient way, and falls back
- to auto if you select an invalid or unavailable (not installed) terminal
-- Improves how we spawn screen:
+This adds a ClassRegistry utility metaclass, as maintaining a class registry
+is a fairly common thing to do.
 
- - Shows a warning when spawning it, so do_devshell doesn't appear to hang
- - Spawns a named screen session 'devshell', to avoid confusion when the user
-   already has other screen sessions running
-
-Example usage of the new API for others (e.g. patch resolver) to use:
-
-    import oe.terminal
-    oe.terminal.run(command, terminal_title, d)
-
-Pull URL: git://git.openembedded.org/openembedded-core-contrib
-  Branch: kergoth/devshell
-  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kergoth/devshell
-
-Thanks,
-    Chris Larson <chris_larson@mentor.com>
+Signed-off-by: Chris Larson <chris_larson@mentor.com>
 ---
-
-
-Chris Larson (3):
-  oe.classutils: add module
-  Rework how the devshell functions
-  oe.terminal: improve how we spawn screen
-
- meta/classes/devshell.bbclass |   25 ++------
- meta/conf/bitbake.conf        |    9 +++
- meta/lib/oe/classutils.py     |   45 ++++++++++++++
- meta/lib/oe/terminal.py       |  131 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 191 insertions(+), 19 deletions(-)
+ meta/lib/oe/classutils.py |   43 +++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 43 insertions(+), 0 deletions(-)
  create mode 100644 meta/lib/oe/classutils.py
- create mode 100644 meta/lib/oe/terminal.py
+
+diff --git a/meta/lib/oe/classutils.py b/meta/lib/oe/classutils.py
+new file mode 100644
+index 0000000..58188fd
+--- /dev/null
++++ b/meta/lib/oe/classutils.py
+@@ -0,0 +1,43 @@
++class ClassRegistry(type):
++    """Maintain a registry of classes, indexed by name.
++
++Note that this implementation requires that the names be unique, as it uses
++a dictionary to hold the classes by name.
++
++The name in the registry can be overridden via the 'name' attribute of the
++class, and the 'priority' attribute controls priority. The prioritized()
++method returns the registered classes in priority order.
++
++Subclasses of ClassRegistry may define an 'implemented' property to exert
++control over whether the class will be added to the registry (e.g. to keep
++abstract base classes out of the registry)."""
++    priority = 0
++    class __metaclass__(type):
++        """Give each ClassRegistry their own registry"""
++        def __init__(cls, name, bases, attrs):
++            cls.registry = {}
++            type.__init__(cls, name, bases, attrs)
++
++    def __init__(cls, name, bases, attrs):
++        super(ClassRegistry, cls).__init__(name, bases, attrs)
++        try:
++            if not cls.implemented:
++                return
++        except AttributeError:
++            pass
++
++        try:
++            cls.name
++        except AttributeError:
++            cls.name = name
++        cls.registry[cls.name] = cls
++
++    @classmethod
++    def prioritized(tcls):
++        return sorted(tcls.registry.values(),
++                      key=lambda v: v.priority, reverse=True)
++
++    def unregister(cls):
++        for key in cls.registry.keys():
++            if cls.registry[key] is cls:
++                del cls.registry[key]
+-- 
+1.7.1
 
 
 
