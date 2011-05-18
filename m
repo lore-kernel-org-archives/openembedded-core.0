@@ -1,26 +1,24 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QMirX-0003uC-Ob for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 17:40:39 +0200
+	id 1QMj7J-00046J-Cv for openembedded-core@lists.openembedded.org;
+	Wed, 18 May 2011 17:56:57 +0200
 Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
 	helo=[192.168.114.3])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QMiol-0006rb-Cj
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QMj4W-0006sI-VO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 May 2011 17:37:47 +0200
+	Wed, 18 May 2011 17:54:05 +0200
 From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1305649331.3424.259.camel@rex>
-References: <1305640549.2429.226.camel@phil-desktop>
-	<1305642273.3424.244.camel@rex>
-	<1305643833.2429.264.camel@phil-desktop>
-	<1305649331.3424.259.camel@rex>
-Date: Wed, 18 May 2011 16:37:41 +0100
-Message-ID: <1305733061.18415.98.camel@lenovo.internal.reciva.com>
+In-Reply-To: <cc2e6337ae338737455bf63bd43278dee302fb5c.1305665459.git.raj.khem@gmail.com>
+References: <cover.1305665459.git.raj.khem@gmail.com>
+	<cc2e6337ae338737455bf63bd43278dee302fb5c.1305665459.git.raj.khem@gmail.com>
+Date: Wed, 18 May 2011 16:53:58 +0100
+Message-ID: <1305734038.18415.108.camel@lenovo.internal.reciva.com>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH] rootfs_ipk: respect ONLINE_PACKAGE_MANAGEMENT
+Subject: Re: [PATCH 1/1] default-distrovars.inc, task-core-boot.bb: Create distro overridable varibales
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,28 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 15:40:39 -0000
+X-List-Received-Date: Wed, 18 May 2011 15:56:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-05-17 at 17:22 +0100, Richard Purdie wrote:
-> On Tue, 2011-05-17 at 15:50 +0100, Phil Blundell wrote:
-> > I guess I could teach remove_packaging_data_files() to not create the
-> > empty directory if O_P_M=="none".  Would you be happier with that?
-> 
-> Mostly. The question remains what happens if there are postinstalls that
-> are expecting to run on the device. I'm guessing that is why the mkdir
-> is there since at present we don't want to break the postinstalls.
+On Tue, 2011-05-17 at 13:57 -0700, Khem Raj wrote:
+> With default-setup being pulled in via bitbake.conf and task-core-boot
+> being pulled into all images in distros, we need
+> to have some variables that distro's can override if need be
+> This is a backport from angstrom/OE. It will help distros which
+> e.g. would like to use busybox-mdev instead of udev and similarly
+> for login manager these variables can be defined in distro policies
 
-The comment says something about ensuring that the lock directory
-exists, presumably for future invocations of opkg.  I guess this is to
-support O_P_M="add" kind of semantics.  
+I'm not massively convinced that this proliferation of extra switches is
+a very good thing.  With each DISTRO now having its own layer, it's
+quite straightforward for it to provide its own customised rootfs
+recipes which contain exactly the set of packages that it wants.  Trying
+to create a sort of "generic" rootfs recipe in which every other
+dependency can be tweaked by some obscure variable doesn't seem like an
+especially productive way to proceed.
 
-As far as I know there's no other reason that postinsts should
-expect/require the opkg directory to exist.  So I think it should
-probably be safe just to delete it if O_P_M="none".
+Also, any new variable which is added to default-distrovars.inc will be
+included in the parsed metadata for everything and, although the
+marginal cost (in memory/performance terms) of adding one extra global
+variable is not that great, it's not zero either.  Perhaps more
+significantly, there is also a cost in terms of metadata
+comprehensibility: one of the common complaints about "classic oe" was
+that it was difficult to get your head around the myriad little
+variables that you could tweak in some or other configuration file.
+
+So, all in all, I think we should try to keep a lid on the amount of
+stuff that goes into default-distrovars and its friends.  If the idea of
+a sort of templated rootfs image really seems like a valuable one then
+maybe we could put those vars in a dedicated config file which is only
+included by the rootfs recipes.
 
 p.
+
 
 
 
