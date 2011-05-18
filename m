@@ -1,23 +1,23 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QMpFw-0003uj-Pf
+	(envelope-from <sgw@linux.intel.com>) id 1QMpFx-0003ul-GV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 00:30:16 +0200
+	Thu, 19 May 2011 00:30:17 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 May 2011 15:27:19 -0700
+	by orsmga101.jf.intel.com with ESMTP; 18 May 2011 15:27:20 -0700
 X-ExtLoop1: 1
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.160])
 	by orsmga002.jf.intel.com with ESMTP; 18 May 2011 15:27:19 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2011 15:26:35 -0700
-Message-Id: <b814b3a8c5a1b6cc8f7be64208f0f21a0d94c8c1.1305756950.git.sgw@linux.intel.com>
+Date: Wed, 18 May 2011 15:26:37 -0700
+Message-Id: <8305336c6b1eb0789af195f28230ecfca178538a.1305756950.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <fc7402495a8a30b203d5535e73383bc4412e2a1f.1305756950.git.sgw@linux.intel.com>
 References: <fc7402495a8a30b203d5535e73383bc4412e2a1f.1305756950.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305756950.git.sgw@linux.intel.com>
 References: <cover.1305756950.git.sgw@linux.intel.com>
-Subject: [PATCH 06/30] linux-yocto: fix gcc 4.6.0 compilation failures
+Subject: [PATCH 08/30] package-index.bb: add support for deb and rpm.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,63 +34,124 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 18 May 2011 22:30:17 -0000
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-Fixes bug: [YOCTO #1035]
-Fixes bug: [YOCTO #1036]
+[YOCTO #1024]
+Currently package-index.bb only supports ipk. This commit adds the support
+for rpm and deb, too.
 
-Fixes gcc 4.6.0 compliation issues by importing the upstream change:
+------------------------------
+How to generate and use repos:
 
-Author: Michal Marek <mmarek@suse.cz>
-Date:   Mon May 2 12:13:01 2011 +0000
+1) run "bitbake package-index" after building some target,
+e.g., core-image-sato-sdk;
 
-    kbuild: Fix passing -Wno-* options to gcc 4.4+
+2) export ${DEPLOY_DIR_RPM}, ${DEPLOY_DIR_IPK} and ${DEPLOY_DIR_DEB} by a
+webserver on the host, assuming the host IP is 192.168.7.1, at
+http://192.168.7.1/rpm
+http://192.168.7.1/ipk
+http://192.168.7.1/deb
 
-    Starting with 4.4, gcc will happily accept -Wno-<anything> in the
-    cc-option test and complain later when compiling a file that has some
-    other warning. This rather unexpected behavior is intentional as per
-    http://gcc.gnu.org/PR28322, so work around it by testing for support of
-    the opposite option (without the no-). Introduce a new Makefile function
-    cc-disable-warning that does this and update two uses of cc-option in
-    the toplevel Makefile.
+3) inside the target, according to the packaging system (rpm, ipk or deb) used
+when we generate the target image, we can use different ways to manage
+packages:
 
-    Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-    Signed-off-by: Michal Marek <mmarek@suse.cz>
-    Tested-by: Stephen Rothwell <sfr@canb.auug.org.au>
-    Integrated-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+3.1) RPM
+    run "zypper addrepo http://192.168.7.1/rpm main; zypper refresh"
+    to retrieve info about the repo; next, we can use "zypper install/remove"
+    to manage packages.
 
-:100644 100644 0ef00bd... 1d8e7e9... M  Documentation/kbuild/makefiles.txt
-:100644 100644 7bd863e0.. 74bac80... M  Makefile
-:100644 100644 ed2773e... ba25c44... M  scripts/Kbuild.include
+3.2) IPK
+    add the repo info into opkg config file, i.e., in
+    /etc/opkg/arch.conf, we can add something like
+    "src i586 http://192.168.7.1/ipk/i586", and next, we run "opkg update" to
+    make opkg update the list of available packages. And later, we can use
+    "opkg install/remove" to manage packages.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+3.3) DEB
+    Currently in target, some important config files, like
+/var/lib/dpkg/status and /etc/apt/sources.list, for deb/apt are missing. So
+we can't install/remove package in target at present.
+
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto_git.bb |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/package_deb.bbclass        |    9 +++++++++
+ meta/classes/package_ipk.bbclass        |    9 +++++++++
+ meta/classes/package_rpm.bbclass        |    9 +++++++++
+ meta/recipes-core/meta/package-index.bb |    6 ++----
+ 4 files changed, 29 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_git.bb
-index 3e828c2..5c3c448 100644
---- a/meta/recipes-kernel/linux/linux-yocto_git.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_git.bb
-@@ -14,12 +14,12 @@ KMETA = meta
- LINUX_VERSION ?= "2.6.37"
- LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 4faeb4a..f9ef32c 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -431,3 +431,12 @@ python do_package_write_deb () {
+ do_package_write_deb[dirs] = "${PKGWRITEDIRDEB}"
+ addtask package_write_deb before do_package_write after do_package
  
--SRCREV_machine_qemuarm = "b0375c21e29453458f9aa9986dc3f1ec69bf1aef"
--SRCREV_machine_qemumips = "f5d26f2eda2be8b942172cda8f27de33ebf38ec3"
--SRCREV_machine_qemuppc = "7eb6c68d977d9039a2b5a734172b064a9d19cdc1"
--SRCREV_machine_qemux86 = "ad62d1aab734513cd96c8f4517f816420a218e77"
--SRCREV_machine_qemux86-64 = "b906f358fd404a1e74a961f25079274e0d933ee1"
--SRCREV_machine = "b906f358fd404a1e74a961f25079274e0d933ee1"
-+SRCREV_machine_qemuarm = "8776b242fe2db7b4570e11496e9105b51212a446"
-+SRCREV_machine_qemumips = "8f8a5e034d7e98ed871fa7ed487fbf72a79229a5"
-+SRCREV_machine_qemuppc = "d9c6b3e576184f0c4223b6251c57b16ac1bac428"
-+SRCREV_machine_qemux86 = "b2afed7ecd54918b73db7f30062aaaf02fdaba54"
-+SRCREV_machine_qemux86-64 = "86bbbc079652d87392322fbfc14f6bd8792b0f38"
-+SRCREV_machine = "0974631b821b70aee3613723ed0d4d6ba8da91c6"
- SRCREV_meta = "79669230fd82a3e7e254cf8b596a2388a4333e62"
++
++PACKAGEINDEXES += "package_index_deb;"
++PACKAGEINDEXDEPS += "dpkg-native:do_populate_sysroot"
++PACKAGEINDEXDEPS += "apt-native:do_populate_sysroot"
++
++package_index_deb() {
++    package_update_index_deb
++}
++
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 3c2472b..97de17a 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -386,3 +386,12 @@ python do_package_write_ipk () {
+ }
+ do_package_write_ipk[dirs] = "${PKGWRITEDIRIPK}"
+ addtask package_write_ipk before do_package_write after do_package
++
++PACKAGEINDEXES += "package_index_ipk;"
++PACKAGEINDEXDEPS += "opkg-utils-native:do_populate_sysroot"
++PACKAGEINDEXDEPS += "opkg-native:do_populate_sysroot"
++
++package_index_ipk() {
++    package_update_index_ipk
++}
++
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 1cf9f79..390d17c 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -815,3 +815,12 @@ python do_package_write_rpm () {
+ do_package_write_rpm[dirs] = "${PKGWRITEDIRRPM}"
+ addtask package_write_rpm before do_package_write after do_package
  
- PR = "r18"
++PACKAGEINDEXES += "package_index_rpm;"
++PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
++PACKAGEINDEXDEPS += "createrepo-native:do_populate_sysroot"
++
++package_index_rpm() {
++    package_update_index_rpm
++    createrepo "${DEPLOY_DIR_RPM}"
++}
++
+diff --git a/meta/recipes-core/meta/package-index.bb b/meta/recipes-core/meta/package-index.bb
+index 3c642cb..bf3922f 100644
+--- a/meta/recipes-core/meta/package-index.bb
++++ b/meta/recipes-core/meta/package-index.bb
+@@ -19,13 +19,11 @@ do_package_write_deb[noexec] = "1"
+ do_populate_sysroot[noexec] = "1"
+ 
+ do_package_index[nostamp] = "1"
+-do_package_index[dirs] = "${DEPLOY_DIR_IPK}"
+-do_package_index[depends] += "opkg-utils-native:do_populate_sysroot"
+-do_package_index[depends] += "opkg-native:do_populate_sysroot"
++do_package_index[depends] += "${PACKAGEINDEXDEPS}"
+ 
+ do_package_index() {
+ 	set -ex
+-	package_update_index_ipk
++	${PACKAGEINDEXES}
+ 	set +ex
+ }
+ addtask do_package_index before do_build
 -- 
 1.7.3.4
 
