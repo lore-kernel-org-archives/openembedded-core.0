@@ -1,23 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QMc01-0000eN-8j
+	(envelope-from <sgw@linux.intel.com>) id 1QMc01-0000hY-Ko
 	for openembedded-core@lists.openembedded.org;
 	Wed, 18 May 2011 10:20:58 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 18 May 2011 01:18:01 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 18 May 2011 01:18:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,230,1304319600"; d="scan'208";a="438114115"
+X-IronPort-AV: E=Sophos;i="4.65,230,1304319600"; 
+   d="scan'208";a="228940"
 Received: from unknown (HELO localhost) ([10.255.12.160])
-	by azsmga001.ch.intel.com with ESMTP; 18 May 2011 01:18:01 -0700
-Message-Id: <7b345b51e1769461514c0e211ca3cc4923fee780.1305702436.git.sgw@linux.intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 18 May 2011 01:18:01 -0700
+Message-Id: <062db52f6eeb7a91033033a85915b4bf701b328e.1305702436.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305702436.git.sgw@linux.intel.com>
 References: <cover.1305702436.git.sgw@linux.intel.com>
-Old-Date: Sat, 14 May 2011 18:44:36 -0700
-Date: Wed, 18 May 2011  1:18:00 -0700
+Old-Date: Tue, 17 May 2011 23:11:58 -0700
+Date: Wed, 18 May 2011  1:18:01 -0700
 To: openembedded-core@lists.openembedded.org
 From: Saul Wold <sgw@linux.intel.com>
 Cc: Robert Yang <liezhi.yang@windriver.com>
-Subject: [PATCH 14/15] qemu: Fix Dependency and compatible machines
+Subject: [PATCH 15/15] gst-openmax: Add patch for GCC 4.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,89 +37,59 @@ X-List-Received-Date: Wed, 18 May 2011 08:20:58 -0000
 
 From: Saul Wold <sgw@linux.intel.com>
 
-add DEFAULT_PREFERENCE = "-1" to disable git recipe
-Added libx11 for GL support to DEPENDS
-Use BROKEN to disable qemuarm and qemumips world build of qemu target
-
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc       |   10 +++++++---
- meta/recipes-devtools/qemu/qemu_0.14.0.bb |    2 +-
- meta/recipes-devtools/qemu/qemu_git.bb    |    7 +++++--
- 3 files changed, 13 insertions(+), 6 deletions(-)
+ .../gstreamer/gst-openmax/gcc_4.6.patch            |   18 ++++++++++++++++++
+ .../gstreamer/gst-openmax_0.10.1.bb                |    6 ++++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-openmax/gcc_4.6.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 49bcf8e..18073eb 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -1,7 +1,7 @@
- DESCRIPTION = "open source processor emulator"
- HOMEPAGE = "http://qemu.org"
- LICENSE = "GPLv2 & LGPLv2.1"
--DEPENDS = "zlib alsa-lib"
-+DEPENDS = "zlib alsa-lib qemugl"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-openmax/gcc_4.6.patch b/meta/recipes-multimedia/gstreamer/gst-openmax/gcc_4.6.patch
+new file mode 100644
+index 0000000..57a63b5
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-openmax/gcc_4.6.patch
+@@ -0,0 +1,18 @@
++Upstream-Status: Pending
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: gst-openmax-0.10.1/omx/gstomx.c
++===================================================================
++--- gst-openmax-0.10.1.orig/omx/gstomx.c	2010-09-30 18:00:24.000000000 -0700
+++++ gst-openmax-0.10.1/omx/gstomx.c	2011-05-17 23:08:08.794535872 -0700
++@@ -238,7 +238,8 @@
++     const gchar *element_name = gst_structure_nth_field_name (element_table, i);
++     GstStructure *element = get_element_entry (element_name);
++     const gchar *type_name, *parent_type_name;
++-    const gchar *component_name, *component_role, *library_name;
+++    const gchar *component_name, *library_name;
+++    const gchar __attribute__((__unused__)) *component_role;
++     GType type;
++     gint rank;
++ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
+index 5eb7e42..776ed1c 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-openmax_0.10.1.bb
+@@ -4,13 +4,15 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24 \
+                     file://util/sem.h;beginline=1;endline=20;md5=accce5550d5583b839b441a0623f09fc"
  
- # QEMU_TARGETS is overridable variable
- QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
-@@ -16,7 +16,6 @@ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --di
- 
- #EXTRA_OECONF += "--disable-sdl"
- 
--COMPATIBLE_MACHINES = "qemux86 qemuppc"
+-SRC_URI = "http://gstreamer.freedesktop.org/src/gst-openmax/gst-openmax-${PV}.tar.bz2"
++SRC_URI = "http://gstreamer.freedesktop.org/src/gst-openmax/gst-openmax-${PV}.tar.bz2 \
++           file://gcc_4.6.patch \
++           "
  
  inherit autotools
  
-@@ -43,9 +42,14 @@ do_configure() {
-     chmod a+x ${S}/target-i386/beginend_funcs.sh
- }
- 
--SRC_URI_append_virtclass-nativesdk = " file://glflags.patch;patch=1"
-+SRC_URI_append_virtclass-nativesdk = " file://glflags.patch"
-+DEPENDS_virtclass-native = "zlib-native alsa-lib-native"
- DEPENDS_virtclass-nativesdk = "zlib-nativesdk libsdl-nativesdk qemugl-nativesdk"
- RDEPENDS_virtclass-nativesdk = "libsdl-nativesdk"
- EXTRA_OECONF_virtclass-nativesdk += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls"
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+# Qemu target will not build in world build for ARM or Mips
-+BROKEN_qemuarm = "1"
-+BROKEN_qemumips = "1"
-diff --git a/meta/recipes-devtools/qemu/qemu_0.14.0.bb b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-index f0a4bea..ccf5ee4 100644
---- a/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_0.14.0.bb
-@@ -3,7 +3,7 @@ require qemu.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ EXTRA_OECONF += "--disable-valgrind"
  
 -PR = "r1"
 +PR = "r2"
  
- FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
- FILESDIR = "${WORKDIR}"
-diff --git a/meta/recipes-devtools/qemu/qemu_git.bb b/meta/recipes-devtools/qemu/qemu_git.bb
-index 2d6a8bd..59fc7f1 100644
---- a/meta/recipes-devtools/qemu/qemu_git.bb
-+++ b/meta/recipes-devtools/qemu/qemu_git.bb
-@@ -5,8 +5,8 @@ SRCREV = "56a60dd6d619877e9957ba06b92d2f276e3c229d"
- LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
- 
--PV = "0.14"
--PR = "r0"
-+PV = "0.14.0"
-+PR = "r1"
- 
- FILESPATH = "${FILE_DIRNAME}/qemu-${PV}/:${FILE_DIRNAME}/qemu-git/"
- FILESDIR = "${WORKDIR}"
-@@ -23,3 +23,6 @@ SRC_URI = "\
- 
- S = "${WORKDIR}/git"
- 
-+DEFAULT_PREFERENCE = "-1"
-+
-+
+ FILES_${PN} += "${libdir}/gstreamer-0.10/libgstomx.so"
+ FILES_${PN}-dev += "${libdir}/gstreamer-0.10/libgstomx.*a"
 -- 
 1.7.3.4
 
