@@ -1,38 +1,35 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1QN1z6-0000wF-En
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 14:05:44 +0200
-Received: by gyf1 with SMTP id 1so927192gyf.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QN26k-00011A-7n for openembedded-core@lists.openembedded.org;
+	Thu, 19 May 2011 14:13:38 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4JCAgdK007728
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2011 05:02:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=5Z4Q+dv7Az37gmkVkqj0mMy224+HG3jm4IeCN+/ri+0=;
-	b=mrbPNSO4e1kOLGFm0bUsQIYhmVpNU+OEid8p+B2WduSmYHp+ZJdGSDKnPEZWPzit6R
-	TORspgDMmX1dO0l7ucbYW+yag53Q3Wy/Flqds7s5exjTuzqiXKlxSjafPhNjXie7DUDD
-	J/LQ3mZRM4CI5se9GCOf6AC+Pde+qNWrT2PW4=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type;
-	b=Pu1Roq5V8M3X2FrBrmzuPcnjAQousWh35yU8LLAwG5PZKpG6QBIHOQ8ecR+XmDLaF9
-	+kRMwbTGQnsifGCSQBAODMwewtJTG1F+aaE6ByvSeUXOhlOZDTwaO7ozs73rN7W9T4fj
-	oxuyjoognhbtUSRojRAUipshCpqwOJ1RMTgcU=
-MIME-Version: 1.0
-Received: by 10.91.33.1 with SMTP id l1mr2437741agj.207.1305806567793; Thu, 19
-	May 2011 05:02:47 -0700 (PDT)
-Received: by 10.91.176.3 with HTTP; Thu, 19 May 2011 05:02:47 -0700 (PDT)
-In-Reply-To: <1305804906.3424.480.camel@rex>
-References: <cover.1305800693.git.lianhao.lu@intel.com>
-	<BANLkTimrb+YjVGP_eh_i8nDunvye0vApJA@mail.gmail.com>
-	<1305804906.3424.480.camel@rex>
-Date: Thu, 19 May 2011 14:02:47 +0200
-Message-ID: <BANLkTinzLqz6ED+=WpT_wnXkta03OiC0Yw@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+	Thu, 19 May 2011 13:10:42 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07427-07 for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 13:10:38 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4JCAZZ4007722
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 13:10:36 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+In-Reply-To: <7AA87FA4-77D9-4D52-9D91-1BB909F268A6@dominion.thruhere.net>
+References: <cover.1305800693.git.lianhao.lu@intel.com>
+	<53BCC7D4-31CB-43AA-A5DD-CC1730DDD0B2@dominion.thruhere.net>
+	<1305805104.3424.484.camel@rex>
+	<7AA87FA4-77D9-4D52-9D91-1BB909F268A6@dominion.thruhere.net>
+Date: Thu, 19 May 2011 13:10:33 +0100
+Message-ID: <1305807033.3424.504.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH 0/5] network based PR service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -48,52 +45,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 12:05:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 19 May 2011 12:13:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-2011/5/19 Richard Purdie <richard.purdie@linuxfoundation.org>
+On Thu, 2011-05-19 at 13:51 +0200, Koen Kooi wrote:
+> Op 19 mei 2011, om 13:38 heeft Richard Purdie het volgende geschreven:
+> 
+> > On Thu, 2011-05-19 at 12:54 +0200, Koen Kooi wrote:
+> >> Op 19 mei 2011, om 12:29 heeft Lianhao Lu het volgende geschreven:
+> >> 
+> >>> From: Lianhao Lu <lianhao.lu@intel.com>
+> >>> 
+> >>> This series of 5 patches implemented the network based PR service and enabled 
+> >>> the poky to use it during the task do_package and do_package_write_xxx. By 
+> >>> using the network based PR service and the basichash for BB_SIGNATURE_HANDLER, 
+> >>> the poky user may not need to bump the PR manually everytime he/she changes 
+> >>> the recipe. The package will get automatically rebuilt and new revision number 
+> >>> reflecting the change will be included in the package feed.
+> >> 
+> >> Does it have a public/private mode? In the angstrom case, we only want
+> >> developers to 'submit' PR bumps and users only retrieve them.
+> > 
+> > It doesn't look like it but it wouldn't be hard to only submit PR
+> > changes if some kind of token was present.
+> > 
+> > The big question would be, if a user tried building something for which
+> > PR no record was on the server and didn't have submit privileges, what
+> > should the server return and how should the build behave? Hard error?
+> > 
+> > If its not a hard error, you are likely to run into local
+> > reproducibility issues and also conflicts with the server?
+> 
+> I would go for a warning on the client side and an error in the log in
+> the server side. If the server people care enough they'll check the
+> log for errors and add the missing info.
 
-> On Thu, 2011-05-19 at 13:01 +0200, Frans Meulenbroeks wrote:
-> > What should I do to either disable this for some recipes, or use a
-> > different (private) server?
-> > We do not wish to rely on an external server for proprietary recipes (or
-> for
-> > recipes for which we made a local change in an overlay).
-> > How is this case handled?
->
-> This could be handled by doing things like setting:
->
-> PRSERV_HOST_pn-myprivaterecipe = "somelocalhost"
->
-> or
->
-> PRSERV_HOST_pn-myprivaterecipe = ""
->
-> to disable it.
->
-> One thing we lack is a good way to apply changes like this, only if code
-> is within a given layer. Even in that case, it should be possible with
-> anonymous python to look at the location of the current .bb file and
-> then conditionally set these variables as appropriate to the right
-> server.
->
-> Certainly this needs to be thought about and documented but I think
-> there are ways to do it.
->
-> Pardon my ignorance, but I do not really understand the complete flow and
-way of working.
+How is the client meant to continue on when the value it gets from the
+server is effectively a "don't know" reply? Default to 0?
 
-Anyway if I do something like:
- PRSERV_HOST_pn-myprivaterecipe = ""
-would I still be able to use PR in my recipe (like I do today)?
+Thinking about it, its probably fine as long as it defaulted back to
+"lr" or something to show there was likely a local change that caused it
+to deviate from what was on the server. It just needs to be clear it
+doesn't correspond to the upstream server.
 
-Also we do have the issue that it is desired to be able to rebuild without
-network connectivity (e.g. while temporary offline while travelling). Would
-that still be possible?
+> I think we need to give this a try and see what improvements we need.
 
-For layers, one solution could be to allow variable overriding on the
-overlay level. I can imagine there are more uses for that (and I understand
-this requires changes to the bitbake machinery).
+Agreed.
 
-Frans.
+Cheers,
+
+Richard
+
+
 
