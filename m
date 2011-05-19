@@ -1,23 +1,41 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QMpG5-0003uj-Ap
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 00:30:26 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 May 2011 15:27:28 -0700
-X-ExtLoop1: 1
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.160])
-	by orsmga002.jf.intel.com with ESMTP; 18 May 2011 15:27:28 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 May 2011 15:26:57 -0700
-Message-Id: <79ae53f9d0178391ac50ab7fd33766353e791238.1305756950.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <fc7402495a8a30b203d5535e73383bc4412e2a1f.1305756950.git.sgw@linux.intel.com>
-References: <fc7402495a8a30b203d5535e73383bc4412e2a1f.1305756950.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1305756950.git.sgw@linux.intel.com>
-References: <cover.1305756950.git.sgw@linux.intel.com>
-Subject: [PATCH 28/30] send-pull-request: streamline git-send-email usage
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QMrUt-0006P4-9V for openembedded-core@lists.openembedded.org;
+	Thu, 19 May 2011 02:53:51 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4J0ovAa001492
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 01:50:57 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 00907-10 for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 01:50:49 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4J0okBv001478
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 01:50:47 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CF837081-FAD3-4922-975B-B3CB6DD60533@dominion.thruhere.net>
+References: <cover.1305665459.git.raj.khem@gmail.com>
+	<cc2e6337ae338737455bf63bd43278dee302fb5c.1305665459.git.raj.khem@gmail.com>
+	<1305734038.18415.108.camel@lenovo.internal.reciva.com>
+	<BANLkTikiNW0UEfLM_UtKeekTcrW5UNNfUA@mail.gmail.com>
+	<1305738527.18415.126.camel@lenovo.internal.reciva.com>
+	<8A91C5F6-313A-4A0F-A18E-094CFC3BB337@dominion.thruhere.net>
+	<BANLkTinvqEeyXsiH79UHb3Zhx+qkXZRJ5w@mail.gmail.com>
+	<BANLkTinwdO5XBGH=py2iw0kyJt6o77q7rw@mail.gmail.com>
+	<CF837081-FAD3-4922-975B-B3CB6DD60533@dominion.thruhere.net>
+Date: Thu, 19 May 2011 01:47:28 +0100
+Message-ID: <1305766048.3424.385.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] default-distrovars.inc, task-core-boot.bb: Create distro overridable varibales
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,130 +50,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 May 2011 22:36:46 -0000
+X-List-Received-Date: Thu, 19 May 2011 00:53:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Darren Hart <dvhart@linux.intel.com>
+On Wed, 2011-05-18 at 20:15 +0200, Koen Kooi wrote:
+> Op 18 mei 2011, om 20:07 heeft Khem Raj het volgende geschreven:
+> > there are certain common parts that can be abstracted
+> > and can be maintained in oe-core so everyone benefits
+> > from it and certain image specific parts can be done in
+> > distros. So keeping common parts in core would still
+> > be better IMO
+> 
+> And in OE .dev we split task-boot from task-base to be able to get the
+> benefits from task base without forcing task-boot. OE-core had the
+> same till it got forcefully added to the extra depends last week.
 
-The script was sending one patch at a time, which defeats the internal
-confirmation mechanism of git-send-email (which would otherwise allow
-the user to send all patches or abort immediately).
+Which was a genuine mistake and I need to merge the patch that is around
+to address that particular issue.
 
-Rework the sending logic to use no more than two commands. Use two
-commands when the cover letter is to be sent to all recipients with
-the -a argument. Otherwise, send all patches via the same command.
+Cheers,
 
-The script duplicates git's send confirmation, eliminate that.
-
-Reported-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Acked-by: Joshua Lock <josh@linux.intel.com>
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Khem Raj <raj.khem@gmail.com>
-Cc: Joshua Lock <josh@linux.intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
----
- scripts/send-pull-request |   68 +++++++++++++++++---------------------------
- 1 files changed, 26 insertions(+), 42 deletions(-)
-
-diff --git a/scripts/send-pull-request b/scripts/send-pull-request
-index 21eb302..8d0bd34 100755
---- a/scripts/send-pull-request
-+++ b/scripts/send-pull-request
-@@ -1,6 +1,7 @@
- #!/bin/bash
- AUTO=0
- AUTO_CL=0
-+GITSOBCC=""
- 
- # Prevent environment leakage to these vars.
- unset TO
-@@ -59,10 +60,11 @@ while getopts "achp:t:" OPT; do
- 	case $OPT in
- 	a)
- 		AUTO_CL=1
--		AUTO=1
--		;;
-+		# Fall through to include -c
-+		;&
- 	c)
- 		AUTO=1
-+		GITSOBCC="--signed-off-by-cc"
- 		;;
- 	h)
- 		usage
-@@ -130,48 +132,30 @@ if [ -z "$TO" ] && [ -z "$AUTO_CC" ]; then
- fi
- 
- 
--# Generate report for the user and require confirmation before sending
--cat <<EOM
--The following patches:
--$(for PATCH in $PDIR/*.patch; do echo "    $PATCH"; done)
-+# Convert the collected addresses into git-send-email argument strings
-+export IFS=$','
-+GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
-+GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
-+unset IFS
- 
--will now be sent via the git send-email command. Git will prompt you before
--sending any email.
- 
--EOM
--echo "Continue? [y/N] "
--read cont
--
--if [ "$cont" == "y" ] || [ "$cont" == "Y" ]; then
--	ERROR=0
--	export IFS=$','
--	GIT_TO=$(for R in $TO; do echo -n "--to='$R' "; done)
--	GIT_CC=$(for R in $AUTO_CC; do echo -n "--cc='$R' "; done)
--	unset IFS
--	for PATCH in $PDIR/*patch; do
--		if [ $AUTO -eq 1 ]; then
--			if [ $PATCH == "$CL" ] && [ $AUTO_CL -eq 1 ]; then
--				# Send the cover letter to every recipient, both
--				# specified as well as harvested.
--				eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
--			else
--				# Send the patch to the specified recipients and
--				# those git finds in this specific patch.
--				eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --signed-off-by-cc $PATCH"
--			fi
--		else
--			# Only send to the explicitly specified recipients
--			eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to --suppress-cc=all $PATCH"
--		fi
--		if [ $? -eq 1 ]; then
--			ERROR=1
--		fi
--	done
--
--	if [ $ERROR -eq 1 ]; then
--		echo "ERROR: Failed to send one or more messages."
-+# Handoff to git-send-email. It will perform the send confirmation.
-+PATCHES=$(echo $PDIR/*.patch)
-+if [ $AUTO_CL -eq 1 ]; then
-+	# Send the cover letter to every recipient, both specified as well as
-+	# harvested. Then remove it from the patches list.
-+	eval "git send-email $GIT_TO $GIT_CC --confirm=always --no-chain-reply-to --suppress-cc=all $CL"
-+	if [ $? -eq 1 ]; then
-+		echo "ERROR: failed to send cover-letter with automatic recipients."
-+		exit 1
- 	fi
--else
--	echo "Send aborted."
-+	PATCHES=${PATCHES/"$CL"/}
- fi
- 
-+# Send the patch to the specified recipients and, if -c was specified, those git
-+# finds in this specific patch.
-+eval "git send-email $GIT_TO --confirm=always --no-chain-reply-to $GITSOBCC $PATCHES"
-+if [ $? -eq 1 ]; then
-+	echo "ERROR: failed to send patches."
-+	exit 1
-+fi
--- 
-1.7.3.4
+Richard
 
 
 
