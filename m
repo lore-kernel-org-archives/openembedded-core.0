@@ -1,23 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1QN0Sy-00062F-Kg
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 12:28:29 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 May 2011 03:24:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,236,1304319600"; 
-   d="scan'208";a="886883"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.87])
-	by orsmga001.jf.intel.com with ESMTP; 19 May 2011 03:24:26 -0700
-Message-Id: <846fb39b9bb26dff90cfe8f964eb33dc44efd2d0.1305800693.git.lianhao.lu@intel.com>
-In-Reply-To: <cover.1305800693.git.lianhao.lu@intel.com>
-References: <cover.1305800693.git.lianhao.lu@intel.com>
-Old-Date: Thu, 19 May 2011 10:17:43 +0800
-Date: Thu, 19 May 2011 18:29:28 +0800
-To: openembedded-core@lists.openembedded.org
-From: Lianhao Lu <lianhao.lu@intel.com>
-Subject: [PATCH 4/5] classes/package_xxx.class: Added PR service support.
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QN0YW-0006BC-Ok for openembedded-core@lists.openembedded.org;
+	Thu, 19 May 2011 12:34:12 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>)
+	id 1QN0Ve-0007Ho-4h; Thu, 19 May 2011 12:31:14 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1305800103.3424.464.camel@rex>
+References: <1305640549.2429.226.camel@phil-desktop>
+	<1305642273.3424.244.camel@rex>
+	<1305643833.2429.264.camel@phil-desktop>
+	<1305649331.3424.259.camel@rex>
+	<1305733061.18415.98.camel@lenovo.internal.reciva.com>
+	<1305800103.3424.464.camel@rex>
+Date: Thu, 19 May 2011 11:31:08 +0100
+Message-ID: <1305801068.18415.179.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rootfs_ipk: respect ONLINE_PACKAGE_MANAGEMENT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,117 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 10:28:29 -0000
+X-List-Received-Date: Thu, 19 May 2011 10:34:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Lianhao Lu <lianhao.lu@intel.com>
+On Thu, 2011-05-19 at 11:15 +0100, Richard Purdie wrote:
+> We have postinstalls that require to run on the target device. If
+> they're present, we need opkg there to run them, or at least some kind
+> of script to handle that and I think both cases have a requirement on
+> that directory (the rpm backend has a suitable script).
+> 
+> So the current patches which just don't create it don't really address
+> the problem. At the very least the image generation should error if
+> these types of postinstall are present which I guess is my real concern.
 
-Use PRFORMAT instead of PR to build various package feed in tasks
-of pacakge_write_xxx.
+Ah, I see what you mean now.  Yes, it is true that packages which expect
+to get their postinst run on the target will lose in this case.  But,
+practically speaking, this is not likely to be too much of a limitation:
+devices which have O_P_M=none tend to be the same ones that have their
+root filesystem on readonly media, so running postinsts on the target is
+likely to be futile anyway.  (Also, O_P_M=none targets will generally
+not install opkg in their rootfs in any case.)
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/classes/package_deb.bbclass |    6 +++---
- meta/classes/package_ipk.bbclass |    6 +++---
- meta/classes/package_rpm.bbclass |    4 ++--
- meta/classes/package_tar.bbclass |    4 ++--
- 4 files changed, 10 insertions(+), 10 deletions(-)
+I agree it would be a good thing for the build to emit an error in this
+case rather than just causing the postinsts to silently not run.  I
+guess the ideal way of dealing with this would be:
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 4faeb4a..1f26d34 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -272,7 +272,7 @@ python do_package_deb () {
-         except ValueError:
-             pass
-         if not g and bb.data.getVar('ALLOW_EMPTY', localdata) != "1":
--            bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, True), bb.data.getVar('PR', localdata, True)))
-+            bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, True), bb.data.getVar('PRFORMAT', localdata, True)))
-             bb.utils.unlockfile(lf)
-             continue
- 
-@@ -290,9 +290,9 @@ python do_package_deb () {
-         fields = []
-         pe = bb.data.getVar('PE', d, True)
-         if pe and int(pe) > 0:
--            fields.append(["Version: %s:%s-%s\n", ['PE', 'PV', 'PR']])
-+            fields.append(["Version: %s:%s-%s\n", ['PE', 'PV', 'PRFORMAT']])
-         else:
--            fields.append(["Version: %s-%s\n", ['PV', 'PR']])
-+            fields.append(["Version: %s-%s\n", ['PV', 'PRFORMAT']])
-         fields.append(["Description: %s\n", ['DESCRIPTION']])
-         fields.append(["Section: %s\n", ['SECTION']])
-         fields.append(["Priority: %s\n", ['PRIORITY']])
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 3c2472b..7bec136 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -241,7 +241,7 @@ python do_package_ipk () {
- 		except ValueError:
- 			pass
- 		if not g and bb.data.getVar('ALLOW_EMPTY', localdata) != "1":
--			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, 1), bb.data.getVar('PR', localdata, 1)))
-+			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, 1), bb.data.getVar('PRFORMAT', localdata, 1)))
- 			bb.utils.unlockfile(lf)
- 			continue
- 
-@@ -256,9 +256,9 @@ python do_package_ipk () {
- 		fields = []
- 		pe = bb.data.getVar('PE', d, 1)
- 		if pe and int(pe) > 0:
--			fields.append(["Version: %s:%s-%s\n", ['PE', 'PV', 'PR']])
-+			fields.append(["Version: %s:%s-%s\n", ['PE', 'PV', 'PRFORMAT']])
- 		else:
--			fields.append(["Version: %s-%s\n", ['PV', 'PR']])
-+			fields.append(["Version: %s-%s\n", ['PV', 'PRFORMAT']])
- 		fields.append(["Description: %s\n", ['DESCRIPTION']])
- 		fields.append(["Section: %s\n", ['SECTION']])
- 		fields.append(["Priority: %s\n", ['PRIORITY']])
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 1cf9f79..ecb6f45 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -383,7 +383,7 @@ python write_specfile () {
- 	srcname    = bb.data.getVar('PN', d, True)
- 	srcsummary = (bb.data.getVar('SUMMARY', d, True) or bb.data.getVar('DESCRIPTION', d, True) or ".")
- 	srcversion = bb.data.getVar('PV', d, True).replace('-', '+')
--	srcrelease = bb.data.getVar('PR', d, True)
-+	srcrelease = bb.data.getVar('PRFORMAT', d, True)
- 	srcepoch   = (bb.data.getVar('PE', d, True) or "")
- 	srclicense = bb.data.getVar('LICENSE', d, True)
- 	srcsection = bb.data.getVar('SECTION', d, True)
-@@ -438,7 +438,7 @@ python write_specfile () {
- 
- 		splitsummary = (bb.data.getVar('SUMMARY', localdata, True) or bb.data.getVar('DESCRIPTION', localdata, True) or ".")
- 		splitversion = (bb.data.getVar('PV', localdata, True) or "").replace('-', '+')
--		splitrelease = (bb.data.getVar('PR', localdata, True) or "")
-+		splitrelease = (bb.data.getVar('PRFORMAT', localdata, True) or "")
- 		splitepoch   = (bb.data.getVar('PE', localdata, True) or "")
- 		splitlicense = (bb.data.getVar('LICENSE', localdata, True) or "")
- 		splitsection = (bb.data.getVar('SECTION', localdata, True) or "")
-diff --git a/meta/classes/package_tar.bbclass b/meta/classes/package_tar.bbclass
-index e546eb7..d4d7980 100644
---- a/meta/classes/package_tar.bbclass
-+++ b/meta/classes/package_tar.bbclass
-@@ -3,7 +3,7 @@ inherit package
- IMAGE_PKGTYPE ?= "tar"
- 
- python package_tar_fn () {
--	fn = os.path.join(bb.data.getVar('DEPLOY_DIR_TAR', d), "%s-%s-%s.tar.gz" % (bb.data.getVar('PKG', d), bb.data.getVar('PV', d), bb.data.getVar('PR', d)))
-+	fn = os.path.join(bb.data.getVar('DEPLOY_DIR_TAR', d), "%s-%s-%s.tar.gz" % (bb.data.getVar('PKG', d), bb.data.getVar('PV', d), bb.data.getVar('PRFORMAT', d)))
- 	fn = bb.data.expand(fn, d)
- 	bb.data.setVar('PKGFN', fn, d)
- }
-@@ -83,7 +83,7 @@ python do_package_tar () {
- 		os.chdir(root)
- 		from glob import glob
- 		if not glob('*'):
--			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, 1), bb.data.getVar('PR', localdata, 1)))
-+			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, 1), bb.data.getVar('PRFORMAT', localdata, 1)))
- 			continue
- 		ret = os.system("tar -czf %s %s" % (tarfn, '.'))
- 		if ret != 0:
--- 
-1.7.0.4
+a) introduce a new variable, TARGET_FILESYSTEM_READONLY or some such,
+and make it an error for there to be any packages left in "install ok
+unpacked" at the end of rootfs construction if this flag is set;
+
+b) for the case where O_P_M="none" but T_F_R is not set, provide an
+additional postprocessor to distill the opkg status file down to just
+the bits that are needed for postinst running, and also provide some
+lightweight script to run the postinsts and then clean up afterwards.
+
+p.
+
 
 
 
