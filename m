@@ -1,38 +1,38 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QMt2M-0008CM-TJ
+	(envelope-from <raj.khem@gmail.com>) id 1QMt2N-0008BU-4J
 	for openembedded-core@lists.openembedded.org;
 	Thu, 19 May 2011 04:32:31 +0200
-Received: by pzk36 with SMTP id 36so1026494pzk.6
+Received: by mail-pv0-f175.google.com with SMTP id 30so1026172pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 19:29:34 -0700 (PDT)
+	Wed, 18 May 2011 19:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=gOhvNsAZkpb5aqsgUuRZyLco7TPBpODu0RnY3okH+Eo=;
-	b=jOhqEPBb/B5BrhPJ37QUMNf2q+JzylHWSo31VO6h5Xy8fqKJoXXvQ7/+WD1EV0+NOE
-	5tQo3j6UM8tAnaePiO95Kes/bDw6Vt7vnyja7ru/ut0AMgvqAp74oBi/SHTuNikyklyf
-	X7+w7Xbij23WrnX1RJHUWu7eKeZhlLFX1pCxA=
+	bh=h6sMcD6wQy3nwtrJTLRX6k+5doQJKex2j4pwGqy13iE=;
+	b=B3J9NqaMMFQ96/eF8dt5h5v1bLxIEUQmCoss8PkRHX3HPvow4zbjNkjbWh9nurddr/
+	0mjgNJktML4YcclF/79N5J14HWC/vYizTa1KeAfvrIAhAuOMB4geQRLRC/P5UIEjW6IQ
+	ziSeGZbwoRG1rVcIEjsYTbH+KehIsBwQL5IQI=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=ZBsRfOj3LQLk5umZyEF3H+QaUU7rFlBb5u6/4ou3i1KIkr6KEPWekc2jq0a5kOqxUI
-	DFsqa0c5Pas1AcF4bG/0nVI2+Lk899xTpMgVPzbyLkcRpxkXXG9RDpcdBUvKi6HbyiVM
-	yfGGk57DJJj4gffVBYgx6YezcJ3koOXzUbvOY=
-Received: by 10.68.48.3 with SMTP id h3mr3934614pbn.505.1305772174362;
-	Wed, 18 May 2011 19:29:34 -0700 (PDT)
+	b=PzuH6kPg9UNA+huCkDKQZrXv/iBqELqJJlXTkd+P05bipcFVxRJRIVAGFikjAzrtvj
+	VnKSLMZbXFfFfzFTC/3qC0fLmVgbJ/LNTa6HDZaaDMSdcUflHEQ5qlCST3ZR9Yntt1x4
+	RiYmQf6taF6NIIk0OpsgZgohxIdbAK3SL27sk=
+Received: by 10.142.188.4 with SMTP id l4mr872958wff.59.1305772177796;
+	Wed, 18 May 2011 19:29:37 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id f1sm1433018pbm.93.2011.05.18.19.29.32
+	by mx.google.com with ESMTPS id k6sm1898337wfa.5.2011.05.18.19.29.36
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 May 2011 19:29:33 -0700 (PDT)
+	Wed, 18 May 2011 19:29:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 May 2011 19:29:23 -0700
-Message-Id: <b1d1f4f3cdbfd52c547252d2c8663b5877bcc2ed.1305772107.git.raj.khem@gmail.com>
+Date: Wed, 18 May 2011 19:29:27 -0700
+Message-Id: <b4be330cb312df05c522e980fe9335808dda7371.1305772107.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1305772107.git.raj.khem@gmail.com>
 References: <cover.1305772107.git.raj.khem@gmail.com>
-Subject: [PATCH 2/3] distcc_2.18.3.bb: Fix compilation on uclibc
+Subject: [PATCH 3/3] nfs-utils_1.2.3.bb: Fix compile failure on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,58 +49,98 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 19 May 2011 02:32:31 -0000
 
-We enable gtk/gnome in distcc that code uses loadavg()
-a function unimplemented in uclibc. Therefore for uclibc
-we disable gnome and gtk+ features in distcc
+libio.h is not needed even in case of eglibc but
+still the patch is uclibc specific
+
+Refreshed nfs-utils-1.0.6-uclibc.patch against
+nfs-utils_1.2.3 no code change
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/distcc/distcc_2.18.3.bb |   18 +++++++++++++-----
- 1 files changed, 13 insertions(+), 5 deletions(-)
+ .../nfs-utils/nfs-utils-1.0.6-uclibc.patch         |   16 +++++++-----
+ .../nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch |   26 ++++++++++++++++++++
+ .../nfs-utils/nfs-utils_1.2.3.bb                   |    1 +
+ 3 files changed, 36 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch
 
-diff --git a/meta/recipes-devtools/distcc/distcc_2.18.3.bb b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-index 1f5c2af..d6e51d9 100644
---- a/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-+++ b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-@@ -6,7 +6,8 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- PR = "r6"
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
+index e82480a..6d46d3a 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
+@@ -1,20 +1,22 @@
+ Upstream-Status: Inappropriate [embedded specific]
  
--DEPENDS = "avahi gtk+"
-+DEPENDS = "avahi"
-+DEPENDS_append-libc-glibc = " gtk+ "
- RRECOMMENDS_${PN} = "avahi-daemon"
+---- ./support/nfs/svc_socket.c.orig	2004-12-12 06:43:52.000000000 +0000
+-+++ ./support/nfs/svc_socket.c	2004-12-12 06:50:04.000000000 +0000
+-@@ -66,6 +66,7 @@
+-   memset ((char *) &addr, sizeof (addr));
++Index: nfs-utils-1.2.3/support/nfs/svc_socket.c
++===================================================================
++--- nfs-utils-1.2.3.orig/support/nfs/svc_socket.c
+++++ nfs-utils-1.2.3/support/nfs/svc_socket.c
++@@ -67,6 +67,7 @@ svc_socket (u_long number, int type, int
++   memset (&addr, 0, sizeof (addr));
+    addr.sin_family = AF_INET;
+  
+ +#ifndef __UCLIBC__	/* neither getrpcbynumber() nor getrpcbynumber_r() is SuSv3 */
+    ret = getrpcbynumber_r (number, &rpcbuf, rpcdata, sizeof rpcdata,
+  			  &rpcp);
+    if (ret == 0 && rpcp != NULL)
+-@@ -99,6 +100,7 @@
++@@ -100,6 +101,7 @@ svc_socket (u_long number, int type, int
+  	}
+      }
+    else
+ +#endif
+      {
+-       if (bindresvport (sock, &addr))
+- 	{
++ 	  addr.sin_port = 0;
++ 	  if (bind (sock, (struct sockaddr *) &addr, len) < 0)
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch
+new file mode 100644
+index 0000000..465144a
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch
+@@ -0,0 +1,26 @@
++[PATCH] fix build with uClibc
++
++uClibc doesn't have/need libio.h, so don't include it from sockaddr.h
++
++Signed-off-by: Peter Korsgaard <jacmet@sunsite.dk>
++---
++ support/include/sockaddr.h |    5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++Upstream-Status: Pending
++
++Index: nfs-utils-1.2.3/support/include/sockaddr.h
++===================================================================
++--- nfs-utils-1.2.3.orig/support/include/sockaddr.h
+++++ nfs-utils-1.2.3/support/include/sockaddr.h
++@@ -20,7 +20,10 @@
++ #ifndef NFS_UTILS_SOCKADDR_H
++ #define NFS_UTILS_SOCKADDR_H
++ 
+++/* uClibc doesn't have/need libio.h */
+++#ifndef __UCLIBC__
++ #include <libio.h>
+++#endif
++ #include <stdbool.h>
++ #include <sys/socket.h>
++ #include <netinet/in.h>
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+index b456474..d344f3d 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+@@ -17,6 +17,7 @@ PR = "r2"
  
- # Upstream change this patch periodically so store locally
-@@ -24,17 +25,24 @@ inherit autotools pkgconfig update-rc.d
+ SRC_URI = "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
+            file://nfs-utils-1.0.6-uclibc.patch \
++           file://nfs-utils-1.2.3-uclibc-libio.h.patch \
+            file://nfsserver"
  
- INITSCRIPT_NAME = "distcc"
- 
--EXTRA_OECONF = " --with-gtk "
--
--do_install_append() {
-+EXTRA_OECONF_libc-glibc = " --with-gtk "
-+EXTRA_OECONF_libc-uclibc = " --without-gtk --without-gnome "
-+do_install_append_libc-glibc() {
-     install -d ${D}${sysconfdir}/init.d/
-     install -d ${D}${sysconfdir}/default
-+    install -d ${D}${datadir}/distcc/
-     install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
-     install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
-     install -m 0644 ${WORKDIR}/distccmon-gnome.desktop ${D}${datadir}/distcc/
- }
-+do_install_append_libc-uclibc() {
-+    install -d ${D}${sysconfdir}/init.d/
-+    install -d ${D}${sysconfdir}/default
-+    install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
-+    install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
-+}
- 
--PACKAGES += "distcc-distmon-gnome"
-+PACKAGES_append_libc-glibc = " distcc-distmon-gnome"
- 
- FILES_${PN} = " ${sysconfdir} \
- 		${bindir}/distcc \
+ SRC_URI[md5sum] = "1131dc5f27c4f3905a6e7ee0d594fd4d"
 -- 
 1.7.4.1
 
