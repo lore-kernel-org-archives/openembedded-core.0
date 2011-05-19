@@ -1,22 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QN4sp-0002Zv-7w for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 17:11:34 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4JF8WBx009451;
-	Thu, 19 May 2011 16:08:32 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08978-07; Thu, 19 May 2011 16:08:28 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4JF8RfA009445
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 19 May 2011 16:08:28 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Phil Blundell <pb@pbcl.net>
-In-Reply-To: <1305817446.18415.193.camel@lenovo.internal.reciva.com>
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <kergoth@gmail.com>) id 1QN6bG-0005DE-Pw
+	for openembedded-core@lists.openembedded.org;
+	Thu, 19 May 2011 19:01:31 +0200
+Received: by vxd7 with SMTP id 7so2380846vxd.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 09:58:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
+	:date:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=czgU/tJDw+mliBCBJY9HPqmrfcFEojRA3mgt19jzu6E=;
+	b=wV0rRvqOUVeskTMeiaU7Mw0B4ritdxdsRB+HkYf9nE84gTFGAgS3FGw4ZxXRK24FjI
+	qRXEo1bFXo5hgih38kWoggfj38/uJSB8SX45lR1UBMXsJ75ZJS19gRiDinznjW2iyvgD
+	Ib21OfIMY5RIT/72mvpEfBJOdSOcPIVIOYWfk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	b=XTft0jKASIhNZxQJ1gtUXD1sj4XSC1XIqxxPMXpti9WQQZT43+3pQC3H7LXHALgmrF
+	uovhpJNQiU+41EG5P/wt7eEBB+HFtK4j38DITMQj+FHVqpGDglUgk/ilkAr8ZSuou6Qd
+	ZJ6gj0lFEISnwYX7RpyBuolOT/JeEdaqX4J/8=
+Received: by 10.52.32.102 with SMTP id h6mr4791709vdi.34.1305824310436; Thu,
+	19 May 2011 09:58:30 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.52.183.162 with HTTP; Thu, 19 May 2011 09:58:09 -0700 (PDT)
+In-Reply-To: <1305804109.3424.475.camel@rex>
 References: <1305640549.2429.226.camel@phil-desktop>
 	<1305642273.3424.244.camel@rex>
 	<1305643833.2429.264.camel@phil-desktop>
@@ -25,15 +33,11 @@ References: <1305640549.2429.226.camel@phil-desktop>
 	<1305800103.3424.464.camel@rex>
 	<1305801068.18415.179.camel@lenovo.internal.reciva.com>
 	<1305804109.3424.475.camel@rex>
-	<1305805268.18415.185.camel@lenovo.internal.reciva.com>
-	<1305807396.3424.510.camel@rex>
-	<1305817446.18415.193.camel@lenovo.internal.reciva.com>
-Date: Thu, 19 May 2011 16:08:24 +0100
-Message-ID: <1305817704.3424.531.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Patches and discussions about the oe-core layer
+From: Chris Larson <clarson@kergoth.com>
+Date: Thu, 19 May 2011 09:58:09 -0700
+X-Google-Sender-Auth: jJgE-Fi9TJGK5wEbac7Frs00v8w
+Message-ID: <BANLkTikDXFAMQCs58QL==p+_PEcs_n3=UA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] rootfs_ipk: respect ONLINE_PACKAGE_MANAGEMENT
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,31 +54,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 15:11:40 -0000
-X-List-Received-Date: Thu, 19 May 2011 15:11:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 May 2011 17:01:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2011-05-19 at 16:04 +0100, Phil Blundell wrote:
-> On Thu, 2011-05-19 at 13:16 +0100, Richard Purdie wrote:
-> > So if we:
-> > 
-> > a) Only add ROOTFS_PKGMANAGE_BOOTSTRAP if postinstalls were present
-> > b) Add the read-only-rootfs option we discussed which errors if 
-> >    postinstalls are present
-> > 
-> > we end up a lot closer to where you want to be.
-> 
-> Yes, sounds reasonable.  And I think we could then eliminate
-> remove_packaging_data_files() altogether, in favour of having the right
-> thing happen automatically during rootfs construction, which would
-> probably be a good thing too.
+On Thu, May 19, 2011 at 4:21 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> We have these variables and I know Chris has some patches submitted to
+> improve our handling of such variables. I'm coming down in favour of
+> extending these into some of these use cases too though.
 
-Agreed, I think we have a plan :)
-
-Cheers,
-
-Richard
-
+This sounds like a nice idea. The bits I submitted only add support
+for package groups as image features, but I always expected us to add
+features other than just those in the future. This sounds like a good
+candidate for that, indeed.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
