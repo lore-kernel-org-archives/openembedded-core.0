@@ -1,42 +1,35 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1QN910-0008C6-6r; Thu, 19 May 2011 21:36:10 +0200
-Received: by fxm19 with SMTP id 19so2612050fxm.6
-	for <multiple recipients>; Thu, 19 May 2011 12:33:14 -0700 (PDT)
+	(envelope-from <raj.khem@gmail.com>) id 1QNAVx-0002NP-HX
+	for openembedded-core@lists.openembedded.org;
+	Thu, 19 May 2011 23:12:13 +0200
+Received: by pzk36 with SMTP id 36so1426512pzk.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 14:09:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=2jC9JpkG0rCtFS+RmhbnZbBzIXvnPMkwi+uqHQH5j74=;
-	b=mO7t1kCW0BK2BBizZLrF9BERzcgA4CmUZyjuxTFMP1D0Mkf8DuoUpg8tGgU2MMDZZ7
-	72PrP2Uy/uG00fuunVGtG4VdsZYU06dbctvVKNqEfGbR0/mClfJi1IthwF854zYMBg7D
-	1DpeQedNyHhitwUcHE6MM7dgMP42Hhze1hJEQ=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=WxBDyKM66t1flxZ1X8v/VPfR2zSsikaOPW3x1ZihA/g=;
+	b=NE31M64SAAxXiFc7dZH40q9Ez6/FfICgZ7pVk+7kgjnuvKf5DgGpKo5RsvNjimLB54
+	m3A/nS0WtvrxNH2zwmJTmQGs4Pbn+vpDC3ZYoxRzm+lN0uJol6j8obJovWpTU3FZQvUa
+	tZ/w1AmWy16TqhtivXVZoVDk4Xyh8DydmkpAM=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	b=XatHiQqQ3ieBOcZRe2ITZ3vtnvXZAYqdcyfx9L5nh4D30MkCCyP3dbJOv2urnUiilX
-	/CwX3RsY67WYAKCmsczYR3/PaZXK7o1lkcte8W1NzbQaXva+JC0Wy6xx/sJAEaUTmwdj
-	PjLkD8I2XLq+jn5RnGvsIarffkUp3hyBRPqPU=
-Received: by 10.223.10.150 with SMTP id p22mr1655643fap.86.1305833594327;
-	Thu, 19 May 2011 12:33:14 -0700 (PDT)
-Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id 19sm1185887faf.5.2011.05.19.12.33.12
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=HhuSfyIkv8TBGKpgmSiEOvmzEAVe86nj48qU3vZXtglAI1EV6eKK20kKGI4gcDKlLs
+	a5+qLXDwWGNIjVL8bXlzfNzgwY57ipjr9nCQLuODN+CxdeIu5mw7TEN+eBGf6YgVOfoZ
+	YMAqXZaCZEF8LML6AzAh9aHh7Cvfci/3MksK4=
+Received: by 10.68.46.195 with SMTP id x3mr5569129pbm.442.1305839356056;
+	Thu, 19 May 2011 14:09:16 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id r7sm612049pbj.85.2011.05.19.14.09.13
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 May 2011 12:33:13 -0700 (PDT)
-Date: Thu, 19 May 2011 21:33:06 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110519193306.GA3235@jama.jama.net>
-References: <E1QN7Sg-0003y1-3F@happy.bec-systems.com>
-	<BANLkTimEO3P8JmjcS9s50yqJWB=nBAkq+Q@mail.gmail.com>
-	<BANLkTinY3fkK5oK58EC-yXmW37VZkbiV4w@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <BANLkTinY3fkK5oK58EC-yXmW37VZkbiV4w@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] OE Changelog for 2011-4-8 to 2011-4-15
+	Thu, 19 May 2011 14:09:14 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 May 2011 14:09:03 -0700
+Message-Id: <cover.1305839225.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/2] Let opkg-build allow uppercase letters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,43 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 19:36:10 -0000
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 19 May 2011 21:12:13 -0000
 
---bp/iNruPH9dso1Pn
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Majority of the changes are backported from OE
+one additional patch is to opkg-utils/opkg-build to allow
+uppercase letters.
 
-On Thu, May 19, 2011 at 12:14:59PM -0700, Chris Larson wrote:
-> On Thu, May 19, 2011 at 11:43 AM, Cliff Brake <cliff.brake@gmail.com> wro=
-te:
-> > Are there any other repos or maillists that I should include in this
-> > report? =A0I'm trying to increase visibility in what all the projects
-> > are doing, so we can reduce duplication of work in various layers.
->=20
-> There's a meta-slugos now, and pb is hosting a meta-micro. Those are
-> all that come to mind off the top of my head. Not sure how much you
-> want to include :)
+Pull URL: git://git.openembedded.org/openembedded-core-contrib
+  Branch: kraj/opkg
+  Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/opkg
 
-There's also meta-smartphone
-http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dsummary
+Thanks,
+    Khem Raj <raj.khem@gmail.com>
+---
 
-with few layers:
-meta-fso
-meta-htc
-meta-nokia
-meta-openmoko
-meta-palm
-meta-shr
-meta-zaurus
-maybe with meta-aurora later
 
-Regards,
+Khem Raj (2):
+  opkg: Synchronise with OE
+  opkg-utils: Allow uppercase lettlers in package names
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+ .../opkg-utils/opkg-utils/mtime-int.patch          |   29 +++++++++++++
+ .../opkg-utils/opkg-utils/uppercase-letters.patch  |   44 ++++++++++++++++++++
+ meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    8 +++-
+ meta/recipes-devtools/opkg/opkg.inc                |    7 ++-
+ meta/recipes-devtools/opkg/opkg/add_vercmp.patch   |   36 ----------------
+ meta/recipes-devtools/opkg/opkg/configure          |   25 +++++++++++
+ meta/recipes-devtools/opkg/opkg/headerfix.patch    |   19 --------
+ meta/recipes-devtools/opkg/opkg_svn.bb             |   23 ++--------
+ 8 files changed, 113 insertions(+), 78 deletions(-)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/uppercase-letters.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/add_vercmp.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/configure
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/headerfix.patch
 
---bp/iNruPH9dso1Pn--
+-- 
+1.7.4.1
+
+
+
