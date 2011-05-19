@@ -1,38 +1,20 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QMt2N-0008BU-4J
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QMyl1-0005VD-Nj for openembedded-core@lists.openembedded.org;
+	Thu, 19 May 2011 10:38:59 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QMyiE-0007Fr-BY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 04:32:31 +0200
-Received: by mail-pv0-f175.google.com with SMTP id 30so1026172pvc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 May 2011 19:29:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=h6sMcD6wQy3nwtrJTLRX6k+5doQJKex2j4pwGqy13iE=;
-	b=B3J9NqaMMFQ96/eF8dt5h5v1bLxIEUQmCoss8PkRHX3HPvow4zbjNkjbWh9nurddr/
-	0mjgNJktML4YcclF/79N5J14HWC/vYizTa1KeAfvrIAhAuOMB4geQRLRC/P5UIEjW6IQ
-	ziSeGZbwoRG1rVcIEjsYTbH+KehIsBwQL5IQI=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=PzuH6kPg9UNA+huCkDKQZrXv/iBqELqJJlXTkd+P05bipcFVxRJRIVAGFikjAzrtvj
-	VnKSLMZbXFfFfzFTC/3qC0fLmVgbJ/LNTa6HDZaaDMSdcUflHEQ5qlCST3ZR9Yntt1x4
-	RiYmQf6taF6NIIk0OpsgZgohxIdbAK3SL27sk=
-Received: by 10.142.188.4 with SMTP id l4mr872958wff.59.1305772177796;
-	Wed, 18 May 2011 19:29:37 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id k6sm1898337wfa.5.2011.05.18.19.29.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 May 2011 19:29:36 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 May 2011 19:29:27 -0700
-Message-Id: <b4be330cb312df05c522e980fe9335808dda7371.1305772107.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1305772107.git.raj.khem@gmail.com>
-References: <cover.1305772107.git.raj.khem@gmail.com>
-Subject: [PATCH 3/3] nfs-utils_1.2.3.bb: Fix compile failure on uclibc
+	Thu, 19 May 2011 10:36:06 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 May 2011 09:36:00 +0100
+Message-ID: <1305794160.18415.169.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: [PATCH] update-rc.d.bbclass: don't add runtime dependency if O_P_M is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,102 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 02:32:31 -0000
+X-List-Received-Date: Thu, 19 May 2011 08:38:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-libio.h is not needed even in case of eglibc but
-still the patch is uclibc specific
+This is a backport from oe master.
 
-Refreshed nfs-utils-1.0.6-uclibc.patch against
-nfs-utils_1.2.3 no code change
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- .../nfs-utils/nfs-utils-1.0.6-uclibc.patch         |   16 +++++++-----
- .../nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch |   26 ++++++++++++++++++++
- .../nfs-utils/nfs-utils_1.2.3.bb                   |    1 +
- 3 files changed, 36 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch
+ meta/classes/update-rc.d.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
-index e82480a..6d46d3a 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.0.6-uclibc.patch
-@@ -1,20 +1,22 @@
- Upstream-Status: Inappropriate [embedded specific]
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 7e4dda7..c4ecc04 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -1,7 +1,7 @@
+ UPDATERCPN ?= "${PN}"
  
----- ./support/nfs/svc_socket.c.orig	2004-12-12 06:43:52.000000000 +0000
--+++ ./support/nfs/svc_socket.c	2004-12-12 06:50:04.000000000 +0000
--@@ -66,6 +66,7 @@
--   memset ((char *) &addr, sizeof (addr));
-+Index: nfs-utils-1.2.3/support/nfs/svc_socket.c
-+===================================================================
-+--- nfs-utils-1.2.3.orig/support/nfs/svc_socket.c
-++++ nfs-utils-1.2.3/support/nfs/svc_socket.c
-+@@ -67,6 +67,7 @@ svc_socket (u_long number, int type, int
-+   memset (&addr, 0, sizeof (addr));
-    addr.sin_family = AF_INET;
-  
- +#ifndef __UCLIBC__	/* neither getrpcbynumber() nor getrpcbynumber_r() is SuSv3 */
-    ret = getrpcbynumber_r (number, &rpcbuf, rpcdata, sizeof rpcdata,
-  			  &rpcp);
-    if (ret == 0 && rpcp != NULL)
--@@ -99,6 +100,7 @@
-+@@ -100,6 +101,7 @@ svc_socket (u_long number, int type, int
-  	}
-      }
-    else
- +#endif
-      {
--       if (bindresvport (sock, &addr))
-- 	{
-+ 	  addr.sin_port = 0;
-+ 	  if (bind (sock, (struct sockaddr *) &addr, len) < 0)
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch
-new file mode 100644
-index 0000000..465144a
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch
-@@ -0,0 +1,26 @@
-+[PATCH] fix build with uClibc
-+
-+uClibc doesn't have/need libio.h, so don't include it from sockaddr.h
-+
-+Signed-off-by: Peter Korsgaard <jacmet@sunsite.dk>
-+---
-+ support/include/sockaddr.h |    5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+Upstream-Status: Pending
-+
-+Index: nfs-utils-1.2.3/support/include/sockaddr.h
-+===================================================================
-+--- nfs-utils-1.2.3.orig/support/include/sockaddr.h
-++++ nfs-utils-1.2.3/support/include/sockaddr.h
-+@@ -20,7 +20,10 @@
-+ #ifndef NFS_UTILS_SOCKADDR_H
-+ #define NFS_UTILS_SOCKADDR_H
-+ 
-++/* uClibc doesn't have/need libio.h */
-++#ifndef __UCLIBC__
-+ #include <libio.h>
-++#endif
-+ #include <stdbool.h>
-+ #include <sys/socket.h>
-+ #include <netinet/in.h>
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-index b456474..d344f3d 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
-@@ -17,6 +17,7 @@ PR = "r2"
+ DEPENDS_append = " update-rc.d-native"
+-UPDATERCD = "update-rc.d"
++UPDATERCD = "${@base_conditional("ONLINE_PACKAGE_MANAGEMENT", "none", "", "update-rc.d", d)}"
+ UPDATERCD_virtclass-native = ""
+ RDEPENDS_${UPDATERCPN}_append = " ${UPDATERCD}"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
-            file://nfs-utils-1.0.6-uclibc.patch \
-+           file://nfs-utils-1.2.3-uclibc-libio.h.patch \
-            file://nfsserver"
- 
- SRC_URI[md5sum] = "1131dc5f27c4f3905a6e7ee0d594fd4d"
 -- 
-1.7.4.1
+1.7.2.3
+
+
 
 
 
