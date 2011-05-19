@@ -1,40 +1,28 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>)
-	id 1QN8jf-0007CK-Bj; Thu, 19 May 2011 21:18:15 +0200
-Received: by eye27 with SMTP id 27so1015796eye.6
-	for <multiple recipients>; Thu, 19 May 2011 12:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
-	:date:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=NKFZIu6KyPKHOmlhYbUi8QjXoK34+unNnj2UsGHdrzI=;
-	b=bf99bzi5GgpcEouKI1QcwUXiKvfQ5WvyzceDnNz6ne5E/o4NWrGN3hPWOj4965K7hP
-	yoeAEO2PoF35J3Ru9IlRan7iF1zGDrskCBN7x/HQqAkXARAb2GO5HKyZd+mafy7vxH/H
-	KeupWH5rGOoND33AjEptNuqagrXMmn5gBx2pk=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	b=kRPDAg71Ioc8SutApFMNHZ0VR8WolYSFpToZ4XQ+ONgB8y9ECZOnD8GU3Vg8Ig7lYV
-	zKUfg+3YJMaqnfCDWls8EDWuiAi/Iiw9C5TogXf5XuJb14QTggBAh0qwBsegMjs1InSe
-	1KpCmJsM3BudUoCTlsRMp9ZdNwovtzV6KX7ps=
-Received: by 10.204.181.7 with SMTP id bw7mr1085997bkb.16.1305832519270; Thu,
-	19 May 2011 12:15:19 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.205.82.12 with HTTP; Thu, 19 May 2011 12:14:59 -0700 (PDT)
-In-Reply-To: <BANLkTimEO3P8JmjcS9s50yqJWB=nBAkq+Q@mail.gmail.com>
-References: <E1QN7Sg-0003y1-3F@happy.bec-systems.com>
-	<BANLkTimEO3P8JmjcS9s50yqJWB=nBAkq+Q@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 19 May 2011 12:14:59 -0700
-X-Google-Sender-Auth: wPc6St3Fe2Kfe5-XHHUYqfzTHuI
-Message-ID: <BANLkTinY3fkK5oK58EC-yXmW37VZkbiV4w@mail.gmail.com>
+	(envelope-from <koen@dominion.thruhere.net>) id 1QN8uh-00085P-7J
+	for openembedded-core@lists.openembedded.org;
+	Thu, 19 May 2011 21:29:47 +0200
+Received: by wwb17 with SMTP id 17so2711431wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 12:26:40 -0700 (PDT)
+Received: by 10.216.82.68 with SMTP id n46mr3380676wee.57.1305833200285;
+	Thu, 19 May 2011 12:26:40 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id d54sm1469433wej.34.2011.05.19.12.26.38
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 19 May 2011 12:26:39 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <542b82da52bc72f47b44ef0cd1b12019d59de457.1305756950.git.sgw@linux.intel.com>
+Date: Thu, 19 May 2011 21:26:33 +0200
+Message-Id: <3139507C-9A23-45DE-811A-151A1B46341C@dominion.thruhere.net>
+References: <cover.1305756950.git.sgw@linux.intel.com>
+	<542b82da52bc72f47b44ef0cd1b12019d59de457.1305756950.git.sgw@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] OE Changelog for 2011-4-8 to 2011-4-15
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 11/30] utils.bbclass: modify create_wrapper to correctly follow symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,24 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 19:18:15 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 19 May 2011 19:29:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 19, 2011 at 11:43 AM, Cliff Brake <cliff.brake@gmail.com> wrote=
-:
-> Are there any other repos or maillists that I should include in this
-> report? =C2=A0I'm trying to increase visibility in what all the projects
-> are doing, so we can reduce duplication of work in various layers.
+RP already put this one in.
 
-There's a meta-slugos now, and pb is hosting a meta-micro. Those are
-all that come to mind off the top of my head. Not sure how much you
-want to include :)
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Op 19 mei 2011, om 21:19 heeft Saul Wold het volgende geschreven:
+
+> This ensures you look up the symbolic link to get the full path
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> meta/classes/utils.bbclass |    3 ++-
+> 1 files changed, 2 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+> index 6bcaf86..1965d2f 100644
+> --- a/meta/classes/utils.bbclass
+> +++ b/meta/classes/utils.bbclass
+> @@ -312,7 +312,8 @@ create_wrapper () {
+>    cmdname=`basename $cmd`.real
+>    cat <<END >$cmd
+> #!/bin/sh
+> -exec env $@ \`dirname \$0\`/$cmdname "\$@"
+> +realpath=\`readlink -fn \$0\`
+> +exec env $@ \`dirname \$realpath\`/$cmdname "\$@"
+> END
+>    chmod +x $cmd
+> }
+> -- 
+> 1.7.3.4
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
