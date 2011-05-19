@@ -1,37 +1,35 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QNCdM-0004SD-0L
+	(envelope-from <raj.khem@gmail.com>) id 1QND44-0006Q4-LE
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2011 01:28:01 +0200
-Received: by eye27 with SMTP id 27so1084041eye.6
+	Fri, 20 May 2011 01:55:36 +0200
+Received: by pvc30 with SMTP id 30so1476868pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2011 16:25:03 -0700 (PDT)
+	Thu, 19 May 2011 16:52:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=Luqu5JVHVUAvJ18yOw5kBfgu6gEyBPTooRsZqYppiSs=;
-	b=uP93OswVoED80k7nrLSA3HeG/Hlw0zW9UnH6vH9v4nodOByxBgTc/n9wtyammdKPXR
-	nqft4MniBvUpPdpItdVdHx4nhujDbA6vfb96NnWz/rd/rHMQQxbKHCJVxPznEjbOIqsK
-	RDfx3iCyUP/oHw4LZmiKtlmuvKdEIDyU3hFQg=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=dFtcS/VVe3kFfTdlnv0nyfADPqh9u4eUV2/hccEdaPA=;
+	b=shqiI3vlvveQdWmuUYr6FGdkcOSUOYvpd3ufWwIHUu7ykuMBualovy8YN9Ubj+J/HL
+	pqZZD71JhwjzGEfyHXVPBLcitR86mJQ0yaOZaIERJTXtfnHOxVWl+DE0AbYKY4QWOZgN
+	seQq0q6VMuv7rhNfrbUDepfz8MbmKVvQMb0e8=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type;
-	b=ljC7O06thW8FdAkrXwjc0QvJKACWmp5kcF6fYnZlNCCk+lycu2Y84flkQgfvrI6G4E
-	3RMRWvwTAIQgdY//dZ3efj/nT4YTenQK7nJc4BpqM94sTirLY5CdTXmvxUp0W5uO4vdt
-	6QVQfGZJerGSRaML6NZNiZxOffSSnU+bTIRog=
-Received: by 10.14.49.210 with SMTP id x58mr1390235eeb.12.1305847503585; Thu,
-	19 May 2011 16:25:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.53.78 with HTTP; Thu, 19 May 2011 16:24:33 -0700 (PDT)
-In-Reply-To: <1305842878.3424.557.camel@rex>
-References: <cover.1305839225.git.raj.khem@gmail.com>
-	<1305842878.3424.557.camel@rex>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=hbgwydWZfP7nTNExeOwICZ4eO3tvbwZzxI8B172aTj2dvIqYlOgryctuf46woOd9Wm
+	9I0ufK0WvCqIroNggKxsDh4sOkGMBmIxlFMd+Rkl416nfH8+vC239QjIpBrQquouxtc1
+	0FG8p2xAXmv+3Ysrcu3Asz9o3NcbxApcPfBSc=
+Received: by 10.68.30.39 with SMTP id p7mr5713243pbh.34.1305849158953;
+	Thu, 19 May 2011 16:52:38 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id q5sm2063149pbp.65.2011.05.19.16.52.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 19 May 2011 16:52:37 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 19 May 2011 16:24:33 -0700
-Message-ID: <BANLkTi=5xOzNZt5c=heWNBJyEygMRoAABA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Let opkg-build allow uppercase letters
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 May 2011 16:52:19 -0700
+Message-Id: <cover.1305848960.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCHv2 0/2] opkg updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,40 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 23:28:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 19 May 2011 23:55:36 -0000
 
-On Thu, May 19, 2011 at 3:07 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2011-05-19 at 14:09 -0700, Khem Raj wrote:
->> Majority of the changes are backported from OE
->> one additional patch is to opkg-utils/opkg-build to allow
->> uppercase letters.
->
-> Upperspace package names are a violation of debian packaging guidelines
-> (which OE has aimed to roughly follow) and will break the debian package
-> backend. At the very least some kind of translation is needed there
-> before this gets enabled.
->
-> Where did this requirement come from?
->
 
-I was building kernel for efikamx wich has some uppercase chars
-appended to version
-but I think I can patch the kernel for that and we can drop
-uppercase-letters.patch
+This incorporates the comments from RP
 
-Do you want me to update the patch ?
+The following changes since commit b0cbb0f5a98e9406a5007aa5ce5091c1be8e82db:
 
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+  opkg_svn.bb: Install rcS.d into ${D} instead of ${IMAGE_ROOTFS} (2011-05-19 16:45:03 -0700)
+
+are available in the git repository at:
+  git@git.openembedded.org:openembedded-core-contrib.git kraj/opkg
+  http://cgit.openembedded.org/cgit.cgi//log/?h=kraj/opkg
+
+Khem Raj (2):
+  opkg_svn.bb: Install rcS.d into ${D} instead of ${IMAGE_ROOTFS}
+  opkg-utils: Synchronise with OE
+
+ .../opkg-utils/opkg-utils/mtime-int.patch          |   29 ++++++++++++++++++++
+ meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    7 +++-
+ meta/recipes-devtools/opkg/opkg/headerfix.patch    |   19 -------------
+ meta/recipes-devtools/opkg/opkg_svn.bb             |    3 +-
+ 4 files changed, 35 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/headerfix.patch
+
+-- 
+1.7.4.1
+
 
 
