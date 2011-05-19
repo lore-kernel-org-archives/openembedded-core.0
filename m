@@ -1,37 +1,45 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ew0-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QMsQH-0007Wv-7t
+	(envelope-from <raj.khem@gmail.com>) id 1QMswO-00087f-FX
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 03:53:09 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 18 May 2011 18:50:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,234,1304319600"; 
-   d="scan'208";a="700779"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by orsmga001.jf.intel.com with ESMTP; 18 May 2011 18:50:12 -0700
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 19 May 2011 09:49:49 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Thu, 19 May 2011 09:48:05 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 19 May 2011 09:48:04 +0800
-Thread-Topic: [OE-core] dpkg's admindir: /var/dpkg or /var/lib/dpkg?
-Thread-Index: AcwVYfcaGDSbHQTKQmW3eDVSnCdNdgAYq5SA
-Message-ID: <1865303E0DED764181A9D882DEF65FB694322A3FD7@shsmsx502.ccr.corp.intel.com>
-References: <1865303E0DED764181A9D882DEF65FB694322A3FD4@shsmsx502.ccr.corp.intel.com>
-	<4DD3CC0F.7070702@windriver.com>
-In-Reply-To: <4DD3CC0F.7070702@windriver.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Thu, 19 May 2011 04:26:20 +0200
+Received: by ewy5 with SMTP id 5so662214ewy.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 May 2011 19:23:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=Y+X/Y7pYD/ptHDAhNHRaH0AL8CSe0Dopgvn14c+t+Io=;
+	b=RFJ72x7XwqjGbnJX+WnWQ/rMKBRLvgSDNEi0o6At+jwQUtueKO9BozpH6ZzpeJcakG
+	uKdVK4S2+w2UeQIxbiMwtU0m7vQe68vI85U0NA/04d6DAdeC1cMedEnlKOJLArqdRxfo
+	jFp4rVJbheRsh0gtZ8R1cYSuamVgZGWC0FZKo=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type;
+	b=BBFKvCJYd2nS21urpk9MrJ7i1JV9uFqqYGIhcjjTgo+/t0OHYoRv8nJ61E07XxjvLk
+	2rQ9na+EGQmVN/ccgJm0VW+gVv1Y7Dx0KxQUZ6JuUAWrvgLJDM5yMG0GSLClN9ru/S1l
+	PHlE3eqQMiLboMsI3Ztrp1yVd0/ECVEoyNBAk=
+Received: by 10.14.11.203 with SMTP id 51mr829381eex.204.1305771804316; Wed,
+	18 May 2011 19:23:24 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: dpkg's admindir: /var/dpkg or /var/lib/dpkg?
+Received: by 10.14.53.78 with HTTP; Wed, 18 May 2011 19:22:54 -0700 (PDT)
+In-Reply-To: <1305766048.3424.385.camel@rex>
+References: <cover.1305665459.git.raj.khem@gmail.com>
+	<cc2e6337ae338737455bf63bd43278dee302fb5c.1305665459.git.raj.khem@gmail.com>
+	<1305734038.18415.108.camel@lenovo.internal.reciva.com>
+	<BANLkTikiNW0UEfLM_UtKeekTcrW5UNNfUA@mail.gmail.com>
+	<1305738527.18415.126.camel@lenovo.internal.reciva.com>
+	<8A91C5F6-313A-4A0F-A18E-094CFC3BB337@dominion.thruhere.net>
+	<BANLkTinvqEeyXsiH79UHb3Zhx+qkXZRJ5w@mail.gmail.com>
+	<BANLkTinwdO5XBGH=py2iw0kyJt6o77q7rw@mail.gmail.com>
+	<CF837081-FAD3-4922-975B-B3CB6DD60533@dominion.thruhere.net>
+	<1305766048.3424.385.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 18 May 2011 19:22:54 -0700
+Message-ID: <BANLkTin=a+eKqUW8jVz0w5wjnMnJpWz6ig@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] default-distrovars.inc, task-core-boot.bb: Create distro overridable varibales
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,47 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 01:53:09 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 19 May 2011 02:26:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Mark Hatle wrote:
-> On 5/18/11 4:27 AM, Cui, Dexuan wrote:
->> Hi, I happened to find a bug: in target,  "dpkg --list" shows
->> "dpkg-query: failed to open package info file `/var/lib/dpkg/status'
->> for reading: No such file or directory" =20
->>=20
->> Actually the files(status and available) does exist, but not in
->> /var/lib/dpkg/ -- they're in /var/dpkg/. "ln -s /var/dpkg/{status,
->> available} /var/lib/dpkg" can resolve the issue. =20
->>=20
->> grepping '/var/dpkg' shows there are many files(package_deb.bbclass,
->> rootfs_deb.bbclass, populate_sdk_deb.bbclas, apt.conf ) in which
->> '/var/dpkg' is used and /var/lib/dpkg is not used at all. =20
->>=20
->> However, looks dpkg's default admindir is /var/lib/dpkg -- e.g.,
->> Ubuntu uses this.=20
->>=20
->> What should we do? Looks fixing the package dpkg's admindir in the
->> do_configure needs the least coding.=20
->=20
-> I would say that /var/lib/dpkg is the "correct" directory to use.=20
-> This matches the behavior on other deb bases systems.  (It also
-> mimics other pkg managers who place their data into /var/lib/...)
->=20
-Mark, thank you for the comment!
-So looks we should fix any recipe that uses /var/dpkg?
+On Wed, May 18, 2011 at 5:47 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2011-05-18 at 20:15 +0200, Koen Kooi wrote:
+>> Op 18 mei 2011, om 20:07 heeft Khem Raj het volgende geschreven:
+>> > there are certain common parts that can be abstracted
+>> > and can be maintained in oe-core so everyone benefits
+>> > from it and certain image specific parts can be done in
+>> > distros. So keeping common parts in core would still
+>> > be better IMO
+>>
+>> And in OE .dev we split task-boot from task-base to be able to get the
+>> benefits from task base without forcing task-boot. OE-core had the
+>> same till it got forcefully added to the extra depends last week.
+>
+> Which was a genuine mistake and I need to merge the patch that is around
+> to address that particular issue.
+>
 
-The fact in poky /var/dpkg is widely used and /var/lib/dpkg is not used at =
-all may imply we chose /var/dpkg for some reason?  Even meta/recipes-devtoo=
-ls/dpkg/run-postinsts/run-postinsts and meta/recipes-devtools/dpkg/run-post=
-insts/run-postinsts.awk use /var/dpkg.
+http://patches.openembedded.org/patch/4387/
 
-Is it possible there is some story behind this?  Please let me Cc more peop=
-le who touched this.
-
-Thanks,
--- Dexuan
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
