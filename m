@@ -1,31 +1,33 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1QN1tY-000600-2w
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 14:00:00 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id 89C6816603AF; Thu, 19 May 2011 05:57:04 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2-r929478
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id E96231660367;
-	Thu, 19 May 2011 05:57:03 -0600 (MDT)
-Message-ID: <4DD5058F.4080306@mlbassoc.com>
-Date: Thu, 19 May 2011 05:57:03 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
-	Thunderbird/3.1.7
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QN1yi-0000uc-0T for openembedded-core@lists.openembedded.org;
+	Thu, 19 May 2011 14:05:20 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4JC2LJv007664
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 13:02:21 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07401-06 for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 13:02:17 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4JC2DuB007658
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 13:02:13 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1305745000.git.sgw@linux.intel.com>
-	<acb069f6d1606913110f0829a4d8f738395d3baa.1305745000.git.sgw@linux.intel.com>
-In-Reply-To: <acb069f6d1606913110f0829a4d8f738395d3baa.1305745000.git.sgw@linux.intel.com>
-Subject: Re: [PATCH 1/1] utils.bbclass: modify create_wrapper to correctly follow symlinks
+In-Reply-To: <cover.1305800693.git.lianhao.lu@intel.com>
+References: <cover.1305800693.git.lianhao.lu@intel.com>
+Date: Thu, 19 May 2011 13:02:11 +0100
+Message-ID: <1305806531.3424.501.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/5] network based PR service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,44 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 12:00:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 19 May 2011 12:05:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/18/2011 12:57 PM, Saul Wold wrote:
-> From: Saul Wold<sgw@linux.intel.com>
->
-> This ensures you look up the symbolic link to get the full path
->
-> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+This patch series looks really good to me in general. I know I've given
+feedback about some pieces that need tweaking but overall its good and
+I'm pleased with this. There are a few corner cases people have raised
+and some tweaks we need to make but nothing that can't be built from
+this foundation! :)
 
-Verified - this patch fixes the current breakage in the Poky tree as well.
+On Thu, 2011-05-19 at 18:29 +0800, Lianhao Lu wrote:
+> To start the network based PR service daemon, run the following command after 
+> "sourcing" the environment file oe-init-build-env:
+> 
+>   bitbake-prserv --start
 
-Thanks
+The one other area I'm going to worry about is the "build out the box"
+use case. Nowhere in the quickstart guide do we mention to the user that
+they need to run this. I'd also argue that we shouldn't require the user
+to run this at all either and we should be able to autolaunch and use it
+in the localhost usecase. Most users shouldn't care, it should just
+work. Those who need to use it can either preconfigure it for their
+users, or will know how to setup and start the server themselves.
 
-> ---
->   meta/classes/utils.bbclass |    3 ++-
->   1 files changed, 2 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-> index 6bcaf86..1965d2f 100644
-> --- a/meta/classes/utils.bbclass
-> +++ b/meta/classes/utils.bbclass
-> @@ -312,7 +312,8 @@ create_wrapper () {
->      cmdname=`basename $cmd`.real
->      cat<<END>$cmd
->   #!/bin/sh
-> -exec env $@ \`dirname \$0\`/$cmdname "\$@"
-> +realpath=\`readlink -fn \$0\`
-> +exec env $@ \`dirname \$realpath\`/$cmdname "\$@"
->   END
->      chmod +x $cmd
->   }
+A case in point is an autobuilder running 4 different builds. Ideally,
+in the default case, each automated build would setup and just use its
+own server on a non-conflicting free port on localhost.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+I'm not 100% sure how we make this happen and I can give it some thought
+but it is the final piece of this puzzle we need to solve.
+
+Cheers,
+
+Richard
+
 
 
