@@ -1,30 +1,34 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QN1eC-0005g8-Mk for openembedded-core@lists.openembedded.org;
-	Thu, 19 May 2011 13:44:08 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>)
-	id 1QN1bO-0007Q1-Jo; Thu, 19 May 2011 13:41:14 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1305804109.3424.475.camel@rex>
-References: <1305640549.2429.226.camel@phil-desktop>
-	<1305642273.3424.244.camel@rex>
-	<1305643833.2429.264.camel@phil-desktop>
-	<1305649331.3424.259.camel@rex>
-	<1305733061.18415.98.camel@lenovo.internal.reciva.com>
-	<1305800103.3424.464.camel@rex>
-	<1305801068.18415.179.camel@lenovo.internal.reciva.com>
-	<1305804109.3424.475.camel@rex>
-Date: Thu, 19 May 2011 12:41:08 +0100
-Message-ID: <1305805268.18415.185.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QN1oP-0005tJ-Du for openembedded-core@lists.openembedded.org;
+	Thu, 19 May 2011 13:54:41 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4JBpkDx007587
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 12:51:46 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07401-04 for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 12:51:42 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4JBpdgb007581
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 12:51:39 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rootfs_ipk: respect ONLINE_PACKAGE_MANAGEMENT
+In-Reply-To: <439b9cfa6032b7c51b326a7cf888d83fd55d1305.1305800693.git.lianhao.lu@intel.com>
+References: <cover.1305800693.git.lianhao.lu@intel.com>
+	<439b9cfa6032b7c51b326a7cf888d83fd55d1305.1305800693.git.lianhao.lu@intel.com>
+Date: Thu, 19 May 2011 12:51:37 +0100
+Message-ID: <1305805897.3424.490.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 2/5] conf/bitbake.conf: Added variables for PR service.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,42 +43,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 11:44:08 -0000
+X-List-Received-Date: Thu, 19 May 2011 11:54:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-05-19 at 12:21 +0100, Richard Purdie wrote:
-> On Thu, 2011-05-19 at 11:31 +0100, Phil Blundell wrote:
-> Agreed. I'd like to raise one other issue which is the number of
-> variables we need to control these things which are effectively binary
-> flags. I'm leaning towards having a small number of variables containing
-> flags which trigger certain behaviours. In this case the obvious choices
-> would be:
+On Thu, 2011-05-19 at 18:29 +0800, Lianhao Lu wrote:
+> From: Lianhao Lu <lianhao.lu@intel.com>
+> 
+> 1. change BB_SIGNATURE_HANDLER from basic to basichash.
+> 
+> 2. Added following variables for PR service:
+> USE_PR_SERV: flag of whether to use the network PR service
+> PRFORMAT: format of revision to be used in tasks package_write_xxx.
+> PRAUTOINX: search index for the network PR service
+> 
+> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+> ---
+>  meta/conf/bitbake.conf |   14 ++++++++++++--
+>  1 files changed, 12 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index a0af672..381f301 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -153,8 +153,13 @@ PR = "${@bb.parse.BBHandler.vars_from_file(bb.data.getVar('FILE',d),d)[2] or 'r0
+>  PF = "${PN}-${EXTENDPE}${PV}-${PR}"
+>  EXTENDPE = "${@['','${PE\x7d_'][bb.data.getVar('PE',d,1) > 0]}"
+>  EXTENDPEVER = "${@['','${PE\x7d:'][bb.data.getVar('PE',d,1) > 0]}"
+> -EXTENDPV = "${EXTENDPEVER}${PV}-${PR}"
+> +EXTENDPV = "${EXTENDPEVER}${PV}-${PRFORMAT}"
+>  P = "${PN}-${PV}"
+> +EXTENDPREXTRA = "${@['.${PREXTRA\x7d',''][bb.data.getVar('PREXTRA',d,1) is None]}"
+> +EXTENDPRAUTO = "${@['.${PRAUTO\x7d',''][bb.data.getVar('PRAUTO',d,1) is None]}"
+> +PRAUTOINX = "${PF}${EXTENDPREXTRA}"
+> +PRFORMAT = "${PR}${EXTENDPREXTRA}${EXTENDPRAUTO}"
+> +
 
-That's true, though one particular variable at hand is actually a
-trinary.  The behaviour that we have historically had in OE, which seems
-to capture most of the significant use-cases, is:
+There is also one thing we need to sync up with regarding openembedded
+and these patches which is the use of PKGV and PKGR in package.bbclass.
+Those patches are not merged into OE-Core yet but are have a similar
+intention of allowing customisation to the PV and PR fields. I would
+like to see if we can use PKGR for the use case we have here as well.
 
-ONLINE_PACKAGE_MANAGEMENT="full" (or not set at all) means to install
-opkg or whatever and all its metadata, like oe-core does now
+See:
+http://git.openembedded.net/cgit.cgi/openembedded/tree/classes/package.bbclass
 
-ONLINE_PACKAGE_MANAGEMENT="none" means to not install opkg or its
-metadata on the target at all;
+(I was only reminded of this recently in an IRC conversation with
+Otavio)
 
-ONLINE_PACKAGE_MANAGEMENT="add" means to install just enough package
-management infrastructure to allow new packages to be added after the
-fact, but not to allow packages that were shipped in the image to be
-manipulated.  I think the main use case for this was language packs and
-the like.
 
-I'm not entirely sure that O_P_M="add" has ever actually worked properly
-(I don't use it myself) but it doesn't seem like an entirely worthless
-proposition.
+Minor nitpick but new code should replace:
 
-I agree that TARGET_READONLY_ROOTFS or whatever could be done just as
-well as some kind of FEATURE.
+bb.data.getVar('PRAUTO',d,1)
 
-p.
+with
+
+d.getVar('PRAUTO', True)
+
+which is functionally equivalent, neater and more pythonic. Its not a
+major issue but worth highlighting.
+
+Cheers,
+
+Richard
+
+
+
 
 
 
