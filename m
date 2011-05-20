@@ -1,40 +1,24 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QND4S-0006bL-77
+	(envelope-from <josh@linux.intel.com>) id 1QNDAZ-0002b9-To
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2011 01:56:05 +0200
-Received: by pwj9 with SMTP id 9so1523121pwj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 May 2011 16:52:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references:in-reply-to:references;
-	bh=bi7coqZK8QBVMlXqm6dquZsqkzeMQrVbYusq6zBK610=;
-	b=T/dnzzO6DnhOAxoWXJ2cfHOGh1KXdgjY/pFoRi/U5c8X2TBA79PVHv3sk6WFQVW3r+
-	wIG0nvlZE4pKbHtCpsFbEa8FY5jyBr2/LK540+IBdqrAZbnG+Z+O1pgg6rgXbLapbSre
-	e7B3gDJQnuAI49xYYTCRnRklMukkvUY+wmzfw=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=hKQ5rs5l9Msn6/mfxc5ZAd5l2/qInJcJ0EF6Az6jV2fiCABMXU8YNWRxZiiDpPNLAu
-	N/JsyZvLFO0HO6Yofiujk1wuVIVNktEIH5PrVxNscAUTBNWHQm4tHIFluGfALHKAgNes
-	AhM3ZEOl2xf/bq8fSLVzLOZOoF+gWNu1z9IdE=
-Received: by 10.68.0.106 with SMTP id 10mr5824219pbd.434.1305849174904;
-	Thu, 19 May 2011 16:52:54 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id z5sm2067303pbb.5.2011.05.19.16.52.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 May 2011 16:52:53 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 May 2011 16:52:31 -0700
-Message-Id: <38adb15a5907afe05abebbc455f420ab2f458b3e.1305848960.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <0a1ad440f372eec668b742c775188249c9609f11.1305848960.git.raj.khem@gmail.com>
-References: <0a1ad440f372eec668b742c775188249c9609f11.1305848960.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1305848960.git.raj.khem@gmail.com>
-References: <cover.1305848960.git.raj.khem@gmail.com>
-Subject: [PATCHv2 2/2] opkg-utils: Synchronise with OE
+	Fri, 20 May 2011 02:02:20 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 May 2011 16:59:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,239,1304319600"; 
+   d="scan'208";a="1237515"
+Received: from vorpal.jf.intel.com (HELO [10.7.199.57]) ([10.7.199.57])
+	by orsmga001.jf.intel.com with ESMTP; 19 May 2011 16:59:22 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 May 2011 17:02:58 -0700
+In-Reply-To: <cover.1305737923.git.chris_larson@mentor.com>
+References: <cover.1305737923.git.chris_larson@mentor.com>
+X-Mailer: Evolution 3.0.1 (3.0.1-1.fc15) 
+Message-ID: <1305849778.9983.29.camel@vorpal.jf.intel.com>
+Mime-Version: 1.0
+Subject: Re: [PATCH (v2,resend) 0/3] Rework the devshell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,81 +33,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 May 2011 23:56:05 -0000
+X-List-Received-Date: Fri, 20 May 2011 00:02:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Import mtime-int.patch from OE commit
-c81990aecae3bdf70a7c924699776b248ab7a006
+On Wed, 2011-05-18 at 10:17 -0700, Chris Larson wrote:
+> From: Chris Larson <chris_larson@mentor.com>
+> 
+> - Adds a utility metaclass for maintaining class registries
+> - Shifts the handling of spawning a terminal into a new 'terminal' python
+>  module
+> - Automatically selects an appropriate terminal based on what you have
+>  available on your machine
+> - Still allows manual selection, but in a more convenient way, and falls back
+>  to auto if you select an invalid or unavailable (not installed) terminal
+> - Improves how we spawn screen:
+> 
+>  - Shows a warning when spawning it, so do_devshell doesn't appear to hang
+>  - Spawns a named screen session 'devshell', to avoid confusion when the user
+>    already has other screen sessions running
+> 
+> Example usage of the new API for others (e.g. patch resolver) to use:
+> 
+>     import oe.terminal
+>     oe.terminal.run(command, terminal_title, d)
+> 
+> Pull URL: git://git.openembedded.org/openembedded-core-contrib
+>   Branch: kergoth/devshell
+>   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kergoth/devshell
+> 
+> Thanks,
+>     Chris Larson <chris_larson@mentor.com>
 
-Pass LDFLAGS to linker to avoid missing GNU_HASH QA errors
+I like this series!
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../opkg-utils/opkg-utils/mtime-int.patch          |   29 ++++++++++++++++++++
- meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    7 +++-
- 2 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
+Speaking of devshell, last I tried (and Paul E can correct me here)
+Konsole doesn't wait when it's spawned so is currently pretty useless
+for devshell (bitbake continues as if the devshell had finished and if a
+patch hasn't applied....).
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
-new file mode 100644
-index 0000000..fdbce21
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
-@@ -0,0 +1,29 @@
-+Convert mtime to int before comparing it
-+
-+The st_mtime attribute (which is a float) is compared against a value
-+from the timestamp database, which was stored as an integer there.
-+
-+When working on a filesystem with precise timestamps the comparision
-+will fail nearly everytime hence.
-+
-+Although it might be possible to enhance the database to store the
-+fractional part too, this will complicate things more than we would
-+gain by this change.
-+
-+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-+
-+Upstream-Status: Pending
-+
-+Index: opkg-utils/opkg-make-index
-+===================================================================
-+--- opkg-utils.orig/opkg-make-index
-++++ opkg-utils/opkg-make-index
-+@@ -100,7 +100,7 @@ for filename in files:
-+      pkg = None
-+      fnameStat = os.stat(filename)
-+      if old_pkg_hash.has_key(basename):
-+-          if pkgsStamps.has_key(basename) and fnameStat.st_mtime == pkgsStamps[basename]:
-++          if pkgsStamps.has_key(basename) and int(fnameStat.st_mtime) == pkgsStamps[basename]:
-+             if (verbose):
-+                sys.stderr.write("Found %s in Packages\n" % (filename,))
-+             pkg = old_pkg_hash[basename]
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-index 0db6f80..79cee2e 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-@@ -9,10 +9,12 @@ RDEPENDS_${PN} = "python"
- RDEPENDS_${PN}_virtclass-native = ""
- SRCREV = "4747"
- PV = "0.1.8+svnr${SRCPV}"
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "svn://svn.openmoko.org/trunk/src/host/;module=opkg-utils;proto=http \
--           file://index-ignore-filenotfound.patch"
-+           file://index-ignore-filenotfound.patch \
-+           file://mtime-int.patch \
-+           "
- 
- S = "${WORKDIR}/opkg-utils"
- 
-@@ -24,3 +26,4 @@ do_install() {
- }
- 
- BBCLASSEXTEND = "native"
-+TARGET_CC_ARCH += "${LDFLAGS}"
+Perhaps we should remove support for it from the class? Or is there some
+better way we can work around this?
+
+As an aside: I think somewhere in meta-yocto, to maintain current
+behaviour we'd want to set: OE_TERMINAL ?= 'Gnome' to maintain
+gnome-terminal as the default (when installed).
+
+Acked-by: Joshua Lock <josh@linux.intel.com>
+
+Cheers,
+Joshua
+
+> ---
+> 
+> 
+> Chris Larson (3):
+>   oe.classutils: add module
+>   Rework how the devshell functions
+>   oe.terminal: improve how we spawn screen
+> 
+>  meta/classes/devshell.bbclass |   25 ++------
+>  meta/conf/bitbake.conf        |    9 +++
+>  meta/lib/oe/classutils.py     |   45 ++++++++++++++
+>  meta/lib/oe/terminal.py       |  131 +++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 191 insertions(+), 19 deletions(-)
+>  create mode 100644 meta/lib/oe/classutils.py
+>  create mode 100644 meta/lib/oe/terminal.py
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 -- 
-1.7.4.1
+Joshua Lock
+        Yocto Project Build Monkey
+        Intel Open Source Technology Centre
 
 
 
