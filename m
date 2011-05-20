@@ -1,42 +1,25 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QNQsN-0006Ll-T1
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QNRFr-0000rm-GK for openembedded-core@lists.openembedded.org;
+	Fri, 20 May 2011 17:04:43 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QNRD2-00083z-Q7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2011 16:40:28 +0200
-Received: by pzk36 with SMTP id 36so1757863pzk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2011 07:37:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=vU4ApOZaRJk/hHARvCyME/ATVZDtQWQFS0OPPQLCWKs=;
-	b=ScDS32tnHQ9QhjF8G7mHQ9ceTY66ZYh9UZu+vJ5AQSbJ/9bVupvqAf8HuFV3oVWsFd
-	L3yRXMKCmDZHOK8voiOw/1UfbEiR8iokWqwzKFAwiCpXA8695MjFl0YA1Ffx290JuKa0
-	CzUXwMg9mhFiMtq86R1MkyW7R+KmXk2DLv8fI=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	b=g4x8KWtxS1/WJtz1PdYbfMYvVrQrgjlWsvthwOHc41wjYd0xnHyb/MlIZYZgw/9VWO
-	SfGTnZ2PTaXf7CaVK+c7Zfn3gVER9xVfU/LeUwrh5q63WWB7UIBjF4nmjCiAM4svgyua
-	yTDGmBTjvx1BYmSTe5HuWE+1pgXycgklwedKA=
-Received: by 10.143.62.18 with SMTP id p18mr2601903wfk.259.1305902249558;
-	Fri, 20 May 2011 07:37:29 -0700 (PDT)
-Received: from [192.168.1.82] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id 25sm3295891wfb.10.2011.05.20.07.37.26
-	(version=SSLv3 cipher=OTHER); Fri, 20 May 2011 07:37:27 -0700 (PDT)
-Message-ID: <4DD67CAB.2060604@gmail.com>
-Date: Fri, 20 May 2011 07:37:31 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
-MIME-Version: 1.0
+	Fri, 20 May 2011 17:01:48 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <BF0FE697-3489-4B92-AB20-36DE6B63E5C0@dominion.thruhere.net>
-In-Reply-To: <BF0FE697-3489-4B92-AB20-36DE6B63E5C0@dominion.thruhere.net>
-Subject: Re: New fetcher failure for local files
+In-Reply-To: <1305873952.18415.249.camel@lenovo.internal.reciva.com>
+References: <cover.1305839225.git.raj.khem@gmail.com>
+	<836208067c345a911ddb3a266ac398b435054798.1305839225.git.raj.khem@gmail.com>
+	<1305873952.18415.249.camel@lenovo.internal.reciva.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Fri, 20 May 2011 16:01:47 +0100
+Message-ID: <1305903707.2525.29.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [PATCH 2/2] opkg-utils: Allow uppercase lettlers in package names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,39 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2011 14:40:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 20 May 2011 15:04:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 5/20/2011 12:25 AM, Koen Kooi wrote:
-> Hi,
->
-> Since a few days the fetcher is behaving strangely:
->
-> NOTE: package linux-omap-psp-2.6.32-r99b+gitr5fc29e7b2a76a64a739f857858ef0b98294aa155: task do_fetch: Started
-> ERROR: Function 'Fetcher failure for URL: 'file://defconfig'. Unable to fetch URL file://defconfig from any source.' failed
->
-> It is present:
->
-> koen@dominion:/OE/tentacle/sources/meta-texasinstruments$ find . -name "defconfig" | grep beagle
-> ./recipes-bsp/linux/linux-omap-psp-2.6.32/beagleboard/defconfig
-> ./recipes-bsp/linux/linux-omap/beagleboard/defconfig
->
-> The strange thing is that it will work once (e.g. bitbake console-image) but it will fail after switching TCLIBC. And once it started failing, it doesn't work for the default TCLIBC either.
->
-> What's the best way to debug this? -DDD isn't giving much clues, nor does strace :(
->
+On Fri, 2011-05-20 at 07:45 +0100, Phil Blundell wrote:
+> On Thu, 2011-05-19 at 14:09 -0700, Khem Raj wrote:
+> > Some packages have uppercase letters in their names e.g.
+> > efikamx kernel. We allow uppercase character with
+> > uppercase-letters.patch
+> 
+> This is not a good idea.  Uppercase characters have never been permitted
+> in .deb/.ipk. 
+> 
+> Isn't legitimize_package_name() crunching them to lower case for you?
+> If not then I think it should be made to do that.
 
-one reason could be FILESPATH is missing the paths which are appended 
-with overrides like MACHINE and others
-check dump of bitbake -e <recipe>
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+I just checked the code and it certainly looks like it should be doing
+that:
+
+	# Remaining package name validity fixes
+	return s.lower().replace('_', '-').replace('@', '+').replace(',', '+').replace('/', '-')
+
+So if that isn't working for you then I think it needs a bit of
+debugging.
+
+p.
+
 
 
 
