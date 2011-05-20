@@ -1,30 +1,26 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QNRKo-0000vT-IH
+	(envelope-from <saul.wold@intel.com>) id 1QNRKu-0000w2-B7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2011 17:09:50 +0200
-Received: by wwb17 with SMTP id 17so3409790wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2011 08:06:53 -0700 (PDT)
-Received: by 10.227.198.10 with SMTP id em10mr4343576wbb.108.1305904013567;
-	Fri, 20 May 2011 08:06:53 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id l24sm2346968wbc.47.2011.05.20.08.06.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 May 2011 08:06:52 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1305903707.2525.29.camel@phil-desktop>
-Date: Fri, 20 May 2011 17:06:46 +0200
-Message-Id: <978EA082-795F-4201-9D19-B46D7AC9A5EE@dominion.thruhere.net>
-References: <cover.1305839225.git.raj.khem@gmail.com>
-	<836208067c345a911ddb3a266ac398b435054798.1305839225.git.raj.khem@gmail.com>
-	<1305873952.18415.249.camel@lenovo.internal.reciva.com>
-	<1305903707.2525.29.camel@phil-desktop>
+	Fri, 20 May 2011 17:09:56 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 20 May 2011 08:06:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,242,1304319600"; d="scan'208";a="439801772"
+Received: from unknown (HELO [10.255.12.39]) ([10.255.12.39])
+	by azsmga001.ch.intel.com with ESMTP; 20 May 2011 08:06:49 -0700
+Message-ID: <4DD68388.7090309@intel.com>
+Date: Fri, 20 May 2011 08:06:48 -0700
+From: Saul Wold <saul.wold@intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 2/2] opkg-utils: Allow uppercase lettlers in package names
+References: <cover.1305655392.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1305655392.git.nitin.a.kamble@intel.com>
+Cc: poky@yoctoproject.org
+Subject: Re: [PATCH 0/1] switch to gcc 4.6.0 for x86 x86-64 & arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,36 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2011 15:09:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 May 2011 15:09:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 05/17/2011 11:07 AM, Nitin A Kamble wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>
+> gcc 4.6.0 is good enough to switch for x86, x86-64&  arm now.
+>
+> I could build core-sdk images and run them through the qemu machines
+> when compiled with gcc 4.6.0.
+>
+> mips&  ppc are still not ready, mainly the kernel compilation issues
+> with gcc 4.6.0. These kernel issues are being worked on by Bruce.
+>
+> Pull URL: git://git.pokylinux.org/poky-contrib.git
+>    Branch: nitin/misc
+>    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+>
+> Thanks,
+>      Nitin A Kamble<nitin.a.kamble@intel.com>
+> ---
+>
+>
+> Nitin A Kamble (1):
+>    tcmode-default: switch to gcc 4.6.0 for x86, x86-64&  arm
+>
+>   meta/conf/distro/include/tcmode-default.inc |    8 ++++++--
+>   1 files changed, 6 insertions(+), 2 deletions(-)
+>
 
-Op 20 mei 2011, om 17:01 heeft Phil Blundell het volgende geschreven:
+Merged into oe-core and poky
 
-> On Fri, 2011-05-20 at 07:45 +0100, Phil Blundell wrote:
->> On Thu, 2011-05-19 at 14:09 -0700, Khem Raj wrote:
->>> Some packages have uppercase letters in their names e.g.
->>> efikamx kernel. We allow uppercase character with
->>> uppercase-letters.patch
->>=20
->> This is not a good idea.  Uppercase characters have never been =
-permitted
->> in .deb/.ipk.=20
->>=20
->> Isn't legitimize_package_name() crunching them to lower case for you?
->> If not then I think it should be made to do that.
->=20
-> I just checked the code and it certainly looks like it should be doing
-> that:
->=20
-> 	# Remaining package name validity fixes
-> 	return s.lower().replace('_', '-').replace('@', =
-'+').replace(',', '+').replace('/', '-')
->=20
-> So if that isn't working for you then I think it needs a bit of
-> debugging.
+Thanks
+	Sau!
 
-Does that run on PV or PN? I think Khem has weird things in PV=
 
 
