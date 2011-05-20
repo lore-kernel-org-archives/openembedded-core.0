@@ -1,33 +1,32 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jpuhlman@mvista.com>) id 1QNTlj-0003xI-FV
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2011 19:45:47 +0200
-Received: by pvc30 with SMTP id 30so1835834pvc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2011 10:42:49 -0700 (PDT)
-Received: by 10.68.16.100 with SMTP id f4mr7662902pbd.57.1305913369736;
-	Fri, 20 May 2011 10:42:49 -0700 (PDT)
-Received: from [192.168.1.64] (c-67-187-204-11.hsd1.ca.comcast.net
-	[67.187.204.11])
-	by mx.google.com with ESMTPS id q10sm2573085pbk.39.2011.05.20.10.42.48
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 May 2011 10:42:48 -0700 (PDT)
-Message-ID: <4DD6A817.6050701@mvista.com>
-Date: Fri, 20 May 2011 10:42:47 -0700
-From: Jeremy Puhlman <jpuhlman@mvista.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
-	rv:1.9.2.17) Gecko/20110414 Lightning/1.0b2 Thunderbird/3.1.10
-	ThunderBrowse/3.3.5
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <RFC: Layer tooling brainstorming> <4DCBDC96.1080306@mvista.com>
-	<4DCC1A0B.3040802@mvista.com>
-	<201105201745.29497.paul.eggleton@linux.intel.com>
-In-Reply-To: <201105201745.29497.paul.eggleton@linux.intel.com>
-X-Enigmail-Version: 1.1.1
-Cc: chris_larson@mentor.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Add support for remote layering.
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QNU8O-0002EO-WB for openembedded-core@lists.openembedded.org;
+	Fri, 20 May 2011 20:09:16 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4KI65MN028044;
+	Fri, 20 May 2011 19:06:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28004-01; Fri, 20 May 2011 19:06:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4KI5xL6028038
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 20 May 2011 19:06:00 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <b7564c32452e9ce33d9790465b986471ef5a3cba.1305752660.git.chris_larson@mentor.com>
+References: <cover.1305752660.git.chris_larson@mentor.com>
+	<b7564c32452e9ce33d9790465b986471ef5a3cba.1305752660.git.chris_larson@mentor.com>
+Date: Fri, 20 May 2011 19:05:53 +0100
+Message-ID: <1305914753.3424.670.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Chris Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 4/5] image.bbclass: switch to OE's IMAGE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,52 +41,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2011 17:45:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 20 May 2011 18:09:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-> I think it's just about the placing of these defaults, I don't necessarily 
-> object to having them in the first place. My main concerns are around the 
-> defaults for variables like TMPDIR which may end up actually being used in 
-> preference to what the user has set in local.conf. Obviously we have a 
-> chicken-and-egg situation where we depend on having the main layer present to 
-> read any configuration other than bblayers.conf - perhaps this indicates we 
-> need to restructure some of the config files if we want to make this work 
-> nicely.
-
-So with regard to the code specifically:
-
-TMPDIR really is the only major offender there as far as I can tell, all
-the other variables are set in the local copy of the data and disappar
-after the fetch. That variable setting could get moved over to the local
-copy as well, though we would need to change the way LAYER_REMOTE_STASH
-and LAYER_UNPACKDIR are set to make sure they are correct for the rest
-of the parse but that is not a big deal. Or we could set those via
-something relative other then TMPDIR, TOPDIR perhaps.
-
-General case:
-
-In reality looking at the bulk of the settings there, there are a couple
-different groups there.
-
-There is the stuff to make the fetchers work. I think those should
-probably make their way in to the the code in general. Setifunset means
-they can be changed early(bblayers), or overridden with the first
-bitbake.conf and in general they are rarely used in any user
-configurations(local.conf) or at least shouldn't. Having working
-fetchers from the first parsed line of configuration data seems like a
-generally good idea, but that is just me.
-
-There is the stuff only related to the fiddling with remote layers,
-which I talked above, can be changed to use any location in general.
-
+On Wed, 2011-05-18 at 14:06 -0700, Chris Larson wrote:
+> From: Chris Larson <chris_larson@mentor.com>
 > 
-> I'd definitely be interested in seeing these tools and trying to incorporate 
-> them into what we're doing for layer tooling in 1.1. Is there a lot of work 
-> left to do before you can release these?
+> Currently, all image features are assumed to be package groups defined with
+> oe.packagegroup (PACKAGE_GROUP_<group> = "<list of packages>").
+> 
+> Signed-off-by: Chris Larson <chris_larson@mentor.com>
+> ---
+>  meta/classes/core-image.bbclass |  112 ++++++++++++++-------------------------
+>  meta/classes/image.bbclass      |   41 ++++++++++++++-
+>  meta/conf/bitbake.conf          |    1 +
+>  3 files changed, 79 insertions(+), 75 deletions(-)
+>          - SDK
+> @@ -26,75 +24,43 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+>  # - nfs-server          - NFS server (exports / over NFS to everybody)
+>  # - ssh-server-dropbear - SSH server (dropbear)
+>  # - ssh-server-openssh  - SSH server (openssh)
+> -# - dev-pkgs            - development packages
+> -# - dbg-pkgs            - debug packages
+>  #
 
-Work this week has been a bit slammed. Hopefully I will be able to post
-something this weekend, maybe Monday.
+I like the patch, there are just two things which bother me a little.
+Firstly, if I understand correctly and haven't missed anything,
+"dev-pkgs" becomes "dev" with this change?
+
+A quick grep shows users of this such as:
+
+recipes-core/images/core-image-minimal-dev.bb:IMAGE_FEATURES += "dev-pkgs"
+recipes-extended/images/core-image-lsb-sdk.bb:IMAGE_FEATURES += "apps-console-core tools-debug tools-profile tools-sdk dev-pkgs ssh-server-openssh"
+recipes-extended/images/core-image-lsb-dev.bb:IMAGE_FEATURES += "apps-console-core dev-pkgs ssh-server-openssh"
+recipes-sato/images/core-image-sato-dev.bb:IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs"
+recipes-sato/images/core-image-sato-sdk.bb:IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} tools-debug tools-profile tools-sdk dev-pkgs qt4-pkgs"
+
+and I'd expect the changelog to at least mention it and correct this.
+
+I'm also thinking IMAGE_FEATURES = "dev" doesn't really indicate what it
+means very clearly which is why dev-pkgs was originally used...
+
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -11,8 +11,45 @@ INHIBIT_DEFAULT_DEPS = "1"
+>  
+>  # "export IMAGE_BASENAME" not supported at this time
+>  IMAGE_BASENAME[export] = "1"
+> -export PACKAGE_INSTALL ?= "${IMAGE_INSTALL}"
+> -PACKAGE_INSTALL_ATTEMPTONLY ?= ""
+> +
+> +PACKAGE_INSTALL = "${@' '.join(oe.packagegroup.required_packages('${IMAGE_FEATURES}'.split(), d))}"
+> +PACKAGE_INSTALL_ATTEMPTONLY = "${@' '.join(oe.packagegroup.optional_packages('${IMAGE_FEATURES}'.split(), d))}"
+> +RDEPENDS += "${@' '.join(oe.packagegroup.active_packages('${IMAGE_FEATURES}'.split(), d))}"
+
+I also noticed this patch changes things so PACKAGE_INSTALL_ATTEMPTONLY
+is used for the dev/doc/dbg packages. I'm not sure its a major issue but
+it is a change in behaviour and I'd have expected it in the commit
+message.
+
+Cheers,
+
+Richard
+
 
 
