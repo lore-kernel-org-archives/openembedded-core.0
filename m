@@ -1,34 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QNZDX-0001GX-VH for openembedded-core@lists.openembedded.org;
-	Sat, 21 May 2011 01:34:52 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4KNVtU9030899
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2011 00:31:55 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30475-07 for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2011 00:31:51 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4KNVmeX030893
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2011 00:31:48 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1QNZRm-0001Mn-7C
+	for openembedded-core@lists.openembedded.org;
+	Sat, 21 May 2011 01:49:34 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 20 May 2011 16:46:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,244,1304319600"; d="scan'208";a="440063228"
+Received: from unknown (HELO [10.255.12.76]) ([10.255.12.76])
+	by azsmga001.ch.intel.com with ESMTP; 20 May 2011 16:46:34 -0700
+Message-ID: <4DD6FD57.5030900@linux.intel.com>
+Date: Fri, 20 May 2011 16:46:31 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <63425ea09b30c9cca10c25bc559ed6f22022c4b6.1305933509.git.raj.khem@gmail.com>
-References: <43cfb965113150ea56c55c3880b67ba272b3c719.1305933509.git.raj.khem@gmail.com>
-	<63425ea09b30c9cca10c25bc559ed6f22022c4b6.1305933509.git.raj.khem@gmail.com>
-Date: Sat, 21 May 2011 00:31:42 +0100
-Message-ID: <1305934302.3424.679.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/2] distcc_2.18.3.bb: Fix compilation on uclibc
+References: <cover.1305874831.git.sgw@linux.intel.com>
+	<1305891903.3424.592.camel@rex>
+In-Reply-To: <1305891903.3424.592.camel@rex>
+Subject: Re: [PATCH 00/12] 20-May-2011 Consolidated Pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2011 23:34:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 20 May 2011 23:49:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-05-20 at 16:19 -0700, Khem Raj wrote:
-> We enable gtk/gnome in distcc that code uses loadavg()
-> a function unimplemented in uclibc. Therefore for uclibc
-> we disable gnome and gtk+ features in distcc
+
+
+On 05/20/2011 04:45 AM, Richard Purdie wrote:
+> On Fri, 2011-05-20 at 00:06 -0700, Saul Wold wrote:
+>> This is building green on x86 and ARM.
+>>
+>> This contains updated pull requests from Khem and Dexuan.  I have some
+>> non-gplv3 fixes along with a fix to the u-boot patch due to a bad checksum.
+>>
+>> I have again included the gcc 4.6 enabler for x86 and arm, the kernel 
+>> updates are in place. Feel free to remove it, but I think we get a good QA
+>> pass and move forward, if not we fall back to gcc 4.5.x for RC2.
+>>
+>> Thanks for your considersation
 > 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/distcc/distcc_2.18.3.bb |   17 ++++++++++++-----
->  1 files changed, 12 insertions(+), 5 deletions(-)
+> I've merged some of this but I do have some concerns with a few of the
+> patches:
 > 
-> diff --git a/meta/recipes-devtools/distcc/distcc_2.18.3.bb b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-> index 1f5c2af..a15858c 100644
-> --- a/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-> +++ b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-> @@ -6,7 +6,10 @@ LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
->  PR = "r6"
->  
-> -DEPENDS = "avahi gtk+"
-> +DEPENDS = "avahi ${GTKDEP}"
-> +GTKDEP-libc-uclibc = ""
-> +GTKDEP = "gtk+"
+>> Khem Raj (6):
+>>   conf: Create distro overridable IMAGE varibales
+> 
+> Phil had concerns about this and to be honest I agree with him. More
+> thought is needed with this, we need more of an overall plan.
+> 
+>>   distcc_2.18.3.bb: Fix compilation on uclibc
+> 
+> I think Phil's comment on this is valid and needs to be addressed.
+> 
+>>   opkg_svn.bb: Install rcS.d into ${D} instead of ${IMAGE_ROOTFS}
+> 
+> Should be using $D, *not* ${D}.
 
-return -ENOTTESTED;
+Really? It was my understanding these are equivalent, with the {} form
+being the less ambiguous of the two for use when concatenating strings
+of variables. What am I missing?
 
-;-)
+http://tldp.org/LDP/abs/html/parameter-substitution.html
 
-Cheers,
+Thanks,
 
-Richard
-
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
