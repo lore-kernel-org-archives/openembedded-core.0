@@ -1,26 +1,31 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QNMhO-0001OW-Gx
+	(envelope-from <gary@mlbassoc.com>) id 1QNO0l-0002Vt-NK
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2011 12:12:51 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 20 May 2011 03:09:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,241,1304319600"; d="scan'208";a="439664785"
-Received: from unknown (HELO helios.localnet) ([10.255.16.165])
-	by azsmga001.ch.intel.com with ESMTP; 20 May 2011 03:09:51 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>, 
-	Joshua Lock <josh@linux.intel.com>
-Date: Fri, 20 May 2011 11:09:49 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <cover.1305737923.git.chris_larson@mentor.com>
-	<1305849778.9983.29.camel@vorpal.jf.intel.com>
-In-Reply-To: <1305849778.9983.29.camel@vorpal.jf.intel.com>
+	Fri, 20 May 2011 13:36:56 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id 8EA6816603FC; Fri, 20 May 2011 05:33:55 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2-r929478 (2010-03-31) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2-r929478
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 3AD8016603F9;
+	Fri, 20 May 2011 05:33:54 -0600 (MDT)
+Message-ID: <4DD651A2.9050408@mlbassoc.com>
+Date: Fri, 20 May 2011 05:33:54 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.13) Gecko/20101209 Fedora/3.1.7-0.35.b3pre.fc13
+	Thunderbird/3.1.7
 MIME-Version: 1.0
-Message-Id: <201105201109.50052.paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH (v2,resend) 0/3] Rework the devshell
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <43EE53C2-2A83-4F54-B8CF-F0614AB390B0@dominion.thruhere.net>	<1303126125.5518.118.camel@rex>	<0E9C83CD-3E86-46B3-B749-6FAFB94E4BAF@dominion.thruhere.net>	<4DAC2BC5.4020107@mlbassoc.com>
+	<4DD42244.60806@gravedo.de> <1305845617.3424.570.camel@rex>
+In-Reply-To: <1305845617.3424.570.camel@rex>
+Subject: Re: Is BBCLASSEXTEND in .bbappend supposed to work?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +40,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2011 10:12:51 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Fri, 20 May 2011 11:36:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Friday 20 May 2011 01:02:58 Joshua Lock wrote:
-> Speaking of devshell, last I tried (and Paul E can correct me here)
-> Konsole doesn't wait when it's spawned so is currently pretty useless
-> for devshell (bitbake continues as if the devshell had finished and if a
-> patch hasn't applied....).
+On 05/19/2011 04:53 PM, Richard Purdie wrote:
+> On Wed, 2011-05-18 at 21:47 +0200, Simon Busch wrote:
+>> On 18.04.2011 14:17, Gary Thomas wrote:
+>>> On 04/18/2011 05:34 AM, Koen Kooi wrote:
+>>>>
+>>>> Op 18 apr 2011, om 13:28 heeft Richard Purdie het volgende geschreven:
+>>>>
+>>>>> On Mon, 2011-04-18 at 12:55 +0200, Koen Kooi wrote:
+>>>>>> Martin did some Xorg cleanup in meta-oe today and we're seeing some
+>>>>>> strange behaviour.  The recipe in question:
+>>>>>>
+>>>>>> koen@dominion:/OE/tentacle/sources/meta-openembedded/meta-oe$ cat
+>>>>>> recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
+>>>>>> BBCLASSEXTEND = "native nativesdk"
+>>>>>> koen@dominion:/OE/tentacle/sources/meta-openembedded/meta-oe$
+>>>>>>
+>>>>>> Bitbake-layers tells me:
+>>>>>>
+>>>>>> INFO: libxrender_0.9.6.bb:
+>>>>>> INFO:
+>>>>>> /OE/tentacle/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
+>>>>>>
+>>>>>>
+>>>>>> So the append is getting picked up, but bitbake gives me:
+>>>>>>
+>>>>>> ERROR: Nothing PROVIDES 'libxrender-native'
+>>>>>> NOTE: Runtime target 'libnss-mdns' is unbuildable, removing...
+>>>>>> Missing or unbuildable dependency chain was: ['libnss-mdns',
+>>>>>> 'avahi', 'gtk+', 'gtk+-native', 'libxrender-native']
+>>>>>>
+>>>>>> This is with HEAD of bitbake master.
+>>>>>
+>>>>> I did some experimentation here and this looks like bitbake-layers is
+>>>>> seeing the file but bitbake is not. If I touch the libxrender .bb file
+>>>>> and then run bitbake -DDD, I see the file mentioned in the logs:
+>>>>>
+>>>>> $ touch recipes-graphics/xorg-lib/libxrender_0.9.6.bb
+>>>>> $ bitbake libxrender-native -DDD | grep append
+>>>>> DEBUG: Appending .bbappend file
+>>>>> /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
+>>>>> to /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bb
+>>>>> DEBUG: BB
+>>>>> /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend: handle(data,
+>>>>> include)
+>>>>> DEBUG: LOAD
+>>>>> /rphome/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
+>>>>>
+>>>>> Can you confirm you're seeing that? Admittedly I just hacked a local
+>>>>> checkout and I'm not using meta-oe.
+>>>>
+>>>> I get:
+>>>>
+>>>> koen@dominion:/OE/tentacle/build$ touch
+>>>> ../sources/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bb
+>>>>
+>>>> koen@dominion:/OE/tentacle/build$ bitbake libxrender-native -DDD |
+>>>> grep append
+>>>> DEBUG: Appending .bbappend file
+>>>> /OE/tentacle/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
+>>>> to
+>>>> /OE/tentacle/sources/openembedded-core/meta/recipes-graphics/xorg-lib/libxrender_0.9.6.bb
+>>>>
+>>>> DEBUG: BB
+>>>> /OE/tentacle/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend:
+>>>> handle(data, include)
+>>>> DEBUG: LOAD
+>>>> /OE/tentacle/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-lib/libxrender_0.9.6.bbappend
+>>>>
+>>>>
+>>>> It then chokes on renderproto-native, which gets fixes by touching the
+>>>> .bb. So it looks like bitbake has some caching issues.
+>>>
+>>> I have seen exactly this behaviour.  Rebuilding the cache makes it
+>>> work.  Is there an easy way
+>>> to force the cache to rebuild?  (I just touch a .conf file...)
+>>>
+>>>>>
+>>>>> Do you need to add *.bbappend to BBFILES in layer.conf ?
+>>>>
+>>>> I have that already :)
+>>
+>> I discoverd the same behaviour today. Is there already something fix to
+>> get bitbake to evaluate the bbappend file after creation?
+>
+> Someone should file a bug about this so we don't forget about it. I
+> think bbappend files currently sometimes fall outside the cache logic
+> but they obviously shouldn't and we've found a corner case...
 
-I can confirm this - right now our Konsole support just does not work and I 
-imagine it has not since KDE 4.0. Adding the --nofork command line option 
-which is supposed to make it wait does not work either, because if the 
-controlling terminal is not interactive it assumes there is no other instance 
-of Konsole running, tries to register a DBUS service and fails (and it's hard 
-to imagine someone using KDE and running bitbake without having an instance of 
-Konsole running already).
- 
-> Perhaps we should remove support for it from the class? Or is there some
-> better way we can work around this?
+Done - bug #1091
 
-A while ago I had a look adding a command line option to Konsole itself to 
-make this work but didn't get very far, although I don't think it should be 
-too difficult. There is a workaround script [1] but when I tried it just now I 
-found it again has problems if the controlling terminal is not interactive 
-(never returns). Frankly the script is hideous and maybe it was broken in a 
-version of KDE since the script was written, I don't know.
+Query: is there a command line way to force the cache to be rebuilt?
+I just use the "big hammer" approach - touch local.conf
 
-It might be prudent to remove the Konsole support until it has been fixed 
-appropriately; at the very least it should be documented to only work with 
-Konsole from KDE 3.x.
-
-FYI the "workaround" I use here for the moment (if I don't just disable the 
-feature with PATCHRESOLVE = "noop") is to use xterm instead of Konsole for 
-TERMCMD and TERMCMDRUN.
-
-Cheers,
-Paul
-
-[1] http://lists.kde.org/?l=kde-core-devel&m=123188146810950&w=2
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
