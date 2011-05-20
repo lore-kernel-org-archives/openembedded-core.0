@@ -1,24 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QNDAZ-0002b9-To
+	(envelope-from <raj.khem@gmail.com>) id 1QNDDa-0002uI-DO
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2011 02:02:20 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 May 2011 16:59:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,239,1304319600"; 
-   d="scan'208";a="1237515"
-Received: from vorpal.jf.intel.com (HELO [10.7.199.57]) ([10.7.199.57])
-	by orsmga001.jf.intel.com with ESMTP; 19 May 2011 16:59:22 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 May 2011 17:02:58 -0700
-In-Reply-To: <cover.1305737923.git.chris_larson@mentor.com>
-References: <cover.1305737923.git.chris_larson@mentor.com>
-X-Mailer: Evolution 3.0.1 (3.0.1-1.fc15) 
-Message-ID: <1305849778.9983.29.camel@vorpal.jf.intel.com>
-Mime-Version: 1.0
-Subject: Re: [PATCH (v2,resend) 0/3] Rework the devshell
+	Fri, 20 May 2011 02:05:26 +0200
+Received: by pxi6 with SMTP id 6so2395402pxi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 May 2011 17:02:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=mg1nG+sE7czRaE5v3ZvjnWtUZkHONuTKybXg7okQ5Oo=;
+	b=o53OmU0mtUjERat9qm2vd5e1BJeG0Z38lwVi3vb8lIl+yoQU2SvhnCdGMqQBLJO0yO
+	VnYctkO3BhoayiUBRd/p9pdvFgjcyIcOCUmbZ96Fh79qff+oJmdtiVaFQl75qDHh6ovg
+	vyaKdi7/ReZiq3VItktMzC1pNBvrv8+DCr4rc=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=xhNm+27GFuLxWZTdhB66uUQWK+50p5DO4tPCIyURdY50jbKGWlYhISRnRAFXovD9W7
+	VYG19byegA7QUaRBFSQlQiGZwoKJ0+VNf0Rubt0P4depaPSd8LYxL/10rCu2hrODJpiY
+	yqr1lKWnt0gs4kQMUEkXUkxdcxaahWMyfTw6g=
+Received: by 10.142.152.23 with SMTP id z23mr2298482wfd.180.1305849749464;
+	Thu, 19 May 2011 17:02:29 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id x12sm2732125wfd.6.2011.05.19.17.02.27
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 19 May 2011 17:02:28 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 May 2011 17:02:16 -0700
+Message-Id: <cover.1305849572.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCHv2 0/3] Fix recipes to build with uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,83 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2011 00:02:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 May 2011 00:05:26 -0000
 
-On Wed, 2011-05-18 at 10:17 -0700, Chris Larson wrote:
-> From: Chris Larson <chris_larson@mentor.com>
-> 
-> - Adds a utility metaclass for maintaining class registries
-> - Shifts the handling of spawning a terminal into a new 'terminal' python
->  module
-> - Automatically selects an appropriate terminal based on what you have
->  available on your machine
-> - Still allows manual selection, but in a more convenient way, and falls back
->  to auto if you select an invalid or unavailable (not installed) terminal
-> - Improves how we spawn screen:
-> 
->  - Shows a warning when spawning it, so do_devshell doesn't appear to hang
->  - Spawns a named screen session 'devshell', to avoid confusion when the user
->    already has other screen sessions running
-> 
-> Example usage of the new API for others (e.g. patch resolver) to use:
-> 
->     import oe.terminal
->     oe.terminal.run(command, terminal_title, d)
-> 
-> Pull URL: git://git.openembedded.org/openembedded-core-contrib
->   Branch: kergoth/devshell
->   Browse: http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kergoth/devshell
-> 
-> Thanks,
->     Chris Larson <chris_larson@mentor.com>
+This series addresses review from RP
 
-I like this series!
+The following changes since commit bcf6445c5e77ab3563dc2dfa56d17ae811eb813d:
 
-Speaking of devshell, last I tried (and Paul E can correct me here)
-Konsole doesn't wait when it's spawned so is currently pretty useless
-for devshell (bitbake continues as if the devshell had finished and if a
-patch hasn't applied....).
+  opkg_svn.bb: Install rcS.d into ${D} instead of ${IMAGE_ROOTFS} (2011-05-19 16:56:45 -0700)
 
-Perhaps we should remove support for it from the class? Or is there some
-better way we can work around this?
+are available in the git repository at:
+  git@git.openembedded.org:openembedded-core-contrib.git kraj/uclibc
+  http://cgit.openembedded.org/cgit.cgi//log/?h=kraj/uclibc
 
-As an aside: I think somewhere in meta-yocto, to maintain current
-behaviour we'd want to set: OE_TERMINAL ?= 'Gnome' to maintain
-gnome-terminal as the default (when installed).
+Khem Raj (3):
+  uclibc/site_config/funcs: getloadavg is unimplemented
+  distcc_2.18.3.bb: Fix compilation on uclibc
+  nfs-utils_1.2.3.bb: Fix compile failure on uclibc
 
-Acked-by: Joshua Lock <josh@linux.intel.com>
-
-Cheers,
-Joshua
-
-> ---
-> 
-> 
-> Chris Larson (3):
->   oe.classutils: add module
->   Rework how the devshell functions
->   oe.terminal: improve how we spawn screen
-> 
->  meta/classes/devshell.bbclass |   25 ++------
->  meta/conf/bitbake.conf        |    9 +++
->  meta/lib/oe/classutils.py     |   45 ++++++++++++++
->  meta/lib/oe/terminal.py       |  131 +++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 191 insertions(+), 19 deletions(-)
->  create mode 100644 meta/lib/oe/classutils.py
->  create mode 100644 meta/lib/oe/terminal.py
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+ .../nfs-utils/nfs-utils-1.0.6-uclibc.patch         |   16 +++++++-----
+ .../nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch |   26 ++++++++++++++++++++
+ .../nfs-utils/nfs-utils_1.2.3.bb                   |    1 +
+ meta/recipes-core/uclibc/site_config/funcs         |    1 -
+ meta/recipes-devtools/distcc/distcc_2.18.3.bb      |   15 +++++++----
+ 5 files changed, 46 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-uclibc-libio.h.patch
 
 -- 
-Joshua Lock
-        Yocto Project Build Monkey
-        Intel Open Source Technology Centre
+1.7.4.1
 
 
 
