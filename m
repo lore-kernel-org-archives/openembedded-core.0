@@ -1,24 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QNJnH-0007yT-NN for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2011 09:06:43 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QNJkT-0007sV-FA
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1QNJqn-00083M-EY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2011 09:03:49 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <d95f77d22bbe7bf5718516f667b3e1433757c861.1305849572.git.raj.khem@gmail.com>
-References: <2cc9510de67bbf735856adb033c2eb352ffedc04.1305849572.git.raj.khem@gmail.com>
-	<d95f77d22bbe7bf5718516f667b3e1433757c861.1305849572.git.raj.khem@gmail.com>
-Date: Fri, 20 May 2011 08:03:43 +0100
-Message-ID: <1305875023.18415.250.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCHv2 2/3] distcc_2.18.3.bb: Fix compilation on uclibc
+	Fri, 20 May 2011 09:10:21 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 20 May 2011 00:07:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,241,1304319600"; d="scan'208";a="439578050"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.39])
+	by azsmga001.ch.intel.com with ESMTP; 20 May 2011 00:07:05 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 May 2011 00:06:52 -0700
+Message-Id: <9bcffc24a9dbb615c59af223deb295a0dd8579e4.1305874831.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1305874831.git.sgw@linux.intel.com>
+References: <cover.1305874831.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1305874831.git.sgw@linux.intel.com>
+References: <cover.1305874831.git.sgw@linux.intel.com>
+Subject: [PATCH 02/12] modutils-cross: fix install issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,26 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2011 07:06:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 May 2011 07:10:21 -0000
 
-On Thu, 2011-05-19 at 17:02 -0700, Khem Raj wrote:
-> -DEPENDS = "avahi gtk+"
-> +DEPENDS = "avahi"
-> +DEPENDS_append-libc-glibc = " gtk+ "
+[YOCTO #1055]
 
-If uclibc is alone in not having this function then it would be better
-as:
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../modutils/modutils-cross_2.4.27.bb              |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-gtkdepends = "gtk+"
-gtkdepends_libc-uclibc = ""
-DEPENDS = "avahi ${gtkdepends}"
-
-or some such.
-
-p.
-
+diff --git a/meta/recipes-kernel/modutils/modutils-cross_2.4.27.bb b/meta/recipes-kernel/modutils/modutils-cross_2.4.27.bb
+index d772516..f7c68bb 100644
+--- a/meta/recipes-kernel/modutils/modutils-cross_2.4.27.bb
++++ b/meta/recipes-kernel/modutils/modutils-cross_2.4.27.bb
+@@ -1,5 +1,5 @@
+ require modutils_${PV}.bb
+-PR = "r9"
++PR = "r10"
+ inherit cross
+ DEPENDS = ""
+ PACKAGES = ""
+@@ -16,5 +16,5 @@ CFLAGS_prepend_mipsel = "-D__MIPSEL__"
+ CFLAGS_prepend_mipseb = "-D__MIPSEB__"
+ 
+ do_install_append () {
+-        mv ${D}${bindir}/${TARGET_PREFIX}depmod ${D}${bindir}/${TARGET_PREFIX}depmod-2.4
++        mv ${D}${sbindir}/${TARGET_PREFIX}depmod ${D}${sbindir}/${TARGET_PREFIX}depmod-2.4
+ }
+-- 
+1.7.3.4
 
 
 
