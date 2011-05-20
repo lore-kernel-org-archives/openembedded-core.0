@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QNJqs-00083M-Qq
+	(envelope-from <sgw@linux.intel.com>) id 1QNJqs-00085L-J8
 	for openembedded-core@lists.openembedded.org;
 	Fri, 20 May 2011 09:10:27 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 20 May 2011 00:07:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,241,1304319600"; d="scan'208";a="439578064"
+X-IronPort-AV: E=Sophos;i="4.65,241,1304319600"; d="scan'208";a="439578079"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.39])
-	by azsmga001.ch.intel.com with ESMTP; 20 May 2011 00:07:07 -0700
+	by azsmga001.ch.intel.com with ESMTP; 20 May 2011 00:07:08 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 May 2011 00:06:56 -0700
-Message-Id: <1d1b6329f45fa89df8f616a23d1090d23ee86a43.1305874831.git.sgw@linux.intel.com>
+Date: Fri, 20 May 2011 00:07:00 -0700
+Message-Id: <e72830d9588ce03954d4a5e6d67e69c52e31c898.1305874831.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1305874831.git.sgw@linux.intel.com>
 References: <cover.1305874831.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1305874831.git.sgw@linux.intel.com>
 References: <cover.1305874831.git.sgw@linux.intel.com>
-Subject: [PATCH 06/12] distcc_2.18.3.bb: Fix compilation on uclibc
+Subject: [PATCH 10/12] ed (GPLv2): remove --disable-silent-rules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,57 +35,28 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 20 May 2011 07:10:27 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+Older version of configure in ed does not like this option, so remove it from CONFIGUREOPTS
 
-We enable gtk/gnome in distcc that code uses loadavg()
-a function unimplemented in uclibc. Therefore for uclibc
-we disable gnome and gtk+ features in distcc
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/distcc/distcc_2.18.3.bb |   15 ++++++++++-----
- 1 files changed, 10 insertions(+), 5 deletions(-)
+ meta/recipes-extended/ed/ed_0.5.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/distcc/distcc_2.18.3.bb b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-index 1f5c2af..e73ce16 100644
---- a/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-+++ b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-@@ -6,7 +6,8 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- PR = "r6"
+diff --git a/meta/recipes-extended/ed/ed_0.5.bb b/meta/recipes-extended/ed/ed_0.5.bb
+index e14bf0e..a652332 100644
+--- a/meta/recipes-extended/ed/ed_0.5.bb
++++ b/meta/recipes-extended/ed/ed_0.5.bb
+@@ -5,7 +5,9 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6ddd5335ef96fb858a138230af773710 \
+                     file://main.c;beginline=1;endline=17;md5=36d4b85e5ae9028e918d1cc775c2475e"
  
--DEPENDS = "avahi gtk+"
-+DEPENDS = "avahi"
-+DEPENDS_append-libc-glibc = " gtk+ "
- RRECOMMENDS_${PN} = "avahi-daemon"
+-PR = "r0"
++PR = "r1"
+ SRC_URI = "http://download.savannah.gnu.org/releases-noredirect/ed/ed-${PV}.tar.bz2"
  
- # Upstream change this patch periodically so store locally
-@@ -24,17 +25,21 @@ inherit autotools pkgconfig update-rc.d
- 
- INITSCRIPT_NAME = "distcc"
- 
--EXTRA_OECONF = " --with-gtk "
--
-+EXTRA_OECONF_libc-glibc = " --with-gtk "
-+EXTRA_OECONF_libc-uclibc = " --without-gtk --without-gnome "
- do_install_append() {
-     install -d ${D}${sysconfdir}/init.d/
-     install -d ${D}${sysconfdir}/default
-     install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
-     install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
-+    ${DESKTOPINSTALL}
-+}
-+DESKTOPINSTALL = ""
-+DESKTOPINSTALL_libc-glibc () {
-+    install -d ${D}${datadir}/distcc/
-     install -m 0644 ${WORKDIR}/distccmon-gnome.desktop ${D}${datadir}/distcc/
- }
--
--PACKAGES += "distcc-distmon-gnome"
-+PACKAGES_append_libc-glibc = " distcc-distmon-gnome"
- 
- FILES_${PN} = " ${sysconfdir} \
- 		${bindir}/distcc \
+ inherit autotools
++
++CONFIGUREOPTS := "${@d.getVar('CONFIGUREOPTS', True).replace('--disable-silent-rules', ' ')}"
 -- 
 1.7.3.4
 
