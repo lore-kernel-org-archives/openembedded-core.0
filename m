@@ -1,27 +1,26 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QNLDw-0001OH-8X
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QNMhO-0001OW-Gx
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 May 2011 10:38:20 +0200
-Received: by wye20 with SMTP id 20so2831002wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2011 01:35:23 -0700 (PDT)
-Received: by 10.227.58.15 with SMTP id e15mr4000375wbh.28.1305880523450;
-	Fri, 20 May 2011 01:35:23 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w25sm2119555wbd.56.2011.05.20.01.35.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 May 2011 01:35:22 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <BF0FE697-3489-4B92-AB20-36DE6B63E5C0@dominion.thruhere.net>
-Date: Fri, 20 May 2011 10:35:16 +0200
-Message-Id: <64B63E8F-CC96-4A36-B637-F9E12E3BCCAE@dominion.thruhere.net>
-References: <BF0FE697-3489-4B92-AB20-36DE6B63E5C0@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: New fetcher failure for local files
+	Fri, 20 May 2011 12:12:51 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 20 May 2011 03:09:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,241,1304319600"; d="scan'208";a="439664785"
+Received: from unknown (HELO helios.localnet) ([10.255.16.165])
+	by azsmga001.ch.intel.com with ESMTP; 20 May 2011 03:09:51 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>, 
+	Joshua Lock <josh@linux.intel.com>
+Date: Fri, 20 May 2011 11:09:49 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+References: <cover.1305737923.git.chris_larson@mentor.com>
+	<1305849778.9983.29.camel@vorpal.jf.intel.com>
+In-Reply-To: <1305849778.9983.29.camel@vorpal.jf.intel.com>
+MIME-Version: 1.0
+Message-Id: <201105201109.50052.paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH (v2,resend) 0/3] Rework the devshell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,47 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2011 08:38:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 May 2011 10:12:51 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
+On Friday 20 May 2011 01:02:58 Joshua Lock wrote:
+> Speaking of devshell, last I tried (and Paul E can correct me here)
+> Konsole doesn't wait when it's spawned so is currently pretty useless
+> for devshell (bitbake continues as if the devshell had finished and if a
+> patch hasn't applied....).
 
-Op 20 mei 2011, om 09:25 heeft Koen Kooi het volgende geschreven:
+I can confirm this - right now our Konsole support just does not work and I 
+imagine it has not since KDE 4.0. Adding the --nofork command line option 
+which is supposed to make it wait does not work either, because if the 
+controlling terminal is not interactive it assumes there is no other instance 
+of Konsole running, tries to register a DBUS service and fails (and it's hard 
+to imagine someone using KDE and running bitbake without having an instance of 
+Konsole running already).
+ 
+> Perhaps we should remove support for it from the class? Or is there some
+> better way we can work around this?
 
-> Hi,
->=20
-> Since a few days the fetcher is behaving strangely:
->=20
-> NOTE: package =
-linux-omap-psp-2.6.32-r99b+gitr5fc29e7b2a76a64a739f857858ef0b98294aa155: =
-task do_fetch: Started
-> ERROR: Function 'Fetcher failure for URL: 'file://defconfig'. Unable =
-to fetch URL file://defconfig from any source.' failed
->=20
-> It is present:
->=20
-> koen@dominion:/OE/tentacle/sources/meta-texasinstruments$ find . -name =
-"defconfig" | grep beagle
-> ./recipes-bsp/linux/linux-omap-psp-2.6.32/beagleboard/defconfig
-> ./recipes-bsp/linux/linux-omap/beagleboard/defconfig
->=20
-> The strange thing is that it will work once (e.g. bitbake =
-console-image) but it will fail after switching TCLIBC. And once it =
-started failing, it doesn't work for the default TCLIBC either.
->=20
-> What's the best way to debug this? -DDD isn't giving much clues, nor =
-does strace :(
+A while ago I had a look adding a command line option to Konsole itself to 
+make this work but didn't get very far, although I don't think it should be 
+too difficult. There is a workaround script [1] but when I tried it just now I 
+found it again has problems if the controlling terminal is not interactive 
+(never returns). Frankly the script is hideous and maybe it was broken in a 
+version of KDE since the script was written, I don't know.
 
-It seems that this was caused by a malformed OVERRIDES variable. It was =
-fixed by =
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-angstrom/commit=
-/?id=3D7ace4c81e4f546a2a0cb1389463f227344567251
+It might be prudent to remove the Konsole support until it has been fixed 
+appropriately; at the very least it should be documented to only work with 
+Konsole from KDE 3.x.
 
-It didn't get caught since a build from scratch was always successfull.=20=
+FYI the "workaround" I use here for the moment (if I don't just disable the 
+feature with PATCHRESOLVE = "noop") is to use xterm instead of Konsole for 
+TERMCMD and TERMCMDRUN.
 
+Cheers,
+Paul
 
-regards,
-
-Koen=
+[1] http://lists.kde.org/?l=kde-core-devel&m=123188146810950&w=2
 
 
