@@ -1,32 +1,46 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QNfxO-0001l6-PU
+	(envelope-from <raj.khem@gmail.com>) id 1QNgXc-0004hV-E1
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 May 2011 08:46:40 +0200
-Received: by wwb17 with SMTP id 17so3833098wwb.24
+	Sat, 21 May 2011 09:24:28 +0200
+Received: by pwj9 with SMTP id 9so2075997pwj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2011 23:43:41 -0700 (PDT)
-Received: by 10.227.167.132 with SMTP id q4mr351846wby.87.1305960220760;
-	Fri, 20 May 2011 23:43:40 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id k2sm2713779wby.51.2011.05.20.23.43.39
+	Sat, 21 May 2011 00:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:references:in-reply-to:mime-version
+	:content-transfer-encoding:content-type:message-id:cc:x-mailer:from
+	:subject:date:to;
+	bh=T3GW1Hq/zOcm7n0fn4DE4/5hZdKOa4J7sYDzwxeMJrs=;
+	b=LbtAfsv9bwbZTR97A4XOlrK9yi/l2EnYb4gruEsnxVpcH3Ndi27xiQbpB7/RXFHlt8
+	6c32hAFJYV/b/Em49dyTZ+mfaVD4P/vs6r1vTm0IU3AuXxITKa3zdPCzUB4k1yno3r9T
+	At3EHgs5Q1Nt8YRqPCEzt+yQ7HSBVegYNW6do=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=references:in-reply-to:mime-version:content-transfer-encoding
+	:content-type:message-id:cc:x-mailer:from:subject:date:to;
+	b=c6fQttEsegGgRlAqR6MUMsnHBMmfxOAsmlaKhwRyfkok7mVNuLdtn+ZSfgzYYhM0hZ
+	4VaTR070xZxHewIEWxaHm9BjyBxX9iR5z00/bJWejh6J0Z0saye4zFxP5KTcZuCTdbb/
+	pdEbQf8zHODbHJKIRKs2VUMl8NHgc4PFKo50g=
+Received: by 10.68.32.3 with SMTP id e3mr421309pbi.325.1305962347415;
+	Sat, 21 May 2011 00:19:07 -0700 (PDT)
+Received: from [192.168.1.81] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id h7sm2955859pbg.74.2011.05.21.00.19.04
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 May 2011 23:43:40 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <BANLkTi=HYrwcpdTRFwT0X6ei+Np=uYVDnQ@mail.gmail.com>
-Date: Sat, 21 May 2011 08:43:37 +0200
-Message-Id: <B5B363AA-1270-4A8F-BD75-D3DF56F4A9BE@dominion.thruhere.net>
-References: <cover.1305839225.git.raj.khem@gmail.com>
-	<836208067c345a911ddb3a266ac398b435054798.1305839225.git.raj.khem@gmail.com>
-	<1305873952.18415.249.camel@lenovo.internal.reciva.com>
-	<1305903707.2525.29.camel@phil-desktop>
-	<4DD69167.1010703@opendreambox.org>
-	<BANLkTi=HYrwcpdTRFwT0X6ei+Np=uYVDnQ@mail.gmail.com>
+	Sat, 21 May 2011 00:19:06 -0700 (PDT)
+References: <43cfb965113150ea56c55c3880b67ba272b3c719.1305933509.git.raj.khem@gmail.com>
+	<63425ea09b30c9cca10c25bc559ed6f22022c4b6.1305933509.git.raj.khem@gmail.com>
+	<1305959660.18415.252.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1305959660.18415.252.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0 (iPad Mail 8J2)
+Message-Id: <51ED17D8-BCDC-4A28-B537-5EBDAE71772B@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPad Mail (8J2)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 21 May 2011 00:19:30 -0700
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 2/2] opkg-utils: Allow uppercase lettlers in package names
+Subject: Re: [PATCH 2/2] distcc_2.18.3.bb: Fix compilation on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,45 +55,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 May 2011 06:46:40 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Sat, 21 May 2011 07:24:28 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
-Op 20 mei 2011, om 20:35 heeft Khem Raj het volgende geschreven:
 
-> On Fri, May 20, 2011 at 9:05 AM, Andreas Oberritter
-> <obi@opendreambox.org> wrote:
->> http://patches.openembedded.org/patch/2255/ should solve the problem. =
-I
->> was waiting for a second ack.
->>=20
->> Khem, if this fixes the problem for you, please send an ack or push =
-this
->> patch.
->>=20
+-Khem
+
+On May 20, 2011, at 11:34 PM, Phil Blundell <pb@pbcl.net> wrote:
+
+> On Fri, 2011-05-20 at 16:19 -0700, Khem Raj wrote:
+>> -DEPENDS =3D "avahi gtk+"
+>> +DEPENDS =3D "avahi ${GTKDEP}"
+>> +GTKDEP-libc-uclibc =3D ""
+>> +GTKDEP =3D "gtk+"
 >=20
-> yes it does thanks. I meant to look for this before I butchered =
-opkg-utils
-> but my memory did not serve me well.
+> Does that really work?  Surely it should be "GTKDEP_libc-uclibc".
+>=20
 
-With a build from scratch I get:
+No it does not RP pointed it out earlier and I have since fixed it
 
-|  * satisfy_dependencies_for: Cannot satisfy the following dependencies =
-for task-base:
-|  *    kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  =
-kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  =
-kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  =
-kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  =
-kernel-2.6.31.12-ER1 *   kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  =
-kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *
-|  * opkg_install_cmd: Cannot install package task-base.
-|  * satisfy_dependencies_for: Cannot satisfy the following dependencies =
-for task-base-extended:
-|  *    kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  =
-kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *  =
-kernel-2.6.31.12-ER1 *  kernel-2.6.31.12-ER1 *
-|  * opkg_install_cmd: Cannot install package task-base-extended.
+>> -EXTRA_OECONF =3D " --with-gtk "
+>> -
+>> +EXTRA_OECONF_libc-glibc =3D " --with-gtk "
+>> +EXTRA_OECONF_libc-uclibc =3D " --without-gtk --without-gnome "
+>=20
+> Can you make this use the same logic as above?
+>=20
 
+Is there a problem with this logic ?
+
+>> +DESKTOPINSTALL =3D ""
+>> +DESKTOPINSTALL_libc-glibc () {
+>> +    install -d ${D}${datadir}/distcc/
+>>     install -m 0644 ${WORKDIR}/distccmon-gnome.desktop ${D}${datadir}/dis=
+tcc/
+>> }
+>=20
+> Likewise, or find some way to eliminate it entirely.
+>=20
+>> -
+>> -PACKAGES +=3D "distcc-distmon-gnome"
+>> +PACKAGES_append_libc-glibc =3D " distcc-distmon-gnome"
+>=20
+> Is that needed?
+>=20
+
+May be not it will just be empty in uclibc case
+> p.
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
