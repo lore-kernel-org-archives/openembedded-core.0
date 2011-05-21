@@ -1,23 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QNr7l-0000fY-Iz
+	(envelope-from <koen@dominion.thruhere.net>) id 1QNrjL-0001YA-7g
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 May 2011 20:42:05 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 21 May 2011 11:39:06 -0700
-X-ExtLoop1: 1
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.39])
-	by orsmga002.jf.intel.com with ESMTP; 21 May 2011 11:39:05 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 May 2011 11:38:04 -0700
-Message-Id: <92c28973316e62fd2e4054fe3bab85685c5acc3e.1306002889.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1306002889.git.sgw@linux.intel.com>
-References: <cover.1306002889.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1306002889.git.sgw@linux.intel.com>
-References: <cover.1306002889.git.sgw@linux.intel.com>
-Subject: [PATCH 8/8] distcc_2.18.3.bb: Fix compilation on uclibc
+	Sat, 21 May 2011 21:20:55 +0200
+Received: by wwb17 with SMTP id 17so4115559wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 May 2011 12:17:57 -0700 (PDT)
+Received: by 10.216.233.224 with SMTP id p74mr815546weq.4.1306005474640;
+	Sat, 21 May 2011 12:17:54 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id f30sm2449113wef.7.2011.05.21.12.17.53
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 21 May 2011 12:17:53 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <51ED17D8-BCDC-4A28-B537-5EBDAE71772B@gmail.com>
+Date: Sat, 21 May 2011 21:17:52 +0200
+Message-Id: <2A972D3F-1633-4B54-8E59-87D815DECDAD@dominion.thruhere.net>
+References: <43cfb965113150ea56c55c3880b67ba272b3c719.1305933509.git.raj.khem@gmail.com>
+	<63425ea09b30c9cca10c25bc559ed6f22022c4b6.1305933509.git.raj.khem@gmail.com>
+	<1305959660.18415.252.camel@lenovo.internal.reciva.com>
+	<51ED17D8-BCDC-4A28-B537-5EBDAE71772B@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 2/2] distcc_2.18.3.bb: Fix compilation on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,63 +39,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 May 2011 18:42:05 -0000
+X-List-Received-Date: Sat, 21 May 2011 19:20:55 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Khem Raj <raj.khem@gmail.com>
 
-We enable gtk/gnome in distcc that code uses loadavg()
-a function unimplemented in uclibc. Therefore for uclibc
-we disable gnome and gtk+ features in distcc
+Op 21 mei 2011, om 09:19 heeft Khem Raj het volgende geschreven:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/distcc/distcc_2.18.3.bb |   17 ++++++++++++-----
- 1 files changed, 12 insertions(+), 5 deletions(-)
+>=20
+>=20
+> -Khem
+>=20
+> On May 20, 2011, at 11:34 PM, Phil Blundell <pb@pbcl.net> wrote:
+>=20
+>> On Fri, 2011-05-20 at 16:19 -0700, Khem Raj wrote:
+>>> -DEPENDS =3D "avahi gtk+"
+>>> +DEPENDS =3D "avahi ${GTKDEP}"
+>>> +GTKDEP-libc-uclibc =3D ""
+>>> +GTKDEP =3D "gtk+"
+>>=20
+>> Does that really work?  Surely it should be "GTKDEP_libc-uclibc".
+>>=20
+>=20
+> No it does not RP pointed it out earlier and I have since fixed it
+>=20
+>>> -EXTRA_OECONF =3D " --with-gtk "
+>>> -
+>>> +EXTRA_OECONF_libc-glibc =3D " --with-gtk "
+>>> +EXTRA_OECONF_libc-uclibc =3D " --without-gtk --without-gnome "
+>>=20
+>> Can you make this use the same logic as above?
+>>=20
+>=20
+> Is there a problem with this logic ?
+>=20
+>>> +DESKTOPINSTALL =3D ""
+>>> +DESKTOPINSTALL_libc-glibc () {
+>>> +    install -d ${D}${datadir}/distcc/
+>>>   install -m 0644 ${WORKDIR}/distccmon-gnome.desktop =
+${D}${datadir}/distcc/
+>>> }
+>>=20
+>> Likewise, or find some way to eliminate it entirely.
+>>=20
+>>> -
+>>> -PACKAGES +=3D "distcc-distmon-gnome"
+>>> +PACKAGES_append_libc-glibc =3D " distcc-distmon-gnome"
+>>=20
+>> Is that needed?
+>>=20
+>=20
+> May be not it will just be empty in uclibc case
 
-diff --git a/meta/recipes-devtools/distcc/distcc_2.18.3.bb b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-index 1f5c2af..34b04a5 100644
---- a/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-+++ b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-@@ -6,7 +6,10 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- PR = "r6"
- 
--DEPENDS = "avahi gtk+"
-+DEPENDS = "avahi ${GTKDEP}"
-+GTKDEP_libc-uclibc = ""
-+GTKDEP = "gtk+"
-+
- RRECOMMENDS_${PN} = "avahi-daemon"
- 
- # Upstream change this patch periodically so store locally
-@@ -24,17 +27,21 @@ inherit autotools pkgconfig update-rc.d
- 
- INITSCRIPT_NAME = "distcc"
- 
--EXTRA_OECONF = " --with-gtk "
--
-+EXTRA_OECONF_libc-glibc = " --with-gtk "
-+EXTRA_OECONF_libc-uclibc = " --without-gtk --without-gnome "
- do_install_append() {
-     install -d ${D}${sysconfdir}/init.d/
-     install -d ${D}${sysconfdir}/default
-     install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
-     install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
-+    ${DESKTOPINSTALL}
-+}
-+DESKTOPINSTALL = ""
-+DESKTOPINSTALL_libc-glibc () {
-+    install -d ${D}${datadir}/distcc/
-     install -m 0644 ${WORKDIR}/distccmon-gnome.desktop ${D}${datadir}/distcc/
- }
--
--PACKAGES += "distcc-distmon-gnome"
-+PACKAGES_append_libc-glibc = " distcc-distmon-gnome"
- 
- FILES_${PN} = " ${sysconfdir} \
- 		${bindir}/distcc \
--- 
-1.7.3.4
-
+since ALLOW_EMPTY is not set, this change is unneeded.=
 
 
