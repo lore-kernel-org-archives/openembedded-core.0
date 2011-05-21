@@ -1,6 +1,6 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QNr7k-0000fY-RR
+	(envelope-from <sgw@linux.intel.com>) id 1QNr7l-0000fO-0x
 	for openembedded-core@lists.openembedded.org;
 	Sat, 21 May 2011 20:42:05 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
@@ -10,14 +10,14 @@ Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.39])
 	by orsmga002.jf.intel.com with ESMTP; 21 May 2011 11:39:05 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 May 2011 11:38:02 -0700
-Message-Id: <175d8385703254b94b012ce90240cd3db60bc178.1306002889.git.sgw@linux.intel.com>
+Date: Sat, 21 May 2011 11:38:03 -0700
+Message-Id: <353951f9ba342f8caabe1600d7b66658dc925223.1306002889.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1306002889.git.sgw@linux.intel.com>
 References: <cover.1306002889.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1306002889.git.sgw@linux.intel.com>
 References: <cover.1306002889.git.sgw@linux.intel.com>
-Subject: [PATCH 6/8] package_rpm.bbclass: create method for createrepo cmd
+Subject: [PATCH 7/8] opkg_svn.bb: Install rcS.d into $D instead of $IMAGE_ROOTFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,34 +34,63 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 21 May 2011 18:42:05 -0000
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/package_rpm.bbclass |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
+From: Khem Raj <raj.khem@gmail.com>
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 1d8c686..666eb54 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -15,6 +15,10 @@ python package_rpm_install () {
- 	bb.fatal("package_rpm_install not implemented!")
- }
+Remove headerfix.patch, its already applied upstream
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/opkg/opkg/headerfix.patch |   19 -------------------
+ meta/recipes-devtools/opkg/opkg_svn.bb          |    3 +--
+ 2 files changed, 1 insertions(+), 21 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/headerfix.patch
+
+diff --git a/meta/recipes-devtools/opkg/opkg/headerfix.patch b/meta/recipes-devtools/opkg/opkg/headerfix.patch
+deleted file mode 100644
+index b3515a0..0000000
+--- a/meta/recipes-devtools/opkg/opkg/headerfix.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Without this, the FILE reference in this header can cause compile issues.
+-
+-RP - 29/1/10
+-
+-Upstream-Status: Pending
+-
+-Index: trunk/libopkg/pkg_dest.h
+-===================================================================
+---- trunk.orig/libopkg/pkg_dest.h	2010-01-29 09:37:22.000000000 +0000
+-+++ trunk/libopkg/pkg_dest.h	2010-01-29 09:37:33.000000000 +0000
+-@@ -18,6 +18,8 @@
+- #ifndef PKG_DEST_H
+- #define PKG_DEST_H
+- 
+-+#include <stdio.h>
+-+
+- typedef struct pkg_dest pkg_dest_t;
+- struct pkg_dest
+- {
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index 5964a47..3f2c22b 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -11,7 +11,6 @@ RREPLACES_${PN} = "opkg-nogpg"
  
-+package_createrepo () {
-+	createrepo ${DEPLOY_DIR_RPM}
-+}
-+
- RPMCONF_TARGET_BASE = "${DEPLOY_DIR_RPM}/solvedb"
- RPMCONF_HOST_BASE = "${DEPLOY_DIR_RPM}/solvedb-sdk"
- #
-@@ -816,6 +820,6 @@ python do_package_write_rpm () {
- do_package_write_rpm[dirs] = "${PKGWRITEDIRRPM}"
- addtask package_write_rpm before do_package_write after do_package
+ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
+            file://add_vercmp.patch \
+-           file://headerfix.patch \
+ "
  
--PACKAGEINDEXES += "package_update_index_rpm; createrepo ${DEPLOY_DIR_RPM};"
-+PACKAGEINDEXES += "package_update_index_rpm; package_createrepo"
- PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "createrepo-native:do_populate_sysroot"
+ S = "${WORKDIR}/trunk"
+@@ -34,7 +33,7 @@ do_install_append() {
+ pkg_postinst_${PN} () {
+ #!/bin/sh
+ if [ "x$D" != "x" ]; then
+-	install -d ${IMAGE_ROOTFS}/${sysconfdir}/rcS.d
++	install -d $D/${sysconfdir}/rcS.d
+ 	# this happens at S98 where our good 'ole packages script used to run
+ 	echo "#!/bin/sh
+ opkg-cl configure
 -- 
 1.7.3.4
 
