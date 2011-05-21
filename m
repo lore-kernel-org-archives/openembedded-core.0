@@ -1,28 +1,44 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1QNZpW-0001zL-JL
+	(envelope-from <raj.khem@gmail.com>) id 1QNaJc-0002DF-IC
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 May 2011 02:14:06 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 20 May 2011 17:11:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,244,1304319600"; 
-   d="scan'208";a="1809924"
-Received: from unknown (HELO [10.255.12.39]) ([10.255.12.39])
-	by orsmga001.jf.intel.com with ESMTP; 20 May 2011 17:10:51 -0700
-Message-ID: <4DD7030B.909@intel.com>
-Date: Fri, 20 May 2011 17:10:51 -0700
-From: Saul Wold <saul.wold@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Sat, 21 May 2011 02:45:13 +0200
+Received: by pwj9 with SMTP id 9so1999780pwj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 May 2011 17:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=Iavyb357u52L1PKIFpgpWYDrBnMAdGPR0rQQPxKkw3M=;
+	b=NYbeuPJQz8xRAqg11FPDMKezrNHDtBFxNQjHErJLjoeE5umnWWkkL8sOyxYyf5+lMo
+	490UhX2yFa3Dg0SpHYIUNH+ReEoihSXs43ZIA+y7l+4znXw9piWKDlMWadQGkVS76sP/
+	sxpobU/Wf1ryndg9xjmBIu/EC2v8k3KeCFNZA=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=WylGX7FHwDVPY/Yn/P+2VXu6tCypd1An2N9/qM/O08Eo3PRyDzW7RUt1BTuSkpJmyI
+	uar3YhnIhIaQ1MXJu29b5fhQfohAxF67VNh5jSD4Fn4L9YUjJ7ADfQRHzfQjbyfHTKLN
+	oWugAeLzeM2w2fMwK6rYN3ArrrSCZM5Tibfa8=
+Received: by 10.68.58.103 with SMTP id p7mr77010pbq.518.1305938534150;
+	Fri, 20 May 2011 17:42:14 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id g5sm2763431pbj.62.2011.05.20.17.42.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 20 May 2011 17:42:13 -0700 (PDT)
+Date: Fri, 20 May 2011 17:41:00 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: Saul Wold <saul.wold@intel.com>
+Message-ID: <20110521004100.GA7504@sakrah.homelinux.org>
+References: <cover.1305933509.git.raj.khem@gmail.com>
+	<43cfb965113150ea56c55c3880b67ba272b3c719.1305933509.git.raj.khem@gmail.com>
+	<4DD6F98B.7090700@intel.com>
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
-References: <cover.1305655392.git.nitin.a.kamble@intel.com>
-	<4DD6FEC2.9030503@linux.intel.com>
-In-Reply-To: <4DD6FEC2.9030503@linux.intel.com>
-Cc: poky@yoctoproject.org, Patches and discussions about the oe-core layer
+In-Reply-To: <4DD6F98B.7090700@intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [PATCH 0/1] switch to gcc 4.6.0 for x86 x86-64 & arm
+Subject: Re: [PATCH 1/2] opkg_svn.bb: Install rcS.d into ${D} instead of ${IMAGE_ROOTFS}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,51 +53,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 May 2011 00:14:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 21 May 2011 00:45:14 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 05/20/2011 04:52 PM, Darren Hart wrote:
->
->
-> On 05/17/2011 11:07 AM, Nitin A Kamble wrote:
->> From: Nitin A Kamble<nitin.a.kamble@intel.com>
->>
->> gcc 4.6.0 is good enough to switch for x86, x86-64&  arm now.
->>
->> I could build core-sdk images and run them through the qemu machines
->> when compiled with gcc 4.6.0.
->
-> Has all of meta-intel been built using 4.6.0? If not, that would be a
-> good test-case for the x86* architectures. Perhaps we could get a manual
-> scheduler up on the autobuilder for that to make it easy to kick off?
->
-> What do you think Beth?
->
-Maybe after M1 RC1 gets built
+On (20/05/11 16:30), Saul Wold wrote:
+> On 05/20/2011 04:19 PM, Khem Raj wrote:
+> >Remove headerfix.patch, its already applied upstream
+> >
+> Minor nit, should be $D in the subject line also right?
 
-Sau!
+OK it should. I have amended the commit and refreshed pull branch
 
->>
->> mips&  ppc are still not ready, mainly the kernel compilation issues
->> with gcc 4.6.0. These kernel issues are being worked on by Bruce.
->>
->> Pull URL: git://git.pokylinux.org/poky-contrib.git
->>    Branch: nitin/misc
->>    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
->>
->> Thanks,
->>      Nitin A Kamble<nitin.a.kamble@intel.com>
->> ---
->>
->>
->> Nitin A Kamble (1):
->>    tcmode-default: switch to gcc 4.6.0 for x86, x86-64&  arm
->>
->>   meta/conf/distro/include/tcmode-default.inc |    8 ++++++--
->>   1 files changed, 6 insertions(+), 2 deletions(-)
->>
->
+> 
+> Sau!
+> 
+> >Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> >---
+> >  meta/recipes-devtools/opkg/opkg/headerfix.patch |   19 -------------------
+> >  meta/recipes-devtools/opkg/opkg_svn.bb          |    3 +--
+> >  2 files changed, 1 insertions(+), 21 deletions(-)
+> >  delete mode 100644 meta/recipes-devtools/opkg/opkg/headerfix.patch
+> >
+> >diff --git a/meta/recipes-devtools/opkg/opkg/headerfix.patch b/meta/recipes-devtools/opkg/opkg/headerfix.patch
+> >deleted file mode 100644
+> >index b3515a0..0000000
+> >--- a/meta/recipes-devtools/opkg/opkg/headerfix.patch
+> >+++ /dev/null
+> >@@ -1,19 +0,0 @@
+> >-Without this, the FILE reference in this header can cause compile issues.
+> >-
+> >-RP - 29/1/10
+> >-
+> >-Upstream-Status: Pending
+> >-
+> >-Index: trunk/libopkg/pkg_dest.h
+> >-===================================================================
+> >---- trunk.orig/libopkg/pkg_dest.h	2010-01-29 09:37:22.000000000 +0000
+> >-+++ trunk/libopkg/pkg_dest.h	2010-01-29 09:37:33.000000000 +0000
+> >-@@ -18,6 +18,8 @@
+> >- #ifndef PKG_DEST_H
+> >- #define PKG_DEST_H
+> >-
+> >-+#include<stdio.h>
+> >-+
+> >- typedef struct pkg_dest pkg_dest_t;
+> >- struct pkg_dest
+> >- {
+> >diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+> >index 5964a47..3f2c22b 100644
+> >--- a/meta/recipes-devtools/opkg/opkg_svn.bb
+> >+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+> >@@ -11,7 +11,6 @@ RREPLACES_${PN} = "opkg-nogpg"
+> >
+> >  SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
+> >             file://add_vercmp.patch \
+> >-           file://headerfix.patch \
+> >  "
+> >
+> >  S = "${WORKDIR}/trunk"
+> >@@ -34,7 +33,7 @@ do_install_append() {
+> >  pkg_postinst_${PN} () {
+> >  #!/bin/sh
+> >  if [ "x$D" != "x" ]; then
+> >-	install -d ${IMAGE_ROOTFS}/${sysconfdir}/rcS.d
+> >+	install -d $D/${sysconfdir}/rcS.d
+> >  	# this happens at S98 where our good 'ole packages script used to run
+> >  	echo "#!/bin/sh
+> >  opkg-cl configure
+> 
 
+-- 
+-Khem
 
 
