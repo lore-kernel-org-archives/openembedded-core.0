@@ -1,36 +1,36 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QNaMH-0002Ey-Va
+	(envelope-from <raj.khem@gmail.com>) id 1QNaQk-0002Iq-VM
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 May 2011 02:47:58 +0200
-Received: by pwj9 with SMTP id 9so2000244pwj.6
+	Sat, 21 May 2011 02:52:35 +0200
+Received: by pvc30 with SMTP id 30so1955567pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2011 17:45:00 -0700 (PDT)
+	Fri, 20 May 2011 17:49:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:date:from:to:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=VLKIJgRoSkeL3rNHl2VvxcB8YjkcpoeZqFCvfPUGFGM=;
-	b=mZqByoXQiWU4YuJtUymp7N+Ar6TZWBtZNQuQq73vQ5/HqOXkHntipy1k9bIb87ogsT
-	a3U1u3KvOBV4ByiG7VPd/7GVFPrV6xUrk3txA7PUZa/3ZFGXduyLQKl6Y/lq2ZDnTFrJ
-	51L5KwrPAgiSEfnikwIMGYTZquYZeOz4DbhaQ=
+	:user-agent; bh=YjHGiN19bNLqwpan2vhuNU++rBsBdTnioVelF9n4Nig=;
+	b=ELZZ072RZsRQ9sWPW5fLBfVLT/OndTy4SRaH+GCJB0TDv+ODR/avnW0Zlg0hP7m2Zn
+	KfWJfJ/z3yj90PcJ/riquYZuJlt5ARhKNPvPV8d2h/5Vu36rJNpJX8TirlCfQLGK/phP
+	bYtJKT+tvcdPPsT1oT1faMan1F0cpTbc2IBNc=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	b=qwmYaqsEHsI71K6Ac9P4jVyqrXQxxsaW2P+l4AEl2lKths53QzlFrgl7myhlBL+Z8r
-	Xg2vfi7OU1T0k9eGwVeVIzlA/982ldSH6VR2jVgSybmlIqvR9T/RKwNNPdcdB9NEke8e
-	H6PkHx44JQ7ErhteY2QfHkJLOqKV8OWOQH5W4=
-Received: by 10.68.20.71 with SMTP id l7mr79508pbe.293.1305938698610;
-	Fri, 20 May 2011 17:44:58 -0700 (PDT)
+	b=aKhhd+hX8koSdINuSbVKlQdb9oGvRiFkQrQHFITBR9VXEmJEj5iRvVi2t0V+UMsoum
+	HwMv7umT7CmfjU2eWU3wlKGNJo51IuWZtgykvbTe74hqLpC8zr0eboKIZwwXipABAfr3
+	MSVmQyNX66CrgQjnPN7lB+3EdTGz19Mtu8LHA=
+Received: by 10.142.249.9 with SMTP id w9mr41731wfh.2.1305938975413;
+	Fri, 20 May 2011 17:49:35 -0700 (PDT)
 Received: from sakrah.homelinux.org
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id j8sm2764818pbr.89.2011.05.20.17.44.56
+	by mx.google.com with ESMTPS id x12sm3673503wfd.18.2011.05.20.17.49.33
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 May 2011 17:44:57 -0700 (PDT)
-Date: Fri, 20 May 2011 17:43:49 -0700
+	Fri, 20 May 2011 17:49:34 -0700 (PDT)
+Date: Fri, 20 May 2011 17:48:22 -0700
 From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110521004349.GB7504@sakrah.homelinux.org>
+Message-ID: <20110521004822.GA7533@sakrah.homelinux.org>
 References: <43cfb965113150ea56c55c3880b67ba272b3c719.1305933509.git.raj.khem@gmail.com>
 	<63425ea09b30c9cca10c25bc559ed6f22022c4b6.1305933509.git.raj.khem@gmail.com>
 	<1305934302.3424.679.camel@rex>
@@ -52,7 +52,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 May 2011 00:47:58 -0000
+X-List-Received-Date: Sat, 21 May 2011 00:52:35 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -82,8 +82,8 @@ On (21/05/11 00:31), Richard Purdie wrote:
 > 
 > return -ENOTTESTED;
 
-heh, I did infact rebuild on uclibc and eglibc but I should have removed dependencies just rebuilding
-after bitbake -c cleanall is not enough
+OK I have refreshed it with typo fix in the pull request
+
 > 
 > ;-)
 > 
