@@ -1,42 +1,27 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QNaQk-0002Iq-VM
+	(envelope-from <koen@dominion.thruhere.net>) id 1QNfeH-0001Rz-4l
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 May 2011 02:52:35 +0200
-Received: by pvc30 with SMTP id 30so1955567pvc.6
+	Sat, 21 May 2011 08:26:53 +0200
+Received: by wwb17 with SMTP id 17so3826507wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 May 2011 17:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=YjHGiN19bNLqwpan2vhuNU++rBsBdTnioVelF9n4Nig=;
-	b=ELZZ072RZsRQ9sWPW5fLBfVLT/OndTy4SRaH+GCJB0TDv+ODR/avnW0Zlg0hP7m2Zn
-	KfWJfJ/z3yj90PcJ/riquYZuJlt5ARhKNPvPV8d2h/5Vu36rJNpJX8TirlCfQLGK/phP
-	bYtJKT+tvcdPPsT1oT1faMan1F0cpTbc2IBNc=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	b=aKhhd+hX8koSdINuSbVKlQdb9oGvRiFkQrQHFITBR9VXEmJEj5iRvVi2t0V+UMsoum
-	HwMv7umT7CmfjU2eWU3wlKGNJo51IuWZtgykvbTe74hqLpC8zr0eboKIZwwXipABAfr3
-	MSVmQyNX66CrgQjnPN7lB+3EdTGz19Mtu8LHA=
-Received: by 10.142.249.9 with SMTP id w9mr41731wfh.2.1305938975413;
-	Fri, 20 May 2011 17:49:35 -0700 (PDT)
-Received: from sakrah.homelinux.org
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id x12sm3673503wfd.18.2011.05.20.17.49.33
+	Fri, 20 May 2011 23:23:55 -0700 (PDT)
+Received: by 10.216.177.4 with SMTP id c4mr442989wem.3.1305959033484;
+	Fri, 20 May 2011 23:23:53 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id k2sm2707390wby.34.2011.05.20.23.23.52
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 May 2011 17:49:34 -0700 (PDT)
-Date: Fri, 20 May 2011 17:48:22 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110521004822.GA7533@sakrah.homelinux.org>
+	Fri, 20 May 2011 23:23:52 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <63425ea09b30c9cca10c25bc559ed6f22022c4b6.1305933509.git.raj.khem@gmail.com>
+Date: Sat, 21 May 2011 08:23:46 +0200
+Message-Id: <AC0647D5-E982-45DC-8D8B-D2E7591D904C@dominion.thruhere.net>
 References: <43cfb965113150ea56c55c3880b67ba272b3c719.1305933509.git.raj.khem@gmail.com>
 	<63425ea09b30c9cca10c25bc559ed6f22022c4b6.1305933509.git.raj.khem@gmail.com>
-	<1305934302.3424.679.camel@rex>
-MIME-Version: 1.0
-In-Reply-To: <1305934302.3424.679.camel@rex>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
 Subject: Re: [PATCH 2/2] distcc_2.18.3.bb: Fix compilation on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -52,52 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 May 2011 00:52:35 -0000
+X-List-Received-Date: Sat, 21 May 2011 06:26:53 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On (21/05/11 00:31), Richard Purdie wrote:
-> On Fri, 2011-05-20 at 16:19 -0700, Khem Raj wrote:
-> > We enable gtk/gnome in distcc that code uses loadavg()
-> > a function unimplemented in uclibc. Therefore for uclibc
-> > we disable gnome and gtk+ features in distcc
-> > 
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-devtools/distcc/distcc_2.18.3.bb |   17 ++++++++++++-----
-> >  1 files changed, 12 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/meta/recipes-devtools/distcc/distcc_2.18.3.bb b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-> > index 1f5c2af..a15858c 100644
-> > --- a/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-> > +++ b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-> > @@ -6,7 +6,10 @@ LICENSE = "GPLv2"
-> >  LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-> >  PR = "r6"
-> >  
-> > -DEPENDS = "avahi gtk+"
-> > +DEPENDS = "avahi ${GTKDEP}"
-> > +GTKDEP-libc-uclibc = ""
-> > +GTKDEP = "gtk+"
-> 
-> return -ENOTTESTED;
 
-OK I have refreshed it with typo fix in the pull request
+Op 21 mei 2011, om 01:19 heeft Khem Raj het volgende geschreven:
+>=20
+> do_install_append() {
+>     install -d ${D}${sysconfdir}/init.d/
+>     install -d ${D}${sysconfdir}/default
+>     install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
+>     install -m 0755 ${WORKDIR}/default =
+${D}${sysconfdir}/default/distcc
+> +    ${DESKTOPINSTALL}
+> +}
+> +DESKTOPINSTALL =3D ""
+> +DESKTOPINSTALL_libc-glibc () {
+> +    install -d ${D}${datadir}/distcc/
+>     install -m 0644 ${WORKDIR}/distccmon-gnome.desktop =
+${D}${datadir}/distcc/
+> }
+> -
+> -PACKAGES +=3D "distcc-distmon-gnome"
+> +PACKAGES_append_libc-glibc =3D " distcc-distmon-gnome"
 
-> 
-> ;-)
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
--- 
--Khem
+Are these parts really needed?=
 
 
