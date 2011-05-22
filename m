@@ -1,37 +1,28 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <leon.woestenberg@gmail.com>) id 1QNw5h-0002nm-Gi
+	(envelope-from <sgw@linux.intel.com>) id 1QNzDu-0005qD-T9
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 May 2011 02:00:17 +0200
-Received: by pwj9 with SMTP id 9so2262468pwj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2011 16:57:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type:content-transfer-encoding;
-	bh=5d1adNiWfYyVMlaSfP9Nz/AxTgTgr1uE9YIl+DAPJyg=;
-	b=IWd7bcE+s/Ix/MOgT9Y1MhnaTW+vqolOUHHM/7PgHd46jUiA4xkMVlnlxDpYAsAu3n
-	PzCU/NI1yGMgjzpBrT2siiKavnbrXkxe1y2udZaOnCxcmO0HscdetaPsOi5uyEKAd14e
-	BXGTmCveEKH4ND3sAvZq1wFBT3AsuzslIuZWw=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	b=sBeA06z4QJNXtztTYxwtkhnZBFSTLOZ9m8SFTZS1Blk8/LHXksLE/jpNLoFFrvZ+kt
-	7caXp3B5S9xBz3/2EbqzdMsirE+o4rgqXQc0FSSuQT++edmnx8O2MBps/tbFC5KIWmFy
-	KdwL5CcJHg3a0EzHmwPFN9kGijK+CMmLcMex0=
+	Sun, 22 May 2011 05:20:59 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 21 May 2011 20:17:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,250,1304319600"; 
+   d="scan'208";a="6040932"
+Received: from unknown (HELO [10.255.12.39]) ([10.255.12.39])
+	by fmsmga001.fm.intel.com with ESMTP; 21 May 2011 20:17:53 -0700
+Message-ID: <4DD88061.7040601@linux.intel.com>
+Date: Sat, 21 May 2011 20:17:53 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
-Received: by 10.68.25.166 with SMTP id d6mr1542308pbg.136.1306022236955; Sat,
-	21 May 2011 16:57:16 -0700 (PDT)
-Received: by 10.68.59.9 with HTTP; Sat, 21 May 2011 16:57:16 -0700 (PDT)
-In-Reply-To: <674a00cdafa9b97a66d1139ce2279c3b8f660299.1305580484.git.sgw@linux.intel.com>
-References: <cover.1305580484.git.sgw@linux.intel.com>
-	<674a00cdafa9b97a66d1139ce2279c3b8f660299.1305580484.git.sgw@linux.intel.com>
-Date: Sun, 22 May 2011 01:57:16 +0200
-Message-ID: <BANLkTimLuL1MRqK_xx+bsjrQZf0MDJO=1w@mail.gmail.com>
-From: Leon Woestenberg <leon.woestenberg@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/14] perl-native: create_wrapper on perl${PV} too
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1306002889.git.sgw@linux.intel.com>
+	<92c28973316e62fd2e4054fe3bab85685c5acc3e.1306002889.git.sgw@linux.intel.com>
+	<BANLkTi=y+5qqFiZfrXCcOQ9CtTYdzh0GCw@mail.gmail.com>
+In-Reply-To: <BANLkTi=y+5qqFiZfrXCcOQ9CtTYdzh0GCw@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 8/8] distcc_2.18.3.bb: Fix compilation on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,39 +37,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 May 2011 00:00:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 22 May 2011 03:20:59 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
-
-On Mon, May 16, 2011 at 11:44 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> From: Tom Rini <tom_rini@mentor.com>
+On 05/21/2011 04:06 PM, Khem Raj wrote:
+> On Sat, May 21, 2011 at 11:38 AM, Saul Wold<sgw@linux.intel.com>  wrote:
+>> From: Khem Raj<raj.khem@gmail.com>
+>>
+>> We enable gtk/gnome in distcc that code uses loadavg()
+>> a function unimplemented in uclibc. Therefore for uclibc
+>> we disable gnome and gtk+ features in distcc
+>>
 >
-> perl${PV} becomes hostperl when building for the target so we need a wrap=
-per
-> on that too.
 >
-> This is 1e255fbd296e95ff178d66c4a1fe4875a988d7e1 in OE.
+> This patch had reviews to be addressed which I have done
+> the patch is updated in pull branch. Use that one
 >
-> Signed-off-by: Tom Rini <tom_rini@mentor.com>
-> ---
-> =A0meta/recipes-devtools/perl/perl-native_5.12.3.bb | =A0 =A01 +
-> =A0 =A0 =A0 =A0create_wrapper ${D}${bindir}/perl PERL5LIB=3D'$PERL5LIB:${=
-STAGING_LIBDIR}/perl/${PV}:${STAGING_LIBDIR}/perl/'
-> + =A0 =A0 =A0 create_wrapper ${D}${bindir}/perl${PV} PERL5LIB=3D'$PERL5LI=
-B:${STAGING_LIBDIR}/perl/${PV}:${STAGING_LIBDIR}/perl/'
-> =A0}
-> --
+I will pull the lastest into my sgw/stage branch.  When I did the pull, 
+I thought things were completed, I guess bad timing on my part.
 
-Heads up:
+Sau!
 
-Andreas Mueller today reported that this commit breaks his perl build.
 
-See http://article.gmane.org/gmane.comp.handhelds.openembedded/45640
-
-Regards,
---=20
-Leon
+>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>> ---
+>>   meta/recipes-devtools/distcc/distcc_2.18.3.bb |   17 ++++++++++++-----
+>>   1 files changed, 12 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/distcc/distcc_2.18.3.bb b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
+>> index 1f5c2af..34b04a5 100644
+>> --- a/meta/recipes-devtools/distcc/distcc_2.18.3.bb
+>> +++ b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
+>> @@ -6,7 +6,10 @@ LICENSE = "GPLv2"
+>>   LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+>>   PR = "r6"
+>>
+>> -DEPENDS = "avahi gtk+"
+>> +DEPENDS = "avahi ${GTKDEP}"
+>> +GTKDEP_libc-uclibc = ""
+>> +GTKDEP = "gtk+"
+>> +
+>>   RRECOMMENDS_${PN} = "avahi-daemon"
+>>
+>>   # Upstream change this patch periodically so store locally
+>> @@ -24,17 +27,21 @@ inherit autotools pkgconfig update-rc.d
+>>
+>>   INITSCRIPT_NAME = "distcc"
+>>
+>> -EXTRA_OECONF = " --with-gtk "
+>> -
+>> +EXTRA_OECONF_libc-glibc = " --with-gtk "
+>> +EXTRA_OECONF_libc-uclibc = " --without-gtk --without-gnome "
+>>   do_install_append() {
+>>      install -d ${D}${sysconfdir}/init.d/
+>>      install -d ${D}${sysconfdir}/default
+>>      install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
+>>      install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
+>> +    ${DESKTOPINSTALL}
+>> +}
+>> +DESKTOPINSTALL = ""
+>> +DESKTOPINSTALL_libc-glibc () {
+>> +    install -d ${D}${datadir}/distcc/
+>>      install -m 0644 ${WORKDIR}/distccmon-gnome.desktop ${D}${datadir}/distcc/
+>>   }
+>> -
+>> -PACKAGES += "distcc-distmon-gnome"
+>> +PACKAGES_append_libc-glibc = " distcc-distmon-gnome"
+>>
+>>   FILES_${PN} = " ${sysconfdir} \
+>>                 ${bindir}/distcc \
+>> --
+>> 1.7.3.4
+>>
+>>
 
 
