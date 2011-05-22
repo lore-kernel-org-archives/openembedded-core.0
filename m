@@ -1,23 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QODkd-0000sy-Ck
+	(envelope-from <josh@linux.intel.com>) id 1QOG7i-0006nj-92
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 May 2011 20:51:46 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 May 2011 11:48:44 -0700
+	Sun, 22 May 2011 23:23:42 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 22 May 2011 14:20:41 -0700
 X-ExtLoop1: 1
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.133])
-	by orsmga002.jf.intel.com with ESMTP; 22 May 2011 11:48:44 -0700
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.65,253,1304319600"; d="scan'208";a="440978326"
+Received: from unknown (HELO [10.255.12.24]) ([10.255.12.24])
+	by azsmga001.ch.intel.com with ESMTP; 22 May 2011 14:20:41 -0700
+From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 22 May 2011 11:48:33 -0700
-Message-Id: <e5aed8f3deef81945d4a8843c9f3520f96282367.1306089781.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1306089781.git.sgw@linux.intel.com>
+Date: Sun, 22 May 2011 14:20:36 -0700
+In-Reply-To: <f69c937a66b3dc7055eb3454b0fbec60fd894bab.1306089781.git.sgw@linux.intel.com>
 References: <cover.1306089781.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1306089781.git.sgw@linux.intel.com>
-References: <cover.1306089781.git.sgw@linux.intel.com>
-Subject: [PATCH 9/9] gplv2 recipes update upstream status of patches
+	<f69c937a66b3dc7055eb3454b0fbec60fd894bab.1306089781.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.0.1 (3.0.1-1.fc15) 
+Message-ID: <1306099241.1995.1.camel@scimitar>
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/9] update-alternatives-dpkg: Update to dpkg base 1.15.8.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,87 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 May 2011 18:51:47 -0000
+X-List-Received-Date: Sun, 22 May 2011 21:23:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Sun, 2011-05-22 at 11:48 -0700, Saul Wold wrote:
+> [YOCTO #1062]
 
-grep-2.5.1a: update upstream status of patches
-tar-1.17: update upstream-status of patches
-at-3.1.12: update upstream-status for patches
-cpio-2.8: update upstream-status for patches
+Can we include more of a description than just the bug ID here? It's a
+pain to have to switch to the browser when your navigating git logs to
+try and understand changes. Further it makes patches more difficult to
+review.
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/recipes-extended/at/at-3.1.12/configure.patch |    2 ++
- .../cpio/cpio-2.8/m4extensions.patch               |    2 ++
- meta/recipes-extended/cpio/cpio-2.8/statdef.patch  |    2 ++
- .../grep/grep-2.5.1a/uclibc-fix.patch              |    2 ++
- .../recipes-extended/tar/tar-1.17/gcc43build.patch |    2 ++
- .../tar/tar-1.17/m4extensions.patch                |    2 ++
- 6 files changed, 12 insertions(+), 0 deletions(-)
+I thought we'd encoded this in our patch policy?
 
-diff --git a/meta/recipes-extended/at/at-3.1.12/configure.patch b/meta/recipes-extended/at/at-3.1.12/configure.patch
-index 079a6b4..99b4077 100644
---- a/meta/recipes-extended/at/at-3.1.12/configure.patch
-+++ b/meta/recipes-extended/at/at-3.1.12/configure.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [licensing]
-+
- Fix cross-compilation issues in configure.ac
- Derived from an OE patch for at-3.1.8
- 
-diff --git a/meta/recipes-extended/cpio/cpio-2.8/m4extensions.patch b/meta/recipes-extended/cpio/cpio-2.8/m4extensions.patch
-index 648c725..e16585d 100644
---- a/meta/recipes-extended/cpio/cpio-2.8/m4extensions.patch
-+++ b/meta/recipes-extended/cpio/cpio-2.8/m4extensions.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [licensing]
-+
- # Define AC_USE_SYSTEM_EXTENSIONS only if it was previously undefined.
- # This is needed to configure correctly with newer versions of autoconf.
- 
-diff --git a/meta/recipes-extended/cpio/cpio-2.8/statdef.patch b/meta/recipes-extended/cpio/cpio-2.8/statdef.patch
-index dfa0d91..a00799f 100644
---- a/meta/recipes-extended/cpio/cpio-2.8/statdef.patch
-+++ b/meta/recipes-extended/cpio/cpio-2.8/statdef.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [licensing]
-+
- # Avoid multiple stat definitions
- # Patch taken from cpio mailing list posting 2010-03-19
- 
-diff --git a/meta/recipes-extended/grep/grep-2.5.1a/uclibc-fix.patch b/meta/recipes-extended/grep/grep-2.5.1a/uclibc-fix.patch
-index 8fc7c48..de054fc 100644
---- a/meta/recipes-extended/grep/grep-2.5.1a/uclibc-fix.patch
-+++ b/meta/recipes-extended/grep/grep-2.5.1a/uclibc-fix.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [licensing]
-+
- # Fix to use mempcpy instead of __mempcpy. This is needed for uclibc which
- # doesn't define __mempcpy, only mempcpy. Since both uclibc and glibc have
- # mempcpy, we'll just use that instead.
-diff --git a/meta/recipes-extended/tar/tar-1.17/gcc43build.patch b/meta/recipes-extended/tar/tar-1.17/gcc43build.patch
-index cc5f0e1..f8059a0 100644
---- a/meta/recipes-extended/tar/tar-1.17/gcc43build.patch
-+++ b/meta/recipes-extended/tar/tar-1.17/gcc43build.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [licensing]
-+
- # Fix errors when built with gcc 4.3
- # Patch taken from Debian bug #452096
- 
-diff --git a/meta/recipes-extended/tar/tar-1.17/m4extensions.patch b/meta/recipes-extended/tar/tar-1.17/m4extensions.patch
-index 11b981a..30534c2 100644
---- a/meta/recipes-extended/tar/tar-1.17/m4extensions.patch
-+++ b/meta/recipes-extended/tar/tar-1.17/m4extensions.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Inappropriate [licensing]
-+
- # Define AC_USE_SYSTEM_EXTENSIONS only if it was previously undefined.
- # This is needed to configure correctly with newer versions of autoconf.
- 
+Cheers,
+Joshua
+
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  .../update-alternatives-dpkg.inc                   |    6 ++++--
+>  .../update-alternatives-dpkg_1.13.22.bb            |    7 -------
+>  .../update-alternatives-dpkg_1.15.8.7.bb           |   13 +++++++++++++
+>  3 files changed, 17 insertions(+), 9 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/update-alternatives/update-alternatives-dpkg_1.13.22.bb
+>  create mode 100644 meta/recipes-devtools/update-alternatives/update-alternatives-dpkg_1.15.8.7.bb
+> 
+> diff --git a/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc b/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc
+> index 9b53df8..63bfe95 100644
+> --- a/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc
+> +++ b/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg.inc
+> @@ -5,10 +5,12 @@ programs fulfilling the same or similar functions and how they can be installed
+>  time."
+>  LICENSE = "GPL"
+>  SECTION = "base"
+> -SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.gz"
+> +SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.bz2"
+>  S = "${WORKDIR}/dpkg-${PV}"
+>  PACKAGE_ARCH = "all"
+> -PR = "r2"
+> +PR = "r0"
+> +
+> +inherit gettext
+>  
+>  do_patch () {
+>      cat ${S}/scripts/update-alternatives.pl | \
+> diff --git a/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg_1.13.22.bb b/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg_1.13.22.bb
+> deleted file mode 100644
+> index 5d38d5d..0000000
+> --- a/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg_1.13.22.bb
+> +++ /dev/null
+> @@ -1,7 +0,0 @@
+> -require update-alternatives-dpkg.inc
+> -
+> -PROVIDES += "virtual/update-alternatives"
+> -RPROVIDES_${PN} += "update-alternatives"
+> -EXTRA_RDEPENDS = "perl dpkg"
+> -EXTRA_RDEPENDS_virtclass-native = ""
+> -RDEPENDS_${PN} += "${EXTRA_RDEPENDS}"
+> diff --git a/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg_1.15.8.7.bb b/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg_1.15.8.7.bb
+> new file mode 100644
+> index 0000000..15f3ced
+> --- /dev/null
+> +++ b/meta/recipes-devtools/update-alternatives/update-alternatives-dpkg_1.15.8.7.bb
+> @@ -0,0 +1,13 @@
+> +require update-alternatives-dpkg.inc
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+> +
+> +SRC_URI[md5sum] = "d1731d4147c1ea3b537a4d094519a6dc"
+> +SRC_URI[sha256sum] = "1ec1376471b04717a4497e5d7a27cd545248c92116898ce0c53ced8ea94267b5"
+> +
+> +
+> +PROVIDES += "virtual/update-alternatives"
+> +RPROVIDES_${PN} += "update-alternatives"
+> +EXTRA_RDEPENDS = "perl dpkg"
+> +EXTRA_RDEPENDS_virtclass-native = ""
+> +RDEPENDS_${PN} += "${EXTRA_RDEPENDS}"
+
 -- 
-1.7.3.4
+Joshua Lock
+        Yocto Build System Monkey
+        Intel Open Source Technology Centre
 
 
 
