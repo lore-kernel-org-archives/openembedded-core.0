@@ -1,23 +1,23 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QODkc-0000sy-J6
+	(envelope-from <sgw@linux.intel.com>) id 1QODkc-0000sw-SK
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 May 2011 20:51:42 +0200
+	Sun, 22 May 2011 20:51:43 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 May 2011 11:48:43 -0700
+	by orsmga101.jf.intel.com with ESMTP; 22 May 2011 11:48:44 -0700
 X-ExtLoop1: 1
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.133])
 	by orsmga002.jf.intel.com with ESMTP; 22 May 2011 11:48:43 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 22 May 2011 11:48:29 -0700
-Message-Id: <5a7c775aea640527423fcce2414892806bce978c.1306089781.git.sgw@linux.intel.com>
+Date: Sun, 22 May 2011 11:48:31 -0700
+Message-Id: <cda17504946958bfa66141135bc8110f5cd386fb.1306089781.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1306089781.git.sgw@linux.intel.com>
 References: <cover.1306089781.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1306089781.git.sgw@linux.intel.com>
 References: <cover.1306089781.git.sgw@linux.intel.com>
-Subject: [PATCH 5/9] distcc_2.18.3.bb: Fix compilation on uclibc
+Subject: [PATCH 7/9] tcmode-default: switch to eglibc 2.13 from 2.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,59 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 May 2011 18:51:42 -0000
+X-List-Received-Date: Sun, 22 May 2011 18:51:43 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-We enable gtk/gnome in distcc that code uses loadavg()
-a function unimplemented in uclibc. Therefore for uclibc
-we disable gnome and gtk+ features in distcc
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-devtools/distcc/distcc_2.18.3.bb |   15 +++++++++++----
- 1 files changed, 11 insertions(+), 4 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/distcc/distcc_2.18.3.bb b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-index 1f5c2af..ece1b02 100644
---- a/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-+++ b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-@@ -6,7 +6,10 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- PR = "r6"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index ae6f272..c2c9efe 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -24,7 +24,7 @@ GCCVERSION_ppc ?= "4.5.1"
+ SDKGCCVERSION_ppc ?= "4.5.1"
+ BINUVERSION ?= "2.21"
+ GLIBCVERSION ?= "2.10.1"
+-EGLIBCVERSION ?= "2.12"
++EGLIBCVERSION ?= "2.13"
+ LINUXLIBCVERSION ?= "2.6.37.2"
  
--DEPENDS = "avahi gtk+"
-+DEPENDS = "avahi ${GTKDEP}"
-+GTKDEP_libc-uclibc = ""
-+GTKDEP = "gtk+"
-+
- RRECOMMENDS_${PN} = "avahi-daemon"
- 
- # Upstream change this patch periodically so store locally
-@@ -24,16 +27,20 @@ inherit autotools pkgconfig update-rc.d
- 
- INITSCRIPT_NAME = "distcc"
- 
--EXTRA_OECONF = " --with-gtk "
--
-+EXTRA_OECONF = "--with-gtk"
-+EXTRA_OECONF_libc-uclibc = "--without-gtk --without-gnome"
- do_install_append() {
-     install -d ${D}${sysconfdir}/init.d/
-     install -d ${D}${sysconfdir}/default
-     install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
-     install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
-+    ${DESKTOPINSTALL}
-+}
-+DESKTOPINSTALL = ""
-+DESKTOPINSTALL_libc-glibc () {
-+    install -d ${D}${datadir}/distcc/
-     install -m 0644 ${WORKDIR}/distccmon-gnome.desktop ${D}${datadir}/distcc/
- }
--
- PACKAGES += "distcc-distmon-gnome"
- 
- FILES_${PN} = " ${sysconfdir} \
+ # Temporary preferred version overrides for PPC
 -- 
 1.7.3.4
 
