@@ -1,38 +1,46 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-px0-f172.google.com ([209.85.212.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QO024-0006sY-6z
+	(envelope-from <raj.khem@gmail.com>) id 1QO106-000432-5u
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 May 2011 06:12:49 +0200
-Received: by pvc30 with SMTP id 30so2250855pvc.6
+	Sun, 22 May 2011 07:14:50 +0200
+Received: by pxi6 with SMTP id 6so3610248pxi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 May 2011 21:09:48 -0700 (PDT)
+	Sat, 21 May 2011 22:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=bRIFH2QYKdc/c5Xmn2aVM0oggHCahSXPaMDLTujTUIw=;
-	b=ECwxr4JYv5g9mJWG4ywY0enc+K4VzOTr9Zc8Y0H+bVqyTOu7niSv5/ZymYbH7LxW5B
-	3mf09031ju5Z/PMLoWBH+2S8dT1ecHHkhl60AIliBUPjfjz0fDHv6+sKDJMl+R15jif6
-	eGn0NvWMA33scdcQpZtKwdMWwvxt/HxtjHAjU=
+	h=domainkey-signature:references:in-reply-to:mime-version
+	:content-transfer-encoding:content-type:message-id:cc:x-mailer:from
+	:subject:date:to;
+	bh=mHqG115D0hJFo+RzOEYWfkRHfcsRXNe3rjOJYWwNDcA=;
+	b=p9akOCozhDlmtJvpCZtDCoxbLWoLeEERNEnGwvWp3Wv59GvKpnAxXPWk8d05RnBBr4
+	RwP+4vVSqa0cLuq7Pu/2DRw6bvCBwrQVZV+dA94p9N1AqM/+QiW9etFbDPQmo4F+n1QP
+	K6fLX1uY6UlB5kjK6I0DhJfD6PaV8rzq7meE4=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=lrXksh6JvYAqzoq7XV43Y2QihBC9TGhOQhs28ulpTxGodPeG30eyYcSB+jOkQ/iGlL
-	raufb0q6sCO/XuWmdiH3HjbZvpVWMSXBB1F5gTmbcA5TvZakSpzWv5TrUn7VLDTtjGrI
-	QhGx2T8yeaJD6Sw/q8p7YeD44acTcCeeMe7pA=
-Received: by 10.142.170.19 with SMTP id s19mr589849wfe.401.1306037388779;
-	Sat, 21 May 2011 21:09:48 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id t7sm3485985pbj.63.2011.05.21.21.09.47
+	h=references:in-reply-to:mime-version:content-transfer-encoding
+	:content-type:message-id:cc:x-mailer:from:subject:date:to;
+	b=KprWWXlp5L0kpOcAI5hXg/TM8Ea9i2S8cNSoqavyvca4pRLmhoZx9ZdqKxXAIPDgT3
+	y8j6qPyOY63WsOfJdzh5VdjHOHCPw8WjvJ+sHnoOjt/MbJxe4IgDoOloURNbvZ6GVdXp
+	FArklgnugOTjzeIAacygdnUlcUoAZW/TdY6cY=
+Received: by 10.68.32.10 with SMTP id e10mr1438620pbi.408.1306041107394;
+	Sat, 21 May 2011 22:11:47 -0700 (PDT)
+Received: from [192.168.1.81] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id 3sm3517292pbd.100.2011.05.21.22.11.45
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 21 May 2011 21:09:47 -0700 (PDT)
+	Sat, 21 May 2011 22:11:46 -0700 (PDT)
+References: <cover.1305580484.git.sgw@linux.intel.com>
+	<674a00cdafa9b97a66d1139ce2279c3b8f660299.1305580484.git.sgw@linux.intel.com>
+	<BANLkTimLuL1MRqK_xx+bsjrQZf0MDJO=1w@mail.gmail.com>
+In-Reply-To: <BANLkTimLuL1MRqK_xx+bsjrQZf0MDJO=1w@mail.gmail.com>
+Mime-Version: 1.0 (iPad Mail 8J2)
+Message-Id: <2EE92FB6-7C05-4E5F-BF51-110A26874884@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPad Mail (8J2)
 From: Khem Raj <raj.khem@gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Date: Sat, 21 May 2011 21:09:31 -0700
-Message-Id: <c3ce108a01c4c250640528973e4cf12dfe062671.1306037150.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1306037150.git.raj.khem@gmail.com>
-References: <cover.1306037150.git.raj.khem@gmail.com>
-Subject: [PATCH 1/1] eglibc.inc: Transfer PARALLEL_MAKE to PARALLELMFLAGS
+Date: Sat, 21 May 2011 22:12:12 -0700
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 13/14] perl-native: create_wrapper on perl${PV} too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,39 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 May 2011 04:12:49 -0000
+X-List-Received-Date: Sun, 22 May 2011 05:14:50 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-* Currently we are passing -jN flags to eglibc makefiles
-  however eglibc uses a make variable called PARALLELMFLAGS
-  to pass information about parallel build to sub-makes
 
-* Currently make install ran without parallelism but now
-  it should have parallel building flags passed to do_install
-  correctly which inturn should improve build time of
-  eglibc on systems using parallel build -j with values > 1
+On May 21, 2011, at 4:57 PM, Leon Woestenberg <leon.woestenberg@gmail.com>=
+ wrote:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/eglibc/eglibc.inc |    6 ++++++
- 1 files changed, 6 insertions(+), 0 deletions(-)
+> Hello,
+>=20
+> On Mon, May 16, 2011 at 11:44 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>> From: Tom Rini <tom_rini@mentor.com>
+>>=20
+>> perl${PV} becomes hostperl when building for the target so we need a wr=
+apper
+>> on that too.
+>>=20
+>> This is 1e255fbd296e95ff178d66c4a1fe4875a988d7e1 in OE.
+>>=20
+>> Signed-off-by: Tom Rini <tom_rini@mentor.com>
+>> ---
+>>  meta/recipes-devtools/perl/perl-native_5.12.3.bb |    1 +
+>>        create_wrapper ${D}${bindir}/perl PERL5LIB=3D'$PERL5LIB:${STAGIN=
+G_LIBDIR}/perl/${PV}:${STAGING_LIBDIR}/perl/'
+>> +       create_wrapper ${D}${bindir}/perl${PV} PERL5LIB=3D'$PERL5LIB:${=
+STAGING_LIBDIR}/perl/${PV}:${STAGING_LIBDIR}/perl/'
+>>  }
+>> --
+>=20
+> Heads up:
+>=20
+> Andreas Mueller today reported that this commit breaks his perl build.
+>=20
+> See http://article.gmane.org/gmane.comp.handhelds.openembedded/45640
+>=20
 
-diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
-index 8314cb1..39972b0 100644
---- a/meta/recipes-core/eglibc/eglibc.inc
-+++ b/meta/recipes-core/eglibc/eglibc.inc
-@@ -36,4 +36,10 @@ INHIBIT_DEFAULT_DEPS = "1"
- 
- ARM_INSTRUCTION_SET = "arm"
- 
-+# eglibc uses PARALLELMFLAGS variable to pass parallel build info so transfer
-+# PARALLEL_MAKE into PARALLELMFLAGS and empty out PARALLEL_MAKE
-+EGLIBCPARALLELISM := "PARALLELMFLAGS=${PARALLEL_MAKE}"
-+EXTRA_OEMAKE += ${EGLIBCPARALLELISM}
-+PARALLEL_MAKE = ""
-+
- PACKAGES = "glibc catchsegv sln nscd ldd localedef glibc-utils glibc-dev glibc-doc glibc-locale libsegfault glibc-extra-nss glibc-thread-db glibc-pcprofile"
--- 
-1.7.4.1
+http://git.openembedded.org/cgit.cgi/openembedded-core/commit/?id=3Da10bd9=
+76f4cef54ac50b0c82f885c17a26e5989f
 
+Has already fixed it in oe-core few days back
+> Regards,
+> --=20
+> Leon
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
