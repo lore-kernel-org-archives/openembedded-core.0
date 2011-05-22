@@ -1,39 +1,21 @@
-Received: from mail-px0-f172.google.com ([209.85.212.172])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <leon.woestenberg@gmail.com>) id 1QO7Fz-00024R-9t
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QOCE9-0007sM-UV
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 May 2011 13:55:39 +0200
-Received: by pxi6 with SMTP id 6so3696051pxi.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 May 2011 04:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=TwnRl5szNNiFn1/gVjLQiK0LYa+o2pjpBolbEBVQ9dw=;
-	b=cjUDYcX7Fnlq0N878+hf6pCaOFxw5DK21JLJmt0sm/0accTR56BCPTxJRmpNFGsOD2
-	3bkUTttH5b9aU6nqPBhYBwQ7z/tbCBvk9ZDmfVYopxj8ILKWm1PW1thiuBQZgefgrlMW
-	SG4N4LexaAk0UewjBgOwScp7lcpkNcBr4M5pw=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type;
-	b=DOREII5C6BP9m/E/DhEeAABc/3rTx8o7g9YUi4iRnyNS/cWVQYBlS9DN8ufL7xtXNL
-	4t0RYfe6ME0GJqxaa50ccYzowVPZd9eOD246t+sZxUjzeH84GejvTDVjvxDtGuGZAuMP
-	wqYVxl5FDTgxV6NCK1UAKlmWyptp9HjHVJXeg=
-MIME-Version: 1.0
-Received: by 10.68.4.167 with SMTP id l7mr1716185pbl.2.1306065158250; Sun, 22
-	May 2011 04:52:38 -0700 (PDT)
-Received: by 10.68.59.9 with HTTP; Sun, 22 May 2011 04:52:38 -0700 (PDT)
-In-Reply-To: <2EE92FB6-7C05-4E5F-BF51-110A26874884@gmail.com>
-References: <cover.1305580484.git.sgw@linux.intel.com>
-	<674a00cdafa9b97a66d1139ce2279c3b8f660299.1305580484.git.sgw@linux.intel.com>
-	<BANLkTimLuL1MRqK_xx+bsjrQZf0MDJO=1w@mail.gmail.com>
-	<2EE92FB6-7C05-4E5F-BF51-110A26874884@gmail.com>
-Date: Sun, 22 May 2011 13:52:38 +0200
-Message-ID: <BANLkTinH_z=RR2FWw1vjT1NDp__=NUtHAQ@mail.gmail.com>
-From: Leon Woestenberg <leon.woestenberg@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/14] perl-native: create_wrapper on perl${PV} too
+	Sun, 22 May 2011 19:14:06 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 22 May 2011 10:11:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,252,1304319600"; d="scan'208";a="440891695"
+Received: from nbuild2.sc.intel.com ([172.25.110.37])
+	by azsmga001.ch.intel.com with ESMTP; 22 May 2011 10:11:05 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org,
+	poky@yoctoproject.org
+Date: Sun, 22 May 2011 10:10:48 -0700
+Message-Id: <cover.1306080531.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.3.5
+Subject: [PATCH 0/3] switch to newer eglibc & gcc versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,25 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 May 2011 11:55:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 22 May 2011 17:14:06 -0000
 
-Hello Khem,
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-On Sun, May 22, 2011 at 7:12 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> Andreas Mueller today reported that this commit breaks his perl build.
->>
->> See http://article.gmane.org/gmane.comp.handhelds.openembedded/45640
->>
-> http://git.openembedded.org/cgit.cgi/openembedded-core/commit/?id=a10bd976f4cef54ac50b0c82f885c17a26e5989f
->
-> Has already fixed it in oe-core few days back
 
-Thanks, the tipping point for oe-core becomes evident :)
+Switch to eglibc 2.13 from 2.12
+Switch to gcc 4.6.0 from 4.5.1 for mips & powerpc
 
-Regards,
+Tested meta-toolchain, core-image-lsb-sdk & core-image-sato-sdk images with 
+these commits. And didn't notice any breakage. sdk compiler is working inside
+the images. and basic programs are working well inside the images.
+
+Also update patch status for some gplv2 recipes
+
+The following changes since commit fc55b224caa3eeac4abda099ec9ed505db59fb28:
+
+  base.bbclass: use oe.data for OE_IMPORTS (2011-05-20 17:34:23 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib.git nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Nitin A Kamble (3):
+  tcmode-default: switch to eglibc 2.13 from 2.12
+  tcmode-default: switch to gcc 4.6.0 for ppc & mips also
+  gplv2 recipes update upstream status of patches
+
+ meta/conf/distro/include/tcmode-default.inc        |    6 +-----
+ meta/recipes-extended/at/at-3.1.12/configure.patch |    2 ++
+ .../cpio/cpio-2.8/m4extensions.patch               |    2 ++
+ meta/recipes-extended/cpio/cpio-2.8/statdef.patch  |    2 ++
+ .../grep/grep-2.5.1a/uclibc-fix.patch              |    2 ++
+ .../recipes-extended/tar/tar-1.17/gcc43build.patch |    2 ++
+ .../tar/tar-1.17/m4extensions.patch                |    2 ++
+ 7 files changed, 13 insertions(+), 5 deletions(-)
+
 -- 
-Leon
+1.7.3.4
+
 
 
