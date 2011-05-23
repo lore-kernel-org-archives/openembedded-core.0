@@ -1,24 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QORXG-0005CA-En for openembedded-core@lists.openembedded.org;
-	Mon, 23 May 2011 11:34:50 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QORUO-0001dC-M8
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QOTp0-0007iV-N9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 May 2011 11:31:52 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <8f9e24ee754c1103f89afd9486c7bd4427b41f92.1306089781.git.sgw@linux.intel.com>
-References: <cover.1306089781.git.sgw@linux.intel.com>
-	<8f9e24ee754c1103f89afd9486c7bd4427b41f92.1306089781.git.sgw@linux.intel.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Mon, 23 May 2011 10:31:51 +0100
-Message-ID: <1306143111.2525.36.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH 1/9] gail: Add LIC_FILES_CHKSUM
+	Mon, 23 May 2011 14:01:19 +0200
+Received: by wye20 with SMTP id 20so4552703wye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 May 2011 04:58:18 -0700 (PDT)
+Received: by 10.227.29.27 with SMTP id o27mr2200010wbc.16.1306151898466;
+	Mon, 23 May 2011 04:58:18 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id y29sm4043278wbd.4.2011.05.23.04.58.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 23 May 2011 04:58:17 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 May 2011 13:58:14 +0200
+Message-Id: <1306151894-27522-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] qemu machines: drop MACHINE_ESSENTIAL_EXTRA_RDEPENDS = "qemu-config"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2011 09:34:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 May 2011 12:01:19 -0000
 
-On Sun, 2011-05-22 at 11:48 -0700, Saul Wold wrote:
-> -LICENSE = "LGPL"
-> -SECTION = "x11/libs"
-> -PR = "r1"
->  DESCRIPTION = "GNOME Accessibility Implementation Library"
-> +SECTION = "x11/libs"
-> +
->  DEPENDS = "gtk+"
->  PROVIDES = "virtual/gail"
->  
-> +LICENSE = "LGPLv2"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
-> +
-> +PR = "r1"
-> +
+Things like 'distcc' and 'bash' are not essential to booting a qemu machine.
 
-If you're changing LICENSE then I think you probably want to bump PR as
-well.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/conf/machine/include/qemu.inc |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 
-p.
-
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index 40723eb..4122a88 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -17,4 +17,3 @@ PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
+ #PREFERRED_PROVIDER_linux-libc-headers ?= "linux-libc-headers-yocto"
+ 
+ EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
+-MACHINE_ESSENTIAL_EXTRA_RDEPENDS = "qemu-config"
+-- 
+1.6.6.1
 
 
 
