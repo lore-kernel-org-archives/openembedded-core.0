@@ -1,35 +1,41 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QOU4O-0007sw-Kn
+	(envelope-from <otavio.salvador@gmail.com>) id 1QOU4P-0007sx-HF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 May 2011 14:17:12 +0200
-Received: by yia13 with SMTP id 13so2170550yia.6
+	Mon, 23 May 2011 14:17:13 +0200
+Received: by gwb11 with SMTP id 11so2169547gwb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2011 05:14:12 -0700 (PDT)
+	Mon, 23 May 2011 05:14:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
-	:x-mailer; bh=6mAvTBy3AQ4yczOLlaK/Kca+CWUJbCiNwXk/kVig1A8=;
-	b=csyH3nfM9I0EvyO2lQdTQJNuIOYl/DEYCv1ZVmcZr0sYnVEFVd3E9319cR9EwhVLbS
-	ztiVAIEpGcOX0POuY+ceDT1FDxadEFCMxOXbrXCPyJMhzLyiR/WlV2qpswAJ55LPXKwR
-	VLo1A38pzC6lTXa3udfVtQyNrI/gRmGe9/fPY=
+	:x-mailer:in-reply-to:references:in-reply-to:references;
+	bh=cIVBtELui5Ta6EyWXfD413w/852EQBD/ShyD6i3XE4w=;
+	b=lj8t0S7dhtx18Nck7eiEqYe9NebGxVvvtC7GW4VjwXkzHfLbsYQHp8F0N2Dcy+chtG
+	vr15dcn/GiFy7MIL7VSpU4ZWn2NaofvoURI2glGkMcLg/yiwFyJCmZEv7bQ5sdHTYXxr
+	amhpv7YZ9kS3XoNsFa6jmFTL5JDl+vVher1bA=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	b=nEQX7H7/NjcWATFylZLUK2yA3JJESZWmClY/laeHFdLdM3QpS5xhU51WWH6zJpwt5y
-	Yt+0XfuGo7Q/Jo0/nQZd9Id2rNt5NZSHmDyyJOq4w3puHP8DPmGwq0MZT0uK7t6uZZs7
-	JkcAfVg/bfQ8kfugDPmrz23ZO8N/m9hcatSwM=
-Received: by 10.100.29.37 with SMTP id c37mr4178429anc.98.1306152850224;
-	Mon, 23 May 2011 05:14:10 -0700 (PDT)
+	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references;
+	b=H4aqubPKjPbb8y4XDym7IAptQ99/DEiwF9scAWsaKJnpmkszAAp3wf4sh62pviUbAx
+	y0r/Gpn6OkfP+nf2rXGKjeO051G2RVWgcDjcFTjPM/Sgm+j1Mqds+/cWJj0xPJiQCM1Q
+	VUq94HuXTKl4pvN3JdC28K6yKWg6DYJ4FsB6I=
+Received: by 10.91.21.1 with SMTP id y1mr2917747agi.169.1306152852779;
+	Mon, 23 May 2011 05:14:12 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id q8sm4737950ann.19.2011.05.23.05.14.07
+	by mx.google.com with ESMTPS id q8sm4737950ann.19.2011.05.23.05.14.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 23 May 2011 05:14:08 -0700 (PDT)
+	Mon, 23 May 2011 05:14:11 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 May 2011 12:13:52 +0000
-Message-Id: <cover.1306152724.git.otavio@ossystems.com.br>
+Date: Mon, 23 May 2011 12:13:53 +0000
+Message-Id: <3811cce2a92514982ffc6f8c80ec08d3e030f7ef.1306152724.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH 0/3] Pull request with misc fixes from O.S. Systems tree
+In-Reply-To: <cover.1306152724.git.otavio@ossystems.com.br>
+References: <cover.1306152724.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1306152724.git.otavio@ossystems.com.br>
+References: <cover.1306152724.git.otavio@ossystems.com.br>
+Subject: [PATCH 1/3] send-pull-request: drop sendemail checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,28 +50,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2011 12:17:12 -0000
+X-List-Received-Date: Mon, 23 May 2011 12:17:13 -0000
 
-The following changes since commit 54ecf8e3992b8a01c2e5bd16720e1819b71b68bd:
+git send-email has the correct check on it. Basically the From is
+taken from the git 'user' and 'email' config values and in case
+'sendemail.smtpserver' is not provided it defaults to use local
+sendmail command.
 
-  packagedata: don't choke on empty PACKAGES (2011-05-20 17:41:34 +0100)
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Acked-by: Darren Hart <dvhart@linux.intel.com>
+---
+ scripts/send-pull-request |   16 ----------------
+ 1 files changed, 0 insertions(+), 16 deletions(-)
 
-are available in the git repository at:
-  git://github.com/OSSystems/oe-core.git master
-  https://github.com/OSSystems/oe-core/tree/master
-
-Otavio Salvador (3):
-  send-pull-request: drop sendemail checks
-  busybox: enable mdev by default
-  syslinux: rdepends on mtools
-
- meta/recipes-core/busybox/busybox-1.18.4/defconfig |    2 +-
- meta/recipes-core/busybox/busybox.inc              |    1 -
- meta/recipes-core/busybox/busybox_1.18.4.bb        |    2 +-
- meta/recipes-devtools/syslinux/syslinux_4.03.bb    |    4 +++-
- scripts/send-pull-request                          |   16 ----------------
- 5 files changed, 5 insertions(+), 20 deletions(-)
-
+diff --git a/scripts/send-pull-request b/scripts/send-pull-request
+index cee9253..5dfc246 100755
+--- a/scripts/send-pull-request
++++ b/scripts/send-pull-request
+@@ -67,19 +67,6 @@ harvest_recipients()
+ 	unset IFS
+ }
+ 
+-check_git_sendemail_config()
+-{
+-	GIT_SMTP=$(git config sendemail.smtpserver)
+-	GIT_FROM=$(git config sendemail.from)
+-	if [ -z "$GIT_SMTP" ] || [ -z "$GIT_FROM" ]; then
+-		echo "ERROR: git sendemail is not configured."
+-		echo "Please read GIT-SEND-EMAIL(1) and configure:"
+-		echo "  sendemail.smtpserver"
+-		echo "  sendemail.from"
+-		exit 1
+-	fi
+-}
+-
+ # Parse and verify arguments
+ while getopts "achp:t:" OPT; do
+ 	case $OPT in
+@@ -113,9 +100,6 @@ while getopts "achp:t:" OPT; do
+ 	esac
+ done
+ 
+-# Abort early if git-send-email is not properly configured
+-check_git_sendemail_config
+-
+ if [ -z "$PDIR" ]; then
+ 	echo "ERROR: you must specify a pull-dir."
+ 	usage
 -- 
 1.7.2.5
 
