@@ -1,41 +1,24 @@
-Received: from mail-gw0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QOU4V-0007uQ-G9
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QOUtC-0000Ml-3z for openembedded-core@lists.openembedded.org;
+	Mon, 23 May 2011 15:09:42 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QOUqJ-0001gO-U8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 May 2011 14:17:19 +0200
-Received: by gwb11 with SMTP id 11so2169577gwb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2011 05:14:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
-	:x-mailer:in-reply-to:references:in-reply-to:references;
-	bh=8z7yhAUr862UsqA8dYpn9RaRfTmvLAcV82/g0s8ROIg=;
-	b=wUbnnDuhALsy1tLJKYHeSH2R74OGtTsbQdD6DVCPCTZ0e+5WBD+4jKPklK1tDVsxO0
-	SG8c3P2o6YLhScifYHniMXNLT277q5DgKJhJSv4p8bm4baoqLCDhdSI0YYJbcrTXrESh
-	d8kRdIOjuv29dMk4tncq4nLvmkgp76043NMwM=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references;
-	b=q+aO/MD9ZpGkzucxmDISjf8mvvdIvkZW9iY2o0bDyNUWX63XcIO3CokinUCsCMFbWc
-	EbpdH4zIKJ8ixFgnYrRegSrn9GeICjeUyecVMLBHfdKjVY0YWKE1DDEuGv2lKW57yhs3
-	u2/+vifbA6vJk2zzhwwb/dqh3AXvi2ts4NUU8=
-Received: by 10.101.214.10 with SMTP id r10mr4201631anq.75.1306152858951;
-	Mon, 23 May 2011 05:14:18 -0700 (PDT)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id q8sm4737950ann.19.2011.05.23.05.14.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 23 May 2011 05:14:18 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 May 2011 12:13:55 +0000
-Message-Id: <ad984c833e24dc93ac6653e44265592f365d8337.1306152724.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1306152724.git.otavio@ossystems.com.br>
+	Mon, 23 May 2011 15:06:44 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <596fd53943dd383f89abb767d7a3b624e6b20b92.1306152724.git.otavio@ossystems.com.br>
 References: <cover.1306152724.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1306152724.git.otavio@ossystems.com.br>
-References: <cover.1306152724.git.otavio@ossystems.com.br>
-Subject: [PATCH 3/3] syslinux: rdepends on mtools
+	<596fd53943dd383f89abb767d7a3b624e6b20b92.1306152724.git.otavio@ossystems.com.br>
+Organization: Phil Blundell Consulting Ltd
+Date: Mon, 23 May 2011 14:06:42 +0100
+Message-ID: <1306156002.2525.79.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [PATCH 2/3] busybox: enable mdev by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,40 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2011 12:17:19 -0000
+X-List-Received-Date: Mon, 23 May 2011 13:09:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-To be able to install into a disk, mtools are required thus we add it
-as rdepends of 'syslinux' package.
+On Mon, 2011-05-23 at 12:13 +0000, Otavio Salvador wrote:
+>  CONFIG_LOSETUP=y
+>  # CONFIG_LSPCI is not set
+>  # CONFIG_LSUSB is not set
+> -# CONFIG_MDEV is not set
+> +CONFIG_MDEV=y
+>  # CONFIG_FEATURE_MDEV_CONF is not set
+>  # CONFIG_FEATURE_MDEV_RENAME is not set
+>  # CONFIG_FEATURE_MDEV_RENAME_REGEXP is not set
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-devtools/syslinux/syslinux_4.03.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+This sort of thing, as we've seen previously in classic oe, doesn't
+really scale very well since everyone's requirements for busybox are
+subtly different.  Others will doubtless disagree but, personally, I
+think it would be best for you to just maintain a busybox.conf in your
+own distro layer which sets it up the way that you want.
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux_4.03.bb b/meta/recipes-devtools/syslinux/syslinux_4.03.bb
-index dc0785e..e76fe1f 100644
---- a/meta/recipes-devtools/syslinux/syslinux_4.03.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_4.03.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- # If you really want to run syslinux, you need mtools.  We just want the
- # ldlinux.* stuff for now, so skip mtools-native
- DEPENDS = "nasm-native"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/syslinux-${PV}.tar.bz2 \
-            file://cross-build.patch"
-@@ -48,6 +48,8 @@ do_install() {
- 
- PACKAGES =+ "${PN}-extlinux ${PN}-mbr ${PN}-chain ${PN}-pxelinux ${PN}-isolinux"
- 
-+RDEPENDS_${PN} += "mtools"
-+
- FILES_${PN} = "${bindir}/syslinux"
- FILES_${PN}-extlinux = "${sbindir}/extlinux"
- FILES_${PN}-mbr = "${libdir}/${PN}/mbr.bin"
--- 
-1.7.2.5
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+> index 341c5c4..de711d2 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -29,7 +29,6 @@ INITSCRIPT_PARAMS_${PN}-mdev = "start 06 S ."
+>  INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd" 
+>  INITSCRIPT_NAME_${PN}-udhcpc = "busybox-udhcpc" 
+>  CONFFILES_${PN}-syslog = "${sysconfdir}/syslog.conf.${PN}"
+> -CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
+
+Agreed, it seems silly to declare the file as a CONFFILE if we aren't
+shipping it in the first place.
+
+p.
+
 
 
 
