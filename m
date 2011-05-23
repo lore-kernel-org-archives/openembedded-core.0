@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QOWZW-0005bY-R1 for openembedded-core@lists.openembedded.org;
-	Mon, 23 May 2011 16:57:31 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4NEsVRk019733
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QOWeE-00062B-NS
+	for openembedded-core@lists.openembedded.org;
+	Mon, 23 May 2011 17:02:22 +0200
+Received: by wye20 with SMTP id 20so4698222wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2011 15:54:31 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18423-04 for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2011 15:54:27 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4NEsMvD019715
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 May 2011 15:54:22 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1306105366.git.raj.khem@gmail.com>
-References: <cover.1306105366.git.raj.khem@gmail.com>
-Date: Mon, 23 May 2011 15:54:20 +0100
-Message-ID: <1306162460.3424.857.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/1] Upgrade uclibc to 0.9.32rc3
+	Mon, 23 May 2011 07:59:22 -0700 (PDT)
+Received: by 10.227.200.138 with SMTP id ew10mr2350802wbb.21.1306162761870;
+	Mon, 23 May 2011 07:59:21 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id ca12sm4144261wbb.53.2011.05.23.07.59.20
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 23 May 2011 07:59:21 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 May 2011 16:59:17 +0200
+Message-Id: <1306162757-12769-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] pulseaudio: package udev rules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,32 +33,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 May 2011 14:57:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 May 2011 15:02:22 -0000
 
-On Sun, 2011-05-22 at 16:04 -0700, Khem Raj wrote:
-> This has been in meta-openembedded layer for a while
-> with this its moving into oe-core
-> 
-> The following changes since commit a0c3fd1eb23ef22932b938fc124bb17225eb85c4:
-> 
->   uclibc: Upgrade to 0.9.32-rc3 (2011-05-22 12:02:12 -0700)
-> 
-> are available in the git repository at:
->   git@git.openembedded.org:openembedded-core-contrib.git kraj/uclibc
->   http://cgit.openembedded.org/cgit.cgi//log/?h=kraj/uclibc
-> 
-> Khem Raj (1):
->   uclibc: Upgrade to 0.9.32-rc3
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    2 +-
+ .../pulseaudio/pulseaudio_0.9.15.bb                |    2 +-
+ .../pulseaudio/pulseaudio_0.9.22.bb                |    2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-I merged this on the grounds that it can only improve the current
-situation. I'd like to see if we can't clean that recipe up more at some
-point though.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 78d790f..e46b716 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -69,7 +69,7 @@ FILES_${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la"
+ FILES_${PN}-conf = "${sysconfdir}"
+ FILES_${PN}-bin = "${bindir}/* \
+                    ${sysconfdir}/default/volatiles/volatiles.04_pulse"
+-FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl"
++FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl ${base_libdir}/udev/rules.d/*.rules"
+ FILES_${PN}-gconf-helper = "${libexecdir}/pulse/gconf-helper"
+ FILES_${PN}-misc = "${bindir}/*"
+ 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
+index 7bac9f9..71e19e9 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
+@@ -1,7 +1,7 @@
+ require pulseaudio.inc
+ 
+ DEPENDS += "dbus gdbm speex"
+-PR = "r14"
++PR = "r15"
+ 
+ SRC_URI += "\
+   file://buildfix.patch;patch=1 \
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
+index 91893d7..863beda 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ DEPENDS += "gdbm speex"
+ 
+-- 
+1.6.6.1
 
 
 
