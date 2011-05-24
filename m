@@ -1,45 +1,43 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QOvz2-0006SJ-0f
+	(envelope-from <raj.khem@gmail.com>) id 1QOw1A-0006UM-8b
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 May 2011 20:05:32 +0200
-Received: by pvc30 with SMTP id 30so3163340pvc.6
+	Tue, 24 May 2011 20:07:44 +0200
+Received: by pzk36 with SMTP id 36so3164258pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2011 11:02:29 -0700 (PDT)
+	Tue, 24 May 2011 11:04:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:date:from:to:cc:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=b4v3nLRMzVUivMcdQ7vR10S+WoItNL6f6sfshSjhewU=;
-	b=Rz+qhKjkvcjkp6l9h9sxGVn6wTSnkCW49iKTg2q+DhUkGVAE6pl/d2MKtMS6C00qZ5
-	0o5NlN1ek6WpOqzfgQSuqpaK9hHsg0lj1FHvCkLZ5AO1I56WQ6nZismHiDDAXQdMWDpK
-	LoYOdLiUvPSZn1L3y+0m3H2X4zEax9utrBl7g=
+	:user-agent; bh=9xjyMz67iZtCKqgMGSg6484KYSid6NlRuggHf+Esv3E=;
+	b=HEbbRQYmns5CvGn8gpDNbeK0qErrC6slcQJvb3VAEXC6uymvE/niszScDtliZquZI5
+	s3z1CdK9l6M7/LcfurZp92umTtpy2V1C7hH3LuPxiWRE6zVWIIY3xYhIfZxm4NoLoTp6
+	Td5RKZSy3uOI+cBol9ny0r59v/m7SexSV8BM8=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	b=rjffCFfBV4zTy+vDwvWgkDwxd4e58Hhe69h3rMQsAa5NQQgXCM0rxmKBZEUiEzVnv8
-	Jc9sy4r3wVd5IBUAe6zjY0RCJUF1uGdO68L1mF86FemeoV8/B1kHhaWp9QaQ53RSWwR0
-	OXzomG/SOjWKV5UMnUuCYIrJKUNq0dtVZcz3s=
-Received: by 10.68.36.3 with SMTP id m3mr2738656pbj.432.1306260149676;
-	Tue, 24 May 2011 11:02:29 -0700 (PDT)
+	b=GDk3418UOuyRyOtix/Nlb5MONK/t2Me/wYlbxFi7qcB4+A07Qpm0fPl5Kr7AanAFvW
+	vpaMpvOFCdIE3HFZUPjTm76YBTwllDu8RYTZRDOP70sc6+rFKTflTNKYKZPU4QJwHuT2
+	pS4NtItKwlYM4TR5qhdIG5SHvaXuAp/Ych8j0=
+Received: by 10.142.250.6 with SMTP id x6mr1106931wfh.243.1306260281866;
+	Tue, 24 May 2011 11:04:41 -0700 (PDT)
 Received: from sakrah.homelinux.org
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id y8sm5135407pba.51.2011.05.24.11.02.26
+	by mx.google.com with ESMTPS id k6sm6923704wfa.5.2011.05.24.11.04.39
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 24 May 2011 11:02:28 -0700 (PDT)
-Date: Tue, 24 May 2011 11:01:10 -0700
+	Tue, 24 May 2011 11:04:40 -0700 (PDT)
+Date: Tue, 24 May 2011 11:03:23 -0700
 From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110524180110.GB18116@sakrah.homelinux.org>
+To: Saul Wold <saul.wold@intel.com>
+Message-ID: <20110524180323.GC18116@sakrah.homelinux.org>
 References: <cover.1306037150.git.raj.khem@gmail.com>
 	<c3ce108a01c4c250640528973e4cf12dfe062671.1306037150.git.raj.khem@gmail.com>
 	<4DDBC45A.6090102@intel.com>
-	<D0F7BA36-2C4C-4442-851F-EC89894864F4@gmail.com>
-	<1306248867.2525.198.camel@phil-desktop>
 MIME-Version: 1.0
-In-Reply-To: <1306248867.2525.198.camel@phil-desktop>
+In-Reply-To: <4DDBC45A.6090102@intel.com>
 User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Saul Wold <saul.wold@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] eglibc.inc: Transfer PARALLEL_MAKE to PARALLELMFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -55,28 +53,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2011 18:05:32 -0000
+X-List-Received-Date: Tue, 24 May 2011 18:07:44 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On (24/05/11 15:54), Phil Blundell wrote:
-> On Tue, 2011-05-24 at 07:52 -0700, Khem Raj wrote:
-> > I have done couple of builds of eglibc with -j 2
+On (24/05/11 07:44), Saul Wold wrote:
+> On 05/21/2011 09:09 PM, Khem Raj wrote:
+> >* Currently we are passing -jN flags to eglibc makefiles
+> >   however eglibc uses a make variable called PARALLELMFLAGS
+> >   to pass information about parallel build to sub-makes
+> >
+> >* Currently make install ran without parallelism but now
+> >   it should have parallel building flags passed to do_install
+> >   correctly which inturn should improve build time of
+> >   eglibc on systems using parallel build -j with values>  1
+> >
+> Khem,
 > 
-> Do you really mean that?  I wonder if you actually tested with -j2
-> instead.
+> What kind of testing have you done with this patch, I get a
+> consistent failure on multiple machines with eglibc-initial
+> do_install.
+> 
+> Please review this error log, the make target `<number>' changes, which
+> leads me to believe it's related to the PARALLEL_MAKE number.
 
-Yes dump spell checker on iPAD did that for me I really meant -j2
-> 
-> p.
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+OK I think I need to pass argument in quotes I will redo it
 
--- 
--Khem
 
 
