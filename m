@@ -1,26 +1,26 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QOu83-0003tE-V7
+	(envelope-from <sgw@linux.intel.com>) id 1QOu84-0003tE-RQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 May 2011 18:06:44 +0200
+	Tue, 24 May 2011 18:06:45 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 24 May 2011 09:03:03 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 24 May 2011 09:03:04 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,261,1304319600"; 
-   d="scan'208";a="7845611"
+   d="scan'208";a="7845614"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.133])
-	by fmsmga001.fm.intel.com with ESMTP; 24 May 2011 09:03:03 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 24 May 2011 09:03:04 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2011 09:02:52 -0700
-Message-Id: <bfeba6a42f4de99a543f1eaa21ddcfde6dc34338.1306219274.git.sgw@linux.intel.com>
+Date: Tue, 24 May 2011 09:02:54 -0700
+Message-Id: <861c288e353e917374de938c4e5e927e116cd56c.1306219274.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1306219274.git.sgw@linux.intel.com>
 References: <cover.1306219274.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1306219274.git.sgw@linux.intel.com>
 References: <cover.1306219274.git.sgw@linux.intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [Consolidated Pull 05/12] pulseaudio: package udev rules
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [Consolidated Pull 07/12] create-pull-request: generalize the repository URL parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,55 +35,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2011 16:06:44 -0000
+X-List-Received-Date: Tue, 24 May 2011 16:06:45 -0000
 
-From: Koen Kooi <koen@dominion.thruhere.net>
+From: Darren Hart <dvhart@linux.intel.com>
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+The existing REMOTE_URL and REMOTE_REPO parsing made assumptions regarding
+the git URL format used for the known repository types. In fact, both of
+these ssh URL formats are valid for all the known repositories. Specifically:
+
+  ssh://git@server/repository/path
+  git@server:repository/path
+
+Generalize the parsing to work with each of these for all push URLs matching
+*@*. Tested with the following URLs:
+
+  ssh://git@git.pokylinux.org/poky-contrib
+  ssh://git@git.pokylinux.org/poky-contrib.git
+  git@git.pokylinux.org:poky-contrib
+  git@git.pokylinux.org:poky-contrib.git
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    2 +-
- .../pulseaudio/pulseaudio_0.9.15.bb                |    2 +-
- .../pulseaudio/pulseaudio_0.9.22.bb                |    2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ scripts/create-pull-request |   29 ++++++++++++-----------------
+ 1 files changed, 12 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 78d790f..e46b716 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -69,7 +69,7 @@ FILES_${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la"
- FILES_${PN}-conf = "${sysconfdir}"
- FILES_${PN}-bin = "${bindir}/* \
-                    ${sysconfdir}/default/volatiles/volatiles.04_pulse"
--FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl"
-+FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl ${base_libdir}/udev/rules.d/*.rules"
- FILES_${PN}-gconf-helper = "${libexecdir}/pulse/gconf-helper"
- FILES_${PN}-misc = "${bindir}/*"
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index b808146..19b640f 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -97,28 +97,22 @@ while getopts "b:chi:m:o:p:r:s:u:" OPT; do
+ 			exit 1
+ 		fi
  
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
-index 7bac9f9..71e19e9 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
-@@ -1,7 +1,7 @@
- require pulseaudio.inc
+-		# Rewrite known private URLs to public URLs
++		# Rewrite private URLs to public URLs
+ 		# Determine the repository name for use in the WEB_URL later
+ 		case "$REMOTE_URL" in
+-		ssh://git@git.pokylinux.org*)
+-			REMOTE_REPO=$(echo $REMOTE_URL | sed "s#.*/\(.*\)#\1#")
+-			REMOTE_URL=${REMOTE_URL/'ssh://git@'/'git://'}
++		*@*)
++			USER_RE="[A-Za-z0-9_.@][A-Za-z0-9_.@-]*\$\?"
++			PROTO_RE="[a-z][a-z]*://"
++			GIT_RE="\(^\($PROTO_RE\)\?$USER_RE@\)\([^:/]*\)[:/]\(.*\)"
++			REMOTE_URL=${REMOTE_URL%.git}
++			REMOTE_REPO=$(echo $REMOTE_URL | sed "s#$GIT_RE#\4#")
++			REMOTE_URL=$(echo $REMOTE_URL | sed "s#$GIT_RE#git://\3/\4#")
+ 			;;
+-		ssh://git@git.yoctoproject.org*)
+-			REMOTE_REPO=$(echo $REMOTE_URL | sed "s#.*/\(.*\)#\1#")
+-			REMOTE_URL=${REMOTE_URL/"ssh://git@"/"git://"}
+-			;;
+-		*ssh://git@git.openembedded.org*)
+-			REMOTE_REPO=$(echo $REMOTE_URL | sed "s#.*/\(.*\)#\1#")
+-			REMOTE_URL=${REMOTE_URL/"ssh://git@"/"git://"}
+-			;;
+-		git@github.com:*)
+-			REMOTE_REPO=$(echo $REMOTE_URL | sed 's#.*:\(.*\)\(\.git\)$#\1#')
+-			REMOTE_URL=${REMOTE_URL/"git@github.com:"/"git://github.com/"}
++		*)
++			echo "WARNING: Unrecognized remote URL: $REMOTE_URL"
++			echo "         The pull and browse URLs will likely be incorrect"
+ 			;;
+ 		esac
+-		# The .git suffix is optional in the URL, drop in for the REPO
+-		REMOTE_REPO=${REMOTE_REPO%.git}
+ 		;;
+ 	esac
+ done
+@@ -134,6 +128,7 @@ fi
  
- DEPENDS += "dbus gdbm speex"
--PR = "r14"
-+PR = "r15"
  
- SRC_URI += "\
-   file://buildfix.patch;patch=1 \
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
-index 91893d7..863beda 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
-@@ -1,6 +1,6 @@
- require pulseaudio.inc
- 
--PR = "r0"
-+PR = "r1"
- 
- DEPENDS += "gdbm speex"
- 
+ # Set WEB_URL from known remotes
++WEB_URL=""
+ case "$REMOTE_URL" in
+ 	*git.yoctoproject.org*)
+ 		WEB_URL="http://git.yoctoproject.org/cgit.cgi/$REMOTE_REPO/log/?h=$BRANCH"
 -- 
 1.7.3.4
 
