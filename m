@@ -1,21 +1,34 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QOrTV-0005H3-Kz for openembedded-core@lists.openembedded.org;
-	Tue, 24 May 2011 15:16:41 +0200
+	id 1QOsBk-000099-BE for openembedded-core@lists.openembedded.org;
+	Tue, 24 May 2011 16:02:24 +0200
 Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QOrQc-0002MA-Dn
-	for openembedded-core@lists.openembedded.org;
-	Tue, 24 May 2011 15:13:42 +0200
+	(Exim 4.69) (envelope-from <pb@pbcl.net>)
+	id 1QOs8q-0002Of-1Q; Tue, 24 May 2011 15:59:24 +0200
 From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1305817704.3424.531.camel@rex>
+References: <1305640549.2429.226.camel@phil-desktop>
+	<1305642273.3424.244.camel@rex>
+	<1305643833.2429.264.camel@phil-desktop>
+	<1305649331.3424.259.camel@rex>
+	<1305733061.18415.98.camel@lenovo.internal.reciva.com>
+	<1305800103.3424.464.camel@rex>
+	<1305801068.18415.179.camel@lenovo.internal.reciva.com>
+	<1305804109.3424.475.camel@rex>
+	<1305805268.18415.185.camel@lenovo.internal.reciva.com>
+	<1305807396.3424.510.camel@rex>
+	<1305817446.18415.193.camel@lenovo.internal.reciva.com>
+	<1305817704.3424.531.camel@rex>
 Organization: Phil Blundell Consulting Ltd
-Date: Tue, 24 May 2011 14:13:41 +0100
-Message-ID: <1306242821.2525.175.camel@phil-desktop>
+Date: Tue, 24 May 2011 14:59:17 +0100
+Message-ID: <1306245557.2525.192.camel@phil-desktop>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.30.3 
-Subject: [PATCH] busybox: sync do_install() with oe master (mostly)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rootfs_ipk: respect ONLINE_PACKAGE_MANAGEMENT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,163 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2011 13:16:41 -0000
+X-List-Received-Date: Tue, 24 May 2011 14:02:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-This is basically a backport of the current state of the art from the
-openembedded master repo.  In particular this fixes an installation
-error on micro:
+On Thu, 2011-05-19 at 16:08 +0100, Richard Purdie wrote:
+> On Thu, 2011-05-19 at 16:04 +0100, Phil Blundell wrote:
+> > On Thu, 2011-05-19 at 13:16 +0100, Richard Purdie wrote:
+> > > So if we:
+> > > 
+> > > a) Only add ROOTFS_PKGMANAGE_BOOTSTRAP if postinstalls were present
+> > > b) Add the read-only-rootfs option we discussed which errors if 
+> > >    postinstalls are present
+> > > 
+> > > we end up a lot closer to where you want to be.
+> > 
+> > Yes, sounds reasonable.  And I think we could then eliminate
+> > remove_packaging_data_files() altogether, in favour of having the right
+> > thing happen automatically during rootfs construction, which would
+> > probably be a good thing too.
+> 
+> Agreed, I think we have a plan :)
 
-| + cp -dPr /home/pb/oe/build-meta/tmp-eglibc/work/i586-oe-linux/busybox-1.18.4-r1.2/image/bin /home/pb/oe/build-meta/tmp-eglibc/work/i586-oe-linux/busybox-1.18.4-r1.2/image/sbin /home/pb/oe/build-meta/tmp-eglibc/work/i586-oe-linux/busybox-1.18.4-r1.2/image /home/pb/oe/build-meta/tmp-eglibc/work/i586-oe-linux/busybox-1.18.4-r1.2/image/busybox/
-| cp: will not create hard link `/home/pb/oe/build-meta/tmp-eglibc/work/i586-oe-linux/busybox-1.18.4-r1.2/image/busybox/image/bin' to directory `/home/pb/oe/build-meta/tmp-eglibc/work/i586-oe-linux/busybox-1.18.4-r1.2/image/busybox/bin'
-| cp: cannot copy a directory, `/home/pb/oe/build-meta/tmp-eglibc/work/i586-oe-linux/busybox-1.18.4-r1.2/image', into itself, `/home/pb/oe/build-meta/tmp-eglibc/work/i586-oe-linux/busybox-1.18.4-r1.2/image/busybox/image'
-| ERROR: Function 'do_install' failed (see /home/pb/oe/build-meta/tmp-eglibc/work/i586-oe-linux/busybox-1.18.4-r1.2/temp/log.do_install.3808 for further information)
+One other thing that occurred to me is that ONLINE_PACKAGE_MANAGEMENT
+(in classic oe) is a DISTRO feature rather than an image one.  This is
+significant because, for example, update-rc.d.bbclass doesn't include
+update-rc.d in RDEPENDS if it knows that the package will never be
+installed on a running target.  If we're going to make package
+management into an IMAGE_FEATURE then obviously this isn't going to work
+as it stands.
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/recipes-core/busybox/busybox.inc |  100 ++++++++++++++++++---------------
- 1 files changed, 54 insertions(+), 46 deletions(-)
+I guess we could work around it by letting update-rc.d add its
+dependency as normal, and then adding code to the rootfs constructor to
+stop it taking effect (and/or substitute a dummy update-rc.d package
+with no files in) if an image with no package management is being
+generated.  That doesn't seem terribly elegant but, short of going back
+to a DISTRO-based selection, I can't think of any better way of fixing
+it.
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 341c5c4..dd763fd 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -46,75 +46,83 @@ do_compile() {
- }
- 
- do_install () {
--	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-+	oe_runmake busybox.links
-+	if [ "${prefix}" != "/usr" ]; then
-+		sed "s:^/usr/:${prefix}/:" busybox.links > busybox.links.new
-+		mv busybox.links.new busybox.links
-+	fi
-+	if [ "${base_sbindir}" != "/sbin" ]; then
-+		sed "s:^/sbin/:${base_sbindir}/:" busybox.links > busybox.links.new
-+		mv busybox.links.new busybox.links
-+	fi
-+
- 	install -d ${D}${sysconfdir}/init.d
--	oe_runmake "PREFIX=${D}" install
--	cp -pPR ${S}/_install/* ${D}/
--
--	# Move everything to /busybox (not supposed to end up in any package)
--	install -d ${D}/busybox
--	ls ${D} -R
--
--	cp -dPr ${D}${base_bindir} ${D}${base_sbindir} ${D}${prefix} ${D}/busybox/
--	# Move the busybox binary back to /bin
--	install -d ${D}${base_bindir}
--	mv ${D}/busybox${base_bindir}/busybox ${D}${base_bindir}/
--	# Move back the sh symlink
--	test -h ${D}/busybox${base_bindir}/sh && mv ${D}/busybox${base_bindir}/sh ${D}${base_bindir}/
--
--	install -m 0755 ${WORKDIR}/syslog ${D}${sysconfdir}/init.d/syslog.${PN}
--	install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf.${PN}
--	if grep "CONFIG_CROND=y" ${WORKDIR}/defconfig; then
--		# Move crond back to /usr/sbin/crond
--		install -d ${D}${sbindir}
--		mv ${D}/busybox${sbindir}/crond ${D}${sbindir}/
- 
-+	if ! grep -q "CONFIG_FEATURE_INDIVIDUAL=y" ${WORKDIR}/defconfig; then
-+		# Install /bin/busybox, and the /bin/sh link so the postinst script
-+		# can run. Let update-alternatives handle the rest.
-+		install -d ${D}${base_bindir}
-+		if grep -q "CONFIG_FEATURE_SUID=y" ${WORKDIR}/defconfig; then
-+			install -m 4755 ${S}/busybox ${D}${base_bindir}
-+		else
-+			install -m 0755 ${S}/busybox ${D}${base_bindir}
-+		fi
-+		ln -sf busybox ${D}${base_bindir}/sh
-+	else
-+		install -d ${D}${base_bindir} ${D}${base_sbindir}
-+		install -d ${D}${libdir} ${D}${bindir} ${D}${sbindir}
-+		cat busybox.links | while read FILE; do
-+			NAME=`basename "$FILE"`
-+			install -m 0755 "0_lib/$NAME" "${D}$FILE.${PN}"
-+		done
-+		# add suid bit where needed
-+		for i in `grep -E "APPLET.*_BB_SUID_((MAYBE|REQUIRE))" include/applets.h | grep -v _BB_SUID_DROP | cut -f 3 -d '(' | cut -f 1 -d ','`; do
-+			find ${D} -name $i.${PN} -exec chmod a+s {} \;
-+		done
-+		install -m 0755 0_lib/libbusybox.so.${PV} ${D}${libdir}/libbusybox.so.${PV}
-+		ln -sf sh.${PN} ${D}${base_bindir}/sh
-+		ln -sf ln.${PN} ${D}${base_bindir}/ln
-+		ln -sf test.${PN} ${D}${bindir}/test
-+		if [ -f ${D}/linuxrc.${PN} ]; then
-+			mv ${D}/linuxrc.${PN} ${D}/linuxrc
-+		fi
-+	fi
-+
-+	if grep -q "CONFIG_SYSLOGD=y" ${WORKDIR}/defconfig; then
-+		install -m 0755 ${WORKDIR}/syslog ${D}${sysconfdir}/init.d/syslog.${PN}
-+		install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf.${PN}
-+	fi
-+	if grep "CONFIG_CROND=y" ${WORKDIR}/defconfig; then
- 		install -m 0755 ${WORKDIR}/busybox-cron ${D}${sysconfdir}/init.d/
- 	fi
- 	if grep "CONFIG_HTTPD=y" ${WORKDIR}/defconfig; then
--		# Move httpd back to /usr/sbin/httpd
--		install -d ${D}${sbindir}
--		mv ${D}/busybox${sbindir}/httpd ${D}${sbindir}/
--
- 		install -m 0755 ${WORKDIR}/busybox-httpd ${D}${sysconfdir}/init.d/
- 		install -d ${D}/srv/www
- 	fi
- 	if grep "CONFIG_UDHCPD=y" ${WORKDIR}/defconfig; then
--		# Move udhcpd back to /usr/sbin/udhcpd
--		install -d ${D}${sbindir}
--		mv ${D}/busybox${sbindir}/udhcpd ${D}${sbindir}/
--
- 		install -m 0755 ${WORKDIR}/busybox-udhcpd ${D}${sysconfdir}/init.d/
- 	fi
- 	if grep "CONFIG_HWCLOCK=y" ${WORKDIR}/defconfig; then
--		# Move hwclock back to /sbin/hwclock
--		install -d ${D}${base_sbindir}
--		mv ${D}/busybox${base_sbindir}/hwclock ${D}${base_sbindir}/
--
-+		install -d ${D}${sysconfdir}/default
- 		install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
- 	fi
- 	if grep "CONFIG_UDHCPC=y" ${WORKDIR}/defconfig; then
--		# Move dhcpc back to /usr/sbin/udhcpc
--		install -d ${D}${base_sbindir}
--		mv ${D}/busybox${base_sbindir}/udhcpc ${D}${base_sbindir}/
--
- 		install -d ${D}${sysconfdir}/udhcpc.d
- 		install -d ${D}${datadir}/udhcpc
--		install -m 0755 ${S}/examples/udhcp/simple.script ${D}${sysconfdir}/udhcpc.d/50default
-+                install -m 0755 ${WORKDIR}/simple.script ${D}${sysconfdir}/udhcpc.d/50default
- 		install -m 0755 ${WORKDIR}/default.script ${D}${datadir}/udhcpc/default.script
--		install -m 0755 ${WORKDIR}/busybox-udhcpc ${D}${sysconfdir}/init.d/
- 	fi
--	if grep "CONFIG_MDEV=y" ${WORKDIR}/defconfig; then
--		install -m 0755 ${WORKDIR}/mdev ${D}${sysconfdir}/init.d/mdev
--		if grep "CONFIG_FEATURE_MDEV_CONF=y" ${WORKDIR}/defconfig; then
--			install -m 644 ${WORKDIR}/mdev.conf ${D}${sysconfdir}/mdev.conf
--		fi
-+	if grep "CONFIG_INETD=y" ${WORKDIR}/defconfig; then
-+		install -m 0755 ${WORKDIR}/inetd ${D}${sysconfdir}/init.d/inetd.${PN}
-+		install -m 0644 ${WORKDIR}/inetd.conf ${D}${sysconfdir}/
-+	fi
-+        if grep "CONFIG_MDEV=y" ${WORKDIR}/defconfig; then
-+               install -m 0755 ${WORKDIR}/mdev ${D}${sysconfdir}/init.d/mdev
-+               if grep "CONFIG_FEATURE_MDEV_CONF=y" ${WORKDIR}/defconfig; then
-+                       install -m 644 ${WORKDIR}/mdev.conf ${D}${sysconfdir}/mdev.conf
-+               fi
- 	fi
--
- 	install -m 0644 ${S}/busybox.links ${D}${sysconfdir}
--
--	# remove the temp dir to suppress warning, we are done with it
--	rm -rf ${D}/busybox
- }
- 
- pkg_postinst_${PN} () {
--- 
-1.7.1
-
+p.
 
 
 
