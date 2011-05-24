@@ -1,25 +1,25 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QOu86-0003tN-1g
+	(envelope-from <sgw@linux.intel.com>) id 1QOu86-0003tg-Ev
 	for openembedded-core@lists.openembedded.org;
 	Tue, 24 May 2011 18:06:46 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 24 May 2011 09:03:16 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,261,1304319600"; 
-   d="scan'208";a="7845630"
+   d="scan'208";a="7845633"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.133])
 	by fmsmga001.fm.intel.com with ESMTP; 24 May 2011 09:03:05 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 May 2011 09:02:58 -0700
-Message-Id: <30afae80a5a1a069f94b40659e0cf309cd3ba230.1306219274.git.sgw@linux.intel.com>
+Date: Tue, 24 May 2011 09:02:59 -0700
+Message-Id: <4fe113e770eac9d8ce19be211c9676ce9708448c.1306219274.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1306219274.git.sgw@linux.intel.com>
 References: <cover.1306219274.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1306219274.git.sgw@linux.intel.com>
 References: <cover.1306219274.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 11/12] python-pygpbject: upgrade from 2.27 to 2.27.91
+Subject: [Consolidated Pull 12/12] distro-tracking: update toolchain recipe fields
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,41 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2011 16:06:46 -0000
+X-List-Received-Date: Tue, 24 May 2011 16:06:47 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- ...bject_2.27.0.bb => python-pygobject_2.27.91.bb} |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python-pygobject_2.27.0.bb => python-pygobject_2.27.91.bb} (87%)
+ .../conf/distro/include/distro_tracking_fields.inc |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-pygobject_2.27.0.bb b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python-pygobject_2.27.0.bb
-rename to meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-index 62024c3..d35f672 100644
---- a/meta/recipes-devtools/python/python-pygobject_2.27.0.bb
-+++ b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-@@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
- DEPENDS = "python-pygobject-native-${PV} glib-2.0"
- DEPENDS_virtclass-native = "glib-2.0-native"
- RDEPENDS_virtclass-native = ""
--PR = "r2"
-+PR = "r0"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index ad45b94..bcf7a1a 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -2908,11 +2908,13 @@ RECIPE_MAINTAINER_pn-linux-libc-headers = "Nitin A Kamble <nitin.a.kamble@intel.
+ RECIPE_STATUS_pn-lsof="green" 
+ RECIPE_LATEST_VERSION_pn-lsof="4.84"
+ RECIPE_LAST_UPDATE_pn-lsof = "Nov 8, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-lsof = "May 23, 2011" 
+ RECIPE_MAINTAINER_pn-lsof = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
- MAJ_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
+ RECIPE_STATUS_pn-make="green" 
+ RECIPE_LATEST_VERSION_pn-make="3.82"
+ RECIPE_LAST_UPDATE_pn-make = "Nov 8, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-make = "May 23, 2011" 
+ RECIPE_MAINTAINER_pn-make = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
- SRC_URI = "${GNOME_MIRROR}/pygobject/${MAJ_VER}/pygobject-${PV}.tar.bz2"
+ RECIPE_STATUS_pn-run-postinsts="green" # all local code
+@@ -3003,6 +3005,7 @@ RECIPE_STATUS_pn-gnu-config="green"
+ RECIPE_LATEST_VERSION_pn-gnu-config="0.0+git3155524"
+ DISTRO_PN_ALIAS_pn-gnu-config = "OpenedHand"
+ RECIPE_LAST_UPDATE_pn-gnu-config = "Jun 21, 2010"
++RECIPE_MANUAL_CHECK_DATE_pn-gnu-config = "May 23, 2011" 
+ RECIPE_MAINTAINER_pn-gnu-config = "Nitin A Kamble <nitin.a.kamble@intel.com>"
  
--SRC_URI[md5sum] = "9e2496ffa4e55911f94232e29ee9f146"
--SRC_URI[sha256sum] = "7594bd86c5b92a4ba1f26927800f1b29e1ec5c246cad67aa085c279d6425b8a2"
-+SRC_URI[md5sum] = "2b11a3050264721aac83188224b093a8"
-+SRC_URI[sha256sum] = "a1dffbe2a8e0d490594554ed8d06f0ee4a371acb6c210e7f35158e9ae77e0df4"
- S = "${WORKDIR}/pygobject-${PV}"
- 
- FILESPATH = "${FILE_DIRNAME}/python-pygobject:${FILE_DIRNAME}/files"
+ RECIPE_STATUS_pn-mpfr="green"
 -- 
 1.7.3.4
 
