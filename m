@@ -1,32 +1,41 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jpuhlman@mvista.com>) id 1QOxjB-0002Yk-20
+	(envelope-from <raj.khem@gmail.com>) id 1QOyU1-0003Z3-VF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 May 2011 21:57:17 +0200
-Received: by pzk36 with SMTP id 36so3207203pzk.6
+	Tue, 24 May 2011 22:45:42 +0200
+Received: by pwj9 with SMTP id 9so3270703pwj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2011 12:54:14 -0700 (PDT)
-Received: by 10.68.35.102 with SMTP id g6mr2835778pbj.16.1306266854709;
-	Tue, 24 May 2011 12:54:14 -0700 (PDT)
-Received: from [192.168.1.64] (c-67-187-204-11.hsd1.ca.comcast.net
-	[67.187.204.11])
-	by mx.google.com with ESMTPS id h7sm5186756pbg.74.2011.05.24.12.54.12
+	Tue, 24 May 2011 13:42:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=jPvuYs+Y1/qN+BJXJyC7kjSOavIe9KwhbqP39JAoQSE=;
+	b=G9uuDG5rpsR+1gFcH7PVajEIkZ03WfB9CzpqPStQ0qEWDG/1G/5JK6FCYmPbtAUf9h
+	0aPaXVosKwj64eamjTk5pBa9VUSEsvsDUJOqoB7JCQA5p7ci3EWeY9pcDPwvkMlHYbkb
+	UzL6Ckx9wi7zxa7i0YEwIApbgZf9hsu9Oi2H4=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=CP0CCyeBas6EaEVoECpIl07iZID3P+ASBpvcmTAy/zitEOijXqwlyMTM7KmKYlUVFy
+	7WvC1uF9N/xBk3ODzulJwYDtTmcGjeXUIKnBw9RTjXTYPPde1fZCQc8h/1UyLUorVGnu
+	+Sq/vPJ6kmBKGG3Pp5PbWWyrB+FsBwFvh09uc=
+Received: by 10.142.247.25 with SMTP id u25mr1120622wfh.362.1306269758862;
+	Tue, 24 May 2011 13:42:38 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id z21sm5884683wfd.11.2011.05.24.13.42.34
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 24 May 2011 12:54:13 -0700 (PDT)
-Message-ID: <4DDC0CE1.6030604@mvista.com>
-Date: Tue, 24 May 2011 12:54:09 -0700
-From: Jeremy Puhlman <jpuhlman@mvista.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
-	rv:1.9.2.17) Gecko/20110414 Lightning/1.0b2 Thunderbird/3.1.10
-	ThunderBrowse/3.3.5
+	Tue, 24 May 2011 13:42:37 -0700 (PDT)
+Date: Tue, 24 May 2011 13:41:13 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Message-ID: <20110524204113.GA18969@sakrah.homelinux.org>
+References: <cover.1306264437.git.raj.khem@gmail.com>
+	<0ee71fe45ec1b664287c1c277238263e3ff277ef.1306264437.git.raj.khem@gmail.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1306245860-12820-1-git-send-email-koen@dominion.thruhere.net>	<1306246595.3424.932.camel@rex>	<1306249385.2525.203.camel@phil-desktop>	<1306249675.3424.936.camel@rex>	<1306250123.2525.205.camel@phil-desktop>
-	<1306250696.3424.937.camel@rex>
-In-Reply-To: <1306250696.3424.937.camel@rex>
-X-Enigmail-Version: 1.1.1
-Subject: Re: [RFC][PATCH] bitbake.conf: make OVERRIDES match what people expect
+In-Reply-To: <0ee71fe45ec1b664287c1c277238263e3ff277ef.1306264437.git.raj.khem@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH V2 2/2] eglibc.inc: Transfer PARALLEL_MAKE to PARALLELMFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,29 +50,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2011 19:57:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 May 2011 20:45:42 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->> Ah, I see.  I must admit that I wouldn't have guessed that from the
->> name.
->>
->> Maybe we should just delete both _local and _forcevariable from the
->> default OVERRIDES on the basis that nothing in the metadata (as
->> distributed) uses either of them.  Anybody who wants to make use of them
->> from local.conf or whereever can always add them back to OVERRIDES in
->> the same place.
+On (24/05/11 12:18), Khem Raj wrote:
+> * Currently we are passing -jN or -j N flags to eglibc makefiles
+>   however eglibc uses a make variable called PARALLELMFLAGS
+>   to pass information about parallel build to sub-makes
 > 
-> I'm ok with that, it can also be done by the distro...
+> * Currently make install ran without parallelism but now
+>   it should have parallel building flags passed to do_install
+>   correctly which inturn should improve build time of
+>   eglibc on systems using parallel build -j with values > 1
 
-In my experiance when dealing with disperate groups of layers, having an
-override that will always work(ala old _local) was useful for helping
-others do custom work. Its obviously something you really wouldn't want
-stuck in to any actual provided meta data, but the end user should be
-able to always be able to shoot them selves in the foot, if they really
-really want to.
+I forgot to attach the times of do_compile+do_install using -j 2
 
-OTOH leaving it it up to the distro's to add back in is fine.
+with patch
 
+real    11m11.557s
+user    11m27.270s
+sys     2m54.000s
+
+without patch
+
+real    12m39.788s
+user    11m36.850s
+sys     3m14.310s
+
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/eglibc/eglibc.inc |    6 ++++++
+>  1 files changed, 6 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
+> index 8314cb1..46ffa82 100644
+> --- a/meta/recipes-core/eglibc/eglibc.inc
+> +++ b/meta/recipes-core/eglibc/eglibc.inc
+> @@ -36,4 +36,10 @@ INHIBIT_DEFAULT_DEPS = "1"
+>  
+>  ARM_INSTRUCTION_SET = "arm"
+>  
+> +# eglibc uses PARALLELMFLAGS variable to pass parallel build info so transfer
+> +# PARALLEL_MAKE into PARALLELMFLAGS and empty out PARALLEL_MAKE
+> +EGLIBCPARALLELISM := "PARALLELMFLAGS="${PARALLEL_MAKE}""
+> +EXTRA_OEMAKE += ${EGLIBCPARALLELISM}
+> +PARALLEL_MAKE = ""
+> +
+>  PACKAGES = "glibc catchsegv sln nscd ldd localedef glibc-utils glibc-dev glibc-doc glibc-locale libsegfault glibc-extra-nss glibc-thread-db glibc-pcprofile"
+> -- 
+> 1.7.4.1
+> 
+
+-- 
+-Khem
 
 
