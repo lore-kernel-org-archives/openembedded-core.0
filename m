@@ -1,38 +1,31 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QOxBF-0002AN-MZ
+	(envelope-from <dvhart@linux.intel.com>) id 1QOxPC-0002Jb-S6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 May 2011 21:22:16 +0200
-Received: by pzk36 with SMTP id 36so3193663pzk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 May 2011 12:19:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=wRUaNczP5lvoONnLWGVd45cQKAqoNrHGLY2Rr/1zBGI=;
-	b=F2dMmSi5hXpCloAcfnbnJ92nOIx0rcmfU7+zd6gdR017L3DNRoXk7kL0YN1U0Rx74V
-	OlW6J8EJOPED/bioHrMUA3ALIC5KW9g1ZQhgqS7JhjpssOIdOqJZJ9AZH+C4iE1BB5Dl
-	VhBipr+yjT5TWtEGCz+LDJjAcsYdavaemQoXE=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=Upxq0ky+r919lLncxZxBbgf4Gc3ytJqNOXDsRkt5gaQM31duCdmFI6DcCdjACrPK1E
-	WBqmQlChw3h1VO9SSFk957YRuPX7jGRJwjKptA8rcOf8UlpcgznW14LzceuQ3QeLmGGy
-	sqvyXeYq2DoI0wkGjzjRsnedBmPeZkbqUbPF8=
-Received: by 10.68.37.72 with SMTP id w8mr2920014pbj.263.1306264742314;
-	Tue, 24 May 2011 12:19:02 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id 8sm5171308pbw.23.2011.05.24.12.19.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 24 May 2011 12:19:01 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: OE core <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 May 2011 12:18:52 -0700
-Message-Id: <be1050a4fddcd92e16d666b74670bb26523bb866.1306264437.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1306264437.git.raj.khem@gmail.com>
-References: <cover.1306264437.git.raj.khem@gmail.com>
-Subject: [PATCH 1/2] elfutils_0.148.bb: Fix compilation on uclibc
+	Tue, 24 May 2011 21:36:39 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 May 2011 12:33:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,262,1304319600"; 
+   d="scan'208";a="6905110"
+Received: from unknown (HELO [10.255.12.149]) ([10.255.12.149])
+	by fmsmga002.fm.intel.com with ESMTP; 24 May 2011 12:33:29 -0700
+Message-ID: <4DDC080B.5050007@linux.intel.com>
+Date: Tue, 24 May 2011 12:33:31 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <4DDBDE9D.5000709@linux.intel.com>
+	<20110524172330.GC18086@sakrah.homelinux.org>
+	<4DDBF7BA.2000706@linux.intel.com>
+	<20110524183555.GE18116@sakrah.homelinux.org>
+In-Reply-To: <20110524183555.GE18116@sakrah.homelinux.org>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Updating u-boot for oe-core or meta-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,168 +40,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2011 19:22:17 -0000
+X-List-Received-Date: Tue, 24 May 2011 19:36:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Currently all components of elfutils dont compile with uclibc
-but elfutils is one part which is needed by other recipes e.g.
-gcc 4.5 to compile. we make adjustments so that when compiling
-for uclibc targets it _only_ builds and packages libelf
 
-use --enable-uclibc only when building for uclibc targets
 
-The supporting patch is also needed for compiling with uclibc
-to specify -lintl and -luargp on linker commandline
+On 05/24/2011 11:35 AM, Khem Raj wrote:
+> On (24/05/11 11:23), Darren Hart wrote:
+>> On 05/24/2011 10:23 AM, Khem Raj wrote:
+>>> On (24/05/11 09:36), Darren Hart wrote:
+>>>> I've started pulling in the 15 or so patches to u-boot from meta-ti. In
+>>>
+>>> why ? its a BSP recipe and bsp layer is best place for it IMO unless you
+>>> want to have some of those machines in a different layer.
+>>
+>>
+>> The underlying goal here is to improve the Beagleboard support in
+>> meta-yocto, without unnecessarily duplicating work. 
+> 
+> so essentially you are interested in maintaining this board in
+> meta-yocto and not use meta-ti as long as you have a process to sync
+> your changes in a sane manner between two layers I think it should be
+> ok.
 
-Add missing inherit on gettext
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../elfutils/elfutils-0.148/uclibc-support.patch   |   91 ++++++++++++++++++++
- meta/recipes-devtools/elfutils/elfutils_0.148.bb   |   15 +++-
- 2 files changed, 103 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.148/uclibc-support.patch
+Ideally the only beagleboard specific recipe we would be linux-yocto*.
+However, if there is objection to updating the oe-core u-boot recipe,
+then we'll need to add u-boot to the list.
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.148/uclibc-support.patch b/meta/recipes-devtools/elfutils/elfutils-0.148/uclibc-support.patch
-new file mode 100644
-index 0000000..3cf16ac
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.148/uclibc-support.patch
-@@ -0,0 +1,91 @@
-+on uclibc systems libintl and libuargp are separate from libc.
-+so they need to be specified on commandline when we use proxy-libintl
-+then libintl is a static archive so it should be listed last since
-+elfutils does not respect disable-nls we need to link in libintl
-+
-+We add a new option --enable-uclibc which will be used to control
-+the uclibc specific configurations during build.
-+
-+Signed-off-by: Khem Raj <raj.khem>
-+
-+Upstream-Status: Inappropriate [uclibc specific]
-+
-+Index: elfutils-0.148/configure.ac
-+===================================================================
-+--- elfutils-0.148.orig/configure.ac
-++++ elfutils-0.148/configure.ac
-+@@ -55,9 +55,16 @@ AS_IF([test "$use_locks" = yes], [AC_DEF
-+ 
-+ AH_TEMPLATE([USE_LOCKS], [Defined if libraries should be thread-safe.])
-+ 
-++AC_ARG_ENABLE([uclibc],
-++AS_HELP_STRING([--enable-uclibc], [Use uclibc for system libraries]),
-++use_uclibc=yes, use_uclibc=no)
-++AM_CONDITIONAL(USE_UCLIBC, test "$use_uclibc" = yes)
-++AS_IF([test "$use_uclibc" = yes], [AC_DEFINE(USE_UCLIBC)])
-++
-++AH_TEMPLATE([USE_UCLIBC], [Defined if uclibc libraries are used.])
-++
-+ dnl Add all the languages for which translations are available.
-+ ALL_LINGUAS=
-+-
-+ AC_PROG_CC
-+ AC_PROG_RANLIB
-+ AC_PROG_YACC
-+Index: elfutils-0.148/libelf/Makefile.am
-+===================================================================
-+--- elfutils-0.148.orig/libelf/Makefile.am
-++++ elfutils-0.148/libelf/Makefile.am
-+@@ -93,7 +93,12 @@ if !MUDFLAP
-+ libelf_pic_a_SOURCES =
-+ am_libelf_pic_a_OBJECTS = $(libelf_a_SOURCES:.c=.os)
-+ 
-++
-+ libelf_so_LDLIBS =
-++if USE_UCLIBC
-++libelf_so_LDLIBS += -lintl -luargp
-++endif
-++
-+ if USE_LOCKS
-+ libelf_so_LDLIBS += -lpthread
-+ endif
-+Index: elfutils-0.148/libdw/Makefile.am
-+===================================================================
-+--- elfutils-0.148.orig/libdw/Makefile.am
-++++ elfutils-0.148/libdw/Makefile.am
-+@@ -98,6 +98,11 @@ if !MUDFLAP
-+ libdw_pic_a_SOURCES =
-+ am_libdw_pic_a_OBJECTS = $(libdw_a_SOURCES:.c=.os)
-+ 
-++libdw_so_LDLIBS =
-++if USE_UCLIBC
-++libdw_so_LDLIBS += -lintl -luargp
-++endif
-++
-+ libdw_so_SOURCES =
-+ libdw.so: $(srcdir)/libdw.map libdw_pic.a \
-+ 	  ../libdwfl/libdwfl_pic.a ../libebl/libebl.a \
-+@@ -108,7 +113,7 @@ libdw.so: $(srcdir)/libdw.map libdw_pic.
-+ 		-Wl,--enable-new-dtags,-rpath,$(pkglibdir) \
-+ 		-Wl,--version-script,$<,--no-undefined \
-+ 		-Wl,--whole-archive $(filter-out $<,$^) -Wl,--no-whole-archive\
-+-		-ldl $(zip_LIBS)
-++		-ldl $(zip_LIBS) $(libdw_so_LDLIBS)
-+ 	if readelf -d $@ | fgrep -q TEXTREL; then exit 1; fi
-+ 	ln -fs $@ $@.$(VERSION)
-+ 
-+Index: elfutils-0.148/libcpu/Makefile.am
-+===================================================================
-+--- elfutils-0.148.orig/libcpu/Makefile.am
-++++ elfutils-0.148/libcpu/Makefile.am
-+@@ -63,6 +63,10 @@ i386_parse_CFLAGS = -DNMNES="`wc -l < i3
-+ i386_lex.o: i386_parse.h
-+ i386_gendis_LDADD = $(libeu) -lm $(libmudflap)
-+ 
-++if USE_UCLIBC
-++i386_gendis_LDADD += -luargp -lintl
-++endif
-++
-+ i386_parse.h: i386_parse.c ;
-+ 
-+ noinst_HEADERS = memory-access.h i386_parse.h i386_data.h
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-index df933f6..115ff9b 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
-@@ -30,6 +30,9 @@ SRC_URI += "\
- 	file://remove-unused.patch \
- 	file://mempcpy.patch \
- "
-+# Only apply when building uclibc based target recipe
-+SRC_URI_append_libc-uclibc = " ${@['', 'file://uclibc-support.patch']['${PN}' == '${BPN}']}"
-+
- # The buildsystem wants to generate 2 .h files from source using a binary it just built,
- # which can not pass the cross compiling, so let's work around it by adding 2 .h files
- # along with the do_configure_prepend()
-@@ -38,9 +41,10 @@ SRC_URI += "\
-         file://i386_dis.h \
-         file://x86_64_dis.h \
- "
--inherit autotools
-+inherit autotools gettext
- 
- EXTRA_OECONF = "--program-prefix=eu-"
-+EXTRA_OECONF_append_libc-uclibc = " ${@['', '--enable-uclibc']['${PN}' == '${BPN}']}"
- 
- do_configure_prepend() {
- 	sed -i 's:./i386_gendis:echo\ \#:g' ${S}/libcpu/Makefile.am
-@@ -48,8 +52,13 @@ do_configure_prepend() {
- 	cp ${WORKDIR}/*dis.h ${S}/libcpu
- }
- 
--# Only append ldflags for target recipe
--TARGET_LDFLAGS_libc-uclibc += "${@['', '-lintl -luargp']['${PN}' == '${BPN}']}"
-+# we can not build complete elfutils when using uclibc
-+# but some recipes e.g. gcc 4.5 depends on libelf so we
-+# build only libelf for uclibc case
-+
-+EXTRA_OEMAKE_libc-uclibc = "-C libelf"
-+EXTRA_OEMAKE_virtclass-native = ""
-+EXTRA_OEMAKE_virtclass-nativesdk = ""
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+
+> However we have to make clear if someone uses both meta-ti and meta-yocto
+> and he should be absolutely clear about what recipes and configurations
+> he/she ends up picking.
+
+
+Perhaps ensuring meta-ti layer priority is above that of meta-yocto
+would be adequate? Not something I have tried yet.
+
+
+> 
+> It was suggested at
+>> ELC that we modify the u-boot and linux-yocto recipes/sources to include
+>> the beagleboard specific changes from meta-ti. Once the boot loader and
+>> kernel were in place, we would look to using the still-under-discussion
+>> layer tooling to integrate the rest of meta-ti.
+>>
+>>
+>>>
+>>>> doing so I've come across some questions I'd like you thoughts on.
+>>>> Specifically, where to put these changes. Some points of context:
+>>>>
+>>>> 1) oe-core is intended to support emulated machines only
+>>>> 2) oe-core has a "virgin" u-boot recipe (no patches)
+>>>> 3) meta-yocto does not have a u-boot recipe (no bbappend either)
+>>>> 4) meta-ti has it's own u-boot recipe with per-machine patches
+>>>>
+>>>> A stated goal was to bring the Yocto Project's u-boot support for the
+>>>> Beagleboard in line with that in meta-ti. There are several ways I can
+>>>> go about this.
+>>>>
+>>>> a) create a bbappend in meta-yocto and duplicate the meta-ti
+>>>>    modifications in bbappend form.
+>>>> b) Modify the oe-core recipe directly
+>>>>
+>>>> While a) is the most direct approach to accomplish our goal, it requires
+>>>> continual maintenance and duplicates effort. I don't care for this
+>>>> approach. b) has the potential to consolidate all beagleboard u-boot
+>>>> recipe work into a single place. It could simplify the meta-ti and
+>>>> eliminate the need for a bbappend in the meta-yocto layer.
+>>>>
+>>>> The question of whether bootloaders have a place in oe-core should
+>>>> probably be addressed. While they aren't needed for the emulated
+>>>> machines, they are a highly reusable component for real systems, and
+>>>> that seems justify keeping them in oe-core. Does anyone disagree with
+>>>> this assessment?
+>>>>
+>>>> I propose pulling the necessary changes to u-boot from meta-ti into
+>>>> oe-core. My initial scan suggested the beagleboard patches are mostly
+>>>> contained to beagle specific source files. I would prefer to pull in all
+>>>> the patches for all machines into the SRC_URI, rather than divide them
+>>>> up by machine. This reduces complexity considerably. For the couple of
+>>>> patches that collide, we would keep those as machine specific.
+>>>>
+>>>> As a final part of the work, I would include my beagleboard patch status
+>>>> audit in the included patches and continue to work on reducing the
+>>>> patches in the recipe for the beagleboard.
+>>>>
+>>>> Thoughts?
+>>>
+>>> Well I am in similar boat where I wanted to build atom-pc for angstrom
+>>> but I was thinking using meta-intel layer instead of pulling stuff out
+>>> and stuffing it elsewhere and certainly not oe-core
+>>
+>>
+>> I think the difference I'm seeing is that u-boot is a common recipe (it
+>> exists in oe-core) and ideally it would track the upstream git
+>> repository. If the recipe in oe-core is not intended to be used for any
+>> real machines and isn't used as a base for bbappends in layers like
+>> meta-ti (meta-ti has a complete uboot_git.bb), then it should just be
+>> removed entirely.
+> 
+> 
+> I would agree on removing them from oe-core yes
+
+
+I guess it comes down to the question of which is our priority:
+
+1) Only including packages in support of emulated targets
+2) Providing a common base which multiple layers can build from
+
+I was under the impression that #2 took precedence. Am I wrong here?
+
+
+>> I believe that there is value in not duplicating this recipe and
+>> consolidating the modifications to it in a single place makes sense. The
+>> fact that it needs so many non-upstream patches I think is something
+>> that also needs to be addressed.
+> 
+> u-boot and any other bootloader for that matter are machine specific
+> and its very hard to have a common recipe serving needs of all machines
+> 
+> best it could do is abstract out common parts which wont be many in
+> u-boot case since it just have many differences so having it in bsp
+> layer is probably the best
+
+
+I confess to being relatively new to u-boot. That said, the current
+2011.03 release builds and works on the beagleboard C4 and xM without
+modification. The changes I was proposing to pull in are 1/3 upstream
+already, some pending, and some not sent upstream yet. Some of these are
+purely cosmetic, none are critical for basic functionality.
+
+However, I haven't tried to use it with other boards, if I can't do that
+without modifying it in such a way that breaks it for other boards, then
+I would agree with you.
+
+
+> 
+>>
+>> The second part is that we want to ensure the linux-yocto recipe and
+>> kernel have complete support for the Beagleboard. This isn't something
+>> we can do by just reusing a layer. The linux-yocto recipe takes a
+>> different approach to managing BSP specific source and config changes. I
+>> believe it reduces duplication of effort for things like bug fixing,
+>> security fixes, and config fragment management.
+>>
+> 
+> but linux-yocto have different recipes. Does it also cover u-boot ?
+> in oe-core we would be able to live without linux-yocto having
+> beagleboard support since oe-core it should only build qemu
+> machines
+
+It does not cover u-boot. In the strictest sense, we do not have
+beagleboard support for linux-yocto in oe-core - because the machine is
+not defined, so the kernel would never be configured and built for it -
+but the bsp layers and meta data are present in the linux-yocto*.git
+repository all the same.
+
+
 -- 
-1.7.4.1
-
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
