@@ -1,34 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QOsBk-000099-BE for openembedded-core@lists.openembedded.org;
-	Tue, 24 May 2011 16:02:24 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>)
-	id 1QOs8q-0002Of-1Q; Tue, 24 May 2011 15:59:24 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1305817704.3424.531.camel@rex>
-References: <1305640549.2429.226.camel@phil-desktop>
-	<1305642273.3424.244.camel@rex>
-	<1305643833.2429.264.camel@phil-desktop>
-	<1305649331.3424.259.camel@rex>
-	<1305733061.18415.98.camel@lenovo.internal.reciva.com>
-	<1305800103.3424.464.camel@rex>
-	<1305801068.18415.179.camel@lenovo.internal.reciva.com>
-	<1305804109.3424.475.camel@rex>
-	<1305805268.18415.185.camel@lenovo.internal.reciva.com>
-	<1305807396.3424.510.camel@rex>
-	<1305817446.18415.193.camel@lenovo.internal.reciva.com>
-	<1305817704.3424.531.camel@rex>
-Organization: Phil Blundell Consulting Ltd
-Date: Tue, 24 May 2011 14:59:17 +0100
-Message-ID: <1306245557.2525.192.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rootfs_ipk: respect ONLINE_PACKAGE_MANAGEMENT
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QOsGc-0000Ck-8H
+	for openembedded-core@lists.openembedded.org;
+	Tue, 24 May 2011 16:07:26 +0200
+Received: by wwb17 with SMTP id 17so6054234wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 May 2011 07:04:25 -0700 (PDT)
+Received: by 10.227.199.207 with SMTP id et15mr3452669wbb.56.1306245864618;
+	Tue, 24 May 2011 07:04:24 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id bo14sm4794717wbb.28.2011.05.24.07.04.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 24 May 2011 07:04:23 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 May 2011 16:04:20 +0200
+Message-Id: <1306245860-12820-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [RFC][PATCH] bitbake.conf: make OVERRIDES match what people expect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,46 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2011 14:02:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 May 2011 14:07:26 -0000
 
-On Thu, 2011-05-19 at 16:08 +0100, Richard Purdie wrote:
-> On Thu, 2011-05-19 at 16:04 +0100, Phil Blundell wrote:
-> > On Thu, 2011-05-19 at 13:16 +0100, Richard Purdie wrote:
-> > > So if we:
-> > > 
-> > > a) Only add ROOTFS_PKGMANAGE_BOOTSTRAP if postinstalls were present
-> > > b) Add the read-only-rootfs option we discussed which errors if 
-> > >    postinstalls are present
-> > > 
-> > > we end up a lot closer to where you want to be.
-> > 
-> > Yes, sounds reasonable.  And I think we could then eliminate
-> > remove_packaging_data_files() altogether, in favour of having the right
-> > thing happen automatically during rootfs construction, which would
-> > probably be a good thing too.
-> 
-> Agreed, I think we have a plan :)
+In the current situation TARGET_ARCH will override MACHINE, which is counter intuitive since the machine is more specific than the arch.
 
-One other thing that occurred to me is that ONLINE_PACKAGE_MANAGEMENT
-(in classic oe) is a DISTRO feature rather than an image one.  This is
-significant because, for example, update-rc.d.bbclass doesn't include
-update-rc.d in RDEPENDS if it knows that the package will never be
-installed on a running target.  If we're going to make package
-management into an IMAGE_FEATURE then obviously this isn't going to work
-as it stands.
+The order is now pn-$PN} -> arch -> machine -> distro as the machine is a set of defaults and the distro is the ultimate policy.
 
-I guess we could work around it by letting update-rc.d add its
-dependency as normal, and then adding code to the rootfs constructor to
-stop it taking effect (and/or substitute a dummy update-rc.d package
-with no files in) if an image with no package management is being
-generated.  That doesn't seem terribly elegant but, short of going back
-to a DISTRO-based selection, I can't think of any better way of fixing
-it.
+'failfast' has been removed since it's not used anymore, just like 'local'
+---
+ meta/conf/bitbake.conf |   12 ++++++------
+ 1 files changed, 6 insertions(+), 6 deletions(-)
 
-p.
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a0af672..59238b8 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -602,15 +602,15 @@ AUTO_LIBNAME_PKGS = "${PACKAGES}"
+ # 
+ # This means that an envionment variable named '<foo>_arm' overrides an
+ # environment variable '<foo>' (when ${TARGET_ARCH} is arm).
+-# An environment variable '<foo>_ramses' overrides '<foo>' but doesn't override
+-# '<foo>_arm' when ${MACHINE} is 'ramses'. 
+-# If you use combination ie '<foo>_arm_ramses', then '<foo>_arm_ramses' will override 
+-# '<foo>_arm' and then '<foo>' will be overriden with that value from '<foo>_arm'.
+-# And finally '<foo>_local' overrides any standard variable, but with lowest priority.
++# An environment variable '<foo>_qemuarm' overrides '<foo>' and overrides
++# '<foo>_arm' when ${MACHINE} is 'qemuarm'. 
++# If you use combination ie '<foo>_qemuarm_arm', then '<foo>_qemuarm_arm' will override 
++# '<foo>_qemuarm' and then '<foo>' will be overriden with that value from '<foo>_qemuarm'.
++# And finally '<foo>_forcevariable' overrides any standard variable, with the highest priority.
+ #
+ # This works for  functions as well, they are really just environment variables.
+ # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
+-OVERRIDES = "local:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:fail-fast:pn-${PN}:forcevariable"
++OVERRIDES = "${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:forcevariable"
+ DISTROOVERRIDES ?= "${DISTRO}"
+ MACHINEOVERRIDES ?= "${MACHINE}"
+ 
+-- 
+1.6.6.1
 
 
 
