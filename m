@@ -1,25 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QOlJk-0000Ef-D6
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QOoyF-0003tv-Kr for openembedded-core@lists.openembedded.org;
+	Tue, 24 May 2011 12:36:15 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QOovM-0002I3-Hm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 May 2011 08:42:12 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 May 2011 23:39:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,260,1304319600"; 
-   d="scan'208";a="6647280"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.133])
-	by fmsmga002.fm.intel.com with ESMTP; 23 May 2011 23:38:07 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 May 2011 23:38:04 -0700
-Message-Id: <9100a5deb0603809b55dcff6704ba3c0c8480ba5.1306218459.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1306218459.git.sgw@linux.intel.com>
-References: <cover.1306218459.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1306218459.git.sgw@linux.intel.com>
-References: <cover.1306218459.git.sgw@linux.intel.com>
-Subject: [RFC 2/2] image_types: add IMAGE_ROOTFS_EXTRA_SPACE
+	Tue, 24 May 2011 12:33:16 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <91500a68e2d7ef841608db4ff6b3b9c179c49d87.1306105366.git.raj.khem@gmail.com>
+References: <cover.1306105366.git.raj.khem@gmail.com>
+	<91500a68e2d7ef841608db4ff6b3b9c179c49d87.1306105366.git.raj.khem@gmail.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Tue, 24 May 2011 11:33:14 +0100
+Message-ID: <1306233194.2525.154.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [PATCH 1/1] uclibc: Upgrade to 0.9.32-rc3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,53 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2011 06:42:12 -0000
+X-List-Received-Date: Tue, 24 May 2011 10:36:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #886]
+On Sun, 2011-05-22 at 16:04 -0700, Khem Raj wrote:
+> Bring in the uclibc recipes from meta-oe they have been well
+> tested by now.
 
-This address 2 needs after the IMAGE_ROOTFS_SIZE is cleaned up, by
-removing some of the _ext2/3 overrides it allows for a cleaner override
-using IMAGE_ROOTFS_SIZE to create a large rootfs, or by setting the
-IMAGE_ROOTFS_EXTRA_SPACE, will allow for extra space allocated in Kilobytes
-above the base size (determined by du of the rootfs * IMAGE_OVERHEAD_FACTOR,
-default of 1.3).
+This doesn't build for me on i586:
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/image_types.bbclass |    2 +-
- meta/conf/bitbake.conf           |    4 ++++
- 2 files changed, 5 insertions(+), 1 deletions(-)
+| ccache i586-oe-linux-uclibc-gcc -march=3Di586 --sysroot=3D/home/pb/oe/bui=
+ld-meta-uclibc/tmp-uclibc-uclibc/sysroots/qemux86-tcbootstrap -c libc/sysde=
+ps/linux/common/execve.c -o libc/sysdeps/linux/common/execve.o -include ./i=
+nclude/libc-symbols.h -Wall  -Wstrict-prototypes  -Wstrict-aliasing  -Wform=
+at=3D2  -Wmissing-noreturn  -Wmissing-format-attribute  -Wmissing-prototype=
+s  -Wmissing-declarations  -Wnested-externs  -Wnonnull  -Wold-style-declara=
+tion  -Wold-style-definition  -Wshadow  -Wundef -funsigned-char -fno-builti=
+n -fno-asm -std=3Dgnu99 -ffunction-sections -fdata-sections -m32 -march=3Dp=
+entium4 -fno-stack-protector -nostdinc -I./include -I./include -I. -I./libc=
+/sysdeps/linux -I./libc/sysdeps/linux/i386 -O2 -pipe -g -feliminate-unused-=
+debug-types  -Os -funit-at-a-time -fmerge-all-constants -fstrict-aliasing -=
+fno-tree-loop-optimize -fno-tree-dominator-opts -fno-strength-reduce -fomit=
+-frame-pointer -mpreferred-stack-boundary=3D4 -falign-functions=3D1 -falign=
+-jumps=3D1 -falign-labels=3D1 -falign-loops=3D1 -DHAVE_FORCED_UNWIND -I./li=
+bpthread/nptl -I./libpthread/nptl -I./libpthread/nptl/sysdeps/unix/sysv/lin=
+ux/i386/i686 -I./libpthread/nptl/sysdeps/unix/sysv/linux/i386 -I./libpthrea=
+d/nptl/sysdeps/i386 -I./libpthread/nptl/sysdeps/i386 -I./libpthread/nptl/sy=
+sdeps/unix/sysv/linux -I./libpthread/nptl/sysdeps/unix/sysv/linux -I./libpt=
+hread/nptl/sysdeps/pthread -I./libpthread/nptl/sysdeps/pthread/bits -I./lib=
+pthread/nptl/sysdeps/generic -I./ldso/ldso/i386 -I./ldso/include -I./libc/s=
+ysdeps/linux/common -I/home/pb/oe/build-meta-uclibc/tmp-uclibc-uclibc/sysro=
+ots/qemux86/include/ -isystem /home/pb/oe/build-meta-uclibc/tmp-uclibc-ucli=
+bc/sysroots/x86_64-linux/lib/i586-oe-linux-uclibc.gcc-cross-intermediate/gc=
+c/i586-oe-linux-uclibc/4.6.0/include-fixed -isystem /home/pb/oe/build-meta-=
+uclibc/tmp-uclibc-uclibc/sysroots/x86_64-linux/lib/i586-oe-linux-uclibc.gcc=
+-cross-intermediate/gcc/i586-oe-linux-uclibc/4.6.0/include -DNDEBUG -D__USE=
+_STDIO_FUTEXES__      -MT libc/sysdeps/linux/common/execve.o -MD -MP -MF li=
+bc/sysdeps/linux/common/.execve.o.dep
+| libc/sysdeps/linux/common/epoll.c: In function '__libc_epoll_pwait':
+| libc/sysdeps/linux/common/epoll.c:71:80: error: memory input 7 is not dir=
+ectly addressable
+| libc/sysdeps/linux/common/epoll.c:75:86: error: memory input 7 is not dir=
+ectly addressable
+| make: *** [libc/sysdeps/linux/common/epoll.o] Error 1
+| make: *** Waiting for unfinished jobs....
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 69f859e..601a5fb 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -13,7 +13,7 @@ def get_imagecmds(d):
- 
- runimagecmd () {
- 	# Image generation code for image type ${type}
--	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{size = $1 * ${IMAGE_OVERHEAD_FACTOR}; print (size > ${IMAGE_ROOTFS_SIZE} ? size : ${IMAGE_ROOTFS_SIZE}) }'`
-+	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{size = $1 * ${IMAGE_OVERHEAD_FACTOR} + ${IMAGE_ROOTFS_EXTRA_SPACE}; print (size > ${IMAGE_ROOTFS_SIZE} ? size : ${IMAGE_ROOTFS_SIZE}) }'`
- 	${cmd}
- 	cd ${DEPLOY_DIR_IMAGE}/
- 	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${type}
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index a0af672..fa3618c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -350,6 +350,10 @@ IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
- # This option allows for a precentage overage of the actaul image size rather than a
- # fixed extra space
- IMAGE_OVERHEAD_FACTOR ?= 1.3
-+# This option allow for adding addition space in K above and beyond what the 
-+# IMAGE_OVERHEAD_FACTOR might add. To set a fixed size then overrideing IMAGE_ROOTFS_SIZE
-+# with the max size one wants should do the trick
-+IMAGE_OVERHEAD_EXTRA_SPACE = "0"
- 
- EXTRA_IMAGEDEPENDS = ""
- 
--- 
-1.7.3.4
+BTW, why does uclibc set PACKAGE_ARCH =3D ${MACHINE_ARCH}?  Is there
+anything in it that's actually machine specific?
+
+p.
+
 
 
 
