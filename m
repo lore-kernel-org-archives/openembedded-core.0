@@ -1,28 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QPJX1-0002EV-I3 for openembedded-core@lists.openembedded.org;
-	Wed, 25 May 2011 21:14:11 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>)
-	id 1QPJU6-0004nh-Tv; Wed, 25 May 2011 21:11:11 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Darren Hart <dvhart@linux.intel.com>
-In-Reply-To: <4DDD50D3.4090202@linux.intel.com>
-References: <4DDBDE9D.5000709@linux.intel.com>
-	<20110524172330.GC18086@sakrah.homelinux.org>
-	<6D7346D0-2F4B-44EC-A04B-2F443B33E544@dominion.thruhere.net>
-	<1306260430.2491.2.camel@elmorro>  <1306333690.2491.82.camel@elmorro>
-	<1306334330.2525.236.camel@phil-desktop>
-	<4DDD50D3.4090202@linux.intel.com>
-Date: Wed, 25 May 2011 20:11:04 +0100
-Message-ID: <1306350664.3120.28.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: adding meta-intel layers breaks parsing, was Re: Updating u-boot for oe-core or meta-yocto
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QPK6U-0002mG-UX
+	for openembedded-core@lists.openembedded.org;
+	Wed, 25 May 2011 21:50:50 +0200
+Received: by wwb17 with SMTP id 17so7304072wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 May 2011 12:47:48 -0700 (PDT)
+Received: by 10.216.246.74 with SMTP id p52mr5037112wer.41.1306352863866;
+	Wed, 25 May 2011 12:47:43 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id g63sm486514wee.20.2011.05.25.12.47.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 25 May 2011 12:47:42 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 May 2011 21:47:37 +0200
+Message-Id: <1306352857-12211-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] dbus: split X11 dependant dbus-launch into its own subpackage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,21 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2011 19:14:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 May 2011 19:50:51 -0000
 
-On Wed, 2011-05-25 at 11:56 -0700, Darren Hart wrote:
-> If it is indeed space separated then I should be able to remedy both
-> issues by simply using the append operator and not self-referencing.
-> Correct?
+This makes dbus usable in non-X enviroments like QT/e
 
-I think that's true, yes.  But, space separation is fairly undesirable
-for anything involving paths (particularly absolute ones) and it is
-tempting to say that we should change that variable to have a different
-separator. 
+From the original commit in OE .dev:
 
-p.
+commit 8e25448fb01b6fa6ea3a86f9327f080cd753dfbc
+Author: John Lee <john_lee@openmoko.org>
+Date:   Fri Sep 5 11:37:39 2008 +0000
+
+    dbus: enable x support and put dbus-launch into new package dbus-x11
+    * Enable x support only add rdepends to dbus-launch.  Make it a
+      seperate package so other packages like dbus does not rdepend on
+      libx11.
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/dbus/dbus.inc      |    4 +++-
+ meta/recipes-core/dbus/dbus_1.4.1.bb |    2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 1ef0d8f..015fd7a 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -21,7 +21,9 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib"
++PACKAGES =+ "${PN}-lib ${PN}-x11"
++
++FILES_${PN}-x11 = "{bindir}/dbus-launch"
+ 
+ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-uuidgen \
+diff --git a/meta/recipes-core/dbus/dbus_1.4.1.bb b/meta/recipes-core/dbus/dbus_1.4.1.bb
+index f16d9f2..d1c59dc 100644
+--- a/meta/recipes-core/dbus/dbus_1.4.1.bb
++++ b/meta/recipes-core/dbus/dbus_1.4.1.bb
+@@ -1,6 +1,6 @@
+ include dbus.inc
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI[md5sum] = "99cb057700c0455fb68f8d57902f77ac"
+ SRC_URI[sha256sum] = "caa1a0ded2d0f2e95c1d4ec7e3c8bd44834928c5b0ed41a7189963f3593983bd"
+-- 
+1.6.6.1
 
 
 
