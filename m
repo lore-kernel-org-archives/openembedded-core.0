@@ -1,22 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QPNBU-0006kY-Bs
+	(envelope-from <dvhart@linux.intel.com>) id 1QPNBa-0006lI-Q8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 01:08:12 +0200
+	Thu, 26 May 2011 01:08:18 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 May 2011 16:05:08 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 25 May 2011 16:05:15 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,269,1304319600"; 
-   d="scan'208";a="7701772"
+   d="scan'208";a="7701951"
 Received: from unknown (HELO localhost) ([10.255.12.181])
-	by fmsmga002.fm.intel.com with ESMTP; 25 May 2011 16:05:08 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 25 May 2011 16:05:14 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 May 2011 16:05:11 -0700
-Message-Id: <cover.1306364294.git.dvhart@linux.intel.com>
+Date: Wed, 25 May 2011 16:05:17 -0700
+Message-Id: <f2eb88161222a6df60739367d2f44342d3bfbbf2.1306364294.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1306364294.git.dvhart@linux.intel.com>
+References: <cover.1306364294.git.dvhart@linux.intel.com>
 Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH 0/1] utils.bbclass: make FILESEXTRAPATHS colon delimited
+Subject: [PATCH 1/1] utils.bbclass: make FILESEXTRAPATHS colon delimited
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,28 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2011 23:08:12 -0000
+X-List-Received-Date: Wed, 25 May 2011 23:08:19 -0000
 
-In trying to fix the broken FILESEXTRAPATHS breakage in meta-intel, Phil
-Blundell noted that the space delimiting of FILESEXTRAPATHS was sub-optimal. I
-didn't want to fix meta-intel twice, so this patch converts FILESEXTRAPATHS to
-being colon delimited.
+Fixes [YOCTO 1102]
 
-This patch applies cleanly to oe-core and poky.
+Path variables are typically : delimited. White space is allowed in paths, so
+is not a good choice for separating paths. Currently utils.bbclass performs the
+following:
 
-The following changes since commit 1607d7b6809eb3f0aa8d09713a4e467a1f4585a2:
+    extrapaths = (bb.data.getVar("FILESEXTRAPATHS", d, True) or "").split()
 
-  IMAGE_ROOTFS_SIZE: Cleanup machine conf files (2011-05-25 14:07:37 -0700)
+This splits FILESEXTRAPATHS on whitespace. It later splits overrides on : and
+reassembles them all together as : delimited.
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dvhart/filesextrapaths
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/filesextrapaths
+There is only one user of FILESEXTRAPATHS in oe-core (qt4-tools-native, which
+uses : anyway) and none in oe.
 
-Darren Hart (1):
-  utils.bbclass: make FILESEXTRAPATHS colon delimited
+Change the split() in utils.bbclass to split on : instead of whitespace. When
+splitting on a defined string (":") we must be careful to handle the empty
+string case which returns [''] instead of [].
 
+Tested building qt4-tools-native and core-image-minimal for surgarbay from
+meta-intel with a couple extra layers with FILESEXTRAPATHS modifications added.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Cc: Phil Blundell <pb@pbcl.net>
+---
  meta/classes/utils.bbclass |    6 ++++--
  1 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index e103351..9930a24 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -331,8 +331,10 @@ def explode_deps(s):
+ 
+ def base_set_filespath(path, d):
+ 	filespath = []
+-	extrapaths = (bb.data.getVar("FILESEXTRAPATHS", d, True) or "").split()
+-	path = extrapaths + path
++	extrapaths = (bb.data.getVar("FILESEXTRAPATHS", d, True) or "")
++	# Don't prepend empty strings to the path list
++	if extrapaths != "":
++		path = extrapaths.split(":") + path
+ 	# The ":" ensures we have an 'empty' override
+ 	overrides = (bb.data.getVar("OVERRIDES", d, 1) or "") + ":"
+ 	for p in path:
+-- 
+1.7.1
 
 
 
