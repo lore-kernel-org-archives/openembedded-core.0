@@ -1,24 +1,36 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1QPNar-0007Bc-VP
+	(envelope-from <jkridner@beagleboard.org>) id 1QPNay-0007Cm-Id
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 01:34:26 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 May 2011 16:30:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,270,1304319600"; 
-   d="scan'208";a="7713817"
-Received: from unknown (HELO [10.255.12.84]) ([10.255.12.84])
-	by fmsmga002.fm.intel.com with ESMTP; 25 May 2011 16:30:16 -0700
-Message-ID: <4DDD9107.1030306@intel.com>
-Date: Wed, 25 May 2011 16:30:15 -0700
-From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Thunderbird/3.1.10
+	Thu, 26 May 2011 01:34:32 +0200
+Received: by fxm19 with SMTP id 19so314136fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 May 2011 16:31:29 -0700 (PDT)
+Received: by 10.223.14.137 with SMTP id g9mr220141faa.8.1306366289668;
+	Wed, 25 May 2011 16:31:29 -0700 (PDT)
+Received: from mail-fx0-f47.google.com (mail-fx0-f47.google.com
+	[209.85.161.47])
+	by mx.google.com with ESMTPS id e16sm56209fak.17.2011.05.25.16.31.28
+	(version=SSLv3 cipher=OTHER); Wed, 25 May 2011 16:31:28 -0700 (PDT)
+Received: by fxm19 with SMTP id 19so314097fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 May 2011 16:31:27 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.205.82.199 with SMTP id ad7mr65357bkc.152.1306366287550; Wed,
+	25 May 2011 16:31:27 -0700 (PDT)
+Received: by 10.204.83.222 with HTTP; Wed, 25 May 2011 16:31:27 -0700 (PDT)
+In-Reply-To: <1306360265.27470.71.camel@rex>
+References: <4DDBDE9D.5000709@linux.intel.com> <1306338695.27470.41.camel@rex>
+	<BANLkTim8VzrP7Zd4yDRaa75X0gXUL7wC=g@mail.gmail.com>
+	<1306360265.27470.71.camel@rex>
+Date: Wed, 25 May 2011 19:31:27 -0400
+Message-ID: <BANLkTimH3Dp_kec8RdHTzicHS5jn5iGG7w@mail.gmail.com>
+From: Jason Kridner <jkridner@beagleboard.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/5] license.bbclass: Sane Parsing of licenses
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: Updating u-boot for oe-core or meta-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,223 +45,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2011 23:34:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 May 2011 23:34:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+
+This thread got pretty long pretty fast, but I am imagining there is some
+place still here for me to chime in and build my own understanding of what
+we are doing...
+
+On Wed, May 25, 2011 at 5:51 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Wed, 2011-05-25 at 09:36 -0700, Khem Raj wrote:
+> > On Wed, May 25, 2011 at 8:51 AM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > I did a little research and I'd like to try and help us move forward.
+> > >
+> > > The "problem" at the moment is both oe-core and meta-ti have u-boot
+> > > recipes. If Yocto were to merge in the meta-ti recipe to meta-yocto it
+> > > would overshadow the oe-core recipe. I believe Yocto wants to encourage
+> > > sharing a core on codebases like u-boot which are receptive and working
+> > > to facilitate collaboration (not unlike Yocto itself).
+>
+
+I like the bootloader living in the BSP layer, but if the mainline recipe is
+something we can all build upon in a reasonable fashion, I can see value in
+having it in oe-core.  It would seem an ugly duplicate to put it in
+meta-yocto and I'm still quite confused on what is meant to live there.
+What is done across the other ISAs?  Are they all living in meta-yocto or do
+they pull in from their own BSP layers?
+
+> >
+> > > Valid questions are therefore:
+> > >
+> > > a) What can we do to the u-boot recipe in core to make it customisable
+> > > from layers like meta-ti
+>
+
+To confirm, this means that building Yocto for BeagleBoard including meta-ti
+is *not* an issue outside of the conflicting recipes?  This was something
+we'd have needed to resolve anyway, no?
 
 
-This is a first pass at sane license parsing, using python
-abstract syntax trees.
+> > >
+> > > b) Is it possible for the u-boot recipe in meta-ti to be a .bbappend
+> > > rather than a recipe which overwrites the default.
+>
 
-A few notes on this since ast is not generally used. I massage
-the LICENSE field to be more pythonesque and then create an ast.
+You said this recipe is an unpatched mainline, correct?  Creating BSPs with
+.bbappend on top of mainline recipes in oe-core seems like a nice approach
+from my perspective.  Is that what is being suggested here?  Will all 4
+non-qemu BSPs in Yocto's core validation take this approach?
 
-I then dump the ast and using a LicenseVisitor class, recurse
-through the tree, looking for licenses. I then copy and link.
 
-It's cleaner, allows for easier addition of logic and while it
-takes slightly more CPU, it's also slightly faster in initial
-small scale tests.
+> > >
+> > > For a), I know Darren has some patches which drop the
+> COMPATIBLE_MACHINE
+> > > usage for example and instead raise the skip parsing exception when
+> > > UBOOT_MACHINE isn't set which is a step in the right direction. If we
+> > > find other issues, lets fix them.
+> > >
+> > > For b), I talked to Koen and he's going to see how feasible this is
+> > > although as always with this kind of issue there are various
+> > > complicating factors.
+>
+> >
+> > > Hopefully if we work both sides of the problem we can get this
+> resolved.
+> > > Darren, if you could send out some of your patches so far (e.g. for
+> > > COMPATIBLE_MACHINE) that might be helpful.
+> > >
+> > > If the ultimate answer is that no, meta-ti has so many changes or
+> > > specific requirements that mean it needs to stay a .bb file then lets
+> > > cross that bridge if we come to it but I think this discussion makes
+> > > sense before reaching that conclusion. Its possible the last release of
+> > > u-boot has sufficient beagle support for yocto's needs and we could use
+> > > that instead.
+>
 
-It doesn't recognize the '+' modifiers to the licenses yet nor
-does it know what to do with bitors (|), since I'm not even sure
-what to do with them.
+The mainline u-boot works pretty well for Beagle, as Darren has confirmed,
+but I think there are a few useful patches as part of the validation image
+for BeagleBoard that have yet to make it upstream due to their platform
+specificity.  I am working those as I have time, but I think it is
+reasonable to have an approach BSP-specific patches temporarily, no?  I'd
+hate to get in a situation where we cannot produce the BeagleBoard
+experience that we want.
 
-Signed-off-by: Beth Flanagan <elizabeth.flanagan@intel.com>
----
-  meta/classes/license.bbclass |  149 +++++++++++++++++++++++++++++++-----------
-  1 files changed, 111 insertions(+), 38 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 4fd1f85..988c682 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -14,6 +14,42 @@ LICSSTATEDIR = "${WORKDIR}/license-destdir/"
-  addtask populate_lic after do_patch before do_package
-  do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
-  do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
-+
-+# Standards are great! Everyone has their own. In an effort to standardize licensing
-+# names, common-licenses will use the SPDX standard license names. In order to not
-+# break the non-standardized license names that we find in LICENSE, we'll set
-+# up a bunch of VarFlags to accomodate non-SPDX license names.
-+#
-+# We should really discuss standardizing this field, but that's a longer term goal.
-+# For now, we can do this and it should grab the most common LICENSE naming variations.
-+#
-+#GPL variations
-+SPDXLICENSEMAP[GPL] = "GPL-1"
-+SPDXLICENSEMAP[GPLv2] = "GPL-2"
-+SPDXLICENSEMAP[GPLv3] = "GPL-3"
-+
-+#LGPL variations
-+SPDXLICENSEMAP[LGPL] = "LGPL-2"
-+SPDXLICENSEMAP[LGPLv2] = "LGPL-2"
-+SPDXLICENSEMAP[LGPL2.1] = "LGPL-2.1"
-+SPDXLICENSEMAP[LGPLv2.1] = "LGPL-2.1"
-+SPDXLICENSEMAP[LGPLv3] = "LGPL-3"
-+
-+#MPL variations
-+SPDXLICENSEMAP[MPL] = "MPL-1"
-+SPDXLICENSEMAP[MPLv1] = "MPL-1"
-+SPDXLICENSEMAP[MPLv1.1] = "MPL-1"
-+
-+#MIT variations
-+SPDXLICENSEMAP[MIT-X] = "MPL-1"
-+
-+#Openssl variations
-+SPDXLICENSEMAP[openssl] = "Openssl"
-+
-+#Other variations
-+SPDXLICENSEMAP[AFL2.1] = "AFL-2"
-+SPDXLICENSEMAP[EPLv1.0] = "EPL-1"
-+
-  python do_populate_lic() {
-      """
-      Populate LICENSE_DIRECTORY with licenses.
-@@ -21,6 +57,62 @@ python do_populate_lic() {
-      import os
-      import bb
-      import shutil
-+    import ast
-+
-+    class LicenseVisitor(ast.NodeVisitor):
-+        def generic_visit(self, node):
-+            ast.NodeVisitor.generic_visit(self, node)
-+
-+        def visit_Str(self, node):
-+            find_license(node.s)
-+            ast.NodeVisitor.generic_visit(self, node)
-+
-+        def visit_BinOp(self, node):
-+            op = node.op
-+            if isinstance(op, ast.BitOr):
-+                x = LicenseVisitor()
-+                x.visit(node)
-+            else:
-+                ast.NodeVisitor.generic_visit(self, node)
-+
-+    def copy_license(source, destination, file_name):
-+        try:
-+            bb.copyfile(os.path.join(source, file_name), os.path.join(destination, file_name))
-+        except:
-+            bb.warn("%s: No generic license file exists for: %s at %s" % (pn, file_name, source))
-+            pass
-+
-+    def link_license(source, destination, file_name):
-+        try:
-+            os.symlink(os.path.join(source, file_name), os.path.join(destination, "generic_" + file_name))
-+        except:
-+            bb.warn("%s: Could not symlink: %s at %s to %s at %s" % (pn, file_name, source, file_name, destination))
-+            pass
-+
-+    def find_license(license_type):
-+
-+        try:
-+            bb.mkdirhier(gen_lic_dest)
-+        except:
-+            pass
-+
-+        # If the generic does not exist we need to check to see if there is an SPDX mapping to it
-+        if not os.path.isfile(os.path.join(generic_directory, license_type)):
-+            if bb.data.getVarFlag('SPDXLICENSEMAP', license_type, d) != None:
-+                # Great, there is an SPDXLICENSEMAP. We can copy!
-+                bb.warn("We need to use a SPDXLICENSEMAP for %s" % (license_type))
-+                spdx_generic = bb.data.getVarFlag('SPDXLICENSEMAP', license_type, d)
-+                copy_license(generic_directory, gen_lic_dest, spdx_generic)
-+                link_license(gen_lic_dest, destdir, spdx_generic)
-+            else:
-+                # And here is where we warn people that their licenses are lousy
-+                bb.warn("%s: No generic license file exists for: %s at %s" % (pn, license_type, generic_directory))
-+                bb.warn("%s: There is also no SPDXLICENSEMAP for this license type: %s at %s" % (pn, license_type, 
-generic_directory))
-+                pass
-+        elif os.path.isfile(os.path.join(generic_directory, license_type)):
-+            copy_license(generic_directory, gen_lic_dest, license_type)
-+            link_license(gen_lic_dest, destdir, license_type)
-+
+> > >
+> > > Just on a more general note, the agreement on resolving the beagleboard
+> > > issue stands as is. The plan is to make beagleboard support in
+> > > meta-yocto as near a copy of the meta-ti pieces as possible with the
+> > > exception of the kernel where linux-yocto will import the needed
+> patches
+> > > to demo the kernel tooling functionality. The layer tooling under
+> > > development will automate the process of syncing those pieces. I think
+> > > everyone is happy with the agreement and we just need to address some
+> > > corner cases like u-boot.
+> > >
+> >
+> > so is it just a question of beagleboard support or a broader support
+> > for all machines ?
+>
+> I'm hoping there are some machines out there which have merged support
+> into the upstream so simply setting UBOOT_MACHINE = "xxx" in the machine
+> config file is enough to get them working.
+>
 
-      # All the license types for the package
-      license_types = bb.data.getVar('LICENSE', d, True)
-@@ -33,6 +125,12 @@ python do_populate_lic() {
-      srcdir = bb.data.getVar('S', d, True)
-      # Directory we store the generic licenses as set in the distro configuration
-      generic_directory = bb.data.getVar('COMMON_LICENSE_DIR', d, True)
-+    bb.warn(generic_directory)
-+    try:
-+        bb.mkdirhier(destdir)
-+    except:
-+        pass
-+
-      if not generic_directory:
-          raise bb.build.FuncFailed("COMMON_LICENSE_DIR is unset. Please set this in your distro config")
+I've used mainline with the BeagleBoard, but I'd prefer if we kept control
+over the experience on our platforms and welcome regular encouragement to
+eliminate patches.
 
-@@ -51,45 +149,21 @@ python do_populate_lic() {
-          if ret is False or ret == 0:
-              bb.warn("%s could not be copied for some reason. It may not exist. WARN for now." % srclicfile)
 
--    # This takes some explaining.... we now are going to go an try to symlink
--    # to a generic file. But, with the way LICENSE works, a package can have multiple
--    # licenses. Some of them are, for example, GPLv2+, which means it can use that version
--    # of GPLv2 specified in it's license, or a later version of GPLv2. For the purposes of
--    # what we're doing here, we really don't track license revisions (although we may want to)
--    # So, we strip out the + and link to a generic GPLv2
--    #
--    # That said, there are some entries into LICENSE that either have no generic (bzip, zlib, ICS)
--    # or the LICENSE is messy (Apache 2.0 .... when they mean Apache-2.0). This should be corrected
--    # but it's outside of scope for this.
--    #
--    # Also, you get some clever license fields with logic in the field.
--    # I'm sure someone has written a logic parser for these fields, but if so, I don't know where it is.
--    # So what I do is just link to every license mentioned in the license field.
-+    gen_lic_dest = os.path.join(bb.data.getVar('LICENSE_DIRECTORY', d, True), "common-licenses")
+>
+> Basing the system on the premise that every bootloader needs to be
+> custom isn't really where we want to be :/.
+>
 
--    for license_type in ((license_types.replace('+', '').replace('|', '&')
--                          .replace('(', '').replace(')', '').replace(';', '')
--                          .replace(',', '').replace(" ", "").split("&"))):
--        if os.path.isfile(os.path.join(generic_directory, license_type)):
--            gen_lic_dest = os.path.join(bb.data.getVar('LICENSE_DIRECTORY', d, True), "common-licenses")
--            try:
--                bb.mkdirhier(gen_lic_dest)
--            except:
--                pass
--
--            try:
--                bb.copyfile(os.path.join(generic_directory, license_type), os.path.join(gen_lic_dest, license_type))
--            except:
--                bb.warn("%s: No generic license file exists for: %s at %s" % (pn, license_type, generic_directory))
--                pass
--            try:
--                os.symlink(os.path.join(gen_lic_dest, license_type), os.path.join(destdir, "generic_" + license_type))
--            except:
--                bb.warn("%s: No generic license file exists for: %s at %s" % (pn, license_type, generic_directory))
--                pass
-+    clean_licenses = ""
-+    for x in license_types.replace("(", " ( ").replace(")", " ) ").split():
-+        if ((x != "(") and (x != ")") and (x != "&") and (x != "|")):
-+            clean_licenses += "'" + x + "'"
-          else:
--            bb.warn("%s: Something went wrong with copying: %s to %s" % (pn, license_type, generic_directory))
--            bb.warn("This could be either because we do not have a generic for this license or the LICENSE field is 
-incorrect")
--            pass
-+            clean_licenses += " " + x + " "
-+
-+    node = ast.parse(clean_licenses)
-+
-+    print ast.dump(node)
-+
-+    v = LicenseVisitor()
-+    v.visit(node)
-  }
+Agreed, but what is "the system" in this respect?  I believe "the system" is
+meant to simplify creation of BSPs for every new platform under the sun, so
+having a way to work with these customizations seems to be a critical part
+of what the system should be.  That said, I take it seriously that after all
+this time there are still out-of-tree patches to u-boot that we are using to
+support the BeagleBoard and that needs to be resolved ASAP.
 
-  SSTATETASKS += "do_populate_lic"
-@@ -102,4 +176,3 @@ python do_populate_lic_setscene () {
-  }
-  addtask do_populate_lic_setscene
 
--
--- 
-1.7.1
+>
+> > I know various boards use very different versions
+> > of u-boot so is oe-core going to bring that support
+> > to u-boot in oe-core and maintain that ?
+>
+> No, the idea would be to make it easy to add missing pieces in
+> a .bbappend though.
+>
+> > IMO keeping oe-core relatively free of machine dependent stuff would be
+> better.
+>
+> I'm still in agreement with this.
+>
 
+What confuses me is that this seemed more directed at using meta-yocto or
+meta-ti for support of the BeagleBoard, not if we wanted to put
+board-dependent stuff in oe-core where I think we all agreed we want to keep
+it clean of machine dependent stuff, unless I missed something.  I still
+wonder if BeagleBoard doesn't belong in a less vendor-specific repository to
+make sure that community developers can adjust it as necessary outside of
+TI.  Though, as long as Koen is happy with it living in meta-ti for
+Angstrom, it seems suitable to me.
+
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
