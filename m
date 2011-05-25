@@ -1,25 +1,34 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QP9hF-0002N2-0M
+	(envelope-from <martin.jansa@gmail.com>) id 1QPDQi-0002UV-QO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 May 2011 10:44:05 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 25 May 2011 01:40:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,266,1304319600"; 
-   d="scan'208";a="1223605"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.133])
-	by azsmga001.ch.intel.com with ESMTP; 25 May 2011 01:40:54 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 25 May 2011 14:43:17 +0200
+Received: by bwz5 with SMTP id 5so7309265bwz.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 May 2011 05:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=aXawao4h3c9/HT+5qHjzDmOOna5nd1sbF05kG/cN/2I=;
+	b=qMLijY0s1zu0OhCQF62K9PdI5pOI1JnJNACpRwb3ZKGXtV8F3fu4xkKCEMYU5pn1MX
+	5zmWzOVVNAdenwt9QkSt46xzne5TYzJyyT/8eo2KAjSweNvO22LS68wNjARpmTw1PGy2
+	+qkqncj1oHycsp5zRdVgrgric/9yQBzY9c1GQ=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=QG8KeodHbDX9gxHoH4Cm1Qzb8xhpp0JKmJ+AI8HS3TRFqdiv/SlXNcfyGif9P3lkwq
+	ki4bgwq0KITm7jc1QEUA7XcG5cHqSV28RxMDgJsQ2OAOO7FtwPQ1jflTigm9KobfzkX7
+	lHaSeJ53fp1kW0kejUH9EC2Ov40pbEuNobMxE=
+Received: by 10.204.154.194 with SMTP id p2mr4104832bkw.58.1306327214236;
+	Wed, 25 May 2011 05:40:14 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id a28sm74795fak.3.2011.05.25.05.40.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 25 May 2011 05:40:13 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 May 2011 01:40:41 -0700
-Message-Id: <e9b41a5bbc89a3a6f1a4d9d744e1cd0c579af2e9.1306312621.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1306312621.git.sgw@linux.intel.com>
-References: <cover.1306312621.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1306312621.git.sgw@linux.intel.com>
-References: <cover.1306312621.git.sgw@linux.intel.com>
-Subject: [Updated Consolidated Pull 19/19] gnutls: update to 2.12.5
+Date: Wed, 25 May 2011 14:40:05 +0200
+Message-Id: <1306327205-4325-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.5.rc3
+Subject: [PATCH] python-2.6.6: py_package_preprocess should change Makefile only in PKGD not D
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,65 +43,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2011 08:44:05 -0000
+X-List-Received-Date: Wed, 25 May 2011 12:43:17 -0000
 
-- Add libcap to depends
+* PACKAGEFUNCS ?= "perform_packagecopy \
+                ${PACKAGE_PREPROCESS_FUNCS} \
+  our py_package_preprocess is called after perform_packagecopy which does copy D to PKGD
+  so we change it to target version in D (image/) before populating sysroot (sysroot-destdir/)
+  while keeping Makefile.sysroot version in PKGD which was created before calling
+  py_package_preprocess, so both package for runtime and sysroot end wrong
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+* I haven't seen this problem on faster builder, I guess because do_package and do_populate_sysroot
+  can run in paralell and I was lucky that do_populate_sysroot finished before py_package_preprocess
+  was started, but if you build python step by step -c package first you should see it every time
+
+* here is proof that with PKGD it works better:
+  $ bitbake -c cleanall python
+  $ bitbake -c install python
+  $ grep LIBDIR= \
+    ./packages-split/python-distutils/usr/lib/python2.6/config/Makefile \
+    ./package/usr/lib/python2.6/config/Makefile \
+    ./sysroot-destdir/usr/lib/python2.6/config/Makefile \
+    ./image/usr/lib/python2.6/config/Makefile \
+    ./Python-2.6.6/Makefile \
+    ~/shr-core/tmp/sysroots/om-gta02/usr/lib/python2.6/config/Makefile
+  grep: ./packages-split/python-distutils/usr/lib/python2.6/config/Makefile: No such file or directory
+  grep: ./package/usr/lib/python2.6/config/Makefile: No such file or directory
+  grep: ./sysroot-destdir/usr/lib/python2.6/config/Makefile: No such file or directory
+  ./image/usr/lib/python2.6/config/Makefile:LIBDIR=               /OE/shr-core/tmp/sysroots/om-gta02/usr/lib
+  ./Python-2.6.6/Makefile:LIBDIR=         /usr/lib
+  /OE/shr-core/tmp/sysroots/om-gta02/usr/lib/python2.6/config/Makefile:LIBDIR=            /OE/shr-core/tmp/sysroots/om-gta02/usr/lib
+
+  $ bitbake -c package python
+  $ grep LIBDIR= \
+    ./packages-split/python-distutils/usr/lib/python2.6/config/Makefile \
+    ./package/usr/lib/python2.6/config/Makefile \
+    ./sysroot-destdir/usr/lib/python2.6/config/Makefile \
+    ./image/usr/lib/python2.6/config/Makefile \
+    ./Python-2.6.6/Makefile \
+    ~/shr-core/tmp/sysroots/om-gta02/usr/lib/python2.6/config/Makefile
+  ./packages-split/python-distutils/usr/lib/python2.6/config/Makefile:LIBDIR=             /usr/lib
+  ./package/usr/lib/python2.6/config/Makefile:LIBDIR=             /usr/lib
+  grep: ./sysroot-destdir/usr/lib/python2.6/config/Makefile: No such file or directory
+  ./image/usr/lib/python2.6/config/Makefile:LIBDIR=               /OE/shr-core/tmp/sysroots/om-gta02/usr/lib
+  ./Python-2.6.6/Makefile:LIBDIR=         /usr/lib
+  /OE/shr-core/tmp/sysroots/om-gta02/usr/lib/python2.6/config/Makefile:LIBDIR=            /OE/shr-core/tmp/sysroots/om-gta02/usr/lib
+
+  $ bitbake -c package python
+  $ grep LIBDIR= \
+    ./packages-split/python-distutils/usr/lib/python2.6/config/Makefile \
+    ./package/usr/lib/python2.6/config/Makefile \
+    ./sysroot-destdir/usr/lib/python2.6/config/Makefile \
+    ./image/usr/lib/python2.6/config/Makefile \
+    ./Python-2.6.6/Makefile \
+    ~/shr-core/tmp/sysroots/om-gta02/usr/lib/python2.6/config/Makefile
+  ./packages-split/python-distutils/usr/lib/python2.6/config/Makefile:LIBDIR=             /usr/lib
+  ./package/usr/lib/python2.6/config/Makefile:LIBDIR=             /usr/lib
+  ./sysroot-destdir/usr/lib/python2.6/config/Makefile:LIBDIR=             /OE/shr-core/tmp/sysroots/om-gta02/usr/lib
+  ./image/usr/lib/python2.6/config/Makefile:LIBDIR=               /OE/shr-core/tmp/sysroots/om-gta02/usr/lib
+  ./Python-2.6.6/Makefile:LIBDIR=         /usr/lib
+  /OE/shr-core/tmp/sysroots/om-gta02/usr/lib/python2.6/config/Makefile:LIBDIR=            /OE/shr-core/tmp/sysroots/om-gta02/usr/lib
+
+* without this patch we have /usr/lib/ in image/sysroot-destdir and SYSROOT_LIBDIR in package/packages-split
+  $ grep LIBDIR= \
+    ./packages-split/python-distutils/usr/lib/python2.6/config/Makefile \
+    ./package/usr/lib/python2.6/config/Makefile \
+    ./sysroot-destdir/usr/lib/python2.6/config/Makefile \
+    ./image/usr/lib/python2.6/config/Makefile \
+    ./Python-2.6.6/Makefile \
+    ~/shr-core/tmp/sysroots/om-gta02/usr/lib/python2.6/config/Makefile
+  ./packages-split/python-distutils/usr/lib/python2.6/config/Makefile:LIBDIR=             /OE/shr-core/tmp/sysroots/om-gta02/usr/lib
+  ./package/usr/lib/python2.6/config/Makefile:LIBDIR=             /OE/shr-core/tmp/sysroots/om-gta02/usr/lib
+  ./sysroot-destdir/usr/lib/python2.6/config/Makefile:LIBDIR=             /usr/lib
+  ./image/usr/lib/python2.6/config/Makefile:LIBDIR=               /usr/lib
+  ./Python-2.6.6/Makefile:LIBDIR=         /usr/lib
+  /OE/shr-core/tmp/sysroots/om-gta02/usr/lib/python2.6/config/Makefile:LIBDIR=            /usr/lib
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../configure-fix.patch                            |    0
- .../gnutls-openssl.patch                           |    0
- .../gnutls-texinfo-euro.patch                      |    0
- meta/recipes-support/gnutls/gnutls.inc             |    2 +-
- .../gnutls/{gnutls_2.10.4.bb => gnutls_2.12.5.bb}  |    4 ++--
- 5 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls-2.10.4 => gnutls-2.12.5}/configure-fix.patch (100%)
- rename meta/recipes-support/gnutls/{gnutls-2.10.4 => gnutls-2.12.5}/gnutls-openssl.patch (100%)
- rename meta/recipes-support/gnutls/{gnutls-2.10.4 => gnutls-2.12.5}/gnutls-texinfo-euro.patch (100%)
- rename meta/recipes-support/gnutls/{gnutls_2.10.4.bb => gnutls_2.12.5.bb} (53%)
+ meta/recipes-devtools/python/python_2.6.6.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/gnutls/gnutls-2.10.4/configure-fix.patch b/meta/recipes-support/gnutls/gnutls-2.12.5/configure-fix.patch
-similarity index 100%
-rename from meta/recipes-support/gnutls/gnutls-2.10.4/configure-fix.patch
-rename to meta/recipes-support/gnutls/gnutls-2.12.5/configure-fix.patch
-diff --git a/meta/recipes-support/gnutls/gnutls-2.10.4/gnutls-openssl.patch b/meta/recipes-support/gnutls/gnutls-2.12.5/gnutls-openssl.patch
-similarity index 100%
-rename from meta/recipes-support/gnutls/gnutls-2.10.4/gnutls-openssl.patch
-rename to meta/recipes-support/gnutls/gnutls-2.12.5/gnutls-openssl.patch
-diff --git a/meta/recipes-support/gnutls/gnutls-2.10.4/gnutls-texinfo-euro.patch b/meta/recipes-support/gnutls/gnutls-2.12.5/gnutls-texinfo-euro.patch
-similarity index 100%
-rename from meta/recipes-support/gnutls/gnutls-2.10.4/gnutls-texinfo-euro.patch
-rename to meta/recipes-support/gnutls/gnutls-2.12.5/gnutls-texinfo-euro.patch
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 2dcd8a0..d220a24 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
+diff --git a/meta/recipes-devtools/python/python_2.6.6.bb b/meta/recipes-devtools/python/python_2.6.6.bb
+index 65875ff..24f1d33 100644
+--- a/meta/recipes-devtools/python/python_2.6.6.bb
++++ b/meta/recipes-devtools/python/python_2.6.6.bb
 @@ -1,7 +1,7 @@
- DESCRIPTION = "GNU Transport Layer Security Library"
- HOMEPAGE = "http://www.gnu.org/software/gnutls/"
- BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
--DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2)"
-+DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2) libcap"
+ require python.inc
+ DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
+ DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
+-PR = "${INC_PR}.3"
++PR = "${INC_PR}.4"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=38fdd546420fab09ac6bd3d8a1c83eb6"
  
- BBCLASSEXTEND = "native"
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+@@ -96,7 +96,7 @@ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
  
-diff --git a/meta/recipes-support/gnutls/gnutls_2.10.4.bb b/meta/recipes-support/gnutls/gnutls_2.12.5.bb
-similarity index 53%
-rename from meta/recipes-support/gnutls/gnutls_2.10.4.bb
-rename to meta/recipes-support/gnutls/gnutls_2.12.5.bb
-index 3924ecd..ad4fd3d 100644
---- a/meta/recipes-support/gnutls/gnutls_2.10.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_2.12.5.bb
-@@ -6,5 +6,5 @@ SRC_URI += "file://gnutls-openssl.patch \
-             file://gnutls-texinfo-euro.patch \
-             file://configure-fix.patch"
+ py_package_preprocess () {
+ 	# copy back the old Makefile to fix target package
+-	install -m 0644 Makefile.orig ${D}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
++	install -m 0644 Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+ }
  
--SRC_URI[md5sum] = "4e1517084018a8b1fdc96daabea40528"
--SRC_URI[sha256sum] = "b8bfe36450fe671e99db5ff1e44e6b65fda8a79cacd9e77d550eff7da3745fc8"
-+SRC_URI[md5sum] = "2d0bd5ae11534074fcd78da6ea384e64"
-+SRC_URI[sha256sum] = "bf263880f327ac34a561d8e66b5a729cbe33eea56728bfed3406ff2898448b60"
+ require python-${PYTHON_MAJMIN}-manifest.inc
 -- 
-1.7.3.4
+1.7.5.rc3
 
 
 
