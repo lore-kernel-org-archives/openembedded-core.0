@@ -1,27 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QPF69-0005l5-K7
+	(envelope-from <tom.zanussi@intel.com>) id 1QPF7T-0005oW-A7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 May 2011 16:30:09 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 25 May 2011 07:27:06 -0700
+	Wed, 25 May 2011 16:31:31 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 25 May 2011 07:28:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,267,1304319600"; 
-   d="scan'208";a="8513127"
-Received: from unknown (HELO [10.255.12.133]) ([10.255.12.133])
-	by fmsmga001.fm.intel.com with ESMTP; 25 May 2011 07:27:05 -0700
-Message-ID: <4DDD11B9.8030508@linux.intel.com>
-Date: Wed, 25 May 2011 07:27:05 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Received: from unknown (HELO [10.255.12.115]) ([10.255.12.115])
+	by orsmga002.jf.intel.com with ESMTP; 25 May 2011 07:28:26 -0700
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1306260430.2491.2.camel@elmorro>
+References: <4DDBDE9D.5000709@linux.intel.com>
+	<20110524172330.GC18086@sakrah.homelinux.org>
+	<6D7346D0-2F4B-44EC-A04B-2F443B33E544@dominion.thruhere.net>
+	<1306260430.2491.2.camel@elmorro>
+Date: Wed, 25 May 2011 09:28:10 -0500
+Message-ID: <1306333690.2491.82.camel@elmorro>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1306312621.git.sgw@linux.intel.com>
-	<e9b41a5bbc89a3a6f1a4d9d744e1cd0c579af2e9.1306312621.git.sgw@linux.intel.com>
-In-Reply-To: <e9b41a5bbc89a3a6f1a4d9d744e1cd0c579af2e9.1306312621.git.sgw@linux.intel.com>
-Subject: Re: [Updated Consolidated Pull 19/19] gnutls: update to 2.12.5
+Subject: Re: adding meta-intel layers breaks parsing, was Re: Updating u-boot for oe-core or meta-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,70 +36,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2011 14:30:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 25 May 2011 14:31:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/25/2011 01:40 AM, Saul Wold wrote:
-> - Add libcap to depends
->
-> Signed-off-by: Saul Wold<sgw@linux.intel.com>
-> ---
->   .../configure-fix.patch                            |    0
->   .../gnutls-openssl.patch                           |    0
->   .../gnutls-texinfo-euro.patch                      |    0
->   meta/recipes-support/gnutls/gnutls.inc             |    2 +-
->   .../gnutls/{gnutls_2.10.4.bb =>  gnutls_2.12.5.bb}  |    4 ++--
->   5 files changed, 3 insertions(+), 3 deletions(-)
->   rename meta/recipes-support/gnutls/{gnutls-2.10.4 =>  gnutls-2.12.5}/configure-fix.patch (100%)
->   rename meta/recipes-support/gnutls/{gnutls-2.10.4 =>  gnutls-2.12.5}/gnutls-openssl.patch (100%)
->   rename meta/recipes-support/gnutls/{gnutls-2.10.4 =>  gnutls-2.12.5}/gnutls-texinfo-euro.patch (100%)
->   rename meta/recipes-support/gnutls/{gnutls_2.10.4.bb =>  gnutls_2.12.5.bb} (53%)
->
-> diff --git a/meta/recipes-support/gnutls/gnutls-2.10.4/configure-fix.patch b/meta/recipes-support/gnutls/gnutls-2.12.5/configure-fix.patch
-> similarity index 100%
-> rename from meta/recipes-support/gnutls/gnutls-2.10.4/configure-fix.patch
-> rename to meta/recipes-support/gnutls/gnutls-2.12.5/configure-fix.patch
-> diff --git a/meta/recipes-support/gnutls/gnutls-2.10.4/gnutls-openssl.patch b/meta/recipes-support/gnutls/gnutls-2.12.5/gnutls-openssl.patch
-> similarity index 100%
-> rename from meta/recipes-support/gnutls/gnutls-2.10.4/gnutls-openssl.patch
-> rename to meta/recipes-support/gnutls/gnutls-2.12.5/gnutls-openssl.patch
-> diff --git a/meta/recipes-support/gnutls/gnutls-2.10.4/gnutls-texinfo-euro.patch b/meta/recipes-support/gnutls/gnutls-2.12.5/gnutls-texinfo-euro.patch
-> similarity index 100%
-> rename from meta/recipes-support/gnutls/gnutls-2.10.4/gnutls-texinfo-euro.patch
-> rename to meta/recipes-support/gnutls/gnutls-2.12.5/gnutls-texinfo-euro.patch
-> diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-> index 2dcd8a0..d220a24 100644
-> --- a/meta/recipes-support/gnutls/gnutls.inc
-> +++ b/meta/recipes-support/gnutls/gnutls.inc
-> @@ -1,7 +1,7 @@
->   DESCRIPTION = "GNU Transport Layer Security Library"
->   HOMEPAGE = "http://www.gnu.org/software/gnutls/"
->   BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
-> -DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2)"
-> +DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2) libcap"
->
->   BBCLASSEXTEND = "native"
->
-> diff --git a/meta/recipes-support/gnutls/gnutls_2.10.4.bb b/meta/recipes-support/gnutls/gnutls_2.12.5.bb
-> similarity index 53%
-> rename from meta/recipes-support/gnutls/gnutls_2.10.4.bb
-> rename to meta/recipes-support/gnutls/gnutls_2.12.5.bb
-> index 3924ecd..ad4fd3d 100644
-> --- a/meta/recipes-support/gnutls/gnutls_2.10.4.bb
-> +++ b/meta/recipes-support/gnutls/gnutls_2.12.5.bb
-> @@ -6,5 +6,5 @@ SRC_URI += "file://gnutls-openssl.patch \
->               file://gnutls-texinfo-euro.patch \
->               file://configure-fix.patch"
->
-> -SRC_URI[md5sum] = "4e1517084018a8b1fdc96daabea40528"
-> -SRC_URI[sha256sum] = "b8bfe36450fe671e99db5ff1e44e6b65fda8a79cacd9e77d550eff7da3745fc8"
-> +SRC_URI[md5sum] = "2d0bd5ae11534074fcd78da6ea384e64"
-> +SRC_URI[sha256sum] = "bf263880f327ac34a561d8e66b5a729cbe33eea56728bfed3406ff2898448b60"
+On Tue, 2011-05-24 at 13:07 -0500, Tom Zanussi wrote:
+> On Tue, 2011-05-24 at 10:51 -0700, Koen Kooi wrote:
+> > Op 24 mei 2011, om 19:23 heeft Khem Raj het volgende geschreven:
+> > 
+> > > On (24/05/11 09:36), Darren Hart wrote:
+> > >> I've started pulling in the 15 or so patches to u-boot from meta-ti. In
+> > > 
+> > > why ? its a BSP recipe and bsp layer is best place for it IMO unless you
+> > > want to have some of those machines in a different layer.
+> > > 
+> > >> doing so I've come across some questions I'd like you thoughts on.
+> > >> Specifically, where to put these changes. Some points of context:
+> > >> 
+> > >> 1) oe-core is intended to support emulated machines only
+> > >> 2) oe-core has a "virgin" u-boot recipe (no patches)
+> > >> 3) meta-yocto does not have a u-boot recipe (no bbappend either)
+> > >> 4) meta-ti has it's own u-boot recipe with per-machine patches
+> > >> 
+> > >> A stated goal was to bring the Yocto Project's u-boot support for the
+> > >> Beagleboard in line with that in meta-ti. There are several ways I can
+> > >> go about this.
+> > >> 
+> > >> a) create a bbappend in meta-yocto and duplicate the meta-ti
+> > >>   modifications in bbappend form.
+> > >> b) Modify the oe-core recipe directly
+> > >> 
+> > >> While a) is the most direct approach to accomplish our goal, it requires
+> > >> continual maintenance and duplicates effort. I don't care for this
+> > >> approach. b) has the potential to consolidate all beagleboard u-boot
+> > >> recipe work into a single place. It could simplify the meta-ti and
+> > >> eliminate the need for a bbappend in the meta-yocto layer.
+> > >> 
+> > >> The question of whether bootloaders have a place in oe-core should
+> > >> probably be addressed. While they aren't needed for the emulated
+> > >> machines, they are a highly reusable component for real systems, and
+> > >> that seems justify keeping them in oe-core. Does anyone disagree with
+> > >> this assessment?
+> > >> 
+> > >> I propose pulling the necessary changes to u-boot from meta-ti into
+> > >> oe-core. My initial scan suggested the beagleboard patches are mostly
+> > >> contained to beagle specific source files. I would prefer to pull in all
+> > >> the patches for all machines into the SRC_URI, rather than divide them
+> > >> up by machine. This reduces complexity considerably. For the couple of
+> > >> patches that collide, we would keep those as machine specific.
+> > >> 
+> > >> As a final part of the work, I would include my beagleboard patch status
+> > >> audit in the included patches and continue to work on reducing the
+> > >> patches in the recipe for the beagleboard.
+> > >> 
+> > >> Thoughts?
+> > > 
+> > > Well I am in similar boat where I wanted to build atom-pc for angstrom
+> > > but I was thinking using meta-intel layer instead of pulling stuff out
+> > > and stuffing it elsewhere and certainly not oe-core
+> > 
+> > Speaking of meta-intel layers, when I add them to bblayer.conf I get:
+> > 
+> > ERROR: Error parsing /OE/tentacle/sources/openembedded-core/meta/recipes-kernel/linux/linux-yocto-stable_git.bb: Failure expanding variable FILESEXTRAPATHS, expression was ${FILESEXTRAPATHS}:/OE/tentacle/sources/meta-intel/meta-n450/recipes-kernel/linux/linux-yocto-stable which triggered exception Exception: variable FILESEXTRAPATHS references itself!
+> > 
+> > Same for jasperforest, emenlow, fishriver and crownbay. The only intel layer I can add without breaking the parsing step is sugarbay :(
+> > 
+> 
+> Must be something recent - I've built several of those successfully over
+> the past few days, will take a look though...
+> 
 
-Please don't take this gnutls update, I was a little too hasty in 
-sending it up, was testing it and it should not be here.
+I just finished building all of the above successfully using the latest
+(as of yesterday) poky/master and meta-intel/master.
 
-Sau!
+Not sure why you're seeing parsing errors, none here...
+
+Tom
+
+> Tom
+> 
+> > Same goes for meta-xilinx, that breaks in the uboot recipe with some NoneType and string errors.
+> > 
+> > regards,
+> > 
+> > Koen
+> > 
+> 
+
+
 
 
