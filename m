@@ -1,27 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QP0FN-0005u8-1u
+	(envelope-from <sgw@linux.intel.com>) id 1QP7gc-0008R7-1N
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 May 2011 00:38:41 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 24 May 2011 15:35:38 -0700
+	Wed, 25 May 2011 08:35:18 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 24 May 2011 23:32:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,263,1304319600"; 
-   d="scan'208";a="6980232"
-Received: from unknown (HELO [10.255.12.149]) ([10.255.12.149])
-	by fmsmga002.fm.intel.com with ESMTP; 24 May 2011 15:35:38 -0700
-Message-ID: <4DDC32BE.6030802@linux.intel.com>
-Date: Tue, 24 May 2011 15:35:42 -0700
-From: Darren Hart <dvhart@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.65,265,1304319600"; 
+   d="scan'208";a="1156209"
+Received: from unknown (HELO [10.255.12.133]) ([10.255.12.133])
+	by azsmga001.ch.intel.com with ESMTP; 24 May 2011 23:32:13 -0700
+Message-ID: <4DDCA269.1030006@linux.intel.com>
+Date: Tue, 24 May 2011 23:32:09 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1306276122.git.dvhart@linux.intel.com>
-	<d65327722591ceae682f08ff28cae38f4d32267d.1306276122.git.dvhart@linux.intel.com>
-In-Reply-To: <d65327722591ceae682f08ff28cae38f4d32267d.1306276122.git.dvhart@linux.intel.com>
-Subject: Re: [PATCH 1/1] oe-setup-builddir: remove unreachable code, update comments
+In-Reply-To: <cover.1306276122.git.dvhart@linux.intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: Re: [PATCH 0/1] oe-setup-builddir: remove unreachable code, update comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,57 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2011 22:38:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 25 May 2011 06:35:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 05/24/2011 03:31 PM, Darren Hart wrote:
-> From: Darren Hart <dvhart@linux.intel.com>
-> 
-> The script forces TEMPLATECONF to be non-empty with:
-> 
->     TEMPLATECONF=${TEMPLATECONF:-meta-yocto/conf}
-> 
-> This ensures that OELOCALCONF and OELAYERSCONF will be non-empty as well. Remove
-> all the empty checks for these variables.
-> 
-> While this patch doesn't change behavior, all this code was unreachable, it does
-> bring up a point of intent. It appears as though OE*CONF was intended to be
-> configurable by the user via the environment, the code only allows for the user
-> to set TEMPLATECONF. This means that in order to use something other than the
-> sample default configs, the user must specify both a local.conf.sample and a
-> bblayers.conf.sample in their TEMPLATECONF directory.
-> 
-> Update the comments to correctly identify the required files as local.conf.sample
-> and bblayers.conf.sample.
-> 
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> ---
->  scripts/create-pull-request |    2 +-
->  scripts/oe-setup-builddir   |   32 +++++++++++++-------------------
->  2 files changed, 14 insertions(+), 20 deletions(-)
-> 
-> diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-> index b808146..169b888 100755
-> --- a/scripts/create-pull-request
-> +++ b/scripts/create-pull-request
-> @@ -24,7 +24,7 @@
->  # submission to Open Embedded and The Yocto Project, as well as to
->  # related projects and layers.
->  #
-> -
-> +set -x
+> From: Darren Hart<dvhart@linux.intel.com>
+>
+> The following changes since commit 32a4e746273c3c7d3dd0f13b745bc0679cadaa44:
+>
+>    codeparser.py: fix syntax error in exception handling (2011-05-24 17:16:47 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib.git dvhart/build
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/build
+>
+> Darren Hart (1):
+>    oe-setup-builddir: remove unreachable code, update comments
+>
+>   scripts/create-pull-request |    2 +-
+>   scripts/oe-setup-builddir   |   32 +++++++++++++-------------------
+>   2 files changed, 14 insertions(+), 20 deletions(-)
+>
+>
+If this is intended for oe-core, please rebase to oe-core and resend, I 
+had a merge issue and want to make sure I am getting the right code 
+committed.
 
+Sau!
 
-EEEK, sorry about that. I've removed this and re-pushed to the same
-contrib/dvhart/build branch. The only file changed is
-scripts/oe-setup-builddir.
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-Apologies.
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
 
 
