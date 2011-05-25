@@ -1,28 +1,22 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QPNiq-0007NJ-22
+	(envelope-from <dvhart@linux.intel.com>) id 1QPNwK-0007VI-G1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 01:42:40 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 25 May 2011 16:39:35 -0700
+	Thu, 26 May 2011 01:56:36 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 25 May 2011 16:53:32 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,270,1304319600"; 
-   d="scan'208";a="1822618"
-Received: from unknown (HELO [10.255.12.181]) ([10.255.12.181])
-	by azsmga001.ch.intel.com with ESMTP; 25 May 2011 16:39:35 -0700
-Message-ID: <4DDD933F.2090704@linux.intel.com>
-Date: Wed, 25 May 2011 16:39:43 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1306276122.git.dvhart@linux.intel.com>	<4DDCA269.1030006@linux.intel.com>
-	<4DDD433F.4090009@linux.intel.com>	<4DDD7983.1030205@linux.intel.com>
-	<1306363115.27470.74.camel@rex>
-In-Reply-To: <1306363115.27470.74.camel@rex>
-Subject: Re: [PATCH 0/1] oe-setup-builddir: remove unreachable code, update comments
+   d="scan'208";a="8864856"
+Received: from unknown (HELO localhost) ([10.255.12.181])
+	by fmsmga001.fm.intel.com with ESMTP; 25 May 2011 16:53:32 -0700
+From: Darren Hart <darren@dvhart.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 May 2011 16:53:21 -0700
+Message-Id: <221f6e6c12374764f75f4aae16086bfe25d9a477.1306367601.git.darren@dvhart.com>
+X-Mailer: git-send-email 1.7.1
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH V2] oe-setup-builddir: remove unreachable code, update comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,83 +31,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2011 23:42:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 May 2011 23:56:36 -0000
 
+From: Darren Hart <dvhart@linux.intel.com>
 
+The script forces TEMPLATECONF to be non-empty with:
 
-On 05/25/2011 03:38 PM, Richard Purdie wrote:
-> On Wed, 2011-05-25 at 14:49 -0700, Saul Wold wrote:
->> On 05/25/2011 10:58 AM, Darren Hart wrote:
->>>
->>>
->>> On 05/24/2011 11:32 PM, Saul Wold wrote:
->>>> On 05/24/2011 03:31 PM, Darren Hart wrote:
->>>>> From: Darren Hart<dvhart@linux.intel.com>
->>>>>
->>>>> The following changes since commit 32a4e746273c3c7d3dd0f13b745bc0679cadaa44:
->>>>>
->>>>>     codeparser.py: fix syntax error in exception handling (2011-05-24 17:16:47 +0100)
->>>>>
->>>>> are available in the git repository at:
->>>>>     git://git.pokylinux.org/poky-contrib.git dvhart/build
->>>>>     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/build
->>>>>
->>>>> Darren Hart (1):
->>>>>     oe-setup-builddir: remove unreachable code, update comments
->>>>>
->>>>>    scripts/create-pull-request |    2 +-
->>>>>    scripts/oe-setup-builddir   |   32 +++++++++++++-------------------
->>>>>    2 files changed, 14 insertions(+), 20 deletions(-)
->>>>>
->>>>>
->>>> If this is intended for oe-core, please rebase to oe-core and resend, I
->>>> had a merge issue and want to make sure I am getting the right code
->>>> committed.
->>>
->>>
->>> Gah, right. I saw the oe- in the script name and just had oe-core in my
->>> head. Apologies. The two scripts are slightly different in the two
->>> repositories, but both suffer from the same unreachable code problem.
->>>
->>> Would you prefer I send two patches, one for each repository, or that I
->>> push to one or the other and let you handle the merge process as part of
->>> the regular sync up process (whatever that is).
->>>
->> Typically, if something is part of oe-core than a patch request goes 
->> there and then Richard will pull it across to poky.  This is a special 
->> case and I am not sure how he is handling this currently. So we need 
->> Richard to chime in on this one.
-> 
-> They should be the same script, that is what I've been aiming for. If
-> they're not, we need to work out how to get them there...
+    TEMPLATECONF=${TEMPLATECONF:-meta/conf}
 
-The diff is quite minimal:
+This ensures that OELOCALCONF and OELAYERSCONF will be non-empty as well. Remove
+all the empty checks for these variables.
 
--TEMPLATECONF=${TEMPLATECONF:-meta-yocto/conf}
+While this patch doesn't change behavior, all this code was unreachable, it does
+bring up a point of intent. It appears as though OE*CONF was intended to be
+configurable by the user via the environment, the code only allows for the user
+to set TEMPLATECONF. This means that in order to use something other than the
+sample default configs, the user must specify both a local.conf.sample and a
+bblayers.conf.sample in their TEMPLATECONF directory.
+
+Update the comments to correctly identify the required files as local.conf.sample
+and bblayers.conf.sample.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
+ scripts/oe-setup-builddir |   32 +++++++++++++-------------------
+ 1 files changed, 13 insertions(+), 19 deletions(-)
+
+diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+index 87e7710..4298a1c 100755
+--- a/scripts/oe-setup-builddir
++++ b/scripts/oe-setup-builddir
+@@ -37,29 +37,26 @@ fi
+ 
+ cd "$BUILDDIR"
+ 
+-TEMPLATECONF=${TEMPLATECONF:-meta/conf}
+ 
+ # 
+-# $TEMPLATECONF can point to a directory for the template local.conf & bblayers.conf
++# $TEMPLATECONF can point to a directory for the template local.conf &
++# bblayers.conf. If the user hasn't specified a path, default to
++# meta/conf.
+ #
+-if [ "x" != "x$TEMPLATECONF" ]; then
 +TEMPLATECONF=${TEMPLATECONF:-meta/conf}
-
-We could have a templateconf symlink or we could modify a common conf
-directory for systems that incorporate oe-core. Failing that we would
-need a yocto specific wrapper to the setup scripts to specify our
-preferred directory. I will send the patch as is based on oe and ask
-that it be merged to poky as well.
-
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
++if ! (test -d "$TEMPLATECONF"); then
++    # Allow TEMPLATECONF=meta-xyz/conf as a shortcut
++    if [ -d "$OEROOT/$TEMPLATECONF" ]; then
++        TEMPLATECONF="$OEROOT/$TEMPLATECONF"
++    fi
+     if ! (test -d "$TEMPLATECONF"); then
+-	# Allow TEMPLATECONF=meta-xyz/conf as a shortcut
+-	if [ -d "$OEROOT/$TEMPLATECONF" ]; then
+-	    TEMPLATECONF="$OEROOT/$TEMPLATECONF"
+-	fi
+-	if ! (test -d "$TEMPLATECONF"); then
+-	    echo >&2 "Error: '$TEMPLATECONF' must be a directory containing local.conf & bblayers.conf"
+-	    return
+-	fi
++        echo >&2 "Error: '$TEMPLATECONF' must be a directory containing local.conf.sample & bblayers.conf.sample"
++        return
+     fi
+-    OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
+-    OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
+ fi
++OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
++OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
+ 
+-if [ "x" = "x$OECORELOCALCONF" ]; then
+-    OECORELOCALCONF="$OEROOT/meta/conf/local.conf.sample"
+-fi
+ if ! (test -r "$BUILDDIR/conf/local.conf"); then
+ cat <<EOM
+ You had no conf/local.conf file. This configuration file has therefore been
+@@ -79,9 +76,6 @@ EOM
+     cp -f $OECORELOCALCONF $BUILDDIR/conf/local.conf
+ fi
+ 
+-if [ "x" = "x$OECORELAYERCONF" ]; then
+-    OECORELAYERCONF="$OEROOT/meta/conf/bblayers.conf.sample"
+-fi
+ if ! (test -r "$BUILDDIR/conf/bblayers.conf"); then
+ cat <<EOM
+ You had no conf/bblayers.conf file. The configuration file has been created for
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.7.1
+
 
 
