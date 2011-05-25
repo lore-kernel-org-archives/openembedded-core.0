@@ -1,25 +1,25 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QP9h8-0002N1-7A
+	(envelope-from <sgw@linux.intel.com>) id 1QP9h9-0002N2-Dp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 May 2011 10:43:58 +0200
+	Wed, 25 May 2011 10:43:59 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 25 May 2011 01:40:51 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,266,1304319600"; 
-   d="scan'208";a="1223577"
+   d="scan'208";a="1223573"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.133])
-	by azsmga001.ch.intel.com with ESMTP; 25 May 2011 01:40:51 -0700
+	by azsmga001.ch.intel.com with ESMTP; 25 May 2011 01:40:50 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 May 2011 01:40:33 -0700
-Message-Id: <30afae80a5a1a069f94b40659e0cf309cd3ba230.1306312621.git.sgw@linux.intel.com>
+Date: Wed, 25 May 2011 01:40:32 -0700
+Message-Id: <dc853bcef0319a7ed6c02f68dbe3bb67aac55d5c.1306312621.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1306312621.git.sgw@linux.intel.com>
 References: <cover.1306312621.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1306312621.git.sgw@linux.intel.com>
 References: <cover.1306312621.git.sgw@linux.intel.com>
-Subject: [Updated Consolidated Pull 11/19] python-pygpbject: upgrade from 2.27 to 2.27.91
+Subject: [Updated Consolidated Pull 10/19] byacc: upgrade from 20101127 to 20101229
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,41 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2011 08:43:59 -0000
+X-List-Received-Date: Wed, 25 May 2011 08:44:00 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- ...bject_2.27.0.bb => python-pygobject_2.27.91.bb} |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python-pygobject_2.27.0.bb => python-pygobject_2.27.91.bb} (87%)
+ meta/recipes-extended/byacc/byacc_20101127.bb |    7 -------
+ meta/recipes-extended/byacc/byacc_20101229.bb |    7 +++++++
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+ delete mode 100644 meta/recipes-extended/byacc/byacc_20101127.bb
+ create mode 100644 meta/recipes-extended/byacc/byacc_20101229.bb
 
-diff --git a/meta/recipes-devtools/python/python-pygobject_2.27.0.bb b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python-pygobject_2.27.0.bb
-rename to meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-index 62024c3..d35f672 100644
---- a/meta/recipes-devtools/python/python-pygobject_2.27.0.bb
-+++ b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-@@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
- DEPENDS = "python-pygobject-native-${PV} glib-2.0"
- DEPENDS_virtclass-native = "glib-2.0-native"
- RDEPENDS_virtclass-native = ""
--PR = "r2"
+diff --git a/meta/recipes-extended/byacc/byacc_20101127.bb b/meta/recipes-extended/byacc/byacc_20101127.bb
+deleted file mode 100644
+index b6b7b70..0000000
+--- a/meta/recipes-extended/byacc/byacc_20101127.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-PR = "r0"
+-LICENSE="other-BSD"
+-LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=4dc4c30f840a7203fb6edf20b3db849e"
+-require byacc.inc
+-
+-SRC_URI[md5sum] = "5931a27e43102dc868745bf4dce91fb4"
+-SRC_URI[sha256sum] = "c172c7ed2ee2130510d4d6e134bcac791b217e4883051137690613ac011aca47"
+diff --git a/meta/recipes-extended/byacc/byacc_20101229.bb b/meta/recipes-extended/byacc/byacc_20101229.bb
+new file mode 100644
+index 0000000..09e91e6
+--- /dev/null
++++ b/meta/recipes-extended/byacc/byacc_20101229.bb
+@@ -0,0 +1,7 @@
 +PR = "r0"
- 
- MAJ_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
- 
- SRC_URI = "${GNOME_MIRROR}/pygobject/${MAJ_VER}/pygobject-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "9e2496ffa4e55911f94232e29ee9f146"
--SRC_URI[sha256sum] = "7594bd86c5b92a4ba1f26927800f1b29e1ec5c246cad67aa085c279d6425b8a2"
-+SRC_URI[md5sum] = "2b11a3050264721aac83188224b093a8"
-+SRC_URI[sha256sum] = "a1dffbe2a8e0d490594554ed8d06f0ee4a371acb6c210e7f35158e9ae77e0df4"
- S = "${WORKDIR}/pygobject-${PV}"
- 
- FILESPATH = "${FILE_DIRNAME}/python-pygobject:${FILE_DIRNAME}/files"
++LICENSE="other-BSD"
++LIC_FILES_CHKSUM = "file://package/debian/copyright;md5=4dc4c30f840a7203fb6edf20b3db849e"
++require byacc.inc
++
++SRC_URI[md5sum] = "e359702cda080c15f656a244aab132e5"
++SRC_URI[sha256sum] = "67a5e4c7888bf7921949e38d4fd6eec855ec8b5a60d83f8d6f34eddb6d42a70c"
 -- 
 1.7.3.4
 
