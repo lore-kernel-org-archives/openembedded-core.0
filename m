@@ -1,40 +1,21 @@
-Received: from familie-heinold.de
-	([85.214.48.103] helo=mail.familie-heinold.de ident=postfix)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1QPHTy-0007fT-FT
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QPHVP-0007hJ-3c for openembedded-core@lists.openembedded.org;
+	Wed, 25 May 2011 19:04:23 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QPHSU-0004kz-Kw
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 May 2011 19:02:54 +0200
-Received: from mail.familie-heinold.de (h873313.serverkompetenz.net
-	[127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 23363110022F;
-	Wed, 25 May 2011 18:50:08 +0200 (CEST)
-Received: from mail.familie-heinold.de (h873313.serverkompetenz.net
-	[127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id ADAEA1100226;
-	Wed, 25 May 2011 18:50:07 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.3 required=5.0 tests=BAYES_05 autolearn=ham
-	version=3.3.1
-Received: from rhein.familie-heinold.de (f052234063.adsl.alicedsl.de
-	[78.52.234.63]) by mail.familie-heinold.de (Postfix) with ESMTPA;
-	Wed, 25 May 2011 18:50:07 +0200 (CEST)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id 9C5A03C0DE; Wed, 25 May 2011 18:49:20 +0200 (CEST)
-Date: Wed, 25 May 2011 18:49:20 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	Wed, 25 May 2011 19:01:22 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110525164919.GB11519@mail.familie-heinold.de>
-References: <4DDBDE9D.5000709@linux.intel.com> <1306338695.27470.41.camel@rex>
-	<BANLkTim8VzrP7Zd4yDRaa75X0gXUL7wC=g@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <BANLkTim8VzrP7Zd4yDRaa75X0gXUL7wC=g@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: Updating u-boot for oe-core or meta-yocto
+Organization: Phil Blundell Consulting Ltd
+Date: Wed, 25 May 2011 18:01:21 +0100
+Message-ID: <1306342881.2525.258.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: RDEPENDS_${PN} and virtclass-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,15 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2011 17:02:54 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 25 May 2011 17:04:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+By way of displacement activity to avoid actually fixing my perl
+compilation problem, it occurred to me to investigate why perl was
+getting dragged into a micro-base-image build in the first place.  The
+culprit turns out to be imake, which does:
 
-I agree with khem, each machine should maintain it's bootloader in his bsp
-or layer.
+RDEPENDS_${PN} = "perl xproto"
 
-Bye Henning
+and is then BBCLASSEXTENDed to imake-native (which in turn is pulled in
+by way of prelink-native and transfig-native).
+
+Now, leaving aside the question of whether it is reasonable for prelink
+to be depending on transfig, it is clearly wrong for the -native version
+of imake to be depending on perl.  It seems that native.bbclass makes
+some effort to rewrite plain RDEPENDS to the -native version, but it
+doesn't apply the same tactics to RDEPENDS_${PN} or any such.  (And, in
+fact, rewriting plain RDEPENDS is probably futile since few if any
+recipes are going to be setting it.)
+
+Obviously I can fix this by just setting RDEPENDS_virtclass-native in
+the recipe, and that's what I've done in my local tree.  But I wonder if
+a better solution would be for native.bbclass to be slightly more
+adventurous about rewriting these things for itself.
+
+p.
+
+
 
 
