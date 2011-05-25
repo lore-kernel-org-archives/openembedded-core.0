@@ -1,40 +1,26 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QPHXU-0007kC-8Z
+	(envelope-from <sgw@linux.intel.com>) id 1QPHjq-0007xz-C3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 May 2011 19:06:32 +0200
-Received: by vws2 with SMTP id 2so6721427vws.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2011 10:03:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
-	:date:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=JKm/d+m6REso9YdqkBVm+WCBfsdEMdkwxgHDENiDAks=;
-	b=hjFElfcWqZqjy+H3BxO4wA0ItgBbdzPwDC+ut4FwupmYImcrFl+Ym0Z1dRel6mCmk+
-	Tm6xYGdVsnIAQOmVAeE+zw88Bhg5nGN6SUUlF4SiT3C2cnDOXI3VWMysSZw6PcCXjdtj
-	oPo7P0JnzjlvtebXZUTnwwHsWzQXYUGCiSvUs=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	b=LSLEJv/UczPp9omxIZhsQzUQZCRNd9y9scPrPwzDnzmIZyJS4kTaaw/vNJ1zxVViq2
-	7wdGqJXZs/5KZowwhwrbioLUWa58Cldpz+R83BvgU4nMMbIsZVHgj91sRQF7/3jIFfSl
-	bAwsTQg4vWGnAJvQFD4l4KKjppWlxpTaplCRI=
-Received: by 10.52.100.9 with SMTP id eu9mr83312vdb.228.1306343004062; Wed, 25
-	May 2011 10:03:24 -0700 (PDT)
+	Wed, 25 May 2011 19:19:18 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 25 May 2011 10:16:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,268,1304319600"; 
+   d="scan'208";a="1562404"
+Received: from unknown (HELO [10.255.12.133]) ([10.255.12.133])
+	by azsmga001.ch.intel.com with ESMTP; 25 May 2011 10:16:14 -0700
+Message-ID: <4DDD395D.9030107@linux.intel.com>
+Date: Wed, 25 May 2011 10:16:13 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.52.109.202 with HTTP; Wed, 25 May 2011 10:03:04 -0700 (PDT)
-In-Reply-To: <1306342881.2525.258.camel@phil-desktop>
-References: <1306342881.2525.258.camel@phil-desktop>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 25 May 2011 10:03:04 -0700
-X-Google-Sender-Auth: 99HCW0ThiWw5JlgthsqiKey-BI0
-Message-ID: <BANLkTimMXC3iLBuNXcqUR8buXxG7rVDLmQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: RDEPENDS_${PN} and virtclass-native
+References: <cover.1306152724.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1306152724.git.otavio@ossystems.com.br>
+Subject: Re: [PATCH 0/3] Pull request with misc fixes from O.S. Systems tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,46 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2011 17:06:33 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 25 May 2011 17:19:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 25, 2011 at 10:01 AM, Phil Blundell <pb@pbcl.net> wrote:
-> By way of displacement activity to avoid actually fixing my perl
-> compilation problem, it occurred to me to investigate why perl was
-> getting dragged into a micro-base-image build in the first place. =C2=A0T=
-he
-> culprit turns out to be imake, which does:
+On 05/23/2011 05:13 AM, Otavio Salvador wrote:
+> The following changes since commit 54ecf8e3992b8a01c2e5bd16720e1819b71b68bd:
 >
-> RDEPENDS_${PN} =3D "perl xproto"
+>    packagedata: don't choke on empty PACKAGES (2011-05-20 17:41:34 +0100)
 >
-> and is then BBCLASSEXTENDed to imake-native (which in turn is pulled in
-> by way of prelink-native and transfig-native).
+> are available in the git repository at:
+>    git://github.com/OSSystems/oe-core.git master
+>    https://github.com/OSSystems/oe-core/tree/master
 >
-> Now, leaving aside the question of whether it is reasonable for prelink
-> to be depending on transfig, it is clearly wrong for the -native version
-> of imake to be depending on perl. =C2=A0It seems that native.bbclass make=
-s
-> some effort to rewrite plain RDEPENDS to the -native version, but it
-> doesn't apply the same tactics to RDEPENDS_${PN} or any such. =C2=A0(And,=
- in
-> fact, rewriting plain RDEPENDS is probably futile since few if any
-> recipes are going to be setting it.)
+> Otavio Salvador (3):
+>    send-pull-request: drop sendemail checks
+>    busybox: enable mdev by default
+>    syslinux: rdepends on mtools
 >
-> Obviously I can fix this by just setting RDEPENDS_virtclass-native in
-> the recipe, and that's what I've done in my local tree. =C2=A0But I wonde=
-r if
-> a better solution would be for native.bbclass to be slightly more
-> adventurous about rewriting these things for itself.
+>   meta/recipes-core/busybox/busybox-1.18.4/defconfig |    2 +-
+>   meta/recipes-core/busybox/busybox.inc              |    1 -
+>   meta/recipes-core/busybox/busybox_1.18.4.bb        |    2 +-
+>   meta/recipes-devtools/syslinux/syslinux_4.03.bb    |    4 +++-
+>   scripts/send-pull-request                          |   16 ----------------
+>   5 files changed, 5 insertions(+), 20 deletions(-)
+>
+Pulled the changes to send-pull-request and syslinux, did not take the
+mdev by default change.
 
-Huh, I knew it messed with rdepends, but I would have assumed that it
-would alter the package specific vars for all packages in PACKAGES, at
-the least..
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Thanks
+	Sau!
+
 
 
