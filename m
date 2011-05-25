@@ -1,25 +1,25 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QP9h2-0002N2-JD
+	(envelope-from <sgw@linux.intel.com>) id 1QP9h0-0002N1-P7
 	for openembedded-core@lists.openembedded.org;
 	Wed, 25 May 2011 10:43:53 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 25 May 2011 01:40:48 -0700
+	by azsmga101.ch.intel.com with ESMTP; 25 May 2011 01:40:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,266,1304319600"; 
-   d="scan'208";a="1223540"
+   d="scan'208";a="1223535"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.133])
-	by azsmga001.ch.intel.com with ESMTP; 25 May 2011 01:40:48 -0700
+	by azsmga001.ch.intel.com with ESMTP; 25 May 2011 01:40:47 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 May 2011 01:40:25 -0700
-Message-Id: <b75cf390d75957f5b5718892942f76fc4295270f.1306312621.git.sgw@linux.intel.com>
+Date: Wed, 25 May 2011 01:40:23 -0700
+Message-Id: <85a3bfcdb65bb9f87bf0b298af68841592d4032c.1306312621.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1306312621.git.sgw@linux.intel.com>
 References: <cover.1306312621.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1306312621.git.sgw@linux.intel.com>
 References: <cover.1306312621.git.sgw@linux.intel.com>
-Subject: [Updated Consolidated Pull 03/19] send-pull-request: drop sendemail checks
+Subject: [Updated Consolidated Pull 01/19] gail: update gail to 1.20.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,53 +36,42 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 25 May 2011 08:43:53 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
+[YOCTO #1042]
 
-git send-email has the correct check on it. Basically the From is
-taken from the git 'user' and 'email' config values and in case
-'sendemail.smtpserver' is not provided it defaults to use local
-sendmail command.
+- Added LIC_FILES_CHKSUM
+- Corrected LICENSE
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-Acked-by: Darren Hart <dvhart@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- scripts/send-pull-request |   16 ----------------
- 1 files changed, 0 insertions(+), 16 deletions(-)
+ .../gnome/{gail_1.20.0.bb => gail_1.20.2.bb}       |   10 +++++++---
+ 1 files changed, 7 insertions(+), 3 deletions(-)
+ rename meta/recipes-gnome/gnome/{gail_1.20.0.bb => gail_1.20.2.bb} (72%)
 
-diff --git a/scripts/send-pull-request b/scripts/send-pull-request
-index cee9253..5dfc246 100755
---- a/scripts/send-pull-request
-+++ b/scripts/send-pull-request
-@@ -67,19 +67,6 @@ harvest_recipients()
- 	unset IFS
- }
+diff --git a/meta/recipes-gnome/gnome/gail_1.20.0.bb b/meta/recipes-gnome/gnome/gail_1.20.2.bb
+similarity index 72%
+rename from meta/recipes-gnome/gnome/gail_1.20.0.bb
+rename to meta/recipes-gnome/gnome/gail_1.20.2.bb
+index 2e9f857..2c86228 100644
+--- a/meta/recipes-gnome/gnome/gail_1.20.0.bb
++++ b/meta/recipes-gnome/gnome/gail_1.20.2.bb
+@@ -1,10 +1,14 @@
+-LICENSE = "LGPL"
+-SECTION = "x11/libs"
+-PR = "r1"
+ DESCRIPTION = "GNOME Accessibility Implementation Library"
++SECTION = "x11/libs"
++
+ DEPENDS = "gtk+"
+ PROVIDES = "virtual/gail"
  
--check_git_sendemail_config()
--{
--	GIT_SMTP=$(git config sendemail.smtpserver)
--	GIT_FROM=$(git config sendemail.from)
--	if [ -z "$GIT_SMTP" ] || [ -z "$GIT_FROM" ]; then
--		echo "ERROR: git sendemail is not configured."
--		echo "Please read GIT-SEND-EMAIL(1) and configure:"
--		echo "  sendemail.smtpserver"
--		echo "  sendemail.from"
--		exit 1
--	fi
--}
--
- # Parse and verify arguments
- while getopts "achp:t:" OPT; do
- 	case $OPT in
-@@ -113,9 +100,6 @@ while getopts "achp:t:" OPT; do
- 	esac
- done
++LICENSE = "LGPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
++
++PR = "r0"
++
+ inherit gnome
  
--# Abort early if git-send-email is not properly configured
--check_git_sendemail_config
--
- if [ -z "$PDIR" ]; then
- 	echo "ERROR: you must specify a pull-dir."
- 	usage
+ EXTRA_OECONF = "--disable-gtk-doc"
 -- 
 1.7.3.4
 
