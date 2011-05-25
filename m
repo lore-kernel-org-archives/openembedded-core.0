@@ -1,24 +1,37 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QPKaY-0003aK-Mk
-	for openembedded-core@lists.openembedded.org;
-	Wed, 25 May 2011 22:21:54 +0200
-Received: by mail-ey0-f175.google.com with SMTP id 27so50388eye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2011 13:18:54 -0700 (PDT)
-Received: by 10.14.10.129 with SMTP id 1mr1808243eev.150.1306354726910;
-	Wed, 25 May 2011 13:18:46 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id b19sm13183eec.8.2011.05.25.13.18.45
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 25 May 2011 13:18:46 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 May 2011 22:18:41 +0200
-Message-Id: <1306354721-16325-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] dbus: split X11 dependant dbus-launch into its own subpackage
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QPLin-00050a-6Z for openembedded-core@lists.openembedded.org;
+	Wed, 25 May 2011 23:34:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4PLVQux005152;
+	Wed, 25 May 2011 22:31:26 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04653-08; Wed, 25 May 2011 22:31:22 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4PLVH30005146
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 25 May 2011 22:31:19 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4DDD60E3.606@linux.intel.com>
+References: <4DDBDE9D.5000709@linux.intel.com>
+	<20110524172330.GC18086@sakrah.homelinux.org>
+	<6D7346D0-2F4B-44EC-A04B-2F443B33E544@dominion.thruhere.net>
+	<1306260430.2491.2.camel@elmorro> <1306333690.2491.82.camel@elmorro>
+	<1306334330.2525.236.camel@phil-desktop>
+	<4DDD50D3.4090202@linux.intel.com>
+	<1306350664.3120.28.camel@lenovo.internal.reciva.com>
+	<4DDD60E3.606@linux.intel.com>
+Date: Wed, 25 May 2011 22:31:16 +0100
+Message-ID: <1306359076.27470.65.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: adding meta-intel layers breaks parsing, was Re: Updating u-boot for oe-core or meta-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,56 +46,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 May 2011 20:21:54 -0000
+X-List-Received-Date: Wed, 25 May 2011 21:34:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This makes dbus usable in non-X enviroments like QT/e
+On Wed, 2011-05-25 at 13:04 -0700, Darren Hart wrote:
+> 
+> On 05/25/2011 12:11 PM, Phil Blundell wrote:
+> > On Wed, 2011-05-25 at 11:56 -0700, Darren Hart wrote:
+> >> If it is indeed space separated then I should be able to remedy both
+> >> issues by simply using the append operator and not self-referencing.
+> >> Correct?
+> > 
+> > I think that's true, yes.  But, space separation is fairly undesirable
+> > for anything involving paths (particularly absolute ones) and it is
+> > tempting to say that we should change that variable to have a different
+> > separator. 
+> > 
+> 
+> The only example I see of concatenating this variable is a prepend which
+> uses colons. RP also mentioned he was pretty sure it should be colons.
+> I'll figure it out for certain and fix the path assignments in meta-intel.
 
-From the original commit in OE .dev:
+I checked the code and it is currently setup to use spaces but all the
+users I've seen use colons.
 
-commit 8e25448fb01b6fa6ea3a86f9327f080cd753dfbc
-Author: John Lee <john_lee@openmoko.org>
-Date:   Fri Sep 5 11:37:39 2008 +0000
+There is significant precedent for *PATH* variables (FILESPATH, BBPATH,
+PATH) being colon delimited so I'm tempted to say the utils.bbclass code
+handling this should be fixed for EXTRAFILESPATH.
 
-    dbus: enable x support and put dbus-launch into new package dbus-x11
-    * Enable x support only add rdepends to dbus-launch.  Make it a
-      seperate package so other packages like dbus does not rdepend on
-      libx11.
+Also, the self referencing of that variable is correct. What is missing
+is a default value for it, again that needs fixing in the core...
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-core/dbus/dbus.inc      |    4 +++-
- meta/recipes-core/dbus/dbus_1.4.1.bb |    2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 1ef0d8f..acf43d5 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -21,7 +21,9 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+Richard
+
+
+
  
- DEBIANNAME_${PN} = "dbus-1"
- 
--PACKAGES =+ "${PN}-lib"
-+PACKAGES =+ "${PN}-lib ${PN}-x11"
-+
-+FILES_${PN}-x11 = "${bindir}/dbus-launch"
- 
- FILES_${PN} = "${bindir}/dbus-daemon* \
-                ${bindir}/dbus-uuidgen \
-diff --git a/meta/recipes-core/dbus/dbus_1.4.1.bb b/meta/recipes-core/dbus/dbus_1.4.1.bb
-index f16d9f2..d1c59dc 100644
---- a/meta/recipes-core/dbus/dbus_1.4.1.bb
-+++ b/meta/recipes-core/dbus/dbus_1.4.1.bb
-@@ -1,6 +1,6 @@
- include dbus.inc
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI[md5sum] = "99cb057700c0455fb68f8d57902f77ac"
- SRC_URI[sha256sum] = "caa1a0ded2d0f2e95c1d4ec7e3c8bd44834928c5b0ed41a7189963f3593983bd"
--- 
-1.6.6.1
+
 
 
 
