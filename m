@@ -1,39 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QPOyT-0000Rx-OJ for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 03:02:54 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4Q0xpQh007260
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 01:59:51 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06726-09 for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 01:59:47 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4Q0xj2L007254
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 01:59:45 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from p3plsmtpa07-06.prod.phx3.secureserver.net ([173.201.192.235])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <mike@mwester.net>) id 1QPR8W-0002Ld-An
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 May 2011 05:21:24 +0200
+Received: (qmail 26415 invoked from network); 26 May 2011 03:11:40 -0000
+Received: from unknown (209.242.7.132)
+	by p3plsmtpa07-06.prod.phx3.secureserver.net (173.201.192.235) with
+	ESMTP; 26 May 2011 03:11:40 -0000
+Message-ID: <4DDDC4E6.3080209@mwester.net>
+Date: Wed, 25 May 2011 22:11:34 -0500
+From: Mike Westerhof <mike@mwester.net>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US;
+	rv:1.8.1.24) Gecko/20100228 Thunderbird/2.0.0.24 Mnenhy/0.7.6.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <BANLkTinm-YXGM0z1CFJamQG7N0Em442VHw@mail.gmail.com>
+In-Reply-To: <BANLkTinm-YXGM0z1CFJamQG7N0Em442VHw@mail.gmail.com>
+Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTimYeFSAq30E3hC3HdJ9r81WyOD0bw@mail.gmail.com>
-References: <1306342881.2525.258.camel@phil-desktop>
-	<1306364520.27470.81.camel@rex> <1306368023.27470.91.camel@rex>
-	<BANLkTimYeFSAq30E3hC3HdJ9r81WyOD0bw@mail.gmail.com>
-Date: Thu, 26 May 2011 01:59:43 +0100
-Message-ID: <1306371583.27470.96.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: RDEPENDS_${PN} and virtclass-native
+Subject: Re: Where to host new layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: mike@mwester.net, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -44,89 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 01:02:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 26 May 2011 03:21:24 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-05-25 at 17:11 -0700, Chris Larson wrote:
-> On Wed, May 25, 2011 at 5:00 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Thu, 2011-05-26 at 00:02 +0100, Richard Purdie wrote:
-> >> I think we need to fix native.bbclass. I dread to think what this is
-> >> doing to the dependency tree at present. We did remove most references
-> >> to RDEPENDS directly so I think that makes this a high priority to fix.
-> >>
-> >> I'd note that the rewriting code is fraught with ordering/expansion
-> >> issues which is why that code plays games with the variables like it
-> >> does.
-> >>
-> >> DEPENDS is horrible and it looks like we needed to do something similar
-> >> for RDEPENDS. Better solutions to the ordering problems would be very
-> >> welcome. It problem was the use of DEPENDS_prepend in places iirc.
-> >
-> > I just reminded myself of the problem with DEPENDS.
-> >
-> > Imagine the recipe says:
-> >
-> > DEPENDS = "foo"
-> > inherit autotools
-> >
-> > Behind the scenes, autotools (amongst other thinsg) does a:
-> >
-> > DEPENDS_prepend = "autoconf-native"
-> >
-> > The trouble comes when you try:
-> >
-> > DEPENDS_virtclass-native = ""
-> >
-> > since you want to drop the foo dependency. The dependencies being added
-> > by autotools.bbclass are still wanted but they get overwritten. At this
-> > point I had to remember bitbake's finalize ordering. It does:
-> >
-> > finalize()
-> > <call anonymous python>
-> > finalize()
-> >
-> > The first call to finalize() expands the _prepend/_append before we see
-> > them. We then lose the ability to see what was added though the classes
-> > vs. what was in the recipe. The second finalize can then only clobber
-> > the data.
-> >
-> > If we could get our function called before the first finalize(), we
-> > would remove the need to play the games we do which is looking very very
-> > attractive.
-> >
-> > I suspect its time to extend the anonymous python to indicate more
-> > specifically when it would like to be run...
+On 5/13/2011 4:10 AM, Khem Raj wrote:
+> Hi Mike and all
 > 
-> Just need to add another event at the appropriate place. I wonder
-> where RecipeParsed fits into that ordering.
+> I have created couple of layers namely meta-slugos (distro layer) and
+> meta-nslu ( machine layer). I was  looking for place to host those
+> layers. Would they be good under meta-openembedded ? I dont think
+> http://www.nslu2-linux.org/
+> has git infrastructure otherwise that would be one place to put it.
+> 
+> Thanks
+> 
+> -Khem
 
-Of course its not that simple. I just discovered:
+Thanks Khem!
 
-OVERRIDES = "z"
-DEPENDS_prepend = "a "
-DEPENDS = "b"
-DEPENDS_z = "c"
+Tom has indicated that he'll set up the appropriate GIT infrastructure
+to properly host these.  I'm still traveling, but should be back next
+week -- so that would be a good time to see if we can move the repos
+from the github location they're currently at.  Again, thanks for doing
+this!
 
-d.update_data()
-d.getVar("DEPENDS") gives "a c"
-d.update_data()
-d.getVar("DEPENDS") gives "c"
-
-since the _prepend is lost after the update_data(), the _z override is
-not and so the second call overwrites all of DEPENDS.
-
-We've talked before how overrides should really renameVar, not just copy
-contents. Obviously there are a lot of subtleties to this though and we
-can't just switch due to backwards compatibility :/
-
-Depending on the number of update_data() calls is truly horrible
-behaviour though :(
-
-Cheers,
-
-Richard
+-Mike (mwester)
 
 
 
