@@ -1,21 +1,25 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1QPZ7M-00067f-N4
+	(envelope-from <lianhao.lu@intel.com>) id 1QPZ7O-00067f-1b
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 13:52:45 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 May 2011 04:49:40 -0700
+	Thu, 26 May 2011 13:52:46 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 26 May 2011 04:49:43 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,272,1304319600"; 
+   d="scan'208";a="5295673"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.87])
-	by orsmga002.jf.intel.com with ESMTP; 26 May 2011 04:49:39 -0700
+	by orsmga001.jf.intel.com with ESMTP; 26 May 2011 04:49:42 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2011 19:55:30 +0800
-Message-Id: <82b5b89412bfcac2d4586d183a3b6a516b5a0f35.1306401007.git.lianhao.lu@intel.com>
+Date: Thu, 26 May 2011 19:55:32 +0800
+Message-Id: <fef36d90183b83d6578cd60c71a0dd54a49c0e77.1306401007.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <82b5b89412bfcac2d4586d183a3b6a516b5a0f35.1306401007.git.lianhao.lu@intel.com>
+References: <82b5b89412bfcac2d4586d183a3b6a516b5a0f35.1306401007.git.lianhao.lu@intel.com>
 In-Reply-To: <cover.1306401007.git.lianhao.lu@intel.com>
 References: <cover.1306401007.git.lianhao.lu@intel.com>
-Subject: [PATCH 1/5] Added the PR service.
+Subject: [PATCH 3/5] classes/package(prserv).bbclass: Added PR service support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,408 +34,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 11:52:45 -0000
+X-List-Received-Date: Thu, 26 May 2011 11:52:46 -0000
 
-Added the initial implementation of the server side PR service.
+1. Added package_get_auto_pr to PACKAGEFUNCS to get the auto
+incremented value(PRAUTO) from remote PR service.
+
+2. use PKGV/PKGR for pkgdata which will be used by package_write_xxx.
+
+3. Added supporting functions in prserv.bbclass.
 
 Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- bitbake/bin/bitbake-prserv     |   53 +++++++++++
- bitbake/lib/prserv/__init__.py |   11 ++
- bitbake/lib/prserv/db.py       |  100 ++++++++++++++++++++
- bitbake/lib/prserv/serv.py     |  198 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 362 insertions(+), 0 deletions(-)
- create mode 100755 bitbake/bin/bitbake-prserv
- create mode 100644 bitbake/lib/prserv/__init__.py
- create mode 100644 bitbake/lib/prserv/db.py
- create mode 100644 bitbake/lib/prserv/serv.py
+ meta/classes/package.bbclass |   51 +++++++++++++++++++++++++++++------------
+ meta/classes/prserv.bbclass  |   29 +++++++++++++++++++++++
+ 2 files changed, 65 insertions(+), 15 deletions(-)
+ create mode 100644 meta/classes/prserv.bbclass
 
-diff --git a/bitbake/bin/bitbake-prserv b/bitbake/bin/bitbake-prserv
-new file mode 100755
-index 0000000..14073ca
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 2c6d30c..a1b9482 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -7,34 +7,37 @@
+ #
+ # There are the following default steps but PACKAGEFUNCS can be extended:
+ #
+-# a) perform_packagecopy - Copy D into PKGD
++# a) package_get_auto_pr - get PRAUTO from remote PR service
+ #
+-# b) package_do_split_locales - Split out the locale files, updates FILES and PACKAGES
++# b) perform_packagecopy - Copy D into PKGD
+ #
+-# c) split_and_strip_files - split the files into runtime and debug and strip them.
++# c) package_do_split_locales - Split out the locale files, updates FILES and PACKAGES
++#
++# d) split_and_strip_files - split the files into runtime and debug and strip them.
+ #    Debug files include debug info split, and associated sources that end up in -dbg packages
+ #
+-# d) populate_packages - Split the files in PKGD into separate packages in PKGDEST/<pkgname>
++# e) populate_packages - Split the files in PKGD into separate packages in PKGDEST/<pkgname>
+ #    Also triggers the binary stripping code to put files in -dbg packages.
+ #
+-# e) package_do_filedeps - Collect perfile run-time dependency metadata
++# f) package_do_filedeps - Collect perfile run-time dependency metadata
+ #    The data is stores in FILER{PROVIDES,DEPENDS}_file_pkg variables with
+ #    a list of affected files in FILER{PROVIDES,DEPENDS}FLIST_pkg
+ #
+-# f) package_do_shlibs - Look at the shared libraries generated and autotmatically add any 
++# g) package_do_shlibs - Look at the shared libraries generated and autotmatically add any 
+ #    depenedencies found. Also stores the package name so anyone else using this library 
+ #    knows which package to depend on.
+ #
+-# g) package_do_pkgconfig - Keep track of which packages need and provide which .pc files
++# h) package_do_pkgconfig - Keep track of which packages need and provide which .pc files
+ #
+-# h) read_shlibdeps - Reads the stored shlibs information into the metadata
++# i) read_shlibdeps - Reads the stored shlibs information into the metadata
+ #
+-# i) package_depchains - Adds automatic dependencies to -dbg and -dev packages
++# j) package_depchains - Adds automatic dependencies to -dbg and -dev packages
+ #
+-# j) emit_pkgdata - saves the packaging data into PKGDATA_DIR for use in later 
++# k) emit_pkgdata - saves the packaging data into PKGDATA_DIR for use in later 
+ #    packaging steps
+ 
+ inherit packagedata
++inherit prserv
+ 
+ PKGD    = "${WORKDIR}/package"
+ PKGDEST = "${WORKDIR}/packages-split"
+@@ -326,6 +329,15 @@ def runtime_mapping_rename (varname, d):
+ # Package functions suitable for inclusion in PACKAGEFUNCS
+ #
+ 
++python package_get_auto_pr() {
++	if d.getVar('USE_PR_SERV', True):
++		auto_pr=prserv_get_pr_auto(d)
++		if auto_pr is None:
++			bb.fatal("Can NOT get auto PR revision from remote PR service")
++			return
++		d.setVar('PRAUTO',str(auto_pr))
++}
++
+ python package_do_split_locales() {
+ 	if (bb.data.getVar('PACKAGE_NO_LOCALE', d, True) == '1'):
+ 		bb.debug(1, "package requested not splitting locales")
+@@ -773,6 +785,8 @@ python emit_pkgdata() {
+ 		write_if_exists(sf, pkg, 'PN')
+ 		write_if_exists(sf, pkg, 'PV')
+ 		write_if_exists(sf, pkg, 'PR')
++		write_if_exists(sf, pkg, 'PKGV')
++		write_if_exists(sf, pkg, 'PKGR')
+ 		write_if_exists(sf, pkg, 'DESCRIPTION')
+ 		write_if_exists(sf, pkg, 'SUMMARY')
+ 		write_if_exists(sf, pkg, 'RDEPENDS')
+@@ -911,9 +925,9 @@ python package_do_shlibs() {
+ 
+ 	workdir = bb.data.getVar('WORKDIR', d, True)
+ 
+-	ver = bb.data.getVar('PV', d, True)
++	ver = bb.data.getVar('PKGV', d, True)
+ 	if not ver:
+-		bb.error("PV not defined")
++		bb.error("PKGV not defined")
+ 		return
+ 
+ 	pkgdest = bb.data.getVar('PKGDEST', d, True)
+@@ -1025,6 +1039,12 @@ python package_do_shlibs() {
+ 		needs_ldconfig = False
+ 		bb.debug(2, "calculating shlib provides for %s" % pkg)
+ 
++		pkgver = bb.data.getVar('PKGV_' + pkg, d, True)
++		if not pkgver:
++			pkgver = bb.data.getVar('PV_' + pkg, d, True)
++		if not pkgver:
++			pkgver = ver
++
+ 		needed[pkg] = []
+ 		sonames = list()
+ 		renames = list()
+@@ -1048,10 +1068,10 @@ python package_do_shlibs() {
+ 			fd = open(shlibs_file, 'w')
+ 			for s in sonames:
+ 				fd.write(s + '\n')
+-				shlib_provider[s] = (pkg, ver)
++				shlib_provider[s] = (pkg, pkgver)
+ 			fd.close()
+ 			fd = open(shver_file, 'w')
+-			fd.write(ver + '\n')
++			fd.write(pkgver + '\n')
+ 			fd.close()
+ 		if needs_ldconfig and use_ldconfig:
+ 			bb.debug(1, 'adding ldconfig call to postinst for %s' % pkg)
+@@ -1348,7 +1368,8 @@ python package_depchains() {
+ }
+ 
+ PACKAGE_PREPROCESS_FUNCS ?= ""
+-PACKAGEFUNCS ?= "perform_packagecopy \
++PACKAGEFUNCS ?= "package_get_auto_pr \	
++                perform_packagecopy \
+                 ${PACKAGE_PREPROCESS_FUNCS} \
+ 		package_do_split_locales \
+ 		split_and_strip_files \
+diff --git a/meta/classes/prserv.bbclass b/meta/classes/prserv.bbclass
+new file mode 100644
+index 0000000..de46ff6
 --- /dev/null
-+++ b/bitbake/bin/bitbake-prserv
-@@ -0,0 +1,53 @@
-+#!/usr/bin/env python
-+import os
-+import sys,logging
-+import optparse
-+
-+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)),'lib'))
-+
-+import prserv
-+import prserv.serv
-+
-+__version__="1.0.0"
-+
-+PRHOST_DEFAULT=''
-+PRPORT_DEFAULT=8585
-+
-+def main():
-+    parser = optparse.OptionParser(
-+        version="Bitbake PR Service Core version %s, %%prog version %s" % (prserv.__version__, __version__),
-+        usage = "%prog [options]")
-+
-+    parser.add_option("-f", "--file", help="database filename(default prserv.db)", action="store",
-+                      dest="dbfile", type="string", default="prserv.db")
-+    parser.add_option("-l", "--log", help="log filename(default prserv.log)", action="store",
-+                      dest="logfile", type="string", default="prserv.log")
-+    parser.add_option("--loglevel", help="logging level, i.e. CRITICAL, ERROR, WARNING, INFO, DEBUG",
-+                      action = "store", type="string", dest="loglevel", default = "WARNING")
-+    parser.add_option("--start", help="start daemon",
-+                      action="store_true", dest="start", default="True")
-+    parser.add_option("--stop", help="stop daemon",
-+                      action="store_false", dest="start")
-+    parser.add_option("--host", help="ip address to bind", action="store",
-+                      dest="host", type="string", default=PRHOST_DEFAULT)
-+    parser.add_option("--port", help="port number(default 8585)", action="store",
-+                      dest="port", type="int", default=PRPORT_DEFAULT)
-+
-+    options, args = parser.parse_args(sys.argv)
-+
-+    prserv.init_logger(os.path.abspath(options.logfile),options.loglevel)
-+
-+    if options.start:
-+        prserv.serv.start_daemon(options)
-+    else:
-+        prserv.serv.stop_daemon()
-+
-+if __name__ == "__main__":
++++ b/meta/classes/prserv.bbclass
+@@ -0,0 +1,29 @@
++def prserv_make_conn(d):
++    import prserv.serv
++    host=d.getVar("PRSERV_HOST",True)
++    port=d.getVar("PRSERV_PORT",True)
 +    try:
-+        ret = main()
-+    except Exception:
-+        ret = 1
-+        import traceback
-+        traceback.print_exc(5)
-+    sys.exit(ret)
++        conn=None
++        conn=prserv.serv.PRServerConnection(host,int(port))
++        d.setVar("__PRSERV_CONN",conn)
++    except Exception, exc:
++        bb.fatal("Connecting to PR service %s:%s failed: %s" % (host, port, str(exc)))
 +
-diff --git a/bitbake/lib/prserv/__init__.py b/bitbake/lib/prserv/__init__.py
-new file mode 100644
-index 0000000..2837e13
---- /dev/null
-+++ b/bitbake/lib/prserv/__init__.py
-@@ -0,0 +1,11 @@
-+__version__ = "1.0.0"
++    return conn
 +
-+import os, time
-+import sys,logging
++def prserv_get_pr_auto(d):
++    if not d.getVar('USE_PR_SERV', True):
++        bb.warn("Not using network based PR service")
++        return None
 +
-+def init_logger(logfile, loglevel):
-+    numeric_level = getattr(logging, loglevel.upper(), None)
-+    if not isinstance(numeric_level, int):
-+        raise ValueError('Invalid log level: %s' % loglevel)
-+    logging.basicConfig(level=numeric_level, filename=logfile)
-+
-diff --git a/bitbake/lib/prserv/db.py b/bitbake/lib/prserv/db.py
-new file mode 100644
-index 0000000..bbee931
---- /dev/null
-+++ b/bitbake/lib/prserv/db.py
-@@ -0,0 +1,100 @@
-+import logging
-+import os.path
-+import errno
-+import sys
-+import warnings
-+import sqlite3
-+
-+try:
-+    import sqlite3
-+except ImportError:
-+    from pysqlite2 import dbapi2 as sqlite3
-+
-+sqlversion = sqlite3.sqlite_version_info
-+if sqlversion[0] < 3 or (sqlversion[0] == 3 and sqlversion[1] < 3):
-+    raise Exception("sqlite3 version 3.3.0 or later is required.")
-+
-+class NotFoundError(StandardError):
-+    pass
-+
-+class PRTable():
-+    def __init__(self,cursor,table):
-+        self.cursor = cursor
-+        self.table = table
-+
-+        #create the table
-+        self._execute("CREATE TABLE IF NOT EXISTS %s \
-+                    (version TEXT NOT NULL, \
-+                    checksum TEXT NOT NULL, \
-+                    value INTEGER, \
-+                    PRIMARY KEY (version,checksum));"
-+                      % table)
-+
-+    def _execute(self, *query):
-+        """Execute a query, waiting to acquire a lock if necessary"""
-+        count = 0
-+        while True:
-+            try:
-+                return self.cursor.execute(*query)
-+            except sqlite3.OperationalError as exc:
-+                if 'database is locked' in str(exc) and count < 500:
-+                    count = count + 1
-+                    continue
-+                raise
-+            except sqlite3.IntegrityError as exc:
-+                print "Integrity error %s" % str(exc)
-+                break
-+
-+    def getValue(self, version, checksum):
-+        data=self._execute("SELECT value FROM %s WHERE version=? AND checksum=?;" % self.table,
-+                           (version,checksum))
-+        row=data.fetchone()
-+        if row != None:
-+            return row[0]
-+        else:
-+            #no value found, try to insert
-+            self._execute("INSERT INTO %s VALUES (?, ?, (select ifnull(max(value)+1,0) from %s where version=?));" 
-+                           % (self.table,self.table),
-+                           (version,checksum,version))
-+            data=self._execute("SELECT value FROM %s WHERE version=? AND checksum=?;" % self.table,
-+                               (version,checksum))
-+            row=data.fetchone()
-+            if row != None:
-+                return row[0]
-+            else:
-+                raise NotFoundError
-+
-+class PRData(object):
-+    """Object representing the PR database"""
-+    def __init__(self, filename):
-+        self.filename=os.path.abspath(filename)
-+        #build directory hierarchy
-+        try:
-+            os.makedirs(os.path.dirname(self.filename))
-+        except OSError as e:
-+            if e.errno != errno.EEXIST:
-+                raise e
-+        self.connection=sqlite3.connect(self.filename, timeout=5,
-+                                          isolation_level=None)
-+        self.cursor=self.connection.cursor()
-+        self._tables={}
-+
-+    def __del__(self):
-+        print "PRData: closing DB %s" % self.filename
-+        self.connection.close()
-+
-+    def __getitem__(self,tblname):
-+        if not isinstance(tblname, basestring):
-+            raise TypeError("tblname argument must be a string, not '%s'" %
-+                            type(tblname))
-+        if tblname in self._tables:
-+            return self._tables[tblname]
-+        else:
-+            tableobj = self._tables[tblname] = PRTable(self.cursor, tblname)
-+            return tableobj
-+
-+    def __delitem__(self, tblname):
-+        if tblname in self._tables:
-+            del self._tables[tblname]
-+        logging.info("drop table %s" % (tblname))
-+        self.cursor.execute("DROP TABLE IF EXISTS %s;" % tblname) 
-diff --git a/bitbake/lib/prserv/serv.py b/bitbake/lib/prserv/serv.py
-new file mode 100644
-index 0000000..ecafe4f
---- /dev/null
-+++ b/bitbake/lib/prserv/serv.py
-@@ -0,0 +1,198 @@
-+import os,sys,logging
-+import signal,time, atexit
-+from SimpleXMLRPCServer import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
-+import xmlrpclib,sqlite3
-+
-+import bb.server.xmlrpc
-+import prserv
-+import prserv.db
-+
-+if sys.hexversion < 0x020600F0:
-+    print("Sorry, python 2.6 or later is required.")
-+    sys.exit(1)
-+
-+class Handler(SimpleXMLRPCRequestHandler):
-+    def _dispatch(self,method,params):
-+        try:
-+            value=self.server.funcs[method](*params)
-+        except:
-+            import traceback
-+            traceback.print_exc()
-+            raise
-+        return value
-+
-+class PRServer(SimpleXMLRPCServer):
-+    pidfile="/tmp/PRServer.pid"
-+    def __init__(self, dbfile, logfile, interface, daemon=True):
-+        ''' constructor '''
-+        SimpleXMLRPCServer.__init__(self, interface,
-+                                    requestHandler=SimpleXMLRPCRequestHandler,
-+                                    logRequests=False, allow_none=True)
-+        self.dbfile=dbfile
-+        self.daemon=daemon
-+        self.logfile=logfile
-+        self.host, self.port = self.socket.getsockname()
-+        self.db=prserv.db.PRData(dbfile)
-+        self.table=self.db["PRMAIN"]
-+
-+        self.register_function(self.getPR, "getPR")
-+        self.register_function(self.quit, "quit")
-+        self.register_function(self.ping, "ping")
-+        self.register_introspection_functions()
-+
-+    def ping(self):
-+        return not self.quit
-+ 
-+    def getPR(self, version, checksum):
-+        try:
-+            return self.table.getValue(version,checksum)
-+        except prserv.NotFoundError:
-+            logging.error("can not find value for (%s, %s)",version,checksum)
-+            return None
-+        except sqlite3.Error as exc:
-+            logging.error(str(exc))
++    conn=d.getVar("__PRSERV_CONN", True)
++    if conn is None:
++        conn=prserv_make_conn(d)
++        if conn is None:
 +            return None
 +
-+    def quit(self):
-+        self.quit=True
-+        return
-+
-+    def _serve_forever(self):
-+        self.quit = False
-+        self.timeout = 0.5
-+        while not self.quit:
-+            self.handle_request()
-+
-+        logging.info("PRServer: stopping...")
-+        self.server_close()
-+        return
-+
-+    def start(self):
-+        if self.daemon is True:
-+            logging.info("PRServer: starting daemon...")
-+            self.daemonize()
-+        else:
-+            logging.info("PRServer: starting...")
-+            self._serve_forever()
-+
-+    def delpid(self):
-+        os.remove(PRServer.pidfile)
-+
-+    def daemonize(self):
-+        """
-+        See Advanced Programming in the UNIX, Sec 13.3
-+        """
-+        os.umask(0)
-+
-+        try:
-+            pid = os.fork()
-+            if pid > 0: 
-+                sys.exit(0)
-+        except OSError,e:
-+            sys.stderr.write("1st fork failed: %d %s\n" % (e.errno, e.strerror))
-+            sys.exit(1)
-+
-+        os.setsid()
-+        """
-+        fork again to make sure the daemon is not session leader, 
-+        which prevents it from acquiring controlling terminal
-+        """
-+        try:
-+            pid = os.fork()
-+            if pid > 0: #parent
-+                sys.exit(0)
-+        except OSError,e:
-+            sys.stderr.write("2nd fork failed: %d %s\n" % (e.errno, e.strerror))
-+            sys.exit(1)
-+
-+        os.chdir("/")
-+
-+        sys.stdout.flush()
-+        sys.stderr.flush()
-+        si = file('/dev/null', 'r')
-+        so = file(self.logfile, 'a+')
-+        se = so
-+        os.dup2(si.fileno(),sys.stdin.fileno())
-+        os.dup2(so.fileno(),sys.stdout.fileno())
-+        os.dup2(se.fileno(),sys.stderr.fileno())
-+
-+        # write pidfile
-+        atexit.register(self.delpid)
-+        pid = str(os.getpid()) 
-+        pf = file(PRServer.pidfile, 'w+')
-+        pf.write("%s\n" % pid)
-+        pf.write("%s\n" % self.host)
-+        pf.write("%s\n" % self.port)
-+        pf.close()
-+
-+        self._serve_forever()
-+
-+class PRServerConnection():
-+    def __init__(self, host, port):
-+        self.connection = bb.server.xmlrpc._create_server(host, port)
-+        self.host = host
-+        self.port = port
-+
-+    def terminate(self):
-+        # Don't wait for server indefinitely
-+        import socket
-+        socket.setdefaulttimeout(2)
-+        try:
-+            self.connection.quit()
-+        except:
-+            pass
-+
-+    def getPR(self, version, checksum):
-+        return self.connection.getPR(version, checksum)
-+
-+    def ping(self):
-+        return self.connection.ping()
-+
-+def start_daemon(options):
-+    try:
-+        pf = file(PRServer.pidfile,'r')
-+        pid = int(pf.readline().strip())
-+        pf.close()
-+    except IOError:
-+        pid = None
-+
-+    if pid:
-+        sys.stderr.write("pidfile %s already exist. Daemon already running?\n"
-+                            % PRServer.pidfile)
-+        sys.exit(1)
-+
-+    server = PRServer(options.dbfile, interface=(options.host, options.port),
-+                      logfile=os.path.abspath(options.logfile))
-+    server.start()
-+
-+def stop_daemon():
-+    try:
-+        pf = file(PRServer.pidfile,'r')
-+        pid = int(pf.readline().strip())
-+        host = pf.readline().strip()
-+        port = int(pf.readline().strip())
-+        pf.close()
-+    except IOError:
-+        pid = None
-+
-+    if not pid:
-+        sys.stderr.write("pidfile %s does not exist. Daemon not running?\n"
-+                        % PRServer.pidfile)
-+        sys.exit(1)
-+
-+    PRServerConnection(host,port).terminate()
-+    time.sleep(0.5)
-+
-+    try:
-+        while 1:
-+            os.kill(pid,signal.SIGTERM)
-+            time.sleep(0.1)
-+    except OSError, err:
-+        err = str(err)
-+        if err.find("No such process") > 0:
-+            if os.path.exists(PRServer.pidfile):
-+                os.remove(PRServer.pidfile)
-+        else:
-+            print err
-+            sys.exit(1)
-+
++    version=d.getVar("PF", True)
++    checksum=d.getVar("BB_TASKHASH", True)
++    auto_rev=conn.getPR(version,checksum)
++    bb.debug(1,"prserv_get_pr_auto: version: %s checksum: %s result %d" % (version, checksum, auto_rev))
++    return auto_rev
 -- 
 1.7.0.4
 
