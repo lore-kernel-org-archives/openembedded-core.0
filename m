@@ -1,29 +1,32 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QPUHD-0000pX-H7
+	(envelope-from <jkridner@beagleboard.org>) id 1QPVIw-0001r1-6N
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 08:42:35 +0200
-Received: by wwb17 with SMTP id 17so301182wwb.24
+	Thu, 26 May 2011 09:48:26 +0200
+Received: by yxn22 with SMTP id 22so190374yxn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 May 2011 23:39:32 -0700 (PDT)
-Received: by 10.227.100.219 with SMTP id z27mr443661wbn.45.1306391966120;
-	Wed, 25 May 2011 23:39:26 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fw15sm242062wbb.10.2011.05.25.23.39.24
+	Thu, 26 May 2011 00:45:19 -0700 (PDT)
+Received: by 10.236.9.4 with SMTP id 4mr641452yhs.442.1306395919024;
+	Thu, 26 May 2011 00:45:19 -0700 (PDT)
+Received: from [10.0.0.8] (ppp-69-148-48-26.dsl.hstntx.swbell.net
+	[69.148.48.26])
+	by mx.google.com with ESMTPS id y21sm739309yhl.8.2011.05.26.00.45.16
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 25 May 2011 23:39:25 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1306359819.27470.68.camel@rex>
-Date: Thu, 26 May 2011 08:39:23 +0200
-Message-Id: <2B594DEA-7E22-4A54-A23D-338CE61B9EED@dominion.thruhere.net>
-References: <1306354721-16325-1-git-send-email-koen@dominion.thruhere.net>
-	<1306359819.27470.68.camel@rex>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1084)
-Cc: Patches and discussions about the oe-core layer
+	Thu, 26 May 2011 00:45:17 -0700 (PDT)
+References: <cover.1306385875.git.dvhart@linux.intel.com>
+	<c83bebea4e1c4dd15422ad2cb75eab977cea4a59.1306385875.git.dvhart@linux.intel.com>
+In-Reply-To: <c83bebea4e1c4dd15422ad2cb75eab977cea4a59.1306385875.git.dvhart@linux.intel.com>
+Mime-Version: 1.0 (iPad Mail 8C148)
+Message-Id: <732E0947-423B-4DD0-BA56-4C11313BD5DA@beagleboard.org>
+X-Mailer: iPad Mail (8C148)
+From: Jason Kridner <jkridner@beagleboard.org>
+Date: Thu, 26 May 2011 02:47:35 -0500
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dbus: split X11 dependant dbus-launch into its own subpackage
+Subject: Re: [pull-oe-uboot 1/2] u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,72 +41,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 06:42:35 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 26 May 2011 07:48:26 -0000
+Content-Type: text/plain;
+	charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+I think this is a good change. One comment below...
 
-Op 25 mei 2011, om 23:43 heeft Richard Purdie het volgende geschreven:
+On May 26, 2011, at 12:02 AM, Darren Hart <dvhart@linux.intel.com> wrote:
 
-> On Wed, 2011-05-25 at 22:18 +0200, Koen Kooi wrote:
->> This makes dbus usable in non-X enviroments like QT/e
->>=20
->> =46rom the original commit in OE .dev:
->>=20
->> commit 8e25448fb01b6fa6ea3a86f9327f080cd753dfbc
->> Author: John Lee <john_lee@openmoko.org>
->> Date:   Fri Sep 5 11:37:39 2008 +0000
->>=20
->>    dbus: enable x support and put dbus-launch into new package =
-dbus-x11
->>    * Enable x support only add rdepends to dbus-launch.  Make it a
->>      seperate package so other packages like dbus does not rdepend on
->>      libx11.
+> oe-core does not define any machines, so it does not make sense to
+> add machine specific information in the oe-core u-boot recipe and
+> infrastructure. Also note that COMPATIBLE_MACHINES is not easily extended d=
+ue to
+> its regex syntax: "(machine_a|machine_b)", making it difficult to extend t=
+he
+> u-boot recipe in bbappend files without resorting to machine specific over=
+rides.
 >=20
-> Which pieces of the system use dbus-launch and do we need to add
-> dependencies to them after this change to pull in the dbus-x11 =
-package?
+> Remove COMPATIBLE_MACHINES and the default UBOOT_MACHINE from the recipe a=
+nd
+> insert some anonymous python into u-boot.inc to raise SkipPackage if
+> UBOOT_MACHINE is not set (this ensures 'world' still works for machines th=
+at
+> can't build u-boot).
+>=20
+> UBOOT_MACHINE must now be specified in each machine config that requires u=
+-boot.
+> This is an improvement over requiring machine specific overrides in every B=
+SP
+> layer's u-boot_git.bbappend file. For example, a beagleboard machine confi=
+g
+> currently contains:
+>=20
+> UBOOT_ENTRYPOINT =3D "0x80008000"
+> UBOOT_LOADADDRESS =3D "0x80008000"
+>=20
+> With this change, it must now contain:
+>=20
+> UBOOT_MACHINE =3D "omap3_beagle_config"
+> UBOOT_ENTRYPOINT =3D "0x80008000"
+> UBOOT_LOADADDRESS =3D "0x80008000"
+>=20
+> So long as the SRC_URI in the base recipe can build a working u-boot for a=
+ given
+> machine, there is no need to create a u-boot_git.bbappend file. If additio=
+nal
+> patches are deemed necessary, a BSP layer creates a u-boot_git.bbappend fi=
+le and
+> extends the SRC_URI to include general or machine specific backports.
+>=20
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Koen Kooi <koen@dominion.thruhere.net>
+> Cc: Jason Kridner <jkridner@beagleboard.org>
+> ---
+> meta/recipes-bsp/uboot/u-boot.inc    |    8 +++++++-
+> meta/recipes-bsp/uboot/u-boot_git.bb |   11 ++++++-----
+> 2 files changed, 13 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/meta/recipes-bsp/uboot/u-boot.inc b/meta/recipes-bsp/uboot/u-=
+boot.inc
+> index 058e3ba..a54cf24 100644
+> --- a/meta/recipes-bsp/uboot/u-boot.inc
+> +++ b/meta/recipes-bsp/uboot/u-boot.inc
+> @@ -11,7 +11,13 @@ PARALLEL_MAKE=3D""
+> # GCC 4.5.1 builds unusable binaries using -Os, remove it from OPTFLAGS
+> EXTRA_OEMAKE =3D "CROSS_COMPILE=3D${TARGET_PREFIX} OPTFLAGS=3D'-O2'"
+>=20
+> -UBOOT_MACHINE ?=3D "${MACHINE}_config"
+> +python () {
+> +    if not bb.data.getVar('UBOOT_MACHINE', d, 1):
+> +        bb.debug("To build %s, see u-boot_git.bb for instructions on \
 
-=46rom OE .dev:
+If this file was renamed, don't you also want to update this printout?
 
-koen@dominion:/OE/angstrom-v2011/sources/openembedded$ git grep dbus-x11
-recipes/angstrom/angstrom-x11-base-depends.bb:    dbus-x11 \
-recipes/gnome/gconf_2.28.0.bb:RDEPENDS_${PN} +=3D "dbus-x11"
-recipes/gnome/gdm_2.30.0.bb:RDEPENDS_${PN} +=3D "grep dbus-x11 shadow =
-libpam-base-files"
-recipes/shr/shr-settings_git.bb:RDEPENDS_${PN} =3D "python-elementary =
-python-dbus python-codecs python-shell python-pyrtc python python-core =
-python-edbus dbus-x11 frameworkd python-phoneuti
-recipes/tasks/angstrom-task-gnome.bb:  dbus-x11 \
-recipes/tasks/angstrom-task-lxde.bb:  dbus-x11 \
-recipes/tasks/task-bug.bb:                  dbus-x11 \
-recipes/tasks/task-shr-feed.bb:         dbus-x11 \
-recipes/vagalume/vagalume_0.7.1.bb:RRECOMMENDS_${PN} =3D "dbus-x11"
-recipes/vagalume/vagalume_0.8.3.bb:RRECOMMENDS_${PN} =3D "dbus-x11 =
-hicolor-icon-theme"
-recipes/xfce-base/xfce4-session_4.6.1.bb:RDEPENDS_${PN} =3D "iceauth =
-xfce-utils xinit dbus-x11"
-recipes/xfce-base/xfce4-session_4.6.2.bb:RDEPENDS_${PN} =3D "iceauth =
-xfce-utils xinit dbus-x11"
-
-The gconf in meta-oe has the dbus-x11 dep.
-
-In OE-core:
-
-koen@dominion:/OE/tentacle/sources/openembedded-core$ git grep =
-dbus-launch
-meta/recipes-bsp/qemu-config/qemu-config/anjuta-remote-run:dbus-launch =
-$@
-meta/recipes-graphics/x11-common/x11-common/etc/X11/Xsession:if [ -x =
-/usr/bin/dbus-launch ]; then
-meta/recipes-graphics/x11-common/x11-common/etc/X11/Xsession:    eval =
-`dbus-launch --sh-syntax --exit-with-session </dev/null`
-
-So those would need changing. I'll send followup patches for qemu-config =
-and x11-common.
-
-regards,
-
-Koen=
+> +              setting up your machine config" % pn)
+> +        raise bb.parse.SkipPackage("because UBOOT_MACHINE is not set")
+> +}
+> +
+> UBOOT_IMAGE ?=3D "u-boot-${MACHINE}-${PV}-${PR}.bin"
+> UBOOT_SYMLINK ?=3D "u-boot-${MACHINE}.bin"
+> UBOOT_MAKE_TARGET ?=3D "all"
+> diff --git a/meta/recipes-bsp/uboot/u-boot_git.bb b/meta/recipes-bsp/uboot=
+/u-boot_git.bb
+> index 4c8f5df..0fbb9ba 100644
+> --- a/meta/recipes-bsp/uboot/u-boot_git.bb
+> +++ b/meta/recipes-bsp/uboot/u-boot_git.bb
+> @@ -1,5 +1,11 @@
+> require u-boot.inc
+>=20
+> +# To build u-boot for your machine, provide the following lines in your m=
+achine
+> +# config, replacing the assignments as appropriate for your machine.
+> +# UBOOT_MACHINE =3D "omap3_beagle_config"
+> +# UBOOT_ENTRYPOINT =3D "0x80008000"
+> +# UBOOT_LOADADDRESS =3D "0x80008000"
+> +
+> LICENSE =3D "GPLv2+"
+> LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a5651ec=
+b \
+>                     file://README;beginline=3D1;endline=3D22;md5=3D3a00ef5=
+1d3fc96e9d6c1bc4708ccd3b5"
+> @@ -12,11 +18,6 @@ PR=3D"r3"
+>=20
+> SRC_URI =3D "git://git.denx.de/u-boot.git;branch=3Dmaster;protocol=3Dgit"
+>=20
+> -UBOOT_MACHINE_beagleboard =3D "omap3_beagle_config"
+> -UBOOT_MACHINE_overo =3D "omap3_overo_config"
+> -
+> S =3D "${WORKDIR}/git"
+>=20
+> PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+> -
+> -COMPATIBLE_MACHINE =3D "(beagleboard|overo)"
+> --=20
+> 1.7.1
+>=20
 
 
