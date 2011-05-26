@@ -1,26 +1,24 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QPWTx-0003Sg-Qo
+	(envelope-from <koen@dominion.thruhere.net>) id 1QPWc8-0003bH-NP
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 11:03:53 +0200
-Received: by wwb17 with SMTP id 17so401965wwb.24
+	Thu, 26 May 2011 11:12:20 +0200
+Received: by wwb17 with SMTP id 17so408644wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 02:00:47 -0700 (PDT)
-Received: by 10.217.2.202 with SMTP id p52mr562369wes.28.1306400447407;
-	Thu, 26 May 2011 02:00:47 -0700 (PDT)
+	Thu, 26 May 2011 02:09:16 -0700 (PDT)
+Received: by 10.216.141.1 with SMTP id f1mr579036wej.35.1306400956781;
+	Thu, 26 May 2011 02:09:16 -0700 (PDT)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id a1sm237480wek.46.2011.05.26.02.00.46
+	by mx.google.com with ESMTPS id g2sm241315weg.38.2011.05.26.02.09.15
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 May 2011 02:00:46 -0700 (PDT)
+	Thu, 26 May 2011 02:09:15 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2011 11:00:39 +0200
-Message-Id: <1306400440-10173-2-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 26 May 2011 11:09:13 +0200
+Message-Id: <1306400953-10868-1-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
-In-Reply-To: <1306400440-10173-1-git-send-email-koen@dominion.thruhere.net>
-References: <1306400440-10173-1-git-send-email-koen@dominion.thruhere.net>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 2/3] qemu-config: add runtime dep on dbus-x11
+Subject: [PATCH] dbus 1.4.1: enable systemd support, but package systemd files seperately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 09:03:53 -0000
+X-List-Received-Date: Thu, 26 May 2011 09:12:20 -0000
 
-dbus-launch moved into the dbus-x11 packages, so we need to drag it in.
-
-Also reorder fields to better fit with the styleguide
+Systemd support in dbus only affects 'make install', so no changes for sysvinit based systems
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-bsp/qemu-config/qemu-config.bb |   11 ++++++-----
- 1 files changed, 6 insertions(+), 5 deletions(-)
+ meta/recipes-core/dbus/dbus.inc      |    5 ++++-
+ meta/recipes-core/dbus/dbus_1.4.1.bb |    2 +-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/qemu-config/qemu-config.bb b/meta/recipes-bsp/qemu-config/qemu-config.bb
-index e74f2da..f91875e 100644
---- a/meta/recipes-bsp/qemu-config/qemu-config.bb
-+++ b/meta/recipes-bsp/qemu-config/qemu-config.bb
-@@ -3,8 +3,9 @@ DESCRIPTION = "Adds scripts to use distcc on the host system under qemu"
- LICENSE = "GPL"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index acf43d5..8275a1b 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -21,10 +21,12 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
  
--RDEPENDS_${PN} = "distcc task-core-nfs-server oprofileui-server rsync bash"
--PR = "r19"
-+COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemumips|qemuppc)"
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib ${PN}-x11"
++PACKAGES =+ "${PN}-lib ${PN}-x11 ${PN}-systemd"
+ 
+ FILES_${PN}-x11 = "${bindir}/dbus-launch"
+ 
++FILES_${PN}-systemd = "${base_libdir}/systemd/system/"
 +
-+PR = "r20"
+ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-uuidgen \
+                ${bindir}/dbus-launch \
+@@ -73,6 +75,7 @@ EXTRA_OECONF = "--disable-tests \
+                 --disable-doxygen-docs \
+                 --disable-libaudit \
+                 --with-xml=expat \
++                --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
+                 ${EXTRA_OECONF_X}"
  
- SRC_URI = "file://distcc.sh \
-            file://anjuta-remote-run \
-@@ -15,9 +16,6 @@ SRC_URI = "file://distcc.sh \
- 
- S = "${WORKDIR}"
- 
--COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemumips|qemuppc)"
--PACKAGE_ARCH = "all"
--
  do_install() {
-     install -d ${D}${sysconfdir}/profile.d
+diff --git a/meta/recipes-core/dbus/dbus_1.4.1.bb b/meta/recipes-core/dbus/dbus_1.4.1.bb
+index d1c59dc..00720fd 100644
+--- a/meta/recipes-core/dbus/dbus_1.4.1.bb
++++ b/meta/recipes-core/dbus/dbus_1.4.1.bb
+@@ -1,6 +1,6 @@
+ include dbus.inc
  
-@@ -34,6 +32,9 @@ do_install() {
-     install qemu-autostart ${D}/etc/init.d/
- }
+-PR = "r2"
++PR = "r3"
  
-+RDEPENDS_${PN} = "distcc dbus-x11 task-core-nfs-server oprofileui-server rsync bash"
-+PACKAGE_ARCH = "all"
-+
- inherit update-rc.d
- 
- INITSCRIPT_NAME = "qemu-autostart"
+ SRC_URI[md5sum] = "99cb057700c0455fb68f8d57902f77ac"
+ SRC_URI[sha256sum] = "caa1a0ded2d0f2e95c1d4ec7e3c8bd44834928c5b0ed41a7189963f3593983bd"
 -- 
 1.6.6.1
 
