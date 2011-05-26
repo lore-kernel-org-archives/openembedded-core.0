@@ -1,24 +1,27 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QPWTr-0003S5-RJ
+	(envelope-from <koen@dominion.thruhere.net>) id 1QPWTx-0003SM-15
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 11:03:47 +0200
-Received: by wye20 with SMTP id 20so371913wye.6
+	Thu, 26 May 2011 11:03:53 +0200
+Received: by wwb17 with SMTP id 17so401996wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 02:00:44 -0700 (PDT)
-Received: by 10.216.0.206 with SMTP id 56mr2077225web.112.1306400444349;
-	Thu, 26 May 2011 02:00:44 -0700 (PDT)
+	Thu, 26 May 2011 02:00:49 -0700 (PDT)
+Received: by 10.227.32.73 with SMTP id b9mr543851wbd.86.1306400449433;
+	Thu, 26 May 2011 02:00:49 -0700 (PDT)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id o75sm237374weq.40.2011.05.26.02.00.42
+	by mx.google.com with ESMTPS id et5sm317380wbb.67.2011.05.26.02.00.48
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 May 2011 02:00:43 -0700 (PDT)
+	Thu, 26 May 2011 02:00:48 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2011 11:00:38 +0200
-Message-Id: <1306400440-10173-1-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 26 May 2011 11:00:40 +0200
+Message-Id: <1306400440-10173-3-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
+In-Reply-To: <1306400440-10173-2-git-send-email-koen@dominion.thruhere.net>
+References: <1306400440-10173-1-git-send-email-koen@dominion.thruhere.net>
+	<1306400440-10173-2-git-send-email-koen@dominion.thruhere.net>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 1/3] dbus: split X11 dependant dbus-launch into its own subpackage
+Subject: [PATCH 3/3] x11-common 0.1: add runtime dep on dbus-x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,54 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 09:03:48 -0000
+X-List-Received-Date: Thu, 26 May 2011 09:03:53 -0000
 
-This makes dbus usable in non-X enviroments like QT/e
+dbus-launch moved into the dbus-x11 packages, so we need to drag it in.
 
-From the original commit in OE .dev:
-
-commit 8e25448fb01b6fa6ea3a86f9327f080cd753dfbc
-Author: John Lee <john_lee@openmoko.org>
-Date:   Fri Sep 5 11:37:39 2008 +0000
-
-    dbus: enable x support and put dbus-launch into new package dbus-x11
-    * Enable x support only add rdepends to dbus-launch.  Make it a
-      seperate package so other packages like dbus does not rdepend on
-      libx11.
+Also reorder fields to better fit with the styleguide
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-core/dbus/dbus.inc      |    4 +++-
- meta/recipes-core/dbus/dbus_1.4.1.bb |    2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/x11-common/x11-common_0.1.bb |    9 +++++----
+ 1 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 1ef0d8f..acf43d5 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -21,7 +21,9 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+diff --git a/meta/recipes-graphics/x11-common/x11-common_0.1.bb b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
+index 2d49951..10757ac 100644
+--- a/meta/recipes-graphics/x11-common/x11-common_0.1.bb
++++ b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
+@@ -2,19 +2,20 @@ DESCRIPTION = "Common X11 scripts and configuration files"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ SECTION = "x11"
+-RDEPENDS_${PN} = "xmodmap xdpyinfo xtscal xinit formfactor"
+-PR = "r40"
++PR = "r41"
  
- DEBIANNAME_${PN} = "dbus-1"
+ SRC_URI = "file://etc \
+            file://gplv2-license.patch"
  
--PACKAGES =+ "${PN}-lib"
-+PACKAGES =+ "${PN}-lib ${PN}-x11"
+ S = ${WORKDIR}
+ 
+-PACKAGE_ARCH = "all"
+-
+ do_install() {
+ 	cp -R ${S}/etc ${D}/etc
+ 	chmod -R 755 ${D}/etc
+ 	find ${D}/etc -type d -name .svn -prune -exec rm -rf {} \;
+ 	find ${D}/etc -type f -name \*~ -exec rm -rf {} \;
+ }
 +
-+FILES_${PN}-x11 = "${bindir}/dbus-launch"
- 
- FILES_${PN} = "${bindir}/dbus-daemon* \
-                ${bindir}/dbus-uuidgen \
-diff --git a/meta/recipes-core/dbus/dbus_1.4.1.bb b/meta/recipes-core/dbus/dbus_1.4.1.bb
-index f16d9f2..d1c59dc 100644
---- a/meta/recipes-core/dbus/dbus_1.4.1.bb
-+++ b/meta/recipes-core/dbus/dbus_1.4.1.bb
-@@ -1,6 +1,6 @@
- include dbus.inc
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI[md5sum] = "99cb057700c0455fb68f8d57902f77ac"
- SRC_URI[sha256sum] = "caa1a0ded2d0f2e95c1d4ec7e3c8bd44834928c5b0ed41a7189963f3593983bd"
++RDEPENDS_${PN} = "dbus-launch xmodmap xdpyinfo xtscal xinit formfactor"
++PACKAGE_ARCH = "all"
++
 -- 
 1.6.6.1
 
