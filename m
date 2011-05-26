@@ -1,25 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1QPZ7O-00067f-1b
+	(envelope-from <lianhao.lu@intel.com>) id 1QPZ7N-00067K-UT
 	for openembedded-core@lists.openembedded.org;
 	Thu, 26 May 2011 13:52:46 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 May 2011 04:49:43 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 26 May 2011 04:49:44 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,272,1304319600"; 
-   d="scan'208";a="5295673"
+   d="scan'208";a="8069023"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.87])
-	by orsmga001.jf.intel.com with ESMTP; 26 May 2011 04:49:42 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 26 May 2011 04:49:43 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2011 19:55:32 +0800
-Message-Id: <fef36d90183b83d6578cd60c71a0dd54a49c0e77.1306401007.git.lianhao.lu@intel.com>
+Date: Thu, 26 May 2011 19:55:33 +0800
+Message-Id: <dc7d54e6ac952eb76bdcecad52f741cfb0bf6205.1306401007.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <82b5b89412bfcac2d4586d183a3b6a516b5a0f35.1306401007.git.lianhao.lu@intel.com>
 References: <82b5b89412bfcac2d4586d183a3b6a516b5a0f35.1306401007.git.lianhao.lu@intel.com>
 In-Reply-To: <cover.1306401007.git.lianhao.lu@intel.com>
 References: <cover.1306401007.git.lianhao.lu@intel.com>
-Subject: [PATCH 3/5] classes/package(prserv).bbclass: Added PR service support.
+Subject: [PATCH 4/5] classes/package_xxx.class: Added PR service support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,180 +36,123 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 26 May 2011 11:52:46 -0000
 
-1. Added package_get_auto_pr to PACKAGEFUNCS to get the auto
-incremented value(PRAUTO) from remote PR service.
-
-2. use PKGV/PKGR for pkgdata which will be used by package_write_xxx.
-
-3. Added supporting functions in prserv.bbclass.
+Use PKGV/PKGR to build various package feed in tasks of pacakge_write_xxx.
 
 Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- meta/classes/package.bbclass |   51 +++++++++++++++++++++++++++++------------
- meta/classes/prserv.bbclass  |   29 +++++++++++++++++++++++
- 2 files changed, 65 insertions(+), 15 deletions(-)
- create mode 100644 meta/classes/prserv.bbclass
+ meta/classes/package_deb.bbclass |    6 +++---
+ meta/classes/package_ipk.bbclass |    6 +++---
+ meta/classes/package_rpm.bbclass |   10 +++++-----
+ meta/classes/package_tar.bbclass |    4 ++--
+ 4 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 2c6d30c..a1b9482 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -7,34 +7,37 @@
- #
- # There are the following default steps but PACKAGEFUNCS can be extended:
- #
--# a) perform_packagecopy - Copy D into PKGD
-+# a) package_get_auto_pr - get PRAUTO from remote PR service
- #
--# b) package_do_split_locales - Split out the locale files, updates FILES and PACKAGES
-+# b) perform_packagecopy - Copy D into PKGD
- #
--# c) split_and_strip_files - split the files into runtime and debug and strip them.
-+# c) package_do_split_locales - Split out the locale files, updates FILES and PACKAGES
-+#
-+# d) split_and_strip_files - split the files into runtime and debug and strip them.
- #    Debug files include debug info split, and associated sources that end up in -dbg packages
- #
--# d) populate_packages - Split the files in PKGD into separate packages in PKGDEST/<pkgname>
-+# e) populate_packages - Split the files in PKGD into separate packages in PKGDEST/<pkgname>
- #    Also triggers the binary stripping code to put files in -dbg packages.
- #
--# e) package_do_filedeps - Collect perfile run-time dependency metadata
-+# f) package_do_filedeps - Collect perfile run-time dependency metadata
- #    The data is stores in FILER{PROVIDES,DEPENDS}_file_pkg variables with
- #    a list of affected files in FILER{PROVIDES,DEPENDS}FLIST_pkg
- #
--# f) package_do_shlibs - Look at the shared libraries generated and autotmatically add any 
-+# g) package_do_shlibs - Look at the shared libraries generated and autotmatically add any 
- #    depenedencies found. Also stores the package name so anyone else using this library 
- #    knows which package to depend on.
- #
--# g) package_do_pkgconfig - Keep track of which packages need and provide which .pc files
-+# h) package_do_pkgconfig - Keep track of which packages need and provide which .pc files
- #
--# h) read_shlibdeps - Reads the stored shlibs information into the metadata
-+# i) read_shlibdeps - Reads the stored shlibs information into the metadata
- #
--# i) package_depchains - Adds automatic dependencies to -dbg and -dev packages
-+# j) package_depchains - Adds automatic dependencies to -dbg and -dev packages
- #
--# j) emit_pkgdata - saves the packaging data into PKGDATA_DIR for use in later 
-+# k) emit_pkgdata - saves the packaging data into PKGDATA_DIR for use in later 
- #    packaging steps
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 000d9ee..44e8419 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -272,7 +272,7 @@ python do_package_deb () {
+         except ValueError:
+             pass
+         if not g and bb.data.getVar('ALLOW_EMPTY', localdata) != "1":
+-            bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, True), bb.data.getVar('PR', localdata, True)))
++            bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PKGV', localdata, True), bb.data.getVar('PKGR', localdata, True)))
+             bb.utils.unlockfile(lf)
+             continue
  
- inherit packagedata
-+inherit prserv
+@@ -290,9 +290,9 @@ python do_package_deb () {
+         fields = []
+         pe = bb.data.getVar('PE', d, True)
+         if pe and int(pe) > 0:
+-            fields.append(["Version: %s:%s-%s\n", ['PE', 'PV', 'PR']])
++            fields.append(["Version: %s:%s-%s\n", ['PE', 'PKGV', 'PKGR']])
+         else:
+-            fields.append(["Version: %s-%s\n", ['PV', 'PR']])
++            fields.append(["Version: %s-%s\n", ['PKGV', 'PKGR']])
+         fields.append(["Description: %s\n", ['DESCRIPTION']])
+         fields.append(["Section: %s\n", ['SECTION']])
+         fields.append(["Priority: %s\n", ['PRIORITY']])
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index a3dfc73..177be55 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -241,7 +241,7 @@ python do_package_ipk () {
+ 		except ValueError:
+ 			pass
+ 		if not g and bb.data.getVar('ALLOW_EMPTY', localdata) != "1":
+-			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, 1), bb.data.getVar('PR', localdata, 1)))
++			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PKGV', localdata, 1), bb.data.getVar('PKGR', localdata, 1)))
+ 			bb.utils.unlockfile(lf)
+ 			continue
  
- PKGD    = "${WORKDIR}/package"
- PKGDEST = "${WORKDIR}/packages-split"
-@@ -326,6 +329,15 @@ def runtime_mapping_rename (varname, d):
- # Package functions suitable for inclusion in PACKAGEFUNCS
- #
+@@ -256,9 +256,9 @@ python do_package_ipk () {
+ 		fields = []
+ 		pe = bb.data.getVar('PE', d, 1)
+ 		if pe and int(pe) > 0:
+-			fields.append(["Version: %s:%s-%s\n", ['PE', 'PV', 'PR']])
++			fields.append(["Version: %s:%s-%s\n", ['PE', 'PKGV', 'PKGR']])
+ 		else:
+-			fields.append(["Version: %s-%s\n", ['PV', 'PR']])
++			fields.append(["Version: %s-%s\n", ['PKGV', 'PKGR']])
+ 		fields.append(["Description: %s\n", ['DESCRIPTION']])
+ 		fields.append(["Section: %s\n", ['SECTION']])
+ 		fields.append(["Priority: %s\n", ['PRIORITY']])
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 1d8c686..6bfa877 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -330,7 +330,7 @@ python write_specfile () {
+ 				if dep and ver:
+ 					if '-' in ver:
+ 						subd = oe.packagedata.read_subpkgdata_dict(dep, d)
+-						pv = subd['PV']
++						pv = subd['PKGV']
+ 						reppv = pv.replace('-', '+')
+ 						ver = ver.replace(pv, reppv)
+ 				newdeps_dict[dep] = ver
+@@ -383,8 +383,8 @@ python write_specfile () {
+ 	# Construct the SPEC file...
+ 	srcname    = bb.data.getVar('PN', d, True)
+ 	srcsummary = (bb.data.getVar('SUMMARY', d, True) or bb.data.getVar('DESCRIPTION', d, True) or ".")
+-	srcversion = bb.data.getVar('PV', d, True).replace('-', '+')
+-	srcrelease = bb.data.getVar('PR', d, True)
++	srcversion = bb.data.getVar('PKGV', d, True).replace('-', '+')
++	srcrelease = bb.data.getVar('PKGR', d, True)
+ 	srcepoch   = (bb.data.getVar('PE', d, True) or "")
+ 	srclicense = bb.data.getVar('LICENSE', d, True)
+ 	srcsection = bb.data.getVar('SECTION', d, True)
+@@ -438,8 +438,8 @@ python write_specfile () {
+ 		splitname    = pkgname
  
-+python package_get_auto_pr() {
-+	if d.getVar('USE_PR_SERV', True):
-+		auto_pr=prserv_get_pr_auto(d)
-+		if auto_pr is None:
-+			bb.fatal("Can NOT get auto PR revision from remote PR service")
-+			return
-+		d.setVar('PRAUTO',str(auto_pr))
-+}
-+
- python package_do_split_locales() {
- 	if (bb.data.getVar('PACKAGE_NO_LOCALE', d, True) == '1'):
- 		bb.debug(1, "package requested not splitting locales")
-@@ -773,6 +785,8 @@ python emit_pkgdata() {
- 		write_if_exists(sf, pkg, 'PN')
- 		write_if_exists(sf, pkg, 'PV')
- 		write_if_exists(sf, pkg, 'PR')
-+		write_if_exists(sf, pkg, 'PKGV')
-+		write_if_exists(sf, pkg, 'PKGR')
- 		write_if_exists(sf, pkg, 'DESCRIPTION')
- 		write_if_exists(sf, pkg, 'SUMMARY')
- 		write_if_exists(sf, pkg, 'RDEPENDS')
-@@ -911,9 +925,9 @@ python package_do_shlibs() {
+ 		splitsummary = (bb.data.getVar('SUMMARY', localdata, True) or bb.data.getVar('DESCRIPTION', localdata, True) or ".")
+-		splitversion = (bb.data.getVar('PV', localdata, True) or "").replace('-', '+')
+-		splitrelease = (bb.data.getVar('PR', localdata, True) or "")
++		splitversion = (bb.data.getVar('PKGV', localdata, True) or "").replace('-', '+')
++		splitrelease = (bb.data.getVar('PKGR', localdata, True) or "")
+ 		splitepoch   = (bb.data.getVar('PE', localdata, True) or "")
+ 		splitlicense = (bb.data.getVar('LICENSE', localdata, True) or "")
+ 		splitsection = (bb.data.getVar('SECTION', localdata, True) or "")
+diff --git a/meta/classes/package_tar.bbclass b/meta/classes/package_tar.bbclass
+index e546eb7..a806e45 100644
+--- a/meta/classes/package_tar.bbclass
++++ b/meta/classes/package_tar.bbclass
+@@ -3,7 +3,7 @@ inherit package
+ IMAGE_PKGTYPE ?= "tar"
  
- 	workdir = bb.data.getVar('WORKDIR', d, True)
- 
--	ver = bb.data.getVar('PV', d, True)
-+	ver = bb.data.getVar('PKGV', d, True)
- 	if not ver:
--		bb.error("PV not defined")
-+		bb.error("PKGV not defined")
- 		return
- 
- 	pkgdest = bb.data.getVar('PKGDEST', d, True)
-@@ -1025,6 +1039,12 @@ python package_do_shlibs() {
- 		needs_ldconfig = False
- 		bb.debug(2, "calculating shlib provides for %s" % pkg)
- 
-+		pkgver = bb.data.getVar('PKGV_' + pkg, d, True)
-+		if not pkgver:
-+			pkgver = bb.data.getVar('PV_' + pkg, d, True)
-+		if not pkgver:
-+			pkgver = ver
-+
- 		needed[pkg] = []
- 		sonames = list()
- 		renames = list()
-@@ -1048,10 +1068,10 @@ python package_do_shlibs() {
- 			fd = open(shlibs_file, 'w')
- 			for s in sonames:
- 				fd.write(s + '\n')
--				shlib_provider[s] = (pkg, ver)
-+				shlib_provider[s] = (pkg, pkgver)
- 			fd.close()
- 			fd = open(shver_file, 'w')
--			fd.write(ver + '\n')
-+			fd.write(pkgver + '\n')
- 			fd.close()
- 		if needs_ldconfig and use_ldconfig:
- 			bb.debug(1, 'adding ldconfig call to postinst for %s' % pkg)
-@@ -1348,7 +1368,8 @@ python package_depchains() {
+ python package_tar_fn () {
+-	fn = os.path.join(bb.data.getVar('DEPLOY_DIR_TAR', d), "%s-%s-%s.tar.gz" % (bb.data.getVar('PKG', d), bb.data.getVar('PV', d), bb.data.getVar('PR', d)))
++	fn = os.path.join(bb.data.getVar('DEPLOY_DIR_TAR', d), "%s-%s-%s.tar.gz" % (bb.data.getVar('PKG', d), bb.data.getVar('PKGV', d), bb.data.getVar('PKGR', d)))
+ 	fn = bb.data.expand(fn, d)
+ 	bb.data.setVar('PKGFN', fn, d)
  }
- 
- PACKAGE_PREPROCESS_FUNCS ?= ""
--PACKAGEFUNCS ?= "perform_packagecopy \
-+PACKAGEFUNCS ?= "package_get_auto_pr \	
-+                perform_packagecopy \
-                 ${PACKAGE_PREPROCESS_FUNCS} \
- 		package_do_split_locales \
- 		split_and_strip_files \
-diff --git a/meta/classes/prserv.bbclass b/meta/classes/prserv.bbclass
-new file mode 100644
-index 0000000..de46ff6
---- /dev/null
-+++ b/meta/classes/prserv.bbclass
-@@ -0,0 +1,29 @@
-+def prserv_make_conn(d):
-+    import prserv.serv
-+    host=d.getVar("PRSERV_HOST",True)
-+    port=d.getVar("PRSERV_PORT",True)
-+    try:
-+        conn=None
-+        conn=prserv.serv.PRServerConnection(host,int(port))
-+        d.setVar("__PRSERV_CONN",conn)
-+    except Exception, exc:
-+        bb.fatal("Connecting to PR service %s:%s failed: %s" % (host, port, str(exc)))
-+
-+    return conn
-+
-+def prserv_get_pr_auto(d):
-+    if not d.getVar('USE_PR_SERV', True):
-+        bb.warn("Not using network based PR service")
-+        return None
-+
-+    conn=d.getVar("__PRSERV_CONN", True)
-+    if conn is None:
-+        conn=prserv_make_conn(d)
-+        if conn is None:
-+            return None
-+
-+    version=d.getVar("PF", True)
-+    checksum=d.getVar("BB_TASKHASH", True)
-+    auto_rev=conn.getPR(version,checksum)
-+    bb.debug(1,"prserv_get_pr_auto: version: %s checksum: %s result %d" % (version, checksum, auto_rev))
-+    return auto_rev
+@@ -83,7 +83,7 @@ python do_package_tar () {
+ 		os.chdir(root)
+ 		from glob import glob
+ 		if not glob('*'):
+-			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, 1), bb.data.getVar('PR', localdata, 1)))
++			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PKGV', localdata, 1), bb.data.getVar('PKGR', localdata, 1)))
+ 			continue
+ 		ret = os.system("tar -czf %s %s" % (tarfn, '.'))
+ 		if ret != 0:
 -- 
 1.7.0.4
 
