@@ -1,27 +1,41 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QPSkw-0007tC-PC
+	(envelope-from <anders.darander@gmail.com>) id 1QPTrR-0000Y8-1E
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 07:05:10 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 25 May 2011 22:01:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,271,1304319600"; 
-   d="scan'208";a="1991823"
-Received: from unknown (HELO localhost) ([10.255.12.181])
-	by azsmga001.ch.intel.com with ESMTP; 25 May 2011 22:01:55 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 May 2011 22:02:02 -0700
-Message-Id: <f29f5f7343d2b8b23b8ad25245efe9c205c8ca6e.1306385875.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <c83bebea4e1c4dd15422ad2cb75eab977cea4a59.1306385875.git.dvhart@linux.intel.com>
-References: <c83bebea4e1c4dd15422ad2cb75eab977cea4a59.1306385875.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1306385875.git.dvhart@linux.intel.com>
-References: <cover.1306385875.git.dvhart@linux.intel.com>
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>
-Subject: [pull-oe-uboot 2/2] u-boot: rename u-boot_git.bb to u-boot_${PV}.bb
+	Thu, 26 May 2011 08:15:57 +0200
+Received: by vxd7 with SMTP id 7so334997vxd.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 May 2011 23:12:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=xkCStUt+TrNuBSo2sMAuLMQHhWkcad+PdX3S9gWRjUo=;
+	b=k2LwMayqA1CKyF/siabbVlJiUMMS23IMNingBE6Zka51s+d1OuAnsYVUQOe1wazp/+
+	4oUz/akhVv4IXg+C/zb1O1L3Unx7JsvMKOHUfFjdTfhV2sHSA60XCFUsRdX1k9SJUMWG
+	X2J46/Fok6Gjrs6UTQUforJxpmBvC/48Y3clk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	b=WLg+70f++yGM8kMqeiZlryL8C77evAm0SOEP/bgsslKJ1PPYb9C88evWG4Vu4h81I8
+	kmwEmMB7+9cVoOSDwN8iosumJTs/gyyUcarTN0TmC2bBqim6vqWGCoimRVYl2MsskeSS
+	6iOYr2yBH+iGXvgfrLwVSPGkF0m9FV5U17x+o=
+MIME-Version: 1.0
+Received: by 10.52.181.69 with SMTP id du5mr620352vdc.113.1306390368705; Wed,
+	25 May 2011 23:12:48 -0700 (PDT)
+Sender: anders.darander@gmail.com
+Received: by 10.52.187.69 with HTTP; Wed, 25 May 2011 23:12:48 -0700 (PDT)
+In-Reply-To: <4DDD4D1B.5050301@linux.intel.com>
+References: <4DDBDE9D.5000709@linux.intel.com> <1306338695.27470.41.camel@rex>
+	<BANLkTim8VzrP7Zd4yDRaa75X0gXUL7wC=g@mail.gmail.com>
+	<20110525164919.GB11519@mail.familie-heinold.de>
+	<4DDD4D1B.5050301@linux.intel.com>
+Date: Thu, 26 May 2011 08:12:48 +0200
+X-Google-Sender-Auth: N48oBRR-9TNCUxMnvwtfymowTHc
+Message-ID: <BANLkTiki898J_iurgJQ971o4aA1A3Yko0g@mail.gmail.com>
+From: Anders Darander <anders@chargestorm.se>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Updating u-boot for oe-core or meta-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,39 +50,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 05:05:11 -0000
+X-List-Received-Date: Thu, 26 May 2011 06:15:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-In order to facilitate reuse of the oe-core u-boot recipe, there needs to be
-some assurance that the oe-core version won't change without a clear indicator
-to people extending it.
+On Wed, May 25, 2011 at 20:40, Darren Hart <dvhart@linux.intel.com> wrote:
+> On 05/25/2011 09:49 AM, Henning Heinold wrote:
+>> I agree with khem, each machine should maintain it's bootloader in his bsp
+>> or layer.
+>
+> I'm leaning this way as well. I think oe-core should remain at an
+> official u-boot tagged release, like 2011.03 and layers can then extend
+> that with a proper .bbappend file. Then we can share the u-boot core
+> recipe and just add backported patches in the layers as needed.
 
-By renaming the recipe to include its version string instead of "git", BSP
-layers can extend a specific base version of u-boot, ie.
-u-boot_2011.03.bbappend. When 2011.06 becomes available, we can create that file
-without instantly breaking all the BSPs depending on oe-core version of the
-recipe.
+This definitely seems like the best solution.
 
-As a matter of policy I would recommend we not carry more than 2 versioned
-u-boot recipess at any given time. This will provide BSP layers time to migrate
-to the newer version, without cluttering oe-core with numerous stale versions of
-u-boot. We may decide later to resurrect u-boot_git.bb as an AUTOREV recipe to
-faciliate upstream development on u-boot in the oe environment.
+BSP specific patches and modifications can normally easily be handled
+in a .bbappend file. Together with the suggestion in another e-mail
+(or even thread) to keep one old u-boot version around in oe-core, to
+ease the transition to a new version in the BSP layers, this should be
+no real problem.
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Cc: Jason Kridner <jkridner@beagleboard.org>
----
- .../uboot/{u-boot_git.bb => u-boot_2011.03.bb}     |    0
- 1 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-bsp/uboot/{u-boot_git.bb => u-boot_2011.03.bb} (100%)
+If a machine for some reason needs a specific custom version, then it
+might be necessary for that particular BSP layer to carry a complete
+u-boot recipe. But this shouldn't be a common situation. (And if it
+happens frequently, then the machine specific patches really has to be
+submitted to upstream u-boot.).
 
-diff --git a/meta/recipes-bsp/uboot/u-boot_git.bb b/meta/recipes-bsp/uboot/u-boot_2011.03.bb
-similarity index 100%
-rename from meta/recipes-bsp/uboot/u-boot_git.bb
-rename to meta/recipes-bsp/uboot/u-boot_2011.03.bb
+Regards,
+Anders
+
 -- 
-1.7.1
-
+Anders Darander
 
 
