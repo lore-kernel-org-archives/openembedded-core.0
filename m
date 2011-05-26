@@ -1,27 +1,26 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QPcNw-0004ax-Ak
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QPdJ9-0001Oa-MP for openembedded-core@lists.openembedded.org;
+	Thu, 26 May 2011 18:21:11 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QPdGE-0005b9-1E
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 17:22:04 +0200
-Received: by wye20 with SMTP id 20so672143wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 08:19:00 -0700 (PDT)
-Received: by 10.216.6.27 with SMTP id 27mr914848wem.69.1306423140099;
-	Thu, 26 May 2011 08:19:00 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id z66sm431564weq.24.2011.05.26.08.18.58
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 May 2011 08:18:59 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1306245860-12820-1-git-send-email-koen@dominion.thruhere.net>
-Date: Thu, 26 May 2011 17:18:57 +0200
-Message-Id: <73A0ACDF-8DDC-4C28-8B62-27669ECCD7FB@dominion.thruhere.net>
-References: <1306245860-12820-1-git-send-email-koen@dominion.thruhere.net>
+	Thu, 26 May 2011 18:18:10 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [RFC][PATCH] bitbake.conf: make OVERRIDES match what people expect
+In-Reply-To: <1306420679.27470.186.camel@rex>
+References: <cover.1306385875.git.dvhart@linux.intel.com>
+	<c83bebea4e1c4dd15422ad2cb75eab977cea4a59.1306385875.git.dvhart@linux.intel.com>
+	<1306407015.2525.311.camel@phil-desktop>
+	<1306420679.27470.186.camel@rex>
+Organization: Phil Blundell Consulting Ltd
+Date: Thu, 26 May 2011 17:18:08 +0100
+Message-ID: <1306426688.2525.377.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [pull-oe-uboot 1/2] u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,66 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 15:22:04 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 May 2011 16:21:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Thu, 2011-05-26 at 15:37 +0100, Richard Purdie wrote:
+> u-boot in OE-Core would need something like COMPATIBLE_MACHINE = ""
+> which makes this harder.
+
+Yes, true.  I don't think that's a major problem, though, you just need
+a regex that won't match anything.  Something like:
+
+COMPATIBLE_MACHINE = "(?!^)"
+
+would probably do what you want, though it does have the admitted
+downside of looking rather like line noise.  
+
+If this is going to be a common problem then it might be worth hacking
+base.bbclass about a bit to provide a more convenient way to do it.  The
+UBOOT_MACHINE thing is fine as a solution for u-boot since that variable
+needs to exist anyway, but I wouldn't have been keen on introducing it
+just to control the recipe acceptability.
+
+> Its usually seem to work out easier to just do:
+> 
+> COMPATIBLE_MACHINE_mymachine = "mymachine"
+> 
+> which avoids several potential issues.
+
+Yeah, that would work fine too: you could even save a bit of typing by
+just using "" as the rvalue since an empty C_M will (somewhat
+counterintuitively) permit everything.  I got the impression from
+Darren's original phraseology of "resorting to machine-specific
+overrides" that he didn't like it much, though.
+
+p.
 
 
-Op 24 mei 2011, om 16:04 heeft Koen Kooi het volgende geschreven:
-
-> In the current situation TARGET_ARCH will override MACHINE, which is =
-counter intuitive since the machine is more specific than the arch.
->=20
-> The order is now pn-$PN} -> arch -> machine -> distro as the machine =
-is a set of defaults and the distro is the ultimate policy.
->=20
-> 'failfast' has been removed since it's not used anymore, just like =
-'local'
-> ---
-> meta/conf/bitbake.conf |   12 ++++++------
-> 1 files changed, 6 insertions(+), 6 deletions(-)
->=20
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index a0af672..59238b8 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -602,15 +602,15 @@ AUTO_LIBNAME_PKGS =3D "${PACKAGES}"
-> #=20
-> # This means that an envionment variable named '<foo>_arm' overrides =
-an
-> # environment variable '<foo>' (when ${TARGET_ARCH} is arm).
-> -# An environment variable '<foo>_ramses' overrides '<foo>' but =
-doesn't override
-> -# '<foo>_arm' when ${MACHINE} is 'ramses'.=20
-> -# If you use combination ie '<foo>_arm_ramses', then =
-'<foo>_arm_ramses' will override=20
-> -# '<foo>_arm' and then '<foo>' will be overriden with that value from =
-'<foo>_arm'.
-> -# And finally '<foo>_local' overrides any standard variable, but with =
-lowest priority.
-> +# An environment variable '<foo>_qemuarm' overrides '<foo>' and =
-overrides
-> +# '<foo>_arm' when ${MACHINE} is 'qemuarm'.=20
-> +# If you use combination ie '<foo>_qemuarm_arm', then =
-'<foo>_qemuarm_arm' will override=20
-> +# '<foo>_qemuarm' and then '<foo>' will be overriden with that value =
-from '<foo>_qemuarm'.
-> +# And finally '<foo>_forcevariable' overrides any standard variable, =
-with the highest priority.
-> #
-> # This works for  functions as well, they are really just environment =
-variables.
-> # Default OVERRIDES to make compilation fail fast in case of build =
-system misconfiguration.
-> -OVERRIDES =3D =
-"local:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${TARGET_OS}:${TARGET_ARCH}:=
-build-${BUILD_OS}:fail-fast:pn-${PN}:forcevariable"
-> +OVERRIDES =3D =
-"${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES=
-}:${DISTROOVERRIDES}:forcevariable"
-> DISTROOVERRIDES ?=3D "${DISTRO}"
-> MACHINEOVERRIDES ?=3D "${MACHINE}"
-
-So what's the verdict on this one?=
 
 
