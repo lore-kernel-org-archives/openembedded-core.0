@@ -1,41 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1QPZxI-0001dK-3C
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QPa0v-0001gg-QJ for openembedded-core@lists.openembedded.org;
+	Thu, 26 May 2011 14:50:09 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QPZxz-0005Xi-LF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 14:46:24 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 26 May 2011 05:43:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,272,1304319600"; 
-   d="scan'208";a="9309121"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga001.fm.intel.com with ESMTP; 26 May 2011 05:43:17 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 26 May 2011 20:43:17 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 26 May 2011 20:43:17 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Thu, 26 May 2011 20:43:16 +0800
-From: "Lu, Lianhao" <lianhao.lu@intel.com>
+	Thu, 26 May 2011 14:47:08 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 26 May 2011 20:43:14 +0800
-Thread-Topic: [OE-core] [PATCH 2/5] conf/bitbake.conf: Added variables for
-	PR service.
-Thread-Index: AcwbnGKi9T0rivMGQgSgjUWJ0QMwnQABFonA
-Message-ID: <C10D3FB0CD45994C8A51FEC1227CE22F232DBFB10B@shsmsx502.ccr.corp.intel.com>
+In-Reply-To: <C10D3FB0CD45994C8A51FEC1227CE22F232DBFB10B@shsmsx502.ccr.corp.intel.com>
 References: <82b5b89412bfcac2d4586d183a3b6a516b5a0f35.1306401007.git.lianhao.lu@intel.com>
 	<a24e8ddae8f503f60c9151aab0f35627393ed285.1306401007.git.lianhao.lu@intel.com>
 	<1306411147.2525.326.camel@phil-desktop>
-In-Reply-To: <1306411147.2525.326.camel@phil-desktop>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
+	<C10D3FB0CD45994C8A51FEC1227CE22F232DBFB10B@shsmsx502.ccr.corp.intel.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Thu, 26 May 2011 13:47:06 +0100
+Message-ID: <1306414026.2525.337.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
 Subject: Re: [PATCH 2/5] conf/bitbake.conf: Added variables for PR service.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -51,44 +35,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 12:46:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 May 2011 12:50:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Phil Blundell wrote on 2011-05-26:
-> On Thu, 2011-05-26 at 19:55 +0800, Lianhao Lu wrote:
->> -EXTENDPV =3D "${EXTENDPEVER}${PV}-${PR}"
->> +EXTENDPV =3D "${EXTENDPEVER}${PV}-${PKGR}"
->=20
-> That looks a bit weird.  Is it really correct to be mixing PV and PKGR li=
-ke that?
->=20
-> FWIW, oe master has:
->=20
-> EXTENDPE =3D "${@int('${PE}') and '${PE}_' or ''}"
-> EXTENDPEVER =3D "${@int('${PE}') and '${PE}:' or ''}"
-> EXTENDPV =3D "${EXTENDPEVER}${PV}-${PR}${DISTRO_PR}"
->=20
-> PKGV	?=3D "${PV}"
-> PKGR	?=3D "${PR}${DISTRO_PR}"
->=20
-> EXTENDPKGEVER =3D "${@['','${PKGE\x7d:'][bb.data.getVar('PKGE',d,1) > 0]}=
-"
-> EXTENDPKGV ?=3D "${EXTENDPKGEVER}${PKGV}-${PKGR}"
->=20
-> and, although there are a couple of uses of ${EXTENDPV} that should
-> perhaps be ${EXTENDPKGV}, this arrangement seems sensible otherwise.
->=20
+On Thu, 2011-05-26 at 20:43 +0800, Lu, Lianhao wrote:
+> The problem is that in OE-core the default -deb/-dbg packages are all
+> using EXTENDPV, as well as some other recipes. Do you mean we should
+> make them all using EXTENDPKGV instead of EXTENDPV?
 
-The problem is that in OE-core the default -deb/-dbg packages are all using=
- EXTENDPV, as well as some other recipes. Do you mean we should make them a=
-ll using EXTENDPKGV instead of EXTENDPV? If this is the way, I think PKGE s=
-hould be used instead of PE in package_xxx.bbclass, though currently I don'=
-t see any recipe in OE using PKGE, but some of them do use PE.
+As far as I can tell, yes, that would be the right thing to do.  That's
+what I was thinking of when I mentioned the "couple of uses" before.
+The only reason I hesitate is that, although the current behaviour looks
+like it should be wrong, nobody has actually complained about it and
+that makes me wonder if I have misunderstood something.
 
-Best Regards,
-Lianhao
+I guess someone needs to do a few tests to figure out what exactly is
+going on there.  But I am fairly sure that creating a hybrid PV+PKGR is
+not a good thing to do; it should be either one thing or the other, and
+as far as I know everything on the output side should be using PKGxx.
+
+p.
 
 
 
