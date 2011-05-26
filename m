@@ -1,22 +1,22 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QPhQH-0007LF-7W
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QPhQP-0007Ly-0O
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 22:44:49 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 26 May 2011 13:41:44 -0700
+	Thu, 26 May 2011 22:44:57 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 May 2011 13:41:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,276,1304319600"; 
-   d="scan'208";a="9563801"
 Received: from nbuild2.sc.intel.com ([172.25.110.37])
-	by fmsmga001.fm.intel.com with ESMTP; 26 May 2011 13:41:44 -0700
+	by orsmga002.jf.intel.com with ESMTP; 26 May 2011 13:41:48 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org,
 	elizabeth.flanagan@intel.com
-Date: Thu, 26 May 2011 13:41:39 -0700
-Message-Id: <cover.1306442263.git.nitin.a.kamble@intel.com>
+Date: Thu, 26 May 2011 13:41:44 -0700
+Message-Id: <03152273cac84eef23738c5f26c45b082194284f.1306442263.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.3.5
-Subject: [bugfix 0/1] workaround for gcc 4.6.0 issue on beagleboard
+In-Reply-To: <cover.1306442263.git.nitin.a.kamble@intel.com>
+References: <cover.1306442263.git.nitin.a.kamble@intel.com>
+Subject: [bugfix 1/1] mesa-xlib: workaround gcc 4.6.0 ICE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,24 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 20:44:49 -0000
+X-List-Received-Date: Thu, 26 May 2011 20:44:57 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The following changes since commit 5168b140183c569409d35b19d8a80265ef8d0a78:
+Fixes this bug [YOCTO #1105]
 
-  dbus 1.4.1: enable systemd support, but package systemd files seperately (2011-05-26 16:52:00 +0100)
+Working around this issue withg gcc 4.6.0 for beagleboard machine (armv7)
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/bugfixes
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/bugfixes
+ccache arm-poky-linux-gnueabi-gcc -march=armv7-a -mtune=cortex-a8 -mfpu=neon
+-mfloat-abi=softfp -fno-tree-vectorize
+--sysroot=/build_disk/poky_build/build0/tmp/sysroots/beagleboard -c -I.
+-I../../../../src/gallium/include -I../../../../src/gallium/auxiliary
+-I../../../../src/gallium/drivers
+-I../../../../src/gallium/drivers/svga/include -O2 -pipe -g
+-feliminate-unused-debug-types -Wall -Wmissing-prototypes -std=c99 -ffast-math
+-fvisibility=hidden -fno-strict-aliasing -fPIC -D_GNU_SOURCE -DPTHREADS
+-DHAVE_POSIX_MEMALIGN -DUSE_XSHM -std=gnu99 -fvisibility=hidden -DHAVE_STDINT_H
+-DHAVE_SYS_TYPES_H svga_tgsi_insn.c -o svga_tgsi_insn.o
+svga_tgsi_insn.c: In function 'svga_shader_emit_instructions':
+svga_tgsi_insn.c:2969:1: internal compiler error: in push_minipool_fix, at
+config/arm/arm.c:12084
+Please submit a full bug report,
+with preprocessed source if appropriate.
+See <http://gcc.gnu.org/bugs.html> for instructions.
+make[4]: *** [svga_tgsi_insn.o] Error 1
 
-Nitin A Kamble (1):
-  mesa-xlib: workaround gcc 4.6.0 ICE
-
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
  meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb |    3 +++
  1 files changed, 3 insertions(+), 0 deletions(-)
 
+diff --git a/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb b/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb
+index b77df2c..051bd72 100644
+--- a/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb
++++ b/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb
+@@ -17,3 +17,6 @@ PE = "1"
+ PR = "r0"
+ 
+ EXTRA_OECONF += "--with-driver=xlib"
++
++# nullify -O2
++CFLAGS_append += " -O"
 -- 
 1.7.3.5
 
