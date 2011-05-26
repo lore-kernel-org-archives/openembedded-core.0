@@ -1,21 +1,26 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QPjhc-0001h8-SP
+	(envelope-from <sgw@linux.intel.com>) id 1QPjhd-0001hA-Hl
 	for openembedded-core@lists.openembedded.org;
 	Fri, 27 May 2011 01:10:53 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 May 2011 16:07:42 -0700
+	by orsmga101.jf.intel.com with ESMTP; 26 May 2011 16:07:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,276,1304319600"; 
-   d="scan'208";a="5588259"
+   d="scan'208";a="5588260"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.104])
 	by orsmga001.jf.intel.com with ESMTP; 26 May 2011 16:07:42 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2011 16:07:31 -0700
-Message-Id: <cover.1306451124.git.sgw@linux.intel.com>
+Date: Thu, 26 May 2011 16:07:32 -0700
+Message-Id: <a222cd406f81c89a2fdbc93f41c634fe6460194e.1306451124.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
-Subject: [Consolidated Pull 0/9] Fixes for M1 and build breakage
+In-Reply-To: <cover.1306451124.git.sgw@linux.intel.com>
+References: <cover.1306451124.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1306451124.git.sgw@linux.intel.com>
+References: <cover.1306451124.git.sgw@linux.intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [Consolidated Pull 1/9] utils.bbclass: make FILESEXTRAPATHS colon delimited
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,58 +37,52 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 26 May 2011 23:10:53 -0000
 
-There a number of changes here for M1.
+From: Darren Hart <dvhart@linux.intel.com>
 
-Nitin's change is included since it was queued already, bounce as needed
+Fixes [YOCTO 1102]
 
+Path variables are typically : delimited. White space is allowed in paths, so
+is not a good choice for separating paths. Currently utils.bbclass performs the
+following:
 
-Sau!
+    extrapaths = (bb.data.getVar("FILESEXTRAPATHS", d, True) or "").split()
 
-The following changes since commit 9281ac4c98d4287a5492f13f94e1bd0eea4791c6:
+This splits FILESEXTRAPATHS on whitespace. It later splits overrides on : and
+reassembles them all together as : delimited.
 
-  dbus 1.4.1: enable systemd support, but package systemd files seperately (2011-05-26 11:02:30 +0100)
+There is only one user of FILESEXTRAPATHS in oe-core (qt4-tools-native, which
+uses : anyway) and none in oe.
 
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+Change the split() in utils.bbclass to split on : instead of whitespace. When
+splitting on a defined string (":") we must be careful to handle the empty
+string case which returns [''] instead of [].
 
-Darren Hart (1):
-  utils.bbclass: make FILESEXTRAPATHS colon delimited
+Tested building qt4-tools-native and core-image-minimal for surgarbay from
+meta-intel with a couple extra layers with FILESEXTRAPATHS modifications added.
 
-Koen Kooi (2):
-  dbus: clean up dbus-x11 packaging
-  x11-common: fix dbus-launch RDEPENDS
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Cc: Phil Blundell <pb@pbcl.net>
+---
+ meta/classes/utils.bbclass |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-Martin Jansa (1):
-  rm_work: keep all sigdata files in stamps dir
-
-Nitin A Kamble (1):
-  mesa-xlib: workaround gcc 4.6.0 ICE
-
-Phil Blundell (1):
-  busybox: sync do_install() with oe master (mostly)
-
-Saul Wold (3):
-  bitbake.conf: change IMAGE_ROOTFS_EXTRA_SPACE to soft (?=) default
-  gnutls: Add libcap to DEPENDS
-  Revert "createrepo: Update to 0.9.9"
-
- meta/classes/rm_work.bbclass                       |    4 +
- meta/classes/utils.bbclass                         |    6 +-
- meta/conf/bitbake.conf                             |   11 +-
- meta/recipes-core/busybox/busybox.inc              |   99 +++++++++++---------
- meta/recipes-core/busybox/busybox_1.18.4.bb        |    2 +-
- meta/recipes-core/dbus/dbus.inc                    |    2 +-
- meta/recipes-core/dbus/dbus_1.4.1.bb               |    2 +-
- meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb     |    6 +-
- meta/recipes-graphics/x11-common/x11-common_0.1.bb |    4 +-
- .../createrepo/createrepo/fix-native-install.patch |   88 ++++++++---------
- .../{createrepo_0.9.9.bb => createrepo_0.4.11.bb}  |    7 +-
- meta/recipes-support/gnutls/gnutls.inc             |    6 +-
- meta/recipes-support/gnutls/gnutls_2.10.4.bb       |    2 +-
- 13 files changed, 129 insertions(+), 110 deletions(-)
- rename meta/recipes-support/createrepo/{createrepo_0.9.9.bb => createrepo_0.4.11.bb} (73%)
-
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index e103351..9930a24 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -331,8 +331,10 @@ def explode_deps(s):
+ 
+ def base_set_filespath(path, d):
+ 	filespath = []
+-	extrapaths = (bb.data.getVar("FILESEXTRAPATHS", d, True) or "").split()
+-	path = extrapaths + path
++	extrapaths = (bb.data.getVar("FILESEXTRAPATHS", d, True) or "")
++	# Don't prepend empty strings to the path list
++	if extrapaths != "":
++		path = extrapaths.split(":") + path
+ 	# The ":" ensures we have an 'empty' override
+ 	overrides = (bb.data.getVar("OVERRIDES", d, 1) or "") + ":"
+ 	for p in path:
 -- 
 1.7.3.4
 
