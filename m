@@ -1,44 +1,31 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QPk4V-0002Bi-Ax
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 01:34:31 +0200
-Received: by vxd7 with SMTP id 7so1105438vxd.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 16:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
-	:date:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=rPHtW1kTc/BTaD5bYnLa+N6Aa+KVHWO9RbDNX7u6Tzk=;
-	b=b+TZ/gdBBF4QxwB7NZBOHTLBWPv52G0uCnDjtP+94GL9vWGgY6oVV9E8cDXahk0bLD
-	Jq9lJ4wTkZgLGQvZxZyKfacgZw7O87Sg6EZVc98SQmIGgn0ghSkERQQh53ZSgr+ttNyA
-	Wt82rSdmFa4kYyBdB+4KOCx9yyoOs2wdBSBUs=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	b=FMukXnzq76DkJ6zwEeaH7FJz0lxD9HBpw9vnh5rm1pVbOjyXCVxTGTWEFngZsbNuUg
-	b6AvQyFHR2dnmEO9xO/k+X2Rx2oWC2V7iBMj3lZVx0APTnVwKWYlxrHG9UUuLGxOGPfm
-	aKe/HeRLuSVby8VqQFHW1tdNU6lAsvqlTSiOA=
-Received: by 10.52.73.195 with SMTP id n3mr2135255vdv.28.1306452682072; Thu,
-	26 May 2011 16:31:22 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.52.109.202 with HTTP; Thu, 26 May 2011 16:31:02 -0700 (PDT)
-In-Reply-To: <1306452282.27470.214.camel@rex>
-References: <cover.1306444161.git.dvhart@linux.intel.com>
-	<e5f5d48165bcb5dc3ccf160a29e16ca700f85395.1306444161.git.dvhart@linux.intel.com>
-	<1306452282.27470.214.camel@rex>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 26 May 2011 16:31:02 -0700
-X-Google-Sender-Auth: TK1YRqK41xwJ0pi0s_-1n7uUxdM
-Message-ID: <BANLkTinNDht1n32CvsfDY221a6xW8ZL4zw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QPk6q-0002Df-LQ for openembedded-core@lists.openembedded.org;
+	Fri, 27 May 2011 01:36:57 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4QNXov2028694;
+	Fri, 27 May 2011 00:33:50 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28568-03; Fri, 27 May 2011 00:33:47 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4QNXkr5028688
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 27 May 2011 00:33:46 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <03152273cac84eef23738c5f26c45b082194284f.1306442263.git.nitin.a.kamble@intel.com>
+References: <cover.1306442263.git.nitin.a.kamble@intel.com>
+	<03152273cac84eef23738c5f26c45b082194284f.1306442263.git.nitin.a.kamble@intel.com>
+Date: Fri, 27 May 2011 00:33:42 +0100
+Message-ID: <1306452822.27470.220.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [bugfix 1/1] mesa-xlib: workaround gcc 4.6.0 ICE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,38 +40,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 23:34:31 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 May 2011 23:36:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 26, 2011 at 4:24 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2011-05-26 at 14:12 -0700, Darren Hart wrote:
->> Note: I used bb.note() instead of bb.debug() to ensure the message at le=
-ast
->> =C2=A0 =C2=A0 =C2=A0 makes it to the console. From what I could gather, =
-bb.debug() doesn't
->> =C2=A0 =C2=A0 =C2=A0 go anywhere during recipe parsing.
->
-> Why?
->
-> We exclude about 30 different recipes when parsing and would you really
-> want to see a usability message from each one when you likely don't care
-> about it?
->
-> A bb.debug is fine and the user can see it if they run with -D to get
-> more info. A bb.note is just irritating.
+On Thu, 2011-05-26 at 13:41 -0700, nitin.a.kamble@intel.com wrote:
 
-As alternative, *If* there's a need for a one time message when
-building, which is questionable, and assuming the variable is
-configuration, not recipe bound, one could always install a
-ConfigParsed event handler and warn if e.g. UBOOT_ENTRYPOINT or
-UBOOT_LOADADDRESS are set and UBOOT_MACHINE is not.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+> ---
+>  meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb |    3 +++
+>  1 files changed, 3 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb b/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb
+> index b77df2c..051bd72 100644
+> --- a/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb
+> +++ b/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb
+> @@ -17,3 +17,6 @@ PE = "1"
+>  PR = "r0"
+>  
+>  EXTRA_OECONF += "--with-driver=xlib"
+> +
+> +# nullify -O2
+> +CFLAGS_append += " -O"
+
+I talked about this on IRC but simply put, no way.
+
+The problem is:
+
+a) Arm specific
+b) determined now to be armv7 specific
+c) gcc version specific
+
+and the fix should reflect this.
+
+So ideally when we select gcc 4.6 in tcmode-default.inc we should add
+something there which adds a work around for mesa-xlib.
+
+I've suggested something like:
+
+TARGET_CC_ARCH_arm_pn-mesa-xlib := "${@'${TARGET_CC_ARCH}'.replace('armv7','armv5')}"
+
+which whilst ugly, should do what we need it to.
+
+Cheers,
+
+Richard
+
+
 
 
