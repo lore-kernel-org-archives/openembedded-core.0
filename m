@@ -1,23 +1,27 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QPhu4-0008GM-5U
+	(envelope-from <dvhart@linux.intel.com>) id 1QPhu6-0008GM-CC
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 23:15:36 +0200
+	Thu, 26 May 2011 23:15:39 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 May 2011 14:12:30 -0700
+	by azsmga102.ch.intel.com with ESMTP; 26 May 2011 14:12:35 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,276,1304319600"; 
-   d="scan'208";a="2556114"
+   d="scan'208";a="2556136"
 Received: from doubt.jf.intel.com (HELO localhost) ([10.24.80.114])
-	by azsmga001.ch.intel.com with ESMTP; 26 May 2011 14:12:30 -0700
+	by azsmga001.ch.intel.com with ESMTP; 26 May 2011 14:12:35 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2011 14:12:40 -0700
-Message-Id: <cover.1306444161.git.dvhart@linux.intel.com>
+Date: Thu, 26 May 2011 14:12:50 -0700
+Message-Id: <b8d68c56d86aa87c1c01f5f403ee31284b404a90.1306444161.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>, Chris Larson <clarson@kergoth.com>,
-	Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH v2 0/2] u-boot updates to make it more bbappend friendly
+In-Reply-To: <e5f5d48165bcb5dc3ccf160a29e16ca700f85395.1306444161.git.dvhart@linux.intel.com>
+References: <e5f5d48165bcb5dc3ccf160a29e16ca700f85395.1306444161.git.dvhart@linux.intel.com>
+In-Reply-To: <cover.1306444161.git.dvhart@linux.intel.com>
+References: <cover.1306444161.git.dvhart@linux.intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 2/2] u-boot: rename u-boot_git.bb to u-boot_${PV}.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,32 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 21:15:36 -0000
+X-List-Received-Date: Thu, 26 May 2011 21:15:39 -0000
 
-Tested via build/install/boot of core-image-minimal with the meta-yocto
-beagleboard machine config.
+In order to facilitate reuse of the oe-core u-boot recipe, there needs to be
+some assurance that the oe-core version won't change without a clear indicator
+to people extending it.
 
-V2: Fixup the message printed if u-boot is skipped so it:
-    1) appears on the console
-    2) prints the name of the including u-boot recipe for reference
-       (instead of a hard coded name)
+By renaming the recipe to include its version string instead of "git", BSP
+layers can extend a specific base version of u-boot, ie.
+u-boot_2011.03.bbappend. When 2011.06 becomes available, we can create that file
+without instantly breaking all the BSPs depending on oe-core version of the
+recipe.
 
-The following changes since commit 1607d7b6809eb3f0aa8d09713a4e467a1f4585a2:
+As a matter of policy I would recommend we not carry more than 2 versioned
+u-boot recipess at any given time. This will provide BSP layers time to migrate
+to the newer version, without cluttering oe-core with numerous stale versions of
+u-boot. We may decide later to resurrect u-boot_git.bb as an AUTOREV recipe to
+faciliate upstream development on u-boot in the oe environment.
 
-  IMAGE_ROOTFS_SIZE: Cleanup machine conf files (2011-05-25 14:07:37 -0700)
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Jason Kridner <jkridner@beagleboard.org>
+---
+ .../uboot/{u-boot_git.bb => u-boot_2011.03.bb}     |    0
+ 1 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-bsp/uboot/{u-boot_git.bb => u-boot_2011.03.bb} (100%)
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dvhart/oe/u-boot
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/oe/u-boot
-
-Darren Hart (2):
-  u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
-  u-boot: rename u-boot_git.bb to u-boot_${PV}.bb
-
- meta/recipes-bsp/uboot/u-boot.inc                  |   10 +++++++++-
- .../uboot/{u-boot_git.bb => u-boot_2011.03.bb}     |   11 ++++++-----
- 2 files changed, 15 insertions(+), 6 deletions(-)
- rename meta/recipes-bsp/uboot/{u-boot_git.bb => u-boot_2011.03.bb} (64%)
+diff --git a/meta/recipes-bsp/uboot/u-boot_git.bb b/meta/recipes-bsp/uboot/u-boot_2011.03.bb
+similarity index 100%
+rename from meta/recipes-bsp/uboot/u-boot_git.bb
+rename to meta/recipes-bsp/uboot/u-boot_2011.03.bb
+-- 
+1.7.1
 
 
 
