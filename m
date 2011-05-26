@@ -1,27 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QPfLG-0003ZE-6R
+	(envelope-from <koen@dominion.thruhere.net>) id 1QPgId-0004mO-Tq
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 20:31:30 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 May 2011 11:28:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,275,1304319600"; 
-   d="scan'208";a="5480095"
-Received: from unknown (HELO [10.255.12.104]) ([10.255.12.104])
-	by orsmga001.jf.intel.com with ESMTP; 26 May 2011 11:28:24 -0700
-Message-ID: <4DDE9BC8.8000008@linux.intel.com>
-Date: Thu, 26 May 2011 11:28:24 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1306218459.git.sgw@linux.intel.com>	<53e096ed690901bafdc3087b1591db60d16c6d0b.1306218459.git.sgw@linux.intel.com>
-	<1306433070.1777.7.camel@vorpal.jf.intel.com>
-In-Reply-To: <1306433070.1777.7.camel@vorpal.jf.intel.com>
-Subject: Re: [RFC 1/2] IMAGE_ROOTFS_SIZE Cleanup
+	Thu, 26 May 2011 21:32:51 +0200
+Received: by wwb17 with SMTP id 17so953857wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 May 2011 12:29:38 -0700 (PDT)
+Received: by 10.227.32.69 with SMTP id b5mr1217169wbd.99.1306438178626;
+	Thu, 26 May 2011 12:29:38 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fw15sm692081wbb.61.2011.05.26.12.29.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 26 May 2011 12:29:37 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 May 2011 21:29:33 +0200
+Message-Id: <1306438173-6837-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] dbus: clean up dbus-x11 packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,140 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 18:31:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 May 2011 19:32:52 -0000
 
-On 05/26/2011 11:04 AM, Joshua Lock wrote:
-> On Mon, 2011-05-23 at 23:38 -0700, Saul Wold wrote:
->> This basic cleanup removes the _ext2/3 overrides from places they
->> no longer belong since they did not allow further overrides. In doing
->> this the core-image-minimal* recipes can now set a reasonably small
->> rootfs so that it's a realistic size for minimal.
->
-> Awesome. Thanks for tackling this!
->
-> Few questions below.
->
->>
->> The new default for minimal is 8M and will be adujsted upward by the
->> IMAGE_OVERHEAD_FACTOR (of 1.2).
->>
->> This fixes the ROOTFS_SIZE usage in the IMAGE_CMD_<fstype>  code
->>
->> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->> ---
->>   meta/classes/image_types.bbclass                   |    7 +++++--
->>   meta/conf/distro/include/default-distrovars.inc    |    2 --
->>   meta/conf/machine/include/qemu.inc                 |    2 --
->>   .../images/core-image-minimal-initramfs.bb         |    2 ++
->>   meta/recipes-core/images/core-image-minimal.bb     |    2 ++
->>   5 files changed, 9 insertions(+), 6 deletions(-)
->>
->> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
->> index ec0cafd..69f859e 100644
->> --- a/meta/classes/image_types.bbclass
->> +++ b/meta/classes/image_types.bbclass
->> @@ -21,22 +21,25 @@ runimagecmd () {
->>   }
->>
->>   IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${EXTRA_IMAGECMD}"
->> +
->>   IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
->> +
->>   IMAGE_CMD_ext2 = "genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2"
->>   IMAGE_CMD_ext2.gz () {
->>   	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz&&  mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
->> -	genext2fs -b ${IMAGE_ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
->> +	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
->>   	gzip -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
->>   	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.gz
->>   	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz
->>   }
->> +
->>   IMAGE_CMD_ext3 () {
->>   	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
->>   	tune2fs -j ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
->>   }
->>   IMAGE_CMD_ext3.gz () {
->>   	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz&&  mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
->> -	genext2fs -b ${IMAGE_ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
->> +	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
->>   	tune2fs -j ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
->>   	gzip -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
->>   	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3.gz
->> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
->> index 1aa45c8..4b68a0a 100644
->> --- a/meta/conf/distro/include/default-distrovars.inc
->> +++ b/meta/conf/distro/include/default-distrovars.inc
->> @@ -1,7 +1,5 @@
->>   QA_LOGFILE = "${TMPDIR}/qa.log"
->>
->> -IMAGE_ROOTFS_SIZE_ext2 ?= "131072"
->> -
->>   OEINCLUDELOGS ?= "yes"
->>   KERNEL_CONSOLE ?= "ttyS0"
->>
->> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
->> index 4122a88..9ef242f 100644
->> --- a/meta/conf/machine/include/qemu.inc
->> +++ b/meta/conf/machine/include/qemu.inc
->> @@ -6,8 +6,6 @@ MACHINE_FEATURES = "kernel26 apm alsa pcmcia bluetooth irda usbgadget screen"
->>   IMAGE_FSTYPES ?= "tar.bz2 ext3"
->>
->>   ROOT_FLASH_SIZE = "280"
->> -IMAGE_ROOTFS_SIZE_ext2 ?= "280000"
->> -IMAGE_ROOTFS_SIZE_ext3 ?= "280000"
->>
->>   # Don't include kernels in standard images
->>   RDEPENDS_kernel-base = ""
->> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
->> index 21aaa6c..3246d5c 100644
->> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
->> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
->> @@ -8,3 +8,5 @@ IMAGE_LINGUAS = ""
->>   LICENSE = "MIT"
->>
->>   inherit core-image
->> +
->> +IMAGE_ROOTFS_SIZE = "8192"
->
-> I'm not really sure about this, an initramfs that's the same size as a
-> more fully featured rootfs?
->
-That may be, then we need to increase the size slightly, but this will 
-trigger the correct behavior of actual size * IMAGE_OVERHEAD_FACTOR, 
-rather than the 64M which would be the default, this was to ensure it 
-could get smaller.  I don't have a current initramfs size, I will build 
-and verify.
+Martin Jansa spotted some differences with OE dev, which this commit fixes:
 
+ * dbus-launch is mentioned twice in FILES
+ * dbus-x11 should drag in dbus-1
 
->> diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipes-core/images/core-image-minimal.bb
->> index aa00e67..743e121 100644
->> --- a/meta/recipes-core/images/core-image-minimal.bb
->> +++ b/meta/recipes-core/images/core-image-minimal.bb
->> @@ -9,5 +9,7 @@ LICENSE = "MIT"
->>
->>   inherit core-image
->>
->> +IMAGE_ROOTFS_SIZE = "8192"
->> +
->
-> In your cover letter you stated that the minimal image is currently
-> 9.9M, which means we *need* the overhead to contain the entire image
-> contents. Correct? That seems a little unwise.
->
-Right, that's currently, we want to see the image get smaller even, so 
-the 8M is an appropriate setting.  Currently the actual ext3 image is 
-13M with 10M of contents.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/dbus/dbus.inc      |    2 +-
+ meta/recipes-core/dbus/dbus_1.4.1.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-So are you suggested that the 8M size is unwise or the overhead, not 
-sure I am catching your meaning here.
-
-
->>   # remove not needed ipkg informations
->>   ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
->
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 8275a1b..74be30f 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -24,12 +24,12 @@ DEBIANNAME_${PN} = "dbus-1"
+ PACKAGES =+ "${PN}-lib ${PN}-x11 ${PN}-systemd"
+ 
+ FILES_${PN}-x11 = "${bindir}/dbus-launch"
++RDEPENDS_${PN}-x11 "${PN}"
+ 
+ FILES_${PN}-systemd = "${base_libdir}/systemd/system/"
+ 
+ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-uuidgen \
+-               ${bindir}/dbus-launch \
+                ${bindir}/dbus-cleanup-sockets \
+                ${bindir}/dbus-send \
+                ${bindir}/dbus-monitor \
+diff --git a/meta/recipes-core/dbus/dbus_1.4.1.bb b/meta/recipes-core/dbus/dbus_1.4.1.bb
+index 00720fd..1c8aeaa 100644
+--- a/meta/recipes-core/dbus/dbus_1.4.1.bb
++++ b/meta/recipes-core/dbus/dbus_1.4.1.bb
+@@ -1,6 +1,6 @@
+ include dbus.inc
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI[md5sum] = "99cb057700c0455fb68f8d57902f77ac"
+ SRC_URI[sha256sum] = "caa1a0ded2d0f2e95c1d4ec7e3c8bd44834928c5b0ed41a7189963f3593983bd"
+-- 
+1.6.6.1
 
 
 
