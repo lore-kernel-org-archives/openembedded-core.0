@@ -1,34 +1,31 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QPWxu-0003qS-7L
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 11:34:50 +0200
-Received: by fxm19 with SMTP id 19so651222fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 02:31:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=vp5bMG3D1ol47/Yp1+Kewk1mB/una4FipM8lpjaZln4=;
-	b=RKhEVRk7vTL0bvEmfO3EtnTIuZ8rrRgluurgzlgPkKs2AKk/TRtoxhdQ3Y0xzFu2Xh
-	hv2BETaTi54odx95V1fDN6Imb42TJBjeF/sJOYGriJaFIo3tPLqezf72m1ton/O/q5ZX
-	6nS7Wtq/oW8vcb8SLk5yKwjXKEeWctX4aOqyQ=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=NMgcOsm1eGA0OfWjdBms+ytrIKDa3jykvt1w6z3wpeV6/iJWiaP07C+E715f3qMF9+
-	qEpg8ADkCde6bC7dsqvIPPqdLz3M9VOKdDur2XrZMupWKZqUOH+3NOQXiPF5G9uIzWcI
-	lnhqCPLxTXeUlriYRcFLmMU7avt7xVyFMyswE=
-Received: by 10.223.73.199 with SMTP id r7mr666858faj.118.1306402306595;
-	Thu, 26 May 2011 02:31:46 -0700 (PDT)
-Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id e15sm211966faa.47.2011.05.26.02.31.45
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 May 2011 02:31:45 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2011 11:31:35 +0200
-Message-Id: <1306402295-14048-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.5.rc3
-Subject: [PATCH] rm_work: keep all sigdata files in stamps dir
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QPXSM-0004bR-OD for openembedded-core@lists.openembedded.org;
+	Thu, 26 May 2011 12:06:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4QA3COS011751;
+	Thu, 26 May 2011 11:03:12 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 11310-04; Thu, 26 May 2011 11:03:08 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4QA354R011745
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 26 May 2011 11:03:06 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1306400440-10173-1-git-send-email-koen@dominion.thruhere.net>
+References: <1306400440-10173-1-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 26 May 2011 11:03:03 +0100
+Message-ID: <1306404183.27470.102.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/3] dbus: split X11 dependant dbus-launch into its own subpackage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,33 +40,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 09:34:50 -0000
+X-List-Received-Date: Thu, 26 May 2011 10:06:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* this makes fix for [YOCTO #1074] in bitbake 139b8a625818225c358a1b8363518d7ed6913188
-  much more usefull for people using rm_work
+On Thu, 2011-05-26 at 11:00 +0200, Koen Kooi wrote:
+> This makes dbus usable in non-X enviroments like QT/e
+> 
+> From the original commit in OE .dev:
+> 
+> commit 8e25448fb01b6fa6ea3a86f9327f080cd753dfbc
+> Author: John Lee <john_lee@openmoko.org>
+> Date:   Fri Sep 5 11:37:39 2008 +0000
+> 
+>     dbus: enable x support and put dbus-launch into new package dbus-x11
+>     * Enable x support only add rdepends to dbus-launch.  Make it a
+>       seperate package so other packages like dbus does not rdepend on
+>       libx11.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/rm_work.bbclass |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
+Merged to master, thanks (along with patches 2 and 3)
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 256a202..303d47d 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -42,6 +42,10 @@ do_rm_work () {
-             *do_setscene*)
-                 break
-                 ;;
-+            *sigdata*)
-+                i=dummy
-+                break
-+                ;;
-             *do_package_write*)
-                 i=dummy
-                 break
--- 
-1.7.5.rc3
+Cheers,
+
+Richard
 
 
 
