@@ -1,24 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1QPfFX-0003Li-R8
+	(envelope-from <sgw@linux.intel.com>) id 1QPfLG-0003ZE-6R
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 20:25:36 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 26 May 2011 11:22:31 -0700
+	Thu, 26 May 2011 20:31:30 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 26 May 2011 11:28:25 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,275,1304319600"; 
+   d="scan'208";a="5480095"
 Received: from unknown (HELO [10.255.12.104]) ([10.255.12.104])
-	by orsmga002.jf.intel.com with ESMTP; 26 May 2011 11:22:30 -0700
-Message-ID: <4DDE9A66.6070900@intel.com>
-Date: Thu, 26 May 2011 11:22:30 -0700
-From: Saul Wold <saul.wold@intel.com>
+	by orsmga001.jf.intel.com with ESMTP; 26 May 2011 11:28:24 -0700
+Message-ID: <4DDE9BC8.8000008@linux.intel.com>
+Date: Thu, 26 May 2011 11:28:24 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1306218459.git.sgw@linux.intel.com>	<9100a5deb0603809b55dcff6704ba3c0c8480ba5.1306218459.git.sgw@linux.intel.com>
-	<1306433071.1777.8.camel@vorpal.jf.intel.com>
-In-Reply-To: <1306433071.1777.8.camel@vorpal.jf.intel.com>
-Subject: Re: [RFC 2/2] image_types: add IMAGE_ROOTFS_EXTRA_SPACE
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1306218459.git.sgw@linux.intel.com>	<53e096ed690901bafdc3087b1591db60d16c6d0b.1306218459.git.sgw@linux.intel.com>
+	<1306433070.1777.7.camel@vorpal.jf.intel.com>
+In-Reply-To: <1306433070.1777.7.camel@vorpal.jf.intel.com>
+Subject: Re: [RFC 1/2] IMAGE_ROOTFS_SIZE Cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,65 +36,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 18:25:36 -0000
+X-List-Received-Date: Thu, 26 May 2011 18:31:30 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 05/26/2011 11:04 AM, Joshua Lock wrote:
 > On Mon, 2011-05-23 at 23:38 -0700, Saul Wold wrote:
->> [YOCTO #886]
+>> This basic cleanup removes the _ext2/3 overrides from places they
+>> no longer belong since they did not allow further overrides. In doing
+>> this the core-image-minimal* recipes can now set a reasonably small
+>> rootfs so that it's a realistic size for minimal.
+>
+> Awesome. Thanks for tackling this!
+>
+> Few questions below.
+>
 >>
->> This address 2 needs after the IMAGE_ROOTFS_SIZE is cleaned up, by
->> removing some of the _ext2/3 overrides it allows for a cleaner override
->> using IMAGE_ROOTFS_SIZE to create a large rootfs, or by setting the
->> IMAGE_ROOTFS_EXTRA_SPACE, will allow for extra space allocated in Kilobytes
->> above the base size (determined by du of the rootfs * IMAGE_OVERHEAD_FACTOR,
->> default of 1.3).
+>> The new default for minimal is 8M and will be adujsted upward by the
+>> IMAGE_OVERHEAD_FACTOR (of 1.2).
+>>
+>> This fixes the ROOTFS_SIZE usage in the IMAGE_CMD_<fstype>  code
 >>
 >> Signed-off-by: Saul Wold<sgw@linux.intel.com>
 >> ---
->>   meta/classes/image_types.bbclass |    2 +-
->>   meta/conf/bitbake.conf           |    4 ++++
->>   2 files changed, 5 insertions(+), 1 deletions(-)
+>>   meta/classes/image_types.bbclass                   |    7 +++++--
+>>   meta/conf/distro/include/default-distrovars.inc    |    2 --
+>>   meta/conf/machine/include/qemu.inc                 |    2 --
+>>   .../images/core-image-minimal-initramfs.bb         |    2 ++
+>>   meta/recipes-core/images/core-image-minimal.bb     |    2 ++
+>>   5 files changed, 9 insertions(+), 6 deletions(-)
 >>
 >> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
->> index 69f859e..601a5fb 100644
+>> index ec0cafd..69f859e 100644
 >> --- a/meta/classes/image_types.bbclass
 >> +++ b/meta/classes/image_types.bbclass
->> @@ -13,7 +13,7 @@ def get_imagecmds(d):
+>> @@ -21,22 +21,25 @@ runimagecmd () {
+>>   }
 >>
->>   runimagecmd () {
->>   	# Image generation code for image type ${type}
->> -	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{size = $1 * ${IMAGE_OVERHEAD_FACTOR}; print (size>  ${IMAGE_ROOTFS_SIZE} ? size : ${IMAGE_ROOTFS_SIZE}) }'`
->> +	ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{size = $1 * ${IMAGE_OVERHEAD_FACTOR} + ${IMAGE_ROOTFS_EXTRA_SPACE}; print (size>  ${IMAGE_ROOTFS_SIZE} ? size : ${IMAGE_ROOTFS_SIZE}) }'`
->>   	${cmd}
->>   	cd ${DEPLOY_DIR_IMAGE}/
->>   	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.${type}
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index a0af672..fa3618c 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -350,6 +350,10 @@ IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
->>   # This option allows for a precentage overage of the actaul image size rather than a
->>   # fixed extra space
->>   IMAGE_OVERHEAD_FACTOR ?= 1.3
->> +# This option allow for adding addition space in K above and beyond what the
->> +# IMAGE_OVERHEAD_FACTOR might add. To set a fixed size then overrideing IMAGE_ROOTFS_SIZE
->> +# with the max size one wants should do the trick
->> +IMAGE_OVERHEAD_EXTRA_SPACE = "0"
+>>   IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${EXTRA_IMAGECMD}"
+>> +
+>>   IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
+>> +
+>>   IMAGE_CMD_ext2 = "genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2"
+>>   IMAGE_CMD_ext2.gz () {
+>>   	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz&&  mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
+>> -	genext2fs -b ${IMAGE_ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
+>> +	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
+>>   	gzip -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2
+>>   	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext2.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2.gz
+>>   	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz
+>>   }
+>> +
+>>   IMAGE_CMD_ext3 () {
+>>   	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
+>>   	tune2fs -j ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
+>>   }
+>>   IMAGE_CMD_ext3.gz () {
+>>   	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz&&  mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz
+>> -	genext2fs -b ${IMAGE_ROOTFS_SIZE} -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
+>> +	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
+>>   	tune2fs -j ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
+>>   	gzip -f -9 ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3
+>>   	mv ${DEPLOY_DIR_IMAGE}/tmp.gz/${IMAGE_NAME}.rootfs.ext3.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3.gz
+>> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+>> index 1aa45c8..4b68a0a 100644
+>> --- a/meta/conf/distro/include/default-distrovars.inc
+>> +++ b/meta/conf/distro/include/default-distrovars.inc
+>> @@ -1,7 +1,5 @@
+>>   QA_LOGFILE = "${TMPDIR}/qa.log"
+>>
+>> -IMAGE_ROOTFS_SIZE_ext2 ?= "131072"
+>> -
+>>   OEINCLUDELOGS ?= "yes"
+>>   KERNEL_CONSOLE ?= "ttyS0"
+>>
+>> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+>> index 4122a88..9ef242f 100644
+>> --- a/meta/conf/machine/include/qemu.inc
+>> +++ b/meta/conf/machine/include/qemu.inc
+>> @@ -6,8 +6,6 @@ MACHINE_FEATURES = "kernel26 apm alsa pcmcia bluetooth irda usbgadget screen"
+>>   IMAGE_FSTYPES ?= "tar.bz2 ext3"
+>>
+>>   ROOT_FLASH_SIZE = "280"
+>> -IMAGE_ROOTFS_SIZE_ext2 ?= "280000"
+>> -IMAGE_ROOTFS_SIZE_ext3 ?= "280000"
+>>
+>>   # Don't include kernels in standard images
+>>   RDEPENDS_kernel-base = ""
+>> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>> index 21aaa6c..3246d5c 100644
+>> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+>> @@ -8,3 +8,5 @@ IMAGE_LINGUAS = ""
+>>   LICENSE = "MIT"
+>>
+>>   inherit core-image
+>> +
+>> +IMAGE_ROOTFS_SIZE = "8192"
 >
-> This appears to be a different variable to the IMAGE_ROOTFS_EXTRA_SPACE
-> used in the command above? Also, you've done a hard assignment here.
-> Shouldn't it be a soft (?=) assignment?
+> I'm not really sure about this, an initramfs that's the same size as a
+> more fully featured rootfs?
 >
-Yes, I fixed the OVERHEAD vs ROOTFS already, noticed that during post 
-RFC testing.  I did not see the soft (?=) problem, but agree it needs to 
-be fixed.
+That may be, then we need to increase the size slightly, but this will 
+trigger the correct behavior of actual size * IMAGE_OVERHEAD_FACTOR, 
+rather than the 64M which would be the default, this was to ensure it 
+could get smaller.  I don't have a current initramfs size, I will build 
+and verify.
 
-Sau!
 
-> Cheers,
-> Joshua
+>> diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipes-core/images/core-image-minimal.bb
+>> index aa00e67..743e121 100644
+>> --- a/meta/recipes-core/images/core-image-minimal.bb
+>> +++ b/meta/recipes-core/images/core-image-minimal.bb
+>> @@ -9,5 +9,7 @@ LICENSE = "MIT"
+>>
+>>   inherit core-image
+>>
+>> +IMAGE_ROOTFS_SIZE = "8192"
+>> +
+>
+> In your cover letter you stated that the minimal image is currently
+> 9.9M, which means we *need* the overhead to contain the entire image
+> contents. Correct? That seems a little unwise.
+>
+Right, that's currently, we want to see the image get smaller even, so 
+the 8M is an appropriate setting.  Currently the actual ext3 image is 
+13M with 10M of contents.
+
+So are you suggested that the 8M size is unwise or the overhead, not 
+sure I am catching your meaning here.
+
+
+>>   # remove not needed ipkg informations
+>>   ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
+>
 
 
 
