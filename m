@@ -1,32 +1,24 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jkridner@beagleboard.org>) id 1QPVTm-00022a-4s
+	(envelope-from <koen@dominion.thruhere.net>) id 1QPWTr-0003S5-RJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 09:59:38 +0200
-Received: by gyf1 with SMTP id 1so193447gyf.6
+	Thu, 26 May 2011 11:03:47 +0200
+Received: by wye20 with SMTP id 20so371913wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 00:56:34 -0700 (PDT)
-Received: by 10.236.153.130 with SMTP id f2mr686730yhk.281.1306396594049;
-	Thu, 26 May 2011 00:56:34 -0700 (PDT)
-Received: from [10.0.0.8] (ppp-69-148-48-26.dsl.hstntx.swbell.net
-	[69.148.48.26])
-	by mx.google.com with ESMTPS id s46sm718591yhm.39.2011.05.26.00.56.32
+	Thu, 26 May 2011 02:00:44 -0700 (PDT)
+Received: by 10.216.0.206 with SMTP id 56mr2077225web.112.1306400444349;
+	Thu, 26 May 2011 02:00:44 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id o75sm237374weq.40.2011.05.26.02.00.42
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 May 2011 00:56:33 -0700 (PDT)
-References: <c83bebea4e1c4dd15422ad2cb75eab977cea4a59.1306385875.git.dvhart@linux.intel.com>
-	<f29f5f7343d2b8b23b8ad25245efe9c205c8ca6e.1306385875.git.dvhart@linux.intel.com>
-In-Reply-To: <f29f5f7343d2b8b23b8ad25245efe9c205c8ca6e.1306385875.git.dvhart@linux.intel.com>
-Mime-Version: 1.0 (iPad Mail 8C148)
-Message-Id: <6EC98D6A-BEF1-468A-A69B-7CBF4EAB28BA@beagleboard.org>
-X-Mailer: iPad Mail (8C148)
-From: Jason Kridner <jkridner@beagleboard.org>
-Date: Thu, 26 May 2011 02:58:53 -0500
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [pull-oe-uboot 2/2] u-boot: rename u-boot_git.bb to u-boot_${PV}.bb
+	Thu, 26 May 2011 02:00:43 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 May 2011 11:00:38 +0200
+Message-Id: <1306400440-10173-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/3] dbus: split X11 dependant dbus-launch into its own subpackage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,60 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 07:59:38 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 May 2011 09:03:48 -0000
 
-On May 26, 2011, at 12:02 AM, Darren Hart <dvhart@linux.intel.com> wrote:
+This makes dbus usable in non-X enviroments like QT/e
 
-> In order to facilitate reuse of the oe-core u-boot recipe, there needs to b=
-e
-> some assurance that the oe-core version won't change without a clear indic=
-ator
-> to people extending it.
->=20
-> By renaming the recipe to include its version string instead of "git", BSP=
+From the original commit in OE .dev:
 
-> layers can extend a specific base version of u-boot, ie.
-> u-boot_2011.03.bbappend. When 2011.06 becomes available, we can create tha=
-t file
-> without instantly breaking all the BSPs depending on oe-core version of th=
-e
-> recipe.
->=20
-> As a matter of policy I would recommend we not carry more than 2 versioned=
+commit 8e25448fb01b6fa6ea3a86f9327f080cd753dfbc
+Author: John Lee <john_lee@openmoko.org>
+Date:   Fri Sep 5 11:37:39 2008 +0000
 
-> u-boot recipess at any given time. This will provide BSP layers time to mi=
-grate
-> to the newer version, without cluttering oe-core with numerous stale versi=
-ons of
-> u-boot. We may decide later to resurrect u-boot_git.bb as an AUTOREV recip=
-e to
-> faciliate upstream development on u-boot in the oe environment.
+    dbus: enable x support and put dbus-launch into new package dbus-x11
+    * Enable x support only add rdepends to dbus-launch.  Make it a
+      seperate package so other packages like dbus does not rdepend on
+      libx11.
 
-This sounds especially useful for automated testing of upstream. I'd be inte=
-rested in setting up a public daily build and test report in such a configur=
-ation. Let me know if it would be redundant.=20
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/dbus/dbus.inc      |    4 +++-
+ meta/recipes-core/dbus/dbus_1.4.1.bb |    2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
->=20
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Cc: Koen Kooi <koen@dominion.thruhere.net>
-> Cc: Jason Kridner <jkridner@beagleboard.org>
-> ---
-> .../uboot/{u-boot_git.bb =3D> u-boot_2011.03.bb}     |    0
-> 1 files changed, 0 insertions(+), 0 deletions(-)
-> rename meta/recipes-bsp/uboot/{u-boot_git.bb =3D> u-boot_2011.03.bb} (100%=
-)
->=20
-> diff --git a/meta/recipes-bsp/uboot/u-boot_git.bb b/meta/recipes-bsp/uboot=
-/u-boot_2011.03.bb
-> similarity index 100%
-> rename from meta/recipes-bsp/uboot/u-boot_git.bb
-> rename to meta/recipes-bsp/uboot/u-boot_2011.03.bb
-> --=20
-> 1.7.1
->=20
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 1ef0d8f..acf43d5 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -21,7 +21,9 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib"
++PACKAGES =+ "${PN}-lib ${PN}-x11"
++
++FILES_${PN}-x11 = "${bindir}/dbus-launch"
+ 
+ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-uuidgen \
+diff --git a/meta/recipes-core/dbus/dbus_1.4.1.bb b/meta/recipes-core/dbus/dbus_1.4.1.bb
+index f16d9f2..d1c59dc 100644
+--- a/meta/recipes-core/dbus/dbus_1.4.1.bb
++++ b/meta/recipes-core/dbus/dbus_1.4.1.bb
+@@ -1,6 +1,6 @@
+ include dbus.inc
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI[md5sum] = "99cb057700c0455fb68f8d57902f77ac"
+ SRC_URI[sha256sum] = "caa1a0ded2d0f2e95c1d4ec7e3c8bd44834928c5b0ed41a7189963f3593983bd"
+-- 
+1.6.6.1
+
 
 
