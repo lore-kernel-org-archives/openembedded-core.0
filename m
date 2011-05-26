@@ -1,21 +1,21 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QPgId-0004mO-Tq
+	(envelope-from <koen@dominion.thruhere.net>) id 1QPgS8-0004uX-WA
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 May 2011 21:32:51 +0200
-Received: by wwb17 with SMTP id 17so953857wwb.24
+	Thu, 26 May 2011 21:42:41 +0200
+Received: by wwb17 with SMTP id 17so962278wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 12:29:38 -0700 (PDT)
-Received: by 10.227.32.69 with SMTP id b5mr1217169wbd.99.1306438178626;
-	Thu, 26 May 2011 12:29:38 -0700 (PDT)
+	Thu, 26 May 2011 12:39:37 -0700 (PDT)
+Received: by 10.227.11.67 with SMTP id s3mr1251179wbs.62.1306438776834;
+	Thu, 26 May 2011 12:39:36 -0700 (PDT)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fw15sm692081wbb.61.2011.05.26.12.29.37
+	by mx.google.com with ESMTPS id d19sm697314wbh.59.2011.05.26.12.39.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 May 2011 12:29:37 -0700 (PDT)
+	Thu, 26 May 2011 12:39:36 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 May 2011 21:29:33 +0200
-Message-Id: <1306438173-6837-1-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 26 May 2011 21:39:32 +0200
+Message-Id: <1306438772-8066-1-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 Cc: Koen Kooi <koen@dominion.thruhere.net>
 Subject: [PATCH] dbus: clean up dbus-x11 packaging
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 May 2011 19:32:52 -0000
+X-List-Received-Date: Thu, 26 May 2011 19:42:41 -0000
 
 Martin Jansa spotted some differences with OE dev, which this commit fixes:
 
