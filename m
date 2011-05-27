@@ -1,29 +1,29 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QPo0O-0005nF-RL
+	(envelope-from <dvhart@linux.intel.com>) id 1QPoNd-0006Le-5t
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 05:46:33 +0200
+	Fri, 27 May 2011 06:10:33 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 26 May 2011 20:43:25 -0700
+	by azsmga101.ch.intel.com with ESMTP; 26 May 2011 21:07:24 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,278,1304319600"; 
-   d="scan'208";a="2708597"
+   d="scan'208";a="2716143"
 Received: from unknown (HELO [10.255.12.184]) ([10.255.12.184])
-	by azsmga001.ch.intel.com with ESMTP; 26 May 2011 20:43:25 -0700
-Message-ID: <4DDF1DDD.30001@linux.intel.com>
-Date: Thu, 26 May 2011 20:43:25 -0700
+	by azsmga001.ch.intel.com with ESMTP; 26 May 2011 21:07:24 -0700
+Message-ID: <4DDF237C.20506@linux.intel.com>
+Date: Thu, 26 May 2011 21:07:24 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1306444161.git.dvhart@linux.intel.com>	
-	<e5f5d48165bcb5dc3ccf160a29e16ca700f85395.1306444161.git.dvhart@linux.intel.com>
-	<1306452282.27470.214.camel@rex>
-In-Reply-To: <1306452282.27470.214.camel@rex>
-Cc: Koen Kooi <koen@dominion.thruhere.net>, Chris Larson <clarson@kergoth.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1306218459.git.sgw@linux.intel.com>
+	<1306443683.5911.1.camel@vorpal.jf.intel.com>
+	<4DDEC006.30701@linux.intel.com>
+	<201105262214.44529.paul.eggleton@linux.intel.com>
+In-Reply-To: <201105262214.44529.paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC 1/2] IMAGE_ROOTFS_SIZE Cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,58 +38,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 03:46:33 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 27 May 2011 04:10:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
 
 
-On 05/26/2011 04:24 PM, Richard Purdie wrote:
-> On Thu, 2011-05-26 at 14:12 -0700, Darren Hart wrote:
->> Note: I used bb.note() instead of bb.debug() to ensure the message at least
->>       makes it to the console. From what I could gather, bb.debug() doesn't
->>       go anywhere during recipe parsing.
+On 05/26/2011 02:14 PM, Paul Eggleton wrote:
+> On Thursday 26 May 2011 22:03:02 Darren Hart wrote:
+>> Yeah, this wasn't clear to me either. And my question in 2/2 still
+>> stands - what is the goal of the overhead factor?
 > 
-> Why?
-> 
+> I think the thinking was that the more software you have installed to begin 
+> with the more user data you're likely to need to store. Personally I think it 
+> would be simpler if we just set some additional overhead as an absolute value 
 
-My thinking was that the only time you would legitimately try and build
-this package when you can't is during a "world" build, which is likely
-an unattended sort of build anyway. The rest of the time you might hit
-this error would be when you intended to build u-boot but are missing
-the requisite configuration bits in your machine config.
-
-Since the debug lines don't get logged anywhere, and you have to clear
-tmp/cache in order to retrigger the SkipPackage event with a new bitbake
-command (even with -D), I thought it the most user friendly to ensure
-the message made it out somewhere where it wouldn't get lost.
-
-> We exclude about 30 different recipes
-
-I didn't realize it was so many, it's difficult to tell just grepping
-for SkipPackage.
-
-> when parsing and would you really
-> want to see a usability message from each one when you likely don't care
-> about it?
-
-See above for my rationale on when you "care about it".
-
-> 
-> A bb.debug is fine and the user can see it if they run with -D to get
-> more info.
-
-The user won't see it unless they clear tmp/cache, which isn't very
-intuitive (or at least it wasn't to me).
-
-> A bb.note is just irritating.
-
-I can resend with bb.debug() if you feel strongly about it, as
-apparently you do. I've answered your "why" question, but I don't feel
-strongly about it. If you want to use bb.debug() I can resend as such
-(or just repush with that single change).
-
-Thanks,
+I had the same thought, so "seconded".
 
 -- 
 Darren Hart
