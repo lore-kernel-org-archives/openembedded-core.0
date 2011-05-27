@@ -1,27 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QPtQY-0007qg-82 for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 11:33:54 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QPtNb-00063I-Mk
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QPtSL-0000WW-VM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 11:30:51 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1306486477.27470.253.camel@rex>
-References: <cover.1306442263.git.nitin.a.kamble@intel.com>
-	<03152273cac84eef23738c5f26c45b082194284f.1306442263.git.nitin.a.kamble@intel.com>
-	<1306452822.27470.220.camel@rex>
-	<FD9AE248-A10D-4079-B66F-8F4AB94B94F7@dominion.thruhere.net>
-	<1306486477.27470.253.camel@rex>
-Organization: Phil Blundell Consulting Ltd
-Date: Fri, 27 May 2011 10:30:50 +0100
-Message-ID: <1306488650.2525.396.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [bugfix 1/1] mesa-xlib: workaround gcc 4.6.0 ICE
+	Fri, 27 May 2011 11:35:46 +0200
+Received: by wye20 with SMTP id 20so1261450wye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 May 2011 02:32:41 -0700 (PDT)
+Received: by 10.216.232.41 with SMTP id m41mr1827693weq.31.1306488760779;
+	Fri, 27 May 2011 02:32:40 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id y3sm845298wec.34.2011.05.27.02.32.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 27 May 2011 02:32:40 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 May 2011 11:32:37 +0200
+Message-Id: <1306488757-29019-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] avahi: enable systemd support, but package systemd files seperately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,40 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 09:33:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 May 2011 09:35:46 -0000
 
-On Fri, 2011-05-27 at 09:54 +0100, Richard Purdie wrote:
-> Good question. I guess you're just changing the gcc version but using
-> the rest of that file?
-> 
-> This is a tricky problem as we do want to include that for anyone using
-> gcc 4.6 as otherwise things break but as you say, can't impact someone
-> using that file but changing its values.
-> 
-> I guess the solution will be to turn it into anonymous python checking
-> if we're:
-> 
-> * using gcc 4.6
-> * building for arm
-> * using armv7 optimisations
-> * building mesa-xlib
-> 
+Systemd support in avahi only affects 'make install', so no changes for sysvinit based systems
 
-Can we not just patch gcc to fix the ice?  That seems like it would be
-the best answer.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-connectivity/avahi/avahi.inc       |    9 +++++++--
+ meta/recipes-connectivity/avahi/avahi_0.6.30.bb |    2 +-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-If that's difficult for some reason, and downgrading gcc isn't an option
-either for whatever reason, then it seems like the right thing is going
-to be to get mesa-xlib's do_configure() to sort it out.
-
-I'm not sure that anonymous python is going to work since there is no
-particularly good and reliable method of determining ahead of time what
-version of gcc is going to end up being used for the build.
-
-p.
-
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index b2fa8ca..099c5a4 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -37,9 +37,14 @@ EXTRA_OECONF = "--with-distro=debian \
+              --disable-qt3 \
+              --disable-qt4 \
+              --disable-python \
+-             --disable-doxygen-doc"
++             --disable-doxygen-doc \
++             --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
++"
+ 
+-PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-gobject avahi-autoipd avahi-ui-utils avahi-utils libavahi-ui libavahi-ui-dev"
++PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-gobject avahi-autoipd avahi-ui-utils avahi-utils libavahi-ui libavahi-ui-dev"
++
++FILES_avahi-systemd = "${base_libdir}/systemd"
++RDEPENDS_avahi-systemd = "avahi-daemon"
+ 
+ FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
+ FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
+diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
+index 1084c04..e63f406 100644
+--- a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
++++ b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
+ 
+ RDEPENDS_avahi-daemon = "sysvinit-pidof"
+-PR = "r0"
++PR = "r1"
+ 
+ EXTRA_OECONF += "--disable-gtk3"
+ 
+-- 
+1.6.6.1
 
 
 
