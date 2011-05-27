@@ -1,38 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QQ1At-00035q-Ku for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 19:54:33 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RHBmEp004465
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1QQ1Ht-0003XK-BZ
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 May 2011 19:57:29 +0200
+Received: by wwb17 with SMTP id 17so1785373wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 18:11:48 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04351-03 for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 18:11:44 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RHBip0004459
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 18:11:44 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 27 May 2011 10:54:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:content-transfer-encoding;
+	bh=qzGcrwU/bhzaf29Ras2gr5p2UQaGnAlz7YC66ua3l9M=;
+	b=jWVrBcZshBXfdxZjDq9j0w0qGD6qIkF09vVGWnYWk/6xAI3PAL8c+T5laq2O793q44
+	X2zcRrmLw3RkV9thcmn6rj6eKy3EGRAWbGcnPCzQDIPrky6wkxZZ/SCE3Jg3gy7iHUxh
+	mhm4sRpCyjB7BsSZ/gCHu2m8LmhlyLkPo2Z6U=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	b=uGD6azSDIKN48vmzAGEFtLe1Wa53ir4NEFJUiBYFu88RC2broWObRIp9txROPWh8gK
+	gW+nHQKYMvlGuuO4WbORXdVAcNq77bWZrqKhbq7TDnjUMFv9SispWZiCojdxAj5bN5xP
+	TQs9+kt3aoqVB9ji7JAxnurpMPAtpPAcSB4/A=
+Received: by 10.216.176.82 with SMTP id a60mr1846wem.21.1306518864163; Fri, 27
+	May 2011 10:54:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.216.60.145 with HTTP; Fri, 27 May 2011 10:53:54 -0700 (PDT)
+In-Reply-To: <1306517084.27470.298.camel@rex>
+References: <20110526220829.GO3222@jama.jama.net>
+	<1306451615.27470.212.camel@rex>
+	<20110527053946.GP3222@jama.jama.net> <1306517084.27470.298.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 27 May 2011 10:53:54 -0700
+Message-ID: <BANLkTin__3PLZ0uJ5mYH1pkuLHiEW3rkpQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1306488650.2525.396.camel@phil-desktop>
-References: <cover.1306442263.git.nitin.a.kamble@intel.com>
-	<03152273cac84eef23738c5f26c45b082194284f.1306442263.git.nitin.a.kamble@intel.com>
-	<1306452822.27470.220.camel@rex>
-	<FD9AE248-A10D-4079-B66F-8F4AB94B94F7@dominion.thruhere.net>
-	<1306486477.27470.253.camel@rex>
-	<1306488650.2525.396.camel@phil-desktop>
-Date: Fri, 27 May 2011 18:11:38 +0100
-Message-ID: <1306516298.27470.289.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [bugfix 1/1] mesa-xlib: workaround gcc 4.6.0 ICE
+Subject: Re: Sad story about Shared State
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,49 +47,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 17:54:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 May 2011 17:57:29 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2011-05-27 at 10:30 +0100, Phil Blundell wrote:
-> On Fri, 2011-05-27 at 09:54 +0100, Richard Purdie wrote:
-> > Good question. I guess you're just changing the gcc version but using
-> > the rest of that file?
-> > 
-> > This is a tricky problem as we do want to include that for anyone using
-> > gcc 4.6 as otherwise things break but as you say, can't impact someone
-> > using that file but changing its values.
-> > 
-> > I guess the solution will be to turn it into anonymous python checking
-> > if we're:
-> > 
-> > * using gcc 4.6
-> > * building for arm
-> > * using armv7 optimisations
-> > * building mesa-xlib
-> > 
-> 
-> Can we not just patch gcc to fix the ice?  That seems like it would be
-> the best answer.
-> 
-> If that's difficult for some reason, and downgrading gcc isn't an option
-> either for whatever reason, then it seems like the right thing is going
-> to be to get mesa-xlib's do_configure() to sort it out.
-> 
-> I'm not sure that anonymous python is going to work since there is no
-> particularly good and reliable method of determining ahead of time what
-> version of gcc is going to end up being used for the build.
+On Fri, May 27, 2011 at 10:24 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2011-05-27 at 07:39 +0200, Martin Jansa wrote:
+>> On Fri, May 27, 2011 at 12:13:35AM +0100, Richard Purdie wrote:
+>> I meant something like switch back to something like pstage was or
+>> disable both (IIRC I had strange error on many places without sstate
+>> inherited by distro).
+>>
+>> > Which BB_SIGNATURE_HANDLER are you using? It sounds like you're using
+>> > basichash but want the behaviour generated by basic (the current
+>> > default). Nobody is forcing you to use basichash.
+>>
+>> AFAIK I'm using default basic..
+>> OE @ ~/shr-core/meta-smartphone $ git grep BB_SIGNATURE_HANDLER
+>> OE @ ~/shr-core/meta-openembedded $ git grep BB_SIGNATURE_HANDLER
+>> OE @ ~/shr-core/openembedded-core $ git grep BB_SIGNATURE_HANDLER
+>> meta/conf/bitbake.conf:BB_SIGNATURE_HANDLER ?=3D "basic"
+>>
+>> OE @ ~/shr-core $ bitbake -e shr-lite-image | tee -a log; grep BB_SIGNAT=
+URE_HANDLER log
+>> # BB_SIGNATURE_HANDLER=3Dbasic
+>> BB_SIGNATURE_HANDLER=3D"basic"
+>>
+>> but even when I set it to not existing basic2
+>> it doesn't show error from
+>> lib/bb/siggen.py
+>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.error("Invalid signature generator '%=
+s', using default 'noop'\n"
+>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0"Available generators: %s",
+>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0', '.join(obj.name for obj in siggens))
+>> but fails like this:
+>> NOTE: Preparing runqueue
+>> ERROR: Running idle function
+>> Traceback (most recent call last):
+>> =C2=A0 File "/usr/lib64/python2.7/site-packages/bb/server/process.py", l=
+ine 151, in idle_commands
+>> =C2=A0 =C2=A0 retval =3D function(self, data, False)
+>> =C2=A0 File "/usr/lib64/python2.7/site-packages/bb/cooker.py", line 792,=
+ in buildTargetsIdle
+>> =C2=A0 =C2=A0 retval =3D rq.execute_runqueue()
+>> =C2=A0 File "/usr/lib64/python2.7/site-packages/bb/runqueue.py", line 94=
+0, in execute_runqueue
+>> =C2=A0 =C2=A0 self.rqexe =3D RunQueueExecuteScenequeue(self)
+>> =C2=A0 File "/usr/lib64/python2.7/site-packages/bb/runqueue.py", line 14=
+34, in __init__
+>> =C2=A0 =C2=A0 valid =3D bb.utils.better_eval(call, locs)
+>> =C2=A0 File "/usr/lib64/python2.7/site-packages/bb/utils.py", line 390, =
+in better_eval
+>> =C2=A0 =C2=A0 return eval(source, _context, locals)
+>> TypeError: expected a character buffer object
+>>
+>> I'll add some debugging code to bitbake to see what's really going on he=
+re..
+>>
+>> > As you mention, there are benefits and drawbacks either way.
+>>
+>> Yes I see the benefits and if we find out that basichash is somehow used
+>> instead of configured basic I'll be really happy to continue using it.
+>
+> I dug into this with Martin on irc and it was found that rm_work.bbclass
+> was exposing a bitbake bug with setscene handling. This was fixed with:
+>
+> http://git.openembedded.net/cgit.cgi/bitbake/commit/?id=3D0a4d857aabc86b9=
+73170ba9ce32b6b449a4e2165
+>
+> and I think Martin is finding things work better now! :)
 
-I was thinking of the GCCVERSION variable which is used in that same
-file and is probably a valid thing to do in this specific case.
+good job nailing it down. I use rm_work too and its working better for
+me as well.
+Although I did not complain since I was hacking toolchain parts and expecte=
+d
+most of it to rebuild anyway :)
 
-Anyhow, it looks like we have a fix for the ICE (Nitin confirmed it
-builds) which is much perferred and I'm going to wait for that,
-thanks :)
-
-Richard
-
-
-
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
