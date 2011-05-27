@@ -1,25 +1,44 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QQ4KP-0007Kg-7s
+	(envelope-from <martin.jansa@gmail.com>) id 1QQ4Mr-0007OH-W7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 23:12:17 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 May 2011 14:09:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,282,1304319600"; 
-   d="scan'208";a="8750408"
-Received: from swold-mobl.jf.intel.com ([10.24.82.108])
-	by fmsmga002.fm.intel.com with ESMTP; 27 May 2011 14:09:09 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 May 2011 14:09:08 -0700
-Message-Id: <8046a9b60d086b3f82c0733ecbf24785066625e4.1306530446.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1306530446.git.sgw@linux.intel.com>
-References: <cover.1306530446.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1306530446.git.sgw@linux.intel.com>
-References: <cover.1306530446.git.sgw@linux.intel.com>
-Subject: [PATCH 1/1] xserver: force to use libdl
+	Fri, 27 May 2011 23:14:50 +0200
+Received: by fxm19 with SMTP id 19so1862587fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 May 2011 14:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=bOP+9epY6oSEJvhbMqtf9MN7q+k0lpX+8Kf1/rFFEsM=;
+	b=MuJWuSjV5D2LkC5BhK2nlNAPyh4dvPji77TeZBgGET9nCuYDqWQ6b0xmuHt3pwi5hf
+	UcDviD5uuNVRMv/HvV9qMykYLJ+UqYT+LxEM2Vcm4FNt+RcqMhOgfyFXtmVmd8O/7M/r
+	z0yd0fflkVKAwd4tzQPvVYBuSyrLeqZI/sk2U=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=kTEWK62V+r+6n/fuJQMy8pHscFZflxCXhstTPjaVGGJlaRE9m2HmxGAuePYhEuQDUj
+	1zcCP9GJEirWf1+3zVHNjdrZmglGDx696Hn6f7qeuT4MEt/g9+LGGMBvZfJAsBNpP9V+
+	bHgvc3tvevDjOHCOx7ttPXmlKscP7OUHA0Vtk=
+Received: by 10.223.9.137 with SMTP id l9mr2839837fal.25.1306530695783;
+	Fri, 27 May 2011 14:11:35 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id g7sm804312fac.39.2011.05.27.14.11.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 27 May 2011 14:11:34 -0700 (PDT)
+Date: Fri, 27 May 2011 23:11:28 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110527211128.GQ3222@jama.jama.net>
+References: <20110526220829.GO3222@jama.jama.net>
+	<1306451615.27470.212.camel@rex>
+	<20110527053946.GP3222@jama.jama.net>
+	<1306517084.27470.298.camel@rex>
+MIME-Version: 1.0
+In-Reply-To: <1306517084.27470.298.camel@rex>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Subject: Re: Sad story about Shared State
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,72 +53,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 21:12:17 -0000
+X-List-Received-Date: Fri, 27 May 2011 21:14:50 -0000
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="cYG5ZC/RuVsIq1ir"
+Content-Disposition: inline
 
-From: Yu Ke <ke.yu@intel.com>
+--cYG5ZC/RuVsIq1ir
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #737]
+On Fri, May 27, 2011 at 06:24:44PM +0100, Richard Purdie wrote:
+> I dug into this with Martin on irc and it was found that rm_work.bbclass
+> was exposing a bitbake bug with setscene handling. This was fixed with:
+>=20
+> http://git.openembedded.net/cgit.cgi/bitbake/commit/?id=3D0a4d857aabc86b9=
+73170ba9ce32b6b449a4e2165
+>=20
+> and I think Martin is finding things work better now! :)
 
-The AC_CHECK_FUNC([dlopen], [], AC_CHECK_LIB([dl], [dlopen], DLOPEN_LIBS="-ldl"))
-macro seems not work well in ppc arch, so this patch force the DLOPEN_LIBS="-ldl"
+Yes, this evening is much happier (no story, sorry :)) and my box=20
+is getting colder and colder :)
 
-Signed-off-by: Yu Ke <ke.yu@intel.com>
+Cheers,
 
-Added Bug info
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../xorg-xserver/files/force-libdl.patch           |   19 +++++++++++++++++++
- .../xorg-xserver/xserver-xf86-lite_1.10.1.bb       |    5 +++--
- 2 files changed, 22 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-xserver/files/force-libdl.patch
-
-diff --git a/meta/recipes-graphics/xorg-xserver/files/force-libdl.patch b/meta/recipes-graphics/xorg-xserver/files/force-libdl.patch
-new file mode 100644
-index 0000000..87814c8
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/files/force-libdl.patch
-@@ -0,0 +1,19 @@
-+configure.ac: force to use DLOPEN_LIBS="-ldl"
-+
-+The AC_CHECK_FUNC([dlopen], [], AC_CHECK_LIB([dl], [dlopen], DLOPEN_LIBS="-ldl"))
-+macro seems not work well in ppc arch, so this patch force the DLOPEN_LIBS="-ldl"
-+
-+Signed-off-by: Yu Ke <ke.yu@intel.com>
-+
-+diff --git a/configure.ac b/configure.ac
-+index 61caaed..46e68d2 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -203,6 +203,7 @@ dnl Check to see if dlopen is in default libraries (like Solaris, which
-+ dnl has it in libc), or if libdl is needed to get it.
-+ AC_CHECK_FUNC([dlopen], [],
-+ 	AC_CHECK_LIB([dl], [dlopen], DLOPEN_LIBS="-ldl"))
-++DLOPEN_LIBS="-ldl"
-+ AC_SUBST(DLOPEN_LIBS)
-+ 
-+ dnl Checks for library functions.
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.10.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.10.1.bb
-index f9b3a64..c84478a 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.10.1.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-lite_1.10.1.bb
-@@ -2,11 +2,12 @@ require xserver-xf86-lite.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=74df27b6254cc88d2799b5f4f5949c00"
- 
--PR = "r0"
-+PR = "r1"
- 
- DEPENDS += "font-util"
- 
--SRC_URI += "file://crosscompile.patch"
-+SRC_URI += "file://crosscompile.patch \
-+            file://force-libdl.patch "
- 
- # Misc build failure for master HEAD
- SRC_URI += "file://fix_open_max_preprocessor_error.patch;"
--- 
-1.7.3.4
-
-
-
+--cYG5ZC/RuVsIq1ir--
