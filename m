@@ -1,33 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QPkVv-0002tW-EY for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 02:02:51 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4QNxmHH028937
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 00:59:48 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28879-01 for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 00:59:44 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4QNxdq7028931
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 00:59:39 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1QPkj4-00030x-RB
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 May 2011 02:16:27 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 26 May 2011 17:13:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,277,1304319600"; 
+   d="scan'208";a="8403697"
+Received: from unknown (HELO [10.255.12.104]) ([10.255.12.104])
+	by fmsmga002.fm.intel.com with ESMTP; 26 May 2011 17:13:21 -0700
+Message-ID: <4DDEECA0.90006@linux.intel.com>
+Date: Thu, 26 May 2011 17:13:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1306451124.git.sgw@linux.intel.com>
-References: <cover.1306451124.git.sgw@linux.intel.com>
-Date: Fri, 27 May 2011 00:59:34 +0100
-Message-ID: <1306454374.27470.228.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [Consolidated Pull 0/9] Fixes for M1 and build breakage
+References: <1306402295-14048-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1306402295-14048-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH] rm_work: keep all sigdata files in stamps dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 00:02:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 27 May 2011 00:16:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-05-26 at 16:07 -0700, Saul Wold wrote:
-> Darren Hart (1):
->   utils.bbclass: make FILESEXTRAPATHS colon delimited
+On 05/26/2011 02:31 AM, Martin Jansa wrote:
+> * this makes fix for [YOCTO #1074] in bitbake 139b8a625818225c358a1b8363518d7ed6913188
+>    much more usefull for people using rm_work
+>
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   meta/classes/rm_work.bbclass |    4 ++++
+>   1 files changed, 4 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+> index 256a202..303d47d 100644
+> --- a/meta/classes/rm_work.bbclass
+> +++ b/meta/classes/rm_work.bbclass
+> @@ -42,6 +42,10 @@ do_rm_work () {
+>               *do_setscene*)
+>                   break
+>                   ;;
+> +            *sigdata*)
+> +                i=dummy
+> +                break
+> +                ;;
+>               *do_package_write*)
+>                   i=dummy
+>                   break
+Merged into oe-core
 
-Feedback to patch sent, can be simplified (I think).
-
-> Koen Kooi (2):
->   dbus: clean up dbus-x11 packaging
->   x11-common: fix dbus-launch RDEPENDS
-
-Merged
-
-> Martin Jansa (1):
->   rm_work: keep all sigdata files in stamps dir
-
-Merged
-
-> Nitin A Kamble (1):
->   mesa-xlib: workaround gcc 4.6.0 ICE
-
-Merged an update version Nitin provided
-
-> Phil Blundell (1):
->   busybox: sync do_install() with oe master (mostly)
-
-I want to check something with this one first so held back for now as
-its late and I'd like to sleep :)
-
-> Saul Wold (3):
->   bitbake.conf: change IMAGE_ROOTFS_EXTRA_SPACE to soft (?=) default
->   gnutls: Add libcap to DEPENDS
->   Revert "createrepo: Update to 0.9.9"
-
-Merged.
-
-Cheers,
-
-Richard
+Thanks
+	Sau!
 
 
 
