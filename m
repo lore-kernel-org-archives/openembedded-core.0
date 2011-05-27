@@ -1,24 +1,34 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QPyHZ-00082o-Ec
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 16:44:57 +0200
-Received: by wye20 with SMTP id 20so1487721wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 07:41:52 -0700 (PDT)
-Received: by 10.216.140.219 with SMTP id e69mr1240869wej.45.1306507312420;
-	Fri, 27 May 2011 07:41:52 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id m8sm1235762wbh.62.2011.05.27.07.41.51
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 May 2011 07:41:51 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 May 2011 16:41:48 +0200
-Message-Id: <1306507308-8674-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH v2] dbus 1.4.1: create UUIDDIR in postinst
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QPyMf-00087v-Pq for openembedded-core@lists.openembedded.org;
+	Fri, 27 May 2011 16:50:13 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4REl3B4003108;
+	Fri, 27 May 2011 15:47:03 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02533-10; Fri, 27 May 2011 15:46:59 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4REktRX003080
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 27 May 2011 15:46:55 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Darren Hart <dvhart@linux.intel.com>
+In-Reply-To: <4DDFAD9E.7080902@linux.intel.com>
+References: <cover.1306444161.git.dvhart@linux.intel.com>
+	<e5f5d48165bcb5dc3ccf160a29e16ca700f85395.1306444161.git.dvhart@linux.intel.com>
+	<1306452282.27470.214.camel@rex>  <4DDF1DDD.30001@linux.intel.com>
+	<1306485644.27470.247.camel@rex>  <4DDFAD9E.7080902@linux.intel.com>
+Date: Fri, 27 May 2011 15:46:49 +0100
+Message-ID: <1306507609.27470.272.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Chris Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,71 +43,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 14:44:57 -0000
+X-List-Received-Date: Fri, 27 May 2011 14:50:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This fixes dbus usage in non-sysV init systems. Volatiles aren't needed in systemd land, since /run is tmpfs and the dbus units take care of all this.
+On Fri, 2011-05-27 at 06:56 -0700, Darren Hart wrote:
+> 
+> On 05/27/2011 01:40 AM, Richard Purdie wrote:
+> > On Thu, 2011-05-26 at 20:43 -0700, Darren Hart wrote:
+> >> On 05/26/2011 04:24 PM, Richard Purdie wrote:
+> >>> On Thu, 2011-05-26 at 14:12 -0700, Darren Hart wrote:
+> >>>> Note: I used bb.note() instead of bb.debug() to ensure the message at least
+> >>>>       makes it to the console. From what I could gather, bb.debug() doesn't
+> >>>>       go anywhere during recipe parsing.
+> >>>
+> >>> Why?
+> >>>
+> >>
+> >> My thinking was that the only time you would legitimately try and build
+> >> this package when you can't is during a "world" build, which is likely
+> >> an unattended sort of build anyway. The rest of the time you might hit
+> >> this error would be when you intended to build u-boot but are missing
+> >> the requisite configuration bits in your machine config.
+> > 
+> > You've inserted the note at parsing time though so every time anyone
+> > builds anything this will show up.
+> 
+> Aha! Got it. I changed it and ran a test:
+> 
+> bb.note("DEBUG TO FOLLOW")
+> bb.debug(1, "To build %s, see %s for instructions on setting \
+> 	     up your machine config" % (PN, FILE))
+> 
+> 
+> $ rm -rf tmp/cache; bitbake -DDDD u-boot | tee log
+> Pseudo is not present but is required, building this first before the
+> main build
+> Loading cache...done.
+> Loaded 998 entries from dependency cache.
+> Parsing recipes...NOTE: DEBUG TO FOLLOW
+> done.
+> Parsing of 783 .bb files complete (780 cached, 3 parsed). 1000 targets,
+> 11 skipped, 0 masked, 0 errors.
+> 
+> As you can see, even with -DDDD, the message never makes it to the
+> console. So I agree that bb.note() is inappropriate, unfortunately,
+> bb.debug doesn't appear to be working. I believe it was yesterday...
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
+The result was cached (780 cached). Try that command after "touch
+conf/local.conf" and it will be in there.
 
-Changes since v1:
+Cheers,
 
-	* addressed pbs concerns about the || true and chgrp dots
-	* check for volatiles before trying to run the script
-
- meta/recipes-core/dbus/dbus.inc      |   12 +++++++++---
- meta/recipes-core/dbus/dbus_1.4.1.bb |    2 +-
- 2 files changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 2a5f8bd..38acf35 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -49,13 +49,17 @@ pkg_postinst_dbus() {
- 
- 	MESSAGEUSER=messagebus
- 	MESSAGEHOME=/var/run/dbus
-+	UUIDDIR=/var/lib/dbus
- 
--	mkdir -p $MESSAGEHOME || true
-+	mkdir -p $MESSAGEHOME
-+	mkdir -p $UUIDDIR
- 	chgrp "$MESSAGEUSER" "$MESSAGEHOME" 2>/dev/null || addgroup "$MESSAGEUSER"
--	chown "$MESSAGEUSER"."$MESSAGEUSER" "$MESSAGEHOME" 2>/dev/null || \
-+	chown "$MESSAGEUSER":"$MESSAGEUSER" "$MESSAGEHOME" 2>/dev/null || \
- 		adduser --system --home "$MESSAGEHOME" --no-create-home --disabled-password \
- 			--ingroup "$MESSAGEUSER" "$MESSAGEUSER"
- 
-+	chown "$MESSAGEUSER":"$MESSAGEUSER" "$UUIDDIR"
-+
- 	grep -q netdev: /etc/group || addgroup netdev
- 
- 	chown root:"$MESSAGEUSER" /usr/libexec/dbus-daemon-launch-helper
-@@ -63,7 +67,9 @@ pkg_postinst_dbus() {
- 
- 	# add volatile after new user/grp are created
- 	echo "d messagebus messagebus 0755 /var/run/dbus none" > /etc/default/volatiles/99_dbus
--	/etc/init.d/populate-volatile.sh update
-+	if [ -e /etc/init.d/populate-volatile.sh ] ; then
-+		/etc/init.d/populate-volatile.sh update
-+	fi
- }
- 
- EXTRA_OECONF_X = "--with-x"
-diff --git a/meta/recipes-core/dbus/dbus_1.4.1.bb b/meta/recipes-core/dbus/dbus_1.4.1.bb
-index 1c8aeaa..f65ef35 100644
---- a/meta/recipes-core/dbus/dbus_1.4.1.bb
-+++ b/meta/recipes-core/dbus/dbus_1.4.1.bb
-@@ -1,6 +1,6 @@
- include dbus.inc
- 
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI[md5sum] = "99cb057700c0455fb68f8d57902f77ac"
- SRC_URI[sha256sum] = "caa1a0ded2d0f2e95c1d4ec7e3c8bd44834928c5b0ed41a7189963f3593983bd"
--- 
-1.6.6.1
+Richard
 
 
 
