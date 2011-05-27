@@ -1,25 +1,31 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QPylp-0000Py-OK for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 17:16:13 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QPyit-00067e-3l
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 17:13:11 +0200
-From: Phil Blundell <pb@pbcl.net>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QPz7M-0000ei-Iy for openembedded-core@lists.openembedded.org;
+	Fri, 27 May 2011 17:38:28 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RFZJWY003669;
+	Fri, 27 May 2011 16:35:19 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03111-08; Fri, 27 May 2011 16:35:15 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RFZCRp003660
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 27 May 2011 16:35:14 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <E0D7DF36-90A8-4BE0-BCF0-CE4ADC014290@dominion.thruhere.net>
-References: <1306503625-719-1-git-send-email-koen@dominion.thruhere.net>
-	<1306504037.2525.449.camel@phil-desktop>
-	<E0D7DF36-90A8-4BE0-BCF0-CE4ADC014290@dominion.thruhere.net>
-Organization: Phil Blundell Consulting Ltd
-Date: Fri, 27 May 2011 16:13:10 +0100
-Message-ID: <1306509190.2525.465.camel@phil-desktop>
+In-Reply-To: <1306507308-8674-1-git-send-email-koen@dominion.thruhere.net>
+References: <1306507308-8674-1-git-send-email-koen@dominion.thruhere.net>
+Date: Fri, 27 May 2011 16:35:07 +0100
+Message-ID: <1306510507.27470.274.camel@rex>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH] dbus 1.4.1: create UUIDDIR in postinst
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH v2] dbus 1.4.1: create UUIDDIR in postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,17 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 15:16:13 -0000
+X-List-Received-Date: Fri, 27 May 2011 15:38:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-05-27 at 15:55 +0200, Koen Kooi wrote:
-> I matched the postinst for these additionsm, but I can cleanup the complete postinst if you wish.
+On Fri, 2011-05-27 at 16:41 +0200, Koen Kooi wrote:
+> This fixes dbus usage in non-sysV init systems. Volatiles aren't needed in systemd land, since /run is tmpfs and the dbus units take care of all this.
+> 
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+> 
+> Changes since v1:
+> 
+> 	* addressed pbs concerns about the || true and chgrp dots
+> 	* check for volatiles before trying to run the script
+> 
+>  meta/recipes-core/dbus/dbus.inc      |   12 +++++++++---
+>  meta/recipes-core/dbus/dbus_1.4.1.bb |    2 +-
+>  2 files changed, 10 insertions(+), 4 deletions(-)
 
-I see you did that already in your v2 patch.  Thanks.
+Applied to master, thanks.
 
-p.
-
+Richard
 
 
 
