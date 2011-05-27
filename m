@@ -1,25 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1QQ5D5-0008JM-OV
-	for openembedded-core@lists.openembedded.org;
-	Sat, 28 May 2011 00:08:48 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 May 2011 15:05:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,282,1304319600"; 
-   d="scan'208";a="6032681"
-Received: from eflanaga-mobl.jf.intel.com (HELO [10.7.198.66]) ([10.7.198.66])
-	by orsmga001.jf.intel.com with ESMTP; 27 May 2011 15:05:41 -0700
-Message-ID: <4DE02034.70408@intel.com>
-Date: Fri, 27 May 2011 15:05:40 -0700
-From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4DE01EE2.40309@intel.com>
-In-Reply-To: <4DE01EE2.40309@intel.com>
-Subject: Re: [PATCH 1/1][v2] license.bbclass: Sane Parsing of licenses
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QQ5HD-0008NE-Nx for openembedded-core@lists.openembedded.org;
+	Sat, 28 May 2011 00:13:04 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RM9uaW007051;
+	Fri, 27 May 2011 23:09:56 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06469-09; Fri, 27 May 2011 23:09:52 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RM9k60007045
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 27 May 2011 23:09:47 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Lock <josh@linux.intel.com>
+In-Reply-To: <1306526949.1747.8.camel@vorpal>
+References: <cover.1306477652.git.lianhao.lu@intel.com>
+	<1306515635.27470.284.camel@rex>
+	<7DC6724C-BF20-4EA1-A87D-32FBEEECDA3B@dominion.thruhere.net>
+	<1306526949.1747.8.camel@vorpal>
+Date: Fri, 27 May 2011 23:09:40 +0100
+Message-ID: <1306534180.27470.305.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: bitbake-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [bitbake-devel] [PATCH 00/11] Add PR service and integrate PKGV/PKGR from OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,238 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 22:08:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 27 May 2011 22:13:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Scratch this. I forgot to remove some debug.
+On Fri, 2011-05-27 at 13:09 -0700, Joshua Lock wrote:
+> Upstream BitBake still has the xmlrpc server removed. The version in
+> Poky's BitBake is functional (I use it daily).
+> 
+> Attached are two patches against BitBake master to add back the xmlrpc
+> server (copied from Poky's tree) and fix the uievent.
 
--b
+There have been API changes in upstream which mean this code will fail
+to work with bitbake itself although it will work with the pr server.
 
-On 05/27/2011 03:00 PM, Elizabeth Flanagan wrote:
->
-> This is a first pass at sane license parsing, using python
-> abstract syntax trees.
->
-> A few notes on this since ast is not generally used. I massage
-> the LICENSE field to be more pythonesque and then create an ast.
->
-> I then dump the ast and using a LicenseVisitor class, recurse
-> through the tree, looking for licenses. I then copy and link.
->
-> It's cleaner, allows for easier addition of logic and while it
-> takes slightly more CPU, it's also slightly faster in initial
-> small scale tests.
->
-> It doesn't recognize the '+' or '*' modifiers to the licenses yet
-> nor does it know what to do with bitors (|), since I'm not even
-> sure what to do with them.
->
-> Signed-off-by: Beth Flanagan<elizabeth.flanagan@intel.com>
-> ---
->    meta/classes/license.bbclass |  155 +++++++++++++++++++++++++++++++----------
->    1 files changed, 117 insertions(+), 38 deletions(-)
->
-> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> index 4fd1f85..c20be98 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -14,6 +14,42 @@ LICSSTATEDIR = "${WORKDIR}/license-destdir/"
->    addtask populate_lic after do_patch before do_package
->    do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
->    do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
-> +
-> +# Standards are great! Everyone has their own. In an effort to standardize licensing
-> +# names, common-licenses will use the SPDX standard license names. In order to not
-> +# break the non-standardized license names that we find in LICENSE, we'll set
-> +# up a bunch of VarFlags to accomodate non-SPDX license names.
-> +#
-> +# We should really discuss standardizing this field, but that's a longer term goal.
-> +# For now, we can do this and it should grab the most common LICENSE naming variations.
-> +#
-> +#GPL variations
-> +SPDXLICENSEMAP[GPL] = "GPL-1"
-> +SPDXLICENSEMAP[GPLv2] = "GPL-2"
-> +SPDXLICENSEMAP[GPLv3] = "GPL-3"
-> +
-> +#LGPL variations
-> +SPDXLICENSEMAP[LGPL] = "LGPL-2"
-> +SPDXLICENSEMAP[LGPLv2] = "LGPL-2"
-> +SPDXLICENSEMAP[LGPL2.1] = "LGPL-2.1"
-> +SPDXLICENSEMAP[LGPLv2.1] = "LGPL-2.1"
-> +SPDXLICENSEMAP[LGPLv3] = "LGPL-3"
-> +
-> +#MPL variations
-> +SPDXLICENSEMAP[MPL] = "MPL-1"
-> +SPDXLICENSEMAP[MPLv1] = "MPL-1"
-> +SPDXLICENSEMAP[MPLv1.1] = "MPL-1"
-> +
-> +#MIT variations
-> +SPDXLICENSEMAP[MIT-X] = "MIT"
-> +
-> +#Openssl variations
-> +SPDXLICENSEMAP[openssl] = "Openssl"
-> +
-> +#Other variations
-> +SPDXLICENSEMAP[AFL2.1] = "AFL-2"
-> +SPDXLICENSEMAP[EPLv1.0] = "EPL-1"
-> +
->    python do_populate_lic() {
->        """
->        Populate LICENSE_DIRECTORY with licenses.
-> @@ -21,6 +57,68 @@ python do_populate_lic() {
->        import os
->        import bb
->        import shutil
-> +    import ast
-> +
-> +    class LicenseVisitor(ast.NodeVisitor):
-> +        def generic_visit(self, node):
-> +            ast.NodeVisitor.generic_visit(self, node)
-> +
-> +        def visit_Str(self, node):
-> +            #
-> +            # Until I figure out what to do with
-> +            # the two modifiers I support (or greater = +
-> +            # and "with exceptions" being *
-> +            # we'll just strip out the modifier and put
-> +            # the base license.
-> +            find_license(node.s.replace("+", "").replace("*", ""))
-> +            ast.NodeVisitor.generic_visit(self, node)
-> +
-> +        def visit_BinOp(self, node):
-> +            op = node.op
-> +            if isinstance(op, ast.BitOr):
-> +                x = LicenseVisitor()
-> +                x.visit(node)
-> +            else:
-> +                ast.NodeVisitor.generic_visit(self, node)
-> +
-> +    def copy_license(source, destination, file_name):
-> +        try:
-> +            bb.copyfile(os.path.join(source, file_name), os.path.join(destination, file_name))
-> +        except:
-> +            bb.warn("%s: No generic license file exists for: %s at %s" % (pn, file_name, source))
-> +            pass
-> +
-> +    def link_license(source, destination, file_name):
-> +        try:
-> +            os.symlink(os.path.join(source, file_name), os.path.join(destination, "generic_" + file_name))
-> +        except:
-> +            bb.warn("%s: Could not symlink: %s at %s to %s at %s" % (pn, file_name, source, file_name, destination))
-> +            pass
-> +
-> +    def find_license(license_type):
-> +
-> +        try:
-> +            bb.mkdirhier(gen_lic_dest)
-> +        except:
-> +            pass
-> +
-> +        # If the generic does not exist we need to check to see if there is an SPDX mapping to it
-> +        if not os.path.isfile(os.path.join(generic_directory, license_type)):
-> +            if bb.data.getVarFlag('SPDXLICENSEMAP', license_type, d) != None:
-> +                # Great, there is an SPDXLICENSEMAP. We can copy!
-> +                bb.warn("We need to use a SPDXLICENSEMAP for %s" % (license_type))
-> +                spdx_generic = bb.data.getVarFlag('SPDXLICENSEMAP', license_type, d)
-> +                copy_license(generic_directory, gen_lic_dest, spdx_generic)
-> +                link_license(gen_lic_dest, destdir, spdx_generic)
-> +            else:
-> +                # And here is where we warn people that their licenses are lousy
-> +                bb.warn("%s: No generic license file exists for: %s at %s" % (pn, license_type, generic_directory))
-> +                bb.warn("%s: There is also no SPDXLICENSEMAP for this license type: %s at %s" % (pn, license_type,
-> generic_directory))
-> +                pass
-> +        elif os.path.isfile(os.path.join(generic_directory, license_type)):
-> +            copy_license(generic_directory, gen_lic_dest, license_type)
-> +            link_license(gen_lic_dest, destdir, license_type)
-> +
->
->        # All the license types for the package
->        license_types = bb.data.getVar('LICENSE', d, True)
-> @@ -33,6 +131,12 @@ python do_populate_lic() {
->        srcdir = bb.data.getVar('S', d, True)
->        # Directory we store the generic licenses as set in the distro configuration
->        generic_directory = bb.data.getVar('COMMON_LICENSE_DIR', d, True)
-> +    bb.warn(generic_directory)
-> +    try:
-> +        bb.mkdirhier(destdir)
-> +    except:
-> +        pass
-> +
->        if not generic_directory:
->            raise bb.build.FuncFailed("COMMON_LICENSE_DIR is unset. Please set this in your distro config")
->
-> @@ -51,45 +155,21 @@ python do_populate_lic() {
->            if ret is False or ret == 0:
->                bb.warn("%s could not be copied for some reason. It may not exist. WARN for now." % srclicfile)
->
-> -    # This takes some explaining.... we now are going to go an try to symlink
-> -    # to a generic file. But, with the way LICENSE works, a package can have multiple
-> -    # licenses. Some of them are, for example, GPLv2+, which means it can use that version
-> -    # of GPLv2 specified in it's license, or a later version of GPLv2. For the purposes of
-> -    # what we're doing here, we really don't track license revisions (although we may want to)
-> -    # So, we strip out the + and link to a generic GPLv2
-> -    #
-> -    # That said, there are some entries into LICENSE that either have no generic (bzip, zlib, ICS)
-> -    # or the LICENSE is messy (Apache 2.0 .... when they mean Apache-2.0). This should be corrected
-> -    # but it's outside of scope for this.
-> -    #
-> -    # Also, you get some clever license fields with logic in the field.
-> -    # I'm sure someone has written a logic parser for these fields, but if so, I don't know where it is.
-> -    # So what I do is just link to every license mentioned in the license field.
-> +    gen_lic_dest = os.path.join(bb.data.getVar('LICENSE_DIRECTORY', d, True), "common-licenses")
->
-> -    for license_type in ((license_types.replace('+', '').replace('|', '&')
-> -                          .replace('(', '').replace(')', '').replace(';', '')
-> -                          .replace(',', '').replace(" ", "").split("&"))):
-> -        if os.path.isfile(os.path.join(generic_directory, license_type)):
-> -            gen_lic_dest = os.path.join(bb.data.getVar('LICENSE_DIRECTORY', d, True), "common-licenses")
-> -            try:
-> -                bb.mkdirhier(gen_lic_dest)
-> -            except:
-> -                pass
-> -
-> -            try:
-> -                bb.copyfile(os.path.join(generic_directory, license_type), os.path.join(gen_lic_dest, license_type))
-> -            except:
-> -                bb.warn("%s: No generic license file exists for: %s at %s" % (pn, license_type, generic_directory))
-> -                pass
-> -            try:
-> -                os.symlink(os.path.join(gen_lic_dest, license_type), os.path.join(destdir, "generic_" + license_type))
-> -            except:
-> -                bb.warn("%s: No generic license file exists for: %s at %s" % (pn, license_type, generic_directory))
-> -                pass
-> +    clean_licenses = ""
-> +    for x in license_types.replace("(", " ( ").replace(")", " ) ").split():
-> +        if ((x != "(") and (x != ")") and (x != "&") and (x != "|")):
-> +            clean_licenses += "'" + x + "'"
->            else:
-> -            bb.warn("%s: Something went wrong with copying: %s to %s" % (pn, license_type, generic_directory))
-> -            bb.warn("This could be either because we do not have a generic for this license or the LICENSE field is
-> incorrect")
-> -            pass
-> +            clean_licenses += " " + x + " "
-> +
-> +    node = ast.parse(clean_licenses)
-> +
-> +    print ast.dump(node)
-> +
-> +    v = LicenseVisitor()
-> +    v.visit(node)
->    }
->
->    SSTATETASKS += "do_populate_lic"
-> @@ -102,4 +182,3 @@ python do_populate_lic_setscene () {
->    }
->    addtask do_populate_lic_setscene
->
-> -
+I've merged the patches as a bandaid to allow things to work but we've
+now got two different server backends using different server APIs. I
+really just want to highlight I'm aware of this and it will get
+addressed next week. Its been on my todo list and is way overdue. The
+main priority is to get people's builds with OE-Core working again.
 
--- 
----------------
-Elizabeth Flanagan
-Yocto Project
-Release Engineer
+Cheers,
+
+Richard
+
+
 
 
