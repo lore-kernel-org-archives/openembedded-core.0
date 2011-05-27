@@ -1,26 +1,21 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QQ4H4-0007HG-1q
+	(envelope-from <sgw@linux.intel.com>) id 1QQ4KO-0007Kg-4I
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 23:08:50 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 27 May 2011 14:05:43 -0700
+	Fri, 27 May 2011 23:12:16 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 May 2011 14:09:09 -0700
 X-ExtLoop1: 1
-Received: from vorpal.jf.intel.com (HELO [10.7.199.68]) ([10.7.199.68])
-	by orsmga002.jf.intel.com with ESMTP; 27 May 2011 14:05:43 -0700
-From: Joshua Lock <josh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.65,282,1304319600"; 
+   d="scan'208";a="8750405"
+Received: from swold-mobl.jf.intel.com ([10.24.82.108])
+	by fmsmga002.fm.intel.com with ESMTP; 27 May 2011 14:09:09 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 May 2011 14:09:13 -0700
-In-Reply-To: <03D2A4C3-146E-4611-B730-8199ED9984DD@gmail.com>
-References: <cover.1306477652.git.lianhao.lu@intel.com>
-	<1306515635.27470.284.camel@rex>
-	<7DC6724C-BF20-4EA1-A87D-32FBEEECDA3B@dominion.thruhere.net>
-	<1306526949.1747.8.camel@vorpal> <1306530057.1747.11.camel@vorpal>
-	<03D2A4C3-146E-4611-B730-8199ED9984DD@gmail.com>
-X-Mailer: Evolution 3.0.1 (3.0.1-1.fc15) 
-Message-ID: <1306530554.1747.17.camel@vorpal>
-Mime-Version: 1.0
-Subject: Re: [bitbake-devel] [PATCH 00/11] Add PR service and integrate PKGV/PKGR from OE
+Date: Fri, 27 May 2011 14:09:07 -0700
+Message-Id: <cover.1306530446.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 0/1] Fix for build failure of xserver on mpc build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,38 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 21:08:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 May 2011 21:12:16 -0000
 
-On Fri, 2011-05-27 at 14:01 -0700, Khem Raj wrote:
-> 
-> On May 27, 2011, at 2:00 PM, Joshua Lock <josh@linux.intel.com> wrote:
-> 
-> > On Fri, 2011-05-27 at 13:09 -0700, Joshua Lock wrote:
-> >> Upstream BitBake still has the xmlrpc server removed. The version in
-> >> Poky's BitBake is functional (I use it daily).
-> >> 
-> >> Attached are two patches against BitBake master to add back the xmlrpc
-> >> server (copied from Poky's tree) and fix the uievent.
-> > 
-> > Something in the pipeline is eating patches.
-> > 
-> > I'll send them as replies to this message.
-> 
-> I think it's the mailing list setup. When I attach a patch it never goes through
-> Inlining the patch does go through
-> > 
+This fixes a problem with the MPC building the xserver-xf86-lite
 
-Yeah. It seems to be the oe-core list mangling patches. The attachments
-made it to bitbake-devel fine.
+The following changes since commit 4786ecdf7cd427089464dcb62579110d494e7cd7:
 
-Cheers,
-Joshua
+  License Field Cleanup: Non-standard field names (2011-05-27 18:27:04 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/dlfix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/dlfix
+
+Yu Ke (1):
+  xserver: force to use libdl
+
+ .../xorg-xserver/files/force-libdl.patch           |   19 +++++++++++++++++++
+ .../xorg-xserver/xserver-xf86-lite_1.10.1.bb       |    5 +++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/files/force-libdl.patch
+
 -- 
-Joshua Lock
-        Yocto Project Build Monkey
-        Intel Open Source Technology Centre
+1.7.3.4
 
 
 
