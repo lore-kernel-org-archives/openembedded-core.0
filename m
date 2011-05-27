@@ -1,32 +1,28 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QQ2wt-0005UM-7O
+	(envelope-from <mark.hatle@windriver.com>) id 1QQ2xa-0005W0-Iw
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 21:43:55 +0200
-Received: by wwb17 with SMTP id 17so1850738wwb.24
+	Fri, 27 May 2011 21:44:38 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4RJfWmq001032
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 12:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:from:date:message-id:subject:to
-	:content-type; bh=3Uygcj3Uep4Xho9yR7GC7KBNAHqWUIkeqcWReGkFNQs=;
-	b=NSK35aWZIyxPPOkEjEqfn8fqioERy7/ee/6ldofljMOEDJ214PF1hM6qJWLmtToZra
-	IR/RaRs7WZQE9X7WIY93yJo5fhN2HSKez3XoXTHkePn/dtO+JCsA3qbl3AXfuDbtK2qM
-	6aY/UaaldSsk9EnI/mA4kNfG3IwjbCABpWA/c=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	b=JSe1UqsAv4HQsMKrgdy4bX8Qf6gufBHwYidIsOhgpMagg9xDeoz8VA8WV4OHF0czQa
-	16wBiQ2ZlsltLlpMWN2IxgYxgfcvEzDURZ2SOXw2o+8O9GeN8FqHc7MPMspy3QUMcOjh
-	hR/KhZnEubwnWOO/kuyH8Vq6ScuQ6vQX3TfbU=
-Received: by 10.216.55.193 with SMTP id k43mr2393036wec.51.1306525250131; Fri,
-	27 May 2011 12:40:50 -0700 (PDT)
+	Fri, 27 May 2011 12:41:32 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 27 May 2011 12:41:32 -0700
+Message-ID: <4DDFFE6B.6030902@windriver.com>
+Date: Fri, 27 May 2011 14:41:31 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-Received: by 10.216.60.145 with HTTP; Fri, 27 May 2011 12:40:20 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 27 May 2011 12:40:20 -0700
-Message-ID: <BANLkTi=O=CFrCTNEow0=yxFbuooUP6DbyQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Get PRAUTO and use PKGV/PKGR is causing problems
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1306520012.git.nitin.a.kamble@intel.com>	<b883a6b6076317ebc3eb64f160c5f2df6996a95e.1306520012.git.nitin.a.kamble@intel.com>	<BANLkTi=nTJ5-uFhtjMh0QhsJHZyRyRwfPA@mail.gmail.com>	<4DDFF866.5040302@windriver.com>
+	<BANLkTi=PAbExYQ8vPqkGzmVqu-t5BOK3Pw@mail.gmail.com>
+In-Reply-To: <BANLkTi=PAbExYQ8vPqkGzmVqu-t5BOK3Pw@mail.gmail.com>
+Subject: Re: [bugfix 1/2] gcc-4.6.0: fix ICE with armv7 target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,114 +37,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 19:43:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 27 May 2011 19:44:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi
+On 5/27/11 2:36 PM, Khem Raj wrote:
+> On Fri, May 27, 2011 at 12:15 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> On 5/27/11 1:25 PM, Khem Raj wrote:
+>>> On Fri, May 27, 2011 at 11:15 AM,  <nitin.a.kamble@intel.com> wrote:
+>>>> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>>>>
+>>>> This fixes an internal compiler error for gcc 4.6.0 for armv7
+>>>>
+>>>> Patch came from: Phil Blundell <pb@pbcl.net>
+>>>> Validated by Nitin
+>>>>
+>>>> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+>>>> Signed-Off-by: Phil Blundell <pb@pbcl.net>
+>>>> ---
+>>>>  meta/recipes-devtools/gcc/gcc-4.6.0.inc            |    3 +-
+>>>>  .../gcc/gcc-4.6.0/ICE_fix_for_arm.patch            |   44 ++++++++++++++++++++
+>>>>  2 files changed, 46 insertions(+), 1 deletions(-)
+>>>>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/ICE_fix_for_arm.patch
+>>>>
+>>>> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.0.inc b/meta/recipes-devtools/gcc/gcc-4.6.0.inc
+>>>> index fb5c70d..4407eca 100644
+>>>> --- a/meta/recipes-devtools/gcc/gcc-4.6.0.inc
+>>>> +++ b/meta/recipes-devtools/gcc/gcc-4.6.0.inc
+>>>> @@ -7,7 +7,7 @@ require gcc-common.inc
+>>>>
+>>>>  require gcc-4_6-branch-backports.inc
+>>>>
+>>>> -PR = "r2"
+>>>> +PR = "r3"
+>>>>
+>>>>  DEPENDS =+ "mpfr gmp libmpc"
+>>>>  NATIVEDEPS = "mpfr-native gmp-native gettext-native libmpc-native"
+>>>> @@ -53,6 +53,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+>>>>           file://gcc-poison-parameters.patch \
+>>>>           file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
+>>>>           file://COLLECT_GCC_OPTIONS.patch \
+>>>> +          file://ICE_fix_for_arm.patch \
+>>>>          "
+>>>>  SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
+>>>>
+>>>> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.0/ICE_fix_for_arm.patch b/meta/recipes-devtools/gcc/gcc-4.6.0/ICE_fix_for_arm.patch
+>>>> new file mode 100644
+>>>> index 0000000..037a180
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-devtools/gcc/gcc-4.6.0/ICE_fix_for_arm.patch
+>>>> @@ -0,0 +1,44 @@
+>>>> +Upstream-Status: Pending
+>>>> +
+>>>> +Patch came from: Phil Blundell <pb@pbcl.net>
+>>>> +Validated by Nitin
+>>>> +This fixes the following internal compiler error of gcc 4.6.0 on for armv7-a
+>>>> +related gcc bugzilla: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=47719
+>>>> +
+>>>> +
+>>>> +| arm-poky-linux-gnueabi-gcc -march=armv7-a -mtune=cortex-a8 -mfpu=neon
+>>>> +-mfloat-abi=softfp -fno-tree-vectorize
+>>>> +--sysroot=/srv/home/pokybuild/poky-slave/nightly-external/build/build/tmp/sysroots/beagleboard
+>>>> +-c -I. -I../../../../src/gallium/include -I../../../../src/gallium/auxiliary
+>>>> +-I../../../../src/gallium/drivers
+>>>> +-I../../../../src/gallium/drivers/svga/include -O2 -pipe -g
+>>>> +-feliminate-unused-debug-types -Wall -Wmissing-prototypes -std=c99 -ffast-math
+>>>> +-fvisibility=hidden -fno-strict-aliasing -fPIC -D_GNU_SOURCE -DPTHREADS
+>>>> +-DHAVE_POSIX_MEMALIGN -DUSE_XSHM -std=gnu99 -fvisibility=hidden -DHAVE_STDINT_H
+>>>> +-DHAVE_SYS_TYPES_H svga_resource_buffer_upload.c -o
+>>>> +svga_resource_buffer_upload.o
+>>>> +| svga_tgsi_insn.c: In function 'svga_shader_emit_instructions':
+>>>> +| svga_tgsi_insn.c:2969:1: internal compiler error: in push_minipool_fix, at
+>>>> +config/arm/arm.c:12084
+>>>> +| Please submit a full bug report,
+>>>> +| with preprocessed source if appropriate.
+>>>> +| See <http://gcc.gnu.org/bugs.html> for instructions.
+>>>> +| make[4]: *** [svga_tgsi_insn.o] Error 1
+>>>> +
+>>>> +Nitin A Kamble <nitin.a.kamble@intel.com> 2011/05/27
+>>>> +
+>>>> +Index: gcc-4.6.0/gcc/config/arm/arm.md
+>>>> +===================================================================
+>>>> +--- gcc-4.6.0.orig/gcc/config/arm/arm.md
+>>>> ++++ gcc-4.6.0/gcc/config/arm/arm.md
+>>>> +@@ -4213,7 +4213,9 @@
+>>>> +    uxth%?\\t%0, %1
+>>>> +    ldr%(h%)\\t%0, %1"
+>>>> +   [(set_attr "type" "alu_shift,load_byte")
+>>>> +-   (set_attr "predicable" "yes")]
+>>>> ++   (set_attr "predicable" "yes")
+>>>> ++   (set_attr "pool_range" "*,256")
+>>>> ++   (set_attr "neg_pool_range" "*,244")]
+>>>> + )
+>>>> +
+>>>
+>>> FWIW a patch which is similar to this was rejected here.
+>>> http://gcc.gnu.org/ml/gcc-patches/2011-02/msg01731.html
+>>>
+>>
+>> based on that link, I'd say there are two cases that are needed for a proper
+>> workaround.
+>>
+>> Then likely we wait until upstream has a fix....
+> 
+> working around package is better than working around gcc IMHO
 
-I have started getting this error.
+Problem is the ICE will still be there.  If we put the workaround in gcc, then
+the package will work with different versions of gcc (without modification), and
+other packages will not experience this ICE.
 
-ERROR: Error executing a python function in
-/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/uclibc/uclibc_git.bb:
-ImportError: No module named xmlrpc
+(This of course is assuming the gcc workaround is reasonable and not introducing
+other faults.)
 
-ERROR: The stack trace of python calls that resulted in this
-exception/failure was:
-ERROR:   File "package_get_auto_pr", line 11, in <module>
-ERROR:
-ERROR:   File "package_get_auto_pr", line 4, in package_get_auto_pr
-ERROR:
-ERROR:   File "prserv.bbclass", line 8, in prserv_get_pr_auto
-ERROR:
-ERROR:   File "prserv.bbclass", line 2, in prserv_make_conn
-ERROR:
-ERROR:   File "/home/kraj/work/slugos/bitbake/lib/prserv/serv.py",
-line 6, in <module>
-ERROR:     import bb.server.xmlrpc
-ERROR:
-ERROR: The code that was being executed was:
-ERROR:      0007:                       return
-ERROR:      0008:               d.setVar('PRAUTO',str(auto_pr))
-ERROR:      0009:
-ERROR:      0010:
-ERROR:  *** 0011:package_get_auto_pr(d)
-ERROR:      0012:
-ERROR: (file: 'package_get_auto_pr', lineno: 11, function: <module>)
-ERROR:      0001:
-ERROR:      0002:def package_get_auto_pr(d):
-ERROR:      0003:       if d.getVar('USE_PR_SERV', True):
-ERROR:  *** 0004:               auto_pr=prserv_get_pr_auto(d)
-ERROR:      0005:               if auto_pr is None:
-ERROR:      0006:                       bb.fatal("Can NOT get auto PR
-revision from remote PR service")
-ERROR:      0007:                       return
-ERROR:      0008:               d.setVar('PRAUTO',str(auto_pr))
-ERROR: (file: 'package_get_auto_pr', lineno: 4, function: package_get_auto_pr)
-ERROR: Function 'package_get_auto_pr' failed
-ERROR: Logfile of failure stored in:
-/home/kraj/work/angstrom/build/tmp-angstrom_2010_x-uclibc/work/efikamx-angstrom-linux-uclibceabi/uclibc-0.9.31+0.9.32rc3-r2.2/temp/log.do_package.3715
-Log data follows:
-| ERROR: Error executing a python function in
-/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/uclibc/uclibc_git.bb:
-| ImportError: No module named xmlrpc
-|
-| ERROR: The stack trace of python calls that resulted in this
-exception/failure was:
-| ERROR:   File "package_get_auto_pr", line 11, in <module>
-| ERROR:
-| ERROR:   File "package_get_auto_pr", line 4, in package_get_auto_pr
-| ERROR:
-| ERROR:   File "prserv.bbclass", line 8, in prserv_get_pr_auto
-| ERROR:
-| ERROR:   File "prserv.bbclass", line 2, in prserv_make_conn
-| ERROR:
-| ERROR:   File "/home/kraj/work/slugos/bitbake/lib/prserv/serv.py",
-line 6, in <module>
-| ERROR:     import bb.server.xmlrpc
-| ERROR:
-| ERROR: The code that was being executed was:
-| ERROR:      0007:                     return
-| ERROR:      0008:             d.setVar('PRAUTO',str(auto_pr))
-| ERROR:      0009:
-| ERROR:      0010:
-| ERROR:  *** 0011:package_get_auto_pr(d)
-| ERROR:      0012:
-| ERROR: (file: 'package_get_auto_pr', lineno: 11, function: <module>)
-| ERROR:      0001:
-| ERROR:      0002:def package_get_auto_pr(d):
-| ERROR:      0003:     if d.getVar('USE_PR_SERV', True):
-| ERROR:  *** 0004:             auto_pr=prserv_get_pr_auto(d)
-| ERROR:      0005:             if auto_pr is None:
-| ERROR:      0006:                     bb.fatal("Can NOT get auto PR
-revision from remote PR service")
-| ERROR:      0007:                     return
-| ERROR:      0008:             d.setVar('PRAUTO',str(auto_pr))
-| ERROR: (file: 'package_get_auto_pr', lineno: 4, function: package_get_auto_pr)
-| ERROR: Function 'package_get_auto_pr' failed
-NOTE: package uclibc-0.9.31+0.9.32rc3-r2.2: task do_package: Failed
-ERROR: Task 9 (/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/uclibc/uclibc_git.bb,
-do_package) failed with exit code '1'
-ERROR: '/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/uclibc/uclibc_git.bb'
-failed
+--Mark
 
+>> --Mark
+>>
+>>>> + (define_insn "*arm_zero_extendhisi2addsi"
+>>>> --
+>>>> 1.7.3.5
+>>>>
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-After bisecting this seems to be the point of cause. What am I missing.
-I am using angstrom. Is there something needed in config ?
-
-b1f6120c04731d3d66f322ce550b0d223c118dab is the first bad commit
-commit b1f6120c04731d3d66f322ce550b0d223c118dab
-Author: Lianhao Lu <lianhao.lu@intel.com>
-Date:   Wed May 18 21:15:01 2011 +0800
-
-    classes/package(prserv).bbclass: Get PRAUTO and use PKGV/PKGR.
-
-    1. Added package_get_auto_pr to PACKAGEFUNCS to get the auto
-    incremented value(PRAUTO) from remote PR service.
-
-    2. use PKGV/PKGR for pkgdata which will be used by package_write_xxx.
-
-    3. Added supporting functions in prserv.bbclass.
-
-    Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 
 
