@@ -1,42 +1,36 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QPpp5-0002gD-Jl
+	(envelope-from <raj.khem@gmail.com>) id 1QPpy6-0002lp-Ka
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 07:42:59 +0200
-Received: by fxm19 with SMTP id 19so1351083fxm.6
+	Fri, 27 May 2011 07:52:18 +0200
+Received: by pvc30 with SMTP id 30so662953pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 22:39:54 -0700 (PDT)
+	Thu, 26 May 2011 22:49:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=r+W7LJyjM5KlryLA+wpai8oaNPTQ1m6lyWI3taKLN7o=;
-	b=OA2q8Enq75d/eLe/ZemInsxE+qYl/aJ8RnxdiMgVJTFePn4jx0Y6t6HWfQbDD1vUpH
-	WXVnd/gRT1E3PnQE10qyRpJKE1nhZLV+Drn/pg7aLdf0H9mYQg56fDUwM6VwDvg1gW6I
-	6acgUmQMKINwC2If8wulqCHA95y5UjDFnbssE=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=4O3TNh6pqjGVAREPoWUmJUtK3DE1lw4WyVR0eMowwbw=;
+	b=bLRApQrmxDxkyXmje9mRuYaGboH5mkiMP30lC0Y4DpoTx3bKCCwkCqM2OB/9sRf52U
+	eyzGVMiqSqXdekVr/+M9HElLkFA0FfjcHX91tbS7XmP4Hl7ndrrLmWFmFX5qiXINImUy
+	sFCtEeZkl02zEYkCgrfAaq9eDMzPfzGJZ01X0=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	b=T0XCQQZcsQnWROskrx9q01Le/vlUSFlisvDE5XsQ8TtEeEMxMS0kD2MPfe+E7YpqPe
-	vaCcfCz7o6kUYTIKNqx9KZNW8sva6TxpzHTSFeZ8pfbMD2T+38WvDhx+DWiTZ/T+3gFJ
-	cwF0EwRUergl0TG2vZXDCbyHzRo4F2j1cQMTk=
-Received: by 10.223.97.196 with SMTP id m4mr1824947fan.55.1306474794655;
-	Thu, 26 May 2011 22:39:54 -0700 (PDT)
-Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id c1sm537130faa.37.2011.05.26.22.39.53
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=f6xPOSs4aGDy5PPubJFK7x77cay6ualI2EXHAJPp7HJzYAvCBSskWGfvYPUpUx57vF
+	LUq7zcHp6cJT9ub2wS4xuorShiUean4Pq5rcfr+Y0FrGmGNXKEDTlmPPa7RR7LguYSbo
+	Gn7NCbiEhGlIAFTGVnq9eWe1QqQMuQYeuz4hA=
+Received: by 10.68.35.70 with SMTP id f6mr736950pbj.172.1306475352857;
+	Thu, 26 May 2011 22:49:12 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id p5sm237613pbd.92.2011.05.26.22.49.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 May 2011 22:39:53 -0700 (PDT)
-Date: Fri, 27 May 2011 07:39:47 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110527053946.GP3222@jama.jama.net>
-References: <20110526220829.GO3222@jama.jama.net>
-	<1306451615.27470.212.camel@rex>
-MIME-Version: 1.0
-In-Reply-To: <1306451615.27470.212.camel@rex>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Subject: Re: Sad story about Shared State
+	Thu, 26 May 2011 22:49:11 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Thu, 26 May 2011 22:48:59 -0700
+Message-Id: <cover.1306475241.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Cc: Khem Raj <kraj@juniper.net>
+Subject: [PATCH 0/3] Fix uclibc build in thumb mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,149 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 05:42:59 -0000
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="eLe8FOcWSbbyMVJD"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 27 May 2011 05:52:18 -0000
 
---eLe8FOcWSbbyMVJD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+slugos uses uclibc in thumb mode. These patches fix the build of uclibc in thumb mode
+and additionally fixes shared-mime-info which failed to build with -j4
 
-On Fri, May 27, 2011 at 12:13:35AM +0100, Richard Purdie wrote:
-> On Fri, 2011-05-27 at 00:08 +0200, Martin Jansa wrote:
-> > Good evening,
-> >=20
-> > sorry for long and pesimistic e-mail, but I hope that someone will point
-> > me to something I'm doing completely wrong.
-> >=20
-> > First I was surprised to see how many recipes were rebuilt after this
-> > change:
-> > http://git.openembedded.net/cgit.cgi/openembedded-core/commit/?id=3Daeb=
-b9d6599aac683456adf56dc11f8b9f10f25c3
-> >=20
-> > because [YOCTO #1074] was resolved by bitbake commit:
-> > http://git.openembedded.net/cgit.cgi/bitbake/commit/?id=3D139b8a6258182=
-25c358a1b8363518d7ed6913188
-> > and I had rm_work change
-> > http://patches.openembedded.org/patch/4807/
-> > during this build I decided to find out what is changing so many sstate
-> > checksums for such small changes
-> >=20
-> > so I took another small dbus change from patchwork
-> > http://patches.openembedded.org/patch/4831/
-> > and rebuild many recipes again to play with bitbake-diffsig for a while=
-=2E.
->=20
-> [...]
->=20
-> > .. end of story ..
-> >=20
-> > .. I agree it's "right (TM)" to rebuild not only changed package but al=
-so its dependencies ..
-> > .. I agree it's not possible to differentiate between important library=
- change
-> >    which can infulence also packages depending on it even if only trans=
-itive and
-> >    cosmetic change improving ie RDEPENDS_${PN} which doesn't influence =
-even direct dependants
-> > .. but impact of such small change on small shr-lite-image?
-> >    almost 2 hours on my quadcore AMD Phenom(tm) II X4 965@3.4Ghz, 4GB R=
-AM, tmp/work on raid0 (3 SATA2 discs)
-> >=20
-> > guess how long is runqueue when someone bumps binutils or gcc PR.. it's=
- like DISTRO_PR bump :/
-> > but almost after every "git pull --rebase".
-> >=20
-> > this was for our minimal image
-> > task-shr-feed we have in old OE takes about 2-3 days on our buildhost (=
-dualcore with 2GB ram)
-> > for 1 arch, we (SHR) are supporting 3 arm architectures=20
-> > armv4t (om-gta01, om-gta02), armv6-novfp (htcdream), armv7a (palmpre, p=
-almpre2, nokia900)
-> > so currently it takes 10-14 days to rebuild feed after DISTRO_PR change=
-=2E.
-> >=20
-> > I'm not sure if we can afford our feeds to track oe-core/meta-oe HEADs=
-=20
-> > like we did with old OE :(.
->=20
-> It should still be possible for OE-Core to behave like "old OE".
->=20
-> > Is it expected use-case to base layers only on released version of=20
-> > oe-core/meta-oe and never touch recipes which are higher in dependency =
-tree?
->=20
-> It is expected that as we get a more stable and fully featured core that
-> people should be able to base off released versions of it rather than
-> needing to track master the whole time.
->=20
-> > Is it possible to disable sstate and do DISTRO_PR bumps manually when=
-=20
-> > distro maintainder decides it's really needed and buildhost is free=20
-> > for long enough to populate feeds?
->=20
-> What do you mean by disable sstate as there are several different
-> elements to it.
+The following changes since commit 31b3d1f9aa6fa1640874f7da9cce37f4aa13eab1:
 
-I meant something like switch back to something like pstage was or
-disable both (IIRC I had strange error on many places without sstate
-inherited by distro).
-=20
-> Which BB_SIGNATURE_HANDLER are you using? It sounds like you're using
-> basichash but want the behaviour generated by basic (the current
-> default). Nobody is forcing you to use basichash.
+  uclibc_git.bb: Fix compilation on arm when using thumb instruction set (2011-05-26 22:44:50 -0700)
 
-AFAIK I'm using default basic..
-OE @ ~/shr-core/meta-smartphone $ git grep BB_SIGNATURE_HANDLER
-OE @ ~/shr-core/meta-openembedded $ git grep BB_SIGNATURE_HANDLER
-OE @ ~/shr-core/openembedded-core $ git grep BB_SIGNATURE_HANDLER
-meta/conf/bitbake.conf:BB_SIGNATURE_HANDLER ?=3D "basic"
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-thumb
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-thumb
 
-OE @ ~/shr-core $ bitbake -e shr-lite-image | tee -a log; grep BB_SIGNATURE=
-_HANDLER log
-# BB_SIGNATURE_HANDLER=3Dbasic
-BB_SIGNATURE_HANDLER=3D"basic"
+Khem Raj (3):
+  uclibc_git.bb: Fix compilation on arm when using thumb instruction
+    set
+  uclibc.inc: Set COMPILE_IN_THUMB_MODE in .config if
+    ARM_INSTRUCTION_SET != arm
+  shared-mime-info_0.90.bb: Fix more parallel build issues
 
-but even when I set it to not existing basic2
-it doesn't show error from
-lib/bb/siggen.py
-        logger.error("Invalid signature generator '%s', using default 'noop=
-'\n"
-                     "Available generators: %s",
-                     ', '.join(obj.name for obj in siggens))
-but fails like this:
-NOTE: Preparing runqueue
-ERROR: Running idle function
-Traceback (most recent call last):
-  File "/usr/lib64/python2.7/site-packages/bb/server/process.py", line 151,=
- in idle_commands
-    retval =3D function(self, data, False)
-  File "/usr/lib64/python2.7/site-packages/bb/cooker.py", line 792, in buil=
-dTargetsIdle
-    retval =3D rq.execute_runqueue()
-  File "/usr/lib64/python2.7/site-packages/bb/runqueue.py", line 940, in ex=
-ecute_runqueue
-    self.rqexe =3D RunQueueExecuteScenequeue(self)
-  File "/usr/lib64/python2.7/site-packages/bb/runqueue.py", line 1434, in _=
-_init__
-    valid =3D bb.utils.better_eval(call, locs)
-  File "/usr/lib64/python2.7/site-packages/bb/utils.py", line 390, in bette=
-r_eval
-    return eval(source, _context, locals)
-TypeError: expected a character buffer object
+ .../uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch    |   33 ++++++++++++++++++++
+ .../uclibc-git/compile-arm-fork-with-O2.patch      |   21 ++++++++++++
+ meta/recipes-core/uclibc/uclibc.inc                |    1 +
+ meta/recipes-core/uclibc/uclibc_git.bb             |    4 ++-
+ .../files/fix-parallel-build-backport.patch        |   26 +++++++++++++++
+ .../shared-mime-info/shared-mime-info_0.90.bb      |    5 ++-
+ 6 files changed, 87 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/compile-arm-fork-with-O2.patch
+ create mode 100644 meta/recipes-support/shared-mime-info/files/fix-parallel-build-backport.patch
 
-I'll add some debugging code to bitbake to see what's really going on here..
+-- 
+1.7.4.1
 
-> As you mention, there are benefits and drawbacks either way.
 
-Yes I see the benefits and if we find out that basichash is somehow used
-instead of configured basic I'll be really happy to continue using it.
 
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---eLe8FOcWSbbyMVJD--
