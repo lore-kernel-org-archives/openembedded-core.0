@@ -1,29 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QPrIx-0004i8-Ej
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 09:17:55 +0200
-Received: by wwb17 with SMTP id 17so1276428wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 00:14:47 -0700 (PDT)
-Received: by 10.216.221.77 with SMTP id q55mr6750982wep.17.1306480486464;
-	Fri, 27 May 2011 00:14:46 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w58sm779636weq.1.2011.05.27.00.14.45
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 May 2011 00:14:45 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1306452822.27470.220.camel@rex>
-Date: Fri, 27 May 2011 09:14:44 +0200
-Message-Id: <FD9AE248-A10D-4079-B66F-8F4AB94B94F7@dominion.thruhere.net>
-References: <cover.1306442263.git.nitin.a.kamble@intel.com>
-	<03152273cac84eef23738c5f26c45b082194284f.1306442263.git.nitin.a.kamble@intel.com>
-	<1306452822.27470.220.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [bugfix 1/1] mesa-xlib: workaround gcc 4.6.0 ICE
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QPseP-0002eC-M9 for openembedded-core@lists.openembedded.org;
+	Fri, 27 May 2011 10:44:10 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4R8evVF000507;
+	Fri, 27 May 2011 09:40:57 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 32581-07; Fri, 27 May 2011 09:40:53 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4R8eoRN000501
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 27 May 2011 09:40:50 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Darren Hart <dvhart@linux.intel.com>
+In-Reply-To: <4DDF1DDD.30001@linux.intel.com>
+References: <cover.1306444161.git.dvhart@linux.intel.com>
+	<e5f5d48165bcb5dc3ccf160a29e16ca700f85395.1306444161.git.dvhart@linux.intel.com>
+	<1306452282.27470.214.camel@rex>  <4DDF1DDD.30001@linux.intel.com>
+Date: Fri, 27 May 2011 09:40:44 +0100
+Message-ID: <1306485644.27470.247.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Chris Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] u-boot: remove UBOOT_MACHINE and COMPATIBLE_MACHINES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,53 +42,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 07:17:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 27 May 2011 08:44:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Thu, 2011-05-26 at 20:43 -0700, Darren Hart wrote:
+> On 05/26/2011 04:24 PM, Richard Purdie wrote:
+> > On Thu, 2011-05-26 at 14:12 -0700, Darren Hart wrote:
+> >> Note: I used bb.note() instead of bb.debug() to ensure the message at least
+> >>       makes it to the console. From what I could gather, bb.debug() doesn't
+> >>       go anywhere during recipe parsing.
+> > 
+> > Why?
+> > 
+> 
+> My thinking was that the only time you would legitimately try and build
+> this package when you can't is during a "world" build, which is likely
+> an unattended sort of build anyway. The rest of the time you might hit
+> this error would be when you intended to build u-boot but are missing
+> the requisite configuration bits in your machine config.
+
+You've inserted the note at parsing time though so every time anyone
+builds anything this will show up.
+
+In case you wonder why bitbake does this its because it has no idea what
+the recipe provides until it attempts to parse it. Yes, you can make
+guesses from filenames but those are just a convenience and
+BBCLASSEXTEND can make one recipe provide multiple things for example.
+
+foo_git.bb
+
+containing:
+
+PN = "bar"
+
+or
+
+PROVIDES += "something-else"
+
+are both valid things to do too if potentially misleading.
+
+> Since the debug lines don't get logged anywhere, and you have to clear
+> tmp/cache in order to retrigger the SkipPackage event with a new bitbake
+> command (even with -D), I thought it the most user friendly to ensure
+> the message made it out somewhere where it wouldn't get lost.
+> 
+> > We exclude about 30 different recipes
+> 
+> I didn't realize it was so many, it's difficult to tell just grepping
+> for SkipPackage.
+
+COMPATIBLE_MACHINE and COMPATIBLE_HOST will show more.
+
+> > when parsing and would you really
+> > want to see a usability message from each one when you likely don't care
+> > about it?
+> 
+> See above for my rationale on when you "care about it".
+> 
+> > 
+> > A bb.debug is fine and the user can see it if they run with -D to get
+> > more info.
+> 
+> The user won't see it unless they clear tmp/cache, which isn't very
+> intuitive (or at least it wasn't to me).
+> 
+> > A bb.note is just irritating.
+> 
+> I can resend with bb.debug() if you feel strongly about it, as
+> apparently you do. I've answered your "why" question, but I don't feel
+> strongly about it. If you want to use bb.debug() I can resend as such
+> (or just repush with that single change).
+
+Given my comment above (the note appears all the time, not just for
+world), I do feel strongly about this.
+
+Yes, we could do with a better way of showing up which packages were
+skipped if the user needs to know but this isn't the way to do it and it
+won't scale.
+
+Cheers,
+
+Richard
 
 
-Op 27 mei 2011, om 01:33 heeft Richard Purdie het volgende geschreven:
-
-> On Thu, 2011-05-26 at 13:41 -0700, nitin.a.kamble@intel.com wrote:
->=20
->> ---
->> meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb |    3 +++
->> 1 files changed, 3 insertions(+), 0 deletions(-)
->>=20
->> diff --git a/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb =
-b/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb
->> index b77df2c..051bd72 100644
->> --- a/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb
->> +++ b/meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb
->> @@ -17,3 +17,6 @@ PE =3D "1"
->> PR =3D "r0"
->>=20
->> EXTRA_OECONF +=3D "--with-driver=3Dxlib"
->> +
->> +# nullify -O2
->> +CFLAGS_append +=3D " -O"
->=20
-> I talked about this on IRC but simply put, no way.
->=20
-> The problem is:
->=20
-> a) Arm specific
-> b) determined now to be armv7 specific
-> c) gcc version specific
->=20
-> and the fix should reflect this.
->=20
-> So ideally when we select gcc 4.6 in tcmode-default.inc we should add
-> something there which adds a work around for mesa-xlib.
->=20
-> I've suggested something like:
->=20
-> TARGET_CC_ARCH_arm_pn-mesa-xlib :=3D =
-"${@'${TARGET_CC_ARCH}'.replace('armv7','armv5')}"
->=20
-> which whilst ugly, should do what we need it to.
-
-So how do I opt out of that? I don't use gcc 4.6 and suddenly mesa gets =
-compiled for a suboptimal architecture.=
 
 
