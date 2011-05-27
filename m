@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QPw22-0003KU-54 for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 14:20:46 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RCHgi8002037
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QPxKL-0006FQ-UL
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 May 2011 15:43:48 +0200
+Received: by wwb17 with SMTP id 17so1575916wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 13:17:42 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01472-10 for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 13:17:38 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RCHZQ3002030
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 13:17:35 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1306486749-17889-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1306486749-17889-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Fri, 27 May 2011 13:17:29 +0100
-Message-ID: <1306498649.27470.261.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] libcap: add native BBCLASSEXTEND to fix gnutls-native after ffc32d6436bcd11bd9a431affb9d2508fdb3992e
+	Fri, 27 May 2011 06:40:29 -0700 (PDT)
+Received: by 10.227.128.203 with SMTP id l11mr2142213wbs.79.1306503629336;
+	Fri, 27 May 2011 06:40:29 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id o38sm1196312wba.3.2011.05.27.06.40.28
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 27 May 2011 06:40:28 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 May 2011 15:40:25 +0200
+Message-Id: <1306503625-719-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] dbus 1.4.1: create UUIDDIR in postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,39 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 12:20:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 May 2011 13:43:48 -0000
 
-On Fri, 2011-05-27 at 10:59 +0200, Martin Jansa wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-support/libcap/libcap.inc |    4 ++++
->  1 files changed, 4 insertions(+), 0 deletions(-)
-> 
-> diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
-> index 292fa78..1b4c0bc 100644
-> --- a/meta/recipes-support/libcap/libcap.inc
-> +++ b/meta/recipes-support/libcap/libcap.inc
-> @@ -6,6 +6,8 @@ LICENSE = "BSD | GPL"
->  LIC_FILES_CHKSUM = "file://License;md5=731de803c1ccbcb05a9b3523279c8d7f"
->  
->  DEPENDS = "libpam attr perl-native"
-> +# attr and pam are disabled by EXTRA_OEMAKE_virtclass-native
-> +DEPENDS_virtclass-native = "perl-native"
->  
->  SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/libcap2/${BPN}-${PV}.tar.bz2"
->  
-> @@ -32,3 +34,5 @@ do_install() {
->  # pam files
->  FILES_${PN} += "${libdir}/security/*.so"
->  FILES_${PN}-dbg += "${libdir}/security/.debug/*.so"
-> +
-> +BBCLASSEXTEND = "native"
+This fixes dbus usage in non-sysV init systems.
 
-Applied to master, thanks.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/dbus/dbus.inc      |    4 ++++
+ meta/recipes-core/dbus/dbus_1.4.1.bb |    2 +-
+ 2 files changed, 5 insertions(+), 1 deletions(-)
 
-Richard
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 2a5f8bd..75a4d9d 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -49,13 +49,17 @@ pkg_postinst_dbus() {
+ 
+ 	MESSAGEUSER=messagebus
+ 	MESSAGEHOME=/var/run/dbus
++	UUIDDIR=/var/lib/dbus
+ 
+ 	mkdir -p $MESSAGEHOME || true
++	mkdir -p $UUIDDIR || true
+ 	chgrp "$MESSAGEUSER" "$MESSAGEHOME" 2>/dev/null || addgroup "$MESSAGEUSER"
+ 	chown "$MESSAGEUSER"."$MESSAGEUSER" "$MESSAGEHOME" 2>/dev/null || \
+ 		adduser --system --home "$MESSAGEHOME" --no-create-home --disabled-password \
+ 			--ingroup "$MESSAGEUSER" "$MESSAGEUSER"
+ 
++	chown "$MESSAGEUSER"."$MESSAGEUSER" "$UUIDDIR"
++
+ 	grep -q netdev: /etc/group || addgroup netdev
+ 
+ 	chown root:"$MESSAGEUSER" /usr/libexec/dbus-daemon-launch-helper
+diff --git a/meta/recipes-core/dbus/dbus_1.4.1.bb b/meta/recipes-core/dbus/dbus_1.4.1.bb
+index 1c8aeaa..f65ef35 100644
+--- a/meta/recipes-core/dbus/dbus_1.4.1.bb
++++ b/meta/recipes-core/dbus/dbus_1.4.1.bb
+@@ -1,6 +1,6 @@
+ include dbus.inc
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI[md5sum] = "99cb057700c0455fb68f8d57902f77ac"
+ SRC_URI[sha256sum] = "caa1a0ded2d0f2e95c1d4ec7e3c8bd44834928c5b0ed41a7189963f3593983bd"
+-- 
+1.6.6.1
 
 
 
