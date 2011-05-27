@@ -1,33 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QQ0S0-0002ZB-Ne for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 19:03:54 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RH0lVh004389
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 18:00:47 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04351-01 for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 18:00:43 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RH0fnA004383
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 18:00:41 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QQ0ek-0002g0-Ih
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 May 2011 19:17:02 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 27 May 2011 10:13:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,281,1304319600"; 
+   d="scan'208";a="3039738"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
+	by azsmga001.ch.intel.com with ESMTP; 27 May 2011 10:13:55 -0700
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx603.amr.corp.intel.com ([10.22.226.49]) with mapi;
+	Fri, 27 May 2011 10:13:55 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1306477652.git.lianhao.lu@intel.com>
-References: <cover.1306477652.git.lianhao.lu@intel.com>
-Date: Fri, 27 May 2011 18:00:35 +0100
-Message-ID: <1306515635.27470.284.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 00/11] Add PR service and integrate PKGV/PKGR from OE
+Date: Fri, 27 May 2011 10:13:53 -0700
+Thread-Topic: [OE-core] [bugfix 1/1] mesa-xlib: workaround gcc 4.6.0 ICE
+Thread-Index: Acwcf7e4qQLvpoHOR6q+i0v/DZhbjgAEYD1A
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94D97FA611@orsmsx504.amr.corp.intel.com>
+References: <cover.1306442263.git.nitin.a.kamble@intel.com>
+	<03152273cac84eef23738c5f26c45b082194284f.1306442263.git.nitin.a.kamble@intel.com>
+	<1306452822.27470.220.camel@rex>
+	<1306508804.2525.460.camel@phil-desktop>
+In-Reply-To: <1306508804.2525.460.camel@phil-desktop>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [bugfix 1/1] mesa-xlib: workaround gcc 4.6.0 ICE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,52 +45,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 17:03:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 May 2011 17:17:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Lianhao,
+Phil,
+  With your patch gcc 4.6.0 is not hitting the internal compiler error for =
+this particular case. I could not do runtime testing as I don't have the hw=
+. IMO This is a good patch to send to gcc upstream.
 
-On Fri, 2011-05-27 at 14:31 +0800, Lianhao Lu wrote:
->   git://git.pokylinux.org/poky-contrib llu/PR-service
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=llu/PR-service
-> 
-> Lianhao Lu (11):
->   Added the PR service.
->   conf/bitbake.conf: Added variables for PR service.
->   meta-yocto/local.conf.sample: Added PRSERV_HOST and PRSERV_PORT.
->   classes/package(prserv).bbclass: Get PRAUTO and use PKGV/PKGR.
->   classes/package_xxx.class: Use PKGE/PKGV/PKGR.
->   udev: use EXTENDPKGV instead of EXTENDPV.
->   xcb: use EXTENDPKGV instead of EXTENDPV.
->   xorg-proto: use EXTENDPKGV instead of EXTENDPV.
->   xorg-util/util-macros: use EXTENDPKGV instead of EXTENDPV.
->   linux-libc-headers: use EXTENDPKGV instead of EXTENDPV.
->   conf/bitbake.conf: Removed EXTENDPV and EXTENDPEVER.
-
-I merged this but I did make some tweaks to both the patch series and
-one of the patches. The changes I made were:
-
-a) Squash the EXTENDPV and EXTENDPEVER changes into the base patch
-making all the associated changes in one go.
-
-b) Not include the DISTRO_PR variable for now
-
-c) Not change the default signature handler to basichash.
-
-For c), I'd suggest a follow up patch changing the default in poky.conf
-in meta-yocto and we'll test this there. This should wait until the
-PACKAGE_ARCH = "all" sstate issues we've been seeing are addressed
-though.
-
-Cheers,
-
-Richard
+Thanks,
+Nitin
 
 
-
-
-
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Phil Blundell
+> Sent: Friday, May 27, 2011 8:07 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [bugfix 1/1] mesa-xlib: workaround gcc 4.6.0 ICE
+>=20
+> On Fri, 2011-05-27 at 00:33 +0100, Richard Purdie wrote:
+> > I talked about this on IRC but simply put, no way.
+> >
+> > The problem is:
+> >
+> > a) Arm specific
+> > b) determined now to be armv7 specific
+> > c) gcc version specific
+> >
+> > and the fix should reflect this.
+>=20
+> From a fairly superficial look at the crash I suspect you probably want
+> something like:
+>=20
+> --- arm.md~	2011-05-27 15:18:31.916926254 +0100
+> +++ arm.md	2011-05-27 15:31:57.331525688 +0100
+> @@ -4213,7 +4213,9 @@
+>     uxth%?\\t%0, %1
+>     ldr%(h%)\\t%0, %1"
+>    [(set_attr "type" "alu_shift,load_byte")
+> -   (set_attr "predicable" "yes")]
+> +   (set_attr "predicable" "yes")
+> +   (set_attr "pool_range" "*,256")
+> +   (set_attr "neg_pool_range" "*,244")]
+>  )
+>=20
+>  (define_insn "*arm_zero_extendhisi2addsi"
+>=20
+> It also looks like this could happen on ARMv6 as well, for what that's
+> worth, though I haven't tested to see whether it actually does or not.
+>=20
+> p.
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
