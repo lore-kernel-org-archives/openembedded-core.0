@@ -1,29 +1,40 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QPpXq-0002XH-0q
+	(envelope-from <anders.darander@gmail.com>) id 1QPplf-0002dd-Ca
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 07:25:10 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 May 2011 22:22:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,278,1304319600"; 
-   d="scan'208";a="5690631"
-Received: from unknown (HELO [10.255.12.184]) ([10.255.12.184])
-	by orsmga001.jf.intel.com with ESMTP; 26 May 2011 22:22:03 -0700
-Message-ID: <4DDF34FC.3060100@linux.intel.com>
-Date: Thu, 26 May 2011 22:22:04 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	Fri, 27 May 2011 07:39:27 +0200
+Received: by fxm19 with SMTP id 19so1350106fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 May 2011 22:36:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type;
+	bh=Nt5IVBE3MRuN8kApyoiS7K9HugV4mbXyAHvr709/BqI=;
+	b=g3c2BS378X3OJ1tZdN3R1myfvEn171TLB8EgLBeM/S2vDhKxg7VMCBda3b/At9jhV5
+	0kmmJWJaEPLLKPVVGZJm7vPfAzjV3M1iGL+kxA9MZ7nJWzxYTlLbs+sBqrSFZV6oWdP5
+	Ej9TZ+8EtFJzXpE+4yrzSsy0xMV9IcMC5aUWc=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type;
+	b=AnMHP+1Eb74/qcDycenSDf6EcwiRooUpRYDyJf3jQEBqKTq3nRnmgn7odPHaMVg+0c
+	3P5NrBYcNVEjG3v8IGh9mL3s9Kk7iz4el4xjHdLBOllDab0Mh1CZURbaWyrz4f5uRxKt
+	hiHkJ49mDp+rXTNQAdjBSVYO0CQasjLbfYOxI=
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1306218459.git.sgw@linux.intel.com>	<1306443683.5911.1.camel@vorpal.jf.intel.com>	<4DDEC006.30701@linux.intel.com>	<201105262214.44529.paul.eggleton@linux.intel.com>
-	<4DDF237C.20506@linux.intel.com> <4DDF2893.7090306@linux.intel.com>
-In-Reply-To: <4DDF2893.7090306@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
+Received: by 10.223.87.69 with SMTP id v5mr1899465fal.57.1306474582989; Thu,
+	26 May 2011 22:36:22 -0700 (PDT)
+Received: by 10.223.93.206 with HTTP; Thu, 26 May 2011 22:36:22 -0700 (PDT)
+In-Reply-To: <4DDE96F0.9030608@linux.intel.com>
+References: <4DDBDE9D.5000709@linux.intel.com> <1306338695.27470.41.camel@rex>
+	<BANLkTim8VzrP7Zd4yDRaa75X0gXUL7wC=g@mail.gmail.com>
+	<1306360265.27470.71.camel@rex>
+	<BANLkTimH3Dp_kec8RdHTzicHS5jn5iGG7w@mail.gmail.com>
+	<4DDE96F0.9030608@linux.intel.com>
+Date: Fri, 27 May 2011 07:36:22 +0200
+Message-ID: <BANLkTimxWqqg5-tZYFCQUFdsC_rjo+7SXg@mail.gmail.com>
+From: Anders Darander <anders.darander@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC 1/2] IMAGE_ROOTFS_SIZE Cleanup
+Subject: Re: Updating u-boot for oe-core or meta-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,50 +49,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 05:25:10 -0000
+X-List-Received-Date: Fri, 27 May 2011 05:39:27 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 
+On Thu, May 26, 2011 at 20:07, Darren Hart <dvhart@linux.intel.com> wrote:
+> My current thinking on this is that for meta-yocto we want to have a
+> reasonably functional self-contained example BSP for ARM. Beagleboard
+> was the board selected for that. meta-yocto should be able to build the
+> core-image-* images and have them work on Beagleboard without needing to
+> pull in the meta-ti layer.
 
+Sounds like a good idea (and one that has been previously agreed upon,
+as I understand it). It's always good with a self-contained example
+BSP in meta-yocto.
 
-On 05/26/2011 09:29 PM, Saul Wold wrote:
-> On 05/26/2011 09:07 PM, Darren Hart wrote:
->>
->>
->> On 05/26/2011 02:14 PM, Paul Eggleton wrote:
->>> On Thursday 26 May 2011 22:03:02 Darren Hart wrote:
->>>> Yeah, this wasn't clear to me either. And my question in 2/2 still
->>>> stands - what is the goal of the overhead factor?
->>>
->>> I think the thinking was that the more software you have installed to begin
->>> with the more user data you're likely to need to store. Personally I think it
->>> would be simpler if we just set some additional overhead as an absolute value
->>
->> I had the same thought, so "seconded".
->>
-> It used to be that way and failed in unpredictable ways, what would work 
-> for one image would be way over kill for another or be too little, so 
-> the overhead factor works better.
-> 
+> For additional Beagleboard support and perhaps more state-of-the-art
+> features, people looking to develop for the Beagleboard should also
+> include the meta-ti layer.
+>
+> Having said this, I'm leaning toward just using the oe-core virgin uboot
+> recipe in meta-yocto as it is adequate to boot the Beagleboard. Then the
+> meta-ti layer provides the backports that provide some polish and usability.
+>
+> Does anyone disagree with my thinking outlined here?
 
-Seems to me this is just slightly more complicated, but every bit as
-likely to fail in unexpected ways in the future. Perhaps the simplest,
-most robust, and most explicit way to address this would be to set the
-IMAGE_ROOTFS_EXTRA_SPACE in each IMAGE file, just as we set the base size?
+No, you have my vote for this.
 
-This still ensures you get at least IMAGE_ROOTFS_EXTRA_SPACE freespace
-since the base size will expand to be at least the size the image requires.
+Doing it this way will, in my opinion, reduce the u-boot .bbappend's
+in the BSP layer as much as possible. In most cases the bbappends
+needed should just be patches with some extra features and configs.
 
-My final 0.02 USD on the matter.
-
-> If you want a known amount of space then you can use the 
-> IMAGE_ROOTFS_EXTRA_SPACE.
-> 
-> Sau!
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+Regards,
+Anders
 
 
