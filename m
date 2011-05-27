@@ -1,33 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QQ0tX-0002sN-VM for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 19:32:20 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RHTFa5004733
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1QQ12f-0002yF-Fq
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 May 2011 19:41:48 +0200
+Received: by pwj9 with SMTP id 9so950577pwj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 18:29:15 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04648-02 for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 18:29:11 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4RHTAEr004727
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 18:29:10 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4DDD90F9.5030901@intel.com>
-References: <4DDD90F9.5030901@intel.com>
-Date: Fri, 27 May 2011 18:29:04 +0100
-Message-ID: <1306517344.27470.300.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/5] license.bbclass parsing changes and common-license additions
+	Fri, 27 May 2011 10:38:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=bFbEM1lkqRHeygEIQUFnpilAMcA1IX2wZg0Cliqbk68=;
+	b=UQR/o4t/Ky7tqKxKpuWN9PjhprDuBrJbDUnhFauiVi0U4qx6VicH/XyGibtCbNqYUW
+	2heTE3Uurms0hqdWzNLgruj33XJJI2VQwSQAlD5FhxkVWNTFY/BOzO5L13e5/YaxUdtb
+	Tikc3N5xS08LsnyPLDD1T3+zAN4BJ7hCnWNLQ=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=K8YdyVnAIT7Rfvyq0XzDbD8lmDcnsEe7t3lXfZkiHtYz4rFfbgAUeLNuHr5KgqHN45
+	RBBksTAiKUeyXVJ7HyYEtUwuZN+SXkqlRr0dejsWbDZ9z8cqaKEZc/Vzj4Ce9rSjUr1Y
+	8lZ6rRWxINg8oUa6ozxEb6AeHViJJoSIkZyfk=
+Received: by 10.68.3.104 with SMTP id b8mr917456pbb.324.1306517907914;
+	Fri, 27 May 2011 10:38:27 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id a6sm664450pbo.79.2011.05.27.10.38.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 27 May 2011 10:38:26 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 May 2011 10:38:15 -0700
+Message-Id: <a5d4c320e0e6133105333fd1998018784be650f1.1306517584.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1306517584.git.raj.khem@gmail.com>
+References: <cover.1306517584.git.raj.khem@gmail.com>
+Subject: [PATCH 1/1] uclibc_git.bb: Fix patch path in SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,66 +47,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 17:32:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 May 2011 17:41:48 -0000
 
-On Wed, 2011-05-25 at 16:30 -0700, Elizabeth Flanagan wrote:
-> This pull request is a consolidated pull of some changes to the license.bbclass
-> license parsing, some cleanup of existing licenses, and some additions to/
-> modifications of various licenses kept in meta/files/common-licenses.
-> 
-> I've modified the common-licenses by adding licenses from the Software Package
-> and Data Exchange group/OSI and using their naming convention for internal
-> parsing within license.bbclass.
-> 
-> Licenses were retrieved from http://spdx.org/licenses/ or
-> in cases where text of the license was missing:
-> http://opensource.linux-mirror.org/licenses/
-> 
-> I've also modified some recipe's LICENSE field, either because the field was
-> unparsable or the LICENSE was factually incorrect. This was not an entire audit
-> of every LICENSE field but there were some errors that were obvious.
-> 
-> And lastly, using python abstract syntax trees as a parser and an ast visitor
-> class, I've begun the first steps to being able to put some sanity to license
-> selection.
-> 
-> One note. License modifiers have traditionally been limited to the "or greater"
-> modifier "+". I've added another modifier "with exceptions" for licenses that
-> have no generic ie common-licenses/GPL-2,0-with-GCC-exception
-> 
-> The modifiers are ignored for now, but I'll be looking at the logic for them
-> next.
-> 
-> One side note. The listserve seems to limit mail size, so some of these PATCH
-> requests may get slammed to /dev/null.
-> 
-> The following changes since commit 5d56586a00350f2ec90a7143182a3f1294fb4c73:
-> 
->    binutils: Add missing dependency on zlib-native (2011-05-25 23:53:47 +0100)
-> 
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib eflanagan/common-licenses
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=eflanagan/common-licenses
-> 
-> Beth Flanagan (5):
->    common-licenses: Adding new licenses and renaming
->    License Field Cleanup: Non-standard field names
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/uclibc/uclibc_git.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-I took these two big ones before anything changed and we started seeing
-rejects.
-
->    license.bbclass: Sane Parsing of licenses
->    license.bbclass: Fixing X-MIT SPDX license mapping
->    license.bbclass: Fixing LICENSE modifiers.
-
-For these, Josh spotted some debug left in and I think you can squash
-these into one commit.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
+index 3d5f7a7..eded2fb 100644
+--- a/meta/recipes-core/uclibc/uclibc_git.bb
++++ b/meta/recipes-core/uclibc/uclibc_git.bb
+@@ -27,7 +27,7 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master;protocol=git \
+ 	file://argp-support.patch \
+ 	file://argp-headers.patch \
+ 	file://remove_attribute_optimize_Os.patch \
+-	file://uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch \
++	file://append_UCLIBC_EXTRA_CFLAGS.patch \
+ 	file://compile-arm-fork-with-O2.patch \
+ 	"
+ S = "${WORKDIR}/git"
+-- 
+1.7.4.1
 
 
 
