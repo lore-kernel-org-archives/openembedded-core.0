@@ -1,38 +1,40 @@
 Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QPpyB-0002m0-7z
+	(envelope-from <raj.khem@gmail.com>) id 1QPpyD-0002mV-4P
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 07:52:23 +0200
-Received: by pzk36 with SMTP id 36so663220pzk.6
+	Fri, 27 May 2011 07:52:25 +0200
+Received: by pzk36 with SMTP id 36so663225pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 May 2011 22:49:18 -0700 (PDT)
+	Thu, 26 May 2011 22:49:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=I9ZvKqh6+FKdVbWv2b/XzqfHwKISsI6XYRm1cFCabo8=;
-	b=bTljBqVqE85FD2g9FYV19dIv4cXrUMi7n4ykMxn6cpuIdA3ko6iswiUCF7EHKMth26
-	FsxG+dmlmW3gPZMJIi5+pQuGben6yruv7h640WyoJTKYwSIXUhlsZSGhN1kNAIJXKJ2j
-	CAUw7SZkDRoqmhshJmTLBwHy8MI93FYMLiyMQ=
+	:in-reply-to:references:in-reply-to:references;
+	bh=GIHB1JvYeN6gzLKpoo5THMu5AlFGrwBreaKtJLXNEN8=;
+	b=caIaRSpSPe2jIIE1aqmPX3DnaA3GnnhO+7MirUxKHF5Ik80rYzGpcibEzN6vtzhfcl
+	JVGz21A8rZP814s1CdrV7gMwycFuCj6yy2uehUwFSYtoKi6/JLEvDjh+ZcAPXUGabsMJ
+	M12FMGd+K5CWDjqfaUvFiylrVbomng7KNz5Bo=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=glW7+iKSaStgwahFeyJQg0MXMWmyeY43KFydfedtaxRdWx6QXukqDPpL5coMKrnQlT
-	Z7lkhtegqAD4t+LpJAeiTmGMiO6Xg8YvllWqsemjHmC0QW0JUzcV85Xm8S+nh9m0vd8E
-	J3Pe5UTGaThqQkvmyl0p9flLYGX6DDUk9HKRk=
-Received: by 10.68.29.100 with SMTP id j4mr710287pbh.197.1306475358058;
-	Thu, 26 May 2011 22:49:18 -0700 (PDT)
+	b=GM6UEDnQeG9HDVqfp5m6XMue2i83H6j2GvQPtLQCAGGjA9YDPi5psFA1+NfKmYWASS
+	J5lKqcAcQF9DkahyocosaZ1X/NiCASCGtdcuwTcBpVnd+aGkmdHhCh+aoP4MUQgxsS5B
+	mwnoyYzLrZjolcIX9f5LJYAUF0AnvRwgblZUk=
+Received: by 10.68.58.35 with SMTP id n3mr740420pbq.150.1306475360022;
+	Thu, 26 May 2011 22:49:20 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id x1sm237666pbb.34.2011.05.26.22.49.16
+	by mx.google.com with ESMTPS id x1sm237666pbb.34.2011.05.26.22.49.18
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 May 2011 22:49:17 -0700 (PDT)
+	Thu, 26 May 2011 22:49:18 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 May 2011 22:49:10 -0700
-Message-Id: <6148af9a1476623e4df7e5965de787c8b73792c0.1306475241.git.raj.khem@gmail.com>
+Date: Thu, 26 May 2011 22:49:11 -0700
+Message-Id: <eb67bc85d9f10a564ee206a9c2d5b6f25edf157a.1306475241.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <6148af9a1476623e4df7e5965de787c8b73792c0.1306475241.git.raj.khem@gmail.com>
+References: <6148af9a1476623e4df7e5965de787c8b73792c0.1306475241.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1306475241.git.raj.khem@gmail.com>
 References: <cover.1306475241.git.raj.khem@gmail.com>
-Subject: [PATCH 1/3] uclibc_git.bb: Fix compilation on arm when using thumb instruction set
+Subject: [PATCH 2/3] uclibc.inc: Set COMPILE_IN_THUMB_MODE in .config if ARM_INSTRUCTION_SET != arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,104 +49,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 05:52:23 -0000
+X-List-Received-Date: Fri, 27 May 2011 05:52:25 -0000
+
+This will configure uclibc to be compiled in thumb/thumb2 mode
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch    |   33 ++++++++++++++++++++
- .../uclibc-git/compile-arm-fork-with-O2.patch      |   21 ++++++++++++
- meta/recipes-core/uclibc/uclibc_git.bb             |    4 ++-
- 3 files changed, 57 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/compile-arm-fork-with-O2.patch
+ meta/recipes-core/uclibc/uclibc.inc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-core/uclibc/uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch b/meta/recipes-core/uclibc/uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch
-new file mode 100644
-index 0000000..edcb4e3
---- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch
-@@ -0,0 +1,33 @@
-+UCLIBC_EXTRA_CFLAGS is currently added before the OPTIMIZATION flags
-+and OPTIMIZATION is chosen to be Os by default. But in OE we pass the optimisation
-+flags through UCLIBC_EXTRA_CFLAGS but they are not effective since -Os is
-+specified at last. So we need to change the order of these option flags
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+
-+diff --git a/Rules.mak b/Rules.mak
-+index 65fe47c..eca7f40 100644
-+--- a/Rules.mak
-++++ b/Rules.mak
-+@@ -585,9 +574,6 @@ CFLAGS := -include $(top_srcdir)include/libc-symbols.h \
-+ 	-nostdinc -I$(top_builddir)include -I$(top_srcdir)include -I. \
-+ 	-I$(top_srcdir)libc/sysdeps/linux \
-+ 	-I$(top_srcdir)libc/sysdeps/linux/$(TARGET_ARCH)
-+-ifneq ($(strip $(UCLIBC_EXTRA_CFLAGS)),"")
-+-CFLAGS += $(call qstrip,$(UCLIBC_EXTRA_CFLAGS))
-+-endif
-+ 
-+ # We need this to be checked within libc-symbols.h
-+ ifneq ($(HAVE_SHARED),y)
-+@@ -633,6 +619,9 @@ LDFLAGS += -Wl,-s
-+ else
-+ STRIPTOOL := true -Stripping_disabled
-+ endif
-++ifneq ($(strip $(UCLIBC_EXTRA_CFLAGS)),"")
-++CFLAGS += $(call qstrip,$(UCLIBC_EXTRA_CFLAGS))
-++endif
-+ 
-+ ifeq ($(DOMULTI),y)
-+ # we try to compile all sources at once into an object (IMA), but
-diff --git a/meta/recipes-core/uclibc/uclibc-git/compile-arm-fork-with-O2.patch b/meta/recipes-core/uclibc/uclibc-git/compile-arm-fork-with-O2.patch
-new file mode 100644
-index 0000000..429f27d
---- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/compile-arm-fork-with-O2.patch
-@@ -0,0 +1,21 @@
-+When compiling in thumb mode for arm with -Os gcc gives up since it can not find registers
-+to spill. So we use -O2 option for compiling fork.c It may be addressable is gcc.
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+
-+diff --git a/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch b/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch
-+index 329d8a9..41e3646 100644
-+--- a/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch
-++++ b/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch
-+@@ -30,3 +30,9 @@ CFLAGS-OMIT-libc-lowlevellock.c = -DNOT_IN_libc -DIS_IN_libpthread
-+ # This macro should be alternatively implemented in THUMB
-+ # assembly.
-+ ASFLAGS-vfork.S = -marm
-++
-++# For arm fork.c does not compile with -Os when in compiling
-++# in thumb1 mode
-++ifeq ($(COMPILE_IN_THUMB_MODE),y)
-++CFLAGS-fork.c = -O2
-++endif
-diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
-index 18619cd..3d5f7a7 100644
---- a/meta/recipes-core/uclibc/uclibc_git.bb
-+++ b/meta/recipes-core/uclibc/uclibc_git.bb
-@@ -2,7 +2,7 @@ SRCREV="71d63ed75648da9b0b71afabb9c60aaad792c55c"
- 
- require uclibc.inc
- PV = "0.9.31+0.9.32rc3"
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
- PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
- 
- #recent versions uclibc require real kernel headers
-@@ -27,5 +27,7 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master;protocol=git \
- 	file://argp-support.patch \
- 	file://argp-headers.patch \
- 	file://remove_attribute_optimize_Os.patch \
-+	file://uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch \
-+	file://compile-arm-fork-with-O2.patch \
- 	"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index e7d8846..c1bc422 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -135,6 +135,7 @@ configmangle = '/^KERNEL_HEADERS/d; \
+                 /^SHARED_LIB_LOADER_PREFIX/d; \
+                 /^UCLIBC_EXTRA_CFLAGS/d; \
+                 s,.*UCLIBC_HAS_WCHAR.*,UCLIBC_HAS_WCHAR=y,g; \
++                ${@["","s,.*COMPILE_IN_THUMB_MODE.*,COMPILE_IN_THUMB_MODE=y,;"][bb.data.getVar("ARM_INSTRUCTION_SET", d, 1) != "arm"]} \
+                 ${@["","s,.*UCLIBC_HAS_LOCALE.*,UCLIBC_HAS_LOCALE=y,;"][bb.data.getVar("USE_NLS", d, 1) == "yes"]} \
+                 ${@["","s,.*LDSO_GNU_HASH_SUPPORT.*,# LDSO_GNU_HASH_SUPPORT is not set,;"][bb.data.getVar("TARGET_ARCH", d, 1) in ['mips', 'mipsel', 'mips64', 'mips64el', 'avr32']]} \
+                 /^CROSS/d; \
 -- 
 1.7.4.1
 
