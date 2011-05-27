@@ -1,25 +1,25 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1QPqYB-0003fP-40
+	(envelope-from <lianhao.lu@intel.com>) id 1QPqYD-0003fP-8K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 08:29:36 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 26 May 2011 23:26:29 -0700
+	Fri, 27 May 2011 08:29:37 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 26 May 2011 23:26:33 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,278,1304319600"; 
-   d="scan'208";a="9785641"
+   d="scan'208";a="8494464"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.87])
-	by fmsmga001.fm.intel.com with ESMTP; 26 May 2011 23:26:28 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 26 May 2011 23:26:32 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 May 2011 14:31:46 +0800
-Message-Id: <abf0f702d8f1cd1d9c02c9a6ae0fd6ffa198ce2b.1306477652.git.lianhao.lu@intel.com>
+Date: Fri, 27 May 2011 14:31:49 +0800
+Message-Id: <1a747e8eee9ae2c68d66278835af4b912714647e.1306477652.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <93b575839974dfc9e49598a5c2db76ebabbb5bc0.1306477652.git.lianhao.lu@intel.com>
 References: <93b575839974dfc9e49598a5c2db76ebabbb5bc0.1306477652.git.lianhao.lu@intel.com>
 In-Reply-To: <cover.1306477652.git.lianhao.lu@intel.com>
 References: <cover.1306477652.git.lianhao.lu@intel.com>
-Subject: [PATCH 02/11] conf/bitbake.conf: Added variables for PR service.
+Subject: [PATCH 05/11] classes/package_xxx.class: Use PKGE/PKGV/PKGR.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,92 +34,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 06:29:36 -0000
+X-List-Received-Date: Fri, 27 May 2011 06:29:38 -0000
 
-1. change BB_SIGNATURE_HANDLER from basic to basichash.
-
-2. Added following variables for PR service:
-USE_PR_SERV: flag of whether to use the network PR service
-PRAUTOINX: search index for the network PR service
-PKGE/PKGV/PKGR: epoch, version and revision used in package feed.
-EXTENDPKGV: full package version string used in package relationships.
+Use PKGE/PKGV/PKGR to build various package feed in tasks of pacakge_write_xxx.
 
 Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- meta/conf/bitbake.conf |   23 +++++++++++++++++++----
- 1 files changed, 19 insertions(+), 4 deletions(-)
+ meta/classes/package_deb.bbclass |    8 ++++----
+ meta/classes/package_ipk.bbclass |    8 ++++----
+ meta/classes/package_rpm.bbclass |   14 +++++++-------
+ meta/classes/package_tar.bbclass |    4 ++--
+ 4 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d307385..4fcf4f6 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -153,9 +153,18 @@ PR = "${@bb.parse.BBHandler.vars_from_file(bb.data.getVar('FILE',d),d)[2] or 'r0
- PF = "${PN}-${EXTENDPE}${PV}-${PR}"
- EXTENDPE = "${@['','${PE\x7d_'][bb.data.getVar('PE',d,1) > 0]}"
- EXTENDPEVER = "${@['','${PE\x7d:'][bb.data.getVar('PE',d,1) > 0]}"
--EXTENDPV = "${EXTENDPEVER}${PV}-${PR}"
-+EXTENDPV = "${EXTENDPEVER}${PV}-${PR}{DISTRO_PR}"
- P = "${PN}-${PV}"
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 000d9ee..fb502cb 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -272,7 +272,7 @@ python do_package_deb () {
+         except ValueError:
+             pass
+         if not g and bb.data.getVar('ALLOW_EMPTY', localdata) != "1":
+-            bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, True), bb.data.getVar('PR', localdata, True)))
++            bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PKGV', localdata, True), bb.data.getVar('PKGR', localdata, True)))
+             bb.utils.unlockfile(lf)
+             continue
  
-+EXTENDPRAUTO = "${@['.${PRAUTO\x7d',''][bb.data.getVar('PRAUTO',d,1) is None]}"
-+PRAUTOINX = "${PF}${DISTRO_PR}"
-+
-+PKGV ?= "${PV}"
-+PKGR ?= "${PR}${DISTRO_PR}${EXTENDPRAUTO}"
-+PKGE ?= "${@['','${PE\x7d'][bb.data.getVar('PE',d,1) > 0]}"
-+EXTENDPKGEVER = "${@['','${PKGE\x7d:'][bb.data.getVar('PKGE',d,1).strip() != '']}"
-+EXTENDPKGV ?= "${EXTENDPKGEVER}${PKGV}-${PKGR}"
-+
- # Base package name
- # Automatically derives "foo" from "foo-native", "foo-cross" or "foo-initial"
- # otherwise it is the same as PN and P
-@@ -163,6 +172,11 @@ SPECIAL_PKGSUFFIX = "-native -cross -initial -intermediate -nativesdk -crosssdk
- BPN = "${@base_prune_suffix(bb.data.getVar('PN', d, True), bb.data.getVar('SPECIAL_PKGSUFFIX', d, True).split(), d)}"
- BP = "${BPN}-${PV}"
+@@ -288,11 +288,11 @@ python do_package_deb () {
+             raise bb.build.FuncFailed("unable to open control file for writing.")
  
-+#
-+# network based PR service
-+#
-+USE_PR_SERV = "${@[1,0][(bb.data.getVar('PRSERV_HOST',d,1) is None) or (bb.data.getVar('PRSERV_PORT',d,1) is None)]}"
-+
- # Package info.
+         fields = []
+-        pe = bb.data.getVar('PE', d, True)
++        pe = bb.data.getVar('PKGE', d, True)
+         if pe and int(pe) > 0:
+-            fields.append(["Version: %s:%s-%s\n", ['PE', 'PV', 'PR']])
++            fields.append(["Version: %s:%s-%s\n", ['PKGE', 'PKGV', 'PKGR']])
+         else:
+-            fields.append(["Version: %s-%s\n", ['PV', 'PR']])
++            fields.append(["Version: %s-%s\n", ['PKGV', 'PKGR']])
+         fields.append(["Description: %s\n", ['DESCRIPTION']])
+         fields.append(["Section: %s\n", ['SECTION']])
+         fields.append(["Priority: %s\n", ['PRIORITY']])
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index a3dfc73..4317028 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -241,7 +241,7 @@ python do_package_ipk () {
+ 		except ValueError:
+ 			pass
+ 		if not g and bb.data.getVar('ALLOW_EMPTY', localdata) != "1":
+-			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, 1), bb.data.getVar('PR', localdata, 1)))
++			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PKGV', localdata, 1), bb.data.getVar('PKGR', localdata, 1)))
+ 			bb.utils.unlockfile(lf)
+ 			continue
  
- SECTION = "base"
-@@ -241,7 +255,7 @@ FILES_${PN}-dev = "${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la \
-                 ${base_libdir}/*.a ${base_libdir}/*.o"
- SECTION_${PN}-dev = "devel"
- ALLOW_EMPTY_${PN}-dev = "1"
--RDEPENDS_${PN}-dev = "${PN} (= ${EXTENDPV})"
-+RDEPENDS_${PN}-dev = "${PN} (= ${EXTENDPKGV})"
+@@ -254,11 +254,11 @@ python do_package_ipk () {
+ 			raise bb.build.FuncFailed("unable to open control file for writing.")
  
- DOTDEBUG-dbg = "${bindir}/.debug ${sbindir}/.debug ${libexecdir}/.debug ${libdir}/.debug \
-             ${base_bindir}/.debug ${base_sbindir}/.debug ${base_libdir}/.debug ${libdir}/${PN}/.debug \
-@@ -253,7 +267,7 @@ FILES_${PN}-dbg = "${@bb.data.getVar(['DOTDEBUG-dbg', 'DEBUGFILEDIRECTORY-dbg'][
+ 		fields = []
+-		pe = bb.data.getVar('PE', d, 1)
++		pe = bb.data.getVar('PKGE', d, 1)
+ 		if pe and int(pe) > 0:
+-			fields.append(["Version: %s:%s-%s\n", ['PE', 'PV', 'PR']])
++			fields.append(["Version: %s:%s-%s\n", ['PKGE', 'PKGV', 'PKGR']])
+ 		else:
+-			fields.append(["Version: %s-%s\n", ['PV', 'PR']])
++			fields.append(["Version: %s-%s\n", ['PKGV', 'PKGR']])
+ 		fields.append(["Description: %s\n", ['DESCRIPTION']])
+ 		fields.append(["Section: %s\n", ['SECTION']])
+ 		fields.append(["Priority: %s\n", ['PRIORITY']])
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 1d8c686..3df66cc 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -330,7 +330,7 @@ python write_specfile () {
+ 				if dep and ver:
+ 					if '-' in ver:
+ 						subd = oe.packagedata.read_subpkgdata_dict(dep, d)
+-						pv = subd['PV']
++						pv = subd['PKGV']
+ 						reppv = pv.replace('-', '+')
+ 						ver = ver.replace(pv, reppv)
+ 				newdeps_dict[dep] = ver
+@@ -383,9 +383,9 @@ python write_specfile () {
+ 	# Construct the SPEC file...
+ 	srcname    = bb.data.getVar('PN', d, True)
+ 	srcsummary = (bb.data.getVar('SUMMARY', d, True) or bb.data.getVar('DESCRIPTION', d, True) or ".")
+-	srcversion = bb.data.getVar('PV', d, True).replace('-', '+')
+-	srcrelease = bb.data.getVar('PR', d, True)
+-	srcepoch   = (bb.data.getVar('PE', d, True) or "")
++	srcversion = bb.data.getVar('PKGV', d, True).replace('-', '+')
++	srcrelease = bb.data.getVar('PKGR', d, True)
++	srcepoch   = (bb.data.getVar('PKGE', d, True) or "")
+ 	srclicense = bb.data.getVar('LICENSE', d, True)
+ 	srcsection = bb.data.getVar('SECTION', d, True)
+ 	srcmaintainer  = bb.data.getVar('MAINTAINER', d, True)
+@@ -438,9 +438,9 @@ python write_specfile () {
+ 		splitname    = pkgname
  
- SECTION_${PN}-dbg = "devel"
- ALLOW_EMPTY_${PN}-dbg = "1"
--RRECOMMENDS_${PN}-dbg = "${PN} (= ${EXTENDPV})"
-+RRECOMMENDS_${PN}-dbg = "${PN} (= ${EXTENDPKGV})"
+ 		splitsummary = (bb.data.getVar('SUMMARY', localdata, True) or bb.data.getVar('DESCRIPTION', localdata, True) or ".")
+-		splitversion = (bb.data.getVar('PV', localdata, True) or "").replace('-', '+')
+-		splitrelease = (bb.data.getVar('PR', localdata, True) or "")
+-		splitepoch   = (bb.data.getVar('PE', localdata, True) or "")
++		splitversion = (bb.data.getVar('PKGV', localdata, True) or "").replace('-', '+')
++		splitrelease = (bb.data.getVar('PKGR', localdata, True) or "")
++		splitepoch   = (bb.data.getVar('PKGE', localdata, True) or "")
+ 		splitlicense = (bb.data.getVar('LICENSE', localdata, True) or "")
+ 		splitsection = (bb.data.getVar('SECTION', localdata, True) or "")
+ 		splitdescription = (bb.data.getVar('DESCRIPTION', localdata, True) or ".")
+diff --git a/meta/classes/package_tar.bbclass b/meta/classes/package_tar.bbclass
+index e546eb7..a806e45 100644
+--- a/meta/classes/package_tar.bbclass
++++ b/meta/classes/package_tar.bbclass
+@@ -3,7 +3,7 @@ inherit package
+ IMAGE_PKGTYPE ?= "tar"
  
- FILES_${PN}-locale = "${datadir}/locale"
- 
-@@ -650,6 +664,7 @@ PCMCIA_MANAGER ?= "pcmcia-cs"
- DEFAULT_TASK_PROVIDER ?= "task-base"
- MACHINE_TASK_PROVIDER ?= "${DEFAULT_TASK_PROVIDER}"
- IMAGE_ROOTFS_SIZE ?= "65536"
-+DISTRO_PR ?= ''
- 
- # Forcefully set CACHE now so future changes to things like 
- # MACHINE don't change the path to the cache
-@@ -708,7 +723,7 @@ DISTRO[unexport] = "1"
- TRANSLATED_TARGET_ARCH ??= ${TARGET_ARCH}
- 
- # Setup our default hash policy
--BB_SIGNATURE_HANDLER ?= "basic"
-+BB_SIGNATURE_HANDLER ?= "basichash"
- BB_HASHTASK_WHITELIST ?= "(.*-cross$|.*-native$|.*-cross-initial$|.*-cross-intermediate$|^virtual:native:.*|^virtual:nativesdk:.*)"
- BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH USERNAME STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE"
- 
+ python package_tar_fn () {
+-	fn = os.path.join(bb.data.getVar('DEPLOY_DIR_TAR', d), "%s-%s-%s.tar.gz" % (bb.data.getVar('PKG', d), bb.data.getVar('PV', d), bb.data.getVar('PR', d)))
++	fn = os.path.join(bb.data.getVar('DEPLOY_DIR_TAR', d), "%s-%s-%s.tar.gz" % (bb.data.getVar('PKG', d), bb.data.getVar('PKGV', d), bb.data.getVar('PKGR', d)))
+ 	fn = bb.data.expand(fn, d)
+ 	bb.data.setVar('PKGFN', fn, d)
+ }
+@@ -83,7 +83,7 @@ python do_package_tar () {
+ 		os.chdir(root)
+ 		from glob import glob
+ 		if not glob('*'):
+-			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PV', localdata, 1), bb.data.getVar('PR', localdata, 1)))
++			bb.note("Not creating empty archive for %s-%s-%s" % (pkg, bb.data.getVar('PKGV', localdata, 1), bb.data.getVar('PKGR', localdata, 1)))
+ 			continue
+ 		ret = os.system("tar -czf %s %s" % (tarfn, '.'))
+ 		if ret != 0:
 -- 
 1.7.0.4
 
