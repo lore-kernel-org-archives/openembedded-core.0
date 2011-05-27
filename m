@@ -1,24 +1,24 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QPtSL-0000WW-VM
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 May 2011 11:35:46 +0200
-Received: by wye20 with SMTP id 20so1261450wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 May 2011 02:32:41 -0700 (PDT)
-Received: by 10.216.232.41 with SMTP id m41mr1827693weq.31.1306488760779;
-	Fri, 27 May 2011 02:32:40 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id y3sm845298wec.34.2011.05.27.02.32.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 May 2011 02:32:40 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 May 2011 11:32:37 +0200
-Message-Id: <1306488757-29019-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] avahi: enable systemd support, but package systemd files seperately
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QPtX4-0000Zv-Cb for openembedded-core@lists.openembedded.org;
+	Fri, 27 May 2011 11:40:38 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>)
+	id 1QPtU6-00063W-Gl; Fri, 27 May 2011 11:37:35 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4DDF17A7.4010807@linux.intel.com>
+References: <cover.1306364294.git.dvhart@linux.intel.com>
+	<f2eb88161222a6df60739367d2f44342d3bfbbf2.1306364294.git.dvhart@linux.intel.com>
+	<1306453593.27470.226.camel@rex>  <4DDF17A7.4010807@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Fri, 27 May 2011 10:37:32 +0100
+Message-ID: <1306489052.2525.400.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [PATCH 1/1] utils.bbclass: make FILESEXTRAPATHS colon delimited
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,52 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 May 2011 09:35:46 -0000
+X-List-Received-Date: Fri, 27 May 2011 09:40:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Systemd support in avahi only affects 'make install', so no changes for sysvinit based systems
+On Thu, 2011-05-26 at 20:16 -0700, Darren Hart wrote:
+> So by changing from split() to split(":") we change the behavior of
+> split when operating on empty strings, requiring us to special case the
+> output. Rather obnoxious wouldn't you say?
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-connectivity/avahi/avahi.inc       |    9 +++++++--
- meta/recipes-connectivity/avahi/avahi_0.6.30.bb |    2 +-
- 2 files changed, 8 insertions(+), 3 deletions(-)
+Yes, that is an annoying misfeature.  The other related thing to watch
+out for is this:
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index b2fa8ca..099c5a4 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -37,9 +37,14 @@ EXTRA_OECONF = "--with-distro=debian \
-              --disable-qt3 \
-              --disable-qt4 \
-              --disable-python \
--             --disable-doxygen-doc"
-+             --disable-doxygen-doc \
-+             --with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
-+"
- 
--PACKAGES =+ "avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-gobject avahi-autoipd avahi-ui-utils avahi-utils libavahi-ui libavahi-ui-dev"
-+PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib libavahi-gobject avahi-autoipd avahi-ui-utils avahi-utils libavahi-ui libavahi-ui-dev"
-+
-+FILES_avahi-systemd = "${base_libdir}/systemd"
-+RDEPENDS_avahi-systemd = "avahi-daemon"
- 
- FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
- FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-index 1084c04..e63f406 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
- 
- RDEPENDS_avahi-daemon = "sysvinit-pidof"
--PR = "r0"
-+PR = "r1"
- 
- EXTRA_OECONF += "--disable-gtk3"
- 
--- 
-1.6.6.1
+>>> print " a b ".split()
+['a', 'b']
+>>> print ":a:b:".split(":")
+['', 'a', 'b', '']
+>>> 
+
+... in other words, if you make the separator be anything other than a
+space, you need to take special care to strip off any null elements that
+might have been accidentally generated at the start and end.
+
+p.
+
 
 
 
