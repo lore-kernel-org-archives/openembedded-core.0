@@ -1,43 +1,42 @@
-Received: from mail-px0-f178.google.com ([209.85.212.178])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QQMqO-0003RJ-CB
+	(envelope-from <raj.khem@gmail.com>) id 1QQNMj-00044M-0n
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 May 2011 18:58:32 +0200
-Received: by pxj25 with SMTP id 25so598717pxj.9
+	Sat, 28 May 2011 19:31:57 +0200
+Received: by pvc30 with SMTP id 30so1219183pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 May 2011 09:55:25 -0700 (PDT)
+	Sat, 28 May 2011 10:28:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
 	:subject:references:in-reply-to:content-type
 	:content-transfer-encoding;
-	bh=swOuksXwKJjlkKswJ6WEG41vEaR4wZqdsLWGnlZOe+s=;
-	b=C4KwCDqrQPPt4IQJ2J5CeA5LegL8hThkWD1DBc//C53XTw+/GSXuiq3ymvF6R5vvGJ
-	SCfuUCsotFREXbSY+V7Xoz4570lQ4euU9vUynaxrfPLNSBq07JZC6abIUGtnGKXg/AAj
-	8Trf6lzc8S5qi2+SCXngcBipFjBCiATxNo67s=
+	bh=JjZEpe1SRiCj3Udsgk64TZyOrCSuRrTZ+1p/BfgSB2w=;
+	b=oedKCumtlICjp7Xy65V6OIoQXBu7K2A5Zn22IgxunOq+wjOWezLHv8c18TvfB8P8IJ
+	DQv+v7CgX+nGxVB7dXEmjc30Z8UkqBOyUdhdyzdEyUwxrrslhGSx+PEThBgU7tOmg26B
+	MV0em0IfQPNFJ+2RrzeDrl5OyW4WWRDefVP2Q=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=message-id:date:from:user-agent:mime-version:to:subject:references
 	:in-reply-to:content-type:content-transfer-encoding;
-	b=QB7MO+4tqp5BSPmYrPVTrrhIM4+xPl5aFSh7fK1GfSDnn3224lai+1AeHjzL7LtAlj
-	mQ+TrkOe+cv/VUAXAoZbtfb/JTAsupHz/cr+Hr6dL0S+7mErvJtzG29ZazRqiASSOnzG
-	wQrmjKZ8Go+C19Hoit1a4PWDaH9E6JF7nmihM=
-Received: by 10.142.144.8 with SMTP id r8mr525825wfd.142.1306601724877;
-	Sat, 28 May 2011 09:55:24 -0700 (PDT)
+	b=qEj7W/zdrQGRxvUIKA5aIMgvxE3jYGSMGXeQW9zlOHbmMr+ytc23mtMiLLAn0yjL7I
+	YUOZH1Iz6k/U+XR2lNKJH51RJwcJIossSzrfcJksQC+a0I8to5EOb6kInRZLcDljneqM
+	7ZqzYBHJQOt4HGsyKCGU+/iiadXqn274/03Rs=
+Received: by 10.142.12.16 with SMTP id 16mr467460wfl.253.1306603726664;
+	Sat, 28 May 2011 10:28:46 -0700 (PDT)
 Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
 	[99.57.141.118])
-	by mx.google.com with ESMTPS id d15sm1554998wfl.6.2011.05.28.09.55.22
-	(version=SSLv3 cipher=OTHER); Sat, 28 May 2011 09:55:23 -0700 (PDT)
-Message-ID: <4DE128F5.1070603@gmail.com>
-Date: Sat, 28 May 2011 09:55:17 -0700
+	by mx.google.com with ESMTPS id j14sm2077394wfg.2.2011.05.28.10.28.44
+	(version=SSLv3 cipher=OTHER); Sat, 28 May 2011 10:28:45 -0700 (PDT)
+Message-ID: <4DE130C8.3090207@gmail.com>
+Date: Sat, 28 May 2011 10:28:40 -0700
 From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
 	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <4DE02216.1010003@intel.com>
-	<B424D198-12A5-4C45-93D7-C5CFA6C97BA5@dominion.thruhere.net>
-In-Reply-To: <B424D198-12A5-4C45-93D7-C5CFA6C97BA5@dominion.thruhere.net>
-Subject: Re: [PATCH 0/1][v3] license.bbclass parsing changes rebased sans debug
+To: openembedded-core@lists.openembedded.org
+References: <cover.1306520012.git.nitin.a.kamble@intel.com>	<b883a6b6076317ebc3eb64f160c5f2df6996a95e.1306520012.git.nitin.a.kamble@intel.com>	<BANLkTi=nTJ5-uFhtjMh0QhsJHZyRyRwfPA@mail.gmail.com>	<4DDFF866.5040302@windriver.com>	<BANLkTi=PAbExYQ8vPqkGzmVqu-t5BOK3Pw@mail.gmail.com>
+	<4DDFFE6B.6030902@windriver.com>
+In-Reply-To: <4DDFFE6B.6030902@windriver.com>
+Subject: Re: [bugfix 1/2] gcc-4.6.0: fix ICE with armv7 target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,92 +51,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 May 2011 16:58:32 -0000
+X-List-Received-Date: Sat, 28 May 2011 17:31:58 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 5/28/2011 2:16 AM, Koen Kooi wrote:
->
-> Op 28 mei 2011, om 00:13 heeft Elizabeth Flanagan het volgende geschreven:
->
+On 5/27/2011 12:41 PM, Mark Hatle wrote:
+> On 5/27/11 2:36 PM, Khem Raj wrote:
+>> On Fri, May 27, 2011 at 12:15 PM, Mark Hatle<mark.hatle@windriver.com>  wrote:
+>>> On 5/27/11 1:25 PM, Khem Raj wrote:
+>>>> On Fri, May 27, 2011 at 11:15 AM,<nitin.a.kamble@intel.com>  wrote:
+>>>>> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>>>>>
+>>>>> This fixes an internal compiler error for gcc 4.6.0 for armv7
+>>>>>
+>>>>> Patch came from: Phil Blundell<pb@pbcl.net>
+>>>>> Validated by Nitin
+>>>>>
+>>>>> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+>>>>> Signed-Off-by: Phil Blundell<pb@pbcl.net>
+>>>>> ---
+>>>>>   meta/recipes-devtools/gcc/gcc-4.6.0.inc            |    3 +-
+>>>>>   .../gcc/gcc-4.6.0/ICE_fix_for_arm.patch            |   44 ++++++++++++++++++++
+>>>>>   2 files changed, 46 insertions(+), 1 deletions(-)
+>>>>>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/ICE_fix_for_arm.patch
+>>>>>
+>>>>> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.0.inc b/meta/recipes-devtools/gcc/gcc-4.6.0.inc
+>>>>> index fb5c70d..4407eca 100644
+>>>>> --- a/meta/recipes-devtools/gcc/gcc-4.6.0.inc
+>>>>> +++ b/meta/recipes-devtools/gcc/gcc-4.6.0.inc
+>>>>> @@ -7,7 +7,7 @@ require gcc-common.inc
+>>>>>
+>>>>>   require gcc-4_6-branch-backports.inc
+>>>>>
+>>>>> -PR = "r2"
+>>>>> +PR = "r3"
+>>>>>
+>>>>>   DEPENDS =+ "mpfr gmp libmpc"
+>>>>>   NATIVEDEPS = "mpfr-native gmp-native gettext-native libmpc-native"
+>>>>> @@ -53,6 +53,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+>>>>>            file://gcc-poison-parameters.patch \
+>>>>>            file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
+>>>>>            file://COLLECT_GCC_OPTIONS.patch \
+>>>>> +          file://ICE_fix_for_arm.patch \
+>>>>>           "
+>>>>>   SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
+>>>>>
+>>>>> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.0/ICE_fix_for_arm.patch b/meta/recipes-devtools/gcc/gcc-4.6.0/ICE_fix_for_arm.patch
+>>>>> new file mode 100644
+>>>>> index 0000000..037a180
+>>>>> --- /dev/null
+>>>>> +++ b/meta/recipes-devtools/gcc/gcc-4.6.0/ICE_fix_for_arm.patch
+>>>>> @@ -0,0 +1,44 @@
+>>>>> +Upstream-Status: Pending
+>>>>> +
+>>>>> +Patch came from: Phil Blundell<pb@pbcl.net>
+>>>>> +Validated by Nitin
+>>>>> +This fixes the following internal compiler error of gcc 4.6.0 on for armv7-a
+>>>>> +related gcc bugzilla: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=47719
+>>>>> +
+>>>>> +
+>>>>> +| arm-poky-linux-gnueabi-gcc -march=armv7-a -mtune=cortex-a8 -mfpu=neon
+>>>>> +-mfloat-abi=softfp -fno-tree-vectorize
+>>>>> +--sysroot=/srv/home/pokybuild/poky-slave/nightly-external/build/build/tmp/sysroots/beagleboard
+>>>>> +-c -I. -I../../../../src/gallium/include -I../../../../src/gallium/auxiliary
+>>>>> +-I../../../../src/gallium/drivers
+>>>>> +-I../../../../src/gallium/drivers/svga/include -O2 -pipe -g
+>>>>> +-feliminate-unused-debug-types -Wall -Wmissing-prototypes -std=c99 -ffast-math
+>>>>> +-fvisibility=hidden -fno-strict-aliasing -fPIC -D_GNU_SOURCE -DPTHREADS
+>>>>> +-DHAVE_POSIX_MEMALIGN -DUSE_XSHM -std=gnu99 -fvisibility=hidden -DHAVE_STDINT_H
+>>>>> +-DHAVE_SYS_TYPES_H svga_resource_buffer_upload.c -o
+>>>>> +svga_resource_buffer_upload.o
+>>>>> +| svga_tgsi_insn.c: In function 'svga_shader_emit_instructions':
+>>>>> +| svga_tgsi_insn.c:2969:1: internal compiler error: in push_minipool_fix, at
+>>>>> +config/arm/arm.c:12084
+>>>>> +| Please submit a full bug report,
+>>>>> +| with preprocessed source if appropriate.
+>>>>> +| See<http://gcc.gnu.org/bugs.html>  for instructions.
+>>>>> +| make[4]: *** [svga_tgsi_insn.o] Error 1
+>>>>> +
+>>>>> +Nitin A Kamble<nitin.a.kamble@intel.com>  2011/05/27
+>>>>> +
+>>>>> +Index: gcc-4.6.0/gcc/config/arm/arm.md
+>>>>> +===================================================================
+>>>>> +--- gcc-4.6.0.orig/gcc/config/arm/arm.md
+>>>>> ++++ gcc-4.6.0/gcc/config/arm/arm.md
+>>>>> +@@ -4213,7 +4213,9 @@
+>>>>> +    uxth%?\\t%0, %1
+>>>>> +    ldr%(h%)\\t%0, %1"
+>>>>> +   [(set_attr "type" "alu_shift,load_byte")
+>>>>> +-   (set_attr "predicable" "yes")]
+>>>>> ++   (set_attr "predicable" "yes")
+>>>>> ++   (set_attr "pool_range" "*,256")
+>>>>> ++   (set_attr "neg_pool_range" "*,244")]
+>>>>> + )
+>>>>> +
+>>>>
+>>>> FWIW a patch which is similar to this was rejected here.
+>>>> http://gcc.gnu.org/ml/gcc-patches/2011-02/msg01731.html
+>>>>
+>>>
+>>> based on that link, I'd say there are two cases that are needed for a proper
+>>> workaround.
+>>>
+>>> Then likely we wait until upstream has a fix....
 >>
->> Using python abstract syntax trees as a parser and an ast visitor class, I've
->> begun the first steps to being able to put some sanity to license selection.
->>
->> One note. License modifiers have traditionally been limited to the "or greater"
->> modifier "+". I've added another modifier "with exceptions" for licenses that
->> have no generic ie common-licenses/GPL-2,0-with-GCC-exception
+>> working around package is better than working around gcc IMHO
 >
-> When building shadow I get:
-
-
-and when building elfutils I get
-
-ERROR: (file: 'do_populate_lic', lineno: 116, function: do_populate_lic)
-ERROR: Function 'do_populate_lic' failed
-ERROR: Logfile of failure stored in: 
-/home/kraj/work/slugos/build/tmp-slugos-eglibc/work/armv5te-oe-linux-gnueabi/elfutils-0.148-r2/temp/log.do_populate_lic.31784
-Log data follows:
-| WARNING: 
-/home/kraj/work/slugos/openembedded-core/meta/files/common-licenses
-| ERROR: Error executing a python function in 
-/home/kraj/work/slugos/openembedded-core/meta/recipes-devtools/elfutils/elfutils_0.148.bb:
-|   File "<unknown>", line 1
-|     ( 'GPLv2' & 'Exception' )
-|    ^
-| IndentationError: unexpected indent
-|
-| ERROR: The stack trace of python calls that resulted in this 
-exception/failure was:
-| ERROR:   File "do_populate_lic", line 121, in <module>
-| ERROR:
-| ERROR:   File "do_populate_lic", line 116, in do_populate_lic
-| ERROR:
-| ERROR:   File "/usr/lib/python2.7/ast.py", line 37, in parse
-| ERROR:     return compile(source, filename, mode, PyCF_ONLY_AST)
-| ERROR:
-| ERROR: The code that was being executed was:
-| ERROR:      0117:    v = LicenseVisitor()
-| ERROR:      0118:    v.visit(node)
-| ERROR:      0119:
-| ERROR:      0120:
-| ERROR:  *** 0121:do_populate_lic(d)
-| ERROR:      0122:
-| ERROR: (file: 'do_populate_lic', lineno: 121, function: <module>)
-| ERROR:      0112:            clean_licenses += "'" + x + "'"
-| ERROR:      0113:        else:
-| ERROR:      0114:            clean_licenses += " " + x + " "
-| ERROR:      0115:
-| ERROR:  *** 0116:    node = ast.parse(clean_licenses)
-| ERROR:      0117:    v = LicenseVisitor()
-| ERROR:      0118:    v.visit(node)
-| ERROR:      0119:
-| ERROR:      0120:
-| ERROR: (file: 'do_populate_lic', lineno: 116, function: do_populate_lic)
-| ERROR: Function 'do_populate_lic' failed
-NOTE: package elfutils-0.148-r2: task do_populate_lic: Failed
-
-
+> Problem is the ICE will still be there.  If we put the workaround in gcc, then
+> the package will work with different versions of gcc (without modification), and
+> other packages will not experience this ICE.
 >
-> | WARNING: /home/koen/angstrom-core/sources/openembedded-core/meta/files/common-licenses
-> | ERROR: Error executing a python function in /home/koen/angstrom-core/sources/openembedded-core/meta/recipes-extended/shadow/shadow_4.1.4.3.bb:
-> | RuntimeError: maximum recursion depth exceeded while calling a Python object
-> |
-> | ERROR: The stack trace of python calls that resulted in this exception/failure was:
-> | ERROR:   File "do_populate_lic", line 121, in<module>
-> | ERROR:
-> | ERROR:   File "do_populate_lic", line 118, in do_populate_lic
-> | ERROR:
-> | ERROR:   File "/usr/lib64/python2.7/ast.py", line 243, in visit
-> | ERROR:     return visitor(node)
-> | ERROR:
-> | ERROR:   File "do_populate_lic", line 13, in generic_visit
->
-> and a few hundred more lines, I had to change the scrollback buffer from 512 lines to unlimited to catch this :) I can send the full log on request.
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> (This of course is assuming the gcc workaround is reasonable and not introducing
+> other faults.)
 
+we should qualify and run regression tests IMO to validate it if we 
+intend patch gcc. I think fixing the given recipe is path of least impact
 
 
