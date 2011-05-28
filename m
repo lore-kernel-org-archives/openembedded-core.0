@@ -1,43 +1,27 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QQEce-00063H-7t
+	(envelope-from <koen@dominion.thruhere.net>) id 1QQFgE-0000X3-DB
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 May 2011 10:11:49 +0200
-Received: by fxm19 with SMTP id 19so2033900fxm.6
+	Sat, 28 May 2011 11:19:34 +0200
+Received: by wye20 with SMTP id 20so1975472wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 May 2011 01:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=vzMWFWTerTwaleg5O5URoM67oTbUdzeYCPpl5mg9svU=;
-	b=FSNSCIySQu2ECE44asGhVkA8yoZVemwWgXgfriwEuUlft6nE/CAeinI21ChQkCV9go
-	EM4SXsKRyN3+tJi+Ig+PohJM4iPegkO2tLzE/V7/mDV5aehlTQcW8GArLfe/3rViKKua
-	T7TJnVPfCoKZwLjyo4oGOA/6w0eWoMHNgFq9I=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	b=ja0KGEPMtqwd2DzvE07hpURknKQwr4VKEZZgsgOsqx5rhtd/RZYqqtDaB+/xRkBZFt
-	oQrRQyKKx9S8aKDnhzR6R4pG4aQESMqbaGb9m+vM9WbW/v3kv9Q1P2jMBcuUXkvCrUj+
-	FFM3OQf/psx79PQABeGvAn9HOwdYNIklFVtpE=
-Received: by 10.223.61.134 with SMTP id t6mr1290710fah.28.1306570121268;
-	Sat, 28 May 2011 01:08:41 -0700 (PDT)
-Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id n15sm88895fag.18.2011.05.28.01.08.39
+	Sat, 28 May 2011 02:16:28 -0700 (PDT)
+Received: by 10.227.10.210 with SMTP id q18mr2952227wbq.44.1306574187835;
+	Sat, 28 May 2011 02:16:27 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id m8sm1720825wbh.28.2011.05.28.02.16.26
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 28 May 2011 01:08:40 -0700 (PDT)
-Date: Sat, 28 May 2011 10:08:34 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Sat, 28 May 2011 02:16:27 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4DE02216.1010003@intel.com>
+Date: Sat, 28 May 2011 11:16:25 +0200
+Message-Id: <B424D198-12A5-4C45-93D7-C5CFA6C97BA5@dominion.thruhere.net>
+References: <4DE02216.1010003@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110528080834.GS3222@jama.jama.net>
-References: <59c5261bea00cac9498a176d40e1aaa05da15a55.1306550616.git.raj.khem@gmail.com>
-	<7c83be4418db5dc23614761dd34a2887c44828b4.1306550616.git.raj.khem@gmail.com>
-	<F46CB9CD-BA76-4A6E-AFD7-2A2833C5743F@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <F46CB9CD-BA76-4A6E-AFD7-2A2833C5743F@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Subject: Re: [PATCH 2/2] package.bbclass, prserv.bbclass: Compare USE_PR_SERV with "1" or "0"
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 0/1][v3] license.bbclass parsing changes rebased sans debug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,82 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 May 2011 08:11:49 -0000
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="9r3HF47jptiQlX4s"
-Content-Disposition: inline
-
---9r3HF47jptiQlX4s
+X-List-Received-Date: Sat, 28 May 2011 09:19:34 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 28, 2011 at 09:50:09AM +0200, Koen Kooi wrote:
->=20
-> Op 28 mei 2011, om 04:44 heeft Khem Raj het volgende geschreven:
->=20
-> > Value of USE_PR_SERV is either "1" or "0" looking at
-> > settings in bitbake.conf
-> > USE_PR_SERV =3D "${@[1,0][(bb.data.getVar('PRSERV_HOST',d,1) is None) o=
-r (bb.data.getVar('PRSERV_PORT',d,1) is None)]}"
-> > So we compare the strings
-> >=20
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->=20
-> Fixes the problem for me:
->=20
-> Tested-by: Koen Kooi <koen@dominion.thruhere.net>
 
-For me too:
-Tested-by: Martin Jansa <Martin.Jansa@gmail.com>
+Op 28 mei 2011, om 00:13 heeft Elizabeth Flanagan het volgende =
+geschreven:
 
-> > ---
-> > meta/classes/package.bbclass |    2 +-
-> > meta/classes/prserv.bbclass  |    2 +-
-> > 2 files changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> > index a1b9482..1e6a872 100644
-> > --- a/meta/classes/package.bbclass
-> > +++ b/meta/classes/package.bbclass
-> > @@ -330,7 +330,7 @@ def runtime_mapping_rename (varname, d):
-> > #
-> >=20
-> > python package_get_auto_pr() {
-> > -	if d.getVar('USE_PR_SERV', True):
-> > +	if d.getVar('USE_PR_SERV', True) !=3D "0":
-> > 		auto_pr=3Dprserv_get_pr_auto(d)
-> > 		if auto_pr is None:
-> > 			bb.fatal("Can NOT get auto PR revision from remote PR service")
-> > diff --git a/meta/classes/prserv.bbclass b/meta/classes/prserv.bbclass
-> > index de46ff6..18b8589 100644
-> > --- a/meta/classes/prserv.bbclass
-> > +++ b/meta/classes/prserv.bbclass
-> > @@ -12,7 +12,7 @@ def prserv_make_conn(d):
-> >     return conn
-> >=20
-> > def prserv_get_pr_auto(d):
-> > -    if not d.getVar('USE_PR_SERV', True):
-> > +    if d.getVar('USE_PR_SERV', True) !=3D "0":
-> >         bb.warn("Not using network based PR service")
-> >         return None
-> >=20
-> > --=20
-> > 1.7.4.1
-> >=20
-> >=20
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >=20
+> Using python abstract syntax trees as a parser and an ast visitor =
+class, I've
+> begun the first steps to being able to put some sanity to license =
+selection.
 >=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> One note. License modifiers have traditionally been limited to the "or =
+greater"
+> modifier "+". I've added another modifier "with exceptions" for =
+licenses that
+> have no generic ie common-licenses/GPL-2,0-with-GCC-exception
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+When building shadow I get:
 
---9r3HF47jptiQlX4s--
+| WARNING: =
+/home/koen/angstrom-core/sources/openembedded-core/meta/files/common-licen=
+ses
+| ERROR: Error executing a python function in =
+/home/koen/angstrom-core/sources/openembedded-core/meta/recipes-extended/s=
+hadow/shadow_4.1.4.3.bb:
+| RuntimeError: maximum recursion depth exceeded while calling a Python =
+object
+|=20
+| ERROR: The stack trace of python calls that resulted in this =
+exception/failure was:
+| ERROR:   File "do_populate_lic", line 121, in <module>
+| ERROR:
+| ERROR:   File "do_populate_lic", line 118, in do_populate_lic
+| ERROR:
+| ERROR:   File "/usr/lib64/python2.7/ast.py", line 243, in visit
+| ERROR:     return visitor(node)
+| ERROR:
+| ERROR:   File "do_populate_lic", line 13, in generic_visit
+
+and a few hundred more lines, I had to change the scrollback buffer from =
+512 lines to unlimited to catch this :) I can send the full log on =
+request.=
+
+
