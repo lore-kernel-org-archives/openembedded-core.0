@@ -1,35 +1,43 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QQEbc-00061m-3q for openembedded-core@lists.openembedded.org;
-	Sat, 28 May 2011 10:10:44 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4S87UoF011914;
-	Sat, 28 May 2011 09:07:30 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 11736-03; Sat, 28 May 2011 09:07:26 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4S87DFQ011908
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 28 May 2011 09:07:17 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yu Ke <ke.yu@intel.com>
-In-Reply-To: <4DE07DE3.1090303@intel.com>
-References: <cover.1306530446.git.sgw@linux.intel.com>
-	<8046a9b60d086b3f82c0733ecbf24785066625e4.1306530446.git.sgw@linux.intel.com>
-	<1306531463.3120.124.camel@lenovo.internal.reciva.com>
-	<1306534987.27470.307.camel@rex>  <4DE07DE3.1090303@intel.com>
-Date: Sat, 28 May 2011 09:07:05 +0100
-Message-ID: <1306570025.27470.320.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1QQEce-00063H-7t
+	for openembedded-core@lists.openembedded.org;
+	Sat, 28 May 2011 10:11:49 +0200
+Received: by fxm19 with SMTP id 19so2033900fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 May 2011 01:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=vzMWFWTerTwaleg5O5URoM67oTbUdzeYCPpl5mg9svU=;
+	b=FSNSCIySQu2ECE44asGhVkA8yoZVemwWgXgfriwEuUlft6nE/CAeinI21ChQkCV9go
+	EM4SXsKRyN3+tJi+Ig+PohJM4iPegkO2tLzE/V7/mDV5aehlTQcW8GArLfe/3rViKKua
+	T7TJnVPfCoKZwLjyo4oGOA/6w0eWoMHNgFq9I=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=ja0KGEPMtqwd2DzvE07hpURknKQwr4VKEZZgsgOsqx5rhtd/RZYqqtDaB+/xRkBZFt
+	oQrRQyKKx9S8aKDnhzR6R4pG4aQESMqbaGb9m+vM9WbW/v3kv9Q1P2jMBcuUXkvCrUj+
+	FFM3OQf/psx79PQABeGvAn9HOwdYNIklFVtpE=
+Received: by 10.223.61.134 with SMTP id t6mr1290710fah.28.1306570121268;
+	Sat, 28 May 2011 01:08:41 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id n15sm88895fag.18.2011.05.28.01.08.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 28 May 2011 01:08:40 -0700 (PDT)
+Date: Sat, 28 May 2011 10:08:34 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] xserver: force to use libdl
+Message-ID: <20110528080834.GS3222@jama.jama.net>
+References: <59c5261bea00cac9498a176d40e1aaa05da15a55.1306550616.git.raj.khem@gmail.com>
+	<7c83be4418db5dc23614761dd34a2887c44828b4.1306550616.git.raj.khem@gmail.com>
+	<F46CB9CD-BA76-4A6E-AFD7-2A2833C5743F@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <F46CB9CD-BA76-4A6E-AFD7-2A2833C5743F@dominion.thruhere.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Subject: Re: [PATCH 2/2] package.bbclass, prserv.bbclass: Compare USE_PR_SERV with "1" or "0"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,58 +52,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 May 2011 08:10:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 28 May 2011 08:11:49 -0000
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="9r3HF47jptiQlX4s"
+Content-Disposition: inline
 
-On Sat, 2011-05-28 at 12:45 +0800, Yu Ke wrote:
-> The marco in question is in xorg-server-1.10.1/configure.ac
-> "
-> AC_CHECK_FUNC([dlopen], [],
->      AC_CHECK_LIB([dl], [dlopen], DLOPEN_LIBS="-ldl"))
-> AC_SUBST(DLOPEN_LIBS)
-> "
-> 
-> Ideally, the dlopen test should fail since dlopen is not available in 
-> libc, and then DLOPEN_LIBS="-ldl" is executed. In this case, the later 
-> build will correctly link libdl. qemux86 fall into this case.
-> 
-> But in ppc case, the dlopen test unfortunately pass, and DLOPEN_LIBS 
-> become "", which caused later linker error of unresolved dlopen 
-> reference. but I did not yet understand why ppc is so special.
-> 
-> For detail, I've attached two config.log, one for ppc, one for qemux86.
-> in ppc,
-> configure:15235: checking for dlopen
-> configure:15235: result: yes
+--9r3HF47jptiQlX4s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks. If you look at config.log you'll see this near the top:
+On Sat, May 28, 2011 at 09:50:09AM +0200, Koen Kooi wrote:
+>=20
+> Op 28 mei 2011, om 04:44 heeft Khem Raj het volgende geschreven:
+>=20
+> > Value of USE_PR_SERV is either "1" or "0" looking at
+> > settings in bitbake.conf
+> > USE_PR_SERV =3D "${@[1,0][(bb.data.getVar('PRSERV_HOST',d,1) is None) o=
+r (bb.data.getVar('PRSERV_PORT',d,1) is None)]}"
+> > So we compare the strings
+> >=20
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>=20
+> Fixes the problem for me:
+>=20
+> Tested-by: Koen Kooi <koen@dominion.thruhere.net>
 
-| #modphp 
-| ac_cv_c_bigendian_php=${ac_cv_c_bigendian_php=yes}
-| ac_cv_sizeof_ptrdiff_t=${ac_cv_sizeof_ptrdiff_t=4}
-| ac_cv_func_dlopen=${ac_cv_func_dlopen=yes}
-| lt_cv_dlopen_self=${lt_cv_dlopen_self=yes}
+For me too:
+Tested-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-and then if you look at the configure script for the xserver you'll see
-${ac_cv_func_dlopen} being set to yes is likely triggering the bad
-result.
+> > ---
+> > meta/classes/package.bbclass |    2 +-
+> > meta/classes/prserv.bbclass  |    2 +-
+> > 2 files changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> > index a1b9482..1e6a872 100644
+> > --- a/meta/classes/package.bbclass
+> > +++ b/meta/classes/package.bbclass
+> > @@ -330,7 +330,7 @@ def runtime_mapping_rename (varname, d):
+> > #
+> >=20
+> > python package_get_auto_pr() {
+> > -	if d.getVar('USE_PR_SERV', True):
+> > +	if d.getVar('USE_PR_SERV', True) !=3D "0":
+> > 		auto_pr=3Dprserv_get_pr_auto(d)
+> > 		if auto_pr is None:
+> > 			bb.fatal("Can NOT get auto PR revision from remote PR service")
+> > diff --git a/meta/classes/prserv.bbclass b/meta/classes/prserv.bbclass
+> > index de46ff6..18b8589 100644
+> > --- a/meta/classes/prserv.bbclass
+> > +++ b/meta/classes/prserv.bbclass
+> > @@ -12,7 +12,7 @@ def prserv_make_conn(d):
+> >     return conn
+> >=20
+> > def prserv_get_pr_auto(d):
+> > -    if not d.getVar('USE_PR_SERV', True):
+> > +    if d.getVar('USE_PR_SERV', True) !=3D "0":
+> >         bb.warn("Not using network based PR service")
+> >         return None
+> >=20
+> > --=20
+> > 1.7.4.1
+> >=20
+> >=20
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-These are coming from the powerpc site files:
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-richard@rex:poky/meta/site$ grep dlopen * -r
-powerpc-common:ac_cv_func_dlopen=${ac_cv_func_dlopen=yes}
-powerpc-common:lt_cv_dlopen_self=${lt_cv_dlopen_self=yes}
-
-and I suspect if you remove those two lines, things will work a lot
-better!
-
-Only powerpc has the broken site file which is why only powerpc is
-affected.
-
-Cheers,
-
-Richard
-
-
-
+--9r3HF47jptiQlX4s--
