@@ -1,40 +1,35 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1QQ8U8-0003B1-Uk; Sat, 28 May 2011 03:38:37 +0200
-Received: by wwb17 with SMTP id 17so1991224wwb.24
-	for <multiple recipients>; Fri, 27 May 2011 18:35:12 -0700 (PDT)
+	(envelope-from <raj.khem@gmail.com>) id 1QQ9ZN-000472-HH
+	for openembedded-core@lists.openembedded.org;
+	Sat, 28 May 2011 04:48:05 +0200
+Received: by pvc30 with SMTP id 30so1068165pvc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 May 2011 19:44:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=tH4NzZxnuYRV6OXZWDp7bLe9avSc6Wz7/ROfBxgCoR0=;
-	b=ZByJJA/krKsy7qM0aIcAc3eFrsEkLJhW5pNj9GR/lXGmvL6vmMr6bZ2HrQFv0iYVLM
-	cXK6/uY3qSWk/anl/xw0Jxp6LTMmFFkQZmIKbkFfWN6kr5sZe7MNYgnqU8pOTsU1cO0V
-	FDBpq+MzpdhyKoLh68+wgnQ/2u/MFKj8yfme4=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=Crxq7co7PORawOksYRmiqrxQi/FDT1kpNrCv7I053wI=;
+	b=PO8sX0hfT/CXqZr0rfYbvL7r+ODKLbX034+0RQivGWrevDt/TIPFpc+PUn36Am9NJJ
+	8iyZGR2GCeiXJCG75ajjasBWiSO1u2TuPRyvqSDL9K90zFsOwgOsQ+gWnl0EUiHHZ6TX
+	539Q6YTA/aYzIeU9q4YGVozQaIJTcYnM9YOyw=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	b=xYS1f6yIIrooJQFdP017y+Tm7JL1ccNZjdewdeGxH9wDAywY0rH465ubFD5nTugevy
-	2ncor2rQiBGfH8A0uj5zhnBrFfZYXAYP28TfFv5RoaNoQGapTQQuCjL63EZRLaA11gMG
-	KG8lMYCKJ/UcwD4GqFCdVfpHkZAd5HvYDglyg=
-Received: by 10.216.176.82 with SMTP id a60mr305664wem.21.1306546512108; Fri,
-	27 May 2011 18:35:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.216.60.145 with HTTP; Fri, 27 May 2011 18:34:42 -0700 (PDT)
-In-Reply-To: <BANLkTim=21XEknpdU=pG=DVfTkX7NP6n_g@mail.gmail.com>
-References: <cover.1306477652.git.lianhao.lu@intel.com>
-	<1306515635.27470.284.camel@rex>
-	<7DC6724C-BF20-4EA1-A87D-32FBEEECDA3B@dominion.thruhere.net>
-	<1306526949.1747.8.camel@vorpal> <1306534180.27470.305.camel@rex>
-	<BANLkTim9C=WvgeHDxVNpKBQQ4jLBucOftQ@mail.gmail.com>
-	<BANLkTim=21XEknpdU=pG=DVfTkX7NP6n_g@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=bIQTMCDbE65fkxo5VzBCdihmeUIIEBaYR5UnTd+/ZX9bXpbuKnHjqfBLfP8p51S+qc
+	p85Fjsi6ongb+kvhC6As6T3M4NGcq1R/9CrzsMRKdSr/RP7u+USBaOA06XAlRNhWfYtT
+	CD2oRTvowOtTzq4eMULxHoMLxTAQgXW8GwllA=
+Received: by 10.68.17.234 with SMTP id r10mr1135829pbd.98.1306550699247;
+	Fri, 27 May 2011 19:44:59 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id p5sm968551pbd.92.2011.05.27.19.44.57
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 27 May 2011 19:44:57 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 27 May 2011 18:34:42 -0700
-Message-ID: <BANLkTim2V8qo0TaC-_w1XBiYsBx5VwTv2w@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: bitbake-devel@lists.openembedded.org
-Subject: Re: [bitbake-devel] [PATCH 00/11] Add PR service and integrate PKGV/PKGR from OE
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 May 2011 19:44:51 -0700
+Message-Id: <cover.1306550616.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/2] misc fixed to compile uclibc in thumb mode and fix prserv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,74 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 May 2011 01:38:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 28 May 2011 02:48:05 -0000
 
-On Fri, May 27, 2011 at 6:05 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Fri, May 27, 2011 at 6:02 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Fri, May 27, 2011 at 3:09 PM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->>> On Fri, 2011-05-27 at 13:09 -0700, Joshua Lock wrote:
->>>> Upstream BitBake still has the xmlrpc server removed. The version in
->>>> Poky's BitBake is functional (I use it daily).
->>>>
->>>> Attached are two patches against BitBake master to add back the xmlrpc
->>>> server (copied from Poky's tree) and fix the uievent.
->>>
->>> There have been API changes in upstream which mean this code will fail
->>> to work with bitbake itself although it will work with the pr server.
->>>
->>> I've merged the patches as a bandaid to allow things to work but we've
->>> now got two different server backends using different server APIs. I
->>> really just want to highlight I'm aware of this and it will get
->>> addressed next week. Its been on my todo list and is way overdue. The
->>> main priority is to get people's builds with OE-Core working again.
->>>
->>
->> btw. I am at 6c412f009e33e77cbcb5d4881c110e6bdda05282 of bitbake
->> I still see the problem
->>
->
->
-> here is the error
->
-> NOTE: Running task 919 of 925 (ID: 9,
-> /home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/uclibc/uclibc_git.bb,
-> do_package)
-> NOTE: package uclibc-0.9.31+0.9.32rc3-r2.2: task do_package: Started
-> ERROR: Connecting to PR service None:None failed: int() argument must
-> be a string or a number, not 'NoneType'
-> ERROR: Function 'package_get_auto_pr' failed
-> ERROR: Logfile of failure stored in:
-> /home/kraj/work/angstrom/build/tmp-angstrom_2010_x-uclibc/work/efikamx-angstrom-linux-uclibceabi/uclibc-0.9.31+0.9.32rc3-r2.2/temp/log.do_package.5207
-> Log data follows:
-> | ERROR: Connecting to PR service None:None failed: int() argument
-> must be a string or a number, not 'NoneType'
-> | ERROR: Function 'package_get_auto_pr' failed
-> NOTE: package uclibc-0.9.31+0.9.32rc3-r2.2: task do_package: Failed
-> ERROR: Task 9 (/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/uclibc/uclibc_git.bb,
-> do_package) failed with exit code '1'
-> ERROR: '/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/uclibc/uclibc_git.bb'
-> failed
->
->
+The following changes since commit ae1ba18f70c0dac5bed376f6677258c33290ce30:
 
-this patch seems to fix it.
+  uclibc: Add disabled COMPILE_IN_THUMB_MODE to uClibc.machine for all ARM configurations (2011-05-27 19:41:33 -0700)
 
-http://patches.openembedded.org/patch/4941/
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/misc-fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-fixes
 
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>
->
+Khem Raj (2):
+  uclibc: Add disabled COMPILE_IN_THUMB_MODE to uClibc.machine for all
+    ARM configurations
+  package.bbclass,prserv.bbclass: Compare USE_PR_SERV with "1" or "0"
+
+ meta/classes/package.bbclass                       |    2 +-
+ meta/classes/prserv.bbclass                        |    2 +-
+ .../uclibc/uclibc-git/arm/uClibc.machine           |    1 +
+ .../uclibc/uclibc-git/armv5te/uClibc.machine       |    1 +
+ .../uclibc/uclibc-git/nslu2be/uClibc.machine       |    1 +
+ .../uclibc/uclibc-git/qemuarm/uClibc.machine       |    1 +
+ 6 files changed, 6 insertions(+), 2 deletions(-)
+
+-- 
+1.7.4.1
+
 
 
