@@ -1,24 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1QQTtK-0001UQ-Q0
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QQWcW-0003rX-PB
 	for openembedded-core@lists.openembedded.org;
-	Sun, 29 May 2011 02:30:03 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 May 2011 17:26:55 -0700
+	Sun, 29 May 2011 05:24:53 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 28 May 2011 20:21:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,287,1304319600"; 
-   d="scan'208";a="9008246"
-Received: from unknown (HELO [10.255.13.47]) ([10.255.13.47])
-	by fmsmga002.fm.intel.com with ESMTP; 28 May 2011 17:26:55 -0700
-Message-ID: <4DE192CF.5050508@intel.com>
-Date: Sat, 28 May 2011 17:26:55 -0700
-From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] license.bbclass: Infinite recursion of or nodes
+X-IronPort-AV: E=Sophos;i="4.65,288,1304319600"; 
+   d="scan'208";a="3492583"
+Received: from nbuild1.sc.intel.com ([172.25.110.36])
+	by azsmga001.ch.intel.com with ESMTP; 28 May 2011 20:21:44 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 28 May 2011 20:22:07 -0700
+Message-Id: <cb06560885d759a1f7bd36b1bf1b62f70102de8f.1306545413.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1306545413.git.nitin.a.kamble@intel.com>
+References: <cover.1306545413.git.nitin.a.kamble@intel.com>
+Subject: [upgrades 1/4] m4: upgrade from 1.4.15 to 1.4.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,97 +32,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 May 2011 00:30:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 29 May 2011 03:24:53 -0000
 
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This fixes two bugs. When populate_lic was hitting | it was going
-into an infinite recursion of the node.
-
-Also, some LICENSE fields may start with "(". We want to avoid
-invalid python syntax here, so we strip out the whitespace.
-
-Signed-off-by: Beth Flanagan <elizabeth.flanagan@intel.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
-  meta/classes/license.bbclass |   15 ++++++++-------
-  1 files changed, 8 insertions(+), 7 deletions(-)
+ .../{m4-native_1.4.15.bb => m4-native_1.4.16.bb}   |    0
+ .../m4/{m4_1.4.15.bb => m4_1.4.16.bb}              |    6 +++---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/m4/{m4-native_1.4.15.bb => m4-native_1.4.16.bb} (100%)
+ rename meta/recipes-devtools/m4/{m4_1.4.15.bb => m4_1.4.16.bb} (75%)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index a4d34e7..3f93bf5 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -22,7 +22,7 @@ do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
-  #
-  # We should really discuss standardizing this field, but that's a longer term goal.
-  # For now, we can do this and it should grab the most common LICENSE naming variations.
--#
-+
-  #GPL variations
-  SPDXLICENSEMAP[GPL] = "GPL-1"
-  SPDXLICENSEMAP[GPLv2] = "GPL-2"
-@@ -77,7 +77,8 @@ python do_populate_lic() {
-              op = node.op
-              if isinstance(op, ast.BitOr):
-                  x = LicenseVisitor()
--                x.visit(node)
-+                x.visit(node.left)
-+                x.visit(node.right)
-              else:
-                  ast.NodeVisitor.generic_visit(self, node)
-
-@@ -96,7 +97,6 @@ python do_populate_lic() {
-              pass
-
-      def find_license(license_type):
--
-          try:
-              bb.mkdirhier(gen_lic_dest)
-          except:
-@@ -106,7 +106,7 @@ python do_populate_lic() {
-          if not os.path.isfile(os.path.join(generic_directory, license_type)):
-              if bb.data.getVarFlag('SPDXLICENSEMAP', license_type, d) != None:
-                  # Great, there is an SPDXLICENSEMAP. We can copy!
--                bb.warn("We need to use a SPDXLICENSEMAP for %s" % (license_type))
-+                bb.note("We need to use a SPDXLICENSEMAP for %s" % (license_type))
-                  spdx_generic = bb.data.getVarFlag('SPDXLICENSEMAP', license_type, d)
-                  copy_license(generic_directory, gen_lic_dest, spdx_generic)
-                  link_license(gen_lic_dest, destdir, spdx_generic)
-@@ -119,7 +119,6 @@ python do_populate_lic() {
-              copy_license(generic_directory, gen_lic_dest, license_type)
-              link_license(gen_lic_dest, destdir, license_type)
-
--
-      # All the license types for the package
-      license_types = bb.data.getVar('LICENSE', d, True)
-      # All the license files for the package
-@@ -131,7 +130,7 @@ python do_populate_lic() {
-      srcdir = bb.data.getVar('S', d, True)
-      # Directory we store the generic licenses as set in the distro configuration
-      generic_directory = bb.data.getVar('COMMON_LICENSE_DIR', d, True)
--    bb.warn(generic_directory)
-+
-      try:
-          bb.mkdirhier(destdir)
-      except:
-@@ -158,13 +157,15 @@ python do_populate_lic() {
-      gen_lic_dest = os.path.join(bb.data.getVar('LICENSE_DIRECTORY', d, True), "common-licenses")
-
-      clean_licenses = ""
-+
-      for x in license_types.replace("(", " ( ").replace(")", " ) ").split():
-          if ((x != "(") and (x != ")") and (x != "&") and (x != "|")):
-              clean_licenses += "'" + x + "'"
-          else:
-              clean_licenses += " " + x + " "
-
--    node = ast.parse(clean_licenses)
-+    # lstrip any possible indents, since ast needs python syntax.
-+    node = ast.parse(clean_licenses.lstrip())
-      v = LicenseVisitor()
-      v.visit(node)
-  }
+diff --git a/meta/recipes-devtools/m4/m4-native_1.4.15.bb b/meta/recipes-devtools/m4/m4-native_1.4.16.bb
+similarity index 100%
+rename from meta/recipes-devtools/m4/m4-native_1.4.15.bb
+rename to meta/recipes-devtools/m4/m4-native_1.4.16.bb
+diff --git a/meta/recipes-devtools/m4/m4_1.4.15.bb b/meta/recipes-devtools/m4/m4_1.4.16.bb
+similarity index 75%
+rename from meta/recipes-devtools/m4/m4_1.4.15.bb
+rename to meta/recipes-devtools/m4/m4_1.4.16.bb
+index 586071f..53ef5ae 100644
+--- a/meta/recipes-devtools/m4/m4_1.4.15.bb
++++ b/meta/recipes-devtools/m4/m4_1.4.16.bb
+@@ -4,14 +4,14 @@ compatible although it has some extensions (for example, handling more than 9 po
+ GNU M4 also has built-in functions for including files, running shell commands, doing arithmetic, etc."
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+-	file://examples/COPYING;md5=380fd7d57d3fd009a5716e074a845d6d"
++	file://examples/COPYING;md5=fbc986d45b3dae6725c29870dd6b669d"
+ 
+ PR = "r0"
+ SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
+            file://ac_config_links.patch;patch=1"
+ 
+-SRC_URI[md5sum] = "5649a2e593b6c639deae9e72ede777dd"
+-SRC_URI[sha256sum] = "3d66dfeb609007062265a67b9a2c08d3686a74068830bacae60a6d58413c9367"
++SRC_URI[md5sum] = "a5dfb4f2b7370e9d34293d23fd09b280"
++SRC_URI[sha256sum] = "e9176a35bb13a1b08482359aa554ee8072794f58f00e4827bf0e06b570c827da"
+ 
+ inherit autotools
+ 
 -- 
-1.7.1
+1.7.2.2
+
 
 
