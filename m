@@ -1,27 +1,33 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QR0y2-00043X-5c
+Received: from 16.63.mail-out.ovh.net ([188.165.37.81]
+	helo=63.mail-out.ovh.net) by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1QR0zQ-00044y-Kr
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 May 2011 13:49:06 +0200
-Received: by wye20 with SMTP id 20so2955200wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2011 04:45:54 -0700 (PDT)
-Received: by 10.227.198.197 with SMTP id ep5mr4941349wbb.33.1306755954406;
-	Mon, 30 May 2011 04:45:54 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id et5sm2984301wbb.33.2011.05.30.04.45.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 30 May 2011 04:45:53 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1306581686-17625-1-git-send-email-koen@dominion.thruhere.net>
-Date: Mon, 30 May 2011 13:45:51 +0200
-Message-Id: <CDCFAC7D-DE84-4829-87AE-3C500170F642@dominion.thruhere.net>
-References: <1306581686-17625-1-git-send-email-koen@dominion.thruhere.net>
+	Mon, 30 May 2011 13:50:32 +0200
+Received: (qmail 11388 invoked by uid 503); 30 May 2011 04:05:37 -0000
+Received: from b6.ovh.net (HELO mail182.ha.ovh.net) (213.186.33.56)
+	by 63.mail-out.ovh.net with SMTP; 30 May 2011 04:05:37 -0000
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 30 May 2011 09:47:28 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
+	(ebenard%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 30 May 2011 09:47:25 +0200
+Message-ID: <4DE34B8D.5080907@eukrea.com>
+Date: Mon, 30 May 2011 09:47:25 +0200
+From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc14
+	Lightning/1.0b3pre Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [RFC][PATCH] sysvinit: make pidof usuable in a standalone setting
+References: <53EA452E-5E40-471F-8AF7-BE8303945241@dominion.thruhere.net>	<4DE34507.2090107@eukrea.com>
+	<C74466A4-5C79-4E68-8D19-443498EF130E@dominion.thruhere.net>
+In-Reply-To: <C74466A4-5C79-4E68-8D19-443498EF130E@dominion.thruhere.net>
+X-Ovh-Tracer-Id: 5444007526086782402
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-Spam-Check: DONE|U 0.5/N
+Subject: Re: Any volunteers for fixing all the kernel version	checks?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,68 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2011 11:49:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 May 2011 11:50:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 8bit
 
-ping
+On 30/05/2011 09:33, Koen Kooi wrote:
+>
+> Op 30 mei 2011, om 09:19 heeft Eric Bénard het volgende geschreven:
+>
+>> Hi,
+>>
+>> On 30/05/2011 08:52, Koen Kooi wrote:
+>>> As some of you might have seen already: http://lwn.net/Articles/445223/ - linux 3.0 is going to happen.
+>>>
+>>> This means all the crufty "is it 2.4 or 2.6" checks are going to need a rework :)
+>>
+>> Does supporting 2.4 kernels still makes sense in 2011 ?
+>
+> No, but I bet there are still checks present for that :) Or at least references like modprobe.26.
 
-Op 28 mei 2011, om 13:21 heeft Koen Kooi het volgende geschreven:
+so can the fix be : remove any reference to the check and assume we are using 
+a 2.6/3.0 kernel ?
 
-> Currently it's a symlink to killall5:
->=20
-> $ dpkg-deb -c sysvinit-pidof_2.88dsf-r1_armv7a.ipk  | grep pidof
-> lrwxrwxrwx root/root         0 2011-05-27 11:05 ./bin/pidof.sysvinit =
--> /sbin/killall5
->=20
-> The point of the pidof subpackage was to have a pidof without needing =
-sysvinit, this restores that behaviour. The trade-off is a 14KiB =
-(armv7a, uncompressed) increase in size.
->=20
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->=20
-> The alternative is to just move 'killall5' into the pidof subpackage =
-and to RDPEPENDS_${PN} +=3D "${PN}-pidof"
->=20
-> The change in this patch was the least amounts of edits to the recipe, =
-let me know which way you prefer.
->=20
-> meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb |    4 ++--
-> 1 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb =
-b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> index 7d5e936..f0e73bb 100644
-> --- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> +++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> @@ -5,7 +5,7 @@ SECTION =3D "base"
-> LICENSE =3D "GPLv2+"
-> LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D751419260aa954499f7abaabaa882bbe \
->                     =
-file://COPYRIGHT;endline=3D15;md5=3D349c872e0066155e1818b786938876a4"
-> -PR =3D "r1"
-> +PR =3D "r2"
->=20
-> # USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE =
-.conf.
-> # Set PACKAGE_ARCH appropriately.
-> @@ -100,7 +100,7 @@ EOF
-> 		ln -s ../init.d/stop-bootlogd =
-${D}${sysconfdir}/rc$level.d/S99stop-bootlogd
-> 	done
-> 	mv                 ${D}${base_sbindir}/init               =
-${D}${base_sbindir}/init.${PN}
-> -	mv ${D}${base_bindir}/pidof ${D}${base_bindir}/pidof.${PN}
-> +	cp ${D}${base_sbindir}/killall5 ${D}${base_bindir}/pidof.${PN}
-> 	mv ${D}${base_sbindir}/halt ${D}${base_sbindir}/halt.${PN}
-> 	mv ${D}${base_sbindir}/reboot ${D}${base_sbindir}/reboot.${PN}
-> 	mv ${D}${base_sbindir}/shutdown =
-${D}${base_sbindir}/shutdown.${PN}
-> --=20
-> 1.6.6.1
->=20
-
+Eric
 
 
