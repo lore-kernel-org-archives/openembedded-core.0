@@ -1,24 +1,35 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QR1DV-0004ev-2h
+	(envelope-from <otavio.salvador@gmail.com>) id 1QR3m7-0007Z4-Fi
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 May 2011 14:05:05 +0200
-Received: by wwb17 with SMTP id 17so3249624wwb.24
+	Mon, 30 May 2011 16:48:59 +0200
+Received: by gxk3 with SMTP id 3so350167gxk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2011 05:01:54 -0700 (PDT)
-Received: by 10.227.198.17 with SMTP id em17mr4970373wbb.4.1306756913836;
-	Mon, 30 May 2011 05:01:53 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id b10sm2994595wbh.43.2011.05.30.05.01.52
+	Mon, 30 May 2011 07:45:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
+	:x-mailer; bh=l24nP+5icdVVNe7xV9dnolxgkUm4r9ksvzwpdVrZkcw=;
+	b=hUBvJDwqIeAk76mNqdwT8qjypYxN9brxBfk0XqF7Mvt7N61I6j6eQ6a2UcmOiaAcWK
+	48+niIW7oNPA3lyQOkboKY73x96cpLPtKzXyAjx8DoQo1r3yO5zm0685BRYm7zUKXecx
+	jEcEhgs174msEy6SYBAyazYCILLlhwrquL9C8=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	b=gpgfDhd/eWNIb4zHKSXBl+aL8fweC4w2m4IitjaKd8ygJ4fiVVLpCU2OF5Cww5Quqq
+	mJ+NxIRUqJhp64PxlyV3qKwYxC5nd2JAUfdCJC4Cm9Pgc7qu1dKhSg+s8PDGh4M0gmPr
+	BqdfjcMYupve5HQz/UYXr6WNEB71o7feqnats=
+Received: by 10.101.213.31 with SMTP id p31mr3175414anq.139.1306766750433;
+	Mon, 30 May 2011 07:45:50 -0700 (PDT)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id x37sm3343391ana.26.2011.05.30.07.45.48
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 30 May 2011 05:01:53 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Mon, 30 May 2011 07:45:49 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 May 2011 14:01:49 +0200
-Message-Id: <1306756909-18466-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] u-boot: package up u-boot.bin for field upgrades
+Date: Mon, 30 May 2011 14:45:37 +0000
+Message-Id: <cover.1306766682.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/2] Misc fixes from O.S. Systems tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,58 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2011 12:05:05 -0000
+X-List-Received-Date: Mon, 30 May 2011 14:49:00 -0000
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-bsp/uboot/u-boot.inc        |   11 +++++++++++
- meta/recipes-bsp/uboot/u-boot_2011.03.bb |    2 +-
- 2 files changed, 12 insertions(+), 1 deletions(-)
+The following changes since commit 83ce96f44516c8a4a44c8c0140949256f8422014:
 
-diff --git a/meta/recipes-bsp/uboot/u-boot.inc b/meta/recipes-bsp/uboot/u-boot.inc
-index 83dfb6f..2be9fc9 100644
---- a/meta/recipes-bsp/uboot/u-boot.inc
-+++ b/meta/recipes-bsp/uboot/u-boot.inc
-@@ -21,6 +21,7 @@ python () {
- }
- 
- UBOOT_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.bin"
-+UBOOT_BINARY ?= "u-boot.bin"
- UBOOT_SYMLINK ?= "u-boot-${MACHINE}.bin"
- UBOOT_MAKE_TARGET ?= "all"
- 
-@@ -32,6 +33,16 @@ do_compile () {
- 	oe_runmake ${UBOOT_MAKE_TARGET}
- }
- 
-+do_install () {
-+    install -d ${D}/boot
-+    install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-+    ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-+}
-+
-+FILES_${PN} = "/boot"
-+# no gnu_hash in uboot.bin, by design, so skip QA
-+INSANE_SKIP_${PN} = True
-+
- do_deploy () {
- 	install ${S}/u-boot.bin ${DEPLOYDIR}/${UBOOT_IMAGE}
- 
-diff --git a/meta/recipes-bsp/uboot/u-boot_2011.03.bb b/meta/recipes-bsp/uboot/u-boot_2011.03.bb
-index 0fbb9ba..07f0609 100644
---- a/meta/recipes-bsp/uboot/u-boot_2011.03.bb
-+++ b/meta/recipes-bsp/uboot/u-boot_2011.03.bb
-@@ -14,7 +14,7 @@ FILESDIR = "${@os.path.dirname(bb.data.getVar('FILE',d,1))}/u-boot-git/${MACHINE
- 
- SRCREV = "v2011.03"
- PV = "v2011.03+git${SRCPV}"
--PR="r3"
-+PR="r4"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- 
+  bitbake.conf: make OVERRIDES match what people expect (2011-05-30 08:31:53 +0100)
+
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/master
+
+Otavio Salvador (2):
+  busybox: enable mdev by default
+  qmake_base.bbclass: fix lrelease/lupdate binary names
+
+ meta/classes/qmake_base.bbclass                    |    5 +++++
+ meta/recipes-core/busybox/busybox-1.18.4/defconfig |    2 +-
+ meta/recipes-core/busybox/busybox.inc              |    1 -
+ meta/recipes-core/busybox/busybox_1.18.4.bb        |    2 +-
+ 4 files changed, 7 insertions(+), 3 deletions(-)
+
 -- 
-1.6.6.1
+1.7.2.5
 
 
 
