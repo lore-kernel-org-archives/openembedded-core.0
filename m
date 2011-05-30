@@ -1,31 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QQx1r-0000ta-38 for openembedded-core@lists.openembedded.org;
-	Mon, 30 May 2011 09:36:47 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4U7XaAx031116;
-	Mon, 30 May 2011 08:33:36 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30738-08; Mon, 30 May 2011 08:33:32 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4U7XS09031110
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 30 May 2011 08:33:28 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QQx21-0000vH-TU
+	for openembedded-core@lists.openembedded.org;
+	Mon, 30 May 2011 09:36:59 +0200
+Received: by wwb17 with SMTP id 17so3058539wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 May 2011 00:33:49 -0700 (PDT)
+Received: by 10.216.67.199 with SMTP id j49mr2191661wed.59.1306740829126;
+	Mon, 30 May 2011 00:33:49 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id b70sm2303993wek.44.2011.05.30.00.33.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 30 May 2011 00:33:48 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4DE34507.2090107@eukrea.com>
+Date: Mon, 30 May 2011 09:33:46 +0200
+Message-Id: <C74466A4-5C79-4E68-8D19-443498EF130E@dominion.thruhere.net>
+References: <53EA452E-5E40-471F-8AF7-BE8303945241@dominion.thruhere.net>
+	<4DE34507.2090107@eukrea.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1306245860-12820-1-git-send-email-koen@dominion.thruhere.net>
-References: <1306245860-12820-1-git-send-email-koen@dominion.thruhere.net>
-Date: Mon, 30 May 2011 08:33:16 +0100
-Message-ID: <1306740796.27470.330.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [RFC][PATCH] bitbake.conf: make OVERRIDES match what people expect
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: Any volunteers for fixing all the kernel version checks?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,57 +37,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2011 07:36:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Tue, 2011-05-24 at 16:04 +0200, Koen Kooi wrote:
-> In the current situation TARGET_ARCH will override MACHINE, which is counter intuitive since the machine is more specific than the arch.
-> 
-> The order is now pn-$PN} -> arch -> machine -> distro as the machine is a set of defaults and the distro is the ultimate policy.
-> 
-> 'failfast' has been removed since it's not used anymore, just like 'local'
-> ---
->  meta/conf/bitbake.conf |   12 ++++++------
->  1 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index a0af672..59238b8 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -602,15 +602,15 @@ AUTO_LIBNAME_PKGS = "${PACKAGES}"
->  # 
->  # This means that an envionment variable named '<foo>_arm' overrides an
->  # environment variable '<foo>' (when ${TARGET_ARCH} is arm).
-> -# An environment variable '<foo>_ramses' overrides '<foo>' but doesn't override
-> -# '<foo>_arm' when ${MACHINE} is 'ramses'. 
-> -# If you use combination ie '<foo>_arm_ramses', then '<foo>_arm_ramses' will override 
-> -# '<foo>_arm' and then '<foo>' will be overriden with that value from '<foo>_arm'.
-> -# And finally '<foo>_local' overrides any standard variable, but with lowest priority.
-> +# An environment variable '<foo>_qemuarm' overrides '<foo>' and overrides
-> +# '<foo>_arm' when ${MACHINE} is 'qemuarm'. 
-> +# If you use combination ie '<foo>_qemuarm_arm', then '<foo>_qemuarm_arm' will override 
-> +# '<foo>_qemuarm' and then '<foo>' will be overriden with that value from '<foo>_qemuarm'.
-> +# And finally '<foo>_forcevariable' overrides any standard variable, with the highest priority.
->  #
->  # This works for  functions as well, they are really just environment variables.
->  # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
-> -OVERRIDES = "local:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:fail-fast:pn-${PN}:forcevariable"
-> +OVERRIDES = "${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:forcevariable"
->  DISTROOVERRIDES ?= "${DISTRO}"
->  MACHINEOVERRIDES ?= "${MACHINE}"
-
-Merged to master.
-
-I left forcevariable in since otherwise I think distros would all end up
-adding something anyway. If there are strong feelings it shouldn't be
-there we can remove it.
-
-Cheers,
-
-Richard
+X-List-Received-Date: Mon, 30 May 2011 07:36:59 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 30 mei 2011, om 09:19 heeft Eric B=E9nard het volgende geschreven:
 
+> Hi,
+>=20
+> On 30/05/2011 08:52, Koen Kooi wrote:
+>> As some of you might have seen already: =
+http://lwn.net/Articles/445223/ - linux 3.0 is going to happen.
+>>=20
+>> This means all the crufty "is it 2.4 or 2.6" checks are going to need =
+a rework :)
+>=20
+> Does supporting 2.4 kernels still makes sense in 2011 ?
+
+No, but I bet there are still checks present for that :) Or at least =
+references like modprobe.26.=
 
 
