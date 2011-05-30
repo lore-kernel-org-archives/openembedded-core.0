@@ -1,41 +1,23 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QR3mC-0007ZD-0h
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QR6XG-0005NC-U9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 May 2011 16:49:04 +0200
-Received: by yxn22 with SMTP id 22so1565858yxn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 May 2011 07:45:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
-	:x-mailer:in-reply-to:references:in-reply-to:references;
-	bh=51nyXVeViqkVjA1cTW9a/CY2afSRxN4o7JIlytfQ6Zw=;
-	b=XLNPRbr8pVjAHmVsV8W1+1WOImyN5zwommFVf10CAWndeoPvp4wZJsn+dNsJ2yr/Nj
-	nZjL8DoXC37+raPfmZ80t1MDcvRpvU4ot0pDehuPt3E4DWzXd4jDSyIUEq1lg9gsZdxb
-	b0P2NTgrfaJrJmMeiI2/hqpfp9JkfpqNp0b8c=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references;
-	b=DsxbmB5Fq1LIM6vPPlAomPB6nAJ7/Qp/xbb1NdX3JaZotA+fLCcKuesliLgMUd03D1
-	oEbfCyYf6k51ss6tHzzKg8Mb+ATH/n+vUL7TqO5y6DbzR2MDNIsw+Eul8+E8xrr+kAZi
-	Z7fQc9qPD+m0LGbZLPeMjh41jGnbYl4HjBXiA=
-Received: by 10.101.200.18 with SMTP id c18mr3081361anq.58.1306766755059;
-	Mon, 30 May 2011 07:45:55 -0700 (PDT)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id x37sm3343391ana.26.2011.05.30.07.45.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 30 May 2011 07:45:54 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 May 2011 14:45:39 +0000
-Message-Id: <13f584376eafaac44f9c8671f429124faefddd42.1306766682.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1306766682.git.otavio@ossystems.com.br>
-References: <cover.1306766682.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1306766682.git.otavio@ossystems.com.br>
-References: <cover.1306766682.git.otavio@ossystems.com.br>
-Subject: [PATCH 2/2] qmake_base.bbclass: fix lrelease/lupdate binary names
+	Mon, 30 May 2011 19:45:51 +0200
+Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
+	[128.224.146.167])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p4UHg8W3022792;
+	Mon, 30 May 2011 10:42:09 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 30 May 2011 13:41:18 -0400
+Message-Id: <10551f906f430cf3500b7bd04727537304b39d36.1306777062.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1306777062.git.bruce.ashfield@windriver.com>
+References: <cover.1306777062.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1306777062.git.bruce.ashfield@windriver.com>
+References: <cover.1306777062.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 1/1] linux-yocto: update meta SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,35 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2011 14:49:04 -0000
+X-List-Received-Date: Mon, 30 May 2011 17:45:51 -0000
 
-To support translation, qmake based projects usually call lrelease and
-lupdate however OE changes the binary names so this needs some mangle
-to work out of box.
+Fixes [YOCTO: 1111]
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+and updates the meta branch with some cleanups and feature
+groupings.
+
+From the meta branch itself:
+
+   06d3793 meta: add romley features
+   f101ab9 meta: remove 'not set' lines from netfilter.cfg
+   d0599f8 meta: add dca feature
+   0cd5ef1 meta: replace open-coded E1XXXX options with intel-e1xxxx feature
+   3f88c17 meta: add intel-e1xxxx feature
+   f7537af meta: replace open-coded igb options with igb feature
+   f72e046 meta: add igb feature
+   989cd7d meta: add ixgbe feature
+   8543f7d meta: replace open-coded dma engine options with dmaengine feature
+   8fc67cd meta: add dmaengine feature
+   610e419 meta: add hugetlb feature
+   ac22176 meta: add uio feature
+   ce14a0d meta: replace open-coded hpet options with hpet feature
+   6a30aaa meta: add hpet feature
+   0ae7362 routerstationpro: watchdog config
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/qmake_base.bbclass |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto_git.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/qmake_base.bbclass b/meta/classes/qmake_base.bbclass
-index a054efd..165d689 100644
---- a/meta/classes/qmake_base.bbclass
-+++ b/meta/classes/qmake_base.bbclass
-@@ -92,6 +92,11 @@ qmake_base_do_configure() {
- 		bbnote "qmake prevar substitution: ${EXTRA_QMAKEVARS_PRE}"
- 	fi
+diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_git.bb
+index 5c3c448..3aedb7a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_git.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_git.bb
+@@ -20,7 +20,7 @@ SRCREV_machine_qemuppc = "d9c6b3e576184f0c4223b6251c57b16ac1bac428"
+ SRCREV_machine_qemux86 = "b2afed7ecd54918b73db7f30062aaaf02fdaba54"
+ SRCREV_machine_qemux86-64 = "86bbbc079652d87392322fbfc14f6bd8792b0f38"
+ SRCREV_machine = "0974631b821b70aee3613723ed0d4d6ba8da91c6"
+-SRCREV_meta = "79669230fd82a3e7e254cf8b596a2388a4333e62"
++SRCREV_meta = "06d3793d459048ee1b4db7170f24670c479e8b29"
  
-+	# Hack .pro files to use OE utilities
-+	find -name '*.pro' \
-+	     -exec sed -i -e 's,=\s*.*/lrelease,= ${OE_QMAKE_LRELEASE},g' \
-+	                  -e 's,=\s*.*/lupdate,= ${OE_QMAKE_LUPDATE},g' '{}' ';'
-+
- #bbnote "Calling '${OE_QMAKE_QMAKE} -makefile -spec ${QMAKESPEC} -o Makefile $QMAKE_VARSUBST_PRE $AFTER $PROFILES $QMAKE_VARSUBST_POST'"
- 	unset QMAKESPEC || true
- 	${OE_QMAKE_QMAKE} -makefile -spec ${QMAKESPEC} -o Makefile $QMAKE_VARSUBST_PRE $AFTER $PROFILES $QMAKE_VARSUBST_POST || die "Error calling ${OE_QMAKE_QMAKE} on $PROFILES"
+ PR = "r18"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
-1.7.2.5
+1.7.0.4
 
 
 
