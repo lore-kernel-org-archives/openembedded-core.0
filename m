@@ -1,22 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QQw95-00089E-8e
+	(envelope-from <koen@dominion.thruhere.net>) id 1QQwOP-0008RX-S4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 May 2011 08:40:11 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 29 May 2011 23:37:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,290,1304319600"; d="scan'208";a="10784369"
-Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
-	by fmsmga001.fm.intel.com with ESMTP; 29 May 2011 23:37:00 -0700
-From: Yu Ke <ke.yu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 May 2011 14:41:02 +0800
-Message-Id: <a18c819bfe6fbf86ea3b70aeae7dc35e2bb6efde.1306737527.git.ke.yu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1306737527.git.ke.yu@intel.com>
-References: <cover.1306737527.git.ke.yu@intel.com>
-Subject: [PATCH 1/1] site/powerpc-common: remove the incorrect dlopen default setting
+	Mon, 30 May 2011 08:56:01 +0200
+Received: by wye20 with SMTP id 20so2791412wye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 29 May 2011 23:52:54 -0700 (PDT)
+Received: by 10.216.81.203 with SMTP id m53mr2316711wee.9.1306738373916;
+	Sun, 29 May 2011 23:52:53 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id en1sm2816272wbb.52.2011.05.29.23.52.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 29 May 2011 23:52:53 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 30 May 2011 08:52:51 +0200
+Message-Id: <53EA452E-5E40-471F-8AF7-BE8303945241@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: Any volunteers for fixing all the kernel version checks?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,39 +34,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2011 06:40:11 -0000
+X-List-Received-Date: Mon, 30 May 2011 06:56:02 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-These two setting for dlopen is not correct. dlopen is not available in libc,
-instead it is provided by libdl. so the setting should not be "yes" by default.
+Hi,
 
-This fixes [YOCTO #736] [YOCTO #737]
+As some of you might have seen already: http://lwn.net/Articles/445223/ =
+- linux 3.0 is going to happen.
 
-Thanks Richard for pointing out the root cause.
-
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: Philip Balister <philip@balister.org>
-CC: Koen Kooi <koen@dominion.thruhere.net>
-
-Signed-off-by: Yu Ke <ke.yu@intel.com>
----
- meta/site/powerpc-common |    2 --
- 1 files changed, 0 insertions(+), 2 deletions(-)
-
-diff --git a/meta/site/powerpc-common b/meta/site/powerpc-common
-index 8c0da23..4d0378b 100644
---- a/meta/site/powerpc-common
-+++ b/meta/site/powerpc-common
-@@ -239,8 +239,6 @@ ac_cv_sizeof_int=${ac_cv_sizeof_int='4'}
- #modphp 
- ac_cv_c_bigendian_php=${ac_cv_c_bigendian_php=yes}
- ac_cv_sizeof_ptrdiff_t=${ac_cv_sizeof_ptrdiff_t=4}
--ac_cv_func_dlopen=${ac_cv_func_dlopen=yes}
--lt_cv_dlopen_self=${lt_cv_dlopen_self=yes}
- 
- # apache2 (note other apache stanza in this file)
- ap_void_ptr_lt_long=${ap_void_ptr_lt_long=no}
--- 
-1.7.0.4
-
+This means all the crufty "is it 2.4 or 2.6" checks are going to need a =
+rework :)=
 
 
