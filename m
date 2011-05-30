@@ -1,25 +1,31 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QQwOP-0008RX-S4
-	for openembedded-core@lists.openembedded.org;
-	Mon, 30 May 2011 08:56:01 +0200
-Received: by wye20 with SMTP id 20so2791412wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 May 2011 23:52:54 -0700 (PDT)
-Received: by 10.216.81.203 with SMTP id m53mr2316711wee.9.1306738373916;
-	Sun, 29 May 2011 23:52:53 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id en1sm2816272wbb.52.2011.05.29.23.52.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 29 May 2011 23:52:53 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Mon, 30 May 2011 08:52:51 +0200
-Message-Id: <53EA452E-5E40-471F-8AF7-BE8303945241@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1084)
-X-Mailer: Apple Mail (2.1084)
-Subject: Any volunteers for fixing all the kernel version checks?
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QQwpv-0000er-Hl for openembedded-core@lists.openembedded.org;
+	Mon, 30 May 2011 09:24:27 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4U7L5fg031042;
+	Mon, 30 May 2011 08:21:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30738-06; Mon, 30 May 2011 08:21:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4U7KvqA031036
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 30 May 2011 08:20:57 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yu Ke <ke.yu@intel.com>
+In-Reply-To: <cover.1306737527.git.ke.yu@intel.com>
+References: <cover.1306737527.git.ke.yu@intel.com>
+Date: Mon, 30 May 2011 08:20:45 +0100
+Message-ID: <1306740045.27470.326.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] Fix powerpc xserver dlopen issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,16 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2011 06:56:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 May 2011 07:24:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Mon, 2011-05-30 at 14:40 +0800, Yu Ke wrote:
+> Fix Yocto bug 736, 737
+> 
+> The following changes since commit c412674cf818e77e35857fb93353e392e7ac9e53:
+>   Khem Raj (1):
+>         package.bbclass,prserv.bbclass: Compare USE_PR_SERV with "1" or "0"
+> 
+> are available in the git repository at:
+> 
+>   git://git.pokylinux.org/poky-contrib kyu3/dl-issue
+>   http://git.pokylinux.org/cgit.cgi//log/?h=kyu3/dl-issue
+> 
+> Yu Ke (1):
+>   site/powerpc-common: remove the incorrect dlopen default setting
 
-As some of you might have seen already: http://lwn.net/Articles/445223/ =
-- linux 3.0 is going to happen.
+Merged to master, thanks.
 
-This means all the crufty "is it 2.4 or 2.6" checks are going to need a =
-rework :)=
+Richard
+
 
 
