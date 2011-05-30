@@ -1,31 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QQwpv-0000er-Hl for openembedded-core@lists.openembedded.org;
-	Mon, 30 May 2011 09:24:27 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4U7L5fg031042;
-	Mon, 30 May 2011 08:21:05 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30738-06; Mon, 30 May 2011 08:21:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4U7KvqA031036
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 30 May 2011 08:20:57 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yu Ke <ke.yu@intel.com>
-In-Reply-To: <cover.1306737527.git.ke.yu@intel.com>
-References: <cover.1306737527.git.ke.yu@intel.com>
-Date: Mon, 30 May 2011 08:20:45 +0100
-Message-ID: <1306740045.27470.326.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1] Fix powerpc xserver dlopen issue
+Received: from 63.mail-out.ovh.net ([91.121.185.56])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1QQwum-0000jo-8p
+	for openembedded-core@lists.openembedded.org;
+	Mon, 30 May 2011 09:29:28 +0200
+Received: (qmail 18086 invoked by uid 503); 30 May 2011 08:15:06 -0000
+Received: from b6.ovh.net (HELO mail182.ha.ovh.net) (213.186.33.56)
+	by 63.mail-out.ovh.net with SMTP; 30 May 2011 08:15:06 -0000
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 30 May 2011 09:19:38 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
+	(ebenard%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 30 May 2011 09:19:36 +0200
+Message-ID: <4DE34507.2090107@eukrea.com>
+Date: Mon, 30 May 2011 09:19:35 +0200
+From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc14
+	Lightning/1.0b3pre Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <53EA452E-5E40-471F-8AF7-BE8303945241@dominion.thruhere.net>
+In-Reply-To: <53EA452E-5E40-471F-8AF7-BE8303945241@dominion.thruhere.net>
+X-Ovh-Tracer-Id: 4974225788907007426
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-Spam-Check: DONE|U 0.5/N
+Subject: Re: Any volunteers for fixing all the kernel version checks?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,28 +41,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 May 2011 07:24:28 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 30 May 2011 07:29:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-05-30 at 14:40 +0800, Yu Ke wrote:
-> Fix Yocto bug 736, 737
-> 
-> The following changes since commit c412674cf818e77e35857fb93353e392e7ac9e53:
->   Khem Raj (1):
->         package.bbclass,prserv.bbclass: Compare USE_PR_SERV with "1" or "0"
-> 
-> are available in the git repository at:
-> 
->   git://git.pokylinux.org/poky-contrib kyu3/dl-issue
->   http://git.pokylinux.org/cgit.cgi//log/?h=kyu3/dl-issue
-> 
-> Yu Ke (1):
->   site/powerpc-common: remove the incorrect dlopen default setting
+Hi,
 
-Merged to master, thanks.
+On 30/05/2011 08:52, Koen Kooi wrote:
+> As some of you might have seen already: http://lwn.net/Articles/445223/ - linux 3.0 is going to happen.
+>
+> This means all the crufty "is it 2.4 or 2.6" checks are going to need a rework :)
 
-Richard
+Does supporting 2.4 kernels still makes sense in 2011 ?
 
+Eric
 
 
