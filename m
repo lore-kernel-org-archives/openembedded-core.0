@@ -1,31 +1,26 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QRWZt-0006Bf-Qr
+	(envelope-from <scott.a.garman@intel.com>) id 1QRWq4-0006Rj-6l
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 May 2011 23:34:18 +0200
-Received: from localhost.localdomain (c-76-105-143-140.hsd1.or.comcast.net
-	[76.105.143.140])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 3CCB12FEF6;
-	Tue, 31 May 2011 15:53:29 -0400 (EDT)
+	Tue, 31 May 2011 23:51:00 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 31 May 2011 14:27:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,299,1304319600"; 
+   d="scan'208";a="4785189"
+Received: from unknown (HELO [10.255.13.70]) ([10.255.13.70])
+	by azsmga001.ch.intel.com with ESMTP; 31 May 2011 14:27:55 -0700
+Message-ID: <4DE55D5B.6070307@intel.com>
+Date: Tue, 31 May 2011 14:27:55 -0700
 From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 May 2011 12:53:16 -0700
-Message-Id: <61660082686bbe52d42623e6fe21b1ba4ba7427e.1306865217.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1306865217.git.scott.a.garman@intel.com>
-References: <cover.1306865217.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1306865217.git.scott.a.garman@intel.com>
-References: <cover.1306865217.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 3CCB12FEF6.24408
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 4/7] useradd.bbclass: new class for managing user/group permissions
+References: <cover.1306865217.git.scott.a.garman@intel.com>	<79A1BC44-8268-4177-BBC5-4A5B08BDC8B7@dominion.thruhere.net>	<4DE53C21.7020000@linux.intel.com>	<4DE546AE.1090301@intel.com>	<BANLkTimmP7rDQidBOBbA8TqVtHKMF7Bhuw@mail.gmail.com>
+	<4DE55A95.2090302@windriver.com>
+In-Reply-To: <4DE55A95.2090302@windriver.com>
+Subject: Re: [poky] [PATCH 0/7] User/group creation at preinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,161 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2011 21:34:18 -0000
+X-List-Received-Date: Tue, 31 May 2011 21:51:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This class is to be used by recipes that need to set up specific
-user/group accounts and set custom file/directory permissions.
+On 05/31/2011 02:16 PM, Mark Hatle wrote:
+> On 5/31/11 2:57 PM, Otavio Salvador wrote:
+>> On Tue, May 31, 2011 at 19:51, Scott Garman<scott.a.garman@intel.com>  wrote:
+>>> That said, I have no idea what criteria should be used to determine which
+>>> list to send things to, and I'm sure I'm not the only one. Is this
+>>> documented anywhere?
+>>
+>> It seems to me that poky list ought to be not used anymore and patches
+>> to be send to oe-core as AFAIK Yocto will base on it. Am I missing
+>> anything?
+>>
+>> This is really confusing. This is not just regarding mailing lists but
+>> also IRC channels :-/
+>>
+>
+> As I understand it, the intention is the Poky list is used for Poky specific
+> items or to discuss (from a Poky specific point of view) oe-core items.. I.e.
+> problems, issues, etc from the usage of oe-core within the Poky use.
+>
+> The confusion currently comes from many of the oe-core items used to live in the
+> Poky domain, and no longer due.  Unfortunately this will take a bit of education
+> for folks who don't contribute daily so that they know which mailing list to use.
+>
+> (In otherwords the Poky list still has it's place, but only for Poky specific
+> discussions.)
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- meta/classes/useradd.bbclass |  136 ++++++++++++++++++++++++++++++++++++++++++
- 1 files changed, 136 insertions(+), 0 deletions(-)
- create mode 100644 meta/classes/useradd.bbclass
+So presumably this would mean: if it's about a recipe that is not in 
+OE-core, it's Poky-specific?
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-new file mode 100644
-index 0000000..ac6f8f6
---- /dev/null
-+++ b/meta/classes/useradd.bbclass
-@@ -0,0 +1,136 @@
-+USERADDPN ?= "${PN}"
-+
-+# base-passwd-cross provides the default passwd and group files in the
-+# target sysroot, and shadow-native provides the utilities needed to
-+# add and modify user and group accounts
-+DEPENDS_append = " base-passwd-cross shadow-native"
-+RDEPENDS_${USERADDPN}_append = " base-passwd shadow"
-+
-+PSEUDO="${STAGING_DIR_NATIVE}/usr/bin/pseudo"
-+export PSEUDO
-+PSEUDO_LOCALSTATEDIR="${STAGING_DIR_TARGET}/var/pseudo"
-+export PSEUDO_LOCALSTATEDIR
-+PSEUDO_PASSWD = "${STAGING_DIR_TARGET}"
-+export PSEUDO_PASSWD
-+
-+useradd_sysroot () {
-+	# Explicitly set $D since it isn't set to anything
-+	# before do_install
-+	D=${D}
-+	useradd_preinst
-+}
-+
-+useradd_sysroot_sstate () {
-+	if [ "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
-+	then
-+		# Explicitly set $D since it isn't set to anything
-+		# before do_install
-+		D=${D}
-+		useradd_preinst
-+	fi
-+}
-+
-+useradd_preinst () {
-+OPT=""
-+SYSROOT=""
-+
-+if test "x$D" != "x"; then
-+	# Installing into a sysroot
-+	SYSROOT="${STAGING_DIR_TARGET}"
-+	OPT="--root ${STAGING_DIR_TARGET}"
-+else
-+	# Installing onto a target
-+	PSEUDO=""
-+fi
-+
-+# Perform group additions first, since user additions may depend
-+# on these groups existing
-+if test "x${GROUPADD_PARAM_${PN}}" != "x"; then
-+	echo "Running groupadd commands..."
-+	# Invoke multiple instances of groupadd for parameter lists
-+	# separated by ';'
-+	opts=`echo "${GROUPADD_PARAM_${PN}}" | cut -d ';' -f 1`
-+	remaining=`echo "${GROUPADD_PARAM_${PN}}" | cut -d ';' -f 2-`
-+	while test "x$opts" != "x"; do
-+		eval $PSEUDO groupadd -f $OPT $opts
-+
-+		if test "x$opts" = "x$remaining"; then
-+			break
-+		fi
-+		opts=`echo "$remaining" | cut -d ';' -f 1`
-+		remaining=`echo "$remaining" | cut -d ';' -f 2-`
-+	done
-+fi 
-+
-+if test "x${USERADD_PARAM_${PN}}" != "x"; then
-+	echo "Running useradd commands..."
-+	# Invoke multiple instances of useradd for parameter lists
-+	# separated by ';'
-+	opts=`echo "${USERADD_PARAM_${PN}}" | cut -d ';' -f 1`
-+	remaining=`echo "${USERADD_PARAM_${PN}}" | cut -d ';' -f 2-`
-+	while test "x$opts" != "x"; do
-+		# useradd does not have a -f option, so we have to check if the
-+		# username already exists manually
-+		username=`echo "$opts" | awk '{ print $NF }'`
-+		user_exists=`grep "^$username:" $SYSROOT/etc/passwd || true`
-+		if test "x$user_exists" = "x"; then
-+			eval $PSEUDO useradd $OPT $opts
-+		else
-+			echo "Note: username $username already exists, not re-creating it"
-+		fi
-+
-+		if test "x$opts" = "x$remaining"; then
-+			break
-+		fi
-+		opts=`echo "$remaining" | cut -d ';' -f 1`
-+		remaining=`echo "$remaining" | cut -d ';' -f 2-`
-+	done
-+fi
-+}
-+
-+do_install[prefuncs] += "useradd_sysroot"
-+SSTATEPOSTINSTFUNCS += "useradd_sysroot_sstate"
-+
-+# Recipe parse-time sanity checks
-+def update_useradd_after_parse(d):
-+	if bb.data.getVar('USERADD_PACKAGES', d) == None:
-+		if bb.data.getVar('USERADD_PARAM', d) == None and bb.data.getVar('GROUPADD_PARAM', d) == None:
-+			raise bb.build.FuncFailed, "%s inherits useradd but doesn't set USERADD_PARAM or GROUPADD_PARAM" % bb.data.getVar('FILE', d)
-+
-+python __anonymous() {
-+	update_useradd_after_parse(d)
-+}
-+
-+# Adds the preinst script into generated packages
-+fakeroot python populate_packages_prepend () {
-+	def update_useradd_package(pkg):
-+		bb.debug(1, 'adding user/group calls to preinst for %s' % pkg)
-+		localdata = bb.data.createCopy(d)
-+		overrides = bb.data.getVar("OVERRIDES", localdata, 1)
-+		bb.data.setVar("OVERRIDES", "%s:%s" % (pkg, overrides), localdata)
-+		bb.data.update_data(localdata)
-+
-+		"""
-+		useradd preinst is appended here because pkg_preinst may be
-+		required to execute on the target. Not doing so may cause
-+		useradd preinst to be invoked twice, causing unwanted warnings.
-+		"""
-+		preinst = bb.data.getVar('pkg_preinst', localdata, 1)
-+		if not preinst:
-+			preinst = '#!/bin/sh\n'
-+		preinst += bb.data.getVar('useradd_preinst', localdata, 1)
-+		bb.data.setVar('pkg_preinst_%s' % pkg, preinst, d)
-+
-+	# We add the user/group calls to all packages to allow any package
-+	# to contain files owned by the users/groups defined in the recipe.
-+	# The user/group addition code is careful not to create duplicate
-+	# entries, so this is safe.
-+	pkgs = bb.data.getVar('USERADD_PACKAGES', d, 1)
-+	if pkgs == None:
-+		pkgs = bb.data.getVar('USERADDPN', d, 1)
-+		packages = (bb.data.getVar('PACKAGES', d, 1) or "").split()
-+		if not pkgs in packages and packages != []:
-+			pkgs = packages[0]
-+	for pkg in pkgs.split():
-+		update_useradd_package(pkg)
-+}
+Which would also mean that discussion about anything in the bitbake 
+classes belongs on OE-core as well, yes?
+
+Scott
+
 -- 
-1.7.1
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
