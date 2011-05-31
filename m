@@ -1,24 +1,23 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QRLGk-00018P-7r
-	for openembedded-core@lists.openembedded.org;
-	Tue, 31 May 2011 11:29:46 +0200
-Received: by wye20 with SMTP id 20so3603744wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 May 2011 02:26:36 -0700 (PDT)
-Received: by 10.227.172.206 with SMTP id m14mr5990500wbz.29.1306833550552;
-	Tue, 31 May 2011 02:19:10 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id gb6sm3602981wbb.0.2011.05.31.02.19.09
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 31 May 2011 02:19:09 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 May 2011 11:19:04 +0200
-Message-Id: <1306833544-5211-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QRLHW-00019n-JR for openembedded-core@lists.openembedded.org;
+	Tue, 31 May 2011 11:30:34 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>)
+	id 1QRLEV-0000hQ-1Z; Tue, 31 May 2011 11:27:27 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1306581686-17625-1-git-send-email-koen@dominion.thruhere.net>
+References: <1306581686-17625-1-git-send-email-koen@dominion.thruhere.net>
+Organization: Phil Blundell Consulting Ltd
+Date: Tue, 31 May 2011 10:27:22 +0100
+Message-ID: <1306834042.2525.477.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [Patch v2] sysvinit: make pidof usuable in a standalone setting
+Subject: Re: [RFC][PATCH] sysvinit: make pidof usuable in a standalone setting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2011 09:29:46 -0000
+X-List-Received-Date: Tue, 31 May 2011 09:30:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Currently it's a symlink to killall5:
+On Sat, 2011-05-28 at 13:21 +0200, Koen Kooi wrote:
+> The alternative is to just move 'killall5' into the pidof subpackage and to RDPEPENDS_${PN} += "${PN}-pidof"
 
-$ dpkg-deb -c sysvinit-pidof_2.88dsf-r1_armv7a.ipk  | grep pidof
-lrwxrwxrwx root/root         0 2011-05-27 11:05 ./bin/pidof.sysvinit -> /sbin/killall5
+I think I like that better.  Duplicating the binary doesn't sound very
+desirable.
 
-The point of the pidof subpackage was to have a pidof without needing sysvinit, this restores that behaviour.
+For what it's worth, also note that:
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+- busybox provides an implementation of pidof too, which might be worth
+considering if you aren't otherwise using sysvinit; and
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index 7d5e936..2cb650e 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
--PR = "r1"
-+PR = "r3"
- 
- # USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .conf.
- # Set PACKAGE_ARCH appropriately.
-@@ -47,9 +47,11 @@ ALTERNATIVE_PRIORITY = "50"
- 
- PACKAGES =+ "sysvinit-pidof sysvinit-sulogin"
- FILES_${PN} += "${base_sbindir}/* ${base_bindir}/*"
--FILES_sysvinit-pidof = "${base_bindir}/pidof.sysvinit"
-+FILES_sysvinit-pidof = "${base_bindir}/pidof.sysvinit ${base_sbindir}/killall5"
- FILES_sysvinit-sulogin = "${base_sbindir}/sulogin"
- 
-+RDEPENDS_${PN} += "sysvinit-pidof"
-+
- CFLAGS_prepend = "-D_GNU_SOURCE "
- export LCRYPT = "-lcrypt"
- EXTRA_OEMAKE += "'base_bindir=${base_bindir}' \
--- 
-1.6.6.1
+- it would be fairly trivial to implement pidof as a standalone shell
+script.  As a starting point, something like:
+
+#!/bin/sh
+p="($1)"
+cd /proc
+out=
+for i in [0123456789]*/stat; do
+  read a b c < $i
+  if [ $p = $b ]; then
+    out="`dirname $i` $out"
+  fi
+done
+echo $out
+
+gives you the basic behaviour of "pidof <name>".
+
+p.
+
 
 
 
