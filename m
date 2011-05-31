@@ -1,29 +1,42 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QRUJl-0003HU-9m
+	(envelope-from <anders.darander@gmail.com>) id 1QRUoB-0003gd-K1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 May 2011 21:09:29 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 31 May 2011 12:06:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,299,1304319600"; 
-   d="scan'208";a="7401455"
-Received: from unknown (HELO [10.255.13.41]) ([10.255.13.41])
-	by orsmga001.jf.intel.com with ESMTP; 31 May 2011 12:06:16 -0700
-Message-ID: <4DE53C21.7020000@linux.intel.com>
-Date: Tue, 31 May 2011 12:06:09 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Tue, 31 May 2011 21:40:55 +0200
+Received: by fxm19 with SMTP id 19so3826285fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 May 2011 12:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type;
+	bh=181gnjoMcfU02/HvYLHYneCnZtTgBPu9xhAuYWBOc6s=;
+	b=eXA5fBfCrwTSgxLCu/Xa01nvxRS7zW1EFvP78jstCdFWn4gjE0s55ILDILtj0Y32pq
+	iPYi1j4hYDH56aVwRgXQAC55VxAxQMXFY6gKBnquyP2G849ndOltiN/9/eG8fqXTyw9B
+	TETGJAr3/BdTsT6riV9maUEgakMtYHP7zcty4=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type;
+	b=Lj7yAM/8LfS+ESPdQ1OXHupkaxW1Je+Y9tq5o17pT6L4pHmdBPfeVO4EggCJePHdu0
+	v0EK1zSLNlenZzQpW4pyE/SuPvxgYkwttZ5YxpOAQQPYaJ7ozu+r3fvCyeSHzDlIDjhB
+	f6sI0jfglACG0OS3u3HxiPC6PstiRyeqxheCc=
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <cover.1306865217.git.scott.a.garman@intel.com>
-	<79A1BC44-8268-4177-BBC5-4A5B08BDC8B7@dominion.thruhere.net>
-In-Reply-To: <79A1BC44-8268-4177-BBC5-4A5B08BDC8B7@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"poky@yoctoproject.org Project" <poky@yoctoproject.org>
-Subject: Re: [poky] [PATCH 0/7] User/group creation at preinstall
+Received: by 10.223.27.18 with SMTP id g18mr7318262fac.52.1306870666095; Tue,
+	31 May 2011 12:37:46 -0700 (PDT)
+Received: by 10.223.70.202 with HTTP; Tue, 31 May 2011 12:37:45 -0700 (PDT)
+Received: by 10.223.70.202 with HTTP; Tue, 31 May 2011 12:37:45 -0700 (PDT)
+In-Reply-To: <52C5B1F0-9BDF-46F7-A8BC-2AB020E0E47A@dominion.thruhere.net>
+References: <53EA452E-5E40-471F-8AF7-BE8303945241@dominion.thruhere.net>
+	<4DE34507.2090107@eukrea.com>
+	<C74466A4-5C79-4E68-8D19-443498EF130E@dominion.thruhere.net>
+	<4DE34B8D.5080907@eukrea.com>
+	<52C5B1F0-9BDF-46F7-A8BC-2AB020E0E47A@dominion.thruhere.net>
+Date: Tue, 31 May 2011 21:37:45 +0200
+Message-ID: <BANLkTik8su=ArRUejSHVqHbbLv7-ZiR28g@mail.gmail.com>
+From: Anders Darander <anders.darander@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Subject: Re: Any volunteers for fixing all the kernel version checks?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,96 +51,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2011 19:09:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 May 2011 19:40:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 05/31/2011 11:45 AM, Koen Kooi wrote:
-> Shouldn't patches like this be sent to the oe-core list? It wouldn't have saved me from the selinux bug in shadow, though :)
+On May 30, 2011 1:52 PM, "Koen Kooi" <koen@dominion.thruhere.net> wrote:
+> Op 30 mei 2011, om 09:47 heeft Eric B=E9nard het volgende geschreven:
+> > On 30/05/2011 09:33, Koen Kooi wrote:
+> >> Op 30 mei 2011, om 09:19 heeft Eric B=E9nard het volgende geschreven:
+> >>> On 30/05/2011 08:52, Koen Kooi wrote:
+> >>>> As some of you might have seen already:
+http://lwn.net/Articles/445223/ - linux 3.0 is going to happen.
+> >>>>
+> >>>> This means all the crufty "is it 2.4 or 2.6" checks are going to nee=
+d
+a rework :)
+> >>>
+> >>> Does supporting 2.4 kernels still makes sense in 2011 ?
+> >>
+> >> No, but I bet there are still checks present for that :) Or at least
+references like modprobe.26.
+> >
+> > so can the fix be : remove any reference to the check and assume we are
+using a 2.6/3.0 kernel ?
 >
-Scott,
+> That would get my vote!
 
-I would agree with Koen, this is a oe-core change, not a Poky only 
-change, please resend this request to the oe-core list.
+My vote too.
 
-Thanks
-	Sau!
+I hope too be able too take a look at this, unless someone else has done it
+by then. However, it'll be one or two weeks before I get the chance too loo=
+k
+into this. And then I won't be able to spend that much time on it, this out
+might take a little while...
 
+So it's quite likely that someone else will beat me to it.
 
-> Op 31 mei 2011, om 20:13 heeft Scott Garman het volgende geschreven:
->
->> Hi Saul,
->>
->> This pull request includes everything needed to add the ability to
->> create custom users and groups in our images/packages and the
->> corresponding ability to set custom ownership permissions.
->>
->> There is a useradd-example.bb file in meta-skeleton which provides
->> a heavily-commented example recipe to demonstrate how this feature
->> can be used.
->>
->> I'd like to request that Mark Hatle and Richard do a code review of
->> this and offer their Acked-by: support if they are happy with things.
->>
->> Once this gets into master, I'm happy to write up a short section for
->> the Poky Reference Manual to document it in a more visible way.
->>
->> Scott
->>
->> The following changes since commit 1169f1b066d0028bd2ef7915440450bd42ef165e:
->>
->>   license.bbclass: Sane Parsing of licenses (2011-05-27 23:36:24 +0100)
->>
->> are available in the git repository at:
->>   git://git.pokylinux.org/poky-contrib sgarman/user-group-creation
->>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/user-group-creation
->>
->> Scott Garman (7):
->>   shadow: recipe and patch cleanup
->>   shadow: add a -native recipe with customized utilities
->>   base-passwd: add -cross recipe with default login.defs
->>   useradd.bbclass: new class for managing user/group permissions
->>   useradd-example: example recipe for using inherit useradd
->>   bitbake.conf: set PSEUDO_PASSWD within FAKEROOTENV
->>   package_rpm.bbclass: make RPM use on-disk permissions
->>
->> .../recipes-skeleton/useradd/useradd-example.bb    |   59 +
->> meta/classes/package_rpm.bbclass                   |    2 +
->> meta/classes/useradd.bbclass                       |  136 ++
->> meta/conf/bitbake.conf                             |    2 +-
->> .../base-passwd/base-passwd-3.5.22/login.defs      |  386 ++++++
->> .../base-passwd/base-passwd-cross_3.5.22.bb        |   53 +
->> .../shadow/files/add_root_cmd_options.patch        | 1293 ++++++++++++++++++++
->> .../files/shadow-4.1.3-dots-in-usernames.patch     |    4 +
->> .../shadow-4.1.4.2-env-reset-keep-locale.patch     |    4 +
->> .../files/shadow-4.1.4.2-groupmod-pam-check.patch  |    4 +
->> .../files/shadow-4.1.4.2-su_no_sanitize_env.patch  |    4 +
->> .../shadow/files/shadow.automake-1.11.patch        |    4 +
->> .../shadow/shadow-native_4.1.4.3.bb                |   66 +
->> meta/recipes-extended/shadow/shadow.inc            |  121 --
->> meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |  141 ++-
->> 15 files changed, 2148 insertions(+), 131 deletions(-)
->> create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
->> create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-example/file1
->> create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-example/file2
->> create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-example/file3
->> create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-example/file4
->> create mode 100644 meta/classes/useradd.bbclass
->> create mode 100644 meta/recipes-core/base-passwd/base-passwd-3.5.22/login.defs
->> create mode 100644 meta/recipes-core/base-passwd/base-passwd-cross_3.5.22.bb
->> create mode 100644 meta/recipes-extended/shadow/files/add_root_cmd_options.patch
->> create mode 100644 meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
->> delete mode 100644 meta/recipes-extended/shadow/shadow.inc
->>
->> _______________________________________________
->> poky mailing list
->> poky@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/poky
->
-> _______________________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
->
-
+Regards,
+Anders
 
