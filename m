@@ -1,31 +1,36 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1QRXkc-0007hw-BF; Wed, 01 Jun 2011 00:49:26 +0200
-Received: by wwb17 with SMTP id 17so4631720wwb.24
-	for <multiple recipients>; Tue, 31 May 2011 15:46:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:from:date:message-id:subject:to
-	:content-type; bh=7sy2Nz3V2V4XJb2+I73hrjbfB+cJS1lyTlrNVt0kAgo=;
-	b=VnTuQsIrAoRyWfUYwsXFLbeedKoS2m5uOH503dQ+jSqHyQ1t5D8GaSw3XcQYi3DO9Z
-	2R9lPtr31q2uXbXpTPOufcByxbNLCAkoLbfhrDvmfvJr6nYhzKWW5zXQb0Y4E2a5HfWX
-	0FhYpShas9BGvcPwDsFjtoyeJw3MxLh4intAU=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	b=Ic9AKR608+YJC/cmIrfHTuAe4X7837iG21qwHUGk4jdBwdGP70y5w58cPMavR9dOyp
-	wu9/j0Kqnm+mDt37TYiHLeKn+JDEDGTS+2rlePQkLivex1/xabMPP8fruaEmOOJwh65n
-	ugE6byFyHVvd9lEebKjuQKr81wcgk12uOmopA=
-Received: by 10.216.220.150 with SMTP id o22mr6576883wep.59.1306881976342;
-	Tue, 31 May 2011 15:46:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.216.28.19 with HTTP; Tue, 31 May 2011 15:45:46 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 31 May 2011 15:45:46 -0700
-Message-ID: <BANLkTi=mR7KKfXxiwiF1ZFA6epxx8hfaug@mail.gmail.com>
-To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QRY4L-0008Tc-0v for openembedded-core@lists.openembedded.org;
+	Wed, 01 Jun 2011 01:10:27 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4VN4OBW022753
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Jun 2011 00:04:24 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22737-01 for <openembedded-core@lists.openembedded.org>;
+	Wed,  1 Jun 2011 00:04:20 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4VN4JsL022747
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Jun 2011 00:04:19 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Parsing errors
+In-Reply-To: <1306371583.27470.96.camel@rex>
+References: <1306342881.2525.258.camel@phil-desktop>
+	<1306364520.27470.81.camel@rex> <1306368023.27470.91.camel@rex>
+	<BANLkTimYeFSAq30E3hC3HdJ9r81WyOD0bw@mail.gmail.com>
+	<1306371583.27470.96.camel@rex>
+Date: Wed, 01 Jun 2011 00:04:03 +0100
+Message-ID: <1306883043.27470.403.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: RDEPENDS_${PN} and virtclass-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,30 +45,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2011 22:49:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 31 May 2011 23:10:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi
+On Thu, 2011-05-26 at 01:59 +0100, Richard Purdie wrote:
+> Of course its not that simple. I just discovered:
+> 
+> OVERRIDES = "z"
+> DEPENDS_prepend = "a "
+> DEPENDS = "b"
+> DEPENDS_z = "c"
+> 
+> d.update_data()
+> d.getVar("DEPENDS") gives "a c"
+> d.update_data()
+> d.getVar("DEPENDS") gives "c"
+> 
+> since the _prepend is lost after the update_data(), the _z override is
+> not and so the second call overwrites all of DEPENDS.
+> 
+> We've talked before how overrides should really renameVar, not just copy
+> contents. Obviously there are a lot of subtleties to this though and we
+> can't just switch due to backwards compatibility :/
+> 
+> Depending on the number of update_data() calls is truly horrible
+> behaviour though :(
 
-In slugos when I updated to today's snapshot of oe-core  and meta-oe
-its giving me this
+I've looked into this and started an RFC thread over on the
+bitbake-devel list:
 
-ERROR: Information not available for target 'all-linux'
+http://lists.linuxtogo.org/pipermail/bitbake-devel/2011-June/000903.html
 
-                                                  | ETA:  00:00:37
-ERROR: Error parsing
-/home/kraj/work/slugos/meta-openembedded/meta-oe/recipes-core/systemd/systemd-compat-units.bb:
-Failure expanding variable SITEINFO_ENDIANESS, expression was
-${@siteinfo_get_endianess(d)} which triggered exception TypeError:
-argument of type 'NoneType' is not iterable
-ERROR: Command execution failed: Exited with 1
-make: *** [slugos-image] Error 1
+Cheers,
 
+Richard
 
-I wonder if it has to do with allarch.bbclass
-
-Thanks
-
--Khem
 
 
