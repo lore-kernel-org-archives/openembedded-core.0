@@ -1,42 +1,31 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders.darander@gmail.com>) id 1QRUoB-0003gd-K1
+	(envelope-from <scott.a.garman@intel.com>) id 1QRV1B-0003sY-NK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 May 2011 21:40:55 +0200
-Received: by fxm19 with SMTP id 19so3826285fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 May 2011 12:37:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=181gnjoMcfU02/HvYLHYneCnZtTgBPu9xhAuYWBOc6s=;
-	b=eXA5fBfCrwTSgxLCu/Xa01nvxRS7zW1EFvP78jstCdFWn4gjE0s55ILDILtj0Y32pq
-	iPYi1j4hYDH56aVwRgXQAC55VxAxQMXFY6gKBnquyP2G849ndOltiN/9/eG8fqXTyw9B
-	TETGJAr3/BdTsT6riV9maUEgakMtYHP7zcty4=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type;
-	b=Lj7yAM/8LfS+ESPdQ1OXHupkaxW1Je+Y9tq5o17pT6L4pHmdBPfeVO4EggCJePHdu0
-	v0EK1zSLNlenZzQpW4pyE/SuPvxgYkwttZ5YxpOAQQPYaJ7ozu+r3fvCyeSHzDlIDjhB
-	f6sI0jfglACG0OS3u3HxiPC6PstiRyeqxheCc=
+	Tue, 31 May 2011 21:54:21 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 31 May 2011 12:51:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,299,1304319600"; 
+   d="scan'208";a="9998413"
+Received: from unknown (HELO [10.255.13.70]) ([10.255.13.70])
+	by fmsmga002.fm.intel.com with ESMTP; 31 May 2011 12:51:10 -0700
+Message-ID: <4DE546AE.1090301@intel.com>
+Date: Tue, 31 May 2011 12:51:10 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-Received: by 10.223.27.18 with SMTP id g18mr7318262fac.52.1306870666095; Tue,
-	31 May 2011 12:37:46 -0700 (PDT)
-Received: by 10.223.70.202 with HTTP; Tue, 31 May 2011 12:37:45 -0700 (PDT)
-Received: by 10.223.70.202 with HTTP; Tue, 31 May 2011 12:37:45 -0700 (PDT)
-In-Reply-To: <52C5B1F0-9BDF-46F7-A8BC-2AB020E0E47A@dominion.thruhere.net>
-References: <53EA452E-5E40-471F-8AF7-BE8303945241@dominion.thruhere.net>
-	<4DE34507.2090107@eukrea.com>
-	<C74466A4-5C79-4E68-8D19-443498EF130E@dominion.thruhere.net>
-	<4DE34B8D.5080907@eukrea.com>
-	<52C5B1F0-9BDF-46F7-A8BC-2AB020E0E47A@dominion.thruhere.net>
-Date: Tue, 31 May 2011 21:37:45 +0200
-Message-ID: <BANLkTik8su=ArRUejSHVqHbbLv7-ZiR28g@mail.gmail.com>
-From: Anders Darander <anders.darander@gmail.com>
-To: Patches and discussions about the oe-core layer
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1306865217.git.scott.a.garman@intel.com>
+	<79A1BC44-8268-4177-BBC5-4A5B08BDC8B7@dominion.thruhere.net>
+	<4DE53C21.7020000@linux.intel.com>
+In-Reply-To: <4DE53C21.7020000@linux.intel.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	"poky@yoctoproject.org Project" <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Subject: Re: Any volunteers for fixing all the kernel version checks?
+Subject: Re: [poky] [PATCH 0/7] User/group creation at preinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,42 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2011 19:40:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 31 May 2011 19:54:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On May 30, 2011 1:52 PM, "Koen Kooi" <koen@dominion.thruhere.net> wrote:
-> Op 30 mei 2011, om 09:47 heeft Eric B=E9nard het volgende geschreven:
-> > On 30/05/2011 09:33, Koen Kooi wrote:
-> >> Op 30 mei 2011, om 09:19 heeft Eric B=E9nard het volgende geschreven:
-> >>> On 30/05/2011 08:52, Koen Kooi wrote:
-> >>>> As some of you might have seen already:
-http://lwn.net/Articles/445223/ - linux 3.0 is going to happen.
-> >>>>
-> >>>> This means all the crufty "is it 2.4 or 2.6" checks are going to nee=
-d
-a rework :)
-> >>>
-> >>> Does supporting 2.4 kernels still makes sense in 2011 ?
-> >>
-> >> No, but I bet there are still checks present for that :) Or at least
-references like modprobe.26.
-> >
-> > so can the fix be : remove any reference to the check and assume we are
-using a 2.6/3.0 kernel ?
+On 05/31/2011 12:06 PM, Saul Wold wrote:
+> On 05/31/2011 11:45 AM, Koen Kooi wrote:
+>> Shouldn't patches like this be sent to the oe-core list? It wouldn't
+>> have saved me from the selinux bug in shadow, though :)
+>>
+> Scott,
 >
-> That would get my vote!
+> I would agree with Koen, this is a oe-core change, not a Poky only
+> change, please resend this request to the oe-core list.
 
-My vote too.
+Sure, I'll resend it to oe-core.
 
-I hope too be able too take a look at this, unless someone else has done it
-by then. However, it'll be one or two weeks before I get the chance too loo=
-k
-into this. And then I won't be able to spend that much time on it, this out
-might take a little while...
+That said, I have no idea what criteria should be used to determine 
+which list to send things to, and I'm sure I'm not the only one. Is this 
+documented anywhere?
 
-So it's quite likely that someone else will beat me to it.
+Scott
 
-Regards,
-Anders
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
+
 
