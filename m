@@ -1,44 +1,31 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QRV7I-0004Kv-H9
+	(envelope-from <scott.a.garman@intel.com>) id 1QRVXK-0004lg-C5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 May 2011 22:00:40 +0200
-Received: by bwz5 with SMTP id 5so4541654bwz.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 May 2011 12:57:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=DlFoWxVGRjdd2eO5r3fbWMC1SkraXPq/gvypxN6Asfs=;
-	b=XgqUI2j3wBCJJI+Aq5dEKBdQXXDy/t67d4vdDvbTqEzHZb7tzJIqdYXpAS9Ab6Bi7e
-	x3iVhmnTpDdjdVKlYy7PRLmQjkrpjjHOiHC/JigoqhWn95tiOOfxiDyrnlaJR8relWCL
-	CihZ357CaHEl/j41V4HmTORGDSRrjW7TXzhvM=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	b=NyJXR+2iizOxsXxKHkh4FiHACUfSaFr2lZrkRbXKb8u/ZYPDl2OXIfC1TUKGtDWt9V
-	/L5MQoFVVmJjqgWmTXLyCc+osq0Jjef+8FfJt6jJmKCcSlkDpq7VM42XHgWvdrF4CiCI
-	q1DxCLo909sumr8WapHB6LgGLspoznZUukvRM=
-MIME-Version: 1.0
-Received: by 10.204.47.18 with SMTP id l18mr6108764bkf.31.1306871850585; Tue,
-	31 May 2011 12:57:30 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.78.203 with HTTP; Tue, 31 May 2011 12:57:30 -0700 (PDT)
-In-Reply-To: <4DE546AE.1090301@intel.com>
+	Tue, 31 May 2011 22:27:34 +0200
+Received: from localhost.localdomain (c-76-105-143-140.hsd1.or.comcast.net
+	[76.105.143.140])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id F2EAB2FEF8;
+	Tue, 31 May 2011 15:53:29 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 May 2011 12:53:17 -0700
+Message-Id: <ea3163ab446883b772207bf0600f0198a3041a7a.1306865217.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1306865217.git.scott.a.garman@intel.com>
 References: <cover.1306865217.git.scott.a.garman@intel.com>
-	<79A1BC44-8268-4177-BBC5-4A5B08BDC8B7@dominion.thruhere.net>
-	<4DE53C21.7020000@linux.intel.com> <4DE546AE.1090301@intel.com>
-Date: Tue, 31 May 2011 19:57:30 +0000
-X-Google-Sender-Auth: qapD-gTwraLerEfSG9KFtVFGYbI
-Message-ID: <BANLkTimmP7rDQidBOBbA8TqVtHKMF7Bhuw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	"poky@yoctoproject.org Project" <poky@yoctoproject.org>
-Subject: Re: [poky] [PATCH 0/7] User/group creation at preinstall
+In-Reply-To: <cover.1306865217.git.scott.a.garman@intel.com>
+References: <cover.1306865217.git.scott.a.garman@intel.com>
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: F2EAB2FEF8.E0986
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 5/7] useradd-example: example recipe for using inherit useradd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,28 +40,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2011 20:00:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 31 May 2011 20:27:34 -0000
 
-On Tue, May 31, 2011 at 19:51, Scott Garman <scott.a.garman@intel.com> wrot=
-e:
-> That said, I have no idea what criteria should be used to determine which
-> list to send things to, and I'm sure I'm not the only one. Is this
-> documented anywhere?
+An example recipe for demonstrating/documenting how user and
+group manipulation is done with 'inherit useradd'
 
-It seems to me that poky list ought to be not used anymore and patches
-to be send to oe-core as AFAIK Yocto will base on it. Am I missing
-anything?
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
+ .../recipes-skeleton/useradd/useradd-example.bb    |   59 ++++++++++++++++++++
+ 1 files changed, 59 insertions(+), 0 deletions(-)
+ create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
+ create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-example/file1
+ create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-example/file2
+ create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-example/file3
+ create mode 100644 meta-skeleton/recipes-skeleton/useradd/useradd-example/file4
 
-This is really confusing. This is not just regarding mailing lists but
-also IRC channels :-/
+diff --git a/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb b/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
+new file mode 100644
+index 0000000..1e6ae87
+--- /dev/null
++++ b/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
+@@ -0,0 +1,59 @@
++SUMMARY = "Example recipe for using inherit useradd"
++DESCRIPTION = "This recipe serves as an example for using features from useradd.bbclass"
++SECTION = "examples"
++PR = "r0"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++SRC_URI = "file://file1 \
++           file://file2 \
++           file://file3 \
++           file://file4"
++
++S = "${WORKDIR}"
++
++inherit useradd
++
++# Specify which package(s) should include the user/group code.
++# Make sure that any packages which install files owned by custom
++# users/groups are included here. The code which adds users and
++# groups is idempotent.
++USERADD_PACKAGES = "useradd-example"
++
++# You *must* set USERADD_PARAM and/or GROUPADD_PARAM when
++# you inherit useradd.
++
++# USERADD_PARAM specifies command line options to pass to the
++# useradd command. Multiple users can be created by separating
++# the commands with a semicolon. Here we'll create two users,
++# user1 and user3:
++USERADD_PARAM_useradd-example = "-u 1200 -d /home/user1 -r -s /bin/bash user1; -u 1201 -d /home/user3 -r -s /bin/bash user3"
++
++# GROUPADD_PARAM works the same way, which you set to the options
++# you'd normally pass to the groupadd command. This will create
++# groups group1, group2, and group3:
++GROUPADD_PARAM_useradd-example = "-g 880 group1; -g 890 group2; -g 900 group3"
++
++do_install () {
++	install -d -m 755 ${D}/usr/share/user1
++	install -d -m 755 ${D}/usr/share/user3
++	install -p -m 644 file1 ${D}/usr/share/user1/
++	install -p -m 644 file2 ${D}/usr/share/user1/
++	install -p -m 644 file3 ${D}/usr/share/user3/
++	install -p -m 644 file4 ${D}/usr/share/user3/
++
++	# The new users and groups are created before the do_install
++	# step, so you are now free to make use of them:
++	chown -R user1 ${D}/usr/share/user1
++	chown -R user3 ${D}/usr/share/user3
++	chgrp group1 ${D}/usr/share/user1/file1
++	chgrp group3 ${D}/usr/share/user1/file2
++	chgrp group1 ${D}/usr/share/user3/file3
++	chgrp group3 ${D}/usr/share/user3/file4
++}
++
++PACKAGES =+ "${PN}-user3"
++
++FILES_${PN} = "/usr/share/user1/*"
++FILES_${PN}-user3 = "/usr/share/user3/*"
+diff --git a/meta-skeleton/recipes-skeleton/useradd/useradd-example/file1 b/meta-skeleton/recipes-skeleton/useradd/useradd-example/file1
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta-skeleton/recipes-skeleton/useradd/useradd-example/file2 b/meta-skeleton/recipes-skeleton/useradd/useradd-example/file2
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta-skeleton/recipes-skeleton/useradd/useradd-example/file3 b/meta-skeleton/recipes-skeleton/useradd/useradd-example/file3
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta-skeleton/recipes-skeleton/useradd/useradd-example/file4 b/meta-skeleton/recipes-skeleton/useradd/useradd-example/file4
+new file mode 100644
+index 0000000..e69de29
+-- 
+1.7.1
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
