@@ -1,48 +1,26 @@
-Received: from familie-heinold.de ([85.214.48.103]
-	helo=mail.familie-heinold.de) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1QRtdE-00022K-TG
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1QRto7-0002Fw-Ns
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 00:11:16 +0200
-Received: from mail.familie-heinold.de (h873313.serverkompetenz.net
-	[127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id DD488110017B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2011 00:08:05 +0200 (CEST)
-Received: from mail.familie-heinold.de (h873313.serverkompetenz.net
-	[127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 370EB110017A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2011 00:08:05 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,BAYES_40
-	autolearn=ham version=3.3.1
-Received: from rhein.familie-heinold.de (f052230155.adsl.alicedsl.de
-	[78.52.230.155]) by mail.familie-heinold.de (Postfix) with ESMTPA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2011 00:08:05 +0200 (CEST)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id 38E1C3C0E8; Thu,  2 Jun 2011 00:07:00 +0200 (CEST)
-Date: Thu, 2 Jun 2011 00:07:00 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110601220659.GA4601@rhein.zuhause.netz>
-References: <1306944074.2529.107.camel@phil-desktop>
-	<1306944235.2529.109.camel@phil-desktop>
-	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>
-	<1306945014.2529.113.camel@phil-desktop>
-	<4DE66D53.30505@windriver.com>
-	<1306947245.2529.148.camel@phil-desktop>
-	<4DE66FC6.4030607@windriver.com>
-	<1306959728.3119.5.camel@lenovo.internal.reciva.com>
-	<4DE6B685.6060501@mentor.com>
+	Thu, 02 Jun 2011 00:22:31 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 01 Jun 2011 15:19:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,305,1304319600"; 
+   d="scan'208";a="8092497"
+Received: from unknown (HELO [10.255.13.41]) ([10.255.13.41])
+	by orsmga001.jf.intel.com with ESMTP; 01 Jun 2011 15:19:19 -0700
+Message-ID: <4DE6BAE6.3040406@linux.intel.com>
+Date: Wed, 01 Jun 2011 15:19:18 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
-In-Reply-To: <4DE6B685.6060501@mentor.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: dbus-native --with-x
+To: openembedded-core@lists.openembedded.org
+References: <cover.1306958862.git.otavio@ossystems.com.br>	<ddcfd950f58f85e00b0ea094534f27ccf1315152.1306958862.git.otavio@ossystems.com.br>	<1306960406.3119.6.camel@lenovo.internal.reciva.com>	<BANLkTinyA0PAq3bQRTi2zCrWKKOVypytqg@mail.gmail.com>	<1306961600.3119.15.camel@lenovo.internal.reciva.com>	<BANLkTimvA2gMHB=zmZmLqz+CdyAsR3dmXg@mail.gmail.com>	<4DE6B299.2060507@linux.intel.com>
+	<20110601215232.GE3281@jama.jama.net>
+In-Reply-To: <20110601215232.GE3281@jama.jama.net>
+Subject: Re: [PATCH 3/3] gnutls: link against 'dl' library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,27 +35,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 22:11:17 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Jun 2011 22:22:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 01, 2011 at 03:00:37PM -0700, Tom Rini wrote:
-> On 06/01/2011 01:22 PM, Phil Blundell wrote:
-> > On Wed, 2011-06-01 at 11:58 -0500, Mark Hatle wrote:
-> >> It "should" be as simple and adding --without-perl and --without-python to the
-> >> configuration line...  but I haven't tried it.
-> > 
-> > Turns out that rpm-native already does this, but (like the dbus case)
-> > there is no matching logic to get the DEPENDS right.
-> > 
-> > Another instance of a similar thing appears to be sqlite3-native, which
-> > DEPENDS on tcl-native even though it's configured --without-tcl.
-> 
-> Since this keeps coming up, maybe it needs a comment.  sqlite3 needs
-> tcl-native (tclsh) to generate a header file.  No tclsh, no sqlite3.
+On 06/01/2011 02:52 PM, Martin Jansa wrote:
+> On Wed, Jun 01, 2011 at 02:43:53PM -0700, Saul Wold wrote:
+>> On 06/01/2011 02:00 PM, Otavio Salvador wrote:
+>>> On Wed, Jun 1, 2011 at 20:53, Phil Blundell<pb@pbcl.net>   wrote:
+>>>> On Wed, 2011-06-01 at 20:39 +0000, Otavio Salvador wrote:
+>>>>> Are you able to reproduce it?
+>>>>
+>>>> No, it works fine for me.  I get:
+>>>>
+>>>> checking how to link with libpthread... -lpthread
+>>>> checking for libdl... yes
+>>>> checking how to link with libdl... -ldl
+>>>> checking whether we are using the GNU C++ compiler... yes
+>>>>
+>>>> This is with the current head of oe-core on qemuarm.
+>>>
+>>> I am building for i586 but I doubt it is related.
+>>>
+>>> I get:
+>>>
+>>> checking for libpthread... yes
+>>> checking how to link with libpthread... /usr/lib/libpthread.so
+>>> checking for libdl... no
+>>> checking whether we are using the GNU C++ compiler... yes
+>>>
+>> I also built for x86 and beagle, both have libdl, can you check that you
+>> do not have some kind of site configuration that is overriding, also
+>> maybe post your log from .../gnutls-2.12.5/lib/config.log
+>
+> here it tries to link against host libdl
+>
+> configure:26050: checking for libdl
+> configure:26069: arm-oe-linux-gnueabi-gcc -march=armv4t -mtune=arm920t
+> --sysroot=/OE/shr-core/tmp/sysroots/om-gta02 -o conftest -O2 -pipe -g
+> -feliminate-unused-debug-types
+> -I/OE/shr-core/tmp/sysroots/om-gta02/usr/include -Wl,-O1
+> -Wl,--as-needed conftest.c  /usr/lib/libdl.so>&5
+> /usr/lib/libdl.so: file not recognized: File format not recognized
+> collect2: ld returned 1 exit status
+>
+Well that's interesting, since I see it linking using -ldl, there must 
+be some other setting that's affecting this, I have been looking in 
+gnutls to see if I can find something else that sets libdl.so vs -ldl,
+I have not found it.
 
-I thought that is diffrent with 3.7.x version of sqlite3.
+configure:26075: i586-poky-linux-gcc -march=i586 
+--sysroot=/builds/world/tmp/sysroots/qemux86 -o conftest -O2 -pipe -g 
+-feliminate-unused-debug-types 
+-I/builds/world/tmp/sysroots/qemux86/usr/include -Wl,-O1 
+-Wl,--as-needed conftest.c  -ldl >&5
+configure:26075: $? = 0
+configure:26085: result: yes
+configure:26092: checking how to link with libdl
+configure:26094: result: -ldl
 
-Bye Henning
+Sau!
+
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
