@@ -1,28 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QRpcJ-0004h5-E1
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 19:54:04 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jun 2011 10:50:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,304,1304319600"; d="scan'208";a="10459856"
-Received: from unknown (HELO [10.255.13.41]) ([10.255.13.41])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2011 10:50:51 -0700
-Message-ID: <4DE67BFB.2020705@linux.intel.com>
-Date: Wed, 01 Jun 2011 10:50:51 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QRpdh-0004o1-Jf for openembedded-core@lists.openembedded.org;
+	Wed, 01 Jun 2011 19:55:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p51HqJ26015921
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Jun 2011 18:52:19 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15814-02 for <openembedded-core@lists.openembedded.org>;
+	Wed,  1 Jun 2011 18:52:15 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p51HqBx7015915
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Jun 2011 18:52:12 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4DE5CDA3.1020000@linux.intel.com>
-	<4DE5D4AC.4090805@gmail.com>	<20110601061050.GA3281@jama.jama.net>
-	<4DE5DA86.7040808@gmail.com>
-	<1306925194.2529.38.camel@phil-desktop>
-In-Reply-To: <1306925194.2529.38.camel@phil-desktop>
-Subject: Re: [PATCH] tcmode-default: disable ARMv7 Optimization for qt4-x11-free
+In-Reply-To: <1306948467.2529.162.camel@phil-desktop>
+References: <1306948467.2529.162.camel@phil-desktop>
+Date: Wed, 01 Jun 2011 18:51:53 +0100
+Message-ID: <1306950713.27470.457.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: gnu-config-native and perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,51 +42,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 17:54:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 01 Jun 2011 17:55:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/01/2011 03:46 AM, Phil Blundell wrote:
-> On Tue, 2011-05-31 at 23:21 -0700, Khem Raj wrote:
->> On 05/31/2011 11:10 PM, Martin Jansa wrote:
->>> On Tue, May 31, 2011 at 10:57:00PM -0700, Khem Raj wrote:
->>>> On 05/31/2011 10:26 PM, Saul Wold wrote:
->>>>> | ../../include/QtCore/../../src/corelib/arch/qatomic_arm.h:361:35:
->>>>> error: output number 1 not directly addressable
->>>>
->>>> this is a coding error you can fix the source code I guess instead of
->>>> pessimising the whole package
->>>
->>> FWIW: I haven't seen it in my armv7-a builds (nokia900), but I'm using
->>> gcc-4.6 from meta-oe.
->>
->> this is because gcc 4.6 in meta-oe has fix for it its this patch here
->> http://gcc.gnu.org/ml/gcc-patches/2011-03/msg01477.html
->
-> I'm a bit confused by this.  In the first quote above you said that this
-> was a coding error and ought to be fixed in qt, but now you seem to be
-> saying that it's a compiler bug and should be fixed in gcc.  If it's the
-> latter, can we get that patch applied to the oe-core version of gcc?
->
-> Either way, I agree, working around this by just frobbing the
-> architecture options seems like a bad idea.
->
-> p.
->
-Khem,
+On Wed, 2011-06-01 at 18:14 +0100, Phil Blundell wrote:
+> Further to my mini-crusade against perl-native, I discovered that it was
+> also being included during the initial pseudo build because
+> gnu-config-native depends on it.
+> 
+> This also seems a bit mysterious: gnu-config has:
+> 
+> DEPENDS_virtclass-native = "perl-native"
+> 
+> ... which suggests that the dependency on perl-native was indeed
+> intentional rather than accidental.  But later, it has:
+> 
+> 	# In the native case we want the system perl as perl-native can't have built yet
+> 	if [ "${BUILD_ARCH}" != "${TARGET_ARCH}" ]; then
+> 		sed -i -e 's,/usr/bin/env,${bindir}/env,g' ${D}${bindir}/gnu-configize
+> 	fi
+> 
+> ... which suggests that it isn't actually expecting to use the
+> newly-built perl anyway.  Does anybody know what's going on with that?
 
-Is there any chance that you would be willing to throw me a patch that 
-address this issue based on the gcc patch?  If not. let me know and I 
-will try to muddle my way through it ;-)!
+This was merged as a work around to the ton of bugs we were seeing where
+if perl-native was half staged (say the perl binary without libperl)
+when gnu-configize was run you would see build failures or other timing
+related issues.
 
-Sau!
+It works since it makes perl-native happen early and consistently.
 
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+I allowed the workaround on the condition we did go back and fix the
+problem properly, Dexuan has published a series doing just this and many
+perl-native dependencies will disappear when that series merges.
+
+Cheers,
+
+Richard
+
+
 
 
