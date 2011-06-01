@@ -1,37 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QRspy-00013f-Cx
+	(envelope-from <sgw@linux.intel.com>) id 1QRtFs-0001KT-Vq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 23:20:26 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p51LHAgV020276
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 1 Jun 2011 14:17:11 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 1 Jun 2011 14:17:10 -0700
-Message-ID: <4DE6AC56.7010308@windriver.com>
-Date: Wed, 1 Jun 2011 16:17:10 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Wed, 01 Jun 2011 23:47:09 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Jun 2011 14:43:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,305,1304319600"; d="scan'208";a="12193794"
+Received: from unknown (HELO [10.255.13.41]) ([10.255.13.41])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Jun 2011 14:43:54 -0700
+Message-ID: <4DE6B299.2060507@linux.intel.com>
+Date: Wed, 01 Jun 2011 14:43:53 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <1306944074.2529.107.camel@phil-desktop>	
-	<1306944235.2529.109.camel@phil-desktop>	
-	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>	
-	<1306945014.2529.113.camel@phil-desktop>
-	<4DE66D53.30505@windriver.com>	
-	<1306947245.2529.148.camel@phil-desktop>
-	<4DE66FC6.4030607@windriver.com>	
-	<1306948134.2529.158.camel@phil-desktop>
-	<4DE68B24.8060503@windriver.com>
-	<1306958566.3119.1.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1306958566.3119.1.camel@lenovo.internal.reciva.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: rpmdeps, was Re: dbus-native --with-x
+References: <cover.1306958862.git.otavio@ossystems.com.br>	<ddcfd950f58f85e00b0ea094534f27ccf1315152.1306958862.git.otavio@ossystems.com.br>	<1306960406.3119.6.camel@lenovo.internal.reciva.com>	<BANLkTinyA0PAq3bQRTi2zCrWKKOVypytqg@mail.gmail.com>	<1306961600.3119.15.camel@lenovo.internal.reciva.com>
+	<BANLkTimvA2gMHB=zmZmLqz+CdyAsR3dmXg@mail.gmail.com>
+In-Reply-To: <BANLkTimvA2gMHB=zmZmLqz+CdyAsR3dmXg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] gnutls: link against 'dl' library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,28 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 21:20:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 01 Jun 2011 21:47:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/1/11 3:02 PM, Phil Blundell wrote:
-> On Wed, 2011-06-01 at 13:55 -0500, Mark Hatle wrote:
->> The issue is that it uses the librpm, librpmdb, librpmio, and librpmmisc
->> libraries.  These libraries provide and use all of the rest of the components.
-> 
-> Right, but would rpmdeps still be able to do what it needs to if rpm was
-> built --without-openssl etc?  The output from ldd isn't especially
-> enlightening in itself because all that tells us is which libraries
-> librpm was built against.
-> 
-> p.
-> 
-> 
+On 06/01/2011 02:00 PM, Otavio Salvador wrote:
+> On Wed, Jun 1, 2011 at 20:53, Phil Blundell<pb@pbcl.net>  wrote:
+>> On Wed, 2011-06-01 at 20:39 +0000, Otavio Salvador wrote:
+>>> Are you able to reproduce it?
+>>
+>> No, it works fine for me.  I get:
+>>
+>> checking how to link with libpthread... -lpthread
+>> checking for libdl... yes
+>> checking how to link with libdl... -ldl
+>> checking whether we are using the GNU C++ compiler... yes
+>>
+>> This is with the current head of oe-core on qemuarm.
+>
+> I am building for i586 but I doubt it is related.
+>
+> I get:
+>
+> checking for libpthread... yes
+> checking how to link with libpthread... /usr/lib/libpthread.so
+> checking for libdl... no
+> checking whether we are using the GNU C++ compiler... yes
+>
+I also built for x86 and beagle, both have libdl, can you check that you 
+do not have some kind of site configuration that is overriding, also 
+maybe post your log from .../gnutls-2.12.5/lib/config.log
 
-I'm not sure if the libraries that RPM uses would even be able to link w/o
-openssl.  (I never tried it.)  But that will affect people who are using RPM
-packages as signing and validation routines come from openssl.
-
---Mark
+Thanks
+	Sau!
 
 
