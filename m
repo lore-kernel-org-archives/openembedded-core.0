@@ -1,44 +1,29 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QRsZz-0000bQ-9V
+	(envelope-from <mark.hatle@windriver.com>) id 1QRseu-0000fv-7a
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 23:03:51 +0200
-Received: by bwz5 with SMTP id 5so483032bwz.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jun 2011 14:00:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=rCJawYSw0+j7qmv4QzFwWnSemEjzXkQ1nIoj5urgFUQ=;
-	b=yHO74MytptO2XLTfjxA2iCSMrg2Yvw0ZtyzLp3zAQOf8bgt+QMDmpiGCB5vDsj/krD
-	fRadfgLHvUbNFg1+9+M8tmXwxsMR1ueHfBBcSt6DzVEL4VNDiPfsD6dOcCP28emePewq
-	uZQMhYIR77unrJOXO4I0I/AgQgSK1Pe1fH40g=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	b=gXay3sueEQLqp/ph9N/ohn9TyhqFdBjqjEQIZxru+A24QLGyOTiHhu3j5lT0RyTfIB
-	7dnU3uWv5B6dLJpHHonyotk8KO5AcM66HiV7RDlyWbDDe2cNTgXDpFV8LCxBvVpbXgSi
-	1CaucRtqicfOi7HqhXmZJ0o1km6mLpmexHsSo=
+	Wed, 01 Jun 2011 23:08:56 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p51L5hei017847
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 1 Jun 2011 14:05:43 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 1 Jun 2011 14:05:43 -0700
+Message-ID: <4DE6A9A6.4020107@windriver.com>
+Date: Wed, 1 Jun 2011 16:05:42 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-Received: by 10.204.47.18 with SMTP id l18mr7412346bkf.31.1306962040558; Wed,
-	01 Jun 2011 14:00:40 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.78.203 with HTTP; Wed, 1 Jun 2011 14:00:40 -0700 (PDT)
-In-Reply-To: <1306961600.3119.15.camel@lenovo.internal.reciva.com>
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-	<ddcfd950f58f85e00b0ea094534f27ccf1315152.1306958862.git.otavio@ossystems.com.br>
-	<1306960406.3119.6.camel@lenovo.internal.reciva.com>
-	<BANLkTinyA0PAq3bQRTi2zCrWKKOVypytqg@mail.gmail.com>
-	<1306961600.3119.15.camel@lenovo.internal.reciva.com>
-Date: Wed, 1 Jun 2011 21:00:40 +0000
-X-Google-Sender-Auth: 0gfkf4NC4CQYM4ApKLjuhbkDWZY
-Message-ID: <BANLkTimvA2gMHB=zmZmLqz+CdyAsR3dmXg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] gnutls: link against 'dl' library
+To: Scott Garman <scott.a.garman@intel.com>
+References: <cover.1306865217.git.scott.a.garman@intel.com>	<7826575ce92090c4460c7d016e0b06441f84cff7.1306865217.git.scott.a.garman@intel.com>
+	<1306921632.2529.18.camel@phil-desktop>
+	<4DE67A4F.5010703@intel.com>
+In-Reply-To: <4DE67A4F.5010703@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/7] shadow: add a -native recipe with customized utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,37 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 21:03:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 01 Jun 2011 21:08:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 1, 2011 at 20:53, Phil Blundell <pb@pbcl.net> wrote:
-> On Wed, 2011-06-01 at 20:39 +0000, Otavio Salvador wrote:
->> Are you able to reproduce it?
->
-> No, it works fine for me. =A0I get:
->
-> checking how to link with libpthread... -lpthread
-> checking for libdl... yes
-> checking how to link with libdl... -ldl
-> checking whether we are using the GNU C++ compiler... yes
->
-> This is with the current head of oe-core on qemuarm.
+On 6/1/11 12:43 PM, Scott Garman wrote:
+> On 06/01/2011 02:47 AM, Phil Blundell wrote:
+>> On Tue, 2011-05-31 at 12:53 -0700, Scott Garman wrote:
+>>> This adds a -native recipe for the shadow utilities.
+>>>
+>>> The custom --root option allows the the following utilities to be
+>>> run within a chroot when invoked under pseudo:
+>>
+>> Rather than patching the code for all these utilities, can't you just
+>> wrap them in a call to chroot(8)?  That is, make useradd.bbclass do:
+>>
+>> eval $PSEUDO chroot ${STAGING_DIR_TARGET} useradd ...
+>>
+>> rather than the existing
+>>
+>> eval $PSEUDO useradd --root ${STAGING_DIR_TARGET} ...
+> 
+> That's a reasonable suggestion. I haven't tried it yet, but I have found 
+> that pseudo's chroot(2) implementation is not complete. One of the cases 
+> where it does not work is when forking child processes, which breaks the 
+> jail and the child processes are no longer chroot'ed.
+> 
+> My guess is that chroot(8) is going to call chroot(2) and then fork a 
+> child process to run its additional arguments.
 
-I am building for i586 but I doubt it is related.
+chroot should be complete in pseudo, if you can reproduce any failures we should
+pass them upstream.
 
-I get:
+The reason I suggested the --root option was primarily for the ease of people
+who are NOT using the automated scripting, i.e. someone manually adding a
+preinst (or similar) to their recipes.
 
-checking for libpthread... yes
-checking how to link with libpthread... /usr/lib/libpthread.so
-checking for libdl... no
-checking whether we are using the GNU C++ compiler... yes
+The --root option is easier (to me at least) to understand that having to if-def
+stuff around a chroot..  (but that is personal preference...)
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+--Mark
+
+> cc'ing Mark directly in case he has additional comments or needs to 
+> correct me.
+> 
+> Scott
+> 
+
 
 
