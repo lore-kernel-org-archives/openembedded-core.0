@@ -1,34 +1,34 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-px0-f178.google.com ([209.85.212.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QRekh-0003vT-HV
+	(envelope-from <raj.khem@gmail.com>) id 1QRerg-00041i-WB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 08:18:00 +0200
-Received: by pzk36 with SMTP id 36so2516271pzk.6
+	Wed, 01 Jun 2011 08:25:13 +0200
+Received: by pxj25 with SMTP id 25so2349145pxj.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 May 2011 23:14:48 -0700 (PDT)
+	Tue, 31 May 2011 23:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:message-id:date:from:reply-to:user-agent
 	:mime-version:to:cc:subject:references:in-reply-to
 	:x-enigmail-version:content-type:content-transfer-encoding;
-	bh=9Q9UXtVbicVu4McmyJ/RIXkrzkZO+gRKVzPx/ngAyOg=;
-	b=Nzi78porxuu/y9G/q5gIJiceWYuQucriGa7OjJa1HzX2tb+Wx/qd2NpGR8+gefOET+
-	EKzyPhet7dxmbLcT8HO/oiqZQVOc5zgDfpuNepb3K22AUfRMYPtIUlP79n13AeDh5ey2
-	FUlKwR5oWHsLtCQNzhzWLzr0FI1asnzITyw+4=
+	bh=G4itQv9MY5OK5SLjX1THuPuPinXiJpNEHrPQtCzwwYc=;
+	b=QqpJxWwHhYacoW4QlnY+Vl+Q4xLW9zfxKutexRLZqlaL5D3J2lTkEOqfChFS0ujyMn
+	5YgknmyxLNTB5+hK7dc3zHpC5FsQDlh33j8/gdWjGDzPc9ntJtP07bUSuruBh3yEUfrk
+	sDywiniIg5cJYbwL29a9l6tRAsdncS1r+vDus=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=message-id:date:from:reply-to:user-agent:mime-version:to:cc:subject
 	:references:in-reply-to:x-enigmail-version:content-type
 	:content-transfer-encoding;
-	b=sE12U1u4EZWVKHnGyaMXeXnm3l4WOSSFF2PwAsJhcnKoQO7ZW9whOfMXoWqmTlkIFA
-	GtnjEcX+TdvmUvAnnjfx9M1rskrXzrltWoOitswZxBHccjwviPt7zws0aHzKv8iu5Wxc
-	qjsYDG4ZfVJUoJ+UOlEU46I/6YjXID9MzLcW4=
-Received: by 10.142.214.2 with SMTP id m2mr975122wfg.330.1306908888553;
-	Tue, 31 May 2011 23:14:48 -0700 (PDT)
+	b=ciboOfEH33ojyflpp+G/TfeTDCLpSjbR2h9Z7VQNoSJ4dbrxpSKhTKyt0/87FXz7OM
+	CqPh9/zf1HGseGw7hUCG+Qa0GnyyvIi6CflxPNzTQkKKs63eWNJnQi84OuCuRXmA55AI
+	hJOxmVHi6XQvG2CXgMjqdlTu3WMqOuClwc2Wg=
+Received: by 10.142.7.4 with SMTP id 4mr1073001wfg.386.1306909321579;
+	Tue, 31 May 2011 23:22:01 -0700 (PDT)
 Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
 	[99.57.141.118])
-	by mx.google.com with ESMTPS id k2sm470260wfe.3.2011.05.31.23.14.46
-	(version=SSLv3 cipher=OTHER); Tue, 31 May 2011 23:14:47 -0700 (PDT)
-Message-ID: <4DE5D8D4.3020408@gmail.com>
-Date: Tue, 31 May 2011 23:14:44 -0700
+	by mx.google.com with ESMTPS id o16sm474808wff.1.2011.05.31.23.21.59
+	(version=SSLv3 cipher=OTHER); Tue, 31 May 2011 23:22:00 -0700 (PDT)
+Message-ID: <4DE5DA86.7040808@gmail.com>
+Date: Tue, 31 May 2011 23:21:58 -0700
 From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
@@ -55,7 +55,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 06:18:00 -0000
+X-List-Received-Date: Wed, 01 Jun 2011 06:25:13 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
@@ -84,18 +84,23 @@ On 05/31/2011 11:10 PM, Martin Jansa wrote:
 > FWIW: I haven't seen it in my armv7-a builds (nokia900), but I'm using
 > gcc-4.6 from meta-oe.
 > 
+
+this is because gcc 4.6 in meta-oe has fix for it its this patch here
+http://gcc.gnu.org/ml/gcc-patches/2011-03/msg01477.html
+
+a patch developed by linaro folks but now is committed to FSF as well.
+this patch has not been backported to FSF 4.6 branch
+
 > Regards,
 > 
 
-this may give some hints on how to fix it in qt-x11
-https://bugs.launchpad.net/ubuntu/+source/qt4-x11/+bug/673085
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
 
-iEYEARECAAYFAk3l2NQACgkQuwUzVZGdMxQ27gCeKEorKdMnEwd3rRqLAqQ6LX+s
-90kAn3yx+/omTFUbM214frXzdDNQKEFR
-=dO6F
+iEYEARECAAYFAk3l2oUACgkQuwUzVZGdMxQa1ACfaHP5ur/Dlh78nAPI9ViqPaK1
+G60An3/34c1z9ZoM3y8o62fvke32xI9J
+=hDdS
 -----END PGP SIGNATURE-----
 
 
