@@ -1,24 +1,42 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QRsDr-0008K5-RZ for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 22:40:59 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QRsAp-00020R-8c
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QRsFR-0008Mj-7c
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 22:37:51 +0200
-From: Phil Blundell <pb@pbcl.net>
+	Wed, 01 Jun 2011 22:42:37 +0200
+Received: by bwz5 with SMTP id 5so464733bwz.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Jun 2011 13:39:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=i6dX7g6wmTh8JQnQhay/GLbOT8QdWjZlWfSbc66OX4I=;
+	b=NwxP6sMXPugr6l/gMSx91FDih9YL2zCLcRTfBhkUHtOJ8CTJyn7VkKBaqFIqOV4G60
+	JfQxb4r+rb9702CDGR43J1y/CA/FwGALbwWUDbTVo+UkHECp1auykuWRUddYW8Jx0Al3
+	zYbq4Tz2B+R5ib57h7HdZSAcPfLM1+7oQVQOo=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	b=iAuGA8Nv9TNEayfi6E2LuDGOV6v+bh0uJ56jd0qW/hk6sVBLgxkY7M23A9CcGAR16R
+	g55+IrOoeiWWuw6NQd/ZT48u+dLs136sXf9yeiiEmOFrWx6rX43rnwKMZplndeZM7FvK
+	DAjH9b9dPcwzoiGbLE8cdcp0zHAr+B4T98sAA=
+MIME-Version: 1.0
+Received: by 10.204.7.211 with SMTP id e19mr66498bke.139.1306960763523; Wed,
+	01 Jun 2011 13:39:23 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.78.203 with HTTP; Wed, 1 Jun 2011 13:39:23 -0700 (PDT)
+In-Reply-To: <1306960406.3119.6.camel@lenovo.internal.reciva.com>
+References: <cover.1306958862.git.otavio@ossystems.com.br>
+	<ddcfd950f58f85e00b0ea094534f27ccf1315152.1306958862.git.otavio@ossystems.com.br>
+	<1306960406.3119.6.camel@lenovo.internal.reciva.com>
+Date: Wed, 1 Jun 2011 20:39:23 +0000
+X-Google-Sender-Auth: iE-lGia5mXf6LmlhtRjuNcFO4IU
+Message-ID: <BANLkTinyA0PAq3bQRTi2zCrWKKOVypytqg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <e96c2e88aaf1cd22faac3b7ae61ccf34adfe92ba.1306958862.git.otavio@ossystems.com.br>
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-	<e96c2e88aaf1cd22faac3b7ae61ccf34adfe92ba.1306958862.git.otavio@ossystems.com.br>
-Date: Wed, 01 Jun 2011 21:37:45 +0100
-Message-ID: <1306960665.3119.11.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH 1/3] busybox: enable mdev by default
+Subject: Re: [PATCH 3/3] gnutls: link against 'dl' library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,22 +51,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 20:40:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Jun 2011 20:42:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-06-01 at 20:09 +0000, Otavio Salvador wrote:
-> -# CONFIG_MDEV is not set
-> +CONFIG_MDEV=y
+On Wed, Jun 1, 2011 at 20:33, Phil Blundell <pb@pbcl.net> wrote:
+> On Wed, 2011-06-01 at 20:09 +0000, Otavio Salvador wrote:
+>> +export LDFLAGS +=3D "-ldl"
+>
+> The configure script ought to be figuring this out for itself. =A0Do you
+> know why that isn't working?
 
-Per previous discussion, I am still uneasy about this change.  I think
-we really need some sort of coherent policy for what exactly the default
-busybox configuration in oe-core is meant to be doing, and then (if
-necessary) a set of patches to make it match the policy.  Just flipping
-random features on and off does not seem like a good way to proceed.
+No I don't.
 
-p.
+Are you able to reproduce it?
 
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
