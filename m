@@ -1,25 +1,33 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QRlaj-0007es-8z
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 15:36:10 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 01 Jun 2011 06:19:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,303,1304319600"; 
-   d="scan'208";a="7836775"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by orsmga001.jf.intel.com with ESMTP; 01 Jun 2011 06:19:19 -0700
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jun 2011 21:18:41 +0800
-Message-Id: <54704cbb6698218f6d696d2ca72c66b032e3d6fd.1306931849.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.2
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QRlg8-0007oc-JG for openembedded-core@lists.openembedded.org;
+	Wed, 01 Jun 2011 15:41:46 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p51DcQii004719
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Jun 2011 14:38:26 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04617-02 for <openembedded-core@lists.openembedded.org>;
+	Wed,  1 Jun 2011 14:38:22 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p51DcK5H004713
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Jun 2011 14:38:21 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 In-Reply-To: <cover.1306931844.git.dexuan.cui@intel.com>
 References: <cover.1306931844.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1306931844.git.dexuan.cui@intel.com>
-References: <cover.1306931844.git.dexuan.cui@intel.com>
-Subject: [RFC v1 PATCH 10/16] webkit-gtk: should depend on perl-native-runtime rather than perl-native
+Date: Wed, 01 Jun 2011 14:38:03 +0100
+Message-ID: <1306935483.27470.426.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,37 +42,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 13:36:10 -0000
+X-List-Received-Date: Wed, 01 Jun 2011 13:41:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- meta/recipes-sato/webkit/webkit-gtk_svn.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+Hi Dexuan,
 
-diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-index 3c5101b..ac0e683 100644
---- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-+++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-@@ -7,14 +7,14 @@ LIC_FILES_CHKSUM = "file://WebCore/rendering/RenderApplet.h;endline=22;md5=fb969
-                     file://WebKit/gtk/webkit/webkit.h;endline=21;md5=b4fbe9f4a944f1d071dba1d2c76b3351 \
-                     file://JavaScriptCore/parser/Parser.h;endline=23;md5=2f3cff0ad0a9c486da5a376928973a90"
- 
--DEPENDS = "enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base gnome-vfs flex-native gperf-native perl-native sqlite3"
--DEPENDS_darwin8 = "curl icu libxml2 cairo libxslt libidn gnutls gtk+ gstreamer flex-native gperf-native perl-native sqlite3"
-+DEPENDS = "enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base gnome-vfs flex-native gperf-native perl-native-runtime sqlite3"
-+DEPENDS_darwin8 = "curl icu libxml2 cairo libxslt libidn gnutls gtk+ gstreamer flex-native gperf-native perl-native-runtime sqlite3"
- 
- SRCREV_FORMAT = "webcore-rwebkit"
- 
- SRCREV = "72836"
- PV = "1.3.7+svnr${SRCPV}"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "\
-   svn://svn.webkit.org/repository/webkit/trunk/;module=JavaScriptCore;proto=http \
--- 
-1.7.2
+On Wed, 2011-06-01 at 21:18 +0800, Dexuan Cui wrote:
+> Currently both perl-native (a.k.a. ${STAGING_BINDIR_NATIVE}/perl )and
+> perl-native-runtime(a.k.a. the system perl, or /usr/bin/perl) appear in
+> the PATH when bitbake is running.
+> This can cause some race conditions: many places detecting perl from PATH
+> can't make sure which path will be used as this depends on when perl-native's
+> populate_sysroot is finished, e.g., automake-native and autoconf-native could
+> use perl-native-runtime while gnu-config-native could use perl-native and
+> this inconsistent usages can cause trouble, e.g., bug 941.
+> 
+> And, as RP suggested, "the time to use perl-native instead of
+> perl-native-runtime is where any perl module is being built, perl itself is
+> being built or anything that has an explicit dependency on the perl version
+> present".
+> 
+> So I made the following changes to try to address the aboves issues:
+> 1) populate perl-native into its own directory so it won't appear in PATH
+> by default, and add perlnative.bbclass for these recipes that really depend
+> on perl-native;
+> 2) check all perl-native references and correct the ones that should be
+> perl-native-runtime;
+> 3) fix any building issues due to the new location of perl-native,
+> especially cpan and cpan-base .bbclass.
+> 
+> With the changes, bug 941 doesn't appear.
+> 
+> Tests I did are:
+> I tried "bitbale core-image-sato-sdk and meta-toolchain-gmae" in x86_32 and
+> x86_64 Ubuntu hosts and everything seems building fine.
+> 
+> 
+> Please review the changes and comment on them. Thanks!
+
+I had a look through the series and it looks good to me. Hopefully this
+addresses the perl issues people have been seeing once and for all (and
+unclogs the dependencies a little) :)
+
+I'm going to leave this on the mailing list for a while to give others a
+chance to review it though.
+
+Cheers,
+
+Richard
 
 
 
