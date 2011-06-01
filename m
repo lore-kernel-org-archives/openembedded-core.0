@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QRerl-000421-Dd
+	(envelope-from <sgw@linux.intel.com>) id 1QRerk-00041u-4U
 	for openembedded-core@lists.openembedded.org;
 	Wed, 01 Jun 2011 08:25:17 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 31 May 2011 23:22:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,302,1304319600"; d="scan'208";a="10203795"
+X-IronPort-AV: E=Sophos;i="4.65,302,1304319600"; d="scan'208";a="10203794"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.41])
 	by fmsmga002.fm.intel.com with ESMTP; 31 May 2011 23:22:02 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 May 2011 23:21:33 -0700
-Message-Id: <aff6a90767748f4a0b9016b03477103be1fdaf28.1306909184.git.sgw@linux.intel.com>
+Date: Tue, 31 May 2011 23:21:32 -0700
+Message-Id: <eb2eae5ea959b7155a97423f6dcacee8656488aa.1306909184.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1306909184.git.sgw@linux.intel.com>
 References: <cover.1306909184.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1306909184.git.sgw@linux.intel.com>
 References: <cover.1306909184.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 06/32] newt: add Upstream-Status
+Subject: [CONSOLIDATED PULL 05/32] mpeg2dev: add Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,20 +37,22 @@ X-List-Received-Date: Wed, 01 Jun 2011 06:25:18 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../newt/files/remove_slang_include.patch          |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ .../mpeg2dec/mpeg2dec-0.4.1/altivec_h_needed.patch |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-extended/newt/files/remove_slang_include.patch b/meta/recipes-extended/newt/files/remove_slang_include.patch
-index dbdeef0..a2634ec 100644
---- a/meta/recipes-extended/newt/files/remove_slang_include.patch
-+++ b/meta/recipes-extended/newt/files/remove_slang_include.patch
-@@ -1,3 +1,6 @@
-+
+diff --git a/meta/recipes-multimedia/mpeg2dec/mpeg2dec-0.4.1/altivec_h_needed.patch b/meta/recipes-multimedia/mpeg2dec/mpeg2dec-0.4.1/altivec_h_needed.patch
+index ecb3a9d..7dc5643 100644
+--- a/meta/recipes-multimedia/mpeg2dec/mpeg2dec-0.4.1/altivec_h_needed.patch
++++ b/meta/recipes-multimedia/mpeg2dec/mpeg2dec-0.4.1/altivec_h_needed.patch
+@@ -20,6 +20,8 @@ altivec.h is needed by "typedef vector int t;".
+ Here we include another statement "int tmp = __CR6_EQ;", in
+ which __CR6_EQ is defined in altivec.h.
+ 
 +Upstream-Status: Pending
 +
- Index: git/Makefile.in
- ===================================================================
- --- git.orig/Makefile.in
+ Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+ 
+ diff -ruN mpeg2dec-0.4.1-orig/configure.in mpeg2dec-0.4.1/configure.in
 -- 
 1.7.3.4
 
