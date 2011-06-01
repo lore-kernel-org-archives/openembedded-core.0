@@ -1,24 +1,23 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QRmRd-0000Jj-Cq
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QRn3b-0001Eg-FO for openembedded-core@lists.openembedded.org;
+	Wed, 01 Jun 2011 17:10:03 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QRn0Z-0001hS-4o
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 16:30:49 +0200
-Received: by wwi18 with SMTP id 18so3527182wwi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jun 2011 07:27:38 -0700 (PDT)
-Received: by 10.227.197.205 with SMTP id el13mr7550323wbb.84.1306938458679;
-	Wed, 01 Jun 2011 07:27:38 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ge4sm784272wbb.30.2011.06.01.07.27.37
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Jun 2011 07:27:37 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jun 2011 16:27:31 +0200
-Message-Id: <1306938451-29445-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH v2] avahi: enable service when using systemd
+	Wed, 01 Jun 2011 17:06:55 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4DE56B0D.4020209@intel.com>
+References: <4DE56B0D.4020209@intel.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Wed, 01 Jun 2011 16:06:42 +0100
+Message-ID: <1306940803.2529.101.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: Tell me your build error message annoyances!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,58 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 14:30:49 -0000
+X-List-Received-Date: Wed, 01 Jun 2011 15:10:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-connectivity/avahi/avahi.inc       |   18 ++++++++++++++++++
- meta/recipes-connectivity/avahi/avahi_0.6.30.bb |    2 +-
- 2 files changed, 19 insertions(+), 1 deletions(-)
+On Tue, 2011-05-31 at 15:26 -0700, Scott Garman wrote:
+> I'd like to collect some feedback on error messages while building that 
+> you find confusing/annoying/unhelpful. I'm going to be working on trying 
+> to improve the situation and would like to hear from you about what 
+> could be more helpful.
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 099c5a4..9e26a20 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -46,6 +46,24 @@ PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-c
- FILES_avahi-systemd = "${base_libdir}/systemd"
- RDEPENDS_avahi-systemd = "avahi-daemon"
- 
-+pkg_postinst_avahi-systemd() {
-+	# can't do this offline
-+	if [ "x$D" != "x" ]; then
-+		exit 1
-+	fi
-+	
-+	systemctl enable avahi-daemon.service
-+}
-+
-+pkg_postrm_avahi-systemd() {
-+	# can't do this offline
-+	if [ "x$D" != "x" ]; then
-+		exit 1
-+	fi
-+
-+	systemctl disable avahi-daemon.service
-+}
-+
- FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
- FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
- FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-index e63f406..23c0fa0 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
- 
- RDEPENDS_avahi-daemon = "sysvinit-pidof"
--PR = "r1"
-+PR = "r3"
- 
- EXTRA_OECONF += "--disable-gtk3"
- 
--- 
-1.6.6.1
+Funnily enough we were just having a discussion about this on irc.  My
+personal top two least favourite diagnostics are:
+
+a) "bitbake -b nonexistent-file" gives ten lines of so of python
+exception traceback and then prints "MultipleMatches".
+
+b) "bitbake -b recipe.bb", with a recipe that skips (due to an
+inCOMPATIBLE_MACHINE or whatever) gives the traditional ten lines of
+traceback spew and then prints "TypeError: 'NoneType' object is not
+iterable".
+
+This is with bitbake 1.13.0.
+
+p.
+
 
 
 
