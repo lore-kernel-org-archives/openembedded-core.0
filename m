@@ -1,24 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QRlNL-0007Bc-6d
+	(envelope-from <dexuan.cui@intel.com>) id 1QRlNO-0007Bi-0E
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 15:22:19 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jun 2011 06:19:08 -0700
+	Wed, 01 Jun 2011 15:22:22 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 01 Jun 2011 06:19:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,303,1304319600"; d="scan'208";a="10343795"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2011 06:19:07 -0700
+	by orsmga002.jf.intel.com with ESMTP; 01 Jun 2011 06:19:10 -0700
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jun 2011 21:18:32 +0800
-Message-Id: <806387a97c6c01bb724c29f51de511ed43688bb0.1306931848.git.dexuan.cui@intel.com>
+Date: Wed,  1 Jun 2011 21:18:34 +0800
+Message-Id: <f571a1b95821019e2af8011ab1813792179a2312.1306931848.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.2
 In-Reply-To: <cover.1306931844.git.dexuan.cui@intel.com>
 References: <cover.1306931844.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1306931844.git.dexuan.cui@intel.com>
 References: <cover.1306931844.git.dexuan.cui@intel.com>
-Subject: [RFC v1 PATCH 01/16] native.bbclass: allow a native package to be populated into its own dir
+Subject: [RFC v1 PATCH 03/16] perlnative.bbclass: add the file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +32,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 13:22:19 -0000
+X-List-Received-Date: Wed, 01 Jun 2011 13:22:22 -0000
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/classes/native.bbclass |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
+ meta/classes/perlnative.bbclass |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+ create mode 100644 meta/classes/perlnative.bbclass
 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index e06f02a..8a3c294 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -67,6 +67,11 @@ base_prefix = "${STAGING_DIR_NATIVE}"
- prefix = "${STAGING_DIR_NATIVE}${prefix_native}"
- exec_prefix = "${STAGING_DIR_NATIVE}${prefix_native}"
- 
-+PACKAGE_OWN_DIR = ""
-+bindir .= "${PACKAGE_OWN_DIR}"
-+libdir .= "${PACKAGE_OWN_DIR}"
-+libexecdir .= "${PACKAGE_OWN_DIR}"
-+
- do_populate_sysroot[sstate-inputdirs] = "${SYSROOT_DESTDIR}/${STAGING_DIR_NATIVE}"
- do_populate_sysroot[sstate-outputdirs] = "${STAGING_DIR_NATIVE}"
- 
+diff --git a/meta/classes/perlnative.bbclass b/meta/classes/perlnative.bbclass
+new file mode 100644
+index 0000000..522344d
+--- /dev/null
++++ b/meta/classes/perlnative.bbclass
+@@ -0,0 +1,2 @@
++PATH_prepend = "${STAGING_BINDIR_NATIVE}/perl-native:"
++DEPENDS += "perl-native"
 -- 
 1.7.2
 
