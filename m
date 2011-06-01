@@ -1,40 +1,35 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QRqGR-0005fd-0x
+	(envelope-from <mark.hatle@windriver.com>) id 1QRqcv-0005uy-Hu
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 20:35:31 +0200
-Received: by wwb17 with SMTP id 17so76987wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jun 2011 11:32:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=NhcFpov+5jf8Zt+7+KG+PD1g+Z3wCkh0JMCqFRPwALk=;
-	b=kY6bXotfPvpJzw61k6YFii+gG2ikuG8+Lzc+5MSvKDqBLDcWABR0f0DhRFktJQhlu5
-	T2qj9QsGZa7AJQl2XrvCBQ2zLu/iRlC89EjUIP5lgMb2u6vlyY70VnrhQPsJ4t29iLag
-	6uonSqkdZpmWL2zy0HaAMdnCy9e7rJGkVC6xg=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	b=kxHxqZTwe0zbcdiR1s41blXk7OmMOCw4KhVn1m+E+BOXXvaVjvpwwzB86Vcshyf/5O
-	Nb8O/lylnsrdWZyAvPXcKQkx+NvAKjaZ3Rajot+C3KXqxjGLd1sbQ5FJkoWcPsQu/4vB
-	vxFoUt34UDGWEWwsfmEGdyRpFtXgdb++loUzo=
-Received: by 10.216.67.72 with SMTP id i50mr7570875wed.29.1306953140120; Wed,
-	01 Jun 2011 11:32:20 -0700 (PDT)
+	Wed, 01 Jun 2011 20:58:45 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p51ItXxO023908
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 1 Jun 2011 11:55:33 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 1 Jun 2011 11:55:32 -0700
+Message-ID: <4DE68B24.8060503@windriver.com>
+Date: Wed, 1 Jun 2011 13:55:32 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-Received: by 10.216.28.19 with HTTP; Wed, 1 Jun 2011 11:31:50 -0700 (PDT)
-In-Reply-To: <4DE67BFB.2020705@linux.intel.com>
-References: <4DE5CDA3.1020000@linux.intel.com> <4DE5D4AC.4090805@gmail.com>
-	<20110601061050.GA3281@jama.jama.net> <4DE5DA86.7040808@gmail.com>
-	<1306925194.2529.38.camel@phil-desktop>
-	<4DE67BFB.2020705@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 1 Jun 2011 11:31:50 -0700
-Message-ID: <BANLkTi=CkS10E96RWWWMAm11VL6CBjdT6w@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
+To: Phil Blundell <pb@pbcl.net>
+References: <1306944074.2529.107.camel@phil-desktop>	
+	<1306944235.2529.109.camel@phil-desktop>	
+	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>	
+	<1306945014.2529.113.camel@phil-desktop>
+	<4DE66D53.30505@windriver.com>	
+	<1306947245.2529.148.camel@phil-desktop>
+	<4DE66FC6.4030607@windriver.com>
+	<1306948134.2529.158.camel@phil-desktop>
+In-Reply-To: <1306948134.2529.158.camel@phil-desktop>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tcmode-default: disable ARMv7 Optimization for qt4-x11-free
+Subject: rpmdeps, was Re: dbus-native --with-x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,66 +44,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 18:35:31 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 01 Jun 2011 18:58:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 1, 2011 at 10:50 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 06/01/2011 03:46 AM, Phil Blundell wrote:
->>
->> On Tue, 2011-05-31 at 23:21 -0700, Khem Raj wrote:
+On 6/1/11 12:08 PM, Phil Blundell wrote:
+> On Wed, 2011-06-01 at 11:58 -0500, Mark Hatle wrote:
+>> On 6/1/11 11:54 AM, Phil Blundell wrote:
+>>> On Wed, 2011-06-01 at 11:48 -0500, Mark Hatle wrote:
+>>>> So in the above, perl and python are really the only items that could be disabled.
 >>>
->>> On 05/31/2011 11:10 PM, Martin Jansa wrote:
->>>>
->>>> On Tue, May 31, 2011 at 10:57:00PM -0700, Khem Raj wrote:
->>>>>
->>>>> On 05/31/2011 10:26 PM, Saul Wold wrote:
->>>>>>
->>>>>> | ../../include/QtCore/../../src/corelib/arch/qatomic_arm.h:361:35:
->>>>>> error: output number 1 not directly addressable
->>>>>
->>>>> this is a coding error you can fix the source code I guess instead of
->>>>> pessimising the whole package
->>>>
->>>> FWIW: I haven't seen it in my armv7-a builds (nokia900), but I'm using
->>>> gcc-4.6 from meta-oe.
->>>
->>> this is because gcc 4.6 in meta-oe has fix for it its this patch here
->>> http://gcc.gnu.org/ml/gcc-patches/2011-03/msg01477.html
+>>> Just to be clear, in the list you mentioned, were you talking about the
+>>> usage of rpm-native for rpmdeps, or the usage by package_rpm.bbclass
+>>> itself?
 >>
->> I'm a bit confused by this. =C2=A0In the first quote above you said that=
- this
->> was a coding error and ought to be fixed in qt, but now you seem to be
->> saying that it's a compiler bug and should be fixed in gcc. =C2=A0If it'=
-s the
->> latter, can we get that patch applied to the oe-core version of gcc?
+>> I was talking about rpm-native recipe in general, and how it's used.
 >>
->> Either way, I agree, working around this by just frobbing the
->> architecture options seems like a bad idea.
->>
->> p.
->>
-> Khem,
->
-> Is there any chance that you would be willing to throw me a patch that
-> address this issue based on the gcc patch? =C2=A0If not. let me know and =
-I will
-> try to muddle my way through it ;-)!
+>> rpmdeps requires a good chunk of the rpm infrastructure (even if we don't end up
+>> using rpmbuild or rpm commands during the build..)
+> 
+> Do you happen to have a list of what exactly rpmdeps does require?
+> Based on the descriptions you gave before, I'm guessing that it probably
+> doesn't need openssl (since, afaik, it doesn't do any signing) or pcre
+> (since it isn't building any packages) or acl, attr, bzip and zlib
+> (since it also isn't installing anything).  
 
-I dont have the environment to reproduce the error. If you can try to apply=
- gcc
-patch I mentioned to gcc then it should help.
+rpmdeps uses, according to ldd:
 
->
-> Sau!
->
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
+        linux-vdso.so.1
+        librpm-5.4.so
+        librpmdb-5.4.so
+        librpmio-5.4.so
+        librpmmisc-5.4.so
+        libm.so.6
+        libdl.so.2
+        libacl.so.1
+        libattr.so.1
+        libpcreposix.so.0
+        libdb-5.1.so
+        libmagic.so.1
+        liblzma.so.5
+        libbz2.so.0
+        libz.so.1
+        libpthread.so.0
+        librt.so.1
+        libelf.so.1
+        libpopt.so.0
+        libssl.so.0.9.8
+        libcrypto.so.0.9.8
+        libpcre.so.0
+        libc.so.6
+        libgcc_s.so.1
+        /lib64/ld-linux-x86-64.so.2 (0x0000003c51800000)
+
+The issue is that it uses the librpm, librpmdb, librpmio, and librpmmisc
+libraries.  These libraries provide and use all of the rest of the components.
+
+> It presumably does still need pcre, and I have no idea whether it needs
+> db or expat.
+
+pcre is used to handle the file lists and any patterns to generate the lists, or
+dependent informtion.  So that is needed.  expat may be needed in the future, I
+don't see that it is today.
+
+>> It "should" be as simple and adding --without-perl and --without-python to the
+>> configuration line...  but I haven't tried it.
+> 
+> Righto.  I'll give that a try later and see what happens.
+> 
+> p.
+> 
+> 
+
 
 
