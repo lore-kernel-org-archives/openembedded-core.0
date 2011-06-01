@@ -1,35 +1,44 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QRsZ4-0000Zz-Ny
+	(envelope-from <otavio.salvador@gmail.com>) id 1QRsZz-0000bQ-9V
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 23:02:55 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1QRsVt-00015f-Jn from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 13:59:37 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 1 Jun 2011 13:59:37 -0700
-Received: from [172.30.80.84] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
-	Wed, 1 Jun 2011 13:59:37 -0700
-Message-ID: <4DE6A836.3040004@mentor.com>
-Date: Wed, 1 Jun 2011 13:59:34 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	Wed, 01 Jun 2011 23:03:51 +0200
+Received: by bwz5 with SMTP id 5so483032bwz.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Jun 2011 14:00:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=rCJawYSw0+j7qmv4QzFwWnSemEjzXkQ1nIoj5urgFUQ=;
+	b=yHO74MytptO2XLTfjxA2iCSMrg2Yvw0ZtyzLp3zAQOf8bgt+QMDmpiGCB5vDsj/krD
+	fRadfgLHvUbNFg1+9+M8tmXwxsMR1ueHfBBcSt6DzVEL4VNDiPfsD6dOcCP28emePewq
+	uZQMhYIR77unrJOXO4I0I/AgQgSK1Pe1fH40g=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	b=gXay3sueEQLqp/ph9N/ohn9TyhqFdBjqjEQIZxru+A24QLGyOTiHhu3j5lT0RyTfIB
+	7dnU3uWv5B6dLJpHHonyotk8KO5AcM66HiV7RDlyWbDDe2cNTgXDpFV8LCxBvVpbXgSi
+	1CaucRtqicfOi7HqhXmZJ0o1km6mLpmexHsSo=
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1306931844.git.dexuan.cui@intel.com>	<4DE67440.1020405@mentor.com>
-	<1306950977.27470.461.camel@rex>	<4DE69582.2090508@mentor.com>	<1306958729.3119.3.camel@lenovo.internal.reciva.com>	<4DE6A43A.3050401@mentor.com>
-	<1306961135.3119.13.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1306961135.3119.13.camel@lenovo.internal.reciva.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 01 Jun 2011 20:59:37.0437 (UTC)
-	FILETIME=[D13EB0D0:01CC209E]
-Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
+Received: by 10.204.47.18 with SMTP id l18mr7412346bkf.31.1306962040558; Wed,
+	01 Jun 2011 14:00:40 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.78.203 with HTTP; Wed, 1 Jun 2011 14:00:40 -0700 (PDT)
+In-Reply-To: <1306961600.3119.15.camel@lenovo.internal.reciva.com>
+References: <cover.1306958862.git.otavio@ossystems.com.br>
+	<ddcfd950f58f85e00b0ea094534f27ccf1315152.1306958862.git.otavio@ossystems.com.br>
+	<1306960406.3119.6.camel@lenovo.internal.reciva.com>
+	<BANLkTinyA0PAq3bQRTi2zCrWKKOVypytqg@mail.gmail.com>
+	<1306961600.3119.15.camel@lenovo.internal.reciva.com>
+Date: Wed, 1 Jun 2011 21:00:40 +0000
+X-Google-Sender-Auth: 0gfkf4NC4CQYM4ApKLjuhbkDWZY
+Message-ID: <BANLkTimvA2gMHB=zmZmLqz+CdyAsR3dmXg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] gnutls: link against 'dl' library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,34 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 21:02:55 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Jun 2011 21:03:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 06/01/2011 01:45 PM, Phil Blundell wrote:
-> On Wed, 2011-06-01 at 13:42 -0700, Tom Rini wrote:
->> What falls down in this case is that  once
->> perl-native is built (and in our PATH), if it's a different version than
->> system-wide perl, stuff starts failing on version mis-match.
-> 
-> I think that's the bit that I'm not properly understanding.  Which
-> versions are mismatching, exactly?  
-> 
-> Surely the local perl from the sysroot ought to be completely
-> self-contained and shouldn't be using any bits from the host perl
-> install at that point.
+On Wed, Jun 1, 2011 at 20:53, Phil Blundell <pb@pbcl.net> wrote:
+> On Wed, 2011-06-01 at 20:39 +0000, Otavio Salvador wrote:
+>> Are you able to reproduce it?
+>
+> No, it works fine for me. =A0I get:
+>
+> checking how to link with libpthread... -lpthread
+> checking for libdl... yes
+> checking how to link with libdl... -ldl
+> checking whether we are using the GNU C++ compiler... yes
+>
+> This is with the current head of oe-core on qemuarm.
 
-So this jogs my memory a bit!  It's not so much perl itself but stuff
-that uses perl that can get dirty and then no, you have stuff thats
-built for system perl and stuff that's built with perl-native clashing.
+I am building for i586 but I doubt it is related.
 
-Relying even more on memory, I think help2man was one of the "easy"
-culprits and since we also modify the env, we do things like have
-help2man run with PERL5LIB and so on pointing system-wide perl at
-perl-native's lib directory and so forth.
+I get:
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+checking for libpthread... yes
+checking how to link with libpthread... /usr/lib/libpthread.so
+checking for libdl... no
+checking whether we are using the GNU C++ compiler... yes
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
