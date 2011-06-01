@@ -1,47 +1,35 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QRtQA-0001S7-FC
+	(envelope-from <Tom_Rini@mentor.com>) id 1QRtW3-0001t1-O9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 23:58:35 +0200
-Received: by fxm19 with SMTP id 19so424649fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jun 2011 14:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=nujxYTLnb1HCdF/VbdsQjByKNwxDziLCqX7rmcbw3GE=;
-	b=Wi2FMe94WrP2z1wERl/sJQ0en8hSqQENVeTNi5jpjLk98aIdNsPpd53l0973lpnaYt
-	kBk4HGDE44/aqul9RV6RxIUV3RmTPKtp/NU4GVjU0dpUsMng2B2+YEtk2CMR4nyH0N5C
-	V/aqrgdIZyj3KerlrqVIBIZpiigdwN71DArec=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	b=ikroA97qCeOtu2iZUE7nHCmF83toXQR2HVVZeblLDscAdIjGqvVTs17IbXXOV8YDc9
-	vhAPyZVoQ7V/BTaaGq96erBABnqqzIN5VEdb/S7Dp5rzjWQHiho1v4/lGZ4+dPPLf0Zp
-	yyYv0FhgoBKdxB7tSTPTbx2RSWzE3VdVM/zb4=
-Received: by 10.223.33.80 with SMTP id g16mr1882937fad.125.1306965159947;
-	Wed, 01 Jun 2011 14:52:39 -0700 (PDT)
-Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id c1sm546682faa.13.2011.06.01.14.52.38
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Jun 2011 14:52:38 -0700 (PDT)
-Date: Wed, 1 Jun 2011 23:52:32 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110601215232.GE3281@jama.jama.net>
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-	<ddcfd950f58f85e00b0ea094534f27ccf1315152.1306958862.git.otavio@ossystems.com.br>
-	<1306960406.3119.6.camel@lenovo.internal.reciva.com>
-	<BANLkTinyA0PAq3bQRTi2zCrWKKOVypytqg@mail.gmail.com>
-	<1306961600.3119.15.camel@lenovo.internal.reciva.com>
-	<BANLkTimvA2gMHB=zmZmLqz+CdyAsR3dmXg@mail.gmail.com>
-	<4DE6B299.2060507@linux.intel.com>
+	Thu, 02 Jun 2011 00:03:51 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1QRtSz-00063y-5f from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 01 Jun 2011 15:00:41 -0700
+Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 1 Jun 2011 15:00:40 -0700
+Received: from [172.30.80.84] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
+	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
+	Wed, 1 Jun 2011 15:00:38 -0700
+Message-ID: <4DE6B685.6060501@mentor.com>
+Date: Wed, 1 Jun 2011 15:00:37 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-In-Reply-To: <4DE6B299.2060507@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Content-Filtered-By: Mailman/MimeDel 2.1.11
-Subject: Re: [PATCH 3/3] gnutls: link against 'dl' library
+To: <openembedded-core@lists.openembedded.org>
+References: <1306944074.2529.107.camel@phil-desktop>	<1306944235.2529.109.camel@phil-desktop>	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>	<1306945014.2529.113.camel@phil-desktop>
+	<4DE66D53.30505@windriver.com>	<1306947245.2529.148.camel@phil-desktop>	<4DE66FC6.4030607@windriver.com>
+	<1306959728.3119.5.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1306959728.3119.5.camel@lenovo.internal.reciva.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 01 Jun 2011 22:00:40.0038 (UTC)
+	FILETIME=[58534060:01CC20A7]
+Subject: Re: dbus-native --with-x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,57 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 21:58:35 -0000
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="DNUSDXU7R7AVVM8C"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Jun 2011 22:03:52 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
---DNUSDXU7R7AVVM8C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 06/01/2011 01:22 PM, Phil Blundell wrote:
+> On Wed, 2011-06-01 at 11:58 -0500, Mark Hatle wrote:
+>> It "should" be as simple and adding --without-perl and --without-python to the
+>> configuration line...  but I haven't tried it.
+> 
+> Turns out that rpm-native already does this, but (like the dbus case)
+> there is no matching logic to get the DEPENDS right.
+> 
+> Another instance of a similar thing appears to be sqlite3-native, which
+> DEPENDS on tcl-native even though it's configured --without-tcl.
 
-On Wed, Jun 01, 2011 at 02:43:53PM -0700, Saul Wold wrote:
-> On 06/01/2011 02:00 PM, Otavio Salvador wrote:
-> > On Wed, Jun 1, 2011 at 20:53, Phil Blundell<pb@pbcl.net>  wrote:
-> >> On Wed, 2011-06-01 at 20:39 +0000, Otavio Salvador wrote:
-> >>> Are you able to reproduce it?
-> >>
-> >> No, it works fine for me.  I get:
-> >>
-> >> checking how to link with libpthread... -lpthread
-> >> checking for libdl... yes
-> >> checking how to link with libdl... -ldl
-> >> checking whether we are using the GNU C++ compiler... yes
-> >>
-> >> This is with the current head of oe-core on qemuarm.
-> >
-> > I am building for i586 but I doubt it is related.
-> >
-> > I get:
-> >
-> > checking for libpthread... yes
-> > checking how to link with libpthread... /usr/lib/libpthread.so
-> > checking for libdl... no
-> > checking whether we are using the GNU C++ compiler... yes
-> >
-> I also built for x86 and beagle, both have libdl, can you check that you=
-=20
-> do not have some kind of site configuration that is overriding, also=20
-> maybe post your log from .../gnutls-2.12.5/lib/config.log
+Since this keeps coming up, maybe it needs a comment.  sqlite3 needs
+tcl-native (tclsh) to generate a header file.  No tclsh, no sqlite3.
 
-here it tries to link against host libdl
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
-configure:26050: checking for libdl
-configure:26069: arm-oe-linux-gnueabi-gcc -march=3Darmv4t -mtune=3Darm920t
---sysroot=3D/OE/shr-core/tmp/sysroots/om-gta02 -o conftest -O2 -pipe -g
--feliminate-unused-debug-types
--I/OE/shr-core/tmp/sysroots/om-gta02/usr/include -Wl,-O1
--Wl,--as-needed conftest.c  /usr/lib/libdl.so >&5
-/usr/lib/libdl.so: file not recognized: File format not recognized
-collect2: ld returned 1 exit status
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---DNUSDXU7R7AVVM8C--
