@@ -1,41 +1,35 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QRrn9-0007QO-8W
+	(envelope-from <otavio.salvador@gmail.com>) id 1QRrnA-0007QP-AR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 22:13:23 +0200
-Received: by gyf1 with SMTP id 1so82582gyf.6
+	Wed, 01 Jun 2011 22:13:24 +0200
+Received: by gxk3 with SMTP id 3so78819gxk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jun 2011 13:10:11 -0700 (PDT)
+	Wed, 01 Jun 2011 13:10:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
-	:x-mailer:in-reply-to:references:in-reply-to:references;
-	bh=51nyXVeViqkVjA1cTW9a/CY2afSRxN4o7JIlytfQ6Zw=;
-	b=UAHp/d6UkhJcrgJZdc1oqIieY2rspeLdWfGT4sw4xplNQR9Tq5bm8GxBmJ7g+lb8Gz
-	5RrTn0XJcPzQHpllysMFDmMS2IJLOuO3eeFWp7jvB5imgtrbzkB7bP5Y9GGcIUDh6y4Z
-	7+UePJnbdKQSNH6ZIYTzN7PnKuxx9Y2+gG294=
+	:x-mailer; bh=qWj7B5XXoiDIUjoiWZCVNuMjXm5ZDs140M83C1HCH3Q=;
+	b=pQwTLlb31JqnD6YjJqd0XWQM9/qf9xmHpzLJXwM4pTlOAeLXhQ59A4+F+xmXwF2F0V
+	Kxq0RHUAs+9Nv4vAA8NuUqeit+soLr5+/r6wPuuOhOpGf3do+rNKQ97H1gI8gqISXsZY
+	pnUGWhIebdc7Ixe3c+2az8yOA65MUV/6XqaHg=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references;
-	b=FkC5Nslblu8Bbxtu5l61ZEnl8Oo8XG4nidoIaDNTm7dj6hmx0Xt1Yta31Dm71VFjF5
-	MP+7Fd0Wa2OhWDYy/BcUH4oOS3Rk4n21shpbCIRQNBnd9KHBU0vVa3HCFDYJ/Kl5BF6L
-	oqFcwm9y3Q9kWu48Sro1UT9acHhnEmG9xVk3g=
-Received: by 10.91.47.7 with SMTP id z7mr519905agj.137.1306959011852;
-	Wed, 01 Jun 2011 13:10:11 -0700 (PDT)
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	b=vY5BRB/KsxkB8KmRi6UgolwpX4LKX0E3lIk+Xl1mOHlOK+nywzLHQCrSPWg4wAPBKn
+	0OMoYHEvv6RDOMoErGA1SHlmyl6H0fhZwxaZ/4ymKliZx190CPv8wA7Mg3KhHk0tqtmf
+	w2Ccfqn+0wfi8VgCK5y74xJyXNWtBkbJjAgzQ=
+Received: by 10.101.8.31 with SMTP id l31mr4856447ani.134.1306959007409;
+	Wed, 01 Jun 2011 13:10:07 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id b25sm906310anb.46.2011.06.01.13.10.09
+	by mx.google.com with ESMTPS id b25sm906310anb.46.2011.06.01.13.10.05
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Jun 2011 13:10:11 -0700 (PDT)
+	Wed, 01 Jun 2011 13:10:06 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jun 2011 20:09:54 +0000
-Message-Id: <ac909be8f5af8515017da51e7217fc15ef69379e.1306958862.git.otavio@ossystems.com.br>
+Date: Wed,  1 Jun 2011 20:09:52 +0000
+Message-Id: <cover.1306958862.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1306958862.git.otavio@ossystems.com.br>
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1306958862.git.otavio@ossystems.com.br>
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-Subject: [PATCH 2/3] qmake_base.bbclass: fix lrelease/lupdate binary names
+Subject: [PATCH 0/3] Patches pending on O.S. Systems tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,33 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 20:13:23 -0000
+X-List-Received-Date: Wed, 01 Jun 2011 20:13:24 -0000
 
-To support translation, qmake based projects usually call lrelease and
-lupdate however OE changes the binary names so this needs some mangle
-to work out of box.
+The following changes since commit 0a496df0209c93fd00ea929b5f27faa1a6e600c0:
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/classes/qmake_base.bbclass |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
+  clutter-1.6: Add patch to update gettext macro version (2011-06-01 18:32:30 +0100)
 
-diff --git a/meta/classes/qmake_base.bbclass b/meta/classes/qmake_base.bbclass
-index a054efd..165d689 100644
---- a/meta/classes/qmake_base.bbclass
-+++ b/meta/classes/qmake_base.bbclass
-@@ -92,6 +92,11 @@ qmake_base_do_configure() {
- 		bbnote "qmake prevar substitution: ${EXTRA_QMAKEVARS_PRE}"
- 	fi
- 
-+	# Hack .pro files to use OE utilities
-+	find -name '*.pro' \
-+	     -exec sed -i -e 's,=\s*.*/lrelease,= ${OE_QMAKE_LRELEASE},g' \
-+	                  -e 's,=\s*.*/lupdate,= ${OE_QMAKE_LUPDATE},g' '{}' ';'
-+
- #bbnote "Calling '${OE_QMAKE_QMAKE} -makefile -spec ${QMAKESPEC} -o Makefile $QMAKE_VARSUBST_PRE $AFTER $PROFILES $QMAKE_VARSUBST_POST'"
- 	unset QMAKESPEC || true
- 	${OE_QMAKE_QMAKE} -makefile -spec ${QMAKESPEC} -o Makefile $QMAKE_VARSUBST_PRE $AFTER $PROFILES $QMAKE_VARSUBST_POST || die "Error calling ${OE_QMAKE_QMAKE} on $PROFILES"
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/master
+
+Otavio Salvador (3):
+  busybox: enable mdev by default
+  qmake_base.bbclass: fix lrelease/lupdate binary names
+  gnutls: link against 'dl' library
+
+ meta/classes/qmake_base.bbclass                    |    5 +++++
+ meta/recipes-core/busybox/busybox-1.18.4/defconfig |    2 +-
+ meta/recipes-core/busybox/busybox.inc              |    1 -
+ meta/recipes-core/busybox/busybox_1.18.4.bb        |    2 +-
+ meta/recipes-support/gnutls/gnutls.inc             |    4 +++-
+ meta/recipes-support/gnutls/gnutls_2.12.5.bb       |    2 +-
+ 6 files changed, 11 insertions(+), 5 deletions(-)
+
 -- 
 1.7.2.5
 
