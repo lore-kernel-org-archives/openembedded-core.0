@@ -1,40 +1,48 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QRY4L-0008Tc-0v for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 01:10:27 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4VN4OBW022753
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <640e9920@gmail.com>) id 1QRaNq-0002mM-5w
+	for openembedded-core@lists.openembedded.org;
+	Wed, 01 Jun 2011 03:38:06 +0200
+Received: by pzk36 with SMTP id 36so2434295pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Jun 2011 00:04:24 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22737-01 for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jun 2011 00:04:20 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p4VN4JsL022747
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Jun 2011 00:04:19 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 31 May 2011 18:34:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:sender:date:from:to:subject:message-id:reply-to
+	:references:mime-version:content-type:content-disposition
+	:in-reply-to:user-agent;
+	bh=PRACDW0zDmbzsmuNuFe6pF9pfgWxwSzC2cD8/0Ncw2o=;
+	b=nh6MRigoPqCxdP8kQhw7a79Lr0Ak5wIWepb9GyoGp9BdWxKxuV8sFSJCxxCSKe9wux
+	AAsLqSlVlaXcI0XYshEfOHYvy3h+AkFh4XgB4YNOKWh7U6QGZ//Q/6N0d53QArxGr9ZI
+	5/zHwHOD3lqDr7bUdzni6beGF9IHEcQVXsz+g=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=sender:date:from:to:subject:message-id:reply-to:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent;
+	b=g26hwseAxI6yhRkaaiUfPZJA3PVIOrTOybD2ke615C43YzPtpsmF4kTpe4CVWHtsTT
+	4GP2EIACg/UwuhW/gjj7RyzF+Z331t7qG3LcY9ZUDam+pxSzt/8f5Hc/nnQL0piumQ0H
+	PZYEDIGTTuZoPLhac0kFz+Njchxa7rkWVgk/g=
+Received: by 10.68.31.197 with SMTP id c5mr2805640pbi.247.1306892095278;
+	Tue, 31 May 2011 18:34:55 -0700 (PDT)
+Received: from localhost (c-24-22-115-171.hsd1.or.comcast.net [24.22.115.171])
+	by mx.google.com with ESMTPS id y2sm539780pbg.56.2011.05.31.18.34.53
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 31 May 2011 18:34:54 -0700 (PDT)
+Sender: mgross <640e9920@gmail.com>
+Date: Tue, 31 May 2011 18:34:52 -0700
+From: mark gross <markgross@thegnar.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1306371583.27470.96.camel@rex>
-References: <1306342881.2525.258.camel@phil-desktop>
-	<1306364520.27470.81.camel@rex> <1306368023.27470.91.camel@rex>
-	<BANLkTimYeFSAq30E3hC3HdJ9r81WyOD0bw@mail.gmail.com>
-	<1306371583.27470.96.camel@rex>
-Date: Wed, 01 Jun 2011 00:04:03 +0100
-Message-ID: <1306883043.27470.403.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: RDEPENDS_${PN} and virtclass-native
+Message-ID: <20110601013452.GA12171@gvim.org>
+References: <4DE56B0D.4020209@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <4DE56B0D.4020209@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: Tell me your build error message annoyances!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: markgross@thegnar.org,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -45,41 +53,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 May 2011 23:10:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Jun 2011 01:38:06 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 2011-05-26 at 01:59 +0100, Richard Purdie wrote:
-> Of course its not that simple. I just discovered:
+On Tue, May 31, 2011 at 03:26:21PM -0700, Scott Garman wrote:
+> Hey folks,
 > 
-> OVERRIDES = "z"
-> DEPENDS_prepend = "a "
-> DEPENDS = "b"
-> DEPENDS_z = "c"
+> I'd like to collect some feedback on error messages while building
+> that you find confusing/annoying/unhelpful. I'm going to be working
+> on trying to improve the situation and would like to hear from you
+> about what could be more helpful.
+
+
+You can make SkipPackage print out what recipes is getting skipped!  I
+blew a bunch of time trying to build qemu64 minimal target before I
+found that you need the meta-intel layer such that grub 2 would be
+provided.  Recipes-bsp has grub 0.97 but, it raises a SkipPackage
+exception if the target is not 32 bit.
+
+bitbake -DDD grub would report NoProvider: grub  Yet show the
+grub_0.97.bb was indeed getting processed.
+
+--mark
+
+
+
 > 
-> d.update_data()
-> d.getVar("DEPENDS") gives "a c"
-> d.update_data()
-> d.getVar("DEPENDS") gives "c"
+> I'm starting to track some of these situations with the following bugs:
 > 
-> since the _prepend is lost after the update_data(), the _z override is
-> not and so the second call overwrites all of DEPENDS.
+> http://bugzilla.pokylinux.org/show_bug.cgi?id=542
 > 
-> We've talked before how overrides should really renameVar, not just copy
-> contents. Obviously there are a lot of subtleties to this though and we
-> can't just switch due to backwards compatibility :/
+> http://bugzilla.pokylinux.org/show_bug.cgi?id=1127
 > 
-> Depending on the number of update_data() calls is truly horrible
-> behaviour though :(
-
-I've looked into this and started an RFC thread over on the
-bitbake-devel list:
-
-http://lists.linuxtogo.org/pipermail/bitbake-devel/2011-June/000903.html
-
-Cheers,
-
-Richard
-
+> http://bugzilla.pokylinux.org/show_bug.cgi?id=1128
+> 
+> I can't promise to fix everything you come up with, but I'd like to
+> try to make a dent in some of these issues and improve the usability
+> of our build system.
+> 
+> Thanks,
+> 
+> Scott
+> 
+> -- 
+> Scott Garman
+> Embedded Linux Engineer - Yocto Project
+> Intel Open Source Technology Center
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
