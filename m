@@ -1,26 +1,42 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QRotm-0003Uy-FX
+	(envelope-from <kergoth@gmail.com>) id 1QRoto-0003V0-Dm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 19:08:02 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jun 2011 10:04:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,304,1304319600"; d="scan'208";a="10439217"
-Received: from unknown (HELO [10.255.13.41]) ([10.255.13.41])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2011 10:04:49 -0700
-Message-ID: <4DE67130.5040700@linux.intel.com>
-Date: Wed, 01 Jun 2011 10:04:48 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Wed, 01 Jun 2011 19:08:04 +0200
+Received: by vws2 with SMTP id 2so2597vws.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Jun 2011 10:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
+	:date:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=RnjTv1WMW3d48MN4EzV+ROpbc0rzB4ghzUyCqtCqUmo=;
+	b=Xg0x3DGYR90RusaCb+yDTI8jhFkUQ7Dj7DWs7i2Luo43Upygk9Sn2SHd7r8Czek/Co
+	WaQB1xN0pN0zT3GfsYOASpOelWXmkudKTg1uwI468/NLJJdnjH46ziVkxFyUiEP6lxDy
+	keqoaDmnYMbXvh5w6LTgzir8srD4duXQnTKvo=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	b=vxvg9z5CDxxc6GAV57BQAbysZ/BgVdynBrtMH33f2LkxaZRqoZIB3sEjFyMIAQwzYs
+	0Iopy9Tqp9OLeqsHbmeuLkrm5G3di23NFJVsdgNY4/7x8X/ZWMfY/pNM8vLjkG9f9Z4P
+	3qPPnCha/5j/pmnuTJfGgJiCnJx1HH+H/THAQ=
+Received: by 10.52.176.106 with SMTP id ch10mr10310589vdc.155.1306947511097;
+	Wed, 01 Jun 2011 09:58:31 -0700 (PDT)
 MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.52.101.134 with HTTP; Wed, 1 Jun 2011 09:58:11 -0700 (PDT)
+In-Reply-To: <1306945558.27470.435.camel@rex>
+References: <4DE56B0D.4020209@intel.com>
+	<1306940803.2529.101.camel@phil-desktop>
+	<1306945558.27470.435.camel@rex>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 1 Jun 2011 09:58:11 -0700
+X-Google-Sender-Auth: bicOGh18y11mb07MVx-GMqAWxRQ
+Message-ID: <BANLkTi=Q3aMmzd3kAa4usT7wMzyhXL+bnw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1306909184.git.sgw@linux.intel.com>	<937ab8072370293ac6caba070bb2be1e3d5f1039.1306909184.git.sgw@linux.intel.com>
-	<4DE5DC18.3060405@gmail.com>
-In-Reply-To: <4DE5DC18.3060405@gmail.com>
-Subject: Re: [CONSOLIDATED PULL 12/32] libiconv: update to 1.13.1
+Subject: Re: Tell me your build error message annoyances!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,88 +51,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 17:08:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Jun 2011 17:08:04 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 05/31/2011 11:28 PM, Khem Raj wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
+On Wed, Jun 1, 2011 at 9:25 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2011-06-01 at 16:06 +0100, Phil Blundell wrote:
+>> On Tue, 2011-05-31 at 15:26 -0700, Scott Garman wrote:
+>> > I'd like to collect some feedback on error messages while building tha=
+t
+>> > you find confusing/annoying/unhelpful. I'm going to be working on tryi=
+ng
+>> > to improve the situation and would like to hear from you about what
+>> > could be more helpful.
+>>
+>> Funnily enough we were just having a discussion about this on irc. =C2=
+=A0My
+>> personal top two least favourite diagnostics are:
+>>
+>> a) "bitbake -b nonexistent-file" gives ten lines of so of python
+>> exception traceback and then prints "MultipleMatches".
+>>
+>> b) "bitbake -b recipe.bb", with a recipe that skips (due to an
+>> inCOMPATIBLE_MACHINE or whatever) gives the traditional ten lines of
+>> traceback spew and then prints "TypeError: 'NoneType' object is not
+>> iterable".
+>>
+>> This is with bitbake 1.13.0.
 >
-> On 05/31/2011 11:21 PM, Saul Wold wrote:
->> Add Upstream-Status tags to patches
->>
->> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->> ---
->>   .../autoconf.patch                                 |    2 ++
->>   .../shared_preloadable_libiconv_linux.patch        |    2 ++
->>   .../{libiconv_1.11.1.bb =>  libiconv_1.13.1.bb}     |    0
->>   3 files changed, 4 insertions(+), 0 deletions(-)
->>   rename meta/recipes-support/libiconv/{libiconv-1.11.1 =>  libiconv-1.13.1}/autoconf.patch (98%)
->>   rename meta/recipes-support/libiconv/{libiconv-1.11.1 =>  libiconv-1.13.1}/shared_preloadable_libiconv_linux.patch (98%)
->>   rename meta/recipes-support/libiconv/{libiconv_1.11.1.bb =>  libiconv_1.13.1.bb} (100%)
->>
-Richard,
+> Agreed, these are issues.
+>
+> I'd like to highlight that there is an underlying design issue in
+> bitbake which make these hard issues to fix. Its very hard for bitbake
+> to work out when it needs to show the traceback and when it doesn't.
+>
+> If the user has been given an explanation of the problem we shouldn't
+> show the traceback but its hard to know that is the case.
+>
+> Somehow we therefore need to improve the error infrastructure in bitbake
+> to be able to tell the difference between an unexpected error where a
+> traceback is useful and a known error which has been explained to the
+> user and no traceback is required.
 
-Please drop this patch from the series, there more wrong with it, I got 
-caught with a "virtual/libiconv", I thought it built, but it did not.
-
-Sorry about this one.
-	
-Sau!
-
->> diff --git a/meta/recipes-support/libiconv/libiconv-1.11.1/autoconf.patch b/meta/recipes-support/libiconv/libiconv-1.13.1/autoconf.patch
->> similarity index 98%
->> rename from meta/recipes-support/libiconv/libiconv-1.11.1/autoconf.patch
->> rename to meta/recipes-support/libiconv/libiconv-1.13.1/autoconf.patch
->> index 2b24894..3cbf549 100644
->> --- a/meta/recipes-support/libiconv/libiconv-1.11.1/autoconf.patch
->> +++ b/meta/recipes-support/libiconv/libiconv-1.13.1/autoconf.patch
->> @@ -2,6 +2,8 @@ It adds the variables that are needed
->>   for autoconf 2.65 to reconfigure libiconv and defines the m4 macros
->>   directory. Its imported from OE.
->>
->> +Upstream-Status: Pending
->> +
->>   Signed-off-by: Khem Raj<raj.khem@gmail.com>
->>
->>   Index: libiconv-1.11.1/configure.ac
->> diff --git a/meta/recipes-support/libiconv/libiconv-1.11.1/shared_preloadable_libiconv_linux.patch b/meta/recipes-support/libiconv/libiconv-1.13.1/shared_preloadable_libiconv_linux.patch
->> similarity index 98%
->> rename from meta/recipes-support/libiconv/libiconv-1.11.1/shared_preloadable_libiconv_linux.patch
->> rename to meta/recipes-support/libiconv/libiconv-1.13.1/shared_preloadable_libiconv_linux.patch
->> index a913dad..fb07f73 100644
->> --- a/meta/recipes-support/libiconv/libiconv-1.11.1/shared_preloadable_libiconv_linux.patch
->> +++ b/meta/recipes-support/libiconv/libiconv-1.13.1/shared_preloadable_libiconv_linux.patch
->> @@ -4,6 +4,8 @@ Its more enforced by libtool 2.4. I have not checked it with older libtool
->>   libiconv 1.11.x is relatively old release and libtool 2.4 did not exist when it
->>   was released these kind of problem are more likely
->>
->> +Upstream-Status: Pending
->> +
->>   Signed-off-by: Khem Raj<raj.khem@gmail.com>
->>
->>   Index: libiconv-1.11.1/lib/Makefile.in
->> diff --git a/meta/recipes-support/libiconv/libiconv_1.11.1.bb b/meta/recipes-support/libiconv/libiconv_1.13.1.bb
->> similarity index 100%
->> rename from meta/recipes-support/libiconv/libiconv_1.11.1.bb
->> rename to meta/recipes-support/libiconv/libiconv_1.13.1.bb
->
-> FWIW 1.11.1 was last GPLv2 release. So I think you can add 1.13.1 but do
-> not replace 1.11.1 with it.
-> -----BEGIN PGP SIGNATURE-----
-> Version: GnuPG v1.4.11 (GNU/Linux)
-> Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
->
-> iEYEARECAAYFAk3l3BcACgkQuwUzVZGdMxS/0QCaAkbu4wuI/ZJ72mK7zlD3lP8F
-> vlMAniBrJK4jCDvDlqgQtXzUwFVQju/R
-> =ZlZ3
-> -----END PGP SIGNATURE-----
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+I think we have too many places where exceptions are responded to. If
+we pushed the handling up as far as we can, it'd reduce the
+duplication of error handling code a great deal.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
