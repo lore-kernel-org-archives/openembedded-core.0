@@ -1,34 +1,47 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QRtW3-0001t1-O9
+Received: from familie-heinold.de ([85.214.48.103]
+	helo=mail.familie-heinold.de) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <heinold@inf.fu-berlin.de>) id 1QRtdE-00022K-TG
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 00:03:51 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1QRtSz-00063y-5f from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 15:00:41 -0700
-Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 1 Jun 2011 15:00:40 -0700
-Received: from [172.30.80.84] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
-	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
-	Wed, 1 Jun 2011 15:00:38 -0700
-Message-ID: <4DE6B685.6060501@mentor.com>
-Date: Wed, 1 Jun 2011 15:00:37 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1306944074.2529.107.camel@phil-desktop>	<1306944235.2529.109.camel@phil-desktop>	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>	<1306945014.2529.113.camel@phil-desktop>
-	<4DE66D53.30505@windriver.com>	<1306947245.2529.148.camel@phil-desktop>	<4DE66FC6.4030607@windriver.com>
+	Thu, 02 Jun 2011 00:11:16 +0200
+Received: from mail.familie-heinold.de (h873313.serverkompetenz.net
+	[127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id DD488110017B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Jun 2011 00:08:05 +0200 (CEST)
+Received: from mail.familie-heinold.de (h873313.serverkompetenz.net
+	[127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 370EB110017A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Jun 2011 00:08:05 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,BAYES_40
+	autolearn=ham version=3.3.1
+Received: from rhein.familie-heinold.de (f052230155.adsl.alicedsl.de
+	[78.52.230.155]) by mail.familie-heinold.de (Postfix) with ESMTPA
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Jun 2011 00:08:05 +0200 (CEST)
+Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
+	id 38E1C3C0E8; Thu,  2 Jun 2011 00:07:00 +0200 (CEST)
+Date: Thu, 2 Jun 2011 00:07:00 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110601220659.GA4601@rhein.zuhause.netz>
+References: <1306944074.2529.107.camel@phil-desktop>
+	<1306944235.2529.109.camel@phil-desktop>
+	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>
+	<1306945014.2529.113.camel@phil-desktop>
+	<4DE66D53.30505@windriver.com>
+	<1306947245.2529.148.camel@phil-desktop>
+	<4DE66FC6.4030607@windriver.com>
 	<1306959728.3119.5.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1306959728.3119.5.camel@lenovo.internal.reciva.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 01 Jun 2011 22:00:40.0038 (UTC)
-	FILETIME=[58534060:01CC20A7]
+	<4DE6B685.6060501@mentor.com>
+MIME-Version: 1.0
+In-Reply-To: <4DE6B685.6060501@mentor.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Virus-Scanned: ClamAV using ClamSMTP
 Subject: Re: dbus-native --with-x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,26 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 22:03:52 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Jun 2011 22:11:17 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 06/01/2011 01:22 PM, Phil Blundell wrote:
-> On Wed, 2011-06-01 at 11:58 -0500, Mark Hatle wrote:
->> It "should" be as simple and adding --without-perl and --without-python to the
->> configuration line...  but I haven't tried it.
+On Wed, Jun 01, 2011 at 03:00:37PM -0700, Tom Rini wrote:
+> On 06/01/2011 01:22 PM, Phil Blundell wrote:
+> > On Wed, 2011-06-01 at 11:58 -0500, Mark Hatle wrote:
+> >> It "should" be as simple and adding --without-perl and --without-python to the
+> >> configuration line...  but I haven't tried it.
+> > 
+> > Turns out that rpm-native already does this, but (like the dbus case)
+> > there is no matching logic to get the DEPENDS right.
+> > 
+> > Another instance of a similar thing appears to be sqlite3-native, which
+> > DEPENDS on tcl-native even though it's configured --without-tcl.
 > 
-> Turns out that rpm-native already does this, but (like the dbus case)
-> there is no matching logic to get the DEPENDS right.
-> 
-> Another instance of a similar thing appears to be sqlite3-native, which
-> DEPENDS on tcl-native even though it's configured --without-tcl.
+> Since this keeps coming up, maybe it needs a comment.  sqlite3 needs
+> tcl-native (tclsh) to generate a header file.  No tclsh, no sqlite3.
 
-Since this keeps coming up, maybe it needs a comment.  sqlite3 needs
-tcl-native (tclsh) to generate a header file.  No tclsh, no sqlite3.
+I thought that is diffrent with 3.7.x version of sqlite3.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+Bye Henning
 
 
