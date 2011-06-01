@@ -1,48 +1,44 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <640e9920@gmail.com>) id 1QRaNq-0002mM-5w
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 03:38:06 +0200
-Received: by pzk36 with SMTP id 36so2434295pzk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 May 2011 18:34:55 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1QRdXY-00028G-A3; Wed, 01 Jun 2011 07:00:21 +0200
+Received: by bwz5 with SMTP id 5so4873930bwz.6
+	for <multiple recipients>; Tue, 31 May 2011 21:57:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:sender:date:from:to:subject:message-id:reply-to
-	:references:mime-version:content-type:content-disposition
-	:in-reply-to:user-agent;
-	bh=PRACDW0zDmbzsmuNuFe6pF9pfgWxwSzC2cD8/0Ncw2o=;
-	b=nh6MRigoPqCxdP8kQhw7a79Lr0Ak5wIWepb9GyoGp9BdWxKxuV8sFSJCxxCSKe9wux
-	AAsLqSlVlaXcI0XYshEfOHYvy3h+AkFh4XgB4YNOKWh7U6QGZ//Q/6N0d53QArxGr9ZI
-	5/zHwHOD3lqDr7bUdzni6beGF9IHEcQVXsz+g=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=sender:date:from:to:subject:message-id:reply-to:references
+	h=domainkey-signature:date:from:to:cc:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent;
-	b=g26hwseAxI6yhRkaaiUfPZJA3PVIOrTOybD2ke615C43YzPtpsmF4kTpe4CVWHtsTT
-	4GP2EIACg/UwuhW/gjj7RyzF+Z331t7qG3LcY9ZUDam+pxSzt/8f5Hc/nnQL0piumQ0H
-	PZYEDIGTTuZoPLhac0kFz+Njchxa7rkWVgk/g=
-Received: by 10.68.31.197 with SMTP id c5mr2805640pbi.247.1306892095278;
-	Tue, 31 May 2011 18:34:55 -0700 (PDT)
-Received: from localhost (c-24-22-115-171.hsd1.or.comcast.net [24.22.115.171])
-	by mx.google.com with ESMTPS id y2sm539780pbg.56.2011.05.31.18.34.53
+	:user-agent; bh=aKtZWAqgtkunAC+gRMdU40MY8HKIcrRpTgisHz0ZBV8=;
+	b=tBVQlBgmDuDEVG9r52TfWWqLGgPD8OoQuGSSGdHdHox+7fY/7eStvCyKddCW7bCfUM
+	ujItyajE6Tx4v6I3DOxFJiRL/umDS3XhykV9dfjVVpYnX0BEQ7cKZOQ1y3nlLLcst6Yz
+	k6M10NhjfdYQGBBre8sj+wUHdMFDrqRvn6zyw=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=n4avc54mqg3V7mu+adDQ+CBuSkyjShsGSBWCnaRNbmQD7lR8E+fiJuXh7fKW07WJk6
+	ixtxgq4jbHZdm7Rh4gLVYPpjTlXjO57bTSSI0LnQ8O8fudjCzWIzG86POvitme/8nxLU
+	ZLa6qec85qWSCf4d+u9dS8BdQ1vZ6kfI0XwqE=
+Received: by 10.204.81.210 with SMTP id y18mr3377754bkk.175.1306904230068;
+	Tue, 31 May 2011 21:57:10 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id 5sm39036faz.2.2011.05.31.21.57.08
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 31 May 2011 18:34:54 -0700 (PDT)
-Sender: mgross <640e9920@gmail.com>
-Date: Tue, 31 May 2011 18:34:52 -0700
-From: mark gross <markgross@thegnar.org>
+	Tue, 31 May 2011 21:57:08 -0700 (PDT)
+Date: Wed, 1 Jun 2011 06:57:07 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110601013452.GA12171@gvim.org>
-References: <4DE56B0D.4020209@intel.com>
+Message-ID: <20110601045707.GD23647@jama.jama.net>
+References: <BANLkTi=mR7KKfXxiwiF1ZFA6epxx8hfaug@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <4DE56B0D.4020209@intel.com>
+In-Reply-To: <BANLkTi=mR7KKfXxiwiF1ZFA6epxx8hfaug@mail.gmail.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: Tell me your build error message annoyances!
+X-Content-Filtered-By: Mailman/MimeDel 2.1.11
+Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: Re: Parsing errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: markgross@thegnar.org,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -53,57 +49,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 01:38:06 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 01 Jun 2011 05:00:22 -0000
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="q9KOos5vDmpwPx9o"
 Content-Disposition: inline
 
-On Tue, May 31, 2011 at 03:26:21PM -0700, Scott Garman wrote:
-> Hey folks,
-> 
-> I'd like to collect some feedback on error messages while building
-> that you find confusing/annoying/unhelpful. I'm going to be working
-> on trying to improve the situation and would like to hear from you
-> about what could be more helpful.
+--q9KOos5vDmpwPx9o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, May 31, 2011 at 03:45:46PM -0700, Khem Raj wrote:
+> Hi
+>=20
+> In slugos when I updated to today's snapshot of oe-core  and meta-oe
+> its giving me this
+>=20
+> ERROR: Information not available for target 'all-linux'
+>=20
+>                                                   | ETA:  00:00:37
+> ERROR: Error parsing
+> /home/kraj/work/slugos/meta-openembedded/meta-oe/recipes-core/systemd/sys=
+temd-compat-units.bb:
+> Failure expanding variable SITEINFO_ENDIANESS, expression was
+> ${@siteinfo_get_endianess(d)} which triggered exception TypeError:
+> argument of type 'NoneType' is not iterable
+> ERROR: Command execution failed: Exited with 1
+> make: *** [slugos-image] Error 1
+>=20
+>=20
+> I wonder if it has to do with allarch.bbclass
 
-You can make SkipPackage print out what recipes is getting skipped!  I
-blew a bunch of time trying to build qemu64 minimal target before I
-found that you need the meta-intel layer such that grub 2 would be
-provided.  Recipes-bsp has grub 0.97 but, it raises a SkipPackage
-exception if the target is not 32 bit.
+It's because meta-oe has own siteinfo
+meta-openembedded/meta-oe/classes/siteinfo.bbclass
 
-bitbake -DDD grub would report NoProvider: grub  Yet show the
-grub_0.97.bb was indeed getting processed.
+see contrib/jansa/allarch for needed patches I wasn't confident enough
+to send pull request yet, but maybe I should..
 
---mark
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-
-> 
-> I'm starting to track some of these situations with the following bugs:
-> 
-> http://bugzilla.pokylinux.org/show_bug.cgi?id=542
-> 
-> http://bugzilla.pokylinux.org/show_bug.cgi?id=1127
-> 
-> http://bugzilla.pokylinux.org/show_bug.cgi?id=1128
-> 
-> I can't promise to fix everything you come up with, but I'd like to
-> try to make a dent in some of these issues and improve the usability
-> of our build system.
-> 
-> Thanks,
-> 
-> Scott
-> 
-> -- 
-> Scott Garman
-> Embedded Linux Engineer - Yocto Project
-> Intel Open Source Technology Center
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
+--q9KOos5vDmpwPx9o--
