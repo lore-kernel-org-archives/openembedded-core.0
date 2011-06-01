@@ -1,41 +1,28 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QRrtx-00081D-82
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QRryl-00085j-S5 for openembedded-core@lists.openembedded.org;
+	Wed, 01 Jun 2011 22:25:23 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QRrvj-0001zc-83
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 22:20:25 +0200
-Received: by gyf1 with SMTP id 1so85641gyf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jun 2011 13:17:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
-	:x-mailer:in-reply-to:references:in-reply-to:references;
-	bh=ciMnE70Xn7MNJ/RivJBVEDAqcvk+RPwkbxHg+96oMso=;
-	b=ZTYgvJK1Qf3oufSdbvxMrpjhzHm5TmxZnDA87fc1f0fWw95qIET1EMaBCcSQoMnP1D
-	sK8GbHZSsihTOSMDf+7ht4U3vTUqhLj1m0FLKIPrDWzMwJFB/7Is2bB6NX0Vl4TjTO61
-	n4JpFiM2UwLkH7fCjpglJKkanAv4SzBYELqKk=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references;
-	b=Ke3sRj/fr0CJi9793shccmew70GMP1Co7J053iLmhSULmg6NhLlRl2wyVnKBanr9gP
-	bv8ZiKAt4EqRB6O8JeKM9n+nvt4XkbfJYp5vNf2fdzssQdZKkzC5TMWMC5XchtWaF6ts
-	cOLXqsKbl+XqsHsedMeHv77HROuA5ZHH+M3/o=
-Received: by 10.101.183.2 with SMTP id k2mr5316805anp.7.1306959013998;
-	Wed, 01 Jun 2011 13:10:13 -0700 (PDT)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id b25sm906310anb.46.2011.06.01.13.10.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Jun 2011 13:10:13 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jun 2011 20:09:55 +0000
-Message-Id: <ddcfd950f58f85e00b0ea094534f27ccf1315152.1306958862.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <cover.1306958862.git.otavio@ossystems.com.br>
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1306958862.git.otavio@ossystems.com.br>
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-Subject: [PATCH 3/3] gnutls: link against 'dl' library
+	Wed, 01 Jun 2011 22:22:15 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4DE66FC6.4030607@windriver.com>
+References: <1306944074.2529.107.camel@phil-desktop>
+	<1306944235.2529.109.camel@phil-desktop>
+	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>
+	<1306945014.2529.113.camel@phil-desktop> <4DE66D53.30505@windriver.com>
+	<1306947245.2529.148.camel@phil-desktop>
+	<4DE66FC6.4030607@windriver.com>
+Date: Wed, 01 Jun 2011 21:22:08 +0100
+Message-ID: <1306959728.3119.5.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: dbus-native --with-x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,56 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 20:20:25 -0000
+X-List-Received-Date: Wed, 01 Jun 2011 20:25:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fixes a build failure due missing references to 'dlopen' and
-like. This started to happen after update to 2.12.5 at
-ad52eacebdc413aa351de078ee878182a9c71e16. This also fixes the recipe
-to use the INC_PR value otherwise we end not bumping PR if changing
-only the '.inc' file.
+On Wed, 2011-06-01 at 11:58 -0500, Mark Hatle wrote:
+> It "should" be as simple and adding --without-perl and --without-python to the
+> configuration line...  but I haven't tried it.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-support/gnutls/gnutls.inc       |    4 +++-
- meta/recipes-support/gnutls/gnutls_2.12.5.bb |    2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+Turns out that rpm-native already does this, but (like the dbus case)
+there is no matching logic to get the DEPENDS right.
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 9f8d81b..9452190 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
- BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
- DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2) libcap"
- 
--INC_PR = "r1"
-+INC_PR = "r2"
- 
- LICENSE = "GPLv3+ & LGPLv2.1+"
- LICENSE_${PN} = "LGPLv2.1+"
-@@ -30,6 +30,8 @@ do_configure_prepend() {
- 	done
- }
- 
-+export LDFLAGS += "-ldl"
-+
- PACKAGES =+ "${PN}-openssl ${PN}-extra ${PN}-bin ${PN}-xx"
- 
- FILES_${PN} = "${libdir}/libgnutls.so.*"
-diff --git a/meta/recipes-support/gnutls/gnutls_2.12.5.bb b/meta/recipes-support/gnutls/gnutls_2.12.5.bb
-index b27a065..9d3f5ab 100644
---- a/meta/recipes-support/gnutls/gnutls_2.12.5.bb
-+++ b/meta/recipes-support/gnutls/gnutls_2.12.5.bb
-@@ -1,6 +1,6 @@
- require gnutls.inc
- 
--PR = "r0"
-+PR = "${INC_PR}.0"
- 
- SRC_URI += "file://gnutls-openssl.patch \
-             file://configure-fix.patch"
--- 
-1.7.2.5
+Another instance of a similar thing appears to be sqlite3-native, which
+DEPENDS on tcl-native even though it's configured --without-tcl.
+
+p.
+
 
 
 
