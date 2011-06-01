@@ -1,30 +1,25 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QRrg3-0007Hb-Cp for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 22:06:03 +0200
+	id 1QRrie-0007Ki-L9 for openembedded-core@lists.openembedded.org;
+	Wed, 01 Jun 2011 22:08:44 +0200
 Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
 	helo=[192.168.114.3])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>)
-	id 1QRrcz-0001tw-VN; Wed, 01 Jun 2011 22:02:54 +0200
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QRrfc-0001uB-2Q
+	for openembedded-core@lists.openembedded.org;
+	Wed, 01 Jun 2011 22:05:36 +0200
 From: Phil Blundell <pb@pbcl.net>
-To: Mark Hatle <mark.hatle@windriver.com>
-In-Reply-To: <4DE68B24.8060503@windriver.com>
-References: <1306944074.2529.107.camel@phil-desktop>
-	<1306944235.2529.109.camel@phil-desktop>
-	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>
-	<1306945014.2529.113.camel@phil-desktop> <4DE66D53.30505@windriver.com>
-	<1306947245.2529.148.camel@phil-desktop>
-	<4DE66FC6.4030607@windriver.com>
-	<1306948134.2529.158.camel@phil-desktop>
-	<4DE68B24.8060503@windriver.com>
-Date: Wed, 01 Jun 2011 21:02:46 +0100
-Message-ID: <1306958566.3119.1.camel@lenovo.internal.reciva.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4DE69582.2090508@mentor.com>
+References: <cover.1306931844.git.dexuan.cui@intel.com>
+	<4DE67440.1020405@mentor.com> <1306950977.27470.461.camel@rex>
+	<4DE69582.2090508@mentor.com>
+Date: Wed, 01 Jun 2011 21:05:29 +0100
+Message-ID: <1306958729.3119.3.camel@lenovo.internal.reciva.com>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.30.3 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: rpmdeps, was Re: dbus-native --with-x
+Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,20 +34,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 20:06:03 -0000
+X-List-Received-Date: Wed, 01 Jun 2011 20:08:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-06-01 at 13:55 -0500, Mark Hatle wrote:
-> The issue is that it uses the librpm, librpmdb, librpmio, and librpmmisc
-> libraries.  These libraries provide and use all of the rest of the components.
+On Wed, 2011-06-01 at 12:39 -0700, Tom Rini wrote:
+> Maybe race isn't quite the right word.  But recipe A depends on
+> lib$something-perl-native, and brings in perl-native.  It also checks
+> for perl in its auto-foo and finds our perl.  It now also uses our perl
+> when it wants a host perl and all of the potential bad things happen, yes?
 
-Right, but would rpmdeps still be able to do what it needs to if rpm was
-built --without-openssl etc?  The output from ldd isn't especially
-enlightening in itself because all that tells us is which libraries
-librpm was built against.
+What are the circumstances in which it would want a host perl?  I don't
+quite understand the issue here.  Surely anything that the host perl can
+do, perl-native plus some combination of libfoo-perl-native can also do,
+right?
 
 p.
+
 
 
 
