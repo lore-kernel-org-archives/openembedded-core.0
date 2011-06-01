@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QRern-00042u-AM
+	(envelope-from <sgw@linux.intel.com>) id 1QRern-00041j-F4
 	for openembedded-core@lists.openembedded.org;
 	Wed, 01 Jun 2011 08:25:19 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 31 May 2011 23:22:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,302,1304319600"; d="scan'208";a="10203802"
+X-IronPort-AV: E=Sophos;i="4.65,302,1304319600"; d="scan'208";a="10203804"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.41])
 	by fmsmga002.fm.intel.com with ESMTP; 31 May 2011 23:22:03 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 May 2011 23:21:37 -0700
-Message-Id: <cb9d282f6cfb3ee97b179ad6491d66e661944736.1306909184.git.sgw@linux.intel.com>
+Date: Tue, 31 May 2011 23:21:38 -0700
+Message-Id: <93677bdf3562828c43caaf2463a1a831b88e3f78.1306909184.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1306909184.git.sgw@linux.intel.com>
 References: <cover.1306909184.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1306909184.git.sgw@linux.intel.com>
 References: <cover.1306909184.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 10/32] gobject-introspection: Update to 0.10.8 Git
+Subject: [CONSOLIDATED PULL 11/32] dtc: Cleanup and update recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,46 +37,110 @@ X-List-Received-Date: Wed, 01 Jun 2011 06:25:20 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../gnome/gobject-introspection/configure.patch    |    2 ++
- .../gnome/gobject-introspection/pathfix.patch      |    2 ++
- .../gnome/gobject-introspection_git.bb             |    4 ++--
- 3 files changed, 6 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/dtc/dtc-native.inc             |    3 ---
+ meta/recipes-kernel/dtc/dtc-native_git.bb          |    5 -----
+ meta/recipes-kernel/dtc/dtc.inc                    |    8 +++++++-
+ meta/recipes-kernel/dtc/dtc/remove_space_opt.patch |    2 ++
+ meta/recipes-kernel/dtc/dtc_git.bb                 |   15 ++++++++++++---
+ meta/recipes-kernel/dtc/dtc_git.inc                |    8 --------
+ 6 files changed, 21 insertions(+), 20 deletions(-)
+ delete mode 100644 meta/recipes-kernel/dtc/dtc-native.inc
+ delete mode 100644 meta/recipes-kernel/dtc/dtc-native_git.bb
+ delete mode 100644 meta/recipes-kernel/dtc/dtc_git.inc
 
-diff --git a/meta/recipes-gnome/gnome/gobject-introspection/configure.patch b/meta/recipes-gnome/gnome/gobject-introspection/configure.patch
-index c441799..5dcd9b0 100644
---- a/meta/recipes-gnome/gnome/gobject-introspection/configure.patch
-+++ b/meta/recipes-gnome/gnome/gobject-introspection/configure.patch
-@@ -1,3 +1,5 @@
+diff --git a/meta/recipes-kernel/dtc/dtc-native.inc b/meta/recipes-kernel/dtc/dtc-native.inc
+deleted file mode 100644
+index 1da7004..0000000
+--- a/meta/recipes-kernel/dtc/dtc-native.inc
++++ /dev/null
+@@ -1,3 +0,0 @@
+-require dtc.inc
+-
+-inherit native
+diff --git a/meta/recipes-kernel/dtc/dtc-native_git.bb b/meta/recipes-kernel/dtc/dtc-native_git.bb
+deleted file mode 100644
+index fd5bde5..0000000
+--- a/meta/recipes-kernel/dtc/dtc-native_git.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
+-		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
+-
+-require dtc-native.inc
+-require dtc_git.inc
+diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
+index e068df3..cfed15a 100644
+--- a/meta/recipes-kernel/dtc/dtc.inc
++++ b/meta/recipes-kernel/dtc/dtc.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Device Tree Compiler"
+ DESCRIPTION = "The Device Tree Compiler is a tool used to manipulate the Open-Firmware-like device tree used by PowerPC kernels."
+ SECTION = "bootloader"
+ PRIORITY = "optional"
+-LICENSE = "GPL"
++LICENSE = "GPL2 | BSD"
+ DEPENDS = "flex-native bison-native"
+ 
+ inherit autotools
+@@ -11,3 +11,9 @@ do_install() {
+ 	install -m 0755 -d ${D}${bindir}
+ 	install -m 755 dtc ${D}${bindir}/dtc
+ }
++SRC_URI = "git://www.jdl.com/software/dtc.git;protocol=git \
++	file://fix_for_compilation_with_gcc_4.6.0.patch"
++
++INC_PR = "r0"
++
++S = "${WORKDIR}/git"
+diff --git a/meta/recipes-kernel/dtc/dtc/remove_space_opt.patch b/meta/recipes-kernel/dtc/dtc/remove_space_opt.patch
+index 805bf58..8c26dec 100644
+--- a/meta/recipes-kernel/dtc/dtc/remove_space_opt.patch
++++ b/meta/recipes-kernel/dtc/dtc/remove_space_opt.patch
+@@ -1,5 +1,7 @@
+ Remove the -Os flag
+ 
 +Upstream-Status: Inappropriate [configuration]
 +
- Index: git/common.mk
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ Index: git/Makefile
  ===================================================================
- --- git.orig/common.mk	2009-08-19 11:11:26.000000000 +0100
-diff --git a/meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch b/meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch
-index 472cb86..a96e4b1 100644
---- a/meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch
-+++ b/meta/recipes-gnome/gnome/gobject-introspection/pathfix.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
+diff --git a/meta/recipes-kernel/dtc/dtc_git.bb b/meta/recipes-kernel/dtc/dtc_git.bb
+index 1cca32c..e010488 100644
+--- a/meta/recipes-kernel/dtc/dtc_git.bb
++++ b/meta/recipes-kernel/dtc/dtc_git.bb
+@@ -1,7 +1,16 @@
+ require dtc.inc
+-require dtc_git.inc
+-LICENSE="GPLv2|BSD"
 +
- Index: git/giscanner/dumper.py
- ===================================================================
- --- git.orig/giscanner/dumper.py	2010-11-29 15:14:35.000000000 -0800
-diff --git a/meta/recipes-gnome/gnome/gobject-introspection_git.bb b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
-index a47e808..d5723bf 100644
---- a/meta/recipes-gnome/gnome/gobject-introspection_git.bb
-+++ b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
-@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING.tools;md5=94d55d512a9ba36caa9b7df079bae19f \
- 		    file://COPYING.lib;md5=3bf50002aefd002f49e7bb854063f7e7"
+ LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
  
- SRCREV = "efa7266bcf78478ce62e8dd778a4f0417bfd4d15"
--PV = "0.0+git${SRCPV}"
+-SRC_URI += " file://remove_space_opt.patch"
++SRCREV = "73dca9ae0b9abe6924ba640164ecce9f8df69c5a"
++PV = "1.3.0+git${SRCPV}"
++PR = "${INC_PR}.0"
++
++S = "${WORKDIR}/git"
++
++SRC_URI_PATCH = " file://remove_space_opt.patch"
++SRC_URI_PATCH_virtclass-native = ""
++SRC_URI += "${SRC_URI_PATCH}"
++
++BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-kernel/dtc/dtc_git.inc b/meta/recipes-kernel/dtc/dtc_git.inc
+deleted file mode 100644
+index 2400cfe..0000000
+--- a/meta/recipes-kernel/dtc/dtc_git.inc
++++ /dev/null
+@@ -1,8 +0,0 @@
+-SRC_URI = "git://www.jdl.com/software/dtc.git;protocol=git \
+-	file://fix_for_compilation_with_gcc_4.6.0.patch"
+-
+-SRCREV = "73dca9ae0b9abe6924ba640164ecce9f8df69c5a"
+-PV = "1.2.0+git${SRCPV}"
 -PR = "r3"
-+PV = "0.10.8+git${SRCPV}"
-+PR = "r4"
- 
- S = "${WORKDIR}/git"
- 
+-
+-S = "${WORKDIR}/git"
 -- 
 1.7.3.4
 
