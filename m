@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QRlNg-0007OU-AG
+	(envelope-from <dexuan.cui@intel.com>) id 1QRlNh-0007OU-0A
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 15:22:40 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jun 2011 06:19:27 -0700
+	Wed, 01 Jun 2011 15:22:41 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 01 Jun 2011 06:19:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,303,1304319600"; d="scan'208";a="10343888"
+X-IronPort-AV: E=Sophos;i="4.65,303,1304319600"; d="scan'208";a="11944696"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2011 06:19:27 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 01 Jun 2011 06:19:28 -0700
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jun 2011 21:18:46 +0800
-Message-Id: <321197aff1c4bbef7b1740d158a6c43882fdb136.1306931849.git.dexuan.cui@intel.com>
+Date: Wed,  1 Jun 2011 21:18:47 +0800
+Message-Id: <61cd74d1c6ecc8a10c7564dff7e51860258a1b97.1306931849.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.2
 In-Reply-To: <cover.1306931844.git.dexuan.cui@intel.com>
 References: <cover.1306931844.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1306931844.git.dexuan.cui@intel.com>
 References: <cover.1306931844.git.dexuan.cui@intel.com>
-Subject: [RFC v1 PATCH 15/16] libxml-simple-perl: fix EXTRA_PERLFLAGS due the the perlnative change
+Subject: [RFC v1 PATCH 16/16] icon-naming-utils-native: inherit perlnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 13:22:40 -0000
+X-List-Received-Date: Wed, 01 Jun 2011 13:22:41 -0000
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../perl/libxml-simple-perl-native_2.18.bb         |    2 +-
- .../perl/libxml-simple-perl_2.18.bb                |    4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ .../icon-naming-utils-native_0.8.7.bb              |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl/libxml-simple-perl-native_2.18.bb b/meta/recipes-devtools/perl/libxml-simple-perl-native_2.18.bb
-index bfdfc3d..3877d0b 100644
---- a/meta/recipes-devtools/perl/libxml-simple-perl-native_2.18.bb
-+++ b/meta/recipes-devtools/perl/libxml-simple-perl-native_2.18.bb
-@@ -4,4 +4,4 @@ inherit native
- 
- require libxml-simple-perl_${PV}.bb
- 
--DEPENDS = "libxml-parser-perl-native perl-native"
-+DEPENDS += "libxml-parser-perl-native"
-diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
-index ca57776..89b65b2 100644
---- a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
-+++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
-@@ -2,7 +2,7 @@ SECTION = "libs"
- LICENSE = "Artistic"
- LIC_FILES_CHKSUM = "file://README;beginline=70;md5=94aa5d46682b411a53a5494cfb22640e"
- DEPENDS += "libxml-parser-perl"
+diff --git a/meta/recipes-devtools/icon-naming-utils/icon-naming-utils-native_0.8.7.bb b/meta/recipes-devtools/icon-naming-utils/icon-naming-utils-native_0.8.7.bb
+index 18aa374..d34fb03 100644
+--- a/meta/recipes-devtools/icon-naming-utils/icon-naming-utils-native_0.8.7.bb
++++ b/meta/recipes-devtools/icon-naming-utils/icon-naming-utils-native_0.8.7.bb
+@@ -1,6 +1,6 @@
+ LICENSE = "GPLv2"
+ DEPENDS = "libxml-simple-perl-native"
 -PR = "r1"
 +PR = "r2"
  
- SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Simple-${PV}.tar.gz"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
  
-@@ -11,6 +11,6 @@ SRC_URI[sha256sum] = "a54967c188cda3e20f496c83be4de3f1740eeaa83c0380712ecd969ad8
+@@ -8,4 +8,4 @@ SRC_URI = "http://tango.freedesktop.org/releases/icon-naming-utils-0.8.7.tar.gz"
  
- S = "${WORKDIR}/XML-Simple-${PV}"
+ S = "${WORKDIR}/icon-naming-utils-${PV}"
  
--EXTRA_PERLFLAGS = "-I ${STAGING_LIBDIR_NATIVE}/perl/${@get_perl_version(d)}"
-+EXTRA_PERLFLAGS = "-I ${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_version(d)}"
- 
- inherit cpan
+-inherit autotools native
++inherit autotools native perlnative
 -- 
 1.7.2
 
