@@ -1,24 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from exprod5og111.obsmtp.com ([64.18.0.22])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QRlNh-0007OU-0A
+	(envelope-from <martyn.welch@ge.com>) id 1QRlOX-0007SD-Qd
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Jun 2011 15:22:41 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jun 2011 06:19:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,303,1304319600"; d="scan'208";a="11944696"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Jun 2011 06:19:28 -0700
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jun 2011 21:18:47 +0800
-Message-Id: <61cd74d1c6ecc8a10c7564dff7e51860258a1b97.1306931849.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.2
-In-Reply-To: <cover.1306931844.git.dexuan.cui@intel.com>
-References: <cover.1306931844.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1306931844.git.dexuan.cui@intel.com>
-References: <cover.1306931844.git.dexuan.cui@intel.com>
-Subject: [RFC v1 PATCH 16/16] icon-naming-utils-native: inherit perlnative
+	Wed, 01 Jun 2011 15:23:34 +0200
+Received: from Cinmlip06.e2k.ad.ge.com ([165.156.4.1]) (using TLSv1) by
+	exprod5ob111.postini.com ([64.18.4.12]) with SMTP
+	ID DSNKTeY8loJQmTJOgWPm6heWldQXPAj4nA3J@postini.com;
+	Wed, 01 Jun 2011 06:20:25 PDT
+Received: from unknown (HELO cinmlef12.e2k.ad.ge.com) ([3.159.213.59])
+	by Cinmlip06.e2k.ad.ge.com with ESMTP; 01 Jun 2011 08:34:29 -0400
+Received: from [3.138.54.92] ([3.138.54.92]) by cinmlef12.e2k.ad.ge.com with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 1 Jun 2011 08:32:28 -0400
+Message-ID: <4DE631D3.9070703@ge.com>
+Date: Wed, 01 Jun 2011 13:34:27 +0100
+From: Martyn Welch <martyn.welch@ge.com>
+Organization: GE Intelligent Platforms
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1306865217.git.scott.a.garman@intel.com>	<7826575ce92090c4460c7d016e0b06441f84cff7.1306865217.git.scott.a.garman@intel.com>
+	<1306921632.2529.18.camel@phil-desktop>
+In-Reply-To: <1306921632.2529.18.camel@phil-desktop>
+X-Enigmail-Version: 1.1.2
+X-OriginalArrivalTime: 01 Jun 2011 12:32:28.0229 (UTC)
+	FILETIME=[F8060750:01CC2057]
+Subject: Re: [PATCH 2/7] shadow: add a -native recipe with customized utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +41,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jun 2011 13:22:41 -0000
+X-List-Received-Date: Wed, 01 Jun 2011 13:23:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- .../icon-naming-utils-native_0.8.7.bb              |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+On 01/06/11 10:47, Phil Blundell wrote:
+> On Tue, 2011-05-31 at 12:53 -0700, Scott Garman wrote:
+>> This adds a -native recipe for the shadow utilities.
+>>
+>> The custom --root option allows the the following utilities to be
+>> run within a chroot when invoked under pseudo:
+> 
+> Rather than patching the code for all these utilities, can't you just
+> wrap them in a call to chroot(8)?  That is, make useradd.bbclass do:
+> 
+> eval $PSEUDO chroot ${STAGING_DIR_TARGET} useradd ...
+> 
+> rather than the existing
+> 
+> eval $PSEUDO useradd --root ${STAGING_DIR_TARGET} ...
+> 
+> ?
+> 
 
-diff --git a/meta/recipes-devtools/icon-naming-utils/icon-naming-utils-native_0.8.7.bb b/meta/recipes-devtools/icon-naming-utils/icon-naming-utils-native_0.8.7.bb
-index 18aa374..d34fb03 100644
---- a/meta/recipes-devtools/icon-naming-utils/icon-naming-utils-native_0.8.7.bb
-+++ b/meta/recipes-devtools/icon-naming-utils/icon-naming-utils-native_0.8.7.bb
-@@ -1,6 +1,6 @@
- LICENSE = "GPLv2"
- DEPENDS = "libxml-simple-perl-native"
--PR = "r1"
-+PR = "r2"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
-@@ -8,4 +8,4 @@ SRC_URI = "http://tango.freedesktop.org/releases/icon-naming-utils-0.8.7.tar.gz"
- 
- S = "${WORKDIR}/icon-naming-utils-${PV}"
- 
--inherit autotools native
-+inherit autotools native perlnative
+You'd need root privileges to use chroot wouldn't you? I'm assuming you
+wouldn't with the existing.
+
+Martyn
+
 -- 
-1.7.2
-
+Martyn Welch (Principal Software Engineer) | Registered in England and
+GE Intelligent Platforms                   | Wales (3828642) at 100
+T +44(0)127322748                          | Barbirolli Square, Manchester,
+E martyn.welch@ge.com                      | M2 3AB  VAT:GB 927559189
 
 
