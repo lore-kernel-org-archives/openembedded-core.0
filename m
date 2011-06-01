@@ -1,25 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QRert-00042u-DA
+	(envelope-from <sgw@linux.intel.com>) id 1QRert-00041u-F7
 	for openembedded-core@lists.openembedded.org;
 	Wed, 01 Jun 2011 08:25:25 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 31 May 2011 23:22:07 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 31 May 2011 23:22:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,302,1304319600"; d="scan'208";a="10203835"
+X-IronPort-AV: E=Sophos;i="4.65,302,1304319600"; d="scan'208";a="10203838"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.41])
 	by fmsmga002.fm.intel.com with ESMTP; 31 May 2011 23:22:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 May 2011 23:21:56 -0700
-Message-Id: <2bd0c8252591d3c6c8d54a9a5e48eb93a47ab175.1306909184.git.sgw@linux.intel.com>
+Date: Tue, 31 May 2011 23:21:57 -0700
+Message-Id: <ffc939821d439c14d0429381ee45b8e216a9a494.1306909184.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1306909184.git.sgw@linux.intel.com>
 References: <cover.1306909184.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1306909184.git.sgw@linux.intel.com>
 References: <cover.1306909184.git.sgw@linux.intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [CONSOLIDATED PULL 29/32] dbus 1.4.1: disable sysv script properly when using systemd
+Subject: [CONSOLIDATED PULL 30/32] tcmode-default: disable ARMv7 Optimization for qt4-x11-free
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,43 +35,30 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 01 Jun 2011 06:25:26 -0000
 
-From: Koen Kooi <koen@dominion.thruhere.net>
+[YOCTO #1030]
 
-OE-core uses 'dbus-1' as initscript name, which no other distribution(-buildsys) does, so we have to take special measures.
+This diables the ARMv7 optimizations that cause the compiler to fail with the following error
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+| ../../include/QtCore/../../src/corelib/arch/qatomic_arm.h: In function 'void qt_removeObject(QObject*)':
+| ../../include/QtCore/../../src/corelib/arch/qatomic_arm.h:361:35: error: output number 1 not directly addressable
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/dbus/dbus.inc      |    4 ++++
- meta/recipes-core/dbus/dbus_1.4.1.bb |    2 +-
- 2 files changed, 5 insertions(+), 1 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 22514e9..fb2f6d4 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -89,6 +89,10 @@ do_install() {
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 6eb34ef..6393ffd 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -29,6 +29,7 @@ PREFERRED_VERSION_u-boot-mkimage-native_powerpc ?= "2009.08"
+ # Temporary workaround for gcc 4.6.0 ICE with beagleboard
+ # gcc bug: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=47719
+ TARGET_CC_ARCH_arm_pn-mesa-xlib := "${@'${TARGET_CC_ARCH}'.replace('armv7-a','armv5')}"
++TARGET_CC_ARCH_arm_pn-qt4-x11-free := "${@'${TARGET_CC_ARCH}'.replace('armv7-a','armv5')}"
  
- 	install -d ${D}${sysconfdir}/init.d
- 	install -m 0755 ${WORKDIR}/dbus-1.init ${D}${sysconfdir}/init.d/dbus-1
-+
-+	# disable dbus-1 sysv script on systemd installs
-+	# nearly all distros call the initscript plain 'dbus', but OE-core is different
-+	ln -sf /dev/null ${D}/${base_libdir}/systemd/system/dbus-1.service
- }
- 
- do_install_virtclass-native() {
-diff --git a/meta/recipes-core/dbus/dbus_1.4.1.bb b/meta/recipes-core/dbus/dbus_1.4.1.bb
-index f65ef35..252d160 100644
---- a/meta/recipes-core/dbus/dbus_1.4.1.bb
-+++ b/meta/recipes-core/dbus/dbus_1.4.1.bb
-@@ -1,6 +1,6 @@
- include dbus.inc
- 
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI[md5sum] = "99cb057700c0455fb68f8d57902f77ac"
- SRC_URI[sha256sum] = "caa1a0ded2d0f2e95c1d4ec7e3c8bd44834928c5b0ed41a7189963f3593983bd"
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross ?= "${GCCVERSION}"
 -- 
 1.7.3.4
 
