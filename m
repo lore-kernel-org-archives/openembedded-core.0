@@ -1,41 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QS8LD-0007pk-HP
-	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 15:53:39 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Jun 2011 06:50:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,309,1304319600"; d="scan'208";a="12581033"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2011 06:50:26 -0700
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 2 Jun 2011 21:50:25 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Thu, 2 Jun 2011
-	21:50:24 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Patches and discussions about the oe-core layer'
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QS8LZ-0007r1-3e for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 15:54:01 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p52DomKH013346
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 2 Jun 2011 14:50:48 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12816-03 for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Jun 2011 14:50:44 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p52DoaFH013337
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 2 Jun 2011 14:50:40 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 2 Jun 2011 21:50:23 +0800
-Thread-Topic: [OE-core] [RFC v1 PATCH 01/16] native.bbclass: allow a native
-	package to be populated into its own dir
-Thread-Index: AcwgYosnsw/zVwtFRHqyjNjICtOOawAiBOrQABA7F1A=
-Message-ID: <1865303E0DED764181A9D882DEF65FB697F1A027A4@shsmsx502.ccr.corp.intel.com>
-References: <cover.1306931844.git.dexuan.cui@intel.com>
-	<806387a97c6c01bb724c29f51de511ed43688bb0.1306931848.git.dexuan.cui@intel.com>
-	<1306935653.2529.88.camel@phil-desktop>
-	<1865303E0DED764181A9D882DEF65FB697F1A027A0@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB697F1A027A0@shsmsx502.ccr.corp.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Cc: "Wold,
- Saul" <saul.wold@intel.com>
-Subject: Re: [RFC v1 PATCH 01/16] native.bbclass: allow a native package to be populated into its own dir
+In-Reply-To: <cover.1307001679.git.sgw@linux.intel.com>
+References: <cover.1307001679.git.sgw@linux.intel.com>
+Date: Thu, 02 Jun 2011 14:50:16 +0100
+Message-ID: <1307022616.27470.541.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [CONSOLIDATED PULL 00/12] 2-June-2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,36 +42,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 13:53:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 02 Jun 2011 13:54:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Cui, Dexuan wrote:
-> Phil Blundell wrote:
->> On Wed, 2011-06-01 at 21:18 +0800, Dexuan Cui wrote:
->>> +PACKAGE_OWN_DIR =3D ""
->>> +bindir .=3D "${PACKAGE_OWN_DIR}"
->>> +libdir .=3D "${PACKAGE_OWN_DIR}"
->>> +libexecdir .=3D "${PACKAGE_OWN_DIR}"
->>=20
->> I think the general idea of this patch is a good one but I'm not
->> terribly fond of the name of that variable.  If this is meant to be a
->> path suffix that you can optionally set for native packages then how
->> about calling it something like NATIVE_PACKAGE_PATH_SUFFIX?
->=20
-> Hi Phil,
-> Thanks a lot for the suggestion.
-> Surely NATIVE_PACKAGE_PATH_SUFFIX is a much better naming! :-)
-> I'll change to use it.
+On Thu, 2011-06-02 at 01:04 -0700, Saul Wold wrote:
+> Pulling a number of patches and updates from the list, they have been
+> built on the autobuild.
+> 
+> This has the gcc fix for qt4-x11-free in the form of a gcc patch
+> 
+> The following changes since commit 0a496df0209c93fd00ea929b5f27faa1a6e600c0:
+> 
+>   clutter-1.6: Add patch to update gettext macro version (2011-06-01 18:32:30 +0100)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Jingdong Lu (1):
+>   libx11: fix libX11 keysyms to pass xts5 of lsb
+> 
+> Kang Kai (1):
+>   task-core-lsb: add cups and ghostscript into image
+> 
+> Koen Kooi (3):
+>   u-boot: package up u-boot.bin for field upgrades
+>   shadow: remove selinux entry from pam.d/login
+>   avahi: enable service when using systemd
+>
+> Nitin A Kamble (4):
+>   gettext-0.16.1: mark upstream status for gplv2 recipe's patches
+>
+> Phil Blundell (1):
+>   rootfs_ipk: delete opkg metadata if package management not required
+>     and all packages are configured
+> 
 
-Hi RP, Phil,=20
-A new branch dcui/master_perl-native_v2 was created for this better naming(=
-this is the only difference compared with the previous version):
-http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/log/?h=3Ddcui/master_pe=
-rl-native_v2
+I merged the above.
 
-Thanks,
--- Dexuan=
+>   m4: upgrade from 1.4.15 to 1.4.16
+
+Khem asked what the license change was here and it should have been
+mentioned in the commit message.
+
+>   autoconf: upgrade from 2.65 to 2.68
+
+Not pulled as likely dependent on the above.
+
+>   bison: upgrade from 2.4.3 to 2.5
+
+Likewise.
+
+> Saul Wold (2):
+>   ghostscript: Fix up file locations and add i686
+
+Why did this need the location fixups? Something sounds wrong here and
+needs digging into.
+
+>   gcc: Fix volatile access issue for ARM
+
+I merged this.
+
+Cheers,
+
+Richard
+
 
 
