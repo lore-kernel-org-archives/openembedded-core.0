@@ -1,39 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QS8bD-0000Bq-6j for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 16:10:11 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p52E70SM013741
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jun 2011 15:07:00 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 13073-06 for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2011 15:06:56 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p52E6pwP013731
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jun 2011 15:06:51 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QS8lo-0000S7-6d for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 16:21:08 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QS8ik-00036p-Nu
+	for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 16:17:58 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4DE6A836.3040004@mentor.com>
-References: <cover.1306931844.git.dexuan.cui@intel.com>
-	<4DE67440.1020405@mentor.com> <1306950977.27470.461.camel@rex>
-	<4DE69582.2090508@mentor.com>
-	<1306958729.3119.3.camel@lenovo.internal.reciva.com>
-	<4DE6A43A.3050401@mentor.com>
-	<1306961135.3119.13.camel@lenovo.internal.reciva.com>
-	<4DE6A836.3040004@mentor.com>
-Date: Thu, 02 Jun 2011 15:06:31 +0100
-Message-ID: <1307023591.27470.549.camel@rex>
+In-Reply-To: <1306940803.2529.101.camel@phil-desktop>
+References: <4DE56B0D.4020209@intel.com>
+	<1306940803.2529.101.camel@phil-desktop>
+Organization: Phil Blundell Consulting Ltd
+Date: Thu, 02 Jun 2011 15:17:57 +0100
+Message-ID: <1307024277.2529.205.camel@phil-desktop>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
+X-Mailer: Evolution 2.30.3 
+Subject: Re: Tell me your build error message annoyances!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,51 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 14:10:11 -0000
+X-List-Received-Date: Thu, 02 Jun 2011 14:21:08 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-06-01 at 13:59 -0700, Tom Rini wrote:
-> On 06/01/2011 01:45 PM, Phil Blundell wrote:
-> > On Wed, 2011-06-01 at 13:42 -0700, Tom Rini wrote:
-> >> What falls down in this case is that  once
-> >> perl-native is built (and in our PATH), if it's a different version than
-> >> system-wide perl, stuff starts failing on version mis-match.
-> > 
-> > I think that's the bit that I'm not properly understanding.  Which
-> > versions are mismatching, exactly?  
-> > 
-> > Surely the local perl from the sysroot ought to be completely
-> > self-contained and shouldn't be using any bits from the host perl
-> > install at that point.
+On Wed, 2011-06-01 at 16:06 +0100, Phil Blundell wrote:
+> On Tue, 2011-05-31 at 15:26 -0700, Scott Garman wrote:
+> > I'd like to collect some feedback on error messages while building that 
+> > you find confusing/annoying/unhelpful. I'm going to be working on trying 
+> > to improve the situation and would like to hear from you about what 
+> > could be more helpful.
 > 
-> So this jogs my memory a bit!  It's not so much perl itself but stuff
-> that uses perl that can get dirty and then no, you have stuff thats
-> built for system perl and stuff that's built with perl-native clashing.
-> 
-> Relying even more on memory, I think help2man was one of the "easy"
-> culprits and since we also modify the env, we do things like have
-> help2man run with PERL5LIB and so on pointing system-wide perl at
-> perl-native's lib directory and so forth.
+> Funnily enough we were just having a discussion about this on irc.  My
+> personal top two least favourite diagnostics are:
 
-But with the proposed patch series either:
+Another non-favourite: if you fail to specify the right protocol for the
+git fetcher then you end up with something like:
 
-a) help2man depends perlnative.bbclass
+ERROR: Function 'Fetcher failure for URL: 'None'. Fetch command export
+HOME="/home/pb"; export
+GIT_CONFIG="/home/pb/oe/build/tmp-eglibc/sysroots/x86_64-linux/usr/etc/gitconfig"; export PATH="..."; git ls-remote rsync://gitolite@cam-git/pb/linux-2.6.35 master failed with signal 128, output:
+fatal: Could not make temporary directory: No such file or directory
+' failed
 
-In this case it can depend on perl-native being there, its in path and
-things work as per OE.dev.
+Usually the value of $PATH is about half a screenful so this error looks
+more monstrous in real life than it probably does above, and it isn't
+immediately apparent that the "no such file or directory" thing is a
+result of having tried to fetch with the wrong URI scheme. 
 
-b) help2man doesn't depend in perlnative.bbclass
+This is made slightly more irritating by the fact that there isn't much
+consistency between the different fetchers about the URI structure; some
+of them want a "proto" attribute whereas others (including git) want
+"protocol", so it's harder than perhaps it ought to be to remember what
+the correct naming is.
 
-It only sees the system perl.
-
-So I'm still not clear where the problem is?
-
-Cheers,
-
-Richard
-
-
+p.
 
 
 
