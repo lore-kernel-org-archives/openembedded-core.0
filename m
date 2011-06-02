@@ -1,26 +1,25 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QS2xJ-0006YD-Qz
+	(envelope-from <sgw@linux.intel.com>) id 1QS2xK-0006YL-HR
 	for openembedded-core@lists.openembedded.org;
 	Thu, 02 Jun 2011 10:08:38 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jun 2011 01:05:19 -0700
+	by azsmga101.ch.intel.com with ESMTP; 02 Jun 2011 01:05:20 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,308,1304319600"; 
-   d="scan'208";a="5775238"
+   d="scan'208";a="5775242"
 Received: from unknown (HELO swold-MOBL.nomadix.com) ([10.255.12.203])
 	by azsmga001.ch.intel.com with ESMTP; 02 Jun 2011 01:05:19 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2011 01:05:07 -0700
-Message-Id: <ccf6ec192c37d679c6235babedf8cd2402932c64.1307001679.git.sgw@linux.intel.com>
+Date: Thu,  2 Jun 2011 01:05:08 -0700
+Message-Id: <23f9d25f6c692d6415f898e1e353a72d92d762f2.1307001679.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1307001679.git.sgw@linux.intel.com>
 References: <cover.1307001679.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1307001679.git.sgw@linux.intel.com>
 References: <cover.1307001679.git.sgw@linux.intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [CONSOLIDATED PULL 08/12] avahi: enable service when using systemd
+Subject: [CONSOLIDATED PULL 09/12] ghostscript: Fix up file locations and add i686
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,56 +36,80 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 02 Jun 2011 08:08:38 -0000
 
-From: Koen Kooi <koen@dominion.thruhere.net>
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc       |   18 ++++++++++++++++++
- meta/recipes-connectivity/avahi/avahi_0.6.30.bb |    2 +-
- 2 files changed, 19 insertions(+), 1 deletions(-)
+ .../ghostscript/{ => }/ghostscript/arm/objarch.h   |    0
+ .../ghostscript/{ => }/ghostscript/arm/soobjarch.h |    0
+ .../ghostscript/{ => }/ghostscript/i586/objarch.h  |    0
+ .../{ => }/ghostscript/i586/soobjarch.h            |    0
+ meta/recipes-extended/ghostscript/ghostscript/i686 |    1 +
+ .../ghostscript/{ => }/ghostscript/mips/objarch.h  |    0
+ .../{ => }/ghostscript/mips/soobjarch.h            |    0
+ .../{ => }/ghostscript/powerpc/objarch.h           |    0
+ .../{ => }/ghostscript/powerpc/soobjarch.h         |    0
+ .../{ => }/ghostscript/x86_64/objarch.h            |    0
+ .../{ => }/ghostscript/x86_64/soobjarch.h          |    0
+ 11 files changed, 1 insertions(+), 0 deletions(-)
+ rename meta/recipes-extended/ghostscript/{ => }/ghostscript/arm/objarch.h (100%)
+ rename meta/recipes-extended/ghostscript/{ => }/ghostscript/arm/soobjarch.h (100%)
+ rename meta/recipes-extended/ghostscript/{ => }/ghostscript/i586/objarch.h (100%)
+ rename meta/recipes-extended/ghostscript/{ => }/ghostscript/i586/soobjarch.h (100%)
+ create mode 120000 meta/recipes-extended/ghostscript/ghostscript/i686
+ rename meta/recipes-extended/ghostscript/{ => }/ghostscript/mips/objarch.h (100%)
+ rename meta/recipes-extended/ghostscript/{ => }/ghostscript/mips/soobjarch.h (100%)
+ rename meta/recipes-extended/ghostscript/{ => }/ghostscript/powerpc/objarch.h (100%)
+ rename meta/recipes-extended/ghostscript/{ => }/ghostscript/powerpc/soobjarch.h (100%)
+ rename meta/recipes-extended/ghostscript/{ => }/ghostscript/x86_64/objarch.h (100%)
+ rename meta/recipes-extended/ghostscript/{ => }/ghostscript/x86_64/soobjarch.h (100%)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 099c5a4..9e26a20 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -46,6 +46,24 @@ PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-c
- FILES_avahi-systemd = "${base_libdir}/systemd"
- RDEPENDS_avahi-systemd = "avahi-daemon"
- 
-+pkg_postinst_avahi-systemd() {
-+	# can't do this offline
-+	if [ "x$D" != "x" ]; then
-+		exit 1
-+	fi
-+	
-+	systemctl enable avahi-daemon.service
-+}
-+
-+pkg_postrm_avahi-systemd() {
-+	# can't do this offline
-+	if [ "x$D" != "x" ]; then
-+		exit 1
-+	fi
-+
-+	systemctl disable avahi-daemon.service
-+}
-+
- FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
- FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
- FILES_libavahi-ui = "${libdir}/libavahi-ui.so.*"
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-index e63f406..23c0fa0 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
- 
- RDEPENDS_avahi-daemon = "sysvinit-pidof"
--PR = "r1"
-+PR = "r3"
- 
- EXTRA_OECONF += "--disable-gtk3"
- 
+diff --git a/meta/recipes-extended/ghostscript/arm/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/arm/objarch.h
+similarity index 100%
+rename from meta/recipes-extended/ghostscript/arm/objarch.h
+rename to meta/recipes-extended/ghostscript/ghostscript/arm/objarch.h
+diff --git a/meta/recipes-extended/ghostscript/arm/soobjarch.h b/meta/recipes-extended/ghostscript/ghostscript/arm/soobjarch.h
+similarity index 100%
+rename from meta/recipes-extended/ghostscript/arm/soobjarch.h
+rename to meta/recipes-extended/ghostscript/ghostscript/arm/soobjarch.h
+diff --git a/meta/recipes-extended/ghostscript/i586/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/i586/objarch.h
+similarity index 100%
+rename from meta/recipes-extended/ghostscript/i586/objarch.h
+rename to meta/recipes-extended/ghostscript/ghostscript/i586/objarch.h
+diff --git a/meta/recipes-extended/ghostscript/i586/soobjarch.h b/meta/recipes-extended/ghostscript/ghostscript/i586/soobjarch.h
+similarity index 100%
+rename from meta/recipes-extended/ghostscript/i586/soobjarch.h
+rename to meta/recipes-extended/ghostscript/ghostscript/i586/soobjarch.h
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/i686 b/meta/recipes-extended/ghostscript/ghostscript/i686
+new file mode 120000
+index 0000000..87aaca5
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/i686
+@@ -0,0 +1 @@
++i586
+\ No newline at end of file
+diff --git a/meta/recipes-extended/ghostscript/mips/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/mips/objarch.h
+similarity index 100%
+rename from meta/recipes-extended/ghostscript/mips/objarch.h
+rename to meta/recipes-extended/ghostscript/ghostscript/mips/objarch.h
+diff --git a/meta/recipes-extended/ghostscript/mips/soobjarch.h b/meta/recipes-extended/ghostscript/ghostscript/mips/soobjarch.h
+similarity index 100%
+rename from meta/recipes-extended/ghostscript/mips/soobjarch.h
+rename to meta/recipes-extended/ghostscript/ghostscript/mips/soobjarch.h
+diff --git a/meta/recipes-extended/ghostscript/powerpc/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/powerpc/objarch.h
+similarity index 100%
+rename from meta/recipes-extended/ghostscript/powerpc/objarch.h
+rename to meta/recipes-extended/ghostscript/ghostscript/powerpc/objarch.h
+diff --git a/meta/recipes-extended/ghostscript/powerpc/soobjarch.h b/meta/recipes-extended/ghostscript/ghostscript/powerpc/soobjarch.h
+similarity index 100%
+rename from meta/recipes-extended/ghostscript/powerpc/soobjarch.h
+rename to meta/recipes-extended/ghostscript/ghostscript/powerpc/soobjarch.h
+diff --git a/meta/recipes-extended/ghostscript/x86_64/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/x86_64/objarch.h
+similarity index 100%
+rename from meta/recipes-extended/ghostscript/x86_64/objarch.h
+rename to meta/recipes-extended/ghostscript/ghostscript/x86_64/objarch.h
+diff --git a/meta/recipes-extended/ghostscript/x86_64/soobjarch.h b/meta/recipes-extended/ghostscript/ghostscript/x86_64/soobjarch.h
+similarity index 100%
+rename from meta/recipes-extended/ghostscript/x86_64/soobjarch.h
+rename to meta/recipes-extended/ghostscript/ghostscript/x86_64/soobjarch.h
 -- 
 1.7.3.4
 
