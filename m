@@ -1,35 +1,35 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QSDaZ-0000Uj-UV
+	(envelope-from <Tom_Rini@mentor.com>) id 1QSDdm-0000Xb-Kk
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 21:30:28 +0200
-Received: by yia28 with SMTP id 28so252146yia.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jun 2011 12:25:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
-	:x-mailer; bh=5IHyCikCh0rlD2gkVOehB36Dcuiqu1NaLZKOTwypmeQ=;
-	b=LI4+KZqD3rwfu4xzTqvOX0RqwvnX2ztAeUbrHz2L0R/JMCR1MMnHHsUT3Q2z8DYYh+
-	M83ortdJC00vss0nvtoeV5GLDmCj6IwIMqYem3tHEFOfYwDmTi8mmgJzQeWUK6hDeJ0/
-	KroIHES2TQzuAAZ0cb4c3acMPpogSeLZ7w7I8=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	b=dpIHQFzhuHyViw0mNNb5IKBBgoEEpHK5ZZJadtVvzV40fMGLiDXWiCPUqUuLuolbCK
-	MOltTiF0cOgyXnxuCQ7b/GkVqD/i5mxDFHV+u6/XVcHmrIPt/RpesUmQcpcksjjwUcZc
-	boEPNs31laLphEgSLc8IdiLf2SuIhKrt//fYs=
-Received: by 10.150.189.17 with SMTP id m17mr1051052ybf.34.1307042730330;
-	Thu, 02 Jun 2011 12:25:30 -0700 (PDT)
-Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id o45sm689081yhk.63.2011.06.02.12.25.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Jun 2011 12:25:29 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2011 19:25:13 +0000
-Message-Id: <cover.1307042670.git.otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH 0/4] Pending patches from O.S. Systems tree
+	Thu, 02 Jun 2011 21:33:10 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QSDai-0005oH-46 from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 12:30:00 -0700
+Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 2 Jun 2011 12:26:21 -0700
+Received: from [172.30.80.84] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
+	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 2 Jun 2011 12:29:59 -0700
+Message-ID: <4DE7E4B4.205@mentor.com>
+Date: Thu, 2 Jun 2011 12:29:56 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1306944074.2529.107.camel@phil-desktop>	<1306944235.2529.109.camel@phil-desktop>	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>	<1306945014.2529.113.camel@phil-desktop>	<4DE66D53.30505@windriver.com>	<1306947245.2529.148.camel@phil-desktop>	<4DE66FC6.4030607@windriver.com>	<1306959728.3119.5.camel@lenovo.internal.reciva.com>	<4DE6B685.6060501@mentor.com>	<20110601220659.GA4601@rhein.zuhause.netz>	<4DE6BBC2.5070509@mentor.com>
+	<1307005695.2529.164.camel@phil-desktop>	<4DE7C29A.2030609@mentor.com>
+	<1307042464.4028.0.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1307042464.4028.0.camel@lenovo.internal.reciva.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 02 Jun 2011 19:26:21.0047 (UTC)
+	FILETIME=[F3F31870:01CC215A]
+Subject: Re: dbus-native --with-x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,30 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 19:30:28 -0000
+X-List-Received-Date: Thu, 02 Jun 2011 19:33:10 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 2a52f806f3789f717219651b97dc64fec3881f7f:
+On 06/02/2011 12:21 PM, Phil Blundell wrote:
+> On Thu, 2011-06-02 at 10:04 -0700, Tom Rini wrote:
+>> I guess I've just gone crazy (or crazier if you prefer) and I can't find
+>> it anymore in 3.7.x.
+> 
+> Okay.  So do we think the tcl dependency can be dropped?
 
-  qmake_base.bbclass: fix lrelease/lupdate binary names (2011-06-02 18:26:19 +0100)
-
-are available in the git repository at:
-  git://github.com/OSSystems/oe-core master
-  https://github.com/OSSystems/oe-core/tree/master
-
-Otavio Salvador (4):
-  xf86-driver-common.inc: remove .la files to avoid unpackaged warning
-  gnutls: use INC_PR on 2.12.5 version recipe
-  gnutls: add p11tool into gnutls-bin
-  package.bbclass: add support to split Qt translation files
-
- meta/classes/package.bbclass                       |   41 ++++++++++++++++++--
- .../xorg-driver/xf86-driver-common.inc             |    6 ++-
- meta/recipes-support/gnutls/gnutls.inc             |    3 +-
- meta/recipes-support/gnutls/gnutls_2.12.5.bb       |    2 +-
- 4 files changed, 45 insertions(+), 7 deletions(-)
+Yes.
 
 -- 
-1.7.2.5
-
+Tom Rini
+Mentor Graphics Corporation
 
 
