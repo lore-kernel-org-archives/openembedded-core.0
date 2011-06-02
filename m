@@ -1,31 +1,41 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QSDVG-00007S-3s for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 21:24:22 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QSDSC-0003CO-Ev
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QSDZV-0000Od-Rw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 21:21:12 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4DE7C29A.2030609@mentor.com>
-References: <1306944074.2529.107.camel@phil-desktop>
-	<1306944235.2529.109.camel@phil-desktop>
-	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>
-	<1306945014.2529.113.camel@phil-desktop>	<4DE66D53.30505@windriver.com>
-	<1306947245.2529.148.camel@phil-desktop>	<4DE66FC6.4030607@windriver.com>
-	<1306959728.3119.5.camel@lenovo.internal.reciva.com>
-	<4DE6B685.6060501@mentor.com>	<20110601220659.GA4601@rhein.zuhause.netz>
-	<4DE6BBC2.5070509@mentor.com> <1307005695.2529.164.camel@phil-desktop>
-	<4DE7C29A.2030609@mentor.com>
-Date: Thu, 02 Jun 2011 20:21:04 +0100
-Message-ID: <1307042464.4028.0.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: dbus-native --with-x
+	Thu, 02 Jun 2011 21:28:45 +0200
+Received: by yxi11 with SMTP id 11so172635yxi.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Jun 2011 12:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
+	:x-mailer:in-reply-to:references:in-reply-to:references;
+	bh=HMJPF6Aw7mUgUay6bU6SgWMyRHhHDo71wDgOVD+wJcQ=;
+	b=HIJgFkJOyANaSKc/zLp9wsB5wBhEUhB7Ywx+qMW58Hm9TwMYr5W1Tfgxn0o/AC9N5m
+	VkR2PMupNT15SVizoemvFafjVGC0BRPPJn/iXVzu0y2m8/wemTeQfvDVgBJM+x9/OuEG
+	ozVCb3enKm0iJVeKPXdTlkwdcrMe0QGHAv7iw=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references;
+	b=QYmc1Pn2emhfeeeAOYlwGgyL57PQNdU3AXucnwI+iVIyTQ9GvwclFIupGJ7Nw7bP/m
+	LYN3pao1F5GyIGgQmFZQXDUhEnjtlwDOZutCFhu3Fmq7jUkuIng58ltUww4zeEkYeeWE
+	3JSefGbfVHLcGDSrXYaQKNRUZO1RAC6Nna2a8=
+Received: by 10.236.185.36 with SMTP id t24mr1493593yhm.172.1307042732980;
+	Thu, 02 Jun 2011 12:25:32 -0700 (PDT)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id o45sm689081yhk.63.2011.06.02.12.25.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 02 Jun 2011 12:25:31 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Jun 2011 19:25:14 +0000
+Message-Id: <21881aba9031cefb72fcc33cca9d146169f344e9.1307042670.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <cover.1307042670.git.otavio@ossystems.com.br>
+References: <cover.1307042670.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1307042670.git.otavio@ossystems.com.br>
+References: <cover.1307042670.git.otavio@ossystems.com.br>
+Subject: [PATCH 1/4] xf86-driver-common.inc: remove .la files to avoid unpackaged warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,18 +50,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 19:24:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Jun 2011 19:28:46 -0000
 
-On Thu, 2011-06-02 at 10:04 -0700, Tom Rini wrote:
-> I guess I've just gone crazy (or crazier if you prefer) and I can't find
-> it anymore in 3.7.x.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../xorg-driver/xf86-driver-common.inc             |    6 +++++-
+ 1 files changed, 5 insertions(+), 1 deletions(-)
 
-Okay.  So do we think the tcl dependency can be dropped?
-
-p.
-
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-driver-common.inc b/meta/recipes-graphics/xorg-driver/xf86-driver-common.inc
+index 550423b..6ff1391 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-driver-common.inc
++++ b/meta/recipes-graphics/xorg-driver/xf86-driver-common.inc
+@@ -5,7 +5,7 @@ SECTION = "x11/drivers"
+ LICENSE = "MIT-X"
+ 
+ PE = "1"
+-PR = "r0"
++PR = "r1"
+ 
+ DEPENDS = "virtual/xserver-xf86 xproto randrproto util-macros"
+ 
+@@ -27,3 +27,7 @@ do_configure_prepend () {
+     mv configure.ac.new configure.ac
+ }
+ 
++do_install_append () {
++    # driver's la files are not packaged
++    rm -f ${D}${libdir}/xorg/modules/drivers/*.la
++}
+-- 
+1.7.2.5
 
 
 
