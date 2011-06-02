@@ -1,25 +1,37 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QSBAh-0003Kq-Ui
+	(envelope-from <Tom_Rini@mentor.com>) id 1QSBEn-0003Ow-Vx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 18:55:00 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Jun 2011 09:51:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,310,1304319600"; d="scan'208";a="12666874"
-Received: from unknown (HELO helios.localnet) ([10.255.12.204])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2011 09:51:27 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 2 Jun 2011 17:51:26 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-	<ac909be8f5af8515017da51e7217fc15ef69379e.1306958862.git.otavio@ossystems.com.br>
-In-Reply-To: <ac909be8f5af8515017da51e7217fc15ef69379e.1306958862.git.otavio@ossystems.com.br>
+	Thu, 02 Jun 2011 18:59:14 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1QSBBj-0003Zv-CO from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 09:56:03 -0700
+Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 2 Jun 2011 09:56:03 -0700
+Received: from [172.30.80.84] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
+	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 2 Jun 2011 09:56:02 -0700
+Message-ID: <4DE7C09F.9000104@mentor.com>
+Date: Thu, 2 Jun 2011 09:55:59 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-Message-Id: <201106021751.26598.paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 2/3] qmake_base.bbclass: fix lrelease/lupdate binary names
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1306931844.git.dexuan.cui@intel.com>	<4DE67440.1020405@mentor.com>
+	<1306950977.27470.461.camel@rex>	<4DE69582.2090508@mentor.com>	<1306958729.3119.3.camel@lenovo.internal.reciva.com>	<4DE6A43A.3050401@mentor.com>	<1306961135.3119.13.camel@lenovo.internal.reciva.com>	<4DE6A836.3040004@mentor.com>
+	<1307023591.27470.549.camel@rex>	<4DE79D69.7080806@mentor.com>
+	<1307025426.2529.209.camel@phil-desktop>	<4DE7BA3F.4060600@mentor.com>
+	<1307032545.27470.580.camel@rex>
+In-Reply-To: <1307032545.27470.580.camel@rex>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 02 Jun 2011 16:56:03.0196 (UTC)
+	FILETIME=[F4E43BC0:01CC2145]
+Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,46 +46,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 16:55:00 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Thu, 02 Jun 2011 16:59:14 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Wednesday 01 June 2011 21:09:54 Otavio Salvador wrote:
-> To support translation, qmake based projects usually call lrelease and
-> lupdate however OE changes the binary names so this needs some mangle
-> to work out of box.
+On 06/02/2011 09:35 AM, Richard Purdie wrote:
+> On Thu, 2011-06-02 at 09:28 -0700, Tom Rini wrote:
+>> On 06/02/2011 07:37 AM, Phil Blundell wrote:
+>>> On Thu, 2011-06-02 at 07:25 -0700, Tom Rini wrote:
+>>>> But help2man is just the easy/common case.  Heck, it _may_ blow up even
+>>>> with the host help2man instead of help2man-native, if a recipe uses
+>>>> system-wide help2man and perlnative.bbclass.  The root problem (again,
+>>>> from memory) is that since we modify PERL5LIB and so on, when we do
+>>>> that, we've opened ourselves up for system-wide perl trying to use
+>>>> perl-native's stuff.
+>>>
+>>> Ah right, I think I see what you're getting at now.
+>>>
+>>> If we've got a clean separation between perl-native and host perl,
+>>> though, can't we now just eliminate all of that futzing with PERL5LIB in
+>>> cpan.bbclass and such like places?  perl-native already knows how to
+>>> look in the right places within the sysroot for its modules so there
+>>> should be no need for anything else to be overriding it.
+>>
+>> Well, my question is, does it, really?
 > 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/classes/qmake_base.bbclass |    5 +++++
->  1 files changed, 5 insertions(+), 0 deletions(-)
-> 
-> diff --git a/meta/classes/qmake_base.bbclass
-> b/meta/classes/qmake_base.bbclass index a054efd..165d689 100644
-> --- a/meta/classes/qmake_base.bbclass
-> +++ b/meta/classes/qmake_base.bbclass
-> @@ -92,6 +92,11 @@ qmake_base_do_configure() {
->  		bbnote "qmake prevar substitution: ${EXTRA_QMAKEVARS_PRE}"
->  	fi
-> 
-> +	# Hack .pro files to use OE utilities
-> +	find -name '*.pro' \
-> +	     -exec sed -i -e 's,=\s*.*/lrelease,= ${OE_QMAKE_LRELEASE},g' \
-> +	                  -e 's,=\s*.*/lupdate,= ${OE_QMAKE_LUPDATE},g' '{}' ';'
-> +
->  #bbnote "Calling '${OE_QMAKE_QMAKE} -makefile -spec ${QMAKESPEC} -o
-> Makefile $QMAKE_VARSUBST_PRE $AFTER $PROFILES $QMAKE_VARSUBST_POST'" unset
-> QMAKESPEC || true
->  	${OE_QMAKE_QMAKE} -makefile -spec ${QMAKESPEC} -o Makefile
-> $QMAKE_VARSUBST_PRE $AFTER $PROFILES $QMAKE_VARSUBST_POST || die "Error
-> calling ${OE_QMAKE_QMAKE} on $PROFILES"
+> If it doesn't it really does need to get fixed. I've not seen any
+> evidence this has been the problem but it still could be.
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+I agree it needs to be fixed, yes.  One way or another...
+
+>>   Even if we're using the sstate
+>> cache from /foo/oecore/tmp over in /bar/oecore/tmp (and /foo/oecore/tmp
+>> is rm -rf'd) ?  Since we've got a create_wrapper around perl and
+>> perl${PV} it should be I suppose (or is easily added there), but I'd
+>> feel a lot better with some testing of the above case (and the updates
+>> to cpan*bbclass).
+> 
+> I only took the perl-native DEPENDS patch on the condition this gets
+> fixed properly. The patches that are there look to do that, at least for
+> OE-Core. If there are further issues we're going to have to take them as
+> they arise as I have an objection to crippling the build dependencies
+> because perl is broken. Really this could use some TLC from someone with
+> experience in the area...
+
+Well, I guess I'd boil down what I said above into a request like this
+for v3:
+- Modify cpan.bbclass to NOT set PERL_INC / PERL_LIB / PERL_ARCHLIB /
+PERLHOSTLIB.
+- In /scratch/oecore/tmp0 build the images that were built for v1
+- In /scratch/oecore/tmp1 build perl-native's full sstate cache.
+- Keep the sstate cache from tmp1 and otherwise rm -rf tmp1.
+- In /scratch/oecore/tmp2 using the sstate from tmp1, build the same
+images that were built for tmp0.
+
+If all of that works, I think we can call this safe enough for now and
+possibly even really fixed, while we have someone actively kicking
+around the recipes in question.
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Tom Rini
+Mentor Graphics Corporation
 
 
