@@ -1,35 +1,43 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QSAxQ-00037h-TV for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 18:41:17 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p52Gc7iG018126
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QSAzw-0003BA-GU
+	for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 18:43:52 +0200
+Received: by bwz5 with SMTP id 5so1263591bwz.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jun 2011 17:38:07 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 17751-02 for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2011 17:38:03 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p52Gc2rG018118
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jun 2011 17:38:03 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTi=q-bMwYtjTAqAXeaB4QQ_n85y8Rw@mail.gmail.com>
+	Thu, 02 Jun 2011 09:40:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=mRBDSXbF5a4VYqluR4f5Mzmo4UIpCwbUxClpkoucddw=;
+	b=oXFBiU4wTvYRJEg31c9wCpc5TQ1KgRD0GVnTfSlY8Jqdd7OG962khzi5LvAskRBb7n
+	s8IG4GNCfk+nek7eB8zzpXfp5rLsGK7mbd8NmAnW6g1FDbK1WHeh4a1r3jNHPYMikjUZ
+	OkHMtmbEENjNUfpOYqLzQmT3qfDXC+IZtEMvA=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	b=lDwN2k+26x2156EXze5m8YhQEVQwQbkjWYLXHLXelM+EC76LVJL7J/lUUhoYay+xk4
+	qV67Pp+G8sV79jWAPiBxmqqR0K6PkgE43dh5XEFJZIR2q04Zw/w22m3bWTjfbw7jy2yG
+	6bdapm5Dv8MWVAhpM9W1ktg/aLin8Kh3VJINs=
+MIME-Version: 1.0
+Received: by 10.204.47.18 with SMTP id l18mr968891bkf.31.1307032840223; Thu,
+	02 Jun 2011 09:40:40 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.78.203 with HTTP; Thu, 2 Jun 2011 09:40:40 -0700 (PDT)
+In-Reply-To: <1307032661.27470.581.camel@rex>
 References: <cover.1306958862.git.otavio@ossystems.com.br>
 	<e96c2e88aaf1cd22faac3b7ae61ccf34adfe92ba.1306958862.git.otavio@ossystems.com.br>
 	<1306960665.3119.11.camel@lenovo.internal.reciva.com>
 	<BANLkTi=q-bMwYtjTAqAXeaB4QQ_n85y8Rw@mail.gmail.com>
-Date: Thu, 02 Jun 2011 17:37:41 +0100
-Message-ID: <1307032661.27470.581.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1307032661.27470.581.camel@rex>
+Date: Thu, 2 Jun 2011 16:40:40 +0000
+X-Google-Sender-Auth: zLp2wBSKNCXbkml1lu3RIZa52Ek
+Message-ID: <BANLkTi=i0cOaa=w=Fvt0XkUmXAkOj+tFFw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/3] busybox: enable mdev by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,37 +53,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 16:41:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Jun 2011 16:43:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-06-01 at 20:40 +0000, Otavio Salvador wrote:
-> On Wed, Jun 1, 2011 at 20:37, Phil Blundell <pb@pbcl.net> wrote:
-> > On Wed, 2011-06-01 at 20:09 +0000, Otavio Salvador wrote:
-> >> -# CONFIG_MDEV is not set
-> >> +CONFIG_MDEV=y
-> >
-> > Per previous discussion, I am still uneasy about this change.  I think
-> > we really need some sort of coherent policy for what exactly the default
-> > busybox configuration in oe-core is meant to be doing, and then (if
-> > necessary) a set of patches to make it match the policy.  Just flipping
-> > random features on and off does not seem like a good way to proceed.
-> 
-> OE-core has support to mdev as device handling mechanism as such this
-> ought to be enabled by default IMO.
-> 
-> Personally it doesn't matter since I have already overriden it in my
-> internal layer.
+On Thu, Jun 2, 2011 at 16:37, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I'm afraid I'm with Phil on this. I don't like the idea of enabling
+> something we don't actually use. This really needs to become some kind
+> of configure option which would at the same time disable/replace udev so
+> the patch in its currently form isn't acceptable.
 
-I'm afraid I'm with Phil on this. I don't like the idea of enabling
-something we don't actually use. This really needs to become some kind
-of configure option which would at the same time disable/replace udev so
-the patch in its currently form isn't acceptable.
+I'll drop it from my tree since I am using an bbappend on our local layer.
 
 Cheers,
 
-Richard
-
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
