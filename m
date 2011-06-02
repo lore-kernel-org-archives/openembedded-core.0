@@ -1,30 +1,27 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QS94K-0000k6-HD for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 16:40:16 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QS91H-00037C-3N
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1QS9OH-0001YH-P9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 16:37:07 +0200
-From: Phil Blundell <pb@pbcl.net>
+	Thu, 02 Jun 2011 17:00:53 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2011 07:57:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,310,1304319600"; 
+   d="scan'208";a="8466049"
+Received: from swold-mobl.jf.intel.com (HELO [10.24.4.14]) ([10.24.4.14])
+	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2011 07:57:41 -0700
+Message-ID: <4DE7A4E5.4050109@linux.intel.com>
+Date: Thu, 02 Jun 2011 07:57:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4DE79D69.7080806@mentor.com>
-References: <cover.1306931844.git.dexuan.cui@intel.com>
-	<4DE67440.1020405@mentor.com> <1306950977.27470.461.camel@rex>
-	<4DE69582.2090508@mentor.com>
-	<1306958729.3119.3.camel@lenovo.internal.reciva.com>
-	<4DE6A43A.3050401@mentor.com>
-	<1306961135.3119.13.camel@lenovo.internal.reciva.com>
-	<4DE6A836.3040004@mentor.com> <1307023591.27470.549.camel@rex>
-	<4DE79D69.7080806@mentor.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Thu, 02 Jun 2011 15:37:06 +0100
-Message-ID: <1307025426.2529.209.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
+References: <cover.1307001679.git.sgw@linux.intel.com>
+	<1307022616.27470.541.camel@rex>
+In-Reply-To: <1307022616.27470.541.camel@rex>
+Subject: Re: [CONSOLIDATED PULL 00/12] 2-June-2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,28 +36,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 14:40:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 02 Jun 2011 15:00:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-06-02 at 07:25 -0700, Tom Rini wrote:
-> But help2man is just the easy/common case.  Heck, it _may_ blow up even
-> with the host help2man instead of help2man-native, if a recipe uses
-> system-wide help2man and perlnative.bbclass.  The root problem (again,
-> from memory) is that since we modify PERL5LIB and so on, when we do
-> that, we've opened ourselves up for system-wide perl trying to use
-> perl-native's stuff.
+On 06/02/2011 06:50 AM, Richard Purdie wrote:
+> On Thu, 2011-06-02 at 01:04 -0700, Saul Wold wrote:
+>> Pulling a number of patches and updates from the list, they have been
+>> built on the autobuild.
+>>
+>> This has the gcc fix for qt4-x11-free in the form of a gcc patch
+>>
+>> The following changes since commit 0a496df0209c93fd00ea929b5f27faa1a6e600c0:
+>>
+>>    clutter-1.6: Add patch to update gettext macro version (2011-06-01 18:32:30 +0100)
+>>
+>> are available in the git repository at:
+>>    git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+>>
+>> Jingdong Lu (1):
+>>    libx11: fix libX11 keysyms to pass xts5 of lsb
+>>
+>> Kang Kai (1):
+>>    task-core-lsb: add cups and ghostscript into image
+>>
+>> Koen Kooi (3):
+>>    u-boot: package up u-boot.bin for field upgrades
+>>    shadow: remove selinux entry from pam.d/login
+>>    avahi: enable service when using systemd
+>>
+>> Nitin A Kamble (4):
+>>    gettext-0.16.1: mark upstream status for gplv2 recipe's patches
+>>
+>> Phil Blundell (1):
+>>    rootfs_ipk: delete opkg metadata if package management not required
+>>      and all packages are configured
+>>
+>
+> I merged the above.
+>
+>>    m4: upgrade from 1.4.15 to 1.4.16
+>
+> Khem asked what the license change was here and it should have been
+> mentioned in the commit message.
+>
+I will update the commit message since Nitin is not available for the 
+rest of this week.
 
-Ah right, I think I see what you're getting at now.
+>>    autoconf: upgrade from 2.65 to 2.68
+>
+> Not pulled as likely dependent on the above.
+>
+>>    bison: upgrade from 2.4.3 to 2.5
+>
+> Likewise.
+>
+>> Saul Wold (2):
+>>    ghostscript: Fix up file locations and add i686
+>
+> Why did this need the location fixups? Something sounds wrong here and
+> needs digging into.
+>
+So what I changed was to move the architecture header files (in 
+architecture directories) into the ghostscript directory instead of 
+being in the top level of the recipe directory.  I also need to add an 
+i686 directory in addition to the i586 directory, if there is a way to 
+map this for the native then more digging is needed.  This is required 
+to build ghostscript-native.
 
-If we've got a clean separation between perl-native and host perl,
-though, can't we now just eliminate all of that futzing with PERL5LIB in
-cpan.bbclass and such like places?  perl-native already knows how to
-look in the right places within the sysroot for its modules so there
-should be no need for anything else to be overriding it.
-
-p.
-
-
+>>    gcc: Fix volatile access issue for ARM
+>
+> I merged this.
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
