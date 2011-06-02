@@ -1,25 +1,25 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QS2xE-0006YD-BB
+	(envelope-from <sgw@linux.intel.com>) id 1QS2xG-0006YD-NA
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 10:08:33 +0200
+	Thu, 02 Jun 2011 10:08:36 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jun 2011 01:05:15 -0700
+	by azsmga101.ch.intel.com with ESMTP; 02 Jun 2011 01:05:17 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,308,1304319600"; 
-   d="scan'208";a="5775213"
+   d="scan'208";a="5775225"
 Received: from unknown (HELO swold-MOBL.nomadix.com) ([10.255.12.203])
-	by azsmga001.ch.intel.com with ESMTP; 02 Jun 2011 01:05:15 -0700
+	by azsmga001.ch.intel.com with ESMTP; 02 Jun 2011 01:05:16 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2011 01:05:01 -0700
-Message-Id: <ac62819bc9ecf0b025b8317e57cd8ab5feb70850.1307001679.git.sgw@linux.intel.com>
+Date: Thu,  2 Jun 2011 01:05:03 -0700
+Message-Id: <65cfe32631413a8eb52cb12667a6b649157b2bb0.1307001679.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1307001679.git.sgw@linux.intel.com>
 References: <cover.1307001679.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1307001679.git.sgw@linux.intel.com>
 References: <cover.1307001679.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/12] autoconf: upgrade from 2.65 to 2.68
+Subject: [CONSOLIDATED PULL 04/12] gettext-0.16.1: mark upstream status for gplv2 recipe's patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,185 +34,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 08:08:33 -0000
+X-List-Received-Date: Thu, 02 Jun 2011 08:08:36 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-And rebase the patches to the newer code.
-
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../{autoconf-2.65 => autoconf}/autoconf-x.patch   |    0
- .../autoheader-nonfatal-warnings.patch             |    0
- .../autoreconf-exclude.patch                       |    0
- .../autoreconf-foreign.patch                       |    0
- .../autoreconf-gnuconfigize.patch                  |    0
- .../autoreconf-include.patch                       |    0
- .../{autoconf-2.65 => autoconf}/config_site.patch  |   19 ++++++++++++++-----
- .../fix_path_xtra.patch                            |   14 +++++++-------
- .../path_prog_fixes.patch                          |    0
- .../program_prefix.patch                           |    0
- .../{autoconf_2.65.bb => autoconf_2.68.bb}         |    6 +++---
- 11 files changed, 24 insertions(+), 15 deletions(-)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoconf-x.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoheader-nonfatal-warnings.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoreconf-exclude.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoreconf-foreign.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoreconf-gnuconfigize.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoreconf-include.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/config_site.patch (60%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/fix_path_xtra.patch (90%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/path_prog_fixes.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/program_prefix.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf_2.65.bb => autoconf_2.68.bb} (85%)
+ .../gettext/gettext-0.16.1/disable_java.patch      |    3 ++-
+ .../gettext-0.16.1/fix_aclocal_version.patch       |    1 +
+ .../gettext-0.16.1/fix_gnu_source_circular.patch   |    3 ++-
+ .../gettext/gettext-0.16.1/fixchicken.patch        |    3 ++-
+ .../gettext/gettext-0.16.1/getline.m4.patch        |    3 ++-
+ .../gettext-autoconf-lib-link-no-L.patch           |    3 ++-
+ .../gettext-error_print_progname.patch             |    3 ++-
+ .../gettext/gettext-0.16.1/gettext-vpath.patch     |    3 ++-
+ .../gettext-0.16.1/hardcode_macro_version.patch    |    3 ++-
+ .../gettext/gettext-0.16.1/linklib_from_0.17.patch |    3 ++-
+ 10 files changed, 19 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoconf-x.patch b/meta/recipes-devtools/autoconf/autoconf/autoconf-x.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoconf-x.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoconf-x.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoheader-nonfatal-warnings.patch b/meta/recipes-devtools/autoconf/autoconf/autoheader-nonfatal-warnings.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoheader-nonfatal-warnings.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoheader-nonfatal-warnings.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-exclude.patch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-exclude.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-foreign.patch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-foreign.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-gnuconfigize.patch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-gnuconfigize.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-gnuconfigize.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoreconf-gnuconfigize.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-include.patch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-include.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-include.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoreconf-include.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/config_site.patch b/meta/recipes-devtools/autoconf/autoconf/config_site.patch
-similarity index 60%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/config_site.patch
-rename to meta/recipes-devtools/autoconf/autoconf/config_site.patch
-index e3ff318..9f04440 100644
---- a/meta/recipes-devtools/autoconf/autoconf-2.65/config_site.patch
-+++ b/meta/recipes-devtools/autoconf/autoconf/config_site.patch
-@@ -6,17 +6,26 @@ them.
- 
- RP 1/2/10
- 
--Index: autoconf-2.65/lib/autoconf/general.m4
-+Updated for 2.68 version: the CONFIG_SITE var was not getting used at all
-+fixed the 2.68 code 
-+Nitin A Kamble <nitin.a.kamble@intel.com> 2011/05/27
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/disable_java.patch b/meta/recipes-core/gettext/gettext-0.16.1/disable_java.patch
+index 2f8478a..e4c5f15 100644
+--- a/meta/recipes-core/gettext/gettext-0.16.1/disable_java.patch
++++ b/meta/recipes-core/gettext/gettext-0.16.1/disable_java.patch
+@@ -1,8 +1,9 @@
 +
-+Index: autoconf-2.68/lib/autoconf/general.m4
+ # Pulled from OpenEmbedded
+ # 
+ # Commented by: Saul Wold <saul.wold@intel.com>
+ 
+-Upstream-Status: Inappropriate [embedded]
++Upstream-Status: Inappropriate [licensing]
+ 
+ Index: gettext-0.16.1/gettext-tools/configure.ac
  ===================================================================
----- autoconf-2.65.orig/lib/autoconf/general.m4	2010-02-01 12:41:32.329073138 +0000
--+++ autoconf-2.65/lib/autoconf/general.m4	2010-02-01 12:41:56.769040799 +0000
--@@ -1863,17 +1863,10 @@
-+--- autoconf-2.68.orig/lib/autoconf/general.m4
-++++ autoconf-2.68/lib/autoconf/general.m4
-+@@ -1878,7 +1878,6 @@ AU_DEFUN([AC_VALIDATE_CACHED_SYSTEM_TUPL
-  m4_define([AC_SITE_LOAD],
-  [# Prefer an explicitly selected file to automatically selected ones.
-  ac_site_file1=NONE
- -ac_site_file2=NONE
-  if test -n "$CONFIG_SITE"; then
--   ac_site_file1=$CONFIG_SITE
-+   # We do not want a PATH search for config.site.
-+   case $CONFIG_SITE in @%:@((
-+@@ -1886,14 +1885,8 @@ if test -n "$CONFIG_SITE"; then
-+     */*) ac_site_file1=$CONFIG_SITE;;
-+     *)   ac_site_file1=./$CONFIG_SITE;;
-+   esac
- -elif test "x$prefix" != xNONE; then
- -  ac_site_file1=$prefix/share/config.site
- -  ac_site_file2=$prefix/etc/config.site
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/fix_path_xtra.patch b/meta/recipes-devtools/autoconf/autoconf/fix_path_xtra.patch
-similarity index 90%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/fix_path_xtra.patch
-rename to meta/recipes-devtools/autoconf/autoconf/fix_path_xtra.patch
-index 29fe6a2..65df88f 100644
---- a/meta/recipes-devtools/autoconf/autoconf-2.65/fix_path_xtra.patch
-+++ b/meta/recipes-devtools/autoconf/autoconf/fix_path_xtra.patch
-@@ -6,11 +6,11 @@ This patch removes them to stop any confusion.
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/fix_aclocal_version.patch b/meta/recipes-core/gettext/gettext-0.16.1/fix_aclocal_version.patch
+index 8fe7712..7293f5b 100644
+--- a/meta/recipes-core/gettext/gettext-0.16.1/fix_aclocal_version.patch
++++ b/meta/recipes-core/gettext/gettext-0.16.1/fix_aclocal_version.patch
+@@ -1,3 +1,4 @@
++
+ This patch updates the required version number from 2.61 to the 
+ current 2.65 version of aclocal, this will need to be updated 
+ when we update aclocal
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/fix_gnu_source_circular.patch b/meta/recipes-core/gettext/gettext-0.16.1/fix_gnu_source_circular.patch
+index d1c0bbb..0686149 100644
+--- a/meta/recipes-core/gettext/gettext-0.16.1/fix_gnu_source_circular.patch
++++ b/meta/recipes-core/gettext/gettext-0.16.1/fix_gnu_source_circular.patch
+@@ -1,9 +1,10 @@
++
+ This patch removes the circular dependency on AC_GNU_SOURCE in
+ AC_USE_SYSTEM_EXTENSIONS.
  
- RP - 20071115
+ Thanks to Mark Hatle for the timely pointers and fixes.
  
--Index: autoconf-2.65/lib/autoconf/libs.m4
-+Index: autoconf-2.68/lib/autoconf/libs.m4
+-Upstream-Status: Inappropriate [configuration]
++Upstream-Status: Inappropriate [licensing]
+ 
+ Signed-off-by Saul Wold <sgw@linux.intel.com>
+ 
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/fixchicken.patch b/meta/recipes-core/gettext/gettext-0.16.1/fixchicken.patch
+index d6bb7b0..36ce463 100644
+--- a/meta/recipes-core/gettext/gettext-0.16.1/fixchicken.patch
++++ b/meta/recipes-core/gettext/gettext-0.16.1/fixchicken.patch
+@@ -1,8 +1,9 @@
++
+ # Pulled from OpenEmbedded
+ # 
+ # Commented by: Saul Wold <saul.wold@intel.com>
+ 
+-Upstream-Status: Inappropriate [embedded]
++Upstream-Status: Inappropriate [licensing]
+ 
+ Index: gettext-tools/m4/csharpcomp.m4
  ===================================================================
----- autoconf-2.65.orig/lib/autoconf/libs.m4	2009-10-29 01:53:41.000000000 +0000
--+++ autoconf-2.65/lib/autoconf/libs.m4	2010-01-29 13:40:13.000000000 +0000
--@@ -159,53 +159,6 @@
-+--- autoconf-2.68.orig/lib/autoconf/libs.m4
-++++ autoconf-2.68/lib/autoconf/libs.m4
-+@@ -159,53 +159,6 @@ m4_popdef([AC_Lib_Name])dnl
-  # --------------------- #
-  
-  
-@@ -32,7 +32,7 @@ Index: autoconf-2.65/lib/autoconf/libs.m4
- -	@echo libdir='${LIBDIR}'
- -_ACEOF
- -  if (export CC; ${XMKMF-xmkmf}) >/dev/null 2>/dev/null && test -f Makefile; then
---    # GNU make sometimes prints "make[1]: Entering...", which would confuse us.
-+-    # GNU make sometimes prints "make[1]: Entering ...", which would confuse us.
- -    for ac_var in incroot usrlibdir libdir; do
- -      eval "ac_im_$ac_var=\`\${MAKE-make} $ac_var 2>/dev/null | sed -n 's/^$ac_var=//p'\`"
- -    done
-@@ -64,7 +64,7 @@ Index: autoconf-2.65/lib/autoconf/libs.m4
-  # _AC_PATH_X_DIRECT
-  # -----------------
-  # Internal subroutine of _AC_PATH_X.
--@@ -213,44 +166,7 @@
-+@@ -213,44 +166,7 @@ fi
-  m4_define([_AC_PATH_X_DIRECT],
-  [# Standard set of common directories for X headers.
-  # Check X11 before X11Rn because it is often a symlink to the current release.
-@@ -110,7 +110,7 @@ Index: autoconf-2.65/lib/autoconf/libs.m4
-  
-  if test "$ac_x_includes" = no; then
-    # Guess where to find include files, by looking for Xlib.h.
--@@ -299,7 +215,6 @@
-+@@ -299,7 +215,6 @@ AC_DEFUN([_AC_PATH_X],
-  [AC_CACHE_VAL(ac_cv_have_x,
-  [# One or both of the vars are not set, and there is no cached value.
-  ac_x_includes=no ac_x_libraries=no
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/path_prog_fixes.patch b/meta/recipes-devtools/autoconf/autoconf/path_prog_fixes.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/path_prog_fixes.patch
-rename to meta/recipes-devtools/autoconf/autoconf/path_prog_fixes.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/program_prefix.patch b/meta/recipes-devtools/autoconf/autoconf/program_prefix.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/program_prefix.patch
-rename to meta/recipes-devtools/autoconf/autoconf/program_prefix.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf_2.65.bb b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
-similarity index 85%
-rename from meta/recipes-devtools/autoconf/autoconf_2.65.bb
-rename to meta/recipes-devtools/autoconf/autoconf_2.68.bb
-index 0bc615e..c647a15 100644
---- a/meta/recipes-devtools/autoconf/autoconf_2.65.bb
-+++ b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
-@@ -1,6 +1,6 @@
- require autoconf.inc
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/getline.m4.patch b/meta/recipes-core/gettext/gettext-0.16.1/getline.m4.patch
+index 34965fc..bf995bc 100644
+--- a/meta/recipes-core/gettext/gettext-0.16.1/getline.m4.patch
++++ b/meta/recipes-core/gettext/gettext-0.16.1/getline.m4.patch
+@@ -1,8 +1,9 @@
++
+ # Pulled from OpenEmbedded
+ # 
+ # Commented by: Saul Wold <saul.wold@intel.com>
  
--PR = "r2"
-+PR = "r0"
+-Upstream-Status: Inappropriate [configuration]
++Upstream-Status: Inappropriate [licensing]
  
- PARALLEL_MAKE = ""
+ --- /gettext-tools/m4/orig-getline.m4	2003-07-18 18:11:37.000000000 +0300
+ +++ /gettext-tools/m4/getline.m4	2007-02-03 13:33:41.000000000 +0200
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/gettext-autoconf-lib-link-no-L.patch b/meta/recipes-core/gettext/gettext-0.16.1/gettext-autoconf-lib-link-no-L.patch
+index 82775d6..072fe5f 100644
+--- a/meta/recipes-core/gettext/gettext-0.16.1/gettext-autoconf-lib-link-no-L.patch
++++ b/meta/recipes-core/gettext/gettext-0.16.1/gettext-autoconf-lib-link-no-L.patch
+@@ -1,8 +1,9 @@
++
+ # Pulled from OpenEmbedded
+ # 
+ # Commented by: Saul Wold <saul.wold@intel.com>
  
-@@ -17,8 +17,8 @@ SRC_URI += "file://autoreconf-include.patch;patch=1 \
- 	   ${@['file://path_prog_fixes.patch;patch=1', ''][bb.data.inherits_class('native', d)]} \
-            file://config_site.patch;patch=1"
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [licensing]
  
--SRC_URI[md5sum] = "a6de1cc6434cd64038b0a0ae4e252b33"
--SRC_URI[sha256sum] = "db11944057f3faf229ff5d6ce3fcd819f565455c152b72cec17ebc1cbb80136b"
-+SRC_URI[md5sum] = "864d785215aa60d627c91fcb21b05b07"
-+SRC_URI[sha256sum] = "c491fb273fd6d4ca925e26ceed3d177920233c76d542b150ff35e571454332c8"
+ --- gettext-0.17/autoconf-lib-link/m4/lib-link.m4~	2009-04-17 15:12:30.000000000 -0700
+ +++ gettext-0.17/autoconf-lib-link/m4/lib-link.m4	2009-04-17 15:37:39.000000000 -0700
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/gettext-error_print_progname.patch b/meta/recipes-core/gettext/gettext-0.16.1/gettext-error_print_progname.patch
+index abb7195..93d9194 100644
+--- a/meta/recipes-core/gettext/gettext-0.16.1/gettext-error_print_progname.patch
++++ b/meta/recipes-core/gettext/gettext-0.16.1/gettext-error_print_progname.patch
+@@ -1,8 +1,9 @@
++
+ # Pulled from OpenEmbedded
+ # 
+ # Commented by: Saul Wold <saul.wold@intel.com>
  
- DEPENDS_virtclass-native = "m4-native gnu-config-native"
- RDEPENDS_${PN}_virtclass-native = "m4-native gnu-config-native"
+-Upstream-Status: Inappropriate [configuration]
++Upstream-Status: Inappropriate [licensing]
+ 
+ diff -ur gettext-0.14.6/gettext-tools/lib/error.h gettext-0.14.6-patched/gettext-tools/lib/error.h
+ --- gettext-0.14.6/gettext-tools/lib/error.h	2005-05-20 16:03:42.000000000 -0500
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/gettext-vpath.patch b/meta/recipes-core/gettext/gettext-0.16.1/gettext-vpath.patch
+index 67b0a5a..f09e450 100644
+--- a/meta/recipes-core/gettext/gettext-0.16.1/gettext-vpath.patch
++++ b/meta/recipes-core/gettext/gettext-0.16.1/gettext-vpath.patch
+@@ -1,8 +1,9 @@
++
+ # Pulled from OpenEmbedded
+ # 
+ # Commented by: Saul Wold <saul.wold@intel.com>
+ 
+-Upstream-Status: Pending
++Upstream-Status: Inappropriate [licensing]
+ 
+ Index: gettext-0.16.1/gettext-runtime/intl/Makefile.in
+ ===================================================================
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/hardcode_macro_version.patch b/meta/recipes-core/gettext/gettext-0.16.1/hardcode_macro_version.patch
+index 82ed04d..4da8dd4 100644
+--- a/meta/recipes-core/gettext/gettext-0.16.1/hardcode_macro_version.patch
++++ b/meta/recipes-core/gettext/gettext-0.16.1/hardcode_macro_version.patch
+@@ -1,8 +1,9 @@
++
+ This patch hardcodes in version 0.17 for the GETTEXT_MACRO_VERSION,
+ the version check is only part of 0.17 and will not affect any 0.16.1
+ operations
+ 
+-Upstream-Status: Inappropriate [configuration]
++Upstream-Status: Inappropriate [licensing]
+ 
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ 
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/linklib_from_0.17.patch b/meta/recipes-core/gettext/gettext-0.16.1/linklib_from_0.17.patch
+index 3cbe867..d921069 100644
+--- a/meta/recipes-core/gettext/gettext-0.16.1/linklib_from_0.17.patch
++++ b/meta/recipes-core/gettext/gettext-0.16.1/linklib_from_0.17.patch
+@@ -1,8 +1,9 @@
++
+ # Pulled from OpenEmbedded
+ # 
+ # Commented by: Saul Wold <saul.wold@intel.com>
+ 
+-Upstream-Status: Inappropriate [configuration]
++Upstream-Status: Inappropriate [licensing]
+ 
+ Index: gettext-0.16.1/autoconf-lib-link/m4/lib-link.m4
+ ===================================================================
 -- 
 1.7.3.4
 
