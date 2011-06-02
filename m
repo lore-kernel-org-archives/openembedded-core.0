@@ -1,24 +1,35 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QS8lo-0000S7-6d for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 16:21:08 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QS8ik-00036p-Nu
+Received: from relay1.mentorg.com ([192.94.38.131])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Tom_Rini@mentor.com>) id 1QS8tQ-0000ca-8A
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 16:17:58 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1306940803.2529.101.camel@phil-desktop>
-References: <4DE56B0D.4020209@intel.com>
-	<1306940803.2529.101.camel@phil-desktop>
-Organization: Phil Blundell Consulting Ltd
-Date: Thu, 02 Jun 2011 15:17:57 +0100
-Message-ID: <1307024277.2529.205.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: Tell me your build error message annoyances!
+	Thu, 02 Jun 2011 16:29:00 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QS8qL-00014u-7j from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 07:25:49 -0700
+Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 2 Jun 2011 07:22:11 -0700
+Received: from [172.30.80.84] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
+	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 2 Jun 2011 07:25:48 -0700
+Message-ID: <4DE79D69.7080806@mentor.com>
+Date: Thu, 2 Jun 2011 07:25:45 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1306931844.git.dexuan.cui@intel.com>	<4DE67440.1020405@mentor.com>
+	<1306950977.27470.461.camel@rex>	<4DE69582.2090508@mentor.com>	<1306958729.3119.3.camel@lenovo.internal.reciva.com>	<4DE6A43A.3050401@mentor.com>	<1306961135.3119.13.camel@lenovo.internal.reciva.com>	<4DE6A836.3040004@mentor.com>
+	<1307023591.27470.549.camel@rex>
+In-Reply-To: <1307023591.27470.549.camel@rex>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 02 Jun 2011 14:22:11.0188 (UTC)
+	FILETIME=[762F9B40:01CC2130]
+Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,42 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 14:21:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 02 Jun 2011 14:29:00 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-06-01 at 16:06 +0100, Phil Blundell wrote:
-> On Tue, 2011-05-31 at 15:26 -0700, Scott Garman wrote:
-> > I'd like to collect some feedback on error messages while building that 
-> > you find confusing/annoying/unhelpful. I'm going to be working on trying 
-> > to improve the situation and would like to hear from you about what 
-> > could be more helpful.
+On 06/02/2011 07:06 AM, Richard Purdie wrote:
+> On Wed, 2011-06-01 at 13:59 -0700, Tom Rini wrote:
+>> On 06/01/2011 01:45 PM, Phil Blundell wrote:
+>>> On Wed, 2011-06-01 at 13:42 -0700, Tom Rini wrote:
+>>>> What falls down in this case is that  once
+>>>> perl-native is built (and in our PATH), if it's a different version than
+>>>> system-wide perl, stuff starts failing on version mis-match.
+>>>
+>>> I think that's the bit that I'm not properly understanding.  Which
+>>> versions are mismatching, exactly?  
+>>>
+>>> Surely the local perl from the sysroot ought to be completely
+>>> self-contained and shouldn't be using any bits from the host perl
+>>> install at that point.
+>>
+>> So this jogs my memory a bit!  It's not so much perl itself but stuff
+>> that uses perl that can get dirty and then no, you have stuff thats
+>> built for system perl and stuff that's built with perl-native clashing.
+>>
+>> Relying even more on memory, I think help2man was one of the "easy"
+>> culprits and since we also modify the env, we do things like have
+>> help2man run with PERL5LIB and so on pointing system-wide perl at
+>> perl-native's lib directory and so forth.
 > 
-> Funnily enough we were just having a discussion about this on irc.  My
-> personal top two least favourite diagnostics are:
+> But with the proposed patch series either:
+> 
+> a) help2man depends perlnative.bbclass
+> 
+> In this case it can depend on perl-native being there, its in path and
+> things work as per OE.dev.
+> 
+> b) help2man doesn't depend in perlnative.bbclass
+> 
+> It only sees the system perl.
+> 
+> So I'm still not clear where the problem is?
 
-Another non-favourite: if you fail to specify the right protocol for the
-git fetcher then you end up with something like:
+Well, help2man-native is (or needs to be) a dep listed in
+autotools.bbclass (since so many things need it, hence why it oe-core
+still just has it as a required host utility instead of building it).
 
-ERROR: Function 'Fetcher failure for URL: 'None'. Fetch command export
-HOME="/home/pb"; export
-GIT_CONFIG="/home/pb/oe/build/tmp-eglibc/sysroots/x86_64-linux/usr/etc/gitconfig"; export PATH="..."; git ls-remote rsync://gitolite@cam-git/pb/linux-2.6.35 master failed with signal 128, output:
-fatal: Could not make temporary directory: No such file or directory
-' failed
+But help2man is just the easy/common case.  Heck, it _may_ blow up even
+with the host help2man instead of help2man-native, if a recipe uses
+system-wide help2man and perlnative.bbclass.  The root problem (again,
+from memory) is that since we modify PERL5LIB and so on, when we do
+that, we've opened ourselves up for system-wide perl trying to use
+perl-native's stuff.
 
-Usually the value of $PATH is about half a screenful so this error looks
-more monstrous in real life than it probably does above, and it isn't
-immediately apparent that the "no such file or directory" thing is a
-result of having tried to fetch with the wrong URI scheme. 
-
-This is made slightly more irritating by the fact that there isn't much
-consistency between the different fetchers about the URI structure; some
-of them want a "proto" attribute whereas others (including git) want
-"protocol", so it's harder than perhaps it ought to be to remember what
-the correct naming is.
-
-p.
-
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
