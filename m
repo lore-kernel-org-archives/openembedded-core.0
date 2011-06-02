@@ -1,27 +1,42 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QS814-0007bT-Sb
+	(envelope-from <dexuan.cui@intel.com>) id 1QS8HQ-0007m6-FN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 15:32:51 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p52DTb3v010758
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jun 2011 06:29:37 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 2 Jun 2011 06:29:37 -0700
-Message-ID: <4DE79040.4020709@windriver.com>
-Date: Thu, 2 Jun 2011 08:29:36 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Thu, 02 Jun 2011 15:49:44 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2011 06:46:31 -0700
+X-ExtLoop1: 1
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by orsmga002.jf.intel.com with ESMTP; 02 Jun 2011 06:46:30 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 2 Jun 2011 21:46:29 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 2 Jun 2011 21:46:29 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi; Thu, 2 Jun 2011
+	21:46:28 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 2 Jun 2011 21:46:26 +0800
+Thread-Topic: [OE-core] [RFC v1 PATCH 00/16] populate perl-native into its
+	own	directory
+Thread-Index: AcwgnHyLDGASV7CPSP6KHBwZbTT5eQAjlQeg
+Message-ID: <1865303E0DED764181A9D882DEF65FB697F1A027A3@shsmsx502.ccr.corp.intel.com>
+References: <cover.1306931844.git.dexuan.cui@intel.com>
+	<4DE67440.1020405@mentor.com>	<1306950977.27470.461.camel@rex>
+	<4DE69582.2090508@mentor.com>
+	<1306958729.3119.3.camel@lenovo.internal.reciva.com>
+	<4DE6A43A.3050401@mentor.com>
+In-Reply-To: <4DE6A43A.3050401@mentor.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1307008107.2529.175.camel@phil-desktop>
-In-Reply-To: <1307008107.2529.175.camel@phil-desktop>
-Subject: Re: [PATCH] rpm: avoid dependency on perl and python for -native build
+Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,61 +51,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 13:32:51 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Jun 2011 13:49:44 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/2/11 4:48 AM, Phil Blundell wrote:
-> Update override naming (_native -> _virtclass-native) to disable perl
-> and python bindings when building native rpm, and adjust the DEPENDS to
-> match.
-> 
-> Perl bindings were, in fact, already disabled for both native and target
-> builds so it's only the python ones that have really changed.
-> 
-> Signed-off-by: Phil Blundell <philb@gnu.org>
+Tom Rini wrote:
+> On 06/01/2011 01:05 PM, Phil Blundell wrote:
+>> On Wed, 2011-06-01 at 12:39 -0700, Tom Rini wrote:
+>>> Maybe race isn't quite the right word.  But recipe A depends on
+>>> lib$something-perl-native, and brings in perl-native.  It also
+>>> checks=20
+>>> for perl in its auto-foo and finds our perl.  It now also uses our
+>>> perl when it wants a host perl and all of the potential bad things
+>>> happen, yes?=20
+>>=20
+>> What are the circumstances in which it would want a host perl?  I
+>> don't quite understand the issue here.  Surely anything that the
+>> host perl can do, perl-native plus some combination of
+>> libfoo-perl-native can also do, right?
+>=20
+> So, here's the two things going on:
+> - In some cases (libfoo-perl-native) we need to install various perl
+> modules in order to build other target apps.  This is the cpan case,
+> iirc.  We don't currently (and can't?) just play whatever games perl
+> would like to do to use system-wide perl and a local to TMPDIR cpan
+> directory.  We instead go down the path of having perl-native.
+> - In order to build perl for the target we need to have the same perl
+> version available for use.
+>=20
+> What we do in oe-core (and oe.dev, historically) is provide
+> perl-native=20
+> for both of these cases.  What falls down in this case is that  once
+> perl-native is built (and in our PATH), if it's a different version
+> than system-wide perl, stuff starts failing on version mis-match.=20
+> The patch series here fixes that by saying stuff must opt-in to
+> having perl-native=20
+> be in PATH rather than just system-wide perl.  What I'm saying is that
+> while in oe-core nothing falls down here (since nothing that gets
+> perl-native also tries to just run 'perl') meta-oe is or will have
+> failures.=20
+>=20
+> Unfortunately I don't have the test cases that drove me to make oe.dev
+> like it is handy but I have a feeling that if we go down this path it
+> won't be the last we see of the problem, but it might well pop up
+> again.=20
+>=20
+> There is another option here, which is to make perl-native be
+> perl-cross, live in its own special directory and figure out how to
+> make=20
+> a TMPDIR-specific cpan repository available for use by system-wide
+> perl.=20
 
-Acked-by: Mark Hatle <mark.hatle@windriver.com>
+Hi Tom,
+Thank you very much for the detailed explanation!
+However I'm actually new to cpan and know few about the history of that in =
+oe.dev, so I'm not sure I know enough about the background to make a proper=
+ decision now.
+I suppose Richard would comment here. :-)
 
-> ---
->  meta/recipes-devtools/rpm/rpm_5.4.0.bb |   10 ++++++----
->  1 files changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-> index d3f85f2..5c30f1c 100644
-> --- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-> @@ -42,8 +42,10 @@ HOMEPAGE = "http://rpm5.org/"
->  LICENSE = "LGPL 2.1"
->  LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
->  
-> -DEPENDS = "bzip2 zlib python perl db openssl elfutils expat libpcre attr acl popt"
-> -PR = "r16"
-> +rpmdeps = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt"
-> +DEPENDS = "${rpmdeps} python perl"
-> +DEPENDS_virtclass-native = "${rpmdeps}"
-> +PR = "r17"
->  
->  # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
->  # in order to extract the distribution SRPM into a format we can extract...
-> @@ -92,7 +94,7 @@ WITH_PYTHON = "	--with-python=${PYTHON_BASEVERSION} \
->  		--without-pythonembed \
->  	      "
->  
-> -WITH_PYTHON_native = " --without-python"
-> +WITH_PYTHON_virtclass-native = " --without-python"
->  
->  # Perl modules are not built, but they could be enabled fairly easily
->  # the perl module creation and installation would need to be patched.
-> @@ -100,7 +102,7 @@ WITH_PYTHON_native = " --without-python"
->  #WITH_PERL = "	--with-perl --without-perlembed"
->  WITH_PERL = "	--without-perl"
->  
-> -WITH_PERL_native = " --without-perl"
-> +WITH_PERL_virtclass-native = " --without-perl"
->  
->  WITH_DB = "--with-db --with-dbsql --without-db-tools-integrated --without-sqlite"
->  
+Thanks,
+-- Dexuan
+
+
 
 
 
