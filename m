@@ -1,42 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QS4Qc-0008L5-Kj for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 11:42:59 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p529d0jv030822
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jun 2011 10:39:00 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30599-04 for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jun 2011 10:38:56 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p529cq4N030816
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jun 2011 10:38:56 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QS4Z0-0008QF-FB for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 11:51:38 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QS4Vx-000334-5u
+	for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 11:48:29 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20110602063130.GG3281@jama.jama.net>
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-	<ddcfd950f58f85e00b0ea094534f27ccf1315152.1306958862.git.otavio@ossystems.com.br>
-	<1306960406.3119.6.camel@lenovo.internal.reciva.com>
-	<BANLkTinyA0PAq3bQRTi2zCrWKKOVypytqg@mail.gmail.com>
-	<1306961600.3119.15.camel@lenovo.internal.reciva.com>
-	<BANLkTimvA2gMHB=zmZmLqz+CdyAsR3dmXg@mail.gmail.com>
-	<4DE6B299.2060507@linux.intel.com>
-	<20110601215232.GE3281@jama.jama.net>
-	<4DE6BAE6.3040406@linux.intel.com>
-	<20110602063130.GG3281@jama.jama.net>
-Date: Thu, 02 Jun 2011 10:38:33 +0100
-Message-ID: <1307007513.27470.473.camel@rex>
+Organization: Phil Blundell Consulting Ltd
+Date: Thu, 02 Jun 2011 10:48:27 +0100
+Message-ID: <1307008107.2529.175.camel@phil-desktop>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 3/3] gnutls: link against 'dl' library
+X-Mailer: Evolution 2.30.3 
+Subject: [PATCH] rpm: avoid dependency on perl and python for -native build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,61 +30,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 09:42:59 -0000
+X-List-Received-Date: Thu, 02 Jun 2011 09:51:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-06-02 at 08:31 +0200, Martin Jansa wrote:
-> what do you have in configlog for LIBDL?
-> 
-> here it's all empty
-> LIBDL=''
-> LIBDL_PREFIX=''
-> LTLIBDL=''
-> 
-> if I add 
-> +             --with-libdl-prefix=${STAGING_DIR_HOST}${prefix} \
-> +             --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
-> to EXTRA_OE_CONF (we already have couple of --with-*-prefix there) it's
-> found correctly (and this is at least better workarround then forcing
-> -ldl directly to LDFLAGS):
-> LIBDL='/OE/shr-core/tmp/sysroots/om-gta02/usr/lib/libdl.so'
-> LIBDL_PREFIX='/OE/shr-core/tmp/sysroots/om-gta02/usr'
-> LTLIBDL='-L/OE/shr-core/tmp/sysroots/om-gta02/usr/lib -ldl'
-> 
-> same problem is with libpthread..
-> 
-> maybe their m4/lib-link.m4 does something wrong in
-> AC_DEFUN([AC_LIB_HAVE_LINKFLAGS],
-> [
->   AC_REQUIRE([AC_LIB_PREPARE_PREFIX])
->   AC_REQUIRE([AC_LIB_RPATH])
+Update override naming (_native -> _virtclass-native) to disable perl
+and python bindings when building native rpm, and adjust the DEPENDS to
+match.
 
-I just looked at the code in lib/configure and concluded that its just
-luck whether it figures out the correct values or does something really
-nasty. Its poking about ${libdir} for this stuff so you end up with
-something like the following combinations:
+Perl bindings were, in fact, already disabled for both native and target
+builds so it's only the python ones that have really changed.
 
-a) 64 bit system with 64 bit libs in /usr/lib64 and no 32 bit libs:
-     Finds no -ldl
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb |   10 ++++++----
+ 1 files changed, 6 insertions(+), 4 deletions(-)
 
-   Something else may or may not link it indirectly so the build may or 
-   may not work.
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+index d3f85f2..5c30f1c 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+@@ -42,8 +42,10 @@ HOMEPAGE = "http://rpm5.org/"
+ LICENSE = "LGPL 2.1"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ 
+-DEPENDS = "bzip2 zlib python perl db openssl elfutils expat libpcre attr acl popt"
+-PR = "r16"
++rpmdeps = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt"
++DEPENDS = "${rpmdeps} python perl"
++DEPENDS_virtclass-native = "${rpmdeps}"
++PR = "r17"
+ 
+ # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+ # in order to extract the distribution SRPM into a format we can extract...
+@@ -92,7 +94,7 @@ WITH_PYTHON = "	--with-python=${PYTHON_BASEVERSION} \
+ 		--without-pythonembed \
+ 	      "
+ 
+-WITH_PYTHON_native = " --without-python"
++WITH_PYTHON_virtclass-native = " --without-python"
+ 
+ # Perl modules are not built, but they could be enabled fairly easily
+ # the perl module creation and installation would need to be patched.
+@@ -100,7 +102,7 @@ WITH_PYTHON_native = " --without-python"
+ #WITH_PERL = "	--with-perl --without-perlembed"
+ WITH_PERL = "	--without-perl"
+ 
+-WITH_PERL_native = " --without-perl"
++WITH_PERL_virtclass-native = " --without-perl"
+ 
+ WITH_DB = "--with-db --with-dbsql --without-db-tools-integrated --without-sqlite"
+ 
+-- 
+1.7.1
 
-b) 64 bit system with 64 bit libs in /usr/lib64 and 32 bit libs in /usr/lib, building for 32 bit:
-     Finds a -ldl which "works".
 
-   Things appear to work.
-
-c) Other variations
-
-
-The correct fix would appear to be to set the paths specifically using
-the options Martin mentions above.
-
-Cheers,
-
-Richard
 
 
 
