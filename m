@@ -1,28 +1,29 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QS1ql-00055Z-8u
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QS27l-0005cJ-0q for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 09:15:21 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QS24h-0002vH-Rj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 08:57:47 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 01 Jun 2011 23:54:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,308,1304319600"; 
-   d="scan'208";a="5742786"
-Received: from unknown (HELO [10.255.12.203]) ([10.255.12.203])
-	by azsmga001.ch.intel.com with ESMTP; 01 Jun 2011 23:54:34 -0700
-Message-ID: <4DE733A9.4010502@linux.intel.com>
-Date: Wed, 01 Jun 2011 23:54:33 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
+	Thu, 02 Jun 2011 09:12:11 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1306909184.git.sgw@linux.intel.com>	<f1c4bd3cef1b384787b418e737c93cd105635196.1306909184.git.sgw@linux.intel.com>	<1306949369.27470.443.camel@rex>	<1306952390.14389.1.camel@lenovo.internal.reciva.com>
-	<A58DF9E1-A81F-41E0-B687-CFBB3FE66E82@dominion.thruhere.net>
-In-Reply-To: <A58DF9E1-A81F-41E0-B687-CFBB3FE66E82@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [CONSOLIDATED PULL 24/32] bitbake.conf: Create	static-dev pacakge for static libraries
+In-Reply-To: <4DE6B685.6060501@mentor.com>
+References: <1306944074.2529.107.camel@phil-desktop>
+	<1306944235.2529.109.camel@phil-desktop>
+	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>
+	<1306945014.2529.113.camel@phil-desktop> <4DE66D53.30505@windriver.com>
+	<1306947245.2529.148.camel@phil-desktop>	<4DE66FC6.4030607@windriver.com>
+	<1306959728.3119.5.camel@lenovo.internal.reciva.com>
+	<4DE6B685.6060501@mentor.com>
+Date: Thu, 02 Jun 2011 08:12:04 +0100
+Message-ID: <1306998724.8098.3.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: dbus-native --with-x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,32 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 06:57:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 02 Jun 2011 07:15:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/01/2011 11:27 AM, Koen Kooi wrote:
->
-> Op 1 jun 2011, om 20:19 heeft Phil Blundell het volgende geschreven:
->
->> On Wed, 2011-06-01 at 18:29 +0100, Richard Purdie wrote:
->>> I've also a slight preference for "staticdev" just to make these clearly
->>> different from -dev packages.
->>
->> Agreed.  I think even "-static" might be better still.
->
-> That's what we did in OE and it caused some troubles in the busybox-static and mplayer-static cases. But that were the only ones I encountered.
->
-What about -staticlibs since that what they the packages actaully contain?
+On Wed, 2011-06-01 at 15:00 -0700, Tom Rini wrote:
+> Since this keeps coming up, maybe it needs a comment.  sqlite3 needs
+> tcl-native (tclsh) to generate a header file.  No tclsh, no sqlite3.
 
-Sau!
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Oh yeah, right.
+
+Maybe we should just patch sqlite to generate the header using something
+else.  There's no real heavy lifting going on in that script and it
+could easily be done in python for example.
+
+If sqlite is a requirement for pseudo, and hence an unavoidable dep for
+every build, it seems worth going to a bit of effort to avoid building
+stuff like tcl if that's avoidable.
+
+p.
+
+
 
 
