@@ -1,37 +1,34 @@
 Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QSBEn-0003Ow-Vx
+	(envelope-from <Tom_Rini@mentor.com>) id 1QSBN0-0003rl-HI
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 18:59:14 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	Thu, 02 Jun 2011 19:07:42 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
 	by relay1.mentorg.com with esmtp 
-	id 1QSBBj-0003Zv-CO from Tom_Rini@mentor.com 
+	id 1QSBJu-0004Uv-7P from Tom_Rini@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 09:56:03 -0700
-Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Thu, 2 Jun 2011 09:56:03 -0700
-Received: from [172.30.80.84] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
-	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
-	Thu, 2 Jun 2011 09:56:02 -0700
-Message-ID: <4DE7C09F.9000104@mentor.com>
-Date: Thu, 2 Jun 2011 09:55:59 -0700
+	Thu, 02 Jun 2011 10:04:30 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 2 Jun 2011 10:00:51 -0700
+Received: from [172.30.80.84] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 2 Jun 2011 10:04:29 -0700
+Message-ID: <4DE7C29A.2030609@mentor.com>
+Date: Thu, 2 Jun 2011 10:04:26 -0700
 From: Tom Rini <tom_rini@mentor.com>
 Organization: Mentor Graphics Corporation
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1306931844.git.dexuan.cui@intel.com>	<4DE67440.1020405@mentor.com>
-	<1306950977.27470.461.camel@rex>	<4DE69582.2090508@mentor.com>	<1306958729.3119.3.camel@lenovo.internal.reciva.com>	<4DE6A43A.3050401@mentor.com>	<1306961135.3119.13.camel@lenovo.internal.reciva.com>	<4DE6A836.3040004@mentor.com>
-	<1307023591.27470.549.camel@rex>	<4DE79D69.7080806@mentor.com>
-	<1307025426.2529.209.camel@phil-desktop>	<4DE7BA3F.4060600@mentor.com>
-	<1307032545.27470.580.camel@rex>
-In-Reply-To: <1307032545.27470.580.camel@rex>
+References: <1306944074.2529.107.camel@phil-desktop>	<1306944235.2529.109.camel@phil-desktop>	<5DBF32A5-22D5-4499-AD32-9C48680B7EBA@dominion.thruhere.net>	<1306945014.2529.113.camel@phil-desktop>	<4DE66D53.30505@windriver.com>	<1306947245.2529.148.camel@phil-desktop>	<4DE66FC6.4030607@windriver.com>	<1306959728.3119.5.camel@lenovo.internal.reciva.com>	<4DE6B685.6060501@mentor.com>	<20110601220659.GA4601@rhein.zuhause.netz>	<4DE6BBC2.5070509@mentor.com>
+	<1307005695.2529.164.camel@phil-desktop>
+In-Reply-To: <1307005695.2529.164.camel@phil-desktop>
 X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 02 Jun 2011 16:56:03.0196 (UTC)
-	FILETIME=[F4E43BC0:01CC2145]
-Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
+X-OriginalArrivalTime: 02 Jun 2011 17:00:51.0657 (UTC)
+	FILETIME=[A0D3E390:01CC2146]
+Subject: Re: dbus-native --with-x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,63 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 16:59:14 -0000
+X-List-Received-Date: Thu, 02 Jun 2011 17:07:42 -0000
 Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 06/02/2011 09:35 AM, Richard Purdie wrote:
-> On Thu, 2011-06-02 at 09:28 -0700, Tom Rini wrote:
->> On 06/02/2011 07:37 AM, Phil Blundell wrote:
->>> On Thu, 2011-06-02 at 07:25 -0700, Tom Rini wrote:
->>>> But help2man is just the easy/common case.  Heck, it _may_ blow up even
->>>> with the host help2man instead of help2man-native, if a recipe uses
->>>> system-wide help2man and perlnative.bbclass.  The root problem (again,
->>>> from memory) is that since we modify PERL5LIB and so on, when we do
->>>> that, we've opened ourselves up for system-wide perl trying to use
->>>> perl-native's stuff.
+On 06/02/2011 02:08 AM, Phil Blundell wrote:
+> On Wed, 2011-06-01 at 15:22 -0700, Tom Rini wrote:
+>> On 06/01/2011 03:07 PM, Henning Heinold wrote:
+>>> On Wed, Jun 01, 2011 at 03:00:37PM -0700, Tom Rini wrote:
+>>>> On 06/01/2011 01:22 PM, Phil Blundell wrote:
+>>>>> On Wed, 2011-06-01 at 11:58 -0500, Mark Hatle wrote:
+>>>>>> It "should" be as simple and adding --without-perl and --without-python to the
+>>>>>> configuration line...  but I haven't tried it.
+>>>>>
+>>>>> Turns out that rpm-native already does this, but (like the dbus case)
+>>>>> there is no matching logic to get the DEPENDS right.
+>>>>>
+>>>>> Another instance of a similar thing appears to be sqlite3-native, which
+>>>>> DEPENDS on tcl-native even though it's configured --without-tcl.
+>>>>
+>>>> Since this keeps coming up, maybe it needs a comment.  sqlite3 needs
+>>>> tcl-native (tclsh) to generate a header file.  No tclsh, no sqlite3.
 >>>
->>> Ah right, I think I see what you're getting at now.
->>>
->>> If we've got a clean separation between perl-native and host perl,
->>> though, can't we now just eliminate all of that futzing with PERL5LIB in
->>> cpan.bbclass and such like places?  perl-native already knows how to
->>> look in the right places within the sysroot for its modules so there
->>> should be no need for anything else to be overriding it.
+>>> I thought that is diffrent with 3.7.x version of sqlite3.
 >>
->> Well, my question is, does it, really?
+>> Nope.  That's what I checked this against.  In oe.dev
+>> a2c3af2d608b1b713018d688b00e03873a538993 is where we set all of this right.
 > 
-> If it doesn't it really does need to get fixed. I've not seen any
-> evidence this has been the problem but it still could be.
+> Actually, it looks to me like Henning is right.  In 3.7.6.2, which seems
+> to be what we have in oe-core right now, I can't find any trace of the
+> old tcl script that was being used for header generation.  Which file(s)
+> did you find the tcl requirement in?
 
-I agree it needs to be fixed, yes.  One way or another...
-
->>   Even if we're using the sstate
->> cache from /foo/oecore/tmp over in /bar/oecore/tmp (and /foo/oecore/tmp
->> is rm -rf'd) ?  Since we've got a create_wrapper around perl and
->> perl${PV} it should be I suppose (or is easily added there), but I'd
->> feel a lot better with some testing of the above case (and the updates
->> to cpan*bbclass).
-> 
-> I only took the perl-native DEPENDS patch on the condition this gets
-> fixed properly. The patches that are there look to do that, at least for
-> OE-Core. If there are further issues we're going to have to take them as
-> they arise as I have an objection to crippling the build dependencies
-> because perl is broken. Really this could use some TLC from someone with
-> experience in the area...
-
-Well, I guess I'd boil down what I said above into a request like this
-for v3:
-- Modify cpan.bbclass to NOT set PERL_INC / PERL_LIB / PERL_ARCHLIB /
-PERLHOSTLIB.
-- In /scratch/oecore/tmp0 build the images that were built for v1
-- In /scratch/oecore/tmp1 build perl-native's full sstate cache.
-- Keep the sstate cache from tmp1 and otherwise rm -rf tmp1.
-- In /scratch/oecore/tmp2 using the sstate from tmp1, build the same
-images that were built for tmp0.
-
-If all of that works, I think we can call this safe enough for now and
-possibly even really fixed, while we have someone actively kicking
-around the recipes in question.
+I guess I've just gone crazy (or crazier if you prefer) and I can't find
+it anymore in 3.7.x.
 
 -- 
 Tom Rini
