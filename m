@@ -1,38 +1,33 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QSDtS-0000uE-T7
-	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 21:49:24 +0200
-Received: by pvc30 with SMTP id 30so579063pvc.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QSFSK-0004P2-HS for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 23:29:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p52LQFwL029879
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jun 2011 12:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=INN+ny4Gc2/Z/k8hRgJ8ia9hUS3JNUBr86H11x2wsow=;
-	b=FdsiwnQuwgQJP7FfAfGhHuuVciuwib3kE1q5g9PXXKTW7ooA9n44ejLQqmw0ITsulM
-	Ww7PVAqu0GkVgSXsyya4FGV6xkXH0cV0NRjbCFTYLfe2A3cMFDBFa14XSMAxZegFxC1j
-	j4r6tencY35DNqrRd8R6ATCPWLHz2E+ku+1Ao=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=JF4R66w7foD21j02lc3NlPBwxTxdnvmrV0n+/m2Sxnivak6ICr8d5kZJG8uCQfFz6W
-	ic782XDc8h66LbMy5O4lF0aH9Yb10qUFcYf1pdOkmCIheRuElkJKE0zUGviZrlPIcLdu
-	i9jPLqD9lh9l54tqyzEaCMbHZwdRe2KAmX7r8=
-Received: by 10.142.62.29 with SMTP id k29mr153735wfa.397.1307043966691;
-	Thu, 02 Jun 2011 12:46:06 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id f3sm803486pbj.32.2011.06.02.12.46.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Jun 2011 12:46:05 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jun 2011 12:45:26 -0700
-Message-Id: <1307043926-18177-2-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <1307043926-18177-1-git-send-email-raj.khem@gmail.com>
-References: <1307043926-18177-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 2/2] util-linux_2.19.1.bb: Fix compliation on uclibc
+	Thu, 2 Jun 2011 22:26:15 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 29759-02 for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Jun 2011 22:26:10 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p52LQ7k0029870
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 2 Jun 2011 22:26:08 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1307008107.2529.175.camel@phil-desktop>
+References: <1307008107.2529.175.camel@phil-desktop>
+Date: Thu, 02 Jun 2011 22:25:46 +0100
+Message-ID: <1307049946.27470.589.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] rpm: avoid dependency on perl and python for -native build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,73 +42,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 19:49:24 -0000
+X-List-Received-Date: Thu, 02 Jun 2011 21:29:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-util-linux 2.19 needs this patch to successfully
-compile on uclibc systems. This is a bug in util-linux
-that goes unnoticed on eglibc builds.
+On Thu, 2011-06-02 at 10:48 +0100, Phil Blundell wrote:
+> Update override naming (_native -> _virtclass-native) to disable perl
+> and python bindings when building native rpm, and adjust the DEPENDS to
+> match.
+> 
+> Perl bindings were, in fact, already disabled for both native and target
+> builds so it's only the python ones that have really changed.
+> 
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>  meta/recipes-devtools/rpm/rpm_5.4.0.bb |   10 ++++++----
+>  1 files changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> index d3f85f2..5c30f1c 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> @@ -42,8 +42,10 @@ HOMEPAGE = "http://rpm5.org/"
+>  LICENSE = "LGPL 2.1"
+>  LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+>  
+> -DEPENDS = "bzip2 zlib python perl db openssl elfutils expat libpcre attr acl popt"
+> -PR = "r16"
+> +rpmdeps = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt"
+> +DEPENDS = "${rpmdeps} python perl"
+> +DEPENDS_virtclass-native = "${rpmdeps}"
+> +PR = "r17"
+>  
+>  # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+>  # in order to extract the distribution SRPM into a format we can extract...
+> @@ -92,7 +94,7 @@ WITH_PYTHON = "	--with-python=${PYTHON_BASEVERSION} \
+>  		--without-pythonembed \
+>  	      "
+>  
+> -WITH_PYTHON_native = " --without-python"
+> +WITH_PYTHON_virtclass-native = " --without-python"
+>  
+>  # Perl modules are not built, but they could be enabled fairly easily
+>  # the perl module creation and installation would need to be patched.
+> @@ -100,7 +102,7 @@ WITH_PYTHON_native = " --without-python"
+>  #WITH_PERL = "	--with-perl --without-perlembed"
+>  WITH_PERL = "	--without-perl"
+>  
+> -WITH_PERL_native = " --without-perl"
+> +WITH_PERL_virtclass-native = " --without-perl"
+>  
+>  WITH_DB = "--with-db --with-dbsql --without-db-tools-integrated --without-sqlite"
+>  
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../uclibc-__progname-conflict.patch               |   31 ++++++++++++++++++++
- meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    4 ++-
- 2 files changed, 34 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/util-linux/util-linux-2.19.1/uclibc-__progname-conflict.patch
+This appears to break the rpm-native build with:
 
-diff --git a/meta/recipes-core/util-linux/util-linux-2.19.1/uclibc-__progname-conflict.patch b/meta/recipes-core/util-linux/util-linux-2.19.1/uclibc-__progname-conflict.patch
-new file mode 100644
-index 0000000..45826b1
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux-2.19.1/uclibc-__progname-conflict.patch
-@@ -0,0 +1,31 @@
-+configure should include errno.h instead of argp.h when
-+checking for presence of program_invocation_short_name
-+uclibc defines this to be const char* unlike util-linux-ng
-+which defines this to be char* so this error goes unnoticed
-+on glibc/eglibc systems.
-+
-+here is the error it fixes
-+
-+in file included from mountP.h:14:0,                                                                               
-+                 from cache.c:29:                                                                                  
-+/home/kraj/work/slugos/build/tmp-slugos-uclibc/sysroots/nslu2le/usr/include/errno.h:55:46: error: conflicting types for '__progname'                                                                                                  
-+../../../include/c.h:118:14: note: previous declaration of '__progname' was here                                   
-+make[3]: *** [cache.lo] Error 1          
-+
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+Index: util-linux-2.19.1/configure.ac
-+===================================================================
-+--- util-linux-2.19.1.orig/configure.ac
-++++ util-linux-2.19.1/configure.ac
-+@@ -250,7 +250,7 @@ esac
-+ 
-+ 
-+ AC_MSG_CHECKING(whether program_invocation_short_name is defined)
-+-AC_TRY_COMPILE([#include <argp.h>],
-++AC_TRY_COMPILE([#include <errno.h>],
-+                [program_invocation_short_name = "test";],
-+                AC_DEFINE(HAVE_PROGRAM_INVOCATION_SHORT_NAME, 1,
-+                          [Define if program_invocation_short_name is defined])
-diff --git a/meta/recipes-core/util-linux/util-linux_2.19.1.bb b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-index 7fe7497..8067ab5 100644
---- a/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-@@ -6,7 +6,9 @@ require util-linux.inc
- LICENSE_util-linux-lscpu = "GPLv3+"
- 
- SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
--                  file://util-linux-ng-2.16-mount_lock_path.patch"
-+            file://util-linux-ng-2.16-mount_lock_path.patch \
-+            file://uclibc-__progname-conflict.patch \      
-+"
- 
- SRC_URI[md5sum] = "3eab06f05163dfa65479c44e5231932c"
- SRC_URI[sha256sum] = "d3eac4afcc687b3ae1ffedcab2dc12df84c7ba7045cce31386d2b7040a011c7d"
--- 
-1.7.4.1
+| checking whether to build with Lua library... no
+| ++ executing failure action
+| ++ mapping --with-pcre=yes to --with-pcre="external:internal:none"
+| ++ searching location: external
+| ++ searching location: internal
+| -- skipping not existing local sub-directory: pcre
+| ++ searching location: none
+| -- no operation
+| checking pcre.h usability... no
+| checking pcre.h presence... no
+| checking for pcre.h... no
+| checking for pcre_compile in -lpcre... no
+| checking whether to build with PCRE library... no
+| ++ executing failure action
+| configure: error: PCRE is mandatory. If you don't have  libpcre then --with-pcre=internal could be used
+| ERROR: oe_runconf failed
+| ERROR: Function 'do_configure' failed (see /media/build2/builds/rptest/b2/tmp/work/x86_64-linux/rpm-native-5.4.0-r17/temp/log.do_configure.8572 for further information)
+| ERROR: Function 'do_configure' failed (see /media/build2/builds/rptest/b2/tmp/work/x86_64-linux/rpm-native-5.4.0-r17/temp/log.do_configure.8572 for further information)
+NOTE: package rpm-native-5.4.0-r17: task do_configure: Failed
+ERROR: Task 48 (virtual:native:/media/build2/builds/rptest/meta/recipes-devtools/rpm/rpm_5.4.0.bb, do_configure) failed with exit code '1'
+ERROR: 'virtual:native:/media/build2/builds/rptest/meta/recipes-devtools/rpm/rpm_5.4.0.bb' failed
+
+:(
+
+Cheers,
+
+Richard
+
 
 
 
