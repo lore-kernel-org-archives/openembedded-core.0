@@ -1,34 +1,29 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QS8tQ-0000ca-8A
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QS94K-0000k6-HD for openembedded-core@lists.openembedded.org;
+	Thu, 02 Jun 2011 16:40:16 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QS91H-00037C-3N
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 16:29:00 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QS8qL-00014u-7j from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 07:25:49 -0700
-Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 2 Jun 2011 07:22:11 -0700
-Received: from [172.30.80.84] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
-	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
-	Thu, 2 Jun 2011 07:25:48 -0700
-Message-ID: <4DE79D69.7080806@mentor.com>
-Date: Thu, 2 Jun 2011 07:25:45 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1306931844.git.dexuan.cui@intel.com>	<4DE67440.1020405@mentor.com>
-	<1306950977.27470.461.camel@rex>	<4DE69582.2090508@mentor.com>	<1306958729.3119.3.camel@lenovo.internal.reciva.com>	<4DE6A43A.3050401@mentor.com>	<1306961135.3119.13.camel@lenovo.internal.reciva.com>	<4DE6A836.3040004@mentor.com>
-	<1307023591.27470.549.camel@rex>
-In-Reply-To: <1307023591.27470.549.camel@rex>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 02 Jun 2011 14:22:11.0188 (UTC)
-	FILETIME=[762F9B40:01CC2130]
+	Thu, 02 Jun 2011 16:37:07 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4DE79D69.7080806@mentor.com>
+References: <cover.1306931844.git.dexuan.cui@intel.com>
+	<4DE67440.1020405@mentor.com> <1306950977.27470.461.camel@rex>
+	<4DE69582.2090508@mentor.com>
+	<1306958729.3119.3.camel@lenovo.internal.reciva.com>
+	<4DE6A43A.3050401@mentor.com>
+	<1306961135.3119.13.camel@lenovo.internal.reciva.com>
+	<4DE6A836.3040004@mentor.com> <1307023591.27470.549.camel@rex>
+	<4DE79D69.7080806@mentor.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Thu, 02 Jun 2011 15:37:06 +0100
+Message-ID: <1307025426.2529.209.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
 Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,60 +39,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 14:29:00 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Thu, 02 Jun 2011 14:40:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/02/2011 07:06 AM, Richard Purdie wrote:
-> On Wed, 2011-06-01 at 13:59 -0700, Tom Rini wrote:
->> On 06/01/2011 01:45 PM, Phil Blundell wrote:
->>> On Wed, 2011-06-01 at 13:42 -0700, Tom Rini wrote:
->>>> What falls down in this case is that  once
->>>> perl-native is built (and in our PATH), if it's a different version than
->>>> system-wide perl, stuff starts failing on version mis-match.
->>>
->>> I think that's the bit that I'm not properly understanding.  Which
->>> versions are mismatching, exactly?  
->>>
->>> Surely the local perl from the sysroot ought to be completely
->>> self-contained and shouldn't be using any bits from the host perl
->>> install at that point.
->>
->> So this jogs my memory a bit!  It's not so much perl itself but stuff
->> that uses perl that can get dirty and then no, you have stuff thats
->> built for system perl and stuff that's built with perl-native clashing.
->>
->> Relying even more on memory, I think help2man was one of the "easy"
->> culprits and since we also modify the env, we do things like have
->> help2man run with PERL5LIB and so on pointing system-wide perl at
->> perl-native's lib directory and so forth.
-> 
-> But with the proposed patch series either:
-> 
-> a) help2man depends perlnative.bbclass
-> 
-> In this case it can depend on perl-native being there, its in path and
-> things work as per OE.dev.
-> 
-> b) help2man doesn't depend in perlnative.bbclass
-> 
-> It only sees the system perl.
-> 
-> So I'm still not clear where the problem is?
+On Thu, 2011-06-02 at 07:25 -0700, Tom Rini wrote:
+> But help2man is just the easy/common case.  Heck, it _may_ blow up even
+> with the host help2man instead of help2man-native, if a recipe uses
+> system-wide help2man and perlnative.bbclass.  The root problem (again,
+> from memory) is that since we modify PERL5LIB and so on, when we do
+> that, we've opened ourselves up for system-wide perl trying to use
+> perl-native's stuff.
 
-Well, help2man-native is (or needs to be) a dep listed in
-autotools.bbclass (since so many things need it, hence why it oe-core
-still just has it as a required host utility instead of building it).
+Ah right, I think I see what you're getting at now.
 
-But help2man is just the easy/common case.  Heck, it _may_ blow up even
-with the host help2man instead of help2man-native, if a recipe uses
-system-wide help2man and perlnative.bbclass.  The root problem (again,
-from memory) is that since we modify PERL5LIB and so on, when we do
-that, we've opened ourselves up for system-wide perl trying to use
-perl-native's stuff.
+If we've got a clean separation between perl-native and host perl,
+though, can't we now just eliminate all of that futzing with PERL5LIB in
+cpan.bbclass and such like places?  perl-native already knows how to
+look in the right places within the sysroot for its modules so there
+should be no need for anything else to be overriding it.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+p.
+
+
 
 
