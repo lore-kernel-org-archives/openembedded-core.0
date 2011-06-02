@@ -1,21 +1,37 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QS4Z0-0008QF-FB for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 11:51:38 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QS4Vx-000334-5u
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1QS5gW-0001Nv-D9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 11:48:29 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Organization: Phil Blundell Consulting Ltd
-Date: Thu, 02 Jun 2011 10:48:27 +0100
-Message-ID: <1307008107.2529.175.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: [PATCH] rpm: avoid dependency on perl and python for -native build
+	Thu, 02 Jun 2011 13:03:28 +0200
+Received: by bwz5 with SMTP id 5so956522bwz.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Jun 2011 04:00:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=YQaHNr2zL9MAKjLqhj3Bz9FPr2Bpr6I/jG76N2Jqej4=;
+	b=R801CUmJm1z+4QV0L5fKqryx1+Q5ddRI9nJ58V8IWkJJiDXp+abw24QBXNpdZ+CnSy
+	d+rRw7vqtuq8wlNEGTjX76oXHPia9l3RuDqkT/rFNtGFrAtP6stv9m1DCaHycXPuvqNN
+	F8KZyvbLtGtgP3TYuS9IkRk1/JOAWQn2Axer8=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=MnSszdvo+bv5DeMknIJ6x+7uwYGfPEvgMv74tbFVTzuUuHtMQrBdYce4xoAjbwCNjl
+	V54SPhk/WM6Z9/rgWlaIgXppWrg6i3RRJKCrGxgRXXbJCvJb8HN5SeEA+tymkvHh72aP
+	0HZ+XLxNtFcdoPvJwco7aLuQJja1+VgR9ivGA=
+Received: by 10.204.19.6 with SMTP id y6mr583248bka.159.1307012416439;
+	Thu, 02 Jun 2011 04:00:16 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id ag6sm369557bkc.6.2011.06.02.04.00.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 02 Jun 2011 04:00:15 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Jun 2011 13:00:06 +0200
+Message-Id: <1307012406-11055-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.5.3
+In-Reply-To: <1307007513.27470.473.camel@rex>
+References: <1307007513.27470.473.camel@rex>
+Subject: [PATCH] gnutls: add --with-libdl-prefix and --with-libpthread-prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,61 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 09:51:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 02 Jun 2011 11:03:28 -0000
 
-Update override naming (_native -> _virtclass-native) to disable perl
-and python bindings when building native rpm, and adjust the DEPENDS to
-match.
-
-Perl bindings were, in fact, already disabled for both native and target
-builds so it's only the python ones that have really changed.
-
-Signed-off-by: Phil Blundell <philb@gnu.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.0.bb |   10 ++++++----
- 1 files changed, 6 insertions(+), 4 deletions(-)
+ meta/recipes-support/gnutls/gnutls.inc |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index d3f85f2..5c30f1c 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -42,8 +42,10 @@ HOMEPAGE = "http://rpm5.org/"
- LICENSE = "LGPL 2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
--DEPENDS = "bzip2 zlib python perl db openssl elfutils expat libpcre attr acl popt"
--PR = "r16"
-+rpmdeps = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt"
-+DEPENDS = "${rpmdeps} python perl"
-+DEPENDS_virtclass-native = "${rpmdeps}"
-+PR = "r17"
- 
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
-@@ -92,7 +94,7 @@ WITH_PYTHON = "	--with-python=${PYTHON_BASEVERSION} \
- 		--without-pythonembed \
- 	      "
- 
--WITH_PYTHON_native = " --without-python"
-+WITH_PYTHON_virtclass-native = " --without-python"
- 
- # Perl modules are not built, but they could be enabled fairly easily
- # the perl module creation and installation would need to be patched.
-@@ -100,7 +102,7 @@ WITH_PYTHON_native = " --without-python"
- #WITH_PERL = "	--with-perl --without-perlembed"
- WITH_PERL = "	--without-perl"
- 
--WITH_PERL_native = " --without-perl"
-+WITH_PERL_virtclass-native = " --without-perl"
- 
- WITH_DB = "--with-db --with-dbsql --without-db-tools-integrated --without-sqlite"
- 
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index 9f8d81b..03aed6a 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -22,6 +22,8 @@ inherit autotools binconfig pkgconfig gettext
+ EXTRA_OECONF="--with-included-opencdk --with-included-libcfg --disable-rpath \
+               --with-libtasn1-prefix=${STAGING_DIR_HOST}${prefix} \
+               --with-libgcrypt --with-libgcrypt-prefix=${STAGING_DIR_HOST}${prefix} \
++              --with-libdl-prefix=${STAGING_DIR_HOST}${prefix} \
++              --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
+               --with-lzo --disable-guile \
+               "
+ do_configure_prepend() {
 -- 
-1.7.1
-
-
+1.7.5.3
 
 
 
