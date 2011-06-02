@@ -1,20 +1,27 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QS6qt-0002Ql-HS for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 14:18:15 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QS6nq-00034h-6x
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1QS814-0007bT-Sb
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Jun 2011 14:15:06 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: openembedded-core@lists.openembedded.org
-Organization: Phil Blundell Consulting Ltd
-Date: Thu, 02 Jun 2011 13:15:05 +0100
-Message-ID: <1307016905.2529.185.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: [PATCH] eglibc: fix mispackaging of libcidn
+	Thu, 02 Jun 2011 15:32:51 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p52DTb3v010758
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 2 Jun 2011 06:29:37 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 2 Jun 2011 06:29:37 -0700
+Message-ID: <4DE79040.4020709@windriver.com>
+Date: Thu, 2 Jun 2011 08:29:36 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1307008107.2529.175.camel@phil-desktop>
+In-Reply-To: <1307008107.2529.175.camel@phil-desktop>
+Subject: Re: [PATCH] rpm: avoid dependency on perl and python for -native build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,82 +36,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jun 2011 12:18:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 02 Jun 2011 13:32:51 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-The glob for libc_baselibs was too permissive, causing some of the libcidn
-symlinks to be placed in ${PN} rather than the intended subpackage.  Worse,
-the .so itself was actually landing in ${PN}-dev, so the net effect was to
-make libc6-dev a dependency of libc6.
+On 6/2/11 4:48 AM, Phil Blundell wrote:
+> Update override naming (_native -> _virtclass-native) to disable perl
+> and python bindings when building native rpm, and adjust the DEPENDS to
+> match.
+> 
+> Perl bindings were, in fact, already disabled for both native and target
+> builds so it's only the python ones that have really changed.
+> 
+> Signed-off-by: Phil Blundell <philb@gnu.org>
 
-Bump PRs for both 2.12 and 2.13 as a result.
+Acked-by: Mark Hatle <mark.hatle@windriver.com>
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/recipes-core/eglibc/eglibc-package.inc |    6 +++---
- meta/recipes-core/eglibc/eglibc_2.12.bb     |    2 +-
- meta/recipes-core/eglibc/eglibc_2.13.bb     |    2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-index 1d3fa9e..76ebdc3 100644
---- a/meta/recipes-core/eglibc/eglibc-package.inc
-+++ b/meta/recipes-core/eglibc/eglibc-package.inc
-@@ -37,7 +37,7 @@ USE_LDCONFIG ?= "1"
- PKGSUFFIX = ""
- PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
- 
--PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} localedef${PKGSUFFIX} ${PN}-utils ${PN}-pic ${PN}-dev eglibc-doc eglibc-locale libcidn libmemusage libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile"
-+PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} localedef${PKGSUFFIX} libcidn ${PN}-utils ${PN}-pic ${PN}-dev eglibc-doc eglibc-locale libmemusage libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile"
- 
- PACKAGES_DYNAMIC = " \
- 		    glibc-gconv-*${PKGSUFFIX} glibc-charmap-* glibc-localedata-* glibc-binary-localedata-* \
-@@ -74,12 +74,12 @@ RPROVIDES_eglibc-extra-nss = "glibc-extra-nss"
- RPROVIDES_eglibc-thread-db = "glibc-thread-db"
- RPROVIDES_eglibc-pcprofile = "glibc-pcprofile"
- RPROVIDES_eglibc-dbg = "glibc-dbg"
--libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${base_libdir}/libc*.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
-+libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
- 
- FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${@base_conditional('USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf', '', d)}"
- FILES_ldd${PKGSUFFIX} = "${bindir}/ldd"
- FILES_libsegfault${PKGSUFFIX} = "${base_libdir}/libSegFault*"
--FILES_libcidn = "${base_libdir}/libcidn*.so"
-+FILES_libcidn = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
- FILES_libmemusage = "${base_libdir}/libmemusage.so"
- FILES_eglibc-extra-nss = "${base_libdir}/libnss*"
- FILES_sln = "/sbin/sln"
-diff --git a/meta/recipes-core/eglibc/eglibc_2.12.bb b/meta/recipes-core/eglibc/eglibc_2.12.bb
-index 715b873..e69cd0f 100644
---- a/meta/recipes-core/eglibc/eglibc_2.12.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.12.bb
-@@ -2,7 +2,7 @@ require eglibc.inc
- 
- DEPENDS += "gperf-native"
- FILESPATHPKG =. "eglibc-svn:"
--PR = "r13"
-+PR = "r14"
- 
- SRCREV = "11982"
- 
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index 398da69..c77bf3c 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -4,7 +4,7 @@ SRCREV = "13356"
- 
- DEPENDS += "gperf-native"
- FILESPATHPKG =. "eglibc-svn:"
--PR = "r0"
-+PR = "r1"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_13"
--- 
-1.7.2.5
-
-
+> ---
+>  meta/recipes-devtools/rpm/rpm_5.4.0.bb |   10 ++++++----
+>  1 files changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> index d3f85f2..5c30f1c 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> @@ -42,8 +42,10 @@ HOMEPAGE = "http://rpm5.org/"
+>  LICENSE = "LGPL 2.1"
+>  LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+>  
+> -DEPENDS = "bzip2 zlib python perl db openssl elfutils expat libpcre attr acl popt"
+> -PR = "r16"
+> +rpmdeps = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt"
+> +DEPENDS = "${rpmdeps} python perl"
+> +DEPENDS_virtclass-native = "${rpmdeps}"
+> +PR = "r17"
+>  
+>  # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+>  # in order to extract the distribution SRPM into a format we can extract...
+> @@ -92,7 +94,7 @@ WITH_PYTHON = "	--with-python=${PYTHON_BASEVERSION} \
+>  		--without-pythonembed \
+>  	      "
+>  
+> -WITH_PYTHON_native = " --without-python"
+> +WITH_PYTHON_virtclass-native = " --without-python"
+>  
+>  # Perl modules are not built, but they could be enabled fairly easily
+>  # the perl module creation and installation would need to be patched.
+> @@ -100,7 +102,7 @@ WITH_PYTHON_native = " --without-python"
+>  #WITH_PERL = "	--with-perl --without-perlembed"
+>  WITH_PERL = "	--without-perl"
+>  
+> -WITH_PERL_native = " --without-perl"
+> +WITH_PERL_virtclass-native = " --without-perl"
+>  
+>  WITH_DB = "--with-db --with-dbsql --without-db-tools-integrated --without-sqlite"
+>  
 
 
 
