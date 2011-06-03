@@ -1,20 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QSRrL-0005FO-46 for openembedded-core@lists.openembedded.org;
-	Fri, 03 Jun 2011 12:44:09 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>)
-	id 1QSRoG-0003YF-Ch; Fri, 03 Jun 2011 12:40:56 +0200
-From: Phil Blundell <pb@pbcl.net>
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>)
+	id 1QSRsZ-0005FF-QJ; Fri, 03 Jun 2011 12:45:26 +0200
+Received: by wwb17 with SMTP id 17so1305862wwb.24
+	for <multiple recipients>; Fri, 03 Jun 2011 03:40:32 -0700 (PDT)
+Received: by 10.216.50.10 with SMTP id y10mr712544web.21.1307097602815;
+	Fri, 03 Jun 2011 03:40:02 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id h43sm761469wes.35.2011.06.03.03.40.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 03 Jun 2011 03:40:02 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Fri, 3 Jun 2011 12:40:00 +0200
+Message-Id: <5D911BEB-8636-442D-9AB3-44EF4763B750@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Organization: Phil Blundell Consulting Ltd
-Date: Fri, 03 Jun 2011 11:40:55 +0100
-Message-ID: <1307097655.2529.250.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: [PATCH] sqlite: remove dependency on tcl-native
+	<openembedded-core@lists.openembedded.org>, 
+	openembeded-devel <openembedded-devel@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: HEADS UP: sys_accept4() syscall and recent udevs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,39 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2011 10:44:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Jun 2011 10:45:26 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Older versions of sqlite required tclsh at compile time but this is no longer
-the case with recent 3.7.x.
+Hi,
 
-See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-June/003653.html
+Last night I tried to help Tom R. debug boot failures and it turned out =
+that he was missing the sys_accept4() syscall. This morning I helped a =
+coworker with the same problem. So let's summarize the situation:
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/recipes-support/sqlite/sqlite3.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ 1) recent udevs (>165) depend on the accept4() syscall
+ 2) kernel 2.6.28 added that syscall, but didn't wire it up for all =
+archs
+ 3) kernel 2.6.36 wired it up for ARM
 
-diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index d8ef8dc..939df14 100644
---- a/meta/recipes-support/sqlite/sqlite3.inc
-+++ b/meta/recipes-support/sqlite/sqlite3.inc
-@@ -2,8 +2,8 @@ DESCRIPTION = "An Embeddable SQL Database Engine"
- HOMEPAGE = "http://www.sqlite.org"
- SECTION = "libs"
- PRIORITY = "optional"
--DEPENDS = "readline ncurses tcl-native"
--DEPENDS_virtclass-native = "tcl-native"
-+DEPENDS = "readline ncurses"
-+DEPENDS_virtclass-native = ""
- LICENSE = "PD"
- 
- inherit autotools pkgconfig
--- 
-1.7.2.5
+So to get a working recent udev on ARM you need to do the following:
 
+ a) use >=3D 2.6.36 as linux libc headers or cherry-pick this one:
+      21d93e2e29722d7832f61cc56d73fb953ee6578e ARM: 6329/1: wire up =
+sys_accept4() on ARM
+ b) cherry-pick the above into your kernel, cherry-pick works cleanly =
+for at least the 2.6.32 and 2.6.35 kernels I tried it on
 
+And if you want to use systemd:
 
+ c) cherry-pick 676db4af043014e852f67ba0349dae0071bd11f3 cgroupfs: =
+create /sys/fs/cgroup to mount cgroupfs
+
+If you're using a prebuilt toolchain, contact your toolchain vender to =
+get a headerset and c library with that syscall and optionally things =
+like signalfd(). OE-core users only need to check b) if they are using =
+their own <2.6.36 kernels.
+
+regards,
+
+Koen=
 
 
