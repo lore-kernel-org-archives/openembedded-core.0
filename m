@@ -1,25 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QSISx-0008K1-Pc
+	(envelope-from <sgw@linux.intel.com>) id 1QSIg8-0008TR-C4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Jun 2011 02:42:19 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Jun 2011 17:39:04 -0700
+	Fri, 03 Jun 2011 02:56:57 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Jun 2011 17:52:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,312,1304319600"; d="scan'208";a="11167273"
+X-IronPort-AV: E=Sophos;i="4.65,312,1304319600"; 
+   d="scan'208";a="8707607"
 Received: from swold-mobl.jf.intel.com (HELO [10.24.4.14]) ([10.24.4.14])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Jun 2011 17:39:03 -0700
-Message-ID: <4DE82D28.6010505@linux.intel.com>
-Date: Thu, 02 Jun 2011 17:39:04 -0700
+	by orsmga001.jf.intel.com with ESMTP; 02 Jun 2011 17:52:23 -0700
+Message-ID: <4DE83048.1030100@linux.intel.com>
+Date: Thu, 02 Jun 2011 17:52:24 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1307016744.2529.182.camel@phil-desktop>
-In-Reply-To: <1307016744.2529.182.camel@phil-desktop>
-Subject: Re: [PATCH] libc-package: fix typo causing annoying diagnostic
+References: <cover.1307042670.git.otavio@ossystems.com.br>
+	<21881aba9031cefb72fcc33cca9d146169f344e9.1307042670.git.otavio@ossystems.com.br>
+In-Reply-To: <21881aba9031cefb72fcc33cca9d146169f344e9.1307042670.git.otavio@ossystems.com.br>
+Subject: Re: [PATCH 1/4] xf86-driver-common.inc: remove .la files to	avoid unpackaged warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,37 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2011 00:42:20 -0000
+X-List-Received-Date: Fri, 03 Jun 2011 00:56:57 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/02/2011 05:12 AM, Phil Blundell wrote:
-> We don't package /etc/rpc and do_install() makes some effort to remove
-> that file so as to avoid the "installed but not shipped" diagnostic.  But,
-> due to a typo in the command line, the file wasn't actually being removed
-> and the diagnostic continued to be issued.
->
-> Signed-off-by: Phil Blundell<philb@gnu.org>
+On 06/02/2011 12:25 PM, Otavio Salvador wrote:
+> Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
 > ---
->   meta/classes/libc-package.bbclass |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
+>   .../xorg-driver/xf86-driver-common.inc             |    6 +++++-
+>   1 files changed, 5 insertions(+), 1 deletions(-)
 >
-> diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-> index 047464e..55e3d48 100644
-> --- a/meta/classes/libc-package.bbclass
-> +++ b/meta/classes/libc-package.bbclass
-> @@ -98,7 +98,7 @@ do_install() {
->   		grep -v $i ${WORKDIR}/SUPPORTED>  ${WORKDIR}/SUPPORTED.tmp
->   		mv ${WORKDIR}/SUPPORTED.tmp ${WORKDIR}/SUPPORTED
->   	done
-> -	rm -f ${D}{sysconfdir}/rpc
-> +	rm -f ${D}${sysconfdir}/rpc
->   	rm -rf ${D}${datadir}/zoneinfo
->   	rm -rf ${D}${libexecdir}/getconf
+> diff --git a/meta/recipes-graphics/xorg-driver/xf86-driver-common.inc b/meta/recipes-graphics/xorg-driver/xf86-driver-common.inc
+> index 550423b..6ff1391 100644
+> --- a/meta/recipes-graphics/xorg-driver/xf86-driver-common.inc
+> +++ b/meta/recipes-graphics/xorg-driver/xf86-driver-common.inc
+> @@ -5,7 +5,7 @@ SECTION = "x11/drivers"
+>   LICENSE = "MIT-X"
+>
+>   PE = "1"
+> -PR = "r0"
+> +PR = "r1"
+>
+>   DEPENDS = "virtual/xserver-xf86 xproto randrproto util-macros"
+>
+> @@ -27,3 +27,7 @@ do_configure_prepend () {
+>       mv configure.ac.new configure.ac
 >   }
-Merged into oe-core
+>
+> +do_install_append () {
+> +    # driver's la files are not packaged
+> +    rm -f ${D}${libdir}/xorg/modules/drivers/*.la
+> +}
+Would it not be better to package them in the -dev package instead of 
+throwing them away?
 
-Thanks
-	Sau!
+Sau!
 
 
