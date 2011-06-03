@@ -1,33 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QSQ2H-0003HO-Ti for openembedded-core@lists.openembedded.org;
-	Fri, 03 Jun 2011 10:47:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p538C3qH002538
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Jun 2011 09:12:03 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02262-05 for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jun 2011 09:11:59 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p538BvDD002532
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Jun 2011 09:11:58 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Kai.Kang@windriver.com>) id 1QSQDB-0003Ov-He
+	for openembedded-core@lists.openembedded.org;
+	Fri, 03 Jun 2011 10:58:33 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p538tE7h008769
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 3 Jun 2011 01:55:14 -0700 (PDT)
+Received: from [128.224.162.198] (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Fri, 3 Jun 2011 01:55:13 -0700
+Message-ID: <4DE8A163.6040009@windriver.com>
+Date: Fri, 3 Jun 2011 16:54:59 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.13) Gecko/20101208 Thunderbird/3.1.7
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1307083232.git.kai.kang@windriver.com>	
+	<adfc33032da197d9e5438a42e2b5df4681cdbb35.1307083232.git.kai.kang@windriver.com>
+	<1307089346.27470.624.camel@rex>
+In-Reply-To: <1307089346.27470.624.camel@rex>
+X-Originating-IP: [128.224.162.198]
+Cc: Kang@smtp1.linux-foundation.org, poky@yoctoproject.org,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4DE87AD1.1050004@linux.intel.com>
-References: <4DE56B0D.4020209@intel.com>  <4DE87AD1.1050004@linux.intel.com>
-Date: Fri, 03 Jun 2011 09:11:36 +0100
-Message-ID: <1307088696.27470.617.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Tell me your build error message annoyances!
+Subject: Re: [PATCH 1/1] eglibc: migrate configurability from oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,99 +40,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2011 08:47:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 03 Jun 2011 08:58:34 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-06-02 at 23:10 -0700, Darren Hart wrote:
-> These are maybe a bit off topic, but I'll leave it to you to decide if
-> they meet the criteria for this effort.
-> 
-> o bb.debug messages are not logged anywhere nor do they appear on the
->   console with -DDD during recipe parsing (while bb.note messages do
->   make it to the console).
+Hi Richard,
 
-This isn't a priority for Scott's work at this point IMO.
+Thanks for your comments. And I have one question:
 
-> o I'm seeing duplicate messages lately - no examples handy, I'll post
->   or open a bug next time.
+> On Fri, 2011-06-03 at 14:47 +0800, Kang Kai wrote:
+>> From: Kang Kai<kai.kang@windriver.com>
+>>
+>> Migrate configurability from oe, try to shrink minimal image size
+>>
+>> The switch is in local.conf.sample, uncomment the line
+>> DISTRO_FEATURES_EGLIBC = ""
+>> and write what options you want to enable.
+>>
+>> If want to disable locale-code charsets or locales, you have to uncomment
+>> PACKAGE_NO_GCONV = 1
+>> Because without this, it fails on package_do_split_gconvs in libc-package.bbclass
+> I have some comments:
+>
+> a) I think these should become flags in DISTRO_FEATURES with an
+> "eglibc-" prefix so something like "spawn" would become "eglibc-spawn"
+Do you mean every option in DISTRO_FEATURES_EGLIBC should be a single 
+flag in DISTRO_FEATURES?
 
-This is a genuine bug that seems to have crept in recently which need to
-fix, not sure its Scott who needs to do it though.
+In that case, DISTRO_FEATURES_EGLIBC is not needed, right?
 
-> o The bash logging facility (logging.bbclass) is still a second class
->   citizen and probably needs a bitbake server hook so bbnote, bbplain,
->   bbdebug, etc. can call into bitbake proper and use the python
->   equivalents and therefor also make it to the proper destination
->  (console or log).
-
-This also isn't a priority for Scott's work at this point IMO.
-
-> o It's been mentioned, but I'd like to second that most of the time,
->   getting a traceback is really not very helpful. Chris Larson mentioned
->   moving the exception handling higher up the stack - I think that
->   makes a lot of sense. I'd also suggest not printing a traceback unless
->   running with at least -D. A catchall try block that only
->   does:
-> 
->   print "Unhandled exception:", e
-> 
->   under normal conditions and prints a trace with -D enabled would clean
->   things up a lot I think.
-
-I'm going to disagree here a little here. If something unexpected
-happens we always need the traceback so the pastebin'd error message
-means something to the developers. Currently it shows up even when the
-failure is a known error case and a message has been printed to the user
-and this is a bug though.
-
-If we get exception handling right I think we solve this problem too.
-
-> o In general I find the default UI to be exceedingly noisy. It feels
->   very much like what I would write for something I was actively
->   developing - ie, something I expect to break a lot! I don't think
->   that's the sort of impression we want users to have while building a
->   release (for example).
-> 
->   I'd prefer if what we currently get today was the output of -D. The
->   current output could instead be something a lot more in the vein of
->   what we see with recipe parsing. Perhaps one line per
->   BB_NUMBER_TREADS (N), maybe something like:
-> 
->   Task 2300/4600 [####################                    ]
->     0: linux-yocto: do_compile
->     1: matchbox: do_fetch
->     ...
->     N: dbus: do_configure
-> 
->   It would of course update the current lines and not scroll. Most of
->   the time, this would be plenty information.
-
-You're describing the code in the ncurses UI. It is there and you can
-run it but its unfinished :(.
-
->  Upon failure we stop
->   updating the "UI" and print something like:
-> 
->   ERROR: An unhandled exception occured while processing
->          linux-yocto: do_fetch
-> 
->          Exception: No such file or directory.
-> 
->          Run with -D for a more detailed error report or consult the
->          appropriate log file:
-> 
->          $(pwd)/tmp/work/$machine/linux-yocto-$HASH-$HASH \
->          /temp/log.do_fetch.$PID
-> 
->   Or something along those lines.
-
-You should never be asked to rerun something, it should know when to
-print the right information.
-
-Cheers,
-
-Richard
+> b) I think we need to create a local.conf.sample.extended which has
+> information about more advanced settings a user can configure. I don't
+> want every setting in local.conf as standard as it gives the user the
+> impression they have to change them which they don't. Some existing data
+> in local.conf.sample can be moved over.
+> c) The code triggered by PACKAGE_NO_GCONV should also trigger if you set
+> the appropriate eglibc- feature flags automatically. Having two
+> variables you have to keep track of the combinations of is just plain
+> wrong. They should be controlled by one flag only. If there is generic
+> packaging code that handles these we might not need the "eglibc-" prefix
+> for those options.
+Ok, I will use one flag only.
+> Cheers,
+>
+> Richard
+Thanks & Regards,
+Kai
+>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>> ---
+>>   meta-yocto/conf/local.conf.sample                  |    9 +++
+>>   .../eglibc-2.13-fix-macro-RTLD_DEBUG.patch         |   20 +++++++
+>>   meta/recipes-core/eglibc/eglibc-options.inc        |   55 ++++++++++++++++++++
+>>   meta/recipes-core/eglibc/eglibc.inc                |   13 +++++
+>>   meta/recipes-core/eglibc/eglibc_2.13.bb            |    4 +-
+>>   5 files changed, 100 insertions(+), 1 deletions(-)
+>>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/eglibc-2.13-fix-macro-RTLD_DEBUG.patch
+>>   create mode 100644 meta/recipes-core/eglibc/eglibc-options.inc
+>>
+>> diff --git a/meta-yocto/conf/local.conf.sample b/meta-yocto/conf/local.conf.sample
+>> index 359e510..f68e80a 100644
+>> --- a/meta-yocto/conf/local.conf.sample
+>> +++ b/meta-yocto/conf/local.conf.sample
+>> @@ -87,6 +87,15 @@ PACKAGE_CLASSES ?= "package_rpm package_ipk"
+>>   # NOTE: if listing mklibs&  prelink both, then make sure mklibs is before prelink
+>>   USER_CLASSES ?= "image-mklibs image-prelink"
+>>
+>> +# eglibc configurability is used to reduce minimal images's size.
+>> +# PACKAGE_NO_GCONV should be set to 1, or locale-code posix-clang-wchar
+>> +# charsets locales need to be include in DISTRO_FEATURES_EGLIBC, please check
+>> +# package_do_split_gconvs in libc-package.bbclass for detail
+>> +#PACKAGE_NO_GCONV = 1
+>> +
+>> +# if you want to enable any option listed below, please uncomment next line and copy it here
+>> +#DISTRO_FEATURES_EGLIBC = ""
+>> +
+>>   # POKYMODE controls the characteristics of the generated packages/images by
+>>   # telling poky which type of toolchain to use.
+>>   #
+>> diff --git a/meta/recipes-core/eglibc/eglibc-2.13/eglibc-2.13-fix-macro-RTLD_DEBUG.patch b/meta/recipes-core/eglibc/eglibc-2.13/eglibc-2.13-fix-macro-RTLD_DEBUG.patch
+>> new file mode 100644
+>> index 0000000..dffc648
+>> --- /dev/null
+>> +++ b/meta/recipes-core/eglibc/eglibc-2.13/eglibc-2.13-fix-macro-RTLD_DEBUG.patch
+>> @@ -0,0 +1,20 @@
+>> +When disable OPTION_EGLIBC_RTLD_DEBUG, compilation fails.
+>> +Created on Jun 1, 2011 by Kang Kai<kai.kang@windriver.com>
+>> +
+>> +Upstream-Status: Submitted
+>> +
+>> +Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>> +Index: libc/elf/dl-lookup.c
+>> +===================================================================
+>> +--- libc/elf/dl-lookup.c	(revision 13356)
+>> ++++ libc/elf/dl-lookup.c	(working copy)
+>> +@@ -423,7 +423,9 @@
+>> + 		     hash table.  */
+>> + 		  if (__builtin_expect (tab->size, 0))
+>> + 		    {
+>> ++              #if __OPTION_EGLIBC_RTLD_DEBUG
+>> + 		      assert (GLRO(dl_debug_mask)&  DL_DEBUG_PRELINK);
+>> ++              #endif
+>> + 		      __rtld_lock_unlock_recursive (tab->lock);
+>> + 		      goto success;
+>> + 		    }
+>> diff --git a/meta/recipes-core/eglibc/eglibc-options.inc b/meta/recipes-core/eglibc/eglibc-options.inc
+>> new file mode 100644
+>> index 0000000..7cd0287
+>> --- /dev/null
+>> +++ b/meta/recipes-core/eglibc/eglibc-options.inc
+>> @@ -0,0 +1,55 @@
+>> +def eglibc_cfg(feature, features, tokens, cnf):
+>> +	if type(tokens) == type(""):
+>> +		tokens = [tokens]
+>> +	if type(features) == type([]) and feature in features:
+>> +		cnf.extend([token + ' = y' for token in tokens])
+>> +	else:
+>> +		for token in tokens:
+>> +			cnf.extend([token + ' = n'])
+>> +			if token == 'OPTION_EGLIBC_NSSWITCH':
+>> +				cnf.extend(["OPTION_EGLIBC_NSSWITCH_FIXED_CONFIG = ${S}/nss/nsswitch.conf"])
+>> +				cnf.extend(["OPTION_EGLIBC_NSSWITCH_FIXED_FUNCTIONS = ${S}/nss/fixed-nsswitch.functions"])
+>> +
+>> +# Map distro features to eglibc options settings
+>> +def features_to_eglibc_settings(d):
+>> +        cnf = ([])
+>> +        distro_features = (bb.data.getVar('DISTRO_FEATURES_EGLIBC', d, True) or '').split()
+>> +        eglibc_cfg('ipv6',      distro_features, 'OPTION_EGLIBC_ADVANCED_INET6', cnf)
+>> +        eglibc_cfg('backtrace',      distro_features, 'OPTION_EGLIBC_BACKTRACE', cnf)
+>> +        eglibc_cfg('big-macros',      distro_features, 'OPTION_EGLIBC_BIG_MACROS', cnf)
+>> +        eglibc_cfg('bsd',      distro_features, 'OPTION_EGLIBC_BSD', cnf)
+>> +        eglibc_cfg('cxx-tests',      distro_features, 'OPTION_EGLIBC_CXX_TESTS', cnf)
+>> +        eglibc_cfg('catgets',      distro_features, 'OPTION_EGLIBC_CATGETS', cnf)
+>> +        eglibc_cfg('charsets',      distro_features, 'OPTION_EGLIBC_CHARSETS', cnf)
+>> +        eglibc_cfg('crypt',      distro_features, 'OPTION_EGLIBC_CRYPT', cnf)
+>> +        eglibc_cfg('crypt-ufc',      distro_features, 'OPTION_EGLIBC_CRYPT_UFC', cnf)
+>> +        eglibc_cfg('db-aliases',      distro_features, 'OPTION_EGLIBC_DB_ALIASES', cnf)
+>> +        eglibc_cfg('envz',      distro_features, 'OPTION_EGLIBC_ENVZ', cnf)
+>> +        eglibc_cfg('fcvt',      distro_features, 'OPTION_EGLIBC_FCVT', cnf)
+>> +        eglibc_cfg('fmtmsg',      distro_features, 'OPTION_EGLIBC_FMTMSG', cnf)
+>> +        eglibc_cfg('fstab',      distro_features, 'OPTION_EGLIBC_FSTAB', cnf)
+>> +        eglibc_cfg('ftraverse',      distro_features, 'OPTION_EGLIBC_FTRAVERSE', cnf)
+>> +        eglibc_cfg('getlogin',      distro_features, 'OPTION_EGLIBC_GETLOGIN', cnf)
+>> +        eglibc_cfg('idn',      distro_features, 'OPTION_EGLIBC_IDN', cnf)
+>> +        eglibc_cfg('inet',      distro_features, 'OPTION_EGLIBC_INET', cnf)
+>> +        eglibc_cfg('inet-anl',      distro_features, 'OPTION_EGLIBC_INET_ANL', cnf)
+>> +        eglibc_cfg('libm',      distro_features, 'OPTION_EGLIBC_LIBM', cnf)
+>> +        eglibc_cfg('libm-big',      distro_features, 'OPTION_EGLIBC_LIBM_BIG', cnf)
+>> +        eglibc_cfg('locales',      distro_features, 'OPTION_EGLIBC_LOCALES', cnf)
+>> +        eglibc_cfg('locale-code',      distro_features, 'OPTION_EGLIBC_LOCALE_CODE', cnf)
+>> +        eglibc_cfg('memusage',      distro_features, 'OPTION_EGLIBC_MEMUSAGE', cnf)
+>> +        eglibc_cfg('nis',      distro_features, 'OPTION_EGLIBC_NIS', cnf)
+>> +        eglibc_cfg('nsswitch',      distro_features, 'OPTION_EGLIBC_NSSWITCH', cnf)
+>> +        eglibc_cfg('rcmd',      distro_features, 'OPTION_EGLIBC_RCMD', cnf)
+>> +        eglibc_cfg('rtld-debug',      distro_features, 'OPTION_EGLIBC_RTLD_DEBUG', cnf)
+>> +        eglibc_cfg('spawn',      distro_features, 'OPTION_EGLIBC_SPAWN', cnf)
+>> +        eglibc_cfg('streams',      distro_features, 'OPTION_EGLIBC_STREAMS', cnf)
+>> +        eglibc_cfg('sunrpc',      distro_features, 'OPTION_EGLIBC_SUNRPC', cnf)
+>> +        eglibc_cfg('utmp',      distro_features, 'OPTION_EGLIBC_UTMP', cnf)
+>> +        eglibc_cfg('utmpx',      distro_features, 'OPTION_EGLIBC_UTMPX', cnf)
+>> +        eglibc_cfg('wordexp',      distro_features, 'OPTION_EGLIBC_WORDEXP', cnf)
+>> +        eglibc_cfg('posix-clang-wchar',      distro_features, 'OPTION_POSIX_C_LANG_WIDE_CHAR', cnf)
+>> +        eglibc_cfg('posix-regexp',      distro_features, 'OPTION_POSIX_REGEXP', cnf)
+>> +        eglibc_cfg('posix-regexp-glibc',      distro_features, 'OPTION_POSIX_REGEXP_GLIBC', cnf)
+>> +        eglibc_cfg('posix-wchar-io',      distro_features, 'OPTION_POSIX_WIDE_CHAR_DEVICE_IO', cnf)
+>> +        return "\n".join(cnf)
+>> diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
+>> index 46ffa82..2d05d53 100644
+>> --- a/meta/recipes-core/eglibc/eglibc.inc
+>> +++ b/meta/recipes-core/eglibc/eglibc.inc
+>> @@ -28,6 +28,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}gcc-intermediate linux-libc-headers"
+>>   PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+>>   PROVIDES += "virtual/libintl virtual/libiconv"
+>>   inherit autotools
+>> +require eglibc-options.inc
+>>
+>>   LEAD_SONAME = "libc.so"
+>>
+>> @@ -43,3 +44,15 @@ EXTRA_OEMAKE += ${EGLIBCPARALLELISM}
+>>   PARALLEL_MAKE = ""
+>>
+>>   PACKAGES = "glibc catchsegv sln nscd ldd localedef glibc-utils glibc-dev glibc-doc glibc-locale libsegfault glibc-extra-nss glibc-thread-db glibc-pcprofile"
+>> +
+>> +DISTRO_FEATURES_EGLIBC ??= "ipv6 backtrace big-macros bsd cxx-tests catgets charsets \
+>> +                          crypt crypt-ufc db-aliases envz fcvt fmtmsg fstab ftraverse \
+>> +                          getlogin idn inet inet-anl libm libm-big locales locale-code \
+>> +                          memusage nis nsswitch rcmd rtld-debug spawn streams sunrpc utmp \
+>> +                          utmpx wordexp posix-clang-wchar posix-regexp posix-regexp-glibc \
+>> +                          posix-wchar-io "
+>> +
+>> +OE_FEATURES = "${@features_to_eglibc_settings(d)}"
+>> +do_configure_prepend() {
+>> +	echo '${OE_FEATURES}'>  ${B}/option-groups.config
+>> +}
+>> diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
+>> index 398da69..894eb88 100644
+>> --- a/meta/recipes-core/eglibc/eglibc_2.13.bb
+>> +++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+>> @@ -4,7 +4,7 @@ SRCREV = "13356"
+>>
+>>   DEPENDS += "gperf-native"
+>>   FILESPATHPKG =. "eglibc-svn:"
+>> -PR = "r0"
+>> +PR = "r1"
+>>   PR_append = "+svnr${SRCPV}"
+>>
+>>   EGLIBC_BRANCH="eglibc-2_13"
+>> @@ -16,7 +16,9 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
+>>              file://stack-protector-test.patch \
+>>              file://etc/ld.so.conf \
+>>              file://generate-supported.mk \
+>> +           file://eglibc-2.13-fix-macro-RTLD_DEBUG.patch \
+>>   	   "
+>> +
+>>   LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+>>         file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+>>         file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+>
 
 
 
