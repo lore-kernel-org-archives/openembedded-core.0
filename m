@@ -1,29 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QSO72-0001QT-Ba
+	(envelope-from <Kai.Kang@windriver.com>) id 1QSODZ-0001Ve-Q6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Jun 2011 08:44:04 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Jun 2011 23:40:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,314,1304319600"; d="scan'208";a="12967960"
-Received: from unknown (HELO [10.255.13.71]) ([10.255.13.71])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2011 23:40:50 -0700
-Message-ID: <4DE881F1.5070509@linux.intel.com>
-Date: Thu, 02 Jun 2011 23:40:49 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	Fri, 03 Jun 2011 08:50:50 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p536lYSg018557
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 2 Jun 2011 23:47:35 -0700 (PDT)
+Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 2 Jun 2011 23:47:34 -0700
+Message-ID: <cover.1307083232.git.kai.kang@windriver.com>
+Old-Date: Fri, 3 Jun 2011 14:40:32 +0800
+Date: Fri, 3 Jun 2011 14:47:21 +0800
+To: <sgw@linux.intel.com>
+From: Kang Kai <kai.kang@windriver.com>
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1306856806.git.Martin.Jansa@gmail.com>
-	<4fdf0bdf57b56d363e0b2ae8747e85fc84fbf8ca.1306856806.git.Martin.Jansa@gmail.com>
-	<4DE87343.6010209@linux.intel.com>
-	<20110603060334.GK3281@jama.jama.net>
-In-Reply-To: <20110603060334.GK3281@jama.jama.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] create-pull-request: allow '+' in git PROTO_RE, ie for 'git+ssh://'
+X-Originating-IP: [128.224.162.198]
+Cc: Kang, poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] eglibc: enable eglibc configurability V2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,57 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2011 06:44:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Jun 2011 06:50:50 -0000
+Content-Type: text/plain
 
+From: Kang Kai <kai.kang@windriver.com>
 
+Hi Saul,
 
-On 06/02/2011 11:03 PM, Martin Jansa wrote:
-> On Thu, Jun 02, 2011 at 10:38:11PM -0700, Darren Hart wrote:
->> Hi Martin,
-> 
-> Hi Darren,
-> 
->> No objection if this is a valid URL. I didn't include this because 1) I
->> didn't know about it and 2) it isn't listed in the git pull man page,
->> which is what I developed to. Is git+ssh... equivalent to ssh:// ?
-> 
-> before this change my pull requests had url like this
-> are available in the git repository at:
->   git+ssh://git@git.openembedded.org/meta-openembedded-contrib jansa/meta-oe
->   http://cgit.openembedded.org/cgit.cgi/git+ssh://git@git.openembedded.org/meta-openembedded-contrib/log/?h=jansa/meta-oe
-> 
-> because RE wasn't matching my URL at all
-> 
-> OE @ ~/shr-core/openembedded-core $ git config remote.contrib.url
-> git+ssh://git@git.openembedded.org/openembedded-core-contrib
-> 
-> IMHO this is equivalent to ssh:// or git@ without protocol but haven't 
-> checked documentation to be sure. But I'm sure this is valid and that 
-> this works right (as I'm able to push to contrib).
-> 
+I update the patch that move "DISTRO_FEATURES_EGLIBC ??=" to eglibc.inc
 
-I'm sure the patch is fine - I was just surprised git pull didn't
-document the URL. It's already been pulled as well I believe.
+Migrate configurability from oe, try to shrink minimal image size
 
->> As a minor nit, please include a body message for anything more
->> complicated than whitespace or typographical fixes.
-> 
-> I use git+ssh:// for many projects so I'm used to it, so I expected that
-> this is widely used and this patch would be clear enough.
+The switch is in local.conf.sample, uncomment the line
+DISTRO_FEATURES_EGLIBC = ""
+and write what options you want to enable.
 
-As I said, it's a nit, but it is consistent with guidelines used in many
-other projects. Cramming too much into the subject line makes the git
-log hard to read - especially as git doesn't wrap long lines - perhaps
-due to the prejudices of the authors ;-) Yours doesn't truncate,
-but it comes close. Anyway, dead horse and all that.
+If want to disable locale-code charsets or locales, you have to uncomment
+PACKAGE_NO_GCONV = 1
+Because without this, it fails on package_do_split_gconvs in libc-package.bbclass
 
-Thanks for the fix.
+The following changes since commit 484c4e73245c93a08413cd204513bf5c5698b994:
+
+  clutter-1.6: Add patch to update gettext macro version (2011-06-01 18:34:37 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib.git kangkai/distro
+  http://git.pokylinux.org/cgit.cgi//log/?h=kangkai/distro
+
+Kang Kai (1):
+  eglibc: migrate configurability from oe
+
+ meta-yocto/conf/local.conf.sample                  |    9 +++
+ .../eglibc-2.13-fix-macro-RTLD_DEBUG.patch         |   20 +++++++
+ meta/recipes-core/eglibc/eglibc-options.inc        |   55 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc.inc                |   13 +++++
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |    4 +-
+ 5 files changed, 100 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/eglibc-2.13-fix-macro-RTLD_DEBUG.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-options.inc
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.7.5.1.300.gc565c
+
 
 
