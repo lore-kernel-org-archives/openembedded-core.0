@@ -1,43 +1,30 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QSNf1-000167-Tp
+	(envelope-from <koen@dominion.thruhere.net>) id 1QSO3R-0001Mj-MD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Jun 2011 08:15:08 +0200
-Received: by bwz5 with SMTP id 5so1804192bwz.6
+	Fri, 03 Jun 2011 08:40:21 +0200
+Received: by wye20 with SMTP id 20so1364880wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jun 2011 23:11:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=LR4wbWTE94XUwaZEBBr4UVoodK2rterGyn3DwkGraDY=;
-	b=W+Ge9QgZ+qUIZBmGBBabN8mAcBe1oHd/HGXjNaxN9OCPCo+a6dA5+suTe+gNkWgU3r
-	DxQe96cZTQqCLSZB+IKlBkr2Fda0mzuN1kfUXIJtfJbUOdyDJeTJD6ll/HVeq/7+o9gm
-	ui5RnZzPnA2rl4I1zriAT9Q2Au8xw8F4pLKPE=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	b=fr4dLool3wKLmx8QZqb+gzdwNrCWVi9CNZw6mw1QY/zmhqiqRQ1D8XkMKqH8ge4pQK
-	2fzixxxo17IwnFumc8haiGvJu+y0xsKucvw+TH1Uiux2VXh0nSPO6JOIPZtQny6MIzmW
-	CJtzHRmg43Eqik3O0kGN9lQaLtwuY5rNOWE0c=
-Received: by 10.204.116.134 with SMTP id m6mr1546619bkq.7.1307081017144;
-	Thu, 02 Jun 2011 23:03:37 -0700 (PDT)
-Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id l24sm996732bkw.15.2011.06.02.23.03.35
+	Thu, 02 Jun 2011 23:37:09 -0700 (PDT)
+Received: by 10.216.235.2 with SMTP id t2mr6740618weq.93.1307083029020;
+	Thu, 02 Jun 2011 23:37:09 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id et5sm820102wbb.16.2011.06.02.23.37.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Jun 2011 23:03:36 -0700 (PDT)
-Date: Fri, 3 Jun 2011 08:03:34 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Message-ID: <20110603060334.GK3281@jama.jama.net>
-References: <cover.1306856806.git.Martin.Jansa@gmail.com>
-	<4fdf0bdf57b56d363e0b2ae8747e85fc84fbf8ca.1306856806.git.Martin.Jansa@gmail.com>
-	<4DE87343.6010209@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <4DE87343.6010209@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
+	Thu, 02 Jun 2011 23:37:08 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <201106021806.13486.raj.khem@gmail.com>
+Date: Fri, 3 Jun 2011 08:37:06 +0200
+Message-Id: <F6127B53-6B93-4059-AD34-2D0AF130AA9B@dominion.thruhere.net>
+References: <cover.1306958862.git.otavio@ossystems.com.br>
+	<BANLkTi=q-bMwYtjTAqAXeaB4QQ_n85y8Rw@mail.gmail.com>
+	<1307032661.27470.581.camel@rex>
+	<201106021806.13486.raj.khem@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] create-pull-request: allow '+' in git PROTO_RE, ie for 'git+ssh://'
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 1/3] busybox: enable mdev by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,61 +39,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2011 06:15:08 -0000
-X-Groupsio-MsgNum: 3581
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="VB1oQhYtJt8uuzk+"
-Content-Disposition: inline
-
---VB1oQhYtJt8uuzk+
+X-List-Received-Date: Fri, 03 Jun 2011 06:40:21 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 02, 2011 at 10:38:11PM -0700, Darren Hart wrote:
-> Hi Martin,
 
-Hi Darren,
+Op 3 jun 2011, om 03:06 heeft Khem Raj het volgende geschreven:
 
-> No objection if this is a valid URL. I didn't include this because 1) I
-> didn't know about it and 2) it isn't listed in the git pull man page,
-> which is what I developed to. Is git+ssh... equivalent to ssh:// ?
+> On Thursday, June 02, 2011 09:37:41 AM Richard Purdie wrote:
+>> On Wed, 2011-06-01 at 20:40 +0000, Otavio Salvador wrote:
+>>> On Wed, Jun 1, 2011 at 20:37, Phil Blundell <pb@pbcl.net> wrote:
+>>>> On Wed, 2011-06-01 at 20:09 +0000, Otavio Salvador wrote:
+>>>>> -# CONFIG_MDEV is not set
+>>>>> +CONFIG_MDEV=3Dy
+>>>>=20
+>>>> Per previous discussion, I am still uneasy about this change.  I =
+think
+>>>> we really need some sort of coherent policy for what exactly the
+>>>> default busybox configuration in oe-core is meant to be doing, and
+>>>> then (if necessary) a set of patches to make it match the policy.=20=
 
-before this change my pull requests had url like this
-are available in the git repository at:
-  git+ssh://git@git.openembedded.org/meta-openembedded-contrib jansa/meta-oe
-  http://cgit.openembedded.org/cgit.cgi/git+ssh://git@git.openembedded.org/=
-meta-openembedded-contrib/log/?h=3Djansa/meta-oe
+>>>> Just flipping random features on and off does not seem like a good =
+way
+>>>> to proceed.
+>>>=20
+>>> OE-core has support to mdev as device handling mechanism as such =
+this
+>>> ought to be enabled by default IMO.
+>>>=20
+>>> Personally it doesn't matter since I have already overriden it in my
+>>> internal layer.
+>>=20
+>> I'm afraid I'm with Phil on this. I don't like the idea of enabling
+>> something we don't actually use. This really needs to become some =
+kind
+>> of configure option which would at the same time disable/replace udev =
+so
+>> the patch in its currently form isn't acceptable.
+>>=20
+>=20
+> mdev or udev are image features so probably should be controlled by=20
+> IMAGE_FEATURES or some such
 
-because RE wasn't matching my URL at all
+You can't put IMAGE_FEATURES in the equivalent of EXTRA_OECONF since the =
+packages in the feeds don't magically change when being installed in a =
+different image.=
 
-OE @ ~/shr-core/openembedded-core $ git config remote.contrib.url
-git+ssh://git@git.openembedded.org/openembedded-core-contrib
 
-IMHO this is equivalent to ssh:// or git@ without protocol but haven't=20
-checked documentation to be sure. But I'm sure this is valid and that=20
-this works right (as I'm able to push to contrib).
-
-> As a minor nit, please include a body message for anything more
-> complicated than whitespace or typographical fixes.
-
-I use git+ssh:// for many projects so I'm used to it, so I expected that
-this is widely used and this patch would be clear enough.
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---VB1oQhYtJt8uuzk+
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
-
-iEYEARECAAYFAk3oeTYACgkQN1Ujt2V2gBx1rQCfUQloj84DJRI9VhXwj5ANyWBH
-7bwAoJHtdsWLQOAgt49Mqooroek1h/Ah
-=e+mo
------END PGP SIGNATURE-----
-
---VB1oQhYtJt8uuzk+--
