@@ -1,34 +1,27 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QSUb2-00089M-47
+	(envelope-from <mark.hatle@windriver.com>) id 1QSVK3-0000Wf-6L
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Jun 2011 15:39:33 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1QSUXu-0005ac-B4 from Tom_Rini@mentor.com ;
-	Fri, 03 Jun 2011 06:36:14 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Fri, 3 Jun 2011 06:36:14 -0700
-Received: from [172.30.80.84] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.270.1;
-	Fri, 3 Jun 2011 06:36:13 -0700
-Message-ID: <4DE8E349.50607@mentor.com>
-Date: Fri, 3 Jun 2011 06:36:09 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	Fri, 03 Jun 2011 16:25:59 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p53EMiIZ025341
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 3 Jun 2011 07:22:44 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 3 Jun 2011 07:22:43 -0700
+Message-ID: <4DE8EE32.9060905@windriver.com>
+Date: Fri, 3 Jun 2011 09:22:42 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <1307097655.2529.250.camel@phil-desktop>
-In-Reply-To: <1307097655.2529.250.camel@phil-desktop>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 03 Jun 2011 13:36:14.0145 (UTC)
-	FILETIME=[3545FB10:01CC21F3]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sqlite: remove dependency on tcl-native
+To: <openembedded-core@lists.openembedded.org>
+References: <4DE56B0D.4020209@intel.com> <4DE87AD1.1050004@linux.intel.com>
+In-Reply-To: <4DE87AD1.1050004@linux.intel.com>
+Subject: Re: Tell me your build error message annoyances!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,43 +36,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2011 13:39:33 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 03 Jun 2011 14:25:59 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 06/03/2011 03:40 AM, Phil Blundell wrote:
-> Older versions of sqlite required tclsh at compile time but this is no longer
-> the case with recent 3.7.x.
+On 6/3/11 1:10 AM, Darren Hart wrote:
 > 
-> See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-June/003653.html
 > 
-> Signed-off-by: Phil Blundell <philb@gnu.org>
+> On 05/31/2011 03:26 PM, Scott Garman wrote:
 
-Acked-by: Tom Rini <tom_rini@mentor.com>
+...
 
-> ---
->  meta/recipes-support/sqlite/sqlite3.inc |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
+> o In general I find the default UI to be exceedingly noisy. It feels
+>   very much like what I would write for something I was actively
+>   developing - ie, something I expect to break a lot! I don't think
+>   that's the sort of impression we want users to have while building a
+>   release (for example).
+
+I have heard similar comments from others as well.
+
+>   I'd prefer if what we currently get today was the output of -D. The
+>   current output could instead be something a lot more in the vein of
+>   what we see with recipe parsing. Perhaps one line per
+>   BB_NUMBER_TREADS (N), maybe something like:
 > 
-> diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-> index d8ef8dc..939df14 100644
-> --- a/meta/recipes-support/sqlite/sqlite3.inc
-> +++ b/meta/recipes-support/sqlite/sqlite3.inc
-> @@ -2,8 +2,8 @@ DESCRIPTION = "An Embeddable SQL Database Engine"
->  HOMEPAGE = "http://www.sqlite.org"
->  SECTION = "libs"
->  PRIORITY = "optional"
-> -DEPENDS = "readline ncurses tcl-native"
-> -DEPENDS_virtclass-native = "tcl-native"
-> +DEPENDS = "readline ncurses"
-> +DEPENDS_virtclass-native = ""
->  LICENSE = "PD"
->  
->  inherit autotools pkgconfig
+>   Task 2300/4600 [####################                    ]
+>     0: linux-yocto: do_compile
+>     1: matchbox: do_fetch
+>     ...
+>     N: dbus: do_configure
+> 
+>   It would of course update the current lines and not scroll. Most of
+>   the time, this would be plenty information. Upon failure we stop
+>   updating the "UI" and print something like:
 
+Even if it did scroll, somehow limiting the messages being printed would be
+beneficial.  It's been suggested to me simply one (or two) messages per step MAX.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+Running linux-yocto do_compile
+Running matchbox do_fetch
+...
+
+I believe currently we have around 3-5 messages per step, and it's still too
+noisy -- unless you need to debug something.
+
+>   ERROR: An unhandled exception occured while processing
+>          linux-yocto: do_fetch
+> 
+>          Exception: No such file or directory.
+> 
+>          Run with -D for a more detailed error report or consult the
+>          appropriate log file:
+> 
+>          $(pwd)/tmp/work/$machine/linux-yocto-$HASH-$HASH \
+>          /temp/log.do_fetch.$PID
+> 
+>   Or something along those lines.
+> 
+> Thanks for collecting these Scott, great idea!
+> 
+
 
 
