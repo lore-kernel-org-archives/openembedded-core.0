@@ -1,30 +1,29 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QSO3R-0001Mj-MD
+	(envelope-from <dvhart@linux.intel.com>) id 1QSO72-0001QT-Ba
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Jun 2011 08:40:21 +0200
-Received: by wye20 with SMTP id 20so1364880wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jun 2011 23:37:09 -0700 (PDT)
-Received: by 10.216.235.2 with SMTP id t2mr6740618weq.93.1307083029020;
-	Thu, 02 Jun 2011 23:37:09 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id et5sm820102wbb.16.2011.06.02.23.37.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Jun 2011 23:37:08 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <201106021806.13486.raj.khem@gmail.com>
-Date: Fri, 3 Jun 2011 08:37:06 +0200
-Message-Id: <F6127B53-6B93-4059-AD34-2D0AF130AA9B@dominion.thruhere.net>
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-	<BANLkTi=q-bMwYtjTAqAXeaB4QQ_n85y8Rw@mail.gmail.com>
-	<1307032661.27470.581.camel@rex>
-	<201106021806.13486.raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
+	Fri, 03 Jun 2011 08:44:04 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Jun 2011 23:40:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,314,1304319600"; d="scan'208";a="12967960"
+Received: from unknown (HELO [10.255.13.71]) ([10.255.13.71])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Jun 2011 23:40:50 -0700
+Message-ID: <4DE881F1.5070509@linux.intel.com>
+Date: Thu, 02 Jun 2011 23:40:49 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1306856806.git.Martin.Jansa@gmail.com>
+	<4fdf0bdf57b56d363e0b2ae8747e85fc84fbf8ca.1306856806.git.Martin.Jansa@gmail.com>
+	<4DE87343.6010209@linux.intel.com>
+	<20110603060334.GK3281@jama.jama.net>
+In-Reply-To: <20110603060334.GK3281@jama.jama.net>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 1/3] busybox: enable mdev by default
+Subject: Re: [PATCH 1/1] create-pull-request: allow '+' in git PROTO_RE, ie for 'git+ssh://'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,50 +38,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2011 06:40:21 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 03 Jun 2011 06:44:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
 
-Op 3 jun 2011, om 03:06 heeft Khem Raj het volgende geschreven:
 
-> On Thursday, June 02, 2011 09:37:41 AM Richard Purdie wrote:
->> On Wed, 2011-06-01 at 20:40 +0000, Otavio Salvador wrote:
->>> On Wed, Jun 1, 2011 at 20:37, Phil Blundell <pb@pbcl.net> wrote:
->>>> On Wed, 2011-06-01 at 20:09 +0000, Otavio Salvador wrote:
->>>>> -# CONFIG_MDEV is not set
->>>>> +CONFIG_MDEV=3Dy
->>>>=20
->>>> Per previous discussion, I am still uneasy about this change.  I =
-think
->>>> we really need some sort of coherent policy for what exactly the
->>>> default busybox configuration in oe-core is meant to be doing, and
->>>> then (if necessary) a set of patches to make it match the policy.=20=
+On 06/02/2011 11:03 PM, Martin Jansa wrote:
+> On Thu, Jun 02, 2011 at 10:38:11PM -0700, Darren Hart wrote:
+>> Hi Martin,
+> 
+> Hi Darren,
+> 
+>> No objection if this is a valid URL. I didn't include this because 1) I
+>> didn't know about it and 2) it isn't listed in the git pull man page,
+>> which is what I developed to. Is git+ssh... equivalent to ssh:// ?
+> 
+> before this change my pull requests had url like this
+> are available in the git repository at:
+>   git+ssh://git@git.openembedded.org/meta-openembedded-contrib jansa/meta-oe
+>   http://cgit.openembedded.org/cgit.cgi/git+ssh://git@git.openembedded.org/meta-openembedded-contrib/log/?h=jansa/meta-oe
+> 
+> because RE wasn't matching my URL at all
+> 
+> OE @ ~/shr-core/openembedded-core $ git config remote.contrib.url
+> git+ssh://git@git.openembedded.org/openembedded-core-contrib
+> 
+> IMHO this is equivalent to ssh:// or git@ without protocol but haven't 
+> checked documentation to be sure. But I'm sure this is valid and that 
+> this works right (as I'm able to push to contrib).
+> 
 
->>>> Just flipping random features on and off does not seem like a good =
-way
->>>> to proceed.
->>>=20
->>> OE-core has support to mdev as device handling mechanism as such =
-this
->>> ought to be enabled by default IMO.
->>>=20
->>> Personally it doesn't matter since I have already overriden it in my
->>> internal layer.
->>=20
->> I'm afraid I'm with Phil on this. I don't like the idea of enabling
->> something we don't actually use. This really needs to become some =
-kind
->> of configure option which would at the same time disable/replace udev =
-so
->> the patch in its currently form isn't acceptable.
->>=20
->=20
-> mdev or udev are image features so probably should be controlled by=20
-> IMAGE_FEATURES or some such
+I'm sure the patch is fine - I was just surprised git pull didn't
+document the URL. It's already been pulled as well I believe.
 
-You can't put IMAGE_FEATURES in the equivalent of EXTRA_OECONF since the =
-packages in the feeds don't magically change when being installed in a =
-different image.=
+>> As a minor nit, please include a body message for anything more
+>> complicated than whitespace or typographical fixes.
+> 
+> I use git+ssh:// for many projects so I'm used to it, so I expected that
+> this is widely used and this patch would be clear enough.
+
+As I said, it's a nit, but it is consistent with guidelines used in many
+other projects. Cramming too much into the subject line makes the git
+log hard to read - especially as git doesn't wrap long lines - perhaps
+due to the prejudices of the authors ;-) Yours doesn't truncate,
+but it comes close. Anyway, dead horse and all that.
+
+Thanks for the fix.
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
