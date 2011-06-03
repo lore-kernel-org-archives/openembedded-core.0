@@ -1,37 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QSPjs-00034u-Lb for openembedded-core@lists.openembedded.org;
-	Fri, 03 Jun 2011 10:28:16 +0200
+	id 1QSQ2H-0003HO-Ti for openembedded-core@lists.openembedded.org;
+	Fri, 03 Jun 2011 10:47:18 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p538P48K002621
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p538C3qH002538
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Jun 2011 09:25:04 +0100
+	Fri, 3 Jun 2011 09:12:03 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 02262-07 for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jun 2011 09:25:00 +0100 (BST)
+	id 02262-05 for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Jun 2011 09:11:59 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p538OwhV002609
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p538BvDD002532
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Jun 2011 09:24:58 +0100
+	Fri, 3 Jun 2011 09:11:58 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <F6127B53-6B93-4059-AD34-2D0AF130AA9B@dominion.thruhere.net>
-References: <cover.1306958862.git.otavio@ossystems.com.br>
-	<BANLkTi=q-bMwYtjTAqAXeaB4QQ_n85y8Rw@mail.gmail.com>
-	<1307032661.27470.581.camel@rex>
-	<201106021806.13486.raj.khem@gmail.com>
-	<F6127B53-6B93-4059-AD34-2D0AF130AA9B@dominion.thruhere.net>
-Date: Fri, 03 Jun 2011 09:24:37 +0100
-Message-ID: <1307089477.27470.625.camel@rex>
+In-Reply-To: <4DE87AD1.1050004@linux.intel.com>
+References: <4DE56B0D.4020209@intel.com>  <4DE87AD1.1050004@linux.intel.com>
+Date: Fri, 03 Jun 2011 09:11:36 +0100
+Message-ID: <1307088696.27470.617.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/3] busybox: enable mdev by default
+Subject: Re: Tell me your build error message annoyances!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,47 +42,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2011 08:28:16 -0000
+X-List-Received-Date: Fri, 03 Jun 2011 08:47:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-06-03 at 08:37 +0200, Koen Kooi wrote:
-> Op 3 jun 2011, om 03:06 heeft Khem Raj het volgende geschreven:
+On Thu, 2011-06-02 at 23:10 -0700, Darren Hart wrote:
+> These are maybe a bit off topic, but I'll leave it to you to decide if
+> they meet the criteria for this effort.
 > 
-> > On Thursday, June 02, 2011 09:37:41 AM Richard Purdie wrote:
-> >> On Wed, 2011-06-01 at 20:40 +0000, Otavio Salvador wrote:
-> >>> On Wed, Jun 1, 2011 at 20:37, Phil Blundell <pb@pbcl.net> wrote:
-> >>>> On Wed, 2011-06-01 at 20:09 +0000, Otavio Salvador wrote:
-> >>>>> -# CONFIG_MDEV is not set
-> >>>>> +CONFIG_MDEV=y
-> >>>> 
-> >>>> Per previous discussion, I am still uneasy about this change.  I think
-> >>>> we really need some sort of coherent policy for what exactly the
-> >>>> default busybox configuration in oe-core is meant to be doing, and
-> >>>> then (if necessary) a set of patches to make it match the policy. 
-> >>>> Just flipping random features on and off does not seem like a good way
-> >>>> to proceed.
-> >>> 
-> >>> OE-core has support to mdev as device handling mechanism as such this
-> >>> ought to be enabled by default IMO.
-> >>> 
-> >>> Personally it doesn't matter since I have already overriden it in my
-> >>> internal layer.
-> >> 
-> >> I'm afraid I'm with Phil on this. I don't like the idea of enabling
-> >> something we don't actually use. This really needs to become some kind
-> >> of configure option which would at the same time disable/replace udev so
-> >> the patch in its currently form isn't acceptable.
-> >> 
-> > 
-> > mdev or udev are image features so probably should be controlled by 
-> > IMAGE_FEATURES or some such
-> 
-> You can't put IMAGE_FEATURES in the equivalent of EXTRA_OECONF since
-> the packages in the feeds don't magically change when being installed
-> in a different image.
+> o bb.debug messages are not logged anywhere nor do they appear on the
+>   console with -DDD during recipe parsing (while bb.note messages do
+>   make it to the console).
 
-Right, it would have to be a DISTRO_FEATURE for that reason...
+This isn't a priority for Scott's work at this point IMO.
+
+> o I'm seeing duplicate messages lately - no examples handy, I'll post
+>   or open a bug next time.
+
+This is a genuine bug that seems to have crept in recently which need to
+fix, not sure its Scott who needs to do it though.
+
+> o The bash logging facility (logging.bbclass) is still a second class
+>   citizen and probably needs a bitbake server hook so bbnote, bbplain,
+>   bbdebug, etc. can call into bitbake proper and use the python
+>   equivalents and therefor also make it to the proper destination
+>  (console or log).
+
+This also isn't a priority for Scott's work at this point IMO.
+
+> o It's been mentioned, but I'd like to second that most of the time,
+>   getting a traceback is really not very helpful. Chris Larson mentioned
+>   moving the exception handling higher up the stack - I think that
+>   makes a lot of sense. I'd also suggest not printing a traceback unless
+>   running with at least -D. A catchall try block that only
+>   does:
+> 
+>   print "Unhandled exception:", e
+> 
+>   under normal conditions and prints a trace with -D enabled would clean
+>   things up a lot I think.
+
+I'm going to disagree here a little here. If something unexpected
+happens we always need the traceback so the pastebin'd error message
+means something to the developers. Currently it shows up even when the
+failure is a known error case and a message has been printed to the user
+and this is a bug though.
+
+If we get exception handling right I think we solve this problem too.
+
+> o In general I find the default UI to be exceedingly noisy. It feels
+>   very much like what I would write for something I was actively
+>   developing - ie, something I expect to break a lot! I don't think
+>   that's the sort of impression we want users to have while building a
+>   release (for example).
+> 
+>   I'd prefer if what we currently get today was the output of -D. The
+>   current output could instead be something a lot more in the vein of
+>   what we see with recipe parsing. Perhaps one line per
+>   BB_NUMBER_TREADS (N), maybe something like:
+> 
+>   Task 2300/4600 [####################                    ]
+>     0: linux-yocto: do_compile
+>     1: matchbox: do_fetch
+>     ...
+>     N: dbus: do_configure
+> 
+>   It would of course update the current lines and not scroll. Most of
+>   the time, this would be plenty information.
+
+You're describing the code in the ncurses UI. It is there and you can
+run it but its unfinished :(.
+
+>  Upon failure we stop
+>   updating the "UI" and print something like:
+> 
+>   ERROR: An unhandled exception occured while processing
+>          linux-yocto: do_fetch
+> 
+>          Exception: No such file or directory.
+> 
+>          Run with -D for a more detailed error report or consult the
+>          appropriate log file:
+> 
+>          $(pwd)/tmp/work/$machine/linux-yocto-$HASH-$HASH \
+>          /temp/log.do_fetch.$PID
+> 
+>   Or something along those lines.
+
+You should never be asked to rerun something, it should know when to
+print the right information.
 
 Cheers,
 
