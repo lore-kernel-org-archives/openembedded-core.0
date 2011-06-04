@@ -1,32 +1,28 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QSvPw-0008Et-V0
+	(envelope-from <scott.a.garman@intel.com>) id 1QSvPx-0008Eu-7M
 	for openembedded-core@lists.openembedded.org;
 	Sat, 04 Jun 2011 20:17:49 +0200
 Received: from localhost.localdomain (c-76-115-40-57.hsd1.or.comcast.net
 	[76.115.40.57])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id C20292FF43;
-	Sat,  4 Jun 2011 14:14:28 -0400 (EDT)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 049D42FF42;
+	Sat,  4 Jun 2011 14:14:27 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Jun 2011 11:14:22 -0700
-Message-Id: <4e80edf830a5fb64a1fb28071673582fbb61ce55.1307210880.git.scott.a.garman@intel.com>
+Date: Sat,  4 Jun 2011 11:14:21 -0700
+Message-Id: <cover.1307210880.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1307210880.git.scott.a.garman@intel.com>
-References: <cover.1307210880.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1307210880.git.scott.a.garman@intel.com>
-References: <cover.1307210880.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: C20292FF43.8129E
+X-MailScanner-ID: 049D42FF42.467E5
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
 Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [PATCH 1/1] distro-tracking: updates
+Subject: [PATCH 0/1] distro tracking updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,121 +39,23 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 04 Jun 2011 18:17:49 -0000
 
-Update the distro tracking fields for:
+This pull request updates some distro tracking fields and should
+quiet some manual check warnings the Yocto package reporting system
+has been sending me recently.
 
-* apmd
-* at
-* blktool
-* cpio
-* dosfstools
-* gzip
-* libatomics-ops
-* shadow
+The following changes since commit 6b5d323b6c8960a0999dbafa0422fe127fd0fa97:
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
+  event: don't catch systemexit from handler execution (2011-06-02 23:58:05 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/version-checks
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/version-checks
+
+Scott Garman (1):
+  distro-tracking: updates
+
  .../conf/distro/include/distro_tracking_fields.inc |   34 +++++++++++--------
  1 files changed, 20 insertions(+), 14 deletions(-)
-
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 73e6782..cd1ee9d 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -817,7 +817,7 @@ RECIPE_NO_OF_PATCHES_pn-blktool = "0"
- RECIPE_INTEL_SECTION_pn-blktool = "base utils"
- RECIPE_LATEST_RELEASE_DATE_pn-blktool = "02/2010"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-blktool = "3 years"
--RECIPE_LAST_UPDATE_pn-blktool = "Jan 4, 2011"
-+RECIPE_LAST_UPDATE_pn-blktool = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-blktool = "Scott Garman <scott.a.garman@intel.com>"
- DISTRO_PN_ALIAS_pn-blktool = "Debian=blktool Mandriva=blktool"
- 
-@@ -910,7 +910,7 @@ RECIPE_INTEL_SECTION_pn-apmd = "base utils"
- RECIPE_LATEST_RELEASE_DATE_pn-apmd = "07/2009"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-apmd = "1 year"
- RECIPE_COMMENTS_pn-apmd = ""
--RECIPE_LAST_UPDATE_pn-apmd = "Jan 4, 2011"
-+RECIPE_LAST_UPDATE_pn-apmd = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-apmd = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-gperf = "green"
-@@ -1010,9 +1010,13 @@ RECIPE_LAST_UPDATE_pn-screen = "Aug 31, 2010"
- RECIPE_MAINTAINER_pn-screen = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-gzip = "green"
--RECIPE_LAST_UPDATE_pn-gzip = "Jul 23, 2010"
--RECIPE_MAINTAINER_pn-gzip = "Scott Garman <scott.a.garman@intel.com>"
-+RECIPE_DEPENDENCY_CHECK_pn-gzip = "not done"
- RECIPE_LATEST_VERSION_pn-gzip = "1.4"
-+RECIPE_NO_OF_PATCHES_pn-gzip = "0"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gzip = "4 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-gzip = "Jan 20, 2010"
-+RECIPE_LAST_UPDATE_pn-gzip = "Jun 4, 2011"
-+RECIPE_MAINTAINER_pn-gzip = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-iptables = "green"
- RECIPE_LAST_UPDATE_pn-iptables = "Nov 10, 2010"
-@@ -1032,13 +1036,12 @@ RECIPE_LATEST_VERSION_pn-net-tools = "1.60-23"
- 
- RECIPE_STATUS_pn-shadow = "green"
- RECIPE_DEPENDENCY_CHECK_pn-shadow = "not done"
--RECIPE_LAST_UPDATE_pn-shadow = "Aug 6, 2010"
--RECIPE_MAINTAINER_pn-shadow = "Scott Garman <scott.a.garman@intel.com>"
--RECIPE_LATEST_VERSION_pn-shadow = "4.1.4.2"
-+RECIPE_LATEST_VERSION_pn-shadow = "4.1.4.3"
- RECIPE_INTEL_SECTION_pn-shadow = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-shadow = "2 months"
--RECIPE_LATEST_RELEASE_DATE_pn-shadow = "07/2009"
--RECIPE_COMMENTS_pn-formfactor = ""
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-shadow = "7 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-shadow = "Feb 15, 2011"
-+RECIPE_LAST_UPDATE_pn-shadow = "Jun 4, 2011"
-+RECIPE_MAINTAINER_pn-shadow = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-coreutils = "green"
- RECIPE_LAST_UPDATE_pn-coreutils = "Jan 20, 2011"
-@@ -1123,7 +1126,7 @@ RECIPE_INTEL_SECTION_pn-libatomics-ops = "optional"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libatomics-ops = "unknown"
- RECIPE_LATEST_RELEASE_DATE_pn-libatomics-ops = "unknown"
- DISTRO_PN_ALIAS_pn-libatomics-ops = "Meego=libatomic-ops Debian=libatomic-ops Ubuntu=libatomic-ops OpenSuSE=libatomic-ops Mandriva=libatomic-ops"
--RECIPE_LAST_UPDATE_pn-libatomics-ops = "Nov 22, 2010"
-+RECIPE_LAST_UPDATE_pn-libatomics-ops = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-libatomics-ops = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-libffi  = "red"
-@@ -1162,8 +1165,11 @@ RECIPE_LAST_UPDATE_pn-chrpath = "Dec 15, 2009"
- RECIPE_MAINTAINER_pn-chrpath = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-dosfstools = "red"
-+RECIPE_DEPENDENCY_CHECK_pn-dosfstools = "not done"
- RECIPE_LATEST_VERSION_pn-dosfstools = "2.11"
--RECIPE_LAST_UPDATE_pn-dosfstools = "Oct 11, 2007"
-+RECIPE_LATEST_RELEASE_DATE_pn-dosfstools = "Mar 12, 2005"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dosfstools = "15 months"
-+RECIPE_LAST_UPDATE_pn-dosfstools = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-dosfstools = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-eee-acpi-scripts = "green"
-@@ -1949,7 +1955,7 @@ RECIPE_INTEL_SECTION_pn-at = "base"
- RECIPE_NO_OF_PATCHES_pn-at = "3"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-at = "13 months"
- RECIPE_LATEST_RELEASE_DATE_pn-at = "11/2009"
--RECIPE_LAST_UPDATE_pn-at = "Jul 23, 2010"
-+RECIPE_LAST_UPDATE_pn-at = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-at = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-cpio = "green"
-@@ -1959,7 +1965,7 @@ RECIPE_INTEL_SECTION_pn-cpio = "base"
- RECIPE_NO_OF_PATCHES_pn-cpio = "0"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-cpio = "9 months"
- RECIPE_LATEST_RELEASE_DATE_pn-cpio = "03/2010"
--RECIPE_LAST_UPDATE_pn-cpio = "Sep 25, 2010"
-+RECIPE_LAST_UPDATE_pn-cpio = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-cpio = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-cronie = "green"
--- 
-1.7.1
 
 
 
