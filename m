@@ -1,24 +1,32 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QSn5n-00089Q-KL
+	(envelope-from <scott.a.garman@intel.com>) id 1QSvPw-0008Et-V0
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 Jun 2011 11:24:27 +0200
-Received: by wye20 with SMTP id 20so2175338wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Jun 2011 02:21:14 -0700 (PDT)
-Received: by 10.216.134.66 with SMTP id r44mr339903wei.92.1307179274001;
-	Sat, 04 Jun 2011 02:21:14 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w58sm1236064weq.25.2011.06.04.02.21.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 04 Jun 2011 02:21:13 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Sat, 04 Jun 2011 20:17:49 +0200
+Received: from localhost.localdomain (c-76-115-40-57.hsd1.or.comcast.net
+	[76.115.40.57])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id C20292FF43;
+	Sat,  4 Jun 2011 14:14:28 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Jun 2011 11:21:09 +0200
-Message-Id: <1307179269-28896-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] sysvinitL split inittab into it's own recipe
+Date: Sat,  4 Jun 2011 11:14:22 -0700
+Message-Id: <4e80edf830a5fb64a1fb28071673582fbb61ce55.1307210880.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1307210880.git.scott.a.garman@intel.com>
+References: <cover.1307210880.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1307210880.git.scott.a.garman@intel.com>
+References: <cover.1307210880.git.scott.a.garman@intel.com>
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: C20292FF43.8129E
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Cc: Scott Garman <scott.a.garman@intel.com>
+Subject: [PATCH 1/1] distro-tracking: updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,225 +41,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Jun 2011 09:24:27 -0000
+X-List-Received-Date: Sat, 04 Jun 2011 18:17:49 -0000
 
-A proper fix for
+Update the distro tracking fields for:
 
-[YOCTO ##1131]
+* apmd
+* at
+* blktool
+* cpio
+* dosfstools
+* gzip
+* libatomics-ops
+* shadow
 
-Signed-off-by: <koen@dominion.thruhere.net>
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- .../recipes-core/sysvinit/sysvinit-inittab/inittab |   30 +++++++++++
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   55 ++++++++++++++++++++
- meta/recipes-core/sysvinit/sysvinit/inittab        |   30 -----------
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   41 +--------------
- 4 files changed, 86 insertions(+), 70 deletions(-)
- create mode 100644 meta/recipes-core/sysvinit/sysvinit-inittab/inittab
- create mode 100644 meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
- delete mode 100644 meta/recipes-core/sysvinit/sysvinit/inittab
+ .../conf/distro/include/distro_tracking_fields.inc |   34 +++++++++++--------
+ 1 files changed, 20 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/inittab b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
-new file mode 100644
-index 0000000..6abbdf4
---- /dev/null
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
-@@ -0,0 +1,30 @@
-+# /etc/inittab: init(8) configuration.
-+# $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
-+
-+# The default runlevel.
-+id:5:initdefault:
-+
-+# Boot-time system configuration/initialization script.
-+# This is run first except when booting in emergency (-b) mode.
-+si::sysinit:/etc/init.d/rcS
-+
-+# What to do in single-user mode.
-+~~:S:wait:/sbin/sulogin
-+
-+# /etc/init.d executes the S and K scripts upon change
-+# of runlevel.
-+#
-+# Runlevel 0 is halt.
-+# Runlevel 1 is single-user.
-+# Runlevels 2-5 are multi-user.
-+# Runlevel 6 is reboot.
-+
-+l0:0:wait:/etc/init.d/rc 0
-+l1:1:wait:/etc/init.d/rc 1
-+l2:2:wait:/etc/init.d/rc 2
-+l3:3:wait:/etc/init.d/rc 3
-+l4:4:wait:/etc/init.d/rc 4
-+l5:5:wait:/etc/init.d/rc 5
-+l6:6:wait:/etc/init.d/rc 6
-+# Normally not reached, but fallthrough in case of emergency.
-+z6:6:respawn:/sbin/sulogin
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-new file mode 100644
-index 0000000..4e57b5a
---- /dev/null
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -0,0 +1,55 @@
-+DESCRIPTION = "Inittab for sysvinit"
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-+                    file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
-+
-+PR = "r5"
-+
-+# Need the whole source for the license checks
-+SRC_URI = "http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${PV}.tar.bz2 \
-+           file://inittab"
-+
-+SRC_URI[md5sum] = "6eda8a97b86e0a6f59dabbf25202aa6f"
-+SRC_URI[sha256sum] = "60bbc8c1e1792056e23761d22960b30bb13eccc2cabff8c7310a01f4d5df1519"
-+
-+S = "${WORKDIR}/sysvinit-${PV}"
-+
-+do_install() {
-+	install -d ${D}${sysconfdir}
-+    install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
-+    if [ ! -z "${SERIAL_CONSOLE}" ]; then
-+        echo "S:2345:respawn:${base_sbindir}/getty ${SERIAL_CONSOLE}" >> ${D}${sysconfdir}/inittab
-+    fi
-+    if [ "${USE_VT}" = "1" ]; then
-+        cat <<EOF >>${D}${sysconfdir}/inittab
-+# ${base_sbindir}/getty invocations for the runlevels.
-+#
-+# The "id" field MUST be the same as the last
-+# characters of the device (after "tty").
-+#
-+# Format:
-+#  <id>:<runlevels>:<action>:<process>
-+#
-+
-+EOF
-+
-+        for n in ${SYSVINIT_ENABLED_GETTYS}
-+        do
-+            echo "$n:2345:respawn:${base_sbindir}/getty 38400 tty$n" >> ${D}${sysconfdir}/inittab
-+        done
-+        echo "" >> ${D}${sysconfdir}/inittab
-+    fi
-+}
-+
-+# USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .conf.
-+# Set PACKAGE_ARCH appropriately.
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+FILES_${PN} = "${sysconfdir}/inittab"
-+CONFFILES_${PN} = "${sysconfdir}/inittab"
-+
-+USE_VT ?= "1"
-+SYSVINIT_ENABLED_GETTYS ?= "1"
-+
-+
-+
-diff --git a/meta/recipes-core/sysvinit/sysvinit/inittab b/meta/recipes-core/sysvinit/sysvinit/inittab
-deleted file mode 100644
-index 6abbdf4..0000000
---- a/meta/recipes-core/sysvinit/sysvinit/inittab
-+++ /dev/null
-@@ -1,30 +0,0 @@
--# /etc/inittab: init(8) configuration.
--# $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
--
--# The default runlevel.
--id:5:initdefault:
--
--# Boot-time system configuration/initialization script.
--# This is run first except when booting in emergency (-b) mode.
--si::sysinit:/etc/init.d/rcS
--
--# What to do in single-user mode.
--~~:S:wait:/sbin/sulogin
--
--# /etc/init.d executes the S and K scripts upon change
--# of runlevel.
--#
--# Runlevel 0 is halt.
--# Runlevel 1 is single-user.
--# Runlevels 2-5 are multi-user.
--# Runlevel 6 is reboot.
--
--l0:0:wait:/etc/init.d/rc 0
--l1:1:wait:/etc/init.d/rc 1
--l2:2:wait:/etc/init.d/rc 2
--l3:3:wait:/etc/init.d/rc 3
--l4:4:wait:/etc/init.d/rc 4
--l5:5:wait:/etc/init.d/rc 5
--l6:6:wait:/etc/init.d/rc 6
--# Normally not reached, but fallthrough in case of emergency.
--z6:6:respawn:/sbin/sulogin
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index e683cc7..bda8a51 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -5,31 +5,15 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
--PR = "r3"
--
--# Need to set this since it has machine specific components
--PACKAGE_ARCH = "${MACHINE_ARCH}"
--
--# USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .conf.
--# Set PACKAGE_ARCH appropriately.
--PACKAGE_ARCH_${PN}-inittab = "${MACHINE_ARCH}"
-+PR = "r4"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 73e6782..cd1ee9d 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -817,7 +817,7 @@ RECIPE_NO_OF_PATCHES_pn-blktool = "0"
+ RECIPE_INTEL_SECTION_pn-blktool = "base utils"
+ RECIPE_LATEST_RELEASE_DATE_pn-blktool = "02/2010"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-blktool = "3 years"
+-RECIPE_LAST_UPDATE_pn-blktool = "Jan 4, 2011"
++RECIPE_LAST_UPDATE_pn-blktool = "Jun 4, 2011"
+ RECIPE_MAINTAINER_pn-blktool = "Scott Garman <scott.a.garman@intel.com>"
+ DISTRO_PN_ALIAS_pn-blktool = "Debian=blktool Mandriva=blktool"
  
- RDEPENDS_${PN} = "${PN}-inittab"
+@@ -910,7 +910,7 @@ RECIPE_INTEL_SECTION_pn-apmd = "base utils"
+ RECIPE_LATEST_RELEASE_DATE_pn-apmd = "07/2009"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-apmd = "1 year"
+ RECIPE_COMMENTS_pn-apmd = ""
+-RECIPE_LAST_UPDATE_pn-apmd = "Jan 4, 2011"
++RECIPE_LAST_UPDATE_pn-apmd = "Jun 4, 2011"
+ RECIPE_MAINTAINER_pn-apmd = "Scott Garman <scott.a.garman@intel.com>"
  
--PACKAGES =+ "bootlogd ${PN}-inittab"
--FILES_bootlogd = "/etc/init.d/bootlogd /etc/init.d/stop-bootlogd /etc/rc?.d/S*bootlogd /sbin/bootlogd"
--FILES_${PN}-inittab = "${sysconfdir}/inittab"
--CONFFILES_${PN}-inittab = "${sysconfdir}/inittab"
--
--USE_VT ?= "1"
--SYSVINIT_ENABLED_GETTYS ?= "1"
--
- SRC_URI = "http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${PV}.tar.bz2 \
- 	   file://install.patch \
- 	   file://crypt-lib.patch \
-            file://need \
-            file://provide \
--           file://inittab \
-            file://rcS-default \
-            file://rc \
-            file://rcS \
-@@ -70,29 +54,6 @@ do_install () {
- 	install -d ${D}${sysconfdir} \
- 		   ${D}${sysconfdir}/default \
- 		   ${D}${sysconfdir}/init.d
--	install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
--	if [ ! -z "${SERIAL_CONSOLE}" ]; then
--		echo "S:2345:respawn:${base_sbindir}/getty ${SERIAL_CONSOLE}" >> ${D}${sysconfdir}/inittab
--	fi
--	if [ "${USE_VT}" = "1" ]; then
--		cat <<EOF >>${D}${sysconfdir}/inittab
--# ${base_sbindir}/getty invocations for the runlevels.
--#
--# The "id" field MUST be the same as the last
--# characters of the device (after "tty").
--#
--# Format:
--#  <id>:<runlevels>:<action>:<process>
--#
--
--EOF
--
--		for n in ${SYSVINIT_ENABLED_GETTYS}
--		do
--			echo "$n:2345:respawn:${base_sbindir}/getty 38400 tty$n" >> ${D}${sysconfdir}/inittab
--		done
--		echo "" >> ${D}${sysconfdir}/inittab
--	fi
- 	install -m 0644    ${WORKDIR}/rcS-default	${D}${sysconfdir}/default/rcS
- 	install -m 0755    ${WORKDIR}/rc		${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/rcS		${D}${sysconfdir}/init.d
+ RECIPE_STATUS_pn-gperf = "green"
+@@ -1010,9 +1010,13 @@ RECIPE_LAST_UPDATE_pn-screen = "Aug 31, 2010"
+ RECIPE_MAINTAINER_pn-screen = "Dexuan Cui <dexuan.cui@intel.com>"
+ 
+ RECIPE_STATUS_pn-gzip = "green"
+-RECIPE_LAST_UPDATE_pn-gzip = "Jul 23, 2010"
+-RECIPE_MAINTAINER_pn-gzip = "Scott Garman <scott.a.garman@intel.com>"
++RECIPE_DEPENDENCY_CHECK_pn-gzip = "not done"
+ RECIPE_LATEST_VERSION_pn-gzip = "1.4"
++RECIPE_NO_OF_PATCHES_pn-gzip = "0"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gzip = "4 months"
++RECIPE_LATEST_RELEASE_DATE_pn-gzip = "Jan 20, 2010"
++RECIPE_LAST_UPDATE_pn-gzip = "Jun 4, 2011"
++RECIPE_MAINTAINER_pn-gzip = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-iptables = "green"
+ RECIPE_LAST_UPDATE_pn-iptables = "Nov 10, 2010"
+@@ -1032,13 +1036,12 @@ RECIPE_LATEST_VERSION_pn-net-tools = "1.60-23"
+ 
+ RECIPE_STATUS_pn-shadow = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-shadow = "not done"
+-RECIPE_LAST_UPDATE_pn-shadow = "Aug 6, 2010"
+-RECIPE_MAINTAINER_pn-shadow = "Scott Garman <scott.a.garman@intel.com>"
+-RECIPE_LATEST_VERSION_pn-shadow = "4.1.4.2"
++RECIPE_LATEST_VERSION_pn-shadow = "4.1.4.3"
+ RECIPE_INTEL_SECTION_pn-shadow = "base utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-shadow = "2 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-shadow = "07/2009"
+-RECIPE_COMMENTS_pn-formfactor = ""
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-shadow = "7 months"
++RECIPE_LATEST_RELEASE_DATE_pn-shadow = "Feb 15, 2011"
++RECIPE_LAST_UPDATE_pn-shadow = "Jun 4, 2011"
++RECIPE_MAINTAINER_pn-shadow = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-coreutils = "green"
+ RECIPE_LAST_UPDATE_pn-coreutils = "Jan 20, 2011"
+@@ -1123,7 +1126,7 @@ RECIPE_INTEL_SECTION_pn-libatomics-ops = "optional"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libatomics-ops = "unknown"
+ RECIPE_LATEST_RELEASE_DATE_pn-libatomics-ops = "unknown"
+ DISTRO_PN_ALIAS_pn-libatomics-ops = "Meego=libatomic-ops Debian=libatomic-ops Ubuntu=libatomic-ops OpenSuSE=libatomic-ops Mandriva=libatomic-ops"
+-RECIPE_LAST_UPDATE_pn-libatomics-ops = "Nov 22, 2010"
++RECIPE_LAST_UPDATE_pn-libatomics-ops = "Jun 4, 2011"
+ RECIPE_MAINTAINER_pn-libatomics-ops = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-libffi  = "red"
+@@ -1162,8 +1165,11 @@ RECIPE_LAST_UPDATE_pn-chrpath = "Dec 15, 2009"
+ RECIPE_MAINTAINER_pn-chrpath = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-dosfstools = "red"
++RECIPE_DEPENDENCY_CHECK_pn-dosfstools = "not done"
+ RECIPE_LATEST_VERSION_pn-dosfstools = "2.11"
+-RECIPE_LAST_UPDATE_pn-dosfstools = "Oct 11, 2007"
++RECIPE_LATEST_RELEASE_DATE_pn-dosfstools = "Mar 12, 2005"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dosfstools = "15 months"
++RECIPE_LAST_UPDATE_pn-dosfstools = "Jun 4, 2011"
+ RECIPE_MAINTAINER_pn-dosfstools = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-eee-acpi-scripts = "green"
+@@ -1949,7 +1955,7 @@ RECIPE_INTEL_SECTION_pn-at = "base"
+ RECIPE_NO_OF_PATCHES_pn-at = "3"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-at = "13 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-at = "11/2009"
+-RECIPE_LAST_UPDATE_pn-at = "Jul 23, 2010"
++RECIPE_LAST_UPDATE_pn-at = "Jun 4, 2011"
+ RECIPE_MAINTAINER_pn-at = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-cpio = "green"
+@@ -1959,7 +1965,7 @@ RECIPE_INTEL_SECTION_pn-cpio = "base"
+ RECIPE_NO_OF_PATCHES_pn-cpio = "0"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-cpio = "9 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-cpio = "03/2010"
+-RECIPE_LAST_UPDATE_pn-cpio = "Sep 25, 2010"
++RECIPE_LAST_UPDATE_pn-cpio = "Jun 4, 2011"
+ RECIPE_MAINTAINER_pn-cpio = "Scott Garman <scott.a.garman@intel.com>"
+ 
+ RECIPE_STATUS_pn-cronie = "green"
 -- 
-1.6.6.1
+1.7.1
 
 
 
