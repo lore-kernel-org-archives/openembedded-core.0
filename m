@@ -1,43 +1,25 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QSYiQ-0007jY-Tz
+	(envelope-from <koen@dominion.thruhere.net>) id 1QSmMM-0007O0-T7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Jun 2011 20:03:23 +0200
-Received: by pzk36 with SMTP id 36so948649pzk.6
+	Sat, 04 Jun 2011 10:37:30 +0200
+Received: by wye20 with SMTP id 20so2160511wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Jun 2011 11:00:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	bh=tRtS9LAYt2Izmg4B3BWfXyyGiRyrLy99XeipYKKKqL0=;
-	b=OOzE721JPvnpFd45SDYvvyGkfOnMxY3iFG85OKmT471iXlQ24Bq15vYpCD6jSRy+w5
-	10wSBXM8t0UmOFP6bdTU4rpTTDO808mtthBFQJXAPLhcB4y2vnqi2ktL6zTWRfMecR/B
-	cEKp0vCWVkQGenDLy+pQrFiMUAOKe/MfcgVyE=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	b=GcGgoQau/49xtIK4MSbSodxfUOt1TVbYgc0qzrQ2gVdtOvh/Aq45PrDN06SbOrSZ8p
-	x8gxwYTpNgZi4QHuVxlQG042c25h+okfUHeqL8Rz/BLMb+olRsirfey/ywniMgTu5GOc
-	luZSukaS3woIT6O/oWBKs0qG/FIPnUM49v1No=
-Received: by 10.142.2.33 with SMTP id 33mr336571wfb.232.1307124009049;
-	Fri, 03 Jun 2011 11:00:09 -0700 (PDT)
-Received: from [172.23.0.205] (natint3.juniper.net [66.129.224.36])
-	by mx.google.com with ESMTPS id x16sm1174377wfc.10.2011.06.03.11.00.06
-	(version=SSLv3 cipher=OTHER); Fri, 03 Jun 2011 11:00:07 -0700 (PDT)
-Message-ID: <4DE92125.5020709@gmail.com>
-Date: Fri, 03 Jun 2011 11:00:05 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1307083232.git.kai.kang@windriver.com>	<adfc33032da197d9e5438a42e2b5df4681cdbb35.1307083232.git.kai.kang@windriver.com>	<1307089346.27470.624.camel@rex>
-	<EEAC1D96-7E8D-4496-9FA1-E41860CA131E@dominion.thruhere.net>
-In-Reply-To: <EEAC1D96-7E8D-4496-9FA1-E41860CA131E@dominion.thruhere.net>
-X-Enigmail-Version: 1.1.2
-Subject: Re: [PATCH 1/1] eglibc: migrate configurability from oe
+	Sat, 04 Jun 2011 01:34:14 -0700 (PDT)
+Received: by 10.217.7.67 with SMTP id z45mr2644821wes.73.1307176452233;
+	Sat, 04 Jun 2011 01:34:12 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id k70sm1221597weq.6.2011.06.04.01.34.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 04 Jun 2011 01:34:11 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sat, 4 Jun 2011 10:34:08 +0200
+Message-Id: <9B1F7F06-7640-445D-BE09-57BA04F64A12@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: sysvinit commits that haven't been seen on this list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,46 +34,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jun 2011 18:03:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 04 Jun 2011 08:37:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 06/03/2011 01:57 AM, Koen Kooi wrote:
-> 
-> Op 3 jun 2011, om 10:22 heeft Richard Purdie het volgende geschreven:
-> 
->> On Fri, 2011-06-03 at 14:47 +0800, Kang Kai wrote:
->>> From: Kang Kai <kai.kang@windriver.com>
->>>
->>> Migrate configurability from oe, try to shrink minimal image size
->>>
->>> The switch is in local.conf.sample, uncomment the line
->>> DISTRO_FEATURES_EGLIBC = ""
->>> and write what options you want to enable.
->>>
->>> If want to disable locale-code charsets or locales, you have to uncomment
->>> PACKAGE_NO_GCONV = 1
->>> Because without this, it fails on package_do_split_gconvs in libc-package.bbclass
->>
->> I have some comments:
->>
->> a) I think these should become flags in DISTRO_FEATURES with an
->> "eglibc-" prefix so something like "spawn" would become "eglibc-spawn"
-> 
-> Taking a step back here, uclibc has the same configurability, so wouldn't it make sense to align both (where possible) and just have 'libc-spawn' in DISTRO_FEATURES?
-> 
+Hi,
 
-uclibc's configurations are not 1 to 1 with eglibc. but I agree the
-common configs should be derived from single DISTRO_FEATURE dealing with
-that like ipv6
+I noticed changes to the sysvinit recipes that I haven't seen being =
+posted to this list either as heads up or review. The commit is question =
+(http://cgit.openembedded.org/cgit.cgi/openembedded-core/commit/?id=3D5bcd=
+6b2c3e935858ac80b17266b9e427060c1650) is a bit half-assed and makes =
+updating sysvinit using package feeds about 30 times harder now, since =
+it needs to get rebuilt for every machine now even if none of the =
+inittabs changed.
 
-> regards,
-> 
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+regards,
 
+Koen=
 
 
