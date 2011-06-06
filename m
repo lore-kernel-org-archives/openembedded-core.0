@@ -1,35 +1,35 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QTXNS-0007Sj-OV for openembedded-core@lists.openembedded.org;
-	Mon, 06 Jun 2011 12:49:46 +0200
+	id 1QTXRU-00088O-Fh for openembedded-core@lists.openembedded.org;
+	Mon, 06 Jun 2011 12:53:56 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p56AkUmH003617
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p56Aof9C003714
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jun 2011 11:46:30 +0100
+	Mon, 6 Jun 2011 11:50:41 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 03389-03 for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2011 11:46:26 +0100 (BST)
+	id 03389-04 for <openembedded-core@lists.openembedded.org>;
+	Mon,  6 Jun 2011 11:50:36 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p56AkM67003609
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p56AoWg5003706
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jun 2011 11:46:26 +0100
+	Mon, 6 Jun 2011 11:50:32 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1307347216.3131.5.camel@lenovo.internal.reciva.com>
-References: <cover.1307331820.git.scott.a.garman@intel.com>
-	<300cfa12d67e37c81fbbcdaba5c7d7686a191cfe.1307331820.git.scott.a.garman@intel.com>
-	<1307347216.3131.5.camel@lenovo.internal.reciva.com>
-Date: Mon, 06 Jun 2011 11:46:21 +0100
-Message-ID: <1307357181.7672.3.camel@rex>
+In-Reply-To: <1307343323.3131.1.camel@lenovo.internal.reciva.com>
+References: <cover.1307342214.git.sgw@linux.intel.com>
+	<3eba2df4c6f2371db24ab2420d037b992725cb84.1307342214.git.sgw@linux.intel.com>
+	<1307343323.3131.1.camel@lenovo.internal.reciva.com>
+Date: Mon, 06 Jun 2011 11:50:30 +0100
+Message-ID: <1307357430.7672.7.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 3/4] tar: upgrade to v1.26
+Subject: Re: [CONSOLIDATED PULL 01/20] bitbake.conf: Create staticlibs pacakge for static libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,38 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2011 10:49:46 -0000
+X-List-Received-Date: Mon, 06 Jun 2011 10:53:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-06-06 at 09:00 +0100, Phil Blundell wrote:
-> On Sun, 2011-06-05 at 21:49 -0700, Scott Garman wrote:
-> >  SECTION = "base"
-> > +PRIORITY = "optional"
+On Mon, 2011-06-06 at 07:55 +0100, Phil Blundell wrote:
+> On Sun, 2011-06-05 at 23:44 -0700, Saul Wold wrote:
+> >  SECTION_${PN}-dev = "devel"
+> >  ALLOW_EMPTY_${PN}-dev = "1"
+> >  RDEPENDS_${PN}-dev = "${PN} (= ${EXTENDPKGV})"
+> >  
+> > +FILES_${PN}-staticlibs = "${libdir}/*.a ${base_libdir}/*.a"
+> > +SECTION_${PN}-staticlibs = "devel"
+> > +RDEPENDS_${PN}-staticlibs = "${PN}-dev (= ${EXTENDPV})"
 > 
-> Seeing this sort of thing makes me wonder whether SECTION and PRIORITY
-> actually belong in the core metadata at all.  It seems as though the
-> determination of what exactly is "standard" vs "optional" is a matter of
-> distro policy and this would be better done in the distro config files.
-> 
-> Also, just on a pragmatic issue, the two values above are actually what
-> bitbake.conf sets as default anyway so there isn't much to be gained by
-> specifying them in the recipe as well.
+> This should be ${EXTENDPKGV}, right?
 
-I have to admit I keep wondering about these.
+It should.
 
-PRIORITY does seem a bit of a pointless variable in the default metadata
-and I'm borderline in favour of dropping it and leaving it to any
-distros who want to use it, maybe sharing an include file.
+I'm also not 100% convinced I like "-staticlibs" vs "-staticdev" as it
+doesn't feel consistent.
 
-SECTION does at least start to become useful in an image generation UI
-as a way to group packages roughly by type which makes me think it has a
-good default usecase (and OE-Core did clean up the values of it to at
-least be consistent).
+The user gets exposed to these at the package manager level and will
+"xxx install xxx-staticX". The end result they'll get will be the
+installation of everything they need for static development (i.e. the
+-dev packages will get pulled in for the headers). This means they don't
+just result in the static libs as there are dependencies there. From the
+user perspective they are therefore packages for static development, not
+just the static libraries...
 
 Cheers,
 
 Richard
+
+
+
+
 
 
 
