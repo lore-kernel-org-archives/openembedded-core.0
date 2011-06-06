@@ -1,28 +1,32 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QTRoD-0003nO-Nr
+	(envelope-from <scott.a.garman@intel.com>) id 1QTRoE-0003nV-Gb
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Jun 2011 06:53:01 +0200
+	Mon, 06 Jun 2011 06:53:02 +0200
 Received: from localhost.localdomain (c-76-115-40-57.hsd1.or.comcast.net
 	[76.115.40.57])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 2A2832FF67;
-	Mon,  6 Jun 2011 00:49:40 -0400 (EDT)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id E1A452FF6A;
+	Mon,  6 Jun 2011 00:49:43 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Jun 2011 21:49:29 -0700
-Message-Id: <cover.1307331820.git.scott.a.garman@intel.com>
+Date: Sun,  5 Jun 2011 21:49:32 -0700
+Message-Id: <300cfa12d67e37c81fbbcdaba5c7d7686a191cfe.1307331820.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1307331820.git.scott.a.garman@intel.com>
+References: <cover.1307331820.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1307331820.git.scott.a.garman@intel.com>
+References: <cover.1307331820.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 2A2832FF67.E067F
+X-MailScanner-ID: E1A452FF6A.DB91B
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
 Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [PATCH 0/4] Recipe upgrades: openssh, grep, tar
+Subject: [PATCH 3/4] tar: upgrade to v1.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,49 +43,65 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Jun 2011 04:53:02 -0000
 
-Good day,
-
-Here are some straightforward recipe upgrades for openssh, grep,
-and tar.
-
-Build tested on all five qemu MACHINEs we support. Runtime tested on
-qemuarm.
-
-The following changes since commit 6b5d323b6c8960a0999dbafa0422fe127fd0fa97:
-
-  event: don't catch systemexit from handler execution (2011-06-02 23:58:05 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib sgarman/recipe-upgrades
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/recipe-upgrades
-
-Scott Garman (4):
-  openssh: upgrade to v5.8p2
-  grep: upgrade to v2.8
-  tar: upgrade to v1.26
-  distro-tracking: update openssh, tar, and grep
-
- .../conf/distro/include/distro_tracking_fields.inc |   26 ++++++++++----------
- .../openssh/{openssh-5.6p1 => openssh-5.8p2}/init  |    0
- .../{openssh-5.6p1 => openssh-5.8p2}/nostrip.patch |    0
- .../{openssh-5.6p1 => openssh-5.8p2}/ssh_config    |    0
- .../{openssh-5.6p1 => openssh-5.8p2}/sshd_config   |    0
- .../openssh/{openssh_5.6p1.bb => openssh_5.8p2.bb} |    9 ++++---
- .../grep/{grep_2.7.bb => grep_2.8.bb}              |    7 +++--
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
  ...tive_1.25.bb => tar-replacement-native_1.26.bb} |    0
  meta/recipes-extended/tar/tar.inc                  |    1 +
- meta/recipes-extended/tar/tar_1.25.bb              |    9 -------
- meta/recipes-extended/tar/tar_1.26.bb              |    9 +++++++
- 11 files changed, 32 insertions(+), 29 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/init (100%)
- rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/nostrip.patch (100%)
- rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/ssh_config (100%)
- rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/sshd_config (100%)
- rename meta/recipes-connectivity/openssh/{openssh_5.6p1.bb => openssh_5.8p2.bb} (93%)
- rename meta/recipes-extended/grep/{grep_2.7.bb => grep_2.8.bb} (84%)
+ meta/recipes-extended/tar/tar_1.25.bb              |    9 ---------
+ meta/recipes-extended/tar/tar_1.26.bb              |    9 +++++++++
+ 4 files changed, 10 insertions(+), 9 deletions(-)
  rename meta/recipes-extended/tar/{tar-replacement-native_1.25.bb => tar-replacement-native_1.26.bb} (100%)
  delete mode 100644 meta/recipes-extended/tar/tar_1.25.bb
  create mode 100644 meta/recipes-extended/tar/tar_1.26.bb
+
+diff --git a/meta/recipes-extended/tar/tar-replacement-native_1.25.bb b/meta/recipes-extended/tar/tar-replacement-native_1.26.bb
+similarity index 100%
+rename from meta/recipes-extended/tar/tar-replacement-native_1.25.bb
+rename to meta/recipes-extended/tar/tar-replacement-native_1.26.bb
+diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
+index 6e77051..bbed65c 100644
+--- a/meta/recipes-extended/tar/tar.inc
++++ b/meta/recipes-extended/tar/tar.inc
+@@ -3,6 +3,7 @@ DESCRIPTION = "GNU tar saves many files together into a single tape \
+ or disk archive, and can restore individual files from the archive."
+ HOMEPAGE = "http://www.gnu.org/software/tar/"
+ SECTION = "base"
++PRIORITY = "optional"
+ 
+ SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2"
+ 
+diff --git a/meta/recipes-extended/tar/tar_1.25.bb b/meta/recipes-extended/tar/tar_1.25.bb
+deleted file mode 100644
+index cdb6f54..0000000
+--- a/meta/recipes-extended/tar/tar_1.25.bb
++++ /dev/null
+@@ -1,9 +0,0 @@
+-require tar.inc
+-
+-LICENSE = "GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+-
+-PR = "r0"
+-
+-SRC_URI[md5sum] = "6e497f861c77bbba2f7da4e10270995b"
+-SRC_URI[sha256sum] = "f3f6ce41b8e0f327abd05c95990f113ddafbae131e10f79a99728ed46458494b"
+diff --git a/meta/recipes-extended/tar/tar_1.26.bb b/meta/recipes-extended/tar/tar_1.26.bb
+new file mode 100644
+index 0000000..26fdc4a
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar_1.26.bb
+@@ -0,0 +1,9 @@
++require tar.inc
++
++LICENSE = "GPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++
++PR = "r0"
++
++SRC_URI[md5sum] = "2cee42a2ff4f1cd4f9298eeeb2264519"
++SRC_URI[sha256sum] = "5a5369f464502a598e938029c310d4b3abd51e6bb8dfd045663e61c8ea9f6d41"
+-- 
+1.7.1
 
 
 
