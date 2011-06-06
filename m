@@ -1,25 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QTTbH-0005lt-Vc
+	(envelope-from <sgw@linux.intel.com>) id 1QTTbI-0005m5-CS
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Jun 2011 08:47:48 +0200
+	Mon, 06 Jun 2011 08:47:49 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 05 Jun 2011 23:44:27 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,325,1304319600"; 
-   d="scan'208";a="7608978"
+   d="scan'208";a="7608984"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.187])
 	by azsmga001.ch.intel.com with ESMTP; 05 Jun 2011 23:44:27 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Jun 2011 23:44:07 -0700
-Message-Id: <6d663a8974d2f6730b481a535ee50aeebd28d757.1307342214.git.sgw@linux.intel.com>
+Date: Sun,  5 Jun 2011 23:44:08 -0700
+Message-Id: <9da942c08d10c8735d9c88e5edd6facfdc9d8683.1307342214.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1307342214.git.sgw@linux.intel.com>
 References: <cover.1307342214.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1307342214.git.sgw@linux.intel.com>
 References: <cover.1307342214.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 03/20] autoconf: upgrade from 2.65 to 2.68
+Subject: [CONSOLIDATED PULL 04/20] bison: upgrade from 2.4.3 to 2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,185 +34,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2011 06:47:48 -0000
+X-List-Received-Date: Mon, 06 Jun 2011 06:47:49 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-And rebase the patches to the newer code.
+This version of bison needs m4 1.4.16 or newer
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../{autoconf-2.65 => autoconf}/autoconf-x.patch   |    0
- .../autoheader-nonfatal-warnings.patch             |    0
- .../autoreconf-exclude.patch                       |    0
- .../autoreconf-foreign.patch                       |    0
- .../autoreconf-gnuconfigize.patch                  |    0
- .../autoreconf-include.patch                       |    0
- .../{autoconf-2.65 => autoconf}/config_site.patch  |   19 ++++++++++++++-----
- .../fix_path_xtra.patch                            |   14 +++++++-------
- .../path_prog_fixes.patch                          |    0
- .../program_prefix.patch                           |    0
- .../{autoconf_2.65.bb => autoconf_2.68.bb}         |    6 +++---
- 11 files changed, 24 insertions(+), 15 deletions(-)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoconf-x.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoheader-nonfatal-warnings.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoreconf-exclude.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoreconf-foreign.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoreconf-gnuconfigize.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/autoreconf-include.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/config_site.patch (60%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/fix_path_xtra.patch (90%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/path_prog_fixes.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf-2.65 => autoconf}/program_prefix.patch (100%)
- rename meta/recipes-devtools/autoconf/{autoconf_2.65.bb => autoconf_2.68.bb} (85%)
+ meta/recipes-devtools/bison/bison/m4.patch         |  131 --------------------
+ .../bison/bison/uclibc-sched_param-def.patch       |   21 ---
+ .../bison/{bison_2.4.3.bb => bison_2.5.bb}         |    7 +-
+ 3 files changed, 3 insertions(+), 156 deletions(-)
+ delete mode 100644 meta/recipes-devtools/bison/bison/uclibc-sched_param-def.patch
+ rename meta/recipes-devtools/bison/{bison_2.4.3.bb => bison_2.5.bb} (85%)
 
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoconf-x.patch b/meta/recipes-devtools/autoconf/autoconf/autoconf-x.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoconf-x.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoconf-x.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoheader-nonfatal-warnings.patch b/meta/recipes-devtools/autoconf/autoconf/autoheader-nonfatal-warnings.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoheader-nonfatal-warnings.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoheader-nonfatal-warnings.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-exclude.patch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-exclude.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-foreign.patch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-foreign.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoreconf-foreign.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-gnuconfigize.patch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-gnuconfigize.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-gnuconfigize.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoreconf-gnuconfigize.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-include.patch b/meta/recipes-devtools/autoconf/autoconf/autoreconf-include.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/autoreconf-include.patch
-rename to meta/recipes-devtools/autoconf/autoconf/autoreconf-include.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/config_site.patch b/meta/recipes-devtools/autoconf/autoconf/config_site.patch
-similarity index 60%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/config_site.patch
-rename to meta/recipes-devtools/autoconf/autoconf/config_site.patch
-index e3ff318..9f04440 100644
---- a/meta/recipes-devtools/autoconf/autoconf-2.65/config_site.patch
-+++ b/meta/recipes-devtools/autoconf/autoconf/config_site.patch
-@@ -6,17 +6,26 @@ them.
- 
- RP 1/2/10
- 
--Index: autoconf-2.65/lib/autoconf/general.m4
-+Updated for 2.68 version: the CONFIG_SITE var was not getting used at all
-+fixed the 2.68 code 
-+Nitin A Kamble <nitin.a.kamble@intel.com> 2011/05/27
-+
-+Index: autoconf-2.68/lib/autoconf/general.m4
+diff --git a/meta/recipes-devtools/bison/bison/m4.patch b/meta/recipes-devtools/bison/bison/m4.patch
+index 0754a90..d139da5 100644
+--- a/meta/recipes-devtools/bison/bison/m4.patch
++++ b/meta/recipes-devtools/bison/bison/m4.patch
+@@ -75,109 +75,6 @@ Index: bison-2.4.2/m4/uintmax_t.m4
+ +   if <inttypes.h> and <stdint.h> don't define.])
+ +  fi
+ +])
+-Index: bison-2.4.2/m4/glibc21.m4
+-===================================================================
+---- /dev/null
+-+++ bison-2.4.2/m4/glibc21.m4
+-@@ -0,0 +1,32 @@
+-+# glibc21.m4 serial 2 (fileutils-4.1.3, gettext-0.10.40)
+-+dnl Copyright (C) 2000-2002 Free Software Foundation, Inc.
+-+dnl This file is free software, distributed under the terms of the GNU
+-+dnl General Public License.  As a special exception to the GNU General
+-+dnl Public License, this file may be distributed as part of a program
+-+dnl that contains a configuration script generated by Autoconf, under
+-+dnl the same distribution terms as the rest of that program.
+-+
+-+# Test for the GNU C Library, version 2.1 or newer.
+-+# From Bruno Haible.
+-+
+-+AC_DEFUN([jm_GLIBC21],
+-+  [
+-+    AC_CACHE_CHECK(whether we are using the GNU C Library 2.1 or newer,
+-+      ac_cv_gnu_library_2_1,
+-+      [AC_EGREP_CPP([Lucky GNU user],
+-+	[
+-+#include <features.h>
+-+#ifdef __GNU_LIBRARY__
+-+ #if (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 1) || (__GLIBC__ > 2)
+-+  Lucky GNU user
+-+ #endif
+-+#endif
+-+	],
+-+	ac_cv_gnu_library_2_1=yes,
+-+	ac_cv_gnu_library_2_1=no)
+-+      ]
+-+    )
+-+    AC_SUBST(GLIBC21)
+-+    GLIBC21="$ac_cv_gnu_library_2_1"
+-+  ]
+-+)
+-Index: bison-2.4.2/m4/stdint_h.m4
+-===================================================================
+---- /dev/null
+-+++ bison-2.4.2/m4/stdint_h.m4
+-@@ -0,0 +1,28 @@
+-+# stdint_h.m4 serial 2 (gettext-0.11.4)
+-+dnl Copyright (C) 1997-2002 Free Software Foundation, Inc.
+-+dnl This file is free software, distributed under the terms of the GNU
+-+dnl General Public License.  As a special exception to the GNU General
+-+dnl Public License, this file may be distributed as part of a program
+-+dnl that contains a configuration script generated by Autoconf, under
+-+dnl the same distribution terms as the rest of that program.
+-+
+-+dnl From Paul Eggert.
+-+
+-+# Define HAVE_STDINT_H_WITH_UINTMAX if <stdint.h> exists,
+-+# doesn't clash with <sys/types.h>, and declares uintmax_t.
+-+
+-+AC_DEFUN([jm_AC_HEADER_STDINT_H],
+-+[
+-+  AC_CACHE_CHECK([for stdint.h], jm_ac_cv_header_stdint_h,
+-+  [AC_TRY_COMPILE(
+-+    [#include <sys/types.h>
+-+#include <stdint.h>],
+-+    [uintmax_t i = (uintmax_t) -1;],
+-+    jm_ac_cv_header_stdint_h=yes,
+-+    jm_ac_cv_header_stdint_h=no)])
+-+  if test $jm_ac_cv_header_stdint_h = yes; then
+-+    AC_DEFINE_UNQUOTED(HAVE_STDINT_H_WITH_UINTMAX, 1,
+-+[Define if <stdint.h> exists, doesn't clash with <sys/types.h>,
+-+   and declares uintmax_t. ])
+-+  fi
+-+])
+-Index: bison-2.4.2/m4/inttypes_h.m4
+-===================================================================
+---- /dev/null
+-+++ bison-2.4.2/m4/inttypes_h.m4
+-@@ -0,0 +1,28 @@
+-+# inttypes_h.m4 serial 4 (gettext-0.11.4)
+-+dnl Copyright (C) 1997-2002 Free Software Foundation, Inc.
+-+dnl This file is free software, distributed under the terms of the GNU
+-+dnl General Public License.  As a special exception to the GNU General
+-+dnl Public License, this file may be distributed as part of a program
+-+dnl that contains a configuration script generated by Autoconf, under
+-+dnl the same distribution terms as the rest of that program.
+-+
+-+dnl From Paul Eggert.
+-+
+-+# Define HAVE_INTTYPES_H_WITH_UINTMAX if <inttypes.h> exists,
+-+# doesn't clash with <sys/types.h>, and declares uintmax_t.
+-+
+-+AC_DEFUN([jm_AC_HEADER_INTTYPES_H],
+-+[
+-+  AC_CACHE_CHECK([for inttypes.h], jm_ac_cv_header_inttypes_h,
+-+  [AC_TRY_COMPILE(
+-+    [#include <sys/types.h>
+-+#include <inttypes.h>],
+-+    [uintmax_t i = (uintmax_t) -1;],
+-+    jm_ac_cv_header_inttypes_h=yes,
+-+    jm_ac_cv_header_inttypes_h=no)])
+-+  if test $jm_ac_cv_header_inttypes_h = yes; then
+-+    AC_DEFINE_UNQUOTED(HAVE_INTTYPES_H_WITH_UINTMAX, 1,
+-+[Define if <inttypes.h> exists, doesn't clash with <sys/types.h>,
+-+   and declares uintmax_t. ])
+-+  fi
+-+])
+ Index: bison-2.4.2/m4/ulonglong.m4
  ===================================================================
----- autoconf-2.65.orig/lib/autoconf/general.m4	2010-02-01 12:41:32.329073138 +0000
--+++ autoconf-2.65/lib/autoconf/general.m4	2010-02-01 12:41:56.769040799 +0000
--@@ -1863,17 +1863,10 @@
-+--- autoconf-2.68.orig/lib/autoconf/general.m4
-++++ autoconf-2.68/lib/autoconf/general.m4
-+@@ -1878,7 +1878,6 @@ AU_DEFUN([AC_VALIDATE_CACHED_SYSTEM_TUPL
-  m4_define([AC_SITE_LOAD],
-  [# Prefer an explicitly selected file to automatically selected ones.
-  ac_site_file1=NONE
- -ac_site_file2=NONE
-  if test -n "$CONFIG_SITE"; then
--   ac_site_file1=$CONFIG_SITE
-+   # We do not want a PATH search for config.site.
-+   case $CONFIG_SITE in @%:@((
-+@@ -1886,14 +1885,8 @@ if test -n "$CONFIG_SITE"; then
-+     */*) ac_site_file1=$CONFIG_SITE;;
-+     *)   ac_site_file1=./$CONFIG_SITE;;
-+   esac
- -elif test "x$prefix" != xNONE; then
- -  ac_site_file1=$prefix/share/config.site
- -  ac_site_file2=$prefix/etc/config.site
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/fix_path_xtra.patch b/meta/recipes-devtools/autoconf/autoconf/fix_path_xtra.patch
-similarity index 90%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/fix_path_xtra.patch
-rename to meta/recipes-devtools/autoconf/autoconf/fix_path_xtra.patch
-index 29fe6a2..65df88f 100644
---- a/meta/recipes-devtools/autoconf/autoconf-2.65/fix_path_xtra.patch
-+++ b/meta/recipes-devtools/autoconf/autoconf/fix_path_xtra.patch
-@@ -6,11 +6,11 @@ This patch removes them to stop any confusion.
- 
- RP - 20071115
- 
--Index: autoconf-2.65/lib/autoconf/libs.m4
-+Index: autoconf-2.68/lib/autoconf/libs.m4
+ --- /dev/null
+@@ -206,34 +103,6 @@ Index: bison-2.4.2/m4/ulonglong.m4
+ +      [Define if you have the unsigned long long type.])
+ +  fi
+ +])
+-Index: bison-2.4.2/m4/codeset.m4
+-===================================================================
+---- /dev/null
+-+++ bison-2.4.2/m4/codeset.m4
+-@@ -0,0 +1,23 @@
+-+# codeset.m4 serial AM1 (gettext-0.10.40)
+-+dnl Copyright (C) 2000-2002 Free Software Foundation, Inc.
+-+dnl This file is free software, distributed under the terms of the GNU
+-+dnl General Public License.  As a special exception to the GNU General
+-+dnl Public License, this file may be distributed as part of a program
+-+dnl that contains a configuration script generated by Autoconf, under
+-+dnl the same distribution terms as the rest of that program.
+-+
+-+dnl From Bruno Haible.
+-+
+-+AC_DEFUN([AM_LANGINFO_CODESET],
+-+[
+-+  AC_CACHE_CHECK([for nl_langinfo and CODESET], am_cv_langinfo_codeset,
+-+    [AC_TRY_LINK([#include <langinfo.h>],
+-+      [char* cs = nl_langinfo(CODESET);],
+-+      am_cv_langinfo_codeset=yes,
+-+      am_cv_langinfo_codeset=no)
+-+    ])
+-+  if test $am_cv_langinfo_codeset = yes; then
+-+    AC_DEFINE(HAVE_LANGINFO_CODESET, 1,
+-+      [Define if you have <langinfo.h> and nl_langinfo(CODESET).])
+-+  fi
+-+])
+ Index: bison-2.4.2/m4/intdiv0.m4
  ===================================================================
----- autoconf-2.65.orig/lib/autoconf/libs.m4	2009-10-29 01:53:41.000000000 +0000
--+++ autoconf-2.65/lib/autoconf/libs.m4	2010-01-29 13:40:13.000000000 +0000
--@@ -159,53 +159,6 @@
-+--- autoconf-2.68.orig/lib/autoconf/libs.m4
-++++ autoconf-2.68/lib/autoconf/libs.m4
-+@@ -159,53 +159,6 @@ m4_popdef([AC_Lib_Name])dnl
-  # --------------------- #
-  
-  
-@@ -32,7 +32,7 @@ Index: autoconf-2.65/lib/autoconf/libs.m4
- -	@echo libdir='${LIBDIR}'
- -_ACEOF
- -  if (export CC; ${XMKMF-xmkmf}) >/dev/null 2>/dev/null && test -f Makefile; then
---    # GNU make sometimes prints "make[1]: Entering...", which would confuse us.
-+-    # GNU make sometimes prints "make[1]: Entering ...", which would confuse us.
- -    for ac_var in incroot usrlibdir libdir; do
- -      eval "ac_im_$ac_var=\`\${MAKE-make} $ac_var 2>/dev/null | sed -n 's/^$ac_var=//p'\`"
- -    done
-@@ -64,7 +64,7 @@ Index: autoconf-2.65/lib/autoconf/libs.m4
-  # _AC_PATH_X_DIRECT
-  # -----------------
-  # Internal subroutine of _AC_PATH_X.
--@@ -213,44 +166,7 @@
-+@@ -213,44 +166,7 @@ fi
-  m4_define([_AC_PATH_X_DIRECT],
-  [# Standard set of common directories for X headers.
-  # Check X11 before X11Rn because it is often a symlink to the current release.
-@@ -110,7 +110,7 @@ Index: autoconf-2.65/lib/autoconf/libs.m4
-  
-  if test "$ac_x_includes" = no; then
-    # Guess where to find include files, by looking for Xlib.h.
--@@ -299,7 +215,6 @@
-+@@ -299,7 +215,6 @@ AC_DEFUN([_AC_PATH_X],
-  [AC_CACHE_VAL(ac_cv_have_x,
-  [# One or both of the vars are not set, and there is no cached value.
-  ac_x_includes=no ac_x_libraries=no
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/path_prog_fixes.patch b/meta/recipes-devtools/autoconf/autoconf/path_prog_fixes.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/path_prog_fixes.patch
-rename to meta/recipes-devtools/autoconf/autoconf/path_prog_fixes.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf-2.65/program_prefix.patch b/meta/recipes-devtools/autoconf/autoconf/program_prefix.patch
-similarity index 100%
-rename from meta/recipes-devtools/autoconf/autoconf-2.65/program_prefix.patch
-rename to meta/recipes-devtools/autoconf/autoconf/program_prefix.patch
-diff --git a/meta/recipes-devtools/autoconf/autoconf_2.65.bb b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+ --- /dev/null
+diff --git a/meta/recipes-devtools/bison/bison/uclibc-sched_param-def.patch b/meta/recipes-devtools/bison/bison/uclibc-sched_param-def.patch
+deleted file mode 100644
+index 6774838..0000000
+--- a/meta/recipes-devtools/bison/bison/uclibc-sched_param-def.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-Upstream-Status: Pending
+-
+-uclibc defines __GLIBC__ but it does not expose struct shed_param as much as glibc
+-and is not needed too per standard. gnulib attempts to use it but we have to account
+-for it because in this case uclibc does not behave like glibc.
+-
+--Khem
+-
+-http://bugs.gentoo.org/336484
+-
+---- m4-1.4.14/lib/spawn.in.h
+-+++ m4-1.4.14/lib/spawn.in.h
+-@@ -31,7 +31,7 @@
+- 
+- /* Get definitions of 'struct sched_param' and 'sigset_t'.
+-    But avoid namespace pollution on glibc systems.  */
+--#ifndef __GLIBC__
+-+#if !defined __GLIBC__ || defined __UCLIBC__
+- # include <sched.h>
+- # include <signal.h>
+- #endif
+diff --git a/meta/recipes-devtools/bison/bison_2.4.3.bb b/meta/recipes-devtools/bison/bison_2.5.bb
 similarity index 85%
-rename from meta/recipes-devtools/autoconf/autoconf_2.65.bb
-rename to meta/recipes-devtools/autoconf/autoconf_2.68.bb
-index 0bc615e..c647a15 100644
---- a/meta/recipes-devtools/autoconf/autoconf_2.65.bb
-+++ b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
-@@ -1,6 +1,6 @@
- require autoconf.inc
+rename from meta/recipes-devtools/bison/bison_2.4.3.bb
+rename to meta/recipes-devtools/bison/bison_2.5.bb
+index 3c164d9..b81efab 100644
+--- a/meta/recipes-devtools/bison/bison_2.4.3.bb
++++ b/meta/recipes-devtools/bison/bison_2.5.bb
+@@ -10,18 +10,17 @@ SECTION = "devel"
+ PRIORITY = "optional"
+ DEPENDS = "bison-native"
  
 -PR = "r2"
 +PR = "r0"
  
- PARALLEL_MAKE = ""
+ BASE_SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.gz \
+ 	   file://m4.patch \
+-	   file://uclibc-sched_param-def.patch \
+ 	  "
  
-@@ -17,8 +17,8 @@ SRC_URI += "file://autoreconf-include.patch;patch=1 \
- 	   ${@['file://path_prog_fixes.patch;patch=1', ''][bb.data.inherits_class('native', d)]} \
-            file://config_site.patch;patch=1"
+ SRC_URI = "${BASE_SRC_URI} \
+         file://fix_cross_manpage_building.patch "
  
--SRC_URI[md5sum] = "a6de1cc6434cd64038b0a0ae4e252b33"
--SRC_URI[sha256sum] = "db11944057f3faf229ff5d6ce3fcd819f565455c152b72cec17ebc1cbb80136b"
-+SRC_URI[md5sum] = "864d785215aa60d627c91fcb21b05b07"
-+SRC_URI[sha256sum] = "c491fb273fd6d4ca925e26ceed3d177920233c76d542b150ff35e571454332c8"
+-SRC_URI[md5sum] = "ea45c778b36bdc7a720096819e292a73"
+-SRC_URI[sha256sum] = "6b17be5e63ff6667c83f6ef0423befe0ba23d4bc554c4c33b02ce5bb65179b16"
++SRC_URI[md5sum] = "687e1dcd29452789d34eaeea4c25abe4"
++SRC_URI[sha256sum] = "722def46e4a19a5b7a579ef30db1965f86c37c1a20a5f0113743a2e4399f7c99"
  
- DEPENDS_virtclass-native = "m4-native gnu-config-native"
- RDEPENDS_${PN}_virtclass-native = "m4-native gnu-config-native"
+ DEPENDS_virtclass-native = "gettext-native"
+ SRC_URI_virtclass-native = "${BASE_SRC_URI}"
 -- 
 1.7.3.4
 
