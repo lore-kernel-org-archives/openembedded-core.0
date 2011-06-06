@@ -1,25 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QTTbE-0005lt-O3
+	(envelope-from <sgw@linux.intel.com>) id 1QTTbH-0005lt-48
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Jun 2011 08:47:45 +0200
+	Mon, 06 Jun 2011 08:47:47 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jun 2011 23:44:26 -0700
+	by azsmga102.ch.intel.com with ESMTP; 05 Jun 2011 23:44:27 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,325,1304319600"; 
-   d="scan'208";a="7608967"
+   d="scan'208";a="7608975"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.187])
 	by azsmga001.ch.intel.com with ESMTP; 05 Jun 2011 23:44:26 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Jun 2011 23:44:05 -0700
-Message-Id: <3eba2df4c6f2371db24ab2420d037b992725cb84.1307342214.git.sgw@linux.intel.com>
+Date: Sun,  5 Jun 2011 23:44:06 -0700
+Message-Id: <123636f1f05167c1788b443c3015d85bdf9d98e1.1307342214.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1307342214.git.sgw@linux.intel.com>
 References: <cover.1307342214.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1307342214.git.sgw@linux.intel.com>
 References: <cover.1307342214.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 01/20] bitbake.conf: Create staticlibs pacakge for static libraries
+Subject: [CONSOLIDATED PULL 02/20] m4: upgrade from 1.4.15 to 1.4.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,51 +34,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2011 06:47:45 -0000
+X-List-Received-Date: Mon, 06 Jun 2011 06:47:47 -0000
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
+
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/conf/bitbake.conf |   12 ++++++++++--
- 1 files changed, 10 insertions(+), 2 deletions(-)
+ .../{m4-native_1.4.15.bb => m4-native_1.4.16.bb}   |    0
+ .../m4/{m4_1.4.15.bb => m4_1.4.16.bb}              |    6 +++---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/m4/{m4-native_1.4.15.bb => m4-native_1.4.16.bb} (100%)
+ rename meta/recipes-devtools/m4/{m4_1.4.15.bb => m4_1.4.16.bb} (75%)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index de94316..520b808 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -194,9 +194,13 @@ This package contains ELF symbols and related sources for debugging purposes."
+diff --git a/meta/recipes-devtools/m4/m4-native_1.4.15.bb b/meta/recipes-devtools/m4/m4-native_1.4.16.bb
+similarity index 100%
+rename from meta/recipes-devtools/m4/m4-native_1.4.15.bb
+rename to meta/recipes-devtools/m4/m4-native_1.4.16.bb
+diff --git a/meta/recipes-devtools/m4/m4_1.4.15.bb b/meta/recipes-devtools/m4/m4_1.4.16.bb
+similarity index 75%
+rename from meta/recipes-devtools/m4/m4_1.4.15.bb
+rename to meta/recipes-devtools/m4/m4_1.4.16.bb
+index 586071f..53ef5ae 100644
+--- a/meta/recipes-devtools/m4/m4_1.4.15.bb
++++ b/meta/recipes-devtools/m4/m4_1.4.16.bb
+@@ -4,14 +4,14 @@ compatible although it has some extensions (for example, handling more than 9 po
+ GNU M4 also has built-in functions for including files, running shell commands, doing arithmetic, etc."
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+-	file://examples/COPYING;md5=380fd7d57d3fd009a5716e074a845d6d"
++	file://examples/COPYING;md5=fbc986d45b3dae6725c29870dd6b669d"
  
- SUMMARY_${PN}-dev ?= "${SUMMARY} - Development files"
- DESCRIPTION_${PN}-dev ?= "${DESCRIPTION}  \
--This package contains symbolic links, static binaries, header files, and \
-+This package contains symbolic links, header files, and \
- related items necessary for software development."
+ PR = "r0"
+ SRC_URI = "${GNU_MIRROR}/m4/m4-${PV}.tar.gz \
+            file://ac_config_links.patch;patch=1"
  
-+SUMMARY_${PN}-staticlibs ?= "${SUMMARY} - Development files (Static Libraries)"
-+DESCRIPTION_${PN}-staticlibs?= "${DESCRIPTION}  \
-+This package contains static libraries for software development."
-+
- SUMMARY_${PN}-doc ?= "${SUMMARY} - Documentation files"
- DESCRIPTION_${PN}-doc ?= "${DESCRIPTION}  \
- This package contains documentation."
-@@ -248,13 +252,17 @@ FILES_${PN}-doc = "${docdir} ${mandir} ${infodir} ${datadir}/gtk-doc \
- SECTION_${PN}-doc = "doc"
+-SRC_URI[md5sum] = "5649a2e593b6c639deae9e72ede777dd"
+-SRC_URI[sha256sum] = "3d66dfeb609007062265a67b9a2c08d3686a74068830bacae60a6d58413c9367"
++SRC_URI[md5sum] = "a5dfb4f2b7370e9d34293d23fd09b280"
++SRC_URI[sha256sum] = "e9176a35bb13a1b08482359aa554ee8072794f58f00e4827bf0e06b570c827da"
  
- FILES_${PN}-dev = "${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la \
--                ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig \
-+                ${libdir}/*.o ${libdir}/pkgconfig \
-                 ${datadir}/pkgconfig ${datadir}/aclocal \
-                 ${base_libdir}/*.a ${base_libdir}/*.o"
- SECTION_${PN}-dev = "devel"
- ALLOW_EMPTY_${PN}-dev = "1"
- RDEPENDS_${PN}-dev = "${PN} (= ${EXTENDPKGV})"
+ inherit autotools
  
-+FILES_${PN}-staticlibs = "${libdir}/*.a ${base_libdir}/*.a"
-+SECTION_${PN}-staticlibs = "devel"
-+RDEPENDS_${PN}-staticlibs = "${PN}-dev (= ${EXTENDPV})"
-+
- DOTDEBUG-dbg = "${bindir}/.debug ${sbindir}/.debug ${libexecdir}/.debug ${libdir}/.debug \
-             ${base_bindir}/.debug ${base_sbindir}/.debug ${base_libdir}/.debug ${libdir}/${PN}/.debug \
-             ${libdir}/matchbox-panel/.debug /usr/src/debug"
 -- 
 1.7.3.4
 
