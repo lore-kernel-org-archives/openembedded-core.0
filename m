@@ -1,26 +1,26 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QTTbM-0005lt-Qc
+	(envelope-from <sgw@linux.intel.com>) id 1QTTbM-0005mi-E3
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Jun 2011 08:47:53 +0200
+	Mon, 06 Jun 2011 08:47:54 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 05 Jun 2011 23:44:33 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,325,1304319600"; 
-   d="scan'208";a="7609018"
+   d="scan'208";a="7609011"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.187])
 	by azsmga001.ch.intel.com with ESMTP; 05 Jun 2011 23:44:33 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Jun 2011 23:44:19 -0700
-Message-Id: <3ddb40e98dbf0fbeb65d29b09bce209a0fabb727.1307342214.git.sgw@linux.intel.com>
+Date: Sun,  5 Jun 2011 23:44:18 -0700
+Message-Id: <0856d91c140ffa4c5c405c8107a574462cdf9c57.1307342214.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1307342214.git.sgw@linux.intel.com>
 References: <cover.1307342214.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1307342214.git.sgw@linux.intel.com>
 References: <cover.1307342214.git.sgw@linux.intel.com>
 Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [CONSOLIDATED PULL 15/20] base-passwd: populate the target sysroot with passwd/group/login.defs
+Subject: [CONSOLIDATED PULL 14/20] shadow: add a -native recipe with customized utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,475 +35,1415 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2011 06:47:53 -0000
+X-List-Received-Date: Mon, 06 Jun 2011 06:47:56 -0000
 
 From: Scott Garman <scott.a.garman@intel.com>
 
-The passwd, group, and login.defs files in the target sysroot will
-be used when recipes create custom user and group permissions in
-their packages.
+This adds a -native recipe for the shadow utilities.
+
+The custom --root option allows the the following utilities to be
+run within a chroot when invoked under pseudo:
+
+* useradd
+* groupadd
+* usermod
+* groupmod
+* userdel
+* groupdel
+* passwd
+* gpasswd
+* pwconv
+* pwunconv
+* grpconv
+* grpunconv
+
+They can then be used to manipulate user and group account information
+in target sysroots.
+
+useradd was also modified to create home directories recursively when
+necessary.
 
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- .../base-passwd/base-passwd-3.5.22/login.defs      |  386 ++++++++++++++++++++
- .../recipes-core/base-passwd/base-passwd_3.5.22.bb |   27 ++-
- 2 files changed, 411 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/base-passwd/base-passwd-3.5.22/login.defs
+ .../shadow/files/add_root_cmd_options.patch        | 1296 ++++++++++++++++++++
+ .../shadow/shadow-native_4.1.4.3.bb                |   66 +
+ 2 files changed, 1362 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-extended/shadow/files/add_root_cmd_options.patch
+ create mode 100644 meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd-3.5.22/login.defs b/meta/recipes-core/base-passwd/base-passwd-3.5.22/login.defs
+diff --git a/meta/recipes-extended/shadow/files/add_root_cmd_options.patch b/meta/recipes-extended/shadow/files/add_root_cmd_options.patch
 new file mode 100644
-index 0000000..1d392ac
+index 0000000..db969bb
 --- /dev/null
-+++ b/meta/recipes-core/base-passwd/base-passwd-3.5.22/login.defs
-@@ -0,0 +1,386 @@
-+#
-+# /etc/login.defs - Configuration control definitions for the shadow package.
-+#
-+#	$Id: login.defs 3038 2009-07-23 20:41:35Z nekral-guest $
-+#
++++ b/meta/recipes-extended/shadow/files/add_root_cmd_options.patch
+@@ -0,0 +1,1296 @@
++Add a --root command option to the following utilties:
 +
-+#
-+# Delay in seconds before being allowed another attempt after a login failure
-+# Note: When PAM is used, some modules may enfore a minimal delay (e.g.
-+#       pam_unix enforces a 2s delay)
-+#
-+FAIL_DELAY		3
++* useradd
++* groupadd
++* usermod
++* groupmod
++* userdel
++* groupdel
++* passwd
++* gpasswd
++* pwconv
++* pwunconv
++* grpconv
++* grpunconv
 +
-+#
-+# Enable logging and display of /var/log/faillog login failure info.
-+#
-+FAILLOG_ENAB		yes
++This option allows the utilities to be chrooted when run under pseudo.
++They can then be used to manipulate user and group account information
++in target sysroots.
 +
-+#
-+# Enable display of unknown usernames when login failures are recorded.
-+#
-+LOG_UNKFAIL_ENAB	no
++The useradd utility was also modified to create home directories
++recursively when necessary.
 +
-+#
-+# Enable logging of successful logins
-+#
-+LOG_OK_LOGINS		no
++Upstream-Status: Inappropriate [Other]
++Workaround is specific to our build system.
 +
-+#
-+# Enable logging and display of /var/log/lastlog login time info.
-+#
-+LASTLOG_ENAB		yes
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
-+#
-+# Enable checking and display of mailbox status upon login.
-+#
-+# Disable if the shell startup files already check for mail
-+# ("mailx -e" or equivalent).
-+#
-+#MAIL_CHECK_ENAB		yes
++diff -urN shadow-4.1.4.3.orig//src/gpasswd.c shadow-4.1.4.3//src/gpasswd.c
++--- shadow-4.1.4.3.orig//src/gpasswd.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/gpasswd.c	2011-05-28 17:09:52.346013331 -0700
++@@ -63,6 +63,7 @@
++  * (/etc/gshadow present) */
++ static bool is_shadowgrp;
++ #endif
+++static const char *newroot = "";
++ 
++ /* Flags set by options */
++ static bool aflg = false;
++@@ -97,6 +98,7 @@
++ static void usage (void);
++ static RETSIGTYPE catch_signals (int killed);
++ static bool is_valid_user_list (const char *users);
+++static void process_root_flag (int argc, char **argv);
++ static void process_flags (int argc, char **argv);
++ static void check_flags (int argc, int opt_index);
++ static void open_files (void);
++@@ -136,6 +138,7 @@
++ 	           "Options:\n"
++ 	           "  -a, --add USER                add USER to GROUP\n"
++ 	           "  -d, --delete USER             remove USER from GROUP\n"
+++	           "  -Q  --root CHROOT_DIR         directory to chroot into\n"
++ 	           "  -r, --remove-password         remove the GROUP's password\n"
++ 	           "  -R, --restrict                restrict access to GROUP to its members\n"
++ 	           "  -M, --members USER,...        set the list of members of GROUP\n"
++@@ -226,6 +229,55 @@
++ }
++ 
++ /*
+++ * process_root_flag - chroot if given the --root option
+++ *
+++ * We do this outside of process_flags() because
+++ * the is_shadow_pwd boolean needs to be set before
+++ * process_flags(), and if we do need to chroot() we
+++ * must do so before is_shadow_pwd gets set.
+++ */
+++static void process_root_flag (int argc, char **argv)
+++{
+++	/*
+++	 * Parse the command line options.
+++	 */
+++	int flag;
+++	int option_index = 0;
+++	static struct option long_options[] = {
+++		{"root", required_argument, NULL, 'Q'},
+++		{NULL, 0, NULL, '\0'}
+++	};
+++
+++	while ((flag = getopt_long (argc, argv, "a:A:d:gM:Q:rR", long_options, &option_index)) != -1) {
+++		switch (flag) {
+++		case 'Q':
+++			if ('/' != optarg[0]) {
+++				fprintf (stderr,
+++				         _("%s: invalid chroot path '%s'\n"),
+++				         Prog, optarg);
+++				exit (E_BAD_ARG);
+++			}
+++			newroot = optarg;
+++
+++			if (access (newroot, F_OK) != 0) {
+++				fprintf(stderr,
+++				        _("%s: chroot directory %s does not exist\n"),
+++				        Prog, newroot);
+++				exit (E_BAD_ARG);
+++			}
+++			if ( chroot(newroot) != 0 ) {
+++				fprintf(stderr,
+++				        _("%s: unable to chroot to directory %s\n"),
+++				        Prog, newroot);
+++				exit (E_BAD_ARG);
+++			}
+++			break;
+++		/* no-op on everything else - they will be hanled by process_flags() */
+++		}
+++	}
+++}
+++
+++/*
++  * process_flags - process the command line options and arguments
++  */
++ static void process_flags (int argc, char **argv)
++@@ -235,6 +287,7 @@
++ 	static struct option long_options[] = {
++ 		{"add", required_argument, NULL, 'a'},
++ 		{"delete", required_argument, NULL, 'd'},
+++		{"root", required_argument, NULL, 'Q'},
++ 		{"remove-password", no_argument, NULL, 'r'},
++ 		{"restrict", no_argument, NULL, 'R'},
++ 		{"administrators", required_argument, NULL, 'A'},
++@@ -242,7 +295,7 @@
++ 		{NULL, 0, NULL, '\0'}
++ 		};
++ 
++-	while ((flag = getopt_long (argc, argv, "a:A:d:gM:rR", long_options, &option_index)) != -1) {
+++	while ((flag = getopt_long (argc, argv, "a:A:d:gM:Q:rR", long_options, &option_index)) != -1) {
++ 		switch (flag) {
++ 		case 'a':	/* add a user */
++ 			aflg = true;
++@@ -283,6 +336,9 @@
++ 			}
++ 			Mflg = true;
++ 			break;
+++		case 'Q':
+++			/* no-op since we handled this in process_root_flag() earlier */
+++			break;
++ 		case 'r':	/* remove group password */
++ 			rflg = true;
++ 			break;
++@@ -995,6 +1051,8 @@
++ 	setbuf (stdout, NULL);
++ 	setbuf (stderr, NULL);
++ 
+++	process_root_flag (argc, argv);
+++
++ #ifdef SHADOWGRP
++ 	is_shadowgrp = sgr_file_present ();
++ #endif
++diff -urN shadow-4.1.4.3.orig//src/groupadd.c shadow-4.1.4.3//src/groupadd.c
++--- shadow-4.1.4.3.orig//src/groupadd.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/groupadd.c	2011-05-28 17:09:52.346013331 -0700
++@@ -76,6 +76,7 @@
++ static gid_t group_id;
++ static /*@null@*/char *group_passwd;
++ static /*@null@*/char *empty_list = NULL;
+++static const char *newroot = "";
++ 
++ static bool oflg = false;	/* permit non-unique group ID to be specified with -g */
++ static bool gflg = false;	/* ID value for the new group */
++@@ -120,6 +121,7 @@
++ 	(void) fputs (_("  -o, --non-unique              allow to create groups with duplicate\n"
++ 	                "                                (non-unique) GID\n"), stderr);
++ 	(void) fputs (_("  -p, --password PASSWORD       use this encrypted password for the new group\n"), stderr);
+++	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
++ 	(void) fputs (_("  -r, --system                  create a system account\n"), stderr);
++ 	(void) fputs ("\n", stderr);
++ 	exit (E_USAGE);
++@@ -383,12 +385,13 @@
++ 		{"key", required_argument, NULL, 'K'},
++ 		{"non-unique", no_argument, NULL, 'o'},
++ 		{"password", required_argument, NULL, 'p'},
+++		{"root", required_argument, NULL, 'R'},
++ 		{"system", no_argument, NULL, 'r'},
++ 		{NULL, 0, NULL, '\0'}
++ 	};
++ 
++ 	while ((c =
++-		getopt_long (argc, argv, "fg:hK:op:r", long_options,
+++		getopt_long (argc, argv, "fg:hK:op:R:r", long_options,
++ 		             &option_index)) != -1) {
++ 		switch (c) {
++ 		case 'f':
++@@ -440,6 +443,28 @@
++ 			pflg = true;
++ 			group_passwd = optarg;
++ 			break;
+++		case 'R':
+++			if ('/' != optarg[0]) {
+++				fprintf (stderr,
+++				         _("%s: invalid chroot path '%s'\n"),
+++				         Prog, optarg);
+++				exit (E_BAD_ARG);
+++			}
+++			newroot = optarg;
+++
+++			if (access (newroot, F_OK) != 0) {
+++				fprintf(stderr,
+++				        _("%s: chroot directory %s does not exist\n"),
+++				        Prog, newroot);
+++				exit (E_BAD_ARG);
+++			}
+++			if ( chroot(newroot) != 0 ) {
+++				fprintf(stderr,
+++				        _("%s: unable to chroot to directory %s\n"),
+++				        Prog, newroot);
+++				exit (E_BAD_ARG);
+++			}
+++			break;
++ 		case 'r':
++ 			rflg = true;
++ 			break;
++diff -urN shadow-4.1.4.3.orig//src/groupdel.c shadow-4.1.4.3//src/groupdel.c
++--- shadow-4.1.4.3.orig//src/groupdel.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/groupdel.c	2011-05-28 17:09:52.346013331 -0700
++@@ -36,6 +36,7 @@
++ 
++ #include <ctype.h>
++ #include <fcntl.h>
+++#include <getopt.h>
++ #include <grp.h>
++ #include <pwd.h>
++ #ifdef ACCT_TOOLS_SETUID
++@@ -59,6 +60,7 @@
++ 
++ static char *group_name;
++ static gid_t group_id = -1;
+++static const char *newroot = "";
++ 
++ #ifdef	SHADOWGRP
++ static bool is_shadow_grp;
++@@ -70,12 +72,14 @@
++ /*@-exitarg@*/
++ #define E_SUCCESS	0	/* success */
++ #define E_USAGE		2	/* invalid command syntax */
+++#define E_BAD_ARG	3	/* invalid argument to option */
++ #define E_NOTFOUND	6	/* specified group doesn't exist */
++ #define E_GROUP_BUSY	8	/* can't remove user's primary group */
++ #define E_GRP_UPDATE	10	/* can't update group file */
++ 
++ /* local function prototypes */
++ static void usage (void);
+++static void process_flags (int argc, char **argv);
++ static void grp_update (void);
++ static void close_files (void);
++ static void open_files (void);
++@@ -86,11 +90,78 @@
++  */
++ static void usage (void)
++ {
++-	fputs (_("Usage: groupdel group\n"), stderr);
+++	(void) fprintf (stderr,
+++					_("Usage: groupdel [options]\n"
+++					  "\n"
+++					  "Options:\n"),
+++					Prog);
+++	(void) fputs (_("  -g, --group GROUP            group name to delete\n"), stderr);
+++	(void) fputs (_("  -h, --help                   display this help message and exit\n"), stderr);
+++	(void) fputs (_("  -R, --root CHROOT_DIR        directory to chroot into\n"), stderr);
+++	(void) fputs ("\n", stderr);
++ 	exit (E_USAGE);
++ }
++ 
++ /*
+++ * process_flags - perform command line argument setting
+++ *
+++ *	process_flags() interprets the command line arguments and sets
+++ *	the values that the user will be created with accordingly. The
+++ *	values are checked for sanity.
+++ */
+++static void process_flags (int argc, char **argv)
+++{
+++	{
+++		/*
+++		 * Parse the command line options.
+++		 */
+++		int c;
+++		static struct option long_options[] = {
+++			{"group", required_argument, NULL, 'g'},
+++			{"help", no_argument, NULL, 'h'},
+++			{"root", required_argument, NULL, 'R'},
+++			{NULL, 0, NULL, '\0'}
+++		};
+++		while ((c = getopt_long (argc, argv,
+++								 "g:R:",
+++								 long_options, NULL)) != -1) {
+++			switch (c) {
+++			case 'g':
+++				group_name = optarg;
+++				break;
+++			case 'h':
+++				usage ();
+++				break;
+++			case 'R':
+++				if ('/' != optarg[0]) {
+++					fprintf (stderr,
+++							_("%s: invalid chroot path '%s'\n"),
+++							Prog, optarg);
+++					exit (E_BAD_ARG);
+++				}
+++				newroot = optarg;
+++
+++				if (access (newroot, F_OK) != 0) {
+++					fprintf(stderr,
+++							_("%s: chroot directory %s does not exist\n"),
+++							Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				if ( chroot(newroot) != 0 ) {
+++					fprintf(stderr,
+++							_("%s: unable to chroot to directory %s\n"),
+++							Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				break;
+++			default:
+++				usage ();
+++			}
+++		}
+++	}
+++}
+++
+++/*
++  * grp_update - update group file entries
++  *
++  *	grp_update() writes the new records to the group files.
++@@ -328,14 +399,14 @@
++ 	(void) bindtextdomain (PACKAGE, LOCALEDIR);
++ 	(void) textdomain (PACKAGE);
++ 
++-	if (argc != 2) {
+++   if (argc == 1) {
++ 		usage ();
++ 	}
++ 
++-	group_name = argv[1];
++-
++ 	OPENLOG ("groupdel");
++ 
+++	process_flags (argc, argv);
+++
++ #ifdef ACCT_TOOLS_SETUID
++ #ifdef USE_PAM
++ 	{
++diff -urN shadow-4.1.4.3.orig//src/groupmod.c shadow-4.1.4.3//src/groupmod.c
++--- shadow-4.1.4.3.orig//src/groupmod.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/groupmod.c	2011-05-28 17:09:52.346013331 -0700
++@@ -79,6 +79,7 @@
++ static char *group_passwd;
++ static gid_t group_id;
++ static gid_t group_newid;
+++static char *newroot = "";
++ 
++ struct cleanup_info_mod info_passwd;
++ struct cleanup_info_mod info_group;
++@@ -126,6 +127,7 @@
++ 	(void) fputs (_("  -o, --non-unique              allow to use a duplicate (non-unique) GID\n"), stderr);
++ 	(void) fputs (_("  -p, --password PASSWORD       change the password to this (encrypted)\n"
++ 	                "                                PASSWORD\n"), stderr);
+++	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
++ 	(void) fputs ("\n", stderr);
++ 	exit (E_USAGE);
++ }
++@@ -346,10 +348,11 @@
++ 		{"new-name", required_argument, NULL, 'n'},
++ 		{"non-unique", no_argument, NULL, 'o'},
++ 		{"password", required_argument, NULL, 'p'},
+++		{"root", required_argument, NULL, 'R'},
++ 		{NULL, 0, NULL, '\0'}
++ 	};
++ 	while ((c =
++-		getopt_long (argc, argv, "g:hn:op:",
+++		getopt_long (argc, argv, "g:hn:op:R:",
++ 		             long_options, &option_index)) != -1) {
++ 		switch (c) {
++ 		case 'g':
++@@ -373,6 +376,28 @@
++ 			group_passwd = optarg;
++ 			pflg = true;
++ 			break;
+++		case 'R':
+++			if ('/' != optarg[0]) {
+++				fprintf (stderr,
+++				         _("%s: invalid chroot path '%s'\n"),
+++				         Prog, optarg);
+++				exit (E_BAD_ARG);
+++			}
+++			newroot = optarg;
+++
+++			if (access (newroot, F_OK) != 0) {
+++				fprintf(stderr,
+++				        _("%s: chroot directory %s does not exist\n"),
+++				        Prog, newroot);
+++				exit (E_BAD_ARG);
+++			}
+++			if ( chroot(newroot) != 0 ) {
+++				fprintf(stderr,
+++				        _("%s: unable to chroot to directory %s\n"),
+++				        Prog, newroot);
+++				exit (E_BAD_ARG);
+++			}
+++			break;
++ 		default:
++ 			usage ();
++ 		}
++diff -urN shadow-4.1.4.3.orig//src/grpconv.c shadow-4.1.4.3//src/grpconv.c
++--- shadow-4.1.4.3.orig//src/grpconv.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/grpconv.c	2011-05-28 17:09:52.346013331 -0700
++@@ -39,6 +39,7 @@
++ 
++ #include <errno.h>
++ #include <fcntl.h>
+++#include <getopt.h>
++ #include <grp.h>
++ #include <stdio.h>
++ #include <stdlib.h>
++@@ -50,6 +51,14 @@
++ #ifdef SHADOWGRP
++ #include "groupio.h"
++ #include "sgroupio.h"
+++
+++/*
+++ * exit status values
+++ */
+++/*@-exitarg@*/
+++#define E_USAGE		2	/* invalid command syntax */
+++#define E_BAD_ARG	3	/* invalid argument to option */
+++
++ /*
++  * Global variables
++  */
++@@ -57,9 +66,12 @@
++ 
++ static bool gr_locked  = false;
++ static bool sgr_locked = false;
+++static const char *newroot = "";
++ 
++ /* local function prototypes */
++ static void fail_exit (int status);
+++static void usage (void);
+++static void process_flags (int argc, char **argv);
++ 
++ static void fail_exit (int status)
++ {
++@@ -82,6 +94,77 @@
++ 	exit (status);
++ }
++ 
+++/*
+++ * usage - display usage message and exit
+++ */
+++static void usage (void)
+++{
+++	(void) fprintf (stderr,
+++					_("Usage: grpconv [options]\n"
+++					  "\n"
+++					  "Options:\n"),
+++					Prog);
+++	(void) fputs (_("  -h, --help                    display this help message and exit\n"), stderr);
+++	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
+++	(void) fputs ("\n", stderr);
+++	exit (E_USAGE);
+++}
+++
+++/*
+++ * process_flags - perform command line argument setting
+++ *
+++ *	process_flags() interprets the command line arguments and sets
+++ *	the values that the user will be created with accordingly. The
+++ *	values are checked for sanity.
+++ */
+++static void process_flags (int argc, char **argv)
+++{
+++	{
+++		/*
+++		 * Parse the command line options.
+++		 */
+++		int c;
+++		static struct option long_options[] = {
+++			{"help", no_argument, NULL, 'h'},
+++			{"root", required_argument, NULL, 'R'},
+++			{NULL, 0, NULL, '\0'}
+++		};
+++		while ((c = getopt_long (argc, argv,
+++								 "R:",
+++								 long_options, NULL)) != -1) {
+++			switch (c) {
+++			case 'h':
+++				usage ();
+++				break;
+++			case 'R':
+++				if ('/' != optarg[0]) {
+++					fprintf (stderr,
+++					         _("%s: invalid chroot path '%s'\n"),
+++					         Prog, optarg);
+++					exit (E_BAD_ARG);
+++				}
+++				newroot = optarg;
+++
+++				if (access (newroot, F_OK) != 0) {
+++					fprintf(stderr,
+++					        _("%s: chroot directory %s does not exist\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				if ( chroot(newroot) != 0 ) {
+++					fprintf(stderr,
+++					        _("%s: unable to chroot to directory %s\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				break;
+++			default:
+++				usage ();
+++			}
+++		}
+++	}
+++}
+++
++ int main (int argc, char **argv)
++ {
++ 	const struct group *gr;
++@@ -100,6 +183,8 @@
++ 
++ 	OPENLOG ("grpconv");
++ 
+++	process_flags (argc, argv);
+++
++ 	if (gr_lock () == 0) {
++ 		fprintf (stderr,
++ 		         _("%s: cannot lock %s; try again later.\n"),
++diff -urN shadow-4.1.4.3.orig//src/grpunconv.c shadow-4.1.4.3//src/grpunconv.c
++--- shadow-4.1.4.3.orig//src/grpunconv.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/grpunconv.c	2011-05-28 17:09:52.346013331 -0700
++@@ -43,6 +43,7 @@
++ #include <stdlib.h>
++ #include <string.h>
++ #include <fcntl.h>
+++#include <getopt.h>
++ #include <time.h>
++ #include <unistd.h>
++ #include <grp.h>
++@@ -51,6 +52,14 @@
++ #ifdef SHADOWGRP
++ #include "groupio.h"
++ #include "sgroupio.h"
+++
+++/*
+++ * exit status values
+++ */
+++/*@-exitarg@*/
+++#define E_USAGE		2	/* invalid command syntax */
+++#define E_BAD_ARG	3	/* invalid argument to option */
+++
++ /*
++  * Global variables
++  */
++@@ -58,9 +67,12 @@
++ 
++ static bool gr_locked  = false;
++ static bool sgr_locked = false;
+++static const char *newroot = "";
++ 
++ /* local function prototypes */
++ static void fail_exit (int status);
+++static void usage (void);
+++static void process_flags (int argc, char **argv);
++ 
++ static void fail_exit (int status)
++ {
++@@ -83,6 +95,77 @@
++ 	exit (status);
++ }
++ 
+++/*
+++ * usage - display usage message and exit
+++ */
+++static void usage (void)
+++{
+++	(void) fprintf (stderr,
+++					_("Usage: grpunconv [options]\n"
+++					  "\n"
+++					  "Options:\n"),
+++					Prog);
+++	(void) fputs (_("  -h, --help                    display this help message and exit\n"), stderr);
+++	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
+++	(void) fputs ("\n", stderr);
+++	exit (E_USAGE);
+++}
+++
+++/*
+++ * process_flags - perform command line argument setting
+++ *
+++ * process_flags() interprets the command line arguments and sets
+++ * the values that the user will be created with accordingly. The
+++ * values are checked for sanity.
+++ */
+++static void process_flags (int argc, char **argv)
+++{
+++	{
+++		/*
+++		 * Parse the command line options.
+++		 */
+++		int c;
+++		static struct option long_options[] = {
+++			{"help", no_argument, NULL, 'h'},
+++			{"root", required_argument, NULL, 'R'},
+++			{NULL, 0, NULL, '\0'}
+++		};
+++		while ((c = getopt_long (argc, argv,
+++								 "R:",
+++								 long_options, NULL)) != -1) {
+++			switch (c) {
+++			case 'h':
+++				usage ();
+++				break;
+++			case 'R':
+++				if ('/' != optarg[0]) {
+++					fprintf (stderr,
+++					         _("%s: invalid chroot path '%s'\n"),
+++					         Prog, optarg);
+++					exit (E_BAD_ARG);
+++				}
+++				newroot = optarg;
+++
+++				if (access (newroot, F_OK) != 0) {
+++					fprintf(stderr,
+++					        _("%s: chroot directory %s does not exist\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				if ( chroot(newroot) != 0 ) {
+++					fprintf(stderr,
+++					        _("%s: unable to chroot to directory %s\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				break;
+++			default:
+++				usage ();
+++			}
+++		}
+++	}
+++}
+++
++ int main (int argc, char **argv)
++ {
++ 	const struct group *gr;
++@@ -100,6 +183,8 @@
++ 
++ 	OPENLOG ("grpunconv");
++ 
+++	process_flags (argc, argv);
+++
++ 	if (sgr_file_present () == 0) {
++ 		exit (0);	/* no /etc/gshadow, nothing to do */
++ 	}
++diff -urN shadow-4.1.4.3.orig//src/passwd.c shadow-4.1.4.3//src/passwd.c
++--- shadow-4.1.4.3.orig//src/passwd.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/passwd.c	2011-05-28 17:09:52.346013331 -0700
++@@ -75,6 +75,7 @@
++ static char *name;		/* The name of user whose password is being changed */
++ static char *myname;		/* The current user's name */
++ static bool amroot;		/* The caller's real UID was 0 */
+++static const char *newroot = "";
++ 
++ static bool
++     aflg = false,			/* -a - show status for all users */
++@@ -174,6 +175,7 @@
++ 	         "  -n, --mindays MIN_DAYS        set minimum number of days before password\n"
++ 	         "                                change to MIN_DAYS\n"
++ 	         "  -q, --quiet                   quiet mode\n"
+++	         "  -R, --root CHROOT_DIR         directory to chroot into\n"
++ 	         "  -r, --repository REPOSITORY   change password in REPOSITORY repository\n"
++ 	         "  -S, --status                  report password status on the named account\n"
++ 	         "  -u, --unlock                  unlock the password of the named account\n"
++@@ -803,6 +805,7 @@
++ 			{"lock", no_argument, NULL, 'l'},
++ 			{"mindays", required_argument, NULL, 'n'},
++ 			{"quiet", no_argument, NULL, 'q'},
+++			{"root", required_argument, NULL, 'R'},
++ 			{"repository", required_argument, NULL, 'r'},
++ 			{"status", no_argument, NULL, 'S'},
++ 			{"unlock", no_argument, NULL, 'u'},
++@@ -811,7 +814,7 @@
++ 			{NULL, 0, NULL, '\0'}
++ 		};
++ 
++-		while ((c = getopt_long (argc, argv, "adei:kln:qr:Suw:x:",
+++		while ((c = getopt_long (argc, argv, "adei:kln:qR:r:Suw:x:",
++ 		                         long_options, &option_index)) != -1) {
++ 			switch (c) {
++ 			case 'a':
++@@ -858,6 +861,28 @@
++ 			case 'q':
++ 				qflg = true;	/* ok for users */
++ 				break;
+++			case 'R':
+++				if ('/' != optarg[0]) {
+++					fprintf (stderr,
+++					         _("%s: invalid chroot path '%s'\n"),
+++					         Prog, optarg);
+++					exit (E_BAD_ARG);
+++				}
+++				newroot = optarg;
+++
+++				if (access (newroot, F_OK) != 0) {
+++					fprintf(stderr,
+++					        _("%s: chroot directory %s does not exist\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				if ( chroot(newroot) != 0 ) {
+++					fprintf(stderr,
+++				            _("%s: unable to chroot to directory %s\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				break;
++ 			case 'r':
++ 				/* -r repository (files|nis|nisplus) */
++ 				/* only "files" supported for now */
++diff -urN shadow-4.1.4.3.orig//src/pwconv.c shadow-4.1.4.3//src/pwconv.c
++--- shadow-4.1.4.3.orig//src/pwconv.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/pwconv.c	2011-05-28 17:09:52.346013331 -0700
++@@ -59,6 +59,7 @@
++ 
++ #include <errno.h>
++ #include <fcntl.h>
+++#include <getopt.h>
++ #include <pwd.h>
++ #include <stdio.h>
++ #include <stdlib.h>
++@@ -79,6 +80,7 @@
++ #define E_SUCCESS	0	/* success */
++ #define E_NOPERM	1	/* permission denied */
++ #define E_USAGE		2	/* invalid command syntax */
+++#define E_BAD_ARG	3	/* invalid argument to option */
++ #define E_FAILURE	3	/* unexpected failure, nothing done */
++ #define E_MISSING	4	/* unexpected failure, passwd file missing */
++ #define E_PWDBUSY	5	/* passwd file(s) busy */
++@@ -90,9 +92,12 @@
++ 
++ static bool spw_locked = false;
++ static bool pw_locked = false;
+++static const char *newroot = "";
++ 
++ /* local function prototypes */
++ static void fail_exit (int status);
+++static void usage (void);
+++static void process_flags (int argc, char **argv);
++ 
++ static void fail_exit (int status)
++ {
++@@ -115,6 +120,77 @@
++ 	exit (status);
++ }
++ 
+++/*
+++ * usage - display usage message and exit
+++ */
+++static void usage (void)
+++{
+++	(void) fprintf (stderr,
+++					_("Usage: pwconv [options]\n"
+++					  "\n"
+++					  "Options:\n"),
+++					Prog);
+++	(void) fputs (_("  -h, --help                    display this help message and exit\n"), stderr);
+++	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
+++	(void) fputs ("\n", stderr);
+++	exit (E_USAGE);
+++}
+++
+++/*
+++ * process_flags - perform command line argument setting
+++ *
+++ *	process_flags() interprets the command line arguments and sets
+++ *	the values that the user will be created with accordingly. The
+++ *	values are checked for sanity.
+++ */
+++static void process_flags (int argc, char **argv)
+++{
+++	{
+++		/*
+++		 * Parse the command line options.
+++		 */
+++		int c;
+++		static struct option long_options[] = {
+++			{"help", no_argument, NULL, 'h'},
+++			{"root", required_argument, NULL, 'R'},
+++			{NULL, 0, NULL, '\0'}
+++		};
+++		while ((c = getopt_long (argc, argv,
+++								 "R:",
+++								 long_options, NULL)) != -1) {
+++			switch (c) {
+++			case 'h':
+++				usage ();
+++				break;
+++			case 'R':
+++				if ('/' != optarg[0]) {
+++					fprintf (stderr,
+++					         _("%s: invalid chroot path '%s'\n"),
+++					         Prog, optarg);
+++					exit (E_BAD_ARG);
+++				}
+++				newroot = optarg;
+++
+++				if (access (newroot, F_OK) != 0) {
+++					fprintf(stderr,
+++					        _("%s: chroot directory %s does not exist\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				if ( chroot(newroot) != 0 ) {
+++					fprintf(stderr,
+++					        _("%s: unable to chroot to directory %s\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				break;
+++			default:
+++				usage ();
+++			}
+++		}
+++	}
+++}
+++
++ int main (int argc, char **argv)
++ {
++ 	const struct passwd *pw;
++@@ -122,9 +198,6 @@
++ 	const struct spwd *sp;
++ 	struct spwd spent;
++ 
++-	if (1 != argc) {
++-		(void) fputs (_("Usage: pwconv\n"), stderr);
++-	}
++ 	Prog = Basename (argv[0]);
++ 
++ 	(void) setlocale (LC_ALL, "");
++@@ -133,6 +206,8 @@
++ 
++ 	OPENLOG ("pwconv");
++ 
+++	process_flags (argc, argv);
+++
++ 	if (pw_lock () == 0) {
++ 		fprintf (stderr,
++ 		         _("%s: cannot lock %s; try again later.\n"),
++diff -urN shadow-4.1.4.3.orig//src/pwunconv.c shadow-4.1.4.3//src/pwunconv.c
++--- shadow-4.1.4.3.orig//src/pwunconv.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/pwunconv.c	2011-05-28 17:09:52.356013600 -0700
++@@ -35,6 +35,7 @@
++ #ident "$Id: pwunconv.c 2852 2009-04-30 21:44:35Z nekral-guest $"
++ 
++ #include <fcntl.h>
+++#include <getopt.h>
++ #include <pwd.h>
++ #include <stdio.h>
++ #include <sys/types.h>
++@@ -46,15 +47,24 @@
++ #include "shadowio.h"
++ 
++ /*
+++ * exit status values
+++ */
+++/*@-exitarg@*/
+++#define E_USAGE		2	/* invalid command syntax */
+++#define E_BAD_ARG	3	/* invalid argument to option */
+++/*
++  * Global variables
++  */
++ char *Prog;
++ 
++ static bool spw_locked = false;
++ static bool pw_locked = false;
+++static const char *newroot = "";
++ 
++ /* local function prototypes */
++ static void fail_exit (int status);
+++static void usage (void);
+++static void process_flags (int argc, char **argv);
++ 
++ static void fail_exit (int status)
++ {
++@@ -75,6 +85,76 @@
++ 	exit (status);
++ }
++ 
+++/*
+++ * usage - display usage message and exit
+++ */
+++static void usage (void)
+++{
+++	(void) fprintf (stderr,
+++					_("Usage: pwunconv [options]\n"
+++					  "\n"
+++					  "Options:\n"),
+++					Prog);
+++	(void) fputs (_("  -h, --help                    display this help message and exit\n"), stderr);
+++	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
+++	(void) fputs ("\n", stderr);
+++	exit (E_USAGE);
+++}
+++
+++/*
+++ * process_flags - perform command line argument setting
+++ *
+++ * process_flags() interprets the command line arguments and sets
+++ * the values that the user will be created with accordingly. The
+++ * values are checked for sanity.
+++ */
+++static void process_flags (int argc, char **argv)
+++{
+++	{
+++		/*
+++		 * Parse the command line options.
+++		 */
+++		int c;
+++		static struct option long_options[] = {
+++			{"help", no_argument, NULL, 'h'},
+++			{"root", required_argument, NULL, 'R'},
+++			{NULL, 0, NULL, '\0'}
+++		};
+++		while ((c = getopt_long (argc, argv,
+++								 "R:",
+++								 long_options, NULL)) != -1) {
+++			switch (c) {
+++			case 'h':
+++				usage ();
+++				break;
+++			case 'R':
+++				if ('/' != optarg[0]) {
+++					fprintf (stderr,
+++					         _("%s: invalid chroot path '%s'\n"),
+++					         Prog, optarg);
+++					exit (E_BAD_ARG);
+++				}
+++				newroot = optarg;
+++
+++				if (access (newroot, F_OK) != 0) {
+++					fprintf(stderr,
+++					        _("%s: chroot directory %s does not exist\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				if ( chroot(newroot) != 0 ) {
+++					fprintf(stderr,
+++					        _("%s: unable to chroot to directory %s\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				break;
+++			default:
+++				usage ();
+++			}
+++		}
+++	}
+++}
++ 
++ int main (int argc, char **argv)
++ {
++@@ -93,6 +173,8 @@
++ 
++ 	OPENLOG ("pwunconv");
++ 
+++	process_flags (argc, argv);
+++
++ 	if (!spw_file_present ()) {
++ 		/* shadow not installed, do nothing */
++ 		exit (0);
++diff -urN shadow-4.1.4.3.orig//src/useradd.c shadow-4.1.4.3//src/useradd.c
++--- shadow-4.1.4.3.orig//src/useradd.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/useradd.c	2011-05-28 17:10:25.446909971 -0700
++@@ -112,6 +112,7 @@
++ #ifdef WITH_SELINUX
++ static const char *user_selinux = "";
++ #endif
+++static const char *newroot = "";
++ 
++ static long user_expire = -1;
++ static bool is_shadow_pwd;
++@@ -189,6 +190,7 @@
++ static void new_spent (struct spwd *);
++ static void grp_update (void);
++ 
+++static void process_root_flag (int argc, char **argv);
++ static void process_flags (int argc, char **argv);
++ static void close_files (void);
++ static void open_files (void);
++@@ -711,6 +713,7 @@
++ 	(void) fputs (_("  -o, --non-unique              allow to create users with duplicate\n"
++ 	                "                                (non-unique) UID\n"), stderr);
++ 	(void) fputs (_("  -p, --password PASSWORD       encrypted password of the new account\n"), stderr);
+++	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
++ 	(void) fputs (_("  -r, --system                  create a system account\n"), stderr);
++ 	(void) fputs (_("  -s, --shell SHELL             login shell of the new account\n"), stderr);
++ 	(void) fputs (_("  -u, --uid UID                 user ID of the new account\n"), stderr);
++@@ -943,6 +946,59 @@
++ }
++ 
++ /*
+++ * process_root_flag - chroot if given the --root option
+++ *
+++ * We do this outside of process_flags() because
+++ * the is_shadow_pwd boolean needs to be set before
+++ * process_flags(), and if we do need to chroot() we
+++ * must do so before is_shadow_pwd gets set.
+++ */
+++static void process_root_flag (int argc, char **argv)
+++{
+++	/*
+++	 * Parse the command line options.
+++	 */
+++	int c;
+++	static struct option long_options[] = {
+++		{"root", required_argument, NULL, 'R'},
+++		{NULL, 0, NULL, '\0'}
+++	};
+++	while ((c = getopt_long (argc, argv,
+++#ifdef WITH_SELINUX
+++	                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:UZ:",
+++#else
+++	                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:U",
+++#endif
+++	                         long_options, NULL)) != -1) {
+++		switch (c) {
+++		case 'R':
+++			if ('/' != optarg[0]) {
+++				fprintf (stderr,
+++				         _("%s: invalid chroot path '%s'\n"),
+++				         Prog, optarg);
+++				exit (E_BAD_ARG);
+++			}
+++			newroot = optarg;
+++
+++			if (access (newroot, F_OK) != 0) {
+++				fprintf(stderr,
+++				        _("%s: chroot directory %s does not exist\n"),
+++				        Prog, newroot);
+++				exit (E_BAD_ARG);
+++			}
+++			if ( chroot(newroot) != 0 ) {
+++				fprintf(stderr,
+++				        _("%s: unable to chroot to directory %s\n"),
+++				        Prog, newroot);
+++				exit (E_BAD_ARG);
+++			}
+++			break;
+++		/* no-op on everything else - they will be hanled by process_flags() */
+++		}
+++	}
+++}
+++
+++/*
++  * process_flags - perform command line argument setting
++  *
++  *	process_flags() interprets the command line arguments and sets
++@@ -978,6 +1034,7 @@
++ 			{"no-user-group", no_argument, NULL, 'N'},
++ 			{"non-unique", no_argument, NULL, 'o'},
++ 			{"password", required_argument, NULL, 'p'},
+++			{"root", required_argument, NULL, 'R'},
++ 			{"system", no_argument, NULL, 'r'},
++ 			{"shell", required_argument, NULL, 's'},
++ #ifdef WITH_SELINUX
++@@ -989,9 +1046,9 @@
++ 		};
++ 		while ((c = getopt_long (argc, argv,
++ #ifdef WITH_SELINUX
++-		                         "b:c:d:De:f:g:G:k:K:lmMNop:rs:u:UZ:",
+++		                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:UZ:",
++ #else
++-		                         "b:c:d:De:f:g:G:k:K:lmMNop:rs:u:U",
+++		                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:U",
++ #endif
++ 		                         long_options, NULL)) != -1) {
++ 			switch (c) {
++@@ -1156,6 +1213,9 @@
++ 				}
++ 				user_pass = optarg;
++ 				break;
+++			case 'R':
+++				/* no-op since we handled this in process_root_flag() earlier */
+++				break;
++ 			case 'r':
++ 				rflg = true;
++ 				break;
++@@ -1748,8 +1808,16 @@
++ #ifdef WITH_SELINUX
++ 		selinux_file_context (user_home);
++ #endif
++-		/* XXX - create missing parent directories.  --marekm */
++-		if (mkdir (user_home, 0) != 0) {
+++		/* shell out to invoke mkdir -p 
+++		 * creating a subshell under pseudo's chroot() breaks the jail
+++		 * (bug in pseudo), so make sure we include the full host path
+++		 * to the sysroot when the --root option is in use.
+++		 */
+++		int sysroot_path_len = strlen(newroot);
+++		int home_path_len = strlen(user_home);
+++		char cmd[sysroot_path_len + home_path_len + 10];
+++		sprintf(cmd, "mkdir -p %s%s", newroot, user_home);
+++		if (system (cmd) != 0) {
++ 			fprintf (stderr,
++ 			         _("%s: cannot create directory %s\n"),
++ 			         Prog, user_home);
++@@ -1861,6 +1929,7 @@
++ 	 */
++ 	user_groups[0] = (char *) 0;
++ 
+++	process_root_flag (argc, argv);
++ 
++ 	is_shadow_pwd = spw_file_present ();
++ #ifdef SHADOWGRP
++diff -urN shadow-4.1.4.3.orig//src/userdel.c shadow-4.1.4.3//src/userdel.c
++--- shadow-4.1.4.3.orig//src/userdel.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/userdel.c	2011-05-28 17:09:52.356013600 -0700
++@@ -79,6 +79,7 @@
++ static char *user_name;
++ static uid_t user_id;
++ static char *user_home;
+++static const char *newroot = "";
++ 
++ static bool fflg = false;
++ static bool rflg = false;
++@@ -119,6 +120,7 @@
++ 	         "  -f, --force                   force removal of files,\n"
++ 	         "                                even if not owned by user\n"
++ 	         "  -h, --help                    display this help message and exit\n"
+++	         "  -R, --root CHROOT_DIR         directory to chroot into\n"
++ 	         "  -r, --remove                  remove home directory and mail spool\n"
++ 	         "\n"), stderr);
++ 	exit (E_USAGE);
++@@ -768,12 +770,34 @@
++ 			{"remove", no_argument, NULL, 'r'},
++ 			{NULL, 0, NULL, '\0'}
++ 		};
++-		while ((c = getopt_long (argc, argv, "fhr",
+++		while ((c = getopt_long (argc, argv, "fhR:r",
++ 		                         long_options, NULL)) != -1) {
++ 			switch (c) {
++ 			case 'f':	/* force remove even if not owned by user */
++ 				fflg = true;
++ 				break;
+++			case 'R':
+++				if ('/' != optarg[0]) {
+++					fprintf (stderr,
+++					         _("%s: invalid chroot path '%s'\n"),
+++					         Prog, optarg);
+++					exit (E_BAD_ARG);
+++				}
+++				newroot = optarg;
+++
+++				if (access (newroot, F_OK) != 0) {
+++					fprintf(stderr,
+++					        _("%s: chroot directory %s does not exist\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				if ( chroot(newroot) != 0 ) {
+++					fprintf(stderr,
+++					        _("%s: unable to chroot to directory %s\n"),
+++					        Prog, newroot);
+++					exit (E_BAD_ARG);
+++				}
+++				break;
++ 			case 'r':	/* remove home dir and mailbox */
++ 				rflg = true;
++ 				break;
++diff -urN shadow-4.1.4.3.orig//src/usermod.c shadow-4.1.4.3//src/usermod.c
++--- shadow-4.1.4.3.orig//src/usermod.c	2011-02-13 09:58:16.000000000 -0800
+++++ shadow-4.1.4.3//src/usermod.c	2011-05-28 17:09:52.356013600 -0700
++@@ -110,6 +110,7 @@
++ static long user_newinactive;
++ static long sys_ngroups;
++ static char **user_groups;	/* NULL-terminated list */
+++static const char *newroot = "";
++ 
++ static bool
++     aflg = false,		/* append to existing secondary group set */
++@@ -164,6 +165,7 @@
++ #endif
++ static void grp_update (void);
++ 
+++static void process_root_flag (int, char **);
++ static void process_flags (int, char **);
++ static void close_files (void);
++ static void open_files (void);
++@@ -323,6 +325,7 @@
++ 	         "                                new location (use only with -d)\n"
++ 	         "  -o, --non-unique              allow using duplicate (non-unique) UID\n"
++ 	         "  -p, --password PASSWORD       use encrypted password for the new password\n"
+++	         "  -R  --root CHROOT_DIR         directory to chroot into\n"
++ 	         "  -s, --shell SHELL             new login shell for the user account\n"
++ 	         "  -u, --uid UID                 new UID for the user account\n"
++ 	         "  -U, --unlock                  unlock the user account\n"
++@@ -802,6 +805,60 @@
++ }
++ 
++ /*
+++ * process_root_flag - chroot if given the --root option
+++ *
+++ * We do this outside of process_flags() because
+++ * the is_shadow_pwd boolean needs to be set before
+++ * process_flags(), and if we do need to chroot() we
+++ * must do so before is_shadow_pwd gets set.
+++ */
+++static void process_root_flag (int argc, char **argv)
+++{
+++	/*
+++	 * Parse the command line options.
+++	 */
+++	int c;
+++	static struct option long_options[] = {
+++		{"root", required_argument, NULL, 'R'},
+++		{NULL, 0, NULL, '\0'}
+++	};
+++	while ((c = getopt_long (argc, argv,
+++#ifdef WITH_SELINUX
+++                             "ac:d:e:f:g:G:hl:Lmop:R:s:u:UZ:",
+++#else
+++	                         "ac:d:e:f:g:G:hl:Lmop:R:s:u:U",
+++#endif
+++	                         long_options, NULL)) != -1) {
+++		switch (c) {
+++		case 'R':
+++			if (    (!VALID (optarg) ) 
+++				|| (   ('/' != optarg[0]) ) ) {
+++				fprintf (stderr,
+++				         _("%s: invalid chroot path '%s'\n"),
+++				         Prog, optarg);
+++				exit (E_BAD_ARG);
+++			}
+++			newroot = optarg;
+++
+++			if (access (newroot, F_OK) != 0) {
+++				fprintf(stderr,
+++				        _("%s: chroot directory %s does not exist\n"),
+++				        Prog, newroot);
+++				exit (E_BAD_ARG);
+++			}
+++			if ( chroot(newroot) != 0 ) {
+++				fprintf(stderr,
+++				        _("%s: unable to chroot to directory %s\n"),
+++				        Prog, newroot);
+++				exit (E_BAD_ARG);
+++			}
+++			break;
+++		/* no-op on everything else - they will be hanled by process_flags() */
+++		}
+++	}
+++}
+++
+++/*
++  * process_flags - perform command line argument setting
++  *
++  *	process_flags() interprets the command line arguments and sets the
++@@ -895,6 +952,7 @@
++ 			{"move-home", no_argument, NULL, 'm'},
++ 			{"non-unique", no_argument, NULL, 'o'},
++ 			{"password", required_argument, NULL, 'p'},
+++			{"root", required_argument, NULL, 'R'},
++ #ifdef WITH_SELINUX
++ 			{"selinux-user", required_argument, NULL, 'Z'},
++ #endif
++@@ -905,9 +963,9 @@
++ 		};
++ 		while ((c = getopt_long (argc, argv,
++ #ifdef WITH_SELINUX
++-			                 "ac:d:e:f:g:G:hl:Lmop:s:u:UZ:",
+++			                 "ac:d:e:f:g:G:hl:Lmop:R:s:u:UZ:",
++ #else
++-			                 "ac:d:e:f:g:G:hl:Lmop:s:u:U",
+++			                 "ac:d:e:f:g:G:hl:Lmop:R:s:u:U",
++ #endif
++ 			                 long_options, NULL)) != -1) {
++ 			switch (c) {
++@@ -999,6 +1057,9 @@
++ 				user_pass = optarg;
++ 				pflg = true;
++ 				break;
+++			case 'R':
+++				/* no-op since we handled this in process_root_flag() earlier */
+++				break;
++ 			case 's':
++ 				if (!VALID (optarg)) {
++ 					fprintf (stderr,
++@@ -1715,6 +1776,8 @@
++ 
++ 	OPENLOG ("usermod");
++ 
+++	process_root_flag (argc, argv);
+++
++ 	is_shadow_pwd = spw_file_present ();
++ #ifdef SHADOWGRP
++ 	is_shadow_grp = sgr_file_present ();
+diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+new file mode 100644
+index 0000000..2f93e05
+--- /dev/null
++++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+@@ -0,0 +1,66 @@
++SUMMARY = "Tools to change and administer password and group data"
++DESCRIPTION = "Tools to change and administer password and group data"
++HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
++BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
++SECTION = "base utils"
++PRIORITY = "optional"
++LICENSE = "BSD | Artistic"
++LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
++                    file://src/passwd.c;firstline=8;endline=30;md5=2899a045e90511d0e043b85a7db7e2fe"
 +
-+#
-+# Enable additional checks upon password changes.
-+#
-+OBSCURE_CHECKS_ENAB	yes
++PR = "r0"
 +
-+#
-+# Enable checking of time restrictions specified in /etc/porttime.
-+#
-+PORTTIME_CHECKS_ENAB	yes
++SRC_URI = "ftp://pkg-shadow.alioth.debian.org/pub/pkg-shadow/shadow-${PV}.tar.bz2 \
++           file://shadow.automake-1.11.patch \
++           file://shadow-4.1.3-dots-in-usernames.patch \
++           file://shadow-4.1.4.2-env-reset-keep-locale.patch \
++           file://add_root_cmd_options.patch"
 +
-+#
-+# Enable setting of ulimit, umask, and niceness from passwd gecos field.
-+#
-+QUOTAS_ENAB		yes
++SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
++SRC_URI[sha256sum] = "633f5bb4ea0c88c55f3642c97f9d25cbef74f82e0b4cf8d54e7ad6f9f9caa778" 
 +
-+#
-+# Enable "syslog" logging of su activity - in addition to sulog file logging.
-+# SYSLOG_SG_ENAB does the same for newgrp and sg.
-+#
-+SYSLOG_SU_ENAB		yes
-+SYSLOG_SG_ENAB		yes
++inherit autotools gettext native
 +
-+#
-+# If defined, either full pathname of a file containing device names or
-+# a ":" delimited list of device names.  Root logins will be allowed only
-+# upon these devices.
-+#
-+CONSOLE		/etc/securetty
-+#CONSOLE	console:tty01:tty02:tty03:tty04
++EXTRA_OECONF += "--without-audit \
++                 --without-libcrack \
++                 --without-libpam \
++                 --without-selinux"
 +
-+#
-+# If defined, all su activity is logged to this file.
-+#
-+#SULOG_FILE	/var/log/sulog
++do_install_append() {
++	# Enable CREATE_HOME by default.
++	sed -i 's/#CREATE_HOME/CREATE_HOME/g' ${D}${sysconfdir}/login.defs
 +
-+#
-+# If defined, ":" delimited list of "message of the day" files to
-+# be displayed upon login.
-+#
-+MOTD_FILE	/etc/motd
-+#MOTD_FILE	/etc/motd:/usr/lib/news/news-motd
++	# As we are on an embedded system, ensure the users mailbox is in
++	# ~/ not /var/spool/mail by default, as who knows where or how big
++	# /var is. The system MDA will set this later anyway.
++	sed -i 's/MAIL_DIR/#MAIL_DIR/g' ${D}${sysconfdir}/login.defs
++	sed -i 's/#MAIL_FILE/MAIL_FILE/g' ${D}${sysconfdir}/login.defs
 +
-+#
-+# If defined, this file will be output before each login prompt.
-+#
-+#ISSUE_FILE	/etc/issue
++	# Disable checking emails.
++	sed -i 's/MAIL_CHECK_ENAB/#MAIL_CHECK_ENAB/g' ${D}${sysconfdir}/login.defs
 +
-+#
-+# If defined, file which maps tty line to TERM environment parameter.
-+# Each line of the file is in a format something like "vt100  tty01".
-+#
-+#TTYTYPE_FILE	/etc/ttytype
++	# Now we don't have a mail system. Disable mail creation for now.
++	sed -i 's:/bin/bash:/bin/sh:g' ${D}${sysconfdir}/default/useradd
++	sed -i '/^CREATE_MAIL_SPOOL/ s:^:#:' ${D}${sysconfdir}/default/useradd
 +
-+#
-+# If defined, login failures will be logged here in a utmp format.
-+# last, when invoked as lastb, will read /var/log/btmp, so...
-+#
-+FTMP_FILE	/var/log/btmp
++	install -d ${D}${sbindir} ${D}${base_sbindir} ${D}${base_bindir} 
++	for i in passwd chfn newgrp chsh ; do
++		mv ${D}${bindir}/$i ${D}${bindir}/$i.${PN}
++	done
 +
-+#
-+# If defined, name of file whose presence which will inhibit non-root
-+# logins.  The contents of this file should be a message indicating
-+# why logins are inhibited.
-+#
-+NOLOGINS_FILE	/etc/nologin
++	mv ${D}${sbindir}/chpasswd ${D}${sbindir}/chpasswd.${PN}
++}
 +
-+#
-+# If defined, the command name to display when running "su -".  For
-+# example, if this is defined as "su" then a "ps" will display the
-+# command is "-su".  If not defined, then "ps" would display the
-+# name of the shell actually being run, e.g. something like "-sh".
-+#
-+SU_NAME		su
++pkg_postinst_${PN} () {
++	update-alternatives --install ${bindir}/passwd passwd passwd.${PN} 200
++	update-alternatives --install ${sbindir}/chpasswd chpasswd chpasswd.${PN} 200
++	update-alternatives --install ${bindir}/chfn chfn chfn.${PN} 200
++	update-alternatives --install ${bindir}/newgrp newgrp newgrp.${PN} 200
++	update-alternatives --install ${bindir}/chsh chsh chsh.${PN} 200
++}
 +
-+#
-+# *REQUIRED*
-+#   Directory where mailboxes reside, _or_ name of file, relative to the
-+#   home directory.  If you _do_ define both, #MAIL_DIR takes precedence.
-+#
-+#MAIL_DIR	/var/spool/mail
-+MAIL_FILE	.mail
-+
-+#
-+# If defined, file which inhibits all the usual chatter during the login
-+# sequence.  If a full pathname, then hushed mode will be enabled if the
-+# user's name or shell are found in the file.  If not a full pathname, then
-+# hushed mode will be enabled if the file exists in the user's home directory.
-+#
-+HUSHLOGIN_FILE	.hushlogin
-+#HUSHLOGIN_FILE	/etc/hushlogins
-+
-+#
-+# If defined, either a TZ environment parameter spec or the
-+# fully-rooted pathname of a file containing such a spec.
-+#
-+#ENV_TZ		TZ=CST6CDT
-+#ENV_TZ		/etc/tzname
-+
-+#
-+# If defined, an HZ environment parameter spec.
-+#
-+# for Linux/x86
-+ENV_HZ		HZ=100
-+# For Linux/Alpha...
-+#ENV_HZ		HZ=1024
-+
-+#
-+# *REQUIRED*  The default PATH settings, for superuser and normal users.
-+#
-+# (they are minimal, add the rest in the shell startup files)
-+ENV_SUPATH	PATH=/sbin:/bin:/usr/sbin:/usr/bin
-+ENV_PATH	PATH=/bin:/usr/bin
-+
-+#
-+# Terminal permissions
-+#
-+#	TTYGROUP	Login tty will be assigned this group ownership.
-+#	TTYPERM		Login tty will be set to this permission.
-+#
-+# If you have a "write" program which is "setgid" to a special group
-+# which owns the terminals, define TTYGROUP to the group number and
-+# TTYPERM to 0620.  Otherwise leave TTYGROUP commented out and assign
-+# TTYPERM to either 622 or 600.
-+#
-+TTYGROUP	tty
-+TTYPERM		0600
-+
-+#
-+# Login configuration initializations:
-+#
-+#	ERASECHAR	Terminal ERASE character ('\010' = backspace).
-+#	KILLCHAR	Terminal KILL character ('\025' = CTRL/U).
-+#	ULIMIT		Default "ulimit" value.
-+#
-+# The ERASECHAR and KILLCHAR are used only on System V machines.
-+# The ULIMIT is used only if the system supports it.
-+# (now it works with setrlimit too; ulimit is in 512-byte units)
-+#
-+# Prefix these values with "0" to get octal, "0x" to get hexadecimal.
-+#
-+ERASECHAR	0177
-+KILLCHAR	025
-+#ULIMIT		2097152
-+
-+# Default initial "umask" value for non-PAM enabled systems.
-+# UMASK is also used by useradd and newusers to set the mode of new home
-+# directories.
-+# 022 is the default value, but 027, or even 077, could be considered
-+# better for privacy. There is no One True Answer here: each sysadmin
-+# must make up her mind.
-+UMASK		022
-+
-+#
-+# Password aging controls:
-+#
-+#	PASS_MAX_DAYS	Maximum number of days a password may be used.
-+#	PASS_MIN_DAYS	Minimum number of days allowed between password changes.
-+#	PASS_MIN_LEN	Minimum acceptable password length.
-+#	PASS_WARN_AGE	Number of days warning given before a password expires.
-+#
-+PASS_MAX_DAYS	99999
-+PASS_MIN_DAYS	0
-+PASS_MIN_LEN	5
-+PASS_WARN_AGE	7
-+
-+#
-+# If "yes", the user must be listed as a member of the first gid 0 group
-+# in /etc/group (called "root" on most Linux systems) to be able to "su"
-+# to uid 0 accounts.  If the group doesn't exist or is empty, no one
-+# will be able to "su" to uid 0.
-+#
-+SU_WHEEL_ONLY	no
-+
-+#
-+# If compiled with cracklib support, where are the dictionaries
-+#
-+CRACKLIB_DICTPATH	/var/cache/cracklib/cracklib_dict
-+
-+#
-+# Min/max values for automatic uid selection in useradd
-+#
-+UID_MIN			 1000
-+UID_MAX			60000
-+# System accounts
-+SYS_UID_MIN		  101
-+SYS_UID_MAX		  999
-+
-+#
-+# Min/max values for automatic gid selection in groupadd
-+#
-+GID_MIN			 1000
-+GID_MAX			60000
-+# System accounts
-+SYS_GID_MIN		  101
-+SYS_GID_MAX		  999
-+
-+#
-+# Max number of login retries if password is bad
-+#
-+LOGIN_RETRIES		5
-+
-+#
-+# Max time in seconds for login
-+#
-+LOGIN_TIMEOUT		60
-+
-+#
-+# Maximum number of attempts to change password if rejected (too easy)
-+#
-+PASS_CHANGE_TRIES	5
-+
-+#
-+# Warn about weak passwords (but still allow them) if you are root.
-+#
-+PASS_ALWAYS_WARN	yes
-+
-+#
-+# Number of significant characters in the password for crypt().
-+# Default is 8, don't change unless your crypt() is better.
-+# Ignored if MD5_CRYPT_ENAB set to "yes".
-+#
-+#PASS_MAX_LEN		8
-+
-+#
-+# Require password before chfn/chsh can make any changes.
-+#
-+CHFN_AUTH		yes
-+
-+#
-+# Which fields may be changed by regular users using chfn - use
-+# any combination of letters "frwh" (full name, room number, work
-+# phone, home phone).  If not defined, no changes are allowed.
-+# For backward compatibility, "yes" = "rwh" and "no" = "frwh".
-+# 
-+CHFN_RESTRICT		rwh
-+
-+#
-+# Password prompt (%s will be replaced by user name).
-+#
-+# XXX - it doesn't work correctly yet, for now leave it commented out
-+# to use the default which is just "Password: ".
-+#LOGIN_STRING		"%s's Password: "
-+
-+#
-+# Only works if compiled with MD5_CRYPT defined:
-+# If set to "yes", new passwords will be encrypted using the MD5-based
-+# algorithm compatible with the one used by recent releases of FreeBSD.
-+# It supports passwords of unlimited length and longer salt strings.
-+# Set to "no" if you need to copy encrypted passwords to other systems
-+# which don't understand the new algorithm.  Default is "no".
-+#
-+# Note: If you use PAM, it is recommended to use a value consistent with
-+# the PAM modules configuration.
-+#
-+# This variable is deprecated. You should use ENCRYPT_METHOD.
-+#
-+#MD5_CRYPT_ENAB	no
-+
-+#
-+# Only works if compiled with ENCRYPTMETHOD_SELECT defined:
-+# If set to MD5 , MD5-based algorithm will be used for encrypting password
-+# If set to SHA256, SHA256-based algorithm will be used for encrypting password
-+# If set to SHA512, SHA512-based algorithm will be used for encrypting password
-+# If set to DES, DES-based algorithm will be used for encrypting password (default)
-+# Overrides the MD5_CRYPT_ENAB option
-+#
-+# Note: If you use PAM, it is recommended to use a value consistent with
-+# the PAM modules configuration.
-+#
-+#ENCRYPT_METHOD DES
-+
-+#
-+# Only works if ENCRYPT_METHOD is set to SHA256 or SHA512.
-+#
-+# Define the number of SHA rounds.
-+# With a lot of rounds, it is more difficult to brute forcing the password.
-+# But note also that it more CPU resources will be needed to authenticate
-+# users.
-+#
-+# If not specified, the libc will choose the default number of rounds (5000).
-+# The values must be inside the 1000-999999999 range.
-+# If only one of the MIN or MAX values is set, then this value will be used.
-+# If MIN > MAX, the highest value will be used.
-+#
-+# SHA_CRYPT_MIN_ROUNDS 5000
-+# SHA_CRYPT_MAX_ROUNDS 5000
-+
-+#
-+# List of groups to add to the user's supplementary group set
-+# when logging in on the console (as determined by the CONSOLE
-+# setting).  Default is none.
-+#
-+# Use with caution - it is possible for users to gain permanent
-+# access to these groups, even when not logged in on the console.
-+# How to do it is left as an exercise for the reader...
-+#
-+#CONSOLE_GROUPS		floppy:audio:cdrom
-+
-+#
-+# Should login be allowed if we can't cd to the home directory?
-+# Default in no.
-+#
-+DEFAULT_HOME	yes
-+
-+#
-+# If this file exists and is readable, login environment will be
-+# read from it.  Every line should be in the form name=value.
-+#
-+ENVIRON_FILE	/etc/environment
-+
-+#
-+# If defined, this command is run when removing a user.
-+# It should remove any at/cron/print jobs etc. owned by
-+# the user to be removed (passed as the first argument).
-+#
-+#USERDEL_CMD	/usr/sbin/userdel_local
-+
-+#
-+# Enable setting of the umask group bits to be the same as owner bits
-+# (examples: 022 -> 002, 077 -> 007) for non-root users, if the uid is
-+# the same as gid, and username is the same as the primary group name.
-+#
-+# This also enables userdel to remove user groups if no members exist.
-+#
-+USERGROUPS_ENAB yes
-+
-+#
-+# If set to a non-nul number, the shadow utilities will make sure that
-+# groups never have more than this number of users on one line.
-+# This permit to support split groups (groups split into multiple lines,
-+# with the same group ID, to avoid limitation of the line length in the
-+# group file).
-+#
-+# 0 is the default value and disables this feature.
-+#
-+#MAX_MEMBERS_PER_GROUP	0
-+
-+#
-+# If useradd should create home directories for users by default (non
-+# system users only)
-+# This option is overridden with the -M or -m flags on the useradd command
-+# line.
-+#
-+CREATE_HOME     yes
-+
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-index 6f768ca..3315c68 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.22.bb
-@@ -1,13 +1,14 @@
- SUMMARY = "Base system master password/group files."
- DESCRIPTION = "The master copies of the user database files (/etc/passwd and /etc/group).  The update-passwd tool is also provided to keep the system databases synchronized with these master files."
- SECTION = "base"
--PR = "r1"
-+PR = "r2"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/b/base-passwd/base-passwd_${PV}.tar.gz \
-            file://nobash.patch \
--           file://root-home.patch"
-+           file://root-home.patch \
-+           file://login.defs"
- 
- SRC_URI[md5sum] = "47f22ab6b572d0133409ff6ad1fab402"
- SRC_URI[sha256sum] = "d34acb35a9f9f221e7e4f642b9ef4b22083dd77bb2fc7216756f445316d842fc"
-@@ -16,6 +17,8 @@ S = "${WORKDIR}/base-passwd"
- 
- inherit autotools
- 
-+SSTATEPOSTINSTFUNCS += "base_passwd_sstate_postinst"
-+
- do_install () {
- 	install -d -m 755 ${D}${sbindir}
- 	install -p -m 755 update-passwd ${D}${sbindir}/
-@@ -27,6 +30,7 @@ do_install () {
- 	install -d -m 755 ${D}${datadir}/base-passwd
- 	install -p -m 644 passwd.master ${D}${datadir}/base-passwd/
- 	install -p -m 644 group.master ${D}${datadir}/base-passwd/
-+	install -p -m 644 ${S}/../login.defs ${D}${datadir}/base-passwd/login.defs
- 
- 	install -d -m 755 ${D}${docdir}/${PN}
- 	install -p -m 644 debian/changelog ${D}${docdir}/${PN}/
-@@ -45,5 +49,24 @@ pkg_postinst_${PN} () {
- 	if [ ! -e $D${sysconfdir}/group ] ; then
- 		cp $D${datadir}/base-passwd/group.master $D${sysconfdir}/group
- 	fi
-+
-+	if [ ! -e $D{sysconfdir}/login.defs ] ; then
-+		cp $D${datadir}/base-passwd/login.defs $D${sysconfdir}/login.defs
-+	fi
- 	exit 0
- }
-+
-+base_passwd_sstate_postinst() {
-+	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
-+	then
-+		# Staging does not copy ${sysconfdir} files into the
-+		# target sysroot, so we need to do so manually. We
-+		# put these files in the target sysroot so they can
-+		# be used by recipes which use custom user/group
-+		# permissions.
-+		install -d -m 755 ${STAGING_DIR_TARGET}${sysconfdir}
-+		install -p -m 644 ${STAGING_DIR_TARGET}${datadir}/base-passwd/passwd.master ${STAGING_DIR_TARGET}${sysconfdir}/passwd
-+		install -p -m 644 ${STAGING_DIR_TARGET}${datadir}/base-passwd/group.master ${STAGING_DIR_TARGET}${sysconfdir}/group
-+		install -p -m 644 ${STAGING_DIR_TARGET}${datadir}/base-passwd/login.defs ${STAGING_DIR_TARGET}/${sysconfdir}/login.defs
-+	fi
++pkg_prerm_${PN} () {
++	for i in passwd chpasswd chfn newgrp chsh ; do
++		update-alternatives --remove $i $i.${PN}
++	done
 +}
 -- 
 1.7.3.4
