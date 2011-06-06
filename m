@@ -1,34 +1,44 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QTf74-0006Fx-PO for openembedded-core@lists.openembedded.org;
-	Mon, 06 Jun 2011 21:05:22 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p56J261Y008474
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QTfCH-0006KM-H3
+	for openembedded-core@lists.openembedded.org;
+	Mon, 06 Jun 2011 21:10:45 +0200
+Received: by bwz5 with SMTP id 5so4196725bwz.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jun 2011 20:02:06 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08391-02 for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jun 2011 20:02:02 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p56J1vEN008468
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jun 2011 20:01:58 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTi=eR+PJ5+jPDsqZeGB6w8Xr276X1Q@mail.gmail.com>
+	Mon, 06 Jun 2011 12:07:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=Q+bJkDAzxBkJgKe5YiF9roQFAFlxtC1KLgFdjZl7yxA=;
+	b=WSX0fmt4TY2Tro23jPdc3H8cwTL+h0igL8vRbACY/jk3aWKTRh1yEXppLUb9AWEjm3
+	PJNI1SXobKMGcjregnKNTv59MIFBIAdrbY3fm9xWsuMGjGPxwB/29180FbZwT+lEnqyL
+	txHKOxruIlKQ5qEZ4P4GrNEgZpcFx2Vz9r6FE=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	b=qfLd0f35N4YNtPbzC2v8iCyeJjlquVlYKWLdGq/aCI3BH3KDmqL+b4bESHXiua4Ehr
+	7bT8n0dtF2gvk77zKvlgFzPM9LQIQQRzJoViA8e8G5/xFALjmp2a+UwmxLe7p4ipzZNZ
+	KUigYq/NZVU3R9qaYDCAAWvVD1UK26X22f9HI=
+MIME-Version: 1.0
+Received: by 10.204.74.68 with SMTP id t4mr5173949bkj.22.1307387248612; Mon,
+	06 Jun 2011 12:07:28 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.116.82 with HTTP; Mon, 6 Jun 2011 12:07:28 -0700 (PDT)
+In-Reply-To: <1307386818.7672.31.camel@rex>
 References: <cover.1307342214.git.sgw@linux.intel.com>
 	<3eba2df4c6f2371db24ab2420d037b992725cb84.1307342214.git.sgw@linux.intel.com>
-	<BANLkTi=eR+PJ5+jPDsqZeGB6w8Xr276X1Q@mail.gmail.com>
-Date: Mon, 06 Jun 2011 20:01:56 +0100
-Message-ID: <1307386916.7672.33.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1307343323.3131.1.camel@lenovo.internal.reciva.com>
+	<1307357430.7672.7.camel@rex> <4DED055A.8010200@linux.intel.com>
+	<BANLkTi=5YeR0kkX+9TwkaJXe=azKdwxxwA@mail.gmail.com>
+	<1307386818.7672.31.camel@rex>
+Date: Mon, 6 Jun 2011 19:07:28 +0000
+X-Google-Sender-Auth: 5yV3dWZ3OIVERYLVHGanYXQ9p-g
+Message-ID: <BANLkTinnB+Z5T6HLzjQrpSyDvjxbjKqz5Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [CONSOLIDATED PULL 01/20] bitbake.conf: Create staticlibs pacakge for static libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,62 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jun 2011 19:05:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 06 Jun 2011 19:10:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2011-06-06 at 10:03 -0700, Khem Raj wrote:
-> On Sun, Jun 5, 2011 at 11:44 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > ---
-> >  meta/conf/bitbake.conf |   12 ++++++++++--
-> >  1 files changed, 10 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index de94316..520b808 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -194,9 +194,13 @@ This package contains ELF symbols and related sources for debugging purposes."
-> >
-> >  SUMMARY_${PN}-dev ?= "${SUMMARY} - Development files"
-> >  DESCRIPTION_${PN}-dev ?= "${DESCRIPTION}  \
-> > -This package contains symbolic links, static binaries, header files, and \
-> > +This package contains symbolic links, header files, and \
-> >  related items necessary for software development."
-> >
-> > +SUMMARY_${PN}-staticlibs ?= "${SUMMARY} - Development files (Static Libraries)"
-> > +DESCRIPTION_${PN}-staticlibs?= "${DESCRIPTION}  \
-> > +This package contains static libraries for software development."
-> > +
-> >  SUMMARY_${PN}-doc ?= "${SUMMARY} - Documentation files"
-> >  DESCRIPTION_${PN}-doc ?= "${DESCRIPTION}  \
-> >  This package contains documentation."
-> > @@ -248,13 +252,17 @@ FILES_${PN}-doc = "${docdir} ${mandir} ${infodir} ${datadir}/gtk-doc \
-> >  SECTION_${PN}-doc = "doc"
-> >
-> >  FILES_${PN}-dev = "${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la \
-> > -                ${libdir}/*.a ${libdir}/*.o ${libdir}/pkgconfig \
-> > +                ${libdir}/*.o ${libdir}/pkgconfig \
-> >                 ${datadir}/pkgconfig ${datadir}/aclocal \
-> >                 ${base_libdir}/*.a ${base_libdir}/*.o"
-> >  SECTION_${PN}-dev = "devel"
-> >  ALLOW_EMPTY_${PN}-dev = "1"
-> >  RDEPENDS_${PN}-dev = "${PN} (= ${EXTENDPKGV})"
-> >
-> > +FILES_${PN}-staticlibs = "${libdir}/*.a ${base_libdir}/*.a"
-> > +SECTION_${PN}-staticlibs = "devel"
-> > +RDEPENDS_${PN}-staticlibs = "${PN}-dev (= ${EXTENDPV})"
-> > +
-> 
-> I think if you need to divide it then -dev should be divided into
-> static, dynamic and headers otherwise this may not be so useful.
+On Mon, Jun 6, 2011 at 19:00, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2011-06-06 at 17:31 +0000, Otavio Salvador wrote:
+>> I personally prefer -static. -staticlib seems redundant for me since
+>> we can end with libfoo-staticlib
+>
+> -static doesn't really work well given we already have -static packages
+> meaning something else (e.g. the busybox case).
 
-The dynamic package would only consist of some symlinks and .la files
-though so wouldn't be that much extra compared to the -dev package?
+Aren't we changing the wrong name? In my opinion then busybox ought to
+be renamed. Like busybox-staticlinked or busybox-nolibs.
 
-Cheers,
-
-Richard
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
