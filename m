@@ -1,26 +1,26 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QTqLf-0003ik-74
+	(envelope-from <sgw@linux.intel.com>) id 1QTqLg-0003ik-1r
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Jun 2011 09:05:11 +0200
+	Tue, 07 Jun 2011 09:05:12 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 07 Jun 2011 00:01:52 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,331,1304319600"; 
-   d="scan'208";a="8298990"
+   d="scan'208";a="8298997"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.99])
-	by azsmga001.ch.intel.com with ESMTP; 07 Jun 2011 00:01:51 -0700
+	by azsmga001.ch.intel.com with ESMTP; 07 Jun 2011 00:01:52 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jun 2011 00:01:37 -0700
-Message-Id: <1866af3863d544cce34933407c34b6543f040568.1307429530.git.sgw@linux.intel.com>
+Date: Tue,  7 Jun 2011 00:01:38 -0700
+Message-Id: <969cdde4541819ef5123a77391d870843aff0b55.1307429530.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1307429530.git.sgw@linux.intel.com>
 References: <cover.1307429530.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1307429530.git.sgw@linux.intel.com>
 References: <cover.1307429530.git.sgw@linux.intel.com>
 Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [CONSOLIDATED PULL 01/13] distro-tracking: updates
+Subject: [CONSOLIDATED PULL 02/13] openssh: upgrade to v5.8p2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,123 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jun 2011 07:05:11 -0000
+X-List-Received-Date: Tue, 07 Jun 2011 07:05:12 -0000
 
 From: Scott Garman <scott.a.garman@intel.com>
 
-Update the distro tracking fields for:
-
-* apmd
-* at
-* blktool
-* cpio
-* dosfstools
-* gzip
-* libatomics-ops
-* shadow
+LICENCE checksum updated due to a one-line change in the file (RedHat
+was added as a copyright holder).
 
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   34 +++++++++++--------
- 1 files changed, 20 insertions(+), 14 deletions(-)
+ .../openssh/{openssh-5.6p1 => openssh-5.8p2}/init  |    0
+ .../{openssh-5.6p1 => openssh-5.8p2}/nostrip.patch |    0
+ .../{openssh-5.6p1 => openssh-5.8p2}/ssh_config    |    0
+ .../{openssh-5.6p1 => openssh-5.8p2}/sshd_config   |    0
+ .../openssh/{openssh_5.6p1.bb => openssh_5.8p2.bb} |    9 +++++----
+ 5 files changed, 5 insertions(+), 4 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/init (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/nostrip.patch (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/ssh_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/sshd_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh_5.6p1.bb => openssh_5.8p2.bb} (93%)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 73e6782..cd1ee9d 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -817,7 +817,7 @@ RECIPE_NO_OF_PATCHES_pn-blktool = "0"
- RECIPE_INTEL_SECTION_pn-blktool = "base utils"
- RECIPE_LATEST_RELEASE_DATE_pn-blktool = "02/2010"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-blktool = "3 years"
--RECIPE_LAST_UPDATE_pn-blktool = "Jan 4, 2011"
-+RECIPE_LAST_UPDATE_pn-blktool = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-blktool = "Scott Garman <scott.a.garman@intel.com>"
- DISTRO_PN_ALIAS_pn-blktool = "Debian=blktool Mandriva=blktool"
+diff --git a/meta/recipes-connectivity/openssh/openssh-5.6p1/init b/meta/recipes-connectivity/openssh/openssh-5.8p2/init
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-5.6p1/init
+rename to meta/recipes-connectivity/openssh/openssh-5.8p2/init
+diff --git a/meta/recipes-connectivity/openssh/openssh-5.6p1/nostrip.patch b/meta/recipes-connectivity/openssh/openssh-5.8p2/nostrip.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-5.6p1/nostrip.patch
+rename to meta/recipes-connectivity/openssh/openssh-5.8p2/nostrip.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh-5.6p1/ssh_config b/meta/recipes-connectivity/openssh/openssh-5.8p2/ssh_config
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-5.6p1/ssh_config
+rename to meta/recipes-connectivity/openssh/openssh-5.8p2/ssh_config
+diff --git a/meta/recipes-connectivity/openssh/openssh-5.6p1/sshd_config b/meta/recipes-connectivity/openssh/openssh-5.8p2/sshd_config
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-5.6p1/sshd_config
+rename to meta/recipes-connectivity/openssh/openssh-5.8p2/sshd_config
+diff --git a/meta/recipes-connectivity/openssh/openssh_5.6p1.bb b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+similarity index 93%
+rename from meta/recipes-connectivity/openssh/openssh_5.6p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+index b112b79..04d99d9 100644
+--- a/meta/recipes-connectivity/openssh/openssh_5.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+@@ -4,10 +4,11 @@ Ssh (Secure Shell) is a program for logging into a remote machine \
+ and for executing commands on a remote machine."
+ HOMEPAGE = "http://openssh.org"
+ SECTION = "console/network"
++PRIORITY = "optional"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=7ae09218173be1643c998a4b71027f9b"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=bae9a689be41581503bcf95d8fb42c4e"
  
-@@ -910,7 +910,7 @@ RECIPE_INTEL_SECTION_pn-apmd = "base utils"
- RECIPE_LATEST_RELEASE_DATE_pn-apmd = "07/2009"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-apmd = "1 year"
- RECIPE_COMMENTS_pn-apmd = ""
--RECIPE_LAST_UPDATE_pn-apmd = "Jan 4, 2011"
-+RECIPE_LAST_UPDATE_pn-apmd = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-apmd = "Scott Garman <scott.a.garman@intel.com>"
+-PR = "r2"
++PR = "r0"
  
- RECIPE_STATUS_pn-gperf = "green"
-@@ -1010,9 +1010,13 @@ RECIPE_LAST_UPDATE_pn-screen = "Aug 31, 2010"
- RECIPE_MAINTAINER_pn-screen = "Dexuan Cui <dexuan.cui@intel.com>"
+ DEPENDS = "zlib openssl"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -25,8 +26,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            file://ssh_config \
+            file://init \
+           "
+-SRC_URI[md5sum] = "e6ee52e47c768bf0ec42a232b5d18fb0"
+-SRC_URI[sha256sum] = "538af53b2b8162c21a293bb004ae2bdb141abd250f61b4cea55244749f3c6c2b"
++SRC_URI[md5sum] = "0541579adf9d55abb15ef927048d372e"
++SRC_URI[sha256sum] = "5c35ec7c966ce05cc4497ac59c0b54a556e55ae7368165cc8c4129694654f314"
  
- RECIPE_STATUS_pn-gzip = "green"
--RECIPE_LAST_UPDATE_pn-gzip = "Jul 23, 2010"
--RECIPE_MAINTAINER_pn-gzip = "Scott Garman <scott.a.garman@intel.com>"
-+RECIPE_DEPENDENCY_CHECK_pn-gzip = "not done"
- RECIPE_LATEST_VERSION_pn-gzip = "1.4"
-+RECIPE_NO_OF_PATCHES_pn-gzip = "0"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-gzip = "4 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-gzip = "Jan 20, 2010"
-+RECIPE_LAST_UPDATE_pn-gzip = "Jun 4, 2011"
-+RECIPE_MAINTAINER_pn-gzip = "Scott Garman <scott.a.garman@intel.com>"
+ inherit autotools
  
- RECIPE_STATUS_pn-iptables = "green"
- RECIPE_LAST_UPDATE_pn-iptables = "Nov 10, 2010"
-@@ -1032,13 +1036,12 @@ RECIPE_LATEST_VERSION_pn-net-tools = "1.60-23"
- 
- RECIPE_STATUS_pn-shadow = "green"
- RECIPE_DEPENDENCY_CHECK_pn-shadow = "not done"
--RECIPE_LAST_UPDATE_pn-shadow = "Aug 6, 2010"
--RECIPE_MAINTAINER_pn-shadow = "Scott Garman <scott.a.garman@intel.com>"
--RECIPE_LATEST_VERSION_pn-shadow = "4.1.4.2"
-+RECIPE_LATEST_VERSION_pn-shadow = "4.1.4.3"
- RECIPE_INTEL_SECTION_pn-shadow = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-shadow = "2 months"
--RECIPE_LATEST_RELEASE_DATE_pn-shadow = "07/2009"
--RECIPE_COMMENTS_pn-formfactor = ""
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-shadow = "7 months"
-+RECIPE_LATEST_RELEASE_DATE_pn-shadow = "Feb 15, 2011"
-+RECIPE_LAST_UPDATE_pn-shadow = "Jun 4, 2011"
-+RECIPE_MAINTAINER_pn-shadow = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-coreutils = "green"
- RECIPE_LAST_UPDATE_pn-coreutils = "Jan 20, 2011"
-@@ -1123,7 +1126,7 @@ RECIPE_INTEL_SECTION_pn-libatomics-ops = "optional"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libatomics-ops = "unknown"
- RECIPE_LATEST_RELEASE_DATE_pn-libatomics-ops = "unknown"
- DISTRO_PN_ALIAS_pn-libatomics-ops = "Meego=libatomic-ops Debian=libatomic-ops Ubuntu=libatomic-ops OpenSuSE=libatomic-ops Mandriva=libatomic-ops"
--RECIPE_LAST_UPDATE_pn-libatomics-ops = "Nov 22, 2010"
-+RECIPE_LAST_UPDATE_pn-libatomics-ops = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-libatomics-ops = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-libffi  = "red"
-@@ -1162,8 +1165,11 @@ RECIPE_LAST_UPDATE_pn-chrpath = "Dec 15, 2009"
- RECIPE_MAINTAINER_pn-chrpath = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-dosfstools = "red"
-+RECIPE_DEPENDENCY_CHECK_pn-dosfstools = "not done"
- RECIPE_LATEST_VERSION_pn-dosfstools = "2.11"
--RECIPE_LAST_UPDATE_pn-dosfstools = "Oct 11, 2007"
-+RECIPE_LATEST_RELEASE_DATE_pn-dosfstools = "Mar 12, 2005"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-dosfstools = "15 months"
-+RECIPE_LAST_UPDATE_pn-dosfstools = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-dosfstools = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-eee-acpi-scripts = "green"
-@@ -1949,7 +1955,7 @@ RECIPE_INTEL_SECTION_pn-at = "base"
- RECIPE_NO_OF_PATCHES_pn-at = "3"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-at = "13 months"
- RECIPE_LATEST_RELEASE_DATE_pn-at = "11/2009"
--RECIPE_LAST_UPDATE_pn-at = "Jul 23, 2010"
-+RECIPE_LAST_UPDATE_pn-at = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-at = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-cpio = "green"
-@@ -1959,7 +1965,7 @@ RECIPE_INTEL_SECTION_pn-cpio = "base"
- RECIPE_NO_OF_PATCHES_pn-cpio = "0"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-cpio = "9 months"
- RECIPE_LATEST_RELEASE_DATE_pn-cpio = "03/2010"
--RECIPE_LAST_UPDATE_pn-cpio = "Sep 25, 2010"
-+RECIPE_LAST_UPDATE_pn-cpio = "Jun 4, 2011"
- RECIPE_MAINTAINER_pn-cpio = "Scott Garman <scott.a.garman@intel.com>"
- 
- RECIPE_STATUS_pn-cronie = "green"
 -- 
 1.7.3.4
 
