@@ -1,26 +1,26 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QTqLg-0003im-Ml
+	(envelope-from <sgw@linux.intel.com>) id 1QTqLg-0003ik-So
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Jun 2011 09:05:12 +0200
+	Tue, 07 Jun 2011 09:05:13 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 07 Jun 2011 00:01:52 -0700
+	by azsmga101.ch.intel.com with ESMTP; 07 Jun 2011 00:01:53 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,331,1304319600"; 
-   d="scan'208";a="8299003"
+   d="scan'208";a="8299009"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.99])
 	by azsmga001.ch.intel.com with ESMTP; 07 Jun 2011 00:01:52 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jun 2011 00:01:39 -0700
-Message-Id: <40030433662c8a43c89e20099330aa5172ac0c27.1307429530.git.sgw@linux.intel.com>
+Date: Tue,  7 Jun 2011 00:01:40 -0700
+Message-Id: <0be04e2931ec1f7d5bd3ff538913081e2e8ec04f.1307429530.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1307429530.git.sgw@linux.intel.com>
 References: <cover.1307429530.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1307429530.git.sgw@linux.intel.com>
 References: <cover.1307429530.git.sgw@linux.intel.com>
 Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [CONSOLIDATED PULL 03/13] grep: upgrade to v2.8
+Subject: [CONSOLIDATED PULL 04/13] tar: upgrade to v1.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,38 +41,61 @@ From: Scott Garman <scott.a.garman@intel.com>
 
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- .../grep/{grep_2.7.bb => grep_2.8.bb}              |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/grep/{grep_2.7.bb => grep_2.8.bb} (84%)
+ ...tive_1.25.bb => tar-replacement-native_1.26.bb} |    0
+ meta/recipes-extended/tar/tar.inc                  |    1 +
+ meta/recipes-extended/tar/tar_1.25.bb              |    9 ---------
+ meta/recipes-extended/tar/tar_1.26.bb              |    9 +++++++++
+ 4 files changed, 10 insertions(+), 9 deletions(-)
+ rename meta/recipes-extended/tar/{tar-replacement-native_1.25.bb => tar-replacement-native_1.26.bb} (100%)
+ delete mode 100644 meta/recipes-extended/tar/tar_1.25.bb
+ create mode 100644 meta/recipes-extended/tar/tar_1.26.bb
 
-diff --git a/meta/recipes-extended/grep/grep_2.7.bb b/meta/recipes-extended/grep/grep_2.8.bb
-similarity index 84%
-rename from meta/recipes-extended/grep/grep_2.7.bb
-rename to meta/recipes-extended/grep/grep_2.8.bb
-index c3e0986..7e58ff8 100644
---- a/meta/recipes-extended/grep/grep_2.7.bb
-+++ b/meta/recipes-extended/grep/grep_2.8.bb
-@@ -1,7 +1,8 @@
--DESCRIPTION = "grep GNU utility"
-+DESCRIPTION = "GNU grep utility"
- HOMEPAGE = "http://savannah.gnu.org/projects/grep/"
- BUGTRACKER = "http://savannah.gnu.org/bugs/?group=grep"
- SECTION = "console/utils"
+diff --git a/meta/recipes-extended/tar/tar-replacement-native_1.25.bb b/meta/recipes-extended/tar/tar-replacement-native_1.26.bb
+similarity index 100%
+rename from meta/recipes-extended/tar/tar-replacement-native_1.25.bb
+rename to meta/recipes-extended/tar/tar-replacement-native_1.26.bb
+diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
+index 6e77051..bbed65c 100644
+--- a/meta/recipes-extended/tar/tar.inc
++++ b/meta/recipes-extended/tar/tar.inc
+@@ -3,6 +3,7 @@ DESCRIPTION = "GNU tar saves many files together into a single tape \
+ or disk archive, and can restore individual files from the archive."
+ HOMEPAGE = "http://www.gnu.org/software/tar/"
+ SECTION = "base"
 +PRIORITY = "optional"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8006d9c814277c1bfc4ca22af94b59ee"
  
-@@ -9,8 +10,8 @@ PR = "r0"
+ SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2"
  
- SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "e848f07e3e79aa7899345d17c7e4115e"
--SRC_URI[sha256sum] = "ad14831015a79cea36785aa47415f6c0653a6ac4eaf9c15456f0d9d09c9e1bad"
-+SRC_URI[md5sum] = "cb2dfc502c5afc7a4a6e5f6cefd6850e"
-+SRC_URI[sha256sum] = "da48d0e20bceaacc7d05bfcbccb34c3dee0c50bd7e80de5222fd5e319809af27"
- 
- inherit autotools gettext
- 
+diff --git a/meta/recipes-extended/tar/tar_1.25.bb b/meta/recipes-extended/tar/tar_1.25.bb
+deleted file mode 100644
+index cdb6f54..0000000
+--- a/meta/recipes-extended/tar/tar_1.25.bb
++++ /dev/null
+@@ -1,9 +0,0 @@
+-require tar.inc
+-
+-LICENSE = "GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+-
+-PR = "r0"
+-
+-SRC_URI[md5sum] = "6e497f861c77bbba2f7da4e10270995b"
+-SRC_URI[sha256sum] = "f3f6ce41b8e0f327abd05c95990f113ddafbae131e10f79a99728ed46458494b"
+diff --git a/meta/recipes-extended/tar/tar_1.26.bb b/meta/recipes-extended/tar/tar_1.26.bb
+new file mode 100644
+index 0000000..26fdc4a
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar_1.26.bb
+@@ -0,0 +1,9 @@
++require tar.inc
++
++LICENSE = "GPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++
++PR = "r0"
++
++SRC_URI[md5sum] = "2cee42a2ff4f1cd4f9298eeeb2264519"
++SRC_URI[sha256sum] = "5a5369f464502a598e938029c310d4b3abd51e6bb8dfd045663e61c8ea9f6d41"
 -- 
 1.7.3.4
 
