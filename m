@@ -1,29 +1,38 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QToLE-0001eP-OZ
+	(envelope-from <martin.jansa@gmail.com>) id 1QTpp6-00034s-AG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Jun 2011 06:56:38 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 06 Jun 2011 21:53:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,330,1304319600"; 
-   d="scan'208";a="9997320"
-Received: from unknown (HELO [10.255.12.161]) ([10.255.12.161])
-	by orsmga002.jf.intel.com with ESMTP; 06 Jun 2011 21:53:18 -0700
-Message-ID: <4DEDAEBE.8080404@linux.intel.com>
-Date: Mon, 06 Jun 2011 21:53:18 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
+	Tue, 07 Jun 2011 08:31:32 +0200
+Received: by bwz5 with SMTP id 5so4610488bwz.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Jun 2011 23:28:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:subject:message-id:mime-version
+	:content-type:content-disposition:user-agent;
+	bh=YVT8S8Kp3x4sGOgtf+p768ASrQGdoLZdAw8/RGfM1y0=;
+	b=ar1d2CMQtLtMTwztGRDJmsDcAYQkr780k4PoN/g5Mpe/lPb6dyqU4wQDRVQoqihi9H
+	rCGuFJ3opNN3WQjDXNlAM0nUeWncdQKsQA8TxByfB1vATZiMwDhrKCFoi35TShu1ahLm
+	9mArM3/3FLvEal+DapCpfu66Ub1rciA0xTNvc=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	b=kG08wulkIHoLn6dDMbd/2jdZApgOth7Ah39rDo6aePmwfi/IvdhZpCd3+NnvoKkzs3
+	PBZ0Rq6C2Wqjzx918/KU9v1b47FO5SCenL/wI2ZhcnrSIw3mTpsajpYiwNOYnSFiH5yy
+	hIZCCGfGeS6TLPEcRS+TnG3pyrxKGJ1+3RXsg=
+Received: by 10.204.81.210 with SMTP id y18mr5471816bkk.175.1307428094991;
+	Mon, 06 Jun 2011 23:28:14 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id af13sm3869422bkc.19.2011.06.06.23.28.13
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 06 Jun 2011 23:28:14 -0700 (PDT)
+Date: Tue, 7 Jun 2011 08:28:07 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4DE56B0D.4020209@intel.com>
-	<4DE87AD1.1050004@linux.intel.com>	<4DE8EE32.9060905@windriver.com>	<1307115801.2529.350.camel@phil-desktop>
-	<BANLkTi=n+MNMu+EY0F5Hh3OqVe7Ex7CCQg@mail.gmail.com>
-In-Reply-To: <BANLkTi=n+MNMu+EY0F5Hh3OqVe7Ex7CCQg@mail.gmail.com>
-Cc: Chris Larson <clarson@kergoth.com>
-Subject: Re: Tell me your build error message annoyances!
+Message-ID: <20110607062807.GU3281@jama.jama.net>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: pkg-config sometimes return unexpanded variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,50 +47,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jun 2011 04:56:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Jun 2011 06:31:32 -0000
+X-Groupsio-MsgNum: 3692
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="63tCqOYFH7xKgZE5"
+Content-Disposition: inline
 
+--63tCqOYFH7xKgZE5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+My webkit-efl build fails with:
 
-On 06/03/2011 08:47 AM, Chris Larson wrote:
-> On Fri, Jun 3, 2011 at 8:43 AM, Phil Blundell <pb@pbcl.net> wrote:
->> On Fri, 2011-06-03 at 09:22 -0500, Mark Hatle wrote:
->>> I believe currently we have around 3-5 messages per step, and it's still too
->>> noisy -- unless you need to debug something.
->>
->> Correct.  Right now, the output looks like:
->>
->> NOTE: Running task 613 of 728 (ID: 190, virtual:native:/home/pb/oe/oe-core/meta/recipes-core/util-linux/util-linux_2.19.1.bb, do_install)
->> NOTE: package util-linux-native-2.19.1-r0: task do_install: Started
->> NOTE: package util-linux-native-2.19.1-r0: task do_install: Succeeded
->> NOTE: Running task 614 of 728 (ID: 191, virtual:native:/home/pb/oe/oe-core/meta/recipes-core/util-linux/util-linux_2.19.1.bb, do_populate_sysroot)
->> NOTE: package util-linux-native-2.19.1-r0: task do_populate_sysroot: Started
->> NOTE: package util-linux-native-2.19.1-r0: task do_populate_sysroot: Succeeded
->>
->> It looks as though the "Started" and "Succeeded" lines could just be
->> deleted without losing any real information.
-> 
-> Heh, I used to have a personal branch where I dropped those, and also
-> removed the unnecessary NOTE: prefix. I think its a given that
-> something that doesn't indicate a warning or an error is simply
-> informative :) The problem with dropping those messages is for
-> postprocessing scripts, which may well want/need to know when a task
-> completes, not just when it starts. Still, yet another case of
-> something we could drop as long as we log it. We need to add a main
-> bitbake execution log that captures everything, including debug
-> messages, whether the user specifies -D or not.
+-- checking for module 'cairo'
+--   found cairo, version 1.10.0
+CMake Error at
+/OE/shr-core/tmp/sysroots/x86_64-linux/usr/share/cmake-2.8/Modules/FindPkgC=
+onfig.cmake:104
+(set):
+  Syntax error in cmake code at
 
-In most systems, running with -D implies not only greater verbosity, but
-also reduced performance. I haven't checked, but I expect that is the
-case with bitbake as well. I don't think we want to enable all of -D and
-log it by default.
+    =EF=BF=BD:104
 
-Thanks,
+  when parsing string
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+    ;/OE/shr-core/tmp/sysroots/nokia900\{libdir\}
 
+  Invalid escape sequence \{
 
+and it's because pkg-config itself returns unexpanded variable
+found it only with --libs-only-L and --static params
+
+$ pkg-config --libs-only-L --static cairo
+-L/OE/shr-core/tmp/sysroots/nokia900\{libdir\}
+$ pkg-config --version
+0.25
+
+I'm not sure if it's pkg-config fault worth reporting upstream or
+something wrong in our sysroot, but .pc looks sane (and it's the same as
+with oe.dev):
+prefix=3D/usr
+exec_prefix=3D/usr
+libdir=3D/usr/lib
+includedir=3D/usr/include
+
+Name: cairo
+Description: Multi-platform 2D graphics library
+Version: 1.10.0
+
+Requires.private:   gobject-2.0 glib-2.0    pixman-1 >=3D 0.18.4
+fontconfig >=3D 2.2.95 freetype2 >=3D 9.7.3  libpng xrender >=3D 0.6 x11
+Libs: -L${libdir} -lcairo
+Libs.private:         -lz -lz
+Cflags: -I${includedir}/cairo
+
+I haven't seen this with pkg-config-0.23 from oe.dev and there is 0.26=20
+relase available upstream, but looking on changelog it doesn't look like=20
+resolved there.
+
+Have anyone seen this too?
+
+Regards,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--63tCqOYFH7xKgZE5
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
+
+iEYEARECAAYFAk3txPcACgkQN1Ujt2V2gByn1gCeOvGc4f44muRslwwZD5F3t8x3
+nEoAoJEJvTnpxw63ILN2ptPZnVvLsLUQ
+=JoU1
+-----END PGP SIGNATURE-----
+
+--63tCqOYFH7xKgZE5--
