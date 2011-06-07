@@ -1,25 +1,38 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QU0wk-000832-3M
+	(envelope-from <cliff.brake@gmail.com>) id 1QU1XA-0000PA-EB
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Jun 2011 20:24:10 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 07 Jun 2011 11:20:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,333,1304319600"; d="scan'208";a="10305757"
-Received: from unknown (HELO [10.255.13.55]) ([10.255.13.55])
-	by orsmga002.jf.intel.com with ESMTP; 07 Jun 2011 11:20:51 -0700
-Message-ID: <4DEE6C02.6000906@linux.intel.com>
-Date: Tue, 07 Jun 2011 11:20:50 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Tue, 07 Jun 2011 21:01:48 +0200
+Received: by yxi11 with SMTP id 11so1566813yxi.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Jun 2011 11:58:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=Qhpvl3RgCi7Ms1Dw6nEp4W/uIiC+HRgAEQqx0jy+aHY=;
+	b=wBrs1VaaesJK8t34/JvPg9XKyymBbfhuYYIRFXg9YzcHDZpy6OaAnEgNgIfr7OqzMH
+	/VumqnnXOijxlCfIt32HOavqd3FlCsVfKBZb3vDEucIIcj5GdlaPTcn4Zy9ovinb9Hc0
+	dyodRVNi4MzDNZk+P4ql6oxD7nsh4Kh39cVK8=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	b=GvPTNA0RmlrDwSIbScAKHa2mtnC6CeNQPaCxwRWRbyfkDcqDsWSOW4b2hwCp0xB+Je
+	VxZ01YrXTpiu3ds96c0sm9eqqigf/lKPAmaXyiLAV5Ox3UrIod9JIemRTTCSzfKJQXdj
+	fHbcx9wXDynDbY1+WJ+3uj4tFKGy7ZdoaUHas=
 MIME-Version: 1.0
+Received: by 10.236.144.230 with SMTP id n66mr955599yhj.17.1307473109257; Tue,
+	07 Jun 2011 11:58:29 -0700 (PDT)
+Received: by 10.236.202.69 with HTTP; Tue, 7 Jun 2011 11:58:29 -0700 (PDT)
+In-Reply-To: <201106071712.50973.paul.eggleton@linux.intel.com>
+References: <201106071712.50973.paul.eggleton@linux.intel.com>
+Date: Tue, 7 Jun 2011 14:58:29 -0400
+Message-ID: <BANLkTimAp1ZNVfBJKkLbmm5ZB+=Usz16Hw@mail.gmail.com>
+From: Cliff Brake <cliff.brake@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1307042670.git.otavio@ossystems.com.br>
-In-Reply-To: <cover.1307042670.git.otavio@ossystems.com.br>
-Subject: Re: [PATCH 0/4] Pending patches from O.S. Systems tree
+Cc: openembedded-core@lists.linuxtogo.org
+Subject: Re: Layer index wiki page
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,37 +47,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jun 2011 18:24:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Jun 2011 19:01:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 06/02/2011 12:25 PM, Otavio Salvador wrote:
-> The following changes since commit 2a52f806f3789f717219651b97dc64fec3881f7f:
+On Tue, Jun 7, 2011 at 12:12 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Hi all,
 >
->    qmake_base.bbclass: fix lrelease/lupdate binary names (2011-06-02 18:26:19 +0100)
+> I've created a wiki page to provide a central index of all layers that ca=
+n be
+> used with oe-core:
 >
-> are available in the git repository at:
->    git://github.com/OSSystems/oe-core master
->    https://github.com/OSSystems/oe-core/tree/master
+> =A0http://www.openembedded.org/index.php/LayerIndex
 >
-> Otavio Salvador (4):
->    xf86-driver-common.inc: remove .la files to avoid unpackaged warning
->    gnutls: use INC_PR on 2.12.5 version recipe
->    gnutls: add p11tool into gnutls-bin
-These three were merged thanks
->    package.bbclass: add support to split Qt translation files
+> This is by no means complete - I started with the list from Cliff's chang=
+elog
+> and added a few on from there. I was also looking around for a page with =
+the
+> =C5ngstr=F6m setup instructions that specifically mentions being oe-core =
+based but
+> I couldn't find it (Koen?) I'm still thinking about how to best represent=
+ layer
+> repos that contain multiple layers too (e.g. meta-oe, meta-smartphone, et=
+c.).
 >
-There was some discussion about this patch, please resubmit when you 
-have addressed those issues.
+> Comments / updates / additions welcome.
 
-Thanks
-	Sau!
+Looks good.  I've added meta-yocto to the weekly changelog report:
 
->   meta/classes/package.bbclass                       |   41 ++++++++++++++++++--
->   .../xorg-driver/xf86-driver-common.inc             |    6 ++-
->   meta/recipes-support/gnutls/gnutls.inc             |    3 +-
->   meta/recipes-support/gnutls/gnutls_2.12.5.bb       |    2 +-
->   4 files changed, 45 insertions(+), 7 deletions(-)
->
+http://cgit.openembedded.org/cgit.cgi/openembedded-admin/commit/?id=3Dd017d=
+c35791f100799213cf20de58cd0423b348f
+
+Cliff
+
+--=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+http://bec-systems.com
 
 
