@@ -1,25 +1,27 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QTqLl-0003im-56
+	(envelope-from <koen@dominion.thruhere.net>) id 1QTqUX-0004Cb-Ex
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Jun 2011 09:05:17 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 07 Jun 2011 00:01:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,331,1304319600"; 
-   d="scan'208";a="8299033"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.99])
-	by azsmga001.ch.intel.com with ESMTP; 07 Jun 2011 00:01:56 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jun 2011 00:01:49 -0700
-Message-Id: <30101d4153aa8e116892063933b868d325bdd79c.1307429530.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1307429530.git.sgw@linux.intel.com>
-References: <cover.1307429530.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1307429530.git.sgw@linux.intel.com>
-References: <cover.1307429530.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 13/13] distro tracking: Manual Updates
+	Tue, 07 Jun 2011 09:14:21 +0200
+Received: by wye20 with SMTP id 20so3829843wye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Jun 2011 00:11:04 -0700 (PDT)
+Received: by 10.227.55.74 with SMTP id t10mr5901225wbg.91.1307430664301;
+	Tue, 07 Jun 2011 00:11:04 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id p21sm3336729wbh.23.2011.06.07.00.11.02
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 07 Jun 2011 00:11:03 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1307179269-28896-1-git-send-email-koen@dominion.thruhere.net>
+Date: Tue, 7 Jun 2011 09:11:01 +0200
+Message-Id: <B699AD72-F61A-4ED5-ADAD-E4A107D9A05F@dominion.thruhere.net>
+References: <1307179269-28896-1-git-send-email-koen@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH] sysvinitL split inittab into it's own recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,80 +36,258 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jun 2011 07:05:17 -0000
+X-List-Received-Date: Tue, 07 Jun 2011 07:14:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   15 +++++++++++----
- 1 files changed, 11 insertions(+), 4 deletions(-)
+ping
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 19bb1d5..38e0c4d 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -369,10 +369,11 @@ RECIPE_MAINTAINER_pn-libusb-compat = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-libusb-compat = "done"
- RECIPE_LATEST_VERSION_pn-libusb-compat = "0.1.3"
- RECIPE_INTEL_SECTION_pn-libusb-compat = "base utils"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libusb-compat = "1 month"
--RECIPE_LATEST_RELEASE_DATE_pn-libusb-compat = "07/2009"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libusb-compat = "stable"
-+RECIPE_LATEST_RELEASE_DATE_pn-libusb-compat = "Jul 08, 2009"
- RECIPE_COMMENTS_pn-libusb-compat = "replaces libusb, but doesn't provides libusbpp"
- DISTRO_PN_ALIAS_pn-libusb-compat = "OSPDT"
-+RECIPE_MANUAL_CHECK_DATE_pn-libusb-compat = "Jun 06, 2011"
- 
- RECIPE_STATUS_pn-libnl = "green"
- RECIPE_LAST_UPDATE_pn-libnl = "Nov 15, 2010"
-@@ -397,12 +398,13 @@ RECIPE_STATUS_pn-libxml2 = "yellow"
- RECIPE_LAST_UPDATE_pn-libxml2 = "Jun 18, 2010"
- RECIPE_MAINTAINER_pn-libxml2 = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-libxml2 = "done"
--RECIPE_LATEST_VERSION_pn-libxml2 = "2.7.7"
-+RECIPE_LATEST_VERSION_pn-libxml2 = "2.7.8"
- RECIPE_PATCH_pn-libxml2+install = "use poky environment variables"
- RECIPE_INTEL_SECTION_pn-libxml2 = "base libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxml2 = "5 months"
- RECIPE_LATEST_RELEASE_DATE_pn-libxml2 = "03/2010"
- RECIPE_COMMENTS_pn-libxml2 = ""
-+RECIPE_MANUAL_CHECK_DATE_pn-libxml2 = "Jun 06, 2011"
- 
- RECIPE_STATUS_pn-readline = "green"
- RECIPE_LAST_UPDATE_pn-readline = "Jun 17, 2010"
-@@ -451,11 +453,12 @@ RECIPE_STATUS_pn-libtasn1 = "green"
- RECIPE_LAST_UPDATE_pn-libtasn1 = "Nov 16, 2010"
- RECIPE_MAINTAINER_pn-libtasn1 = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_DEPENDENCY_CHECK_pn-libtasn1 = "not done"
--RECIPE_LATEST_VERSION_pn-libtasn1 = "2.7"
-+RECIPE_LATEST_VERSION_pn-libtasn1 = "2.9"
- RECIPE_INTEL_SECTION_pn-libtasn1 = "base libs"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libtasn1 = "1 month"
- RECIPE_LATEST_RELEASE_DATE_pn-libtasn1 = "05/2010"
- RECIPE_COMMENTS_pn-libtasn1 = ""
-+RECIPE_MANUAL_CHECK_DATE_pn-libtasn1 = "Jun 06, 2011"
- 
- RECIPE_STATUS_pn-openssl = "green"
- RECIPE_LAST_UPDATE_pn-openssl = "Nov 17, 2010"
-@@ -564,6 +567,8 @@ RECIPE_STATUS_pn-libaio = "green"
- RECIPE_LAST_UPDATE_pn-libaio = "Aug 27, 2010"
- RECIPE_MAINTAINER_pn-libaio = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_LATEST_VERSION_pn-libaio = "0.3.107"
-+RECIPE_MANUAL_CHECK_DATE_pn-libaio = "Jun 6, 2011"
-+RECIPE_COMMENTS_pn-libaio = "1.0.9 is current unstable"
- 
- RECIPE_STATUS_pn-libcheck = "green"
- RECIPE_DEPENDENCY_CHECK_pn-libcheck = "done"
-@@ -1844,6 +1849,8 @@ RECIPE_STATUS_pn-resolvconf = "green"
- RECIPE_LATEST_VERSION_pn-resolvconf = "1.48"
- RECIPE_LAST_UPDATE_pn-resolvconf = "Jan 20, 2011"
- RECIPE_MAINTAINER_pn-resolvconf = "Saul Wold <sgw@linux.intel.com>"
-+RECIPE_MANUAL_CHECK_DATE_pn-resolvconf = "Jun 06, 2011"
-+RECIPE_COMMENTS_pn-resolvconf = "Lastest Unstable version is 1.56"
- 
- RECIPE_STATUS_pn-openswan = "red"
- RECIPE_LATEST_VERSION_pn-openswan = "2.6.26"
--- 
-1.7.3.4
+Op 4 jun 2011, om 11:21 heeft Koen Kooi het volgende geschreven:
+
+> A proper fix for
+>=20
+> [YOCTO ##1131]
+>=20
+> Signed-off-by: <koen@dominion.thruhere.net>
+> ---
+> .../recipes-core/sysvinit/sysvinit-inittab/inittab |   30 +++++++++++
+> .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   55 =
+++++++++++++++++++++
+> meta/recipes-core/sysvinit/sysvinit/inittab        |   30 -----------
+> meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   41 =
++--------------
+> 4 files changed, 86 insertions(+), 70 deletions(-)
+> create mode 100644 meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+> create mode 100644 =
+meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> delete mode 100644 meta/recipes-core/sysvinit/sysvinit/inittab
+>=20
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/inittab =
+b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+> new file mode 100644
+> index 0000000..6abbdf4
+> --- /dev/null
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+> @@ -0,0 +1,30 @@
+> +# /etc/inittab: init(8) configuration.
+> +# $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
+> +
+> +# The default runlevel.
+> +id:5:initdefault:
+> +
+> +# Boot-time system configuration/initialization script.
+> +# This is run first except when booting in emergency (-b) mode.
+> +si::sysinit:/etc/init.d/rcS
+> +
+> +# What to do in single-user mode.
+> +~~:S:wait:/sbin/sulogin
+> +
+> +# /etc/init.d executes the S and K scripts upon change
+> +# of runlevel.
+> +#
+> +# Runlevel 0 is halt.
+> +# Runlevel 1 is single-user.
+> +# Runlevels 2-5 are multi-user.
+> +# Runlevel 6 is reboot.
+> +
+> +l0:0:wait:/etc/init.d/rc 0
+> +l1:1:wait:/etc/init.d/rc 1
+> +l2:2:wait:/etc/init.d/rc 2
+> +l3:3:wait:/etc/init.d/rc 3
+> +l4:4:wait:/etc/init.d/rc 4
+> +l5:5:wait:/etc/init.d/rc 5
+> +l6:6:wait:/etc/init.d/rc 6
+> +# Normally not reached, but fallthrough in case of emergency.
+> +z6:6:respawn:/sbin/sulogin
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb =
+b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> new file mode 100644
+> index 0000000..4e57b5a
+> --- /dev/null
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> @@ -0,0 +1,55 @@
+> +DESCRIPTION =3D "Inittab for sysvinit"
+> +LICENSE =3D "GPLv2+"
+> +LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D751419260aa954499f7abaabaa882bbe \
+> +                    =
+file://COPYRIGHT;endline=3D15;md5=3D349c872e0066155e1818b786938876a4"
+> +
+> +PR =3D "r5"
+> +
+> +# Need the whole source for the license checks
+> +SRC_URI =3D =
+"http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${=
+PV}.tar.bz2 \
+> +           file://inittab"
+> +
+> +SRC_URI[md5sum] =3D "6eda8a97b86e0a6f59dabbf25202aa6f"
+> +SRC_URI[sha256sum] =3D =
+"60bbc8c1e1792056e23761d22960b30bb13eccc2cabff8c7310a01f4d5df1519"
+> +
+> +S =3D "${WORKDIR}/sysvinit-${PV}"
+> +
+> +do_install() {
+> +	install -d ${D}${sysconfdir}
+> +    install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
+> +    if [ ! -z "${SERIAL_CONSOLE}" ]; then
+> +        echo "S:2345:respawn:${base_sbindir}/getty ${SERIAL_CONSOLE}" =
+>> ${D}${sysconfdir}/inittab
+> +    fi
+> +    if [ "${USE_VT}" =3D "1" ]; then
+> +        cat <<EOF >>${D}${sysconfdir}/inittab
+> +# ${base_sbindir}/getty invocations for the runlevels.
+> +#
+> +# The "id" field MUST be the same as the last
+> +# characters of the device (after "tty").
+> +#
+> +# Format:
+> +#  <id>:<runlevels>:<action>:<process>
+> +#
+> +
+> +EOF
+> +
+> +        for n in ${SYSVINIT_ENABLED_GETTYS}
+> +        do
+> +            echo "$n:2345:respawn:${base_sbindir}/getty 38400 tty$n" =
+>> ${D}${sysconfdir}/inittab
+> +        done
+> +        echo "" >> ${D}${sysconfdir}/inittab
+> +    fi
+> +}
+> +
+> +# USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE =
+.conf.
+> +# Set PACKAGE_ARCH appropriately.
+> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+> +
+> +FILES_${PN} =3D "${sysconfdir}/inittab"
+> +CONFFILES_${PN} =3D "${sysconfdir}/inittab"
+> +
+> +USE_VT ?=3D "1"
+> +SYSVINIT_ENABLED_GETTYS ?=3D "1"
+> +
+> +
+> +
+> diff --git a/meta/recipes-core/sysvinit/sysvinit/inittab =
+b/meta/recipes-core/sysvinit/sysvinit/inittab
+> deleted file mode 100644
+> index 6abbdf4..0000000
+> --- a/meta/recipes-core/sysvinit/sysvinit/inittab
+> +++ /dev/null
+> @@ -1,30 +0,0 @@
+> -# /etc/inittab: init(8) configuration.
+> -# $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
+> -
+> -# The default runlevel.
+> -id:5:initdefault:
+> -
+> -# Boot-time system configuration/initialization script.
+> -# This is run first except when booting in emergency (-b) mode.
+> -si::sysinit:/etc/init.d/rcS
+> -
+> -# What to do in single-user mode.
+> -~~:S:wait:/sbin/sulogin
+> -
+> -# /etc/init.d executes the S and K scripts upon change
+> -# of runlevel.
+> -#
+> -# Runlevel 0 is halt.
+> -# Runlevel 1 is single-user.
+> -# Runlevels 2-5 are multi-user.
+> -# Runlevel 6 is reboot.
+> -
+> -l0:0:wait:/etc/init.d/rc 0
+> -l1:1:wait:/etc/init.d/rc 1
+> -l2:2:wait:/etc/init.d/rc 2
+> -l3:3:wait:/etc/init.d/rc 3
+> -l4:4:wait:/etc/init.d/rc 4
+> -l5:5:wait:/etc/init.d/rc 5
+> -l6:6:wait:/etc/init.d/rc 6
+> -# Normally not reached, but fallthrough in case of emergency.
+> -z6:6:respawn:/sbin/sulogin
+> diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb =
+b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> index e683cc7..bda8a51 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> +++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> @@ -5,31 +5,15 @@ SECTION =3D "base"
+> LICENSE =3D "GPLv2+"
+> LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D751419260aa954499f7abaabaa882bbe \
+>                     =
+file://COPYRIGHT;endline=3D15;md5=3D349c872e0066155e1818b786938876a4"
+> -PR =3D "r3"
+> -
+> -# Need to set this since it has machine specific components
+> -PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+> -
+> -# USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE =
+.conf.
+> -# Set PACKAGE_ARCH appropriately.
+> -PACKAGE_ARCH_${PN}-inittab =3D "${MACHINE_ARCH}"
+> +PR =3D "r4"
+>=20
+> RDEPENDS_${PN} =3D "${PN}-inittab"
+>=20
+> -PACKAGES =3D+ "bootlogd ${PN}-inittab"
+> -FILES_bootlogd =3D "/etc/init.d/bootlogd /etc/init.d/stop-bootlogd =
+/etc/rc?.d/S*bootlogd /sbin/bootlogd"
+> -FILES_${PN}-inittab =3D "${sysconfdir}/inittab"
+> -CONFFILES_${PN}-inittab =3D "${sysconfdir}/inittab"
+> -
+> -USE_VT ?=3D "1"
+> -SYSVINIT_ENABLED_GETTYS ?=3D "1"
+> -
+> SRC_URI =3D =
+"http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${=
+PV}.tar.bz2 \
+> 	   file://install.patch \
+> 	   file://crypt-lib.patch \
+>            file://need \
+>            file://provide \
+> -           file://inittab \
+>            file://rcS-default \
+>            file://rc \
+>            file://rcS \
+> @@ -70,29 +54,6 @@ do_install () {
+> 	install -d ${D}${sysconfdir} \
+> 		   ${D}${sysconfdir}/default \
+> 		   ${D}${sysconfdir}/init.d
+> -	install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
+> -	if [ ! -z "${SERIAL_CONSOLE}" ]; then
+> -		echo "S:2345:respawn:${base_sbindir}/getty =
+${SERIAL_CONSOLE}" >> ${D}${sysconfdir}/inittab
+> -	fi
+> -	if [ "${USE_VT}" =3D "1" ]; then
+> -		cat <<EOF >>${D}${sysconfdir}/inittab
+> -# ${base_sbindir}/getty invocations for the runlevels.
+> -#
+> -# The "id" field MUST be the same as the last
+> -# characters of the device (after "tty").
+> -#
+> -# Format:
+> -#  <id>:<runlevels>:<action>:<process>
+> -#
+> -
+> -EOF
+> -
+> -		for n in ${SYSVINIT_ENABLED_GETTYS}
+> -		do
+> -			echo "$n:2345:respawn:${base_sbindir}/getty =
+38400 tty$n" >> ${D}${sysconfdir}/inittab
+> -		done
+> -		echo "" >> ${D}${sysconfdir}/inittab
+> -	fi
+> 	install -m 0644    ${WORKDIR}/rcS-default	=
+${D}${sysconfdir}/default/rcS
+> 	install -m 0755    ${WORKDIR}/rc		=
+${D}${sysconfdir}/init.d
+> 	install -m 0755    ${WORKDIR}/rcS		=
+${D}${sysconfdir}/init.d
+> --=20
+> 1.6.6.1
+>=20
 
 
 
