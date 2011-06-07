@@ -1,38 +1,21 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QTpp6-00034s-AG
+	(envelope-from <sgw@linux.intel.com>) id 1QTqLe-0003ik-Bv
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Jun 2011 08:31:32 +0200
-Received: by bwz5 with SMTP id 5so4610488bwz.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Jun 2011 23:28:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:subject:message-id:mime-version
-	:content-type:content-disposition:user-agent;
-	bh=YVT8S8Kp3x4sGOgtf+p768ASrQGdoLZdAw8/RGfM1y0=;
-	b=ar1d2CMQtLtMTwztGRDJmsDcAYQkr780k4PoN/g5Mpe/lPb6dyqU4wQDRVQoqihi9H
-	rCGuFJ3opNN3WQjDXNlAM0nUeWncdQKsQA8TxByfB1vATZiMwDhrKCFoi35TShu1ahLm
-	9mArM3/3FLvEal+DapCpfu66Ub1rciA0xTNvc=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	b=kG08wulkIHoLn6dDMbd/2jdZApgOth7Ah39rDo6aePmwfi/IvdhZpCd3+NnvoKkzs3
-	PBZ0Rq6C2Wqjzx918/KU9v1b47FO5SCenL/wI2ZhcnrSIw3mTpsajpYiwNOYnSFiH5yy
-	hIZCCGfGeS6TLPEcRS+TnG3pyrxKGJ1+3RXsg=
-Received: by 10.204.81.210 with SMTP id y18mr5471816bkk.175.1307428094991;
-	Mon, 06 Jun 2011 23:28:14 -0700 (PDT)
-Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id af13sm3869422bkc.19.2011.06.06.23.28.13
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 06 Jun 2011 23:28:14 -0700 (PDT)
-Date: Tue, 7 Jun 2011 08:28:07 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110607062807.GU3281@jama.jama.net>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: pkg-config sometimes return unexpanded variables
+	Tue, 07 Jun 2011 09:05:10 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 07 Jun 2011 00:01:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,331,1304319600"; 
+   d="scan'208";a="8298976"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.99])
+	by azsmga001.ch.intel.com with ESMTP; 07 Jun 2011 00:01:51 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Jun 2011 00:01:36 -0700
+Message-Id: <cover.1307429530.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [CONSOLIDATED PULL 00/13] 06-June-2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,80 +30,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jun 2011 06:31:32 -0000
-X-Groupsio-MsgNum: 3692
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="63tCqOYFH7xKgZE5"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 07 Jun 2011 07:05:10 -0000
 
---63tCqOYFH7xKgZE5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Updates for the kernel and lots of distro tracking updates for
+manual based updates checking.
 
-My webkit-efl build fails with:
+Sau!
 
--- checking for module 'cairo'
---   found cairo, version 1.10.0
-CMake Error at
-/OE/shr-core/tmp/sysroots/x86_64-linux/usr/share/cmake-2.8/Modules/FindPkgC=
-onfig.cmake:104
-(set):
-  Syntax error in cmake code at
 
-    =EF=BF=BD:104
+The following changes since commit 925de3b3e74d15547840a2edaceff437e135bddd:
 
-  when parsing string
+  tzcode: Update to 2011g (2011-06-06 15:52:18 +0100)
 
-    ;/OE/shr-core/tmp/sysroots/nokia900\{libdir\}
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-  Invalid escape sequence \{
+Bruce Ashfield (2):
+  linux-yocto: update target/meta SRCREVs
+  linux-yocto: make e1000e structure common [commit: bec3f1e8c]
 
-and it's because pkg-config itself returns unexpanded variable
-found it only with --libs-only-L and --static params
+Koen Kooi (1):
+  util-linux: package agetty seperately
 
-$ pkg-config --libs-only-L --static cairo
--L/OE/shr-core/tmp/sysroots/nokia900\{libdir\}
-$ pkg-config --version
-0.25
+Phil Blundell (1):
+  sqlite: remove dependency on tcl-native
 
-I'm not sure if it's pkg-config fault worth reporting upstream or
-something wrong in our sysroot, but .pc looks sane (and it's the same as
-with oe.dev):
-prefix=3D/usr
-exec_prefix=3D/usr
-libdir=3D/usr/lib
-includedir=3D/usr/include
+Saul Wold (4):
+  json-glib: Update to 0.12.4
+  distro tracking: update Qing -> Saul
+  distro tracking: fixup some bad entries
+  distro tracking: Manual Updates
 
-Name: cairo
-Description: Multi-platform 2D graphics library
-Version: 1.10.0
+Scott Garman (5):
+  distro-tracking: updates
+  openssh: upgrade to v5.8p2
+  grep: upgrade to v2.8
+  tar: upgrade to v1.26
+  distro-tracking: update openssh, tar, and grep
 
-Requires.private:   gobject-2.0 glib-2.0    pixman-1 >=3D 0.18.4
-fontconfig >=3D 2.2.95 freetype2 >=3D 9.7.3  libpng xrender >=3D 0.6 x11
-Libs: -L${libdir} -lcairo
-Libs.private:         -lz -lz
-Cflags: -I${includedir}/cairo
+ .../conf/distro/include/distro_tracking_fields.inc |  225 +++++++++++---------
+ .../openssh/{openssh-5.6p1 => openssh-5.8p2}/init  |    0
+ .../{openssh-5.6p1 => openssh-5.8p2}/nostrip.patch |    0
+ .../{openssh-5.6p1 => openssh-5.8p2}/ssh_config    |    0
+ .../{openssh-5.6p1 => openssh-5.8p2}/sshd_config   |    0
+ .../openssh/{openssh_5.6p1.bb => openssh_5.8p2.bb} |    9 +-
+ meta/recipes-core/util-linux/util-linux.inc        |    3 +-
+ meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    2 +-
+ .../grep/{grep_2.7.bb => grep_2.8.bb}              |    7 +-
+ ...tive_1.25.bb => tar-replacement-native_1.26.bb} |    0
+ meta/recipes-extended/tar/tar.inc                  |    1 +
+ meta/recipes-extended/tar/tar_1.25.bb              |    9 -
+ meta/recipes-extended/tar/tar_1.26.bb              |    9 +
+ .../{json-glib_0.12.2.bb => json-glib_0.12.4.bb}   |    0
+ meta/recipes-kernel/linux/linux-yocto_git.bb       |   14 +-
+ meta/recipes-support/sqlite/sqlite3.inc            |    4 +-
+ 16 files changed, 153 insertions(+), 130 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/init (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/nostrip.patch (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/ssh_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-5.6p1 => openssh-5.8p2}/sshd_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh_5.6p1.bb => openssh_5.8p2.bb} (93%)
+ rename meta/recipes-extended/grep/{grep_2.7.bb => grep_2.8.bb} (84%)
+ rename meta/recipes-extended/tar/{tar-replacement-native_1.25.bb => tar-replacement-native_1.26.bb} (100%)
+ delete mode 100644 meta/recipes-extended/tar/tar_1.25.bb
+ create mode 100644 meta/recipes-extended/tar/tar_1.26.bb
+ rename meta/recipes-gnome/json-glib/{json-glib_0.12.2.bb => json-glib_0.12.4.bb} (100%)
 
-I haven't seen this with pkg-config-0.23 from oe.dev and there is 0.26=20
-relase available upstream, but looking on changelog it doesn't look like=20
-resolved there.
+-- 
+1.7.3.4
 
-Have anyone seen this too?
 
-Regards,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---63tCqOYFH7xKgZE5
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
-
-iEYEARECAAYFAk3txPcACgkQN1Ujt2V2gByn1gCeOvGc4f44muRslwwZD5F3t8x3
-nEoAoJEJvTnpxw63ILN2ptPZnVvLsLUQ
-=JoU1
------END PGP SIGNATURE-----
-
---63tCqOYFH7xKgZE5--
