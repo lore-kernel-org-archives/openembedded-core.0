@@ -1,25 +1,25 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QTqLj-0003is-VU
+	(envelope-from <sgw@linux.intel.com>) id 1QTqLl-0003im-56
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Jun 2011 09:05:16 +0200
+	Tue, 07 Jun 2011 09:05:17 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 07 Jun 2011 00:01:56 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.65,331,1304319600"; 
-   d="scan'208";a="8299032"
+   d="scan'208";a="8299033"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.99])
 	by azsmga001.ch.intel.com with ESMTP; 07 Jun 2011 00:01:56 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jun 2011 00:01:48 -0700
-Message-Id: <9b9c6277309766ef53273d4682b70302cd199ceb.1307429530.git.sgw@linux.intel.com>
+Date: Tue,  7 Jun 2011 00:01:49 -0700
+Message-Id: <30101d4153aa8e116892063933b868d325bdd79c.1307429530.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1307429530.git.sgw@linux.intel.com>
 References: <cover.1307429530.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1307429530.git.sgw@linux.intel.com>
 References: <cover.1307429530.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 12/13] distro tracking: fixup some bad entries
+Subject: [CONSOLIDATED PULL 13/13] distro tracking: Manual Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,136 +34,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jun 2011 07:05:16 -0000
+X-List-Received-Date: Tue, 07 Jun 2011 07:05:17 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   35 +++++++++-----------
- 1 files changed, 16 insertions(+), 19 deletions(-)
+ .../conf/distro/include/distro_tracking_fields.inc |   15 +++++++++++----
+ 1 files changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index f1fded2..19bb1d5 100644
+index 19bb1d5..38e0c4d 100644
 --- a/meta/conf/distro/include/distro_tracking_fields.inc
 +++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -1354,8 +1354,7 @@ RECIPE_PATCH_pn-portmap+no-tcpd-support = "override default build method"
- RECIPE_INTEL_SECTION_pn-portmap = "base utils"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-portmap = "n/a"
- RECIPE_LATEST_RELEASE_DATE_pn-portmap = "05/2007"
--RECIPE_COMMENTS_pn-portmap = "most part is under 4-clause BSD, Sun RPC code is under another license, \
--however debian portmap package licenses RPC code under 3-clause BSD. This needs further investigation"
-+RECIPE_COMMENTS_pn-portmap = "most part is under 4-clause BSD, Sun RPC code is under another license, however debian portmap package licenses RPC code under 3-clause BSD. This needs further investigation"
+@@ -369,10 +369,11 @@ RECIPE_MAINTAINER_pn-libusb-compat = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-libusb-compat = "done"
+ RECIPE_LATEST_VERSION_pn-libusb-compat = "0.1.3"
+ RECIPE_INTEL_SECTION_pn-libusb-compat = "base utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libusb-compat = "1 month"
+-RECIPE_LATEST_RELEASE_DATE_pn-libusb-compat = "07/2009"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libusb-compat = "stable"
++RECIPE_LATEST_RELEASE_DATE_pn-libusb-compat = "Jul 08, 2009"
+ RECIPE_COMMENTS_pn-libusb-compat = "replaces libusb, but doesn't provides libusbpp"
+ DISTRO_PN_ALIAS_pn-libusb-compat = "OSPDT"
++RECIPE_MANUAL_CHECK_DATE_pn-libusb-compat = "Jun 06, 2011"
  
- RECIPE_STATUS_pn-grub = "green"
- RECIPE_LAST_UPDATE_pn-grub = "Oct 8, 2008"
-@@ -1580,8 +1579,7 @@ RECIPE_LATEST_VERSION_pn-hal = "0.5.14"
- RECIPE_INTEL_SECTION_pn-hal = "base utils"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-hal = "4 months"
- RECIPE_LATEST_RELEASE_DATE_pn-hal = "11/2009"
--RECIPE_COMMENTS_pn-hal = "The licensing is very complicated, Most files are GPLv2+ | AFL \
--with some borrowed code under LGPLv2.1, AFL itself is incompatible with GPL/LGPL"
-+RECIPE_COMMENTS_pn-hal = "The licensing is very complicated, Most files are GPLv2+ | AFL with some borrowed code under LGPLv2.1, AFL itself is incompatible with GPL/LGPL"
+ RECIPE_STATUS_pn-libnl = "green"
+ RECIPE_LAST_UPDATE_pn-libnl = "Nov 15, 2010"
+@@ -397,12 +398,13 @@ RECIPE_STATUS_pn-libxml2 = "yellow"
+ RECIPE_LAST_UPDATE_pn-libxml2 = "Jun 18, 2010"
+ RECIPE_MAINTAINER_pn-libxml2 = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-libxml2 = "done"
+-RECIPE_LATEST_VERSION_pn-libxml2 = "2.7.7"
++RECIPE_LATEST_VERSION_pn-libxml2 = "2.7.8"
+ RECIPE_PATCH_pn-libxml2+install = "use poky environment variables"
+ RECIPE_INTEL_SECTION_pn-libxml2 = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libxml2 = "5 months"
+ RECIPE_LATEST_RELEASE_DATE_pn-libxml2 = "03/2010"
+ RECIPE_COMMENTS_pn-libxml2 = ""
++RECIPE_MANUAL_CHECK_DATE_pn-libxml2 = "Jun 06, 2011"
  
- RECIPE_STATUS_pn-hal-info = "green"
- RECIPE_LAST_UPDATE_pn-hal-info = "Jul 20, 2010"
-@@ -2876,7 +2874,7 @@ RECIPE_MAINTAINER_pn-gcc = "Nitin A Kamble <nitin.a.kamble@intel.com>"
- RECIPE_STATUS_pn-autoconf="red" 
- RECIPE_LATEST_VERSION_pn-autoconf="2.68"
- RECIPE_LAST_UPDATE_pn-autoconf = "Jan 29, 2010"
--RECIPE_NO_UPDATE_REASON_autoconf="seeing rpm issue with the 2.68 version, a bug is open"
-+RECIPE_NO_UPDATE_REASON_pn-autoconf="seeing rpm issue with the 2.68 version, a bug is open"
- RECIPE_MAINTAINER_pn-autoconf = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ RECIPE_STATUS_pn-readline = "green"
+ RECIPE_LAST_UPDATE_pn-readline = "Jun 17, 2010"
+@@ -451,11 +453,12 @@ RECIPE_STATUS_pn-libtasn1 = "green"
+ RECIPE_LAST_UPDATE_pn-libtasn1 = "Nov 16, 2010"
+ RECIPE_MAINTAINER_pn-libtasn1 = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-libtasn1 = "not done"
+-RECIPE_LATEST_VERSION_pn-libtasn1 = "2.7"
++RECIPE_LATEST_VERSION_pn-libtasn1 = "2.9"
+ RECIPE_INTEL_SECTION_pn-libtasn1 = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libtasn1 = "1 month"
+ RECIPE_LATEST_RELEASE_DATE_pn-libtasn1 = "05/2010"
+ RECIPE_COMMENTS_pn-libtasn1 = ""
++RECIPE_MANUAL_CHECK_DATE_pn-libtasn1 = "Jun 06, 2011"
  
- RECIPE_STATUS_pn-automake="green" 
-@@ -3056,7 +3054,6 @@ RECIPE_LATEST_VERSION_pn-byacc="20101229"
- RECIPE_MAINTAINER_pn-byacc = "Nitin A Kamble <nitin.a.kamble@intel.com>"
+ RECIPE_STATUS_pn-openssl = "green"
+ RECIPE_LAST_UPDATE_pn-openssl = "Nov 17, 2010"
+@@ -564,6 +567,8 @@ RECIPE_STATUS_pn-libaio = "green"
+ RECIPE_LAST_UPDATE_pn-libaio = "Aug 27, 2010"
+ RECIPE_MAINTAINER_pn-libaio = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_LATEST_VERSION_pn-libaio = "0.3.107"
++RECIPE_MANUAL_CHECK_DATE_pn-libaio = "Jun 6, 2011"
++RECIPE_COMMENTS_pn-libaio = "1.0.9 is current unstable"
  
- RECIPE_STATUS_pn-libconvert-asn1-perl="green" 
--# 0.22 version does not build, so created a recipe for version 0.21
- RECIPE_LATEST_VERSION_pn-libconvert-asn1-perl="0.22"
- RECIPE_NO_UPDATE_REASON_pn-libconvert-asn1-perl = "0.22 version does not build, so created a recipe for version 0.21"
- RECIPE_LAST_UPDATE_pn-libconvert-asn1-perl = "Aug 13, 2010"
-@@ -3552,7 +3549,7 @@ DISTRO_PN_ALIAS_pn-xf86-video-vesa = "Debian=xserver-xorg-video-vesa Fedora=xorg
+ RECIPE_STATUS_pn-libcheck = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-libcheck = "done"
+@@ -1844,6 +1849,8 @@ RECIPE_STATUS_pn-resolvconf = "green"
+ RECIPE_LATEST_VERSION_pn-resolvconf = "1.48"
+ RECIPE_LAST_UPDATE_pn-resolvconf = "Jan 20, 2011"
+ RECIPE_MAINTAINER_pn-resolvconf = "Saul Wold <sgw@linux.intel.com>"
++RECIPE_MANUAL_CHECK_DATE_pn-resolvconf = "Jun 06, 2011"
++RECIPE_COMMENTS_pn-resolvconf = "Lastest Unstable version is 1.56"
  
- RECIPE_STATUS_pn-cairo="green" # no update needed
- RECIPE_LATEST_VERSION_pn-cairo="1.9.10"
--ECIPE_NO_UPDATE_REASON_cairo="latest version is not stable release"
-+RECIPE_NO_UPDATE_REASON_pn-cairo="latest version is not stable release"
- RECIPE_NO_OF_PATCHES_pn-cairo="1"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-cairo="1 monthes"
- RECIPE_LATEST_RELEASE_DATE_pn-cairo="2010/02/20"
-@@ -3563,16 +3560,16 @@ RECIPE_MAINTAINER_pn-cairo="Yu Ke <ke.yu@intel.com>"
- RECIPE_STATUS_pn-xserver-nodm-init="green" # no update needed
- RECIPE_LATEST_VERSION_pn-xserver-nodm-init="1.0"
- RECIPE_NO_OF_PATCHES_pn-xserver-nodm-init="0"
--#RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xserver-nodm-init=""
--#RECIPE_LATEST_RELEASE_DATE_pn-xserver-nodm-init=""
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xserver-nodm-init=""
-+RECIPE_LATEST_RELEASE_DATE_pn-xserver-nodm-init=""
- RECIPE_INTEL_SECTION_pn-xserver-nodm-init="graphic core"
- RECIPE_MAINTAINER_pn-xserver-nodm-init="Yu Ke <ke.yu@intel.com>"
- 
- RECIPE_STATUS_pn-xserver-xf86-config="green" # no update needed
- RECIPE_LATEST_VERSION_pn-xserver-xf86-config="0.1"
- RECIPE_NO_OF_PATCHES_pn-xserver-xf86-config="0"
--#RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xserver-xf86-config=""
--#RECIPE_LATEST_RELEASE_DATE_pn-xserver-xf86-config=""
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-xserver-xf86-config=""
-+RECIPE_LATEST_RELEASE_DATE_pn-xserver-xf86-config=""
- RECIPE_INTEL_SECTION_pn-xserver-xf86-config="graphic core"
- RECIPE_LAST_UPDATE_pn-xserver-xf86-config = "May 31, 2009"
- RECIPE_MAINTAINER_pn-xserver-xf86-config="Yu Ke <ke.yu@intel.com>"
-@@ -4708,7 +4705,7 @@ RECIPE_MAINTAINER_pn-libxprintutil = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-libxscrnsaver = "green"
- DISTRO_PN_ALIAS_pn-libxscrnsaver = "Fedora=libXScrnSaver Ubuntu=libxss1 Mandriva=libxscrnsaver"
--DEPENDENCY_CHECK_pn-libxscrnsaver = "not done"
-+RECIPE_DEPENDENCY_CHECK_pn-libxscrnsaver = "not done"
- RECIPE_LATEST_VERSION_pn-libxscrnsaver = "1.2.1"
- RECIPE_NO_OF_PATCHES_pn-libxscrnsaver = "0"
- RECIPE_INTEL_SECTION_pn-libxscrnsaver = "x11/libs"
-@@ -4731,7 +4728,7 @@ RECIPE_MAINTAINER_pn-libxtrap = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-xproxymanagementprotocol = "green"
- DISTRO_PN_ALIAS_pn-xproxymanagementprotocol = "Meego=xorg-x11-proto-xproxymanagementprotocol"
--DEPENDENCY_CHECK_pn-xproxymanagementprotocol = "not done"
-+RECIPE_DEPENDENCY_CHECK_pn-xproxymanagementprotocol = "not done"
- RECIPE_LATEST_VERSION_pn-xproxymanagementprotocol = "1.0.3"
- RECIPE_NO_OF_PATCHES_pn-xproxymanagementprotocol = "0"
- RECIPE_INTEL_SECTION_pn-xproxymanagementprotocol = "x11/libs"
-@@ -5699,12 +5696,12 @@ RECIPE_MAINTAINER_pn-linuxdoc-tools = "Scott Garman <scott.a.garman@intel.com>"
- RECIPE_STATUS_pn-slang = "green"
- RECIPE_LATEST_VERSION_pn-slang = "2.2.4"
- RECIPE_LAST_UPDATE_pn-slang = "Apr 10, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-slang = "June 6, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-slang = "Jun 6, 2011"
- 
- RECIPE_STATUS_pn-libnewt = "green"
- RECIPE_LATEST_VERSION_pn-libnewt = "0.52.12"
- RECIPE_LAST_UPDATE_pn-libnewt = "Aug 06, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-libnewt = "June 4, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libnewt = "Jun 4, 2011"
- RECIPE_NO_UPDATE_REASON_pn-libnewt = ""
- 
- RECIPE_STATUS_pn-createrepo = "green"
-@@ -5739,14 +5736,14 @@ RECIPE_MAINTAINER_pn-rxvt-unicode = "Saul Wold <sgw@linux.intel.com>"
- RECIPE_STATUS_pn-alsa-tools = "red"
- RECIPE_LATEST_VERIONS_pn-alsa-tools = "1.0.24.1
- RECIPE_LAST_UPDATE_pn-alsa-tools = "Jan 31, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-alsa-tools = "June 7, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-alsa-tools = "Jun 7, 2011" 
- 
- RECIPE_STATUS_pn-mesa-demos = "red"
- RECIPE_LATEST_VERSION_pn-mesa-demos = "8.0.1"
- RECIPE_LAST_UPDATE_pn-mesa-demos = "July 13, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-mesa-demos = "June 7, 2011" 
-+RECIPE_MANUAL_CHECK_DATE_pn-mesa-demos = "Jun 7, 2011" 
- 
- RECIPE_STATUS_pn-gettext = "red"
- RECIPE_LATEST_VERSION_pn-gettext = "0.18.1.1"
--RECIPE_LAST_UPDATE_pn-gettext = "June 6, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-gettext = "June 7, 2011" 
-+RECIPE_LAST_UPDATE_pn-gettext = "Jun 6, 2010"
-+RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Jun 7, 2011" 
+ RECIPE_STATUS_pn-openswan = "red"
+ RECIPE_LATEST_VERSION_pn-openswan = "2.6.26"
 -- 
 1.7.3.4
 
