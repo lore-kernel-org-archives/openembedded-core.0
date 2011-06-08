@@ -1,24 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QULfl-0005kf-Rs
+	(envelope-from <mark.hatle@windriver.com>) id 1QULfm-0005kh-Me
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Jun 2011 18:32:02 +0200
+	Wed, 08 Jun 2011 18:32:07 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p58GSf0s001799
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p58GShFf001814
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jun 2011 09:28:41 -0700 (PDT)
+	Wed, 8 Jun 2011 09:28:43 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 8 Jun 2011 09:28:41 -0700
+	Wed, 8 Jun 2011 09:28:43 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jun 2011 11:38:44 -0500
-Message-ID: <cover.1307551015.git.mark.hatle@windriver.com>
+Date: Wed, 8 Jun 2011 11:38:46 -0500
+Message-ID: <994e815e7306b77e7c84cc9692e757fad8549ea2.1307551015.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1307551015.git.mark.hatle@windriver.com>
+References: <cover.1307551015.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/2] pseudo: Update pseudo to 1.1.1 version V2
+Subject: [PATCH 2/2] distro_tracking_fields.inc: add pseudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2011 16:32:02 -0000
+X-List-Received-Date: Wed, 08 Jun 2011 16:32:07 -0000
 Content-Type: text/plain
 
-Update pseudo to latest release version. -- second version of the patches
+Add pseudo to tracking, with me as the maintainer.
 
-This has been tested with an core-minimal-image, as well as existing
-pseudo tests outside of oe-core.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ .../conf/distro/include/distro_tracking_fields.inc |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
 
-Version 2 corrects a problem w/ 32-bit hosts.
-
-The following changes since commit 30101d4153aa8e116892063933b868d325bdd79c:
-
-  distro tracking: Manual Updates (2011-06-06 23:51:26 -0700)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib mhatle/pseudo
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/pseudo
-
-Mark Hatle (2):
-  pseudo: Update pseudo to 1.1.1 version
-  distro_tracking_fields.inc: add pseudo
-
- .../conf/distro/include/distro_tracking_fields.inc |    6 ++
- meta/recipes-devtools/pseudo/pseudo.inc            |   12 ++--
- .../recipes-devtools/pseudo/pseudo/oe-config.patch |   58 ++++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_1.0.bb         |    9 ---
- meta/recipes-devtools/pseudo/pseudo_1.1.1.bb       |   10 ++++
- meta/recipes-devtools/pseudo/pseudo_git.bb         |    7 ++-
- 6 files changed, 84 insertions(+), 18 deletions(-)
- create mode 100644 meta/recipes-devtools/pseudo/pseudo/oe-config.patch
- delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.0.bb
- create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
-
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 38e0c4d..53dad27 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -5754,3 +5754,9 @@ RECIPE_STATUS_pn-gettext = "red"
+ RECIPE_LATEST_VERSION_pn-gettext = "0.18.1.1"
+ RECIPE_LAST_UPDATE_pn-gettext = "Jun 6, 2010"
+ RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Jun 7, 2011" 
++
++RECIPE_STATUS_pn-pseudo = "green"
++RECIPE_LATEST_VERSION_pn-pseudo = "1.1.1"
++RECIPE_LAST_UPDATE_pn-pseudo = "June 06, 2011"
++RECIPE_MAINTAINER_pn-pseudo = "Mark Hatle <mark.hatle@windriver.com>"
++RECIPE_COMMENTS_pn-pseudo = "Yocto Project maintained"
 -- 
 1.7.3.4
 
