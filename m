@@ -1,26 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QUNhp-00040r-1C
-	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Jun 2011 20:42:17 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p58Icv53025383
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jun 2011 11:38:57 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 8 Jun 2011 11:38:57 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jun 2011 13:48:57 -0500
-Message-ID: <5731b0eda7f7b77ab8d60fa8d387f9e2042c2b78.1307558785.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1307558785.git.mark.hatle@windriver.com>
-References: <cover.1307558785.git.mark.hatle@windriver.com>
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QUR44-0000aw-VV
+	for openembedded-core@lists.linuxtogo.org;
+	Thu, 09 Jun 2011 00:17:29 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 08 Jun 2011 15:13:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,340,1304319600"; 
+   d="scan'208";a="9510214"
+Received: from unknown (HELO helios.localnet) ([10.255.13.44])
+	by azsmga001.ch.intel.com with ESMTP; 08 Jun 2011 15:13:01 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.linuxtogo.org
+Date: Wed, 8 Jun 2011 23:13:00 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+References: <cover.1307540102.git.paul.eggleton@linux.intel.com>
+	<4DEFBA1F.9040304@mentor.com>
+In-Reply-To: <4DEFBA1F.9040304@mentor.com>
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 2/2] distro_tracking_fields.inc: add pseudo
+Message-Id: <201106082313.00702.paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 0/1] Fix "ip route get"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,32 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2011 18:42:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 Jun 2011 22:17:29 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Add pseudo to tracking, with me as the maintainer.
+On Wednesday 08 June 2011 19:06:23 Tom Rini wrote:
+> 2.6.38 is current (and in oe.dev), so why not that one?
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |    6 ++++++
- 1 files changed, 6 insertions(+), 0 deletions(-)
+I guess I was being conservative given we just got burned by upgrading to a 
+newer version (well, I say just, it was November IIRC). However if we want to 
+bite the bullet and go to 2.6.38 then I'll test & submit a patch to update to 
+that.
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 38e0c4d..53dad27 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -5754,3 +5754,9 @@ RECIPE_STATUS_pn-gettext = "red"
- RECIPE_LATEST_VERSION_pn-gettext = "0.18.1.1"
- RECIPE_LAST_UPDATE_pn-gettext = "Jun 6, 2010"
- RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Jun 7, 2011" 
-+
-+RECIPE_STATUS_pn-pseudo = "green"
-+RECIPE_LATEST_VERSION_pn-pseudo = "1.1.1"
-+RECIPE_LAST_UPDATE_pn-pseudo = "June 06, 2011"
-+RECIPE_MAINTAINER_pn-pseudo = "Mark Hatle <mark.hatle@windriver.com>"
-+RECIPE_COMMENTS_pn-pseudo = "Yocto Project maintained"
+Cheers,
+Paul
+
 -- 
-1.7.3.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
