@@ -1,25 +1,29 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QUFvJ-0006ga-S9
+	(envelope-from <koen@dominion.thruhere.net>) id 1QUGsx-0003oK-Ez
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Jun 2011 12:23:41 +0200
-Received: by wye20 with SMTP id 20so252546wye.6
+	Wed, 08 Jun 2011 13:25:19 +0200
+Received: by wwb17 with SMTP id 17so353121wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jun 2011 03:20:23 -0700 (PDT)
-Received: by 10.216.229.229 with SMTP id h79mr2789718weq.74.1307528423502;
-	Wed, 08 Jun 2011 03:20:23 -0700 (PDT)
+	Wed, 08 Jun 2011 04:21:58 -0700 (PDT)
+Received: by 10.227.205.19 with SMTP id fo19mr2107063wbb.58.1307532117932;
+	Wed, 08 Jun 2011 04:21:57 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id a1sm186082wek.46.2011.06.08.03.20.22
+	by mx.google.com with ESMTPS id fm14sm335064wbb.7.2011.06.08.04.21.56
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 08 Jun 2011 03:20:22 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 8 Jun 2011 12:20:19 +0200
-Message-Id: <15E9EFF9-235F-45CF-A2AC-BFE047710335@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	Wed, 08 Jun 2011 04:21:57 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <cover.1307529994.git.kai.kang@windriver.com>
+Date: Wed, 8 Jun 2011 13:21:55 +0200
+Message-Id: <068A0948-F699-4B80-906A-2FD4C665DC29@dominion.thruhere.net>
+References: <cover.1307529994.git.kai.kang@windriver.com>
+To: Kang Kai <kai.kang@windriver.com>
 X-Mailer: Apple Mail (2.1084)
-Subject: bitbake -s broken?
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	"poky@yoctoproject.org Project" <poky@yoctoproject.org>
+Subject: Re: [poky] [PATCH 0/2] ghostscript & libxml-simple-perl: fix compile failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,40 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2011 10:23:41 -0000
+X-List-Received-Date: Wed, 08 Jun 2011 11:25:19 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Sounding like a broken record here, but these kind of patches need to =
+get sent to the oe-core list, not the poky list.
 
-Apart from -b being broken as I reported earlier -s seems to be broken =
-as well now:
+Op 8 jun 2011, om 12:49 heeft Kang Kai het volgende geschreven:
 
-=
-koen@dominion:/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-gnome=
-$ MACHINE=3Dbeagleboard bitbake -s  | head -n10
-Loading cache...done.
-Loaded 1622 entries from dependency cache.
-WARNING: No bb files matched BBFILE_PATTERN_htc-layer =
-'^/OE/tentacle/sources/meta-smartphone/meta-htc/'
-Package Name                                   Latest Version         =
-Preferred Version
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D                                   =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D         =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> From: Kang Kai <kai.kang@windriver.com>
+>=20
+> Hi Saul,
+>=20
+> These 2 patches are fix for ghostscript and libxml-simple-perl.
+> Update SRC_URI for ghostscript to avoid native package affected by =
+build os.
+> Fix libxml-simple-perl [Yocto 1132].
+>=20
+> Regards,
+>=20
+> The following changes since commit =
+7f34cd1eb2a459709006ae985a14decd4d2152e6:
+>=20
+>  tzcode: Update to 2011g (2011-06-06 15:58:42 +0100)
+>=20
+> are available in the git repository at:
+>  git://git.pokylinux.org/poky-contrib.git kangkai/bugfix
+>  http://git.pokylinux.org/cgit.cgi//log/?h=3Dkangkai/bugfix
+>=20
+> Kang Kai (2):
+>  ghostscript: update SRC_URI
+>  libxml-simple-perl: update EXTRA_PERLFLAGS
+>=20
+> .../perl/libxml-simple-perl_2.18.bb                |    4 ++--
+> .../ghostscript/ghostscript_9.02.bb                |    7 +++++--
+> 2 files changed, 7 insertions(+), 4 deletions(-)
+>=20
+> --=20
+> 1.7.5.1.300.gc565c
+>=20
+> _______________________________________________
+> poky mailing list
+> poky@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/poky
 
-<bb.cache.CoreRecipeInfo object at 0x3c96750>                   :171-r3  =
-                       =20
-<bb.cache.CoreRecipeInfo object at 0x3c96710>                 :2.8.0-r1  =
-                       =20
-<bb.cache.CoreRecipeInfo object at 0x3c96750>             :1.0.0c-r13.0  =
-                       =20
-<bb.cache.CoreRecipeInfo object at 0x3c96710>                1:1.0.4-r2=20=
-
-
-    =20
-regards,
-
-Koen=
 
 
