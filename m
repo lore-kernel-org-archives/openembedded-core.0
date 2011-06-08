@@ -1,24 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QUNho-00040p-Of
+	(envelope-from <mark.hatle@windriver.com>) id 1QUNhp-00040r-1C
 	for openembedded-core@lists.openembedded.org;
 	Wed, 08 Jun 2011 20:42:17 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p58IctSk025366
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p58Icv53025383
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jun 2011 11:38:56 -0700 (PDT)
+	Wed, 8 Jun 2011 11:38:57 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 8 Jun 2011 11:38:55 -0700
+	Wed, 8 Jun 2011 11:38:57 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jun 2011 13:48:55 -0500
-Message-ID: <cover.1307558785.git.mark.hatle@windriver.com>
+Date: Wed, 8 Jun 2011 13:48:57 -0500
+Message-ID: <5731b0eda7f7b77ab8d60fa8d387f9e2042c2b78.1307558785.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1307558785.git.mark.hatle@windriver.com>
+References: <cover.1307558785.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/2] pseudo: Update pseudo to 1.1.1 version V3
+Subject: [PATCH 2/2] distro_tracking_fields.inc: add pseudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,34 +38,27 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Wed, 08 Jun 2011 18:42:17 -0000
 Content-Type: text/plain
 
-Hopefully third and final version.  The patch that is part of this has been
-contribed to and reviewed upstream.  (Not yet accepted upstream)
+Add pseudo to tracking, with me as the maintainer.
 
-V3 fixes an issue with building on a 32-bit host.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ .../conf/distro/include/distro_tracking_fields.inc |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
 
-The following changes since commit 30101d4153aa8e116892063933b868d325bdd79c:
-
-  distro tracking: Manual Updates (2011-06-06 23:51:26 -0700)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib mhatle/pseudo
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/pseudo
-
-Mark Hatle (2):
-  pseudo: Update pseudo to 1.1.1 version
-  distro_tracking_fields.inc: add pseudo
-
- .../conf/distro/include/distro_tracking_fields.inc |    6 ++
- meta/recipes-devtools/pseudo/pseudo.inc            |   20 +++++--
- .../recipes-devtools/pseudo/pseudo/oe-config.patch |   58 ++++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_1.0.bb         |    9 ---
- meta/recipes-devtools/pseudo/pseudo_1.1.1.bb       |   10 ++++
- meta/recipes-devtools/pseudo/pseudo_git.bb         |    7 ++-
- 6 files changed, 92 insertions(+), 18 deletions(-)
- create mode 100644 meta/recipes-devtools/pseudo/pseudo/oe-config.patch
- delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.0.bb
- create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
-
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 38e0c4d..53dad27 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -5754,3 +5754,9 @@ RECIPE_STATUS_pn-gettext = "red"
+ RECIPE_LATEST_VERSION_pn-gettext = "0.18.1.1"
+ RECIPE_LAST_UPDATE_pn-gettext = "Jun 6, 2010"
+ RECIPE_MANUAL_CHECK_DATE_pn-gettext = "Jun 7, 2011" 
++
++RECIPE_STATUS_pn-pseudo = "green"
++RECIPE_LATEST_VERSION_pn-pseudo = "1.1.1"
++RECIPE_LAST_UPDATE_pn-pseudo = "June 06, 2011"
++RECIPE_MAINTAINER_pn-pseudo = "Mark Hatle <mark.hatle@windriver.com>"
++RECIPE_COMMENTS_pn-pseudo = "Yocto Project maintained"
 -- 
 1.7.3.4
 
