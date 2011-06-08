@@ -1,24 +1,25 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QUFEd-0004gq-Ok for openembedded-core@lists.openembedded.org;
-	Wed, 08 Jun 2011 11:39:35 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QUFBO-0007OX-L4
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QUFvJ-0006ga-S9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Jun 2011 11:36:14 +0200
-From: Phil Blundell <pb@pbcl.net>
+	Wed, 08 Jun 2011 12:23:41 +0200
+Received: by wye20 with SMTP id 20so252546wye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jun 2011 03:20:23 -0700 (PDT)
+Received: by 10.216.229.229 with SMTP id h79mr2789718weq.74.1307528423502;
+	Wed, 08 Jun 2011 03:20:23 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id a1sm186082wek.46.2011.06.08.03.20.22
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 08 Jun 2011 03:20:22 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 8 Jun 2011 12:20:19 +0200
+Message-Id: <15E9EFF9-235F-45CF-A2AC-BFE047710335@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <3cb0d7f134013f8dcd664429b7efda396d12790e.1307523829.git.dongxiao.xu@intel.com>
-References: <cover.1307523829.git.dongxiao.xu@intel.com>
-	<3cb0d7f134013f8dcd664429b7efda396d12790e.1307523829.git.dongxiao.xu@intel.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Wed, 08 Jun 2011 10:36:11 +0100
-Message-ID: <1307525772.2529.4777.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH 1/1] libc-locale: split locale handling from libc recipe.
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: bitbake -s broken?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,56 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2011 09:39:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Jun 2011 10:23:41 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-06-08 at 17:08 +0800, Dongxiao Xu wrote:
-> *libc's do_package will cost a lot of time due to the locale handing,
-> which may delay the other recipe's do_package task and affect the build
-> performance.
-> 
-> This commit moves locale handling into a separate recipe *libc-locale.
+Hi,
 
-Can you quantify the effect on build performance a bit?  If I understand
-correctly, you're basically saying that the goal is to increase
-parallelism.  Does that cause reduced performance for people running
-with few threads?
+Apart from -b being broken as I reported earlier -s seems to be broken =
+as well now:
 
-For example, it would be interesting to know what the before and after
-times are for some representative image build using (say)
-BB_NUMBER_THREADS=1 and BB_NUMBER_THREADS=16.
+=
+koen@dominion:/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-gnome=
+$ MACHINE=3Dbeagleboard bitbake -s  | head -n10
+Loading cache...done.
+Loaded 1622 entries from dependency cache.
+WARNING: No bb files matched BBFILE_PATTERN_htc-layer =
+'^/OE/tentacle/sources/meta-smartphone/meta-htc/'
+Package Name                                   Latest Version         =
+Preferred Version
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D                                   =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D         =3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Also, see below.
+<bb.cache.CoreRecipeInfo object at 0x3c96750>                   :171-r3  =
+                       =20
+<bb.cache.CoreRecipeInfo object at 0x3c96710>                 :2.8.0-r1  =
+                       =20
+<bb.cache.CoreRecipeInfo object at 0x3c96750>             :1.0.0c-r13.0  =
+                       =20
+<bb.cache.CoreRecipeInfo object at 0x3c96710>                1:1.0.4-r2=20=
 
-> diff --git a/meta/conf/distro/include/tclibc-eglibc.inc b/meta/conf/distro/include/tclibc-eglibc.inc
-> index a4c648e..8997d9e 100644
-> --- a/meta/conf/distro/include/tclibc-eglibc.inc
-> +++ b/meta/conf/distro/include/tclibc-eglibc.inc
-> @@ -10,7 +10,7 @@ TARGET_OS_powerpc = "linux${@['','-gnuspe'][bb.data.getVar('BASE_PACKAGE_ARCH',d
->  # Add glibc overrides to the overrides for eglibc.
->  OVERRIDES .= ":libc-glibc"
->  
-> -PREFERRED_PROVIDER_virtual/libiconv ?= "eglibc"
-> +PREFERRED_PROVIDER_virtual/libiconv ?= "eglibc-locale"
 
-That looks a bit strange.  Is this really correct?
+    =20
+regards,
 
-> -    		     eglibc-localedata-i18n \
-> -    		     eglibc-gconv-ibm850 \
-> -    		     eglibc-gconv-cp1252 \
-> -    		     eglibc-gconv-iso8859-1 \
-> -    		     eglibc-gconv-iso8859-15 \
-> +    		     eglibc-locale-localedata-i18n \
-> +    		     eglibc-locale-gconv-ibm850 \
-> +    		     eglibc-locale-gconv-cp1252 \
-> +    		     eglibc-locale-gconv-iso8859-1 \
-> +    		     eglibc-locale-gconv-iso8859-15 \
-
-This kind of thing is definitely not very desirable.  Can you find a way
-to keep the output package names the same?
-
-p.
-
+Koen=
 
 
