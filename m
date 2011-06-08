@@ -1,30 +1,27 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QUCGD-00087e-8e
+	(envelope-from <koen@dominion.thruhere.net>) id 1QUCGf-00087e-90
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Jun 2011 08:29:01 +0200
-Received: by wwb17 with SMTP id 17so140642wwb.24
+	Wed, 08 Jun 2011 08:29:29 +0200
+Received: by mail-ww0-f43.google.com with SMTP id 17so140642wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Jun 2011 23:25:42 -0700 (PDT)
-Received: by 10.216.30.206 with SMTP id k56mr4745899wea.29.1307514341692;
-	Tue, 07 Jun 2011 23:25:41 -0700 (PDT)
+	Tue, 07 Jun 2011 23:26:13 -0700 (PDT)
+Received: by 10.216.245.4 with SMTP id n4mr4610264wer.83.1307514373020;
+	Tue, 07 Jun 2011 23:26:13 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ge4sm146972wbb.30.2011.06.07.23.25.40
+	by mx.google.com with ESMTPS id ge4sm146972wbb.30.2011.06.07.23.26.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Jun 2011 23:25:41 -0700 (PDT)
+	Tue, 07 Jun 2011 23:26:12 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1084)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4DEED433.9030707@windriver.com>
-Date: Wed, 8 Jun 2011 08:25:39 +0200
-Message-Id: <2D8F2725-9A17-40E0-9BB9-1D555BB74139@dominion.thruhere.net>
-References: <cover.1307438945.git.kai.kang@windriver.com>	<46fc6e81f626e87f30a0d0980ed2b8fc3747e6be.1307438945.git.kai.kang@windriver.com>
-	<C2744CFA-2121-4B18-A9DB-98C4512092F1@dominion.thruhere.net>
-	<4DEED433.9030707@windriver.com>
-To: Kang Kai <kai.kang@windriver.com>,
-	Patches and discussions about the oe-core layer
+In-Reply-To: <1307179269-28896-1-git-send-email-koen@dominion.thruhere.net>
+Date: Wed, 8 Jun 2011 08:26:11 +0200
+Message-Id: <57FD079D-C1ED-4C2C-9E10-8ED05837F1C9@dominion.thruhere.net>
+References: <1307179269-28896-1-git-send-email-koen@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 2/2] eglibc: migrate configurability from oe
+Subject: Re: [PATCH] sysvinitL split inittab into it's own recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,73 +36,258 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2011 06:29:01 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Wed, 08 Jun 2011 06:29:29 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+ping
 
-Op 8 jun 2011, om 03:45 heeft Kang Kai het volgende geschreven:
+Op 4 jun 2011, om 11:21 heeft Koen Kooi het volgende geschreven:
 
-> On 2011=E5=B9=B406=E6=9C=8807=E6=97=A5 17:48, Koen Kooi wrote:
->> Op 7 jun 2011, om 11:42 heeft Kang Kai het volgende geschreven:
->>=20
->>> From: Kang Kai<kai.kang@windriver.com>
->>>=20
->>> Migrate configurability from oe, try to shrink minimal image size
->>>=20
->>> Update to get eglibc configuration options from DISTRO_FEATURES and =
-enable them. All
->>> the options are enabled by default.
->>>=20
->>> Uncomment the line in conf/local.extended.conf to define =
-DISTRO_FEATURES, so put
->>> what options you want to enable there.
->>>=20
->>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
->>> ---
->>> meta/conf/distro/include/default-distrovars.inc    |    8 ++-
->>> .../eglibc-2.13-fix-macro-RTLD_DEBUG.patch         |   20 ++++++
->>> meta/recipes-core/eglibc/eglibc-options.inc        |   62 =
+> A proper fix for
+>=20
+> [YOCTO ##1131]
+>=20
+> Signed-off-by: <koen@dominion.thruhere.net>
+> ---
+> .../recipes-core/sysvinit/sysvinit-inittab/inittab |   30 +++++++++++
+> .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   55 =
 ++++++++++++++++++++
->>> meta/recipes-core/eglibc/eglibc.inc                |    6 ++
->>> meta/recipes-core/eglibc/eglibc_2.13.bb            |    4 +-
->>> 5 files changed, 98 insertions(+), 2 deletions(-)
->>> create mode 100644 =
-meta/recipes-core/eglibc/eglibc-2.13/eglibc-2.13-fix-macro-RTLD_DEBUG.patc=
-h
->>> create mode 100644 meta/recipes-core/eglibc/eglibc-options.inc
->>>=20
->>> diff --git a/meta/conf/distro/include/default-distrovars.inc =
-b/meta/conf/distro/include/default-distrovars.inc
->>> index 4b68a0a..16ac681 100644
->>> --- a/meta/conf/distro/include/default-distrovars.inc
->>> +++ b/meta/conf/distro/include/default-distrovars.inc
->>> @@ -10,7 +10,13 @@ LIMIT_BUILT_LOCALES ?=3D "POSIX en_US en_GB"
->>> ENABLE_BINARY_LOCALE_GENERATION ?=3D "1"
->>> LOCALE_UTF8_ONLY ?=3D "0"
->>>=20
->>> -DISTRO_FEATURES ?=3D "alsa bluetooth ext2 irda pcmcia usbgadget =
-usbhost wifi nfs zeroconf pci"
->>> +DISTRO_FEATURES ?=3D "alsa bluetooth ext2 irda pcmcia usbgadget =
-usbhost wifi nfs zeroconf pci \
->>> +		libc-ipv6 libc-backtrace libc-big-macros libc-bsd =
-libc-cxx-tests libc-catgets libc-charsets libc-crypt \
->>> +		libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt =
-libc-fmtmsg libc-fstab libc-ftraverse \
->>> +		libc-getlogin libc-idn libc-inet libc-inet-anl libc-libm =
-libc-libm-big libc-locales libc-locale-code \
->>> +		libc-memusage libc-nis libc-nsswitch libc-rcmd =
-libc-rtld-debug libc-spawn libc-streams libc-sunrpc \
->>> +		libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar =
-libc-posix-regexp libc-posix-regexp-glibc \
->>> +		libc-posix-wchar-io"
-> Hi Koen,
->> I think a seperate DISTRO_LIBC_FEATURES var would be cleaner and =
-easier to override.
-> I used DISTRO_FEATURES_EGLIBC before, but it didn't make Richard =
-happy. :)
+> meta/recipes-core/sysvinit/sysvinit/inittab        |   30 -----------
+> meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   41 =
++--------------
+> 4 files changed, 86 insertions(+), 70 deletions(-)
+> create mode 100644 meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+> create mode 100644 =
+meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> delete mode 100644 meta/recipes-core/sysvinit/sysvinit/inittab
+>=20
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/inittab =
+b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+> new file mode 100644
+> index 0000000..6abbdf4
+> --- /dev/null
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+> @@ -0,0 +1,30 @@
+> +# /etc/inittab: init(8) configuration.
+> +# $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
+> +
+> +# The default runlevel.
+> +id:5:initdefault:
+> +
+> +# Boot-time system configuration/initialization script.
+> +# This is run first except when booting in emergency (-b) mode.
+> +si::sysinit:/etc/init.d/rcS
+> +
+> +# What to do in single-user mode.
+> +~~:S:wait:/sbin/sulogin
+> +
+> +# /etc/init.d executes the S and K scripts upon change
+> +# of runlevel.
+> +#
+> +# Runlevel 0 is halt.
+> +# Runlevel 1 is single-user.
+> +# Runlevels 2-5 are multi-user.
+> +# Runlevel 6 is reboot.
+> +
+> +l0:0:wait:/etc/init.d/rc 0
+> +l1:1:wait:/etc/init.d/rc 1
+> +l2:2:wait:/etc/init.d/rc 2
+> +l3:3:wait:/etc/init.d/rc 3
+> +l4:4:wait:/etc/init.d/rc 4
+> +l5:5:wait:/etc/init.d/rc 5
+> +l6:6:wait:/etc/init.d/rc 6
+> +# Normally not reached, but fallthrough in case of emergency.
+> +z6:6:respawn:/sbin/sulogin
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb =
+b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> new file mode 100644
+> index 0000000..4e57b5a
+> --- /dev/null
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> @@ -0,0 +1,55 @@
+> +DESCRIPTION =3D "Inittab for sysvinit"
+> +LICENSE =3D "GPLv2+"
+> +LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D751419260aa954499f7abaabaa882bbe \
+> +                    =
+file://COPYRIGHT;endline=3D15;md5=3D349c872e0066155e1818b786938876a4"
+> +
+> +PR =3D "r5"
+> +
+> +# Need the whole source for the license checks
+> +SRC_URI =3D =
+"http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${=
+PV}.tar.bz2 \
+> +           file://inittab"
+> +
+> +SRC_URI[md5sum] =3D "6eda8a97b86e0a6f59dabbf25202aa6f"
+> +SRC_URI[sha256sum] =3D =
+"60bbc8c1e1792056e23761d22960b30bb13eccc2cabff8c7310a01f4d5df1519"
+> +
+> +S =3D "${WORKDIR}/sysvinit-${PV}"
+> +
+> +do_install() {
+> +	install -d ${D}${sysconfdir}
+> +    install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
+> +    if [ ! -z "${SERIAL_CONSOLE}" ]; then
+> +        echo "S:2345:respawn:${base_sbindir}/getty ${SERIAL_CONSOLE}" =
+>> ${D}${sysconfdir}/inittab
+> +    fi
+> +    if [ "${USE_VT}" =3D "1" ]; then
+> +        cat <<EOF >>${D}${sysconfdir}/inittab
+> +# ${base_sbindir}/getty invocations for the runlevels.
+> +#
+> +# The "id" field MUST be the same as the last
+> +# characters of the device (after "tty").
+> +#
+> +# Format:
+> +#  <id>:<runlevels>:<action>:<process>
+> +#
+> +
+> +EOF
+> +
+> +        for n in ${SYSVINIT_ENABLED_GETTYS}
+> +        do
+> +            echo "$n:2345:respawn:${base_sbindir}/getty 38400 tty$n" =
+>> ${D}${sysconfdir}/inittab
+> +        done
+> +        echo "" >> ${D}${sysconfdir}/inittab
+> +    fi
+> +}
+> +
+> +# USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE =
+.conf.
+> +# Set PACKAGE_ARCH appropriately.
+> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+> +
+> +FILES_${PN} =3D "${sysconfdir}/inittab"
+> +CONFFILES_${PN} =3D "${sysconfdir}/inittab"
+> +
+> +USE_VT ?=3D "1"
+> +SYSVINIT_ENABLED_GETTYS ?=3D "1"
+> +
+> +
+> +
+> diff --git a/meta/recipes-core/sysvinit/sysvinit/inittab =
+b/meta/recipes-core/sysvinit/sysvinit/inittab
+> deleted file mode 100644
+> index 6abbdf4..0000000
+> --- a/meta/recipes-core/sysvinit/sysvinit/inittab
+> +++ /dev/null
+> @@ -1,30 +0,0 @@
+> -# /etc/inittab: init(8) configuration.
+> -# $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
+> -
+> -# The default runlevel.
+> -id:5:initdefault:
+> -
+> -# Boot-time system configuration/initialization script.
+> -# This is run first except when booting in emergency (-b) mode.
+> -si::sysinit:/etc/init.d/rcS
+> -
+> -# What to do in single-user mode.
+> -~~:S:wait:/sbin/sulogin
+> -
+> -# /etc/init.d executes the S and K scripts upon change
+> -# of runlevel.
+> -#
+> -# Runlevel 0 is halt.
+> -# Runlevel 1 is single-user.
+> -# Runlevels 2-5 are multi-user.
+> -# Runlevel 6 is reboot.
+> -
+> -l0:0:wait:/etc/init.d/rc 0
+> -l1:1:wait:/etc/init.d/rc 1
+> -l2:2:wait:/etc/init.d/rc 2
+> -l3:3:wait:/etc/init.d/rc 3
+> -l4:4:wait:/etc/init.d/rc 4
+> -l5:5:wait:/etc/init.d/rc 5
+> -l6:6:wait:/etc/init.d/rc 6
+> -# Normally not reached, but fallthrough in case of emergency.
+> -z6:6:respawn:/sbin/sulogin
+> diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb =
+b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> index e683cc7..bda8a51 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> +++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> @@ -5,31 +5,15 @@ SECTION =3D "base"
+> LICENSE =3D "GPLv2+"
+> LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D751419260aa954499f7abaabaa882bbe \
+>                     =
+file://COPYRIGHT;endline=3D15;md5=3D349c872e0066155e1818b786938876a4"
+> -PR =3D "r3"
+> -
+> -# Need to set this since it has machine specific components
+> -PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+> -
+> -# USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE =
+.conf.
+> -# Set PACKAGE_ARCH appropriately.
+> -PACKAGE_ARCH_${PN}-inittab =3D "${MACHINE_ARCH}"
+> +PR =3D "r4"
+>=20
+> RDEPENDS_${PN} =3D "${PN}-inittab"
+>=20
+> -PACKAGES =3D+ "bootlogd ${PN}-inittab"
+> -FILES_bootlogd =3D "/etc/init.d/bootlogd /etc/init.d/stop-bootlogd =
+/etc/rc?.d/S*bootlogd /sbin/bootlogd"
+> -FILES_${PN}-inittab =3D "${sysconfdir}/inittab"
+> -CONFFILES_${PN}-inittab =3D "${sysconfdir}/inittab"
+> -
+> -USE_VT ?=3D "1"
+> -SYSVINIT_ENABLED_GETTYS ?=3D "1"
+> -
+> SRC_URI =3D =
+"http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${=
+PV}.tar.bz2 \
+> 	   file://install.patch \
+> 	   file://crypt-lib.patch \
+>            file://need \
+>            file://provide \
+> -           file://inittab \
+>            file://rcS-default \
+>            file://rc \
+>            file://rcS \
+> @@ -70,29 +54,6 @@ do_install () {
+> 	install -d ${D}${sysconfdir} \
+> 		   ${D}${sysconfdir}/default \
+> 		   ${D}${sysconfdir}/init.d
+> -	install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
+> -	if [ ! -z "${SERIAL_CONSOLE}" ]; then
+> -		echo "S:2345:respawn:${base_sbindir}/getty =
+${SERIAL_CONSOLE}" >> ${D}${sysconfdir}/inittab
+> -	fi
+> -	if [ "${USE_VT}" =3D "1" ]; then
+> -		cat <<EOF >>${D}${sysconfdir}/inittab
+> -# ${base_sbindir}/getty invocations for the runlevels.
+> -#
+> -# The "id" field MUST be the same as the last
+> -# characters of the device (after "tty").
+> -#
+> -# Format:
+> -#  <id>:<runlevels>:<action>:<process>
+> -#
+> -
+> -EOF
+> -
+> -		for n in ${SYSVINIT_ENABLED_GETTYS}
+> -		do
+> -			echo "$n:2345:respawn:${base_sbindir}/getty =
+38400 tty$n" >> ${D}${sysconfdir}/inittab
+> -		done
+> -		echo "" >> ${D}${sysconfdir}/inittab
+> -	fi
+> 	install -m 0644    ${WORKDIR}/rcS-default	=
+${D}${sysconfdir}/default/rcS
+> 	install -m 0755    ${WORKDIR}/rc		=
+${D}${sysconfdir}/init.d
+> 	install -m 0755    ${WORKDIR}/rcS		=
+${D}${sysconfdir}/init.d
+> --=20
+> 1.6.6.1
+>=20
 
-So how does one easily override LIBC features without touching other =
-features?=
 
 
