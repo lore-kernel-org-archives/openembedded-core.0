@@ -1,46 +1,27 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QUCWl-0000BP-QC
+	(envelope-from <sgw@linux.intel.com>) id 1QUDFf-00018i-3D
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Jun 2011 08:46:07 +0200
-Received: by bwz5 with SMTP id 5so177643bwz.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Jun 2011 23:42:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:date:from:to:cc:subject:message-id:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=OT6LoufgM6JjhXuzEBv2MoZCalLCAliNQVG6R338Ppw=;
-	b=DmSA9kQyxcoW16qjkzmO4PrcxcroK5tsTgdTMMJOK9yUJOtoA/v4YkcBFoXV/11daq
-	jAsClMwKKnasVw/PVtOlyViLKjRGDsosX0WBmGsaMgtE4/k/xp7Z9l5bV3fdDoofN9zL
-	4bRmoyvP/RYd5vlyCd10VrCNvMKWt7kaXcK88=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	b=llvvIsAS0tmq/OgqmAkXwQNYpvbqpJrLRUhtal0fkx5ksy87PJW9/Oq9opWQO1U0rJ
-	HDUp2AUicfBX+2CB8jaPJhqUOwGGCyAKa23k421T7gkpU1rQalVSsUvTZz/bHX+VMeFn
-	FONktlqJI9kU++DsOYSqXlDiQGPYHc4dm1c5E=
-Received: by 10.204.163.130 with SMTP id a2mr224813bky.108.1307515369566;
-	Tue, 07 Jun 2011 23:42:49 -0700 (PDT)
-Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id t23sm234404bkf.4.2011.06.07.23.42.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Jun 2011 23:42:48 -0700 (PDT)
-Date: Wed, 8 Jun 2011 08:42:39 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 08 Jun 2011 09:32:31 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Jun 2011 00:29:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,337,1304319600"; d="scan'208";a="13380132"
+Received: from unknown (HELO [10.255.13.55]) ([10.255.13.55])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2011 00:29:11 -0700
+Message-ID: <4DEF24C6.1080008@linux.intel.com>
+Date: Wed, 08 Jun 2011 00:29:10 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110608064239.GF23137@jama.jama.net>
-References: <cover.1307438945.git.kai.kang@windriver.com>
-	<46fc6e81f626e87f30a0d0980ed2b8fc3747e6be.1307438945.git.kai.kang@windriver.com>
-	<C2744CFA-2121-4B18-A9DB-98C4512092F1@dominion.thruhere.net>
-	<4DEED433.9030707@windriver.com>
-	<2D8F2725-9A17-40E0-9BB9-1D555BB74139@dominion.thruhere.net>
-	<4DEF1826.7020004@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <4DEF1826.7020004@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+References: <1307179269-28896-1-git-send-email-koen@dominion.thruhere.net>
+	<57FD079D-C1ED-4C2C-9E10-8ED05837F1C9@dominion.thruhere.net>
+In-Reply-To: <57FD079D-C1ED-4C2C-9E10-8ED05837F1C9@dominion.thruhere.net>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH 2/2] eglibc: migrate configurability from oe
+Subject: Re: [PATCH] sysvinitL split inittab into it's own recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,109 +36,249 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2011 06:46:07 -0000
-X-Groupsio-MsgNum: 3751
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wtjvnLv0o8UUzur2"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 08 Jun 2011 07:32:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---wtjvnLv0o8UUzur2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 06/07/2011 11:26 PM, Koen Kooi wrote:
+> ping
+>
+Yes, It's been on my list since Sunday when I started to pull things 
+together for this week.  Please have a little patience.  Its in the 
+master_under_test and will likely be part of the next CONSOLIDATED PULL.
 
-On Wed, Jun 08, 2011 at 02:35:18PM +0800, Kang Kai wrote:
-> On 2011=E5=B9=B406=E6=9C=8808=E6=97=A5 14:25, Koen Kooi wrote:
-> > Op 8 jun 2011, om 03:45 heeft Kang Kai het volgende geschreven:
-> >
-> >> On 2011=E5=B9=B406=E6=9C=8807=E6=97=A5 17:48, Koen Kooi wrote:
-> >>> Op 7 jun 2011, om 11:42 heeft Kang Kai het volgende geschreven:
-> >>>
-> >>>> From: Kang Kai<kai.kang@windriver.com>
-> >>>>
-> >>>> Migrate configurability from oe, try to shrink minimal image size
-> >>>>
-> >>>> Update to get eglibc configuration options from DISTRO_FEATURES and =
-enable them. All
-> >>>> the options are enabled by default.
-> >>>>
-> >>>> Uncomment the line in conf/local.extended.conf to define DISTRO_FEAT=
-URES, so put
-> >>>> what options you want to enable there.
-> >>>>
-> >>>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
-> >>>> ---
-> >>>> meta/conf/distro/include/default-distrovars.inc    |    8 ++-
-> >>>> .../eglibc-2.13-fix-macro-RTLD_DEBUG.patch         |   20 ++++++
-> >>>> meta/recipes-core/eglibc/eglibc-options.inc        |   62 ++++++++++=
-++++++++++
-> >>>> meta/recipes-core/eglibc/eglibc.inc                |    6 ++
-> >>>> meta/recipes-core/eglibc/eglibc_2.13.bb            |    4 +-
-> >>>> 5 files changed, 98 insertions(+), 2 deletions(-)
-> >>>> create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/eglibc-2.13-=
-fix-macro-RTLD_DEBUG.patch
-> >>>> create mode 100644 meta/recipes-core/eglibc/eglibc-options.inc
-> >>>>
-> >>>> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/=
-conf/distro/include/default-distrovars.inc
-> >>>> index 4b68a0a..16ac681 100644
-> >>>> --- a/meta/conf/distro/include/default-distrovars.inc
-> >>>> +++ b/meta/conf/distro/include/default-distrovars.inc
-> >>>> @@ -10,7 +10,13 @@ LIMIT_BUILT_LOCALES ?=3D "POSIX en_US en_GB"
-> >>>> ENABLE_BINARY_LOCALE_GENERATION ?=3D "1"
-> >>>> LOCALE_UTF8_ONLY ?=3D "0"
-> >>>>
-> >>>> -DISTRO_FEATURES ?=3D "alsa bluetooth ext2 irda pcmcia usbgadget usb=
-host wifi nfs zeroconf pci"
-> >>>> +DISTRO_FEATURES ?=3D "alsa bluetooth ext2 irda pcmcia usbgadget usb=
-host wifi nfs zeroconf pci \
-> >>>> +		libc-ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests =
-libc-catgets libc-charsets libc-crypt \
-> >>>> +		libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg li=
-bc-fstab libc-ftraverse \
-> >>>> +		libc-getlogin libc-idn libc-inet libc-inet-anl libc-libm libc-lib=
-m-big libc-locales libc-locale-code \
-> >>>> +		libc-memusage libc-nis libc-nsswitch libc-rcmd libc-rtld-debug li=
-bc-spawn libc-streams libc-sunrpc \
-> >>>> +		libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-pos=
-ix-regexp libc-posix-regexp-glibc \
-> >>>> +		libc-posix-wchar-io"
-> >> Hi Koen,
-> >>> I think a seperate DISTRO_LIBC_FEATURES var would be cleaner and easi=
-er to override.
-> >> I used DISTRO_FEATURES_EGLIBC before, but it didn't make Richard happy=
-=2E :)
-> > So how does one easily override LIBC features without touching other fe=
-atures?
-> That is why use libc-spawn not "spawn" itself.
+Please give us a few of working days to pull things through.
 
-I agree with koen, when distro wants to keep all default libc-* but
-alter other DISTRO_FEATURES it has to list all libc-* in it's own
-config.
+Thanks
 
-IMHO DISTRO_FEATURES_EGLIBC had wrong only suffix as it's not _EGLIBC
-specific,
+Sau!
 
-DISTRO_FEATURES_LIBC or proposed DISTRO_LIBC_FEATURES will allow
-distributions to override it like this:
-DISTRO_FEATURES =3D "foo bar ${DISTRO_FEATURES_LIBC}" which is much better
-then 6 lines of libc-* features which need to resync when someone adds
-new feature with new *libc version.
+> Op 4 jun 2011, om 11:21 heeft Koen Kooi het volgende geschreven:
+>
+>> A proper fix for
+>>
+>> [YOCTO ##1131]
+>>
+>> Signed-off-by:<koen@dominion.thruhere.net>
+>> ---
+>> .../recipes-core/sysvinit/sysvinit-inittab/inittab |   30 +++++++++++
+>> .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   55 ++++++++++++++++++++
+>> meta/recipes-core/sysvinit/sysvinit/inittab        |   30 -----------
+>> meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   41 +--------------
+>> 4 files changed, 86 insertions(+), 70 deletions(-)
+>> create mode 100644 meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+>> create mode 100644 meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+>> delete mode 100644 meta/recipes-core/sysvinit/sysvinit/inittab
+>>
+>> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/inittab b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+>> new file mode 100644
+>> index 0000000..6abbdf4
+>> --- /dev/null
+>> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
+>> @@ -0,0 +1,30 @@
+>> +# /etc/inittab: init(8) configuration.
+>> +# $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
+>> +
+>> +# The default runlevel.
+>> +id:5:initdefault:
+>> +
+>> +# Boot-time system configuration/initialization script.
+>> +# This is run first except when booting in emergency (-b) mode.
+>> +si::sysinit:/etc/init.d/rcS
+>> +
+>> +# What to do in single-user mode.
+>> +~~:S:wait:/sbin/sulogin
+>> +
+>> +# /etc/init.d executes the S and K scripts upon change
+>> +# of runlevel.
+>> +#
+>> +# Runlevel 0 is halt.
+>> +# Runlevel 1 is single-user.
+>> +# Runlevels 2-5 are multi-user.
+>> +# Runlevel 6 is reboot.
+>> +
+>> +l0:0:wait:/etc/init.d/rc 0
+>> +l1:1:wait:/etc/init.d/rc 1
+>> +l2:2:wait:/etc/init.d/rc 2
+>> +l3:3:wait:/etc/init.d/rc 3
+>> +l4:4:wait:/etc/init.d/rc 4
+>> +l5:5:wait:/etc/init.d/rc 5
+>> +l6:6:wait:/etc/init.d/rc 6
+>> +# Normally not reached, but fallthrough in case of emergency.
+>> +z6:6:respawn:/sbin/sulogin
+>> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+>> new file mode 100644
+>> index 0000000..4e57b5a
+>> --- /dev/null
+>> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+>> @@ -0,0 +1,55 @@
+>> +DESCRIPTION = "Inittab for sysvinit"
+>> +LICENSE = "GPLv2+"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+>> +                    file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
+>> +
+>> +PR = "r5"
+>> +
+>> +# Need the whole source for the license checks
+>> +SRC_URI = "http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${PV}.tar.bz2 \
+>> +           file://inittab"
+>> +
+>> +SRC_URI[md5sum] = "6eda8a97b86e0a6f59dabbf25202aa6f"
+>> +SRC_URI[sha256sum] = "60bbc8c1e1792056e23761d22960b30bb13eccc2cabff8c7310a01f4d5df1519"
+>> +
+>> +S = "${WORKDIR}/sysvinit-${PV}"
+>> +
+>> +do_install() {
+>> +	install -d ${D}${sysconfdir}
+>> +    install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
+>> +    if [ ! -z "${SERIAL_CONSOLE}" ]; then
+>> +        echo "S:2345:respawn:${base_sbindir}/getty ${SERIAL_CONSOLE}">>  ${D}${sysconfdir}/inittab
+>> +    fi
+>> +    if [ "${USE_VT}" = "1" ]; then
+>> +        cat<<EOF>>${D}${sysconfdir}/inittab
+>> +# ${base_sbindir}/getty invocations for the runlevels.
+>> +#
+>> +# The "id" field MUST be the same as the last
+>> +# characters of the device (after "tty").
+>> +#
+>> +# Format:
+>> +#<id>:<runlevels>:<action>:<process>
+>> +#
+>> +
+>> +EOF
+>> +
+>> +        for n in ${SYSVINIT_ENABLED_GETTYS}
+>> +        do
+>> +            echo "$n:2345:respawn:${base_sbindir}/getty 38400 tty$n">>  ${D}${sysconfdir}/inittab
+>> +        done
+>> +        echo "">>  ${D}${sysconfdir}/inittab
+>> +    fi
+>> +}
+>> +
+>> +# USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .conf.
+>> +# Set PACKAGE_ARCH appropriately.
+>> +PACKAGE_ARCH = "${MACHINE_ARCH}"
+>> +
+>> +FILES_${PN} = "${sysconfdir}/inittab"
+>> +CONFFILES_${PN} = "${sysconfdir}/inittab"
+>> +
+>> +USE_VT ?= "1"
+>> +SYSVINIT_ENABLED_GETTYS ?= "1"
+>> +
+>> +
+>> +
+>> diff --git a/meta/recipes-core/sysvinit/sysvinit/inittab b/meta/recipes-core/sysvinit/sysvinit/inittab
+>> deleted file mode 100644
+>> index 6abbdf4..0000000
+>> --- a/meta/recipes-core/sysvinit/sysvinit/inittab
+>> +++ /dev/null
+>> @@ -1,30 +0,0 @@
+>> -# /etc/inittab: init(8) configuration.
+>> -# $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
+>> -
+>> -# The default runlevel.
+>> -id:5:initdefault:
+>> -
+>> -# Boot-time system configuration/initialization script.
+>> -# This is run first except when booting in emergency (-b) mode.
+>> -si::sysinit:/etc/init.d/rcS
+>> -
+>> -# What to do in single-user mode.
+>> -~~:S:wait:/sbin/sulogin
+>> -
+>> -# /etc/init.d executes the S and K scripts upon change
+>> -# of runlevel.
+>> -#
+>> -# Runlevel 0 is halt.
+>> -# Runlevel 1 is single-user.
+>> -# Runlevels 2-5 are multi-user.
+>> -# Runlevel 6 is reboot.
+>> -
+>> -l0:0:wait:/etc/init.d/rc 0
+>> -l1:1:wait:/etc/init.d/rc 1
+>> -l2:2:wait:/etc/init.d/rc 2
+>> -l3:3:wait:/etc/init.d/rc 3
+>> -l4:4:wait:/etc/init.d/rc 4
+>> -l5:5:wait:/etc/init.d/rc 5
+>> -l6:6:wait:/etc/init.d/rc 6
+>> -# Normally not reached, but fallthrough in case of emergency.
+>> -z6:6:respawn:/sbin/sulogin
+>> diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+>> index e683cc7..bda8a51 100644
+>> --- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+>> +++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+>> @@ -5,31 +5,15 @@ SECTION = "base"
+>> LICENSE = "GPLv2+"
+>> LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+>>                      file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
+>> -PR = "r3"
+>> -
+>> -# Need to set this since it has machine specific components
+>> -PACKAGE_ARCH = "${MACHINE_ARCH}"
+>> -
+>> -# USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .conf.
+>> -# Set PACKAGE_ARCH appropriately.
+>> -PACKAGE_ARCH_${PN}-inittab = "${MACHINE_ARCH}"
+>> +PR = "r4"
+>>
+>> RDEPENDS_${PN} = "${PN}-inittab"
+>>
+>> -PACKAGES =+ "bootlogd ${PN}-inittab"
+>> -FILES_bootlogd = "/etc/init.d/bootlogd /etc/init.d/stop-bootlogd /etc/rc?.d/S*bootlogd /sbin/bootlogd"
+>> -FILES_${PN}-inittab = "${sysconfdir}/inittab"
+>> -CONFFILES_${PN}-inittab = "${sysconfdir}/inittab"
+>> -
+>> -USE_VT ?= "1"
+>> -SYSVINIT_ENABLED_GETTYS ?= "1"
+>> -
+>> SRC_URI = "http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${PV}.tar.bz2 \
+>> 	   file://install.patch \
+>> 	   file://crypt-lib.patch \
+>>             file://need \
+>>             file://provide \
+>> -           file://inittab \
+>>             file://rcS-default \
+>>             file://rc \
+>>             file://rcS \
+>> @@ -70,29 +54,6 @@ do_install () {
+>> 	install -d ${D}${sysconfdir} \
+>> 		   ${D}${sysconfdir}/default \
+>> 		   ${D}${sysconfdir}/init.d
+>> -	install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
+>> -	if [ ! -z "${SERIAL_CONSOLE}" ]; then
+>> -		echo "S:2345:respawn:${base_sbindir}/getty ${SERIAL_CONSOLE}">>  ${D}${sysconfdir}/inittab
+>> -	fi
+>> -	if [ "${USE_VT}" = "1" ]; then
+>> -		cat<<EOF>>${D}${sysconfdir}/inittab
+>> -# ${base_sbindir}/getty invocations for the runlevels.
+>> -#
+>> -# The "id" field MUST be the same as the last
+>> -# characters of the device (after "tty").
+>> -#
+>> -# Format:
+>> -#<id>:<runlevels>:<action>:<process>
+>> -#
+>> -
+>> -EOF
+>> -
+>> -		for n in ${SYSVINIT_ENABLED_GETTYS}
+>> -		do
+>> -			echo "$n:2345:respawn:${base_sbindir}/getty 38400 tty$n">>  ${D}${sysconfdir}/inittab
+>> -		done
+>> -		echo "">>  ${D}${sysconfdir}/inittab
+>> -	fi
+>> 	install -m 0644    ${WORKDIR}/rcS-default	${D}${sysconfdir}/default/rcS
+>> 	install -m 0755    ${WORKDIR}/rc		${D}${sysconfdir}/init.d
+>> 	install -m 0755    ${WORKDIR}/rcS		${D}${sysconfdir}/init.d
+>> --
+>> 1.6.6.1
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-Regards,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---wtjvnLv0o8UUzur2
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
-
-iEYEARECAAYFAk3vGd8ACgkQN1Ujt2V2gBzyKwCfQZUdOGQEfv281luxljlA0gdS
-GtAAnijC9iA1QqEzJnbeewCGCE3zum9h
-=Mrvb
------END PGP SIGNATURE-----
-
---wtjvnLv0o8UUzur2--
