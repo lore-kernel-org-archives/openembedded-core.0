@@ -1,20 +1,43 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QUhh2-0007y3-Pw for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 18:02:48 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QUhdm-00085W-94
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1QUhjy-0000OE-Su
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 17:59:26 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: openembedded-core@lists.openembedded.org
-Organization: Phil Blundell Consulting Ltd
-Date: Thu, 09 Jun 2011 16:59:21 +0100
-Message-ID: <1307635161.2529.4972.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: [PATCH] busybox: backport distro-features handling from oe master
+	Thu, 09 Jun 2011 18:05:51 +0200
+Received: by bwz5 with SMTP id 5so1772686bwz.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jun 2011 09:02:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=J6zdjTqLUTDdYFrb2MS278QK9aGfnmGzUcwWkyQTqUg=;
+	b=YRr4B8A+rQSluBxjc3pYIdJAse7YQXGxG3wJkJM9R2243irL7cQjzgtv/RwnXfmZJ7
+	eaMGOYgog8p2Lt3ZB3TqX3hdOERTbrxAtu8flsbbZIU+iNCJOvJ9LCaVhNuF05u6rze2
+	NGYKt2R64HTIhes7W0iQNTQ3oCQ9shgg7goHk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	b=K+YFaKb6vWciQcOoCHEfGt15Rho4ZE8LDJQq17Oqvd1nNUYb5TlYqEhtuW0oKIZGvj
+	lnvl763lT0DDT0C9nPh5JX9OCttlhV4CoL+E6PrJaDIyQLnDd3rME6zxiR+nFHjXRfII
+	kALjeA86MM8LSdwRQ15jj5MyVTYv3hFQlsoxk=
+Received: by 10.204.46.132 with SMTP id j4mr913929bkf.86.1307635350720;
+	Thu, 09 Jun 2011 09:02:30 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id q20sm1693022bka.17.2011.06.09.09.02.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 09 Jun 2011 09:02:29 -0700 (PDT)
+Date: Thu, 9 Jun 2011 18:02:28 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110609160228.GA9108@jama.jama.net>
+References: <233337C7-346F-4E05-887C-776008F90E5F@dominion.thruhere.net>
+	<201106091631.48506.paul.eggleton@linux.intel.com>
+	<201106091654.57519.paul.eggleton@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <201106091654.57519.paul.eggleton@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: List of bbappends without matching recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,130 +52,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 16:02:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jun 2011 16:05:51 -0000
+X-Groupsio-MsgNum: 3834
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
+Content-Disposition: inline
 
-This is a backport from oe master of the code which adjusts the busybox
-config according to DISTRO_FEATURES etc.
+--Dxnq1zWXvFF0Q93v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/recipes-core/busybox/busybox.inc       |   80 ++++++++++++++++++++++++++-
- meta/recipes-core/busybox/busybox_1.18.4.bb |    2 +-
- 2 files changed, 79 insertions(+), 3 deletions(-)
+On Thu, Jun 09, 2011 at 04:54:57PM +0100, Paul Eggleton wrote:
+> On Thursday 09 June 2011 16:31:48 Paul Eggleton wrote:
+> > I've recently submitted a patch to bitbake-devel which fixes
+> > bitbake-layers' handling of skipped recipes so that it doesn't report t=
+hem
+> > as missing. I don't think skipped recipes can account for that entire l=
+ist
+> > however.
+>=20
+> OK so those patches don't apply anymore, have rebased them locally (+ add=
+ed=20
+> one fix) and will resubmit. FYI this is the list I have come up with, wit=
+hout=20
+> skipped recipes:
+>=20
+> ---------------
+> meta-intel:
+>   meta-emenlow/recipes-gnome/tasks/task-poky-standalone-gmae-sdk-
+> target.bbappend
+>   meta-emenlow/recipes-gnome/tasks/task-poky-sdk-gmae.bbappend
+>  =20
+> meta-smartphone:
+>   meta-nokia/recipes-bsp/udev/udev_168.bbappend
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 86fbdae..b697e88 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -35,8 +35,85 @@ RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
- 
- inherit cml1 update-rc.d
- 
-+# internal helper
-+def busybox_cfg(feature, features, tokens, cnf, rem):
-+	if type(tokens) == type(""):
-+		tokens = [tokens]
-+	rem.extend(['/^[# ]*' + token + '[ =]/d' for token in tokens])
-+	if type(features) == type([]) and feature in features:
-+		cnf.extend([token + '=y' for token in tokens])
-+	else:
-+		cnf.extend(['# ' + token + ' is not set' for token in tokens])
-+
-+# Map distro and machine features to config settings
-+def features_to_busybox_settings(d):
-+	cnf, rem = ([], [])
-+	distro_features = bb.data.getVar('DISTRO_FEATURES', d).split()
-+	machine_features = bb.data.getVar('MACHINE_FEATURES', d).split()
-+	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IPV6', cnf, rem)
-+	busybox_cfg('largefile', distro_features, 'CONFIG_LFS', cnf, rem)
-+	busybox_cfg('largefile', distro_features, 'CONFIG_FDISK_SUPPORT_LARGE_DISKS', cnf, rem)
-+	busybox_cfg('nls',  distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem)
-+	busybox_cfg('ipv4', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
-+	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
-+	busybox_cfg('kernel24', machine_features, 'CONFIG_FEATURE_2_4_MODULES', cnf, rem)
-+	return "\n".join(cnf), "\n".join(rem)
-+
-+# X, Y = ${@features_to_uclibc_settings(d)}
-+# unfortunately doesn't seem to work with bitbake, workaround:
-+def features_to_busybox_conf(d):
-+	cnf, rem = features_to_busybox_settings(d)
-+	return cnf
-+def features_to_busybox_del(d):
-+	cnf, rem = features_to_busybox_settings(d)
-+	return rem
-+
-+configmangle = '/CROSS_COMPILER_PREFIX/d; \
-+		/CONFIG_EXTRA_CFLAGS/d; \
-+		'
-+OE_FEATURES := "${@features_to_busybox_conf(d)}"
-+OE_DEL      := "${@features_to_busybox_del(d)}"
-+DO_IPv4 := ${@base_contains('DISTRO_FEATURES', 'ipv4', 1, 0, d)}
-+DO_IPv6 := ${@base_contains('DISTRO_FEATURES', 'ipv6', 1, 0, d)}
-+
-+python () {
-+  if "${OE_DEL}":
-+    bb.data.setVar('configmangle_append', "${OE_DEL}" + "\n", d)
-+  if "${OE_FEATURES}":
-+    bb.data.setVar('configmangle_append',
-+                   "/^### DISTRO FEATURES$/a\\\n%s\n\n" %
-+                   ("\\n".join((bb.data.expand("${OE_FEATURES}", d).split("\n")))),
-+                   d)
-+  bb.data.setVar('configmangle_append',
-+                 "/^### CROSS$/a\\\n%s\n" %
-+                  ("\\n".join(["CONFIG_CROSS_COMPILER_PREFIX=\"${TARGET_PREFIX}\"",
-+			       "CONFIG_EXTRA_CFLAGS=\"${CFLAGS}\""
-+                        ])
-+                  ),
-+                 d)
-+}
-+
-+do_prepare_config () {
-+	sed -e 's#@DATADIR@#${datadir}#g' \
-+		< ${WORKDIR}/defconfig > ${S}/.config
-+	sed -i -e '/CONFIG_STATIC/d' .config
-+	echo "# CONFIG_STATIC is not set" >> .config
-+	for i in 'CROSS' 'DISTRO FEATURES'; do echo "### $i"; done >> \
-+		${S}/.config
-+	sed -i -e '${configmangle}' ${S}/.config
-+	if test ${DO_IPv4} -eq 0 && test ${DO_IPv6} -eq 0; then
-+	  # disable networking applets
-+	  mv ${S}/.config ${S}/.config.oe-tmp
-+	  awk 'BEGIN{net=0}
-+	  /^# Networking Utilities/{net=1}
-+	  /^#$/{if(net){net=net+1}}
-+	  {if(net==2&&$0 !~ /^#/&&$1){print("# "$1" is not set")}else{print}}' \
-+		  ${S}/.config.oe-tmp > ${S}/.config
-+	fi
-+}
-+
- do_configure () {
--	install -m 0644 ${WORKDIR}/defconfig ${S}/.config
-+	do_prepare_config
- 	cml1_do_configure
- }
- 
-@@ -184,4 +261,3 @@ pkg_prerm_${PN}-syslog () {
- 	update-alternatives --remove syslog-init syslog.${PN}
- 	update-alternatives --remove syslog-conf syslog.conf.${PN}
- }
--
-diff --git a/meta/recipes-core/busybox/busybox_1.18.4.bb b/meta/recipes-core/busybox/busybox_1.18.4.bb
-index a5080d5..a999490 100644
---- a/meta/recipes-core/busybox/busybox_1.18.4.bb
-+++ b/meta/recipes-core/busybox/busybox_1.18.4.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
--- 
-1.7.2.5
+was removed after koen's report
+http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dcommit;h=3Df37d=
+05ca7450f85642cea0e43a75df10663bd8f6
 
+I see 2 more
+WARNING: No recipes available for:
+  /OE/shr-core/meta-smartphone/meta-palm/recipes-bsp/x-load/x-load_git.bbap=
+pend
+  /OE/shr-core/meta-smartphone/meta-palm/recipes-bsp/u-boot/u-boot_git.bbap=
+pend
+and I'll talk with morphis to update them
 
+Regards,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--Dxnq1zWXvFF0Q93v
+Content-Type: application/pgp-signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
+
+iEYEARECAAYFAk3w7pQACgkQN1Ujt2V2gBwUZACbBQfFgBcmWuIomEFHSOtp/SL3
+5EMAn0HfqH+C3CE2Gq3HJ5SxLHJmZLxg
+=tGym
+-----END PGP SIGNATURE-----
+
+--Dxnq1zWXvFF0Q93v--
