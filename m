@@ -1,26 +1,29 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1QUXHE-00062A-N0
+	(envelope-from <koen@dominion.thruhere.net>) id 1QUYa6-0007Ok-DK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 06:55:28 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 08 Jun 2011 21:52:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,340,1304319600"; 
-   d="scan'208";a="9690425"
-Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
-	([10.239.47.21])
-	by azsmga001.ch.intel.com with ESMTP; 08 Jun 2011 21:52:09 -0700
-From: Mei Lei <lei.mei@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jun 2011 13:01:38 +0800
-Message-Id: <1979b63659a98ef7a1238e54b9ee7037d2beca0a.1307595269.git.lei.mei@intel.com>
-X-Mailer: git-send-email 1.6.3.3
-In-Reply-To: <cover.1307595269.git.lei.mei@intel.com>
-References: <cover.1307595269.git.lei.mei@intel.com>
-In-Reply-To: <cover.1307595269.git.lei.mei@intel.com>
-References: <cover.1307595269.git.lei.mei@intel.com>
-Subject: [PATCH 1/1] distro_tracking_fields.inc: Fix a incorrect date format
+	Thu, 09 Jun 2011 08:19:02 +0200
+Received: by wwb17 with SMTP id 17so1073052wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jun 2011 23:15:43 -0700 (PDT)
+Received: by 10.216.233.207 with SMTP id p57mr307521weq.72.1307600142983;
+	Wed, 08 Jun 2011 23:15:42 -0700 (PDT)
+Received: from [172.20.2.72] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id n20sm640437weq.15.2011.06.08.23.15.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 08 Jun 2011 23:15:42 -0700 (PDT)
+References: <cover.1307581528.git.dongxiao.xu@intel.com>
+In-Reply-To: <cover.1307581528.git.dongxiao.xu@intel.com>
+Mime-Version: 1.0 (iPhone Mail 8J2)
+Message-Id: <0FC20D7E-C2CB-4010-9522-5DDFBCD81F3A@dominion.thruhere.net>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPhone Mail (8J2)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 9 Jun 2011 08:15:36 +0200
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1][PULL] Fix udevd launch issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,30 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 04:55:29 -0000
+X-List-Received-Date: Thu, 09 Jun 2011 06:19:02 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-One incorrect date format caused a checking failure in package report system.
+You're not getting new devicenodes even with devtmpfs mounted?
 
-Signed-off-by: Mei Lei <lei.mei@intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Op 9 jun. 2011 om 03:08 heeft Dongxiao Xu <dongxiao.xu@intel.com> het volgen=
+de geschreven:
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 38e0c4d..8e8453e 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -5747,7 +5747,7 @@ RECIPE_MANUAL_CHECK_DATE_pn-alsa-tools = "Jun 7, 2011"
- 
- RECIPE_STATUS_pn-mesa-demos = "red"
- RECIPE_LATEST_VERSION_pn-mesa-demos = "8.0.1"
--RECIPE_LAST_UPDATE_pn-mesa-demos = "July 13, 2010"
-+RECIPE_LAST_UPDATE_pn-mesa-demos = "Jul 13, 2010"
- RECIPE_MANUAL_CHECK_DATE_pn-mesa-demos = "Jun 7, 2011" 
- 
- RECIPE_STATUS_pn-gettext = "red"
--- 
-1.6.3.3
-
+> Hi Saul,
+>=20
+> This commit fixes the udevd launch issue after system second boot. [YOCTO #=
+1146].
+> Without udevd daemon, device nodes will not be created if dynamically inse=
+rt a kernel module.
+>=20
+> Please help to review and pull.
+>=20
+> The following changes since commit 5af197b55a4b779f1ec93186f0723026949ba2b=
+5:
+>=20
+>  cache: Implement multiple extra cache fields request support (2011-06-07 2=
+2:40:01 +0100)
+>=20
+> are available in the git repository at:
+>  git://git.pokylinux.org/poky-contrib dxu4/bugfix
+>  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Ddxu4/bugfix
+>=20
+> Dongxiao Xu (1):
+>  udev: Fix udevd launch issue after system second boot
+>=20
+> meta/recipes-core/udev/udev-164/init |    2 +-
+> 1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
