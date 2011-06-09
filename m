@@ -1,23 +1,26 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QUd3U-00052N-Nc for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 13:05:40 +0200
+	id 1QUdEq-00059i-8b for openembedded-core@lists.openembedded.org;
+	Thu, 09 Jun 2011 13:17:24 +0200
 Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QUd0J-0007wA-FN
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QUdBf-0007wV-1U
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 13:02:23 +0200
+	Thu, 09 Jun 2011 13:14:07 +0200
 From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4DE56B0D.4020209@intel.com>
-References: <4DE56B0D.4020209@intel.com>
+In-Reply-To: <1307547318.15712.109.camel@rex>
+References: <cover.1307523829.git.dongxiao.xu@intel.com>
+	<3cb0d7f134013f8dcd664429b7efda396d12790e.1307523829.git.dongxiao.xu@intel.com>
+	<1307525772.2529.4777.camel@phil-desktop>
+	<1307547318.15712.109.camel@rex>
 Organization: Phil Blundell Consulting Ltd
-Date: Thu, 09 Jun 2011 12:02:10 +0100
-Message-ID: <1307617330.2529.4803.camel@phil-desktop>
+Date: Thu, 09 Jun 2011 12:14:04 +0100
+Message-ID: <1307618044.2529.4810.camel@phil-desktop>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.30.3 
-Subject: Re: Tell me your build error message annoyances!
+Subject: Re: [PATCH 1/1] libc-locale: split locale handling from libc recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,62 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 11:05:40 -0000
+X-List-Received-Date: Thu, 09 Jun 2011 11:17:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-05-31 at 15:26 -0700, Scott Garman wrote:
-> I'd like to collect some feedback on error messages while building that 
-> you find confusing/annoying/unhelpful. I'm going to be working on trying 
-> to improve the situation and would like to hear from you about what 
-> could be more helpful.
+On Wed, 2011-06-08 at 16:35 +0100, Richard Purdie wrote:
+> I'm not sure how this would reduce performance of builds of a few
+> threads, it should just make better use of any available "spare"
+> processing capacity throughout the build.
 
-Here's another one which, although perhaps slightly off-topic for your
-current effort, still seems to fall into all three of the categories you
-mentioned :-)
+If I'm reading the patch right, it does involve a certain amount of
+extra copying around of the locale-related files since they need to be
+stashed away in some place where libc-locale.bb can find them later.  I
+don't think these files are especially big, but there are quite a few of
+them (which is the whole reason that libc's do_package was slow in the
+first place). 
 
-After I made a typo (mismatched quotes) in one of my recipes, my next
-bitbake run printed:
+I must admit that I'm slightly surprised that libc's packaging stage is
+becoming a bottleneck for anything other than the very smallest builds.
+If there's any substantial amount of other material being compiled then
+I would expect that there would be enough do_compile() work to keep the
+other threads busy until libc was done packaging.  That's not to say
+that I think this change is a bad idea, but I would be interested to
+know what the actual impact is for real-world workloads.
 
-Loading cache: 100% |#####################################################################################################################################################| ETA:  00:00:00
-Loaded 1323 entries from dependency cache.
-NOTE: Error expanding variable do_configure                                                                                                                               | ETA:  --:--:--
-ERROR: Command execution failed: Traceback (most recent call last):#############################                                                                          | ETA:  00:00:00
-  File "/home/pb/oe/bitbake/lib/bb/command.py", line 99, in runAsyncCommand
-    self.cooker.updateCache()
-  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 871, in updateCache
-    if not self.parser.parse_next():
-  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 1120, in parse_next
-    self.shutdown(clean=False)
-  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 1102, in shutdown
-    bb.codeparser.parser_cache_save(self.cfgdata)
-  File "/home/pb/oe/bitbake/lib/bb/codeparser.py", line 77, in parser_cache_save
-    data, version = p.load()
-EOFError
-
-So, this is (a) confusing, because "EOFError" doesn't yield much
-information about the actual cause of the problem; (b) unhelpful, since
-it doesn't mention which line of the file (or even which recipe) was to
-blame; and (c) annoying, for the usual reasons to do with python
-traceback.
-
-Somewhat worse, even after I fixed the typo, any subsequent attempt to
-run bitbake would just result in:
-
-Loading cache: 100% |#####################################################################################################################################################| ETA:  00:00:00
-Loaded 1323 entries from dependency cache.
-Traceback (most recent call last):                                                                                                                                        | ETA:  --:--:--
-  File "/usr/lib/python2.6/multiprocessing/util.py", line 235, in _run_finalizers
-    finalizer()
-  File "/usr/lib/python2.6/multiprocessing/util.py", line 174, in __call__
-    res = self._callback(*self._args, **self._kwargs)
-  File "/home/pb/oe/bitbake/lib/bb/codeparser.py", line 77, in parser_cache_save
-    data, version = p.load()
-EOFError
-
-(repeated about 10 times)
-
-I deleted tmp/cache/* and that seemed to fix the problem.
+And, just on a point of principle, any time we're making a chance for
+performance-related reasons I think we should always have measurements
+to back it up. 
 
 p.
 
