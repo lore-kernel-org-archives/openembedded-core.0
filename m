@@ -1,24 +1,29 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QUcvT-0002cB-W6
+	(envelope-from <koen@dominion.thruhere.net>) id 1QUd0N-00034O-GS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 12:57:24 +0200
-Received: by wye20 with SMTP id 20so1122399wye.6
+	Thu, 09 Jun 2011 13:02:27 +0200
+Received: by wwb17 with SMTP id 17so1277865wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jun 2011 03:54:04 -0700 (PDT)
-Received: by 10.227.32.84 with SMTP id b20mr612022wbd.105.1307616844140;
-	Thu, 09 Jun 2011 03:54:04 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id o38sm1121387wba.54.2011.06.09.03.54.03
+	Thu, 09 Jun 2011 03:59:08 -0700 (PDT)
+Received: by 10.227.36.212 with SMTP id u20mr658483wbd.35.1307617147877;
+	Thu, 09 Jun 2011 03:59:07 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fl19sm1124604wbb.66.2011.06.09.03.59.06
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 09 Jun 2011 03:54:03 -0700 (PDT)
+	Thu, 09 Jun 2011 03:59:06 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
 From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jun 2011 12:54:00 +0200
-Message-Id: <1307616840-10973-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] metacity 2.30.3: fix build on GNOME-less hosts and fix packaging
+In-Reply-To: <4DF0A70C.7080501@windriver.com>
+Date: Thu, 9 Jun 2011 12:59:05 +0200
+Message-Id: <AE4FCBC5-C286-4353-AD39-A7782693701D@dominion.thruhere.net>
+References: <4DF0A70C.7080501@windriver.com>
+To: Kang Kai <kai.kang@windriver.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: "poky@yoctoproject.org Project" <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [poky] Question about apply eglibc configurability to create minimal image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 10:57:24 -0000
+X-List-Received-Date: Thu, 09 Jun 2011 11:02:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-gnome/gnome/metacity_2.30.3.bb |   13 ++++++++-----
- 1 files changed, 8 insertions(+), 5 deletions(-)
+<broken record>
+These things need to get posted to the oe-core list, not the poky list
+</broken record>
 
-diff --git a/meta/recipes-gnome/gnome/metacity_2.30.3.bb b/meta/recipes-gnome/gnome/metacity_2.30.3.bb
-index 18105f2..44e21c9 100644
---- a/meta/recipes-gnome/gnome/metacity_2.30.3.bb
-+++ b/meta/recipes-gnome/gnome/metacity_2.30.3.bb
-@@ -5,11 +5,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://src/include/main.h;endline=24;md5=c2242df552c880280315989bab626b90"
- 
- DEPENDS = "startup-notification gtk+ gconf gdk-pixbuf-native libcanberra"
--PR = "r0"
-+PR = "r1"
- 
- inherit gnome update-alternatives
- 
- SRC_URI += "file://crosscompile.patch;patch=1"
-+SRC_URI[archive.md5sum] = "553784f376d96b902e19ff437cd5b339"
-+SRC_URI[archive.sha256sum] = "08f887018fa5e447cf184d03bae3fe2c05fdb7583bed6768e3b4d66392fc18dd"
- 
- ALTERNATIVE_NAME = "x-window-manager"
- ALTERNATIVE_LINK = "${bindir}/x-window-manager"
-@@ -19,11 +21,12 @@ ALTERNATIVE_PRIORITY = "10"
- EXTRA_OECONF += "--disable-verbose \
- 	         --disable-xinerama"
- 
--FILES_${PN} += "${datadir}/themes"
--
-+do_configure_prepend() {
-+	sed -i -e 's:$ZENITY:$NOZENITY:g' -e 's:-Werror::g' ${S}/configure.in
-+}
- export CC_FOR_BUILD = "${BUILD_CC}"
- export CFLAGS_FOR_BUILD = "${BUILD_CFLAGS} -I${STAGING_LIBDIR_NATIVE}/glib-2.0/include -I${STAGING_INCDIR_NATIVE}/glib-2.0 -I${STAGING_INCDIR_NATIVE}/glib-2.0/include -I${STAGING_INCDIR_NATIVE}"
- export LDFLAGS_FOR_BUILD = "${BUILD_LDFLAGS} -L${STAGING_LIBDIR_NATIVE} -lglib-2.0"
- 
--SRC_URI[archive.md5sum] = "553784f376d96b902e19ff437cd5b339"
--SRC_URI[archive.sha256sum] = "08f887018fa5e447cf184d03bae3fe2c05fdb7583bed6768e3b4d66392fc18dd"
-+FILES_${PN} += "${datadir}/themes ${datadir}/gnome-control-center ${datadir}/gnome"
-+
--- 
-1.6.6.1
+Op 9 jun 2011, om 12:57 heeft Kang Kai het volgende geschreven:
+
+> Hi Mark,
+>=20
+> I am focus on eglibc itself compilation with disabling all the =
+configurable options, right now eglibc can be compiled with disable all =
+the configurable options.
+>=20
+> But when I build core-image-minimal in a clear new directory, some =
+packages build failed and they need eglibc supports, such as
+>=20
+> gcc-runtime    depends on     libc-libm
+> ncurse            depends on    libc-posix-wchar-io =
+libc-posix-clang-wchar
+> openssl           depends on    libc-inet libc-nsswitch
+> gettext            depends on    libc-spawn libc-locale-code =
+libc-getlogin libc-utmp
+> ...
+>=20
+> After enable those options, the image size only decrease from 9.6M  to =
+9.4M(qemux86). And the dependencies on eglibc is hard to break, =
+something like  libcrypt getlogin(function) can't be breaken.
+> Could you give me some directions what should I do with eglibc =
+configurability?
+> Thanks a lot!
+>=20
+> I made a mistake that try eglibc configurability in a directory which =
+has build core-image-minimal, so the packages which depend on eglibc =
+didn't rebuild, and I didn't find the dependency before. I am sorry!
+>=20
+> Regards,
+> Kai
+> _______________________________________________
+> poky mailing list
+> poky@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/poky
 
 
 
