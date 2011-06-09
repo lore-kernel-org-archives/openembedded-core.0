@@ -1,29 +1,23 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QUd0N-00034O-GS
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QUd3U-00052N-Nc for openembedded-core@lists.openembedded.org;
+	Thu, 09 Jun 2011 13:05:40 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QUd0J-0007wA-FN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 13:02:27 +0200
-Received: by wwb17 with SMTP id 17so1277865wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jun 2011 03:59:08 -0700 (PDT)
-Received: by 10.227.36.212 with SMTP id u20mr658483wbd.35.1307617147877;
-	Thu, 09 Jun 2011 03:59:07 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fl19sm1124604wbb.66.2011.06.09.03.59.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 09 Jun 2011 03:59:06 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4DF0A70C.7080501@windriver.com>
-Date: Thu, 9 Jun 2011 12:59:05 +0200
-Message-Id: <AE4FCBC5-C286-4353-AD39-A7782693701D@dominion.thruhere.net>
-References: <4DF0A70C.7080501@windriver.com>
-To: Kang Kai <kai.kang@windriver.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: "poky@yoctoproject.org Project" <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
+	Thu, 09 Jun 2011 13:02:23 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] Question about apply eglibc configurability to create minimal image
+In-Reply-To: <4DE56B0D.4020209@intel.com>
+References: <4DE56B0D.4020209@intel.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Thu, 09 Jun 2011 12:02:10 +0100
+Message-ID: <1307617330.2529.4803.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: Tell me your build error message annoyances!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,50 +32,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 11:02:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 09 Jun 2011 11:05:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-<broken record>
-These things need to get posted to the oe-core list, not the poky list
-</broken record>
+On Tue, 2011-05-31 at 15:26 -0700, Scott Garman wrote:
+> I'd like to collect some feedback on error messages while building that 
+> you find confusing/annoying/unhelpful. I'm going to be working on trying 
+> to improve the situation and would like to hear from you about what 
+> could be more helpful.
 
-Op 9 jun 2011, om 12:57 heeft Kang Kai het volgende geschreven:
+Here's another one which, although perhaps slightly off-topic for your
+current effort, still seems to fall into all three of the categories you
+mentioned :-)
 
-> Hi Mark,
->=20
-> I am focus on eglibc itself compilation with disabling all the =
-configurable options, right now eglibc can be compiled with disable all =
-the configurable options.
->=20
-> But when I build core-image-minimal in a clear new directory, some =
-packages build failed and they need eglibc supports, such as
->=20
-> gcc-runtime    depends on     libc-libm
-> ncurse            depends on    libc-posix-wchar-io =
-libc-posix-clang-wchar
-> openssl           depends on    libc-inet libc-nsswitch
-> gettext            depends on    libc-spawn libc-locale-code =
-libc-getlogin libc-utmp
-> ...
->=20
-> After enable those options, the image size only decrease from 9.6M  to =
-9.4M(qemux86). And the dependencies on eglibc is hard to break, =
-something like  libcrypt getlogin(function) can't be breaken.
-> Could you give me some directions what should I do with eglibc =
-configurability?
-> Thanks a lot!
->=20
-> I made a mistake that try eglibc configurability in a directory which =
-has build core-image-minimal, so the packages which depend on eglibc =
-didn't rebuild, and I didn't find the dependency before. I am sorry!
->=20
-> Regards,
-> Kai
-> _______________________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
+After I made a typo (mismatched quotes) in one of my recipes, my next
+bitbake run printed:
+
+Loading cache: 100% |#####################################################################################################################################################| ETA:  00:00:00
+Loaded 1323 entries from dependency cache.
+NOTE: Error expanding variable do_configure                                                                                                                               | ETA:  --:--:--
+ERROR: Command execution failed: Traceback (most recent call last):#############################                                                                          | ETA:  00:00:00
+  File "/home/pb/oe/bitbake/lib/bb/command.py", line 99, in runAsyncCommand
+    self.cooker.updateCache()
+  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 871, in updateCache
+    if not self.parser.parse_next():
+  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 1120, in parse_next
+    self.shutdown(clean=False)
+  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 1102, in shutdown
+    bb.codeparser.parser_cache_save(self.cfgdata)
+  File "/home/pb/oe/bitbake/lib/bb/codeparser.py", line 77, in parser_cache_save
+    data, version = p.load()
+EOFError
+
+So, this is (a) confusing, because "EOFError" doesn't yield much
+information about the actual cause of the problem; (b) unhelpful, since
+it doesn't mention which line of the file (or even which recipe) was to
+blame; and (c) annoying, for the usual reasons to do with python
+traceback.
+
+Somewhat worse, even after I fixed the typo, any subsequent attempt to
+run bitbake would just result in:
+
+Loading cache: 100% |#####################################################################################################################################################| ETA:  00:00:00
+Loaded 1323 entries from dependency cache.
+Traceback (most recent call last):                                                                                                                                        | ETA:  --:--:--
+  File "/usr/lib/python2.6/multiprocessing/util.py", line 235, in _run_finalizers
+    finalizer()
+  File "/usr/lib/python2.6/multiprocessing/util.py", line 174, in __call__
+    res = self._callback(*self._args, **self._kwargs)
+  File "/home/pb/oe/bitbake/lib/bb/codeparser.py", line 77, in parser_cache_save
+    data, version = p.load()
+EOFError
+
+(repeated about 10 times)
+
+I deleted tmp/cache/* and that seemed to fix the problem.
+
+p.
+
 
 
 
