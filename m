@@ -1,33 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QUixz-0006Qk-Tq for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 19:24:24 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p59HL5rw015765
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jun 2011 18:21:05 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15458-05 for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jun 2011 18:21:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p59HKuhg015759
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jun 2011 18:20:56 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1QUjnp-0003mG-1B
+	for openembedded-core@lists.openembedded.org;
+	Thu, 09 Jun 2011 20:17:58 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Jun 2011 11:14:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,342,1304319600"; d="scan'208";a="12066737"
+Received: from unknown (HELO [10.255.12.216]) ([10.255.12.216])
+	by orsmga001.jf.intel.com with ESMTP; 09 Jun 2011 11:14:35 -0700
+Message-ID: <4DF10D8B.4010400@linux.intel.com>
+Date: Thu, 09 Jun 2011 11:14:35 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1307639649.git.mark.hatle@windriver.com>
-References: <cover.1307639649.git.mark.hatle@windriver.com>
-Date: Thu, 09 Jun 2011 18:20:46 +0100
-Message-ID: <1307640046.15712.171.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/1] Fix realpath issue in pseudo
+References: <cover.1307602786.git.ke.yu@intel.com>
+In-Reply-To: <cover.1307602786.git.ke.yu@intel.com>
+Subject: Re: [PATCH 0/1] add mesa-demos to sato-sdk to fix bug 1112
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,32 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 17:24:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 09 Jun 2011 18:17:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-06-09 at 12:15 -0500, Mark Hatle wrote:
-> When pseudo is running in disabled mode (most of the time in oe-core), the
-> realpath function can fail on system systems.  This was discovered by some
-> problems found in Qt MOC and qmake.
-> 
-> The change is from upstream, and has been verified by the person who 
-> originally found the issue.
-> 
-> The following changes since commit d3e105451413617cf6415ae1600dc063f3d8d452:
-> 
->   scripts/bitbake: Only build tar-replacement-native when the build system tar version < 1.24 (2011-06-09 16:32:03 +0100)
-> 
+On 06/09/2011 12:03 AM, Yu Ke wrote:
+> The following changes since commit c412674cf818e77e35857fb93353e392e7ac9e53:
+>    Khem Raj (1):
+>          package.bbclass,prserv.bbclass: Compare USE_PR_SERV with "1" or "0"
+>
 > are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib mhatle/pseudo
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/pseudo
-> 
-> Mark Hatle (1):
->   pseudo: Fix problem related to realpath
+>
+>    git://git.pokylinux.org/poky-contrib kyu3/bug1112
+>    http://git.pokylinux.org/cgit.cgi//log/?h=kyu3/bug1112
+>
+> Yu Ke (1):
+>    sato-sdk: add mesa-demos application
+>
+>   meta/classes/core-image.bbclass                 |    1 +
+>   meta/recipes-sato/images/core-image-sato-sdk.bb |    2 +-
+>   meta/recipes-sato/tasks/task-core.bb            |    6 +++++-
+>   3 files changed, 7 insertions(+), 2 deletions(-)
+>
+Ke,
 
-Merged to master, thanks.
+I discussed this with Richard and we applied a different patch that adds 
+mesa-demos to an existing task called task-core-tools-testapps
+and then ensure that it is part of sato-sdk.
 
-Richard
+We also cleaned up the EXTRA_IMAGE_FEATURES include by default in 
+local.conf to not include all the tools and testapps, but only the debug 
+tweaks.  This will give a truer representation of the sato and lsb 
+images sizes (when built without -dev or -sdk).
 
+Sau!
+
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
