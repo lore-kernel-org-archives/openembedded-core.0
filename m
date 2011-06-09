@@ -1,28 +1,28 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QUvR9-0001hA-55
+	(envelope-from <richard.purdie@intel.com>) id 1QUo93-0006lx-Kh
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 08:43:19 +0200
-Received: by wye20 with SMTP id 20so1829656wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jun 2011 23:39:58 -0700 (PDT)
-Received: by 10.216.145.195 with SMTP id p45mr1633698wej.61.1307687998641;
-	Thu, 09 Jun 2011 23:39:58 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id f73sm1204791wef.19.2011.06.09.23.39.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 09 Jun 2011 23:39:57 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1307667467-467-2-git-send-email-raj.khem@gmail.com>
-Date: Fri, 10 Jun 2011 08:39:55 +0200
-Message-Id: <6BDF6E15-6222-45CB-BB89-F699EC6E346B@dominion.thruhere.net>
-References: <1307667467-467-1-git-send-email-raj.khem@gmail.com>
-	<1307667467-467-2-git-send-email-raj.khem@gmail.com>
+	Fri, 10 Jun 2011 00:56:09 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 09 Jun 2011 15:51:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,343,1304319600"; d="scan'208";a="10351535"
+Received: from unknown (HELO [10.255.16.211]) ([10.255.16.211])
+	by azsmga001.ch.intel.com with ESMTP; 09 Jun 2011 15:51:41 -0700
+From: Richard Purdie <richard.purdie@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 2/2] sysklogd.inc: Check for package-management in IMAGE_FEATURES
+In-Reply-To: <4DF14BE9.7080704@intel.com>
+References: <4DE850E8.2050701@windriver.com>  <4DF14BE9.7080704@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Date: Thu, 09 Jun 2011 23:51:30 +0100
+Message-ID: <1307659890.15712.197.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Mailman-Approved-At: Fri, 10 Jun 2011 08:44:50 +0200
+Cc: wenzong fan <wenzong.fan@windriver.com>
+Subject: Re: [Yocto] The design document for ccache-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,43 +37,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 06:43:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 09 Jun 2011 22:56:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Thu, 2011-06-09 at 15:40 -0700, Saul Wold wrote:
+> On 06/02/2011 08:11 PM, wenzong fan wrote:
+> > Hi Folks,
+> >
+> > Please help me to review the design document for ccache-native, and
+> > I also have two questions about it, any answers or suggestions are
+> > appreciated.
+> >
+> > * Feature name: ccache-native
+> >     Priority: P3; M2
+> >     Owner: Wenzong Fan
+> >     Summary: Integrate ccache-native to yocto
+> >
+> > * Description:
+> > Bitbake supports the 'CCACHE Mechanism', but 'ccache' hasn't been
+> > included by poky/yocto, just add it as a native tool.
+> >
+> > * Usage:
+> > Build ccache as a native tool by default and enable it for speeding
+> > target packages build.
+> >
+> > * Implementation:
+> > 1) Copy bb file from OE upstream to:
+> >       meta/recipes-devtools/ccache/
+> >
+> > 2) Update bb file to get the latest ccache_3.1.5 and split the single
+> > bb file to:
+> >       'ccache_3.1.5.bb', 'ccache.inc'
+> >
+> > 3) Enable ccache in the native tools building.
+> >
+> You will need to have it be a dependency pretty early on in the build.
+> Additionally, this is a bit a new part to this task, we want to have the 
+> default CCACHE_DIR for the build default to a directory in TMPDIR 
+> instead of the user's home directory.  This will mean setting an 
+> environment variable somewhere early also.
 
-Op 10 jun 2011, om 02:57 heeft Khem Raj het volgende geschreven:
+There is a little more detail on:
 
-> ONLINE_PACKAGE_MANAGEMENT does not exist on oe-core
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> meta/recipes-extended/sysklogd/sysklogd.inc |    2 +-
-> 1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc =
-b/meta/recipes-extended/sysklogd/sysklogd.inc
-> index f2b1c15..f6a56ec 100644
-> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
-> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-> @@ -14,7 +14,7 @@ LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D8ca43cbc842c2336e835926c2166c28b \
-> # syslog initscript is handled explicitly because order of
-> # update-rc.d and update-alternatives is important (see below)
-> DEPENDS_append =3D " update-rc.d update-rc.d-native"
-> -RDEPENDS_${PN}_append =3D " =
-${@base_conditional("ONLINE_PACKAGE_MANAGEMENT", "none", "", =
-"update-rc.d", d)}"
-> +RDEPENDS_${PN}_append =3D " ${@oe.utils.contains("IMAGE_FEATURES", =
-"package-management", "update-rc.d", "", d)}"
+https://wiki.yoctoproject.org/wiki/Yocto_1.1_Schedule
 
-You can't do IMAGE_FEATURES in RDEPENDS, consider what happens when I =
-build 2 images, one with package-management and one without. Phils =
-changes to catch update-rc.d usage in the image* classes should be =
-enough to fix this.
+Specifically, "c) Set CCACHE on a per recipe basis. need to figure out
+whether ccache data can be shared and under what circumstances."
 
-regards,
+so something like adding:
 
-Koen=
+export CCACHE_DIR = "${TMPDIR}/ccache/${TARGET_SYS}/${PN}"
+
+to bitbake.conf with a bit more thought into working out the right
+components to add to the variable.
+
+Cheers,
+
+Richard
+
 
 
