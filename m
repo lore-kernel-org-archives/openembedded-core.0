@@ -1,24 +1,38 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QUaTN-0002aO-4A
+	(envelope-from <martin.jansa@gmail.com>) id 1QUaoP-0002pC-8Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 10:20:13 +0200
-Received: by wwb17 with SMTP id 17so1154200wwb.24
+	Thu, 09 Jun 2011 10:41:57 +0200
+Received: by bwz5 with SMTP id 5so1310146bwz.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jun 2011 01:16:53 -0700 (PDT)
-Received: by 10.216.190.40 with SMTP id d40mr457239wen.34.1307607413545;
-	Thu, 09 Jun 2011 01:16:53 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w58sm692650weq.25.2011.06.09.01.16.51
+	Thu, 09 Jun 2011 01:38:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:date:from:to:subject:message-id:mime-version
+	:content-type:content-disposition:user-agent;
+	bh=LMWY0M0REFbBir9ijhh2if8M0cy7P9blMsMx7a85pSU=;
+	b=w+5OnHf7MQKs0OTTfHfmPpgQgQoGqxU5zlrg4zCiJpca/nILcRBdTDlEsnAr74Ykzj
+	8AXlf9PyUX+fFxPnLpnA0zzNiuDeSHDiPGeeJtQR/BN3/Z3M/G59lzwga2eCxepONiZL
+	ce1DKSsSchol0SRuG8Cytf9XIaQxSeGP3LIzI=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	b=G3m4dNHy6BgQr8PeTEKqNMBiV5oGzEMf/9HFSUzBX35+obX8ij9bzLtJkUk0Dhglfm
+	KkB1RK6ws3SC1ooGI86I6S5d24sUBK4N1K6JaFVnMR57Zacr4B50TyeLAciVGXBn9Vy0
+	2K+b8rURlmHBwMJ9r4yIPlIEQ1XNVDVaqdEgw=
+Received: by 10.204.7.213 with SMTP id e21mr405172bke.209.1307608717770;
+	Thu, 09 Jun 2011 01:38:37 -0700 (PDT)
+Received: from localhost ([94.230.152.115])
+	by mx.google.com with ESMTPS id ek1sm1329342bkb.21.2011.06.09.01.38.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 09 Jun 2011 01:16:52 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jun 2011 10:16:49 +0200
-Message-Id: <1307607409-20393-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH v3] sysvinit: split inittab into it's own recipe
+	Thu, 09 Jun 2011 01:38:36 -0700 (PDT)
+Date: Thu, 9 Jun 2011 10:38:34 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110609083834.GJ23137@jama.jama.net>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: LOCALCOUNT increased twice when there are 2 layers with same git recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,575 +47,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 08:20:13 -0000
+X-List-Received-Date: Thu, 09 Jun 2011 08:41:57 -0000
+X-Groupsio-MsgNum: 3792
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="3CAnR4CLEnEWqRMR"
+Content-Disposition: inline
 
-A proper fix for
+--3CAnR4CLEnEWqRMR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO ##1131]
+Hi,
 
-Signed-off-by: <koen@dominion.thruhere.net>
----
- .../recipes-core/sysvinit/sysvinit-inittab/COPYING |  339 ++++++++++++++++++++
- .../recipes-core/sysvinit/sysvinit-inittab/inittab |   30 ++
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   58 ++++
- meta/recipes-core/sysvinit/sysvinit/inittab        |   30 --
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   41 +---
- 5 files changed, 428 insertions(+), 70 deletions(-)
- create mode 100644 meta/recipes-core/sysvinit/sysvinit-inittab/COPYING
- create mode 100644 meta/recipes-core/sysvinit/sysvinit-inittab/inittab
- create mode 100644 meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
- delete mode 100644 meta/recipes-core/sysvinit/sysvinit/inittab
+I was wondering why I see gobject-introspection built on every image
+build and it's because LOCALCOUNT is changing all the time.
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/COPYING b/meta/recipes-core/sysvinit/sysvinit-inittab/COPYING
-new file mode 100644
-index 0000000..d511905
---- /dev/null
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab/COPYING
-@@ -0,0 +1,339 @@
-+		    GNU GENERAL PUBLIC LICENSE
-+		       Version 2, June 1991
-+
-+ Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
-+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-+ Everyone is permitted to copy and distribute verbatim copies
-+ of this license document, but changing it is not allowed.
-+
-+			    Preamble
-+
-+  The licenses for most software are designed to take away your
-+freedom to share and change it.  By contrast, the GNU General Public
-+License is intended to guarantee your freedom to share and change free
-+software--to make sure the software is free for all its users.  This
-+General Public License applies to most of the Free Software
-+Foundation's software and to any other program whose authors commit to
-+using it.  (Some other Free Software Foundation software is covered by
-+the GNU Lesser General Public License instead.)  You can apply it to
-+your programs, too.
-+
-+  When we speak of free software, we are referring to freedom, not
-+price.  Our General Public Licenses are designed to make sure that you
-+have the freedom to distribute copies of free software (and charge for
-+this service if you wish), that you receive source code or can get it
-+if you want it, that you can change the software or use pieces of it
-+in new free programs; and that you know you can do these things.
-+
-+  To protect your rights, we need to make restrictions that forbid
-+anyone to deny you these rights or to ask you to surrender the rights.
-+These restrictions translate to certain responsibilities for you if you
-+distribute copies of the software, or if you modify it.
-+
-+  For example, if you distribute copies of such a program, whether
-+gratis or for a fee, you must give the recipients all the rights that
-+you have.  You must make sure that they, too, receive or can get the
-+source code.  And you must show them these terms so they know their
-+rights.
-+
-+  We protect your rights with two steps: (1) copyright the software, and
-+(2) offer you this license which gives you legal permission to copy,
-+distribute and/or modify the software.
-+
-+  Also, for each author's protection and ours, we want to make certain
-+that everyone understands that there is no warranty for this free
-+software.  If the software is modified by someone else and passed on, we
-+want its recipients to know that what they have is not the original, so
-+that any problems introduced by others will not reflect on the original
-+authors' reputations.
-+
-+  Finally, any free program is threatened constantly by software
-+patents.  We wish to avoid the danger that redistributors of a free
-+program will individually obtain patent licenses, in effect making the
-+program proprietary.  To prevent this, we have made it clear that any
-+patent must be licensed for everyone's free use or not licensed at all.
-+
-+  The precise terms and conditions for copying, distribution and
-+modification follow.
-+
-+		    GNU GENERAL PUBLIC LICENSE
-+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-+
-+  0. This License applies to any program or other work which contains
-+a notice placed by the copyright holder saying it may be distributed
-+under the terms of this General Public License.  The "Program", below,
-+refers to any such program or work, and a "work based on the Program"
-+means either the Program or any derivative work under copyright law:
-+that is to say, a work containing the Program or a portion of it,
-+either verbatim or with modifications and/or translated into another
-+language.  (Hereinafter, translation is included without limitation in
-+the term "modification".)  Each licensee is addressed as "you".
-+
-+Activities other than copying, distribution and modification are not
-+covered by this License; they are outside its scope.  The act of
-+running the Program is not restricted, and the output from the Program
-+is covered only if its contents constitute a work based on the
-+Program (independent of having been made by running the Program).
-+Whether that is true depends on what the Program does.
-+
-+  1. You may copy and distribute verbatim copies of the Program's
-+source code as you receive it, in any medium, provided that you
-+conspicuously and appropriately publish on each copy an appropriate
-+copyright notice and disclaimer of warranty; keep intact all the
-+notices that refer to this License and to the absence of any warranty;
-+and give any other recipients of the Program a copy of this License
-+along with the Program.
-+
-+You may charge a fee for the physical act of transferring a copy, and
-+you may at your option offer warranty protection in exchange for a fee.
-+
-+  2. You may modify your copy or copies of the Program or any portion
-+of it, thus forming a work based on the Program, and copy and
-+distribute such modifications or work under the terms of Section 1
-+above, provided that you also meet all of these conditions:
-+
-+    a) You must cause the modified files to carry prominent notices
-+    stating that you changed the files and the date of any change.
-+
-+    b) You must cause any work that you distribute or publish, that in
-+    whole or in part contains or is derived from the Program or any
-+    part thereof, to be licensed as a whole at no charge to all third
-+    parties under the terms of this License.
-+
-+    c) If the modified program normally reads commands interactively
-+    when run, you must cause it, when started running for such
-+    interactive use in the most ordinary way, to print or display an
-+    announcement including an appropriate copyright notice and a
-+    notice that there is no warranty (or else, saying that you provide
-+    a warranty) and that users may redistribute the program under
-+    these conditions, and telling the user how to view a copy of this
-+    License.  (Exception: if the Program itself is interactive but
-+    does not normally print such an announcement, your work based on
-+    the Program is not required to print an announcement.)
-+
-+These requirements apply to the modified work as a whole.  If
-+identifiable sections of that work are not derived from the Program,
-+and can be reasonably considered independent and separate works in
-+themselves, then this License, and its terms, do not apply to those
-+sections when you distribute them as separate works.  But when you
-+distribute the same sections as part of a whole which is a work based
-+on the Program, the distribution of the whole must be on the terms of
-+this License, whose permissions for other licensees extend to the
-+entire whole, and thus to each and every part regardless of who wrote it.
-+
-+Thus, it is not the intent of this section to claim rights or contest
-+your rights to work written entirely by you; rather, the intent is to
-+exercise the right to control the distribution of derivative or
-+collective works based on the Program.
-+
-+In addition, mere aggregation of another work not based on the Program
-+with the Program (or with a work based on the Program) on a volume of
-+a storage or distribution medium does not bring the other work under
-+the scope of this License.
-+
-+  3. You may copy and distribute the Program (or a work based on it,
-+under Section 2) in object code or executable form under the terms of
-+Sections 1 and 2 above provided that you also do one of the following:
-+
-+    a) Accompany it with the complete corresponding machine-readable
-+    source code, which must be distributed under the terms of Sections
-+    1 and 2 above on a medium customarily used for software interchange; or,
-+
-+    b) Accompany it with a written offer, valid for at least three
-+    years, to give any third party, for a charge no more than your
-+    cost of physically performing source distribution, a complete
-+    machine-readable copy of the corresponding source code, to be
-+    distributed under the terms of Sections 1 and 2 above on a medium
-+    customarily used for software interchange; or,
-+
-+    c) Accompany it with the information you received as to the offer
-+    to distribute corresponding source code.  (This alternative is
-+    allowed only for noncommercial distribution and only if you
-+    received the program in object code or executable form with such
-+    an offer, in accord with Subsection b above.)
-+
-+The source code for a work means the preferred form of the work for
-+making modifications to it.  For an executable work, complete source
-+code means all the source code for all modules it contains, plus any
-+associated interface definition files, plus the scripts used to
-+control compilation and installation of the executable.  However, as a
-+special exception, the source code distributed need not include
-+anything that is normally distributed (in either source or binary
-+form) with the major components (compiler, kernel, and so on) of the
-+operating system on which the executable runs, unless that component
-+itself accompanies the executable.
-+
-+If distribution of executable or object code is made by offering
-+access to copy from a designated place, then offering equivalent
-+access to copy the source code from the same place counts as
-+distribution of the source code, even though third parties are not
-+compelled to copy the source along with the object code.
-+
-+  4. You may not copy, modify, sublicense, or distribute the Program
-+except as expressly provided under this License.  Any attempt
-+otherwise to copy, modify, sublicense or distribute the Program is
-+void, and will automatically terminate your rights under this License.
-+However, parties who have received copies, or rights, from you under
-+this License will not have their licenses terminated so long as such
-+parties remain in full compliance.
-+
-+  5. You are not required to accept this License, since you have not
-+signed it.  However, nothing else grants you permission to modify or
-+distribute the Program or its derivative works.  These actions are
-+prohibited by law if you do not accept this License.  Therefore, by
-+modifying or distributing the Program (or any work based on the
-+Program), you indicate your acceptance of this License to do so, and
-+all its terms and conditions for copying, distributing or modifying
-+the Program or works based on it.
-+
-+  6. Each time you redistribute the Program (or any work based on the
-+Program), the recipient automatically receives a license from the
-+original licensor to copy, distribute or modify the Program subject to
-+these terms and conditions.  You may not impose any further
-+restrictions on the recipients' exercise of the rights granted herein.
-+You are not responsible for enforcing compliance by third parties to
-+this License.
-+
-+  7. If, as a consequence of a court judgment or allegation of patent
-+infringement or for any other reason (not limited to patent issues),
-+conditions are imposed on you (whether by court order, agreement or
-+otherwise) that contradict the conditions of this License, they do not
-+excuse you from the conditions of this License.  If you cannot
-+distribute so as to satisfy simultaneously your obligations under this
-+License and any other pertinent obligations, then as a consequence you
-+may not distribute the Program at all.  For example, if a patent
-+license would not permit royalty-free redistribution of the Program by
-+all those who receive copies directly or indirectly through you, then
-+the only way you could satisfy both it and this License would be to
-+refrain entirely from distribution of the Program.
-+
-+If any portion of this section is held invalid or unenforceable under
-+any particular circumstance, the balance of the section is intended to
-+apply and the section as a whole is intended to apply in other
-+circumstances.
-+
-+It is not the purpose of this section to induce you to infringe any
-+patents or other property right claims or to contest validity of any
-+such claims; this section has the sole purpose of protecting the
-+integrity of the free software distribution system, which is
-+implemented by public license practices.  Many people have made
-+generous contributions to the wide range of software distributed
-+through that system in reliance on consistent application of that
-+system; it is up to the author/donor to decide if he or she is willing
-+to distribute software through any other system and a licensee cannot
-+impose that choice.
-+
-+This section is intended to make thoroughly clear what is believed to
-+be a consequence of the rest of this License.
-+
-+  8. If the distribution and/or use of the Program is restricted in
-+certain countries either by patents or by copyrighted interfaces, the
-+original copyright holder who places the Program under this License
-+may add an explicit geographical distribution limitation excluding
-+those countries, so that distribution is permitted only in or among
-+countries not thus excluded.  In such case, this License incorporates
-+the limitation as if written in the body of this License.
-+
-+  9. The Free Software Foundation may publish revised and/or new versions
-+of the General Public License from time to time.  Such new versions will
-+be similar in spirit to the present version, but may differ in detail to
-+address new problems or concerns.
-+
-+Each version is given a distinguishing version number.  If the Program
-+specifies a version number of this License which applies to it and "any
-+later version", you have the option of following the terms and conditions
-+either of that version or of any later version published by the Free
-+Software Foundation.  If the Program does not specify a version number of
-+this License, you may choose any version ever published by the Free Software
-+Foundation.
-+
-+  10. If you wish to incorporate parts of the Program into other free
-+programs whose distribution conditions are different, write to the author
-+to ask for permission.  For software which is copyrighted by the Free
-+Software Foundation, write to the Free Software Foundation; we sometimes
-+make exceptions for this.  Our decision will be guided by the two goals
-+of preserving the free status of all derivatives of our free software and
-+of promoting the sharing and reuse of software generally.
-+
-+			    NO WARRANTY
-+
-+  11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
-+FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
-+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
-+PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED
-+OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS
-+TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
-+PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
-+REPAIR OR CORRECTION.
-+
-+  12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
-+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
-+REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,
-+INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING
-+OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED
-+TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY
-+YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER
-+PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
-+POSSIBILITY OF SUCH DAMAGES.
-+
-+		     END OF TERMS AND CONDITIONS
-+
-+	    How to Apply These Terms to Your New Programs
-+
-+  If you develop a new program, and you want it to be of the greatest
-+possible use to the public, the best way to achieve this is to make it
-+free software which everyone can redistribute and change under these terms.
-+
-+  To do so, attach the following notices to the program.  It is safest
-+to attach them to the start of each source file to most effectively
-+convey the exclusion of warranty; and each file should have at least
-+the "copyright" line and a pointer to where the full notice is found.
-+
-+    <one line to give the program's name and a brief idea of what it does.>
-+    Copyright (C) <year>  <name of author>
-+
-+    This program is free software; you can redistribute it and/or modify
-+    it under the terms of the GNU General Public License as published by
-+    the Free Software Foundation; either version 2 of the License, or
-+    (at your option) any later version.
-+
-+    This program is distributed in the hope that it will be useful,
-+    but WITHOUT ANY WARRANTY; without even the implied warranty of
-+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+    GNU General Public License for more details.
-+
-+    You should have received a copy of the GNU General Public License along
-+    with this program; if not, write to the Free Software Foundation, Inc.,
-+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+
-+Also add information on how to contact you by electronic and paper mail.
-+
-+If the program is interactive, make it output a short notice like this
-+when it starts in an interactive mode:
-+
-+    Gnomovision version 69, Copyright (C) year name of author
-+    Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
-+    This is free software, and you are welcome to redistribute it
-+    under certain conditions; type `show c' for details.
-+
-+The hypothetical commands `show w' and `show c' should show the appropriate
-+parts of the General Public License.  Of course, the commands you use may
-+be called something other than `show w' and `show c'; they could even be
-+mouse-clicks or menu items--whatever suits your program.
-+
-+You should also get your employer (if you work as a programmer) or your
-+school, if any, to sign a "copyright disclaimer" for the program, if
-+necessary.  Here is a sample; alter the names:
-+
-+  Yoyodyne, Inc., hereby disclaims all copyright interest in the program
-+  `Gnomovision' (which makes passes at compilers) written by James Hacker.
-+
-+  <signature of Ty Coon>, 1 April 1989
-+  Ty Coon, President of Vice
-+
-+This General Public License does not permit incorporating your program into
-+proprietary programs.  If your program is a subroutine library, you may
-+consider it more useful to permit linking proprietary applications with the
-+library.  If this is what you want to do, use the GNU Lesser General
-+Public License instead of this License.
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/inittab b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
-new file mode 100644
-index 0000000..6abbdf4
---- /dev/null
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab/inittab
-@@ -0,0 +1,30 @@
-+# /etc/inittab: init(8) configuration.
-+# $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
-+
-+# The default runlevel.
-+id:5:initdefault:
-+
-+# Boot-time system configuration/initialization script.
-+# This is run first except when booting in emergency (-b) mode.
-+si::sysinit:/etc/init.d/rcS
-+
-+# What to do in single-user mode.
-+~~:S:wait:/sbin/sulogin
-+
-+# /etc/init.d executes the S and K scripts upon change
-+# of runlevel.
-+#
-+# Runlevel 0 is halt.
-+# Runlevel 1 is single-user.
-+# Runlevels 2-5 are multi-user.
-+# Runlevel 6 is reboot.
-+
-+l0:0:wait:/etc/init.d/rc 0
-+l1:1:wait:/etc/init.d/rc 1
-+l2:2:wait:/etc/init.d/rc 2
-+l3:3:wait:/etc/init.d/rc 3
-+l4:4:wait:/etc/init.d/rc 4
-+l5:5:wait:/etc/init.d/rc 5
-+l6:6:wait:/etc/init.d/rc 6
-+# Normally not reached, but fallthrough in case of emergency.
-+z6:6:respawn:/sbin/sulogin
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-new file mode 100644
-index 0000000..9f34b27
---- /dev/null
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -0,0 +1,58 @@
-+DESCRIPTION = "Inittab for sysvinit"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-+
-+PR = "r6"
-+
-+SRC_URI = "file://COPYING \
-+           file://inittab"
-+
-+S = "${WORKDIR}/sysvinit-${PV}"
-+
-+do_configure() {
-+	cp ${WORKDIR}/COPYING ${S}/
-+}
-+
-+do_compile() {
-+	:
-+}
-+
-+do_install() {
-+	install -d ${D}${sysconfdir}
-+    install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
-+    if [ ! -z "${SERIAL_CONSOLE}" ]; then
-+        echo "S:2345:respawn:${base_sbindir}/getty ${SERIAL_CONSOLE}" >> ${D}${sysconfdir}/inittab
-+    fi
-+    if [ "${USE_VT}" = "1" ]; then
-+        cat <<EOF >>${D}${sysconfdir}/inittab
-+# ${base_sbindir}/getty invocations for the runlevels.
-+#
-+# The "id" field MUST be the same as the last
-+# characters of the device (after "tty").
-+#
-+# Format:
-+#  <id>:<runlevels>:<action>:<process>
-+#
-+
-+EOF
-+
-+        for n in ${SYSVINIT_ENABLED_GETTYS}
-+        do
-+            echo "$n:2345:respawn:${base_sbindir}/getty 38400 tty$n" >> ${D}${sysconfdir}/inittab
-+        done
-+        echo "" >> ${D}${sysconfdir}/inittab
-+    fi
-+}
-+
-+# USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .conf.
-+# Set PACKAGE_ARCH appropriately.
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+FILES_${PN} = "${sysconfdir}/inittab"
-+CONFFILES_${PN} = "${sysconfdir}/inittab"
-+
-+USE_VT ?= "1"
-+SYSVINIT_ENABLED_GETTYS ?= "1"
-+
-+
-+
-diff --git a/meta/recipes-core/sysvinit/sysvinit/inittab b/meta/recipes-core/sysvinit/sysvinit/inittab
-deleted file mode 100644
-index 6abbdf4..0000000
---- a/meta/recipes-core/sysvinit/sysvinit/inittab
-+++ /dev/null
-@@ -1,30 +0,0 @@
--# /etc/inittab: init(8) configuration.
--# $Id: inittab,v 1.91 2002/01/25 13:35:21 miquels Exp $
--
--# The default runlevel.
--id:5:initdefault:
--
--# Boot-time system configuration/initialization script.
--# This is run first except when booting in emergency (-b) mode.
--si::sysinit:/etc/init.d/rcS
--
--# What to do in single-user mode.
--~~:S:wait:/sbin/sulogin
--
--# /etc/init.d executes the S and K scripts upon change
--# of runlevel.
--#
--# Runlevel 0 is halt.
--# Runlevel 1 is single-user.
--# Runlevels 2-5 are multi-user.
--# Runlevel 6 is reboot.
--
--l0:0:wait:/etc/init.d/rc 0
--l1:1:wait:/etc/init.d/rc 1
--l2:2:wait:/etc/init.d/rc 2
--l3:3:wait:/etc/init.d/rc 3
--l4:4:wait:/etc/init.d/rc 4
--l5:5:wait:/etc/init.d/rc 5
--l6:6:wait:/etc/init.d/rc 6
--# Normally not reached, but fallthrough in case of emergency.
--z6:6:respawn:/sbin/sulogin
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index e683cc7..bda8a51 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -5,31 +5,15 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
--PR = "r3"
--
--# Need to set this since it has machine specific components
--PACKAGE_ARCH = "${MACHINE_ARCH}"
--
--# USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .conf.
--# Set PACKAGE_ARCH appropriately.
--PACKAGE_ARCH_${PN}-inittab = "${MACHINE_ARCH}"
-+PR = "r4"
- 
- RDEPENDS_${PN} = "${PN}-inittab"
- 
--PACKAGES =+ "bootlogd ${PN}-inittab"
--FILES_bootlogd = "/etc/init.d/bootlogd /etc/init.d/stop-bootlogd /etc/rc?.d/S*bootlogd /sbin/bootlogd"
--FILES_${PN}-inittab = "${sysconfdir}/inittab"
--CONFFILES_${PN}-inittab = "${sysconfdir}/inittab"
--
--USE_VT ?= "1"
--SYSVINIT_ENABLED_GETTYS ?= "1"
--
- SRC_URI = "http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${PV}.tar.bz2 \
- 	   file://install.patch \
- 	   file://crypt-lib.patch \
-            file://need \
-            file://provide \
--           file://inittab \
-            file://rcS-default \
-            file://rc \
-            file://rcS \
-@@ -70,29 +54,6 @@ do_install () {
- 	install -d ${D}${sysconfdir} \
- 		   ${D}${sysconfdir}/default \
- 		   ${D}${sysconfdir}/init.d
--	install -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
--	if [ ! -z "${SERIAL_CONSOLE}" ]; then
--		echo "S:2345:respawn:${base_sbindir}/getty ${SERIAL_CONSOLE}" >> ${D}${sysconfdir}/inittab
--	fi
--	if [ "${USE_VT}" = "1" ]; then
--		cat <<EOF >>${D}${sysconfdir}/inittab
--# ${base_sbindir}/getty invocations for the runlevels.
--#
--# The "id" field MUST be the same as the last
--# characters of the device (after "tty").
--#
--# Format:
--#  <id>:<runlevels>:<action>:<process>
--#
--
--EOF
--
--		for n in ${SYSVINIT_ENABLED_GETTYS}
--		do
--			echo "$n:2345:respawn:${base_sbindir}/getty 38400 tty$n" >> ${D}${sysconfdir}/inittab
--		done
--		echo "" >> ${D}${sysconfdir}/inittab
--	fi
- 	install -m 0644    ${WORKDIR}/rcS-default	${D}${sysconfdir}/default/rcS
- 	install -m 0755    ${WORKDIR}/rc		${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/rcS		${D}${sysconfdir}/init.d
--- 
-1.6.6.1
+OE om-gta02@shr ~/shr-core $ find openembedded-core/ -name gobject-introspe=
+ction\*
+openembedded-core/meta/recipes-gnome/gnome/gobject-introspection_git.bb
+SRCREV =3D "efa7266bcf78478ce62e8dd778a4f0417bfd4d15"
+PV =3D "0.10.8+git${SRCPV}"
 
+OE om-gta02@shr ~/shr-core $ find meta-openembedded/ -name gobject-introspe=
+ction\*
+meta-openembedded/meta-oe/recipes-gnome/gnome/gobject-introspection_0.9.10.=
+bb
+meta-openembedded/meta-oe/recipes-gnome/gnome/gobject-introspection_git.bb
+SRCREV =3D "8d64bc23d2b837421ecf9c7b0e4b8d5d95ca0d21"
+PV =3D "1.29.0+gitr${SRCPV}"
 
+I had to add gobject-introspection_git.bb to meta-oe, because we're
+using newer glib with gdbus-codegen included (instead separate
+gdbus-binding-tool we were using before)
+meta-openembedded/meta-oe/recipes-core/glib-2.0/glib-2.0_git.bb with
+SRCREV =3D "d97cbc6731deab137770bc0fe9c69b06f689f5b4"
+PV =3D "2.29.3+gitr${SRCPV}"
+and default gobject-introspection version is not compatible with it.
 
+Problem is that with 2 _git recipes LOCALCOUNT is incremented twice
+because there are 2 different SRCREVs found during parsing.
+
+I wanted to use gobject-introspection_git.bbappend, but it looks like
+changing PV/SRCREV from .bbappend is not supported (bitbake-layers also
+reported that it cannot find right gobject-introspection version to my
+bbappend. And I also cannot blacklist gobject-introspection_git.bb from
+oe-core, because Angstrom blacklister uses only PN. So in the end I've
+removed that recipe from my oe-core-contrib/shr branch which is used for
+SHR builds..
+
+Is there better way to resolve this? With more layers enabled this could
+happen more often imho.. Maybe we could add unexpanded -PV to LOCALCOUNT
+persistent db key with sideeffect of reseting LOCALCOUNT on every PV
+change (upgrade to newer version).
+
+Regards,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--3CAnR4CLEnEWqRMR
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
+
+iEYEARECAAYFAk3whooACgkQN1Ujt2V2gBxLJwCfY1fMxdT82hpy4DNahSIwKFMx
+VuwAn0RtfBAwZDudn39qpOaF+PTz716Y
+=sxgY
+-----END PGP SIGNATURE-----
+
+--3CAnR4CLEnEWqRMR--
