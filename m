@@ -1,26 +1,22 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QUfhm-0006Pj-VX for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 15:55:27 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p59Dq8fE013244
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QUfj2-0006Re-FL
+	for openembedded-core@lists.openembedded.org;
+	Thu, 09 Jun 2011 15:56:44 +0200
+Received: by wwb17 with SMTP id 17so1431982wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jun 2011 14:52:08 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 12908-06 for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jun 2011 14:52:04 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p59Dq2SX013238
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jun 2011 14:52:03 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	Thu, 09 Jun 2011 06:53:24 -0700 (PDT)
+Received: by 10.216.209.212 with SMTP id s62mr809453weo.67.1307627604185;
+	Thu, 09 Jun 2011 06:53:24 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id c51sm858825wek.23.2011.06.09.06.53.21
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 09 Jun 2011 06:53:22 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <1307625339.15712.155.camel@rex>
+Date: Thu, 9 Jun 2011 15:53:19 +0200
+Message-Id: <76185F2A-C89D-4698-BA21-CC823343B1BE@dominion.thruhere.net>
 References: <cover.1307523829.git.dongxiao.xu@intel.com>
 	<3cb0d7f134013f8dcd664429b7efda396d12790e.1307523829.git.dongxiao.xu@intel.com>
 	<1307525772.2529.4777.camel@phil-desktop>
@@ -29,11 +25,9 @@ References: <cover.1307523829.git.dongxiao.xu@intel.com>
 	<1307618944.15712.150.camel@rex>
 	<1307619798.2529.4844.camel@phil-desktop>
 	<1307625339.15712.155.camel@rex>
-Date: Thu, 09 Jun 2011 14:51:53 +0100
-Message-ID: <1307627513.15712.158.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
 Subject: Re: [PATCH 1/1] libc-locale: split locale handling from libc recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -49,43 +43,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 13:55:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jun 2011 13:56:44 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2011-06-09 at 14:15 +0100, Richard Purdie wrote:
+
+Op 9 jun 2011, om 15:15 heeft Richard Purdie het volgende geschreven:
+
 > On Thu, 2011-06-09 at 12:43 +0100, Phil Blundell wrote:
-> > On Thu, 2011-06-09 at 12:29 +0100, Richard Purdie wrote:
-> > > As you can see, eglibc do_package takes about 14 minutes which is about
-> > > 14% of our build time. That is a long time to block pretty much all
-> > > packaging activity, particularly if you have access to something with
-> > > several cores. When it does complete, even on my 4 core system you see a
-> > > "stampeding herd" of packaging happening on the build charts suggesting
-> > > a backlog does build up.
-> > 
-> > Yeah, I can imagine that a backlog of packaging activity does build up.
-> > The thing I'm not entirely clear on is whether this is actually causing
-> > some threads to get starved of work (and hence the total build time to
-> > be longer than it needs to be) or whether we're really just shifting
-> > things around in the timeline without making much/any difference to the
-> > overall build duration.
-> 
+>> On Thu, 2011-06-09 at 12:29 +0100, Richard Purdie wrote:
+>>> As you can see, eglibc do_package takes about 14 minutes which is =
+about
+>>> 14% of our build time. That is a long time to block pretty much all
+>>> packaging activity, particularly if you have access to something =
+with
+>>> several cores. When it does complete, even on my 4 core system you =
+see a
+>>> "stampeding herd" of packaging happening on the build charts =
+suggesting
+>>> a backlog does build up.
+>>=20
+>> Yeah, I can imagine that a backlog of packaging activity does build =
+up.
+>> The thing I'm not entirely clear on is whether this is actually =
+causing
+>> some threads to get starved of work (and hence the total build time =
+to
+>> be longer than it needs to be) or whether we're really just shifting
+>> things around in the timeline without making much/any difference to =
+the
+>> overall build duration.
+>=20
 > It will certainly be a net win on large core systems which I know of
 > people running builds on as task starvation happens there. Last time I
 > tested this on a 4 core I think we saw a couple of minutes improvement
 > in build time so it appears beneficial there too.
+>=20
+>>  (I'm not familiar enough with bitbake's
+>> scheduler to know whether it will schedule tasks as early as =
+possible,
+>> or as late as possible, or something else.)
+>=20
+> Roughly speaking, the default scheduler runs tasks with the most =
+things
+> depending upon them first. This means it will fill any "spare" threads
+> with lower priority tasks such as packaging.
+>=20
+>> Just as a matter of interest, are you using qemu-based locale =
+generation
+>> or the cross localedef for your measurement?  14 minutes does sound =
+like
+>> an awfully long time and I wonder whether there is anything we could =
+do
+>> in absolute terms to just speed that process up.
+>=20
+> I'm using cross localedef. Its faster than with qemu but still slow. =
+I'm
+> very open to suggestions on how to speed it up as it does take an age.
 
-Just as another data point, I'm running builds on my 4 core machine here
-and it is scheduling many do_package tasks including long running ones
-such as perl's in parallel with eglibc-locale's do_package task. It
-would appear the bitbake scheduler believes there is benefit in
-splitting these out at least.
+Does cross localegen obey parallel make or does it only do a single =
+locale at a time?
 
-Cheers,
+regards,
 
-Richard
-
-
-
+Koen=
 
 
