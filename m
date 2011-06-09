@@ -1,40 +1,24 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QUiGQ-0004tc-KE
+	(envelope-from <mark.hatle@windriver.com>) id 1QUij0-00061D-7L
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 18:39:22 +0200
-Received: by vws2 with SMTP id 2so1498889vws.6
+	Thu, 09 Jun 2011 19:08:54 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p59H5XpC016575
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jun 2011 09:36:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
-	:date:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=t5v7ekUcgFnNjonEUemXIkQJ6cGQxPWYeP2+GxEgUsU=;
-	b=fncJzbQClTOS/tMu3KcR9i0tw+/WJ3/mT6dkdG/D9/NdVyQkzpq8KFtXflJb2CPJYH
-	GkOzEquYE9+Ubh+fEPC8ejWkTqCL8+lEEEt40cy9GpU5VkSmK+nt4RjMk0ydpGhLup51
-	q3dCLqUHyrx0BITIgkKctMievGJX58G6RhT6w=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	b=UyW8ni8Wgc0Ao6y+FjvN966utrwwfojLc9UdxuTfdghzIGbwpeIu3qRooeuJBTwhIO
-	XKzQsjKisQnBEOwbmtdcoQZnGX+9pXJyd6vWaSkRnId6giDubdpiSpT4R6KV8RlyYnG6
-	cIoBI6ebBSyf3ug/7HeCE8FRhWR15MVvlat+U=
-Received: by 10.52.75.193 with SMTP id e1mr1292243vdw.195.1307637362061; Thu,
-	09 Jun 2011 09:36:02 -0700 (PDT)
+	Thu, 9 Jun 2011 10:05:33 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 9 Jun 2011 10:05:32 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 9 Jun 2011 12:15:44 -0500
+Message-ID: <cover.1307639649.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.52.101.134 with HTTP; Thu, 9 Jun 2011 09:35:42 -0700 (PDT)
-In-Reply-To: <201106091654.57519.paul.eggleton@linux.intel.com>
-References: <233337C7-346F-4E05-887C-776008F90E5F@dominion.thruhere.net>
-	<201106091631.48506.paul.eggleton@linux.intel.com>
-	<201106091654.57519.paul.eggleton@linux.intel.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 9 Jun 2011 09:35:42 -0700
-X-Google-Sender-Auth: mpFN3cCMmDwUnZeI5Y9OfLoPMQk
-Message-ID: <BANLkTimtkEzUMRZ2OOYss4-c1yB3P7X2Fw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: List of bbappends without matching recipes
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/1] Fix realpath issue in pseudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,31 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 16:39:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 09 Jun 2011 17:08:54 -0000
+Content-Type: text/plain
 
-On Thu, Jun 9, 2011 at 8:54 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Thursday 09 June 2011 16:31:48 Paul Eggleton wrote:
->> I've recently submitted a patch to bitbake-devel which fixes
->> bitbake-layers' handling of skipped recipes so that it doesn't report them
->> as missing. I don't think skipped recipes can account for that entire list
->> however.
->
-> OK so those patches don't apply anymore, have rebased them locally (+ added
-> one fix) and will resubmit. FYI this is the list I have come up with, without
-> skipped recipes:
->
+When pseudo is running in disabled mode (most of the time in oe-core), the
+realpath function can fail on system systems.  This was discovered by some
+problems found in Qt MOC and qmake.
 
-Those patches look reasonable to me, thanks for taking the time to
-look into it and fix it.
+The change is from upstream, and has been verified by the person who 
+originally found the issue.
 
-Acked-by: Chris Larson <chris_larson@mentor.com>
+The following changes since commit d3e105451413617cf6415ae1600dc063f3d8d452:
+
+  scripts/bitbake: Only build tar-replacement-native when the build system tar version < 1.24 (2011-06-09 16:32:03 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/pseudo
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/pseudo
+
+Mark Hatle (1):
+  pseudo: Fix problem related to realpath
+
+ .../pseudo/pseudo/realpath_fix.patch               |  165 ++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.1.1.bb       |    3 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb         |    2 +-
+ 3 files changed, 168 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch
+
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1.7.3.4
+
 
 
