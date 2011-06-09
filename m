@@ -1,34 +1,37 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QUdI5-0005Dd-RZ for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 13:20:46 +0200
+	id 1QUdTc-0005Mm-SU for openembedded-core@lists.openembedded.org;
+	Thu, 09 Jun 2011 13:32:41 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p59BHQaJ012000
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p59BTHF2012106
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jun 2011 12:17:26 +0100
+	Thu, 9 Jun 2011 12:29:17 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 11638-06 for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jun 2011 12:17:22 +0100 (BST)
+	id 11638-08 for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 Jun 2011 12:29:13 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p59BHFJ9011994
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p59BTCvA012100
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jun 2011 12:17:19 +0100
+	Thu, 9 Jun 2011 12:29:13 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1307617330.2529.4803.camel@phil-desktop>
-References: <4DE56B0D.4020209@intel.com>
-	<1307617330.2529.4803.camel@phil-desktop>
-Date: Thu, 09 Jun 2011 12:17:07 +0100
-Message-ID: <1307618227.15712.143.camel@rex>
+In-Reply-To: <1307618044.2529.4810.camel@phil-desktop>
+References: <cover.1307523829.git.dongxiao.xu@intel.com>
+	<3cb0d7f134013f8dcd664429b7efda396d12790e.1307523829.git.dongxiao.xu@intel.com>
+	<1307525772.2529.4777.camel@phil-desktop>
+	<1307547318.15712.109.camel@rex>
+	<1307618044.2529.4810.camel@phil-desktop>
+Date: Thu, 09 Jun 2011 12:29:04 +0100
+Message-ID: <1307618944.15712.150.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Tell me your build error message annoyances!
+Subject: Re: [PATCH 1/1] libc-locale: split locale handling from libc recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,62 +46,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 11:20:46 -0000
+X-List-Received-Date: Thu, 09 Jun 2011 11:32:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-06-09 at 12:02 +0100, Phil Blundell wrote:
-> After I made a typo (mismatched quotes) in one of my recipes, my next
-> bitbake run printed:
+On Thu, 2011-06-09 at 12:14 +0100, Phil Blundell wrote:
+> On Wed, 2011-06-08 at 16:35 +0100, Richard Purdie wrote:
+> > I'm not sure how this would reduce performance of builds of a few
+> > threads, it should just make better use of any available "spare"
+> > processing capacity throughout the build.
 > 
-> Loading cache: 100% |#####################################################################################################################################################| ETA:  00:00:00
-> Loaded 1323 entries from dependency cache.
-> NOTE: Error expanding variable do_configure                                                                                                                               | ETA:  --:--:--
-> ERROR: Command execution failed: Traceback (most recent call last):#############################                                                                          | ETA:  00:00:00
->   File "/home/pb/oe/bitbake/lib/bb/command.py", line 99, in runAsyncCommand
->     self.cooker.updateCache()
->   File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 871, in updateCache
->     if not self.parser.parse_next():
->   File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 1120, in parse_next
->     self.shutdown(clean=False)
->   File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 1102, in shutdown
->     bb.codeparser.parser_cache_save(self.cfgdata)
->   File "/home/pb/oe/bitbake/lib/bb/codeparser.py", line 77, in parser_cache_save
->     data, version = p.load()
-> EOFError
+> If I'm reading the patch right, it does involve a certain amount of
+> extra copying around of the locale-related files since they need to be
+> stashed away in some place where libc-locale.bb can find them later.  I
+> don't think these files are especially big, but there are quite a few of
+> them (which is the whole reason that libc's do_package was slow in the
+> first place). 
 > 
-> So, this is (a) confusing, because "EOFError" doesn't yield much
-> information about the actual cause of the problem; (b) unhelpful, since
-> it doesn't mention which line of the file (or even which recipe) was to
-> blame; and (c) annoying, for the usual reasons to do with python
-> traceback.
+> I must admit that I'm slightly surprised that libc's packaging stage is
+> becoming a bottleneck for anything other than the very smallest builds.
+> If there's any substantial amount of other material being compiled then
+> I would expect that there would be enough do_compile() work to keep the
+> other threads busy until libc was done packaging.  That's not to say
+> that I think this change is a bad idea, but I would be interested to
+> know what the actual impact is for real-world workloads.
 > 
-> Somewhat worse, even after I fixed the typo, any subsequent attempt to
-> run bitbake would just result in:
-> 
-> Loading cache: 100% |#####################################################################################################################################################| ETA:  00:00:00
-> Loaded 1323 entries from dependency cache.
-> Traceback (most recent call last):                                                                                                                                        | ETA:  --:--:--
->   File "/usr/lib/python2.6/multiprocessing/util.py", line 235, in _run_finalizers
->     finalizer()
->   File "/usr/lib/python2.6/multiprocessing/util.py", line 174, in __call__
->     res = self._callback(*self._args, **self._kwargs)
->   File "/home/pb/oe/bitbake/lib/bb/codeparser.py", line 77, in parser_cache_save
->     data, version = p.load()
-> EOFError
-> 
-> (repeated about 10 times)
-> 
-> I deleted tmp/cache/* and that seemed to fix the problem.
+> And, just on a point of principle, any time we're making a chance for
+> performance-related reasons I think we should always have measurements
+> to back it up. 
 
-FWIW, bitbake master has fixes for this specific issue and a number of
-other codeparser performance related issues. If it meets EOF while
-loading it will now just assume the cache file is corrupt and
-ignore/rebuild it.
+Totally agreed and this decision is being made on real world data even
+if its perhaps not clearly being presented here.
+
+$ cat buildstats/core-image-sato-qemux86/201106030912/eglibc-2.13-r1+svnr13356/do_package | grep time
+eglibc-2.13-r1+svnr13356: do_package: Elapsed time: 828.01 seconds
+
+As you can see, eglibc do_package takes about 14 minutes which is about
+14% of our build time. That is a long time to block pretty much all
+packaging activity, particularly if you have access to something with
+several cores. When it does complete, even on my 4 core system you see a
+"stampeding herd" of packaging happening on the build charts suggesting
+a backlog does build up.
+
+For those reasons I do think its a reasonable change.
 
 Cheers,
 
 Richard
+
+
+
+
+
+
+
 
 
 
