@@ -1,28 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QUhN1-0002kW-VP
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QUhci-0006kd-1f
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 17:42:08 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p59FclB4029346
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jun 2011 08:38:47 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 9 Jun 2011 08:38:47 -0700
-Message-ID: <4DF0E906.3070600@windriver.com>
-Date: Thu, 9 Jun 2011 10:38:46 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Thu, 09 Jun 2011 17:58:23 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Jun 2011 08:54:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,342,1304319600"; d="scan'208";a="16206541"
+Received: from unknown (HELO helios.localnet) ([10.255.13.6])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2011 08:54:58 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 9 Jun 2011 16:54:57 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+References: <233337C7-346F-4E05-887C-776008F90E5F@dominion.thruhere.net>
+	<201106091631.48506.paul.eggleton@linux.intel.com>
+In-Reply-To: <201106091631.48506.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4DF0A70C.7080501@windriver.com> <4DF0E4A8.1000608@windriver.com>
-	<BANLkTimV_znbLegSD-E3EEeFqEasmDHa4Q@mail.gmail.com>
-In-Reply-To: <BANLkTimV_znbLegSD-E3EEeFqEasmDHa4Q@mail.gmail.com>
-Subject: Re: Question about apply eglibc configurability to create minimal image
+Message-Id: <201106091654.57519.paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: List of bbappends without matching recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,49 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 15:42:08 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Thu, 09 Jun 2011 15:58:24 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 6/9/11 10:34 AM, Frans Meulenbroeks wrote:
-> 
-> 
-> 2011/6/9 Mark Hatle <mark.hatle@windriver.com <mailto:mark.hatle@windriver.com>>
-> 
->     On 6/9/11 5:57 AM, Kang Kai wrote:
->     > Hi Mark,
->     >
->     > I am focus on eglibc itself compilation with disabling all the
->     > configurable options, right now eglibc can be compiled with disable all
->     > the configurable options.
->     >
->     > But when I build core-image-minimal in a clear new directory, some
->     > packages build failed and they need eglibc supports, such as
-> 
->     core-image-minimal is simply to large of an image to see some of the advantages
->     of the eglibc configuration.  Realistically the advantages come on single
->     application or small (busybox + single application) systems.
-> 
-> 
-> Then again if you are in that usecase you're probably better off (spacewise)
-> using static linking
+On Thursday 09 June 2011 16:31:48 Paul Eggleton wrote:
+> I've recently submitted a patch to bitbake-devel which fixes
+> bitbake-layers' handling of skipped recipes so that it doesn't report them
+> as missing. I don't think skipped recipes can account for that entire list
+> however.
 
-dynamical linking has the advantage of requiring less run-time memory.  So
-multi-process, small systems are better in dynamic configurations then static.
-(Copy-On-Write)
+OK so those patches don't apply anymore, have rebased them locally (+ added 
+one fix) and will resubmit. FYI this is the list I have come up with, without 
+skipped recipes:
 
-On-disk space is better static then dynamic.  It's all trade-offs in the end.
+---------------
+meta-intel:
+  meta-emenlow/recipes-gnome/tasks/task-poky-standalone-gmae-sdk-
+target.bbappend
+  meta-emenlow/recipes-gnome/tasks/task-poky-sdk-gmae.bbappend
+  
+meta-smartphone:
+  meta-nokia/recipes-bsp/udev/udev_168.bbappend
 
---Mark
+meta-nslu2:
+  recipes-core/images/slugos-image.bbappend
+---------------
 
-> Frans
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
+Paul
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
