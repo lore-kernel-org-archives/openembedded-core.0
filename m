@@ -1,25 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QUjnp-0003mG-1B
+	(envelope-from <sgw@linux.intel.com>) id 1QUk7V-000485-GG
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 20:17:58 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Jun 2011 11:14:36 -0700
+	Thu, 09 Jun 2011 20:38:17 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 09 Jun 2011 11:34:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,342,1304319600"; d="scan'208";a="12066737"
+X-IronPort-AV: E=Sophos;i="4.65,342,1304319600"; d="scan'208";a="14284202"
 Received: from unknown (HELO [10.255.12.216]) ([10.255.12.216])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jun 2011 11:14:35 -0700
-Message-ID: <4DF10D8B.4010400@linux.intel.com>
-Date: Thu, 09 Jun 2011 11:14:35 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jun 2011 11:34:56 -0700
+Message-ID: <4DF11250.7070603@linux.intel.com>
+Date: Thu, 09 Jun 2011 11:34:56 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1307602786.git.ke.yu@intel.com>
-In-Reply-To: <cover.1307602786.git.ke.yu@intel.com>
-Subject: Re: [PATCH 0/1] add mesa-demos to sato-sdk to fix bug 1112
+References: <cover.1307405937.git.mark.hatle@windriver.com>
+	<0d899ea302e9c441bc9748c71c57b5517526a49a.1307405937.git.mark.hatle@windriver.com>
+In-Reply-To: <0d899ea302e9c441bc9748c71c57b5517526a49a.1307405937.git.mark.hatle@windriver.com>
+Subject: Re: [PATCH 2/2] distro_tracking_fields.inc: add pseudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,46 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 18:17:58 -0000
+X-List-Received-Date: Thu, 09 Jun 2011 18:38:17 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/09/2011 12:03 AM, Yu Ke wrote:
-> The following changes since commit c412674cf818e77e35857fb93353e392e7ac9e53:
->    Khem Raj (1):
->          package.bbclass,prserv.bbclass: Compare USE_PR_SERV with "1" or "0"
+On 06/06/2011 05:19 PM, Mark Hatle wrote:
+> Add pseudo to tracking, with me as the maintainer.
 >
-> are available in the git repository at:
+> Signed-off-by: Mark Hatle<mark.hatle@windriver.com>
+> ---
+>   .../conf/distro/include/distro_tracking_fields.inc |    6 +++++-
+>   1 files changed, 5 insertions(+), 1 deletions(-)
 >
->    git://git.pokylinux.org/poky-contrib kyu3/bug1112
->    http://git.pokylinux.org/cgit.cgi//log/?h=kyu3/bug1112
+> diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+> index 73e6782..3452bcc 100644
+> --- a/meta/conf/distro/include/distro_tracking_fields.inc
+> +++ b/meta/conf/distro/include/distro_tracking_fields.inc
+> @@ -5734,4 +5734,8 @@ RECIPE_COMMENTS_pn-rxvt-unicode = ""
+>   RECIPE_LAST_UPDATE_pn-rxvt-unicode = "May 25, 2011"
+>   RECIPE_MAINTAINER_pn-rxvt-unicode = "Saul Wold<sgw@linux.intel.com>"
 >
-> Yu Ke (1):
->    sato-sdk: add mesa-demos application
->
->   meta/classes/core-image.bbclass                 |    1 +
->   meta/recipes-sato/images/core-image-sato-sdk.bb |    2 +-
->   meta/recipes-sato/tasks/task-core.bb            |    6 +++++-
->   3 files changed, 7 insertions(+), 2 deletions(-)
->
-Ke,
+> -
+> +RECIPE_STATUS_pn-pseudo = "green"
+> +RECIPE_LATEST_VERSION_pn-pseudo = "1.1.1"
+> +RECIPE_LAST_UPDATE_pn-pseudo = "June 06, 2011"
+> +RECIPE_MAINTAINER_pn-pseudo = "Mark Hatle<mark.hatle@windriver.com>"
+> +RECIPE_COMMENTS_pn-pseudo = "Yocto Project maintained"
 
-I discussed this with Richard and we applied a different patch that adds 
-mesa-demos to an existing task called task-core-tools-testapps
-and then ensure that it is part of sato-sdk.
+Merged into OE-core
 
-We also cleaned up the EXTRA_IMAGE_FEATURES include by default in 
-local.conf to not include all the tools and testapps, but only the debug 
-tweaks.  This will give a truer representation of the sato and lsb 
-images sizes (when built without -dev or -sdk).
-
-Sau!
-
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Thanks
+	Sau!
 
 
