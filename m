@@ -1,24 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QUgnd-0001zp-Lg
+	(envelope-from <koen@dominion.thruhere.net>) id 1QUh0q-0002Hd-1I
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 17:05:33 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 09 Jun 2011 08:00:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,342,1304319600"; d="scan'208";a="11352479"
-Received: from unknown (HELO [10.7.199.151]) ([10.7.199.151])
-	by orsmga002.jf.intel.com with ESMTP; 09 Jun 2011 08:00:44 -0700
-Message-ID: <4DF0E01C.7090403@intel.com>
-Date: Thu, 09 Jun 2011 08:00:44 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4DE56B0D.4020209@intel.com>
-In-Reply-To: <4DE56B0D.4020209@intel.com>
-Subject: Re: Tell me your build error message annoyances!
+	Thu, 09 Jun 2011 17:19:12 +0200
+Received: by wye20 with SMTP id 20so1335323wye.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jun 2011 08:15:52 -0700 (PDT)
+Received: by 10.216.142.165 with SMTP id i37mr880982wej.106.1307632552097;
+	Thu, 09 Jun 2011 08:15:52 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id w62sm900802wec.18.2011.06.09.08.15.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 09 Jun 2011 08:15:51 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 9 Jun 2011 17:15:49 +0200
+Message-Id: <233337C7-346F-4E05-887C-776008F90E5F@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: List of bbappends without matching recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,57 +34,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 15:05:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jun 2011 15:19:12 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 05/31/2011 03:26 PM, Scott Garman wrote:
-> Hey folks,
->
-> I'd like to collect some feedback on error messages while building that
-> you find confusing/annoying/unhelpful. I'm going to be working on trying
-> to improve the situation and would like to hear from you about what
-> could be more helpful.
+Hey,
 
-Thanks everyone for your feedback. I have filed a number of bugs in 
-Bugzilla and currently have a small list of them I'm working on 
-currently. Here is the current list I created based on the replies to 
-this thread:
+I ran bitbake layers on a stock angstrom setup and it reported a lot of =
+'broken' bbappends:
 
-Bug 542 - bitbake "NoProvider" message doesn't aid in resolving the problem
-http://bugzilla.pokylinux.org/show_bug.cgi?id=542
+meta-intel:
+  =
+/OE/tentacle/sources/meta-intel/meta-sugarbay/../common/recipes-core/initr=
+dscripts/initramfs-live-install_1.0.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-crownbay/../common/recipes-core/initr=
+dscripts/initramfs-live-install_1.0.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-jasperforest/../common/recipes-core/i=
+nitrdscripts/initramfs-live-install_1.0.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-sugarbay/recipes-kernel/linux/linux-y=
+octo_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-crownbay/recipes-kernel/linux/linux-y=
+octo_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-emenlow/recipes-kernel/linux/linux-yo=
+cto_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-fishriver/recipes-kernel/linux/linux-=
+yocto_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-jasperforest/recipes-kernel/linux/lin=
+ux-yocto_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-n450/recipes-kernel/linux/linux-yocto=
+_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-crownbay/recipes-kernel/linux/linux-y=
+octo-stable_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-emenlow/recipes-kernel/linux/linux-yo=
+cto-stable_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-fishriver/recipes-kernel/linux/linux-=
+yocto-stable_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-jasperforest/recipes-kernel/linux/lin=
+ux-yocto-stable_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-n450/recipes-kernel/linux/linux-yocto=
+-stable_git.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-emenlow/recipes-gnome/tasks/task-poky=
+-standalone-gmae-sdk-target.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-jasperforest/recipes-graphics/xorg-xs=
+erver/xserver-xf86-dri-lite_1.9.3.bbappend
+  =
+/OE/tentacle/sources/meta-intel/meta-emenlow/recipes-gnome/tasks/task-poky=
+-sdk-gmae.bbappend
 
-Bug 1127 - Improve the error reporting when SkipPackage error is raised
-http://bugzilla.pokylinux.org/show_bug.cgi?id=1127
+meta-smartphone:
+  =
+/OE/tentacle/sources/meta-smartphone/meta-nokia/recipes-bsp/udev/udev_168.=
+bbappend
 
-Bug 1128 - Meaningless error message when quilt is not installed
-http://bugzilla.pokylinux.org/show_bug.cgi?id=1128
+meta-nslu2:
+  =
+/OE/tentacle/sources/meta-nslu2/recipes-core/images/slugos-image.bbappend
 
-Bug 1141 - bitbake -b prints meaningless error when given an invalid
-recipe name
-http://bugzilla.pokylinux.org/show_bug.cgi?id=1141
+regards,
 
-Bug 1142 - git fetcher error when wrong protocol is specified is not helpful
-http://bugzilla.pokylinux.org/show_bug.cgi?id=1142
-
-Bug 1143 - Remove python stack trace when do_patch fails
-http://bugzilla.pokylinux.org/show_bug.cgi?id=1143
-
-Bug 1144 - bb.debug messages are not logged or displayed on the console
-with -DDD during recipe parsing
-http://bugzilla.pokylinux.org/show_bug.cgi?id=1144
-
-Bug 1145 - Make bitbake output less noisy for non-error cases
-http://bugzilla.pokylinux.org/show_bug.cgi?id=1145
-
-Again, not all of those are on my plate for M2/M3, but my goal is to 
-make a dent in them soon.
-
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Koen=
 
 
