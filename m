@@ -1,28 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QUh51-0002Mj-6p
+	(envelope-from <bruce.ashfield@gmail.com>) id 1QUh9U-0002Rr-US
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 17:23:31 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p59FKAjU025906
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 9 Jun 2011 08:20:10 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 9 Jun 2011 08:20:09 -0700
-Message-ID: <4DF0E4A8.1000608@windriver.com>
-Date: Thu, 9 Jun 2011 10:20:08 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Thu, 09 Jun 2011 17:28:09 +0200
+Received: by ywg8 with SMTP id 8so939949ywg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jun 2011 08:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type:content-transfer-encoding;
+	bh=IBCzp6JzLSexBAdbfZaKd+PRcBi/Hucv/1tNE9DKZ/w=;
+	b=rGlWUcendS3+rPnGQMVw3H+jRr6siYzHJpfwOLPbC0rd0CJ1nX95CrePo9o0maAD7e
+	a5A3m4Ofpqs7rstBpjErbl7Vy1NKgjerVdLN8BAYsTpAf4qrKfLAEuARsKWn/YpM4YGv
+	EZFNtz3J6+sipPF+wFAnXLUqY26+ctgL3MUyg=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	b=xa5cLXm4CnBu4JN0PGZYJqnpUim2fr69Y30hJdqUWwF+YFwlxCKNnIcC21Y6pm43vk
+	Tg4eorVopfKtTlX3DYeMEj86vxkRm7F8lK1XfxdPLo2t2mURMjL0iTU2ObTv7u5JSPeP
+	ycoUUcJ+vLZmXyd6C53uXBJNqnMqwwtHpPCCE=
 MIME-Version: 1.0
-To: Kang Kai <Kai.Kang@windriver.com>
-References: <4DF0A70C.7080501@windriver.com>
-In-Reply-To: <4DF0A70C.7080501@windriver.com>
-Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>, Patches,
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: Question about apply eglibc configurability to create minimal image
+Received: by 10.90.139.17 with SMTP id m17mr2112116agd.51.1307633087407; Thu,
+	09 Jun 2011 08:24:47 -0700 (PDT)
+Received: by 10.90.96.1 with HTTP; Thu, 9 Jun 2011 08:24:47 -0700 (PDT)
+In-Reply-To: <233337C7-346F-4E05-887C-776008F90E5F@dominion.thruhere.net>
+References: <233337C7-346F-4E05-887C-776008F90E5F@dominion.thruhere.net>
+Date: Thu, 9 Jun 2011 11:24:47 -0400
+Message-ID: <BANLkTik3Th6hbkg9jjipYOmjp83cWmssKw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: List of bbappends without matching recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,120 +45,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 15:23:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jun 2011 15:28:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 6/9/11 5:57 AM, Kang Kai wrote:
-> Hi Mark,
-> 
-> I am focus on eglibc itself compilation with disabling all the 
-> configurable options, right now eglibc can be compiled with disable all 
-> the configurable options.
-> 
-> But when I build core-image-minimal in a clear new directory, some 
-> packages build failed and they need eglibc supports, such as
+On Thu, Jun 9, 2011 at 11:15 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
+te:
+> Hey,
+>
+> I ran bitbake layers on a stock angstrom setup and it reported a lot of '=
+broken' bbappends:
+>
+> meta-intel:
+> =A0/OE/tentacle/sources/meta-intel/meta-sugarbay/../common/recipes-core/i=
+nitrdscripts/initramfs-live-install_1.0.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-crownbay/../common/recipes-core/i=
+nitrdscripts/initramfs-live-install_1.0.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-jasperforest/../common/recipes-co=
+re/initrdscripts/initramfs-live-install_1.0.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-sugarbay/recipes-kernel/linux/lin=
+ux-yocto_git.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-crownbay/recipes-kernel/linux/lin=
+ux-yocto_git.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-emenlow/recipes-kernel/linux/linu=
+x-yocto_git.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-fishriver/recipes-kernel/linux/li=
+nux-yocto_git.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-jasperforest/recipes-kernel/linux=
+/linux-yocto_git.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-n450/recipes-kernel/linux/linux-y=
+octo_git.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-crownbay/recipes-kernel/linux/lin=
+ux-yocto-stable_git.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-emenlow/recipes-kernel/linux/linu=
+x-yocto-stable_git.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-fishriver/recipes-kernel/linux/li=
+nux-yocto-stable_git.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-jasperforest/recipes-kernel/linux=
+/linux-yocto-stable_git.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-n450/recipes-kernel/linux/linux-y=
+octo-stable_git.bbappend
 
-core-image-minimal is simply to large of an image to see some of the advantages
-of the eglibc configuration.  Realistically the advantages come on single
-application or small (busybox + single application) systems.
+Don't these match the -stable (soon to be 2.6.34) kernel recipe ?
 
-> gcc-runtime    depends on     libc-libm
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-kernel/lin=
+ux/linux-yocto-stable_git.bb
 
-The above looks like a bug to me and should be investigated.. (a bug in gcc that
-is..)
+or maybe I'm just missing something, you did have 'broken' in
+quotes :)
 
-> ncurse            depends on    libc-posix-wchar-io libc-posix-clang-wchar
+Cheers,
 
-ncurses can be configured WITHOUT wide character support, the needs to be done
-with any of the wchar options disabled in eglibc.
+Bruce
 
-> openssl           depends on    libc-inet libc-nsswitch
 
-I'm not sure why openssl needs either inet or nsswitch.  inet perhaps if it
-tries to make certain socket calls, but libc-nsswitch should never be required
-outside of eglibc.  This is likely a configuration issue in openssl -- or a bug
-in eglibc.
+> =A0/OE/tentacle/sources/meta-intel/meta-emenlow/recipes-gnome/tasks/task-=
+poky-standalone-gmae-sdk-target.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-jasperforest/recipes-graphics/xor=
+g-xserver/xserver-xf86-dri-lite_1.9.3.bbappend
+> =A0/OE/tentacle/sources/meta-intel/meta-emenlow/recipes-gnome/tasks/task-=
+poky-sdk-gmae.bbappend
+>
+> meta-smartphone:
+> =A0/OE/tentacle/sources/meta-smartphone/meta-nokia/recipes-bsp/udev/udev_=
+168.bbappend
+>
+> meta-nslu2:
+> =A0/OE/tentacle/sources/meta-nslu2/recipes-core/images/slugos-image.bbapp=
+end
+>
+> regards,
+>
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-> gettext            depends on    libc-spawn libc-locale-code 
-> libc-getlogin libc-utmp
-> ...
 
-Once we introduce gettext (beyond simply it's m4 macros) we're no longer in
-"small" system territory.  gettext and many others really want some of the
-larger system capabilities as they are designed for multilingual systems.
 
-> After enable those options, the image size only decrease from 9.6M  to 
-> 9.4M(qemux86). And the dependencies on eglibc is hard to break, 
-> something like  libcrypt getlogin(function) can't be breaken.
-> Could you give me some directions what should I do with eglibc 
-> configurability?
-
-My suggest is to start with a new custom configuration.  (ignore the gcc-runtime
-for right now and enable libm.)  The goal of this configuration is a small,
-local system -- without network connectivity.
-
-Walk through the core-image-minimal, and you'll see:
-IMAGE_INSTALL = "task-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
-
-Looking at task-core-boot:
-
-RDEPENDS_task-core-boot = "\
-    base-files \
-    base-passwd \
-    busybox \
-    initscripts \
-    ${@base_contains("MACHINE_FEATURES", "keyboard", "keymaps", "", d)} \
-    modutils-initscripts \
-    netbase \
-    sysvinit \
-    tinylogin \
-    udev \
-    ${VIRTUAL-RUNTIME_update-alternatives} \
-    ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS}"
-
-RRECOMMENDS_task-core-boot = "\
-    ${MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS}"
-
-From the above, I'm pretty sure that "netbase" will require a lot of networking
-components, specifically adding things like libc-inet.  So avoid netbase.
-
-It's possible that keyboard/keymaps may cause additional stuff to come in due to
-locale requirements.. so I'd dump those as well..
-
-sysvinit may also introduce some additional items -- so if it causes problems,
-remove it and switch to the init located within busybox.
-
-update-alternatives is what included gettext -- so this might need some
-enhancement to avoid gettext as a requirement.  So I'd suggest skipping it.
-(Note without it, it's likely busybox, tinylogin may not get setup properly...)
-
-udev is quite complex and drags in a number of components -- so drop that..
-
-Leaving:
-
-    base-files \
-    base-passwd \
-    busybox \
-    initscripts \
-    modutils-initscripts \
-    sysvinit \
-    tinylogin
-
-First see if you can compile the above with a minimal eglibc configuration.  If
-not I can help you work through those issues..  If you can, you SHOULD see a
-fairly dramatic decrease in size.
-
---Mark
-
-> Thanks a lot!
-> 
-> I made a mistake that try eglibc configurability in a directory which 
-> has build core-image-minimal, so the packages which depend on eglibc 
-> didn't rebuild, and I didn't find the dependency before. I am sorry!
-> 
-> Regards,
-> Kai
-
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
