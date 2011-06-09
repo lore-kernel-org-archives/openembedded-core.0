@@ -1,25 +1,33 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QUmqi-0005G6-Ca
+	(envelope-from <saul.wold@intel.com>) id 1QUnyP-0006YW-FR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 23:33:08 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jun 2011 14:29:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,343,1304319600"; d="scan'208";a="12185185"
-Received: from miles.jf.intel.com (HELO [10.7.199.151]) ([10.7.199.151])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jun 2011 14:29:47 -0700
-Message-ID: <4DF13B4B.6050504@intel.com>
-Date: Thu, 09 Jun 2011 14:29:47 -0700
-From: Scott Garman <scott.a.garman@intel.com>
+	Fri, 10 Jun 2011 00:45:09 +0200
+Received: from mail-pv0-f180.google.com ([74.125.83.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 09 Jun 2011 15:40:43 -0700
+Received: by pvc21 with SMTP id 21so925012pvc.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jun 2011 15:40:43 -0700 (PDT)
+Received: by 10.142.248.4 with SMTP id v4mr270284wfh.145.1307659243554;
+	Thu, 09 Jun 2011 15:40:43 -0700 (PDT)
+Received: from [10.6.18.206] (c-71-193-189-117.hsd1.wa.comcast.net
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id x16sm2161318wfc.22.2011.06.09.15.40.42
+	(version=SSLv3 cipher=OTHER); Thu, 09 Jun 2011 15:40:43 -0700 (PDT)
+Message-ID: <4DF14BE9.7080704@intel.com>
+Date: Thu, 09 Jun 2011 15:40:41 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1307058256.git.scott.a.garman@intel.com>	<f9c2ad2b00c9fd52962ee7689a809b2b17e4f735.1307058256.git.scott.a.garman@intel.com>	<5D76A268-DA2B-4F5A-BDE0-79211C403B0F@dominion.thruhere.net>	<4DF139D6.3070508@intel.com>
-	<779A4D49-D122-4D67-9A8D-B9AA8ABC11DF@dominion.thruhere.net>
-In-Reply-To: <779A4D49-D122-4D67-9A8D-B9AA8ABC11DF@dominion.thruhere.net>
-Subject: Re: [PATCH 3/7] base-passwd: populate the target sysroot with passwd/group/login.defs
+To: wenzong fan <wenzong.fan@windriver.com>
+References: <4DE850E8.2050701@windriver.com>
+In-Reply-To: <4DE850E8.2050701@windriver.com>
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [Yocto] The design document for ccache-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,59 +42,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 21:33:08 -0000
+X-List-Received-Date: Thu, 09 Jun 2011 22:45:09 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/09/2011 02:25 PM, Koen Kooi wrote:
+On 06/02/2011 08:11 PM, wenzong fan wrote:
+> Hi Folks,
 >
-> Op 9 jun 2011, om 23:23 heeft Scott Garman het volgende geschreven:
+> Please help me to review the design document for ccache-native, and
+> I also have two questions about it, any answers or suggestions are
+> appreciated.
 >
->> On 06/09/2011 01:50 PM, Koen Kooi wrote:
->>>
->>> Op 3 jun 2011, om 01:50 heeft Scott Garman het volgende geschreven:
->>>
->>>> The passwd, group, and login.defs files in the target sysroot will
->>>> be used when recipes create custom user and group permissions in
->>>> their packages.
->>>>
->>>> Signed-off-by: Scott Garman<scott.a.garman@intel.com>
->>>> ---
->>>> .../base-passwd/base-passwd-3.5.22/login.defs      |  386 ++++++++++++++++++++
->>>
->>> I'm now getting tons and tons of the following when using shadow:
->>>
->>> [  900.349395] grpconv[682]: unknown configuration item `FAILLOG_ENAB'
->>> [  900.357391] grpconv[682]: unknown configuration item `LASTLOG_ENAB'
->>> [  900.364196] grpconv[682]: unknown configuration item `OBSCURE_CHECKS_ENAB'
->>> [  900.371734] grpconv[682]: unknown configuration item `PORTTIME_CHECKS_ENAB'
->>> [  900.381042] grpconv[682]: unknown configuration item `QUOTAS_ENAB'
->>> [  900.387878] grpconv[682]: unknown configuration item `MOTD_FILE'
->>> [  900.394256] grpconv[682]: unknown configuration item `FTMP_FILE'
->>> [  900.400634] grpconv[682]: unknown configuration item `NOLOGINS_FILE'
->>> [  900.407348] grpconv[682]: unknown configuration item `ENV_HZ'
->>> [  900.413452] grpconv[682]: unknown configuration item `PASS_MIN_LEN'
->>> [  900.420104] grpconv[682]: unknown configuration item `SU_WHEEL_ONLY'
->>> [  900.426849] grpconv[682]: unknown configuration item `CRACKLIB_DICTPATH'
->>> [  900.433929] grpconv[682]: unknown configuration item `PASS_CHANGE_TRIES'
->>> [  900.441040] grpconv[682]: unknown configuration item `PASS_ALWAYS_WARN'
->>> [  900.448028] grpconv[682]: unknown configuration item `CHFN_AUTH'
->>> [  900.454376] grpconv[682]: unknown configuration item `ENVIRON_FILE'
->>>
->>>
->>> which seems to be related to the login.defs change.
->>
->> What context is this happening in? Runtime, or during a buildstep?
+> * Feature name: ccache-native
+>     Priority: P3; M2
+>     Owner: Wenzong Fan
+>     Summary: Integrate ccache-native to yocto
 >
-> Runtime, during things like adduser and addgroup. I think I'm also seeing it during login, but I need to doublecheck.
+> * Description:
+> Bitbake supports the 'CCACHE Mechanism', but 'ccache' hasn't been
+> included by poky/yocto, just add it as a native tool.
+>
+> * Usage:
+> Build ccache as a native tool by default and enable it for speeding
+> target packages build.
+>
+> * Implementation:
+> 1) Copy bb file from OE upstream to:
+>       meta/recipes-devtools/ccache/
+>
+> 2) Update bb file to get the latest ccache_3.1.5 and split the single
+> bb file to:
+>       'ccache_3.1.5.bb', 'ccache.inc'
+>
+> 3) Enable ccache in the native tools building.
+>
+You will need to have it be a dependency pretty early on in the build.
+Additionally, this is a bit a new part to this task, we want to have the 
+default CCACHE_DIR for the build default to a directory in TMPDIR 
+instead of the user's home directory.  This will mean setting an 
+environment variable somewhere early also.
 
-Ok, thanks for confirming. I will look into this.
 
-Scott
+> * Questions:
+> 1) Do we want to add it as a target package? And which images should
+> include it?
+Yes, it should be included as part of any SDK image, to do this you 
+would add it to the task-core-sdk list.
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+> 2) How to add it into native tools build list and build it by default?
+>
+You use BBCLASSEXTEND = "native" in the recipe, that will give you the 
+native for free.
+
+>
+> Thanks
+> Wenzong
+>
+
 
 
