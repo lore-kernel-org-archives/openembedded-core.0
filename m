@@ -1,39 +1,39 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-bw0-f51.google.com ([209.85.214.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QUbmr-0003w4-0o
+	(envelope-from <martin.jansa@gmail.com>) id 1QUcaU-0000Jl-0v
 	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jun 2011 11:44:25 +0200
-Received: by bwz5 with SMTP id 5so1349175bwz.6
+	Thu, 09 Jun 2011 12:35:42 +0200
+Received: by bwz10 with SMTP id 10so1446619bwz.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jun 2011 02:41:05 -0700 (PDT)
+	Thu, 09 Jun 2011 03:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:date:from:to:subject:message-id:references
 	:mime-version:content-type:content-disposition:in-reply-to
-	:user-agent; bh=y0rJm0fq4zQR3lvian6H2B+bwe5flR8niLmLvVQZAxk=;
-	b=iQ15x/M+qcG1l4AqUQgWv3ErJU8FJxgqQZQBOrqe/P2M1z/pQCQH0Avf0mhbkrANHV
-	QaIp4kn+7Y4/D8IGIE9sn+g/ajOCbgP2nV+YNVOm03GeXGGN7kmrf9mp2PU0bewnw9TE
-	VpN2WH4xlA4+RICF9CqIxsDCQIM18BpDtraVs=
+	:user-agent; bh=opSUzy9BRoAOqNWRbJM8Vs95r1WXlyWvRx77D466InY=;
+	b=Ms8I6W6G+HdY4owvvnfykeXkAjwvID+CcmiPwr450uqL/E/xNa5ZYLqA9HqeHIycE5
+	DFZpBb/CpaFs7DVei4XrrCKg2Q2g7X9Ti30uCemHy6rXJhbccTFY6Na6EuT+xJ5E3JIt
+	oDnSIim3Z3OkhZ7Bxro5huF4Mybpvf2T13VOQ=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	b=B+hjByzZ3BKhqK+XaM80P0VduwwZ6zIxmIMFbYDFprDc+RdzUluwtEsG5hf9XLbLAt
-	iMDGGnkp3XPFvbHvLhFv2AVbZ6fbv2P6icWoZnnnRyHgypFH0VTwR9kKiWjvwjxVMoHn
-	uvydSe+1tZTqpsX60U7FrOBbSeNyZy+ndtiU4=
-Received: by 10.204.7.211 with SMTP id e19mr495765bke.139.1307612465094;
-	Thu, 09 Jun 2011 02:41:05 -0700 (PDT)
+	b=mg3tS7EzoOGvgacG/HDta5AnWNA5Ycj3ULgTS9YeaCn/pE5KOIASVT1Zifv67fI2cF
+	2huPl5LYej2POgTwAwjIdb/4Pghr1rfAZHgYp7BDCKKXs2Ks80O/z9Qq1CG2ADdN8KzH
+	SXuB1sVkzjtd8/57FfFMJP+KblgN8MQeZyiiM=
+Received: by 10.204.19.80 with SMTP id z16mr540128bka.198.1307615541964;
+	Thu, 09 Jun 2011 03:32:21 -0700 (PDT)
 Received: from localhost ([94.230.152.115])
-	by mx.google.com with ESMTPS id l24sm1381036bkw.15.2011.06.09.02.41.03
+	by mx.google.com with ESMTPS id k16sm1422803bks.13.2011.06.09.03.32.20
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 09 Jun 2011 02:41:03 -0700 (PDT)
-Date: Thu, 9 Jun 2011 11:40:57 +0200
+	Thu, 09 Jun 2011 03:32:20 -0700 (PDT)
+Date: Thu, 9 Jun 2011 12:32:14 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110609094057.GK23137@jama.jama.net>
+Message-ID: <20110609103214.GL23137@jama.jama.net>
 References: <20110609083834.GJ23137@jama.jama.net>
-	<4CF34C23-9241-4FB5-9E00-C506FF597050@dominion.thruhere.net>
+	<1307611500.15712.133.camel@rex>
 MIME-Version: 1.0
-In-Reply-To: <4CF34C23-9241-4FB5-9E00-C506FF597050@dominion.thruhere.net>
+In-Reply-To: <1307611500.15712.133.camel@rex>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Subject: Re: LOCALCOUNT increased twice when there are 2 layers with same git recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,21 +50,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2011 09:44:25 -0000
-X-Groupsio-MsgNum: 3795
+X-List-Received-Date: Thu, 09 Jun 2011 10:35:42 -0000
+X-Groupsio-MsgNum: 3796
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="n83H03bbH672hrlY"
+	protocol="application/pgp-signature"; boundary="z9sQuz+HmDh2hVO4"
 Content-Disposition: inline
 
---n83H03bbH672hrlY
+--z9sQuz+HmDh2hVO4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 09, 2011 at 10:58:58AM +0200, Koen Kooi wrote:
->=20
-> Op 9 jun 2011, om 10:38 heeft Martin Jansa het volgende geschreven:
->=20
+On Thu, Jun 09, 2011 at 10:24:59AM +0100, Richard Purdie wrote:
+> On Thu, 2011-06-09 at 10:38 +0200, Martin Jansa wrote:
 > > Hi,
 > >=20
 > > I was wondering why I see gobject-introspection built on every image
@@ -97,34 +95,43 @@ ospection\*
 > > because there are 2 different SRCREVs found during parsing.
 > >=20
 > > I wanted to use gobject-introspection_git.bbappend, but it looks like
-> > changing PV/SRCREV from .bbappend is not supported
+> > changing PV/SRCREV from .bbappend is not supported (bitbake-layers also
+> > reported that it cannot find right gobject-introspection version to my
+> > bbappend. And I also cannot blacklist gobject-introspection_git.bb from
+> > oe-core, because Angstrom blacklister uses only PN. So in the end I've
+> > removed that recipe from my oe-core-contrib/shr branch which is used for
+> > SHR builds..
+> >=20
+> > Is there better way to resolve this? With more layers enabled this could
+> > happen more often imho.. Maybe we could add unexpanded -PV to LOCALCOUNT
+> > persistent db key with sideeffect of reseting LOCALCOUNT on every PV
+> > change (upgrade to newer version).
 >=20
-> And with SRCREV_pn-${PN} =3D "34932849328" ?
+> I like this idea at least in principle. If you're changing PV, you don't
+> mind if the counter resets so I don't see that as a problem...
 
-Thanks! this works
-http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dcommit;h=3De332=
-258bcd9c39dd9b6a3937a1d6937e7e9ed8c5
+But it would need fallback to key without -PV in case PN-PV is not found
+to prevent LOCALCOUNT breakage like branch addition to key did, also
+it's a bit harder to test older bitbake after such change (as fallback
+will work only one-way).
 
-I had similar problem >year ago after renaming linux-openmoko
-git recipes to PN_PV scheme
-http://thread.gmane.org/gmane.comp.handhelds.openembedded/32950
-but there it wouldn't be enough if different machines needs different
-version. Good that I don't need this usecase anymore :).
+http://git.openembedded.org/cgit.cgi/bitbake/commit/?id=3D8c0afc13ad5eefea6=
+2b0b136f5b66792ba4e44cb
 
 Regards,
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---n83H03bbH672hrlY
+--z9sQuz+HmDh2hVO4
 Content-Type: application/pgp-signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.17 (GNU/Linux)
 
-iEYEARECAAYFAk3wlSkACgkQN1Ujt2V2gBxqhACfWrqer0/JGiwesTAmg/xgkTc4
-IiAAn0G+kE51sVTQ8yeILjycy59Wcd3o
-=1BeY
+iEYEARECAAYFAk3woS4ACgkQN1Ujt2V2gBzFTQCcCDrLOm+CuxZX4vZZjfmWYDR2
+UakAoKlA5wQUrNnOLD7QBM1QZp3kCXpd
+=s0Aj
 -----END PGP SIGNATURE-----
 
---n83H03bbH672hrlY--
+--z9sQuz+HmDh2hVO4--
