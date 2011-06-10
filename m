@@ -1,25 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QV3HV-0004PT-Pr
+	(envelope-from <mark.hatle@windriver.com>) id 1QV3O3-0004ZB-LC
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 17:05:54 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 10 Jun 2011 08:02:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,347,1304319600"; d="scan'208";a="10848751"
-Received: from unknown (HELO helios.localnet) ([10.255.13.133])
-	by azsmga001.ch.intel.com with ESMTP; 10 Jun 2011 08:02:31 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Fri, 10 Jun 2011 16:02:26 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <cover.1307639649.git.mark.hatle@windriver.com>
-	<f4bf925e5ef24493da42015e1be93d59b85f3a44.1307639649.git.mark.hatle@windriver.com>
-In-Reply-To: <f4bf925e5ef24493da42015e1be93d59b85f3a44.1307639649.git.mark.hatle@windriver.com>
+	Fri, 10 Jun 2011 17:12:40 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5AF9HWc025691
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2011 08:09:17 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 10 Jun 2011 08:09:17 -0700
+Message-ID: <4DF2339C.5000609@windriver.com>
+Date: Fri, 10 Jun 2011 10:09:16 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-Message-Id: <201106101602.27104.paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] pseudo: Fix problem related to realpath
+To: <openembedded-core@lists.openembedded.org>
+References: <1307716082.25285.21.camel@phil-desktop>
+In-Reply-To: <1307716082.25285.21.camel@phil-desktop>
+Subject: Re: [PATCH] import recipe_sanity.bbclass from oe master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 15:05:54 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Fri, 10 Jun 2011 15:12:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Thursday 09 June 2011 18:15:45 Mark Hatle wrote:
-> --- a/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
-> @@ -1,9 +1,10 @@
->  require pseudo.inc
->  
-> -PR = "r0"
-> +PR = "r1"
+On 6/10/11 9:28 AM, Phil Blundell wrote:
+> This is a verbatim copy of the corresponding class from oe master.
+> 
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
 
-I may be mistaken, but it seems to me that every time we need to rebuild 
-pseudo it results in a race when an older version of pseudo is present. We 
-handle building pseudo on its own first if it's not present, however if it just 
-needs updating we go ahead and rebuild it at the same time as building other 
-packages, and if it just happens that pseudo is needed when it's being built 
--> bang. At least that's my assumption given that since the last batch of 
-updates, my rebuild of perl-native failed at the same time as pseudo's 
-do_compile with a large number of "ERROR: ld.so: object 'libpseudo.so' from 
-LD_PRELOAD cannot be preloaded: ignored" messages.
+One of the new features we have in oe-core (likely not well publicized) is
+"SUMMARY" information.
 
-Am I right in that there's currently no mechanism to work around this?
+If this patch goes in, we likely should check for the existence of a SUMMARY as
+well.  Not all recipes have package summaries, but in the end they all should.
 
-Cheers,
-Paul
+--Mark
 
--- 
+> +__recipe_sanity_reqvars = "DESCRIPTION"
+> +__recipe_sanity_reqdiffvars = "LICENSE"
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
