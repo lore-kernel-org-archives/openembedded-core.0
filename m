@@ -1,45 +1,30 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QUuRl-0000Qg-0K
+	(envelope-from <Kai.Kang@windriver.com>) id 1QUuVM-0000TT-0G
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 07:39:53 +0200
-Received: by pvc30 with SMTP id 30so1139170pvc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jun 2011 22:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=Oj8w4Gl6elguYYvOaMlHIOLC/E5lxjvdkfQGoOUUfJk=;
-	b=mPHkSK2cbRb12nFjRWcQccDYpY+sh1gz+eHwM+dBlqThFfaBLHTmJCyPuo1k/h5uzK
-	Uoqu5agYGvGt5epaHrYMdWL/AzW77MomETwxv9JzDa92SDqN37Tnpzu3Q6pqcBP7bAiM
-	PPCUydBjRgYtjZC9Q4xPJcDZbA+j38BTEo13k=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	b=cwfEJWufGkO/HbRbG1Y50Nu2sTYpmMQObgpINi6iwYRBRSXgpCYWl1cOi5HadfXOUa
-	m9gbthv1VtXexsP/6Ry8sVLCQKuLw6e99qi/TSevaoLaFHnTkWolH4bB5jaupzkD/MiW
-	P/EzXvgXw3so6kZLR8jLjmq6G4Gg/Am99TmZ8=
-Received: by 10.142.216.17 with SMTP id o17mr281203wfg.181.1307684191674;
-	Thu, 09 Jun 2011 22:36:31 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id z2sm2495891wfz.0.2011.06.09.22.36.29
-	(version=SSLv3 cipher=OTHER); Thu, 09 Jun 2011 22:36:30 -0700 (PDT)
-Message-ID: <4DF1AD5C.1030605@gmail.com>
-Date: Thu, 09 Jun 2011 22:36:28 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110516 Thunderbird/3.1.10
+	Fri, 10 Jun 2011 07:43:36 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5A5eD0e028609
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 9 Jun 2011 22:40:13 -0700 (PDT)
+Received: from [128.224.162.154] (128.224.162.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 9 Jun 2011 22:40:13 -0700
+Message-ID: <4DF1AE42.1070606@windriver.com>
+Date: Fri, 10 Jun 2011 13:40:18 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.13) Gecko/20101208 Thunderbird/3.1.7
 MIME-Version: 1.0
 To: Saul Wold <sgw@linux.intel.com>
-References: <1307667467-467-1-git-send-email-raj.khem@gmail.com>
-	<4DF170D5.70805@linux.intel.com> <4DF1850A.1030608@gmail.com>
-	<4DF19FD9.2040701@linux.intel.com>
-In-Reply-To: <4DF19FD9.2040701@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+References: <cover.1307529994.git.kai.kang@windriver.com>
+	<3753d5b6e3a1c6cec6bdb75b90c73f96058b292c.1307529994.git.kai.kang@windriver.com>
+	<4DF183EE.9050605@linux.intel.com>
+In-Reply-To: <4DF183EE.9050605@linux.intel.com>
+X-Originating-IP: [128.224.162.154]
+Cc: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] openssh_5.8p2.bb: Update SRC_URI checksums
+Subject: Re: [PATCH 2/2] libxml-simple-perl: update EXTRA_PERLFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,62 +39,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 05:39:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 10 Jun 2011 05:43:36 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/09/2011 09:38 PM, Saul Wold wrote:
-> On 06/09/2011 07:44 PM, Khem Raj wrote:
->> On 06/09/2011 06:18 PM, Saul Wold wrote:
->>> On 06/09/2011 05:57 PM, Khem Raj wrote:
->>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
->>>> ---
->>>> meta/recipes-connectivity/openssh/openssh_5.8p2.bb | 4 ++--
->>>> 1 files changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
->>>> b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
->>>> index 04d99d9..d5c9e49 100644
->>>> --- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
->>>> +++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
->>>> @@ -26,8 +26,8 @@ SRC_URI =
->>>> "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
->>>> file://ssh_config \
->>>> file://init \
->>>> "
->>>> -SRC_URI[md5sum] = "0541579adf9d55abb15ef927048d372e"
->>>> -SRC_URI[sha256sum] =
->>>> "5c35ec7c966ce05cc4497ac59c0b54a556e55ae7368165cc8c4129694654f314"
->>>> +SRC_URI[md5sum] = "88a4a83b0e0e60cd545430d4e4bd7e0c"
->>>> +SRC_URI[sha256sum] =
->>>> "e5a1c821dd8dc33a94c445290956d52e03b3c450f9cd448b96d92317fd4cce42"
->>>>
->>>> inherit autotools
->>>>
->>> This is strange, since we are building in other places with this, please
->>> confirm you have a good tarball, vs what's in the upstream and on the
->>> autobuilder.yoctoproject.org downloads area.
->>>
+Hi Saul,
+
+> On 06/08/2011 03:49 AM, Kang Kai wrote:
+>> From: Kang Kai<kai.kang@windriver.com>
 >>
->> have you tried
+>> [Yocto 1132]
 >>
->> bitbake -ccleanall openssh;bitbake openssh ?
+>> libxml-simple-perl should not refer to native perl libs modules, update
+>> EXTRA_PERLFLAGS to fix the failure.
 >>
-> Yes, twice with out MIRROR and PREMIRROR set, same result no checksum
-> errors.
+>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>> ---
+>>   .../perl/libxml-simple-perl_2.18.bb                |    4 ++--
+>>   1 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb 
+>> b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
+>> index ca57776..75a018a 100644
+>> --- a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
+>> +++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
+>> @@ -2,7 +2,7 @@ SECTION = "libs"
+>>   LICENSE = "Artistic"
+>>   LIC_FILES_CHKSUM = 
+>> "file://README;beginline=70;md5=94aa5d46682b411a53a5494cfb22640e"
+>>   DEPENDS += "libxml-parser-perl"
+>> -PR = "r1"
+>> +PR = "r2"
+>>
+>>   SRC_URI = 
+>> "http://www.cpan.org/modules/by-module/XML/XML-Simple-${PV}.tar.gz"
+>>
+>> @@ -11,6 +11,6 @@ SRC_URI[sha256sum] = 
+>> "a54967c188cda3e20f496c83be4de3f1740eeaa83c0380712ecd969ad8
+>>
+>>   S = "${WORKDIR}/XML-Simple-${PV}"
+>>
+>> -EXTRA_PERLFLAGS = "-I 
+>> ${STAGING_LIBDIR_NATIVE}/perl/${@get_perl_version(d)}"
+>> +EXTRA_PERLFLAGS = "-I ${STAGING_LIBDIR}/perl/${@get_perl_version(d)}"
+>>
+> Can you explain in more detail why this change is needed?  should the 
+> ordering DEPENDS ordering change?
+
+The build failure infos are :
+
+| could not find ParserDetails.ini in 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/XML/SAX
+| Errno architecture (x86_64-linux-thread-multi-2.6.35-22-generic) does 
+not match executable architecture 
+(i586-linux-2.6.37-rc5-yocto-standard+) at 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/Errno.pm 
+line 11.
+| Compilation failed in require at 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/File/Temp.pm 
+line 148.
+| BEGIN failed--compilation aborted at 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/File/Temp.pm 
+line 148.
+| Compilation failed in require at 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/XML/SAX/PurePerl/Reader/URI.pm 
+line 8.
+| BEGIN failed--compilation aborted at 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/XML/SAX/PurePerl/Reader/URI.pm 
+line 8.
+| Compilation failed in require at 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/XML/SAX/PurePerl/Reader.pm 
+line 6.
+| BEGIN failed--compilation aborted at 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/XML/SAX/PurePerl/Reader.pm 
+line 6.
+| Compilation failed in require at 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/XML/SAX/PurePerl.pm 
+line 11.
+| BEGIN failed--compilation aborted at 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/XML/SAX/PurePerl.pm 
+line 11.
+| Compilation failed in require at (eval 16) line 1.
+| Checking installed modules ...
+| ERROR: Function 'do_configure' failed (see 
+/mnt/sda10/poky-all-platform/build/tmp/work/i586-poky-linux/libxml-simple-perl-2.18-r1/temp/log.do_configure.21878 
+for further information)
+| ERROR: Function 'do_configure' failed (see 
+/mnt/sda10/poky-all-platform/build/tmp/work/i586-poky-linux/libxml-simple-perl-2.18-r1/temp/log.do_configure.21878 
+for further information)
+
+
+The first error info is caused by no ParserDetails.ini file which should 
+be created by libxml-sax-perl-native. When i add the command after 
+do_populate_sysroot to create ParserDetails.ini:
+
+perl -MXML::SAX -e "XML::SAX->add_parser(q(XML::SAX::PurePerl))->save_parsers()"
+
+
+First error could be fixed.
+Ref:
+http://perl-xml.sourceforge.net/faq/#parserdetails.ini
+
+The other error is caused by require XML::SAX in ${S}/Makefile.PL line 
+30, because use "-I 
+${STAGING_LIBDIR_NATIVE}/perl/${@get_perl_version(d)}"  as command perl 
+options, it uses modules under
+
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/
+
+Then meet the 
+/mnt/sda10/poky-all-platform/build/tmp/sysroots/x86_64-linux/usr/lib/perl/5.12.3/Errno.pm 
+line 11 checks the build arch whether equals the arch using the module. 
+Not equal then throw a fatal error.
+
+That's why I use "-I ${STAGING_LIBDIR}/perl/${@get_perl_version(d)}" 
+instead.
+
+
 >
-
-OK I think I know whats going on. In my case its getting it from slugos 
-source mirror which is not same size as the one from ftp.openbsd.org
-probably the mirror needs update
-
-So drop it.
 > Sau!
 >
->>> Thanks
->>> Sau!
->>
->>
+
+Regards,
+Kai
+
+>
+>>   inherit cpan
 
 
 
