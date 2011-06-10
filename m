@@ -1,27 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QUvz4-0002WA-8D
+	(envelope-from <dexuan.cui@intel.com>) id 1QUwCq-0002hO-4R
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 09:18:22 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5A5mKmX029426
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 9 Jun 2011 22:48:20 -0700 (PDT)
-Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 9 Jun 2011 22:48:20 -0700
-Message-ID: <4DF1B022.2010506@windriver.com>
-Date: Fri, 10 Jun 2011 13:48:18 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
+	Fri, 10 Jun 2011 09:32:36 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 10 Jun 2011 00:29:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,345,1304319600"; d="scan'208";a="11887856"
+Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
+	by orsmga002.jf.intel.com with ESMTP; 10 Jun 2011 00:29:13 -0700
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 10 Jun 2011 15:28:18 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Fri, 10 Jun 2011 15:28:17 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Jun 2011 15:28:17 +0800
+Thread-Topic: [OE-core] [RFC v1 PATCH 07/16] git: should depend on
+	perl-native-runtime rather than perl-native
+Thread-Index: AcwnAuFv/RtNWA/YS5eBTm1IOJkpFAADxqqA
+Message-ID: <1865303E0DED764181A9D882DEF65FB69810B00D91@shsmsx502.ccr.corp.intel.com>
+References: <cover.1306931844.git.dexuan.cui@intel.com>
+	<06193403fa3f66c8ba416ace8fee6f10e05a4f13.1306931849.git.dexuan.cui@intel.com>
+	<1307664618.30948.3.camel@scimitar>
+In-Reply-To: <1307664618.30948.3.camel@scimitar>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-To: "Purdie, Richard" <richard.purdie@intel.com>
-References: <4DF18EF7.8000207@windriver.com>
-In-Reply-To: <4DF18EF7.8000207@windriver.com>
-Cc: "Wold, Saul" <saul.wold@intel.com>, wenzong fan <wenzong.fan@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: The design document for ccache-native
+Subject: Re: [RFC v1 PATCH 07/16] git: should depend on perl-native-runtime rather than perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,92 +47,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 07:18:22 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Jun 2011 07:32:36 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+Joshua Lock wrote:
+> On Wed, 2011-06-01 at 21:18 +0800, Dexuan Cui wrote:
+>> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+>> ---
+>>  meta/recipes-devtools/git/git.inc        |    4 ++--
+>>  meta/recipes-devtools/git/git_1.7.5.1.bb |    2 +-
+>>  2 files changed, 3 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-devtools/git/git.inc
+>> b/meta/recipes-devtools/git/git.inc index c884f9c..3cdd1fa 100644
+>> --- a/meta/recipes-devtools/git/git.inc +++
+>> b/meta/recipes-devtools/git/git.inc @@ -1,14 +1,14 @@
+>>  DESCRIPTION =3D "The git revision control system used by the Linux
+>>  kernel developers"  SECTION =3D "console/utils" LICENSE =3D "GPLv2"
+>> -DEPENDS =3D "perl-native openssl curl zlib expat"
+>> +DEPENDS =3D "perl-native-runtime openssl curl zlib expat"
+>=20
+> This change made git-native fail to build for me until I installed
+> perl-ExtUtils-MakeMaker on my Fedora 15 workstation.
+>=20
+> If this is expected we need to be documenting this additional host
+> dependency.
+>=20
+> Tracking bug: http://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1155
 
-On 06/10/2011 11:26 AM, wenzong fan wrote:
->
->
-> -------- Original Message --------
->
-> On Thu, 2011-06-09 at 15:40 -0700, Saul Wold wrote:
->> On 06/02/2011 08:11 PM, wenzong fan wrote:
->> > Hi Folks,
->> >
->> > Please help me to review the design document for ccache-native, and
->> > I also have two questions about it, any answers or suggestions are
->> > appreciated.
->> >
->> > * Feature name: ccache-native
->> > Priority: P3; M2
->> > Owner: Wenzong Fan
->> > Summary: Integrate ccache-native to yocto
->> >
->> > * Description:
->> > Bitbake supports the 'CCACHE Mechanism', but 'ccache' hasn't been
->> > included by poky/yocto, just add it as a native tool.
->> >
->> > * Usage:
->> > Build ccache as a native tool by default and enable it for speeding
->> > target packages build.
->> >
->> > * Implementation:
->> > 1) Copy bb file from OE upstream to:
->> > meta/recipes-devtools/ccache/
->> >
->> > 2) Update bb file to get the latest ccache_3.1.5 and split the single
->> > bb file to:
->> > 'ccache_3.1.5.bb', 'ccache.inc'
->> >
->> > 3) Enable ccache in the native tools building.
->> >
->> You will need to have it be a dependency pretty early on in the build.
->> Additionally, this is a bit a new part to this task, we want to have the
->> default CCACHE_DIR for the build default to a directory in TMPDIR
->> instead of the user's home directory. This will mean setting an
->> environment variable somewhere early also.
->
-> There is a little more detail on:
->
-> https://wiki.yoctoproject.org/wiki/Yocto_1.1_Schedule
->
-> Specifically, "c) Set CCACHE on a per recipe basis. need to figure out
-> whether ccache data can be shared and under what circumstances."
->
-> so something like adding:
->
-> export CCACHE_DIR = "${TMPDIR}/ccache/${TARGET_SYS}/${PN}"
->
+Hi Joshua,
+Thanks for reporting this!
 
-I think that set CCACHE_DIR on per recipe basis would degrade hit efficiency,
-the following ccache data can be shared if they they use the same CCACHE_DIR,
-but if we set CACHE_DIR on a per recipe basis, then they can't be shared:
+Cc-ed Richard:
+It might be inappropriate to "add perl-ExtUtils-MakeMaker to the host packa=
+ge requirements"?
+Looks git should depend on perl-native?
 
-1) Most pkg's configure will run "gcc foo.c" for checking the C  compiler,
-    these compiling are the same between different pkgs at most time.
+I've made a patch http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commi=
+t/?h=3Ddcui/distro&id=3D79356a51507f1872199ba38262b749277633b4d4 and I'll s=
+end the pull request.
+Please review it.
 
-2) Some recipes' compiling are similar, for example: gcc-cross,
-    gcc-corss-initial and gcc-cross-intermediate.
-
-I think that:
-
-export CCACHE_DIR = "${TMPDIR}/ccache/${TARGET_SYS}/"
-
-would be better.
-
-// Robert
-
-> to bitbake.conf with a bit more thought into working out the right
-> components to add to the variable.
->
-> Cheers,
->
-> Richard
->
->
->
->
+Thanks,
+-- Dexuan=
 
 
