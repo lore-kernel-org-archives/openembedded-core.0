@@ -1,20 +1,35 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QV2k6-0006WW-Eg for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 16:31:22 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QV2gt-0000JB-U6
+Received: from relay1.mentorg.com ([192.94.38.131])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Tom_Rini@mentor.com>) id 1QV2qP-0006bV-2B
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 16:28:04 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: openembedded-core@lists.openembedded.org
-Organization: Phil Blundell Consulting Ltd
-Date: Fri, 10 Jun 2011 15:28:02 +0100
-Message-ID: <1307716082.25285.21.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: [PATCH] import recipe_sanity.bbclass from oe master
+	Fri, 10 Jun 2011 16:37:53 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QV2n9-00068O-Qb from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 10 Jun 2011 07:34:31 -0700
+Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 10 Jun 2011 07:30:13 -0700
+Received: from [172.30.36.148] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
+	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
+	Fri, 10 Jun 2011 07:34:30 -0700
+Message-ID: <4DF22B70.2090002@mentor.com>
+Date: Fri, 10 Jun 2011 07:34:24 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <4DE850E8.2050701@windriver.com>
+	<4DF14BE9.7080704@intel.com>	<4DF15C93.7090606@mentor.com>
+	<4DF18783.6050303@gmail.com>
+In-Reply-To: <4DF18783.6050303@gmail.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 10 Jun 2011 14:30:13.0594 (UTC)
+	FILETIME=[E906EBA0:01CC277A]
+Subject: Re: [Yocto] The design document for ccache-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,207 +44,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 14:31:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 10 Jun 2011 14:37:53 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-This is a verbatim copy of the corresponding class from oe master.
+On 06/09/2011 07:54 PM, Khem Raj wrote:
+> On 06/09/2011 04:51 PM, Tom Rini wrote:
+>> On 06/09/2011 03:40 PM, Saul Wold wrote:
+>>> On 06/02/2011 08:11 PM, wenzong fan wrote:
+>>>> Hi Folks,
+>>>>
+>>>> Please help me to review the design document for ccache-native, and
+>>>> I also have two questions about it, any answers or suggestions are
+>>>> appreciated.
+>>>>
+>>>> * Feature name: ccache-native
+>>>>      Priority: P3; M2
+>>>>      Owner: Wenzong Fan
+>>>>      Summary: Integrate ccache-native to yocto
+>>>>
+>>>> * Description:
+>>>> Bitbake supports the 'CCACHE Mechanism', but 'ccache' hasn't been
+>>>> included by poky/yocto, just add it as a native tool.
+>>>>
+>>>> * Usage:
+>>>> Build ccache as a native tool by default and enable it for speeding
+>>>> target packages build.
+>>>>
+>>>> * Implementation:
+>>>> 1) Copy bb file from OE upstream to:
+>>>>        meta/recipes-devtools/ccache/
+>>>>
+>>>> 2) Update bb file to get the latest ccache_3.1.5 and split the single
+>>>> bb file to:
+>>>>        'ccache_3.1.5.bb', 'ccache.inc'
+>>>>
+>>>> 3) Enable ccache in the native tools building.
+>>>>
+>>> You will need to have it be a dependency pretty early on in the build.
+>>> Additionally, this is a bit a new part to this task, we want to have the
+>>> default CCACHE_DIR for the build default to a directory in TMPDIR
+>>> instead of the user's home directory.  This will mean setting an
+>>> environment variable somewhere early also.
+>>
+>> Can we instead veto ccache and remove it from the bitbake docs?  I can't
+>> count the number of times I've run into what I can only imagine are
+>> ccache conflicts to explain why a random build failure with ccache in
+>> use.
+> 
+> It works on some hosts somewhat reliably and is unpredictable on some as
+> you say. I think keeping it optional is probably the right thing but
+> making it default may not be a good thing.
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/classes/recipe_sanity.bbclass |  179 ++++++++++++++++++++++++++++++++++++
- 1 files changed, 179 insertions(+), 0 deletions(-)
- create mode 100644 meta/classes/recipe_sanity.bbclass
+I'm pretty sure it's not reliable so much as lucky, but shoving the
+cache somewhere else and making it per-recipe makes me less worried.
 
-diff --git a/meta/classes/recipe_sanity.bbclass b/meta/classes/recipe_sanity.bbclass
-new file mode 100644
-index 0000000..bb60ffa
---- /dev/null
-+++ b/meta/classes/recipe_sanity.bbclass
-@@ -0,0 +1,179 @@
-+def __note(msg, d):
-+    bb.note("%s: recipe_sanity: %s" % (d.getVar("P", 1), msg))
-+
-+__recipe_sanity_badruntimevars = "RDEPENDS RPROVIDES RRECOMMENDS RCONFLICTS"
-+def bad_runtime_vars(cfgdata, d):
-+    if bb.data.inherits_class("native", d) or \
-+       bb.data.inherits_class("cross", d):
-+        return
-+
-+    for var in d.getVar("__recipe_sanity_badruntimevars", 1).split():
-+        val = d.getVar(var, 0)
-+        if val and val != cfgdata.get(var):
-+            __note("%s should be %s_${PN}" % (var, var), d)
-+
-+__recipe_sanity_reqvars = "DESCRIPTION"
-+__recipe_sanity_reqdiffvars = "LICENSE"
-+def req_vars(cfgdata, d):
-+    for var in d.getVar("__recipe_sanity_reqvars", 1).split():
-+        if not d.getVar(var, 0):
-+            __note("%s should be set" % var, d)
-+
-+    for var in d.getVar("__recipe_sanity_reqdiffvars", 1).split():
-+        val = d.getVar(var, 0)
-+        cfgval = cfgdata.get(var)
-+
-+        # Hardcoding is bad, but I'm lazy.  We don't care about license being
-+        # unset if the recipe has no sources!
-+        if var == "LICENSE" and d.getVar("SRC_URI", 1) == cfgdata.get("SRC_URI"):
-+            continue
-+
-+        if not val:
-+            __note("%s should be set" % var, d)
-+        elif val == cfgval:
-+            __note("%s should be defined to something other than default (%s)" % (var, cfgval), d)
-+
-+def var_renames_overwrite(cfgdata, d):
-+    renames = d.getVar("__recipe_sanity_renames", 0)
-+    if renames:
-+        for (key, newkey, oldvalue, newvalue) in renames:
-+            if oldvalue != newvalue and oldvalue != cfgdata.get(newkey):
-+                __note("rename of variable '%s' to '%s' overwrote existing value '%s' with '%s'." % (key, newkey, oldvalue, newvalue), d)
-+
-+def incorrect_nonempty_PACKAGES(cfgdata, d):
-+    if bb.data.inherits_class("native", d) or \
-+       bb.data.inherits_class("cross", d):
-+        if d.getVar("PACKAGES", 1):
-+            return True
-+
-+def can_use_autotools_base(cfgdata, d):
-+    cfg = d.getVar("do_configure", 1)
-+    if not bb.data.inherits_class("autotools", d):
-+        return False
-+
-+    for i in ["autoreconf"] + ["%s_do_configure" % cls for cls in ["gnomebase", "gnome", "e", "autotools", "efl", "gpephone", "openmoko", "openmoko2", "xfce", "xlibs"]]:
-+        if cfg.find(i) != -1:
-+            return False
-+
-+    import os
-+    for clsfile in d.getVar("__inherit_cache", 0):
-+        (base, _) = os.path.splitext(os.path.basename(clsfile))
-+        if cfg.find("%s_do_configure" % base) != -1:
-+            __note("autotools_base usage needs verification, spotted %s_do_configure" % base, d)
-+
-+    return True
-+
-+def can_remove_FILESPATH(cfgdata, d):
-+    expected = cfgdata.get("FILESPATH")
-+    #expected = "${@':'.join([os.path.normpath(os.path.join(fp, p, o)) for fp in d.getVar('FILESPATHBASE', 1).split(':') for p in d.getVar('FILESPATHPKG', 1).split(':') for o in (d.getVar('OVERRIDES', 1) + ':').split(':') if os.path.exists(os.path.join(fp, p, o))])}:${FILESDIR}"
-+    expectedpaths = bb.data.expand(expected, d)
-+    unexpanded = d.getVar("FILESPATH", 0)
-+    filespath = d.getVar("FILESPATH", 1).split(":")
-+    filespath = [os.path.normpath(f) for f in filespath if os.path.exists(f)]
-+    for fp in filespath:
-+        if not fp in expectedpaths:
-+            # __note("Path %s in FILESPATH not in the expected paths %s" %
-+            # (fp, expectedpaths), d)
-+            return False
-+    return expected != unexpanded
-+
-+def can_remove_FILESDIR(cfgdata, d):
-+    expected = cfgdata.get("FILESDIR")
-+    #expected = "${@bb.which(d.getVar('FILESPATH', 1), '.')}"
-+    unexpanded = d.getVar("FILESDIR", 0)
-+    if unexpanded is None:
-+        return False
-+
-+    expanded = os.path.normpath(d.getVar("FILESDIR", 1))
-+    filespath = d.getVar("FILESPATH", 1).split(":")
-+    filespath = [os.path.normpath(f) for f in filespath if os.path.exists(f)]
-+
-+    return unexpanded != expected and \
-+           os.path.exists(expanded) and \
-+           (expanded in filespath or
-+            expanded == bb.data.expand(expected, d))
-+
-+def can_remove_others(p, cfgdata, d):
-+    for k in ["S", "PV", "PN", "DESCRIPTION", "LICENSE", "DEPENDS",
-+              "SECTION", "PACKAGES", "EXTRA_OECONF", "EXTRA_OEMAKE"]:
-+    #for k in cfgdata:
-+        unexpanded = d.getVar(k, 0)
-+        cfgunexpanded = cfgdata.get(k)
-+        if not cfgunexpanded:
-+            continue
-+
-+        try:
-+            expanded = d.getVar(k, 1)
-+            cfgexpanded = bb.data.expand(cfgunexpanded, d)
-+        except bb.fetch.ParameterError:
-+            continue
-+
-+        if unexpanded != cfgunexpanded and \
-+           cfgexpanded == expanded:
-+           __note("candidate for removal of %s" % k, d)
-+           bb.debug(1, "%s: recipe_sanity:   cfg's '%s' and d's '%s' both expand to %s" %
-+                       (p, cfgunexpanded, unexpanded, expanded))
-+
-+python do_recipe_sanity () {
-+    p = d.getVar("P", 1)
-+    p = "%s %s %s" % (d.getVar("PN", 1), d.getVar("PV", 1), d.getVar("PR", 1))
-+
-+    sanitychecks = [
-+        (can_remove_FILESDIR, "candidate for removal of FILESDIR"),
-+        (can_remove_FILESPATH, "candidate for removal of FILESPATH"),
-+        #(can_use_autotools_base, "candidate for use of autotools_base"),
-+        (incorrect_nonempty_PACKAGES, "native or cross recipe with non-empty PACKAGES"),
-+    ]
-+    cfgdata = d.getVar("__recipe_sanity_cfgdata", 0)
-+
-+    for (func, msg) in sanitychecks:
-+        if func(cfgdata, d):
-+            __note(msg, d)
-+
-+    can_remove_others(p, cfgdata, d)
-+    var_renames_overwrite(cfgdata, d)
-+    req_vars(cfgdata, d)
-+    bad_runtime_vars(cfgdata, d)
-+}
-+do_recipe_sanity[nostamp] = "1"
-+#do_recipe_sanity[recrdeptask] = "do_recipe_sanity"
-+addtask recipe_sanity
-+
-+do_recipe_sanity_all[nostamp] = "1"
-+do_recipe_sanity_all[recrdeptask] = "do_recipe_sanity"
-+do_recipe_sanity_all () {
-+    :
-+}
-+addtask recipe_sanity_all after do_recipe_sanity
-+
-+python recipe_sanity_eh () {
-+    from bb.event import getName
-+
-+    if getName(e) != "ConfigParsed":
-+        return
-+
-+    d = e.data
-+
-+    cfgdata = {}
-+    for k in d.keys():
-+    #for k in ["S", "PR", "PV", "PN", "DESCRIPTION", "LICENSE", "DEPENDS",
-+    #          "SECTION"]:
-+        cfgdata[k] = d.getVar(k, 0)
-+
-+    d.setVar("__recipe_sanity_cfgdata", cfgdata)
-+    #d.setVar("__recipe_sanity_cfgdata", d)
-+
-+    # Sick, very sick..
-+    from bb.data_smart import DataSmart
-+    old = DataSmart.renameVar
-+    def myrename(self, key, newkey):
-+        oldvalue = self.getVar(newkey, 0)
-+        old(self, key, newkey)
-+        newvalue = self.getVar(newkey, 0)
-+        if oldvalue:
-+            renames = self.getVar("__recipe_sanity_renames", 0) or set()
-+            renames.add((key, newkey, oldvalue, newvalue))
-+            self.setVar("__recipe_sanity_renames", renames)
-+    DataSmart.renameVar = myrename
-+}
-+addhandler recipe_sanity_eh
 -- 
-1.7.2.5
-
-
-
+Tom Rini
+Mentor Graphics Corporation
 
 
