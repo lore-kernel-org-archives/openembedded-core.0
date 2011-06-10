@@ -1,25 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QUwOX-0002q0-6f
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QUy1s-0006b6-HT for openembedded-core@lists.openembedded.org;
+	Fri, 10 Jun 2011 11:29:24 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QUxyg-0000EL-8u
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 09:44:41 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 10 Jun 2011 00:41:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,345,1304319600"; d="scan'208";a="11892181"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by orsmga002.jf.intel.com with ESMTP; 10 Jun 2011 00:41:18 -0700
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Fri, 10 Jun 2011 15:41:04 +0800
-Message-Id: <79356a51507f1872199ba38262b749277633b4d4.1307691436.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.2
-In-Reply-To: <cover.1307691436.git.dexuan.cui@intel.com>
-References: <cover.1307691436.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1307691436.git.dexuan.cui@intel.com>
-References: <cover.1307691436.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/1] git: restore the dependency on perl-native
+	Fri, 10 Jun 2011 11:26:06 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <79966738c56b3d8dbcb262642447f9efe7af930a.1307686610.git.sgw@linux.intel.com>
+References: <cover.1307686598.git.sgw@linux.intel.com>
+	<79966738c56b3d8dbcb262642447f9efe7af930a.1307686610.git.sgw@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Fri, 10 Jun 2011 10:25:09 +0100
+Message-ID: <1307697909.2529.4983.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [CONSOLIDATED PULL 4/4] multiple recipes converted to -staticdev packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,63 +33,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 07:44:41 -0000
+X-List-Received-Date: Fri, 10 Jun 2011 09:29:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #1155]
+On Thu, 2011-06-09 at 23:26 -0700, Saul Wold wrote:
+> +DEPENDS_libpci-staticdev = "libpci-dev (= ${EXTENDPKGV})"
 
-I thought git-native could depend on perl-native-runtime and tests on
-Ubuntu 9.04/10.10 and Fedora 13 show it could buid fine (looks these distros
-install perl-ExtUtils-MakeMaker by default).
+This can't be right.  I guess that would be a good thing for
+recipe-sanity to test for in fact.
 
-However Joshua reported on Fedora 15 i686 host, git-native can't build unless
-he manually installed perl-ExtUtils-MakeMaker to the host.
+> +FILES_eglibc-dev_append += "${bindir}/rpcgen ${base_libdir}/*.o ${datadir}/aclocal"
+> +FILES_eglibc-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
 
-This makes me think we may as well make git-native depend on perl-native.
+You need to make sure that libc_nonshared.a goes into -dev rather than
+-staticdev somehow.  I didn't immediately spot any mechanism which would
+do this, though I haven't tested the package to find out what happens.
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- meta/recipes-devtools/git/git.inc        |    6 +++---
- meta/recipes-devtools/git/git_1.7.5.1.bb |    2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+> +FILES_uclibc-staticdev_append = "\
+> +        ${libdir}/*_nonshared.a \
+> +        ${libdir}/lib*.a \
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 3cdd1fa..5d77880 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -1,16 +1,16 @@
- DESCRIPTION = "The git revision control system used by the Linux kernel developers"
- SECTION = "console/utils"
- LICENSE = "GPLv2"
--DEPENDS = "perl-native-runtime openssl curl zlib expat"
-+DEPENDS = "openssl curl zlib expat"
- 
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.bz2 "
- S = "${WORKDIR}/git-${PV}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1"
- 
--EXTRA_OECONF = "--without-tcltk"
-+EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl --without-tcltk"
- 
--inherit autotools
-+inherit autotools perlnative
- 
- do_install () {
- 	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
-diff --git a/meta/recipes-devtools/git/git_1.7.5.1.bb b/meta/recipes-devtools/git/git_1.7.5.1.bb
-index 9aa2bdf..04d1d56 100644
---- a/meta/recipes-devtools/git/git_1.7.5.1.bb
-+++ b/meta/recipes-devtools/git/git_1.7.5.1.bb
-@@ -1,6 +1,6 @@
- require git.inc
- 
--PR = "r1"
-+PR = "r2"
- 
- EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
-                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--- 
-1.7.2
+In similar vein, this doesn't look right.
+
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+> index b77266a..ed4bcdb 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -13,6 +13,8 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=9c920d811858a74b67a36ba23cbaa95f
+>                      file://licenses/COPYING.UCB;md5=263860f8968d8bafa5392cab74285262 \
+>                      file://getopt/COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+>  
+> +INC_PR = "r0"
+> +
+> diff --git a/meta/recipes-core/util-linux/util-linux_2.19.1.bb b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
+> index 132f28b..3c5747c 100644
+> --- a/meta/recipes-core/util-linux/util-linux_2.19.1.bb
+> +++ b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
+> @@ -1,5 +1,5 @@
+>  MAJOR_VERSION = "2.19"
+> -PR = "r1"
+> +PR = "${INC_PR}.0"
+
+This looks like it will cause PR to go backwards.
+
+>  require util-linux.inc
+>  
+>  # note that `lscpu' is under GPLv3+
+> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+> index 08c14b2..82d9511 100644
+> --- a/meta/recipes-devtools/binutils/binutils.inc
+> +++ b/meta/recipes-devtools/binutils/binutils.inc
+> @@ -24,7 +24,6 @@ FILES_${PN} = " \
+>  
+>  FILES_${PN}-dev = " \
+>  	${includedir} \
+> -	${libdir}/*.a \
+>  	${libdir}/*.la \
+>  	${libdir}/libbfd.so \
+>  	${libdir}/libopcodes.so"
+
+This one is a bit odd: it seems to just be dropping the .a files
+altogether without introducing a -staticdev package for them.
+
+> +DEPENDS_libg2c-staticdev = "libg2c-dev (= ${EXTENDPKGV})"
+> +DEPENDS_libstdc++-staticdev = "libstdc++-dev (= ${EXTENDPKGV})"
+> +DEPENDS_libssp-staticdev = "libssp-dev (= ${EXTENDPKGV})"
+> +DEPENDS_libfortran-staticdev = "libfortran-dev (= ${EXTENDPKGV})"
+> +DEPENDS_libmudflap-staticdev = "libmudflap-dev (= ${EXTENDPKGV})"
+>+DEPENDS_libopkg${PKGSUFFIX}-staticdev = "libopkg${PKGSUFFIX}-dev (= ${EXTENDPKGV})"
+
+Those all look wrong.
+
+> --- a/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
+> +++ b/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
+> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+>  			file://include/a52.h;beginline=1;endline=12;md5=81152ceb3562bf20a60d1b6018175dd1"
+>  SECTION = "libs"
+>  PRIORITY = "optional"
+> -PR = "r2"
+> +PR = "r3"
+>  
+>  inherit autotools
+>  
+> @@ -21,7 +21,8 @@ EXTRA_OECONF = " --enable-shared "
+>  PACKAGES =+ "a52dec a52dec-dbg a52dec-doc"
+>  
+>  FILES_${PN} = " ${libdir}/liba52.so.0 ${libdir}/liba52.so.0.0.0 " 
+> -FILES_${PN}-dev = " ${includedir}/a52dec/*.h ${libdir}/liba52.so ${libdir}/liba52.la ${libdir}/liba52.a "
+> +#FILES_${PN}-dev = " ${includedir}/a52dec/*.h ${libdir}/liba52.so ${libdir}/liba52.la "
+>+#FILES_${PN}-staticdev = " ${libdir}/liba52.a "
+
+This is a bit weird.  What's going on here?
+
+> +DEPENDS_lib${PN}-staticdev = "lib${PN}-dev (= ${EXTENDPKGV})"
+
+As above.
+
+> +DEPENDS_lib${PN}-staticdev = "lib${PN}-dev (= ${EXTENDPKGV})"
+
+Ditto.
+
+All in all I think this patch needs a bit more work.  It was quite a big
+diff so I only skimmed it rather than reviewing it thoroughly but I
+don't think it is quite ready to go in yet.  Also, can't a lot of this
+be done in bitbake.conf without quite so much recipe patching?
+
+p.
+
 
 
 
