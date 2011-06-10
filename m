@@ -1,25 +1,21 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QV2PW-0006Ak-RC
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QV2Rv-0006Dn-NW for openembedded-core@lists.openembedded.org;
+	Fri, 10 Jun 2011 16:12:35 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QV2Oj-0000IX-7u
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 16:10:06 +0200
-Received: by wye20 with SMTP id 20so2112196wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2011 07:06:46 -0700 (PDT)
-Received: by 10.227.55.129 with SMTP id u1mr1766472wbg.85.1307714805860;
-	Fri, 10 Jun 2011 07:06:45 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fm14sm2053479wbb.41.2011.06.10.07.06.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 10 Jun 2011 07:06:45 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 10 Jun 2011 16:06:43 +0200
-Message-Id: <25C444E8-9FBC-4674-B366-ADCE39FC666B@dominion.thruhere.net>
+	Fri, 10 Jun 2011 16:09:17 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1084)
-X-Mailer: Apple Mail (2.1084)
-Subject: meta-gnome update
+Organization: Phil Blundell Consulting Ltd
+Date: Fri, 10 Jun 2011 15:09:16 +0100
+Message-ID: <1307714956.25285.14.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: bitbake -b busted
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,29 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 14:10:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 10 Jun 2011 14:12:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Since updating this morning, it seems that oe-core master now requires
+bitbake 1.13.1 to be installed.  (I don't recall any discussion of that
+change or the reasons for it, but no doubt they are good ones.)
 
-For people not keeping an eye on meta-gnome, it reached a milestone this =
-week: a usefull looking[1] GNOME 2.32 desktop. With the current bits in =
-oe-core, meta-oe and meta-gnome you can build an image with gdm, =
-gnome-panel, gnome-session, nautilus metacity and gnome-disk-utility. =
-It's still lacking things like gnome-control-center, =
-gnome-settings-daemon, totem, etc.
+I couldn't find a 1.13.1 tag (or in fact any tags after 1.12.0) in the
+bitbake repository so I pulled the head of master.  Judging from the
+contents of the log this is pretty close to 1.13.1 if not identical.
 
-If you're using meta-angstrom you can build systemd-gnome-image which =
-willl give you the above.
+Unfortunately, this update seems to have broken "bitbake -b <file>"
+altogether.  Any such command now seems to give me:
 
-Give it all a try and send lots of patches to move over your favourite =
-GNOME recipes :)
+ERROR: Command execution failed: Traceback (most recent call last):
+  File "/home/pb/oe/bitbake/lib/bb/command.py", line 102, in runAsyncCommand
+    commandmethod(self.cmds_async, self, options)
+  File "/home/pb/oe/bitbake/lib/bb/command.py", line 190, in buildFile
+    command.cooker.buildFile(bfile, task)
+  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 774, in buildFile
+    fn = self.matchFile(fn)
+  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 752, in matchFile
+    matches = self.matchFiles(buildfile)
+  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 735, in matchFiles
+    filelist, masked = self.collect_bbfiles()
+  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 994, in collect_bbfiles
+    files.sort( key=lambda fileitem: self.calc_bbfile_priority(fileitem) )
+  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 994, in <lambda>
+    files.sort( key=lambda fileitem: self.calc_bbfile_priority(fileitem) )
+  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 463, in calc_bbfile_priority
+    for _, _, regex, pri in self.status.bbfile_config_priorities:
+AttributeError: 'NoneType' object has no attribute 'bbfile_config_priorities'
 
-regards,
+p.
 
-Koen
 
-[1] It's not actually usefull, it just looks that way :)=
 
 
