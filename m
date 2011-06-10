@@ -1,38 +1,20 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QV2jA-0006Uv-RF
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QV2k6-0006WW-Eg for openembedded-core@lists.openembedded.org;
+	Fri, 10 Jun 2011 16:31:22 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QV2gt-0000JB-U6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 16:30:29 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1QV2fv-0005YY-Nu from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 07:27:03 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Fri, 10 Jun 2011 07:27:03 -0700
-Received: from [172.30.36.148] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.289.1;
-	Fri, 10 Jun 2011 07:27:03 -0700
-Message-ID: <4DF229B0.7080206@mentor.com>
-Date: Fri, 10 Jun 2011 07:26:56 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1306931844.git.dexuan.cui@intel.com>	<4DE67440.1020405@mentor.com>
-	<1306950977.27470.461.camel@rex>	<4DE69582.2090508@mentor.com>	<1306958729.3119.3.camel@lenovo.internal.reciva.com>	<4DE6A43A.3050401@mentor.com>	<1306961135.3119.13.camel@lenovo.internal.reciva.com>	<4DE6A836.3040004@mentor.com>
-	<1307023591.27470.549.camel@rex>	<4DE79D69.7080806@mentor.com>
-	<1307025426.2529.209.camel@phil-desktop>	<4DE7BA3F.4060600@mentor.com>
-	<1307032545.27470.580.camel@rex>	<4DE7C09F.9000104@mentor.com>
-	<1307606678.15712.130.camel@rex>
-In-Reply-To: <1307606678.15712.130.camel@rex>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 10 Jun 2011 14:27:03.0469 (UTC)
-	FILETIME=[77B425D0:01CC277A]
-Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
+	Fri, 10 Jun 2011 16:28:04 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Organization: Phil Blundell Consulting Ltd
+Date: Fri, 10 Jun 2011 15:28:02 +0100
+Message-ID: <1307716082.25285.21.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: [PATCH] import recipe_sanity.bbclass from oe master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,55 +29,207 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 14:30:29 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Fri, 10 Jun 2011 14:31:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/09/2011 01:04 AM, Richard Purdie wrote:
-> On Thu, 2011-06-02 at 09:55 -0700, Tom Rini wrote:
->> On 06/02/2011 09:35 AM, Richard Purdie wrote:
->>> On Thu, 2011-06-02 at 09:28 -0700, Tom Rini wrote:
->>>>   Even if we're using the sstate
->>>> cache from /foo/oecore/tmp over in /bar/oecore/tmp (and /foo/oecore/tmp
->>>> is rm -rf'd) ?  Since we've got a create_wrapper around perl and
->>>> perl${PV} it should be I suppose (or is easily added there), but I'd
->>>> feel a lot better with some testing of the above case (and the updates
->>>> to cpan*bbclass).
->>>
->>> I only took the perl-native DEPENDS patch on the condition this gets
->>> fixed properly. The patches that are there look to do that, at least for
->>> OE-Core. If there are further issues we're going to have to take them as
->>> they arise as I have an objection to crippling the build dependencies
->>> because perl is broken. Really this could use some TLC from someone with
->>> experience in the area...
->>
->> Well, I guess I'd boil down what I said above into a request like this
->> for v3:
->> - Modify cpan.bbclass to NOT set PERL_INC / PERL_LIB / PERL_ARCHLIB /
->> PERLHOSTLIB.
-> 
-> The first three of these are all about the *target* perl location and I
-> think we still need them due the mess that perl's build system is. With
-> the patch series in question they won't actually point at perl-native in
-> the target case and they are only really used for cross compiling
-> purposes.
-> 
-> PERLHOSTLIB is used by the target perl when cross compiling to find
-> native .so files. perl-native will always be present at this point and
-> again, it seems like a valid use case.
-> 
-> Summary is that I don't think perl-native is broken in any way but we do
-> need those variables.
+This is a verbatim copy of the corresponding class from oe master.
 
-Maybe I'm having a dense morning here, but isn't that the point?  The
-combination of perl's build system is messy and if we bring in cpan it
-needs not only target perl locations (to dump things into) but may call
-'perl' to do things and if we're on perl 5.14 and your host is only 5.10
-or 5.12, bad things can happen.  And since cpan.bbclass isn't brought in
-by target perl recipe, what now? :)
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/classes/recipe_sanity.bbclass |  179 ++++++++++++++++++++++++++++++++++++
+ 1 files changed, 179 insertions(+), 0 deletions(-)
+ create mode 100644 meta/classes/recipe_sanity.bbclass
 
+diff --git a/meta/classes/recipe_sanity.bbclass b/meta/classes/recipe_sanity.bbclass
+new file mode 100644
+index 0000000..bb60ffa
+--- /dev/null
++++ b/meta/classes/recipe_sanity.bbclass
+@@ -0,0 +1,179 @@
++def __note(msg, d):
++    bb.note("%s: recipe_sanity: %s" % (d.getVar("P", 1), msg))
++
++__recipe_sanity_badruntimevars = "RDEPENDS RPROVIDES RRECOMMENDS RCONFLICTS"
++def bad_runtime_vars(cfgdata, d):
++    if bb.data.inherits_class("native", d) or \
++       bb.data.inherits_class("cross", d):
++        return
++
++    for var in d.getVar("__recipe_sanity_badruntimevars", 1).split():
++        val = d.getVar(var, 0)
++        if val and val != cfgdata.get(var):
++            __note("%s should be %s_${PN}" % (var, var), d)
++
++__recipe_sanity_reqvars = "DESCRIPTION"
++__recipe_sanity_reqdiffvars = "LICENSE"
++def req_vars(cfgdata, d):
++    for var in d.getVar("__recipe_sanity_reqvars", 1).split():
++        if not d.getVar(var, 0):
++            __note("%s should be set" % var, d)
++
++    for var in d.getVar("__recipe_sanity_reqdiffvars", 1).split():
++        val = d.getVar(var, 0)
++        cfgval = cfgdata.get(var)
++
++        # Hardcoding is bad, but I'm lazy.  We don't care about license being
++        # unset if the recipe has no sources!
++        if var == "LICENSE" and d.getVar("SRC_URI", 1) == cfgdata.get("SRC_URI"):
++            continue
++
++        if not val:
++            __note("%s should be set" % var, d)
++        elif val == cfgval:
++            __note("%s should be defined to something other than default (%s)" % (var, cfgval), d)
++
++def var_renames_overwrite(cfgdata, d):
++    renames = d.getVar("__recipe_sanity_renames", 0)
++    if renames:
++        for (key, newkey, oldvalue, newvalue) in renames:
++            if oldvalue != newvalue and oldvalue != cfgdata.get(newkey):
++                __note("rename of variable '%s' to '%s' overwrote existing value '%s' with '%s'." % (key, newkey, oldvalue, newvalue), d)
++
++def incorrect_nonempty_PACKAGES(cfgdata, d):
++    if bb.data.inherits_class("native", d) or \
++       bb.data.inherits_class("cross", d):
++        if d.getVar("PACKAGES", 1):
++            return True
++
++def can_use_autotools_base(cfgdata, d):
++    cfg = d.getVar("do_configure", 1)
++    if not bb.data.inherits_class("autotools", d):
++        return False
++
++    for i in ["autoreconf"] + ["%s_do_configure" % cls for cls in ["gnomebase", "gnome", "e", "autotools", "efl", "gpephone", "openmoko", "openmoko2", "xfce", "xlibs"]]:
++        if cfg.find(i) != -1:
++            return False
++
++    import os
++    for clsfile in d.getVar("__inherit_cache", 0):
++        (base, _) = os.path.splitext(os.path.basename(clsfile))
++        if cfg.find("%s_do_configure" % base) != -1:
++            __note("autotools_base usage needs verification, spotted %s_do_configure" % base, d)
++
++    return True
++
++def can_remove_FILESPATH(cfgdata, d):
++    expected = cfgdata.get("FILESPATH")
++    #expected = "${@':'.join([os.path.normpath(os.path.join(fp, p, o)) for fp in d.getVar('FILESPATHBASE', 1).split(':') for p in d.getVar('FILESPATHPKG', 1).split(':') for o in (d.getVar('OVERRIDES', 1) + ':').split(':') if os.path.exists(os.path.join(fp, p, o))])}:${FILESDIR}"
++    expectedpaths = bb.data.expand(expected, d)
++    unexpanded = d.getVar("FILESPATH", 0)
++    filespath = d.getVar("FILESPATH", 1).split(":")
++    filespath = [os.path.normpath(f) for f in filespath if os.path.exists(f)]
++    for fp in filespath:
++        if not fp in expectedpaths:
++            # __note("Path %s in FILESPATH not in the expected paths %s" %
++            # (fp, expectedpaths), d)
++            return False
++    return expected != unexpanded
++
++def can_remove_FILESDIR(cfgdata, d):
++    expected = cfgdata.get("FILESDIR")
++    #expected = "${@bb.which(d.getVar('FILESPATH', 1), '.')}"
++    unexpanded = d.getVar("FILESDIR", 0)
++    if unexpanded is None:
++        return False
++
++    expanded = os.path.normpath(d.getVar("FILESDIR", 1))
++    filespath = d.getVar("FILESPATH", 1).split(":")
++    filespath = [os.path.normpath(f) for f in filespath if os.path.exists(f)]
++
++    return unexpanded != expected and \
++           os.path.exists(expanded) and \
++           (expanded in filespath or
++            expanded == bb.data.expand(expected, d))
++
++def can_remove_others(p, cfgdata, d):
++    for k in ["S", "PV", "PN", "DESCRIPTION", "LICENSE", "DEPENDS",
++              "SECTION", "PACKAGES", "EXTRA_OECONF", "EXTRA_OEMAKE"]:
++    #for k in cfgdata:
++        unexpanded = d.getVar(k, 0)
++        cfgunexpanded = cfgdata.get(k)
++        if not cfgunexpanded:
++            continue
++
++        try:
++            expanded = d.getVar(k, 1)
++            cfgexpanded = bb.data.expand(cfgunexpanded, d)
++        except bb.fetch.ParameterError:
++            continue
++
++        if unexpanded != cfgunexpanded and \
++           cfgexpanded == expanded:
++           __note("candidate for removal of %s" % k, d)
++           bb.debug(1, "%s: recipe_sanity:   cfg's '%s' and d's '%s' both expand to %s" %
++                       (p, cfgunexpanded, unexpanded, expanded))
++
++python do_recipe_sanity () {
++    p = d.getVar("P", 1)
++    p = "%s %s %s" % (d.getVar("PN", 1), d.getVar("PV", 1), d.getVar("PR", 1))
++
++    sanitychecks = [
++        (can_remove_FILESDIR, "candidate for removal of FILESDIR"),
++        (can_remove_FILESPATH, "candidate for removal of FILESPATH"),
++        #(can_use_autotools_base, "candidate for use of autotools_base"),
++        (incorrect_nonempty_PACKAGES, "native or cross recipe with non-empty PACKAGES"),
++    ]
++    cfgdata = d.getVar("__recipe_sanity_cfgdata", 0)
++
++    for (func, msg) in sanitychecks:
++        if func(cfgdata, d):
++            __note(msg, d)
++
++    can_remove_others(p, cfgdata, d)
++    var_renames_overwrite(cfgdata, d)
++    req_vars(cfgdata, d)
++    bad_runtime_vars(cfgdata, d)
++}
++do_recipe_sanity[nostamp] = "1"
++#do_recipe_sanity[recrdeptask] = "do_recipe_sanity"
++addtask recipe_sanity
++
++do_recipe_sanity_all[nostamp] = "1"
++do_recipe_sanity_all[recrdeptask] = "do_recipe_sanity"
++do_recipe_sanity_all () {
++    :
++}
++addtask recipe_sanity_all after do_recipe_sanity
++
++python recipe_sanity_eh () {
++    from bb.event import getName
++
++    if getName(e) != "ConfigParsed":
++        return
++
++    d = e.data
++
++    cfgdata = {}
++    for k in d.keys():
++    #for k in ["S", "PR", "PV", "PN", "DESCRIPTION", "LICENSE", "DEPENDS",
++    #          "SECTION"]:
++        cfgdata[k] = d.getVar(k, 0)
++
++    d.setVar("__recipe_sanity_cfgdata", cfgdata)
++    #d.setVar("__recipe_sanity_cfgdata", d)
++
++    # Sick, very sick..
++    from bb.data_smart import DataSmart
++    old = DataSmart.renameVar
++    def myrename(self, key, newkey):
++        oldvalue = self.getVar(newkey, 0)
++        old(self, key, newkey)
++        newvalue = self.getVar(newkey, 0)
++        if oldvalue:
++            renames = self.getVar("__recipe_sanity_renames", 0) or set()
++            renames.add((key, newkey, oldvalue, newvalue))
++            self.setVar("__recipe_sanity_renames", renames)
++    DataSmart.renameVar = myrename
++}
++addhandler recipe_sanity_eh
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.2.5
+
+
+
 
 
