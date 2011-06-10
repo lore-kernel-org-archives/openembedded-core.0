@@ -1,28 +1,52 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QUugq-0000bB-46
+	(envelope-from <dexuan.cui@intel.com>) id 1QUv1K-0001Ei-RG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 07:55:28 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 09 Jun 2011 22:52:06 -0700
+	Fri, 10 Jun 2011 08:16:39 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Jun 2011 23:13:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,345,1304319600"; d="scan'208";a="10587907"
-Received: from unknown (HELO [10.255.12.216]) ([10.255.12.216])
-	by azsmga001.ch.intel.com with ESMTP; 09 Jun 2011 22:52:06 -0700
-Message-ID: <4DF1B106.7060101@linux.intel.com>
-Date: Thu, 09 Jun 2011 22:52:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+X-IronPort-AV: E=Sophos;i="4.65,345,1304319600"; d="scan'208";a="14627165"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jun 2011 23:13:16 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 10 Jun 2011 14:13:15 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 10 Jun 2011 14:13:15 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Fri, 10 Jun 2011 14:13:13 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Richard Purdie' <richard.purdie@linuxfoundation.org>
+Date: Fri, 10 Jun 2011 14:13:13 +0800
+Thread-Topic: [OE-core] [RFC v1 PATCH 00/16] populate perl-native into its
+	own	directory
+Thread-Index: AcwmrRbZD9zYtWA1RCmmz41h5NKrOAAiE4lQ
+Message-ID: <1865303E0DED764181A9D882DEF65FB69810B00D8F@shsmsx502.ccr.corp.intel.com>
+References: <cover.1306931844.git.dexuan.cui@intel.com>
+	<4DE67440.1020405@mentor.com> <1306950977.27470.461.camel@rex>
+	<4DE69582.2090508@mentor.com>
+	<1306958729.3119.3.camel@lenovo.internal.reciva.com>
+	<4DE6A43A.3050401@mentor.com>
+	<1306961135.3119.13.camel@lenovo.internal.reciva.com>
+	<4DE6A836.3040004@mentor.com> <1307023591.27470.549.camel@rex>
+	<4DE79D69.7080806@mentor.com> <1307025426.2529.209.camel@phil-desktop>
+	<4DE7BA3F.4060600@mentor.com> <1307032545.27470.580.camel@rex>
+	<4DE7C09F.9000104@mentor.com>  <1307606678.15712.130.camel@rex>
+	<1307606884.15712.132.camel@rex>
+	<1865303E0DED764181A9D882DEF65FB69810B00D86@shsmsx502.ccr.corp.intel.com>
+	<1307627792.15712.160.camel@rex>
+In-Reply-To: <1307627792.15712.160.camel@rex>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1307667467-467-1-git-send-email-raj.khem@gmail.com>
-	<4DF170D5.70805@linux.intel.com> <4DF1850A.1030608@gmail.com>
-	<4DF19FD9.2040701@linux.intel.com> <4DF1AD5C.1030605@gmail.com>
-In-Reply-To: <4DF1AD5C.1030605@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Cc: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] openssh_5.8p2.bb: Update SRC_URI checksums
+Subject: Re: [RFC v1 PATCH 00/16] populate perl-native into its own	directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,68 +61,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 05:55:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Jun 2011 06:16:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 06/09/2011 10:36 PM, Khem Raj wrote:
-> On 06/09/2011 09:38 PM, Saul Wold wrote:
->> On 06/09/2011 07:44 PM, Khem Raj wrote:
->>> On 06/09/2011 06:18 PM, Saul Wold wrote:
->>>> On 06/09/2011 05:57 PM, Khem Raj wrote:
->>>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
->>>>> ---
->>>>> meta/recipes-connectivity/openssh/openssh_5.8p2.bb | 4 ++--
->>>>> 1 files changed, 2 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
->>>>> b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
->>>>> index 04d99d9..d5c9e49 100644
->>>>> --- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
->>>>> +++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
->>>>> @@ -26,8 +26,8 @@ SRC_URI =
->>>>> "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
->>>>> file://ssh_config \
->>>>> file://init \
->>>>> "
->>>>> -SRC_URI[md5sum] = "0541579adf9d55abb15ef927048d372e"
->>>>> -SRC_URI[sha256sum] =
->>>>> "5c35ec7c966ce05cc4497ac59c0b54a556e55ae7368165cc8c4129694654f314"
->>>>> +SRC_URI[md5sum] = "88a4a83b0e0e60cd545430d4e4bd7e0c"
->>>>> +SRC_URI[sha256sum] =
->>>>> "e5a1c821dd8dc33a94c445290956d52e03b3c450f9cd448b96d92317fd4cce42"
->>>>>
->>>>> inherit autotools
->>>>>
->>>> This is strange, since we are building in other places with this,
->>>> please
->>>> confirm you have a good tarball, vs what's in the upstream and on the
->>>> autobuilder.yoctoproject.org downloads area.
->>>>
->>>
->>> have you tried
->>>
->>> bitbake -ccleanall openssh;bitbake openssh ?
->>>
->> Yes, twice with out MIRROR and PREMIRROR set, same result no checksum
->> errors.
->>
->
-> OK I think I know whats going on. In my case its getting it from slugos
-> source mirror which is not same size as the one from ftp.openbsd.org
-> probably the mirror needs update
->
-> So drop it.
-Consider it dropped!
+Richard Purdie wrote:
+> On Thu, 2011-06-09 at 21:51 +0800, Cui, Dexuan wrote:
+>> Richard Purdie wrote:
+>>> On Thu, 2011-06-09 at 09:04 +0100, Richard Purdie wrote:
+>>>> I suspect you've asking for some partial sstate cache to be shared
+>>>> between two builds?=20
+>>>>=20
+>>>> Put simpler, you probably want:
+>>>>=20
+>>>> in tmp0 "bitbake perl-native"
+>>>> in tmp1, different location to tmp0, "bitbake core-image-sato" but
+>>>> sharing the same sstate cache
+>>>=20
+>>> I meant to add that tmp0 should be renamed before this second step
+>>> so if there are hardcoded references in any of the sstate packages
+>>> they couldn't find anything in tmp0 as it would no longer exist.
+>>=20
+>> Actually this doesn't work even without my patch series?
+>> i.e., without my patch series,
+>> 1) I "bitbake perl-native" in /poky.git/build/;
+>> 2) mv /poky.git/build /poky.git/build.bak;
+>> 3) in /poky.git/build2/, modify the conf/local.conf to set
+>> SSTATE_MIRRORS to point to /poky.git/build.bak/sstate-cache/, and
+>> "bitbake sgmlspl-native" would fail in do_compile: "Can't locate
+>> ExtUtils/Command.pm in @INC (@INC contains:
+>> /poky.git/build/tmp/sysroots/i686-linux/usr/lib/perl/5.12.3
+>> /poky.git/build/tmp/sysroots/i686-linux/usr/lib/perl/5.12.3
+>> /poky.git/build/tmp/sysroots/i686-"linux/usr/lib/perl/5.12.3" Is
+>> this an existing bug?    =20
+>=20
+> Looks like it. This did work but it looks like its been broken
+> somehow :(
+>=20
+Hi Richard,
+I reported http://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1157 to track=
+ this issue.
 
-Sau!
->> Sau!
->>
->>>> Thanks
->>>> Sau!
->>>
->>>
->
->
+Thanks,
+-- Dexuan=
 
 
