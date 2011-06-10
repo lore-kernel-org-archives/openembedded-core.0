@@ -1,24 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QUvMF-0001cF-Ej
+	(envelope-from <koen@dominion.thruhere.net>) id 1QUvR9-0001hA-55
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 08:38:15 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5A6Ysmc005915
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 10 Jun 2011 08:43:19 +0200
+Received: by wye20 with SMTP id 20so1829656wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jun 2011 23:34:54 -0700 (PDT)
-Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 9 Jun 2011 23:34:54 -0700
-Message-ID: <4DF1BB0C.7000508@windriver.com>
-Date: Fri, 10 Jun 2011 14:34:52 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-Subject: [junk] test posting
+	Thu, 09 Jun 2011 23:39:58 -0700 (PDT)
+Received: by 10.216.145.195 with SMTP id p45mr1633698wej.61.1307687998641;
+	Thu, 09 Jun 2011 23:39:58 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id f73sm1204791wef.19.2011.06.09.23.39.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 09 Jun 2011 23:39:57 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1307667467-467-2-git-send-email-raj.khem@gmail.com>
+Date: Fri, 10 Jun 2011 08:39:55 +0200
+Message-Id: <6BDF6E15-6222-45CB-BB89-F699EC6E346B@dominion.thruhere.net>
+References: <1307667467-467-1-git-send-email-raj.khem@gmail.com>
+	<1307667467-467-2-git-send-email-raj.khem@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 2/2] sysklogd.inc: Check for package-management in IMAGE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,16 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 06:38:15 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Jun 2011 06:43:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-Just for testing whether I can post to this mailing list.
+Op 10 jun 2011, om 02:57 heeft Khem Raj het volgende geschreven:
 
--- 
-Thanks
+> ONLINE_PACKAGE_MANAGEMENT does not exist on oe-core
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> meta/recipes-extended/sysklogd/sysklogd.inc |    2 +-
+> 1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc =
+b/meta/recipes-extended/sysklogd/sysklogd.inc
+> index f2b1c15..f6a56ec 100644
+> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
+> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+> @@ -14,7 +14,7 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D8ca43cbc842c2336e835926c2166c28b \
+> # syslog initscript is handled explicitly because order of
+> # update-rc.d and update-alternatives is important (see below)
+> DEPENDS_append =3D " update-rc.d update-rc.d-native"
+> -RDEPENDS_${PN}_append =3D " =
+${@base_conditional("ONLINE_PACKAGE_MANAGEMENT", "none", "", =
+"update-rc.d", d)}"
+> +RDEPENDS_${PN}_append =3D " ${@oe.utils.contains("IMAGE_FEATURES", =
+"package-management", "update-rc.d", "", d)}"
 
-Robert
+You can't do IMAGE_FEATURES in RDEPENDS, consider what happens when I =
+build 2 images, one with package-management and one without. Phils =
+changes to catch update-rc.d usage in the image* classes should be =
+enough to fix this.
+
+regards,
+
+Koen=
 
 
