@@ -1,25 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QUyIz-0006nq-9g for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 11:47:05 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QUyFn-0000Ei-0o
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1QUzja-0002WW-B6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 11:43:47 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1307697909.2529.4983.camel@phil-desktop>
-References: <cover.1307686598.git.sgw@linux.intel.com>
-	<79966738c56b3d8dbcb262642447f9efe7af930a.1307686610.git.sgw@linux.intel.com>
-	<1307697909.2529.4983.camel@phil-desktop>
-Organization: Phil Blundell Consulting Ltd
-Date: Fri, 10 Jun 2011 10:43:40 +0100
-Message-ID: <1307699021.2529.4986.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [CONSOLIDATED PULL 4/4] multiple recipes converted to -staticdev packages
+	Fri, 10 Jun 2011 13:18:41 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5A8ApM3022848
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2011 01:10:51 -0700 (PDT)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Fri, 10 Jun 2011 01:10:50 -0700
+Message-ID: <cover.1307691902.git.xiaofeng.yan@windriver.com>
+Old-Date: Fri, 10 Jun 2011 15:45:02 +0800
+Date: Fri, 10 Jun 2011 16:07:47 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.28]
+Subject: [PATCH 0/1]libQtopenGL: Add library "libQtOpenGL*" to lsb image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,21 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 09:47:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Jun 2011 11:19:00 -0000
+Content-Type: text/plain
 
-On Fri, 2011-06-10 at 10:25 +0100, Phil Blundell wrote:
-> This can't be right.  I guess that would be a good thing for
-> recipe-sanity to test for in fact.
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-... except that this wouldn't have helped because oe-core doesn't
-currently have recipe_sanity at all.  Heh.  I'll send a patch for that
-later, and then maybe we can add the bogus DEPENDS checking as a future
-enhancement.
+Hi Saul,
 
-p.
+I submit this patch for adding library "libQtopenGL*" to lsb image. We make lsb test on the following platform with default setting "mesa-xlib" so far.
+emenlow, mpc8315e, qemux86,qemux86-64 ,jasperforest
 
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/opengl
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/opengl
+
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+---
+
+
+Xiaofeng Yan (1):
+  task-core-lsb: Install libQtOpenGL* to lsb
+
+ meta/recipes-extended/tasks/task-core-lsb.bb |   15 ++-------------
+ 1 files changed, 2 insertions(+), 13 deletions(-)
 
 
 
