@@ -1,27 +1,43 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-px0-f178.google.com ([209.85.212.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QUrgf-0002By-BT
+	(envelope-from <raj.khem@gmail.com>) id 1QUrlH-0002G1-NZ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 04:43:06 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Jun 2011 19:39:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,344,1304319600"; d="scan'208";a="14527502"
-Received: from unknown (HELO [10.255.12.216]) ([10.255.12.216])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jun 2011 19:39:42 -0700
-Message-ID: <4DF183EE.9050605@linux.intel.com>
-Date: Thu, 09 Jun 2011 19:39:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Fri, 10 Jun 2011 04:47:51 +0200
+Received: by pxj1 with SMTP id 1so1459953pxj.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jun 2011 19:44:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=Wes0e3qyQ1ZxdUo7cLf54G6cIPtD8fcBhPDurUVP5mw=;
+	b=tJ6ewfhMyWduIqIJ0RMYW1XN7ECWD1PoAO12kwTOAvu8S5dr43dZYRCfVwG1M8jxSO
+	6YSEZqL0L9FkJ52JAu7D4oeZo7hQgM1c+LnYne/bWNRV9c+Yqic/VfY2vn3PBRqHPtuq
+	2wQ4P5J9M3eAKqUn9iU/QqOzXOkn9POhRdlPU=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	b=sPXlfQZbulSBOxeECN2sEVAq/IiJ/47p1VgU5J84fJTJTZij0MAqKd2vuE1MH3DbKA
+	fQMOD6ZGoilrayE+1t7kwRY54RY1xJMmZgl0LLVOJWnlJlg5bZMtzXHQOt4Zf6Dto5VP
+	LDsv7YtX/yKdmIkaDrtKKK2bLnm3E6auzTQ7E=
+Received: by 10.143.59.1 with SMTP id m1mr266940wfk.192.1307673870600;
+	Thu, 09 Jun 2011 19:44:30 -0700 (PDT)
+Received: from [172.23.8.101] (natint3.juniper.net [66.129.224.36])
+	by mx.google.com with ESMTPS id o16sm2352916wff.13.2011.06.09.19.44.28
+	(version=SSLv3 cipher=OTHER); Thu, 09 Jun 2011 19:44:29 -0700 (PDT)
+Message-ID: <4DF1850A.1030608@gmail.com>
+Date: Thu, 09 Jun 2011 19:44:26 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Kang Kai <kai.kang@windriver.com>
-References: <cover.1307529994.git.kai.kang@windriver.com>
-	<3753d5b6e3a1c6cec6bdb75b90c73f96058b292c.1307529994.git.kai.kang@windriver.com>
-In-Reply-To: <3753d5b6e3a1c6cec6bdb75b90c73f96058b292c.1307529994.git.kai.kang@windriver.com>
-Cc: 'Patches and discussions about the oe-core layer'
+To: Saul Wold <sgw@linux.intel.com>
+References: <1307667467-467-1-git-send-email-raj.khem@gmail.com>
+	<4DF170D5.70805@linux.intel.com>
+In-Reply-To: <4DF170D5.70805@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] libxml-simple-perl: update EXTRA_PERLFLAGS
+Subject: Re: [PATCH 1/2] openssh_5.8p2.bb: Update SRC_URI checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,49 +52,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 02:43:06 -0000
+X-List-Received-Date: Fri, 10 Jun 2011 02:47:52 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/08/2011 03:49 AM, Kang Kai wrote:
-> From: Kang Kai<kai.kang@windriver.com>
+On 06/09/2011 06:18 PM, Saul Wold wrote:
+> On 06/09/2011 05:57 PM, Khem Raj wrote:
+>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>> ---
+>> meta/recipes-connectivity/openssh/openssh_5.8p2.bb | 4 ++--
+>> 1 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+>> b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+>> index 04d99d9..d5c9e49 100644
+>> --- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+>> +++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+>> @@ -26,8 +26,8 @@ SRC_URI =
+>> "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+>> file://ssh_config \
+>> file://init \
+>> "
+>> -SRC_URI[md5sum] = "0541579adf9d55abb15ef927048d372e"
+>> -SRC_URI[sha256sum] =
+>> "5c35ec7c966ce05cc4497ac59c0b54a556e55ae7368165cc8c4129694654f314"
+>> +SRC_URI[md5sum] = "88a4a83b0e0e60cd545430d4e4bd7e0c"
+>> +SRC_URI[sha256sum] =
+>> "e5a1c821dd8dc33a94c445290956d52e03b3c450f9cd448b96d92317fd4cce42"
+>>
+>> inherit autotools
+>>
+> This is strange, since we are building in other places with this, please
+> confirm you have a good tarball, vs what's in the upstream and on the
+> autobuilder.yoctoproject.org downloads area.
 >
-> [Yocto 1132]
->
-> libxml-simple-perl should not refer to native perl libs modules, update
-> EXTRA_PERLFLAGS to fix the failure.
->
-> Signed-off-by: Kang Kai<kai.kang@windriver.com>
-> ---
->   .../perl/libxml-simple-perl_2.18.bb                |    4 ++--
->   1 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
-> index ca57776..75a018a 100644
-> --- a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
-> +++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
-> @@ -2,7 +2,7 @@ SECTION = "libs"
->   LICENSE = "Artistic"
->   LIC_FILES_CHKSUM = "file://README;beginline=70;md5=94aa5d46682b411a53a5494cfb22640e"
->   DEPENDS += "libxml-parser-perl"
-> -PR = "r1"
-> +PR = "r2"
->
->   SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Simple-${PV}.tar.gz"
->
-> @@ -11,6 +11,6 @@ SRC_URI[sha256sum] = "a54967c188cda3e20f496c83be4de3f1740eeaa83c0380712ecd969ad8
->
->   S = "${WORKDIR}/XML-Simple-${PV}"
->
-> -EXTRA_PERLFLAGS = "-I ${STAGING_LIBDIR_NATIVE}/perl/${@get_perl_version(d)}"
-> +EXTRA_PERLFLAGS = "-I ${STAGING_LIBDIR}/perl/${@get_perl_version(d)}"
->
-Can you explain in more detail why this change is needed?  should the 
-ordering DEPENDS ordering change?
 
-Sau!
+have you tried
 
+bitbake -ccleanall openssh;bitbake openssh ?
 
->   inherit cpan
+> Thanks
+> Sau!
+
 
 
