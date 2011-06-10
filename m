@@ -1,29 +1,41 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QV3TE-0004co-Ns
+	(envelope-from <raj.khem@gmail.com>) id 1QV3XW-0004ht-5R
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 17:18:01 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5AFEcsV026561
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 10 Jun 2011 08:14:38 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 10 Jun 2011 08:14:38 -0700
-Message-ID: <4DF234DD.2060407@windriver.com>
-Date: Fri, 10 Jun 2011 10:14:37 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Fri, 10 Jun 2011 17:22:26 +0200
+Received: by pzk36 with SMTP id 36so1356071pzk.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2011 08:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=hzVKYjM40qGTxlXNb4U42I4Mki19P9pE4nTUsztyUQg=;
+	b=PncaMTppieoIg5fqzrmUb+J8ALg5uUPafoWfruxAFP5j7LhaRgSxXc8Zv/6OfvQDrY
+	ANIhBLukHHKbYTqCYjLVcE8he4tf+WQ1LiFGC8GCg4cwyicr9QhkbkKyW4vgeKCo4Y/8
+	eRu7lfn7qq92dEFmJDbVZR2VGDhtCa1r6lYrI=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	b=jgc6OcwI3VLU6XCbMMUD6F1JohybVfrVGQTa7Z5OM7LxVQy/161xKm90DRjBZGRD3p
+	uGDWr31wnhxLKbSS1z2iBI4s0infnx9jDSgnN8YHpBnL9K8NUdeutRLwc2vH1RVYhi3Y
+	3F6e3xP/MzhkuxaDkBRcsiHeKeyW3axtaMAKU=
+Received: by 10.142.247.41 with SMTP id u41mr137006wfh.252.1307719144582;
+	Fri, 10 Jun 2011 08:19:04 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id z7sm2943817wff.17.2011.06.10.08.19.02
+	(version=SSLv3 cipher=OTHER); Fri, 10 Jun 2011 08:19:03 -0700 (PDT)
+Message-ID: <4DF235E5.7050704@gmail.com>
+Date: Fri, 10 Jun 2011 08:19:01 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1307639649.git.mark.hatle@windriver.com>
-	<f4bf925e5ef24493da42015e1be93d59b85f3a44.1307639649.git.mark.hatle@windriver.com>
-	<201106101602.27104.paul.eggleton@linux.intel.com>
-In-Reply-To: <201106101602.27104.paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] pseudo: Fix problem related to realpath
+To: openembedded-core@lists.openembedded.org
+References: <1307714500.25285.7.camel@phil-desktop>
+In-Reply-To: <1307714500.25285.7.camel@phil-desktop>
+Subject: Re: [PATCH] uclibc: remove redundant python code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,56 +50,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 15:18:01 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Fri, 10 Jun 2011 15:22:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/10/11 10:02 AM, Paul Eggleton wrote:
-> On Thursday 09 June 2011 18:15:45 Mark Hatle wrote:
->> --- a/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
->> +++ b/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
->> @@ -1,9 +1,10 @@
->>  require pseudo.inc
->>  
->> -PR = "r0"
->> +PR = "r1"
-> 
-> I may be mistaken, but it seems to me that every time we need to rebuild 
-> pseudo it results in a race when an older version of pseudo is present. We 
-> handle building pseudo on its own first if it's not present, however if it just 
-> needs updating we go ahead and rebuild it at the same time as building other 
-> packages, and if it just happens that pseudo is needed when it's being built 
-> -> bang. At least that's my assumption given that since the last batch of 
-> updates, my rebuild of perl-native failed at the same time as pseudo's 
-> do_compile with a large number of "ERROR: ld.so: object 'libpseudo.so' from 
-> LD_PRELOAD cannot be preloaded: ignored" messages.
-> 
-> Am I right in that there's currently no mechanism to work around this?
-> 
-> Cheers,
-> Paul
-> 
+On 06/10/2011 07:01 AM, Phil Blundell wrote:
+> This chunk of python code has been around for a while (witness the
+> comment about gcc 3.4.0) and predates the availability of
+> COMPATIBLE_HOST.  Rewrite it using a more modern idiom.
+>
+> Signed-off-by: Phil Blundell<philb@gnu.org>
 
-Theoretically updating pseudo shouldn't happen very often.  But yes, currently
-there is an issue that pseudo updates are not caused and cause the pseudo
-rebuild.  We can work around this by:
+Acked-by: Khem Raj <raj.khem@gmail.com>
 
-* removing the "pseudodone" file in the build directory
+> ---
+>   meta/recipes-core/uclibc/uclibc.inc                |   12 +--------
+>
+> diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+> index c1bc422..a2c6ee5 100644
+> --- a/meta/recipes-core/uclibc/uclibc.inc
+> +++ b/meta/recipes-core/uclibc/uclibc.inc
+> @@ -36,21 +36,11 @@ cp ${SYSROOT_DESTDIR}${libdir}/libc.so ${WORKDIR}/site_config_libc; \
+>   sed -i -e 's# ${base_libdir}# ${SYSROOT_DESTDIR}${base_libdir}#g' -e 's# ${libdir}# ${SYSROOT_DESTDIR}${libdir}#g' ${WORKDIR}/site_config_libc/libc.so; \
+>   "
+>
+> -#
+>   # For now, we will skip building of a gcc package if it is a uclibc one
+>   # and our build is not a uclibc one, and we skip a glibc one if our build
+>   # is a uclibc build.
+> -#
+> -# See the note in gcc/gcc_3.4.0.oe
+> -#
+> +COMPATIBLE_HOST = ".*-uclibc.*"
+>
+> -python __anonymous () {
+> -    import bb, re
+> -    uc_os = (re.match('.*uclibc*', bb.data.getVar('TARGET_OS', d, 1)) != None)
+> -    if not uc_os:
+> -        raise bb.parse.SkipPackage("incompatible with target %s" %
+> -                                   bb.data.getVar('TARGET_OS', d, 1))
+> -}
+>   PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+>   DEPENDS = "virtual/${TARGET_PREFIX}binutils \
+>              virtual/${TARGET_PREFIX}gcc-intermediate \
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-* manually running the "first stage" build:
-  BBFETCH2=True PSEUDO_BUILD=1 ../bitbake/bin/bitbake pseudo-native
-
-* manually running "bitbake pseudo-native", (still does it as a second stage,
-but usually works)
-
-Likely what we need to do is figure out a (quick) way in the bitbake wrapper to
-determine if the pseudo has changed... timestamp match to pseudodone?  That of
-course still won't be fool proof.
-
-What has been discussed in the past is adding the capabilities for a "staged"
-build to bitbake.  Being able to re-invoke the bitbake process after given
-stages [automatically] so that in the end bitbake is in charge of the build
-steps.  So far though not much has been done with this idea, as we're really not
-sure how practical this is.
 
 
