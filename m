@@ -1,25 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QV51j-0000JT-Mq
+	(envelope-from <koen@dominion.thruhere.net>) id 1QV56O-0000iu-1B
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 18:57:43 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Jun 2011 09:54:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,348,1304319600"; d="scan'208";a="16853730"
-Received: from unknown (HELO [10.255.12.216]) ([10.255.12.216])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2011 09:54:13 -0700
-Message-ID: <4DF24C34.7060900@linux.intel.com>
-Date: Fri, 10 Jun 2011 09:54:12 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	Fri, 10 Jun 2011 19:02:32 +0200
+Received: by wwb17 with SMTP id 17so2500339wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2011 09:59:10 -0700 (PDT)
+Received: by 10.227.199.80 with SMTP id er16mr2347897wbb.78.1307725150632;
+	Fri, 10 Jun 2011 09:59:10 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fm14sm2173941wbb.41.2011.06.10.09.59.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 10 Jun 2011 09:59:10 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1307723606.15712.213.camel@rex>
+Date: Fri, 10 Jun 2011 18:59:07 +0200
+Message-Id: <2A58CD3E-8647-4979-A292-77314022CF47@dominion.thruhere.net>
 References: <cover.1307686598.git.sgw@linux.intel.com>
 	<1307723606.15712.213.camel@rex>
-In-Reply-To: <1307723606.15712.213.camel@rex>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
 Subject: Re: [CONSOLIDATED PULL 0/4] 10-June
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,53 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 16:57:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Jun 2011 17:02:32 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 06/10/2011 09:33 AM, Richard Purdie wrote:
+
+Op 10 jun 2011, om 18:33 heeft Richard Purdie het volgende geschreven:
+
 > On Thu, 2011-06-09 at 23:26 -0700, Saul Wold wrote:
 >> Kang Kai (1):
->>    ghostscript: update SRC_URI
->>
+>>  ghostscript: update SRC_URI
+>>=20
 >> Nitin A Kamble (1):
->>    gcc: rebase the patch to avoid patch rejection
->
+>>  gcc: rebase the patch to avoid patch rejection
+>=20
 > This was a disaster. It breaks the build and is huge, thereby clogging
 > up the source control system web interface etc.
->
+>=20
 > I applied it, then had to revert it. Please test things like this more
 > carefully in future.
->
-> I also think we need to put these kind of patches on the website or in a
+>=20
+> I also think we need to put these kind of patches on the website or in =
+a
 > repo, we shouldn't be carrying them around in the main repo.
->
->> Phil Blundell (1):
->>    busybox: backport distro-features handling from oe master
->>
->> Saul Wold (1):
->>    multiple recipes converted to -staticdev packages
->
-> I'm with Phil on this one, needs more work.
->
-Sorry about this one, I thought I had it further along, I guess I had a
-cut and paste failure (dropping the R from RDEPENDS).
-> I haven't got to the other two since the gcc issue distracted me :/.
->
-I did run multiple builds without failure, so I am not sure what 
-happened with the gcc failure.
 
-Sau!
+Having patches external to the layer is a recipe for failure, if you =
+excude the pun. I've had to deal with patches disappearing/changing/etc =
+a lot during the past months in the .dev world and I don't look forward =
+to continuing those mistakes in the oe-core world.
 
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+regards,
+
+Koen=
 
 
