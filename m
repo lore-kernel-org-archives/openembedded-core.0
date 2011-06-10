@@ -1,40 +1,33 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QV4PZ-0007pw-Ny
-	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jun 2011 18:18:17 +0200
-Received: by vws2 with SMTP id 2so2582653vws.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QV4ho-00006F-PW for openembedded-core@lists.openembedded.org;
+	Fri, 10 Jun 2011 18:37:08 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5AGXmkO028881
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jun 2011 09:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
-	:date:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=YVB4nAX85EhLCS4Yt2yt1Njky2ExiZQtRoKqggW7ZGM=;
-	b=sCLXg1xitvNnIHEQ2+JtdpGUfpfuZetXLbPlHlODoN6rqLcgJwnQN9qY4w4FstUh6l
-	gV1p6tpZNKB5uECWdRnUCjun6OoQLScBqQx5Eav3I6OIajJIpaWuOluZV10mYU8ky9Sf
-	nANzOblicHgHxmrMi14UIgv2LmbkO27hxD4k0=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	b=GHa3fOnzNVuDEkhnNZaqw1IXfgkMWqKO21kZxiKpICYcP8gapvow5NFQbKdvfKiXR7
-	L3QUhV4xmbq3R2kqXY2+m+MTbtM221Qi+0HNZOt2y/R72wn4XvyOcKZFMQghSf0S76z/
-	/LJ9SDduRva/hHggdwb0gL+6jZEY317w32qcw=
-Received: by 10.52.181.166 with SMTP id dx6mr3200931vdc.35.1307722496126; Fri,
-	10 Jun 2011 09:14:56 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.52.101.134 with HTTP; Fri, 10 Jun 2011 09:14:36 -0700 (PDT)
-In-Reply-To: <25C444E8-9FBC-4674-B366-ADCE39FC666B@dominion.thruhere.net>
-References: <25C444E8-9FBC-4674-B366-ADCE39FC666B@dominion.thruhere.net>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 10 Jun 2011 09:14:36 -0700
-X-Google-Sender-Auth: -nNZKybn03ZbmVQkeBMSLBFq03A
-Message-ID: <BANLkTimwD9NrSCFrf_W+KHMmvCGArU2Tjw@mail.gmail.com>
+	Fri, 10 Jun 2011 17:33:48 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28367-08 for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2011 17:33:44 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5AGXdsU028875
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jun 2011 17:33:41 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: meta-gnome update
+In-Reply-To: <cover.1307686598.git.sgw@linux.intel.com>
+References: <cover.1307686598.git.sgw@linux.intel.com>
+Date: Fri, 10 Jun 2011 17:33:26 +0100
+Message-ID: <1307723606.15712.213.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [CONSOLIDATED PULL 0/4] 10-June
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,30 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jun 2011 16:18:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 10 Jun 2011 16:37:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 10, 2011 at 7:06 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
-> For people not keeping an eye on meta-gnome, it reached a milestone this =
-week: a usefull looking[1] GNOME 2.32 desktop. With the current bits in oe-=
-core, meta-oe and meta-gnome you can build an image with gdm, gnome-panel, =
-gnome-session, nautilus metacity and gnome-disk-utility. It's still lacking=
- things like gnome-control-center, gnome-settings-daemon, totem, etc.
->
-> If you're using meta-angstrom you can build systemd-gnome-image which wil=
-ll give you the above.
->
-> Give it all a try and send lots of patches to move over your favourite GN=
-OME recipes :)
+On Thu, 2011-06-09 at 23:26 -0700, Saul Wold wrote:
+> Kang Kai (1):
+>   ghostscript: update SRC_URI
+> 
+> Nitin A Kamble (1):
+>   gcc: rebase the patch to avoid patch rejection
 
-Congrats!
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+This was a disaster. It breaks the build and is huge, thereby clogging
+up the source control system web interface etc.
+
+I applied it, then had to revert it. Please test things like this more
+carefully in future.
+
+I also think we need to put these kind of patches on the website or in a
+repo, we shouldn't be carrying them around in the main repo.
+
+> Phil Blundell (1):
+>   busybox: backport distro-features handling from oe master
+> 
+> Saul Wold (1):
+>   multiple recipes converted to -staticdev packages
+
+I'm with Phil on this one, needs more work.
+
+I haven't got to the other two since the gcc issue distracted me :/.
+
+Cheers,
+
+Richard
+
 
 
