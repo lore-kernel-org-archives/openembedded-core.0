@@ -1,28 +1,19 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QVKOK-0005WP-Nq
+Received: from stoexhub01.domain01.net ([83.145.59.142]
+	helo=stoexhub02.domain01.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <anders@chargestorm.se>) id 1QVLqG-0007h6-21
 	for openembedded-core@lists.openembedded.org;
-	Sat, 11 Jun 2011 11:22:04 +0200
-Received: by wye20 with SMTP id 20so2627380wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jun 2011 02:18:43 -0700 (PDT)
-Received: by 10.227.43.9 with SMTP id u9mr3021427wbe.74.1307783915630;
-	Sat, 11 Jun 2011 02:18:35 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id c17sm2644590wbh.46.2011.06.11.02.18.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 11 Jun 2011 02:18:34 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4DF113DF.4000900@linux.intel.com>
-Date: Sat, 11 Jun 2011 11:18:32 +0200
-Message-Id: <7F100711-DE52-4D1B-9457-595CD24683F2@dominion.thruhere.net>
-References: <cover.1307558785.git.mark.hatle@windriver.com>
-	<4DF113DF.4000900@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 0/2] pseudo: Update pseudo to 1.1.1 version V3
+	Sat, 11 Jun 2011 12:55:00 +0200
+Received: from localhost (193.235.91.228) by stoexhub02.domain01.net
+	(10.12.10.2) with Microsoft SMTP Server id 8.3.137.0; Sat, 11 Jun 2011
+	12:50:35 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 11 Jun 2011 12:50:21 +0200
+Message-ID: <1307789421-20911-1-git-send-email-anders@chargestorm.se>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+X-GFI-SMTP-Submission: 1
+Subject: [PATCH v2] perl-native: fix download url
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,56 +28,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jun 2011 09:22:04 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 11 Jun 2011 10:55:00 -0000
+Content-Type: text/plain
 
+Signed-off-by: Anders Darander <anders@chargestorm.se>
+---
 
-Op 9 jun 2011, om 20:41 heeft Saul Wold het volgende geschreven:
+v2: Changed to www.cpan.org instead of ftp.funet.fi.
 
-> On 06/08/2011 11:48 AM, Mark Hatle wrote:
->> Hopefully third and final version.  The patch that is part of this =
-has been
->> contribed to and reviewed upstream.  (Not yet accepted upstream)
->>=20
->> V3 fixes an issue with building on a 32-bit host.
->>=20
->> The following changes since commit =
-30101d4153aa8e116892063933b868d325bdd79c:
->>=20
->>   distro tracking: Manual Updates (2011-06-06 23:51:26 -0700)
->>=20
->> are available in the git repository at:
->>   git://git.pokylinux.org/poky-contrib mhatle/pseudo
->>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dmhatle/pseudo=
+ meta/recipes-devtools/perl/perl-native_5.12.3.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
->>=20
->> Mark Hatle (2):
->>   pseudo: Update pseudo to 1.1.1 version
->>   distro_tracking_fields.inc: add pseudo
->>=20
->>  .../conf/distro/include/distro_tracking_fields.inc |    6 ++
->>  meta/recipes-devtools/pseudo/pseudo.inc            |   20 +++++--
->>  .../recipes-devtools/pseudo/pseudo/oe-config.patch |   58 =
-++++++++++++++++++++
->>  meta/recipes-devtools/pseudo/pseudo_1.0.bb         |    9 ---
->>  meta/recipes-devtools/pseudo/pseudo_1.1.1.bb       |   10 ++++
->>  meta/recipes-devtools/pseudo/pseudo_git.bb         |    7 ++-
->>  6 files changed, 92 insertions(+), 18 deletions(-)
->>  create mode 100644 =
-meta/recipes-devtools/pseudo/pseudo/oe-config.patch
->>  delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.0.bb
->>  create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
->>=20
->=20
->=20
-> Merged into OE-Core
+diff --git a/meta/recipes-devtools/perl/perl-native_5.12.3.bb b/meta/recipes-devtools/perl/perl-native_5.12.3.bb
+index cbb4e78..50fa1c9 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.12.3.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.12.3.bb
+@@ -9,7 +9,7 @@ PR = "r2"
+ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+                     file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
+ 
+-SRC_URI = "http://ftp.funet.fi/pub/CPAN/src/perl-${PV}.tar.gz \
++SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+            file://Configure-multilib.patch \
+            file://perl-configpm-switch.patch \
+            file://parallel_build_fix_1.patch \
+-- 
+1.7.4.1
 
-This also seems to fix the bugs that all my ipks had the +x bit set, 'ls =
---color' looks far more pleasing now!
-
-regards,
-
-Koen=
 
 
