@@ -1,40 +1,41 @@
-Received: from mail-pz0-f50.google.com ([209.85.210.50])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QVcCP-0001kx-Nn
+	(envelope-from <raj.khem@gmail.com>) id 1QVcCR-0001kv-SS
 	for openembedded-core@lists.openembedded.org;
-	Sun, 12 Jun 2011 06:22:57 +0200
-Received: by pzk2 with SMTP id 2so1743305pzk.9
+	Sun, 12 Jun 2011 06:23:00 +0200
+Received: by mail-pv0-f175.google.com with SMTP id 30so1810995pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jun 2011 21:19:34 -0700 (PDT)
+	Sat, 11 Jun 2011 21:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references:in-reply-to:references;
-	bh=HS+0IAnOFi/8XKFo/tD9egFC0cn9yt+GtJWb8ndfZpA=;
-	b=XxD0vO8oXCyg+Cd1ys3A0eao2izQwRnOKizM1+T3BnZJV3Ow4iPNEL8u4LQYyLGKfT
-	FOWpH7+Hbgn2uhGCCCu13wzvgAkahDE8wUr6aNdJH13sUZsvyUbGKVWy4XOBpfoOqvDl
-	2P/+SAsi4TszlqoLdqb7jiWFli6zJzHA6Es/w=
+	bh=WdFcKwjldKZIREvdHdyhCIg1aywGAyAT5+Qz4Sy2yxw=;
+	b=BqCewzoADoh6Koo5Z0snLkAhXnAtZrCuEyYQdkBHQ1zZGu8nppOKZ6B1qezTR6zQyu
+	ODb7Xipfjbl/qi0UOZmv60RkZSqfCoW14wjvne5HsyGx/HQ5lB3vlYH09MSkEQfarB1d
+	qwaiFXRjdMHW+evjWB83EI7tzfG+lJZRdq6EM=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=n3pg00czuP/EgKu4+a/qlVx+fuTEesN5s8l+iIbvPyYdFGokFjnrwTrvg0yAgtLQR+
-	mpCp6fikBBlCfi1IW9GVJWI1ji+2r+gprW88kMujbML3caxjo44wMKgIfgPSLOWB2eed
-	CaXRiJmUtH+auvPHAUZLWHsRg7989yzXj2Joo=
-Received: by 10.68.35.70 with SMTP id f6mr1670753pbj.172.1307852372584;
-	Sat, 11 Jun 2011 21:19:32 -0700 (PDT)
+	b=OKNWzQLGBPGqdrXMJY8kI+k9b0mRbCvS2DEc7j7tFIIZSX9jMHNx6TH4fIzpz27abf
+	O/2wraneTiExgfIvXxbn7oIl5wUUWGMhUcp08UcemRK4pcbgXJCkuz5TfIKk4oWVcl+1
+	oRtgTGqY3lA6YZ/Z7jz6W61flxj7MJ0BWIS4A=
+Received: by 10.68.57.105 with SMTP id h9mr1638941pbq.221.1307852379253;
+	Sat, 11 Jun 2011 21:19:39 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id x1sm3579520pbb.18.2011.06.11.21.19.30
+	by mx.google.com with ESMTPS id x1sm3579520pbb.18.2011.06.11.21.19.37
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 11 Jun 2011 21:19:31 -0700 (PDT)
+	Sat, 11 Jun 2011 21:19:38 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Sat, 11 Jun 2011 21:19:03 -0700
-Message-Id: <accbe9a92e95233759755cd9a1be77e95cf8cdf2.1307852182.git.raj.khem@gmail.com>
+Date: Sat, 11 Jun 2011 21:19:06 -0700
+Message-Id: <fdf926e72bb7f615d97a8738a178ecf92b6c1647.1307852182.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <83f1e8503def3a9d29b83b3b5defc728c7859385.1307852182.git.raj.khem@gmail.com>
 References: <83f1e8503def3a9d29b83b3b5defc728c7859385.1307852182.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1307852182.git.raj.khem@gmail.com>
 References: <cover.1307852182.git.raj.khem@gmail.com>
-Subject: [PATCH 2/6] uclibc.inc: libsegfault is only RPROVIDED by uclibc
+Cc: Phil Blundell <philb@gnu.org>
+Subject: [PATCH 5/6] uclibc: remove redundant python code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,29 +50,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jun 2011 04:22:58 -0000
+X-List-Received-Date: Sun, 12 Jun 2011 04:23:00 -0000
 
-Using ${PN} also means that uclibc-initial gets to provide it
-which we do not want
+From: Phil Blundell <pb@pbcl.net>
 
+This chunk of python code has been around for a while (witness the
+comment about gcc 3.4.0) and predates the availability of
+COMPATIBLE_HOST.  Rewrite it using a more modern idiom.
+
+Signed-off-by: Phil Blundell <philb@gnu.org>
+Acked-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/uclibc/uclibc.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-core/uclibc/uclibc.inc |   12 +-----------
+ 1 files changed, 1 insertions(+), 11 deletions(-)
 
 diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-index c1bc422..0f8c6c2 100644
+index 2bf3017..06c0f5d 100644
 --- a/meta/recipes-core/uclibc/uclibc.inc
 +++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -99,7 +99,7 @@ RPROVIDES_uclibc-dev += "libc-dev virtual-libc-dev"
- # uclibc does not really have libsegfault but then using the one from glibc is also not
- # going to work. So we pretend that we have it to make bitbake not pull other recipes
- # to satisfy this dependency for the images/tasks
--RPROVIDES_${PN} += "libsegfault"
-+RPROVIDES_uclibc += "libsegfault"
+@@ -36,21 +36,11 @@ cp ${SYSROOT_DESTDIR}${libdir}/libc.so ${WORKDIR}/site_config_libc; \
+ sed -i -e 's# ${base_libdir}# ${SYSROOT_DESTDIR}${base_libdir}#g' -e 's# ${libdir}# ${SYSROOT_DESTDIR}${libdir}#g' ${WORKDIR}/site_config_libc/libc.so; \
+ "
  
- SRC_URI = "\
-         http://www.uclibc.org/downloads/uClibc-${PV}.tar.bz2;name=uClibc-${PV} \
+-#
+ # For now, we will skip building of a gcc package if it is a uclibc one
+ # and our build is not a uclibc one, and we skip a glibc one if our build
+ # is a uclibc build.
+-#
+-# See the note in gcc/gcc_3.4.0.oe
+-#
++COMPATIBLE_HOST = ".*-uclibc.*"
+ 
+-python __anonymous () {
+-    import bb, re
+-    uc_os = (re.match('.*uclibc*', bb.data.getVar('TARGET_OS', d, 1)) != None)
+-    if not uc_os:
+-        raise bb.parse.SkipPackage("incompatible with target %s" %
+-                                   bb.data.getVar('TARGET_OS', d, 1))
+-}
+ PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
+            virtual/${TARGET_PREFIX}gcc-intermediate \
 -- 
 1.7.4.1
 
