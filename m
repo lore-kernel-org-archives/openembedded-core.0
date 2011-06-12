@@ -1,27 +1,24 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QVkdu-0003ty-Sy
+	(envelope-from <koen@dominion.thruhere.net>) id 1QVnYD-0001tq-Gl
 	for openembedded-core@lists.openembedded.org;
-	Sun, 12 Jun 2011 15:23:54 +0200
-Received: by wwb17 with SMTP id 17so3410357wwb.24
+	Sun, 12 Jun 2011 18:30:13 +0200
+Received: by wwb17 with SMTP id 17so3478560wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2011 06:20:28 -0700 (PDT)
-Received: by 10.216.62.195 with SMTP id y45mr4444313wec.15.1307884828763;
-	Sun, 12 Jun 2011 06:20:28 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id r20sm2363755wec.7.2011.06.12.06.20.27
+	Sun, 12 Jun 2011 09:26:50 -0700 (PDT)
+Received: by 10.227.57.81 with SMTP id b17mr4190404wbh.98.1307896010350;
+	Sun, 12 Jun 2011 09:26:50 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id gb6sm3586187wbb.51.2011.06.12.09.26.48
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 12 Jun 2011 06:20:27 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
+	Sun, 12 Jun 2011 09:26:49 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <9C732305-B6BD-4AF7-B0C2-D9264E47C70F@dominion.thruhere.net>
-Date: Sun, 12 Jun 2011 15:20:24 +0200
-Message-Id: <263460FD-FB52-42B8-9C15-6A35A3EF9A53@dominion.thruhere.net>
-References: <9C732305-B6BD-4AF7-B0C2-D9264E47C70F@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: qemuarm boot problems?
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 12 Jun 2011 18:26:39 +0200
+Message-Id: <cover.1307895912.git.koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 0/2] qemu and connman tweaks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,24 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jun 2011 13:23:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 12 Jun 2011 16:30:13 -0000
 
+2 small patches
 
-Op 12 jun 2011, om 12:19 heeft Koen Kooi het volgende geschreven:
+The following changes since commit 6a3e57fcd3a172c9b2707510d65741734c98a143:
+  Richard Purdie (1):
+        Revert "gcc: rebase the patch to avoid patch rejection"
 
-> Hi,
->=20
-> Scott was trying to debug the login.defs problem I reported but =
-couldn't boot a test image in qemuarm. I built qemu for OSX and could =
-reproduce it. If I use the kernel oe-core builds I can boot older =
-angstrom filesystems from .dev and .2011.03-maintenance, but nothing =
-from oe-core. The same image targets work fine on the arm targets I test =
-(armv7a: beagleboard, pandaboard; armv5te: hawkboard).
+are available in the git repository at:
 
-To answer my own question:
+  git://github.com/koenkooi/oe-core master
+  https://github.com/koenkooi/oe-core/tree/master
 
-CONFIG_DEVTMPFS=3Dn=
+Koen Kooi (2):
+  qemu.inc: append to IMAGE_FSTYPES instead of weakly assigning them
+  connman-gnome 0.5: build from git
+
+ meta/conf/machine/include/qemu.inc                 |    2 +-
+ .../connman-gnome/applet_menu_popup_fix.patch      |   19 -
+ .../connman/connman-gnome/connman-gnome.patch      | 4162 --------------------
+ .../remove-connman-property-desktop-file.patch     |   42 -
+ .../connman-gnome/service_name_update.patch        |   36 -
+ .../connman/connman-gnome_0.5.bb                   |   13 +-
+ 6 files changed, 5 insertions(+), 4269 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/applet_menu_popup_fix.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/connman-gnome.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/remove-connman-property-desktop-file.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/service_name_update.patch
+
 
 
