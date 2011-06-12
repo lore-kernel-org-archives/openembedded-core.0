@@ -1,36 +1,40 @@
-Received: from mail-px0-f178.google.com ([209.85.212.178])
+Received: from mail-pz0-f50.google.com ([209.85.210.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QVcCP-0001kw-EZ
+	(envelope-from <raj.khem@gmail.com>) id 1QVcCP-0001kx-Nn
 	for openembedded-core@lists.openembedded.org;
 	Sun, 12 Jun 2011 06:22:57 +0200
-Received: by pxj1 with SMTP id 1so2424185pxj.9
+Received: by pzk2 with SMTP id 2so1743305pzk.9
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 11 Jun 2011 21:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=6R1IeNZZapM6oUz/8pn15VDbmYEHJbsx32reKSxlODM=;
-	b=f54MTT9W2EYqKm+Z5Uj5FR+K9uFR7rE8WsR3RfoHaiJaI576m9H1K93GUTEheyLXNr
-	kt4kSGQKt5CutYGgxrNJGjVIbvPRXYuy4ucRHjLuLGnkf8z+MOvWOOaLM4+aM9clO8wV
-	U4b2iByT7v6R5ePxkNPgmiPN7hDL1v8IG1ZF8=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references:in-reply-to:references;
+	bh=HS+0IAnOFi/8XKFo/tD9egFC0cn9yt+GtJWb8ndfZpA=;
+	b=XxD0vO8oXCyg+Cd1ys3A0eao2izQwRnOKizM1+T3BnZJV3Ow4iPNEL8u4LQYyLGKfT
+	FOWpH7+Hbgn2uhGCCCu13wzvgAkahDE8wUr6aNdJH13sUZsvyUbGKVWy4XOBpfoOqvDl
+	2P/+SAsi4TszlqoLdqb7jiWFli6zJzHA6Es/w=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=e8S9qe2Rer/1vbJk9fqHigG8PTId6hvCN3CZMoiqCjFRU06DAKE+983f9yhjuV4tV6
-	nPHfnLeOnAc4/9cdbYghPom0vJPfn9Nq4u3PyBSes5KOsRAK+ZYIWuwGQ3h5+kmVb+9O
-	YVfbHOb98T09O84sED4WApXRPP0/e9E6aJiVs=
-Received: by 10.68.29.8 with SMTP id f8mr1109235pbh.39.1307852363031;
-	Sat, 11 Jun 2011 21:19:23 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=n3pg00czuP/EgKu4+a/qlVx+fuTEesN5s8l+iIbvPyYdFGokFjnrwTrvg0yAgtLQR+
+	mpCp6fikBBlCfi1IW9GVJWI1ji+2r+gprW88kMujbML3caxjo44wMKgIfgPSLOWB2eed
+	CaXRiJmUtH+auvPHAUZLWHsRg7989yzXj2Joo=
+Received: by 10.68.35.70 with SMTP id f6mr1670753pbj.172.1307852372584;
+	Sat, 11 Jun 2011 21:19:32 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id m9sm3581222pbd.7.2011.06.11.21.19.20
+	by mx.google.com with ESMTPS id x1sm3579520pbb.18.2011.06.11.21.19.30
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 11 Jun 2011 21:19:21 -0700 (PDT)
+	Sat, 11 Jun 2011 21:19:31 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Sat, 11 Jun 2011 21:19:00 -0700
-Message-Id: <cover.1307852182.git.raj.khem@gmail.com>
+Date: Sat, 11 Jun 2011 21:19:03 -0700
+Message-Id: <accbe9a92e95233759755cd9a1be77e95cf8cdf2.1307852182.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
-Cc: Phil Blundell <philb@gnu.org>
-Subject: [PATCH 0/6] uclibc cleanups
+In-Reply-To: <83f1e8503def3a9d29b83b3b5defc728c7859385.1307852182.git.raj.khem@gmail.com>
+References: <83f1e8503def3a9d29b83b3b5defc728c7859385.1307852182.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1307852182.git.raj.khem@gmail.com>
+References: <cover.1307852182.git.raj.khem@gmail.com>
+Subject: [PATCH 2/6] uclibc.inc: libsegfault is only RPROVIDED by uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,52 +49,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jun 2011 04:22:57 -0000
+X-List-Received-Date: Sun, 12 Jun 2011 04:22:58 -0000
 
-This set of patches cleans up uclibc recipes and builds
-in addition it also fixes the issues where gettext was being
-pulled in even when uclibc did not require it and gettext itself
-needed to be patched to build on uclibc.
+Using ${PN} also means that uclibc-initial gets to provide it
+which we do not want
 
-The following changes since commit fb85c6a6184184f6eed942af59ce2cf03f6b623b:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/uclibc/uclibc.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-  uclibc: remove PACKAGE_ARCH, fix compilation on i586 (2011-06-11 21:03:57 -0700)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-cleanup
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-cleanup
-
-Khem Raj (4):
-  util-macros_1.13.0.bb: Depend on virtual/gettext instead of gettext
-  uclibc.inc: libsegfault is only RPROVIDED by uclibc
-  gettext_0.18.1.1.bb: Fix build on uclibc
-  uclibc: Cleanup the machine dependent config files
-
-Phil Blundell (2):
-  uclibc: remove redundant python code
-  uclibc: remove PACKAGE_ARCH, fix compilation on i586
-
- .../gnulib-uclibc-sched_param-def.patch            |   21 ++++++
- meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    7 +-
- .../uclibc/uclibc-git/armv5te/uClibc.machine       |    4 +-
- .../{nslu2be => armv5teb}/uClibc.machine           |    0
- .../uclibc/uclibc-git/efika/uClibc.machine         |   45 ------------
- .../uclibc-git/{qemumips => mips}/uClibc.machine   |    0
- .../uclibc/uclibc-git/qemuarm/uClibc.machine       |   77 --------------------
- .../uclibc/uclibc-git/qemux86/uClibc.machine       |   59 ---------------
- meta/recipes-core/uclibc/uclibc-git/uClibc.distro  |   14 ++++-
- meta/recipes-core/uclibc/uclibc.inc                |   19 +----
- meta/recipes-core/uclibc/uclibc_git.bb             |    5 +-
- .../xorg-util/util-macros_1.13.0.bb                |    4 +-
- 12 files changed, 47 insertions(+), 208 deletions(-)
- create mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/gnulib-uclibc-sched_param-def.patch
- rename meta/recipes-core/uclibc/uclibc-git/{nslu2be => armv5teb}/uClibc.machine (100%)
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/efika/uClibc.machine
- rename meta/recipes-core/uclibc/uclibc-git/{qemumips => mips}/uClibc.machine (100%)
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/qemuarm/uClibc.machine
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/qemux86/uClibc.machine
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/uClibc.config
-
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index c1bc422..0f8c6c2 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -99,7 +99,7 @@ RPROVIDES_uclibc-dev += "libc-dev virtual-libc-dev"
+ # uclibc does not really have libsegfault but then using the one from glibc is also not
+ # going to work. So we pretend that we have it to make bitbake not pull other recipes
+ # to satisfy this dependency for the images/tasks
+-RPROVIDES_${PN} += "libsegfault"
++RPROVIDES_uclibc += "libsegfault"
+ 
+ SRC_URI = "\
+         http://www.uclibc.org/downloads/uClibc-${PV}.tar.bz2;name=uClibc-${PV} \
 -- 
 1.7.4.1
 
