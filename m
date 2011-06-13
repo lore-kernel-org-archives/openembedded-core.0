@@ -1,38 +1,25 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1QWBjA-0007Hi-FA
+	(envelope-from <koen@dominion.thruhere.net>) id 1QWByR-0007av-9c
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Jun 2011 20:19:08 +0200
-Received: by yib18 with SMTP id 18so901005yib.6
+	Mon, 13 Jun 2011 20:34:55 +0200
+Received: by wye20 with SMTP id 20so3878662wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2011 11:15:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type:content-transfer-encoding;
-	bh=1m9QvQx7SYkInSz3lPREbAx4H2RG98W/RW7T0EArZHE=;
-	b=Q1c8PWw71hsjd2SLOHn4zbWd6OvKyc7nfZjF+N4H327uhD2kN0lNY1HTYfI2mPgLTk
-	QUefh3OIipG4o/0uV72OKAG0L8RZAKdtmpMfWkNtuUfRPba5wy/RtxN9J8nwSNp/gw21
-	kfjOW2Tuqmw+IXihc7T0517cRVldhycnIsZeQ=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	b=Dh5Nj6PVcbRe9Y4d+d6drlh24GYdDphncggHTRvRiZcnv0Yrg6tY+7ArpKmCPXaoIQ
-	B6kgDyIxU/PALXaL5PkD9E69RxgPyU8mauhSpUcV/7CMwveT9jltKKItxcVVjML8r8y2
-	pySQ567xywtO7tZ4O9eJFPASF8aU7++jolJcU=
-MIME-Version: 1.0
-Received: by 10.91.72.1 with SMTP id z1mr6505433agk.78.1307988943520; Mon, 13
-	Jun 2011 11:15:43 -0700 (PDT)
-Received: by 10.90.96.1 with HTTP; Mon, 13 Jun 2011 11:15:43 -0700 (PDT)
-In-Reply-To: <09A32280-131B-4201-8E32-AFA6A6FD78CA@dominion.thruhere.net>
-References: <33AB447FBD802F4E932063B962385B3554AE4989@shsmsx501.ccr.corp.intel.com>
-	<BANLkTikZxd4Gg0b0nanMupmdYBf-3LUp7g@mail.gmail.com>
-	<09A32280-131B-4201-8E32-AFA6A6FD78CA@dominion.thruhere.net>
-Date: Mon, 13 Jun 2011 14:15:43 -0400
-Message-ID: <BANLkTinpbdMW=QZL-qtvD+SsThB2qdyNGQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+	Mon, 13 Jun 2011 11:31:30 -0700 (PDT)
+Received: by 10.216.230.215 with SMTP id j65mr5201761weq.24.1307989890747;
+	Mon, 13 Jun 2011 11:31:30 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id w62sm3069405wec.18.2011.06.13.11.31.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 13 Jun 2011 11:31:30 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 13 Jun 2011 20:31:27 +0200
+Message-Id: <46ED2218-6735-449C-B10C-D557B92DA339@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] RFC - combo layer repo tool
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: Where is atom-pc.conf hiding?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,65 +34,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2011 18:19:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 13 Jun 2011 18:34:55 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 13, 2011 at 11:47 AM, Koen Kooi <koen@dominion.thruhere.net> wr=
-ote:
->
-> Op 13 jun 2011, om 17:33 heeft Otavio Salvador het volgende geschreven:
->
->> 2011/6/13 Yu, Ke <ke.yu@intel.com>:
->> ...
->>> =A0 =A0Combo layer tool provides three functionalities:
->>> =A0 =A0- init: when the combo layer repo and component repo is not exis=
-ted,
->>> =A0 =A0 =A0init will "git init" the combo layer repo, and also "git clo=
-ne" the
->>> =A0 =A0 =A0component repo
->>
->> I think it is duplicating many features of git submodule. It seems
->> more logical to put a script above git submodule rather then use a
->> full repository for it.
->>
->> Am I missing anything?
->
-> The fact that git submodules:
->
-> a) universally suck
-> b) behave wildly different between git versions
->
-> The first version of the angstrom setup scripts used git submodules, but =
-I quickly found that I as well as my
-> coworkers are too stupid to deal with them properly, so we wrote an awk s=
-cript to manage the layers. It's a red
-> flag that only very recent git versions have the 'git clone --recursive' =
-feature. It shows that git developers are either
-> really, really disciplined or don't use submodules themselves.
+Hi,
 
-Anyone that knows me, knows that I'd second Koen's description of submodule=
-s.
-On paper they sounds good, but in practice, you quickly find the issues whe=
-n
-dealing with them. So if there is some duplication with git submodules, I'd=
- see
-that as an acceptable trade off if the end result is something manageable.
+Khem was asking if I could reproduce the recent x86 breakage he was =
+seeing[1] and I ran into another bug:
 
-Cheers,
+koen@dominion:/OE/tentacle/sources/meta-intel$ git blame =
+meta-n450/conf/machine/n450.conf  | grep atom
+158f88d7 (Saul Wold   2011-01-03 15:33:52 -0800  6) require =
+conf/machine/atom-pc.conf
 
-Bruce
+koen@dominion:/OE/tentacle/sources/meta-intel$ !find
+find . -name "atom-pc.conf"
+koen@dominion:/OE/tentacle/sources/meta-intel$=20
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+So let's drop down a level and try other layers:
 
+koen@dominion:/OE/tentacle/sources/meta-intel$ cd ..
+koen@dominion:/OE/tentacle/sources$ ls -1 | grep meta
+meta-angstrom/
+meta-efikamx/
+meta-intel/
+meta-nslu2/
+meta-openembedded/
+meta-openpandora/
+meta-shr/
+meta-smartphone/
+meta-texasinstruments/
+meta-xilinx/
+koen@dominion:/OE/tentacle/sources$ find . -name "atom-pc.conf"
+koen@dominion:/OE/tentacle/sources$=20
 
+Still nothing. So where is it hiding?
 
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+regards,
+
+Koen
+
+[1] The bugs:
+
+20:22 <khem> MACHINE=3D4 bitbake console-image
+20:22 <khem> try any nonexisting machine
+20:22 <khem> no error nothing
+
+and:
+
+20:23 <khem> so any x86 arch in angstrom is not parsable=20
+20:23 <khem> and it seems to be culminating from various factors
+20:24 <khem> if I remove inheriting rm_work it starts to work
+20:24 <khem> if I remove BASE_PACKAGE_ARCH =3D "all" from =
+allarch.bbclass it starts to work
+
 
 
