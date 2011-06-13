@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QW9R6-0004ya-FA
+	(envelope-from <dexuan.cui@intel.com>) id 1QW9R7-0004yk-NV
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Jun 2011 17:52:20 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Jun 2011 08:48:58 -0700
+	Mon, 13 Jun 2011 17:52:21 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 13 Jun 2011 08:48:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,359,1304319600"; d="scan'208";a="13896066"
+X-IronPort-AV: E=Sophos;i="4.65,359,1304319600"; d="scan'208";a="11944448"
 Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2011 08:48:57 -0700
+	by azsmga001.ch.intel.com with ESMTP; 13 Jun 2011 08:48:55 -0700
 From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jun 2011 23:48:34 +0800
-Message-Id: <4a0b9159ecf67e4962d0f3ab4ffbbfb35c4f251b.1307979545.git.dexuan.cui@intel.com>
+Date: Mon, 13 Jun 2011 23:48:33 +0800
+Message-Id: <4248dd920b503b4981310e925ce7238dfbbe3660.1307979545.git.dexuan.cui@intel.com>
 X-Mailer: git-send-email 1.7.2
 In-Reply-To: <d4faff15427f5ece20d771f086358c167de0776a.1307979545.git.dexuan.cui@intel.com>
 References: <d4faff15427f5ece20d771f086358c167de0776a.1307979545.git.dexuan.cui@intel.com>
 In-Reply-To: <cover.1307979545.git.dexuan.cui@intel.com>
 References: <cover.1307979545.git.dexuan.cui@intel.com>
-Subject: [PATCH 09/13] inputproto: upgrade from 2.0.1 to the latest version 2.0.2
+Subject: [PATCH 08/13] glproto: upgrade from 1.4.12 to the latest version 1.4.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2011 15:52:20 -0000
+X-List-Received-Date: Mon, 13 Jun 2011 15:52:22 -0000
 
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../{inputproto_2.0.1.bb => inputproto_2.0.2.bb}   |    4 ++--
+ .../{glproto_1.4.12.bb => glproto_1.4.13.bb}       |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{inputproto_2.0.1.bb => inputproto_2.0.2.bb} (78%)
+ rename meta/recipes-graphics/xorg-proto/{glproto_1.4.12.bb => glproto_1.4.13.bb} (77%)
 
-diff --git a/meta/recipes-graphics/xorg-proto/inputproto_2.0.1.bb b/meta/recipes-graphics/xorg-proto/inputproto_2.0.2.bb
-similarity index 78%
-rename from meta/recipes-graphics/xorg-proto/inputproto_2.0.1.bb
-rename to meta/recipes-graphics/xorg-proto/inputproto_2.0.2.bb
-index 7103d0d..26f1e2d 100644
---- a/meta/recipes-graphics/xorg-proto/inputproto_2.0.1.bb
-+++ b/meta/recipes-graphics/xorg-proto/inputproto_2.0.2.bb
-@@ -17,6 +17,6 @@ inherit gettext
+diff --git a/meta/recipes-graphics/xorg-proto/glproto_1.4.12.bb b/meta/recipes-graphics/xorg-proto/glproto_1.4.13.bb
+similarity index 77%
+rename from meta/recipes-graphics/xorg-proto/glproto_1.4.12.bb
+rename to meta/recipes-graphics/xorg-proto/glproto_1.4.13.bb
+index 7b32e70..38b17b6 100644
+--- a/meta/recipes-graphics/xorg-proto/glproto_1.4.12.bb
++++ b/meta/recipes-graphics/xorg-proto/glproto_1.4.13.bb
+@@ -15,5 +15,5 @@ PE = "1"
  
- BBCLASSEXTEND = "native nativesdk"
+ BBCLASSEXTEND = "nativesdk"
  
--SRC_URI[md5sum] = "da9bf9e5d174163f597d2d72757d9038"
--SRC_URI[sha256sum] = "63663dd88df812738e0efdc52a18868c0756128f09748cbe89c8ec6d17124a44"
-+SRC_URI[md5sum] = "07d54ae098ed4e6dce472f6ef3de05ce"
-+SRC_URI[sha256sum] = "64222a590ad4a62a3c8d57805379451769e3329cc5c8c5c1f1fc0d1529ebf005"
- 
+-SRC_URI[md5sum] = "55edc5ff2efb734215c868f72f7cf27e"
+-SRC_URI[sha256sum] = "48be7a9d190b600210e5ad08b4e8862a6b08e72dc52dbdf324716a888eb457de"
++SRC_URI[md5sum] = "9542f2d36751a8ad7eae9d8e176f70d4"
++SRC_URI[sha256sum] = "fc0a94d4df003cb6b6953173e6498d9c4c3268ee24bcc46a1172a1e1dbd3d742"
 -- 
 1.7.1
 
