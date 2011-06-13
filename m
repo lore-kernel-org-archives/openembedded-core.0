@@ -1,19 +1,38 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from mail-yi0-f47.google.com ([209.85.218.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QWAxN-0007NA-4S
+	(envelope-from <bruce.ashfield@gmail.com>) id 1QWBjA-0007Hi-FA
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Jun 2011 19:29:45 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Mon, 13 Jun 2011
-	19:26:20 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Jun 2011 19:26:16 +0200
-Message-ID: <1307985976-22648-1-git-send-email-anders@chargestorm.se>
-X-Mailer: git-send-email 1.7.4.1
+	Mon, 13 Jun 2011 20:19:08 +0200
+Received: by yib18 with SMTP id 18so901005yib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jun 2011 11:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type:content-transfer-encoding;
+	bh=1m9QvQx7SYkInSz3lPREbAx4H2RG98W/RW7T0EArZHE=;
+	b=Q1c8PWw71hsjd2SLOHn4zbWd6OvKyc7nfZjF+N4H327uhD2kN0lNY1HTYfI2mPgLTk
+	QUefh3OIipG4o/0uV72OKAG0L8RZAKdtmpMfWkNtuUfRPba5wy/RtxN9J8nwSNp/gw21
+	kfjOW2Tuqmw+IXihc7T0517cRVldhycnIsZeQ=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	b=Dh5Nj6PVcbRe9Y4d+d6drlh24GYdDphncggHTRvRiZcnv0Yrg6tY+7ArpKmCPXaoIQ
+	B6kgDyIxU/PALXaL5PkD9E69RxgPyU8mauhSpUcV/7CMwveT9jltKKItxcVVjML8r8y2
+	pySQ567xywtO7tZ4O9eJFPASF8aU7++jolJcU=
 MIME-Version: 1.0
-X-GFI-SMTP-Submission: 1
-Subject: [PATCH] runqemu: take TMPDIR from bitbake
+Received: by 10.91.72.1 with SMTP id z1mr6505433agk.78.1307988943520; Mon, 13
+	Jun 2011 11:15:43 -0700 (PDT)
+Received: by 10.90.96.1 with HTTP; Mon, 13 Jun 2011 11:15:43 -0700 (PDT)
+In-Reply-To: <09A32280-131B-4201-8E32-AFA6A6FD78CA@dominion.thruhere.net>
+References: <33AB447FBD802F4E932063B962385B3554AE4989@shsmsx501.ccr.corp.intel.com>
+	<BANLkTikZxd4Gg0b0nanMupmdYBf-3LUp7g@mail.gmail.com>
+	<09A32280-131B-4201-8E32-AFA6A6FD78CA@dominion.thruhere.net>
+Date: Mon, 13 Jun 2011 14:15:43 -0400
+Message-ID: <BANLkTinpbdMW=QZL-qtvD+SsThB2qdyNGQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] RFC - combo layer repo tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,55 +47,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2011 17:29:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Jun 2011 18:19:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-The old standard of using /home/anders/openembedded-core/build/tmp as TMPDIR do not work any longer,
-as - is appended to the real TMPDIR. Thus, always take TMPDIR from
-bitbake, unless TMPDIR is set in the environment.
+On Mon, Jun 13, 2011 at 11:47 AM, Koen Kooi <koen@dominion.thruhere.net> wr=
+ote:
+>
+> Op 13 jun 2011, om 17:33 heeft Otavio Salvador het volgende geschreven:
+>
+>> 2011/6/13 Yu, Ke <ke.yu@intel.com>:
+>> ...
+>>> =A0 =A0Combo layer tool provides three functionalities:
+>>> =A0 =A0- init: when the combo layer repo and component repo is not exis=
+ted,
+>>> =A0 =A0 =A0init will "git init" the combo layer repo, and also "git clo=
+ne" the
+>>> =A0 =A0 =A0component repo
+>>
+>> I think it is duplicating many features of git submodule. It seems
+>> more logical to put a script above git submodule rather then use a
+>> full repository for it.
+>>
+>> Am I missing anything?
+>
+> The fact that git submodules:
+>
+> a) universally suck
+> b) behave wildly different between git versions
+>
+> The first version of the angstrom setup scripts used git submodules, but =
+I quickly found that I as well as my
+> coworkers are too stupid to deal with them properly, so we wrote an awk s=
+cript to manage the layers. It's a red
+> flag that only very recent git versions have the 'git clone --recursive' =
+feature. It shows that git developers are either
+> really, really disciplined or don't use submodules themselves.
 
-Signed-off-by: Anders Darander <anders@chargestorm.se>
----
- scripts/runqemu |   22 +++++++++-------------
- 1 files changed, 9 insertions(+), 13 deletions(-)
+Anyone that knows me, knows that I'd second Koen's description of submodule=
+s.
+On paper they sounds good, but in practice, you quickly find the issues whe=
+n
+dealing with them. So if there is some duplication with git submodules, I'd=
+ see
+that as an acceptable trade off if the end result is something manageable.
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index a09362c..aa44070 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -262,20 +262,16 @@ SPITZ_DEFAULT_ROOTFS="core-image-sato"
- 
- setup_tmpdir() {
-     if [ -z "$TMPDIR" ]; then
--        if [ "x$BUILDDIR" = "x" -o ! -d "$BUILDDIR/tmp" ]; then
--            # BUILDDIR unset, try and get TMPDIR from bitbake
--            type -P bitbake &>/dev/null || {
--                echo "In order for this script to dynamically infer paths";
--                echo "to kernels or filesystem images, you either need";
--                echo "bitbake in your PATH or to source oe-init-build-env";
--                echo "before running this script" >&2;
--                exit 1; }
--
--            # We have bitbake in PATH, get TMPDIR from bitbake
--            TMPDIR=`bitbake -e | grep TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
--        else
--            TMPDIR=$BUILDDIR/tmp
--        fi
-+        # BUILDDIR unset, try and get TMPDIR from bitbake
-+        type -P bitbake &>/dev/null || {
-+            echo "In order for this script to dynamically infer paths";
-+            echo "to kernels or filesystem images, you either need";
-+            echo "bitbake in your PATH or to source oe-init-build-env";
-+            echo "before running this script" >&2;
-+            exit 1; }
-+
-+        # We have bitbake in PATH, get TMPDIR from bitbake
-+        TMPDIR=`bitbake -e | grep TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
-     fi
- }
- 
--- 
-1.7.4.1
+Cheers,
 
+Bruce
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
