@@ -1,37 +1,19 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QWAkO-0007B6-Hm
+	(envelope-from <anders@chargestorm.se>) id 1QWAxN-0007NA-4S
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Jun 2011 19:16:20 +0200
-Received: by wwb17 with SMTP id 17so4228713wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2011 10:12:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=bWHiJzhr+saeFyyjTN2F9p/ArJ4RJkofP5QqQcO9k88=;
-	b=fNHWIK2SDTeXylQ5tWxRTjBG8g1m9yYkucJLWsbGqVqy6u21DC1NdXOC+rp5urAboc
-	JTvqQGZTqgXoi0KqSUSi//6wFK1pHzF3OEBQO6AADymaqk96z/DJFcYEmqo+USmZZ5QX
-	8urtu+d4up9eYFm28qTDYNYvLxKFwQXfxDEuU=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type;
-	b=TFGzH0ZwVU8B8KBnDOGa8hP43xju5hevHLvXpp4AaLQ6lii7fMi+Zwvrj3NUT4nsUj
-	XyD9m0e0bvkuqNRpwAA07krG/2XT7wqJOBnxBdLShbtJWgIxvz+WoRIBA6Bo2ulc73U5
-	45AZVfRDBbJ+pmcNLi6B9Up7F0cJujQxm0/7U=
-Received: by 10.216.136.89 with SMTP id v67mr2942657wei.13.1307985174223; Mon,
-	13 Jun 2011 10:12:54 -0700 (PDT)
+	Mon, 13 Jun 2011 19:29:45 +0200
+Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Mon, 13 Jun 2011
+	19:26:20 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Jun 2011 19:26:16 +0200
+Message-ID: <1307985976-22648-1-git-send-email-anders@chargestorm.se>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-Received: by 10.216.37.197 with HTTP; Mon, 13 Jun 2011 10:12:24 -0700 (PDT)
-In-Reply-To: <1307955075.6879.11.camel@lenovo.internal.reciva.com>
-References: <cover.1307937636.git.raj.khem@gmail.com>
-	<1307955075.6879.11.camel@lenovo.internal.reciva.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 13 Jun 2011 10:12:24 -0700
-Message-ID: <BANLkTikbba0xTCB=eLZamP7LY6wJ8_Nkhw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] Upgrade gcc 4.6.0 to latest on FSF 4.6 branch
+X-GFI-SMTP-Submission: 1
+Subject: [PATCH] runqemu: take TMPDIR from bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,26 +28,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2011 17:16:20 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 13 Jun 2011 17:29:45 -0000
+Content-Type: text/plain
 
-On Mon, Jun 13, 2011 at 1:51 AM, Phil Blundell <pb@pbcl.net> wrote:
-> On Sun, 2011-06-12 at 21:03 -0700, Khem Raj wrote:
->> This patch brings in new patches from gcc 4.6 FSF branch
->> And refreshes the headers of existing backported patches
->> to not have git patch numbers in comments
->>
->> I am not sending the patch itself to mailing list due to its
->> large size so please review it on the contrib tree itself
->>
->
-> Would we not be better off just pulling the tip of the 4.6 branch from
-> FSF SVN, rather than having to keep all these patches in git?
->
+The old standard of using /home/anders/openembedded-core/build/tmp as TMPDIR do not work any longer,
+as - is appended to the real TMPDIR. Thus, always take TMPDIR from
+bitbake, unless TMPDIR is set in the environment.
 
-there is dislike for this approach in oe-core. As the release point is preferred
-I suggested to drop the minor release number and call the recipes 4.6
-and use SVN
-REVs to track the recipe updates but it did not fly :)
+Signed-off-by: Anders Darander <anders@chargestorm.se>
+---
+ scripts/runqemu |   22 +++++++++-------------
+ 1 files changed, 9 insertions(+), 13 deletions(-)
+
+diff --git a/scripts/runqemu b/scripts/runqemu
+index a09362c..aa44070 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -262,20 +262,16 @@ SPITZ_DEFAULT_ROOTFS="core-image-sato"
+ 
+ setup_tmpdir() {
+     if [ -z "$TMPDIR" ]; then
+-        if [ "x$BUILDDIR" = "x" -o ! -d "$BUILDDIR/tmp" ]; then
+-            # BUILDDIR unset, try and get TMPDIR from bitbake
+-            type -P bitbake &>/dev/null || {
+-                echo "In order for this script to dynamically infer paths";
+-                echo "to kernels or filesystem images, you either need";
+-                echo "bitbake in your PATH or to source oe-init-build-env";
+-                echo "before running this script" >&2;
+-                exit 1; }
+-
+-            # We have bitbake in PATH, get TMPDIR from bitbake
+-            TMPDIR=`bitbake -e | grep TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
+-        else
+-            TMPDIR=$BUILDDIR/tmp
+-        fi
++        # BUILDDIR unset, try and get TMPDIR from bitbake
++        type -P bitbake &>/dev/null || {
++            echo "In order for this script to dynamically infer paths";
++            echo "to kernels or filesystem images, you either need";
++            echo "bitbake in your PATH or to source oe-init-build-env";
++            echo "before running this script" >&2;
++            exit 1; }
++
++        # We have bitbake in PATH, get TMPDIR from bitbake
++        TMPDIR=`bitbake -e | grep TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
+     fi
+ }
+ 
+-- 
+1.7.4.1
+
 
 
