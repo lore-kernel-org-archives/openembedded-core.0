@@ -1,28 +1,20 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QW9Pp-0004tz-6A
+	(envelope-from <dexuan.cui@intel.com>) id 1QW9Qj-0004wG-Eb
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Jun 2011 17:51:01 +0200
-Received: by wwb17 with SMTP id 17so4167818wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jun 2011 08:47:37 -0700 (PDT)
-Received: by 10.227.180.130 with SMTP id bu2mr5363131wbb.71.1307980056926;
-	Mon, 13 Jun 2011 08:47:36 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ex2sm4349829wbb.48.2011.06.13.08.47.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 13 Jun 2011 08:47:36 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <BANLkTikZxd4Gg0b0nanMupmdYBf-3LUp7g@mail.gmail.com>
-Date: Mon, 13 Jun 2011 17:47:34 +0200
-Message-Id: <09A32280-131B-4201-8E32-AFA6A6FD78CA@dominion.thruhere.net>
-References: <33AB447FBD802F4E932063B962385B3554AE4989@shsmsx501.ccr.corp.intel.com>
-	<BANLkTikZxd4Gg0b0nanMupmdYBf-3LUp7g@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] RFC - combo layer repo tool
+	Mon, 13 Jun 2011 17:51:57 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Jun 2011 08:48:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,359,1304319600"; d="scan'208";a="15668173"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Jun 2011 08:48:32 -0700
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Jun 2011 23:48:11 +0800
+Message-Id: <cover.1307979545.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.2
+Subject: [PATCH 00/13] fix to bug #1163 and misc upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,38 +29,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2011 15:51:01 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 13 Jun 2011 15:51:57 -0000
 
+Please review them.
 
-Op 13 jun 2011, om 17:33 heeft Otavio Salvador het volgende geschreven:
+The following changes since commit 1a35778905893ff11cab48955a4e94e031734ebe:
 
-> 2011/6/13 Yu, Ke <ke.yu@intel.com>:
-> ...
->>    Combo layer tool provides three functionalities:
->>    - init: when the combo layer repo and component repo is not =
-existed,
->>      init will "git init" the combo layer repo, and also "git clone" =
-the
->>      component repo
->=20
-> I think it is duplicating many features of git submodule. It seems
-> more logical to put a script above git submodule rather then use a
-> full repository for it.
->=20
-> Am I missing anything?
+  Revert "native/nativesdk: Clean up the depends ordering after bitbake override handling updates" (2011-06-13 15:06:01 +0800)
 
-The fact that git submodules:
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/master
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/master
 
-a) universally suck
-b) behave wildly different between git versions
+Dexuan Cui (13):
+  tcmode-default: fix PREFERRED_VERSION_gcc-cross-canadian
+  recipes: update Upstream-Status for multiple recipes' patches
+  gnome-doc-utils: upgrade from 0.20.5 to the latest version 0.20.6
+  startup-notification: upgrade from 0.10 to the latest version 0.12
+  util-macros: upgrade from 1.13.0 to the latest version 0.14.0
+  resourceproto: upgrade from 1.1.1 to the latest version 1.2.0
+  dri2proto: upgrade from 2.3 to the latest version 2.4
+  glproto: upgrade from 1.4.12 to the latest version 1.4.13
+  inputproto: upgrade from 2.0.1 to the latest version 2.0.2
+  pixman: upgrade from 0.20.2 to the latest stable 0.22.0
+  libxext: upgrade from 1.2.0 to the latest version 1.3.0
+  libxi: upgrade from 1.4.2 to the latest version 1.4.3
+  distro_tracking_fields.inc: update the info for the following recipes
 
-The first version of the angstrom setup scripts used git submodules, but =
-I quickly found that I as well as my coworkers are too stupid to deal =
-with them properly, so we wrote an awk script to manage the layers. It's =
-a red flag that only very recent git versions have the 'git clone =
---recursive' feature. It shows that git developers are either really, =
-really disciplined or don't use submodules themselves.=
+ .../conf/distro/include/distro_tracking_fields.inc |  113 +++++++++----------
+ meta/conf/distro/include/tcmode-default.inc        |    2 +-
+ .../gnome/gnome-doc-utils/xsltproc_nonet.patch     |    2 +-
+ ...c-utils_0.20.5.bb => gnome-doc-utils_0.20.6.bb} |    6 +-
+ ...cation_0.10.bb => startup-notification_0.12.bb} |    4 +-
+ .../{libxext_1.2.0.bb => libxext_1.3.0.bb}         |    6 +-
+ .../xorg-lib/{libxi_1.4.2.bb => libxi_1.4.3.bb}    |    6 +-
+ .../{pixman_0.20.2.bb => pixman_0.22.0.bb}         |    8 +-
+ .../{dri2proto_2.3.bb => dri2proto_2.4.bb}         |    4 +-
+ .../{glproto_1.4.12.bb => glproto_1.4.13.bb}       |    4 +-
+ .../{inputproto_2.0.1.bb => inputproto_2.0.2.bb}   |    4 +-
+ ...sourceproto_1.1.1.bb => resourceproto_1.2.0.bb} |    6 +-
+ ...util-macros_1.13.0.bb => util-macros_1.14.0.bb} |    4 +-
+ .../lttng/lttng-ust/uclibc-sched_getcpu.patch      |    2 +-
+ 14 files changed, 84 insertions(+), 87 deletions(-)
+ rename meta/recipes-gnome/gnome/{gnome-doc-utils_0.20.5.bb => gnome-doc-utils_0.20.6.bb} (56%)
+ rename meta/recipes-graphics/startup-notification/{startup-notification_0.10.bb => startup-notification_0.12.bb} (87%)
+ rename meta/recipes-graphics/xorg-lib/{libxext_1.2.0.bb => libxext_1.3.0.bb} (76%)
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.4.2.bb => libxi_1.4.3.bb} (80%)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.20.2.bb => pixman_0.22.0.bb} (66%)
+ rename meta/recipes-graphics/xorg-proto/{dri2proto_2.3.bb => dri2proto_2.4.bb} (76%)
+ rename meta/recipes-graphics/xorg-proto/{glproto_1.4.12.bb => glproto_1.4.13.bb} (77%)
+ rename meta/recipes-graphics/xorg-proto/{inputproto_2.0.1.bb => inputproto_2.0.2.bb} (78%)
+ rename meta/recipes-graphics/xorg-proto/{resourceproto_1.1.1.bb => resourceproto_1.2.0.bb} (61%)
+ rename meta/recipes-graphics/xorg-util/{util-macros_1.13.0.bb => util-macros_1.14.0.bb} (79%)
+
 
 
