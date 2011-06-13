@@ -1,16 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QW96x-00031L-T5
+	(envelope-from <otavio.salvador@gmail.com>) id 1QW9CT-0004WX-Jn
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Jun 2011 17:31:32 +0200
-Received: by rex (Postfix, from userid 1000)
-	id 3ADD82013D; Mon, 13 Jun 2011 16:27:49 +0100 (BST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jun 2011 16:27:37 +0100
-Message-Id: <cover.1307978499.git.richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 00/11] Various dependency tweaks + nastivesdk fixes
+	Mon, 13 Jun 2011 17:37:13 +0200
+Received: by bwz5 with SMTP id 5so4507419bwz.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jun 2011 08:33:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=E3UXd2mLtSxiU9RfBcd4i2gRH4CTk/Dwah9bmH9/ZlE=;
+	b=W295iFa9GIzlErAiQOAj/X2UH+08cXQxkUPv0rFUIDP9KJNmhba6W1fM2xknaiCPQS
+	UN1wsjNaSfCfwawe3N5SLXh93kXF9Wbe8bynFdkQfaG1yWPLNR8aRQR2KrDfBSau0S6L
+	3wECOCWYbb/Swjopr7vtSi2gw4nUb2kTH+8L0=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	b=d2UGKfsPuDfs4LCR/3jYTIhXrkGca0UFnX78zvi1uMhlB3ssH5X9wuMcSkcR3OhOs1
+	Og0xtJI6F/C1q3x/GUmRx6RjsP/+xbuJmC4qemfZxeD3o+IjiED1GWHweMUGOj7Gk3bJ
+	Z4XmozLT2g5wn/tqXx5OFNo8kq1si/gtd8gr0=
+MIME-Version: 1.0
+Received: by 10.204.40.199 with SMTP id l7mr1865779bke.103.1307979227388; Mon,
+	13 Jun 2011 08:33:47 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.116.82 with HTTP; Mon, 13 Jun 2011 08:33:47 -0700 (PDT)
+In-Reply-To: <33AB447FBD802F4E932063B962385B3554AE4989@shsmsx501.ccr.corp.intel.com>
+References: <33AB447FBD802F4E932063B962385B3554AE4989@shsmsx501.ccr.corp.intel.com>
+Date: Mon, 13 Jun 2011 15:33:47 +0000
+X-Google-Sender-Auth: ZduqyAPgtwDTZs8J89t2PVLzYSg
+Message-ID: <BANLkTikZxd4Gg0b0nanMupmdYBf-3LUp7g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
+Subject: Re: [PATCH] RFC - combo layer repo tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,61 +50,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2011 15:31:32 -0000
+X-List-Received-Date: Mon, 13 Jun 2011 15:37:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-This patch series contains various dependency tweaks simplifying the 
-dependencies of some of the configuration file/script packages.
+2011/6/13 Yu, Ke <ke.yu@intel.com>:
+...
+> =A0 =A0Combo layer tool provides three functionalities:
+> =A0 =A0- init: when the combo layer repo and component repo is not existe=
+d,
+> =A0 =A0 =A0init will "git init" the combo layer repo, and also "git clone=
+" the
+> =A0 =A0 =A0component repo
 
-It also fixes some bugs in nativesdk handling which were recently 
-introduced and improves some misleading package names.
+I think it is duplicating many features of git submodule. It seems
+more logical to put a script above git submodule rather then use a
+full repository for it.
 
-The following changes since commit 6a3e57fcd3a172c9b2707510d65741734c98a143:
+Am I missing anything?
 
-  Revert "gcc: rebase the patch to avoid patch rejection" (2011-06-10 12:56:29 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib rpurdie/for-master
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rpurdie/for-master
-
-Richard Purdie (11):
-  pointercal: Inhibit toolchain dependencies as its just config files
-  formfactor: Inhibit toolchain dependencies as its just config files
-  keymaps: Inhibit toolchain dependencies as its just configuration
-    files
-  usbinit: Inherit allarch as its a generic script
-  base-files: Inherit toolchain dependencies as a compiler isn't used
-  poky-feed-opkg: Disable default toolchain dependencies as these are
-    just configuration files
-  initscripts: makedevs is no longer used anywhere so drop dependency.
-    Also inhibit compiler/libc dependencies as they're unused
-  sysvinit-inittab: Inhibit compiler/libc dependencies as this is just
-    a configuration file
-  initrdscripts: Inhibit compiler/libc dependencies as this is just a
-    configuration file
-  task-sdk-host: Add nativesdk to the task name so its clearer what the
-    contents of the task represent
-  nativesdk.bbclass: Correct ordering of manipulations
-
- meta/classes/nativesdk.bbclass                     |   53 ++++++++++++++------
- meta/classes/populate_sdk.bbclass                  |    2 +-
- meta/recipes-bsp/formfactor/formfactor_0.0.bb      |    1 +
- meta/recipes-bsp/keymaps/keymaps_1.0.bb            |    2 +
- meta/recipes-bsp/pointercal/pointercal_0.0.bb      |    1 +
- meta/recipes-bsp/usbinit/usbinit.bb                |    4 +-
- meta/recipes-core/base-files/base-files_3.0.14.bb  |    2 +
- .../feed-config/poky-feed-config-opkg_1.0.bb       |    1 +
- .../initrdscripts/initramfs-live-install_1.0.bb    |    1 +
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    6 +-
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    2 +
- ...task-sdk-host.bb => task-sdk-host-nativesdk.bb} |    0
- meta/recipes-qt/meta/meta-toolchain-qte.bb         |    2 +-
- ...ost.bb => task-qte-toolchain-host-nativesdk.bb} |    2 +-
- 14 files changed, 55 insertions(+), 24 deletions(-)
- rename meta/recipes-core/tasks/{task-sdk-host.bb => task-sdk-host-nativesdk.bb} (100%)
- rename meta/recipes-qt/tasks/{task-qte-toolchain-host.bb => task-qte-toolchain-host-nativesdk.bb} (70%)
-
--- 
-1.7.4.1
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
