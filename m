@@ -1,25 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QW162-0002Fr-1Y
+	(envelope-from <sgw@linux.intel.com>) id 1QW162-0002Fr-Qu
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Jun 2011 08:58:02 +0200
+	Mon, 13 Jun 2011 08:58:03 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 12 Jun 2011 23:54:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,356,1304319600"; d="scan'208";a="17500595"
+X-IronPort-AV: E=Sophos;i="4.65,356,1304319600"; d="scan'208";a="17500599"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.216])
 	by fmsmga001.fm.intel.com with ESMTP; 12 Jun 2011 23:54:36 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Jun 2011 23:54:12 -0700
-Message-Id: <0d813b35c287f6673cabad5b5868e306c981df92.1307947593.git.sgw@linux.intel.com>
+Date: Sun, 12 Jun 2011 23:54:13 -0700
+Message-Id: <42c945e9af04b3e9733253b1186abe13bc80bde7.1307947593.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1307947593.git.sgw@linux.intel.com>
 References: <cover.1307947593.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1307947593.git.sgw@linux.intel.com>
 References: <cover.1307947593.git.sgw@linux.intel.com>
-Cc: Phil Blundell <philb@gnu.org>
-Subject: [*RFC CONSOLIDATED PULL RFC* 02/23] busybox: backport distro-features handling from oe master
+Subject: [*RFC CONSOLIDATED PULL RFC* 03/23] git: restore the dependency on perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,126 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2011 06:58:02 -0000
+X-List-Received-Date: Mon, 13 Jun 2011 06:58:03 -0000
 
-From: Phil Blundell <pb@pbcl.net>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-This is a backport from oe master of the code which adjusts the busybox
-config according to DISTRO_FEATURES etc.
+[YOCTO #1155]
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
+I thought git-native could depend on perl-native-runtime and tests on
+Ubuntu 9.04/10.10 and Fedora 13 show it could buid fine (looks these distros
+install perl-ExtUtils-MakeMaker by default).
+
+However Joshua reported on Fedora 15 i686 host, git-native can't build unless
+he manually installed perl-ExtUtils-MakeMaker to the host.
+
+This makes me think we may as well make git-native depend on perl-native.
+
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/recipes-core/busybox/busybox.inc       |   80 ++++++++++++++++++++++++++-
- meta/recipes-core/busybox/busybox_1.18.4.bb |    2 +-
- 2 files changed, 79 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/git/git.inc        |    6 +++---
+ meta/recipes-devtools/git/git_1.7.5.1.bb |    2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 86fbdae..b697e88 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -35,8 +35,85 @@ RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index c884f9c..5d77880 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -1,16 +1,16 @@
+ DESCRIPTION = "The git revision control system used by the Linux kernel developers"
+ SECTION = "console/utils"
+ LICENSE = "GPLv2"
+-DEPENDS = "perl-native openssl curl zlib expat"
++DEPENDS = "openssl curl zlib expat"
  
- inherit cml1 update-rc.d
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.bz2 "
+ S = "${WORKDIR}/git-${PV}"
  
-+# internal helper
-+def busybox_cfg(feature, features, tokens, cnf, rem):
-+	if type(tokens) == type(""):
-+		tokens = [tokens]
-+	rem.extend(['/^[# ]*' + token + '[ =]/d' for token in tokens])
-+	if type(features) == type([]) and feature in features:
-+		cnf.extend([token + '=y' for token in tokens])
-+	else:
-+		cnf.extend(['# ' + token + ' is not set' for token in tokens])
-+
-+# Map distro and machine features to config settings
-+def features_to_busybox_settings(d):
-+	cnf, rem = ([], [])
-+	distro_features = bb.data.getVar('DISTRO_FEATURES', d).split()
-+	machine_features = bb.data.getVar('MACHINE_FEATURES', d).split()
-+	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IPV6', cnf, rem)
-+	busybox_cfg('largefile', distro_features, 'CONFIG_LFS', cnf, rem)
-+	busybox_cfg('largefile', distro_features, 'CONFIG_FDISK_SUPPORT_LARGE_DISKS', cnf, rem)
-+	busybox_cfg('nls',  distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem)
-+	busybox_cfg('ipv4', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
-+	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
-+	busybox_cfg('kernel24', machine_features, 'CONFIG_FEATURE_2_4_MODULES', cnf, rem)
-+	return "\n".join(cnf), "\n".join(rem)
-+
-+# X, Y = ${@features_to_uclibc_settings(d)}
-+# unfortunately doesn't seem to work with bitbake, workaround:
-+def features_to_busybox_conf(d):
-+	cnf, rem = features_to_busybox_settings(d)
-+	return cnf
-+def features_to_busybox_del(d):
-+	cnf, rem = features_to_busybox_settings(d)
-+	return rem
-+
-+configmangle = '/CROSS_COMPILER_PREFIX/d; \
-+		/CONFIG_EXTRA_CFLAGS/d; \
-+		'
-+OE_FEATURES := "${@features_to_busybox_conf(d)}"
-+OE_DEL      := "${@features_to_busybox_del(d)}"
-+DO_IPv4 := ${@base_contains('DISTRO_FEATURES', 'ipv4', 1, 0, d)}
-+DO_IPv6 := ${@base_contains('DISTRO_FEATURES', 'ipv6', 1, 0, d)}
-+
-+python () {
-+  if "${OE_DEL}":
-+    bb.data.setVar('configmangle_append', "${OE_DEL}" + "\n", d)
-+  if "${OE_FEATURES}":
-+    bb.data.setVar('configmangle_append',
-+                   "/^### DISTRO FEATURES$/a\\\n%s\n\n" %
-+                   ("\\n".join((bb.data.expand("${OE_FEATURES}", d).split("\n")))),
-+                   d)
-+  bb.data.setVar('configmangle_append',
-+                 "/^### CROSS$/a\\\n%s\n" %
-+                  ("\\n".join(["CONFIG_CROSS_COMPILER_PREFIX=\"${TARGET_PREFIX}\"",
-+			       "CONFIG_EXTRA_CFLAGS=\"${CFLAGS}\""
-+                        ])
-+                  ),
-+                 d)
-+}
-+
-+do_prepare_config () {
-+	sed -e 's#@DATADIR@#${datadir}#g' \
-+		< ${WORKDIR}/defconfig > ${S}/.config
-+	sed -i -e '/CONFIG_STATIC/d' .config
-+	echo "# CONFIG_STATIC is not set" >> .config
-+	for i in 'CROSS' 'DISTRO FEATURES'; do echo "### $i"; done >> \
-+		${S}/.config
-+	sed -i -e '${configmangle}' ${S}/.config
-+	if test ${DO_IPv4} -eq 0 && test ${DO_IPv6} -eq 0; then
-+	  # disable networking applets
-+	  mv ${S}/.config ${S}/.config.oe-tmp
-+	  awk 'BEGIN{net=0}
-+	  /^# Networking Utilities/{net=1}
-+	  /^#$/{if(net){net=net+1}}
-+	  {if(net==2&&$0 !~ /^#/&&$1){print("# "$1" is not set")}else{print}}' \
-+		  ${S}/.config.oe-tmp > ${S}/.config
-+	fi
-+}
-+
- do_configure () {
--	install -m 0644 ${WORKDIR}/defconfig ${S}/.config
-+	do_prepare_config
- 	cml1_do_configure
- }
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1"
  
-@@ -184,4 +261,3 @@ pkg_prerm_${PN}-syslog () {
- 	update-alternatives --remove syslog-init syslog.${PN}
- 	update-alternatives --remove syslog-conf syslog.conf.${PN}
- }
--
-diff --git a/meta/recipes-core/busybox/busybox_1.18.4.bb b/meta/recipes-core/busybox/busybox_1.18.4.bb
-index a5080d5..a999490 100644
---- a/meta/recipes-core/busybox/busybox_1.18.4.bb
-+++ b/meta/recipes-core/busybox/busybox_1.18.4.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r2"
-+PR = "r3"
+-EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl --without-tcltk"
++EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl --without-tcltk"
  
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
+-inherit autotools
++inherit autotools perlnative
+ 
+ do_install () {
+ 	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
+diff --git a/meta/recipes-devtools/git/git_1.7.5.1.bb b/meta/recipes-devtools/git/git_1.7.5.1.bb
+index bfdbf62..04d1d56 100644
+--- a/meta/recipes-devtools/git/git_1.7.5.1.bb
++++ b/meta/recipes-devtools/git/git_1.7.5.1.bb
+@@ -1,6 +1,6 @@
+ require git.inc
+ 
+-PR = "r0"
++PR = "r2"
+ 
+ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
+                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
 -- 
 1.7.3.4
 
