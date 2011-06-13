@@ -1,28 +1,35 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QVnYT-0001tq-8r
+	(envelope-from <raj.khem@gmail.com>) id 1QVyQg-00062y-Hr
 	for openembedded-core@lists.openembedded.org;
-	Sun, 12 Jun 2011 18:30:29 +0200
-Received: by mail-ww0-f43.google.com with SMTP id 17so3478560wwb.24
+	Mon, 13 Jun 2011 06:07:11 +0200
+Received: by pzk36 with SMTP id 36so2098299pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jun 2011 09:27:08 -0700 (PDT)
-Received: by 10.227.6.219 with SMTP id a27mr4204846wba.46.1307896028229;
-	Sun, 12 Jun 2011 09:27:08 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ge4sm3586544wbb.47.2011.06.12.09.27.06
+	Sun, 12 Jun 2011 21:03:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=ZZo1bheoXaMygN4rh8QN7u4cCZOxqPgtmzG8o6RwAVg=;
+	b=gIJYbdNuUCMaYTEhtzRNtaSuz4W8Up8b4FTKBL+5tUnmkWrp2cw2FO2qgQaqMCPps+
+	rBFqDl8cZiecLYP6XD+P3qB+JPELYPzdEHbQeKofGcswcyvftOiW2qsC64OLzy2q4F7q
+	Tkbrt9Bs3iJohteRqkhAXZby7xVAMXTCjQog0=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=DSIa27w3pKY9GgSoDoaGsvn1BN4ynCOr0brQQdQACKYZdzswdokBByYxTu9WEUu+ZV
+	Y6ttZlArIoWCpeNVbv43EOkDWUJIvxN8DSSr80oWMJGbK8F502m/ERzHwwLIwFBFMRXs
+	S17BD98s6KM/8PeGNH+gF5AojgzgmV2TUMDAk=
+Received: by 10.68.59.106 with SMTP id y10mr1797709pbq.51.1307937825669;
+	Sun, 12 Jun 2011 21:03:45 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id o2sm4296897pbj.65.2011.06.12.21.03.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 12 Jun 2011 09:27:07 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Jun 2011 18:26:58 +0200
-Message-Id: <3288c88ac7c1c90cf2e140c27fe836172b270961.1307895912.git.koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-In-Reply-To: <1703bd12b68b86a3d73fe39e9fd9369ac0b027ca.1307895912.git.koen@dominion.thruhere.net>
-References: <1703bd12b68b86a3d73fe39e9fd9369ac0b027ca.1307895912.git.koen@dominion.thruhere.net>
-In-Reply-To: <cover.1307895912.git.koen@dominion.thruhere.net>
-References: <cover.1307895912.git.koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 2/2] connman-gnome 0.5: build from git
+	Sun, 12 Jun 2011 21:03:44 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Sun, 12 Jun 2011 21:03:15 -0700
+Message-Id: <cover.1307937636.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/1] Upgrade gcc 4.6.0 to latest on FSF 4.6 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,4334 +44,529 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jun 2011 16:30:29 -0000
+X-List-Received-Date: Mon, 13 Jun 2011 04:07:12 -0000
 
-All the local patches were applied upstream, so let's build straight from git to make that clear
+This patch brings in new patches from gcc 4.6 FSF branch
+And refreshes the headers of existing backported patches
+to not have git patch numbers in comments
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- .../connman-gnome/applet_menu_popup_fix.patch      |   19 -
- .../connman/connman-gnome/connman-gnome.patch      | 4162 --------------------
- .../remove-connman-property-desktop-file.patch     |   42 -
- .../connman-gnome/service_name_update.patch        |   36 -
- .../connman/connman-gnome_0.5.bb                   |   13 +-
- 5 files changed, 4 insertions(+), 4268 deletions(-)
- delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/applet_menu_popup_fix.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/connman-gnome.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/remove-connman-property-desktop-file.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/service_name_update.patch
+I am not sending the patch itself to mailing list due to its
+large size so please review it on the contrib tree itself
 
-diff --git a/meta/recipes-connectivity/connman/connman-gnome/applet_menu_popup_fix.patch b/meta/recipes-connectivity/connman/connman-gnome/applet_menu_popup_fix.patch
-deleted file mode 100644
-index d34257b..0000000
---- a/meta/recipes-connectivity/connman/connman-gnome/applet_menu_popup_fix.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--Even if all services are not available, we still need to let user have
--the ability to configure network, for example, online/offline, etc.
--Therefore enable the callback menu even when status is unavailable.
--
--Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
--
--diff --git a/applet/status.c b/applet/status.c
--index 13ec752..d817f22 100644
----- a/applet/status.c
--+++ b/applet/status.c
--@@ -231,8 +231,6 @@ void status_unavailable(void)
-- {
-- 	icon_animation_stop(animation);
-- 
---	available = FALSE;
---
-- 	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_notifier);
-- 	gtk_status_icon_set_tooltip(statusicon,
-- 				"Connection Manager daemon is not running");
-diff --git a/meta/recipes-connectivity/connman/connman-gnome/connman-gnome.patch b/meta/recipes-connectivity/connman/connman-gnome/connman-gnome.patch
-deleted file mode 100644
-index 2fe8bb8..0000000
---- a/meta/recipes-connectivity/connman/connman-gnome/connman-gnome.patch
-+++ /dev/null
-@@ -1,4162 +0,0 @@
--connman-gnome: Change the code to fit recent connman
--
--The recent connman changes from "device" based to "service" based.
--Therefore most of the interaction protocol between connman and
--connman-gnome has changed. This commit uses the new dbus interface
--to interact with connman. With this change, connman-gnome could
--do wired and wireless interface configurations with latest connman.
--
--Besides, some UI is re-designed to be more neat and friendly to
--end user.
--
--Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
--
--diff --git a/applet/main.c b/applet/main.c
--index 2a9b36e..08d394c 100644
----- a/applet/main.c
--+++ b/applet/main.c
--@@ -98,279 +98,21 @@ static void settings_callback(GtkWidget *item, gpointer user_data)
-- 		g_printerr("Couldn't execute command: %s\n", command);
-- }
-- 
---static void toggled_callback(GtkWidget *button, gpointer user_data)
---{
---	GtkWidget *entry = user_data;
---	gboolean mode;
---
---	mode = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
---
---	gtk_entry_set_visibility(GTK_ENTRY(entry), mode);
---}
---
---static void passphrase_dialog(const char *path, const char *name)
---{
---	GtkWidget *dialog;
---	GtkWidget *button;
---	GtkWidget *image;
---	GtkWidget *label;
---	GtkWidget *entry;
---	GtkWidget *table;
---	GtkWidget *vbox;
---
---	dialog = gtk_dialog_new();
---	gtk_window_set_title(GTK_WINDOW(dialog), _("Enter passphrase"));
---	gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
---	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
---	gtk_window_set_keep_above(GTK_WINDOW(dialog), TRUE);
---	gtk_window_set_urgency_hint(GTK_WINDOW(dialog), TRUE);
---	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
---
---	button = gtk_dialog_add_button(GTK_DIALOG(dialog),
---				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT);
---	button = gtk_dialog_add_button(GTK_DIALOG(dialog),
---					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT);
---	gtk_widget_grab_default(button);
---
---	table = gtk_table_new(5, 2, FALSE);
---	gtk_table_set_row_spacings(GTK_TABLE(table), 4);
---	gtk_table_set_col_spacings(GTK_TABLE(table), 20);
---	gtk_container_set_border_width(GTK_CONTAINER(table), 12);
---	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), table);
---	image = gtk_image_new_from_icon_name(GTK_STOCK_DIALOG_AUTHENTICATION,
---							GTK_ICON_SIZE_DIALOG);
---	gtk_misc_set_alignment(GTK_MISC(image), 0.0, 0.0);
---	gtk_table_attach(GTK_TABLE(table), image, 0, 1, 0, 5,
---						GTK_SHRINK, GTK_FILL, 0, 0);
---	vbox = gtk_vbox_new(FALSE, 6);
---
---	label = gtk_label_new(_("Network requires input of a passphrase:"));
---	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
---	gtk_container_add(GTK_CONTAINER(vbox), label);
---	gtk_table_attach(GTK_TABLE(table), vbox, 1, 2, 0, 1,
---				GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
---
---	entry = gtk_entry_new();
---	gtk_entry_set_max_length(GTK_ENTRY(entry), 120);
---	gtk_entry_set_width_chars(GTK_ENTRY(entry), 20);
---	gtk_entry_set_visibility(GTK_ENTRY(entry), FALSE);
---	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
---	gtk_container_add(GTK_CONTAINER(vbox), entry);
---
---	button = gtk_check_button_new_with_label(_("Show input"));
---	gtk_container_add(GTK_CONTAINER(vbox), button);
---
---	g_signal_connect(G_OBJECT(button), "toggled",
---				G_CALLBACK(toggled_callback), entry);
---
---	button = gtk_check_button_new_with_label(_("Remember network"));
---	gtk_container_add(GTK_CONTAINER(vbox), button);
---
---	gtk_widget_show_all(dialog);
---
---	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
---		const gchar *passphrase;
---		gboolean remember;
---
---		passphrase = gtk_entry_get_text(GTK_ENTRY(entry));
---		remember = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
---
---		connman_client_set_passphrase(client, path, passphrase);
---		connman_client_set_remember(client, path, remember);
---
---		status_prepare();
---		connman_client_connect(client, path);
---	}
---
---	gtk_widget_destroy(dialog);
---}
---
---static void activate_callback(GtkWidget *item, gpointer user_data)
---{
---	const gchar *path = user_data;
---	guint security;
---	gchar *passphrase;
---
---	security = connman_client_get_security(client, path);
---	if (security == CONNMAN_SECURITY_UNKNOWN)
---		return;
---
---	if (security == CONNMAN_SECURITY_NONE) {
---		status_prepare();
---		connman_client_connect(client, path);
---		return;
---	}
---
---	passphrase = connman_client_get_passphrase(client, path);
---	if (passphrase != NULL) {
---		g_free(passphrase);
---
---		status_prepare();
---		connman_client_connect(client, path);
---		return;
---	}
---
---	passphrase_dialog(path, NULL);
---}
---
---static void disconnect_callback(GtkWidget *item, gpointer user_data)
---{
---	connman_client_disconnect(client, NULL);
---}
---
---static GtkWidget *create_popupmenu(void)
---{
---	GtkWidget *menu;
---	GtkWidget *item;
---
---	menu = gtk_menu_new();
---
---	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_PREFERENCES, NULL);
---	g_signal_connect(item, "activate", G_CALLBACK(settings_callback), NULL);
---	gtk_widget_show(item);
---	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
---
---	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_ABOUT, NULL);
---	g_signal_connect(item, "activate", G_CALLBACK(about_callback), NULL);
---	gtk_widget_show(item);
---	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
---
---	return menu;
---}
---
---static GtkWidget *append_menuitem(GtkMenu *menu, const char *ssid,
---					guint security, guint strength)
---{
---	GtkWidget *item;
---	GtkWidget *hbox;
---	GtkWidget *label;
---	GtkWidget *image;
---	GtkWidget *progress;
---
---	item = gtk_check_menu_item_new();
---	gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), TRUE);
---
---	hbox = gtk_hbox_new(FALSE, 6);
---	gtk_container_add(GTK_CONTAINER(item), hbox);
---	gtk_widget_show(hbox);
---
---	label = gtk_label_new(NULL);
---	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
---	gtk_label_set_text(GTK_LABEL(label), ssid);
---	gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
---	gtk_widget_show(label);
---
---	image = gtk_image_new_from_stock(GTK_STOCK_DIALOG_AUTHENTICATION,
---							GTK_ICON_SIZE_MENU);
---	gtk_misc_set_alignment(GTK_MISC(image), 1.0, 0.5);
---	if (security != CONNMAN_SECURITY_NONE) {
---		gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
---		gtk_widget_show(image);
---	}
---
---	progress = gtk_progress_bar_new();
---	gtk_widget_set_size_request(progress, 100, -1);
---	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress),
---						(double) strength / 100);
---	gtk_box_pack_end(GTK_BOX(hbox), progress, FALSE, TRUE, 0);
---	gtk_widget_show(progress);
---
---	gtk_widget_show(item);
---	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
---
---	return item;
---}
---
---static void enumerate_networks(GtkMenu *menu,
---				GtkTreeModel *model, GtkTreeIter *parent)
---{
---	GtkTreeIter iter;
---	gboolean cont;
---
---	cont = gtk_tree_model_iter_children(model, &iter, parent);
---
---	while (cont == TRUE) {
---		GtkWidget *item;
---		DBusGProxy *proxy;
---		guint strength, security;
---		gchar *name, *path;
---		gboolean inrange, connected;
---
---		gtk_tree_model_get(model, &iter,
---				CONNMAN_COLUMN_PROXY, &proxy,
---				CONNMAN_COLUMN_NAME, &name,
---				CONNMAN_COLUMN_INRANGE, &inrange,
---				CONNMAN_COLUMN_ENABLED, &connected,
---				CONNMAN_COLUMN_STRENGTH, &strength,
---				CONNMAN_COLUMN_SECURITY, &security, -1);
---
---		if (connected == TRUE || inrange == TRUE) {
---			item = append_menuitem(menu, name, security, strength);
---			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
---								connected);
---
---			path = g_strdup(dbus_g_proxy_get_path(proxy));
---			g_signal_connect(item, "activate",
---					G_CALLBACK(activate_callback), path);
---		}
---
---		g_free(name);
---
---		cont = gtk_tree_model_iter_next(model, &iter);
---	}
---}
---
-- static gboolean menu_callback(GtkMenu *menu)
-- {
---	GtkTreeModel *model;
---	GtkTreeIter parent;
-- 	GtkWidget *item;
---	gboolean cont;
---
---	connman_client_propose_scan(client, NULL);
---
---	model = connman_client_get_device_network_model(client);
---
---	cont = gtk_tree_model_get_iter_first(model, &parent);
---
---	while (cont == TRUE) {
---		guint type;
---		gchar *name;
---
---		gtk_tree_model_get(model, &parent,
---					CONNMAN_COLUMN_TYPE, &type,
---					CONNMAN_COLUMN_NAME, &name, -1);
---
---		switch (type) {
---		case CONNMAN_TYPE_WIFI:
---		case CONNMAN_TYPE_WIMAX:
---			enumerate_networks(menu, model, &parent);
---			break;
---		default:
---			break;
---		}
---
---		g_free(name);
---
---		cont = gtk_tree_model_iter_next(model, &parent);
---	}
---
---	g_object_unref(model);
-- 
-- 	item = gtk_separator_menu_item_new();
-- 	gtk_widget_show(item);
-- 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-- 
---	item = gtk_menu_item_new_with_label(_("Disconnect Network"));
---	g_signal_connect(item, "activate",
---				G_CALLBACK(disconnect_callback), NULL);
--+	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_PREFERENCES, NULL);
--+	g_signal_connect(item, "activate", G_CALLBACK(settings_callback), NULL);
-- 	gtk_widget_show(item);
-- 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-- 
---	item = gtk_menu_item_new_with_label(_("Join Other Network..."));
---	gtk_widget_set_sensitive(item, FALSE);
---	//g_signal_connect(item, "activate",
---	//			G_CALLBACK(join_callback), NULL);
--+	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_ABOUT, NULL);
--+	g_signal_connect(item, "activate", G_CALLBACK(about_callback), NULL);
-- 	gtk_widget_show(item);
-- 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-- 
--@@ -387,16 +129,17 @@ static void update_status(GtkTreeModel *model)
-- 	cont = gtk_tree_model_get_iter_first(model, &iter);
-- 
-- 	while (cont == TRUE) {
---		gboolean enabled;
--+		gchar *state;
-- 
-- 		gtk_tree_model_get(model, &iter,
-- 					CONNMAN_COLUMN_TYPE, &type,
-- 					CONNMAN_COLUMN_STRENGTH, &strength,
---					CONNMAN_COLUMN_ENABLED, &enabled, -1);
--+					CONNMAN_COLUMN_STATE, &state, -1);
-- 
-- 		online = TRUE;
-- 
---		if (enabled == TRUE)
--+		if ((type == CONNMAN_TYPE_ETHERNET && (g_str_equal(state, "idle") || g_str_equal(state, "online")))  ||
--+		    (type == CONNMAN_TYPE_WIFI && (g_str_equal(state, "ready") || g_str_equal(state, "online"))))
-- 			break;
-- 
-- 		cont = gtk_tree_model_iter_next(model, &iter);
--@@ -453,7 +196,7 @@ int main(int argc, char *argv[])
-- 
-- 	g_set_application_name(_("Connection Manager"));
-- 
---	status_init(menu_callback, create_popupmenu());
--+	status_init(menu_callback);
-- 
-- 	client = connman_client_new();
-- 	model = connman_client_get_connection_model(client);
--diff --git a/applet/status.c b/applet/status.c
--index ef11bcc..13ec752 100644
----- a/applet/status.c
--+++ b/applet/status.c
--@@ -170,19 +170,6 @@ static void activate_callback(GObject *object, gpointer user_data)
-- 			GTK_STATUS_ICON(object), 1, activate_time);
-- }
-- 
---static void popup_callback(GObject *object, guint button,
---				guint activate_time, gpointer user_data)
---{
---	GtkMenu *menu = user_data;
---
---	if (menu == NULL)
---		return;
---
---	gtk_menu_popup(menu, NULL, NULL,
---			gtk_status_icon_position_menu,
---			GTK_STATUS_ICON(object), button, activate_time);
---}
---
-- static GtkIconTheme *icontheme;
-- static IconAnimation *animation;
-- static GdkPixbuf *pixbuf_notifier;
--@@ -190,7 +177,7 @@ static GdkPixbuf *pixbuf_none;
-- static GdkPixbuf *pixbuf_wired;
-- static GdkPixbuf *pixbuf_signal[5];
-- 
---int status_init(StatusCallback activate, GtkWidget *popup)
--+int status_init(StatusCallback activate)
-- {
-- 	GdkScreen *screen;
-- 
--@@ -219,9 +206,6 @@ int status_init(StatusCallback activate, GtkWidget *popup)
-- 	g_signal_connect(statusicon, "activate",
-- 				G_CALLBACK(activate_callback), activate);
-- 
---	g_signal_connect(statusicon, "popup-menu",
---				G_CALLBACK(popup_callback), popup);
---
-- 	return 0;
-- }
-- 
--@@ -292,8 +276,6 @@ void status_config(void)
-- 
-- static void set_ready(gint signal)
-- {
---	int index;
---
-- 	available = TRUE;
-- 
-- 	if (signal < 0) {
--@@ -302,12 +284,7 @@ static void set_ready(gint signal)
-- 		return;
-- 	}
-- 
---	if (signal == 0)
---		index = 0;
---	else
---		index = 3;
---
---	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_signal[index]);
--+	gtk_status_icon_set_from_pixbuf(statusicon, pixbuf_signal[4]);
-- 	gtk_status_icon_set_tooltip(statusicon, NULL);
-- }
-- 
--diff --git a/applet/status.h b/applet/status.h
--index 772a7b2..8a3c83c 100644
----- a/applet/status.h
--+++ b/applet/status.h
--@@ -21,7 +21,7 @@
-- 
-- typedef gboolean (* StatusCallback) (GtkMenu *menu);
-- 
---int status_init(StatusCallback activate, GtkWidget *popup);
--+int status_init(StatusCallback activate);
-- void status_cleanup(void);
-- 
-- void status_unavailable(void);
--diff --git a/common/Makefile.am b/common/Makefile.am
--index ff3a996..8d74a46 100644
----- a/common/Makefile.am
--+++ b/common/Makefile.am
--@@ -5,13 +5,6 @@ libcommon_a_SOURCES = connman-dbus.c connman-dbus.h \
-- 				connman-client.h connman-client.c \
-- 							instance.h instance.c
-- 
---noinst_PROGRAMS = connman-demo test-client
---
---connman_demo_SOURCES = demo.c
---connman_demo_LDADD = libcommon.a @GTK_LIBS@ @DBUS_LIBS@
---
---test_client_LDADD = libcommon.a @GTK_LIBS@ @DBUS_LIBS@
---
-- BUILT_SOURCES = marshal.h marshal.c \
-- 			connman-dbus-glue.h \
-- 				instance-glue.h
--diff --git a/common/connman-client.c b/common/connman-client.c
--index aad0a22..4f9cf64 100644
----- a/common/connman-client.c
--+++ b/common/connman-client.c
--@@ -98,13 +98,13 @@ static void connman_client_init(ConnmanClient *client)
-- 
-- 	priv->store = gtk_tree_store_new(_CONNMAN_NUM_COLUMNS, G_TYPE_OBJECT,
-- 			G_TYPE_STRING, G_TYPE_STRING, G_TYPE_UINT,
---			G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
---			G_TYPE_UINT, G_TYPE_UINT, G_TYPE_STRING,
---			G_TYPE_STRING, G_TYPE_STRING, G_TYPE_UINT,
---							G_TYPE_STRING);
--+			G_TYPE_STRING, G_TYPE_UINT, G_TYPE_STRING,
--+			G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
--+			G_TYPE_STRING, G_TYPE_STRING,
--+			G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN);
-- 
-- 	g_object_set_data(G_OBJECT(priv->store),
---					"State", g_strdup("unavailable"));
--+			"State", g_strdup("unavailable"));
-- 
-- 	priv->dbus = dbus_g_proxy_new_for_name(connection, DBUS_SERVICE_DBUS,
-- 				DBUS_PATH_DBUS, DBUS_INTERFACE_DBUS);
--@@ -191,13 +191,23 @@ static gboolean device_filter(GtkTreeModel *model,
-- {
-- 	DBusGProxy *proxy;
-- 	gboolean active;
--+	guint type;
-- 
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_PROXY, &proxy, -1);
--+	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_PROXY, &proxy,
--+					CONNMAN_COLUMN_TYPE, &type,
--+					-1);
--+
--+	switch (type) {
--+	case CONNMAN_TYPE_LABEL_ETHERNET:
--+	case CONNMAN_TYPE_LABEL_WIFI:
--+	case CONNMAN_TYPE_SYSCONFIG:
--+		return TRUE;
--+	}
-- 
-- 	if (proxy == NULL)
-- 		return FALSE;
-- 
---	active = g_str_equal(CONNMAN_DEVICE_INTERFACE,
--+	active = g_str_equal(CONNMAN_SERVICE_INTERFACE,
-- 					dbus_g_proxy_get_interface(proxy));
-- 
-- 	g_object_unref(proxy);
--@@ -231,10 +241,10 @@ static gboolean device_network_filter(GtkTreeModel *model,
-- 	if (proxy == NULL)
-- 		return FALSE;
-- 
---	active = g_str_equal(CONNMAN_DEVICE_INTERFACE,
--+	active = g_str_equal(CONNMAN_SERVICE_INTERFACE,
-- 					dbus_g_proxy_get_interface(proxy));
-- 	if (active == FALSE)
---		active = g_str_equal(CONNMAN_NETWORK_INTERFACE,
--+		active = g_str_equal(CONNMAN_SERVICE_INTERFACE,
-- 					dbus_g_proxy_get_interface(proxy));
-- 
-- 	g_object_unref(proxy);
--@@ -277,7 +287,7 @@ GtkTreeModel *connman_client_get_network_model(ConnmanClient *client,
-- 		gtk_tree_model_get(GTK_TREE_MODEL(priv->store), &iter,
-- 					CONNMAN_COLUMN_PROXY, &proxy, -1);
-- 
---		if (g_str_equal(CONNMAN_DEVICE_INTERFACE,
--+		if (g_str_equal(CONNMAN_SERVICE_INTERFACE,
-- 				dbus_g_proxy_get_interface(proxy)) == TRUE)
-- 			found = g_str_has_prefix(dbus_g_proxy_get_path(proxy),
-- 									device);
--@@ -314,7 +324,7 @@ static gboolean connection_filter(GtkTreeModel *model,
-- 	if (proxy == NULL)
-- 		return FALSE;
-- 
---	active = g_str_equal(CONNMAN_CONNECTION_INTERFACE,
--+	active = g_str_equal(CONNMAN_SERVICE_INTERFACE,
-- 					dbus_g_proxy_get_interface(proxy));
-- 
-- 	g_object_unref(proxy);
--@@ -337,28 +347,37 @@ GtkTreeModel *connman_client_get_connection_model(ConnmanClient *client)
-- 	return model;
-- }
-- 
---void connman_client_set_policy(ConnmanClient *client, const gchar *device,
---							const gchar *policy)
--+gboolean connman_client_set_ipv4(ConnmanClient *client, const gchar *device,
--+			     struct ipv4_config *ipv4_config)
-- {
-- 	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
-- 	DBusGProxy *proxy;
-- 	GValue value = { 0 };
--+	gboolean ret;
--+	GHashTable *ipv4 = g_hash_table_new(g_str_hash, g_str_equal);
--+
--+	g_hash_table_insert(ipv4, "Method",  (gpointer)ipv4_config->method);
--+	g_hash_table_insert(ipv4, "Address", (gpointer)ipv4_config->address);
--+	g_hash_table_insert(ipv4, "Netmask", (gpointer)ipv4_config->netmask);
--+	g_hash_table_insert(ipv4, "Gateway", (gpointer)ipv4_config->gateway);
-- 
-- 	DBG("client %p", client);
-- 
-- 	if (device == NULL)
---		return;
--+		return FALSE;
-- 
-- 	proxy = connman_dbus_get_proxy(priv->store, device);
-- 	if (proxy == NULL)
---		return;
--+		return FALSE;
-- 
---	g_value_init(&value, G_TYPE_STRING);
---	g_value_set_string(&value, policy);
--+	g_value_init(&value, DBUS_TYPE_G_STRING_STRING_HASHTABLE);
--+	g_value_set_boxed(&value, ipv4);
-- 
---	connman_set_property(proxy, "Policy", &value, NULL);
--+	ret = connman_set_property(proxy, "IPv4.Configuration", &value, NULL);
-- 
-- 	g_object_unref(proxy);
--+
--+	return ret;
-- }
-- 
-- void connman_client_set_powered(ConnmanClient *client, const gchar *device,
--@@ -385,98 +404,128 @@ void connman_client_set_powered(ConnmanClient *client, const gchar *device,
-- 	g_object_unref(proxy);
-- }
-- 
---static gboolean device_scan(GtkTreeModel *model, GtkTreePath *path,
---					GtkTreeIter *iter, gpointer user_data)
--+void connman_client_request_scan(ConnmanClient *client, char *scantype,
--+				connman_request_scan_reply callback, gpointer userdata)
-- {
---	DBusGProxy *proxy;
---	gboolean enabled;
--+	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
-- 
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_PROXY, &proxy,
---					CONNMAN_COLUMN_ENABLED, &enabled, -1);
--+	DBG("client %p", client);
-- 
---	if (proxy == NULL)
---		return FALSE;
--+	connman_request_scan_async(priv->manager, scantype, callback, userdata);
--+}
-- 
---	if (g_str_equal(dbus_g_proxy_get_interface(proxy),
---					CONNMAN_DEVICE_INTERFACE) == FALSE)
---		return FALSE;
--+gboolean connman_client_get_offline_status(ConnmanClient *client)
--+{
--+	GHashTable *hash;
--+	GValue *value;
--+	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
--+	gboolean ret;
-- 
---	if (enabled == FALSE)
---		return FALSE;
--+	DBG("client %p", client);
-- 
---	connman_propose_scan(proxy, NULL);
--+	ret = connman_get_properties(priv->manager, &hash, NULL);
-- 
---	g_object_unref(proxy);
--+	if (ret == FALSE)
--+		goto done;
--+
--+	value = g_hash_table_lookup(hash, "OfflineMode");
--+	ret = value ? g_value_get_boolean(value) : FALSE;
--+
--+done:
--+	return ret;
-- 
---	return FALSE;
-- }
-- 
---void connman_client_propose_scan(ConnmanClient *client, const gchar *device)
--+void connman_client_set_offlinemode(ConnmanClient *client, gboolean status)
-- {
-- 	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
---	DBusGProxy *proxy;
--+	GValue value = { 0 };
-- 
-- 	DBG("client %p", client);
-- 
---	if (device == NULL) {
---		gtk_tree_model_foreach(GTK_TREE_MODEL(priv->store),
---							device_scan, NULL);
---		return;
---	}
---
---	proxy = connman_dbus_get_proxy(priv->store, device);
---	if (proxy == NULL)
---		return;
---
---	connman_propose_scan(proxy, NULL);
--+	g_value_init(&value, G_TYPE_BOOLEAN);
--+	g_value_set_boolean(&value, status);
-- 
---	g_object_unref(proxy);
--+	connman_set_property(priv->manager, "OfflineMode", &value, NULL);
-- }
-- 
-- static gboolean network_disconnect(GtkTreeModel *model, GtkTreePath *path,
-- 					GtkTreeIter *iter, gpointer user_data)
-- {
-- 	DBusGProxy *proxy;
---	gboolean enabled;
--+	char *name;
--+	guint type;
-- 
-- 	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_PROXY, &proxy,
---					CONNMAN_COLUMN_ENABLED, &enabled, -1);
--+					CONNMAN_COLUMN_NAME, &name,
--+					CONNMAN_COLUMN_TYPE, &type,
--+					-1);
-- 
-- 	if (proxy == NULL)
---		return FALSE;
--+		return TRUE;
-- 
-- 	if (g_str_equal(dbus_g_proxy_get_interface(proxy),
---					CONNMAN_NETWORK_INTERFACE) == FALSE)
---		return FALSE;
--+					CONNMAN_SERVICE_INTERFACE) == FALSE)
--+		return TRUE;
-- 
---	if (enabled == TRUE)
--+	if (type == CONNMAN_TYPE_WIFI)
-- 		connman_disconnect(proxy, NULL);
-- 
-- 	g_object_unref(proxy);
-- 
---	return enabled;
--+	return FALSE;
-- }
-- 
---void connman_client_connect(ConnmanClient *client, const gchar *network)
--+gboolean connman_client_connect(ConnmanClient *client, const gchar *network)
-- {
-- 	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
-- 	DBusGProxy *proxy;
--+	gboolean ret = FALSE;
-- 
-- 	DBG("client %p", client);
--+	DBG("network %s", network);
-- 
-- 	if (network == NULL)
---		return;
--+		goto done;
-- 
-- 	gtk_tree_model_foreach(GTK_TREE_MODEL(priv->store),
-- 						network_disconnect, NULL);
-- 
-- 	proxy = connman_dbus_get_proxy(priv->store, network);
-- 	if (proxy == NULL)
---		return;
--+		goto done;
-- 
---	connman_connect(proxy, NULL);
--+	ret = connman_connect(proxy, NULL);
-- 
-- 	g_object_unref(proxy);
--+
--+done:
--+	return ret;
--+}
--+
--+void connman_client_connect_async(ConnmanClient *client, const gchar *network,
--+				  connman_connect_reply callback, gpointer userdata)
--+{
--+        ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
--+        DBusGProxy *proxy;
--+
--+        DBG("client %p", client);
--+        DBG("network %s", network);
--+
--+        if (network == NULL)
--+                goto done;
--+
--+        gtk_tree_model_foreach(GTK_TREE_MODEL(priv->store),
--+                                                network_disconnect, NULL);
--+
--+        proxy = connman_dbus_get_proxy(priv->store, network);
--+        if (proxy == NULL)
--+                goto done;
--+ 
--+	connman_connect_async(proxy, callback, userdata);
--+
--+done:
--+	return;
-- }
-- 
-- static void connman_client_disconnect_all(ConnmanClient *client)
--@@ -487,32 +536,37 @@ static void connman_client_disconnect_all(ConnmanClient *client)
-- 						network_disconnect, NULL);
-- }
-- 
---void connman_client_disconnect(ConnmanClient *client, const gchar *network)
--+gboolean connman_client_disconnect(ConnmanClient *client, const gchar *network)
-- {
-- 	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
-- 	DBusGProxy *proxy;
--+	gboolean ret = FALSE;
-- 
-- 	DBG("client %p", client);
-- 
-- 	if (network == NULL) {
--+		ret = TRUE;
-- 		connman_client_disconnect_all(client);
---		return;
--+		goto done;
-- 	}
-- 
-- 	proxy = connman_dbus_get_proxy(priv->store, network);
-- 	if (proxy == NULL)
---		return;
--+		goto done;
-- 
---	connman_disconnect(proxy, NULL);
--+	ret = connman_disconnect(proxy, NULL);
-- 
-- 	g_object_unref(proxy);
--+
--+done:
--+	return ret;
-- }
-- 
---guint connman_client_get_security(ConnmanClient *client, const gchar *network)
--+gchar *connman_client_get_security(ConnmanClient *client, const gchar *network)
-- {
-- 	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
-- 	GtkTreeIter iter;
---	guint security;
--+	gchar *security;
-- 
-- 	DBG("client %p", client);
-- 
--@@ -548,41 +602,60 @@ gchar *connman_client_get_passphrase(ConnmanClient *client, const gchar *network
-- 	return passphrase;
-- }
-- 
---void connman_client_set_passphrase(ConnmanClient *client, const gchar *network,
--+gboolean connman_client_set_passphrase(ConnmanClient *client, const gchar *network,
-- 						const gchar *passphrase)
-- {
-- 	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
-- 	DBusGProxy *proxy;
-- 	GValue value = { 0 };
--+	gboolean ret = FALSE;
-- 
-- 	DBG("client %p", client);
--+	DBG("network %p", network);
-- 
-- 	if (network == NULL)
---		return;
--+		goto done;
-- 
-- 	proxy = connman_dbus_get_proxy(priv->store, network);
-- 	if (proxy == NULL)
---		return;
--+		goto done;
-- 
-- 	g_value_init(&value, G_TYPE_STRING);
-- 	g_value_set_string(&value, passphrase);
-- 
---	connman_set_property(proxy, "WiFi.Passphrase", &value, NULL);
--+	ret = connman_set_property(proxy, "Passphrase", &value, NULL);
-- 
-- 	g_value_unset(&value);
-- 
-- 	g_object_unref(proxy);
--+done:
--+	return ret;
-- }
-- 
---void connman_client_set_remember(ConnmanClient *client, const gchar *network,
---							gboolean remember)
--+void connman_client_set_callback(ConnmanClient *client,
--+			ConnmanClientCallback callback, gpointer user_data)
-- {
-- 	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
---	DBusGProxy *proxy;
---	GValue value = { 0 };
--+	gchar *state;
-- 
-- 	DBG("client %p", client);
-- 
--+	priv->callback = callback;
--+	priv->userdata = user_data;
--+
--+	g_object_set_data(G_OBJECT(priv->store), "callback", callback);
--+	g_object_set_data(G_OBJECT(priv->store), "userdata", user_data);
--+
--+	state = g_object_get_data(G_OBJECT(priv->store), "State");
--+	if (state != NULL && priv->callback != NULL)
--+		priv->callback(state, priv->userdata);
--+}
--+
--+void connman_client_remove(ConnmanClient *client, const gchar *network)
--+{
--+	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
--+	DBusGProxy *proxy;
--+
-- 	if (network == NULL)
-- 		return;
-- 
--@@ -590,31 +663,46 @@ void connman_client_set_remember(ConnmanClient *client, const gchar *network,
-- 	if (proxy == NULL)
-- 		return;
-- 
---	g_value_init(&value, G_TYPE_BOOLEAN);
---	g_value_set_boolean(&value, remember);
--+	connman_remove(proxy, NULL);
--+
--+	g_object_unref(proxy);
--+}
--+
--+void connman_client_enable_technology(ConnmanClient *client, const char *network,
--+				      const gchar *technology)
--+{
--+	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
--+	DBusGProxy *proxy;
--+	int ret;
-- 
---	connman_set_property(proxy, "Remember", &value, NULL);
--+	if (network== NULL)
--+		return;
-- 
---	g_value_unset(&value);
--+	proxy = connman_dbus_get_proxy(priv->store, network);
--+	if (proxy == NULL)
--+		return;
--+
--+	ret = connman_enable_technology(proxy, technology, NULL);
-- 
-- 	g_object_unref(proxy);
-- }
-- 
---void connman_client_set_callback(ConnmanClient *client,
---			ConnmanClientCallback callback, gpointer user_data)
--+void connman_client_disable_technology(ConnmanClient *client, const char *network,
--+				      const gchar *technology)
-- {
-- 	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
---	gchar *state;
--+	DBusGProxy *proxy;
--+	int ret;
-- 
---	DBG("client %p", client);
-- 
---	priv->callback = callback;
---	priv->userdata = user_data;
--+	if (network == NULL)
--+		return;
-- 
---	g_object_set_data(G_OBJECT(priv->store), "callback", callback);
---	g_object_set_data(G_OBJECT(priv->store), "userdata", user_data);
--+	proxy = connman_dbus_get_proxy(priv->store, network);
--+	if (proxy == NULL)
--+		return;
-- 
---	state = g_object_get_data(G_OBJECT(priv->store), "State");
---	if (state != NULL && priv->callback != NULL)
---		priv->callback(state, priv->userdata);
--+	ret = connman_disable_technology(proxy, technology, NULL);
--+
--+	g_object_unref(proxy);
-- }
--diff --git a/common/connman-client.h b/common/connman-client.h
--index f30dae4..00c328a 100644
----- a/common/connman-client.h
--+++ b/common/connman-client.h
--@@ -23,6 +23,7 @@
-- #define __CONNMAN_CLIENT_H
-- 
-- #include <gtk/gtk.h>
--+#include "connman-dbus-glue.h"
-- 
-- G_BEGIN_DECLS
-- 
--@@ -49,6 +50,13 @@ struct _ConnmanClientClass {
-- 	GObjectClass parent_class;
-- };
-- 
--+struct ipv4_config {
--+	const gchar *method;
--+	const gchar *address;
--+	const gchar *netmask;
--+	const gchar *gateway;
--+};
--+
-- GType connman_client_get_type(void);
-- 
-- ConnmanClient *connman_client_new(void);
--@@ -60,18 +68,20 @@ GtkTreeModel *connman_client_get_network_model(ConnmanClient *client,
-- 							const gchar *device);
-- GtkTreeModel *connman_client_get_connection_model(ConnmanClient *client);
-- 
---void connman_client_set_policy(ConnmanClient *client, const gchar *device,
---							const gchar *policy);
-- void connman_client_set_powered(ConnmanClient *client, const gchar *device,
-- 							gboolean powered);
-- void connman_client_propose_scan(ConnmanClient *client, const gchar *device);
-- 
---void connman_client_connect(ConnmanClient *client, const gchar *network);
---void connman_client_disconnect(ConnmanClient *client, const gchar *network);
--+gboolean connman_client_connect(ConnmanClient *client, const gchar *network);
--+
--+void connman_client_connect_async(ConnmanClient *client, const gchar *network,
--+				  connman_connect_reply callback, gpointer userdata);
-- 
---guint connman_client_get_security(ConnmanClient *client, const gchar *network);
--+gboolean connman_client_disconnect(ConnmanClient *client, const gchar *network);
--+
--+gchar *connman_client_get_security(ConnmanClient *client, const gchar *network);
-- gchar *connman_client_get_passphrase(ConnmanClient *client, const gchar *network);
---void connman_client_set_passphrase(ConnmanClient *client, const gchar *network,
--+gboolean connman_client_set_passphrase(ConnmanClient *client, const gchar *network,
-- 						const gchar *passphrase);
-- void connman_client_set_remember(ConnmanClient *client, const gchar *network,
-- 							gboolean remember);
--@@ -81,37 +91,63 @@ typedef void (* ConnmanClientCallback) (const char *status, void *user_data);
-- void connman_client_set_callback(ConnmanClient *client,
-- 			ConnmanClientCallback callback, gpointer user_data);
-- 
--+gboolean connman_client_set_ipv4(ConnmanClient *client, const gchar *device,
--+			     struct ipv4_config *ipv4_config);
--+
--+gboolean connman_dbus_get_iter(GtkTreeStore *store, const gchar *path,
--+							GtkTreeIter *iter);
--+void connman_client_remove(ConnmanClient *client, const gchar *network);
--+
--+void connman_client_request_scan(ConnmanClient *client, char *scantype, 
--+				connman_request_scan_reply callback, gpointer userdata);
--+gboolean connman_client_get_offline_status(ConnmanClient *client);
--+void connman_client_set_offlinemode(ConnmanClient *client, gboolean status);
--+
--+void connman_client_enable_technology(ConnmanClient *client, const char *network,
--+				      const gchar *technology);
--+void connman_client_disable_technology(ConnmanClient *client, const char *network,
--+				      const gchar *technology);
-- enum {
-- 	CONNMAN_COLUMN_PROXY,		/* G_TYPE_OBJECT  */
--+	CONNMAN_COLUMN_STATE,		/* G_TYPE_STRING  */
-- 	CONNMAN_COLUMN_NAME,		/* G_TYPE_STRING  */
---	CONNMAN_COLUMN_ICON,		/* G_TYPE_STRING  */
-- 	CONNMAN_COLUMN_TYPE,		/* G_TYPE_UINT    */
---	CONNMAN_COLUMN_ENABLED,		/* G_TYPE_BOOLEAN */
---	CONNMAN_COLUMN_INRANGE,		/* G_TYPE_BOOLEAN */
---	CONNMAN_COLUMN_REMEMBER,	/* G_TYPE_BOOLEAN */
--+	CONNMAN_COLUMN_ICON,		/* G_TYPE_STRING  */
-- 	CONNMAN_COLUMN_STRENGTH,	/* G_TYPE_UINT    */
---	CONNMAN_COLUMN_SECURITY,	/* G_TYPE_UINT    */
--+	CONNMAN_COLUMN_SECURITY,	/* G_TYPE_STRING  */
-- 	CONNMAN_COLUMN_PASSPHRASE,	/* G_TYPE_STRING  */
---	CONNMAN_COLUMN_NETWORK,
---	CONNMAN_COLUMN_ADDRESS,
---	CONNMAN_COLUMN_POLICY,
---	CONNMAN_COLUMN_DEVICE,
---	_CONNMAN_NUM_COLUMNS
--+
--+	CONNMAN_COLUMN_METHOD,		/* G_TYPE_STRING */
--+	CONNMAN_COLUMN_ADDRESS,		/* G_TYPE_STRING */
--+	CONNMAN_COLUMN_NETMASK,		/* G_TYPE_STRING */
--+	CONNMAN_COLUMN_GATEWAY,		/* G_TYPE_STRING */
--+
--+	CONNMAN_COLUMN_ETHERNET_ENABLED,	/* G_TYPE_BOOLEAN */
--+	CONNMAN_COLUMN_WIFI_ENABLED,		/* G_TYPE_BOOLEAN */
--+
--+	CONNMAN_COLUMN_OFFLINEMODE,		/* G_TYPE_BOOLEAN */
--+
--+	_CONNMAN_NUM_COLUMNS,
--+
-- };
-- 
-- enum {
-- 	CONNMAN_TYPE_UNKNOWN,
--+
-- 	CONNMAN_TYPE_ETHERNET,
-- 	CONNMAN_TYPE_WIFI,
-- 	CONNMAN_TYPE_WIMAX,
-- 	CONNMAN_TYPE_BLUETOOTH,
--+
--+	CONNMAN_TYPE_LABEL_ETHERNET,
--+	CONNMAN_TYPE_LABEL_WIFI,
--+
--+	CONNMAN_TYPE_SYSCONFIG,
--+	_CONNMAN_NUM_TYPE,
-- };
-- 
-- enum {
---	CONNMAN_POLICY_UNKNOWN,
---	CONNMAN_POLICY_IGNORE,
---	CONNMAN_POLICY_OFF,
---	CONNMAN_POLICY_AUTO,
--+	CONNMAN_POLICY_DHCP,
-- 	CONNMAN_POLICY_MANUAL,
-- };
-- 
--diff --git a/common/connman-dbus.c b/common/connman-dbus.c
--index 9eba7ae..bf1778f 100644
----- a/common/connman-dbus.c
--+++ b/common/connman-dbus.c
--@@ -137,6 +137,27 @@ DBusGProxy *connman_dbus_get_proxy(GtkTreeStore *store, const gchar *path)
-- 	return proxy;
-- }
-- 
--+static gboolean compare_type(GtkTreeStore *store, GtkTreeIter *iter,
--+						gconstpointer user_data)
--+{
--+	guint type_target = GPOINTER_TO_UINT(user_data);
--+	guint type;
--+	gboolean found = FALSE;
--+
--+	gtk_tree_model_get(GTK_TREE_MODEL(store), iter,
--+					CONNMAN_COLUMN_TYPE, &type, -1);
--+
--+	if (type != CONNMAN_TYPE_UNKNOWN)
--+		found = (type == type_target);
--+
--+	return found;
--+}
--+
--+static gboolean get_iter_from_type(GtkTreeStore *store, GtkTreeIter *iter, guint type)
--+{
--+	return iter_search(store, iter, NULL, compare_type, GUINT_TO_POINTER(type));
--+}
--+
-- gboolean connman_dbus_get_iter(GtkTreeStore *store, const gchar *path,
-- 							GtkTreeIter *iter)
-- {
--@@ -167,12 +188,7 @@ static void property_update(GtkTreeStore *store, const GValue *value,
-- 
-- 	DBG("store %p key %s", store, key);
-- 
---	if (g_str_equal(key, "Connections") == TRUE)
---		iface = CONNMAN_CONNECTION_INTERFACE;
---	else if (g_str_equal(key, "Devices") == TRUE)
---		iface = CONNMAN_DEVICE_INTERFACE;
---	else
---		iface = CONNMAN_NETWORK_INTERFACE;
--+	iface = CONNMAN_SERVICE_INTERFACE;
-- 
-- 	old_list = g_object_get_data(G_OBJECT(store), key);
-- 
--@@ -205,25 +221,12 @@ static void property_update(GtkTreeStore *store, const GValue *value,
-- 	for (list = old_list; list; list = list->next) {
-- 		gchar *path = list->data;
-- 		GtkTreeIter iter;
---		gchar *device = NULL;
-- 
-- 		DBG("old path %s", path);
-- 
---		if (get_iter_from_path(store, &iter, path) == TRUE) {
---			if (g_str_equal(key, "Connections") == TRUE)
---				gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
---					CONNMAN_COLUMN_DEVICE, &device, -1);
---
--+		if (get_iter_from_path(store, &iter, path) == TRUE)
-- 			gtk_tree_store_remove(store, &iter);
---		}
-- 
---		if (get_iter_from_path(store, &iter, device) == TRUE) {
---			gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_INRANGE, FALSE,
---					CONNMAN_COLUMN_ADDRESS, NULL, -1);
---		}
---
---		g_free(device);
-- 		g_free(path);
-- 	}
-- 
--@@ -263,155 +266,115 @@ static const gchar *type2icon(guint type)
-- 	return NULL;
-- }
-- 
---static guint get_policy(const GValue *value)
---{
---	const char *policy = value ? g_value_get_string(value) : NULL;
---
---	if (policy == NULL)
---		return CONNMAN_POLICY_UNKNOWN;
---	else if (g_str_equal(policy, "ignore") == TRUE)
---		return CONNMAN_POLICY_IGNORE;
---	else if (g_str_equal(policy, "off") == TRUE)
---		return CONNMAN_POLICY_OFF;
---	else if (g_str_equal(policy, "auto") == TRUE)
---		return CONNMAN_POLICY_AUTO;
---	else if (g_str_equal(policy, "manual") == TRUE)
---		return CONNMAN_POLICY_MANUAL;
---
---	return CONNMAN_POLICY_UNKNOWN;
---}
---
---static guint get_security(const GValue *value)
---{
---	const char *security = value ? g_value_get_string(value) : NULL;
---
---	if (security == NULL)
---		return CONNMAN_SECURITY_UNKNOWN;
---	else if (g_str_equal(security, "none") == TRUE)
---		return CONNMAN_SECURITY_NONE;
---	else if (g_str_equal(security, "wep") == TRUE)
---		return CONNMAN_SECURITY_WEP;
---	else if (g_str_equal(security, "wpa") == TRUE)
---		return CONNMAN_SECURITY_WPA;
---	else if (g_str_equal(security, "wpa2") == TRUE)
---		return CONNMAN_SECURITY_WPA2;
---
---	return CONNMAN_SECURITY_UNKNOWN;
---}
---
---static void network_changed(DBusGProxy *proxy, const char *property,
---					GValue *value, gpointer user_data)
--+static void enabled_technologies_changed(GtkTreeStore *store, GValue *value)
-- {
---	GtkTreeStore *store = user_data;
---	const char *path = dbus_g_proxy_get_path(proxy);
-- 	GtkTreeIter iter;
--+	gboolean ethernet_enabled_prev, ethernet_enabled = FALSE;
--+	gboolean wifi_enabled_prev, wifi_enabled = FALSE;
--+	gchar **tech = g_value_get_boxed (value);
--+	gint i;
--+	gboolean ret;
-- 
---	DBG("store %p proxy %p property %s", store, proxy, property);
---
---	if (property == NULL || value == NULL)
--+	if (value == NULL)
-- 		return;
-- 
---	if (get_iter_from_path(store, &iter, path) == FALSE)
---		return;
--+	for (i = 0; i < g_strv_length (tech); i++)
--+	{
--+		if (g_str_equal("ethernet", *(tech + i)))
--+			ethernet_enabled = TRUE;
--+		else if (g_str_equal ("wifi", *(tech + i)))
--+			wifi_enabled = TRUE;
--+	}
-- 
---	if (g_str_equal(property, "Connected") == TRUE) {
---		gboolean connected = g_value_get_boolean(value);
---		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_ENABLED, connected, -1);
---	} else if (g_str_equal(property, "Available") == TRUE) {
---		gboolean inrange = g_value_get_boolean(value);
---		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_INRANGE, inrange, -1);
---	} else if (g_str_equal(property, "Remember") == TRUE) {
---		gboolean remember = g_value_get_boolean(value);
--+	get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_ETHERNET);
--+	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
--+			CONNMAN_COLUMN_ETHERNET_ENABLED, &ethernet_enabled_prev, -1);
--+	if (ethernet_enabled_prev != ethernet_enabled)
-- 		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_REMEMBER, remember, -1);
---	} else if (g_str_equal(property, "Strength") == TRUE) {
---		guint strength = g_value_get_uchar(value);
--+				CONNMAN_COLUMN_ETHERNET_ENABLED, ethernet_enabled, -1);
--+
--+	ret = get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_WIFI);
--+	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
--+			CONNMAN_COLUMN_WIFI_ENABLED, &wifi_enabled_prev, -1);
--+	if (wifi_enabled_prev != wifi_enabled)
-- 		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_STRENGTH, strength, -1);
---	}
--+				CONNMAN_COLUMN_WIFI_ENABLED, wifi_enabled, -1);
-- }
-- 
---static void network_properties(DBusGProxy *proxy, GHashTable *hash,
---					GError *error, gpointer user_data)
--+static void enabled_technologies_properties(GtkTreeStore *store, DBusGProxy *proxy, GValue *value)
-- {
---	GtkTreeStore *store = user_data;
---	GValue *value;
---	const gchar *device, *name, *secret;
---	gboolean connected, inrange, remember;
---	guint strength, security;
---	GtkTreeIter iter, parent;
---
---	DBG("store %p proxy %p hash %p", store, proxy, hash);
---
---	if (error != NULL || hash == NULL)
---		goto done;
---
---	value = g_hash_table_lookup(hash, "Device");
---	device = value ? g_value_get_boxed(value) : NULL;
---
---	value = g_hash_table_lookup(hash, "Name");
---	name = value ? g_value_get_string(value) : NULL;
---
---	value = g_hash_table_lookup(hash, "Connected");
---	connected = value ? g_value_get_boolean(value) : FALSE;
---
---	value = g_hash_table_lookup(hash, "Available");
---	inrange = value ? g_value_get_boolean(value) : FALSE;
--+	GtkTreeIter iter;
--+	gboolean ethernet_enabled = FALSE;
--+	gboolean wifi_enabled = FALSE;
--+	gchar **tech = g_value_get_boxed (value);
--+	gint i;
--+
--+	for (i = 0; i < g_strv_length (tech); i++)
--+	{
--+		if (g_str_equal("ethernet", *(tech + i)))
--+			ethernet_enabled = TRUE;
--+		else if (g_str_equal ("wifi", *(tech + i)))
--+			wifi_enabled = TRUE;
--+	}
-- 
---	value = g_hash_table_lookup(hash, "Remember");
---	remember = value ? g_value_get_boolean(value) : FALSE;
--+	if (get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_ETHERNET) == FALSE)
--+		gtk_tree_store_append(store, &iter, NULL);
-- 
---	value = g_hash_table_lookup(hash, "Strength");
---	strength = value ? g_value_get_uchar(value) : 0;
--+	gtk_tree_store_set(store, &iter,
--+			CONNMAN_COLUMN_PROXY, proxy,
--+			CONNMAN_COLUMN_ETHERNET_ENABLED, ethernet_enabled,
--+			CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_LABEL_ETHERNET,
--+			-1);
-- 
---	value = g_hash_table_lookup(hash, "WiFi.Security");
---	security = get_security(value);
--+	if (get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_WIFI) == FALSE)
--+		gtk_tree_store_append(store, &iter, NULL);
-- 
---	value = g_hash_table_lookup(hash, "WiFi.Passphrase");
---	secret = value ? g_value_get_string(value) : NULL;
--+	gtk_tree_store_set(store, &iter,
--+			CONNMAN_COLUMN_PROXY, proxy,
--+			CONNMAN_COLUMN_WIFI_ENABLED, wifi_enabled,
--+			CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_LABEL_WIFI,
--+			-1);
--+}
-- 
---	DBG("name %s strength %d", name, strength);
--+static void offline_mode_changed(GtkTreeStore *store, GValue *value)
--+{
--+	GtkTreeIter iter;
--+	gboolean offline_mode = g_value_get_boolean(value);
-- 
---	if (get_iter_from_path(store, &parent, device) == FALSE)
---		return;
--+	get_iter_from_type(store, &iter, CONNMAN_TYPE_SYSCONFIG);
--+	gtk_tree_store_set(store, &iter,
--+			CONNMAN_COLUMN_OFFLINEMODE, offline_mode,
--+			-1);
--+}
-- 
---	if (get_iter_from_proxy(store, &iter, proxy) == FALSE) {
---		gtk_tree_store_insert_with_values(store, &iter, &parent, -1,
---					CONNMAN_COLUMN_PROXY, proxy,
---					CONNMAN_COLUMN_NAME, name,
---					CONNMAN_COLUMN_ENABLED, connected,
---					CONNMAN_COLUMN_INRANGE, inrange,
---					CONNMAN_COLUMN_REMEMBER, remember,
---					CONNMAN_COLUMN_STRENGTH, strength,
---					CONNMAN_COLUMN_SECURITY, security,
---					CONNMAN_COLUMN_PASSPHRASE, secret, -1);
--+static void offline_mode_properties(GtkTreeStore *store, DBusGProxy *proxy, GValue *value)
--+{
--+	GtkTreeIter iter;
--+	gboolean offline_mode = g_value_get_boolean(value);
-- 
---		dbus_g_proxy_add_signal(proxy, "PropertyChanged",
---				G_TYPE_STRING, G_TYPE_VALUE, G_TYPE_INVALID);
---		dbus_g_proxy_connect_signal(proxy, "PropertyChanged",
---				G_CALLBACK(network_changed), store, NULL);
---	} else
---		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_NAME, name,
---					CONNMAN_COLUMN_ENABLED, connected,
---					CONNMAN_COLUMN_INRANGE, inrange,
---					CONNMAN_COLUMN_REMEMBER, remember,
---					CONNMAN_COLUMN_STRENGTH, strength,
---					CONNMAN_COLUMN_SECURITY, security,
---					CONNMAN_COLUMN_PASSPHRASE, secret, -1);
--+	if (get_iter_from_type(store, &iter, CONNMAN_TYPE_SYSCONFIG) == FALSE)
--+		gtk_tree_store_insert(store, &iter, NULL, 0);
-- 
---done:
---	g_object_unref(proxy);
--+	gtk_tree_store_set(store, &iter,
--+			CONNMAN_COLUMN_PROXY, proxy,
--+			CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_SYSCONFIG,
--+			CONNMAN_COLUMN_OFFLINEMODE, offline_mode,
--+			-1);
-- }
-- 
---static void device_changed(DBusGProxy *proxy, const char *property,
--+static void service_changed(DBusGProxy *proxy, const char *property,
-- 					GValue *value, gpointer user_data)
-- {
-- 	GtkTreeStore *store = user_data;
-- 	const char *path = dbus_g_proxy_get_path(proxy);
-- 	GtkTreeIter iter;
--+	GHashTable *ipv4;
--+	const char *method, *addr, *netmask, *gateway;
--+	GValue *ipv4_method, *ipv4_address, *ipv4_netmask, *ipv4_gateway;
--+
--+	const char *state, *icon, *name, *security, *passphrase;
--+	guint strength, type;
--+
-- 
-- 	DBG("store %p proxy %p property %s", store, proxy, property);
-- 
--@@ -421,165 +384,167 @@ static void device_changed(DBusGProxy *proxy, const char *property,
-- 	if (get_iter_from_path(store, &iter, path) == FALSE)
-- 		return;
-- 
---	if (g_str_equal(property, "Policy") == TRUE) {
---		guint policy = get_policy(value);
---		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_POLICY, policy, -1);
---	} else if (g_str_equal(property, "Powered") == TRUE) {
---		gboolean powered = g_value_get_boolean(value);
---		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_ENABLED, powered, -1);
---	} else if (g_str_equal(property, "Networks") == TRUE)
---		property_update(store, value, path, network_properties);
---}
---
---static void device_properties(DBusGProxy *proxy, GHashTable *hash,
---					GError *error, gpointer user_data)
---{
---	GtkTreeStore *store = user_data;
---	const char *path = dbus_g_proxy_get_path(proxy);
---	GValue *value;
---	const gchar *name, *icon;
---	guint type, policy;
---	gboolean powered;
---	GtkTreeIter iter;
---
---	DBG("store %p proxy %p hash %p", store, proxy, hash);
--+	if (g_str_equal(property, "IPv4") == TRUE) {
-- 
---	if (error != NULL || hash == NULL)
---		goto done;
---
---	value = g_hash_table_lookup(hash, "Name");
---	name = value ? g_value_get_string(value) : NULL;
---
---	value = g_hash_table_lookup(hash, "Type");
---	type = get_type(value);
---	icon = type2icon(type);
--+		ipv4 = g_value_get_boxed (value);
--+		if (!ipv4)
--+			return;
-- 
---	value = g_hash_table_lookup(hash, "Policy");
---	policy = get_policy(value);
--+		ipv4_method = g_hash_table_lookup (ipv4, "Method");
--+		method = ipv4_method ? g_value_get_string(ipv4_method) : NULL;
-- 
---	value = g_hash_table_lookup(hash, "Powered");
---	powered = value ? g_value_get_boolean(value) : FALSE;
--+		ipv4_address = g_hash_table_lookup (ipv4, "Address");
--+		addr = ipv4_address ? g_value_get_string(ipv4_address) : NULL;
-- 
---	DBG("name %s type %d icon %s", name, type, icon);
--+		ipv4_netmask = g_hash_table_lookup (ipv4, "Netmask");
--+		netmask = ipv4_netmask ? g_value_get_string(ipv4_netmask) : NULL;
-- 
---	if (get_iter_from_proxy(store, &iter, proxy) == FALSE) {
---		gtk_tree_store_insert_with_values(store, &iter, NULL, -1,
---					CONNMAN_COLUMN_PROXY, proxy,
---					CONNMAN_COLUMN_NAME, name,
---					CONNMAN_COLUMN_ICON, icon,
---					CONNMAN_COLUMN_TYPE, type,
---					CONNMAN_COLUMN_ENABLED, powered,
---					CONNMAN_COLUMN_POLICY, policy, -1);
--+		ipv4_gateway = g_hash_table_lookup (ipv4, "Gateway");
--+		gateway = ipv4_gateway ? g_value_get_string(ipv4_gateway) : NULL;
-- 
---		dbus_g_proxy_add_signal(proxy, "PropertyChanged",
---				G_TYPE_STRING, G_TYPE_VALUE, G_TYPE_INVALID);
---		dbus_g_proxy_connect_signal(proxy, "PropertyChanged",
---				G_CALLBACK(device_changed), store, NULL);
---	} else
--+		gtk_tree_store_set(store, &iter,
--+					CONNMAN_COLUMN_METHOD, method,
--+					CONNMAN_COLUMN_ADDRESS, addr,
--+					CONNMAN_COLUMN_NETMASK, netmask,
--+					CONNMAN_COLUMN_GATEWAY, gateway,
--+					-1);
--+
--+	} else if (g_str_equal(property, "State") == TRUE) {
--+		state = value ? g_value_get_string(value) : NULL;
--+		gtk_tree_store_set(store, &iter,
--+					CONNMAN_COLUMN_STATE, state,
--+					-1);
--+	} else if (g_str_equal(property, "Name") == TRUE) {
--+		name = value ? g_value_get_string(value) : NULL;
-- 		gtk_tree_store_set(store, &iter,
-- 					CONNMAN_COLUMN_NAME, name,
---					CONNMAN_COLUMN_ICON, icon,
--+					-1);
--+	} else if (g_str_equal(property, "Type") == TRUE) {
--+		type = get_type(value);
--+		icon = type2icon(type);
--+		gtk_tree_store_set(store, &iter,
-- 					CONNMAN_COLUMN_TYPE, type,
---					CONNMAN_COLUMN_ENABLED, powered,
---					CONNMAN_COLUMN_POLICY, policy, -1);
---
---	value = g_hash_table_lookup(hash, "Networks");
---	if (value != NULL)
---		property_update(store, value, path, network_properties);
---
---done:
---	g_object_unref(proxy);
---}
---
---static void connection_changed(DBusGProxy *proxy, const char *property,
---					GValue *value, gpointer user_data)
---{
---	GtkTreeStore *store = user_data;
---	const char *path = dbus_g_proxy_get_path(proxy);
---	GtkTreeIter iter;
---
---	DBG("store %p proxy %p property %s", store, proxy, property);
---
---	if (property == NULL || value == NULL)
---		return;
---
---	if (get_iter_from_path(store, &iter, path) == FALSE)
---		return;
---
---	if (g_str_equal(property, "Default") == TRUE) {
---		gboolean enabled = g_value_get_boolean(value);
--+					CONNMAN_COLUMN_ICON, icon,
--+					-1);
--+	} else if (g_str_equal(property, "Security") == TRUE) {
--+		security = value ? g_value_get_string(value) : NULL;
--+		gtk_tree_store_set(store, &iter,
--+					CONNMAN_COLUMN_SECURITY, security,
--+					-1);
--+	} else if (g_str_equal(property, "PassPhrase") == TRUE) {
--+		passphrase = value ? g_value_get_string(value) : NULL;
-- 		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_ENABLED, enabled, -1);
--+					CONNMAN_COLUMN_PASSPHRASE, passphrase,
--+					-1);
-- 	} else if (g_str_equal(property, "Strength") == TRUE) {
---		guint strength = g_value_get_uchar(value);
--+		strength = value ? g_value_get_uchar(value) : 0;
-- 		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_STRENGTH, strength, -1);
--+					CONNMAN_COLUMN_STRENGTH, strength,
--+					-1);
-- 	}
-- }
-- 
---static void connection_properties(DBusGProxy *proxy, GHashTable *hash,
--+static void service_properties(DBusGProxy *proxy, GHashTable *hash,
-- 					GError *error, gpointer user_data)
-- {
-- 	GtkTreeStore *store = user_data;
---	GValue *value;
---	guint type, strength;
---	gboolean enabled;
---	const char *device, *address;
--+
--+	const char *state, *icon, *name, *security, *passphrase;
--+	guint strength, type;
--+
--+	GHashTable *ipv4;
--+	GValue *ipv4_method, *ipv4_address, *ipv4_netmask, *ipv4_gateway;
--+	const char *method, *addr, *netmask, *gateway;
--+
-- 	GtkTreeIter iter;
-- 
--+	GValue *value;
--+
-- 	DBG("store %p proxy %p hash %p", store, proxy, hash);
-- 
-- 	if (error != NULL || hash == NULL)
-- 		goto done;
-- 
--+	value = g_hash_table_lookup(hash, "State");
--+	state = value ? g_value_get_string(value) : NULL;
--+
--+	value = g_hash_table_lookup(hash, "Name");
--+	name = value ? g_value_get_string(value) : NULL;
--+
-- 	value = g_hash_table_lookup(hash, "Type");
-- 	type = get_type(value);
--+	icon = type2icon(type);
--+
--+	value = g_hash_table_lookup(hash, "Security");
--+	security = value ? g_value_get_string(value) : NULL;
--+
--+	value = g_hash_table_lookup(hash, "PassPhrase");
--+	passphrase = value ? g_value_get_string(value) : NULL;
-- 
-- 	value = g_hash_table_lookup(hash, "Strength");
-- 	strength = value ? g_value_get_uchar(value) : 0;
-- 
---	value = g_hash_table_lookup(hash, "Default");
---	enabled = value ? g_value_get_boolean(value) : FALSE;
--+	value = g_hash_table_lookup(hash, "IPv4.Configuration");
--+	ipv4 = g_value_get_boxed (value);
-- 
---	value = g_hash_table_lookup(hash, "IPv4.Address");
---	address = value ? g_value_get_string(value) : NULL;
--+	if (!ipv4)
--+		goto done;
-- 
---	DBG("type %d address %s", type, address);
--+	ipv4_method = g_hash_table_lookup (ipv4, "Method");
--+	method = ipv4_method ? g_value_get_string(ipv4_method) : NULL;
-- 
---	if (get_iter_from_proxy(store, &iter, proxy) == FALSE) {
---		gtk_tree_store_insert_with_values(store, &iter, NULL, -1,
---					CONNMAN_COLUMN_PROXY, proxy,
---					CONNMAN_COLUMN_TYPE, type,
---					CONNMAN_COLUMN_ENABLED, enabled,
---					CONNMAN_COLUMN_STRENGTH, strength,
---					CONNMAN_COLUMN_ADDRESS, address, -1);
--+	ipv4_address = g_hash_table_lookup (ipv4, "Address");
--+	addr = ipv4_address ? g_value_get_string(ipv4_address) : NULL;
-- 
---		dbus_g_proxy_add_signal(proxy, "PropertyChanged",
---				G_TYPE_STRING, G_TYPE_VALUE, G_TYPE_INVALID);
---		dbus_g_proxy_connect_signal(proxy, "PropertyChanged",
---				G_CALLBACK(connection_changed), store, NULL);
---	} else
---		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_TYPE, type,
---					CONNMAN_COLUMN_ENABLED, enabled,
---					CONNMAN_COLUMN_STRENGTH, strength, -1);
--+	ipv4_netmask = g_hash_table_lookup (ipv4, "Netmask");
--+	netmask = ipv4_netmask ? g_value_get_string(ipv4_netmask) : NULL;
-- 
---	value = g_hash_table_lookup(hash, "Device");
---	device = value ? g_value_get_boxed(value) : NULL;
--+	ipv4_gateway = g_hash_table_lookup (ipv4, "Gateway");
--+	gateway = ipv4_gateway ? g_value_get_string(ipv4_gateway) : NULL;
-- 
---	DBG("device %s", device);
--+	DBG("name %s type %d icon %s state %s", name, type, icon, state);
-- 
---	gtk_tree_store_set(store, &iter, CONNMAN_COLUMN_DEVICE, device, -1);
--+	if (get_iter_from_proxy(store, &iter, proxy) == FALSE) {
--+		GtkTreeIter label_iter;
--+		guint label_type;
-- 
---	if (get_iter_from_path(store, &iter, device) == TRUE) {
---		gtk_tree_store_set(store, &iter,
---					CONNMAN_COLUMN_DEVICE, device,
---					CONNMAN_COLUMN_INRANGE, TRUE,
---					CONNMAN_COLUMN_ADDRESS, address, -1);
--+		switch (type) {
--+		case CONNMAN_TYPE_ETHERNET:
--+			label_type = CONNMAN_TYPE_LABEL_ETHERNET;
--+			break;
--+		case CONNMAN_TYPE_WIFI:
--+			label_type = CONNMAN_TYPE_LABEL_WIFI;
--+			break;
--+		default:
--+			label_type = CONNMAN_TYPE_UNKNOWN;
--+			break;
--+		}
--+
--+		get_iter_from_type(store, &label_iter, label_type);
--+
--+		gtk_tree_store_insert_after(store, &iter, NULL, &label_iter);
--+
--+		dbus_g_proxy_add_signal(proxy, "PropertyChanged",
--+				G_TYPE_STRING, G_TYPE_VALUE, G_TYPE_INVALID);
--+		dbus_g_proxy_connect_signal(proxy, "PropertyChanged",
--+				G_CALLBACK(service_changed), store, NULL);
-- 	}
-- 
--+	gtk_tree_store_set(store, &iter,
--+				CONNMAN_COLUMN_PROXY, proxy,
--+				CONNMAN_COLUMN_NAME, name,
--+				CONNMAN_COLUMN_ICON, icon,
--+				CONNMAN_COLUMN_TYPE, type,
--+				CONNMAN_COLUMN_STATE, state,
--+				CONNMAN_COLUMN_SECURITY, security,
--+				CONNMAN_COLUMN_PASSPHRASE, passphrase,
--+				CONNMAN_COLUMN_STRENGTH, strength,
--+				CONNMAN_COLUMN_METHOD, method,
--+				CONNMAN_COLUMN_ADDRESS, addr,
--+				CONNMAN_COLUMN_NETMASK, netmask,
--+				CONNMAN_COLUMN_GATEWAY, gateway,
--+				-1);
--+
-- done:
-- 	g_object_unref(proxy);
-- }
--@@ -594,25 +559,12 @@ static void manager_changed(DBusGProxy *proxy, const char *property,
-- 	if (property == NULL || value == NULL)
-- 		return;
-- 
---	if (g_str_equal(property, "State") == TRUE) {
---		ConnmanClientCallback callback;
---		gpointer userdata;
---		gchar *state;
---
---		state = g_object_get_data(G_OBJECT(store), "State");
---		g_free(state);
---
---		state = g_value_dup_string(value);
---		g_object_set_data(G_OBJECT(store), "State", state);
---
---		callback = g_object_get_data(G_OBJECT(store), "callback");
---		userdata = g_object_get_data(G_OBJECT(store), "userdata");
---		if (callback)
---			callback(state, userdata);
---	} else if (g_str_equal(property, "Connections") == TRUE) {
---		property_update(store, value, property, connection_properties);
---	} else if (g_str_equal(property, "Devices") == TRUE) {
---		property_update(store, value, property, device_properties);
--+	if (g_str_equal(property, "Services") == TRUE) {
--+		property_update(store, value, property, service_properties);
--+	} else if (g_str_equal(property, "EnabledTechnologies") == TRUE) {
--+		enabled_technologies_changed(store, value);
--+	} else if (g_str_equal(property, "OfflineMode") == TRUE) {
--+		offline_mode_changed(store, value);
-- 	}
-- }
-- 
--@@ -620,31 +572,24 @@ static void manager_properties(DBusGProxy *proxy, GHashTable *hash,
-- 					GError *error, gpointer user_data)
-- {
-- 	GtkTreeStore *store = user_data;
---	ConnmanClientCallback callback;
-- 	GValue *value;
---	gchar *state;
-- 
-- 	DBG("store %p proxy %p hash %p", store, proxy, hash);
-- 
-- 	if (error != NULL || hash == NULL)
-- 		return;
-- 
---	value = g_hash_table_lookup(hash, "State");
---	state = value ? g_value_dup_string(value) : NULL;
---	g_object_set_data(G_OBJECT(store), "State", state);
---
---	callback = g_object_get_data(G_OBJECT(store), "callback");
---	if (callback)
---		callback(state, NULL);
--+	value = g_hash_table_lookup(hash, "Services");
--+	if (value != NULL)
--+		property_update(store, value, "Services", service_properties);
-- 
---	value = g_hash_table_lookup(hash, "Devices");
--+	value = g_hash_table_lookup(hash, "EnabledTechnologies");
-- 	if (value != NULL)
---		property_update(store, value, "Devices", device_properties);
--+		enabled_technologies_properties(store, proxy, value);
-- 
---	value = g_hash_table_lookup(hash, "Connections");
--+	value = g_hash_table_lookup(hash, "OfflineMode");
-- 	if (value != NULL)
---		property_update(store, value,
---					"Connections", connection_properties);
--+		offline_mode_properties(store, proxy, value);
-- }
-- 
-- DBusGProxy *connman_dbus_create_manager(DBusGConnection *conn,
--diff --git a/common/connman-dbus.h b/common/connman-dbus.h
--index a9fa51c..dc07650 100644
----- a/common/connman-dbus.h
--+++ b/common/connman-dbus.h
--@@ -31,7 +31,7 @@
-- #define CONNMAN_MANAGER_PATH		"/"
-- 
-- #define CONNMAN_PROFILE_INTERFACE	CONNMAN_SERVICE ".Profile"
---#define CONNMAN_DEVICE_INTERFACE	CONNMAN_SERVICE ".Device"
--+#define CONNMAN_SERVICE_INTERFACE	CONNMAN_SERVICE ".Service"
-- #define CONNMAN_NETWORK_INTERFACE	CONNMAN_SERVICE ".Network"
-- #define CONNMAN_CONNECTION_INTERFACE	CONNMAN_SERVICE ".Connection"
-- 
--diff --git a/common/connman-dbus.xml b/common/connman-dbus.xml
--index 9fefd55..e20cb3b 100644
----- a/common/connman-dbus.xml
--+++ b/common/connman-dbus.xml
--@@ -15,5 +15,16 @@
--     </method>
--     <method name="Disconnect">
--     </method>
--+    <method name="Remove">
--+    </method>
--+    <method name="RequestScan">
--+      <arg type="s"/>
--+    </method>
--+    <method name="EnableTechnology">
--+      <arg type="s"/>
--+    </method>
--+    <method name="DisableTechnology">
--+      <arg type="s"/>
--+    </method>
--   </interface>
-- </node>
--diff --git a/common/demo.c b/common/demo.c
--deleted file mode 100644
--index 5e3924f..0000000
----- a/common/demo.c
--+++ /dev/null
--@@ -1,465 +0,0 @@
---/*
--- *
--- *  Connection Manager
--- *
--- *  Copyright (C) 2008  Intel Corporation. All rights reserved.
--- *
--- *  This program is free software; you can redistribute it and/or modify
--- *  it under the terms of the GNU General Public License version 2 as
--- *  published by the Free Software Foundation.
--- *
--- *  This program is distributed in the hope that it will be useful,
--- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
--- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--- *  GNU General Public License for more details.
--- *
--- *  You should have received a copy of the GNU General Public License
--- *  along with this program; if not, write to the Free Software
--- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
--- *
--- */
---
---#ifdef HAVE_CONFIG_H
---#include <config.h>
---#endif
---
---#include <dbus/dbus-glib.h>
---#include <gtk/gtk.h>
---
---#include "connman-client.h"
---
---static gboolean option_fullscreen = FALSE;
---static ConnmanClient *client;
---
---static GtkWidget *tree_networks = NULL;
---static GtkWidget *button_enabled = NULL;
---static GtkWidget *button_refresh = NULL;
---static GtkWidget *button_connect = NULL;
---static GtkWidget *label_status = NULL;
---static GtkTreeSelection *selection = NULL;
---
---static void status_callback(const char *status, void *user_data)
---{
---	gchar *markup;
---
---	if (label_status == NULL)
---		return;
---
---	markup = g_strdup_printf("System is %s", status);
---	gtk_label_set_markup(GTK_LABEL(label_status), markup);
---	g_free(markup);
---}
---
---static GtkWidget *create_label(const gchar *str)
---{
---	GtkWidget *label;
---	gchar *tmp;
---
---	label = gtk_label_new(NULL);
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
---	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
---
---	tmp = g_strdup_printf("<b>%s</b>", str);
---	gtk_label_set_markup(GTK_LABEL(label), tmp);
---	g_free(tmp);
---
---	return label;
---}
---
---static void changed_callback(GtkComboBox *combo, gpointer user_data)
---{
---	GtkTreeModel *model = gtk_combo_box_get_model(combo);
---	GtkTreeIter iter;
---	DBusGProxy *proxy;
---	gchar *path;
---	gboolean enabled;
---
---	if (gtk_combo_box_get_active_iter(combo, &iter) == FALSE)
---		return;
---
---	path = g_object_get_data(G_OBJECT(button_enabled), "device");
---	g_free(path);
---
---	gtk_tree_model_get(model, &iter, CONNMAN_COLUMN_PROXY, &proxy,
---					CONNMAN_COLUMN_ENABLED, &enabled, -1);
---
---	path = g_strdup(dbus_g_proxy_get_path(proxy));
---	g_object_set_data(G_OBJECT(button_enabled), "device", path);
---
---	g_object_unref(proxy);
---
---	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button_enabled),
---								enabled);
---
---	gtk_widget_set_sensitive(button_refresh, enabled);
---
---	model = connman_client_get_network_model(client, path);
---	gtk_tree_view_set_model(GTK_TREE_VIEW(tree_networks), model);
---	g_object_unref(model);
---}
---
---static void toggled_callback(GtkToggleButton *button, gpointer user_data)
---{
---	gchar *path;
---	gboolean active;
---
---	path = g_object_get_data(G_OBJECT(button), "device");
---	if (path == NULL)
---		return;
---
---	active = gtk_toggle_button_get_active(button);
---
---	connman_client_set_powered(client, path, active);
---
---	gtk_widget_set_sensitive(button_refresh, active);
---}
---
---static void refresh_callback(GtkButton *button, gpointer user_data)
---{
---	gchar *path;
---
---	path = g_object_get_data(G_OBJECT(button_enabled), "device");
---	if (path == NULL)
---		return;
---
---	connman_client_propose_scan(client, path);
---}
---
---static void connect_callback(GtkButton *button, gpointer user_data)
---{
---	GtkTreeModel *model;
---	GtkTreeIter iter;
---	DBusGProxy *proxy;
---	const gchar *path;
---	gboolean enabled;
---
---	if (gtk_tree_selection_get_selected(selection, &model, &iter) == FALSE)
---		return;
---
---	gtk_tree_model_get(model, &iter, CONNMAN_COLUMN_PROXY, &proxy,
---					CONNMAN_COLUMN_ENABLED, &enabled, -1);
---
---	path = dbus_g_proxy_get_path(proxy);
---
---	if (enabled == FALSE)
---		connman_client_connect(client, path);
---	else
---		connman_client_disconnect(client, path);
---
---	g_object_unref(proxy);
---
---	if (enabled == FALSE)
---		g_object_set(button_connect,
---				"label", GTK_STOCK_DISCONNECT, NULL);
---	else
---		g_object_set(button_connect,
---				"label", GTK_STOCK_CONNECT, NULL);
---}
---
---static GtkWidget *create_left(void)
---{
---	GtkWidget *mainbox;
---	GtkWidget *vbox;
---	GtkWidget *hbox;
---	GtkWidget *label;
---	GtkWidget *combo;
---	GtkWidget *button;
---	GtkTreeModel *model;
---	GtkCellRenderer *renderer;
---
---	mainbox = gtk_vbox_new(FALSE, 24);
---	gtk_container_set_border_width(GTK_CONTAINER(mainbox), 8);
---
---	vbox = gtk_vbox_new(FALSE, 6);
---	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
---
---	label = create_label("Device");
---	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
---
---	combo = gtk_combo_box_new();
---	gtk_box_pack_start(GTK_BOX(vbox), combo, FALSE, FALSE, 0);
---	g_signal_connect(G_OBJECT(combo), "changed",
---					G_CALLBACK(changed_callback), NULL);
---
---	gtk_cell_layout_clear(GTK_CELL_LAYOUT(combo));
---
---	renderer = gtk_cell_renderer_text_new();
---	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
---	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer,
---					"text", CONNMAN_COLUMN_NAME, NULL);
---
---	button = gtk_check_button_new_with_label("Enabled");
---	gtk_box_pack_end(GTK_BOX(vbox), button, FALSE, FALSE, 0);
---	g_signal_connect(G_OBJECT(button), "toggled",
---					G_CALLBACK(toggled_callback), NULL);
---
---	button_enabled = button;
---
---	vbox = gtk_vbox_new(FALSE, 6);
---	gtk_box_pack_start(GTK_BOX(mainbox), vbox, TRUE, TRUE, 0);
---
---	label = create_label("Status");
---	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
---
---	label = gtk_label_new(NULL);
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
---	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
---	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
---
---	label_status = label;
---
---	vbox = gtk_vbox_new(FALSE, 6);
---	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
---
---	hbox = gtk_hbox_new(FALSE, 12);
---	gtk_box_set_homogeneous(GTK_BOX(hbox), TRUE);
---	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
---
---	button = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
---	gtk_box_pack_start(GTK_BOX(hbox), button, TRUE, TRUE, 0);
---	gtk_widget_set_sensitive(button, FALSE);
---	g_signal_connect(G_OBJECT(button), "clicked",
---					G_CALLBACK(refresh_callback), NULL);
---
---	button_refresh = button;
---
---	button = gtk_button_new_from_stock(GTK_STOCK_DISCONNECT);
---	gtk_box_pack_end(GTK_BOX(hbox), button, TRUE, TRUE, 0);
---	gtk_widget_set_sensitive(button, FALSE);
---	g_signal_connect(G_OBJECT(button), "clicked",
---					G_CALLBACK(connect_callback), NULL);
---
---	button_connect = button;
---
---	model = connman_client_get_device_model(client);
---	gtk_combo_box_set_model(GTK_COMBO_BOX(combo), model);
---	g_object_unref(model);
---
---	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
---
---	return mainbox;
---}
---
---static void select_callback(GtkTreeSelection *selection, gpointer user_data)
---{
---	GtkTreeModel *model;
---	GtkTreeIter iter;
---	gboolean selected, enabled;
---
---	selected = gtk_tree_selection_get_selected(selection, &model, &iter);
---
---	if (selected == TRUE) {
---		gtk_tree_model_get(model, &iter,
---					CONNMAN_COLUMN_ENABLED, &enabled, -1);
---
---		if (enabled == TRUE)
---			g_object_set(button_connect,
---					"label", GTK_STOCK_DISCONNECT, NULL);
---		else
---			g_object_set(button_connect,
---					"label", GTK_STOCK_CONNECT, NULL);
---	}
---
---	gtk_widget_set_sensitive(button_connect, selected);
---}
---
---static void status_to_icon(GtkTreeViewColumn *column, GtkCellRenderer *cell,
---			GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
---{
---	gboolean enabled;
---
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_ENABLED, &enabled, -1);
---
---	if (enabled == TRUE)
---		g_object_set(cell, "icon-name", GTK_STOCK_ABOUT, NULL);
---
---	g_object_set(cell, "visible", enabled, NULL);
---}
---
---static void security_to_icon(GtkTreeViewColumn *column, GtkCellRenderer *cell,
---			GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
---{
---	guint security;
---
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_SECURITY, &security, -1);
---
---	if (security == CONNMAN_SECURITY_NONE)
---		g_object_set(cell, "icon-name", NULL, NULL);
---	else
---		g_object_set(cell, "icon-name",
---					GTK_STOCK_DIALOG_AUTHENTICATION, NULL);
---}
---
---static GtkWidget *create_right(void)
---{
---	GtkWidget *mainbox;
---	GtkWidget *vbox;
---	GtkWidget *label;
---	GtkWidget *scrolled;
---	GtkWidget *tree;
---	GtkTreeViewColumn *column;
---	GtkCellRenderer *renderer;
---
---	mainbox = gtk_vbox_new(FALSE, 24);
---	gtk_container_set_border_width(GTK_CONTAINER(mainbox), 8);
---
---	vbox = gtk_vbox_new(FALSE, 6);
---	gtk_box_pack_start(GTK_BOX(mainbox), vbox, TRUE, TRUE, 0);
---
---	label = create_label("Networks");
---	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
---
---	scrolled = gtk_scrolled_window_new(NULL, NULL);
---	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
---				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
---	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled),
---							GTK_SHADOW_OUT);
---	gtk_container_add(GTK_CONTAINER(vbox), scrolled);
---
---	tree = gtk_tree_view_new();
---	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), FALSE);
---	gtk_tree_view_set_show_expanders(GTK_TREE_VIEW(tree), FALSE);
---	gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(tree), TRUE);
---	gtk_container_add(GTK_CONTAINER(scrolled), tree);
---
---	gtk_tree_view_insert_column_with_data_func(GTK_TREE_VIEW(tree), 0,
---				NULL, gtk_cell_renderer_pixbuf_new(),
---					status_to_icon, NULL, NULL);
---	column = gtk_tree_view_get_column(GTK_TREE_VIEW(tree), 0);
---	gtk_tree_view_column_set_min_width(column, 24);
---
---	column = gtk_tree_view_column_new();
---	gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), TRUE);
---	gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
---
---	renderer = gtk_cell_renderer_text_new();
---	gtk_tree_view_column_pack_start(column, renderer, TRUE);
---	gtk_tree_view_column_add_attribute(column, renderer,
---					"text", CONNMAN_COLUMN_NAME);
---
---	renderer = gtk_cell_renderer_pixbuf_new();
---	gtk_tree_view_column_pack_end(column, renderer, FALSE);
---	gtk_tree_view_column_set_cell_data_func(column, renderer,
---					security_to_icon, NULL, NULL);
---
---	tree_networks = tree;
---
---	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
---	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
---	g_signal_connect(G_OBJECT(selection), "changed",
---				G_CALLBACK(select_callback), NULL);
---
---	return mainbox;
---}
---
---static gboolean delete_callback(GtkWidget *window, GdkEvent *event,
---							gpointer user_data)
---{
---	gtk_widget_destroy(window);
---
---	gtk_main_quit();
---
---	return FALSE;
---}
---
---static void close_callback(GtkWidget *button, gpointer user_data)
---{
---	GtkWidget *window = user_data;
---
---	gtk_widget_destroy(window);
---
---	gtk_main_quit();
---}
---
---static GtkWidget *create_window(void)
---{
---	GtkWidget *window;
---	GtkWidget *vbox;
---	GtkWidget *hbox;
---	GtkWidget *notebook;
---	GtkWidget *buttonbox;
---	GtkWidget *button;
---	GtkWidget *widget;
---
---	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
---	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
---	gtk_window_set_default_size(GTK_WINDOW(window), 580, 360);
---	g_signal_connect(G_OBJECT(window), "delete-event",
---					G_CALLBACK(delete_callback), NULL);
---
---	vbox = gtk_vbox_new(FALSE, 12);
---	gtk_container_set_border_width(GTK_CONTAINER(vbox), 12);
---	gtk_container_add(GTK_CONTAINER(window), vbox);
---
---	notebook = gtk_notebook_new();
---	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
---	gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
---
---	buttonbox = gtk_hbutton_box_new();
---	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttonbox), GTK_BUTTONBOX_END);
---	gtk_box_pack_start(GTK_BOX(vbox), buttonbox, FALSE, FALSE, 0);
---
---	button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
---	gtk_container_add(GTK_CONTAINER(buttonbox), button);
---	g_signal_connect(G_OBJECT(button), "clicked",
---					G_CALLBACK(close_callback), window);
---
---	hbox = gtk_hbox_new(FALSE, 0);
---	gtk_container_set_border_width(GTK_CONTAINER(hbox), 8);
---
---	widget = create_right();
---	gtk_widget_set_size_request(widget, 280, -1);
---	gtk_box_pack_end(GTK_BOX(hbox), widget, TRUE, TRUE, 0);
---
---	widget = create_left();
---	gtk_widget_set_size_request(widget, 260, -1);
---	gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, TRUE, 0);
---
---	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), hbox, NULL);
---
---	return window;
---}
---
---static GOptionEntry options[] = {
---	{ "fullscreen", 'f', 0, G_OPTION_ARG_NONE, &option_fullscreen,
---					"Start up in fullscreen mode" },
---	{ NULL },
---};
---
---int main(int argc, char *argv[])
---{
---	GError *error = NULL;
---	GtkWidget *window;
---
---	if (gtk_init_with_args(&argc, &argv, NULL,
---				options, NULL, &error) == FALSE) {
---		if (error != NULL) {
---			g_printerr("%s\n", error->message);
---			g_error_free(error);
---		} else
---			g_printerr("An unknown error occurred\n");
---
---		gtk_exit(1);
---	}
---
---	g_set_application_name("Connection Manager Demo");
---
---	gtk_window_set_default_icon_name("network-wireless");
---
---	client = connman_client_new();
---
---	window = create_window();
---
---	connman_client_set_callback(client, status_callback, NULL);
---
---	if (option_fullscreen == TRUE)
---		gtk_window_fullscreen(GTK_WINDOW(window));
---
---	gtk_widget_show_all(window);
---
---	gtk_main();
---
---	g_object_unref(client);
---
---	return 0;
---}
--diff --git a/common/test-client.c b/common/test-client.c
--deleted file mode 100644
--index a78823f..0000000
----- a/common/test-client.c
--+++ /dev/null
--@@ -1,227 +0,0 @@
---/*
--- *
--- *  Connection Manager
--- *
--- *  Copyright (C) 2008  Intel Corporation. All rights reserved.
--- *
--- *  This program is free software; you can redistribute it and/or modify
--- *  it under the terms of the GNU General Public License version 2 as
--- *  published by the Free Software Foundation.
--- *
--- *  This program is distributed in the hope that it will be useful,
--- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
--- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--- *  GNU General Public License for more details.
--- *
--- *  You should have received a copy of the GNU General Public License
--- *  along with this program; if not, write to the Free Software
--- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
--- *
--- */
---
---#ifdef HAVE_CONFIG_H
---#include <config.h>
---#endif
---
---#include <dbus/dbus-glib.h>
---#include <gtk/gtk.h>
---
---#include "connman-client.h"
---
---static ConnmanClient *client;
---
---static void proxy_to_text(GtkTreeViewColumn *column, GtkCellRenderer *cell,
---			GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
---{
---	DBusGProxy *proxy;
---	gchar *markup;
---
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_PROXY, &proxy, -1);
---
---	markup = g_strdup_printf("<b>%s</b>\n"
---					"<span size=\"xx-small\">%s\n\n</span>",
---					dbus_g_proxy_get_interface(proxy),
---						dbus_g_proxy_get_path(proxy));
---	g_object_set(cell, "markup", markup, NULL);
---	g_free(markup);
---
---	g_object_unref(proxy);
---}
---
---static void name_to_text(GtkTreeViewColumn *column, GtkCellRenderer *cell,
---			GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
---{
---	gchar *name, *icon;
---	guint type;
---	gchar *markup;
---
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_NAME, &name,
---					CONNMAN_COLUMN_ICON, &icon,
---					CONNMAN_COLUMN_TYPE, &type, -1);
---
---	markup = g_strdup_printf("Name: %s\nIcon: %s\nType: %d",
---							name, icon, type);
---	g_object_set(cell, "markup", markup, NULL);
---	g_free(markup);
---
---	g_free(icon);
---	g_free(name);
---}
---
---static void status_to_text(GtkTreeViewColumn *column, GtkCellRenderer *cell,
---			GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
---{
---	gboolean enabled, inrange, remember;
---	gchar *markup;
---
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_ENABLED, &enabled,
---					CONNMAN_COLUMN_INRANGE, &inrange,
---					CONNMAN_COLUMN_REMEMBER, &remember, -1);
---
---	markup = g_strdup_printf("Enabled: %d\n"
---					"InRange: %d\nRemember: %d",
---						enabled, inrange, remember);
---	g_object_set(cell, "markup", markup, NULL);
---	g_free(markup);
---}
---
---static void network_to_text(GtkTreeViewColumn *column, GtkCellRenderer *cell,
---			GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
---{
---	guint strength, security;
---	gchar *secret;
---	gchar *markup;
---
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_STRENGTH, &strength,
---					CONNMAN_COLUMN_SECURITY, &security,
---					CONNMAN_COLUMN_PASSPHRASE, &secret, -1);
---
---	markup = g_strdup_printf("Strength: %d\nSecurity: %d\nSecret: %s",
---						strength, security, secret);
---	g_object_set(cell, "markup", markup, NULL);
---	g_free(markup);
---
---	g_free(secret);
---}
---
---static GtkWidget *create_tree(void)
---{
---	GtkWidget *tree;
---	GtkTreeModel *model;
---	GtkTreeSelection *selection;
---
---	tree = gtk_tree_view_new();
---	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), TRUE);
---	gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(tree), TRUE);
---
---	gtk_tree_view_insert_column_with_data_func(GTK_TREE_VIEW(tree), -1,
---				"Proxy", gtk_cell_renderer_text_new(),
---					proxy_to_text, NULL, NULL);
---
---	gtk_tree_view_insert_column_with_data_func(GTK_TREE_VIEW(tree), -1,
---				"Name", gtk_cell_renderer_text_new(),
---					name_to_text, NULL, NULL);
---
---	gtk_tree_view_insert_column_with_data_func(GTK_TREE_VIEW(tree), -1,
---				"Status", gtk_cell_renderer_text_new(),
---					status_to_text, NULL, NULL);
---
---	gtk_tree_view_insert_column_with_data_func(GTK_TREE_VIEW(tree), -1,
---				"Network", gtk_cell_renderer_text_new(),
---					network_to_text, NULL, NULL);
---
---	model = connman_client_get_model(client);
---	gtk_tree_view_set_model(GTK_TREE_VIEW(tree), model);
---	g_object_unref(model);
---
---	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
---	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
---
---	gtk_tree_view_expand_all(GTK_TREE_VIEW(tree));
---
---	return tree;
---}
---
---static gboolean delete_callback(GtkWidget *window, GdkEvent *event,
---							gpointer user_data)
---{
---	gtk_widget_destroy(window);
---
---	gtk_main_quit();
---
---	return FALSE;
---}
---
---static void close_callback(GtkWidget *button, gpointer user_data)
---{
---	GtkWidget *window = user_data;
---
---	gtk_widget_destroy(window);
---
---	gtk_main_quit();
---}
---
---static GtkWidget *create_window(void)
---{
---	GtkWidget *window;
---	GtkWidget *mainbox;
---	GtkWidget *tree;
---	GtkWidget *scrolled;
---	GtkWidget *buttonbox;
---	GtkWidget *button;
---	GtkTreeSelection *selection;
---
---	tree = create_tree();
---	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
---
---	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
---	gtk_window_set_title(GTK_WINDOW(window), "Client Test");
---	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
---	gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
---	g_signal_connect(G_OBJECT(window), "delete-event",
---					G_CALLBACK(delete_callback), NULL);
---
---	mainbox = gtk_vbox_new(FALSE, 12);
---	gtk_container_set_border_width(GTK_CONTAINER(mainbox), 12);
---	gtk_container_add(GTK_CONTAINER(window), mainbox);
---
---	scrolled = gtk_scrolled_window_new(NULL, NULL);
---	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
---				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
---	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled),
---							GTK_SHADOW_OUT);
---	gtk_box_pack_start(GTK_BOX(mainbox), scrolled, TRUE, TRUE, 0);
---
---	buttonbox = gtk_hbutton_box_new();
---	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttonbox),
---						GTK_BUTTONBOX_END);
---	gtk_box_pack_end(GTK_BOX(mainbox), buttonbox, FALSE, FALSE, 0);
---
---	button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
---	gtk_container_add(GTK_CONTAINER(buttonbox), button);
---	g_signal_connect(G_OBJECT(button), "clicked",
---					G_CALLBACK(close_callback), window);
---
---	gtk_container_add(GTK_CONTAINER(scrolled), tree);
---
---	gtk_widget_show_all(window);
---
---	return window;
---}
---
---int main(int argc, char *argv[])
---{
---	gtk_init(&argc, &argv);
---
---	client = connman_client_new();
---
---	gtk_window_set_default_icon_name("network-wireless");
---
---	create_window();
---
---	gtk_main();
---
---	g_object_unref(client);
---
---	return 0;
---}
--diff --git a/properties/Makefile.am b/properties/Makefile.am
--index ad2fd35..3a47ccf 100644
----- a/properties/Makefile.am
--+++ b/properties/Makefile.am
--@@ -1,8 +1,7 @@
-- 
-- bin_PROGRAMS = connman-properties
-- 
---connman_properties_SOURCES = main.c advanced.h advanced.c \
---						ethernet.c wifi.c
--+connman_properties_SOURCES = main.c advanced.h ethernet.c wifi.c
-- 
-- connman_properties_LDADD = $(top_builddir)/common/libcommon.a \
-- 						@GTK_LIBS@ @DBUS_LIBS@
--diff --git a/properties/advanced.c b/properties/advanced.c
--deleted file mode 100644
--index 1eb1c3d..0000000
----- a/properties/advanced.c
--+++ /dev/null
--@@ -1,314 +0,0 @@
---/*
--- *
--- *  Connection Manager
--- *
--- *  Copyright (C) 2008  Intel Corporation. All rights reserved.
--- *
--- *  This program is free software; you can redistribute it and/or modify
--- *  it under the terms of the GNU General Public License version 2 as
--- *  published by the Free Software Foundation.
--- *
--- *  This program is distributed in the hope that it will be useful,
--- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
--- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--- *  GNU General Public License for more details.
--- *
--- *  You should have received a copy of the GNU General Public License
--- *  along with this program; if not, write to the Free Software
--- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
--- *
--- */
---
---#ifdef HAVE_CONFIG_H
---#include <config.h>
---#endif
---
---#include <dbus/dbus-glib.h>
---#include <glib/gi18n.h>
---
---#include "connman-client.h"
---
---#include "advanced.h"
---
---gboolean separator_function(GtkTreeModel *model,
---					GtkTreeIter *iter, gpointer user_data)
---{
---	gchar *text;
---	gboolean result = FALSE;
---
---	gtk_tree_model_get(model, iter, 0, &text, -1);
---
---	if (text && *text == '\0')
---		result = TRUE;
---
---	g_free(text);
---
---	return result;
---}
---
---static void activate_callback(GtkWidget *button, gpointer user_data)
---{
---}
---
---static void changed_callback(GtkWidget *editable, gpointer user_data)
---{
---}
---
---static void add_network(GtkWidget *mainbox, struct config_data *data)
---{
---	GtkWidget *table;
---	GtkWidget *label;
---	GtkWidget *entry;
---	GtkWidget *combo;
---	GtkWidget *button;
---
---	table = gtk_table_new(3, 5, TRUE);
---	gtk_table_set_row_spacings(GTK_TABLE(table), 2);
---	gtk_table_set_col_spacings(GTK_TABLE(table), 8);
---	gtk_box_pack_start(GTK_BOX(mainbox), table, FALSE, FALSE, 0);
---
---	label = gtk_label_new(_("Network Name:"));
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
---	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
---
---	combo = gtk_combo_box_entry_new_text();
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Guest");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Off");
---	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
---					separator_function, NULL, NULL);
---	gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 3, 0, 1);
---	//data->network.name = combo;
---
---	label = gtk_label_new(_("Passphrase:"));
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
---	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
---
---	entry = gtk_entry_new();
---	gtk_entry_set_visibility(GTK_ENTRY(entry), FALSE);
---	gtk_table_attach_defaults(GTK_TABLE(table), entry, 1, 3, 1, 2);
---	//data->network.passphrase = entry;
---
---	button = gtk_button_new_with_label(_("Activate"));
---	gtk_widget_set_sensitive(button, FALSE);
---	gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 2, 3);
---	//data->network.activate = button;
---
---	g_signal_connect(G_OBJECT(combo), "changed",
---				G_CALLBACK(changed_callback), data);
---
---	g_signal_connect(G_OBJECT(button), "clicked",
---				G_CALLBACK(activate_callback), data);
---}
---
---static void set_widgets(struct config_data *data, gboolean label,
---					gboolean value, gboolean entry)
---{
---	int i;
---
---	for (i = 0; i < 3; i++) {
---		if (label == TRUE)
---			gtk_widget_show(data->ipv4.label[i]);
---		else
---			gtk_widget_hide(data->ipv4.label[i]);
---
---		if (value == TRUE)
---			gtk_widget_show(data->ipv4.value[i]);
---		else
---			gtk_widget_hide(data->ipv4.value[i]);
---
---		if (entry == TRUE)
---			gtk_widget_show(data->ipv4.entry[i]);
---		else
---			gtk_widget_hide(data->ipv4.entry[i]);
---	}
---}
---
---static void config_callback(GtkWidget *widget, gpointer user_data)
---{
---	gint active;
---
---	active = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
---}
---
---static void add_config(GtkWidget *mainbox, struct config_data *data)
---{
---	GtkWidget *table;
---	GtkWidget *label;
---	GtkWidget *entry;
---	GtkWidget *combo;
---
---	table = gtk_table_new(5, 5, TRUE);
---	gtk_table_set_row_spacings(GTK_TABLE(table), 2);
---	gtk_table_set_col_spacings(GTK_TABLE(table), 8);
---	gtk_box_pack_start(GTK_BOX(mainbox), table, FALSE, FALSE, 0);
---
---	label = gtk_label_new(_("Configure IPv4:"));
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
---	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
---
---	combo = gtk_combo_box_new_text();
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Using DHCP");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Manually");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Off");
---	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
---					separator_function, NULL, NULL);
---	gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 3, 0, 1);
---	data->ipv4.config = combo;
---
---	label = gtk_label_new(_("IP Address:"));
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
---	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
---	gtk_widget_set_no_show_all(label, TRUE);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
---	data->ipv4.label[0] = label;
---
---	label = gtk_label_new(NULL);
---	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
---	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
---	gtk_widget_set_no_show_all(label, TRUE);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 3, 1, 2);
---	data->ipv4.value[0] = label;
---
---	entry = gtk_entry_new();
---	gtk_widget_set_no_show_all(entry, TRUE);
---	gtk_table_attach_defaults(GTK_TABLE(table), entry, 1, 3, 1, 2);
---	data->ipv4.entry[0] = entry;
---
---	label = gtk_label_new(_("Subnet Mask:"));
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
---	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
---	gtk_widget_set_no_show_all(label, TRUE);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 2, 3);
---	data->ipv4.label[1] = label;
---
---	label = gtk_label_new(NULL);
---	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
---	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
---	gtk_widget_set_no_show_all(label, TRUE);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 3, 2, 3);
---	data->ipv4.value[1] = label;
---
---	entry = gtk_entry_new();
---	gtk_widget_set_no_show_all(entry, TRUE);
---	gtk_table_attach_defaults(GTK_TABLE(table), entry, 1, 3, 2, 3);
---	data->ipv4.entry[1] = entry;
---
---	label = gtk_label_new(_("Router:"));
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
---	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
---	gtk_widget_set_no_show_all(label, TRUE);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 3, 4);
---	data->ipv4.label[2] = label;
---
---	label = gtk_label_new(NULL);
---	gtk_label_set_selectable(GTK_LABEL(label), TRUE);
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
---	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
---	gtk_widget_set_no_show_all(label, TRUE);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 3, 3, 4);
---	data->ipv4.value[2] = label;
---
---	entry = gtk_entry_new();
---	gtk_widget_set_no_show_all(entry, TRUE);
---	gtk_table_attach_defaults(GTK_TABLE(table), entry, 1, 3, 3, 4);
---	data->ipv4.entry[2] = entry;
---
---	gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
---	set_widgets(data, TRUE, TRUE, FALSE);
---
---	g_signal_connect(G_OBJECT(combo), "changed",
---					G_CALLBACK(config_callback), data);
---}
---
---static void delete_callback(GtkWidget *window, GdkEvent *event,
---							gpointer user_data)
---{
---	gtk_widget_hide(window);
---}
---
---static void close_callback(GtkWidget *button, gpointer user_data)
---{
---	GtkWidget *window = user_data;
---
---	gtk_widget_hide(window);
---}
---
---void create_advanced_dialog(struct config_data *data, guint type)
---{
---	GtkWidget *dialog;
---	GtkWidget *vbox;
---	GtkWidget *notebook;
---	GtkWidget *buttonbox;
---	GtkWidget *button;
---	GtkWidget *widget;
---
---	dialog = gtk_window_new(GTK_WINDOW_TOPLEVEL);
---	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
---	gtk_window_set_transient_for(GTK_WINDOW(dialog),
---						GTK_WINDOW(data->window));
---	gtk_window_set_title(GTK_WINDOW(dialog), _("Advanced Settings"));
---	gtk_window_set_position(GTK_WINDOW(dialog),
---					GTK_WIN_POS_CENTER_ON_PARENT);
---	gtk_window_set_default_size(GTK_WINDOW(dialog), 460, 320);
---	g_signal_connect(G_OBJECT(dialog), "delete-event",
---					G_CALLBACK(delete_callback), NULL);
---
---	vbox = gtk_vbox_new(FALSE, 12);
---	gtk_container_set_border_width(GTK_CONTAINER(vbox), 12);
---	gtk_container_add(GTK_CONTAINER(dialog), vbox);
---
---	notebook = gtk_notebook_new();
---	gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
---
---	buttonbox = gtk_hbutton_box_new();
---	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttonbox), GTK_BUTTONBOX_END);
---	gtk_box_set_spacing(GTK_BOX(buttonbox), 6);
---	gtk_box_pack_start(GTK_BOX(vbox), buttonbox, FALSE, FALSE, 0);
---
---	button = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
---	gtk_container_add(GTK_CONTAINER(buttonbox), button);
---	g_signal_connect(G_OBJECT(button), "clicked",
---					G_CALLBACK(close_callback), dialog);
---
---	button = gtk_button_new_from_stock(GTK_STOCK_OK);
---	gtk_container_add(GTK_CONTAINER(buttonbox), button);
---	g_signal_connect(G_OBJECT(button), "clicked",
---					G_CALLBACK(close_callback), dialog);
---
---	if (type == CONNMAN_TYPE_WIFI) {
---		widget = gtk_vbox_new(FALSE, 24);
---		gtk_container_set_border_width(GTK_CONTAINER(widget), 24);
---		gtk_notebook_append_page(GTK_NOTEBOOK(notebook), widget, NULL);
---		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(notebook),
---							widget, _("Wireless"));
---		add_network(widget, data);
---	}
---
---	widget = gtk_vbox_new(FALSE, 24);
---	gtk_container_set_border_width(GTK_CONTAINER(widget), 24);
---	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), widget, NULL);
---	gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(notebook),
---						widget, _("TCP/IP"));
---	add_config(widget, data);
---
---	widget = gtk_label_new(NULL);
---	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), widget, NULL);
---	gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(notebook),
---						widget, _("DNS"));
---
---	if (type == CONNMAN_TYPE_ETHERNET) {
---		widget = gtk_label_new(NULL);
---		gtk_notebook_append_page(GTK_NOTEBOOK(notebook), widget, NULL);
---		gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(notebook),
---							widget, _("Ethernet"));
---	}
---
---	data->dialog = dialog;
---}
--diff --git a/properties/advanced.h b/properties/advanced.h
--index f85f10d..42b439f 100644
----- a/properties/advanced.h
--+++ b/properties/advanced.h
--@@ -23,6 +23,7 @@ struct config_data {
-- 	ConnmanClient *client;
-- 
-- 	GtkWidget *widget;
--+	GtkWidget *table;
-- 	GtkWidget *title;
-- 	GtkWidget *label;
-- 	GtkWidget *button;
--@@ -45,15 +46,34 @@ struct config_data {
-- 		GtkWidget *value[3];
-- 		GtkWidget *entry[3];
-- 	} ipv4;
---};
-- 
---void create_advanced_dialog(struct config_data *data, guint type);
--+	struct ipv4_config ipv4_config;
--+
--+	struct {
--+		GtkWidget *name;
--+		GtkWidget *security;
--+		GtkWidget *strength;
--+		GtkWidget *passphrase;
--+		GtkWidget *connect_info;
--+		GtkWidget *connect;
--+		GtkWidget *disconnect;
--+	} wifi;
-- 
---void add_ethernet_policy(GtkWidget *mainbox, struct config_data *data);
---void update_ethernet_policy(struct config_data *data, guint policy);
--+	GtkWidget *ethernet_button;
--+	GtkWidget *wifi_button;
-- 
---void add_wifi_policy(GtkWidget *mainbox, struct config_data *data);
--+	GtkWidget *scan_button;
--+	GtkWidget *offline_button;
--+};
--+
--+void add_ethernet_policy(GtkWidget *mainbox, GtkTreeIter *iter, struct config_data *data);
--+void update_ethernet_ipv4(struct config_data *data, guint policy);
--+
--+void add_wifi_policy(GtkWidget *mainbox, GtkTreeIter *iter, struct config_data *data);
-- void update_wifi_policy(struct config_data *data, guint policy);
-- 
---gboolean separator_function(GtkTreeModel *model,
---					GtkTreeIter *iter, gpointer user_data);
--+void add_ethernet_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
--+				struct config_data *data);
--+
--+void add_wifi_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
--+				struct config_data *data);
--diff --git a/properties/ethernet.c b/properties/ethernet.c
--index d5c948d..d443ca1 100644
----- a/properties/ethernet.c
--+++ b/properties/ethernet.c
--@@ -23,6 +23,7 @@
-- #include <config.h>
-- #endif
-- 
--+#include <dbus/dbus-glib.h>
-- #include <glib/gi18n.h>
-- #include <gtk/gtk.h>
-- 
--@@ -30,93 +31,220 @@
-- 
-- #include "advanced.h"
-- 
--+static gboolean separator_function(GtkTreeModel *model,
--+					GtkTreeIter *iter, gpointer user_data)
--+{
--+	gchar *text;
--+	gboolean result = FALSE;
--+
--+	gtk_tree_model_get(model, iter, 0, &text, -1);
--+
--+	if (text && *text == '\0')
--+		result = TRUE;
--+
--+	g_free(text);
--+
--+	return result;
--+}
--+
-- static void changed_callback(GtkWidget *editable, gpointer user_data)
-- {
-- 	struct config_data *data = user_data;
-- 	gint active;
-- 
-- 	active = gtk_combo_box_get_active(GTK_COMBO_BOX(data->policy.config));
--+	update_ethernet_ipv4(data, active);
--+}
-- 
---	switch (active) {
---	case 0:
---		connman_client_set_policy(data->client, data->device, "auto");
---		update_ethernet_policy(data, CONNMAN_POLICY_AUTO);
---		break;
---	case 1:
---		connman_client_set_policy(data->client, data->device, "ignore");
---		update_ethernet_policy(data, CONNMAN_POLICY_IGNORE);
---		break;
---	case 3:
---		connman_client_set_policy(data->client, data->device, "off");
---		update_ethernet_policy(data, CONNMAN_POLICY_OFF);
---		break;
---	}
--+static void apply_callback(GtkWidget *editable, gpointer user_data)
--+{
--+	struct config_data *data = user_data;
--+	gint active;
--+
--+	active = gtk_combo_box_get_active(GTK_COMBO_BOX(data->policy.config));
--+	data->ipv4_config.method = active ? "manual" : "dhcp";
--+	data->ipv4_config.address = active ? gtk_entry_get_text(GTK_ENTRY(data->ipv4.entry[0])) : NULL;
--+	data->ipv4_config.netmask = active ? gtk_entry_get_text(GTK_ENTRY(data->ipv4.entry[1])) : NULL;
--+	data->ipv4_config.gateway = active ? gtk_entry_get_text(GTK_ENTRY(data->ipv4.entry[2])) : NULL;
--+
--+	connman_client_set_ipv4(data->client, data->device, &data->ipv4_config);
--+}
--+
--+static void switch_callback(GtkWidget *editable, gpointer user_data)
--+{
--+	struct config_data *data = user_data;
--+	const gchar *label = gtk_button_get_label(GTK_BUTTON(data->ethernet_button));
--+	if (g_str_equal(label, "Disable"))
--+		connman_client_disable_technology(data->client, data->device, "ethernet");
--+	else if (g_str_equal(label, "Enable"))
--+		connman_client_enable_technology(data->client, data->device, "ethernet");
-- }
-- 
---void add_ethernet_policy(GtkWidget *mainbox, struct config_data *data)
--+void add_ethernet_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
--+				struct config_data *data)
--+{
--+	GtkWidget *vbox;
--+	GtkWidget *table;
--+	GtkWidget *label;
--+	GtkWidget *buttonbox;
--+	GtkWidget *button;
--+	gboolean ethernet_enabled;
--+
--+	gtk_tree_model_get(data->model, iter,
--+			CONNMAN_COLUMN_ETHERNET_ENABLED, &ethernet_enabled,
--+			-1);
--+
--+	vbox = gtk_vbox_new(TRUE, 0);
--+	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
--+	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
--+
--+	table = gtk_table_new(1, 1, TRUE);
--+	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
--+	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
--+	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
--+
--+	label = gtk_label_new(_("Enable/Disable Wired Networks."));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
--+
--+	buttonbox = gtk_hbutton_box_new();
--+	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttonbox), GTK_BUTTONBOX_CENTER);
--+	gtk_box_pack_start(GTK_BOX(mainbox), buttonbox, FALSE, FALSE, 0);
--+
--+	button = gtk_button_new();
--+	data->ethernet_button = button;
--+
--+	if (ethernet_enabled)
--+		gtk_button_set_label(GTK_BUTTON(button), _("Disable"));
--+	else
--+		gtk_button_set_label(GTK_BUTTON(button), _("Enable"));
--+
--+	gtk_container_add(GTK_CONTAINER(buttonbox), button);
--+	g_signal_connect(G_OBJECT(button), "clicked",
--+			G_CALLBACK(switch_callback), data);
--+}
--+
--+void add_ethernet_policy(GtkWidget *mainbox, GtkTreeIter *iter, struct config_data *data)
-- {
-- 	GtkWidget *vbox;
-- 	GtkWidget *table;
-- 	GtkWidget *label;
-- 	GtkWidget *combo;
--+	GtkWidget *entry;
--+	GtkWidget *button;
--+
--+	struct ipv4_config ipv4_config = {
--+		.method  = NULL,
--+		.address = NULL,
--+		.netmask = NULL,
--+		.gateway = NULL,
--+	};
--+
--+	gtk_tree_model_get(data->model, iter,
--+			CONNMAN_COLUMN_METHOD, &ipv4_config.method,
--+			CONNMAN_COLUMN_ADDRESS, &ipv4_config.address,
--+			CONNMAN_COLUMN_NETMASK, &ipv4_config.netmask,
--+			CONNMAN_COLUMN_GATEWAY, &ipv4_config.gateway,
--+			-1);
-- 
---	vbox = gtk_vbox_new(FALSE, 0);
--+	vbox = gtk_vbox_new(TRUE, 0);
-- 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
-- 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
-- 
---	table = gtk_table_new(2, 4, FALSE);
---	gtk_table_set_row_spacings(GTK_TABLE(table), 8);
---	gtk_table_set_col_spacings(GTK_TABLE(table), 8);
--+	table = gtk_table_new(5, 5, TRUE);
--+	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
--+	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-- 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-- 
-- 	label = gtk_label_new(_("Configuration:"));
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
---	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 0, 1);
-- 
-- 	combo = gtk_combo_box_new_text();
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Automatically");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Ignore Interface");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Off");
--+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "DHCP");
--+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Manual");
-- 	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
---					separator_function, NULL, NULL);
---	gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 4, 0, 1);
--+			separator_function, NULL, NULL);
--+
--+	gtk_table_attach_defaults(GTK_TABLE(table), combo, 2, 4, 0, 1);
-- 	data->policy.config = combo;
-- 
---	label = gtk_label_new(NULL);
---	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
---	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 4, 1, 2);
---	gtk_widget_set_size_request(label, 180, -1);
---	data->policy.label = label;
--+	label = gtk_label_new(_("IP address:"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 1, 2);
--+	data->ipv4.label[0] = label;
--+
--+	entry = gtk_entry_new();
--+	gtk_entry_set_max_length (GTK_ENTRY (entry), 15);
--+	if (ipv4_config.address)
--+		gtk_entry_set_text(GTK_ENTRY(entry), ipv4_config.address);
--+	gtk_table_attach_defaults(GTK_TABLE(table), entry, 2, 4, 1, 2);
--+	data->ipv4.entry[0] = entry;
--+
--+	label = gtk_label_new(_("Netmask:"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 2, 3);
--+	data->ipv4.label[1] = label;
--+
--+	entry = gtk_entry_new();
--+	gtk_entry_set_max_length (GTK_ENTRY (entry), 15);
--+	if (ipv4_config.netmask)
--+		gtk_entry_set_text(GTK_ENTRY(entry), ipv4_config.netmask);
--+	gtk_table_attach_defaults(GTK_TABLE(table), entry, 2, 4, 2, 3);
--+	data->ipv4.entry[1] = entry;
--+
--+	label = gtk_label_new(_("Gateway:"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 3, 4);
--+	data->ipv4.label[2] = label;
--+
--+	entry = gtk_entry_new();
--+	gtk_entry_set_max_length (GTK_ENTRY (entry), 15);
--+	if (ipv4_config.gateway)
--+		gtk_entry_set_text(GTK_ENTRY(entry), ipv4_config.gateway);
--+	gtk_table_attach_defaults(GTK_TABLE(table), entry, 2, 4, 3, 4);
--+	data->ipv4.entry[2] = entry;
--+
--+	data->ipv4_config = ipv4_config;
--+
--+	button = gtk_button_new_with_label(_("Apply"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), button, 3, 4, 4, 5);
--+	g_signal_connect(G_OBJECT(button), "clicked",
--+			G_CALLBACK(apply_callback), data);
--+
--+	data->button = button;
--+
--+	if (g_str_equal(ipv4_config.method, "dhcp") == TRUE)
--+		update_ethernet_ipv4(data, CONNMAN_POLICY_DHCP);
--+	else
--+		update_ethernet_ipv4(data, CONNMAN_POLICY_MANUAL);
-- 
-- 	g_signal_connect(G_OBJECT(combo), "changed",
---				G_CALLBACK(changed_callback), data);
--+			G_CALLBACK(changed_callback), data);
-- }
-- 
---void update_ethernet_policy(struct config_data *data, guint policy)
--+void update_ethernet_ipv4(struct config_data *data, guint policy)
-- {
-- 	GtkWidget *combo = data->policy.config;
---	gchar *info = NULL;
--+	GtkWidget *entry[3];
--+	int i;
--+
--+	for (i = 0; i < 3; i++)
--+		entry[i] = data->ipv4.entry[i];
-- 
-- 	g_signal_handlers_block_by_func(G_OBJECT(combo),
---					G_CALLBACK(changed_callback), data);
--+			G_CALLBACK(changed_callback), data);
-- 
-- 	switch (policy) {
---	case CONNMAN_POLICY_OFF:
---		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 3);
--+	case CONNMAN_POLICY_DHCP:
--+		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
--+		for (i = 0; i < 3; i++) {
--+			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 0);
--+			gtk_widget_set_sensitive(entry[i], 0);
--+			gtk_entry_set_text(GTK_ENTRY(entry[i]), _(""));
--+		}
-- 		break;
---	case CONNMAN_POLICY_IGNORE:
--+	case CONNMAN_POLICY_MANUAL:
-- 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 1);
---		info = g_strdup_printf(_("Ignore the interface and don't "
---				"make any attempts for configuration."));
---		break;
---	case CONNMAN_POLICY_AUTO:
---		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
---		info = g_strdup_printf(_("Detect carrier and then "
---				"automatically configure the interface."));
--+		for (i = 0; i < 3; i++) {
--+			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 1);
--+			gtk_widget_set_sensitive(entry[i], 1);
--+		}
-- 		break;
-- 	default:
-- 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), -1);
--@@ -124,9 +252,5 @@ void update_ethernet_policy(struct config_data *data, guint policy)
-- 	}
-- 
-- 	g_signal_handlers_unblock_by_func(G_OBJECT(combo),
---					G_CALLBACK(changed_callback), data);
---
---	gtk_label_set_markup(GTK_LABEL(data->policy.label), info);
---
---	g_free(info);
--+			G_CALLBACK(changed_callback), data);
-- }
--diff --git a/properties/main.c b/properties/main.c
--index 01439e6..6b389bc 100644
----- a/properties/main.c
--+++ b/properties/main.c
--@@ -32,103 +32,139 @@
-- 
-- static ConnmanClient *client;
-- static GtkWidget *interface_notebook;
--+static struct config_data *current_data;
-- 
---static void update_status(struct config_data *data,
---				guint type, gboolean inrange, guint policy,
---				const gchar *network, const gchar *address)
--+static void status_update(GtkTreeModel *model, GtkTreePath  *path,
--+		GtkTreeIter  *iter, gpointer user_data)
-- {
---	const char *str;
---	gchar *markup, *info = NULL;
-- 
---	switch (type) {
---	case CONNMAN_TYPE_ETHERNET:
---		if (inrange == TRUE) {
---			str = N_("Connected");
---			info = g_strdup_printf(_("%s is currently active "
---						"and has the IP address %s."),
---						N_("Ethernet"), address);
---		} else {
---			str = N_("Cable Unplugged");
---			info = g_strdup_printf(_("The cable for %s is "
---					"not plugged in."), N_("Ethernet"));
---		}
---		break;
--+	struct config_data *data = user_data;
--+	guint type;
--+	const char *name = NULL, *_name = NULL, *state = NULL;
--+	gboolean ethernet_enabled;
--+	gboolean wifi_enabled;
--+	gboolean offline_mode;
-- 
---	case CONNMAN_TYPE_WIFI:
---		if (inrange == TRUE) {
---			str = N_("Connected");
---			info = g_strdup_printf(_("%s is currently active "
---						"and has the IP address %s."),
---						N_("Wireless"), address);
---		} else
---			str = N_("Not Connected");
---		break;
--+	gtk_tree_model_get(model, iter,
--+			CONNMAN_COLUMN_STATE, &state,
--+			CONNMAN_COLUMN_NAME, &name,
--+			CONNMAN_COLUMN_TYPE, &type,
--+			CONNMAN_COLUMN_ETHERNET_ENABLED, &ethernet_enabled, 
--+			CONNMAN_COLUMN_WIFI_ENABLED, &wifi_enabled, 
--+			CONNMAN_COLUMN_OFFLINEMODE, &offline_mode, 
--+			-1);
--+
--+	if (type == CONNMAN_TYPE_WIFI) {
--+		if (data->wifi.name)
--+			_name = gtk_label_get_text(GTK_LABEL(data->wifi.name));
--+
--+		if (!(name && _name && g_str_equal(name, _name)))
--+			return;
-- 
---	default:
---		if (inrange == TRUE)
---			str = N_("Connected");
--+		if (g_str_equal(state, "failure") == TRUE) {
--+			gtk_label_set_text(GTK_LABEL(data->wifi.connect_info),
--+					_("connection failed"));
--+			gtk_widget_show(data->wifi.connect_info);
--+			gtk_widget_show(data->wifi.connect);
--+			gtk_widget_hide(data->wifi.disconnect);
--+		} else if (g_str_equal(state, "idle") == TRUE) {
--+			gtk_widget_hide(data->wifi.connect_info);
--+			gtk_widget_show(data->wifi.connect);
--+			gtk_widget_hide(data->wifi.disconnect);
--+		} else {
--+			gtk_widget_hide(data->wifi.connect_info);
--+			gtk_widget_hide(data->wifi.connect);
--+			gtk_widget_show(data->wifi.disconnect);
--+		}
--+	} else if (type == CONNMAN_TYPE_LABEL_ETHERNET) {
--+		if (!data->ethernet_button)
--+			return;
--+		if (ethernet_enabled)
--+			gtk_button_set_label(GTK_BUTTON(data->ethernet_button), _("Disable"));
-- 		else
---			str = N_("Not Connected");
---		break;
--+			gtk_button_set_label(GTK_BUTTON(data->ethernet_button), _("Enable"));
--+	} else if (type == CONNMAN_TYPE_LABEL_WIFI) {
--+		if (!data->wifi_button)
--+			return;
--+		if (wifi_enabled) {
--+			gtk_button_set_label(GTK_BUTTON(data->wifi_button), _("Disable"));
--+			gtk_widget_set_sensitive(data->scan_button, 1);
--+		} else {
--+			gtk_button_set_label(GTK_BUTTON(data->wifi_button), _("Enable"));
--+			gtk_widget_set_sensitive(data->scan_button, 0);
--+		}
--+	} else if (type == CONNMAN_TYPE_SYSCONFIG) {
--+		if (!data->offline_button)
--+			return;
--+		if (offline_mode)
--+			gtk_button_set_label(GTK_BUTTON(data->offline_button), _("OnlineMode"));
--+		else
--+			gtk_button_set_label(GTK_BUTTON(data->offline_button), _("OfflineMode"));
-- 	}
--+}
-- 
---	markup = g_strdup_printf("<b>%s</b>", str);
---	gtk_label_set_markup(GTK_LABEL(data->title), markup);
---	g_free(markup);
---
---	gtk_label_set_markup(GTK_LABEL(data->label), info);
---
---	g_free(info);
---
---	switch (type) {
---	case CONNMAN_TYPE_ETHERNET:
---		update_ethernet_policy(data, policy);
---		break;
---	case CONNMAN_TYPE_WIFI:
---		update_wifi_policy(data, policy);
---		break;
---	default:
---		break;
---	}
--+static void set_offline_callback(GtkWidget *button, gpointer user_data)
--+{
--+	struct config_data *data = user_data;
--+	const gchar *label = gtk_button_get_label(GTK_BUTTON(data->offline_button));
--+	if (g_str_equal(label, "OnlineMode"))
--+		connman_client_set_offlinemode(client, 0);
--+	else if (g_str_equal(label, "OfflineMode"))
--+		connman_client_set_offlinemode(client, 1);
-- }
-- 
---static void update_config(struct config_data *data)
--+static void add_system_config(GtkWidget *mainbox, GtkTreeIter *iter,
--+		struct config_data *data)
-- {
---	GtkTreeIter iter;
---	guint type;
---	gchar *network;
--+	GtkWidget *vbox;
--+	GtkWidget *table;
--+	GtkWidget *label;
--+	GtkWidget *buttonbox;
--+	GtkWidget *button;
--+	gboolean offline_mode;
-- 
---	if (gtk_tree_model_get_iter_from_string(data->model,
---						&iter, data->index) == FALSE)
---		return;
--+	vbox = gtk_vbox_new(TRUE, 0);
--+	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
--+	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
-- 
---	gtk_tree_model_get(data->model, &iter,
---				CONNMAN_COLUMN_TYPE, &type,
---				CONNMAN_COLUMN_NAME, &network, -1);
--+	table = gtk_table_new(1, 1, TRUE);
--+	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
--+	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
--+	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-- 
---	g_free(network);
---}
--+	label = gtk_label_new(_("System Configuration"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
-- 
---static void advanced_callback(GtkWidget *button, gpointer user_data)
---{
---	struct config_data *data = user_data;
--+	buttonbox = gtk_hbutton_box_new();
--+	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttonbox), GTK_BUTTONBOX_CENTER);
--+	gtk_box_pack_start(GTK_BOX(mainbox), buttonbox, FALSE, FALSE, 0);
--+
--+	gtk_tree_model_get(data->model, iter,
--+			CONNMAN_COLUMN_OFFLINEMODE, &offline_mode,
--+			-1);
--+
--+	button = gtk_button_new();
--+	data->offline_button = button;
--+	if (offline_mode)
--+		gtk_button_set_label(GTK_BUTTON(button), _("OnlineMode"));
--+	else
--+		gtk_button_set_label(GTK_BUTTON(button), _("OfflineMode"));
-- 
---	gtk_widget_show_all(data->dialog);
--+	gtk_container_add(GTK_CONTAINER(buttonbox), button);
--+	g_signal_connect(G_OBJECT(button), "clicked",
--+			G_CALLBACK(set_offline_callback), data);
-- }
-- 
-- static struct config_data *create_config(GtkTreeModel *model,
---					GtkTreeIter *iter, gpointer user_data)
--+		GtkTreeIter *iter, gpointer user_data)
-- {
-- 	GtkWidget *mainbox;
-- 	GtkWidget *label;
-- 	GtkWidget *hbox;
---	GtkWidget *button;
-- 	struct config_data *data;
-- 	DBusGProxy *proxy;
---	guint type, policy;
---	gboolean inrange;
---	gchar *markup, *vendor = NULL, *product = NULL;
---	gchar *network = NULL, *address = NULL;
--+	guint type;
--+	char *state = NULL;
-- 
-- 	data = g_try_new0(struct config_data, 1);
-- 	if (data == NULL)
--@@ -137,15 +173,10 @@ static struct config_data *create_config(GtkTreeModel *model,
-- 	data->client = client;
-- 
-- 	gtk_tree_model_get(model, iter,
---				CONNMAN_COLUMN_PROXY, &proxy,
---				CONNMAN_COLUMN_TYPE, &type,
---				CONNMAN_COLUMN_INRANGE, &inrange,
---				CONNMAN_COLUMN_NETWORK, &network,
---				CONNMAN_COLUMN_ADDRESS, &address,
---				CONNMAN_COLUMN_POLICY, &policy, -1);
---
---	data->device = g_strdup(dbus_g_proxy_get_path(proxy));
---	g_object_unref(proxy);
--+			CONNMAN_COLUMN_PROXY, &proxy,
--+			CONNMAN_COLUMN_TYPE, &type,
--+			CONNMAN_COLUMN_STATE, &state,
--+			-1);
-- 
-- 	mainbox = gtk_vbox_new(FALSE, 6);
-- 	data->widget = mainbox;
--@@ -163,12 +194,27 @@ static struct config_data *create_config(GtkTreeModel *model,
-- 	gtk_box_pack_start(GTK_BOX(mainbox), label, FALSE, FALSE, 0);
-- 	data->label = label;
-- 
--+	data->window = user_data;
--+	data->model = model;
--+	data->index = gtk_tree_model_get_string_from_iter(model, iter);
--+	data->device = g_strdup(dbus_g_proxy_get_path(proxy));
--+	g_object_unref(proxy);
--+
-- 	switch (type) {
-- 	case CONNMAN_TYPE_ETHERNET:
---		add_ethernet_policy(mainbox, data);
--+		add_ethernet_policy(mainbox, iter, data);
-- 		break;
-- 	case CONNMAN_TYPE_WIFI:
---		add_wifi_policy(mainbox, data);
--+		add_wifi_policy(mainbox, iter, data);
--+		break;
--+	case CONNMAN_TYPE_LABEL_ETHERNET:
--+		add_ethernet_switch_button(mainbox, iter, data);
--+		break;
--+	case CONNMAN_TYPE_LABEL_WIFI:
--+		add_wifi_switch_button(mainbox, iter, data);
--+		break;
--+	case CONNMAN_TYPE_SYSCONFIG:
--+		add_system_config(mainbox, iter, data);
-- 		break;
-- 	default:
-- 		break;
--@@ -183,34 +229,10 @@ static struct config_data *create_config(GtkTreeModel *model,
-- 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 1.0);
-- 	gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
-- 
---	markup = g_strdup_printf("%s\n<small>%s</small>",
---			vendor ? vendor : "", product ? product : "");
---	gtk_label_set_markup(GTK_LABEL(label), markup);
---	g_free(markup);
---
---	if (0) {
---		button = gtk_button_new_with_label(_("Advanced..."));
---		gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
---		g_signal_connect(G_OBJECT(button), "clicked",
---				G_CALLBACK(advanced_callback), data);
---		data->button = button;
---	}
---
---	data->window = user_data;
---	create_advanced_dialog(data, type);
---
---	update_status(data, type, inrange, policy, network, address);
---
---	g_free(network);
---	g_free(address);
---
---	data->model = model;
---	data->index = gtk_tree_model_get_string_from_iter(model, iter);
---
-- 	gtk_widget_show_all(mainbox);
-- 
---	g_free(product);
---	g_free(vendor);
--+	g_signal_connect(G_OBJECT(model), "row-changed",
--+			G_CALLBACK(status_update), data);
-- 
-- 	return data;
-- }
--@@ -230,112 +252,108 @@ static void select_callback(GtkTreeSelection *selection, gpointer user_data)
-- 		return;
-- 	}
-- 
---	if (data == NULL) {
---		data = create_config(model, &iter, user_data);
---		if (data == NULL)
---			return;
--+	if (current_data) {
--+		g_signal_handlers_disconnect_by_func(G_OBJECT(model),
--+				G_CALLBACK(status_update), current_data);
--+		g_free(current_data);
--+	}
--+	data = create_config(model, &iter, user_data);
--+	if (data == NULL)
--+		return;
-- 
---		page = gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
---							data->widget, NULL);
---	} else {
---		update_config(data);
--+	current_data = data;
-- 
---		page = gtk_notebook_page_num(GTK_NOTEBOOK(notebook),
---								data->widget);
---	}
--+	page = gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
--+				data->widget, NULL);
-- 
-- 	gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook), page);
---
-- 	gtk_widget_show(notebook);
-- }
-- 
---static void row_changed(GtkTreeModel *model, GtkTreePath  *path,
---				GtkTreeIter  *iter, gpointer user_data)
--+static void device_to_text(GtkTreeViewColumn *column, GtkCellRenderer *cell,
--+		GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
-- {
-- 	guint type;
---	gboolean powered, inrange;
--+	char *markup, *name, *state;
--+	const char *title;
-- 
-- 	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_TYPE, &type,
---					CONNMAN_COLUMN_ENABLED, &powered,
---					CONNMAN_COLUMN_INRANGE, &inrange, -1);
---}
---
---static void state_to_icon(GtkTreeViewColumn *column, GtkCellRenderer *cell,
---			GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
---{
---	gboolean inrange;
---
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_INRANGE, &inrange, -1);
---
---	if (inrange == TRUE)
---		g_object_set(cell, "icon-name", GTK_STOCK_YES, NULL);
---	else
---		g_object_set(cell, "icon-name", NULL, NULL);
---}
---
---static void type_to_text(GtkTreeViewColumn *column, GtkCellRenderer *cell,
---			GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
---{
---	guint type;
---	gboolean powered, inrange;
---	gchar *markup;
---	const char *title, *info;
---
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_TYPE, &type,
---					CONNMAN_COLUMN_ENABLED, &powered,
---					CONNMAN_COLUMN_INRANGE, &inrange, -1);
--+			CONNMAN_COLUMN_NAME, &name,
--+			CONNMAN_COLUMN_STATE, &state,
--+			-1);
-- 
-- 	switch (type) {
-- 	case CONNMAN_TYPE_ETHERNET:
-- 		title = N_("Ethernet");
--+		markup = g_strdup_printf("  %s\n", title);
-- 		break;
-- 	case CONNMAN_TYPE_WIFI:
---		title = N_("Wireless");
--+		/* Show the AP name */
--+		title = N_(name);
--+		if (g_str_equal(state, "association") == TRUE)
--+			state = "associating...";
--+		else if (g_str_equal(state, "configuration") == TRUE)
--+			state = "configurating...";
--+		else if (g_str_equal(state, "ready") == TRUE ||
--+			 g_str_equal(state, "online") == TRUE)
--+			state = "connnected";
--+		else
--+			state = "";
--+		markup = g_strdup_printf("  %s\n  %s", title, state);
--+
-- 		break;
-- 	case CONNMAN_TYPE_WIMAX:
-- 		title = N_("WiMAX");
--+		markup = g_strdup_printf("  %s\n", title);
-- 		break;
-- 	case CONNMAN_TYPE_BLUETOOTH:
-- 		title = N_("Bluetooth");
--+		markup = g_strdup_printf("  %s\n", title);
--+		break;
--+	case CONNMAN_TYPE_LABEL_ETHERNET:
--+		title = N_("Wired Networks");
--+		markup = g_strdup_printf("<b>\n%s\n</b>", title);
--+		break;
--+	case CONNMAN_TYPE_LABEL_WIFI:
--+		title = N_("Wireless Networks");
--+		markup = g_strdup_printf("<b>\n%s\n</b>", title);
--+		break;
--+	case CONNMAN_TYPE_SYSCONFIG:
--+		title = N_("System Configuration");
--+		markup = g_strdup_printf("<b>\n%s\n</b>", title);
-- 		break;
-- 	default:
-- 		title = N_("Unknown");
--+		markup = g_strdup_printf("  %s\n", title);
-- 		break;
-- 	}
-- 
---	if (powered == TRUE) {
---		if (inrange == TRUE)
---			info = N_("Connected");
---		else
---			info = N_("Not Connected");
---	} else
---		info = N_("Disabled");
---
---	markup = g_strdup_printf("<b>%s</b>\n<small>%s</small>", title, info);
-- 	g_object_set(cell, "markup", markup, NULL);
---	g_free(markup);
-- }
-- 
-- static void type_to_icon(GtkTreeViewColumn *column, GtkCellRenderer *cell,
---			GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
--+		GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
-- {
---	guint type;
--+	guint type, strength;
--+	char *name;
-- 
---	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_TYPE, &type, -1);
--+	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_TYPE, &type,
--+					CONNMAN_COLUMN_STRENGTH, &strength,
--+					-1);
-- 
-- 	switch (type) {
---	case CONNMAN_TYPE_ETHERNET:
--+	case CONNMAN_TYPE_WIFI:
--+		name = g_strdup_printf("connman-signal-0%d", (strength-1)/20+1);
--+		g_object_set(cell, "icon-name", name,
--+				"stock-size", 4, NULL);
--+		break;
--+	case CONNMAN_TYPE_LABEL_ETHERNET:
-- 		g_object_set(cell, "icon-name", "network-wired",
---						"stock-size", 5, NULL);
--+				"stock-size", 4, NULL);
-- 		break;
---	case CONNMAN_TYPE_WIFI:
---	case CONNMAN_TYPE_WIMAX:
--+	case CONNMAN_TYPE_LABEL_WIFI:
-- 		g_object_set(cell, "icon-name", "network-wireless",
---						"stock-size", 5, NULL);
---		break;
---	case CONNMAN_TYPE_BLUETOOTH:
---		g_object_set(cell, "icon-name", "bluetooth",
---						"stock-size", 5, NULL);
--+				"stock-size", 4, NULL);
-- 		break;
-- 	default:
-- 		g_object_set(cell, "icon-name", NULL, NULL);
--@@ -362,40 +380,34 @@ static GtkWidget *create_interfaces(GtkWidget *window)
-- 
-- 	scrolled = gtk_scrolled_window_new(NULL, NULL);
-- 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
---				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
--+			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-- 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled),
---							GTK_SHADOW_OUT);
--+			GTK_SHADOW_OUT);
-- 	gtk_box_pack_start(GTK_BOX(hbox), scrolled, FALSE, TRUE, 0);
-- 
-- 	tree = gtk_tree_view_new();
-- 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), FALSE);
-- 	gtk_tree_view_set_show_expanders(GTK_TREE_VIEW(tree), FALSE);
-- 	gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(tree), TRUE);
---	gtk_widget_set_size_request(tree, 180, -1);
--+	gtk_widget_set_size_request(tree, 220, -1);
-- 	gtk_container_add(GTK_CONTAINER(scrolled), tree);
-- 
-- 
-- 	column = gtk_tree_view_column_new();
-- 	gtk_tree_view_column_set_expand(column, TRUE);
-- 	gtk_tree_view_column_set_spacing(column, 4);
--+	gtk_tree_view_column_set_alignment(column, 0);
-- 	gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
-- 
-- 	renderer = gtk_cell_renderer_pixbuf_new();
---	gtk_cell_renderer_set_fixed_size(renderer, 20, 45);
-- 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
-- 	gtk_tree_view_column_set_cell_data_func(column, renderer,
---						state_to_icon, NULL, NULL);
--+			type_to_icon, NULL, NULL);
-- 
-- 	renderer = gtk_cell_renderer_text_new();
---	gtk_tree_view_column_pack_start(column, renderer, TRUE);
---	gtk_tree_view_column_set_cell_data_func(column, renderer,
---						type_to_text, NULL, NULL);
---
---	renderer = gtk_cell_renderer_pixbuf_new();
---	gtk_tree_view_column_pack_end(column, renderer, FALSE);
--+	gtk_tree_view_column_pack_start(column, renderer, FALSE);
-- 	gtk_tree_view_column_set_cell_data_func(column, renderer,
---						type_to_icon, NULL, NULL);
---
--+			device_to_text, NULL, NULL);
-- 
-- 	interface_notebook = gtk_notebook_new();
-- 	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(interface_notebook), FALSE);
--@@ -405,21 +417,19 @@ static GtkWidget *create_interfaces(GtkWidget *window)
-- 
-- 	model = connman_client_get_device_model(client);
-- 	gtk_tree_view_set_model(GTK_TREE_VIEW(tree), model);
--+
-- 	g_object_unref(model);
-- 
-- 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
-- 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-- 	g_signal_connect(G_OBJECT(selection), "changed",
---					G_CALLBACK(select_callback), window);
---
---	g_signal_connect(G_OBJECT(model), "row-changed",
---					G_CALLBACK(row_changed), selection);
--+			G_CALLBACK(select_callback), window);
-- 
-- 	return mainbox;
-- }
-- 
-- static gboolean delete_callback(GtkWidget *window, GdkEvent *event,
---							gpointer user_data)
--+		gpointer user_data)
-- {
-- 	gtk_widget_destroy(window);
-- 
--@@ -451,7 +461,7 @@ static GtkWidget *create_window(void)
-- 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-- 	gtk_window_set_default_size(GTK_WINDOW(window), 580, 380);
-- 	g_signal_connect(G_OBJECT(window), "delete-event",
---					G_CALLBACK(delete_callback), NULL);
--+			G_CALLBACK(delete_callback), NULL);
-- 
-- 	vbox = gtk_vbox_new(FALSE, 12);
-- 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 12);
--@@ -467,12 +477,12 @@ static GtkWidget *create_window(void)
-- 	button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
-- 	gtk_container_add(GTK_CONTAINER(buttonbox), button);
-- 	g_signal_connect(G_OBJECT(button), "clicked",
---					G_CALLBACK(close_callback), window);
--+			G_CALLBACK(close_callback), window);
-- 
-- 	widget = create_interfaces(window);
-- 	gtk_notebook_prepend_page(GTK_NOTEBOOK(notebook), widget, NULL);
-- 	gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(notebook),
---						widget, _("Devices"));
--+			widget, _("Services"));
-- 
-- 	gtk_widget_show_all(window);
-- 
--@@ -487,6 +497,8 @@ int main(int argc, char *argv[])
-- 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-- 	textdomain(GETTEXT_PACKAGE);
-- 
--+	current_data = NULL;
--+
-- 	gtk_init(&argc, &argv);
-- 
-- 	gtk_window_set_default_icon_name("network-wireless");
--diff --git a/properties/wifi.c b/properties/wifi.c
--index 320dce4..42fe7d2 100644
----- a/properties/wifi.c
--+++ b/properties/wifi.c
--@@ -23,6 +23,7 @@
-- #include <config.h>
-- #endif
-- 
--+#include <dbus/dbus-glib.h>
-- #include <glib/gi18n.h>
-- #include <gtk/gtk.h>
-- 
--@@ -30,6 +31,24 @@
-- 
-- #include "advanced.h"
-- 
--+static void update_wifi_ipv4(struct config_data *data, guint policy);
--+
--+static gboolean separator_function(GtkTreeModel *model,
--+					GtkTreeIter *iter, gpointer user_data)
--+{
--+	gchar *text;
--+	gboolean result = FALSE;
--+
--+	gtk_tree_model_get(model, iter, 0, &text, -1);
--+
--+	if (text && *text == '\0')
--+		result = TRUE;
--+
--+	g_free(text);
--+
--+	return result;
--+}
--+
-- static void changed_callback(GtkWidget *editable, gpointer user_data)
-- {
-- 	struct config_data *data = user_data;
--@@ -37,98 +56,357 @@ static void changed_callback(GtkWidget *editable, gpointer user_data)
-- 
-- 	active = gtk_combo_box_get_active(GTK_COMBO_BOX(data->policy.config));
-- 
---	switch (active) {
---	case 0:
---		connman_client_set_policy(data->client, data->device, "auto");
---		update_wifi_policy(data, CONNMAN_POLICY_AUTO);
---		break;
---	case 1:
---		connman_client_set_policy(data->client, data->device, "manual");
---		update_wifi_policy(data, CONNMAN_POLICY_MANUAL);
---		break;
---	case 3:
---		connman_client_set_policy(data->client, data->device, "off");
---		update_wifi_policy(data, CONNMAN_POLICY_OFF);
---		break;
--+	update_wifi_ipv4(data, active);
--+}
--+
--+static void connect_reply_cb(DBusGProxy *proxy, GError *error,
--+				   gpointer user_data)
--+{
--+	if (error)
--+		g_error_free(error);
--+}
--+
--+static void connect_callback(GtkWidget *editable, gpointer user_data)
--+{
--+	struct config_data *data = user_data;
--+
--+	gboolean ret;
--+	gint active;
--+
--+	if (data->wifi.passphrase) {
--+		char *passphrase;
--+		passphrase = (gchar *)gtk_entry_get_text(GTK_ENTRY(data->wifi.passphrase));
--+		ret = connman_client_set_passphrase(data->client, data->device,
--+				passphrase);
--+
--+		if (ret == FALSE) {
--+			return;
--+		}
-- 	}
--+
--+	active = gtk_combo_box_get_active(GTK_COMBO_BOX(data->policy.config));
--+	data->ipv4_config.method = active ? "manual" : "dhcp";
--+	data->ipv4_config.address = active ? gtk_entry_get_text(GTK_ENTRY(data->ipv4.entry[0])) : NULL;
--+	data->ipv4_config.netmask = active ? gtk_entry_get_text(GTK_ENTRY(data->ipv4.entry[1])) : NULL;
--+	data->ipv4_config.gateway = active ? gtk_entry_get_text(GTK_ENTRY(data->ipv4.entry[2])) : NULL;
--+	ret = connman_client_set_ipv4(data->client, data->device, &data->ipv4_config);
--+	if (ret == FALSE) {
--+		return;
--+	}
--+
--+	connman_client_connect_async(data->client, data->device, connect_reply_cb, data);
-- }
-- 
---void add_wifi_policy(GtkWidget *mainbox, struct config_data *data)
--+static void disconnect_callback(GtkWidget *editable, gpointer user_data)
--+{
--+	struct config_data *data = user_data;
--+
--+	connman_client_disconnect(data->client, data->device);
--+}
--+
--+static void switch_callback(GtkWidget *editable, gpointer user_data)
--+{
--+	struct config_data *data = user_data;
--+	const gchar *label = gtk_button_get_label(GTK_BUTTON(data->wifi_button));
--+
--+	if (g_str_equal(label, "Disable"))
--+		connman_client_disable_technology(data->client, data->device, "wifi");
--+	else
--+		connman_client_enable_technology(data->client, data->device, "wifi");
--+}
--+
--+static void scan_reply_cb(DBusGProxy *proxy, GError *error,
--+				   gpointer user_data)
--+{
--+	GtkWidget *button = user_data;
--+	gtk_widget_set_sensitive(button, 1);
--+
--+	if (error)
--+		g_error_free(error);
--+}
--+
--+static void scan_callback(GtkWidget *button, gpointer user_data)
--+{
--+	struct config_data *data = user_data;
--+	gtk_widget_set_sensitive(button, 0);
--+	connman_client_request_scan(data->client, "", scan_reply_cb, button);
--+}
--+
--+void add_wifi_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
--+				struct config_data *data)
-- {
-- 	GtkWidget *vbox;
-- 	GtkWidget *table;
-- 	GtkWidget *label;
---	GtkWidget *combo;
--+	GtkWidget *buttonbox;
--+	GtkWidget *button;
--+	gboolean wifi_enabled;
-- 
---	vbox = gtk_vbox_new(FALSE, 0);
--+	gtk_tree_model_get(data->model, iter,
--+			CONNMAN_COLUMN_WIFI_ENABLED, &wifi_enabled,
--+			-1);
--+
--+	vbox = gtk_vbox_new(TRUE, 0);
-- 	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
-- 	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
-- 
---	table = gtk_table_new(2, 4, FALSE);
---	gtk_table_set_row_spacings(GTK_TABLE(table), 8);
---	gtk_table_set_col_spacings(GTK_TABLE(table), 8);
--+	table = gtk_table_new(1, 1, TRUE);
--+	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
--+	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
-- 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
-- 
---#if 0
---	label = gtk_label_new(_("Network Name:"));
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
---	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
--+	label = gtk_label_new(_("Configure Wifi Networks."));
-- 	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
-- 
---	combo = gtk_combo_box_new_text();
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Guest");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Off");
---	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
---					separator_function, NULL, NULL);
---	gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 4, 0, 1);
---	data->policy.config = combo;
---#endif
--+	buttonbox = gtk_hbutton_box_new();
--+	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttonbox), GTK_BUTTONBOX_CENTER);
--+	gtk_box_pack_start(GTK_BOX(mainbox), buttonbox, FALSE, FALSE, 0);
--+
--+	button = gtk_button_new();
--+	data->wifi_button = button;
--+
--+	if (wifi_enabled)
--+		gtk_button_set_label(GTK_BUTTON(button), _("Disable"));
--+	else
--+		gtk_button_set_label(GTK_BUTTON(button), _("Enable"));
--+
--+	gtk_container_add(GTK_CONTAINER(buttonbox), button);
--+	g_signal_connect(G_OBJECT(button), "clicked",
--+			G_CALLBACK(switch_callback), data);
--+
--+	button = gtk_button_new_with_label(_("Scan"));
--+	data->scan_button = button;
--+
--+	if (!wifi_enabled)
--+		gtk_widget_set_sensitive(button, 0);
--+
--+	gtk_container_add(GTK_CONTAINER(buttonbox), button);
--+	g_signal_connect(G_OBJECT(button), "clicked",
--+			G_CALLBACK(scan_callback), data);
--+}
--+
--+
--+static void wifi_ipconfig(GtkWidget *table, struct config_data *data, GtkTreeIter *iter)
--+{
--+	GtkWidget *entry;
--+	GtkWidget *label;
--+	GtkWidget *combo;
--+	DBusGProxy *proxy;
--+
--+	struct ipv4_config ipv4_config = {
--+		.method  = NULL,
--+		.address = NULL,
--+		.netmask = NULL,
--+		.gateway = NULL,
--+	};
--+
--+	gtk_tree_model_get(data->model, iter,
--+			CONNMAN_COLUMN_PROXY, &proxy,
--+			CONNMAN_COLUMN_METHOD, &ipv4_config.method,
--+			CONNMAN_COLUMN_ADDRESS, &ipv4_config.address,
--+			CONNMAN_COLUMN_NETMASK, &ipv4_config.netmask,
--+			CONNMAN_COLUMN_GATEWAY, &ipv4_config.gateway,
--+			-1);
-- 
-- 	label = gtk_label_new(_("Configuration:"));
---	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
---	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 3, 4);
--+	data->ipv4.label[0] = label;
-- 
-- 	combo = gtk_combo_box_new_text();
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Automatically");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Manually");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "");
---	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Off");
--+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "DHCP");
--+	gtk_combo_box_append_text(GTK_COMBO_BOX(combo), "Manual");
-- 	gtk_combo_box_set_row_separator_func(GTK_COMBO_BOX(combo),
---					separator_function, NULL, NULL);
---	gtk_table_attach_defaults(GTK_TABLE(table), combo, 1, 4, 0, 1);
--+			separator_function, NULL, NULL);
--+
--+	gtk_table_attach_defaults(GTK_TABLE(table), combo, 2, 4, 3, 4);
-- 	data->policy.config = combo;
-- 
---	label = gtk_label_new(NULL);
---	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
--+	label = gtk_label_new(_("IP address:"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 4, 5);
--+	data->ipv4.label[0] = label;
--+
--+	entry = gtk_entry_new();
--+	gtk_entry_set_max_length (GTK_ENTRY (entry), 15);
--+	if (ipv4_config.address)
--+		gtk_entry_set_text(GTK_ENTRY(entry), ipv4_config.address);
--+	gtk_table_attach_defaults(GTK_TABLE(table), entry, 2, 4, 4, 5);
--+	data->ipv4.entry[0] = entry;
--+
--+	label = gtk_label_new(_("Netmask:"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 5, 6);
--+	data->ipv4.label[1] = label;
--+
--+	entry = gtk_entry_new();
--+	gtk_entry_set_max_length (GTK_ENTRY (entry), 15);
--+	if (ipv4_config.netmask)
--+		gtk_entry_set_text(GTK_ENTRY(entry), ipv4_config.netmask);
--+	gtk_table_attach_defaults(GTK_TABLE(table), entry, 2, 4, 5, 6);
--+	data->ipv4.entry[1] = entry;
--+
--+	label = gtk_label_new(_("Gateway:"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 6, 7);
--+	data->ipv4.label[2] = label;
--+
--+	entry = gtk_entry_new();
--+	gtk_entry_set_max_length (GTK_ENTRY (entry), 15);
--+	if (ipv4_config.gateway)
--+		gtk_entry_set_text(GTK_ENTRY(entry), ipv4_config.gateway);
--+	gtk_table_attach_defaults(GTK_TABLE(table), entry, 2, 4, 6, 7);
--+	data->ipv4.entry[2] = entry;
--+
--+	data->ipv4_config = ipv4_config;
--+
--+	if (g_str_equal(ipv4_config.method, "dhcp") == TRUE)
--+		update_wifi_ipv4(data, CONNMAN_POLICY_DHCP);
--+	else
--+		update_wifi_ipv4(data, CONNMAN_POLICY_MANUAL);
--+
--+	g_signal_connect(G_OBJECT(combo), "changed",
--+			G_CALLBACK(changed_callback), data);
--+}
--+
--+static void toggled_callback(GtkWidget *button, gpointer user_data)
--+{
--+	GtkWidget *entry = user_data;
--+	gboolean mode;
--+
--+	mode = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
--+
--+	gtk_entry_set_visibility(GTK_ENTRY(entry), mode);
--+}
--+
--+void add_wifi_policy(GtkWidget *mainbox, GtkTreeIter *iter, struct config_data *data)
--+{
--+	GtkWidget *vbox;
--+	GtkWidget *table;
--+	GtkWidget *label;
--+	GtkWidget *entry;
--+	GtkWidget *button;
--+
--+	const char *name, *security, *icon, *state;
--+	guint strength;
--+
--+	gtk_tree_model_get(data->model, iter,
--+			CONNMAN_COLUMN_NAME, &name,
--+			CONNMAN_COLUMN_SECURITY, &security,
--+			CONNMAN_COLUMN_ICON, &icon,
--+			CONNMAN_COLUMN_STATE, &state,
--+			CONNMAN_COLUMN_STRENGTH, &strength,
--+			-1);
--+
--+	if (g_str_equal(state, "failure") == TRUE)
--+		connman_client_remove(data->client, data->device);
--+
--+	vbox = gtk_vbox_new(TRUE, 0);
--+	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
--+	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
--+
--+	table = gtk_table_new(10, 5, TRUE);
--+	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
--+	data->table = table;
--+
--+	label = gtk_label_new(_("Access Point:"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 0, 1);
--+
--+	label = gtk_label_new(_(name));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 4, 0, 1);
-- 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
--+	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
--+	data->wifi.name = label;
--+
--+	label = gtk_label_new(_("Security:"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 1, 2);
--+
--+	label = gtk_label_new(_(security));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 4, 1, 2);
--+	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
--+	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
--+	data->wifi.security = label;
--+
--+	label = gtk_label_new(_("Passphrase:"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 2, 3);
--+
--+	if (g_str_equal(security, "none") != TRUE &&
--+			g_str_equal(security, "unknown") != TRUE) {
--+		entry = gtk_entry_new();
--+		gtk_entry_set_max_length (GTK_ENTRY (entry), 64);
--+		gtk_table_attach_defaults(GTK_TABLE(table), entry, 2, 4, 2, 3);
--+		gtk_entry_set_visibility(GTK_ENTRY(entry), 0);
--+		data->wifi.passphrase = entry;
--+
--+		button = gtk_check_button_new_with_label(_("Show input"));
--+		gtk_table_attach_defaults(GTK_TABLE(table), button, 4, 5, 2, 3);
--+
--+		g_signal_connect(G_OBJECT(button), "toggled",
--+				G_CALLBACK(toggled_callback), entry);
--+
--+
--+	} else {
--+		label = gtk_label_new(_("none"));
--+		gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 4, 2, 3);
--+		gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
--+		gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
--+		data->wifi.passphrase = NULL;
--+	}
--+
--+	label = gtk_label_new(_(""));
--+	gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, 8, 9);
-- 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
---	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 4, 1, 2);
---	gtk_widget_set_size_request(label, 180, -1);
---	data->policy.label = label;
--+	gtk_widget_hide(label);
--+	data->wifi.connect_info = label;
-- 
---	g_signal_connect(G_OBJECT(combo), "changed",
---				G_CALLBACK(changed_callback), data);
--+	button = gtk_button_new_with_label(_("Connect"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), button, 3, 4, 8, 9);
--+	g_signal_connect(G_OBJECT(button), "clicked",
--+			G_CALLBACK(connect_callback), data);
--+	gtk_widget_set_no_show_all(button, TRUE);
--+	data->wifi.connect = button;
--+
--+	button = gtk_button_new_with_label(_("Disconnect"));
--+	gtk_table_attach_defaults(GTK_TABLE(table), button, 3, 4, 8, 9);
--+	g_signal_connect(G_OBJECT(button), "clicked",
--+			G_CALLBACK(disconnect_callback), data);
--+	data->wifi.disconnect = button;
--+	gtk_widget_set_no_show_all(button, TRUE);
--+
--+	if (g_str_equal(state, "failure") == TRUE
--+			|| g_str_equal(state, "idle") == TRUE) {
--+		gtk_widget_show(data->wifi.connect);
--+		gtk_widget_hide(data->wifi.disconnect);
--+	} else {
--+		gtk_widget_hide(data->wifi.connect);
--+		gtk_widget_show(data->wifi.disconnect);
--+	}
--+
--+	wifi_ipconfig(table, data, iter);
-- }
-- 
---void update_wifi_policy(struct config_data *data, guint policy)
--+void update_wifi_ipv4(struct config_data *data, guint policy)
-- {
-- 	GtkWidget *combo = data->policy.config;
---	gchar *info = NULL;
--+	GtkWidget *entry[3];
--+	int i;
--+
--+	for (i = 0; i < 3; i++)
--+		entry[i] = data->ipv4.entry[i];
-- 
-- 	g_signal_handlers_block_by_func(G_OBJECT(combo),
---					G_CALLBACK(changed_callback), data);
--+			G_CALLBACK(changed_callback), data);
-- 
-- 	switch (policy) {
---	case CONNMAN_POLICY_OFF:
---		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 3);
--+	case CONNMAN_POLICY_DHCP:
--+		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
--+		for (i = 0; i < 3; i++) {
--+			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 0);
--+			gtk_widget_set_sensitive(entry[i], 0);
--+		}
-- 		break;
-- 	case CONNMAN_POLICY_MANUAL:
-- 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 1);
---		break;
---	case CONNMAN_POLICY_AUTO:
---		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
--+		for (i = 0; i < 3; i++) {
--+			gtk_entry_set_editable(GTK_ENTRY(entry[i]), 1);
--+			gtk_widget_set_sensitive(entry[i], 1);
--+		}
-- 		break;
-- 	default:
-- 		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), -1);
--@@ -136,9 +414,5 @@ void update_wifi_policy(struct config_data *data, guint policy)
-- 	}
-- 
-- 	g_signal_handlers_unblock_by_func(G_OBJECT(combo),
---					G_CALLBACK(changed_callback), data);
---
---	gtk_label_set_markup(GTK_LABEL(data->policy.label), info);
---
---	g_free(info);
--+			G_CALLBACK(changed_callback), data);
-- }
-diff --git a/meta/recipes-connectivity/connman/connman-gnome/remove-connman-property-desktop-file.patch b/meta/recipes-connectivity/connman/connman-gnome/remove-connman-property-desktop-file.patch
-deleted file mode 100644
-index 2a8cff3..0000000
---- a/meta/recipes-connectivity/connman/connman-gnome/remove-connman-property-desktop-file.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--diff -ruN connman-gnome-0.5-orig/po/POTFILES.in connman-gnome-0.5/po/POTFILES.in
----- connman-gnome-0.5-orig/po/POTFILES.in	2010-12-16 16:03:29.000000000 +0800
--+++ connman-gnome-0.5/po/POTFILES.in	2010-12-17 10:27:17.000000000 +0800
--@@ -4,4 +4,3 @@
-- properties/advanced.c
-- properties/ethernet.c
-- properties/wifi.c
---properties/connman-properties.desktop.in
--diff -ruN connman-gnome-0.5-orig/properties/Makefile.am connman-gnome-0.5/properties/Makefile.am
----- connman-gnome-0.5-orig/properties/Makefile.am	2010-12-16 16:03:29.000000000 +0800
--+++ connman-gnome-0.5/properties/Makefile.am	2010-12-17 10:27:09.000000000 +0800
--@@ -17,16 +17,6 @@
-- 
-- INCLUDES = -I$(top_srcdir)/common
-- 
---desktopdir = $(datadir)/applications
---
---desktop_in_files = connman-properties.desktop.in
---
---desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
---
-- @INTLTOOL_DESKTOP_RULE@
-- 
---CLEANFILES = $(desktop_DATA)
---
---EXTRA_DIST = $(desktop_in_files)
---
-- MAINTAINERCLEANFILES = Makefile.in
--diff -ruN connman-gnome-0.5-orig/properties/connman-properties.desktop.in connman-gnome-0.5/properties/connman-properties.desktop.in
----- connman-gnome-0.5-orig/properties/connman-properties.desktop.in	2010-12-16 16:03:29.000000000 +0800
--+++ connman-gnome-0.5/properties/connman-properties.desktop.in	1970-01-01 08:00:00.000000000 +0800
--@@ -1,10 +0,0 @@
---[Desktop Entry]
---Encoding=UTF-8
---_Name=Connection Management
---_Comment=Configure connection management
---Icon=stock_internet
---Exec=connman-properties
---Terminal=false
---Type=Application
---Categories=Settings;
---OnlyShowIn=GNOME;
-diff --git a/meta/recipes-connectivity/connman/connman-gnome/service_name_update.patch b/meta/recipes-connectivity/connman/connman-gnome/service_name_update.patch
-deleted file mode 100644
-index 942cfc8..0000000
---- a/meta/recipes-connectivity/connman/connman-gnome/service_name_update.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--diff -ruN connman-gnome-0.5-orig/common/connman-dbus.h connman-gnome-0.5/common/connman-dbus.h
----- connman-gnome-0.5-orig/common/connman-dbus.h	2010-12-30 09:45:03.312043457 +0800
--+++ connman-gnome-0.5/common/connman-dbus.h	2010-12-30 09:45:33.978499439 +0800
--@@ -22,7 +22,7 @@
-- #include <dbus/dbus-glib.h>
-- #include <gtk/gtk.h>
-- 
---#define CONNMAN_SERVICE			"org.moblin.connman"
--+#define CONNMAN_SERVICE			"net.connman"
-- 
-- #define CONNMAN_ERROR_INTERFACE		CONNMAN_SERVICE ".Error"
-- #define CONNMAN_AGENT_INTERFACE		CONNMAN_SERVICE ".Agent"
--diff -ruN connman-gnome-0.5-orig/common/instance.c connman-gnome-0.5/common/instance.c
----- connman-gnome-0.5-orig/common/instance.c	2010-12-30 09:45:03.316085542 +0800
--+++ connman-gnome-0.5/common/instance.c	2010-12-30 09:46:01.654479049 +0800
--@@ -29,7 +29,7 @@
-- 
-- #include "instance.h"
-- 
---#define CONNMAN_SERVICE    "org.moblin.connman"
--+#define CONNMAN_SERVICE    "net.connman"
-- #define CONNMAN_INSTANCE   CONNMAN_SERVICE ".Instance"
-- 
-- static DBusGConnection *connection;
--diff -ruN connman-gnome-0.5-orig/common/instance.xml connman-gnome-0.5/common/instance.xml
----- connman-gnome-0.5-orig/common/instance.xml	2010-12-30 09:45:03.312043457 +0800
--+++ connman-gnome-0.5/common/instance.xml	2010-12-30 09:45:49.868372780 +0800
--@@ -1,7 +1,7 @@
-- <?xml version="1.0" encoding="UTF-8" ?>
-- 
-- <node name="/">
---  <interface name="org.moblin.connman.Instance">
--+  <interface name="net.connman.Instance">
--     <method name="Present">
--     </method>
--   </interface>
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb b/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-index 4fcdfaf..69b2d5b 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
-@@ -6,17 +6,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-                     file://properties/main.c;beginline=1;endline=20;md5=50c77c81871308b033ab7a1504626afb \
-                     file://common/connman-dbus.c;beginline=1;endline=20;md5=de6b485c0e717a0236402d220187717a"
- DEPENDS = "gtk+ dbus"
--PR = "r4"
-+PR = "r5"
- 
- RRECOMMENDS_${PN} = "python python-dbus connman connman-plugin-ethernet connman-plugin-loopback connman-plugin-udhcp connman-plugin-wifi connman-plugin-fake connman-plugin-bluetooth connman-plugin-dnsproxy"
- 
--SRC_URI = "${KERNELORG_MIRROR}/linux/network/connman/connman-gnome-${PV}.tar.gz \
--           file://connman-gnome.patch \
--           file://remove-connman-property-desktop-file.patch \
--           file://service_name_update.patch \
--           file://applet_menu_popup_fix.patch"
--
--SRC_URI[md5sum] = "0e1c4c25d19cad9b08a216848a320716"
--SRC_URI[sha256sum] = "4d5fe481b444fc3e64fd9caa149dbcd76de166a25733f18fd93da01d2abf5d1c"
-+SRCREV = "78d3c39db6f3f7977b466305110faa8ca5f74ec8"
-+SRC_URI = "git://git.kernel.org/pub/scm/network/connman/connman-gnome.git;protocol=git"
-+S = "${WORKDIR}/git"
- 
- inherit autotools gtk-icon-cache
+The following changes since commit 65fb12421091a9dbab5943387f17e6314b13cefb:
+
+  gcc-4.6.0: Bring in patches from FSF 4.6 branch (2011-06-12 20:56:57 -0700)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/gcc-4.6-update
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/gcc-4.6-update
+
+Khem Raj (1):
+  gcc-4.6.0: Bring in patches from FSF 4.6 branch
+
+ .../0002-Backport-from-mainline.patch              |    3 +-
+ .../0003-Backport-from-mainline.patch              |    3 +-
+ .../0004-Backport-from-mainline.patch              |    3 +-
+ .../0005-Backport-from-mainline.patch              |    3 +-
+ .../0006-Backport-from-mainline.patch              |    3 +-
+ .../0007-Backport-from-mainline.patch              |    3 +-
+ ...26-Paolo-Carlini-paolo.carlini-oracle.com.patch |    3 +-
+ .../0009-Backport-from-mainline.patch              |    3 +-
+ ...-27-Jonathan-Wakely-jwakely.gcc-gmail.com.patch |    3 +-
+ ...-03-28-Richard-Guenther-rguenther-suse.de.patch |    3 +-
+ .../gcc-4_6-branch-backports/0015-gcc.patch        |    3 +-
+ .../0016-Backport-from-mainline.patch              |    3 +-
+ .../0017-libgfortran.patch                         |    3 +-
+ ...Andreas-Krebbel-Andreas.Krebbel-de.ibm.co.patch |    3 +-
+ ...-rx-rx.h-LABEL_ALIGN_AFTER_BARRIER-Define.patch |    3 +-
+ .../0021-c.opt-Add-std-c-03.patch                  |    3 +-
+ .../gcc-4_6-branch-backports/0022-PR-c-47570.patch |    3 +-
+ .../gcc-4_6-branch-backports/0023-PR-c-47504.patch |    3 +-
+ ...ild_noexcept_spec-Call-cxx_constant_value.patch |    3 +-
+ .../gcc-4_6-branch-backports/0025-c-family.patch   |    3 +-
+ ...026-decl2.c-cp_check_const_attributes-New.patch |    3 +-
+ .../gcc-4_6-branch-backports/0027-Core-1148.patch  |    3 +-
+ .../gcc-4_6-branch-backports/0028-PR-c-48313.patch |    3 +-
+ .../gcc-4_6-branch-backports/0029-PR-c-47999.patch |    3 +-
+ ...non_dependent_expr-Keep-dereferences-outs.patch |    3 +-
+ ...rence_binding-Allow-direct-binding-to-an-.patch |    3 +-
+ .../gcc-4_6-branch-backports/0032-Core-1232.patch  |    3 +-
+ ...-is_valid_constexpr_fn-Specify-input-loca.patch |    3 +-
+ .../gcc-4_6-branch-backports/0034-PR-c-48296.patch |    3 +-
+ .../gcc-4_6-branch-backports/0035-PR-c-48166.patch |    3 +-
+ ...a-alpha.c-alpha_sr_alias_set-Don-t-define.patch |    3 +-
+ .../gcc-4_6-branch-backports/0038-PR-c-48319.patch |    3 +-
+ .../0039-PR-preprocessor-48248.patch               |    3 +-
+ .../0040-PR-debug-48253.patch                      |    3 +-
+ .../gcc-4_6-branch-backports/0042-PR-c-48265.patch |    3 +-
+ .../0043-Fix-a-typo-in-FLOAT_SSE_REGS.patch        |    3 +-
+ .../gcc-4_6-branch-backports/0044-PR-c-48281.patch |    3 +-
+ .../gcc-4_6-branch-backports/0045-PR-c-48369.patch |    3 +-
+ .../gcc-4_6-branch-backports/0046-PR-c-48212.patch |    3 +-
+ ...-03-31-Richard-Guenther-rguenther-suse.de.patch |    3 +-
+ .../0049-PR-target-48142.patch                     |    3 +-
+ .../0050-PR-target-16292.patch                     |    3 +-
+ .../gcc-4_6-branch-backports/0051-PR-c-48280.patch |    3 +-
+ ...07-from-trunk-to-the-4.6-release-branch-t.patch |    3 +-
+ .../0054-Backport-from-mainline.patch              |    3 +-
+ ...fig-spu-t-spu-elf-dp-bit.c-Use-instead-of.patch |    3 +-
+ ...11-04-02-Jonathan-Wakely-redi-gcc.gnu.org.patch |    3 +-
+ ...-de.po-el.po-es.po-fi.po-fr.po-id.po-ja.p.patch |    3 +-
+ ...-da.po-de.po-el.po-es.po-fi.po-fr.po-id.p.patch |    3 +-
+ ...n.dg-bessel_6.f90-Use-dg-add-options-ieee.patch |    3 +-
+ ...4-2011-04-04-Janus-Weil-janus-gcc.gnu.org.patch |    3 +-
+ .../0065-es.po-Update.patch                        |    3 +-
+ ...ers-for-functions-from-the-frexp-family-w.patch |    3 +-
+ ...-04-05-Richard-Guenther-rguenther-suse.de.patch |    3 +-
+ ....c-self_referential_size-Fix-2010-07-13-c.patch |    3 +-
+ .../0070-de.po-Update.patch                        |    3 +-
+ ...ov-io.c-Use-GCC-Runtime-Library-Exception.patch |    3 +-
+ .../0073-Backported-from-mainline.patch            |    3 +-
+ .../0074-PR-debug-48466.patch                      |    3 +-
+ ...73-from-trunk-to-the-4.6-release-branch-t.patch |    3 +-
+ .../0077-Backport-from-mainline.patch              |    3 +-
+ .../0078-de.po-Update.patch                        |    3 +-
+ .../0079-PR-debug-48343.patch                      |    3 +-
+ .../0080-PR-fortran-48117.patch                    |    3 +-
+ ...-config-i386-sse.md-Update-copyright-year.patch |    3 +-
+ ...ure-stackalign-non-local-goto-5.c-Fix-for.patch |    3 +-
+ .../0084-PR-tree-optimization-48377.patch          |    3 +-
+ .../0085-de.po-Update.patch                        |    3 +-
+ .../gcc-4_6-branch-backports/0086-PR-c-48450.patch |    3 +-
+ ....c-finish_decltype_type-Add-complain-parm.patch |    3 +-
+ .../gcc-4_6-branch-backports/0088-PR-c-48452.patch |    3 +-
+ .../gcc-4_6-branch-backports/0089-PR-c-48468.patch |    3 +-
+ .../gcc-4_6-branch-backports/0090-PR-c-48500.patch |    3 +-
+ ...1-04-08-Steven-G.-Kargl-kargl-gcc.gnu.org.patch |    3 +-
+ .../0092-PR-testsuite-48506.patch                  |    3 +-
+ ...ther-than-crashing-in-array_type_nelts-if.patch |    3 +-
+ .../gcc-4_6-branch-backports/0095-PR-c-48528.patch |    3 +-
+ ...-10-Jonathan-Wakely-jwakely.gcc-gmail.com.patch |    3 +-
+ ...-10-Jonathan-Wakely-jwakely.gcc-gmail.com.patch |    3 +-
+ ...-10-Jonathan-Wakely-jwakely.gcc-gmail.com.patch |    3 +-
+ .../0101-Backport-from-mainline.patch              |    3 +-
+ ...2-common.opt-Tbss-Tdata-Ttext-New-options.patch |    3 +-
+ .../gcc-4_6-branch-backports/0104-PR-c-48523.patch |    3 +-
+ .../gcc-4_6-branch-backports/0105-PR-c-48534.patch |    3 +-
+ .../gcc-4_6-branch-backports/0106-PR-c-48517.patch |    3 +-
+ ...011-04-12-Allan-McRae-allan-archlinux.org.patch |    3 +-
+ ...-v850.c-expand_prologue-Do-not-use-the-CA.patch |    3 +-
+ .../0109-PR-rtl-optimization-48549.patch           |    3 +-
+ ...-2011-04-12-Martin-Jambor-mjambor-suse.cz.patch |    3 +-
+ .../0112-Fix-PR-target-48090.patch                 |    3 +-
+ .../0113-Fix-PR-c-48574.patch                      |    3 +-
+ .../gcc-4_6-branch-backports/0114-PR-c-48570.patch |    3 +-
+ .../0115-PR-middle-end-48591.patch                 |    3 +-
+ ...-2011-04-13-Paul-Thomas-pault-gcc.gnu.org.patch |    3 +-
+ .../gcc-4_6-branch-backports/0117-PR-c-48594.patch |    3 +-
+ .../0118-sv.po-Update.patch                        |    3 +-
+ .../0119-Backport-from-mainline.patch              |    3 +-
+ .../0122-PR-target-48605.patch                     |    3 +-
+ .../0123-PR-target-48614.patch                     |    3 +-
+ ...Andreas-Krebbel-Andreas.Krebbel-de.ibm.co.patch |    3 +-
+ ...04-15-Takaya-Saito-gintensubaru-gmail.com.patch |    3 +-
+ ...15-Paolo-Carlini-paolo.carlini-oracle.com.patch |    3 +-
+ ...ibjava.jni-jni.exp-gcj_jni_get_cxxflags_i.patch |    3 +-
+ ...Daniel-Krugler-daniel.kruegler-googlemail.patch |    3 +-
+ ...Daniel-Krugler-daniel.kruegler-googlemail.patch |    3 +-
+ .../0132-PR-lto-48538.patch                        |    3 +-
+ ...c-freebsd.h-CPP_CPU64_DEFAULT_SPEC-Replac.patch |    3 +-
+ ...Daniel-Krugler-daniel.kruegler-googlemail.patch |    3 +-
+ .../0135-doc-passes.texi-Fill-crossref-nodes.patch |    3 +-
+ ...ce-Make-lang.in-gnatbind-Replace-ALL_CFLA.patch |    3 +-
+ .../0138-PR-tree-optimization-48616.patch          |    3 +-
+ ...-04-18-Richard-Guenther-rguenther-suse.de.patch |    3 +-
+ ...x-weakref-trickery-breakage-on-alpha-dec-.patch |    3 +-
+ ...-is_redundant_typedef-Add-inline-to-proto.patch |    3 +-
+ .../gcc-4_6-branch-backports/0142-PR-c-48632.patch |    3 +-
+ .../0143-PR-middle-end-48661.patch                 |    3 +-
+ .../gcc-4_6-branch-backports/0144-PR-c-48537.patch |    3 +-
+ .../0146-PR-testsuite-48675.patch                  |    3 +-
+ ...-04-18-Richard-Guenther-rguenther-suse.de.patch |    3 +-
+ .../0149-PR-target-48678.patch                     |    3 +-
+ .../gcc-4_6-branch-backports/0151-PR-c-46304.patch |    3 +-
+ ...tstrap-lto.mk-Remove-obsolete-requirement.patch |    3 +-
+ ...-04-20-Richard-Guenther-rguenther-suse.de.patch |    3 +-
+ .../0154-Backport-from-mainline.patch              |    3 +-
+ .../0155-PR-tree-optimization-48611.patch          |    3 +-
+ .../gcc-4_6-branch-backports/0156-PR-c-48657.patch |    3 +-
+ .../0157-PR-target-48288.patch                     |    3 +-
+ .../gcc-4_6-branch-backports/0159-PR-c-48594.patch |    3 +-
+ ...-finish_compound_literal-Don-t-put-an-arr.patch |    3 +-
+ ...lk_gimple_op-GIMPLE_CALL-Fix-couple-of-ov.patch |    3 +-
+ ...-04-21-Richard-Guenther-rguenther-suse.de.patch |    3 +-
+ .../0163-de.po-Update.patch                        |    3 +-
+ .../0164-PR-target-48708.patch                     |    3 +-
+ .../gcc-4_6-branch-backports/0166-PR-c-48716.patch |    3 +-
+ .../0167-PR-target-48723.patch                     |    3 +-
+ .../0168-PR-tree-optimization-48717.patch          |    3 +-
+ .../gcc-4_6-branch-backports/0170-Revert.patch     |    3 +-
+ .../gcc-4_6-branch-backports/0171-PR-c-48685.patch |    3 +-
+ ...616.c-dg-options-Add-fno-common-to-option.patch |    3 +-
+ ...-23-Jonathan-Wakely-jwakely.gcc-gmail.com.patch |    3 +-
+ .../0174-PR-preprocessor-48740.patch               |    3 +-
+ ...24-Paolo-Carlini-paolo.carlini-oracle.com.patch |    3 +-
+ .../gcc-4_6-branch-backports/0178-PR-c-48707.patch |    3 +-
+ ...-2011-04-26-Tobias-Burnus-burnus-net-b.de.patch |    3 +-
+ ...-04-26-Richard-Guenther-rguenther-suse.de.patch |    3 +-
+ .../0182-PR-tree-optimization-48734.patch          |    3 +-
+ .../0183-PR-debug-48768.patch                      |    3 +-
+ .../0184-de.po-Update.patch                        |    3 +-
+ .../gcc-4_6-branch-backports/0185-PR-c-48726.patch |    3 +-
+ .../gcc-4_6-branch-backports/0187-PR-c-42687.patch |    3 +-
+ .../gcc-4_6-branch-backports/0188-PR-c-48742.patch |    3 +-
+ ...gcc.dg-20020312-2.c-Add-definition-for-RX.patch |    3 +-
+ .../gcc-4_6-branch-backports/0190-PR-c-48046.patch |    3 +-
+ .../0192-PR-middle-end-48597.patch                 |    3 +-
+ ...-2011-04-28-Tobias-Burnus-burnus-net-b.de.patch |    3 +-
+ ...-2011-04-28-Tobias-Burnus-burnus-net-b.de.patch |    3 +-
+ .../0195-Fix-PR-c-48656.patch                      |    3 +-
+ .../0196-Backport-4.7-patchtes-to-4.6.patch        |    3 +-
+ ...-2011-04-29-Tobias-Burnus-burnus-net-b.de.patch |    3 +-
+ ...29-Paolo-Carlini-paolo.carlini-oracle.com.patch |    3 +-
+ .../0201-PR-tree-optimization-48809.patch          |  199 +
+ ...-2011-04-30-Paul-Thomas-pault-gcc.gnu.org.patch |  198 +
+ ...04-30-Jerry-DeLisle-jvdelisle-gcc.gnu.org.patch |  108 +
+ ...-2011-04-30-Doug-Kwan-dougkwan-google.com.patch |   38 +
+ .../0207-Backport-from-mainline.patch              |  132 +
+ .../0209-PR-target-48723.patch                     |   26 +
+ ...-05-03-Richard-Guenther-rguenther-suse.de.patch |   45 +
+ .../0211-PR-target-48774.patch                     |   78 +
+ ...03-Paolo-Carlini-paolo.carlini-oracle.com.patch |  462 ++
+ ...-sso_string_base.h-__sso_string_base-_M_c.patch |  178 +
+ ...-i386.md-movdi_internal_rex64-TYPE_SSEMOV.patch |  244 +
+ ...1-05-04-Steven-G.-Kargl-kargl-gcc.gnu.org.patch |  189 +
+ .../gcc-4_6-branch-backports/0218-PR-c-48749.patch |   59 +
+ .../0219-Backport-from-mainline.patch              |  145 +
+ .../gcc-4_6-branch-backports/0220-gcc.patch        |   55 +
+ .../0221-PR-ada-48844.patch                        |  182 +
+ .../gcc-4_6-branch-backports/0222-PR-c-40975.patch |   55 +
+ ...0223-Add-missing-break-for-OPT_mfpu_-case.patch |   21 +
+ ...-06-Jonathan-Wakely-jwakely.gcc-gmail.com.patch | 5993 ++++++++++++++++++++
+ .../0226-Fix-PR-c-48838.patch                      |  112 +
+ .../0227-PR-fortran-48894.patch                    |  136 +
+ ...Ramana-Radhakrishnan-ramana.radhakrishnan.patch |   28 +
+ ...Andreas-Krebbel-Andreas.Krebbel-de.ibm.co.patch |   58 +
+ .../0230-PR-target-48900.patch                     |   44 +
+ ...86-i386.md-movdf_internal_nointeger-Apply.patch |   23 +
+ .../gcc-4_6-branch-backports/0232-PR-c-48089.patch |   77 +
+ .../gcc-4_6-branch-backports/0233-PR-c-48446.patch |  183 +
+ .../gcc-4_6-branch-backports/0234-PR-c-48911.patch |   96 +
+ .../gcc-4_6-branch-backports/0235-PR-c-48909.patch |   73 +
+ ...acking.c-find_mem_expr_in_1pdv-Fix-thinko.patch |   49 +
+ .../0240-Fix-PR-c-48574.patch                      |   63 +
+ ...Andreas-Krebbel-Andreas.Krebbel-de.ibm.co.patch |   26 +
+ ...09-Paolo-Carlini-paolo.carlini-oracle.com.patch |   44 +
+ .../0244-PR-tree-optimization-48611.patch          |   77 +
+ .../0245-Backported-from-mainline.patch            |   73 +
+ ...x.h-JUMP_ALIGN-LABEL_ALIGN-LOOP_ALIGN-Def.patch |   76 +
+ ...x.c-rx_memory_move_cost-Reduce-the-cost-f.patch |   23 +
+ .../0249-Fix-PRs-48857-48495.patch                 |  216 +
+ .../0251-gcc-cp-ChangeLog.patch                    |   55 +
+ .../0252-PR-debug-48159.patch                      |  198 +
+ ...-2011-05-11-Tobias-Burnus-burnus-net-b.de.patch |  159 +
+ ...non_dependent_expr-Don-t-check-null_ptr_c.patch |   24 +
+ ...onfig-rx-rx.h-HAVE_PRE_DECREMENT-Fix-typo.patch |   59 +
+ .../0257-zh_CN.po-Update.patch                     |   37 +
+ .../0258-PR-debug-48967.patch                      |  134 +
+ ...-05-12-Richard-Guenther-rguenther-suse.de.patch |  100 +
+ .../0260-PR-tree-optimization-48975.patch          |   61 +
+ .../0263-zh_CN.po-Update.patch                     | 5328 +++++++++++++++++
+ ...-i386.md-movxf_internal-Disable-CONST_DOU.patch |  127 +
+ .../0267-PR-preprocessor-48677.patch               |   31 +
+ .../0269-PR-target-48986.patch                     |   40 +
+ ...x.md-Add-peephole-to-remove-redundant-ext.patch |  126 +
+ ...x.c-rx_memory_move_cost-Include-cost-of-r.patch |   28 +
+ .../0273-PR-tree-optimization-49000.patch          |   39 +
+ .../0274-PR-tree-optimization-49000.patch          |   52 +
+ ...-05-18-Richard-Guenther-rguenther-suse.de.patch |  138 +
+ ...-05-18-Richard-Guenther-rguenther-suse.de.patch |  111 +
+ ...-05-18-Richard-Guenther-rguenther-suse.de.patch |   81 +
+ .../0278-PR-tree-optimization-49039.patch          |  217 +
+ .../0279-Properly-handle-256bit-load-cast.patch    |   95 +
+ .../gcc-4_6-branch-backports/0281-PR-c-48869.patch |  460 ++
+ ...2-gcc.c-torture-execute-960321-1.x-Remove.patch |   30 +
+ .../0283-zh_CN.po-Update.patch                     | 1529 +++++
+ .../gcc-4_6-branch-backports/0284-PR-c-49043.patch |   50 +
+ ...-2011-05-19-Uros-Bizjak-ubizjak-gmail.com.patch |   67 +
+ .../0287-PR-tree-optimization-49073.patch          |  121 +
+ ...-05-20-Richard-Guenther-rguenther-suse.de.patch |  117 +
+ .../0289-PR-bootstrap-49086.patch                  |   35 +
+ .../gcc-4_6-branch-backports/0290-PR-c-48873.patch |   45 +
+ .../gcc-4_6-branch-backports/0291-PR-c-48736.patch |   40 +
+ .../gcc-4_6-branch-backports/0292-PR-c-48745.patch |   59 +
+ ...-register_constexpr_fundef-Add-to-hash-ta.patch |   81 +
+ ...-validate_constexpr_fundecl-Check-DECL_TE.patch |   42 +
+ .../gcc-4_6-branch-backports/0295-PR-c-48948.patch |  188 +
+ .../gcc-4_6-branch-backports/0296-DR-1073.patch    |  156 +
+ .../0298-In-gcc-objc.patch                         |   31 +
+ .../gcc-4_6-branch-backports/0299-PR-c-49066.patch |   34 +
+ ...c-sparc.c-eligible_for_return_delay-Do-no.patch |   65 +
+ ...c-sparc.md-setjmp-Handle-PIC-mode-and-use.patch |   56 +
+ .../gcc-4_6-branch-backports/0303-PR-c-48780.patch |   49 +
+ .../gcc-4_6-branch-backports/0304-PR-c-48945.patch |   45 +
+ .../0305-PR-middle-end-49029.patch                 |   52 +
+ .../0306-PR-target-49104.patch                     |   63 +
+ ...07-config.gcc-sparc-elf-Add-sparc-t-crtin.patch |  150 +
+ .../gcc-4_6-branch-backports/0308-PR-c-48647.patch |   97 +
+ ...-22-Jonathan-Wakely-jwakely.gcc-gmail.com.patch |  185 +
+ .../0311-PR-middle-end-48973.patch                 |  101 +
+ .../gcc-4_6-branch-backports/0312-PR-c-49120.patch |   50 +
+ .../0313-PR-debug-49032.patch                      |   90 +
+ .../0314-PR-lto-49123.patch                        |   49 +
+ .../0316-Always-add-mno-XXX-for-march-native.patch |   98 +
+ .../0317-PR-target-49133.patch                     |   93 +
+ ...c-sparc.c-sparc_option_override-If-not-se.patch |   27 +
+ .../gcc-4_6-branch-backports/0320-PR-c-48617.patch |   37 +
+ .../gcc-4_6-branch-backports/0321-PR-c-47544.patch |   57 +
+ .../gcc-4_6-branch-backports/0322-PR-c-47336.patch |   53 +
+ .../gcc-4_6-branch-backports/0323-PR-c-47263.patch |   45 +
+ .../gcc-4_6-branch-backports/0324-PR-c-49105.patch |   75 +
+ .../gcc-4_6-branch-backports/0325-PR-c-48884.patch |   86 +
+ .../gcc-4_6-branch-backports/0326-PR-c-49042.patch |   63 +
+ .../gcc-4_6-branch-backports/0327-PR-c-49136.patch |  142 +
+ .../gcc-4_6-branch-backports/0328-In-libobjc.patch |   81 +
+ ...24-Paolo-Carlini-paolo.carlini-oracle.com.patch |   62 +
+ .../0330-PR-tree-optimization-44897.patch          |   24 +
+ .../0331-PR-target-49128.patch                     |   23 +
+ .../gcc-4_6-branch-backports/0332-PR-c-48292.patch |   71 +
+ .../gcc-4_6-branch-backports/0333-PR-c-45080.patch |   59 +
+ .../gcc-4_6-branch-backports/0334-PR-c-45418.patch |   50 +
+ .../gcc-4_6-branch-backports/0335-PR-c-48935.patch |   76 +
+ ...arm-fp16-compile-none-1.c-Update-expected.patch |   74 +
+ .../gcc-4_6-branch-backports/0337-PR-c-47184.patch |   64 +
+ .../gcc-4_6-branch-backports/0338-PR-c-46696.patch |   48 +
+ .../gcc-4_6-branch-backports/0339-PR-c-46245.patch |   88 +
+ .../gcc-4_6-branch-backports/0340-PR-c-46145.patch |   37 +
+ .../gcc-4_6-branch-backports/0341-PR-c-45698.patch |   44 +
+ .../gcc-4_6-branch-backports/0342-PR-c-44311.patch |  125 +
+ .../0343-gcc-cp-ChangeLog.patch                    |  207 +
+ ...25-Paolo-Carlini-paolo.carlini-oracle.com.patch |   76 +
+ ...25-Paolo-Carlini-paolo.carlini-oracle.com.patch |   78 +
+ .../gcc-4_6-branch-backports/0347-PR-c-45401.patch |   51 +
+ .../gcc-4_6-branch-backports/0348-PR-c-49156.patch |   62 +
+ .../0349-PR-tree-optimization-49161.patch          |  200 +
+ .../gcc-4_6-branch-backports/0350-PR-c-49165.patch |   89 +
+ .../0351-PR-target-44643.patch                     |   44 +
+ .../gcc-4_6-branch-backports/0352-PR-c-48424.patch |  105 +
+ ...00-rs6000.c-rs6000_register_move_cost-Mak.patch |   28 +
+ ...-2011-05-26-Paul-Thomas-pault-gcc.gnu.org.patch |  168 +
+ .../gcc-4_6-branch-backports/0357-PR-c-48657.patch |  149 +
+ .../gcc-4_6-branch-backports/0358-PR-c-49165.patch |   89 +
+ .../gcc-4_6-branch-backports/0359-PR-c-48284.patch |   40 +
+ .../gcc-4_6-branch-backports/0360-PR-c-47277.patch |   38 +
+ .../gcc-4_6-branch-backports/0362-PR-c-47049.patch |   62 +
+ ...-05-29-Richard-Guenther-rguenther-suse.de.patch |   68 +
+ .../gcc-4_6-branch-backports/0365-gcc.patch        |  125 +
+ .../gcc-4_6-branch-backports/0366-gcc.patch        |   52 +
+ ...d-PR-target-43700-to-last-changelog-entry.patch |    7 +
+ .../0369-PR-target-45263.patch                     |   71 +
+ ...-05-30-Richard-Guenther-rguenther-suse.de.patch |   69 +
+ .../gcc-4_6-branch-backports/0371-PR-c-49223.patch |   99 +
+ ...-05-31-Richard-Guenther-rguenther-suse.de.patch |   72 +
+ ...-05-31-Richard-Guenther-rguenther-suse.de.patch |   64 +
+ ..._fmsubadd-and-fma4_fmaddsub-mode-suffixes.patch |   36 +
+ ...1-05-31-Thomas-Koenig-tkoenig-gcc.gnu.org.patch |  237 +
+ .../0379-PR-tree-optimization-49093.patch          |   61 +
+ ...1-06-02-Steven-G.-Kargl-kargl-gcc.gnu.org.patch |  139 +
+ .../gcc-4_6-branch-backports/0382-PR-c-49276.patch |   62 +
+ .../0384-PR-tree-optimization-49038.patch          |  367 ++
+ .../0385-PR-debug-47590.patch                      |  490 ++
+ ...-04-Jonathan-Wakely-jwakely.gcc-gmail.com.patch |   29 +
+ .../0388-PR-target-49186.patch                     |   48 +
+ ...c-sparc.c-output_return-Fix-thinko-in-the.patch |   45 +
+ .../gcc-4_6-branch-backports/0391-PR-c-49134.patch |   24 +
+ ...-06-06-Richard-Guenther-rguenther-suse.de.patch |  267 +
+ ...11-06-06-Mikael-Pettersson-mikpe-it.uu.se.patch |   59 +
+ ...Andreas-Krebbel-Andreas.Krebbel-de.ibm.co.patch |   27 +
+ .../gcc-4_6-branch-backports/0395-PR-c-49264.patch |  134 +
+ .../0396-PR-fortran-49268.patch                    |   88 +
+ ...00-rs6000.h-REG_CLASS_CONTENTS-Remove-vr0.patch |   23 +
+ .../gcc-4_6-branch-backports/0398-PR-c-49298.patch |   37 +
+ .../0400-PR-gcov-profile-49299.patch               |  158 +
+ .../gcc-4_6-branch-backports/0401-PR-c-48780.patch |   63 +
+ .../0403-PR-target-49238.patch                     |   53 +
+ ...404-Support-unknown-Intel-family-0x6-CPUs.patch |   48 +
+ ...c-sparc.md-return_internal-Adjust-length-.patch |   24 +
+ ...-potential_constant_expression_1-Handle-d.patch |   35 +
+ ...-finish_compound_literal-Set-TREE_HAS_CON.patch |   22 +
+ .../0410-lib-target-supports.exp.patch             |   34 +
+ ...te-gcc.target-arm-20090811-1.c-Skip-for-i.patch |   79 +
+ ...-sse.md-vec_dupv4sf-Correct-mode-of-force.patch |   50 +
+ .../gcc/gcc-4_6-branch-backports.inc               |  170 +-
+ 330 files changed, 28144 insertions(+), 321 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0201-PR-tree-optimization-48809.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0202-2011-04-30-Paul-Thomas-pault-gcc.gnu.org.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0203-2011-04-30-Jerry-DeLisle-jvdelisle-gcc.gnu.org.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0205-2011-04-30-Doug-Kwan-dougkwan-google.com.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0207-Backport-from-mainline.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0209-PR-target-48723.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0210-2011-05-03-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0211-PR-target-48774.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0212-2011-05-03-Paolo-Carlini-paolo.carlini-oracle.com.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0214-include-ext-sso_string_base.h-__sso_string_base-_M_c.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0215-config-i386-i386.md-movdi_internal_rex64-TYPE_SSEMOV.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0216-2011-05-04-Steven-G.-Kargl-kargl-gcc.gnu.org.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0218-PR-c-48749.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0219-Backport-from-mainline.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0220-gcc.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0221-PR-ada-48844.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0222-PR-c-40975.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0223-Add-missing-break-for-OPT_mfpu_-case.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0224-2011-05-06-Jonathan-Wakely-jwakely.gcc-gmail.com.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0226-Fix-PR-c-48838.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0227-PR-fortran-48894.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0228-2011-05-06-Ramana-Radhakrishnan-ramana.radhakrishnan.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0229-2011-05-06-Andreas-Krebbel-Andreas.Krebbel-de.ibm.co.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0230-PR-target-48900.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0231-config-i386-i386.md-movdf_internal_nointeger-Apply.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0232-PR-c-48089.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0233-PR-c-48446.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0234-PR-c-48911.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0235-PR-c-48909.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0239-var-tracking.c-find_mem_expr_in_1pdv-Fix-thinko.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0240-Fix-PR-c-48574.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0241-2011-05-09-Andreas-Krebbel-Andreas.Krebbel-de.ibm.co.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0242-2011-05-09-Paolo-Carlini-paolo.carlini-oracle.com.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0244-PR-tree-optimization-48611.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0245-Backported-from-mainline.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0246-config-rx-rx.h-JUMP_ALIGN-LABEL_ALIGN-LOOP_ALIGN-Def.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0248-config-rx-rx.c-rx_memory_move_cost-Reduce-the-cost-f.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0249-Fix-PRs-48857-48495.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0251-gcc-cp-ChangeLog.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0252-PR-debug-48159.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0253-2011-05-11-Tobias-Burnus-burnus-net-b.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0255-pt.c-build_non_dependent_expr-Don-t-check-null_ptr_c.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0256-config-rx-rx.h-HAVE_PRE_DECREMENT-Fix-typo.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0257-zh_CN.po-Update.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0258-PR-debug-48967.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0259-2011-05-12-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0260-PR-tree-optimization-48975.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0263-zh_CN.po-Update.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0266-config-i386-i386.md-movxf_internal-Disable-CONST_DOU.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0267-PR-preprocessor-48677.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0269-PR-target-48986.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0270-config-rx-rx.md-Add-peephole-to-remove-redundant-ext.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0271-config-rx-rx.c-rx_memory_move_cost-Include-cost-of-r.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0273-PR-tree-optimization-49000.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0274-PR-tree-optimization-49000.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0275-2011-05-18-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0276-2011-05-18-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0277-2011-05-18-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0278-PR-tree-optimization-49039.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0279-Properly-handle-256bit-load-cast.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0281-PR-c-48869.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0282-gcc.c-torture-execute-960321-1.x-Remove.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0283-zh_CN.po-Update.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0284-PR-c-49043.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0285-2011-05-19-Uros-Bizjak-ubizjak-gmail.com.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0287-PR-tree-optimization-49073.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0288-2011-05-20-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0289-PR-bootstrap-49086.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0290-PR-c-48873.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0291-PR-c-48736.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0292-PR-c-48745.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0293-semantics.c-register_constexpr_fundef-Add-to-hash-ta.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0294-semantics.c-validate_constexpr_fundecl-Check-DECL_TE.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0295-PR-c-48948.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0296-DR-1073.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0298-In-gcc-objc.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0299-PR-c-49066.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0300-config-sparc-sparc.c-eligible_for_return_delay-Do-no.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0301-config-sparc-sparc.md-setjmp-Handle-PIC-mode-and-use.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0303-PR-c-48780.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0304-PR-c-48945.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0305-PR-middle-end-49029.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0306-PR-target-49104.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0307-config.gcc-sparc-elf-Add-sparc-t-crtin.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0308-PR-c-48647.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0309-2011-05-22-Jonathan-Wakely-jwakely.gcc-gmail.com.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0311-PR-middle-end-48973.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0312-PR-c-49120.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0313-PR-debug-49032.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0314-PR-lto-49123.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0316-Always-add-mno-XXX-for-march-native.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0317-PR-target-49133.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0318-config-sparc-sparc.c-sparc_option_override-If-not-se.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0320-PR-c-48617.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0321-PR-c-47544.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0322-PR-c-47336.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0323-PR-c-47263.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0324-PR-c-49105.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0325-PR-c-48884.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0326-PR-c-49042.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0327-PR-c-49136.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0328-In-libobjc.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0329-2011-05-24-Paolo-Carlini-paolo.carlini-oracle.com.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0330-PR-tree-optimization-44897.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0331-PR-target-49128.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0332-PR-c-48292.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0333-PR-c-45080.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0334-PR-c-45418.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0335-PR-c-48935.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0336-gcc.target-arm-fp16-compile-none-1.c-Update-expected.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0337-PR-c-47184.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0338-PR-c-46696.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0339-PR-c-46245.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0340-PR-c-46145.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0341-PR-c-45698.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0342-PR-c-44311.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0343-gcc-cp-ChangeLog.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0344-2011-05-25-Paolo-Carlini-paolo.carlini-oracle.com.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0345-2011-05-25-Paolo-Carlini-paolo.carlini-oracle.com.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0347-PR-c-45401.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0348-PR-c-49156.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0349-PR-tree-optimization-49161.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0350-PR-c-49165.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0351-PR-target-44643.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0352-PR-c-48424.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0354-config-rs6000-rs6000.c-rs6000_register_move_cost-Mak.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0355-2011-05-26-Paul-Thomas-pault-gcc.gnu.org.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0357-PR-c-48657.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0358-PR-c-49165.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0359-PR-c-48284.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0360-PR-c-47277.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0362-PR-c-47049.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0364-2011-05-29-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0365-gcc.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0366-gcc.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0367-Add-PR-target-43700-to-last-changelog-entry.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0369-PR-target-45263.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0370-2011-05-30-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0371-PR-c-49223.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0373-2011-05-31-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0374-2011-05-31-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0375-Fix-fma4_fmsubadd-and-fma4_fmaddsub-mode-suffixes.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0376-2011-05-31-Thomas-Koenig-tkoenig-gcc.gnu.org.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0379-PR-tree-optimization-49093.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0380-2011-06-02-Steven-G.-Kargl-kargl-gcc.gnu.org.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0382-PR-c-49276.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0384-PR-tree-optimization-49038.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0385-PR-debug-47590.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0386-2011-06-04-Jonathan-Wakely-jwakely.gcc-gmail.com.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0388-PR-target-49186.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0389-config-sparc-sparc.c-output_return-Fix-thinko-in-the.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0391-PR-c-49134.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0392-2011-06-06-Richard-Guenther-rguenther-suse.de.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0393-2011-06-06-Mikael-Pettersson-mikpe-it.uu.se.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0394-2011-06-06-Andreas-Krebbel-Andreas.Krebbel-de.ibm.co.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0395-PR-c-49264.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0396-PR-fortran-49268.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0397-config-rs6000-rs6000.h-REG_CLASS_CONTENTS-Remove-vr0.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0398-PR-c-49298.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0400-PR-gcov-profile-49299.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0401-PR-c-48780.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0403-PR-target-49238.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0404-Support-unknown-Intel-family-0x6-CPUs.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0406-config-sparc-sparc.md-return_internal-Adjust-length-.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0408-semantics.c-potential_constant_expression_1-Handle-d.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0409-semantics.c-finish_compound_literal-Set-TREE_HAS_CON.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0410-lib-target-supports.exp.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0411-gcc-testsuite-gcc.target-arm-20090811-1.c-Skip-for-i.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/gcc-4_6-branch-backports/0413-config-i386-sse.md-vec_dupv4sf-Correct-mode-of-force.patch
+
 -- 
-1.6.6.1
+1.7.4.1
 
 
 
