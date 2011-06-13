@@ -1,23 +1,23 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QW2eu-0004v0-DM for openembedded-core@lists.openembedded.org;
-	Mon, 13 Jun 2011 10:38:08 +0200
+	id 1QW2ux-000590-GD for openembedded-core@lists.openembedded.org;
+	Mon, 13 Jun 2011 10:54:43 +0200
 Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
 	helo=[192.168.114.3])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>)
-	id 1QW2bZ-0002CL-Ol; Mon, 13 Jun 2011 10:34:41 +0200
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QW2rh-0002DL-S1
+	for openembedded-core@lists.openembedded.org;
+	Mon, 13 Jun 2011 10:51:21 +0200
 From: Phil Blundell <pb@pbcl.net>
-To: Saul Wold <sgw@linux.intel.com>
-In-Reply-To: <22f849c8a4e592ed6a828d85a353dcfaf1e558be.1307947593.git.sgw@linux.intel.com>
-References: <cover.1307947593.git.sgw@linux.intel.com>
-	<22f849c8a4e592ed6a828d85a353dcfaf1e558be.1307947593.git.sgw@linux.intel.com>
-Date: Mon, 13 Jun 2011 09:34:33 +0100
-Message-ID: <1307954073.6879.1.camel@lenovo.internal.reciva.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <cover.1307937636.git.raj.khem@gmail.com>
+References: <cover.1307937636.git.raj.khem@gmail.com>
+Date: Mon, 13 Jun 2011 09:51:15 +0100
+Message-ID: <1307955075.6879.11.camel@lenovo.internal.reciva.com>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.30.3 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [*RFC CONSOLIDATED PULL RFC* 16/23] uclibc: remove PACKAGE_ARCH, fix compilation on i586
+Subject: Re: [PATCH 0/1] Upgrade gcc 4.6.0 to latest on FSF 4.6 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,20 +32,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jun 2011 08:38:08 -0000
+X-List-Received-Date: Mon, 13 Jun 2011 08:54:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2011-06-12 at 23:54 -0700, Saul Wold wrote:
-> From: Phil Blundell <pb@pbcl.net>
+On Sun, 2011-06-12 at 21:03 -0700, Khem Raj wrote:
+> This patch brings in new patches from gcc 4.6 FSF branch
+> And refreshes the headers of existing backported patches
+> to not have git patch numbers in comments
 > 
-> There is no good reason for uclibc to be machine specific.  Remove local
-> assignment to PACKAGE_ARCH so that it gets the default target
-> architecture and bump PR for that change.
+> I am not sending the patch itself to mailing list due to its
+> large size so please review it on the contrib tree itself
+> 
 
-I just noticed that I forgot to update the subject line when I split
-this patch into three.  This part no longer has anything to do with i586
-compile fixes; it should just be "uclibc: remove PACKAGE_ARCH".
+Would we not be better off just pulling the tip of the 4.6 branch from
+FSF SVN, rather than having to keep all these patches in git?
 
 p.
 
