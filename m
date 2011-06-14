@@ -1,40 +1,26 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders.darander@gmail.com>) id 1QWQzI-0006AI-EF
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QWR1d-0007BJ-3b for openembedded-core@lists.openembedded.org;
+	Tue, 14 Jun 2011 12:39:13 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QWQyM-00049G-6Q
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 12:36:48 +0200
-Received: by fxm19 with SMTP id 19so4254588fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 03:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=VDtmTxVB6h6b49+9VNQLDGIRNVCTIwPPNLkkYGd/xiQ=;
-	b=GUDwk65BwIGkN2tmF0ZFSCmR2hZE9LCkb/yl6+YBOST7LB1wpFZx+aBuARibsSnH6r
-	rlqu+37j3g6WAwpBe1+1R0nuSc3Mp9DRHNd32g+BZE/iXa5eWPi/tIO091JXVqFBjbfA
-	tSRQjnFP2GBwXphVP9hpi3B2G3CYq+V3XEP+Y=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	b=Bxe1X8Natmxbc8vVt47oKXUhmecs6u9oeQyUS/tNIEorMnWvp1TDOW+zHTPHAnJJc4
-	KqY0iIYigtMapqM7CPGewhQWsXvH4MqlAqQp0TVwMKKf37uUKZ6YPcNwykuTw60WIZev
-	GUXsOsu0fo5q95ar5gP6SpR++67oDucDNAgUk=
-MIME-Version: 1.0
-Received: by 10.223.64.66 with SMTP id d2mr1385813fai.116.1308047602682; Tue,
-	14 Jun 2011 03:33:22 -0700 (PDT)
-Sender: anders.darander@gmail.com
-Received: by 10.223.109.19 with HTTP; Tue, 14 Jun 2011 03:33:22 -0700 (PDT)
-In-Reply-To: <BANLkTi=u8pJ=pkgmWLuPnqKNjRow18X70A@mail.gmail.com>
+	Tue, 14 Jun 2011 12:35:50 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <BANLkTimyQdXV9Fxp8EuAfEWfX2=eGt=O+Q@mail.gmail.com>
 References: <1307985976-22648-1-git-send-email-anders@chargestorm.se>
 	<BANLkTimkU94WYhGGac5P88GMUA6mk7NCKg@mail.gmail.com>
 	<BANLkTikkaDK6122A-=H+TS01oTsAtfD2qg@mail.gmail.com>
 	<BANLkTi=u8pJ=pkgmWLuPnqKNjRow18X70A@mail.gmail.com>
-Date: Tue, 14 Jun 2011 12:33:22 +0200
-X-Google-Sender-Auth: 9TOxEjDxOxgaryPP9B3hSTqjxYE
-Message-ID: <BANLkTimyQdXV9Fxp8EuAfEWfX2=eGt=O+Q@mail.gmail.com>
-From: Anders Darander <anders@chargestorm.se>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<BANLkTimyQdXV9Fxp8EuAfEWfX2=eGt=O+Q@mail.gmail.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Tue, 14 Jun 2011 11:35:49 +0100
+Message-ID: <1308047749.25285.248.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
 Subject: Re: [PATCH] runqemu: take TMPDIR from bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -50,55 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 10:36:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 14 Jun 2011 10:39:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 14, 2011 at 11:25, Yury Bushmelev <jay4mail@gmail.com> wrote:
-> 2011/6/14 Anders Darander <anders@chargestorm.se>:
->> On Tue, Jun 14, 2011 at 00:22, Yury Bushmelev <jay4mail@gmail.com> wrote:
->>> Getting some variable from bitbake is frequently used task. May be our
->>> bitbake people will add some special mode to bitbake for this? E.b.
->>> like bsd make have (make -V KERNCONF)[1].
->>>
->>> I would suggest syntax like 'bitbake -V TMPDIR'
->>
->> That would definitely simplify a few lines in a number of scripts.
->
-> Note that user may request more than one variable with single bitbake
-> invocation. E.g.:
->
-> bitbake -V TMPDIR -V DEPLOY_DIR
->
-> In this case better to prefix variable value with name, like set does:
->
-> TMPDIR=/path/to/tmpdir
-> DEPLOY_DIR=/path/to/deploydir
+On Tue, 2011-06-14 at 12:33 +0200, Anders Darander wrote:
+> Sure, if we need multiple variables, we'll save time by only invoking
+> bitbake (and parse all configs, etc) once. On the other hand, have we
+> then gained anything, as compared to 'bitbake -e'? Sure, we'll reduce
+> the output, by only outputing the requested variables... But in the
+> original case: TMPDIR=`bitbake -e | grep TMPDIR=\" | cut -d '=' -f2 |
+> cut -d '"' -f2`
+> the only change we can do is to substitute 'bitbake -e' with 'bitbake
+> -V TMDPDIR', which wouldn't be any improvement.
 
-The question is, how often do we assume that multiple variable will be
-requested?
+Well, that's not quite true.  If "bitbake -V" outputted the full
+assignment then you could just write:
 
-Sure, if we need multiple variables, we'll save time by only invoking
-bitbake (and parse all configs, etc) once. On the other hand, have we
-then gained anything, as compared to 'bitbake -e'? Sure, we'll reduce
-the output, by only outputing the requested variables... But in the
-original case: TMPDIR=`bitbake -e | grep TMPDIR=\" | cut -d '=' -f2 |
-cut -d '"' -f2`
-the only change we can do is to substitute 'bitbake -e' with 'bitbake
--V TMDPDIR', which wouldn't be any improvement.
+eval `bitbake -V TMPDIR`
 
-Or should `bitbake -V TMPDIR` only output '/path/to/tmpdir', and
-`bitbake -V TMPDIR -V DEPLOY_DIR`output
-TMPDIR=/path/to/tmpdir
-DEPLOY_DIR=/path/to/deploydir
-i.e. only prefix the variable value if more than one variable is requested?
+which would be a considerable improvement.
 
-I'd like `bitbake -V TMPDIR` to only output the value, as otherwise we
-can just use `bitbake -e` anyway. If we make  `bitbake -V TMPDIR` only
-output the value, then the question is should we only allow a singel
-'-V VARIABLE', or should we accept multiple variables, and then prefix
-the values?
+p.
 
-Regards,
-Anders
+
 
 
