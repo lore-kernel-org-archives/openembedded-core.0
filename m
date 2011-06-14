@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QWOd2-0001K6-Vo
+	(envelope-from <sgw@linux.intel.com>) id 1QWOd4-0001K5-8e
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 10:05:41 +0200
+	Tue, 14 Jun 2011 10:05:42 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:14 -0700
+	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283934"
+X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283943"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.216])
 	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:14 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2011 01:01:32 -0700
-Message-Id: <ab8dd5e34facf171bc81b62639d82772871b7cdd.1308037753.git.sgw@linux.intel.com>
+Date: Tue, 14 Jun 2011 01:01:34 -0700
+Message-Id: <c13161e05cb4226397422f024b756a55c6412c72.1308037753.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 23/51] eglibc 2.12/2.13: Upgrade SRCREV
+Subject: [CONSOLIDATED PULL 25/51] tcmode-default: fix PREFERRED_VERSION_gcc-cross-canadian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,46 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 08:05:42 -0000
+X-List-Received-Date: Tue, 14 Jun 2011 08:05:43 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-We need http://www.eglibc.org/archives/patches/msg00923.html
-to get through the problem we see when OPTION_EGLIBC_RTLD_DEBUG
-is disabled. This patch has been backported to both 2.12 and 2.13
-branches. We bump SRCREVs to have that change.
+[YOCTO #1163]
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+For some test I need to back to use gcc-4.5, so I changed GCCVERSION and
+SDKGCCVERSION to "4.5.1", but I found gcc-cross-canadian's 4.6.0, rather
+than 4.5.1, would be built! Finally I made this patch to fix the issue.
+
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/recipes-core/eglibc/eglibc_2.12.bb |    2 +-
- meta/recipes-core/eglibc/eglibc_2.13.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-core/eglibc/eglibc_2.12.bb b/meta/recipes-core/eglibc/eglibc_2.12.bb
-index e69cd0f..d851b5d 100644
---- a/meta/recipes-core/eglibc/eglibc_2.12.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.12.bb
-@@ -4,7 +4,7 @@ DEPENDS += "gperf-native"
- FILESPATHPKG =. "eglibc-svn:"
- PR = "r14"
- 
--SRCREV = "11982"
-+SRCREV = "14158"
- 
- EGLIBC_BRANCH="eglibc-2_12"
- SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http \
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index c77bf3c..9a9773c 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -1,6 +1,6 @@
- require eglibc.inc
- 
--SRCREV = "13356"
-+SRCREV = "14157"
- 
- DEPENDS += "gperf-native"
- FILESPATHPKG =. "eglibc-svn:"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 6eb34ef..90282ee 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -37,7 +37,7 @@ PREFERRED_VERSION_gcc-cross-intermediate ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-crosssdk ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_gcc-crosssdk-initial ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_gcc-crosssdk-intermediate ?= "${SDKGCCVERSION}"
+-PREFERRED_VERSION_gcc-cross-canadian ?= "${GCCVERSION}"
++PREFERRED_VERSION_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-runtime ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-runtime-nativesdk ?= "${SDKGCCVERSION}"
+ PREFERRED_VERSION_libgcc ?= "${GCCVERSION}"
 -- 
 1.7.3.4
 
