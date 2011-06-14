@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QWOcx-0001K6-OH
+	(envelope-from <sgw@linux.intel.com>) id 1QWOcx-0001K8-Qw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 10:05:35 +0200
+	Tue, 14 Jun 2011 10:05:36 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:09 -0700
+	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283884"
+X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283890"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.216])
-	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:08 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:09 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2011 01:01:20 -0700
-Message-Id: <97bf4aa41fd7e3bba4ff88ac1e9ea471968dabe9.1308037753.git.sgw@linux.intel.com>
+Date: Tue, 14 Jun 2011 01:01:22 -0700
+Message-Id: <9a8b9d08f785cdd91b20f79fc3ddab28af6468a7.1308037753.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 11/51] uclibc.inc: libsegfault is only RPROVIDED by uclibc
+Subject: [CONSOLIDATED PULL 13/51] uclibc: Cleanup the machine dependent config files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +33,316 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 08:05:36 -0000
+X-List-Received-Date: Tue, 14 Jun 2011 08:05:37 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
-Using ${PN} also means that uclibc-initial gets to provide it
-which we do not want
+We only have arch specific machine fragments now.
+Introduce use of KCONFIG_ALLCONFIG and use allnoconfig
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/uclibc/uclibc.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../uclibc/uclibc-git/armv5te/uClibc.machine       |    4 +-
+ .../{nslu2be => armv5teb}/uClibc.machine           |    0
+ .../uclibc/uclibc-git/efika/uClibc.machine         |   45 ------------
+ .../uclibc-git/{qemumips => mips}/uClibc.machine   |    0
+ .../uclibc/uclibc-git/qemuarm/uClibc.machine       |   77 --------------------
+ .../uclibc/uclibc-git/qemux86/uClibc.machine       |   59 ---------------
+ meta/recipes-core/uclibc/uclibc-git/uClibc.distro  |   14 ++++-
+ meta/recipes-core/uclibc/uclibc.inc                |    5 +-
+ meta/recipes-core/uclibc/uclibc_git.bb             |    1 -
+ 9 files changed, 17 insertions(+), 188 deletions(-)
+ rename meta/recipes-core/uclibc/uclibc-git/{nslu2be => armv5teb}/uClibc.machine (100%)
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-git/efika/uClibc.machine
+ rename meta/recipes-core/uclibc/uclibc-git/{qemumips => mips}/uClibc.machine (100%)
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-git/qemuarm/uClibc.machine
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-git/qemux86/uClibc.machine
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-git/uClibc.config
 
+diff --git a/meta/recipes-core/uclibc/uclibc-git/armv5te/uClibc.machine b/meta/recipes-core/uclibc/uclibc-git/armv5te/uClibc.machine
+index b012a38..2242dc9 100644
+--- a/meta/recipes-core/uclibc/uclibc-git/armv5te/uClibc.machine
++++ b/meta/recipes-core/uclibc/uclibc-git/armv5te/uClibc.machine
+@@ -38,14 +38,14 @@ FORCE_OPTIONS_FOR_ARCH=y
+ CONFIG_ARM_EABI=y
+ # COMPILE_IN_THUMB_MODE is not set
+ USE_BX=y
+-CONFIG_GENERIC_ARM=y
++# CONFIG_GENERIC_ARM is not set
+ # CONFIG_ARM610 is not set
+ # CONFIG_ARM710 is not set
+ # CONFIG_ARM7TDMI is not set
+ # CONFIG_ARM720T is not set
+ # CONFIG_ARM920T is not set
+ # CONFIG_ARM922T is not set
+-# CONFIG_ARM926T is not set
++CONFIG_ARM926T=y
+ # CONFIG_ARM10T is not set
+ # CONFIG_ARM1136JF_S is not set
+ # CONFIG_ARM1176JZ_S is not set
+diff --git a/meta/recipes-core/uclibc/uclibc-git/nslu2be/uClibc.machine b/meta/recipes-core/uclibc/uclibc-git/armv5teb/uClibc.machine
+similarity index 100%
+rename from meta/recipes-core/uclibc/uclibc-git/nslu2be/uClibc.machine
+rename to meta/recipes-core/uclibc/uclibc-git/armv5teb/uClibc.machine
+diff --git a/meta/recipes-core/uclibc/uclibc-git/efika/uClibc.machine b/meta/recipes-core/uclibc/uclibc-git/efika/uClibc.machine
+deleted file mode 100644
+index 5ed7b51..0000000
+--- a/meta/recipes-core/uclibc/uclibc-git/efika/uClibc.machine
++++ /dev/null
+@@ -1,45 +0,0 @@
+-#
+-# Automatically generated make config: don't edit
+-# Wed Dec 20 11:05:48 2006
+-#
+-# TARGET_alpha is not set
+-# TARGET_arm is not set
+-# TARGET_bfin is not set
+-# TARGET_cris is not set
+-# TARGET_e1 is not set
+-# TARGET_frv is not set
+-# TARGET_h8300 is not set
+-# TARGET_hppa is not set
+-# TARGET_i386 is not set
+-# TARGET_i960 is not set
+-# TARGET_ia64 is not set
+-# TARGET_m68k is not set
+-# TARGET_microblaze is not set
+-# TARGET_mips is not set
+-# TARGET_nios is not set
+-# TARGET_nios2 is not set
+-TARGET_powerpc=y
+-# TARGET_sh is not set
+-# TARGET_sh64 is not set
+-# TARGET_sparc is not set
+-# TARGET_v850 is not set
+-# TARGET_vax is not set
+-# TARGET_x86_64 is not set
+-
+-#
+-# Target Architecture Features and Options
+-#
+-TARGET_ARCH="powerpc"
+-FORCE_OPTIONS_FOR_ARCH=y
+-ARCH_BIG_ENDIAN=y
+-
+-#
+-# Using Big Endian
+-#
+-ARCH_HAS_MMU=y
+-ARCH_USE_MMU=y
+-UCLIBC_HAS_FLOATS=y
+-UCLIBC_HAS_FPU=y
+-DO_C99_MATH=y
+-KERNEL_HEADERS="<path/to/kernel/headers>" 
+-HAVE_DOT_CONFIG=y
+diff --git a/meta/recipes-core/uclibc/uclibc-git/qemumips/uClibc.machine b/meta/recipes-core/uclibc/uclibc-git/mips/uClibc.machine
+similarity index 100%
+rename from meta/recipes-core/uclibc/uclibc-git/qemumips/uClibc.machine
+rename to meta/recipes-core/uclibc/uclibc-git/mips/uClibc.machine
+diff --git a/meta/recipes-core/uclibc/uclibc-git/qemuarm/uClibc.machine b/meta/recipes-core/uclibc/uclibc-git/qemuarm/uClibc.machine
+deleted file mode 100644
+index 2242dc9..0000000
+--- a/meta/recipes-core/uclibc/uclibc-git/qemuarm/uClibc.machine
++++ /dev/null
+@@ -1,77 +0,0 @@
+-#
+-# Automatically generated make config: don't edit
+-# Version: 0.9.32-git
+-# Mon Jul 19 01:34:29 2010
+-#
+-# TARGET_alpha is not set
+-TARGET_arm=y
+-# TARGET_avr32 is not set
+-# TARGET_bfin is not set
+-# TARGET_cris is not set
+-# TARGET_e1 is not set
+-# TARGET_frv is not set
+-# TARGET_h8300 is not set
+-# TARGET_hppa is not set
+-# TARGET_i386 is not set
+-# TARGET_i960 is not set
+-# TARGET_ia64 is not set
+-# TARGET_m68k is not set
+-# TARGET_microblaze is not set
+-# TARGET_mips is not set
+-# TARGET_nios is not set
+-# TARGET_nios2 is not set
+-# TARGET_powerpc is not set
+-# TARGET_sh is not set
+-# TARGET_sh64 is not set
+-# TARGET_sparc is not set
+-# TARGET_v850 is not set
+-# TARGET_vax is not set
+-# TARGET_x86_64 is not set
+-# TARGET_xtensa is not set
+-
+-#
+-# Target Architecture Features and Options
+-#
+-TARGET_ARCH="arm"
+-FORCE_OPTIONS_FOR_ARCH=y
+-# CONFIG_ARM_OABI is not set
+-CONFIG_ARM_EABI=y
+-# COMPILE_IN_THUMB_MODE is not set
+-USE_BX=y
+-# CONFIG_GENERIC_ARM is not set
+-# CONFIG_ARM610 is not set
+-# CONFIG_ARM710 is not set
+-# CONFIG_ARM7TDMI is not set
+-# CONFIG_ARM720T is not set
+-# CONFIG_ARM920T is not set
+-# CONFIG_ARM922T is not set
+-CONFIG_ARM926T=y
+-# CONFIG_ARM10T is not set
+-# CONFIG_ARM1136JF_S is not set
+-# CONFIG_ARM1176JZ_S is not set
+-# CONFIG_ARM1176JZF_S is not set
+-# CONFIG_ARM_CORTEX_M3 is not set
+-# CONFIG_ARM_CORTEX_M1 is not set
+-# CONFIG_ARM_SA110 is not set
+-# CONFIG_ARM_SA1100 is not set
+-# CONFIG_ARM_XSCALE is not set
+-# CONFIG_ARM_IWMMXT is not set
+-TARGET_SUBARCH=""
+-
+-#
+-# Using ELF file format
+-#
+-ARCH_ANY_ENDIAN=y
+-ARCH_LITTLE_ENDIAN=y
+-# ARCH_WANTS_BIG_ENDIAN is not set
+-ARCH_WANTS_LITTLE_ENDIAN=y
+-ARCH_HAS_MMU=y
+-ARCH_USE_MMU=y
+-UCLIBC_HAS_FLOATS=y
+-# UCLIBC_HAS_FPU is not set
+-UCLIBC_HAS_SOFT_FLOAT=y
+-DO_C99_MATH=y
+-# DO_XSI_MATH is not set
+-# UCLIBC_HAS_FENV is not set
+-KERNEL_HEADERS="/usr/include"
+-HAVE_DOT_CONFIG=y
+diff --git a/meta/recipes-core/uclibc/uclibc-git/qemux86/uClibc.machine b/meta/recipes-core/uclibc/uclibc-git/qemux86/uClibc.machine
+deleted file mode 100644
+index 3909ccc..0000000
+--- a/meta/recipes-core/uclibc/uclibc-git/qemux86/uClibc.machine
++++ /dev/null
+@@ -1,59 +0,0 @@
+-#
+-# Automatically generated make config: don't edit
+-#
+-# TARGET_alpha is not set
+-# TARGET_arm is not set
+-# TARGET_bfin is not set
+-# TARGET_cris is not set
+-# TARGET_e1 is not set
+-# TARGET_frv is not set
+-# TARGET_h8300 is not set
+-# TARGET_hppa is not set
+-TARGET_i386=y
+-# TARGET_i960 is not set
+-# TARGET_m68k is not set
+-# TARGET_microblaze is not set
+-# TARGET_mips is not set
+-# TARGET_nios is not set
+-# TARGET_nios2 is not set
+-# TARGET_powerpc is not set
+-# TARGET_sh is not set
+-# TARGET_sh64 is not set
+-# TARGET_sparc is not set
+-# TARGET_v850 is not set
+-# TARGET_x86_64 is not set
+-
+-#
+-# Target Architecture Features and Options
+-#
+-TARGET_ARCH="i386"
+-# ARCH_SUPPORTS_BIG_ENDIAN is not set
+-ARCH_SUPPORTS_LITTLE_ENDIAN=y
+-FORCE_OPTIONS_FOR_ARCH=y
+-# CONFIG_GENERIC_386 is not set
+-# CONFIG_386 is not set
+-# CONFIG_486 is not set
+-# CONFIG_586 is not set
+-# CONFIG_586MMX is not set
+-# CONFIG_686 is not set
+-# CONFIG_PENTIUMII is not set
+-# CONFIG_PENTIUMIII is not set
+-CONFIG_PENTIUM4=y
+-# CONFIG_K6 is not set
+-# CONFIG_K7 is not set
+-# CONFIG_ELAN is not set
+-# CONFIG_CRUSOE is not set
+-# CONFIG_WINCHIPC6 is not set
+-# CONFIG_WINCHIP2 is not set
+-# CONFIG_CYRIXIII is not set
+-# CONFIG_NEHEMIAH is not set
+-ARCH_LITTLE_ENDIAN=y
+-# ARCH_BIG_ENDIAN is not set
+-# ARCH_HAS_NO_MMU is not set
+-ARCH_HAS_MMU=y
+-UCLIBC_HAS_FLOATS=y
+-UCLIBC_HAS_FPU=y
+-DO_C99_MATH=y
+-# UCLIBC_HAS_FENV is not set
+-KERNEL_HEADERS="<path/to/kernel/headers>"
+-HAVE_DOT_CONFIG=y
+diff --git a/meta/recipes-core/uclibc/uclibc-git/uClibc.config b/meta/recipes-core/uclibc/uclibc-git/uClibc.config
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/meta/recipes-core/uclibc/uclibc-git/uClibc.distro b/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
+index a1b7813..45b131d 100644
+--- a/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
++++ b/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
+@@ -157,4 +157,16 @@ WARNINGS="-Wall"
+ DO_C99_MATH=y
+ UCLIBC_HAS_LONG_DOUBLE_MATH=y
+ UCLIBC_HAS_FENV=y
+-
++UCLIBC_LINUX_SPECIFIC=y
++UCLIBC_HAS_REALTIME=y
++UCLIBC_HAS_ADVANCED_REALTIME=y
++UCLIBC_HAS_NETWORK_SUPPORT=y
++UCLIBC_HAS_SOCKET=y
++UCLIBC_HAS_BSD_ERR=y
++UCLIBC_HAS_SYSLOG=y
++UCLIBC_HAS_CRYPT=y
++UCLIBC_HAS_CRYPT_IMPL=y
++UCLIBC_HAS_GNU_ERROR=y
++UCLIBC_HAS_PTY=y
++UCLIBC_BSD_SPECIFIC=y
++UCLIBC_HAS_EPOLL=y
 diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-index c1bc422..0f8c6c2 100644
+index 0f8c6c2..2bf3017 100644
 --- a/meta/recipes-core/uclibc/uclibc.inc
 +++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -99,7 +99,7 @@ RPROVIDES_uclibc-dev += "libc-dev virtual-libc-dev"
- # uclibc does not really have libsegfault but then using the one from glibc is also not
- # going to work. So we pretend that we have it to make bitbake not pull other recipes
- # to satisfy this dependency for the images/tasks
--RPROVIDES_${PN} += "libsegfault"
-+RPROVIDES_uclibc += "libsegfault"
+@@ -202,12 +202,11 @@ do_configure() {
+         echo "### FPU" >>${S}/merged.config
+         echo "### ABI" >>${S}/merged.config
+         echo "### DISTRO FEATURES" >>${S}/merged.config
+-        cp ${S}/merged.config ${S}/.config
  
- SRC_URI = "\
-         http://www.uclibc.org/downloads/uClibc-${PV}.tar.bz2;name=uClibc-${PV} \
+         # Mangle the resulting .config depending on OE variables
+-        sed -i -e '${configmangle}' ${S}/.config
++        sed -i -e '${configmangle}' ${S}/merged.config
+ 
+-        oe_runmake oldconfig
++        oe_runmake KCONFIG_ALLCONFIG=${S}/merged.config allnoconfig
+ }
+ 
+ do_install() {
+diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
+index 54babca..f5c861b 100644
+--- a/meta/recipes-core/uclibc/uclibc_git.bb
++++ b/meta/recipes-core/uclibc/uclibc_git.bb
+@@ -10,7 +10,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/uclibc-git' ], d)}"
+ 
+ SRC_URI = "git://uclibc.org/uClibc.git;branch=master;protocol=git \
+-	file://uClibc.config \
+ 	file://uClibc.machine \
+ 	file://uClibc.distro \
+ 	file://uclibc-arm-ftruncate64.patch \
 -- 
 1.7.3.4
 
