@@ -1,27 +1,26 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QWOLF-0000dx-1n
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QWOLv-0000fP-8O for openembedded-core@lists.openembedded.org;
+	Tue, 14 Jun 2011 09:47:59 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QWOIe-0003v5-HP
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 09:47:17 +0200
-Received: by wwb17 with SMTP id 17so4672440wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 00:43:49 -0700 (PDT)
-Received: by 10.216.237.136 with SMTP id y8mr388923weq.76.1308037429057;
-	Tue, 14 Jun 2011 00:43:49 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id g2sm1445245wes.10.2011.06.14.00.43.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 14 Jun 2011 00:43:48 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1308029130-29774-1-git-send-email-raj.khem@gmail.com>
-Date: Tue, 14 Jun 2011 09:43:46 +0200
-Message-Id: <1836E884-F668-4D8C-B4DF-A27B7FC6FFF8@dominion.thruhere.net>
-References: <1308029130-29774-1-git-send-email-raj.khem@gmail.com>
+	Tue, 14 Jun 2011 09:44:36 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] allarch.bbclass: Set FEED_ARCH to 'allarch'
+In-Reply-To: <4DF68AD4.1020403@mentor.com>
+References: <46ED2218-6735-449C-B10C-D557B92DA339@dominion.thruhere.net>
+	<4DF672F2.2030909@linux.intel.com>
+	<49501374-7FBE-400E-A91B-BD7EBD7FB65C@dominion.thruhere.net>
+	<1308000620.15712.288.camel@rex>  <4DF68AD4.1020403@mentor.com>
+Date: Tue, 14 Jun 2011 08:44:27 +0100
+Message-ID: <1308037467.6879.31.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: Where is atom-pc.conf hiding?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,19 +35,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 07:47:17 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 14 Jun 2011 07:47:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Mon, 2011-06-13 at 15:10 -0700, Tom Rini wrote:
+> Until then, and even afterwards can we please get some testing of
+> non-poky builds done?  I know the autobuilder is full but can't we toss
+> a few things onto a personal box and try that a few times a week?
+
+I can probably find some spare cpu cycles to do testing.  Is there an
+existing autobuild/autotest infrastructure that we can conveniently use
+to drive the tests and report the status?
+
+p.
 
 
-Op 14 jun 2011, om 07:25 heeft Khem Raj het volgende geschreven:
-
-> PACKAGE_ARCH is set to BASE_PACKAGE_ARCH so we do not
-> need to define it here since we already define BASE_PACKAGE_ARCH
->=20
-> Additionally set FEED_ARCH to 'allarch'
-
-That would break all existing feeds and feed-configs, which I don't =
-think is acceptable.=
 
 
