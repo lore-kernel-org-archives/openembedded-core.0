@@ -1,26 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from katalix.com ([82.103.140.233] helo=mail.katalix.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QWV1Q-00057D-JD
+	(envelope-from <celston@katalix.com>) id 1QWV2i-0005cZ-Hu
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 16:55:17 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Jun 2011 07:51:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,364,1304319600"; d="scan'208";a="18058441"
-Received: from unknown (HELO [10.255.12.216]) ([10.255.12.216])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Jun 2011 07:51:50 -0700
-Message-ID: <4DF77586.8020201@linux.intel.com>
-Date: Tue, 14 Jun 2011 07:51:50 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
+	Tue, 14 Jun 2011 16:56:37 +0200
+Received: from [192.168.1.100] (188-220-141-241.zone11.bethere.co.uk
+	[188.220.141.241])
+	(using SSLv3 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested) (Authenticated sender: chris)
+	by mail.katalix.com (Postfix) with ESMTPSA id 4B6AAA62043
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jun 2011 15:53:11 +0100 (BST)
+From: Chris Elston <celston@katalix.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1308037752.git.sgw@linux.intel.com>	<8b9e3b8e8afa3720fbc57adb817b9e9f7f9094ef.1308037753.git.sgw@linux.intel.com>
-	<1308043883.25285.234.camel@phil-desktop>
-In-Reply-To: <1308043883.25285.234.camel@phil-desktop>
-Subject: Re: [CONSOLIDATED PULL 21/51] alsa-tools: fix Checksums
+In-Reply-To: <19457E2B-45A3-4A02-8BDB-58A538B6A1F6@dominion.thruhere.net>
+References: <1308060644.12359.41.camel@desktop.home>
+	<19457E2B-45A3-4A02-8BDB-58A538B6A1F6@dominion.thruhere.net>
+Date: Tue, 14 Jun 2011 15:53:10 +0100
+Message-Id: <1308063190.12359.43.camel@desktop.home>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.26.3 (2.26.3-1.fc11) 
+Subject: Re: [PATCH] Recipe for util-linux-2.19.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,32 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 14:55:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 14 Jun 2011 14:56:37 -0000
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 06/14/2011 02:31 AM, Phil Blundell wrote:
-> On Tue, 2011-06-14 at 01:01 -0700, Saul Wold wrote:
->> +EXTRA_OEFLAGS = "--host ${HOST_SYS}"
->
-> This change isn't mentioned in the checkin comment and, as far as I can
-> tell, setting that variable isn't going to produce any useful effect.
-> Can you clarify what's going on here?
->
-Clarification is too much going on and I missed fixing this during a 
-rebase.  I was in the middle of trying to fix this recipe (currently 
-does not configure correctly).
+> Chris, Saul updated to 2.19.1 two weeks ago:
+> 
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core/commit/?id=596e6807826c34a4f93d7cb26052d1bd7a985201
+> 
+> It doesn't seem to have the vercmp change you mentioned, could you try to rebase your changes against that?
 
-Sau!
+Thanks for pointing me at that.
 
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+I guess it's not required because that change doesn't maintain
+compatibility with prior versions of util-linux, so no need to check the
+versions.
+
+Cheers,
+
+Chris.
+
+
 
 
