@@ -1,26 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QWH8k-0004yN-7U for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 02:05:54 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5E02UrQ005716
+Received: from mail-fx0-f51.google.com ([209.85.161.51])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QWHFU-00054t-3I
+	for openembedded-core@lists.openembedded.org;
+	Tue, 14 Jun 2011 02:12:52 +0200
+Received: by fxm5 with SMTP id 5so3438919fxm.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 01:02:30 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05388-05 for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 01:02:26 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5E02KAn005710
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 01:02:24 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTi=035xAQJS5kwhUGvDiGsanfD_FKQ@mail.gmail.com>
+	Mon, 13 Jun 2011 17:09:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=YpJeIOisRA22I0CWbMeLtrDgK3NgHSNM9APEM5ZF0X0=;
+	b=Zl2rsQGGdCSPj/nhomFE0X3MygA4RsyMQzF7jFoQbGEgSXWwVcE60esklOeOp8ga8h
+	B/z3qPHPy7DvlYJB8zC6wfvlEVl1uBSEj6XdIdAJ36yt/zDsiA+68vTAjtgF8bWTrzdB
+	7q5YNk9NaOsijSr8hPOK9COd94zDx77a/MQYU=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	b=v43jGRZPQOSwWScolVJLexOZkfaviJ9r5+mNustg5AvKRqJ2wPWfy8qeAVBb3WpMLd
+	3mCuZK1fZcAyIjR3Wwgr/7k+Gw6YN/NswYdZRw49m7q/SuVS6tXdpr8FXXz8xP4zQdMx
+	UJlAVL+GGe6xz4MpN5sYJbEnWtuuL9haAhpE0=
+MIME-Version: 1.0
+Received: by 10.223.30.82 with SMTP id t18mr2635056fac.106.1308010167524; Mon,
+	13 Jun 2011 17:09:27 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.116.82 with HTTP; Mon, 13 Jun 2011 17:09:27 -0700 (PDT)
+In-Reply-To: <1308009720.15712.319.camel@rex>
 References: <46ED2218-6735-449C-B10C-D557B92DA339@dominion.thruhere.net>
 	<4DF672F2.2030909@linux.intel.com>
 	<49501374-7FBE-400E-A91B-BD7EBD7FB65C@dominion.thruhere.net>
@@ -28,11 +34,13 @@ References: <46ED2218-6735-449C-B10C-D557B92DA339@dominion.thruhere.net>
 	<1308004543.15712.297.camel@rex> <4DF692CA.3030000@mentor.com>
 	<1308006251.15712.309.camel@rex>
 	<BANLkTi=035xAQJS5kwhUGvDiGsanfD_FKQ@mail.gmail.com>
-Date: Tue, 14 Jun 2011 01:02:00 +0100
-Message-ID: <1308009720.15712.319.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1308009720.15712.319.camel@rex>
+Date: Tue, 14 Jun 2011 00:09:27 +0000
+X-Google-Sender-Auth: iy9dPAm6HunPJwUjI9kfARv6HTg
+Message-ID: <BANLkTinh1G+8fKDAiGnCyzWXoVV=MoAEfg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Where is atom-pc.conf hiding?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -48,52 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 00:05:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Jun 2011 00:12:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2011-06-13 at 23:17 +0000, Otavio Salvador wrote:
-> On Mon, Jun 13, 2011 at 23:04, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> ...
-> > So on the one hand I do understand your concern. I'm personally and
-> > Yocto are doing the best we can. On the other I'd suggest if testing
-> > certain combinations is this important to you (or Mentor?), stepping up
-> > and helping with the testing would be *much* appreciated and it isn't
-> > the sole responsibility of myself or Saul.
-> ...
-> 
-> It would be easier and better if people at Yocto could start basing
-> their work on oe-core so stuff get tested there instead of Poky. Poky
-> would then be an integration point not a base.
+On Tue, Jun 14, 2011 at 00:02, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+...
+> We *know* the machine definition isn't there, its deliberate. We came up
+> with a plan to create OE-Core and to get Poky and OE both migrated to
+> using it. This process is not 100% complete yet although it gets closer
+> every day.
 
-Have you looked at the delta recently? Yocto uses OE-Core with the
-single addition of the meta-yocto layer which is tiny. Just like
-angstrom use the meta-angstrom layer and the meta-oe layer. 
+I know the delta is getting smaller and smaller. This is good. A good
+way to make it move faster is using OE-Core as basis. This will
+"force" the backporting of missing Poky's change to OE-Core to happen
+faster.
 
-> More then once I got broken trees for stuff that were pushed to
-> oe-core and were not working due missing fixes or features that were
-> pushed to Poky's bitbake but not to the upstream one.
+Currently there're many people that base the stuff (that is target to
+OE-Core) on Poky and sometimes it cases issues (as the bitbake ones I
+used as example).
 
-Again, please look at the delta between upstream bitbake and the one in
-poky. All bitbake patches are now landing upstream first. There were
-issues, we came up with a plan to address them and we're doing what we
-said we would do...
-
-> Doing this would help to improve it a lot. For example meta-intel
-> would be already fixed since people would be using it against oe-core
-> and would have already noticed the missing machine  definition and
-> like.
-
-We *know* the machine definition isn't there, its deliberate. We came up
-with a plan to create OE-Core and to get Poky and OE both migrated to
-using it. This process is not 100% complete yet although it gets closer
-every day.
-
-Cheers,
-
-Richard
-
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
