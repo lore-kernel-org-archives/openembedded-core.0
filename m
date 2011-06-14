@@ -1,37 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QWSQg-00036L-IO for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 14:09:10 +0200
+	id 1QWSoz-0004AJ-Ga for openembedded-core@lists.openembedded.org;
+	Tue, 14 Jun 2011 14:34:17 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5EC5jrE012335
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5ECUqbF012529
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 13:05:45 +0100
+	Tue, 14 Jun 2011 13:30:52 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 12247-02 for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 13:05:41 +0100 (BST)
+	id 12247-06 for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jun 2011 13:30:48 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5EC5c3r012329
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5ECUhBh012523
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 13:05:39 +0100
+	Tue, 14 Jun 2011 13:30:44 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1308037467.6879.31.camel@lenovo.internal.reciva.com>
-References: <46ED2218-6735-449C-B10C-D557B92DA339@dominion.thruhere.net>
-	<4DF672F2.2030909@linux.intel.com>
-	<49501374-7FBE-400E-A91B-BD7EBD7FB65C@dominion.thruhere.net>
-	<1308000620.15712.288.camel@rex>  <4DF68AD4.1020403@mentor.com>
-	<1308037467.6879.31.camel@lenovo.internal.reciva.com>
-Date: Tue, 14 Jun 2011 13:05:18 +0100
-Message-ID: <1308053118.15712.321.camel@rex>
+In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
+References: <cover.1308037752.git.sgw@linux.intel.com>
+Date: Tue, 14 Jun 2011 13:30:23 +0100
+Message-ID: <1308054623.15712.329.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Where is atom-pc.conf hiding?
+Subject: Re: [CONSOLIDATED PULL 00/51] 14-June-2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,24 +42,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 12:09:10 -0000
+X-List-Received-Date: Tue, 14 Jun 2011 12:34:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-06-14 at 08:44 +0100, Phil Blundell wrote:
-> On Mon, 2011-06-13 at 15:10 -0700, Tom Rini wrote:
-> > Until then, and even afterwards can we please get some testing of
-> > non-poky builds done?  I know the autobuilder is full but can't we toss
-> > a few things onto a personal box and try that a few times a week?
+Hi Saul,
+
+I did a merge of the "easy" ones in this series. There are some I've
+left pending a little further review or feedback.
+
+On Tue, 2011-06-14 at 01:01 -0700, Saul Wold wrote:
+> This has number fixes for various issues along with recipe updates.
+> While the autobuidler does not look so great, these have built on local 
+> machines in a cleaner environment.
 > 
-> I can probably find some spare cpu cycles to do testing.  Is there an
-> existing autobuild/autotest infrastructure that we can conveniently use
-> to drive the tests and report the status?
+> I removed the large patchset for GCC, it can be reviewed at the browse
+> URL below
 
-Buildbot is what Yocto is using and the documentation/sample config for
-what we do is available at:
+I merged these with the exception of:
 
-http://git.yoctoproject.org/cgit.cgi/poky-autobuilder/
+> Kang Kai (2):
+>   eglibc: migrate configurability from oe
+
+I wanted to read through this one again...
+
+> Khem Raj (6):
+>   uclibc.inc: libsegfault is only RPROVIDED by uclibc
+
+I'm not 100% sure this is a good idea for various reasons, I need to
+reply about ti.
+
+>   gcc-4.6.0: Bring in patches from FSF 4.6 branch
+
+I suspect using gcc svn might be better at this point so we might as
+well skip merging this and switch straight over.
+
+> 
+> Koen Kooi (2):
+>   qemu.inc: append to IMAGE_FSTYPES instead of weakly assigning them
+
+This needs more discussion as it forces users to build two image types
+and I'm not sure that every user will appreciate this.
+
+> Phil Blundell (5):
+>   busybox: backport distro-features handling from oe master
+
+I also wanted to read through this one again...
+
+> Saul Wold (8):
+>   json-glib: Fix up SRC_URI Checksums
+
+This patch looks like a whitespace change only?
+
+>   alsa-tools: fix Checksums
+
+This patch has something which looks unintended.
 
 Cheers,
 
