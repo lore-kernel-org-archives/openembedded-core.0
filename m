@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QWOcw-0001K5-Uy
+	(envelope-from <sgw@linux.intel.com>) id 1QWOcw-0001K6-Qu
 	for openembedded-core@lists.openembedded.org;
 	Tue, 14 Jun 2011 10:05:35 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283879"
+X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283877"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.216])
-	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:08 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2011 01:01:18 -0700
-Message-Id: <148a6c0dc64837d42f32be8babcb87ed039114f1.1308037753.git.sgw@linux.intel.com>
+Date: Tue, 14 Jun 2011 01:01:17 -0700
+Message-Id: <e853b7f2783abfdce6bad91d20471d3d4daa86c8.1308037753.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 09/51] clutter-box2d_git: Switch SRC_URI to git.gnome.org
+Subject: [CONSOLIDATED PULL 08/51] perl-native: fix download url
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,24 +35,26 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Jun 2011 08:05:35 -0000
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+From: Anders Darander <anders@chargestorm.se>
+
+Signed-off-by: Anders Darander <anders@chargestorm.se>
 ---
- meta/recipes-graphics/clutter/clutter-box2d_git.bb |    2 +-
+ meta/recipes-devtools/perl/perl-native_5.12.3.bb |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-index 4c1c003..bfd46b2 100644
---- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-+++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
-@@ -6,7 +6,7 @@ SRCREV = "4799ac10ae8cb7da936a2b999aba58fe62eb1ee3"
- PV = "0.10.1+git${SRCPV}"
- PR = "r0"
+diff --git a/meta/recipes-devtools/perl/perl-native_5.12.3.bb b/meta/recipes-devtools/perl/perl-native_5.12.3.bb
+index cbb4e78..50fa1c9 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.12.3.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.12.3.bb
+@@ -9,7 +9,7 @@ PR = "r2"
+ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
+                     file://Artistic;md5=f921793d03cc6d63ec4b15e9be8fd3f8"
  
--SRC_URI = "git://git.clutter-project.org/clutter-box2d.git;protocol=git"
-+SRC_URI = "git://git.gnome.org/clutter-box2d.git"
- 
- S = "${WORKDIR}/git"
- 
+-SRC_URI = "http://ftp.funet.fi/pub/CPAN/src/perl-${PV}.tar.gz \
++SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+            file://Configure-multilib.patch \
+            file://perl-configpm-switch.patch \
+            file://parallel_build_fix_1.patch \
 -- 
 1.7.3.4
 
