@@ -1,26 +1,23 @@
-Received: from katalix.com ([82.103.140.233] helo=mail.katalix.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <celston@katalix.com>) id 1QWV2i-0005cZ-Hu
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QWVJG-0003rK-Gx for openembedded-core@lists.openembedded.org;
+	Tue, 14 Jun 2011 17:13:42 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QWVFz-0004Jg-EK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 16:56:37 +0200
-Received: from [192.168.1.100] (188-220-141-241.zone11.bethere.co.uk
-	[188.220.141.241])
-	(using SSLv3 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested) (Authenticated sender: chris)
-	by mail.katalix.com (Postfix) with ESMTPSA id 4B6AAA62043
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 15:53:11 +0100 (BST)
-From: Chris Elston <celston@katalix.com>
+	Tue, 14 Jun 2011 17:10:19 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <19457E2B-45A3-4A02-8BDB-58A538B6A1F6@dominion.thruhere.net>
-References: <1308060644.12359.41.camel@desktop.home>
-	<19457E2B-45A3-4A02-8BDB-58A538B6A1F6@dominion.thruhere.net>
-Date: Tue, 14 Jun 2011 15:53:10 +0100
-Message-Id: <1308063190.12359.43.camel@desktop.home>
+In-Reply-To: <cover.1307937636.git.raj.khem@gmail.com>
+References: <cover.1307937636.git.raj.khem@gmail.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Tue, 14 Jun 2011 16:10:18 +0100
+Message-ID: <1308064218.25285.266.camel@phil-desktop>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.26.3 (2.26.3-1.fc11) 
-Subject: Re: [PATCH] Recipe for util-linux-2.19.1
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [PATCH 0/1] Upgrade gcc 4.6.0 to latest on FSF 4.6 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,25 +32,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 14:56:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Jun 2011 15:13:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-> Chris, Saul updated to 2.19.1 two weeks ago:
+On Sun, 2011-06-12 at 21:03 -0700, Khem Raj wrote:
+> This patch brings in new patches from gcc 4.6 FSF branch
+> And refreshes the headers of existing backported patches
+> to not have git patch numbers in comments
 > 
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core/commit/?id=596e6807826c34a4f93d7cb26052d1bd7a985201
-> 
-> It doesn't seem to have the vercmp change you mentioned, could you try to rebase your changes against that?
+> I am not sending the patch itself to mailing list due to its
+> large size so please review it on the contrib tree itself
 
-Thanks for pointing me at that.
+This patch doesn't seem to have bumped PR on gcc-4.6.0.bb even though
+the SRC_URI has changed.  Was that intentional?
 
-I guess it's not required because that change doesn't maintain
-compatibility with prior versions of util-linux, so no need to check the
-versions.
-
-Cheers,
-
-Chris.
+p.
 
 
 
