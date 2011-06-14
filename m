@@ -1,25 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>)
-	id 1QWYfw-0000MD-EB; Tue, 14 Jun 2011 20:49:20 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5EIjrlu019935
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 14 Jun 2011 11:45:53 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 14 Jun 2011 11:45:53 -0700
-Message-ID: <4DF7AC60.3050803@windriver.com>
-Date: Tue, 14 Jun 2011 13:45:52 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-devel@lists.openembedded.org>, Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Cc: tsc@lists.openembedded.org
-Subject: The Commit and Patch Message Guidelines -- Approved
+	(envelope-from <raj.khem@gmail.com>) id 1QWYo7-0000an-Pa
+	for openembedded-core@lists.openembedded.org;
+	Tue, 14 Jun 2011 20:57:47 +0200
+Received: by pvc30 with SMTP id 30so2922528pvc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jun 2011 11:54:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=r0uGsXhChMmw+8/IY7X+6ooxBk41BQvMlZFtOAz+I4A=;
+	b=uknycWZJGxIAkGmNFmE/Sn56PZEtRfmOoWBuJ8z19uFC/WEYBJ4Q9q3cslfD5bVlsz
+	o4QEjfCmdq2taMiuPByPv5y+Ci+EbSDaShMY5NKVPXe4NiE1WywuTG+ALhqp5B3Qi7UP
+	nCKFpNUsuZ/k+iAYcJSCTr+PJUWWpXeQaBq7s=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=hxraI738vp1HRQqSFleyr2UK4NKtUiHuRCeClt9X7jB/DnB0M158Sw88l1VJE8COE3
+	zYHL2LLvZ9IwXguLyR7lmpmjniGHibLgbDJGApwvJAa7b68ZgWnoWJVP/zJ0Fwo8K3r2
+	ctbmBbg08z/oGr/tlOkazmYW3GjFDZHPmeQ6E=
+Received: by 10.68.35.195 with SMTP id k3mr527769pbj.229.1308077661289;
+	Tue, 14 Jun 2011 11:54:21 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id m9sm5776388pbd.7.2011.06.14.11.54.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 14 Jun 2011 11:54:20 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Jun 2011 11:53:58 -0700
+Message-Id: <1308077638-20075-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH] eglibc_2.12.bb: Remove already upstreamed fix-for-make-3.82.diff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +44,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 18:49:21 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Jun 2011 18:57:48 -0000
 
-On behalf of the Technical Steering Committee,
+This patch is already applied to eglibc 2.12 branch as seen here
+http://www.eglibc.org/cgi-bin/viewcvs.cgi/branches/eglibc-2_12/libc/manual/Makefile?rev=12230&sortby=date&r2=12230&r1=10495
 
-I am happy to announce the approval of the final version of the Commit and Patch
-Message Guidelines.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../eglibc/eglibc-2.12/fix-for-make-3.82.diff      |   27 --------------------
+ meta/recipes-core/eglibc/eglibc_2.12.bb            |    3 +-
+ 2 files changed, 1 insertions(+), 29 deletions(-)
+ delete mode 100644 meta/recipes-core/eglibc/eglibc-2.12/fix-for-make-3.82.diff
 
-Thank you to everyone who contributed to document.  If anyone has any questions,
-comments or concerns feel free to let me or any of the other TSC members know.
+diff --git a/meta/recipes-core/eglibc/eglibc-2.12/fix-for-make-3.82.diff b/meta/recipes-core/eglibc/eglibc-2.12/fix-for-make-3.82.diff
+deleted file mode 100644
+index 89fff79..0000000
+--- a/meta/recipes-core/eglibc/eglibc-2.12/fix-for-make-3.82.diff
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Upstream-Status: Inappropriate [Backport]
+-
+-Make 3.82, as shipped with Fedora 14, fixes some holes in the parser which in
+-turn breaks behaviour of some Makefiles. Most notably eglibc's.
+-
+-http://www.mail-archive.com/bug-make@gnu.org/msg06220.html
+-
+-Fix back-ported from glibc/eglibc revision control.
+-
+-JL 13/10/10
+-
+-Index: libc/manual/Makefile
+-===================================================================
+---- libc.orig/manual/Makefile
+-+++ libc/manual/Makefile
+-@@ -243,7 +243,10 @@ ifdef objpfx
+- .PHONY: stubs
+- stubs: $(objpfx)stubs
+- endif
+--$(objpfx)stubs ../po/manual.pot $(objpfx)stamp%:
+-+$(objpfx)stubs ../po/manual.pot:
+-+	$(make-target-directory)
+-+	touch $@
+-+$(objpfx)stamp%:
+- 	$(make-target-directory)
+- 	touch $@
+- 
+diff --git a/meta/recipes-core/eglibc/eglibc_2.12.bb b/meta/recipes-core/eglibc/eglibc_2.12.bb
+index d851b5d..fe2f51d 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.12.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.12.bb
+@@ -1,7 +1,6 @@
+ require eglibc.inc
+ 
+ DEPENDS += "gperf-native"
+-FILESPATHPKG =. "eglibc-svn:"
+ PR = "r14"
+ 
+ SRCREV = "14158"
+@@ -14,7 +13,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
+            file://mips-rld-map-check.patch \
+            file://etc/ld.so.conf \
+            file://generate-supported.mk \
+-	   file://fix-for-make-3.82.diff"
++	  "
+ SRC_URI_append_virtclass-nativesdk = " file://ld-search-order.patch"
+ S = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+1.7.4.1
 
-See http://wiki.openembedded.org/index.php/Commit_Patch_Message_Guidelines
-
-Some of you may be wondering what this is, below is a snippet from the guidelines.
-
-This set of guidelines is intended to help both the developer and reviewers of
-changes determine reasonable patch headers and change commit messages. Often
-when working with the code, you forget that not everyone is as familiar with the
-problem and/or fix as you are. Often the next person in the code doesn't
-understand what or why something is done so they quickly look at patch header
-and commit messages. Unless these messages are clear it will be difficult to
-understand the relevance of a given change and how future changes may impact
-previous decisions.
-
-This policy refers both to patches that are being applied by recipes as well as
-commit messages that are part of the source control system, usually git. A patch
-file needs a header in order to describe the specific changes that are made
-within that patch, while a commit message describes one or more changes to the
-overall project or system. Both the patch headers and commit messages require
-the same attention and basic details, however the purposes of the messages are
-slightly different. A commit message documents all of the changes made as part
-of a commit, while a patch header documents items specific to a single patch. In
-many cases the patch header can also be used as the commit message.
-
-This policy does not cover the testing of the changes, or the technical criteria
-for accepting a patch.
-
-By following these guidelines we will have a better record of the problems and
-solutions made over the course of development. It will also help establish a
-clear provenance of all of the code and changes.
-
-Approved by the Technical Steering Committee 2011/06/09.
 
 
