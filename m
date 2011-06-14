@@ -1,37 +1,30 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QWbHB-0003oX-KC
+	(envelope-from <tom.zanussi@intel.com>) id 1QWbHT-0003q8-Ra
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 23:35:57 +0200
-Received: by wwb17 with SMTP id 17so5311602wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 14:32:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:content-transfer-encoding;
-	bh=ZonJnu1Pku00NYrJIx3TBH9o8dooCHHeWU/jQkFOT/0=;
-	b=CtxXLsh+WAWOInxz9bKuER9+s7Dju/jGSKgbOwrNcPmEbbgHe1CoZcHKY8hylvYX59
-	Rl+FjvduolVAnuVs6x8Vcieo37iAH03/L32AHdf4mR8oCeH27PdLIW0YGThckaRJZTMJ
-	utXipBfJSt0/aXrYvJrrg6yEybKgHE1oYgQDg=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	b=lP+wT7KnxeAHDH9KDjt/P14Wy1R7a+0WEVCvIYFBgGH3HPsOHyLG6MBDyFDJkK1QTk
-	DjVGn1iUM/L1zXVS0aLUO8dT89AEH44Hdz8yjKFfrFVko3UkKY6ZvdayawD0Y5z9E0uh
-	g5SGRG3IZPb6IYWyS5RxlXu+BapBUPrSko+pI=
-Received: by 10.216.203.142 with SMTP id f14mr1316664weo.28.1308087151172;
-	Tue, 14 Jun 2011 14:32:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.216.37.197 with HTTP; Tue, 14 Jun 2011 14:32:00 -0700 (PDT)
-In-Reply-To: <1308086688.15712.362.camel@rex>
-References: <1308086002-16398-1-git-send-email-raj.khem@gmail.com>
-	<1308086688.15712.362.camel@rex>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 14 Jun 2011 14:32:00 -0700
-Message-ID: <BANLkTindy9m5Vd7B8ccC9RnkhaC9KbscQA@mail.gmail.com>
+	Tue, 14 Jun 2011 23:36:16 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 14:32:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,366,1304319600"; d="scan'208";a="14674935"
+Received: from unknown (HELO [10.255.13.21]) ([10.255.13.21])
+	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 14:32:48 -0700
+From: Tom Zanussi <tom.zanussi@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] allarch.bbclass: Set FEED_ARCH to original value of BASE_PACKAGE_ARCH and then set BASE_PACKAGE_ARCH to 'all'
+In-Reply-To: <DD2AB20F-4D4A-4C8A-A2E4-0159FDBB98DF@dominion.thruhere.net>
+References: <46ED2218-6735-449C-B10C-D557B92DA339@dominion.thruhere.net>
+	<4DF672F2.2030909@linux.intel.com>
+	<49501374-7FBE-400E-A91B-BD7EBD7FB65C@dominion.thruhere.net>
+	<1308000620.15712.288.camel@rex>
+	<BA4956B5-23B8-4590-8B23-A9837D6A11EA@dominion.thruhere.net>
+	<1308082816.10825.38.camel@elmorro>
+	<DD2AB20F-4D4A-4C8A-A2E4-0159FDBB98DF@dominion.thruhere.net>
+Date: Tue, 14 Jun 2011 16:33:10 -0500
+Message-ID: <1308087190.10825.40.camel@elmorro>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+Subject: Re: Where is atom-pc.conf hiding?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,68 +39,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 21:35:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 14 Jun 2011 21:36:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 14, 2011 at 2:24 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2011-06-14 at 14:13 -0700, Khem Raj wrote:
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> =C2=A0meta/classes/allarch.bbclass | =C2=A0 =C2=A05 +++--
->> =C2=A01 files changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
->> index e3ac392..b9ba28b 100644
->> --- a/meta/classes/allarch.bbclass
->> +++ b/meta/classes/allarch.bbclass
->> @@ -2,9 +2,10 @@
->> =C2=A0# This class is used for architecture independent recipes/data fil=
-es (usally scripts)
->> =C2=A0#
->>
->> +# We need to pour the value of BASE_PACKAGE_ARCH into FEED_ARCH
->> +# before we reset it
->> +FEED_ARCH :=3D ${BASE_PACKAGE_ARCH}
->> =C2=A0BASE_PACKAGE_ARCH =3D "all"
->> -PACKAGE_ARCH =3D "all"
->> -
->> =C2=A0# No need for virtual/libc or a cross compiler
->> =C2=A0INHIBIT_DEFAULT_DEPS =3D "1"
->
-> This is a *really* bad idea. An "all" package should have no need to set
-> architecture specific values into FEED_ARCH.
->
-> Just for those not following IRC, the problem is Angstrom adds FEED_ARCH
-> to OVERRIDES. Adding "all" to overrides turns out to do nasty things to
-> classes like rm_work with "_all" in the function names.
->
-> I'd suggest that various machines should start adding things like armv7a
-> to ${MACHINEOVERRIDES} which has a much more clearly defined scope and
-> that FEED_ARCH should quietly die ;-).
+On Tue, 2011-06-14 at 14:08 -0700, Koen Kooi wrote:
+> Op 14 jun 2011, om 22:20 heeft Tom Zanussi het volgende geschreven:
+> 
+> > On Tue, 2011-06-14 at 00:40 -0700, Koen Kooi wrote:
+> >> Op 13 jun 2011, om 23:30 heeft Richard Purdie het volgende geschreven:
+> >> 
+> >>> On Mon, 2011-06-13 at 22:36 +0200, Koen Kooi wrote:
+> >>>> Op 13 jun 2011, om 22:28 heeft Saul Wold het volgende geschreven:
+> >>>> 
+> >>>>> On 06/13/2011 11:31 AM, Koen Kooi wrote:
+> >>>>>> Hi,
+> >>>>>> 
+> >>>>>> Khem was asking if I could reproduce the recent x86 breakage he was seeing[1] and I ran into another bug:
+> >>>>>> 
+> >>>>>> koen@dominion:/OE/tentacle/sources/meta-intel$ git blame meta-n450/conf/machine/n450.conf  | grep atom
+> >>>>>> 158f88d7 (Saul Wold   2011-01-03 15:33:52 -0800  6) require conf/machine/atom-pc.conf
+> >>>>>> 
+> >>>>> meta-yocto seems to be the place you need to look!
+> >>>>> 
+> >>>>> I hope that the layering tools can help to detect and inform folks of this like of dependency.
+> >>>> 
+> >>>> Isn't meta-yocto supposed to a the integration layer with no new
+> >>>> parts? I can't use meta-yocto since it has conflicting beagleboard
+> >>>> stuff in it, which means that meta-intel is now broken for me as well.
+> >>>> That surely isn't the intended plan?!?!
+> >>> 
+> >>> The plan on public record is that atom-pc moves to meta-intel as soon as
+> >>> the layer tooling comes online and meta-yocto becomes its own repo
+> >>> (which at present its not but its certainly the intent).
+> >> 
+> >> So can someone at least put that in the meta-intel or meta-n450 README? Most layers now have a README with the dependency info (e.g. http://git.shr-project.org/git/?p=meta-smartphone.git;a=blob;f=meta-palm/README;h=200a3c83ff11ad790fe4e03e93a26520ec0c6714;hb=HEAD ) It would be nice if the ones on yocto-project.org had somethign similar :)
+> >> _
+> > 
+> > Would something like this do the trick for now (if so, I can do similar
+> > for the other meta-intel bsps)?
+> 
+> I'd put it in README, but yeah, it's an improvement.
 
-Would it make sense to add TARGET_SUBARCH variable ?
+OK, yeah, for some reason n450 decided to name its README
+'ReleaseNotes'.  I'll find out if there was a reason for that and rename
+it to README like the others if not...
 
-TARRGET_ARCH =3D arm
-TARGET_SUBARCH =3D armv7a
-MACHINE=3Dbeagleboard
+Tom
 
-and in bitbake.conf
-
-TARGET_SUBARCH ??=3D "${TARGET_ARCH}"
-
->
-> Cheers,
->
-> Richard
->
->
->
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
+
 
 
