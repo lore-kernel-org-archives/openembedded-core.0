@@ -1,28 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QWTEh-0005aW-8t
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QWTIb-0005kU-QQ for openembedded-core@lists.openembedded.org;
+	Tue, 14 Jun 2011 15:04:53 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QWTFK-0004FC-2V
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 15:00:51 +0200
-Received: by wye20 with SMTP id 20so4439164wye.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 05:57:25 -0700 (PDT)
-Received: by 10.216.230.76 with SMTP id i54mr6184577weq.108.1308056245758;
-	Tue, 14 Jun 2011 05:57:25 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id g2sm3476783weg.14.2011.06.14.05.57.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 14 Jun 2011 05:57:25 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1308054623.15712.329.camel@rex>
-Date: Tue, 14 Jun 2011 14:57:23 +0200
-Message-Id: <2ED7EE5A-704C-4209-AAB4-E2FB3017CD72@dominion.thruhere.net>
-References: <cover.1308037752.git.sgw@linux.intel.com>
-	<1308054623.15712.329.camel@rex>
+	Tue, 14 Jun 2011 15:01:30 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [CONSOLIDATED PULL 00/51] 14-June-2011
+In-Reply-To: <1308056023.25285.258.camel@phil-desktop>
+References: <cover.1307947593.git.sgw@linux.intel.com>
+	<42c945e9af04b3e9733253b1186abe13bc80bde7.1307947593.git.sgw@linux.intel.com>
+	<1308056023.25285.258.camel@phil-desktop>
+Organization: Phil Blundell Consulting Ltd
+Date: Tue, 14 Jun 2011 14:01:24 +0100
+Message-ID: <1308056484.25285.262.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [*RFC CONSOLIDATED PULL RFC* 03/23] git: restore the dependency on perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,18 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 13:00:51 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 14 Jun 2011 13:04:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-Op 14 jun 2011, om 14:30 heeft Richard Purdie het volgende geschreven:
-> Koen Kooi (2):
->>  qemu.inc: append to IMAGE_FSTYPES instead of weakly assigning them
+On Tue, 2011-06-14 at 13:53 +0100, Phil Blundell wrote:
+> On Sun, 2011-06-12 at 23:54 -0700, Saul Wold wrote:
+> > -inherit autotools
+> > +inherit autotools perlnative
 > 
-> This needs more discussion as it forces users to build two image types
-> and I'm not sure that every user will appreciate this.
+> This broke the tree for me.  Now I get:
+> 
+> NOTE: Out of date cache found, rebuilding...
+> ERROR: Could not inherit file
+> classes/perlnative.bbclass###########################################
+> | ETA:  00:00:03
+> ERROR: Command execution failed: Exited with 1
 
-If they don't set IMAGE_FSTYPES they'll get 2 images already. 
+BTW, Scott, this is also a new addition to my list of unsatisfactory
+bitbake error messages.  It would be more helpful if bitbake: (a)
+printed the name of the recipe causing the problem, rather than leaving
+me to grep the tree/guess, and (b) continued rather than immediately
+bailing out.  Also, aesthetically, it'd be nice if it didn't print the
+error on top of the status bar although I guess that is a minor issue in
+the larger scheme of things.
+
+However, on the positive side, at least there is no python
+stacktrace :-)
+
+p.
+
+
 
 
