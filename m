@@ -1,30 +1,28 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QWQCt-0004iE-AE
+	(envelope-from <jay@jay-tech.ru>) id 1QWQFP-0004li-Nj
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 11:46:47 +0200
-Received: by wwb17 with SMTP id 17so4758656wwb.24
+	Tue, 14 Jun 2011 11:49:23 +0200
+Received: by fxm19 with SMTP id 19so4212185fxm.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 02:43:19 -0700 (PDT)
-Received: by 10.227.201.142 with SMTP id fa14mr6195603wbb.48.1308044599095;
-	Tue, 14 Jun 2011 02:43:19 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id gb6sm4888196wbb.34.2011.06.14.02.43.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 14 Jun 2011 02:43:18 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1308043725.25285.232.camel@phil-desktop>
-Date: Tue, 14 Jun 2011 11:43:17 +0200
-Message-Id: <FD93DE23-D82A-4F97-9761-B27B4C86175B@dominion.thruhere.net>
-References: <cover.1307937636.git.raj.khem@gmail.com>
-	<1307955075.6879.11.camel@lenovo.internal.reciva.com>
-	<BANLkTikbba0xTCB=eLZamP7LY6wJ8_Nkhw@mail.gmail.com>
-	<1308043725.25285.232.camel@phil-desktop>
+	Tue, 14 Jun 2011 02:45:58 -0700 (PDT)
+Received: by 10.223.54.148 with SMTP id q20mr562719fag.84.1308044758576; Tue,
+	14 Jun 2011 02:45:58 -0700 (PDT)
+MIME-Version: 1.0
+Sender: jay@jay-tech.ru
+Received: by 10.204.54.80 with HTTP; Tue, 14 Jun 2011 02:25:06 -0700 (PDT)
+X-Originating-IP: [93.81.3.157]
+In-Reply-To: <BANLkTikkaDK6122A-=H+TS01oTsAtfD2qg@mail.gmail.com>
+References: <1307985976-22648-1-git-send-email-anders@chargestorm.se>
+	<BANLkTimkU94WYhGGac5P88GMUA6mk7NCKg@mail.gmail.com>
+	<BANLkTikkaDK6122A-=H+TS01oTsAtfD2qg@mail.gmail.com>
+From: Yury Bushmelev <jay4mail@gmail.com>
+Date: Tue, 14 Jun 2011 13:25:06 +0400
+X-Google-Sender-Auth: YRLbrg0ouDLYZO_IqLdAPYq41hM
+Message-ID: <BANLkTi=u8pJ=pkgmWLuPnqKNjRow18X70A@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 0/1] Upgrade gcc 4.6.0 to latest on FSF 4.6 branch
+Subject: Re: [PATCH] runqemu: take TMPDIR from bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,41 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 09:46:47 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 14 Jun 2011 09:49:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+2011/6/14 Anders Darander <anders@chargestorm.se>:
+> On Tue, Jun 14, 2011 at 00:22, Yury Bushmelev <jay4mail@gmail.com> wrote:
+>> 2011/6/13 Anders Darander <anders@chargestorm.se>:
+>>> + =A0 =A0 =A0 =A0# We have bitbake in PATH, get TMPDIR from bitbake
+>>> + =A0 =A0 =A0 =A0TMPDIR=3D`bitbake -e | grep TMPDIR=3D\" | cut -d '=3D'=
+ -f2 | cut -d '"' -f2`
+>>
+>> This change inspired me just another crazy idea.
+>> Getting some variable from bitbake is frequently used task. May be our
+>> bitbake people will add some special mode to bitbake for this? E.b.
+>> like bsd make have (make -V KERNCONF)[1].
+>>
+>> I would suggest syntax like 'bitbake -V TMPDIR'
+>
+> That would definitely simplify a few lines in a number of scripts.
+>
+> I'll put it on my todo-list, although it is getting rather long now
+> (with very little time allocated for working on that list)...
 
-Op 14 jun 2011, om 11:28 heeft Phil Blundell het volgende geschreven:
+Note that user may request more than one variable with single bitbake
+invocation. E.g.:
 
-> On Mon, 2011-06-13 at 10:12 -0700, Khem Raj wrote:
->> On Mon, Jun 13, 2011 at 1:51 AM, Phil Blundell <pb@pbcl.net> wrote:
->>> On Sun, 2011-06-12 at 21:03 -0700, Khem Raj wrote:
->>>> This patch brings in new patches from gcc 4.6 FSF branch
->>>> And refreshes the headers of existing backported patches
->>>> to not have git patch numbers in comments
->>>>=20
->>>> I am not sending the patch itself to mailing list due to its
->>>> large size so please review it on the contrib tree itself
->>>>=20
->>>=20
->>> Would we not be better off just pulling the tip of the 4.6 branch =
-from
->>> FSF SVN, rather than having to keep all these patches in git?
->>>=20
->>=20
->> there is dislike for this approach in oe-core. As the release point =
-is preferred
->> I suggested to drop the minor release number and call the recipes 4.6
->> and use SVN
->> REVs to track the recipe updates but it did not fly :)
->=20
-> Where does that dislike come from?  Koen did make a comment about =
-having
-> liked svn checkouts for 4.5 "very, very much" but I couldn't quite
-> figure out whether he was being sarcastic or not and, if so, what
-> exactly his objection was.
+bitbake -V TMPDIR -V DEPLOY_DIR
 
-I wasn't being sarcastic, I really like it very, very much.=
+In this case better to prefix variable value with name, like set does:
+
+TMPDIR=3D/path/to/tmpdir
+DEPLOY_DIR=3D/path/to/deploydir
+
+--=20
+Yury Bushmelev
 
 
