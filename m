@@ -1,28 +1,38 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QWbIT-0003tK-Ec
+	(envelope-from <raj.khem@gmail.com>) id 1QWbOS-0003z8-US
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 23:37:17 +0200
-Received: by wwi18 with SMTP id 18so94209wwi.0
+	Tue, 14 Jun 2011 23:43:28 +0200
+Received: by wwb17 with SMTP id 17so5315976wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 14:33:52 -0700 (PDT)
-Received: by 10.227.1.102 with SMTP id 38mr6941707wbe.109.1308087230899;
-	Tue, 14 Jun 2011 14:33:50 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fl19sm5350134wbb.15.2011.06.14.14.33.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 14 Jun 2011 14:33:50 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <BANLkTindy9m5Vd7B8ccC9RnkhaC9KbscQA@mail.gmail.com>
-Date: Tue, 14 Jun 2011 23:33:49 +0200
-Message-Id: <BAF9DAD6-B3A3-4256-AB14-162020A3AC51@dominion.thruhere.net>
+	Tue, 14 Jun 2011 14:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:content-transfer-encoding;
+	bh=n9/Noom6qRZh3xrVXy4k5/ShFyzG5fK968IU8WqgOe4=;
+	b=k8/YFEd5Z7qfZRtK/uI/YnLYBz86XexSj0QHUDegmj6XCvV+UIXz9fHWse+yITezr6
+	htnLTq/nEVIFRDOVAQw6l2f1yzK4MZQk02kmRMpjljOsJRpaoWPMyVMipDPJubOQmP0o
+	hwcVDNchkko0ZFz/HW6lpIuQgqiWkYYRfNgKc=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	b=NyDTwSPZoFrZCY/bAi+5SCjiigBQxiM0i7Sc/6Uozl8Uj3qCOzRZmEMRq3ANOBdzKe
+	uGfv7On3Sw/2cuVfGAPHxBv1p9pgYCZ8Z1mlEUocDQXBKkounjzF83WQA1RXypMMKWph
+	B9FGB8NPG8KaQwevL+i3JoOiCH/gZiNQuNH7U=
+Received: by 10.216.53.203 with SMTP id g53mr6999044wec.13.1308087603201; Tue,
+	14 Jun 2011 14:40:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.216.37.197 with HTTP; Tue, 14 Jun 2011 14:39:33 -0700 (PDT)
+In-Reply-To: <BAF9DAD6-B3A3-4256-AB14-162020A3AC51@dominion.thruhere.net>
 References: <1308086002-16398-1-git-send-email-raj.khem@gmail.com>
 	<1308086688.15712.362.camel@rex>
 	<BANLkTindy9m5Vd7B8ccC9RnkhaC9KbscQA@mail.gmail.com>
+	<BAF9DAD6-B3A3-4256-AB14-162020A3AC51@dominion.thruhere.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 14 Jun 2011 14:39:33 -0700
+Message-ID: <BANLkTikB5jamUMMrL3jw1cqj-_sARORaTQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
 Subject: Re: [PATCH V2] allarch.bbclass: Set FEED_ARCH to original value of BASE_PACKAGE_ARCH and then set BASE_PACKAGE_ARCH to 'all'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,58 +48,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 21:37:17 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 14 Jun 2011 21:43:29 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+On Tue, Jun 14, 2011 at 2:33 PM, Koen Kooi <koen@dominion.thruhere.net> wro=
+te:
+>
+> Op 14 jun 2011, om 23:32 heeft Khem Raj het volgende geschreven:
+>
+>> On Tue, Jun 14, 2011 at 2:24 PM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>> On Tue, 2011-06-14 at 14:13 -0700, Khem Raj wrote:
+>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>>> ---
+>>>> =C2=A0meta/classes/allarch.bbclass | =C2=A0 =C2=A05 +++--
+>>>> =C2=A01 files changed, 3 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbcla=
+ss
+>>>> index e3ac392..b9ba28b 100644
+>>>> --- a/meta/classes/allarch.bbclass
+>>>> +++ b/meta/classes/allarch.bbclass
+>>>> @@ -2,9 +2,10 @@
+>>>> =C2=A0# This class is used for architecture independent recipes/data f=
+iles (usally scripts)
+>>>> =C2=A0#
+>>>>
+>>>> +# We need to pour the value of BASE_PACKAGE_ARCH into FEED_ARCH
+>>>> +# before we reset it
+>>>> +FEED_ARCH :=3D ${BASE_PACKAGE_ARCH}
+>>>> =C2=A0BASE_PACKAGE_ARCH =3D "all"
+>>>> -PACKAGE_ARCH =3D "all"
+>>>> -
+>>>> =C2=A0# No need for virtual/libc or a cross compiler
+>>>> =C2=A0INHIBIT_DEFAULT_DEPS =3D "1"
+>>>
+>>> This is a *really* bad idea. An "all" package should have no need to se=
+t
+>>> architecture specific values into FEED_ARCH.
+>>>
+>>> Just for those not following IRC, the problem is Angstrom adds FEED_ARC=
+H
+>>> to OVERRIDES. Adding "all" to overrides turns out to do nasty things to
+>>> classes like rm_work with "_all" in the function names.
+>>>
+>>> I'd suggest that various machines should start adding things like armv7=
+a
+>>> to ${MACHINEOVERRIDES} which has a much more clearly defined scope and
+>>> that FEED_ARCH should quietly die ;-).
+>>
+>> Would it make sense to add TARGET_SUBARCH variable ?
+>
+> and have it mean the same as BASE_PACKAGE_ARCH?
 
-Op 14 jun 2011, om 23:32 heeft Khem Raj het volgende geschreven:
+May be in some cases, but it wont be associated with packaging
 
-> On Tue, Jun 14, 2011 at 2:24 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Tue, 2011-06-14 at 14:13 -0700, Khem Raj wrote:
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>  meta/classes/allarch.bbclass |    5 +++--
->>>  1 files changed, 3 insertions(+), 2 deletions(-)
->>>=20
->>> diff --git a/meta/classes/allarch.bbclass =
-b/meta/classes/allarch.bbclass
->>> index e3ac392..b9ba28b 100644
->>> --- a/meta/classes/allarch.bbclass
->>> +++ b/meta/classes/allarch.bbclass
->>> @@ -2,9 +2,10 @@
->>>  # This class is used for architecture independent recipes/data =
-files (usally scripts)
->>>  #
->>>=20
->>> +# We need to pour the value of BASE_PACKAGE_ARCH into FEED_ARCH
->>> +# before we reset it
->>> +FEED_ARCH :=3D ${BASE_PACKAGE_ARCH}
->>>  BASE_PACKAGE_ARCH =3D "all"
->>> -PACKAGE_ARCH =3D "all"
->>> -
->>>  # No need for virtual/libc or a cross compiler
->>>  INHIBIT_DEFAULT_DEPS =3D "1"
->>=20
->> This is a *really* bad idea. An "all" package should have no need to =
-set
->> architecture specific values into FEED_ARCH.
->>=20
->> Just for those not following IRC, the problem is Angstrom adds =
-FEED_ARCH
->> to OVERRIDES. Adding "all" to overrides turns out to do nasty things =
-to
->> classes like rm_work with "_all" in the function names.
->>=20
->> I'd suggest that various machines should start adding things like =
-armv7a
->> to ${MACHINEOVERRIDES} which has a much more clearly defined scope =
-and
->> that FEED_ARCH should quietly die ;-).
->=20
-> Would it make sense to add TARGET_SUBARCH variable ?
-
-and have it mean the same as BASE_PACKAGE_ARCH?=
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
