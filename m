@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QWOdF-0001K8-1o
+	(envelope-from <sgw@linux.intel.com>) id 1QWOd7-0001K6-IK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 10:05:53 +0200
+	Tue, 14 Jun 2011 10:05:46 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:23 -0700
+	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14284023"
+X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283966"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.216])
-	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:23 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:16 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2011 01:01:57 -0700
-Message-Id: <04e47f46becf64ad7fb357ade0e00b4444c541c6.1308037753.git.sgw@linux.intel.com>
+Date: Tue, 14 Jun 2011 01:01:38 -0700
+Message-Id: <6018a46ebafd1c036a11aee88ba81b3d7db77cdc.1308037753.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 48/51] nativesdk.bbclass: Correct ordering of manipulations
+Subject: [CONSOLIDATED PULL 29/51] util-macros: upgrade from 1.13.0 to the latest version 0.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,90 +35,29 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Jun 2011 08:06:49 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Dexuan Cui <dexuan.cui@intel.com>
 
-OVERDIDES is the key variable that needs to be set prior to data finalisation.
-The other variables should be manipulated after finalisation so any
-DEPENDS_prepend and _append are accounted for. This patch ensures this is
-the case.
-
-The PACKAGES maniupulations are not enabled at this time as they
-don't function 100% correctly yet.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- meta/classes/nativesdk.bbclass |   53 ++++++++++++++++++++++++++++------------
- 1 files changed, 37 insertions(+), 16 deletions(-)
+ ...util-macros_1.13.0.bb => util-macros_1.14.0.bb} |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-util/{util-macros_1.13.0.bb => util-macros_1.14.0.bb} (79%)
 
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index 644e731..3fe4bf9 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -62,27 +62,48 @@ python nativesdk_virtclass_handler () {
-     if not pn.endswith("-nativesdk"):
-         return
+diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb b/meta/recipes-graphics/xorg-util/util-macros_1.14.0.bb
+similarity index 79%
+rename from meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
+rename to meta/recipes-graphics/xorg-util/util-macros_1.14.0.bb
+index 4bac614..88ee4f6 100644
+--- a/meta/recipes-graphics/xorg-util/util-macros_1.13.0.bb
++++ b/meta/recipes-graphics/xorg-util/util-macros_1.14.0.bb
+@@ -20,5 +20,5 @@ RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
  
--    depends = bb.data.getVar("DEPENDS", e.data, True)
--    deps = bb.utils.explode_deps(depends)
--    newdeps = []
--    for dep in deps:
--        if dep.endswith("-native") or dep.endswith("-cross"):
--            newdeps.append(dep)
--        elif dep.endswith("-gcc-intermediate") or dep.endswith("-gcc-initial") or dep.endswith("-gcc") or dep.endswith("-g++"):
--            newdeps.append(dep + "-crosssdk")
--        elif not dep.endswith("-nativesdk"):
--            newdeps.append(dep + "-nativesdk")
--        else:
--            newdeps.append(dep)
--    bb.data.setVar("DEPENDS", " ".join(newdeps), e.data)
--    provides = bb.data.getVar("PROVIDES", e.data, True)
-+    bb.data.setVar("OVERRIDES", bb.data.getVar("OVERRIDES", e.data, False) + ":virtclass-nativesdk", e.data)
-+}
-+
-+python () {
-+    pn = bb.data.getVar("PN", d, True)
-+    if not pn.endswith("-nativesdk"):
-+        return
-+
-+    def map_dependencies(varname, d, suffix = ""):
-+        if suffix:
-+            varname = varname + "_" + suffix
-+        deps = bb.data.getVar(varname, d, True)
-+        if not deps:
-+            return
-+        deps = bb.utils.explode_deps(deps)
-+        newdeps = []
-+        for dep in deps:
-+            if dep.endswith("-native") or dep.endswith("-cross"):
-+                newdeps.append(dep)
-+            elif dep.endswith("-gcc-intermediate") or dep.endswith("-gcc-initial") or dep.endswith("-gcc") or dep.endswith("-g++"):
-+                newdeps.append(dep + "-crosssdk")
-+            elif not dep.endswith("-nativesdk"):
-+                newdeps.append(dep.replace("-nativesdk", "") + "-nativesdk")
-+            else:
-+                newdeps.append(dep)
-+        bb.data.setVar(varname, " ".join(newdeps), d)
-+
-+    map_dependencies("DEPENDS", d)
-+    #for pkg in (d.getVar("PACKAGES", True).split() + [""]):
-+    #    map_dependencies("RDEPENDS", d, pkg)
-+    #    map_dependencies("RRECOMMENDS", d, pkg)
-+    #    map_dependencies("RSUGGESTS", d, pkg)
-+    #    map_dependencies("RPROVIDES", d, pkg)
-+    #    map_dependencies("RREPLACES", d, pkg)
-+
-+    provides = bb.data.getVar("PROVIDES", d, True)
-     for prov in provides.split():
-         if prov.find(pn) != -1:
-             continue
-         if not prov.endswith("-nativesdk"):
-             provides = provides.replace(prov, prov + "-nativesdk")
--    bb.data.setVar("PROVIDES", provides, e.data)
--    bb.data.setVar("OVERRIDES", bb.data.getVar("OVERRIDES", e.data, False) + ":virtclass-nativesdk", e.data)
-+    bb.data.setVar("PROVIDES", provides, d)
- }
+ BBCLASSEXTEND = "native nativesdk"
  
- addhandler nativesdk_virtclass_handler
+-SRC_URI[md5sum] = "31e9ddcbc1d8bc8c09ab180443974dd1"
+-SRC_URI[sha256sum] = "7bff944fb120192e7fe1706e9c0b7e41666e7983ce3e2bdef0b7734392d9e695"
++SRC_URI[md5sum] = "cbe57cd7cc492a762466f5280a7ffba8"
++SRC_URI[sha256sum] = "9bd6949b930aadfce32bc9e101008d4c6ff48329ed0e3a467990bee69f574d66"
 -- 
 1.7.3.4
 
