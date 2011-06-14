@@ -1,32 +1,35 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QWauL-0006Uk-Tm
+	(envelope-from <raj.khem@gmail.com>) id 1QWazE-00027t-BB
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 23:12:22 +0200
-Received: by wwb17 with SMTP id 17so5297863wwb.24
+	Tue, 14 Jun 2011 23:17:25 +0200
+Received: by pwj9 with SMTP id 9so2982702pwj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 14:08:55 -0700 (PDT)
-Received: by 10.227.199.207 with SMTP id et15mr29282wbb.56.1308085735462;
-	Tue, 14 Jun 2011 14:08:55 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id et5sm5340488wbb.67.2011.06.14.14.08.53
+	Tue, 14 Jun 2011 14:13:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
+	bh=nEnrlrG4YtE2sGWAxHYiRHnxzuwHyxU/0KRWRF4oOHU=;
+	b=lKyOcGvys0QZ13yfsVbXr+EJw8HFrYlofL8VMYK/b4T7c9e5WwbG9XTXf5mUeUrgIs
+	hbGnwmOo+woghm4UtnDz6yL3/n7YrxxqA1M2f3nFZZiKGmE2A6KhYXWECMPuvMDNlan3
+	D2/OBjVjQR0mCxP9SoT7R+n/7giZcAXtziLcY=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	b=uiV9bMR5F9jxm7Of1hiIDHM5hXjRLM4DJ/j95b83zNXhcyzwv7hrRDSXa4TvQroiwS
+	V4ekKMNZ1taUrxPxKFZfaoYkOcb7oYzC2BeM6hQo5TupDqHpfv2jtYzPqJ5P6UKK2ocG
+	abW+ZD37eZx4JDQEhicSuvuJUH32bTIf5UM5U=
+Received: by 10.68.47.35 with SMTP id a3mr1713691pbn.210.1308086026676;
+	Tue, 14 Jun 2011 14:13:46 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id p5sm5862846pbk.36.2011.06.14.14.13.44
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 14 Jun 2011 14:08:54 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1308082816.10825.38.camel@elmorro>
-Date: Tue, 14 Jun 2011 23:08:52 +0200
-Message-Id: <DD2AB20F-4D4A-4C8A-A2E4-0159FDBB98DF@dominion.thruhere.net>
-References: <46ED2218-6735-449C-B10C-D557B92DA339@dominion.thruhere.net>
-	<4DF672F2.2030909@linux.intel.com>
-	<49501374-7FBE-400E-A91B-BD7EBD7FB65C@dominion.thruhere.net>
-	<1308000620.15712.288.camel@rex>
-	<BA4956B5-23B8-4590-8B23-A9837D6A11EA@dominion.thruhere.net>
-	<1308082816.10825.38.camel@elmorro>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: Where is atom-pc.conf hiding?
+	Tue, 14 Jun 2011 14:13:45 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: OE core <openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Jun 2011 14:13:22 -0700
+Message-Id: <1308086002-16398-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH V2] allarch.bbclass: Set FEED_ARCH to original value of BASE_PACKAGE_ARCH and then set BASE_PACKAGE_ARCH to 'all'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,58 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 21:12:22 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 14 Jun 2011 21:17:25 -0000
 
+PACKAGE_ARCH is set to BASE_PACKAGE_ARCH so we do not
+need to define it here since we already define BASE_PACKAGE_ARCH
 
-Op 14 jun 2011, om 22:20 heeft Tom Zanussi het volgende geschreven:
+angstrom sets FEED_ARCH like
 
-> On Tue, 2011-06-14 at 00:40 -0700, Koen Kooi wrote:
->> Op 13 jun 2011, om 23:30 heeft Richard Purdie het volgende =
-geschreven:
->>=20
->>> On Mon, 2011-06-13 at 22:36 +0200, Koen Kooi wrote:
->>>> Op 13 jun 2011, om 22:28 heeft Saul Wold het volgende geschreven:
->>>>=20
->>>>> On 06/13/2011 11:31 AM, Koen Kooi wrote:
->>>>>> Hi,
->>>>>>=20
->>>>>> Khem was asking if I could reproduce the recent x86 breakage he =
-was seeing[1] and I ran into another bug:
->>>>>>=20
->>>>>> koen@dominion:/OE/tentacle/sources/meta-intel$ git blame =
-meta-n450/conf/machine/n450.conf  | grep atom
->>>>>> 158f88d7 (Saul Wold   2011-01-03 15:33:52 -0800  6) require =
-conf/machine/atom-pc.conf
->>>>>>=20
->>>>> meta-yocto seems to be the place you need to look!
->>>>>=20
->>>>> I hope that the layering tools can help to detect and inform folks =
-of this like of dependency.
->>>>=20
->>>> Isn't meta-yocto supposed to a the integration layer with no new
->>>> parts? I can't use meta-yocto since it has conflicting beagleboard
->>>> stuff in it, which means that meta-intel is now broken for me as =
-well.
->>>> That surely isn't the intended plan?!?!
->>>=20
->>> The plan on public record is that atom-pc moves to meta-intel as =
-soon as
->>> the layer tooling comes online and meta-yocto becomes its own repo
->>> (which at present its not but its certainly the intent).
->>=20
->> So can someone at least put that in the meta-intel or meta-n450 =
-README? Most layers now have a README with the dependency info (e.g. =
-http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dblob;f=3Dmeta-=
-palm/README;h=3D200a3c83ff11ad790fe4e03e93a26520ec0c6714;hb=3DHEAD ) It =
-would be nice if the ones on yocto-project.org had somethign similar :)
->> _
->=20
-> Would something like this do the trick for now (if so, I can do =
-similar
-> for the other meta-intel bsps)?
+FEED_ARCH ?= "${BASE_PACKAGE_ARCH}"
 
-I'd put it in README, but yeah, it's an improvement.=
+and 'all' doesnt go well for FEED_ARCH as it ends up with
+parsing error for x86 machines.
+
+This might be a latent bug in bitbake but allarch.bbclass
+excavated it and we burry it in the same class.
+
+This makes the behavior same as it was before allarch.bbclass
+where we set PACKAGE_ARCH = all for common packages
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/allarch.bbclass |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+index e3ac392..b9ba28b 100644
+--- a/meta/classes/allarch.bbclass
++++ b/meta/classes/allarch.bbclass
+@@ -2,9 +2,10 @@
+ # This class is used for architecture independent recipes/data files (usally scripts)
+ #
+ 
++# We need to pour the value of BASE_PACKAGE_ARCH into FEED_ARCH
++# before we reset it
++FEED_ARCH := ${BASE_PACKAGE_ARCH}
+ BASE_PACKAGE_ARCH = "all"
+-PACKAGE_ARCH = "all"
+-
+ # No need for virtual/libc or a cross compiler
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-- 
+1.7.4.1
+
 
 
