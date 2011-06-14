@@ -1,25 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QWOcv-0001K5-VL
+	(envelope-from <sgw@linux.intel.com>) id 1QWOcw-0001K8-8W
 	for openembedded-core@lists.openembedded.org;
 	Tue, 14 Jun 2011 10:05:34 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283864"
+X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283871"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.216])
-	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:06 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2011 01:01:14 -0700
-Message-Id: <ca213641539e63007f20935da61dfb890a022aac.1308037753.git.sgw@linux.intel.com>
+Date: Tue, 14 Jun 2011 01:01:16 -0700
+Message-Id: <46f631b0c46e86d855ce06e19512bf443e8b9baa.1308037753.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
-Cc: Phil Blundell <philb@gnu.org>
-Subject: [CONSOLIDATED PULL 05/51] import recipe_sanity.bbclass from oe master
+Subject: [CONSOLIDATED PULL 07/51] linux-yocto: rename recipes to explicitly indicate version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,201 +35,46 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Jun 2011 08:05:34 -0000
 
-From: Phil Blundell <pb@pbcl.net>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-This is a verbatim copy of the corresponding class from oe master.
+The existing recipe names for the linux-yocto kernel builds
+worked well when there was a single, or two versions of the
+kernel available. But with the impending kernel updates and
+retirement of older kernels, the re-use of the same recipes
+for different kernel versions violates the principle of least
+surprise.
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
+To address this, the recipes are being renamed as follows:
+
+    linux-yocto_git.bb -> linux-yocto_2.6.37.bb
+    linux-yocto-stable_git.bb -> linux-yocto_2.6.34.bb
+
+There continue to be versionless recipe names that feed into
+versioned recipes at the appropriate points. They are:
+
+     linux-yocto-dev.bb (tracking the latest yocto dev kernel)
+     linux-yocto-korg_head.bb (tracking korg kernels)
+
+There are no existing users of linux-yocto-stable in the master
+branches to convert to the new naming, so these changes work
+in isolation.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/recipe_sanity.bbclass |  179 ++++++++++++++++++++++++++++++++++++
- 1 files changed, 179 insertions(+), 0 deletions(-)
- create mode 100644 meta/classes/recipe_sanity.bbclass
+ ...x-yocto-stable_git.bb => linux-yocto_2.6.34.bb} |    0
+ .../{linux-yocto_git.bb => linux-yocto_2.6.37.bb}  |    0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-kernel/linux/{linux-yocto-stable_git.bb => linux-yocto_2.6.34.bb} (100%)
+ rename meta/recipes-kernel/linux/{linux-yocto_git.bb => linux-yocto_2.6.37.bb} (100%)
 
-diff --git a/meta/classes/recipe_sanity.bbclass b/meta/classes/recipe_sanity.bbclass
-new file mode 100644
-index 0000000..bb60ffa
---- /dev/null
-+++ b/meta/classes/recipe_sanity.bbclass
-@@ -0,0 +1,179 @@
-+def __note(msg, d):
-+    bb.note("%s: recipe_sanity: %s" % (d.getVar("P", 1), msg))
-+
-+__recipe_sanity_badruntimevars = "RDEPENDS RPROVIDES RRECOMMENDS RCONFLICTS"
-+def bad_runtime_vars(cfgdata, d):
-+    if bb.data.inherits_class("native", d) or \
-+       bb.data.inherits_class("cross", d):
-+        return
-+
-+    for var in d.getVar("__recipe_sanity_badruntimevars", 1).split():
-+        val = d.getVar(var, 0)
-+        if val and val != cfgdata.get(var):
-+            __note("%s should be %s_${PN}" % (var, var), d)
-+
-+__recipe_sanity_reqvars = "DESCRIPTION"
-+__recipe_sanity_reqdiffvars = "LICENSE"
-+def req_vars(cfgdata, d):
-+    for var in d.getVar("__recipe_sanity_reqvars", 1).split():
-+        if not d.getVar(var, 0):
-+            __note("%s should be set" % var, d)
-+
-+    for var in d.getVar("__recipe_sanity_reqdiffvars", 1).split():
-+        val = d.getVar(var, 0)
-+        cfgval = cfgdata.get(var)
-+
-+        # Hardcoding is bad, but I'm lazy.  We don't care about license being
-+        # unset if the recipe has no sources!
-+        if var == "LICENSE" and d.getVar("SRC_URI", 1) == cfgdata.get("SRC_URI"):
-+            continue
-+
-+        if not val:
-+            __note("%s should be set" % var, d)
-+        elif val == cfgval:
-+            __note("%s should be defined to something other than default (%s)" % (var, cfgval), d)
-+
-+def var_renames_overwrite(cfgdata, d):
-+    renames = d.getVar("__recipe_sanity_renames", 0)
-+    if renames:
-+        for (key, newkey, oldvalue, newvalue) in renames:
-+            if oldvalue != newvalue and oldvalue != cfgdata.get(newkey):
-+                __note("rename of variable '%s' to '%s' overwrote existing value '%s' with '%s'." % (key, newkey, oldvalue, newvalue), d)
-+
-+def incorrect_nonempty_PACKAGES(cfgdata, d):
-+    if bb.data.inherits_class("native", d) or \
-+       bb.data.inherits_class("cross", d):
-+        if d.getVar("PACKAGES", 1):
-+            return True
-+
-+def can_use_autotools_base(cfgdata, d):
-+    cfg = d.getVar("do_configure", 1)
-+    if not bb.data.inherits_class("autotools", d):
-+        return False
-+
-+    for i in ["autoreconf"] + ["%s_do_configure" % cls for cls in ["gnomebase", "gnome", "e", "autotools", "efl", "gpephone", "openmoko", "openmoko2", "xfce", "xlibs"]]:
-+        if cfg.find(i) != -1:
-+            return False
-+
-+    import os
-+    for clsfile in d.getVar("__inherit_cache", 0):
-+        (base, _) = os.path.splitext(os.path.basename(clsfile))
-+        if cfg.find("%s_do_configure" % base) != -1:
-+            __note("autotools_base usage needs verification, spotted %s_do_configure" % base, d)
-+
-+    return True
-+
-+def can_remove_FILESPATH(cfgdata, d):
-+    expected = cfgdata.get("FILESPATH")
-+    #expected = "${@':'.join([os.path.normpath(os.path.join(fp, p, o)) for fp in d.getVar('FILESPATHBASE', 1).split(':') for p in d.getVar('FILESPATHPKG', 1).split(':') for o in (d.getVar('OVERRIDES', 1) + ':').split(':') if os.path.exists(os.path.join(fp, p, o))])}:${FILESDIR}"
-+    expectedpaths = bb.data.expand(expected, d)
-+    unexpanded = d.getVar("FILESPATH", 0)
-+    filespath = d.getVar("FILESPATH", 1).split(":")
-+    filespath = [os.path.normpath(f) for f in filespath if os.path.exists(f)]
-+    for fp in filespath:
-+        if not fp in expectedpaths:
-+            # __note("Path %s in FILESPATH not in the expected paths %s" %
-+            # (fp, expectedpaths), d)
-+            return False
-+    return expected != unexpanded
-+
-+def can_remove_FILESDIR(cfgdata, d):
-+    expected = cfgdata.get("FILESDIR")
-+    #expected = "${@bb.which(d.getVar('FILESPATH', 1), '.')}"
-+    unexpanded = d.getVar("FILESDIR", 0)
-+    if unexpanded is None:
-+        return False
-+
-+    expanded = os.path.normpath(d.getVar("FILESDIR", 1))
-+    filespath = d.getVar("FILESPATH", 1).split(":")
-+    filespath = [os.path.normpath(f) for f in filespath if os.path.exists(f)]
-+
-+    return unexpanded != expected and \
-+           os.path.exists(expanded) and \
-+           (expanded in filespath or
-+            expanded == bb.data.expand(expected, d))
-+
-+def can_remove_others(p, cfgdata, d):
-+    for k in ["S", "PV", "PN", "DESCRIPTION", "LICENSE", "DEPENDS",
-+              "SECTION", "PACKAGES", "EXTRA_OECONF", "EXTRA_OEMAKE"]:
-+    #for k in cfgdata:
-+        unexpanded = d.getVar(k, 0)
-+        cfgunexpanded = cfgdata.get(k)
-+        if not cfgunexpanded:
-+            continue
-+
-+        try:
-+            expanded = d.getVar(k, 1)
-+            cfgexpanded = bb.data.expand(cfgunexpanded, d)
-+        except bb.fetch.ParameterError:
-+            continue
-+
-+        if unexpanded != cfgunexpanded and \
-+           cfgexpanded == expanded:
-+           __note("candidate for removal of %s" % k, d)
-+           bb.debug(1, "%s: recipe_sanity:   cfg's '%s' and d's '%s' both expand to %s" %
-+                       (p, cfgunexpanded, unexpanded, expanded))
-+
-+python do_recipe_sanity () {
-+    p = d.getVar("P", 1)
-+    p = "%s %s %s" % (d.getVar("PN", 1), d.getVar("PV", 1), d.getVar("PR", 1))
-+
-+    sanitychecks = [
-+        (can_remove_FILESDIR, "candidate for removal of FILESDIR"),
-+        (can_remove_FILESPATH, "candidate for removal of FILESPATH"),
-+        #(can_use_autotools_base, "candidate for use of autotools_base"),
-+        (incorrect_nonempty_PACKAGES, "native or cross recipe with non-empty PACKAGES"),
-+    ]
-+    cfgdata = d.getVar("__recipe_sanity_cfgdata", 0)
-+
-+    for (func, msg) in sanitychecks:
-+        if func(cfgdata, d):
-+            __note(msg, d)
-+
-+    can_remove_others(p, cfgdata, d)
-+    var_renames_overwrite(cfgdata, d)
-+    req_vars(cfgdata, d)
-+    bad_runtime_vars(cfgdata, d)
-+}
-+do_recipe_sanity[nostamp] = "1"
-+#do_recipe_sanity[recrdeptask] = "do_recipe_sanity"
-+addtask recipe_sanity
-+
-+do_recipe_sanity_all[nostamp] = "1"
-+do_recipe_sanity_all[recrdeptask] = "do_recipe_sanity"
-+do_recipe_sanity_all () {
-+    :
-+}
-+addtask recipe_sanity_all after do_recipe_sanity
-+
-+python recipe_sanity_eh () {
-+    from bb.event import getName
-+
-+    if getName(e) != "ConfigParsed":
-+        return
-+
-+    d = e.data
-+
-+    cfgdata = {}
-+    for k in d.keys():
-+    #for k in ["S", "PR", "PV", "PN", "DESCRIPTION", "LICENSE", "DEPENDS",
-+    #          "SECTION"]:
-+        cfgdata[k] = d.getVar(k, 0)
-+
-+    d.setVar("__recipe_sanity_cfgdata", cfgdata)
-+    #d.setVar("__recipe_sanity_cfgdata", d)
-+
-+    # Sick, very sick..
-+    from bb.data_smart import DataSmart
-+    old = DataSmart.renameVar
-+    def myrename(self, key, newkey):
-+        oldvalue = self.getVar(newkey, 0)
-+        old(self, key, newkey)
-+        newvalue = self.getVar(newkey, 0)
-+        if oldvalue:
-+            renames = self.getVar("__recipe_sanity_renames", 0) or set()
-+            renames.add((key, newkey, oldvalue, newvalue))
-+            self.setVar("__recipe_sanity_renames", renames)
-+    DataSmart.renameVar = myrename
-+}
-+addhandler recipe_sanity_eh
+diff --git a/meta/recipes-kernel/linux/linux-yocto-stable_git.bb b/meta/recipes-kernel/linux/linux-yocto_2.6.34.bb
+similarity index 100%
+rename from meta/recipes-kernel/linux/linux-yocto-stable_git.bb
+rename to meta/recipes-kernel/linux/linux-yocto_2.6.34.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto_git.bb b/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
+similarity index 100%
+rename from meta/recipes-kernel/linux/linux-yocto_git.bb
+rename to meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
 -- 
 1.7.3.4
 
