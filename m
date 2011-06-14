@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QWOd9-0001K5-MU
+	(envelope-from <sgw@linux.intel.com>) id 1QWOd9-0001K8-K2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 10:05:48 +0200
+	Tue, 14 Jun 2011 10:05:47 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283988"
+X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283984"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.216])
-	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:18 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:17 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2011 01:01:43 -0700
-Message-Id: <ea4b9d6ef8ab8eb63de723fec28da15c6ea695a7.1308037753.git.sgw@linux.intel.com>
+Date: Tue, 14 Jun 2011 01:01:42 -0700
+Message-Id: <ad9c7921181fb2689dc11fa9dcd8e907bbbb3c16.1308037753.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 34/51] pixman: upgrade from 0.20.2 to the latest stable 0.22.0
+Subject: [CONSOLIDATED PULL 33/51] inputproto: upgrade from 2.0.1 to the latest version 2.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,44 +37,27 @@ X-List-Received-Date: Tue, 14 Jun 2011 08:07:03 -0000
 
 From: Dexuan Cui <dexuan.cui@intel.com>
 
-Update LIC_FILES_CHKSUM:
-1) COPYING: only format change; no actual license change.
-2) 0.22.0 doesn't have pixman-x64-mmx-emulation.h, so let's remove it.
-
 Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
 ---
- .../{pixman_0.20.2.bb => pixman_0.22.0.bb}         |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{pixman_0.20.2.bb => pixman_0.22.0.bb} (66%)
+ .../{inputproto_2.0.1.bb => inputproto_2.0.2.bb}   |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{inputproto_2.0.1.bb => inputproto_2.0.2.bb} (78%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.20.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.22.0.bb
-similarity index 66%
-rename from meta/recipes-graphics/xorg-lib/pixman_0.20.2.bb
-rename to meta/recipes-graphics/xorg-lib/pixman_0.22.0.bb
-index 00a58bf..e5472c0 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.20.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.22.0.bb
-@@ -8,10 +8,10 @@ including trapezoids, triangles, and rectangles."
- require xorg-lib-common.inc
+diff --git a/meta/recipes-graphics/xorg-proto/inputproto_2.0.1.bb b/meta/recipes-graphics/xorg-proto/inputproto_2.0.2.bb
+similarity index 78%
+rename from meta/recipes-graphics/xorg-proto/inputproto_2.0.1.bb
+rename to meta/recipes-graphics/xorg-proto/inputproto_2.0.2.bb
+index 7103d0d..26f1e2d 100644
+--- a/meta/recipes-graphics/xorg-proto/inputproto_2.0.1.bb
++++ b/meta/recipes-graphics/xorg-proto/inputproto_2.0.2.bb
+@@ -17,6 +17,6 @@ inherit gettext
  
- LICENSE = "MIT & MIT-style & PD"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fea989a44fb012b5e79584972a863d22 \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
-                     file://pixman/pixman-matrix.c;endline=25;md5=ba6e8769bfaaee2c41698755af04c4be \
-                     file://pixman/pixman-arm-neon-asm.h;endline=24;md5=9a9cc1e51abbf1da58f4d9528ec9d49b \
--                    file://pixman/pixman-x64-mmx-emulation.h;beginline=4;endline=9;md5=4e32716f2efaa6c4659222667c339bb8"
-+                   "
+ BBCLASSEXTEND = "native nativesdk"
  
- DEPENDS = "virtual/libx11"
- 
-@@ -20,6 +20,6 @@ PR = "r0"
- 
- EXTRA_OECONF="--disable-gtk"
- 
--SRC_URI[md5sum] = "7ed10a0f0fde6853613105a99735e7e7"
--SRC_URI[sha256sum] = "30316f269a6b84c32b47545ca7fc428fd16875849fea644dc6910b3f8c33f4a9"
-+SRC_URI[md5sum] = "307fe4d7dc83b1a558c362907097c0d0"
-+SRC_URI[sha256sum] = "24a1bce57c36c773f67d48f7f25f80d69a47ef92a67404f1644d94dee156ae2b"
+-SRC_URI[md5sum] = "da9bf9e5d174163f597d2d72757d9038"
+-SRC_URI[sha256sum] = "63663dd88df812738e0efdc52a18868c0756128f09748cbe89c8ec6d17124a44"
++SRC_URI[md5sum] = "07d54ae098ed4e6dce472f6ef3de05ce"
++SRC_URI[sha256sum] = "64222a590ad4a62a3c8d57805379451769e3329cc5c8c5c1f1fc0d1529ebf005"
  
 -- 
 1.7.3.4
