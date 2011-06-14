@@ -1,25 +1,25 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QWOcy-0001K5-LI
+	(envelope-from <sgw@linux.intel.com>) id 1QWOcy-0001K6-Kw
 	for openembedded-core@lists.openembedded.org;
 	Tue, 14 Jun 2011 10:05:37 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:11 -0700
+	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283898"
+X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283894"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.216])
 	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:10 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2011 01:01:24 -0700
-Message-Id: <1208d04143de51c5607d7c5e3a356d94db7fc199.1308037753.git.sgw@linux.intel.com>
+Date: Tue, 14 Jun 2011 01:01:23 -0700
+Message-Id: <fa3338b3a577f72ca6dcdf7019faa94c939359ae.1308037753.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
 Cc: Phil Blundell <philb@gnu.org>
-Subject: [CONSOLIDATED PULL 15/51] uclibc: remove PACKAGE_ARCH
+Subject: [CONSOLIDATED PULL 14/51] uclibc: remove redundant python code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,36 +38,44 @@ X-List-Received-Date: Tue, 14 Jun 2011 08:05:37 -0000
 
 From: Phil Blundell <pb@pbcl.net>
 
-There is no good reason for uclibc to be machine specific.  Remove local
-assignment to PACKAGE_ARCH so that it gets the default target
-architecture and bump PR for that change.
-
-See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-May/003064.html
+This chunk of python code has been around for a while (witness the
+comment about gcc 3.4.0) and predates the availability of
+COMPATIBLE_HOST.  Rewrite it using a more modern idiom.
 
 Signed-off-by: Phil Blundell <philb@gnu.org>
-Acked-by: Koen Kooi <koen@dominion.thruhere.net>
+Acked-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/uclibc/uclibc_git.bb |    4 +---
- 1 files changed, 1 insertions(+), 3 deletions(-)
+ meta/recipes-core/uclibc/uclibc.inc |   12 +-----------
+ 1 files changed, 1 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
-index f5c861b..b8f58f0 100644
---- a/meta/recipes-core/uclibc/uclibc_git.bb
-+++ b/meta/recipes-core/uclibc/uclibc_git.bb
-@@ -2,11 +2,9 @@ SRCREV="71d63ed75648da9b0b71afabb9c60aaad792c55c"
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index 2bf3017..06c0f5d 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -36,21 +36,11 @@ cp ${SYSROOT_DESTDIR}${libdir}/libc.so ${WORKDIR}/site_config_libc; \
+ sed -i -e 's# ${base_libdir}# ${SYSROOT_DESTDIR}${base_libdir}#g' -e 's# ${libdir}# ${SYSROOT_DESTDIR}${libdir}#g' ${WORKDIR}/site_config_libc/libc.so; \
+ "
  
- require uclibc.inc
- PV = "0.9.31+0.9.32rc3"
--PR = "${INC_PR}.2"
-+PR = "${INC_PR}.3"
- PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
+-#
+ # For now, we will skip building of a gcc package if it is a uclibc one
+ # and our build is not a uclibc one, and we skip a glibc one if our build
+ # is a uclibc build.
+-#
+-# See the note in gcc/gcc_3.4.0.oe
+-#
++COMPATIBLE_HOST = ".*-uclibc.*"
  
--#recent versions uclibc require real kernel headers
--PACKAGE_ARCH = "${MACHINE_ARCH}"
- FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/uclibc-git' ], d)}"
- 
- SRC_URI = "git://uclibc.org/uClibc.git;branch=master;protocol=git \
+-python __anonymous () {
+-    import bb, re
+-    uc_os = (re.match('.*uclibc*', bb.data.getVar('TARGET_OS', d, 1)) != None)
+-    if not uc_os:
+-        raise bb.parse.SkipPackage("incompatible with target %s" %
+-                                   bb.data.getVar('TARGET_OS', d, 1))
+-}
+ PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
+            virtual/${TARGET_PREFIX}gcc-intermediate \
 -- 
 1.7.3.4
 
