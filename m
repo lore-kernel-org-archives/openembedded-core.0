@@ -1,23 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QWQAC-0004eU-Ef for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 11:44:00 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QWQ6q-00041q-FE
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QWQCt-0004iE-AE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 11:40:32 +0200
-From: Phil Blundell <pb@pbcl.net>
+	Tue, 14 Jun 2011 11:46:47 +0200
+Received: by wwb17 with SMTP id 17so4758656wwb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jun 2011 02:43:19 -0700 (PDT)
+Received: by 10.227.201.142 with SMTP id fa14mr6195603wbb.48.1308044599095;
+	Tue, 14 Jun 2011 02:43:19 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id gb6sm4888196wbb.34.2011.06.14.02.43.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 14 Jun 2011 02:43:18 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1308043725.25285.232.camel@phil-desktop>
+Date: Tue, 14 Jun 2011 11:43:17 +0200
+Message-Id: <FD93DE23-D82A-4F97-9761-B27B4C86175B@dominion.thruhere.net>
+References: <cover.1307937636.git.raj.khem@gmail.com>
+	<1307955075.6879.11.camel@lenovo.internal.reciva.com>
+	<BANLkTikbba0xTCB=eLZamP7LY6wJ8_Nkhw@mail.gmail.com>
+	<1308043725.25285.232.camel@phil-desktop>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1308029130-29774-1-git-send-email-raj.khem@gmail.com>
-References: <1308029130-29774-1-git-send-email-raj.khem@gmail.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Tue, 14 Jun 2011 10:40:31 +0100
-Message-ID: <1308044431.25285.237.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH] allarch.bbclass: Set FEED_ARCH to 'allarch'
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 0/1] Upgrade gcc 4.6.0 to latest on FSF 4.6 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,56 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 09:44:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Mon, 2011-06-13 at 22:25 -0700, Khem Raj wrote:
-> PACKAGE_ARCH is set to BASE_PACKAGE_ARCH so we do not
-> need to define it here since we already define BASE_PACKAGE_ARCH
-> 
-> Additionally set FEED_ARCH to 'allarch' some distros e.g.
-> angstrom sets FEED_ARCH like
-> 
-> FEED_ARCH ?= "${BASE_PACKAGE_ARCH}"
-
-Um?  Surely if FEED_ARCH is defined in terms of B_P_A then just setting
-the latter variable ought to be enough.  Why do you need to set both?
-
-> and 'all' doesnt go well for FEED_ARCH as it ends up with
-> parsing error for x86 machines.
-
-That sounds a bit odd as well.  I wouldn't have expected any value of
-FEED_ARCH to result in parsing errors.  What actually goes wrong?
-
-p.
-
-> 
-> This might be a latent bug in bitbake but allarch.bbclass
-> excavated it and we burry it in the same class.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/classes/allarch.bbclass |    5 ++---
->  1 files changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-> index e3ac392..971cb92 100644
-> --- a/meta/classes/allarch.bbclass
-> +++ b/meta/classes/allarch.bbclass
-> @@ -2,9 +2,8 @@
->  # This class is used for architecture independent recipes/data files (usally scripts)
->  #
->  
-> -BASE_PACKAGE_ARCH = "all"
-> -PACKAGE_ARCH = "all"
-> -
-> +BASE_PACKAGE_ARCH = "allarch"
-> +FEED_ARCH = "allarch"
->  # No need for virtual/libc or a cross compiler
->  INHIBIT_DEFAULT_DEPS = "1"
->  
+X-List-Received-Date: Tue, 14 Jun 2011 09:46:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 14 jun 2011, om 11:28 heeft Phil Blundell het volgende geschreven:
+
+> On Mon, 2011-06-13 at 10:12 -0700, Khem Raj wrote:
+>> On Mon, Jun 13, 2011 at 1:51 AM, Phil Blundell <pb@pbcl.net> wrote:
+>>> On Sun, 2011-06-12 at 21:03 -0700, Khem Raj wrote:
+>>>> This patch brings in new patches from gcc 4.6 FSF branch
+>>>> And refreshes the headers of existing backported patches
+>>>> to not have git patch numbers in comments
+>>>>=20
+>>>> I am not sending the patch itself to mailing list due to its
+>>>> large size so please review it on the contrib tree itself
+>>>>=20
+>>>=20
+>>> Would we not be better off just pulling the tip of the 4.6 branch =
+from
+>>> FSF SVN, rather than having to keep all these patches in git?
+>>>=20
+>>=20
+>> there is dislike for this approach in oe-core. As the release point =
+is preferred
+>> I suggested to drop the minor release number and call the recipes 4.6
+>> and use SVN
+>> REVs to track the recipe updates but it did not fly :)
+>=20
+> Where does that dislike come from?  Koen did make a comment about =
+having
+> liked svn checkouts for 4.5 "very, very much" but I couldn't quite
+> figure out whether he was being sarcastic or not and, if so, what
+> exactly his objection was.
+
+I wasn't being sarcastic, I really like it very, very much.=
 
 
