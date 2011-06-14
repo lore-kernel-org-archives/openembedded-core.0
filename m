@@ -1,27 +1,32 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QWHTy-0005Et-AS
+	(envelope-from <ke@linux.intel.com>) id 1QWIpA-0006gN-MF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 02:27:50 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Jun 2011 17:24:24 -0700
+	Tue, 14 Jun 2011 03:53:48 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 13 Jun 2011 18:49:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,361,1304319600"; d="scan'208";a="15842609"
-Received: from unknown (HELO helios.localnet) ([10.255.16.170])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Jun 2011 17:24:24 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 14 Jun 2011 01:24:23 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <46ED2218-6735-449C-B10C-D557B92DA339@dominion.thruhere.net>
-	<1308009720.15712.319.camel@rex>
-	<BANLkTinh1G+8fKDAiGnCyzWXoVV=MoAEfg@mail.gmail.com>
-In-Reply-To: <BANLkTinh1G+8fKDAiGnCyzWXoVV=MoAEfg@mail.gmail.com>
+X-IronPort-AV: E=Sophos;i="4.65,361,1304319600"; d="scan'208";a="17845646"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Jun 2011 18:49:18 -0700
+Received: from [10.239.22.57] (unknown [10.239.22.57])
+	(using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 0DA3D6A4482;
+	Mon, 13 Jun 2011 18:49:11 -0700 (PDT)
+Message-ID: <4DF6BE1C.40801@linux.intel.com>
+Date: Tue, 14 Jun 2011 09:49:16 +0800
+From: Yu Ke <ke@linux.intel.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
+	rv:1.9.2.17) Gecko/20110414 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-Message-Id: <201106140124.23185.paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Where is atom-pc.conf hiding?
+References: <33AB447FBD802F4E932063B962385B3554AE4989@shsmsx501.ccr.corp.intel.com>	<BANLkTikZxd4Gg0b0nanMupmdYBf-3LUp7g@mail.gmail.com>	<201106131700.37382.paul.eggleton@intel.com>
+	<BANLkTikCsx_dWk85Cih3cdFox6-vudWYHg@mail.gmail.com>
+In-Reply-To: <BANLkTikCsx_dWk85Cih3cdFox6-vudWYHg@mail.gmail.com>
+Cc: Paul Eggleton <paul.eggleton@intel.com>
+Subject: Re: [PATCH] RFC - combo layer repo tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,40 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 00:27:50 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Tue, 14 Jun 2011 01:53:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tuesday 14 June 2011 01:09:27 Otavio Salvador wrote:
-> I know the delta is getting smaller and smaller. This is good. A good
-> way to make it move faster is using OE-Core as basis. This will
-> "force" the backporting of missing Poky's change to OE-Core to happen
-> faster.
+On 2011/6/14 0:37, Otavio Salvador wrote:
+> On Mon, Jun 13, 2011 at 16:00, Paul Eggleton<paul.eggleton@intel.com>  wrote:
+>> On Monday 13 June 2011 16:33:47 Otavio Salvador wrote:
+>>> I think it is duplicating many features of git submodule. It seems
+>>> more logical to put a script above git submodule rather then use a
+>>> full repository for it.
+>>
+>> You're right in that git submodule provides a lot of these things. However,
+>> submodules don't give us the ability to split out and maintain just certain
+>> subdirectories / files; this allows us to bring in parts of external layers
+>> where the parts of that layer we want are not split out neatly into a
+>> subdirectory.
+>
+> I will give the script a try and see how it behave to us.
+>
 
-We *are* using oe-core as a basis. The thing limiting us right now is the lack 
-of appropriate layer tooling, something which is being worked on right now and 
-should arrive very soon - in fact the combo layer tool you responded to 
-earlier is the most important piece that we need to fix this integration issue.
+Thanks for trying this. Any feedback is welcome.
 
-> Currently there're many people that base the stuff (that is target to
-> OE-Core) on Poky and sometimes it cases issues (as the bitbake ones I
-> used as example).
-
-Since bitbake upstream and the one in poky are now very close (differences 
-almost negligible) and we now send all of our changes via upstream first, I 
-would not expect any more bitbake divergence in future.
-
-I'm not saying we can't do better or we shouldn't test with oe-core alone - we 
-definitely should do the latter more often. I can only reiterate what Richard 
-has said - bear with us, we're working on it :)
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Regards
+Ke
 
 
