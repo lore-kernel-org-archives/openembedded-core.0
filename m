@@ -1,24 +1,25 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QWOcv-0001K6-8T
+	(envelope-from <sgw@linux.intel.com>) id 1QWOcv-0001K8-H6
 	for openembedded-core@lists.openembedded.org;
 	Tue, 14 Jun 2011 10:05:33 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 14 Jun 2011 01:02:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283851"
+X-IronPort-AV: E=Sophos;i="4.65,363,1304319600"; d="scan'208";a="14283852"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.12.216])
-	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:05 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2011 01:02:06 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jun 2011 01:01:12 -0700
-Message-Id: <f017f117cb57273417a0840cc6d91b0e227517ab.1308037753.git.sgw@linux.intel.com>
+Date: Tue, 14 Jun 2011 01:01:13 -0700
+Message-Id: <8d2b19d0b5b7d8034d9513d16c5596f7a7548cc3.1308037753.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1308037752.git.sgw@linux.intel.com>
 References: <cover.1308037752.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 03/51] git: restore the dependency on perl-native
+Cc: Phil Blundell <philb@gnu.org>
+Subject: [CONSOLIDATED PULL 04/51] uclibc: fix compile error on i586
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,61 +36,64 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Jun 2011 08:05:33 -0000
 
-From: Dexuan Cui <dexuan.cui@intel.com>
+From: Phil Blundell <pb@pbcl.net>
 
-[YOCTO #1155]
+Without this you get:
 
-I thought git-native could depend on perl-native-runtime and tests on
-Ubuntu 9.04/10.10 and Fedora 13 show it could buid fine (looks these distros
-install perl-ExtUtils-MakeMaker by default).
+| libc/sysdeps/linux/common/epoll.c: In function '__libc_epoll_pwait':
+| libc/sysdeps/linux/common/epoll.c:71:80: error: memory input 7 is not directly addressable
+| libc/sysdeps/linux/common/epoll.c:75:86: error: memory input 7 is not directly addressable
+| make: *** [libc/sysdeps/linux/common/epoll.o] Error 1
 
-However Joshua reported on Fedora 15 i686 host, git-native can't build unless
-he manually installed perl-ExtUtils-MakeMaker to the host.
-
-This makes me think we may as well make git-native depend on perl-native.
-
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- meta/recipes-devtools/git/git.inc        |    6 +++---
- meta/recipes-devtools/git/git_1.7.5.1.bb |    2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ .../uclibc/uclibc-git/epoll-asm-fix.patch          |   25 ++++++++++++++++++++
+ meta/recipes-core/uclibc/uclibc_git.bb             |    1 +
+ 2 files changed, 26 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/epoll-asm-fix.patch
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index c884f9c..5d77880 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -1,16 +1,16 @@
- DESCRIPTION = "The git revision control system used by the Linux kernel developers"
- SECTION = "console/utils"
- LICENSE = "GPLv2"
--DEPENDS = "perl-native openssl curl zlib expat"
-+DEPENDS = "openssl curl zlib expat"
- 
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.bz2 "
- S = "${WORKDIR}/git-${PV}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1"
- 
--EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl --without-tcltk"
-+EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl --without-tcltk"
- 
--inherit autotools
-+inherit autotools perlnative
- 
- do_install () {
- 	oe_runmake install DESTDIR="${D}" bindir=${bindir} \
-diff --git a/meta/recipes-devtools/git/git_1.7.5.1.bb b/meta/recipes-devtools/git/git_1.7.5.1.bb
-index bfdbf62..04d1d56 100644
---- a/meta/recipes-devtools/git/git_1.7.5.1.bb
-+++ b/meta/recipes-devtools/git/git_1.7.5.1.bb
-@@ -1,6 +1,6 @@
- require git.inc
- 
--PR = "r0"
-+PR = "r2"
- 
- EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
-                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+diff --git a/meta/recipes-core/uclibc/uclibc-git/epoll-asm-fix.patch b/meta/recipes-core/uclibc/uclibc-git/epoll-asm-fix.patch
+new file mode 100644
+index 0000000..bcd834d
+--- /dev/null
++++ b/meta/recipes-core/uclibc/uclibc-git/epoll-asm-fix.patch
+@@ -0,0 +1,25 @@
++Fix a compile error due to last argument to syscall() not being memory addressable.
++
++Upstream-Status: Pending
++Signed-off-by: Phil Blundell <philb@gnu.org>
++
++diff --git a/libc/sysdeps/linux/common/epoll.c b/libc/sysdeps/linux/common/epoll.c
++index 85b0cfd..c034b2c 100644
++--- a/libc/sysdeps/linux/common/epoll.c
+++++ b/libc/sysdeps/linux/common/epoll.c
++@@ -67,12 +67,13 @@ extern __typeof(epoll_pwait) __libc_epoll_pwait;
++ int __libc_epoll_pwait(int epfd, struct epoll_event *events, int maxevents,
++ 						int timeout, const sigset_t *set)
++ {
+++	int nsig = _NSIG / 8;
++ 	if (SINGLE_THREAD_P)
++-		return INLINE_SYSCALL(epoll_pwait, 6, epfd, events, maxevents, timeout, set, _NSIG / 8);
+++		return INLINE_SYSCALL(epoll_pwait, 6, epfd, events, maxevents, timeout, set, nsig);
++ # ifdef __UCLIBC_HAS_THREADS_NATIVE__
++ 	else {
++ 		int oldtype = LIBC_CANCEL_ASYNC ();
++-		int result = INLINE_SYSCALL(epoll_pwait, 6, epfd, events, maxevents, timeout, set, _NSIG / 8);
+++		int result = INLINE_SYSCALL(epoll_pwait, 6, epfd, events, maxevents, timeout, set, nsig);
++ 		LIBC_CANCEL_RESET (oldtype);
++ 		return result;
++ 	}
+diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
+index eded2fb..54babca 100644
+--- a/meta/recipes-core/uclibc/uclibc_git.bb
++++ b/meta/recipes-core/uclibc/uclibc_git.bb
+@@ -29,5 +29,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master;protocol=git \
+ 	file://remove_attribute_optimize_Os.patch \
+ 	file://append_UCLIBC_EXTRA_CFLAGS.patch \
+ 	file://compile-arm-fork-with-O2.patch \
++	file://epoll-asm-fix.patch \
+ 	"
+ S = "${WORKDIR}/git"
 -- 
 1.7.3.4
 
