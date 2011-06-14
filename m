@@ -1,22 +1,22 @@
 Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QWZ2H-0003jz-Fm
+	(envelope-from <koen@dominion.thruhere.net>) id 1QWZ76-0006E2-Ol
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jun 2011 21:12:26 +0200
-Received: by wye20 with SMTP id 20so4739367wye.6
+	Tue, 14 Jun 2011 21:17:25 +0200
+Received: by wye20 with SMTP id 20so4742721wye.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 12:09:00 -0700 (PDT)
-Received: by 10.227.205.19 with SMTP id fo19mr7019148wbb.58.1308078539564;
-	Tue, 14 Jun 2011 12:08:59 -0700 (PDT)
+	Tue, 14 Jun 2011 12:13:59 -0700 (PDT)
+Received: by 10.216.235.22 with SMTP id t22mr1162628weq.89.1308078838640;
+	Tue, 14 Jun 2011 12:13:58 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ej7sm5263883wbb.19.2011.06.14.12.08.58
+	by mx.google.com with ESMTPS id e1sm5265469wbh.56.2011.06.14.12.13.56
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 14 Jun 2011 12:08:58 -0700 (PDT)
+	Tue, 14 Jun 2011 12:13:57 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1084)
 From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <1308077638-20075-1-git-send-email-raj.khem@gmail.com>
-Date: Tue, 14 Jun 2011 21:08:56 +0200
-Message-Id: <A020EFCD-BE3E-4EED-AFA0-4B2433CDED9D@dominion.thruhere.net>
+Date: Tue, 14 Jun 2011 21:13:55 +0200
+Message-Id: <2A114E77-03CD-4DDE-B12C-0968367FD3A2@dominion.thruhere.net>
 References: <1308077638-20075-1-git-send-email-raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -36,11 +36,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 19:12:28 -0000
+X-List-Received-Date: Tue, 14 Jun 2011 19:17:26 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Testing it now
 
 Op 14 jun 2011, om 20:53 heeft Khem Raj het volgende geschreven:
 
@@ -50,6 +49,9 @@ http://www.eglibc.org/cgi-bin/viewcvs.cgi/branches/eglibc-2_12/libc/manual=
 /Makefile?rev=3D12230&sortby=3Ddate&r2=3D12230&r1=3D10495
 >=20
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+
+Acked-by: Koen Kooi <koen@dominion.thruhere.net>
+
 > ---
 > .../eglibc/eglibc-2.12/fix-for-make-3.82.diff      |   27 =
 --------------------
