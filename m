@@ -1,21 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QWr7a-0005LC-KJ for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 16:31:06 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QWr4I-0005js-EJ
-	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 16:27:42 +0200
-From: Phil Blundell <pb@pbcl.net>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QWr8l-0005Nc-Uk for openembedded-core@lists.openembedded.org;
+	Wed, 15 Jun 2011 16:32:20 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5FESpPa027727
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2011 15:28:51 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26982-08 for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2011 15:28:47 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5FESknB027721
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2011 15:28:47 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Organization: Phil Blundell Consulting Ltd
-Date: Wed, 15 Jun 2011 15:27:41 +0100
-Message-ID: <1308148061.25285.1764.camel@phil-desktop>
+In-Reply-To: <1308147966.25285.1758.camel@phil-desktop>
+References: <1308147966.25285.1758.camel@phil-desktop>
+Date: Wed, 15 Jun 2011 15:28:43 +0100
+Message-ID: <1308148123.15712.418.camel@rex>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: [PATCH] tinylogin: use angstrom mirror for SRC_URI
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [patch] bind: adjust hardcoded install path references
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,34 +42,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 14:31:06 -0000
+X-List-Received-Date: Wed, 15 Jun 2011 14:32:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-since busybox.net no longer seems to be hosting the tarball
+On Wed, 2011-06-15 at 15:26 +0100, Phil Blundell wrote:
+> Fixes do_install() on micro, which otherwise fails for obvious reasons.
+> 
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>  meta/recipes-connectivity/bind/bind_9.7.2-P3.bb |   10 +++++-----
+>  1 files changed, 5 insertions(+), 5 deletions(-)
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/recipes-core/tinylogin/tinylogin_1.4.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Merged to master, thanks.
 
-diff --git a/meta/recipes-core/tinylogin/tinylogin_1.4.bb b/meta/recipes-core/tinylogin/tinylogin_1.4.bb
-index 0b51b25..b73b5b7 100644
---- a/meta/recipes-core/tinylogin/tinylogin_1.4.bb
-+++ b/meta/recipes-core/tinylogin/tinylogin_1.4.bb
-@@ -9,7 +9,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM="file://LICENSE;md5=f1060fa3a366f098b5b1d8c2077ba269"
- PR = "r6"
- 
--SRC_URI = "http://tinylogin.busybox.net/downloads/tinylogin-${PV}.tar.bz2 \
-+SRC_URI = "http://www.angstrom-distribution.org/unstable/sources/tinylogin-${PV}.tar.bz2 \
- 	file://cvs-20040608.patch;patch=1;pnum=1 \
- 	file://add-system.patch;patch=1;pnum=1 \
- 	file://adduser-empty_pwd.patch;patch=1 \
--- 
-1.7.2.5
-
-
+Richard
 
 
 
