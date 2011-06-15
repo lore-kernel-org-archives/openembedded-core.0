@@ -1,32 +1,24 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QWk8y-0005Zz-4Z
+	(envelope-from <dexuan.cui@intel.com>) id 1QWkRr-0005vy-DV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 09:04:04 +0200
-Received: by wwb17 with SMTP id 17so97152wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2011 00:00:37 -0700 (PDT)
-Received: by 10.216.203.142 with SMTP id f14mr1726278weo.28.1308121237630;
-	Wed, 15 Jun 2011 00:00:37 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w62sm68272wec.18.2011.06.15.00.00.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 15 Jun 2011 00:00:36 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <BANLkTimY-6iNGoKeeZ7Xs0rswKSZUi3xSQ@mail.gmail.com>
-Date: Wed, 15 Jun 2011 09:00:34 +0200
-Message-Id: <3E89612B-A102-423A-8499-55E5AC1CDF07@dominion.thruhere.net>
-References: <1308086002-16398-1-git-send-email-raj.khem@gmail.com>
-	<1308086688.15712.362.camel@rex>
-	<CFF0ECE5-F738-4233-8214-9E57A6616C5B@dominion.thruhere.net>
-	<BANLkTi=Kk7J-ZAQuPkC5LNAnxZSAzwtvOg@mail.gmail.com>
-	<8C2617DC-2693-42A3-810B-C3A516DB7360@dominion.thruhere.net>
-	<BANLkTimY-6iNGoKeeZ7Xs0rswKSZUi3xSQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH V2] allarch.bbclass: Set FEED_ARCH to original value of BASE_PACKAGE_ARCH and then set BASE_PACKAGE_ARCH to 'all'
+	Wed, 15 Jun 2011 09:23:35 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Jun 2011 00:20:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,369,1304319600"; d="scan'208";a="18377175"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
+	by fmsmga001.fm.intel.com with ESMTP; 15 Jun 2011 00:20:07 -0700
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jun 2011 15:19:56 +0800
+Message-Id: <2f097aecfdf6c47abe8208da37f35f3f5a447148.1308122189.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.2
+In-Reply-To: <cover.1308122189.git.dexuan.cui@intel.com>
+References: <cover.1308122189.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1308122189.git.dexuan.cui@intel.com>
+References: <cover.1308122189.git.dexuan.cui@intel.com>
+Subject: [PATCH 1/2] glproto: Revert "glxproto: make GLX swap event struct match spec"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,106 +33,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 07:04:04 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 Jun 2011 07:23:35 -0000
 
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+---
+ .../restore_the_old_xGLXBufferSwapComplete.patch   |   53 ++++++++++++++++++++
+ meta/recipes-graphics/xorg-proto/glproto_1.4.13.bb |    3 +-
+ 2 files changed, 55 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-proto/glproto/restore_the_old_xGLXBufferSwapComplete.patch
 
-Op 15 jun 2011, om 01:12 heeft Khem Raj het volgende geschreven:
+diff --git a/meta/recipes-graphics/xorg-proto/glproto/restore_the_old_xGLXBufferSwapComplete.patch b/meta/recipes-graphics/xorg-proto/glproto/restore_the_old_xGLXBufferSwapComplete.patch
+new file mode 100644
+index 0000000..19f41c9
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-proto/glproto/restore_the_old_xGLXBufferSwapComplete.patch
+@@ -0,0 +1,53 @@
++Upstream-Status: Inappropriate [backport from upstream]
++
++In May, people already reported the mesa-dri build issue when upgrading to
++glproto-1.4.13 and dri2proto-2.4:
++http://lists.freedesktop.org/archives/mesa-dev/2011-May/007331.html
++
++The story is: Jesse tried to change the definitions of some structs in
++glproto, dri2proto and mesa-dri, but the change in mesa-dri side was accepted
++and then reverted, see
++http://cgit.freedesktop.org/mesa/mesa/commit/?id=dc4a3edcf9d414d5098618d5d3b79d8dd90adcc3
++
++so in glproto and dri2proto's sides, we have to revert the change, too:
++http://cgit.freedesktop.org/xorg/proto/glproto/commit/?id=7196c9441af941be74180f8e8d4e10a08659b80f
++
++We could remove this patch when upgrading to newer glproto, dri2proto and
++mesa-dri in future.
++
++Wed Jun 15 14:33:14 CST 2011
++Dexuan Cui <dexuan.cui@intel.com>
++
++-------------------------------------------------------
++
++commit 7196c9441af941be74180f8e8d4e10a08659b80f
++Author: Jesse Barnes <jbarnes@virtuousgeek.org>
++Date:   Thu May 5 09:21:19 2011 -0700
++
++    Revert "glxproto: make GLX swap event struct match spec"
++    
++    This reverts commit f5403828c68af0f12c79c0504df0a4781ca84b2b.
++    
++    This broke compatibility with existing code, so revert in favor of a new
++    struct definition instead.
++
++diff --git a/glxproto.h b/glxproto.h
++index dfa0647..0ff44e3 100644
++--- a/glxproto.h
+++++ b/glxproto.h
++@@ -1375,13 +1375,13 @@ typedef struct {
++     BYTE pad;
++     CARD16 sequenceNumber B16;
++     CARD16 event_type B16;
++-    CARD16 pad2;
++     CARD32 drawable;
++     CARD32 ust_hi B32;
++     CARD32 ust_lo B32;
++     CARD32 msc_hi B32;
++     CARD32 msc_lo B32;
++-    CARD32 sbc B32;
+++    CARD32 sbc_hi B32;
+++    CARD32 sbc_lo B32;
++ } xGLXBufferSwapComplete;
++ 
++ /************************************************************************/
+diff --git a/meta/recipes-graphics/xorg-proto/glproto_1.4.13.bb b/meta/recipes-graphics/xorg-proto/glproto_1.4.13.bb
+index 38b17b6..7ba9831 100644
+--- a/meta/recipes-graphics/xorg-proto/glproto_1.4.13.bb
++++ b/meta/recipes-graphics/xorg-proto/glproto_1.4.13.bb
+@@ -1,4 +1,5 @@
+ require xorg-proto-common.inc
++SRC_URI += "file://restore_the_old_xGLXBufferSwapComplete.patch"
+ 
+ SUMMARY = "OpenGL: X OpenGL extension headers"
+ 
+@@ -10,7 +11,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d44ed0146997856304dfbb512a59a8de \
+                     file://glxproto.h;beginline=4;endline=32;md5=6b79c570f644363b356456e7d44471d9"
+ 
+-PR = "r0"
++PR = "r1"
+ PE = "1"
+ 
+ BBCLASSEXTEND = "nativesdk"
+-- 
+1.7.1
 
-> On Tue, Jun 14, 2011 at 2:44 PM, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
->>=20
->> Op 14 jun 2011, om 23:40 heeft Khem Raj het volgende geschreven:
->>=20
->>> On Tue, Jun 14, 2011 at 2:32 PM, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
->>>>=20
->>>> Op 14 jun 2011, om 23:24 heeft Richard Purdie het volgende =
-geschreven:
->>>>=20
->>>>> On Tue, 2011-06-14 at 14:13 -0700, Khem Raj wrote:
->>>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>>>> ---
->>>>>> meta/classes/allarch.bbclass |    5 +++--
->>>>>> 1 files changed, 3 insertions(+), 2 deletions(-)
->>>>>>=20
->>>>>> diff --git a/meta/classes/allarch.bbclass =
-b/meta/classes/allarch.bbclass
->>>>>> index e3ac392..b9ba28b 100644
->>>>>> --- a/meta/classes/allarch.bbclass
->>>>>> +++ b/meta/classes/allarch.bbclass
->>>>>> @@ -2,9 +2,10 @@
->>>>>> # This class is used for architecture independent recipes/data =
-files (usally scripts)
->>>>>> #
->>>>>>=20
->>>>>> +# We need to pour the value of BASE_PACKAGE_ARCH into FEED_ARCH
->>>>>> +# before we reset it
->>>>>> +FEED_ARCH :=3D ${BASE_PACKAGE_ARCH}
->>>>>> BASE_PACKAGE_ARCH =3D "all"
->>>>>> -PACKAGE_ARCH =3D "all"
->>>>>> -
->>>>>> # No need for virtual/libc or a cross compiler
->>>>>> INHIBIT_DEFAULT_DEPS =3D "1"
->>>>>=20
->>>>> This is a *really* bad idea. An "all" package should have no need =
-to set
->>>>> architecture specific values into FEED_ARCH.
->>>>>=20
->>>>> Just for those not following IRC, the problem is Angstrom adds =
-FEED_ARCH
->>>>> to OVERRIDES. Adding "all" to overrides turns out to do nasty =
-things to
->>>>> classes like rm_work with "_all" in the function names.
->>>>=20
->>>> So why don't we just set PACKAGE_ARCH =3D all in allarch.bbclass =
-and not touch BASE_PACKAGE_ARCH and FEED_ARCH?
->>>>=20
->>>=20
->>> because there are some machines conf files which use =
-BASE_PACKAGE_ARCH e.g.
->>> tune-xscale.inc
->>>=20
->>> BASE_PACKAGE_ARCH =3D "${@['armv5teb',
->>> 'armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) =3D=3D 'le']}"
->>>=20
->>> PACKAGE_EXTRA_ARCHS =3D "${@['armeb armv4b armv4tb armv5teb', 'arm =
-armv4
->>> armv4t armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) =3D=3D =
-'le']}"
->>>=20
->>> and this does not get evaluated properly then
->>=20
->> But that wouldn't matter in the scope of allarch, though?
->=20
-> SITEINFO_ENDIANESS  =3D "${@siteinfo_get_endianess(d)}"
->=20
-> def siteinfo_get_endianess(d):
->       info =3D get_siteinfo_list(d)
->       if 'endian-little' in info:
->              return "le"
->       elif 'endian-big' in info:
->              return "be"
->       bb.error("Site info could not determine endianess for target")
->=20
->=20
-> and
-> get_siteinfo_list has this
->=20
->       targetinfo =3D {\
->               "allarch-linux":           "",\
->=20
-> hence siteinfo_get_endianess ends up with
->=20
-> bb.error("Site info could not determine endianess for target")
->=20
-> may be we need to differentiate with None return and empty string
-> return along with 'endian-little' and 'endian-big'
-> or may be add another option called 'endian-neutral'
-
-Or just add a bogus endianness: =
-http://cgit.openembedded.org/cgit.cgi/meta-openembedded/commit/?id=3Df95ff=
-d6cedb2a0fcad9db1b2d612663a327be87b=
 
 
