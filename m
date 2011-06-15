@@ -1,30 +1,35 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QWmZz-0008Ka-Fh for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 11:40:07 +0200
+	id 1QWn3W-0000tc-Vh for openembedded-core@lists.openembedded.org;
+	Wed, 15 Jun 2011 12:10:39 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5F9adqS024947;
-	Wed, 15 Jun 2011 10:36:39 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5FA7DrI025287
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2011 11:07:13 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 24800-04; Wed, 15 Jun 2011 10:36:35 +0100 (BST)
+	id 25159-03 for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2011 11:07:09 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5F9aWm2024941
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 15 Jun 2011 10:36:33 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5FA780x025281
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2011 11:07:09 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1308110508.git.bruce.ashfield@windriver.com>
-References: <cover.1308110508.git.bruce.ashfield@windriver.com>
-Date: Wed, 15 Jun 2011 10:36:31 +0100
-Message-ID: <1308130591.15712.371.camel@rex>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CFF0ECE5-F738-4233-8214-9E57A6616C5B@dominion.thruhere.net>
+References: <1308086002-16398-1-git-send-email-raj.khem@gmail.com>
+	<1308086688.15712.362.camel@rex>
+	<CFF0ECE5-F738-4233-8214-9E57A6616C5B@dominion.thruhere.net>
+Date: Wed, 15 Jun 2011 11:07:06 +0100
+Message-ID: <1308132426.15712.387.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: Re: [PATCH 0/1] linux-yocto: update meta branch SRCREV
+Subject: Re: [PATCH V2] allarch.bbclass: Set FEED_ARCH to original value of BASE_PACKAGE_ARCH and then set BASE_PACKAGE_ARCH to 'all'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,53 +44,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 09:40:07 -0000
+X-List-Received-Date: Wed, 15 Jun 2011 10:10:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-06-15 at 00:05 -0400, Bruce Ashfield wrote:
-> Richard/Saul,
+On Tue, 2011-06-14 at 23:32 +0200, Koen Kooi wrote:
+> Op 14 jun 2011, om 23:24 heeft Richard Purdie het volgende geschreven:
 > 
-> The patch really says it all, so I'm repeating it here:
+> > On Tue, 2011-06-14 at 14:13 -0700, Khem Raj wrote:
+> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >> ---
+> >> meta/classes/allarch.bbclass |    5 +++--
+> >> 1 files changed, 3 insertions(+), 2 deletions(-)
+> >> 
+> >> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+> >> index e3ac392..b9ba28b 100644
+> >> --- a/meta/classes/allarch.bbclass
+> >> +++ b/meta/classes/allarch.bbclass
+> >> @@ -2,9 +2,10 @@
+> >> # This class is used for architecture independent recipes/data files (usally scripts)
+> >> #
+> >> 
+> >> +# We need to pour the value of BASE_PACKAGE_ARCH into FEED_ARCH
+> >> +# before we reset it
+> >> +FEED_ARCH := ${BASE_PACKAGE_ARCH}
+> >> BASE_PACKAGE_ARCH = "all"
+> >> -PACKAGE_ARCH = "all"
+> >> -
+> >> # No need for virtual/libc or a cross compiler
+> >> INHIBIT_DEFAULT_DEPS = "1"
+> > 
+> > This is a *really* bad idea. An "all" package should have no need to set
+> > architecture specific values into FEED_ARCH.
+> > 
+> > Just for those not following IRC, the problem is Angstrom adds FEED_ARCH
+> > to OVERRIDES. Adding "all" to overrides turns out to do nasty things to
+> > classes like rm_work with "_all" in the function names.
 > 
-> [    
->   Updating the meta SRCREV to fix a bad commit which resulted in the
->   tree being dirty after checkpoint, and hence a failure during the
->   patch phase. The meta commits never modify code outside the 'meta'
->   directory tree, a rule that was broken with this bad commit.
-> 
->   Without this fix, you may see an error like:
-> 
->   | [INFO] doing kernel configme
->   | [INFO] Finding user(s) of branch "yocto/standard/fsl-mpc8315e-rdb"
->   | [INFO] Branch meta-temp used by fsl-mpc8315e-rdb-standard.scc
->   | [INFO] collecting configs in ./meta/meta-series
->   | [INFO] checking out yocto/standard/fsl-mpc8315e-rdb
->   | error: Your local changes to the following files would be overwritten by checkout:
->   | 	arch/powerpc/boot/dts/mpc8315erdb.dts
->   | Please, commit your changes or stash them before you can switch branches.
->   | Aborting
->   | [ERROR] Checkout of yocto/standard/fsl-mpc8315e-rdb failed
->   | Error running the meta series for collecting config data
->   | config of meta-temp (fsl-mpc8315e-rdb-standard.scc) failed
-> ]
-> 
-> The linux-yocto tree was fixed a few days ago, and the dust has settled
-> enough (I hope) on the recipe renames that this can now go out.
-> 
-> The following changes since commit 7aa7673459376aff911cef820c9417c998d1aa96:
->   Bruce Ashfield (1):
->         meta-yocto/linux-yocto: update to match the renamed linux-yocto recipes
-> 
-> are available in the git repository at:
-> 
->   git://git.pokylinux.org/poky-contrib zedd/kernel
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-> 
-> Bruce Ashfield (1):
->   linux-yocto: update meta branch SRCREV
+> So why don't we just set PACKAGE_ARCH = all in allarch.bbclass and not
+> touch BASE_PACKAGE_ARCH and FEED_ARCH?
 
-Merged to master, thanks.
+Because then FEED_ARCH and BASE_PACKAGE_ARCH contain machine specific
+data, and the sstate packages become machine specific. When we're trying
+to create architecture independent packages, this isn't desirable and
+people complained about too much of the system rebuilding...
+
+There is an underlying problem of why BASE_PACKAGE_ARCH and/or FEED_ARCH
+is being used but it did seem like one way to fix several of the
+problems people were seeing (not realising it would leak into OVERRIDES
+too).
+
+> > I'd suggest that various machines should start adding things like armv7a
+> > to ${MACHINEOVERRIDES} which has a much more clearly defined scope and
+> > that FEED_ARCH should quietly die ;-).
+> 
+> And that's what I've start calling a 'yocto' type of solution.
+
+Was it really necessary to add that? ;-)
+
+I'm tempted to write some definitions of my own but I'll refrain.
+
+>  That just doesn't scale since it relies on fixing all the machines
+> out there instead of levering the knowledge provided by OE already.
+> I'd appreciate a solution is better thought out.
+
+Well, I was trying to provide some hints as to how we might be able to
+improve this situation, not write the whole roadmap. From what I
+remember and the quick discussion we had offlist there are two things
+FEED_ARCH tries to do:
+
+a) Provide an addition to overrides that represents the
+optimisation/tune profile being used (like armv7a).
+
+b) Provide some info in BASE_PACKAGE_ARCH so that when PACKAGE_ARCH is
+overwritten, you can still find out what it would have been set to.
+
+For a), we could update the common include files for the omap/armv7a
+platforms and append to MACHINEOVERRIDES there with the appropriate
+entries. This would then specifically add a value to OVERRIDES making it
+clear that the platform accepted those specific overrides. The variable
+has one clear single purpose and intent.
+
+For b), BASE_PACKAGE_ARCH is fine as a variable. Again, we have a
+variable with a clear meaning and intent. It would be preferable to use
+it rather than FEED_ARCH and phase out the use of FEED_ARCH over time as
+that variable does not have a clear meaning or standardised use, its
+being used for several different things.
+
+The remaining question is then whether allarch.bbclass should set
+BASE_PACKAGE_ARCH. I remain of the opinion that any "allarch" recipe
+should not be seeing machine or architecture specific values. It
+therefore shouldn't actually make any different whether its set or not,
+or what its set to. "all" or "INVALID" are probably the best choices as
+they protect people from themselves a little.
+
+Cheers,
 
 Richard
 
