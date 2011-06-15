@@ -1,28 +1,35 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QWtLQ-0008QN-AR for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 18:53:32 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QWtI2-0005pG-Uj
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QWvOE-00022c-6y
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 18:50:03 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4DF8E226.2090403@gmail.com>
-References: <1308065443.25285.268.camel@phil-desktop>
-	<E934E895-3391-4437-A310-E5B99624AC38@dominion.thruhere.net>
-	<1308125091.6879.39.camel@lenovo.internal.reciva.com>
-	<1308148335.25285.1774.camel@phil-desktop> <4DF8DD52.70502@gmail.com>
-	<1308155502.25285.2038.camel@phil-desktop> <4DF8DF40.6050401@gmail.com>
-	<1308156148.25285.2068.camel@phil-desktop> <4DF8E226.2090403@gmail.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Wed, 15 Jun 2011 17:50:01 +0100
-Message-ID: <1308156601.25285.2084.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH RFC] binutils: allow distro to select gold as default cross-linker
+	Wed, 15 Jun 2011 21:04:34 +0200
+Received: by yxe1 with SMTP id 1so461584yxe.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2011 12:01:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
+	:x-mailer; bh=NOSxQjNTpcsyKVCljY5gXAXwGCfynGJGpN6eJJqxb1o=;
+	b=ZSGED12s5zdDThSFjqV5KmN1dNIbKo4btg9Xq1spO0ro8gdj8/cQtkOZcUV6gtTYlH
+	92+PFz6usxjPN9PhRfqDisG+S+pf+6+I+ogs2FxaD+blpffjsRP1AHPp3J/9pRtuPiJD
+	24HLMwyW/qu6erGLATnOH0EqP3S2zV8wWTaDY=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	b=vNdyjQE9zX4ublgMA2Pl/QPhlvTgpLFrrg7QMMfDXUOWTvG75Ibjv2+I1NtS5NgNHr
+	n0gh4yhXGhC8KIndY1+UrReuRkEdfbLnAqOZi5j4mFrboqzhpCkIvCQbIShnEiP7BXAW
+	gV+O46o77FUckNkml8MWOqez/IkLC3Xgsurm0=
+Received: by 10.236.185.3 with SMTP id t3mr153723yhm.175.1308164466254;
+	Wed, 15 Jun 2011 12:01:06 -0700 (PDT)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id w66sm407379yhi.38.2011.06.15.12.01.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 15 Jun 2011 12:01:05 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jun 2011 19:00:52 +0000
+Message-Id: <1308164452-18751-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH] cmake: refactor recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,19 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 16:53:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Jun 2011 19:04:34 -0000
 
-On Wed, 2011-06-15 at 09:47 -0700, Khem Raj wrote:
-> we probably need ld.bfd for kernel too.
+ * use INC_PR;
+ * show configure's failure on error;
+ * gather major version from PV;
 
-Yeah.  That's easy though, because the kernel invokes ld directly rather
-than going through the compiler driver.  Just need to set ${KERNEL_LD}
-appropriately and it should all be fine.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-devtools/cmake/cmake-native_2.8.3.bb |    4 ++--
+ meta/recipes-devtools/cmake/cmake.inc             |    6 +++++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-p.
-
+diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.3.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.3.bb
+index 29b3d87..a68a25f 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_2.8.3.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_2.8.3.bb
+@@ -1,7 +1,7 @@
+-CMAKE_MAJOR_VERSION="2.8"
+ require cmake.inc
+ inherit native
+-PR = "r1"
++
++PR = "${INC_PR}.1"
+ 
+ SRC_URI[md5sum] = "a76a44b93acf5e3badda9de111385921"
+ SRC_URI[sha256sum] = "689ed02786b5cefa5515c7716784ee82a82e8ece6be5a3d629ac3cc0c05fc288"
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index eed9346..ec37a10 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -9,11 +9,15 @@ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://Copyright.txt;md5=f372516292ff7c33337bf16a74a5f9a8 \
+                     file://Source/cmake.h;beginline=1;endline=10;md5=341736dae83c9e344b53eeb1bc7d7bc2"
+ 
++INC_PR = "r1"
++
++CMAKE_MAJOR_VERSION = "${@'.'.join(bb.data.getVar('PV',d,1).split('.')[0:2])}"
++
+ SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://support-oe-qt4-tools-names.patch"
+ 
+ inherit autotools
+ 
+ do_configure () {
+-	./configure --prefix=${prefix} || die "./bootstrap failed"
++	./configure --prefix=${prefix}
+ }
+-- 
+1.7.2.5
 
 
 
