@@ -1,26 +1,39 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QWkdq-0006C1-W0
+	(envelope-from <dexuan.cui@intel.com>) id 1QWko5-0007rR-C5
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 09:35:59 +0200
-Received: by wwb17 with SMTP id 17so119258wwb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2011 00:32:33 -0700 (PDT)
-Received: by 10.216.191.208 with SMTP id g58mr177325wen.85.1308123152900;
-	Wed, 15 Jun 2011 00:32:32 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id f60sm81649wef.37.2011.06.15.00.32.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 15 Jun 2011 00:32:32 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1308122189.git.dexuan.cui@intel.com>
-Date: Wed, 15 Jun 2011 09:32:30 +0200
-Message-Id: <61CB4C0F-71CE-4F84-A99F-0281F6C028D0@dominion.thruhere.net>
-References: <cover.1308122189.git.dexuan.cui@intel.com>
-To: Patches and discussions about the oe-core layer
+	Wed, 15 Jun 2011 09:46:33 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 15 Jun 2011 00:43:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,369,1304319600"; d="scan'208";a="13006365"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by azsmga001.ch.intel.com with ESMTP; 15 Jun 2011 00:43:02 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 15 Jun 2011 15:43:00 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 15 Jun 2011 15:42:59 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Wed, 15 Jun 2011 15:42:58 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
+Date: Wed, 15 Jun 2011 15:42:57 +0800
+Thread-Topic: [OE-core] [PATCH 0/2] fix the mesa-dri build failure after
+	upgrading to newer glproto and dri2proto
+Thread-Index: AcwrLZzkTE+7L2mrTqWjwRRdXqcS0wAAcZmg
+Message-ID: <1865303E0DED764181A9D882DEF65FB699650124B6@shsmsx502.ccr.corp.intel.com>
+References: <cover.1308122189.git.dexuan.cui@intel.com>
+	<BANLkTi=z9NEzdU2=OCxGWVhdMBwsipXvgw@mail.gmail.com>
+In-Reply-To: <BANLkTi=z9NEzdU2=OCxGWVhdMBwsipXvgw@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
 Subject: Re: [PATCH 0/2] fix the mesa-dri build failure after upgrading to newer glproto and dri2proto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,52 +49,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 07:35:59 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 15 Jun 2011 07:46:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-
-Op 15 jun 2011, om 09:19 heeft Dexuan Cui het volgende geschreven:
-
-> Please review them.
-
-This is more elegant than my solution of keeping dri2proto 2.3 in =
-meta-oe :)
-
-Acked-by: Koen Kooi <koen@dominion.thruhere.net>
-
+Martin Jansa wrote:
+> On Wed, Jun 15, 2011 at 9:19 AM, Dexuan Cui <dexuan.cui@intel.com>
+> wrote:=20
+>> Please review them.
 >=20
-> The following changes since commit =
-6719d1e245234767bb5409c30dd34388ab935550:
+> Acked-by: Martin.Jansa <Martin.Jansa@gmail.com>
 >=20
-> are available in the git repository at:
->  git://git.pokylinux.org/poky-contrib dcui/fix_mesa-dri
->  =
-http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Ddcui/fix_mesa-dri
->=20
-> Dexuan Cui (2):
->  glproto: Revert "glxproto: make GLX swap event struct match spec"
->  dri2proto: Revert "dri2proto: make DRI2 swap event match GLX spec"
->=20
-> .../restore_to_old_xDRI2BufferSwapComplete.patch   |   53 =
-++++++++++++++++++++
-> meta/recipes-graphics/xorg-proto/dri2proto_2.4.bb  |    3 +-
-> .../restore_the_old_xGLXBufferSwapComplete.patch   |   53 =
-++++++++++++++++++++
-> meta/recipes-graphics/xorg-proto/glproto_1.4.13.bb |    3 +-
-> 4 files changed, 110 insertions(+), 2 deletions(-)
-> create mode 100644 =
-meta/recipes-graphics/xorg-proto/dri2proto/restore_to_old_xDRI2BufferSwapC=
-omplete.patch
-> create mode 100644 =
-meta/recipes-graphics/xorg-proto/glproto/restore_the_old_xGLXBufferSwapCom=
-plete.patch
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> with sort of deja vu :)
+> http://git.openembedded.org/cgit.cgi/openembedded/commit/?id=3Dde74afec8a=
+067071d17365438d6c462664bc5054
+> http://git.openembedded.org/cgit.cgi/openembedded/commit/?id=3Df02e320146=
+c701ad0f02f7daf52acac6389c71fd
+> http://git.openembedded.org/cgit.cgi/openembedded/commit/?id=3Df2a73450a7=
+0d113d77fbf703772fbf0db81e8e61
 
+Yes, I made the same mistake... I should be more careful.
+
+Thanks,
+-- Dexuan=
 
 
