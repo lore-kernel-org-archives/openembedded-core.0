@@ -1,40 +1,42 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QWcqb-0005sQ-Ps
+	(envelope-from <raj.khem@gmail.com>) id 1QWfyk-000224-Al
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 01:16:37 +0200
-Received: by wwb17 with SMTP id 17so5359565wwb.24
+	Wed, 15 Jun 2011 04:37:14 +0200
+Received: by pwj9 with SMTP id 9so111542pwj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 16:13:12 -0700 (PDT)
+	Tue, 14 Jun 2011 19:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:content-transfer-encoding;
-	bh=ycStmiO1WQ97ve8IEzMkSHr8vx5aV3lFjbIiXC2EUQE=;
-	b=CeqOajWJ0WZiI3xWgeruS3ooqHt/MMFwRMDq26gcjDAKzs6f9qLwfhgdPYQ7cTvRip
-	ltC7TU+5lO0srZ682gQMlDYEgho1AoUQ7ZoODl5lbxwtO70KZqnJRlarWP/x40KTEpgb
-	X4zaJWj5jz2cRUICnvbjtpxEegIL6n623IaRQ=
+	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=4TN1cN4nub4ZhthFI8WKR48sX7VRTvNeVWjG5EatFec=;
+	b=tlcXhK8CJ4zUR48nnO4W7RtrHsvVyC+7IQj/J+lKZH72cbM6fwwaBzkp2a0DqQRiX1
+	E8o3slKHkv5hoMbZNxQ3m0d9vRJr4uN0yYAntSRzyuiFmIAhc9FzLn0VieFmxAO7H4UX
+	3oWfu0aB8hsPOsZNnxEKF/PRg2t++VPpjjDpE=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	b=nE67sSyNRrhtNUbDPrdGmgScUbuWN2mAUlPhJSi3tGhtFFRcVyzOFjHlTKAibKWejl
-	n/wHuk5elaDoJj4NtyghqKdlH4gnjYIC0LD2CuM3Ou3oVvPx7DsRLL2GNISseochXeWH
-	Flix+DHzum/mnRrGVq+M+wUjyhQUQp1Zd6gjw=
-Received: by 10.216.205.26 with SMTP id i26mr7182502weo.58.1308093192097; Tue,
-	14 Jun 2011 16:13:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.216.37.197 with HTTP; Tue, 14 Jun 2011 16:12:42 -0700 (PDT)
-In-Reply-To: <8C2617DC-2693-42A3-810B-C3A516DB7360@dominion.thruhere.net>
-References: <1308086002-16398-1-git-send-email-raj.khem@gmail.com>
-	<1308086688.15712.362.camel@rex>
-	<CFF0ECE5-F738-4233-8214-9E57A6616C5B@dominion.thruhere.net>
-	<BANLkTi=Kk7J-ZAQuPkC5LNAnxZSAzwtvOg@mail.gmail.com>
-	<8C2617DC-2693-42A3-810B-C3A516DB7360@dominion.thruhere.net>
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	b=UeWHnQ0P93cZetYgLhra7Yz0qyO93q+bEw7qDjaFR+cNJ0WpbRM5l355TDG3UYW/PK
+	iJx59mxOKtp+B5Sk6VaVpzIgCNW9sdeTKHej9h371r3+e+zlOGmaf9KRfFgwalepKPHm
+	u1iW47U2JIenvNRaNP8PeybYOJmQXNLTWUrYs=
+Received: by 10.142.222.9 with SMTP id u9mr1380375wfg.242.1308105227230;
+	Tue, 14 Jun 2011 19:33:47 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id o16sm7721875wff.13.2011.06.14.19.33.44
+	(version=SSLv3 cipher=OTHER); Tue, 14 Jun 2011 19:33:45 -0700 (PDT)
+Message-ID: <4DF81A07.3090502@gmail.com>
+Date: Tue, 14 Jun 2011 19:33:43 -0700
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 14 Jun 2011 16:12:42 -0700
-Message-ID: <BANLkTimY-6iNGoKeeZ7Xs0rswKSZUi3xSQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] allarch.bbclass: Set FEED_ARCH to original value of BASE_PACKAGE_ARCH and then set BASE_PACKAGE_ARCH to 'all'
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1307937636.git.raj.khem@gmail.com>	<1307955075.6879.11.camel@lenovo.internal.reciva.com>	<BANLkTikbba0xTCB=eLZamP7LY6wJ8_Nkhw@mail.gmail.com>	<1308043725.25285.232.camel@phil-desktop>
+	<1308055023.15712.333.camel@rex>
+In-Reply-To: <1308055023.15712.333.camel@rex>
+Subject: Re: [PATCH 0/1] Upgrade gcc 4.6.0 to latest on FSF 4.6 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,103 +51,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2011 23:16:37 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 Jun 2011 02:37:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 14, 2011 at 2:44 PM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
->
-> Op 14 jun 2011, om 23:40 heeft Khem Raj het volgende geschreven:
->
->> On Tue, Jun 14, 2011 at 2:32 PM, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->>>
->>> Op 14 jun 2011, om 23:24 heeft Richard Purdie het volgende geschreven:
->>>
->>>> On Tue, 2011-06-14 at 14:13 -0700, Khem Raj wrote:
->>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>>> ---
->>>>> meta/classes/allarch.bbclass | =C2=A0 =C2=A05 +++--
->>>>> 1 files changed, 3 insertions(+), 2 deletions(-)
+On 06/14/2011 05:37 AM, Richard Purdie wrote:
+> On Tue, 2011-06-14 at 10:28 +0100, Phil Blundell wrote:
+>> On Mon, 2011-06-13 at 10:12 -0700, Khem Raj wrote:
+>>> On Mon, Jun 13, 2011 at 1:51 AM, Phil Blundell<pb@pbcl.net>  wrote:
+>>>> On Sun, 2011-06-12 at 21:03 -0700, Khem Raj wrote:
+>>>>> This patch brings in new patches from gcc 4.6 FSF branch
+>>>>> And refreshes the headers of existing backported patches
+>>>>> to not have git patch numbers in comments
 >>>>>
->>>>> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbcl=
-ass
->>>>> index e3ac392..b9ba28b 100644
->>>>> --- a/meta/classes/allarch.bbclass
->>>>> +++ b/meta/classes/allarch.bbclass
->>>>> @@ -2,9 +2,10 @@
->>>>> # This class is used for architecture independent recipes/data files =
-(usally scripts)
->>>>> #
+>>>>> I am not sending the patch itself to mailing list due to its
+>>>>> large size so please review it on the contrib tree itself
 >>>>>
->>>>> +# We need to pour the value of BASE_PACKAGE_ARCH into FEED_ARCH
->>>>> +# before we reset it
->>>>> +FEED_ARCH :=3D ${BASE_PACKAGE_ARCH}
->>>>> BASE_PACKAGE_ARCH =3D "all"
->>>>> -PACKAGE_ARCH =3D "all"
->>>>> -
->>>>> # No need for virtual/libc or a cross compiler
->>>>> INHIBIT_DEFAULT_DEPS =3D "1"
 >>>>
->>>> This is a *really* bad idea. An "all" package should have no need to s=
-et
->>>> architecture specific values into FEED_ARCH.
+>>>> Would we not be better off just pulling the tip of the 4.6 branch from
+>>>> FSF SVN, rather than having to keep all these patches in git?
 >>>>
->>>> Just for those not following IRC, the problem is Angstrom adds FEED_AR=
-CH
->>>> to OVERRIDES. Adding "all" to overrides turns out to do nasty things t=
-o
->>>> classes like rm_work with "_all" in the function names.
 >>>
->>> So why don't we just set PACKAGE_ARCH =3D all in allarch.bbclass and no=
-t touch BASE_PACKAGE_ARCH and FEED_ARCH?
->>>
+>>> there is dislike for this approach in oe-core. As the release point is preferred
+>>> I suggested to drop the minor release number and call the recipes 4.6
+>>> and use SVN
+>>> REVs to track the recipe updates but it did not fly :)
 >>
->> because there are some machines conf files which use BASE_PACKAGE_ARCH e=
-.g.
->> tune-xscale.inc
+>> Where does that dislike come from?  Koen did make a comment about having
+>> liked svn checkouts for 4.5 "very, very much" but I couldn't quite
+>> figure out whether he was being sarcastic or not and, if so, what
+>> exactly his objection was.
 >>
->> BASE_PACKAGE_ARCH =3D "${@['armv5teb',
->> 'armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) =3D=3D 'le']}"
+>> I could understand there being a preference for individual patchsets if
+>> we were just going to cherry-pick carefully selected bugfixes from the
+>> branch and patch them in.  But, if we're going to take the approach of
+>> just importing everything from the branch en masse, it seems like
+>> keeping them as patches is just making more work for ourselves.
 >>
->> PACKAGE_EXTRA_ARCHS =3D "${@['armeb armv4b armv4tb armv5teb', 'arm armv4
->> armv4t armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) =3D=3D 'le']=
-}"
->>
->> and this does not get evaluated properly then
+>> We're using svn checkouts for eglibc, which seems to be working well
+>> enough and hasn't provoked any particular outrage that I noticed.
 >
-> But that wouldn't matter in the scope of allarch, though?
+> I think it was my dislike that Khem is referring to. I was under the
+> impression that we were going to be more selective that just taking
+> everything (e.g. the translation updates probably aren't essential to
+> us).
+>
+> I realise its easier to just take everything though and if we are going
+> to do that it probably does make sense to use svn directly. I'll take a
+> patch to do that.
 
-SITEINFO_ENDIANESS  =3D "${@siteinfo_get_endianess(d)}"
+What goes into release branches of gcc are strictly bug fixes only. So 
+its safe to get them all
 
-def siteinfo_get_endianess(d):
-       info =3D get_siteinfo_list(d)
-       if 'endian-little' in info:
-              return "le"
-       elif 'endian-big' in info:
-              return "be"
-       bb.error("Site info could not determine endianess for target")
+I will prepare a patch for it.
 
-
-and
-get_siteinfo_list has this
-
-       targetinfo =3D {\
-               "allarch-linux":           "",\
-
-hence siteinfo_get_endianess ends up with
-
-bb.error("Site info could not determine endianess for target")
-
-may be we need to differentiate with None return and empty string
-return along with 'endian-little' and 'endian-big'
-or may be add another option called 'endian-neutral'
-
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
 
 
