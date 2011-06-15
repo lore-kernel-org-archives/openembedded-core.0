@@ -1,42 +1,25 @@
-Received: from mail-iw0-f175.google.com ([209.85.214.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QWsz6-00082l-Q4
+	(envelope-from <sgw@linux.intel.com>) id 1QWszx-00084k-1p
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 18:30:29 +0200
-Received: by iwn19 with SMTP id 19so458291iwn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2011 09:27:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=7+JC/yJQ8lof7CHflVqvxKEeO5etRpjOJPOc1aXnU70=;
-	b=QND0e5+WCmCT2tLxXuZQv4bMzDpdG0J+IbLebS30RModNWUOU14aKjJQQVIKKpkSln
-	jf6LV0UxtyTmJWCr8Vam4BsR3OlAH0uf33/YbnGJUskd8GoGhqcG5CJGwwK1gSx5JXMO
-	HClMcV4irbJRqfslgMbFT0OOOwRR5Nlac5q7k=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	b=YZr3vgtebzIO1mGk8PHc/DgLIaZxrxw9vjlE0lFhmcjMknXl7i9qR26WYHY8H06OjN
-	NI1K5z+V4joPrkBTfpZ4EsjeIDTUzFZuJuuIX5rPPHu4QWH3rBuX+k6/I/QV52t5ScNQ
-	u+xWHQ18UID+lsfF90Wg1uzeVcTQDxsvVbry8=
-Received: by 10.231.179.197 with SMTP id br5mr587948ibb.146.1308155221426;
-	Wed, 15 Jun 2011 09:27:01 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id w8sm302143ibh.52.2011.06.15.09.26.59
-	(version=SSLv3 cipher=OTHER); Wed, 15 Jun 2011 09:27:00 -0700 (PDT)
-Message-ID: <4DF8DD52.70502@gmail.com>
-Date: Wed, 15 Jun 2011 09:26:58 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
+	Wed, 15 Jun 2011 18:31:21 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 15 Jun 2011 09:26:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,370,1304319600"; d="scan'208";a="13251709"
+Received: from unknown (HELO [10.255.13.50]) ([10.255.13.50])
+	by azsmga001.ch.intel.com with ESMTP; 15 Jun 2011 09:26:27 -0700
+Message-ID: <4DF8DD33.1020006@linux.intel.com>
+Date: Wed, 15 Jun 2011 09:26:27 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1308065443.25285.268.camel@phil-desktop>	<E934E895-3391-4437-A310-E5B99624AC38@dominion.thruhere.net>	<1308125091.6879.39.camel@lenovo.internal.reciva.com>
-	<1308148335.25285.1774.camel@phil-desktop>
-In-Reply-To: <1308148335.25285.1774.camel@phil-desktop>
-Subject: Re: [PATCH RFC] binutils: allow distro to select gold as default cross-linker
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <4DF8D848.9000605@linux.intel.com> <4DF8DA15.8060500@gmail.com>
+In-Reply-To: <4DF8DA15.8060500@gmail.com>
+Subject: Re: [RFC] DISTRO_MIRRORS / DISTRO_PREMIRRORS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,56 +34,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 16:30:29 -0000
+X-List-Received-Date: Wed, 15 Jun 2011 16:31:21 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/15/2011 07:32 AM, Phil Blundell wrote:
-> On Wed, 2011-06-15 at 09:04 +0100, Phil Blundell wrote:
->> One slightly annoying thing is that (e)glibc isn't buildable with gold
->> because the linker scripts don't work.  So a little bit of patching is
->> going to be needed to have it use ld.bfd there.  There might be some
->> other packages with similar issues but I haven't come across any yet.
+On 06/15/2011 09:13 AM, Khem Raj wrote:
+> On 06/15/2011 09:05 AM, Saul Wold wrote:
+>>
+>> Folks,
+>>
+>> Recently we have seen a number of fetch failures, due to upstream sites
+>> being down or deprecated (tinylogin, pscmic and others).
+>>
+>> The issue is that oe-core as a non-distro does not have a default set of
+>> mirrors, which causes the fetcher to fail as there is no fall-back
+>> mirror to distrubte the source code.
+>>
+>> As has been pointed out, different projects and distributions (Yocto
+>> Project and Angstrom) both have upstream source mirrors which could be
+>> used. Currently the Yocto Project defines it's MIRRORS and PREMIRRORS in
+>> meta-yocto/conf/distro/poky.conf.
+>>
+>> I propose that we add a list of DISTO_MIRRORS and DISTRO_PREMIRRORS with
+>> default settings pointing to the current autobuilder.yoctoproject.org
+>> source site. These would be added to the mirrors.bbclass, so that
+>> oe-core will have a default set of mirrors that can be overridden by a
+>> distro or layer.
+>>
+>> diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+>> index 2146087..a52c6d5 100644
+>> --- a/meta/classes/mirrors.bbclass
+>> +++ b/meta/classes/mirrors.bbclass
+>> @@ -1,4 +1,22 @@
+>> +DISTRO_PREMIRRORS ?= "\
+>> +bzr://.*/.* http://autobuilder.yoctoproject.org/sources/ \n \
+>> +cvs://.*/.* http://autobuilder.yoctoproject.org/sources/ \n \
+>> +git://.*/.* http://autobuilder.yoctoproject.org/sources/ \n \
+>> +hg://.*/.* http://autobuilder.yoctoproject.org/sources/ \n \
+>> +osc://.*/.* http://autobuilder.yoctoproject.org/sources/ \n \
+>> +p4://.*/.* http://autobuilder.yoctoproject.org/sources/ \n \
+>> +svk://.*/.* http://autobuilder.yoctoproject.org/sources/ \n \
+>> +svn://.*/.* http://autobuilder.yoctoproject.org/sources/ \n"
+>> +
+>> +PREMIRRORS += "${DISTRO_PREMIRRORS}"
+>> +
+>> +DISTRO_MIRRORS ?= "\
+>> +ftp://.*/.* http://autobuilder.yoctoproject.org/sources/ \n \
+>> +http://.*/.* http://autobuilder.yoctoproject.org/sources/ \n \
+>> +https://.*/.* http://autobuilder.yoctoproject.org/sources/ \n"
+>> +
+>> MIRRORS += "\
+>> +${DISTRO_MIRRORS} \
+>> ${DEBIAN_MIRROR}/main http://snapshot.debian.net/archive/pool \n \
+>> ${DEBIAN_MIRROR} ftp://ftp.de.debian.org/debian/pool \n \
+>> ${DEBIAN_MIRROR} ftp://ftp.au.debian.org/debian/pool \n \
+>>
+>> Thoughts, ACKs, NAKs??
+>>
 >
-> I think something like this is probably what's required for that.
->
->  From 48eaba1da89086b8edccaa03c27075d78635ab01 Mon Sep 17 00:00:00 2001
-> From: Phil Blundell<philb@gnu.org>
-> Date: Wed, 15 Jun 2011 15:22:47 +0100
-> Subject: [PATCH] gcc-cross-intermediate: use ld.bfd if distro prefers gold
->
->
-> Signed-off-by: Phil Blundell<philb@gnu.org>
-> ---
->   .../gcc/gcc-cross-intermediate.inc                 |    7 ++++++-
->   1 files changed, 6 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-> index 92c3ce2..05b5dbc 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-> @@ -7,6 +7,10 @@ CROSS_TARGET_SYS_DIR_append = ".${PN}"
->
->   # This is intended to be a -very- basic config
->   # sysroot is needed in case we use libc-initial
-> +#
-> +# Glibc won't compile with gold, and building glibc is the whole point of
-> +# this recipe.   So we select ld.bfd explicitly here if gold is the distro's
-> +# preferred linker.
->   EXTRA_OECONF = "--with-local-prefix=${STAGING_DIR_TARGET}${target_prefix} \
->   		--enable-shared \
->   		--disable-multilib \
-> @@ -17,7 +21,8 @@ EXTRA_OECONF = "--with-local-prefix=${STAGING_DIR_TARGET}${target_prefix} \
->   		--with-sysroot=${STAGING_DIR_TCBOOTSTRAP} \
->   		--with-build-sysroot=${STAGING_DIR_TCBOOTSTRAP} \
->   		${EXTRA_OECONF_INTERMEDIATE} \
-> -		${@get_gcc_fpu_setting(bb, d)}"
-> +		${@get_gcc_fpu_setting(bb, d)} \
-> +		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--with-ld=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}ld.bfd', '', d)}"
->
->   do_populate_sysroot[sstate-inputdirs] = "${SYSROOT_DESTDIR}/${STAGING_DIR_HOST} ${SYSROOT_DESTDIR}/${STAGING_DIR_TARGET}/${target_base_libdir}"
->   do_populate_sysroot[sstate-outputdirs] = "${STAGING_DIR_HOST} ${STAGING_DIR_TCBOOTSTRAP}/${target_base_libdir}"
+> FWIW http://mirrors.openembedded.org/ also exists.
+>>
+How up to date is it and how is it maintained? Is it possible for this 
+mirror site to fall behind oe-core?
 
-this might not work second time around when gcc-cross has been staged.
+Sau!
+
+>> --
+>> Sau!
+>>
+>> Saul Wold
+>> Yocto Component Wrangler @ Intel
+>> Yocto Project / Poky Build System
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
