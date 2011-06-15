@@ -1,42 +1,23 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QWg9E-0002Ij-JT
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QWhRJ-0004BT-Fx
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 04:48:04 +0200
-Received: by pzk36 with SMTP id 36so3171607pzk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 19:44:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=Dt7bbzNhTfSKXh4MdX3qdTlKETgC1Z+RgJL0HkZ9Gyw=;
-	b=uB1B276FrRi4qfm5B+cY22hEJbWl0M6WyDU9e4pQMMr7GmkdbF7CtYFovW+g8bOZ+/
-	OzfGqvJC4VgMkJS0Df/lTWD7J9i3Pj0yQUOTmw+qygOWCcrDXOaiwgqhm1TOcNvTr4ma
-	QV+8wNTfc1oR9dTwCuETdJQ96dmiGIoTHs+Uw=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	b=br7rPCsX+iqvGAuL0V+ALEjxQVk2HIS/lMGGljTLvew9g35/yS/m/j7d+z/vKQb8PU
-	IuurfPSoYmXwCAV8YP3vXDFi8W88GJ0+JA9WSNMFSibFNEYBWYqtN+ewD11bMz43163J
-	dS3wc8kKcoLdinZahpiLDdgNpQjAh3ajsXJW8=
-Received: by 10.142.149.26 with SMTP id w26mr1209459wfd.402.1308105877221;
-	Tue, 14 Jun 2011 19:44:37 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id l10sm7726317wfk.21.2011.06.14.19.44.34
-	(version=SSLv3 cipher=OTHER); Tue, 14 Jun 2011 19:44:35 -0700 (PDT)
-Message-ID: <4DF81C91.3050901@gmail.com>
-Date: Tue, 14 Jun 2011 19:44:33 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1308065443.25285.268.camel@phil-desktop>
-	<E934E895-3391-4437-A310-E5B99624AC38@dominion.thruhere.net>
-In-Reply-To: <E934E895-3391-4437-A310-E5B99624AC38@dominion.thruhere.net>
-Subject: Re: [PATCH RFC] binutils: allow distro to select gold as default cross-linker
+	Wed, 15 Jun 2011 06:10:49 +0200
+Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
+	[128.224.146.167])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5F47H10011907;
+	Tue, 14 Jun 2011 21:07:19 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 15 Jun 2011 00:05:34 -0400
+Message-Id: <3adfb2c1f7dff112cbd24e30b7d90aea619ca455.1308110508.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1308110508.git.bruce.ashfield@windriver.com>
+References: <cover.1308110508.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1308110508.git.bruce.ashfield@windriver.com>
+References: <cover.1308110508.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 1/1] linux-yocto: update meta branch SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,48 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 02:48:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Jun 2011 04:10:49 -0000
 
-On 06/14/2011 08:38 AM, Koen Kooi wrote:
->
-> Op 14 jun 2011, om 17:30 heeft Phil Blundell het volgende geschreven:
->
->> This is not particularly pretty but I couldn't think of any obviously
->> better way of doing it.  Any suggestions?
->>
->> Signed-off-by: Phil Blundell<philb@gnu.org>
->> ---
->> meta/recipes-devtools/binutils/binutils-cross.inc |    3 ++-
->> 1 files changed, 2 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
->> index 4b90972..5a41970 100644
->> --- a/meta/recipes-devtools/binutils/binutils-cross.inc
->> +++ b/meta/recipes-devtools/binutils/binutils-cross.inc
->> @@ -5,7 +5,8 @@ EXTRA_OECONF = "--with-sysroot=${STAGING_DIR_TARGET} \
->>                  --program-prefix=${TARGET_PREFIX} \
->>                  --disable-install-libbfd \
->>                  --disable-werror \
->> -                --enable-poison-system-directories"
->> +                --enable-poison-system-directories \
->> +		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)}"
->
-> Out of curiousity, how well does gold work nowadays? Last I remember hearing of it was in its x86-only days.
->
+Updating the meta SRCREV to fix a bad commit which resulted in the
+tree being dirty after checkpoint, and hence a failure during the
+patch phase. The meta commits never modify code outside the 'meta'
+directory tree, a rule that was broken with this bad commit.
 
-it works well on arm in fact link times are way better on some 
-(especially C++) applications using gold. We can try to use gold for 
-x86, x86_64 and arm to start with.
+Without this fix, you may see an error like:
 
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+| [INFO] doing kernel configme
+| [INFO] Finding user(s) of branch "yocto/standard/fsl-mpc8315e-rdb"
+| [INFO] Branch meta-temp used by fsl-mpc8315e-rdb-standard.scc
+| [INFO] collecting configs in ./meta/meta-series
+| [INFO] checking out yocto/standard/fsl-mpc8315e-rdb
+| error: Your local changes to the following files would be overwritten by checkout:
+| 	arch/powerpc/boot/dts/mpc8315erdb.dts
+| Please, commit your changes or stash them before you can switch branches.
+| Aborting
+| [ERROR] Checkout of yocto/standard/fsl-mpc8315e-rdb failed
+| Error running the meta series for collecting config data
+| config of meta-temp (fsl-mpc8315e-rdb-standard.scc) failed
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto_2.6.37.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb b/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
+index 1d43e1e..f6abc9e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
+@@ -20,7 +20,7 @@ SRCREV_machine_qemuppc = "704497b3a48c0882078f6167277d65d932292535"
+ SRCREV_machine_qemux86 = "c1a74a7872fdd1152265087aa7e59b96a8f2f42a"
+ SRCREV_machine_qemux86-64 = "1950ea205407d8950475a37404173572d55fd27f"
+ SRCREV_machine = "697d84759be192403a8a87ab269196c67a0c2c88"
+-SRCREV_meta = "f1dc3722d45cdcc92c84ebfecf4ce616d2efed26"
++SRCREV_meta = "46a1be20b01e50d5d0646e5622e9dd06433238c2"
+ 
+ PR = "r18"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+-- 
+1.7.0.4
 
 
 
