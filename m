@@ -1,29 +1,38 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QWnBF-00010b-Gc
-	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 12:18:37 +0200
-Received: by wye20 with SMTP id 20so195216wye.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QWnCA-000129-Nx for openembedded-core@lists.openembedded.org;
+	Wed, 15 Jun 2011 12:19:35 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5FAG9ft025398
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2011 03:15:11 -0700 (PDT)
-Received: by 10.216.230.105 with SMTP id i83mr1925532weq.43.1308132911073;
-	Wed, 15 Jun 2011 03:15:11 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id l5sm161141weq.9.2011.06.15.03.15.09
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 15 Jun 2011 03:15:10 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1308132426.15712.387.camel@rex>
-Date: Wed, 15 Jun 2011 12:15:08 +0200
-Message-Id: <9B8FDB01-CFAA-497E-BD0E-93D421E6C4F8@dominion.thruhere.net>
+	Wed, 15 Jun 2011 11:16:09 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25229-04 for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2011 11:16:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5FAG23S025392
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jun 2011 11:16:03 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <3E89612B-A102-423A-8499-55E5AC1CDF07@dominion.thruhere.net>
 References: <1308086002-16398-1-git-send-email-raj.khem@gmail.com>
 	<1308086688.15712.362.camel@rex>
 	<CFF0ECE5-F738-4233-8214-9E57A6616C5B@dominion.thruhere.net>
-	<1308132426.15712.387.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
+	<BANLkTi=Kk7J-ZAQuPkC5LNAnxZSAzwtvOg@mail.gmail.com>
+	<8C2617DC-2693-42A3-810B-C3A516DB7360@dominion.thruhere.net>
+	<BANLkTimY-6iNGoKeeZ7Xs0rswKSZUi3xSQ@mail.gmail.com>
+	<3E89612B-A102-423A-8499-55E5AC1CDF07@dominion.thruhere.net>
+Date: Wed, 15 Jun 2011 11:16:00 +0100
+Message-ID: <1308132960.15712.390.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH V2] allarch.bbclass: Set FEED_ARCH to original value of BASE_PACKAGE_ARCH and then set BASE_PACKAGE_ARCH to 'all'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -39,106 +48,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 10:18:37 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 Jun 2011 10:19:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Wed, 2011-06-15 at 09:00 +0200, Koen Kooi wrote:
+> Op 15 jun 2011, om 01:12 heeft Khem Raj het volgende geschreven:
+> 
+> > On Tue, Jun 14, 2011 at 2:44 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> >> 
+> >> Op 14 jun 2011, om 23:40 heeft Khem Raj het volgende geschreven:
+> >> 
+> >>> On Tue, Jun 14, 2011 at 2:32 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> >>>> 
+> >>>> Op 14 jun 2011, om 23:24 heeft Richard Purdie het volgende geschreven:
+> >>>> 
+> >>>>> On Tue, 2011-06-14 at 14:13 -0700, Khem Raj wrote:
+> >>>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >>>>>> ---
+> >>>>>> meta/classes/allarch.bbclass |    5 +++--
+> >>>>>> 1 files changed, 3 insertions(+), 2 deletions(-)
+> >>>>>> 
+> >>>>>> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+> >>>>>> index e3ac392..b9ba28b 100644
+> >>>>>> --- a/meta/classes/allarch.bbclass
+> >>>>>> +++ b/meta/classes/allarch.bbclass
+> >>>>>> @@ -2,9 +2,10 @@
+> >>>>>> # This class is used for architecture independent recipes/data files (usally scripts)
+> >>>>>> #
+> >>>>>> 
+> >>>>>> +# We need to pour the value of BASE_PACKAGE_ARCH into FEED_ARCH
+> >>>>>> +# before we reset it
+> >>>>>> +FEED_ARCH := ${BASE_PACKAGE_ARCH}
+> >>>>>> BASE_PACKAGE_ARCH = "all"
+> >>>>>> -PACKAGE_ARCH = "all"
+> >>>>>> -
+> >>>>>> # No need for virtual/libc or a cross compiler
+> >>>>>> INHIBIT_DEFAULT_DEPS = "1"
+> >>>>> 
+> >>>>> This is a *really* bad idea. An "all" package should have no need to set
+> >>>>> architecture specific values into FEED_ARCH.
+> >>>>> 
+> >>>>> Just for those not following IRC, the problem is Angstrom adds FEED_ARCH
+> >>>>> to OVERRIDES. Adding "all" to overrides turns out to do nasty things to
+> >>>>> classes like rm_work with "_all" in the function names.
+> >>>> 
+> >>>> So why don't we just set PACKAGE_ARCH = all in allarch.bbclass and not touch BASE_PACKAGE_ARCH and FEED_ARCH?
+> >>>> 
+> >>> 
+> >>> because there are some machines conf files which use BASE_PACKAGE_ARCH e.g.
+> >>> tune-xscale.inc
+> >>> 
+> >>> BASE_PACKAGE_ARCH = "${@['armv5teb',
+> >>> 'armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) == 'le']}"
+> >>> 
+> >>> PACKAGE_EXTRA_ARCHS = "${@['armeb armv4b armv4tb armv5teb', 'arm armv4
+> >>> armv4t armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) == 'le']}"
+> >>> 
+> >>> and this does not get evaluated properly then
+> >> 
+> >> But that wouldn't matter in the scope of allarch, though?
+> > 
+> > SITEINFO_ENDIANESS  = "${@siteinfo_get_endianess(d)}"
+> > 
+> > def siteinfo_get_endianess(d):
+> >       info = get_siteinfo_list(d)
+> >       if 'endian-little' in info:
+> >              return "le"
+> >       elif 'endian-big' in info:
+> >              return "be"
+> >       bb.error("Site info could not determine endianess for target")
+> > 
+> > 
+> > and
+> > get_siteinfo_list has this
+> > 
+> >       targetinfo = {\
+> >               "allarch-linux":           "",\
+> > 
+> > hence siteinfo_get_endianess ends up with
+> > 
+> > bb.error("Site info could not determine endianess for target")
+> > 
+> > may be we need to differentiate with None return and empty string
+> > return along with 'endian-little' and 'endian-big'
+> > or may be add another option called 'endian-neutral'
+> 
+> Or just add a bogus endianness: http://cgit.openembedded.org/cgit.cgi/meta-openembedded/commit/?id=f95ffd6cedb2a0fcad9db1b2d612663a327be87b
 
-Op 15 jun 2011, om 12:07 heeft Richard Purdie het volgende geschreven:
+This is just papering over cracks. "allarch" packages shouldn't be
+querying endianness, it really is that simple.
 
-> On Tue, 2011-06-14 at 23:32 +0200, Koen Kooi wrote:
->> Op 14 jun 2011, om 23:24 heeft Richard Purdie het volgende =
-geschreven:
->>=20
->>> On Tue, 2011-06-14 at 14:13 -0700, Khem Raj wrote:
->>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>> ---
->>>> meta/classes/allarch.bbclass |    5 +++--
->>>> 1 files changed, 3 insertions(+), 2 deletions(-)
->>>>=20
->>>> diff --git a/meta/classes/allarch.bbclass =
-b/meta/classes/allarch.bbclass
->>>> index e3ac392..b9ba28b 100644
->>>> --- a/meta/classes/allarch.bbclass
->>>> +++ b/meta/classes/allarch.bbclass
->>>> @@ -2,9 +2,10 @@
->>>> # This class is used for architecture independent recipes/data =
-files (usally scripts)
->>>> #
->>>>=20
->>>> +# We need to pour the value of BASE_PACKAGE_ARCH into FEED_ARCH
->>>> +# before we reset it
->>>> +FEED_ARCH :=3D ${BASE_PACKAGE_ARCH}
->>>> BASE_PACKAGE_ARCH =3D "all"
->>>> -PACKAGE_ARCH =3D "all"
->>>> -
->>>> # No need for virtual/libc or a cross compiler
->>>> INHIBIT_DEFAULT_DEPS =3D "1"
->>>=20
->>> This is a *really* bad idea. An "all" package should have no need to =
-set
->>> architecture specific values into FEED_ARCH.
->>>=20
->>> Just for those not following IRC, the problem is Angstrom adds =
-FEED_ARCH
->>> to OVERRIDES. Adding "all" to overrides turns out to do nasty things =
-to
->>> classes like rm_work with "_all" in the function names.
->>=20
->> So why don't we just set PACKAGE_ARCH =3D all in allarch.bbclass and =
-not
->> touch BASE_PACKAGE_ARCH and FEED_ARCH?
->=20
-> Because then FEED_ARCH and BASE_PACKAGE_ARCH contain machine specific
-> data, and the sstate packages become machine specific. When we're =
-trying
-> to create architecture independent packages, this isn't desirable and
-> people complained about too much of the system rebuilding...
->=20
-> There is an underlying problem of why BASE_PACKAGE_ARCH and/or =
-FEED_ARCH
-> is being used but it did seem like one way to fix several of the
-> problems people were seeing (not realising it would leak into =
-OVERRIDES
-> too).
->=20
->>> I'd suggest that various machines should start adding things like =
-armv7a
->>> to ${MACHINEOVERRIDES} which has a much more clearly defined scope =
-and
->>> that FEED_ARCH should quietly die ;-).
->>=20
->> And that's what I've start calling a 'yocto' type of solution.
->=20
-> Was it really necessary to add that? ;-)
->=20
-> I'm tempted to write some definitions of my own but I'll refrain.
->=20
->> That just doesn't scale since it relies on fixing all the machines
->> out there instead of levering the knowledge provided by OE already.
->> I'd appreciate a solution is better thought out.
->=20
-> Well, I was trying to provide some hints as to how we might be able to
-> improve this situation, not write the whole roadmap. =46rom what I
-> remember and the quick discussion we had offlist there are two things
-> FEED_ARCH tries to do:
->=20
-> a) Provide an addition to overrides that represents the
-> optimisation/tune profile being used (like armv7a).
->=20
-> b) Provide some info in BASE_PACKAGE_ARCH so that when PACKAGE_ARCH is
-> overwritten, you can still find out what it would have been set to.
->=20
-> For a), we could update the common include files for the omap/armv7a
-> platforms and append to MACHINEOVERRIDES there with the appropriate
-> entries
+Cheers,
 
-It's not omap specific, you really need have access to the arch in =
-overrides for *all* platforms. I'm using armv7a is an example since =
-angstrom does TARGET_FPU_armv7a =3D "hard", but it also does that for =
-various powerpc architectures.
+Richard
 
-And any change like this would need to get propagated to all the machine =
-layers out there as well, unlike .dev where everything was in one place.=
 
 
