@@ -1,40 +1,41 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QWg7b-0002Fb-JS
+	(envelope-from <raj.khem@gmail.com>) id 1QWg9E-0002Ij-JT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 04:46:23 +0200
-Received: by pvc30 with SMTP id 30so3116043pvc.6
+	Wed, 15 Jun 2011 04:48:04 +0200
+Received: by pzk36 with SMTP id 36so3171607pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 19:42:57 -0700 (PDT)
+	Tue, 14 Jun 2011 19:44:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
 	:subject:references:in-reply-to:content-type
 	:content-transfer-encoding;
-	bh=lr08jujcCdbEkpcoqo2Z3S0zCSahiISXytTFl58sxs0=;
-	b=gV9c857nrpaql/FMmx6FNg7iOCgl1obiRn9IC6mBAAiEyBS9W89sWpVGJkFssN2ky2
-	RjV3W1tK8wFE85qXpKGX0nq6KH4gihpgGxdm/aLZkPkiOmu1F3y2bdg2diBmBLSMt6LJ
-	J4MIZIsU7KanXLRu5IMut4dWN/JQBg8aj54kE=
+	bh=Dt7bbzNhTfSKXh4MdX3qdTlKETgC1Z+RgJL0HkZ9Gyw=;
+	b=uB1B276FrRi4qfm5B+cY22hEJbWl0M6WyDU9e4pQMMr7GmkdbF7CtYFovW+g8bOZ+/
+	OzfGqvJC4VgMkJS0Df/lTWD7J9i3Pj0yQUOTmw+qygOWCcrDXOaiwgqhm1TOcNvTr4ma
+	QV+8wNTfc1oR9dTwCuETdJQ96dmiGIoTHs+Uw=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=message-id:date:from:user-agent:mime-version:to:subject:references
 	:in-reply-to:content-type:content-transfer-encoding;
-	b=SWlZY9AHsUDtxrA9CjV7AzpVXJhGqD2OzInWVAGVJ3RlneMiXrqydM2u80hDKgl89n
-	G/nh9xbIPjhFEC9FkmyAB1sl/GDWjWOwbkR6BROlehhlChFG65FwbJzfl/nkp5aGmQ65
-	cXU5jNa9NMeguEwNsRw7CHIvASAmRLH9NhwQI=
-Received: by 10.142.249.27 with SMTP id w27mr274247wfh.78.1308105776911;
-	Tue, 14 Jun 2011 19:42:56 -0700 (PDT)
+	b=br7rPCsX+iqvGAuL0V+ALEjxQVk2HIS/lMGGljTLvew9g35/yS/m/j7d+z/vKQb8PU
+	IuurfPSoYmXwCAV8YP3vXDFi8W88GJ0+JA9WSNMFSibFNEYBWYqtN+ewD11bMz43163J
+	dS3wc8kKcoLdinZahpiLDdgNpQjAh3ajsXJW8=
+Received: by 10.142.149.26 with SMTP id w26mr1209459wfd.402.1308105877221;
+	Tue, 14 Jun 2011 19:44:37 -0700 (PDT)
 Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
 	[99.57.141.118])
-	by mx.google.com with ESMTPS id n9sm1176337wfk.8.2011.06.14.19.42.54
-	(version=SSLv3 cipher=OTHER); Tue, 14 Jun 2011 19:42:55 -0700 (PDT)
-Message-ID: <4DF81C2D.70502@gmail.com>
-Date: Tue, 14 Jun 2011 19:42:53 -0700
+	by mx.google.com with ESMTPS id l10sm7726317wfk.21.2011.06.14.19.44.34
+	(version=SSLv3 cipher=OTHER); Tue, 14 Jun 2011 19:44:35 -0700 (PDT)
+Message-ID: <4DF81C91.3050901@gmail.com>
+Date: Tue, 14 Jun 2011 19:44:33 -0700
 From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
 References: <1308065443.25285.268.camel@phil-desktop>
-In-Reply-To: <1308065443.25285.268.camel@phil-desktop>
+	<E934E895-3391-4437-A310-E5B99624AC38@dominion.thruhere.net>
+In-Reply-To: <E934E895-3391-4437-A310-E5B99624AC38@dominion.thruhere.net>
 Subject: Re: [PATCH RFC] binutils: allow distro to select gold as default cross-linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -50,35 +51,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 02:46:23 -0000
+X-List-Received-Date: Wed, 15 Jun 2011 02:48:04 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/14/2011 08:30 AM, Phil Blundell wrote:
-> This is not particularly pretty but I couldn't think of any obviously
-> better way of doing it.  Any suggestions?
+On 06/14/2011 08:38 AM, Koen Kooi wrote:
 >
-> Signed-off-by: Phil Blundell<philb@gnu.org>
-> ---
->   meta/recipes-devtools/binutils/binutils-cross.inc |    3 ++-
->   1 files changed, 2 insertions(+), 1 deletions(-)
+> Op 14 jun 2011, om 17:30 heeft Phil Blundell het volgende geschreven:
 >
-> diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
-> index 4b90972..5a41970 100644
-> --- a/meta/recipes-devtools/binutils/binutils-cross.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-cross.inc
-> @@ -5,7 +5,8 @@ EXTRA_OECONF = "--with-sysroot=${STAGING_DIR_TARGET} \
->                   --program-prefix=${TARGET_PREFIX} \
->                   --disable-install-libbfd \
->                   --disable-werror \
-> -                --enable-poison-system-directories"
-> +                --enable-poison-system-directories \
-> +		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)}"
+>> This is not particularly pretty but I couldn't think of any obviously
+>> better way of doing it.  Any suggestions?
+>>
+>> Signed-off-by: Phil Blundell<philb@gnu.org>
+>> ---
+>> meta/recipes-devtools/binutils/binutils-cross.inc |    3 ++-
+>> 1 files changed, 2 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
+>> index 4b90972..5a41970 100644
+>> --- a/meta/recipes-devtools/binutils/binutils-cross.inc
+>> +++ b/meta/recipes-devtools/binutils/binutils-cross.inc
+>> @@ -5,7 +5,8 @@ EXTRA_OECONF = "--with-sysroot=${STAGING_DIR_TARGET} \
+>>                  --program-prefix=${TARGET_PREFIX} \
+>>                  --disable-install-libbfd \
+>>                  --disable-werror \
+>> -                --enable-poison-system-directories"
+>> +                --enable-poison-system-directories \
+>> +		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)}"
 >
->   do_install () {
->   	oe_runmake 'DESTDIR=${D}' install
+> Out of curiousity, how well does gold work nowadays? Last I remember hearing of it was in its x86-only days.
+>
 
-I think we need to document this distro feature somewhere as well. We 
-need the same for target binutils too.
+it works well on arm in fact link times are way better on some 
+(especially C++) applications using gold. We can try to use gold for 
+x86, x86_64 and arm to start with.
+
+> regards,
+>
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
