@@ -1,26 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QWrIX-0005XL-UF
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QWrLf-0005ak-NJ for openembedded-core@lists.openembedded.org;
+	Wed, 15 Jun 2011 16:45:39 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QWrIN-0005kc-H1
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 16:42:26 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 15 Jun 2011 07:38:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,370,1304319600"; d="scan'208";a="13186568"
-Received: from unknown (HELO [10.255.13.50]) ([10.255.13.50])
-	by azsmga001.ch.intel.com with ESMTP; 15 Jun 2011 07:38:46 -0700
-Message-ID: <4DF8C3F5.90204@linux.intel.com>
-Date: Wed, 15 Jun 2011 07:38:45 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
+	Wed, 15 Jun 2011 16:42:15 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4DF8C3F5.90204@linux.intel.com>
 References: <1308139578.25285.1539.camel@phil-desktop>
 	<14EEB73F-6128-4529-9A23-6F18D713F8F2@dominion.thruhere.net>
-In-Reply-To: <14EEB73F-6128-4529-9A23-6F18D713F8F2@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
+	<4DF8C3F5.90204@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Wed, 15 Jun 2011 15:42:14 +0100
+Message-ID: <1308148934.25285.1795.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
 Subject: Re: tinylogin unfetchable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,32 +34,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 14:42:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 15 Jun 2011 14:45:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/15/2011 05:09 AM, Koen Kooi wrote:
->
-> Op 15 jun 2011, om 14:06 heeft Phil Blundell het volgende geschreven:
->
->> The SRC_URI http://tinylogin.busybox.net/downloads/tinylogin-1.4.tar.bz2
->> doesn't seem to work anymore.  Does anybody know an alternate URL that
->> could be used in the recipe?
->
-I am also looking at moving us to the tinylogin that is part of busybox 
-implementation, the source should also be available at:
+On Wed, 2011-06-15 at 07:38 -0700, Saul Wold wrote:
+> Is the fallback to MIRRORS not working?
 
-http://autobuilder.pokylinux.org/sources/tinylogin-1.4.tar.bz2
+Which MIRRORS are you thinking of?  If there's meant to be an
+appropriate one set in oe-core then I guess the answer is no, it isn't
+working :-}
 
-Is the fallback to MIRRORS not working?
+p.
 
-Sau!
 
-> http://www.angstrom-distribution.org/unstable/sources/tinylogin-1.4.tar.bz2 will exist for at least 3 years from now due to GPL :)
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
