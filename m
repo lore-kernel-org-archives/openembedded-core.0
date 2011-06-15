@@ -1,25 +1,32 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QWjkW-00025J-22
+	(envelope-from <koen@dominion.thruhere.net>) id 1QWk8y-0005Zz-4Z
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 08:38:48 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5F6ZLkC029084
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 15 Jun 2011 09:04:04 +0200
+Received: by wwb17 with SMTP id 17so97152wwb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 23:35:21 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 14 Jun 2011 23:35:21 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 15 Jun 2011 14:33:46 +0800
-Message-ID: <b3afba65e91c435cfd85ff51a7ebdf1238abe63d.1308108460.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1308108460.git.liezhi.yang@windriver.com>
-References: <cover.1308108460.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/4 V2] gcc-4.6.0: share work directories
+	Wed, 15 Jun 2011 00:00:37 -0700 (PDT)
+Received: by 10.216.203.142 with SMTP id f14mr1726278weo.28.1308121237630;
+	Wed, 15 Jun 2011 00:00:37 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id w62sm68272wec.18.2011.06.15.00.00.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 15 Jun 2011 00:00:36 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <BANLkTimY-6iNGoKeeZ7Xs0rswKSZUi3xSQ@mail.gmail.com>
+Date: Wed, 15 Jun 2011 09:00:34 +0200
+Message-Id: <3E89612B-A102-423A-8499-55E5AC1CDF07@dominion.thruhere.net>
+References: <1308086002-16398-1-git-send-email-raj.khem@gmail.com>
+	<1308086688.15712.362.camel@rex>
+	<CFF0ECE5-F738-4233-8214-9E57A6616C5B@dominion.thruhere.net>
+	<BANLkTi=Kk7J-ZAQuPkC5LNAnxZSAzwtvOg@mail.gmail.com>
+	<8C2617DC-2693-42A3-810B-C3A516DB7360@dominion.thruhere.net>
+	<BANLkTimY-6iNGoKeeZ7Xs0rswKSZUi3xSQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH V2] allarch.bbclass: Set FEED_ARCH to original value of BASE_PACKAGE_ARCH and then set BASE_PACKAGE_ARCH to 'all'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,119 +41,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 06:38:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 15 Jun 2011 07:04:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Fix configure and Makefile to read the defaults.h and t-oe from ${B},
-so that the ${S} can be shared.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-4.6.0.inc            |    1 +
- .../gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch   |   80 ++++++++++++++++++++
- 2 files changed, 81 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch
+Op 15 jun 2011, om 01:12 heeft Khem Raj het volgende geschreven:
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.0.inc b/meta/recipes-devtools/gcc/gcc-4.6.0.inc
-index cb9eb8e..ebfedd7 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.0.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.0.inc
-@@ -54,6 +54,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
- 	   file://COLLECT_GCC_OPTIONS.patch \
-            file://volatile_access_backport.patch \
-+           file://use-defaults.h-and-t-oe-in-B.patch \
- 	  "
- 
- SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch b/meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch
-new file mode 100644
-index 0000000..b4351ee
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch
-@@ -0,0 +1,80 @@
-+Upstream-Status: Pending
-+
-+Use the defaults.h in ${B} instead of ${S}, and t-oe in ${B}, so that
-+the source can be shared between gcc-cross-initial,
-+gcc-cross-intermediate, gcc-cross, gcc-runtime, and also the sdk build.
-+---
-+ gcc/Makefile.in  |    2 +-
-+ gcc/configure    |    4 ++--
-+ gcc/configure.ac |    4 ++--
-+ gcc/mkconfig.sh  |    4 ++--
-+ 4 files changed, 7 insertions(+), 7 deletions(-)
-+
-+diff --git a/gcc/Makefile.in b/gcc/Makefile.in
-+index 7790915..3a0c34a 100644
-+--- a/gcc/Makefile.in
-++++ b/gcc/Makefile.in
-+@@ -463,7 +463,7 @@ LIMITS_H_TEST = [ -f $(SYSTEM_HEADER_DIR)/limits.h ]
-+ TARGET_SYSTEM_ROOT = @TARGET_SYSTEM_ROOT@
-+ 
-+ xmake_file=@xmake_file@
-+-tmake_file=@tmake_file@
-++tmake_file=@tmake_file@ ./t-oe
-+ TM_ENDIAN_CONFIG=@TM_ENDIAN_CONFIG@
-+ TM_MULTILIB_CONFIG=@TM_MULTILIB_CONFIG@
-+ TM_MULTILIB_EXCEPTIONS_CONFIG=@TM_MULTILIB_EXCEPTIONS_CONFIG@
-+diff --git a/gcc/configure b/gcc/configure
-+index 82fa3e4..d4711b5 100755
-+--- a/gcc/configure
-++++ b/gcc/configure
-+@@ -11227,8 +11227,8 @@ for f in $tm_file; do
-+        tm_include_list="${tm_include_list} $f"
-+        ;;
-+     defaults.h )
-+-       tm_file_list="${tm_file_list} \$(srcdir)/$f"
-+-       tm_include_list="${tm_include_list} $f"
-++       tm_file_list="${tm_file_list} ./$f"
-++       tm_include_list="${tm_include_list} ./$f"
-+        ;;
-+     * )
-+        tm_file_list="${tm_file_list} \$(srcdir)/config/$f"
-+diff --git a/gcc/configure.ac b/gcc/configure.ac
-+index 844d8da..a960343 100644
-+--- a/gcc/configure.ac
-++++ b/gcc/configure.ac
-+@@ -1628,8 +1628,8 @@ for f in $tm_file; do
-+        tm_include_list="${tm_include_list} $f"
-+        ;;
-+     defaults.h )
-+-       tm_file_list="${tm_file_list} \$(srcdir)/$f"
-+-       tm_include_list="${tm_include_list} $f"
-++       tm_file_list="${tm_file_list} ./$f"
-++       tm_include_list="${tm_include_list} ./$f"
-+        ;;
-+     * )
-+        tm_file_list="${tm_file_list} \$(srcdir)/config/$f"
-+diff --git a/gcc/mkconfig.sh b/gcc/mkconfig.sh
-+index d56df8c..875d0f1 100644
-+--- a/gcc/mkconfig.sh
-++++ b/gcc/mkconfig.sh
-+@@ -77,7 +77,7 @@ if [ -n "$HEADERS" ]; then
-+     if [ $# -ge 1 ]; then
-+ 	echo '#ifdef IN_GCC' >> ${output}T
-+ 	for file in "$@"; do
-+-	    if test x"$file" = x"defaults.h"; then
-++	    if test x"$file" = x"./defaults.h"; then
-+ 		postpone_defaults_h="yes"
-+ 	    else
-+ 		echo "# include \"$file\"" >> ${output}T
-+@@ -103,7 +103,7 @@ esac
-+ 
-+ # If we postponed including defaults.h, add the #include now.
-+ if test x"$postpone_defaults_h" = x"yes"; then
-+-    echo "# include \"defaults.h\"" >> ${output}T
-++    echo "# include \"./defaults.h\"" >> ${output}T
-+ fi
-+ 
-+ # Add multiple inclusion protection guard, part two.
-+-- 
-+1.7.1
-+
--- 
-1.7.1
+> On Tue, Jun 14, 2011 at 2:44 PM, Koen Kooi =
+<koen@dominion.thruhere.net> wrote:
+>>=20
+>> Op 14 jun 2011, om 23:40 heeft Khem Raj het volgende geschreven:
+>>=20
+>>> On Tue, Jun 14, 2011 at 2:32 PM, Koen Kooi =
+<koen@dominion.thruhere.net> wrote:
+>>>>=20
+>>>> Op 14 jun 2011, om 23:24 heeft Richard Purdie het volgende =
+geschreven:
+>>>>=20
+>>>>> On Tue, 2011-06-14 at 14:13 -0700, Khem Raj wrote:
+>>>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>>>>> ---
+>>>>>> meta/classes/allarch.bbclass |    5 +++--
+>>>>>> 1 files changed, 3 insertions(+), 2 deletions(-)
+>>>>>>=20
+>>>>>> diff --git a/meta/classes/allarch.bbclass =
+b/meta/classes/allarch.bbclass
+>>>>>> index e3ac392..b9ba28b 100644
+>>>>>> --- a/meta/classes/allarch.bbclass
+>>>>>> +++ b/meta/classes/allarch.bbclass
+>>>>>> @@ -2,9 +2,10 @@
+>>>>>> # This class is used for architecture independent recipes/data =
+files (usally scripts)
+>>>>>> #
+>>>>>>=20
+>>>>>> +# We need to pour the value of BASE_PACKAGE_ARCH into FEED_ARCH
+>>>>>> +# before we reset it
+>>>>>> +FEED_ARCH :=3D ${BASE_PACKAGE_ARCH}
+>>>>>> BASE_PACKAGE_ARCH =3D "all"
+>>>>>> -PACKAGE_ARCH =3D "all"
+>>>>>> -
+>>>>>> # No need for virtual/libc or a cross compiler
+>>>>>> INHIBIT_DEFAULT_DEPS =3D "1"
+>>>>>=20
+>>>>> This is a *really* bad idea. An "all" package should have no need =
+to set
+>>>>> architecture specific values into FEED_ARCH.
+>>>>>=20
+>>>>> Just for those not following IRC, the problem is Angstrom adds =
+FEED_ARCH
+>>>>> to OVERRIDES. Adding "all" to overrides turns out to do nasty =
+things to
+>>>>> classes like rm_work with "_all" in the function names.
+>>>>=20
+>>>> So why don't we just set PACKAGE_ARCH =3D all in allarch.bbclass =
+and not touch BASE_PACKAGE_ARCH and FEED_ARCH?
+>>>>=20
+>>>=20
+>>> because there are some machines conf files which use =
+BASE_PACKAGE_ARCH e.g.
+>>> tune-xscale.inc
+>>>=20
+>>> BASE_PACKAGE_ARCH =3D "${@['armv5teb',
+>>> 'armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) =3D=3D 'le']}"
+>>>=20
+>>> PACKAGE_EXTRA_ARCHS =3D "${@['armeb armv4b armv4tb armv5teb', 'arm =
+armv4
+>>> armv4t armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) =3D=3D =
+'le']}"
+>>>=20
+>>> and this does not get evaluated properly then
+>>=20
+>> But that wouldn't matter in the scope of allarch, though?
+>=20
+> SITEINFO_ENDIANESS  =3D "${@siteinfo_get_endianess(d)}"
+>=20
+> def siteinfo_get_endianess(d):
+>       info =3D get_siteinfo_list(d)
+>       if 'endian-little' in info:
+>              return "le"
+>       elif 'endian-big' in info:
+>              return "be"
+>       bb.error("Site info could not determine endianess for target")
+>=20
+>=20
+> and
+> get_siteinfo_list has this
+>=20
+>       targetinfo =3D {\
+>               "allarch-linux":           "",\
+>=20
+> hence siteinfo_get_endianess ends up with
+>=20
+> bb.error("Site info could not determine endianess for target")
+>=20
+> may be we need to differentiate with None return and empty string
+> return along with 'endian-little' and 'endian-big'
+> or may be add another option called 'endian-neutral'
 
+Or just add a bogus endianness: =
+http://cgit.openembedded.org/cgit.cgi/meta-openembedded/commit/?id=3Df95ff=
+d6cedb2a0fcad9db1b2d612663a327be87b=
 
 
