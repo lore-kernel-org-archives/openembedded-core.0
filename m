@@ -1,34 +1,41 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1QWg7B-0002Dt-CZ
+	(envelope-from <raj.khem@gmail.com>) id 1QWg7b-0002Fb-JS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Jun 2011 04:45:57 +0200
-Received: from mail-pv0-f180.google.com ([74.125.83.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 14 Jun 2011 19:41:17 -0700
-Received: by pvc21 with SMTP id 21so2846032pvc.25
+	Wed, 15 Jun 2011 04:46:23 +0200
+Received: by pvc30 with SMTP id 30so3116043pvc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jun 2011 19:41:16 -0700 (PDT)
-Received: by 10.142.55.5 with SMTP id d5mr1210655wfa.128.1308105676670;
-	Tue, 14 Jun 2011 19:41:16 -0700 (PDT)
-Received: from [10.6.18.226] (c-71-193-189-117.hsd1.wa.comcast.net
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id w24sm584723wfd.5.2011.06.14.19.41.15
-	(version=SSLv3 cipher=OTHER); Tue, 14 Jun 2011 19:41:16 -0700 (PDT)
-Message-ID: <4DF81BCA.1030602@intel.com>
-Date: Tue, 14 Jun 2011 19:41:14 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Tue, 14 Jun 2011 19:42:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=lr08jujcCdbEkpcoqo2Z3S0zCSahiISXytTFl58sxs0=;
+	b=gV9c857nrpaql/FMmx6FNg7iOCgl1obiRn9IC6mBAAiEyBS9W89sWpVGJkFssN2ky2
+	RjV3W1tK8wFE85qXpKGX0nq6KH4gihpgGxdm/aLZkPkiOmu1F3y2bdg2diBmBLSMt6LJ
+	J4MIZIsU7KanXLRu5IMut4dWN/JQBg8aj54kE=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	b=SWlZY9AHsUDtxrA9CjV7AzpVXJhGqD2OzInWVAGVJ3RlneMiXrqydM2u80hDKgl89n
+	G/nh9xbIPjhFEC9FkmyAB1sl/GDWjWOwbkR6BROlehhlChFG65FwbJzfl/nkp5aGmQ65
+	cXU5jNa9NMeguEwNsRw7CHIvASAmRLH9NhwQI=
+Received: by 10.142.249.27 with SMTP id w27mr274247wfh.78.1308105776911;
+	Tue, 14 Jun 2011 19:42:56 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id n9sm1176337wfk.8.2011.06.14.19.42.54
+	(version=SSLv3 cipher=OTHER); Tue, 14 Jun 2011 19:42:55 -0700 (PDT)
+Message-ID: <4DF81C2D.70502@gmail.com>
+Date: Tue, 14 Jun 2011 19:42:53 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: "Cui, Dexuan" <dexuan.cui@intel.com>
-References: <cover.1308000501.git.sgw@linux.intel.com>	<f1001141de7bf605c79b8ae9b44160e4cda9e736.1308000501.git.sgw@linux.intel.com>	<59F3EB02-7EFE-4E50-AD6E-A953952FEA6B@dominion.thruhere.net>
-	<4DF71647.7000703@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB699650124B3@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB699650124B3@shsmsx502.ccr.corp.intel.com>
-Cc: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] autoconf/automake: Bump PR to resolve perl-native issue
+To: openembedded-core@lists.openembedded.org
+References: <1308065443.25285.268.camel@phil-desktop>
+In-Reply-To: <1308065443.25285.268.camel@phil-desktop>
+Subject: Re: [PATCH RFC] binutils: allow distro to select gold as default cross-linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,27 +50,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jun 2011 02:45:57 -0000
+X-List-Received-Date: Wed, 15 Jun 2011 02:46:23 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/14/2011 07:33 PM, Cui, Dexuan wrote:
-> Saul Wold wrote:
->> On 06/14/2011 12:48 AM, Koen Kooi wrote:
->>> To be clear: does the PR bump fix the issues or was there a fix
->>> earlier that lacked a PR bump?
->>>
->> The fix was earlier and lacked the PR bump to these recipes.
-> Sorry for the issue and thanks Saul for the fix!
-> I knew the issue but I was not clear I should have bumped the PRs.
-> I thought autoconf/aumake-native themselves didn't change... I'll be more careful.
+On 06/14/2011 08:30 AM, Phil Blundell wrote:
+> This is not particularly pretty but I couldn't think of any obviously
+> better way of doing it.  Any suggestions?
 >
-> Thanks,
-> -- Dexuan
-It turns out that glib-2.0-native might also need a bump, not sure what 
-else is lurking out there.
+> Signed-off-by: Phil Blundell<philb@gnu.org>
+> ---
+>   meta/recipes-devtools/binutils/binutils-cross.inc |    3 ++-
+>   1 files changed, 2 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
+> index 4b90972..5a41970 100644
+> --- a/meta/recipes-devtools/binutils/binutils-cross.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-cross.inc
+> @@ -5,7 +5,8 @@ EXTRA_OECONF = "--with-sysroot=${STAGING_DIR_TARGET} \
+>                   --program-prefix=${TARGET_PREFIX} \
+>                   --disable-install-libbfd \
+>                   --disable-werror \
+> -                --enable-poison-system-directories"
+> +                --enable-poison-system-directories \
+> +		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)}"
+>
+>   do_install () {
+>   	oe_runmake 'DESTDIR=${D}' install
 
-
-Sau!
+I think we need to document this distro feature somewhere as well. We 
+need the same for target binutils too.
 
 
