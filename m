@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QX8cQ-0006GG-74
+	(envelope-from <dongxiao.xu@intel.com>) id 1QX8cS-0006HJ-Qs
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Jun 2011 11:12:08 +0200
+	Thu, 16 Jun 2011 11:12:09 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 16 Jun 2011 02:08:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,374,1304319600"; d="scan'208";a="13715551"
+X-IronPort-AV: E=Sophos;i="4.65,374,1304319600"; d="scan'208";a="13715593"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.20])
-	by azsmga001.ch.intel.com with ESMTP; 16 Jun 2011 02:08:25 -0700
+	by azsmga001.ch.intel.com with ESMTP; 16 Jun 2011 02:08:29 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jun 2011 17:20:31 +0800
-Message-Id: <4922d5ec9cbb18ca2cde5b7d3f138d2f4ac6707c.1308215406.git.dongxiao.xu@intel.com>
+Date: Thu, 16 Jun 2011 17:20:33 +0800
+Message-Id: <c5f9a9413707c40c2839c4f72571d0440f8f59bf.1308215406.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1308215406.git.dongxiao.xu@intel.com>
 References: <cover.1308215406.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1308215406.git.dongxiao.xu@intel.com>
 References: <cover.1308215406.git.dongxiao.xu@intel.com>
-Subject: [PATCH 2/6] wpa-supplicant: remove the 0.6.10 version.
+Subject: [PATCH 4/6] connman-gnome: Add 3G configuration support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,1136 +33,559 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2011 09:12:08 -0000
+X-List-Received-Date: Thu, 16 Jun 2011 09:12:09 -0000
 
-Remove the 0.6.10 version since now 0.7.3 is the latest stable version.
+Change connman-gnome to be git type recipe.
+Apply 3g.patch which add cellular config option in connman-gnome.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- .../wpa-supplicant-0.6.10/99_wpa_supplicant        |    1 -
- .../wpa-supplicant-0.6.10/defaults-sane            |    8 -
- .../wpa-supplicant-0.6.10/defconfig-0.6.0-gnutls   |  180 -----
- .../wpa-supplicant-0.6.10/wpa-supplicant.sh        |   85 ---
- .../wpa-supplicant-0.6.10/wpa_supplicant.conf      |  690 --------------------
- .../wpa-supplicant-0.6.10/wpa_supplicant.conf-sane |    7 -
- .../wpa-supplicant/wpa-supplicant-0.6.inc          |   83 ---
- .../wpa-supplicant/wpa-supplicant_0.6.10.bb        |    4 -
- 8 files changed, 0 insertions(+), 1058 deletions(-)
- delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/99_wpa_supplicant
- delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defaults-sane
- delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defconfig-0.6.0-gnutls
- delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa-supplicant.sh
- delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf
- delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf-sane
- delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.inc
- delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.6.10.bb
+ .../connman/connman-gnome/3g.patch                 |  505 ++++++++++++++++++++
+ .../{connman-gnome_0.5.bb => connman-gnome_git.bb} |   12 +-
+ 2 files changed, 514 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome/3g.patch
+ rename meta/recipes-connectivity/connman/{connman-gnome_0.5.bb => connman-gnome_git.bb} (76%)
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/99_wpa_supplicant b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/99_wpa_supplicant
-deleted file mode 100644
-index 6ff4dd8..0000000
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/99_wpa_supplicant
-+++ /dev/null
-@@ -1 +0,0 @@
--d root root 0700 /var/run/wpa_supplicant none
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defaults-sane b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defaults-sane
-deleted file mode 100644
-index 67c4cbd..0000000
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defaults-sane
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# Useful flags:
--#  -i <ifname>          Interface (required, unless specified in config)
--#  -D <driver>          Wireless Driver
--#  -d                   Debugging (-dd for more)
--#  -q                   Quiet (-qq for more)
--
--CONFIG="/etc/wpa_supplicant.conf"
--OPTIONS="-i eth1 -D wext"
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defconfig-0.6.0-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defconfig-0.6.0-gnutls
-deleted file mode 100644
-index e907271..0000000
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defconfig-0.6.0-gnutls
-+++ /dev/null
-@@ -1,180 +0,0 @@
--# This file lists the configuration options that are used when building the
--# hostapd binary. All lines starting with # are ignored. Configuration option
--# lines must be commented out complete, if they are not to be included, i.e.,
--# just setting VARIABLE=n is not disabling that variable.
--#
--# This file is included in Makefile, so variables like CFLAGS and LIBS can also
--# be modified from here. In most cass, these lines should use += in order not
--# to override previous values of the variables.
--
--CFLAGS = $(TARGET_CFLAGS) -I../src/hostapd -I../src/utils -I../src/driver/modules -I../src/rsn_supp -I../src/common -I../src/crypto -I../src -I./ -Wall -MMD
--LIBS = $(TARGET_LDFLAGS)
--
--# Driver interface for Host AP driver
--CONFIG_DRIVER_HOSTAP=y
--
--# Driver interface for Agere driver
--#CONFIG_DRIVER_HERMES=y
--#CFLAGS += -I../../hcf -I../../include -I../../include/hcf
--
--# Driver interface for madwifi driver
--#CONFIG_DRIVER_MADWIFI=y
--#CFLAGS += -I../madwifi/wpa
--
--# Driver interface for Prism54 driver
--#CONFIG_DRIVER_PRISM54=y
--
--# Driver interface for ndiswrapper
--#CONFIG_DRIVER_NDISWRAPPER=y
--
--# Driver interface for Atmel driver
--#CONFIG_DRIVER_ATMEL=y
--
--# Driver interface for Broadcom driver
--#CONFIG_DRIVER_BROADCOM=y
--#CFLAGS += -I/opt/WRT54GS/release/src/include
--
--# Driver interface for Intel ipw2100 driver
--#CONFIG_DRIVER_IPW2100=y
--
--# Driver interface for generic Linux wireless extensions
--CONFIG_DRIVER_WEXT=y
--
--# Driver interface for FreeBSD net80211 layer (e.g., Atheros driver)
--#CONFIG_DRIVER_BSD=y
--#CFLAGS += -I/usr/local/include
--#LIBS += -L/usr/local/lib
--
--# Driver interface for development testing
--#CONFIG_DRIVER_TEST=y
--
--# Driver interface for wired Ethernet drivers
--CONFIG_DRIVER_WIRED=y
--
--# Enable IEEE 802.1X Supplicant (automatically included if any EAP method is
--# included)
--CONFIG_IEEE8021X_EAPOL=y
--
--# EAP-MD5 (automatically included if EAP-TTLS is enabled)
--CONFIG_EAP_MD5=y
--
--# EAP-MSCHAPv2 (automatically included if EAP-PEAP is enabled)
--CONFIG_EAP_MSCHAPV2=y
--
--# EAP-TLS
--CONFIG_EAP_TLS=y
--
--# EAL-PEAP
--CONFIG_EAP_PEAP=y
--
--# EAP-TTLS
--CONFIG_EAP_TTLS=y
--
--# EAP-GTC
--CONFIG_EAP_GTC=y
--
--# EAP-OTP
--CONFIG_EAP_OTP=y
--
--# EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
--#CONFIG_EAP_SIM=y
--
--# EAP-PSK (experimental; this is _not_ needed for WPA-PSK)
--#CONFIG_EAP_PSK=y
--
--# EAP-PAX
--#CONFIG_EAP_PAX=y
--
--# LEAP
--CONFIG_EAP_LEAP=y
--
--# EAP-AKA (enable CONFIG_PCSC, if EAP-AKA is used)
--#CONFIG_EAP_AKA=y
--
--# PKCS#12 (PFX) support (used to read private key and certificate file from
--# a file that usually has extension .p12 or .pfx)
--CONFIG_PKCS12=y
--
--# Smartcard support (i.e., private key on a smartcard), e.g., with openssl
--# engine.
--CONFIG_SMARTCARD=y
--
--# PC/SC interface for smartcards (USIM, GSM SIM)
--# Enable this if EAP-SIM or EAP-AKA is included
--#CONFIG_PCSC=y
--
--# Development testing
--#CONFIG_EAPOL_TEST=y
--
--# Replace native Linux implementation of packet sockets with libdnet/libpcap.
--# This will be automatically set for non-Linux OS.
--#CONFIG_DNET_PCAP=y
--
--# Include control interface for external programs, e.g, wpa_cli
--CONFIG_CTRL_IFACE=y
--
--# Include support for GNU Readline and History Libraries in wpa_cli.
--# When building a wpa_cli binary for distribution, please note that these
--# libraries are licensed under GPL and as such, BSD license may not apply for
--# the resulting binary.
--#CONFIG_READLINE=y
--
--# Remove debugging code that is printing out debug message to stdout.
--# This can be used to reduce the size of the wpa_supplicant considerably
--# if debugging code is not needed. The size reduction can be around 35%
--# (e.g., 90 kB).
--#CONFIG_NO_STDOUT_DEBUG=y
--
--# Remove WPA support, e.g., for wired-only IEEE 802.1X supplicant, to save
--# 35-50 kB in code size.
--#CONFIG_NO_WPA=y
--
--# Select configuration backend:
--# file = text file (e.g., wpa_supplicant.conf)
--# winreg = Windows registry (see win_example.reg for an example)
--CONFIG_BACKEND=file
--
--# Select program entry point implementation:
--# main = UNIX/POSIX like main() function (default)
--# main_winsvc = Windows service (read parameters from registry)
--# main_none = Very basic example (development use only)
--#CONFIG_MAIN=main
--
--# Select wrapper for operatins system and C library specific functions
--# unix = UNIX/POSIX like systems (default)
--# win32 = Windows systems
--# none = Empty template
--#CONFIG_OS=unix
--
--# Select event loop implementation
--# eloop = select() loop (default)
--# eloop_win = Windows events and WaitForMultipleObject() loop
--# eloop_none = Empty template
--#CONFIG_ELOOP=eloop
--
--# Select layer 2 packet implementation
--# linux = Linux packet socket (default)
--# pcap = libpcap/libdnet/WinPcap
--# freebsd = FreeBSD libpcap
--# winpcap = WinPcap with receive thread
--# none = Empty template
--#CONFIG_L2_PACKET=linux
--
--# IEEE 802.11i/IEEE 802.11e STAKey negotiation for direct link connection
--#CONFIG_STAKEY=y
--
--# Select TLS implementation
--# openssl = OpenSSL (default)
--# gnutls = GnuTLS (needed for TLS/IA, see also CONFIG_GNUTLS_EXTRA)
--# none = Empty template
--CONFIG_TLS=gnutls
--
--# Whether to enable TLS/IA support, which is required for EAP-TTLSv1.
--# You need CONFIG_TLS=gnutls for this to have any effect. Please note that
--# even though the core GnuTLS library is released under LGPL, this extra
--# library uses GPL and as such, the terms of GPL apply to the combination
--# of wpa_supplicant and GnuTLS if this option is enabled. BSD license may not
--# apply for distribution of the resulting binary.
--CONFIG_GNUTLS_EXTRA=y
--
--CONFIG_CTRL_IFACE_DBUS=y
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa-supplicant.sh b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa-supplicant.sh
-deleted file mode 100644
-index 5c9e5d3..0000000
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa-supplicant.sh
-+++ /dev/null
-@@ -1,85 +0,0 @@
--#!/bin/sh
--
--
--WPA_SUP_BIN="/usr/sbin/wpa_supplicant"
--WPA_SUP_PNAME="wpa_supplicant"
--WPA_SUP_PIDFILE="/var/run/wpa_supplicant.$IFACE.pid"
--WPA_SUP_OPTIONS="-B -P $WPA_SUP_PIDFILE -i $IFACE"
--
--VERBOSITY=0
--
--
--if [ -s "$IF_WPA_CONF" ]; then
--	WPA_SUP_CONF="-c $IF_WPA_CONF"
--else
--	exit 0
--fi
--
--if [ ! -x "$WPA_SUP_BIN" ]; then
--	
--	if [ "$VERBOSITY" = "1" ]; then
--		echo "$WPA_SUP_PNAME: binaries not executable or missing from $WPA_SUP_BIN"
--	fi
--	
--	exit 1
--fi
--
--if [ "$MODE" = "start" ] ; then
--	# driver type of interface, defaults to wext when undefined
--	if [ -s "/etc/wpa_supplicant/driver.$IFACE" ]; then
--		IF_WPA_DRIVER=$(cat "/etc/wpa_supplicant/driver.$IFACE")
--	elif [ -z "$IF_WPA_DRIVER" ]; then
--		
--		if [ "$VERBOSITY" = "1" ]; then
--			echo "$WPA_SUP_PNAME: wpa-driver not provided, using \"wext\""
--		fi
--		
--		IF_WPA_DRIVER="wext"
--	fi
--	
--	# if we have passed the criteria, start wpa_supplicant
--	if [ -n "$WPA_SUP_CONF" ]; then
--		
--		if [ "$VERBOSITY" = "1" ]; then
--			echo "$WPA_SUP_PNAME: $WPA_SUP_BIN $WPA_SUP_OPTIONS $WPA_SUP_CONF -D $IF_WPA_DRIVER"
--		fi
--		
--		start-stop-daemon --start --quiet \
--			--name $WPA_SUP_PNAME --startas $WPA_SUP_BIN --pidfile $WPA_SUP_PIDFILE \
--			--  $WPA_SUP_OPTIONS $WPA_SUP_CONF -D $IF_WPA_DRIVER
--	fi
--
--	# if the interface socket exists, then wpa_supplicant was invoked successfully
--	if [ -S "$WPA_COMMON_CTRL_IFACE/$IFACE" ]; then
--	
--		if [ "$VERBOSITY" = "1" ]; then
--			echo "$WPA_SUP_PNAME: ctrl_interface socket located at $WPA_COMMON_CTRL_IFACE/$IFACE"
--		fi
--
--		exit 0
--		
--	fi
--	
--elif [ "$MODE" = "stop" ]; then
--
--	if [ -f "$WPA_SUP_PIDFILE" ]; then
--		
--		if [ "$VERBOSITY" = "1" ]; then
--			echo "$WPA_SUP_PNAME: terminating $WPA_SUP_PNAME daemon"
--		fi
--		
--		start-stop-daemon --stop --quiet \
--			--name $WPA_SUP_PNAME --pidfile	$WPA_SUP_PIDFILE
--			
--		if [ -S "$WPA_COMMON_CTRL_IFACE/$IFACE" ]; then
--			rm -f $WPA_COMMON_CTRL_IFACE/$IFACE
--		fi
--			
--		if [ -f "$WPA_SUP_PIDFILE" ]; then
--			rm -f $WPA_SUP_PIDFILE
--		fi
--	fi
--
--fi
--
--exit 0
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf
-deleted file mode 100644
-index f0c993d..0000000
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf
-+++ /dev/null
-@@ -1,690 +0,0 @@
--##### Example wpa_supplicant configuration file ###############################
--#
--# This file describes configuration file format and lists all available option.
--# Please also take a look at simpler configuration examples in 'examples'
--# subdirectory.
--#
--# Empty lines and lines starting with # are ignored
--
--# NOTE! This file may contain password information and should probably be made
--# readable only by root user on multiuser systems.
--
--# Note: All file paths in this configuration file should use full (absolute,
--# not relative to working directory) path in order to allow working directory
--# to be changed. This can happen if wpa_supplicant is run in the background.
--
--# Whether to allow wpa_supplicant to update (overwrite) configuration
--#
--# This option can be used to allow wpa_supplicant to overwrite configuration
--# file whenever configuration is changed (e.g., new network block is added with
--# wpa_cli or wpa_gui, or a password is changed). This is required for
--# wpa_cli/wpa_gui to be able to store the configuration changes permanently.
--# Please note that overwriting configuration file will remove the comments from
--# it.
--#update_config=1
--
--# global configuration (shared by all network blocks)
--#
--# Parameters for the control interface. If this is specified, wpa_supplicant
--# will open a control interface that is available for external programs to
--# manage wpa_supplicant. The meaning of this string depends on which control
--# interface mechanism is used. For all cases, the existance of this parameter
--# in configuration is used to determine whether the control interface is
--# enabled.
--#
--# For UNIX domain sockets (default on Linux and BSD): This is a directory that
--# will be created for UNIX domain sockets for listening to requests from
--# external programs (CLI/GUI, etc.) for status information and configuration.
--# The socket file will be named based on the interface name, so multiple
--# wpa_supplicant processes can be run at the same time if more than one
--# interface is used.
--# /var/run/wpa_supplicant is the recommended directory for sockets and by
--# default, wpa_cli will use it when trying to connect with wpa_supplicant.
--#
--# Access control for the control interface can be configured by setting the
--# directory to allow only members of a group to use sockets. This way, it is
--# possible to run wpa_supplicant as root (since it needs to change network
--# configuration and open raw sockets) and still allow GUI/CLI components to be
--# run as non-root users. However, since the control interface can be used to
--# change the network configuration, this access needs to be protected in many
--# cases. By default, wpa_supplicant is configured to use gid 0 (root). If you
--# want to allow non-root users to use the control interface, add a new group
--# and change this value to match with that group. Add users that should have
--# control interface access to this group. If this variable is commented out or
--# not included in the configuration file, group will not be changed from the
--# value it got by default when the directory or socket was created.
--#
--# When configuring both the directory and group, use following format:
--# DIR=/var/run/wpa_supplicant GROUP=wheel
--# DIR=/var/run/wpa_supplicant GROUP=0
--# (group can be either group name or gid)
--#
--# For UDP connections (default on Windows): The value will be ignored. This
--# variable is just used to select that the control interface is to be created.
--# The value can be set to, e.g., udp (ctrl_interface=udp)
--#
--# For Windows Named Pipe: This value can be used to set the security descriptor
--# for controlling access to the control interface. Security descriptor can be
--# set using Security Descriptor String Format (see http://msdn.microsoft.com/
--# library/default.asp?url=/library/en-us/secauthz/security/
--# security_descriptor_string_format.asp). The descriptor string needs to be
--# prefixed with SDDL=. For example, ctrl_interface=SDDL=D: would set an empty
--# DACL (which will reject all connections). See README-Windows.txt for more
--# information about SDDL string format.
--#
--ctrl_interface=/var/run/wpa_supplicant
--
--# IEEE 802.1X/EAPOL version
--# wpa_supplicant is implemented based on IEEE Std 802.1X-2004 which defines
--# EAPOL version 2. However, there are many APs that do not handle the new
--# version number correctly (they seem to drop the frames completely). In order
--# to make wpa_supplicant interoperate with these APs, the version number is set
--# to 1 by default. This configuration value can be used to set it to the new
--# version (2).
--eapol_version=1
--
--# AP scanning/selection
--# By default, wpa_supplicant requests driver to perform AP scanning and then
--# uses the scan results to select a suitable AP. Another alternative is to
--# allow the driver to take care of AP scanning and selection and use
--# wpa_supplicant just to process EAPOL frames based on IEEE 802.11 association
--# information from the driver.
--# 1: wpa_supplicant initiates scanning and AP selection
--# 0: driver takes care of scanning, AP selection, and IEEE 802.11 association
--#    parameters (e.g., WPA IE generation); this mode can also be used with
--#    non-WPA drivers when using IEEE 802.1X mode; do not try to associate with
--#    APs (i.e., external program needs to control association). This mode must
--#    also be used when using wired Ethernet drivers.
--# 2: like 0, but associate with APs using security policy and SSID (but not
--#    BSSID); this can be used, e.g., with ndiswrapper and NDIS drivers to
--#    enable operation with hidden SSIDs and optimized roaming; in this mode,
--#    the network blocks in the configuration file are tried one by one until
--#    the driver reports successful association; each network block should have
--#    explicit security policy (i.e., only one option in the lists) for
--#    key_mgmt, pairwise, group, proto variables
--ap_scan=1
--
--# EAP fast re-authentication
--# By default, fast re-authentication is enabled for all EAP methods that
--# support it. This variable can be used to disable fast re-authentication.
--# Normally, there is no need to disable this.
--fast_reauth=1
--
--# OpenSSL Engine support
--# These options can be used to load OpenSSL engines.
--# The two engines that are supported currently are shown below:
--# They are both from the opensc project (http://www.opensc.org/)
--# By default no engines are loaded.
--# make the opensc engine available
--#opensc_engine_path=/usr/lib/opensc/engine_opensc.so
--# make the pkcs11 engine available
--#pkcs11_engine_path=/usr/lib/opensc/engine_pkcs11.so
--# configure the path to the pkcs11 module required by the pkcs11 engine
--#pkcs11_module_path=/usr/lib/pkcs11/opensc-pkcs11.so
--
--# Dynamic EAP methods
--# If EAP methods were built dynamically as shared object files, they need to be
--# loaded here before being used in the network blocks. By default, EAP methods
--# are included statically in the build, so these lines are not needed
--#load_dynamic_eap=/usr/lib/wpa_supplicant/eap_tls.so
--#load_dynamic_eap=/usr/lib/wpa_supplicant/eap_md5.so
--
--# Driver interface parameters
--# This field can be used to configure arbitrary driver interace parameters. The
--# format is specific to the selected driver interface. This field is not used
--# in most cases.
--#driver_param="field=value"
--
--# Maximum lifetime for PMKSA in seconds; default 43200
--#dot11RSNAConfigPMKLifetime=43200
--# Threshold for reauthentication (percentage of PMK lifetime); default 70
--#dot11RSNAConfigPMKReauthThreshold=70
--# Timeout for security association negotiation in seconds; default 60
--#dot11RSNAConfigSATimeout=60
--
--# network block
--#
--# Each network (usually AP's sharing the same SSID) is configured as a separate
--# block in this configuration file. The network blocks are in preference order
--# (the first match is used).
--#
--# network block fields:
--#
--# disabled:
--#	0 = this network can be used (default)
--#	1 = this network block is disabled (can be enabled through ctrl_iface,
--#	    e.g., with wpa_cli or wpa_gui)
--#
--# id_str: Network identifier string for external scripts. This value is passed
--#	to external action script through wpa_cli as WPA_ID_STR environment
--#	variable to make it easier to do network specific configuration.
--#
--# ssid: SSID (mandatory); either as an ASCII string with double quotation or
--#	as hex string; network name
--#
--# scan_ssid:
--#	0 = do not scan this SSID with specific Probe Request frames (default)
--#	1 = scan with SSID-specific Probe Request frames (this can be used to
--#	    find APs that do not accept broadcast SSID or use multiple SSIDs;
--#	    this will add latency to scanning, so enable this only when needed)
--#
--# bssid: BSSID (optional); if set, this network block is used only when
--#	associating with the AP using the configured BSSID
--#
--# priority: priority group (integer)
--# By default, all networks will get same priority group (0). If some of the
--# networks are more desirable, this field can be used to change the order in
--# which wpa_supplicant goes through the networks when selecting a BSS. The
--# priority groups will be iterated in decreasing priority (i.e., the larger the
--# priority value, the sooner the network is matched against the scan results).
--# Within each priority group, networks will be selected based on security
--# policy, signal strength, etc.
--# Please note that AP scanning with scan_ssid=1 and ap_scan=2 mode are not
--# using this priority to select the order for scanning. Instead, they try the
--# networks in the order that used in the configuration file.
--#
--# mode: IEEE 802.11 operation mode
--# 0 = infrastructure (Managed) mode, i.e., associate with an AP (default)
--# 1 = IBSS (ad-hoc, peer-to-peer)
--# Note: IBSS can only be used with key_mgmt NONE (plaintext and static WEP)
--# and key_mgmt=WPA-NONE (fixed group key TKIP/CCMP). In addition, ap_scan has
--# to be set to 2 for IBSS. WPA-None requires following network block options:
--# proto=WPA, key_mgmt=WPA-NONE, pairwise=NONE, group=TKIP (or CCMP, but not
--# both), and psk must also be set.
--#
--# proto: list of accepted protocols
--# WPA = WPA/IEEE 802.11i/D3.0
--# RSN = WPA2/IEEE 802.11i (also WPA2 can be used as an alias for RSN)
--# If not set, this defaults to: WPA RSN
--#
--# key_mgmt: list of accepted authenticated key management protocols
--# WPA-PSK = WPA pre-shared key (this requires 'psk' field)
--# WPA-EAP = WPA using EAP authentication (this can use an external
--#	program, e.g., Xsupplicant, for IEEE 802.1X EAP Authentication
--# IEEE8021X = IEEE 802.1X using EAP authentication and (optionally) dynamically
--#	generated WEP keys
--# NONE = WPA is not used; plaintext or static WEP could be used
--# If not set, this defaults to: WPA-PSK WPA-EAP
--#
--# auth_alg: list of allowed IEEE 802.11 authentication algorithms
--# OPEN = Open System authentication (required for WPA/WPA2)
--# SHARED = Shared Key authentication (requires static WEP keys)
--# LEAP = LEAP/Network EAP (only used with LEAP)
--# If not set, automatic selection is used (Open System with LEAP enabled if
--# LEAP is allowed as one of the EAP methods).
--#
--# pairwise: list of accepted pairwise (unicast) ciphers for WPA
--# CCMP = AES in Counter mode with CBC-MAC [RFC 3610, IEEE 802.11i/D7.0]
--# TKIP = Temporal Key Integrity Protocol [IEEE 802.11i/D7.0]
--# NONE = Use only Group Keys (deprecated, should not be included if APs support
--#	pairwise keys)
--# If not set, this defaults to: CCMP TKIP
--#
--# group: list of accepted group (broadcast/multicast) ciphers for WPA
--# CCMP = AES in Counter mode with CBC-MAC [RFC 3610, IEEE 802.11i/D7.0]
--# TKIP = Temporal Key Integrity Protocol [IEEE 802.11i/D7.0]
--# WEP104 = WEP (Wired Equivalent Privacy) with 104-bit key
--# WEP40 = WEP (Wired Equivalent Privacy) with 40-bit key [IEEE 802.11]
--# If not set, this defaults to: CCMP TKIP WEP104 WEP40
--#
--# psk: WPA preshared key; 256-bit pre-shared key
--# The key used in WPA-PSK mode can be entered either as 64 hex-digits, i.e.,
--# 32 bytes or as an ASCII passphrase (in which case, the real PSK will be
--# generated using the passphrase and SSID). ASCII passphrase must be between
--# 8 and 63 characters (inclusive).
--# This field is not needed, if WPA-EAP is used.
--# Note: Separate tool, wpa_passphrase, can be used to generate 256-bit keys
--# from ASCII passphrase. This process uses lot of CPU and wpa_supplicant
--# startup and reconfiguration time can be optimized by generating the PSK only
--# only when the passphrase or SSID has actually changed.
--#
--# eapol_flags: IEEE 802.1X/EAPOL options (bit field)
--# Dynamic WEP key required for non-WPA mode
--# bit0 (1): require dynamically generated unicast WEP key
--# bit1 (2): require dynamically generated broadcast WEP key
--# 	(3 = require both keys; default)
--# Note: When using wired authentication, eapol_flags must be set to 0 for the
--# authentication to be completed successfully.
--#
--# proactive_key_caching:
--# Enable/disable opportunistic PMKSA caching for WPA2.
--# 0 = disabled (default)
--# 1 = enabled
--#
--# wep_key0..3: Static WEP key (ASCII in double quotation, e.g. "abcde" or
--# hex without quotation, e.g., 0102030405)
--# wep_tx_keyidx: Default WEP key index (TX) (0..3)
--#
--# peerkey: Whether PeerKey negotiation for direct links (IEEE 802.11e DLS) is
--# allowed. This is only used with RSN/WPA2.
--# 0 = disabled (default)
--# 1 = enabled
--#peerkey=1
--#
--# Following fields are only used with internal EAP implementation.
--# eap: space-separated list of accepted EAP methods
--#	MD5 = EAP-MD5 (unsecure and does not generate keying material ->
--#			cannot be used with WPA; to be used as a Phase 2 method
--#			with EAP-PEAP or EAP-TTLS)
--#       MSCHAPV2 = EAP-MSCHAPv2 (cannot be used separately with WPA; to be used
--#		as a Phase 2 method with EAP-PEAP or EAP-TTLS)
--#       OTP = EAP-OTP (cannot be used separately with WPA; to be used
--#		as a Phase 2 method with EAP-PEAP or EAP-TTLS)
--#       GTC = EAP-GTC (cannot be used separately with WPA; to be used
--#		as a Phase 2 method with EAP-PEAP or EAP-TTLS)
--#	TLS = EAP-TLS (client and server certificate)
--#	PEAP = EAP-PEAP (with tunnelled EAP authentication)
--#	TTLS = EAP-TTLS (with tunnelled EAP or PAP/CHAP/MSCHAP/MSCHAPV2
--#			 authentication)
--#	If not set, all compiled in methods are allowed.
--#
--# identity: Identity string for EAP
--# anonymous_identity: Anonymous identity string for EAP (to be used as the
--#	unencrypted identity with EAP types that support different tunnelled
--#	identity, e.g., EAP-TTLS)
--# password: Password string for EAP
--# ca_cert: File path to CA certificate file (PEM/DER). This file can have one
--#	or more trusted CA certificates. If ca_cert and ca_path are not
--#	included, server certificate will not be verified. This is insecure and
--#	a trusted CA certificate should always be configured when using
--#	EAP-TLS/TTLS/PEAP. Full path should be used since working directory may
--#	change when wpa_supplicant is run in the background.
--#	On Windows, trusted CA certificates can be loaded from the system
--#	certificate store by setting this to cert_store://<name>, e.g.,
--#	ca_cert="cert_store://CA" or ca_cert="cert_store://ROOT".
--#	Note that when running wpa_supplicant as an application, the user
--#	certificate store (My user account) is used, whereas computer store
--#	(Computer account) is used when running wpasvc as a service.
--# ca_path: Directory path for CA certificate files (PEM). This path may
--#	contain multiple CA certificates in OpenSSL format. Common use for this
--#	is to point to system trusted CA list which is often installed into
--#	directory like /etc/ssl/certs. If configured, these certificates are
--#	added to the list of trusted CAs. ca_cert may also be included in that
--#	case, but it is not required.
--# client_cert: File path to client certificate file (PEM/DER)
--#	Full path should be used since working directory may change when
--#	wpa_supplicant is run in the background.
--#	Alternatively, a named configuration blob can be used by setting this
--#	to blob://<blob name>.
--# private_key: File path to client private key file (PEM/DER/PFX)
--#	When PKCS#12/PFX file (.p12/.pfx) is used, client_cert should be
--#	commented out. Both the private key and certificate will be read from
--#	the PKCS#12 file in this case. Full path should be used since working
--#	directory may change when wpa_supplicant is run in the background.
--#	Windows certificate store can be used by leaving client_cert out and
--#	configuring private_key in one of the following formats:
--#	cert://substring_to_match
--#	hash://certificate_thumbprint_in_hex
--#	for example: private_key="hash://63093aa9c47f56ae88334c7b65a4"
--#	Note that when running wpa_supplicant as an application, the user
--#	certificate store (My user account) is used, whereas computer store
--#	(Computer account) is used when running wpasvc as a service.
--#	Alternatively, a named configuration blob can be used by setting this
--#	to blob://<blob name>.
--# private_key_passwd: Password for private key file (if left out, this will be
--#	asked through control interface)
--# dh_file: File path to DH/DSA parameters file (in PEM format)
--#	This is an optional configuration file for setting parameters for an
--#	ephemeral DH key exchange. In most cases, the default RSA
--#	authentication does not use this configuration. However, it is possible
--#	setup RSA to use ephemeral DH key exchange. In addition, ciphers with
--#	DSA keys always use ephemeral DH keys. This can be used to achieve
--#	forward secrecy. If the file is in DSA parameters format, it will be
--#	automatically converted into DH params.
--# subject_match: Substring to be matched against the subject of the
--#	authentication server certificate. If this string is set, the server
--#	sertificate is only accepted if it contains this string in the subject.
--#	The subject string is in following format:
--#	/C=US/ST=CA/L=San Francisco/CN=Test AS/emailAddress=as@example.com
--# altsubject_match: Semicolon separated string of entries to be matched against
--#	the alternative subject name of the authentication server certificate.
--#	If this string is set, the server sertificate is only accepted if it
--#	contains one of the entries in an alternative subject name extension.
--#	altSubjectName string is in following format: TYPE:VALUE
--#	Example: EMAIL:server@example.com
--#	Example: DNS:server.example.com;DNS:server2.example.com
--#	Following types are supported: EMAIL, DNS, URI
--# phase1: Phase1 (outer authentication, i.e., TLS tunnel) parameters
--#	(string with field-value pairs, e.g., "peapver=0" or
--#	"peapver=1 peaplabel=1")
--#	'peapver' can be used to force which PEAP version (0 or 1) is used.
--#	'peaplabel=1' can be used to force new label, "client PEAP encryption",
--#	to be used during key derivation when PEAPv1 or newer. Most existing
--#	PEAPv1 implementation seem to be using the old label, "client EAP
--#	encryption", and wpa_supplicant is now using that as the default value.
--#	Some servers, e.g., Radiator, may require peaplabel=1 configuration to
--#	interoperate with PEAPv1; see eap_testing.txt for more details.
--#	'peap_outer_success=0' can be used to terminate PEAP authentication on
--#	tunneled EAP-Success. This is required with some RADIUS servers that
--#	implement draft-josefsson-pppext-eap-tls-eap-05.txt (e.g.,
--#	Lucent NavisRadius v4.4.0 with PEAP in "IETF Draft 5" mode)
--#	include_tls_length=1 can be used to force wpa_supplicant to include
--#	TLS Message Length field in all TLS messages even if they are not
--#	fragmented.
--#	sim_min_num_chal=3 can be used to configure EAP-SIM to require three
--#	challenges (by default, it accepts 2 or 3)
--# phase2: Phase2 (inner authentication with TLS tunnel) parameters
--#	(string with field-value pairs, e.g., "auth=MSCHAPV2" for EAP-PEAP or
--#	"autheap=MSCHAPV2 autheap=MD5" for EAP-TTLS)
--# Following certificate/private key fields are used in inner Phase2
--# authentication when using EAP-TTLS or EAP-PEAP.
--# ca_cert2: File path to CA certificate file. This file can have one or more
--#	trusted CA certificates. If ca_cert2 and ca_path2 are not included,
--#	server certificate will not be verified. This is insecure and a trusted
--#	CA certificate should always be configured.
--# ca_path2: Directory path for CA certificate files (PEM)
--# client_cert2: File path to client certificate file
--# private_key2: File path to client private key file
--# private_key2_passwd: Password for private key file
--# dh_file2: File path to DH/DSA parameters file (in PEM format)
--# subject_match2: Substring to be matched against the subject of the
--#	authentication server certificate.
--# altsubject_match2: Substring to be matched against the alternative subject
--#	name of the authentication server certificate.
--#
--# fragment_size: Maximum EAP fragment size in bytes (default 1398).
--#	This value limits the fragment size for EAP methods that support
--#	fragmentation (e.g., EAP-TLS and EAP-PEAP). This value should be set
--#	small enough to make the EAP messages fit in MTU of the network
--#	interface used for EAPOL. The default value is suitable for most
--#	cases.
--#
--# EAP-PSK variables:
--# eappsk: 16-byte (128-bit, 32 hex digits) pre-shared key in hex format
--# nai: user NAI
--#
--# EAP-PAX variables:
--# eappsk: 16-byte (128-bit, 32 hex digits) pre-shared key in hex format
--#
--# EAP-SAKE variables:
--# eappsk: 32-byte (256-bit, 64 hex digits) pre-shared key in hex format
--#	(this is concatenation of Root-Secret-A and Root-Secret-B)
--# nai: user NAI (PEERID)
--#
--# EAP-GPSK variables:
--# eappsk: Pre-shared key in hex format (at least 128 bits, i.e., 32 hex digits)
--# nai: user NAI (ID_Client)
--#
--# EAP-FAST variables:
--# pac_file: File path for the PAC entries. wpa_supplicant will need to be able
--#	to create this file and write updates to it when PAC is being
--#	provisioned or refreshed. Full path to the file should be used since
--#	working directory may change when wpa_supplicant is run in the
--#	background. Alternatively, a named configuration blob can be used by
--#	setting this to blob://<blob name>
--# phase1: fast_provisioning=1 option enables in-line provisioning of EAP-FAST
--#	credentials (PAC)
--#
--# wpa_supplicant supports number of "EAP workarounds" to work around
--# interoperability issues with incorrectly behaving authentication servers.
--# These are enabled by default because some of the issues are present in large
--# number of authentication servers. Strict EAP conformance mode can be
--# configured by disabling workarounds with eap_workaround=0.
--
--# Example blocks:
--
--# Simple case: WPA-PSK, PSK as an ASCII passphrase, allow all valid ciphers
--network={
--	ssid="simple"
--	psk="very secret passphrase"
--	priority=5
--}
--
--# Same as previous, but request SSID-specific scanning (for APs that reject
--# broadcast SSID)
--network={
--	ssid="second ssid"
--	scan_ssid=1
--	psk="very secret passphrase"
--	priority=2
--}
--
--# Only WPA-PSK is used. Any valid cipher combination is accepted.
--network={
--	ssid="example"
--	proto=WPA
--	key_mgmt=WPA-PSK
--	pairwise=CCMP TKIP
--	group=CCMP TKIP WEP104 WEP40
--	psk=06b4be19da289f475aa46a33cb793029d4ab3db7a23ee92382eb0106c72ac7bb
--	priority=2
--}
--
--# Only WPA-EAP is used. Both CCMP and TKIP is accepted. An AP that used WEP104
--# or WEP40 as the group cipher will not be accepted.
--network={
--	ssid="example"
--	proto=RSN
--	key_mgmt=WPA-EAP
--	pairwise=CCMP TKIP
--	group=CCMP TKIP
--	eap=TLS
--	identity="user@example.com"
--	ca_cert="/etc/cert/ca.pem"
--	client_cert="/etc/cert/user.pem"
--	private_key="/etc/cert/user.prv"
--	private_key_passwd="password"
--	priority=1
--}
--
--# EAP-PEAP/MSCHAPv2 configuration for RADIUS servers that use the new peaplabel
--# (e.g., Radiator)
--network={
--	ssid="example"
--	key_mgmt=WPA-EAP
--	eap=PEAP
--	identity="user@example.com"
--	password="foobar"
--	ca_cert="/etc/cert/ca.pem"
--	phase1="peaplabel=1"
--	phase2="auth=MSCHAPV2"
--	priority=10
--}
--
--# EAP-TTLS/EAP-MD5-Challenge configuration with anonymous identity for the
--# unencrypted use. Real identity is sent only within an encrypted TLS tunnel.
--network={
--	ssid="example"
--	key_mgmt=WPA-EAP
--	eap=TTLS
--	identity="user@example.com"
--	anonymous_identity="anonymous@example.com"
--	password="foobar"
--	ca_cert="/etc/cert/ca.pem"
--	priority=2
--}
--
--# EAP-TTLS/MSCHAPv2 configuration with anonymous identity for the unencrypted
--# use. Real identity is sent only within an encrypted TLS tunnel.
--network={
--	ssid="example"
--	key_mgmt=WPA-EAP
--	eap=TTLS
--	identity="user@example.com"
--	anonymous_identity="anonymous@example.com"
--	password="foobar"
--	ca_cert="/etc/cert/ca.pem"
--	phase2="auth=MSCHAPV2"
--}
--
--# WPA-EAP, EAP-TTLS with different CA certificate used for outer and inner
--# authentication.
--network={
--	ssid="example"
--	key_mgmt=WPA-EAP
--	eap=TTLS
--	# Phase1 / outer authentication
--	anonymous_identity="anonymous@example.com"
--	ca_cert="/etc/cert/ca.pem"
--	# Phase 2 / inner authentication
--	phase2="autheap=TLS"
--	ca_cert2="/etc/cert/ca2.pem"
--	client_cert2="/etc/cer/user.pem"
--	private_key2="/etc/cer/user.prv"
--	private_key2_passwd="password"
--	priority=2
--}
--
--# Both WPA-PSK and WPA-EAP is accepted. Only CCMP is accepted as pairwise and
--# group cipher.
--network={
--	ssid="example"
--	bssid=00:11:22:33:44:55
--	proto=WPA RSN
--	key_mgmt=WPA-PSK WPA-EAP
--	pairwise=CCMP
--	group=CCMP
--	psk=06b4be19da289f475aa46a33cb793029d4ab3db7a23ee92382eb0106c72ac7bb
--}
--
--# Special characters in SSID, so use hex string. Default to WPA-PSK, WPA-EAP
--# and all valid ciphers.
--network={
--	ssid=00010203
--	psk=000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
--}
--
--
--# IEEE 802.1X/EAPOL with dynamically generated WEP keys (i.e., no WPA) using
--# EAP-TLS for authentication and key generation; require both unicast and
--# broadcast WEP keys.
--network={
--	ssid="1x-test"
--	key_mgmt=IEEE8021X
--	eap=TLS
--	identity="user@example.com"
--	ca_cert="/etc/cert/ca.pem"
--	client_cert="/etc/cert/user.pem"
--	private_key="/etc/cert/user.prv"
--	private_key_passwd="password"
--	eapol_flags=3
--}
--
--
--# LEAP with dynamic WEP keys
--network={
--	ssid="leap-example"
--	key_mgmt=IEEE8021X
--	eap=LEAP
--	identity="user"
--	password="foobar"
--}
--
--# Plaintext connection (no WPA, no IEEE 802.1X)
--network={
--	ssid="plaintext-test"
--	key_mgmt=NONE
--}
--
--
--# Shared WEP key connection (no WPA, no IEEE 802.1X)
--network={
--	ssid="static-wep-test"
--	key_mgmt=NONE
--	wep_key0="abcde"
--	wep_key1=0102030405
--	wep_key2="1234567890123"
--	wep_tx_keyidx=0
--	priority=5
--}
--
--
--# Shared WEP key connection (no WPA, no IEEE 802.1X) using Shared Key
--# IEEE 802.11 authentication
--network={
--	ssid="static-wep-test2"
--	key_mgmt=NONE
--	wep_key0="abcde"
--	wep_key1=0102030405
--	wep_key2="1234567890123"
--	wep_tx_keyidx=0
--	priority=5
--	auth_alg=SHARED
--}
--
--
--# IBSS/ad-hoc network with WPA-None/TKIP.
--network={
--	ssid="test adhoc"
--	mode=1
--	proto=WPA
--	key_mgmt=WPA-NONE
--	pairwise=NONE
--	group=TKIP
--	psk="secret passphrase"
--}
--
--
--# Catch all example that allows more or less all configuration modes
--network={
--	ssid="example"
--	scan_ssid=1
--	key_mgmt=WPA-EAP WPA-PSK IEEE8021X NONE
--	pairwise=CCMP TKIP
--	group=CCMP TKIP WEP104 WEP40
--	psk="very secret passphrase"
--	eap=TTLS PEAP TLS
--	identity="user@example.com"
--	password="foobar"
--	ca_cert="/etc/cert/ca.pem"
--	client_cert="/etc/cert/user.pem"
--	private_key="/etc/cert/user.prv"
--	private_key_passwd="password"
--	phase1="peaplabel=0"
--}
--
--# Example of EAP-TLS with smartcard (openssl engine)
--network={
--	ssid="example"
--	key_mgmt=WPA-EAP
--	eap=TLS
--	proto=RSN
--	pairwise=CCMP TKIP
--	group=CCMP TKIP
--	identity="user@example.com"
--	ca_cert="/etc/cert/ca.pem"
--	client_cert="/etc/cert/user.pem"
--
--	engine=1
--
--	# The engine configured here must be available. Look at
--	# OpenSSL engine support in the global section.
--	# The key available through the engine must be the private key
--	# matching the client certificate configured above.
--
--	# use the opensc engine
--	#engine_id="opensc"
--	#key_id="45"
--
--	# use the pkcs11 engine
--	engine_id="pkcs11"
--	key_id="id_45"
--
--	# Optional PIN configuration; this can be left out and PIN will be
--	# asked through the control interface
--	pin="1234"
--}
--
--# Example configuration showing how to use an inlined blob as a CA certificate
--# data instead of using external file
--network={
--	ssid="example"
--	key_mgmt=WPA-EAP
--	eap=TTLS
--	identity="user@example.com"
--	anonymous_identity="anonymous@example.com"
--	password="foobar"
--	ca_cert="blob://exampleblob"
--	priority=20
--}
--
--blob-base64-exampleblob={
--SGVsbG8gV29ybGQhCg==
--}
--
--
--# Wildcard match for SSID (plaintext APs only). This example select any
--# open AP regardless of its SSID.
--network={
--	key_mgmt=NONE
--}
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf-sane b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf-sane
-deleted file mode 100644
-index c91ffe0..0000000
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf-sane
-+++ /dev/null
-@@ -1,7 +0,0 @@
--ctrl_interface=/var/run/wpa_supplicant
--ctrl_interface_group=0
--update_config=1
--
--network={
--        key_mgmt=NONE
--}
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.inc
-deleted file mode 100644
-index 721a4d9..0000000
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.inc
-+++ /dev/null
-@@ -1,83 +0,0 @@
--DESCRIPTION = "A Client for Wi-Fi Protected Access (WPA)."
--HOMEPAGE = "http://hostap.epitest.fi/wpa_supplicant/"
--BUGTRACKER = "http://hostap.epitest.fi/bugz/"
--SECTION = "network"
--LICENSE = "GPLv2 | BSD"
--LIC_FILES_CHKSUM = "file://../COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
--                    file://../README;md5=54cfc88015d3ce83f7156e63c6bb1738 \
--                    file://wpa_supplicant.c;beginline=1;endline=17;md5=1eb88410f8cc9b47f077c69b772ec0e2"
--DEPENDS = "gnutls dbus"
--RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
--
--SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
--           file://defconfig-0.6.0-gnutls \
--           file://defaults-sane \
--           file://wpa-supplicant.sh \
--           file://wpa_supplicant.conf \
--           file://wpa_supplicant.conf-sane \
--           file://99_wpa_supplicant"
--
--S = "${WORKDIR}/wpa_supplicant-${PV}/wpa_supplicant"
--
--PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
--FILES_wpa-supplicant-passphrase = "/usr/sbin/wpa_passphrase"
--FILES_wpa-supplicant-cli = "/usr/sbin/wpa_cli"
--
--do_configure () {
--	install -m 0755 ${WORKDIR}/defconfig-0.6.0-gnutls .config
--}
--
--export EXTRA_CFLAGS = "${CFLAGS}"
--do_compile () {
--	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
--	oe_runmake
--}
--
--do_install () {
--	install -d ${D}${sbindir}
--	install -m 755 wpa_supplicant ${D}${sbindir}
--	install -m 755 wpa_passphrase ${D}${sbindir}
--	install -m 755 wpa_cli        ${D}${sbindir}
--
--	install -d ${D}${docdir}/wpa_supplicant
--	install -m 644 README ${WORKDIR}/wpa_supplicant.conf ${D}${docdir}/wpa_supplicant
--
--	install -d ${D}${sysconfdir}/default
--	install -m 600 ${WORKDIR}/defaults-sane ${D}${sysconfdir}/default/wpa
--	install -m 600 ${WORKDIR}/wpa_supplicant.conf-sane ${D}${sysconfdir}/wpa_supplicant.conf
--
--	install -d ${D}${sysconfdir}/network/if-pre-up.d/
--	install -d ${D}${sysconfdir}/network/if-post-down.d/
--	install -d ${D}${sysconfdir}/network/if-down.d/
--	install -m 644 ${WORKDIR}/wpa_supplicant.conf ${D}${sysconfdir}
--	install -m 755 ${WORKDIR}/wpa-supplicant.sh ${D}${sysconfdir}/network/if-pre-up.d/wpa-supplicant
--	cd ${D}${sysconfdir}/network/ && \
--	ln -sf ../if-pre-up.d/wpa-supplicant if-post-down.d/wpa-supplicant
--
--	install -d ${D}/${sysconfdir}/dbus-1/system.d
--	install -m 644 ${S}/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
--
--	install -d ${D}/etc/default/volatiles
--	install -m 0644 ${WORKDIR}/99_wpa_supplicant ${D}/etc/default/volatiles
--
--	install -d ${D}/${datadir}/dbus-1/system-services
--	sed -i -e s:${base_sbindir}:${sbindir}:g ${S}/dbus-wpa_supplicant.service
--	install -m 644 ${S}/dbus-wpa_supplicant.service ${D}/${datadir}/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
--}
--
--pkg_postinst_wpa-supplicant () {
--	# can't do this offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--
--	/etc/init.d/populate-volatile.sh update
--
--	DBUSPID=`pidof dbus-daemon`
--
--	if [ "x$DBUSPID" != "x" ]; then
--		/etc/init.d/dbus-1 reload
--	fi
--}
--
--FILES_${PN} += "${datadir}/dbus-1/system-services/*"
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.6.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.6.10.bb
-deleted file mode 100644
-index 0dff55a..0000000
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.6.10.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--require wpa-supplicant-0.6.inc
--
--PE = "1"
--PR = "r0"
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/3g.patch b/meta/recipes-connectivity/connman/connman-gnome/3g.patch
+new file mode 100644
+index 0000000..c73c1ea
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman-gnome/3g.patch
+@@ -0,0 +1,505 @@
++commit 15852e826b0b47f577718ada4b68b63515387f4d
++Author: dongxiao <dongxiao@dongxiao-osel.(none)>
++Date:   Wed Jun 1 14:56:16 2011 +0800
++
++    connman-gnome: Add cellular network config option.
++    
++    Add cellular network config option in connman-gnome.
++    
++    Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
++
++diff --git a/common/connman-client.c b/common/connman-client.c
++index e907cc2..d6be363 100644
++--- a/common/connman-client.c
+++++ b/common/connman-client.c
++@@ -112,9 +112,10 @@ static void connman_client_init(ConnmanClient *client)
++ 				G_TYPE_STRING,  /* address */
++ 				G_TYPE_STRING,  /* netmask */
++ 				G_TYPE_STRING,  /* gateway */
++-				G_TYPE_BOOLEAN, /* gateway */
++-				G_TYPE_BOOLEAN, /* gateway */
++-				G_TYPE_BOOLEAN);/* gateway */
+++				G_TYPE_BOOLEAN, /* ethernet enabled */
+++				G_TYPE_BOOLEAN, /* wifi enabled */
+++				G_TYPE_BOOLEAN, /* cellular enabled */
+++				G_TYPE_BOOLEAN);/* offline */
++ 
++ 	g_object_set_data(G_OBJECT(priv->store),
++ 					"State", g_strdup("unavailable"));
++@@ -218,6 +219,7 @@ static gboolean device_filter(GtkTreeModel *model,
++ 	switch (type) {
++ 	case CONNMAN_TYPE_LABEL_ETHERNET:
++ 	case CONNMAN_TYPE_LABEL_WIFI:
+++	case CONNMAN_TYPE_LABEL_CELLULAR:
++ 	case CONNMAN_TYPE_SYSCONFIG:
++ 		return TRUE;
++ 	}
++diff --git a/common/connman-client.h b/common/connman-client.h
++index 37e86d0..15fa098 100644
++--- a/common/connman-client.h
+++++ b/common/connman-client.h
++@@ -117,6 +117,7 @@ enum {
++ 
++ 	CONNMAN_COLUMN_ETHERNET_ENABLED,/* G_TYPE_STRING  */
++ 	CONNMAN_COLUMN_WIFI_ENABLED,	/* G_TYPE_STRING  */
+++	CONNMAN_COLUMN_CELLULAR_ENABLED,/* G_TYPE_STRING  */
++ 	CONNMAN_COLUMN_OFFLINEMODE,	/* G_TYPE_STRING  */
++ 
++ 	_CONNMAN_NUM_COLUMNS
++@@ -132,6 +133,7 @@ enum {
++ 
++ 	CONNMAN_TYPE_LABEL_ETHERNET,
++ 	CONNMAN_TYPE_LABEL_WIFI,
+++	CONNMAN_TYPE_LABEL_CELLULAR,
++ 	CONNMAN_TYPE_SYSCONFIG,
++ 
++ 	_CONNMAN_NUM_TYPE,
++diff --git a/common/connman-dbus.c b/common/connman-dbus.c
++index b5a635c..0f4e1db 100644
++--- a/common/connman-dbus.c
+++++ b/common/connman-dbus.c
++@@ -208,6 +208,8 @@ static const gchar *type2icon(guint type)
++ 	case CONNMAN_TYPE_WIFI:
++ 	case CONNMAN_TYPE_WIMAX:
++ 		return "network-wireless";
+++	case CONNMAN_TYPE_CELLULAR:
+++		return "network-cellular";
++ 	case CONNMAN_TYPE_BLUETOOTH:
++ 		return "bluetooth";
++ 	}
++@@ -220,6 +222,7 @@ static void enabled_technologies_changed(GtkTreeStore *store, GValue *value)
++ 	GtkTreeIter iter;
++ 	gboolean ethernet_enabled_prev, ethernet_enabled = FALSE;
++ 	gboolean wifi_enabled_prev, wifi_enabled = FALSE;
+++	gboolean cellular_enabled_prev, cellular_enabled = FALSE;
++ 	gchar **tech = g_value_get_boxed (value);
++ 	guint i;
++ 
++@@ -227,10 +230,13 @@ static void enabled_technologies_changed(GtkTreeStore *store, GValue *value)
++ 		return;
++ 
++ 	for (i = 0; i < g_strv_length(tech); i++) {
+++		DBG("technology: %s", *(tech+i));
++ 		if (g_str_equal("ethernet", *(tech + i)))
++ 			ethernet_enabled = TRUE;
++ 		else if (g_str_equal ("wifi", *(tech + i)))
++ 			wifi_enabled = TRUE;
+++		else if (g_str_equal ("cellular", *(tech + i)))
+++			cellular_enabled = TRUE;
++ 	}
++ 
++ 	get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_ETHERNET);
++@@ -246,6 +252,13 @@ static void enabled_technologies_changed(GtkTreeStore *store, GValue *value)
++ 	if (wifi_enabled_prev != wifi_enabled)
++ 		gtk_tree_store_set(store, &iter,
++ 					CONNMAN_COLUMN_WIFI_ENABLED, wifi_enabled, -1);
+++
+++	get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_CELLULAR);
+++	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
+++			CONNMAN_COLUMN_CELLULAR_ENABLED, &cellular_enabled_prev, -1);
+++	if (cellular_enabled_prev != cellular_enabled)
+++		gtk_tree_store_set(store, &iter,
+++					CONNMAN_COLUMN_CELLULAR_ENABLED, cellular_enabled, -1);
++ }
++ 
++ static void enabled_technologies_properties(GtkTreeStore *store, DBusGProxy *proxy, GValue *value)
++@@ -253,14 +266,18 @@ static void enabled_technologies_properties(GtkTreeStore *store, DBusGProxy *pro
++ 	GtkTreeIter iter;
++ 	gboolean ethernet_enabled = FALSE;
++ 	gboolean wifi_enabled = FALSE;
+++	gboolean cellular_enabled = FALSE;
++ 	gchar **tech = g_value_get_boxed (value);
++ 	guint i;
++ 
++ 	for (i = 0; i < g_strv_length (tech); i++) {
+++		DBG("technology: %s", *(tech+i));
++ 		if (g_str_equal("ethernet", *(tech + i)))
++ 			ethernet_enabled = TRUE;
++ 		else if (g_str_equal ("wifi", *(tech + i)))
++ 			wifi_enabled = TRUE;
+++		else if (g_str_equal ("cellular", *(tech + i)))
+++			cellular_enabled = TRUE;
++ 	}
++ 
++ 	if (get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_ETHERNET) == FALSE)
++@@ -280,6 +297,15 @@ static void enabled_technologies_properties(GtkTreeStore *store, DBusGProxy *pro
++ 			CONNMAN_COLUMN_WIFI_ENABLED, wifi_enabled,
++ 			CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_LABEL_WIFI,
++ 			-1);
+++
+++	if (get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_CELLULAR) == FALSE)
+++		gtk_tree_store_append(store, &iter, NULL);
+++
+++	gtk_tree_store_set(store, &iter,
+++			CONNMAN_COLUMN_PROXY, proxy,
+++			CONNMAN_COLUMN_CELLULAR_ENABLED, cellular_enabled,
+++			CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_LABEL_CELLULAR,
+++			-1);
++ }
++ 
++ static void offline_mode_changed(GtkTreeStore *store, GValue *value)
++@@ -497,6 +523,9 @@ static void service_properties(DBusGProxy *proxy, GHashTable *hash,
++ 		case CONNMAN_TYPE_WIFI:
++ 			label_type = CONNMAN_TYPE_LABEL_WIFI;
++ 			break;
+++		case CONNMAN_TYPE_CELLULAR:
+++			label_type = CONNMAN_TYPE_LABEL_CELLULAR;
+++			break;
++ 		default:
++ 			label_type = CONNMAN_TYPE_UNKNOWN;
++ 			break;
++diff --git a/icons/connman-type-cellular.png b/icons/connman-type-cellular.png
++new file mode 100644
++index 0000000..386abd5
++Binary files /dev/null and b/icons/connman-type-cellular.png differ
++diff --git a/properties/Makefile.am b/properties/Makefile.am
++index fc1b8c6..30ae442 100644
++--- a/properties/Makefile.am
+++++ b/properties/Makefile.am
++@@ -1,7 +1,7 @@
++ 
++ bin_PROGRAMS = connman-properties
++ 
++-connman_properties_SOURCES = main.c advanced.h ethernet.c wifi.c
+++connman_properties_SOURCES = main.c advanced.h ethernet.c wifi.c cellular.c
++ 
++ connman_properties_LDADD = $(top_builddir)/common/libcommon.a \
++ 						@GTK_LIBS@ @DBUS_LIBS@
++diff --git a/properties/advanced.h b/properties/advanced.h
++index 79a1c3c..d8f4117 100644
++--- a/properties/advanced.h
+++++ b/properties/advanced.h
++@@ -59,10 +59,18 @@ struct config_data {
++ 		GtkWidget *disconnect;
++ 	} wifi;
++ 
+++	struct {
+++		GtkWidget *name;
+++		GtkWidget *strength;
+++		GtkWidget *connect_info;
+++		GtkWidget *connect;
+++		GtkWidget *disconnect;
+++	} cellular;
+++
++ 	GtkWidget *ethernet_button;
++ 	GtkWidget *wifi_button;
++-
++ 	GtkWidget *scan_button;
+++	GtkWidget *cellular_button;
++ 	GtkWidget *offline_button;
++ };
++ 
++@@ -88,8 +96,11 @@ void update_ethernet_ipv4(struct config_data *data, guint policy);
++ void add_wifi_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_data *data);
++ void update_wifi_policy(struct config_data *data, guint policy);
++ 
+++void add_cellular_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_data *data);
++ void add_ethernet_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
++ 				struct config_data *data);
++ 
++ void add_wifi_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
++ 				struct config_data *data);
+++void add_cellular_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
+++				struct config_data *data);
++diff --git a/properties/cellular.c b/properties/cellular.c
++new file mode 100644
++index 0000000..7bbfb89
++--- /dev/null
+++++ b/properties/cellular.c
++@@ -0,0 +1,175 @@
+++/*
+++ *
+++ *  Connection Manager
+++ *
+++ *  Copyright (C) 2011  Intel Corporation. All rights reserved.
+++ *
+++ *  This program is free software; you can redistribute it and/or modify
+++ *  it under the terms of the GNU General Public License version 2 as
+++ *  published by the Free Software Foundation.
+++ *
+++ *  This program is distributed in the hope that it will be useful,
+++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++ *  GNU General Public License for more details.
+++ *
+++ *  You should have received a copy of the GNU General Public License
+++ *  along with this program; if not, write to the Free Software
+++ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+++ *
+++ */
+++
+++#ifdef HAVE_CONFIG_H
+++#include <config.h>
+++#endif
+++
+++#include <dbus/dbus-glib.h>
+++#include <glib/gi18n.h>
+++#include <gtk/gtk.h>
+++
+++#include "connman-client.h"
+++
+++#include "advanced.h"
+++
+++static void connect_reply_cb(DBusGProxy *proxy, GError *error,
+++		gpointer user_data)
+++{
+++	if (error)
+++		g_error_free(error);
+++}
+++
+++static void connect_callback(GtkWidget *editable, gpointer user_data)
+++{
+++	struct config_data *data = user_data;
+++
+++	connman_client_connect_async(data->client, data->device, connect_reply_cb, data);
+++}
+++
+++
+++static void disconnect_callback(GtkWidget *editable, gpointer user_data)
+++{
+++	struct config_data *data = user_data;
+++
+++	connman_client_disconnect(data->client, data->device);
+++}
+++
+++static void switch_callback(GtkWidget *editable, gpointer user_data)
+++{
+++	struct config_data *data = user_data;
+++	const gchar *label = gtk_button_get_label(GTK_BUTTON(data->cellular_button));
+++
+++	if (g_str_equal(label, "Disable"))
+++		connman_client_disable_technology(data->client, data->device, "cellular");
+++	else
+++		connman_client_enable_technology(data->client, data->device, "cellular");
+++}
+++
+++void add_cellular_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
+++				struct config_data *data)
+++{
+++	GtkWidget *vbox;
+++	GtkWidget *table;
+++	GtkWidget *label;
+++	GtkWidget *buttonbox;
+++	GtkWidget *button;
+++	gboolean cellular_enabled;
+++
+++	gtk_tree_model_get(data->model, iter,
+++			CONNMAN_COLUMN_CELLULAR_ENABLED, &cellular_enabled,
+++			-1);
+++
+++	vbox = gtk_vbox_new(TRUE, 0);
+++	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
+++	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
+++
+++	table = gtk_table_new(1, 1, TRUE);
+++	gtk_table_set_row_spacings(GTK_TABLE(table), 10);
+++	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
+++	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
+++
+++	label = gtk_label_new(_("Configure Cellular Networks."));
+++	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+++
+++	buttonbox = gtk_hbutton_box_new();
+++	gtk_button_box_set_layout(GTK_BUTTON_BOX(buttonbox), GTK_BUTTONBOX_CENTER);
+++	gtk_box_pack_start(GTK_BOX(mainbox), buttonbox, FALSE, FALSE, 0);
+++
+++	button = gtk_button_new();
+++	data->cellular_button = button;
+++
+++	if (cellular_enabled)
+++		gtk_button_set_label(GTK_BUTTON(button), _("Disable"));
+++	else
+++		gtk_button_set_label(GTK_BUTTON(button), _("Enable"));
+++
+++	gtk_container_add(GTK_CONTAINER(buttonbox), button);
+++	g_signal_connect(G_OBJECT(button), "clicked",
+++			G_CALLBACK(switch_callback), data);
+++}
+++
+++void add_cellular_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_data *data)
+++{
+++	GtkWidget *vbox;
+++	GtkWidget *table;
+++	GtkWidget *label;
+++	GtkWidget *button;
+++
+++	const char *name, *icon, *state;
+++	guint strength;
+++
+++	gtk_tree_model_get(data->model, iter,
+++			CONNMAN_COLUMN_NAME, &name,
+++			CONNMAN_COLUMN_ICON, &icon,
+++			CONNMAN_COLUMN_STATE, &state,
+++			CONNMAN_COLUMN_STRENGTH, &strength,
+++			-1);
+++
+++	if (g_str_equal(state, "failure") == TRUE)
+++		connman_client_remove(data->client, data->device);
+++
+++	vbox = gtk_vbox_new(TRUE, 0);
+++	gtk_container_set_border_width(GTK_CONTAINER(vbox), 24);
+++	gtk_box_pack_start(GTK_BOX(mainbox), vbox, FALSE, FALSE, 0);
+++
+++	table = gtk_table_new(4, 8, TRUE);
+++	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
+++	data->table = table;
+++
+++	label = gtk_label_new(_("Access Point:"));
+++	gtk_table_attach_defaults(GTK_TABLE(table), label, 3, 4, 0, 1);
+++
+++	label = gtk_label_new(_(name));
+++	gtk_table_attach_defaults(GTK_TABLE(table), label, 4, 5, 0, 1);
+++	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
+++	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+++	data->cellular.name = label;
+++
+++	label = gtk_label_new(_(""));
+++	gtk_table_attach_defaults(GTK_TABLE(table), label, 3, 5, 2, 3);
+++	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+++	gtk_widget_hide(label);
+++	data->cellular.connect_info = label;
+++
+++	button = gtk_button_new_with_label(_("Connect"));
+++	gtk_table_attach_defaults(GTK_TABLE(table), button, 3, 5, 3, 4);
+++	g_signal_connect(G_OBJECT(button), "clicked",
+++			G_CALLBACK(connect_callback), data);
+++	gtk_widget_set_no_show_all(button, TRUE);
+++	data->cellular.connect = button;
+++
+++	button = gtk_button_new_with_label(_("Disconnect"));
+++	gtk_table_attach_defaults(GTK_TABLE(table), button, 3, 5, 3, 4);
+++	g_signal_connect(G_OBJECT(button), "clicked",
+++			G_CALLBACK(disconnect_callback), data);
+++	data->cellular.disconnect = button;
+++	gtk_widget_set_no_show_all(button, TRUE);
+++
+++	if (g_str_equal(state, "failure") == TRUE
+++			|| g_str_equal(state, "idle") == TRUE) {
+++		gtk_widget_show(data->cellular.connect);
+++		gtk_widget_hide(data->cellular.disconnect);
+++	} else {
+++		gtk_widget_hide(data->cellular.connect);
+++		gtk_widget_show(data->cellular.disconnect);
+++	}
+++}
++diff --git a/properties/main.c b/properties/main.c
++index a09c721..ec36aef 100644
++--- a/properties/main.c
+++++ b/properties/main.c
++@@ -42,6 +42,7 @@ static void status_update(GtkTreeModel *model, GtkTreePath  *path,
++ 	const char *name = NULL, *_name = NULL, *state = NULL;
++ 	gboolean ethernet_enabled;
++ 	gboolean wifi_enabled;
+++	gboolean cellular_enabled;
++ 	gboolean offline_mode;
++ 
++ 	gtk_tree_model_get(model, iter,
++@@ -50,6 +51,7 @@ static void status_update(GtkTreeModel *model, GtkTreePath  *path,
++ 			CONNMAN_COLUMN_TYPE, &type,
++ 			CONNMAN_COLUMN_ETHERNET_ENABLED, &ethernet_enabled,
++ 			CONNMAN_COLUMN_WIFI_ENABLED, &wifi_enabled,
+++			CONNMAN_COLUMN_CELLULAR_ENABLED, &cellular_enabled,
++ 			CONNMAN_COLUMN_OFFLINEMODE, &offline_mode,
++ 			-1);
++ 
++@@ -75,6 +77,29 @@ static void status_update(GtkTreeModel *model, GtkTreePath  *path,
++ 			gtk_widget_hide(data->wifi.connect);
++ 			gtk_widget_show(data->wifi.disconnect);
++ 		}
+++	} else if (type == CONNMAN_TYPE_CELLULAR) {
+++		if (data->cellular.name)
+++			_name = gtk_label_get_text(GTK_LABEL(data->cellular.name));
+++
+++		if (!(name && _name && g_str_equal(name, _name)))
+++			return;
+++
+++		if (g_str_equal(state, "failure") == TRUE) {
+++			gtk_label_set_text(GTK_LABEL(data->cellular.connect_info),
+++					_("connection failed"));
+++			gtk_widget_show(data->cellular.connect_info);
+++			gtk_widget_show(data->cellular.connect);
+++			gtk_widget_hide(data->cellular.disconnect);
+++		} else if (g_str_equal(state, "idle") == TRUE) {
+++			gtk_widget_hide(data->cellular.connect_info);
+++			gtk_widget_show(data->cellular.connect);
+++			gtk_widget_hide(data->cellular.disconnect);
+++		} else {
+++			gtk_widget_hide(data->cellular.connect_info);
+++			gtk_widget_hide(data->cellular.connect);
+++			gtk_widget_show(data->cellular.disconnect);
+++		}
+++
++ 	} else if (type == CONNMAN_TYPE_LABEL_ETHERNET) {
++ 		if (!data->ethernet_button)
++ 			return;
++@@ -92,6 +117,13 @@ static void status_update(GtkTreeModel *model, GtkTreePath  *path,
++ 			gtk_button_set_label(GTK_BUTTON(data->wifi_button), _("Enable"));
++ 			gtk_widget_set_sensitive(data->scan_button, 0);
++ 		}
+++	} else if (type == CONNMAN_TYPE_LABEL_CELLULAR) {
+++		if (!data->cellular_button)
+++			return;
+++		if (cellular_enabled)
+++			gtk_button_set_label(GTK_BUTTON(data->cellular_button), _("Disable"));
+++		else
+++			gtk_button_set_label(GTK_BUTTON(data->cellular_button), _("Enable"));
++ 	} else if (type == CONNMAN_TYPE_SYSCONFIG) {
++ 		if (!data->offline_button)
++ 			return;
++@@ -100,7 +132,6 @@ static void status_update(GtkTreeModel *model, GtkTreePath  *path,
++ 		else
++ 			gtk_button_set_label(GTK_BUTTON(data->offline_button), _("OfflineMode"));
++ 	}
++-
++ }
++ 
++ static void set_offline_callback(GtkWidget *button, gpointer user_data)
++@@ -207,12 +238,18 @@ static struct config_data *create_config(GtkTreeModel *model,
++ 	case CONNMAN_TYPE_WIFI:
++ 		add_wifi_service(mainbox, iter, data);
++ 		break;
+++	case CONNMAN_TYPE_CELLULAR:
+++		add_cellular_service(mainbox, iter, data);
+++		break;
++ 	case CONNMAN_TYPE_LABEL_ETHERNET:
++ 		add_ethernet_switch_button(mainbox, iter, data);
++ 		break;
++ 	case CONNMAN_TYPE_LABEL_WIFI:
++ 		add_wifi_switch_button(mainbox, iter, data);
++ 		break;
+++	case CONNMAN_TYPE_LABEL_CELLULAR:
+++		add_cellular_switch_button(mainbox, iter, data);
+++		break;
++ 	case CONNMAN_TYPE_SYSCONFIG:
++ 		add_system_config(mainbox, iter, data);
++ 		break;
++@@ -295,6 +332,7 @@ static void device_to_text(GtkTreeViewColumn *column, GtkCellRenderer *cell,
++ 		markup = g_strdup_printf("  %s\n", title);
++ 		break;
++ 	case CONNMAN_TYPE_WIFI:
+++	case CONNMAN_TYPE_CELLULAR:
++ 		/* Show the AP name */
++ 		title = N_(name);
++ 		if (g_str_equal(state, "association") == TRUE)
++@@ -324,6 +362,10 @@ static void device_to_text(GtkTreeViewColumn *column, GtkCellRenderer *cell,
++ 		title = N_("Wireless Networks");
++ 		markup = g_strdup_printf("<b>\n%s\n</b>", title);
++ 		break;
+++	case CONNMAN_TYPE_LABEL_CELLULAR:
+++		title = N_("Cellular Networks");
+++		markup = g_strdup_printf("<b>\n%s\n</b>", title);
+++		break;
++ 	case CONNMAN_TYPE_SYSCONFIG:
++ 		title = N_("System Configuration");
++ 		markup = g_strdup_printf("<b>\n%s\n</b>", title);
++@@ -362,6 +404,10 @@ static void type_to_icon(GtkTreeViewColumn *column, GtkCellRenderer *cell,
++ 		g_object_set(cell, "icon-name", "network-wireless",
++ 						"stock-size", 4, NULL);
++ 		break;
+++	case CONNMAN_TYPE_LABEL_CELLULAR:
+++		g_object_set(cell, "icon-name", "network-cellular",
+++						"stock-size", 4, NULL);
+++		break;
++ 	default:
++ 		g_object_set(cell, "icon-name", NULL, NULL);
++ 		break;
+diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb b/meta/recipes-connectivity/connman/connman-gnome_git.bb
+similarity index 76%
+rename from meta/recipes-connectivity/connman/connman-gnome_0.5.bb
+rename to meta/recipes-connectivity/connman/connman-gnome_git.bb
+index 69b2d5b..024fa5f 100644
+--- a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
++++ b/meta/recipes-connectivity/connman/connman-gnome_git.bb
+@@ -6,12 +6,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+                     file://properties/main.c;beginline=1;endline=20;md5=50c77c81871308b033ab7a1504626afb \
+                     file://common/connman-dbus.c;beginline=1;endline=20;md5=de6b485c0e717a0236402d220187717a"
+ DEPENDS = "gtk+ dbus"
+-PR = "r5"
++PR = "r0"
+ 
+-RRECOMMENDS_${PN} = "python python-dbus connman connman-plugin-ethernet connman-plugin-loopback connman-plugin-udhcp connman-plugin-wifi connman-plugin-fake connman-plugin-bluetooth connman-plugin-dnsproxy"
++RRECOMMENDS_${PN} = "python python-dbus connman connman-plugin-ethernet connman-plugin-loopback connman-plugin-udhcp connman-plugin-wifi connman-plugin-fake connman-plugin-bluetooth connman-plugin-dnsproxy connman-plugin-ofono"
+ 
+ SRCREV = "78d3c39db6f3f7977b466305110faa8ca5f74ec8"
+-SRC_URI = "git://git.kernel.org/pub/scm/network/connman/connman-gnome.git;protocol=git"
++SRC_URI = "git://git.kernel.org/pub/scm/network/connman/connman-gnome.git;protocol=git \
++           file://3g.patch"
+ S = "${WORKDIR}/git"
+ 
++SRC_URI[md5sum] = "0e1c4c25d19cad9b08a216848a320716"
++SRC_URI[sha256sum] = "4d5fe481b444fc3e64fd9caa149dbcd76de166a25733f18fd93da01d2abf5d1c"
++
+ inherit autotools gtk-icon-cache
++
++
 -- 
 1.7.1
 
