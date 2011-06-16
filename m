@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QX8cO-0006GG-GP
+	(envelope-from <dongxiao.xu@intel.com>) id 1QX8cQ-0006GG-74
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Jun 2011 11:12:05 +0200
+	Thu, 16 Jun 2011 11:12:08 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 16 Jun 2011 02:08:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,374,1304319600"; d="scan'208";a="13715572"
+X-IronPort-AV: E=Sophos;i="4.65,374,1304319600"; d="scan'208";a="13715551"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.20])
-	by azsmga001.ch.intel.com with ESMTP; 16 Jun 2011 02:08:27 -0700
+	by azsmga001.ch.intel.com with ESMTP; 16 Jun 2011 02:08:25 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jun 2011 17:20:32 +0800
-Message-Id: <5c84e7ce826aed4414afe9eafe841f02eee3e06d.1308215406.git.dongxiao.xu@intel.com>
+Date: Thu, 16 Jun 2011 17:20:31 +0800
+Message-Id: <4922d5ec9cbb18ca2cde5b7d3f138d2f4ac6707c.1308215406.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1308215406.git.dongxiao.xu@intel.com>
 References: <cover.1308215406.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1308215406.git.dongxiao.xu@intel.com>
 References: <cover.1308215406.git.dongxiao.xu@intel.com>
-Subject: [PATCH 3/6] ofono: add 0.42 version which works OK for Ericsson 3G module.
+Subject: [PATCH 2/6] wpa-supplicant: remove the 0.6.10 version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,62 +33,1136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2011 09:12:05 -0000
+X-List-Received-Date: Thu, 16 Jun 2011 09:12:08 -0000
 
-We met ofonod crash after ofono-0.43 version. Thus import 0.42 version
-to enable the 3G feature.
+Remove the 0.6.10 version since now 0.7.3 is the latest stable version.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/conf/distro/include/default-versions.inc |    1 +
- meta/recipes-connectivity/ofono/ofono.inc     |    2 ++
- meta/recipes-connectivity/ofono/ofono_0.42.bb |   13 +++++++++++++
- 3 files changed, 16 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-connectivity/ofono/ofono_0.42.bb
+ .../wpa-supplicant-0.6.10/99_wpa_supplicant        |    1 -
+ .../wpa-supplicant-0.6.10/defaults-sane            |    8 -
+ .../wpa-supplicant-0.6.10/defconfig-0.6.0-gnutls   |  180 -----
+ .../wpa-supplicant-0.6.10/wpa-supplicant.sh        |   85 ---
+ .../wpa-supplicant-0.6.10/wpa_supplicant.conf      |  690 --------------------
+ .../wpa-supplicant-0.6.10/wpa_supplicant.conf-sane |    7 -
+ .../wpa-supplicant/wpa-supplicant-0.6.inc          |   83 ---
+ .../wpa-supplicant/wpa-supplicant_0.6.10.bb        |    4 -
+ 8 files changed, 0 insertions(+), 1058 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/99_wpa_supplicant
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defaults-sane
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defconfig-0.6.0-gnutls
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa-supplicant.sh
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf-sane
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.inc
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.6.10.bb
 
-diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-index 0abbd8f..f29ee12 100644
---- a/meta/conf/distro/include/default-versions.inc
-+++ b/meta/conf/distro/include/default-versions.inc
-@@ -13,6 +13,7 @@ PREFERRED_VERSION_python-native ?= "2.6.6"
- # Force the older version of liberation-fonts until we fix the fontforge issue
- PREFERRED_VERSION_liberation-fonts ?= "1.04"
- 
-+PREFERRED_VERSION_ofono ?= "0.42"
- 
- 
- 
-diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
-index ee3bc3e..4fc969c 100644
---- a/meta/recipes-connectivity/ofono/ofono.inc
-+++ b/meta/recipes-connectivity/ofono/ofono.inc
-@@ -15,5 +15,7 @@ INITSCRIPT_PARAMS = "defaults 22"
- do_install_append() {
-   install -d ${D}${sysconfdir}/init.d/
-   install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
-+  install -d ${D}${sysconfdir}/udev/rules.d/
-+  install -m 0644 ${S}/plugins/97-ofono.rules ${D}${sysconfdir}/udev/rules.d/
- }
- 
-diff --git a/meta/recipes-connectivity/ofono/ofono_0.42.bb b/meta/recipes-connectivity/ofono/ofono_0.42.bb
-new file mode 100644
-index 0000000..defea0a
---- /dev/null
-+++ b/meta/recipes-connectivity/ofono/ofono_0.42.bb
-@@ -0,0 +1,13 @@
-+require ofono.inc
-+
-+PR = "r0"
-+
-+SRC_URI  = "${KERNELORG_MIRROR}/linux/network/ofono/${P}.tar.bz2 \
-+	          file://ofono"
-+
-+EXTRA_OECONF += "\
-+  --enable-test \
-+"
-+
-+SRC_URI[md5sum] = "e3ccf43a287153eed25f8dd75e7c6d18"
-+SRC_URI[sha256sum] = "5b6f78cbe218fbc5c84401cd9d64b3204529e98822f959a9b2aae34b538076af"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/99_wpa_supplicant b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/99_wpa_supplicant
+deleted file mode 100644
+index 6ff4dd8..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/99_wpa_supplicant
++++ /dev/null
+@@ -1 +0,0 @@
+-d root root 0700 /var/run/wpa_supplicant none
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defaults-sane b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defaults-sane
+deleted file mode 100644
+index 67c4cbd..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defaults-sane
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# Useful flags:
+-#  -i <ifname>          Interface (required, unless specified in config)
+-#  -D <driver>          Wireless Driver
+-#  -d                   Debugging (-dd for more)
+-#  -q                   Quiet (-qq for more)
+-
+-CONFIG="/etc/wpa_supplicant.conf"
+-OPTIONS="-i eth1 -D wext"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defconfig-0.6.0-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defconfig-0.6.0-gnutls
+deleted file mode 100644
+index e907271..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/defconfig-0.6.0-gnutls
++++ /dev/null
+@@ -1,180 +0,0 @@
+-# This file lists the configuration options that are used when building the
+-# hostapd binary. All lines starting with # are ignored. Configuration option
+-# lines must be commented out complete, if they are not to be included, i.e.,
+-# just setting VARIABLE=n is not disabling that variable.
+-#
+-# This file is included in Makefile, so variables like CFLAGS and LIBS can also
+-# be modified from here. In most cass, these lines should use += in order not
+-# to override previous values of the variables.
+-
+-CFLAGS = $(TARGET_CFLAGS) -I../src/hostapd -I../src/utils -I../src/driver/modules -I../src/rsn_supp -I../src/common -I../src/crypto -I../src -I./ -Wall -MMD
+-LIBS = $(TARGET_LDFLAGS)
+-
+-# Driver interface for Host AP driver
+-CONFIG_DRIVER_HOSTAP=y
+-
+-# Driver interface for Agere driver
+-#CONFIG_DRIVER_HERMES=y
+-#CFLAGS += -I../../hcf -I../../include -I../../include/hcf
+-
+-# Driver interface for madwifi driver
+-#CONFIG_DRIVER_MADWIFI=y
+-#CFLAGS += -I../madwifi/wpa
+-
+-# Driver interface for Prism54 driver
+-#CONFIG_DRIVER_PRISM54=y
+-
+-# Driver interface for ndiswrapper
+-#CONFIG_DRIVER_NDISWRAPPER=y
+-
+-# Driver interface for Atmel driver
+-#CONFIG_DRIVER_ATMEL=y
+-
+-# Driver interface for Broadcom driver
+-#CONFIG_DRIVER_BROADCOM=y
+-#CFLAGS += -I/opt/WRT54GS/release/src/include
+-
+-# Driver interface for Intel ipw2100 driver
+-#CONFIG_DRIVER_IPW2100=y
+-
+-# Driver interface for generic Linux wireless extensions
+-CONFIG_DRIVER_WEXT=y
+-
+-# Driver interface for FreeBSD net80211 layer (e.g., Atheros driver)
+-#CONFIG_DRIVER_BSD=y
+-#CFLAGS += -I/usr/local/include
+-#LIBS += -L/usr/local/lib
+-
+-# Driver interface for development testing
+-#CONFIG_DRIVER_TEST=y
+-
+-# Driver interface for wired Ethernet drivers
+-CONFIG_DRIVER_WIRED=y
+-
+-# Enable IEEE 802.1X Supplicant (automatically included if any EAP method is
+-# included)
+-CONFIG_IEEE8021X_EAPOL=y
+-
+-# EAP-MD5 (automatically included if EAP-TTLS is enabled)
+-CONFIG_EAP_MD5=y
+-
+-# EAP-MSCHAPv2 (automatically included if EAP-PEAP is enabled)
+-CONFIG_EAP_MSCHAPV2=y
+-
+-# EAP-TLS
+-CONFIG_EAP_TLS=y
+-
+-# EAL-PEAP
+-CONFIG_EAP_PEAP=y
+-
+-# EAP-TTLS
+-CONFIG_EAP_TTLS=y
+-
+-# EAP-GTC
+-CONFIG_EAP_GTC=y
+-
+-# EAP-OTP
+-CONFIG_EAP_OTP=y
+-
+-# EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
+-#CONFIG_EAP_SIM=y
+-
+-# EAP-PSK (experimental; this is _not_ needed for WPA-PSK)
+-#CONFIG_EAP_PSK=y
+-
+-# EAP-PAX
+-#CONFIG_EAP_PAX=y
+-
+-# LEAP
+-CONFIG_EAP_LEAP=y
+-
+-# EAP-AKA (enable CONFIG_PCSC, if EAP-AKA is used)
+-#CONFIG_EAP_AKA=y
+-
+-# PKCS#12 (PFX) support (used to read private key and certificate file from
+-# a file that usually has extension .p12 or .pfx)
+-CONFIG_PKCS12=y
+-
+-# Smartcard support (i.e., private key on a smartcard), e.g., with openssl
+-# engine.
+-CONFIG_SMARTCARD=y
+-
+-# PC/SC interface for smartcards (USIM, GSM SIM)
+-# Enable this if EAP-SIM or EAP-AKA is included
+-#CONFIG_PCSC=y
+-
+-# Development testing
+-#CONFIG_EAPOL_TEST=y
+-
+-# Replace native Linux implementation of packet sockets with libdnet/libpcap.
+-# This will be automatically set for non-Linux OS.
+-#CONFIG_DNET_PCAP=y
+-
+-# Include control interface for external programs, e.g, wpa_cli
+-CONFIG_CTRL_IFACE=y
+-
+-# Include support for GNU Readline and History Libraries in wpa_cli.
+-# When building a wpa_cli binary for distribution, please note that these
+-# libraries are licensed under GPL and as such, BSD license may not apply for
+-# the resulting binary.
+-#CONFIG_READLINE=y
+-
+-# Remove debugging code that is printing out debug message to stdout.
+-# This can be used to reduce the size of the wpa_supplicant considerably
+-# if debugging code is not needed. The size reduction can be around 35%
+-# (e.g., 90 kB).
+-#CONFIG_NO_STDOUT_DEBUG=y
+-
+-# Remove WPA support, e.g., for wired-only IEEE 802.1X supplicant, to save
+-# 35-50 kB in code size.
+-#CONFIG_NO_WPA=y
+-
+-# Select configuration backend:
+-# file = text file (e.g., wpa_supplicant.conf)
+-# winreg = Windows registry (see win_example.reg for an example)
+-CONFIG_BACKEND=file
+-
+-# Select program entry point implementation:
+-# main = UNIX/POSIX like main() function (default)
+-# main_winsvc = Windows service (read parameters from registry)
+-# main_none = Very basic example (development use only)
+-#CONFIG_MAIN=main
+-
+-# Select wrapper for operatins system and C library specific functions
+-# unix = UNIX/POSIX like systems (default)
+-# win32 = Windows systems
+-# none = Empty template
+-#CONFIG_OS=unix
+-
+-# Select event loop implementation
+-# eloop = select() loop (default)
+-# eloop_win = Windows events and WaitForMultipleObject() loop
+-# eloop_none = Empty template
+-#CONFIG_ELOOP=eloop
+-
+-# Select layer 2 packet implementation
+-# linux = Linux packet socket (default)
+-# pcap = libpcap/libdnet/WinPcap
+-# freebsd = FreeBSD libpcap
+-# winpcap = WinPcap with receive thread
+-# none = Empty template
+-#CONFIG_L2_PACKET=linux
+-
+-# IEEE 802.11i/IEEE 802.11e STAKey negotiation for direct link connection
+-#CONFIG_STAKEY=y
+-
+-# Select TLS implementation
+-# openssl = OpenSSL (default)
+-# gnutls = GnuTLS (needed for TLS/IA, see also CONFIG_GNUTLS_EXTRA)
+-# none = Empty template
+-CONFIG_TLS=gnutls
+-
+-# Whether to enable TLS/IA support, which is required for EAP-TTLSv1.
+-# You need CONFIG_TLS=gnutls for this to have any effect. Please note that
+-# even though the core GnuTLS library is released under LGPL, this extra
+-# library uses GPL and as such, the terms of GPL apply to the combination
+-# of wpa_supplicant and GnuTLS if this option is enabled. BSD license may not
+-# apply for distribution of the resulting binary.
+-CONFIG_GNUTLS_EXTRA=y
+-
+-CONFIG_CTRL_IFACE_DBUS=y
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa-supplicant.sh b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa-supplicant.sh
+deleted file mode 100644
+index 5c9e5d3..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa-supplicant.sh
++++ /dev/null
+@@ -1,85 +0,0 @@
+-#!/bin/sh
+-
+-
+-WPA_SUP_BIN="/usr/sbin/wpa_supplicant"
+-WPA_SUP_PNAME="wpa_supplicant"
+-WPA_SUP_PIDFILE="/var/run/wpa_supplicant.$IFACE.pid"
+-WPA_SUP_OPTIONS="-B -P $WPA_SUP_PIDFILE -i $IFACE"
+-
+-VERBOSITY=0
+-
+-
+-if [ -s "$IF_WPA_CONF" ]; then
+-	WPA_SUP_CONF="-c $IF_WPA_CONF"
+-else
+-	exit 0
+-fi
+-
+-if [ ! -x "$WPA_SUP_BIN" ]; then
+-	
+-	if [ "$VERBOSITY" = "1" ]; then
+-		echo "$WPA_SUP_PNAME: binaries not executable or missing from $WPA_SUP_BIN"
+-	fi
+-	
+-	exit 1
+-fi
+-
+-if [ "$MODE" = "start" ] ; then
+-	# driver type of interface, defaults to wext when undefined
+-	if [ -s "/etc/wpa_supplicant/driver.$IFACE" ]; then
+-		IF_WPA_DRIVER=$(cat "/etc/wpa_supplicant/driver.$IFACE")
+-	elif [ -z "$IF_WPA_DRIVER" ]; then
+-		
+-		if [ "$VERBOSITY" = "1" ]; then
+-			echo "$WPA_SUP_PNAME: wpa-driver not provided, using \"wext\""
+-		fi
+-		
+-		IF_WPA_DRIVER="wext"
+-	fi
+-	
+-	# if we have passed the criteria, start wpa_supplicant
+-	if [ -n "$WPA_SUP_CONF" ]; then
+-		
+-		if [ "$VERBOSITY" = "1" ]; then
+-			echo "$WPA_SUP_PNAME: $WPA_SUP_BIN $WPA_SUP_OPTIONS $WPA_SUP_CONF -D $IF_WPA_DRIVER"
+-		fi
+-		
+-		start-stop-daemon --start --quiet \
+-			--name $WPA_SUP_PNAME --startas $WPA_SUP_BIN --pidfile $WPA_SUP_PIDFILE \
+-			--  $WPA_SUP_OPTIONS $WPA_SUP_CONF -D $IF_WPA_DRIVER
+-	fi
+-
+-	# if the interface socket exists, then wpa_supplicant was invoked successfully
+-	if [ -S "$WPA_COMMON_CTRL_IFACE/$IFACE" ]; then
+-	
+-		if [ "$VERBOSITY" = "1" ]; then
+-			echo "$WPA_SUP_PNAME: ctrl_interface socket located at $WPA_COMMON_CTRL_IFACE/$IFACE"
+-		fi
+-
+-		exit 0
+-		
+-	fi
+-	
+-elif [ "$MODE" = "stop" ]; then
+-
+-	if [ -f "$WPA_SUP_PIDFILE" ]; then
+-		
+-		if [ "$VERBOSITY" = "1" ]; then
+-			echo "$WPA_SUP_PNAME: terminating $WPA_SUP_PNAME daemon"
+-		fi
+-		
+-		start-stop-daemon --stop --quiet \
+-			--name $WPA_SUP_PNAME --pidfile	$WPA_SUP_PIDFILE
+-			
+-		if [ -S "$WPA_COMMON_CTRL_IFACE/$IFACE" ]; then
+-			rm -f $WPA_COMMON_CTRL_IFACE/$IFACE
+-		fi
+-			
+-		if [ -f "$WPA_SUP_PIDFILE" ]; then
+-			rm -f $WPA_SUP_PIDFILE
+-		fi
+-	fi
+-
+-fi
+-
+-exit 0
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf
+deleted file mode 100644
+index f0c993d..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf
++++ /dev/null
+@@ -1,690 +0,0 @@
+-##### Example wpa_supplicant configuration file ###############################
+-#
+-# This file describes configuration file format and lists all available option.
+-# Please also take a look at simpler configuration examples in 'examples'
+-# subdirectory.
+-#
+-# Empty lines and lines starting with # are ignored
+-
+-# NOTE! This file may contain password information and should probably be made
+-# readable only by root user on multiuser systems.
+-
+-# Note: All file paths in this configuration file should use full (absolute,
+-# not relative to working directory) path in order to allow working directory
+-# to be changed. This can happen if wpa_supplicant is run in the background.
+-
+-# Whether to allow wpa_supplicant to update (overwrite) configuration
+-#
+-# This option can be used to allow wpa_supplicant to overwrite configuration
+-# file whenever configuration is changed (e.g., new network block is added with
+-# wpa_cli or wpa_gui, or a password is changed). This is required for
+-# wpa_cli/wpa_gui to be able to store the configuration changes permanently.
+-# Please note that overwriting configuration file will remove the comments from
+-# it.
+-#update_config=1
+-
+-# global configuration (shared by all network blocks)
+-#
+-# Parameters for the control interface. If this is specified, wpa_supplicant
+-# will open a control interface that is available for external programs to
+-# manage wpa_supplicant. The meaning of this string depends on which control
+-# interface mechanism is used. For all cases, the existance of this parameter
+-# in configuration is used to determine whether the control interface is
+-# enabled.
+-#
+-# For UNIX domain sockets (default on Linux and BSD): This is a directory that
+-# will be created for UNIX domain sockets for listening to requests from
+-# external programs (CLI/GUI, etc.) for status information and configuration.
+-# The socket file will be named based on the interface name, so multiple
+-# wpa_supplicant processes can be run at the same time if more than one
+-# interface is used.
+-# /var/run/wpa_supplicant is the recommended directory for sockets and by
+-# default, wpa_cli will use it when trying to connect with wpa_supplicant.
+-#
+-# Access control for the control interface can be configured by setting the
+-# directory to allow only members of a group to use sockets. This way, it is
+-# possible to run wpa_supplicant as root (since it needs to change network
+-# configuration and open raw sockets) and still allow GUI/CLI components to be
+-# run as non-root users. However, since the control interface can be used to
+-# change the network configuration, this access needs to be protected in many
+-# cases. By default, wpa_supplicant is configured to use gid 0 (root). If you
+-# want to allow non-root users to use the control interface, add a new group
+-# and change this value to match with that group. Add users that should have
+-# control interface access to this group. If this variable is commented out or
+-# not included in the configuration file, group will not be changed from the
+-# value it got by default when the directory or socket was created.
+-#
+-# When configuring both the directory and group, use following format:
+-# DIR=/var/run/wpa_supplicant GROUP=wheel
+-# DIR=/var/run/wpa_supplicant GROUP=0
+-# (group can be either group name or gid)
+-#
+-# For UDP connections (default on Windows): The value will be ignored. This
+-# variable is just used to select that the control interface is to be created.
+-# The value can be set to, e.g., udp (ctrl_interface=udp)
+-#
+-# For Windows Named Pipe: This value can be used to set the security descriptor
+-# for controlling access to the control interface. Security descriptor can be
+-# set using Security Descriptor String Format (see http://msdn.microsoft.com/
+-# library/default.asp?url=/library/en-us/secauthz/security/
+-# security_descriptor_string_format.asp). The descriptor string needs to be
+-# prefixed with SDDL=. For example, ctrl_interface=SDDL=D: would set an empty
+-# DACL (which will reject all connections). See README-Windows.txt for more
+-# information about SDDL string format.
+-#
+-ctrl_interface=/var/run/wpa_supplicant
+-
+-# IEEE 802.1X/EAPOL version
+-# wpa_supplicant is implemented based on IEEE Std 802.1X-2004 which defines
+-# EAPOL version 2. However, there are many APs that do not handle the new
+-# version number correctly (they seem to drop the frames completely). In order
+-# to make wpa_supplicant interoperate with these APs, the version number is set
+-# to 1 by default. This configuration value can be used to set it to the new
+-# version (2).
+-eapol_version=1
+-
+-# AP scanning/selection
+-# By default, wpa_supplicant requests driver to perform AP scanning and then
+-# uses the scan results to select a suitable AP. Another alternative is to
+-# allow the driver to take care of AP scanning and selection and use
+-# wpa_supplicant just to process EAPOL frames based on IEEE 802.11 association
+-# information from the driver.
+-# 1: wpa_supplicant initiates scanning and AP selection
+-# 0: driver takes care of scanning, AP selection, and IEEE 802.11 association
+-#    parameters (e.g., WPA IE generation); this mode can also be used with
+-#    non-WPA drivers when using IEEE 802.1X mode; do not try to associate with
+-#    APs (i.e., external program needs to control association). This mode must
+-#    also be used when using wired Ethernet drivers.
+-# 2: like 0, but associate with APs using security policy and SSID (but not
+-#    BSSID); this can be used, e.g., with ndiswrapper and NDIS drivers to
+-#    enable operation with hidden SSIDs and optimized roaming; in this mode,
+-#    the network blocks in the configuration file are tried one by one until
+-#    the driver reports successful association; each network block should have
+-#    explicit security policy (i.e., only one option in the lists) for
+-#    key_mgmt, pairwise, group, proto variables
+-ap_scan=1
+-
+-# EAP fast re-authentication
+-# By default, fast re-authentication is enabled for all EAP methods that
+-# support it. This variable can be used to disable fast re-authentication.
+-# Normally, there is no need to disable this.
+-fast_reauth=1
+-
+-# OpenSSL Engine support
+-# These options can be used to load OpenSSL engines.
+-# The two engines that are supported currently are shown below:
+-# They are both from the opensc project (http://www.opensc.org/)
+-# By default no engines are loaded.
+-# make the opensc engine available
+-#opensc_engine_path=/usr/lib/opensc/engine_opensc.so
+-# make the pkcs11 engine available
+-#pkcs11_engine_path=/usr/lib/opensc/engine_pkcs11.so
+-# configure the path to the pkcs11 module required by the pkcs11 engine
+-#pkcs11_module_path=/usr/lib/pkcs11/opensc-pkcs11.so
+-
+-# Dynamic EAP methods
+-# If EAP methods were built dynamically as shared object files, they need to be
+-# loaded here before being used in the network blocks. By default, EAP methods
+-# are included statically in the build, so these lines are not needed
+-#load_dynamic_eap=/usr/lib/wpa_supplicant/eap_tls.so
+-#load_dynamic_eap=/usr/lib/wpa_supplicant/eap_md5.so
+-
+-# Driver interface parameters
+-# This field can be used to configure arbitrary driver interace parameters. The
+-# format is specific to the selected driver interface. This field is not used
+-# in most cases.
+-#driver_param="field=value"
+-
+-# Maximum lifetime for PMKSA in seconds; default 43200
+-#dot11RSNAConfigPMKLifetime=43200
+-# Threshold for reauthentication (percentage of PMK lifetime); default 70
+-#dot11RSNAConfigPMKReauthThreshold=70
+-# Timeout for security association negotiation in seconds; default 60
+-#dot11RSNAConfigSATimeout=60
+-
+-# network block
+-#
+-# Each network (usually AP's sharing the same SSID) is configured as a separate
+-# block in this configuration file. The network blocks are in preference order
+-# (the first match is used).
+-#
+-# network block fields:
+-#
+-# disabled:
+-#	0 = this network can be used (default)
+-#	1 = this network block is disabled (can be enabled through ctrl_iface,
+-#	    e.g., with wpa_cli or wpa_gui)
+-#
+-# id_str: Network identifier string for external scripts. This value is passed
+-#	to external action script through wpa_cli as WPA_ID_STR environment
+-#	variable to make it easier to do network specific configuration.
+-#
+-# ssid: SSID (mandatory); either as an ASCII string with double quotation or
+-#	as hex string; network name
+-#
+-# scan_ssid:
+-#	0 = do not scan this SSID with specific Probe Request frames (default)
+-#	1 = scan with SSID-specific Probe Request frames (this can be used to
+-#	    find APs that do not accept broadcast SSID or use multiple SSIDs;
+-#	    this will add latency to scanning, so enable this only when needed)
+-#
+-# bssid: BSSID (optional); if set, this network block is used only when
+-#	associating with the AP using the configured BSSID
+-#
+-# priority: priority group (integer)
+-# By default, all networks will get same priority group (0). If some of the
+-# networks are more desirable, this field can be used to change the order in
+-# which wpa_supplicant goes through the networks when selecting a BSS. The
+-# priority groups will be iterated in decreasing priority (i.e., the larger the
+-# priority value, the sooner the network is matched against the scan results).
+-# Within each priority group, networks will be selected based on security
+-# policy, signal strength, etc.
+-# Please note that AP scanning with scan_ssid=1 and ap_scan=2 mode are not
+-# using this priority to select the order for scanning. Instead, they try the
+-# networks in the order that used in the configuration file.
+-#
+-# mode: IEEE 802.11 operation mode
+-# 0 = infrastructure (Managed) mode, i.e., associate with an AP (default)
+-# 1 = IBSS (ad-hoc, peer-to-peer)
+-# Note: IBSS can only be used with key_mgmt NONE (plaintext and static WEP)
+-# and key_mgmt=WPA-NONE (fixed group key TKIP/CCMP). In addition, ap_scan has
+-# to be set to 2 for IBSS. WPA-None requires following network block options:
+-# proto=WPA, key_mgmt=WPA-NONE, pairwise=NONE, group=TKIP (or CCMP, but not
+-# both), and psk must also be set.
+-#
+-# proto: list of accepted protocols
+-# WPA = WPA/IEEE 802.11i/D3.0
+-# RSN = WPA2/IEEE 802.11i (also WPA2 can be used as an alias for RSN)
+-# If not set, this defaults to: WPA RSN
+-#
+-# key_mgmt: list of accepted authenticated key management protocols
+-# WPA-PSK = WPA pre-shared key (this requires 'psk' field)
+-# WPA-EAP = WPA using EAP authentication (this can use an external
+-#	program, e.g., Xsupplicant, for IEEE 802.1X EAP Authentication
+-# IEEE8021X = IEEE 802.1X using EAP authentication and (optionally) dynamically
+-#	generated WEP keys
+-# NONE = WPA is not used; plaintext or static WEP could be used
+-# If not set, this defaults to: WPA-PSK WPA-EAP
+-#
+-# auth_alg: list of allowed IEEE 802.11 authentication algorithms
+-# OPEN = Open System authentication (required for WPA/WPA2)
+-# SHARED = Shared Key authentication (requires static WEP keys)
+-# LEAP = LEAP/Network EAP (only used with LEAP)
+-# If not set, automatic selection is used (Open System with LEAP enabled if
+-# LEAP is allowed as one of the EAP methods).
+-#
+-# pairwise: list of accepted pairwise (unicast) ciphers for WPA
+-# CCMP = AES in Counter mode with CBC-MAC [RFC 3610, IEEE 802.11i/D7.0]
+-# TKIP = Temporal Key Integrity Protocol [IEEE 802.11i/D7.0]
+-# NONE = Use only Group Keys (deprecated, should not be included if APs support
+-#	pairwise keys)
+-# If not set, this defaults to: CCMP TKIP
+-#
+-# group: list of accepted group (broadcast/multicast) ciphers for WPA
+-# CCMP = AES in Counter mode with CBC-MAC [RFC 3610, IEEE 802.11i/D7.0]
+-# TKIP = Temporal Key Integrity Protocol [IEEE 802.11i/D7.0]
+-# WEP104 = WEP (Wired Equivalent Privacy) with 104-bit key
+-# WEP40 = WEP (Wired Equivalent Privacy) with 40-bit key [IEEE 802.11]
+-# If not set, this defaults to: CCMP TKIP WEP104 WEP40
+-#
+-# psk: WPA preshared key; 256-bit pre-shared key
+-# The key used in WPA-PSK mode can be entered either as 64 hex-digits, i.e.,
+-# 32 bytes or as an ASCII passphrase (in which case, the real PSK will be
+-# generated using the passphrase and SSID). ASCII passphrase must be between
+-# 8 and 63 characters (inclusive).
+-# This field is not needed, if WPA-EAP is used.
+-# Note: Separate tool, wpa_passphrase, can be used to generate 256-bit keys
+-# from ASCII passphrase. This process uses lot of CPU and wpa_supplicant
+-# startup and reconfiguration time can be optimized by generating the PSK only
+-# only when the passphrase or SSID has actually changed.
+-#
+-# eapol_flags: IEEE 802.1X/EAPOL options (bit field)
+-# Dynamic WEP key required for non-WPA mode
+-# bit0 (1): require dynamically generated unicast WEP key
+-# bit1 (2): require dynamically generated broadcast WEP key
+-# 	(3 = require both keys; default)
+-# Note: When using wired authentication, eapol_flags must be set to 0 for the
+-# authentication to be completed successfully.
+-#
+-# proactive_key_caching:
+-# Enable/disable opportunistic PMKSA caching for WPA2.
+-# 0 = disabled (default)
+-# 1 = enabled
+-#
+-# wep_key0..3: Static WEP key (ASCII in double quotation, e.g. "abcde" or
+-# hex without quotation, e.g., 0102030405)
+-# wep_tx_keyidx: Default WEP key index (TX) (0..3)
+-#
+-# peerkey: Whether PeerKey negotiation for direct links (IEEE 802.11e DLS) is
+-# allowed. This is only used with RSN/WPA2.
+-# 0 = disabled (default)
+-# 1 = enabled
+-#peerkey=1
+-#
+-# Following fields are only used with internal EAP implementation.
+-# eap: space-separated list of accepted EAP methods
+-#	MD5 = EAP-MD5 (unsecure and does not generate keying material ->
+-#			cannot be used with WPA; to be used as a Phase 2 method
+-#			with EAP-PEAP or EAP-TTLS)
+-#       MSCHAPV2 = EAP-MSCHAPv2 (cannot be used separately with WPA; to be used
+-#		as a Phase 2 method with EAP-PEAP or EAP-TTLS)
+-#       OTP = EAP-OTP (cannot be used separately with WPA; to be used
+-#		as a Phase 2 method with EAP-PEAP or EAP-TTLS)
+-#       GTC = EAP-GTC (cannot be used separately with WPA; to be used
+-#		as a Phase 2 method with EAP-PEAP or EAP-TTLS)
+-#	TLS = EAP-TLS (client and server certificate)
+-#	PEAP = EAP-PEAP (with tunnelled EAP authentication)
+-#	TTLS = EAP-TTLS (with tunnelled EAP or PAP/CHAP/MSCHAP/MSCHAPV2
+-#			 authentication)
+-#	If not set, all compiled in methods are allowed.
+-#
+-# identity: Identity string for EAP
+-# anonymous_identity: Anonymous identity string for EAP (to be used as the
+-#	unencrypted identity with EAP types that support different tunnelled
+-#	identity, e.g., EAP-TTLS)
+-# password: Password string for EAP
+-# ca_cert: File path to CA certificate file (PEM/DER). This file can have one
+-#	or more trusted CA certificates. If ca_cert and ca_path are not
+-#	included, server certificate will not be verified. This is insecure and
+-#	a trusted CA certificate should always be configured when using
+-#	EAP-TLS/TTLS/PEAP. Full path should be used since working directory may
+-#	change when wpa_supplicant is run in the background.
+-#	On Windows, trusted CA certificates can be loaded from the system
+-#	certificate store by setting this to cert_store://<name>, e.g.,
+-#	ca_cert="cert_store://CA" or ca_cert="cert_store://ROOT".
+-#	Note that when running wpa_supplicant as an application, the user
+-#	certificate store (My user account) is used, whereas computer store
+-#	(Computer account) is used when running wpasvc as a service.
+-# ca_path: Directory path for CA certificate files (PEM). This path may
+-#	contain multiple CA certificates in OpenSSL format. Common use for this
+-#	is to point to system trusted CA list which is often installed into
+-#	directory like /etc/ssl/certs. If configured, these certificates are
+-#	added to the list of trusted CAs. ca_cert may also be included in that
+-#	case, but it is not required.
+-# client_cert: File path to client certificate file (PEM/DER)
+-#	Full path should be used since working directory may change when
+-#	wpa_supplicant is run in the background.
+-#	Alternatively, a named configuration blob can be used by setting this
+-#	to blob://<blob name>.
+-# private_key: File path to client private key file (PEM/DER/PFX)
+-#	When PKCS#12/PFX file (.p12/.pfx) is used, client_cert should be
+-#	commented out. Both the private key and certificate will be read from
+-#	the PKCS#12 file in this case. Full path should be used since working
+-#	directory may change when wpa_supplicant is run in the background.
+-#	Windows certificate store can be used by leaving client_cert out and
+-#	configuring private_key in one of the following formats:
+-#	cert://substring_to_match
+-#	hash://certificate_thumbprint_in_hex
+-#	for example: private_key="hash://63093aa9c47f56ae88334c7b65a4"
+-#	Note that when running wpa_supplicant as an application, the user
+-#	certificate store (My user account) is used, whereas computer store
+-#	(Computer account) is used when running wpasvc as a service.
+-#	Alternatively, a named configuration blob can be used by setting this
+-#	to blob://<blob name>.
+-# private_key_passwd: Password for private key file (if left out, this will be
+-#	asked through control interface)
+-# dh_file: File path to DH/DSA parameters file (in PEM format)
+-#	This is an optional configuration file for setting parameters for an
+-#	ephemeral DH key exchange. In most cases, the default RSA
+-#	authentication does not use this configuration. However, it is possible
+-#	setup RSA to use ephemeral DH key exchange. In addition, ciphers with
+-#	DSA keys always use ephemeral DH keys. This can be used to achieve
+-#	forward secrecy. If the file is in DSA parameters format, it will be
+-#	automatically converted into DH params.
+-# subject_match: Substring to be matched against the subject of the
+-#	authentication server certificate. If this string is set, the server
+-#	sertificate is only accepted if it contains this string in the subject.
+-#	The subject string is in following format:
+-#	/C=US/ST=CA/L=San Francisco/CN=Test AS/emailAddress=as@example.com
+-# altsubject_match: Semicolon separated string of entries to be matched against
+-#	the alternative subject name of the authentication server certificate.
+-#	If this string is set, the server sertificate is only accepted if it
+-#	contains one of the entries in an alternative subject name extension.
+-#	altSubjectName string is in following format: TYPE:VALUE
+-#	Example: EMAIL:server@example.com
+-#	Example: DNS:server.example.com;DNS:server2.example.com
+-#	Following types are supported: EMAIL, DNS, URI
+-# phase1: Phase1 (outer authentication, i.e., TLS tunnel) parameters
+-#	(string with field-value pairs, e.g., "peapver=0" or
+-#	"peapver=1 peaplabel=1")
+-#	'peapver' can be used to force which PEAP version (0 or 1) is used.
+-#	'peaplabel=1' can be used to force new label, "client PEAP encryption",
+-#	to be used during key derivation when PEAPv1 or newer. Most existing
+-#	PEAPv1 implementation seem to be using the old label, "client EAP
+-#	encryption", and wpa_supplicant is now using that as the default value.
+-#	Some servers, e.g., Radiator, may require peaplabel=1 configuration to
+-#	interoperate with PEAPv1; see eap_testing.txt for more details.
+-#	'peap_outer_success=0' can be used to terminate PEAP authentication on
+-#	tunneled EAP-Success. This is required with some RADIUS servers that
+-#	implement draft-josefsson-pppext-eap-tls-eap-05.txt (e.g.,
+-#	Lucent NavisRadius v4.4.0 with PEAP in "IETF Draft 5" mode)
+-#	include_tls_length=1 can be used to force wpa_supplicant to include
+-#	TLS Message Length field in all TLS messages even if they are not
+-#	fragmented.
+-#	sim_min_num_chal=3 can be used to configure EAP-SIM to require three
+-#	challenges (by default, it accepts 2 or 3)
+-# phase2: Phase2 (inner authentication with TLS tunnel) parameters
+-#	(string with field-value pairs, e.g., "auth=MSCHAPV2" for EAP-PEAP or
+-#	"autheap=MSCHAPV2 autheap=MD5" for EAP-TTLS)
+-# Following certificate/private key fields are used in inner Phase2
+-# authentication when using EAP-TTLS or EAP-PEAP.
+-# ca_cert2: File path to CA certificate file. This file can have one or more
+-#	trusted CA certificates. If ca_cert2 and ca_path2 are not included,
+-#	server certificate will not be verified. This is insecure and a trusted
+-#	CA certificate should always be configured.
+-# ca_path2: Directory path for CA certificate files (PEM)
+-# client_cert2: File path to client certificate file
+-# private_key2: File path to client private key file
+-# private_key2_passwd: Password for private key file
+-# dh_file2: File path to DH/DSA parameters file (in PEM format)
+-# subject_match2: Substring to be matched against the subject of the
+-#	authentication server certificate.
+-# altsubject_match2: Substring to be matched against the alternative subject
+-#	name of the authentication server certificate.
+-#
+-# fragment_size: Maximum EAP fragment size in bytes (default 1398).
+-#	This value limits the fragment size for EAP methods that support
+-#	fragmentation (e.g., EAP-TLS and EAP-PEAP). This value should be set
+-#	small enough to make the EAP messages fit in MTU of the network
+-#	interface used for EAPOL. The default value is suitable for most
+-#	cases.
+-#
+-# EAP-PSK variables:
+-# eappsk: 16-byte (128-bit, 32 hex digits) pre-shared key in hex format
+-# nai: user NAI
+-#
+-# EAP-PAX variables:
+-# eappsk: 16-byte (128-bit, 32 hex digits) pre-shared key in hex format
+-#
+-# EAP-SAKE variables:
+-# eappsk: 32-byte (256-bit, 64 hex digits) pre-shared key in hex format
+-#	(this is concatenation of Root-Secret-A and Root-Secret-B)
+-# nai: user NAI (PEERID)
+-#
+-# EAP-GPSK variables:
+-# eappsk: Pre-shared key in hex format (at least 128 bits, i.e., 32 hex digits)
+-# nai: user NAI (ID_Client)
+-#
+-# EAP-FAST variables:
+-# pac_file: File path for the PAC entries. wpa_supplicant will need to be able
+-#	to create this file and write updates to it when PAC is being
+-#	provisioned or refreshed. Full path to the file should be used since
+-#	working directory may change when wpa_supplicant is run in the
+-#	background. Alternatively, a named configuration blob can be used by
+-#	setting this to blob://<blob name>
+-# phase1: fast_provisioning=1 option enables in-line provisioning of EAP-FAST
+-#	credentials (PAC)
+-#
+-# wpa_supplicant supports number of "EAP workarounds" to work around
+-# interoperability issues with incorrectly behaving authentication servers.
+-# These are enabled by default because some of the issues are present in large
+-# number of authentication servers. Strict EAP conformance mode can be
+-# configured by disabling workarounds with eap_workaround=0.
+-
+-# Example blocks:
+-
+-# Simple case: WPA-PSK, PSK as an ASCII passphrase, allow all valid ciphers
+-network={
+-	ssid="simple"
+-	psk="very secret passphrase"
+-	priority=5
+-}
+-
+-# Same as previous, but request SSID-specific scanning (for APs that reject
+-# broadcast SSID)
+-network={
+-	ssid="second ssid"
+-	scan_ssid=1
+-	psk="very secret passphrase"
+-	priority=2
+-}
+-
+-# Only WPA-PSK is used. Any valid cipher combination is accepted.
+-network={
+-	ssid="example"
+-	proto=WPA
+-	key_mgmt=WPA-PSK
+-	pairwise=CCMP TKIP
+-	group=CCMP TKIP WEP104 WEP40
+-	psk=06b4be19da289f475aa46a33cb793029d4ab3db7a23ee92382eb0106c72ac7bb
+-	priority=2
+-}
+-
+-# Only WPA-EAP is used. Both CCMP and TKIP is accepted. An AP that used WEP104
+-# or WEP40 as the group cipher will not be accepted.
+-network={
+-	ssid="example"
+-	proto=RSN
+-	key_mgmt=WPA-EAP
+-	pairwise=CCMP TKIP
+-	group=CCMP TKIP
+-	eap=TLS
+-	identity="user@example.com"
+-	ca_cert="/etc/cert/ca.pem"
+-	client_cert="/etc/cert/user.pem"
+-	private_key="/etc/cert/user.prv"
+-	private_key_passwd="password"
+-	priority=1
+-}
+-
+-# EAP-PEAP/MSCHAPv2 configuration for RADIUS servers that use the new peaplabel
+-# (e.g., Radiator)
+-network={
+-	ssid="example"
+-	key_mgmt=WPA-EAP
+-	eap=PEAP
+-	identity="user@example.com"
+-	password="foobar"
+-	ca_cert="/etc/cert/ca.pem"
+-	phase1="peaplabel=1"
+-	phase2="auth=MSCHAPV2"
+-	priority=10
+-}
+-
+-# EAP-TTLS/EAP-MD5-Challenge configuration with anonymous identity for the
+-# unencrypted use. Real identity is sent only within an encrypted TLS tunnel.
+-network={
+-	ssid="example"
+-	key_mgmt=WPA-EAP
+-	eap=TTLS
+-	identity="user@example.com"
+-	anonymous_identity="anonymous@example.com"
+-	password="foobar"
+-	ca_cert="/etc/cert/ca.pem"
+-	priority=2
+-}
+-
+-# EAP-TTLS/MSCHAPv2 configuration with anonymous identity for the unencrypted
+-# use. Real identity is sent only within an encrypted TLS tunnel.
+-network={
+-	ssid="example"
+-	key_mgmt=WPA-EAP
+-	eap=TTLS
+-	identity="user@example.com"
+-	anonymous_identity="anonymous@example.com"
+-	password="foobar"
+-	ca_cert="/etc/cert/ca.pem"
+-	phase2="auth=MSCHAPV2"
+-}
+-
+-# WPA-EAP, EAP-TTLS with different CA certificate used for outer and inner
+-# authentication.
+-network={
+-	ssid="example"
+-	key_mgmt=WPA-EAP
+-	eap=TTLS
+-	# Phase1 / outer authentication
+-	anonymous_identity="anonymous@example.com"
+-	ca_cert="/etc/cert/ca.pem"
+-	# Phase 2 / inner authentication
+-	phase2="autheap=TLS"
+-	ca_cert2="/etc/cert/ca2.pem"
+-	client_cert2="/etc/cer/user.pem"
+-	private_key2="/etc/cer/user.prv"
+-	private_key2_passwd="password"
+-	priority=2
+-}
+-
+-# Both WPA-PSK and WPA-EAP is accepted. Only CCMP is accepted as pairwise and
+-# group cipher.
+-network={
+-	ssid="example"
+-	bssid=00:11:22:33:44:55
+-	proto=WPA RSN
+-	key_mgmt=WPA-PSK WPA-EAP
+-	pairwise=CCMP
+-	group=CCMP
+-	psk=06b4be19da289f475aa46a33cb793029d4ab3db7a23ee92382eb0106c72ac7bb
+-}
+-
+-# Special characters in SSID, so use hex string. Default to WPA-PSK, WPA-EAP
+-# and all valid ciphers.
+-network={
+-	ssid=00010203
+-	psk=000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
+-}
+-
+-
+-# IEEE 802.1X/EAPOL with dynamically generated WEP keys (i.e., no WPA) using
+-# EAP-TLS for authentication and key generation; require both unicast and
+-# broadcast WEP keys.
+-network={
+-	ssid="1x-test"
+-	key_mgmt=IEEE8021X
+-	eap=TLS
+-	identity="user@example.com"
+-	ca_cert="/etc/cert/ca.pem"
+-	client_cert="/etc/cert/user.pem"
+-	private_key="/etc/cert/user.prv"
+-	private_key_passwd="password"
+-	eapol_flags=3
+-}
+-
+-
+-# LEAP with dynamic WEP keys
+-network={
+-	ssid="leap-example"
+-	key_mgmt=IEEE8021X
+-	eap=LEAP
+-	identity="user"
+-	password="foobar"
+-}
+-
+-# Plaintext connection (no WPA, no IEEE 802.1X)
+-network={
+-	ssid="plaintext-test"
+-	key_mgmt=NONE
+-}
+-
+-
+-# Shared WEP key connection (no WPA, no IEEE 802.1X)
+-network={
+-	ssid="static-wep-test"
+-	key_mgmt=NONE
+-	wep_key0="abcde"
+-	wep_key1=0102030405
+-	wep_key2="1234567890123"
+-	wep_tx_keyidx=0
+-	priority=5
+-}
+-
+-
+-# Shared WEP key connection (no WPA, no IEEE 802.1X) using Shared Key
+-# IEEE 802.11 authentication
+-network={
+-	ssid="static-wep-test2"
+-	key_mgmt=NONE
+-	wep_key0="abcde"
+-	wep_key1=0102030405
+-	wep_key2="1234567890123"
+-	wep_tx_keyidx=0
+-	priority=5
+-	auth_alg=SHARED
+-}
+-
+-
+-# IBSS/ad-hoc network with WPA-None/TKIP.
+-network={
+-	ssid="test adhoc"
+-	mode=1
+-	proto=WPA
+-	key_mgmt=WPA-NONE
+-	pairwise=NONE
+-	group=TKIP
+-	psk="secret passphrase"
+-}
+-
+-
+-# Catch all example that allows more or less all configuration modes
+-network={
+-	ssid="example"
+-	scan_ssid=1
+-	key_mgmt=WPA-EAP WPA-PSK IEEE8021X NONE
+-	pairwise=CCMP TKIP
+-	group=CCMP TKIP WEP104 WEP40
+-	psk="very secret passphrase"
+-	eap=TTLS PEAP TLS
+-	identity="user@example.com"
+-	password="foobar"
+-	ca_cert="/etc/cert/ca.pem"
+-	client_cert="/etc/cert/user.pem"
+-	private_key="/etc/cert/user.prv"
+-	private_key_passwd="password"
+-	phase1="peaplabel=0"
+-}
+-
+-# Example of EAP-TLS with smartcard (openssl engine)
+-network={
+-	ssid="example"
+-	key_mgmt=WPA-EAP
+-	eap=TLS
+-	proto=RSN
+-	pairwise=CCMP TKIP
+-	group=CCMP TKIP
+-	identity="user@example.com"
+-	ca_cert="/etc/cert/ca.pem"
+-	client_cert="/etc/cert/user.pem"
+-
+-	engine=1
+-
+-	# The engine configured here must be available. Look at
+-	# OpenSSL engine support in the global section.
+-	# The key available through the engine must be the private key
+-	# matching the client certificate configured above.
+-
+-	# use the opensc engine
+-	#engine_id="opensc"
+-	#key_id="45"
+-
+-	# use the pkcs11 engine
+-	engine_id="pkcs11"
+-	key_id="id_45"
+-
+-	# Optional PIN configuration; this can be left out and PIN will be
+-	# asked through the control interface
+-	pin="1234"
+-}
+-
+-# Example configuration showing how to use an inlined blob as a CA certificate
+-# data instead of using external file
+-network={
+-	ssid="example"
+-	key_mgmt=WPA-EAP
+-	eap=TTLS
+-	identity="user@example.com"
+-	anonymous_identity="anonymous@example.com"
+-	password="foobar"
+-	ca_cert="blob://exampleblob"
+-	priority=20
+-}
+-
+-blob-base64-exampleblob={
+-SGVsbG8gV29ybGQhCg==
+-}
+-
+-
+-# Wildcard match for SSID (plaintext APs only). This example select any
+-# open AP regardless of its SSID.
+-network={
+-	key_mgmt=NONE
+-}
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf-sane b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf-sane
+deleted file mode 100644
+index c91ffe0..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.10/wpa_supplicant.conf-sane
++++ /dev/null
+@@ -1,7 +0,0 @@
+-ctrl_interface=/var/run/wpa_supplicant
+-ctrl_interface_group=0
+-update_config=1
+-
+-network={
+-        key_mgmt=NONE
+-}
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.inc
+deleted file mode 100644
+index 721a4d9..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.6.inc
++++ /dev/null
+@@ -1,83 +0,0 @@
+-DESCRIPTION = "A Client for Wi-Fi Protected Access (WPA)."
+-HOMEPAGE = "http://hostap.epitest.fi/wpa_supplicant/"
+-BUGTRACKER = "http://hostap.epitest.fi/bugz/"
+-SECTION = "network"
+-LICENSE = "GPLv2 | BSD"
+-LIC_FILES_CHKSUM = "file://../COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+-                    file://../README;md5=54cfc88015d3ce83f7156e63c6bb1738 \
+-                    file://wpa_supplicant.c;beginline=1;endline=17;md5=1eb88410f8cc9b47f077c69b772ec0e2"
+-DEPENDS = "gnutls dbus"
+-RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
+-
+-SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
+-           file://defconfig-0.6.0-gnutls \
+-           file://defaults-sane \
+-           file://wpa-supplicant.sh \
+-           file://wpa_supplicant.conf \
+-           file://wpa_supplicant.conf-sane \
+-           file://99_wpa_supplicant"
+-
+-S = "${WORKDIR}/wpa_supplicant-${PV}/wpa_supplicant"
+-
+-PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
+-FILES_wpa-supplicant-passphrase = "/usr/sbin/wpa_passphrase"
+-FILES_wpa-supplicant-cli = "/usr/sbin/wpa_cli"
+-
+-do_configure () {
+-	install -m 0755 ${WORKDIR}/defconfig-0.6.0-gnutls .config
+-}
+-
+-export EXTRA_CFLAGS = "${CFLAGS}"
+-do_compile () {
+-	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+-	oe_runmake
+-}
+-
+-do_install () {
+-	install -d ${D}${sbindir}
+-	install -m 755 wpa_supplicant ${D}${sbindir}
+-	install -m 755 wpa_passphrase ${D}${sbindir}
+-	install -m 755 wpa_cli        ${D}${sbindir}
+-
+-	install -d ${D}${docdir}/wpa_supplicant
+-	install -m 644 README ${WORKDIR}/wpa_supplicant.conf ${D}${docdir}/wpa_supplicant
+-
+-	install -d ${D}${sysconfdir}/default
+-	install -m 600 ${WORKDIR}/defaults-sane ${D}${sysconfdir}/default/wpa
+-	install -m 600 ${WORKDIR}/wpa_supplicant.conf-sane ${D}${sysconfdir}/wpa_supplicant.conf
+-
+-	install -d ${D}${sysconfdir}/network/if-pre-up.d/
+-	install -d ${D}${sysconfdir}/network/if-post-down.d/
+-	install -d ${D}${sysconfdir}/network/if-down.d/
+-	install -m 644 ${WORKDIR}/wpa_supplicant.conf ${D}${sysconfdir}
+-	install -m 755 ${WORKDIR}/wpa-supplicant.sh ${D}${sysconfdir}/network/if-pre-up.d/wpa-supplicant
+-	cd ${D}${sysconfdir}/network/ && \
+-	ln -sf ../if-pre-up.d/wpa-supplicant if-post-down.d/wpa-supplicant
+-
+-	install -d ${D}/${sysconfdir}/dbus-1/system.d
+-	install -m 644 ${S}/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
+-
+-	install -d ${D}/etc/default/volatiles
+-	install -m 0644 ${WORKDIR}/99_wpa_supplicant ${D}/etc/default/volatiles
+-
+-	install -d ${D}/${datadir}/dbus-1/system-services
+-	sed -i -e s:${base_sbindir}:${sbindir}:g ${S}/dbus-wpa_supplicant.service
+-	install -m 644 ${S}/dbus-wpa_supplicant.service ${D}/${datadir}/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
+-}
+-
+-pkg_postinst_wpa-supplicant () {
+-	# can't do this offline
+-	if [ "x$D" != "x" ]; then
+-		exit 1
+-	fi
+-
+-	/etc/init.d/populate-volatile.sh update
+-
+-	DBUSPID=`pidof dbus-daemon`
+-
+-	if [ "x$DBUSPID" != "x" ]; then
+-		/etc/init.d/dbus-1 reload
+-	fi
+-}
+-
+-FILES_${PN} += "${datadir}/dbus-1/system-services/*"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.6.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.6.10.bb
+deleted file mode 100644
+index 0dff55a..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.6.10.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-require wpa-supplicant-0.6.inc
+-
+-PE = "1"
+-PR = "r0"
 -- 
 1.7.1
 
