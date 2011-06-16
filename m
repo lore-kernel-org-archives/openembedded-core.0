@@ -1,36 +1,30 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-out.m-online.net ([212.18.0.10])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QX025-00037a-6A
+	(envelope-from <yanok@emcraft.com>) id 1QX0IQ-0003Hm-7E
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Jun 2011 02:02:01 +0200
-Received: by pvc30 with SMTP id 30so808149pvc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jun 2011 16:58:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:content-transfer-encoding;
-	bh=AusnGqhtcTMBj+xgik1akGyxZeBYTOlTvaidPB0nPYg=;
-	b=DnQI60rzEHH6lwXaovXbuLvyb6ukc/GRtdj1hDBIzVuxH4rLoNoxy8o0y47Tp2bddX
-	JcMjkPaaUJTMPpVadDfNazu7WPfCHTgp7kItPVJl8v6X6Gd7l51KH74LV0FsE1oagfTy
-	LBpW0/ah98arBZHaBOY/9zN5yPDhkZaMYiHKw=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	b=Fi4Xq7HldIYfc0iz3cJwyPJ8V1nhwintx8P3EM+rH/rkdkKt0M8HOLf0EOA7ZGUq2s
-	iFVjWvAWIci97bk0y42IPKgLkY4UbAJ3JRH6kW8mJ9Xo1R+dpO0pP6VcICb4slTWRoxs
-	/7yPaqG7gu4uGM8/SKkGiWGtJoHI6ApuITvuY=
-Received: by 10.68.12.65 with SMTP id w1mr215352pbb.294.1308182313100; Wed, 15
-	Jun 2011 16:58:33 -0700 (PDT)
+	Thu, 16 Jun 2011 02:18:54 +0200
+Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
+	[192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id 836F4188B595;
+	Thu, 16 Jun 2011 02:09:37 +0200 (CEST)
+X-Auth-Info: lPIVZcl+ZpNmwazR0aGX+KzNEhDcNEJMaKEZlg5iLO8=
+Received: from mail.denx.de (host-82-135-33-74.customer.m-online.net
+	[82.135.33.74])
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 95C301C000AB;
+	Thu, 16 Jun 2011 02:09:37 +0200 (CEST)
+Received: from pollux.denx.de (pollux [192.168.1.1])
+	by mail.denx.de (Postfix) with ESMTP id 5C07F4210799;
+	Thu, 16 Jun 2011 02:09:37 +0200 (CEST)
+Received: by pollux.denx.de (Postfix, from userid 547)
+	id C2C3418565A27; Thu, 16 Jun 2011 02:09:36 +0200 (CEST)
+From: Ilya Yanok <yanok@emcraft.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Jun 2011 02:09:31 +0200
+Message-Id: <1308182971-23082-1-git-send-email-yanok@emcraft.com>
+X-Mailer: git-send-email 1.7.4.4
 MIME-Version: 1.0
-Received: by 10.68.55.195 with HTTP; Wed, 15 Jun 2011 16:58:03 -0700 (PDT)
-In-Reply-To: <BANLkTi=vPH3A6oO_OuT84nKorWiF2=N2Bg@mail.gmail.com>
-References: <BANLkTi=vPH3A6oO_OuT84nKorWiF2=N2Bg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 15 Jun 2011 16:58:03 -0700
-Message-ID: <BANLkTimYMzEFXedsg=L=-KArkT049gSdXw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] More LICENSE cleanup and additional common-licenses
+Cc: Ilya Yanok <yanok@emcraft.com>
+Subject: [PATCH] u-boot-mkimage: bump version to 2011.03
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,473 +39,346 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2011 00:02:01 -0000
+X-List-Received-Date: Thu, 16 Jun 2011 00:18:54 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 15, 2011 at 2:01 PM, Flanagan, Elizabeth
-<elizabeth.flanagan@intel.com> wrote:
-> I've added some more licenses from the SPDX project as well as
-> corrected some text.
-> GCC's LICENSE field was problematic and I've corrected it to the
-> actual GPL exception
-> license text. I've also cleaned up gdb's LICENSE field.
->
+This patch changes u-boot-mkimage version to 2011.03 and includes
+patches to build tools without configuring U-Boot for specific board.
 
-It always wanted GCCRUNTIMELIBRARYEXCEPTION license and did not find it.
-I have local copy in metadata
-meta/files/common-licenses/GCCRUNTIMELIBRARYEXCEPTION
-It that fixed too ?
+Signed-off-by: Ilya Yanok <yanok@emcraft.com>
+---
+ ...Drop-config.h-include-in-tools-imximage.h.patch |   39 ++++++
+ ...e-it-possible-to-build-tools-unconfigured.patch |  137 ++++++++++++++=
+++++++
+ .../uboot/u-boot-mkimage-native_1.3.2.bb           |   25 ----
+ meta/recipes-bsp/uboot/u-boot-mkimage_2009.08.bb   |   29 ----
+ meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb   |   31 +++++
+ 5 files changed, 207 insertions(+), 54 deletions(-)
+ create mode 100644 meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Dr=
+op-config.h-include-in-tools-imximage.h.patch
+ create mode 100644 meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-to=
+ols-make-it-possible-to-build-tools-unconfigured.patch
+ delete mode 100644 meta/recipes-bsp/uboot/u-boot-mkimage-native_1.3.2.bb
+ delete mode 100644 meta/recipes-bsp/uboot/u-boot-mkimage_2009.08.bb
+ create mode 100644 meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb
 
-If not then I have uploaded it here
-http://paste.ubuntu.com/627695/
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Drop-conf=
+ig.h-include-in-tools-imximage.h.patch b/meta/recipes-bsp/uboot/u-boot-mk=
+image-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
+new file mode 100644
+index 0000000..f4b12ac
+--- /dev/null
++++ b/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Drop-config.h-in=
+clude-in-tools-imximage.h.patch
+@@ -0,0 +1,39 @@
++From ce56e089ddb51dbd81bb2c86b1646d77447afe39 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Lo=3DC3=3DAFc=3D20Minier?=3D <loic.minier@linaro.org>
++Date: Thu, 3 Feb 2011 15:07:01 +0100
++Subject: Drop config.h include in tools/imximage.h
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++Upstream-Status: Applied
++
++"make tools-all" should allow building tools such as mkimage and the new
++imximage without any config, but imximage.c currently fails to build
++with:
++imximage.h:27:20: error: config.h: No such file or directory
++
++config.h is not needed in imximage.h nor in imximage.c, and imximage.h
++is only included from imximage.c, so drop this include to fix the build.
++
++Signed-off-by: Lo=EFc Minier <loic.minier@linaro.org>
++---
++ tools/imximage.h |    2 --
++ 1 files changed, 0 insertions(+), 2 deletions(-)
++
++diff --git a/tools/imximage.h b/tools/imximage.h
++index 38ca6be..d126a46 100644
++--- a/tools/imximage.h
+++++ b/tools/imximage.h
++@@ -24,8 +24,6 @@
++ #ifndef _IMXIMAGE_H_
++ #define _IMXIMAGE_H_
++=20
++-#include <config.h>
++-
++ #define MAX_HW_CFG_SIZE_V2 121 /* Max number of registers imx can set f=
+or v2 */
++ #define MAX_HW_CFG_SIZE_V1 60  /* Max number of registers imx can set f=
+or v1 */
++ #define APP_CODE_BARKER	0xB1
++--=20
++1.7.4.4
++
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-tools-mak=
+e-it-possible-to-build-tools-unconfigured.patch b/meta/recipes-bsp/uboot/=
+u-boot-mkimage-2011.03/0002-tools-make-it-possible-to-build-tools-unconfi=
+gured.patch
+new file mode 100644
+index 0000000..6a4036c
+--- /dev/null
++++ b/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-tools-make-it-po=
+ssible-to-build-tools-unconfigured.patch
+@@ -0,0 +1,137 @@
++From c0325ba617db3dde28a0a7667bfd1a548e98ba0f Mon Sep 17 00:00:00 2001
++From: Ilya Yanok <yanok@emcraft.com>
++Date: Wed, 15 Jun 2011 23:23:37 +0200
++Subject: tools: make it possible to build tools unconfigured
++
++Upstream-Status: Submitted
++
++Sometimes we want to build common tools without configuring for specific
++target. Currently top Makefile has some support for this but it doesn't
++work. This patch tries to fix this.
++Things changed:
++ - config.mk   disable 'ld script not found error' in case if we are
++building tools only.
++ - Makefile    mkimage relies on autogenerated version so we need to
++move $(VERSION_FILE) rule out of ifeq and make tools rule depend on it.
++ - tools/Makefile put common/env_embedded.o and envcrc.o to object list
++conditionally. This fixes errors during dependency generation.
++
++Signed-off-by: Ilya Yanok <yanok@emcraft.com>
++---
++ Makefile       |   30 +++++++++++++++++-------------
++ tools/Makefile |   19 ++++++++++++++++---
++ 2 files changed, 33 insertions(+), 16 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index ece91ab..734b503 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -140,7 +140,7 @@ SUBDIRS	=3D tools \
++ 	  examples/standalone \
++ 	  examples/api
++=20
++-.PHONY : $(SUBDIRS)
+++.PHONY : $(SUBDIRS) $(VERSION_FILE)
++=20
++ ifeq ($(obj)include/config.mk,$(wildcard $(obj)include/config.mk))
++=20
++@@ -414,15 +414,6 @@ $(ONENAND_IPL):	$(TIMESTAMP_FILE) $(VERSION_FILE) $=
+(obj)include/autoconf.mk
++ $(U_BOOT_ONENAND):	$(ONENAND_IPL) $(obj)u-boot.bin
++ 		cat $(ONENAND_BIN) $(obj)u-boot.bin > $(obj)u-boot-onenand.bin
++=20
++-$(VERSION_FILE):
++-		@( printf '#define U_BOOT_VERSION "U-Boot %s%s"\n' "$(U_BOOT_VERSION)=
+" \
++-		 '$(shell $(TOPDIR)/tools/setlocalversion $(TOPDIR))' ) > $@.tmp
++-		@( printf '#define CC_VERSION_STRING "%s"\n' \
++-		 '$(shell $(CC) --version | head -n 1)' )>>  $@.tmp
++-		@( printf '#define LD_VERSION_STRING "%s"\n' \
++-		 '$(shell $(LD) -v | head -n 1)' )>>  $@.tmp
++-		@cmp -s $@ $@.tmp && rm -f $@.tmp || mv -f $@.tmp $@
++-
++ $(TIMESTAMP_FILE):
++ 		@LC_ALL=3DC date +'#define U_BOOT_DATE "%b %d %C%y"' > $@
++ 		@LC_ALL=3DC date +'#define U_BOOT_TIME "%T"' >> $@
++@@ -497,20 +488,33 @@ $(obj)lib/asm-offsets.s:	$(obj)include/autoconf.mk=
+.dep \
++ else	# !config.mk
++ all $(obj)u-boot.hex $(obj)u-boot.srec $(obj)u-boot.bin \
++ $(obj)u-boot.img $(obj)u-boot.dis $(obj)u-boot \
++-$(filter-out tools,$(SUBDIRS)) $(TIMESTAMP_FILE) $(VERSION_FILE) \
+++$(filter-out tools,$(SUBDIRS)) $(TIMESTAMP_FILE) \
++ updater depend dep tags ctags etags cscope $(obj)System.map:
++ 	@echo "System not configured - see README" >&2
++ 	@ exit 1
++=20
++-tools:
+++tools:	$(VERSION_FILE)
++ 	$(MAKE) -C $@ all
++ endif	# config.mk
++=20
+++$(VERSION_FILE):
+++		@( localvers=3D'$(shell $(TOPDIR)/tools/setlocalversion $(TOPDIR))' ;=
+ \
+++		   printf '#define PLAIN_VERSION "%s%s"\n' \
+++			"$(U_BOOT_VERSION)" "$${localvers}" ; \
+++		   printf '#define U_BOOT_VERSION "U-Boot %s%s"\n' \
+++			"$(U_BOOT_VERSION)" "$${localvers}" ; \
+++		) > $@.tmp
+++		@( printf '#define CC_VERSION_STRING "%s"\n' \
+++		 '$(shell $(CC) --version | head -n 1)' )>>  $@.tmp
+++		@( printf '#define LD_VERSION_STRING "%s"\n' \
+++		 '$(shell $(LD) -v | head -n 1)' )>>  $@.tmp
+++		@cmp -s $@ $@.tmp && rm -f $@.tmp || mv -f $@.tmp $@
+++
++ easylogo env gdb:
++ 	$(MAKE) -C tools/$@ all MTD_VERSION=3D${MTD_VERSION}
++ gdbtools: gdb
++=20
++-tools-all: easylogo env gdb
+++tools-all: easylogo env gdb $(VERSION_FILE)
++ 	$(MAKE) -C tools HOST_TOOLS_ALL=3Dy
++=20
++ .PHONY : CHANGELOG
++diff --git a/tools/Makefile b/tools/Makefile
++index 623f908..30ae0b5 100644
++--- a/tools/Makefile
+++++ b/tools/Makefile
++@@ -67,7 +67,14 @@ BIN_FILES-$(CONFIG_NETCONSOLE) +=3D ncb$(SFX)
++ BIN_FILES-$(CONFIG_SHA1_CHECK_UB_IMG) +=3D ubsha1$(SFX)
++=20
++ # Source files which exist outside the tools directory
++-EXT_OBJ_FILES-y +=3D common/env_embedded.o
+++EXT_OBJ_FILES-$(CONFIG_ENV_IS_EMBEDDED) +=3D common/env_embedded.o
+++EXT_OBJ_FILES-$(CONFIG_ENV_IS_IN_DATAFLASH) +=3D common/env_embedded.o
+++EXT_OBJ_FILES-$(CONFIG_ENV_IS_IN_EEPROM) +=3D common/env_embedded.o
+++EXT_OBJ_FILES-$(CONFIG_ENV_IS_IN_FLASH) +=3D common/env_embedded.o
+++EXT_OBJ_FILES-$(CONFIG_ENV_IS_IN_ONENAND) +=3D common/env_embedded.o
+++EXT_OBJ_FILES-$(CONFIG_ENV_IS_IN_NAND) +=3D common/env_embedded.o
+++EXT_OBJ_FILES-$(CONFIG_ENV_IS_IN_NVRAM) +=3D common/env_embedded.o
+++EXT_OBJ_FILES-$(CONFIG_ENV_IS_IN_SPI_FLASH) +=3D common/env_embedded.o
++ EXT_OBJ_FILES-y +=3D common/image.o
++ EXT_OBJ_FILES-y +=3D lib/crc32.o
++ EXT_OBJ_FILES-y +=3D lib/md5.o
++@@ -77,7 +84,14 @@ EXT_OBJ_FILES-y +=3D lib/sha1.o
++ OBJ_FILES-$(CONFIG_LCD_LOGO) +=3D bmp_logo.o
++ OBJ_FILES-$(CONFIG_VIDEO_LOGO) +=3D bmp_logo.o
++ NOPED_OBJ_FILES-y +=3D default_image.o
++-OBJ_FILES-y +=3D envcrc.o
+++OBJ_FILES-$(CONFIG_ENV_IS_EMBEDDED) +=3D envcrc.o
+++OBJ_FILES-$(CONFIG_ENV_IS_IN_DATAFLASH) +=3D envcrc.o
+++OBJ_FILES-$(CONFIG_ENV_IS_IN_EEPROM) +=3D envcrc.o
+++OBJ_FILES-$(CONFIG_ENV_IS_IN_FLASH) +=3D envcrc.o
+++OBJ_FILES-$(CONFIG_ENV_IS_IN_ONENAND) +=3D envcrc.o
+++OBJ_FILES-$(CONFIG_ENV_IS_IN_NAND) +=3D envcrc.o
+++OBJ_FILES-$(CONFIG_ENV_IS_IN_NVRAM) +=3D envcrc.o
+++OBJ_FILES-$(CONFIG_ENV_IS_IN_SPI_FLASH) +=3D envcrc.o
++ NOPED_OBJ_FILES-y +=3D fit_image.o
++ OBJ_FILES-$(CONFIG_CMD_NET) +=3D gen_eth_addr.o
++ OBJ_FILES-$(CONFIG_CMD_LOADS) +=3D img2srec.o
++@@ -149,7 +163,6 @@ HOSTCPPFLAGS =3D	-idirafter $(SRCTREE)/include \
++ 		-DUSE_HOSTCC \
++ 		-D__KERNEL_STRICT_NAMES
++=20
++-
++ all:	$(obj).depend $(BINS) $(LOGO-y) subdirs
++=20
++ $(obj)bin2header$(SFX): $(obj)bin2header.o
++--=20
++1.7.4.4
++
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage-native_1.3.2.bb b/meta=
+/recipes-bsp/uboot/u-boot-mkimage-native_1.3.2.bb
+deleted file mode 100644
+index eab286c..0000000
+--- a/meta/recipes-bsp/uboot/u-boot-mkimage-native_1.3.2.bb
++++ /dev/null
+@@ -1,25 +0,0 @@
+-DESCRIPTION =3D "U-boot bootloader mkimage tool"
+-LICENSE =3D "GPL"
+-SECTION =3D "bootloader"
+-
+-SRC_URI =3D "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2 \
+-           file://fix-arm920t-eabi.patch;patch=3D1"
+-
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4c6cde5df68eff615d36789dc18ed=
+d3b"
+-
+-S =3D "${WORKDIR}/u-boot-${PV}"
+-
+-inherit native
+-
+-EXTRA_OEMAKE =3D "CROSS_COMPILE=3D${TARGET_PREFIX}"
+-
+-do_compile () {
+-	oe_runmake smdk2410_config
+-	oe_runmake tools
+-}
+-
+-do_install () {
+-	install -d ${D}${bindir}/
+-	install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+-	ln -sf uboot-mkimage ${D}${bindir}/mkimage
+-}
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage_2009.08.bb b/meta/reci=
+pes-bsp/uboot/u-boot-mkimage_2009.08.bb
+deleted file mode 100644
+index 822acb6..0000000
+--- a/meta/recipes-bsp/uboot/u-boot-mkimage_2009.08.bb
++++ /dev/null
+@@ -1,29 +0,0 @@
+-DESCRIPTION =3D "U-boot bootloader mkimage tool"
+-LICENSE =3D "GPLv2+"
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4c6cde5df68eff615d36789dc18ed=
+d3b"
+-SECTION =3D "bootloader"
+-
+-PR =3D "r1"
+-
+-SRC_URI =3D "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] =3D "cd4788ea1c6ac4f9b100b888a1063a6b"
+-SRC_URI[sha256sum] =3D "858fd04efd5b98e99fd1a074998b1a8ac5fbd07b176de1d2=
+0d8eb148492d949d"
+-
+-S =3D "${WORKDIR}/u-boot-${PV}"
+-
+-EXTRA_OEMAKE =3D "CROSS_COMPILE=3D${TARGET_PREFIX}"
+-
+-BBCLASSEXTEND =3D "native nativesdk"
+-
+-do_compile () {
+-  oe_runmake smdk2410_config
+-  oe_runmake tools
+-}
+-
+-do_install () {
+-  install -d ${D}${bindir}
+-  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+-  ln -sf uboot-mkimage ${D}${bindir}/mkimage
+-}
+-
+diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb b/meta/reci=
+pes-bsp/uboot/u-boot-mkimage_2011.03.bb
+new file mode 100644
+index 0000000..25c1009
+--- /dev/null
++++ b/meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb
+@@ -0,0 +1,31 @@
++DESCRIPTION =3D "U-boot bootloader mkimage tool"
++LICENSE =3D "GPLv2+"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a5651=
+ecb \
++                    file://README;beginline=3D1;endline=3D22;md5=3D3a00e=
+f51d3fc96e9d6c1bc4708ccd3b5"
++SECTION =3D "bootloader"
++
++PR =3D "r1"
++
++SRC_URI =3D "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2 \
++           file://0001-Drop-config.h-include-in-tools-imximage.h.patch \
++           file://0002-tools-make-it-possible-to-build-tools-unconfigure=
+d.patch"
++
++SRC_URI[md5sum] =3D "91d02124c94368557d0e9ac05fb8c33f"
++SRC_URI[sha256sum] =3D "08677f66d8d4ee542f6599f580cdffdf730544e1803f9d37=
+39117d6f6d68083e"
++
++S =3D "${WORKDIR}/u-boot-${PV}"
++
++BBCLASSEXTEND =3D "native nativesdk"
++
++EXTRA_OEMAKE =3D 'HOSTCC=3D"${CC}" HOSTLD=3D"${LD}" HOSTSTRIP=3Dtrue'
++
++do_compile () {
++  oe_runmake tools
++}
++
++do_install () {
++  install -d ${D}${bindir}
++  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
++  ln -sf uboot-mkimage ${D}${bindir}/mkimage
++}
++
+--=20
+1.7.4.4
 
-
-> The following changes since commit e1f6ebba3ab2fc8a469c1d96fc6d4c4b8f1684=
-5c:
->
-> =C2=A0meta-yocto: use FILESEXTRAPATHS_prepend :=3D in all bbappends
-> (2011-06-15 11:49:42 +0100)
->
-> are available in the git repository at:
-> =C2=A0git://git.pokylinux.org/poky-contrib eflanagan/license_corrections
-> =C2=A0http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Deflanagan/l=
-icense_corrections
->
-> Beth Flanagan (1):
-> =C2=A0common-licenses: Additions and corrections
->
-> =C2=A0meta/files/common-licenses/AAL =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A06 +-
-> =C2=A0meta/files/common-licenses/AFL-1.2 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0123 ++++
-> =C2=A0meta/files/common-licenses/AFL-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 48 ++
-> =C2=A0meta/files/common-licenses/AFL-2.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 50 ++
-> =C2=A0meta/files/common-licenses/AFL-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 27 +
-> =C2=A0meta/files/common-licenses/AGPL-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A03 +
-> =C2=A0meta/files/common-licenses/ANTLR-PD =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 32 +
-> =C2=A0meta/files/common-licenses/APL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0218 +++++++
-> =C2=A0meta/files/common-licenses/APSL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0372 +++++++++++
-> =C2=A0meta/files/common-licenses/APSL-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0374 +++++++++++
-> =C2=A0meta/files/common-licenses/APSL-1.2 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0105 ++++
-> =C2=A0meta/files/common-licenses/APSL-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0102 +++
-> =C2=A0meta/files/common-licenses/Apache-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 61 ++
-> =C2=A0meta/files/common-licenses/Apache-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 60 ++
-> =C2=A0meta/files/common-licenses/Apache-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A04 +-
-> =C2=A0meta/files/common-licenses/Artistic-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 50 ++
-> =C2=A0meta/files/common-licenses/Artistic-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0203 ++++++
-> =C2=A0meta/files/common-licenses/BSD-2-Clause =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 26 +-
-> =C2=A0meta/files/common-licenses/BSD-3-Clause =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 26 +-
-> =C2=A0meta/files/common-licenses/BSD-4-Clause =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 17 +-
-> =C2=A0meta/files/common-licenses/BSL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 25 +
-> =C2=A0meta/files/common-licenses/CATOSL-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0116 ++++
-> =C2=A0meta/files/common-licenses/CC-BY-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 60 ++
-> =C2=A0meta/files/common-licenses/CC-BY-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 63 ++
-> =C2=A0meta/files/common-licenses/CC-BY-2.5 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 63 ++
-> =C2=A0meta/files/common-licenses/CC-BY-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 70 ++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 63 ++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 66 ++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-2.5 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 66 ++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 72 +++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-ND-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 =C2=A05 +
-> =C2=A0meta/files/common-licenses/CC-BY-NC-ND-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 63 ++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-ND-2.5 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 63 ++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-ND-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 69 ++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-SA-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 64 ++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-SA-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 68 ++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-SA-2.5 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 68 ++
-> =C2=A0meta/files/common-licenses/CC-BY-NC-SA-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 74 +++
-> =C2=A0meta/files/common-licenses/CC-BY-ND-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 59 ++
-> =C2=A0meta/files/common-licenses/CC-BY-ND-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 62 ++
-> =C2=A0meta/files/common-licenses/CC-BY-ND-2.5 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 62 ++
-> =C2=A0meta/files/common-licenses/CC-BY-ND-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 68 ++
-> =C2=A0meta/files/common-licenses/CC-BY-SA-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 63 ++
-> =C2=A0meta/files/common-licenses/CC-BY-SA-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 67 ++
-> =C2=A0meta/files/common-licenses/CC-BY-SA-2.5 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 67 ++
-> =C2=A0meta/files/common-licenses/CC-BY-SA-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 74 +++
-> =C2=A0meta/files/common-licenses/CC0-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 32 +
-> =C2=A0meta/files/common-licenses/CDDL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0131 ++++
-> =C2=A0meta/files/common-licenses/CECILL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0242 +++++++
-> =C2=A0meta/files/common-licenses/CECILL-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0243 +++++++
-> =C2=A0meta/files/common-licenses/CECILL-B =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0440 ++++----------
-> =C2=A0meta/files/common-licenses/CECILL-C =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0447 ++++----------
-> =C2=A0meta/files/common-licenses/CPAL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0109 ++++
-> =C2=A0meta/files/common-licenses/CPL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0215 +++++++
-> =C2=A0meta/files/common-licenses/CUA-OPL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | =C2=A0471 ++++++++++++++
-> =C2=A0meta/files/common-licenses/ClArtistic =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0110 ++--
-> =C2=A0meta/files/common-licenses/ECL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 55 ++
-> =C2=A0meta/files/common-licenses/ECL-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 99 +++
-> =C2=A0meta/files/common-licenses/EFL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 25 +
-> =C2=A0meta/files/common-licenses/EFL-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 12 +
-> =C2=A0meta/files/common-licenses/EPL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 72 +++
-> =C2=A0meta/files/common-licenses/EUDatagrid =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 65 +--
-> =C2=A0meta/files/common-licenses/EUPL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0184 ++++++
-> =C2=A0meta/files/common-licenses/EUPL-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0204 ++++++
-> =C2=A0meta/files/common-licenses/Entessa =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 48 +--
-> =C2=A0meta/files/common-licenses/ErlPL-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0288 +++++++++
-> =C2=A0meta/files/common-licenses/Fair =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A09 +-
-> =C2=A0meta/files/common-licenses/Frameworx-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | =C2=A0 69 ++
-> =C2=A0meta/files/common-licenses/GFDL-1.2 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 20 +-
-> =C2=A0meta/files/common-licenses/GFDL-1.3 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 18 +-
-> =C2=A0meta/files/common-licenses/GPL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0252 ++++++++
-> =C2=A0meta/files/common-licenses/GPL-1.0+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0252 ++++++++
-> =C2=A0.../common-licenses/GPL-2-with-bison-exception =C2=A0 =C2=A0 | =C2=
-=A0 17 +-
-> =C2=A0meta/files/common-licenses/GPL-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0132 ++++
-> =C2=A0meta/files/common-licenses/GPL-2.0+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0132 ++++
-> =C2=A0.../common-licenses/GPL-2.0-with-GCC-exception =C2=A0 =C2=A0 | =C2=
-=A0 =C2=A06 +
-> =C2=A0.../GPL-2.0-with-autoconf-exception =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A06 +
-> =C2=A0.../GPL-2.0-with-classpath-exception =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A07 +
-> =C2=A0.../common-licenses/GPL-2.0-with-font-exception =C2=A0 =C2=A0| =C2=
-=A0 =C2=A06 +
-> =C2=A0meta/files/common-licenses/GPL-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A03 +
-> =C2=A0meta/files/common-licenses/GPL-3.0+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A03 +
-> =C2=A0.../common-licenses/GPL-3.0-with-GCC-exception =C2=A0 =C2=A0 | =C2=
-=A0 27 +
-> =C2=A0.../GPL-3.0-with-autoconf-exception =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 28 +
-> =C2=A0meta/files/common-licenses/HPND =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 23 +-
-> =C2=A0meta/files/common-licenses/IPA =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0182 ++-----
-> =C2=A0meta/files/common-licenses/IPL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0213 +++++++
-> =C2=A0meta/files/common-licenses/ISC =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 21 +-
-> =C2=A0meta/files/common-licenses/LGPL-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0173 +++++
-> =C2=A0meta/files/common-licenses/LGPL-2.0+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0173 +++++
-> =C2=A0meta/files/common-licenses/LGPL-2.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0658 +++++---------------
-> =C2=A0meta/files/common-licenses/LGPL-2.1+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0176 ++++++
-> =C2=A0meta/files/common-licenses/LGPL-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 66 ++
-> =C2=A0meta/files/common-licenses/LGPL-3.0+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 66 ++
-> =C2=A0meta/files/common-licenses/LPL-1.02 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 76 +++
-> =C2=A0meta/files/common-licenses/LPPL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0213 +++++++
-> =C2=A0meta/files/common-licenses/LPPL-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0316 ++++++++++
-> =C2=A0meta/files/common-licenses/LPPL-1.2 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0320 ++++++++++
-> =C2=A0meta/files/common-licenses/LPPL-1.3c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0418 +++++++++++++
-> =C2=A0meta/files/common-licenses/Libpng =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 79 +--
-> =C2=A0meta/files/common-licenses/MIT =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 11 +-
-> =C2=A0meta/files/common-licenses/MPL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0109 ++++
-> =C2=A0meta/files/common-licenses/MPL-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0185 ++++++
-> =C2=A0meta/files/common-licenses/MS-PL =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 58 +--
-> =C2=A0meta/files/common-licenses/MS-RL =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 69 +--
-> =C2=A0meta/files/common-licenses/MirOS =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 49 +-
-> =C2=A0meta/files/common-licenses/Motosoto =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 34 +-
-> =C2=A0meta/files/common-licenses/Multics =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A08 +-
-> =C2=A0meta/files/common-licenses/NASA-1.3 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 79 +++
-> =C2=A0meta/files/common-licenses/NCSA =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 16 +-
-> =C2=A0meta/files/common-licenses/NGPL =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0117 +---
-> =C2=A0meta/files/common-licenses/NPOSL-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 61 ++
-> =C2=A0meta/files/common-licenses/NTP =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 15 +-
-> =C2=A0meta/files/common-licenses/Nauman =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A05 -
-> =C2=A0meta/files/common-licenses/Nokia =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 95 ++--
-> =C2=A0meta/files/common-licenses/OCLC-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 78 +++
-> =C2=A0meta/files/common-licenses/ODbL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0543 ++++++++++++++++
-> =C2=A0meta/files/common-licenses/OFL-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 88 +++
-> =C2=A0meta/files/common-licenses/OGTSL =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 73 +--
-> =C2=A0meta/files/common-licenses/OLDAP-2.8 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 49 ++
-> =C2=A0meta/files/common-licenses/OSL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0164 +++++
-> =C2=A0meta/files/common-licenses/OSL-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 48 ++
-> =C2=A0meta/files/common-licenses/OSL-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 27 +
-> =C2=A0meta/files/common-licenses/OpenSSL =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0212 +++----
-> =C2=A0meta/files/common-licenses/PHP-3.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 70 ++
-> =C2=A0meta/files/common-licenses/PostgreSQL =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 22 +-
-> =C2=A0meta/files/common-licenses/Python-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0192 ++++++
-> =C2=A0meta/files/common-licenses/QPL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 48 ++
-> =C2=A0meta/files/common-licenses/RHeCos-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0151 +++++
-> =C2=A0meta/files/common-licenses/RPL-1.5 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0546 ++++++++++++++++
-> =C2=A0meta/files/common-licenses/RPSL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0182 ++++++
-> =C2=A0meta/files/common-licenses/RSCPL =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0363 ++---------
-> =C2=A0meta/files/common-licenses/Ruby =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 82 ++--
-> =C2=A0meta/files/common-licenses/SAX-PD =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 33 +
-> =C2=A0meta/files/common-licenses/SPL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0507 +++++++++++++++
-> =C2=A0meta/files/common-licenses/Simple-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 27 +
-> =C2=A0meta/files/common-licenses/Sleepycat =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 11 +-
-> =C2=A0meta/files/common-licenses/SugarCRM-1.1.3 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| =C2=A0160 +++++
-> =C2=A0meta/files/common-licenses/VSL-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 49 ++
-> =C2=A0meta/files/common-licenses/W3C =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 55 +--
-> =C2=A0meta/files/common-licenses/WXwindows =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0106 ++--
-> =C2=A0meta/files/common-licenses/Watcom-1.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0140 +++++
-> =C2=A0meta/files/common-licenses/XFree86-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | =C2=A0 18 +
-> =C2=A0meta/files/common-licenses/Xnet =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 11 +-
-> =C2=A0meta/files/common-licenses/YPL-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 30 +
-> =C2=A0meta/files/common-licenses/ZPL-1.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 28 +
-> =C2=A0meta/files/common-licenses/ZPL-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 61 ++
-> =C2=A0meta/files/common-licenses/ZPL-2.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 18 +
-> =C2=A0meta/files/common-licenses/Zimbra-1.3 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 30 +
-> =C2=A0meta/files/common-licenses/Zlib =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 34 +-
-> =C2=A0meta/files/common-licenses/eCos-2.0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 18 +
-> =C2=A0meta/files/common-licenses/gSOAP-1.3b =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0157 +++++
-> =C2=A0meta/recipes-devtools/gcc/gcc-4.5.1.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
-> =C2=A0meta/recipes-devtools/gcc/gcc-4.6.0.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 =C2=A02 +-
-> =C2=A0meta/recipes-devtools/gdb/gdb_7.2.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A02 +-
-> =C2=A0154 files changed, 13946 insertions(+), 2621 deletions(-)
-> =C2=A0create mode 100644 meta/files/common-licenses/AFL-1.2
-> =C2=A0create mode 100644 meta/files/common-licenses/AFL-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/AFL-2.1
-> =C2=A0create mode 100644 meta/files/common-licenses/AFL-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/AGPL-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/ANTLR-PD
-> =C2=A0create mode 100644 meta/files/common-licenses/APL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/APSL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/APSL-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/APSL-1.2
-> =C2=A0create mode 100644 meta/files/common-licenses/APSL-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/Apache-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/Apache-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/Artistic-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/Artistic-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/BSL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CATOSL-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-2.5
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-2.5
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-ND-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-ND-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-ND-2.5
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-ND-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-SA-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-SA-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-SA-2.5
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-NC-SA-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-ND-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-ND-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-ND-2.5
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-ND-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-SA-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-SA-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-SA-2.5
-> =C2=A0create mode 100644 meta/files/common-licenses/CC-BY-SA-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CC0-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CDDL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CECILL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CECILL-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CPAL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CPL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/CUA-OPL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/ECL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/ECL-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/EFL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/EFL-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/EPL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/EUPL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/EUPL-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/ErlPL-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/Frameworx-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-1.0+
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-2.0+
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-2.0-with-GCC-exce=
-ption
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-2.0-with-autoconf=
--exception
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-2.0-with-classpat=
-h-exception
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-2.0-with-font-exc=
-eption
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-3.0+
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-3.0-with-GCC-exce=
-ption
-> =C2=A0create mode 100644 meta/files/common-licenses/GPL-3.0-with-autoconf=
--exception
-> =C2=A0create mode 100644 meta/files/common-licenses/IPL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/LGPL-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/LGPL-2.0+
-> =C2=A0create mode 100644 meta/files/common-licenses/LGPL-2.1+
-> =C2=A0create mode 100644 meta/files/common-licenses/LGPL-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/LGPL-3.0+
-> =C2=A0create mode 100644 meta/files/common-licenses/LPL-1.02
-> =C2=A0create mode 100644 meta/files/common-licenses/LPPL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/LPPL-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/LPPL-1.2
-> =C2=A0create mode 100644 meta/files/common-licenses/LPPL-1.3c
-> =C2=A0create mode 100644 meta/files/common-licenses/MPL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/MPL-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/NASA-1.3
-> =C2=A0create mode 100644 meta/files/common-licenses/NPOSL-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/OCLC-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/ODbL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/OFL-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/OLDAP-2.8
-> =C2=A0create mode 100644 meta/files/common-licenses/OSL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/OSL-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/OSL-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/PHP-3.0
-> =C2=A0create mode 100644 meta/files/common-licenses/Python-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/QPL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/RHeCos-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/RPL-1.5
-> =C2=A0create mode 100644 meta/files/common-licenses/RPSL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/SAX-PD
-> =C2=A0create mode 100644 meta/files/common-licenses/SPL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/Simple-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/SugarCRM-1.1.3
-> =C2=A0create mode 100644 meta/files/common-licenses/VSL-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/Watcom-1.0
-> =C2=A0create mode 100644 meta/files/common-licenses/XFree86-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/YPL-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/ZPL-1.1
-> =C2=A0create mode 100644 meta/files/common-licenses/ZPL-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/ZPL-2.1
-> =C2=A0create mode 100644 meta/files/common-licenses/Zimbra-1.3
-> =C2=A0create mode 100644 meta/files/common-licenses/eCos-2.0
-> =C2=A0create mode 100644 meta/files/common-licenses/gSOAP-1.3b
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
