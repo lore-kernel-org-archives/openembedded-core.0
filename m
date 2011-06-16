@@ -1,21 +1,21 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QXCfD-0004y8-Vf for openembedded-core@lists.openembedded.org;
-	Thu, 16 Jun 2011 15:31:16 +0200
+	id 1QXCkg-00054S-5q for openembedded-core@lists.openembedded.org;
+	Thu, 16 Jun 2011 15:36:54 +0200
 Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QXCbp-0006Xn-8p
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QXChM-0006Xz-Qe
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Jun 2011 15:27:45 +0200
+	Thu, 16 Jun 2011 15:33:28 +0200
 From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Organization: Phil Blundell Consulting Ltd
-Date: Thu, 16 Jun 2011 14:27:43 +0100
-Message-ID: <1308230863.25285.4590.camel@phil-desktop>
+Date: Thu, 16 Jun 2011 14:33:27 +0100
+Message-ID: <1308231207.25285.4608.camel@phil-desktop>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.30.3 
-Subject: [PATCH] dhcp: don't try to move files from ${sbindir} to ${base_sbindir} if they are the same
+Subject: oh-puzzles_svn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,34 +30,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jun 2011 13:31:16 -0000
+X-List-Received-Date: Thu, 16 Jun 2011 13:36:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+The install paths in this recipe are all a bit confused which makes it
+fail if $prefix is set to anything other than /usr.  I'm going to just
+avoid building it for now but maybe someone from the sato crew could
+take a look and see if they can straighten it out a bit.
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/recipes-connectivity/dhcp/dhcp4.inc |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-connectivity/dhcp/dhcp4.inc b/meta/recipes-connectivity/dhcp/dhcp4.inc
-index 159ae89..885cc19 100644
---- a/meta/recipes-connectivity/dhcp/dhcp4.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp4.inc
-@@ -47,7 +47,9 @@ do_install_append () {
- 	install -m 0644 ${WORKDIR}/dhcpd.conf ${D}${sysconfdir}/dhcp/dhcpd.conf
- 
- 	install -d ${D}${base_sbindir}/
--	mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
-+	if [ "${sbindir}" != "${base_sbindir}" ]; then
-+		mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
-+	fi
- 	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
- }
- 
--- 
-1.7.2.5
-
+p.
 
 
 
