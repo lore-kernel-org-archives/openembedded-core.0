@@ -1,26 +1,38 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QXWXg-0001cH-S1 for openembedded-core@lists.openembedded.org;
-	Fri, 17 Jun 2011 12:44:48 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QXWUM-0007rI-IO
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Jun 2011 12:41:22 +0200
-From: Phil Blundell <pb@pbcl.net>
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>)
+	id 1QXa3X-0003mt-5n; Fri, 17 Jun 2011 16:29:56 +0200
+Received: by iye7 with SMTP id 7so2213355iye.6
+	for <multiple recipients>; Fri, 17 Jun 2011 07:26:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
+	:subject:content-type:content-transfer-encoding;
+	bh=7o099C8R1/LhwvZPq1dmWaPWmBPazSoHLuPJejyjLDI=;
+	b=gOi+ADRmU/iAB5mIS+0AWN42CfBgM/hUFdhYQo0JvybYXj90FOvO/z4H+r5m+mDbFZ
+	2Hrb1gkiCUYs5JoLs/UkBV6791KpH/sWbIfyvQo8xO1ta3O+IfuD8xUXakRNmrdzXR3K
+	kojXgQvLz1VrHEu8AYduvjj9apDvXG9eNHkdk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	b=KYuyXH7i0dP4GR1P16BB/+GjQ4ECVKLAu2rAtKhV0Hpk6OJ914YZ2SbEu3EgNkC30U
+	DePig9w9WH9HOzvXxJoOU/Jx6X/e2oXWs7+YnW6nwVuKu2AYOxqECxndVozedWB+1WVv
+	P3uFMfwKys1PPKrO7ipB2vwDAP6PIw8hVaPwU=
+Received: by 10.42.158.67 with SMTP id g3mr2030782icx.94.1308320785774;
+	Fri, 17 Jun 2011 07:26:25 -0700 (PDT)
+Received: from [192.168.1.82] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id w11sm1470721ibw.58.2011.06.17.07.26.24
+	(version=SSLv3 cipher=OTHER); Fri, 17 Jun 2011 07:26:25 -0700 (PDT)
+Message-ID: <4DFB6412.4050501@gmail.com>
+Date: Fri, 17 Jun 2011 07:26:26 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1308306340.15712.458.camel@rex>
-References: <1308219330.25285.4194.camel@phil-desktop>
-	<4DFA0824.5030809@gmail.com> <1308234598.25285.4740.camel@phil-desktop>
-	<4DFA8F49.8000309@gmail.com> <1308305588.25285.7154.camel@phil-desktop>
-	<1308306340.15712.458.camel@rex>
-Organization: Phil Blundell Consulting Ltd
-Date: Fri, 17 Jun 2011 11:41:21 +0100
-Message-ID: <1308307281.25285.7218.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: eglibc testing?
+	<openembedded-core@lists.openembedded.org>, 
+	openembedded-devel@lists.openembedded.org
+Subject: call for participation on openembedded-users mailing list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,24 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2011 10:44:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 17 Jun 2011 14:29:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-06-17 at 11:25 +0100, Richard Purdie wrote:
-> On Fri, 2011-06-17 at 11:13 +0100, Phil Blundell wrote:
-> > The thing about nfs is that it's awkward to set up in an automated way.
-> 
-> The qemu scripts in OE-Core use usermode NFS by default for booting qemu
-> images...
+Fellow Devs
 
-Yeah, indeed, and I think the mechanism that they use to do this
-supports my assessment of "awkward".  But presumably it does at least
-work and I guess that might be the easiest way to do glibc testing as
-well.  For gcc testing I think a dedicated qemu harness is probably a
-better answer.
+We have a mailing list for OE users and of late there has been new users 
+trying to use OE posting questions and calling for help there
+as developers of OE we are also users by default and it would immensely
+help the new users from experiences of folks. I would request that
+we try to help the new users to get upto speed and existing users to
+keep it using. This will also help in spreading the use of OpenEmbedded
+technology userbase. You could use gmane to post replies to newsgroup if 
+you dont want to subscribe to the mailing list.
 
-p.
+Thank you
 
+-Khem
 
 
