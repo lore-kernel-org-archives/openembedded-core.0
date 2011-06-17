@@ -1,35 +1,42 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QXaSK-0004YJ-2f
+	(envelope-from <otavio.salvador@gmail.com>) id 1QXaSO-0004YP-8d
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Jun 2011 16:55:32 +0200
-Received: by yxe1 with SMTP id 1so1412892yxe.6
+	Fri, 17 Jun 2011 16:55:37 +0200
+Received: by ywa12 with SMTP id 12so857481ywa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jun 2011 07:52:02 -0700 (PDT)
+	Fri, 17 Jun 2011 07:52:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:sender:from:to:cc:subject:date:message-id
-	:x-mailer; bh=/Mp7T36zVZ50yx13vlNk/+eCr9LBz+UZ42amZ4oBDo8=;
-	b=Vdeb896fym373D1mpOkljmjYxrCdPet8PUR1HF8K3/awsC/dUiMHassSORSWg+G9JZ
-	F4rqGPNjmAB1VLnypbvO3gKX/u1Tgg5CTxo/Z8L0ldouAm6+w8M05rkB3DMy/HXauAZX
-	m7UVyZZrSclf+Y8QO1LUlJhlFfnj6FZ1Mn15I=
+	:x-mailer:in-reply-to:references:in-reply-to:references;
+	bh=VlBRGRr4KNk0e2NPz0d4yAmu01QZUrxowk96bNiLGG0=;
+	b=KCC7SvXaXNNyrI86B3j8OTFL9187Gu5GxsovbSFmnHX7SPYxuaIal7ZzaRtI24Q6nI
+	8JeVKlCyYWkdUIUdmtrgHhq/taRqmzq92R24zASXk8qpQ1iIen3rzQHam2r/34cvajqD
+	L2Q1ZnWomexnVkNFaoLrPbjZeRO6IiSnUgbX0=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	b=QmbR/lkOiMw0tKCuxYI43DDyhszUWIqWiRh/1maTGIphHeq4tBfsDvA2Q8QtVgvYe2
-	FzvrXNiaODpVwrkiKy3AOMjy9GtpQWksVFnOCloveimoREj9MLmx6FNmT8fRDcSSBWDO
-	xA+lQXa9nuZdU0yBSdFKsBmMpixlRZrQBtsrg=
-Received: by 10.236.190.232 with SMTP id e68mr3680761yhn.193.1308322318033;
-	Fri, 17 Jun 2011 07:51:58 -0700 (PDT)
+	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references;
+	b=K99ST+ZMIacJbvoWyrU5IeJbhl2ris03Aa1TacwG75jPDZfCWp3sPhaHkYteeDDDZC
+	cGr7JLPOP1nbmcgf4HvVEr/A2B4t+WwWr2mK0hpS57JCr5rDZnJ27taLPZ9JPJaslU1Z
+	IKvGA4Cl2MsWa+TP2Ts7UeWRMCe2eJY/i40MY=
+Received: by 10.236.181.39 with SMTP id k27mr3788904yhm.7.1308322326674;
+	Fri, 17 Jun 2011 07:52:06 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.55])
-	by mx.google.com with ESMTPS id k10sm1754092yhj.50.2011.06.17.07.51.55
+	by mx.google.com with ESMTPS id k10sm1754092yhj.50.2011.06.17.07.52.02
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 17 Jun 2011 07:51:56 -0700 (PDT)
+	Fri, 17 Jun 2011 07:52:04 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jun 2011 14:51:34 +0000
-Message-Id: <cover.1308322247.git.otavio@ossystems.com.br>
+Date: Fri, 17 Jun 2011 14:51:35 +0000
+Message-Id: <a322eed8819621c33cc120bd3200a29006476b67.1308322247.git.otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH 0/9] Patches pending on O.S. Systems tree
+In-Reply-To: <cover.1308322247.git.otavio@ossystems.com.br>
+References: <cover.1308322247.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1308322247.git.otavio@ossystems.com.br>
+References: <cover.1308322247.git.otavio@ossystems.com.br>
+Cc: Chris Larson <chris_larson@mentor.com>
+Subject: [PATCH 1/9] oe.classutils: add module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,63 +51,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jun 2011 14:55:32 -0000
+X-List-Received-Date: Fri, 17 Jun 2011 14:55:37 -0000
 
-The following changes since commit 835d817f1ba7b99167743fdb86ba80f3a07bd82d:
+From: Chris Larson <chris_larson@mentor.com>
 
-  systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:12:40 +0100)
+This adds a ClassRegistry utility metaclass, as maintaining a class registry
+is a fairly common thing to do.
 
-are available in the git repository at:
-  git://github.com/OSSystems/oe-core master
-  https://github.com/OSSystems/oe-core/tree/master
-
-Chris Larson (3):
-  oe.classutils: add module
-  Rework how the devshell functions
-  oe.terminal: improve how we spawn screen
-
-Otavio Salvador (6):
-  cmake.bbclass: use CPPFLAGS and CXXFLAGS
-  cmake: refactor recipe
-  lib_package.bbclass: move static libraries to ${PN}-staticdev
-  libxml: extend nativesdk class
-  libarchive: add 2.8.4 version
-  cmake: add nativesdk and target versions
-
- meta/classes/cmake.bbclass                         |    8 +-
- meta/classes/devshell.bbclass                      |   26 ++---
- meta/classes/lib_package.bbclass                   |    2 +-
- meta/classes/terminal.bbclass                      |   30 ++++++
- meta/lib/oe/classutils.py                          |   45 ++++++++
- meta/lib/oe/terminal.py                            |  107 ++++++++++++++++++++
- meta/recipes-core/libxml/libxml2.inc               |    3 +-
- meta/recipes-devtools/cmake/cmake-native_2.8.3.bb  |    4 +-
- meta/recipes-devtools/cmake/cmake.inc              |    6 +-
- .../cmake/cmake/dont-run-cross-binaries.patch      |   22 ++++
- meta/recipes-devtools/cmake/cmake_2.8.3.bb         |   48 +++++++++
- .../0001-Patch-from-upstream-revision-1990.patch   |   42 ++++++++
- .../0002-Patch-from-upstream-revision-1991.patch   |   31 ++++++
- .../0003-Patch-from-upstream-rev-2516.patch        |   63 ++++++++++++
- .../0004-Patch-from-upstream-rev-2514.patch        |   33 ++++++
- .../0005-Patch-from-upstream-rev-2520.patch        |   31 ++++++
- .../0006-Patch-from-upstream-rev-2521.patch        |   28 +++++
- ...YS-error-when-setting-up-xattrs.-Closes-5.patch |   31 ++++++
- .../libarchive/libarchive_2.8.4.bb                 |   25 +++++
- 19 files changed, 559 insertions(+), 26 deletions(-)
- create mode 100644 meta/classes/terminal.bbclass
+Signed-off-by: Chris Larson <chris_larson@mentor.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/lib/oe/classutils.py |   24 ++++++++++++++++++++++++
+ 1 files changed, 24 insertions(+), 0 deletions(-)
  create mode 100644 meta/lib/oe/classutils.py
- create mode 100644 meta/lib/oe/terminal.py
- create mode 100644 meta/recipes-devtools/cmake/cmake/dont-run-cross-binaries.patch
- create mode 100644 meta/recipes-devtools/cmake/cmake_2.8.3.bb
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-Patch-from-upstream-revision-1990.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0002-Patch-from-upstream-revision-1991.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0003-Patch-from-upstream-rev-2516.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0004-Patch-from-upstream-rev-2514.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0005-Patch-from-upstream-rev-2520.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0006-Patch-from-upstream-rev-2521.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0007-Ignore-ENOSYS-error-when-setting-up-xattrs.-Closes-5.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive_2.8.4.bb
 
+diff --git a/meta/lib/oe/classutils.py b/meta/lib/oe/classutils.py
+new file mode 100644
+index 0000000..855d2fa
+--- /dev/null
++++ b/meta/lib/oe/classutils.py
+@@ -0,0 +1,24 @@
++class ClassRegistry(type):
++    """Maintain a registry of classes, indexed by name.
++
++    The name in the registry can be overridden via the 'name' attribute of the
++    class, and the 'priority' attribute controls priority.  The prioritized()
++    method returns the registered classes in priority order."""
++    registry = {}
++    priority = 0
++
++    def __init__(cls, name, bases, attrs):
++        super(ClassRegistry, cls).__init__(name, bases, attrs)
++        if not hasattr(cls, name):
++            cls.name = name
++        cls.registry[cls.name] = cls
++
++    @classmethod
++    def prioritized(tcls):
++        return sorted(tcls.registry.values(),
++                      key=lambda v: v.priority, reverse=True)
++
++    def unregister(cls):
++        for key in cls.registry.keys():
++            if cls.registry[key] is cls:
++                del cls.registry[key]
 -- 
 1.7.2.5
 
