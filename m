@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QXuvP-0002dV-8e
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1QXuvQ-0002dz-Po
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Jun 2011 14:46:55 +0200
+	Sat, 18 Jun 2011 14:46:57 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5IChORT015699
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5IChQbM015704
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jun 2011 05:43:25 -0700 (PDT)
+	Sat, 18 Jun 2011 05:43:26 -0700 (PDT)
 Received: from usp-ub10.corp.ad.wrs.com (128.224.163.66) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Sat, 18 Jun 2011 05:43:24 -0700
+	14.1.255.0; Sat, 18 Jun 2011 05:43:26 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 18 Jun 2011 20:41:35 +0800
-Message-ID: <42574f1bebc1fdf79c9662a22ca0a86d12a8f221.1308391365.git.liezhi.yang@windriver.com>
+Date: Sat, 18 Jun 2011 20:41:36 +0800
+Message-ID: <c7e537536887b148e3dd2b0a07b07538a197be4c.1308391365.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1308391365.git.liezhi.yang@windriver.com>
 References: <cover.1308391365.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/6 V3] gcc-crosssdk: share work directories
+Subject: [PATCH 6/6 V3] gcc-cross-canadian: share work directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,47 +34,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jun 2011 12:46:55 -0000
+X-List-Received-Date: Sat, 18 Jun 2011 12:46:57 -0000
 Content-Type: text/plain
 
-The gcc-crosssdk.inc edited the files of config/*/linux*.h in ${S},
-which made the source incompatible. Copy config to config-sdk, and edit
-the files in config-sdk, configure will read the files in it when build
-gcc-crosssdk.
+We had made gcc' configure to use the hacked defaults.h and t-oe in
+${B}/gcc for gcc-cross, gcc-cross-canadian doesn't need the hacked
+defatuls.h or t-oe, but we need make their source compatible, so:
 
-The sed command for configure is more complicated than for configure.ac,
-this is because there is such a line /boot/home/config/ in it, we should
-not substitute it.
+1) copy ${S}/gcc/deafults.h(which is the original one with no change) to
+   ${B}/gcc, it is the same as use the one in ${S}/gcc.
+
+2) gcc-cross-canadian doesn't need the t-oe, so touch a empty t-oe for
+   it, this doesn't change any behaviour of gcc-cross-canadian.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-crosssdk.inc |   13 +++++++++++--
- 1 files changed, 11 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gcc/gcc-configure-sdk.inc |    8 ++++++++
+ 1 files changed, 8 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk.inc b/meta/recipes-devtools/gcc/gcc-crosssdk.inc
-index 6e7d5a7..fdba6df 100644
---- a/meta/recipes-devtools/gcc/gcc-crosssdk.inc
-+++ b/meta/recipes-devtools/gcc/gcc-crosssdk.inc
-@@ -9,8 +9,17 @@ GCCMULTILIB = "--disable-multilib"
- DEPENDS = "virtual/${TARGET_PREFIX}binutils-crosssdk virtual/${TARGET_PREFIX}libc-for-gcc-nativesdk gettext-native"
- PROVIDES = "virtual/${TARGET_PREFIX}gcc-crosssdk virtual/${TARGET_PREFIX}g++-crosssdk"
- 
-+export BUILD_GCC_SDK = "-sdk"
- do_configure_prepend () {
- 	# Change the default dynamic linker path to the one in the SDK
--	sed -i ${S}/gcc/config/*/linux*.h -e 's#\(GLIBC_DYNAMIC_LINKER.*\)/lib/#\1${SYSTEMLIBS}#'
--	sed -i ${S}/gcc/config/*/linux*.h -e 's#\(GLIBC_DYNAMIC_LINKER.*\)/lib64/#\1${SYSTEMLIBS}#'
-+	[ ! -d ${S}/gcc/config-sdk ] && cp -r ${S}/gcc/config ${S}/gcc/config-sdk/
-+	sed -i ${S}/gcc/configure.ac -e 's#config/#config\$BUILD_GCC_SDK/#'
-+	sed -i ${S}/gcc/configure -e 's# config/# config\$BUILD_GCC_SDK/#' \
-+		-e 's#\${srcdir}/config/#\${srcdir}/config\$BUILD_GCC_SDK/#' \
-+		-e 's#\$srcdir/config/#\$srcdir/config\$BUILD_GCC_SDK/#' \
-+		-e 's#\$(srcdir)/config/#\$(srcdir)/config\$BUILD_GCC_SDK/#' \
-+		-e "s#\$(srcdir)'/config/#\$(srcdir)'/config\$BUILD_GCC_SDK/#"
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+index de80870..bf6fd8f 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
+@@ -40,6 +40,14 @@ do_configure () {
+ 	export CXXFLAGS_FOR_BUILD="${BUILD_CXXFLAGS}"
+ 	export LDFLAGS_FOR_BUILD="${BUILD_LDFLAGS}"
+ 	(cd ${S} && gnu-configize) || die "failure running gnu-configize"
 +
-+	sed -i ${S}/gcc/config-sdk/*/linux*.h -e 's#\(GLIBC_DYNAMIC_LINKER.*\)/lib/#\1${SYSTEMLIBS}#'
-+	sed -i ${S}/gcc/config-sdk/*/linux*.h -e 's#\(GLIBC_DYNAMIC_LINKER.*\)/lib64/#\1${SYSTEMLIBS}#'
++	# This is to make the source of gcc and gcc-sdk compatible,
++	# the Makefile and configure of gcc need t-oe and defaults.h
++	# in ${B}, so fake two for gcc-sdk in ${B}
++	mkdir -p ${B}/gcc
++	touch ${B}/gcc/t-oe
++	cp ${S}/gcc/defaults.h ${B}/gcc/defaults.h
++
+ 	oe_runconf
  }
+ 
 -- 
 1.7.1
 
