@@ -1,23 +1,23 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QXlyh-0002p3-Hs
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1QXuvH-0002ce-UI
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Jun 2011 05:13:43 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 17 Jun 2011 20:09:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,384,1304319600"; d="scan'208";a="14773117"
-Received: from unknown (HELO [10.255.13.73]) ([10.255.13.73])
-	by azsmga001.ch.intel.com with ESMTP; 17 Jun 2011 20:09:08 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jun 2011 20:09:03 -0700
-In-Reply-To: <cover.1308365562.git.josh@linux.intel.com>
-References: <cover.1308365562.git.josh@linux.intel.com>
-X-Mailer: Evolution 3.0.2 (3.0.2-2.fc15) 
-Message-ID: <1308366548.2245.14.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: [RFC PATCH 0/2] Sanity testing network connectivity
+	Sat, 18 Jun 2011 14:46:48 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5IChGv1015682
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 18 Jun 2011 05:43:16 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Sat, 18 Jun 2011 05:43:15 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 18 Jun 2011 20:41:30 +0800
+Message-ID: <cover.1308391365.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Subject: [PATCH 0/6 V3] Share gcc work directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,37 +32,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jun 2011 03:13:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 18 Jun 2011 12:46:48 -0000
+Content-Type: text/plain
 
-On Fri, 2011-06-17 at 20:04 -0700, Joshua Lock wrote:
-> In response to a Yocto Bugzilla request[1] I've written a sanity test to check
-> whether BitBake is able to fecth from http, https and git sources. The idea
-> being that if the user is behing a proxy and this test fails we can more easily
-> help them diagnose and fix their problem.
-> 
-> I've built on the existing infrastructure for less frequent sanity tests so
-> whilst this test is reasonably heavy it will only run when TMPDIR changes
-> (usually first run?). Further I added a variable to disable just this sanity
-> check. People shipping offline installs to customers should just be able to
-> set the variable in their shipped configuration and not worry about this
-> sanity check irritating people.
-> 
-> The error message points to a wiki page[2] which is pretty vanilla right now
-> but the intention would be to flesh it out with guidance on common proxy/nat/etc
-> issues.
+Changes of V3:
 
-I cunningly forgot the url's I referenced. Friday evening, sorry.
+1) Use --with-headers to replace the:
 
-1. http://bugzilla.pokylinux.org/show_bug.cgi?id=933
-2. https://wiki.yoctoproject.org/wiki/Connectivity_Troubleshooting
+   sed -i 's:^\([ ]*\)glibc_header_dir=\"${with_build_sysroot}/usr/include\": ...
 
-Joshua
--- 
-Joshua Lock
-        Yocto Build System Monkey
-        Intel Open Source Technology Centre
+2) Fix the build of gcc-cross-canadian
+
+3) Fix gcc-crosssdk which make the source incompatible during its
+   building.
+
+4) Test "bitbake meta-toolchain", and also do run test for the
+   pokysdk(unpack the toolchain to /opt, setup the env by sourcing
+   environment-setup-armv5te-poky-linux-gnueabi, and build some pkgs
+   out of poky, then use command file to check the binary file type.
+
+5) Make sure that no gcc build would make the source incompatible,
+   except gcc-cross_csl-arm-2008q1.bb, but I think this is fine, its
+   BINV = "4.2.3", not 4.5.1 or 4.6.0.
+
+Thanks for Richard's great help.
+
+// Robert
+
+
+The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
+
+  systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:14:06 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/share_gcc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/share_gcc
+
+Robert Yang (6):
+  bitbake: share source directory
+  Share gcc work directories
+  gcc-4.5.1: share work directories
+  gcc-4.6.0: share work directories
+  gcc-crosssdk: share work directories
+  gcc-cross-canadian: share work directories
+
+ bitbake/lib/bb/build.py                            |    4 +-
+ bitbake/lib/bb/cache.py                            |    3 +
+ bitbake/lib/bb/runqueue.py                         |   10 +++
+ meta/recipes-devtools/gcc/gcc-4.5.1.inc            |    1 +
+ .../gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch   |   57 ++++++++++++++
+ meta/recipes-devtools/gcc/gcc-4.6.0.inc            |    1 +
+ .../gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch   |   80 ++++++++++++++++++++
+ meta/recipes-devtools/gcc/gcc-common.inc           |   32 +++++++-
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |   33 ++++-----
+ meta/recipes-devtools/gcc/gcc-configure-cross.inc  |    4 +-
+ meta/recipes-devtools/gcc/gcc-configure-sdk.inc    |    8 ++
+ meta/recipes-devtools/gcc/gcc-crosssdk.inc         |   13 +++-
+ 12 files changed, 220 insertions(+), 26 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch
 
 
 
