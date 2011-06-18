@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QXuvN-0002d9-CM
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1QXuvP-0002dV-8e
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Jun 2011 14:46:53 +0200
+	Sat, 18 Jun 2011 14:46:55 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5IChN7G015696
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5IChORT015699
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jun 2011 05:43:23 -0700 (PDT)
+	Sat, 18 Jun 2011 05:43:25 -0700 (PDT)
 Received: from usp-ub10.corp.ad.wrs.com (128.224.163.66) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Sat, 18 Jun 2011 05:43:22 -0700
+	14.1.255.0; Sat, 18 Jun 2011 05:43:24 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 18 Jun 2011 20:41:34 +0800
-Message-ID: <c3574c9655d2197056b3269178900cc1f7c5091a.1308391365.git.liezhi.yang@windriver.com>
+Date: Sat, 18 Jun 2011 20:41:35 +0800
+Message-ID: <42574f1bebc1fdf79c9662a22ca0a86d12a8f221.1308391365.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1308391365.git.liezhi.yang@windriver.com>
 References: <cover.1308391365.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/6 V3] gcc-4.6.0: share work directories
+Subject: [PATCH 5/6 V3] gcc-crosssdk: share work directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,117 +34,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jun 2011 12:46:53 -0000
+X-List-Received-Date: Sat, 18 Jun 2011 12:46:55 -0000
 Content-Type: text/plain
 
-Fix configure and Makefile to read the defaults.h and t-oe from ${B},
-so that the ${S} can be shared.
+The gcc-crosssdk.inc edited the files of config/*/linux*.h in ${S},
+which made the source incompatible. Copy config to config-sdk, and edit
+the files in config-sdk, configure will read the files in it when build
+gcc-crosssdk.
+
+The sed command for configure is more complicated than for configure.ac,
+this is because there is such a line /boot/home/config/ in it, we should
+not substitute it.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.6.0.inc            |    1 +
- .../gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch   |   80 ++++++++++++++++++++
- 2 files changed, 81 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch
+ meta/recipes-devtools/gcc/gcc-crosssdk.inc |   13 +++++++++++--
+ 1 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.0.inc b/meta/recipes-devtools/gcc/gcc-4.6.0.inc
-index cb9eb8e..ebfedd7 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.0.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.0.inc
-@@ -54,6 +54,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
- 	   file://COLLECT_GCC_OPTIONS.patch \
-            file://volatile_access_backport.patch \
-+           file://use-defaults.h-and-t-oe-in-B.patch \
- 	  "
+diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk.inc b/meta/recipes-devtools/gcc/gcc-crosssdk.inc
+index 6e7d5a7..fdba6df 100644
+--- a/meta/recipes-devtools/gcc/gcc-crosssdk.inc
++++ b/meta/recipes-devtools/gcc/gcc-crosssdk.inc
+@@ -9,8 +9,17 @@ GCCMULTILIB = "--disable-multilib"
+ DEPENDS = "virtual/${TARGET_PREFIX}binutils-crosssdk virtual/${TARGET_PREFIX}libc-for-gcc-nativesdk gettext-native"
+ PROVIDES = "virtual/${TARGET_PREFIX}gcc-crosssdk virtual/${TARGET_PREFIX}g++-crosssdk"
  
- SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch b/meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch
-new file mode 100644
-index 0000000..b4351ee
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch
-@@ -0,0 +1,80 @@
-+Upstream-Status: Pending
++export BUILD_GCC_SDK = "-sdk"
+ do_configure_prepend () {
+ 	# Change the default dynamic linker path to the one in the SDK
+-	sed -i ${S}/gcc/config/*/linux*.h -e 's#\(GLIBC_DYNAMIC_LINKER.*\)/lib/#\1${SYSTEMLIBS}#'
+-	sed -i ${S}/gcc/config/*/linux*.h -e 's#\(GLIBC_DYNAMIC_LINKER.*\)/lib64/#\1${SYSTEMLIBS}#'
++	[ ! -d ${S}/gcc/config-sdk ] && cp -r ${S}/gcc/config ${S}/gcc/config-sdk/
++	sed -i ${S}/gcc/configure.ac -e 's#config/#config\$BUILD_GCC_SDK/#'
++	sed -i ${S}/gcc/configure -e 's# config/# config\$BUILD_GCC_SDK/#' \
++		-e 's#\${srcdir}/config/#\${srcdir}/config\$BUILD_GCC_SDK/#' \
++		-e 's#\$srcdir/config/#\$srcdir/config\$BUILD_GCC_SDK/#' \
++		-e 's#\$(srcdir)/config/#\$(srcdir)/config\$BUILD_GCC_SDK/#' \
++		-e "s#\$(srcdir)'/config/#\$(srcdir)'/config\$BUILD_GCC_SDK/#"
 +
-+Use the defaults.h in ${B} instead of ${S}, and t-oe in ${B}, so that
-+the source can be shared between gcc-cross-initial,
-+gcc-cross-intermediate, gcc-cross, gcc-runtime, and also the sdk build.
-+---
-+ gcc/Makefile.in  |    2 +-
-+ gcc/configure    |    4 ++--
-+ gcc/configure.ac |    4 ++--
-+ gcc/mkconfig.sh  |    4 ++--
-+ 4 files changed, 7 insertions(+), 7 deletions(-)
-+
-+diff --git a/gcc/Makefile.in b/gcc/Makefile.in
-+index 7790915..3a0c34a 100644
-+--- a/gcc/Makefile.in
-++++ b/gcc/Makefile.in
-+@@ -463,7 +463,7 @@ LIMITS_H_TEST = [ -f $(SYSTEM_HEADER_DIR)/limits.h ]
-+ TARGET_SYSTEM_ROOT = @TARGET_SYSTEM_ROOT@
-+ 
-+ xmake_file=@xmake_file@
-+-tmake_file=@tmake_file@
-++tmake_file=@tmake_file@ ./t-oe
-+ TM_ENDIAN_CONFIG=@TM_ENDIAN_CONFIG@
-+ TM_MULTILIB_CONFIG=@TM_MULTILIB_CONFIG@
-+ TM_MULTILIB_EXCEPTIONS_CONFIG=@TM_MULTILIB_EXCEPTIONS_CONFIG@
-+diff --git a/gcc/configure b/gcc/configure
-+index 82fa3e4..d4711b5 100755
-+--- a/gcc/configure
-++++ b/gcc/configure
-+@@ -11227,8 +11227,8 @@ for f in $tm_file; do
-+        tm_include_list="${tm_include_list} $f"
-+        ;;
-+     defaults.h )
-+-       tm_file_list="${tm_file_list} \$(srcdir)/$f"
-+-       tm_include_list="${tm_include_list} $f"
-++       tm_file_list="${tm_file_list} ./$f"
-++       tm_include_list="${tm_include_list} ./$f"
-+        ;;
-+     * )
-+        tm_file_list="${tm_file_list} \$(srcdir)/config/$f"
-+diff --git a/gcc/configure.ac b/gcc/configure.ac
-+index 844d8da..a960343 100644
-+--- a/gcc/configure.ac
-++++ b/gcc/configure.ac
-+@@ -1628,8 +1628,8 @@ for f in $tm_file; do
-+        tm_include_list="${tm_include_list} $f"
-+        ;;
-+     defaults.h )
-+-       tm_file_list="${tm_file_list} \$(srcdir)/$f"
-+-       tm_include_list="${tm_include_list} $f"
-++       tm_file_list="${tm_file_list} ./$f"
-++       tm_include_list="${tm_include_list} ./$f"
-+        ;;
-+     * )
-+        tm_file_list="${tm_file_list} \$(srcdir)/config/$f"
-+diff --git a/gcc/mkconfig.sh b/gcc/mkconfig.sh
-+index d56df8c..875d0f1 100644
-+--- a/gcc/mkconfig.sh
-++++ b/gcc/mkconfig.sh
-+@@ -77,7 +77,7 @@ if [ -n "$HEADERS" ]; then
-+     if [ $# -ge 1 ]; then
-+ 	echo '#ifdef IN_GCC' >> ${output}T
-+ 	for file in "$@"; do
-+-	    if test x"$file" = x"defaults.h"; then
-++	    if test x"$file" = x"./defaults.h"; then
-+ 		postpone_defaults_h="yes"
-+ 	    else
-+ 		echo "# include \"$file\"" >> ${output}T
-+@@ -103,7 +103,7 @@ esac
-+ 
-+ # If we postponed including defaults.h, add the #include now.
-+ if test x"$postpone_defaults_h" = x"yes"; then
-+-    echo "# include \"defaults.h\"" >> ${output}T
-++    echo "# include \"./defaults.h\"" >> ${output}T
-+ fi
-+ 
-+ # Add multiple inclusion protection guard, part two.
-+-- 
-+1.7.1
-+
++	sed -i ${S}/gcc/config-sdk/*/linux*.h -e 's#\(GLIBC_DYNAMIC_LINKER.*\)/lib/#\1${SYSTEMLIBS}#'
++	sed -i ${S}/gcc/config-sdk/*/linux*.h -e 's#\(GLIBC_DYNAMIC_LINKER.*\)/lib64/#\1${SYSTEMLIBS}#'
+ }
 -- 
 1.7.1
 
