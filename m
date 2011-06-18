@@ -1,20 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QXltm-0002hX-1m
+	(envelope-from <josh@linux.intel.com>) id 1QXluH-0002j0-Lp
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Jun 2011 05:08:38 +0200
+	Sat, 18 Jun 2011 05:09:09 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Jun 2011 20:05:07 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jun 2011 20:05:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,384,1304319600"; d="scan'208";a="17699030"
+X-IronPort-AV: E=Sophos;i="4.65,384,1304319600"; d="scan'208";a="17699122"
 Received: from unknown (HELO scimitar.amr.corp.intel.com) ([10.255.13.73])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jun 2011 20:05:07 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 17 Jun 2011 20:05:33 -0700
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jun 2011 20:04:20 -0700
-Message-Id: <cover.1308365562.git.josh@linux.intel.com>
+Date: Fri, 17 Jun 2011 20:04:22 -0700
+Message-Id: <f0a7d48483260e9251d74216d7569de1a029d035.1308365562.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [RFC PATCH 0/2] Sanity testing network connectivity
+In-Reply-To: <cover.1308365562.git.josh@linux.intel.com>
+References: <cover.1308365562.git.josh@linux.intel.com>
+In-Reply-To: <cover.1308365562.git.josh@linux.intel.com>
+References: <cover.1308365562.git.josh@linux.intel.com>
+Subject: [RFC PATCH 2/2] sanity: implement network connectivity test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,44 +33,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jun 2011 03:08:38 -0000
+X-List-Received-Date: Sat, 18 Jun 2011 03:09:09 -0000
 
-In response to a Yocto Bugzilla request[1] I've written a sanity test to check
-whether BitBake is able to fecth from http, https and git sources. The idea
-being that if the user is behing a proxy and this test fails we can more easily
-help them diagnose and fix their problem.
+Sanity test to verify files can be fetched from the network using git, http and
+https fetchers point users at a page to help get set up in the case of a failure
 
-I've built on the existing infrastructure for less frequent sanity tests so
-whilst this test is reasonably heavy it will only run when TMPDIR changes
-(usually first run?). Further I added a variable to disable just this sanity
-check. People shipping offline installs to customers should just be able to
-set the variable in their shipped configuration and not worry about this
-sanity check irritating people.
+Addresses [YOCTO #933]
 
-The error message points to a wiki page[2] which is pretty vanilla right now
-but the intention would be to flesh it out with guidance on common proxy/nat/etc
-issues.
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
+---
+ meta/classes/sanity.bbclass |   29 +++++++++++++++++++++++++++++
+ 1 files changed, 29 insertions(+), 0 deletions(-)
 
-Please review the following changes for suitability for inclusion. If you have
-any objections or suggestions for improvement, please respond to the patches. If
-you agree with the changes, please provide your Acked-by.
-
-The following changes since commit 835d817f1ba7b99167743fdb86ba80f3a07bd82d:
-
-  systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:12:40 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib josh/connection-test
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/connection-test
-
-Joshua Lock (2):
-  sanity.bbclass: pass the data object to the less frequent test
-    harnesses
-  sanity: implement network connectivity test
-
- meta/classes/sanity.bbclass |   45 +++++++++++++++++++++++++++++++++++-------
- 1 files changed, 37 insertions(+), 8 deletions(-)
-
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index bffa4f5..83a9887 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -35,6 +35,8 @@ def check_sanity_tmpdir_change(tmpdir, data):
+ 
+     # Check that TMPDIR isn't on a filesystem with limited filename length (eg. eCryptFS)
+     testmsg = check_create_long_filename(tmpdir, "TMPDIR")
++    # Check that we can fetch from various network transports
++    testmsg = testmsg + check_connectivity(data)
+     return testmsg
+         
+ def check_sanity_version_change(data):
+@@ -75,6 +77,33 @@ def check_create_long_filename(filepath, pathname):
+             return "Failed to create a file in %s: %s" % (pathname, strerror)
+     return ""
+ 
++def check_connectivity(d):
++    test_uris= ["http://yoctoproject.org/about",
++                "https://eula-downloads.yoctoproject.org/crownbay/crownbay-bernard-5.0.0",
++                "git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=HEAD"]
++    retval = ""
++
++    # Only check connectivity if network and this check enabled
++    # Because it's a fairy heavy test allow disabling of just this sanity test
++    # by setting DISABLE_NETWORK_SANITY
++    data = bb.data.createCopy(d)
++    network_disabled = not bb.data.getVar('BB_NO_NETWORK', data, True)
++    check_disabled = bb.data.getVar('DISABLE_NETWORK_SANITY', data, True)
++    if check_disabled or network_disabled:
++        dldir = bb.data.expand('${TMPDIR}/sanity', data)
++        bb.data.setVar('DL_DIR', dldir, data)
++
++        try:
++            fetcher = bb.fetch2.Fetch(test_uris, data)
++            fetcher.download()
++	    fetcher.clean(test_uris)
++        except Exception, e:
++            retval = "Error connecting to the network to fetch, http/https and git checked.\nPlease check the wiki (https://wiki.yoctoproject.org/wiki/Connectivity%20Troubleshooting) for more suggestions.\n" % e
++        finally:
++            # Make sure we tidy up the cruft
++            oe.path.remove(dldir)
++    return retval
++
+ def check_sanity(e):
+     from bb import note, error, data, __version__
+ 
 -- 
 1.7.5.4
 
