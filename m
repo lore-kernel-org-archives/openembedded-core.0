@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QXuvL-0002d5-Qo
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1QXuvN-0002d9-CM
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Jun 2011 14:46:52 +0200
+	Sat, 18 Jun 2011 14:46:53 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5IChLfb015693
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5IChN7G015696
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jun 2011 05:43:21 -0700 (PDT)
+	Sat, 18 Jun 2011 05:43:23 -0700 (PDT)
 Received: from usp-ub10.corp.ad.wrs.com (128.224.163.66) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Sat, 18 Jun 2011 05:43:20 -0700
+	14.1.255.0; Sat, 18 Jun 2011 05:43:22 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 18 Jun 2011 20:41:33 +0800
-Message-ID: <4563a68ff9352dd913d95394c3ca13cc02dc9356.1308391365.git.liezhi.yang@windriver.com>
+Date: Sat, 18 Jun 2011 20:41:34 +0800
+Message-ID: <c3574c9655d2197056b3269178900cc1f7c5091a.1308391365.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1308391365.git.liezhi.yang@windriver.com>
 References: <cover.1308391365.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/6 V3] gcc-4.5.1: share work directories
+Subject: [PATCH 4/6 V3] gcc-4.6.0: share work directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,7 +34,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jun 2011 12:46:52 -0000
+X-List-Received-Date: Sat, 18 Jun 2011 12:46:53 -0000
 Content-Type: text/plain
 
 Fix configure and Makefile to read the defaults.h and t-oe from ${B},
@@ -42,29 +42,29 @@ so that the ${S} can be shared.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.5.1.inc            |    1 +
- .../gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch   |   57 ++++++++++++++++++++
- 2 files changed, 58 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch
+ meta/recipes-devtools/gcc/gcc-4.6.0.inc            |    1 +
+ .../gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch   |   80 ++++++++++++++++++++
+ 2 files changed, 81 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-index 3c4902e..2569e2e 100644
---- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-@@ -57,6 +57,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://gcc-poison-parameters.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.0.inc b/meta/recipes-devtools/gcc/gcc-4.6.0.inc
+index cb9eb8e..ebfedd7 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.0.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.0.inc
+@@ -54,6 +54,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
  	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
  	   file://COLLECT_GCC_OPTIONS.patch \
-+	   file://use-defaults.h-and-t-oe-in-B.patch \
+            file://volatile_access_backport.patch \
++           file://use-defaults.h-and-t-oe-in-B.patch \
  	  "
- 	
+ 
  SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch b/meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch
 new file mode 100644
-index 0000000..c93e6ca
+index 0000000..b4351ee
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch
-@@ -0,0 +1,57 @@
++++ b/meta/recipes-devtools/gcc/gcc-4.6.0/use-defaults.h-and-t-oe-in-B.patch
+@@ -0,0 +1,80 @@
 +Upstream-Status: Pending
 +
 +Use the defaults.h in ${B} instead of ${S}, and t-oe in ${B}, so that
@@ -74,13 +74,14 @@ index 0000000..c93e6ca
 + gcc/Makefile.in  |    2 +-
 + gcc/configure    |    4 ++--
 + gcc/configure.ac |    4 ++--
-+ 3 files changed, 5 insertions(+), 5 deletions(-)
++ gcc/mkconfig.sh  |    4 ++--
++ 4 files changed, 7 insertions(+), 7 deletions(-)
 +
 +diff --git a/gcc/Makefile.in b/gcc/Makefile.in
-+index d91f93a..03ee2bd 100644
++index 7790915..3a0c34a 100644
 +--- a/gcc/Makefile.in
 ++++ b/gcc/Makefile.in
-+@@ -461,7 +461,7 @@ LIMITS_H_TEST = [ -f $(SYSTEM_HEADER_DIR)/limits.h ]
++@@ -463,7 +463,7 @@ LIMITS_H_TEST = [ -f $(SYSTEM_HEADER_DIR)/limits.h ]
 + TARGET_SYSTEM_ROOT = @TARGET_SYSTEM_ROOT@
 + 
 + xmake_file=@xmake_file@
@@ -90,10 +91,10 @@ index 0000000..c93e6ca
 + TM_MULTILIB_CONFIG=@TM_MULTILIB_CONFIG@
 + TM_MULTILIB_EXCEPTIONS_CONFIG=@TM_MULTILIB_EXCEPTIONS_CONFIG@
 +diff --git a/gcc/configure b/gcc/configure
-+index f440fa2..dafb0c1 100755
++index 82fa3e4..d4711b5 100755
 +--- a/gcc/configure
 ++++ b/gcc/configure
-+@@ -10838,8 +10838,8 @@ for f in $tm_file; do
++@@ -11227,8 +11227,8 @@ for f in $tm_file; do
 +        tm_include_list="${tm_include_list} $f"
 +        ;;
 +     defaults.h )
@@ -105,10 +106,10 @@ index 0000000..c93e6ca
 +     * )
 +        tm_file_list="${tm_file_list} \$(srcdir)/config/$f"
 +diff --git a/gcc/configure.ac b/gcc/configure.ac
-+index d003091..ba422e6 100644
++index 844d8da..a960343 100644
 +--- a/gcc/configure.ac
 ++++ b/gcc/configure.ac
-+@@ -1652,8 +1652,8 @@ for f in $tm_file; do
++@@ -1628,8 +1628,8 @@ for f in $tm_file; do
 +        tm_include_list="${tm_include_list} $f"
 +        ;;
 +     defaults.h )
@@ -119,6 +120,28 @@ index 0000000..c93e6ca
 +        ;;
 +     * )
 +        tm_file_list="${tm_file_list} \$(srcdir)/config/$f"
++diff --git a/gcc/mkconfig.sh b/gcc/mkconfig.sh
++index d56df8c..875d0f1 100644
++--- a/gcc/mkconfig.sh
+++++ b/gcc/mkconfig.sh
++@@ -77,7 +77,7 @@ if [ -n "$HEADERS" ]; then
++     if [ $# -ge 1 ]; then
++ 	echo '#ifdef IN_GCC' >> ${output}T
++ 	for file in "$@"; do
++-	    if test x"$file" = x"defaults.h"; then
+++	    if test x"$file" = x"./defaults.h"; then
++ 		postpone_defaults_h="yes"
++ 	    else
++ 		echo "# include \"$file\"" >> ${output}T
++@@ -103,7 +103,7 @@ esac
++ 
++ # If we postponed including defaults.h, add the #include now.
++ if test x"$postpone_defaults_h" = x"yes"; then
++-    echo "# include \"defaults.h\"" >> ${output}T
+++    echo "# include \"./defaults.h\"" >> ${output}T
++ fi
++ 
++ # Add multiple inclusion protection guard, part two.
 +-- 
 +1.7.1
 +
