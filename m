@@ -1,36 +1,39 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QY21p-00027x-CR
+	(envelope-from <kergoth@gmail.com>) id 1QY4MF-00047q-27
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Jun 2011 22:22:01 +0200
-Received: by bwz5 with SMTP id 5so669000bwz.6
+	Sun, 19 Jun 2011 00:51:15 +0200
+Received: by vxa37 with SMTP id 37so1267221vxa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jun 2011 13:18:31 -0700 (PDT)
+	Sat, 18 Jun 2011 15:47:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:date:x-google-sender-auth
-	:message-id:subject:from:to:content-type:content-transfer-encoding;
-	bh=eyDYjhNei3YJFyF5aDGaBc2VtvIrgnkhNxCdOfFpymE=;
-	b=TiBjnBoWq+zaMCzMrCQn992bQi5jakYVi6UV51M8AnlrcICgZWxZKs5xXyqb3FWxI4
-	+/EJXUd/62e9MOX9ixuAXCR4JqKNpbaERSnGaacuQLfgUCQacLH/vMcMeoKucUytYmaR
-	8E32B+8HEciVdEuwbhe4/P8uMd7Wz5EoGptSg=
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:from
+	:date:x-google-sender-auth:message-id:subject:to:content-type;
+	bh=Hh1Q485Rw4EGTLXvuFESBjAWBNYKbe3R1huS4evKNKg=;
+	b=eqnBqpeZnC2Xp8Imulc0axVRWpyVzW4QQOwzoAgt1Sacj80Ln8JfZGzvCmAeOX/YIa
+	EAx4RGnnzwxDjqtDdW1T5h7ru7IynQ/LBwwEEphY+YxeZHSeWrInd2mgicLgjC3eMQlM
+	FyB/tTymQigCbcOGnn6TtiRXrBaG5zYJyR0Dc=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type:content-transfer-encoding;
-	b=GDSZtUWZZTEBVWqvJL8oZwTocCJMrBE8j4Azr0ezawaM916MwRaMY1gHn41TmqOngG
-	rBCLE6ExsM9JJm/w+VxKwva10iRhyi1LSEMFG5+mkskDHbqbiJImKxcjirmXFGug+/Sy
-	oEMb2sfa/zq82LJmutIHk98g4Pnq6OylkN03M=
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type;
+	b=Rd1RKhlXxBnpOgNX38qiwYJCsM5gagmQty9urKx+5+IbgKADUO2zWkiv38Ojwhh+5q
+	a/KGCGT+1OyFmJ/zxbRXRa1s46LWyVtbLA3nO3HCfQP2mzokdZGD9N0P7lWJFjKS1mr5
+	KnDWKE7mHCd5TmmXbeLfEdsbMohooodZ+hhzU=
+Received: by 10.52.179.131 with SMTP id dg3mr2060907vdc.9.1308437263085; Sat,
+	18 Jun 2011 15:47:43 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.204.85.79 with SMTP id n15mr2757102bkl.38.1308428311138; Sat,
-	18 Jun 2011 13:18:31 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.120.74 with HTTP; Sat, 18 Jun 2011 13:18:31 -0700 (PDT)
-Date: Sat, 18 Jun 2011 20:18:31 +0000
-X-Google-Sender-Auth: CpOyfOiGsm1tRR35qXI_VhxPxTg
-Message-ID: <BANLkTin20ZXvBnT9phab1KZcZ1iCkO8RaQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+Sender: kergoth@gmail.com
+Received: by 10.52.181.2 with HTTP; Sat, 18 Jun 2011 15:47:23 -0700 (PDT)
+In-Reply-To: <201106171842.49291.paul.eggleton@intel.com>
+References: <33AB447FBD802F4E932063B962385B3554AE4989@shsmsx501.ccr.corp.intel.com>
+	<201106171842.49291.paul.eggleton@intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Sat, 18 Jun 2011 15:47:23 -0700
+X-Google-Sender-Auth: 0DojQ3cB3V7pyU5S89lByTdxlM4
+Message-ID: <BANLkTinEe9RWC+mBf24OnggqaGfR-O8g5Q@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: BUG: intltool depends on libxml-parser-perl to be installed on host
+Subject: Re: [PATCH] RFC - combo layer repo tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,22 +48,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jun 2011 20:22:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 18 Jun 2011 22:51:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hello,
+On Fri, Jun 17, 2011 at 10:42 AM, Paul Eggleton <paul.eggleton@intel.com> wrote:
+> Hi Ke,
+>
+> Great work. Here's my review so far:
+>
+> On Monday 13 June 2011 14:15:04 Yu, Ke wrote:
+>> --- /dev/null
+>> +++ b/scripts/combo-layer-hook-default.sh
+>> @@ -0,0 +1,14 @@
+>> +#!/bin/sh
 
-It seems that intltool depends on libxml-parser-perl being installed
-into host system to it to build.
-
-Cheers,
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+First thought on starting to read the patch: why are we home rolling a
+parser when the format is clearly ini style, which the ConfigParser
+module parses just fine?
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
