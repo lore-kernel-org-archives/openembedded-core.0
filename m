@@ -1,37 +1,32 @@
-Received: from mail-pz0-f50.google.com ([209.85.210.50])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1QYJ2F-0002tr-SV; Sun, 19 Jun 2011 16:31:36 +0200
-Received: by pzk2 with SMTP id 2so3145001pzk.9
-	for <multiple recipients>; Sun, 19 Jun 2011 07:28:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=8tGR3Sf0LYZx3EoTIY+ONg48EBEYJsMnVW8V5hdW3gA=;
-	b=otgoGpVY1aYhDBPRXhUdTsQ3f6wUUXhqaTAuQCDzTpOdLi4U59GzHdc+lYdELt/tYR
-	rQCdKDfL7AGv8eT8PzhbZTY/aCaIR6kPHdclTjJUW9FVpYpdw3+he6qd4+q+IdYml+hE
-	2W3L9JE+1mKPDZCaxSGkOJmlAhsXvL1Xt+f9U=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	b=fu2slhcAt6Bs26Os43gKl9synlFdqQgNtzDlrko/lz5+rD6nCmmVyzlAyZM+gnxq/p
-	1e5FRwQWe+2XgD46uuk5mrK9YhBhWQBCeh/TAxxaREVB9LmV2JAG5XZOAC1owiFf6dOZ
-	u6TbnbA1rTm4AXktJMUXdXhmG0WhZEdJ4+rCo=
-Received: by 10.68.36.234 with SMTP id t10mr1748472pbj.361.1308493683351; Sun,
-	19 Jun 2011 07:28:03 -0700 (PDT)
+	(envelope-from <jpuhlman@mvista.com>) id 1QYJay-0003et-8S
+	for openembedded-core@lists.openembedded.org;
+	Sun, 19 Jun 2011 17:07:28 +0200
+Received: by pzk36 with SMTP id 36so3323661pzk.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Jun 2011 08:03:56 -0700 (PDT)
+Received: by 10.68.46.65 with SMTP id t1mr1695336pbm.231.1308495835325;
+	Sun, 19 Jun 2011 08:03:55 -0700 (PDT)
+Received: from [192.168.1.49] (c-67-187-204-11.hsd1.ca.comcast.net
+	[67.187.204.11])
+	by mx.google.com with ESMTPS id k4sm2660557pbl.27.2011.06.19.08.03.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 19 Jun 2011 08:03:54 -0700 (PDT)
+Message-ID: <4DFE0FD9.4010400@mvista.com>
+Date: Sun, 19 Jun 2011 08:03:53 -0700
+From: Jeremy Puhlman <jpuhlman@mvista.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
+	rv:1.9.2.17) Gecko/20110414 Lightning/1.0b2 Thunderbird/3.1.10
+	ThunderBrowse/3.3.5
 MIME-Version: 1.0
-Received: by 10.68.55.195 with HTTP; Sun, 19 Jun 2011 07:27:33 -0700 (PDT)
-In-Reply-To: <201106191521.15698.paul.eggleton@linux.intel.com>
-References: <4DFB6412.4050501@gmail.com> <itkd9c$657$1@dough.gmane.org>
-	<BANLkTimcL7wD_4R3rMRwYdgCt-OhDOY6wQ@mail.gmail.com>
-	<201106191521.15698.paul.eggleton@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 19 Jun 2011 07:27:33 -0700
-Message-ID: <BANLkTimA9rkeZjQb8=PqviXYhRP1OtuMnA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] call for participation on openembedded-users mailing list
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1308365562.git.josh@linux.intel.com>
+	<f0a7d48483260e9251d74216d7569de1a029d035.1308365562.git.josh@linux.intel.com>
+In-Reply-To: <f0a7d48483260e9251d74216d7569de1a029d035.1308365562.git.josh@linux.intel.com>
+X-Enigmail-Version: 1.1.1
+Subject: Re: [RFC PATCH 2/2] sanity: implement network connectivity test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,33 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jun 2011 14:31:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 19 Jun 2011 15:07:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jun 19, 2011 at 7:21 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Sunday 19 June 2011 15:08:22 Khem Raj wrote:
->> On Sun, Jun 19, 2011 at 1:50 AM, Koen Kooi <koen@dominion.thruhere.net>
-> wrote:
->> > If I did it right then mailman will send an autoresponse to each oe-user
->> > mail telling people to use oe-devel and/or oe-core instead.
->>
->> perfect ! thanks for doing it
->
-> I've also updated our mailing lists page [1] on the wiki to reflect this.
 
-double kudos !
+> +    test_uris= ["http://yoctoproject.org/about",
+> +                "https://eula-downloads.yoctoproject.org/crownbay/crownbay-bernard-5.0.0",
+> +                "git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=HEAD"]
+> +    retval = ""
 
->
-> Cheers,
-> Paul
->
-> [1] http://www.openembedded.org/index.php/Mailing_lists
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
+These should probably be set as setable from the meta data. It is a
+reasonable default, but hard coding it with out a way to change it is
+probably not what we want.
+
+> +
+> +    # Only check connectivity if network and this check enabled
+> +    # Because it's a fairy heavy test allow disabling of just this sanity test
+> +    # by setting DISABLE_NETWORK_SANITY
+> +    data = bb.data.createCopy(d)
+> +    network_disabled = not bb.data.getVar('BB_NO_NETWORK', data, True)
+> +    check_disabled = bb.data.getVar('DISABLE_NETWORK_SANITY', data, True)
+> +    if check_disabled or network_disabled:
+
+Completely minor gnit. The copy here isn't needed until you start
+setting the DL_DIR. Why not wait til after the check to see if we need
+to do it.
+
+Otherwise seem like a solid idea.
+
+-- 
+Jeremy Puhlman
+Montavista Sofware, LLC.
 
 
