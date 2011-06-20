@@ -1,27 +1,28 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QYTed-0000aS-0x
+	(envelope-from <mark.hatle@windriver.com>) id 1QYU2a-00016E-TV
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Jun 2011 03:51:55 +0200
+	Mon, 20 Jun 2011 04:16:41 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5K1mMQZ022252
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5K2D8BY025379
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2011 18:48:22 -0700 (PDT)
-Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
+	Sun, 19 Jun 2011 19:13:08 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Sun, 19 Jun 2011 18:48:21 -0700
-Message-ID: <4DFEA6E4.6060108@windriver.com>
-Date: Mon, 20 Jun 2011 09:48:20 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
+	Sun, 19 Jun 2011 19:13:08 -0700
+Message-ID: <4DFEACB3.7090405@windriver.com>
+Date: Sun, 19 Jun 2011 21:13:07 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1308391365.git.liezhi.yang@windriver.com>
-	<9A9B307C-87E6-445D-9432-739EBF04090F@dominion.thruhere.net>
-In-Reply-To: <9A9B307C-87E6-445D-9432-739EBF04090F@dominion.thruhere.net>
-Subject: Re: [PATCH 0/6 V3] Share gcc work directories
+References: <cover.1308249837.git.scott.a.garman@intel.com>	<3a0dd72238fb6dbdbfc9ff1f0230f310fde0fff9.1308249837.git.scott.a.garman@intel.com>	<4DFA97A1.9090909@gmail.com>	<4DFB820B.9070303@intel.com>	<BANLkTi=_Moowev-2U0tmYiuNwAt2BD9WXA@mail.gmail.com>	<4DFB8CAE.8030100@intel.com>	<BANLkTin19xUSV4Rg7u16e3C_s9xkKieasQ@mail.gmail.com>
+	<4DFB98A2.9040303@intel.com>
+In-Reply-To: <4DFB98A2.9040303@intel.com>
+Subject: Re: [PATCH 1/1] base-passwd: disable problematic	login.defs options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,52 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2011 01:51:55 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 20 Jun 2011 02:16:41 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
+On 6/17/11 1:10 PM, Scott Garman wrote:
+> On 06/17/2011 10:22 AM, Otavio Salvador wrote:
+>> On Fri, Jun 17, 2011 at 17:19, Scott Garman<scott.a.garman@intel.com>  wrote:
+>>> Sorry, I forgot to mention that shadow-utils-native is what is used to
+>>> modify the passwd/group files in the target sysroot. It seems that having a
+>>> -native recipe install files into a target sysroot would be worse than
+>>> including an optional file with base-passwd that may or may not be used in
+>>> target systems.
+>>
+>> Why not make an shadow-target package with this?
+> 
+> To just install a login.defs file? I'm open to it if a few more people 
+> think this is a better idea.
 
+The file is needed in order for the utilities that add, remove and modify
+users/groups to function properly.  The full version from shadow utils is used
+so we are sure we can dead with both shadow-less and shadowed filesystem images.
+ (It's also more full featured then busybox, yet busybox is still compatible
+with it.)
 
-On 06/18/2011 08:50 PM, Koen Kooi wrote:
->
-> Op 18 jun 2011, om 14:41 heeft Robert Yang het volgende geschreven:
->
->> Changes of V3:
->>
->> 1) Use --with-headers to replace the:
->>
->>    sed -i 's:^\([ ]*\)glibc_header_dir=\"${with_build_sysroot}/usr/include\": ...
->>
->> 2) Fix the build of gcc-cross-canadian
->>
->> 3) Fix gcc-crosssdk which make the source incompatible during its
->>    building.
->>
->> 4) Test "bitbake meta-toolchain", and also do run test for the
->>    pokysdk(unpack the toolchain to /opt, setup the env by sourcing
->>    environment-setup-armv5te-poky-linux-gnueabi, and build some pkgs
->>    out of poky, then use command file to check the binary file type.
->>
->> 5) Make sure that no gcc build would make the source incompatible,
->>    except gcc-cross_csl-arm-2008q1.bb, but I think this is fine, its
->>    BINV = "4.2.3", not 4.5.1 or 4.6.0.
->
->
-> How does this interact with rm_work?
->
+As for the separate package, that should be fine.. but remember this is a very
+small file, so is it worth "another" package?  (If so, then base-files likely
+should depend on it for build-time, but not run-time.)
 
-The rm_work does not delete anything in work-shared, I think this is fine,
-otherwise the source can not be shared.
+--Mark
 
-// Robert
+> Scott
+> 
 
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
