@@ -1,28 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QYf0T-0001VB-5S
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QYfEj-00022u-Cj
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Jun 2011 15:59:13 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5KDte1a003140
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2011 06:55:40 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 20 Jun 2011 06:55:40 -0700
-Message-ID: <4DFF515B.1040202@windriver.com>
-Date: Mon, 20 Jun 2011 08:55:39 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Mon, 20 Jun 2011 16:13:57 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Jun 2011 07:10:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,394,1304319600"; d="scan'208";a="18404871"
+Received: from unknown (HELO helios.localnet) ([10.255.16.236])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Jun 2011 07:10:23 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Cliff Brake <cliff.brake@gmail.com>
+Date: Mon, 20 Jun 2011 15:10:22 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+References: <E1QXzLA-0004Ca-IU@happy.bec-systems.com>
+	<201106181840.38875.paul.eggleton@linux.intel.com>
+	<BANLkTi=zfbd=Z0nXhjsE8Z+qr90u6V+Law@mail.gmail.com>
+In-Reply-To: <BANLkTi=zfbd=Z0nXhjsE8Z+qr90u6V+Law@mail.gmail.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <AE69955E-732E-4002-90F9-FF833BC78D8A@dominion.thruhere.net>	<4DFF49B8.9050908@windriver.com>	<1308576583.25285.12093.camel@phil-desktop>
-	<90AD0E19-73AB-4443-AAC5-D1069E260D2C@dominion.thruhere.net>
-In-Reply-To: <90AD0E19-73AB-4443-AAC5-D1069E260D2C@dominion.thruhere.net>
-Subject: Re: Architecture mismatch QA check not fatal?
+Message-Id: <201106201510.22897.paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: OE Changelog for 2011-06-6 to 2011-06-13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,40 +35,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2011 13:59:13 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Mon, 20 Jun 2011 14:13:57 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 6/20/11 8:31 AM, Koen Kooi wrote:
-> 
-> Op 20 jun 2011, om 15:29 heeft Phil Blundell het volgende geschreven:
-> 
->> On Mon, 2011-06-20 at 08:23 -0500, Mark Hatle wrote:
->>> (The minor cases are primarily firmware loaded into off-board cards in PCI
->>> chasis and such.. occasionally these firmware are ELF and of an architecture not
->>> the same as the host..  it's rare, but I have seen it before.)
->>
->> Shouldn't those firmware images just go in a separate package?
+On Monday 20 June 2011 14:48:45 Cliff Brake wrote:
+> Can you describe how the bitbake and oe-core directories are
+> synchronized to content in the poky repo?
 
-Depends on how the system is configured..  Often I see them packaged with the
-firmware loader -- which is the proper arch, etc..
+Sure. Richard can correct me on this, but my understanding is at the moment he 
+has a bunch of scripts that grab changes from the local clones of the source 
+repositories as patches, which are then applied on top of the Poky repository. 
+Richard runs these scripts periodically. Some time soon these scripts will be 
+replaced by the combo layer tool that Ke posted last week.
 
-> If we do that we can use INSANE_SKIP_firmwarepackage = True, which seems like a good solution.
+Cheers,
+Paul
 
-Ya, as long as we can skip -- or change it to a warning instead of an error.. I
-think we're good.  Like I said, this is rare and unlikely to be an issue in
-anything in oe-core, meta-oe or even the distributions based on oe-core.. but I
-have seen it in customer production environments before.
+-- 
 
---Mark
-
-> regards,
-> 
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
