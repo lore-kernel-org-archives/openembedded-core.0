@@ -1,24 +1,34 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from stoexhubfe01.domain01.net ([83.145.59.140])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QYiuE-0007vP-1f
+	(envelope-from <anders@chargestorm.se>) id 1QYjXD-0008P6-Ga
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Jun 2011 20:09:02 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jun 2011 11:05:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,395,1304319600"; d="scan'208";a="17390654"
-Received: from vorpal.jf.intel.com ([10.7.199.159])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jun 2011 11:05:29 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jun 2011 11:09:14 -0700
-Message-Id: <909a6c756247a7a0f68f60a64477d4e8419ca74c.1308593086.git.josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1308592651.git.josh@linux.intel.com>
-References: <cover.1308592651.git.josh@linux.intel.com>
-In-Reply-To: <cover.1308593086.git.josh@linux.intel.com>
-References: <cover.1308593086.git.josh@linux.intel.com>
-Subject: [PATCH 2/2] sanity: implement network connectivity test
+	Mon, 20 Jun 2011 20:49:20 +0200
+Received: from localhost (85.231.30.150) by stoexhubfe01.domain01.net
+	(10.12.10.6) with Microsoft SMTP Server id 8.3.137.0; Mon, 20 Jun 2011
+	20:44:43 +0200
+Date: Mon, 20 Jun 2011 20:44:45 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110620184433.GA3427@chargestorm.se>
+Mail-Followup-To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <8DD6CF6F-60B5-4DC0-95BC-3E47550A46FB@dominion.thruhere.net>
+	<BANLkTimOnk0XvkfEqP25aOWK0_C7swHvzQ@mail.gmail.com>
+	<3486EC57-81AC-4105-AC78-2721DF62E4FF@dominion.thruhere.net>
+	<BANLkTi=ws6VEaWRBkDZ8-G5MWgRohNS=Kg@mail.gmail.com>
+	<419BA759-C865-411F-BE59-060EBDD74258@dominion.thruhere.net>
+	<BANLkTikzAUvWedb0Umy3GhwOtWKhZXRSWA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <BANLkTikzAUvWedb0Umy3GhwOtWKhZXRSWA@mail.gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Linux 3.0-rcX (was Re: [RFC] qemu* kernel configs)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,73 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2011 18:09:02 -0000
+X-List-Received-Date: Mon, 20 Jun 2011 18:49:20 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-Sanity test to verify files can be fetched from the network using git, http
-and https fetchers point users at a page to help get set up in the case of a
-failure.
+* Bruce Ashfield <bruce.ashfield@gmail.com> [110614 17:13]:
+> Thanks for the breakdown, it definitely helps. Now that I've got some
+> 3.0-rcX items done, and recipe renaming behind me, I'll have a look
+> at these and see how best to incorporate the configs.
 
-Addresses [YOCTO #933]
+Just curious, what 3.0-rcX items have you done? Will you submit patches
+for these item soon, or wait for a more complete set?
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- meta/classes/sanity.bbclass |   34 ++++++++++++++++++++++++++++++++++
- 1 files changed, 34 insertions(+), 0 deletions(-)
+I'm currently just curious, as I've played a little with 3.0-rcX in my
+sparetime, and I've got a patch series in a local tree that at least
+builds 3.0-rcX (and also removes some of the support for 2.4-kernels).
+I've haven't yet looked into libc-headers, just enough to build the
+3.0-rcX kernel.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index bffa4f5..650df5f 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -35,6 +35,8 @@ def check_sanity_tmpdir_change(tmpdir, data):
- 
-     # Check that TMPDIR isn't on a filesystem with limited filename length (eg. eCryptFS)
-     testmsg = check_create_long_filename(tmpdir, "TMPDIR")
-+    # Check that we can fetch from various network transports
-+    testmsg = testmsg + check_connectivity(data)
-     return testmsg
-         
- def check_sanity_version_change(data):
-@@ -75,6 +77,38 @@ def check_create_long_filename(filepath, pathname):
-             return "Failed to create a file in %s: %s" % (pathname, strerror)
-     return ""
- 
-+def check_connectivity(d):
-+    # URI's to check can be set in the CONNECTIVITY_CHECK_URIS variable using
-+    # the same syntax as SRC_URI.
-+    test_uris = (bb.data.getVar('CONNECTIVITY_CHECK_URIS', d, True) or "").split()
-+    # If no URI's set, fallback to some default ones we know of
-+    if len(test_uris) == 0:
-+        test_uris = ["http://yoctoproject.org/about",
-+                     "https://eula-downloads.yoctoproject.org/crownbay/crownbay-bernard-5.0.0",
-+                     "git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=HEAD"]
-+    retval = ""
-+
-+    # Only check connectivity if network access and this check enabled.
-+    # Because it's a fairly heavy test allow disabling of just this sanity test
-+    # by setting DISABLE_NETWORK_SANITY.
-+    network_disabled = not bb.data.getVar('BB_NO_NETWORK', d, True)
-+    check_disabled = bb.data.getVar('DISABLE_NETWORK_SANITY', d, True)
-+    if check_disabled or network_disabled:
-+        data = bb.data.createCopy(d)
-+        dldir = bb.data.expand('${TMPDIR}/sanity', data)
-+        bb.data.setVar('DL_DIR', dldir, data)
-+
-+        try:
-+            fetcher = bb.fetch2.Fetch(test_uris, data)
-+            fetcher.download()
-+	    fetcher.clean(test_uris)
-+        except Exception:
-+            retval = "Error connecting to the network to fetch, http/https and git checked.\nPlease check the wiki (https://wiki.yoctoproject.org/wiki/Connectivity\%20Troubleshooting) for more suggestions.\n"
-+        finally:
-+            # Make sure we tidy up the cruft
-+            oe.path.remove(dldir)
-+    return retval
-+
- def check_sanity(e):
-     from bb import note, error, data, __version__
- 
+However, I've just learned today, that some other project we're using,
+might port their drivers and SW-stack to 3.0-rcX, instead of choosing a
+later 2.6.3x kernel. If they go for that route, I'm interested in
+getting official 3.0-support in OE-core sooner than later...
+
+Regards,
+Anders
+
 -- 
-1.7.5.2
-
+Anders Darander
+ChargeStorm AB
 
 
