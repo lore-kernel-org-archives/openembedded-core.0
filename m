@@ -1,26 +1,29 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QYfEj-00022u-Cj
+	(envelope-from <koen@dominion.thruhere.net>) id 1QYfTE-0002EO-BO
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Jun 2011 16:13:57 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Jun 2011 07:10:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,394,1304319600"; d="scan'208";a="18404871"
-Received: from unknown (HELO helios.localnet) ([10.255.16.236])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Jun 2011 07:10:23 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Cliff Brake <cliff.brake@gmail.com>
-Date: Mon, 20 Jun 2011 15:10:22 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <E1QXzLA-0004Ca-IU@happy.bec-systems.com>
-	<201106181840.38875.paul.eggleton@linux.intel.com>
-	<BANLkTi=zfbd=Z0nXhjsE8Z+qr90u6V+Law@mail.gmail.com>
-In-Reply-To: <BANLkTi=zfbd=Z0nXhjsE8Z+qr90u6V+Law@mail.gmail.com>
-MIME-Version: 1.0
-Message-Id: <201106201510.22897.paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: OE Changelog for 2011-06-6 to 2011-06-13
+	Mon, 20 Jun 2011 16:28:56 +0200
+Received: by wwg12 with SMTP id 12so2133030wwg.24
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jun 2011 07:25:20 -0700 (PDT)
+Received: by 10.227.208.12 with SMTP id ga12mr5004238wbb.68.1308579920833;
+	Mon, 20 Jun 2011 07:25:20 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id ej7sm3225743wbb.19.2011.06.20.07.25.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 20 Jun 2011 07:25:19 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4DFF515B.1040202@windriver.com>
+Date: Mon, 20 Jun 2011 16:25:13 +0200
+Message-Id: <D7C9C77C-ED18-4FCB-A522-C8F023E37405@dominion.thruhere.net>
+References: <AE69955E-732E-4002-90F9-FF833BC78D8A@dominion.thruhere.net>	<4DFF49B8.9050908@windriver.com>	<1308576583.25285.12093.camel@phil-desktop>
+	<90AD0E19-73AB-4443-AAC5-D1069E260D2C@dominion.thruhere.net>
+	<4DFF515B.1040202@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: Architecture mismatch QA check not fatal?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,27 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2011 14:13:57 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jun 2011 14:28:56 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Monday 20 June 2011 14:48:45 Cliff Brake wrote:
-> Can you describe how the bitbake and oe-core directories are
-> synchronized to content in the poky repo?
 
-Sure. Richard can correct me on this, but my understanding is at the moment he 
-has a bunch of scripts that grab changes from the local clones of the source 
-repositories as patches, which are then applied on top of the Poky repository. 
-Richard runs these scripts periodically. Some time soon these scripts will be 
-replaced by the combo layer tool that Ke posted last week.
+Op 20 jun 2011, om 15:55 heeft Mark Hatle het volgende geschreven:
 
-Cheers,
-Paul
+> On 6/20/11 8:31 AM, Koen Kooi wrote:
+>>=20
+>> Op 20 jun 2011, om 15:29 heeft Phil Blundell het volgende geschreven:
+>>=20
+>>> On Mon, 2011-06-20 at 08:23 -0500, Mark Hatle wrote:
+>>>> (The minor cases are primarily firmware loaded into off-board cards =
+in PCI
+>>>> chasis and such.. occasionally these firmware are ELF and of an =
+architecture not
+>>>> the same as the host..  it's rare, but I have seen it before.)
+>>>=20
+>>> Shouldn't those firmware images just go in a separate package?
+>=20
+> Depends on how the system is configured..  Often I see them packaged =
+with the
+> firmware loader -- which is the proper arch, etc..
+>=20
+>> If we do that we can use INSANE_SKIP_firmwarepackage =3D True, which =
+seems like a good solution.
+>=20
+> Ya, as long as we can skip -- or change it to a warning instead of an =
+error.. I
+> think we're good.  Like I said, this is rare and unlikely to be an =
+issue in
+> anything in oe-core, meta-oe or even the distributions based on =
+oe-core.. but I
+> have seen it in customer production environments before.
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+We have exactly 1 xorg driver in oe .dev that triggers it :)=
 
 
