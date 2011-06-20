@@ -1,24 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QYdow-0001NS-NQ
+	(envelope-from <mark.hatle@windriver.com>) id 1QYeUy-0000fY-IF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Jun 2011 14:43:14 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 20 Jun 2011 05:39:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,394,1304319600"; d="scan'208";a="15544300"
-Received: from unknown (HELO helios.localnet) ([10.255.16.236])
-	by azsmga001.ch.intel.com with ESMTP; 20 Jun 2011 05:39:38 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jun 2011 13:39:37 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <cover.1308543589.git.dexuan.cui@intel.com>
-	<2152759b50cc3acc96ee57b242e0b896e65f5e93.1308543589.git.dexuan.cui@intel.com>
-In-Reply-To: <2152759b50cc3acc96ee57b242e0b896e65f5e93.1308543589.git.dexuan.cui@intel.com>
+	Mon, 20 Jun 2011 15:26:41 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5KDN5qR027891
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jun 2011 06:23:05 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 20 Jun 2011 06:23:05 -0700
+Message-ID: <4DFF49B8.9050908@windriver.com>
+Date: Mon, 20 Jun 2011 08:23:04 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-Message-Id: <201106201339.37154.paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 1/1] sanity.bbclass: only run check_pseudo_wrapper for bitbake
+To: <openembedded-core@lists.openembedded.org>
+References: <AE69955E-732E-4002-90F9-FF833BC78D8A@dominion.thruhere.net>
+In-Reply-To: <AE69955E-732E-4002-90F9-FF833BC78D8A@dominion.thruhere.net>
+Subject: Re: Architecture mismatch QA check not fatal?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2011 12:43:15 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Mon, 20 Jun 2011 13:26:42 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Monday 20 June 2011 05:25:03 Dexuan Cui wrote:
-> This patch eliminates the warning "not been run using the bitbake
-> wrapper..." when we run bitbake-layers.
+On 6/20/11 2:41 AM, Koen Kooi wrote:
+> Hi,
 > 
-> Thanks Paul Eggleton for suggesting doing this in sanity.bbclass.
+> I was building qt this weekend and I noticed this one:
 > 
-> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> ---
->  meta/classes/sanity.bbclass |    4 ++++
->  1 files changed, 4 insertions(+), 0 deletions(-)
+> WARNING: QA Issue: Architecture did not match (40 to 62) on /work/armv7a-angstrom-linux-gnueabi/qt4-embedded-4.7.3-r26.1/packages-split/qt4-embedded-tools/usr/bin/moc
+> WARNING: QA Issue: Architecture did not match (40 to 62) on /work/armv7a-angstrom-linux-gnueabi/qt4-embedded-4.7.3-r26.1/packages-split/qt4-embedded-tools/usr/bin/uic
+> WARNING: QA Issue: Architecture did not match (40 to 62) on /work/armv7a-angstrom-linux-gnueabi/qt4-embedded-4.7.3-r26.1/packages-split/qt4-embedded-tools/usr/bin/rcc
 > 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index fc005aa..d296c86 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -42,6 +42,10 @@ def check_sanity_version_change():
->      return ""
+> Shouldn't that be a fatal error, shipping x86 binaries in arm packages?
+
+There are a couple of very minor use cases where this may be necessary.  So I'm
+wondering if we can put in an override mechanism that tells the system to make
+the QA a warning instead of an error for select packages.  Otherwise, yes.. this
+should be an error.
+
+(The minor cases are primarily firmware loaded into off-board cards in PCI
+chasis and such.. occasionally these firmware are ELF and of an architecture not
+the same as the host..  it's rare, but I have seen it before.)
+
+--Mark
+
+> regards,
 > 
->  def check_pseudo_wrapper():
-> +    import sys
-> +    if not sys.argv[0].endswith('/bitbake'):
-> +        return ""
-> +
->      import subprocess as sub
->      # Check if bitbake wrapper is being used
->      pseudo_build = os.environ.get( 'PSEUDO_BUILD' )
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Looks good to me.
-
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
