@@ -1,32 +1,41 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jpuhlman@mvista.com>) id 1QYJay-0003et-8S
+	(envelope-from <dexuan.cui@intel.com>) id 1QYTMi-0000Pf-G3
 	for openembedded-core@lists.openembedded.org;
-	Sun, 19 Jun 2011 17:07:28 +0200
-Received: by pzk36 with SMTP id 36so3323661pzk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jun 2011 08:03:56 -0700 (PDT)
-Received: by 10.68.46.65 with SMTP id t1mr1695336pbm.231.1308495835325;
-	Sun, 19 Jun 2011 08:03:55 -0700 (PDT)
-Received: from [192.168.1.49] (c-67-187-204-11.hsd1.ca.comcast.net
-	[67.187.204.11])
-	by mx.google.com with ESMTPS id k4sm2660557pbl.27.2011.06.19.08.03.54
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 19 Jun 2011 08:03:54 -0700 (PDT)
-Message-ID: <4DFE0FD9.4010400@mvista.com>
-Date: Sun, 19 Jun 2011 08:03:53 -0700
-From: Jeremy Puhlman <jpuhlman@mvista.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
-	rv:1.9.2.17) Gecko/20110414 Lightning/1.0b2 Thunderbird/3.1.10
-	ThunderBrowse/3.3.5
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+	Mon, 20 Jun 2011 03:33:25 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2011 18:29:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,390,1304319600"; d="scan'208";a="16978083"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2011 18:29:47 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Mon, 20 Jun 2011 09:29:06 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Mon, 20 Jun 2011 09:29:04 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Mon, 20 Jun 2011 09:28:45 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1308365562.git.josh@linux.intel.com>
-	<f0a7d48483260e9251d74216d7569de1a029d035.1308365562.git.josh@linux.intel.com>
-In-Reply-To: <f0a7d48483260e9251d74216d7569de1a029d035.1308365562.git.josh@linux.intel.com>
-X-Enigmail-Version: 1.1.1
-Subject: Re: [RFC PATCH 2/2] sanity: implement network connectivity test
+Date: Mon, 20 Jun 2011 09:28:44 +0800
+Thread-Topic: [OE-core] BUG: intltool depends on libxml-parser-perl to be
+	installed on host
+Thread-Index: AcwuFSEra2+TqjnzQWa3GaueF+pjDwA0qZyA
+Message-ID: <1865303E0DED764181A9D882DEF65FB6997B5E766E@shsmsx502.ccr.corp.intel.com>
+References: <BANLkTin20ZXvBnT9phab1KZcZ1iCkO8RaQ@mail.gmail.com>
+	<4DFD379B.8010701@mentor.com>
+	<BANLkTimkH5e4ViO7aNP9typLSBvBKrSNxw@mail.gmail.com>
+In-Reply-To: <BANLkTimkH5e4ViO7aNP9typLSBvBKrSNxw@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Subject: Re: BUG: intltool depends on libxml-parser-perl to be installed on host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,37 +50,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jun 2011 15:07:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jun 2011 01:33:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
+Otavio Salvador wrote:
+> On Sat, Jun 18, 2011 at 23:41, Tom Rini <tom_rini@mentor.com> wrote:
+>> On 06/18/2011 01:18 PM, Otavio Salvador wrote:
+>>> Hello,
+>>>=20
+>>> It seems that intltool depends on libxml-parser-perl being installed
+Hi Otavio,
+I suppose you actually meant intltool-native should depend on libxml-parser=
+-perl-native?
+Could you please supply the building log?
+If it's something like=20
+ /home/dcui/yocto/build/tmp/sysroots/i686-linux/usr/bin/perl: bad interpret=
+er: No such file or directory,=20
+you would need this fix (I assume you're using the latest poky master?):
+http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/bump_P=
+R&id=3Dbe638790e41206ed740aec69a8704fe77d1bc0b2
 
-> +    test_uris= ["http://yoctoproject.org/about",
-> +                "https://eula-downloads.yoctoproject.org/crownbay/crownbay-bernard-5.0.0",
-> +                "git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=HEAD"]
-> +    retval = ""
+And I guess you're using incremental building? Does building from scratch w=
+ork?
 
-These should probably be set as setable from the meta data. It is a
-reasonable default, but hard coding it with out a way to change it is
-probably not what we want.
+>>> into host system to it to build.
+>>=20
+>> Do the DEPENDS look right? =A0Maybe this needs the class for bringing
+>> in perl-native...
+>=20
+> It seems to do so.
+>=20
+> Are you able to reproduce it?
+Hi Otavio,
+I can't reproduce the issue.
+Could you please report a bug at http://bugzilla.yoctoproject.org/ so we ca=
+n better track the issue?=20
 
-> +
-> +    # Only check connectivity if network and this check enabled
-> +    # Because it's a fairy heavy test allow disabling of just this sanity test
-> +    # by setting DISABLE_NETWORK_SANITY
-> +    data = bb.data.createCopy(d)
-> +    network_disabled = not bb.data.getVar('BB_NO_NETWORK', data, True)
-> +    check_disabled = bb.data.getVar('DISABLE_NETWORK_SANITY', data, True)
-> +    if check_disabled or network_disabled:
+Thanks,
+-- Dexuan
 
-Completely minor gnit. The copy here isn't needed until you start
-setting the DL_DIR. Why not wait til after the check to see if we need
-to do it.
-
-Otherwise seem like a solid idea.
-
--- 
-Jeremy Puhlman
-Montavista Sofware, LLC.
 
 
