@@ -1,27 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QYVIZ-0002Hr-Dl
+	(envelope-from <dexuan.cui@intel.com>) id 1QYW6Z-0007bu-So
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Jun 2011 05:37:15 +0200
+	Mon, 20 Jun 2011 06:28:56 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2011 20:33:42 -0700
+	by orsmga102.jf.intel.com with ESMTP; 19 Jun 2011 21:25:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,391,1304319600"; d="scan'208";a="15735109"
-Received: from unknown (HELO [10.255.13.127]) ([10.255.13.127])
-	by orsmga002.jf.intel.com with ESMTP; 19 Jun 2011 20:33:42 -0700
-Message-ID: <4DFEBF96.9030806@intel.com>
-Date: Sun, 19 Jun 2011 20:33:42 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.65,391,1304319600"; d="scan'208";a="15746316"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
+	by orsmga002.jf.intel.com with ESMTP; 19 Jun 2011 21:25:22 -0700
+From: Dexuan Cui <dexuan.cui@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1308249837.git.scott.a.garman@intel.com>	<3a0dd72238fb6dbdbfc9ff1f0230f310fde0fff9.1308249837.git.scott.a.garman@intel.com>	<4DFA97A1.9090909@gmail.com>
-	<4DFB820B.9070303@intel.com>	<BANLkTi=_Moowev-2U0tmYiuNwAt2BD9WXA@mail.gmail.com>	<4DFB8CAE.8030100@intel.com>	<BANLkTin19xUSV4Rg7u16e3C_s9xkKieasQ@mail.gmail.com>	<4DFB98A2.9040303@intel.com>
-	<4DFEACB3.7090405@windriver.com>
-	<BANLkTinnb_w2PNoADc3jgqpxeLcyG=z6YA@mail.gmail.com>
-In-Reply-To: <BANLkTinnb_w2PNoADc3jgqpxeLcyG=z6YA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] base-passwd: disable problematic	login.defs options
+Date: Mon, 20 Jun 2011 12:25:02 +0800
+Message-Id: <cover.1308543589.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.2
+Subject: [PATCH 0/1] sanity.bbclass: only run check_pseudo_wrapper for bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,54 +29,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2011 03:37:15 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jun 2011 04:28:56 -0000
 
-On 06/19/2011 07:41 PM, Khem Raj wrote:
-> On Sun, Jun 19, 2011 at 7:13 PM, Mark Hatle<mark.hatle@windriver.com>  wrote:
->> On 6/17/11 1:10 PM, Scott Garman wrote:
->>> On 06/17/2011 10:22 AM, Otavio Salvador wrote:
->>>> On Fri, Jun 17, 2011 at 17:19, Scott Garman<scott.a.garman@intel.com>    wrote:
->>>>> Sorry, I forgot to mention that shadow-utils-native is what is used to
->>>>> modify the passwd/group files in the target sysroot. It seems that having a
->>>>> -native recipe install files into a target sysroot would be worse than
->>>>> including an optional file with base-passwd that may or may not be used in
->>>>> target systems.
->>>>
->>>> Why not make an shadow-target package with this?
->>>
->>> To just install a login.defs file? I'm open to it if a few more people
->>> think this is a better idea.
->>
->> The file is needed in order for the utilities that add, remove and modify
->> users/groups to function properly.  The full version from shadow utils is used
->> so we are sure we can dead with both shadow-less and shadowed filesystem images.
->>   (It's also more full featured then busybox, yet busybox is still compatible
->> with it.)
->>
-> Will shadow be able to override this file ?
-> one thing I see is that it wont get any updates that shadow might
-> do to this file in future.
+Please view it.
 
-Now that I think of it, the reason Koen ran into the error messages was 
-that the login.defs I shipped with base-passwd had various variables 
-uncommented that the shadow recipe comments out (there's a sed script 
-included with shadow which does this). Which means that his image, which 
-had shadow installed, was *not* overriding the login.defs from base-passwd.
+The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
 
-I'm now convinced that creating a shadow-cross package which just ships 
-a login.defs file is the right thing to do, and to remove it from 
-base-passwd. Thanks everyone for the feedback thus far.
+  systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:14:06 +0100)
 
-I will be away at a conference for most of this coming week, but will 
-try to squeeze this in on Monday.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/sanity
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/sanity
 
-Scott
+Dexuan Cui (1):
+  sanity.bbclass: only run check_pseudo_wrapper for bitbake
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+ meta/classes/sanity.bbclass |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
+
 
 
