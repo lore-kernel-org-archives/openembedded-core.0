@@ -1,41 +1,27 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QYTMi-0000Pf-G3
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1QYTed-0000aS-0x
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Jun 2011 03:33:25 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2011 18:29:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,390,1304319600"; d="scan'208";a="16978083"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2011 18:29:47 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Mon, 20 Jun 2011 09:29:06 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Mon, 20 Jun 2011 09:29:04 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Mon, 20 Jun 2011 09:28:45 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Jun 2011 09:28:44 +0800
-Thread-Topic: [OE-core] BUG: intltool depends on libxml-parser-perl to be
-	installed on host
-Thread-Index: AcwuFSEra2+TqjnzQWa3GaueF+pjDwA0qZyA
-Message-ID: <1865303E0DED764181A9D882DEF65FB6997B5E766E@shsmsx502.ccr.corp.intel.com>
-References: <BANLkTin20ZXvBnT9phab1KZcZ1iCkO8RaQ@mail.gmail.com>
-	<4DFD379B.8010701@mentor.com>
-	<BANLkTimkH5e4ViO7aNP9typLSBvBKrSNxw@mail.gmail.com>
-In-Reply-To: <BANLkTimkH5e4ViO7aNP9typLSBvBKrSNxw@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Mon, 20 Jun 2011 03:51:55 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5K1mMQZ022252
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Jun 2011 18:48:22 -0700 (PDT)
+Received: from [128.224.163.140] (128.224.163.140) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Sun, 19 Jun 2011 18:48:21 -0700
+Message-ID: <4DFEA6E4.6060108@windriver.com>
+Date: Mon, 20 Jun 2011 09:48:20 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-Subject: Re: BUG: intltool depends on libxml-parser-perl to be installed on host
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1308391365.git.liezhi.yang@windriver.com>
+	<9A9B307C-87E6-445D-9432-739EBF04090F@dominion.thruhere.net>
+In-Reply-To: <9A9B307C-87E6-445D-9432-739EBF04090F@dominion.thruhere.net>
+Subject: Re: [PATCH 0/6 V3] Share gcc work directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,46 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2011 01:33:25 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 20 Jun 2011 01:51:55 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Otavio Salvador wrote:
-> On Sat, Jun 18, 2011 at 23:41, Tom Rini <tom_rini@mentor.com> wrote:
->> On 06/18/2011 01:18 PM, Otavio Salvador wrote:
->>> Hello,
->>>=20
->>> It seems that intltool depends on libxml-parser-perl being installed
-Hi Otavio,
-I suppose you actually meant intltool-native should depend on libxml-parser=
--perl-native?
-Could you please supply the building log?
-If it's something like=20
- /home/dcui/yocto/build/tmp/sysroots/i686-linux/usr/bin/perl: bad interpret=
-er: No such file or directory,=20
-you would need this fix (I assume you're using the latest poky master?):
-http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/bump_P=
-R&id=3Dbe638790e41206ed740aec69a8704fe77d1bc0b2
 
-And I guess you're using incremental building? Does building from scratch w=
-ork?
 
->>> into host system to it to build.
->>=20
->> Do the DEPENDS look right? =A0Maybe this needs the class for bringing
->> in perl-native...
->=20
-> It seems to do so.
->=20
-> Are you able to reproduce it?
-Hi Otavio,
-I can't reproduce the issue.
-Could you please report a bug at http://bugzilla.yoctoproject.org/ so we ca=
-n better track the issue?=20
+On 06/18/2011 08:50 PM, Koen Kooi wrote:
+>
+> Op 18 jun 2011, om 14:41 heeft Robert Yang het volgende geschreven:
+>
+>> Changes of V3:
+>>
+>> 1) Use --with-headers to replace the:
+>>
+>>    sed -i 's:^\([ ]*\)glibc_header_dir=\"${with_build_sysroot}/usr/include\": ...
+>>
+>> 2) Fix the build of gcc-cross-canadian
+>>
+>> 3) Fix gcc-crosssdk which make the source incompatible during its
+>>    building.
+>>
+>> 4) Test "bitbake meta-toolchain", and also do run test for the
+>>    pokysdk(unpack the toolchain to /opt, setup the env by sourcing
+>>    environment-setup-armv5te-poky-linux-gnueabi, and build some pkgs
+>>    out of poky, then use command file to check the binary file type.
+>>
+>> 5) Make sure that no gcc build would make the source incompatible,
+>>    except gcc-cross_csl-arm-2008q1.bb, but I think this is fine, its
+>>    BINV = "4.2.3", not 4.5.1 or 4.6.0.
+>
+>
+> How does this interact with rm_work?
+>
 
-Thanks,
--- Dexuan
+The rm_work does not delete anything in work-shared, I think this is fine,
+otherwise the source can not be shared.
 
+// Robert
+
+> regards,
+>
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
