@@ -1,23 +1,38 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QZ6C6-00038d-40 for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 21:01:02 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QZ68g-0002nl-Du
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <anders.darander@gmail.com>) id 1QZ6IM-0003D0-2t
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 20:57:30 +0200
-From: Phil Blundell <pb@pbcl.net>
+	Tue, 21 Jun 2011 21:07:30 +0200
+Received: by fxm19 with SMTP id 19so177884fxm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jun 2011 12:03:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type;
+	bh=phSJDhE+5cQXs7yiKv7eSVf0pCygsgh8Nr9wiSNNTuQ=;
+	b=VisLT5EUATJI03aw0J+ax0g702NjUFyM/q9901rBk6AtUHVHy1LH9NshNxzTNlHl5C
+	d1Vitf27SUQEZB0SDMoFCSbZXWBYA4MzWVXih7OkU4nJSpDVUfgLHheUUg8C/BGVfKT7
+	TtI5cLd3Coh4elGMlkcxsjKfg4tq/5qk54LU8=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type;
+	b=CUrtsi/2P3vKOc0dXMhFbGFgxfnMzeLhgZRIP4wEzSSIplA05stS1P1TSorre6m4NO
+	dCII6FvAsMwL2I68cHGBC0minCPIWuTuUCF8iqTrRSJYFbIW5vlZnizXZhKgXflwc9S5
+	Jq9PYlKY2PcK5ab/boWksLt0SjoEQ6GaqPYX4=
+MIME-Version: 1.0
+Received: by 10.223.100.15 with SMTP id w15mr125674fan.11.1308683036609; Tue,
+	21 Jun 2011 12:03:56 -0700 (PDT)
+Received: by 10.223.114.1 with HTTP; Tue, 21 Jun 2011 12:03:56 -0700 (PDT)
+In-Reply-To: <1308682002.3083.12.camel@lenovo.internal.reciva.com>
+References: <cover.1308680000.git.anders@chargestorm.se>
+	<8e57843c8775752059dc6acacdbd7751b1ed7082.1308680000.git.anders@chargestorm.se>
+	<1308682002.3083.12.camel@lenovo.internal.reciva.com>
+Date: Tue, 21 Jun 2011 21:03:56 +0200
+Message-ID: <BANLkTik3rm8gG9Hik9O0QoVNp7ft2xW-ZQ@mail.gmail.com>
+From: Anders Darander <anders.darander@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4E00CA30.7020302@windriver.com>
-References: <4E00CA30.7020302@windriver.com>
-Date: Tue, 21 Jun 2011 19:57:23 +0100
-Message-ID: <1308682643.3083.18.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: Directory permissions and ownership -- RFC
+Subject: Re: [RFC PATCH 2/5] module-init-tools-cross: add provides for depmod-3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,37 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 19:01:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jun 2011 19:07:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, 2011-06-21 at 11:43 -0500, Mark Hatle wrote:
-> Adjust the umask to 022.  This resolves the problem of dynamically generated
-> directories (mkdir -p) and specific files (touch foo) having odd permissions.
-> 
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=mhatle/perms&id=d8470b6a8efdbba04cef5d4dc1ce12720fe83621
+On Tue, Jun 21, 2011 at 20:46, Phil Blundell <pb@pbcl.net> wrote:
+> On Tue, 2011-06-21 at 20:18 +0200, Anders Darander wrote:
+>> -PROVIDES += "virtual/${TARGET_PREFIX}depmod virtual/${TARGET_PREFIX}depmod-2.6"
+>> +PROVIDES += "virtual/${TARGET_PREFIX}depmod virtual/${TARGET_PREFIX}depmod-2.6 virtual/${TARGET_PREFIX}depmod-3"
+>
+> Can we not just ditch the versioned virtuals and have all the
+> dependencies use plain virtual/depmod now?
 
-Are you confident that this isn't going to break anything like
-group-shared DL_DIRs?  I'm not entirely thrilled about forcing the umask
-to 022 for everything that bitbake does, although I can see that making
-it be so for particular tasks like do_install() might have some merit.
-Even in the latter case, though, I wonder whether we should just be
-paying more attention to recipe hygiene and using "install -m ..." with
-the permissions that we actually want.
+Well, when thinking about it, that sounds like a good idea. If we are
+ditching 2.4-support, as in my patches, there will only be one module
+format, as well as one depmod (or two, if we count the busybox
+version).
 
-I'm also not quite sure I understand why this is necessary if
-fixup_perms is going to fix up the permissions anyway. 
+Lets think about it, and I'll probably address that in v2.
 
-> The user can add their own settings, or override the defaults by providing a
-> meta/files/fs-perms.txt file. 
-
-Using a magically-named file rather than metadata vars is a bit
-unconventional and seems like it will make life unnecessarily harder for
-distros/other overlays.  Is there any reason it needs to be done that
-way?
-
-p.
-
-
+Regards,
+Anders
 
 
