@@ -1,38 +1,38 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders.darander@gmail.com>) id 1QZ6IM-0003D0-2t
+	(envelope-from <anders.darander@gmail.com>) id 1QZ6Jl-0003Ey-6a
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 21:07:30 +0200
-Received: by fxm19 with SMTP id 19so177884fxm.6
+	Tue, 21 Jun 2011 21:08:58 +0200
+Received: by fxm19 with SMTP id 19so179011fxm.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 12:03:56 -0700 (PDT)
+	Tue, 21 Jun 2011 12:05:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=phSJDhE+5cQXs7yiKv7eSVf0pCygsgh8Nr9wiSNNTuQ=;
-	b=VisLT5EUATJI03aw0J+ax0g702NjUFyM/q9901rBk6AtUHVHy1LH9NshNxzTNlHl5C
-	d1Vitf27SUQEZB0SDMoFCSbZXWBYA4MzWVXih7OkU4nJSpDVUfgLHheUUg8C/BGVfKT7
-	TtI5cLd3Coh4elGMlkcxsjKfg4tq/5qk54LU8=
+	:message-id:subject:from:to:content-type:content-transfer-encoding;
+	bh=ZGw16524vYVUEux20LF9EClLd/7XxvfCSy0wcxqnCj0=;
+	b=aKJ/IIH+btgtTnbgcKKMclbRJRX6cZI141SDKVoMLVSS9sXUWvFefNAZ//IOCquBjK
+	XGnPKwyxgptZ49SetJiPnl2BBs85rHNOW1sf0e4xExNu1qpWO9bShLJfrcKqpOwFZaTz
+	0lFDIdbAiE9jdhur7zOIMLPPJLFUCyXxFnWYg=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type;
-	b=CUrtsi/2P3vKOc0dXMhFbGFgxfnMzeLhgZRIP4wEzSSIplA05stS1P1TSorre6m4NO
-	dCII6FvAsMwL2I68cHGBC0minCPIWuTuUCF8iqTrRSJYFbIW5vlZnizXZhKgXflwc9S5
-	Jq9PYlKY2PcK5ab/boWksLt0SjoEQ6GaqPYX4=
+	:content-type:content-transfer-encoding;
+	b=I5HSs5jOJLC4U2FJDjp7+2g1o2bX2trzTCbVwVD4GTOcASbP2KezFfmjpC87ZEF/no
+	t+tCU2/WYx3tFTNo8dBSVzYLrMDe59LLjfASEq2w6otIW3cSn3Cx4Bkq1biiZg1tCp4c
+	9Alq0ieNgCaMN7sLA/kOLkS2aX5u811xL3bzk=
 MIME-Version: 1.0
-Received: by 10.223.100.15 with SMTP id w15mr125674fan.11.1308683036609; Tue,
-	21 Jun 2011 12:03:56 -0700 (PDT)
-Received: by 10.223.114.1 with HTTP; Tue, 21 Jun 2011 12:03:56 -0700 (PDT)
-In-Reply-To: <1308682002.3083.12.camel@lenovo.internal.reciva.com>
+Received: by 10.223.94.129 with SMTP id z1mr4227553fam.144.1308683122917; Tue,
+	21 Jun 2011 12:05:22 -0700 (PDT)
+Received: by 10.223.114.1 with HTTP; Tue, 21 Jun 2011 12:05:22 -0700 (PDT)
+In-Reply-To: <1308682055.3083.13.camel@lenovo.internal.reciva.com>
 References: <cover.1308680000.git.anders@chargestorm.se>
-	<8e57843c8775752059dc6acacdbd7751b1ed7082.1308680000.git.anders@chargestorm.se>
-	<1308682002.3083.12.camel@lenovo.internal.reciva.com>
-Date: Tue, 21 Jun 2011 21:03:56 +0200
-Message-ID: <BANLkTik3rm8gG9Hik9O0QoVNp7ft2xW-ZQ@mail.gmail.com>
+	<dae7eb36362cc224e70938d345ddfbd672ad0d61.1308680000.git.anders@chargestorm.se>
+	<1308682055.3083.13.camel@lenovo.internal.reciva.com>
+Date: Tue, 21 Jun 2011 21:05:22 +0200
+Message-ID: <BANLkTikrLbTp++UjNegyxdyNq3O=YiFs0w@mail.gmail.com>
 From: Anders Darander <anders.darander@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 2/5] module-init-tools-cross: add provides for depmod-3
+Subject: Re: [RFC PATCH 1/5] Remove support for building 2.4 kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,23 +47,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 19:07:30 -0000
+X-List-Received-Date: Tue, 21 Jun 2011 19:08:58 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 21, 2011 at 20:46, Phil Blundell <pb@pbcl.net> wrote:
+On Tue, Jun 21, 2011 at 20:47, Phil Blundell <pb@pbcl.net> wrote:
 > On Tue, 2011-06-21 at 20:18 +0200, Anders Darander wrote:
->> -PROVIDES += "virtual/${TARGET_PREFIX}depmod virtual/${TARGET_PREFIX}depmod-2.6"
->> +PROVIDES += "virtual/${TARGET_PREFIX}depmod virtual/${TARGET_PREFIX}depmod-2.6 virtual/${TARGET_PREFIX}depmod-3"
+>> Signed-off-by: Anders Darander <anders@chargestorm.se>
+>> ---
+>> =A0meta/classes/kernel.bbclass =A0 =A0 =A0| =A0 22 +++++++--------------=
+-
+>> =A0meta/classes/module-base.bbclass | =A0 =A02 +-
+>> =A02 files changed, 8 insertions(+), 16 deletions(-)
 >
-> Can we not just ditch the versioned virtuals and have all the
-> dependencies use plain virtual/depmod now?
+> This patch looks basically fine but it has quite a lot of extraneous
+> whitespace changes. =A0Could you try to filter those out in future, or
+> submit them as a separate patch?
 
-Well, when thinking about it, that sounds like a good idea. If we are
-ditching 2.4-support, as in my patches, there will only be one module
-format, as well as one depmod (or two, if we count the busybox
-version).
-
-Lets think about it, and I'll probably address that in v2.
+Sure, I'll try to watch out for these in the future.
 
 Regards,
 Anders
