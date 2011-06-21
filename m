@@ -1,28 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZSK2-0002tp-Gu
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QZSXg-00034O-8F for openembedded-core@lists.openembedded.org;
+	Wed, 22 Jun 2011 20:52:48 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QZSUF-0003WF-U4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 20:38:45 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MIZ7Ru008573
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 11:35:07 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 22 Jun 2011 11:35:06 -0700
-Message-ID: <4E0235DA.8060200@windriver.com>
-Date: Wed, 22 Jun 2011 13:35:06 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1308706423.git.raj.khem@gmail.com>
-	<1308758279.20015.79.camel@rex>
-In-Reply-To: <1308758279.20015.79.camel@rex>
-Subject: Re: [PATCH 0/4] eglibc 2.14 upgrade
+	Wed, 22 Jun 2011 20:49:16 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1308693154.3083.89.camel@lenovo.internal.reciva.com>
+References: <4E00CA30.7020302@windriver.com>
+	<1308682643.3083.18.camel@lenovo.internal.reciva.com>
+	<4E00ED2C.1040708@windriver.com>
+	<7E1967A9-8BDC-4B6D-85FB-0232590DD15A@dominion.thruhere.net>
+	<4E010FF4.2070102@windriver.com>
+	<1308693154.3083.89.camel@lenovo.internal.reciva.com>
+Date: Tue, 21 Jun 2011 22:58:54 +0100
+Message-ID: <1308693534.3083.91.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: Directory permissions and ownership -- RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,47 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 18:38:45 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Wed, 22 Jun 2011 18:52:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Since applying this update, I'm not longer getting an rpc/rpc.h file, which
-breaks various things like busybox mount.
+On Tue, 2011-06-21 at 22:52 +0100, Phil Blundell wrote:
+> On Tue, 2011-06-21 at 16:41 -0500, Mark Hatle wrote:
+> > Unfortunately it won't work as the umask would only be set in the "mytask" -
+> > task.  It needs to be set in all of the do_install and do_package tasks.
+> > 
+> > The only way to do this (from what Chris L told me) is to setup an event handler
+> > and set the umask when we get into specific events.  I'm not sure if I could
+> > correctly capture do_install and later.. plus if someone did what you are
+> > mentioning, then it would no longer be in the umask 022.
+> 
+> I think you could probably fix do_install by wrapping it in a python
+> method.  That is, something along the lines of:
 
-Is anyone else seeing this behavior?
+Or, I guess, if you were prepared to countenance patching bitbake, just
+set:
 
---Mark
+do_install[umask] = 022
 
-On 6/22/11 10:57 AM, Richard Purdie wrote:
-> On Tue, 2011-06-21 at 18:43 -0700, Khem Raj wrote:
->> This patchset upgrades eglibc 2.13 -> 2.14                                             
->> Needed a binutils fix for x86_64                                                       
->> Package sotruss which is new in eglibc 2.14                
->>
->> The following changes since commit 78de64f58b98101f5be5778e9ecbdaae5ba32997:
->>
->>   binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64 (2011-06-21 17:58:06 -0700)
->>
->> are available in the git repository at:
->>   git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-2.14
->>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-2.14
->>
->> Khem Raj (4):
->>   eglibc: Upgrade recipes from 2.13 -> 2.14
->>   eglibc-package.inc: Package newly added sotruss and supporting
->>     libraries
->>   binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64
->>   tcmode-default.inc: Bump EGLIBCVERSION to 2.14
-> 
-> Merged to master, thanks.
-> 
-> Richard
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+and arrange for the right things to happen.  That might not be so awful.
+
+p.
+
 
 
 
