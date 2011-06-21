@@ -1,19 +1,20 @@
-Received: from stoexhub01.domain01.net ([83.145.59.142]
-	helo=stoexhub02.domain01.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QZ5aH-000293-R3
+Received: from stoexhub01.domain01.net ([83.145.59.142])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <anders@chargestorm.se>) id 1QZ5b6-0002AR-3z
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 20:21:57 +0200
-Received: from localhost (193.235.91.228) by stoexhub02.domain01.net
-	(10.12.10.2) with Microsoft SMTP Server id 8.3.137.0; Tue, 21 Jun 2011
-	20:18:23 +0200
+	Tue, 21 Jun 2011 20:22:48 +0200
+Received: from localhost (193.235.91.228) by STOEXHUB01.domain01.net
+	(10.12.10.1) with Microsoft SMTP Server id 8.3.137.0; Tue, 21 Jun 2011
+	20:19:14 +0200
 From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Jun 2011 20:18:09 +0200
-Message-ID: <cover.1308680000.git.anders@chargestorm.se>
+Date: Tue, 21 Jun 2011 20:18:53 +0200
+Message-ID: <dae7eb36362cc224e70938d345ddfbd672ad0d61.1308680000.git.anders@chargestorm.se>
 X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1308680000.git.anders@chargestorm.se>
+References: <cover.1308680000.git.anders@chargestorm.se>
 MIME-Version: 1.0
-X-GFI-SMTP-Submission: 1
-Subject: [RFC PATCH 0/5] Linux 3.0 build support
+Subject: [RFC PATCH 1/5] Remove support for building 2.4 kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,81 +29,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 18:21:57 -0000
+X-List-Received-Date: Tue, 21 Jun 2011 18:22:48 -0000
 Content-Type: text/plain
 
-This work is unfinished and incomplete...
-It is published in its current form both to get feedback, but also to aid
-anyone else who is working on 3.0-support. If some of the patches are found to
-be OK, it's fine to cherrypick them.
+Signed-off-by: Anders Darander <anders@chargestorm.se>
+---
+ meta/classes/kernel.bbclass      |   22 +++++++---------------
+ meta/classes/module-base.bbclass |    2 +-
+ 2 files changed, 8 insertions(+), 16 deletions(-)
 
-The kernel-related classes has been modified to build a 3.0 kernel. The
-patches has been simplified by removing support for the 2.4-series. (The
-latter was suggested in an older mail thread:
-http://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg02682.html
-).
-
-The patches has been tested on linux-yocto_2.6.37 and a hacked version using
-the linux-yocto-dev repository (using a 3.0-rcX). The latest versions has only
-been built for qemuarm, prior iterations has also been built for qemux86.
-
-Finally, no work has been done on the libc-linux-headers classes and recipes.
-
-/Anders
-
-Please review the following changes for suitability for inclusion. If you have
-any objections or suggestions for improvement, please respond to the patches. If
-you agree with the changes, please provide your Acked-by.
-
-The following changes since commit 835d817f1ba7b99167743fdb86ba80f3a07bd82d:
-
-  systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:12:40 +0100)
-
-are available in the git repository at:
-  git://github.com/darander/oe-core kernel-3.0
-  https://github.com/darander/oe-core/tree/kernel-3.0
-
-Anders Darander (5):
-  Remove support for building 2.4 kernels
-  module-init-tools-cross: add provides for depmod-3
-  linux-kernel-base: add support for Linux 3.x
-  modutils-initscripts: move recipe prior to modutils removal
-  modutils: remove modutils
-
- meta/classes/kernel.bbclass                        |   22 ++---
- meta/classes/linux-kernel-base.bbclass             |    3 +
- meta/classes/module-base.bbclass                   |    2 +-
- .../{modutils => module-init-tools}/files/PD.patch |    0
- .../files/modutils.sh                              |    0
- .../module-init-tools-cross_3.12.bb                |    2 +-
- .../modutils-initscripts.bb                        |    0
- meta/recipes-kernel/modutils/files/armeb.patch     |   16 ----
- meta/recipes-kernel/modutils/files/configure.patch |   34 -------
- meta/recipes-kernel/modutils/files/gcc4.patch      |   93 --------------------
- meta/recipes-kernel/modutils/files/lex.l.diff      |   35 --------
- .../modutils/files/modutils-notest.patch           |   16 ----
- .../modutils/files/program_prefix.patch            |   71 ---------------
- .../recipes-kernel/modutils/modutils-collateral.bb |   21 -----
- .../modutils/modutils-cross/module.h.diff          |   35 --------
- .../modutils/modutils-cross_2.4.27.bb              |   20 ----
- meta/recipes-kernel/modutils/modutils_2.4.27.bb    |   93 --------------------
- 17 files changed, 12 insertions(+), 451 deletions(-)
- rename meta/recipes-kernel/{modutils => module-init-tools}/files/PD.patch (100%)
- rename meta/recipes-kernel/{modutils => module-init-tools}/files/modutils.sh (100%)
- rename meta/recipes-kernel/{modutils => module-init-tools}/modutils-initscripts.bb (100%)
- delete mode 100644 meta/recipes-kernel/modutils/files/armeb.patch
- delete mode 100644 meta/recipes-kernel/modutils/files/configure.patch
- delete mode 100644 meta/recipes-kernel/modutils/files/gcc4.patch
- delete mode 100644 meta/recipes-kernel/modutils/files/lex.l.diff
- delete mode 100644 meta/recipes-kernel/modutils/files/modules
- delete mode 100644 meta/recipes-kernel/modutils/files/modules.conf
- delete mode 100644 meta/recipes-kernel/modutils/files/modutils-notest.patch
- delete mode 100644 meta/recipes-kernel/modutils/files/program_prefix.patch
- delete mode 100644 meta/recipes-kernel/modutils/modutils-collateral.bb
- delete mode 100644 meta/recipes-kernel/modutils/modutils-cross/module.h.diff
- delete mode 100644 meta/recipes-kernel/modutils/modutils-cross_2.4.27.bb
- delete mode 100644 meta/recipes-kernel/modutils/modutils_2.4.27.bb
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 1bb69f5..3b6fc6b 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -73,9 +73,6 @@ KERNEL_ALT_IMAGETYPE ??= ""
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 	oe_runmake include/linux/version.h CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+-	if [ "${KERNEL_MAJOR_VERSION}" != "2.6" ]; then
+-		oe_runmake dep CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+-	fi
+ 	oe_runmake ${KERNEL_IMAGETYPE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}"
+ }
+ 
+@@ -102,7 +99,7 @@ kernel_do_install() {
+ 
+ 	#
+ 	# Install various kernel output (zImage, map file, config, module support files)
+-	#	
++	#
+ 	install -d ${D}/${KERNEL_IMAGEDEST}
+ 	install -d ${D}/boot
+ 	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
+@@ -111,9 +108,7 @@ kernel_do_install() {
+ 	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+ 	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
+ 	install -d ${D}/etc/modutils
+-	if [ "${KERNEL_MAJOR_VERSION}" = "2.6" ]; then
+-		install -d ${D}/etc/modprobe.d
+-	fi
++	install -d ${D}/etc/modprobe.d
+ 
+ 	#
+ 	# Support for external module building - create a minimal copy of the
+@@ -211,7 +206,7 @@ FILES_kernel-vmlinux = "/boot/vmlinux*"
+ # misc is a package to contain files we need in staging
+ FILES_kernel-misc = "/kernel/include/config /kernel/scripts /kernel/drivers/crypto /kernel/drivers/media"
+ RDEPENDS_kernel = "kernel-base"
+-# Allow machines to override this dependency if kernel image files are 
++# Allow machines to override this dependency if kernel image files are
+ # not wanted in images as standard
+ RDEPENDS_kernel-base ?= "kernel-image"
+ PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+@@ -295,7 +290,7 @@ python populate_packages_prepend () {
+ 				continue
+ 			vals[m.group(1)] = m.group(2)
+ 		return vals
+-	
++
+ 	def parse_depmod():
+ 		import re
+ 
+@@ -346,7 +341,7 @@ python populate_packages_prepend () {
+ 			line = f.readline()
+ 		f.close()
+ 		return deps
+-	
++
+ 	def get_dependencies(file, pattern, format):
+                 # file no longer includes PKGD
+ 		file = file.replace(bb.data.getVar('PKGD', d, 1) or '', '', 1)
+@@ -390,10 +385,7 @@ python populate_packages_prepend () {
+ 		# Write out any modconf fragment
+ 		modconf = bb.data.getVar('module_conf_%s' % basename, d, 1)
+ 		if modconf:
+-			if bb.data.getVar("KERNEL_MAJOR_VERSION", d, 1) == "2.6":
+-				name = '%s/etc/modprobe.d/%s.conf' % (dvar, basename)
+-			else:
+-				name = '%s/etc/modutils/%s.conf' % (dvar, basename)
++			name = '%s/etc/modprobe.d/%s.conf' % (dvar, basename)
+ 			f = open(name, 'w')
+ 			f.write("%s\n" % modconf)
+ 			f.close()
+@@ -469,7 +461,7 @@ kernel_do_deploy() {
+ 		tar -cvzf ${DEPLOYDIR}/modules-${KERNEL_VERSION}-${PR}-${MACHINE}.tgz -C ${D} lib
+ 	fi
+ 
+-	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
++	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then
+ 		if test -e arch/${ARCH}/boot/uImage ; then
+ 			cp arch/${ARCH}/boot/uImage ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+ 		elif test -e arch/${ARCH}/boot/compressed/vmlinux ; then
+diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
+index c98bace..a7cf233 100644
+--- a/meta/classes/module-base.bbclass
++++ b/meta/classes/module-base.bbclass
+@@ -7,7 +7,7 @@ export CROSS_COMPILE = "${TARGET_PREFIX}"
+ 
+ export KERNEL_VERSION = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-abiversion')}"
+ export KERNEL_SOURCE = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-source')}"
+-KERNEL_OBJECT_SUFFIX = "${@[".o", ".ko"][base_read_file('${STAGING_KERNEL_DIR}/kernel-abiversion') > "2.6.0"]}"
++KERNEL_OBJECT_SUFFIX = ".ko"
+ KERNEL_CCSUFFIX = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-ccsuffix')}"
+ KERNEL_LDSUFFIX = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-ldsuffix')}"
+ KERNEL_ARSUFFIX = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-arsuffix')}"
 -- 
 1.7.4.1
 
