@@ -1,40 +1,24 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders.darander@gmail.com>) id 1QZ5vV-0002UV-Gt
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QZ60j-0002aq-Jy for openembedded-core@lists.openembedded.org;
+	Tue, 21 Jun 2011 20:49:17 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QZ5xJ-0002nK-Um
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 20:43:53 +0200
-Received: by fxm19 with SMTP id 19so163028fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 11:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=eRGSYl2Ws4TApPK4xo8QhzAF0LJbq945iaNa/vfayiQ=;
-	b=l+0xBXgCuEq60+c7dBBK0c4Qi4ozpCLBcRSwqWl4Ck1v+Ia58JDlcfYPk6tYWxezpV
-	rTeyi5h+OyOARwZddJMWvWmfjzr1IQ4gXvSna8zRrmurBuWUxAlMGicbOvp4QMZIHiju
-	qy4iTHEcIT3XrBpigEIKbk6wdhGjt0QRAKtqk=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	b=U1a0qfN/9ump+zgY6ROw9HUUM96lHOIwbt1LNc5n/jBT+t4ZhwLEwexvfKJtBEllfI
-	KulzZVgOzFhoPP0LK7JI2/DvbqGm+a3OJFYuUQ2OhJY+7JpYGA1mtq+LQCqXZndYu7Xs
-	aEelJpb3bp3aWL/0O2GQ6kRvGhu4ELCrvqosw=
-MIME-Version: 1.0
-Received: by 10.223.76.219 with SMTP id d27mr223287fak.87.1308681619721; Tue,
-	21 Jun 2011 11:40:19 -0700 (PDT)
-Sender: anders.darander@gmail.com
-Received: by 10.223.114.1 with HTTP; Tue, 21 Jun 2011 11:40:19 -0700 (PDT)
-In-Reply-To: <A5CA482F-DAA6-407C-ADA1-CEA2A5D91D57@dominion.thruhere.net>
-References: <cover.1308680000.git.anders@chargestorm.se>
-	<8e57843c8775752059dc6acacdbd7751b1ed7082.1308680000.git.anders@chargestorm.se>
-	<A5CA482F-DAA6-407C-ADA1-CEA2A5D91D57@dominion.thruhere.net>
-Date: Tue, 21 Jun 2011 20:40:19 +0200
-X-Google-Sender-Auth: BXDVY-p958paMRTyistW0P-0AWw
-Message-ID: <BANLkTi=gfDxJSRif91-j+-zKd7rQjZeL+g@mail.gmail.com>
-From: Anders Darander <anders@chargestorm.se>
+	Tue, 21 Jun 2011 20:45:46 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 2/5] module-init-tools-cross: add provides for depmod-3
+In-Reply-To: <4e9efffb9118e29178d087577c0cebb360872ebe.1308680000.git.anders@chargestorm.se>
+References: <cover.1308680000.git.anders@chargestorm.se>
+	<4e9efffb9118e29178d087577c0cebb360872ebe.1308680000.git.anders@chargestorm.se>
+Date: Tue, 21 Jun 2011 19:45:38 +0100
+Message-ID: <1308681938.3083.11.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [RFC PATCH 3/5] linux-kernel-base: add support for Linux 3.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,19 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 18:43:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 21 Jun 2011 18:49:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 21, 2011 at 20:22, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> Don't you need at least 3.13 (or better 3.16) for proper 3.0 support? This one was added after 3.12:
->
-> http://git.kernel.org/?p=utils/kernel/module-init-tools/module-init-tools.git;a=commitdiff;h=3328d178247017affd90b7897393699f2f45227d
+On Tue, 2011-06-21 at 20:18 +0200, Anders Darander wrote:
+> Return 2.X as major version for kernels 2.X, and return
+> X for kernels X.Y (X>=3).
 
-That's of course true...
+I'm not quite sure I understand what this particular logic is useful
+for.  If we're removing 2.4 support (which I'm fairly relaxed about)
+then it seems as though this whole "kernel_majorversion" thing can and
+should just go away.  
 
-I'll send a version 2 at some time.
+Or, alternatively, perhaps it should be mapped into a more abstract kind
+of "kernel epoch" thing which treats 2.6 and 3.0 as basically the same.
 
-Regards,
-Anders
+p.
+
+
 
 
