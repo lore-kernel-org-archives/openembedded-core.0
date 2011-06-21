@@ -1,29 +1,20 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QYubv-0007ih-5D
+	(envelope-from <edwin.zhai@intel.com>) id 1QYvDF-0008QU-Bs
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 08:38:55 +0200
-Received: by wwg12 with SMTP id 12so2698609wwg.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jun 2011 23:35:22 -0700 (PDT)
-Received: by 10.216.133.161 with SMTP id q33mr5278555wei.73.1308638122077;
-	Mon, 20 Jun 2011 23:35:22 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w10sm3276136weq.27.2011.06.20.23.35.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 20 Jun 2011 23:35:21 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4DFFCEFA.2030000@mentor.com>
-Date: Tue, 21 Jun 2011 08:35:19 +0200
-Message-Id: <A6EDAD88-83D6-4028-B9A7-D7C53A16EF08@dominion.thruhere.net>
-References: <4DFFAB8C.30905@linux.intel.com> <4DFFCEFA.2030000@mentor.com>
-To: Tom Rini <tom_rini@mentor.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: "poky@yoctoproject.org Project" <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] eggdbus build failure in master
+	Tue, 21 Jun 2011 09:17:29 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Jun 2011 00:13:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,399,1304319600"; d="scan'208";a="20750968"
+Received: from yocto-build3.sh.intel.com ([10.239.48.58])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Jun 2011 00:13:53 -0700
+From: edwin.zhai@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Jun 2011 15:12:18 +0800
+Message-Id: <cover.1308639329.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1] Remove obsolete gnome-vfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,27 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 06:38:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jun 2011 07:17:29 -0000
+
+From: Zhai Edwin <edwin.zhai@intel.com>
+
+This patch removed obsolete gnome-vfs in favor of GIO/GVFS.
+Pls. help to review.
+
+Thanks,
+edwin
 
 
-Op 21 jun 2011, om 00:51 heeft Tom Rini het volgende geschreven:
+The following changes since commit 4ff7af11ef69849ef9c16f585eae58ac920b222b:
 
-> On 06/20/2011 01:20 PM, Darren Hart wrote:
->> I'm seeing a consistent eggdbus build failure that seems to be related
->> to the perl-native relocation. I've cleanall'd autoconf and automake,
->> native and target versions. The failure persists.
->> 
->> Anyone have any ideas on how to get this building? I'll start a clean
->> build in another directory for now.
-> 
-> It's a glib problem, you need to switch glib-mkenums to using
-> /usr/bin/env perl (you're building in too deep a path for #! to work
-> with the full path to perl-native).
+  machine confs: Add xserver-kdrive as PREFERRED_PROVIDER (2011-05-27 15:30:19 -0700)
 
-I sent that last week to oe-core :)
+are available in the git repository at:
+  git@git.pokylinux.org:poky-contrib.git gzhai/master
+  http://git.pokylinux.org/cgit.cgi//log/?h=gzhai/master
 
-Have a look at http://patches.openembedded.org/patch/6137/
+Zhai Edwin (1):
+  gnome-vfs: remove gnome-vfs as it is deprecated in favour of GVFS and
+    GIO
+
+ .../oprofileui/migrate-from-gnomevfs-to-gio.patch  |  219 ++++++++++++++++++++
+ meta/recipes-kernel/oprofile/oprofileui_git.bb     |    1 +
+ .../gstreamer/gst-meta-base_0.10.bb                |    2 +-
+ .../gstreamer/gst-plugins-base_0.10.32.bb          |    6 +-
+ meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    2 +-
+ 5 files changed, 224 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-kernel/oprofile/oprofileui/migrate-from-gnomevfs-to-gio.patch
+
 
 
