@@ -1,27 +1,39 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QZ5eH-0002HM-Fh
+	(envelope-from <anders.darander@gmail.com>) id 1QZ5vV-0002UV-Gt
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 20:26:05 +0200
-Received: by wyb34 with SMTP id 34so34426wyb.6
+	Tue, 21 Jun 2011 20:43:53 +0200
+Received: by fxm19 with SMTP id 19so163028fxm.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 11:22:32 -0700 (PDT)
-Received: by 10.227.198.199 with SMTP id ep7mr3875562wbb.40.1308680550897;
-	Tue, 21 Jun 2011 11:22:30 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id o19sm4209624wbh.4.2011.06.21.11.22.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 21 Jun 2011 11:22:30 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <8e57843c8775752059dc6acacdbd7751b1ed7082.1308680000.git.anders@chargestorm.se>
-Date: Tue, 21 Jun 2011 20:22:28 +0200
-Message-Id: <A5CA482F-DAA6-407C-ADA1-CEA2A5D91D57@dominion.thruhere.net>
+	Tue, 21 Jun 2011 11:40:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=eRGSYl2Ws4TApPK4xo8QhzAF0LJbq945iaNa/vfayiQ=;
+	b=l+0xBXgCuEq60+c7dBBK0c4Qi4ozpCLBcRSwqWl4Ck1v+Ia58JDlcfYPk6tYWxezpV
+	rTeyi5h+OyOARwZddJMWvWmfjzr1IQ4gXvSna8zRrmurBuWUxAlMGicbOvp4QMZIHiju
+	qy4iTHEcIT3XrBpigEIKbk6wdhGjt0QRAKtqk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	b=U1a0qfN/9ump+zgY6ROw9HUUM96lHOIwbt1LNc5n/jBT+t4ZhwLEwexvfKJtBEllfI
+	KulzZVgOzFhoPP0LK7JI2/DvbqGm+a3OJFYuUQ2OhJY+7JpYGA1mtq+LQCqXZndYu7Xs
+	aEelJpb3bp3aWL/0O2GQ6kRvGhu4ELCrvqosw=
+MIME-Version: 1.0
+Received: by 10.223.76.219 with SMTP id d27mr223287fak.87.1308681619721; Tue,
+	21 Jun 2011 11:40:19 -0700 (PDT)
+Sender: anders.darander@gmail.com
+Received: by 10.223.114.1 with HTTP; Tue, 21 Jun 2011 11:40:19 -0700 (PDT)
+In-Reply-To: <A5CA482F-DAA6-407C-ADA1-CEA2A5D91D57@dominion.thruhere.net>
 References: <cover.1308680000.git.anders@chargestorm.se>
 	<8e57843c8775752059dc6acacdbd7751b1ed7082.1308680000.git.anders@chargestorm.se>
+	<A5CA482F-DAA6-407C-ADA1-CEA2A5D91D57@dominion.thruhere.net>
+Date: Tue, 21 Jun 2011 20:40:19 +0200
+X-Google-Sender-Auth: BXDVY-p958paMRTyistW0P-0AWw
+Message-ID: <BANLkTi=gfDxJSRif91-j+-zKd7rQjZeL+g@mail.gmail.com>
+From: Anders Darander <anders@chargestorm.se>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
 Subject: Re: [RFC PATCH 2/5] module-init-tools-cross: add provides for depmod-3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,44 +49,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 18:26:05 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Jun 2011 18:43:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Tue, Jun 21, 2011 at 20:22, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> Don't you need at least 3.13 (or better 3.16) for proper 3.0 support? This one was added after 3.12:
+>
+> http://git.kernel.org/?p=utils/kernel/module-init-tools/module-init-tools.git;a=commitdiff;h=3328d178247017affd90b7897393699f2f45227d
 
-Op 21 jun 2011, om 20:18 heeft Anders Darander het volgende geschreven:
+That's of course true...
 
-> Signed-off-by: Anders Darander <anders@chargestorm.se>
-> ---
-> .../module-init-tools-cross_3.12.bb                |    2 +-
-> 1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git =
-a/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.12.bb =
-b/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.12.bb
-> index 08bf1a9..9b6ab95 100644
-> --- =
-a/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.12.bb
-> +++ =
-b/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.12.bb
-> @@ -1,7 +1,7 @@
-> require module-init-tools.inc
-> PR =3D "r1"
-> inherit cross
-> -PROVIDES +=3D "virtual/${TARGET_PREFIX}depmod =
-virtual/${TARGET_PREFIX}depmod-2.6"
-> +PROVIDES +=3D "virtual/${TARGET_PREFIX}depmod =
-virtual/${TARGET_PREFIX}depmod-2.6 virtual/${TARGET_PREFIX}depmod-3"
+I'll send a version 2 at some time.
 
-Don't you need at least 3.13 (or better 3.16) for proper 3.0 support? =
-This one was added after 3.12:
-
-=
-http://git.kernel.org/?p=3Dutils/kernel/module-init-tools/module-init-tool=
-s.git;a=3Dcommitdiff;h=3D3328d178247017affd90b7897393699f2f45227d
-
-regards,
-
-Koen=
+Regards,
+Anders
 
 
