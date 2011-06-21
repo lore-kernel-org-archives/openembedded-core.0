@@ -1,24 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QZ4su-00019d-Kt
+	(envelope-from <koen@dominion.thruhere.net>) id 1QZ4tK-0001Ar-AX
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 19:37:08 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jun 2011 10:33:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,402,1304319600"; d="scan'208";a="18920352"
-Received: from unknown (HELO [10.255.13.234]) ([10.255.13.234])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Jun 2011 10:33:23 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jun 2011 10:33:17 -0700
-In-Reply-To: <1046625816b98aaab44b810e2376ed3689a2af5f.1308677220.git.paul.eggleton@linux.intel.com>
+	Tue, 21 Jun 2011 19:37:34 +0200
+Received: by wyb34 with SMTP id 34so2526339wyb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jun 2011 10:33:57 -0700 (PDT)
+Received: by 10.227.201.9 with SMTP id ey9mr1970896wbb.41.1308677637285;
+	Tue, 21 Jun 2011 10:33:57 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fl19sm4176319wbb.15.2011.06.21.10.33.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 21 Jun 2011 10:33:56 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <cover.1308677220.git.paul.eggleton@linux.intel.com>
+Date: Tue, 21 Jun 2011 19:33:54 +0200
+Message-Id: <0ED7E5E5-767E-4178-92C7-0977ECEDE0FD@dominion.thruhere.net>
 References: <cover.1308677220.git.paul.eggleton@linux.intel.com>
-	<1046625816b98aaab44b810e2376ed3689a2af5f.1308677220.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.0.2 (3.0.2-2.fc15) 
-Message-ID: <1308677603.2218.8.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] u-boot: set SRCREV to a git revision instead of a tag reference
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 0/1] Fix for bitbake freeze due to git fetch during parse
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,55 +36,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 17:37:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 21 Jun 2011 17:37:34 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-06-21 at 18:29 +0100, Paul Eggleton wrote:
-> If we use a tag here then bitbake has to connect to the repository to find
-> out the corresponding revision (so it can expand SRCPV which is part of PV,
-> which amongst other things is needed to determine whether or not the
-> package has to be rebuilt.) This occurs at parse time; on machines behind a
-> firewall or with no network access this can be a problem.
-> 
-> We wish to avoid unnecessary network accesses and network access in our
-> default configuration during parse time is even worse. Substituting the
-> git revision corresponding to the tag prevents bitbake from having to
-> contact the remote repository in order to expand PV.
-> 
-> Addresses [YOCTO #1186]
-> 
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Great work tracking this down! I wonder if it's worth mentioning in the
-metadata that the revision corresponds to the tag?
+Op 21 jun 2011, om 19:29 heeft Paul Eggleton het volgende geschreven:
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
-> ---
->  meta/recipes-bsp/uboot/u-boot_2011.03.bb |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-bsp/uboot/u-boot_2011.03.bb b/meta/recipes-bsp/uboot/u-boot_2011.03.bb
-> index 07f0609..25af69b 100644
-> --- a/meta/recipes-bsp/uboot/u-boot_2011.03.bb
-> +++ b/meta/recipes-bsp/uboot/u-boot_2011.03.bb
-> @@ -12,9 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
->  
->  FILESDIR = "${@os.path.dirname(bb.data.getVar('FILE',d,1))}/u-boot-git/${MACHINE}"
->  
-> -SRCREV = "v2011.03"
-> +SRCREV = "19b54a701811220221fc4d5089a2bb18892018ca"
->  PV = "v2011.03+git${SRCPV}"
-> -PR="r4"
-> +PR = "r5"
->  
->  SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
->  
+> Addresses [YOCTO #1186]. See patch for further details. (Sending against
+> poky-contrib since OE git is currently experiencing issues.)
 
--- 
-Joshua Lock
-        Yocto Build System Monkey
-        Intel Open Source Technology Centre
-
+That's why we have https://github.com/openembedded :)
 
 
