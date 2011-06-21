@@ -1,27 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZ3Cf-0005pc-1b
+Received: from 6.mo2.mail-out.ovh.net ([87.98.165.38]
+	helo=mo2.mail-out.ovh.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <eric@eukrea.com>) id 1QZ3UT-0006Mo-KN
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 17:49:25 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5LFjo4q003112
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 21 Jun 2011 18:07:49 +0200
+Received: from mail170.ha.ovh.net (b6.ovh.net [213.186.33.56])
+	by mo2.mail-out.ovh.net (Postfix) with SMTP id 2376BDC17F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 08:45:50 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 21 Jun 2011 08:45:50 -0700
-Message-ID: <4E00BCAD.5010204@windriver.com>
-Date: Tue, 21 Jun 2011 10:45:49 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+	Tue, 21 Jun 2011 15:33:20 +0200 (CEST)
+Received: from b0.ovh.net (HELO queueout) (213.186.33.50)
+	by b0.ovh.net with SMTP; 21 Jun 2011 15:33:05 +0200
+Received: from pac33-2-82-240-38-71.fbx.proxad.net (HELO ?192.168.1.15?)
+	(ebenard%eukrea.com@82.240.38.71)
+	by ns0.ovh.net with SMTP; 21 Jun 2011 15:33:04 +0200
+Message-ID: <4E009D8F.10301@eukrea.com>
+Date: Tue, 21 Jun 2011 15:33:03 +0200
+From: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc14
+	Lightning/1.0b3pre Thunderbird/3.1.10
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1308302102.git.wenzong.fan@windriver.com>
-In-Reply-To: <cover.1308302102.git.wenzong.fan@windriver.com>
-Subject: Re: [PATCH 0/1] Integrate ccache-native
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1308658461.20015.24.camel@rex>	<BANLkTimMLo4g7uWsrhAr=hun4wZ6AaDjQg@mail.gmail.com>
+	<1308663032.20015.29.camel@rex>
+In-Reply-To: <1308663032.20015.29.camel@rex>
+X-Ovh-Tracer-Id: 11353574660925468098
+X-Ovh-Remote: 82.240.38.71 (pac33-2-82-240-38-71.fbx.proxad.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-Spam-Check: DONE|U 0.5/N
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -200
+X-VR-SPAMCAUSE: Vade Retro 01.322.10 AV+AS Profile: OVH; Bailout: 300;
+	@!Recipients (-100); (-100)
+Subject: Re: Multilib Development Update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,73 +47,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 15:49:25 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Tue, 21 Jun 2011 16:07:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Just looking for a status review on this item.
+Hi,
 
-Does this implement the task:
+On 21/06/2011 15:30, Richard Purdie wrote:
+> On Tue, 2011-06-21 at 15:02 +0200, Frans Meulenbroeks wrote:
+>> As I already asked before: what is the benefit having this in embedded
+>> systems?
+>>
+>> If I am doing an embedded system I know the target hardware, and there
+>> is no need to have e.g. both 32 and 64 bit libs.
+>
+> This has been mentioned before but there are embedded use cases where
+> the requirement is to have a low overhead OS using 32 bit libs and
+> binaries to save memory but the main application (like a database
+> server) runs in 64 bit mode with 64 bit libraries so it can take
+> advantage of system memory, extra instructions or so forth. This applies
+> to mips and powerpc as well as x86.
+>
+> The implementation is fairly self contained so if you don't want
+> multilib, you shouldn't even be aware its there...
+>
+will that feature allow to build a sdk running on both x86 and amd64 hosts 
+whatever is the build host ?
 
-Performance Improvements - CCACHE per recipe	
-
-c) Set CCACHE on a per recipe basis. need to figure out whether ccache data can
-be shared and under what circumstances.
-
-?
-
-
-I just need to update them with the status, if this is the full item, I'll make
-sure it gets reviewed when Richard starts integrating patches again.
-
-Thanks!
-
---Mark
-
-
-On 6/17/11 4:19 AM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan <wenzong.fan@windriver.com>
-> 
-> 1) Add ccache as a native tool, for getting it built automatically make
-> it as the dependency of bzip2; Also, the ccache will be included by SDK
-> images;
-> 
-> 2) Set CCACHE on a per recipe basis and add task 'mkccachedir' to create
-> the CCACHE_DIR while start a package building;
-> 
-> 3) Remove the duplicate 'ccache.inc' from 'meta/class/'.  
-> 
-> The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
->   Tom Zanussi (1):
->         systemtap: remove non-core COMPATIBLE_MACHINES
-> 
-> are available in the git repository at:
-> 
->   git://git.pokylinux.org/poky-contrib wenzong/ccache
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/ccache
-> 
-> Wenzong Fan (1):
->   ccache: Integrate ccache-native
-> 
->  meta/classes/base.bbclass                    |    1 +
->  meta/classes/ccache.bbclass                  |   21 +++++++++++++++++++++
->  meta/classes/ccache.inc                      |   11 -----------
->  meta/conf/bitbake.conf                       |    1 +
->  meta/recipes-core/tasks/task-core-sdk.bb     |    1 +
->  meta/recipes-devtools/ccache/ccache.inc      |   16 ++++++++++++++++
->  meta/recipes-devtools/ccache/ccache_3.1.5.bb |    8 ++++++++
->  meta/recipes-extended/bzip2/bzip2_1.0.6.bb   |    2 ++
->  8 files changed, 50 insertions(+), 11 deletions(-)
->  create mode 100644 meta/classes/ccache.bbclass
->  delete mode 100644 meta/classes/ccache.inc
->  create mode 100644 meta/recipes-devtools/ccache/ccache.inc
->  create mode 100644 meta/recipes-devtools/ccache/ccache_3.1.5.bb
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Eric
 
 
