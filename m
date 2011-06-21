@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QYvrt-0000Lg-Ih
+	(envelope-from <dongxiao.xu@intel.com>) id 1QYvrt-0000M4-Hn
 	for openembedded-core@lists.openembedded.org;
 	Tue, 21 Jun 2011 09:59:29 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jun 2011 00:55:58 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 21 Jun 2011 00:55:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,399,1304319600"; d="scan'208";a="18730778"
+X-IronPort-AV: E=Sophos;i="4.65,399,1304319600"; d="scan'208";a="17658316"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.20])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Jun 2011 00:55:57 -0700
+	by orsmga001.jf.intel.com with ESMTP; 21 Jun 2011 00:55:55 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jun 2011 16:08:52 +0800
-Message-Id: <2d09ed321ed196e60446b23dbebec755a6acbb83.1308642976.git.dongxiao.xu@intel.com>
+Date: Tue, 21 Jun 2011 16:08:50 +0800
+Message-Id: <44894324896452461c53926a1ebbbecfdc154c23.1308642976.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1308642976.git.dongxiao.xu@intel.com>
 References: <cover.1308642976.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1308642976.git.dongxiao.xu@intel.com>
 References: <cover.1308642976.git.dongxiao.xu@intel.com>
-Subject: [PATCH 5/5] initscript: Change some order of init scripts
+Subject: [PATCH 3/5] ofono: add 0.42 version which works OK for Ericsson 3G module.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,85 +35,60 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 21 Jun 2011 07:59:30 -0000
 
-Move udev script to execute ealier since module autoload needs it to
-create device nodes.
-
-Also move sysfs before udev which has dependency on it.
+We met ofonod crash after ofono-0.43 version. Thus import 0.42 version
+to enable the 3G feature.
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    6 +++---
- meta/recipes-core/udev/udev-new.inc                |    2 +-
- meta/recipes-core/udev/udev_164.bb                 |    2 +-
- .../modutils/modutils-initscripts.bb               |    4 ++--
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ meta/conf/distro/include/default-versions.inc |    1 +
+ meta/recipes-connectivity/ofono/ofono.inc     |    2 ++
+ meta/recipes-connectivity/ofono/ofono_0.42.bb |   13 +++++++++++++
+ 3 files changed, 16 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-connectivity/ofono/ofono_0.42.bb
 
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 48b65b9..9e535af 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -4,7 +4,7 @@ SECTION = "base"
- PRIORITY = "required"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--PR = "r126"
-+PR = "r127"
+diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
+index 0abbd8f..f29ee12 100644
+--- a/meta/conf/distro/include/default-versions.inc
++++ b/meta/conf/distro/include/default-versions.inc
+@@ -13,6 +13,7 @@ PREFERRED_VERSION_python-native ?= "2.6.6"
+ # Force the older version of liberation-fonts until we fix the fontforge issue
+ PREFERRED_VERSION_liberation-fonts ?= "1.04"
  
- INHIBIT_DEFAULT_DEPS = "1"
++PREFERRED_VERSION_ofono ?= "0.42"
  
-@@ -119,8 +119,8 @@ do_install () {
- 	ln -sf		../init.d/bootmisc.sh	${D}${sysconfdir}/rcS.d/S55bootmisc.sh
- #	ln -sf		../init.d/urandom	${D}${sysconfdir}/rcS.d/S55urandom
- #	ln -sf		../init.d/finish.sh	${D}${sysconfdir}/rcS.d/S99finish.sh
--	# udev will run at S04 if installed
--	ln -sf		../init.d/sysfs.sh	${D}${sysconfdir}/rcS.d/S03sysfs.sh
-+	ln -sf		../init.d/sysfs.sh	${D}${sysconfdir}/rcS.d/S02sysfs.sh
-+	# udev will run at S03 if installed
- 	ln -sf		../init.d/populate-volatile.sh	${D}${sysconfdir}/rcS.d/S37populate-volatile.sh
- 	ln -sf		../init.d/devpts.sh	${D}${sysconfdir}/rcS.d/S38devpts.sh
- 	if [ "${TARGET_ARCH}" = "arm" ]; then
-diff --git a/meta/recipes-core/udev/udev-new.inc b/meta/recipes-core/udev/udev-new.inc
-index 1b94f1b..4c4451f 100644
---- a/meta/recipes-core/udev/udev-new.inc
-+++ b/meta/recipes-core/udev/udev-new.inc
-@@ -40,7 +40,7 @@ PACKAGES =+ "libgudev libgudev-dev libgudev-dbg"
  
- INITSCRIPT_PACKAGES = "udev udev-cache"
- INITSCRIPT_NAME_udev = "udev"
--INITSCRIPT_PARAMS_udev = "start 04 S ."
-+INITSCRIPT_PARAMS_udev = "start 03 S ."
- INITSCRIPT_NAME_udev-cache = "udev-cache"
- INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
  
-diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-index 76fd907..567e62e 100644
---- a/meta/recipes-core/udev/udev_164.bb
-+++ b/meta/recipes-core/udev/udev_164.bb
-@@ -1,6 +1,6 @@
- include udev-new.inc
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index ee3bc3e..4fc969c 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -15,5 +15,7 @@ INITSCRIPT_PARAMS = "defaults 22"
+ do_install_append() {
+   install -d ${D}${sysconfdir}/init.d/
+   install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
++  install -d ${D}${sysconfdir}/udev/rules.d/
++  install -m 0644 ${S}/plugins/97-ofono.rules ${D}${sysconfdir}/udev/rules.d/
+ }
  
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI[md5sum] = "fddac2d54761ea34865af9467377ca9f"
- SRC_URI[sha256sum] = "c12e66280b5e1465f6587a8cfa47d7405c4caa7e52ce5dd13478d04f6ec05e5c"
-diff --git a/meta/recipes-kernel/modutils/modutils-initscripts.bb b/meta/recipes-kernel/modutils/modutils-initscripts.bb
-index 5ae34b4..89d38cf 100644
---- a/meta/recipes-kernel/modutils/modutils-initscripts.bb
-+++ b/meta/recipes-kernel/modutils/modutils-initscripts.bb
-@@ -4,10 +4,10 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=7bf87fc37976e93ec66ad84fac58c098"
- SRC_URI = "file://modutils.sh \
- 	   file://PD.patch"
--PR = "r5"
-+PR = "r6"
- 
- INITSCRIPT_NAME = "modutils.sh"
--INITSCRIPT_PARAMS = "start 2 S ."
-+INITSCRIPT_PARAMS = "start 4 S ."
- 
- inherit update-rc.d
- 
+diff --git a/meta/recipes-connectivity/ofono/ofono_0.42.bb b/meta/recipes-connectivity/ofono/ofono_0.42.bb
+new file mode 100644
+index 0000000..defea0a
+--- /dev/null
++++ b/meta/recipes-connectivity/ofono/ofono_0.42.bb
+@@ -0,0 +1,13 @@
++require ofono.inc
++
++PR = "r0"
++
++SRC_URI  = "${KERNELORG_MIRROR}/linux/network/ofono/${P}.tar.bz2 \
++	          file://ofono"
++
++EXTRA_OECONF += "\
++  --enable-test \
++"
++
++SRC_URI[md5sum] = "e3ccf43a287153eed25f8dd75e7c6d18"
++SRC_URI[sha256sum] = "5b6f78cbe218fbc5c84401cd9d64b3204529e98822f959a9b2aae34b538076af"
 -- 
 1.7.1
 
