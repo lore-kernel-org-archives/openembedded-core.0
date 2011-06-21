@@ -1,46 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QZ336-0005eP-TU
+	(envelope-from <mark.hatle@windriver.com>) id 1QZ3Cf-0005pc-1b
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 17:39:33 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jun 2011 08:35:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,401,1304319600"; d="scan'208";a="20941990"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Jun 2011 08:35:58 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 21 Jun 2011 23:35:53 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 21 Jun 2011 23:35:53 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Tue, 21 Jun 2011 23:35:52 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Otavio Salvador' <otavio@ossystems.com.br>
-Date: Tue, 21 Jun 2011 23:35:51 +0800
-Thread-Topic: [OE-core] BUG: intltool depends on libxml-parser-perl to be
-	installed on host
-Thread-Index: AcwwJ8kVyoFkt+mvRfeziTxbmVaB+wAACVeg
-Message-ID: <1865303E0DED764181A9D882DEF65FB6997B5E767A@shsmsx502.ccr.corp.intel.com>
-References: <BANLkTin20ZXvBnT9phab1KZcZ1iCkO8RaQ@mail.gmail.com>
-	<4DFD379B.8010701@mentor.com>
-	<BANLkTimkH5e4ViO7aNP9typLSBvBKrSNxw@mail.gmail.com>
-	<1865303E0DED764181A9D882DEF65FB6997B5E766E@shsmsx502.ccr.corp.intel.com>
-	<BANLkTikJq-eeWNEAdAeZ7O3+qm7OZiH+zA@mail.gmail.com>
-	<1865303E0DED764181A9D882DEF65FB6997B5E7679@shsmsx502.ccr.corp.intel.com>
-	<BANLkTikWr=QrC4X5OSf8UhiYv=4VZa1EFg@mail.gmail.com>
-In-Reply-To: <BANLkTikWr=QrC4X5OSf8UhiYv=4VZa1EFg@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Tue, 21 Jun 2011 17:49:25 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5LFjo4q003112
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jun 2011 08:45:50 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 21 Jun 2011 08:45:50 -0700
+Message-ID: <4E00BCAD.5010204@windriver.com>
+Date: Tue, 21 Jun 2011 10:45:49 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: BUG: intltool depends on libxml-parser-perl to be installed on host
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1308302102.git.wenzong.fan@windriver.com>
+In-Reply-To: <cover.1308302102.git.wenzong.fan@windriver.com>
+Subject: Re: [PATCH 0/1] Integrate ccache-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,28 +36,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 15:39:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Jun 2011 15:49:25 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Otavio Salvador wrote:
-> On Tue, Jun 21, 2011 at 12:20, Cui, Dexuan <dexuan.cui@intel.com>
-> wrote:=20
->> I think I can reproduce the issue with the same steps on a Ubuntu
->> 10.10 host. I'm going to further look into this.
->> Please report a bug on the bugzilla, so we can better track it. :-)
->=20
-> Sorry but I don't have an account on the tracking system and prefer if
-> you do it.
-You can quickly create an account at http://bugzilla.yoctoproject.org/creat=
-eaccount.cgi
-By creating a bugzilla account and reporting a bug, we can be notified auto=
-matically and timely when someone makes an update to the bug.
-Anyway, if you have difficulty reporting a bug, please feel feel to let me =
-know and I'll report it. :-)
+Just looking for a status review on this item.
+
+Does this implement the task:
+
+Performance Improvements - CCACHE per recipe	
+
+c) Set CCACHE on a per recipe basis. need to figure out whether ccache data can
+be shared and under what circumstances.
+
+?
+
+
+I just need to update them with the status, if this is the full item, I'll make
+sure it gets reviewed when Richard starts integrating patches again.
 
 Thanks!
--- Dexuan=
+
+--Mark
+
+
+On 6/17/11 4:19 AM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan <wenzong.fan@windriver.com>
+> 
+> 1) Add ccache as a native tool, for getting it built automatically make
+> it as the dependency of bzip2; Also, the ccache will be included by SDK
+> images;
+> 
+> 2) Set CCACHE on a per recipe basis and add task 'mkccachedir' to create
+> the CCACHE_DIR while start a package building;
+> 
+> 3) Remove the duplicate 'ccache.inc' from 'meta/class/'.  
+> 
+> The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
+>   Tom Zanussi (1):
+>         systemtap: remove non-core COMPATIBLE_MACHINES
+> 
+> are available in the git repository at:
+> 
+>   git://git.pokylinux.org/poky-contrib wenzong/ccache
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/ccache
+> 
+> Wenzong Fan (1):
+>   ccache: Integrate ccache-native
+> 
+>  meta/classes/base.bbclass                    |    1 +
+>  meta/classes/ccache.bbclass                  |   21 +++++++++++++++++++++
+>  meta/classes/ccache.inc                      |   11 -----------
+>  meta/conf/bitbake.conf                       |    1 +
+>  meta/recipes-core/tasks/task-core-sdk.bb     |    1 +
+>  meta/recipes-devtools/ccache/ccache.inc      |   16 ++++++++++++++++
+>  meta/recipes-devtools/ccache/ccache_3.1.5.bb |    8 ++++++++
+>  meta/recipes-extended/bzip2/bzip2_1.0.6.bb   |    2 ++
+>  8 files changed, 50 insertions(+), 11 deletions(-)
+>  create mode 100644 meta/classes/ccache.bbclass
+>  delete mode 100644 meta/classes/ccache.inc
+>  create mode 100644 meta/recipes-devtools/ccache/ccache.inc
+>  create mode 100644 meta/recipes-devtools/ccache/ccache_3.1.5.bb
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
