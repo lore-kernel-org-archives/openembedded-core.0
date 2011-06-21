@@ -1,42 +1,34 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QZ46W-0006lf-Jy
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 18:47:08 +0200
-Received: by pvf24 with SMTP id 24so1926029pvf.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QZ4D2-0006rr-QX for openembedded-core@lists.openembedded.org;
+	Tue, 21 Jun 2011 18:53:52 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5LGoKMV023592
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 09:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=ANJxAK6nAt5y5pHrL5e/7dI3iAHshosb+CPnao6rJ3s=;
-	b=Mu7Y+QBEWhlsTAAIJ9gf23Y+Jr+iR1meVEY897U5RpiX+bVom8V/OvgeLqXwrqTkPG
-	wSVy/rAxPdUcHHsd45OOtNo6lsmBe4UtyBfHR8RSf3jcarIKcnDHTsbVMdQijVErxwCa
-	Og241wcZYt1QrBUau1DLPTuCT+zEkzn6fY184=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	b=ORqdIHm0XFvXy97E6r2BczB2fHCALTJ1Q3woajl8dFJ1dZBrbxEsD/lBDpmGkqExgl
-	Z6cQHSXvJUnIAb4pvaAaGfvbFBlaNnNEidTkqWguAhfjxj/yWVcF6UbUsbcFU7bNXvz/
-	0msYpVvYSpmZzm0PrktZM9EE31kEyf0bEVlm8=
-Received: by 10.142.142.5 with SMTP id p5mr534221wfd.64.1308674612316;
-	Tue, 21 Jun 2011 09:43:32 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id n9sm7211915wfk.8.2011.06.21.09.43.30
-	(version=SSLv3 cipher=OTHER); Tue, 21 Jun 2011 09:43:31 -0700 (PDT)
-Message-ID: <4E00CA31.7080403@gmail.com>
-Date: Tue, 21 Jun 2011 09:43:29 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1308658461.20015.24.camel@rex>	<BANLkTimMLo4g7uWsrhAr=hun4wZ6AaDjQg@mail.gmail.com>	<1308663032.20015.29.camel@rex>
-	<4E009D8F.10301@eukrea.com>
-In-Reply-To: <4E009D8F.10301@eukrea.com>
-Subject: Re: Multilib Development Update
+	Tue, 21 Jun 2011 17:50:20 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23173-07 for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jun 2011 17:50:16 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5LGoADq023583
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jun 2011 17:50:14 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1308668047.21613.30.camel@phil-desktop>
+References: <20110621140419.GA8589@raven.pace.internal>
+	<1308668047.21613.30.camel@phil-desktop>
+Date: Tue, 21 Jun 2011 17:49:54 +0100
+Message-ID: <1308674994.20015.33.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Using TCLIBC = "uclibc" in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,46 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 16:47:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 21 Jun 2011 16:53:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 06/21/2011 06:33 AM, Eric Bénard wrote:
-> Hi,
->
-> On 21/06/2011 15:30, Richard Purdie wrote:
->> On Tue, 2011-06-21 at 15:02 +0200, Frans Meulenbroeks wrote:
->>> As I already asked before: what is the benefit having this in embedded
->>> systems?
->>>
->>> If I am doing an embedded system I know the target hardware, and there
->>> is no need to have e.g. both 32 and 64 bit libs.
->>
->> This has been mentioned before but there are embedded use cases where
->> the requirement is to have a low overhead OS using 32 bit libs and
->> binaries to save memory but the main application (like a database
->> server) runs in 64 bit mode with 64 bit libraries so it can take
->> advantage of system memory, extra instructions or so forth. This applies
->> to mips and powerpc as well as x86.
->>
->> The implementation is fairly self contained so if you don't want
->> multilib, you shouldn't even be aware its there...
->>
-> will that feature allow to build a sdk running on both x86 and amd64
-> hosts whatever is the build host ?
->
+On Tue, 2011-06-21 at 15:54 +0100, Phil Blundell wrote:
+> On Tue, 2011-06-21 at 15:04 +0100, Tom Parkin wrote:
+> > The attached patch allows me to (at least) assemble the bitbake task
+> > list when TCLIBC = "uclibc".  I'm not sure whether this is the correct
+> > approach, though.
+> 
+> Do you know why glib-2.0.inc is doing this crazy thing in the first
+> place?  If we're going to have code in the config files to effectively
+> make it think that USE_NLS is always on, maybe that check should just be
+> removed.
+> 
+> You're right though that the current line in tclibc-uclibc.inc is
+> clearly just wrong and should be either fixed or deleted.
 
-thats a different aspect.
-Although we could make a SDK which could cook up packages which run
-on multilibs
+It does appear to work due to code in base.bbclass which does:
 
+    use_nls = bb.data.getVar('USE_NLS_%s' % pn, d, 1)
+    if use_nls != None:
+        bb.data.setVar('USE_NLS', use_nls, d)
 
-> Eric
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+where this code predates the use of pn-${PN} in overrides.
+
+Nowadays it makes sense just to use the pn- override and we should drop
+this legacy stuff IMO.
+
+Cheers,
+
+Richard
 
 
 
