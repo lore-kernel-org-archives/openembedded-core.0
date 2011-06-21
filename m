@@ -1,28 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZ6Qu-0003YW-2q
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QZ7bB-0004fE-0j
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 21:16:20 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5LJCjmH012877
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 12:12:45 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 21 Jun 2011 12:12:44 -0700
-Message-ID: <4E00ED2C.1040708@windriver.com>
-Date: Tue, 21 Jun 2011 14:12:44 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4E00CA30.7020302@windriver.com>
-	<1308682643.3083.18.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1308682643.3083.18.camel@lenovo.internal.reciva.com>
-Subject: Re: Directory permissions and ownership -- RFC
+	Tue, 21 Jun 2011 22:31:01 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Jun 2011 13:27:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,402,1304319600"; d="scan'208";a="17934254"
+Received: from nbuild2.sc.intel.com ([172.25.110.37])
+	by orsmga001.jf.intel.com with ESMTP; 21 Jun 2011 13:27:26 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Jun 2011 13:27:12 -0700
+Message-Id: <cover.1308687821.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.4.4
+Subject: [btrfs patch 0/6] enable btrfs images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,96 +29,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 19:16:20 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jun 2011 20:31:01 -0000
 
-On 6/21/11 1:57 PM, Phil Blundell wrote:
-> On Tue, 2011-06-21 at 11:43 -0500, Mark Hatle wrote:
->> Adjust the umask to 022.  This resolves the problem of dynamically generated
->> directories (mkdir -p) and specific files (touch foo) having odd permissions.
->>
->> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=mhatle/perms&id=d8470b6a8efdbba04cef5d4dc1ce12720fe83621
-> 
-> Are you confident that this isn't going to break anything like
-> group-shared DL_DIRs?  I'm not entirely thrilled about forcing the umask
-> to 022 for everything that bitbake does, although I can see that making
-> it be so for particular tasks like do_install() might have some merit.
-> Even in the latter case, though, I wonder whether we should just be
-> paying more attention to recipe hygiene and using "install -m ..." with
-> the permissions that we actually want.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This is why I bring this up.. I'm a bit concerned that doing it generally will
-have unintended consequences.  So far I am not aware of any.  Moving it to a
-different place in the process may be better.  The only issue I've found so far
-is that just coding int into "do_install" really isn't an option.  Between the
-custom do_install components, various classes, etc.. it's difficult in the
-current infrastructure to find a centralized location to set the value.
+These patches enable the btrfs image support in the poky tree.
+Other than kernel parts all the parts are ready here. linux-yocto-2.6.37 
+kernel need some work to get latest btrfs working, and that part will 
+be sent separately.
 
-(I'd love to be corrected if someone things of another way of doing it.)  The
-setting of the umask is a very low cost operation, so doing it for certain steps
-shouldn't cause a performance penalty... but until we figure that out this is
-the best and easiest solution I've come up with.
+The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
 
-> I'm also not quite sure I understand why this is necessary if
-> fixup_perms is going to fix up the permissions anyway. 
+  systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:14:06 +0100)
 
-fixup_perms only knows of certain global directories, it doesn't know of ones
-that may or may not be unique to given packages, or sets of packages.  (yes they
-could be added over time to the fs-perms.txt file.  I started down this path,
-and when the file reached a few hundred lines I gave up and went to the root
-cause.. mismatched umask.)
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/btrfs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/btrfs
 
-(The global directories are the standard GNU ones, specified in bitbake.conf,
-and a hand full of specific documentation and similar...  I could have put these
-into the fs-perms.txt, but keeping them dynamic ensures that if someone changes
-the value of "libdir", we don't have to specify anything for it to work properly.)
+Nitin A Kamble (6):
+  btrfs-tools: new recipe for tools to operate on btrfs images
+  image-types.bbclass: get the image size in the whole number
+  image_types.bbclass: enable btrfs as one of the image type
+  qemu machine: enable btrfs as one of the supported filesystem
+  base-files: add btrfs to /etc/filesystems
+  scripts/runqemu: enable btrfs
 
-The umask fixes both the directories we should know about, and those we'll never
-know about -- recipes that don't exist in oe-core/meta-oe...  It also has a side
-effect of ensuring that the recipe author only has to pay attention to basic
-recipe tasks, and not do a full world build and look for conflcts.
+ meta/classes/image_types.bbclass                   |    9 +-
+ meta/conf/machine/include/qemu.inc                 |    2 +-
+ .../recipes-core/base-files/base-files/filesystems |    1 +
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    2 +-
+ .../btrfs-tools/btrfs-tools/debian/01-labels.patch |   29 +
+ .../btrfs-tools/btrfs-tools/debian/02-ftbfs.patch  |  125 +++
+ .../btrfs-tools/btrfs-tools/debian/03-glibc.patch  |   16 +
+ .../btrfs-tools/btrfs-tools/fix_use_of_gcc.patch   |   84 ++
+ .../btrfs-tools/btrfs-tools/mkfs-xin-fixes.patch   |  183 ++++
+ ...g-devices-so-degraded-filesystems-can-be-.patch |   64 ++
+ ...-Check-for-RAID10-in-set_avail_alloc_bits.patch |   35 +
+ ...t-the-root-generation-in-btrfs-debug-tree.patch |   33 +
+ ...low-partial-FS-opens-for-btrfsck-scanning.patch |  253 +++++
+ .../0005-Temporary-debugging-for-dragonn.patch     |   75 ++
+ ...-add-a-btrfs-select-super-command-to-over.patch |  170 +++
+ ...gs-use-safe-string-manipulation-functions.patch |  152 +++
+ ...0003-Btrfs-progs-utils-Informative-errors.patch |   37 +
+ ...-page-to-new-defragment-command-interface.patch |   99 ++
+ ...prove-error-handling-in-the-btrfs-command.patch |  510 +++++++++
+ ...progs-update-super-fields-for-space-cache.patch |   57 +
+ ...-add-support-for-mixed-data-metadata-bloc.patch |  403 +++++++
+ .../upstream-tmp/0008-Update-for-lzo-support.patch |  203 ++++
+ ...pdate-clean-up-btrfs-help-and-man-page-V2.patch |  272 +++++
+ ...0-Deprecate-btrfsctl-btrfs-show-btrfs-vol.patch |  152 +++
+ ...11-Add-the-btrfs-filesystem-label-command.patch |  390 +++++++
+ ...-Update-man-page-for-mixed-data-metadata-.patch |   42 +
+ ...-Add-new-feature-to-mkfs.btrfs-to-make-fi.patch | 1108 ++++++++++++++++++++
+ ...-fix-wrong-extent-buffer-size-when-readin.patch |   33 +
+ ...5-btrfs-progs-add-discard-support-to-mkfs.patch |  110 ++
+ .../btrfs-tools/btrfs-tools_git.bb                 |   52 +
+ scripts/runqemu                                    |    6 +-
+ scripts/runqemu-internal                           |   12 +-
+ 32 files changed, 4707 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/debian/01-labels.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/debian/02-ftbfs.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/debian/03-glibc.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/mkfs-xin-fixes.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-for-dragonn/0001-Fill-missing-devices-so-degraded-filesystems-can-be-.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-for-dragonn/0002-Check-for-RAID10-in-set_avail_alloc_bits.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-for-dragonn/0003-Print-the-root-generation-in-btrfs-debug-tree.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-for-dragonn/0004-Allow-partial-FS-opens-for-btrfsck-scanning.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-for-dragonn/0005-Temporary-debugging-for-dragonn.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0001-Btrfs-progs-add-a-btrfs-select-super-command-to-over.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0002-Btrfs-progs-use-safe-string-manipulation-functions.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0003-Btrfs-progs-utils-Informative-errors.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0004-update-man-page-to-new-defragment-command-interface.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0005-Improve-error-handling-in-the-btrfs-command.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0006-Btrfs-progs-update-super-fields-for-space-cache.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0007-Btrfs-progs-add-support-for-mixed-data-metadata-bloc.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0008-Update-for-lzo-support.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0009-Update-clean-up-btrfs-help-and-man-page-V2.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0010-Deprecate-btrfsctl-btrfs-show-btrfs-vol.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0011-Add-the-btrfs-filesystem-label-command.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0012-Btrfs-progs-Update-man-page-for-mixed-data-metadata-.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0013-btrfs-progs-Add-new-feature-to-mkfs.btrfs-to-make-fi.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0014-btrfs-progs-fix-wrong-extent-buffer-size-when-readin.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/upstream-tmp/0015-btrfs-progs-add-discard-support-to-mkfs.patch
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
 
-A good example of the problem is that cups generates a directory /etc/cups and
-sets the perms to 0755 w/ uid/gid of root:lp.  When ghostscript comes along to
-put something in /etc/cups, it does a "mkdir -p /etc/cups"...  that means
-/etc/cups now gets the default mode, uid/gid...  Changing "ghostscript" to match
-is easy, it's one package... but what happens when someone adds HP printer
-drivers, then epson printer drivers, etc..  you quickly get into a situation
-where you really want a global way to affect /etc/cups, and potentially
-everything located inside of it.
-
->> The user can add their own settings, or override the defaults by providing a
->> meta/files/fs-perms.txt file. 
-> 
-> Using a magically-named file rather than metadata vars is a bit
-> unconventional and seems like it will make life unnecessarily harder for
-> distros/other overlays.  Is there any reason it needs to be done that
-> way?
-
-fs-perms.txt is the default name.  It was done to work similarly to the
-'device_table-minimal.txt' file that already exists.
-
-The logic is:
-
-Use the variable FILESYSTEM_PERMS_TABLES, the contents of this may be full
-paths, or partial paths within the BBPATH structure.  Multiple files may be
-listed space separated.  (Evaluation is is order it's specified, so the last one
-loaded takes precedence over earlier ones.)
-
-If the variable FILESYSTEM_PERMS_TABLES is not specified, we then use the
-files/fs-perms.txt, again BBPATH is searched for that.
-
---Mark
-
-> p.
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
+1.7.4.4
 
 
 
