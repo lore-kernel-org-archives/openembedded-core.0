@@ -1,34 +1,19 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QZ5On-00020G-Fb
+Received: from stoexhub01.domain01.net ([83.145.59.142]
+	helo=stoexhub02.domain01.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <anders@chargestorm.se>) id 1QZ5aH-000293-R3
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 20:10:05 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QZ5LN-0000BZ-8C from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 11:06:33 -0700
-Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 21 Jun 2011 11:01:19 -0700
-Received: from [172.30.80.125] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
-	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
-	Tue, 21 Jun 2011 11:06:30 -0700
-Message-ID: <4E00DD8F.3010600@mentor.com>
-Date: Tue, 21 Jun 2011 11:06:07 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
+	Tue, 21 Jun 2011 20:21:57 +0200
+Received: from localhost (193.235.91.228) by stoexhub02.domain01.net
+	(10.12.10.2) with Microsoft SMTP Server id 8.3.137.0; Tue, 21 Jun 2011
+	20:18:23 +0200
+From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1308677220.git.paul.eggleton@linux.intel.com>	<201106211842.09743.paul.eggleton@linux.intel.com>	<331DEFC1-20ED-45EE-B84F-429E55EB6C75@dominion.thruhere.net>
-	<201106211859.55194.paul.eggleton@linux.intel.com>
-In-Reply-To: <201106211859.55194.paul.eggleton@linux.intel.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 21 Jun 2011 18:01:19.0141 (UTC)
-	FILETIME=[38D34550:01CC303D]
-Subject: Re: [PATCH 1/1] u-boot: set SRCREV to a git revision	instead of a tag reference
+Date: Tue, 21 Jun 2011 20:18:09 +0200
+Message-ID: <cover.1308680000.git.anders@chargestorm.se>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+X-GFI-SMTP-Submission: 1
+Subject: [RFC PATCH 0/5] Linux 3.0 build support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,23 +28,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 18:10:05 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jun 2011 18:21:57 -0000
+Content-Type: text/plain
 
-On 06/21/2011 10:59 AM, Paul Eggleton wrote:
-> On Tuesday 21 June 2011 18:54:12 Koen Kooi wrote:
->> Since we're using the 2011.03 tag, why is SRCPV in PV at all? It should be
->> exactly the same as the tarball.
-> 
-> One might go one step further and ask why fetching from git is a good idea 
-> when the tarball would be much cleaner. Ultimately this is up to whoever 
-> maintains the u-boot recipe.
+This work is unfinished and incomplete...
+It is published in its current form both to get feedback, but also to aid
+anyone else who is working on 3.0-support. If some of the patches are found to
+be OK, it's fine to cherrypick them.
 
-Especially with the current git archive mirroring problem.
+The kernel-related classes has been modified to build a 3.0 kernel. The
+patches has been simplified by removing support for the 2.4-series. (The
+latter was suggested in an older mail thread:
+http://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg02682.html
+).
+
+The patches has been tested on linux-yocto_2.6.37 and a hacked version using
+the linux-yocto-dev repository (using a 3.0-rcX). The latest versions has only
+been built for qemuarm, prior iterations has also been built for qemux86.
+
+Finally, no work has been done on the libc-linux-headers classes and recipes.
+
+/Anders
+
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
+
+The following changes since commit 835d817f1ba7b99167743fdb86ba80f3a07bd82d:
+
+  systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:12:40 +0100)
+
+are available in the git repository at:
+  git://github.com/darander/oe-core kernel-3.0
+  https://github.com/darander/oe-core/tree/kernel-3.0
+
+Anders Darander (5):
+  Remove support for building 2.4 kernels
+  module-init-tools-cross: add provides for depmod-3
+  linux-kernel-base: add support for Linux 3.x
+  modutils-initscripts: move recipe prior to modutils removal
+  modutils: remove modutils
+
+ meta/classes/kernel.bbclass                        |   22 ++---
+ meta/classes/linux-kernel-base.bbclass             |    3 +
+ meta/classes/module-base.bbclass                   |    2 +-
+ .../{modutils => module-init-tools}/files/PD.patch |    0
+ .../files/modutils.sh                              |    0
+ .../module-init-tools-cross_3.12.bb                |    2 +-
+ .../modutils-initscripts.bb                        |    0
+ meta/recipes-kernel/modutils/files/armeb.patch     |   16 ----
+ meta/recipes-kernel/modutils/files/configure.patch |   34 -------
+ meta/recipes-kernel/modutils/files/gcc4.patch      |   93 --------------------
+ meta/recipes-kernel/modutils/files/lex.l.diff      |   35 --------
+ .../modutils/files/modutils-notest.patch           |   16 ----
+ .../modutils/files/program_prefix.patch            |   71 ---------------
+ .../recipes-kernel/modutils/modutils-collateral.bb |   21 -----
+ .../modutils/modutils-cross/module.h.diff          |   35 --------
+ .../modutils/modutils-cross_2.4.27.bb              |   20 ----
+ meta/recipes-kernel/modutils/modutils_2.4.27.bb    |   93 --------------------
+ 17 files changed, 12 insertions(+), 451 deletions(-)
+ rename meta/recipes-kernel/{modutils => module-init-tools}/files/PD.patch (100%)
+ rename meta/recipes-kernel/{modutils => module-init-tools}/files/modutils.sh (100%)
+ rename meta/recipes-kernel/{modutils => module-init-tools}/modutils-initscripts.bb (100%)
+ delete mode 100644 meta/recipes-kernel/modutils/files/armeb.patch
+ delete mode 100644 meta/recipes-kernel/modutils/files/configure.patch
+ delete mode 100644 meta/recipes-kernel/modutils/files/gcc4.patch
+ delete mode 100644 meta/recipes-kernel/modutils/files/lex.l.diff
+ delete mode 100644 meta/recipes-kernel/modutils/files/modules
+ delete mode 100644 meta/recipes-kernel/modutils/files/modules.conf
+ delete mode 100644 meta/recipes-kernel/modutils/files/modutils-notest.patch
+ delete mode 100644 meta/recipes-kernel/modutils/files/program_prefix.patch
+ delete mode 100644 meta/recipes-kernel/modutils/modutils-collateral.bb
+ delete mode 100644 meta/recipes-kernel/modutils/modutils-cross/module.h.diff
+ delete mode 100644 meta/recipes-kernel/modutils/modutils-cross_2.4.27.bb
+ delete mode 100644 meta/recipes-kernel/modutils/modutils_2.4.27.bb
 
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.4.1
+
 
 
