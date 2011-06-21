@@ -1,34 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QZ16w-0003Pa-DP for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 15:35:22 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5LDVjAV021063
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QZ1XX-0003za-5r
+	for openembedded-core@lists.openembedded.org;
+	Tue, 21 Jun 2011 16:02:51 +0200
+Received: by wyb34 with SMTP id 34so2309095wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 14:31:45 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20904-03 for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 14:31:41 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5LDVclB021057
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 14:31:38 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CADFA591-642E-4377-9531-32646B9BE943@dominion.thruhere.net>
-References: <1308658461.20015.24.camel@rex>
-	<CADFA591-642E-4377-9531-32646B9BE943@dominion.thruhere.net>
-Date: Tue, 21 Jun 2011 14:31:23 +0100
-Message-ID: <1308663083.20015.30.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Multilib Development Update
+	Tue, 21 Jun 2011 06:59:17 -0700 (PDT)
+Received: by 10.227.24.74 with SMTP id u10mr4916579wbb.69.1308664757730;
+	Tue, 21 Jun 2011 06:59:17 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fm6sm1445245wbb.27.2011.06.21.06.59.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 21 Jun 2011 06:59:16 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Jun 2011 15:59:07 +0200
+Message-Id: <1308664747-32727-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] linux-libc-headers: add 2.6.39
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,50 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 13:35:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jun 2011 14:02:51 -0000
 
-On Tue, 2011-06-21 at 14:28 +0200, Koen Kooi wrote:
-> Op 21 jun 2011, om 14:14 heeft Richard Purdie het volgende geschreven:
-> 
-> > We've been experimenting with multilib and I now feel it right to
-> > discuss the changes a bit further now there is something to discuss :).
-> > The work so far on this is available on the branch:
-> > 
-> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rpurdie/ml
-> > 
-> > There have been a few issues and some lessons to learn. I've also have
-> > to make some implementation decisions based on the issues we were
-> > running into. To summarise them:
-> 
-> [..]
-> 
-> > g) I set the TARGET_VENDOR to the horrendously ugly string
-> > "-pokymllib32". The reason is that any "-" characters in there breaks
-> > config.sub at present and other separators cause other issues. I suspect
-> > we can fix that going forward but for now it works albeit looking
-> > horrible.
-> 
-> Angstrom has had some problems with that as well and I think DISTROs
-> shouldn't poke TARGET_VENDOR directly, but do something like:
-> 
-> bitbake.conf:
-> 
-> # No hyphens!
-> DISTROVENDOR ??= "oecore"
-> TARGET_VENDOR = "-${DISTROVENDOR}"
-> 
-> DISTRO.conf:
-> 
-> # No hyphens!
-> DISTROVENDOR = "foo"
+The 2.6.37.2 version is kept to allow the qemu kernels and libc headers version to match
+---
+ .../linux-libc-headers_2.6.39.bb                   |   49 ++++++++++++++++++++
+ 1 files changed, 49 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
 
-Agreed, I think we're going to need to do something like this.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
+new file mode 100644
+index 0000000..65c19ec
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
+@@ -0,0 +1,49 @@
++require linux-libc-headers.inc
++
++INHIBIT_DEFAULT_DEPS = "1"
++DEPENDS += "unifdef-native"
++
++SRC_URI += " file://connector-msg-size-fix.patch"
++SRC_URI[md5sum] = "1aab7a741abe08d42e8eccf20de61e05"
++SRC_URI[sha256sum] = "584d17f2a3ee18a9501d7ff36907639e538cfdba4529978b8550c461d45c61f6"
++
++S = "${WORKDIR}/linux-${PV}"
++
++set_arch() {
++	case ${TARGET_ARCH} in
++		alpha*)   ARCH=alpha ;;
++		arm*)     ARCH=arm ;;
++		cris*)    ARCH=cris ;;
++		hppa*)    ARCH=parisc ;;
++		i*86*)    ARCH=i386 ;;
++		ia64*)    ARCH=ia64 ;;
++		mips*)    ARCH=mips ;;
++		m68k*)    ARCH=m68k ;;
++		powerpc*) ARCH=powerpc ;;
++		s390*)    ARCH=s390 ;;
++		sh*)      ARCH=sh ;;
++		sparc64*) ARCH=sparc64 ;;
++		sparc*)   ARCH=sparc ;;
++		x86_64*)  ARCH=x86_64 ;;
++		avr32*)   ARCH=avr32 ;;
++		bfin*)    ARCH=blackfin ;;
++		microblaze*) ARCH=microblaze ;;
++	esac
++}
++
++do_configure() {
++	set_arch
++	oe_runmake allnoconfig ARCH=$ARCH
++}
++
++do_compile () {
++}
++
++do_install() {
++	set_arch
++	oe_runmake headers_install INSTALL_HDR_PATH=${D}${exec_prefix} ARCH=$ARCH
++	# Kernel should not be exporting this header
++	rm -f ${D}${exec_prefix}/include/scsi/scsi.h
++}
++
++BBCLASSEXTEND = "nativesdk"
+-- 
+1.6.6.1
 
 
 
