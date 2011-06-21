@@ -1,26 +1,35 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QZ0AW-0002DQ-N7
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1QZ0eP-000338-9k
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 14:35:00 +0200
-Received: by wyb34 with SMTP id 34so2236015wyb.6
+	Tue, 21 Jun 2011 15:05:53 +0200
+Received: by gwb11 with SMTP id 11so662241gwb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 05:31:27 -0700 (PDT)
-Received: by 10.216.202.40 with SMTP id c40mr1346931weo.58.1308659303393;
-	Tue, 21 Jun 2011 05:28:23 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id b50sm820521wed.22.2011.06.21.05.28.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 21 Jun 2011 05:28:22 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Tue, 21 Jun 2011 06:02:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type;
+	bh=DbLArxsgPA0UTQr+j9WwHR9lOli7Do4kGDhrFRCAfHY=;
+	b=nIoLQvRBfNauZ8DgeIIY1Co9Wa4ebtLRCc8Emzwu/JLyMAkfAzoEOszPwNII9xiU4s
+	rlCIEvom5oDgoCSYLAqPPlep6epnYzcqqs/sLpZH0XxSiWNI8zHdUKlbBaRqWDPugTQ6
+	g5h3XzoInfq83VVhQObNjPncrUBXR9gs6wKQ4=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type;
+	b=UXgRxyb48Tw/2H6nSInKavloJUZYmNhBaTIrB02Bzb9SQWAvlSqah/2wz1hT5WnAJM
+	oY/Nqjtu15nXcUgEiWWgkBKw0NPEn96pS5rCaMuUoa6sDUP+hY33RvNm54/ZUnQZ52Dd
+	o+IYfCheEBmPH34fa5Y7RnDqPXvr0YB0R6sGs=
+MIME-Version: 1.0
+Received: by 10.91.149.5 with SMTP id b5mr7144069ago.91.1308661339132; Tue, 21
+	Jun 2011 06:02:19 -0700 (PDT)
+Received: by 10.90.10.36 with HTTP; Tue, 21 Jun 2011 06:02:19 -0700 (PDT)
 In-Reply-To: <1308658461.20015.24.camel@rex>
-Date: Tue, 21 Jun 2011 14:28:19 +0200
-Message-Id: <CADFA591-642E-4377-9531-32646B9BE943@dominion.thruhere.net>
 References: <1308658461.20015.24.camel@rex>
+Date: Tue, 21 Jun 2011 15:02:19 +0200
+Message-ID: <BANLkTimMLo4g7uWsrhAr=hun4wZ6AaDjQg@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
 Subject: Re: Multilib Development Update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,49 +45,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 12:35:00 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Jun 2011 13:05:53 -0000
+Content-Type: multipart/alternative; boundary=0016e64095c240125804a638765c
 
+--0016e64095c240125804a638765c
+Content-Type: text/plain; charset=ISO-8859-1
 
-Op 21 jun 2011, om 14:14 heeft Richard Purdie het volgende geschreven:
+As I already asked before: what is the benefit having this in embedded
+systems?
 
-> We've been experimenting with multilib and I now feel it right to
-> discuss the changes a bit further now there is something to discuss =
-:).
-> The work so far on this is available on the branch:
->=20
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Drpurdie/ml
->=20
-> There have been a few issues and some lessons to learn. I've also have
-> to make some implementation decisions based on the issues we were
-> running into. To summarise them:
+If I am doing an embedded system I know the target hardware, and there is no
+need to have e.g. both 32 and 64 bit libs.
 
-[..]
+Frans.
 
-> g) I set the TARGET_VENDOR to the horrendously ugly string
-> "-pokymllib32". The reason is that any "-" characters in there breaks
-> config.sub at present and other separators cause other issues. I =
-suspect
-> we can fix that going forward but for now it works albeit looking
-> horrible.
+--0016e64095c240125804a638765c
+Content-Type: text/html; charset=ISO-8859-1
 
-Angstrom has had some problems with that as well and I think DISTROs =
-shouldn't poke TARGET_VENDOR directly, but do something like:
+As I already asked before: what is the benefit having this in embedded systems?<br><br>If I am doing an embedded system I know the target hardware, and there is no need to have e.g. both 32 and 64 bit libs.<br><br>Frans.<br>
 
-bitbake.conf:
-
-# No hyphens!
-DISTROVENDOR ??=3D "oecore"
-TARGET_VENDOR =3D "-${DISTROVENDOR}"
-
-DISTRO.conf:
-
-# No hyphens!
-DISTROVENDOR =3D "foo"
-
-regards,
-
-Koen=
-
-
+--0016e64095c240125804a638765c--
