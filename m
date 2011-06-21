@@ -1,27 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZ8XM-0007cx-MN
+	(envelope-from <koen@dominion.thruhere.net>) id 1QZ8cb-0007mK-Cm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jun 2011 23:31:09 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5LLRXT8003924
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Jun 2011 14:27:33 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 21 Jun 2011 14:27:32 -0700
-Message-ID: <4E010CC4.5010906@windriver.com>
-Date: Tue, 21 Jun 2011 16:27:32 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
-MIME-Version: 1.0
+	Tue, 21 Jun 2011 23:36:33 +0200
+Received: by wwi18 with SMTP id 18so673000wwi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jun 2011 14:32:59 -0700 (PDT)
+Received: by 10.217.7.6 with SMTP id z6mr71679wes.57.1308691979622;
+	Tue, 21 Jun 2011 14:32:59 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id w10sm3710767weq.27.2011.06.21.14.32.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 21 Jun 2011 14:32:58 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4E00ED2C.1040708@windriver.com>
+Date: Tue, 21 Jun 2011 23:32:53 +0200
+Message-Id: <7E1967A9-8BDC-4B6D-85FB-0232590DD15A@dominion.thruhere.net>
+References: <4E00CA30.7020302@windriver.com>
+	<1308682643.3083.18.camel@lenovo.internal.reciva.com>
+	<4E00ED2C.1040708@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4E00CA30.7020302@windriver.com>	<1308682643.3083.18.camel@lenovo.internal.reciva.com>	<4E00ED2C.1040708@windriver.com>
-	<1308690566.3083.75.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1308690566.3083.75.camel@lenovo.internal.reciva.com>
+X-Mailer: Apple Mail (2.1084)
 Subject: Re: Directory permissions and ownership -- RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,93 +38,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 21:31:09 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jun 2011 21:36:33 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-(Note, I found an additional issue mentioned at the end of this email...)
 
-On 6/21/11 4:09 PM, Phil Blundell wrote:
-> On Tue, 2011-06-21 at 14:12 -0500, Mark Hatle wrote:
->> fs-perms.txt is the default name.  It was done to work similarly to the
->> 'device_table-minimal.txt' file that already exists.
->>
->> The logic is:
->>
->> Use the variable FILESYSTEM_PERMS_TABLES, the contents of this may be full
->> paths, or partial paths within the BBPATH structure.  Multiple files may be
->> listed space separated.  (Evaluation is is order it's specified, so the last one
->> loaded takes precedence over earlier ones.)
->>
->> If the variable FILESYSTEM_PERMS_TABLES is not specified, we then use the
->> files/fs-perms.txt, again BBPATH is searched for that.
-> 
-> Okay, I see.  Does it support variable interpolation?  If the
-> permissions are going to be specified out-of-band then I think at a
-> minimum there needs to be a way to refer symbolically to things like
-> ${prefix} rather than hardcoding their values.
+Op 21 jun 2011, om 21:12 heeft Mark Hatle het volgende geschreven:
 
-I don't know how to do this within bitbake (easily).  The table is currently a
-static set of paths that exist within the distribution as a whole.  They are not
-recipe specific, but you can have more then one file... the assumption is
-different layers may bring in additional files, only if necessary.
+> On 6/21/11 1:57 PM, Phil Blundell wrote:
+>> On Tue, 2011-06-21 at 11:43 -0500, Mark Hatle wrote:
+>>> Adjust the umask to 022.  This resolves the problem of dynamically =
+generated
+>>> directories (mkdir -p) and specific files (touch foo) having odd =
+permissions.
+>>>=20
+>>> =
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dmhatle/=
+perms&id=3Dd8470b6a8efdbba04cef5d4dc1ce12720fe83621
+>>=20
+>> Are you confident that this isn't going to break anything like
+>> group-shared DL_DIRs?  I'm not entirely thrilled about forcing the =
+umask
+>> to 022 for everything that bitbake does, although I can see that =
+making
+>> it be so for particular tasks like do_install() might have some =
+merit.
+>> Even in the latter case, though, I wonder whether we should just be
+>> paying more attention to recipe hygiene and using "install -m ..." =
+with
+>> the permissions that we actually want.
+>=20
+> This is why I bring this up.. I'm a bit concerned that doing it =
+generally will
+> have unintended consequences.  So far I am not aware of any.  Moving =
+it to a
+> different place in the process may be better.  The only issue I've =
+found so far
+> is that just coding int into "do_install" really isn't an option.  =
+Between the
+> custom do_install components, various classes, etc.. it's difficult in =
+the
+> current infrastructure to find a centralized location to set the =
+value.
 
-If there is existing code I can use to identify and resolve in-line variables,
-I'll be happy to add that into the code.  I'd certainly like to add that
-capability, but so far we don't have it.  (Would be nice in the device_table
-file.. but I doubt that's practical as the code is not run within python.)
+Would something like this work?
 
-I could certainly write code that parsed each path for "${...}" tear it down and
-do a getVar..  But I still suspect there is code elsewhere in bitbake that could
-do this for me.
+myclass.bbclass:
 
-> Also, from what you wrote above about device_table-minimal, it sounds as
-> though this file is a global manifest rather than being per-recipe.  Is
-> that right?  If so, it sounds like this is going to be a frequent source
-> of merge headaches in much the same way as the old checksums.ini was.
+addtask mytask before do_package after do_install
 
-Yes, it is global.  I don't see any way around that, as recipe specific items
-only affect that recipe.  I started by looking into adding "yet another" set of
-variables to the .conf space, but that was shot down as too complicated.
+mytask() {
+	do stuff
+}
 
-This resulted in only one new variable, a way to define the filesystem, and use
-it in all of the recipes automatically.  (One advantage is that if a
-distribution decides that /sbin should be 0500, it can make that change globally
-without affecting any recipes.)
+DISTRO.conf:
 
----
+# do stuff
+INHERIT +=3D "myclass"
 
-Note, there is one remaining issue that I haven't resolved.  A few directories
-are defined in terms of symlinks:
+regards,
 
- /var/cache root root 120777 volatile/cache
-+/var/cache root root 40755
-
- /var/log root root 120777 volatile/log
-+/var/log root root 40755
-
- /var/run root root 120777 volatile/run
-+/var/run root root 40755
-
-I'm not sure how to resolve this.  If the package(s) that define them as a
-directory are installed before the one that tries to make them a symlink into
-"volatile" it will could cause a failure -- or at least different system behavior.
-
-I'm tempted to extend the fs_perms file to include a way to specify symlinks..
-if one was found then the recipe's install would be modified to mv the directory
-to the target of the link, and add in the symlink.
-
---Mark
-
-> 
-> p.
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Koen
+=09=
 
 
