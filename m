@@ -1,24 +1,21 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QZLuj-0003RL-3B for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 13:48:09 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QZLrI-00039Z-TZ
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ke.yu@intel.com>) id 1QZNCU-0008R5-Uv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 13:44:37 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <d7c256ba838d05c85c6e7c2569f0a6c7b276ab17.1308732995.git.dongxiao.xu@intel.com>
-References: <cover.1308732995.git.dongxiao.xu@intel.com>
-	<d7c256ba838d05c85c6e7c2569f0a6c7b276ab17.1308732995.git.dongxiao.xu@intel.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Wed, 22 Jun 2011 12:44:35 +0100
-Message-ID: <1308743075.21613.82.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH 1/1] libc-locale: split locale handling from libc recipe.
+	Wed, 22 Jun 2011 15:10:35 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Jun 2011 06:06:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,406,1304319600"; d="scan'208";a="21415343"
+Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Jun 2011 06:06:58 -0700
+From: Yu Ke <ke.yu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Jun 2011 21:08:07 +0800
+Message-Id: <cover.1308747461.git.ke.yu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Cc: Chris Larson <clarson@kergoth.com>, Paul Eggleton <paul.eggleton@intel.com>
+Subject: [PATCH 0/1] RFC: combo layer tool v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,72 +30,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 11:48:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jun 2011 13:10:35 -0000
 
-I still don't quite understand why the virtual/libiconv provider has
-moved from eglibc to eglibc-locale.  Can you explain what's going on
-there?
+This is the V2 RFC patch of combo layer tool.
 
-p.
+Thanks for Paul and Chris's valuable review, the version includes all
+their comments:
 
-On Wed, 2011-06-22 at 17:01 +0800, Dongxiao Xu wrote:
-> *libc's do_package will cost a lot of time due to the locale handing,
-> which may delay the other recipe's do_package task and affect the build
-> performance.
-> 
-> This commit moves locale handling into a separate recipe *libc-locale.
-> 
-> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-> ---
->  meta/classes/libc-common.bbclass                   |   23 ++++++++
->  meta/classes/libc-package.bbclass                  |   24 --------
->  meta/conf/distro/include/tclibc-eglibc.inc         |    2 +-
->  meta/conf/distro/include/tclibc-glibc.inc          |    2 +-
->  meta/recipes-core/eglibc/eglibc-initial_2.13.bb    |    4 ++
->  meta/recipes-core/eglibc/eglibc-locale_2.13.bb     |   58 ++++++++++++++++++++
->  meta/recipes-core/eglibc/eglibc-package.inc        |   32 +----------
->  meta/recipes-core/eglibc/eglibc.inc                |    4 +-
->  meta/recipes-core/eglibc/eglibc_2.13.bb            |   12 ++++
->  meta/recipes-core/glibc/glibc-initial_2.10.1.bb    |    4 ++
->  meta/recipes-core/glibc/glibc-locale_2.10.1.bb     |   50 +++++++++++++++++
->  meta/recipes-core/glibc/glibc-package.inc          |   29 ++---------
->  meta/recipes-core/glibc/glibc.inc                  |    2 +-
->  meta/recipes-core/glibc/glibc_2.10.1.bb            |   12 ++++
->  .../meta/external-csl-toolchain_2008q3-72.bb       |    1 +
->  15 files changed, 176 insertions(+), 83 deletions(-)
->  create mode 100644 meta/classes/libc-common.bbclass
->  create mode 100644 meta/recipes-core/eglibc/eglibc-locale_2.13.bb
->  create mode 100644 meta/recipes-core/glibc/glibc-locale_2.10.1.bb
-> 
-> diff --git a/meta/conf/distro/include/tclibc-eglibc.inc b/meta/conf/distro/include/tclibc-eglibc.inc
-> index a4c648e..90de04f 100644
-> --- a/meta/conf/distro/include/tclibc-eglibc.inc
-> +++ b/meta/conf/distro/include/tclibc-eglibc.inc
-> @@ -10,7 +10,7 @@ TARGET_OS_powerpc = "linux${@['','-gnuspe'][bb.data.getVar('BASE_PACKAGE_ARCH',d
->  # Add glibc overrides to the overrides for eglibc.
->  OVERRIDES .= ":libc-glibc"
->  
-> -PREFERRED_PROVIDER_virtual/libiconv ?= "eglibc"
-> +PREFERRED_PROVIDER_virtual/libiconv ?= "eglibc-locale"
->  PREFERRED_PROVIDER_virtual/libiconv-nativesdk ?= "eglibc-nativesdk"
->  PREFERRED_PROVIDER_virtual/libintl ?= "eglibc"
->  PREFERRED_PROVIDER_virtual/libc ?= "eglibc"
-> diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
-> index e5843b0..748c23f 100644
-> --- a/meta/conf/distro/include/tclibc-glibc.inc
-> +++ b/meta/conf/distro/include/tclibc-glibc.inc
-> @@ -10,7 +10,7 @@ TARGET_OS_powerpc = "linux${@['','-gnuspe'][bb.data.getVar('BASE_PACKAGE_ARCH',d
->  # Add glibc to the overrides.
->  OVERRIDES =. "libc-glibc:"
->  
-> -PREFERRED_PROVIDER_virtual/libiconv ?= "glibc"
-> +PREFERRED_PROVIDER_virtual/libiconv ?= "glibc-locale"
->  PREFERRED_PROVIDER_virtual/libiconv-nativesdk ?= "glibc-nativesdk"
->  PREFERRED_PROVIDER_virtual/libintl ?= "glibc"
->  PREFERRED_PROVIDER_virtual/libc ?= "glibc"
+- fix several grammar issue
+- fix the incorrect patch range
+- print the component repo name when updating
+- delete the temporary directory when it is done
+- use the python ConfigParser class to simplify the parsing
 
+The following changes since commit b30cb584a738915113e88b7db1028d53b2bae5f9:
+  Richard Purdie (1):
+        Revert "gcc: rebase the patch to avoid patch rejection"
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kyu3/combo-layer-v3
+  http://git.pokylinux.org/cgit.cgi//log/?h=kyu3/combo-layer-v3
+
+Yu Ke (1):
+  combo-layer-tool: add tool to manipulate combo layer
+
+ scripts/combo-layer                 |  360 +++++++++++++++++++++++++++++++++++
+ scripts/combo-layer-hook-default.sh |   13 ++
+ scripts/combo-layer.conf.example    |   37 ++++
+ 3 files changed, 410 insertions(+), 0 deletions(-)
+ create mode 100755 scripts/combo-layer
+ create mode 100755 scripts/combo-layer-hook-default.sh
+ create mode 100644 scripts/combo-layer.conf.example
 
 
 
