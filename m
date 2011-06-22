@@ -1,36 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QZWSf-0007qZ-Od for openembedded-core@lists.openembedded.org;
-	Thu, 23 Jun 2011 01:03:53 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MN0IQ5010129
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1QZWdo-0007wx-Ns
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 Jun 2011 01:15:25 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MNBn6w018355
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2011 00:00:18 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09625-08 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2011 00:00:14 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MN06Rh010120
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2011 00:00:10 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTin7j9VwfP_sF69j_U=T-ZkUj12V=A@mail.gmail.com>
-References: <cover.1308706423.git.raj.khem@gmail.com>
-	<1308758279.20015.79.camel@rex> <4E0235DA.8060200@windriver.com>
-	<4E025052.6070300@windriver.com>
-	<BANLkTin7j9VwfP_sF69j_U=T-ZkUj12V=A@mail.gmail.com>
-Date: Wed, 22 Jun 2011 23:59:48 +0100
-Message-ID: <1308783588.20015.104.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/4] eglibc 2.14 upgrade
+	Wed, 22 Jun 2011 16:11:49 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 22 Jun 2011 16:11:48 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Jun 2011 18:23:23 -0500
+Message-ID: <cover.1308784531.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/4] Ensure a reasonable umask, and fix up permissions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,98 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 23:03:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jun 2011 23:15:25 -0000
+Content-Type: text/plain
 
-On Wed, 2011-06-22 at 15:31 -0700, Khem Raj wrote:
-> On Wed, Jun 22, 2011 at 1:28 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> > On 6/22/11 1:35 PM, Mark Hatle wrote:
-> >> Since applying this update, I'm not longer getting an rpc/rpc.h file, which
-> >> breaks various things like busybox mount.
-> >>
-> >> Is anyone else seeing this behavior?
-> >
-> > Reverting:
-> >
-> > 2a68cf4d315cdd18766de0c75928ff17846a6cd7 and
-> > 190a946e9a4213944e3ee675c4b3e18701698e87
-> >
-> > fixed the problem for me.  So there is definitely a problems in the upgrade.
-> >
-> 
-> onward looking rpc is now maintained with libtirpc starting glibc 2.14 rpc is
-> not to be used from bundled code in glibc. If we dont have recipes for libtirpc
-> then I will add that.
+A fairly global problem was discovered that depending on the build users
+umask, the directories and files being generated ended up with different
+permissions.  This lead to situations where the first package to be
+installed setup the permissions and could have lead to bugs and security
+issues.
 
-There looks to be more than this wrong with this update. A quick
-comparison shows the following changes in the list of files being
-installed from do_install:
+This patch set resolves the problem in two ways.  First it sets the umask
+to a sane value for distribution creation, 022.  Note: I intentionally left
+the patches and reverted global umask in this patch set.  Without the 
+corresponding changes to bitbake the "Add umask task control" won't do
+anything.
 
--./lib/libmemusage.so
--./lib/libnss_hesiod-2.13.so
--./lib/libnss_nisplus-2.13.so
--./lib/libutil-2.13.so
--./lib/libresolv-2.13.so
--./lib/libm-2.13.so
--./lib/libnsl-2.13.so
--./lib/libnss_compat-2.13.so
--./lib/libnss_nis-2.13.so
--./lib/libnss_dns-2.13.so
--./lib/libanl-2.13.so
--./lib/libBrokenLocale-2.13.so
--./lib/libcrypt-2.13.so
--./etc/rpc
--./usr/lib/libnss_compat_pic.a
--./usr/lib/libnss_dns_pic.a
--./usr/lib/libnss_nisplus_pic.a
-+./usr/lib/audit/sotruss-lib.so
--./usr/lib/libutil_pic.map
--./usr/lib/libBrokenLocale_pic.a
--./usr/lib/libBrokenLocale.a
--./usr/lib/libBrokenLocale_pic.map
--./usr/lib/libm.a
--./usr/lib/libnss_dns_pic.map
--./usr/lib/libm_pic.map
--./usr/lib/libnss_hesiod_pic.map
--./usr/lib/librpcsvc.a
--./usr/lib/libutil.a
--./usr/lib/libnss_compat_pic.map
--./usr/lib/libcrypt.a
--./usr/lib/libutil_pic.a
--./usr/lib/libanl.a
--./usr/lib/libnsl_pic.a
--./usr/lib/libresolv.a
--./usr/lib/libnss_hesiod_pic.a
--./usr/lib/libm_pic.a
--./usr/lib/libnsl_pic.map
--./usr/lib/libnss_nis_pic.map
--./usr/lib/libanl_pic.a
--./usr/lib/libcrypt_pic.map
--./usr/lib/libcrypt_pic.a
--./usr/lib/libnss_nis_pic.a
--./usr/lib/libresolv_pic.map
--./usr/lib/libresolv_pic.a
--./usr/lib/libanl_pic.map
--./usr/lib/libnss_nisplus_pic.map
--./usr/lib/libnsl.a
--./usr/bin/rpcgen
--./usr/bin/gencat
-+./usr/bin/sotruss
--./usr/bin/localedef
--./usr/bin/locale
--./usr/sbin/rpcinfo
--./usr/sbin/nscd
+The package.bbclass change is described within that specific commit.  Note
+there is still one outstanding issue when one package uses a directory and
+another defines the item in terms of a symlink.  I intend to enhance the
+code to deal with that situation in a future commit.
 
-Some of these are rpc related but there are other issues too.
+The following changes since commit f40f936b3ba00e31cae49c22b2633d4deb825533:
 
-I've reverted the upgrade itself for now until we have something in
-place to address the issues and its actually had some testing...
+  Revert "eglibc: Upgrade recipes from 2.13 -> 2.14" (2011-06-22 16:52:11 -0500)
 
-Cheers,
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/perms
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/perms
 
-Richard
+Mark Hatle (4):
+  classes/base.bbclass: Add umask
+  Revert "classes/base.bbclass: Add umask"
+  Add umask task control
+  classes/package.bbclass: Add fixup_perms
 
+ meta/classes/base.bbclass                          |    4 +
+ meta/classes/image.bbclass                         |    2 +
+ meta/classes/package.bbclass                       |  168 ++++++++++++++++++--
+ meta/classes/staging.bbclass                       |    1 +
+ meta/files/fs-perms.txt                            |   39 +++++
+ .../installer/adt-installer_1.0.bb                 |    2 +
+ meta/recipes-kernel/linux/linux-tools.inc          |    2 +
+ 7 files changed, 208 insertions(+), 10 deletions(-)
+ create mode 100644 meta/files/fs-perms.txt
+
+-- 
+1.7.3.4
 
 
 
