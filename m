@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZREz-00084r-Cz
+	(envelope-from <mark.hatle@windriver.com>) id 1QZRF2-00084w-MI
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 19:29:28 +0200
+	Wed, 22 Jun 2011 19:29:29 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPoY9026884
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPpQZ026893
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 10:25:50 -0700 (PDT)
+	Wed, 22 Jun 2011 10:25:52 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 22 Jun 2011 10:25:49 -0700
+	Wed, 22 Jun 2011 10:25:51 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 12:36:29 -0500
-Message-ID: <7b79e04d0a76dbcb8070f561c7bac8b9f39acb51.1308763995.git.mark.hatle@windriver.com>
+Date: Wed, 22 Jun 2011 12:36:30 -0500
+Message-ID: <528d2e9b481fc01dab4b7b2b1884a41a25de7ae0.1308763995.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308763995.git.mark.hatle@windriver.com>
 References: <cover.1308763995.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 35/40] db: Fix file ownership
+Subject: [PATCH 36/40] unzip: Avoid stripping binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,35 +38,94 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Wed, 22 Jun 2011 17:29:30 -0000
 Content-Type: text/plain
 
+Not only do we have to override things on the make line, but we
+need to hack on configure as well to avoid certain behavior.
+
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-support/db/db_5.1.19.bb |    6 ++++++
- 1 files changed, 6 insertions(+), 0 deletions(-)
+ .../recipes-extended/unzip/unzip/avoid-strip.patch |   48 ++++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |    7 ++-
+ 2 files changed, 53 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/unzip/unzip/avoid-strip.patch
 
-diff --git a/meta/recipes-support/db/db_5.1.19.bb b/meta/recipes-support/db/db_5.1.19.bb
-index fc87c31..c5047b6 100644
---- a/meta/recipes-support/db/db_5.1.19.bb
-+++ b/meta/recipes-support/db/db_5.1.19.bb
-@@ -80,6 +80,10 @@ do_configure() {
- 	oe_runconf
- }
- 
-+FIX_OWNERS = "chown -R root:root ${D}"
-+FIX_OWNERS_virtclass-native = ""
-+FIX_OWNERS_virtclass-nativesdk = ""
+diff --git a/meta/recipes-extended/unzip/unzip/avoid-strip.patch b/meta/recipes-extended/unzip/unzip/avoid-strip.patch
+new file mode 100644
+index 0000000..0ef6363
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/avoid-strip.patch
+@@ -0,0 +1,48 @@
++unix/Makefile: remove hard coded strip commands
 +
- do_install_append() {
- 	mkdir -p ${D}/${includedir}/db51
- 	#mv ${D}/${includedir}/db_185.h ${D}/${includedir}/db51/.
-@@ -98,6 +102,8 @@ do_install_append() {
- 		test ! -d "${D}/${docdir}" || rm -rf "${D}/${docdir}"
- 		mv "${D}/${prefix}/docs" "${D}/${docdir}"
- 	fi
++Remove the hard coded strip commands, both LF2 (used in linking) and
++STRIP used alone.
 +
-+	test -n "${FIX_OWNERS}" && eval ${FIX_OWNERS} || :
- }
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
++diff -ur unzip60.orig/unix/configure unzip60/unix/configure
++--- unzip60.orig/unix/configure	2009-04-16 14:25:12.000000000 -0500
+++++ unzip60/unix/configure	2011-06-21 11:23:36.822849960 -0500
++@@ -17,7 +17,7 @@
++ IZ_BZIP2=${3}
++ CFLAGS="${CFLAGS} -I. -DUNIX"
++ LFLAGS1=""
++-LFLAGS2="-s"
+++LFLAGS2=""
++ LN="ln -s"
++ 
++ CFLAGS_OPT=''
++diff -ur unzip60.orig/unix/Makefile unzip60/unix/Makefile
++--- unzip60.orig/unix/Makefile	2009-01-18 16:41:18.000000000 -0600
+++++ unzip60/unix/Makefile	2011-06-21 11:12:22.900003388 -0500
++@@ -52,7 +52,7 @@
++ CF = $(CFLAGS) $(CF_NOOPT)
++ LFLAGS1 =
++ LF = -o unzip$E $(LFLAGS1)
++-LF2 = -s
+++LF2 = 
++ 
++ # UnZipSFX flags
++ SL = -o unzipsfx$E $(LFLAGS1)
++@@ -70,7 +70,7 @@
++ CHMOD = chmod
++ BINPERMS = 755
++ MANPERMS = 644
++-STRIP = strip
+++STRIP =
++ E =
++ O = .o
++ M = unix
++@@ -776,7 +776,6 @@
++ #
++ gcc:		unix_make
++ 	$(MAKE) unzips CC=gcc LD=gcc CFLAGS="-O3" LF2=""
++-	$(STRIP) $(UNZIPS)
++ 
++ # Heurikon HK68 (68010), UniPlus+ System V 5.0, Green Hills C-68000
++ hk68:		unix_make
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index ccdd372..6fcebc2 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -4,14 +4,17 @@ SECTION = "console/utils"
+ LICENSE = "Info-ZIP"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
+ PE = "1"
+-PR = "r0"
++PR = "r1"
  
- BBCLASSEXTEND = "native nativesdk"
+-SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz"
++SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
++	file://avoid-strip.patch"
+ 
+ SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+ SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
+ S = "${WORKDIR}/unzip60"
+ 
++EXTRA_OEMAKE += " STRIP=true LF2=''"
++
+ export LD = "${CC}"
+ LD_virtclass-native = "${CC}"
+ 
 -- 
 1.7.3.4
 
