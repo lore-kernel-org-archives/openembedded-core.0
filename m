@@ -1,40 +1,40 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QZCXQ-00034j-Ak
+	(envelope-from <raj.khem@gmail.com>) id 1QZCXR-00034l-Sk
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 03:47:28 +0200
-Received: by pvf24 with SMTP id 24so242869pvf.6
+	Wed, 22 Jun 2011 03:47:30 +0200
+Received: by pwi1 with SMTP id 1so351162pwi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jun 2011 18:43:53 -0700 (PDT)
+	Tue, 21 Jun 2011 18:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references:in-reply-to:references;
-	bh=JBhpb/QvRq/eyIRzHCQN47ERAveZImqwN7GQBtJBxYg=;
-	b=o7sOux9gwGfEpWi6/aH4vgwGGEac2X1BhuubXhZnfczst0l89TLhDKD4tUviQpMTj4
-	9rA2ikjl1o4Y0Uu4+i4WGbuDjBEkejmkOXXIub77i3ACcI7FRJHYQjrQiws8x6DW7XR6
-	0fyS4g03IDFhGEqKk9waZfQyTZe63GYLFSnyc=
+	bh=G+WEA4XqaAp22fUTeEIQW8kZJiZldU3nmB6/s5nC6WA=;
+	b=tmbFRFxRXmIZ77m9dGyPeGjn9wuNZkL9K/woJU/KPCJ19/H3zUo+OjjBlkVprtycN7
+	s/iSwYo4urd7PXnMMVMCCS16pBpXTor8QeOqEVikF4htVRKEj0CIz1TwsMxIAtP+hkYM
+	mInUKKLn5Nu4t25+3Dflb1reI50sOPFklf/d4=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=l51Z8Y+mJK61fX60FcB/2gsKfPCxof4AIRsqdTPsdnr4qMH9kdjfhrNXEuU2u4Nigo
-	o7Geh3ln1JaUzyTEo6UYjrw1QUcm+pXNvmZ4krhBydpkgqgtXNIti8rMzrVuI/AuYa21
-	IfODOzMJfW0ndxK7T20OTkqLpEXkoGSdPM/qg=
-Received: by 10.68.8.131 with SMTP id r3mr40225pba.299.1308707033737;
-	Tue, 21 Jun 2011 18:43:53 -0700 (PDT)
+	b=rV4DGar6e5NKAF44HUpidCYKcMin+wJ5i3htLFjNz8LOILXN+eBLXQEb0Fmp82cFDu
+	A0e8ULBMT4FrvvVshVyiYOr8DP1NhUp6H7IBDVbQc7xRTGWT7Vym5lI7K8m8Yoo/T1ZF
+	PM9eXVp10gR9rsmP3/MeAaIsUwajBh82OR6Uc=
+Received: by 10.68.58.193 with SMTP id t1mr44486pbq.43.1308707034836;
+	Tue, 21 Jun 2011 18:43:54 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id o2sm64885pbj.17.2011.06.21.18.43.52
+	by mx.google.com with ESMTPS id o2sm64885pbj.17.2011.06.21.18.43.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 21 Jun 2011 18:43:53 -0700 (PDT)
+	Tue, 21 Jun 2011 18:43:54 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Jun 2011 18:43:43 -0700
-Message-Id: <ef26190e38b9e8db0460982d0dc8b2b8ffec89d7.1308706423.git.raj.khem@gmail.com>
+Date: Tue, 21 Jun 2011 18:43:44 -0700
+Message-Id: <7c9cfef4734fe29e2a2324cdac48ebae343f673e.1308706423.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <c51f708783d1e320787117e68f2f98aa53ed292e.1308706423.git.raj.khem@gmail.com>
 References: <c51f708783d1e320787117e68f2f98aa53ed292e.1308706423.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1308706423.git.raj.khem@gmail.com>
 References: <cover.1308706423.git.raj.khem@gmail.com>
-Subject: [PATCH 3/4] binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64
+Subject: [PATCH 4/4] tcmode-default.inc: Bump EGLIBCVERSION to 2.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,469 +49,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 01:47:28 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 01:47:30 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../binutils/binutils-2.21/binutils-pr12366.patch  |  428 ++++++++++++++++++++
- meta/recipes-devtools/binutils/binutils_2.21.bb    |    3 +-
- 2 files changed, 430 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/binutils/binutils-2.21/binutils-pr12366.patch
+ meta/conf/distro/include/tcmode-default.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.21/binutils-pr12366.patch b/meta/recipes-devtools/binutils/binutils-2.21/binutils-pr12366.patch
-new file mode 100644
-index 0000000..c11a802
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils-2.21/binutils-pr12366.patch
-@@ -0,0 +1,428 @@
-+This is backport from 2.21 branch
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+
-+commit 946593d19f203b02efd45b5102dd2787d9418e24
-+Author: H.J. Lu <hjl.tools@gmail.com>
-+Date:   Wed May 25 17:41:32 2011 +0000
-+
-+    Handle STT_GNU_IFUNC symols when building shared library.
-+    
-+    bfd/
-+    
-+    2012-05-25  H.J. Lu  <hongjiu.lu@intel.com>
-+    
-+    	Backport from mainline
-+    	2012-01-06  H.J. Lu  <hongjiu.lu@intel.com>
-+    
-+    	PR ld/12366
-+    	PR ld/12371
-+    	* elf-ifunc.c (_bfd_elf_allocate_ifunc_dyn_relocs): Properly
-+    	handle symbols marked with regular reference, but not non-GOT
-+    	reference when building shared library.
-+    
-+    	* elf32-i386.c (elf_i386_gc_sweep_hook): Properly handle
-+    	local and global STT_GNU_IFUNC symols when building shared
-+    	library.
-+    	* elf64-x86-64.c (elf_x86_64_gc_sweep_hook): Likewise.
-+    
-+    ld/testsuite/
-+    
-+    2012-05-25  H.J. Lu  <hongjiu.lu@intel.com>
-+    
-+    	Backport from mainline
-+    	2012-01-06  H.J. Lu  <hongjiu.lu@intel.com>
-+    
-+    	PR ld/12366
-+    	PR ld/12371
-+    	* ld-ifunc/ifunc-10-i386.s: Add more tests.
-+    	* ld-ifunc/ifunc-10-x86-64.s: Likewise.
-+    	* ld-ifunc/ifunc-11-i386.s: Likewise.
-+    	* ld-ifunc/ifunc-11-x86-64.s: Likewise.
-+    
-+    	* ld-ifunc/ifunc-12-i386.d: New.
-+    	* ld-ifunc/ifunc-12-i386.s: Likewise.
-+    	* ld-ifunc/ifunc-12-x86-64.d: Likewise.
-+    	* ld-ifunc/ifunc-12-x86-64.s: Likewise.
-+    	* ld-ifunc/ifunc-13-i386.d: Likewise.
-+    	* ld-ifunc/ifunc-13-x86-64.d: Likewise.
-+    	* ld-ifunc/ifunc-13a-i386.s: Likewise.
-+    	* ld-ifunc/ifunc-13a-x86-64.s: Likewise.
-+    	* ld-ifunc/ifunc-13b-i386.s: Likewise.
-+    	* ld-ifunc/ifunc-13b-x86-64.s: Likewise.
-+
-+Index: binutils-2.21/bfd/elf-ifunc.c
-+===================================================================
-+--- binutils-2.21.orig/bfd/elf-ifunc.c	2010-07-13 09:59:10.000000000 -0700
-++++ binutils-2.21/bfd/elf-ifunc.c	2011-06-21 16:33:40.751884107 -0700
-+@@ -190,10 +190,29 @@
-+   /* Support garbage collection against STT_GNU_IFUNC symbols.  */
-+   if (h->plt.refcount <= 0 && h->got.refcount <= 0)
-+     {
-+-      h->got = htab->init_got_offset;
-+-      h->plt = htab->init_plt_offset;
-+-      *head = NULL;
-+-      return TRUE;
-++      /* When building shared library, we need to handle the case
-++         where it is marked with regular reference, but not non-GOT
-++	 reference.  It may happen if we didn't see STT_GNU_IFUNC
-++	 symbol at the time when checking relocations.  */
-++      bfd_size_type count = 0;
-++
-++      if (info->shared
-++	  && !h->non_got_ref
-++	  && h->ref_regular)
-++	{
-++	  for (p = *head; p != NULL; p = p->next)
-++	    count += p->count;
-++	  if (count != 0)
-++	    h->non_got_ref = 1;
-++	}
-++
-++      if (count == 0)
-++	{
-++	  h->got = htab->init_got_offset;
-++	  h->plt = htab->init_plt_offset;
-++	  *head = NULL;
-++	  return TRUE;
-++	}
-+     }
-+ 
-+   /* Return and discard space for dynamic relocations against it if
-+Index: binutils-2.21/bfd/elf32-i386.c
-+===================================================================
-+--- binutils-2.21.orig/bfd/elf32-i386.c	2010-10-21 05:29:02.000000000 -0700
-++++ binutils-2.21/bfd/elf32-i386.c	2011-06-21 16:33:40.761884138 -0700
-+@@ -1807,23 +1807,10 @@
-+       r_symndx = ELF32_R_SYM (rel->r_info);
-+       if (r_symndx >= symtab_hdr->sh_info)
-+ 	{
-+-	  struct elf_i386_link_hash_entry *eh;
-+-	  struct elf_dyn_relocs **pp;
-+-	  struct elf_dyn_relocs *p;
-+-
-+ 	  h = sym_hashes[r_symndx - symtab_hdr->sh_info];
-+ 	  while (h->root.type == bfd_link_hash_indirect
-+ 		 || h->root.type == bfd_link_hash_warning)
-+ 	    h = (struct elf_link_hash_entry *) h->root.u.i.link;
-+-	  eh = (struct elf_i386_link_hash_entry *) h;
-+-
-+-	  for (pp = &eh->dyn_relocs; (p = *pp) != NULL; pp = &p->next)
-+-	    if (p->sec == sec)
-+-	      {
-+-		/* Everything must go for SEC.  */
-+-		*pp = p->next;
-+-		break;
-+-	      }
-+ 	}
-+       else
-+ 	{
-+@@ -1843,6 +1830,22 @@
-+ 	    }
-+ 	}
-+ 
-++      if (h)
-++	{
-++	  struct elf_i386_link_hash_entry *eh;
-++	  struct elf_dyn_relocs **pp;
-++	  struct elf_dyn_relocs *p;
-++
-++	  eh = (struct elf_i386_link_hash_entry *) h;
-++	  for (pp = &eh->dyn_relocs; (p = *pp) != NULL; pp = &p->next)
-++	    if (p->sec == sec)
-++	      {
-++		/* Everything must go for SEC.  */
-++		*pp = p->next;
-++		break;
-++	      }
-++	}
-++
-+       r_type = ELF32_R_TYPE (rel->r_info);
-+       if (! elf_i386_tls_transition (info, abfd, sec, NULL,
-+ 				     symtab_hdr, sym_hashes,
-+@@ -1883,7 +1886,8 @@
-+ 
-+ 	case R_386_32:
-+ 	case R_386_PC32:
-+-	  if (info->shared)
-++	  if (info->shared
-++	      && (h == NULL || h->type != STT_GNU_IFUNC))
-+ 	    break;
-+ 	  /* Fall through */
-+ 
-+Index: binutils-2.21/bfd/elf64-x86-64.c
-+===================================================================
-+--- binutils-2.21.orig/bfd/elf64-x86-64.c	2010-10-21 05:29:02.000000000 -0700
-++++ binutils-2.21/bfd/elf64-x86-64.c	2011-06-21 16:33:40.761884138 -0700
-+@@ -1645,23 +1645,10 @@
-+       r_symndx = ELF64_R_SYM (rel->r_info);
-+       if (r_symndx >= symtab_hdr->sh_info)
-+ 	{
-+-	  struct elf64_x86_64_link_hash_entry *eh;
-+-	  struct elf_dyn_relocs **pp;
-+-	  struct elf_dyn_relocs *p;
-+-
-+ 	  h = sym_hashes[r_symndx - symtab_hdr->sh_info];
-+ 	  while (h->root.type == bfd_link_hash_indirect
-+ 		 || h->root.type == bfd_link_hash_warning)
-+ 	    h = (struct elf_link_hash_entry *) h->root.u.i.link;
-+-	  eh = (struct elf64_x86_64_link_hash_entry *) h;
-+-
-+-	  for (pp = &eh->dyn_relocs; (p = *pp) != NULL; pp = &p->next)
-+-	    if (p->sec == sec)
-+-	      {
-+-		/* Everything must go for SEC.  */
-+-		*pp = p->next;
-+-		break;
-+-	      }
-+ 	}
-+       else
-+ 	{
-+@@ -1682,7 +1669,24 @@
-+ 	    }
-+ 	}
-+ 
-+-      r_type = ELF64_R_TYPE (rel->r_info);
-++      if (h)
-++	{
-++	  struct elf64_x86_64_link_hash_entry *eh;
-++	  struct elf_dyn_relocs **pp;
-++	  struct elf_dyn_relocs *p;
-++
-++	  eh = (struct elf64_x86_64_link_hash_entry *) h;
-++
-++	  for (pp = &eh->dyn_relocs; (p = *pp) != NULL; pp = &p->next)
-++	    if (p->sec == sec)
-++	      {
-++		/* Everything must go for SEC.  */
-++		*pp = p->next;
-++		break;
-++	      }
-++	}
-++
-++      r_type = ELF32_R_TYPE (rel->r_info);
-+       if (! elf64_x86_64_tls_transition (info, abfd, sec, NULL,
-+ 					 symtab_hdr, sym_hashes,
-+ 					 &r_type, GOT_UNKNOWN,
-+@@ -1733,7 +1737,8 @@
-+ 	case R_X86_64_PC16:
-+ 	case R_X86_64_PC32:
-+ 	case R_X86_64_PC64:
-+-	  if (info->shared)
-++	  if (info->shared
-++	      && (h == NULL || h->type != STT_GNU_IFUNC))
-+ 	    break;
-+ 	  /* Fall thru */
-+ 
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-10-i386.s
-+===================================================================
-+--- binutils-2.21.orig/ld/testsuite/ld-ifunc/ifunc-10-i386.s	2010-07-13 09:59:14.000000000 -0700
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-10-i386.s	2011-06-21 16:36:36.832142380 -0700
-+@@ -6,6 +6,8 @@
-+         movl ifunc@GOTOFF(%ecx), %eax
-+ 	call ifunc@PLT
-+ 	call ifunc
-++        movl xxx@GOT(%ecx), %eax
-++        movl xxx, %eax
-+         ret
-+ 
-+         .section .text.bar,"ax",@progbits
-+@@ -18,3 +20,7 @@
-+         .type ifunc, @gnu_indirect_function
-+ ifunc:
-+         ret
-++
-++        .section .data.foo,"aw",@progbits
-++xxx:
-++	.long ifunc
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-10-x86-64.s
-+===================================================================
-+--- binutils-2.21.orig/ld/testsuite/ld-ifunc/ifunc-10-x86-64.s	2010-07-13 09:59:14.000000000 -0700
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-10-x86-64.s	2011-06-21 16:36:36.822142371 -0700
-+@@ -6,6 +6,7 @@
-+         movl ifunc(%rip), %eax
-+ 	call ifunc@PLT
-+ 	call ifunc
-++        movl xxx(%rip), %eax
-+         ret
-+ 
-+         .section .text.bar,"ax",@progbits
-+@@ -18,3 +19,7 @@
-+         .type ifunc, @gnu_indirect_function
-+ ifunc:
-+         ret
-++
-++        .section .data.foo,"aw",@progbits
-++xxx:
-++	.quad ifunc
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-11-i386.s
-+===================================================================
-+--- binutils-2.21.orig/ld/testsuite/ld-ifunc/ifunc-11-i386.s	2010-07-13 09:59:14.000000000 -0700
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-11-i386.s	2011-06-21 16:36:36.832142380 -0700
-+@@ -3,9 +3,11 @@
-+ foo:
-+         .global foo
-+         movl ifunc@GOT(%ecx), %eax
-+-	movl ifunc@GOTOFF(%ecx), %eax
-++        movl ifunc@GOTOFF(%ecx), %eax
-+ 	call ifunc@PLT
-+ 	call ifunc
-++        movl xxx@GOT(%ecx), %eax
-++        movl xxx, %eax
-+         ret
-+ 
-+         .section .text.bar,"ax",@progbits
-+@@ -16,6 +18,10 @@
-+ 
-+         .section .text.ifunc,"ax",@progbits
-+         .type ifunc, @gnu_indirect_function
-+-        .global ifunc
-++	.global ifunc
-+ ifunc:
-+         ret
-++
-++        .section .data.foo,"aw",@progbits
-++xxx:
-++	.long ifunc
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-11-x86-64.s
-+===================================================================
-+--- binutils-2.21.orig/ld/testsuite/ld-ifunc/ifunc-11-x86-64.s	2010-07-13 09:59:14.000000000 -0700
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-11-x86-64.s	2011-06-21 16:36:36.822142371 -0700
-+@@ -6,6 +6,7 @@
-+         movl ifunc(%rip), %eax
-+ 	call ifunc@PLT
-+ 	call ifunc
-++        movl xxx(%rip), %eax
-+         ret
-+ 
-+         .section .text.bar,"ax",@progbits
-+@@ -19,3 +20,7 @@
-+         .global ifunc
-+ ifunc:
-+         ret
-++
-++        .section .data.foo,"aw",@progbits
-++xxx:
-++	.quad ifunc
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-12-i386.d
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-12-i386.d	2011-06-21 16:33:40.761884138 -0700
-+@@ -0,0 +1,6 @@
-++#ld: -shared -m elf_i386 -e bar --gc-sections
-++#as: --32
-++#readelf: -r --wide
-++#target: x86_64-*-* i?86-*-*
-++
-++There are no relocations in this file.
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-12-x86-64.d
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-12-x86-64.d	2011-06-21 16:33:40.761884138 -0700
-+@@ -0,0 +1,6 @@
-++#ld: -shared -m elf_x86_64 -e bar --gc-sections
-++#as: --64
-++#readelf: -r --wide
-++#target: x86_64-*-*
-++
-++There are no relocations in this file.
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13-i386.d
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13-i386.d	2011-06-21 16:33:40.761884138 -0700
-+@@ -0,0 +1,19 @@
-++#source: ifunc-13a-i386.s
-++#source: ifunc-13b-i386.s
-++#ld: -shared -m elf_i386 -z nocombreloc
-++#as: --32
-++#readelf: -r --wide
-++#target: x86_64-*-* i?86-*-*
-++
-++Relocation section '.rel.got' at .*
-++[ ]+Offset[ ]+Info[ ]+Type[ ]+.*
-++#...
-++[0-9a-f]+[ ]+[0-9a-f]+[ ]+R_386_GLOB_DAT[ ]+ifunc\(\)[ ]+ifunc
-++#...
-++Relocation section '.rel.ifunc' at .*
-++[ ]+Offset[ ]+Info[ ]+Type[ ]+.*
-++[0-9a-f]+[ ]+[0-9a-f]+[ ]+R_386_32[ ]+ifunc\(\)[ ]+ifunc
-++#...
-++Relocation section '.rel.plt' at .*
-++[ ]+Offset[ ]+Info[ ]+Type[ ]+.*
-++[0-9a-f]+[ ]+[0-9a-f]+[ ]+R_386_JUMP_SLOT[ ]+ifunc\(\)[ ]+ifunc
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13-x86-64.d
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13-x86-64.d	2011-06-21 16:33:40.761884138 -0700
-+@@ -0,0 +1,18 @@
-++#source: ifunc-13a-x86-64.s
-++#source: ifunc-13b-x86-64.s
-++#ld: -shared -m elf_x86_64 -z nocombreloc
-++#as: --64
-++#readelf: -r --wide
-++#target: x86_64-*-*
-++
-++Relocation section '.rela.got' at .*
-++[ ]+Offset[ ]+Info[ ]+Type[ ]+.*
-++[0-9a-f]+[ ]+[0-9a-f]+[ ]+R_X86_64_GLOB_DAT[ ]+ifunc\(\)[ ]+ifunc \+ 0
-++#...
-++Relocation section '.rela.ifunc' at .*
-++[ ]+Offset[ ]+Info[ ]+Type[ ]+.*
-++[0-9a-f]+[ ]+[0-9a-f]+[ ]+R_X86_64_64[ ]+ifunc\(\)[ ]+ifunc \+ 0
-++#...
-++Relocation section '.rela.plt' at .*
-++[ ]+Offset[ ]+Info[ ]+Type[ ]+.*
-++[0-9a-f]+[ ]+[0-9a-f]+[ ]+R_X86_64_JUMP_SLOT[ ]+ifunc\(\)[ ]+ifunc \+ 0
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13a-i386.s
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13a-i386.s	2011-06-21 16:36:36.822142371 -0700
-+@@ -0,0 +1,10 @@
-++	.text
-++        .type foo, @function
-++	.global
-++foo:
-++	movl xxx@GOT(%ebx), %eax
-++        ret
-++
-++	.data
-++xxx:
-++	.long ifunc
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13a-x86-64.s
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13a-x86-64.s	2011-06-21 16:36:36.822142371 -0700
-+@@ -0,0 +1,10 @@
-++	.text
-++        .type foo, @function
-++	.global
-++foo:
-++        movl xxx(%rip), %eax
-++        ret
-++
-++	.data
-++xxx:
-++	.quad ifunc
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13b-i386.s
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13b-i386.s	2011-06-21 16:33:40.761884138 -0700
-+@@ -0,0 +1,5 @@
-++	.text
-++        .type ifunc, @gnu_indirect_function
-++	.globl ifunc
-++ifunc:
-++        ret
-+Index: binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13b-x86-64.s
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ binutils-2.21/ld/testsuite/ld-ifunc/ifunc-13b-x86-64.s	2011-06-21 16:33:40.761884138 -0700
-+@@ -0,0 +1,5 @@
-++	.text
-++        .type ifunc, @gnu_indirect_function
-++	.globl ifunc
-++ifunc:
-++        ret
-diff --git a/meta/recipes-devtools/binutils/binutils_2.21.bb b/meta/recipes-devtools/binutils/binutils_2.21.bb
-index 270c720..2211931 100644
---- a/meta/recipes-devtools/binutils/binutils_2.21.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.21.bb
-@@ -1,6 +1,6 @@
- require binutils.inc
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 90282ee..20fc119 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -20,7 +20,7 @@ GCCVERSION ?= "4.6.0"
+ SDKGCCVERSION ?= "4.6.0"
+ BINUVERSION ?= "2.21"
+ GLIBCVERSION ?= "2.10.1"
+-EGLIBCVERSION ?= "2.13"
++EGLIBCVERSION ?= "2.14"
+ LINUXLIBCVERSION ?= "2.6.37.2"
  
--PR = "r0"
-+PR = "r1"
- 
- LIC_FILES_CHKSUM="\
-     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
-@@ -29,6 +29,7 @@ SRC_URI = "\
-      file://libiberty_path_fix.patch \
-      file://binutils-poison.patch \
-      file://libtool-rpath-fix.patch \
-+     file://binutils-pr12366.patch \
-      "
- 
- SRC_URI[md5sum] = "c84c5acc9d266f1a7044b51c85a823f5"
+ # Temporary preferred version overrides for PPC
 -- 
 1.7.5.1
 
