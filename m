@@ -1,28 +1,28 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QZS3o-0002jB-CS
+	(envelope-from <mark.hatle@windriver.com>) id 1QZSK2-0002tp-Gu
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 20:21:56 +0200
-Received: by wwg12 with SMTP id 12so949122wwg.24
+	Wed, 22 Jun 2011 20:38:45 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MIZ7Ru008573
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 11:18:21 -0700 (PDT)
-Received: by 10.216.237.131 with SMTP id y3mr2504552weq.87.1308766701803;
-	Wed, 22 Jun 2011 11:18:21 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id o75sm456609weq.16.2011.06.22.11.18.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 22 Jun 2011 11:18:21 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4E0230BC.6020404@linux.intel.com>
-Date: Wed, 22 Jun 2011 20:18:19 +0200
-Message-Id: <2A97F42D-8473-43D1-AD28-A409829DC53D@dominion.thruhere.net>
-References: <1308757294-21106-1-git-send-email-koen@dominion.thruhere.net>
-	<4E0230BC.6020404@linux.intel.com>
-To: Darren Hart <dvhart@linux.intel.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass: restore kernel-abiversion file
+	Wed, 22 Jun 2011 11:35:07 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 22 Jun 2011 11:35:06 -0700
+Message-ID: <4E0235DA.8060200@windriver.com>
+Date: Wed, 22 Jun 2011 13:35:06 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1308706423.git.raj.khem@gmail.com>
+	<1308758279.20015.79.camel@rex>
+In-Reply-To: <1308758279.20015.79.camel@rex>
+Subject: Re: [PATCH 0/4] eglibc 2.14 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,79 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 18:21:56 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 22 Jun 2011 18:38:45 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
+Since applying this update, I'm not longer getting an rpc/rpc.h file, which
+breaks various things like busybox mount.
 
-Op 22 jun 2011, om 20:13 heeft Darren Hart het volgende geschreven:
+Is anyone else seeing this behavior?
 
->=20
->=20
-> On 06/22/2011 08:41 AM, Koen Kooi wrote:
->> This fixes external module recipes that need $KERNEL_VERSION. It got =
-removed by
->>=20
->>    commit a9d41062e24a6b99661b3a5256f369b557433607
->>    Author: Darren Hart <dvhart@linux.intel.com>
->>    Date:   Tue Mar 8 17:09:10 2011 -0800
->>=20
->>        kernel/bbclass: rework kernel and module classes to allow for =
-building out-of-tree modules
->>=20
->> seemingly as an oversight.
->>=20
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->> ---
->> meta/classes/kernel.bbclass |    6 ++++++
->> 1 files changed, 6 insertions(+), 0 deletions(-)
->>=20
->> diff --git a/meta/classes/kernel.bbclass =
-b/meta/classes/kernel.bbclass
->> index 1bb69f5..8f9f108 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -123,6 +123,12 @@ kernel_do_install() {
->> 	install -d $kerneldir
->>=20
->> 	#
->> +	# Store the kernel version in sysroots for module-base.bbclass
->> +	#
->> +
->> +	echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
->=20
-> =46rom everything I can see this is an openembedded construct - which
-> external modules need this? An example recipe I can review?
->=20
-> I'd like to understand this better as I don't like the idea of =
-depending
-> on an arbitrary file that isn't part of the kernel build system to =
-build
-> modules.
->=20
-> It seems to me that these modules should be able to DEPEND on =
-something
-> provided by the kernel recipes, rather than checking the contents of a
-> file stuck in the build tree.
+--Mark
 
-It's used in the stock module.bbclass thru module-base.bbclass:
-
-=
-https://github.com/openembedded/oe-core/blob/master/meta/classes/module-ba=
-se.bbclass
-
-An example of a recipe that's using it:
-
-=
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-texasinstrument=
-s/tree/recipes-bsp/powervr-drivers/omap3-sgx-modules_1.6.16.3977.bb
-
-For various reasons the makefile can't be trusted or patched, so we =
-can't use KBuild to get the version for us.
-
-regards,
-
-Koen
+On 6/22/11 10:57 AM, Richard Purdie wrote:
+> On Tue, 2011-06-21 at 18:43 -0700, Khem Raj wrote:
+>> This patchset upgrades eglibc 2.13 -> 2.14                                             
+>> Needed a binutils fix for x86_64                                                       
+>> Package sotruss which is new in eglibc 2.14                
+>>
+>> The following changes since commit 78de64f58b98101f5be5778e9ecbdaae5ba32997:
+>>
+>>   binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64 (2011-06-21 17:58:06 -0700)
+>>
+>> are available in the git repository at:
+>>   git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-2.14
+>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-2.14
+>>
+>> Khem Raj (4):
+>>   eglibc: Upgrade recipes from 2.13 -> 2.14
+>>   eglibc-package.inc: Package newly added sotruss and supporting
+>>     libraries
+>>   binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64
+>>   tcmode-default.inc: Bump EGLIBCVERSION to 2.14
+> 
+> Merged to master, thanks.
+> 
+> Richard
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
