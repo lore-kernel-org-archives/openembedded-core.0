@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZREh-0007qe-TW
+	(envelope-from <mark.hatle@windriver.com>) id 1QZREj-0007s2-8n
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 19:29:08 +0200
+	Wed, 22 Jun 2011 19:29:09 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPWRd026776
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPYQs026781
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 10:25:32 -0700 (PDT)
+	Wed, 22 Jun 2011 10:25:34 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 22 Jun 2011 10:25:32 -0700
+	Wed, 22 Jun 2011 10:25:33 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 12:36:17 -0500
-Message-ID: <d438c23cd4433b9c923145fc304b59a6d9a3d350.1308763995.git.mark.hatle@windriver.com>
+Date: Wed, 22 Jun 2011 12:36:18 -0500
+Message-ID: <679b1001a83b8691e09978368176b19bb843f07b.1308763995.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308763995.git.mark.hatle@windriver.com>
 References: <cover.1308763995.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 23/40] gthumb: Add missing debug files
+Subject: [PATCH 24/40] systemtamp: Add missing debug files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 17:29:08 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 17:29:09 -0000
 Content-Type: text/plain
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-gnome/gthumb/gthumb_2.12.3.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/systemtap/systemtap_git.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-gnome/gthumb/gthumb_2.12.3.bb b/meta/recipes-gnome/gthumb/gthumb_2.12.3.bb
-index 115a805..720cd67 100644
---- a/meta/recipes-gnome/gthumb/gthumb_2.12.3.bb
-+++ b/meta/recipes-gnome/gthumb/gthumb_2.12.3.bb
-@@ -3,14 +3,14 @@ SECTION = "x11/gnome"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
- DEPENDS = "glib-2.0 gtk+ libxml2 gnome-doc-utils libunique gconf libpng gstreamer jpeg tiff gst-plugins-base"
--PR = "r0"
-+PR = "r1"
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index e3e9264..8907985 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ DEPENDS = "elfutils"
  
- EXTRA_OECONF = "--disable-gnome-keyring --disable-libsoup --disable-exiv2 --disable-clutter"
+ SRCREV = "4ab3a1863bf4f472acae7a809bf2b38d91658aa8"
+-PR = "r2"
++PR = "r3"
+ PV = "1.4+git${SRCPV}"
  
- inherit gnome pkgconfig
+ SRC_URI = "git://sources.redhat.com/git/systemtap.git;protocol=git \
+@@ -29,3 +29,5 @@ COMPATIBLE_HOST = '(x86_64.*|i.86.*|powerpc.*)-linux'
+ S = "${WORKDIR}/git"
  
--FILES_${PN} += "${datadir}/icons"
--FILES_${PN}-dbg += "${libdir}/gthumb/modules/.debug"
-+FILES_${PN} += " ${datadir}/icons"
-+FILES_${PN}-dbg += " ${libdir}/gthumb/modules/.debug/ ${libdir}/gthumb/extensions/.debug/"
- 
- SRC_URI[archive.md5sum] = "bfa0957a1bafc5d049292cd5fad372ce"
- SRC_URI[archive.sha256sum] = "0060c05fd372c2af2048d294ab3f75c8fb02c576d3e2004e08b7d34f49da1e66"
+ inherit autotools
++
++FILES_${PN}-dbg += " ${libexecdir}/systemtap/.debug"
 -- 
 1.7.3.4
 
