@@ -1,40 +1,24 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders.darander@gmail.com>) id 1QZKvy-00057i-4L
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QZLuj-0003RL-3B for openembedded-core@lists.openembedded.org;
+	Wed, 22 Jun 2011 13:48:09 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QZLrI-00039Z-TZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 12:45:22 +0200
-Received: by fxm19 with SMTP id 19so595647fxm.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 03:41:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type:content-transfer-encoding;
-	bh=LT/mrFI4+L2Lkjwp9x1PDi4rO/QOa5lF1WeFqFYyISE=;
-	b=SKlt1XGT4cgW/fHzFUGKvW+CQypWX60GtfbfgXtGpLJFmdHdcVwsPZLOWm/TTbf5xJ
-	qamHmNU3SYqk2gsDzLnOFBl+PjbJAu6ock8sxr+m2knTKtADUvgo5C99XYGeAIMDnkJX
-	Il8wNQ/8OTlkDU4bzVgOl54DOTUUHYAG4R5nc=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	b=MOWtqRqN05kZsRCCdLWFP9kFfF7WRjCLKu3KUdoudS4w+Zc9Zx5ZVm7HDzzTO0Qaa4
-	jq0BNlbGgikDJZrPBrGMtMdNeo03zNoyF3ltqt4wjzQudDV9l2IjZWFX20CMY45LoKMf
-	G4tUp2sYol6M9Bj0C6FlKpRa74+gUpqxunf1o=
-MIME-Version: 1.0
-Received: by 10.223.100.15 with SMTP id w15mr683448fan.11.1308739308011; Wed,
-	22 Jun 2011 03:41:48 -0700 (PDT)
-Received: by 10.223.114.1 with HTTP; Wed, 22 Jun 2011 03:41:47 -0700 (PDT)
-In-Reply-To: <1308738156.21613.80.camel@phil-desktop>
-References: <cover.1308680000.git.anders@chargestorm.se>
-	<4e9efffb9118e29178d087577c0cebb360872ebe.1308680000.git.anders@chargestorm.se>
-	<1308681938.3083.11.camel@lenovo.internal.reciva.com>
-	<BANLkTinkNcN8RBcZapj5xF=q_p4O++trgg@mail.gmail.com>
-	<1308738156.21613.80.camel@phil-desktop>
-Date: Wed, 22 Jun 2011 12:41:47 +0200
-Message-ID: <BANLkTim13H6v6T5eovEOYVXoiW=4bOtLXg@mail.gmail.com>
-From: Anders Darander <anders.darander@gmail.com>
+	Wed, 22 Jun 2011 13:44:37 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 3/5] linux-kernel-base: add support for Linux 3.x
+In-Reply-To: <d7c256ba838d05c85c6e7c2569f0a6c7b276ab17.1308732995.git.dongxiao.xu@intel.com>
+References: <cover.1308732995.git.dongxiao.xu@intel.com>
+	<d7c256ba838d05c85c6e7c2569f0a6c7b276ab17.1308732995.git.dongxiao.xu@intel.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Wed, 22 Jun 2011 12:44:35 +0100
+Message-ID: <1308743075.21613.82.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [PATCH 1/1] libc-locale: split locale handling from libc recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,56 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 10:45:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 22 Jun 2011 11:48:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 22, 2011 at 12:22, Phil Blundell <pb@pbcl.net> wrote:
-> On Tue, 2011-06-21 at 21:10 +0200, Anders Darander wrote:
->> If we keep the kernel_majorversion, we'll need to have something
->> similar to this,
->> as the major version up to 2.6 was determined by X.Y. From 3.0, only the=
- first
->> digit represents the major number; while the second digit (0 in 3.0)
->> is equal to
->> x in 2.6.x. Thus, the function to determine the major version has to
->> return either
->> 2.6 or 3.
->
-> Well, the thing is that OE's "kernelmajorversion" was always something
-> of an artificial construct. =A0It was introduced purely as a way of copin=
-g
-> with some of the differences between 2.4 and 2.6: this was primarily the
-> different module format, but it also happened to coincide with major
-> rewrites of the iPAQ and Zaurus kernels which were the main ones we were
-> using in OE at the time. =A0Returning "3" here isn't going to be helpful
-> since none of the classes will know what to do with that value: all they
-> ever do is compare it against either 2.4 or 2.6. =A0The exact form of
-> those tests has never been standardised, so there is a risk that you
-> might encounter
+I still don't quite understand why the virtual/libiconv provider has
+moved from eglibc to eglibc-locale.  Can you explain what's going on
+there?
 
-I assumed that the reason was that; and it's nice to get a better grip of t=
-he
-older history. (At that time I was more concerned with Buildroot and uCLinu=
-x).
+p.
 
-> Since there are no material differences between Linux 2.6 and Linux 3.0
-> that OE needs to be aware of, I think it would make most sense for
-> kernelmajorversion() to continue returning "2.6" for Linux 3.0 and
-> future versions if we did want to keep that mechanism.
+On Wed, 2011-06-22 at 17:01 +0800, Dongxiao Xu wrote:
+> *libc's do_package will cost a lot of time due to the locale handing,
+> which may delay the other recipe's do_package task and affect the build
+> performance.
+> 
+> This commit moves locale handling into a separate recipe *libc-locale.
+> 
+> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> ---
+>  meta/classes/libc-common.bbclass                   |   23 ++++++++
+>  meta/classes/libc-package.bbclass                  |   24 --------
+>  meta/conf/distro/include/tclibc-eglibc.inc         |    2 +-
+>  meta/conf/distro/include/tclibc-glibc.inc          |    2 +-
+>  meta/recipes-core/eglibc/eglibc-initial_2.13.bb    |    4 ++
+>  meta/recipes-core/eglibc/eglibc-locale_2.13.bb     |   58 ++++++++++++++++++++
+>  meta/recipes-core/eglibc/eglibc-package.inc        |   32 +----------
+>  meta/recipes-core/eglibc/eglibc.inc                |    4 +-
+>  meta/recipes-core/eglibc/eglibc_2.13.bb            |   12 ++++
+>  meta/recipes-core/glibc/glibc-initial_2.10.1.bb    |    4 ++
+>  meta/recipes-core/glibc/glibc-locale_2.10.1.bb     |   50 +++++++++++++++++
+>  meta/recipes-core/glibc/glibc-package.inc          |   29 ++---------
+>  meta/recipes-core/glibc/glibc.inc                  |    2 +-
+>  meta/recipes-core/glibc/glibc_2.10.1.bb            |   12 ++++
+>  .../meta/external-csl-toolchain_2008q3-72.bb       |    1 +
+>  15 files changed, 176 insertions(+), 83 deletions(-)
+>  create mode 100644 meta/classes/libc-common.bbclass
+>  create mode 100644 meta/recipes-core/eglibc/eglibc-locale_2.13.bb
+>  create mode 100644 meta/recipes-core/glibc/glibc-locale_2.10.1.bb
+> 
+> diff --git a/meta/conf/distro/include/tclibc-eglibc.inc b/meta/conf/distro/include/tclibc-eglibc.inc
+> index a4c648e..90de04f 100644
+> --- a/meta/conf/distro/include/tclibc-eglibc.inc
+> +++ b/meta/conf/distro/include/tclibc-eglibc.inc
+> @@ -10,7 +10,7 @@ TARGET_OS_powerpc = "linux${@['','-gnuspe'][bb.data.getVar('BASE_PACKAGE_ARCH',d
+>  # Add glibc overrides to the overrides for eglibc.
+>  OVERRIDES .= ":libc-glibc"
+>  
+> -PREFERRED_PROVIDER_virtual/libiconv ?= "eglibc"
+> +PREFERRED_PROVIDER_virtual/libiconv ?= "eglibc-locale"
+>  PREFERRED_PROVIDER_virtual/libiconv-nativesdk ?= "eglibc-nativesdk"
+>  PREFERRED_PROVIDER_virtual/libintl ?= "eglibc"
+>  PREFERRED_PROVIDER_virtual/libc ?= "eglibc"
+> diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
+> index e5843b0..748c23f 100644
+> --- a/meta/conf/distro/include/tclibc-glibc.inc
+> +++ b/meta/conf/distro/include/tclibc-glibc.inc
+> @@ -10,7 +10,7 @@ TARGET_OS_powerpc = "linux${@['','-gnuspe'][bb.data.getVar('BASE_PACKAGE_ARCH',d
+>  # Add glibc to the overrides.
+>  OVERRIDES =. "libc-glibc:"
+>  
+> -PREFERRED_PROVIDER_virtual/libiconv ?= "glibc"
+> +PREFERRED_PROVIDER_virtual/libiconv ?= "glibc-locale"
+>  PREFERRED_PROVIDER_virtual/libiconv-nativesdk ?= "glibc-nativesdk"
+>  PREFERRED_PROVIDER_virtual/libintl ?= "glibc"
+>  PREFERRED_PROVIDER_virtual/libc ?= "glibc"
 
-Yes, and that's why I completely removed the tests in the bbclasses that
-I've touch sofar.
 
-> However, since the whole purpose of the mechanism was to ease the
-> transition from 2.4 to 2.6, I am fairly confident that it can just be
-> deleted altogether if support for 2.4 is being removed.
-
-Sounds good. I'll grep through a few more classes to see if the tests seems
-to occur in more places. Unless I find that the major version is used for
-something else, I'll remove it.
-
-Regards,
-Anders
 
 
