@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZREc-0007l3-3d
+	(envelope-from <mark.hatle@windriver.com>) id 1QZREd-0007lD-F7
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 19:29:02 +0200
+	Wed, 22 Jun 2011 19:29:03 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPRAp026744
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPSSg026755
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 10:25:27 -0700 (PDT)
+	Wed, 22 Jun 2011 10:25:28 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 22 Jun 2011 10:25:26 -0700
+	Wed, 22 Jun 2011 10:25:28 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 12:36:13 -0500
-Message-ID: <cd740c46bb565d8dd2a09a020284c89326801fbd.1308763995.git.mark.hatle@windriver.com>
+Date: Wed, 22 Jun 2011 12:36:14 -0500
+Message-ID: <134c6ce60efce2001f9d87e595bf5eeca6fec5e5.1308763995.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308763995.git.mark.hatle@windriver.com>
 References: <cover.1308763995.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 19/40] liba52: Remove custom -dbg, fall back to default
+Subject: [PATCH 20/40] python-gst: Add missing files to the -dbg package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,40 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 17:29:02 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 17:29:03 -0000
 Content-Type: text/plain
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-multimedia/liba52/liba52_0.7.4.bb |    6 ++----
- 1 files changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/python/python-gst_0.10.21.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/liba52/liba52_0.7.4.bb b/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
-index 239c30a..47a9409 100644
---- a/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
-+++ b/meta/recipes-multimedia/liba52/liba52_0.7.4.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- 			file://include/a52.h;beginline=1;endline=12;md5=81152ceb3562bf20a60d1b6018175dd1"
- SECTION = "libs"
- PRIORITY = "optional"
--PR = "r2"
-+PR = "r3"
+diff --git a/meta/recipes-devtools/python/python-gst_0.10.21.bb b/meta/recipes-devtools/python/python-gst_0.10.21.bb
+index dd1ad5f..4358fc9 100644
+--- a/meta/recipes-devtools/python/python-gst_0.10.21.bb
++++ b/meta/recipes-devtools/python/python-gst_0.10.21.bb
+@@ -3,7 +3,7 @@ SECTION = "devel/python"
+ LICENSE = "LGPLv2.1"
+ DEPENDS = "gstreamer gst-plugins-base python-pygobject"
+ RDEPENDS_${PN} += "python-pygtk"
+-PR = "r0"
++PR = "r1"
  
- inherit autotools
+ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-python/gst-python-${PV}.tar.bz2 \
+            file://python-path.patch"
+@@ -20,4 +20,4 @@ EXTRA_OECONF += "--with-python-includes=${STAGING_INCDIR}/../"
  
-@@ -18,11 +18,9 @@ S = "${WORKDIR}/a52dec-${PV}"
- 
- EXTRA_OECONF = " --enable-shared "
- 
--PACKAGES =+ "a52dec a52dec-dbg a52dec-doc"
-+PACKAGES =+ "a52dec a52dec-doc"
- 
- FILES_${PN} = " ${libdir}/liba52.so.0 ${libdir}/liba52.so.0.0.0 " 
- FILES_${PN}-dev = " ${includedir}/a52dec/*.h ${libdir}/liba52.so ${libdir}/liba52.la ${libdir}/liba52.a "
--FILES_${PN}-dbg = " ${libdir}/.debug/*"
- FILES_a52dec = " ${bindir}/* "
--FILES_a52dec-dbg = " ${bindir}/.debug/* "
- FILES_a52dec-doc = " ${mandir}/man1/* "
+ FILES_${PN} += "${datadir}/gst-python"
+ FILES_${PN}-dev += "${datadir}/gst-python/0.10/defs"
+-FILES_${PN}-dbg += "${libdir}/${PYTHON_DIR}/site-packages/gst-0.10/gst/.debug/"
++FILES_${PN}-dbg += " ${libdir}/${PYTHON_DIR}/site-packages/gst-0.10/gst/.debug/ ${libdir}/gstreamer-0.10/.debug/"
 -- 
 1.7.3.4
 
