@@ -1,38 +1,40 @@
 Received: from mail-pz0-f50.google.com ([209.85.210.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QZCXO-00034h-O6
+	(envelope-from <raj.khem@gmail.com>) id 1QZCXP-00034i-9k
 	for openembedded-core@lists.openembedded.org;
 	Wed, 22 Jun 2011 03:47:27 +0200
-Received: by pzk2 with SMTP id 2so236581pzk.9
+Received: by pzk2 with SMTP id 2so236586pzk.9
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 21 Jun 2011 18:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=zHePbWz1jHSvUMAwlRgN5EosrpqBMxn5kNja4N21hOc=;
-	b=mgacEjBMWb3dG/zMaM2GCADlp3zFtv0z6uCPtwHo13ygKAoreR5t3oBz6ZkeKijYg3
-	7/myRKhfjCRS6+f9Fj5bYFB8MEr0Hj35sIKdCzm/N5ThdzfHewfLrRCBoFNyBetag1QY
-	1aeOqdAFOym1Nfcij3H0HXAXi1OYDFzAykCA8=
+	:in-reply-to:references:in-reply-to:references;
+	bh=w+CwDrK0zDksLqUn8QJkvdjbT+GKnQcY5b8u/U5Ohag=;
+	b=HbmhtLGD+lbTPUq2BuM5ZNjM7DcwBohJ1m1YQorJLOeXP+2HVOwaHS9dHPsQqYZDxa
+	9Jha5zxc9gPiSDRes1ZWkmVksNmmOv6enA0seoHDJP2PUBjaFio1tMxOlBwb+Ll9qQ23
+	u/fxRaTKr8rF1CggutHYd368gdk+QbGSUVwec=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=L1votTrZW/gnqgpyJG2cAVJk7E7FljxDllvt6AFv2dB5l2+SVd2aBTFPqHoiJrS+bA
-	DsNfI3FCYDE6XeEjrag5aawRPBIj9bBhgkNE8utUN98W99UUtV7fPb+7o/8JWCfCldHW
-	7PxbIhOIjHpjbb69BfwBZauuNHnddsLaO3C3A=
-Received: by 10.142.120.1 with SMTP id s1mr12726wfc.252.1308707031196;
-	Tue, 21 Jun 2011 18:43:51 -0700 (PDT)
+	b=t/GPRZchhLceoMw3HTib9fuVF6zR8Rk1R0Vq07IRcCnwuOJs4oY92K2JCMcrQKkQBo
+	4obqIVpEm/euncaZbNo8gKTzH6sqb2ScwbxpVsSCkh64wou8Y0WJ4rmoIzglb0sviEST
+	VkdjpbmjWl05FuQgj9AcepEWZ5p9t2Oyy3Kaw=
+Received: by 10.68.32.101 with SMTP id h5mr42117pbi.158.1308707032866;
+	Tue, 21 Jun 2011 18:43:52 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id o2sm64885pbj.17.2011.06.21.18.43.50
+	by mx.google.com with ESMTPS id o2sm64885pbj.17.2011.06.21.18.43.51
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 21 Jun 2011 18:43:50 -0700 (PDT)
+	Tue, 21 Jun 2011 18:43:51 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: OE core <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Jun 2011 18:43:41 -0700
-Message-Id: <c51f708783d1e320787117e68f2f98aa53ed292e.1308706423.git.raj.khem@gmail.com>
+Date: Tue, 21 Jun 2011 18:43:42 -0700
+Message-Id: <b20f3a51e085c9f75b62eb32ccc76b0e2341ec70.1308706423.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <c51f708783d1e320787117e68f2f98aa53ed292e.1308706423.git.raj.khem@gmail.com>
+References: <c51f708783d1e320787117e68f2f98aa53ed292e.1308706423.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1308706423.git.raj.khem@gmail.com>
 References: <cover.1308706423.git.raj.khem@gmail.com>
-Subject: [PATCH 1/4] eglibc: Upgrade recipes from 2.13 -> 2.14
+Subject: [PATCH 2/4] eglibc-package.inc: Package newly added sotruss and supporting libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,96 +51,55 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 22 Jun 2011 01:47:27 -0000
 
+2.14 has a new utility which can trace through PLTs of shared libraries
+We package the library separately and the script is already packaged in
+eglibc-utils so we create a RDEPEND so that the library is pulled in
+if someone isntalls eglibc-utils
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...tive_2.13.bb => cross-localedef-native_2.14.bb} |    0
- .../IO-acquire-lock-fix.patch                      |    0
- .../eglibc-svn-arm-lowlevellock-include-tls.patch  |    0
- .../{eglibc-2.13 => eglibc-2.14}/etc/ld.so.conf    |    0
- .../generate-supported.mk                          |    0
- .../ld-search-order.patch                          |    0
- .../mips-rld-map-check.patch                       |    0
- .../shorten-build-commands.patch                   |    0
- .../stack-protector-test.patch                     |    0
- ...libc-initial_2.13.bb => eglibc-initial_2.14.bb} |    0
- .../eglibc/{eglibc_2.13.bb => eglibc_2.14.bb}      |    7 +++----
- 11 files changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-core/eglibc/{cross-localedef-native_2.13.bb => cross-localedef-native_2.14.bb} (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.13 => eglibc-2.14}/IO-acquire-lock-fix.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.13 => eglibc-2.14}/eglibc-svn-arm-lowlevellock-include-tls.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.13 => eglibc-2.14}/etc/ld.so.conf (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.13 => eglibc-2.14}/generate-supported.mk (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.13 => eglibc-2.14}/ld-search-order.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.13 => eglibc-2.14}/mips-rld-map-check.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.13 => eglibc-2.14}/shorten-build-commands.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-2.13 => eglibc-2.14}/stack-protector-test.patch (100%)
- rename meta/recipes-core/eglibc/{eglibc-initial_2.13.bb => eglibc-initial_2.14.bb} (100%)
- rename meta/recipes-core/eglibc/{eglibc_2.13.bb => eglibc_2.14.bb} (97%)
+ meta/recipes-core/eglibc/eglibc-package.inc |    7 +++++--
+ 1 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.13.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.14.bb
-similarity index 100%
-rename from meta/recipes-core/eglibc/cross-localedef-native_2.13.bb
-rename to meta/recipes-core/eglibc/cross-localedef-native_2.14.bb
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/IO-acquire-lock-fix.patch b/meta/recipes-core/eglibc/eglibc-2.14/IO-acquire-lock-fix.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.13/IO-acquire-lock-fix.patch
-rename to meta/recipes-core/eglibc/eglibc-2.14/IO-acquire-lock-fix.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/eglibc-svn-arm-lowlevellock-include-tls.patch b/meta/recipes-core/eglibc/eglibc-2.14/eglibc-svn-arm-lowlevellock-include-tls.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.13/eglibc-svn-arm-lowlevellock-include-tls.patch
-rename to meta/recipes-core/eglibc/eglibc-2.14/eglibc-svn-arm-lowlevellock-include-tls.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/etc/ld.so.conf b/meta/recipes-core/eglibc/eglibc-2.14/etc/ld.so.conf
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.13/etc/ld.so.conf
-rename to meta/recipes-core/eglibc/eglibc-2.14/etc/ld.so.conf
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/generate-supported.mk b/meta/recipes-core/eglibc/eglibc-2.14/generate-supported.mk
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.13/generate-supported.mk
-rename to meta/recipes-core/eglibc/eglibc-2.14/generate-supported.mk
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/ld-search-order.patch b/meta/recipes-core/eglibc/eglibc-2.14/ld-search-order.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.13/ld-search-order.patch
-rename to meta/recipes-core/eglibc/eglibc-2.14/ld-search-order.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/mips-rld-map-check.patch b/meta/recipes-core/eglibc/eglibc-2.14/mips-rld-map-check.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.13/mips-rld-map-check.patch
-rename to meta/recipes-core/eglibc/eglibc-2.14/mips-rld-map-check.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/shorten-build-commands.patch b/meta/recipes-core/eglibc/eglibc-2.14/shorten-build-commands.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.13/shorten-build-commands.patch
-rename to meta/recipes-core/eglibc/eglibc-2.14/shorten-build-commands.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/stack-protector-test.patch b/meta/recipes-core/eglibc/eglibc-2.14/stack-protector-test.patch
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-2.13/stack-protector-test.patch
-rename to meta/recipes-core/eglibc/eglibc-2.14/stack-protector-test.patch
-diff --git a/meta/recipes-core/eglibc/eglibc-initial_2.13.bb b/meta/recipes-core/eglibc/eglibc-initial_2.14.bb
-similarity index 100%
-rename from meta/recipes-core/eglibc/eglibc-initial_2.13.bb
-rename to meta/recipes-core/eglibc/eglibc-initial_2.14.bb
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.14.bb
-similarity index 97%
-rename from meta/recipes-core/eglibc/eglibc_2.13.bb
-rename to meta/recipes-core/eglibc/eglibc_2.14.bb
-index 3490d2d..8936d9c 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.14.bb
-@@ -1,13 +1,12 @@
- require eglibc.inc
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 76ebdc3..b5531ab 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -37,7 +37,7 @@ USE_LDCONFIG ?= "1"
+ PKGSUFFIX = ""
+ PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
  
--SRCREV = "14157"
-+SRCREV = "14285"
+-PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} localedef${PKGSUFFIX} libcidn ${PN}-utils ${PN}-pic ${PN}-dev eglibc-doc eglibc-locale libmemusage libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile"
++PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} localedef${PKGSUFFIX} libcidn ${PN}-utils ${PN}-pic ${PN}-dev eglibc-doc eglibc-locale libmemusage libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile libsotruss${PKGSUFFIX}"
  
- DEPENDS += "gperf-native"
--FILESPATHPKG =. "eglibc-svn:"
--PR = "r2"
-+PR = "r0"
- PR_append = "+svnr${SRCPV}"
+ PACKAGES_DYNAMIC = " \
+ 		    glibc-gconv-*${PKGSUFFIX} glibc-charmap-* glibc-localedata-* glibc-binary-localedata-* \
+@@ -84,14 +84,16 @@ FILES_libmemusage = "${base_libdir}/libmemusage.so"
+ FILES_eglibc-extra-nss = "${base_libdir}/libnss*"
+ FILES_sln = "/sbin/sln"
+ FILES_eglibc-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/"
++FILES_libsotruss${PKGSUFFIX} = "${libdir}/audit/sotruss-lib.so"
+ FILES_eglibc-dev_append += "${bindir}/rpcgen ${libdir}/*.a \
+ 	${base_libdir}/*.a ${base_libdir}/*.o ${datadir}/aclocal"
+ FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
+ FILES_eglibc-utils = "${bindir}/* ${sbindir}/*"
+ FILES_eglibc-gconv = "${libdir}/gconv/*"
+-FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/gconv/.debug"
++FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/gconv/.debug ${libdir}/audit/.debug"
+ FILES_catchsegv${PKGSUFFIX} = "${bindir}/catchsegv"
+ RDEPENDS_catchsegv${PKGSUFFIX} = "libsegfault"
++EDEPENDS_eglibc-utils = "libsotruss"
+ FILES_eglibc-pcprofile = "${base_libdir}/libpcprofile.so"
+ FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db*"
+ FILES_localedef${PKGSUFFIX} = "${bindir}/localedef"
+@@ -108,6 +110,7 @@ DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each prog
+ DESCRIPTION_localedef = "eglibc: compile locale definition files"
+ SUMMARY_eglibc-utils = "Miscellaneous utilities provided by eglibc"
+ DESCRIPTION_eglibc-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
++DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
  
--EGLIBC_BRANCH="eglibc-2_13"
-+EGLIBC_BRANCH="eglibc-2_14"
- SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http \
-            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
-            file://IO-acquire-lock-fix.patch \
+ inherit libc-package
+ 
 -- 
 1.7.5.1
 
