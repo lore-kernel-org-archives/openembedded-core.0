@@ -1,33 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QZQTJ-0006K2-3F for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 18:40:09 +0200
+	id 1QZQVe-0006NP-AG for openembedded-core@lists.openembedded.org;
+	Wed, 22 Jun 2011 18:42:34 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MGaYGi005995
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MGd0TS006012
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 17:36:34 +0100
+	Wed, 22 Jun 2011 17:39:00 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 05646-08 for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 17:36:31 +0100 (BST)
+	id 05710-07 for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2011 17:38:56 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MGaPJx005989
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MGcqPc006004
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 17:36:26 +0100
+	Wed, 22 Jun 2011 17:38:53 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1308677220.git.paul.eggleton@linux.intel.com>
-References: <cover.1308677220.git.paul.eggleton@linux.intel.com>
-Date: Wed, 22 Jun 2011 17:36:07 +0100
-Message-ID: <1308760567.20015.86.camel@rex>
+In-Reply-To: <9e1c30c907343c7a3a781d5f1d3746d6ed441d59.1308658641.git.edwin.zhai@intel.com>
+References: <cover.1308658641.git.edwin.zhai@intel.com>
+	<9e1c30c907343c7a3a781d5f1d3746d6ed441d59.1308658641.git.edwin.zhai@intel.com>
+Date: Wed, 22 Jun 2011 17:38:35 +0100
+Message-ID: <1308760715.20015.87.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/1] Fix for bitbake freeze due to git fetch during parse
+Subject: Re: [PATCH 1/1] clutter: Use new git repo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,31 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 16:40:09 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 16:42:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-06-21 at 18:29 +0100, Paul Eggleton wrote:
-> Addresses [YOCTO #1186]. See patch for further details. (Sending against
-> poky-contrib since OE git is currently experiencing issues.)
+On Tue, 2011-06-21 at 20:22 +0800, edwin.zhai@intel.com wrote:
+> From: Zhai Edwin <edwin.zhai@intel.com>
 > 
-> The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
+> clutter move its git server from clutter-project.org to gnome.org
 > 
->   systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:14:06 +0100)
+> [YOCTO #1040] got fixed
 > 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib paule/fix-uboot-srcrev
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=paule/fix-uboot-srcrev
+> Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+> ---
+>  meta/recipes-graphics/clutter/clutter-box2d_git.bb |    2 +-
+>  meta/recipes-graphics/clutter/clutter_git.bb       |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> Paul Eggleton (1):
->   u-boot: set SRCREV to a git revision instead of a tag reference
-> 
->  meta/recipes-bsp/uboot/u-boot_2011.03.bb |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
+> diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+> index 4c1c003..2d10d81 100644
+> --- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+> +++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+> @@ -6,7 +6,7 @@ SRCREV = "4799ac10ae8cb7da936a2b999aba58fe62eb1ee3"
+>  PV = "0.10.1+git${SRCPV}"
+>  PR = "r0"
+>  
+> -SRC_URI = "git://git.clutter-project.org/clutter-box2d.git;protocol=git"
+> +SRC_URI = "git://git.gnome.org/clutter-box2d;protocol=git"
+>  
+>  S = "${WORKDIR}/git"
+>  
+> diff --git a/meta/recipes-graphics/clutter/clutter_git.bb b/meta/recipes-graphics/clutter/clutter_git.bb
+> index cb5f476..76a26a6 100644
+> --- a/meta/recipes-graphics/clutter/clutter_git.bb
+> +++ b/meta/recipes-graphics/clutter/clutter_git.bb
+> @@ -7,7 +7,7 @@ SRCREV = "e957e277b8a4893ce8c99e94402036d42a8b3748"
+>  PV = "1.0.0+git${SRCPV}"
+>  PR = "r9"
+>  
+> -SRC_URI = "git://git.clutter-project.org/clutter.git;protocol=git;branch=master \
+> +SRC_URI = "git://git.gnome.org/clutter;protocol=git;branch=master \
+>             file://enable_tests-654c26a1301c9bc5f8e3e5e3b68af5eb1b2e0673.patch;patch=1;rev=654c26a1301c9bc5f8e3e5e3b68af5eb1b2e0673 \
+>             file://enable_tests.patch;patch=1;notrev=654c26a1301c9bc5f8e3e5e3b68af5eb1b2e0673 "
+>  S = "${WORKDIR}/git"
 
-I've merged Paul's updated version of this. Its a hard problem given
-git's way of handling tags/branches etc. so its probably the best we can
-do in the circumstances...
+Master already has:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=e4293c5be719663d75d7bc464a04a841d8b35115
+
+Could you please rebase on top of that?
 
 Cheers,
 
