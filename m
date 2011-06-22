@@ -1,30 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QZUoN-0005Zg-PY for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 23:18:11 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MLEZZG009257;
-	Wed, 22 Jun 2011 22:14:35 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09210-01; Wed, 22 Jun 2011 22:14:31 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MLEQhp009251
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 22 Jun 2011 22:14:27 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1308285199.git.bruce.ashfield@windriver.com>
-References: <cover.1308285199.git.bruce.ashfield@windriver.com>
-Date: Wed, 22 Jun 2011 22:14:08 +0100
-Message-ID: <1308777248.20015.98.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: Re: [PATCH 0/1] linux-yocto: bump SRCREVs for utrace
+Received: from relay1.mentorg.com ([192.94.38.131])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Tom_Rini@mentor.com>) id 1QZV03-0005hK-6i
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Jun 2011 23:30:15 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QZUwb-0004DR-2j from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Jun 2011 14:26:41 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 22 Jun 2011 14:21:21 -0700
+Received: from [172.30.80.125] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.289.1;
+	Wed, 22 Jun 2011 14:26:40 -0700
+Message-ID: <4E025DFA.3020306@mentor.com>
+Date: Wed, 22 Jun 2011 14:26:18 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1308706423.git.raj.khem@gmail.com>	<1308758279.20015.79.camel@rex>	<4E0235DA.8060200@windriver.com>
+	<4E025052.6070300@windriver.com>
+In-Reply-To: <4E025052.6070300@windriver.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 22 Jun 2011 21:21:21.0250 (UTC)
+	FILETIME=[550D8420:01CC3122]
+Subject: Re: [PATCH 0/4] eglibc 2.14 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,34 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 21:18:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 Jun 2011 21:30:15 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-06-17 at 00:38 -0400, Bruce Ashfield wrote:
-> Richard/Saul,
+On 06/22/2011 01:28 PM, Mark Hatle wrote:
+> On 6/22/11 1:35 PM, Mark Hatle wrote:
+>> Since applying this update, I'm not longer getting an rpc/rpc.h file, which
+>> breaks various things like busybox mount.
+>>
+>> Is anyone else seeing this behavior?
 > 
-> Updating the SRCREVs to take into acccount the utrace update from
-> Tom. With this, the stage is set for systemtap support.
+> Reverting:
 > 
-> Note: the pull branch also contains a change for meta-yocto, so
-> grab the right one!
+> 2a68cf4d315cdd18766de0c75928ff17846a6cd7 and
+> 190a946e9a4213944e3ee675c4b3e18701698e87
 > 
-> The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
->   Tom Zanussi (1):
->         systemtap: remove non-core COMPATIBLE_MACHINES
-> 
-> are available in the git repository at:
-> 
->   git://git.pokylinux.org/poky-contrib zedd/kernel
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-> 
-> Bruce Ashfield (1):
->   linux-yocto: update SRCREVs for utrace merge
+> fixed the problem for me.  So there is definitely a problems in the upgrade.
 
-Merged to master, thanks.
+This also fixes the problem that Otavio and I have seen of locale
+generation failing crazily.
 
-Richard
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
