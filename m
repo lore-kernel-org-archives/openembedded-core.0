@@ -1,31 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QZVUe-0006Uh-8L for openembedded-core@lists.openembedded.org;
-	Thu, 23 Jun 2011 00:01:52 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MLw8H3009622;
-	Wed, 22 Jun 2011 22:58:08 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09034-10; Wed, 22 Jun 2011 22:58:04 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MLvx9J009616
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 22 Jun 2011 22:57:59 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1308777703.git.bruce.ashfield@windriver.com>
-References: <cover.1308777703.git.bruce.ashfield@windriver.com>
-Date: Wed, 22 Jun 2011 22:57:40 +0100
-Message-ID: <1308779860.20015.100.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	koen@dominion.thruhere.net, saul.wold@intel.com
-Subject: Re: [PATCH 0/2] linux-yocto: consolidated merge request
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1QZW0o-00075A-F3
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 Jun 2011 00:35:06 +0200
+Received: by vxa37 with SMTP id 37so1077629vxa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2011 15:31:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:content-transfer-encoding;
+	bh=1rzhm5VIvoB0rFBZ4/qPhzxIUp9NJ8TYrP6clGozqHc=;
+	b=b8X1sxaA2mGnTUFO1+0kOkey3uYwP+NGxtxAAZUNmbiiMFyw74cD/VtJB0x/K+kOwt
+	TjDWJiZNPWnE9/Hmxy3n/cbdnc/39sH+HW27G5BJQqP6E6pJUNwVlAoc1cAeLtdAODL2
+	Ru75zb+RoX61DV9lF9iquKJycqdQmLvWxYT1M=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	b=lof02lWDzhUbtjH0HzFNvoh069iCSZbPRddFt50OA2FaJ9cJz6tB5xNZ/9sBybuQy5
+	wa1nOaBk8XllScQVhWekgTLkC6vq22B3/ns2wMhK4j+oqVsEG/FfISG7hMVD8cfwJedP
+	srlhBlY5xzxtXC9WkkPkjmSObSFzrZ8IV//FM=
+Received: by 10.52.32.68 with SMTP id g4mr1695132vdi.216.1308781890101; Wed,
+	22 Jun 2011 15:31:30 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.52.163.103 with HTTP; Wed, 22 Jun 2011 15:31:00 -0700 (PDT)
+In-Reply-To: <4E025052.6070300@windriver.com>
+References: <cover.1308706423.git.raj.khem@gmail.com>
+	<1308758279.20015.79.camel@rex>
+	<4E0235DA.8060200@windriver.com> <4E025052.6070300@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 22 Jun 2011 15:31:00 -0700
+Message-ID: <BANLkTin7j9VwfP_sF69j_U=T-ZkUj12V=A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] eglibc 2.14 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,43 +47,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 22:01:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jun 2011 22:35:06 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-06-22 at 17:29 -0400, Bruce Ashfield wrote:
-> Hi,
-> 
-> This pull request contains the first iteration of the
-> base configuration changes discussed on the list about
-> two weeks ago, and a common USB fix that was identified
-> during the beagleboard refresh.
-> 
->   94fa015 meta: add taskstats experimental feature group
->   4fb2ed5 meta: enable freezer support
->   88d619e meta: enable fuse and cuse as modules
->   f465827 meta: add namespaces + experimental configs
->   fbdd376 meta: add devtmpfs config group
->   b04f6d9 meta: re-enable cgroups options in the standard kernel
-> 
-> I've built the relevant qemu targets with the changes,
-> and my sanity tests have all passed here.
-> 
-> cc: Koen Kooi <koen@dominion.thruhere.net>
-> cc: Daren Hart <dvhart@linux.intel.com>
-> 
-> Cheers,
-> 
-> Bruce
-> 
-> 
-> The following changes since commit 46378aec555f08f133bf601be01dacf4bd0b7f05:
->   Bruce Ashfield (1):
->         linux-yocto/meta-yocto: update SRCREVs for utrace merge
+On Wed, Jun 22, 2011 at 1:28 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> On 6/22/11 1:35 PM, Mark Hatle wrote:
+>> Since applying this update, I'm not longer getting an rpc/rpc.h file, wh=
+ich
+>> breaks various things like busybox mount.
+>>
+>> Is anyone else seeing this behavior?
+>
+> Reverting:
+>
+> 2a68cf4d315cdd18766de0c75928ff17846a6cd7 and
+> 190a946e9a4213944e3ee675c4b3e18701698e87
+>
+> fixed the problem for me. =C2=A0So there is definitely a problems in the =
+upgrade.
+>
 
-Merged to master (as soon as my push to the repo works), thanks.
+onward looking rpc is now maintained with libtirpc starting glibc 2.14 rpc =
+is
+not to be used from bundled code in glibc. If we dont have recipes for libt=
+irpc
+then I will add that.
 
-Richard
-
+> --Mark
+>
+>> --Mark
+>>
+>> On 6/22/11 10:57 AM, Richard Purdie wrote:
+>>> On Tue, 2011-06-21 at 18:43 -0700, Khem Raj wrote:
+>>>> This patchset upgrades eglibc 2.13 -> 2.14
+>>>> Needed a binutils fix for x86_64
+>>>> Package sotruss which is new in eglibc 2.14
+>>>>
+>>>> The following changes since commit 78de64f58b98101f5be5778e9ecbdaae5ba=
+32997:
+>>>>
+>>>> =C2=A0 binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86=
+_64 (2011-06-21 17:58:06 -0700)
+>>>>
+>>>> are available in the git repository at:
+>>>> =C2=A0 git://git.openembedded.org/openembedded-core-contrib kraj/eglib=
+c-2.14
+>>>> =C2=A0 http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib=
+/log/?h=3Dkraj/eglibc-2.14
+>>>>
+>>>> Khem Raj (4):
+>>>> =C2=A0 eglibc: Upgrade recipes from 2.13 -> 2.14
+>>>> =C2=A0 eglibc-package.inc: Package newly added sotruss and supporting
+>>>> =C2=A0 =C2=A0 libraries
+>>>> =C2=A0 binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86=
+_64
+>>>> =C2=A0 tcmode-default.inc: Bump EGLIBCVERSION to 2.14
+>>>
+>>> Merged to master, thanks.
+>>>
+>>> Richard
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
