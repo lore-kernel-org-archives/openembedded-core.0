@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QZQYx-0006Tc-Vv for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 18:46:00 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MGgPVI006060
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1QZREB-0007U9-Ne
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Jun 2011 19:28:36 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHOxGF026557
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 17:42:25 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05998-02 for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 17:42:21 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MGgI4r006054
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 17:42:18 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1308423290.git.paul.eggleton@linux.intel.com>
-References: <cover.1308423290.git.paul.eggleton@linux.intel.com>
-Date: Wed, 22 Jun 2011 17:42:01 +0100
-Message-ID: <1308760921.20015.88.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/3] qt4-tools-nativesdk fixes
+	Wed, 22 Jun 2011 10:24:59 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 22 Jun 2011 10:24:59 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Jun 2011 12:35:54 -0500
+Message-ID: <cover.1308763995.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 00/40] Various recipe fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,31 +33,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 16:46:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jun 2011 17:28:36 -0000
+Content-Type: text/plain
 
-On Sat, 2011-06-18 at 19:56 +0100, Paul Eggleton wrote:
-> Several fixes for qt4-tools-nativesdk.
-> 
-> The following changes since commit 835d817f1ba7b99167743fdb86ba80f3a07bd82d:
-> 
->   systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:12:40 +0100)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib paule/qt4-nativesdk-fix
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt4-nativesdk-fix
-> 
-> Paul Eggleton (3):
->   qt4-tools-nativesdk: fix unpack failure due to missing g++.conf
->   qt4-tools-nativesdk: drop freetype include as we build with
->     -no-freetype
->   qt4-tools-nativesdk: fix compile failure in src/dbus
-> 
+While working on the permissions and umask code, I found a number of 
+random issues with various packages in the system.  Most of these
+problems revolve around:
 
-Merged to master, thanks.
+* directory and file permissions, and ownership
+* -dbg package not being produced correctly
+* stripped binaries
+* packages that couldn't rebuild due to dependency or other issues
 
-Richard
+Note, this doesn't solve the permissions and ownership issues that will come
+in a future patch set devoted to umask and fixing up of the permissions.
+
+The following changes since commit 17d5422460bf9074223475b15d128171d12b170a:
+
+  qt4-tools-nativesdk: fix compile failure in src/dbus (2011-06-22 17:41:39 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/recipe-fixup
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/recipe-fixup
+
+Mark Hatle (40):
+  resolveconf: Fix file owners
+  base-passwd: Fix owners/groups
+  gcc: Fix owners/groups
+  ghostscript: Fix owner/group of /etc/cups
+  libtirpc: Fix owner/group of /etc/netconfig
+  tzdata: Ensure all files are owned by root:root
+  gnome-doc-utils: Fix the owner/group on select files
+  perf: Fix linux-tools to ensure perf is installed under "fakeroot"
+  kernel.bbclass: Add support for perf-dbg package
+  sysfsutils: Fall back to default -dbg package
+  classes/package_rpm.bbclass: Enhance diagnostic messages
+  classes/package_rpm.bbclass: Change the way the PV is transformed
+  python: Switch to using the default -dbg package
+  python-pyobject: Remove unnecessary -dbg setting
+  libxml-parser-perl: Fix debug package
+  texinfo: Change to use the standard -dbg file
+  psmisc: Remove custom -dbg packages, use default
+  modutils: Add in missing -dbg package
+  liba52: Remove custom -dbg, fall back to default
+  python-gst: Add missing files to the -dbg package
+  mc: Add missing debug files to -dbg
+  gamin: Add missing debug files to -dbg
+  gthumb: Add missing debug files
+  systemtamp: Add missing debug files
+  trace-cmd: Add missing debug files
+  gstreamer: Add missing debug files.
+  gtk-sato-engine: Add missing debug files
+  libproxy: Add missing debug files
+  wireless-tools: Avoid stripping binaries
+  busybox: Avoid stripping binaries
+  tinylogin: Avoid stripped binaries
+  quote: Avoid stripping binaries
+  sysstat: Avoid stripping binaries
+  db: Avoid stripping binaries
+  db: Fix file ownership
+  unzip: Avoid stripping binaries
+  dropbear: Don't patch in configure
+  nasm: Fix aclocal
+  python: Add python to the dependencies of python modules
+  boost: Move the do_configure_prepend to a seperate task
+
+ meta/classes/kernel.bbclass                        |    3 +-
+ meta/classes/package_rpm.bbclass                   |   16 +++++--
+ .../resolvconf/resolvconf_1.48.bb                  |    3 +-
+ .../wireless-tools/avoid_strip.patch               |   21 +++++++++
+ .../wireless-tools/wireless-tools_29.bb            |    5 +-
+ .../recipes-core/base-passwd/base-passwd_3.5.22.bb |   10 ++--
+ meta/recipes-core/busybox/busybox_1.18.4.bb        |    4 +-
+ meta/recipes-core/dropbear/dropbear.inc            |    4 +-
+ meta/recipes-core/dropbear/dropbear_0.52.bb        |    2 +-
+ meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb   |    6 +--
+ .../tinylogin/tinylogin-1.4/avoid_static.patch     |   33 +++++++++++++
+ meta/recipes-core/tinylogin/tinylogin_1.4.bb       |    7 ++-
+ meta/recipes-devtools/gcc/gcc-4.6.0.inc            |    2 +-
+ meta/recipes-devtools/gcc/gcc_4.5.1.bb             |    7 +++-
+ meta/recipes-devtools/gcc/gcc_4.6.0.bb             |    5 ++
+ meta/recipes-devtools/gcc/libgcc_4.5.1.bb          |    3 +-
+ meta/recipes-devtools/gcc/libgcc_4.6.0.bb          |    3 +-
+ meta/recipes-devtools/nasm/nasm_2.07.bb            |    6 ++-
+ .../perl/libxml-parser-perl_2.40.bb                |    4 +-
+ .../python/python-2.6-manifest.inc                 |    8 +---
+ meta/recipes-devtools/python/python-gst_0.10.21.bb |    6 +-
+ .../python/python-pygobject_2.27.91.bb             |    5 +-
+ meta/recipes-devtools/python/python.inc            |    2 +-
+ meta/recipes-devtools/python/python_2.6.6.bb       |    4 +-
+ meta/recipes-extended/gamin/gamin_0.1.10.bb        |    7 +--
+ .../ghostscript/ghostscript_9.02.bb                |    7 +++-
+ meta/recipes-extended/libtirpc/libtirpc_0.2.1.bb   |    6 ++-
+ meta/recipes-extended/mc/mc_4.7.5.2.bb             |    4 +-
+ meta/recipes-extended/psmisc/psmisc.inc            |    8 +---
+ meta/recipes-extended/psmisc/psmisc_22.13.bb       |    2 +-
+ meta/recipes-extended/quota/quota_4.00-pre1.bb     |    4 +-
+ meta/recipes-extended/sysstat/sysstat.inc          |    5 ++-
+ meta/recipes-extended/sysstat/sysstat_10.0.0.bb    |    2 +-
+ meta/recipes-extended/texinfo/texinfo_4.13a.bb     |    7 +--
+ meta/recipes-extended/tzdata/tzdata_2011g.bb       |    4 +-
+ .../recipes-extended/unzip/unzip/avoid-strip.patch |   48 ++++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |    7 ++-
+ meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    4 ++
+ meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb |    2 +-
+ meta/recipes-gnome/gthumb/gthumb_2.12.3.bb         |    6 +-
+ meta/recipes-kernel/linux/linux-tools.inc          |    4 +-
+ meta/recipes-kernel/linux/linux-yocto_2.6.34.bb    |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_2.6.37.bb    |    2 +-
+ meta/recipes-kernel/modutils/modutils_2.4.27.bb    |    4 +-
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    4 +-
+ meta/recipes-kernel/trace-cmd/trace-cmd_git.bb     |    4 +-
+ .../gstreamer/gstreamer_0.10.32.bb                 |    4 +-
+ meta/recipes-multimedia/liba52/liba52_0.7.4.bb     |    6 +--
+ meta/recipes-sato/gtk-engines/gtk-sato-engine.inc  |    2 +-
+ .../gtk-engines/gtk-sato-engine_svn.bb             |    2 +-
+ meta/recipes-support/boost/boost-36.inc            |    6 ++-
+ meta/recipes-support/db/db_5.1.19.bb               |    9 +++-
+ meta/recipes-support/libproxy/libproxy_0.4.6.bb    |    4 +-
+ 53 files changed, 246 insertions(+), 99 deletions(-)
+ create mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/avoid_strip.patch
+ create mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/avoid_static.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/avoid-strip.patch
+
+-- 
+1.7.3.4
 
 
 
