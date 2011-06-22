@@ -1,24 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZRqh-00019L-T1
+	(envelope-from <mark.hatle@windriver.com>) id 1QZRqi-00019M-Jp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 20:08:24 +0200
+	Wed, 22 Jun 2011 20:08:25 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MI4mF8002981
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MI4nR5002984
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 11:04:48 -0700 (PDT)
+	Wed, 22 Jun 2011 11:04:49 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 22 Jun 2011 11:04:48 -0700
+	Wed, 22 Jun 2011 11:04:49 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 13:16:24 -0500
-Message-ID: <cover.1308766480.git.mark.hatle@windriver.com>
+Date: Wed, 22 Jun 2011 13:16:25 -0500
+Message-ID: <941cfc76eac4ba3c3d0a9cc6fa0c5e2e945a25a2.1308766480.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1308766480.git.mark.hatle@windriver.com>
+References: <cover.1308766480.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 00/40] Various Recipe Fixes (v2)
+Subject: [PATCH 13/40] python: Switch to using the default -dbg package (v2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,135 +35,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 18:08:24 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 18:08:25 -0000
 Content-Type: text/plain
 
-V2 only includes a change to patch 13, to resolve the issues mentioned
-by Koen.
+Python was missing a lot of debug information.  Switch to use the default
+-dbg package.  Also add some additional debug information to the -dbg package.
 
---- original comments below ---
-
-While working on the permissions and umask code, I found a number of 
-random issues with various packages in the system.  Most of these
-problems revolve around:
-
-* directory and file permissions, and ownership
-* -dbg package not being produced correctly
-* stripped binaries
-* packages that couldn't rebuild due to dependency or other issues
-
-Note, this doesn't solve the permissions and ownership issues that will come
-in a future patch set devoted to umask and fixing up of the permissions.
-
-The following changes since commit 17d5422460bf9074223475b15d128171d12b170a:
-
-  qt4-tools-nativesdk: fix compile failure in src/dbus (2011-06-22 17:41:39 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib mhatle/recipe-fixup
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/recipe-fixup
-
-Mark Hatle (40):
-  resolveconf: Fix file owners
-  base-passwd: Fix owners/groups
-  gcc: Fix owners/groups
-  ghostscript: Fix owner/group of /etc/cups
-  libtirpc: Fix owner/group of /etc/netconfig
-  tzdata: Ensure all files are owned by root:root
-  gnome-doc-utils: Fix the owner/group on select files
-  perf: Fix linux-tools to ensure perf is installed under "fakeroot"
-  kernel.bbclass: Add support for perf-dbg package
-  sysfsutils: Fall back to default -dbg package
-  classes/package_rpm.bbclass: Enhance diagnostic messages
-  classes/package_rpm.bbclass: Change the way the PV is transformed
-  python: Switch to using the default -dbg package
-  python-pyobject: Remove unnecessary -dbg setting
-  libxml-parser-perl: Fix debug package
-  texinfo: Change to use the standard -dbg file
-  psmisc: Remove custom -dbg packages, use default
-  modutils: Add in missing -dbg package
-  liba52: Remove custom -dbg, fall back to default
-  python-gst: Add missing files to the -dbg package
-  mc: Add missing debug files to -dbg
-  gamin: Add missing debug files to -dbg
-  gthumb: Add missing debug files
-  systemtamp: Add missing debug files
-  trace-cmd: Add missing debug files
-  gstreamer: Add missing debug files.
-  gtk-sato-engine: Add missing debug files
-  libproxy: Add missing debug files
-  wireless-tools: Avoid stripping binaries
-  busybox: Avoid stripping binaries
-  tinylogin: Avoid stripped binaries
-  quote: Avoid stripping binaries
-  sysstat: Avoid stripping binaries
-  db: Avoid stripping binaries
-  db: Fix file ownership
-  unzip: Avoid stripping binaries
-  dropbear: Don't patch in configure
-  nasm: Fix aclocal
-  python: Add python to the dependencies of python modules
-  boost: Move the do_configure_prepend to a seperate task
-
- meta/classes/kernel.bbclass                        |    3 +-
- meta/classes/package_rpm.bbclass                   |   16 +++++--
- .../resolvconf/resolvconf_1.48.bb                  |    3 +-
- .../wireless-tools/avoid_strip.patch               |   21 +++++++++
- .../wireless-tools/wireless-tools_29.bb            |    5 +-
- .../recipes-core/base-passwd/base-passwd_3.5.22.bb |   10 ++--
- meta/recipes-core/busybox/busybox_1.18.4.bb        |    4 +-
- meta/recipes-core/dropbear/dropbear.inc            |    4 +-
- meta/recipes-core/dropbear/dropbear_0.52.bb        |    2 +-
- meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb   |    6 +--
- .../tinylogin/tinylogin-1.4/avoid_static.patch     |   33 +++++++++++++
- meta/recipes-core/tinylogin/tinylogin_1.4.bb       |    7 ++-
- meta/recipes-devtools/gcc/gcc-4.6.0.inc            |    2 +-
- meta/recipes-devtools/gcc/gcc_4.5.1.bb             |    7 +++-
- meta/recipes-devtools/gcc/gcc_4.6.0.bb             |    5 ++
- meta/recipes-devtools/gcc/libgcc_4.5.1.bb          |    3 +-
- meta/recipes-devtools/gcc/libgcc_4.6.0.bb          |    3 +-
- meta/recipes-devtools/nasm/nasm_2.07.bb            |    6 ++-
- .../perl/libxml-parser-perl_2.40.bb                |    4 +-
- .../python/python-2.6-manifest.inc                 |    8 +---
- meta/recipes-devtools/python/python-gst_0.10.21.bb |    6 +-
- .../python/python-pygobject_2.27.91.bb             |    5 +-
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ .../python/python-2.6-manifest.inc                 |    8 ++------
  meta/recipes-devtools/python/python.inc            |    2 +-
- meta/recipes-devtools/python/python_2.6.6.bb       |    4 +-
- meta/recipes-extended/gamin/gamin_0.1.10.bb        |    7 +--
- .../ghostscript/ghostscript_9.02.bb                |    7 +++-
- meta/recipes-extended/libtirpc/libtirpc_0.2.1.bb   |    6 ++-
- meta/recipes-extended/mc/mc_4.7.5.2.bb             |    4 +-
- meta/recipes-extended/psmisc/psmisc.inc            |    8 +---
- meta/recipes-extended/psmisc/psmisc_22.13.bb       |    2 +-
- meta/recipes-extended/quota/quota_4.00-pre1.bb     |    4 +-
- meta/recipes-extended/sysstat/sysstat.inc          |    5 ++-
- meta/recipes-extended/sysstat/sysstat_10.0.0.bb    |    2 +-
- meta/recipes-extended/texinfo/texinfo_4.13a.bb     |    7 +--
- meta/recipes-extended/tzdata/tzdata_2011g.bb       |    4 +-
- .../recipes-extended/unzip/unzip/avoid-strip.patch |   48 ++++++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb           |    7 ++-
- meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    4 ++
- meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb |    2 +-
- meta/recipes-gnome/gthumb/gthumb_2.12.3.bb         |    6 +-
- meta/recipes-kernel/linux/linux-tools.inc          |    4 +-
- meta/recipes-kernel/linux/linux-yocto_2.6.34.bb    |    2 +-
- meta/recipes-kernel/linux/linux-yocto_2.6.37.bb    |    2 +-
- meta/recipes-kernel/modutils/modutils_2.4.27.bb    |    4 +-
- meta/recipes-kernel/systemtap/systemtap_git.bb     |    4 +-
- meta/recipes-kernel/trace-cmd/trace-cmd_git.bb     |    4 +-
- .../gstreamer/gstreamer_0.10.32.bb                 |    4 +-
- meta/recipes-multimedia/liba52/liba52_0.7.4.bb     |    6 +--
- meta/recipes-sato/gtk-engines/gtk-sato-engine.inc  |    2 +-
- .../gtk-engines/gtk-sato-engine_svn.bb             |    2 +-
- meta/recipes-support/boost/boost-36.inc            |    6 ++-
- meta/recipes-support/db/db_5.1.19.bb               |    9 +++-
- meta/recipes-support/libproxy/libproxy_0.4.6.bb    |    4 +-
- scripts/contrib/python/generate-manifest-2.6.py    |   16 ++++---
- 54 files changed, 255 insertions(+), 106 deletions(-)
- create mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/avoid_strip.patch
- create mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/avoid_static.patch
- create mode 100644 meta/recipes-extended/unzip/unzip/avoid-strip.patch
+ meta/recipes-devtools/python/python_2.6.6.bb       |    4 ++--
+ scripts/contrib/python/generate-manifest-2.6.py    |   16 +++++++++-------
+ 4 files changed, 14 insertions(+), 16 deletions(-)
 
+diff --git a/meta/recipes-devtools/python/python-2.6-manifest.inc b/meta/recipes-devtools/python/python-2.6-manifest.inc
+index e4e503c..e3ebe41 100644
+--- a/meta/recipes-devtools/python/python-2.6-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.6-manifest.inc
+@@ -5,9 +5,9 @@
+ 
+  
+ 
+-PROVIDES+="${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-core-dbg ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib "
++PROVIDES+="${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib "
+ 
+-PACKAGES="${PN}-core-dbg ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-modules"
++PACKAGES="${PN}-dbg ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-modules"
+ 
+ DESCRIPTION_${PN}-audio="Python Audio Handling"
+ RDEPENDS_${PN}-audio="${PN}-core"
+@@ -37,10 +37,6 @@ DESCRIPTION_${PN}-core="Python Interpreter and core modules (needed!)"
+ RDEPENDS_${PN}-core=""
+ FILES_${PN}-core="${libdir}/python2.6/__future__.* ${libdir}/python2.6/_abcoll.* ${libdir}/python2.6/abc.* ${libdir}/python2.6/copy.* ${libdir}/python2.6/copy_reg.* ${libdir}/python2.6/ConfigParser.* ${libdir}/python2.6/genericpath.* ${libdir}/python2.6/getopt.* ${libdir}/python2.6/linecache.* ${libdir}/python2.6/new.* ${libdir}/python2.6/os.* ${libdir}/python2.6/posixpath.* ${libdir}/python2.6/struct.* ${libdir}/python2.6/warnings.* ${libdir}/python2.6/site.* ${libdir}/python2.6/stat.* ${libdir}/python2.6/UserDict.* ${libdir}/python2.6/UserList.* ${libdir}/python2.6/UserString.* ${libdir}/python2.6/lib-dynload/binascii.so ${libdir}/python2.6/lib-dynload/_struct.so ${libdir}/python2.6/lib-dynload/time.so ${libdir}/python2.6/lib-dynload/xreadlines.so ${libdir}/python2.6/types.* ${libdir}/python2.6/platform.* ${bindir}/python* "
+ 
+-DESCRIPTION_${PN}-core-dbg="Python core module debug information"
+-RDEPENDS_${PN}-core-dbg="${PN}-core"
+-FILES_${PN}-core-dbg="${libdir}/python2.6/config/.debug ${libdir}/python2.6/lib-dynload/.debug ${bindir}/.debug ${libdir}/.debug "
+-
+ DESCRIPTION_${PN}-crypt="Python Basic Cryptographic and Hashing Support"
+ RDEPENDS_${PN}-crypt="${PN}-core"
+ FILES_${PN}-crypt="${libdir}/python2.6/hashlib.* ${libdir}/python2.6/md5.* ${libdir}/python2.6/sha.* ${libdir}/python2.6/lib-dynload/crypt.so ${libdir}/python2.6/lib-dynload/_hashlib.so ${libdir}/python2.6/lib-dynload/_sha256.so ${libdir}/python2.6/lib-dynload/_sha512.so "
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 3de220b..f5ebb5b 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -4,7 +4,7 @@ LICENSE = "PSF"
+ SECTION = "devel/python"
+ PRIORITY = "optional"
+ # bump this on every change in contrib/python/generate-manifest-2.6.py
+-INC_PR = "nk1"
++INC_PR = "nk2"
+ 
+ DEFAULT_PREFERENCE = "-26"
+ 
+diff --git a/meta/recipes-devtools/python/python_2.6.6.bb b/meta/recipes-devtools/python/python_2.6.6.bb
+index 24f1d33..5566f9d 100644
+--- a/meta/recipes-devtools/python/python_2.6.6.bb
++++ b/meta/recipes-devtools/python/python_2.6.6.bb
+@@ -1,7 +1,7 @@
+ require python.inc
+ DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
+ DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
+-PR = "${INC_PR}.4"
++PR = "${INC_PR}.5"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=38fdd546420fab09ac6bd3d8a1c83eb6"
+ 
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+@@ -131,7 +131,7 @@ FILES_${PN}-dev = "\
+ "
+ 
+ # catch debug extensions (isn't that already in python-core-dbg?)
+-FILES_${PN}-dbg += "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/.debug"
++FILES_${PN}-dbg += " ${libdir}/python${PYTHON_MAJMIN}/lib-dynload/.debug"
+ 
+ # catch all the rest (unsorted)
+ PACKAGES += "${PN}-misc"
+diff --git a/scripts/contrib/python/generate-manifest-2.6.py b/scripts/contrib/python/generate-manifest-2.6.py
+index 1b11266..0cc06b0 100755
+--- a/scripts/contrib/python/generate-manifest-2.6.py
++++ b/scripts/contrib/python/generate-manifest-2.6.py
+@@ -4,6 +4,11 @@
+ # (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
+ # (C) 2007 Jeremy Laine
+ # licensed under MIT, see COPYING.MIT
++#
++# June 22, 2011 -- Mark Hatle <mark.hatle@windriver.com>
++#  * Updated to no longer generate special -dbg package, instead use the
++#    single system -dbg
++#  * Update version with ".1" to indicate this change
+ 
+ import os
+ import sys
+@@ -12,7 +17,7 @@ import time
+ VERSION = "2.6.6"
+ 
+ __author__ = "Michael 'Mickey' Lauer <mlauer@vanille-media.de>"
+-__version__ = "20110222"
++__version__ = "20110222.1"
+ 
+ class MakefileMaker:
+ 
+@@ -76,9 +81,9 @@ class MakefileMaker:
+         # generate package line
+         #
+ 
+-        packageLine = 'PACKAGES="${PN}-core-dbg '
++        packageLine = 'PACKAGES="${PN}-dbg '
+         for name in sorted(self.packages):
+-            if name != '${PN}-core-dbg':
++            if name != '${PN}-dbg':
+                 packageLine += "%s " % name
+         packageLine += '${PN}-modules"'
+ 
+@@ -123,7 +128,7 @@ class MakefileMaker:
+         line = 'RDEPENDS_${PN}-modules="'
+ 
+         for name, data in sorted(self.packages.iteritems()):
+-            if name not in ['${PN}-core-dbg', '${PN}-dev']:
++            if name not in ['${PN}-dev']:
+                 line += "%s " % name
+ 
+         self.out( "%s \"" % line )
+@@ -161,9 +166,6 @@ if __name__ == "__main__":
+     "lib-dynload/binascii.so lib-dynload/_struct.so lib-dynload/time.so " +
+     "lib-dynload/xreadlines.so types.* platform.* ${bindir}/python*" )
+ 
+-    m.addPackage( "${PN}-core-dbg", "Python core module debug information", "${PN}-core",
+-    "config/.debug lib-dynload/.debug ${bindir}/.debug ${libdir}/.debug" )
+-
+     m.addPackage( "${PN}-dev", "Python Development Package", "${PN}-core",
+     "${includedir} ${libdir}/libpython2.6.so" ) # package
+ 
 -- 
 1.7.3.4
 
