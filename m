@@ -1,26 +1,28 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZTNB-0004T9-Sa
+	(envelope-from <mark.hatle@windriver.com>) id 1QZU5K-0005Kc-GX
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 21:46:02 +0200
+	Wed, 22 Jun 2011 22:31:38 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MJgQuK019346
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MKS3N5026244
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 12:42:26 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 22 Jun 2011 12:42:26 -0700
+	Wed, 22 Jun 2011 13:28:03 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 22 Jun 2011 13:28:02 -0700
+Message-ID: <4E025052.6070300@windriver.com>
+Date: Wed, 22 Jun 2011 15:28:02 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 14:53:50 -0500
-Message-ID: <d215f1d253f3ef2ef4f74de36d39334a6939ee5e.1308771739.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1308771739.git.mark.hatle@windriver.com>
-References: <cover.1308771739.git.mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 39/40] python: Add python to the dependencies of python modules (v3)
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1308706423.git.raj.khem@gmail.com>	<1308758279.20015.79.camel@rex>
+	<4E0235DA.8060200@windriver.com>
+In-Reply-To: <4E0235DA.8060200@windriver.com>
+Subject: Re: [PATCH 0/4] eglibc 2.14 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 19:46:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Jun 2011 20:31:38 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-If python failed to build for some reason, python-gst and python-pygobject
-may still try to build, add python as a dependency to avoid this.
+On 6/22/11 1:35 PM, Mark Hatle wrote:
+> Since applying this update, I'm not longer getting an rpc/rpc.h file, which
+> breaks various things like busybox mount.
+> 
+> Is anyone else seeing this behavior?
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-devtools/python/python-gst_0.10.21.bb |    4 ++--
- .../python/python-pygobject_2.27.91.bb             |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Reverting:
 
-diff --git a/meta/recipes-devtools/python/python-gst_0.10.21.bb b/meta/recipes-devtools/python/python-gst_0.10.21.bb
-index 888002c..ed89090 100644
---- a/meta/recipes-devtools/python/python-gst_0.10.21.bb
-+++ b/meta/recipes-devtools/python/python-gst_0.10.21.bb
-@@ -1,9 +1,9 @@
- DESCRIPTION = "Python Gstreamer bindings"
- SECTION = "devel/python"
- LICENSE = "LGPLv2.1"
--DEPENDS = "gstreamer gst-plugins-base python-pygobject"
-+DEPENDS = "gstreamer gst-plugins-base python-pygobject python"
- RDEPENDS_${PN} += "python-pygtk"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "http://gstreamer.freedesktop.org/src/gst-python/gst-python-${PV}.tar.bz2 \
-            file://python-path.patch"
-diff --git a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-index 0160bbd..9ff2fe7 100644
---- a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-+++ b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-@@ -2,10 +2,10 @@ DESCRIPTION = "Python GObject bindings"
- SECTION = "devel/python"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
--DEPENDS = "python-pygobject-native-${PV} glib-2.0"
-+DEPENDS = "python python-pygobject-native-${PV} glib-2.0"
- DEPENDS_virtclass-native = "glib-2.0-native"
- RDEPENDS_virtclass-native = ""
--PR = "r1"
-+PR = "r2"
- 
- MAJ_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
- 
--- 
-1.7.3.4
+2a68cf4d315cdd18766de0c75928ff17846a6cd7 and
+190a946e9a4213944e3ee675c4b3e18701698e87
+
+fixed the problem for me.  So there is definitely a problems in the upgrade.
+
+--Mark
+
+> --Mark
+> 
+> On 6/22/11 10:57 AM, Richard Purdie wrote:
+>> On Tue, 2011-06-21 at 18:43 -0700, Khem Raj wrote:
+>>> This patchset upgrades eglibc 2.13 -> 2.14                                             
+>>> Needed a binutils fix for x86_64                                                       
+>>> Package sotruss which is new in eglibc 2.14                
+>>>
+>>> The following changes since commit 78de64f58b98101f5be5778e9ecbdaae5ba32997:
+>>>
+>>>   binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64 (2011-06-21 17:58:06 -0700)
+>>>
+>>> are available in the git repository at:
+>>>   git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-2.14
+>>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-2.14
+>>>
+>>> Khem Raj (4):
+>>>   eglibc: Upgrade recipes from 2.13 -> 2.14
+>>>   eglibc-package.inc: Package newly added sotruss and supporting
+>>>     libraries
+>>>   binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64
+>>>   tcmode-default.inc: Bump EGLIBCVERSION to 2.14
+>>
+>> Merged to master, thanks.
+>>
+>> Richard
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
