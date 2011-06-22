@@ -1,28 +1,35 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZWJl-0007L7-Lp
-	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Jun 2011 00:54:42 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MMp5aa015663
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QZWSf-0007qZ-Od for openembedded-core@lists.openembedded.org;
+	Thu, 23 Jun 2011 01:03:53 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MN0IQ5010129
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 15:51:05 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 22 Jun 2011 15:51:04 -0700
-Message-ID: <4E0271D8.5070507@windriver.com>
-Date: Wed, 22 Jun 2011 17:51:04 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1308706423.git.raj.khem@gmail.com>	<1308758279.20015.79.camel@rex>	<4E0235DA.8060200@windriver.com>
+	Thu, 23 Jun 2011 00:00:18 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09625-08 for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jun 2011 00:00:14 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MN06Rh010120
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jun 2011 00:00:10 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <BANLkTin7j9VwfP_sF69j_U=T-ZkUj12V=A@mail.gmail.com>
+References: <cover.1308706423.git.raj.khem@gmail.com>
+	<1308758279.20015.79.camel@rex> <4E0235DA.8060200@windriver.com>
 	<4E025052.6070300@windriver.com>
 	<BANLkTin7j9VwfP_sF69j_U=T-ZkUj12V=A@mail.gmail.com>
-In-Reply-To: <BANLkTin7j9VwfP_sF69j_U=T-ZkUj12V=A@mail.gmail.com>
+Date: Wed, 22 Jun 2011 23:59:48 +0100
+Message-ID: <1308783588.20015.104.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH 0/4] eglibc 2.14 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,88 +45,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 22:54:42 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 23:03:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 6/22/11 5:31 PM, Khem Raj wrote:
+On Wed, 2011-06-22 at 15:31 -0700, Khem Raj wrote:
 > On Wed, Jun 22, 2011 at 1:28 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> On 6/22/11 1:35 PM, Mark Hatle wrote:
->>> Since applying this update, I'm not longer getting an rpc/rpc.h file, which
->>> breaks various things like busybox mount.
->>>
->>> Is anyone else seeing this behavior?
->>
->> Reverting:
->>
->> 2a68cf4d315cdd18766de0c75928ff17846a6cd7 and
->> 190a946e9a4213944e3ee675c4b3e18701698e87
->>
->> fixed the problem for me.  So there is definitely a problems in the upgrade.
->>
+> > On 6/22/11 1:35 PM, Mark Hatle wrote:
+> >> Since applying this update, I'm not longer getting an rpc/rpc.h file, which
+> >> breaks various things like busybox mount.
+> >>
+> >> Is anyone else seeing this behavior?
+> >
+> > Reverting:
+> >
+> > 2a68cf4d315cdd18766de0c75928ff17846a6cd7 and
+> > 190a946e9a4213944e3ee675c4b3e18701698e87
+> >
+> > fixed the problem for me.  So there is definitely a problems in the upgrade.
+> >
 > 
 > onward looking rpc is now maintained with libtirpc starting glibc 2.14 rpc is
 > not to be used from bundled code in glibc. If we dont have recipes for libtirpc
 > then I will add that.
 
-There is a libtirpc recipe.  It looks like we may have to audit the system
-looking for users and get that fixed.  busybox is definitely something that
-tries to use rpc in mount.
+There looks to be more than this wrong with this update. A quick
+comparison shows the following changes in the list of files being
+installed from do_install:
 
---Mark
+-./lib/libmemusage.so
+-./lib/libnss_hesiod-2.13.so
+-./lib/libnss_nisplus-2.13.so
+-./lib/libutil-2.13.so
+-./lib/libresolv-2.13.so
+-./lib/libm-2.13.so
+-./lib/libnsl-2.13.so
+-./lib/libnss_compat-2.13.so
+-./lib/libnss_nis-2.13.so
+-./lib/libnss_dns-2.13.so
+-./lib/libanl-2.13.so
+-./lib/libBrokenLocale-2.13.so
+-./lib/libcrypt-2.13.so
+-./etc/rpc
+-./usr/lib/libnss_compat_pic.a
+-./usr/lib/libnss_dns_pic.a
+-./usr/lib/libnss_nisplus_pic.a
++./usr/lib/audit/sotruss-lib.so
+-./usr/lib/libutil_pic.map
+-./usr/lib/libBrokenLocale_pic.a
+-./usr/lib/libBrokenLocale.a
+-./usr/lib/libBrokenLocale_pic.map
+-./usr/lib/libm.a
+-./usr/lib/libnss_dns_pic.map
+-./usr/lib/libm_pic.map
+-./usr/lib/libnss_hesiod_pic.map
+-./usr/lib/librpcsvc.a
+-./usr/lib/libutil.a
+-./usr/lib/libnss_compat_pic.map
+-./usr/lib/libcrypt.a
+-./usr/lib/libutil_pic.a
+-./usr/lib/libanl.a
+-./usr/lib/libnsl_pic.a
+-./usr/lib/libresolv.a
+-./usr/lib/libnss_hesiod_pic.a
+-./usr/lib/libm_pic.a
+-./usr/lib/libnsl_pic.map
+-./usr/lib/libnss_nis_pic.map
+-./usr/lib/libanl_pic.a
+-./usr/lib/libcrypt_pic.map
+-./usr/lib/libcrypt_pic.a
+-./usr/lib/libnss_nis_pic.a
+-./usr/lib/libresolv_pic.map
+-./usr/lib/libresolv_pic.a
+-./usr/lib/libanl_pic.map
+-./usr/lib/libnss_nisplus_pic.map
+-./usr/lib/libnsl.a
+-./usr/bin/rpcgen
+-./usr/bin/gencat
++./usr/bin/sotruss
+-./usr/bin/localedef
+-./usr/bin/locale
+-./usr/sbin/rpcinfo
+-./usr/sbin/nscd
 
->> --Mark
->>
->>> --Mark
->>>
->>> On 6/22/11 10:57 AM, Richard Purdie wrote:
->>>> On Tue, 2011-06-21 at 18:43 -0700, Khem Raj wrote:
->>>>> This patchset upgrades eglibc 2.13 -> 2.14
->>>>> Needed a binutils fix for x86_64
->>>>> Package sotruss which is new in eglibc 2.14
->>>>>
->>>>> The following changes since commit 78de64f58b98101f5be5778e9ecbdaae5ba32997:
->>>>>
->>>>>   binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64 (2011-06-21 17:58:06 -0700)
->>>>>
->>>>> are available in the git repository at:
->>>>>   git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-2.14
->>>>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-2.14
->>>>>
->>>>> Khem Raj (4):
->>>>>   eglibc: Upgrade recipes from 2.13 -> 2.14
->>>>>   eglibc-package.inc: Package newly added sotruss and supporting
->>>>>     libraries
->>>>>   binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64
->>>>>   tcmode-default.inc: Bump EGLIBCVERSION to 2.14
->>>>
->>>> Merged to master, thanks.
->>>>
->>>> Richard
->>>>
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Some of these are rpc related but there are other issues too.
+
+I've reverted the upgrade itself for now until we have something in
+place to address the issues and its actually had some testing...
+
+Cheers,
+
+Richard
+
 
 
 
