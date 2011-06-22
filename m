@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZRF5-00085M-FA
+	(envelope-from <mark.hatle@windriver.com>) id 1QZRF6-00085R-Qa
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 19:29:31 +0200
+	Wed, 22 Jun 2011 19:29:33 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPuOT026916
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPvCK026921
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 10:25:56 -0700 (PDT)
+	Wed, 22 Jun 2011 10:25:57 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 22 Jun 2011 10:25:55 -0700
+	Wed, 22 Jun 2011 10:25:57 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 12:36:33 -0500
-Message-ID: <a5a740b5e5c503235640caa20b759c2088698036.1308763995.git.mark.hatle@windriver.com>
+Date: Wed, 22 Jun 2011 12:36:34 -0500
+Message-ID: <b1f05da57a7748cb92cb6c690187a4b990401124.1308763995.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308763995.git.mark.hatle@windriver.com>
 References: <cover.1308763995.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 39/40] python: Add python to the dependencies of python modules
+Subject: [PATCH 40/40] boost: Move the do_configure_prepend to a seperate task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,51 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 17:29:31 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 17:29:33 -0000
 Content-Type: text/plain
 
-If python failed to build for some reason, python-gst and python-pygobject
-may still try to build, add python as a dependency to avoid this.
+We need to perform those actions after patch, and before configure.
+
+Otherwise a rebuild starting with configure will fail.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-devtools/python/python-gst_0.10.21.bb |    4 ++--
- .../python/python-pygobject_2.27.91.bb             |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-support/boost/boost-36.inc |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-gst_0.10.21.bb b/meta/recipes-devtools/python/python-gst_0.10.21.bb
-index 4358fc9..7de6b74 100644
---- a/meta/recipes-devtools/python/python-gst_0.10.21.bb
-+++ b/meta/recipes-devtools/python/python-gst_0.10.21.bb
-@@ -1,9 +1,9 @@
- DESCRIPTION = "Python Gstreamer bindings"
- SECTION = "devel/python"
- LICENSE = "LGPLv2.1"
--DEPENDS = "gstreamer gst-plugins-base python-pygobject"
-+DEPENDS = "gstreamer gst-plugins-base python-pygobject python"
- RDEPENDS_${PN} += "python-pygtk"
--PR = "r1"
-+PR = "r2"
+diff --git a/meta/recipes-support/boost/boost-36.inc b/meta/recipes-support/boost/boost-36.inc
+index 3adc3ed..bc4e750 100644
+--- a/meta/recipes-support/boost/boost-36.inc
++++ b/meta/recipes-support/boost/boost-36.inc
+@@ -9,7 +9,7 @@ SECTION = "libs"
+ DEPENDS = "boost-jam-native zlib"
+ PRIORITY = "optional"
+ LICENSE = "Boost"
+-PR = "r3"
++PR = "r4"
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/gst-python/gst-python-${PV}.tar.bz2 \
-            file://python-path.patch"
-diff --git a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-index 0160bbd..9ff2fe7 100644
---- a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-+++ b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
-@@ -2,10 +2,10 @@ DESCRIPTION = "Python GObject bindings"
- SECTION = "devel/python"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
--DEPENDS = "python-pygobject-native-${PV} glib-2.0"
-+DEPENDS = "python python-pygobject-native-${PV} glib-2.0"
- DEPENDS_virtclass-native = "glib-2.0-native"
- RDEPENDS_virtclass-native = ""
--PR = "r1"
-+PR = "r2"
+ ARM_INSTRUCTION_SET = "arm"
+ BOOST_VER = "${@"_".join(bb.data.getVar("PV",d,1).split("."))}"
+@@ -126,12 +126,14 @@ BJAM_OPTS    = '${BJAM_TOOLS} \
+ 		${BJAM_EXTRA}'
  
- MAJ_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
  
+-do_configure_prepend() {
++do_boostconfig() {
+ 	cp -f boost/config/platform/linux.hpp boost/config/platform/linux-gnueabi.hpp
+ 
+ 	echo 'using gcc : 4.3.1 : ${CXX} : compileflags -DBOOST_SP_USE_PTHREADS -I${includedir} linkflags -L${libdir} ;' >> ${S}/tools/build/v2/user-config.jam
+ }
+ 
++addtask do_boostconfig after do_patch before do_configure
++
+ do_compile() {
+ 	set -ex
+ 	bjam ${BJAM_OPTS} --prefix=${prefix} \
 -- 
 1.7.3.4
 
