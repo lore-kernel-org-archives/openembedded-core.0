@@ -1,24 +1,20 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QZJ51-0002Tx-0k
+	(envelope-from <dongxiao.xu@intel.com>) id 1QZJ9j-0002ZF-Ai
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 10:46:35 +0200
-Received: by wwg12 with SMTP id 12so492338wwg.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 01:43:01 -0700 (PDT)
-Received: by 10.216.245.4 with SMTP id n4mr1805282wer.83.1308732180822;
-	Wed, 22 Jun 2011 01:43:00 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id d7sm163500wek.21.2011.06.22.01.42.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 22 Jun 2011 01:43:00 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Wed, 22 Jun 2011 10:51:27 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Jun 2011 01:47:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,405,1304319600"; d="scan'208";a="21333037"
+Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.20])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Jun 2011 01:47:51 -0700
+From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jun 2011 10:42:56 +0200
-Message-Id: <1308732176-21404-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] alsa-utils 1.0.24.2: fix packaging
+Date: Wed, 22 Jun 2011 17:01:08 +0800
+Message-Id: <cover.1308732995.git.dongxiao.xu@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1 v2][PULL] libc locale split
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,72 +29,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 08:46:35 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 08:51:27 -0000
 
-Put the rules and scripts associated with alsactl in the alsactl subpackage
+Hi Richard and Saul,
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- .../recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb |   15 +++++++++++----
- 1 files changed, 11 insertions(+), 4 deletions(-)
+This pull request is the second version of libc locale split, please
+help to review and pull.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb
-index 4cb31a9..52a7871 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.24.2.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
-                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
- DEPENDS = "alsa-lib ncurses"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://ncursesfix.patch \
-@@ -26,7 +26,7 @@ EXTRA_OECONF_append_libc-uclibc = " --disable-nls"
- inherit autotools gettext
- 
- # This are all packages that we need to make. Also, the now empty alsa-utils
--# ipk depend on them.
-+# ipk depends on them.
- 
- PACKAGES += "\
-              alsa-utils-alsamixer \
-@@ -39,7 +39,10 @@ PACKAGES += "\
-              alsa-utils-aseqnet \
-              alsa-utils-aseqdump \
-              alsa-utils-alsaconf \
--             alsa-utils-alsactl "
-+             alsa-utils-alsactl \
-+             alsa-utils-alsaloop \
-+             alsa-utils-alsaucm \
-+            "
- 
- # We omit alsaconf, because
- # a) this is a bash script
-@@ -54,9 +57,12 @@ FILES_alsa-utils-midi        = "${bindir}/aplaymidi ${bindir}/arecordmidi ${bind
- FILES_alsa-utils-aconnect    = "${bindir}/aconnect"
- FILES_alsa-utils-aseqnet     = "${bindir}/aseqnet"
- FILES_alsa-utils-iecset      = "${bindir}/iecset"
--FILES_alsa-utils-alsactl     = "${sbindir}/alsactl"
-+FILES_alsa-utils-alsactl     = "${sbindir}/alsactl ${base_libdir}/udev/rules.d ${base_libdir}/systemd"
- FILES_alsa-utils-aseqdump    = "${bindir}/aseqdump"
- FILES_alsa-utils-alsaconf    = "${sbindir}/alsaconf"
-+FILES_alsa-utils-alsaloop    = "${bindir}/alsaloop"
-+FILES_alsa-utils-alsaucm     = "${bindir}/alsaucm"
-+
- 
- DESCRIPTION_alsa-utils-aplay        = "play (and record) sound files via ALSA"
- DESCRIPTION_alsa-utils-amixer       = "command-line based control for ALSA mixer and settings"
-@@ -67,5 +73,6 @@ DESCRIPTION_alsa-utils-aconnect     = "ALSA sequencer connection manager"
- DESCRIPTION_alsa-utils-aseqnet      = "network client/server on ALSA sequencer"
- DESCRIPTION_alsa-utils-alsactl      = "saves/restores ALSA-settings in /etc/asound.state"
- DESCRIPTION_alsa-utils-alsaconf     = "a bash script that creates ALSA configuration files"
-+DESCRIPTION_alsa-utils-alsaucm      = "ALSA Use Case Manager"
- 
- ALLOW_EMPTY_alsa-utils = "1"
--- 
-1.6.6.1
+This version reflects the comments from Phil Blundell <pb@pbcl.net>
+that keep the eglibc locale package name unchanged.
+
+Thanks,
+Dongxiao
+
+The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
+
+  systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:14:06 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/libc-locale-v2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/libc-locale-v2
+
+Dongxiao Xu (1):
+  libc-locale: split locale handling from libc recipe.
+
+ meta/classes/libc-common.bbclass                   |   23 ++++++++
+ meta/classes/libc-package.bbclass                  |   24 --------
+ meta/conf/distro/include/tclibc-eglibc.inc         |    2 +-
+ meta/conf/distro/include/tclibc-glibc.inc          |    2 +-
+ meta/recipes-core/eglibc/eglibc-initial_2.13.bb    |    4 ++
+ meta/recipes-core/eglibc/eglibc-locale_2.13.bb     |   58 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc-package.inc        |   32 +----------
+ meta/recipes-core/eglibc/eglibc.inc                |    4 +-
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |   12 ++++
+ meta/recipes-core/glibc/glibc-initial_2.10.1.bb    |    4 ++
+ meta/recipes-core/glibc/glibc-locale_2.10.1.bb     |   50 +++++++++++++++++
+ meta/recipes-core/glibc/glibc-package.inc          |   29 ++---------
+ meta/recipes-core/glibc/glibc.inc                  |    2 +-
+ meta/recipes-core/glibc/glibc_2.10.1.bb            |   12 ++++
+ .../meta/external-csl-toolchain_2008q3-72.bb       |    1 +
+ 15 files changed, 176 insertions(+), 83 deletions(-)
+ create mode 100644 meta/classes/libc-common.bbclass
+ create mode 100644 meta/recipes-core/eglibc/eglibc-locale_2.13.bb
+ create mode 100644 meta/recipes-core/glibc/glibc-locale_2.10.1.bb
 
 
 
