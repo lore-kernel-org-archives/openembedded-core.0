@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZTNA-0004SD-Vo
+	(envelope-from <mark.hatle@windriver.com>) id 1QZTNB-0004T9-Sa
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 21:46:01 +0200
+	Wed, 22 Jun 2011 21:46:02 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MJgPdh019342
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MJgQuK019346
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 12:42:25 -0700 (PDT)
+	Wed, 22 Jun 2011 12:42:26 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 22 Jun 2011 12:42:25 -0700
+	Wed, 22 Jun 2011 12:42:26 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 14:53:49 -0500
-Message-ID: <1b97ce47a3a7cf758de135ff63e6746d077fd8df.1308771739.git.mark.hatle@windriver.com>
+Date: Wed, 22 Jun 2011 14:53:50 -0500
+Message-ID: <d215f1d253f3ef2ef4f74de36d39334a6939ee5e.1308771739.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308771739.git.mark.hatle@windriver.com>
 References: <cover.1308771739.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 36/40] unzip: Avoid stripping binaries (v3)
+Subject: [PATCH 39/40] python: Add python to the dependencies of python modules (v3)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,96 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 19:46:01 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 19:46:02 -0000
 Content-Type: text/plain
 
-Not only do we have to override things on the make line, but we
-need to hack on configure as well to avoid certain behavior.
+If python failed to build for some reason, python-gst and python-pygobject
+may still try to build, add python as a dependency to avoid this.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../recipes-extended/unzip/unzip/avoid-strip.patch |   48 ++++++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb           |    7 ++-
- 2 files changed, 53 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/unzip/unzip/avoid-strip.patch
+ meta/recipes-devtools/python/python-gst_0.10.21.bb |    4 ++--
+ .../python/python-pygobject_2.27.91.bb             |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/unzip/unzip/avoid-strip.patch b/meta/recipes-extended/unzip/unzip/avoid-strip.patch
-new file mode 100644
-index 0000000..0ef6363
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/avoid-strip.patch
-@@ -0,0 +1,48 @@
-+unix/Makefile: remove hard coded strip commands
-+
-+Remove the hard coded strip commands, both LF2 (used in linking) and
-+STRIP used alone.
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+diff -ur unzip60.orig/unix/configure unzip60/unix/configure
-+--- unzip60.orig/unix/configure	2009-04-16 14:25:12.000000000 -0500
-++++ unzip60/unix/configure	2011-06-21 11:23:36.822849960 -0500
-+@@ -17,7 +17,7 @@
-+ IZ_BZIP2=${3}
-+ CFLAGS="${CFLAGS} -I. -DUNIX"
-+ LFLAGS1=""
-+-LFLAGS2="-s"
-++LFLAGS2=""
-+ LN="ln -s"
-+ 
-+ CFLAGS_OPT=''
-+diff -ur unzip60.orig/unix/Makefile unzip60/unix/Makefile
-+--- unzip60.orig/unix/Makefile	2009-01-18 16:41:18.000000000 -0600
-++++ unzip60/unix/Makefile	2011-06-21 11:12:22.900003388 -0500
-+@@ -52,7 +52,7 @@
-+ CF = $(CFLAGS) $(CF_NOOPT)
-+ LFLAGS1 =
-+ LF = -o unzip$E $(LFLAGS1)
-+-LF2 = -s
-++LF2 = 
-+ 
-+ # UnZipSFX flags
-+ SL = -o unzipsfx$E $(LFLAGS1)
-+@@ -70,7 +70,7 @@
-+ CHMOD = chmod
-+ BINPERMS = 755
-+ MANPERMS = 644
-+-STRIP = strip
-++STRIP =
-+ E =
-+ O = .o
-+ M = unix
-+@@ -776,7 +776,6 @@
-+ #
-+ gcc:		unix_make
-+ 	$(MAKE) unzips CC=gcc LD=gcc CFLAGS="-O3" LF2=""
-+-	$(STRIP) $(UNZIPS)
-+ 
-+ # Heurikon HK68 (68010), UniPlus+ System V 5.0, Green Hills C-68000
-+ hk68:		unix_make
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index ccdd372..b9eff43 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -4,14 +4,17 @@ SECTION = "console/utils"
- LICENSE = "Info-ZIP"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
- PE = "1"
--PR = "r0"
-+PR = "r1"
+diff --git a/meta/recipes-devtools/python/python-gst_0.10.21.bb b/meta/recipes-devtools/python/python-gst_0.10.21.bb
+index 888002c..ed89090 100644
+--- a/meta/recipes-devtools/python/python-gst_0.10.21.bb
++++ b/meta/recipes-devtools/python/python-gst_0.10.21.bb
+@@ -1,9 +1,9 @@
+ DESCRIPTION = "Python Gstreamer bindings"
+ SECTION = "devel/python"
+ LICENSE = "LGPLv2.1"
+-DEPENDS = "gstreamer gst-plugins-base python-pygobject"
++DEPENDS = "gstreamer gst-plugins-base python-pygobject python"
+ RDEPENDS_${PN} += "python-pygtk"
+-PR = "r1"
++PR = "r2"
  
--SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz"
-+SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
-+	file://avoid-strip.patch"
+ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-python/gst-python-${PV}.tar.bz2 \
+            file://python-path.patch"
+diff --git a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
+index 0160bbd..9ff2fe7 100644
+--- a/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
++++ b/meta/recipes-devtools/python/python-pygobject_2.27.91.bb
+@@ -2,10 +2,10 @@ DESCRIPTION = "Python GObject bindings"
+ SECTION = "devel/python"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
+-DEPENDS = "python-pygobject-native-${PV} glib-2.0"
++DEPENDS = "python python-pygobject-native-${PV} glib-2.0"
+ DEPENDS_virtclass-native = "glib-2.0-native"
+ RDEPENDS_virtclass-native = ""
+-PR = "r1"
++PR = "r2"
  
- SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
- SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
- S = "${WORKDIR}/unzip60"
- 
-+EXTRA_OEMAKE += "STRIP=true LF2=''"
-+
- export LD = "${CC}"
- LD_virtclass-native = "${CC}"
+ MAJ_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
  
 -- 
 1.7.3.4
