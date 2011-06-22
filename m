@@ -1,27 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QZSqE-0003po-No
+	(envelope-from <mark.hatle@windriver.com>) id 1QZTN0-0004MV-0m
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 21:11:58 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Jun 2011 12:08:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,407,1304319600"; d="scan'208";a="21560817"
-Received: from unknown (HELO [10.255.13.180]) ([10.255.13.180])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Jun 2011 12:08:14 -0700
-Message-ID: <4E023D9F.5090301@linux.intel.com>
-Date: Wed, 22 Jun 2011 12:08:15 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	Wed, 22 Jun 2011 21:45:50 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MJgD1F019287
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jun 2011 12:42:14 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 22 Jun 2011 12:42:13 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Jun 2011 14:53:36 -0500
+Message-ID: <cover.1308769850.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <1308757294-21106-1-git-send-email-koen@dominion.thruhere.net>
-	<4E0230BC.6020404@linux.intel.com>
-	<2A97F42D-8473-43D1-AD28-A409829DC53D@dominion.thruhere.net>
-In-Reply-To: <2A97F42D-8473-43D1-AD28-A409829DC53D@dominion.thruhere.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass: restore kernel-abiversion file
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 00/40] Various Recipe Fixes (v3)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,84 +33,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 19:11:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jun 2011 19:45:50 -0000
+Content-Type: text/plain
 
+V3 includes fixes to issues noticed by Phil Blundell
 
+--- version 2 below ---
 
-On 06/22/2011 11:18 AM, Koen Kooi wrote:
-> 
-> Op 22 jun 2011, om 20:13 heeft Darren Hart het volgende geschreven:
-> 
->>
->>
->> On 06/22/2011 08:41 AM, Koen Kooi wrote:
->>> This fixes external module recipes that need $KERNEL_VERSION. It got removed by
->>>
->>>    commit a9d41062e24a6b99661b3a5256f369b557433607
->>>    Author: Darren Hart <dvhart@linux.intel.com>
->>>    Date:   Tue Mar 8 17:09:10 2011 -0800
->>>
->>>        kernel/bbclass: rework kernel and module classes to allow for building out-of-tree modules
->>>
->>> seemingly as an oversight.
+V2 only includes a change to patch 13, to resolve the issues mentioned
+by Koen.
 
-It was indeed unintentional. There is enough history with this mechanism
-that a change here should be intentional and not an oversight as you
-pointed out.
+--- original comments below ---
 
->>>
->>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+While working on the permissions and umask code, I found a number of 
+random issues with various packages in the system.  Most of these
+problems revolve around:
 
-Acked-by: Darren Hart <dvhart@linux.intel.com>
+* directory and file permissions, and ownership
+* -dbg package not being produced correctly
+* stripped binaries
+* packages that couldn't rebuild due to dependency or other issues
 
->>> ---
->>> meta/classes/kernel.bbclass |    6 ++++++
->>> 1 files changed, 6 insertions(+), 0 deletions(-)
->>>
->>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->>> index 1bb69f5..8f9f108 100644
->>> --- a/meta/classes/kernel.bbclass
->>> +++ b/meta/classes/kernel.bbclass
->>> @@ -123,6 +123,12 @@ kernel_do_install() {
->>> 	install -d $kerneldir
->>>
->>> 	#
->>> +	# Store the kernel version in sysroots for module-base.bbclass
->>> +	#
->>> +
->>> +	echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
->>
->> From everything I can see this is an openembedded construct - which
->> external modules need this? An example recipe I can review?
->>
->> I'd like to understand this better as I don't like the idea of depending
->> on an arbitrary file that isn't part of the kernel build system to build
->> modules.
->>
->> It seems to me that these modules should be able to DEPEND on something
->> provided by the kernel recipes, rather than checking the contents of a
->> file stuck in the build tree.
-> 
-> It's used in the stock module.bbclass thru module-base.bbclass:
-> 
-> https://github.com/openembedded/oe-core/blob/master/meta/classes/module-base.bbclass
-> 
-> An example of a recipe that's using it:
-> 
-> http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-texasinstruments/tree/recipes-bsp/powervr-drivers/omap3-sgx-modules_1.6.16.3977.bb
-> 
-> For various reasons the makefile can't be trusted or patched, so we can't use KBuild to get the version for us.
-> 
-> regards,
-> 
-> Koen
-> 
+Note, this doesn't solve the permissions and ownership issues that will come
+in a future patch set devoted to umask and fixing up of the permissions.
+
+The following changes since commit 17d5422460bf9074223475b15d128171d12b170a:
+
+  qt4-tools-nativesdk: fix compile failure in src/dbus (2011-06-22 17:41:39 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/recipe-fixup
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/recipe-fixup
+
+Mark Hatle (40):
+  resolveconf: Fix file owners
+  base-passwd: Fix owners/groups
+  gcc: Fix owners/groups
+  ghostscript: Fix owner/group of /etc/cups
+  libtirpc: Fix owner/group of /etc/netconfig
+  tzdata: Ensure all files are owned by root:root
+  gnome-doc-utils: Fix the owner/group on select files
+  perf: Fix linux-tools to ensure perf is installed under "fakeroot"
+  kernel.bbclass: Add support for perf-dbg package
+  sysfsutils: Fall back to default -dbg package
+  classes/package_rpm.bbclass: Enhance diagnostic messages
+  classes/package_rpm.bbclass: Change the way the PV is transformed
+  python: Switch to using the default -dbg package
+  python-pyobject: Remove unnecessary -dbg setting
+  libxml-parser-perl: Fix debug package
+  texinfo: Change to use the standard -dbg file
+  psmisc: Remove custom -dbg packages, use default
+  modutils: Add in missing -dbg package
+  liba52: Remove custom -dbg, fall back to default
+  python-gst: Add missing files to the -dbg package
+  mc: Add missing debug files to -dbg
+  gamin: Add missing debug files to -dbg
+  gthumb: Add missing debug files
+  systemtamp: Add missing debug files
+  trace-cmd: Add missing debug files
+  gstreamer: Add missing debug files.
+  gtk-sato-engine: Add missing debug files
+  libproxy: Add missing debug files
+  wireless-tools: Avoid stripping binaries
+  busybox: Avoid stripping binaries
+  tinylogin: Avoid stripped binaries
+  quote: Avoid stripping binaries
+  sysstat: Avoid stripping binaries
+  db: Avoid stripping binaries
+  db: Fix file ownership
+  unzip: Avoid stripping binaries
+  dropbear: Don't patch in configure
+  nasm: Fix aclocal
+  python: Add python to the dependencies of python modules
+  boost: Move the do_configure_prepend to a seperate task
+
+ meta/classes/kernel.bbclass                        |    3 +-
+ meta/classes/package_rpm.bbclass                   |   16 +++++--
+ .../resolvconf/resolvconf_1.48.bb                  |    3 +-
+ .../wireless-tools/avoid_strip.patch               |   21 +++++++++
+ .../wireless-tools/wireless-tools_29.bb            |    5 +-
+ .../recipes-core/base-passwd/base-passwd_3.5.22.bb |   10 ++--
+ meta/recipes-core/busybox/busybox_1.18.4.bb        |    4 +-
+ meta/recipes-core/dropbear/dropbear.inc            |    4 +-
+ meta/recipes-core/dropbear/dropbear_0.52.bb        |    2 +-
+ meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb   |    6 +--
+ .../tinylogin/tinylogin-1.4/avoid_static.patch     |   33 +++++++++++++
+ meta/recipes-core/tinylogin/tinylogin_1.4.bb       |    7 ++-
+ meta/recipes-devtools/gcc/gcc-4.6.0.inc            |    2 +-
+ meta/recipes-devtools/gcc/gcc_4.5.1.bb             |    7 +++-
+ meta/recipes-devtools/gcc/gcc_4.6.0.bb             |    5 ++
+ meta/recipes-devtools/gcc/libgcc_4.5.1.bb          |    3 +-
+ meta/recipes-devtools/gcc/libgcc_4.6.0.bb          |    3 +-
+ meta/recipes-devtools/nasm/nasm_2.07.bb            |    6 ++-
+ .../perl/libxml-parser-perl_2.40.bb                |    4 +-
+ .../python/python-2.6-manifest.inc                 |    8 +---
+ meta/recipes-devtools/python/python-gst_0.10.21.bb |    6 +-
+ .../python/python-pygobject_2.27.91.bb             |    5 +-
+ meta/recipes-devtools/python/python.inc            |    2 +-
+ meta/recipes-devtools/python/python_2.6.6.bb       |    4 +-
+ meta/recipes-extended/gamin/gamin_0.1.10.bb        |    7 +--
+ .../ghostscript/ghostscript_9.02.bb                |    7 +++-
+ meta/recipes-extended/libtirpc/libtirpc_0.2.1.bb   |    6 ++-
+ meta/recipes-extended/mc/mc_4.7.5.2.bb             |    4 +-
+ meta/recipes-extended/psmisc/psmisc.inc            |    8 +---
+ meta/recipes-extended/psmisc/psmisc_22.13.bb       |    2 +-
+ meta/recipes-extended/quota/quota_4.00-pre1.bb     |    4 +-
+ meta/recipes-extended/sysstat/sysstat.inc          |    5 ++-
+ meta/recipes-extended/sysstat/sysstat_10.0.0.bb    |    2 +-
+ meta/recipes-extended/texinfo/texinfo_4.13a.bb     |    7 +--
+ meta/recipes-extended/tzdata/tzdata_2011g.bb       |    4 +-
+ .../recipes-extended/unzip/unzip/avoid-strip.patch |   48 ++++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |    7 ++-
+ meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    4 ++
+ meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb |    2 +-
+ meta/recipes-gnome/gthumb/gthumb_2.12.3.bb         |    6 +-
+ meta/recipes-kernel/linux/linux-tools.inc          |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_2.6.34.bb    |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_2.6.37.bb    |    2 +-
+ meta/recipes-kernel/modutils/modutils_2.4.27.bb    |    4 +-
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    4 +-
+ meta/recipes-kernel/trace-cmd/trace-cmd_git.bb     |    4 +-
+ .../gstreamer/gstreamer_0.10.32.bb                 |    4 +-
+ meta/recipes-multimedia/liba52/liba52_0.7.4.bb     |    6 +--
+ meta/recipes-sato/gtk-engines/gtk-sato-engine.inc  |    2 +-
+ .../gtk-engines/gtk-sato-engine_svn.bb             |    2 +-
+ meta/recipes-support/boost/boost-36.inc            |    6 ++-
+ meta/recipes-support/db/db_5.1.19.bb               |    9 +++-
+ meta/recipes-support/libproxy/libproxy_0.4.6.bb    |    4 +-
+ scripts/contrib/python/generate-manifest-2.6.py    |   16 ++++---
+ 54 files changed, 254 insertions(+), 105 deletions(-)
+ create mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/avoid_strip.patch
+ create mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/avoid_static.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/avoid-strip.patch
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.7.3.4
+
 
 
