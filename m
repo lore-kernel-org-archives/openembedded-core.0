@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZREk-0007s4-Je
+	(envelope-from <mark.hatle@windriver.com>) id 1QZREm-0007uA-3H
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 19:29:11 +0200
+	Wed, 22 Jun 2011 19:29:12 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPZpC026792
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPbxk026803
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 10:25:35 -0700 (PDT)
+	Wed, 22 Jun 2011 10:25:37 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 22 Jun 2011 10:25:35 -0700
+	Wed, 22 Jun 2011 10:25:36 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 12:36:19 -0500
-Message-ID: <dd38d6195beded6d4574e6ca3beee7b91ce692b7.1308763995.git.mark.hatle@windriver.com>
+Date: Wed, 22 Jun 2011 12:36:20 -0500
+Message-ID: <92f606dce01fbf08566677d5ba7bb75d4337633a.1308763995.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308763995.git.mark.hatle@windriver.com>
 References: <cover.1308763995.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 25/40] trace-cmd: Add missing debug files
+Subject: [PATCH 26/40] gstreamer: Add missing debug files.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 17:29:11 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 17:29:12 -0000
 Content-Type: text/plain
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-kernel/trace-cmd/trace-cmd_git.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ .../gstreamer/gstreamer_0.10.32.bb                 |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-index ba7413d..5cf433a 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.32.bb b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.32.bb
+index 901ade5..0957670 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer_0.10.32.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer_0.10.32.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
+                     file://gst/gst.h;beginline=1;endline=21;md5=8e5fe5e87d33a04479fde862e238eaa4"
+ DEPENDS = "glib-2.0 libxml2 bison-native flex-native"
  
- SRCREV = "6c696cec3f264a9399241b6e648f58bc97117d49"
--PR = r0
+-PR = "r0"
 +PR = "r1"
- PV = "1.0.5+git${SRCPV}"
  
- inherit pkgconfig
-@@ -14,6 +14,8 @@ S = "${WORKDIR}/git"
+ SRC_URI = "http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.bz2 \
+            file://check_fix.patch \
+@@ -32,4 +32,4 @@ RRECOMMENDS_${PN}_qemux86-64 += "kernel-module-snd-ens1370 kernel-module-snd-raw
  
- EXTRA_OEMAKE = "'prefix=${prefix}'"
- 
-+FILES_${PN}-dbg += "${datadir}/trace-cmd/plugins/.debug/"
-+
- do_install() {
- 	oe_runmake prefix="${prefix}" DESTDIR="${D}" install
- }
+ FILES_${PN} += " ${libdir}/gstreamer-0.10/*.so"
+ FILES_${PN}-dev += " ${libdir}/gstreamer-0.10/*.la ${libdir}/gstreamer-0.10/*.a"
+-FILES_${PN}-dbg += " ${libdir}/gstreamer-0.10/.debug/"
++FILES_${PN}-dbg += " ${libdir}/gstreamer-0.10/.debug/ ${libexecdir}/gstreamer-0.10/.debug/"
 -- 
 1.7.3.4
 
