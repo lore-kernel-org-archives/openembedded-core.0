@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZTN8-0004OL-4m
+	(envelope-from <mark.hatle@windriver.com>) id 1QZTN8-0004QZ-WB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 21:45:58 +0200
+	Wed, 22 Jun 2011 21:45:59 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MJgMSR019333
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MJgNcb019336
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 12:42:22 -0700 (PDT)
+	Wed, 22 Jun 2011 12:42:23 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 22 Jun 2011 12:42:22 -0700
+	Wed, 22 Jun 2011 12:42:23 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 14:53:46 -0500
-Message-ID: <bcb804bb29baf9ade932615cce439d7f3f68b43c.1308770156.git.mark.hatle@windriver.com>
+Date: Wed, 22 Jun 2011 14:53:47 -0500
+Message-ID: <ea0a8179d458adeab0d947fce581f14f820a29c0.1308771739.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1308770156.git.mark.hatle@windriver.com>
-References: <cover.1308770156.git.mark.hatle@windriver.com>
+In-Reply-To: <cover.1308771739.git.mark.hatle@windriver.com>
+References: <cover.1308771739.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 24/40] systemtamp: Add missing debug files (v3)
+Subject: [PATCH 28/40] libproxy: Add missing debug files (v3)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,33 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 19:45:58 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 19:45:59 -0000
 Content-Type: text/plain
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ meta/recipes-support/libproxy/libproxy_0.4.6.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index e3e9264..aeb87c8 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- DEPENDS = "elfutils"
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.6.bb b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+index 2e18065..b24e8ba 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.6.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+@@ -14,14 +14,14 @@ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
+ SRC_URI[md5sum] = "199c6b120baf1f7258a55f38d5ec74f5"
+ SRC_URI[sha256sum] = "9ad912e63b1efca98fb442240a2bc7302e6021c1d0b1b9363327729f29462f30"
  
- SRCREV = "4ab3a1863bf4f472acae7a809bf2b38d91658aa8"
--PR = "r2"
-+PR = "r3"
- PV = "1.4+git${SRCPV}"
+-PR = "r0"
++PR = "r1"
  
- SRC_URI = "git://sources.redhat.com/git/systemtap.git;protocol=git \
-@@ -29,3 +29,5 @@ COMPATIBLE_HOST = '(x86_64.*|i.86.*|powerpc.*)-linux'
- S = "${WORKDIR}/git"
+ inherit cmake pkgconfig
  
- inherit autotools
-+
-+FILES_${PN}-dbg += "${libexecdir}/systemtap/.debug"
+ EXTRA_OECMAKE = "-DWITH_WEBKIT=no -DWITH_GNOME=yes -DWITH_KDE4=no \
+ 	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no"
+ 
+-FILES_${PN}-dbg += "${libdir}/libproxy/${PV}/plugins/"
++FILES_${PN}-dbg += "${libdir}/libproxy/${PV}/plugins/.debug/ ${libdir}/libproxy/${PV}/modules/.debug/"
+ 
+ do_configure_prepend() {
+ 	export HOST_SYS=${HOST_SYS}
 -- 
 1.7.3.4
 
