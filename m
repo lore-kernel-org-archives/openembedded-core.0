@@ -1,26 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZRF6-00085R-Qa
+	(envelope-from <koen@dominion.thruhere.net>) id 1QZRQ6-0008R3-EF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 19:29:33 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MHPvCK026921
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 22 Jun 2011 19:40:54 +0200
+Received: by wyb34 with SMTP id 34so851800wyb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 10:25:57 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 22 Jun 2011 10:25:57 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 12:36:34 -0500
-Message-ID: <b1f05da57a7748cb92cb6c690187a4b990401124.1308763995.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1308763995.git.mark.hatle@windriver.com>
+	Wed, 22 Jun 2011 10:37:19 -0700 (PDT)
+Received: by 10.217.7.3 with SMTP id z3mr959283wes.68.1308764238227;
+	Wed, 22 Jun 2011 10:37:18 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id n20sm438570weq.15.2011.06.22.10.37.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 22 Jun 2011 10:37:17 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <8cd511d84bd86b911f464b14c84d9cb122f7f6b0.1308763995.git.mark.hatle@windriver.com>
+Date: Wed, 22 Jun 2011 19:37:15 +0200
+Message-Id: <1576E015-5BD6-4C83-A347-82FAE31906EF@dominion.thruhere.net>
 References: <cover.1308763995.git.mark.hatle@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 40/40] boost: Move the do_configure_prepend to a seperate task
+	<8cd511d84bd86b911f464b14c84d9cb122f7f6b0.1308763995.git.mark.hatle@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 18/40] modutils: Add in missing -dbg package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,49 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 17:29:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Jun 2011 17:40:54 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-We need to perform those actions after patch, and before configure.
 
-Otherwise a rebuild starting with configure will fail.
+Op 22 jun 2011, om 19:36 heeft Mark Hatle het volgende geschreven:
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-support/boost/boost-36.inc |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+> meta/recipes-kernel/modutils/modutils_2.4.27.bb |    4 ++--
+> 1 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-kernel/modutils/modutils_2.4.27.bb =
+b/meta/recipes-kernel/modutils/modutils_2.4.27.bb
+> index 1ebc90c..9f2add3 100644
+> --- a/meta/recipes-kernel/modutils/modutils_2.4.27.bb
+> +++ b/meta/recipes-kernel/modutils/modutils_2.4.27.bb
+> @@ -5,7 +5,7 @@ manageable for all users, administrators and =
+distribution maintainers."
+> LICENSE =3D "GPLv2"
+> LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D8ca43cbc842c2336e835926c2166c28b"
+> DEPENDS =3D "bison-native"
+> -PR =3D "r9"
+> +PR =3D "r10"
+>=20
+> SRC_URI =3D =
+"${KERNELORG_MIRROR}/linux/utils/kernel/modutils/v2.4/modutils-${PV}.tar.b=
+z2 \
+>            file://lex.l.diff;patch=3D1 \
+> @@ -86,7 +86,7 @@ pkg_prerm_modutils-modinfo() {
+> update-alternatives --remove modinfo /sbin/modinfo.24
+> }
+>=20
+> -PACKAGES =3D "modutils-depmod modutils-modinfo modutils-doc modutils"
+> +PACKAGES =3D "${PN}-dbg modutils-depmod modutils-modinfo modutils-doc =
+modutils"
 
-diff --git a/meta/recipes-support/boost/boost-36.inc b/meta/recipes-support/boost/boost-36.inc
-index 3adc3ed..bc4e750 100644
---- a/meta/recipes-support/boost/boost-36.inc
-+++ b/meta/recipes-support/boost/boost-36.inc
-@@ -9,7 +9,7 @@ SECTION = "libs"
- DEPENDS = "boost-jam-native zlib"
- PRIORITY = "optional"
- LICENSE = "Boost"
--PR = "r3"
-+PR = "r4"
- 
- ARM_INSTRUCTION_SET = "arm"
- BOOST_VER = "${@"_".join(bb.data.getVar("PV",d,1).split("."))}"
-@@ -126,12 +126,14 @@ BJAM_OPTS    = '${BJAM_TOOLS} \
- 		${BJAM_EXTRA}'
- 
- 
--do_configure_prepend() {
-+do_boostconfig() {
- 	cp -f boost/config/platform/linux.hpp boost/config/platform/linux-gnueabi.hpp
- 
- 	echo 'using gcc : 4.3.1 : ${CXX} : compileflags -DBOOST_SP_USE_PTHREADS -I${includedir} linkflags -L${libdir} ;' >> ${S}/tools/build/v2/user-config.jam
- }
- 
-+addtask do_boostconfig after do_patch before do_configure
-+
- do_compile() {
- 	set -ex
- 	bjam ${BJAM_OPTS} --prefix=${prefix} \
--- 
-1.7.3.4
-
+PACKAGES =3D+ "modutils-depmod modutils-modinfo" would be nice more more =
+futureproof=
 
 
