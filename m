@@ -1,28 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QZ9e5-0000TI-7K
+	(envelope-from <mark.hatle@windriver.com>) id 1QZBTG-00026J-Up
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 00:42:09 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Jun 2011 15:38:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,402,1304319600"; d="scan'208";a="21114520"
-Received: from unknown (HELO [10.255.13.75]) ([10.255.13.75])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Jun 2011 15:38:34 -0700
-Message-ID: <4E011D62.4070603@intel.com>
-Date: Tue, 21 Jun 2011 15:38:26 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	Wed, 22 Jun 2011 02:39:07 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5M0ZTen028578
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 21 Jun 2011 17:35:30 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 21 Jun 2011 17:35:29 -0700
+Message-ID: <4E0138D1.409@windriver.com>
+Date: Tue, 21 Jun 2011 19:35:29 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <cover.1308615886.git.scott.a.garman@intel.com>
-	<cac953e344bf63b8e8b49d4d748427afbfcbd3ab.1308615886.git.scott.a.garman@intel.com>
-	<10377FD6-4D99-467E-9755-A931F6C446E8@dominion.thruhere.net>
-In-Reply-To: <10377FD6-4D99-467E-9755-A931F6C446E8@dominion.thruhere.net>
+To: Phil Blundell <pb@pbcl.net>
+References: <4E00CA30.7020302@windriver.com>	
+	<1308682643.3083.18.camel@lenovo.internal.reciva.com>	
+	<4E00ED2C.1040708@windriver.com>	
+	<1308690566.3083.75.camel@lenovo.internal.reciva.com>	
+	<4E010CC4.5010906@windriver.com>
+	<1308692250.3083.79.camel@lenovo.internal.reciva.com>
+In-Reply-To: <1308692250.3083.79.camel@lenovo.internal.reciva.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] shadow-sysroot: new recipe for useradd.bbclass support
+Subject: Re: Directory permissions and ownership -- RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,31 +42,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jun 2011 22:42:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 22 Jun 2011 00:39:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/20/2011 11:30 PM, Koen Kooi wrote:
->
-> Op 21 jun 2011, om 02:29 heeft Scott Garman het volgende geschreven:
->
->> Packaging login.defs with base-passwd causes problems due to the
->> file being included in target package installs. Instead, this
->> shadow-sysroot recipe can be used by useradd.bbclass to put
->> login.defs into the target sysroot without disturbing packages
->> intended for target devices.
->
-> So how does it end up on the target device after this?
+On 6/21/11 4:37 PM, Phil Blundell wrote:
+> On Tue, 2011-06-21 at 16:27 -0500, Mark Hatle wrote:
+>> I don't know how to do this within bitbake (easily).  The table is currently a
+>> static set of paths that exist within the distribution as a whole.  They are not
+>> recipe specific, but you can have more then one file... the assumption is
+>> different layers may bring in additional files, only if necessary.
+>>
+>> If there is existing code I can use to identify and resolve in-line variables,
+>> I'll be happy to add that into the code.  I'd certainly like to add that
+>> capability, but so far we don't have it.  (Would be nice in the device_table
+>> file.. but I doubt that's practical as the code is not run within python.)
+> 
+> I think bb.data.expand() should do what you need there.
+> 
+> p.
+> 
+> 
 
-login.defs would still end up on the target device when you install the 
-shadow (target) package. Otherwise the file is not needed (and hence, 
-should not have been packaged with base-passwd to begin with - my bad).
+Based on the above, I reworked the package.bbclass commit.  The new version is
+located at:
 
-Scott
+http://git.pokylinux.org/cgit.cgi/poky-contrib/commit/?h=mhatle/perms&id=7b59d7817771ba6bcf85a9816910e2bc036acf52
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Functionally it's almost the same, but structurally it has changed a lot.  From
+the last version to this version:
+
+* create a local (to fixup_perms) a function to actually setup the data structure
+
+* remove the default documentation, locale and header correction entries
+  - move them to the fs-perms.txt
+
+* When processing a "line" to setup the data structure, we expand all of the
+variables with it first.  This not only allows for the directory to be set with
+a variable, but also the mode, uid, and gid if necessary.
+
+--Mark
 
 
