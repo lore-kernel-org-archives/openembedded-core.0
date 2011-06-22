@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZTN6-0004NM-A2
+	(envelope-from <mark.hatle@windriver.com>) id 1QZTN7-0004O4-6L
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 21:45:56 +0200
+	Wed, 22 Jun 2011 21:45:57 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MJgLGn019325
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MJgMJb019328
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 12:42:21 -0700 (PDT)
+	Wed, 22 Jun 2011 12:42:22 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
 	Wed, 22 Jun 2011 12:42:21 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jun 2011 14:53:44 -0500
-Message-ID: <dd485f5af6e8c3dfa4891f3e392aba2a3a65403b.1308771739.git.mark.hatle@windriver.com>
+Date: Wed, 22 Jun 2011 14:53:45 -0500
+Message-ID: <795f599b614be5fa66d65168b90698331c5aa290.1308771739.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308771739.git.mark.hatle@windriver.com>
 References: <cover.1308771739.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 22/40] gamin: Add missing debug files to -dbg (v3)
+Subject: [PATCH 23/40] gthumb: Add missing debug files (v3)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 19:45:57 -0000
+X-List-Received-Date: Wed, 22 Jun 2011 19:45:58 -0000
 Content-Type: text/plain
-
-Add the missing files to the base -dbg package, remove the libPN-dbg as it is
-non-standard.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-extended/gamin/gamin_0.1.10.bb |    7 +++----
- 1 files changed, 3 insertions(+), 4 deletions(-)
+ meta/recipes-gnome/gthumb/gthumb_2.12.3.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/gamin/gamin_0.1.10.bb b/meta/recipes-extended/gamin/gamin_0.1.10.bb
-index b6394d2..81b27c0 100644
---- a/meta/recipes-extended/gamin/gamin_0.1.10.bb
-+++ b/meta/recipes-extended/gamin/gamin_0.1.10.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=412a9be54757a155d0b997b52b519f62"
+diff --git a/meta/recipes-gnome/gthumb/gthumb_2.12.3.bb b/meta/recipes-gnome/gthumb/gthumb_2.12.3.bb
+index 115a805..7fb8a94 100644
+--- a/meta/recipes-gnome/gthumb/gthumb_2.12.3.bb
++++ b/meta/recipes-gnome/gthumb/gthumb_2.12.3.bb
+@@ -3,14 +3,14 @@ SECTION = "x11/gnome"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ DEPENDS = "glib-2.0 gtk+ libxml2 gnome-doc-utils libunique gconf libpng gstreamer jpeg tiff gst-plugins-base"
+-PR = "r0"
++PR = "r1"
  
- DEPENDS = "glib-2.0"
- PROVIDES = "fam"
--PR = "r2"
-+PR = "r3"
+ EXTRA_OECONF = "--disable-gnome-keyring --disable-libsoup --disable-exiv2 --disable-clutter"
  
- SRC_URI = "http://www.gnome.org/~veillard/gamin/sources/gamin-${PV}.tar.gz \
-            file://no-abstract-sockets.patch"
-@@ -20,13 +20,12 @@ inherit autotools pkgconfig
+ inherit gnome pkgconfig
  
- EXTRA_OECONF = "--without-python"
+ FILES_${PN} += "${datadir}/icons"
+-FILES_${PN}-dbg += "${libdir}/gthumb/modules/.debug"
++FILES_${PN}-dbg += "${libdir}/gthumb/modules/.debug/ ${libdir}/gthumb/extensions/.debug/"
  
--PACKAGES += "lib${PN} lib${PN}-dev lib${PN}-dbg"
-+PACKAGES += "lib${PN} lib${PN}-dev"
- FILES_${PN} = "${libexecdir}"
--FILES_${PN}-dbg = "${libexecdir}/.debug"
-+FILES_${PN}-dbg += "${libexecdir}/.debug"
- FILES_lib${PN} = "${libdir}/lib*.so.*"
- FILES_lib${PN}-dev = "${includedir} ${libdir}/pkgconfig ${libdir}/lib*.la \
-                       ${libdir}/lib*.a ${libdir}/lib*.so"
--FILES_lib${PN}-dbg = "${libdir}/.debug/"
- 
- RDEPENDS_lib${PN} = "${PN}"
- 
+ SRC_URI[archive.md5sum] = "bfa0957a1bafc5d049292cd5fad372ce"
+ SRC_URI[archive.sha256sum] = "0060c05fd372c2af2048d294ab3f75c8fb02c576d3e2004e08b7d34f49da1e66"
 -- 
 1.7.3.4
 
