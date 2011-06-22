@@ -1,34 +1,20 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QZV03-0005hK-6i
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QZV4p-0005la-EG
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 23:30:15 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QZUwb-0004DR-2j from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 14:26:41 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Wed, 22 Jun 2011 14:21:21 -0700
-Received: from [172.30.80.125] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.289.1;
-	Wed, 22 Jun 2011 14:26:40 -0700
-Message-ID: <4E025DFA.3020306@mentor.com>
-Date: Wed, 22 Jun 2011 14:26:18 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1308706423.git.raj.khem@gmail.com>	<1308758279.20015.79.camel@rex>	<4E0235DA.8060200@windriver.com>
-	<4E025052.6070300@windriver.com>
-In-Reply-To: <4E025052.6070300@windriver.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 22 Jun 2011 21:21:21.0250 (UTC)
-	FILETIME=[550D8420:01CC3122]
-Subject: Re: [PATCH 0/4] eglibc 2.14 upgrade
+	Wed, 22 Jun 2011 23:35:11 +0200
+Received: from localhost.localdomain (yow-bashfiel-d2.ottawa.windriver.com
+	[128.224.146.167])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MLVTBj005219;
+	Wed, 22 Jun 2011 14:31:30 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 22 Jun 2011 17:29:18 -0400
+Message-Id: <cover.1308777703.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	koen@dominion.thruhere.net, saul.wold@intel.com
+Subject: [PATCH 0/2] linux-yocto: consolidated merge request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,29 +29,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 21:30:15 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jun 2011 21:35:11 -0000
 
-On 06/22/2011 01:28 PM, Mark Hatle wrote:
-> On 6/22/11 1:35 PM, Mark Hatle wrote:
->> Since applying this update, I'm not longer getting an rpc/rpc.h file, which
->> breaks various things like busybox mount.
->>
->> Is anyone else seeing this behavior?
-> 
-> Reverting:
-> 
-> 2a68cf4d315cdd18766de0c75928ff17846a6cd7 and
-> 190a946e9a4213944e3ee675c4b3e18701698e87
-> 
-> fixed the problem for me.  So there is definitely a problems in the upgrade.
+Hi,
 
-This also fixes the problem that Otavio and I have seen of locale
-generation failing crazily.
+This pull request contains the first iteration of the
+base configuration changes discussed on the list about
+two weeks ago, and a common USB fix that was identified
+during the beagleboard refresh.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+  94fa015 meta: add taskstats experimental feature group
+  4fb2ed5 meta: enable freezer support
+  88d619e meta: enable fuse and cuse as modules
+  f465827 meta: add namespaces + experimental configs
+  fbdd376 meta: add devtmpfs config group
+  b04f6d9 meta: re-enable cgroups options in the standard kernel
+
+I've built the relevant qemu targets with the changes,
+and my sanity tests have all passed here.
+
+cc: Koen Kooi <koen@dominion.thruhere.net>
+cc: Daren Hart <dvhart@linux.intel.com>
+
+Cheers,
+
+Bruce
+
+
+The following changes since commit 46378aec555f08f133bf601be01dacf4bd0b7f05:
+  Bruce Ashfield (1):
+        linux-yocto/meta-yocto: update SRCREVs for utrace merge
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/oe-core
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/oe-core
+
+Bruce Ashfield (2):
+  linux-yocto: update meta SRCREV for new config groups
+  linux-yocto: update meta and yocto/standard SRCREVs
+
+ meta/recipes-kernel/linux/linux-yocto_2.6.37.bb |   19 ++++++++++---------
+ 1 files changed, 10 insertions(+), 9 deletions(-)
+
 
 
