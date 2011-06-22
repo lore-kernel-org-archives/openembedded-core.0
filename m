@@ -1,28 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QZU5K-0005Kc-GX
-	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Jun 2011 22:31:38 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5MKS3N5026244
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jun 2011 13:28:03 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 22 Jun 2011 13:28:02 -0700
-Message-ID: <4E025052.6070300@windriver.com>
-Date: Wed, 22 Jun 2011 15:28:02 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1308706423.git.raj.khem@gmail.com>	<1308758279.20015.79.camel@rex>
-	<4E0235DA.8060200@windriver.com>
-In-Reply-To: <4E0235DA.8060200@windriver.com>
-Subject: Re: [PATCH 0/4] eglibc 2.14 upgrade
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QZUoN-0005Zg-PY for openembedded-core@lists.openembedded.org;
+	Wed, 22 Jun 2011 23:18:11 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MLEZZG009257;
+	Wed, 22 Jun 2011 22:14:35 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09210-01; Wed, 22 Jun 2011 22:14:31 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5MLEQhp009251
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 22 Jun 2011 22:14:27 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1308285199.git.bruce.ashfield@windriver.com>
+References: <cover.1308285199.git.bruce.ashfield@windriver.com>
+Date: Wed, 22 Jun 2011 22:14:08 +0100
+Message-ID: <1308777248.20015.98.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: Re: [PATCH 0/1] linux-yocto: bump SRCREVs for utrace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,63 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jun 2011 20:31:38 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Wed, 22 Jun 2011 21:18:12 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 6/22/11 1:35 PM, Mark Hatle wrote:
-> Since applying this update, I'm not longer getting an rpc/rpc.h file, which
-> breaks various things like busybox mount.
+On Fri, 2011-06-17 at 00:38 -0400, Bruce Ashfield wrote:
+> Richard/Saul,
 > 
-> Is anyone else seeing this behavior?
-
-Reverting:
-
-2a68cf4d315cdd18766de0c75928ff17846a6cd7 and
-190a946e9a4213944e3ee675c4b3e18701698e87
-
-fixed the problem for me.  So there is definitely a problems in the upgrade.
-
---Mark
-
-> --Mark
+> Updating the SRCREVs to take into acccount the utrace update from
+> Tom. With this, the stage is set for systemtap support.
 > 
-> On 6/22/11 10:57 AM, Richard Purdie wrote:
->> On Tue, 2011-06-21 at 18:43 -0700, Khem Raj wrote:
->>> This patchset upgrades eglibc 2.13 -> 2.14                                             
->>> Needed a binutils fix for x86_64                                                       
->>> Package sotruss which is new in eglibc 2.14                
->>>
->>> The following changes since commit 78de64f58b98101f5be5778e9ecbdaae5ba32997:
->>>
->>>   binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64 (2011-06-21 17:58:06 -0700)
->>>
->>> are available in the git repository at:
->>>   git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-2.14
->>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-2.14
->>>
->>> Khem Raj (4):
->>>   eglibc: Upgrade recipes from 2.13 -> 2.14
->>>   eglibc-package.inc: Package newly added sotruss and supporting
->>>     libraries
->>>   binutils_2.21.bb: Fix ld segfault exposed by eglibc 2.14 on x86_64
->>>   tcmode-default.inc: Bump EGLIBCVERSION to 2.14
->>
->> Merged to master, thanks.
->>
->> Richard
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Note: the pull branch also contains a change for meta-yocto, so
+> grab the right one!
 > 
+> The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
+>   Tom Zanussi (1):
+>         systemtap: remove non-core COMPATIBLE_MACHINES
 > 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> are available in the git repository at:
+> 
+>   git://git.pokylinux.org/poky-contrib zedd/kernel
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+> 
+> Bruce Ashfield (1):
+>   linux-yocto: update SRCREVs for utrace merge
+
+Merged to master, thanks.
+
+Richard
 
 
 
