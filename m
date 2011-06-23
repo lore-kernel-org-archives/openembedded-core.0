@@ -1,16 +1,20 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QZj45-0007TY-0o
+	(envelope-from <richard@tim.rpsys.net>) id 1QZj47-0007Te-Lf
 	for openembedded-core@lists.openembedded.org;
-	Thu, 23 Jun 2011 14:31:21 +0200
+	Thu, 23 Jun 2011 14:31:23 +0200
 Received: by rex (Postfix, from userid 1000)
-	id 7965B2065A; Thu, 23 Jun 2011 13:27:44 +0100 (BST)
+	id EDB4E20D86; Thu, 23 Jun 2011 13:27:47 +0100 (BST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jun 2011 13:27:25 +0100
-Message-Id: <cover.1308831847.git.richard.purdie@linuxfoundation.org>
+Date: Thu, 23 Jun 2011 13:27:26 +0100
+Message-Id: <bba6a7693c5e1716a0bfa0c7aa9280b29d0b0b0a.1308831847.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/4] Misc core cleanups
+In-Reply-To: <cover.1308831847.git.richard.purdie@linuxfoundation.org>
+References: <cover.1308831847.git.richard.purdie@linuxfoundation.org>
+In-Reply-To: <cover.1308831847.git.richard.purdie@linuxfoundation.org>
+References: <cover.1308831847.git.richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/4] base.bbclass: Drop old style SRCDATE handling, we have pn- overrides now
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,33 +29,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2011 12:31:21 -0000
+X-List-Received-Date: Thu, 23 Jun 2011 12:31:24 -0000
 
-Following are four proposed cleanups for the core classes. 
+Signed-off-by: Richard  Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/base.bbclass |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
 
-The patches are available on the end of the branch in the git repository at:
-  git://git.pokylinux.org/poky-contrib rpurdie/wip
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rpurdie/wip
-
-Richard Purdie (4):
-  base.bbclass: Drop old style SRCDATE handling, we have pn- overrides
-    now
-  base.bbclass: Since we require python 2.6 which always contains
-    hashlib we can drop this fallback code
-  classes/conf: Drop MULTIMACH_ARCH variable, it adds unused complexity
-    and serves no useful purpose
-  base/glib-2.0: Simplify USE_NLS handling for glib-2.0
-
- meta/classes/base.bbclass                  |   27 +--------------------------
- meta/classes/cross-canadian.bbclass        |   14 +++++++-------
- meta/classes/sstate.bbclass                |    4 ++--
- meta/conf/bitbake.conf                     |    9 ++-------
- meta/conf/distro/include/tclibc-uclibc.inc |    1 -
- meta/recipes-core/glib-2.0/glib-2.0.inc    |    6 ------
- meta/recipes-core/glib-2.0/glib.inc        |    3 +--
- 7 files changed, 13 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0.inc
-
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 119b052..4681489 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -303,11 +303,6 @@ python () {
+                     bb.note("SKIPPING %s because it's %s" % (pn, this_license))
+                     raise bb.parse.SkipPackage("incompatible with license %s" % this_license)
+ 
+-    # OBSOLETE in bitbake 1.7.4
+-    srcdate = bb.data.getVar('SRCDATE_%s' % pn, d, 1)
+-    if srcdate != None:
+-        bb.data.setVar('SRCDATE', srcdate, d)
+-
+     use_nls = bb.data.getVar('USE_NLS_%s' % pn, d, 1)
+     if use_nls != None:
+         bb.data.setVar('USE_NLS', use_nls, d)
 -- 
 1.7.4.1
 
