@@ -1,33 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QZltt-0008BF-Cs for openembedded-core@lists.openembedded.org;
-	Thu, 23 Jun 2011 17:33:01 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5NFTP0J018498
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2011 16:29:25 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 17927-03 for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2011 16:29:21 +0100 (BST)
-Received: from [192.168.1.45] (dynamic15.rpnet.com [192.168.1.45])
-	(authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5NFTGPI018492
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jun 2011 16:29:16 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4E0286CD.50700@mentor.com>
-References: <4E0286CD.50700@mentor.com>
-Date: Thu, 23 Jun 2011 16:29:14 +0100
-Message-ID: <1308842954.20015.126.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
+Received: from relay1.mentorg.com ([192.94.38.131])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Tom_Rini@mentor.com>) id 1QZmcL-0007LB-Qx
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 Jun 2011 18:19:00 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QZmYq-00043u-M2 from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 Jun 2011 09:15:20 -0700
+Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 23 Jun 2011 09:09:56 -0700
+Received: from [172.30.80.156] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
+	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 23 Jun 2011 09:15:19 -0700
+Message-ID: <4E036696.1010905@mentor.com>
+Date: Thu, 23 Jun 2011 09:15:18 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <4E0286CD.50700@mentor.com> <1308842954.20015.126.camel@rex>
+In-Reply-To: <1308842954.20015.126.camel@rex>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 23 Jun 2011 16:09:56.0907 (UTC)
+	FILETIME=[FEBAC7B0:01CC31BF]
 Subject: Re: sstate skips STAGING_DIR_KERNEL?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,40 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jun 2011 15:33:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 23 Jun 2011 16:19:00 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-06-22 at 17:20 -0700, Tom Rini wrote:
-> As part of looking into the problem I had that I just posted a patch for
-> I was going "why isn't -c clean (or cleanall or cleansstate) knocking
-> out STAGING_DIR_KERNEL contents?  Answer, sstate is totally skipping
-> that out.  Is there some variable we need to be setting somewhere to add
-> this in?  Or are we going to have to take in the various bits of OE.dev
-> kernel.bbclass instead here?
+On 06/23/2011 08:29 AM, Richard Purdie wrote:
+> On Wed, 2011-06-22 at 17:20 -0700, Tom Rini wrote:
+>> As part of looking into the problem I had that I just posted a patch for
+>> I was going "why isn't -c clean (or cleanall or cleansstate) knocking
+>> out STAGING_DIR_KERNEL contents?  Answer, sstate is totally skipping
+>> that out.  Is there some variable we need to be setting somewhere to add
+>> this in?  Or are we going to have to take in the various bits of OE.dev
+>> kernel.bbclass instead here?
+> 
+> I think there is a bug in kernel.bbclass. This should fix it:
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index aaf341b..9f09107 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -119,7 +119,7 @@ kernel_do_install() {
+>         # Support for external module building - create a minimal copy of the
+>         # kernel source tree.
+>         #
+> -       kerneldir=${STAGING_KERNEL_DIR}
+> +       kerneldir=${D}/kernel
+>         install -d $kerneldir
+>  
+>         #
+> 
+> I'll merge something like this is nobody objects.
 
-I think there is a bug in kernel.bbclass. This should fix it:
+That makes sense, testing this now.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index aaf341b..9f09107 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -119,7 +119,7 @@ kernel_do_install() {
-        # Support for external module building - create a minimal copy of the
-        # kernel source tree.
-        #
--       kerneldir=${STAGING_KERNEL_DIR}
-+       kerneldir=${D}/kernel
-        install -d $kerneldir
- 
-        #
-
-I'll merge something like this is nobody objects.
-
-Cheers,
-
-Richard
-
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
