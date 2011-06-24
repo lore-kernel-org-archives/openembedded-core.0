@@ -1,25 +1,23 @@
-Received: from vms173013pub.verizon.net ([206.46.173.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1QZyRt-00081O-Gw
+	(envelope-from <dvhart@linux.intel.com>) id 1Qa15m-0005FW-P3
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Jun 2011 06:56:57 +0200
-Received: from gandalf.denix.org ([unknown] [108.18.140.4])
-	by vms173013.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009))
-	with ESMTPA id <0LNA00I8804N3YK1@vms173013.mailsrvcs.net>; Thu,
-	23 Jun 2011 22:53:16 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 2CCE514AF5D; Thu,
-	23 Jun 2011 23:53:11 -0400 (EDT)
-Date: Thu, 23 Jun 2011 23:53:11 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org,
-	openembedded-members@lists.openembedded.org
-Message-id: <20110624035311.GA22825@denix.org>
-MIME-version: 1.0
-User-Agent: Mutt/1.5.16 (2007-06-09)
-Subject: Minutes: OpenEmbedded eV Board meeting, 20-Jun-2011
+	Fri, 24 Jun 2011 09:46:20 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 24 Jun 2011 00:42:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,418,1304319600"; d="scan'208";a="17936465"
+Received: from unknown (HELO [10.255.13.126]) ([10.255.13.126])
+	by azsmga001.ch.intel.com with ESMTP; 24 Jun 2011 00:42:40 -0700
+Message-ID: <4E043FEF.8080107@linux.intel.com>
+Date: Fri, 24 Jun 2011 00:42:39 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: gconf-dbus fetch failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,102 +32,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2011 04:56:57 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Fri, 24 Jun 2011 07:46:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Minutes: OpenEmbedded eV Board meeting, 20-Jun-2011
+It seems there is a problem with the subversion repository for gconf-dbus. Are others seeing this as well, or this perhaps a local networking issue?
 
-Attendees:
+ERROR: Logfile of failure stored in: /build/poky/timeline/qemux86/tmp/work/x86_64-linux/gconf-dbus-native-2.16.0+svnr705-r0/temp/log.do_fetch.19184
+Log data follows:
+| NOTE: Fetch svn://developer.imendio.com/svn/gconf-dbus;module=trunk;proto=http
+| NOTE: Fetch svn://developer.imendio.com/svn/gconf-dbus;module=trunk;proto=http
+| svn: OPTIONS of 'http://developer.imendio.com/svn/gconf-dbus/trunk': could not connect to server (http://developer.imendio.com)
+|  ERROR: Function 'Fetcher failure for URL: 'svn://developer.imendio.com/svn/gconf-dbus;module=trunk;proto=http'. Unable to fetch URL svn://developer.imendio.com/svn/gconf-dbus;module=trunk;proto=http from any source.' failed
 
-Michael Lauer (mickey)
-Philip Balister (Crofton)
-Florian Boor (florian)
-Denys Dmytriyenko (denix)
-
-Agenda:
-
-00) congratulate Mickey with the recent birth of his daughter
-
-01) denix agrees to take meeting minutes
-
-02) state the agenda topics, collect any last minute additions:
-* current status of hosting services
-* funding the purchase of a network switch for the servers
-* general discussion of eV budget, spendings
-* another call for donations
-* TSC election proposal from RP
-* upcoming events and the creation of a "show" box
-
-03) discussed the current state of OE hosting services
-* list of funding requested by infrastructure team (Tom King) reduced to the 
-network switch
-* other items were resolved with the help of The Linux Foundation:
-  ** LF sponsors Tom's travel
-  ** LF donates hosting servers
-* denix asked for clarification of what is being donated and whom it's donated 
-to (i.e. is there a lease being signed?):
-  ** LF grant/donation is not directly to OE eV, but rather to nas-admin group 
-at OSUOSL that serves OE infrastructure among other Open Source projects
-  ** the remaining piece of equipment OE eV needs to fund is the network 
-switch
-  ** Board to ask Tom for more details for the following:
-    = hardware side, preferably accompanied by pictures of the actual rack and 
-equipment
-    = organization charts and interactions of the involved parties: Tom, OE 
-infrastructure team, nas-admin, OSUOSL etc.
-
-04) approve to fund the network switch
-* estimated at $1500 = ~800-1000 eur
-* somewhat expensive, server grade - "not the type used at home"
-* Board to trust Tom on selecting the right switch
-* figure out the way to transfer money to nas-admin/OSUOSL
-  ** Tom to coordinate
-
-05) OE eV budget
-* currently there is around 3000 eur in the bank
-* florian to check with the bank in Germany if possible to open a debit/credit 
-card linked with the eV account
-* preferably without annual or any idle fees
-
-06) call for donation
-* OE needs an income stream - another call for donations in the mailing lists
-* denix to check if TI can make another donation
-  ** may be difficult, as TI and other companies are LF/Yocto members and pay 
-dues
-  ** thus, latest LF donations to OE as a "feedback" channel make sense
-
-07) review RP's proposal of TSC re-election
-* proposal is for Richard and Stefan to step down first and run elections for 
-1 seat
-* then continue with one-at-a-time elections going forward
-* alternative is to elect the entire TSC at once:
-  ** deemed unnecessary and bad for the project
-* agree and approve RP/TSC proposal
-* Board to initiate the election process:
-  ** announce another round of candidates for 1 TSC seat, discussion phase, 
-call for votes (Mickey)
-* discuss the voting logistics - ask if Graeme can help with counting the 
-votes, or use one of the proposed software
-* Crofton says Graeme is on travel for next 2 weeks, but agreed to count the 
-votes after that
-  ** that gives proper timing for announcement, discussion and call for votes 
-phases
-
-08) upcoming events and show box
-* agree to allow spending up to 500 eur at florian's discretion on the show 
-box
-* ac adapters, multiplugs, switch, accesspoint, flyers, posters, tft + cables, 
-tape, some lights
-* include some dev boards, donated by companies
-* some of the items already exist and were previously donated
-* need table cloth, which exists, but needs washing
-* ELC-E in Prague in October
-* agree to schedule the General Assembly at ELC-E (Crofton)
-* Crofton to talk to Jefro/RP about reserving a room
-
-09) Board to have another meeting in 3 weeks
-* around 8th-10th of July
-
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
