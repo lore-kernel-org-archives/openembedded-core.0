@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QaBMH-0008Ce-DV
+	(envelope-from <mark.hatle@windriver.com>) id 1QaBMI-0008Cf-AW
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Jun 2011 20:44:01 +0200
+	Fri, 24 Jun 2011 20:44:02 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5OIeNlH007285
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5OIeOG3007291
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2011 11:40:24 -0700 (PDT)
+	Fri, 24 Jun 2011 11:40:25 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Fri, 24 Jun 2011 11:40:23 -0700
+	Fri, 24 Jun 2011 11:40:24 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Jun 2011 13:40:16 -0500
-Message-ID: <960f80c2cdeb8f11ceb0d3a39b96a344e284a202.1308940765.git.mark.hatle@windriver.com>
+Date: Fri, 24 Jun 2011 13:40:17 -0500
+Message-ID: <228c5ed8354ff8554483f9ad4efd75701c4fba92.1308940765.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1308940765.git.mark.hatle@windriver.com>
 References: <cover.1308940765.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 2/4] rpm: Change config option
+Subject: [PATCH 3/4] msmtp: Disable gnome keyring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,32 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2011 18:44:01 -0000
+X-List-Received-Date: Fri, 24 Jun 2011 18:44:02 -0000
 Content-Type: text/plain
 
-For some reason --without-xz doesn't work the same as --with-xz=none.
-
-We need this set to none, or configure will attempt to find an lzma
-header which we might or might not have.
+Unless we explicitly disable the gnome keyring support, the system
+will attemp to discover if it's available which changes the package
+output.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.0.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-extended/msmtp/msmtp_1.4.24.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index 0c88f91..91089d2 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -84,7 +84,7 @@ rpm_macros_virtclass-native = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{
- # Configure values taken from rpm.spec
- WITH_BZIP2 = "--with-bzip2"
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.4.24.bb b/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
+index 39a7eea..7f646f8 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
+@@ -6,7 +6,7 @@ SECTION = "console/network"
+ PRIORITY = "required"
+ LICENSE = "GPLv3"
+ DEPENDS = "zlib gnutls"
+-PR = "r1"
++PR = "r2"
  
--WITH_XZ = "--without-xz"
-+WITH_XZ = "--with-xz=none"
  
- WITH_Z = "--with-zlib $WITH_BZIP2 $WITH_XZ"
+ #COPYING or Licence
+@@ -20,6 +20,8 @@ SRC_URI[sha256sum] = "f19f3fcc67da448420b3adbd5add09f8fe110664dd64f3c2cd693ef0cb
  
+ inherit gettext autotools update-alternatives
+ 
++EXTRA_OECONF += "--without-gnome-keyring"
++
+ ALTERNATIVE_NAME = "sendmail"
+ ALTERNATIVE_PATH = "${bindir}/msmtp"
+ ALTERNATIVE_LINK = "${sbindir}/sendmail"
 -- 
 1.7.3.4
 
