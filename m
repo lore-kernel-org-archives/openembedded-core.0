@@ -1,27 +1,25 @@
-Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1Qa2Rm-0001WE-20
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1Qa3CD-0005aO-Oa
 	for openembedded-core@lists.openembedded.org;
-	Fri, 24 Jun 2011 11:13:06 +0200
-Received: (qmail 1171 invoked by uid 1003); 24 Jun 2011 09:09:24 -0000
-Received: from unknown (HELO ?10.128.152.16?)
-	(philip@opensdr.com@217.64.247.158)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	24 Jun 2011 09:09:24 -0000
-Message-ID: <4E045441.1030900@balister.org>
-Date: Fri, 24 Jun 2011 11:09:21 +0200
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc14 Thunderbird/3.1.10
+	Fri, 24 Jun 2011 12:01:06 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5O9vQaD015328
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jun 2011 02:57:26 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Fri, 24 Jun 2011 02:57:26 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Jun 2011 17:53:11 +0800
+Message-ID: <629e95cdaa0288b65a87f857f2291ca862bf0a0a.1308902512.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1308902512.git.wenzong.fan@windriver.com>
+References: <cover.1308902512.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-To: openembedded-members@lists.openembedded.org
-References: <20110624035311.GA22825@denix.org>
-	<m3k4cbof23.fsf@x201s.gr8dns.org>
-In-Reply-To: <m3k4cbof23.fsf@x201s.gr8dns.org>
-Cc: openembedded-core@lists.openembedded.org,
-	Dirk Hohndel <hohndel@infradead.org>,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: Minutes: OpenEmbedded eV Board meeting, 20-Jun-2011
+Subject: [PATCH v2 1/4] ccache: Integrate ccache-native to poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,47 +34,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2011 09:13:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Jun 2011 10:01:06 -0000
+Content-Type: text/plain
 
-On 06/24/2011 09:37 AM, Dirk Hohndel wrote:
-> On Thu, 23 Jun 2011 23:53:11 -0400, Denys Dmytriyenko<denis@denix.org>  wrote:
->> Minutes: OpenEmbedded eV Board meeting, 20-Jun-2011
->>
->> Agenda:
->> 06) call for donation
->> * OE needs an income stream - another call for donations in the mailing lists
->> * denix to check if TI can make another donation
->>    ** may be difficult, as TI and other companies are LF/Yocto members and pay
->> dues
->>    ** thus, latest LF donations to OE as a "feedback" channel make sense
->
-> We (or more likely, the Board) should establish clearly how this OE
-> income stream should work.
->
-> Do we (the OE members) WANT to have the LF provide a well defined
-> reasonable income stream to OE? Then RP or I can trigger that
-> conversation with Jim Zemlin, Exec Director of the LF.
->
-> Or do we PREFER to solicit independent donations to avoid the perception
-> of being dependent on LF? In that case please talk to DaveS or me about
-> an Intel donation to OE.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-This is a very good question.
+Add ccache as a native tool and put its recipe files to:
+'meta/recipes-devtools/ccache'.
 
-I would like to see the eV have a steady income from a diverse group of 
-people. At the same time, any income is helpful.
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ meta/recipes-devtools/ccache/ccache.inc      |   16 ++++++++++++++++
+ meta/recipes-devtools/ccache/ccache_3.1.5.bb |    8 ++++++++
+ 2 files changed, 24 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/ccache/ccache.inc
+ create mode 100644 meta/recipes-devtools/ccache/ccache_3.1.5.bb
 
-A reliable income stream allows the board to make long term plans. We 
-need to provide the nas-admin group at OSUOSL with better financial 
-support to cover our infrastructure needs as the project grows.
+diff --git a/meta/recipes-devtools/ccache/ccache.inc b/meta/recipes-devtools/ccache/ccache.inc
+new file mode 100644
+index 0000000..e9f7344
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/ccache.inc
+@@ -0,0 +1,16 @@
++SUMMARY = "a fast C/C++ compiler cache"
++DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
++by caching the result of previous compilations and detecting when the \
++same compilation is being done again. Supported languages are C, C\+\+, \
++Objective-C and Objective-C++."
++HOMEPAGE = "http://ccache.samba.org"
++SECTION = "devel"
++LICENSE = "GPLv3+"
++
++SRC_URI = "http://samba.org/ftp/ccache/ccache-${PV}.tar.gz"
++
++inherit autotools
++
++BBCLASSEXTEND = "native"
++
++TARGET_CC_ARCH += "${LDFLAGS}"
+diff --git a/meta/recipes-devtools/ccache/ccache_3.1.5.bb b/meta/recipes-devtools/ccache/ccache_3.1.5.bb
+new file mode 100644
+index 0000000..9a967b2
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/ccache_3.1.5.bb
+@@ -0,0 +1,8 @@
++require ccache.inc
++
++PR = "r0"
++LICENSE = "GPLv3+"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=80e92ec45d4fca91f127864fb9e5d932"
++
++SRC_URI[md5sum] = "b1a9684828eae68382d6afc98ce80d24"
++SRC_URI[sha256sum] = "54afc35c672ce451e04a478cfc0eb74c1ba184e27ef24881206602aa0eb94d63"
+-- 
+1.7.0.4
 
-Basically, we have two sources of income, corporate sponsorship and 
-individual donations. As a board member, I would like to hear from the 
-membership what people think, both about how we should spend money and 
-how we should raise money.
-
-Philip
 
 
