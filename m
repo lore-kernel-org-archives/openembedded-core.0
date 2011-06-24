@@ -1,32 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qa708-0007oL-GL for openembedded-core@lists.openembedded.org;
-	Fri, 24 Jun 2011 16:04:52 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5OE1Fnb031370
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1Qa7Ai-0007xh-4Z
+	for openembedded-core@lists.openembedded.org;
+	Fri, 24 Jun 2011 16:15:48 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5OECAHo023999
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2011 15:01:15 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30880-08 for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2011 15:01:11 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5OE14nA031364
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2011 15:01:07 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <B4FCA010-6920-4DD6-B471-4B2D9E38DFD7@dominion.thruhere.net>
+	Fri, 24 Jun 2011 07:12:10 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 24 Jun 2011 07:12:09 -0700
+Message-ID: <4E049B38.5000506@windriver.com>
+Date: Fri, 24 Jun 2011 09:12:08 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
 References: <B4FCA010-6920-4DD6-B471-4B2D9E38DFD7@dominion.thruhere.net>
-Date: Fri, 24 Jun 2011 15:01:00 +0100
-Message-ID: <1308924060.20015.173.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
+In-Reply-To: <B4FCA010-6920-4DD6-B471-4B2D9E38DFD7@dominion.thruhere.net>
 Subject: Re: Tune files and knobs to turn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,14 +36,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jun 2011 14:04:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 24 Jun 2011 14:15:48 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-06-24 at 13:54 +0200, Koen Kooi wrote:
-> We discussed tune files a bit during last nights TSC meeting and Khem
-> had expressed the need before, so I'd like to get this discussion
-> started by using armv7a as an example.
+A few, what I suspect are corrections.  (I'm going to be a bit pedantic here.)
+
+On 6/24/11 6:54 AM, Koen Kooi wrote:
+> Hi,
+> 
+> We discussed tune files a bit during last nights TSC meeting and Khem had expressed the need before, so I'd like to get this discussion started by using armv7a as an example.
 > 
 > For armv7a capable cores we have the following hardware features:
 > 
@@ -64,7 +60,17 @@ On Fri, 2011-06-24 at 13:54 +0200, Koen Kooi wrote:
 > * softtp without hw support (e.g. no VFP instructions emitted, slow)
 > * softfp with hw support (e.g. VFP and/or NEON instructions emitted, fast)
 > * hardfp, emits VFP and/or NEON instructions, slightly faster than softfp/hw, incompatible with everything else
-> 
+
+Actually on ARM there are three ABIs possible but those are not it.
+
+OABI - softfp
+OABI - hardfp
+EABI
+
+As far as I know nobody uses OABI anymore, and I doubt we should support it.
+
+The above are really instructions used within the ABI.
+
 > And the extra knobs:
 > 
 > * pure thumb1, no arm instructions (limited use)
@@ -78,66 +84,153 @@ On Fri, 2011-06-24 at 13:54 +0200, Koen Kooi wrote:
 > ARM_FP_ABI: switches between softfp and hardfp, will create 'armv7a' or 'armv7a-hardfp' as package arch
 > ARM_INSTRUCTION_SET: switches between arm and thumb1, no reflection in package arch
 > THUMB_INTERWORK: turns on interworking, no reflection in package arch
+> 
+> (side note, oe-core/distroless and meta-yocto/poky don't turn set TARGET_FPU for armv7a and will generate slow code, angstrom does turn it on)
+> 
+> Khem and I would like to start building armv7a (and armv6) in pure thumb2 mode but we want to have the variables to turn those knobs make sense and be consistent. RP has expressed his desire to sort this all out before merging multilib. I'm sure x86/mips/ppc/etc have a similar need, so let's get this discussion started.
 
-I suspect having a variable per tune feature is going to be a recipe for
-disaster. Selecting the tune options is something a machine is likely
-going to want a good default of but some distros are going to want to
-take control over in some cases too.
+Below is a quick step to capture what all I know of for various architectures,
+inluding ARM.  Note the "tunings" are where I'm a bit sketchy on some
+architectures.  (I think below also point out why I think this needs to be
+hierarchical..  so it's really easy to inherit common stuff, and override only
+the pieces you need to..  specifically the tunings.)
 
-Given the n^2 problem we have with scale it starts to look like we'd
-need something like TUNE_FEATURES which I don't feel brilliant about but
-it likely could work well.
+Arch Family: ARM
 
-I'd also like to look at this from the other direction. What information
-do we need from the tune config? Its one thing to set the controls but
-we also need to consider what uses the end result and how. Currently the
-tune files should really be responsible for:
+ABI:
+- EABI little endian
+- EABI big endian
+  - canonical os=linux-eabi
+  - library directory is "lib"
 
-TARGET_ARCH
-TARGET_FPU
-TARGET_CC_ARCH
-PACKAGE_ARCH
-BASE_PACKAGE_ARCH
-PACKAGE_EXTRA_ARCHS
-FEED_ARCH
+CPU/ISA:
+- all use EABI
+  - traditional arm instructions
+  - thumb1, no arm instructions
+  - thumb1/arm, interworking
+  - thumb2, no arm instructions
+  - thumb2, interworking (note, our customers do use this.. I'm not sure how
+much though)
 
-of which there is some duplication of data. Also, the distro config
-typically sets some of this. What we really need is the following:
+Tunings:
+- armv4 (both big & little endian)
+- armv5 (both big & little endian)
+- armv5 + vfp
+- armv6 + vfp
+- armv7a + vfp + neon (supports thumb) (little endian)
+- armv7a + be8 (supports thumb) (big endian)
 
-* Overall compiler architecture
-* Extra libc config data (softfloat?)
-* Compiler optimisation flags
-* Name of the package "architecture" to use for the config
-* List of compatible package "architectures"
+---
 
-These map to:
+Arch Family: IA32
 
-* TARGET_ARCH
-* TARGET_FPU
-* TARGET_CC_ARCH
-* BASE_PACKAGE_ARCH
-* PACKAGE_EXTRA_ARCHS
+ABI:
+- x86_32
+  - There is a soft-fp variant but it's not really used anymore
+  - hardfp
+  - defined as an LSB standard
+  - library directory is "lib"
+- x86_64
+  - hardfp only
+  - defined as an LSB standard
+  - library directory is "lib64"
+- (x32)
+  - new experimental ABI
+  - library directory is "libx32"
 
-but we do have issues of these names needing to be overridden so putting
-then in some TUNE* namespace variables initially would help clean up the
-core significantly.
+CPU/ISA:
+- x86_32
+  - all use x86_32
+  - i586 -> core2 -> corei7
+- x86_64
+  - only 64-bit chips supported
+- x32
+  - only 64-bit chips supported
 
-Adding multlilib into the mix doesn't actually make the problem that
-much more complex if we followed the simple rule of making the tune
-config name an override. This would make the tune files follow the form:
+Tunings:
+- i586, i686, core2, etc..
+- MMX, MMX2, AVX, etc..
 
-TARGET_CC_ARCH_tune-armv7a = "xxx"
-BASE_PACKAGE_ARCH_tune-armv7a = "xxx"
+---
 
-and then we'd add tune-xxx to OVERRIDES to select a given tuning for a
-given multlilib.
+Arch Family: MIPS
 
-I'm continuing to give this some thought but those are the ideas off the
-top of my head...
+ABI:
+- MIPS o32 - soft float - big endian
+- MIPS o32 - hard float - big endian
+- MIPS o32 - soft float - little endian
+- MIPS o32 - hard float - little endian
+  - old 32-bit mips library
+  - library path is "lib"
 
-Cheers,
+- MIPS n32 - soft float - big endian
+- MIPS n32 - hard float - big endian
+- MIPS n32 - soft float - little endian
+- MIPS n32 - hard float - little endian
+  - new 32-bit MIPS64 library
+  - library path is "lib32"
 
-Richard
+- MIPS n64 - soft float - big endian
+- MIPS n64 - hard float - big endian
+- MIPS n64 - soft float - little endian
+- MIPS n64 - hard float - big endian
+  - new 64-bit MIPS64 library
+  - library path is "lib64"
 
+CPU/ISA:
+- MIPS32
+  - Various
+- MIPS64
+  - Various
+
+Tunings:
+- MIPS32
+  - Various
+- MIPS64
+  - Various
+
+---
+
+Arch Family: Power
+
+ABI:
+- ppc32 - hard float
+   - ABI defined by LSB
+   - library path is "lib"
+- ppc32 - soft float
+- ppc32 - e500v1 (soft-float variant -- likely not needed)
+- ppc32 - e500v2 (soft-float variant)
+  - library path is "lib"
+- ppc64 - hard float
+  - library path is "lib64"
+  - ABI defined by LSB
+
+CPU/ISA:
+- ppc32 - hard float
+  - ppc603e
+- ppc32 - soft float
+  - ppc603ec
+- ppc32 - e500v1 (soft-float variant)
+  - -mfloat-gprs=single -mspe=yes -mabi=spe
+- ppc32 - e500v2 (soft-float variant)
+  - -mfloat-gprs=double -mspe=yes -mabi=spe
+- ppc64 - hard float
+  - PowerPC 970
+
+Tunings:
+- ppc603e
+- ppc750
+- ppc7400
+- e300c2
+- ppc405
+ - ppc405fp for hard float
+- ppc440
+ - ppc440fp for hard float
+- ppc476
+ - ppc476fp
+- e500mc
+- 8540
+- 8548
+- -maltivec or -mno-altivec
 
 
