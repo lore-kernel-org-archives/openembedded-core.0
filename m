@@ -1,25 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1Qa3CD-0005aO-Oa
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1Qa3CD-0005aP-Or
 	for openembedded-core@lists.openembedded.org;
 	Fri, 24 Jun 2011 12:01:06 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5O9vQaD015328
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5O9vSov015331
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2011 02:57:26 -0700 (PDT)
+	Fri, 24 Jun 2011 02:57:28 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.28) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 24 Jun 2011 02:57:26 -0700
+	14.1.255.0; Fri, 24 Jun 2011 02:57:27 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Jun 2011 17:53:11 +0800
-Message-ID: <629e95cdaa0288b65a87f857f2291ca862bf0a0a.1308902512.git.wenzong.fan@windriver.com>
+Date: Fri, 24 Jun 2011 17:53:12 +0800
+Message-ID: <874e7a3e34884c2de217a71726e40d0082e5626b.1308902512.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1308902512.git.wenzong.fan@windriver.com>
 References: <cover.1308902512.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/4] ccache: Integrate ccache-native to poky
+Subject: [PATCH v2 2/4] ccache: Set CCACHE on a per recipe basis
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,53 +39,39 @@ Content-Type: text/plain
 
 From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Add ccache as a native tool and put its recipe files to:
-'meta/recipes-devtools/ccache'.
+Set 'CCACHE_DIR' in 'bitbake.conf' and create the dirs for every
+package before task 'do_configure' started.
 
 Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/recipes-devtools/ccache/ccache.inc      |   16 ++++++++++++++++
- meta/recipes-devtools/ccache/ccache_3.1.5.bb |    8 ++++++++
- 2 files changed, 24 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/ccache/ccache.inc
- create mode 100644 meta/recipes-devtools/ccache/ccache_3.1.5.bb
+ meta/classes/base.bbclass |    1 +
+ meta/conf/bitbake.conf    |    1 +
+ 2 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-devtools/ccache/ccache.inc b/meta/recipes-devtools/ccache/ccache.inc
-new file mode 100644
-index 0000000..e9f7344
---- /dev/null
-+++ b/meta/recipes-devtools/ccache/ccache.inc
-@@ -0,0 +1,16 @@
-+SUMMARY = "a fast C/C++ compiler cache"
-+DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
-+by caching the result of previous compilations and detecting when the \
-+same compilation is being done again. Supported languages are C, C\+\+, \
-+Objective-C and Objective-C++."
-+HOMEPAGE = "http://ccache.samba.org"
-+SECTION = "devel"
-+LICENSE = "GPLv3+"
-+
-+SRC_URI = "http://samba.org/ftp/ccache/ccache-${PV}.tar.gz"
-+
-+inherit autotools
-+
-+BBCLASSEXTEND = "native"
-+
-+TARGET_CC_ARCH += "${LDFLAGS}"
-diff --git a/meta/recipes-devtools/ccache/ccache_3.1.5.bb b/meta/recipes-devtools/ccache/ccache_3.1.5.bb
-new file mode 100644
-index 0000000..9a967b2
---- /dev/null
-+++ b/meta/recipes-devtools/ccache/ccache_3.1.5.bb
-@@ -0,0 +1,8 @@
-+require ccache.inc
-+
-+PR = "r0"
-+LICENSE = "GPLv3+"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=80e92ec45d4fca91f127864fb9e5d932"
-+
-+SRC_URI[md5sum] = "b1a9684828eae68382d6afc98ce80d24"
-+SRC_URI[sha256sum] = "54afc35c672ce451e04a478cfc0eb74c1ba184e27ef24881206602aa0eb94d63"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 119b052..40fbb47 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -195,6 +195,7 @@ python base_eventhandler() {
+ 
+ addtask configure after do_unpack do_patch
+ do_configure[dirs] = "${S} ${B}"
++do_configure[dirs] =+ "${CCACHE_DIR} "
+ do_configure[deptask] = "do_populate_sysroot"
+ base_do_configure() {
+ 	:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6d8a674..d963d2e 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -391,6 +391,7 @@ export PATH
+ CCACHE = "${@bb.which(bb.data.getVar('PATH', d, 1), 'ccache') and 'ccache '}"
+ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
+ 
++export CCACHE_DIR = "${TMPDIR}/ccache/${HOST_SYS}/${PN}"
+ export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+ export CXX = "${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+ export F77 = "${CCACHE}${HOST_PREFIX}g77 ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
 -- 
 1.7.0.4
 
