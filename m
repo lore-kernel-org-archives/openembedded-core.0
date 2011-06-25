@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QaK1q-00037A-0t
+	(envelope-from <edwin.zhai@intel.com>) id 1QaK1q-00037A-NM
 	for openembedded-core@lists.openembedded.org;
 	Sat, 25 Jun 2011 05:59:30 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 Jun 2011 20:55:51 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 Jun 2011 20:55:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,422,1304319600"; d="scan'208";a="19582156"
+X-IronPort-AV: E=Sophos;i="4.65,422,1304319600"; d="scan'208";a="19582163"
 Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga001.jf.intel.com with ESMTP; 24 Jun 2011 20:55:50 -0700
+	by orsmga001.jf.intel.com with ESMTP; 24 Jun 2011 20:55:51 -0700
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 Jun 2011 11:54:19 +0800
-Message-Id: <a9318aee537a684644da1b6c3349e1f339bdf269.1308973924.git.edwin.zhai@intel.com>
+Date: Sat, 25 Jun 2011 11:54:20 +0800
+Message-Id: <a842646a9bf209576be3789e1c56cdfad47ae411.1308973924.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1308973924.git.edwin.zhai@intel.com>
 References: <cover.1308973924.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1308973924.git.edwin.zhai@intel.com>
 References: <cover.1308973924.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/2] glib-networking: Add 2.28.7 as new recipe
+Subject: [PATCH 2/2] webkit-gtk: recommends glib-networking to access https web page
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,44 +37,27 @@ X-List-Received-Date: Sat, 25 Jun 2011 03:59:30 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-glib-networking contains the implementations of certain GLib networking
-features that cannot be implemented directly in GLib itself because of their
-dependencies. TLS/SSL support is one of them, which is needed for accessing SSL
-web page.
+[YOCTO #1037] got fixed
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- meta/recipes-sato/web/glib-networking_2.28.7.bb |   21 +++++++++++++++++++++
- 1 files changed, 21 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-sato/web/glib-networking_2.28.7.bb
+ meta/recipes-sato/webkit/webkit-gtk_svn.bb |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-sato/web/glib-networking_2.28.7.bb b/meta/recipes-sato/web/glib-networking_2.28.7.bb
-new file mode 100644
-index 0000000..15026ae
---- /dev/null
-+++ b/meta/recipes-sato/web/glib-networking_2.28.7.bb
-@@ -0,0 +1,21 @@
-+DESCRIPTION = "glib-networking contains the implementations of certain GLib networking features that cannot be implemented directly in GLib itself because of their dependencies."
-+HOMEPAGE = "http://git.gnome.org/browse/glib-networking/"
-+BUGTRACKER = "http://bugzilla.gnome.org"
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+index 6d134ad..c9ded4e 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+@@ -10,6 +10,9 @@ LIC_FILES_CHKSUM = "file://WebCore/rendering/RenderApplet.h;endline=22;md5=fb969
+ DEPENDS = "enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime sqlite3"
+ DEPENDS_darwin8 = "curl icu libxml2 cairo libxslt libidn gnutls gtk+ gstreamer flex-native gperf-native perl-native-runtime sqlite3"
+ 
++# To access ssl web pages
++RRECOMMENDS_${PN} += "glib-networking"
 +
-+LICENSE = "LGPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
-+
-+SECTION = "libs"
-+DEPENDS = "glib-2.0 gnutls"
-+
-+PR = "r0"
-+
-+SRC_URI = "${GNOME_MIRROR}/glib-networking/2.28/glib-networking-${PV}.tar.bz2"
-+
-+SRC_URI[archive.md5sum] = "c10e51571d03c10111a37bcd21fbf777"
-+SRC_URI[archive.sha256sum] = "98bedfbd530c4b1b53c91025fe82290bafd289d249e4eb549c3b90d23a76021c"
-+
-+inherit autotools pkgconfig
-+
-+FILES_${PN} += "${libdir}/gio/modules/libgio* ${datadir}/dbus-1/services/"
-+FILES_${PN}-dbg += "${libdir}/gio/modules/.debug/"
+ SRCREV_FORMAT = "webcore-rwebkit"
+ 
+ SRCREV = "72836"
 -- 
 1.7.1
 
