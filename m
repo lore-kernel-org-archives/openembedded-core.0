@@ -1,28 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QaKer-0007ZH-SH
+	(envelope-from <koen@dominion.thruhere.net>) id 1QaPAF-0003Ti-Qh
 	for openembedded-core@lists.openembedded.org;
-	Sat, 25 Jun 2011 06:39:50 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5P4aAEd011695
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 25 Jun 2011 11:28:31 +0200
+Received: by wyg30 with SMTP id 30so354922wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jun 2011 21:36:11 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 24 Jun 2011 21:36:10 -0700
-Message-ID: <4E0565B9.301@windriver.com>
-Date: Fri, 24 Jun 2011 23:36:09 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1308944503.git.mark.hatle@windriver.com>	<4f64811b18665d26645a376fda0828dad0b07c7c.1308944503.git.mark.hatle@windriver.com>
-	<20110624205136.GB7676@sakrah.homelinux.org>
-In-Reply-To: <20110624205136.GB7676@sakrah.homelinux.org>
-Subject: Re: [PATCH 1/1] prelink: Uprev prelink to latest version (V2)
+	Sat, 25 Jun 2011 02:24:54 -0700 (PDT)
+Received: by 10.216.238.80 with SMTP id z58mr471979weq.106.1308993891380;
+	Sat, 25 Jun 2011 02:24:51 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id h43sm1774783wes.11.2011.06.25.02.24.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 25 Jun 2011 02:24:50 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 25 Jun 2011 11:24:44 +0200
+Message-Id: <1308993885-14753-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/2] consolekit 0.4.5: add pam support based on distro features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,64 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jun 2011 04:39:50 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 25 Jun 2011 09:28:31 -0000
 
-On 6/24/11 3:51 PM, Khem Raj wrote:
-> On (24/06/11 14:42), Mark Hatle wrote:
->> The latest cross-prelink version tracks the prelink r190 SVN.
->>
->> Fix two minor issues as well.  If we remove the package, we would
->> unprelink the filesystem after the rm was finished.  This is
->> incorrect.. we need to do this prerm.
->>
->> Move the cron and cron configuration file to a new package split.
->> This item is not valid for most embedded users.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->> ---
->>  .../prelink/prelink/prelink.default                |    2 +-
->>  meta/recipes-devtools/prelink/prelink_git.bb       |   25 +++++++++++++++++--
->>  2 files changed, 23 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/prelink/prelink/prelink.default b/meta/recipes-devtools/prelink/prelink/prelink.default
->> index 901258e..d8802f8 100644
->> --- a/meta/recipes-devtools/prelink/prelink/prelink.default
->> +++ b/meta/recipes-devtools/prelink/prelink/prelink.default
->> @@ -2,7 +2,7 @@
->>  # or to yes to enable it.
->>  # (if you change this from yes to no prelink -ua
->>  # will be run next night to undo prelinking)
->> -PRELINKING=unknown
->> +PRELINKING=yes
->>  
-> 
-> this is a functionality change. Will it have system wide effects ?
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ .../recipes-support/consolekit/consolekit_0.4.5.bb |   13 ++++++++++---
+ 1 files changed, 10 insertions(+), 3 deletions(-)
 
-If the user previously had the prelinker installed onto the target, and had the
-cron system installed to run the daily scripts, and never bothered to configure
-prelink before..  whenever the script ran it would undo any prelinking that had
-occurred.
-
-After the change, it's now optional to install the cron scripts.  If they are
-installed, they default to -on- which means that if cron runs the script it will
-attempt to update the prelinking on the system.
-
-This does not affect the build-time prelinking in any way.  For many systems
-there is no reason to have the prelinker on the target, it's only needed for
-field upgrades.
-
-So, I consider this an enhancement (splitting the script out to make it
-optional), and a bug-fix -- enabling re-prelink functionality if the script is
-installed -- vs the previous "un-prelink" being the default.
-
---Mark
-
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+index f3b1ef8..2b85455 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+@@ -2,11 +2,13 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
+ HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
+ BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
+ 
++PR = "r2"
++
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://src/main.c;endline=21;md5=0a994e09769780220163255d8f9071c3"
+ 
+-DEPENDS = "dbus"
++DEPENDS = "dbus ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+ inherit gnome
+ 
+@@ -18,8 +20,13 @@ SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b22368
+ 
+ S = "${WORKDIR}/ConsoleKit-${PV}"
+ 
+-EXTRA_OECONF = "--with-systemdsystemunitdir=${base_libdir}/systemd/system/"
++EXTRA_OECONF = "--with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
++                ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${libdir}/security', '--disable-pam-module', d)} \
++               "
+ 
+-FILES_${PN} += "${libdir}/ConsoleKit ${base_libdir} ${datadir}/dbus-1 ${datadir}/PolicyKit"
++FILES_${PN} += "${libdir}/ConsoleKit ${base_libdir} ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
+ 
++PACKAGES =+ "pam-plugin-ck-connector"
++FILES_pam-plugin-ck-connector += "${libdir}/security/*.so"
++RDEPENDS_pam-plugin-ck-connector += "${PN}"
+ 
+-- 
+1.6.6.1
 
 
 
