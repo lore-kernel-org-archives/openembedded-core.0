@@ -1,24 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QaK1q-00037A-NM
+	(envelope-from <mark.hatle@windriver.com>) id 1QaKer-0007ZH-SH
 	for openembedded-core@lists.openembedded.org;
-	Sat, 25 Jun 2011 05:59:30 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 Jun 2011 20:55:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,422,1304319600"; d="scan'208";a="19582163"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga001.jf.intel.com with ESMTP; 24 Jun 2011 20:55:51 -0700
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 Jun 2011 11:54:20 +0800
-Message-Id: <a842646a9bf209576be3789e1c56cdfad47ae411.1308973924.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1308973924.git.edwin.zhai@intel.com>
-References: <cover.1308973924.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1308973924.git.edwin.zhai@intel.com>
-References: <cover.1308973924.git.edwin.zhai@intel.com>
-Subject: [PATCH 2/2] webkit-gtk: recommends glib-networking to access https web page
+	Sat, 25 Jun 2011 06:39:50 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5P4aAEd011695
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jun 2011 21:36:11 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 24 Jun 2011 21:36:10 -0700
+Message-ID: <4E0565B9.301@windriver.com>
+Date: Fri, 24 Jun 2011 23:36:09 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1308944503.git.mark.hatle@windriver.com>	<4f64811b18665d26645a376fda0828dad0b07c7c.1308944503.git.mark.hatle@windriver.com>
+	<20110624205136.GB7676@sakrah.homelinux.org>
+In-Reply-To: <20110624205136.GB7676@sakrah.homelinux.org>
+Subject: Re: [PATCH 1/1] prelink: Uprev prelink to latest version (V2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +37,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jun 2011 03:59:30 -0000
+X-List-Received-Date: Sat, 25 Jun 2011 04:39:50 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+On 6/24/11 3:51 PM, Khem Raj wrote:
+> On (24/06/11 14:42), Mark Hatle wrote:
+>> The latest cross-prelink version tracks the prelink r190 SVN.
+>>
+>> Fix two minor issues as well.  If we remove the package, we would
+>> unprelink the filesystem after the rm was finished.  This is
+>> incorrect.. we need to do this prerm.
+>>
+>> Move the cron and cron configuration file to a new package split.
+>> This item is not valid for most embedded users.
+>>
+>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>> ---
+>>  .../prelink/prelink/prelink.default                |    2 +-
+>>  meta/recipes-devtools/prelink/prelink_git.bb       |   25 +++++++++++++++++--
+>>  2 files changed, 23 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/prelink/prelink/prelink.default b/meta/recipes-devtools/prelink/prelink/prelink.default
+>> index 901258e..d8802f8 100644
+>> --- a/meta/recipes-devtools/prelink/prelink/prelink.default
+>> +++ b/meta/recipes-devtools/prelink/prelink/prelink.default
+>> @@ -2,7 +2,7 @@
+>>  # or to yes to enable it.
+>>  # (if you change this from yes to no prelink -ua
+>>  # will be run next night to undo prelinking)
+>> -PRELINKING=unknown
+>> +PRELINKING=yes
+>>  
+> 
+> this is a functionality change. Will it have system wide effects ?
 
-[YOCTO #1037] got fixed
+If the user previously had the prelinker installed onto the target, and had the
+cron system installed to run the daily scripts, and never bothered to configure
+prelink before..  whenever the script ran it would undo any prelinking that had
+occurred.
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- meta/recipes-sato/webkit/webkit-gtk_svn.bb |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+After the change, it's now optional to install the cron scripts.  If they are
+installed, they default to -on- which means that if cron runs the script it will
+attempt to update the prelinking on the system.
 
-diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-index 6d134ad..c9ded4e 100644
---- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-+++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-@@ -10,6 +10,9 @@ LIC_FILES_CHKSUM = "file://WebCore/rendering/RenderApplet.h;endline=22;md5=fb969
- DEPENDS = "enchant gnome-keyring libsoup-2.4 curl icu libxml2 cairo libxslt libxt libidn gnutls gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime sqlite3"
- DEPENDS_darwin8 = "curl icu libxml2 cairo libxslt libidn gnutls gtk+ gstreamer flex-native gperf-native perl-native-runtime sqlite3"
- 
-+# To access ssl web pages
-+RRECOMMENDS_${PN} += "glib-networking"
-+
- SRCREV_FORMAT = "webcore-rwebkit"
- 
- SRCREV = "72836"
--- 
-1.7.1
+This does not affect the build-time prelinking in any way.  For many systems
+there is no reason to have the prelinker on the target, it's only needed for
+field upgrades.
+
+So, I consider this an enhancement (splitting the script out to make it
+optional), and a bug-fix -- enabling re-prelink functionality if the script is
+installed -- vs the previous "un-prelink" being the default.
+
+--Mark
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
