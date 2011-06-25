@@ -1,24 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QaYZV-0006Xr-HP
+	(envelope-from <koen@dominion.thruhere.net>) id 1QaZgP-0007b3-2B
 	for openembedded-core@lists.openembedded.org;
-	Sat, 25 Jun 2011 21:31:13 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Jun 2011 12:27:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,425,1304319600"; d="scan'208";a="20614311"
-Received: from unknown (HELO [10.255.13.191]) ([10.255.13.191])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Jun 2011 12:27:33 -0700
-Message-ID: <4E0636A5.7000707@linux.intel.com>
-Date: Sat, 25 Jun 2011 12:27:33 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1308723458.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1308723458.git.xiaofeng.yan@windriver.com>
-Subject: Re: [PATCH 0/1] meta-qt3: Resolve the compilation error when	building an lsb image for qemuarm
+	Sat, 25 Jun 2011 22:42:25 +0200
+Received: by wwg12 with SMTP id 12so3119742wwg.24
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 25 Jun 2011 13:38:46 -0700 (PDT)
+Received: by 10.227.174.75 with SMTP id s11mr4213308wbz.34.1309034326751;
+	Sat, 25 Jun 2011 13:38:46 -0700 (PDT)
+Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id
+	ge4sm2930616wbb.47.2011.06.25.13.38.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 25 Jun 2011 13:38:46 -0700 (PDT)
+Message-Id: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v936)
+Date: Sat, 25 Jun 2011 22:38:34 +0200
+X-Mailer: Apple Mail (2.936)
+Subject: gcc-cross-kernel problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,43 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jun 2011 19:31:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sat, 25 Jun 2011 20:42:25 -0000
+Content-Type: text/plain; charset=US-ASCII; format=flowed; delsp=yes
 Content-Transfer-Encoding: 7bit
 
-On 06/23/2011 12:47 AM, Xiaofeng Yan wrote:
-> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->
-> A compilation error arose when compiling qt3 for qemuarm. I fix this problem. Please check patch for
-> detailed information.
->
-> Pull URL: git://git.pokylinux.org/meta-qt3.git
->    Branch: xiaofeng/meta-qt3
->    Browse: http://git.pokylinux.org/cgit.cgi/meta-qt3/log/?h=xiaofeng/meta-qt3
->
-> Thanks,
->      Xiaofeng Yan<xiaofeng.yan@windriver.com>
-> ---
->
->
-> Xiaofeng Yan (1):
->    meta-qt3: Resolve the compilation error when building an lsb image
->      for qemuarm
->
->   recipes-qt3/qt3/qt-x11-free-native_3.3.5.bb |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Hi,
 
-Merged into the meta-qt3 Master
+I was spending some spare cycles on https://github.com/koenkooi/meta-archos 
+  and wanted to build the 2.6.22 vendor kernel first before trying to  
+the 3.0rc working and I need to use csl 2007q3 as gcc-cross-kernel due  
+to bugs in the kernel.
 
-Thanks
+I imported the 2008q1 recipes from OE-core, then changed the SRC_URI  
+to have the patches from the 2007q3 recipe in OE classic. It uses  
+the .inc files from OE-core. It builds and gives me:
 
-	Sau!
+koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/ 
+armv7a-angstrom-linux-gnueabi/gcc-cross-kernel-4.2.1-4.2.1+csl- 
+arm-2007q3-53-r0/image$ find . | grep bin
+./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/ 
+usr/bin
+./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/ 
+usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1
+./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/ 
+usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1/arm- 
+angstrom-linux-gnueabi-gcov
+./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/ 
+usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1/arm- 
+angstrom-linux-gnueabi-gccbug
+./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/ 
+usr/bin/arm-angstrom-linux-gnueabi-gcc-4.2.1+csl-arm-2007q3-53
+
+But when I do 'MACHINE=archos5 bitbake virtual/kernel -c compile' I get:
+
+| + make -j4 zImage 'CC=ccache arm-angstrom-linux-gnueabi- 
+gcc-4.2.1+csl-arm-2007q3-53  -mno-thumb-interwork -mno-thumb -- 
+sysroot=/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/ 
+archos5' 'LD=arm-angstrom-linux-gnueabi-ld --sysroot=/OE/tentacle/ 
+build/tmp-angstrom_2010_x-eglibc/sysroots/archos5  --sysroot=/OE/ 
+tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/archos5'
+| arm-angstrom-linux-gnueabi-gcc-4.2.1+csl-arm-2007q3-53: No such file  
+or directory
+
+And I can't find arm-angstrom-linux-gnueabi-gcc-4.2.1+csl- 
+arm-2007q3-53 in sysroots.  When looking at WORKDIR for the gcc:
+
+koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/ 
+armv7a-angstrom-linux-gnueabi/gcc-cross-kernel-4.2.1-4.2.1+csl- 
+arm-2007q3-53-r0$ find sysroot-destdir/ | grep bin
+sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/ 
+x86_64-linux/usr/bin
+sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/ 
+x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross- 
+kernel-4.2.1
+sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/ 
+x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross- 
+kernel-4.2.1/arm-angstrom-linux-gnueabi-gcov
+sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/ 
+x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross- 
+kernel-4.2.1/arm-angstrom-linux-gnueabi-gccbug
+
+So that's missing the arm-angstrom-linux-gnueabi-gcc-4.2.1+csl- 
+arm-2007q3-53 that's actually needed. Does anyone (RP?) know if gcc- 
+cross-kernel.inc has been kept upto date with all the toolchain changes?
+
+regards,
+
+Koen
 
 
