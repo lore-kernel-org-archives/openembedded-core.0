@@ -1,26 +1,41 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qaf1Y-0007sI-6S
+	(envelope-from <raj.khem@gmail.com>) id 1QafAt-00080f-3f
 	for openembedded-core@lists.openembedded.org;
-	Sun, 26 Jun 2011 04:24:36 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Jun 2011 19:20:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,427,1304319600"; d="scan'208";a="22949568"
-Received: from unknown (HELO [10.255.13.191]) ([10.255.13.191])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Jun 2011 19:20:56 -0700
-Message-ID: <4E069788.5020204@linux.intel.com>
-Date: Sat, 25 Jun 2011 19:20:56 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Sun, 26 Jun 2011 04:34:15 +0200
+Received: by pvf24 with SMTP id 24so2477686pvf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 25 Jun 2011 19:30:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=lIPOMwqk/9ZbSBvKYvEIF1LgIVr5yjMwWmWqroxC6oA=;
+	b=wDsvJMvN1IrTnd/MQSMhnM1yOXYUPUsOQ4/3vW8TnqSClzTOuY1gXam2pIfkehFgmo
+	tYMgVJvA1Me8Wjx/tAwlRRFTFwXSS8at9UIT/qfjtvDFjCAIqdpMOQdE4Jm9wfHmsGln
+	SrVDXF/cmU9TIGdgeD8MjaDK4L/b0pufsRook=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	b=C8QjhiydA13PmdMX6hN5MBkFu3lEghf+GUzO8d8Z61IPJpa6P657/DYPrdPAMcdbP5
+	rPr0euMrDiw7iiluH23jd+ABdNwR1e+uioyuPx/k7NfT0rsLva9vZ5ofxvB5BjHAE/e1
+	mCQD/8rnIA091m6yxMRg4pekX0L8M83aB+Sco=
+Received: by 10.142.174.20 with SMTP id w20mr860913wfe.379.1309055435555;
+	Sat, 25 Jun 2011 19:30:35 -0700 (PDT)
+Received: from [192.168.1.82] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id z20sm1227684wff.19.2011.06.25.19.30.33
+	(version=SSLv3 cipher=OTHER); Sat, 25 Jun 2011 19:30:34 -0700 (PDT)
+Message-ID: <4E0699D1.9090308@gmail.com>
+Date: Sat, 25 Jun 2011 19:30:41 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
+	rv:1.9.2.17) Gecko/20110414 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1308217549-13701-1-git-send-email-koen@dominion.thruhere.net>
-In-Reply-To: <1308217549-13701-1-git-send-email-koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] gst-plugins: sync packaging with OE .dev
+To: openembedded-core@lists.openembedded.org
+References: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
+In-Reply-To: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
+Subject: Re: gcc-cross-kernel problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,167 +50,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jun 2011 02:24:36 -0000
+X-List-Received-Date: Sun, 26 Jun 2011 02:34:15 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/16/2011 02:45 AM, Koen Kooi wrote:
-> Gst-plugins get 2 extra packages:
+On 6/25/2011 1:38 PM, Koen Kooi wrote:
+> Hi,
 >
-> ${PN}-apps: helper apps in ${bindir}
-> ${PN}-meta: meta package that will drag in all plugins, libs and apps ${PN} generates
+> I was spending some spare cycles on
+> https://github.com/koenkooi/meta-archos and wanted to build the 2.6.22
+> vendor kernel first before trying to the 3.0rc working and I need to use
+> csl 2007q3 as gcc-cross-kernel due to bugs in the kernel.
 >
-> The packaging include was split out to be reused by external plugins (e.g. gst-plugin-gl, gst-fluendo-*).
+> I imported the 2008q1 recipes from OE-core, then changed the SRC_URI to
+> have the patches from the 2007q3 recipe in OE classic. It uses the .inc
+> files from OE-core. It builds and gives me:
 >
-> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
-> ---
->   .../gstreamer/gst-plugins-bad_0.10.21.bb           |    2 +-
->   .../gstreamer/gst-plugins-base_0.10.32.bb          |    2 +-
->   .../gstreamer/gst-plugins-good_0.10.28.bb          |    2 +-
->   .../gstreamer/gst-plugins-package.inc              |   34 ++++++++++++++++++++
->   .../gstreamer/gst-plugins-ugly_0.10.17.bb          |    2 +-
->   meta/recipes-multimedia/gstreamer/gst-plugins.inc  |   18 +---------
->   6 files changed, 40 insertions(+), 20 deletions(-)
->   create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+> koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-kernel-4.2.1-4.2.1+csl-arm-2007q3-53-r0/image$
+> find . | grep bin
+> ./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
-> index 2b8a89c..a7023e3 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+> ./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1
 >
->   DEPENDS += "gst-plugins-base libmusicbrainz tremor librsvg"
+> ./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1/arm-angstrom-linux-gnueabi-gcov
 >
-> -PR = "r0"
-> +PR = "r1"
+> ./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1/arm-angstrom-linux-gnueabi-gccbug
 >
->   inherit gettext
+> ./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/arm-angstrom-linux-gnueabi-gcc-4.2.1+csl-arm-2007q3-53
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-> index f81011f..e9fadf8 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-> @@ -15,7 +15,7 @@ SRC_URI += " file://gst-plugins-base-tremor.patch"
->   SRC_URI[md5sum] = "2920af2b3162f3d9fbaa7fabc8ed4d38"
->   SRC_URI[sha256sum] = "e9aabfac83f6480896da0686e9c911989f896fbad634821b7771ed84a446172b"
 >
-> -PR = "r0"
-> +PR = "r1"
+> But when I do 'MACHINE=archos5 bitbake virtual/kernel -c compile' I get:
 >
->   inherit gettext
+> | + make -j4 zImage 'CC=ccache
+> arm-angstrom-linux-gnueabi-gcc-4.2.1+csl-arm-2007q3-53
+> -mno-thumb-interwork -mno-thumb
+> --sysroot=/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/archos5' 'LD=arm-angstrom-linux-gnueabi-ld
+> --sysroot=/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/archos5
+> --sysroot=/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/archos5'
+> | arm-angstrom-linux-gnueabi-gcc-4.2.1+csl-arm-2007q3-53: No such file
+> or directory
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
-> index b9648e3..cca63e9 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+> And I can't find arm-angstrom-linux-gnueabi-gcc-4.2.1+csl-arm-2007q3-53
+> in sysroots. When looking at WORKDIR for the gcc:
 >
->   DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
->   	    speex libsoup-2.4"
-> -PR = "r0"
-> +PR = "r1"
+> koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-kernel-4.2.1-4.2.1+csl-arm-2007q3-53-r0$
+> find sysroot-destdir/ | grep bin
+> sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin
 >
->   inherit gettext
+> sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-> new file mode 100644
-> index 0000000..dae9416
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-> @@ -0,0 +1,34 @@
-> +LIBV = "0.10"
-> +
-> +python populate_packages_prepend () {
-> +	gst_libdir = bb.data.expand('${libdir}/gstreamer-${LIBV}', d)
-> +	postinst = bb.data.getVar('plugin_postinst', d, 1)
-> +	glibdir = bb.data.expand('${libdir}', d)
-> +
-> +	do_split_packages(d, glibdir, '^lib(.*)\.so\.*', 'lib%s', 'gstreamer %s library', extra_depends='', allow_links=True)
-> +	do_split_packages(d, gst_libdir, '^libgst(.*)\.so$', 'gst-plugin-%s', 'GStreamer plugin for %s', postinst=postinst, extra_depends='')
-> +	do_split_packages(d, gst_libdir, '^libgst(.*)\.l?a$', 'gst-plugin-%s-dev', 'GStreamer plugin for %s (development files)', extra_depends='')
-> +	
-> +	pn = bb.data.getVar('PN', d, 1)
-> +	metapkg =  pn + '-meta'
-> +	bb.data.setVar('ALLOW_EMPTY_' + metapkg, "1", d)
-> +	bb.data.setVar('FILES_' + metapkg, "", d)
-> +	blacklist = [ pn + '-locale', pn + '-dev', pn + '-dbg', pn + '-doc' ]
-> +	metapkg_rdepends = []
-> +	packages = bb.data.getVar('PACKAGES', d, 1).split()
-> +	for pkg in packages[1:]:
-> +		if not pkg in blacklist and not pkg in metapkg_rdepends and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.count('locale') and not pkg.count('-static'):
-> +			metapkg_rdepends.append(pkg)
-> +	bb.data.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends), d)
-> +	bb.data.setVar('DESCRIPTION_' + metapkg, pn + ' meta package', d)
-> +}
-> +
-> +ALLOW_EMPTY = "1"
-> +
-> +PACKAGES += "${PN}-apps ${PN}-meta"
-> +FILES_${PN}-apps = "${bindir}"
-> +
-> +FILES_${PN} = "${datadir}/gstreamer-${LIBV}"
-> +FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
-> +
-> +
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
-> index 76e00a5..2a79c2a 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
->                       file://gst/mpegstream/gstmpegparse.h;beginline=1;endline=18;md5=ff65467b0c53cdfa98d0684c1bc240a9"
+> sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1/arm-angstrom-linux-gnueabi-gcov
 >
->   DEPENDS += "gst-plugins-base libid3tag libmad mpeg2dec liba52 lame"
-> -PR = "r0"
-> +PR = "r1"
+> sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1/arm-angstrom-linux-gnueabi-gccbug
 >
->   inherit gettext
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins.inc b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-> index 617aab8..c1d7cd8 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-> @@ -15,13 +15,6 @@ EXTRA_OECONF = "--disable-valgrind --disable-debug --disable-examples "
->
->   acpaths = "-I ${S}/common/m4 -I ${S}/m4"
->
-> -LIBV = "0.10"
-> -#FILES_${PN} += "${libdir}/gstreamer-${LIBV}/*.so"
-> -#FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/*.la ${libdir}/gstreamer-${LIBV}/*.a"
-> -FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
-> -
-> -PACKAGES_DYNAMIC = "${PN}-*"
-> -
->   # orc.m4 calls pkg-config ----variable=orcc orc-0.4 to get the path to orcc,
->   # resulting in /usr/bin/orcc. Force it to use the staged orcc.
->   do_configure_append() {
-> @@ -30,14 +23,7 @@ do_configure_append() {
->    	done
->   }
->
-> -python populate_packages_prepend () {
-> -	gst_libdir = bb.data.expand('${libdir}/gstreamer-${LIBV}', d)
-> -	postinst = bb.data.getVar('plugin_postinst', d, 1)
-> +require gst-plugins-package.inc
->
-> -#	Can't package separate debug packages yet
-> -#	do_split_packages(d, gst_libdir, '\.debug/libgst(.*)\.so$', bb.data.expand('${PN}-%s-dbg', d), 'GStreamer plugin for %s (with debugging symbols)', recursive=True, extra_depends=bb.data.expand('${PN}-dbg', d), match_path=True)
-> -	do_split_packages(d, gst_libdir, 'libgst(.*)\.so$', bb.data.expand('${PN}-%s', d), 'GStreamer plugin for %s', postinst=postinst, extra_depends=bb.data.expand('${PN}',d))
-> -	do_split_packages(d, gst_libdir, 'libgst(.*)\.l?a$', bb.data.expand('${PN}-%s-dev', d), 'GStreamer plugin for %s (development files)', extra_depends=bb.data.expand('${PN}-dev',d))
-> -}
-> +PACKAGES_DYNAMIC = "${PN}-*"
->
-> -ALLOW_EMPTY = "1"
+> So that's missing the
+> arm-angstrom-linux-gnueabi-gcc-4.2.1+csl-arm-2007q3-53 that's actually
+> needed.
 
-Koen,
+in oe-core we munge CROSS_TARGET_SYS_DIR and append PN to it, this 
+should be considered in gcc-cross-kernel.inc
 
-This packaging does not work for most of the gst-meta-base, 
-gst-meta-audio and gst-meta-video RDEPENDS fail with this change, along 
-with gaku.  When I build core-image-sato-sdk I get failed dependencies.
+you need couple of changes
 
-Please look more closely at this change and verify that recipes that 
-depend on gst-plugins-* get installed correctly.
+change the install command like below in gcc-cross-kernel.inc
+
+install -m 0755 xgcc 
+${D}${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}gcc-${PV}
+
+secondly you need to inform kernel recipe of this new location of toolchain
+
+so in you kernel recipe somewhere patch the below code
+
+PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.gcc-cross-kernel:"
 
 Thanks
-	Sau!
+
+-Khem
 
 
