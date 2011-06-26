@@ -1,27 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QaeeE-0007Zp-Ra
+	(envelope-from <sgw@linux.intel.com>) id 1Qaf1Y-0007sI-6S
 	for openembedded-core@lists.openembedded.org;
-	Sun, 26 Jun 2011 04:00:31 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 25 Jun 2011 18:56:51 -0700
+	Sun, 26 Jun 2011 04:24:36 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Jun 2011 19:20:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,427,1304319600"; d="scan'208";a="18619947"
-Received: from unknown (HELO [10.255.13.190]) ([10.255.13.190])
-	by azsmga001.ch.intel.com with ESMTP; 25 Jun 2011 18:56:50 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Sat, 25 Jun 2011 18:56:45 -0700
-In-Reply-To: <4E068312.5090507@linux.intel.com>
-References: <cover.1308592651.git.josh@linux.intel.com>
-	<909a6c756247a7a0f68f60a64477d4e8419ca74c.1308593086.git.josh@linux.intel.com>
-	<4E068312.5090507@linux.intel.com>
-X-Mailer: Evolution 3.0.2 (3.0.2-2.fc15) 
-Message-ID: <1309053411.2772.12.camel@scimitar>
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+X-IronPort-AV: E=Sophos;i="4.65,427,1304319600"; d="scan'208";a="22949568"
+Received: from unknown (HELO [10.255.13.191]) ([10.255.13.191])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Jun 2011 19:20:56 -0700
+Message-ID: <4E069788.5020204@linux.intel.com>
+Date: Sat, 25 Jun 2011 19:20:56 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] sanity: implement network connectivity test
+References: <1308217549-13701-1-git-send-email-koen@dominion.thruhere.net>
+In-Reply-To: <1308217549-13701-1-git-send-email-koen@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] gst-plugins: sync packaging with OE .dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,155 +35,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jun 2011 02:00:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 26 Jun 2011 02:24:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2011-06-25 at 17:53 -0700, Saul Wold wrote:
-> On 06/20/2011 11:09 AM, Joshua Lock wrote:
-> > Sanity test to verify files can be fetched from the network using git, http
-> > and https fetchers point users at a page to help get set up in the case of a
-> > failure.
-> >
-> > Addresses [YOCTO #933]
-> >
-> > Signed-off-by: Joshua Lock<josh@linux.intel.com>
-> > ---
-> >   meta/classes/sanity.bbclass |   34 ++++++++++++++++++++++++++++++++++
-> >   1 files changed, 34 insertions(+), 0 deletions(-)
-> >
-> > diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> > index bffa4f5..650df5f 100644
-> > --- a/meta/classes/sanity.bbclass
-> > +++ b/meta/classes/sanity.bbclass
-> > @@ -35,6 +35,8 @@ def check_sanity_tmpdir_change(tmpdir, data):
-> >
-> >       # Check that TMPDIR isn't on a filesystem with limited filename length (eg. eCryptFS)
-> >       testmsg = check_create_long_filename(tmpdir, "TMPDIR")
-> > +    # Check that we can fetch from various network transports
-> > +    testmsg = testmsg + check_connectivity(data)
-> >       return testmsg
-> >
-> >   def check_sanity_version_change(data):
-> > @@ -75,6 +77,38 @@ def check_create_long_filename(filepath, pathname):
-> >               return "Failed to create a file in %s: %s" % (pathname, strerror)
-> >       return ""
-> >
-> > +def check_connectivity(d):
-> > +    # URI's to check can be set in the CONNECTIVITY_CHECK_URIS variable using
-> > +    # the same syntax as SRC_URI.
-> > +    test_uris = (bb.data.getVar('CONNECTIVITY_CHECK_URIS', d, True) or "").split()
-> > +    # If no URI's set, fallback to some default ones we know of
-> > +    if len(test_uris) == 0:
-> > +        test_uris = ["http://yoctoproject.org/about",
-> > +                     "https://eula-downloads.yoctoproject.org/crownbay/crownbay-bernard-5.0.0",
-> > +                     "git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=HEAD"]
-> > +    retval = ""
-> > +
-> > +    # Only check connectivity if network access and this check enabled.
-> > +    # Because it's a fairly heavy test allow disabling of just this sanity test
-> > +    # by setting DISABLE_NETWORK_SANITY.
-> > +    network_disabled = not bb.data.getVar('BB_NO_NETWORK', d, True)
-> > +    check_disabled = bb.data.getVar('DISABLE_NETWORK_SANITY', d, True)
-> > +    if check_disabled or network_disabled:
-> > +        data = bb.data.createCopy(d)
-> > +        dldir = bb.data.expand('${TMPDIR}/sanity', data)
-> > +        bb.data.setVar('DL_DIR', dldir, data)
-> > +
-> > +        try:
-> > +            fetcher = bb.fetch2.Fetch(test_uris, data)
-> > +            fetcher.download()
-> > +	    fetcher.clean(test_uris)
-> > +        except Exception:
-> > +            retval = "Error connecting to the network to fetch, http/https and git checked.\nPlease check the wiki (https://wiki.yoctoproject.org/wiki/Connectivity\%20Troubleshooting) for more suggestions.\n"
-> > +        finally:
-> > +            # Make sure we tidy up the cruft
-> > +            oe.path.remove(dldir)
-> > +    return retval
-> > +
-> >   def check_sanity(e):
-> >       from bb import note, error, data, __version__
-> >
-> 
-> Josh,
-> 
-> When I ran this, I got the following messages about missing SRC_URI 
-> Checksums and then it failed to parse recipes.  When I removed this 
-> commit things worked normally.
-> 
+On 06/16/2011 02:45 AM, Koen Kooi wrote:
+> Gst-plugins get 2 extra packages:
+>
+> ${PN}-apps: helper apps in ${bindir}
+> ${PN}-meta: meta package that will drag in all plugins, libs and apps ${PN} generates
+>
+> The packaging include was split out to be reused by external plugins (e.g. gst-plugin-gl, gst-fluendo-*).
+>
+> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+> ---
+>   .../gstreamer/gst-plugins-bad_0.10.21.bb           |    2 +-
+>   .../gstreamer/gst-plugins-base_0.10.32.bb          |    2 +-
+>   .../gstreamer/gst-plugins-good_0.10.28.bb          |    2 +-
+>   .../gstreamer/gst-plugins-package.inc              |   34 ++++++++++++++++++++
+>   .../gstreamer/gst-plugins-ugly_0.10.17.bb          |    2 +-
+>   meta/recipes-multimedia/gstreamer/gst-plugins.inc  |   18 +---------
+>   6 files changed, 40 insertions(+), 20 deletions(-)
+>   create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
+> index 2b8a89c..a7023e3 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
+> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+>
+>   DEPENDS += "gst-plugins-base libmusicbrainz tremor librsvg"
+>
+> -PR = "r0"
+> +PR = "r1"
+>
+>   inherit gettext
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
+> index f81011f..e9fadf8 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
+> @@ -15,7 +15,7 @@ SRC_URI += " file://gst-plugins-base-tremor.patch"
+>   SRC_URI[md5sum] = "2920af2b3162f3d9fbaa7fabc8ed4d38"
+>   SRC_URI[sha256sum] = "e9aabfac83f6480896da0686e9c911989f896fbad634821b7771ed84a446172b"
+>
+> -PR = "r0"
+> +PR = "r1"
+>
+>   inherit gettext
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
+> index b9648e3..cca63e9 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+>
+>   DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
+>   	    speex libsoup-2.4"
+> -PR = "r0"
+> +PR = "r1"
+>
+>   inherit gettext
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+> new file mode 100644
+> index 0000000..dae9416
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+> @@ -0,0 +1,34 @@
+> +LIBV = "0.10"
+> +
+> +python populate_packages_prepend () {
+> +	gst_libdir = bb.data.expand('${libdir}/gstreamer-${LIBV}', d)
+> +	postinst = bb.data.getVar('plugin_postinst', d, 1)
+> +	glibdir = bb.data.expand('${libdir}', d)
+> +
+> +	do_split_packages(d, glibdir, '^lib(.*)\.so\.*', 'lib%s', 'gstreamer %s library', extra_depends='', allow_links=True)
+> +	do_split_packages(d, gst_libdir, '^libgst(.*)\.so$', 'gst-plugin-%s', 'GStreamer plugin for %s', postinst=postinst, extra_depends='')
+> +	do_split_packages(d, gst_libdir, '^libgst(.*)\.l?a$', 'gst-plugin-%s-dev', 'GStreamer plugin for %s (development files)', extra_depends='')
+> +	
+> +	pn = bb.data.getVar('PN', d, 1)
+> +	metapkg =  pn + '-meta'
+> +	bb.data.setVar('ALLOW_EMPTY_' + metapkg, "1", d)
+> +	bb.data.setVar('FILES_' + metapkg, "", d)
+> +	blacklist = [ pn + '-locale', pn + '-dev', pn + '-dbg', pn + '-doc' ]
+> +	metapkg_rdepends = []
+> +	packages = bb.data.getVar('PACKAGES', d, 1).split()
+> +	for pkg in packages[1:]:
+> +		if not pkg in blacklist and not pkg in metapkg_rdepends and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.count('locale') and not pkg.count('-static'):
+> +			metapkg_rdepends.append(pkg)
+> +	bb.data.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends), d)
+> +	bb.data.setVar('DESCRIPTION_' + metapkg, pn + ' meta package', d)
+> +}
+> +
+> +ALLOW_EMPTY = "1"
+> +
+> +PACKAGES += "${PN}-apps ${PN}-meta"
+> +FILES_${PN}-apps = "${bindir}"
+> +
+> +FILES_${PN} = "${datadir}/gstreamer-${LIBV}"
+> +FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
+> +
+> +
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
+> index 76e00a5..2a79c2a 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+>                       file://gst/mpegstream/gstmpegparse.h;beginline=1;endline=18;md5=ff65467b0c53cdfa98d0684c1bc240a9"
+>
+>   DEPENDS += "gst-plugins-base libid3tag libmad mpeg2dec liba52 lame"
+> -PR = "r0"
+> +PR = "r1"
+>
+>   inherit gettext
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins.inc b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+> index 617aab8..c1d7cd8 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+> @@ -15,13 +15,6 @@ EXTRA_OECONF = "--disable-valgrind --disable-debug --disable-examples "
+>
+>   acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+>
+> -LIBV = "0.10"
+> -#FILES_${PN} += "${libdir}/gstreamer-${LIBV}/*.so"
+> -#FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/*.la ${libdir}/gstreamer-${LIBV}/*.a"
+> -FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
+> -
+> -PACKAGES_DYNAMIC = "${PN}-*"
+> -
+>   # orc.m4 calls pkg-config ----variable=orcc orc-0.4 to get the path to orcc,
+>   # resulting in /usr/bin/orcc. Force it to use the staged orcc.
+>   do_configure_append() {
+> @@ -30,14 +23,7 @@ do_configure_append() {
+>    	done
+>   }
+>
+> -python populate_packages_prepend () {
+> -	gst_libdir = bb.data.expand('${libdir}/gstreamer-${LIBV}', d)
+> -	postinst = bb.data.getVar('plugin_postinst', d, 1)
+> +require gst-plugins-package.inc
+>
+> -#	Can't package separate debug packages yet
+> -#	do_split_packages(d, gst_libdir, '\.debug/libgst(.*)\.so$', bb.data.expand('${PN}-%s-dbg', d), 'GStreamer plugin for %s (with debugging symbols)', recursive=True, extra_depends=bb.data.expand('${PN}-dbg', d), match_path=True)
+> -	do_split_packages(d, gst_libdir, 'libgst(.*)\.so$', bb.data.expand('${PN}-%s', d), 'GStreamer plugin for %s', postinst=postinst, extra_depends=bb.data.expand('${PN}',d))
+> -	do_split_packages(d, gst_libdir, 'libgst(.*)\.l?a$', bb.data.expand('${PN}-%s-dev', d), 'GStreamer plugin for %s (development files)', extra_depends=bb.data.expand('${PN}-dev',d))
+> -}
+> +PACKAGES_DYNAMIC = "${PN}-*"
+>
+> -ALLOW_EMPTY = "1"
 
-Ick. I didn't see this when I first wrote the patches but am able to
-reproduce now... It's the "ERROR: Command execution failed: Exited with
-1" which indicates the real problem. The WARNING's are just extra noise.
+Koen,
 
-Looks like the git fetcher is cd'ing before fetching and then breaking
-the parsing after the sanity check is complete by not being in the right
-cwd as expected by the parser. Messy.
+This packaging does not work for most of the gst-meta-base, 
+gst-meta-audio and gst-meta-video RDEPENDS fail with this change, along 
+with gaku.  When I build core-image-sato-sdk I get failed dependencies.
 
-At least that's my inference from reading this output:
+Please look more closely at this change and verify that recipes that 
+depend on gst-plugins-* get installed correctly.
 
-joshual@scimitar:~/Projects/Yocto/oe-core/boom [josh/connection-test]
-$ bitbake core-image-minimal
-Pseudo is not present but is required, building this first before the
-main build
-Cloning into bare
-repository /home/joshual/Projects/Yocto/oe-core/boom/tmp/sanity/git2/git.yoctoproject.org.yocto-firewall-test...
- Parsing recipes:   0% |                                         | ETA:
---:--:-ERROR: Unable to
-parse /home/joshual/Projects/Yocto/oe-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.15.0.bb
-Traceback (most recent call last):
-  File "/home/joshual/Projects/Yocto/bitbake/lib/bb/cooker.py", line
-1164, in
-parse_file(task=('/home/joshual/Projects/Yocto/oe-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.15.0.bb', [], [<class 'bb.cache.CoreRecipeInfo'>])):
-         try:
-    >        return True, bb.cache.Cache.parse(filename, appends,
-parse_file.cfg, caches_array)
-         except Exception as exc:
-  File "/home/joshual/Projects/Yocto/bitbake/lib/bb/cache.py", line 402,
-in parse(cls=<class 'bb.cache.Cache'>,
-filename='/home/joshual/Projects/Yocto/oe-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.15.0.bb', appends=[], configdata=<bb.data_smart.DataSmart object at 0x961f04c>, caches_array=[<class 'bb.cache.CoreRecipeInfo'>]):
-             infos = []
-    >        datastores = cls.load_bbfile(filename, appends, configdata)
-             depends = set()
-  File "/home/joshual/Projects/Yocto/bitbake/lib/bb/cache.py", line 641,
-in
-load_bbfile(bbfile='/home/joshual/Projects/Yocto/oe-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.15.0.bb', appends=[], config=<bb.data_smart.DataSmart object at 0x961f04c>):
-             bbfile_loc = os.path.abspath(os.path.dirname(bbfile))
-    >        oldpath = os.path.abspath(os.getcwd())
-             parse.cached_mtime_noerror(bbfile_loc)
-OSError: [Errno 2] No such file or directory
-
-ERROR: Command execution failed: Exited with 1
-
-The following hunk is a workaround but I need to figure out if this is
-the right way to fix it and Saturday night isn't when I do my best
-thinking ;-)
-
-@@ -90,6 +90,7 @@ def check_connectivity(d):
-     network_disabled = not bb.data.getVar('BB_NO_NETWORK', data, True)
-     check_disabled = bb.data.getVar('DISABLE_NETWORK_SANITY', data,
-True)
-     if check_disabled or network_disabled:
-+        bookmark = os.getcwd()
-         dldir = bb.data.expand('${TMPDIR}/sanity', data)
-         bb.data.setVar('DL_DIR', dldir, data)
- 
-@@ -102,6 +103,7 @@ def check_connectivity(d):
-         finally:
-             # Make sure we tidy up the cruft
-             oe.path.remove(dldir)
-+            os.chdir(bookmark)
-     return retval
-
-I'll work on a rev two patch and also try and figure out a clean way to
-at least hide the SRC_URI checksum warnings.
-
-Thanks,
-Joshua
--- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
-
+Thanks
+	Sau!
 
 
