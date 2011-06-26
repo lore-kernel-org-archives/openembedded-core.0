@@ -1,35 +1,28 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QalYE-0002r0-SS
+	(envelope-from <koen@dominion.thruhere.net>) id 1QamSD-000467-VZ
 	for openembedded-core@lists.openembedded.org;
-	Sun, 26 Jun 2011 11:22:47 +0200
-Received: by pwi1 with SMTP id 1so2659509pwi.6
+	Sun, 26 Jun 2011 12:20:38 +0200
+Received: by wyg30 with SMTP id 30so708085wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jun 2011 02:19:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=DnpXZ50q1U7Hr8Eob3vEHOmL7TnzT/Hk/0h3wGddOeM=;
-	b=rqZ4nStX5kRx0mNU6y9ifUvZkwi3Ow+0EazfDnTjvX1DTxtkn9vmf0azmPb5SfF7pX
-	knR6VRt7JPtlfTLDtCLHOFXecKpDq8RAkTHrGuIiNVpBNnxLvQGAQpzafgSVuuBXHRh7
-	9lDyQ4v53UsAril740g/43KdIw2nVWSPp/hYc=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type;
-	b=E/XPJjmxYQQSx+SYQ1Nb5DqCQyU3ILWZ4gVEeurhDXNazGeoUpiYpnc7ZVjPTEJnU2
-	VhAyOpH+AV5JakD3s7lTHYX0nwyrFvx3SPfUB8J4HMfH9ksljRmO3p6rXDULGSGsUaak
-	nNz63cCkOZrzlMXyETtNFHLnoBwxmE+gYr6Rk=
-Received: by 10.68.32.66 with SMTP id g2mr2749648pbi.26.1309079947143; Sun, 26
-	Jun 2011 02:19:07 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.48.105 with HTTP; Sun, 26 Jun 2011 02:18:37 -0700 (PDT)
-In-Reply-To: <4E0699D1.9090308@gmail.com>
+	Sun, 26 Jun 2011 03:16:58 -0700 (PDT)
+Received: by 10.216.136.202 with SMTP id w52mr907959wei.68.1309083418753;
+	Sun, 26 Jun 2011 03:16:58 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id c17sm3279071wbh.29.2011.06.26.03.16.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 26 Jun 2011 03:16:57 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <BANLkTi=_Vn+SqWKy0z9nOqpFV=-D0H48Bw@mail.gmail.com>
+Date: Sun, 26 Jun 2011 12:16:51 +0200
+Message-Id: <95FEC74D-2042-486D-B446-9C902751D6F3@dominion.thruhere.net>
 References: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
 	<4E0699D1.9090308@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 26 Jun 2011 02:18:37 -0700
-Message-ID: <BANLkTi=_Vn+SqWKy0z9nOqpFV=-D0H48Bw@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
+	<BANLkTi=_Vn+SqWKy0z9nOqpFV=-D0H48Bw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
 Subject: Re: gcc-cross-kernel problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,21 +38,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jun 2011 09:22:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 26 Jun 2011 10:20:38 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 25, 2011 at 7:30 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> change the install command like below in gcc-cross-kernel.inc
->
-> install -m 0755 xgcc
-> ${D}${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}gcc-${PV}
->
->
 
-here probably
+Op 26 jun 2011, om 11:18 heeft Khem Raj het volgende geschreven:
 
-install -m 0755 xgcc  ${D}${bindir}/${TARGET_PREFIX}gcc-${PV}
+> On Sat, Jun 25, 2011 at 7:30 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> change the install command like below in gcc-cross-kernel.inc
+>>=20
+>> install -m 0755 xgcc
+>> =
+${D}${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}gcc-${PV}
+>>=20
+>>=20
+>=20
+> here probably
+>=20
+> install -m 0755 xgcc  ${D}${bindir}/${TARGET_PREFIX}gcc-${PV}
+>=20
+> is needed instead
 
-is needed instead
+Thanks, that gets it into sysroots:
+
+koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/deploy$ find =
+../sysroots/ | grep 2007q3
+=
+../sysroots/x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-k=
+ernel-4.2.1/arm-angstrom-linux-gnueabi-gcc-4.2.1+csl-arm-2007q3-53
+
+It isn't in PATH yet, but it's progress :)=
 
 
