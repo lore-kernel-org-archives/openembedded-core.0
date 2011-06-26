@@ -1,26 +1,26 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QaZgP-0007b3-2B
+	(envelope-from <sgw@linux.intel.com>) id 1Qadf6-0006A0-OJ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 25 Jun 2011 22:42:25 +0200
-Received: by wwg12 with SMTP id 12so3119742wwg.24
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jun 2011 13:38:46 -0700 (PDT)
-Received: by 10.227.174.75 with SMTP id s11mr4213308wbz.34.1309034326751;
-	Sat, 25 Jun 2011 13:38:46 -0700 (PDT)
-Received: from [172.20.1.5] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id
-	ge4sm2930616wbb.47.2011.06.25.13.38.45
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 25 Jun 2011 13:38:46 -0700 (PDT)
-Message-Id: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
-From: Koen Kooi <koen@dominion.thruhere.net>
+	Sun, 26 Jun 2011 02:57:21 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Jun 2011 17:53:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,426,1304319600"; d="scan'208";a="22936574"
+Received: from unknown (HELO [10.255.13.191]) ([10.255.13.191])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Jun 2011 17:53:39 -0700
+Message-ID: <4E068312.5090507@linux.intel.com>
+Date: Sat, 25 Jun 2011 17:53:38 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v936)
-Date: Sat, 25 Jun 2011 22:38:34 +0200
-X-Mailer: Apple Mail (2.936)
-Subject: gcc-cross-kernel problems
+References: <cover.1308592651.git.josh@linux.intel.com>
+	<909a6c756247a7a0f68f60a64477d4e8419ca74c.1308593086.git.josh@linux.intel.com>
+In-Reply-To: <909a6c756247a7a0f68f60a64477d4e8419ca74c.1308593086.git.josh@linux.intel.com>
+Subject: Re: [PATCH 2/2] sanity: implement network connectivity test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,72 +35,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jun 2011 20:42:25 -0000
-Content-Type: text/plain; charset=US-ASCII; format=flowed; delsp=yes
+X-List-Received-Date: Sun, 26 Jun 2011 00:57:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On 06/20/2011 11:09 AM, Joshua Lock wrote:
+> Sanity test to verify files can be fetched from the network using git, http
+> and https fetchers point users at a page to help get set up in the case of a
+> failure.
+>
+> Addresses [YOCTO #933]
+>
+> Signed-off-by: Joshua Lock<josh@linux.intel.com>
+> ---
+>   meta/classes/sanity.bbclass |   34 ++++++++++++++++++++++++++++++++++
+>   1 files changed, 34 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index bffa4f5..650df5f 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -35,6 +35,8 @@ def check_sanity_tmpdir_change(tmpdir, data):
+>
+>       # Check that TMPDIR isn't on a filesystem with limited filename length (eg. eCryptFS)
+>       testmsg = check_create_long_filename(tmpdir, "TMPDIR")
+> +    # Check that we can fetch from various network transports
+> +    testmsg = testmsg + check_connectivity(data)
+>       return testmsg
+>
+>   def check_sanity_version_change(data):
+> @@ -75,6 +77,38 @@ def check_create_long_filename(filepath, pathname):
+>               return "Failed to create a file in %s: %s" % (pathname, strerror)
+>       return ""
+>
+> +def check_connectivity(d):
+> +    # URI's to check can be set in the CONNECTIVITY_CHECK_URIS variable using
+> +    # the same syntax as SRC_URI.
+> +    test_uris = (bb.data.getVar('CONNECTIVITY_CHECK_URIS', d, True) or "").split()
+> +    # If no URI's set, fallback to some default ones we know of
+> +    if len(test_uris) == 0:
+> +        test_uris = ["http://yoctoproject.org/about",
+> +                     "https://eula-downloads.yoctoproject.org/crownbay/crownbay-bernard-5.0.0",
+> +                     "git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=HEAD"]
+> +    retval = ""
+> +
+> +    # Only check connectivity if network access and this check enabled.
+> +    # Because it's a fairly heavy test allow disabling of just this sanity test
+> +    # by setting DISABLE_NETWORK_SANITY.
+> +    network_disabled = not bb.data.getVar('BB_NO_NETWORK', d, True)
+> +    check_disabled = bb.data.getVar('DISABLE_NETWORK_SANITY', d, True)
+> +    if check_disabled or network_disabled:
+> +        data = bb.data.createCopy(d)
+> +        dldir = bb.data.expand('${TMPDIR}/sanity', data)
+> +        bb.data.setVar('DL_DIR', dldir, data)
+> +
+> +        try:
+> +            fetcher = bb.fetch2.Fetch(test_uris, data)
+> +            fetcher.download()
+> +	    fetcher.clean(test_uris)
+> +        except Exception:
+> +            retval = "Error connecting to the network to fetch, http/https and git checked.\nPlease check the wiki (https://wiki.yoctoproject.org/wiki/Connectivity\%20Troubleshooting) for more suggestions.\n"
+> +        finally:
+> +            # Make sure we tidy up the cruft
+> +            oe.path.remove(dldir)
+> +    return retval
+> +
+>   def check_sanity(e):
+>       from bb import note, error, data, __version__
+>
 
-I was spending some spare cycles on https://github.com/koenkooi/meta-archos 
-  and wanted to build the 2.6.22 vendor kernel first before trying to  
-the 3.0rc working and I need to use csl 2007q3 as gcc-cross-kernel due  
-to bugs in the kernel.
+Josh,
 
-I imported the 2008q1 recipes from OE-core, then changed the SRC_URI  
-to have the patches from the 2007q3 recipe in OE classic. It uses  
-the .inc files from OE-core. It builds and gives me:
+When I ran this, I got the following messages about missing SRC_URI 
+Checksums and then it failed to parse recipes.  When I removed this 
+commit things worked normally.
 
-koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/ 
-armv7a-angstrom-linux-gnueabi/gcc-cross-kernel-4.2.1-4.2.1+csl- 
-arm-2007q3-53-r0/image$ find . | grep bin
-./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/ 
-usr/bin
-./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/ 
-usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1
-./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/ 
-usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1/arm- 
-angstrom-linux-gnueabi-gcov
-./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/ 
-usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel-4.2.1/arm- 
-angstrom-linux-gnueabi-gccbug
-./OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/ 
-usr/bin/arm-angstrom-linux-gnueabi-gcc-4.2.1+csl-arm-2007q3-53
 
-But when I do 'MACHINE=archos5 bitbake virtual/kernel -c compile' I get:
 
-| + make -j4 zImage 'CC=ccache arm-angstrom-linux-gnueabi- 
-gcc-4.2.1+csl-arm-2007q3-53  -mno-thumb-interwork -mno-thumb -- 
-sysroot=/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/ 
-archos5' 'LD=arm-angstrom-linux-gnueabi-ld --sysroot=/OE/tentacle/ 
-build/tmp-angstrom_2010_x-eglibc/sysroots/archos5  --sysroot=/OE/ 
-tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/archos5'
-| arm-angstrom-linux-gnueabi-gcc-4.2.1+csl-arm-2007q3-53: No such file  
-or directory
+Pseudo is not present but is required, building this first before the 
+main build
+Cloning into bare repository 
+/intel/poky2/builds/pending/tmp/sanity/git2/git.yoctoproject.org.yocto-firewall-test...
+  NOTE: fetch http://yoctoproject.org/about
+WARNING: Missing SRC_URI checksum for 
+/intel/poky2/builds/pending/tmp/sanity/about, consider adding to the recipe:
+SRC_URI[md5sum] = "1ca6c9ee2ce5dc5d251e649cbd4e339f"
+SRC_URI[sha256sum] = 
+"24cda768cacaf6cc41ab75a46df4936f58075c4788e094c262c35d5ba69544e2"
+NOTE: fetch 
+https://eula-downloads.yoctoproject.org/crownbay/crownbay-bernard-5.0.0
+WARNING: Missing SRC_URI checksum for 
+/intel/poky2/builds/pending/tmp/sanity/crownbay-bernard-5.0.0, consider 
+adding to the recipe:
+SRC_URI[md5sum] = "c534ba257c640e47300572607762b22a"
+SRC_URI[sha256sum] = 
+"485812cf1c43381d70611e85eaf8a74982b452121bdc92accf7a62f0a2707137"
+NOTE: fetch 
+http://autobuilder.yoctoproject.org/sources/git2_git.yoctoproject.org.yocto-firewall-test.tar.gz
+Parsing recipes...ERROR: Command execution failed: Exited with 1
+NOTE: fetch 
+http://autobuilder.yoctoproject.org/sources/git2_git.yoctoproject.org.yocto-firewall-test.tar.gz
+WARNING: Missing SRC_URI checksum for 
+/intel/poky2/builds/pending/tmp/sanity/crownbay-bernard-5.0.0, consider 
+adding to the recipe:
+SRC_URI[md5sum] = "c534ba257c640e47300572607762b22a"
+SRC_URI[sha256sum] = 
+"485812cf1c43381d70611e85eaf8a74982b452121bdc92accf7a62f0a2707137"
+NOTE: fetch 
+https://eula-downloads.yoctoproject.org/crownbay/crownbay-bernard-5.0.0
+WARNING: Missing SRC_URI checksum for 
+/intel/poky2/builds/pending/tmp/sanity/about, consider adding to the recipe:
+SRC_URI[md5sum] = "1ca6c9ee2ce5dc5d251e649cbd4e339f"
+SRC_URI[sha256sum] = 
+"24cda768cacaf6cc41ab75a46df4936f58075c4788e094c262c35d5ba69544e2"
+NOTE: fetch http://yoctoproject.org/about
 
-And I can't find arm-angstrom-linux-gnueabi-gcc-4.2.1+csl- 
-arm-2007q3-53 in sysroots.  When looking at WORKDIR for the gcc:
+Thanks
+	Sau!
 
-koen@dominion:/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/ 
-armv7a-angstrom-linux-gnueabi/gcc-cross-kernel-4.2.1-4.2.1+csl- 
-arm-2007q3-53-r0$ find sysroot-destdir/ | grep bin
-sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/ 
-x86_64-linux/usr/bin
-sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/ 
-x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross- 
-kernel-4.2.1
-sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/ 
-x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross- 
-kernel-4.2.1/arm-angstrom-linux-gnueabi-gcov
-sysroot-destdir/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/ 
-x86_64-linux/usr/bin/armv7a-angstrom-linux-gnueabi.gcc-cross- 
-kernel-4.2.1/arm-angstrom-linux-gnueabi-gccbug
-
-So that's missing the arm-angstrom-linux-gnueabi-gcc-4.2.1+csl- 
-arm-2007q3-53 that's actually needed. Does anyone (RP?) know if gcc- 
-cross-kernel.inc has been kept upto date with all the toolchain changes?
-
-regards,
-
-Koen
 
 
