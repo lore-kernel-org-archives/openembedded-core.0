@@ -1,28 +1,36 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QajvN-0000pl-BH
+	(envelope-from <raj.khem@gmail.com>) id 1QalYE-0002r0-SS
 	for openembedded-core@lists.openembedded.org;
-	Sun, 26 Jun 2011 09:38:33 +0200
-Received: by wwg12 with SMTP id 12so3259747wwg.24
+	Sun, 26 Jun 2011 11:22:47 +0200
+Received: by pwi1 with SMTP id 1so2659509pwi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jun 2011 00:34:54 -0700 (PDT)
-Received: by 10.216.81.5 with SMTP id l5mr1277185wee.102.1309073694608;
-	Sun, 26 Jun 2011 00:34:54 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id h22sm2161309wes.32.2011.06.26.00.34.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 26 Jun 2011 00:34:53 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <dc56d07c4a034568b8860d7bcd41b31acbdb3e89.1309059243.git.sgw@linux.intel.com>
-Date: Sun, 26 Jun 2011 09:34:52 +0200
-Message-Id: <B39BDB9E-CF2E-47CD-A195-BCEFD4B8B8C4@dominion.thruhere.net>
-References: <cover.1309059243.git.sgw@linux.intel.com>
-	<dc56d07c4a034568b8860d7bcd41b31acbdb3e89.1309059243.git.sgw@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [RFC - Staticdev 1/2] multiple recipes converted to -staticdev packages
+	Sun, 26 Jun 2011 02:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=DnpXZ50q1U7Hr8Eob3vEHOmL7TnzT/Hk/0h3wGddOeM=;
+	b=rqZ4nStX5kRx0mNU6y9ifUvZkwi3Ow+0EazfDnTjvX1DTxtkn9vmf0azmPb5SfF7pX
+	knR6VRt7JPtlfTLDtCLHOFXecKpDq8RAkTHrGuIiNVpBNnxLvQGAQpzafgSVuuBXHRh7
+	9lDyQ4v53UsAril740g/43KdIw2nVWSPp/hYc=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type;
+	b=E/XPJjmxYQQSx+SYQ1Nb5DqCQyU3ILWZ4gVEeurhDXNazGeoUpiYpnc7ZVjPTEJnU2
+	VhAyOpH+AV5JakD3s7lTHYX0nwyrFvx3SPfUB8J4HMfH9ksljRmO3p6rXDULGSGsUaak
+	nNz63cCkOZrzlMXyETtNFHLnoBwxmE+gYr6Rk=
+Received: by 10.68.32.66 with SMTP id g2mr2749648pbi.26.1309079947143; Sun, 26
+	Jun 2011 02:19:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.48.105 with HTTP; Sun, 26 Jun 2011 02:18:37 -0700 (PDT)
+In-Reply-To: <4E0699D1.9090308@gmail.com>
+References: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
+	<4E0699D1.9090308@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 26 Jun 2011 02:18:37 -0700
+Message-ID: <BANLkTi=_Vn+SqWKy0z9nOqpFV=-D0H48Bw@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: gcc-cross-kernel problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,22 +45,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jun 2011 07:38:33 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 26 Jun 2011 09:22:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Sat, Jun 25, 2011 at 7:30 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> change the install command like below in gcc-cross-kernel.inc
+>
+> install -m 0755 xgcc
+> ${D}${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}gcc-${PV}
+>
+>
 
-Op 26 jun 2011, om 06:36 heeft Saul Wold het volgende geschreven:
+here probably
 
-> This commit adds a new base package ${PN}-staticdev to
-> bitbake.conf which pulls in the static *.a libraries as
-> a seperate package, it filters out the nonshared.a
-> libraries where appropriate.
-> 
-> Additional this commit adds a new libdev.bbclass which provides
-> a set of macros and variables to convert ${PN} to lib${PN},
-> which a number of recipes where then converted to use.
+install -m 0755 xgcc  ${D}${bindir}/${TARGET_PREFIX}gcc-${PV}
 
-Can't that be merged into lib_package.bbclass?
+is needed instead
 
 
