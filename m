@@ -1,26 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QbDPa-00066s-Td
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QbDj1-0008L6-R0 for openembedded-core@lists.openembedded.org;
+	Mon, 27 Jun 2011 17:27:47 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QbDfV-0008OG-S2
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jun 2011 17:07:43 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 27 Jun 2011 08:04:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,432,1304319600"; d="scan'208";a="20594110"
-Received: from unknown (HELO [10.255.13.66]) ([10.255.13.66])
-	by orsmga001.jf.intel.com with ESMTP; 27 Jun 2011 08:04:01 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jun 2011 08:03:56 -0700
-In-Reply-To: <4E077597.5090607@gmail.com>
-References: <cover.1308592651.git.josh@linux.intel.com>
-	<909a6c756247a7a0f68f60a64477d4e8419ca74c.1308593086.git.josh@linux.intel.com>
-	<4E068312.5090507@linux.intel.com> <4E069A74.1070402@gmail.com>
-	<1309109868.2120.3.camel@scimitar> <4E077597.5090607@gmail.com>
-X-Mailer: Evolution 3.0.2 (3.0.2-2.fc15) 
-Message-ID: <1309187041.2121.0.camel@scimitar>
+	Mon, 27 Jun 2011 17:24:10 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Organization: Phil Blundell Consulting Ltd
+Date: Mon, 27 Jun 2011 16:24:08 +0100
+Message-ID: <1309188248.21613.325.camel@phil-desktop>
 Mime-Version: 1.0
-Subject: Re: [PATCH 2/2] sanity: implement network connectivity test
+X-Mailer: Evolution 2.30.3 
+Subject: [PATCH] fontconfig: specify font directory in EXTRA_OECONF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,84 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2011 15:07:43 -0000
+X-List-Received-Date: Mon, 27 Jun 2011 15:27:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2011-06-26 at 11:08 -0700, Khem Raj wrote:
-> On 06/26/2011 10:37 AM, Joshua Lock wrote:
-> > On Sat, 2011-06-25 at 19:33 -0700, Khem Raj wrote:
-> >> On 6/25/2011 5:53 PM, Saul Wold wrote:
-> >>> On 06/20/2011 11:09 AM, Joshua Lock wrote:
-> >>>> Sanity test to verify files can be fetched from the network using git,
-> >>>> http
-> >>>> and https fetchers point users at a page to help get set up in the
-> >>>> case of a
-> >>>> failure.
-> >>>>
-> >>>> Addresses [YOCTO #933]
-> >>>>
-> >>>> Signed-off-by: Joshua Lock<josh@linux.intel.com>
-> >>>> ---
-> >>>> meta/classes/sanity.bbclass | 34 ++++++++++++++++++++++++++++++++++
-> >>>> 1 files changed, 34 insertions(+), 0 deletions(-)
-> >>>>
-> >>>> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> >>>> index bffa4f5..650df5f 100644
-> >>>> --- a/meta/classes/sanity.bbclass
-> >>>> +++ b/meta/classes/sanity.bbclass
-> >>>> @@ -35,6 +35,8 @@ def check_sanity_tmpdir_change(tmpdir, data):
-> >>>>
-> >>>> # Check that TMPDIR isn't on a filesystem with limited filename length
-> >>>> (eg. eCryptFS)
-> >>>> testmsg = check_create_long_filename(tmpdir, "TMPDIR")
-> >>>> + # Check that we can fetch from various network transports
-> >>>> + testmsg = testmsg + check_connectivity(data)
-> >>>> return testmsg
-> >>>>
-> >>>> def check_sanity_version_change(data):
-> >>>> @@ -75,6 +77,38 @@ def check_create_long_filename(filepath, pathname):
-> >>>> return "Failed to create a file in %s: %s" % (pathname, strerror)
-> >>>> return ""
-> >>>>
-> >>>> +def check_connectivity(d):
-> >>>> + # URI's to check can be set in the CONNECTIVITY_CHECK_URIS variable
-> >>>> using
-> >>>> + # the same syntax as SRC_URI.
-> >>>> + test_uris = (bb.data.getVar('CONNECTIVITY_CHECK_URIS', d, True) or
-> >>>> "").split()
-> >>>> + # If no URI's set, fallback to some default ones we know of
-> >>>> + if len(test_uris) == 0:
-> >>>> + test_uris = ["http://yoctoproject.org/about",
-> >>>> +
-> >>>> "https://eula-downloads.yoctoproject.org/crownbay/crownbay-bernard-5.0.0",
-> >>>>
-> >>>> + "git://git.yoctoproject.org/yocto-firewall-test;protocol=git;rev=HEAD"]
-> >>>> + retval = ""
-> >>
-> >> imo this change is yocto specific doesnt belong to core
-> >
-> > Are you objecting to the feature (testing whether the fetchers can work
-> > on a newly configured tmpdir) or the implementation (using
-> > yoctoproject.org URI's)?
-> 
-> the latter
-> >
-> > I can change this patch to only run the check when the
-> > CONNECTIVITY_CHECK_URI's and remove the default uri's. Would that make
-> > the change less objectionable?
-> 
-> yes that would be better.
-> >
+since, otherwise, fontconfig's builtin default may not match ${datadir}.
 
-Okey dokes. Expect a v3 soon.
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ .../fontconfig/fontconfig_2.8.0.bb                 |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-Joshua
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
+index ae0fef5..5381065 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
+@@ -20,7 +20,7 @@ SECTION = "libs"
+ 
+ DEPENDS = "expat freetype zlib"
+ 
+-PR = "r1"
++PR = "r3"
+ 
+ SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
+            file://fix-pkgconfig.patch \
+@@ -45,7 +45,7 @@ inherit autotools pkgconfig
+ 
+ export HASDOCBOOK="no"
+ 
+-EXTRA_OECONF = " --disable-docs --with-arch=${HOST_ARCH}"
++EXTRA_OECONF = " --disable-docs --with-arch=${HOST_ARCH} --with-default-fonts=${datadir}/fonts"
+ EXTRA_OEMAKE = "FC_LANG=fc-lang FC_GLYPHNAME=fc-glyphname"
+ 
+ # The tarball has some of the patched files as read only, which
 -- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+1.7.2.5
+
+
 
 
 
