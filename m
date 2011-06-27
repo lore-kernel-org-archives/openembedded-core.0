@@ -1,30 +1,28 @@
 Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qb8nA-00056L-DZ
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qb8wV-0005FO-IS
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jun 2011 12:11:44 +0200
-Received: by wyg30 with SMTP id 30so1137990wyg.6
+	Mon, 27 Jun 2011 12:21:23 +0200
+Received: by wyg30 with SMTP id 30so1143172wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2011 03:08:04 -0700 (PDT)
-Received: by 10.217.6.200 with SMTP id y50mr4985942wes.69.1309169284458;
-	Mon, 27 Jun 2011 03:08:04 -0700 (PDT)
+	Mon, 27 Jun 2011 03:17:43 -0700 (PDT)
+Received: by 10.216.184.137 with SMTP id s9mr673796wem.96.1309169863151;
+	Mon, 27 Jun 2011 03:17:43 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id l5sm2670653weq.33.2011.06.27.03.08.03
+	by mx.google.com with ESMTPS id o75sm2676816weq.16.2011.06.27.03.17.41
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 27 Jun 2011 03:08:03 -0700 (PDT)
+	Mon, 27 Jun 2011 03:17:42 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1084)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1309167774.21613.264.camel@phil-desktop>
-Date: Mon, 27 Jun 2011 12:07:57 +0200
-Message-Id: <8815E10D-6790-48AD-811D-5BE977A17380@dominion.thruhere.net>
-References: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
-	<4E0699D1.9090308@gmail.com> <4E074ABB.80405@gmail.com>
-	<48356C52-61A1-42BE-92AA-704FB136D8A3@dominion.thruhere.net>
-	<1309167774.21613.264.camel@phil-desktop>
+In-Reply-To: <a9318aee537a684644da1b6c3349e1f339bdf269.1308973924.git.edwin.zhai@intel.com>
+Date: Mon, 27 Jun 2011 12:17:40 +0200
+Message-Id: <E1CE6B81-087C-421B-8B2D-3FB66713E99C@dominion.thruhere.net>
+References: <cover.1308973924.git.edwin.zhai@intel.com>
+	<a9318aee537a684644da1b6c3349e1f339bdf269.1308973924.git.edwin.zhai@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: gcc-cross-kernel problems
+Subject: Re: [PATCH 1/2] glib-networking: Add 2.28.7 as new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,87 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2011 10:11:44 -0000
+X-List-Received-Date: Mon, 27 Jun 2011 10:21:23 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 27 jun 2011, om 11:42 heeft Phil Blundell het volgende geschreven:
+Op 25 jun 2011, om 05:54 heeft edwin.zhai@intel.com het volgende =
+geschreven:
 
-> On Mon, 2011-06-27 at 11:32 +0200, Koen Kooi wrote:
->> Op 26 jun 2011, om 17:05 heeft Khem Raj het volgende geschreven:
->>=20
->>> On 06/25/2011 07:30 PM, Khem Raj wrote:
->>>> so in you kernel recipe somewhere patch the below code
->>>>=20
->>>> PATH_prepend =3D "${STAGING_BINDIR_TOOLCHAIN}.gcc-cross-kernel:"
->>>=20
->>> I guess it has 4.2.1 in the path for you as I see so you might need
->>>=20
->>> PATH_prepend =3D =
-"${STAGING_BINDIR_TOOLCHAIN}.gcc-cross-kernel-4.2.1:"
->>=20
->> I did it a bit differently and symlinked it into the regular =
-toolchain bin and I not get an 'as' error about '-EL' not being a valid =
-option.It looks like gcc is calling an unprefixed 'as'. Is this due to =
-gcc-cross-kernel being bitrotted, the recipe missing patches or =
-something else?
+> From: Zhai Edwin <edwin.zhai@intel.com>
 >=20
-> That usually means that the cross as hasn't been installed/symlinked
-> into the place where gcc expects to find it.  The way the gcc driver
-> locates the assembler is by searching for "as" in various different
-> directories.  In particular, despite what you might expect it doesn't
-> ever look for $TARGET_SYS-as in $bindir or anywhere else.
->=20
-> Usually it will expect to find as in
-> $libexecdir/gcc/$TARGET_SYS/4.2.1/as or some such path.  The symlinks =
-in
-> that directory are created as part of the gcc installation process.  =
-You
-> can strace gcc to find out where it's actually looking.
+> +SRC_URI =3D =
+"${GNOME_MIRROR}/glib-networking/2.28/glib-networking-${PV}.tar.bz2"
 
-It seems to be looking at these directories:
+No 'name' parameter
 
-=
-stat("/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/=
-usr/libexec/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel/gcc/arm-angstro=
-m-linux-gnueabi/4.2.1/as", 0x7fff13f2f110) =3D -1 ENOENT (No such file =
-or directory)
-=
-stat("/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/=
-usr/libexec/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel/gcc/arm-angstro=
-m-linux-gnueabi/4.2.1/as", 0x7fff13f2f110) =3D -1 ENOENT (No such file =
-or directory)
-=
-stat("/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/=
-usr/libexec/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel/gcc/arm-angstro=
-m-linux-gnueabi/as", 0x7fff13f2f110) =3D -1 ENOENT (No such file or =
-directory)
-=
-stat("/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/=
-usr/lib/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel/gcc/arm-angstrom-li=
-nux-gnueabi/4.2.1/as", 0x7fff13f2f110) =3D -1 ENOENT (No such file or =
-directory)
-=
-stat("/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/=
-usr/lib/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel/gcc/arm-angstrom-li=
-nux-gnueabi/as", 0x7fff13f2f110) =3D -1 ENOENT (No such file or =
-directory)
-=
-stat("/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/=
-usr/lib/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel/gcc/arm-angstrom-li=
-nux-gnueabi/4.2.1/../../../../../arm-angstrom-linux-gnueabi/bin/arm-angstr=
-om-linux-gnueabi/4.2.1/as", 0x7fff13f2f110) =3D -1 ENOENT (No such file =
-or directory)
-=
-stat("/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/=
-usr/lib/armv7a-angstrom-linux-gnueabi.gcc-cross-kernel/gcc/arm-angstrom-li=
-nux-gnueabi/4.2.1/../../../../../arm-angstrom-linux-gnueabi/bin/as", =
-0x7fff13f2f110) =3D -1 ENOENT (No such file or directory)
+> +SRC_URI[archive.md5sum] =3D "c10e51571d03c10111a37bcd21fbf777"
+> +SRC_URI[archive.sha256sum] =3D =
+"98bedfbd530c4b1b53c91025fe82290bafd289d249e4eb549c3b90d23a76021c"
 
-In the first one only cc1 and collect are present. What would be the =
-best way to fix this?
+'archive' as name paramater, leading to:
 
+WARNING: Missing SRC_URI checksum for =
+/OE/tentacle/sources/downloads/glib-networking-2.28.7.tar.bz2, consider =
+adding to the recipe:
+SRC_URI[md5sum] =3D "c10e51571d03c10111a37bcd21fbf777"
+SRC_URI[sha256sum] =3D =
+"98bedfbd530c4b1b53c91025fe82290bafd289d249e4eb549c3b90d23a76021c"
 
 
 
