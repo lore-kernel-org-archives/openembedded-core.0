@@ -1,27 +1,26 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Qb8zL-0005Iu-7f for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jun 2011 12:24:19 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1Qb8vp-0008JF-HV
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QbAiK-0002Q2-AV
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jun 2011 12:20:41 +0200
-From: Phil Blundell <pb@pbcl.net>
+	Mon, 27 Jun 2011 14:14:52 +0200
+Received: by wyg30 with SMTP id 30so1209096wyg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Jun 2011 05:11:12 -0700 (PDT)
+Received: by 10.216.135.133 with SMTP id u5mr4190006wei.61.1309176671568;
+	Mon, 27 Jun 2011 05:11:11 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id n21sm2731954wed.19.2011.06.27.05.11.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 27 Jun 2011 05:11:10 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Mon, 27 Jun 2011 14:11:09 +0200
+Message-Id: <A8286FFC-6451-4E36-8C99-37A595A7EF44@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <8815E10D-6790-48AD-811D-5BE977A17380@dominion.thruhere.net>
-References: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
-	<4E0699D1.9090308@gmail.com> <4E074ABB.80405@gmail.com>
-	<48356C52-61A1-42BE-92AA-704FB136D8A3@dominion.thruhere.net>
-	<1309167774.21613.264.camel@phil-desktop>
-	<8815E10D-6790-48AD-811D-5BE977A17380@dominion.thruhere.net>
-Organization: Phil Blundell Consulting Ltd
-Date: Mon, 27 Jun 2011 11:20:35 +0100
-Message-ID: <1309170035.21613.289.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: gcc-cross-kernel problems
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Cc: Chris Larson <clarson@kergoth.com>
+Subject: Bitbake master broken
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,32 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2011 10:24:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Jun 2011 12:14:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2011-06-27 at 12:07 +0200, Koen Kooi wrote:
-> In the first one only cc1 and collect are present. What would be the best way to fix this?
+Hi,
 
-It seems that gcc-package-cross.inc is doing this by steam for the
-regular cross compiler.  See this code from do_install():
+After updating bitbake this morning I get:
 
-	# Insert symlinks into libexec so when tools without a prefix are searched for, the correct ones are
-	# found. These need to be relative paths so they work in different locations.
-	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
-	install -d $dest
-	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
-		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
-		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t ${dest}${TARGET_PREFIX}$t
-	done
+/OE/tentacle/sources/bitbake/lib/bb/msg.py:95: DeprecationWarning: =
+object.__init__() takes no parameters
+  super(set, self).__init__(args)
+Traceback (most recent call last):
+  File "/OE/tentacle/sources/bitbake/bin/bitbake", line 34, in <module>
+    import bb
+  File "/OE/tentacle/sources/bitbake/lib/bb/__init__.py", line 63, in =
+<module>
+    import bb.msg
+  File "/OE/tentacle/sources/bitbake/lib/bb/msg.py", line 133, in =
+<module>
+    def get_debug_level(msgdomain =3D domain.Default):
+  File "/OE/tentacle/sources/bitbake/lib/bb/msg.py", line 100, in =
+__getattr__
+    raise AttributeError
+AttributeError
+/OE/tentacle/sources/bitbake/lib/bb/event.py:101: RuntimeWarning: Parent =
+module 'bb' not found while handling absolute import
+  from bb.msg import BBLogFormatter
+/OE/tentacle/sources/bitbake/lib/bb/msg.py:95: DeprecationWarning: =
+object.__init__() takes no parameters
+  super(set, self).__init__(args)
+Error in atexit._run_exitfuncs:
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/atexit.py", line 24, in _run_exitfuncs
+    func(*targs, **kargs)  =20
+  File "/OE/tentacle/sources/bitbake/lib/bb/event.py", line 101, in =
+print_ui_queue
+    from bb.msg import BBLogFormatter
+  File "/OE/tentacle/sources/bitbake/lib/bb/__init__.py", line 63, in =
+<module>
+    import bb.msg
+  File "/OE/tentacle/sources/bitbake/lib/bb/msg.py", line 133, in =
+<module>
+    def get_debug_level(msgdomain =3D domain.Default):
+  File "/OE/tentacle/sources/bitbake/lib/bb/msg.py", line 100, in =
+__getattr__
+    raise AttributeError
+AttributeError
+Error in sys.exitfunc:
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/atexit.py", line 24, in _run_exitfuncs
+    func(*targs, **kargs)  =20
+  File "/OE/tentacle/sources/bitbake/lib/bb/event.py", line 101, in =
+print_ui_queue
+    from bb.msg import BBLogFormatter
+  File "/OE/tentacle/sources/bitbake/lib/bb/__init__.py", line 63, in =
+<module>
+    import bb.msg
+  File "/OE/tentacle/sources/bitbake/lib/bb/msg.py", line 133, in =
+<module>
+    def get_debug_level(msgdomain =3D domain.Default):
+  File "/OE/tentacle/sources/bitbake/lib/bb/msg.py", line 100, in =
+__getattr__
+    raise AttributeError
+AttributeError
 
-So I guess you could copy that into gcc-cross-kernel or arrange for the
-two recipes to share more stuff.  Really, the only difference between
-gcc-cross-kernel and regular gcc-cross should be that the former doesn't
-install itself as ${TARGET_SYS}-gcc in the sysroot bindir.
+Rolling back 2 revisions to the umask one fixes things.
 
-p.
+regards,
 
-
+Koen=
 
 
