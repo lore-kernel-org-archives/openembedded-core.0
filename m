@@ -1,27 +1,24 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qb8Ej-0004Eq-2Z
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Qb8On-0004NB-Qo for openembedded-core@lists.openembedded.org;
+	Mon, 27 Jun 2011 11:46:33 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1Qb8LI-0008IR-6L
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jun 2011 11:36:09 +0200
-Received: by wyg30 with SMTP id 30so1118924wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2011 02:32:29 -0700 (PDT)
-Received: by 10.227.179.14 with SMTP id bo14mr5295622wbb.90.1309167149079;
-	Mon, 27 Jun 2011 02:32:29 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fi5sm3943577wbb.22.2011.06.27.02.32.27
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 27 Jun 2011 02:32:28 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4E074ABB.80405@gmail.com>
-Date: Mon, 27 Jun 2011 11:32:22 +0200
-Message-Id: <48356C52-61A1-42BE-92AA-704FB136D8A3@dominion.thruhere.net>
-References: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
-	<4E0699D1.9090308@gmail.com> <4E074ABB.80405@gmail.com>
+	Mon, 27 Jun 2011 11:42:56 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
+In-Reply-To: <48356C52-61A1-42BE-92AA-704FB136D8A3@dominion.thruhere.net>
+References: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
+	<4E0699D1.9090308@gmail.com> <4E074ABB.80405@gmail.com>
+	<48356C52-61A1-42BE-92AA-704FB136D8A3@dominion.thruhere.net>
+Organization: Phil Blundell Consulting Ltd
+Date: Mon, 27 Jun 2011 10:42:54 +0100
+Message-ID: <1309167774.21613.264.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
 Subject: Re: gcc-cross-kernel problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,31 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2011 09:36:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 27 Jun 2011 09:46:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Mon, 2011-06-27 at 11:32 +0200, Koen Kooi wrote:
+> Op 26 jun 2011, om 17:05 heeft Khem Raj het volgende geschreven:
+> 
+> > On 06/25/2011 07:30 PM, Khem Raj wrote:
+> >> so in you kernel recipe somewhere patch the below code
+> >> 
+> >> PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.gcc-cross-kernel:"
+> > 
+> > I guess it has 4.2.1 in the path for you as I see so you might need
+> > 
+> > PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.gcc-cross-kernel-4.2.1:"
+> 
+> I did it a bit differently and symlinked it into the regular toolchain bin and I not get an 'as' error about '-EL' not being a valid option.It looks like gcc is calling an unprefixed 'as'. Is this due to gcc-cross-kernel being bitrotted, the recipe missing patches or something else?
 
-Op 26 jun 2011, om 17:05 heeft Khem Raj het volgende geschreven:
+That usually means that the cross as hasn't been installed/symlinked
+into the place where gcc expects to find it.  The way the gcc driver
+locates the assembler is by searching for "as" in various different
+directories.  In particular, despite what you might expect it doesn't
+ever look for $TARGET_SYS-as in $bindir or anywhere else.
 
-> On 06/25/2011 07:30 PM, Khem Raj wrote:
->> so in you kernel recipe somewhere patch the below code
->>=20
->> PATH_prepend =3D "${STAGING_BINDIR_TOOLCHAIN}.gcc-cross-kernel:"
->=20
-> I guess it has 4.2.1 in the path for you as I see so you might need
->=20
-> PATH_prepend =3D "${STAGING_BINDIR_TOOLCHAIN}.gcc-cross-kernel-4.2.1:"
+Usually it will expect to find as in
+$libexecdir/gcc/$TARGET_SYS/4.2.1/as or some such path.  The symlinks in
+that directory are created as part of the gcc installation process.  You
+can strace gcc to find out where it's actually looking.
 
-I did it a bit differently and symlinked it into the regular toolchain =
-bin and I not get an 'as' error about '-EL' not being a valid option.It =
-looks like gcc is calling an unprefixed 'as'. Is this due to =
-gcc-cross-kernel being bitrotted, the recipe missing patches or =
-something else?
-
-regards,
-
-Koen
+p.
 
 
 
