@@ -1,41 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1Qb4lP-0000Jo-7z
+	(envelope-from <sgw@linux.intel.com>) id 1Qb5BI-00012f-RJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jun 2011 07:53:39 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Jun 2011 22:49:53 -0700
+	Mon, 27 Jun 2011 08:20:25 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 26 Jun 2011 23:16:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,430,1304319600"; d="scan'208";a="20919567"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Jun 2011 22:49:53 -0700
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Mon, 27 Jun 2011 13:49:13 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Mon, 27 Jun 2011 13:49:07 +0800
-From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.65,431,1304319600"; d="scan'208";a="18950877"
+Received: from unknown (HELO [10.255.13.158]) ([10.255.13.158])
+	by azsmga001.ch.intel.com with ESMTP; 26 Jun 2011 23:16:40 -0700
+Message-ID: <4E082046.4050909@linux.intel.com>
+Date: Sun, 26 Jun 2011 23:16:38 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Jun 2011 13:49:06 +0800
-Thread-Topic: [OE-core] [PATCH 1/1] libc-locale: split locale handling from
-	libc recipe.
-Thread-Index: Acwx/0xk7wHS9yBjSLKkG8tGEM9wAgCiEBBg
-Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D6ADB765@shsmsx501.ccr.corp.intel.com>
-References: <cover.1308732995.git.dongxiao.xu@intel.com>
-	<d7c256ba838d05c85c6e7c2569f0a6c7b276ab17.1308732995.git.dongxiao.xu@intel.com>
-	<1308743075.21613.82.camel@phil-desktop>
-	<D5AB6E638E5A3E4B8F4406B113A5A19A12D6A3E0A9@shsmsx501.ccr.corp.intel.com>
-	<1308822049.21613.128.camel@phil-desktop>	<1308824075.20015.109.camel@rex>
-	<4E03CF74.7030702@gmail.com>
-In-Reply-To: <4E03CF74.7030702@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] libc-locale: split locale handling from libc recipe.
+References: <cover.1309059243.git.sgw@linux.intel.com>	<dc56d07c4a034568b8860d7bcd41b31acbdb3e89.1309059243.git.sgw@linux.intel.com>
+	<B39BDB9E-CF2E-47CD-A195-BCEFD4B8B8C4@dominion.thruhere.net>
+In-Reply-To: <B39BDB9E-CF2E-47CD-A195-BCEFD4B8B8C4@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [RFC - Staticdev 1/2] multiple recipes converted to -staticdev packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,83 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2011 05:53:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 27 Jun 2011 06:20:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Khem Raj
-> Sent: Friday, June 24, 2011 7:43 AM
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 1/1] libc-locale: split locale handling fro=
-m libc
-> recipe.
->=20
-> On 06/23/2011 03:14 AM, Richard Purdie wrote:
-> > On Thu, 2011-06-23 at 10:40 +0100, Phil Blundell wrote:
-> >> On Thu, 2011-06-23 at 12:08 +0800, Xu, Dongxiao wrote:
-> >>>> -----Original Message-----
-> >>>> From: openembedded-core-bounces@lists.openembedded.org
-> >>>> [mailto:openembedded-core-bounces@lists.openembedded.org] On
-> Behalf
-> >>>> Of Phil Blundell
-> >>>> Sent: Wednesday, June 22, 2011 7:45 PM
-> >>>> To: Patches and discussions about the oe-core layer
-> >>>> Subject: Re: [OE-core] [PATCH 1/1] libc-locale: split locale
-> >>>> handling from libc recipe.
-> >>>>
-> >>>> I still don't quite understand why the virtual/libiconv provider
-> >>>> has moved from eglibc to eglibc-locale.  Can you explain what's goin=
-g on
-> there?
-> >>>
-> >>> Generally, the purpose of this patch is to reduce eglibc's do_package=
- time.
-> >>>
-> >>> Since many other recipes' do_package have dependency on eglibc's
-> do_package, thus the sooner eglibc could finish its do_package, the ealie=
-r can
-> other do_packages be executed, which improves the parallelism.
-> >>>
-> >>>  From our study, we found most of eglibc's do_package time is used to
-> handle locale. Therefore we split all the locale related stuffs into a se=
-parately
-> recipe eglibc-locale.
-> >>
-> >> Yes, I understand that.  But I don't think this answers the question
-> >> about why, specifically, glibc-locale is now PROVIDEing
-> >> virtual/libiconv.  Does that recipe, in fact, implement libiconv?
-> >
-> > I must admit I was wondering about this too. Isn't the libiconv
-> > functionality still packaged as part of the libc recipe, not the
-> > locale part?
-> >
-> yes it should be in libc
+On 06/26/2011 12:34 AM, Koen Kooi wrote:
+>
+> Op 26 jun 2011, om 06:36 heeft Saul Wold het volgende geschreven:
+>
+>> This commit adds a new base package ${PN}-staticdev to
+>> bitbake.conf which pulls in the static *.a libraries as
+>> a seperate package, it filters out the nonshared.a
+>> libraries where appropriate.
+>>
+>> Additional this commit adds a new libdev.bbclass which provides
+>> a set of macros and variables to convert ${PN} to lib${PN},
+>> which a number of recipes where then converted to use.
+>
+> Can't that be merged into lib_package.bbclass?
+>
+Hmm, yes possibly, and another place for me to fix a *.a move to staticdev!
 
-Oh, it should be a mistake. I have changed that in my patch and doing test =
-for it now.
+Sau!
 
-Thanks,
-Dongxiao
-
->=20
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
->=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
