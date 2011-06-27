@@ -1,28 +1,32 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QbDtM-0000D9-Fx
+	(envelope-from <koen@dominion.thruhere.net>) id 1QbDtv-0000ER-Du
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jun 2011 17:38:28 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5RFYleW017366
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 27 Jun 2011 17:39:03 +0200
+Received: by wyg30 with SMTP id 30so1365002wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2011 08:34:47 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 27 Jun 2011 08:34:47 -0700
-Message-ID: <4E08A316.7060609@windriver.com>
-Date: Mon, 27 Jun 2011 10:34:46 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1309188064.git.mark.hatle@windriver.com>
-	<BCF3715C-89A9-4B7A-9278-6D589F8223B1@dominion.thruhere.net>
-In-Reply-To: <BCF3715C-89A9-4B7A-9278-6D589F8223B1@dominion.thruhere.net>
-Subject: Re: [PATCH 0/2] Ensure a reasonable umask, and fix up permissions (V2)
+	Mon, 27 Jun 2011 08:35:10 -0700 (PDT)
+Received: by 10.227.13.147 with SMTP id c19mr5691645wba.87.1309188910198;
+	Mon, 27 Jun 2011 08:35:10 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fe4sm3373596wbb.45.2011.06.27.08.35.08
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 27 Jun 2011 08:35:09 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1309170035.21613.289.camel@phil-desktop>
+Date: Mon, 27 Jun 2011 17:35:07 +0200
+Message-Id: <7291E005-7DE1-4834-A4E4-5055D2FDA3A3@dominion.thruhere.net>
+References: <CFB391EB-D84F-4616-887D-DAFAB036EA42@dominion.thruhere.net>
+	<4E0699D1.9090308@gmail.com> <4E074ABB.80405@gmail.com>
+	<48356C52-61A1-42BE-92AA-704FB136D8A3@dominion.thruhere.net>
+	<1309167774.21613.264.camel@phil-desktop>
+	<8815E10D-6790-48AD-811D-5BE977A17380@dominion.thruhere.net>
+	<1309170035.21613.289.camel@phil-desktop>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: gcc-cross-kernel problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,62 +41,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2011 15:38:28 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Jun 2011 15:39:03 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 6/27/11 10:31 AM, Koen Kooi wrote:
-> 
-> Op 27 jun 2011, om 17:26 heeft Mark Hatle het volgende geschreven:
-> 
->> Revised the fixup_perms function in package.bbclass.  Change to using a
->> class based approach for the individual permissions entries.
->>
->> Add support for directory linkages.
->>
->> Add entries to match base-files recipe in the fs-perms.txt.
->>
->> (umask commit is unchanged, resending due to time since last sent)
->>
->> ----
->>
->> V1 log below
->>
->> Add a new function that is responsible for fixing directory and file
->> permissions, owners and groups during the packaging process.  This will fix
->> various issues where two packages may create the same directory and end up
->> with different permissions, owner and/or group.
->>
->> The issue being resolved is that if two packages conflict in their ownership
->> of a directory, the first installed into the rootfs sets the permissions.
->> This leads to a least potentially non-deterministic filesystems, at worst
->> security defects.
->>
->> The user can specify their own settings via the configuration files
->> specified in FILESYSTEM_PERMS_TABLES.  If this is not defined, it will
->> fall back to loading files/fs-perms.txt from BBPATH.  The format of this
->> file is documented within the file.
->>
->> By default all of the system directories, specified in bitbake.conf, will
->> be fixed to be 0755, root, root.
->>
->> The fs-perms.txt contains a few default entries to correct documentation,
->> locale, headers and debug sources.  It was discovered these are often
->> incorrect due to being directly copied from the build user environment.
->>
->> Also tweak a couple of warnings to provide more diagnostic information.
-> 
-> Does this rely on the umask feature in bitbake master? If so, we should check the minumum bitbake requirements again
 
-It relies upon it, however no failures will occur if bitbake master doesn't
-support the umask control.  (Of course then the user's umask is inherited.)
+Op 27 jun 2011, om 12:20 heeft Phil Blundell het volgende geschreven:
 
---Mark
+> On Mon, 2011-06-27 at 12:07 +0200, Koen Kooi wrote:
+>> In the first one only cc1 and collect are present. What would be the =
+best way to fix this?
+>=20
+> It seems that gcc-package-cross.inc is doing this by steam for the
+> regular cross compiler.  See this code from do_install():
+>=20
+> 	# Insert symlinks into libexec so when tools without a prefix =
+are searched for, the correct ones are
+> 	# found. These need to be relative paths so they work in =
+different locations.
+> 	dest=3D${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
+> 	install -d $dest
+> 	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp =
+gfortran; do
+> 		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
+> 		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t =
+${dest}${TARGET_PREFIX}$t
+> 	done
+>=20
+> So I guess you could copy that into gcc-cross-kernel or arrange for =
+the
+> two recipes to share more stuff.  Really, the only difference between
+> gcc-cross-kernel and regular gcc-cross should be that the former =
+doesn't
+> install itself as ${TARGET_SYS}-gcc in the sysroot bindir.
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+That, combined with PATH_prepend =3D =
+"${STAGING_BINDIR_TOOLCHAIN}.gcc-cross-kernel-4.2.1:" in the recipe =
+makes it work, thanks! I"ll send an updated patch for =
+gcc-cross-kernel.inc soon.=
 
 
