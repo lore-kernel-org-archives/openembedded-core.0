@@ -1,28 +1,24 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qb8Yp-0004Uo-9Y
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Qb8d7-0004vt-31 for openembedded-core@lists.openembedded.org;
+	Mon, 27 Jun 2011 12:01:21 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1Qb8Zb-0008Is-Di
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jun 2011 11:56:55 +0200
-Received: by wyg30 with SMTP id 30so1129789wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2011 02:53:14 -0700 (PDT)
-Received: by 10.227.197.205 with SMTP id el13mr3221137wbb.84.1309168394603;
-	Mon, 27 Jun 2011 02:53:14 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id d19sm3958094wbh.8.2011.06.27.02.53.13
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 27 Jun 2011 02:53:13 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <a9318aee537a684644da1b6c3349e1f339bdf269.1308973924.git.edwin.zhai@intel.com>
-Date: Mon, 27 Jun 2011 11:53:07 +0200
-Message-Id: <F8790096-AFE8-4CDA-B025-CE8359FC48BF@dominion.thruhere.net>
-References: <cover.1308973924.git.edwin.zhai@intel.com>
-	<a9318aee537a684644da1b6c3349e1f339bdf269.1308973924.git.edwin.zhai@intel.com>
+	Mon, 27 Jun 2011 11:57:43 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 1/2] glib-networking: Add 2.28.7 as new recipe
+In-Reply-To: <598f1ae9f5b0adee5bf9cfae4fc6bf3522bdfd4f.1309059243.git.sgw@linux.intel.com>
+References: <dc56d07c4a034568b8860d7bcd41b31acbdb3e89.1309059243.git.sgw@linux.intel.com>
+	<598f1ae9f5b0adee5bf9cfae4fc6bf3522bdfd4f.1309059243.git.sgw@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Mon, 27 Jun 2011 10:57:42 +0100
+Message-ID: <1309168662.21613.265.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [RFC - Staticdev 2/2] systemtap: add sqlite3 to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,29 +33,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2011 09:56:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 27 Jun 2011 10:01:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Sat, 2011-06-25 at 21:36 -0700, Saul Wold wrote:
+> -DEPENDS = "elfutils"
+> +DEPENDS = "elfutils sqlite3"
+
+No doubt this is a fine change but I didn't quite understand what it has
+to do with staticdev.  Was this meant to be a separate patchset?
+
+p.
 
 
-Op 25 jun 2011, om 05:54 heeft edwin.zhai@intel.com het volgende =
-geschreven:
-
-> From: Zhai Edwin <edwin.zhai@intel.com>
->=20
-> glib-networking contains the implementations of certain GLib =
-networking
-> features that cannot be implemented directly in GLib itself because of =
-their
-> dependencies. TLS/SSL support is one of them, which is needed for =
-accessing SSL
-> web page.
->=20
-> Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-> ---
-> meta/recipes-sato/web/glib-networking_2.28.7.bb |   21 =
-+++++++++++++++++++++
-
-The recipe looks good, but it shouldn't be hidden in recipes-sato/web/=
 
 
