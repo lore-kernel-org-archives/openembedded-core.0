@@ -1,26 +1,23 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QbDlY-0008Nw-Jk
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QbDlk-0008SA-HD for openembedded-core@lists.openembedded.org;
+	Mon, 27 Jun 2011 17:30:36 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QbDiE-0008OU-KJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jun 2011 17:30:25 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5RFQg4Z015879
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2011 08:26:42 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 27 Jun 2011 08:26:42 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Jun 2011 10:26:56 -0500
-Message-ID: <f52bc6d32fc206421e1c7fc3a3165267c0ab4b9f.1309188064.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1309188064.git.mark.hatle@windriver.com>
-References: <cover.1309188064.git.mark.hatle@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 1/2] Add umask task control
+	Mon, 27 Jun 2011 17:26:58 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1308230863.25285.4590.camel@phil-desktop>
+References: <1308230863.25285.4590.camel@phil-desktop>
+Organization: Phil Blundell Consulting Ltd
+Date: Mon, 27 Jun 2011 16:26:57 +0100
+Message-ID: <1309188417.21613.326.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [PATCH] dhcp: don't try to move files from ${sbindir} to ${base_sbindir} if they are the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,109 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jun 2011 15:30:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 27 Jun 2011 15:30:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Bitbake now allows the umask to be specified per task.  The
-following tasks will have a umask of 022 set by default:
+Ping?
 
-do_configure
-do_compile
-do_install
-do_package
-do_populate_sysroot
-do_rootfs
+p.
 
-do_configure and do_compile need a umask of 022 set because -many- recipes
-directly copy generated files out of recipe's build directory.  Instead of
-fixing each existing and future recipe, it was shown to be much easier to
-just set the umask.
+On Thu, 2011-06-16 at 14:27 +0100, Phil Blundell wrote:
+> Signed-off-by: Phil Blundell <philb@gnu.org>
+> ---
+>  meta/recipes-connectivity/dhcp/dhcp4.inc |    4 +++-
+>  1 files changed, 3 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-connectivity/dhcp/dhcp4.inc b/meta/recipes-connectivity/dhcp/dhcp4.inc
+> index 159ae89..885cc19 100644
+> --- a/meta/recipes-connectivity/dhcp/dhcp4.inc
+> +++ b/meta/recipes-connectivity/dhcp/dhcp4.inc
+> @@ -47,7 +47,9 @@ do_install_append () {
+>  	install -m 0644 ${WORKDIR}/dhcpd.conf ${D}${sysconfdir}/dhcp/dhcpd.conf
+>  
+>  	install -d ${D}${base_sbindir}/
+> -	mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
+> +	if [ "${sbindir}" != "${base_sbindir}" ]; then
+> +		mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
+> +	fi
+>  	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
+>  }
+>  
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/base.bbclass                          |    4 ++++
- meta/classes/image.bbclass                         |    2 ++
- meta/classes/staging.bbclass                       |    1 +
- .../installer/adt-installer_1.0.bb                 |    2 ++
- meta/recipes-kernel/linux/linux-tools.inc          |    2 ++
- 5 files changed, 11 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 119b052..9a07f49 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -262,14 +262,18 @@ python () {
-     # If we're building a target package we need to use fakeroot (pseudo)
-     # in order to capture permissions, owners, groups and special files
-     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
-+        bb.data.setVarFlag('do_configure', 'umask', 022, d)
-+        bb.data.setVarFlag('do_compile', 'umask', 022, d)
-         deps = (bb.data.getVarFlag('do_install', 'depends', d) or "").split()
-         deps.append('virtual/fakeroot-native:do_populate_sysroot')
-         bb.data.setVarFlag('do_install', 'depends', " ".join(deps),d)
-         bb.data.setVarFlag('do_install', 'fakeroot', 1, d)
-+        bb.data.setVarFlag('do_install', 'umask', 022, d)
-         deps = (bb.data.getVarFlag('do_package', 'depends', d) or "").split()
-         deps.append('virtual/fakeroot-native:do_populate_sysroot')
-         bb.data.setVarFlag('do_package', 'depends', " ".join(deps),d)
-         bb.data.setVarFlag('do_package', 'fakeroot', 1, d)
-+        bb.data.setVarFlag('do_package', 'umask', 022, d)
-         bb.data.setVarFlag('do_package_setscene', 'fakeroot', 1, d)
-     source_mirror_fetch = bb.data.getVar('SOURCE_MIRROR_FETCH', d, 0)
-     if not source_mirror_fetch:
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 2469442..e77ec42 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -83,6 +83,8 @@ do_build[nostamp] = "1"
- 
- # Must call real_do_rootfs() from inside here, rather than as a separate
- # task, so that we have a single fakeroot context for the whole process.
-+do_rootfs[umask] = 022
-+
- fakeroot do_rootfs () {
- 	#set -x
- 	rm -rf ${IMAGE_ROOTFS}
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index fef6457..04d51ed 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -58,6 +58,7 @@ sysroot_stage_all() {
- }
- 
- do_populate_sysroot[dirs] = "${SYSROOT_DESTDIR}"
-+do_populate_sysroot[umask] = 022
- 
- addtask populate_sysroot after do_install
- 
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index 8f6e91f..0537440 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -54,6 +54,8 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
-            file://opkg/conf/opkg-sdk-i686.conf \
- 	  "
- 
-+do_deploy[umask] = 022
-+
- fakeroot do_deploy () {
- 	cd ${WORKDIR}
- 	mkdir -p ${ADT_DEPLOY}
-diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipes-kernel/linux/linux-tools.inc
-index e4740d7..729e912 100644
---- a/meta/recipes-kernel/linux/linux-tools.inc
-+++ b/meta/recipes-kernel/linux/linux-tools.inc
-@@ -19,6 +19,8 @@ fakeroot do_install_perf() {
- addtask compile_perf after do_compile before do_install
- addtask install_perf after do_install before do_package
- 
-+do_compile_perf[umask] = 022
-+do_install_perf[umask] = 022
- 
- PERFDEPENDS = "virtual/libc:do_populate_sysroot elfutils:do_populate_sysroot"
- PERFDEPENDS_libc-uclibc = ""
--- 
-1.7.3.4
 
 
 
