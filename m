@@ -1,23 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1QbUKH-0002OE-8I
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1QbUKH-0002OI-EE
 	for openembedded-core@lists.openembedded.org;
 	Tue, 28 Jun 2011 11:11:21 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5S97cga019721
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5S97d5q019730
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 02:07:38 -0700 (PDT)
+	Tue, 28 Jun 2011 02:07:40 -0700 (PDT)
 Received: from usp-ub10.corp.ad.wrs.com (128.224.163.66) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 28 Jun 2011 02:07:38 -0700
+	14.1.255.0; Tue, 28 Jun 2011 02:07:39 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Jun 2011 17:05:18 +0800
-Message-ID: <cover.1309243115.git.liezhi.yang@windriver.com>
+Date: Tue, 28 Jun 2011 17:05:19 +0800
+Message-ID: <7abf11041890a833e554fb85ae2c958314ff1256.1309243115.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1309243115.git.liezhi.yang@windriver.com>
+References: <cover.1309243115.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4 V4] Share gcc work directories
+Subject: [PATCH 1/4 V4] bitbake: share source directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,70 +37,106 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Tue, 28 Jun 2011 09:11:22 -0000
 Content-Type: text/plain
 
-Changes of V4:
+This patch is derived from Richard, it is a quick proof of concept to
+show how source code could be shared between recipes which use ${B} to
+have a separate build directory compared to source directory ${S}.
 
-* Change the definition of GLIBC_DYNAMIC_LINKER as Richard suggested.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ bitbake/lib/bb/build.py    |    4 ++--
+ bitbake/lib/bb/cache.py    |    3 +++
+ bitbake/lib/bb/runqueue.py |   10 ++++++++++
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
-  e.g., the entries in the files that look like:
-  #define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
-
-  become
-
-  #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
-
-  and we define SYSTEMLIBS_DIR in defaults.h.
-
-  NOTE, the round brackets:
-  #define GLIBC_DYNAMIC_LINKER64 (SYSTEMLIBS_DIR "/ld-linux-x86-64.so.2")
-
-  doesn't work in in the following define:
-
-  #define LINUX_DYNAMIC_LINKER \
-          CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER, UCLIBC_DYNAMIC_LINKER)
-
-  so use:
-  #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
-
-* Compare to V3, reduce two patches which are for gcc-crosssdk.inc and
-  gcc-cross-canadian which are not needed any more.
-
-* Fix the conflicts(gcc-4.6.0 -> gcc-4.6, and the ${BRANCH})
-
-* Both tested 4.5.1 and 4.6:
-  $ bitbake meta-toolchain core-image-sato
-  $ runqemu qemurm
-
-  Also unpack the sdk to /opt and test to make sure the toolchain works well.
-
-
-The following changes since commit a1f79a7896b6411669b3ccada6204d2695e80fc5:
-
-  runqueue.py: Add umask task control (2011-06-24 12:23:12 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib robert/share_gcc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/share_gcc
-
-Robert Yang (4):
-  bitbake: share source directory
-  Share gcc work directories
-  gcc-4.5.1: share work directories
-  gcc-4.6: share work directories
-
- bitbake/lib/bb/build.py                            |    4 +-
- bitbake/lib/bb/cache.py                            |    3 +
- bitbake/lib/bb/runqueue.py                         |   10 +++
- meta/recipes-devtools/gcc/gcc-4.5.1.inc            |    1 +
- .../gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch   |   57 ++++++++++++++
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    5 +-
- .../gcc/gcc-4.6/use-defaults.h-and-t-oe-in-B.patch |   80 ++++++++++++++++++++
- meta/recipes-devtools/gcc/gcc-common.inc           |   32 +++++++-
- meta/recipes-devtools/gcc/gcc-configure-common.inc |   48 +++++++-----
- meta/recipes-devtools/gcc/gcc-configure-cross.inc  |    4 +-
- meta/recipes-devtools/gcc/gcc-crosssdk.inc         |    6 --
- 11 files changed, 218 insertions(+), 32 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/use-defaults.h-and-t-oe-in-B.patch
+diff --git a/bitbake/lib/bb/build.py b/bitbake/lib/bb/build.py
+index f69464c..5c70309 100644
+--- a/bitbake/lib/bb/build.py
++++ b/bitbake/lib/bb/build.py
+@@ -383,10 +383,10 @@ def stamp_internal(taskname, d, file_name):
+         taskflagname = taskname.replace("_setscene", "")
+ 
+     if file_name:
+-        stamp = d.stamp[file_name]
++        stamp = d.stamp_base[file_name].get(taskflagname) or d.stamp[file_name]
+         extrainfo = d.stamp_extrainfo[file_name].get(taskflagname) or ""
+     else:
+-        stamp = d.getVar('STAMP', True)
++        stamp = d.getVarFlag(taskflagname, 'stamp-base', True) or d.getVar('STAMP', True)
+         file_name = d.getVar('BB_FILENAME', True)
+         extrainfo = d.getVarFlag(taskflagname, 'stamp-extra-info', True) or ""
+ 
+diff --git a/bitbake/lib/bb/cache.py b/bitbake/lib/bb/cache.py
+index 6c92a93..99d7395 100644
+--- a/bitbake/lib/bb/cache.py
++++ b/bitbake/lib/bb/cache.py
+@@ -124,6 +124,7 @@ class CoreRecipeInfo(RecipeInfoCommon):
+         self.broken = self.getvar('BROKEN', metadata)
+         self.not_world = self.getvar('EXCLUDE_FROM_WORLD', metadata)
+         self.stamp = self.getvar('STAMP', metadata)
++        self.stamp_base = self.flaglist('stamp-base', self.tasks, metadata)
+         self.stamp_extrainfo = self.flaglist('stamp-extra-info', self.tasks, metadata)
+         self.packages_dynamic = self.listvar('PACKAGES_DYNAMIC', metadata)
+         self.depends          = self.depvar('DEPENDS', metadata)
+@@ -151,6 +152,7 @@ class CoreRecipeInfo(RecipeInfoCommon):
+         cachedata.pkg_dp = {}
+ 
+         cachedata.stamp = {}
++        cachedata.stamp_base = {}
+         cachedata.stamp_extrainfo = {}
+         cachedata.fn_provides = {}
+         cachedata.pn_provides = defaultdict(list)
+@@ -183,6 +185,7 @@ class CoreRecipeInfo(RecipeInfoCommon):
+         cachedata.pkg_pepvpr[fn] = (self.pe, self.pv, self.pr)
+         cachedata.pkg_dp[fn] = self.defaultpref
+         cachedata.stamp[fn] = self.stamp
++        cachedata.stamp_base[fn] = self.stamp_base
+         cachedata.stamp_extrainfo[fn] = self.stamp_extrainfo
+ 
+         provides = [self.pn]
+diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
+index b801877..e1d32b7 100644
+--- a/bitbake/lib/bb/runqueue.py
++++ b/bitbake/lib/bb/runqueue.py
+@@ -105,6 +105,11 @@ class RunQueueScheduler(object):
+             if self.rq.runq_running[taskid] == 1:
+                 continue
+             if self.rq.runq_buildable[taskid] == 1:
++                fn = self.rqdata.taskData.fn_index[self.rqdata.runq_fnid[taskid]]
++                taskname = self.rqdata.runq_task[taskid]
++                stamp = bb.build.stampfile(taskname, self.rqdata.dataCache, fn)
++                if stamp in self.rq.build_stamps.values():
++                    continue
+                 return taskid
+ 
+     def next(self):
+@@ -1009,6 +1014,7 @@ class RunQueueExecute:
+         self.runq_complete = []
+         self.build_pids = {}
+         self.build_pipes = {}
++        self.build_stamps = {}
+         self.failed_fnids = []
+ 
+     def runqueue_process_waitpid(self):
+@@ -1023,6 +1029,9 @@ class RunQueueExecute:
+         del self.build_pids[result[0]]
+         self.build_pipes[result[0]].close()
+         del self.build_pipes[result[0]]
++        # self.build_stamps[result[0]] may not exist when use shared work directory.
++        if result[0] in self.build_stamps.keys():
++            del self.build_stamps[result[0]]
+         if result[1] != 0:
+             self.task_fail(task, result[1]>>8)
+         else:
+@@ -1330,6 +1339,7 @@ class RunQueueExecuteTasks(RunQueueExecute):
+ 
+             self.build_pids[pid] = task
+             self.build_pipes[pid] = runQueuePipe(pipein, pipeout, self.cfgData)
++            self.build_stamps[pid] = bb.build.stampfile(taskname, self.rqdata.dataCache, fn)
+             self.runq_running[task] = 1
+             self.stats.taskActive()
+             if self.stats.active < self.number_tasks:
+-- 
+1.7.1
 
 
 
