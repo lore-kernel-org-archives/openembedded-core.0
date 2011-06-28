@@ -1,26 +1,37 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QbWCH-0005GH-QJ
-	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 13:11:14 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 28 Jun 2011 04:07:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,437,1304319600"; d="scan'208";a="19664004"
-Received: from unknown (HELO helios.localnet) ([10.255.17.88])
-	by azsmga001.ch.intel.com with ESMTP; 28 Jun 2011 04:07:29 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jun 2011 12:07:23 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <cover.1309239001.git.dexuan.cui@intel.com>
-	<674a391015f3cdebe891ae7e8439aea48698982e.1309239001.git.dexuan.cui@intel.com>
-	<3819C41B-FF96-45FD-8265-8EFC9F73E771@dominion.thruhere.net>
-In-Reply-To: <3819C41B-FF96-45FD-8265-8EFC9F73E771@dominion.thruhere.net>
-MIME-Version: 1.0
-Message-Id: <201106281207.23516.paul.eggleton@linux.intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH 1/1] base.bbclass: show layer's branches/revisions in the banner info
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QbWCT-0005Hu-VJ for openembedded-core@lists.openembedded.org;
+	Tue, 28 Jun 2011 13:11:26 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5SB7ibo022116
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 12:07:44 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21909-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 12:07:40 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5SB7ZbY022110
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 12:07:36 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1309252054.21613.329.camel@phil-desktop>
+References: <cover.1309163663.git.dongxiao.xu@intel.com>
+	<cdd1860f64f84b58d18d1c6bed1805456d8d3e2e.1309163663.git.dongxiao.xu@intel.com>
+	<1309165102.21613.234.camel@phil-desktop>
+	<D5AB6E638E5A3E4B8F4406B113A5A19A12D6ADBBD3@shsmsx501.ccr.corp.intel.com>
+	<1309252054.21613.329.camel@phil-desktop>
+Date: Tue, 28 Jun 2011 12:07:22 +0100
+Message-ID: <1309259242.20015.237.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] libc-locale: split locale handling from libc recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,54 +46,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 11:11:14 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Tue, 28 Jun 2011 11:11:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tuesday 28 June 2011 07:45:09 Koen Kooi wrote:
-> So it works as expected, but the output is a bit confusing. I have a few
-> (conflicting) suggestions:
+On Tue, 2011-06-28 at 10:07 +0100, Phil Blundell wrote:
+> On Tue, 2011-06-28 at 08:51 +0800, Xu, Dongxiao wrote:
+> > > -----Original Message-----
+> > > From: openembedded-core-bounces@lists.openembedded.org
+> > > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > > Phil Blundell
+> > > Sent: Monday, June 27, 2011 4:58 PM
+> > > To: Patches and discussions about the oe-core layer
+> > > Subject: Re: [OE-core] [PATCH 1/1] libc-locale: split locale handling from libc
+> > > recipe.
+> > > 
+> > > On Mon, 2011-06-27 at 16:37 +0800, Dongxiao Xu wrote:
+> > > > -PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX}
+> > > nscd${PKGSUFFIX} ldd${PKGSUFFIX} localedef${PKGSUFFIX} libcidn ${PN}-utils
+> > > ${PN}-pic ${PN}-dev eglibc-doc eglibc-locale libmemusage
+> > > libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX}
+> > > eglibc-pcprofile libsotruss${PKGSUFFIX}"
+> > > > -
+> > > > -PACKAGES_DYNAMIC = " \
+> > > > -		    glibc-gconv-*${PKGSUFFIX} glibc-charmap-* glibc-localedata-*
+> > > glibc-binary-localedata-* \
+> > > > -		    eglibc-gconv-* eglibc-charmap-* eglibc-localedata-*
+> > > eglibc-binary-localedata-* \
+> > > > -		    locale-base-*${PKGSUFFIX}"
+> > > > +PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX}
+> > > nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils ${PN}-pic ${PN}-dev eglibc-doc
+> > > libcidn libmemusage libsegfault${PKGSUFFIX} eglibc-extra-nss
+> > > eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile"
+> > > 
+> > > You seem to have made a bunch of changes here that are not related to locales.
+> > > What are those about?
+> > 
+> > They are locale related changes.
+> > Locale related stuffs in the above PACKAGES and PACKAGES_DYNAMIC are moved to eglibc-locale recipe.
 > 
-> 1) replace _BRANCH and _REVISION with ' branch' and ' revision', e.g.:
-> 
-> 	meta-archos branch          = "master"
-> 	meta-archos revision        = "413933fb5f62574e38a9a1e38905ba6e9c1be4ad"
-> 
-> 2) for the extra layers put branch and revision on a single line:
-> 
-> 	meta-archos          = "master/413933fb5f62574e38a9a1e38905ba6e9c1be4ad"
+> Is libsotruss${PKGSUFFIX} (for example) really a "locale related stuff"?
+> It's not obvious to me what the connection is.
 
-I'd go with option 2 over 1, personally - the list gets rather long on 
-something like Angstrom, better to keep it short.
- 
-> 3) Move the revision info down, e..g
-> 
-> OE Build Configuration:
-> BB_VERSION                  = "1.13.1"
-> TARGET_ARCH                 = "arm"
-> TARGET_OS                   = "linux-gnueabi"
-> MACHINE                     = "beagleboard"
-> DISTRO                      = "angstrom"
-> DISTRO_VERSION              = "v2011.06-core"
-> TARGET_FPU                  = "hard"
-> METADATA_BRANCH             = "master"
-> METADATA_REVISION           = "364ca0d2d0399c8cc6d3b3fc28308e1e14673544"
-> meta-angstrom_BRANCH        = "master"
-> meta-angstrom_REVISION      = "c19c342c62416752117c2dce4696840bc864f647"
-> 
-> etc.
-> 
-> What do you think about that?
+Dongxiao: What Phil is referring to here is that libsotruss${PKGSUFFIX}
+disappeared from PACKAGES and that also "${libdir}/audit/.debug"
+disappeared from FILES_${PN}-dbg.
 
-Sounds good to me.
+Specifically these changes came in as part of:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=77c2dd944db42e40cc8467e6bc5a175fed90c251
+
+which I don't think your patch accounted for.
+
+Since this patch has been around for a while and it otherwise looks
+good, I've fixed up these couple of issues and merged it though.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
