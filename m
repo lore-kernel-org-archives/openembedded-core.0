@@ -1,29 +1,38 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QbXSK-0004QZ-Sr
-	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 14:31:52 +0200
-Received: by wwi14 with SMTP id 14so2884230wwi.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QbXbv-0004bv-02 for openembedded-core@lists.openembedded.org;
+	Tue, 28 Jun 2011 14:41:47 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5SCc6OD022800
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 05:28:11 -0700 (PDT)
-Received: by 10.216.21.2 with SMTP id q2mr471686weq.36.1309264091649;
-	Tue, 28 Jun 2011 05:28:11 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ex2sm115403wbb.65.2011.06.28.05.28.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 28 Jun 2011 05:28:10 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4E09C3A7.4080601@intel.com>
-Date: Tue, 28 Jun 2011 14:28:09 +0200
-Message-Id: <44246981-65DD-468B-8BDD-DA7287E95E8B@dominion.thruhere.net>
-References: <cover.1309246787.git.edwin.zhai@intel.com>	<2c83cbe9b56b589ad8786d8d371c2d85810b31f2.1309246787.git.edwin.zhai@intel.com>	<1309252319.21613.330.camel@phil-desktop>
-	<0FACC81C-8E9B-4A6D-A33E-C9D8383F8B0B@dominion.thruhere.net>
-	<4E09C3A7.4080601@intel.com>
+	Tue, 28 Jun 2011 13:38:06 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22538-05 for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 13:38:02 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5SCc0iO022794
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 13:38:01 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 1/3] glib-networking: Add 2.28.7 as new recipe
+In-Reply-To: <4E09C426.1020904@intel.com>
+References: <cover.1309246787.git.edwin.zhai@intel.com>
+	<7bf8a7025dddd0b251ff9c37a55f28b7e099fad7.1309246787.git.edwin.zhai@intel.com>
+	<E91A85C8-4484-4C15-A75D-3A87EB475B4F@dominion.thruhere.net>
+	<4E098D41.4060808@intel.com>
+	<D552A863-6204-4F54-9B5A-07DC755B830E@dominion.thruhere.net>
+	<4E09C426.1020904@intel.com>
+Date: Tue, 28 Jun 2011 13:37:47 +0100
+Message-ID: <1309264667.20015.279.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 2/3] webkit-gtk: recommends glib-networking to access https web page
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,38 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 12:31:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Jun 2011 12:41:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-
-Op 28 jun 2011, om 14:05 heeft Zhai, Edwin het volgende geschreven:
-
->=20
->=20
+On Tue, 2011-06-28 at 20:08 +0800, Zhai, Edwin wrote:
+> 
 > Koen Kooi wrote:
->>=20
->> Op 28 jun 2011, om 11:11 heeft Phil Blundell het volgende geschreven:
->>=20
->> > On Tue, 2011-06-28 at 15:42 +0800, edwin.zhai@intel.com wrote:
->> >> +SRC_URI =3D "${GNOME_MIRROR}/${PN}/2.28/${PN}-${PV}.tar.bz2"
->> >
->> > FYI, gnome.bbclass will do this for you and will also figure out =
-the
->> > "2.28" part automatically.
->>=20
->> THat will also drag in a ton of deps,
->>=20
->=20
-> yes.
->>=20
->> gnomebase.bbclass in meta-oe does a better job :)
->>=20
->=20
-> There is no gnomebase.bbclass in yocto. I can sync with it in future.
+> >
+> > Op 28 jun 2011, om 10:13 heeft Zhai, Edwin het volgende geschreven:
+> >
+> > >
+> > > In future, other recipes besides webkit-gtk may ask for 
+> > glib-networking, maybe we can change it that time?
+> > > What's your opinion?
+> >
+> > I'd either put it in the lib that uses it (soup) or the app that needs 
+> > it (web-webkit), something in between is just confusing.
+> >
+> 
+> Reasonable. I'd like to put it in libsoup.
 
-I'll have a look at the differences between the oe-core classes and the =
-meta-oe ones, there were some hack involved when I merged the .dev =
-versions into meta-oe=
+Actually, I think this sounds like a strong case to put it in
+web-webkit. My reasoning is that none of the other packages have the
+dependency, its really the use webkit makes of the libraries that is the
+requirement for the package...
+
+Cheers,
+
+Richard
+
 
 
