@@ -1,25 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qbf0T-0000Na-Lk
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qbf2F-0000Sf-6c
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 22:35:37 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Jun 2011 13:31:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,438,1304319600"; d="scan'208";a="21626533"
-Received: from swold-mobl.jf.intel.com (HELO [10.24.0.56]) ([10.24.0.56])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Jun 2011 13:31:55 -0700
-Message-ID: <4E0A3A3A.2040004@linux.intel.com>
-Date: Tue, 28 Jun 2011 13:31:54 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+	Tue, 28 Jun 2011 22:37:28 +0200
+Received: by wwi18 with SMTP id 18so507569wwi.24
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 13:33:45 -0700 (PDT)
+Received: by 10.216.233.211 with SMTP id p61mr6510392weq.107.1309293225482;
+	Tue, 28 Jun 2011 13:33:45 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id n20sm319549weq.15.2011.06.28.13.33.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 28 Jun 2011 13:33:44 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <BANLkTimkA5FhK-TSKomjVfH37QnrLg0cMA@mail.gmail.com>
+Date: Tue, 28 Jun 2011 22:33:38 +0200
+Message-Id: <4E515DF7-1213-4AA9-9304-28F77241AD43@dominion.thruhere.net>
+References: <B4FCA010-6920-4DD6-B471-4B2D9E38DFD7@dominion.thruhere.net>
+	<4E0A1136.7030402@linux.intel.com>
+	<BANLkTimkA5FhK-TSKomjVfH37QnrLg0cMA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1865303E0DED764181A9D882DEF65FB6A167F0C70B@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6A167F0C70B@shsmsx502.ccr.corp.intel.com>
-Subject: Re: [Draft design][RFC] Running postinst at rootfs generation time
+Subject: Re: Tune files and knobs to turn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,94 +39,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 20:35:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jun 2011 20:37:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 06/27/2011 07:09 PM, Cui, Dexuan wrote:
-> Hi all, below is an initial investigation about the task and we'll continue to further look into it.
->
-> In poky we have 2 types of postinst scripts:  one (type-1) can be (and has already been) run at rootfs generation time and the other (type-2) has to be delayed to the first-boot of target device. Type-2 makes target device's first-boot slow and it would be great if we can fix it and convert it to type-1.
->
-> We can instrument a first-boot with minimal/sato first to see which postinstalls take the most time and then prioritise those ones to fix.
->
-> I figurerd out a list of 33 recipes in total(recipes with the same name but with different versions are counted once) we possibly need to fix.
-> For the recipes, we need try to find recipe-specific ways(use appropriately modified native utilities to generate caches, files, etc as necessary on the target filesystem).
->
-Dexuan,
 
-Great start on this list, can you break this down to what's sato and 
-minimal.
+Op 28 jun 2011, om 22:31 heeft Khem Raj het volgende geschreven:
 
-> 11 recipes: these could be easily fixed if we add the properly-adjusted utilities "adduser, addgroup, pwconv, etc". Scott is actually adding the utilites: http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commit/?h=sgarman/useradd-rebased&id=99e54d9696104ed38ec1e3464e17aa1f9b8d98ac
-> meta/recipes-devtools/distcc/distcc_2.18.3.bb
-> meta/recipes-extended/cronie/cronie_1.4.7.bb
-> meta/recipes-extended/at/at_3.1.12.bb:47
-> meta/recipes-support/hal/hal.inc:45
-> meta/recipes-core/dbus/dbus.inc:49
-> meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-> meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-> meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-> meta/recipes-multimedia/pulseaudio/pulseaudio.inc:87
-> meta/recipes-extended/shadow/shadow_4.1.4.3.bb:125
-> meta/classes/libc-package.bbclass
->
-As RP noted, the useradd code from Scott is very close to being pull, 
-will you modify and test these recipes?
+> On Tue, Jun 28, 2011 at 10:36 AM, Darren Hart <dvhart@linux.intel.com> =
+wrote:
+>>=20
+>>=20
+>> On 06/24/2011 04:54 AM, Koen Kooi wrote:
+>>> Hi,
+>>>=20
+>>> We discussed tune files a bit during last nights TSC meeting and =
+Khem had
+>>> expressed the need before, so I'd like to get this discussion =
+started by using
+>>> armv7a as an example.
+>>>=20
+>>> For armv7a capable cores we have the following hardware features:
+>>>=20
+>>> * armv7a instruction set
+>>> * thumb1 instruction set
+>>> * thumb2 instruction set
+>>> * VFP coprocessor
+>>> * optional NEON coprocessor
+>>>=20
+>>> For the ABI we can choose the following:
+>>>=20
+>>> * softtp without hw support (e.g. no VFP instructions emitted, slow)
+>>> * softfp with hw support (e.g. VFP and/or NEON instructions emitted, =
+fast)
+>>> * hardfp, emits VFP and/or NEON instructions, slightly faster than =
+softfp/hw,
+>>>   incompatible with everything else
+>>>=20
+>>> And the extra knobs:
+>>>=20
+>>> * pure thumb1, no arm instructions (limited use)
+>>> * thumb1/arm interworking
+>>> * pure thumb2,  no arm instructions
+>>> * thumb2 interworking (not sure if that's actually usefull, thumb2 =
+has complete coverage)
+>>>=20
+>>> In OE .dev we have the following vars:
+>>>=20
+>>> TARGET_FPU: switches between hw float and sw float, no reflection in =
+package arch
+>>> ARM_FP_ABI: switches between softfp and hardfp, will create 'armv7a' =
+or
+>>>             'armv7a-hardfp' as package arch
+>>> ARM_INSTRUCTION_SET: switches between arm and thumb1, no reflection =
+in package arch
+>>> THUMB_INTERWORK: turns on interworking, no reflection in package =
+arch
+>>>=20
+>>> (side note, oe-core/distroless and meta-yocto/poky don't turn set =
+TARGET_FPU
+>>>  for armv7a and will generate slow code, angstrom does turn it on)
+>>=20
+>>=20
+>> oe-core tune-cortexa8.inc doesn't make use of these variables (unlike
+>> meta-texasinstruments) and does make use of the neon coprocessor, but
+>> still uses the softfp float-api:
+>>=20
+>> TARGET_CC_ARCH =3D "-march=3Darmv7-a -mtune=3Dcortex-a8 -mfpu=3Dneon
+>> -mfloat-abi=3Dsoftfp -fno-tree-vectorize"
+>>=20
+>> Seems like the oe-core tune files need to be synced up with vendor =
+layers?
+>>=20
+>=20
+> Well for enabling hardfp its a fundamental decision and I guess using =
+softfloat
+> in oe-core is probably best choice and the floating point parameter =
+passing ABI
+> I am taking about we still use -mfpu=3Dneon so gcc will still try to =
+utilize it
+> but -fno-tree-vectorize is going to subdue the use of neon intrs since =
+gcc
+> is disallowed to vectorize
 
-Sau!
-
-> 6  recipes: these should be easily fixed since the scripts are not related to special native utilites.
-> meta/recipes-extended/sudo/sudo.inc
-> meta/recipes-extended/sysklogd/sysklogd.inc
-> meta/classes/update-rc.d.bbclass
-> meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-> meta/recipes-graphics/pango/pango.inc
-> meta/recipes-gnome/gtk+/gtk+.inc
->
-> 4 recipes: we may need to add gtk-update-icon-cache-native.
-> meta/classes/gtk-icon-cache.bbclass
-> meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-> meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
-> meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
->
-> 3 recipes: need to add gconftool-2-native?
-> meta/classes/gconf.bbclass
-> meta/recipes-graphics/mutter/mutter.inc
-> meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
->
-> 3 recipes: "dpkg --configure, opkg-cl configure": looks it's possible to fix them if we specify proper parematers?
-> meta/recipes-devtools/dpkg/dpkg.inc
-> meta/recipes-devtools/opkg/opkg_svn.bb
-> meta/recipes-devtools/opkg/opkg_0.1.8.bb
->
-> 1 recipe: prelink: we could propablly fix it, but I'm not sure yet.
-> meta/recipes-devtools/prelink/prelink_git.bb
->
-> 1 recipe: "/etc/init.d/populate-volatile.sh update ; DBUSPID=`pidof dbus-daemon`": We can't fix this one.
-> meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
->
-> The below 4 recipes need the related utilities and need more investigation.
->
-> 1 recipe: update-modules
-> meta/recipes-kernel/update-modules/update-modules_1.0.bb
->
-> 1 recipe: systemctl
-> meta/recipes-connectivity/avahi/avahi.inc
->
-> 1 recipe: fc-cache
-> meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb:37
->
-> 1 recipe: gtk-query-immodules-2.0
-> meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
->
-> Thanks,
-> -- Dexuan
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Experience has shown that -fno-tree-vectorize generates faster code with =
+gcc 4.5 :)=
 
 
