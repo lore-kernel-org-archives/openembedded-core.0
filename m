@@ -1,30 +1,30 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QbZls-0000gT-7n
-	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 17:00:12 +0200
-Received: by bwf20 with SMTP id 20so305473bwf.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QbZoO-0000jX-Ni for openembedded-core@lists.openembedded.org;
+	Tue, 28 Jun 2011 17:02:48 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5SEx54M025550
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 07:56:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type:content-transfer-encoding;
-	bh=DAJDA66yy4+dtrrIjEg9AvXH2AbI5bst+dvPwzPEZ10=;
-	b=iw4WVq/Rbzewu3mQ5w/uPwnQPX7Rq3Sdi2eXHLBL5p6m/urZPT2vn9UCFqJl03hN73
-	XyPIOJms0SFUP2RFCPoqJOFTxJOwG2VsVrZ6+paoPCRQFHt78qXumnce6Yuf0eV3QA3c
-	UlamlGKrPAqRAABXDsINNulS65axLB6uz5Mw0=
-MIME-Version: 1.0
-Received: by 10.204.38.136 with SMTP id b8mr5742248bke.146.1309272986860; Tue,
-	28 Jun 2011 07:56:26 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.73.70 with HTTP; Tue, 28 Jun 2011 07:56:26 -0700 (PDT)
-Date: Tue, 28 Jun 2011 11:56:26 -0300
-X-Google-Sender-Auth: _buXJryl-q8sJoKOrFDNM4T_rSc
-Message-ID: <BANLkTi=GQS+Rwv+srtcctpD3jDwu7RWv2Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [RFH] Native SDK wirdness
+	Tue, 28 Jun 2011 15:59:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25383-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 15:59:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5SEx0xL025542
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 15:59:00 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Jun 2011 15:58:45 +0100
+Message-ID: <1309273125.20015.319.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: A few random things on my to fix list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,28 +39,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 15:00:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Jun 2011 15:02:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Hi,
 
-I am probably doing something stupid but I couldn't figure it myself
-so I am looking for some help here. Basically I need to prepare a SDK
-for usage by our team mates to develop to our embedded OS. In theory I
-got most of it already done but when I build the meta-toolchain recipe
-the built sdk tarball lacks GCC and like.
+I've been merging patches but there are a few things I've noticed which
+could use some attention. I've kept a quick list of these:
 
-Any idea where I ought to look for a good example? Or any clue what I
-am doing wrong?
+* Need to have eglibc-dev not
+include /usr/include/eglibc-locale-internal-i586-poky-linux/*
 
-Best,
+* Need to use something like  gnomebase.bbclass for glib-networking
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+* Is the new gcc config, I'd prefer not to hardcode SYSTEMLIBS_DIR for 
+  lib, lib32 and lib64 in GLIBC_DYNAMIC_LINKER* but code them 
+  separately and allow for future manoeuvring in the multilib code
+
+* Consider having the locale generation done by a Makefile and use 
+  PARALLE_MAKE to enable parallelism.
+
+* Consider stripping binaries/libraries in the sysroot (less diskspace 
+  usage, smaller sstate package and faster linking if there is less 
+  file to read?)
+
+* Take a long hard look at the way distrodata is using overrides as it 
+  looks suboptimal
+
+* Move things out of local.conf.sample to local.conf.extended
+
+Cheers,
+
+Richard
+
 
 
