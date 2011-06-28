@@ -1,38 +1,28 @@
-Received: from plane.gmane.org ([80.91.229.3])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <public@plane.gmane.org>) id 1QbZ73-0007ac-UT
+	(envelope-from <mark.hatle@windriver.com>) id 1QbZKB-0007sf-VF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 16:18:01 +0200
-Received: from public by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <public@plane.gmane.org>) id 1QbYec-0005I2-HY
-	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 15:48:38 +0200
-Received: from ppsw-52.csi.cam.ac.uk ([131.111.8.152])
-	by plane.gmane.org with esmtp (Exim 4.69)
-	(envelope-from <jic23@cam.ac.uk>)
-	id 1QbYeY-0005DF-2r; Tue, 28 Jun 2011 15:48:34 +0200
-X-Cam-AntiVirus: no malware found
-X-Cam-SpamDetails: not scanned
-X-Cam-ScannerInfo: http://www.cam.ac.uk/cs/email/scanner/
-Received: from arcturus.eng.cam.ac.uk ([129.169.154.73]:45297)
-	by ppsw-52.csi.cam.ac.uk (smtp.hermes.cam.ac.uk [131.111.8.159]:25)
-	with esmtpsa (PLAIN:jic23) (TLSv1:DHE-RSA-CAMELLIA256-SHA:256)
-	id 1QbYeU-0000lo-FR (Exim 4.72)
-	(return-path <jic23@cam.ac.uk>); Tue, 28 Jun 2011 14:48:30 +0100
-Message-ID: <4E09DD94.60004@cam.ac.uk>
-Date: Tue, 28 Jun 2011 14:56:36 +0100
-From: Jonathan Cameron <jic23@cam.ac.uk>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110509 Lightning/1.0b3pre Thunderbird/3.1.10
+	Tue, 28 Jun 2011 16:31:36 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5SERr81012380
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 07:27:53 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 28 Jun 2011 07:27:52 -0700
+Message-ID: <4E09E4E6.9040703@windriver.com>
+Date: Tue, 28 Jun 2011 09:27:50 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<public-openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@plane.gmane.org>
-References: <cover.1309203545.git.anders@chargestorm.se>
-	<19f9cd53099a185415ba765f70f8d9982ce0675a.1309203545.git.anders@chargestorm.se>
-In-Reply-To: <19f9cd53099a185415ba765f70f8d9982ce0675a.1309203545.git.anders@chargestorm.se>
-X-Mailman-Approved-At: Tue, 28 Jun 2011 16:28:43 +0200
-Cc: Anders Darander <public-anders-7UjN0b3lYz2SbKU13Z4Etw@plane.gmane.org>
-Subject: Re: [RFC v2 PATCH 1/9] Remove support for building 2.4 kernels
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1309239001.git.dexuan.cui@intel.com>	<674a391015f3cdebe891ae7e8439aea48698982e.1309239001.git.dexuan.cui@intel.com>
+	<3819C41B-FF96-45FD-8265-8EFC9F73E771@dominion.thruhere.net>
+In-Reply-To: <3819C41B-FF96-45FD-8265-8EFC9F73E771@dominion.thruhere.net>
+Subject: Re: [PATCH 1/1] base.bbclass: show layer's	branches/revisions in the banner info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,75 +37,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 14:18:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 28 Jun 2011 14:31:36 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-
-
-Hi Anders,
-
-All seems to work for me.  For anyone just dropping these on OE, note there is
-a local variable of kernel.bbclass that also needs updating as per this file
-in meta-openembedded/meta-oe/
-
-> Signed-off-by: Anders Darander <anders-7UjN0b3lYz2SbKU13Z4Etw@public.gmane.org>
-> ---
->  meta/classes/kernel.bbclass      |   12 ++----------
->  meta/classes/module-base.bbclass |    2 +-
->  2 files changed, 3 insertions(+), 11 deletions(-)
+On 6/28/11 1:45 AM, Koen Kooi wrote:
 > 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index fd27832..6bdfd3e 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -73,9 +73,6 @@ KERNEL_ALT_IMAGETYPE ??= ""
->  kernel_do_compile() {
->  	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
->  	oe_runmake include/linux/version.h CC="${KERNEL_CC}" LD="${KERNEL_LD}"
-> -	if [ "${KERNEL_MAJOR_VERSION}" != "2.6" ]; then
-> -		oe_runmake dep CC="${KERNEL_CC}" LD="${KERNEL_LD}"
-> -	fi
->  	oe_runmake ${KERNEL_IMAGETYPE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}"
->  }
->  
-> @@ -111,9 +108,7 @@ kernel_do_install() {
->  	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
->  	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
->  	install -d ${D}/etc/modutils
-> -	if [ "${KERNEL_MAJOR_VERSION}" = "2.6" ]; then
-> -		install -d ${D}/etc/modprobe.d
-> -	fi
-> +	install -d ${D}/etc/modprobe.d
->  
->  	#
->  	# Support for external module building - create a minimal copy of the
-> @@ -397,10 +392,7 @@ python populate_packages_prepend () {
->  		# Write out any modconf fragment
->  		modconf = bb.data.getVar('module_conf_%s' % basename, d, 1)
->  		if modconf:
-> -			if bb.data.getVar("KERNEL_MAJOR_VERSION", d, 1) == "2.6":
-> -				name = '%s/etc/modprobe.d/%s.conf' % (dvar, basename)
-> -			else:
-> -				name = '%s/etc/modutils/%s.conf' % (dvar, basename)
-> +			name = '%s/etc/modprobe.d/%s.conf' % (dvar, basename)
->  			f = open(name, 'w')
->  			f.write("%s\n" % modconf)
->  			f.close()
-> diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
-> index c98bace..a7cf233 100644
-> --- a/meta/classes/module-base.bbclass
-> +++ b/meta/classes/module-base.bbclass
-> @@ -7,7 +7,7 @@ export CROSS_COMPILE = "${TARGET_PREFIX}"
->  
->  export KERNEL_VERSION = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-abiversion')}"
->  export KERNEL_SOURCE = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-source')}"
-> -KERNEL_OBJECT_SUFFIX = "${@[".o", ".ko"][base_read_file('${STAGING_KERNEL_DIR}/kernel-abiversion') > "2.6.0"]}"
-> +KERNEL_OBJECT_SUFFIX = ".ko"
->  KERNEL_CCSUFFIX = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-ccsuffix')}"
->  KERNEL_LDSUFFIX = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-ldsuffix')}"
->  KERNEL_ARSUFFIX = "${@base_read_file('${STAGING_KERNEL_DIR}/kernel-arsuffix')}"
+> Op 28 jun 2011, om 07:37 heeft Dexuan Cui het volgende geschreven:
+> 
+>> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+>> ---
+>> meta/classes/base.bbclass |   14 +++++++++++++-
+>> 1 files changed, 13 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+>> index 119b052..4766c77 100644
+>> --- a/meta/classes/base.bbclass
+>> +++ b/meta/classes/base.bbclass
+>> @@ -165,9 +165,21 @@ python base_eventhandler() {
+>> 			note(msg)
+>>
+>> 	if name.startswith("BuildStarted"):
+>> +		corebase = data.getVar("COREBASE", e.data, 1)
+>> +		corelayers = [corebase + "/meta", corebase + "/meta-yocto"]
+>> +		layers = (data.getVar("BBLAYERS", e.data, 1) or "").split()
+>> +		layers = [i for i in layers if i not in corelayers]
+>> +		fmt_str = "%-27s = \"%s\""
+>> +		layer_branches = [fmt_str % (os.path.basename(i)+"_BRANCH", \
+>> +			base_get_metadata_git_branch(i, None).strip()) for i in layers]
+>> +		layer_revisions = [fmt_str % (os.path.basename(i)+"_REVISION", \
+>> +			base_get_metadata_git_revision(i, None)) for i in layers]
+>> 		bb.data.setVar( 'BB_VERSION', bb.__version__, e.data )
+>> 		statusvars = ['BB_VERSION', 'METADATA_BRANCH', 'METADATA_REVISION', 'TARGET_ARCH', 'TARGET_OS', 'MACHINE', 'DISTRO', 'DISTRO_VERSION','TARGET_FPU']
+>> -		statuslines = ["%-17s = \"%s\"" % (i, bb.data.getVar(i, e.data, 1) or '') for i in statusvars]
+>> +		statuslines = [fmt_str % (i, bb.data.getVar(i, e.data, 1) or '') for i in statusvars]
+>> +		for i in range(len(layer_branches)):
+>> +			statuslines.insert(3+2*i, layer_branches[i])
+>> +			statuslines.insert(3+2*i+1, layer_revisions[i])
+>> 		statusmsg = "\nOE Build Configuration:\n%s\n" % '\n'.join(statuslines)
+>> 		print statusmsg
+> 
+> I tried this patch and I get:
+> 
+> OE Build Configuration:
+> BB_VERSION                  = "1.13.1"
+> METADATA_BRANCH             = "master"
+> METADATA_REVISION           = "364ca0d2d0399c8cc6d3b3fc28308e1e14673544"
+> meta-angstrom_BRANCH        = "master"
+> meta-angstrom_REVISION      = "c19c342c62416752117c2dce4696840bc864f647"
+...
+> TARGET_ARCH                 = "arm"
+> TARGET_OS                   = "linux-gnueabi"
+> MACHINE                     = "beagleboard"
+> DISTRO                      = "angstrom"
+> DISTRO_VERSION              = "v2011.06-core"
+> TARGET_FPU                  = "hard"
+> 
+> So it works as expected, but the output is a bit confusing. I have a few (conflicting) suggestions:
+> 
+> 1) replace _BRANCH and _REVISION with ' branch' and ' revision', e.g.:
+> 
+> 	meta-archos branch          = "master"
+> 	meta-archos revision        = "413933fb5f62574e38a9a1e38905ba6e9c1be4ad"
+> 
+> 2) for the extra layers put branch and revision on a single line:
+> 
+> 	meta-archos          = "master/413933fb5f62574e38a9a1e38905ba6e9c1be4ad"
+> 
+> 3) Move the revision info down, e..g
+> 
+> OE Build Configuration:
+> BB_VERSION                  = "1.13.1"
+> TARGET_ARCH                 = "arm"
+> TARGET_OS                   = "linux-gnueabi"
+> MACHINE                     = "beagleboard"
+> DISTRO                      = "angstrom"
+> DISTRO_VERSION              = "v2011.06-core"
+> TARGET_FPU                  = "hard"
+> METADATA_BRANCH             = "master"
+> METADATA_REVISION           = "364ca0d2d0399c8cc6d3b3fc28308e1e14673544"
+> meta-angstrom_BRANCH        = "master"
+> meta-angstrom_REVISION      = "c19c342c62416752117c2dce4696840bc864f647"
+> 
+> etc.
+> 
+> What do you think about that?
 
+I think my preference is either 3 or a combination of 2 & 3.
+
+To me the important bits are the configuration settings, followed by the
+components that are being used as a secondary concern.  It will all help in
+debugging and issue, but if the target/distro isn't correct then it doesn't
+matter what the rest is.
+
+--Mark
+
+> regards,
+> 
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
