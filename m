@@ -1,37 +1,27 @@
-Received: from mail-pz0-f50.google.com ([209.85.210.50])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qbi6l-0004pV-WD
+	(envelope-from <sgw@linux.intel.com>) id 1Qbi7s-0004rV-4n
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 01:54:20 +0200
-Received: by pzk2 with SMTP id 2so518827pzk.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 16:50:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=references:in-reply-to:mime-version:content-transfer-encoding
-	:content-type:message-id:cc:x-mailer:from:subject:date:to;
-	bh=HuuRGlD8GUGFOZFKFBdf3fdBBv1nMjVQzJSVuN08+iA=;
-	b=rsQT6jAOh6CseT2/C4k4Aa9A0JertSPliJqyKL6srN2dw9n6EefHyc4KwcOKAYwniD
-	qaQL4oih3gNOCFEODiFUW5+WOTCLyML6T6QrkLmU/7aUxOI2jaSSUXyoCqeShEvcYKIH
-	j9d89thOv2I2QK2fg/f35tslCed45GxRkAezA=
-Received: by 10.142.163.13 with SMTP id l13mr100170wfe.28.1309305037090;
-	Tue, 28 Jun 2011 16:50:37 -0700 (PDT)
-Received: from [10.0.0.151] ([96.24.72.190])
-	by mx.google.com with ESMTPS id q5sm480257pbk.42.2011.06.28.16.50.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 28 Jun 2011 16:50:36 -0700 (PDT)
-References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>
-	<4E0A5AE5.7000509@intel.com>
-In-Reply-To: <4E0A5AE5.7000509@intel.com>
-Mime-Version: 1.0 (iPad Mail 8J2)
-Message-Id: <256EDA37-7406-4E12-B095-12F7FFBA7C7F@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPad Mail (8J2)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 28 Jun 2011 16:50:51 -0700
+	Wed, 29 Jun 2011 01:55:28 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Jun 2011 16:51:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,440,1304319600"; d="scan'208";a="21685964"
+Received: from swold-mobl.jf.intel.com (HELO [10.24.0.56]) ([10.24.0.56])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Jun 2011 16:51:45 -0700
+Message-ID: <4E0A6910.4040107@linux.intel.com>
+Date: Tue, 28 Jun 2011 16:51:44 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Conflicting providers for ssh/sshd (dropbear and openssh)
+References: <cover.1309059243.git.sgw@linux.intel.com>	<dc56d07c4a034568b8860d7bcd41b31acbdb3e89.1309059243.git.sgw@linux.intel.com>
+	<B39BDB9E-CF2E-47CD-A195-BCEFD4B8B8C4@dominion.thruhere.net>
+In-Reply-To: <B39BDB9E-CF2E-47CD-A195-BCEFD4B8B8C4@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [RFC - Staticdev 1/2] multiple recipes converted to -staticdev packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,64 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 23:54:20 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Tue, 28 Jun 2011 23:55:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 06/26/2011 12:34 AM, Koen Kooi wrote:
+>
+> Op 26 jun 2011, om 06:36 heeft Saul Wold het volgende geschreven:
+>
+>> This commit adds a new base package ${PN}-staticdev to
+>> bitbake.conf which pulls in the static *.a libraries as
+>> a seperate package, it filters out the nonshared.a
+>> libraries where appropriate.
+>>
+>> Additional this commit adds a new libdev.bbclass which provides
+>> a set of macros and variables to convert ${PN} to lib${PN},
+>> which a number of recipes where then converted to use.
+>
+> Can't that be merged into lib_package.bbclass?
+>
+I looked into this further, and I think that lib_package serves a 
+different purpose than libdev and it would be wrong to inherit from 
+lib_package.
 
+lib_package seems to split out binaries from the core ${PN} package and 
+places them in ${PN}-bin.  I did update it to move static libraries to 
+the -staticdev package.
 
-On Jun 28, 2011, at 3:51 PM, Scott Garman <scott.a.garman@intel.com> wrote:
+Sau!
 
-> On 06/28/2011 03:41 PM, Khem Raj wrote:
->> ERROR: Multiple .bb files are due to be built which each provide ssh
->> (/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/dro=
-pbear/dropbear_0.52.bb
->> /home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-connectiv=
-ity/openssh/openssh_5.8p2.bb).
->>  This usually means one provides something the other doesn't and should.
->> ERROR: Multiple .bb files are due to be built which each provide sshd
->> (/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/dro=
-pbear/dropbear_0.52.bb
->> /home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-connectiv=
-ity/openssh/openssh_5.8p2.bb).
->>  This usually means one provides something the other doesn't and should.
->>=20
->> reason is that dropbear only provides ssh and sshd packages openssh
->> provides a few more e.g. openssh-sftp-server which is demanded by
->> some images and at same time wants dropbear to provide sshd and ssh
->>=20
->> Now both recipes are to be built but are in contention for providing
->> ssh and sshd
->>=20
->> How to solve this problem. ? Are other packages that openssh provides
->> strictly depending on ssh/sshd from openssh ? or will they work on
->> any ssh/sshd ?
->>=20
->> If they are independent then may be the openssh recipe should be
->> divided into openssh-ssh and openssh-rest so one can use openssh
->> provided daemon or dropbear provided as they wish
->=20
-> I've run into that and have been wondering how to resolve it as well.
->=20
-> If there are currently existing images which are pulling in dropbear's ssh=
- and sshd while using openssh's sftp-server, then that would imply they can w=
-ork independently, even though that combo seems like an aggressive space opt=
-imization that I would tend to avoid.
-
-yes if you build console-image with angstrom you will see it wanting sftp-se=
-rver and dr bear for rest of ssh needs
->=20
-> Scott
->=20
-> --=20
-> Scott Garman
-> Embedded Linux Engineer - Yocto Project
-> Intel Open Source Technology Center
->=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
