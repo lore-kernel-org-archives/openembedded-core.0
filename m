@@ -1,27 +1,40 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QbPhw-0004jc-46
+	(envelope-from <dongxiao.xu@intel.com>) id 1QbPj2-0004ky-Ek
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 06:15:28 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5S4Bjcg007117
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2011 21:11:45 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 27 Jun 2011 21:11:45 -0700
-Message-ID: <4E095480.3070001@windriver.com>
-Date: Mon, 27 Jun 2011 23:11:44 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+	Tue, 28 Jun 2011 06:16:36 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 27 Jun 2011 21:12:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,436,1304319600"; d="scan'208";a="20869232"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by orsmga001.jf.intel.com with ESMTP; 27 Jun 2011 21:12:50 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 28 Jun 2011 12:12:07 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 28 Jun 2011 12:12:07 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Tue, 28 Jun 2011 12:12:06 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Jun 2011 12:12:05 +0800
+Thread-Topic: [OE-core] [PATCH 1/1] libc-locale: split locale handling from
+	libc recipe.
+Thread-Index: Acw0qVF2TNwtin+3QleV1q48UnLrswAg1V1gAAcWutA=
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D6B852CC@shsmsx501.ccr.corp.intel.com>
+References: <cover.1309163663.git.dongxiao.xu@intel.com>
+	<cdd1860f64f84b58d18d1c6bed1805456d8d3e2e.1309163663.git.dongxiao.xu@intel.com>
+	<1309165102.21613.234.camel@phil-desktop> 
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1865303E0DED764181A9D882DEF65FB6A167F0C70B@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6A167F0C70B@shsmsx502.ccr.corp.intel.com>
-Subject: Re: [Draft design][RFC] Running postinst at rootfs generation time
+Subject: Re: [PATCH 1/1] libc-locale: split locale handling from libc recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,42 +49,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 04:15:28 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jun 2011 04:16:36 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/27/11 9:09 PM, Cui, Dexuan wrote:
-> Hi all, below is an initial investigation about the task and we'll continue to further look into it.
-> 
-> In poky we have 2 types of postinst scripts:  one (type-1) can be (and has already been) run at rootfs generation time and the other (type-2) has to be delayed to the first-boot of target device. Type-2 makes target device's first-boot slow and it would be great if we can fix it and convert it to type-1.
-> 
-> We can instrument a first-boot with minimal/sato first to see which postinstalls take the most time and then prioritise those ones to fix.
-> 
-> I figurerd out a list of 33 recipes in total(recipes with the same name but with different versions are counted once) we possibly need to fix.
-> For the recipes, we need try to find recipe-specific ways(use appropriately modified native utilities to generate caches, files, etc as necessary on the target filesystem).
-> 
+> -----Original Message-----
+> From: Xu, Dongxiao
+> Sent: Tuesday, June 28, 2011 8:52 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: RE: [OE-core] [PATCH 1/1] libc-locale: split locale handling fro=
+m libc
+> recipe.
+>=20
+>=20
+>=20
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of
+> > Phil Blundell
+> > Sent: Monday, June 27, 2011 4:58 PM
+> > To: Patches and discussions about the oe-core layer
+> > Subject: Re: [OE-core] [PATCH 1/1] libc-locale: split locale handling
+> > from libc recipe.
+> >
+> > On Mon, 2011-06-27 at 16:37 +0800, Dongxiao Xu wrote:
+> > > -PACKAGES =3D "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX}
+> > nscd${PKGSUFFIX} ldd${PKGSUFFIX} localedef${PKGSUFFIX} libcidn
+> > ${PN}-utils ${PN}-pic ${PN}-dev eglibc-doc eglibc-locale libmemusage
+> > libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX}
+> > eglibc-pcprofile libsotruss${PKGSUFFIX}"
+> > > -
+> > > -PACKAGES_DYNAMIC =3D " \
+> > > -		    glibc-gconv-*${PKGSUFFIX} glibc-charmap-* glibc-localedata-*
+> > glibc-binary-localedata-* \
+> > > -		    eglibc-gconv-* eglibc-charmap-* eglibc-localedata-*
+> > eglibc-binary-localedata-* \
+> > > -		    locale-base-*${PKGSUFFIX}"
+> > > +PACKAGES =3D "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX}
+> > nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils ${PN}-pic ${PN}-dev
+> > eglibc-doc libcidn libmemusage libsegfault${PKGSUFFIX}
+> > eglibc-extra-nss eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile"
+> >
+> > You seem to have made a bunch of changes here that are not related to
+> locales.
+> > What are those about?
+>=20
+> They are locale related changes.
+> Locale related stuffs in the above PACKAGES and PACKAGES_DYNAMIC are
+> moved to eglibc-locale recipe.
+>=20
+> >
+> > > -FILES_${PN}-dbg +=3D "${libexecdir}/*/.debug ${libdir}/gconv/.debug
+> > ${libdir}/audit/.debug"
+> > > +FILES_${PN}-dbg +=3D "${libexecdir}/*/.debug"
+> >
+> > Likewise.
+> >
+> > Also, why is localedef getting packaged by libc-locale?  Not that I
+> > think it's necessarily a problem but it seems a little bit strange.
+>=20
+> Originally I thought of putting all locale related things to eglibc-local=
+e.
+> Now actually virtual/libiconv belongs to eglibc.
+> Thus I am OK to move localedef from eglibc-locale to eglibc, and will inc=
+lude this
+> in my next pull request.
 
-...
+Just did an experiment to move "localedef" in eglibc instead of eglibc-loca=
+le, however eglibc-locale's do_package met errors since it needs "localedef=
+" to generate locales, see libc-packages.inc.
 
-> 1 recipe: prelink: we could propablly fix it, but I'm not sure yet.
-> meta/recipes-devtools/prelink/prelink_git.bb
+Therefore localedef still needs to be packaged in eglibc-locale recipe.
 
-There is nothing to do for the prelinker.  The "image-prelink.bbclass" handles
-everything needed to prelink during image creation.  The script is only there
-for on-target field upgrades.  So you can remove this from your list.
+Thanks,
+Dongxiao
 
---Mark
-
-...
-
-> 
+>=20
 > Thanks,
-> -- Dexuan
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+> Dongxiao
+>=20
+> >
+> > p.
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
