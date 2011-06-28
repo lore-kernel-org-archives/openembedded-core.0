@@ -1,29 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QbaD3-0001Of-CG for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 17:28:17 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1Qba9W-0000XF-B6
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QbaIj-0001Ti-O0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 17:24:38 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6A167F0C716@shsmsx502.ccr.corp.intel.com>
-References: <cover.1309239001.git.dexuan.cui@intel.com>
-	<674a391015f3cdebe891ae7e8439aea48698982e.1309239001.git.dexuan.cui@intel.com>
-	<3819C41B-FF96-45FD-8265-8EFC9F73E771@dominion.thruhere.net>
-	<4E09E4E6.9040703@windriver.com>
-	<1865303E0DED764181A9D882DEF65FB6A167F0C715@shsmsx502.ccr.corp.intel.com>
-	<B2EC960E-7F9F-49BB-BFB0-18C98A7FDE12@dominion.thruhere.net>
-	<1865303E0DED764181A9D882DEF65FB6A167F0C716@shsmsx502.ccr.corp.intel.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Tue, 28 Jun 2011 16:24:37 +0100
-Message-ID: <1309274677.15156.170.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH 1/1] base.bbclass: show layer's branches/revisions in the banner info
+	Tue, 28 Jun 2011 17:34:09 +0200
+Received: by wwi18 with SMTP id 18so289448wwi.24
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 08:30:28 -0700 (PDT)
+Received: by 10.227.96.140 with SMTP id h12mr6606431wbn.95.1309275028451;
+	Tue, 28 Jun 2011 08:30:28 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id et5sm231677wbb.67.2011.06.28.08.30.27
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 28 Jun 2011 08:30:27 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jun 2011 17:30:23 +0200
+Message-Id: <1309275023-2626-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] eglibc-locale: fix localedef packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,19 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 15:28:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jun 2011 15:34:09 -0000
 
-On Tue, 2011-06-28 at 23:21 +0800, Cui, Dexuan wrote:
-> Sorry... but to basing them on oe-core,  do I need the permission to push my commits to my own branch in git://git.openembedded.org/openembedded-core-contrib? I suppose so and I should put my public key somewhere into the server?
+the ${PN} still needs some checking, since it will now inheriting the default FILES_${PN}
 
-You don't need to do that.  You can just make a repo on github or
-gitorious (or your own server, or even one of the yocto hosts) and clone
-oe-core into it.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/eglibc/eglibc-locale.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-p.
-
+diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
+index ed6c099..fdc4fb4 100644
+--- a/meta/recipes-core/eglibc/eglibc-locale.inc
++++ b/meta/recipes-core/eglibc/eglibc-locale.inc
+@@ -26,12 +26,12 @@ BINARY_LOCALE_ARCHES ?= "arm.* i[3-6]86 x86_64 powerpc mips"
+ # set "0" for qemu emulation of native localedef for locale generation
+ LOCALE_GENERATION_WITH_CROSS-LOCALEDEF = "1"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ PKGSUFFIX = ""
+ PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
+ 
+-PACKAGES = "eglibc-locale localedef${PKGSUFFIX}"
++PACKAGES = "localedef${PKGSUFFIX} glibc-locale"
+ 
+ PACKAGES_DYNAMIC = "locale-base-* \
+                     eglibc-gconv-* eglibc-charmap-* eglibc-localedata-* eglibc-binary-localedata-* \
+-- 
+1.6.6.1
 
 
 
