@@ -1,38 +1,38 @@
 Received: from mail-pz0-f50.google.com ([209.85.210.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QbNMC-0001id-GR
+	(envelope-from <raj.khem@gmail.com>) id 1QbNMD-0001ih-Ba
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 03:44:52 +0200
-Received: by pzk2 with SMTP id 2so3530006pzk.9
+	Tue, 28 Jun 2011 03:44:53 +0200
+Received: by pzk2 with SMTP id 2so3530015pzk.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2011 18:41:11 -0700 (PDT)
+	Mon, 27 Jun 2011 18:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
 	:in-reply-to:references;
-	bh=PvS55ZC3DsGsN++KMNz/Nk6VTVDKU7cbKqXCk7olxt0=;
-	b=Swlx9Y4NsTkvnD+IRqbv+DTCP3sykoNRd08zCbuXxasf95gjEX4uAnosCL4cGuDeus
-	wck/lMmxUlUDL+LLvggvxt8R3BuhzkYOX5fs5V80+Dg8m0ZNDsKoCOg+wU9dCqvBFItq
-	y8mhj8pWOT6cuaumIFHsk7ep1nswcBz3nRJRI=
+	bh=9OeRJKiplPv3ZU0++Ai0HzzpC5kOuSO2Bj1SIiG2je0=;
+	b=KtQpTUFslsvx0z9D2VYkqaheEWLPFQUoFnLsqU1nDSEBg7r8y6qYYK6272NZwSfzc1
+	IPI/veCW8/LtGjowwYqsL4HlfbJgPH3Ha0FUkvfC506B4U8KDywS2BvDvoRvj3D//t6s
+	L2GIGz6Trf8aYkcJgNcQ38oUfqQRgbSVj6x/A=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=swpOtUwbIoa9h+IxKqocRIdcLyzPI8qRK6fiKuoCNaRk0/JCZ5OwXpakZI32HVb5JH
-	Xhz6tef+BQCcwtwvdVpyMQhw8AUPTUceWCWYoGSQ5FlwQ5PFHvLu2wUTamFPga0friwK
-	5ZR7mVELCt0UQGrqgYtvlMOS8nAdd9MGttaIg=
-Received: by 10.68.36.228 with SMTP id t4mr1833311pbj.302.1309225271223;
-	Mon, 27 Jun 2011 18:41:11 -0700 (PDT)
+	b=gHlBDtFIlzQYCAq2KbVxVodTJPhvxrT6mN3NZ4CEAUyg9FdHY4kjMmRhvToSAFRv3f
+	2PX7rbyTpTLnjTFGlNsmYi6hZY5I/44yyAVVcfh//sDC1E4Gna183oNDCTCMGuatulCw
+	0V9UL2egLtdV2D927d/31klelfM4huzGduujU=
+Received: by 10.142.229.18 with SMTP id b18mr1356134wfh.201.1309225272074;
+	Mon, 27 Jun 2011 18:41:12 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id o2sm4725057pbj.17.2011.06.27.18.41.10
+	by mx.google.com with ESMTPS id o2sm4725057pbj.17.2011.06.27.18.41.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 27 Jun 2011 18:41:10 -0700 (PDT)
+	Mon, 27 Jun 2011 18:41:11 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jun 2011 18:40:52 -0700
-Message-Id: <1309225253-25795-5-git-send-email-raj.khem@gmail.com>
+Date: Mon, 27 Jun 2011 18:40:53 -0700
+Message-Id: <1309225253-25795-6-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <1309225253-25795-1-git-send-email-raj.khem@gmail.com>
 References: <1309225253-25795-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 4/5] uclibc_git.bb: Untether UCLIBC_HAS_FPU from UCLIBC_HAS_FLOATS
+Subject: [PATCH 5/5] uclibc: Add UCLIBC_HAS_FLOATS=y to uClibc.distro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,61 +47,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 01:44:52 -0000
+X-List-Received-Date: Tue, 28 Jun 2011 01:44:53 -0000
+
+Remove unused uClibc.distro from topdir. It just creates
+confusion
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...rch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch |   29 ++++++++++++++++++++
- meta/recipes-core/uclibc/uclibc_git.bb             |    1 +
- 2 files changed, 30 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch
+ meta/recipes-core/uclibc/uClibc.distro            |  157 ---------------------
+ meta/recipes-core/uclibc/uclibc-git/uClibc.distro |    1 +
+ 2 files changed, 1 insertions(+), 157 deletions(-)
+ delete mode 100644 meta/recipes-core/uclibc/uClibc.distro
 
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch
-new file mode 100644
-index 0000000..da97d38
---- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch
-@@ -0,0 +1,29 @@
-+From 06cdcd2a9dd6b46b7fbb5b3ae0a62bdb7ee6c402 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 27 Jun 2011 17:48:18 -0700
-+Subject: [PATCH] Config.in.arch: Free UCLIBC_HAS_FPU setting from depending on UCLIBC_HAS_FLOATS
-+
-+UCLIBC_HAS_FLOATS and UCLIBC_HAS_FPU are denoting two different aspects.
-+UCLIBC_HAS_FLOATS covers the floating point operations which has nothing
-+to do if you have FPU or not.
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ extra/Configs/Config.in.arch |    1 -
-+ 1 files changed, 0 insertions(+), 1 deletions(-)
-+
-+diff --git a/extra/Configs/Config.in.arch b/extra/Configs/Config.in.arch
-+index 5f7a2b0..c1ca390 100644
-+--- a/extra/Configs/Config.in.arch
-++++ b/extra/Configs/Config.in.arch
-+@@ -133,7 +133,6 @@ config UCLIBC_HAS_FLOATS
-+ 
-+ config UCLIBC_HAS_FPU
-+ 	bool "Target CPU has a floating point unit (FPU)"
-+-	depends on UCLIBC_HAS_FLOATS
-+ 	default y
-+ 	help
-+ 	  If your target CPU does not have a Floating Point Unit (FPU) or a
-+-- 
-+1.7.0.4
-+
-diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
-index 6445243..201ec93 100644
---- a/meta/recipes-core/uclibc/uclibc_git.bb
-+++ b/meta/recipes-core/uclibc/uclibc_git.bb
-@@ -29,5 +29,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master;protocol=git \
- 	file://epoll-asm-fix.patch \
- 	file://orign_path.patch \
- 	file://rtld_no.patch \
-+	file://0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch \
- 	"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-core/uclibc/uClibc.distro b/meta/recipes-core/uclibc/uClibc.distro
+deleted file mode 100644
+index e25324d..0000000
+--- a/meta/recipes-core/uclibc/uClibc.distro
++++ /dev/null
+@@ -1,157 +0,0 @@
+-#
+-# General Library Settings
+-#
+-# HAVE_NO_PIC is not set
+-# DOPIC is not set
+-# HAVE_NO_SHARED is not set
+-# ARCH_HAS_NO_LDSO is not set
+-HAVE_SHARED=y
+-# FORCE_SHAREABLE_TEXT_SEGMENTS is not set
+-LDSO_LDD_SUPPORT=y
+-LDSO_CACHE_SUPPORT=y
+-# LDSO_PRELOAD_FILE_SUPPORT is not set
+-LDSO_BASE_FILENAME="ld.so"
+-# UCLIBC_STATIC_LDCONFIG is not set
+-LDSO_RUNPATH=y
+-UCLIBC_CTOR_DTOR=y
+-LDSO_GNU_HASH_SUPPORT=y
+-# HAS_NO_THREADS is not set
+-UCLIBC_HAS_THREADS=y
+-UCLIBC_HAS_THREADS_NATIVE=y
+-PTHREADS_DEBUG_SUPPORT=y
+-# LINUXTHREADS_OLD is not set
+-UCLIBC_HAS_LFS=y
+-# MALLOC is not set
+-# MALLOC_SIMPLE is not set
+-MALLOC_STANDARD=y
+-MALLOC_GLIBC_COMPAT=y
+-UCLIBC_DYNAMIC_ATEXIT=y
+-COMPAT_ATEXIT=y
+-UCLIBC_SUSV3_LEGACY=y
+-UCLIBC_SUSV3_LEGACY_MACROS=y
+-UCLIBC_SUSV4_LEGACY=y
+-UCLIBC_HAS_SHADOW=y
+-UCLIBC_HAS_PROGRAM_INVOCATION_NAME=y
+-UCLIBC_HAS___PROGNAME=y
+-UNIX98PTY_ONLY=y
+-ASSUME_DEVPTS=y
+-UCLIBC_HAS_LIBUTIL=y
+-UCLIBC_HAS_TM_EXTENSIONS=y
+-UCLIBC_HAS_TZ_CACHING=y
+-UCLIBC_HAS_TZ_FILE=y
+-UCLIBC_HAS_TZ_FILE_READ_MANY=y
+-UCLIBC_TZ_FILE_PATH="/etc/TZ"
+-
+-#
+-# Advanced Library Settings
+-#
+-UCLIBC_PWD_BUFFER_SIZE=256
+-UCLIBC_GRP_BUFFER_SIZE=256
+-
+-#
+-# Networking Support
+-#
+-UCLIBC_HAS_IPV6=y
+-UCLIBC_HAS_RPC=y
+-UCLIBC_HAS_FULL_RPC=y
+-# UCLIBC_HAS_REENTRANT_RPC is not set
+-UCLIBC_USE_NETLINK=y
+-UCLIBC_SUPPORT_AI_ADDRCONFIG=y
+-
+-UCLIBC_HAS_BSD_RES_CLOSE=y
+-UCLIBC_HAS_LIBRESOLV_STUB=y
+-UCLIBC_HAS_LIBNSL_STUB=y
+-
+-#
+-# String and Stdio Support
+-#
+-UCLIBC_HAS_STRING_GENERIC_OPT=y
+-UCLIBC_HAS_STRING_ARCH_OPT=y
+-UCLIBC_HAS_CTYPE_TABLES=y
+-UCLIBC_HAS_CTYPE_SIGNED=y
+-# UCLIBC_HAS_CTYPE_UNSAFE is not set
+-UCLIBC_HAS_CTYPE_CHECKED=y
+-# UCLIBC_HAS_CTYPE_ENFORCED is not set
+-UCLIBC_HAS_WCHAR=y
+-# UCLIBC_HAS_LOCALE is not set
+-UCLIBC_HAS_HEXADECIMAL_FLOATS=y
+-UCLIBC_HAS_GLIBC_CUSTOM_PRINTF=y
+-UCLIBC_PRINTF_SCANF_POSITIONAL_ARGS=9
+-UCLIBC_HAS_SCANF_GLIBC_A_FLAG=y
+-# UCLIBC_HAS_STDIO_BUFSIZ_NONE is not set
+-UCLIBC_HAS_STDIO_BUFSIZ_256=y
+-# UCLIBC_HAS_STDIO_BUFSIZ_512 is not set
+-# UCLIBC_HAS_STDIO_BUFSIZ_1024 is not set
+-# UCLIBC_HAS_STDIO_BUFSIZ_2048 is not set
+-# UCLIBC_HAS_STDIO_BUFSIZ_4096 is not set
+-# UCLIBC_HAS_STDIO_BUFSIZ_8192 is not set
+-UCLIBC_HAS_STDIO_BUILTIN_BUFFER_NONE=y
+-# UCLIBC_HAS_STDIO_BUILTIN_BUFFER_4 is not set
+-# UCLIBC_HAS_STDIO_BUILTIN_BUFFER_8 is not set
+-# UCLIBC_HAS_STDIO_SHUTDOWN_ON_ABORT is not set
+-UCLIBC_HAS_STDIO_GETC_MACRO=y
+-UCLIBC_HAS_STDIO_PUTC_MACRO=y
+-UCLIBC_HAS_STDIO_AUTO_RW_TRANSITION=y
+-# UCLIBC_HAS_FOPEN_LARGEFILE_MODE is not set
+-UCLIBC_HAS_FOPEN_EXCLUSIVE_MODE=y
+-UCLIBC_HAS_GLIBC_CUSTOM_STREAMS=y
+-UCLIBC_HAS_PRINTF_M_SPEC=y
+-UCLIBC_HAS_ERRNO_MESSAGES=y
+-# UCLIBC_HAS_SYS_ERRLIST is not set
+-UCLIBC_HAS_SIGNUM_MESSAGES=y
+-# UCLIBC_HAS_SYS_SIGLIST is not set
+-UCLIBC_HAS_GNU_GETOPT=y
+-UCLIBC_HAS_GNU_GETSUBOPT=y
+-
+-#
+-# Big and Tall
+-#
+-UCLIBC_HAS_REGEX=y
+-# UCLIBC_HAS_REGEX_OLD is not set
+-UCLIBC_HAS_FNMATCH=y
+-# UCLIBC_HAS_FNMATCH_OLD is not set
+-UCLIBC_HAS_WORDEXP=y
+-UCLIBC_HAS_NFTW=y
+-UCLIBC_HAS_FTW=y
+-UCLIBC_HAS_FTS=y
+-UCLIBC_HAS_GLOB=y
+-UCLIBC_HAS_GNU_GLOB=y
+-
+-#
+-# Library Installation Options
+-#
+-SHARED_LIB_LOADER_PREFIX="/lib"
+-RUNTIME_PREFIX="/"
+-DEVEL_PREFIX="//usr"
+-
+-#
+-# Security options
+-#
+-# UCLIBC_BUILD_PIE is not set
+-# UCLIBC_HAS_ARC4RANDOM is not set
+-# HAVE_NO_SSP is not set
+-# UCLIBC_HAS_SSP is not set
+-UCLIBC_BUILD_RELRO=y
+-UCLIBC_BUILD_NOW=y
+-UCLIBC_BUILD_NOEXECSTACK=y
+-
+-#
+-# uClibc development/debugging options
+-#
+-CROSS_COMPILER_PREFIX=""
+-UCLIBC_EXTRA_CFLAGS=""
+-# DODEBUG is not set
+-# DODEBUG_PT is not set
+-# DOSTRIP is not set
+-# DOASSERTS is not set
+-# SUPPORT_LD_DEBUG is not set
+-# SUPPORT_LD_DEBUG_EARLY is not set
+-# UCLIBC_MALLOC_DEBUGGING is not set
+-WARNINGS="-Wall"
+-# EXTRA_WARNINGS is not set
+-# DOMULTI is not set
+-# UCLIBC_MJN3_ONLY is not set
+-
+-# math stuff for perl
+-DO_C99_MATH=y
+-UCLIBC_HAS_LONG_DOUBLE_MATH=y
+diff --git a/meta/recipes-core/uclibc/uclibc-git/uClibc.distro b/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
+index 45b131d..3136e54 100644
+--- a/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
++++ b/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
+@@ -170,3 +170,4 @@ UCLIBC_HAS_GNU_ERROR=y
+ UCLIBC_HAS_PTY=y
+ UCLIBC_BSD_SPECIFIC=y
+ UCLIBC_HAS_EPOLL=y
++UCLIBC_HAS_FLOATS=y
 -- 
 1.7.4.1
 
