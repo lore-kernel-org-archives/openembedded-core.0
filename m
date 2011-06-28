@@ -1,35 +1,38 @@
 Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QbNM9-0001iT-B4
+	(envelope-from <raj.khem@gmail.com>) id 1QbNMA-0001iV-Sc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 03:44:49 +0200
-Received: by pwi1 with SMTP id 1so3517970pwi.6
+	Tue, 28 Jun 2011 03:44:51 +0200
+Received: by pwi1 with SMTP id 1so3517982pwi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2011 18:41:07 -0700 (PDT)
+	Mon, 27 Jun 2011 18:41:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer;
-	bh=+x8i+B98jV9qGewBC0kcY3zBCuwRfQVmZLoD5nSPTg0=;
-	b=VPoDVUj56gGltpqTOM7NjzTAME/szhZQ3TQJCVnAjcQdhk7M6dpFcbOw2u9r5ZepjW
-	V9/EcW9eOlgzV1zMTA8iPBXStlikXSfKLT5FINzDkI+3bCGByiP1QEKrr2EeGyhcGd22
-	CtdLiNWFziV5Y5g4dEWJ4rOynyJPnmE4KeQzs=
+	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
+	:in-reply-to:references;
+	bh=+OvVSSLL/rC//sbRrrO/3xSAcpWZVeut7p/7TheZgRo=;
+	b=R85cHj6z5fbSbD0/C/Rol3EyZyNg4DcZVqAcm7rPkPptjoPh8h90mTWKI7CqPcIKJ/
+	SfZfN3SoiWIsPsyRdFXr9S5V9egs+/2R3uo6eyz6AuSxqsQH/V+jBWPqZ9oMvwwob+ci
+	5j9A12qGKYLFOr2bCWZ+3ch4jEjju7uyUmzKE=
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	b=r9bE7sKavY3iVIPArsNqpp9o1k7Y2hfafBlF5Q4DMv7pOOjrJS36Wl8Y9WJlDv6MrB
-	niZYefFYzyo6ROfsBLWN0MtgZQHbvDj6HoBgMf7NPxaXExbd6YStu6oPwIRgJsNx+tq9
-	Z0uE+yU8FrpSeWnLSA2kLu/VabZmuGvckLHtI=
-Received: by 10.68.22.197 with SMTP id g5mr3473085pbf.254.1309225267630;
-	Mon, 27 Jun 2011 18:41:07 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	b=esue5CEbzgUh7K242cekeDIBVpYylq3V34KmH1qp3aLXJuudZKcmqq5nfVOAnoyKLo
+	hzZRo2ORJZUTihAiMar3HqHmiNskn82VlRLjwTYjPmCHi1j9Qg06w+GJEC7pNVF4i4wI
+	irSMxcBkaDoS3FzGiwJqstXCMTI52ZjhdDF5Q=
+Received: by 10.142.120.1 with SMTP id s1mr1220685wfc.252.1309225269617;
+	Mon, 27 Jun 2011 18:41:09 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id o2sm4725057pbj.17.2011.06.27.18.41.06
+	by mx.google.com with ESMTPS id o2sm4725057pbj.17.2011.06.27.18.41.08
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 27 Jun 2011 18:41:07 -0700 (PDT)
+	Mon, 27 Jun 2011 18:41:09 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jun 2011 18:40:48 -0700
-Message-Id: <1309225253-25795-1-git-send-email-raj.khem@gmail.com>
+Date: Mon, 27 Jun 2011 18:40:50 -0700
+Message-Id: <1309225253-25795-3-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/5] uclibc: config Cleanups
+In-Reply-To: <1309225253-25795-1-git-send-email-raj.khem@gmail.com>
+References: <1309225253-25795-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 2/5] uclibc-config.inc: Fix regexp to determine big-endian arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,19 +47,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 01:44:49 -0000
+X-List-Received-Date: Tue, 28 Jun 2011 01:44:51 -0000
 
-Hi
+Without this even arm-*-* was being treated as big endian
+but normal convention is the arm-*-* is little endian
 
-This patch series is attempting to clean up the defconfig cruft
-accumulated in uclibc recipes. I have built angstrom/console-image
-using these patches (but not from scratch) for arm and x86
-other architectures are still churning. Please review and provide
-your feedback
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/uclibc/uclibc-config.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Thanks
--Khem
-
+diff --git a/meta/recipes-core/uclibc/uclibc-config.inc b/meta/recipes-core/uclibc/uclibc-config.inc
+index 3679c10..697164c 100644
+--- a/meta/recipes-core/uclibc/uclibc-config.inc
++++ b/meta/recipes-core/uclibc/uclibc-config.inc
+@@ -75,7 +75,7 @@ def map_uclibc_endian(a, d):
+ 	if re.match('^(avr32|e1|frv|(parisc|hppa)|m68k|microblaze|powerpc.*|(sparc|sun).*)$', a):
+ 		return 'BIG'
+ 	# Possibly BE
+-	elif re.match('^((arm|sa110|arm.*eb)|h8300.*eb|(parisc|hppa).*eb|mips|sh.*eb|xtensa.*eb)$', a):
++	elif re.match('^(((arm|sa110).*eb)|h8300.*eb|(parisc|hppa).*eb|mips|sh.*eb|xtensa.*eb)$', a):
+ 		return 'BIG'
+ 	return 'LITTLE'
+ 
+-- 
+1.7.4.1
 
 
 
