@@ -1,28 +1,27 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Qbgx6-0003Pj-OL
+	(envelope-from <raj.khem@gmail.com>) id 1Qbh2b-0003VT-0S
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 00:40:16 +0200
-Received: from localhost.localdomain (c-98-246-160-194.hsd1.or.comcast.net
-	[98.246.160.194])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 00CE030504;
-	Tue, 28 Jun 2011 18:36:26 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jun 2011 15:36:17 -0700
-Message-Id: <cover.1309300395.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.1
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 00CE030504.2E04C
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [PATCH 0/1] shadow-native fix for useradd
+	Wed, 29 Jun 2011 00:45:57 +0200
+Received: by pvf24 with SMTP id 24so437893pvf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 15:42:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:from:date:message-id:subject:to:content-type;
+	bh=eEI+vUa9KeXl0k961edtRuwfE/oB3xjpJMzGUOGuxZw=;
+	b=gusCY8gIiKqMm7L1O7FzGGpy4hSd0beSvmOAlfw4koqUQTBpF5/UMThbdwOFpdtQxh
+	bcRuqdQFNG3KADU8hI4Hvm6drnH9VfnvHOe5azcfU7ctFCaqRa6vvaJAh0oEXZOByEoH
+	f3C8ihSEVyjkXewRW1vuWwHiwVi9yaBX86a4Q=
+Received: by 10.68.12.65 with SMTP id w1mr144227pbb.294.1309300932076; Tue, 28
+	Jun 2011 15:42:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.48.105 with HTTP; Tue, 28 Jun 2011 15:41:42 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 28 Jun 2011 15:41:42 -0700
+Message-ID: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Conflicting providers for ssh/sshd (dropbear and openssh)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,32 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 22:40:16 -0000
+X-List-Received-Date: Tue, 28 Jun 2011 22:45:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Pseudo was recently changed so that when system() calls are made
-after a chroot(), the host binaries can no longer be found, breaking
-the system("mkdir -p") approach when useradd creates home directories.
+ERROR: Multiple .bb files are due to be built which each provide ssh
+(/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/dropbear/dropbear_0.52.bb
+/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-connectivity/openssh/openssh_5.8p2.bb).
+ This usually means one provides something the other doesn't and should.
+ERROR: Multiple .bb files are due to be built which each provide sshd
+(/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/dropbear/dropbear_0.52.bb
+/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-connectivity/openssh/openssh_5.8p2.bb).
+ This usually means one provides something the other doesn't and should.
 
-Instead, use mkdir(2) to create home directories with a helper
-function to ensure parent directories get created.
+reason is that dropbear only provides ssh and sshd packages openssh
+provides a few more e.g. openssh-sftp-server which is demanded by
+some images and at same time wants dropbear to provide sshd and ssh
 
-This is a prerequisite fix needed for my useradd.bbclass changes
-(still pending until I address some of Richard's comments from this
-morning). 
+Now both recipes are to be built but are in contention for providing
+ssh and sshd
 
-The following changes since commit a4f3e006e1f2fd93f156012af2a05adccf41d065:
+How to solve this problem. ? Are other packages that openssh provides
+strictly depending on ssh/sshd from openssh ? or will they work on
+any ssh/sshd ?
 
-  u-boot-mkimage: bump version to 2011.03 (2011-06-28 17:13:19 +0100)
+If they are independent then may be the openssh recipe should be
+divided into openssh-ssh and openssh-rest so one can use openssh
+provided daemon or dropbear provided as they wish
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib sgarman/mkdir-p-fix
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/mkdir-p-fix
-
-Scott Garman (1):
-  shadow-native: fix creation of home directories
-
- .../shadow/files/add_root_cmd_options.patch        |  125 +++++++++++++++----
- 1 files changed, 98 insertions(+), 27 deletions(-)
-
+Thanks
+-Khem
 
 
