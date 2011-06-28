@@ -1,33 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qbb1y-0002l6-4Y for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 18:20:54 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5SGHDDE026238
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <kergoth@gmail.com>) id 1QbbAw-00031h-Tt
+	for openembedded-core@lists.openembedded.org;
+	Tue, 28 Jun 2011 18:30:11 +0200
+Received: by vws2 with SMTP id 2so307277vws.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 17:17:13 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26024-05 for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 17:17:09 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5SGH4Uv026228
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 17:17:04 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 28 Jun 2011 09:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type;
+	bh=nErEvnu55v0HHRHx3AEy/bXCUoeJyhFdE+Vr/i9hZ4w=;
+	b=NHKtrjvZurDttqAX2ZjVV1h3GWXjFKRpGnnJLBUCGDWltaf1TtD1n/b8kBsnt2Vt68
+	GXEujv5+oeyJxoik0coZ+ADKPFhBErhF7uFVUR4gEBRXy6FHmkWHLheLC9A0PPtmKOcc
+	3K3mVYuI9Y3d6QzSRETC2JiVmQBP2HxYNMAoU=
+Received: by 10.52.176.101 with SMTP id ch5mr6411996vdc.129.1309278389059;
+	Tue, 28 Jun 2011 09:26:29 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.52.181.2 with HTTP; Tue, 28 Jun 2011 09:26:09 -0700 (PDT)
+In-Reply-To: <1309271509.20015.310.camel@rex>
+References: <1309271509.20015.310.camel@rex>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 28 Jun 2011 09:26:09 -0700
+X-Google-Sender-Auth: NDEVPYuEXO8W8LYGcXnWtc9Cvvg
+Message-ID: <BANLkTiktykyb-X0v2W7Hd926ikOkkja8Pw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTi=GQS+Rwv+srtcctpD3jDwu7RWv2Q@mail.gmail.com>
-References: <BANLkTi=GQS+Rwv+srtcctpD3jDwu7RWv2Q@mail.gmail.com>
-Date: Tue, 28 Jun 2011 17:16:49 +0100
-Message-ID: <1309277809.20015.322.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFH] Native SDK wirdness
+Subject: Re: Heads Up: Bitbake minimum version change imminent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,26 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 16:20:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jun 2011 16:30:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2011-06-28 at 11:56 -0300, Otavio Salvador wrote:
-> I am probably doing something stupid but I couldn't figure it myself
-> so I am looking for some help here. Basically I need to prepare a SDK
-> for usage by our team mates to develop to our embedded OS. In theory I
-> got most of it already done but when I build the meta-toolchain recipe
-> the built sdk tarball lacks GCC and like.
-> 
-> Any idea where I ought to look for a good example? Or any clue what I
-> am doing wrong?
+On Tue, Jun 28, 2011 at 7:31 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I just wanted to let people know that we have a minimum version of
+> bitbake change imminent for OE-Core.
+>
+> I've already pushed the changes we need to bitbake for umask, shared
+> work directory and multilib and updated its version to 1.13.2. I'm
+> planning to merge patches to OE-Core which depend on these changes later
+> this week (and bump the minimum version OE-Core requires at the same
+> time).
+>
+> In case it isn't clear, I've been batching things up to try and ensure
+> we only have to do this once for a variety of improvements :)
 
-Could you share a list of files from your toolchain tarball please? It
-certainly should contain a cross compiler...
-
-Cheers,
-
-Richard
-
+I have to say that it's *extremely* unintuitive to have a minimum
+version requirement on a version that hasn't even been tagged in the
+git repository. If it's good enough to depend on, it should be good
+enough to consider released.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
