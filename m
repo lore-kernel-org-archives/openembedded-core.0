@@ -1,38 +1,25 @@
-Received: from plane.gmane.org ([80.91.229.3])
+Received: from ocean.emcraft.com ([213.221.7.182])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <public@plane.gmane.org>) id 1QbU4H-0007M2-Pj
+	(envelope-from <yanok@emcraft.com>) id 1QbV5T-00059A-W1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 10:54:49 +0200
-Received: from public by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <public@plane.gmane.org>) id 1QbTm6-0002V0-63
-	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 10:36:02 +0200
-Received: from ppsw-52.csi.cam.ac.uk ([131.111.8.152])
-	by plane.gmane.org with esmtp (Exim 4.69)
-	(envelope-from <jic23@cam.ac.uk>) id 1QbTm3-0002NQ-GW for
-	public-openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@plane.gmane.org;
-	Tue, 28 Jun 2011 10:35:59 +0200
-X-Cam-AntiVirus: no malware found
-X-Cam-SpamDetails: not scanned
-X-Cam-ScannerInfo: http://www.cam.ac.uk/cs/email/scanner/
-Received: from arcturus.eng.cam.ac.uk ([129.169.154.73]:53605)
-	by ppsw-52.csi.cam.ac.uk (smtp.hermes.cam.ac.uk [131.111.8.159]:25)
-	with esmtpsa (PLAIN:jic23) (TLSv1:DHE-RSA-CAMELLIA256-SHA:256)
-	id 1QbTm3-0001Aa-DB (Exim 4.72) for
-	openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@public.gmane.org
-	(return-path <jic23@cam.ac.uk>); Tue, 28 Jun 2011 09:35:59 +0100
-Message-ID: <4E099454.30801@cam.ac.uk>
-Date: Tue, 28 Jun 2011 09:44:04 +0100
-From: Jonathan Cameron <jic23@cam.ac.uk>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110509 Lightning/1.0b3pre Thunderbird/3.1.10
+	Tue, 28 Jun 2011 12:00:08 +0200
+Received: from localhost ([127.0.0.1] helo=[IPv6:::1])
+	by ocean.emcraft.com with esmtp (Exim 4.71)
+	(envelope-from <yanok@emcraft.com>)
+	id 1QbV1v-0007EW-Dk; Tue, 28 Jun 2011 13:56:27 +0400
+Message-ID: <4E09A570.9070206@emcraft.com>
+Date: Tue, 28 Jun 2011 13:57:04 +0400
+From: Ilya Yanok <yanok@emcraft.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; ru;
+	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<public-openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@plane.gmane.org>
-References: <4E08B126.9090106@cam.ac.uk> <4E08B43A.7020004@cam.ac.uk>
-In-Reply-To: <4E08B43A.7020004@cam.ac.uk>
-X-Mailman-Approved-At: Tue, 28 Jun 2011 11:24:09 +0200
-Subject: Re: /build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/autom4te: build/tmp-angstrom_2010_x-eglibc/sysroot: bad interpreter:
+To: Darren Hart <dvhart@linux.intel.com>
+References: <1308182971-23082-1-git-send-email-yanok@emcraft.com>
+	<4E0953FB.508@linux.intel.com>
+In-Reply-To: <4E0953FB.508@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot-mkimage: bump version to 2011.03
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,32 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 08:54:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 28 Jun 2011 10:00:08 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hi Darren,
 
+28.06.2011 8:09, Darren Hart wrote:
+> These look like good changes to me, with a couple of minor things needed:
+>
+> 1) Please submit the version change independently from the added
+>     patches to keep things functionally distinct.
 
-On 06/27/11 17:47, Jonathan Cameron wrote:
-> On 06/27/11 17:34, Jonathan Cameron wrote:
->> Building a couple of different things today gave me an issue that boils down to the subject line.
->>
->> Latest issue was eglibc where do_populate_sysroot ended with.
->>
->> + autoconf
->> /home/jic23/src/beagle/setup-scripts/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/autoconf: /home/jic23/src/beagle/setup-scripts/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/autom4te: /home/jic23/src/beagle/setup-scripts/build/tmp-angstrom_2010_x-eglibc/sysroot: bad interpreter: No such file or directory
->> /home/jic23/src/beagle/setup-scripts/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/autoconf: line 501: /home/jic23/src/beagle/setup-scripts/build/tmp-angstrom_2010_x-eglibc/sysroots/x86_64-linux/usr/bin/autom4te: Success
->> ERROR: Function 'do_siteconfig_gencache' failed (see /home/jic23/src/beagle/setup-scripts/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/eglibc-2.12-r15/temp/log.do_populate_sysroot.1218 for further information)
->>
->>
->> Which is true. The directory is sysroots not systroot.
->>
->>
->> I guess it could be a dead tmp issue so will try rebuilding from scratch overnight...
-> It wasn't.  Now getting the same error, on libtool native, but now with an apparently valid path..
->>
->> Anyone have any other thoughts on what might have broken this?
-Missed wiping the caches, now looks like it might be working...
+Hm.. Actually the new version won't build without the patches, so I 
+think this should be addressed by a single commit. Maybe I should add a 
+note on this in the commit message though...
+
+> 2) The patch from you marked as Submitted: has this received any
+>     discussion on the u-boot list?
+
+Yes, it's already applied (with some cosmetic changes). I will repost my 
+oe-core with the new versions of U-Boot patches. Please let me know if 
+you still think these should be two separate commits.
+
+Regards, Ilya.
 
 
 
