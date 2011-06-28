@@ -1,25 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QbR3i-0001MT-UN
+	(envelope-from <sgw@linux.intel.com>) id 1QbROV-000215-3b
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 07:42:03 +0200
+	Tue, 28 Jun 2011 08:03:31 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Jun 2011 22:38:21 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 27 Jun 2011 22:59:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,436,1304319600"; d="scan'208";a="21334389"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.13.51])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Jun 2011 22:38:20 -0700
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	paul.eggleton@linux.intel.com
-Date: Tue, 28 Jun 2011 13:37:38 +0800
-Message-Id: <674a391015f3cdebe891ae7e8439aea48698982e.1309239001.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.2
-In-Reply-To: <cover.1309239001.git.dexuan.cui@intel.com>
-References: <cover.1309239001.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1309239001.git.dexuan.cui@intel.com>
-References: <cover.1309239001.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/1] base.bbclass: show layer's branches/revisions in the banner info
+X-IronPort-AV: E=Sophos;i="4.65,436,1304319600"; d="scan'208";a="21339240"
+Received: from unknown (HELO [10.255.13.205]) ([10.255.13.205])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Jun 2011 22:59:49 -0700
+Message-ID: <4E096DD7.8080504@linux.intel.com>
+Date: Mon, 27 Jun 2011 22:59:51 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <dc56d07c4a034568b8860d7bcd41b31acbdb3e89.1309059243.git.sgw@linux.intel.com>	<598f1ae9f5b0adee5bf9cfae4fc6bf3522bdfd4f.1309059243.git.sgw@linux.intel.com>
+	<1309168662.21613.265.camel@phil-desktop>
+In-Reply-To: <1309168662.21613.265.camel@phil-desktop>
+Subject: Re: [RFC - Staticdev 2/2] systemtap: add sqlite3 to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 05:42:03 -0000
+X-List-Received-Date: Tue, 28 Jun 2011 06:03:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- meta/classes/base.bbclass |   14 +++++++++++++-
- 1 files changed, 13 insertions(+), 1 deletions(-)
+On 06/27/2011 02:57 AM, Phil Blundell wrote:
+> On Sat, 2011-06-25 at 21:36 -0700, Saul Wold wrote:
+>> -DEPENDS = "elfutils"
+>> +DEPENDS = "elfutils sqlite3"
+>
+> No doubt this is a fine change but I didn't quite understand what it has
+> to do with staticdev.  Was this meant to be a separate patchset?
+>
+Well yes it not directly related to staticdev, other than I found it, it 
+is a seperate pull within the patch request, I can break this into 2 
+requests if needed.
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 119b052..4766c77 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -165,9 +165,21 @@ python base_eventhandler() {
- 			note(msg)
- 
- 	if name.startswith("BuildStarted"):
-+		corebase = data.getVar("COREBASE", e.data, 1)
-+		corelayers = [corebase + "/meta", corebase + "/meta-yocto"]
-+		layers = (data.getVar("BBLAYERS", e.data, 1) or "").split()
-+		layers = [i for i in layers if i not in corelayers]
-+		fmt_str = "%-27s = \"%s\""
-+		layer_branches = [fmt_str % (os.path.basename(i)+"_BRANCH", \
-+			base_get_metadata_git_branch(i, None).strip()) for i in layers]
-+		layer_revisions = [fmt_str % (os.path.basename(i)+"_REVISION", \
-+			base_get_metadata_git_revision(i, None)) for i in layers]
- 		bb.data.setVar( 'BB_VERSION', bb.__version__, e.data )
- 		statusvars = ['BB_VERSION', 'METADATA_BRANCH', 'METADATA_REVISION', 'TARGET_ARCH', 'TARGET_OS', 'MACHINE', 'DISTRO', 'DISTRO_VERSION','TARGET_FPU']
--		statuslines = ["%-17s = \"%s\"" % (i, bb.data.getVar(i, e.data, 1) or '') for i in statusvars]
-+		statuslines = [fmt_str % (i, bb.data.getVar(i, e.data, 1) or '') for i in statusvars]
-+		for i in range(len(layer_branches)):
-+			statuslines.insert(3+2*i, layer_branches[i])
-+			statuslines.insert(3+2*i+1, layer_revisions[i])
- 		statusmsg = "\nOE Build Configuration:\n%s\n" % '\n'.join(statuslines)
- 		print statusmsg
- 
--- 
-1.7.4.1
+Sau!
 
+> p.
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
