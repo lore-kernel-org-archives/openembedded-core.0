@@ -1,38 +1,33 @@
-Received: from mail-pz0-f50.google.com ([209.85.210.50])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QbNMD-0001ih-Ba
+	(envelope-from <dexuan.cui@intel.com>) id 1QbNox-0002XS-0k
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 03:44:53 +0200
-Received: by pzk2 with SMTP id 2so3530015pzk.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jun 2011 18:41:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:from:to:cc:subject:date:message-id:x-mailer
-	:in-reply-to:references;
-	bh=9OeRJKiplPv3ZU0++Ai0HzzpC5kOuSO2Bj1SIiG2je0=;
-	b=KtQpTUFslsvx0z9D2VYkqaheEWLPFQUoFnLsqU1nDSEBg7r8y6qYYK6272NZwSfzc1
-	IPI/veCW8/LtGjowwYqsL4HlfbJgPH3Ha0FUkvfC506B4U8KDywS2BvDvoRvj3D//t6s
-	L2GIGz6Trf8aYkcJgNcQ38oUfqQRgbSVj6x/A=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	b=gHlBDtFIlzQYCAq2KbVxVodTJPhvxrT6mN3NZ4CEAUyg9FdHY4kjMmRhvToSAFRv3f
-	2PX7rbyTpTLnjTFGlNsmYi6hZY5I/44yyAVVcfh//sDC1E4Gna183oNDCTCMGuatulCw
-	0V9UL2egLtdV2D927d/31klelfM4huzGduujU=
-Received: by 10.142.229.18 with SMTP id b18mr1356134wfh.201.1309225272074;
-	Mon, 27 Jun 2011 18:41:12 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id o2sm4725057pbj.17.2011.06.27.18.41.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 27 Jun 2011 18:41:11 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jun 2011 18:40:53 -0700
-Message-Id: <1309225253-25795-6-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <1309225253-25795-1-git-send-email-raj.khem@gmail.com>
-References: <1309225253-25795-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 5/5] uclibc: Add UCLIBC_HAS_FLOATS=y to uClibc.distro
+	Tue, 28 Jun 2011 04:14:35 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 27 Jun 2011 19:10:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,435,1304319600"; d="scan'208";a="19059339"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by orsmga002.jf.intel.com with ESMTP; 27 Jun 2011 19:10:52 -0700
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 28 Jun 2011 10:09:33 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Tue, 28 Jun 2011 10:09:32 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Jun 2011 10:09:32 +0800
+Thread-Topic: [Draft design][RFC] Running postinst at rootfs generation time
+Thread-Index: Acw1OGv20YOf+eBySXe2fCe41OT8wQ==
+Message-ID: <1865303E0DED764181A9D882DEF65FB6A167F0C70B@shsmsx502.ccr.corp.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Subject: [Draft design][RFC] Running postinst at rootfs generation time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,192 +42,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 01:44:53 -0000
+X-List-Received-Date: Tue, 28 Jun 2011 02:14:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Remove unused uClibc.distro from topdir. It just creates
-confusion
+Hi all, below is an initial investigation about the task and we'll continue=
+ to further look into it.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/uclibc/uClibc.distro            |  157 ---------------------
- meta/recipes-core/uclibc/uclibc-git/uClibc.distro |    1 +
- 2 files changed, 1 insertions(+), 157 deletions(-)
- delete mode 100644 meta/recipes-core/uclibc/uClibc.distro
+In poky we have 2 types of postinst scripts:  one (type-1) can be (and has =
+already been) run at rootfs generation time and the other (type-2) has to b=
+e delayed to the first-boot of target device. Type-2 makes target device's =
+first-boot slow and it would be great if we can fix it and convert it to ty=
+pe-1.
 
-diff --git a/meta/recipes-core/uclibc/uClibc.distro b/meta/recipes-core/uclibc/uClibc.distro
-deleted file mode 100644
-index e25324d..0000000
---- a/meta/recipes-core/uclibc/uClibc.distro
-+++ /dev/null
-@@ -1,157 +0,0 @@
--#
--# General Library Settings
--#
--# HAVE_NO_PIC is not set
--# DOPIC is not set
--# HAVE_NO_SHARED is not set
--# ARCH_HAS_NO_LDSO is not set
--HAVE_SHARED=y
--# FORCE_SHAREABLE_TEXT_SEGMENTS is not set
--LDSO_LDD_SUPPORT=y
--LDSO_CACHE_SUPPORT=y
--# LDSO_PRELOAD_FILE_SUPPORT is not set
--LDSO_BASE_FILENAME="ld.so"
--# UCLIBC_STATIC_LDCONFIG is not set
--LDSO_RUNPATH=y
--UCLIBC_CTOR_DTOR=y
--LDSO_GNU_HASH_SUPPORT=y
--# HAS_NO_THREADS is not set
--UCLIBC_HAS_THREADS=y
--UCLIBC_HAS_THREADS_NATIVE=y
--PTHREADS_DEBUG_SUPPORT=y
--# LINUXTHREADS_OLD is not set
--UCLIBC_HAS_LFS=y
--# MALLOC is not set
--# MALLOC_SIMPLE is not set
--MALLOC_STANDARD=y
--MALLOC_GLIBC_COMPAT=y
--UCLIBC_DYNAMIC_ATEXIT=y
--COMPAT_ATEXIT=y
--UCLIBC_SUSV3_LEGACY=y
--UCLIBC_SUSV3_LEGACY_MACROS=y
--UCLIBC_SUSV4_LEGACY=y
--UCLIBC_HAS_SHADOW=y
--UCLIBC_HAS_PROGRAM_INVOCATION_NAME=y
--UCLIBC_HAS___PROGNAME=y
--UNIX98PTY_ONLY=y
--ASSUME_DEVPTS=y
--UCLIBC_HAS_LIBUTIL=y
--UCLIBC_HAS_TM_EXTENSIONS=y
--UCLIBC_HAS_TZ_CACHING=y
--UCLIBC_HAS_TZ_FILE=y
--UCLIBC_HAS_TZ_FILE_READ_MANY=y
--UCLIBC_TZ_FILE_PATH="/etc/TZ"
--
--#
--# Advanced Library Settings
--#
--UCLIBC_PWD_BUFFER_SIZE=256
--UCLIBC_GRP_BUFFER_SIZE=256
--
--#
--# Networking Support
--#
--UCLIBC_HAS_IPV6=y
--UCLIBC_HAS_RPC=y
--UCLIBC_HAS_FULL_RPC=y
--# UCLIBC_HAS_REENTRANT_RPC is not set
--UCLIBC_USE_NETLINK=y
--UCLIBC_SUPPORT_AI_ADDRCONFIG=y
--
--UCLIBC_HAS_BSD_RES_CLOSE=y
--UCLIBC_HAS_LIBRESOLV_STUB=y
--UCLIBC_HAS_LIBNSL_STUB=y
--
--#
--# String and Stdio Support
--#
--UCLIBC_HAS_STRING_GENERIC_OPT=y
--UCLIBC_HAS_STRING_ARCH_OPT=y
--UCLIBC_HAS_CTYPE_TABLES=y
--UCLIBC_HAS_CTYPE_SIGNED=y
--# UCLIBC_HAS_CTYPE_UNSAFE is not set
--UCLIBC_HAS_CTYPE_CHECKED=y
--# UCLIBC_HAS_CTYPE_ENFORCED is not set
--UCLIBC_HAS_WCHAR=y
--# UCLIBC_HAS_LOCALE is not set
--UCLIBC_HAS_HEXADECIMAL_FLOATS=y
--UCLIBC_HAS_GLIBC_CUSTOM_PRINTF=y
--UCLIBC_PRINTF_SCANF_POSITIONAL_ARGS=9
--UCLIBC_HAS_SCANF_GLIBC_A_FLAG=y
--# UCLIBC_HAS_STDIO_BUFSIZ_NONE is not set
--UCLIBC_HAS_STDIO_BUFSIZ_256=y
--# UCLIBC_HAS_STDIO_BUFSIZ_512 is not set
--# UCLIBC_HAS_STDIO_BUFSIZ_1024 is not set
--# UCLIBC_HAS_STDIO_BUFSIZ_2048 is not set
--# UCLIBC_HAS_STDIO_BUFSIZ_4096 is not set
--# UCLIBC_HAS_STDIO_BUFSIZ_8192 is not set
--UCLIBC_HAS_STDIO_BUILTIN_BUFFER_NONE=y
--# UCLIBC_HAS_STDIO_BUILTIN_BUFFER_4 is not set
--# UCLIBC_HAS_STDIO_BUILTIN_BUFFER_8 is not set
--# UCLIBC_HAS_STDIO_SHUTDOWN_ON_ABORT is not set
--UCLIBC_HAS_STDIO_GETC_MACRO=y
--UCLIBC_HAS_STDIO_PUTC_MACRO=y
--UCLIBC_HAS_STDIO_AUTO_RW_TRANSITION=y
--# UCLIBC_HAS_FOPEN_LARGEFILE_MODE is not set
--UCLIBC_HAS_FOPEN_EXCLUSIVE_MODE=y
--UCLIBC_HAS_GLIBC_CUSTOM_STREAMS=y
--UCLIBC_HAS_PRINTF_M_SPEC=y
--UCLIBC_HAS_ERRNO_MESSAGES=y
--# UCLIBC_HAS_SYS_ERRLIST is not set
--UCLIBC_HAS_SIGNUM_MESSAGES=y
--# UCLIBC_HAS_SYS_SIGLIST is not set
--UCLIBC_HAS_GNU_GETOPT=y
--UCLIBC_HAS_GNU_GETSUBOPT=y
--
--#
--# Big and Tall
--#
--UCLIBC_HAS_REGEX=y
--# UCLIBC_HAS_REGEX_OLD is not set
--UCLIBC_HAS_FNMATCH=y
--# UCLIBC_HAS_FNMATCH_OLD is not set
--UCLIBC_HAS_WORDEXP=y
--UCLIBC_HAS_NFTW=y
--UCLIBC_HAS_FTW=y
--UCLIBC_HAS_FTS=y
--UCLIBC_HAS_GLOB=y
--UCLIBC_HAS_GNU_GLOB=y
--
--#
--# Library Installation Options
--#
--SHARED_LIB_LOADER_PREFIX="/lib"
--RUNTIME_PREFIX="/"
--DEVEL_PREFIX="//usr"
--
--#
--# Security options
--#
--# UCLIBC_BUILD_PIE is not set
--# UCLIBC_HAS_ARC4RANDOM is not set
--# HAVE_NO_SSP is not set
--# UCLIBC_HAS_SSP is not set
--UCLIBC_BUILD_RELRO=y
--UCLIBC_BUILD_NOW=y
--UCLIBC_BUILD_NOEXECSTACK=y
--
--#
--# uClibc development/debugging options
--#
--CROSS_COMPILER_PREFIX=""
--UCLIBC_EXTRA_CFLAGS=""
--# DODEBUG is not set
--# DODEBUG_PT is not set
--# DOSTRIP is not set
--# DOASSERTS is not set
--# SUPPORT_LD_DEBUG is not set
--# SUPPORT_LD_DEBUG_EARLY is not set
--# UCLIBC_MALLOC_DEBUGGING is not set
--WARNINGS="-Wall"
--# EXTRA_WARNINGS is not set
--# DOMULTI is not set
--# UCLIBC_MJN3_ONLY is not set
--
--# math stuff for perl
--DO_C99_MATH=y
--UCLIBC_HAS_LONG_DOUBLE_MATH=y
-diff --git a/meta/recipes-core/uclibc/uclibc-git/uClibc.distro b/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
-index 45b131d..3136e54 100644
---- a/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
-+++ b/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
-@@ -170,3 +170,4 @@ UCLIBC_HAS_GNU_ERROR=y
- UCLIBC_HAS_PTY=y
- UCLIBC_BSD_SPECIFIC=y
- UCLIBC_HAS_EPOLL=y
-+UCLIBC_HAS_FLOATS=y
--- 
-1.7.4.1
+We can instrument a first-boot with minimal/sato first to see which postins=
+talls take the most time and then prioritise those ones to fix.
 
+I figurerd out a list of 33 recipes in total(recipes with the same name but=
+ with different versions are counted once) we possibly need to fix.
+For the recipes, we need try to find recipe-specific ways(use appropriately=
+ modified native utilities to generate caches, files, etc as necessary on t=
+he target filesystem).
+
+11 recipes: these could be easily fixed if we add the properly-adjusted uti=
+lities "adduser, addgroup, pwconv, etc". Scott is actually adding the utili=
+tes: http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dsgarma=
+n/useradd-rebased&id=3D99e54d9696104ed38ec1e3464e17aa1f9b8d98ac
+meta/recipes-devtools/distcc/distcc_2.18.3.bb
+meta/recipes-extended/cronie/cronie_1.4.7.bb
+meta/recipes-extended/at/at_3.1.12.bb:47
+meta/recipes-support/hal/hal.inc:45
+meta/recipes-core/dbus/dbus.inc:49
+meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
+meta/recipes-graphics/x11-common/xserver-nodm-init.bb
+meta/recipes-multimedia/pulseaudio/pulseaudio.inc:87
+meta/recipes-extended/shadow/shadow_4.1.4.3.bb:125
+meta/classes/libc-package.bbclass
+
+6  recipes: these should be easily fixed since the scripts are not related =
+to special native utilites.
+meta/recipes-extended/sudo/sudo.inc
+meta/recipes-extended/sysklogd/sysklogd.inc
+meta/classes/update-rc.d.bbclass
+meta/recipes-connectivity/ppp/ppp_2.4.5.bb
+meta/recipes-graphics/pango/pango.inc
+meta/recipes-gnome/gtk+/gtk+.inc
+=20
+4 recipes: we may need to add gtk-update-icon-cache-native.
+meta/classes/gtk-icon-cache.bbclass
+meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
+meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+
+3 recipes: need to add gconftool-2-native?
+meta/classes/gconf.bbclass
+meta/recipes-graphics/mutter/mutter.inc
+meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
+
+3 recipes: "dpkg --configure, opkg-cl configure": looks it's possible to fi=
+x them if we specify proper parematers?
+meta/recipes-devtools/dpkg/dpkg.inc
+meta/recipes-devtools/opkg/opkg_svn.bb
+meta/recipes-devtools/opkg/opkg_0.1.8.bb
+
+1 recipe: prelink: we could propablly fix it, but I'm not sure yet.
+meta/recipes-devtools/prelink/prelink_git.bb
+
+1 recipe: "/etc/init.d/populate-volatile.sh update ; DBUSPID=3D`pidof dbus-=
+daemon`": We can't fix this one.
+meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+
+The below 4 recipes need the related utilities and need more investigation.=
+=20
+
+1 recipe: update-modules
+meta/recipes-kernel/update-modules/update-modules_1.0.bb
+
+1 recipe: systemctl
+meta/recipes-connectivity/avahi/avahi.inc
+
+1 recipe: fc-cache
+meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb:37
+
+1 recipe: gtk-query-immodules-2.0
+meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+
+Thanks,
+-- Dexuan
 
 
