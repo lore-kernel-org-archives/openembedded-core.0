@@ -1,32 +1,34 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1QbbAw-00031h-Tt
+	(envelope-from <otavio.salvador@gmail.com>) id 1QbbCL-00033o-Oa
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 18:30:11 +0200
-Received: by vws2 with SMTP id 2so307277vws.6
+	Tue, 28 Jun 2011 18:31:37 +0200
+Received: by bwf20 with SMTP id 20so389720bwf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 09:26:29 -0700 (PDT)
+	Tue, 28 Jun 2011 09:27:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=nErEvnu55v0HHRHx3AEy/bXCUoeJyhFdE+Vr/i9hZ4w=;
-	b=NHKtrjvZurDttqAX2ZjVV1h3GWXjFKRpGnnJLBUCGDWltaf1TtD1n/b8kBsnt2Vt68
-	GXEujv5+oeyJxoik0coZ+ADKPFhBErhF7uFVUR4gEBRXy6FHmkWHLheLC9A0PPtmKOcc
-	3K3mVYuI9Y3d6QzSRETC2JiVmQBP2HxYNMAoU=
-Received: by 10.52.176.101 with SMTP id ch5mr6411996vdc.129.1309278389059;
-	Tue, 28 Jun 2011 09:26:29 -0700 (PDT)
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=nux4F/rFeMmX3Frlx83/vwV7pXyCw/b6Vz4UnbdsI4M=;
+	b=a8+o37rT9YRncOYRXxIE97/rQUV8SchgEBtKY95FXH/0GCr/vvGKRBxQYMVbPQAGBW
+	5Vop/XqUfm8MvkstFwXjervv8NnKgWwPmWWgDZm1LpHuQbEa1RB41Wy4UUjbEOj907A9
+	d4ni/cGpBo1Dx3wTgDWyBgSpe1YrPM1LLINjQ=
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.52.181.2 with HTTP; Tue, 28 Jun 2011 09:26:09 -0700 (PDT)
-In-Reply-To: <1309271509.20015.310.camel@rex>
-References: <1309271509.20015.310.camel@rex>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 28 Jun 2011 09:26:09 -0700
-X-Google-Sender-Auth: NDEVPYuEXO8W8LYGcXnWtc9Cvvg
-Message-ID: <BANLkTiktykyb-X0v2W7Hd926ikOkkja8Pw@mail.gmail.com>
+Received: by 10.204.20.143 with SMTP id f15mr5650615bkb.173.1309278475575;
+	Tue, 28 Jun 2011 09:27:55 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.73.70 with HTTP; Tue, 28 Jun 2011 09:27:55 -0700 (PDT)
+In-Reply-To: <1309277809.20015.322.camel@rex>
+References: <BANLkTi=GQS+Rwv+srtcctpD3jDwu7RWv2Q@mail.gmail.com>
+	<1309277809.20015.322.camel@rex>
+Date: Tue, 28 Jun 2011 13:27:55 -0300
+X-Google-Sender-Auth: pJiQCbD6DAuBlTbjnbiITlmGqc8
+Message-ID: <BANLkTinGUawS4b7x2YdP+Tu+B=Ngkt4MbQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Heads Up: Bitbake minimum version change imminent
+Subject: Re: [RFH] Native SDK wirdness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,32 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 16:30:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 28 Jun 2011 16:31:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 28, 2011 at 7:31 AM, Richard Purdie
+On Tue, Jun 28, 2011 at 13:16, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
-> I just wanted to let people know that we have a minimum version of
-> bitbake change imminent for OE-Core.
+> On Tue, 2011-06-28 at 11:56 -0300, Otavio Salvador wrote:
+>> I am probably doing something stupid but I couldn't figure it myself
+>> so I am looking for some help here. Basically I need to prepare a SDK
+>> for usage by our team mates to develop to our embedded OS. In theory I
+>> got most of it already done but when I build the meta-toolchain recipe
+>> the built sdk tarball lacks GCC and like.
+>>
+>> Any idea where I ought to look for a good example? Or any clue what I
+>> am doing wrong?
 >
-> I've already pushed the changes we need to bitbake for umask, shared
-> work directory and multilib and updated its version to 1.13.2. I'm
-> planning to merge patches to OE-Core which depend on these changes later
-> this week (and bump the minimum version OE-Core requires at the same
-> time).
->
-> In case it isn't clear, I've been batching things up to try and ensure
-> we only have to do this once for a variety of improvements :)
+> Could you share a list of files from your toolchain tarball please? It
+> certainly should contain a cross compiler...
 
-I have to say that it's *extremely* unintuitive to have a minimum
-version requirement on a version that hasn't even been tagged in the
-git repository. If it's good enough to depend on, it should be good
-enough to consider released.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+~% tar -tjf oecore-i686-i586-toolchain-devel.tar.bz2| grep '\-gcc'
+./usr/local/oecore-i686-i686/sysroots/i686-oesdk-linux/usr/include/curl/typ=
+echeck-gcc.h
+./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/include/curl/typech=
+eck-gcc.h
+./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/share/qt4/mkspecs/s=
+ymbian/linux-gcce/
+./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/share/qt4/mkspecs/s=
+ymbian/linux-gcce/qplatformdefs.h
+./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/share/qt4/mkspecs/s=
+ymbian/linux-gcce/qmake.conf
+./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/share/qt4/mkspecs/s=
+ymbian/linux-gcce/features/
+./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/share/qt4/mkspecs/s=
+ymbian/linux-gcce/features/default_post.prf
+~%
+
+I can provide the full list but it does seem to not include it.
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
