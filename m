@@ -1,39 +1,25 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from slimlogic.co.uk ([89.16.172.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QbiDz-0005Iq-7S
+	(envelope-from <gg@slimlogic.co.uk>) id 1QbiJR-0005Tv-Va
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 02:01:47 +0200
-Received: by pwi1 with SMTP id 1so539390pwi.6
+	Wed, 29 Jun 2011 02:07:26 +0200
+Received: from xora-desktop.xora.org.uk (188-220-34-37.zone11.bethere.co.uk
+	[188.220.34.37])
+	by slimlogic.co.uk (Postfix) with ESMTPSA id D007513003B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 16:58:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=references:in-reply-to:mime-version:content-transfer-encoding
-	:content-type:message-id:cc:x-mailer:from:subject:date:to;
-	bh=Z8XtBXXG+o2ImVvDc09h5J1i2ICycZYvWLPARhC8ftI=;
-	b=H2Wbpr5B2GR7Op+l1ErGXGqPo6B7yTErRo9bzbLVWjaFuzRuLVXX5m5fBYG3WOdE7Z
-	ITsO1wCxNbOocBU8cvDje3IGplJso2KTpsmB5WTQctotDeGg1hT+LleuF1erSZJvSxjG
-	7cX5frsPP71Bk8RHGA1B81iVxObvSTnFPmY+A=
-Received: by 10.142.164.21 with SMTP id m21mr88713wfe.116.1309305484748;
-	Tue, 28 Jun 2011 16:58:04 -0700 (PDT)
-Received: from [10.0.0.151] ([96.24.72.190])
-	by mx.google.com with ESMTPS id e13sm424734wfd.13.2011.06.28.16.58.03
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 28 Jun 2011 16:58:04 -0700 (PDT)
-References: <BANLkTi=GQS+Rwv+srtcctpD3jDwu7RWv2Q@mail.gmail.com>
-	<1309277809.20015.322.camel@rex>
-	<BANLkTinGUawS4b7x2YdP+Tu+B=Ngkt4MbQ@mail.gmail.com>
-	<C6510F6D410BB64A8C15398EDC6B847C027427@ORSMSX101.amr.corp.intel.com>
-In-Reply-To: <C6510F6D410BB64A8C15398EDC6B847C027427@ORSMSX101.amr.corp.intel.com>
-Mime-Version: 1.0 (iPad Mail 8J2)
-Message-Id: <5673734F-7C0A-40A9-B4B4-3098252D0622@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPad Mail (8J2)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 28 Jun 2011 16:58:18 -0700
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFH] Native SDK wirdness
+	Wed, 29 Jun 2011 00:53:57 +0100 (BST)
+Message-ID: <4E0A6995.1040006@slimlogic.co.uk>
+Date: Wed, 29 Jun 2011 00:53:57 +0100
+From: Graeme Gregory <gg@slimlogic.co.uk>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc15
+	Lightning/1.0b3pre Thunderbird/3.1.10
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>	<4E0A5AE5.7000509@intel.com>
+	<256EDA37-7406-4E12-B095-12F7FFBA7C7F@gmail.com>
+In-Reply-To: <256EDA37-7406-4E12-B095-12F7FFBA7C7F@gmail.com>
+Subject: Re: Conflicting providers for ssh/sshd (dropbear and	openssh)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,93 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 00:01:47 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Wed, 29 Jun 2011 00:07:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
+On 06/29/2011 12:50 AM, Khem Raj wrote:
+>
+> On Jun 28, 2011, at 3:51 PM, Scott Garman <scott.a.garman@intel.com> wrote:
+>
+>> On 06/28/2011 03:41 PM, Khem Raj wrote:
+>>> ERROR: Multiple .bb files are due to be built which each provide ssh
+>>> (/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/dropbear/dropbear_0.52.bb
+>>> /home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-connectivity/openssh/openssh_5.8p2.bb).
+>>>  This usually means one provides something the other doesn't and should.
+>>> ERROR: Multiple .bb files are due to be built which each provide sshd
+>>> (/home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-core/dropbear/dropbear_0.52.bb
+>>> /home/kraj/work/angstrom/sources/openembedded-core/meta/recipes-connectivity/openssh/openssh_5.8p2.bb).
+>>>  This usually means one provides something the other doesn't and should.
+>>>
+>>> reason is that dropbear only provides ssh and sshd packages openssh
+>>> provides a few more e.g. openssh-sftp-server which is demanded by
+>>> some images and at same time wants dropbear to provide sshd and ssh
+>>>
+>>> Now both recipes are to be built but are in contention for providing
+>>> ssh and sshd
+>>>
+>>> How to solve this problem. ? Are other packages that openssh provides
+>>> strictly depending on ssh/sshd from openssh ? or will they work on
+>>> any ssh/sshd ?
+>>>
+>>> If they are independent then may be the openssh recipe should be
+>>> divided into openssh-ssh and openssh-rest so one can use openssh
+>>> provided daemon or dropbear provided as they wish
+>> I've run into that and have been wondering how to resolve it as well.
+>>
+>> If there are currently existing images which are pulling in dropbear's ssh and sshd while using openssh's sftp-server, then that would imply they can work independently, even though that combo seems like an aggressive space optimization that I would tend to avoid.
+> yes if you build console-image with angstrom you will see it wanting sftp-server and dr bear for rest of ssh needs
+>
+sftp-server is just a really small ftp like program that gets run as the
+shell when sftp connects instead of ssh. It has no dependency on any
+openssh code or even openssl. This is the reason why the dropbear
+developer decided to just use it instead of writing his own exact work
+alike.
 
+I was the one that added it to Angstrom images as I really like to sftp
+out of the box.
 
-On Jun 28, 2011, at 2:31 PM, "Zhang, Jessica" <jessica.zhang@intel.com> wrot=
-e:
+Graeme
 
-> Hi Otavio,
->=20
-> Here's what I got when I tried the same command against my sdk tarball
->=20
-> tar -tjf poky-eglibc-i686-i586-toolchain-gmae-1.0+snapshot-20110625.tar.bz=
-2 |grep '\-gcc'
-> tar: Record size =3D 16 blocks
-> ./opt/poky/1.0+snapshot/sysroots/i586-poky-linux/usr/src/debug/glib-2.0-1_=
-2.28.8-r1/glib-2.28.8/glib/gatomic-gcc.c
-> ./opt/poky/1.0+snapshot/sysroots/i686-pokysdk-linux/usr/bin/i586-poky-linu=
-x/i586-poky-linux-gcc
-> ./opt/poky/1.0+snapshot/sysroots/i686-pokysdk-linux/usr/lib/i586-poky-linu=
-x/gcc/i586-poky-linux/4.6.1/include/stdint-gcc.h
-> ./opt/poky/1.0+snapshot/sysroots/i686-pokysdk-linux/usr/include/curl/typec=
-heck-gcc.h
->=20
-> Seems an issue with OE build?
->=20
-> Cheers,
-> Jessica
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedde=
-d-core-bounces@lists.openembedded.org] On Behalf Of Otavio Salvador
-> Sent: Tuesday, June 28, 2011 9:28 AM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [RFH] Native SDK wirdness
->=20
-> On Tue, Jun 28, 2011 at 13:16, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Tue, 2011-06-28 at 11:56 -0300, Otavio Salvador wrote:
->>> I am probably doing something stupid but I couldn't figure it myself
->>> so I am looking for some help here. Basically I need to prepare a SDK
->>> for usage by our team mates to develop to our embedded OS. In theory I
->>> got most of it already done but when I build the meta-toolchain recipe
->>> the built sdk tarball lacks GCC and like.
->>>=20
->>> Any idea where I ought to look for a good example? Or any clue what I
->>> am doing wrong?
->>=20
->> Could you share a list of files from your toolchain tarball please? It
->> certainly should contain a cross compiler...
->=20
-> ~% tar -tjf oecore-i686-i586-toolchain-devel.tar.bz2| grep '\-gcc'
-> ./usr/local/oecore-i686-i686/sysroots/i686-oesdk-linux/usr/include/curl/ty=
-pecheck-gcc.h
-> ./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/include/curl/typec=
-heck-gcc.h
-> ./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/share/qt4/mkspecs/=
-symbian/linux-gcce/
-> ./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/share/qt4/mkspecs/=
-symbian/linux-gcce/qplatformdefs.h
-> ./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/share/qt4/mkspecs/=
-symbian/linux-gcce/qmake.conf
-> ./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/share/qt4/mkspecs/=
-symbian/linux-gcce/features/
-> ./usr/local/oecore-i686-i586/sysroots/i586-oe-linux/usr/share/qt4/mkspecs/=
-symbian/linux-gcce/features/default_post.prf
-> ~%
->=20
-> I can provide the full list but it does seem to not include it.
-
-What steps did u follow to build.
-Ant local patches
->=20
-> --
-> Otavio Salvador                             O.S. Systems
-> E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-> Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
