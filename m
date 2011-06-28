@@ -1,30 +1,28 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1QbZLm-0007vI-Oh
+	(envelope-from <mark.hatle@windriver.com>) id 1QbZYM-0008SB-F7
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 16:36:55 +0200
-Received: by ywa12 with SMTP id 12so106746ywa.6
+	Tue, 28 Jun 2011 16:46:14 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5SEgWj8014775
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 07:27:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=/u+shIVeH03nt+leYU7Fkd1IbMMpYZNh3fAeWvm5i2E=;
-	b=r0zMhEwik06EpbYsF+Gg8x6CyPAYAG4mBx/maUA7NeQ5XabpdXQcuhRGynYAPHLvIr
-	bjjqv2zK1BA4KO/WLC/kFYD1EUVAV6z8c9XUGeTZpdT70aHhPnpVLjkeUf7OmYY2aZS7
-	pcHnyfDfXDu3De5bvquDrktV8azhJ/rTmXJ7w=
+	Tue, 28 Jun 2011 07:42:32 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 28 Jun 2011 07:42:31 -0700
+Message-ID: <4E09E857.4040908@windriver.com>
+Date: Tue, 28 Jun 2011 09:42:31 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
 MIME-Version: 1.0
-Received: by 10.91.6.14 with SMTP id j14mr8340185agi.35.1309271240169; Tue, 28
-	Jun 2011 07:27:20 -0700 (PDT)
-Received: by 10.90.78.5 with HTTP; Tue, 28 Jun 2011 07:27:20 -0700 (PDT)
-In-Reply-To: <cover.1309203545.git.anders@chargestorm.se>
-References: <cover.1309203545.git.anders@chargestorm.se>
-Date: Tue, 28 Jun 2011 10:27:20 -0400
-Message-ID: <BANLkTimCF1jmxUjfKjPaak1ECF=5gLjhTg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC v2 PATCH 0/9] Linux 3.0 build support
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1307058256.git.scott.a.garman@intel.com>	<9591788655a4de97cc5f6a0fd98e742e3ebcab23.1307058256.git.scott.a.garman@intel.com>
+	<1309266295.20015.287.camel@rex>
+In-Reply-To: <1309266295.20015.287.camel@rex>
+Subject: Re: [PATCH 4/7] useradd.bbclass: new class for managing user/group permissions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,179 +37,277 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 14:36:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Jun 2011 14:46:14 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 27, 2011 at 3:39 PM, Anders Darander <anders@chargestorm.se> wr=
-ote:
->
->
-> v2: Probably some more patches could be squashed together. There might al=
-so
-> =A0 =A0be more places that should be addressed in these patches.
->
-> =A0 =A0- Whitespace fixes
-> =A0 =A0- Updated module-init-tools to 3.16. I'm not applying the ignore*.=
-patch
-> =A0 =A0(it didn't apply).
-> =A0 =A0- Do not provide virtual/*/depmod-2.6; just provide virtual/*/depm=
-od.
-> =A0 =A0- Do only install as depmod.
-> =A0 =A0- Rearrange the order of some patches.
-> =A0 =A0- Added patches to clean up (partly) task-base, distro_tracking_fi=
-elds.
->
-> =A0 =A0A few of the patches might be ready to pull, but the majority will=
- need
-> =A0 =A0to be revised.
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> This work is unfinished and incomplete...
-> It is published in its current form both to get feedback, but also to aid
-> anyone else who is working on 3.0-support. If some of the patches are fou=
-nd to
-> be OK, it's fine to cherrypick them.
+On 6/28/11 8:04 AM, Richard Purdie wrote:
+> Hi Scott,
+> 
+> Sorry its taken me a while to get to this. Some comments below.
 
-The series looks pretty good to me. I'm gearing up to complete the 3.0 carr=
-y
-forward shortly, and I've applied these to my local tree to take them
-for a spin.
+I think I know the answer to a few of the issues mentioned below.  Scott can
+correct me if I'm wrong.
 
-Cheers,
+> On Thu, 2011-06-02 at 16:50 -0700, Scott Garman wrote:
+>> This class is to be used by recipes that need to set up specific
+>> user/group accounts and set custom file/directory permissions.
+>>
+>> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+>> ---
+>>  meta/classes/useradd.bbclass |  163 ++++++++++++++++++++++++++++++++++++++++++
+>>  1 files changed, 163 insertions(+), 0 deletions(-)
+>>  create mode 100644 meta/classes/useradd.bbclass
+>>
+>> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+>> new file mode 100644
+>> index 0000000..3f07e5e
+>> --- /dev/null
+>> +++ b/meta/classes/useradd.bbclass
+>> @@ -0,0 +1,163 @@
+>> +USERADDPN ?= "${PN}"
+>> +
+>> +# base-passwd-cross provides the default passwd and group files in the
+>> +# target sysroot, and shadow-native provides the utilities needed to
+>> +# add and modify user and group accounts
+>> +DEPENDS_append = " base-passwd shadow-native"
+>> +RDEPENDS_${USERADDPN}_append = " base-passwd shadow"
+>> +
+>> +PSEUDO="${STAGING_DIR_NATIVE}/usr/bin/pseudo"
+>> +export PSEUDO
+> 
+> For reference this can be done with:
+> 
+> export PSEUDO = "${STAGING_DIR_NATIVE}/usr/bin/pseudo"
+> 
+>> +PSEUDO_LOCALSTATEDIR="${STAGING_DIR_TARGET}/var/pseudo"
+>> +export PSEUDO_LOCALSTATEDIR
+> 
+> I'm a little bit puzzled at this point. This is changing the default
+> PSEUDO state directory to be one shared by many other users rather than
+> the default of the one in workdir. Is that really what you intend here?
+> 
+> I guess the question is whether we need to preserve these users in the
+> sysroot or whether preserving them for the install/package/package_write
+> cycle is enough.
 
-Bruce
+If we're populating the sysroot, we need to have a pseudo directory setup for it
+so that we can run the adduser/group items.  The new adduser/group require the
+ability to "chroot" into a (pseudo) root.  The above should only kick in while
+working with sysroots.
 
->
-> The kernel-related classes has been modified to build a 3.0 kernel. The
-> patches has been simplified by removing support for the 2.4-series. (The
-> latter was suggested in an older mail thread:
-> http://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg0=
-2682.html
-> ).
->
-> The patches has been tested on linux-yocto_2.6.37 and a hacked version us=
-ing
-> the linux-yocto-dev repository (using a 3.0-rcX). The latest versions has=
- only
-> been built for qemuarm, prior iterations has also been built for qemux86.
->
-> Finally, no work has been done on the libc-linux-headers classes and reci=
-pes.
->
-> /Anders
->
-> Please review the following changes for suitability for inclusion. If you=
- have
-> any objections or suggestions for improvement, please respond to the patc=
-hes. If
-> you agree with the changes, please provide your Acked-by.
->
-> The following changes since commit 3aec2fa2df9aaa883feda0d7aed85e63d01398=
-b9:
->
-> =A0qemuimagetest: update cvs and iptables to newer version for toolchain =
-test (2011-06-24 11:28:28 +0100)
->
-> are available in the git repository at:
-> =A0git://github.com/darander/oe-core kernel-3.0
-> =A0https://github.com/darander/oe-core/tree/kernel-3.0
->
-> Anders Darander (9):
-> =A0Remove support for building 2.4 kernels
-> =A0image=A1kernel.bblass: do not use depmod-2.6
-> =A0modules-init-tools(-cross): update to 3.16
-> =A0module-init-tools-cross: do not install depmod as depmod-2.6
-> =A0kernel.bblass: remove get_kernelmajorversion
-> =A0modutils-initscripts: move recipe prior to modutils removal
-> =A0modutils: remove modutils
-> =A0task-base: remove modutils reference.
-> =A0distro_tracking_fields: remove modutils.
->
-> =A0meta/classes/image.bbclass =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 | =A0 =A02 +-
-> =A0meta/classes/kernel.bbclass =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0| =A0 22 ++----
-> =A0meta/classes/linux-kernel-base.bbclass =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =
-=A08 --
-> =A0meta/classes/module-base.bbclass =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 |=
- =A0 =A02 +-
-> =A0.../conf/distro/include/distro_tracking_fields.inc | =A0 =A08 +--
-> =A0meta/recipes-core/tasks/task-base.bb =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =A0=
- 22 +----
-> =A0.../{modutils =3D> module-init-tools}/files/PD.patch | =A0 =A00
-> =A0.../files/modutils.sh =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0| =A0 =A00
-> =A0.../module-init-tools-cross_3.12.bb =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0| =
-=A0 12 ---
-> =A0.../module-init-tools-cross_3.16.bb =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0| =
-=A0 =A08 ++
-> =A0.../module-init-tools/module-init-tools.inc =A0 =A0 =A0 =A0| =A0 =A01 =
--
-> =A0...nit-tools_3.12.bb =3D> module-init-tools_3.16.bb} | =A0 =A06 +-
-> =A0.../modutils-initscripts.bb =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0| =A0 =A00
-> =A0meta/recipes-kernel/modutils/files/armeb.patch =A0 =A0 | =A0 16 ----
-> =A0meta/recipes-kernel/modutils/files/configure.patch | =A0 34 -------
-> =A0meta/recipes-kernel/modutils/files/gcc4.patch =A0 =A0 =A0| =A0 93 ----=
-----------------
-> =A0meta/recipes-kernel/modutils/files/lex.l.diff =A0 =A0 =A0| =A0 35 ----=
-----
-> =A0.../modutils/files/modutils-notest.patch =A0 =A0 =A0 =A0 =A0 | =A0 16 =
-----
-> =A0.../modutils/files/program_prefix.patch =A0 =A0 =A0 =A0 =A0 =A0| =A0 7=
-1 ---------------
-> =A0.../recipes-kernel/modutils/modutils-collateral.bb | =A0 21 -----
-> =A0.../modutils/modutils-cross/module.h.diff =A0 =A0 =A0 =A0 =A0| =A0 35 =
---------
-> =A0.../modutils/modutils-cross_2.4.27.bb =A0 =A0 =A0 =A0 =A0 =A0 =A0| =A0=
- 20 ----
-> =A0meta/recipes-kernel/modutils/modutils_2.4.27.bb =A0 =A0| =A0 93 ------=
---------------
-> =A023 files changed, 25 insertions(+), 500 deletions(-)
-> =A0rename meta/recipes-kernel/{modutils =3D> module-init-tools}/files/PD.=
-patch (100%)
-> =A0rename meta/recipes-kernel/{modutils =3D> module-init-tools}/files/mod=
-utils.sh (100%)
-> =A0delete mode 100644 meta/recipes-kernel/module-init-tools/module-init-t=
-ools-cross_3.12.bb
-> =A0create mode 100644 meta/recipes-kernel/module-init-tools/module-init-t=
-ools-cross_3.16.bb
-> =A0rename meta/recipes-kernel/module-init-tools/{module-init-tools_3.12.b=
-b =3D> module-init-tools_3.16.bb} (87%)
-> =A0rename meta/recipes-kernel/{modutils =3D> module-init-tools}/modutils-=
-initscripts.bb (100%)
-> =A0delete mode 100644 meta/recipes-kernel/modutils/files/armeb.patch
-> =A0delete mode 100644 meta/recipes-kernel/modutils/files/configure.patch
-> =A0delete mode 100644 meta/recipes-kernel/modutils/files/gcc4.patch
-> =A0delete mode 100644 meta/recipes-kernel/modutils/files/lex.l.diff
-> =A0delete mode 100644 meta/recipes-kernel/modutils/files/modules
-> =A0delete mode 100644 meta/recipes-kernel/modutils/files/modules.conf
-> =A0delete mode 100644 meta/recipes-kernel/modutils/files/modutils-notest.=
-patch
-> =A0delete mode 100644 meta/recipes-kernel/modutils/files/program_prefix.p=
-atch
-> =A0delete mode 100644 meta/recipes-kernel/modutils/modutils-collateral.bb
-> =A0delete mode 100644 meta/recipes-kernel/modutils/modutils-cross/module.=
-h.diff
-> =A0delete mode 100644 meta/recipes-kernel/modutils/modutils-cross_2.4.27.=
-bb
-> =A0delete mode 100644 meta/recipes-kernel/modutils/modutils_2.4.27.bb
->
-> --
-> 1.7.4.1
->
->
+> Since tasks don't share the same pseudo context by default, I suspect
+> we're not preserving users for the sysroot anyhow?
+
+Users are added/preserved within the sysroot /etc/passwd,group in the code.
+There is a separate section that runs at sysroot population time that adds the
+necessary users/groups... but as mentioned we need the chroot functionality to
+do the settings.  (The uid/gid of the files themselves doesn't matter in the
+sysroot.)
+
+>> +PSEUDO_PASSWD = "${STAGING_DIR_TARGET}"
+>> +export PSEUDO_PASSWD
+> 
+> Should we set this by default as part of the pseudo options in
+> bitbake.conf?
+
+Yes, this likely should go into the bitbake.conf now.  I believe it is in here
+though for the same reason that the above was.  It's needed during the sysroot
+configuration and the way the utilities work when chrooted.
+
+>> +useradd_preinst () {
+>> +OPT=""
+>> +SYSROOT=""
+>> +
+>> +if test "x$D" != "x"; then
+>> +	# Installing into a sysroot
+>> +	SYSROOT="${STAGING_DIR_TARGET}"
+>> +	OPT="--root ${STAGING_DIR_TARGET}"
+>> +
+>> +	# Add groups and users defined for all recipe packages
+>> +	GROUPADD_PARAM="${@get_all_cmd_params(d, 'group')}"
+>> +	USERADD_PARAM="${@get_all_cmd_params(d, 'user')}"
+>> +else
+>> +	# Installing onto a target
+>> +	PSEUDO=""
+>> +
+>> +	# Add groups and users defined only for this package
+>> +	GROUPADD_PARAM="${GROUPADD_PARAM}"
+>> +	USERADD_PARAM="${USERADD_PARAM}"
+>> +fi
+>> +
+>> +# Perform group additions first, since user additions may depend
+>> +# on these groups existing
+>> +if test "x$GROUPADD_PARAM" != "x"; then
+>> +	echo "Running groupadd commands..."
+>> +	# Invoke multiple instances of groupadd for parameter lists
+>> +	# separated by ';'
+>> +	opts=`echo "$GROUPADD_PARAM" | cut -d ';' -f 1`
+>> +	remaining=`echo "$GROUPADD_PARAM" | cut -d ';' -f 2-`
+>> +	while test "x$opts" != "x"; do
+>> +		eval $PSEUDO groupadd -f $OPT $opts
+> 
+> If this task is already running under pseudo, do we specifically need to
+> run under pseudo here? Is it not already running under pseudo when
+> needed?
+
+See answer below...
+
+>> +		if test "x$opts" = "x$remaining"; then
+>> +			break
+>> +		fi
+>> +		opts=`echo "$remaining" | cut -d ';' -f 1`
+>> +		remaining=`echo "$remaining" | cut -d ';' -f 2-`
+>> +	done
+>> +fi 
+>> +
+>> +if test "x$USERADD_PARAM" != "x"; then
+>> +	echo "Running useradd commands..."
+>> +	# Invoke multiple instances of useradd for parameter lists
+>> +	# separated by ';'
+>> +	opts=`echo "$USERADD_PARAM" | cut -d ';' -f 1`
+>> +	remaining=`echo "$USERADD_PARAM" | cut -d ';' -f 2-`
+>> +	while test "x$opts" != "x"; do
+>> +		# useradd does not have a -f option, so we have to check if the
+>> +		# username already exists manually
+>> +		username=`echo "$opts" | awk '{ print $NF }'`
+>> +		user_exists=`grep "^$username:" $SYSROOT/etc/passwd || true`
+>> +		if test "x$user_exists" = "x"; then
+>> +			eval $PSEUDO useradd $OPT $opts
+>> +		else
+>> +			echo "Note: username $username already exists, not re-creating it"
+>> +		fi
+>> +
+>> +		if test "x$opts" = "x$remaining"; then
+>> +			break
+>> +		fi
+>> +		opts=`echo "$remaining" | cut -d ';' -f 1`
+>> +		remaining=`echo "$remaining" | cut -d ';' -f 2-`
+>> +	done
+>> +fi
+>> +}
+>> +
+>> +useradd_sysroot () {
+>> +	# Explicitly set $D since it isn't set to anything
+>> +	# before do_install
+>> +	D=${D}
+>> +	useradd_preinst
+>> +}
+>> +
+>> +useradd_sysroot_sstate () {
+>> +	if [ "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
+>> +	then
+>> +		useradd_sysroot
+>> +	fi
+>> +}
+
+The way this is implemented the new sysroot tasks call the regular tasks so the
+code only has to be implemented once.  Assuming context doesn't change, it
+should be possible to move the "PSEUDO" calls down into the _sysroot functions
+and remove them from the items that get embedded into the target packages.
+
+>> +
+>> +do_install[prefuncs] += "useradd_sysroot"
+>> +SSTATEPOSTINSTFUNCS += "useradd_sysroot_sstate"
+>> +
+>> +# Recipe parse-time sanity checks
+>> +def update_useradd_after_parse(d):
+>> +	if bb.data.getVar('USERADD_PACKAGES', d) == None:
+>> +		if bb.data.getVar('USERADD_PARAM', d) == None and bb.data.getVar('GROUPADD_PARAM', d) == None:
+>> +			raise bb.build.FuncFailed, "%s inherits useradd but doesn't set USERADD_PARAM or GROUPADD_PARAM" % bb.data.getVar('FILE', d)
+>> +
+>> +python __anonymous() {
+>> +	update_useradd_after_parse(d)
+>> +}
+>> +
+>> +# Return a single [GROUP|USER]ADD_PARAM formatted string which includes the
+>> +# [group|user]add parameters for all packages in this recipe
+>> +def get_all_cmd_params(d, cmd_type):
+>> +	import string
+>> +	
+>> +	localdata = bb.data.createCopy(d)
+>> +	param_type = cmd_type.upper() + "ADD_PARAM_%s"
+>> +	params = []
+>> +
+>> +	pkgs = bb.data.getVar('USERADD_PACKAGES', d, 1)
+> 
+> Please use True, not 1. Its also simpler to use:
+> 
+> d.getVar('USERADD_PACKAGES', True)
+
+I hadn't noticed this in my earlier review -- but "d" should probably be using
+"localdata" instead.  I realize at this point in the code "d" and "localdata"
+are the same.... or ...
+
+>> +	if pkgs == None:
+> 
+> if not pkgs:
+> 
+>> +		pkgs = bb.data.getVar('USERADDPN', d, 1)
+>> +		packages = (bb.data.getVar('PACKAGES', d, 1) or "").split()
+>> +		if not pkgs in packages and packages != []:
+> 
+> if packages and pkgs not in packages:
+> 
+>> +			pkgs = packages[0]
+>> +
+>> +	for pkg in pkgs.split():
+>> +		param = bb.data.getVar(param_type % pkg, localdata, 1)
+>> +		params.append(param)
+>> +
+>> +	return string.join(params, "; ")
+
+... it's not clear to me that any of the 'd' elements are changing.  So
+localdata may not actually be needed in any way.  Either we should be consistent
+and use localdata everywhere or just 'd'.  (Normally I use localdata when I'm
+transforming the data "in-place" and using setVar... but I don't see that in here.
+
+>> +# Adds the preinst script into generated packages
+>> +fakeroot python populate_packages_prepend () {
+>> +	def update_useradd_package(pkg):
+>> +		bb.debug(1, 'adding user/group calls to preinst for %s' % pkg)
+>> +		localdata = bb.data.createCopy(d)
+>> +		overrides = bb.data.getVar("OVERRIDES", localdata, 1)
+>> +		bb.data.setVar("OVERRIDES", "%s:%s" % (pkg, overrides), localdata)
+>> +		bb.data.update_data(localdata)
+
+However, above we are using setVar, so localdata is correct.
+
+>> +
+>> +		"""
+>> +		useradd preinst is appended here because pkg_preinst may be
+>> +		required to execute on the target. Not doing so may cause
+>> +		useradd preinst to be invoked twice, causing unwanted warnings.
+>> +		"""
+>> +		preinst = bb.data.getVar('pkg_preinst', localdata, 1)
+>> +		if not preinst:
+>> +			preinst = '#!/bin/sh\n'
+>> +		preinst += bb.data.getVar('useradd_preinst', localdata, 1)
+>> +		bb.data.setVar('pkg_preinst_%s' % pkg, preinst, d)
+>> +
+>> +	# We add the user/group calls to all packages to allow any package
+>> +	# to contain files owned by the users/groups defined in the recipe.
+>> +	# The user/group addition code is careful not to create duplicate
+>> +	# entries, so this is safe.
+>> +	pkgs = bb.data.getVar('USERADD_PACKAGES', d, 1)
+>> +	if pkgs == None:
+>> +		pkgs = bb.data.getVar('USERADDPN', d, 1)
+>> +		packages = (bb.data.getVar('PACKAGES', d, 1) or "").split()
+>> +		if not pkgs in packages and packages != []:
+>> +			pkgs = packages[0]
+>> +	for pkg in pkgs.split():
+>> +		update_useradd_package(pkg)
+>> +}
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
