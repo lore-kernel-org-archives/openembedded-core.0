@@ -1,26 +1,23 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QbUKB-0002O3-Of for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 11:11:15 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QbUGe-0000OM-R7
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1QbUKH-0002OE-8I
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 11:07:36 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <D5AB6E638E5A3E4B8F4406B113A5A19A12D6ADBBD3@shsmsx501.ccr.corp.intel.com>
-References: <cover.1309163663.git.dongxiao.xu@intel.com>
-	<cdd1860f64f84b58d18d1c6bed1805456d8d3e2e.1309163663.git.dongxiao.xu@intel.com>
-	<1309165102.21613.234.camel@phil-desktop>
-	<D5AB6E638E5A3E4B8F4406B113A5A19A12D6ADBBD3@shsmsx501.ccr.corp.intel.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Tue, 28 Jun 2011 10:07:34 +0100
-Message-ID: <1309252054.21613.329.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH 1/1] libc-locale: split locale handling from libc recipe.
+	Tue, 28 Jun 2011 11:11:21 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5S97cga019721
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 02:07:38 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Tue, 28 Jun 2011 02:07:38 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Jun 2011 17:05:18 +0800
+Message-ID: <cover.1309243115.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Subject: [PATCH 0/4 V4] Share gcc work directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,49 +32,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 09:11:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jun 2011 09:11:22 -0000
+Content-Type: text/plain
 
-On Tue, 2011-06-28 at 08:51 +0800, Xu, Dongxiao wrote:
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> > Phil Blundell
-> > Sent: Monday, June 27, 2011 4:58 PM
-> > To: Patches and discussions about the oe-core layer
-> > Subject: Re: [OE-core] [PATCH 1/1] libc-locale: split locale handling from libc
-> > recipe.
-> > 
-> > On Mon, 2011-06-27 at 16:37 +0800, Dongxiao Xu wrote:
-> > > -PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX}
-> > nscd${PKGSUFFIX} ldd${PKGSUFFIX} localedef${PKGSUFFIX} libcidn ${PN}-utils
-> > ${PN}-pic ${PN}-dev eglibc-doc eglibc-locale libmemusage
-> > libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX}
-> > eglibc-pcprofile libsotruss${PKGSUFFIX}"
-> > > -
-> > > -PACKAGES_DYNAMIC = " \
-> > > -		    glibc-gconv-*${PKGSUFFIX} glibc-charmap-* glibc-localedata-*
-> > glibc-binary-localedata-* \
-> > > -		    eglibc-gconv-* eglibc-charmap-* eglibc-localedata-*
-> > eglibc-binary-localedata-* \
-> > > -		    locale-base-*${PKGSUFFIX}"
-> > > +PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX}
-> > nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils ${PN}-pic ${PN}-dev eglibc-doc
-> > libcidn libmemusage libsegfault${PKGSUFFIX} eglibc-extra-nss
-> > eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile"
-> > 
-> > You seem to have made a bunch of changes here that are not related to locales.
-> > What are those about?
-> 
-> They are locale related changes.
-> Locale related stuffs in the above PACKAGES and PACKAGES_DYNAMIC are moved to eglibc-locale recipe.
+Changes of V4:
 
-Is libsotruss${PKGSUFFIX} (for example) really a "locale related stuff"?
-It's not obvious to me what the connection is.
+* Change the definition of GLIBC_DYNAMIC_LINKER as Richard suggested.
 
-p.
+  e.g., the entries in the files that look like:
+  #define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
 
+  become
+
+  #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
+
+  and we define SYSTEMLIBS_DIR in defaults.h.
+
+  NOTE, the round brackets:
+  #define GLIBC_DYNAMIC_LINKER64 (SYSTEMLIBS_DIR "/ld-linux-x86-64.so.2")
+
+  doesn't work in in the following define:
+
+  #define LINUX_DYNAMIC_LINKER \
+          CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER, UCLIBC_DYNAMIC_LINKER)
+
+  so use:
+  #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
+
+* Compare to V3, reduce two patches which are for gcc-crosssdk.inc and
+  gcc-cross-canadian which are not needed any more.
+
+* Fix the conflicts(gcc-4.6.0 -> gcc-4.6, and the ${BRANCH})
+
+* Both tested 4.5.1 and 4.6:
+  $ bitbake meta-toolchain core-image-sato
+  $ runqemu qemurm
+
+  Also unpack the sdk to /opt and test to make sure the toolchain works well.
+
+
+The following changes since commit a1f79a7896b6411669b3ccada6204d2695e80fc5:
+
+  runqueue.py: Add umask task control (2011-06-24 12:23:12 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/share_gcc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/share_gcc
+
+Robert Yang (4):
+  bitbake: share source directory
+  Share gcc work directories
+  gcc-4.5.1: share work directories
+  gcc-4.6: share work directories
+
+ bitbake/lib/bb/build.py                            |    4 +-
+ bitbake/lib/bb/cache.py                            |    3 +
+ bitbake/lib/bb/runqueue.py                         |   10 +++
+ meta/recipes-devtools/gcc/gcc-4.5.1.inc            |    1 +
+ .../gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch   |   57 ++++++++++++++
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    5 +-
+ .../gcc/gcc-4.6/use-defaults.h-and-t-oe-in-B.patch |   80 ++++++++++++++++++++
+ meta/recipes-devtools/gcc/gcc-common.inc           |   32 +++++++-
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |   48 +++++++-----
+ meta/recipes-devtools/gcc/gcc-configure-cross.inc  |    4 +-
+ meta/recipes-devtools/gcc/gcc-crosssdk.inc         |    6 --
+ 11 files changed, 218 insertions(+), 32 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/use-defaults.h-and-t-oe-in-B.patch
 
 
 
