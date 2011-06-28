@@ -1,27 +1,29 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QbaCL-0001NJ-4y
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QbaD3-0001Of-CG for openembedded-core@lists.openembedded.org;
+	Tue, 28 Jun 2011 17:28:17 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1Qba9W-0000XF-B6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 17:27:34 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Jun 2011 08:22:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,437,1304319600"; d="scan'208";a="21496549"
-Received: from unknown (HELO [10.255.13.106]) ([10.255.13.106])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Jun 2011 08:22:11 -0700
-Message-ID: <4E09F1A2.501@linux.intel.com>
-Date: Tue, 28 Jun 2011 08:22:10 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Ilya Yanok <yanok@emcraft.com>, 
-	Patches and discussions about the oe-core layer
+	Tue, 28 Jun 2011 17:24:38 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4E09E2BE.3090203@linux.intel.com>
-	<1309272891-14754-1-git-send-email-yanok@emcraft.com>
-In-Reply-To: <1309272891-14754-1-git-send-email-yanok@emcraft.com>
-Subject: Re: [PATCH] u-boot-mkimage: bump version to 2011.03
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6A167F0C716@shsmsx502.ccr.corp.intel.com>
+References: <cover.1309239001.git.dexuan.cui@intel.com>
+	<674a391015f3cdebe891ae7e8439aea48698982e.1309239001.git.dexuan.cui@intel.com>
+	<3819C41B-FF96-45FD-8265-8EFC9F73E771@dominion.thruhere.net>
+	<4E09E4E6.9040703@windriver.com>
+	<1865303E0DED764181A9D882DEF65FB6A167F0C715@shsmsx502.ccr.corp.intel.com>
+	<B2EC960E-7F9F-49BB-BFB0-18C98A7FDE12@dominion.thruhere.net>
+	<1865303E0DED764181A9D882DEF65FB6A167F0C716@shsmsx502.ccr.corp.intel.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Tue, 28 Jun 2011 16:24:37 +0100
+Message-ID: <1309274677.15156.170.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.30.3 
+Subject: Re: [PATCH 1/1] base.bbclass: show layer's branches/revisions in the banner info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,277 +38,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 15:27:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 28 Jun 2011 15:28:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Tue, 2011-06-28 at 23:21 +0800, Cui, Dexuan wrote:
+> Sorry... but to basing them on oe-core,  do I need the permission to push my commits to my own branch in git://git.openembedded.org/openembedded-core-contrib? I suppose so and I should put my public key somewhere into the server?
+
+You don't need to do that.  You can just make a repo on github or
+gitorious (or your own server, or even one of the yocto hosts) and clone
+oe-core into it.
+
+p.
 
 
-
-On 06/28/2011 07:54 AM, Ilya Yanok wrote:
-> This patch changes u-boot-mkimage version to 2011.03. Unfortunately
-> U-Boot 2011.03 release has some problems building tools from
-> unconfigured tree, so this patch aslo includes the backported fixes.
-
-s/aslo/also/
-
-> 
-> Signed-off-by: Ilya Yanok <yanok@emcraft.com>
-
-Acked-by: Darren Hart <dvhart@linux.intel.com>
-
-> ---
->  ...Drop-config.h-include-in-tools-imximage.h.patch |   39 +++++++++
->  ...ove-LDSCRIPT-processing-to-the-top-level-.patch |   82 ++++++++++++++++++++
->  .../uboot/u-boot-mkimage-native_1.3.2.bb           |   25 ------
->  meta/recipes-bsp/uboot/u-boot-mkimage_2009.08.bb   |   29 -------
->  meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb   |   31 ++++++++
->  5 files changed, 152 insertions(+), 54 deletions(-)
->  create mode 100644 meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
->  create mode 100644 meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
->  delete mode 100644 meta/recipes-bsp/uboot/u-boot-mkimage-native_1.3.2.bb
->  delete mode 100644 meta/recipes-bsp/uboot/u-boot-mkimage_2009.08.bb
->  create mode 100644 meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb
-> 
-> diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch b/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
-> new file mode 100644
-> index 0000000..f4b12ac
-> --- /dev/null
-> +++ b/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
-> @@ -0,0 +1,39 @@
-> +From ce56e089ddb51dbd81bb2c86b1646d77447afe39 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Lo=C3=AFc=20Minier?= <loic.minier@linaro.org>
-> +Date: Thu, 3 Feb 2011 15:07:01 +0100
-> +Subject: Drop config.h include in tools/imximage.h
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Upstream-Status: Applied
-> +
-> +"make tools-all" should allow building tools such as mkimage and the new
-> +imximage without any config, but imximage.c currently fails to build
-> +with:
-> +imximage.h:27:20: error: config.h: No such file or directory
-> +
-> +config.h is not needed in imximage.h nor in imximage.c, and imximage.h
-> +is only included from imximage.c, so drop this include to fix the build.
-> +
-> +Signed-off-by: Lo�c Minier <loic.minier@linaro.org>
-> +---
-> + tools/imximage.h |    2 --
-> + 1 files changed, 0 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/tools/imximage.h b/tools/imximage.h
-> +index 38ca6be..d126a46 100644
-> +--- a/tools/imximage.h
-> ++++ b/tools/imximage.h
-> +@@ -24,8 +24,6 @@
-> + #ifndef _IMXIMAGE_H_
-> + #define _IMXIMAGE_H_
-> + 
-> +-#include <config.h>
-> +-
-> + #define MAX_HW_CFG_SIZE_V2 121 /* Max number of registers imx can set for v2 */
-> + #define MAX_HW_CFG_SIZE_V1 60  /* Max number of registers imx can set for v1 */
-> + #define APP_CODE_BARKER	0xB1
-> +-- 
-> +1.7.4.4
-> +
-> diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch b/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
-> new file mode 100644
-> index 0000000..c102691
-> --- /dev/null
-> +++ b/meta/recipes-bsp/uboot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
-> @@ -0,0 +1,82 @@
-> +From fd1b50c5ff9c288040abf5e78815151327d32e0e Mon Sep 17 00:00:00 2001
-> +From: Ilya Yanok <yanok@emcraft.com>
-> +Date: Mon, 20 Jun 2011 12:45:37 +0000
-> +Subject: config.mk: move LDSCRIPT processing to the top-level Makefile
-> +
-> +Upstream-Status: Applied
-> +
-> +LDSCRIPT is used only from the top-level Makefile and only when the
-> +system is configured so we can move LDSCRIPT and CONFIG_SYS_LDSCRIPT
-> +related logic into the top level Makefile and under configured condition
-> +to avoid errors when building tools from unconfigured tree.
-> +
-> +Signed-off-by: Ilya Yanok <yanok@emcraft.com>
-> +Acked-by: Mike Frysinger <vapier@gentoo.org>
-> +---
-> + Makefile  |   30 ++++++++++++++++++++++++++++++
-> + config.mk |    8 --------
-> + 2 files changed, 30 insertions(+), 8 deletions(-)
-> +
-> +diff --git a/Makefile b/Makefile
-> +index ece91ab..358c410 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -163,6 +163,36 @@ endif
-> + # load other configuration
-> + include $(TOPDIR)/config.mk
-> + 
-> ++# If board code explicitly specified LDSCRIPT or CONFIG_SYS_LDSCRIPT, use
-> ++# that (or fail if absent).  Otherwise, search for a linker script in a
-> ++# standard location.
-> ++
-> ++ifndef LDSCRIPT
-> ++	#LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds.debug
-> ++	ifdef CONFIG_SYS_LDSCRIPT
-> ++		# need to strip off double quotes
-> ++		LDSCRIPT := $(subst ",,$(CONFIG_SYS_LDSCRIPT))
-> ++	endif
-> ++endif
-> ++
-> ++ifndef LDSCRIPT
-> ++	ifeq ($(CONFIG_NAND_U_BOOT),y)
-> ++		LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot-nand.lds
-> ++		ifeq ($(wildcard $(LDSCRIPT)),)
-> ++			LDSCRIPT := $(TOPDIR)/$(CPUDIR)/u-boot-nand.lds
-> ++		endif
-> ++	endif
-> ++	ifeq ($(wildcard $(LDSCRIPT)),)
-> ++		LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds
-> ++	endif
-> ++	ifeq ($(wildcard $(LDSCRIPT)),)
-> ++		LDSCRIPT := $(TOPDIR)/$(CPUDIR)/u-boot.lds
-> ++	endif
-> ++	ifeq ($(wildcard $(LDSCRIPT)),)
-> ++$(error could not find linker script)
-> ++	endif
-> ++endif
-> ++
-> + #########################################################################
-> + # U-Boot objects....order is important (i.e. start must be first)
-> + 
-> +diff --git a/config.mk b/config.mk
-> +index fa46ff1..59c4c93 100644
-> +--- a/config.mk
-> ++++ b/config.mk
-> +@@ -153,14 +153,6 @@ endif
-> + RELFLAGS= $(PLATFORM_RELFLAGS)
-> + DBGFLAGS= -g # -DDEBUG
-> + OPTFLAGS= -Os #-fomit-frame-pointer
-> +-ifndef LDSCRIPT
-> +-#LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds.debug
-> +-ifeq ($(CONFIG_NAND_U_BOOT),y)
-> +-LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot-nand.lds
-> +-else
-> +-LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds
-> +-endif
-> +-endif
-> + OBJCFLAGS += --gap-fill=0xff
-> + 
-> + gccincdir := $(shell $(CC) -print-file-name=include)
-> +-- 
-> +1.7.5.4
-> +
-> diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage-native_1.3.2.bb b/meta/recipes-bsp/uboot/u-boot-mkimage-native_1.3.2.bb
-> deleted file mode 100644
-> index eab286c..0000000
-> --- a/meta/recipes-bsp/uboot/u-boot-mkimage-native_1.3.2.bb
-> +++ /dev/null
-> @@ -1,25 +0,0 @@
-> -DESCRIPTION = "U-boot bootloader mkimage tool"
-> -LICENSE = "GPL"
-> -SECTION = "bootloader"
-> -
-> -SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2 \
-> -           file://fix-arm920t-eabi.patch;patch=1"
-> -
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=4c6cde5df68eff615d36789dc18edd3b"
-> -
-> -S = "${WORKDIR}/u-boot-${PV}"
-> -
-> -inherit native
-> -
-> -EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX}"
-> -
-> -do_compile () {
-> -	oe_runmake smdk2410_config
-> -	oe_runmake tools
-> -}
-> -
-> -do_install () {
-> -	install -d ${D}${bindir}/
-> -	install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
-> -	ln -sf uboot-mkimage ${D}${bindir}/mkimage
-> -}
-> diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage_2009.08.bb b/meta/recipes-bsp/uboot/u-boot-mkimage_2009.08.bb
-> deleted file mode 100644
-> index 822acb6..0000000
-> --- a/meta/recipes-bsp/uboot/u-boot-mkimage_2009.08.bb
-> +++ /dev/null
-> @@ -1,29 +0,0 @@
-> -DESCRIPTION = "U-boot bootloader mkimage tool"
-> -LICENSE = "GPLv2+"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=4c6cde5df68eff615d36789dc18edd3b"
-> -SECTION = "bootloader"
-> -
-> -PR = "r1"
-> -
-> -SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
-> -
-> -SRC_URI[md5sum] = "cd4788ea1c6ac4f9b100b888a1063a6b"
-> -SRC_URI[sha256sum] = "858fd04efd5b98e99fd1a074998b1a8ac5fbd07b176de1d20d8eb148492d949d"
-> -
-> -S = "${WORKDIR}/u-boot-${PV}"
-> -
-> -EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX}"
-> -
-> -BBCLASSEXTEND = "native nativesdk"
-> -
-> -do_compile () {
-> -  oe_runmake smdk2410_config
-> -  oe_runmake tools
-> -}
-> -
-> -do_install () {
-> -  install -d ${D}${bindir}
-> -  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
-> -  ln -sf uboot-mkimage ${D}${bindir}/mkimage
-> -}
-> -
-> diff --git a/meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb b/meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb
-> new file mode 100644
-> index 0000000..34bae8e
-> --- /dev/null
-> +++ b/meta/recipes-bsp/uboot/u-boot-mkimage_2011.03.bb
-> @@ -0,0 +1,31 @@
-> +DESCRIPTION = "U-boot bootloader mkimage tool"
-> +LICENSE = "GPLv2+"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
-> +                    file://README;beginline=1;endline=22;md5=3a00ef51d3fc96e9d6c1bc4708ccd3b5"
-> +SECTION = "bootloader"
-> +
-> +PR = "r1"
-> +
-> +SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2 \
-> +           file://0001-Drop-config.h-include-in-tools-imximage.h.patch \
-> +           file://0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch"
-> +
-> +SRC_URI[md5sum] = "91d02124c94368557d0e9ac05fb8c33f"
-> +SRC_URI[sha256sum] = "08677f66d8d4ee542f6599f580cdffdf730544e1803f9d3739117d6f6d68083e"
-> +
-> +S = "${WORKDIR}/u-boot-${PV}"
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> +
-> +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTSTRIP=true'
-> +
-> +do_compile () {
-> +  oe_runmake tools
-> +}
-> +
-> +do_install () {
-> +  install -d ${D}${bindir}
-> +  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
-> +  ln -sf uboot-mkimage ${D}${bindir}/mkimage
-> +}
-> +
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
 
 
