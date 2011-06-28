@@ -1,29 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QbZZw-0008Uf-0C
-	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 16:47:52 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5SEi8SY015049
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QbZiu-0000GE-H1 for openembedded-core@lists.openembedded.org;
+	Tue, 28 Jun 2011 16:57:17 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5SErPq8025500
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 07:44:10 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 28 Jun 2011 07:44:08 -0700
-Message-ID: <4E09E8B7.1070901@windriver.com>
-Date: Tue, 28 Jun 2011 09:44:07 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
-MIME-Version: 1.0
+	Tue, 28 Jun 2011 15:53:25 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25383-02 for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 15:53:21 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5SErHk4025494
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 15:53:19 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1865303E0DED764181A9D882DEF65FB6A167F0C70B@shsmsx502.ccr.corp.intel.com>	<4E095480.3070001@windriver.com>
-	<1309266943.20015.290.camel@rex>
-In-Reply-To: <1309266943.20015.290.camel@rex>
-Subject: Re: [Draft design][RFC] Running postinst at rootfs generation time
+In-Reply-To: <cover.1309243115.git.liezhi.yang@windriver.com>
+References: <cover.1309243115.git.liezhi.yang@windriver.com>
+Date: Tue, 28 Jun 2011 15:53:03 +0100
+Message-ID: <1309272783.20015.313.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/4 V4] Share gcc work directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,58 +42,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 14:47:52 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Tue, 28 Jun 2011 14:57:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 6/28/11 8:15 AM, Richard Purdie wrote:
-> On Mon, 2011-06-27 at 23:11 -0500, Mark Hatle wrote:
->> On 6/27/11 9:09 PM, Cui, Dexuan wrote:
->>> Hi all, below is an initial investigation about the task and we'll continue to further look into it.
->>>
->>> In poky we have 2 types of postinst scripts:  one (type-1) can be (and has already been) run at rootfs generation time and the other (type-2) has to be delayed to the first-boot of target device. Type-2 makes target device's first-boot slow and it would be great if we can fix it and convert it to type-1.
->>>
->>> We can instrument a first-boot with minimal/sato first to see which postinstalls take the most time and then prioritise those ones to fix.
->>>
->>> I figurerd out a list of 33 recipes in total(recipes with the same name but with different versions are counted once) we possibly need to fix.
->>> For the recipes, we need try to find recipe-specific ways(use appropriately modified native utilities to generate caches, files, etc as necessary on the target filesystem).
->>>
->>
->> ...
->>
->>> 1 recipe: prelink: we could propablly fix it, but I'm not sure yet.
->>> meta/recipes-devtools/prelink/prelink_git.bb
->>
->> There is nothing to do for the prelinker.  The "image-prelink.bbclass" handles
->> everything needed to prelink during image creation.  The script is only there
->> for on-target field upgrades.  So you can remove this from your list.
-> 
-> Mark, are you 100% sure about this?
-> 
-> It looks like if we install prelink into an image it adds a post install
-> which runs "prelink -a" on the target device at first boot.
-> 
-> This would happen regardless of whether the cross prelinker did or did
-> not prelink the image :/.
+Hi Robert,
 
-That is certainly not the intention of this code.  If it does, it should be a
-fairly quick bug to fix -- and improve boot-time.  (Of course, this only should
-be skipped if we've done image-prelink.bbclass.)
+I just wanted to let you know that these look good, thanks.
 
-I'll attempt to look into this shortly....
+I need to get the changes into bitbake for this first (along with the
+umask and multilib changes), let that version sit for a vew days, them
+bump the version requirement of OE-Core so we can then merge these
+patches.
 
---Mark
+They will therefore merge and I'm happy with them but it will be a few
+more days before that happens. The bitbake piece is now merged already.
 
-> Cheers,
+Cheers,
+
+Richard
+
+On Tue, 2011-06-28 at 17:05 +0800, Robert Yang wrote:
+> Changes of V4:
 > 
-> Richard
+> * Change the definition of GLIBC_DYNAMIC_LINKER as Richard suggested.
 > 
+>   e.g., the entries in the files that look like:
+>   #define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
+> 
+>   become
+> 
+>   #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
+> 
+>   and we define SYSTEMLIBS_DIR in defaults.h.
+> 
+>   NOTE, the round brackets:
+>   #define GLIBC_DYNAMIC_LINKER64 (SYSTEMLIBS_DIR "/ld-linux-x86-64.so.2")
+> 
+>   doesn't work in in the following define:
+> 
+>   #define LINUX_DYNAMIC_LINKER \
+>           CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER, UCLIBC_DYNAMIC_LINKER)
+> 
+>   so use:
+>   #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
+> 
+> * Compare to V3, reduce two patches which are for gcc-crosssdk.inc and
+>   gcc-cross-canadian which are not needed any more.
+> 
+> * Fix the conflicts(gcc-4.6.0 -> gcc-4.6, and the ${BRANCH})
+> 
+> * Both tested 4.5.1 and 4.6:
+>   $ bitbake meta-toolchain core-image-sato
+>   $ runqemu qemurm
+> 
+>   Also unpack the sdk to /opt and test to make sure the toolchain works well.
+> 
+> 
+> The following changes since commit a1f79a7896b6411669b3ccada6204d2695e80fc5:
+> 
+>   runqueue.py: Add umask task control (2011-06-24 12:23:12 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib robert/share_gcc
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/share_gcc
+> 
+> Robert Yang (4):
+>   bitbake: share source directory
+>   Share gcc work directories
+>   gcc-4.5.1: share work directories
+>   gcc-4.6: share work directories
+> 
+>  bitbake/lib/bb/build.py                            |    4 +-
+>  bitbake/lib/bb/cache.py                            |    3 +
+>  bitbake/lib/bb/runqueue.py                         |   10 +++
+>  meta/recipes-devtools/gcc/gcc-4.5.1.inc            |    1 +
+>  .../gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch   |   57 ++++++++++++++
+>  meta/recipes-devtools/gcc/gcc-4.6.inc              |    5 +-
+>  .../gcc/gcc-4.6/use-defaults.h-and-t-oe-in-B.patch |   80 ++++++++++++++++++++
+>  meta/recipes-devtools/gcc/gcc-common.inc           |   32 +++++++-
+>  meta/recipes-devtools/gcc/gcc-configure-common.inc |   48 +++++++-----
+>  meta/recipes-devtools/gcc/gcc-configure-cross.inc  |    4 +-
+>  meta/recipes-devtools/gcc/gcc-crosssdk.inc         |    6 --
+>  11 files changed, 218 insertions(+), 32 deletions(-)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/use-defaults.h-and-t-oe-in-B.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/use-defaults.h-and-t-oe-in-B.patch
 > 
 > 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
 
