@@ -1,33 +1,26 @@
-Received: from mail2.eads.net ([80.156.45.114] helo=mail.eads.net)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wolfgang.Hauser.external@cassidian.com>)
-	id 1Qbbsd-00048I-Dy for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jun 2011 19:15:19 +0200
-Received: from gsx3072-vs5.mxchg.m.corp ([53.147.176.149])
-	by mail.eads.net (8.13.8/8.13.8/Debian-2) with ESMTP id p5SGwABB002058
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 18:58:11 +0200
-Received: from gsx300a.mxchg.m.corp ([10.43.212.131]) by
-	gsx3072-vs5.mxchg.m.corp with Microsoft SMTPSVC(6.0.3790.4675); 
-	Tue, 28 Jun 2011 18:58:04 +0200
-X-MimeOLE: Produced By Microsoft Exchange V6.5
+	(envelope-from <dvhart@linux.intel.com>) id 1QbcHA-0004nX-0h
+	for openembedded-core@lists.openembedded.org;
+	Tue, 28 Jun 2011 19:40:40 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Jun 2011 10:36:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,437,1304319600"; d="scan'208";a="23910103"
+Received: from unknown (HELO [10.255.13.106]) ([10.255.13.106])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2011 10:36:56 -0700
+Message-ID: <4E0A1136.7030402@linux.intel.com>
+Date: Tue, 28 Jun 2011 10:36:54 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-Date: Tue, 28 Jun 2011 18:58:05 +0200
-Message-ID: <0C757E680E33864AB113392C7E83F910BE518E@GSX300A.mxchg.m.corp>
-In-Reply-To: <4E09E8B7.1070901@windriver.com>
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Thread-Topic: [OE-core] [Draft design][RFC] Running postinst at rootfs
-	generation time
-Thread-Index: Acw1odrxQHzg0B5iS2KnXHcujJUxywAEb9Ug
-References: <1865303E0DED764181A9D882DEF65FB6A167F0C70B@shsmsx502.ccr.corp.intel.com>	<4E095480.3070001@windriver.com><1309266943.20015.290.camel@rex>
-	<4E09E8B7.1070901@windriver.com>
-From: "Hauser, Wolfgang (external)" <Wolfgang.Hauser.external@cassidian.com>
-To: "Patches and discussions about the oe-core layer"
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-OriginalArrivalTime: 28 Jun 2011 16:58:05.0135 (UTC)
-	FILETIME=[8C5025F0:01CC35B4]
-Subject: Re: [Draft design][RFC] Running postinst at rootfs generation time
+References: <B4FCA010-6920-4DD6-B471-4B2D9E38DFD7@dominion.thruhere.net>
+In-Reply-To: <B4FCA010-6920-4DD6-B471-4B2D9E38DFD7@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: Tune files and knobs to turn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,20 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jun 2011 17:15:19 -0000
-Content-class: urn:content-classes:message
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Jun 2011 17:40:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Beside the discussed changes, the postinst scripts should be executed in
-the dependency order.
-At the time, the scripts are executed in alphabetic order, which breaks
-the image generation if depended packages are not in alphabetic order.
 
-e.g. busybox and busybox subpackages (busybox-mdev).
 
-Regards
-Wolfgang Hauser=20
+On 06/24/2011 04:54 AM, Koen Kooi wrote:
+> Hi,
+> 
+> We discussed tune files a bit during last nights TSC meeting and Khem had
+> expressed the need before, so I'd like to get this discussion started by using
+> armv7a as an example.
+> 
+> For armv7a capable cores we have the following hardware features:
+> 
+> * armv7a instruction set
+> * thumb1 instruction set
+> * thumb2 instruction set
+> * VFP coprocessor
+> * optional NEON coprocessor
+> 
+> For the ABI we can choose the following:
+> 
+> * softtp without hw support (e.g. no VFP instructions emitted, slow)
+> * softfp with hw support (e.g. VFP and/or NEON instructions emitted, fast)
+> * hardfp, emits VFP and/or NEON instructions, slightly faster than softfp/hw,
+>   incompatible with everything else
+> 
+> And the extra knobs:
+> 
+> * pure thumb1, no arm instructions (limited use)
+> * thumb1/arm interworking
+> * pure thumb2,  no arm instructions
+> * thumb2 interworking (not sure if that's actually usefull, thumb2 has complete coverage)
+> 
+> In OE .dev we have the following vars:
+> 
+> TARGET_FPU: switches between hw float and sw float, no reflection in package arch
+> ARM_FP_ABI: switches between softfp and hardfp, will create 'armv7a' or
+>             'armv7a-hardfp' as package arch
+> ARM_INSTRUCTION_SET: switches between arm and thumb1, no reflection in package arch
+> THUMB_INTERWORK: turns on interworking, no reflection in package arch
+> 
+> (side note, oe-core/distroless and meta-yocto/poky don't turn set TARGET_FPU
+>  for armv7a and will generate slow code, angstrom does turn it on)
+
+
+oe-core tune-cortexa8.inc doesn't make use of these variables (unlike
+meta-texasinstruments) and does make use of the neon coprocessor, but
+still uses the softfp float-api:
+
+TARGET_CC_ARCH = "-march=armv7-a -mtune=cortex-a8 -mfpu=neon
+-mfloat-abi=softfp -fno-tree-vectorize"
+
+Seems like the oe-core tune files need to be synced up with vendor layers?
+
+--
+Darren
+
+
+> 
+> Khem and I would like to start building armv7a (and armv6) in pure thumb2 mode
+> but we want to have the variables to turn those knobs make sense and be
+> consistent. RP has expressed his desire to sort this all out before merging
+> multilib. I'm sure x86/mips/ppc/etc have a similar need, so let's get this
+> discussion started.
+> 
+> regards,
+> 
+> Koen
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
