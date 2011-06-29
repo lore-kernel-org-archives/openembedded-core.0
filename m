@@ -1,28 +1,25 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1Qbwp9-00008K-NI; Wed, 29 Jun 2011 17:37:07 +0200
-Received: by pvf24 with SMTP id 24so915953pvf.6
-	for <multiple recipients>; Wed, 29 Jun 2011 08:33:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=3DqjJqBx5b2uXQEC2EJIsZ0edH6kWiZfTsv+1diMF2Q=;
-	b=eodBnybzOJZy08CXlFC0RwoNjQjo2kr1+KdoqU7Kki9Bg3EIYD0pSuC+Dm3tYuDw/7
-	3DaOHsedcl7TI92aigNxtKuXI7OffcYiXXK0xuACdi9jSa3dmMqaq7VVTw6DcRFd269G
-	HYjsv0qIqszuU7UsUDGP0aU5WSGPwG8YDT9QU=
-Received: by 10.68.36.234 with SMTP id t10mr1173331pbj.361.1309361604175; Wed,
-	29 Jun 2011 08:33:24 -0700 (PDT)
+Received: from mailout-de.gmx.net ([213.165.64.22])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1QbwpT-0000Ei-6f
+	for openembedded-core@lists.openembedded.org;
+	Wed, 29 Jun 2011 17:37:27 +0200
+Received: (qmail invoked by alias); 29 Jun 2011 15:27:05 -0000
+Received: from p5B0A22BD.dip.t-dialin.net (EHLO localhost.localdomain)
+	[91.10.34.189]
+	by mail.gmx.net (mp072) with SMTP; 29 Jun 2011 17:27:05 +0200
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX1/GBgcxfAvG8nAWBG/fVlscogPJVV8+G3rz0e/vDP
+	pOA6xFcZkv3NQK
+From: Andreas Mueller <schnitzeltony@gmx.de>
+To: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jun 2011 17:28:45 +0200
+User-Agent: KMail/1.13.7 (Linux/2.6.35.13-92.fc14.x86_64; KDE/4.6.3; x86_64; ;
+	)
 MIME-Version: 1.0
-Received: by 10.68.48.105 with HTTP; Wed, 29 Jun 2011 08:32:54 -0700 (PDT)
-In-Reply-To: <201106291728.47032.schnitzeltony@gmx.de>
-References: <201106291728.47032.schnitzeltony@gmx.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 29 Jun 2011 08:32:54 -0700
-Message-ID: <BANLkTin06jiHrgrf2C3eEbkdVrtcYyOShQ@mail.gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe] In which meta/layer is a home for not yet supported machines
+Message-Id: <201106291728.47032.schnitzeltony@gmx.de>
+X-Y-GMX-Trusted: 0
+Subject: In which meta/layer is a home for not yet supported machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,42 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 15:37:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 29 Jun 2011 15:37:27 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 29, 2011 at 8:28 AM, Andreas Mueller <schnitzeltony@gmx.de> wrote:
-> Hi,
->
-> just started to collect first oe-core experiences and would like to get the
-> hardware on my (or friend's) desk supported. To check already available I did
->
-> find -name "*.conf" | grep machine
->
-> and miss
->
-> o gumstix overo ( http://www.gumstix.com/store/index.php?cPath=33 )
-> o tx28 ( http://www.karo-electronics.com/tx28.html / have prepared support for
-> oe but would like to get this to oe-core )
-> o mx28evk (
-> http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=MCIMX28EVKJ&fr=g
-> )
->
-> In which meta/layer is the first place for configurations/bootloader/kernels?
+Hi,
 
+just started to collect first oe-core experiences and would like to get the 
+hardware on my (or friend's) desk supported. To check already available I did
 
-you would need meta layer for the new machines. There already are some layers
-checkout angstrom if the machines do not fit into those existing you
-can create a new
-layer something like meta-gumstix
->
-> Regards
->
-> Andreas
->
-> _______________________________________________
-> Openembedded-devel mailing list
-> Openembedded-devel@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
->
+find -name "*.conf" | grep machine
+
+and miss
+
+o gumstix overo ( http://www.gumstix.com/store/index.php?cPath=33 )
+o tx28 ( http://www.karo-electronics.com/tx28.html / have prepared support for 
+oe but would like to get this to oe-core )
+o mx28evk ( 
+http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=MCIMX28EVKJ&fr=g 
+)
+
+In which meta/layer is the first place for configurations/bootloader/kernels?
+
+Regards
+
+Andreas
 
 
