@@ -1,24 +1,39 @@
-Received: from mail-ww0-f49.google.com ([74.125.82.49])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QbtV4-0001c8-Gy
-	for openembedded-core@lists.linuxtogo.org;
-	Wed, 29 Jun 2011 14:04:10 +0200
-Received: by wwf22 with SMTP id 22so1018356wwf.6
-	for <openembedded-core@lists.linuxtogo.org>;
-	Wed, 29 Jun 2011 05:00:28 -0700 (PDT)
-Received: by 10.227.55.69 with SMTP id t5mr617582wbg.94.1309348828211;
-	Wed, 29 Jun 2011 05:00:28 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id b13sm855624wbh.41.2011.06.29.05.00.26
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 29 Jun 2011 05:00:27 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.linuxtogo.org
-Date: Wed, 29 Jun 2011 14:00:23 +0200
-Message-Id: <1309348823-29217-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH v2] libc locale split: fix some remaining problems
+	(envelope-from <dexuan.cui@intel.com>) id 1QbuDt-00025Q-8m
+	for openembedded-core@lists.openembedded.org;
+	Wed, 29 Jun 2011 14:50:29 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Jun 2011 05:46:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,443,1304319600"; d="scan'208";a="21878579"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Jun 2011 05:46:45 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 29 Jun 2011 20:46:45 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 29 Jun 2011 20:46:44 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Wed, 29 Jun 2011 20:46:43 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Jun 2011 20:46:41 +0800
+Thread-Topic: [PATCH 0/1] bump PR to fix the perl-native issue
+Thread-Index: AcwsmsnN14k6303KSKKOmWltKanK9QJv73Cg
+Message-ID: <1865303E0DED764181A9D882DEF65FB6A167F0C71B@shsmsx502.ccr.corp.intel.com>
+References: <cover.1308278404.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1308278404.git.dexuan.cui@intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Cc: "Wold, Saul" <saul.wold@intel.com>
+Subject: Re: [PATCH 0/1] bump PR to fix the perl-native issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,73 +48,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 12:04:10 -0000
+X-List-Received-Date: Wed, 29 Jun 2011 12:50:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-* libc-{common,package}.bbclass: fix shlib renaming for the C library
-	Without this you'd end up with eglibc_2.12.ipk instead of libc6_2.12.ipk as before
-
-* eglibc-locale: don't make versions go backwards after split from eglibc
-	eglibc was way beyond PR = "r1" at the time of the split, so increase PR to make package upgrades work
-
-This still doesn't fix:
-
-$ dpkg-deb -I ipk/armv7a/libc6_2.12-r16_armv7a.ipk
- Package: libc6
-	[..]
- Depends: libc6-dev (>= 2.12)
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/classes/libc-common.bbclass           |    7 +++++++
- meta/classes/libc-package.bbclass          |    5 +----
- meta/recipes-core/eglibc/eglibc-locale.inc |    2 +-
- 3 files changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
-index bae0ace..5e93205 100644
---- a/meta/classes/libc-common.bbclass
-+++ b/meta/classes/libc-common.bbclass
-@@ -21,3 +21,10 @@ def get_libc_fpu_setting(bb, d):
-     if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:
-         return "--without-fp"
-     return ""
-+
-+python populate_packages_prepend () {
-+	if bb.data.getVar('DEBIAN_NAMES', d, 1):
-+		bpn = bb.data.getVar('BPN', d, 1)
-+		bb.data.setVar('PKG_'+bpn, 'libc6', d)
-+		bb.data.setVar('PKG_'+bpn+'-dev', 'libc6-dev', d)
-+}
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index 4bc58c8..695b260 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -368,9 +368,6 @@ python package_do_split_gconvs () {
- # We want to do this indirection so that we can safely 'return'
- # from the called function even though we're prepending
- python populate_packages_prepend () {
--	if bb.data.getVar('DEBIAN_NAMES', d, 1):
--		bpn = bb.data.getVar('BPN', d, 1)
--		bb.data.setVar('PKG_'+bpn, 'libc6', d)
--		bb.data.setVar('PKG_'+bpn+'-dev', 'libc6-dev', d)
- 	bb.build.exec_func('package_do_split_gconvs', d)
- }
-+
-diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
-index 7c4b1d5..96f2d8a 100644
---- a/meta/recipes-core/eglibc/eglibc-locale.inc
-+++ b/meta/recipes-core/eglibc/eglibc-locale.inc
-@@ -26,7 +26,7 @@ BINARY_LOCALE_ARCHES ?= "arm.* i[3-6]86 x86_64 powerpc mips"
- # set "0" for qemu emulation of native localedef for locale generation
- LOCALE_GENERATION_WITH_CROSS-LOCALEDEF = "1"
- 
--PR = "r1"
-+PR = "r16"
- 
- PKGSUFFIX = ""
- PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
--- 
-1.6.6.1
-
+Cui, Dexuan wrote:
+> I did a core-image-sato-sdk and meta-toolchain-gmae building using a
+> commit of May 12 between 605141a9(the perl-native workaround patch)
+> and 3ba6d018(populate perl-native into its own dir), and grepped
+> ${STAGING_BINDIR_NATIVE}/perl in
+> ${STAGING_BINDIR_NATIVE} to find out all the scripts needed to
+> address. Some recipes' PRs have been bumped, so this patch only bumps
+> the omitted ones.=20
+>=20
+> Please review the patch.
+>=20
+> The following changes since commit
+> 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:=20
+>=20
+>   systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:14:06
+> +0100)=20
+>=20
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib dcui/bump_PR
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Ddcui/bump_PR
+>=20
+> Dexuan Cui (1):
+>   glib-2.0,intltool,rpm,sgmlspl-native: Bump PR to resolve perl-native
+>     issue
+>=20
+>  meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb      |    2 +-
+>  meta/recipes-core/glib-2.0/glib-2.0_2.28.6.bb      |    2 +-
+>  meta/recipes-devtools/intltool/intltool_0.40.6.bb  |    2 +-
+>  meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    2 +-
+>  .../sgmlspl/sgmlspl-native_1.03ii.bb               |    2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)=
 
 
