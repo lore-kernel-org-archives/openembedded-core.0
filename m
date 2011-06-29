@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1Qbkpv-0006gp-QU
+	(envelope-from <dongxiao.xu@intel.com>) id 1Qbkpw-0006gp-Ku
 	for openembedded-core@lists.openembedded.org;
 	Wed, 29 Jun 2011 04:49:08 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 28 Jun 2011 19:45:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,441,1304319600"; d="scan'208";a="20078656"
+X-IronPort-AV: E=Sophos;i="4.65,441,1304319600"; d="scan'208";a="20078657"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.20])
-	by azsmga001.ch.intel.com with ESMTP; 28 Jun 2011 19:45:15 -0700
+	by azsmga001.ch.intel.com with ESMTP; 28 Jun 2011 19:45:13 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jun 2011 10:59:36 +0800
-Message-Id: <10db281d69f5c4d10be28c18c66e4e155aaba326.1309315723.git.dongxiao.xu@intel.com>
+Date: Wed, 29 Jun 2011 10:59:35 +0800
+Message-Id: <e26e31ff4fb349235b153a0cef21e66512079431.1309315723.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1309315723.git.dongxiao.xu@intel.com>
 References: <cover.1309315723.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1309315723.git.dongxiao.xu@intel.com>
 References: <cover.1309315723.git.dongxiao.xu@intel.com>
-Subject: [PATCH 6/6] task-base: add 3G into DISTRO_FEATURE
+Subject: [PATCH 5/6] initscript: Change some order of init scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,91 +35,85 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 29 Jun 2011 02:49:08 -0000
 
+Move udev script to execute ealier since module autoload needs it to
+create device nodes.
+
+Also move sysfs before udev which has dependency on it.
+
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/conf/distro/include/default-distrovars.inc |    2 +-
- meta/recipes-core/tasks/task-base.bb            |   16 +++++++++++++++-
- 2 files changed, 16 insertions(+), 2 deletions(-)
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    6 +++---
+ meta/recipes-core/udev/udev-new.inc                |    2 +-
+ meta/recipes-core/udev/udev_164.bb                 |    2 +-
+ .../modutils/modutils-initscripts.bb               |    4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 2cde46c..2f36f59 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -17,7 +17,7 @@ DISTRO_FEATURES_LIBC ?= "ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-t
- 					libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc \
- 					libc-posix-wchar-io"
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 48b65b9..9e535af 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -4,7 +4,7 @@ SECTION = "base"
+ PRIORITY = "required"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PR = "r126"
++PR = "r127"
  
--DISTRO_FEATURES ?= "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci ${DISTRO_FEATURES_LIBC}"
-+DISTRO_FEATURES ?= "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci 3g ${DISTRO_FEATURES_LIBC}"
+ INHIBIT_DEFAULT_DEPS = "1"
  
- IMAGE_FEATURES ?= ""
+@@ -119,8 +119,8 @@ do_install () {
+ 	ln -sf		../init.d/bootmisc.sh	${D}${sysconfdir}/rcS.d/S55bootmisc.sh
+ #	ln -sf		../init.d/urandom	${D}${sysconfdir}/rcS.d/S55urandom
+ #	ln -sf		../init.d/finish.sh	${D}${sysconfdir}/rcS.d/S99finish.sh
+-	# udev will run at S04 if installed
+-	ln -sf		../init.d/sysfs.sh	${D}${sysconfdir}/rcS.d/S03sysfs.sh
++	ln -sf		../init.d/sysfs.sh	${D}${sysconfdir}/rcS.d/S02sysfs.sh
++	# udev will run at S03 if installed
+ 	ln -sf		../init.d/populate-volatile.sh	${D}${sysconfdir}/rcS.d/S37populate-volatile.sh
+ 	ln -sf		../init.d/devpts.sh	${D}${sysconfdir}/rcS.d/S38devpts.sh
+ 	if [ "${TARGET_ARCH}" = "arm" ]; then
+diff --git a/meta/recipes-core/udev/udev-new.inc b/meta/recipes-core/udev/udev-new.inc
+index 1b94f1b..4c4451f 100644
+--- a/meta/recipes-core/udev/udev-new.inc
++++ b/meta/recipes-core/udev/udev-new.inc
+@@ -40,7 +40,7 @@ PACKAGES =+ "libgudev libgudev-dev libgudev-dbg"
  
-diff --git a/meta/recipes-core/tasks/task-base.bb b/meta/recipes-core/tasks/task-base.bb
-index a2a8925..3ff57ff 100644
---- a/meta/recipes-core/tasks/task-base.bb
-+++ b/meta/recipes-core/tasks/task-base.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Merge machine and distro options to create a basic machine task/p
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r70"
-+PR = "r71"
+ INITSCRIPT_PACKAGES = "udev udev-cache"
+ INITSCRIPT_NAME_udev = "udev"
+-INITSCRIPT_PARAMS_udev = "start 04 S ."
++INITSCRIPT_PARAMS_udev = "start 03 S ."
+ INITSCRIPT_NAME_udev-cache = "udev-cache"
+ INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
  
- inherit task
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index 76fd907..567e62e 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,6 +1,6 @@
+ include udev-new.inc
  
-@@ -35,6 +35,7 @@ PACKAGES = ' \
- 	    \
-             ${@base_contains("DISTRO_FEATURES", "bluetooth", "task-base-bluetooth", "", d)} \
-             ${@base_contains("DISTRO_FEATURES", "wifi", "task-base-wifi", "", d)} \
-+            ${@base_contains("DISTRO_FEATURES", "3g", "task-base-3g", "", d)} \
-             ${@base_contains("DISTRO_FEATURES", "cramfs", "task-base-cramfs", "", d)} \
-             ${@base_contains("DISTRO_FEATURES", "ipsec", "task-base-ipsec", "", d)} \
-             ${@base_contains("DISTRO_FEATURES", "ipv6", "task-base-ipv6", "", d)} \
-@@ -95,6 +96,7 @@ RDEPENDS_task-base = "\
-     ${@base_contains('COMBINED_FEATURES', 'usbhost', 'task-base-usbhost', '',d)} \
-     ${@base_contains('COMBINED_FEATURES', 'bluetooth', 'task-base-bluetooth', '',d)} \
-     ${@base_contains('COMBINED_FEATURES', 'wifi', 'task-base-wifi', '',d)} \
-+    ${@base_contains('COMBINED_FEATURES', '3g', 'task-base-3g', '',d)} \
-     ${@base_contains('COMBINED_FEATURES', 'uboot', 'task-base-uboot', '',d)} \
-     ${@base_contains('COMBINED_FEATURES', 'redboot', 'task-base-redboot', '',d)} \
-     ${@base_contains('COMBINED_FEATURES', 'apex', 'task-base-apex', '',d)} \
-@@ -114,10 +116,12 @@ RDEPENDS_task-base-extended = "\
-     task-base \
-     ${ADD_WIFI} \
-     ${ADD_BT} \
-+    ${ADD_3G} \
-     "
+-PR = "r2"
++PR = "r3"
  
- ADD_WIFI = ""
- ADD_BT = ""
-+ADD_3G = ""
+ SRC_URI[md5sum] = "fddac2d54761ea34865af9467377ca9f"
+ SRC_URI[sha256sum] = "c12e66280b5e1465f6587a8cfa47d7405c4caa7e52ce5dd13478d04f6ec05e5c"
+diff --git a/meta/recipes-kernel/modutils/modutils-initscripts.bb b/meta/recipes-kernel/modutils/modutils-initscripts.bb
+index 5ae34b4..89d38cf 100644
+--- a/meta/recipes-kernel/modutils/modutils-initscripts.bb
++++ b/meta/recipes-kernel/modutils/modutils-initscripts.bb
+@@ -4,10 +4,10 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=7bf87fc37976e93ec66ad84fac58c098"
+ SRC_URI = "file://modutils.sh \
+ 	   file://PD.patch"
+-PR = "r5"
++PR = "r6"
  
- python __anonymous () {
-     # If Distro want wifi and machine feature wifi/pci/pcmcia/usbhost (one of them)
-@@ -133,6 +137,9 @@ python __anonymous () {
+ INITSCRIPT_NAME = "modutils.sh"
+-INITSCRIPT_PARAMS = "start 2 S ."
++INITSCRIPT_PARAMS = "start 4 S ."
  
-     if "wifi" in distro_features and not "wifi" in machine_features and ("pcmcia" in machine_features or "pci" in machine_features or "usbhost" in machine_features):
- 	bb.data.setVar("ADD_WIFI", "task-base-wifi", d)
-+
-+    if "3g" in distro_features and not "3g" in machine_features and ("pcmcia" in machine_features or "pci" in machine_features or "usbhost" in machine_features):
-+	bb.data.setVar("ADD_3G", "task-base-3g", d)
- }
+ inherit update-rc.d
  
- #
-@@ -339,6 +346,13 @@ RRECOMMENDS_task-base-wifi = "\
-     kernel-module-aes-generic \
-     kernel-module-aes"
- 
-+RDEPENDS_task-base-3g = "\
-+    ofono"
-+
-+RRECOMMENDS_task-base-3g = "\
-+    kernel-module-cdc-acm \
-+    kernel-module-cdc-wdm"
-+
- RRECOMMENDS_task-base-smbfs = "\
-     kernel-module-cifs \
-     kernel-module-smbfs"
 -- 
 1.7.1
 
