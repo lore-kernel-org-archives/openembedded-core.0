@@ -1,24 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-pw0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Qbin7-00066I-1y
+	(envelope-from <raj.khem@gmail.com>) id 1Qbipb-0006B2-QZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 02:38:05 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Jun 2011 17:34:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,440,1304319600"; d="scan'208";a="21279652"
-Received: from miles.jf.intel.com (HELO [10.7.199.155]) ([10.7.199.155])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jun 2011 17:34:22 -0700
-Message-ID: <4E0A730B.2050401@intel.com>
-Date: Tue, 28 Jun 2011 17:34:19 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+	Wed, 29 Jun 2011 02:40:40 +0200
+Received: by pwi1 with SMTP id 1so555423pwi.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 17:36:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=n3PfgzB8tlx8H3eb49/HGvD0Fg37oO3GG6Y3H6mQVBI=;
+	b=vyX23YI2UjDVpNPf0qvmxIfMJgNzrvavEYHNEPPQ+17rMrrtyPJawoTBzf3hWOET9O
+	cl8eTtf3J5VN3zNqkxjftNWBZxZ7QzX84ZRQyy7wITBwJV+2tPZS3z9uFlzMRslzCCd3
+	YlDWPFt6fTCCHVH8GFMnI+vHuF3rT1UE9w/n0=
+Received: by 10.142.173.5 with SMTP id v5mr108071wfe.66.1309307468421;
+	Tue, 28 Jun 2011 17:31:08 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id t12sm437882wff.22.2011.06.28.17.31.07
+	(version=SSLv3 cipher=OTHER); Tue, 28 Jun 2011 17:31:07 -0700 (PDT)
+Message-ID: <4E0A724A.2080808@gmail.com>
+Date: Tue, 28 Jun 2011 17:31:06 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>
-In-Reply-To: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>
-Subject: Re: Conflicting providers for ssh/sshd (dropbear and openssh)
+References: <1308230863.25285.4590.camel@phil-desktop>
+In-Reply-To: <1308230863.25285.4590.camel@phil-desktop>
+Subject: Re: [PATCH] dhcp: don't try to move files from ${sbindir} to ${base_sbindir} if they are the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,23 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 00:38:05 -0000
+X-List-Received-Date: Wed, 29 Jun 2011 00:40:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/28/2011 03:41 PM, Khem Raj wrote:
-> If they are independent then may be the openssh recipe should be
-> divided into openssh-ssh and openssh-rest so one can use openssh
-> provided daemon or dropbear provided as they wish
+On 06/16/2011 06:27 AM, Phil Blundell wrote:
+>
+> Signed-off-by: Phil Blundell<philb@gnu.org>
 
-I'm happy to do this, but won't be able to get to it until early next 
-week. In the meantime Yocto bug #1009 is tracking this issue.
+Acked-by: Khem Raj <raj.khem@gmail.com>
 
-Scott
+> ---
+>   meta/recipes-connectivity/dhcp/dhcp4.inc |    4 +++-
+>   1 files changed, 3 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/dhcp/dhcp4.inc b/meta/recipes-connectivity/dhcp/dhcp4.inc
+> index 159ae89..885cc19 100644
+> --- a/meta/recipes-connectivity/dhcp/dhcp4.inc
+> +++ b/meta/recipes-connectivity/dhcp/dhcp4.inc
+> @@ -47,7 +47,9 @@ do_install_append () {
+>   	install -m 0644 ${WORKDIR}/dhcpd.conf ${D}${sysconfdir}/dhcp/dhcpd.conf
+>
+>   	install -d ${D}${base_sbindir}/
+> -	mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
+> +	if [ "${sbindir}" != "${base_sbindir}" ]; then
+> +		mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
+> +	fi
+>   	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
+>   }
+>
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
 
 
