@@ -1,27 +1,36 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QbvVT-0006fP-6Q
-	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 16:12:43 +0200
-Received: by wyg30 with SMTP id 30so996681wyg.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QbvaU-0006u9-JK for openembedded-core@lists.openembedded.org;
+	Wed, 29 Jun 2011 16:17:54 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5TDwuuc004812
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2011 07:08:57 -0700 (PDT)
-Received: by 10.216.81.4 with SMTP id l4mr1885445wee.15.1309356536837;
-	Wed, 29 Jun 2011 07:08:56 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ge4sm938992wbb.13.2011.06.29.07.08.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 29 Jun 2011 07:08:56 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1308664747-32727-1-git-send-email-koen@dominion.thruhere.net>
-Date: Wed, 29 Jun 2011 16:08:55 +0200
-Message-Id: <81D1B09E-289B-4D7D-A90B-AB08B101E415@dominion.thruhere.net>
-References: <1308664747-32727-1-git-send-email-koen@dominion.thruhere.net>
+	Wed, 29 Jun 2011 14:58:56 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04529-08 for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jun 2011 14:58:53 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5TDwnra004806
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jun 2011 14:58:49 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] linux-libc-headers: add 2.6.39
+In-Reply-To: <1309345686.2551.13.camel@phil-desktop>
+References: <044DC375-E0BA-44D9-A063-9BB8E11F7742@dominion.thruhere.net>
+	<1309341325.15156.232.camel@phil-desktop>
+	<1309344835.20015.355.camel@rex>
+	<1309345686.2551.13.camel@phil-desktop>
+Date: Wed, 29 Jun 2011 14:58:32 +0100
+Message-ID: <1309355912.20015.388.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Gstreamer packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,86 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 14:12:43 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 Jun 2011 14:17:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-ping=20
+On Wed, 2011-06-29 at 12:08 +0100, Phil Blundell wrote:
+> On Wed, 2011-06-29 at 11:53 +0100, Richard Purdie wrote:
+> > Obviously you can make the recipe depend on good+bad+ugly but its less
+> > than ideal for build time reasons (esp. when considering dependencies)
+> > but also the reason that good/bad/ugly exist in the first place which is
+> > licensing. If the recipe always has to depend on good+bad+ugly, it
+> > becomes rather tricky to disable ugly and work out whether the resulting
+> > configuration can build. Companies interested in license compliance do
+> > have a strong need to be able to do this.
+> 
+> Incidentally, there isn't actually (as far as I can tell) anything in
+> the current -ugly recipe which would indicate to an ENTERPRISE_DISTRO
+> that this recipe is potentially problematic.  Its LICENSE field just
+> reads "GPLv2+ & LGPLv2.1+ & LGPLv2+", which might or might not be
+> accurate, and it doesn't appear to have the self-skipping behaviour
+> which the corresponding recipe in oe.dev does.
 
-Op 21 jun 2011, om 15:59 heeft Koen Kooi het volgende geschreven:
+See conf/distro/include/default-distrovars.inc:
 
-> The 2.6.37.2 version is kept to allow the qemu kernels and libc =
-headers version to match
-> ---
-> .../linux-libc-headers_2.6.39.bb                   |   49 =
-++++++++++++++++++++
-> 1 files changed, 49 insertions(+), 0 deletions(-)
-> create mode 100644 =
-meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
->=20
-> diff --git =
-a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb =
-b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
-> new file mode 100644
-> index 0000000..65c19ec
-> --- /dev/null
-> +++ =
-b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
-> @@ -0,0 +1,49 @@
-> +require linux-libc-headers.inc
-> +
-> +INHIBIT_DEFAULT_DEPS =3D "1"
-> +DEPENDS +=3D "unifdef-native"
-> +
-> +SRC_URI +=3D " file://connector-msg-size-fix.patch"
-> +SRC_URI[md5sum] =3D "1aab7a741abe08d42e8eccf20de61e05"
-> +SRC_URI[sha256sum] =3D =
-"584d17f2a3ee18a9501d7ff36907639e538cfdba4529978b8550c461d45c61f6"
-> +
-> +S =3D "${WORKDIR}/linux-${PV}"
-> +
-> +set_arch() {
-> +	case ${TARGET_ARCH} in
-> +		alpha*)   ARCH=3Dalpha ;;
-> +		arm*)     ARCH=3Darm ;;
-> +		cris*)    ARCH=3Dcris ;;
-> +		hppa*)    ARCH=3Dparisc ;;
-> +		i*86*)    ARCH=3Di386 ;;
-> +		ia64*)    ARCH=3Dia64 ;;
-> +		mips*)    ARCH=3Dmips ;;
-> +		m68k*)    ARCH=3Dm68k ;;
-> +		powerpc*) ARCH=3Dpowerpc ;;
-> +		s390*)    ARCH=3Ds390 ;;
-> +		sh*)      ARCH=3Dsh ;;
-> +		sparc64*) ARCH=3Dsparc64 ;;
-> +		sparc*)   ARCH=3Dsparc ;;
-> +		x86_64*)  ARCH=3Dx86_64 ;;
-> +		avr32*)   ARCH=3Davr32 ;;
-> +		bfin*)    ARCH=3Dblackfin ;;
-> +		microblaze*) ARCH=3Dmicroblaze ;;
-> +	esac
-> +}
-> +
-> +do_configure() {
-> +	set_arch
-> +	oe_runmake allnoconfig ARCH=3D$ARCH
-> +}
-> +
-> +do_compile () {
-> +}
-> +
-> +do_install() {
-> +	set_arch
-> +	oe_runmake headers_install INSTALL_HDR_PATH=3D${D}${exec_prefix} =
-ARCH=3D$ARCH
-> +	# Kernel should not be exporting this header
-> +	rm -f ${D}${exec_prefix}/include/scsi/scsi.h
-> +}
-> +
-> +BBCLASSEXTEND =3D "nativesdk"
-> --=20
-> 1.6.6.1
->=20
+# This is a list of packages that require a commercial license to ship
+# product. If shipped as part of an image these packages may have 
+# implications so they are disabled by default
+COMMERCIAL_LICENSE ?= "lame gst-fluendo-mp3 libmad mpeg2dec ffmpeg qmmp"
+COMMERCIAL_AUDIO_PLUGINS ?= ""
+# COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
+COMMERCIAL_VIDEO_PLUGINS ?= ""
+# COMMERCIAL_VIDEO_PLUGINS ?= "gst-plugins-ugly-mpeg2dec gst-plugins-ugly-mpegstream gst-plugins-bad-mpegvideoparse"
+COMMERCIAL_QT ?= ""
+# COMMERCIAL_QT ?= "qmmp"
+
+I agree we should like have this kind of information indicated at the
+recipe level though.
+
+Cheers,
+
+Richard
 
 
 
