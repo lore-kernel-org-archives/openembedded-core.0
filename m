@@ -1,24 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-fx0-f51.google.com ([209.85.161.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QboWN-0005gs-EY
+	(envelope-from <anders.darander@gmail.com>) id 1QbpTP-0006zP-57
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 08:45:11 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Jun 2011 23:41:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,442,1304319600"; d="scan'208";a="24130180"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2011 23:41:28 -0700
-From: edwin.zhai@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jun 2011 14:39:46 +0800
-Message-Id: <b97dced399d09fa30685656dbd354fcab65b8ba7.1309329457.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1309329457.git.edwin.zhai@intel.com>
-References: <cover.1309329457.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1309329457.git.edwin.zhai@intel.com>
-References: <cover.1309329457.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] web-webkit: recommends glib-networking to access https web page
+	Wed, 29 Jun 2011 09:46:11 +0200
+Received: by fxh10 with SMTP id 10so1052941fxh.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jun 2011 00:42:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=GAcFB+aNk32zPQH441yyz+78f67bmENBCkfLQDv+98k=;
+	b=DCAqxEHygT+snV+zQU+3Hzcj76zJaNnnlDaZ1aCEhel1GLU3e98IOSZBzMNWOeozRR
+	R3HFGDoAZY2k2xPUdMvSrX9l1ggA4/Amjaz1M4cY1Gug14M2Pm55JDXi3GI/ug+RrDsU
+	FjmOWVkU2Xru9qEpdJmQgfKG/QzKORiIw2X9k=
+MIME-Version: 1.0
+Received: by 10.223.99.153 with SMTP id u25mr779442fan.112.1309333348784; Wed,
+	29 Jun 2011 00:42:28 -0700 (PDT)
+Received: by 10.223.111.130 with HTTP; Wed, 29 Jun 2011 00:42:28 -0700 (PDT)
+In-Reply-To: <4E0A5AE5.7000509@intel.com>
+References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>
+	<4E0A5AE5.7000509@intel.com>
+Date: Wed, 29 Jun 2011 09:42:28 +0200
+Message-ID: <BANLkTin3KKFJFEm7E-0qbZL0axLXRNRk-g@mail.gmail.com>
+From: Anders Darander <anders.darander@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Conflicting providers for ssh/sshd (dropbear and openssh)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +39,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 06:45:11 -0000
+X-List-Received-Date: Wed, 29 Jun 2011 07:46:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+On Wed, Jun 29, 2011 at 00:51, Scott Garman <scott.a.garman@intel.com> wrote:
+> On 06/28/2011 03:41 PM, Khem Raj wrote:
+>> reason is that dropbear only provides ssh and sshd packages openssh
+>> provides a few more e.g. openssh-sftp-server which is demanded by
+>> some images and at same time wants dropbear to provide sshd and ssh
+>>
+>> Now both recipes are to be built but are in contention for providing
+>> ssh and sshd
+>>
+>> How to solve this problem. ? Are other packages that openssh provides
+>> strictly depending on ssh/sshd from openssh ? or will they work on
+>> any ssh/sshd ?
+>>
+>> If they are independent then may be the openssh recipe should be
+>> divided into openssh-ssh and openssh-rest so one can use openssh
+>> provided daemon or dropbear provided as they wish
 
-It is required by libsoup for TLS support.
+Sounds good. I'd probably suggest openssh-ssh and openssh-sftp, where the
+latter one only includes what's necessary for the sftp-server to work. (Or maybe
+that was similar to what you meant?)
 
-[YOCTO #1037] got fixed
+> I've run into that and have been wondering how to resolve it as well.
+>
+> If there are currently existing images which are pulling in dropbear's ssh
+> and sshd while using openssh's sftp-server, then that would imply they can
+> work independently, even though that combo seems like an aggressive space
+> optimization that I would tend to avoid.
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- meta/recipes-sato/web/web-webkit_svn.bb |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+I wouldn't say that it is a very common practice, but it certainly
+isn't too uncommon.
+I've seen it a number of times, and also used it in a few occasions.
 
-diff --git a/meta/recipes-sato/web/web-webkit_svn.bb b/meta/recipes-sato/web/web-webkit_svn.bb
-index a625929..2f79e0a 100644
---- a/meta/recipes-sato/web/web-webkit_svn.bb
-+++ b/meta/recipes-sato/web/web-webkit_svn.bb
-@@ -8,9 +8,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- SECTION = "x11"
- DEPENDS = "libxml2 glib-2.0 gtk+ libglade webkit-gtk curl gconf js libowl"
- 
-+# To access https web pages
-+RRECOMMENDS_${PN} += "glib-networking"
-+
- SRCREV = "130"
- PV = "0.0+svnr${SRCPV}"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "svn://svn.o-hand.com/repos/web/branches;module=webkit;proto=http \
-            file://link-with-g++.patch \
--- 
-1.7.1
-
+Regards,
+Anders
 
 
