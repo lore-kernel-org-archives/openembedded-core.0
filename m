@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Qbjql-00082i-Bc
+	(envelope-from <mark.hatle@windriver.com>) id 1Qbjub-00088L-Bl
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 03:45:55 +0200
+	Wed, 29 Jun 2011 03:49:53 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5T1gDDX024919
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5T1kA0g025408
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jun 2011 18:42:13 -0700 (PDT)
+	Tue, 28 Jun 2011 18:46:11 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 28 Jun 2011 18:42:12 -0700
+	Tue, 28 Jun 2011 18:46:10 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Jun 2011 20:42:35 -0500
-Message-ID: <c2e9613af3f240b6310bc596d06a199dd9e2bcef.1309311666.git.mark.hatle@windriver.com>
+Date: Tue, 28 Jun 2011 20:46:35 -0500
+Message-ID: <d0bbe06e703f6f9b7d0f38ffc372f3bb1425483a.1309311935.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1309311666.git.mark.hatle@windriver.com>
-References: <cover.1309311666.git.mark.hatle@windriver.com>
+In-Reply-To: <cover.1309311935.git.mark.hatle@windriver.com>
+References: <cover.1309311935.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 2/2] prelink_git.bb: Only block the postinst script when no image-prelink
+Subject: [PATCH 2/2] prelink_git.bb: Only block the postinst script when no image-prelink (v2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,8 +35,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 01:45:55 -0000
+X-List-Received-Date: Wed, 29 Jun 2011 01:49:53 -0000
 Content-Type: text/plain
+
+[V2 - fix a small typo in the comment]
 
 If image-prelink is being used, the system will automatically prelink
 the target image.  This avoids the need to run the postinst prelink
@@ -49,7 +51,7 @@ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
  1 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index b57c145..1b34e59 100644
+index b57c145..c653d4d 100644
 --- a/meta/recipes-devtools/prelink/prelink_git.bb
 +++ b/meta/recipes-devtools/prelink/prelink_git.bb
 @@ -10,7 +10,7 @@ LICENSE = "GPLv2"
@@ -65,7 +67,7 @@ index b57c145..1b34e59 100644
  	install -m 0644 ${WORKDIR}/macros.prelink ${D}${sysconfdir}/rpm/macros.prelink
  }
  
-+# If we're using mklibs-prelink, we want to skip this on the host side
++# If we're using image-prelink, we want to skip this on the host side
 +# but still do it if the package is installed on the target...
  pkg_postinst_prelink() {
  #!/bin/sh
