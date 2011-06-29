@@ -1,24 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QbiMn-0005YY-UX
+	(envelope-from <raj.khem@gmail.com>) id 1Qbig5-0005wW-MB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 02:10:54 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Jun 2011 17:07:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,440,1304319600"; d="scan'208";a="21691031"
-Received: from swold-mobl.jf.intel.com ([10.24.0.56])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Jun 2011 17:07:11 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 29 Jun 2011 02:30:49 +0200
+Received: by pvf24 with SMTP id 24so483315pvf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 17:27:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=Llc2Z8FE1qp+J7v5WdGSVdSPtYhlIZpr6J6YCyn30Vs=;
+	b=Qw3dcmzXdU0t9hPUhJhf3svLvTJrIf+28jdsKwTZrjnb0danNk6enCTj4tNxD3kQdt
+	nw+abUeMOdPxiE+lbCfwlcU5K/yVx+Juoyr1NHta6ycgjTVZB6SnMv+Vfzu+AWVNCRFb
+	mrSsdWv/IZrKB4r6z6GpDgKhqwGFrJom0OmwI=
+Received: by 10.142.234.3 with SMTP id g3mr83207wfh.423.1309307227266;
+	Tue, 28 Jun 2011 17:27:07 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id z20sm436899wff.19.2011.06.28.17.27.06
+	(version=SSLv3 cipher=OTHER); Tue, 28 Jun 2011 17:27:06 -0700 (PDT)
+Message-ID: <4E0A7159.4020003@gmail.com>
+Date: Tue, 28 Jun 2011 17:27:05 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jun 2011 17:07:07 -0700
-Message-Id: <3e724dcd9baf75816b85f426d21b5444b12ef2c4.1309305731.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <8ef199fe606464ce6bdfef2329607c037ecdbc61.1309305731.git.sgw@linux.intel.com>
-References: <8ef199fe606464ce6bdfef2329607c037ecdbc61.1309305731.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1309305731.git.sgw@linux.intel.com>
-References: <cover.1309305731.git.sgw@linux.intel.com>
-Subject: [PATCH 2/2] systemtap: add sqlite3 to DEPENDS
+References: <1309188248.21613.325.camel@phil-desktop>
+In-Reply-To: <1309188248.21613.325.camel@phil-desktop>
+Subject: Re: [PATCH] fontconfig: specify font directory in EXTRA_OECONF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 00:10:54 -0000
+X-List-Received-Date: Wed, 29 Jun 2011 00:30:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-kernel/systemtap/systemtap_git.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+On 06/27/2011 08:24 AM, Phil Blundell wrote:
+> since, otherwise, fontconfig's builtin default may not match ${datadir}.
+>
+> Signed-off-by: Phil Blundell<philb@gnu.org>
+> ---
+>   .../fontconfig/fontconfig_2.8.0.bb                 |    4 ++--
+>   1 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
+> index ae0fef5..5381065 100644
+> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
+> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
+> @@ -20,7 +20,7 @@ SECTION = "libs"
+>
+>   DEPENDS = "expat freetype zlib"
+>
+> -PR = "r1"
+> +PR = "r3"
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index aeb87c8..f24c179 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "SystemTap - script-directed dynamic tracing and performance analy
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
--DEPENDS = "elfutils"
-+DEPENDS = "elfutils sqlite3"
- 
- SRCREV = "4ab3a1863bf4f472acae7a809bf2b38d91658aa8"
- PR = "r3"
--- 
-1.7.3.4
+a nitpick though not wrong but should be r2
+
+>
+>   SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
+>              file://fix-pkgconfig.patch \
+> @@ -45,7 +45,7 @@ inherit autotools pkgconfig
+>
+>   export HASDOCBOOK="no"
+>
+> -EXTRA_OECONF = " --disable-docs --with-arch=${HOST_ARCH}"
+> +EXTRA_OECONF = " --disable-docs --with-arch=${HOST_ARCH} --with-default-fonts=${datadir}/fonts"
+>   EXTRA_OEMAKE = "FC_LANG=fc-lang FC_GLYPHNAME=fc-glyphname"
+>
+>   # The tarball has some of the patched files as read only, which
 
 
 
