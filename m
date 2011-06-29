@@ -1,33 +1,25 @@
-Received: from mail-fx0-f51.google.com ([209.85.161.51])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders.darander@gmail.com>) id 1Qbqt6-0005vj-0I
+	(envelope-from <koen@dominion.thruhere.net>) id 1QbrCw-0006Dg-KH
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 11:16:48 +0200
-Received: by fxh10 with SMTP id 10so1118505fxh.10
+	Wed, 29 Jun 2011 11:37:18 +0200
+Received: by wyg30 with SMTP id 30so812886wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2011 02:13:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=6XQacDG1WCRPKYeA4VAafdY5PgYx8GKBDOsKJVdLRZI=;
-	b=WZ9o56reLD+rEvetq3K+Y7iLRtU+bsOFZ7YpWLVC6trEVyPPNGlzoBUwLe8ygn7nZp
-	PKQwSxGWHDlp7Ku6pCbW8ZCgT6rnYVtVafd69HHSj2UHX0l2QoiHEYSmwPBEMk91WCiB
-	sQLpOOffQ0T2woO6MO0AMccR7UgVH3DQA5fmc=
-MIME-Version: 1.0
-Received: by 10.223.7.150 with SMTP id d22mr936622fad.17.1309338786131; Wed,
-	29 Jun 2011 02:13:06 -0700 (PDT)
-Received: by 10.223.111.130 with HTTP; Wed, 29 Jun 2011 02:13:06 -0700 (PDT)
-In-Reply-To: <7848FD2A-860F-48C3-BE1D-739C6D9AB0A8@dominion.thruhere.net>
-References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>
-	<AFF7B511-46CF-4CDF-96CA-763678BF57C7@dominion.thruhere.net>
-	<BANLkTi=3_0NHcyWydFjp7a3sBr00u-54YA@mail.gmail.com>
-	<7848FD2A-860F-48C3-BE1D-739C6D9AB0A8@dominion.thruhere.net>
-Date: Wed, 29 Jun 2011 11:13:06 +0200
-Message-ID: <BANLkTinP99HNJaQwpw+tXzivPwk+EuBqrA@mail.gmail.com>
-From: Anders Darander <anders.darander@gmail.com>
+	Wed, 29 Jun 2011 02:33:36 -0700 (PDT)
+Received: by 10.216.232.4 with SMTP id m4mr509704weq.87.1309340016177;
+	Wed, 29 Jun 2011 02:33:36 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id d7sm530936wek.45.2011.06.29.02.33.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 29 Jun 2011 02:33:35 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 29 Jun 2011 11:33:29 +0200
+Message-Id: <044DC375-E0BA-44D9-A063-9BB8E11F7742@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Conflicting providers for ssh/sshd (dropbear and openssh)
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: Gstreamer packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 09:16:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 29 Jun 2011 09:37:18 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 29, 2011 at 10:56, Koen Kooi <koen@dominion.thruhere.net> wrote=
-:
-> Op 29 jun 2011, om 10:50 heeft Anders Darander het volgende geschreven:
->> On Wed, Jun 29, 2011 at 10:24, Koen Kooi <koen@dominion.thruhere.net> wr=
-ote:
->>> Op 29 jun 2011, om 00:41 heeft Khem Raj het volgende geschreven:
->>>> If they are independent then may be the openssh recipe should be
->>>> divided into openssh-ssh and openssh-rest so one can use openssh
->>>> provided daemon or dropbear provided as they wish
->>>
->>> Dividing the openssl recipe would gain us little and the gains would be=
- only for the power companies since you'd have to build openssh twice to ge=
-t both sftp and ssh. The decrease in build time for only sftp is neglible.
->>
->> Hm, speaking against what I've often been advocating (reducing build
->> time by factoring out dependenies etc)...
->>
->> I think the simplest and most straightforward solution is to just
->> split the packaging into
->> openssh-ssh and openssh-sftp, where openssh-sftp packages just what is
->> needed for handling
->> the sftp-server in cooperation with dropbear. It could possibly also
->> include the sftp-client if
->> desired/needed.
->
-> That's already the case now. The problem is the PROVIDES overlap since th=
-e Poky people decided a distro could only have one true ssh implementation =
-instead of choosing it per image. So if your distro doesn't set the PREFERR=
-ED_PROVIDER_sshd you get those nagging messages during parsing that scare u=
-sers and make consultants rich.
->
-> OE .dev isn't a lot better with the misguided DISTRO_SSH_DAEMON, but at l=
-east it doesn't show those nag messages.
+Saul said I broke gst-meta with my patch, so let's view the gstreamer =
+situation:
 
-Ah, I see. I didn't check it out, just assumed something...
+given:
 
-Then I fully understand what the problem case is.
+1) plugins move between -good, -bad and -ugly
+2) libraries move between -good, -bad and -ugly
+3) applications require specific plugins
+4) upgrade paths must work
 
-Anders
+When combining 1 and 4 the current 'gst-plugin-{good,bad,ugly}-foo' =
+naming does not work, since the same file will get provided by 2 =
+packages after the move. Attentive readers will have guessed that the =
+current gst-meta tries, and ultimately fails to hide 1) and 2).
+
+So the new systems does the following:
+
+* split out each plugin as gst-plugin-<foo>
+* split out each lib as lib<foo>
+
+So both plugins and libraries have a stable package name (barring plugin =
+renames, e.g. flvdemux -> flv). Package feeds and upgrades finally work =
+as expected
+
+There are some downsides with this approach:
+
+a) no way to know a priori where a plugin lives at a given time
+b) by extension you build too much or too little.
+c) scary multiple provider messages during parsing
+
+OE .dev has a slightly different approach where you manually go through =
+deploy and see what got generated by who and plug that into PROVIDES. =
+I'm not a big fan of that, but it eliminates those scary messages.
+
+I would very much like to have package feeds and upgrades to work, which =
+currently is impossible for gstreamer packages.
+
+regards,
+
+Koen=
 
 
