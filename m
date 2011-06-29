@@ -1,22 +1,22 @@
 Received: from stoexhub01.domain01.net ([83.145.59.142]
 	helo=stoexhub02.domain01.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1Qbz2C-00083W-NL
+	(envelope-from <anders@chargestorm.se>) id 1Qbz2E-00083W-1d
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 19:58:45 +0200
+	Wed, 29 Jun 2011 19:58:46 +0200
 Received: from localhost (193.235.91.228) by stoexhub02.domain01.net
 	(10.12.10.2) with Microsoft SMTP Server id 8.3.137.0; Wed, 29 Jun 2011
-	19:54:59 +0200
+	19:55:00 +0200
 From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Jun 2011 19:54:51 +0200
-Message-ID: <22425a0a9958e10c2d3eaf27b79167b32cb06d40.1309370038.git.anders@chargestorm.se>
+Date: Wed, 29 Jun 2011 19:54:55 +0200
+Message-ID: <d3923d27530f537606bda7a275d39126964d536e.1309370038.git.anders@chargestorm.se>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1309370038.git.anders@chargestorm.se>
 References: <cover.1309370038.git.anders@chargestorm.se>
 MIME-Version: 1.0
 X-GFI-SMTP-Submission: 1
 Cc: Anders Darander <anders@chargestorm.se>
-Subject: [RFC v3 PATCH 5/9] kernel.bblass: remove get_kernelmajorversion
+Subject: [RFC v3 PATCH 9/9] distro_tracking_fields: remove modutils.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,35 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 17:58:45 -0000
+X-List-Received-Date: Wed, 29 Jun 2011 17:58:46 -0000
 Content-Type: text/plain
-
-It is now unused.
 
 Signed-off-by: Anders Darander <anders@chargestorm.se>
 ---
- meta/classes/linux-kernel-base.bbclass |    8 --------
- 1 files changed, 0 insertions(+), 8 deletions(-)
+ .../conf/distro/include/distro_tracking_fields.inc |    8 +-------
+ 1 files changed, 1 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/linux-kernel-base.bbclass b/meta/classes/linux-kernel-base.bbclass
-index 510951a..4f2b0a4 100644
---- a/meta/classes/linux-kernel-base.bbclass
-+++ b/meta/classes/linux-kernel-base.bbclass
-@@ -24,14 +24,6 @@ def get_kernelversion(p):
-             return m.group(1)
-     return None
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 8a13426..0d915e4 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -1,5 +1,6 @@
+ RECIPE_STATUS_pn-diffutils = "green"
+ RECIPE_LATEST_VERSION_pn-diffutils = "3.0"
++
+ RECIPE_LAST_UPDATE_pn-diffutils = "Dec 10, 2010"
+ RECIPE_MAINTAINER_pn-diffutils = "Qing He <qing.he@intel.com>"
  
--def get_kernelmajorversion(p):
--	import re
--	r = re.compile("([0-9]+\.[0-9]+).*")
--	m = r.match(p);
--	if m:
--		return m.group(1)
--	return None
+@@ -685,13 +686,6 @@ RECIPE_COMMENTS_pn-keymaps = "local scripts follow Poky's MIT license, however i
+ RECIPE_LAST_UPDATE_pn-keymaps = "Jul 21, 2006"
+ RECIPE_MAINTAINER_pn-keymaps = "Yu Ke <ke.yu@intel.com>"
+ 
+-RECIPE_STATUS_pn-modutils = "red"
+-RECIPE_DEPENDENCY_CHECK_pn-modutils-initscripts = "not done"
+-RECIPE_LATEST_VERSION_pn-modutils = "2.4.27"
+-RECIPE_LAST_UPDATE_pn-modutils = "Jul 21, 2006"
+-RECIPE_MAINTAINER_pn-modutils = "Yu Ke <ke.yu@intel.com>"
+-DISTRO_PN_ALIAS_pn-modutils = "Ubuntu=module-init-tools Fedora=module-init-tools"
 -
- def linux_module_packages(s, d):
- 	suffix = ""
- 	return " ".join(map(lambda s: "kernel-module-%s%s" % (s.lower().replace('_', '-').replace('@', '+'), suffix), s.split()))
+ RECIPE_STATUS_pn-modutils-initscripts = "green"
+ RECIPE_DEPENDENCY_CHECK_pn-modutils-initscripts = "not done"
+ RECIPE_LATEST_VERSION_pn-modutils-initscripts = "1.0"
 -- 
 1.7.4.1
 
