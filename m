@@ -1,25 +1,35 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qbiuj-0006Fz-Fj
+	(envelope-from <raj.khem@gmail.com>) id 1QbjCu-00078j-8y
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 02:45:57 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Jun 2011 17:42:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,440,1304319600"; d="scan'208";a="24052554"
-Received: from swold-mobl.jf.intel.com (HELO [10.24.0.56]) ([10.24.0.56])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2011 17:42:14 -0700
-Message-ID: <4E0A74E5.2020406@linux.intel.com>
-Date: Tue, 28 Jun 2011 17:42:13 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Wed, 29 Jun 2011 03:04:54 +0200
+Received: by pzk36 with SMTP id 36so596515pzk.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jun 2011 18:01:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=5jxnn41zRgSNMZ6N10F1/E5PTmmkQAbcLKTrugqqWzM=;
+	b=kgnivS7QiDXWiRIqZlepRmHMnx7+qO1E1RjPS06r8e5suURks25HmVGhn3nlQyQV2n
+	qOMpnVR5QZpvbvbubtdAsm2pA2xdPIFexJCi6s8vOoTkX8vREXFzeSl1N3b5AuZ0wS+n
+	n24PY8KeV7F7mRAAnSLfE01EE4ZJPAMsBnhRU=
+Received: by 10.143.20.21 with SMTP id x21mr122103wfi.39.1309309261851;
+	Tue, 28 Jun 2011 18:01:01 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id n9sm458652wfk.8.2011.06.28.18.01.00
+	(version=SSLv3 cipher=OTHER); Tue, 28 Jun 2011 18:01:01 -0700 (PDT)
+Message-ID: <4E0A794C.5060303@gmail.com>
+Date: Tue, 28 Jun 2011 18:01:00 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1308230863.25285.4590.camel@phil-desktop>
-In-Reply-To: <1308230863.25285.4590.camel@phil-desktop>
-Subject: Re: [PATCH] dhcp: don't try to move files from ${sbindir} to ${base_sbindir} if they are the same
+To: openembedded-core@lists.openembedded.org
+References: <cover.1309239001.git.dexuan.cui@intel.com>	<674a391015f3cdebe891ae7e8439aea48698982e.1309239001.git.dexuan.cui@intel.com>	<3819C41B-FF96-45FD-8265-8EFC9F73E771@dominion.thruhere.net>
+	<201106281207.23516.paul.eggleton@linux.intel.com>
+In-Reply-To: <201106281207.23516.paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 1/1] base.bbclass: show layer's branches/revisions in the banner info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 00:45:57 -0000
+X-List-Received-Date: Wed, 29 Jun 2011 01:04:55 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/16/2011 06:27 AM, Phil Blundell wrote:
+On 06/28/2011 04:07 AM, Paul Eggleton wrote:
+> On Tuesday 28 June 2011 07:45:09 Koen Kooi wrote:
+>> So it works as expected, but the output is a bit confusing. I have a few
+>> (conflicting) suggestions:
+>>
+>> 1) replace _BRANCH and _REVISION with ' branch' and ' revision', e.g.:
+>>
+>> 	meta-archos branch          = "master"
+>> 	meta-archos revision        = "413933fb5f62574e38a9a1e38905ba6e9c1be4ad"
+>>
+>> 2) for the extra layers put branch and revision on a single line:
+>>
+>> 	meta-archos          = "master/413933fb5f62574e38a9a1e38905ba6e9c1be4ad"
 >
-> Signed-off-by: Phil Blundell<philb@gnu.org>
-> ---
->   meta/recipes-connectivity/dhcp/dhcp4.inc |    4 +++-
->   1 files changed, 3 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/dhcp/dhcp4.inc b/meta/recipes-connectivity/dhcp/dhcp4.inc
-> index 159ae89..885cc19 100644
-> --- a/meta/recipes-connectivity/dhcp/dhcp4.inc
-> +++ b/meta/recipes-connectivity/dhcp/dhcp4.inc
-> @@ -47,7 +47,9 @@ do_install_append () {
->   	install -m 0644 ${WORKDIR}/dhcpd.conf ${D}${sysconfdir}/dhcp/dhcpd.conf
->
->   	install -d ${D}${base_sbindir}/
-> -	mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
-> +	if [ "${sbindir}" != "${base_sbindir}" ]; then
-> +		mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
-> +	fi
->   	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
->   }
->
+> I'd go with option 2 over 1, personally - the list gets rather long on
+> something like Angstrom, better to keep it short.
 
-Appears to be merged in OE-Core, just no email yet.
-
-Consider this your Merged email!  I think that RP is catching up Emails 
-may not have yet.
-
-Sau!
+I would say to do it uniformly and treat oe-core as one of layers too 
+when emitting this info
 
 
