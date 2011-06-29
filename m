@@ -1,32 +1,26 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QbxXs-0006Mg-4q
+	(envelope-from <sgw@linux.intel.com>) id 1QbxcJ-0006QP-2v
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 18:23:20 +0200
-Received: by wwi18 with SMTP id 18so1205434wwi.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2011 09:19:37 -0700 (PDT)
-Received: by 10.227.37.7 with SMTP id v7mr939298wbd.41.1309364376949;
-	Wed, 29 Jun 2011 09:19:36 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fi5sm1018237wbb.22.2011.06.29.09.19.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 29 Jun 2011 09:19:36 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6A167F0C724@shsmsx502.ccr.corp.intel.com>
-Date: Wed, 29 Jun 2011 18:19:33 +0200
-Message-Id: <53FFBC7D-50F2-4307-B253-EAB8F86DFDAA@dominion.thruhere.net>
-References: <cover.1309239001.git.dexuan.cui@intel.com>
-	<674a391015f3cdebe891ae7e8439aea48698982e.1309239001.git.dexuan.cui@intel.com>
-	<3819C41B-FF96-45FD-8265-8EFC9F73E771@dominion.thruhere.net>
-	<201106281207.23516.paul.eggleton@linux.intel.com>
-	<4E0A794C.5060303@gmail.com>
-	<1865303E0DED764181A9D882DEF65FB6A167F0C724@shsmsx502.ccr.corp.intel.com>
+	Wed, 29 Jun 2011 18:27:55 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Jun 2011 09:24:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,444,1304319600"; d="scan'208";a="24339479"
+Received: from swold-mobl.jf.intel.com (HELO [10.24.82.35]) ([10.24.82.35])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2011 09:23:57 -0700
+Message-ID: <4E0B519D.40701@linux.intel.com>
+Date: Wed, 29 Jun 2011 09:23:57 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 1/1] base.bbclass: show layer's branches/revisions in the banner info
+References: <cover.1309305731.git.sgw@linux.intel.com>	<8ef199fe606464ce6bdfef2329607c037ecdbc61.1309305731.git.sgw@linux.intel.com>
+	<1309357085.20015.399.camel@rex>
+In-Reply-To: <1309357085.20015.399.camel@rex>
+Subject: Re: [PATCH 1/2] multiple recipes converted to -staticdev packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,96 +35,333 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 16:23:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 Jun 2011 16:27:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 06/29/2011 07:18 AM, Richard Purdie wrote:
+> Hi Saul,
+>
+> I'm still not 100% sure this patch is the right way to go or not. Let me
+> ask some specific questions below.
+>
+> On Tue, 2011-06-28 at 17:07 -0700, Saul Wold wrote:
+>> This commit adds a new base package ${PN}-staticdev to
+>> bitbake.conf which pulls in the static *.a libraries as
+>> a seperate package, it filters out the nonshared.a
+>> libraries where appropriate.
+>>
+>> Additional this commit adds a new libdev.bbclass which provides
+>> a set of macros and variables to convert ${PN} to lib${PN},
+>> which a number of recipes where then converted to use.
+>>
+>> PR bumps all around
+>>
+>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+>> ---
+>>   meta/classes/lib_package.bbclass                   |   10 ++++-
+>>   meta/classes/libdev.bbclass                        |   44 ++++++++++++++++++++
+>>   meta/conf/bitbake.conf                             |    8 +++-
+>>   meta/recipes-bsp/pciutils/pciutils_3.1.7.bb        |    7 ++-
+>>   .../wireless-tools/wireless-tools_29.bb            |    9 +++-
+>>   meta/recipes-core/eglibc/eglibc-common.inc         |    2 +-
+>>   meta/recipes-core/eglibc/eglibc-package.inc        |    9 +++-
+>>   meta/recipes-core/gettext/gettext_0.18.1.1.bb      |   16 ++++----
+>>   meta/recipes-core/glibc/glibc-package.inc          |    9 +++-
+>>   .../meta/external-csl-toolchain_2008q3-72.bb       |    8 ++-
+>>   meta/recipes-core/uclibc/uclibc.inc                |    9 +++-
+>>   meta/recipes-core/udev/udev-new.inc                |   14 ++++--
+>>   meta/recipes-core/udev/udev_164.bb                 |    2 +-
+>>   meta/recipes-core/util-linux/util-linux.inc        |   11 ++++-
+>>   meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    2 +-
+>>   .../binutils/binutils-cross-canadian_2.21.bb       |    2 +-
+>>   meta/recipes-devtools/binutils/binutils-cross.inc  |    2 +
+>>   .../binutils/binutils-cross_csl-arm-2008q1.bb      |    2 +-
+>>   .../binutils/binutils-crosssdk_2.21.bb             |    2 +-
+>>   meta/recipes-devtools/binutils/binutils.inc        |    9 +---
+>>   meta/recipes-devtools/binutils/binutils_2.21.bb    |    2 +-
+>>   meta/recipes-devtools/gcc/gcc-package-runtime.inc  |   25 ++++++++---
+>>   meta/recipes-devtools/gcc/libgcc_4.6.bb            |    2 +-
+>>   meta/recipes-devtools/opkg/opkg_0.1.8.bb           |    8 ++-
+>>   meta/recipes-devtools/opkg/opkg_svn.bb             |    8 ++-
+>>   meta/recipes-devtools/python/python_2.6.6.bb       |    4 +-
+>>   meta/recipes-devtools/rpm/rpm_5.4.0.bb             |   18 ++++----
+>>   meta/recipes-extended/augeas/augeas.inc            |    7 +--
+>>   meta/recipes-extended/augeas/augeas_0.8.1.bb       |    2 +-
+>>   meta/recipes-extended/gamin/gamin_0.1.10.bb        |   13 +-----
+>>   .../tcp-wrappers/tcp-wrappers_7.6.bb               |    9 +++-
+>>   meta/recipes-graphics/cairo/cairo_1.10.2.bb        |    9 ++--
+>>   meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb     |    7 +--
+>>   meta/recipes-multimedia/liba52/liba52_0.7.4.bb     |    4 +-
+>>   meta/recipes-support/attr/acl_2.2.51.bb            |    2 +-
+>>   meta/recipes-support/attr/attr_2.4.46.bb           |    2 +-
+>>   meta/recipes-support/attr/ea-acl.inc               |   16 +-------
+>>   meta/recipes-support/curl/curl_7.21.6.bb           |   17 +++-----
+>>   meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb       |    5 +-
+>>   meta/recipes-support/sqlite/sqlite3.inc            |   10 +----
+>>   meta/recipes-support/sqlite/sqlite3_3.7.6.2.bb     |    2 +-
+>>   41 files changed, 203 insertions(+), 146 deletions(-)
+>>   create mode 100644 meta/classes/libdev.bbclass
+>>
+>> diff --git a/meta/classes/lib_package.bbclass b/meta/classes/lib_package.bbclass
+>> index 5ce8727..e8cbc25 100644
+>> --- a/meta/classes/lib_package.bbclass
+>> +++ b/meta/classes/lib_package.bbclass
+>> @@ -5,6 +5,12 @@ FILES_${PN} = "${libexecdir} ${libdir}/lib*${SOLIBS} \
+>>   	    ${base_libdir}/*${SOLIBS} \
+>>   	    ${datadir}/${PN} ${libdir}/${PN}"
+>>   FILES_${PN}-dev = "${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la \
+>> -		${libdir}/*.o ${libdir}/pkgconfig /lib/*.o \
+>> -		${datadir}/aclocal ${bindir}/*-config"
+>> +            ${libdir}/*.o ${libdir}/pkgconfig /lib/*.o \
+>> +            ${datadir}/aclocal ${bindir}/*-config \
+>> +            ${libdir}/*_nonshared.a"
+>>   FILES_${PN}-bin = "${bindir}/* ${sbindir}/* /bin/* /sbin/*"
+>> +
+>> +staticdev_libs = "${libdir}/*.a ${base_libdir}/*.a"
+>> +FILES_${PN}-staticdev = "${@oe_filter_out('lib.*_nonshared.a', '${staticdev_libs}', d)}"
+>
+> As Phil says, I'm not sure this works and since the nonshared.a thing is
+> a *libc thing its probably not worth adding this complexity to the core
+> but just work putting it in the *libc packaging code.
+>
 
-Op 29 jun 2011, om 18:14 heeft Cui, Dexuan het volgende geschreven:
+I have tested this and it works, after reviewing this further, I will 
+move this to handled by the specific cases that need, rather than being 
+a general solution in bitbake.conf
 
-> Khem Raj wrote:
->> On 06/28/2011 04:07 AM, Paul Eggleton wrote:
->>> On Tuesday 28 June 2011 07:45:09 Koen Kooi wrote:
->>>> So it works as expected, but the output is a bit confusing. I have
->>>> a few (conflicting) suggestions:=20
->>>>=20
->>>> 1) replace _BRANCH and _REVISION with ' branch' and ' revision',
->>>> e.g.:=20
->>>>=20
->>>> 	meta-archos branch          =3D "master"
->>>> 	meta-archos revision        =3D
->>>> "413933fb5f62574e38a9a1e38905ba6e9c1be4ad"=20
->>>>=20
->>>> 2) for the extra layers put branch and revision on a single line:
->>>>=20
->>>> 	meta-archos          =3D
->>>> "master/413933fb5f62574e38a9a1e38905ba6e9c1be4ad"=20
->>>=20
->>> I'd go with option 2 over 1, personally - the list gets rather long
->>> on something like Angstrom, better to keep it short.
->>=20
->> I would say to do it uniformly and treat oe-core as one of layers too
->> when emitting this info
-> Ok. I'll make a new version for this.
-> BTW: meta and mete-yocto belong to the same git repo actually, so do =
-you think showing them in one line like this
->=20
-> meta,meta-yocto   =3D =
-"master:2c2d9d7c0e942b6748bc8bd7d5980113bae9a836"
->=20
-> is better than showing 2 lines like this:
->=20
-> meta             =3D "master:2c2d9d7c0e942b6748bc8bd7d5980113bae9a836"
-> meta-yocto    =3D "master:2c2d9d7c0e942b6748bc8bd7d5980113bae9a836"
+>> diff --git a/meta/classes/libdev.bbclass b/meta/classes/libdev.bbclass
+>> new file mode 100644
+>> index 0000000..d0aac2f
+>> --- /dev/null
+>> +++ b/meta/classes/libdev.bbclass
+>> @@ -0,0 +1,44 @@
+>> +#
+>> +# This bbclass it a common case for lib${PN}*.a static libraries
+>> +#
+>> +
+>> +SUMMARY_lib${PN}-dbg ?= "${SUMMARY} - Debugging files"
+>> +DESCRIPTION_lib${PN}-dbg ?= "${DESCRIPTION}  \
+>> +This package contains ELF symbols and related sources for debugging purposes."
+>> +
+>> +SUMMARY_lib${PN}-dev ?= "${SUMMARY} - Development files"
+>> +DESCRIPTION_lib${PN}-dev ?= "${DESCRIPTION}  \
+>> +This package contains symbolic links, header files, and \
+>> +related items necessary for software development."
+>> +
+>> +SUMMARY_lib${PN}-doc ?= "${SUMMARY} - Documentation files"
+>> +DESCRIPTION_lib${PN}-doc ?= "${DESCRIPTION} This package contains documentation."
+>> +
+>> +SUMMARY_lib${PN}-staticdev ?= "${SUMMARY} - Development files (Static Libraries)"
+>> +DESCRIPTION_lib${PN}-staticdev?= "${DESCRIPTION}  \
+>> +This package contains static libraries for software development."
+>> +
+>> +PACKAGES =+ "lib${PN} lib${PN}-dev lib${PN}-doc lib${PN}-staticdev"
+>> +
+>> +FILES_lib${PN} = "${base_libdir}/lib*.so.* ${libdir}/lib*.so.*"
+>> +RDEPENDS_lib${PN} = "${PN}"
+>> +
+>> +FILES_lib${PN}-dev = "${includedir} \
+>> +                      ${libdir}/lib*.so \
+>> +                      ${libdir}/lib*_nonshared.a \
+>> +                      ${libdir}/lib*.la \
+>> +                      ${libdir}/pkgconfig \
+>> +                      ${base_libdir}/lib*.so \
+>> +                      ${base_libdir}/lib*_nonshared.a \
+>> +                      ${base_libdir}/lib*.la"
+>> +
+>> +
+>> +FILES_lib${PN}-doc = "${mandir}/man2 \
+>> +                      ${mandir}/man3"
+>> +
+>> +lib_staticdev_libs = "${libdir}/*.a ${base_libdir}/*.a"
+>> +FILES_lib${PN}-staticdev = "${@oe_filter_out('lib.*_nonshared.a', '${lib_staticdev_libs}', d)}"
+>> +
+>> +
+>> +SECTION_lib${PN}-staticdev = "devel"
+>> +RDEPENDS_lib${PN}-staticdev = "lib${PN}-dev (= ${EXTENDPKGV})"
+>
+> This file is doing *way* more than just some static lib packaging.
+>
+> I'm totally in favour of splitting out libraries where it makes sense
+> but do we have strong usecases for standalone -doc, -dev, -dbg or
+> -staticdev packaging?
+>
 
-That breaks with repos like meta-intel and meta-oe. Maybe something like =
-this:
+I was originally following the existing use cases of the lib${PN}-* 
+packages, but after reviewing it now, I am going to change approaches 
+and rename the lib${PN}-* packages to ${PN}-* only leaving the core 
+lib${PN}.
 
-BB_VERSION                  =3D "1.13.2"
-TARGET_ARCH                 =3D "arm"
-TARGET_OS                   =3D "linux-gnueabi"
-MACHINE                     =3D "archosa32"
-DISTRO                      =3D "angstrom"
-DISTRO_VERSION              =3D "v2011.06-core"
-TARGET_FPU                  =3D "hard"
-METADATA_BRANCH             =3D "master"
-METADATA_REVISION           =3D =
-"16f84804cfbe472833ff00bfd2694947eabf8e20"
-meta-angstrom               =3D =
-"master:fd68a073e9669fdee0a9dc0483b3d39d3e3e0b46"
-meta-oe                     =3D =
-"master:8a12ecca32766ecdceb72cae76e93f8aadcf3669"
-meta-efl                    	same
-meta-gpe                    	same
-meta-gnome                 same
-meta-texasinstruments       =3D =
-"master:2e16e2fbd93bc00bc0a0afaf86975da7778eaa43"
-meta-efikamx                =3D =
-"master:70cff8742d629fd32463e3ef1bddb83f04d08dc5"
-meta-nslu2                  =3D =
-"master:aaf918b85d7a8155d6e7c0ff042808346998fbea"
-meta-htc                    =3D =
-"master:f37d05ca7450f85642cea0e43a75df10663bd8f6"
-meta-nokia                  	same
-meta-openmoko              same
-meta-palm                   same
-meta-zaurus                 same
-meta-sugarbay               =3D =
-"master:50661bf038a34702f3aa139c3ea0d67fbb0ce5db"
-meta-crownbay               same
-meta-emenlow                same
-meta-fishriver             same
-meta-jasperforest           same
-meta-n450                   same
-meta-ettus                  =3D =
-"master:c34c30fa29f7ab484cc90efb9713325da8e01460"
-meta-openpandora            =3D =
-"master:edaf6e751f873ed7a82c1116d3d58b9a070052dc"
-meta-archos                 =3D =
-"master:4b689944d968b0ef4d0e9928e76c54f8a76a919a"
+> Also, how does this compare to the the other lib_package.bbclass or
+> whatever its called?
+>
+The other lib_package.bbclass is maybe mis-named, it would be better 
+named bin_package.bbclass since it explicitly moves the binaries in 
+${bindir} and ${sbindir} into a separate ${PN}-bin package instead of in 
+the ${PN} package itself.
 
-regards,
+>
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index ff2a912..53106c8 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -252,12 +252,16 @@ SECTION_${PN}-doc = "doc"
+>>
+>>   FILES_${PN}-dev = "${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la \
+>>                   ${libdir}/*.o ${libdir}/pkgconfig ${datadir}/pkgconfig \
+>> -                ${datadir}/aclocal ${base_libdir}/*.o"
+>> +                ${datadir}/aclocal ${base_libdir}/*.o \
+>> +                ${libdir}/lib*_nonshared.a ${base_libdir}/lib*_nonshared.a"
+>> +		
+>
+> Adding libc* specifics into the core? :/
 
-Koen=
+See above about moving the *nonshared.a to specific recipes that need it.
+
+>
+>>   SECTION_${PN}-dev = "devel"
+>>   ALLOW_EMPTY_${PN}-dev = "1"
+>>   RDEPENDS_${PN}-dev = "${PN} (= ${EXTENDPKGV})"
+>>
+>> -FILES_${PN}-staticdev = "${libdir}/*.a ${base_libdir}/*.a"
+>> +staticdev_libs = "${libdir}/*.a ${base_libdir}/*.a"
+>> +FILES_${PN}-staticdev = "${@oe_filter_out('lib.*_nonshared.a', '${staticdev_libs}', d)}"
+>> +
+>>   SECTION_${PN}-staticdev = "devel"
+>>   RDEPENDS_${PN}-staticdev = "${PN}-dev (= ${EXTENDPKGV})"
+>>
+>> diff --git a/meta/recipes-bsp/pciutils/pciutils_3.1.7.bb b/meta/recipes-bsp/pciutils/pciutils_3.1.7.bb
+>> index 4e6d4e1..439719a 100644
+>> --- a/meta/recipes-bsp/pciutils/pciutils_3.1.7.bb
+>> +++ b/meta/recipes-bsp/pciutils/pciutils_3.1.7.bb
+>> @@ -9,7 +9,7 @@ LICENSE = "GPLv2+"
+>>   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+>>   DEPENDS = "zlib"
+>>   RDEPENDS_${PN} = "${PN}-ids"
+>> -PR = "r1"
+>> +PR = "r2"
+>>
+>>   SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.bz2 \
+>>              file://configure.patch \
+>> @@ -49,9 +49,12 @@ do_install () {
+>>   	ln -s ../sbin/lspci ${D}${bindir}/lspci
+>>   }
+>>
+>> -PACKAGES =+ "pciutils-ids libpci libpci-dev libpci-dbg"
+>> +PACKAGES =+ "pciutils-ids libpci libpci-dev libpci-dbg libpci-staticdev"
+>
+> When would you need a libpci-staticdev instead of pciutils-staticdev?
+>
+Again, see above with the change in approach we will just have libpci 
+and then the rest of the packages will be standard pciutils-*.
+
+>
+>>   FILES_pciutils-ids = "${datadir}/pci.ids*"
+>>   FILES_libpci = "${libdir}/libpci.so.*"
+>>   FILES_libpci-dbg = "${libdir}/.debug"
+>>   FILES_libpci-dev = "${libdir}/libpci.a ${libdir}/libpci.la ${libdir}/libpci.so \
+>>                       ${includedir}/pci ${libdir}/pkgconfig"
+>> +FILES_libpci-staticdev = "${libdir}/libpci.a"
+>> +RDEPENDS_libpci-staticdev = "libpci-dev (= ${EXTENDPKGV})"
+>> +
+>> diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
+>> index 3f9f8f0..26ec667 100644
+>> --- a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
+>> +++ b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
+>> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>>   SECTION = "base"
+>>   PRIORITY = "optional"
+>>   PE = "1"
+>> -PR = "r2"
+>> +PR = "r3"
+>>
+>>   SRC_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.29.tar.gz \
+>>              file://man.patch;apply=yes \
+>> @@ -42,14 +42,17 @@ do_install() {
+>>   }
+>>
+>>   PACKAGES = "libiw-dbg ifrename-dbg ${PN}-dbg \
+>> -libiw libiw-dev libiw-doc ifrename-doc ifrename ${PN} ${PN}-doc"
+>> +libiw libiw-dev libiw-doc libiw-staticdev ifrename-doc ifrename ${PN} ${PN}-doc"
+>>
+>>   FILES_libiw-dbg = "${libdir}/.debug/*.so.*"
+>>   FILES_ifrename-dbg = "${sbindir}/.debug/ifrename"
+>>   FILES_libiw = "${libdir}/*.so.*"
+>> -FILES_libiw-dev = "${libdir}/*.a ${libdir}/*.so ${includedir}"
+>> +FILES_libiw-dev = "${libdir}/*.so ${includedir}"
+>>   FILES_libiw-doc = "${mandir}/man7"
+>> +FILES_libiw-staticdev = "${libdir}/*.a"
+>> +RDEPENDS_libiw-staticdev = "libiw-dev (= ${EXTENDPKGV})"
+>>   FILES_ifrename = "${sbindir}/ifrename"
+>>   FILES_ifrename-doc = "${mandir}/man8/ifrename.8 ${mandir}/man5/iftab.5"
+>>   FILES_${PN} = "${bindir} ${sbindir}/iw* ${base_sbindir} ${base_bindir} ${sysconfdir}/network"
+>>   FILES_${PN}-doc = "${mandir}"
+>> +
+>> diff --git a/meta/recipes-core/eglibc/eglibc-common.inc b/meta/recipes-core/eglibc/eglibc-common.inc
+>> index a36011a..d71c5ed 100644
+>> --- a/meta/recipes-core/eglibc/eglibc-common.inc
+>> +++ b/meta/recipes-core/eglibc/eglibc-common.inc
+>> @@ -4,7 +4,7 @@ HOMEPAGE = "http://www.eglibc.org/home"
+>>   SECTION = "libs"
+>>   PRIORITY = "required"
+>>   LICENSE = "LGPL"
+>> -INC_PR = "r11"
+>> +INC_PR = "r12"
+>>   LIC_FILES_CHKSUM ?= "file://LICENSES;md5=07a394b26e0902b9ffdec03765209770 \
+>>         file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+>>         file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+>> diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+>> index 8228484..c57b455 100644
+>> --- a/meta/recipes-core/eglibc/eglibc-package.inc
+>> +++ b/meta/recipes-core/eglibc/eglibc-package.inc
+>> @@ -20,7 +20,7 @@ USE_LDCONFIG ?= "1"
+>>   PKGSUFFIX = ""
+>>   PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
+>>
+>> -PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils ${PN}-pic ${PN}-dev eglibc-doc libcidn libmemusage libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile libsotruss${PKGSUFFIX}"
+>> +PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils ${PN}-pic ${PN}-dev ${PN}-staticdev eglibc-doc libcidn libmemusage libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile libsotruss${PKGSUFFIX}"
+>>
+>>   # Create a eglibc-binaries
+>>   ALLOW_EMPTY_${PN}-binaries = "1"
+>> @@ -50,6 +50,7 @@ RPROVIDES_eglibc-doc = "glibc-doc"
+>>   RPROVIDES_eglibc-extra-nss = "glibc-extra-nss"
+>>   RPROVIDES_eglibc-thread-db = "glibc-thread-db"
+>>   RPROVIDES_eglibc-pcprofile = "glibc-pcprofile"
+>> +RPROVIDES_eglibc-staticdev = "glibc-staticdev"
+>>   RPROVIDES_eglibc-dbg = "glibc-dbg"
+>>   libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
+>>
+>> @@ -62,8 +63,10 @@ FILES_eglibc-extra-nss = "${base_libdir}/libnss*"
+>>   FILES_sln = "/sbin/sln"
+>>   FILES_eglibc-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/"
+>>   FILES_libsotruss${PKGSUFFIX} = "${libdir}/audit/sotruss-lib.so"
+>> -FILES_eglibc-dev_append += "${bindir}/rpcgen ${libdir}/*.a \
+>> -	${base_libdir}/*.a ${base_libdir}/*.o ${datadir}/aclocal"
+>> +FILES_eglibc-dev_append = "${bindir}/rpcgen ${base_libdir}/*.o ${datadir}/aclocal ${libdir}/lib*_nonshared.a"
+>> +libc_staticdev_libs = "${libdir}/*.a ${base_libdir}/*.a"
+>> +FILES_eglibc-staticdev_append = "${@oe_filter_out('lib.*_nonshared.a', '${libc_staticdev_libs}', d)}"
+>> +RDEPENDS_eglibc-staticdev = "eglibc-dev (= ${EXTENDPKGV})"
+>
+> Just to be clear on the trick to use here, you need to put the package
+> containing lib.*_nonshared.a aghead of ${PN}-staticdev in PACKAGES. If
+> you do that I suspect a lot of your problems with this code will go away
+> and things will become simpler. Files go into the first matching package
+> in PACKAGES.
+>
+Thanks for that hint!
+
+Sau!
+
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
