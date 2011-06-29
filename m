@@ -1,24 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Qbt7g-00012G-TC for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 13:40:00 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1Qbt48-00015n-2P
-	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 13:36:21 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4E0A7159.4020003@gmail.com>
-References: <1309188248.21613.325.camel@phil-desktop>
-	<4E0A7159.4020003@gmail.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Wed, 29 Jun 2011 12:36:13 +0100
-Message-ID: <1309347373.2551.26.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: [PATCH] fontconfig: specify font directory in EXTRA_OECONF
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QbtO4-0001CM-8X
+	for openembedded-core@lists.linuxtogo.org;
+	Wed, 29 Jun 2011 13:56:56 +0200
+Received: by wyg30 with SMTP id 30so896381wyg.6
+	for <openembedded-core@lists.linuxtogo.org>;
+	Wed, 29 Jun 2011 04:53:13 -0700 (PDT)
+Received: by 10.227.129.18 with SMTP id m18mr639067wbs.91.1309348393613;
+	Wed, 29 Jun 2011 04:53:13 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id d19sm856847wbh.8.2011.06.29.04.53.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 29 Jun 2011 04:53:13 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.linuxtogo.org
+Date: Wed, 29 Jun 2011 13:53:09 +0200
+Message-Id: <1309348389-27659-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] libc locale split: fix some remaining problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,26 +33,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 11:40:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Jun 2011 11:56:56 -0000
 
-On Tue, 2011-06-28 at 17:27 -0700, Khem Raj wrote:
-> On 06/27/2011 08:24 AM, Phil Blundell wrote:
-> > -PR = "r1"
-> > +PR = "r3"
-> 
-> a nitpick though not wrong but should be r2
+* libc-{common,package}.bbclass: fix shlib renaming for the C library
+	Without this you'd end up with eglibc_2.12.ipk instead of libc6_2.12.ipk as before
 
-Is it official policy that PRs need to be sequential?  There seem to be
-various precedents for incrementing it by more than one in a single
-checkin, see for example d3fc33760a80b0a067b41ff88e99941f1c40c8f9 and
-993a2367f881f1f4eaa10339cde93c7058660d67.  If it's meant to only go up
-by one each time then I guess I can cope with that but it would require
-a bit of extra mangling at my end.
+* eglibc-locale: don't make versions go backwards after split from eglibc
+	eglibc was way beyond PR = "r1" at the time of the split, so increase PR to make package upgrades work
 
-p.
+This still doesn't fix:
 
+$ dpkg-deb -I ipk/armv7a/libc6_2.12-r16_armv7a.ipk
+ Package: libc6
+	[..]
+ Depends: libc6-dev (>= 2.12)
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/libc-common.bbclass           |    9 +++++++++
+ meta/classes/libc-package.bbclass          |    7 +------
+ meta/recipes-core/eglibc/eglibc-locale.inc |    2 +-
+ 3 files changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
+index bae0ace..912a7ee 100644
+--- a/meta/classes/libc-common.bbclass
++++ b/meta/classes/libc-common.bbclass
+@@ -21,3 +21,12 @@ def get_libc_fpu_setting(bb, d):
+     if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:
+         return "--without-fp"
+     return ""
++
++# We want to do this indirection so that we can safely 'return'
++# from the called function even though we're prepending
++python populate_packages_prepend () {
++	if bb.data.getVar('DEBIAN_NAMES', d, 1):
++		bpn = bb.data.getVar('BPN', d, 1)
++		bb.data.setVar('PKG_'+bpn, 'libc6', d)
++		bb.data.setVar('PKG_'+bpn+'-dev', 'libc6-dev', d)
++}
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 4bc58c8..8e03f03 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -365,12 +365,7 @@ python package_do_split_gconvs () {
+ 
+ }
+ 
+-# We want to do this indirection so that we can safely 'return'
+-# from the called function even though we're prepending
+ python populate_packages_prepend () {
+-	if bb.data.getVar('DEBIAN_NAMES', d, 1):
+-		bpn = bb.data.getVar('BPN', d, 1)
+-		bb.data.setVar('PKG_'+bpn, 'libc6', d)
+-		bb.data.setVar('PKG_'+bpn+'-dev', 'libc6-dev', d)
+ 	bb.build.exec_func('package_do_split_gconvs', d)
+ }
++
+diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
+index 7c4b1d5..96f2d8a 100644
+--- a/meta/recipes-core/eglibc/eglibc-locale.inc
++++ b/meta/recipes-core/eglibc/eglibc-locale.inc
+@@ -26,7 +26,7 @@ BINARY_LOCALE_ARCHES ?= "arm.* i[3-6]86 x86_64 powerpc mips"
+ # set "0" for qemu emulation of native localedef for locale generation
+ LOCALE_GENERATION_WITH_CROSS-LOCALEDEF = "1"
+ 
+-PR = "r1"
++PR = "r16"
+ 
+ PKGSUFFIX = ""
+ PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
+-- 
+1.6.6.1
 
 
 
