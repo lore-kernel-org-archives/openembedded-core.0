@@ -1,34 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-fx0-f51.google.com ([209.85.161.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1Qbqr8-0005ts-02
+	(envelope-from <anders.darander@gmail.com>) id 1Qbqt6-0005vj-0I
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 11:14:46 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Jun 2011 02:11:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,442,1304319600"; d="scan'208";a="21823792"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Jun 2011 02:11:01 -0700
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Wed, 29 Jun 2011 17:10:24 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Wed, 29 Jun 2011 17:10:24 +0800
-From: "Lu, Lianhao" <lianhao.lu@intel.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Jun 2011 17:10:22 +0800
-Thread-Topic: [Multilib] a problem of SHLIBSDIR 
-Thread-Index: AcwwDO/yAB5rlaxmRGS9m5+tKtz8dgGGu1gw
-Message-ID: <C10D3FB0CD45994C8A51FEC1227CE22F27050B57BE@shsmsx502.ccr.corp.intel.com>
-References: <1308658461.20015.24.camel@rex>
-In-Reply-To: <1308658461.20015.24.camel@rex>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Wed, 29 Jun 2011 11:16:48 +0200
+Received: by fxh10 with SMTP id 10so1118505fxh.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jun 2011 02:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=6XQacDG1WCRPKYeA4VAafdY5PgYx8GKBDOsKJVdLRZI=;
+	b=WZ9o56reLD+rEvetq3K+Y7iLRtU+bsOFZ7YpWLVC6trEVyPPNGlzoBUwLe8ygn7nZp
+	PKQwSxGWHDlp7Ku6pCbW8ZCgT6rnYVtVafd69HHSj2UHX0l2QoiHEYSmwPBEMk91WCiB
+	sQLpOOffQ0T2woO6MO0AMccR7UgVH3DQA5fmc=
 MIME-Version: 1.0
-Subject: [Multilib] a problem of SHLIBSDIR
+Received: by 10.223.7.150 with SMTP id d22mr936622fad.17.1309338786131; Wed,
+	29 Jun 2011 02:13:06 -0700 (PDT)
+Received: by 10.223.111.130 with HTTP; Wed, 29 Jun 2011 02:13:06 -0700 (PDT)
+In-Reply-To: <7848FD2A-860F-48C3-BE1D-739C6D9AB0A8@dominion.thruhere.net>
+References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>
+	<AFF7B511-46CF-4CDF-96CA-763678BF57C7@dominion.thruhere.net>
+	<BANLkTi=3_0NHcyWydFjp7a3sBr00u-54YA@mail.gmail.com>
+	<7848FD2A-860F-48C3-BE1D-739C6D9AB0A8@dominion.thruhere.net>
+Date: Wed, 29 Jun 2011 11:13:06 +0200
+Message-ID: <BANLkTinP99HNJaQwpw+tXzivPwk+EuBqrA@mail.gmail.com>
+From: Anders Darander <anders.darander@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Conflicting providers for ssh/sshd (dropbear and openssh)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,53 +42,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 09:14:46 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 29 Jun 2011 09:16:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Wed, Jun 29, 2011 at 10:56, Koen Kooi <koen@dominion.thruhere.net> wrote=
+:
+> Op 29 jun 2011, om 10:50 heeft Anders Darander het volgende geschreven:
+>> On Wed, Jun 29, 2011 at 10:24, Koen Kooi <koen@dominion.thruhere.net> wr=
+ote:
+>>> Op 29 jun 2011, om 00:41 heeft Khem Raj het volgende geschreven:
+>>>> If they are independent then may be the openssh recipe should be
+>>>> divided into openssh-ssh and openssh-rest so one can use openssh
+>>>> provided daemon or dropbear provided as they wish
+>>>
+>>> Dividing the openssl recipe would gain us little and the gains would be=
+ only for the power companies since you'd have to build openssh twice to ge=
+t both sftp and ssh. The decrease in build time for only sftp is neglible.
+>>
+>> Hm, speaking against what I've often been advocating (reducing build
+>> time by factoring out dependenies etc)...
+>>
+>> I think the simplest and most straightforward solution is to just
+>> split the packaging into
+>> openssh-ssh and openssh-sftp, where openssh-sftp packages just what is
+>> needed for handling
+>> the sftp-server in cooperation with dropbear. It could possibly also
+>> include the sftp-client if
+>> desired/needed.
+>
+> That's already the case now. The problem is the PROVIDES overlap since th=
+e Poky people decided a distro could only have one true ssh implementation =
+instead of choosing it per image. So if your distro doesn't set the PREFERR=
+ED_PROVIDER_sshd you get those nagging messages during parsing that scare u=
+sers and make consultants rich.
+>
+> OE .dev isn't a lot better with the misguided DISTRO_SSH_DAEMON, but at l=
+east it doesn't show those nag messages.
 
-SHLIBSDIR is a central place where to store the pkg information about the s=
-hared libraries which the package would provide. In the do_package task,  t=
-he function package_do_shlibs() will use this kind of information to automa=
-tically add RDEPENDS for the package being built. In the multilib situation=
-, the SHLIBSDIR should be set to a different place form the normal version,=
- otherwise a 32bit application might RDEPENDS on lib64-eglibc instead of th=
-e 32bit eglibc.=20
+Ah, I see. I didn't check it out, just assumed something...
 
-The following patch tries to solve this problem. Any comment?
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dllu/ml&i=
-d=3D1970842424c414db50058ff99c6627e3ca034a04=20
+Then I fully understand what the problem case is.
 
----------------------------------------------------------------------------=
--------
-classes/multilib.bbclass: Change the SHLIBSDIR.
-Changes the SHLIBSDIR for the multilib version, so it won't mix up with the=
- normal version.
-
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-
-Diffstat (more/less context) (ignore whitespace changes)
--rw-r--r--	meta/classes/multilib.bbclass	1+=09
-1 files changed, 1 insertions, 0 deletions
-
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 36c52ef..17edc37 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -30,6 +30,7 @@ python multilib_virtclass_handler () {
-             e.data.setVar("BASE_PACKAGE_ARCH", "${TARGET_ARCH}")
-=20
-     bb.data.setVar("PN", variant + "-" + bb.data.getVar("PN", e.data, Fals=
-e), e.data)
-+    bb.data.setVar("SHLIBSDIR_virtclass-multilib-" + variant ,bb.data.getV=
-ar("SHLIBSDIR",e.data,False) + "/" + variant, e.data)
-     bb.data.setVar("OVERRIDES", bb.data.getVar("OVERRIDES", e.data, False)=
- + override, e.data)
- }
-
-Best Regards,
--Lianhao Lu
+Anders
 
 
