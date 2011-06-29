@@ -1,25 +1,37 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QbrCw-0006Dg-KH
-	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 11:37:18 +0200
-Received: by wyg30 with SMTP id 30so812886wyg.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QbrLs-0006Kl-3R for openembedded-core@lists.openembedded.org;
+	Wed, 29 Jun 2011 11:46:32 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5T9goGO002412
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2011 02:33:36 -0700 (PDT)
-Received: by 10.216.232.4 with SMTP id m4mr509704weq.87.1309340016177;
-	Wed, 29 Jun 2011 02:33:36 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id d7sm530936wek.45.2011.06.29.02.33.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 29 Jun 2011 02:33:35 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 29 Jun 2011 11:33:29 +0200
-Message-Id: <044DC375-E0BA-44D9-A063-9BB8E11F7742@dominion.thruhere.net>
+	Wed, 29 Jun 2011 10:42:50 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01875-09 for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jun 2011 10:42:46 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5T9gjDk002406
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jun 2011 10:42:45 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1084)
-X-Mailer: Apple Mail (2.1084)
-Subject: Gstreamer packaging
+In-Reply-To: <1309338485.15156.188.camel@phil-desktop>
+References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>
+	<AFF7B511-46CF-4CDF-96CA-763678BF57C7@dominion.thruhere.net>
+	<BANLkTi=3_0NHcyWydFjp7a3sBr00u-54YA@mail.gmail.com>
+	<7848FD2A-860F-48C3-BE1D-739C6D9AB0A8@dominion.thruhere.net>
+	<1309338485.15156.188.camel@phil-desktop>
+Date: Wed, 29 Jun 2011 10:42:29 +0100
+Message-ID: <1309340549.20015.335.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Conflicting providers for ssh/sshd (dropbear and openssh)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,49 +46,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 09:37:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 Jun 2011 09:46:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Saul said I broke gst-meta with my patch, so let's view the gstreamer =
-situation:
+On Wed, 2011-06-29 at 10:08 +0100, Phil Blundell wrote:
+> On Wed, 2011-06-29 at 10:56 +0200, Koen Kooi wrote:
+> > That's already the case now. The problem is the PROVIDES overlap since
+> > the Poky people decided a distro could only have one true ssh
+> > implementation instead of choosing it per image. So if your distro
+> > doesn't set the PREFERRED_PROVIDER_sshd you get those nagging messages
+> > during parsing that scare users and make consultants rich.
+> > 
+> > OE .dev isn't a lot better with the misguided DISTRO_SSH_DAEMON, but
+> > at least it doesn't show those nag messages.
+> 
+> Fundamentally I think it is just a bug in bitbake that it makes such a
+> fuss about overlapping PROVIDES.  It's not unreasonable for both openssh
+> and dropbear to be PROVIDEing something like virtual/ssh-daemon (and
+> indeed RPROVIDEing an equivalent) but, as you say, any given distro is
+> perfectly entitled to want to build both of them and ship them in
+> different images and/or feeds.
+> 
+> I guess what bitbake is really trying to warn about is recipes which
+> will install conflicting files into the sysroot.  Obviously in a future
+> utopia of per-recipe sysroot construction this would be a non-issue, but
+> even with today's level of technology I think it would be fairly easy
+> for us to detect when a collision actually happens and issue a sensible
+> diagnostic at that point.  That would allow the offending ERROR to be
+> removed without causing any real regression.
 
-given:
+Speaking as the person who likely added this code in the first place,
+its not quite this simple. There are two problem cases:
 
-1) plugins move between -good, -bad and -ugly
-2) libraries move between -good, -bad and -ugly
-3) applications require specific plugins
-4) upgrade paths must work
+a) When we have several recipes like external-toolchain, glibc, eglibc
+and uclibc all of which provide virtual/libc. If something else in the
+build wants say eglibc-locale-foo but the preferred provider of
+virtual/libc is uclibc then what bitbake is trying to warn about is that
+it the user isn't going to get what they expect as both uclibc and
+eglibc could end up being built.
 
-When combining 1 and 4 the current 'gst-plugin-{good,bad,ugly}-foo' =
-naming does not work, since the same file will get provided by 2 =
-packages after the move. Attentive readers will have guessed that the =
-current gst-meta tries, and ultimately fails to hide 1) and 2).
+We used to end up in a mess where bitbake could build the
+external-toolchain recipe and some other libcs in parallel resulting an
+a what could only be described as a mess. These days this doesn't happen
+so much due to bitbake spitting out its dummy earlier on. It is actually
+quite hard to detect this problem generically.
 
-So the new systems does the following:
+b) There is also the case where two recipes might generate the same
+package. There is also some code in bitbake which at least tries to flag
+problems like that from the point of view of multiple runtime providers.
 
-* split out each plugin as gst-plugin-<foo>
-* split out each lib as lib<foo>
 
-So both plugins and libraries have a stable package name (barring plugin =
-renames, e.g. flvdemux -> flv). Package feeds and upgrades finally work =
-as expected
+So the code does actually stop some pretty nasty breakage from happening
+but it isn't perfect and if we can find better ways, by all means...
 
-There are some downsides with this approach:
+Cheers,
 
-a) no way to know a priori where a plugin lives at a given time
-b) by extension you build too much or too little.
-c) scary multiple provider messages during parsing
+Richard
 
-OE .dev has a slightly different approach where you manually go through =
-deploy and see what got generated by who and plug that into PROVIDES. =
-I'm not a big fan of that, but it eliminates those scary messages.
 
-I would very much like to have package feeds and upgrades to work, which =
-currently is impossible for gstreamer packages.
 
-regards,
-
-Koen=
 
 
