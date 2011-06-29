@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QbsSz-0000Ct-Ow for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 12:57:58 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5TAsHLM003239
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2011 11:54:17 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03040-03 for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2011 11:54:13 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5TAsCLb003232
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2011 11:54:12 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Qbsd6-0000di-9D for openembedded-core@lists.openembedded.org;
+	Wed, 29 Jun 2011 13:08:24 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QbsZY-000144-8y
+	for openembedded-core@lists.openembedded.org;
+	Wed, 29 Jun 2011 13:04:44 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1309341325.15156.232.camel@phil-desktop>
+In-Reply-To: <1309344835.20015.355.camel@rex>
 References: <044DC375-E0BA-44D9-A063-9BB8E11F7742@dominion.thruhere.net>
 	<1309341325.15156.232.camel@phil-desktop>
-Date: Wed, 29 Jun 2011 11:53:55 +0100
-Message-ID: <1309344835.20015.355.camel@rex>
+	<1309344835.20015.355.camel@rex>
+Organization: Phil Blundell Consulting Ltd
+Date: Wed, 29 Jun 2011 12:04:42 +0100
+Message-ID: <1309345482.2551.10.camel@phil-desktop>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
+X-Mailer: Evolution 2.30.3 
 Subject: Re: Gstreamer packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,70 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 10:57:58 -0000
+X-List-Received-Date: Wed, 29 Jun 2011 11:08:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-06-29 at 10:55 +0100, Phil Blundell wrote:
-> On Wed, 2011-06-29 at 11:33 +0200, Koen Kooi wrote:
-> > So the new systems does the following:
-> > 
-> > * split out each plugin as gst-plugin-<foo>
-> > * split out each lib as lib<foo>
-> > 
-> > So both plugins and libraries have a stable package name (barring
-> plugin renames, e.g. flvdemux -> flv). Package feeds and upgrades
-> finally work as expected
-> 
-> Agreed, I think this is about the only reasonable thing to do.  The way
-> that the gstreamer folks bundle up their plugins for distribution, and
-> particularly the semi-arbitrary split between -base, -good and -bad, is
-> not especially helpful for consumers of those packages.
->
-> In the past I have been strongly tempted to just stick all the plugins
-> (with the possible exception of -ugly, which might require a bit of
-> ENTERPRISE_DISTRO care) into a single recipe so that at least you always
-> know which recipe needs building to get a given plugin.  That would
-> obviously lead to more build time but I think it is probably a good
-> tradeoff in this situation.  In an ideal world it would be nice for all
-> the plugins to be packaged independently a la Xorg, but I have no idea
-> whether the gstreamer folks would be receptive to that idea.
+On Wed, 2011-06-29 at 11:53 +0100, Richard Purdie wrote:
+> Obviously you can make the recipe depend on good+bad+ugly but its less
+> than ideal for build time reasons (esp. when considering dependencies)
+> but also the reason that good/bad/ugly exist in the first place which is
+> licensing. 
 
-Let me quickly recap the problem. Its perfectly reasonable for a recipe
-to want to depend on "gst-plugin-<foo>".
+It's only -ugly which has licensing issues, and those same licensing
+issues also mean that plugins don't tend to migrate to or from -ugly in
+the same way as they do between the other packages.  So, if -good, -bad
+and -base were combined in a single recipe, leaving -ugly separate, that
+would solve about 90% of the current nuisance.
 
-The trouble is that bitbake is left pretty much totally clueless when
-something says it would like to have "gst-plugin-<foo>" and multiple
-things provide it.
+Dependency-wise, gst-plugins-good is the only one with a large stack of
+DEPENDS.  If you assume that most people are probably going to need at
+least one plugin from that package anyway, which I think is probably the
+case in reality, then the dependency impact of combining -good, -bad and
+-base in a single recipe would be fairly negligible.  (The only extra
+dependencies you'd get from -bad would be libmusicbrainz, tremor and
+librsvg.)
 
-Obviously you can make the recipe depend on good+bad+ugly but its less
-than ideal for build time reasons (esp. when considering dependencies)
-but also the reason that good/bad/ugly exist in the first place which is
-licensing. If the recipe always has to depend on good+bad+ugly, it
-becomes rather tricky to disable ugly and work out whether the resulting
-configuration can build. Companies interested in license compliance do
-have a strong need to be able to do this.
+Of course, another way to attack the dependency stack problem would be
+to combine the recipes and then be more aggressive about allowing
+DISTROs to select only the plugins (and hence the dependencies) that
+they want.  For example, I have long found it slightly annoying that
+gst-plugins-good requires gtk+ and x11 at build time since I don't
+actually use either of those libraries in my deployed system.
 
-Its for the latter reason that OE-Core has kept ${PN} in the plugin
-names at present since deterministic builds are kind of nice.
+p.
 
-> > OE .dev has a slightly different approach where you manually go
-> > through deploy and see what got generated by who and plug that into
-> > PROVIDES. I'm not a big fan of that, but it eliminates those scary
-> > messages.
-> 
-> I guess that does also work, but I didn't like the patch when it first
-> went into .dev and I am still not very fond of it.
-
-It would at least ensure deterministic builds but I share your lack of
-fondness.
-
-A recipe per plugin would certainly start to look attractive and it
-might be worth talking to the gstreamer people...
-
-Cheers,
-
-Richard
 
 
 
