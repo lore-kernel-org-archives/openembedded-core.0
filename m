@@ -1,25 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QbjVf-0007ai-Db
+	(envelope-from <edwin.zhai@intel.com>) id 1QbjZB-0007ex-Rj
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 03:24:07 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2011 18:20:18 -0700
+	Wed, 29 Jun 2011 03:27:46 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Jun 2011 18:24:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,440,1304319600"; d="scan'208";a="21293535"
-Received: from miles.jf.intel.com (HELO [10.7.199.155]) ([10.7.199.155])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jun 2011 18:20:18 -0700
-Message-ID: <4E0A7DCF.6090709@intel.com>
-Date: Tue, 28 Jun 2011 18:20:15 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+X-IronPort-AV: E=Sophos;i="4.65,440,1304319600"; d="scan'208";a="21709368"
+Received: from shxpwgzhai1a.ccr.corp.intel.com (HELO [10.239.48.130])
+	([10.239.48.130])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Jun 2011 18:24:03 -0700
+Message-ID: <4E0A7EB2.5070502@intel.com>
+Date: Wed, 29 Jun 2011 09:24:02 +0800
+From: "Zhai, Edwin" <edwin.zhai@intel.com>
+User-Agent: Thunderbird 2.0.0.17 (Windows/20080914)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1307058256.git.scott.a.garman@intel.com>	<9591788655a4de97cc5f6a0fd98e742e3ebcab23.1307058256.git.scott.a.garman@intel.com>
-	<1309266295.20015.287.camel@rex>
-In-Reply-To: <1309266295.20015.287.camel@rex>
-Subject: Re: [PATCH 4/7] useradd.bbclass: new class for managing user/group permissions
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1309246787.git.edwin.zhai@intel.com>	<2c83cbe9b56b589ad8786d8d371c2d85810b31f2.1309246787.git.edwin.zhai@intel.com>
+	<1309269269.20015.295.camel@rex>
+In-Reply-To: <1309269269.20015.295.camel@rex>
+Subject: Re: [PATCH 1/3] glib-networking: Add 2.28.7 as new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,26 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 01:24:07 -0000
+X-List-Received-Date: Wed, 29 Jun 2011 01:27:46 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/28/2011 06:04 AM, Richard Purdie wrote:
-> Hi Scott,
+Koen said missing of gnomebase.bbclass may be introduced by some hacks 
+in one merge.
+
+
+Richard Purdie wrote:
 >
-> Sorry its taken me a while to get to this. Some comments below.
-
-Hi Richard,
-
-Thanks for the feedback. I'm hoping to get you a v2 pull request 
-sometime tomorrow which incorporates some of your suggested changes. 
-Mark gave good explanations on the points I will not be changing.
-
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+> On Tue, 2011-06-28 at 15:42 +0800, edwin.zhai@intel.com wrote:
+> > From: Zhai Edwin <edwin.zhai@intel.com>
+> >
+> > glib-networking contains the implementations of certain GLib networking
+> > features that cannot be implemented directly in GLib itself because 
+> of their
+> > dependencies. TLS/SSL support is one of them, which is needed for 
+> accessing SSL
+> > web page.
+> >
+> > Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+> > ---
+> >  .../glib-networking/glib-networking_2.28.7.bb      |   21 
+> ++++++++++++++++++++
+> >  1 files changed, 21 insertions(+), 0 deletions(-)
+> >  create mode 100644 
+> meta/recipes-core/glib-networking/glib-networking_2.28.7.bb
+>
+> I merged this patch but we should revisit the issue of the gnome bbclass
+> files in a subsequent patch.
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
