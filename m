@@ -1,28 +1,46 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QbxeD-0006Sf-68
+	(envelope-from <dexuan.cui@intel.com>) id 1QbxwR-0006m0-6k
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 18:29:53 +0200
-Received: by wyg30 with SMTP id 30so1114960wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2011 09:26:10 -0700 (PDT)
-Received: by 10.216.235.95 with SMTP id t73mr884424weq.10.1309364770047;
-	Wed, 29 Jun 2011 09:26:10 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w8sm732365wec.0.2011.06.29.09.26.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 29 Jun 2011 09:26:09 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4E0B519D.40701@linux.intel.com>
-Date: Wed, 29 Jun 2011 18:26:07 +0200
-Message-Id: <743A25DC-4AB0-4F27-A05B-E2E20552DAB9@dominion.thruhere.net>
-References: <cover.1309305731.git.sgw@linux.intel.com>	<8ef199fe606464ce6bdfef2329607c037ecdbc61.1309305731.git.sgw@linux.intel.com>
-	<1309357085.20015.399.camel@rex> <4E0B519D.40701@linux.intel.com>
-To: Patches and discussions about the oe-core layer
+	Wed, 29 Jun 2011 18:48:43 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Jun 2011 09:44:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,444,1304319600"; d="scan'208";a="21560139"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by orsmga001.jf.intel.com with ESMTP; 29 Jun 2011 09:44:43 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 30 Jun 2011 00:44:43 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 30 Jun 2011 00:44:42 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
+	Thu, 30 Jun 2011 00:44:41 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Patches and discussions about the oe-core layer'
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 1/2] multiple recipes converted to -staticdev packages
+Date: Thu, 30 Jun 2011 00:44:40 +0800
+Thread-Topic: [OE-core] [PATCH 1/1] base.bbclass: show layer's
+	branches/revisions in the banner info
+Thread-Index: Acw2eG4WZi65/S+tQLGafuIgNlnvEwAAe27w
+Message-ID: <1865303E0DED764181A9D882DEF65FB6A167F0C726@shsmsx502.ccr.corp.intel.com>
+References: <cover.1309239001.git.dexuan.cui@intel.com>
+	<674a391015f3cdebe891ae7e8439aea48698982e.1309239001.git.dexuan.cui@intel.com>
+	<3819C41B-FF96-45FD-8265-8EFC9F73E771@dominion.thruhere.net>
+	<201106281207.23516.paul.eggleton@linux.intel.com>
+	<4E0A794C.5060303@gmail.com>
+	<1865303E0DED764181A9D882DEF65FB6A167F0C724@shsmsx502.ccr.corp.intel.com>
+	<53FFBC7D-50F2-4307-B253-EAB8F86DFDAA@dominion.thruhere.net>
+In-Reply-To: <53FFBC7D-50F2-4307-B253-EAB8F86DFDAA@dominion.thruhere.net>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Cc: 'Koen Kooi' <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/1] base.bbclass: show layer's	branches/revisions in the banner info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,191 +55,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 16:29:53 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 29 Jun 2011 16:48:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
+Koen Kooi wrote:
+> Op 29 jun 2011, om 18:14 heeft Cui, Dexuan het volgende geschreven:
+>=20
+>> Khem Raj wrote:
+>>> On 06/28/2011 04:07 AM, Paul Eggleton wrote:
+>>>> On Tuesday 28 June 2011 07:45:09 Koen Kooi wrote:
+>> BTW: meta and mete-yocto belong to the same git repo actually, so do
+>> you think showing them in one line like this=20
+>>=20
+>> meta,meta-yocto   =3D "master:2c2d9d7c0e942b6748bc8bd7d5980113bae9a836"
+>>=20
+>> is better than showing 2 lines like this:
+>>=20
+>> meta             =3D "master:2c2d9d7c0e942b6748bc8bd7d5980113bae9a836"
+>> meta-yocto    =3D "master:2c2d9d7c0e942b6748bc8bd7d5980113bae9a836"
+>=20
+> That breaks with repos like meta-intel and meta-oe. Maybe something
+Could you please explain a bit more?
 
-Op 29 jun 2011, om 18:23 heeft Saul Wold het volgende geschreven:
+> like this:=20
+>=20
+> METADATA_BRANCH             =3D "master"
+> METADATA_REVISION           =3D
+> "16f84804cfbe472833ff00bfd2694947eabf8e20" meta-angstrom            =20
+> =3D "master:fd68a073e9669fdee0a9dc0483b3d39d3e3e0b46" meta-oe         =20
+> =3D "master:8a12ecca32766ecdceb72cae76e93f8aadcf3669" meta-efl        =20
+> same=20
+> meta-gpe                    	same
+> meta-gnome                 same
+> meta-texasinstruments       =3D
+> "master:2e16e2fbd93bc00bc0a0afaf86975da7778eaa43" meta-efikamx      =20
+> =3D "master:70cff8742d629fd32463e3ef1bddb83f04d08dc5" meta-nslu2      =20
+> =3D "master:aaf918b85d7a8155d6e7c0ff042808346998fbea" meta-htc        =20
+> =3D "master:f37d05ca7450f85642cea0e43a75df10663bd8f6" meta-nokia      =20
+> same=20
+> meta-openmoko              same
+> meta-palm                   same
+> meta-zaurus                 same
+> meta-sugarbay               =3D
+> "master:50661bf038a34702f3aa139c3ea0d67fbb0ce5db" meta-crownbay     =20
+> same=20
+> meta-emenlow                same
+> meta-fishriver             same
+> meta-jasperforest           same
+> meta-n450                   same
+> meta-ettus                  =3D
+> "master:c34c30fa29f7ab484cc90efb9713325da8e01460" meta-openpandora  =20
+> =3D "master:edaf6e751f873ed7a82c1116d3d58b9a070052dc" meta-archos     =20
+> =3D "master:4b689944d968b0ef4d0e9928e76c54f8a76a919a"=20
+I think the below is a better format(but the line may be too long?)?
+meta,meta-yocto             =3D "master:16f84804cfbe472833ff00bfd2694947eab=
+f8e20"
+meta-angstrom               =3D "master:fd68a073e9669fdee0a9dc0483b3d39d3e3=
+e0b46"
+meta-oe,meta-efl,meta-gpe,meta-gnome =3D "master:8a12ecca32766ecdceb72cae76=
+e93f8aadcf3669"
+meta-texasinstruments       =3D "master:2e16e2fbd93bc00bc0a0afaf86975da7778=
+eaa43"
+meta-efikamx                =3D "master:70cff8742d629fd32463e3ef1bddb83f04d=
+08dc5"
+meta-nslu2                  =3D "master:aaf918b85d7a8155d6e7c0ff04280834699=
+8fbea"
+meta-htc,meta-nokia,meta-openmoko,meta-palm,meta,zaurus  =3D "master:f37d05=
+ca7450f85642cea0e43a75df10663bd8f6"
+meta-sugarbay,meta-crownbay,meta-emenlow,meta-fishriver,meta-jasperforest,m=
+eta-n450, =3D "master:50661bf038a34702f3aa139c3ea0d67fbb0ce5db"
+meta-ettus                  =3D "master:c34c30fa29f7ab484cc90efb9713325da8e=
+01460"
+meta-openpandora            =3D "master:edaf6e751f873ed7a82c1116d3d58b9a070=
+052dc"
+meta-archos                 =3D "master:4b689944d968b0ef4d0e9928e76c54f8a76=
+a919a"
 
-> On 06/29/2011 07:18 AM, Richard Purdie wrote:
->> Hi Saul,
->>=20
->> I'm still not 100% sure this patch is the right way to go or not. Let =
-me
->> ask some specific questions below.
->>=20
->> On Tue, 2011-06-28 at 17:07 -0700, Saul Wold wrote:
->>> This commit adds a new base package ${PN}-staticdev to
->>> bitbake.conf which pulls in the static *.a libraries as
->>> a seperate package, it filters out the nonshared.a
->>> libraries where appropriate.
->>>=20
->>> Additional this commit adds a new libdev.bbclass which provides
->>> a set of macros and variables to convert ${PN} to lib${PN},
->>> which a number of recipes where then converted to use.
->>>=20
->>> PR bumps all around
->>>=20
->>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->>> ---
->>>  meta/classes/lib_package.bbclass                   |   10 ++++-
->>>  meta/classes/libdev.bbclass                        |   44 =
-++++++++++++++++++++
->>>  meta/conf/bitbake.conf                             |    8 +++-
->>>  meta/recipes-bsp/pciutils/pciutils_3.1.7.bb        |    7 ++-
->>>  .../wireless-tools/wireless-tools_29.bb            |    9 +++-
->>>  meta/recipes-core/eglibc/eglibc-common.inc         |    2 +-
->>>  meta/recipes-core/eglibc/eglibc-package.inc        |    9 +++-
->>>  meta/recipes-core/gettext/gettext_0.18.1.1.bb      |   16 ++++----
->>>  meta/recipes-core/glibc/glibc-package.inc          |    9 +++-
->>>  .../meta/external-csl-toolchain_2008q3-72.bb       |    8 ++-
->>>  meta/recipes-core/uclibc/uclibc.inc                |    9 +++-
->>>  meta/recipes-core/udev/udev-new.inc                |   14 ++++--
->>>  meta/recipes-core/udev/udev_164.bb                 |    2 +-
->>>  meta/recipes-core/util-linux/util-linux.inc        |   11 ++++-
->>>  meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    2 +-
->>>  .../binutils/binutils-cross-canadian_2.21.bb       |    2 +-
->>>  meta/recipes-devtools/binutils/binutils-cross.inc  |    2 +
->>>  .../binutils/binutils-cross_csl-arm-2008q1.bb      |    2 +-
->>>  .../binutils/binutils-crosssdk_2.21.bb             |    2 +-
->>>  meta/recipes-devtools/binutils/binutils.inc        |    9 +---
->>>  meta/recipes-devtools/binutils/binutils_2.21.bb    |    2 +-
->>>  meta/recipes-devtools/gcc/gcc-package-runtime.inc  |   25 =
-++++++++---
->>>  meta/recipes-devtools/gcc/libgcc_4.6.bb            |    2 +-
->>>  meta/recipes-devtools/opkg/opkg_0.1.8.bb           |    8 ++-
->>>  meta/recipes-devtools/opkg/opkg_svn.bb             |    8 ++-
->>>  meta/recipes-devtools/python/python_2.6.6.bb       |    4 +-
->>>  meta/recipes-devtools/rpm/rpm_5.4.0.bb             |   18 ++++----
->>>  meta/recipes-extended/augeas/augeas.inc            |    7 +--
->>>  meta/recipes-extended/augeas/augeas_0.8.1.bb       |    2 +-
->>>  meta/recipes-extended/gamin/gamin_0.1.10.bb        |   13 +-----
->>>  .../tcp-wrappers/tcp-wrappers_7.6.bb               |    9 +++-
->>>  meta/recipes-graphics/cairo/cairo_1.10.2.bb        |    9 ++--
->>>  meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb     |    7 +--
->>>  meta/recipes-multimedia/liba52/liba52_0.7.4.bb     |    4 +-
->>>  meta/recipes-support/attr/acl_2.2.51.bb            |    2 +-
->>>  meta/recipes-support/attr/attr_2.4.46.bb           |    2 +-
->>>  meta/recipes-support/attr/ea-acl.inc               |   16 +-------
->>>  meta/recipes-support/curl/curl_7.21.6.bb           |   17 +++-----
->>>  meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb       |    5 +-
->>>  meta/recipes-support/sqlite/sqlite3.inc            |   10 +----
->>>  meta/recipes-support/sqlite/sqlite3_3.7.6.2.bb     |    2 +-
->>>  41 files changed, 203 insertions(+), 146 deletions(-)
->>>  create mode 100644 meta/classes/libdev.bbclass
->>>=20
->>> diff --git a/meta/classes/lib_package.bbclass =
-b/meta/classes/lib_package.bbclass
->>> index 5ce8727..e8cbc25 100644
->>> --- a/meta/classes/lib_package.bbclass
->>> +++ b/meta/classes/lib_package.bbclass
->>> @@ -5,6 +5,12 @@ FILES_${PN} =3D "${libexecdir} =
-${libdir}/lib*${SOLIBS} \
->>>  	    ${base_libdir}/*${SOLIBS} \
->>>  	    ${datadir}/${PN} ${libdir}/${PN}"
->>>  FILES_${PN}-dev =3D "${includedir} ${libdir}/lib*${SOLIBSDEV} =
-${libdir}/*.la \
->>> -		${libdir}/*.o ${libdir}/pkgconfig /lib/*.o \
->>> -		${datadir}/aclocal ${bindir}/*-config"
->>> +            ${libdir}/*.o ${libdir}/pkgconfig /lib/*.o \
->>> +            ${datadir}/aclocal ${bindir}/*-config \
->>> +            ${libdir}/*_nonshared.a"
->>>  FILES_${PN}-bin =3D "${bindir}/* ${sbindir}/* /bin/* /sbin/*"
->>> +
->>> +staticdev_libs =3D "${libdir}/*.a ${base_libdir}/*.a"
->>> +FILES_${PN}-staticdev =3D "${@oe_filter_out('lib.*_nonshared.a', =
-'${staticdev_libs}', d)}"
->>=20
->> As Phil says, I'm not sure this works and since the nonshared.a thing =
-is
->> a *libc thing its probably not worth adding this complexity to the =
-core
->> but just work putting it in the *libc packaging code.
->>=20
->=20
-> I have tested this and it works, after reviewing this further, I will =
-move this to handled by the specific cases that need, rather than being =
-a general solution in bitbake.conf
->=20
->>> diff --git a/meta/classes/libdev.bbclass =
-b/meta/classes/libdev.bbclass
->>> new file mode 100644
->>> index 0000000..d0aac2f
->>> --- /dev/null
->>> +++ b/meta/classes/libdev.bbclass
->>> @@ -0,0 +1,44 @@
->>> +#
->>> +# This bbclass it a common case for lib${PN}*.a static libraries
->>> +#
->>> +
->>> +SUMMARY_lib${PN}-dbg ?=3D "${SUMMARY} - Debugging files"
->>> +DESCRIPTION_lib${PN}-dbg ?=3D "${DESCRIPTION}  \
->>> +This package contains ELF symbols and related sources for debugging =
-purposes."
->>> +
->>> +SUMMARY_lib${PN}-dev ?=3D "${SUMMARY} - Development files"
->>> +DESCRIPTION_lib${PN}-dev ?=3D "${DESCRIPTION}  \
->>> +This package contains symbolic links, header files, and \
->>> +related items necessary for software development."
->>> +
->>> +SUMMARY_lib${PN}-doc ?=3D "${SUMMARY} - Documentation files"
->>> +DESCRIPTION_lib${PN}-doc ?=3D "${DESCRIPTION} This package contains =
-documentation."
->>> +
->>> +SUMMARY_lib${PN}-staticdev ?=3D "${SUMMARY} - Development files =
-(Static Libraries)"
->>> +DESCRIPTION_lib${PN}-staticdev?=3D "${DESCRIPTION}  \
->>> +This package contains static libraries for software development."
->>> +
->>> +PACKAGES =3D+ "lib${PN} lib${PN}-dev lib${PN}-doc =
-lib${PN}-staticdev"
->>> +
->>> +FILES_lib${PN} =3D "${base_libdir}/lib*.so.* ${libdir}/lib*.so.*"
->>> +RDEPENDS_lib${PN} =3D "${PN}"
->>> +
->>> +FILES_lib${PN}-dev =3D "${includedir} \
->>> +                      ${libdir}/lib*.so \
->>> +                      ${libdir}/lib*_nonshared.a \
->>> +                      ${libdir}/lib*.la \
->>> +                      ${libdir}/pkgconfig \
->>> +                      ${base_libdir}/lib*.so \
->>> +                      ${base_libdir}/lib*_nonshared.a \
->>> +                      ${base_libdir}/lib*.la"
->>> +
->>> +
->>> +FILES_lib${PN}-doc =3D "${mandir}/man2 \
->>> +                      ${mandir}/man3"
->>> +
->>> +lib_staticdev_libs =3D "${libdir}/*.a ${base_libdir}/*.a"
->>> +FILES_lib${PN}-staticdev =3D "${@oe_filter_out('lib.*_nonshared.a', =
-'${lib_staticdev_libs}', d)}"
->>> +
->>> +
->>> +SECTION_lib${PN}-staticdev =3D "devel"
->>> +RDEPENDS_lib${PN}-staticdev =3D "lib${PN}-dev (=3D ${EXTENDPKGV})"
->>=20
->> This file is doing *way* more than just some static lib packaging.
->>=20
->> I'm totally in favour of splitting out libraries where it makes sense
->> but do we have strong usecases for standalone -doc, -dev, -dbg or
->> -staticdev packaging?
->>=20
->=20
-> I was originally following the existing use cases of the lib${PN}-* =
-packages, but after reviewing it now, I am going to change approaches =
-and rename the lib${PN}-* packages to ${PN}-* only leaving the core =
-lib${PN}.
->=20
->> Also, how does this compare to the the other lib_package.bbclass or
->> whatever its called?
->>=20
-> The other lib_package.bbclass is maybe mis-named, it would be better =
-named bin_package.bbclass since it explicitly moves the binaries in =
-${bindir} and ${sbindir} into a separate ${PN}-bin package instead of in =
-the ${PN} package itself.
-
-It's not mis-named, since it moves all the things that impair shlib =
-renaming out of the way, so it's a great tool for packaging libraries.=
+Thanks,
+-- Dexuan=
 
 
