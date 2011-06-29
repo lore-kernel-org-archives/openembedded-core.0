@@ -1,25 +1,29 @@
-Received: from slimlogic.co.uk ([89.16.172.20])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gg@slimlogic.co.uk>) id 1Qbqcn-00007Z-TS
+	(envelope-from <koen@dominion.thruhere.net>) id 1QbqdT-00007Y-BH
 	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 10:59:57 +0200
-Received: from xora-desktop.xora.org.uk (188-220-34-37.zone11.bethere.co.uk
-	[188.220.34.37])
-	by slimlogic.co.uk (Postfix) with ESMTPSA id B60D213001F
+	Wed, 29 Jun 2011 11:00:47 +0200
+Received: by wwi18 with SMTP id 18so850549wwi.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2011 09:56:16 +0100 (BST)
-Message-ID: <4E0AE8B0.6040804@slimlogic.co.uk>
-Date: Wed, 29 Jun 2011 09:56:16 +0100
-From: Graeme Gregory <gg@slimlogic.co.uk>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc15
-	Lightning/1.0b3pre Thunderbird/3.1.10
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>	<AFF7B511-46CF-4CDF-96CA-763678BF57C7@dominion.thruhere.net>
-	<BANLkTi=3_0NHcyWydFjp7a3sBr00u-54YA@mail.gmail.com>
+	Wed, 29 Jun 2011 01:56:11 -0700 (PDT)
+Received: by 10.227.43.9 with SMTP id u9mr458265wbe.74.1309337771614;
+	Wed, 29 Jun 2011 01:56:11 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id b13sm743225wbh.41.2011.06.29.01.56.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 29 Jun 2011 01:56:10 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <BANLkTi=3_0NHcyWydFjp7a3sBr00u-54YA@mail.gmail.com>
-Subject: Re: Conflicting providers for ssh/sshd (dropbear and	openssh)
+Date: Wed, 29 Jun 2011 10:56:08 +0200
+Message-Id: <7848FD2A-860F-48C3-BE1D-739C6D9AB0A8@dominion.thruhere.net>
+References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>
+	<AFF7B511-46CF-4CDF-96CA-763678BF57C7@dominion.thruhere.net>
+	<BANLkTi=3_0NHcyWydFjp7a3sBr00u-54YA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: Conflicting providers for ssh/sshd (dropbear and openssh)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,20 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 08:59:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Jun 2011 09:00:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 06/29/2011 09:50 AM, Anders Darander wrote:
-> On Wed, Jun 29, 2011 at 10:24, Koen Kooi <koen@dominion.thruhere.net> wrote:
+
+Op 29 jun 2011, om 10:50 heeft Anders Darander het volgende geschreven:
+
+> On Wed, Jun 29, 2011 at 10:24, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
 >> Op 29 jun 2011, om 00:41 heeft Khem Raj het volgende geschreven:
 >>> If they are independent then may be the openssh recipe should be
 >>> divided into openssh-ssh and openssh-rest so one can use openssh
 >>> provided daemon or dropbear provided as they wish
->> Dividing the openssl recipe would gain us little and the gains would be only for the power companies since you'd have to build openssh twice to get both sftp and ssh. The decrease in build time for only sftp is neglible.
+>>=20
+>> Dividing the openssl recipe would gain us little and the gains would =
+be only for the power companies since you'd have to build openssh twice =
+to get both sftp and ssh. The decrease in build time for only sftp is =
+neglible.
+>=20
 > Hm, speaking against what I've often been advocating (reducing build
 > time by factoring out dependenies etc)...
->
+>=20
 > I think the simplest and most straightforward solution is to just
 > split the packaging into
 > openssh-ssh and openssh-sftp, where openssh-sftp packages just what is
@@ -55,22 +67,14 @@ On 06/29/2011 09:50 AM, Anders Darander wrote:
 > the sftp-server in cooperation with dropbear. It could possibly also
 > include the sftp-client if
 > desired/needed.
->
-> The openssh-ssh package could then depend on the openssh-sftp package;
-> then there would
-> be no difference today for the distros using the complete openssh package.
->
-> I read the
->>> If they are independent then may be the openssh recipe should be
->>> divided into openssh-ssh and openssh-rest
-> part as just splitting the package. But now when I re-read it, it could very
-> well have implied creating two recipes; which I agree wouldn't be the best
-> option.
->
-The package in OE has been split for a long long time since I first
-discovered about dropbear being about to use sftp-server.
 
-Graeme
+That's already the case now. The problem is the PROVIDES overlap since =
+the Poky people decided a distro could only have one true ssh =
+implementation instead of choosing it per image. So if your distro =
+doesn't set the PREFERRED_PROVIDER_sshd you get those nagging messages =
+during parsing that scare users and make consultants rich.
 
+OE .dev isn't a lot better with the misguided DISTRO_SSH_DAEMON, but at =
+least it doesn't show those nag messages.=
 
 
