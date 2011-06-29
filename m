@@ -1,26 +1,28 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QbwTV-0008Ff-IR for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 17:14:45 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QbwPx-0001Eq-8V
-	for openembedded-core@lists.openembedded.org;
-	Wed, 29 Jun 2011 17:11:05 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1309360040.2551.56.camel@phil-desktop>
-References: <1309358918.2551.48.camel@phil-desktop>
-	<1309359293.2551.49.camel@phil-desktop>
-	<A0B5F234-A33C-47D6-AD2E-D6E37479333C@dominion.thruhere.net>
-	<1309360040.2551.56.camel@phil-desktop>
-Organization: Phil Blundell Consulting Ltd
-Date: Wed, 29 Jun 2011 16:11:03 +0100
-Message-ID: <1309360263.2551.59.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Subject: Re: bitbake -b busted again?
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>)
+	id 1Qbwp9-00008K-NI; Wed, 29 Jun 2011 17:37:07 +0200
+Received: by pvf24 with SMTP id 24so915953pvf.6
+	for <multiple recipients>; Wed, 29 Jun 2011 08:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=3DqjJqBx5b2uXQEC2EJIsZ0edH6kWiZfTsv+1diMF2Q=;
+	b=eodBnybzOJZy08CXlFC0RwoNjQjo2kr1+KdoqU7Kki9Bg3EIYD0pSuC+Dm3tYuDw/7
+	3DaOHsedcl7TI92aigNxtKuXI7OffcYiXXK0xuACdi9jSa3dmMqaq7VVTw6DcRFd269G
+	HYjsv0qIqszuU7UsUDGP0aU5WSGPwG8YDT9QU=
+Received: by 10.68.36.234 with SMTP id t10mr1173331pbj.361.1309361604175; Wed,
+	29 Jun 2011 08:33:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.48.105 with HTTP; Wed, 29 Jun 2011 08:32:54 -0700 (PDT)
+In-Reply-To: <201106291728.47032.schnitzeltony@gmx.de>
+References: <201106291728.47032.schnitzeltony@gmx.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 29 Jun 2011 08:32:54 -0700
+Message-ID: <BANLkTin06jiHrgrf2C3eEbkdVrtcYyOShQ@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] In which meta/layer is a home for not yet supported machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,43 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jun 2011 15:14:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Jun 2011 15:37:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2011-06-29 at 16:07 +0100, Phil Blundell wrote:
-> It seems that the main problem I was having was that (coincidentally in
-> light of the earlier gst discussion) the recipe I was trying to build
-> was unluckily named and being skipped because base.bbclass thought I
-> wasn't licensed to use it.
-
-Also, it does seem that "bitbake -e -b ..." really is broken.  I get:
-
-ERROR: Command execution failed: Traceback (most recent call last):
-  File "/home/pb/oe/bitbake/lib/bb/command.py", line 102, in runAsyncCommand
-    commandmethod(self.cmds_async, self, options)
-  File "/home/pb/oe/bitbake/lib/bb/command.py", line 272, in showEnvironment
-    command.cooker.showEnvironment(bfile)
-  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 259, in showEnvironment
-    fn = self.matchFile(buildfile)
-  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 753, in matchFile
-    matches = self.matchFiles(buildfile)
-  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 736, in matchFiles
-    filelist, masked = self.collect_bbfiles()
-  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 997, in collect_bbfiles
-    files.sort( key=lambda fileitem: self.calc_bbfile_priority(fileitem) )
-  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 997, in <lambda>
-    files.sort( key=lambda fileitem: self.calc_bbfile_priority(fileitem) )
-  File "/home/pb/oe/bitbake/lib/bb/cooker.py", line 463, in calc_bbfile_priority
-    for _, _, regex, pri in self.status.bbfile_config_priorities:
-AttributeError: 'NoneType' object has no attribute 'bbfile_config_priorities'
-
-Using an absolute path to the .bb file doesn't seem to help in this
-case, and I also verified that it does build successfully without the
--e.
-
-p.
+On Wed, Jun 29, 2011 at 8:28 AM, Andreas Mueller <schnitzeltony@gmx.de> wrote:
+> Hi,
+>
+> just started to collect first oe-core experiences and would like to get the
+> hardware on my (or friend's) desk supported. To check already available I did
+>
+> find -name "*.conf" | grep machine
+>
+> and miss
+>
+> o gumstix overo ( http://www.gumstix.com/store/index.php?cPath=33 )
+> o tx28 ( http://www.karo-electronics.com/tx28.html / have prepared support for
+> oe but would like to get this to oe-core )
+> o mx28evk (
+> http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=MCIMX28EVKJ&fr=g
+> )
+>
+> In which meta/layer is the first place for configurations/bootloader/kernels?
 
 
+you would need meta layer for the new machines. There already are some layers
+checkout angstrom if the machines do not fit into those existing you
+can create a new
+layer something like meta-gumstix
+>
+> Regards
+>
+> Andreas
+>
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-devel
+>
 
 
