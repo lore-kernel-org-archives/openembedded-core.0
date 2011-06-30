@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QcJJC-0000x6-00
+	(envelope-from <koen@dominion.thruhere.net>) id 1QcJUU-00018L-8k
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 17:37:38 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Jun 2011 08:33:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,450,1304319600"; d="scan'208";a="22392519"
-Received: from unknown (HELO helios.localnet) ([10.255.17.99])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Jun 2011 08:33:49 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Thu, 30 Jun 2011 17:49:26 +0200
+Received: by wwi18 with SMTP id 18so2033191wwi.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2011 08:45:24 -0700 (PDT)
+Received: by 10.227.154.6 with SMTP id m6mr1961609wbw.73.1309448724587;
+	Thu, 30 Jun 2011 08:45:24 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id gb1sm1721393wbb.20.2011.06.30.08.45.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 30 Jun 2011 08:45:23 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jun 2011 16:33:48 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>
-In-Reply-To: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>
-MIME-Version: 1.0
-Message-Id: <201106301633.48933.paul.eggleton@linux.intel.com>
+Date: Thu, 30 Jun 2011 17:45:19 +0200
+Message-Id: <1309448719-2171-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] insane bbclass: turn fatal errors back into fatal errors
+Subject: [PATCH] eglibc: fix merge conflict that wiped out RPs fixes for eglibc-dev breakage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +33,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 15:37:38 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Jun 2011 15:49:26 -0000
 
-On Thursday 30 June 2011 16:11:29 Koen Kooi wrote:
-> These were turned off by:
-> 
-> 	commit fae8d5e985e9b05ce90f1eca434ad4dbf2259725
-> 	Author: Richard Purdie <rpurdie@linux.intel.com>
-> 	Date:   Thu Jul 8 23:51:06 2010 +0100
-> 
-> 		insane.bbclass: Relax fatal errors for now until we get have time to 
-work
-> through the backlog
-> 
-> The current metadata triggers so many of these that they need to be made
-> fatal so people will actually fix them.
-...
->      return not error_class in [0, 5, 7, 8, 9]
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/eglibc/eglibc-package.inc |   18 +++++++++++++-----
+ meta/recipes-core/eglibc/eglibc_2.12.bb     |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.13.bb     |    2 +-
+ 3 files changed, 15 insertions(+), 7 deletions(-)
 
-So in principle I can agree that making these fatal again will make people 
-sort out the problems that they are flagging up. However, why is class 7 - 
-.desktop files being "invalid" - a fatal error, considering there are many sub-
-classes of "invalidity" being tested for with varying levels of significance?
-
-(This has probably been discussed on the OE list before but IMHO it merits 
-revisiting if so.)
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index f3d133b..5110063 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -104,13 +104,21 @@ inherit libc-common
+ 
+ do_install_locale () {
+ 	dest=${D}/${includedir}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS}
+-	install -d ${dest} ${dest}${bindir}
+-	cp -fpPR ${D}${base_libdir} ${dest}${base_prefix}
+-	cp -fpPR ${D}${libdir} ${dest}${exec_prefix}
+-	cp -fpPR ${D}${datadir} ${dest}${exec_prefix}
+-	cp -fpPR ${D}${bindir}/localedef ${dest}${bindir}
++	install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir} ${dest}${datadir}
++	cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
++	cp -fpP ${D}${bindir}/localedef ${dest}${bindir}
++        mv ${D}${libdir}/gconv ${dest}${libdir}
++	cp -fpPR ${D}${libdir}/* ${dest}${libdir}
++        mv ${D}${datadir}/i18n ${dest}${datadir}
++	cp -fpPR ${D}${datadir}/* ${dest}${datadir}
+ 	cp -fpPR ${WORKDIR}/SUPPORTED ${dest}
+ }
+ 
+ addtask do_install_locale after do_install before do_populate_sysroot
+ 
++PACKAGE_PREPROCESS_FUNCS += "eglibc_package_preprocess"
++
++eglibc_package_preprocess () {
++	rm -rf ${PKGD}/${includedir}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS}
++}
++
+diff --git a/meta/recipes-core/eglibc/eglibc_2.12.bb b/meta/recipes-core/eglibc/eglibc_2.12.bb
+index 85d58fa..fd7b485 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.12.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.12.bb
+@@ -1,7 +1,7 @@
+ require eglibc.inc
+ 
+ DEPENDS += "gperf-native"
+-PR = "r18"
++PR = "r19"
+ 
+ SRCREV = "14158"
+ 
+diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
+index 7986131..be65787 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.13.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+@@ -4,7 +4,7 @@ SRCREV = "14157"
+ 
+ DEPENDS += "gperf-native"
+ FILESPATHPKG =. "eglibc-svn:"
+-PR = "r5"
++PR = "r6"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_13"
 -- 
+1.6.6.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
