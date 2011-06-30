@@ -1,25 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QcQUU-0004R1-AW
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 01:17:46 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jun 2011 16:14:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,455,1304319600"; d="scan'208";a="20329722"
-Received: from swold-mobl.jf.intel.com (HELO [10.24.82.35]) ([10.24.82.35])
-	by orsmga002.jf.intel.com with ESMTP; 30 Jun 2011 16:14:01 -0700
-Message-ID: <4E0D0333.8080706@linux.intel.com>
-Date: Thu, 30 Jun 2011 16:13:55 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QcQUb-0004SE-I5 for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 01:17:53 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5UMmepM031710
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2011 23:48:40 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27728-08 for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2011 23:48:36 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5UMmWo9031686
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2011 23:48:32 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1309432228.7987.14.camel@desktop.home>
-In-Reply-To: <1309432228.7987.14.camel@desktop.home>
-Subject: Re: [PATCH] Add support for BAD_RECOMMENDATIONS to rootfs_ipk
+In-Reply-To: <1309457351-6103-1-git-send-email-michael.lippautz@gmail.com>
+References: <1309457351-6103-1-git-send-email-michael.lippautz@gmail.com>
+Date: Thu, 30 Jun 2011 23:48:13 +0100
+Message-ID: <1309474093.20015.480.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] linux-firmware: Add Realtex rt8192* firmwares
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,70 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 23:17:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 30 Jun 2011 23:17:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/30/2011 04:10 AM, Chris Elston wrote:
-> As discussed on IRC on 30/06/11, this patch adds support for
-> BAD_RECOMMENDATIONS to rootfs_ipk, which is a list of packages NOT to
-> install if suggested or recommended by a recipe.  Taken from
-> http://thread.gmane.org/gmane.comp.handhelds.openembedded/30417.
->
-> Note that current support for this in oe.dev may also be broken,
-> depending on the version of opkg in use.
->
-This patch does not seem to apply cleanly, could you please rebase and 
-resend.
+On Thu, 2011-06-30 at 20:09 +0200, Michael Lippautz wrote:
+> This patch adds the firmware files for:
+>  * rt8192cu
+>  * rt8192ce
+>  * rt8192su
+> 
+> Signed-off-by: Michael Lippautz <michael.lippautz@gmail.com>
 
-Thanks
+Merged to master, thanks.
 
-Sau!
+For reference, I changed the file modes to 0644 as per some other recent
+audit changed we were making.
 
-> Signed-off-by: Chris Elston<celston@katalix.com>
->
-> ---
->   meta/classes/rootfs_ipk.bbclass |   18 ++++++++++++++++++
->   1 files changed, 18 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/classes/rootfs_ipk.bbclass
-> b/meta/classes/rootfs_ipk.bbclass
-> index edd84fb..bf15f4c 100644
-> --- a/meta/classes/rootfs_ipk.bbclass
-> +++ b/meta/classes/rootfs_ipk.bbclass
-> @@ -20,6 +20,9 @@ OPKG_POSTPROCESS_COMMANDS = "ipk_insert_feed_uris"
->
->   opkglibdir = "${localstatedir}/lib/opkg"
->
-> +# Which packages to not install on the basis of a recommendation
-> +BAD_RECOMMENDATIONS ?= ""
-> +
->   fakeroot rootfs_ipk_do_rootfs () {
->   	set -x
->
-> @@ -30,6 +33,21 @@ fakeroot rootfs_ipk_do_rootfs () {
->
->   	mkdir -p ${T}/
->
-> +	STATUS=${IMAGE_ROOTFS}/var/lib/opkg/status
-> +	mkdir -p `dirname ${STATUS}`
-> +
-> +	opkg-cl ${IPKG_ARGS} update
-> +
-> +	# prime the status file with bits that we don't want
-> +	for i in ${BAD_RECOMMENDATIONS}; do
-> +		infln="`opkg-cl ${IPKG_ARGS} info $i | grep -e '^Package:' -e
-> '^Architecture:' -e '^Version:'`"
-> +		if [ ! -z "$infln" ]; then
-> +			echo "$infln">>  $STATUS
-> +			echo "Status: deinstall ok not-installed">>  $STATUS
-> +			echo>>  $STATUS
-> +		fi
-> + 	done
-> +
->   	#install
->   	export
-> INSTALL_PACKAGES_ATTEMPTONLY_IPK="${PACKAGE_INSTALL_ATTEMPTONLY}"
->   	export INSTALL_PACKAGES_LINGUAS_IPK="${LINGUAS_INSTALL}"
+Cheers,
+
+Richard
+
 
 
