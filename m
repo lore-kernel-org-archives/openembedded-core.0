@@ -1,33 +1,24 @@
-Received: from mail-vx0-f175.google.com ([209.85.220.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Qc4jI-00048x-KJ
+	(envelope-from <josh@linux.intel.com>) id 1Qc56F-0004MF-Ju
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 02:03:36 +0200
-Received: by vxa37 with SMTP id 37so1452200vxa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jun 2011 16:59:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=mt2y+PFsr1NK4DiVLuEYoAqNbt3419uVP75y7eWIF80=;
-	b=TnAzyf4vMYu3urhN0mmsrZ+eGygOCjEvIvFPP3qMal2PJ8CddTW35qcg/Fs0dE1qEM
-	XR6JiG7ipCjmaudxSHto97AwgRaftkuelQM6W4trtdCA1K5NIZvcpHVH+3grlfLV4NMa
-	7LratDw0K/RyNWtzFlRg+b/RtvkLZEu9TUyWQ=
-Received: by 10.52.111.71 with SMTP id ig7mr1995125vdb.209.1309391993056; Wed,
-	29 Jun 2011 16:59:53 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.52.181.2 with HTTP; Wed, 29 Jun 2011 16:59:33 -0700 (PDT)
-In-Reply-To: <201106300102.16411.schnitzeltony@gmx.de>
-References: <201106300102.16411.schnitzeltony@gmx.de>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 29 Jun 2011 16:59:33 -0700
-X-Google-Sender-Auth: DqI47pjc-D3Qbs4wSIawzC73eRw
-Message-ID: <BANLkTimEROj5AcR+eYjLVFH2Sh3+0sB04A@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: How to reuse code in oe-core environment
+	Thu, 30 Jun 2011 02:27:19 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Jun 2011 17:23:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,446,1304319600"; d="scan'208";a="21710190"
+Received: from unknown (HELO [10.255.13.240]) ([10.255.13.240])
+	by orsmga001.jf.intel.com with ESMTP; 29 Jun 2011 17:23:35 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jun 2011 17:23:30 -0700
+In-Reply-To: <000E4B57-AB90-4BF8-80B2-8698FEC51AA3@dominion.thruhere.net>
+References: <cover.1309383978.git.josh@linux.intel.com>
+	<000E4B57-AB90-4BF8-80B2-8698FEC51AA3@dominion.thruhere.net>
+X-Mailer: Evolution 3.0.2 (3.0.2-2.fc15) 
+Message-ID: <1309393415.24735.19.camel@scimitar>
+Mime-Version: 1.0
+Subject: Re: [RFC 0/2] Sanity check network connectivity
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,38 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 00:03:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 Jun 2011 00:27:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 29, 2011 at 4:02 PM, Andreas Mueller <schnitzeltony@gmx.de> wro=
-te:
-> foo() {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0# code to reuse
-> }
->
-> and called foo from several recipes. In oe-core the run.* scripts are muc=
-h more
-> stripped of unnecessary. =C2=A0All the code included by 'require' seems t=
-o miss, so
-> the function foo() will not be found.
->
-> My searches for examples did not lead to a hook so what is the suggested
-> solution for reusing code for multiple recipes in oe-core?
+On Thu, 2011-06-30 at 00:00 +0200, Koen Kooi wrote:
+> Op 29 jun 2011, om 23:55 heeft Joshua Lock het volgende geschreven:
+> 
+> > v3 of this change set based on extra feedback from Khem Raj.
+> > Changes since v2:
+> > * Remove references to Yocto, don't offer default uri's to check
+> 
+> Can't you offer an oe.org url to check instead?
 
-The require doesn't have to do with anything. bitbake emits only the
-functions which get called somewhere from the task being run. It
-tracks what variables reference what other variables. If you call a
-shell function from another shell function, it tracks this, and
-realizes that both need to be emitted. Either you're doing something
-wrong, or you're doing something in a way that bitbake can't track.
-There's a variable flag you can set to explicitly add variable
-dependencies.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Can we? Sure. Should we? I don't know...
+
+If this is deemed desirable perhaps we'll need some small uri's to fetch
+from and test at least http, https and git fetches. Any suggestions?
+
+Could this be a follow on patch?
+
+Joshua
+-- 
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
+
 
 
