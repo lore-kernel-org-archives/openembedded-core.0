@@ -1,27 +1,27 @@
-Received: from mailout-de.gmx.net ([213.165.64.23])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <schnitzeltony@gmx.de>) id 1QcQ5z-0003lO-G8
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1QcQPw-0004Jn-R4
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 00:52:27 +0200
-Received: (qmail invoked by alias); 30 Jun 2011 22:48:43 -0000
-Received: from p5B0A28A6.dip.t-dialin.net (EHLO localhost.localdomain)
-	[91.10.40.166]
-	by mail.gmx.net (mp067) with SMTP; 01 Jul 2011 00:48:43 +0200
-X-Authenticated: #62780362
-X-Provags-ID: V01U2FsdGVkX1/VFWw75lHVjWBEVbgYE1H4rrT9gnV+IcMMvlshyx
-	v0TpR4pet2SoGX
-From: Andreas Mueller <schnitzeltony@gmx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 1 Jul 2011 00:50:28 +0200
-User-Agent: KMail/1.13.7 (Linux/2.6.35.13-92.fc14.x86_64; KDE/4.6.3; x86_64; ;
-	)
-References: <201106291728.47032.schnitzeltony@gmx.de>
-	<BANLkTin06jiHrgrf2C3eEbkdVrtcYyOShQ@mail.gmail.com>
-In-Reply-To: <BANLkTin06jiHrgrf2C3eEbkdVrtcYyOShQ@mail.gmail.com>
+	Fri, 01 Jul 2011 01:13:05 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jun 2011 16:09:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,455,1304319600"; d="scan'208";a="24955545"
+Received: from swold-mobl.jf.intel.com (HELO [10.24.82.35]) ([10.24.82.35])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jun 2011 16:09:05 -0700
+Message-ID: <4E0D0211.5040102@linux.intel.com>
+Date: Thu, 30 Jun 2011 16:09:05 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
-Message-Id: <201107010050.28558.schnitzeltony@gmx.de>
-X-Y-GMX-Trusted: 0
-Subject: Re: [was oe] In which meta/layer is a home for not yet supported machines
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1307895912.git.koen@dominion.thruhere.net>	<1703bd12b68b86a3d73fe39e9fd9369ac0b027ca.1307895912.git.koen@dominion.thruhere.net>
+	<29375D62-544F-457B-8393-79BF9DDA54BA@dominion.thruhere.net>
+In-Reply-To: <29375D62-544F-457B-8393-79BF9DDA54BA@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 1/2] qemu.inc: append to IMAGE_FSTYPES instead of weakly assigning them
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,45 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 22:52:27 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Thu, 30 Jun 2011 23:13:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wednesday, June 29, 2011 05:32:54 PM Khem Raj wrote:
-> On Wed, Jun 29, 2011 at 8:28 AM, Andreas Mueller <schnitzeltony@gmx.de> wrote:
-> > Hi,
-> > 
-> > just started to collect first oe-core experiences and would like to get
-> > the hardware on my (or friend's) desk supported. To check already
-> > available I did
-> > 
-> > find -name "*.conf" | grep machine
-> > 
-> > and miss
-> > 
-> > o gumstix overo ( http://www.gumstix.com/store/index.php?cPath=33 )
-> > o tx28 ( http://www.karo-electronics.com/tx28.html / have prepared
-> > support for oe but would like to get this to oe-core )
-> > o mx28evk (
-> > http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=MCIMX28EVK
-> > J&fr=g )
-> > 
-> > In which meta/layer is the first place for
-> > configurations/bootloader/kernels?
-> 
-> you would need meta layer for the new machines. There already are some
-> layers checkout angstrom if the machines do not fit into those existing
-> you can create a new
-> layer something like meta-gumstix
-for tx28 / mx28evk see https://gitorious.org/schnitzeltony-oe-meta/meta-
-freescale 
+On 06/30/2011 03:33 PM, Koen Kooi wrote:
+> ping
+>
+I believe that this has been discussed elsewhere.
 
-I run tested for tx28 / console-image and am happy (let's see for how long..) 
-with it. Maybe someone wants to test mx28evk or have some review on it.
+Sau!
 
-Really was'nt that big deal - and nobody nitpicked :-)
-
-Andreas
+> Op 12 jun 2011, om 18:26 heeft Koen Kooi het volgende geschreven:
+>
+>> The ext3 format is pretty much mandatory for qemu usage, so always create it.
+>>
+>> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+>> ---
+>> meta/conf/machine/include/qemu.inc |    2 +-
+>> 1 files changed, 1 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+>> index 9ef242f..e908f69 100644
+>> --- a/meta/conf/machine/include/qemu.inc
+>> +++ b/meta/conf/machine/include/qemu.inc
+>> @@ -3,7 +3,7 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-kdrive"
+>>
+>> MACHINE_FEATURES = "kernel26 apm alsa pcmcia bluetooth irda usbgadget screen"
+>>
+>> -IMAGE_FSTYPES ?= "tar.bz2 ext3"
+>> +IMAGE_FSTYPES += "tar.bz2 ext3"
+>>
+>> ROOT_FLASH_SIZE = "280"
+>>
+>> --
+>> 1.6.6.1
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
