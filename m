@@ -1,24 +1,28 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QcJUU-00018L-8k
+	(envelope-from <koen@dominion.thruhere.net>) id 1QcJYm-0001CQ-Lm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 17:49:26 +0200
-Received: by wwi18 with SMTP id 18so2033191wwi.24
+	Thu, 30 Jun 2011 17:53:44 +0200
+Received: by wyg30 with SMTP id 30so1857499wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2011 08:45:24 -0700 (PDT)
-Received: by 10.227.154.6 with SMTP id m6mr1961609wbw.73.1309448724587;
-	Thu, 30 Jun 2011 08:45:24 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id gb1sm1721393wbb.20.2011.06.30.08.45.23
+	Thu, 30 Jun 2011 08:50:01 -0700 (PDT)
+Received: by 10.216.120.129 with SMTP id p1mr2042446weh.81.1309449000969;
+	Thu, 30 Jun 2011 08:50:00 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id b70sm1204224wek.44.2011.06.30.08.49.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Jun 2011 08:45:23 -0700 (PDT)
+	Thu, 30 Jun 2011 08:50:00 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
 From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jun 2011 17:45:19 +0200
-Message-Id: <1309448719-2171-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] eglibc: fix merge conflict that wiped out RPs fixes for eglibc-dev breakage
+In-Reply-To: <201106301633.48933.paul.eggleton@linux.intel.com>
+Date: Thu, 30 Jun 2011 17:49:57 +0200
+Message-Id: <4FC82E26-5A0C-48DF-99F5-7E2D9B8C7290@dominion.thruhere.net>
+References: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>
+	<201106301633.48933.paul.eggleton@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] insane bbclass: turn fatal errors back into fatal errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,74 +37,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 15:49:26 -0000
+X-List-Received-Date: Thu, 30 Jun 2011 15:53:44 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-core/eglibc/eglibc-package.inc |   18 +++++++++++++-----
- meta/recipes-core/eglibc/eglibc_2.12.bb     |    2 +-
- meta/recipes-core/eglibc/eglibc_2.13.bb     |    2 +-
- 3 files changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-index f3d133b..5110063 100644
---- a/meta/recipes-core/eglibc/eglibc-package.inc
-+++ b/meta/recipes-core/eglibc/eglibc-package.inc
-@@ -104,13 +104,21 @@ inherit libc-common
- 
- do_install_locale () {
- 	dest=${D}/${includedir}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS}
--	install -d ${dest} ${dest}${bindir}
--	cp -fpPR ${D}${base_libdir} ${dest}${base_prefix}
--	cp -fpPR ${D}${libdir} ${dest}${exec_prefix}
--	cp -fpPR ${D}${datadir} ${dest}${exec_prefix}
--	cp -fpPR ${D}${bindir}/localedef ${dest}${bindir}
-+	install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir} ${dest}${datadir}
-+	cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
-+	cp -fpP ${D}${bindir}/localedef ${dest}${bindir}
-+        mv ${D}${libdir}/gconv ${dest}${libdir}
-+	cp -fpPR ${D}${libdir}/* ${dest}${libdir}
-+        mv ${D}${datadir}/i18n ${dest}${datadir}
-+	cp -fpPR ${D}${datadir}/* ${dest}${datadir}
- 	cp -fpPR ${WORKDIR}/SUPPORTED ${dest}
- }
- 
- addtask do_install_locale after do_install before do_populate_sysroot
- 
-+PACKAGE_PREPROCESS_FUNCS += "eglibc_package_preprocess"
-+
-+eglibc_package_preprocess () {
-+	rm -rf ${PKGD}/${includedir}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS}
-+}
-+
-diff --git a/meta/recipes-core/eglibc/eglibc_2.12.bb b/meta/recipes-core/eglibc/eglibc_2.12.bb
-index 85d58fa..fd7b485 100644
---- a/meta/recipes-core/eglibc/eglibc_2.12.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.12.bb
-@@ -1,7 +1,7 @@
- require eglibc.inc
- 
- DEPENDS += "gperf-native"
--PR = "r18"
-+PR = "r19"
- 
- SRCREV = "14158"
- 
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index 7986131..be65787 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -4,7 +4,7 @@ SRCREV = "14157"
- 
- DEPENDS += "gperf-native"
- FILESPATHPKG =. "eglibc-svn:"
--PR = "r5"
-+PR = "r6"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_13"
--- 
-1.6.6.1
+Op 30 jun 2011, om 17:33 heeft Paul Eggleton het volgende geschreven:
+
+> On Thursday 30 June 2011 16:11:29 Koen Kooi wrote:
+>> These were turned off by:
+>>=20
+>> 	commit fae8d5e985e9b05ce90f1eca434ad4dbf2259725
+>> 	Author: Richard Purdie <rpurdie@linux.intel.com>
+>> 	Date:   Thu Jul 8 23:51:06 2010 +0100
+>>=20
+>> 		insane.bbclass: Relax fatal errors for now until we get =
+have time to=20
+> work
+>> through the backlog
+>>=20
+>> The current metadata triggers so many of these that they need to be =
+made
+>> fatal so people will actually fix them.
+> ...
+>>     return not error_class in [0, 5, 7, 8, 9]
+>=20
+> So in principle I can agree that making these fatal again will make =
+people=20
+> sort out the problems that they are flagging up. However, why is class =
+7 -=20
+> .desktop files being "invalid" - a fatal error, considering there are =
+many sub-
+> classes of "invalidity" being tested for with varying levels of =
+significance?
+>=20
+> (This has probably been discussed on the OE list before but IMHO it =
+merits=20
+> revisiting if so.)
+
+It's a white list, so:
+
+# 0 - non dev contains .so
+# 5 - .la contains installed=3Dyes or reference to the workdir
+# 7 - the desktop file is not valid
+# 8 - .la contains reference to the workdir
+# 9 - LDFLAGS ignored
+
+Are warnings and
+
+# 1 - package contains a dangerous RPATH
+# 2 - package depends on debug package
+# 3 - non dbg contains .so
+# 4 - wrong architecture
+# 6 - .pc contains reference to /usr/include or workdir
+# 10 - Build paths in binaries
+# 11 - package depends on devel package
+
+Are fatal errors. The splits seems arbitrary to me, but it that's how it =
+was last year before RP disabled all fatal errors.
 
 
 
