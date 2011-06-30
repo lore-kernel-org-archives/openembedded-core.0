@@ -1,26 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QcQhG-0004h5-8b
+	(envelope-from <raj.khem@gmail.com>) id 1QcQnK-0004mS-EH
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 01:30:58 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jun 2011 16:27:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,455,1304319600"; d="scan'208";a="22147220"
-Received: from swold-mobl.jf.intel.com (HELO [10.24.82.35]) ([10.24.82.35])
-	by orsmga001.jf.intel.com with ESMTP; 30 Jun 2011 16:27:13 -0700
-Message-ID: <4E0D0651.9000101@linux.intel.com>
-Date: Thu, 30 Jun 2011 16:27:13 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1309300395.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1309300395.git.scott.a.garman@intel.com>
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: Re: [PATCH 0/1] shadow-native fix for useradd
+	Fri, 01 Jul 2011 01:37:14 +0200
+Received: by iwn4 with SMTP id 4so2604243iwn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2011 16:33:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=U9IksSD0ceaNfnxd7mYKDI/8ePWB4wlTH6aBt5Oevrs=;
+	b=GrHKFKzSXBkys5o0EmME+FPiQbdgK5fL8aFph0TKqvZjvoRHbWPCWAkDHZ9QFekKaj
+	5d0Ty1FRWQ7VeWn2D2Sh6C1mRHroXG0Wi70zkQt+pZxdi7/rVUiRomkc5fFq/9pQbhWo
+	DclnyWuUhekSqCAwHdyk0z6YjmIKUvekv+JMU=
+Received: by 10.42.144.195 with SMTP id c3mr2820975icv.9.1309476809690;
+	Thu, 30 Jun 2011 16:33:29 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id e1sm2643797icv.20.2011.06.30.16.33.28
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 30 Jun 2011 16:33:29 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jun 2011 16:33:17 -0700
+Message-Id: <1309476797-16325-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH] uclibc: Add default uClibc.machine files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,45 +39,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 23:30:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Jun 2011 23:37:14 -0000
 
-On 06/28/2011 03:36 PM, Scott Garman wrote:
-> Pseudo was recently changed so that when system() calls are made
-> after a chroot(), the host binaries can no longer be found, breaking
-> the system("mkdir -p") approach when useradd creates home directories.
->
-> Instead, use mkdir(2) to create home directories with a helper
-> function to ensure parent directories get created.
->
-> This is a prerequisite fix needed for my useradd.bbclass changes
-> (still pending until I address some of Richard's comments from this
-> morning).
->
-> The following changes since commit a4f3e006e1f2fd93f156012af2a05adccf41d065:
->
->    u-boot-mkimage: bump version to 2011.03 (2011-06-28 17:13:19 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib sgarman/mkdir-p-fix
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/mkdir-p-fix
->
-> Scott Garman (1):
->    shadow-native: fix creation of home directories
->
->   .../shadow/files/add_root_cmd_options.patch        |  125 +++++++++++++++----
->   1 files changed, 98 insertions(+), 27 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-Merged into OE-Core
+Add generic machine config file
 
-Thanks
-	Sau!
+uClibc.machine in topdir should work mostly
+and odd ones like mips should have a copy
+of their own as explained
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../uclibc/uclibc-git/mips/uClibc.machine          |   16 ++++++++++++++++
+ meta/recipes-core/uclibc/uclibc-git/uClibc.machine |   14 ++++++++++++++
+ 2 files changed, 30 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/mips/uClibc.machine
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/uClibc.machine
+
+diff --git a/meta/recipes-core/uclibc/uclibc-git/mips/uClibc.machine b/meta/recipes-core/uclibc/uclibc-git/mips/uClibc.machine
+new file mode 100644
+index 0000000..7d7ab3f
+--- /dev/null
++++ b/meta/recipes-core/uclibc/uclibc-git/mips/uClibc.machine
+@@ -0,0 +1,16 @@
++# in OE we use TARGET_CC_ARCH="-march=mips32" but by
++# default uclibc uses mips1 ISA for o32 ABI which ends
++# up with conflicting march options to gcc. Here we
++# ask for MIPS32 ISA to match the OE defaults
++
++CONFIG_MIPS_ISA_MIPS32=y
++
++# Below options are exact copy of general
++# uClibc.machine file
++#
++FORCE_OPTIONS_FOR_ARCH=y
++ARCH_HAS_MMU=y
++ARCH_USE_MMU=y
++KERNEL_HEADERS="/usr/include"
++HAVE_DOT_CONFIG=y
++
+diff --git a/meta/recipes-core/uclibc/uclibc-git/uClibc.machine b/meta/recipes-core/uclibc/uclibc-git/uClibc.machine
+new file mode 100644
+index 0000000..595f444
+--- /dev/null
++++ b/meta/recipes-core/uclibc/uclibc-git/uClibc.machine
+@@ -0,0 +1,14 @@
++#
++# Automatically generated make config: don't edit
++# Version: 0.9.32-git
++# Mon Jul 19 01:34:29 2010
++#
++#
++# Using ELF file format
++#
++FORCE_OPTIONS_FOR_ARCH=y
++ARCH_HAS_MMU=y
++ARCH_USE_MMU=y
++KERNEL_HEADERS="/usr/include"
++HAVE_DOT_CONFIG=y
++
+-- 
+1.7.4.1
+
 
 
