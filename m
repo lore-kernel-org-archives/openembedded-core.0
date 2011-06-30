@@ -1,28 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QcJqY-0001v8-7d
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QcKfB-0002t1-8n
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 18:12:07 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5UG8Ljo024296
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2011 09:08:21 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 30 Jun 2011 09:08:21 -0700
-Message-ID: <4E0C9F74.9040301@windriver.com>
-Date: Thu, 30 Jun 2011 11:08:20 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+	Thu, 30 Jun 2011 19:04:26 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 30 Jun 2011 10:00:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,451,1304319600"; d="scan'208";a="21015505"
+Received: from unknown (HELO helios.localnet) ([10.255.17.99])
+	by azsmga001.ch.intel.com with ESMTP; 30 Jun 2011 10:00:39 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jun 2011 18:00:38 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+References: <cover.1308747461.git.ke.yu@intel.com>
+	<fa1e6143a43db7d1c355aa3ca22f16133b30c031.1308747461.git.ke.yu@intel.com>
+In-Reply-To: <fa1e6143a43db7d1c355aa3ca22f16133b30c031.1308747461.git.ke.yu@intel.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>
-	<4E0C9D43.6020504@mentor.com>
-In-Reply-To: <4E0C9D43.6020504@mentor.com>
-Subject: Re: [PATCH] insane bbclass: turn fatal errors back into fatal	errors
+Message-Id: <201106301800.38315.paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 1/1] combo-layer-tool: add tool to manipulate combo layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,53 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 16:12:07 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Thu, 30 Jun 2011 17:04:26 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 6/30/11 10:58 AM, Tom Rini wrote:
-> On 06/30/2011 08:11 AM, Koen Kooi wrote:
->> These were turned off by:
->>
->> 	commit fae8d5e985e9b05ce90f1eca434ad4dbf2259725
->> 	Author: Richard Purdie <rpurdie@linux.intel.com>
->> 	Date:   Thu Jul 8 23:51:06 2010 +0100
->>
->> 		insane.bbclass: Relax fatal errors for now until we get have time to work through the backlog
->>
->> The current metadata triggers so many of these that they need to be made fatal so people will actually fix them.
->>
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> 
-> Given that a number of them can probably just be pulled from oe.dev as
-> fixes too:
-> 
-> Acked-by: Tom Rini <tom_rini@mentor.com>
+Hi Ke,
 
-I'm really worried about the current warnings/QA issues that keep coming up.. so
-I agree we really need to do this.. (note, we also really need to tell people to
-expect some breakage as we go and fix the mess!)
+So I've tested this now, apologies for taking so long. Updating with filtering 
+works well. Unfortunately when I tested splitpatch it didn't seem to be 
+working - instead of getting the HEAD commit split out into patches for the 
+each components of the combo repo, I just get semi-random patches for each 
+component. I haven't looked at the code to see what's going wrong yet, I 
+suspect you're quite busy with multilib so I might have to do that.
 
-Acked-by: Mark Hatle <mark.hatle@windriver.com>
+Cheers,
+Paul
 
->> ---
->>  meta/classes/insane.bbclass |    1 -
->>  1 files changed, 0 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
->> index f7e5524..e06d2b2 100644
->> --- a/meta/classes/insane.bbclass
->> +++ b/meta/classes/insane.bbclass
->> @@ -115,7 +115,6 @@ def package_qa_make_fatal_error(error_class, name, path,d):
->>  
->>      TODO: Load a whitelist of known errors
->>      """
->> -    return False
->>      return not error_class in [0, 5, 7, 8, 9]
->>  
->>  def package_qa_write_error(error_class, name, path, d):
-> 
-> 
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
