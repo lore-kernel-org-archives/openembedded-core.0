@@ -1,35 +1,35 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QcCLD-0001Yu-LF
+	(envelope-from <raj.khem@gmail.com>) id 1QcCLF-0001RO-TH
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 10:11:17 +0200
-Received: by iym10 with SMTP id 10so1896727iym.6
+	Thu, 30 Jun 2011 10:11:19 +0200
+Received: by mail-iw0-f175.google.com with SMTP id 4so1886628iwn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2011 01:07:32 -0700 (PDT)
+	Thu, 30 Jun 2011 01:07:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=PvS55ZC3DsGsN++KMNz/Nk6VTVDKU7cbKqXCk7olxt0=;
-	b=STu2CjkHVotHStdxHGR7UKdArhmlqNEVvfWGcgcljhrYMghuOr+yEQyWzk5/j/nkXn
-	yp0txq8IPxN/vQmHkRvy4ssYNl7HBdbL9iBZ0n7AzMt/KORSSTS6x3C8sveR87CU5KoU
-	B4Km1eMBQ0D4igsfW4RnILt9Uq1cl9hsx3VGo=
-Received: by 10.42.97.136 with SMTP id o8mr1386279icn.222.1309421251991;
-	Thu, 30 Jun 2011 01:07:31 -0700 (PDT)
+	bh=/V1W00qQl3Xqw7dGGjVAAUpoIB+dYteYTMkau42f/k4=;
+	b=eFDfxXGf571XcOGv7dJzdJwPkKr6wlbIPXQrHJjPlErR2pZTVt40N7uSvKiXbH5ix0
+	Qkr+R1LQ1eoxekfvrKejLctihZPICuvuoP1jnnHZhfPKelKQjat2+OFjBtCtN2nlTmFz
+	UfbZuD7EDWLkTynVHCdbUoq3wntAtKEI4Rs9I=
+Received: by 10.231.60.68 with SMTP id o4mr1605942ibh.12.1309421256688;
+	Thu, 30 Jun 2011 01:07:36 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id s2sm1093925ibe.1.2011.06.30.01.07.30
+	by mx.google.com with ESMTPS id s2sm1093925ibe.1.2011.06.30.01.07.33
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Jun 2011 01:07:31 -0700 (PDT)
+	Thu, 30 Jun 2011 01:07:34 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jun 2011 01:07:13 -0700
-Message-Id: <807eda44b54f88c619302ec6f5f34b8a523e0613.1309420894.git.raj.khem@gmail.com>
+Date: Thu, 30 Jun 2011 01:07:15 -0700
+Message-Id: <ccc3cc7fd88d55c9189e078a3398b3091bc84ae7.1309420894.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <681f30f772cb90b5ee4544f907013b7848e9e3fb.1309420894.git.raj.khem@gmail.com>
 References: <681f30f772cb90b5ee4544f907013b7848e9e3fb.1309420894.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1309420894.git.raj.khem@gmail.com>
 References: <cover.1309420894.git.raj.khem@gmail.com>
-Subject: [PATCH 4/6] uclibc_git.bb: Untether UCLIBC_HAS_FPU from UCLIBC_HAS_FLOATS
+Subject: [PATCH 6/6] uclibc: Fix bug exposed by udev 168+ for mips architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,59 +44,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 08:11:20 -0000
+X-List-Received-Date: Thu, 30 Jun 2011 08:11:22 -0000
+
+newer udev uses sgnalfd + epoll and this exposed a bug
+in uclibc for mips where SFD_NONBLOCK should be defined
+with 0200 for mips but was using 04000. This would cause
+random segfaults in udev during boot process
+
+Tested on qemumips/angstrom console-image since angstrom
+uses udev 171. It worked well when we did not use meta-oe
+layer because udev in oe-core will then be used which is
+at version 164.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...rch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch |   29 ++++++++++++++++++++
- meta/recipes-core/uclibc/uclibc_git.bb             |    1 +
- 2 files changed, 30 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch
+ ...fd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch |   33 ++++++++++++++++++++
+ meta/recipes-core/uclibc/uclibc_git.bb             |    3 +-
+ 2 files changed, 35 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-mips-signalfd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch
 
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch
+diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-mips-signalfd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch b/meta/recipes-core/uclibc/uclibc-git/0001-mips-signalfd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch
 new file mode 100644
-index 0000000..da97d38
+index 0000000..6892ceb
 --- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch
-@@ -0,0 +1,29 @@
-+From 06cdcd2a9dd6b46b7fbb5b3ae0a62bdb7ee6c402 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/uclibc/uclibc-git/0001-mips-signalfd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch
+@@ -0,0 +1,33 @@
++From ecc7d34cbbaf83aae87b091555650ed33e27ed2e Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 27 Jun 2011 17:48:18 -0700
-+Subject: [PATCH] Config.in.arch: Free UCLIBC_HAS_FPU setting from depending on UCLIBC_HAS_FLOATS
-+
-+UCLIBC_HAS_FLOATS and UCLIBC_HAS_FPU are denoting two different aspects.
-+UCLIBC_HAS_FLOATS covers the floating point operations which has nothing
-+to do if you have FPU or not.
++Date: Thu, 30 Jun 2011 00:32:11 -0700
++Subject: [PATCH] mips/signalfd.h: SFD_NONBLOCK for mips is 0200 unlike 04000 commonly
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ extra/Configs/Config.in.arch |    1 -
-+ 1 files changed, 0 insertions(+), 1 deletions(-)
++ include/sys/signalfd.h |    9 +++++++++
++ 1 files changed, 9 insertions(+), 0 deletions(-)
 +
-+diff --git a/extra/Configs/Config.in.arch b/extra/Configs/Config.in.arch
-+index 5f7a2b0..c1ca390 100644
-+--- a/extra/Configs/Config.in.arch
-++++ b/extra/Configs/Config.in.arch
-+@@ -133,7 +133,6 @@ config UCLIBC_HAS_FLOATS
++diff --git a/include/sys/signalfd.h b/include/sys/signalfd.h
++index 8cee17c..f1cb63a 100644
++--- a/include/sys/signalfd.h
+++++ b/include/sys/signalfd.h
++@@ -64,6 +64,15 @@ enum
++ # define SFD_NONBLOCK SFD_NONBLOCK
++   };
 + 
-+ config UCLIBC_HAS_FPU
-+ 	bool "Target CPU has a floating point unit (FPU)"
-+-	depends on UCLIBC_HAS_FLOATS
-+ 	default y
-+ 	help
-+ 	  If your target CPU does not have a Floating Point Unit (FPU) or a
+++#elif defined __mips__
+++enum
+++  {
+++    SFD_CLOEXEC = 02000000,
+++# define SFD_CLOEXEC SFD_CLOEXEC
+++    SFD_NONBLOCK = 0200
+++# define SFD_NONBLOCK SFD_NONBLOCK
+++  };
+++
++ #else
++ enum
++   {
 +-- 
 +1.7.0.4
 +
 diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
-index 6445243..201ec93 100644
+index 201ec93..0e43f9e 100644
 --- a/meta/recipes-core/uclibc/uclibc_git.bb
 +++ b/meta/recipes-core/uclibc/uclibc_git.bb
-@@ -29,5 +29,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master;protocol=git \
- 	file://epoll-asm-fix.patch \
+@@ -2,7 +2,7 @@ SRCREV="71d63ed75648da9b0b71afabb9c60aaad792c55c"
+ 
+ require uclibc.inc
+ PV = "0.9.31+0.9.32rc3"
+-PR = "${INC_PR}.4"
++PR = "${INC_PR}.5"
+ PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
+ 
+ FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/uclibc-git' ], d)}"
+@@ -30,5 +30,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master;protocol=git \
  	file://orign_path.patch \
  	file://rtld_no.patch \
-+	file://0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch \
+ 	file://0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch \
++	file://0001-mips-signalfd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch \
  	"
  S = "${WORKDIR}/git"
 -- 
