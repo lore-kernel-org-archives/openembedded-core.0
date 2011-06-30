@@ -1,28 +1,25 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QcO1X-0006u9-PC
+	(envelope-from <koen@dominion.thruhere.net>) id 1QcODF-00073d-AX
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 22:39:43 +0200
-Received: by wwi14 with SMTP id 14so1121866wwi.0
+	Thu, 30 Jun 2011 22:51:49 +0200
+Received: by wwi18 with SMTP id 18so2238404wwi.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2011 13:36:00 -0700 (PDT)
-Received: by 10.216.158.198 with SMTP id q48mr2058987wek.94.1309466159829;
-	Thu, 30 Jun 2011 13:35:59 -0700 (PDT)
+	Thu, 30 Jun 2011 13:48:05 -0700 (PDT)
+Received: by 10.227.159.136 with SMTP id j8mr2196845wbx.99.1309466885602;
+	Thu, 30 Jun 2011 13:48:05 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id n21sm1320011wed.43.2011.06.30.13.35.58
+	by mx.google.com with ESMTPS id ex2sm1882811wbb.65.2011.06.30.13.48.04
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Jun 2011 13:35:59 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
+	Thu, 30 Jun 2011 13:48:04 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4E0C9F74.9040301@windriver.com>
-Date: Thu, 30 Jun 2011 22:35:57 +0200
-Message-Id: <21BC0569-3028-4DBA-90CB-D7CEC814DBC1@dominion.thruhere.net>
-References: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>
-	<4E0C9D43.6020504@mentor.com> <4E0C9F74.9040301@windriver.com>
+Date: Thu, 30 Jun 2011 22:47:58 +0200
+Message-Id: <D937CAB3-BFAC-46CD-8E33-67635EFBC215@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1084)
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] insane bbclass: turn fatal errors back into fatal	errors
+Subject: kernel.bbclass ERROR: QA Issue: Architecture did not match (40 to 62)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,47 +34,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 20:39:43 -0000
+X-List-Received-Date: Thu, 30 Jun 2011 20:51:49 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+I'm going to be mailing out the errors I'm setting with the reinstated =
+insane.bbclass, here are the first ones:
 
-Op 30 jun 2011, om 18:08 heeft Mark Hatle het volgende geschreven:
+ERROR: QA Issue: Architecture did not match (40 to 62) on =
+/work/archos5it-angstrom-linux-gnueabi/linux-omap-archos-2.6.27.10-omap1-r=
+101/packages-split/kernel-misc/kernel/scripts/kconfig/conf.o
+ERROR: QA Issue: Architecture did not match (40 to 62) on =
+/work/archos5it-angstrom-linux-gnueabi/linux-omap-archos-2.6.27.10-omap1-r=
+101/packages-split/kernel-misc/kernel/scripts/kconfig/zconf.tab.o
+ERROR: QA Issue: Architecture did not match (40 to 62) on =
+/work/archos5it-angstrom-linux-gnueabi/linux-omap-archos-2.6.27.10-omap1-r=
+101/packages-split/kernel-misc/kernel/scripts/kconfig/kxgettext.o
 
-> On 6/30/11 10:58 AM, Tom Rini wrote:
->> On 06/30/2011 08:11 AM, Koen Kooi wrote:
->>> These were turned off by:
->>>=20
->>> 	commit fae8d5e985e9b05ce90f1eca434ad4dbf2259725
->>> 	Author: Richard Purdie <rpurdie@linux.intel.com>
->>> 	Date:   Thu Jul 8 23:51:06 2010 +0100
->>>=20
->>> 		insane.bbclass: Relax fatal errors for now until we get =
-have time to work through the backlog
->>>=20
->>> The current metadata triggers so many of these that they need to be =
-made fatal so people will actually fix them.
->>>=20
->>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->>=20
->> Given that a number of them can probably just be pulled from oe.dev =
-as
->> fixes too:
->>=20
->> Acked-by: Tom Rini <tom_rini@mentor.com>
->=20
-> I'm really worried about the current warnings/QA issues that keep =
-coming up.. so
-> I agree we really need to do this.. (note, we also really need to tell =
-people to
-> expect some breakage as we go and fix the mess!)
-
-During todays TSC meeting the proposed date to switch was the 11th and =
-encourage people to start fixing things *NOW*. What are peoples thought =
-on that?
-
-regards,
-
-Koen=
 
 
