@@ -1,28 +1,26 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QcJYm-0001CQ-Lm
+	(envelope-from <sgw@linux.intel.com>) id 1QcJcC-0001FU-BM
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 17:53:44 +0200
-Received: by wyg30 with SMTP id 30so1857499wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2011 08:50:01 -0700 (PDT)
-Received: by 10.216.120.129 with SMTP id p1mr2042446weh.81.1309449000969;
-	Thu, 30 Jun 2011 08:50:00 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id b70sm1204224wek.44.2011.06.30.08.49.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Jun 2011 08:50:00 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <201106301633.48933.paul.eggleton@linux.intel.com>
-Date: Thu, 30 Jun 2011 17:49:57 +0200
-Message-Id: <4FC82E26-5A0C-48DF-99F5-7E2D9B8C7290@dominion.thruhere.net>
-References: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>
-	<201106301633.48933.paul.eggleton@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] insane bbclass: turn fatal errors back into fatal errors
+	Thu, 30 Jun 2011 17:57:17 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jun 2011 08:53:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,450,1304319600"; d="scan'208";a="22399873"
+Received: from swold-mobl.jf.intel.com (HELO [10.24.82.35]) ([10.24.82.35])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Jun 2011 08:53:31 -0700
+Message-ID: <4E0C9BFB.3070906@linux.intel.com>
+Date: Thu, 30 Jun 2011 08:53:31 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Phil Blundell <pb@pbcl.net>
+References: <1309275023-2626-1-git-send-email-koen@dominion.thruhere.net>	<1309277475.20015.320.camel@rex>	<AE12D97B-A9AF-4516-93D2-7A5655B46844@dominion.thruhere.net>	<1309354589.2551.40.camel@phil-desktop>	<1309355375.20015.383.camel@rex>	<1309432642.2551.131.camel@phil-desktop>
+	<1309445640.20015.444.camel@rex>
+In-Reply-To: <1309445640.20015.444.camel@rex>
+Subject: Re: [PATCH] eglibc-locale: fix localedef packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,64 +35,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 15:53:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 Jun 2011 15:57:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 06/30/2011 07:54 AM, Richard Purdie wrote:
+> On Thu, 2011-06-30 at 12:17 +0100, Phil Blundell wrote:
+>> On Wed, 2011-06-29 at 14:49 +0100, Richard Purdie wrote:
+>>> I'd love to see a patch for this! :)
+>>
+>> Your wish, naturally, is my command.  I've built micro-base-image with
+>> this and verified that I didn't get any false positives; I also checked
+>> (via some manual fiddling) that it did indeed detect the case that we
+>> want it to.
+>>
+>> I guess it might be a good idea for someone to test it with a slightly
+>> larger dataset before actually checking it in, just in case.
+>
+> Thanks, I'll let Saul try this against a wider build and assuming it
+> doesn't throw out too many issues we can get it merged.
+>
+Phil,
+
+Can I get this as a proper patch email with a clean header, I will start 
+testing with below.
+
+Thanks
+	Sau!
 
 
-Op 30 jun 2011, om 17:33 heeft Paul Eggleton het volgende geschreven:
-
-> On Thursday 30 June 2011 16:11:29 Koen Kooi wrote:
->> These were turned off by:
->>=20
->> 	commit fae8d5e985e9b05ce90f1eca434ad4dbf2259725
->> 	Author: Richard Purdie <rpurdie@linux.intel.com>
->> 	Date:   Thu Jul 8 23:51:06 2010 +0100
->>=20
->> 		insane.bbclass: Relax fatal errors for now until we get =
-have time to=20
-> work
->> through the backlog
->>=20
->> The current metadata triggers so many of these that they need to be =
-made
->> fatal so people will actually fix them.
-> ...
->>     return not error_class in [0, 5, 7, 8, 9]
->=20
-> So in principle I can agree that making these fatal again will make =
-people=20
-> sort out the problems that they are flagging up. However, why is class =
-7 -=20
-> .desktop files being "invalid" - a fatal error, considering there are =
-many sub-
-> classes of "invalidity" being tested for with varying levels of =
-significance?
->=20
-> (This has probably been discussed on the OE list before but IMHO it =
-merits=20
-> revisiting if so.)
-
-It's a white list, so:
-
-# 0 - non dev contains .so
-# 5 - .la contains installed=3Dyes or reference to the workdir
-# 7 - the desktop file is not valid
-# 8 - .la contains reference to the workdir
-# 9 - LDFLAGS ignored
-
-Are warnings and
-
-# 1 - package contains a dangerous RPATH
-# 2 - package depends on debug package
-# 3 - non dbg contains .so
-# 4 - wrong architecture
-# 6 - .pc contains reference to /usr/include or workdir
-# 10 - Build paths in binaries
-# 11 - package depends on devel package
-
-Are fatal errors. The splits seems arbitrary to me, but it that's how it =
-was last year before RP disabled all fatal errors.
-
+> Cheers,
+>
+> Richard
+>
+>> p.
+>>
+>> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+>> index 35809b9..f7e5524 100644
+>> --- a/meta/classes/insane.bbclass
+>> +++ b/meta/classes/insane.bbclass
+>> @@ -103,6 +103,7 @@ def package_qa_get_machine_dict():
+>>   # 8 - .la contains reference to the workdir
+>>   # 9 - LDFLAGS ignored
+>>   # 10 - Build paths in binaries
+>> +# 11 - package depends on devel package
+>>
+>>   def package_qa_clean_path(path,d):
+>>       """ Remove the common prefix from the path. In this case it is the TMPDIR"""
+>> @@ -134,6 +135,7 @@ def package_qa_write_error(error_class, name, path, d):
+>>           ".la contains reference to the workdir",
+>>           "LDFLAGS ignored",
+>>           "package contains reference to tmpdir paths",
+>> +	"package depends on devel package",
+>>       ]
+>>
+>>       log_path = os.path.join( bb.data.getVar('T', d, True), "log.qa_package" )
+>> @@ -493,12 +495,14 @@ def package_qa_check_rdepends(pkg, pkgdest, d):
+>>           # Now check the RDEPENDS
+>>           rdepends = bb.utils.explode_deps(bb.data.getVar('RDEPENDS', localdata, True) or "")
+>>
+>> -
+>>           # Now do the sanity check!!!
+>>           for rdepend in rdepends:
+>>               if "-dbg" in rdepend:
+>>                   error_msg = "%s rdepends on %s" % (pkgname,rdepend)
+>>                   sane = package_qa_handle_error(2, error_msg, pkgname, rdepend, d)
+>> +	    if (not "-dev" in pkg and not "-staticdev" in pkg) and rdepend.endswith("-dev"):
+>> +	        error_msg = "%s rdepends on %s" % (pkgname, rdepend)
+>> +                sane = package_qa_handle_error(11, error_msg, pkgname, rdepend, d)
+>>
+>>       return sane
+>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
