@@ -1,36 +1,38 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QcIJG-0008IL-8A
-	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 16:33:38 +0200
-Received: by iym10 with SMTP id 10so2164234iym.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QcIh5-00009Y-Ry for openembedded-core@lists.openembedded.org;
+	Thu, 30 Jun 2011 16:58:16 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5UEsSde019840
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2011 07:29:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=IkHgrCqz94yabzc8+FUI6Xc5hC56tqCQ0Wmm+P+ln2k=;
-	b=HRb4kw299+4HnTq1ljGKWyDa7NKY3HMfPJu8kWw2gm6pl65h4kKEKm14QOsLHhDXhV
-	KMFumzQ67Gc3FGBgqL2sjRRTg89d/kX1S55slo9jhlB8WUDSYXYU1UALA3EAwHwz86/y
-	RgEP00tq4AUmqPQO5iqE6bZte+TOycW/FwnZk=
-Received: by 10.42.172.10 with SMTP id l10mr2180942icz.468.1309444192189;
-	Thu, 30 Jun 2011 07:29:52 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id f19sm1256123ibl.66.2011.06.30.07.29.50
-	(version=SSLv3 cipher=OTHER); Thu, 30 Jun 2011 07:29:50 -0700 (PDT)
-Message-ID: <4E0C885D.9000505@gmail.com>
-Date: Thu, 30 Jun 2011 07:29:49 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1308219330.25285.4194.camel@phil-desktop>	<4DFA0824.5030809@gmail.com>
-	<1308234598.25285.4740.camel@phil-desktop>	<4DFA8F49.8000309@gmail.com>
-	<1309429954.2551.109.camel@phil-desktop>
-In-Reply-To: <1309429954.2551.109.camel@phil-desktop>
-Subject: Re: eglibc testing?
+	Thu, 30 Jun 2011 15:54:28 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19403-09 for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2011 15:54:24 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5UEsJKf019834
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2011 15:54:20 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1309432642.2551.131.camel@phil-desktop>
+References: <1309275023-2626-1-git-send-email-koen@dominion.thruhere.net>
+	<1309277475.20015.320.camel@rex>
+	<AE12D97B-A9AF-4516-93D2-7A5655B46844@dominion.thruhere.net>
+	<1309354589.2551.40.camel@phil-desktop>
+	<1309355375.20015.383.camel@rex>
+	<1309432642.2551.131.camel@phil-desktop>
+Date: Thu, 30 Jun 2011 15:54:00 +0100
+Message-ID: <1309445640.20015.444.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] eglibc-locale: fix localedef packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,30 +47,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 14:33:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 30 Jun 2011 14:58:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/30/2011 03:32 AM, Phil Blundell wrote:
-> On Thu, 2011-06-16 at 16:18 -0700, Khem Raj wrote:
->> Yes I think I should put together my mechanism somewhere and post it
->> and dejaGNU setup I use for cross testing
->
-> Did you get a chance to do this at all?
->
+On Thu, 2011-06-30 at 12:17 +0100, Phil Blundell wrote:
+> On Wed, 2011-06-29 at 14:49 +0100, Richard Purdie wrote:
+> > I'd love to see a patch for this! :)
+> 
+> Your wish, naturally, is my command.  I've built micro-base-image with
+> this and verified that I didn't get any false positives; I also checked
+> (via some manual fiddling) that it did indeed detect the case that we
+> want it to.  
+> 
+> I guess it might be a good idea for someone to test it with a slightly
+> larger dataset before actually checking it in, just in case.
 
-so far no. Let me collect them and make sure they work
+Thanks, I'll let Saul try this against a wider build and assuming it
+doesn't throw out too many issues we can get it merged.
 
-> thanks
->
+Cheers,
+
+Richard
+
 > p.
->
->
->
+> 
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 35809b9..f7e5524 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -103,6 +103,7 @@ def package_qa_get_machine_dict():
+>  # 8 - .la contains reference to the workdir
+>  # 9 - LDFLAGS ignored
+>  # 10 - Build paths in binaries
+> +# 11 - package depends on devel package
+>  
+>  def package_qa_clean_path(path,d):
+>      """ Remove the common prefix from the path. In this case it is the TMPDIR"""
+> @@ -134,6 +135,7 @@ def package_qa_write_error(error_class, name, path, d):
+>          ".la contains reference to the workdir",
+>          "LDFLAGS ignored",
+>          "package contains reference to tmpdir paths",
+> +	"package depends on devel package",
+>      ]
+>  
+>      log_path = os.path.join( bb.data.getVar('T', d, True), "log.qa_package" )
+> @@ -493,12 +495,14 @@ def package_qa_check_rdepends(pkg, pkgdest, d):
+>          # Now check the RDEPENDS
+>          rdepends = bb.utils.explode_deps(bb.data.getVar('RDEPENDS', localdata, True) or "")
+>  
+> -
+>          # Now do the sanity check!!!
+>          for rdepend in rdepends:
+>              if "-dbg" in rdepend:
+>                  error_msg = "%s rdepends on %s" % (pkgname,rdepend)
+>                  sane = package_qa_handle_error(2, error_msg, pkgname, rdepend, d)
+> +	    if (not "-dev" in pkg and not "-staticdev" in pkg) and rdepend.endswith("-dev"):
+> +	        error_msg = "%s rdepends on %s" % (pkgname, rdepend)
+> +                sane = package_qa_handle_error(11, error_msg, pkgname, rdepend, d)
+>  
+>      return sane
+>  
+> 
+> 
+> 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
 
