@@ -1,27 +1,28 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QcMKe-0004br-Tj
+	(envelope-from <koen@dominion.thruhere.net>) id 1QcO1X-0006u9-PC
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 20:51:20 +0200
-Received: by wyg30 with SMTP id 30so1987509wyg.6
+	Thu, 30 Jun 2011 22:39:43 +0200
+Received: by wwi14 with SMTP id 14so1121866wwi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2011 11:47:37 -0700 (PDT)
-Received: by 10.227.167.129 with SMTP id q1mr2100417wby.101.1309459657222;
-	Thu, 30 Jun 2011 11:47:37 -0700 (PDT)
+	Thu, 30 Jun 2011 13:36:00 -0700 (PDT)
+Received: by 10.216.158.198 with SMTP id q48mr2058987wek.94.1309466159829;
+	Thu, 30 Jun 2011 13:35:59 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id d19sm1822506wbh.42.2011.06.30.11.47.35
+	by mx.google.com with ESMTPS id n21sm1320011wed.43.2011.06.30.13.35.58
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Jun 2011 11:47:36 -0700 (PDT)
+	Thu, 30 Jun 2011 13:35:59 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1084)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1308664747-32727-1-git-send-email-koen@dominion.thruhere.net>
-Date: Thu, 30 Jun 2011 20:47:35 +0200
-Message-Id: <2A0CEBA8-86A7-49D8-9DE2-4D8B02942596@dominion.thruhere.net>
-References: <1308664747-32727-1-git-send-email-koen@dominion.thruhere.net>
+In-Reply-To: <4E0C9F74.9040301@windriver.com>
+Date: Thu, 30 Jun 2011 22:35:57 +0200
+Message-Id: <21BC0569-3028-4DBA-90CB-D7CEC814DBC1@dominion.thruhere.net>
+References: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>
+	<4E0C9D43.6020504@mentor.com> <4E0C9F74.9040301@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] linux-libc-headers: add 2.6.39
+Subject: Re: [PATCH] insane bbclass: turn fatal errors back into fatal	errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,86 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 18:51:21 -0000
+X-List-Received-Date: Thu, 30 Jun 2011 20:39:43 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-ping
 
-Op 21 jun 2011, om 15:59 heeft Koen Kooi het volgende geschreven:
+Op 30 jun 2011, om 18:08 heeft Mark Hatle het volgende geschreven:
 
-> The 2.6.37.2 version is kept to allow the qemu kernels and libc =
-headers version to match
-> ---
-> .../linux-libc-headers_2.6.39.bb                   |   49 =
-++++++++++++++++++++
-> 1 files changed, 49 insertions(+), 0 deletions(-)
-> create mode 100644 =
-meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
+> On 6/30/11 10:58 AM, Tom Rini wrote:
+>> On 06/30/2011 08:11 AM, Koen Kooi wrote:
+>>> These were turned off by:
+>>>=20
+>>> 	commit fae8d5e985e9b05ce90f1eca434ad4dbf2259725
+>>> 	Author: Richard Purdie <rpurdie@linux.intel.com>
+>>> 	Date:   Thu Jul 8 23:51:06 2010 +0100
+>>>=20
+>>> 		insane.bbclass: Relax fatal errors for now until we get =
+have time to work through the backlog
+>>>=20
+>>> The current metadata triggers so many of these that they need to be =
+made fatal so people will actually fix them.
+>>>=20
+>>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>>=20
+>> Given that a number of them can probably just be pulled from oe.dev =
+as
+>> fixes too:
+>>=20
+>> Acked-by: Tom Rini <tom_rini@mentor.com>
 >=20
-> diff --git =
-a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb =
-b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
-> new file mode 100644
-> index 0000000..65c19ec
-> --- /dev/null
-> +++ =
-b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
-> @@ -0,0 +1,49 @@
-> +require linux-libc-headers.inc
-> +
-> +INHIBIT_DEFAULT_DEPS =3D "1"
-> +DEPENDS +=3D "unifdef-native"
-> +
-> +SRC_URI +=3D " file://connector-msg-size-fix.patch"
-> +SRC_URI[md5sum] =3D "1aab7a741abe08d42e8eccf20de61e05"
-> +SRC_URI[sha256sum] =3D =
-"584d17f2a3ee18a9501d7ff36907639e538cfdba4529978b8550c461d45c61f6"
-> +
-> +S =3D "${WORKDIR}/linux-${PV}"
-> +
-> +set_arch() {
-> +	case ${TARGET_ARCH} in
-> +		alpha*)   ARCH=3Dalpha ;;
-> +		arm*)     ARCH=3Darm ;;
-> +		cris*)    ARCH=3Dcris ;;
-> +		hppa*)    ARCH=3Dparisc ;;
-> +		i*86*)    ARCH=3Di386 ;;
-> +		ia64*)    ARCH=3Dia64 ;;
-> +		mips*)    ARCH=3Dmips ;;
-> +		m68k*)    ARCH=3Dm68k ;;
-> +		powerpc*) ARCH=3Dpowerpc ;;
-> +		s390*)    ARCH=3Ds390 ;;
-> +		sh*)      ARCH=3Dsh ;;
-> +		sparc64*) ARCH=3Dsparc64 ;;
-> +		sparc*)   ARCH=3Dsparc ;;
-> +		x86_64*)  ARCH=3Dx86_64 ;;
-> +		avr32*)   ARCH=3Davr32 ;;
-> +		bfin*)    ARCH=3Dblackfin ;;
-> +		microblaze*) ARCH=3Dmicroblaze ;;
-> +	esac
-> +}
-> +
-> +do_configure() {
-> +	set_arch
-> +	oe_runmake allnoconfig ARCH=3D$ARCH
-> +}
-> +
-> +do_compile () {
-> +}
-> +
-> +do_install() {
-> +	set_arch
-> +	oe_runmake headers_install INSTALL_HDR_PATH=3D${D}${exec_prefix} =
-ARCH=3D$ARCH
-> +	# Kernel should not be exporting this header
-> +	rm -f ${D}${exec_prefix}/include/scsi/scsi.h
-> +}
-> +
-> +BBCLASSEXTEND =3D "nativesdk"
-> --=20
-> 1.6.6.1
->=20
+> I'm really worried about the current warnings/QA issues that keep =
+coming up.. so
+> I agree we really need to do this.. (note, we also really need to tell =
+people to
+> expect some breakage as we go and fix the mess!)
 
+During todays TSC meeting the proposed date to switch was the 11th and =
+encourage people to start fixing things *NOW*. What are peoples thought =
+on that?
+
+regards,
+
+Koen=
 
 
