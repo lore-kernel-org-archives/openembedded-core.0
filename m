@@ -1,28 +1,33 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QcPrB-0003OI-FP
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 00:37:09 +0200
-Received: by wyg30 with SMTP id 30so2114775wyg.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QcPum-0003SI-7J for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 00:40:52 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5UMb8FR030140
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2011 15:33:25 -0700 (PDT)
-Received: by 10.227.200.198 with SMTP id ex6mr2351394wbb.2.1309473205543;
-	Thu, 30 Jun 2011 15:33:25 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fu18sm1932159wbb.61.2011.06.30.15.33.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Jun 2011 15:33:24 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1703bd12b68b86a3d73fe39e9fd9369ac0b027ca.1307895912.git.koen@dominion.thruhere.net>
-Date: Fri, 1 Jul 2011 00:33:12 +0200
-Message-Id: <29375D62-544F-457B-8393-79BF9DDA54BA@dominion.thruhere.net>
-References: <cover.1307895912.git.koen@dominion.thruhere.net>
-	<1703bd12b68b86a3d73fe39e9fd9369ac0b027ca.1307895912.git.koen@dominion.thruhere.net>
+	Thu, 30 Jun 2011 23:37:08 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27728-06 for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2011 23:37:04 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p5UMb3ul030126
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jun 2011 23:37:03 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 1/2] qemu.inc: append to IMAGE_FSTYPES instead of weakly assigning them
+In-Reply-To: <cover.1308687821.git.nitin.a.kamble@intel.com>
+References: <cover.1308687821.git.nitin.a.kamble@intel.com>
+Date: Thu, 30 Jun 2011 23:36:44 +0100
+Message-ID: <1309473404.20015.479.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [btrfs patch 0/6] enable btrfs images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,41 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 22:37:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 Jun 2011 22:40:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-ping
+On Tue, 2011-06-21 at 13:27 -0700, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> These patches enable the btrfs image support in the poky tree.
+> Other than kernel parts all the parts are ready here. linux-yocto-2.6.37 
+> kernel need some work to get latest btrfs working, and that part will 
+> be sent separately.
+> 
+> The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
+> 
+>   systemtap: remove non-core COMPATIBLE_MACHINES (2011-06-16 22:14:06 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib nitin/btrfs
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/btrfs
+> 
+> Nitin A Kamble (6):
+>   btrfs-tools: new recipe for tools to operate on btrfs images
+>   image-types.bbclass: get the image size in the whole number
+>   image_types.bbclass: enable btrfs as one of the image type
+>   qemu machine: enable btrfs as one of the supported filesystem
+>   base-files: add btrfs to /etc/filesystems
+>   scripts/runqemu: enable btrfs
 
-Op 12 jun 2011, om 18:26 heeft Koen Kooi het volgende geschreven:
+Merged to master, thanks.
 
-> The ext3 format is pretty much mandatory for qemu usage, so always =
-create it.
->=20
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
-> meta/conf/machine/include/qemu.inc |    2 +-
-> 1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/conf/machine/include/qemu.inc =
-b/meta/conf/machine/include/qemu.inc
-> index 9ef242f..e908f69 100644
-> --- a/meta/conf/machine/include/qemu.inc
-> +++ b/meta/conf/machine/include/qemu.inc
-> @@ -3,7 +3,7 @@ PREFERRED_PROVIDER_virtual/xserver ?=3D =
-"xserver-kdrive"
->=20
-> MACHINE_FEATURES =3D "kernel26 apm alsa pcmcia bluetooth irda =
-usbgadget screen"
->=20
-> -IMAGE_FSTYPES ?=3D "tar.bz2 ext3"
-> +IMAGE_FSTYPES +=3D "tar.bz2 ext3"
->=20
-> ROOT_FLASH_SIZE =3D "280"
->=20
-> --=20
-> 1.6.6.1
->=20
+Richard
 
 
 
