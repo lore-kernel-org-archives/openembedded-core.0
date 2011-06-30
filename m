@@ -1,34 +1,36 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QcHXf-0001cR-Sa
+	(envelope-from <raj.khem@gmail.com>) id 1QcIJG-0008IL-8A
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 15:44:27 +0200
-Received: by wwi18 with SMTP id 18so1928064wwi.24
+	Thu, 30 Jun 2011 16:33:38 +0200
+Received: by iym10 with SMTP id 10so2164234iym.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2011 06:40:44 -0700 (PDT)
-Received: by 10.216.69.77 with SMTP id m55mr1811397wed.11.1309441244093;
-	Thu, 30 Jun 2011 06:40:44 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id b70sm1145839wek.20.2011.06.30.06.40.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Jun 2011 06:40:42 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1309439074.2551.135.camel@phil-desktop>
-Date: Thu, 30 Jun 2011 15:40:36 +0200
-Message-Id: <D8CC6DE0-FC4D-443A-8155-B06E8FF03FD6@dominion.thruhere.net>
-References: <1309275023-2626-1-git-send-email-koen@dominion.thruhere.net>
-	<1309277475.20015.320.camel@rex>
-	<AE12D97B-A9AF-4516-93D2-7A5655B46844@dominion.thruhere.net>
-	<1309354589.2551.40.camel@phil-desktop>
-	<1309355375.20015.383.camel@rex>
-	<1309432642.2551.131.camel@phil-desktop>
-	<BF22A833-DD0C-41FB-B9AF-CB871B8A1E7A@dominion.thruhere.net>
-	<1309439074.2551.135.camel@phil-desktop>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] eglibc-locale: fix localedef packaging
+	Thu, 30 Jun 2011 07:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=IkHgrCqz94yabzc8+FUI6Xc5hC56tqCQ0Wmm+P+ln2k=;
+	b=HRb4kw299+4HnTq1ljGKWyDa7NKY3HMfPJu8kWw2gm6pl65h4kKEKm14QOsLHhDXhV
+	KMFumzQ67Gc3FGBgqL2sjRRTg89d/kX1S55slo9jhlB8WUDSYXYU1UALA3EAwHwz86/y
+	RgEP00tq4AUmqPQO5iqE6bZte+TOycW/FwnZk=
+Received: by 10.42.172.10 with SMTP id l10mr2180942icz.468.1309444192189;
+	Thu, 30 Jun 2011 07:29:52 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id f19sm1256123ibl.66.2011.06.30.07.29.50
+	(version=SSLv3 cipher=OTHER); Thu, 30 Jun 2011 07:29:50 -0700 (PDT)
+Message-ID: <4E0C885D.9000505@gmail.com>
+Date: Thu, 30 Jun 2011 07:29:49 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1308219330.25285.4194.camel@phil-desktop>	<4DFA0824.5030809@gmail.com>
+	<1308234598.25285.4740.camel@phil-desktop>	<4DFA8F49.8000309@gmail.com>
+	<1309429954.2551.109.camel@phil-desktop>
+In-Reply-To: <1309429954.2551.109.camel@phil-desktop>
+Subject: Re: eglibc testing?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,32 +45,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 13:44:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 30 Jun 2011 14:33:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 06/30/2011 03:32 AM, Phil Blundell wrote:
+> On Thu, 2011-06-16 at 16:18 -0700, Khem Raj wrote:
+>> Yes I think I should put together my mechanism somewhere and post it
+>> and dejaGNU setup I use for cross testing
+>
+> Did you get a chance to do this at all?
+>
 
-Op 30 jun 2011, om 15:04 heeft Phil Blundell het volgende geschreven:
+so far no. Let me collect them and make sure they work
 
-> On Thu, 2011-06-30 at 13:24 +0200, Koen Kooi wrote:
->> Does it whitelist recipes that inherit task.bbclass? I have tasks =
-used for beagleboard workshops that drag in the native toolchain and =
-headers for the things we need to build against (e.g. opencv, qt).
->=20
-> No.  The existing logic for -dbg packages, which I just reused for =
-this
-> case, does:
->=20
->    if not "-dbg" in pkg and not "task-" in pkg and not "-image" in =
-pkg:
->=20
-> but it doesn't have a check for inheritance as such.  If you can =
-suggest
-> a good way to identify recipes that have inherited task then I'd be
-> happy to adjust the patch accordingly.
+> thanks
+>
+> p.
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-The current logic seems to do what I want, but I remember something =
-about being able to do 'if inherits(task)', but that was about 5 years =
-:)=
 
 
