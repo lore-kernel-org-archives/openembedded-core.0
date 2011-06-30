@@ -1,24 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Qc56F-0004MF-Ju
+	(envelope-from <mark.hatle@windriver.com>) id 1Qc5FJ-0004TP-Qp
 	for openembedded-core@lists.openembedded.org;
-	Thu, 30 Jun 2011 02:27:19 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Jun 2011 17:23:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,446,1304319600"; d="scan'208";a="21710190"
-Received: from unknown (HELO [10.255.13.240]) ([10.255.13.240])
-	by orsmga001.jf.intel.com with ESMTP; 29 Jun 2011 17:23:35 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jun 2011 17:23:30 -0700
-In-Reply-To: <000E4B57-AB90-4BF8-80B2-8698FEC51AA3@dominion.thruhere.net>
-References: <cover.1309383978.git.josh@linux.intel.com>
-	<000E4B57-AB90-4BF8-80B2-8698FEC51AA3@dominion.thruhere.net>
-X-Mailer: Evolution 3.0.2 (3.0.2-2.fc15) 
-Message-ID: <1309393415.24735.19.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: [RFC 0/2] Sanity check network connectivity
+	Thu, 30 Jun 2011 02:36:42 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p5U0WvXE028195
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jun 2011 17:32:57 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 29 Jun 2011 17:32:57 -0700
+Message-ID: <4E0BC438.503@windriver.com>
+Date: Wed, 29 Jun 2011 19:32:56 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <201106300102.16411.schnitzeltony@gmx.de>
+	<BANLkTimEROj5AcR+eYjLVFH2Sh3+0sB04A@mail.gmail.com>
+In-Reply-To: <BANLkTimEROj5AcR+eYjLVFH2Sh3+0sB04A@mail.gmail.com>
+Subject: Re: How to reuse code in oe-core environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jun 2011 00:27:19 -0000
+X-List-Received-Date: Thu, 30 Jun 2011 00:36:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-06-30 at 00:00 +0200, Koen Kooi wrote:
-> Op 29 jun 2011, om 23:55 heeft Joshua Lock het volgende geschreven:
+On 6/29/11 6:59 PM, Chris Larson wrote:
+> On Wed, Jun 29, 2011 at 4:02 PM, Andreas Mueller <schnitzeltony@gmx.de> wrote:
+>> foo() {
+>>        # code to reuse
+>> }
+>>
+>> and called foo from several recipes. In oe-core the run.* scripts are much more
+>> stripped of unnecessary.  All the code included by 'require' seems to miss, so
+>> the function foo() will not be found.
+>>
+>> My searches for examples did not lead to a hook so what is the suggested
+>> solution for reusing code for multiple recipes in oe-core?
 > 
-> > v3 of this change set based on extra feedback from Khem Raj.
-> > Changes since v2:
-> > * Remove references to Yocto, don't offer default uri's to check
-> 
-> Can't you offer an oe.org url to check instead?
+> The require doesn't have to do with anything. bitbake emits only the
+> functions which get called somewhere from the task being run. It
+> tracks what variables reference what other variables. If you call a
+> shell function from another shell function, it tracks this, and
+> realizes that both need to be emitted. Either you're doing something
+> wrong, or you're doing something in a way that bitbake can't track.
+> There's a variable flag you can set to explicitly add variable
+> dependencies.
 
-Can we? Sure. Should we? I don't know...
+There is an example of how to work around this in the rootfs_rpm.bbclass..  It's
+a bit odd, but it has to do with the way the function is called:
 
-If this is deemed desirable perhaps we'll need some small uri's to fetch
-from and test at least http, https and git fetches. Any suggestions?
+        # Workaround so the parser knows we need the resolve_package function!
+        if false ; then
+                resolve_package_rpm foo ${RPMCONF_TARGET_BASE}.conf || true
+        fi
 
-Could this be a follow on patch?
 
-Joshua
--- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+....
 
+        pkg_name=$(resolve_package_rpm $pkg-locale-$lang
+${RPMCONF_TARGET_BASE}.conf)
+
+
+So if the function is called within a subshell, the parser doesn't appear to
+know it's there.. so you have to reference it in the function somewhere (the if
+false works well for this) in order for it to be available to call.
 
 
