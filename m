@@ -1,35 +1,35 @@
-Received: from mail-iw0-f175.google.com ([209.85.214.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qch4E-0001M2-I0
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 18:59:46 +0200
-Received: by iwn4 with SMTP id 4so3233376iwn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2011 09:56:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=Oz3LYHiRcVZwlq1D0vptKd5k7P17gLLwjWLDFZRzGwE=;
-	b=AYmEMoFzmNW6VnaoGcCJnDsffgfMqB3LvdRhda902G/PFCVTZx+qXk+XcZXxonTW8q
-	vb7r75cTEjp/UHqRBqhz4anVc8XLtXSmSBXvT/tYQinEbj9avQ0m5OuoF4Li3m7JZZHQ
-	O4pHktB11mdIVynoJcYopnqLbILkAa4cDJhGU=
-Received: by 10.42.168.2 with SMTP id u2mr3855775icy.317.1309539357649;
-	Fri, 01 Jul 2011 09:55:57 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id v16sm1960095ibe.17.2011.07.01.09.55.56
-	(version=SSLv3 cipher=OTHER); Fri, 01 Jul 2011 09:55:57 -0700 (PDT)
-Message-ID: <4E0DFC19.2040706@gmail.com>
-Date: Fri, 01 Jul 2011 09:55:53 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1309243115.git.liezhi.yang@windriver.com>	<4E0D062C.5060302@linux.intel.com>	<2B6421C4-E7C5-42FB-B46F-AAFAE85DB7F2@dominion.thruhere.net>	<1309509178.20015.513.camel@rex>	<72100965-D39D-41D0-B6E7-78E18D6FD072@dominion.thruhere.net>	<7A98A269-0EB8-452E-839C-68A68128B5A3@gmail.com>
-	<AB227B7A-755C-454D-A38E-7FF913801989@dominion.thruhere.net>
-In-Reply-To: <AB227B7A-755C-454D-A38E-7FF913801989@dominion.thruhere.net>
-Subject: Re: It's broken, please revert. Re: [PATCH 0/4 V4] Share gcc work directories
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QchL0-0001xT-4K for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 19:17:06 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61HDImu013380;
+	Fri, 1 Jul 2011 18:13:18 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12899-09; Fri,  1 Jul 2011 18:13:14 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61HD9p3013372
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 1 Jul 2011 18:13:10 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1309537504.20015.531.camel@rex>
+References: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>
+	<201106301633.48933.paul.eggleton@linux.intel.com>
+	<4FC82E26-5A0C-48DF-99F5-7E2D9B8C7290@dominion.thruhere.net>
+	<201106301659.54941.paul.eggleton@linux.intel.com>
+	<1309537504.20015.531.camel@rex>
+Date: Fri, 01 Jul 2011 18:12:47 +0100
+Message-ID: <1309540367.20015.534.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] insane bbclass: turn fatal errors back into fatal errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,71 +44,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 16:59:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 01 Jul 2011 17:17:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/01/2011 07:01 AM, Koen Kooi wrote:
->
-> Op 1 jul 2011, om 15:57 heeft Khem Raj het volgende geschreven:
->
->>
->>
->> On Jul 1, 2011, at 4:00 AM, Koen Kooi<koen@dominion.thruhere.net>  wrote:
->>
->>>
->>> Op 1 jul 2011, om 10:32 heeft Richard Purdie het volgende geschreven:
->>>
->>>> On Fri, 2011-07-01 at 09:15 +0200, Koen Kooi wrote:
->>>>> incremental build with rm_work turned on:
->>>>>
->>>>> ERROR: Function 'do_configure' failed (see /OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-r37.0+svnr175127/temp/log.do_configure.27092 for further information)
->>>>> ERROR: Logfile of failure stored in: /OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-r37.0+svnr175127/temp/log.do_configure.27092
->>>>> Log data follows:
->>>>> | + cd /OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-r37.0+svnr175127/gcc-4.5/build.x86_64-linux.arm-angstrom-linux-gnueabi
->>>>> | + do_configure
->>>>> | + sed -i '/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-r37.0+svnr175127/gcc-4_5-branch/gcc/config/*/linux*.h' -e 's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 SYSTEMLIBS_DIR\2#'
->>>>> | sed: can't read /OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-r37.0+svnr175127/gcc-4_5-branch/gcc/config/*/linux*.h: No such file or directory
->>>>> | ERROR: Function 'do_configure' failed (see /OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-r37.0+svnr175127/temp/log.do_configure.27092 for further information)
->>>>> NOTE: package gcc-cross-initial-4.5-r37.0+svnr175127: task do_configure: Failed
->>>>> ERROR: Task 764 (/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-devtools/gcc/gcc-cross-initial_4.5.bb, do_configure) failed with exit code '1'
->>>>>
->>>>> Can this patchset get reverted please and reapplied when it actually has been tested to work?
->>>>
->>>> I checked and everything is fine with rm_work.
->>>>
->>>> Looking at this error, something is changing ${S} as there is no mention
->>>> of work-shared in the sed command yet there should be.
->>>>
->>>> At a guess this is coming from:
->>>>
->>>> http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-openembedded/tree/meta-oe/recipes-devtools/gcc/gcc-4.5.inc
->>>>
->>>> where it says:
->>>>
->>>> S = "${WORKDIR}/${BRANCH}"
->>>>
->>>> and if that is changed to
->>>>
->>>> S_append = "/${BRANCH}"
->>>>
->>>> or removed it will likely work better.
->>>
->>> It was indeed a bug in meta-oe and the following fixed it:
->>>
->>> https://github.com/koenkooi/meta-oe/commit/8a917caaa5506fa0f875202243658a1c2fe60c40
->>
->> Additionally you would need to port the patch which mucks makefile fragment I think
->
-> Any volunteers for that? My incremental build seems to work now, haven't tried a from scratch yet.
+On Fri, 2011-07-01 at 17:25 +0100, Richard Purdie wrote:
+> On Thu, 2011-06-30 at 16:59 +0100, Paul Eggleton wrote:
+> > OK, comprehension fail on my part, sorry. Good to have them listed out 
+> > explicitly though, thanks for that. The fatal errors are definitely not good 
+> > things to be allowing through if we can avoid it.
+> > 
+> > Without checking, do you have a handle on how many of these we would have to 
+> > fix in OE-core to make it build without fatal errors?
+> 
+> For a world build of OE-Core/Poky on qemux86 (on a 64 bit machine so it
+> is cross) and ignoring desktop errors and things I've posted fixes for:
+> 
+> db-5.1.19, non dev contains .so, db, /work/i586-poky-linux/db-5.1.19-r3/packages-split/db/usr/lib/libdb-5.so
+> perl-5.12.3, package contains RPATH, perl-module-compress, /work/i586-poky-linux/perl-5.12.3-r1/packages-split/perl-module-compress/usr/lib/perl/5.12.3/auto/Compress/Raw/Zlib/Zlib.so
+> libxml-parser-perl-2.40, package contains RPATH, libxml-parser-perl, /work/i586-poky-linux/libxml-parser-perl-2.40-r2/packages-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.12.3/auto/XML/Parser/Expat/Expat.so
+> oprofile-0.9.6, non dev contains .so, oprofile, /work/i586-poky-linux/oprofile-0.9.6-r1/packages-split/oprofile/usr/lib/oprofile/libopagent.so
+> lttng-viewer-0.12.38, non dev contains .so, lttng-viewer, /work/i586-poky-linux/lttng-viewer-0.12.38-r1/packages-split/lttng-viewer/usr/lib/liblttvtraceread.so
+> gcc-4.6.0+svnr175150, non dev contains .so, gcc, /work/i586-poky-linux/gcc-4.6.0+svnr175150-r4/packages-split/gcc/usr/libexec/gcc/i586-poky-linux/4.6.1/liblto_plugin.so
+> 
+> libgsmd-0.1+svnr5394, non dev contains .so, gsmd-plugin-machine-generic, /work/i586-poky-linux/libgsmd-0.1+svnr5394-r2/packages-split/gsmd-plugin-machine-generic/usr/lib/gsmd/libgsmd-machine_generic.so
+> libgsmd-0.1+svnr5394, non dev contains .so, gsmd-plugin-machine-tihtc, /work/i586-poky-linux/libgsmd-0.1+svnr5394-r2/packages-split/gsmd-plugin-machine-tihtc/usr/lib/gsmd/libgsmd-machine_tihtc.so
+> libgsmd-0.1+svnr5394, non dev contains .so, gsmd-plugin-machine-gta01, /work/i586-poky-linux/libgsmd-0.1+svnr5394-r2/packages-split/gsmd-plugin-machine-gta01/usr/lib/gsmd/libgsmd-machine_gta01.so
+> libgsmd-0.1+svnr5394, non dev contains .so, gsmd-plugin-vendor-bcm, /work/i586-poky-linux/libgsmd-0.1+svnr5394-r2/packages-split/gsmd-plugin-vendor-bcm/usr/lib/gsmd/libgsmd-vendor_bcm.so
+> libgsmd-0.1+svnr5394, non dev contains .so, gsmd-plugin-vendor-qc, /work/i586-poky-linux/libgsmd-0.1+svnr5394-r2/packages-split/gsmd-plugin-vendor-qc/usr/lib/gsmd/libgsmd-vendor_qc.so
+> libgsmd-0.1+svnr5394, non dev contains .so, gsmd-plugin-vendor-ti, /work/i586-poky-linux/libgsmd-0.1+svnr5394-r2/packages-split/gsmd-plugin-vendor-ti/usr/lib/gsmd/libgsmd-vendor_ti.so
+> libgsmd-0.1+svnr5394, non dev contains .so, gsmd-plugin-vendor-tihtc, /work/i586-poky-linux/libgsmd-0.1+svnr5394-r2/packages-split/gsmd-plugin-vendor-tihtc/usr/lib/gsmd/libgsmd-vendor_tihtc.so
+> qemu-0.14.0, wrong architecture, qemu, /work/i586-poky-linux/qemu-0.14.0-r2/packages-split/qemu/usr/share/qemu/openbios-ppc
+> qemu-0.14.0, wrong architecture, qemu, /work/i586-poky-linux/qemu-0.14.0-r2/packages-split/qemu/usr/share/qemu/openbios-sparc32
+> qemu-0.14.0, wrong architecture, qemu, /work/i586-poky-linux/qemu-0.14.0-r2/packages-split/qemu/usr/share/qemu/openbios-sparc64
+> 
+> qt4-x11-free-4.7.3, wrong architecture, qt4-tools-dbg, /work/i586-poky-linux/qt4-x11-free-4.7.3-r23.1/packages-split/qt4-tools-dbg/usr/bin/.debug/uic
+> qt4-x11-free-4.7.3, wrong architecture, qt4-tools-dbg, /work/i586-poky-linux/qt4-x11-free-4.7.3-r23.1/packages-split/qt4-tools-dbg/usr/bin/.debug/rcc
+> qt4-x11-free-4.7.3, wrong architecture, qt4-tools-dbg, /work/i586-poky-linux/qt4-x11-free-4.7.3-r23.1/packages-split/qt4-tools-dbg/usr/bin/.debug/moc
+> qt4-x11-free-4.7.3, wrong architecture, qt4-tools, /work/i586-poky-linux/qt4-x11-free-4.7.3-r23.1/packages-split/qt4-tools/usr/bin/uic
+> qt4-x11-free-4.7.3, wrong architecture, qt4-tools, /work/i586-poky-linux/qt4-x11-free-4.7.3-r23.1/packages-split/qt4-tools/usr/bin/rcc
+> qt4-x11-free-4.7.3, wrong architecture, qt4-tools, /work/i586-poky-linux/qt4-x11-free-4.7.3-r23.1/packages-split/qt4-tools/usr/bin/moc
+> qt4-x11-free-4.7.3, wrong architecture, qt4-linguist, /work/i586-poky-linux/qt4-x11-free-4.7.3-r23.1/packages-split/qt4-linguist/usr/bin/lrelease
+> 
+> The qemu ones are false positives, the qt ones are nasty as are the
+> libxml-parser-perl and perl ones. The .so errors are hard to get excited
+> about but should get looked at and resolved.
+> 
+> In the meantime I'll run a world build for mips or ppc and see if that
+> shows anything different up.
 
-I had a patch for it half of which you already have. Once it builds 
-through I will post.
+Just to update, Nitin will look at the two perl issues, I have fixes
+ready for libgsmd and oprofile (will post the patches later). The lttng
+one is a false positive.
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+The gcc one looks simple enough and I'm not sure if the db one is a
+false positive or not.
+
+Any volunteers for qt4-x11-free-4.7.3?
+
+Cheers,
+
+Richard
 
 
 
