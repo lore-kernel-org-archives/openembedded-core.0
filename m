@@ -1,33 +1,23 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1Qca8b-0005Bv-Q6
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QcaDZ-0005KZ-4c for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 11:40:57 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1Qca9y-00029m-Tu
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 11:35:49 +0200
-Received: by ywa12 with SMTP id 12so1335097ywa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2011 02:32:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=tPlE5fvuiUaSt2n4C40jkvtkKbCKHwkwtixVNMBpMPs=;
-	b=tmg5u3F/4wRMH2iOZu2bYALgLqm9fY9666Af8RUQUMW9Vsd9DUAQWXtZ7aUD5S9lOE
-	tkZE4PWzdL5dp4y0gPpeanGsnKWSlVFy7PIMluGuH2gZYpB2dd1/soUoDf+6eX+SEZeR
-	b+JVhV55Lc1OuTIfSbrjio3GkldbY1JjEyqCg=
-MIME-Version: 1.0
-Received: by 10.91.65.16 with SMTP id s16mr1350833agk.90.1309512724772; Fri,
-	01 Jul 2011 02:32:04 -0700 (PDT)
-Received: by 10.90.183.14 with HTTP; Fri, 1 Jul 2011 02:32:04 -0700 (PDT)
-In-Reply-To: <BANLkTimqAhtqPWbhvnA4KdzYO2oJw63bvQ@mail.gmail.com>
-References: <1309453832.7987.33.camel@desktop.home>
-	<1309472051.20015.465.camel@rex>
-	<BANLkTimzg79tkU+=-AgwgYhJSC52jJVT6Q@mail.gmail.com>
-	<1299A20C-0494-4434-84C4-E1503FAE0CFC@dominion.thruhere.net>
-	<BANLkTimqAhtqPWbhvnA4KdzYO2oJw63bvQ@mail.gmail.com>
-Date: Fri, 1 Jul 2011 11:32:04 +0200
-Message-ID: <BANLkTi=Af0UVNk=76mShWvvK+ot-bmFObw@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+	Fri, 01 Jul 2011 11:37:15 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Proposal: recipe feature switches
+In-Reply-To: <1309511730.20015.514.camel@rex>
+References: <1309511730.20015.514.camel@rex>
+Organization: Phil Blundell Consulting Ltd
+Date: Fri, 01 Jul 2011 10:37:13 +0100
+Message-ID: <1309513033.2633.27.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+Subject: Re: cairo: Clean up packaging and fix warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,33 +32,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 09:35:50 -0000
-Content-Type: multipart/alternative; boundary=0016e650a4fcc9f58804a6feb006
+X-List-Received-Date: Fri, 01 Jul 2011 09:40:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---0016e650a4fcc9f58804a6feb006
-Content-Type: text/plain; charset=ISO-8859-1
+On Fri, 2011-07-01 at 10:15 +0100, Richard Purdie wrote:
+> +PACKAGES =+ "libcairo-gobject2 libcairo-script-interpreter2 cairo-perf-utils"
 
-Oh by the way, and the message you might be see saying:
+I guess those can/should just be "libcairo-gobject" and
+"libcairo-script-interpreter" now as well.
 
-This message may not have been sent by: fransmeulenbroeks@gmail.com Learn
-more Report phishing
+>  SUMMARY_libcairo2 = "The Cairo 2D vector graphics library"
+>  DESCRIPTION_libcairo2 = "Cairo is a multi-platform library providing anti-aliased \
 
-This is really google not having their stuff properly configured.
-I'm sending email from their web client (https://mail.google.com/....)
-And yes, it is me :-)
+Presumably those also want changing to ${PN} or some such.
 
-Frans
+p.
 
---0016e650a4fcc9f58804a6feb006
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-Oh by the way, and the message you might be see saying:<br><br>This message=
- may not have been sent by: <a href=3D"mailto:fransmeulenbroeks@gmail.com">=
-fransmeulenbroeks@gmail.com</a>  Learn more  Report phishing<br><br>This is=
- really google not having their stuff properly configured.<br>
-I&#39;m sending email from their web client (<a href=3D"https://mail.google=
-.com/...">https://mail.google.com/...</a>.)<br>And yes, it is me :-)<br><br=
->Frans<br>
 
---0016e650a4fcc9f58804a6feb006--
