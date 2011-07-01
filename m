@@ -1,31 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QclxO-0007mo-CH for openembedded-core@lists.openembedded.org;
-	Sat, 02 Jul 2011 00:13:02 +0200
+	id 1Qclxf-0007o4-CL for openembedded-core@lists.openembedded.org;
+	Sat, 02 Jul 2011 00:13:19 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61M9EP1021399;
-	Fri, 1 Jul 2011 23:09:14 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61M9YoD021409
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Jul 2011 23:09:34 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 20843-05; Fri,  1 Jul 2011 23:09:10 +0100 (BST)
+	id 19415-09 for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Jul 2011 23:09:30 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61M99bY021393
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 1 Jul 2011 23:09:10 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61M9QDE021403
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Jul 2011 23:09:26 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1309544267-24186-1-git-send-email-koen@dominion.thruhere.net>
-References: <1309544267-24186-1-git-send-email-koen@dominion.thruhere.net>
-Date: Fri, 01 Jul 2011 23:08:47 +0100
-Message-ID: <1309558127.20015.559.camel@rex>
+In-Reply-To: <cover.1309553576.git.nitin.a.kamble@intel.com>
+References: <cover.1309553576.git.nitin.a.kamble@intel.com>
+Date: Fri, 01 Jul 2011 23:09:04 +0100
+Message-ID: <1309558144.20015.560.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] ppp: sync packaging with OE .dev
+Subject: Re: [PATCH 0/1] perl recipes fix package qa rpath warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,14 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 22:13:02 -0000
+X-List-Received-Date: Fri, 01 Jul 2011 22:13:19 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-07-01 at 20:17 +0200, Koen Kooi wrote:
-> This fixes the QA errors and the 2.4.3 vs 2.4.5 copy/paste mistake
+On Fri, 2011-07-01 at 13:54 -0700, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> The following changes since commit ea518846b889a1bad2263d1cb49cb238a295a8e7:
+> 
+>   bitbake: Add missing bracket, somehow lost by sync scripts (2011-07-01 17:44:12 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib nitin/misc
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+> 
+> Nitin A Kamble (1):
+>   perl: Fix package qa rpath warnings.
 
-Merged to master, thanks.
+Merged to master, thanks for the quick fix!
+
+Cheers,
 
 Richard
 
