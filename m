@@ -1,22 +1,22 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from stoexhubfe01.domain01.net ([83.145.59.140])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QcdVo-0005Eb-OL
+	(envelope-from <anders@chargestorm.se>) id 1Qcdbm-0005PW-O2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 15:12:00 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Fri, 1 Jul 2011
+	Fri, 01 Jul 2011 15:18:10 +0200
+Received: from localhost (193.235.91.228) by stoexhubfe01.domain01.net
+	(10.12.10.6) with Microsoft SMTP Server id 8.3.137.0; Fri, 1 Jul 2011
 	15:08:13 +0200
 From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Jul 2011 15:08:04 +0200
-Message-ID: <c92c532714578f42b771a439cf9bda73dc28a51b.1309525642.git.anders@chargestorm.se>
+Date: Fri, 1 Jul 2011 15:08:03 +0200
+Message-ID: <b95079d9c51457835439610ee63c51b1821d3976.1309525642.git.anders@chargestorm.se>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1309525642.git.anders@chargestorm.se>
 References: <cover.1309525642.git.anders@chargestorm.se>
 MIME-Version: 1.0
 X-GFI-SMTP-Submission: 1
 Cc: Anders Darander <anders@chargestorm.se>
-Subject: [PATCH v5 8/8] distro_tracking_fields: remove modutils.
+Subject: [PATCH v5 7/8] task-base: remove modutils reference.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,39 +31,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 13:12:00 -0000
+X-List-Received-Date: Fri, 01 Jul 2011 13:18:10 -0000
 Content-Type: text/plain
+
+Also remove the other kernel24 references.
+Make everything dependent on kernel26 default.
+Move the RDEPENDS- and RRECOMMENDS_task-base-kernel26 to _task-base.
 
 Signed-off-by: Anders Darander <anders@chargestorm.se>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |    8 +-------
- 1 files changed, 1 insertions(+), 7 deletions(-)
+ meta/recipes-core/tasks/task-base.bb |   49 ++++++++++-----------------------
+ 1 files changed, 15 insertions(+), 34 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 2e7996b..ad64581 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -1,5 +1,6 @@
- RECIPE_STATUS_pn-diffutils = "green"
- RECIPE_LATEST_VERSION_pn-diffutils = "3.0"
+diff --git a/meta/recipes-core/tasks/task-base.bb b/meta/recipes-core/tasks/task-base.bb
+index 3ff57ff..7726698 100644
+--- a/meta/recipes-core/tasks/task-base.bb
++++ b/meta/recipes-core/tasks/task-base.bb
+@@ -45,7 +45,6 @@ PACKAGES = ' \
+             ${@base_contains("DISTRO_FEATURES", "raid", "task-base-raid", "",d)} \
+             ${@base_contains("DISTRO_FEATURES", "zeroconf", "task-base-zeroconf", "", d)} \
+             \
+-            ${@base_contains("MACHINE_FEATURES","kernel26","task-base-kernel26","task-base-kernel24",d)} \
+             '
+ 
+ ALLOW_EMPTY = "1"
+@@ -58,12 +57,12 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ #
+ # linux-hotplug or none
+ #
+-HOTPLUG ?= "${@base_contains("MACHINE_FEATURES", "kernel24",  "linux-hotplug","",d)} "
++HOTPLUG ?= ""
+ 
+ #
+ # pcmciautils for >= 2.6.13-rc1, pcmcia-cs for others
+ #
+-PCMCIA_MANAGER ?= "${@base_contains('MACHINE_FEATURES', 'kernel26','pcmciautils','pcmcia-cs',d)} "
++PCMCIA_MANAGER ?= "pcmciautils"
+ 
+ #
+ # those ones can be set in machine config to supply packages needed to get machine booting
+@@ -79,7 +78,8 @@ RDEPENDS_task-base = "\
+     task-machine-base \
+     ${HOTPLUG} \
+     \
+-    ${@base_contains('MACHINE_FEATURES', 'kernel26','task-base-kernel26','task-base-kernel24',d)} \
++    sysfsutils \
++    module-init-tools \
+     ${@base_contains('MACHINE_FEATURES', 'apm', 'task-base-apm', '',d)} \
+     ${@base_contains('MACHINE_FEATURES', 'acpi', 'task-base-acpi', '',d)} \
+     ${@base_contains('MACHINE_FEATURES', 'keyboard', 'task-base-keyboard', '',d)} \
+@@ -112,6 +112,17 @@ RDEPENDS_task-base = "\
+     "
+ # bluez-dtl1-workaround above is workaround for bitbake not handling DEPENDS on it in
+ 
 +
- RECIPE_LAST_UPDATE_pn-diffutils = "Dec 10, 2010"
- RECIPE_MAINTAINER_pn-diffutils = "Mei Lei <lei.mei@intel.com>"
++RRECOMMENDS_task-base = "\
++    kernel-module-nls-utf8 \
++    kernel-module-input \
++    kernel-module-uinput \
++    kernel-module-rtc-dev \
++    kernel-module-rtc-proc \
++    kernel-module-rtc-sysfs \
++    kernel-module-rtc-sa1100 \
++    kernel-module-unix"
++
+ RDEPENDS_task-base-extended = "\
+     task-base \
+     ${ADD_WIFI} \
+@@ -155,27 +166,6 @@ RRECOMMENDS_task-distro-base = "${DISTRO_EXTRA_RRECOMMENDS}"
+ RDEPENDS_task-machine-base = "${MACHINE_EXTRA_RDEPENDS}"
+ RRECOMMENDS_task-machine-base = "${MACHINE_EXTRA_RRECOMMENDS}"
  
-@@ -684,13 +685,6 @@ RECIPE_COMMENTS_pn-keymaps = "local scripts follow Poky's MIT license, however i
- RECIPE_LAST_UPDATE_pn-keymaps = "Jul 21, 2006"
- RECIPE_MAINTAINER_pn-keymaps = "Yu Ke <ke.yu@intel.com>"
- 
--RECIPE_STATUS_pn-modutils = "red"
--RECIPE_DEPENDENCY_CHECK_pn-modutils-initscripts = "not done"
--RECIPE_LATEST_VERSION_pn-modutils = "2.4.27"
--RECIPE_LAST_UPDATE_pn-modutils = "Jul 21, 2006"
--RECIPE_MAINTAINER_pn-modutils = "Yu Ke <ke.yu@intel.com>"
--DISTRO_PN_ALIAS_pn-modutils = "Ubuntu=module-init-tools Fedora=module-init-tools"
+-RDEPENDS_task-base-kernel24 = "\
+-    modutils-depmod"
 -
- RECIPE_STATUS_pn-modutils-initscripts = "green"
- RECIPE_DEPENDENCY_CHECK_pn-modutils-initscripts = "not done"
- RECIPE_LATEST_VERSION_pn-modutils-initscripts = "1.0"
+-RDEPENDS_task-base-kernel26 = "\
+-    sysfsutils \
+-    module-init-tools"
+-
+-RRECOMMENDS_task-base-kernel24 = "\
+-    kernel-module-input \
+-    kernel-module-uinput"
+-
+-RRECOMMENDS_task-base-kernel26 = "\
+-    kernel-module-nls-utf8 \
+-    kernel-module-input \
+-    kernel-module-uinput \
+-    kernel-module-rtc-dev \
+-    kernel-module-rtc-proc \
+-    kernel-module-rtc-sysfs \
+-    kernel-module-rtc-sa1100 \
+-    kernel-module-unix"
+-
+ RDEPENDS_task-base-keyboard = "\
+     keymaps"
+ 
+@@ -221,21 +211,12 @@ RDEPENDS_task-base-pcmcia = "\
+ 
+ 
+ RRECOMMENDS_task-base-pcmcia = "\
+-    ${@base_contains('MACHINE_FEATURES', 'kernel26', '${task-base-pcmcia26}', '${task-base-pcmcia24}',d)} \
+     kernel-module-pcmcia \
+     kernel-module-airo-cs \
+     kernel-module-pcnet-cs \
+     kernel-module-serial-cs \
+     kernel-module-ide-cs \
+     kernel-module-ide-disk \
+-    "
+-
+-task-base-pcmcia24 = "\
+-    ${@base_contains('DISTRO_FEATURES', 'wifi', 'hostap-modules-cs', '',d)} \
+-    ${@base_contains('DISTRO_FEATURES', 'wifi', 'orinoco-modules-cs', '',d)} \
+-    "
+-
+-task-base-pcmcia26 = "\
+     ${@base_contains('DISTRO_FEATURES', 'wifi', 'kernel-module-hostap-cs', '',d)} \
+     ${@base_contains('DISTRO_FEATURES', 'wifi', 'kernel-module-orinoco-cs', '',d)} \
+     ${@base_contains('DISTRO_FEATURES', 'wifi', 'kernel-module-spectrum-cs', '',d)}"
 -- 
 1.7.4.1
 
