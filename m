@@ -1,26 +1,37 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QcbdW-0002im-98 for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 13:11:50 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QcbZv-0002DQ-NF
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 13:08:08 +0200
-From: Phil Blundell <pb@pbcl.net>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qcbxb-0003Aj-OJ for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 13:32:35 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61BSq4X010099
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Jul 2011 12:28:52 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09646-08 for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Jul 2011 12:28:48 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61BShRv010093
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Jul 2011 12:28:43 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <BANLkTi=ptn9KrXjdfzu62BWJ0XZPFtcGOQ@mail.gmail.com>
-References: <1309453832.7987.33.camel@desktop.home>
-	<1309472051.20015.465.camel@rex>
-	<1309516055.7987.123.camel@desktop.home>
-	<BANLkTi=ptn9KrXjdfzu62BWJ0XZPFtcGOQ@mail.gmail.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Fri, 01 Jul 2011 12:08:06 +0100
-Message-ID: <1309518486.2633.54.camel@phil-desktop>
+In-Reply-To: <D2DB54E8-BE7A-4036-9F5A-587D90844875@dominion.thruhere.net>
+References: <cover.1309243115.git.liezhi.yang@windriver.com>
+	<4E0D062C.5060302@linux.intel.com>
+	<2B6421C4-E7C5-42FB-B46F-AAFAE85DB7F2@dominion.thruhere.net>
+	<1309507826.20015.509.camel@rex>
+	<D2DB54E8-BE7A-4036-9F5A-587D90844875@dominion.thruhere.net>
+Date: Fri, 01 Jul 2011 12:28:21 +0100
+Message-ID: <1309519701.20015.519.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
-Subject: Re: Proposal: recipe feature switches
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: It's broken, please revert. Re: [PATCH 0/4 V4] Share gcc work directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +46,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 11:11:50 -0000
+X-List-Received-Date: Fri, 01 Jul 2011 11:32:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-07-01 at 12:53 +0200, Andrea Adami wrote:
-> Now, the detractors have argued that those flags would be a nightmare
-> for people packaging feeds, with no way for the package manager to
-> detect those different recipes with the same name.
+On Fri, 2011-07-01 at 11:08 +0200, Koen Kooi wrote:
+> Op 1 jul 2011, om 10:10 heeft Richard Purdie het volgende geschreven:
+> 
+> > On Fri, 2011-07-01 at 09:15 +0200, Koen Kooi wrote:
+> >> Op 1 jul 2011, om 01:26 heeft Saul Wold het volgende geschreven:
+> > Testing patches is not the sole responsibility of myself and Saul. This
+> > gcc patchset was on the mailing list for a considerable time and has
+> > been tested in a variety of ways. Various breakage was identified found
+> > and those breakages were fixed. The fact there looks to be some
+> > incremental build issue with rm_work is unfortunate and likely easy to
+> > fix so I think this request is a little out of proportion.
+> > 
+> > If someone had reported the problem before it merged it would have
+> > waited until it was fixed before merging.
+> 
+> "They will therefore merge and I'm happy with them but it will be a few
+> more days before that happens. "
+> 
+> I was under the impression that I still had a few more days to test
+> them now that the eglibc problems have been solved. I don't think you
+> can blame people for not testing gcc when eglibc was still blowing up
+> in their faces.
 
-That does indeed come up frequently but I think this objection is
-misplaced.  The people building the feeds just need to make sure that
-their particular DISTRO is using a consistent set of flags and refrain
-from changing them capriciously in places like local.conf.
+I balanced a few different factors in the timing. Merging code like this
+on a Friday with 4th July and the US going on holiday next week didn't
+seem like a better time to do this so I went for something slightly
+earlier. I was working on the assumption we had the eglibc issues
+resolved.
 
-Or, to look at it from another perspective, there are already plenty of
-ways in which you can generate two .ipk files with the same name but
-different/incompatible contents by changing the contents of your
-configuration files.  (For example, a DISTRO can already clobber
-EXTRA_OECONF_pn-foo in any way that it wants by using an override.)
-It's not at all obvious that introducing per-recipe USE flags would make
-things any worse in that respect.
+> > I find it ironic you're one of the people asking to turn the autobuilder
+> > red, make warnings fatal and break things for everyone as 'its the only
+> > way to get people to look at and fix them; but on the other hand you're
+> > unhappy if testing of patches doesn't happen on every single combination
+> > of usages and something does break :/.
+> 
+> I was actually planning to test them today, now that eglibc works again.
 
-I think Chris's proposal is basically a good one.  In one sense it's
-just syntactic sugar, since (as above) it doesn't actually allow you to
-do anything that you couldn't already achieve by other means, but it
-certainly makes it neater.
+Ok, sorry I wasn't aware of that.
 
-p.
+Cheers,
+
+Richard
 
 
 
