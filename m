@@ -1,20 +1,35 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QckrQ-000675-RT
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 23:02:49 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jul 2011 13:54:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,460,1304319600"; d="scan'208";a="25332278"
-Received: from nbuild2.sc.intel.com ([172.25.110.37])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2011 13:54:13 -0700
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jul 2011 13:54:10 -0700
-Message-Id: <cover.1309553576.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.4.4
-Subject: [PATCH 0/1] perl recipes fix package qa rpath warnings
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QclSr-0006xX-P0 for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 23:41:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61LbgFB020840;
+	Fri, 1 Jul 2011 22:37:42 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17513-10; Fri,  1 Jul 2011 22:37:38 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61LbZYj020830
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 1 Jul 2011 22:37:36 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E0E156E.5050301@mvista.com>
+References: <RFC: Layer tooling brainstorming>
+	<201105201745.29497.paul.eggleton@linux.intel.com>
+	<4DD6A817.6050701@mvista.com>
+	<201107011424.27821.paul.eggleton@linux.intel.com>
+	<4E0E156E.5050301@mvista.com>
+Date: Fri, 01 Jul 2011 22:37:12 +0100
+Message-ID: <1309556232.20015.552.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH] Add support for remote layering.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,28 +44,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 21:02:49 -0000
+X-List-Received-Date: Fri, 01 Jul 2011 21:41:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Fri, 2011-07-01 at 11:43 -0700, Jeremy Puhlman wrote:
+> Just a quick follow up, the part of this statement that to me is wrong,
+> is it appears you are dictating work flow. While, imho, the layer
+> management code which is above this level, is the place to dicate
+> workflow. The patch is to core bitbake and isolated at that. This patch
+> adds an additional work flow, and can be used in either state(the
+> results of a current BBLAYERS setting is exactly the same today as it as
+> after the patch).  More or less the patch is useful in a scope larger
+> then just layer-tooling.
 
-The following changes since commit ea518846b889a1bad2263d1cb49cb238a295a8e7:
+Let me try and convey at least one of the things I'm worrying about with
+this patch. We're looking at establishing layer tooling which operate
+outside of or "above" bitbake. There are a variety of reasons for that,
+rightly or wrongly but this patch implies we're going to reverse that.
 
-  bitbake: Add missing bracket, somehow lost by sync scripts (2011-07-01 17:44:12 +0100)
+If we go forward with the patch and don't reverse that decision it means
+that layers can sometimes be a thing that are "above" bitbake, sometimes
+not depending on the circumstances. I'm trying hard to avoid that kind
+of interwoven complexity as it makes code changes very hard to make in
+the future and leads to frequent breakage where multiple usage methods
+exist.
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/misc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+As an example consider the case someone calls a script asking for new
+commits in layer Y to be added to flattened layer Z. We then have to add
+code checking if layer Y or layer X is a "bitbake remote layer" and then
+handle the updating of the layer accordingly. Can something external to
+the bitbake code do that? When we extend the later tooling are we
+expected to extend this code to match functionality?
 
-Nitin A Kamble (1):
-  perl: Fix package qa rpath warnings.
+The abstraction in the remote layers code isn't strong enough to cope
+with that kind of interaction in its own right and I'm not sure its
+possible to do that simply with a line in a bblayers.conf file and still
+be readable.
 
- .../perl/perl-5.12.3/fix_bad_rpath.patch           |   25 ++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.12.3.bb          |    6 +++-
- 2 files changed, 29 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/perl/perl-5.12.3/fix_bad_rpath.patch
+So I guess my question is how do you see this moving forwards? Are you
+planning to use external layer tooling at all or are you wanting
+anything that external tooling can do exposed also by the bblayers.conf
+URI? If this is some kind of stopgap solution for compatibility and is a
+single blocking issue for Montavista that might be reasonable. If its
+the start of a move to reverse the order of the stack and put bitbake at
+the top and layer tooling secondary, I'm worried.
 
--- 
-1.7.4.4
+Also looking at the patch at a technical level, is there any reason to
+use _layerUnpack() instead of the fetch2 unpack method? The patch is
+much cleaner than it was, that much is good but needing to set so many
+fetcher variables like that is a sign that worries me a little. I guess
+the solution there is to code them as fallback defaults into the
+fetchers themselves.
+
+Cheers,
+
+Richard
 
 
 
