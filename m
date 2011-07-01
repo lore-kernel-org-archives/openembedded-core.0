@@ -1,37 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qcbxb-0003Aj-OJ for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 13:32:35 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61BSq4X010099
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 1 Jul 2011 12:28:52 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09646-08 for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jul 2011 12:28:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61BShRv010093
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 1 Jul 2011 12:28:43 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from stoexhub01.domain01.net ([83.145.59.142])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <anders@chargestorm.se>) id 1QccK6-0003bW-KT
+	for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 13:55:50 +0200
+Received: from localhost (193.235.91.228) by STOEXHUB01.domain01.net
+	(10.12.10.1) with Microsoft SMTP Server id 8.3.137.0; Fri, 1 Jul 2011
+	13:52:05 +0200
+From: Anders Darander <anders@chargestorm.se>
+Organization: ChargeStorm AB
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <D2DB54E8-BE7A-4036-9F5A-587D90844875@dominion.thruhere.net>
-References: <cover.1309243115.git.liezhi.yang@windriver.com>
-	<4E0D062C.5060302@linux.intel.com>
-	<2B6421C4-E7C5-42FB-B46F-AAFAE85DB7F2@dominion.thruhere.net>
-	<1309507826.20015.509.camel@rex>
-	<D2DB54E8-BE7A-4036-9F5A-587D90844875@dominion.thruhere.net>
-Date: Fri, 01 Jul 2011 12:28:21 +0100
-Message-ID: <1309519701.20015.519.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: It's broken, please revert. Re: [PATCH 0/4 V4] Share gcc work directories
+Date: Fri, 1 Jul 2011 13:52:08 +0200
+User-Agent: KMail/1.13.7 (Linux/2.6.39-2-amd64; KDE/4.6.4; x86_64; ; )
+References: <cover.1309503939.git.anders@chargestorm.se>
+	<cf740fbc1c5f26487e14e8959cfc13f085ff95ff.1309503939.git.anders@chargestorm.se>
+	<D041C15B-428E-432D-996B-EF7356B38E29@dominion.thruhere.net>
+In-Reply-To: <D041C15B-428E-432D-996B-EF7356B38E29@dominion.thruhere.net>
+MIME-Version: 1.0
+Message-ID: <201107011352.08558.anders@chargestorm.se>
+Subject: Re: [PATCH v4 7/8] task-base: remove modutils reference.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,52 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 11:32:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 01 Jul 2011 11:55:50 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-07-01 at 11:08 +0200, Koen Kooi wrote:
-> Op 1 jul 2011, om 10:10 heeft Richard Purdie het volgende geschreven:
+
+* Koen Kooi Koen Kooi <koen@dominion.thruhere.net> [07/01/11 09:20 AM]:
+> Op 1 jul 2011, om 09:06 heeft Anders Darander het volgende geschreven:
+> > Also remove the other kernel24 references.
+> > Make everything dependent on kernel26 default.
 > 
-> > On Fri, 2011-07-01 at 09:15 +0200, Koen Kooi wrote:
-> >> Op 1 jul 2011, om 01:26 heeft Saul Wold het volgende geschreven:
-> > Testing patches is not the sole responsibility of myself and Saul. This
-> > gcc patchset was on the mailing list for a considerable time and has
-> > been tested in a variety of ways. Various breakage was identified found
-> > and those breakages were fixed. The fact there looks to be some
-> > incremental build issue with rm_work is unfortunate and likely easy to
-> > fix so I think this request is a little out of proportion.
-> > 
-> > If someone had reported the problem before it merged it would have
-> > waited until it was fixed before merging.
-> 
-> "They will therefore merge and I'm happy with them but it will be a few
-> more days before that happens. "
-> 
-> I was under the impression that I still had a few more days to test
-> them now that the eglibc problems have been solved. I don't think you
-> can blame people for not testing gcc when eglibc was still blowing up
-> in their faces.
+> Since there will be only one of each, can we just completely scrap there
+> variables and put the items directly in the tasks?
 
-I balanced a few different factors in the timing. Merging code like this
-on a Friday with 4th July and the US going on holiday next week didn't
-seem like a better time to do this so I went for something slightly
-earlier. I was working on the assumption we had the eglibc issues
-resolved.
+Sure, we could do that.
 
-> > I find it ironic you're one of the people asking to turn the autobuilder
-> > red, make warnings fatal and break things for everyone as 'its the only
-> > way to get people to look at and fix them; but on the other hand you're
-> > unhappy if testing of patches doesn't happen on every single combination
-> > of usages and something does break :/.
-> 
-> I was actually planning to test them today, now that eglibc works again.
+One question though, how should I treat 
 
-Ok, sorry I wasn't aware of that.
+RRECOMMENDS_task-base-kernel26 = "\
+    kernel-module-nls-utf8 \
+    kernel-module-input \
+    kernel-module-uinput \
+    kernel-module-rtc-dev \
+    kernel-module-rtc-proc \
+    kernel-module-rtc-sysfs \
+    kernel-module-rtc-sa1100 \
+    kernel-module-unix"
 
-Cheers,
+from task-base.bb? Should that part just be new, general
+RRECOMMENDS = "\
+    kernel-module-nls-utf8 \
+    kernel-module-input \
+    kernel-module-uinput \
+    kernel-module-rtc-dev \
+    kernel-module-rtc-proc \
+    kernel-module-rtc-sysfs \
+    kernel-module-rtc-sa1100 \
+    kernel-module-unix"?
 
-Richard
+I guess that's the right thing, and I'll create a new pull request with that 
+merged into the last patch.
+
+Regards,
+Anders
+
+-- 
+Anders Darander
+ChargeStorm AB		T
+
 
 
 
