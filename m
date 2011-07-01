@@ -1,26 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QcdlW-0005XS-Vt
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qcdsy-0005cz-8I
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 15:28:15 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 01 Jul 2011 06:24:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,458,1304319600"; d="scan'208";a="20554927"
-Received: from unknown (HELO helios.localnet) ([10.255.17.121])
-	by orsmga002.jf.intel.com with ESMTP; 01 Jul 2011 06:24:28 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Jeremy Puhlman <jpuhlman@mvista.com>
-Date: Fri, 1 Jul 2011 14:24:27 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <RFC: Layer tooling brainstorming>
-	<201105201745.29497.paul.eggleton@linux.intel.com>
-	<4DD6A817.6050701@mvista.com>
-In-Reply-To: <4DD6A817.6050701@mvista.com>
-MIME-Version: 1.0
-Message-Id: <201107011424.27821.paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Add support for remote layering.
+	Fri, 01 Jul 2011 15:35:56 +0200
+Received: by wwi18 with SMTP id 18so2737573wwi.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Jul 2011 06:32:11 -0700 (PDT)
+Received: by 10.216.79.74 with SMTP id h52mr3265384wee.33.1309527131614;
+	Fri, 01 Jul 2011 06:32:11 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id w58sm1641249weq.1.2011.07.01.06.32.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 01 Jul 2011 06:32:10 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <b95079d9c51457835439610ee63c51b1821d3976.1309525642.git.anders@chargestorm.se>
+Date: Fri, 1 Jul 2011 15:32:04 +0200
+Message-Id: <6E60DDFC-9F26-4239-A322-685CF0597C8D@dominion.thruhere.net>
+References: <cover.1309525642.git.anders@chargestorm.se>
+	<b95079d9c51457835439610ee63c51b1821d3976.1309525642.git.anders@chargestorm.se>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Cc: Anders Darander <anders@chargestorm.se>
+Subject: Re: [PATCH v5 7/8] task-base: remove modutils reference.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 13:28:15 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Jul 2011 13:35:56 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jeremy
 
-Have looked at this further and I really think this needs to be a separate 
-utility, but one still written in python using bitbake's infrastructure (like 
-bitbake-layers). The advantages of this approach:
+Op 1 jul 2011, om 15:08 heeft Anders Darander het volgende geschreven:
 
-1) Avoids reworking bitbake's initialisation and avoids possible re-execution. 
-A separate utility can take advantage of a full parse and utilise all of the 
-user's configuration.
+> Also remove the other kernel24 references.
+> Make everything dependent on kernel26 default.
+> Move the RDEPENDS- and RRECOMMENDS_task-base-kernel26 to _task-base.
+>=20
+> Signed-off-by: Anders Darander <anders@chargestorm.se>
+> ---
+> meta/recipes-core/tasks/task-base.bb |   49 =
+++++++++++-----------------------
+> 1 files changed, 15 insertions(+), 34 deletions(-)
+>=20
+>  #
+> # linux-hotplug or none
+> #
+> -HOTPLUG ?=3D "${@base_contains("MACHINE_FEATURES", "kernel24",  =
+"linux-hotplug","",d)} "
+> +HOTPLUG ?=3D ""
 
-2) Fetching/updating layers should be (able to be) a conscious action rather 
-than something that happens implicitly as part of the build process
+I think this one can go completely
 
-I'm trying to put something together that does this at the moment, with a view 
-to there being components that allow integration with the content tools you 
-posted earlier. Will keep you posted.
 
-Cheers,
-Paul
+> #
+> # pcmciautils for >=3D 2.6.13-rc1, pcmcia-cs for others
+> #
+> -PCMCIA_MANAGER ?=3D "${@base_contains('MACHINE_FEATURES', =
+'kernel26','pcmciautils','pcmcia-cs',d)} "
+> +PCMCIA_MANAGER ?=3D "pcmciautils"
 
--- 
+This one can get folded into the task directly
 
-Paul Eggleton
-Intel Open Source Technology Centre
+regards,
+
+Koen=
 
 
