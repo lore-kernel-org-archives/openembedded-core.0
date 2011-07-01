@@ -1,29 +1,20 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QcXcj-0003TB-FN
+	(envelope-from <sgw@linux.intel.com>) id 1QcXgM-0004F9-09
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 08:54:45 +0200
-Received: by wyg30 with SMTP id 30so2268176wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jun 2011 23:51:01 -0700 (PDT)
-Received: by 10.216.65.203 with SMTP id f53mr878208wed.54.1309503061102;
-	Thu, 30 Jun 2011 23:51:01 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id n21sm1462463wed.19.2011.06.30.23.50.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 30 Jun 2011 23:51:00 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4E0D0211.5040102@linux.intel.com>
-Date: Fri, 1 Jul 2011 08:50:58 +0200
-Message-Id: <5A258184-4045-4BAE-AE15-F5ADDBD62B77@dominion.thruhere.net>
-References: <cover.1307895912.git.koen@dominion.thruhere.net>	<1703bd12b68b86a3d73fe39e9fd9369ac0b027ca.1307895912.git.koen@dominion.thruhere.net>
-	<29375D62-544F-457B-8393-79BF9DDA54BA@dominion.thruhere.net>
-	<4E0D0211.5040102@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 1/2] qemu.inc: append to IMAGE_FSTYPES instead of weakly assigning them
+	Fri, 01 Jul 2011 08:58:31 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Jun 2011 23:54:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,456,1304319600"; d="scan'208";a="25080453"
+Received: from unknown (HELO swold-MOBL.localdomain) ([10.255.13.111])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jun 2011 23:54:38 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jun 2011 23:54:27 -0700
+Message-Id: <cover.1309503004.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: Updated [PATCH 0/4] SRC_URI Check Updates with Beagleboard updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,60 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 06:54:45 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 01 Jul 2011 06:58:31 -0000
 
+Richard,
 
-Op 1 jul 2011, om 01:09 heeft Saul Wold het volgende geschreven:
+This address 2 bugs filed by Darren for the Beagleboard, they build
+correctly.
 
-> On 06/30/2011 03:33 PM, Koen Kooi wrote:
->> ping
->>=20
-> I believe that this has been discussed elsewhere.
+It also updates two recipes that Mark Hatle found lacking checksums.
 
-Let's post the outcome here then, since I still want this patch to go =
-in.
+Thanks
+	Sau!
 
->=20
-> Sau!
->=20
->> Op 12 jun 2011, om 18:26 heeft Koen Kooi het volgende geschreven:
->>=20
->>> The ext3 format is pretty much mandatory for qemu usage, so always =
-create it.
->>>=20
->>> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
->>> ---
->>> meta/conf/machine/include/qemu.inc |    2 +-
->>> 1 files changed, 1 insertions(+), 1 deletions(-)
->>>=20
->>> diff --git a/meta/conf/machine/include/qemu.inc =
-b/meta/conf/machine/include/qemu.inc
->>> index 9ef242f..e908f69 100644
->>> --- a/meta/conf/machine/include/qemu.inc
->>> +++ b/meta/conf/machine/include/qemu.inc
->>> @@ -3,7 +3,7 @@ PREFERRED_PROVIDER_virtual/xserver ?=3D =
-"xserver-kdrive"
->>>=20
->>> MACHINE_FEATURES =3D "kernel26 apm alsa pcmcia bluetooth irda =
-usbgadget screen"
->>>=20
->>> -IMAGE_FSTYPES ?=3D "tar.bz2 ext3"
->>> +IMAGE_FSTYPES +=3D "tar.bz2 ext3"
->>>=20
->>> ROOT_FLASH_SIZE =3D "280"
->>>=20
->>> --
->>> 1.6.6.1
->>>=20
->>=20
->>=20
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>=20
+The following changes since commit 40ecaf6a59ba61e72d29d7e677197ef37c998408:
+
+  uclibc: Add default uClibc.machine files (2011-07-01 00:40:10 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (4):
+  x-load: Update to 1.5.0
+  uboot: Update to 2011.06
+  mpeg2dec: add SRC_URI Checksum
+  libmad: add SRC_URI Checksum
+
+ ...Drop-config.h-include-in-tools-imximage.h.patch |    0
+ ...ove-LDSCRIPT-processing-to-the-top-level-.patch |    0
+ ...kimage_2011.03.bb => u-boot-mkimage_2011.06.bb} |   12 +++++-------
+ .../uboot/{u-boot_2011.03.bb => u-boot_2011.06.bb} |   10 +++++-----
+ meta/recipes-bsp/x-load/x-load_git.bb              |   11 +++++------
+ meta/recipes-multimedia/libmad/libmad_0.15.1b.bb   |    3 +++
+ meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.4.1.bb |    3 +++
+ 7 files changed, 21 insertions(+), 18 deletions(-)
+ rename meta/recipes-bsp/uboot/{u-boot-mkimage-2011.03 => u-boot-mkimage-2011.06}/0001-Drop-config.h-include-in-tools-imximage.h.patch (100%)
+ rename meta/recipes-bsp/uboot/{u-boot-mkimage-2011.03 => u-boot-mkimage-2011.06}/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch (100%)
+ rename meta/recipes-bsp/uboot/{u-boot-mkimage_2011.03.bb => u-boot-mkimage_2011.06.bb} (51%)
+ rename meta/recipes-bsp/uboot/{u-boot_2011.03.bb => u-boot_2011.06.bb} (74%)
+
+-- 
+1.7.3.4
 
 
 
