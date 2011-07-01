@@ -1,25 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QcTZz-0007i6-RS
+	(envelope-from <scott.a.garman@intel.com>) id 1QcVXq-0005L7-Py
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 04:35:40 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jun 2011 19:31:49 -0700
+	Fri, 01 Jul 2011 06:41:36 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 30 Jun 2011 21:36:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,455,1304319600"; d="scan'208";a="22192822"
-Received: from swold-mobl.jf.intel.com ([10.24.82.35])
-	by orsmga001.jf.intel.com with ESMTP; 30 Jun 2011 19:31:49 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jun 2011 19:31:47 -0700
-Message-Id: <568a1ab08ee2cae223b353a41854c9a3c254578e.1309487353.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1309487353.git.sgw@linux.intel.com>
-References: <cover.1309487353.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1309487353.git.sgw@linux.intel.com>
-References: <cover.1309487353.git.sgw@linux.intel.com>
-Cc: "Saul Wold \(none\)" <sgw@NHM-EX-FB-F13.>
-Subject: [PATCH 1/2] x-load: Update to 1.5.0
+X-IronPort-AV: E=Sophos;i="4.65,456,1304319600"; d="scan'208";a="21298053"
+Received: from unknown (HELO [10.255.13.252]) ([10.255.13.252])
+	by azsmga001.ch.intel.com with ESMTP; 30 Jun 2011 21:36:44 -0700
+Message-ID: <4E0D4EDC.5080403@intel.com>
+Date: Thu, 30 Jun 2011 21:36:44 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1309473383.git.scott.a.garman@intel.com>	
+	<1db24b664bf6fb292d8a84dd6398e330305f18fd.1309473383.git.scott.a.garman@intel.com>
+	<1309475425.20015.493.camel@rex>
+In-Reply-To: <1309475425.20015.493.camel@rex>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] useradd.bbclass: new class for managing user/group permissions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,46 +37,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 02:35:40 -0000
+X-List-Received-Date: Fri, 01 Jul 2011 04:41:36 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Saul Wold <sgw@NHM-EX-FB-F13.(none)>
+On 06/30/2011 04:10 PM, Richard Purdie wrote:
+> Hi Scott,
+>
+> This is looking good, thanks for the changes! I just have some cosmetic
+> things to tweak before it goes in.
 
-[YOCTO #1197]
+Ok, respinning now based on your requests.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-bsp/x-load/x-load_git.bb |   11 +++++------
- 1 files changed, 5 insertions(+), 6 deletions(-)
+BTW, some parts of useradd.bbclass were derived from 
+update-rc.d.bbclass. So it sounds like that class could use a refresh in 
+light of the preferred style you've been showing me. I'd be happy to do 
+this as a background task over the next week if it would be useful.
 
-diff --git a/meta/recipes-bsp/x-load/x-load_git.bb b/meta/recipes-bsp/x-load/x-load_git.bb
-index 600cd87..3f9481c 100644
---- a/meta/recipes-bsp/x-load/x-load_git.bb
-+++ b/meta/recipes-bsp/x-load/x-load_git.bb
-@@ -5,17 +5,16 @@ FILESDIR = "${@os.path.dirname(bb.data.getVar('FILE',d,1))}/x-load-git/${MACHINE
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://README;beginline=1;endline=25;md5=ef08d08cb99057bbb5b9d6d0c5a4396f"
- 
--SRCREV = "6f3a26101303051e0f91b6213735b68ce804e94e"
--PV = "1.42+${PR}+git${SRCPV}"
--PR="r13"
-+SRCREV = "9f94c6577e3a018b6b75cbe39f32bb331871f915"
-+PV = "1.5+${PR}+git${SRCPV}"
-+PR="r0"
- 
- #SRC_URI = "git://www.sakoman.net/git/x-load-omap3.git;branch=master;protocol=git"
- #SRC_URI = "git://gitorious.org/x-load-omap3/mainline.git;branch=master;protocol=git"
- SRC_URI = "git://gitorious.org/x-loader/x-loader.git;branch=master;protocol=git"
- 
--SRC_URI_append_beagleboard = " \
--                              file://name.patch;patch=1 \
--                             "
-+SRC_URI_append_beagleboard = " file://name.patch "
-+
- S = "${WORKDIR}/git"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
+Scott
+
+>
+> On Thu, 2011-06-30 at 15:39 -0700, Scott Garman wrote:
+> [...]
+>> +# Recipe parse-time sanity checks
+>> +def update_useradd_after_parse(d):
+>> +	if bb.data.getVar('USERADD_PACKAGES', d) == None:
+>
+> if not d.getVar('USERADD_PACKAGES', False):
+>
+>> +		if bb.data.getVar('USERADD_PARAM', d) == None and bb.data.getVar('GROUPADD_PARAM', d) == None:
+>
+> if not d.getVar('USERADD_PARAM', False) and not d.getVar('GROUPADD_PARAM', False):
+>
+>> +			raise bb.build.FuncFailed, "%s inherits useradd but doesn't set USERADD_PARAM or GROUPADD_PARAM" % bb.data.getVar('FILE', d)
+>> +
+>> +python __anonymous() {
+>> +	update_useradd_after_parse(d)
+>> +}
+>> +
+>> +# Return a single [GROUP|USER]ADD_PARAM formatted string which includes the
+>> +# [group|user]add parameters for all packages in this recipe
+>> +def get_all_cmd_params(d, cmd_type):
+>> +	import string
+>> +	
+>> +	localdata = bb.data.createCopy(d)
+>
+> No need to use createCopy here since you don't change OVERRIDES or write
+> to the datastore at all. Just use d directly.
+>
+>> +	param_type = cmd_type.upper() + "ADD_PARAM_%s"
+>> +	params = []
+>> +
+>> +	pkgs = localdata.getVar('USERADD_PACKAGES', True)
+>> +	if not pkgs:
+>> +		pkgs = localdata.getVar('USERADDPN', True)
+>> +		packages = (localdata.getVar('PACKAGES', True) or "").split()
+>> +		if packages and pkgs not in packages:
+>> +			pkgs = packages[0]
+>> +
+>> +	for pkg in pkgs.split():
+>> +		param = localdata.getVar(param_type % pkg, True)
+>> +		if param:
+>> +			params.append(param)
+>> +
+>> +	return string.join(params, "; ")
+>> +
+>> +# Adds the preinst script into generated packages
+>> +fakeroot python populate_packages_prepend () {
+>> +	def update_useradd_package(pkg):
+>> +		bb.debug(1, 'adding user/group calls to preinst for %s' % pkg)
+>> +		localdata = bb.data.createCopy(d)
+>> +		overrides = localdata.getVar("OVERRIDES", True)
+>> +		bb.data.setVar("OVERRIDES", "%s:%s" % (pkg, overrides), localdata)
+>> +		bb.data.update_data(localdata)
+>> +
+>> +		"""
+>> +		useradd preinst is appended here because pkg_preinst may be
+>> +		required to execute on the target. Not doing so may cause
+>> +		useradd preinst to be invoked twice, causing unwanted warnings.
+>> +		"""
+>
+> You can just do:
+>
+> preinst = d.getVar('pkg_preinst_%s' % pkg, True) or d.getVar('pkg_preinst', True)
+>
+> and ditch all the createCopy/OVERRIDES stuff.
+>
+>> +		preinst = localdata.getVar('pkg_preinst', True)
+>> +		if not preinst:
+>> +			preinst = '#!/bin/sh\n'
+>> +		preinst += localdata.getVar('useradd_preinst', True)
+>> +		bb.data.setVar('pkg_preinst_%s' % pkg, preinst, d)
+>> +
+>> +	# We add the user/group calls to all packages to allow any package
+>> +	# to contain files owned by the users/groups defined in the recipe.
+>> +	# The user/group addition code is careful not to create duplicate
+>> +	# entries, so this is safe.
+>> +	pkgs = d.getVar('USERADD_PACKAGES', True)
+>> +	if pkgs == None:
+>
+> if not pkgs:
+>
+>> +		pkgs = d.getVar('USERADDPN', True)
+>> +		packages = (d.getVar('PACKAGES', True) or "").split()
+>> +		if not pkgs in packages and packages != []:
+>
+> if packages and pkgs not in packages:
+>
+>> +			pkgs = packages[0]
+>> +	for pkg in pkgs.split():
+>> +		update_useradd_package(pkg)
+>> +}
+>
+> Cheers,
+>
+> Richard
+>
+
+
 -- 
-1.7.3.4
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
