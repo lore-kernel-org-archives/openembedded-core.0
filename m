@@ -1,29 +1,41 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qcdsy-0005cz-8I
+	(envelope-from <raj.khem@gmail.com>) id 1QceHd-0006Q7-Mo
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 15:35:56 +0200
-Received: by wwi18 with SMTP id 18so2737573wwi.24
+	Fri, 01 Jul 2011 16:01:25 +0200
+Received: by pzk36 with SMTP id 36so665504pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2011 06:32:11 -0700 (PDT)
-Received: by 10.216.79.74 with SMTP id h52mr3265384wee.33.1309527131614;
-	Fri, 01 Jul 2011 06:32:11 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w58sm1641249weq.1.2011.07.01.06.32.10
+	Fri, 01 Jul 2011 06:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=references:in-reply-to:mime-version:content-transfer-encoding
+	:content-type:message-id:cc:x-mailer:from:subject:date:to;
+	bh=J/Oulg1Zz94HOpR3Tefi19lJV5ahYe/1bTTJwC1SO7I=;
+	b=Na0BKLHgk7DmmDm68eL+3if4Ur87JrbhLPnJETIjmZtGWCZbxMyb8KYaN5Eq1eHavP
+	nAxn+KwGd2ZGe9bT2RwOk3XqTTXRtKuZFFfoQ2QVZ4CyIV5PWd9p9I9DbeLOcdum5PA6
+	BkMV5sVz2s5MhxyXmgSpkGWUQUEWNUB3awiaI=
+Received: by 10.142.61.33 with SMTP id j33mr1499436wfa.135.1309528656781;
+	Fri, 01 Jul 2011 06:57:36 -0700 (PDT)
+Received: from [192.168.1.81] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id k2sm2114849wfe.3.2011.07.01.06.57.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 01 Jul 2011 06:32:10 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <b95079d9c51457835439610ee63c51b1821d3976.1309525642.git.anders@chargestorm.se>
-Date: Fri, 1 Jul 2011 15:32:04 +0200
-Message-Id: <6E60DDFC-9F26-4239-A322-685CF0597C8D@dominion.thruhere.net>
-References: <cover.1309525642.git.anders@chargestorm.se>
-	<b95079d9c51457835439610ee63c51b1821d3976.1309525642.git.anders@chargestorm.se>
+	Fri, 01 Jul 2011 06:57:35 -0700 (PDT)
+References: <cover.1309243115.git.liezhi.yang@windriver.com>
+	<4E0D062C.5060302@linux.intel.com>
+	<2B6421C4-E7C5-42FB-B46F-AAFAE85DB7F2@dominion.thruhere.net>
+	<1309509178.20015.513.camel@rex>
+	<72100965-D39D-41D0-B6E7-78E18D6FD072@dominion.thruhere.net>
+In-Reply-To: <72100965-D39D-41D0-B6E7-78E18D6FD072@dominion.thruhere.net>
+Mime-Version: 1.0 (iPad Mail 8J2)
+Message-Id: <7A98A269-0EB8-452E-839C-68A68128B5A3@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPad Mail (8J2)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 1 Jul 2011 06:57:55 -0700
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Cc: Anders Darander <anders@chargestorm.se>
-Subject: Re: [PATCH v5 7/8] task-base: remove modutils reference.
+Subject: Re: It's broken, please revert. Re: [PATCH 0/4 V4] Share gcc work directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,44 +50,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 13:35:56 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 01 Jul 2011 14:01:26 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
-Op 1 jul 2011, om 15:08 heeft Anders Darander het volgende geschreven:
 
-> Also remove the other kernel24 references.
-> Make everything dependent on kernel26 default.
-> Move the RDEPENDS- and RRECOMMENDS_task-base-kernel26 to _task-base.
+On Jul 1, 2011, at 4:00 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+
 >=20
-> Signed-off-by: Anders Darander <anders@chargestorm.se>
-> ---
-> meta/recipes-core/tasks/task-base.bb |   49 =
-++++++++++-----------------------
-> 1 files changed, 15 insertions(+), 34 deletions(-)
+> Op 1 jul 2011, om 10:32 heeft Richard Purdie het volgende geschreven:
 >=20
->  #
-> # linux-hotplug or none
-> #
-> -HOTPLUG ?=3D "${@base_contains("MACHINE_FEATURES", "kernel24",  =
-"linux-hotplug","",d)} "
-> +HOTPLUG ?=3D ""
+>> On Fri, 2011-07-01 at 09:15 +0200, Koen Kooi wrote:
+>>> incremental build with rm_work turned on:
+>>>=20
+>>> ERROR: Function 'do_configure' failed (see /OE/tentacle/build/tmp-angstr=
+om_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-r3=
+7.0+svnr175127/temp/log.do_configure.27092 for further information)
+>>> ERROR: Logfile of failure stored in: /OE/tentacle/build/tmp-angstrom_201=
+0_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-r37.0+sv=
+nr175127/temp/log.do_configure.27092
+>>> Log data follows:
+>>> | + cd /OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstro=
+m-linux-gnueabi/gcc-cross-initial-4.5-r37.0+svnr175127/gcc-4.5/build.x86_64-=
+linux.arm-angstrom-linux-gnueabi
+>>> | + do_configure
+>>> | + sed -i '/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-an=
+gstrom-linux-gnueabi/gcc-cross-initial-4.5-r37.0+svnr175127/gcc-4_5-branch/g=
+cc/config/*/linux*.h' -e 's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 SY=
+STEMLIBS_DIR\2#'
+>>> | sed: can't read /OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/arm=
+v7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-r37.0+svnr175127/gcc-4_5-br=
+anch/gcc/config/*/linux*.h: No such file or directory
+>>> | ERROR: Function 'do_configure' failed (see /OE/tentacle/build/tmp-angs=
+trom_2010_x-eglibc/work/armv7a-angstrom-linux-gnueabi/gcc-cross-initial-4.5-=
+r37.0+svnr175127/temp/log.do_configure.27092 for further information)
+>>> NOTE: package gcc-cross-initial-4.5-r37.0+svnr175127: task do_configure:=
+ Failed
+>>> ERROR: Task 764 (/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-=
+devtools/gcc/gcc-cross-initial_4.5.bb, do_configure) failed with exit code '=
+1'
+>>>=20
+>>> Can this patchset get reverted please and reapplied when it actually has=
+ been tested to work?
+>>=20
+>> I checked and everything is fine with rm_work.
+>>=20
+>> Looking at this error, something is changing ${S} as there is no mention
+>> of work-shared in the sed command yet there should be.
+>>=20
+>> At a guess this is coming from:
+>>=20
+>> http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-openembedded/t=
+ree/meta-oe/recipes-devtools/gcc/gcc-4.5.inc
+>>=20
+>> where it says:
+>>=20
+>> S =3D "${WORKDIR}/${BRANCH}"
+>>=20
+>> and if that is changed to
+>>=20
+>> S_append =3D "/${BRANCH}"
+>>=20
+>> or removed it will likely work better.
+>=20
+> It was indeed a bug in meta-oe and the following fixed it:
+>=20
+> https://github.com/koenkooi/meta-oe/commit/8a917caaa5506fa0f875202243658a1=
+c2fe60c40
 
-I think this one can go completely
-
-
-> #
-> # pcmciautils for >=3D 2.6.13-rc1, pcmcia-cs for others
-> #
-> -PCMCIA_MANAGER ?=3D "${@base_contains('MACHINE_FEATURES', =
-'kernel26','pcmciautils','pcmcia-cs',d)} "
-> +PCMCIA_MANAGER ?=3D "pcmciautils"
-
-This one can get folded into the task directly
-
-regards,
-
-Koen=
+Additionally you would need to port the patch which mucks makefile fragment I=
+ think
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
