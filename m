@@ -1,33 +1,35 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jpuhlman@mvista.com>) id 1QchP1-00021d-PI
+	(envelope-from <raj.khem@gmail.com>) id 1QchPV-00023F-Pd
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 19:21:15 +0200
-Received: by iym10 with SMTP id 10so3246758iym.6
+	Fri, 01 Jul 2011 19:21:46 +0200
+Received: by pzk36 with SMTP id 36so830483pzk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2011 10:17:30 -0700 (PDT)
-Received: by 10.42.94.6 with SMTP id z6mr3776076icm.91.1309540649806;
-	Fri, 01 Jul 2011 10:17:29 -0700 (PDT)
-Received: from [192.168.1.174] (c-67-187-204-11.hsd1.ca.comcast.net
-	[67.187.204.11])
-	by mx.google.com with ESMTPS id s2sm3524541icw.17.2011.07.01.10.17.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 01 Jul 2011 10:17:28 -0700 (PDT)
-Message-ID: <4E0E0122.5070801@mvista.com>
-Date: Fri, 01 Jul 2011 10:17:22 -0700
-From: Jeremy Puhlman <jpuhlman@mvista.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
-	rv:1.9.2.18) Gecko/20110616 Lightning/1.0b2 Thunderbird/3.1.11
+	Fri, 01 Jul 2011 10:18:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=kV1xlml0Y52NkJaeuQZWAG0T172755yVwok4g9QES9g=;
+	b=agzxIbXOBYgE34PAlsfAmTSAANDY8NRXYJ5Ivop4hVhmLXhplubAUcOKnkghDOlJ7G
+	uX6y7swEU+DdBkTsRNyMP1Mxnyv6qyW5kzTVKj4A0laTr6zXW8/iiB3jpqKeknyrbjDD
+	mYrNugy0EqMaIMpc5VX+5dxfG5ZeEv/T7vHaQ=
+Received: by 10.142.248.12 with SMTP id v12mr1473905wfh.134.1309540606103;
+	Fri, 01 Jul 2011 10:16:46 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id l10sm2196249wfk.21.2011.07.01.10.16.44
+	(version=SSLv3 cipher=OTHER); Fri, 01 Jul 2011 10:16:45 -0700 (PDT)
+Message-ID: <4E0E00FA.1060508@gmail.com>
+Date: Fri, 01 Jul 2011 10:16:42 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <RFC: Layer tooling brainstorming>
-	<201105201745.29497.paul.eggleton@linux.intel.com>
-	<4DD6A817.6050701@mvista.com>
-	<201107011424.27821.paul.eggleton@linux.intel.com>
-In-Reply-To: <201107011424.27821.paul.eggleton@linux.intel.com>
-X-Enigmail-Version: 1.1.1
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Add support for remote layering.
+To: openembedded-core@lists.openembedded.org
+References: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>	<201106301633.48933.paul.eggleton@linux.intel.com>	<4FC82E26-5A0C-48DF-99F5-7E2D9B8C7290@dominion.thruhere.net>	<201106301659.54941.paul.eggleton@linux.intel.com>	<1309537504.20015.531.camel@rex>
+	<1309540367.20015.534.camel@rex>
+In-Reply-To: <1309540367.20015.534.camel@rex>
+Subject: Re: [PATCH] insane bbclass: turn fatal errors back into fatal errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,59 +44,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 17:21:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 01 Jul 2011 17:21:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/1/2011 6:24 AM, Paul Eggleton wrote:
-> Hi Jeremy
-> 
-> Have looked at this further and I really think this needs to be a separate 
-> utility, but one still written in python using bitbake's infrastructure (like 
-> bitbake-layers). The advantages of this approach:
-> 
-> 1) Avoids reworking bitbake's initialisation and avoids possible re-execution.
+On 07/01/2011 10:12 AM, Richard Purdie wrote:
+> gcc-4.6.0+svnr175150, non dev contains .so, gcc, /work/i586-poky-linux/gcc-4.6.0+svnr175150-r4/packages-split/gcc/usr/libexec/gcc/i586-poky-linux/4.6.1/liblto_plugin.so
+>>
 
-Neither of those are issues in the current patch. Setting up the
-fetchers so they work, inside a local copy of the data is hardly
-reworking the initialization.
-
-> A separate utility can take advantage of a full parse and utilise all of the 
-> user's configuration.
-
-This is certainly the case, however in the time that we have used this
-type of structure we have never needed all of the config data because
-you are always more less very early in the process. More or less you
-could create a bitbake-layers style "utilty" with the current patch. In
-the current patch, there is only a single line of code in the cooker,
-everything else is competely isolated.
-
-> 2) Fetching/updating layers should be (able to be) a conscious action rather 
-> than something that happens implicitly as part of the build process
-
-This seems rather arbitrary. As noted this is not some theoretical
-process that I am proposing. We have tons of customers already use, and
-have used this type of model for a very long time. While I can certainly
-see the advantages of an external tool, why is it an either or? the
-reality is with the current patch, we already have bitbake-layers style
-utility. Its called bitbake. :) Run it with no argument and the first
-thing it does is fetch everything.
-
-
-> I'm trying to put something together that does this at the moment, with a view 
-> to there being components that allow integration with the content tools you 
-> posted earlier. Will keep you posted.
-
-For what it is worth, I would still like to see something like the patch
-get integrated. The single line in the cooker could be surrounnded by a
-BB_ var, and you more or less wouldn't know the difference. Also if
-BBLAYERS is just directories like it is now, every line is more or less
-ignored and passed back untouched.
-
-
-
--- 
-Jeremy Puhlman
-Montavista Sofware, LLC.
+This should be packages with gcc itself. May be adding to FILES will get 
+rid of this warning
 
 
