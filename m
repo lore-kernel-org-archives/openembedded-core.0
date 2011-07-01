@@ -1,26 +1,32 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QcajC-0006p0-Qm
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 12:13:38 +0200
-Received: by wyg30 with SMTP id 30so2368478wyg.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QcapA-000732-Pr for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 12:19:49 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61AG1xC009446
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2011 03:09:54 -0700 (PDT)
-Received: by 10.216.169.16 with SMTP id m16mr952961wel.83.1309514994216;
-	Fri, 01 Jul 2011 03:09:54 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fp5sm1012754wbb.49.2011.07.01.03.09.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 01 Jul 2011 03:09:53 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1309513280.2633.28.camel@phil-desktop>
-Date: Fri, 1 Jul 2011 12:09:51 +0200
-Message-Id: <519084B1-E1A3-4E67-9E11-6B02CCFCAAEB@dominion.thruhere.net>
-References: <1309513280.2633.28.camel@phil-desktop>
+	Fri, 1 Jul 2011 11:16:01 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09061-07 for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Jul 2011 11:15:57 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61AFuwc009440
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Jul 2011 11:15:56 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
+In-Reply-To: <1309513280.2633.28.camel@phil-desktop>
+References: <1309513280.2633.28.camel@phil-desktop>
+Date: Fri, 01 Jul 2011 11:15:35 +0100
+Message-ID: <1309515335.20015.516.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: PRIORITY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,23 +42,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 10:13:38 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 01 Jul 2011 10:19:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-Op 1 jul 2011, om 11:41 heeft Phil Blundell het volgende geschreven:
-
+On Fri, 2011-07-01 at 10:41 +0100, Phil Blundell wrote:
 > We had some discussion of this a few weeks ago but I'm not sure it ever
 > reached a firm conclusion.
 > 
 > Is everyone agreed that the PRIORITY variable does not serve any useful
 > purpose in oe-core and can/should be removed from the recipes?
 
-I have no use for that field, so removing it would be fine by me.
+I think that was the conclusion, yes. I'll take a patch (or a
+commandline I guess).
 
-regards,
+Cheers,
 
-Koen
+Richard
+
 
 
