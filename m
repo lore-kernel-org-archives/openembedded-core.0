@@ -1,24 +1,39 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QciLS-0003Sq-Ib
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 20:21:38 +0200
-Received: by wwi14 with SMTP id 14so135154wwi.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QciM1-0003US-LM for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 20:22:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61IIRBt014039
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2011 11:17:53 -0700 (PDT)
-Received: by 10.227.202.209 with SMTP id ff17mr3225126wbb.23.1309544273402;
-	Fri, 01 Jul 2011 11:17:53 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fu18sm2526059wbb.10.2011.07.01.11.17.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 01 Jul 2011 11:17:52 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jul 2011 20:17:47 +0200
-Message-Id: <1309544267-24186-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] ppp: sync packaging with OE .dev
+	Fri, 1 Jul 2011 19:18:27 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13648-08 for <openembedded-core@lists.openembedded.org>;
+	Fri,  1 Jul 2011 19:18:24 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p61IIMN1014033
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Jul 2011 19:18:22 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <38420CC7-A216-4D03-B512-0D85BA9393B9@dominion.thruhere.net>
+References: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>
+	<201106301633.48933.paul.eggleton@linux.intel.com>
+	<4FC82E26-5A0C-48DF-99F5-7E2D9B8C7290@dominion.thruhere.net>
+	<201106301659.54941.paul.eggleton@linux.intel.com>
+	<1309537504.20015.531.camel@rex>	<1309540367.20015.534.camel@rex>
+	<4E0E00FA.1060508@gmail.com> <4E0E02FF.4040304@windriver.com>
+	<38420CC7-A216-4D03-B512-0D85BA9393B9@dominion.thruhere.net>
+Date: Fri, 01 Jul 2011 19:18:00 +0100
+Message-ID: <1309544280.20015.535.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] insane bbclass: turn fatal errors back into fatal errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,68 +48,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 18:21:38 -0000
+X-List-Received-Date: Fri, 01 Jul 2011 18:22:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This fixes the QA errors and the 2.4.3 vs 2.4.5 copy/paste mistake
+On Fri, 2011-07-01 at 19:33 +0200, Koen Kooi wrote:
+> Op 1 jul 2011, om 19:25 heeft Mark Hatle het volgende geschreven:
+> 
+> > On 7/1/11 12:16 PM, Khem Raj wrote:
+> >> On 07/01/2011 10:12 AM, Richard Purdie wrote:
+> >>> gcc-4.6.0+svnr175150, non dev contains .so, gcc, /work/i586-poky-linux/gcc-4.6.0+svnr175150-r4/packages-split/gcc/usr/libexec/gcc/i586-poky-linux/4.6.1/liblto_plugin.so
+> >>>> 
+> >> 
+> >> This should be packages with gcc itself. May be adding to FILES will get 
+> >> rid of this warning
+> > 
+> > The warning above indicates that it -is- being packaged in the 'gcc' package.
+> > The check verified that no files of the name .so exit and they are not symlinks:
+> > 
+> >    if not name.endswith("-dev") and not name.endswith("-dbg") and
+> > path.endswith(".so") and os.path.islink(path):
+> > 
+> > In this case, I believe that the file is likely supposed to be there.  Is there
+> > a way to selectively disable insane checks on a per-recipe basis when we know
+> > they are wrong?
+> 
+> We only have the big INSANE_SKIP_gcc = True hammer
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-connectivity/ppp/ppp_2.4.5.bb |   26 ++++++++++++++------------
- 1 files changed, 14 insertions(+), 12 deletions(-)
+Although as I hint at in my insane.bbclass patch, I just made it much
+easier to implement skipping specific checks. Its not there yet but
+shouldn't be too difficult from where the code it at now...
 
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-index b865afd..72464bf 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77
-                     file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
-                     file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
-                     file://chat/chat.c;beginline=1;endline=15;md5=0d374b8545ee5c62d7aff1acbd38add2"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
-            file://makefile.patch \
-@@ -31,7 +31,8 @@ SRC_URI[sha256sum] = "43317afec9299f9920b96f840414c977f0385410202d48e56d2fdb8230
- 
- inherit autotools
- 
--EXTRA_OEMAKE = "STRIPPROG=${STRIP} MANDIR=${D}${datadir}/man/man8 INCDIR=${D}/usr/include LIBDIR=${D}/usr/lib/pppd/${PV} BINDIR=${D}/usr/sbin"
-+TARGET_CC_ARCH += " ${LDFLAGS}"
-+EXTRA_OEMAKE = "STRIPPROG=${STRIP} MANDIR=${D}${datadir}/man/man8 INCDIR=${D}${includedir} LIBDIR=${D}${libdir}/pppd/${PV} BINDIR=${D}${sbindir}"
- EXTRA_OECONF = "--disable-strip"
- 
- do_install_append () {
-@@ -50,16 +51,17 @@ do_install_append () {
- }
- 
- CONFFILES_${PN} = "${sysconfdir}/ppp/pap-secrets ${sysconfdir}/ppp/chap-secrets ${sysconfdir}/ppp/options"
--PACKAGES += "ppp-oa ppp-oe ppp-radius ppp-winbind ppp-minconn ppp-password ppp-tools"
--FILES_${PN}        = "/etc /usr/bin /usr/sbin/chat /usr/sbin/pppd"
--FILES_${PN}-dbg += "${libdir}/pppd/2.4.3/.debug"
--FILES_ppp-oa       = "/usr/lib/pppd/2.4.3/pppoatm.so"
--FILES_ppp-oe       = "/usr/sbin/pppoe-discovery /usr/lib/pppd/2.4.3/rp-pppoe.so"
--FILES_ppp-radius   = "/usr/lib/pppd/2.4.3/radius.so /usr/lib/pppd/2.4.3/radattr.so /usr/lib/pppd/2.4.3/radrealms.so"
--FILES_ppp-winbind  = "/usr/lib/pppd/2.4.3/winbind.so"
--FILES_ppp-minconn  = "/usr/lib/pppd/2.4.3/minconn.so"
--FILES_ppp-password = "/usr/lib/pppd/2.4.3/pass*.so"
--FILES_ppp-tools    = "/usr/sbin/pppstats /usr/sbin/pppdump"
-+PACKAGES =+ "ppp-oa ppp-oe ppp-radius ppp-winbind ppp-minconn ppp-password ppp-tools"
-+FILES_${PN}        = "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindir}/pppd"
-+FILES_${PN}_nylon  = "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindir}/pppd ${sbindir}/tdbread"
-+FILES_${PN}-dbg += "${libdir}/pppd/${PV}/.debug"
-+FILES_${PN}-oa       = "${libdir}/pppd/${PV}/pppoatm.so"
-+FILES_${PN}-oe       = "${sbindir}/pppoe-discovery ${libdir}/pppd/${PV}/rp-pppoe.so"
-+FILES_${PN}-radius   = "${libdir}/pppd/${PV}/radius.so ${libdir}/pppd/${PV}/radattr.so ${libdir}/pppd/${PV}/radrealms.so"
-+FILES_${PN}-winbind  = "${libdir}/pppd/${PV}/winbind.so"
-+FILES_${PN}-minconn  = "${libdir}/pppd/${PV}/minconn.so"
-+FILES_${PN}-password = "${libdir}/pppd/${PV}/pass*.so"
-+FILES_${PN}-tools    = "${sbindir}/pppstats ${sbindir}/pppdump"
- DESCRIPTION_ppp-oa       = "Plugin for PPP needed for PPP-over-ATM"
- DESCRIPTION_ppp-oe       = "Plugin for PPP needed for PPP-over-Ethernet"
- DESCRIPTION_ppp-radius   = "Plugin for PPP that are related to RADIUS"
--- 
-1.6.6.1
+Cheers,
+
+Richard
 
 
 
