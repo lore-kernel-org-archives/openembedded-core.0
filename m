@@ -1,41 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QceUH-0006bS-Qx
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QcfBC-0007Em-Iv for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 16:58:50 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1Qcf7c-0002Ma-5K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 16:14:30 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jul 2011 07:10:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,458,1304319600"; d="scan'208";a="25208558"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2011 07:10:43 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 1 Jul 2011 22:10:37 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 1 Jul 2011 22:10:36 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi; Fri, 1 Jul 2011
-	22:10:36 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: 'Patches and discussions about the oe-core layer'
+	Fri, 01 Jul 2011 16:55:08 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Jul 2011 22:10:35 +0800
-Thread-Topic: [OE-core] [PATCH 1/1] busybox: bump PR to enable largefile
-	support
-Thread-Index: Acw31aKYpfoJBeIKT0y2RSO2tw7qQgAIocgg
-Message-ID: <1865303E0DED764181A9D882DEF65FB6A1FA38BB6D@shsmsx502.ccr.corp.intel.com>
-References: <cover.1309513694.git.dexuan.cui@intel.com>
-	<1aa106d547c9e10d025a011922335cc3ea1bbb69.1309513694.git.dexuan.cui@intel.com>
-	<1309514388.2633.36.camel@phil-desktop>
-In-Reply-To: <1309514388.2633.36.camel@phil-desktop>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] busybox: bump PR to enable largefile support
+In-Reply-To: <4FC82E26-5A0C-48DF-99F5-7E2D9B8C7290@dominion.thruhere.net>
+References: <1309446689-21243-1-git-send-email-koen@dominion.thruhere.net>
+	<201106301633.48933.paul.eggleton@linux.intel.com>
+	<4FC82E26-5A0C-48DF-99F5-7E2D9B8C7290@dominion.thruhere.net>
+Organization: Phil Blundell Consulting Ltd
+Date: Fri, 01 Jul 2011 15:55:06 +0100
+Message-ID: <1309532106.2633.74.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+Subject: Re: [PATCH] insane bbclass: turn fatal errors back into fatal errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,33 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 14:14:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 01 Jul 2011 14:58:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Phil Blundell wrote:
-> On Fri, 2011-07-01 at 17:53 +0800, Dexuan Cui wrote:
->> In the previous commit we enable largefile setting in
->> meta-yocto/conf/distro/poky.conf, so we need to re-build busybox to
->> actually enable it.
->=20
-> I guess this would be a good case for using something like OE .dev's
-> DISTRO_PR.  It would be a bit sad if we end up having to bump PRs all
-> over the place in oe-core whenever some random layer changes its
-> DISTRO_FEATURES or whatever.
-Thanks for the info!=20
-I didn't know OE.dev's DISTRO_PR before. I'm going to look at that.
+On Thu, 2011-06-30 at 17:49 +0200, Koen Kooi wrote:
+> It's a white list, so:
+> 
+> # 0 - non dev contains .so
+> # 5 - .la contains installed=yes or reference to the workdir
+> # 7 - the desktop file is not valid
+> # 8 - .la contains reference to the workdir
+> # 9 - LDFLAGS ignored
+> 
+> Are warnings and
+> 
+> # 1 - package contains a dangerous RPATH
+> # 2 - package depends on debug package
+> # 3 - non dbg contains .so
+> # 4 - wrong architecture
+> # 6 - .pc contains reference to /usr/include or workdir
+> # 10 - Build paths in binaries
+> # 11 - package depends on devel package
+> 
+> Are fatal errors. The splits seems arbitrary to me, but it that's how it was last year before RP disabled all fatal errors.
 
-> Also, just on a stylistic issue, it's a bit confusing to talk about
-> "the previous commit" if the commit in question was to a different
-> file and in a different repo.  If you want to refer to a specific
-> commit it's best to mention the actual hash and, if necessary, the
-> repo where it can be found.
-Thanks for the suggestion!
-I'll pay special attention to this and avoid confusion in future.
+I guess the split does make some sense as it is, although I can't see
+any reason for #8 not to be in the fatal set.  #5 also seems like it
+would belong there except that, as far as I can tell, that test doesn't
+actually exist in the code so it's a bit academic how the results are
+treated.
 
-Thanks,
--- Dexuan=
+#7 is, in the scheme of things, a relatively minor infringement (and
+usually an upstream bug anyway) so probably oughtn't to make a package
+unshippable.  #9 is potentially a nuisance but in most cases doesn't
+cause any actual problems, so again I think it's fair for this to be a
+warning. 
+
+Incidentally, it seems that the description for #6 is a bit wrong: it
+doesn't actually do any checking for /usr/include.  And #3 should
+obviously be talking about .debug not .so.
+
+p.
+
 
 
