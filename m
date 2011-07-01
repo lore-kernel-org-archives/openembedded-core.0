@@ -1,35 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QcaWv-0006LJ-I7
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QcaZP-0006Xw-8c for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 12:03:31 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QcaVp-0002As-2Z
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 12:00:57 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jul 2011 02:57:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,457,1304319600"; d="scan'208";a="25128401"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2011 02:57:11 -0700
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 1 Jul 2011 17:56:40 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi; Fri, 1 Jul 2011
-	17:56:39 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: "openembedded-core@lists.openembedded.org"
+	Fri, 01 Jul 2011 11:59:49 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Jul 2011 17:56:39 +0800
-Thread-Topic: [PATCH 0/1] busybox: bump PR to enable largefile support
-Thread-Index: Acw31MoV95t49l4iRiSt2oyOLzF9egAAFc7w
-Message-ID: <1865303E0DED764181A9D882DEF65FB6A1FA38BB6C@shsmsx502.ccr.corp.intel.com>
+In-Reply-To: <1aa106d547c9e10d025a011922335cc3ea1bbb69.1309513694.git.dexuan.cui@intel.com>
 References: <cover.1309513694.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1309513694.git.dexuan.cui@intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 0/1] busybox: bump PR to enable largefile support
+	<1aa106d547c9e10d025a011922335cc3ea1bbb69.1309513694.git.dexuan.cui@intel.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Fri, 01 Jul 2011 10:59:48 +0100
+Message-ID: <1309514388.2633.36.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+Subject: Re: [PATCH 1/1] busybox: bump PR to enable largefile support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,31 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 10:00:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 01 Jul 2011 10:03:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Cui, Dexuan wrote:
-> The following changes since commit
-> 4d60d32a60ae0fae1002b27cd7d20c28532f4932:=20
->=20
->   poky.conf: add largefile support into DISTRO_FEATURES (2011-07-01
-> 17:35:26 +0800)=20
->=20
-> Dexuan Cui (1):
->   busybox: bump PR to enable largefile support
->=20
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib dcui/mkswap
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Ddcui/mkswap
->=20
->  meta/recipes-core/busybox/busybox_1.18.4.bb |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+On Fri, 2011-07-01 at 17:53 +0800, Dexuan Cui wrote:
+> In the previous commit we enable largefile setting in
+> meta-yocto/conf/distro/poky.conf, so we need to re-build busybox to
+> actually enable it.
 
-BTW: please see my first commit in poky@yoctoproject.org.
+I guess this would be a good case for using something like OE .dev's
+DISTRO_PR.  It would be a bit sad if we end up having to bump PRs all
+over the place in oe-core whenever some random layer changes its
+DISTRO_FEATURES or whatever.
 
-Thanks,
--- Dexuan=
+Also, just on a stylistic issue, it's a bit confusing to talk about "the
+previous commit" if the commit in question was to a different file and
+in a different repo.  If you want to refer to a specific commit it's
+best to mention the actual hash and, if necessary, the repo where it can
+be found.
+
+p.
+
+
 
 
