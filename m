@@ -1,25 +1,31 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QccYk-0004AK-MJ
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1Qccio-0004In-GU
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 14:10:58 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Fri, 1 Jul 2011
-	14:07:07 +0200
-From: Anders Darander <anders@chargestorm.se>
-Organization: ChargeStorm AB
+	Fri, 01 Jul 2011 14:21:23 +0200
+Received: by gyd12 with SMTP id 12so1376447gyd.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Jul 2011 05:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=tJ4hWYvauQqnQIsaZVGpdxiKWG0JjM85iapbAdtq/hk=;
+	b=HY+sFfhk7Hu242YLE/uqrf9+Qe4ZLmf/cV8yCaBdH+xSjQkzybzCHdc+YOOu+LORfN
+	1yH5A6BY0bJk7ifD6R41VTER6XwIRj479Mjdiu3jGcZJMFDxa6kJTGJlRjn7Q/vz7aps
+	sAoXV43dxEtonOa7MlzbJWetr/CDRmjOBLTFI=
+MIME-Version: 1.0
+Received: by 10.91.202.38 with SMTP id e38mr2872801agq.196.1309522656934; Fri,
+	01 Jul 2011 05:17:36 -0700 (PDT)
+Received: by 10.90.183.14 with HTTP; Fri, 1 Jul 2011 05:17:36 -0700 (PDT)
+In-Reply-To: <1309515892.2633.42.camel@phil-desktop>
+References: <1309513280.2633.28.camel@phil-desktop>
+	<1309515335.20015.516.camel@rex>
+	<1309515892.2633.42.camel@phil-desktop>
+Date: Fri, 1 Jul 2011 14:17:36 +0200
+Message-ID: <BANLkTikZ3okkb8riCH7CGi7xmwMEpGcu7w@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Jul 2011 14:07:10 +0200
-User-Agent: KMail/1.13.7 (Linux/2.6.39-2-amd64; KDE/4.6.4; x86_64; ; )
-References: <cover.1309503939.git.anders@chargestorm.se>
-	<D041C15B-428E-432D-996B-EF7356B38E29@dominion.thruhere.net>
-	<201107011352.08558.anders@chargestorm.se>
-In-Reply-To: <201107011352.08558.anders@chargestorm.se>
-MIME-Version: 1.0
-Message-ID: <201107011407.10730.anders@chargestorm.se>
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCH v4 7/8] task-base: remove modutils reference.
+Subject: Re: PRIORITY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,29 +40,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 12:10:58 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Jul 2011 12:21:23 -0000
+Content-Type: multipart/alternative; boundary=001636af0371caba5c04a70100fa
 
+--001636af0371caba5c04a70100fa
+Content-Type: text/plain; charset=ISO-8859-1
 
-* Anders Darander Anders Darander <anders@chargestorm.se> [07/01/11 01:52 PM]:
+2011/7/1 Phil Blundell <pb@pbcl.net>
 
-> from task-base.bb? Should that part just be new, general
-> RRECOMMENDS = "\
->     kernel-module-nls-utf8 \
+> On Fri, 2011-07-01 at 11:15 +0100, Richard Purdie wrote:
+> > On Fri, 2011-07-01 at 10:41 +0100, Phil Blundell wrote:
+> > > We had some discussion of this a few weeks ago but I'm not sure it ever
+> > > reached a firm conclusion.
+> > >
+> > > Is everyone agreed that the PRIORITY variable does not serve any useful
+> > > purpose in oe-core and can/should be removed from the recipes?
+> >
+> > I think that was the conclusion, yes. I'll take a patch (or a
+> > commandline I guess).
+>
+> I did:
+>
+> $ find . -regex ".*\.\(bb\|inc\)$" | xargs sed -i '/^PRIORITY = ".*"$/d'
+>
+> which seemed to produce the desired results.  I can send a patch if you
+> like but it would be somewhat large and fairly uninteresting.
+>
+> I'd suggest a regex that matches for any whitespace in order also to catch
+things like:
+./libgpevtype/libgpevtype_0.50.bb:PRIORITY    = "optional"
 
-I should have written:
+Have fun! Frans
 
-RRECOMMENDS_task-base = "\
-    kernel-module-nls-utf8 \
+--001636af0371caba5c04a70100fa
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
-Anders
+<br><br><div class=3D"gmail_quote">2011/7/1 Phil Blundell <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:pb@pbcl.net">pb@pbcl.net</a>&gt;</span><br><blockquo=
+te class=3D"gmail_quote" style=3D"margin: 0pt 0pt 0pt 0.8ex; border-left: 1=
+px solid rgb(204, 204, 204); padding-left: 1ex;">
+<div class=3D"im">On Fri, 2011-07-01 at 11:15 +0100, Richard Purdie wrote:<=
+br>
+&gt; On Fri, 2011-07-01 at 10:41 +0100, Phil Blundell wrote:<br>
+&gt; &gt; We had some discussion of this a few weeks ago but I&#39;m not su=
+re it ever<br>
+&gt; &gt; reached a firm conclusion.<br>
+&gt; &gt;<br>
+&gt; &gt; Is everyone agreed that the PRIORITY variable does not serve any =
+useful<br>
+&gt; &gt; purpose in oe-core and can/should be removed from the recipes?<br=
+>
+&gt;<br>
+&gt; I think that was the conclusion, yes. I&#39;ll take a patch (or a<br>
+&gt; commandline I guess).<br>
+<br>
+</div>I did:<br>
+<br>
+$ find . -regex &quot;.*\.\(bb\|inc\)$&quot; | xargs sed -i &#39;/^PRIORITY=
+ =3D &quot;.*&quot;$/d&#39;<br>
+<br>
+which seemed to produce the desired results. =A0I can send a patch if you<b=
+r>
+like but it would be somewhat large and fairly uninteresting.<br>
+<font color=3D"#888888"><br></font></blockquote><div>I&#39;d suggest a rege=
+x that matches for any whitespace in order also to catch things like:<br>./=
+libgpevtype/libgpevtype_0.50.bb:PRIORITY=A0=A0=A0 =3D &quot;optional&quot;<=
+br><br>
+Have fun! Frans <br></div></div><br>
 
--- 
-Anders Darander
-ChargeStorm AB		
-
-
-
-
+--001636af0371caba5c04a70100fa--
