@@ -1,30 +1,32 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QcbWE-0002P2-JB
+	(envelope-from <andrea.adami@gmail.com>) id 1QcbWl-0002RA-OB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 13:04:21 +0200
-Received: by wyg30 with SMTP id 30so2395256wyg.6
+	Fri, 01 Jul 2011 13:04:52 +0200
+Received: by pvf24 with SMTP id 24so2612421pvf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2011 04:00:27 -0700 (PDT)
-Received: by 10.216.1.200 with SMTP id 50mr1142931wed.33.1309518026906;
-	Fri, 01 Jul 2011 04:00:26 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id h22sm1571230wes.8.2011.07.01.04.00.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 01 Jul 2011 04:00:25 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1309509178.20015.513.camel@rex>
-Date: Fri, 1 Jul 2011 13:00:22 +0200
-Message-Id: <72100965-D39D-41D0-B6E7-78E18D6FD072@dominion.thruhere.net>
-References: <cover.1309243115.git.liezhi.yang@windriver.com>
-	<4E0D062C.5060302@linux.intel.com>
-	<2B6421C4-E7C5-42FB-B46F-AAFAE85DB7F2@dominion.thruhere.net>
-	<1309509178.20015.513.camel@rex>
+	Fri, 01 Jul 2011 04:01:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=kOfSxKyVz7NFqkIONlnGTCgfAnju3CGHRJqzmHYTESc=;
+	b=Swfq+Onn0/H3e9AwZIg3rFi7gB34OpP3DrrKJYu9CTog66LEegxYi2AcQUBQxLpx/p
+	GkcbU/yHvrH0/yvsitUkVRrGYu+vK9xxnon87sDTMlFEMWs3gA85vWf25xASAOEghlgR
+	dytKBcSJaODO//DJWcjkqDwNRk5qKnzakai+Q=
+MIME-Version: 1.0
+Received: by 10.143.2.11 with SMTP id e11mr1349749wfi.365.1309517623165; Fri,
+	01 Jul 2011 03:53:43 -0700 (PDT)
+Received: by 10.142.142.18 with HTTP; Fri, 1 Jul 2011 03:53:43 -0700 (PDT)
+In-Reply-To: <1309516055.7987.123.camel@desktop.home>
+References: <1309453832.7987.33.camel@desktop.home>
+	<1309472051.20015.465.camel@rex>
+	<1309516055.7987.123.camel@desktop.home>
+Date: Fri, 1 Jul 2011 12:53:43 +0200
+Message-ID: <BANLkTi=ptn9KrXjdfzu62BWJ0XZPFtcGOQ@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: It's broken, please revert. Re: [PATCH 0/4 V4] Share gcc work directories
+Subject: Re: Proposal: recipe feature switches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,77 +41,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 11:04:21 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 01 Jul 2011 11:04:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+<cut>
 
-Op 1 jul 2011, om 10:32 heeft Richard Purdie het volgende geschreven:
+> Some worthwhile configuration can't be expressed in terms of high-level
+> distro features (i.e.: usb, bluetooth, alsa etc...). =A0What about "I wan=
+t
+> SSL support, but NOT in library foo". =A0That case can't be covered by
+> distro feature 'ssl'.
 
-> On Fri, 2011-07-01 at 09:15 +0200, Koen Kooi wrote:
->> incremental build with rm_work turned on:
->>=20
->> ERROR: Function 'do_configure' failed (see =
-/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-g=
-nueabi/gcc-cross-initial-4.5-r37.0+svnr175127/temp/log.do_configure.27092 =
-for further information)
->> ERROR: Logfile of failure stored in: =
-/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-g=
-nueabi/gcc-cross-initial-4.5-r37.0+svnr175127/temp/log.do_configure.27092
->> Log data follows:
->> | + cd =
-/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-g=
-nueabi/gcc-cross-initial-4.5-r37.0+svnr175127/gcc-4.5/build.x86_64-linux.a=
-rm-angstrom-linux-gnueabi
->> | + do_configure
->> | + sed -i =
-'/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-=
-gnueabi/gcc-cross-initial-4.5-r37.0+svnr175127/gcc-4_5-branch/gcc/config/*=
-/linux*.h' -e 's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 =
-SYSTEMLIBS_DIR\2#'
->> | sed: can't read =
-/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-g=
-nueabi/gcc-cross-initial-4.5-r37.0+svnr175127/gcc-4_5-branch/gcc/config/*/=
-linux*.h: No such file or directory
->> | ERROR: Function 'do_configure' failed (see =
-/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-g=
-nueabi/gcc-cross-initial-4.5-r37.0+svnr175127/temp/log.do_configure.27092 =
-for further information)
->> NOTE: package gcc-cross-initial-4.5-r37.0+svnr175127: task =
-do_configure: Failed
->> ERROR: Task 764 =
-(/OE/tentacle/sources/meta-openembedded/meta-oe/recipes-devtools/gcc/gcc-c=
-ross-initial_4.5.bb, do_configure) failed with exit code '1'
->>=20
->> Can this patchset get reverted please and reapplied when it actually =
-has been tested to work?
->=20
-> I checked and everything is fine with rm_work.
->=20
-> Looking at this error, something is changing ${S} as there is no =
-mention
-> of work-shared in the sed command yet there should be.
->=20
-> At a guess this is coming from:
->=20
-> =
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-openembedded/tr=
-ee/meta-oe/recipes-devtools/gcc/gcc-4.5.inc
->=20
-> where it says:
->=20
-> S =3D "${WORKDIR}/${BRANCH}"
->=20
-> and if that is changed to
->=20
-> S_append =3D "/${BRANCH}"
->=20
-> or removed it will likely work better.
+see  http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=3D2&chap=
+=3D2
 
-It was indeed a bug in meta-oe and the following fixed it:
+"Declaring USE flags for individual packages"
+Sometimes you want to declare a certain USE flag for one (or a couple)
+of applications but not system-wide. ...
+.."
 
-=
-https://github.com/koenkooi/meta-oe/commit/8a917caaa5506fa0f875202243658a1=
-c2fe60c40=
+>
+> Embedded developers are going to need to configure packages for their
+> own application, if we provide an interface to do it, then that has to
+> be better than everyone inventing their own methods.
+
+Why reinvent the wheel? See above.
+
+<cut>
+
+This discussion about flags/switches is recurring now and then. It's
+becoming a classic :)
+Now, the detractors have argued that those flags would be a nightmare
+for people packaging feeds, with no way for the package manager to
+detect those different recipes with the same name.
+
+Are we still standing there?
+
+Regards
+
+Andrea
 
 
