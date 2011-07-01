@@ -1,31 +1,25 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1QcbWl-0002RA-OB
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QcbdW-0002im-98 for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jul 2011 13:11:50 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QcbZv-0002DQ-NF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 13:04:52 +0200
-Received: by pvf24 with SMTP id 24so2612421pvf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jul 2011 04:01:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=kOfSxKyVz7NFqkIONlnGTCgfAnju3CGHRJqzmHYTESc=;
-	b=Swfq+Onn0/H3e9AwZIg3rFi7gB34OpP3DrrKJYu9CTog66LEegxYi2AcQUBQxLpx/p
-	GkcbU/yHvrH0/yvsitUkVRrGYu+vK9xxnon87sDTMlFEMWs3gA85vWf25xASAOEghlgR
-	dytKBcSJaODO//DJWcjkqDwNRk5qKnzakai+Q=
-MIME-Version: 1.0
-Received: by 10.143.2.11 with SMTP id e11mr1349749wfi.365.1309517623165; Fri,
-	01 Jul 2011 03:53:43 -0700 (PDT)
-Received: by 10.142.142.18 with HTTP; Fri, 1 Jul 2011 03:53:43 -0700 (PDT)
-In-Reply-To: <1309516055.7987.123.camel@desktop.home>
+	Fri, 01 Jul 2011 13:08:08 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <BANLkTi=ptn9KrXjdfzu62BWJ0XZPFtcGOQ@mail.gmail.com>
 References: <1309453832.7987.33.camel@desktop.home>
 	<1309472051.20015.465.camel@rex>
 	<1309516055.7987.123.camel@desktop.home>
-Date: Fri, 1 Jul 2011 12:53:43 +0200
-Message-ID: <BANLkTi=ptn9KrXjdfzu62BWJ0XZPFtcGOQ@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<BANLkTi=ptn9KrXjdfzu62BWJ0XZPFtcGOQ@mail.gmail.com>
+Organization: Phil Blundell Consulting Ltd
+Date: Fri, 01 Jul 2011 12:08:06 +0100
+Message-ID: <1309518486.2633.54.camel@phil-desktop>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
 Subject: Re: Proposal: recipe feature switches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -41,45 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 11:04:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 01 Jul 2011 11:11:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-<cut>
+On Fri, 2011-07-01 at 12:53 +0200, Andrea Adami wrote:
+> Now, the detractors have argued that those flags would be a nightmare
+> for people packaging feeds, with no way for the package manager to
+> detect those different recipes with the same name.
 
-> Some worthwhile configuration can't be expressed in terms of high-level
-> distro features (i.e.: usb, bluetooth, alsa etc...). =A0What about "I wan=
-t
-> SSL support, but NOT in library foo". =A0That case can't be covered by
-> distro feature 'ssl'.
+That does indeed come up frequently but I think this objection is
+misplaced.  The people building the feeds just need to make sure that
+their particular DISTRO is using a consistent set of flags and refrain
+from changing them capriciously in places like local.conf.
 
-see  http://www.gentoo.org/doc/en/handbook/handbook-x86.xml?part=3D2&chap=
-=3D2
+Or, to look at it from another perspective, there are already plenty of
+ways in which you can generate two .ipk files with the same name but
+different/incompatible contents by changing the contents of your
+configuration files.  (For example, a DISTRO can already clobber
+EXTRA_OECONF_pn-foo in any way that it wants by using an override.)
+It's not at all obvious that introducing per-recipe USE flags would make
+things any worse in that respect.
 
-"Declaring USE flags for individual packages"
-Sometimes you want to declare a certain USE flag for one (or a couple)
-of applications but not system-wide. ...
-.."
+I think Chris's proposal is basically a good one.  In one sense it's
+just syntactic sugar, since (as above) it doesn't actually allow you to
+do anything that you couldn't already achieve by other means, but it
+certainly makes it neater.
 
->
-> Embedded developers are going to need to configure packages for their
-> own application, if we provide an interface to do it, then that has to
-> be better than everyone inventing their own methods.
+p.
 
-Why reinvent the wheel? See above.
-
-<cut>
-
-This discussion about flags/switches is recurring now and then. It's
-becoming a classic :)
-Now, the detractors have argued that those flags would be a nightmare
-for people packaging feeds, with no way for the package manager to
-detect those different recipes with the same name.
-
-Are we still standing there?
-
-Regards
-
-Andrea
 
 
