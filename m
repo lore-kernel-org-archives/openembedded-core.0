@@ -1,24 +1,26 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QcaZP-0006Xw-8c for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 12:03:31 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.69) (envelope-from <pb@pbcl.net>) id 1QcaVp-0002As-2Z
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jul 2011 11:59:49 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1aa106d547c9e10d025a011922335cc3ea1bbb69.1309513694.git.dexuan.cui@intel.com>
-References: <cover.1309513694.git.dexuan.cui@intel.com>
-	<1aa106d547c9e10d025a011922335cc3ea1bbb69.1309513694.git.dexuan.cui@intel.com>
-Organization: Phil Blundell Consulting Ltd
-Date: Fri, 01 Jul 2011 10:59:48 +0100
-Message-ID: <1309514388.2633.36.camel@phil-desktop>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-Subject: Re: [PATCH 1/1] busybox: bump PR to enable largefile support
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QcabQ-0006dT-KB
+	for openembedded-core@lists.linuxtogo.org;
+	Fri, 01 Jul 2011 12:05:36 +0200
+Received: by wyg30 with SMTP id 30so2364119wyg.6
+	for <openembedded-core@lists.linuxtogo.org>;
+	Fri, 01 Jul 2011 03:01:51 -0700 (PDT)
+Received: by 10.216.79.74 with SMTP id h52mr3051870wee.33.1309514511163;
+	Fri, 01 Jul 2011 03:01:51 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id w62sm1537782wec.42.2011.07.01.03.01.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 01 Jul 2011 03:01:50 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.linuxtogo.org
+Date: Fri,  1 Jul 2011 12:01:43 +0200
+Message-Id: <1309514503-9364-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+In-Reply-To: <y>
+References: <y>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] gettext: fix ERROR: QA Issue: gettext rdepends on gettext-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jul 2011 10:03:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Jul 2011 10:05:36 -0000
 
-On Fri, 2011-07-01 at 17:53 +0800, Dexuan Cui wrote:
-> In the previous commit we enable largefile setting in
-> meta-yocto/conf/distro/poky.conf, so we need to re-build busybox to
-> actually enable it.
+This was fixed in 2008 already, see http://dominion.thruhere.net/koen/cms/the-testlab-strikes-again but regressed during the 0.16.x -> 0.18.x update. Strangely enough the comment was kept.
 
-I guess this would be a good case for using something like OE .dev's
-DISTRO_PR.  It would be a bit sad if we end up having to bump PRs all
-over the place in oe-core whenever some random layer changes its
-DISTRO_FEATURES or whatever.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
 
-Also, just on a stylistic issue, it's a bit confusing to talk about "the
-previous commit" if the commit in question was to a different file and
-in a different repo.  If you want to refer to a specific commit it's
-best to mention the actual hash and, if necessary, the repo where it can
-be found.
-
-p.
-
+diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+index b64fbdb..323346f 100644
+--- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+@@ -5,7 +5,8 @@ SECTION = "libs"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-PR = "r0"
++PR = "r1"
++
+ DEPENDS = "gettext-native virtual/libiconv ncurses expat git-native"
+ DEPENDS_virtclass-native = "git-native"
+ PROVIDES = "virtual/libintl virtual/gettext"
+@@ -50,6 +51,11 @@ acpaths = '-I ${S}/gettext-runtime/m4 \
+ # 1300    KiB /ep93xx/uclibc-dev_0.9.29-r8_ep93xx.ipk
+ # 140     KiB /armv4t/gettext-dev_0.14.1-r6_armv4t.ipk
+ # 4       KiB /ep93xx/libgcc-s-dev_4.2.2-r2_ep93xx.ipk
++
++PACKAGES =+ "libgettextlib libgettextsrc"
++FILES_libgettextlib = "${libdir}/libgettextlib-*.so*"
++FILES_libgettextsrc = "${libdir}/libgettextsrc-*.so*"
++
+ PACKAGES =+ "gettext-runtime gettext-runtime-dev gettext-runtime-doc"
+ 
+ FILES_gettext-runtime = "${bindir}/gettext \
+-- 
+1.6.6.1
 
 
 
