@@ -1,25 +1,30 @@
-Received: from slimlogic.co.uk ([89.16.172.20])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gg@slimlogic.co.uk>) id 1QdOrU-0005Yf-Bj
+	(envelope-from <otavio.salvador@gmail.com>) id 1QdVE9-0003za-CS
 	for openembedded-core@lists.openembedded.org;
-	Sun, 03 Jul 2011 17:45:32 +0200
-Received: from xora-desktop.xora.org.uk (188-220-34-37.zone11.bethere.co.uk
-	[188.220.34.37])
-	by slimlogic.co.uk (Postfix) with ESMTPSA id 732E413003B
+	Mon, 04 Jul 2011 00:33:21 +0200
+Received: by bwf20 with SMTP id 20so4260803bwf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Jul 2011 16:41:47 +0100 (BST)
-Message-ID: <4E108DBA.3070800@slimlogic.co.uk>
-Date: Sun, 03 Jul 2011 16:41:46 +0100
-From: Graeme Gregory <gg@slimlogic.co.uk>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc15
-	Lightning/1.0b3pre Thunderbird/3.1.10
+	Sun, 03 Jul 2011 15:29:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type:content-transfer-encoding;
+	bh=S2d6Bk/AA/V5odRjxgAasI0fGsBYx64OpwR7lSeMXr0=;
+	b=KVSwMxlLKaGnA3JVfIa3mGdDZq6nydoLfJOSuTXNw6o8rv7XciMFtJJR/9K+tE1EgA
+	6nsjWGOc97U1CXlTMwbRLge87ydw7hxrvGFgFsiAstSw3KSPBTOJtUyPUeiL3+p9N25B
+	0c63/PHe1U+xlGJFU7BY9OsEIod97WgKm05ko=
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>	<AFF7B511-46CF-4CDF-96CA-763678BF57C7@dominion.thruhere.net>	<BANLkTi=3_0NHcyWydFjp7a3sBr00u-54YA@mail.gmail.com>	<7848FD2A-860F-48C3-BE1D-739C6D9AB0A8@dominion.thruhere.net>
-	<4E106004.7030103@balister.org>
-In-Reply-To: <4E106004.7030103@balister.org>
-Subject: Re: Conflicting providers for ssh/sshd (dropbear	and	openssh)
+Received: by 10.204.20.79 with SMTP id e15mr5070894bkb.147.1309732172906; Sun,
+	03 Jul 2011 15:29:32 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.177.140 with HTTP; Sun, 3 Jul 2011 15:29:32 -0700 (PDT)
+Date: Sun, 3 Jul 2011 19:29:32 -0300
+X-Google-Sender-Auth: l8AkSJ3QwdxPRvQ_VKOsT44t_Xk
+Message-ID: <CAP9ODKpeG=a71mZNRTRzt=Ehjy3iEBhBa0dPCA71vKnA-Cz30A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [RFH] Wrong behaviour regarding SDK native and target paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,25 +39,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Jul 2011 15:45:32 -0000
+X-List-Received-Date: Sun, 03 Jul 2011 22:33:21 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 07/03/2011 01:26 PM, Philip Balister wrote:
-> On 06/29/2011 09:56 AM, Koen Kooi wrote:
->>
->> That's already the case now. The problem is the PROVIDES overlap
->> since the Poky people decided a distro could only have one true ssh
->> implementation instead of choosing it per image. So if your distro
->> doesn't set the PREFERRED_PROVIDER_sshd you get those nagging
->> messages during parsing that scare users and make consultants rich.
->>
->
-> What's wrong with consultants getting rich?
->
-I like this scheme :-)
+Hello,
 
-Graeme
+I am looking for help to get our nativesdk working fine and I am quite
+confused how does it can work after all.
 
+I have looked at meta/recipes-qt/meta/meta-toolchain-qte.bb and it has:
+
+QT_TOOLS_PREFIX =3D "${SDKPATHNATIVE}${bindir_nativesdk}"
+
+Running it is expanded to:
+
+QT_TOOLS_PREFIX=3D"/usr/local/oecore-i686-i586/sysroots/i686-oesdk-linux/us=
+r/bin"
+
+It seems right but in fact it is wrong since Qt binaries are installed into=
+:
+
+(devel)~/hacking/el% tar tjf
+tmp-eglibc-eglibc/deploy/sdk/oecore-i686-i586-toolchain-devel.tar.bz2|
+grep 'bin/moc4'
+./usr/local/oecore-i686-i686/sysroots/i686-oesdk-linux/usr/bin/moc4
+
+so, the generated information for the script won't work.
+
+I am quite confused by all this is suppose to work. Someone help me?
+
+Cheers,
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
