@@ -1,23 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.geekisp.com ([216.168.135.169] helo=starfish.geekisp.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qd7Ui-0000rS-02
+	(envelope-from <philip@balister.org>) id 1QdLoo-0002aG-Sp
 	for openembedded-core@lists.openembedded.org;
-	Sat, 02 Jul 2011 23:12:52 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Jul 2011 14:09:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,465,1304319600"; d="scan'208";a="23120496"
-Received: from unknown (HELO [10.255.13.223]) ([10.255.13.223])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Jul 2011 14:09:04 -0700
-Message-ID: <4E0F88F0.2030404@linux.intel.com>
-Date: Sat, 02 Jul 2011 14:09:04 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Sun, 03 Jul 2011 14:30:35 +0200
+Received: (qmail 24532 invoked by uid 1003); 3 Jul 2011 12:26:46 -0000
+Received: from unknown (HELO ?10.1.0.61?) (philip@opensdr.com@87.192.231.145)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	3 Jul 2011 12:26:46 -0000
+Message-ID: <4E106004.7030103@balister.org>
+Date: Sun, 03 Jul 2011 13:26:44 +0100
+From: Philip Balister <philip@balister.org>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc14 Thunderbird/3.1.10
 MIME-Version: 1.0
-To: 'Patches and discussions about the oe-core layer'
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Just a reminder - US Holiday July 4/5
+References: <BANLkTim9UBhi90OLd7UVxiRnxcWdkP=mqg@mail.gmail.com>	<AFF7B511-46CF-4CDF-96CA-763678BF57C7@dominion.thruhere.net>	<BANLkTi=3_0NHcyWydFjp7a3sBr00u-54YA@mail.gmail.com>
+	<7848FD2A-860F-48C3-BE1D-739C6D9AB0A8@dominion.thruhere.net>
+In-Reply-To: <7848FD2A-860F-48C3-BE1D-739C6D9AB0A8@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: Conflicting providers for ssh/sshd (dropbear and	openssh)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,22 +34,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Jul 2011 21:12:52 -0000
+X-List-Received-Date: Sun, 03 Jul 2011 12:30:35 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 06/29/2011 09:56 AM, Koen Kooi wrote:
+>
+> That's already the case now. The problem is the PROVIDES overlap since the Poky people decided a distro could only have one true ssh implementation instead of choosing it per image. So if your distro doesn't set the PREFERRED_PROVIDER_sshd you get those nagging messages during parsing that scare users and make consultants rich.
+>
 
-Just a note that some folks in the US have July 4th and/or 5th off.
-Pull request handling from my end will slow down some.
+What's wrong with consultants getting rich?
 
-Sau!
-
--- 
-     Sau!
-
-Saul Wold
-Yocto Component Wrangler @ Intel
-Yocto Project / Poky Build System
-
+Philip
 
 
