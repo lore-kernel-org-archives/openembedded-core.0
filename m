@@ -1,26 +1,44 @@
-Received: from katalix.com ([82.103.140.233] helo=mail.katalix.com)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <celston@katalix.com>) id 1Qdhno-0006Fj-U3
+	(envelope-from <dexuan.cui@intel.com>) id 1Qdhub-0006gz-LY
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Jul 2011 13:59:01 +0200
-Received: from [192.168.1.100] (188-220-141-241.zone11.bethere.co.uk
-	[188.220.141.241])
-	(using SSLv3 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested) (Authenticated sender: chris)
-	by mail.katalix.com (Postfix) with ESMTPSA id 3CE44A6206D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2011 12:54:58 +0100 (BST)
-From: Chris Elston <celston@katalix.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 04 Jul 2011 12:54:53 +0100
-Message-Id: <1309780493.20200.17.camel@desktop.home>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.26.3 (2.26.3-1.fc11) 
-Subject: [PROPOSAL] Package feature switches, redux.
+	Mon, 04 Jul 2011 14:06:01 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 04 Jul 2011 05:02:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,471,1304319600"; d="scan'208";a="22441203"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by azsmga001.ch.intel.com with ESMTP; 04 Jul 2011 05:02:07 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Mon, 4 Jul 2011 20:02:07 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Mon, 4 Jul 2011 20:02:06 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi; Mon, 4 Jul 2011
+	20:02:05 +0800
+From: "Cui, Dexuan" <dexuan.cui@intel.com>
+To: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Jul 2011 20:02:04 +0800
+Thread-Topic: [OE-core] The swap partition's size is too big for BSP?
+Thread-Index: Acw6P/scylMo+61fR+il+Eqs2FltzAAARIxA
+Message-ID: <1865303E0DED764181A9D882DEF65FB6A20949386F@shsmsx502.ccr.corp.intel.com>
+References: <1865303E0DED764181A9D882DEF65FB6A200B1C93F@shsmsx502.ccr.corp.intel.com>
+	<1309779592.20015.661.camel@rex>
+In-Reply-To: <1309779592.20015.661.camel@rex>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Cc: "Wold, Saul" <saul.wold@intel.com>
+Subject: Re: The swap partition's size is too big for BSP?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: celston@katalix.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -31,104 +49,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2011 11:59:01 -0000
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Jul 2011 12:06:01 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Since responses to my previous mail were generally positive, I've
-reworked the package feature switches so that the interface is as RP
-suggested.
+Richard Purdie wrote:
+> On Mon, 2011-07-04 at 13:35 +0800, Cui, Dexuan wrote:
+>> In meta/recipes-core/initrdscripts/files/init-install.sh, we have
+>>=20
+>> # 5% for the swap
+>> swap_ratio=3D5               # dexuan: this variable is not used at
+>> all! ...=20
+>> swap_size=3D$((disk_size*5/100))
+>>=20
+>> This algorithm seems too wasty -- e.g., for a CrownBay box with a
+>> 160GB disk, we would create a 8GB swap partition while the box has
+>> only 1GB memory. =20
+>>=20
+>> What's the proper swap size?
+>> This link http://www.cyberciti.biz/tips/linux-swap-space.html
+>> discussed this and I think the below algorithm seems suitable for
+>> us: =20
+>>=20
+>> Systems with 2GB of ram or less require the same size of swap space
+>> Systems with 2GB to 4GB of ram require a minimum of 2GB of swap space
+>> Systems with 4GB to 16GB of ram require a minimum of 4GB of swap
+>> space=20
+>> Systems with 16GB to 64GB of ram require a minimum of 8GB of swap
+>> space=20
+>> Systems with 64GB to 256GB of ram require a minimum of 16GB of swap
+>> space=20
+>>=20
+>> Any comment?
+>=20
+> Looks like a much better idea to me, I'll take patches :)
+Ok, I'll try to make a patch for this algorithm.
 
-In the recipe for foo you would have a set of features defined like
-this:
+> For reference if you want to do suspend to disk (swap) you need a lot
+> of swap space btw. Still no where near that much though!
+Does (or should )Yocto Linux support suspend-to-disk? I'm not sure about th=
+is.
+BTW: Linux can alse use a regular file as swap area.
+So in case the swap size is not enough (e.g., for suspend-to-disk), I think=
+ a user could create a big enough file  to meet the need (I didn't test thi=
+s with Linux yet).
 
-PACKAGE_CONFIG[bar] = "--enable-bar, --disable-bar, libbar"
-PACKAGE_CONFIG[baz] = "--enable-baz, --disable-baz, libbaz"
-
-The default set of features for the package would be defined with:
-
-PACKAGE_FEATURES ?= "bar baz" 
-
-Perhaps this set of features could go into a metadata field in the .ipk
-- would this be helpful for feed users?
-
-The package features can then be tailored in a config/layer with
-something like:
-
-PACKAGE_FEATURES_pn-foo = "baz pop"
-
-If a layer requests a feature not supported by the recipe, you get a
-warning (should help distro maintainers detect bitrot in their layer):
-
-WARNING: foo: Unknown feature 'pop' requested
-
-The patch below uses gstreamer as an example of something which would
-benefit from this:
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 8f4ef1e..ee8e914 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -396,6 +396,30 @@ python () {
-             break
- 
-     bb.data.setVar('MULTIMACH_ARCH', multiarch, d)
-+
-+    features = bb.data.getVar('PACKAGE_FEATURES', d, True)
-+    if features:
-+        config = list(bb.data.getVarFlags('PACKAGE_CONFIG', d) or {})
-+        oeconf = [ (bb.data.getVar('EXTRA_OECONF', d, True) or '') ]
-+        depends = [ (bb.data.getVar('DEPENDS', d, True) or '') ]
-+        for feature in features.split():
-+            if feature in config:
-+                settings = bb.data.getVarFlag('PACKAGE_CONFIG', feature, d).split(',')
-+                oeconf.append(settings[0])
-+                depends.append(settings[2])
-+                config.remove(feature) 
-+            else:
-+                bb.warn("%s: Unknown feature '%s' requested" % (pn, feature))
-+
-+        for feature in config:
-+            settings = bb.data.getVarFlag('PACKAGE_CONFIG', feature, d).split(',')
-+            oeconf.append(settings[1])
-+
-+        if len(oeconf) > 1:
-+            bb.data.setVar('EXTRA_OECONF', ' '.join(oeconf), d)
-+
-+        if len(depends) > 1:
-+            bb.data.setVar('DEPENDS', ' '.join(depends), d)
- }
- 
- def check_gcc3(data):
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-index f81011f..70f0171 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-@@ -6,10 +6,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
-                     file://gst/ffmpegcolorspace/utils.c;beginline=1;endline=20;md5=9c83a200b8e597b26ca29df20fc6ecd0"
- 
--DEPENDS += "virtual/libx11 alsa-lib freetype gnome-vfs liboil libogg libvorbis libxv libtheora avahi util-linux tremor"
-+DEPENDS += "virtual/libx11 alsa-lib freetype gnome-vfs liboil libxv avahi util-linux tremor"
- RDEPENDS_${PN} += "gnome-vfs-plugin-file gnome-vfs-plugin-http gnome-vfs-plugin-ftp \
-              gnome-vfs-plugin-sftp"
- 
-+PACKAGE_CONFIG[ogg] = "--enable-ogg, --disable-ogg, libogg"
-+PACKAGE_CONFIG[vorbis] = "--enable-vorbis, --disable-vorbis, libvorbis"
-+PACKAGE_CONFIG[theora] = "--enable-theora, --disable-theora, libtheora"
-+
-+PACKAGE_FEATURES ?= "ogg vorbis theora" 
-+
- SRC_URI += " file://gst-plugins-base-tremor.patch"
- 
- SRC_URI[md5sum] = "2920af2b3162f3d9fbaa7fabc8ed4d38"
----
-
-Cheers,
-
-Chris.
-
-
-
+Thanks,
+-- Dexuan=
 
 
