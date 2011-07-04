@@ -1,20 +1,30 @@
-Received: from stoexhubfe02.domain01.net ([83.145.59.141])
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1QdfM7-0003VP-5d
+	(envelope-from <sledz@dresearch-fe.de>) id 1QdgzC-0005Tw-J8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Jul 2011 11:22:15 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server id 8.3.137.0; Mon, 4 Jul 2011
-	11:18:26 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Jul 2011 11:18:21 +0200
-Message-ID: <1309771101-19524-1-git-send-email-anders@chargestorm.se>
-X-Mailer: git-send-email 1.7.4.1
+	Mon, 04 Jul 2011 13:06:42 +0200
+Received: by bwf20 with SMTP id 20so4567559bwf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Jul 2011 04:02:54 -0700 (PDT)
+Received: by 10.204.16.133 with SMTP id o5mr5555695bka.158.1309777374398;
+	Mon, 04 Jul 2011 04:02:54 -0700 (PDT)
+Received: from fensuse.internal.dresearch-fe.de (pd95cb174.dip0.t-ipconnect.de
+	[217.92.177.116])
+	by mx.google.com with ESMTPS id n3sm5466631bka.16.2011.07.04.04.02.53
+	(version=SSLv3 cipher=OTHER); Mon, 04 Jul 2011 04:02:53 -0700 (PDT)
+Message-ID: <4E119DDD.5090902@dresearch-fe.de>
+Date: Mon, 04 Jul 2011 13:02:53 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
 MIME-Version: 1.0
-X-GFI-SMTP-Submission: 1
-Cc: Anders Darander <anders@chargestorm.se>
-Subject: [PATCH] resolvconf: update to version 1.58.
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1309544267-24186-1-git-send-email-koen@dominion.thruhere.net>
+In-Reply-To: <1309544267-24186-1-git-send-email-koen@dominion.thruhere.net>
+X-Enigmail-Version: 1.2
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] ppp: sync packaging with OE .dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,43 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2011 09:22:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Jul 2011 11:06:42 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The old version has become unavailable from the download site.
+Can you please resync again.
 
-Signed-off-by: Anders Darander <anders@chargestorm.se>
----
- .../{resolvconf_1.48.bb => resolvconf_1.58.bb}     |    7 +++----
- 1 files changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-connectivity/resolvconf/{resolvconf_1.48.bb => resolvconf_1.58.bb} (87%)
+Commit e05db51b7aea7a0359babd918d7efbb9cc213d83 introduces an own package for PPPoL2TP plugin.
 
-diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.48.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.58.bb
-similarity index 87%
-rename from meta/recipes-connectivity/resolvconf/resolvconf_1.48.bb
-rename to meta/recipes-connectivity/resolvconf/resolvconf_1.58.bb
-index 507a233..46040a0 100644
---- a/meta/recipes-connectivity/resolvconf/resolvconf_1.48.bb
-+++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.58.bb
-@@ -11,13 +11,12 @@ AUTHOR = "Thomas Hood"
- HOMEPAGE = "http://packages.debian.org/resolvconf"
- DEPENDS = "bash"
- RDEPENDS_${PN} = "bash"
--PR = "r1"
-+PR = "r0"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/r/resolvconf/resolvconf_${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "b226e02704a545238eac5ef70f6d3c4c"
--SRC_URI[sha256sum] = "4b07832680b82d401a76132cd6bbe13961231235287f2662a6604edbcac82bb1"
--
-+SRC_URI[md5sum] = "6232b336e6bb05282791b5506bbbfa42"
-+SRC_URI[sha256sum] = "853016a2ef16a8fdd6d1e29ac94bc6391199033235aa8e3b373345979c617431"
- 
- do_compile () {
- 	:
+Adding that package fixes the following error message.
+
+      NOTE: package ppp-2.4.5-r1: task do_qa_staging: Started
+      WARNING: the following files were installed but not shipped in any package:
+      WARNING:   /usr/lib/pppd/2.4.5/pppol2tp.so
+      WARNING:   /usr/lib/pppd/2.4.5/openl2tp.so
+
+Regards,
+Steffen
+
 -- 
-1.7.4.1
-
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
 
