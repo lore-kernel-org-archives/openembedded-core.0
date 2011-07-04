@@ -1,25 +1,16 @@
-Received: from slimlogic.co.uk ([89.16.172.20])
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gg@slimlogic.co.uk>) id 1QdmJI-0005SC-JU
+	(envelope-from <richard@tim.rpsys.net>) id 1QdmM8-0005UH-TW
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Jul 2011 18:47:48 +0200
-Received: from xora-desktop.xora.org.uk (188-220-34-37.zone11.bethere.co.uk
-	[188.220.34.37])
-	by slimlogic.co.uk (Postfix) with ESMTPSA id 52B2F13003B
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jul 2011 17:44:02 +0100 (BST)
-Message-ID: <4E11EDD1.1000308@slimlogic.co.uk>
-Date: Mon, 04 Jul 2011 17:44:01 +0100
-From: Graeme Gregory <gg@slimlogic.co.uk>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc15
-	Lightning/1.0b3pre Thunderbird/3.1.10
-MIME-Version: 1.0
+	Mon, 04 Jul 2011 18:50:45 +0200
+Received: by rex (Postfix, from userid 1000)
+	id 725992031C; Mon,  4 Jul 2011 17:46:28 +0100 (BST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-References: <1309780493.20200.17.camel@desktop.home>	<4E11DFA1.70608@slimlogic.co.uk>
-	<1309795942.20200.123.camel@desktop.home>
-In-Reply-To: <1309795942.20200.123.camel@desktop.home>
-Subject: Re: [PROPOSAL] Package feature switches, redux.
+Date: Mon,  4 Jul 2011 17:46:25 +0100
+Message-Id: <cover.1309797628.git.richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/8] Various QA fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,35 +25,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2011 16:47:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Jul 2011 16:50:45 -0000
 
-On 07/04/2011 05:12 PM, Chris Elston wrote:
->> Hi, with my Angstrom cap on I like this syntax and I think it will be
->> really useful.
->>
->> A second level concern I have is about conflicting features, its not
->> something we will come across probably in DISTRO land as we are sensible
->> enough not to select them. But users could select them in local.conf.
->>
->> Graeme
-> As a new developer, I've discovered that there are plenty of things that
-> you can set in local.conf which break things :D
->
-> Could you please give an example of conflicting features that could
-> cause problems, I'm not experienced enough with OE to have encountered
-> that problem yet.
->
->
-Cant think of a solid one off the top of my head, but I mean the cases where
+The following changes since commit 2b3bf5350861f62435e2fdf1c56c8a02f4b1b4ac fix
+a number of QA warnings/errors. There are a couple of RFC style commits in this mix:
 
---enable-feature means that --disable-another-feature is done.
+A key change is that functionality is added to insane.bbclass to allow 
+skipping of individual QA tests by name. It needs two existing users (elfutils and u-boot)
+to specify which QA tests they want to skip (I'm working on a patch). Any external 
+layer using that variable would need to update and I can't decide if that is a 
+drawback or a feature.
 
-This is why I listed it as a secondary issue.
+Also a gettext change I'm testing to see which approach performs best is included. A final decision on that will depend on the performance test results (thanks go to paul for hightlighting the impact of that git-native depenedency).
 
-Graeme
+Also included is a gcc libiberty fix (yocto #1199).
 
+They are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib rpurdie/master
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rpurdie/master
+
+Richard  Purdie (5):
+  gcc: Fix removal of libiberty.a
+  gettext: Disable both git and cvs for autopoint's archive format.
+  gcc: Remove unneeded module .la file and .so link
+  insane.bbclass: Allow INSANE_SKIP to work on a per test basis
+  lttng-viewer: Fixup various QA warnings and a false positive
+
+Richard Purdie (3):
+  oprofile: Fix QA warnings
+  libgsmd: Fix QA warnings
+  gcc-package-cross: Switch to using pattern matching to detect when to
+    stash libgcc into the sysroot
+
+ meta/classes/insane.bbclass                        |   37 +++++++++++---------
+ meta/recipes-connectivity/gsm/gsmd.inc             |   26 ++++++++++----
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    7 ++--
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
+ .../gcc/gcc-cross-intermediate.inc                 |    4 +-
+ meta/recipes-devtools/gcc/gcc-package-cross.inc    |   30 ++++++++-------
+ meta/recipes-devtools/gcc/gcc-package-target.inc   |    6 ++-
+ meta/recipes-devtools/gcc/gcc_4.5.1.bb             |    2 +-
+ meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb  |    6 ++-
+ meta/recipes-kernel/oprofile/oprofile_0.9.6.bb     |    4 ++
+ 10 files changed, 75 insertions(+), 49 deletions(-)
+
+-- 
+1.7.4.1
 
 
 
