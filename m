@@ -1,33 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qe2xS-0005eA-30 for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 12:34:22 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p65AUX3S029805
+Received: from mail2.eads.net ([80.156.45.114] helo=mail.eads.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Wolfgang.Hauser.external@cassidian.com>)
+	id 1Qe2xt-0005fu-Km for openembedded-core@lists.openembedded.org;
+	Tue, 05 Jul 2011 12:34:49 +0200
+Received: from gsx3071-vs5.mxchg.m.corp ([53.147.176.148])
+	by mail.eads.net (8.13.8/8.13.8/Debian-2) with ESMTP id p65AV5pu032422
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jul 2011 11:30:33 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 29515-06 for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jul 2011 11:30:29 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p65AUOd3029798
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jul 2011 11:30:24 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	Tue, 5 Jul 2011 12:31:06 +0200
+Received: from gsx300a.mxchg.m.corp ([10.43.212.131]) by
+	gsx3071-vs5.mxchg.m.corp with Microsoft SMTPSVC(6.0.3790.4675); 
+	Tue, 5 Jul 2011 12:30:55 +0200
+X-MimeOLE: Produced By Microsoft Exchange V6.5
+MIME-Version: 1.0
+Date: Tue, 5 Jul 2011 12:30:56 +0200
+Message-ID: <0C757E680E33864AB113392C7E83F910BE5198@GSX300A.mxchg.m.corp>
+In-Reply-To: <1309861363.19115.7.camel@phil-desktop>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Thread-Topic: [OE-core] [Draft design][RFC] Running postinst at rootfs
+	generation time
+Thread-Index: Acw6/YOIXD12lCAGRGCFiQOQuF89lwAABc7g
+References: <1865303E0DED764181A9D882DEF65FB6A167F0C70B@shsmsx502.ccr.corp.intel.com><4E095480.3070001@windriver.com><1309266943.20015.290.camel@rex><4E09E8B7.1070901@windriver.com><0C757E680E33864AB113392C7E83F910BE518E@GSX300A.mxchg.m.corp><1865303E0DED764181A9D882DEF65FB6A200B1C937@shsmsx502.ccr.corp.intel.com><CACzvQmYM-Tn0xWL9Hc3hyn8EEUeZjbkfTDOYskETJrq7=TB77A@mail.gmail.com><0C757E680E33864AB113392C7E83F910BE5196@GSX300A.mxchg.m.corp>
+	<1309861363.19115.7.camel@phil-desktop>
+From: "Hauser, Wolfgang (external)" <Wolfgang.Hauser.external@cassidian.com>
+To: "Patches and discussions about the oe-core layer"
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <D937CAB3-BFAC-46CD-8E33-67635EFBC215@dominion.thruhere.net>
-References: <D937CAB3-BFAC-46CD-8E33-67635EFBC215@dominion.thruhere.net>
-Date: Tue, 05 Jul 2011 11:29:54 +0100
-Message-ID: <1309861794.20015.685.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: kernel.bbclass ERROR: QA Issue: Architecture did not match (40 to 62)
+X-OriginalArrivalTime: 05 Jul 2011 10:30:55.0752 (UTC)
+	FILETIME=[9F69D880:01CC3AFE]
+Subject: Re: [Draft design][RFC] Running postinst at rootfs generation time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,24 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 10:34:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Jul 2011 10:34:49 -0000
+Content-class: urn:content-classes:message
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2011-06-30 at 22:47 +0200, Koen Kooi wrote:
-> I'm going to be mailing out the errors I'm setting with the reinstated insane.bbclass, here are the first ones:
-> 
-> ERROR: QA Issue: Architecture did not match (40 to 62) on /work/archos5it-angstrom-linux-gnueabi/linux-omap-archos-2.6.27.10-omap1-r101/packages-split/kernel-misc/kernel/scripts/kconfig/conf.o
-> ERROR: QA Issue: Architecture did not match (40 to 62) on /work/archos5it-angstrom-linux-gnueabi/linux-omap-archos-2.6.27.10-omap1-r101/packages-split/kernel-misc/kernel/scripts/kconfig/zconf.tab.o
-> ERROR: QA Issue: Architecture did not match (40 to 62) on /work/archos5it-angstrom-linux-gnueabi/linux-omap-archos-2.6.27.10-omap1-r101/packages-split/kernel-misc/kernel/scripts/kconfig/kxgettext.o
-> 
+>Nowadays you can set IMAGE_FEATURES =3D "read-only-rootfs", which will
+>result in a fatal error if any packages are still unconfigured after
+>rootfs construction is finished.
 
-FWIW, I think the kernel.bbclass fix I added addressed these ones
-(amongst others).
+This helps to identify the packages to be modified, but it may be better =
+to enhance the packages to be "read-only save".=20
+May be a official guide line may help here.=20
 
-Cheers,
+Regards
+Wolfgang Hauser
+=20
+-----Urspr=FCngliche Nachricht-----
+Von: openembedded-core-bounces@lists.openembedded.org =
+[mailto:openembedded-core-bounces@lists.openembedded.org] Im Auftrag von =
+Phil Blundell
+Gesendet: Dienstag, 5. Juli 2011 12:23
+An: Patches and discussions about the oe-core layer
+Betreff: Re: [OE-core] [Draft design][RFC] Running postinst at rootfs =
+generation time
 
-Richard
+On Tue, 2011-07-05 at 12:06 +0200, Hauser, Wolfgang (external) wrote:
+> Especially we have to cover some adduser/addgroup issues, modify the =
+volatile file handling for our needs, and for omap3 graphics the =
+handling of the GLES version.
+> A failed offline postinst causing a runtime configuration. So the =
+image generation log has to be checked for such failing scripts.
 
+Nowadays you can set IMAGE_FEATURES =3D "read-only-rootfs", which will
+result in a fatal error if any packages are still unconfigured after
+rootfs construction is finished.
+
+p.
+
+
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
