@@ -1,29 +1,30 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-fx0-f51.google.com ([209.85.161.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qe97Z-0001l2-NZ
+	(envelope-from <michael.lippautz@gmail.com>) id 1QeBLn-0003jC-Dv
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 19:09:13 +0200
-Received: by wwi18 with SMTP id 18so5209913wwi.24
+	Tue, 05 Jul 2011 21:32:03 +0200
+Received: by fxh10 with SMTP id 10so6825376fxh.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jul 2011 10:05:24 -0700 (PDT)
-Received: by 10.216.220.212 with SMTP id o62mr4721043wep.75.1309885524037;
-	Tue, 05 Jul 2011 10:05:24 -0700 (PDT)
-Received: from [10.75.16.17] ([192.91.60.189])
-	by mx.google.com with ESMTPS id gd1sm779549wbb.44.2011.07.05.10.05.22
+	Tue, 05 Jul 2011 12:28:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=mH0Rf3SkqddK+q1AzYDxtiQni/613RRa2l7ONUz2pys=;
+	b=P6Eydxe2ctsnMhjkFIFbyOIgQgi+O2IdGBJ7U72hSbhhoS+NfxPWCMxYK2U3RVd0hM
+	xba3Ixx03msWUPsLmphboXldZRvd2pet8QvkmwhYTFbcYzDDKE2wCivijPHwjDwLpmgz
+	l8ld75++X/B0IC7oLz7X11sTuXcQ1yL2X1g6o=
+Received: by 10.223.132.207 with SMTP id c15mr5466755fat.73.1309894093689;
+	Tue, 05 Jul 2011 12:28:13 -0700 (PDT)
+Received: from localhost.localdomain
+	(85-127-149-243.dynamic.xdsl-line.inode.at [85.127.149.243])
+	by mx.google.com with ESMTPS id f15sm4331195fai.22.2011.07.05.12.28.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 05 Jul 2011 10:05:23 -0700 (PDT)
-References: <1309881139.2410.14.camel@phil-desktop>
-	<1309881259.2410.16.camel@phil-desktop>
-	<201107051731.12273.paul.eggleton@linux.intel.com>
-From: Koen Kooi <koen@dominion.thruhere.net>
-X-Mailer: iPhone Mail (8J2)
-In-Reply-To: <201107051731.12273.paul.eggleton@linux.intel.com>
-Message-Id: <16105787-5EC4-45A3-BC2F-61A4B6F43E14@dominion.thruhere.net>
-Date: Tue, 5 Jul 2011 18:05:17 +0100
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (iPhone Mail 8J2)
-Subject: Re: [PATCH] bluez-dtl1-workaround: remove PRIORITY
+	Tue, 05 Jul 2011 12:28:12 -0700 (PDT)
+From: Michael Lippautz <michael.lippautz@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Jul 2011 21:28:24 +0200
+Message-Id: <1309894104-11504-1-git-send-email-michael.lippautz@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH] libxslt: Inherit from binconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,41 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 17:09:13 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 05 Jul 2011 19:32:03 -0000
 
+libxslt provides a binconfig that may be used to cross-compile/-link against the
+target library.
 
+Signed-off-by: Michael Lippautz <michael.lippautz@gmail.com>
+---
+ meta/recipes-support/libxslt/libxslt_1.1.26.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Op 5 jul. 2011 om 17:31 heeft Paul Eggleton <paul.eggleton@linux.intel.com> h=
-et volgende geschreven:
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.26.bb b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
+index 71fb478..b077d13 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.26.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.26.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0cd9a07afbeb24026c9b03aecfeba458"
+ SECTION = "libs"
+ PRIORITY = "optional"
+ DEPENDS = "libxml2 (>=2.6.27)"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch;patch=1"
+@@ -17,7 +17,7 @@ SRC_URI[md5sum] = "e61d0364a30146aaa3001296f853b2b9"
+ SRC_URI[sha256sum] = "55dd52b42861f8a02989d701ef716d6280bfa02971e967c285016f99c66e3db1"
+ S = "${WORKDIR}/libxslt-${PV}"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig binconfig
+ 
+ EXTRA_OECONF = "--without-python --without-debug --without-mem-debug --without-crypto"
+ 
+-- 
+1.7.3.4
 
-> On Tuesday 05 July 2011 16:54:18 Phil Blundell wrote:
->> Or an alternative patch might be just to delete this recipe altogether.
->> Its sole purpose is to work around defects in hardware which must be the
->> best part of a decade old and I would be slightly surprised if anyone
->> was still using DTL1s in this day and age.
->=20
-> Is it possible some people are still using PCMCIA/CF cards with this hardw=
-are=20
-> in it?
-
-not that I'm using it, but there's one in my box with ipaq stuff :)
-
-
->=20
-> Cheers,
-> Paul
->=20
-> --=20
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
