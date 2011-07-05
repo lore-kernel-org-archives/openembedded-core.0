@@ -1,20 +1,20 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QeEWy-0006xy-RO
+	(envelope-from <richard@tim.rpsys.net>) id 1QeEWz-0006xt-Fl
 	for openembedded-core@lists.openembedded.org;
 	Wed, 06 Jul 2011 00:55:49 +0200
 Received: by rex (Postfix, from userid 1000)
-	id 5D5FD31339; Tue,  5 Jul 2011 23:51:26 +0100 (BST)
+	id 7EB1C3133B; Tue,  5 Jul 2011 23:51:26 +0100 (BST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jul 2011 23:51:16 +0100
-Message-Id: <b85047e1047e45c2126f2267fe412e9a08d8044a.1309906154.git.richard.purdie@linuxfoundation.org>
+Date: Tue,  5 Jul 2011 23:51:18 +0100
+Message-Id: <1b44053f6c4ac33d5058183e6634b1ba831ae601.1309906154.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <696f00b67217242f3a372d070c2473f8ced639ed.1309906154.git.richard.purdie@linuxfoundation.org>
 References: <696f00b67217242f3a372d070c2473f8ced639ed.1309906154.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
 References: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 15/17] kernelshark/trace-cmd: Clean up QA warnings including fising LDFLAGS issues
+Subject: [PATCH 17/17] chrpath: Ensure the package respects the docdir variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,115 +31,57 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 05 Jul 2011 22:55:49 -0000
 
+This resolves unpackaged file QA warnings and an empty -doc package.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/trace-cmd/kernelshark_git.bb   |   10 ++++-
- .../trace-cmd/trace-cmd/addldflags.patch           |   43 ++++++++++++++++++++
- meta/recipes-kernel/trace-cmd/trace-cmd_git.bb     |    5 +-
- 3 files changed, 54 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
+ .../chrpath/chrpath/standarddoc.patch              |   19 +++++++++++++++++++
+ meta/recipes-devtools/chrpath/chrpath_0.13.bb      |    5 +++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/chrpath/chrpath/standarddoc.patch
 
-diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_git.bb b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
-index 6b4692e..733bddc 100644
---- a/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
-+++ b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://kernel-shark.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
- 
- SRCREV = "6c696cec3f264a9399241b6e648f58bc97117d49"
--PR = r0
-+PR = r1
- PV = "1.0.5+git${SRCPV}"
- 
- DEPENDS = "gtk+"
-@@ -12,11 +12,17 @@ RDEPENDS_${PN} = "trace-cmd"
- 
- inherit pkgconfig
- 
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git \
-+           file://addldflags.patch"
- S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
- 
-+FILES_${PN} += "${datadir}/trace-cmd/plugins/*.so"
-+FILES_${PN}-dbg += "${datadir}/trace-cmd/plugins/.debug/"
-+
-+FILESPATH = "${FILE_DIRNAME}/trace-cmd"
-+
- do_install() {
- 	oe_runmake CC="${CC}" AR="${AR}" prefix="${prefix}" DESTDIR="${D}" install_gui
- }
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
+diff --git a/meta/recipes-devtools/chrpath/chrpath/standarddoc.patch b/meta/recipes-devtools/chrpath/chrpath/standarddoc.patch
 new file mode 100644
-index 0000000..8e8f578
+index 0000000..f96f104
 --- /dev/null
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
-@@ -0,0 +1,43 @@
++++ b/meta/recipes-devtools/chrpath/chrpath/standarddoc.patch
+@@ -0,0 +1,19 @@
 +Upstream-Status: Pending
 +
-+Add ability for the Makefile to respect LDFLAGS.
++autoconf/automake set docdir automatically, use their value ensuring 
++doc files are placed into $datadir/doc, not $prefix/doc.
 +
-+Also remove hardcoded /usr/local/include include path.
++RP 5/7/2011
 +
-+RP 7/5/2011
-+
-+Index: git/Makefile
++Index: chrpath-0.13/Makefile.am
 +===================================================================
-+--- git.orig/Makefile	2011-07-05 11:58:11.699910550 +0100
-++++ git/Makefile	2011-07-05 23:30:12.319920617 +0100
-+@@ -189,10 +189,11 @@
-+ TRACECMD_VERSION = $(TC_VERSION).$(TC_PATCHLEVEL).$(TC_EXTRAVERSION)
-+ KERNELSHARK_VERSION = $(KS_VERSION).$(KS_PATCHLEVEL).$(KS_EXTRAVERSION)
++--- chrpath-0.13.orig/Makefile.am	2011-07-05 23:40:14.769920254 +0100
+++++ chrpath-0.13/Makefile.am	2011-07-05 23:40:19.819920635 +0100
++@@ -1,7 +1,5 @@
++ SUBDIRS = testsuite deb
 + 
-+-INCLUDES = -I. -I/usr/local/include $(CONFIG_INCLUDES)
-++INCLUDES = -I. $(CONFIG_INCLUDES)
++-docdir = $(prefix)/doc/$(PACKAGE)-$(VERSION)
++-
++ doc_DATA = AUTHORS COPYING ChangeLog INSTALL NEWS README
 + 
-+ # Set compile option CFLAGS if not set elsewhere
-+ CFLAGS ?= -g -Wall
-++LDFLAGS ?=
-+ 
-+ # Append required CFLAGS
-+ override CFLAGS += $(CONFIG_FLAGS) $(INCLUDES) $(PLUGIN_DIR_SQ)
-+@@ -225,7 +226,7 @@
-+ 
-+ do_app_build =						\
-+ 	($(print_app_build)				\
-+-	$(CC) $^ -rdynamic -o $@ $(CONFIG_LIBS) $(LIBS))
-++	$(CC) $^ -rdynamic -o $@ $(LDFLAGS) $(CONFIG_LIBS) $(LIBS))
-+ 
-+ do_compile_shared_library =			\
-+ 	($(print_shared_lib_compile)		\
-+@@ -237,7 +238,7 @@
-+ 
-+ do_plugin_build =				\
-+ 	($(print_plugin_build)			\
-+-	$(CC) $(CFLAGS) -shared -nostartfiles -o $@ $<)
-++	$(CC) $(CFLAGS) $(LDFLAGS) -shared -nostartfiles -o $@ $<)
-+ 
-+ do_build_static_lib =				\
-+ 	($(print_static_lib_build)		\
-diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-index 5cf433a..1278dc7 100644
---- a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-+++ b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
-@@ -4,12 +4,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
++ bin_PROGRAMS = chrpath
+diff --git a/meta/recipes-devtools/chrpath/chrpath_0.13.bb b/meta/recipes-devtools/chrpath/chrpath_0.13.bb
+index 200f444..d65725e 100644
+--- a/meta/recipes-devtools/chrpath/chrpath_0.13.bb
++++ b/meta/recipes-devtools/chrpath/chrpath_0.13.bb
+@@ -4,9 +4,10 @@ looks for libraries) in an application. It does not (yet) allow you to add an \
+ rpath if there isn't one already."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-PR = "r2"
++PR = "r3"
  
- SRCREV = "6c696cec3f264a9399241b6e648f58bc97117d49"
--PR = "r1"
-+PR = "r2"
- PV = "1.0.5+git${SRCPV}"
+-SRC_URI = "${DEBIAN_MIRROR}/main/c/chrpath/chrpath_${PV}.orig.tar.gz"
++SRC_URI = "${DEBIAN_MIRROR}/main/c/chrpath/chrpath_${PV}.orig.tar.gz \
++        file://standarddoc.patch"
  
- inherit pkgconfig
- 
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git \
-+           file://addldflags.patch"
- S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = "'prefix=${prefix}'"
+ SRC_URI[md5sum] = "b73072a8fbba277558c50364b65bb407"
+ SRC_URI[sha256sum] = "c1aa5342eac0daad81b8da05aa282ae1ccd6f68bc75ca94064304f541eed071b"
 -- 
 1.7.4.1
 
