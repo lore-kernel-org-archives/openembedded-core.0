@@ -1,30 +1,27 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qe5qT-0005i1-Tk
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qe5r9-0005jP-Lb
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 15:39:21 +0200
-Received: by wwi18 with SMTP id 18so5033596wwi.24
+	Tue, 05 Jul 2011 15:40:03 +0200
+Received: by wyg30 with SMTP id 30so4498315wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jul 2011 06:35:32 -0700 (PDT)
-Received: by 10.227.167.129 with SMTP id q1mr6312894wby.101.1309872932709;
-	Tue, 05 Jul 2011 06:35:32 -0700 (PDT)
+	Tue, 05 Jul 2011 06:36:14 -0700 (PDT)
+Received: by 10.216.237.67 with SMTP id x45mr4365933weq.72.1309872974174;
+	Tue, 05 Jul 2011 06:36:14 -0700 (PDT)
 Received: from [10.75.16.17] ([192.91.60.189])
-	by mx.google.com with ESMTPS id c17sm5309411wbh.63.2011.07.05.06.35.30
+	by mx.google.com with ESMTPS id c17sm5309411wbh.63.2011.07.05.06.36.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 05 Jul 2011 06:35:31 -0700 (PDT)
-References: <cover.1309503004.git.sgw@linux.intel.com>
-	<1309871862.20015.702.camel@rex>
-In-Reply-To: <1309871862.20015.702.camel@rex>
-Mime-Version: 1.0 (iPhone Mail 8J2)
-Message-Id: <D1CCEDA1-5C8C-43E6-A1A2-3A43C0D44819@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPhone Mail (8J2)
+	Tue, 05 Jul 2011 06:36:13 -0700 (PDT)
+References: <1309872782.20015.710.camel@rex>
 From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 5 Jul 2011 14:35:25 +0100
+X-Mailer: iPhone Mail (8J2)
+In-Reply-To: <1309872782.20015.710.camel@rex>
+Message-Id: <B9C41182-68EA-477A-A5E4-30B87D15DCB5@dominion.thruhere.net>
+Date: Tue, 5 Jul 2011 14:36:08 +0100
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Updated [PATCH 0/4] SRC_URI Check Updates with Beagleboard updates
+Mime-Version: 1.0 (iPhone Mail 8J2)
+Subject: Re: [RFC PATCH] openssh/dropbear: No need for each to PROVIDE ssh/sshd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,50 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 13:39:22 -0000
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 05 Jul 2011 13:40:03 -0000
 Content-Type: text/plain;
 	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-I just noticed that xload sets the PV wrong in the recipe
+looks good to me
 
-Op 5 jul. 2011 om 14:17 heeft Richard Purdie <richard.purdie@linuxfoundation=
+Op 5 jul. 2011 om 14:33 heeft Richard Purdie <richard.purdie@linuxfoundation=
 .org> het volgende geschreven:
 
-> On Thu, 2011-06-30 at 23:54 -0700, Saul Wold wrote:
->> Richard,
->>=20
->> This address 2 bugs filed by Darren for the Beagleboard, they build
->> correctly.
->>=20
->> It also updates two recipes that Mark Hatle found lacking checksums.
->>=20
->> Thanks
->>    Sau!
->>=20
->> The following changes since commit 40ecaf6a59ba61e72d29d7e677197ef37c9984=
-08:
->>=20
->>  uclibc: Add default uClibc.machine files (2011-07-01 00:40:10 +0100)
->>=20
->> are available in the git repository at:
->>  git://git.openembedded.org/openembedded-core-contrib sgw/fix
->>  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3D=
-sgw/fix
->>=20
->> Saul Wold (4):
->>  x-load: Update to 1.5.0
->>  uboot: Update to 2011.06
->>  mpeg2dec: add SRC_URI Checksum
->>  libmad: add SRC_URI Checksum
+> Nothing in the system actually uses the PROVIDES field for these=20
+> recipes, its usually the runtime packages that are used. We can=20
+> therefore remove the PROVIDES and hence quieten the associated=20
+> warnings from bitbake.
 >=20
-> I merged these apart from uboot which Koen has valid concerns about. We
-> may need to preserve the older version for a while and let this trickle
-> down the tree to the layers...
+> If these recipes do really need the PROVIDES, they would be better
+> as virtuals and adding that to MULTI_PROVIDER_WHITELIST.
 >=20
-> Cheers,
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
 >=20
-> Richard
+> diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb b/meta/rec=
+ipes-connectivity/openssh/openssh_5.8p2.bb
+> index ec33b29..e23069c 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+> @@ -12,7 +12,6 @@ PR =3D "r0"
+> DEPENDS =3D "zlib openssl"
+> DEPENDS +=3D "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}=
+"
+>=20
+> -PROVIDES =3D "ssh sshd"
+> RPROVIDES =3D "ssh sshd"
+>=20
+> CONFLICTS_${PN} =3D "dropbear"
+> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/d=
+ropbear/dropbear.inc
+> index c9c41d2..1b51e1a 100644
+> --- a/meta/recipes-core/dropbear/dropbear.inc
+> +++ b/meta/recipes-core/dropbear/dropbear.inc
+> @@ -8,7 +8,6 @@ LICENSE =3D "MIT"
+> LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3a5b0c2f0d0c49dfde9558ae2036683=
+c"
+>=20
+> DEPENDS =3D "zlib"
+> -PROVIDES =3D "ssh sshd"
+> RPROVIDES =3D "ssh sshd"
+>=20
+> SRC_URI =3D "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.g=
+z \
 >=20
 >=20
 > _______________________________________________
