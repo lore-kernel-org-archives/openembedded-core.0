@@ -1,20 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
+Received: from stoexhubfe01.domain01.net ([83.145.59.140])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QdmTq-0005uH-6f
+	(envelope-from <anders@chargestorm.se>) id 1QdzaY-0000lI-TJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Jul 2011 18:58:42 +0200
-Received: by rex (Postfix, from userid 1000)
-	id 3B6BD30C06; Mon,  4 Jul 2011 17:46:33 +0100 (BST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Jul 2011 17:46:28 +0100
-Message-Id: <ed0b80958463e49f2398dda989f007fee09522bb.1309797628.git.richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <d9a975fe45667bec7ec11697106d5975ffe9b835.1309797628.git.richard.purdie@linuxfoundation.org>
-References: <d9a975fe45667bec7ec11697106d5975ffe9b835.1309797628.git.richard.purdie@linuxfoundation.org>
-In-Reply-To: <cover.1309797628.git.richard.purdie@linuxfoundation.org>
-References: <cover.1309797628.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 6/8] insane.bbclass: Allow INSANE_SKIP to work on a per test basis
+	Tue, 05 Jul 2011 08:58:31 +0200
+Received: from localhost (193.235.91.228) by stoexhubfe01.domain01.net
+	(10.12.10.6) with Microsoft SMTP Server id 8.3.137.0; Tue, 5 Jul 2011
+	08:54:41 +0200
+From: Anders Darander <anders@chargestorm.se>
+Organization: ChargeStorm AB
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Jul 2011 08:54:44 +0200
+User-Agent: KMail/1.13.7 (Linux/2.6.39-2-amd64; KDE/4.6.4; x86_64; ; )
+References: <cover.1309525642.git.anders@chargestorm.se>
+	<6E60DDFC-9F26-4239-A322-685CF0597C8D@dominion.thruhere.net>
+	<1309559708.20015.566.camel@rex>
+In-Reply-To: <1309559708.20015.566.camel@rex>
+MIME-Version: 1.0
+Message-ID: <201107050854.45178.anders@chargestorm.se>
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH v5 7/8] task-base: remove modutils reference.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,93 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jul 2011 16:58:42 -0000
+X-List-Received-Date: Tue, 05 Jul 2011 06:58:31 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-From: Richard  Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Richard  Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/insane.bbclass |   37 ++++++++++++++++++++-----------------
- 1 files changed, 20 insertions(+), 17 deletions(-)
+Hi,
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index a6f9c1e..3572ce7 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -383,7 +383,7 @@ def package_qa_check_staged(path,d):
-     return sane
- 
- # Walk over all files in a directory and call func
--def package_qa_walk(path, warnfuncs, errorfuncs, package, d):
-+def package_qa_walk(path, warnfuncs, errorfuncs, skip, package, d):
-     import oe.qa
- 
-     #if this will throw an exception, then fix the dict above
-@@ -414,7 +414,7 @@ def package_qa_walk(path, warnfuncs, errorfuncs, package, d):
- 
-     return len(errors) == 0
- 
--def package_qa_check_rdepends(pkg, pkgdest, d):
-+def package_qa_check_rdepends(pkg, pkgdest, skip, d):
-     sane = True
-     if not "-dbg" in pkg and not "task-" in pkg and not "-image" in pkg:
-         # Copied from package_ipk.bbclass
-@@ -439,7 +439,7 @@ def package_qa_check_rdepends(pkg, pkgdest, d):
- 
-         # Now do the sanity check!!!
-         for rdepend in rdepends:
--            if "-dbg" in rdepend:
-+            if "-dbg" in rdepend and "debug-deps" not in skip:
-                 error_msg = "%s rdepends on %s" % (pkgname,rdepend)
-                 sane = package_qa_handle_error("debug-deps", error_msg, d)
- 
-@@ -480,27 +480,30 @@ python do_package_qa () {
-     testmatrix = d.getVarFlags("QAPATHTEST")
- 
-     g = globals()
--    warnchecks = []
--    for w in (d.getVar("WARN_QA", True) or "").split():
--        if w in testmatrix and testmatrix[w] in g:
--            warnchecks.append(g[testmatrix[w]])
--    errorchecks = []
--    for e in (d.getVar("ERROR_QA", True) or "").split():
--        if e in testmatrix and testmatrix[e] in g:
--            errorchecks.append(g[testmatrix[e]])
--
-     walk_sane = True
-     rdepends_sane = True
-     for package in packages.split():
--        if bb.data.getVar('INSANE_SKIP_' + package, d, True):
--            bb.note("Package: %s (skipped)" % package)
--            continue
-+        skip = (bb.data.getVar('INSANE_SKIP_' + package, d, True) or "").split()
-+        if skip:
-+            bb.note("Package %s skipping QA tests: %s" % (package, str(skip)))
-+        warnchecks = []
-+        for w in (d.getVar("WARN_QA", True) or "").split():
-+            if w in skip:
-+               continue
-+            if w in testmatrix and testmatrix[w] in g:
-+                warnchecks.append(g[testmatrix[w]])
-+        errorchecks = []
-+        for e in (d.getVar("ERROR_QA", True) or "").split():
-+            if e in skip:
-+               continue
-+            if e in testmatrix and testmatrix[e] in g:
-+                errorchecks.append(g[testmatrix[e]])
- 
-         bb.note("Checking Package: %s" % package)
-         path = "%s/%s" % (pkgdest, package)
--        if not package_qa_walk(path, warnchecks, errorchecks, package, d):
-+        if not package_qa_walk(path, warnchecks, errorchecks, skip, package, d):
-             walk_sane  = False
--        if not package_qa_check_rdepends(package, pkgdest, d):
-+        if not package_qa_check_rdepends(package, pkgdest, skip, d):
-             rdepends_sane = False
- 
- 
--- 
-1.7.4.1
+* Richard Purdie Richard Purdie <richard.purdie@linuxfoundation.org> [07/02/11 
+12:35 AM]:
+> On Fri, 2011-07-01 at 15:32 +0200, Koen Kooi wrote:
+> > Op 1 jul 2011, om 15:08 heeft Anders Darander het volgende geschreven:
+> > > # linux-hotplug or none
+> > > #
+> > > -HOTPLUG ?= "${@base_contains("MACHINE_FEATURES", "kernel24", 
+> > > "linux-hotplug","",d)} " +HOTPLUG ?= ""
+> > 
+> > I think this one can go completely
+> > 
+> > > #
+> > > # pcmciautils for >= 2.6.13-rc1, pcmcia-cs for others
+> > > #
+> > > -PCMCIA_MANAGER ?= "${@base_contains('MACHINE_FEATURES',
+> > > 'kernel26','pcmciautils','pcmcia-cs',d)} " +PCMCIA_MANAGER ?=
+> > > "pcmciautils"
+> > 
+> > This one can get folded into the task directly
+> 
+> Agreed but I didn't feel it warranted not merging the patches so far.
+> Please send a follow up patch :)
 
+Before I'll try to look into the comments above, I'd just like to be sure I'm 
+working on the correct version of task-base.bb. Did you leave it out of the 
+merging, awaiting the last fixes, or was it just left out by mistake? (I've 
+just now realised that this patch didn't make it into master).
+
+Regards,
+Anders
 
 
