@@ -1,24 +1,20 @@
-Received: from stoexhubfe01.domain01.net ([83.145.59.140])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1Qe2Ka-0004HV-IU
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qe2i9-00058s-CA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 11:54:12 +0200
-Received: from localhost (193.235.91.228) by stoexhubfe01.domain01.net
-	(10.12.10.6) with Microsoft SMTP Server id 8.3.137.0; Tue, 5 Jul 2011
-	11:50:22 +0200
-From: Anders Darander <anders@chargestorm.se>
-Organization: ChargeStorm AB
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Jul 2011 11:50:25 +0200
-User-Agent: KMail/1.13.7 (Linux/2.6.39-2-amd64; KDE/4.6.4; x86_64; ; )
-References: <cover.1309525642.git.anders@chargestorm.se>
-	<201107050854.45178.anders@chargestorm.se>
-	<1309854264.20015.677.camel@rex>
-In-Reply-To: <1309854264.20015.677.camel@rex>
-MIME-Version: 1.0
-Message-ID: <201107051150.26180.anders@chargestorm.se>
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCH v5 7/8] task-base: remove modutils reference.
+	Tue, 05 Jul 2011 12:18:33 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 05 Jul 2011 03:14:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,478,1304319600"; d="scan'208";a="22761012"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.17.114])
+	by azsmga001.ch.intel.com with ESMTP; 05 Jul 2011 03:14:42 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Jul 2011 11:14:36 +0100
+Message-Id: <cover.1309860717.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/1] Qt4 QA error fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 09:54:12 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Jul 2011 10:18:33 -0000
 
+This patch fixes several "wrong architecture" QA errors when building
+qt4-x11-free and qt4-embedded. This is really a stopgap as far as Qt4
+packaging goes however, there is still more cleanup work to be done.
 
-* Richard Purdie Richard Purdie <richard.purdie@linuxfoundation.org> [07/05/11 
-10:24 AM]:
-> On Tue, 2011-07-05 at 08:54 +0200, Anders Darander wrote:
-> > Before I'll try to look into the comments above, I'd just like to be sure
-> > I'm working on the correct version of task-base.bb. Did you leave it out
-> > of the merging, awaiting the last fixes, or was it just left out by
-> > mistake? (I've just now realised that this patch didn't make it into
-> > master).
-> 
-> That was a mistake on my part, sorry...
+The following changes since commit 2b3bf5350861f62435e2fdf1c56c8a02f4b1b4ac:
 
-No problem.
+  xauth: upgrade from 1.05 to 1.06 (2011-07-04 12:45:01 +0100)
 
-I'll try to get some time to fix at least a few of the relevant issues, and 
-submit a  new pull request later this week.
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/qt4-qa-fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt4-qa-fix
 
-Regards,
-Anders
+Paul Eggleton (1):
+  qt4: ensure target packages don't include host binaries
+
+ meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
+ meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
+ meta/recipes-qt/qt4/qt4.inc          |   15 +++++++--------
+ 3 files changed, 9 insertions(+), 10 deletions(-)
+
+-- 
+1.7.4.1
+
 
 
