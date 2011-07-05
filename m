@@ -1,20 +1,20 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QeEWy-0006xz-Tg
+	(envelope-from <richard@tim.rpsys.net>) id 1QeEWy-0006xw-RG
 	for openembedded-core@lists.openembedded.org;
 	Wed, 06 Jul 2011 00:55:49 +0200
 Received: by rex (Postfix, from userid 1000)
-	id 6E07A3133A; Tue,  5 Jul 2011 23:51:26 +0100 (BST)
+	id 3A0B131337; Tue,  5 Jul 2011 23:51:26 +0100 (BST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jul 2011 23:51:17 +0100
-Message-Id: <615963784b367d8e92cf4599b7d82e5c009e35f3.1309906154.git.richard.purdie@linuxfoundation.org>
+Date: Tue,  5 Jul 2011 23:51:14 +0100
+Message-Id: <1e134055b8c00dd2f93a40a50cf69377c7b325c0.1309906154.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <696f00b67217242f3a372d070c2473f8ced639ed.1309906154.git.richard.purdie@linuxfoundation.org>
 References: <696f00b67217242f3a372d070c2473f8ced639ed.1309906154.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
 References: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 16/17] opensp: Add unpackaged files
+Subject: [PATCH 13/17] apt: Package unpackaged files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +33,40 @@ X-List-Received-Date: Tue, 05 Jul 2011 22:55:49 -0000
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/opensp/opensp_1.5.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ meta/recipes-devtools/apt/apt-package.inc |    2 +-
+ meta/recipes-devtools/apt/apt_0.7.14.bb   |    4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/opensp/opensp_1.5.bb b/meta/recipes-devtools/opensp/opensp_1.5.bb
-index 61022e0..a402d11 100644
---- a/meta/recipes-devtools/opensp/opensp_1.5.bb
-+++ b/meta/recipes-devtools/opensp/opensp_1.5.bb
-@@ -5,7 +5,7 @@ SECTION = "libs"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
+diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-devtools/apt/apt-package.inc
+index 9e104f1..2e3be38 100644
+--- a/meta/recipes-devtools/apt/apt-package.inc
++++ b/meta/recipes-devtools/apt/apt-package.inc
+@@ -62,7 +62,7 @@ FILES_${PN}-utils = "${bindir}/apt-sortpkgs ${bindir}/apt-extracttemplates"
+ FILES_${PN}-doc = "${@get_files_apt_doc(d, bb, bb.data.getVar('apt-manpages', d, 1))} \
+ 		   ${docdir}/apt"
+ FILES_${PN}-utils-doc = "${@get_files_apt_doc(d, bb, bb.data.getVar('apt-utils-manpages', d, 1))}"
+-FILES_${PN}-dev = "${libdir}/libapt*.so"
++FILES_${PN}-dev = "${libdir}/libapt*.so ${includedir}"
  
--PR = "r0"
-+PR = "r1"
+ do_install () {
+ 	set -x
+diff --git a/meta/recipes-devtools/apt/apt_0.7.14.bb b/meta/recipes-devtools/apt/apt_0.7.14.bb
+index aa155d9..1335c16 100644
+--- a/meta/recipes-devtools/apt/apt_0.7.14.bb
++++ b/meta/recipes-devtools/apt/apt_0.7.14.bb
+@@ -3,10 +3,10 @@ RDEPENDS_${PN} = "dpkg"
+ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+ require apt.inc
  
- # At -Os it encounters calls to some inline functions which are then
- # not found in any other objects with gcc 4.5
-@@ -42,4 +42,6 @@ do_install_append() {
- 	ln -sf osx sgml2xml
- }
+-PR = "r6"
++PR = "r7"
  
-+FILES_${PN} += "${datadir}/OpenSP/"
-+
- BBCLASSEXTEND = "native"
+ SRC_URI += "file://nodoc.patch \
+-	    file://includes-fix.patch "
++            file://includes-fix.patch "
+ 
+ SRC_URI[md5sum] = "19efa18fb1ef20c58b9b44e94258b814"
+ SRC_URI[sha256sum] = "8fc06effaf8a4e4333308eedcdc6840f1c8056f2e924210f151dfc076bcd4045"
 -- 
 1.7.4.1
 
