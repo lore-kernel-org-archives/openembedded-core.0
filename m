@@ -1,30 +1,30 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QeCal-0004ty-0U
+	(envelope-from <raj.khem@gmail.com>) id 1QeCvY-0005Tw-KS
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 22:51:35 +0200
-Received: by pvf24 with SMTP id 24so5832403pvf.6
+	Tue, 05 Jul 2011 23:13:04 +0200
+Received: by iwn4 with SMTP id 4so6024491iwn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jul 2011 13:47:44 -0700 (PDT)
+	Tue, 05 Jul 2011 14:09:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=KisW/nH5fNAcWOJeWsI87u9EqFH0k3wjbHy4p0v0uEQ=;
-	b=etfdPkWp0nWaVmJUWffNwwFwgGrANSKF30D2WCkJN4Hapo2FmCqqZnWKE9jlTQYjlV
-	yV6TOrbFLZZq0ZZfRc4HfGExrT2jjX2Z/NyVudctHnhlMhhAUolhxC6OYYDjvTK9jQ3y
-	NlJRtFp3FGSFauy+BKTDwH9i9JydJJLzbjFD0=
-Received: by 10.68.15.170 with SMTP id y10mr9180928pbc.364.1309898864065; Tue,
-	05 Jul 2011 13:47:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.57.104 with HTTP; Tue, 5 Jul 2011 13:47:14 -0700 (PDT)
-In-Reply-To: <1309872782.20015.710.camel@rex>
-References: <1309872782.20015.710.camel@rex>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ZyQDF+LBwpFG2kA/kRx8lQCIxxmp3uwBBVl4nA8ct4w=;
+	b=OO7pgyNRpNC2JrSVqZxnkREDPSFQ0Quu1uiMTFzxG8AVIMjra4lLihSajaPxzwrHY9
+	QRf9IjSZPcMxm09joDlUAs4ry5ipypraj1NCUvJBcwAJxlAKtwdBI82j7ZQy+caNUApB
+	/lNUs5pJAmip63vBLbFocMacRh3cPwqMHbU+0=
+Received: by 10.43.134.134 with SMTP id ic6mr8260128icc.108.1309900154080;
+	Tue, 05 Jul 2011 14:09:14 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id m18sm435913ibc.28.2011.07.05.14.09.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 05 Jul 2011 14:09:13 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 5 Jul 2011 13:47:14 -0700
-Message-ID: <CAMKF1srfJbmG42myirxJr2v2_HMyWNTH+4qWF-Zma0k5p-CHog@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH] openssh/dropbear: No need for each to PROVIDE ssh/sshd
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Jul 2011 14:09:06 -0700
+Message-Id: <cover.1309899985.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/5] Add recipes for 0.9.32 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,63 +39,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 20:51:35 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 05 Jul 2011 21:13:04 -0000
 
-On Tue, Jul 5, 2011 at 6:33 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Nothing in the system actually uses the PROVIDES field for these
-> recipes, its usually the runtime packages that are used. We can
-> therefore remove the PROVIDES and hence quieten the associated
-> warnings from bitbake.
->
-> If these recipes do really need the PROVIDES, they would be better
-> as virtuals and adding that to MULTI_PROVIDER_WHITELIST.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb b/meta/re=
-cipes-connectivity/openssh/openssh_5.8p2.bb
-> index ec33b29..e23069c 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
-> @@ -12,7 +12,6 @@ PR =3D "r0"
-> =C2=A0DEPENDS =3D "zlib openssl"
-> =C2=A0DEPENDS +=3D "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', =
-'', d)}"
->
-> -PROVIDES =3D "ssh sshd"
-> =C2=A0RPROVIDES =3D "ssh sshd"
->
-> =C2=A0CONFLICTS_${PN} =3D "dropbear"
-> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/=
-dropbear/dropbear.inc
-> index c9c41d2..1b51e1a 100644
-> --- a/meta/recipes-core/dropbear/dropbear.inc
-> +++ b/meta/recipes-core/dropbear/dropbear.inc
-> @@ -8,7 +8,6 @@ LICENSE =3D "MIT"
-> =C2=A0LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3a5b0c2f0d0c49dfde9558ae=
-2036683c"
->
-> =C2=A0DEPENDS =3D "zlib"
-> -PROVIDES =3D "ssh sshd"
-> =C2=A0RPROVIDES =3D "ssh sshd"
->
-> =C2=A0SRC_URI =3D "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV=
-}.tar.gz \
->
+With this changeset we add new recipes for 0.9.32 and make that default
+preference. Then the git recipe are moved to track the latest master.
+systemd related fixes are separately applied to both git recipe and 0.9.32
+recipes
 
-Infact I have tested same patch last week so
+Both sets work for arm,mips,ppc,x86,x86-64
 
-Acked-by: Khem Raj <raj.khem@gmail.com>
+Thanks
+-Khem
 
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
+The following changes since commit 4eb3abaa5f4b5df0314dc0d503298d65cd203259:
+
+  uclibc-0.9.32: Implement execvpe and refresh scheduler functions (2011-07-05 13:53:05 -0700)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-0.9.32
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-0.9.32
+
+Khem Raj (5):
+  uclibc: Add recipes for 0.9.32 release
+  tcmode-default: Define UCLIBCVERSION and set it to 0.9.32
+  uclibc_git: Move SRCREV past 0.9.32 release
+  uclibc_git: Implement execvpe and refresh scheduler functions
+  uclibc-0.9.32: Implement execvpe and refresh scheduler functions
+
+ meta/conf/distro/include/tcmode-default.inc        |    3 +
+ ...rch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch |    0
+ ...fd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch |    0
+ .../uclibc/uclibc-0.9.32/argp-headers.patch        |  581 +++
+ .../uclibc/uclibc-0.9.32/argp-support.patch        | 5189 ++++++++++++++++++++
+ .../uclibc-0.9.32/compile-arm-fork-with-O2.patch   |   21 +
+ .../detect-bx-availibility.patch                   |    0
+ .../epoll-asm-fix.patch                            |    0
+ .../include-arm-asm.h.patch                        |    0
+ ...so_use_arm_dl_linux_resolve_in_thumb_mode.patch |   21 +
+ .../uclibc/uclibc-0.9.32/mips/uClibc.machine       |   16 +
+ .../uclibc/uclibc-0.9.32/orign_path.patch          |  183 +
+ .../uclibc/uclibc-0.9.32/powerpc_copysignl.patch   |  107 +
+ .../remove-eabi-oabi-selection.patch               |    0
+ .../remove-sub-arch-variants.patch                 |    0
+ .../remove_attribute_optimize_Os.patch             |  186 +
+ .../uclibc/uclibc-0.9.32/rtld_no.patch             |  215 +
+ .../select-force-thumb.patch                       |    0
+ .../transform-eabi-oabi-choice.patch               |    0
+ .../uclibc/uclibc-0.9.32/uClibc.distro             |  184 +
+ .../uclibc/uclibc-0.9.32/uClibc.machine            |   14 +
+ .../uclibc-0.9.32/uclibc-arm-ftruncate64.patch     |   13 +
+ .../uclibc/uclibc-0.9.32/uclibc-execvpe.patch      |  160 +
+ .../uclibc-0.9.32/uclibc_enable_log2_test.patch    |   30 +
+ .../uclibc-0.9.32/uclibc_scheduler_update.patch    |  455 ++
+ .../uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch    |   33 -
+ .../uclibc/uclibc-git/orign_path.patch             |   42 +-
+ .../uclibc/uclibc-git/reorder-use-BX.patch         |   72 -
+ meta/recipes-core/uclibc/uclibc-git/rtld_no.patch  |   83 +-
+ meta/recipes-core/uclibc/uclibc-git/uClibc.distro  |    3 +
+ .../uclibc/uclibc-git/uclibc-execvpe.patch         |  160 +
+ .../uclibc-git/uclibc_scheduler_update.patch       |  455 ++
+ meta/recipes-core/uclibc/uclibc-initial_0.9.32.bb  |   39 +
+ meta/recipes-core/uclibc/uclibc_0.9.32.bb          |   32 +
+ meta/recipes-core/uclibc/uclibc_git.bb             |   23 +-
+ 35 files changed, 8139 insertions(+), 181 deletions(-)
+ rename meta/recipes-core/uclibc/{uclibc-git => uclibc-0.9.32}/0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => uclibc-0.9.32}/0001-mips-signalfd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch (100%)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/argp-headers.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/argp-support.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/compile-arm-fork-with-O2.patch
+ rename meta/recipes-core/uclibc/{uclibc-git => uclibc-0.9.32}/detect-bx-availibility.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => uclibc-0.9.32}/epoll-asm-fix.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => uclibc-0.9.32}/include-arm-asm.h.patch (100%)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/ldso_use_arm_dl_linux_resolve_in_thumb_mode.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/mips/uClibc.machine
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/orign_path.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/powerpc_copysignl.patch
+ rename meta/recipes-core/uclibc/{uclibc-git => uclibc-0.9.32}/remove-eabi-oabi-selection.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => uclibc-0.9.32}/remove-sub-arch-variants.patch (100%)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/remove_attribute_optimize_Os.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/rtld_no.patch
+ rename meta/recipes-core/uclibc/{uclibc-git => uclibc-0.9.32}/select-force-thumb.patch (100%)
+ rename meta/recipes-core/uclibc/{uclibc-git => uclibc-0.9.32}/transform-eabi-oabi-choice.patch (100%)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/uClibc.distro
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/uClibc.machine
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/uclibc-arm-ftruncate64.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/uclibc-execvpe.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/uclibc_enable_log2_test.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/uclibc_scheduler_update.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-git/append_UCLIBC_EXTRA_CFLAGS.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-git/reorder-use-BX.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/uclibc-execvpe.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/uclibc_scheduler_update.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-initial_0.9.32.bb
+ create mode 100644 meta/recipes-core/uclibc/uclibc_0.9.32.bb
+
+-- 
+1.7.4.1
+
 
 
