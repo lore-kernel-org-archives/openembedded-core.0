@@ -1,36 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qe0zx-0002ji-W5 for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 10:28:50 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p658P1ZP028734
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <tom.parkin@gmail.com>) id 1Qe1Hz-0002z5-UD
+	for openembedded-core@lists.openembedded.org;
+	Tue, 05 Jul 2011 10:48:48 +0200
+Received: by vxa37 with SMTP id 37so4546685vxa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jul 2011 09:25:01 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28073-05 for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jul 2011 09:24:57 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p658Otp3028728
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jul 2011 09:24:56 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 05 Jul 2011 01:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=iphaKOX6K8KY5hygBzKiTq4Z9VtO/Po50YNCBW3gMZM=;
+	b=VQ2E+lZSXM+wl41ev0MYHGx2WMKwhoBwhs8ey4xihghNAbMB/s787LdFDRt0RA1Ifv
+	j4EQ9B4samAO3LE2IDw/2AYQiLDZ7AdUnGZBTCDO5qOnokL9NGCH2EN8/7BrJfZZjoTT
+	wxt7ETFfIeS7zjs/qYdepAqg0ACkOQIXOoneM=
+MIME-Version: 1.0
+Received: by 10.220.198.198 with SMTP id ep6mr2700450vcb.29.1309855327956;
+	Tue, 05 Jul 2011 01:42:07 -0700 (PDT)
+Received: by 10.220.186.140 with HTTP; Tue, 5 Jul 2011 01:42:07 -0700 (PDT)
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6A200B1C937@shsmsx502.ccr.corp.intel.com>
+References: <1865303E0DED764181A9D882DEF65FB6A167F0C70B@shsmsx502.ccr.corp.intel.com>
+	<4E095480.3070001@windriver.com> <1309266943.20015.290.camel@rex>
+	<4E09E8B7.1070901@windriver.com>
+	<0C757E680E33864AB113392C7E83F910BE518E@GSX300A.mxchg.m.corp>
+	<1865303E0DED764181A9D882DEF65FB6A200B1C937@shsmsx502.ccr.corp.intel.com>
+Date: Tue, 5 Jul 2011 09:42:07 +0100
+Message-ID: <CACzvQmYM-Tn0xWL9Hc3hyn8EEUeZjbkfTDOYskETJrq7=TB77A@mail.gmail.com>
+From: Tom Parkin <tom.parkin@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <201107050854.45178.anders@chargestorm.se>
-References: <cover.1309525642.git.anders@chargestorm.se>
-	<6E60DDFC-9F26-4239-A322-685CF0597C8D@dominion.thruhere.net>
-	<1309559708.20015.566.camel@rex>
-	<201107050854.45178.anders@chargestorm.se>
-Date: Tue, 05 Jul 2011 09:24:24 +0100
-Message-ID: <1309854264.20015.677.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH v5 7/8] task-base: remove modutils reference.
+Cc: "Hauser, Wolfgang \(external\)" <Wolfgang.Hauser.external@cassidian.com>
+Subject: Re: [Draft design][RFC] Running postinst at rootfs generation time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,46 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 08:28:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Jul 2011 08:48:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, 2011-07-05 at 08:54 +0200, Anders Darander wrote:
-> Hi,
-> 
-> * Richard Purdie Richard Purdie <richard.purdie@linuxfoundation.org> [07/02/11 
-> 12:35 AM]:
-> > On Fri, 2011-07-01 at 15:32 +0200, Koen Kooi wrote:
-> > > Op 1 jul 2011, om 15:08 heeft Anders Darander het volgende geschreven:
-> > > > # linux-hotplug or none
-> > > > #
-> > > > -HOTPLUG ?= "${@base_contains("MACHINE_FEATURES", "kernel24", 
-> > > > "linux-hotplug","",d)} " +HOTPLUG ?= ""
-> > > 
-> > > I think this one can go completely
-> > > 
-> > > > #
-> > > > # pcmciautils for >= 2.6.13-rc1, pcmcia-cs for others
-> > > > #
-> > > > -PCMCIA_MANAGER ?= "${@base_contains('MACHINE_FEATURES',
-> > > > 'kernel26','pcmciautils','pcmcia-cs',d)} " +PCMCIA_MANAGER ?=
-> > > > "pcmciautils"
-> > > 
-> > > This one can get folded into the task directly
-> > 
-> > Agreed but I didn't feel it warranted not merging the patches so far.
-> > Please send a follow up patch :)
-> 
-> Before I'll try to look into the comments above, I'd just like to be sure I'm 
-> working on the correct version of task-base.bb. Did you leave it out of the 
-> merging, awaiting the last fixes, or was it just left out by mistake? (I've 
-> just now realised that this patch didn't make it into master).
+I'm interested to read about this initiative as we've recently
+stumbled over the issue of postinst scripts in trying to port our
+build to OE.
 
-That was a mistake on my part, sorry...
+So far it seems the primary concern is about the boot-time impact of
+postinst on the target.  But for the use-cases I'm interested in, we
+need to capture all install processes as a part of the build in order
+to output a fully-provisioned read-only rootfs image (e.g. squashfs).
+Our boxes don't typically modify their filesystems at runtime, other
+than to take full updates (completely new rootfs images).
 
-Cheers,
+I think the reduction, or even elimination, of target-run postinst
+scripts would help a lot with the read-only rootfs case.
 
-Richard
+Tom
 
+On 4 July 2011 01:23, Cui, Dexuan <dexuan.cui@intel.com> wrote:
+> Hauser, Wolfgang (external) wrote:
+>> Beside the discussed changes, the postinst scripts should be executed
+>> in the dependency order.
+>> At the time, the scripts are executed in alphabetic order, which
+>> breaks the image generation if depended packages are not in
+>> alphabetic order.
+>>
+>> e.g. busybox and busybox subpackages (busybox-mdev).
+>>
+>> Regards
+>> Wolfgang Hauser
+>>
+>
+> Thank all for the suggestions!
+> I created a wiki page to summarize the mail threads:
+> https://wiki.yoctoproject.org/wiki/Run_postinst_during_rootfs_generation
+>
+> Thanks,
+> -- Dexuan
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+
+
+-- 
+Tom Parkin
+www.thesecretdogproject.com
+Morality, like art, means drawing a line someplace /Wilde/
 
 
