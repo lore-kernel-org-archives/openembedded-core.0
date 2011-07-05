@@ -1,20 +1,20 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QeEWy-0006xv-R5
+	(envelope-from <richard@tim.rpsys.net>) id 1QeEWy-0006xy-RO
 	for openembedded-core@lists.openembedded.org;
 	Wed, 06 Jul 2011 00:55:49 +0200
 Received: by rex (Postfix, from userid 1000)
-	id 17B8F31335; Tue,  5 Jul 2011 23:51:26 +0100 (BST)
+	id 5D5FD31339; Tue,  5 Jul 2011 23:51:26 +0100 (BST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jul 2011 23:51:12 +0100
-Message-Id: <d181003d0a1427af76e3751b2ba5d407aa3b871e.1309906154.git.richard.purdie@linuxfoundation.org>
+Date: Tue,  5 Jul 2011 23:51:16 +0100
+Message-Id: <b85047e1047e45c2126f2267fe412e9a08d8044a.1309906154.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <696f00b67217242f3a372d070c2473f8ced639ed.1309906154.git.richard.purdie@linuxfoundation.org>
 References: <696f00b67217242f3a372d070c2473f8ced639ed.1309906154.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
 References: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 11/17] gtk-engines: Package unpackaged files
+Subject: [PATCH 15/17] kernelshark/trace-cmd: Clean up QA warnings including fising LDFLAGS issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,32 +33,113 @@ X-List-Received-Date: Tue, 05 Jul 2011 22:55:49 -0000
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../gtk-engines/gtk-engines_2.20.2.bb              |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+ meta/recipes-kernel/trace-cmd/kernelshark_git.bb   |   10 ++++-
+ .../trace-cmd/trace-cmd/addldflags.patch           |   43 ++++++++++++++++++++
+ meta/recipes-kernel/trace-cmd/trace-cmd_git.bb     |    5 +-
+ 3 files changed, 54 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
 
-diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-index 85c38e2..bbf52be 100644
---- a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-+++ b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
- SECTION = "x11/base"
+diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_git.bb b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
+index 6b4692e..733bddc 100644
+--- a/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
++++ b/meta/recipes-kernel/trace-cmd/kernelshark_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://kernel-shark.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
+ 
+ SRCREV = "6c696cec3f264a9399241b6e648f58bc97117d49"
+-PR = r0
++PR = r1
+ PV = "1.0.5+git${SRCPV}"
+ 
  DEPENDS = "gtk+"
+@@ -12,11 +12,17 @@ RDEPENDS_${PN} = "trace-cmd"
  
--PR = "r0"
-+PR = "r1"
+ inherit pkgconfig
  
- PACKAGES_DYNAMIC = "gtk-engine-* gtk-theme-*"
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git"
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git \
++           file://addldflags.patch"
+ S = "${WORKDIR}/git"
  
-@@ -21,6 +21,9 @@ RDEPENDS_gtk-theme-thinice = "gtk-engine-thinice"
- RDEPENDS_gtk-theme-industrial = "gtk-engine-industrial"
- RDEPENDS_gtk-theme-clearlooks = "gtk-engine-clearlooks"
+ EXTRA_OEMAKE = "'CC=${CC}' 'AR=${AR}' 'prefix=${prefix}' gui"
  
-+FILES_${PN}-dev += "${libdir}/gtk-2.0/*/engines/*.la"
-+FILES_${PN}-dbg += "${libdir}/gtk-2.0/*/engines/.debug"
++FILES_${PN} += "${datadir}/trace-cmd/plugins/*.so"
++FILES_${PN}-dbg += "${datadir}/trace-cmd/plugins/.debug/"
 +
- CFLAGS_prepend = "-DHAVE_ANIMATION "
++FILESPATH = "${FILE_DIRNAME}/trace-cmd"
++
+ do_install() {
+ 	oe_runmake CC="${CC}" AR="${AR}" prefix="${prefix}" DESTDIR="${D}" install_gui
+ }
+diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch b/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
+new file mode 100644
+index 0000000..8e8f578
+--- /dev/null
++++ b/meta/recipes-kernel/trace-cmd/trace-cmd/addldflags.patch
+@@ -0,0 +1,43 @@
++Upstream-Status: Pending
++
++Add ability for the Makefile to respect LDFLAGS.
++
++Also remove hardcoded /usr/local/include include path.
++
++RP 7/5/2011
++
++Index: git/Makefile
++===================================================================
++--- git.orig/Makefile	2011-07-05 11:58:11.699910550 +0100
+++++ git/Makefile	2011-07-05 23:30:12.319920617 +0100
++@@ -189,10 +189,11 @@
++ TRACECMD_VERSION = $(TC_VERSION).$(TC_PATCHLEVEL).$(TC_EXTRAVERSION)
++ KERNELSHARK_VERSION = $(KS_VERSION).$(KS_PATCHLEVEL).$(KS_EXTRAVERSION)
++ 
++-INCLUDES = -I. -I/usr/local/include $(CONFIG_INCLUDES)
+++INCLUDES = -I. $(CONFIG_INCLUDES)
++ 
++ # Set compile option CFLAGS if not set elsewhere
++ CFLAGS ?= -g -Wall
+++LDFLAGS ?=
++ 
++ # Append required CFLAGS
++ override CFLAGS += $(CONFIG_FLAGS) $(INCLUDES) $(PLUGIN_DIR_SQ)
++@@ -225,7 +226,7 @@
++ 
++ do_app_build =						\
++ 	($(print_app_build)				\
++-	$(CC) $^ -rdynamic -o $@ $(CONFIG_LIBS) $(LIBS))
+++	$(CC) $^ -rdynamic -o $@ $(LDFLAGS) $(CONFIG_LIBS) $(LIBS))
++ 
++ do_compile_shared_library =			\
++ 	($(print_shared_lib_compile)		\
++@@ -237,7 +238,7 @@
++ 
++ do_plugin_build =				\
++ 	($(print_plugin_build)			\
++-	$(CC) $(CFLAGS) -shared -nostartfiles -o $@ $<)
+++	$(CC) $(CFLAGS) $(LDFLAGS) -shared -nostartfiles -o $@ $<)
++ 
++ do_build_static_lib =				\
++ 	($(print_static_lib_build)		\
+diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
+index 5cf433a..1278dc7 100644
+--- a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
++++ b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
+@@ -4,12 +4,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://trace-cmd.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
  
- inherit gnome
+ SRCREV = "6c696cec3f264a9399241b6e648f58bc97117d49"
+-PR = "r1"
++PR = "r2"
+ PV = "1.0.5+git${SRCPV}"
+ 
+ inherit pkgconfig
+ 
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git"
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git \
++           file://addldflags.patch"
+ S = "${WORKDIR}/git"
+ 
+ EXTRA_OEMAKE = "'prefix=${prefix}'"
 -- 
 1.7.4.1
 
