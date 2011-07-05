@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qe51B-0004Z6-PC for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 14:46:21 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p65CgXMJ031163
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jul 2011 13:42:33 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 31042-03 for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jul 2011 13:42:29 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p65CgRS2031157
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jul 2011 13:42:27 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Qe52f-0004bn-8h for openembedded-core@lists.openembedded.org;
+	Tue, 05 Jul 2011 14:47:54 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Qe4z0-000258-AJ; Tue, 05 Jul 2011 14:44:06 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1309619979.git.dexuan.cui@intel.com>
-References: <cover.1309619979.git.dexuan.cui@intel.com>
-Date: Tue, 05 Jul 2011 13:41:56 +0100
-Message-ID: <1309869716.20015.696.camel@rex>
+Date: Tue, 05 Jul 2011 13:44:05 +0100
+In-Reply-To: <406427a001cfa7c1859f54147b678f0ef647a922.1309867242.git.anders@chargestorm.se>
+References: <cover.1309867242.git.anders@chargestorm.se>
+	<406427a001cfa7c1859f54147b678f0ef647a922.1309867242.git.anders@chargestorm.se>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1309869846.2410.3.camel@phil-desktop>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/1][v3] base.bbclass: show layer's branches/revisions in the banner info
+Cc: Anders Darander <anders@chargestorm.se>
+Subject: Re: [PATCH 1/1] kernel.bbclass: make external module compile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,25 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 12:46:22 -0000
+X-List-Received-Date: Tue, 05 Jul 2011 12:47:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2011-07-02 at 23:23 +0800, Dexuan Cui wrote:
-> The following changes since commit a1f79a7896b6411669b3ccada6204d2695e80fc5:
-> 
->   runqueue.py: Add umask task control (2011-06-24 12:23:12 +0100)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib dcui/banner_v3
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/banner_v3
-> 
-> Dexuan Cui (1):
->   base.bbclass: show layer's branches/revisions in the banner info
+On Tue, 2011-07-05 at 14:01 +0200, Anders Darander wrote:
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 943252a..26ee416 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -149,7 +149,6 @@ kernel_do_install() {
 
-Merged to master, thanks.
+        #
+        # We don't want to leave host-arch binaries in /sysroots, so
+        # we clean the scripts dir while leaving the generated config
 
-Richard
+>  	# and include files.
+>  	#
+>  	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
+> -	make -C $kerneldir _mrproper_scripts
+>  	find $kerneldir -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
+>  	find $kerneldir/Documentation -name "*.txt" -exec rm '{}' \;
+
+Did you verify that this doesn't introduce any new QA warnings during
+packaging?  Presumably that line was originally added for a reason and
+it seems a bit surprising that just deleting it without any replacement
+is the right thing to do.
+
+Also, if the scripts dir isn't being cleaned anymore, I guess the
+preceding comment should be adjusted to match the new reality.
+
+p.
+
 
 
 
