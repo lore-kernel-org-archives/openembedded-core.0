@@ -1,24 +1,32 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.eads.net ([80.156.45.113])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qe2iA-00058s-7q
-	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 12:18:34 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 05 Jul 2011 03:14:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,478,1304319600"; d="scan'208";a="22761017"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.17.114])
-	by azsmga001.ch.intel.com with ESMTP; 05 Jul 2011 03:14:43 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jul 2011 11:14:37 +0100
-Message-Id: <fe15b38c2ff66cc45f38d1359dedb5f29353a46e.1309860717.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1309860717.git.paul.eggleton@linux.intel.com>
-References: <cover.1309860717.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1309860717.git.paul.eggleton@linux.intel.com>
-References: <cover.1309860717.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] qt4: ensure target packages don't include host binaries
+	(envelope-from <Wolfgang.Hauser.external@cassidian.com>)
+	id 1Qe2kV-0005Cg-Nw for openembedded-core@lists.openembedded.org;
+	Tue, 05 Jul 2011 12:20:59 +0200
+Received: from gsx3071-vs5.mxchg.m.corp ([53.147.176.148])
+	by mail.eads.net (8.13.8/8.13.8/Debian-2) with ESMTP id p65A6H0o024226; 
+	Tue, 5 Jul 2011 12:06:18 +0200
+Received: from gsx300a.mxchg.m.corp ([10.43.212.131]) by
+	gsx3071-vs5.mxchg.m.corp with Microsoft SMTPSVC(6.0.3790.4675); 
+	Tue, 5 Jul 2011 12:06:19 +0200
+X-MimeOLE: Produced By Microsoft Exchange V6.5
+MIME-Version: 1.0
+Date: Tue, 5 Jul 2011 12:06:20 +0200
+Message-ID: <0C757E680E33864AB113392C7E83F910BE5196@GSX300A.mxchg.m.corp>
+In-Reply-To: <CACzvQmYM-Tn0xWL9Hc3hyn8EEUeZjbkfTDOYskETJrq7=TB77A@mail.gmail.com>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Thread-Topic: [OE-core] [Draft design][RFC] Running postinst at rootfs
+	generation time
+Thread-Index: Acw673kngRfUUeFRQSihhe4Dj5hGNAACNfCw
+References: <1865303E0DED764181A9D882DEF65FB6A167F0C70B@shsmsx502.ccr.corp.intel.com><4E095480.3070001@windriver.com><1309266943.20015.290.camel@rex><4E09E8B7.1070901@windriver.com><0C757E680E33864AB113392C7E83F910BE518E@GSX300A.mxchg.m.corp><1865303E0DED764181A9D882DEF65FB6A200B1C937@shsmsx502.ccr.corp.intel.com>
+	<CACzvQmYM-Tn0xWL9Hc3hyn8EEUeZjbkfTDOYskETJrq7=TB77A@mail.gmail.com>
+From: "Hauser, Wolfgang (external)" <Wolfgang.Hauser.external@cassidian.com>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+X-OriginalArrivalTime: 05 Jul 2011 10:06:19.0915 (UTC)
+	FILETIME=[2FBEFDB0:01CC3AFB]
+Subject: Re: [Draft design][RFC] Running postinst at rootfs generation time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,103 +41,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 10:18:34 -0000
+X-List-Received-Date: Tue, 05 Jul 2011 10:20:59 -0000
+Content-class: urn:content-classes:message
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Remove uic, rcc, moc and lrelease from packaged files. This fixes the
-following QA warnings:
+To build a read-only image, we have to set up an extra layer where we =
+modified all packages they cause a runtime modification.
 
-qt4-x11-free-4.7.3, wrong architecture, qt4-tools-dbg,
-  ${WORKDIR}/packages-split/qt4-tools-dbg/usr/bin/.debug/uic
-qt4-x11-free-4.7.3, wrong architecture, qt4-tools-dbg,
-  ${WORKDIR}/packages-split/qt4-tools-dbg/usr/bin/.debug/rcc
-qt4-x11-free-4.7.3, wrong architecture, qt4-tools-dbg,
-  ${WORKDIR}/packages-split/qt4-tools-dbg/usr/bin/.debug/moc
-qt4-x11-free-4.7.3, wrong architecture, qt4-tools,
-  ${WORKDIR}/packages-split/qt4-tools/usr/bin/uic
-qt4-x11-free-4.7.3, wrong architecture, qt4-tools,
-  ${WORKDIR}/packages-split/qt4-tools/usr/bin/rcc
-qt4-x11-free-4.7.3, wrong architecture, qt4-tools,
-  ${WORKDIR}/packages-split/qt4-tools/usr/bin/moc
-qt4-x11-free-4.7.3, wrong architecture, qt4-linguist,
-  ${WORKDIR}/packages-split/qt4-linguist/usr/bin/lrelease
+Especially we have to cover some adduser/addgroup issues, modify the =
+volatile file handling for our needs, and for omap3 graphics the =
+handling of the GLES version.
+A failed offline postinst causing a runtime configuration. So the image =
+generation log has to be checked for such failing scripts.
 
-These utilities are all provided by qt4-tools-nativesdk in any case.
+Some of the packages (e.g. dropbear) are prepared for supporting =
+read-only filesystems. Most packages are not.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
- meta/recipes-qt/qt4/qt4-x11-free.inc |    2 +-
- meta/recipes-qt/qt4/qt4.inc          |   15 +++++++--------
- 3 files changed, 9 insertions(+), 10 deletions(-)
+The problem with the alphabetic order of the postinst scripts we managed =
+by renaming some of the packages to fit the needed order. An ugly =
+solution, but in case of missing python skills, the easiest.
 
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
-index fc02fe0..de311dc 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -3,7 +3,7 @@ SECTION = "libs"
- LICENSE = "LGPLv2.1 | GPLv3"
- HOMEPAGE = "http://qt.nokia.com"
- DEPENDS += "directfb tslib"
--INC_PR = "r26"
-+INC_PR = "r27"
- 
- QT_BASE_NAME ?= "qt4-embedded"
- QT_BASE_LIB  ?= "libqt-embedded"
-diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
-index 87145a3..7a30af6 100644
---- a/meta/recipes-qt/qt4/qt4-x11-free.inc
-+++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://qt.nokia.com"
- SECTION = "x11/libs"
- DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
- 
--INC_PR = "r23"
-+INC_PR = "r24"
- 
- QT_GLFLAGS ?= "-no-opengl"
- QT_GLFLAGS_qemux86 = "-opengl"
-diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-index 7e15b61..284586f 100644
---- a/meta/recipes-qt/qt4/qt4.inc
-+++ b/meta/recipes-qt/qt4/qt4.inc
-@@ -126,8 +126,8 @@ RRECOMMENDS_${QT_BASE_NAME}-examples += " \
-             ${QT_BASE_NAME}-plugin-sqldriver-sqlite \
-             ${QT_BASE_NAME}-plugin-imageformat-jpeg"
- 
--FILES_${QT_BASE_NAME}-tools                = "${bindir}/uic* ${bindir}/moc ${bindir}/rcc ${bindir}/qttracereplay ${bindir}/qdoc*"
--FILES_${QT_BASE_NAME}-tools-dbg            = "${bindir}/.debug/uic* ${bindir}/.debug/moc ${bindir}/.debug/rcc ${bindir}/.debug/qttracereplay ${bindir}/.debug/qdoc*"
-+FILES_${QT_BASE_NAME}-tools                = "${bindir}/qttracereplay ${bindir}/qdoc*"
-+FILES_${QT_BASE_NAME}-tools-dbg            = "${bindir}/.debug/qttracereplay ${bindir}/.debug/qdoc*"
- FILES_${QT_BASE_NAME}-assistant            = "${bindir}/*assistant* ${bindir}/qcollectiongenerator ${bindir}/qhelpconverter ${bindir}/qhelpgenerator"
- FILES_${QT_BASE_NAME}-assistant-dbg        = "${bindir}/.debug/*assistant* ${bindir}/.debug/qcollectiongenerator ${bindir}/.debug/qhelpconverter ${bindir}/.debug/qhelpgenerator"
- FILES_${QT_BASE_NAME}-common               = "${bindir}/qtconfig"
-@@ -267,7 +267,11 @@ do_install() {
- 	oe_runmake install INSTALL_ROOT=${D}
- 
- 	# These are host binaries, we should only use them in staging
--	rm -rf ${D}/${bindir}/qmake
-+	rm ${D}/${bindir}/qmake
-+	rm ${D}/${bindir}/uic
-+	rm ${D}/${bindir}/moc
-+	rm ${D}/${bindir}/rcc
-+	rm ${D}/${bindir}/lrelease
- 
- 	# fix pkgconfig, libtool and prl files
- 	sed -i -e s#-L${S}/lib##g \
-@@ -302,11 +306,6 @@ do_install() {
- 	install -d ${D}/${libdir}/fonts
- 	touch ${D}/${libdir}/fonts/fontdir
- 
--	install -d ${D}${bindir}
--	for i in rcc uic moc ; do
--		install -m 0755 ${S}/bin/$i ${D}${bindir}/
--	done
--
- 	#Append an E to the qtdemo file
- 	if [ -n "${QT_LIBINFIX}" ] ; then
- 		mv ${D}${bindir}/qtdemo ${D}${bindir}/qtdemo${QT_LIBINFIX}
--- 
-1.7.4.1
+Nice to see someone having the same needs we have to fit.
+=20
+Regards
+Wolfgang Hauser
 
+-----Urspr=FCngliche Nachricht-----
+Von: Tom Parkin [mailto:tom.parkin@gmail.com]=20
+Gesendet: Dienstag, 5. Juli 2011 10:42
+An: Patches and discussions about the oe-core layer
+Cc: Hauser, Wolfgang (external)
+Betreff: Re: [OE-core] [Draft design][RFC] Running postinst at rootfs =
+generation time
+
+I'm interested to read about this initiative as we've recently
+stumbled over the issue of postinst scripts in trying to port our
+build to OE.
+
+So far it seems the primary concern is about the boot-time impact of
+postinst on the target.  But for the use-cases I'm interested in, we
+need to capture all install processes as a part of the build in order
+to output a fully-provisioned read-only rootfs image (e.g. squashfs).
+Our boxes don't typically modify their filesystems at runtime, other
+than to take full updates (completely new rootfs images).
+
+I think the reduction, or even elimination, of target-run postinst
+scripts would help a lot with the read-only rootfs case.
+
+Tom
+
+On 4 July 2011 01:23, Cui, Dexuan <dexuan.cui@intel.com> wrote:
+> Hauser, Wolfgang (external) wrote:
+>> Beside the discussed changes, the postinst scripts should be executed
+>> in the dependency order.
+>> At the time, the scripts are executed in alphabetic order, which
+>> breaks the image generation if depended packages are not in
+>> alphabetic order.
+>>
+>> e.g. busybox and busybox subpackages (busybox-mdev).
+>>
+>> Regards
+>> Wolfgang Hauser
+>>
+>
+> Thank all for the suggestions!
+> I created a wiki page to summarize the mail threads:
+> =
+https://wiki.yoctoproject.org/wiki/Run_postinst_during_rootfs_generation
+>
+> Thanks,
+> -- Dexuan
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+
+
+--=20
+Tom Parkin
+www.thesecretdogproject.com
+Morality, like art, means drawing a line someplace /Wilde/
 
 
