@@ -1,20 +1,20 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QeEWy-0006xw-RG
+	(envelope-from <richard@tim.rpsys.net>) id 1QeEWy-0006xv-R5
 	for openembedded-core@lists.openembedded.org;
 	Wed, 06 Jul 2011 00:55:49 +0200
 Received: by rex (Postfix, from userid 1000)
-	id 3A0B131337; Tue,  5 Jul 2011 23:51:26 +0100 (BST)
+	id 17B8F31335; Tue,  5 Jul 2011 23:51:26 +0100 (BST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jul 2011 23:51:14 +0100
-Message-Id: <1e134055b8c00dd2f93a40a50cf69377c7b325c0.1309906154.git.richard.purdie@linuxfoundation.org>
+Date: Tue,  5 Jul 2011 23:51:12 +0100
+Message-Id: <d181003d0a1427af76e3751b2ba5d407aa3b871e.1309906154.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <696f00b67217242f3a372d070c2473f8ced639ed.1309906154.git.richard.purdie@linuxfoundation.org>
 References: <696f00b67217242f3a372d070c2473f8ced639ed.1309906154.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
 References: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 13/17] apt: Package unpackaged files
+Subject: [PATCH 11/17] gtk-engines: Package unpackaged files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +33,32 @@ X-List-Received-Date: Tue, 05 Jul 2011 22:55:49 -0000
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/apt/apt-package.inc |    2 +-
- meta/recipes-devtools/apt/apt_0.7.14.bb   |    4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ .../gtk-engines/gtk-engines_2.20.2.bb              |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-devtools/apt/apt-package.inc
-index 9e104f1..2e3be38 100644
---- a/meta/recipes-devtools/apt/apt-package.inc
-+++ b/meta/recipes-devtools/apt/apt-package.inc
-@@ -62,7 +62,7 @@ FILES_${PN}-utils = "${bindir}/apt-sortpkgs ${bindir}/apt-extracttemplates"
- FILES_${PN}-doc = "${@get_files_apt_doc(d, bb, bb.data.getVar('apt-manpages', d, 1))} \
- 		   ${docdir}/apt"
- FILES_${PN}-utils-doc = "${@get_files_apt_doc(d, bb, bb.data.getVar('apt-utils-manpages', d, 1))}"
--FILES_${PN}-dev = "${libdir}/libapt*.so"
-+FILES_${PN}-dev = "${libdir}/libapt*.so ${includedir}"
+diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
+index 85c38e2..bbf52be 100644
+--- a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
++++ b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ SECTION = "x11/base"
+ DEPENDS = "gtk+"
  
- do_install () {
- 	set -x
-diff --git a/meta/recipes-devtools/apt/apt_0.7.14.bb b/meta/recipes-devtools/apt/apt_0.7.14.bb
-index aa155d9..1335c16 100644
---- a/meta/recipes-devtools/apt/apt_0.7.14.bb
-+++ b/meta/recipes-devtools/apt/apt_0.7.14.bb
-@@ -3,10 +3,10 @@ RDEPENDS_${PN} = "dpkg"
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
- require apt.inc
+-PR = "r0"
++PR = "r1"
  
--PR = "r6"
-+PR = "r7"
+ PACKAGES_DYNAMIC = "gtk-engine-* gtk-theme-*"
  
- SRC_URI += "file://nodoc.patch \
--	    file://includes-fix.patch "
-+            file://includes-fix.patch "
+@@ -21,6 +21,9 @@ RDEPENDS_gtk-theme-thinice = "gtk-engine-thinice"
+ RDEPENDS_gtk-theme-industrial = "gtk-engine-industrial"
+ RDEPENDS_gtk-theme-clearlooks = "gtk-engine-clearlooks"
  
- SRC_URI[md5sum] = "19efa18fb1ef20c58b9b44e94258b814"
- SRC_URI[sha256sum] = "8fc06effaf8a4e4333308eedcdc6840f1c8056f2e924210f151dfc076bcd4045"
++FILES_${PN}-dev += "${libdir}/gtk-2.0/*/engines/*.la"
++FILES_${PN}-dbg += "${libdir}/gtk-2.0/*/engines/.debug"
++
+ CFLAGS_prepend = "-DHAVE_ANIMATION "
+ 
+ inherit gnome
 -- 
 1.7.4.1
 
