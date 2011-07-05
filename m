@@ -1,31 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qe2vn-0005az-Qb for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 12:32:40 +0200
+	id 1Qe2wi-0005cO-NJ for openembedded-core@lists.openembedded.org;
+	Tue, 05 Jul 2011 12:33:36 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p65ASlBL029748;
-	Tue, 5 Jul 2011 11:28:47 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p65ATmbE029771
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Jul 2011 11:29:48 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 29665-02; Tue,  5 Jul 2011 11:28:43 +0100 (BST)
+	id 29515-05 for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 Jul 2011 11:29:43 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p65ASf2x029742
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 5 Jul 2011 11:28:41 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p65AThfX029765
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Jul 2011 11:29:43 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1309514503-9364-1-git-send-email-koen@dominion.thruhere.net>
-References: <y> <1309514503-9364-1-git-send-email-koen@dominion.thruhere.net>
-Date: Tue, 05 Jul 2011 11:28:11 +0100
-Message-ID: <1309861691.20015.683.camel@rex>
+In-Reply-To: <cover.1309860717.git.paul.eggleton@linux.intel.com>
+References: <cover.1309860717.git.paul.eggleton@linux.intel.com>
+Date: Tue, 05 Jul 2011 11:29:13 +0100
+Message-ID: <1309861753.20015.684.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@www.linuxtogo.org, Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] gettext: fix ERROR: QA Issue: gettext rdepends on gettext-dev
+Subject: Re: [PATCH 0/1] Qt4 QA error fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,17 +42,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 10:32:40 -0000
+X-List-Received-Date: Tue, 05 Jul 2011 10:33:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-07-01 at 12:01 +0200, Koen Kooi wrote:
-> This was fixed in 2008 already, see http://dominion.thruhere.net/koen/cms/the-testlab-strikes-again but regressed during the 0.16.x -> 0.18.x update. Strangely enough the comment was kept.
+On Tue, 2011-07-05 at 11:14 +0100, Paul Eggleton wrote:
+> This patch fixes several "wrong architecture" QA errors when building
+> qt4-x11-free and qt4-embedded. This is really a stopgap as far as Qt4
+> packaging goes however, there is still more cleanup work to be done.
 > 
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/recipes-core/gettext/gettext_0.18.1.1.bb |    8 +++++++-
->  1 files changed, 7 insertions(+), 1 deletions(-)
+> The following changes since commit 2b3bf5350861f62435e2fdf1c56c8a02f4b1b4ac:
+> 
+>   xauth: upgrade from 1.05 to 1.06 (2011-07-04 12:45:01 +0100)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib paule/qt4-qa-fix
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt4-qa-fix
+> 
+> Paul Eggleton (1):
+>   qt4: ensure target packages don't include host binaries
 
 Merged to master, thanks.
 
