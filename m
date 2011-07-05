@@ -1,20 +1,20 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QeEWy-0006xr-P7
+	(envelope-from <richard@tim.rpsys.net>) id 1QeEWy-0006xz-Tg
 	for openembedded-core@lists.openembedded.org;
 	Wed, 06 Jul 2011 00:55:49 +0200
 Received: by rex (Postfix, from userid 1000)
-	id C19F131330; Tue,  5 Jul 2011 23:51:25 +0100 (BST)
+	id 6E07A3133A; Tue,  5 Jul 2011 23:51:26 +0100 (BST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jul 2011 23:51:08 +0100
-Message-Id: <4cfb662d2aaca9ff7225186e206b4d2dfffbe2a0.1309906154.git.richard.purdie@linuxfoundation.org>
+Date: Tue,  5 Jul 2011 23:51:17 +0100
+Message-Id: <615963784b367d8e92cf4599b7d82e5c009e35f3.1309906154.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <696f00b67217242f3a372d070c2473f8ced639ed.1309906154.git.richard.purdie@linuxfoundation.org>
 References: <696f00b67217242f3a372d070c2473f8ced639ed.1309906154.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
 References: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 07/17] systemtap: Don't set prefix to a path including so examples get placed in the correct path and packaged correctly
+Subject: [PATCH 16/17] opensp: Add unpackaged files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +33,29 @@ X-List-Received-Date: Tue, 05 Jul 2011 22:55:49 -0000
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/opensp/opensp_1.5.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index f24c179..e8aa54f 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- DEPENDS = "elfutils sqlite3"
+diff --git a/meta/recipes-devtools/opensp/opensp_1.5.bb b/meta/recipes-devtools/opensp/opensp_1.5.bb
+index 61022e0..a402d11 100644
+--- a/meta/recipes-devtools/opensp/opensp_1.5.bb
++++ b/meta/recipes-devtools/opensp/opensp_1.5.bb
+@@ -5,7 +5,7 @@ SECTION = "libs"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
  
- SRCREV = "4ab3a1863bf4f472acae7a809bf2b38d91658aa8"
--PR = "r3"
-+PR = "r4"
- PV = "1.4+git${SRCPV}"
+-PR = "r0"
++PR = "r1"
  
- SRC_URI = "git://sources.redhat.com/git/systemtap.git;protocol=git \
- 	file://fix_for_compilation_with_gcc-4.6.0.patch \
-           "
+ # At -Os it encounters calls to some inline functions which are then
+ # not found in any other objects with gcc 4.5
+@@ -42,4 +42,6 @@ do_install_append() {
+ 	ln -sf osx sgml2xml
+ }
  
--EXTRA_OECONF = "--prefix=${D} --with-libelf=${STAGING_DIR_TARGET} --without-rpm \
-+EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
- 	     ac_cv_file__usr_include_nss=no \
- 	     ac_cv_file__usr_include_nss3=no \
- 	     ac_cv_file__usr_include_nspr=no \
++FILES_${PN} += "${datadir}/OpenSP/"
++
+ BBCLASSEXTEND = "native"
 -- 
 1.7.4.1
 
