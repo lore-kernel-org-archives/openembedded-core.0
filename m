@@ -1,29 +1,32 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Qe7Dn-0007VF-25 for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 17:07:31 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1Qe7A7-0002jz-7k
+Received: from stoexhubfe01.domain01.net ([83.145.59.140])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <anders@chargestorm.se>) id 1Qe7E9-0007Wk-Al
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 17:03:44 +0200
-From: Phil Blundell <pb@pbcl.net>
+	Tue, 05 Jul 2011 17:07:53 +0200
+Received: from STOEXMBXC03.domain01.net
+	([fe80:0000:0000:0000:99c4:3913:164.170.217.90]) by
+	stoexhubfe01.domain01.net
+	([10.12.10.6]) with mapi; Tue, 5 Jul 2011 17:04:04 +0200
+From: Anders Darander <anders@chargestorm.se>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 05 Jul 2011 16:03:36 +0100
-In-Reply-To: <B8FD72A4-2F8C-48AF-AA13-E686D39ADB01@dominion.thruhere.net>
-References: <cover.1307895912.git.koen@dominion.thruhere.net>
-	<1703bd12b68b86a3d73fe39e9fd9369ac0b027ca.1307895912.git.koen@dominion.thruhere.net>
-	<29375D62-544F-457B-8393-79BF9DDA54BA@dominion.thruhere.net>
-	<4E0D0211.5040102@linux.intel.com>
-	<5A258184-4045-4BAE-AE15-F5ADDBD62B77@dominion.thruhere.net>
-	<1309875430.20015.717.camel@rex>
-	<B8FD72A4-2F8C-48AF-AA13-E686D39ADB01@dominion.thruhere.net>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1309878223.2410.11.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/2] qemu.inc: append to IMAGE_FSTYPES instead of weakly assigning them
+Date: Tue, 5 Jul 2011 17:04:25 +0200
+Thread-Topic: [OE-core] [PATCH 1/1] kernel.bbclass: make external module
+	compile
+Thread-Index: Acw7JMeMMmxIW0q6S9CHrtzZBadg9A==
+Message-ID: <ECF13383-E711-4CE2-8E50-222852DC392D@chargestorm.se>
+References: <cover.1309867242.git.anders@chargestorm.se>
+	<406427a001cfa7c1859f54147b678f0ef647a922.1309867242.git.anders@chargestorm.se>
+	<1309869846.2410.3.camel@phil-desktop>
+	<201107051454.04409.anders@chargestorm.se>
+	<1309871340.20015.700.camel@rex>
+In-Reply-To: <1309871340.20015.700.camel@rex>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] kernel.bbclass: make external module compile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,19 +41,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 15:07:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Tue, 2011-07-05 at 16:01 +0100, Koen Kooi wrote:
-> I currently have no way of saying "I always want tgz and the native
-> formats"
-
-Does IMAGE_FSTYPES_append = "tgz" not do what you want?
-
-p.
+X-List-Received-Date: Tue, 05 Jul 2011 15:07:53 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
 
+On 5 jul 2011, at 15:09, "Richard Purdie" <richard.purdie@linuxfoundation.o=
+rg> wrote:
+
+> On Tue, 2011-07-05 at 14:54 +0200, Anders Darander wrote:
+>> * Phil Blundell Phil Blundell <pb@pbcl.net> [07/05/11 02:44 PM]:
+>>> On Tue, 2011-07-05 at 14:01 +0200, Anders Darander wrote:
+>>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>>>> index 943252a..26ee416 100644
+>>>> --- a/meta/classes/kernel.bbclass
+>>>> +++ b/meta/classes/kernel.bbclass
+>>>> @@ -149,7 +149,6 @@ kernel_do_install() {
+>>>=20
+>>>        #
+>>>        # We don't want to leave host-arch binaries in /sysroots, so
+>>>        # we clean the scripts dir while leaving the generated config
+>>>=20
+>>>>    # and include files.
+>>>>    #
+>>>>    oe_runmake -C $kerneldir CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" cl=
+ean
+>>>>=20
+>>>> -    make -C $kerneldir _mrproper_scripts
+>>>>=20
+>>>>    find $kerneldir -path $kerneldir/scripts -prune -o -name "*.[csS]"
+>>>>    -exec rm '{}' \; find $kerneldir/Documentation -name "*.txt" -exec =
+rm
+>>>>    '{}' \;
+>>>=20
+>>> Did you verify that this doesn't introduce any new QA warnings during
+>>> packaging?  Presumably that line was originally added for a reason and
+>>> it seems a bit surprising that just deleting it without any replacement
+>>> is the right thing to do.
+>>=20
+>> No, I didn't really verify that. Do I need to run with any specific opti=
+ons=20
+>> enabled, or should it be enough to just bitbake my modules recipe? (I ca=
+n't=20
+>> test for the moment, as the latest pull from oe-core forces a rebuild of=
+ gcc=20
+>> etc).
+>>=20
+>>> Also, if the scripts dir isn't being cleaned anymore, I guess the
+>>> preceding comment should be adjusted to match the new reality.
+>>=20
+>> That's true.
+>>=20
+>> I'll wait to see if someone else has any comments, or if I find some QA=
+=20
+>> warnings before I produce a version 2.
+>=20
+> I'm cc'ing Darren as this is one of his favourite subjects :/.
+>=20
+> Summary is that this works well in some kernel versions and not in
+> others. We might have to start doing this conditionally based upon
+> kernel version I guess...
+
+Ah, well then it is worse than I thought. ( On the other hand, that would e=
+xplain why no one has noticed the problem, until I tried using the wrong ke=
+rnel version).
+
+Do we have any idea at what point the kernel breaks? I guess that might be =
+a question for Darren.
+
+Cheers,
+Anders=
 
 
