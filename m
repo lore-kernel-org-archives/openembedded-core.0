@@ -1,24 +1,30 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QeBYQ-0003xj-EW for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 21:45:06 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QeBUl-0002uj-1m; Tue, 05 Jul 2011 21:41:19 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-In-Reply-To: <201107051731.12273.paul.eggleton@linux.intel.com>
-References: <1309881139.2410.14.camel@phil-desktop>
-	<1309881259.2410.16.camel@phil-desktop>
-	<201107051731.12273.paul.eggleton@linux.intel.com>
-Date: Tue, 05 Jul 2011 19:37:24 +0100
-Message-ID: <1309891044.3176.7.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.30.3 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bluez-dtl1-workaround: remove PRIORITY
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1QeCal-0004ty-0U
+	for openembedded-core@lists.openembedded.org;
+	Tue, 05 Jul 2011 22:51:35 +0200
+Received: by pvf24 with SMTP id 24so5832403pvf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Jul 2011 13:47:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=KisW/nH5fNAcWOJeWsI87u9EqFH0k3wjbHy4p0v0uEQ=;
+	b=etfdPkWp0nWaVmJUWffNwwFwgGrANSKF30D2WCkJN4Hapo2FmCqqZnWKE9jlTQYjlV
+	yV6TOrbFLZZq0ZZfRc4HfGExrT2jjX2Z/NyVudctHnhlMhhAUolhxC6OYYDjvTK9jQ3y
+	NlJRtFp3FGSFauy+BKTDwH9i9JydJJLzbjFD0=
+Received: by 10.68.15.170 with SMTP id y10mr9180928pbc.364.1309898864065; Tue,
+	05 Jul 2011 13:47:44 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.57.104 with HTTP; Tue, 5 Jul 2011 13:47:14 -0700 (PDT)
+In-Reply-To: <1309872782.20015.710.camel@rex>
+References: <1309872782.20015.710.camel@rex>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 5 Jul 2011 13:47:14 -0700
+Message-ID: <CAMKF1srfJbmG42myirxJr2v2_HMyWNTH+4qWF-Zma0k5p-CHog@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH] openssh/dropbear: No need for each to PROVIDE ssh/sshd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +39,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 19:45:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Jul 2011 20:51:35 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-07-05 at 17:31 +0100, Paul Eggleton wrote:
-> On Tuesday 05 July 2011 16:54:18 Phil Blundell wrote:
-> > Or an alternative patch might be just to delete this recipe altogether.
-> > Its sole purpose is to work around defects in hardware which must be the
-> > best part of a decade old and I would be slightly surprised if anyone
-> > was still using DTL1s in this day and age.
-> 
-> Is it possible some people are still using PCMCIA/CF cards with this hardware 
-> in it?
+On Tue, Jul 5, 2011 at 6:33 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Nothing in the system actually uses the PROVIDES field for these
+> recipes, its usually the runtime packages that are used. We can
+> therefore remove the PROVIDES and hence quieten the associated
+> warnings from bitbake.
+>
+> If these recipes do really need the PROVIDES, they would be better
+> as virtuals and adding that to MULTI_PROVIDER_WHITELIST.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb b/meta/re=
+cipes-connectivity/openssh/openssh_5.8p2.bb
+> index ec33b29..e23069c 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+> @@ -12,7 +12,6 @@ PR =3D "r0"
+> =C2=A0DEPENDS =3D "zlib openssl"
+> =C2=A0DEPENDS +=3D "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', =
+'', d)}"
+>
+> -PROVIDES =3D "ssh sshd"
+> =C2=A0RPROVIDES =3D "ssh sshd"
+>
+> =C2=A0CONFLICTS_${PN} =3D "dropbear"
+> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/=
+dropbear/dropbear.inc
+> index c9c41d2..1b51e1a 100644
+> --- a/meta/recipes-core/dropbear/dropbear.inc
+> +++ b/meta/recipes-core/dropbear/dropbear.inc
+> @@ -8,7 +8,6 @@ LICENSE =3D "MIT"
+> =C2=A0LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3a5b0c2f0d0c49dfde9558ae=
+2036683c"
+>
+> =C2=A0DEPENDS =3D "zlib"
+> -PROVIDES =3D "ssh sshd"
+> =C2=A0RPROVIDES =3D "ssh sshd"
+>
+> =C2=A0SRC_URI =3D "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV=
+}.tar.gz \
+>
 
-It's certainly possible, yes.  But I don't think that the mere
-possibility is a very strong argument for keeping the recipe in oe-core.
-Maybe it would be better suited to meta-oe or some BSP layer,
+Infact I have tested same patch last week so
 
-I also have at least half a suspicion that the scripting in that recipe
-is only compatible with 2.4 kernels anyway.
+Acked-by: Khem Raj <raj.khem@gmail.com>
 
-p.
-
-
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
