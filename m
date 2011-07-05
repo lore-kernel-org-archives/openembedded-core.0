@@ -1,35 +1,35 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QeCvv-0005Ye-UY
+	(envelope-from <raj.khem@gmail.com>) id 1QeD2n-0005j2-Pg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jul 2011 23:13:28 +0200
-Received: by iym10 with SMTP id 10so6011556iym.6
+	Tue, 05 Jul 2011 23:20:34 +0200
+Received: by iym10 with SMTP id 10so6017097iym.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jul 2011 14:09:38 -0700 (PDT)
+	Tue, 05 Jul 2011 14:16:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=eUJT3O8h6rvSZ1N2a9uHTlQgOBj+mIEEsIDbMov/Kl0=;
-	b=I9eO9ziWHwBB/HZK7QnwAk0dsPqx9gKvswBwcEzBgKLj6u6sf4YnaAo9TF02L2gf8I
-	9cXXE40PYViOJSMz0K6yzghaU+dembKXE+SIVu2CvBWghNOVDqbogImNMK++twe/BVuW
-	34TH/BUhZ2IUoI9vCc++HjJlbpSHBIoWraSZg=
-Received: by 10.42.161.71 with SMTP id s7mr3501925icx.464.1309900176538;
-	Tue, 05 Jul 2011 14:09:36 -0700 (PDT)
+	bh=Cu9/PeL6b0zv8CQtk9iKaKiXicvffmVsZyHiDsQDLUg=;
+	b=Ozq6bFp7LpcT4KktdzlJbUZs1zmaYdQrZdwiUAbDntZyJBbVmiE2adU/hBG5FtRuJT
+	iuszFLbuvemWmBnK5NQ+nkPFCKUqEVz8s803JPN60IEgVhp1kW6pAhMrKI2pRuRSR7c4
+	eFkR9GC6m5WbhkiR5WkV8+ILuHS/3ysdXmMmo=
+Received: by 10.42.76.5 with SMTP id c5mr8152856ick.306.1309900178023;
+	Tue, 05 Jul 2011 14:09:38 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id vn4sm7982300icb.7.2011.07.05.14.09.34
+	by mx.google.com with ESMTPS id vn4sm7982300icb.7.2011.07.05.14.09.36
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 05 Jul 2011 14:09:35 -0700 (PDT)
+	Tue, 05 Jul 2011 14:09:37 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jul 2011 14:09:17 -0700
-Message-Id: <321d919eb68f690e4c986bef40ed26a15af242b3.1309899985.git.raj.khem@gmail.com>
+Date: Tue,  5 Jul 2011 14:09:18 -0700
+Message-Id: <0133eb3cc1bdedaae2fadadd88faac6e22f45866.1309899985.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <bceff46868b198126d398d7b89e7d444a67c0dff.1309899985.git.raj.khem@gmail.com>
 References: <bceff46868b198126d398d7b89e7d444a67c0dff.1309899985.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1309899985.git.raj.khem@gmail.com>
 References: <cover.1309899985.git.raj.khem@gmail.com>
-Subject: [PATCH 4/5] uclibc_git: Implement execvpe and refresh scheduler functions
+Subject: [PATCH 5/5] uclibc-0.9.32: Implement execvpe and refresh scheduler functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,36 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jul 2011 21:13:28 -0000
+X-List-Received-Date: Tue, 05 Jul 2011 21:20:35 -0000
 
 Enable UCLIBC_HAS_UTMPX
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/uclibc/uclibc-git/uClibc.distro  |    3 +
- .../uclibc/uclibc-git/uclibc-execvpe.patch         |  160 +++++++
- .../uclibc-git/uclibc_scheduler_update.patch       |  455 ++++++++++++++++++++
- meta/recipes-core/uclibc/uclibc_git.bb             |    4 +-
+ .../uclibc/uclibc-0.9.32/uClibc.distro             |    3 +
+ .../uclibc/uclibc-0.9.32/uclibc-execvpe.patch      |  160 +++++++
+ .../uclibc-0.9.32/uclibc_scheduler_update.patch    |  455 ++++++++++++++++++++
+ meta/recipes-core/uclibc/uclibc_0.9.32.bb          |    4 +-
  4 files changed, 621 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/uclibc-execvpe.patch
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/uclibc_scheduler_update.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/uclibc-execvpe.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/uclibc_scheduler_update.patch
 
-diff --git a/meta/recipes-core/uclibc/uclibc-git/uClibc.distro b/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
-index 223fb04..9b2a0e5 100644
---- a/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
-+++ b/meta/recipes-core/uclibc/uclibc-git/uClibc.distro
-@@ -178,3 +178,6 @@ UCLIBC_HAS_FLOATS=y
- # by menuconfig for other arches.
+diff --git a/meta/recipes-core/uclibc/uclibc-0.9.32/uClibc.distro b/meta/recipes-core/uclibc/uclibc-0.9.32/uClibc.distro
+index c633ca1..5638d47 100644
+--- a/meta/recipes-core/uclibc/uclibc-0.9.32/uClibc.distro
++++ b/meta/recipes-core/uclibc/uclibc-0.9.32/uClibc.distro
+@@ -179,3 +179,6 @@ UCLIBC_HAS_FLOATS=y
  
  # COMPILE_IN_THUMB_MODE is not set
-+
+ 
 +# needed by systemd
 +UCLIBC_HAS_UTMPX=y
-diff --git a/meta/recipes-core/uclibc/uclibc-git/uclibc-execvpe.patch b/meta/recipes-core/uclibc/uclibc-git/uclibc-execvpe.patch
++
+diff --git a/meta/recipes-core/uclibc/uclibc-0.9.32/uclibc-execvpe.patch b/meta/recipes-core/uclibc/uclibc-0.9.32/uclibc-execvpe.patch
 new file mode 100644
 index 0000000..cd90a09
 --- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/uclibc-execvpe.patch
++++ b/meta/recipes-core/uclibc/uclibc-0.9.32/uclibc-execvpe.patch
 @@ -0,0 +1,160 @@
 +From d20556adadea03bff0bba051172caf0314a35471 Mon Sep 17 00:00:00 2001
 +From: Henning Heinold <heinold@inf.fu-berlin.de>
@@ -235,11 +235,11 @@ index 0000000..cd90a09
 +-- 
 +1.7.5.3
 +
-diff --git a/meta/recipes-core/uclibc/uclibc-git/uclibc_scheduler_update.patch b/meta/recipes-core/uclibc/uclibc-git/uclibc_scheduler_update.patch
+diff --git a/meta/recipes-core/uclibc/uclibc-0.9.32/uclibc_scheduler_update.patch b/meta/recipes-core/uclibc/uclibc-0.9.32/uclibc_scheduler_update.patch
 new file mode 100644
 index 0000000..78401bd
 --- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/uclibc_scheduler_update.patch
++++ b/meta/recipes-core/uclibc/uclibc-0.9.32/uclibc_scheduler_update.patch
 @@ -0,0 +1,455 @@
 +From 2becc16ecbef71c496644d9dc6cbd7383d7cdca3 Mon Sep 17 00:00:00 2001
 +From: Henning Heinold <heinold@inf.fu-berlin.de>
@@ -696,23 +696,23 @@ index 0000000..78401bd
 +-- 
 +1.7.5.3
 +
-diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
-index 7d50997..f516e1c 100644
---- a/meta/recipes-core/uclibc/uclibc_git.bb
-+++ b/meta/recipes-core/uclibc/uclibc_git.bb
-@@ -6,7 +6,7 @@ require uclibc.inc
- DEFAULT_PREFERENCE = "-1"
+diff --git a/meta/recipes-core/uclibc/uclibc_0.9.32.bb b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
+index 0b2befa..b959279 100644
+--- a/meta/recipes-core/uclibc/uclibc_0.9.32.bb
++++ b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
+@@ -1,7 +1,7 @@
+ SRCREV="9152c4d67c763fde5712e2d181d92c0d7e1e2ab9"
  
- PV = "0.9.32+gitr${SRCPV}"
+ require uclibc.inc
 -PR = "${INC_PR}.0"
 +PR = "${INC_PR}.1"
  PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
  
- FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/uclibc-git' ], d)}"
-@@ -24,5 +24,7 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master;protocol=git \
- 	file://compile-arm-fork-with-O2.patch \
- 	file://orign_path.patch \
+ SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
+@@ -26,5 +26,7 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
  	file://rtld_no.patch \
+ 	file://0001-Config.in.arch-Free-UCLIBC_HAS_FPU-setting-from-depe.patch \
+ 	file://0001-mips-signalfd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch \
 +	file://uclibc-execvpe.patch \
 +	file://uclibc_scheduler_update.patch \
  	"
