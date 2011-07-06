@@ -1,34 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QeN9L-0004ii-HG for openembedded-core@lists.openembedded.org;
-	Wed, 06 Jul 2011 10:07:59 +0200
+	id 1QeNCI-0004mC-Jg for openembedded-core@lists.openembedded.org;
+	Wed, 06 Jul 2011 10:11:02 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p66849hw011691
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6687CEe011766
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jul 2011 09:04:09 +0100
+	Wed, 6 Jul 2011 09:07:12 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 11472-04 for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jul 2011 09:04:05 +0100 (BST)
+	id 11472-06 for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Jul 2011 09:07:08 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p66842PW011685
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p66877mZ011760
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jul 2011 09:04:03 +0100
+	Wed, 6 Jul 2011 09:07:07 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CAP9ODKrdgM9re6WDXWOCCt+g2Jfm7YRewFw4GibTUJBFrOUmVA@mail.gmail.com>
-References: <cover.1309906154.git.richard.purdie@linuxfoundation.org>
-	<CAP9ODKrdgM9re6WDXWOCCt+g2Jfm7YRewFw4GibTUJBFrOUmVA@mail.gmail.com>
-Date: Wed, 06 Jul 2011 09:03:30 +0100
-Message-ID: <1309939410.20015.763.camel@rex>
+In-Reply-To: <CAMKF1souQCFTzy4D9i1kWrS_y0fFZJb=00eDxtP5OtQE2tf73Q@mail.gmail.com>
+References: <cover.1309899985.git.raj.khem@gmail.com>
+	<CAMKF1souQCFTzy4D9i1kWrS_y0fFZJb=00eDxtP5OtQE2tf73Q@mail.gmail.com>
+Date: Wed, 06 Jul 2011 09:06:35 +0100
+Message-ID: <1309939595.20015.766.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 00/17] Various QA/unpackaged files cleanups
+Subject: Re: [PATCH 0/5] Add recipes for 0.9.32 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,41 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jul 2011 08:07:59 -0000
+X-List-Received-Date: Wed, 06 Jul 2011 08:11:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-07-05 at 23:59 -0300, Otavio Salvador wrote:
-> On Tue, Jul 5, 2011 at 19:51, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > This patch series is for a number of QA/unpackaged files cleanups.
+On Tue, 2011-07-05 at 23:48 -0700, Khem Raj wrote:
+> On Tue, Jul 5, 2011 at 2:09 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > With this changeset we add new recipes for 0.9.32 and make that default
+> > preference. Then the git recipe are moved to track the latest master.
+> > systemd related fixes are separately applied to both git recipe and 0.9.32
+> > recipes
+> >
+> > Both sets work for arm,mips,ppc,x86,x86-64
+> >
+> > Thanks
+> > -Khem
+> >
+> >
+> > The following changes since commit 4eb3abaa5f4b5df0314dc0d503298d65cd203259:
+> >
+> >  uclibc-0.9.32: Implement execvpe and refresh scheduler functions (2011-07-05 13:53:05 -0700)
+> >
+> > are available in the git repository at:
+> >  git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-0.9.32
+> >  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-0.9.32
+> >
+> > Khem Raj (5):
+> >  uclibc: Add recipes for 0.9.32 release
+> >  tcmode-default: Define UCLIBCVERSION and set it to 0.9.32
+> >  uclibc_git: Move SRCREV past 0.9.32 release
 > 
-> I noticed you have added .la files in some packages. This seems wrong
-> and useless. In fact I am making a local patchset to drop them all and
-> I have most build working (fixing last things before posting for
-> review).
-> 
-> It seems very wrong to depend on .la files for linking and pkg-config
-> seems to be the most right solution when possible.
+> I have update PV in above commit to 0.9.32+0.9.33-rc0 instead of
+> 0.9.32+gitr${SRCPV} which is troublesome to use with git
 
-.la files are an interesting problem. I'm not overly fond of them but
-even in this modern age they can help on certain targets like darwin and
-they can help with static linking since they have dependency information
-that often hasn't been added into the .pc files. We don't often do
-either of those things but in general the .la files are pretty harmless.
+Can you expand a little more about what was troublesome with it?
 
-With regard to the patch series, it just adds .la files to -dev packages
-so the only impact is to development images and even there its small.
-
-If you wanted to clean things up, dropping all the binconfig scripts
-would IMO be a much more useful effort as those are much more ugly to
-handle and bug ridden. At least libtool has some notion of sysroot
-support these days!
+Is there a revision being specified for the uclibc git recipe?
 
 Cheers,
 
 Richard
-
 
 
 
