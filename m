@@ -1,27 +1,24 @@
-Received: from mailout-de.gmx.net ([213.165.64.23])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <schnitzeltony@gmx.de>) id 1Qetye-0005l4-En
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Qeu4i-0005on-KN for openembedded-core@lists.openembedded.org;
+	Thu, 07 Jul 2011 21:17:24 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1Qeu11-0005wA-5W
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jul 2011 21:11:08 +0200
-Received: (qmail invoked by alias); 07 Jul 2011 19:07:16 -0000
-Received: from p5B0A3975.dip.t-dialin.net (EHLO localhost.localdomain)
-	[91.10.57.117]
-	by mail.gmx.net (mp057) with SMTP; 07 Jul 2011 21:07:16 +0200
-X-Authenticated: #62780362
-X-Provags-ID: V01U2FsdGVkX1/ECX4uE1jE7UTj2p2kbACkv33SPX8TnIRdT9qfX1
-	Y68137EE3CLR3X
-From: Andreas Mueller <schnitzeltony@gmx.de>
-To: "Patches and discussions about the oe-core layer"
+	Thu, 07 Jul 2011 21:13:35 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Jul 2011 21:08:55 +0200
-User-Agent: KMail/1.13.7 (Linux/2.6.35.13-92.fc14.x86_64; KDE/4.6.3; x86_64; ;
-	)
+In-Reply-To: <201107072108.55974.schnitzeltony@gmx.de>
 References: <cover.1310059749.git.paul.eggleton@linux.intel.com>
 	<fb8c0dba84b1b0d8c1ac548e0379f25f6c1439f3.1310059749.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <fb8c0dba84b1b0d8c1ac548e0379f25f6c1439f3.1310059749.git.paul.eggleton@linux.intel.com>
-MIME-Version: 1.0
-Message-Id: <201107072108.55974.schnitzeltony@gmx.de>
-X-Y-GMX-Trusted: 0
+	<201107072108.55974.schnitzeltony@gmx.de>
+Date: Thu, 07 Jul 2011 20:13:27 +0100
+Message-ID: <1310066007.18564.0.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
 Subject: Re: [PATCH 3/3] kernel.bbclass: prevent QA warning about kernel-module-lirc-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,41 +34,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2011 19:11:08 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Thu, 07 Jul 2011 19:17:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thursday, July 07, 2011 07:32:48 PM Paul Eggleton wrote:
-> kernel-module-lirc-dev is not a development package (it's a package for
-> a kernel module called lirc_dev) so add an INSANE_SKIP that will prevent
-> it from being flagged up.
-> 
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  meta/classes/kernel.bbclass |    4 ++++
->  1 files changed, 4 insertions(+), 0 deletions(-)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 943252a..318f5c2 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -503,3 +503,7 @@ PACKAGES =+ "perf-dbg perf"
->  FILES_perf = "${bindir}/* \
->                ${libexecdir}"
->  FILES_perf-dbg = "${FILES_${PN}-dbg}"
-> +
-> +# We don't want a warning for kernel-module-lirc-dev
-> +INSANE_SKIP_kernel-module-ir-lirc-codec += "dev-deps"
-> +
-I just received
+On Thu, 2011-07-07 at 21:08 +0200, Andreas Mueller wrote:
+> So I think a better solution is reworking commit 
+> 2e06a1a843756e9d50291c4533b10096af2d852b e.g. by excluding all kernel *modules* 
+> from *dev check. 
 
-| WARNING: QA Issue: kernel-modules rdepends on kernel-module-i2c-dev
+Yeah, or try to be smarter about determining what exactly is a "dev"
+package, e.g. by some sort of flag variable rather than by trying to
+guess from the name.
 
-So I think a better solution is reworking commit 
-2e06a1a843756e9d50291c4533b10096af2d852b e.g. by excluding all kernel *modules* 
-from *dev check. 
+p.
 
-Andreas
+
 
 
