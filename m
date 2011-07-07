@@ -1,25 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QepLd-0006mf-Q4
+	(envelope-from <ke.yu@intel.com>) id 1QepLj-0006n6-Br
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jul 2011 16:14:34 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Jul 2011 07:10:44 -0700
+	Thu, 07 Jul 2011 16:14:39 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 07 Jul 2011 07:10:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,493,1304319600"; d="scan'208";a="27433650"
+X-IronPort-AV: E=Sophos;i="4.65,493,1304319600"; d="scan'208";a="24486637"
 Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2011 07:10:43 -0700
+	by orsmga001.jf.intel.com with ESMTP; 07 Jul 2011 07:10:41 -0700
 From: Yu Ke <ke.yu@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
-Date: Thu,  7 Jul 2011 22:10:06 +0800
-Message-Id: <7e4502fc08e3febf2e78bb5ff058f52eb8ae9957.1310047266.git.ke.yu@intel.com>
+Date: Thu,  7 Jul 2011 22:10:05 +0800
+Message-Id: <5d98e0ea5f84335cd2b5030565e07a01d4fc4e45.1310047266.git.ke.yu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1310047266.git.ke.yu@intel.com>
 References: <cover.1310047266.git.ke.yu@intel.com>
 In-Reply-To: <cover.1310047266.git.ke.yu@intel.com>
 References: <cover.1310047266.git.ke.yu@intel.com>
-Subject: [PATCH 2/8] openssl: fix for non /usr/lib libdir case
+Subject: [PATCH 1/8] native.bbclass: generate libdir from libdir_native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,45 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2011 14:14:34 -0000
+X-List-Received-Date: Thu, 07 Jul 2011 14:14:39 -0000
 
-if libdir is not /usr/lib, e.g /usr/lib64, openssl build will fail
-because it still use /usr/lib as library dir.
+currently, the libdir in native.bbclass is inherited from target libdir
+defined in bitbake.conf. This is not correct in concept, instead, it
+should be inherited from libdir_native. Current code works because both
+the target libdir and libdir_native are the same value "/usr/lib".
+But if libdir changes (e.g. to /usr/lib64), then build will break.
 
-this patch appends the configure option "--libdir" to specify the correct
-library directory
+This patch make libdir generated from libdir_native to fix this issue.
 
 Signed-off-by: Yu Ke <ke.yu@intel.com>
 ---
- meta/recipes-connectivity/openssl/openssl.inc      |    2 +-
- .../recipes-connectivity/openssl/openssl_0.9.8r.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/native.bbclass |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index a338f0e..d42ae1c 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -93,7 +93,7 @@ do_configure () {
-         if [ "x$useprefix" = "x" ]; then
-                 useprefix=/
-         fi        
--	perl ./Configure ${EXTRA_OECONF} shared --prefix=$useprefix --openssldir=${libdir}/ssl $target
-+	perl ./Configure ${EXTRA_OECONF} shared --prefix=$useprefix --openssldir=${libdir}/ssl --libdir=`basename ${libdir}` $target
- }
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 90fcd13..d34d1e5 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -67,6 +67,8 @@ base_prefix = "${STAGING_DIR_NATIVE}"
+ prefix = "${STAGING_DIR_NATIVE}${prefix_native}"
+ exec_prefix = "${STAGING_DIR_NATIVE}${prefix_native}"
  
- do_compile () {
-diff --git a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-index 48ec995..c95b1f1 100644
---- a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-@@ -1,6 +1,6 @@
- require openssl.inc
- 
--PR = "r1"
-+PR = "r2"
- SRC_URI += "file://debian/ca.patch \
-             file://debian/config-hurd.patch;apply=no \
-             file://debian/debian-targets.patch \
++libdir = "${STAGING_DIR_NATIVE}${libdir_native}"
++
+ NATIVE_PACKAGE_PATH_SUFFIX = ""
+ bindir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
+ libdir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
 -- 
 1.7.0.4
 
