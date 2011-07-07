@@ -1,34 +1,35 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qey2s-0002NW-6c for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 01:31:46 +0200
+	id 1Qey31-0002Pj-51 for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 01:31:55 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p67NRqYA011655;
-	Fri, 8 Jul 2011 00:27:52 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p67NS1OC011662
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Jul 2011 00:28:01 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 11567-01-3; Fri,  8 Jul 2011 00:27:40 +0100 (BST)
+	id 11588-01-3 for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Jul 2011 00:27:50 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p67NLmlh011065
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 8 Jul 2011 00:21:48 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p67NLlTu011064
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Jul 2011 00:21:47 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <201107071534.51372.paul.eggleton@linux.intel.com>
-References: <cover.1310044227.git.paul.eggleton@linux.intel.com>
-	<b53c3209e62b53c744afeed13e1563932770cf1f.1310044227.git.paul.eggleton@linux.intel.com>
-	<09ECC867-24F5-4CC7-8312-F00F34897B68@dominion.thruhere.net>
-	<201107071534.51372.paul.eggleton@linux.intel.com>
-Date: Fri, 08 Jul 2011 00:15:08 +0100
-Message-ID: <1310080508.20015.856.camel@rex>
+In-Reply-To: <CAMKF1srHWhp36iNaMPKBbkBNBQSSWCb7fbULP9efAsg3r29J=A@mail.gmail.com>
+References: <cover.1310070283.git.nitin.a.kamble@intel.com>
+	<629561972efd884a87edc521d0430af83511ae58.1310070283.git.nitin.a.kamble@intel.com>
+	<CAMKF1srHWhp36iNaMPKBbkBNBQSSWCb7fbULP9efAsg3r29J=A@mail.gmail.com>
+Date: Fri, 08 Jul 2011 00:12:48 +0100
+Message-ID: <1310080368.20015.855.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH 1/2] bitbake.conf: update OLDEST_KERNEL to 2.6.0
+Subject: Re: [PATCH 1/7] binutils: upgrade from 2.21 to 2.21.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,43 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2011 23:31:46 -0000
+X-List-Received-Date: Thu, 07 Jul 2011 23:31:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-07-07 at 15:34 +0100, Paul Eggleton wrote:
-> On Thursday 07 July 2011 15:24:46 Koen Kooi wrote:
-> > angstrom has been setting it to 2.6.16 for some years now, I forget which
-> > bug that fixed over 2.6.0
+On Thu, 2011-07-07 at 14:39 -0700, Khem Raj wrote:
+> On Thu, Jul 7, 2011 at 1:25 PM,  <nitin.a.kamble@intel.com> wrote:
+> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >
+> > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > ---
+> >  ...n_2.21.bb => binutils-cross-canadian_2.21.1.bb} |    0
+> >  ...tils-cross_2.21.bb => binutils-cross_2.21.1.bb} |    0
+> >  ...rosssdk_2.21.bb => binutils-crosssdk_2.21.1.bb} |    0
+> >  .../110-arm-eabi-conf.patch                        |    0
+> >  .../binutils-2.19.1-ld-sysroot.patch               |    0
+> >  .../binutils-poison.patch                          |    0
+> >  .../binutils-pr12366.patch                         |    0
+> >  .../binutils-uclibc-100-uclibc-conf.patch          |    0
+> >  ...binutils-uclibc-300-001_ld_makefile_patch.patch |    0
+> >  ...binutils-uclibc-300-006_better_file_error.patch |    0
+> >  ...ils-uclibc-300-012_check_ldrunpath_length.patch |    0
+> >  .../binutils-uclibc-gas-needs-libm.patch           |    0
+> >  .../binutils-x86_64_i386_biarch.patch              |    0
+> >  .../libiberty_path_fix.patch                       |    0
+> >  .../libtool-2.4-update.patch                       | 1725 ++++++++++----------
+> >  .../libtool-rpath-fix.patch                        |    0
+> >  .../{binutils_2.21.bb => binutils_2.21.1.bb}       |    7 +-
+> >  17 files changed, 871 insertions(+), 861 deletions(-)
+> >  rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.21.bb => binutils-cross-canadian_2.21.1.bb} (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-cross_2.21.bb => binutils-cross_2.21.1.bb} (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.21.bb => binutils-crosssdk_2.21.1.bb} (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/110-arm-eabi-conf.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-2.19.1-ld-sysroot.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-poison.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-pr12366.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-100-uclibc-conf.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-300-001_ld_makefile_patch.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-300-006_better_file_error.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-300-012_check_ldrunpath_length.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-gas-needs-libm.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-x86_64_i386_biarch.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/libiberty_path_fix.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/libtool-2.4-update.patch (94%)
+> >  rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/libtool-rpath-fix.patch (100%)
+> >  rename meta/recipes-devtools/binutils/{binutils_2.21.bb => binutils_2.21.1.bb} (87%)
+> >
 > 
-> Personally I don't know enough about which crusty old 2.6 kernels people are 
-> still using out there, so I figured 2.6.0 was the safest bet.
-> 
-> A trawl of the OE history turns up these two:
-> 
-> -----------------------------------
-> commit 8b0202e6e3f90a772df301e8522f9deb03e50132
-> Author: Tom Rini <tom_rini@mentor.com>
-> Date:   Wed Mar 3 12:17:38 2010 -0700
-> 
->     glibc*.inc: Bump OLDEST_KERNEL to 2.6.16
->     
->     Per glibc's ChangeLog, 2.6.16 is the minimum required by at least glibc
->     2.9 
->     Prior to this, it was a murky 2.6.14 + patches to 2.6.16 (when it was all
->     upstream).
-> -----------------------------------
-> commit 794e8652f5c4fef71a8b9ab834b39f75b99f9420
-> Author: Koen Kooi <koen@openembedded.org>
-> Date:   Thu May 21 20:30:37 2009 +0200
-> 
->     Angstrom 2009.X: set OLDEST_KERNEL to 2.6.16 to avoid problems with 
-> ppoll()
-> -----------------------------------
-> 
-> Any further comments/info? Should we be using 2.6.16 in oe-core as well?
+> How about changing the recipe to fetch from binutils-2_21-branch and
+> call it binutils 2.21 as it is
 
-I'd suggest yes...
+I don't really see the benefits in fetching this from the SCM?
 
 Cheers,
 
