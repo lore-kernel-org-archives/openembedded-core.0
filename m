@@ -1,24 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QekAq-0005oO-Gx
-	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jul 2011 10:43:04 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Jul 2011 01:39:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,492,1304319600"; d="scan'208";a="27331452"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.71])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2011 01:39:11 -0700
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jul 2011 16:39:15 +0800
-Message-Id: <cb76f021571c5f35239192ff05eb89cab4713d04.1310027619.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1310027619.git.dexuan.cui@intel.com>
-References: <cover.1310027619.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1310027619.git.dexuan.cui@intel.com>
-References: <cover.1310027619.git.dexuan.cui@intel.com>
-Subject: [PATCH 1/1] powertop: inherit update-alternatives and use a higher priority than busybox
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QelK3-0007yh-AU for openembedded-core@lists.openembedded.org;
+	Thu, 07 Jul 2011 11:57:19 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p679qmZC026592
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 7 Jul 2011 10:52:48 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26468-02 for <openembedded-core@lists.openembedded.org>;
+	Thu,  7 Jul 2011 10:52:44 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p679qcma026586
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 7 Jul 2011 10:52:39 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <cover.1309899985.git.raj.khem@gmail.com>
+References: <cover.1309899985.git.raj.khem@gmail.com>
+Date: Thu, 07 Jul 2011 10:52:01 +0100
+Message-ID: <1310032322.20015.807.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/5] Add recipes for 0.9.32 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2011 08:43:04 -0000
+X-List-Received-Date: Thu, 07 Jul 2011 09:57:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-busybox-1.18.4 installs /bin/powertop and the powertop recipe installs
-/usr/bin/powertop. So, in PATH, if /bin appears before /usr/bin, we would
-run the version offered by busybox, which has a very limited function (e.g.,
-no parameter is accepted) and this causes trouble to eclipse plugin.
+On Tue, 2011-07-05 at 14:09 -0700, Khem Raj wrote:
+> With this changeset we add new recipes for 0.9.32 and make that default
+> preference. Then the git recipe are moved to track the latest master.
+> systemd related fixes are separately applied to both git recipe and 0.9.32
+> recipes
+> 
+> Both sets work for arm,mips,ppc,x86,x86-64
+> 
+> Thanks
+> -Khem
+> 
+> 
+> The following changes since commit 4eb3abaa5f4b5df0314dc0d503298d65cd203259:
+> 
+>   uclibc-0.9.32: Implement execvpe and refresh scheduler functions (2011-07-05 13:53:05 -0700)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-0.9.32
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-0.9.32
+> 
+> Khem Raj (5):
+>   uclibc: Add recipes for 0.9.32 release
+>   tcmode-default: Define UCLIBCVERSION and set it to 0.9.32
+>   uclibc_git: Move SRCREV past 0.9.32 release
+>   uclibc_git: Implement execvpe and refresh scheduler functions
+>   uclibc-0.9.32: Implement execvpe and refresh scheduler functions
 
-We can use update-alternatives for powertop with higher priority to resolve
-the issue.
+Merged to master, thanks.
 
-Fixes [YOCTO #1208]
-
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- meta/recipes-kernel/powertop/powertop_1.13.bb |    8 +++++++-
- 1 files changed, 7 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-kernel/powertop/powertop_1.13.bb b/meta/recipes-kernel/powertop/powertop_1.13.bb
-index dff4fcd..472a2bb 100644
---- a/meta/recipes-kernel/powertop/powertop_1.13.bb
-+++ b/meta/recipes-kernel/powertop/powertop_1.13.bb
-@@ -11,7 +11,7 @@ DEPENDS = "virtual/libintl ncurses"
- # powertop 1.13 needs lspci
- RDEPENDS_${PN} = "pciutils"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "http://www.lesswatts.org/projects/powertop/download/powertop-${PV}.tar.gz \
-            file://stub_out_the_ncurses_calls_in_dump_mode.patch"
-@@ -22,6 +22,12 @@ SRC_URI[sha256sum] = "2bc866089496877dd26d2d316ad5763ab8ecb5e28aefba44bc5d355dcd
- CFLAGS += "${LDFLAGS}"
- EXTRA_OEMAKE = "VERSION=\"${PV}\""
- 
-+inherit update-alternatives
-+ALTERNATIVE_NAME = "powertop"
-+ALTERNATIVE_PATH = "${bindir}/powertop"
-+ALTERNATIVE_LINK = "${base_bindir}/powertop"
-+ALTERNATIVE_PRIORITY = "100"
-+
- do_configure() {
- 	# We do not build ncurses with wide char support
- 	sed -i -e "s/lncursesw/lncurses/" ${S}/Makefile
--- 
-1.7.6
+Richard
 
 
 
