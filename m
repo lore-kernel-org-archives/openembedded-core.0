@@ -1,26 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Qer9I-0001lg-Gj for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jul 2011 18:09:56 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Qer5b-0005mi-5Y; Thu, 07 Jul 2011 18:06:07 +0200
-From: Phil Blundell <pb@pbcl.net>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Thu, 07 Jul 2011 17:06:06 +0100
-In-Reply-To: <201107071611.03605.paul.eggleton@linux.intel.com>
-References: <1309881139.2410.14.camel@phil-desktop>
-	<4E14F23C.5050001@linux.intel.com>
-	<1310050317.6337.87.camel@phil-desktop>
-	<201107071611.03605.paul.eggleton@linux.intel.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1310054767.6337.96.camel@phil-desktop>
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QerHZ-0001rF-V7
+	for openembedded-core@lists.openembedded.org;
+	Thu, 07 Jul 2011 18:18:30 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 07 Jul 2011 09:14:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,494,1304319600"; d="scan'208";a="24536843"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by orsmga001.jf.intel.com with ESMTP; 07 Jul 2011 09:14:26 -0700
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx604.amr.corp.intel.com ([10.250.113.17]) with mapi;
+	Thu, 7 Jul 2011 09:14:26 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bluez-dtl1-workaround: remove PRIORITY
+Date: Thu, 7 Jul 2011 09:14:24 -0700
+Thread-Topic: [OE-core] [PATCH 6/8] perl: fix for non /usr/lib libdir case
+Thread-Index: Acw8sQbbd4ncRPCzQWCXJXhvF6io+AAD9zBQ
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94DE225C36@orsmsx504.amr.corp.intel.com>
+References: <cover.1310047266.git.ke.yu@intel.com>
+	<997e3b4b171cae48b81a47536a27cc81f4d620a6.1310047266.git.ke.yu@intel.com>
+In-Reply-To: <997e3b4b171cae48b81a47536a27cc81f4d620a6.1310047266.git.ke.yu@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 6/8] perl: fix for non /usr/lib libdir case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,32 +42,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2011 16:09:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Jul 2011 16:18:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2011-07-07 at 16:11 +0100, Paul Eggleton wrote:
-> On Thursday 07 July 2011 15:51:54 Phil Blundell wrote:
-> > On Wed, 2011-07-06 at 16:39 -0700, Saul Wold wrote:
-> > > I will take a patch that deletes from here and adds it into the
-> > > meta-extra's layer.
-> > 
-> > OK.  What's meta-extra's?  I don't think I'm familiar with that layer.
-> 
-> It's a Yocto layer that has been traditionally the place to preserve obsolete 
-> stuff that was removed from Poky.
-> 
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-extras/
+Hi Ke,=20
+   Is this for multilib ?
 
-Ah, right, I see.
-
-I've just sent a patch to this list to delete the recipe from oe-core.
-I don't know where (or how) to send patches for meta-extras, but I guess
-applying patch 2/2 in reverse against that repo would produce the
-desired effect should anybody wish to do so.
-
-p.
+Nitin
 
 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Yu Ke
+> Sent: Thursday, July 07, 2011 7:10 AM
+> To: openembedded-core@lists.openembedded.org;
+> richard.purdie@linuxfoundation.org
+> Subject: [OE-core] [PATCH 6/8] perl: fix for non /usr/lib libdir case
+>=20
+> the config.sh is hardcoded to be /usr/lib, which does not work in non
+> /usr/lib libdir case.
+>=20
+> This patch replace the hard code /usr/lib with ${libdir} to fix this
+> issue
+>=20
+> Signed-off-by: Yu Ke <ke.yu@intel.com>
+> ---
+>  meta/recipes-devtools/perl/perl_5.12.3.bb |    3 ++-
+>  1 files changed, 2 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/perl/perl_5.12.3.bb b/meta/recipes-
+> devtools/perl/perl_5.12.3.bb
+> index b053482..88dcfdd 100644
+> --- a/meta/recipes-devtools/perl/perl_5.12.3.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.12.3.bb
+> @@ -8,7 +8,7 @@ PRIORITY =3D "optional"
+>  # We need gnugrep (for -I)
+>  DEPENDS =3D "virtual/db grep-native"
+>  DEPENDS +=3D "gdbm zlib"
+> -PR =3D "r1"
+> +PR =3D "r2"
+>=20
+>  # 5.10.1 has Module::Build built-in
+>  PROVIDES +=3D "libmodule-build-perl"
+> @@ -150,6 +150,7 @@ do_configure() {
+>                 -e 's,@ARCH@-thread-multi,,g' \
+>                 -e 's,@ARCH@,${TARGET_ARCH}-${TARGET_OS},g' \
+>                 -e "s%/usr/include%${STAGING_INCDIR}%g" \
+> +	       -e 's,/usr/lib/,${libdir}/,g' \
+>  	       -e 's,/usr/,${exec_prefix}/,g' \
+>  	       -e 's,/perl5,/perl,g' \
+>              config.sh-${TARGET_ARCH}-${TARGET_OS}
+> --
+> 1.7.0.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
