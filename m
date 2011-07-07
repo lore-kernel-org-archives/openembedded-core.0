@@ -1,31 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qey4u-0002Ru-C1 for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 01:33:52 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p67NU0PK011947;
-	Fri, 8 Jul 2011 00:30:00 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 11856-01-4; Fri,  8 Jul 2011 00:29:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p67JN2Ij025226
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 7 Jul 2011 20:23:02 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yu Ke <ke.yu@intel.com>
-In-Reply-To: <46e97fb7d91eecd7e874e65a59b88a1e51ca131f.1310047266.git.ke.yu@intel.com>
-References: <cover.1310047266.git.ke.yu@intel.com>
-	<46e97fb7d91eecd7e874e65a59b88a1e51ca131f.1310047266.git.ke.yu@intel.com>
-Date: Thu, 07 Jul 2011 20:22:25 +0100
-Message-ID: <1310066545.20015.844.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/8] python: fix for libdir=/usr/lib64 case
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1Qey6f-0002Ta-LD
+	for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 01:35:41 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 07 Jul 2011 16:31:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,496,1304319600"; d="scan'208";a="22846262"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.236])
+	by orsmga002.jf.intel.com with ESMTP; 07 Jul 2011 16:31:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Jul 2011 16:31:32 -0700
+Message-Id: <cover.1310081443.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 0/8] Bug Fixes for M2 Rc2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,54 +29,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2011 23:33:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Jul 2011 23:35:41 -0000
 
-On Thu, 2011-07-07 at 22:10 +0800, Yu Ke wrote:
-> python has several place hard code "lib" which breaks build
-> when libdir=/usr/lib64. SUSE has a patch to fix this issue.
-> 
-> So this patch add the SUSE patch to address this issue
-> 
-> Signed-off-by: Yu Ke <ke.yu@intel.com>
-[...]
-> ++AC_SUBST(LIB)
-> ++AC_MSG_CHECKING(LIB)
-> ++case $ac_sys_system in
-> ++Linux*)
-> ++  # Test if the compiler is 64bit
-> ++  echo 'int i;' > conftest.$ac_ext
-> ++  python_cv_cc_64bit_output=no
-> ++  if AC_TRY_EVAL(ac_compile); then
-> ++    case `/usr/bin/file conftest.$ac_objext` in
-> ++    *"ELF 64"*)
-> ++      python_cv_cc_64bit_output=yes
-> ++      ;;
-> ++    esac
-> ++  fi
-> ++  rm -rf conftest*
-> ++  ;;
-> ++esac
-> ++
-> ++case $ARCH:$python_cv_cc_64bit_output in
-> ++ppc64:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes)
-> ++  LIB="lib64"
-> ++  ;;
-> ++*:*)
-> ++  LIB="lib"
-> ++  ;;
-> ++esac
-> ++AC_MSG_RESULT($LIB)
-> + 
+Richard,
 
-This patch is good apart from this bit. I think we need to be able to
-pass in our own string to use here which we derive from the libdir
-variable...
+This address the bash, xcb missing from libx11, locale issue and
+the lack of space due to zypper eating space.
 
-Cheers,
+Sau!
 
-Richard
+
+The following changes since commit f1fc6d084b079dea21ff1a30b815496452042490:
+
+  pulseaudio: add 0.9.23 (2011-07-07 13:44:36 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (8):
+  rootfs_rpm: Add 50Meg to image size for zypper
+  image.bbclass: add LINGUAS_INSTALL to depends list
+  gnome-doc-utils: Add RDEPENDS on bash
+  quilt: Add RDEPENDS on bash
+  console-tools: Add RDEPENDS on bash
+  usbutils: Add RDEPENDS on bash
+  eglibc: Add RDEPENDS on bash
+  libx11: enable xcb support
+
+ meta/classes/image.bbclass                         |    2 +-
+ meta/classes/image_types.bbclass                   |    2 +-
+ meta/classes/rootfs_rpm.bbclass                    |    5 +++++
+ meta/recipes-bsp/usbutils/usbutils_0.91.bb         |    5 +++--
+ .../console-tools/console-tools_0.3.2.bb           |    3 ++-
+ meta/recipes-core/eglibc/eglibc-package.inc        |    2 +-
+ meta/recipes-core/eglibc/eglibc.inc                |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.12.bb            |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |    2 +-
+ meta/recipes-devtools/quilt/quilt.inc              |    2 ++
+ meta/recipes-devtools/quilt/quilt_0.48.bb          |    2 +-
+ meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    2 ++
+ meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb |    2 +-
+ meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb     |   11 ++++++++---
+ 14 files changed, 30 insertions(+), 14 deletions(-)
+
+-- 
+1.7.3.4
 
 
 
