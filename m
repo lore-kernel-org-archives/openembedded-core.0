@@ -1,29 +1,31 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qeo9H-0004QM-4Y
-	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jul 2011 14:57:43 +0200
-Received: by wyg30 with SMTP id 30so712995wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jul 2011 05:53:51 -0700 (PDT)
-Received: by 10.227.11.67 with SMTP id s3mr698464wbs.62.1310043231556;
-	Thu, 07 Jul 2011 05:53:51 -0700 (PDT)
-Received: from [10.75.16.17] ([192.91.60.196])
-	by mx.google.com with ESMTPS id gd1sm2189233wbb.10.2011.07.07.05.53.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 07 Jul 2011 05:53:50 -0700 (PDT)
-References: <1309951628-11896-1-git-send-email-koen@dominion.thruhere.net>
-	<1310042708.20015.829.camel@rex>
-In-Reply-To: <1310042708.20015.829.camel@rex>
-Mime-Version: 1.0 (iPhone Mail 8J2)
-Message-Id: <23DBF851-35A1-41DC-A709-405C6CB87B0B@dominion.thruhere.net>
-X-Mailer: iPhone Mail (8J2)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Thu, 7 Jul 2011 13:53:48 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QeoSz-0005IK-Kp for openembedded-core@lists.openembedded.org;
+	Thu, 07 Jul 2011 15:18:06 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p67ChT8w027920;
+	Thu, 7 Jul 2011 13:43:29 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27869-02; Thu,  7 Jul 2011 13:43:25 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p67ChJ16027914
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 7 Jul 2011 13:43:20 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pulseaudio: add 0.9.23
+In-Reply-To: <1309885051-17651-1-git-send-email-koen@dominion.thruhere.net>
+References: <1309885051-17651-1-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 07 Jul 2011 13:42:43 +0100
+Message-ID: <1310042563.20015.828.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] pulseaudio: disable HAL support and enable udev support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,56 +40,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2011 12:57:43 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Thu, 07 Jul 2011 13:18:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When I get back to my proper desk next week I'm going to test more devices a=
-nd send patches to remove .15 and .22 or fixes for .23 and removal patches a=
-fter that
+On Tue, 2011-07-05 at 18:57 +0200, Koen Kooi wrote:
+> HAL is deprecated and udev should be used with pulseaudio 0.9.22. THe .23 release from 2 weeks ago already removed HAL support.
+> 
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 
-Op 7 jul. 2011 om 13:45 heeft Richard Purdie <richard.purdie@linuxfoundation=
-.org> het volgende geschreven:
+Merged to master, thanks.
 
-> On Wed, 2011-07-06 at 13:27 +0200, Koen Kooi wrote:
->> Older version have been retained to allow more testing of this release
->>=20
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->> ---
->> .../pulseaudio-0.9.23/autoconf_version.patch       |   17 ++++++++++
->> .../pulseaudio/pulseaudio-0.9.23/buildfix.patch    |   17 ++++++++++
->> .../pulseaudio-0.9.23/configure_silent_rules.patch |   33 +++++++++++++++=
-++++
->> .../pulseaudio-0.9.23/gcc4-compile-fix.patch       |   22 +++++++++++++
->> .../pulseaudio/pulseaudio-0.9.23/tls_m4.patch      |   34 +++++++++++++++=
-+++++
->> .../pulseaudio-0.9.23/volatiles.04_pulse           |    2 +
->> meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    2 +-
->> .../pulseaudio/pulseaudio_0.9.23.bb                |   25 ++++++++++++++
->> 8 files changed, 151 insertions(+), 1 deletions(-)
->> create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/a=
-utoconf_version.patch
->> create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/b=
-uildfix.patch
->> create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/c=
-onfigure_silent_rules.patch
->> create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/g=
-cc4-compile-fix.patch
->> create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/t=
-ls_m4.patch
->> create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.23/v=
-olatiles.04_pulse
->> create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.b=
-b
->=20
-> I've merged this, thanks.
->=20
-> One question though: How/when do we remove the old version?
->=20
-> Cheers,
->=20
-> Richard
->=20
+Richard
+
 
 
