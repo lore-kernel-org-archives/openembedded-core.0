@@ -1,24 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QepXD-00076o-FH
+	(envelope-from <koen@dominion.thruhere.net>) id 1QepZK-0007DF-CU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jul 2011 16:26:31 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 07 Jul 2011 07:22:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,493,1304319600"; d="scan'208";a="22647086"
-Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
-	by orsmga002.jf.intel.com with ESMTP; 07 Jul 2011 07:22:38 -0700
-From: Yu Ke <ke.yu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jul 2011 22:22:11 +0800
-Message-Id: <5d74762c2631c97aee2bbebc5e0baf56fa4ed1ad.1310048449.git.ke.yu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1310048449.git.ke.yu@intel.com>
-References: <cover.1310048449.git.ke.yu@intel.com>
-In-Reply-To: <cover.1310048449.git.ke.yu@intel.com>
-References: <cover.1310048449.git.ke.yu@intel.com>
-Subject: [PATCH 1/1] sato-sdk: add clutter for sato-sdk image
+	Thu, 07 Jul 2011 16:28:42 +0200
+Received: by wyg30 with SMTP id 30so784998wyg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Jul 2011 07:24:50 -0700 (PDT)
+Received: by 10.227.127.135 with SMTP id g7mr781968wbs.96.1310048690568;
+	Thu, 07 Jul 2011 07:24:50 -0700 (PDT)
+Received: from [10.75.16.17] ([192.91.60.196])
+	by mx.google.com with ESMTPS id gb1sm6929169wbb.3.2011.07.07.07.24.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 07 Jul 2011 07:24:49 -0700 (PDT)
+References: <cover.1310044227.git.paul.eggleton@linux.intel.com>
+	<b53c3209e62b53c744afeed13e1563932770cf1f.1310044227.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <b53c3209e62b53c744afeed13e1563932770cf1f.1310044227.git.paul.eggleton@linux.intel.com>
+Mime-Version: 1.0 (iPhone Mail 8J2)
+Message-Id: <09ECC867-24F5-4CC7-8312-F00F34897B68@dominion.thruhere.net>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPhone Mail (8J2)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 7 Jul 2011 15:24:46 +0100
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] bitbake.conf: update OLDEST_KERNEL to 2.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +39,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2011 14:26:31 -0000
+X-List-Received-Date: Thu, 07 Jul 2011 14:28:42 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Yocto ADT has Eclips clutter template, so it is better to have
-clutter in SDK image to support ADT. this patch add clutter
-and clutter-box2d app to sato-sdk image for this purpose
+angstrom has been setting it to 2.6.16 for some years now, I forget which bu=
+g that fixed over 2.6.0
 
-Fix [YOCTO #891]
+Op 7 jul. 2011 om 14:11 heeft Paul Eggleton <paul.eggleton@linux.intel.com> h=
+et volgende geschreven:
 
-Signed-off-by: Yu Ke <ke.yu@intel.com>
----
- meta/recipes-core/tasks/task-core-tools.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-core/tasks/task-core-tools.bb b/meta/recipes-core/tasks/task-core-tools.bb
-index 4a98b0f..44520a7 100644
---- a/meta/recipes-core/tasks/task-core-tools.bb
-+++ b/meta/recipes-core/tasks/task-core-tools.bb
-@@ -82,4 +82,6 @@ RDEPENDS_task-core-tools-testapps = "\
-     xrestop \
-     xwininfo \
-     xprop \
--    xvideo-tests"
-+    xvideo-tests \
-+    clutter-box2d-1.6 \
-+    "
--- 
-1.7.0.4
-
+> Since we no longer support 2.4, update this setting to 2.6.0. (This affect=
+s
+> eglibc's kernel support).
+>=20
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+> meta/conf/bitbake.conf |    2 +-
+> 1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index bdaa35d..56a867b 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -349,7 +349,7 @@ SDKPATHNATIVE =3D "${SDKPATH}/sysroots/${SDK_SYS}"
+> # Kernel info.
+> ##################################################################
+>=20
+> -OLDEST_KERNEL =3D "2.4.0"
+> +OLDEST_KERNEL =3D "2.6.0"
+> STAGING_KERNEL_DIR =3D "${STAGING_DIR_HOST}/kernel"
+>=20
+> ##################################################################
+> --=20
+> 1.7.4.1
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
