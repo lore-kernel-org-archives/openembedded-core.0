@@ -1,32 +1,20 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QewOI-0008I1-VP
+	(envelope-from <jessica.zhang@intel.com>) id 1QexeW-0001k1-Ae
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jul 2011 23:45:47 +0200
-Received: by pvf24 with SMTP id 24so788620pvf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jul 2011 14:41:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=lQD4LVwKh6FomMACNMYUfgRmAABDxWLIS4vhdapQ9Js=;
-	b=hG0jNjfuU1M0mD3LzfcFMhNCv5chriUhlgJ9x1RG+ZeRB3a7AvxoC4buJSJFLnfOvU
-	SiiPdSYstxESi4Zw79un3O65EnnxYEFahUOOZ7Id5bBwlEvTjhPBUQUoXLF8Tms/kfSm
-	jqlbYnyDNKzLaNRUcA91GY3UvAQ7fy70fa3zM=
-Received: by 10.68.8.136 with SMTP id r8mr1587722pba.498.1310074912079; Thu,
-	07 Jul 2011 14:41:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.57.104 with HTTP; Thu, 7 Jul 2011 14:41:22 -0700 (PDT)
-In-Reply-To: <1310071349.18564.2.camel@lenovo.internal.reciva.com>
-References: <629561972efd884a87edc521d0430af83511ae58.1310070283.git.nitin.a.kamble@intel.com>
-	<24e836176430410a91d0c18fcef0854536798766.1310070283.git.nitin.a.kamble@intel.com>
-	<1310071349.18564.2.camel@lenovo.internal.reciva.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 7 Jul 2011 14:41:22 -0700
-Message-ID: <CAMKF1srLZ2XZxss7h_FAy3nkuBY29qL+K_S4nd2a0Ra-mzmyjg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/7] eglibc: fix installed but not packaged files
+	Fri, 08 Jul 2011 01:06:36 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 07 Jul 2011 16:02:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,496,1304319600"; d="scan'208";a="24671578"
+Received: from jzhang-desktop.jf.intel.com (HELO localhost) ([10.7.201.178])
+	by orsmga001.jf.intel.com with ESMTP; 07 Jul 2011 16:02:40 -0700
+From: Jessica Zhang <jessica.zhang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Jul 2011 16:23:38 -0700
+Message-Id: <cover.1310080780.git.jessica.zhang@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/1] [bug 1195] site/mips-common: Cache cvs_cv_func_printf_ptr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,36 +29,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2011 21:45:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 07 Jul 2011 23:06:36 -0000
 
-On Thu, Jul 7, 2011 at 1:42 PM, Phil Blundell <pb@pbcl.net> wrote:
-> On Thu, 2011-07-07 at 13:25 -0700, nitin.a.kamble@intel.com wrote:
->> -FILES_${PN} =3D "${libc_baselibs} ${libexecdir}/* ${@base_conditional('=
-USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf', ''=
-, d)}"
->> +FILES_${PN} =3D "${libc_baselibs} ${libexecdir}/* ${sysconfdir}/rpc ${@=
-base_conditional('USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdi=
-r}/ld.so.conf', '', d)}"
->
-> I don't think we want /etc/rpc in libc6, it's just a waste of space if
-> you aren't using sunrpc. =C2=A0Nobody has missed it thus far so I would b=
-e
-> inclined to delete it, but it could go in a package of its own if there
-> is a feeling that it's valuable.
+The following changes since commit c412674cf818e77e35857fb93353e392e7ac9e53:
+  Khem Raj (1):
+        package.bbclass,prserv.bbclass: Compare USE_PR_SERV with "1" or "0"
 
-Moreover sun rpc is now obsolete in glibc 2.14 onwards so probably
-removing it from package is right thing to do.
->
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jzhang/1195
+  http://git.yoctoproject.org/cgit.cgi//log/?h=jzhang/1195
+
+Khem Raj (1):
+  [bug 1195] site/mips-common: Cache cvs_cv_func_printf_ptr
+
+ meta/site/mips-common |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
 
 
