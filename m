@@ -1,25 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QepLl-0006n7-Pq
+	(envelope-from <ke.yu@intel.com>) id 1QepLo-0006qP-Ir
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jul 2011 16:14:42 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Jul 2011 07:10:49 -0700
+	Thu, 07 Jul 2011 16:14:45 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Jul 2011 07:10:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,493,1304319600"; d="scan'208";a="24941230"
+X-IronPort-AV: E=Sophos;i="4.65,493,1304319600"; d="scan'208";a="27433676"
 Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Jul 2011 07:10:48 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2011 07:10:51 -0700
 From: Yu Ke <ke.yu@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
-Date: Thu,  7 Jul 2011 22:10:09 +0800
-Message-Id: <62250b51e3d074024356a5ca6615d88e7e78b84e.1310047266.git.ke.yu@intel.com>
+Date: Thu,  7 Jul 2011 22:10:11 +0800
+Message-Id: <ea1d9f856cc64ca79c40ca7bc6513f04c78eeff9.1310047266.git.ke.yu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1310047266.git.ke.yu@intel.com>
 References: <cover.1310047266.git.ke.yu@intel.com>
 In-Reply-To: <cover.1310047266.git.ke.yu@intel.com>
 References: <cover.1310047266.git.ke.yu@intel.com>
-Subject: [PATCH 5/8] python-native: fix for non /usr/lib libdir case
+Subject: [PATCH 7/8] libcap: fix for non /usr/lib libdir case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,76 +34,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jul 2011 14:14:42 -0000
+X-List-Received-Date: Thu, 07 Jul 2011 14:14:46 -0000
 
-the get_python_lib() use hard code "lib". when other recipe
-building use python-native, the STAGING_LIBDIR is non /usr/lib,
-so the hard code "lib" will break the build
+the recipe has hardcoded "lib=lib", which does not work in
+libdir=/usr/lib64 case where should be "lib=lib64",
 
-This patch replace the hardcoded "lib" with value from libdir
-to fix this issue.
+So this patch fix it by replacing lib with libdir
 
 Signed-off-by: Yu Ke <ke.yu@intel.com>
 ---
- ...2-distutils-prefix-is-inside-staging-area.patch |   15 +++++++++++----
- .../recipes-devtools/python/python-native_2.6.6.bb |    2 +-
- 2 files changed, 12 insertions(+), 5 deletions(-)
+ meta/recipes-support/libcap/libcap.inc     |    5 +++--
+ meta/recipes-support/libcap/libcap_2.20.bb |    2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-index 9532eb3..8e721fe 100644
---- a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-+++ b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
-@@ -30,19 +30,26 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
-  
-      if os.name == "posix":
-          if python_build:
--@@ -116,7 +119,10 @@ def get_python_lib(plat_specific=0, stan
-+@@ -115,12 +118,16 @@ def get_python_lib(plat_specific=0, stan
-+     If 'prefix' is supplied, use it instead of sys.prefix or
-      sys.exec_prefix -- i.e., ignore 'plat_specific'.
-      """
-++    lib_basename = os.getenv("libdir").split('/')[-1]
-      if prefix is None:
- -        prefix = plat_specific and EXEC_PREFIX or PREFIX
- +        if plat_specific:
--+            prefix = plat_specific and os.environ['STAGING_LIBDIR'].rstrip('lib')
-++            prefix = plat_specific and os.environ['STAGING_LIBDIR'].rstrip(lib_basename)
- +        else:
- +            prefix = plat_specific and EXEC_PREFIX or PREFIX
-  
-      if os.name == "posix":
-          libpython = os.path.join(prefix,
--@@ -216,7 +222,7 @@ def get_config_h_filename():
-+-                                 "lib", "python" + get_python_version())
-++                                 lib_basename, "python" + get_python_version())
-+         if standard_lib:
-+             return libpython
-+         else:
-+@@ -216,7 +223,7 @@ def get_config_h_filename():
-      else:
-          # The name of the config.h file changed in 2.2
-          config_h = 'pyconfig.h'
-@@ -51,7 +58,7 @@ Index: Python-2.6.6/Lib/distutils/sysconfig.py
-  
-  
-  def get_makefile_filename():
--@@ -225,7 +231,7 @@ def get_makefile_filename():
-+@@ -225,7 +232,7 @@ def get_makefile_filename():
-          return os.path.join(os.path.dirname(os.path.realpath(sys.executable)),
-                              "Makefile")
-      lib_dir = get_python_lib(plat_specific=1, standard_lib=1)
-diff --git a/meta/recipes-devtools/python/python-native_2.6.6.bb b/meta/recipes-devtools/python/python-native_2.6.6.bb
-index 0f9ae10..fa943f4 100644
---- a/meta/recipes-devtools/python/python-native_2.6.6.bb
-+++ b/meta/recipes-devtools/python/python-native_2.6.6.bb
+diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
+index 93bdf95..3bff3b9 100644
+--- a/meta/recipes-support/libcap/libcap.inc
++++ b/meta/recipes-support/libcap/libcap.inc
+@@ -20,8 +20,9 @@ do_configure() {
+ 	sed -e 's,BUILD_CFLAGS ?=,BUILD_CFLAGS := $(BUILD_CFLAGS),' -i Make.Rules
+ }
+ 
+-EXTRA_OEMAKE = "LIBATTR=yes PAM_CAP=yes INDENT= lib=lib SYSTEM_HEADERS=${STAGING_INCDIR} RAISE_SETFCAP=no"
+-EXTRA_OEMAKE_virtclass-native = "LIBATTR=no PAM_CAP=no INDENT= lib=lib"
++EXTRA_OEMAKE = "LIBATTR=yes PAM_CAP=yes INDENT= SYSTEM_HEADERS=${STAGING_INCDIR} RAISE_SETFCAP=no"
++EXTRA_OEMAKE_virtclass-native = "LIBATTR=no PAM_CAP=no INDENT= "
++EXTRA_OEMAKE += " lib=${@os.path.basename('${libdir}')}"
+ 
+ do_compile() {
+ 	oe_runmake
+diff --git a/meta/recipes-support/libcap/libcap_2.20.bb b/meta/recipes-support/libcap/libcap_2.20.bb
+index ab3638a..c9741c2 100644
+--- a/meta/recipes-support/libcap/libcap_2.20.bb
++++ b/meta/recipes-support/libcap/libcap_2.20.bb
 @@ -1,6 +1,6 @@
- require python.inc
- DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
+ require libcap.inc
  
- LIC_FILES_CHKSUM = "file://LICENSE;md5=38fdd546420fab09ac6bd3d8a1c83eb6"
+-PR = "r1"
++PR = "r2"
  
+ SRC_URI[md5sum] = "10e47ed32ca2214eb0e58780282d27b4"
+ SRC_URI[sha256sum] = "20e7c1ea4d3d5c410efb3a6ff138dc417912fae316d883460dcd58d9803a9220"
 -- 
 1.7.0.4
 
