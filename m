@@ -1,31 +1,32 @@
-Received: from mail-fx0-f51.google.com ([209.85.161.51])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qf5Xe-0004At-3n
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1Qf5bC-0004Dn-Lq
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 09:32:02 +0200
-Received: by fxh10 with SMTP id 10so2033815fxh.10
+	Fri, 08 Jul 2011 09:35:42 +0200
+Received: by yxi19 with SMTP id 19so743889yxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2011 00:28:09 -0700 (PDT)
-Received: by 10.223.41.156 with SMTP id o28mr2652208fae.11.1310110089696;
-	Fri, 08 Jul 2011 00:28:09 -0700 (PDT)
-Received: from [10.105.55.80] (62-50-199-254.client.stsn.net [62.50.199.254])
-	by mx.google.com with ESMTPS id
-	v20sm7201739fai.31.2011.07.08.00.28.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 08 Jul 2011 00:28:08 -0700 (PDT)
+	Fri, 08 Jul 2011 00:31:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=oGWfpW2QbDh6v1jwANpgkwwAnLoQ903aJBYBAnprYLU=;
+	b=et6fPosQryH1GJWnE132SZYwWthxzkWQyyCqz8zqazXrEV5ndAorvDBJs6rpYXZq+Q
+	9nEY5/9f8tB6y/L5IrUNUSA0Srv1y6wrjr9h2QD0rBGb67NeSAzhQFGC0xM98ETZk+Xc
+	NftHrcvOMJscVNOxMZu8W0lLR2Hrx3G7j/+so=
+MIME-Version: 1.0
+Received: by 10.91.65.16 with SMTP id s16mr1709547agk.90.1310109838284; Fri,
+	08 Jul 2011 00:23:58 -0700 (PDT)
+Received: by 10.91.220.7 with HTTP; Fri, 8 Jul 2011 00:23:58 -0700 (PDT)
+In-Reply-To: <A538C871-F8A8-4F13-BAD7-F883E76EF0C5@dominion.thruhere.net>
 References: <cover.1310081443.git.sgw@linux.intel.com>
-	<5058763548021532f1b569c63fefd996c4748c1d.1310081443.git.sgw@linux.intel.com>
-In-Reply-To: <5058763548021532f1b569c63fefd996c4748c1d.1310081443.git.sgw@linux.intel.com>
-Mime-Version: 1.0 (iPhone Mail 8J2)
-Message-Id: <9519878B-1008-4E50-BC78-F7AF3E14B24D@dominion.thruhere.net>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPhone Mail (8J2)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 8 Jul 2011 08:28:05 +0100
+	<d188228df9d99be77ec2b3becc354a1fc905ab65.1310081443.git.sgw@linux.intel.com>
+	<CACW_hTYw_nBv=fftJOevnoDCpXXN5OuuGzgT9AXOSziGDaqprA@mail.gmail.com>
+	<A538C871-F8A8-4F13-BAD7-F883E76EF0C5@dominion.thruhere.net>
+Date: Fri, 8 Jul 2011 09:23:58 +0200
+Message-ID: <CACW_hTbw_H3ibSkoWvLXwk99-C-u4z4k95XNQZUeyY8VB4sAPQ@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/8] usbutils: Add RDEPENDS on bash
+Subject: Re: [PATCH 7/8] eglibc: Add RDEPENDS on bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,54 +41,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 07:32:02 -0000
+X-List-Received-Date: Fri, 08 Jul 2011 07:35:42 -0000
+Content-Type: multipart/alternative; boundary=0016e650a4fc87174304a789b76d
+
+--0016e650a4fc87174304a789b76d
+Content-Type: text/plain; charset=ISO-8859-1
+
+2011/7/8 Koen Kooi <koen@dominion.thruhere.net>
+
+>
+>
+> Op 8 jul. 2011 om 07:53 heeft Frans Meulenbroeks <
+> fransmeulenbroeks@gmail.com> het volgende geschreven:
+>
+>
+>> -#RDEPENDS_ldd +=" bash"
+>> +RDEPENDS_ldd +=" bash"
+>>
+>
+> Ah ok, now see that this is only for ldd.
+> In that case the commit message is misleading. (and probably also not
+> conformant with the commit message policy).
+>
+>
+> there's an ldd-unbash patch in . dev
+>
+>
+> Seems to me that that is a better alternative then
+
+Frans
+
+--0016e650a4fc87174304a789b76d
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-iirc only the ids package depends on bash, and only to check for wget. Fixin=
-g the update script would be better
+<br><br><div class=3D"gmail_quote">2011/7/8 Koen Kooi <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:koen@dominion.thruhere.net">koen@dominion.thruhere.net</=
+a>&gt;</span><br><blockquote class=3D"gmail_quote" style=3D"margin: 0pt 0pt=
+ 0pt 0.8ex; border-left: 1px solid rgb(204, 204, 204); padding-left: 1ex;">
+<div bgcolor=3D"#FFFFFF"><div><br><br>Op 8 jul. 2011 om 07:53 heeft Frans M=
+eulenbroeks &lt;<a href=3D"mailto:fransmeulenbroeks@gmail.com" target=3D"_b=
+lank">fransmeulenbroeks@gmail.com</a>&gt; het volgende geschreven:<br><br><=
+/div>
+<div><div class=3D"h5"><blockquote type=3D"cite"><div><div class=3D"gmail_q=
+uote"><blockquote class=3D"gmail_quote" style=3D"margin: 0pt 0pt 0pt 0.8ex;=
+ border-left: 1px solid rgb(204, 204, 204); padding-left: 1ex;"><br>
+-#RDEPENDS_ldd +=3D&quot; bash&quot;<br>
++RDEPENDS_ldd +=3D&quot; bash&quot;<br></blockquote><div><br>Ah ok, now see=
+ that this is only for ldd.<br>In that case the commit message is misleadin=
+g. (and probably also not conformant with the commit message policy).<br>
 
-Op 8 jul. 2011 om 00:31 heeft Saul Wold <sgw@linux.intel.com> het volgende g=
-eschreven:
+<br></div></div></div></blockquote><div><br></div></div></div><div>there&#3=
+9;s an ldd-unbash patch in . dev</div><div><div></div><div class=3D"h5"><di=
+v><br></div><br></div></div></div></blockquote><div>Seems to me that that i=
+s a better alternative then <br>
+<br>Frans<br></div></div>
 
-> [YOCTO #1214]
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> meta/recipes-bsp/usbutils/usbutils_0.91.bb |    5 +++--
-> 1 files changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bb b/meta/recipes-bsp=
-/usbutils/usbutils_0.91.bb
-> index 5d605c5..c5420d0 100644
-> --- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
-> +++ b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
-> @@ -7,8 +7,7 @@ LICENSE =3D "GPLv2+"
-> LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae19=
-f"
->=20
-> DEPENDS =3D "libusb zlib"
-> -RDEPENDS_${PN} =3D "${PN}-ids"
-> -PR =3D "r1"
-> +PR =3D "r2"
->=20
-> SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.t=
-ar.gz"
->=20
-> @@ -26,3 +25,5 @@ do_install_append() {
-> PACKAGES +=3D "${PN}-ids"
-> FILES_${PN} +=3D "${datadir}/pkgconfig"
-> FILES_${PN}-ids =3D "${datadir}/usb*"
-> +
-> +RDEPENDS_${PN} =3D "${PN}-ids bash"
-> --=20
-> 1.7.3.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
+--0016e650a4fc87174304a789b76d--
