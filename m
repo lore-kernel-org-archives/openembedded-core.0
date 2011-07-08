@@ -1,20 +1,26 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QfH6M-000718-FC for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 21:52:38 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1QfH2d-0007TF-Dx
+Received: from mail-yi0-f47.google.com ([209.85.218.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <cliff.brake@gmail.com>) id 1QfHX4-0007cp-Tw
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 21:48:47 +0200
-From: Phil Blundell <pb@pbcl.net>
+	Fri, 08 Jul 2011 22:20:15 +0200
+Received: by yib18 with SMTP id 18so991855yib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Jul 2011 13:16:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=QgJplf5ME6wLc7I/AbpnHpxG4ErVuTbV8Wr88U1G22g=;
+	b=Sua5X+018d1rrhAygjElLef6y6Km1dDVEXHd9IfLwWRveN+smgZjb0q+2KnyfGVsm0
+	WzOQRn/6dPGQGVSEqQm2RZAnRGLBlQ97+NO6+wjEZkgRlpG78I554xX2Jpj4Q+ThmUfb
+	wSs+IaUXDv7dUoKehItR8Ku1gp4fHDPy6GO1E=
+MIME-Version: 1.0
+Received: by 10.236.0.202 with SMTP id 50mr3065579yhb.486.1310156181340; Fri,
+	08 Jul 2011 13:16:21 -0700 (PDT)
+Received: by 10.236.208.168 with HTTP; Fri, 8 Jul 2011 13:16:21 -0700 (PDT)
+Date: Fri, 8 Jul 2011 16:16:21 -0400
+Message-ID: <CAOd_LFwKQHF7-wtHPALJhfDZTvWkpWBR_wmgLPAUCRh3Y8-RaA@mail.gmail.com>
+From: Cliff Brake <cliff.brake@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 08 Jul 2011 20:48:39 +0100
-Message-ID: <1310154519.18564.17.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 
-Subject: [PATCH] eglibc: avoid copying ${libdir} twice if it's the same as ${base_libdir}
+Subject: libmatchbox fetch error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,40 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 19:52:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jul 2011 20:20:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Otherwise the following "mv ${libdir}/gconv" fails because the destination
-has already been created.
+I'm trying to get some basic oe-core builds going (core-image-sato)
+and am running into:
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/recipes-core/eglibc/eglibc-package.inc |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+ERROR: Logfile of failure stored in:
+/scratch/oe/openembedded-core/build/tmp-eglibc/work/i586-oe-linux/libmatchbox-1.9-r8/temp/log.do_fetch.24235
+Log data follows:
+| NOTE: fetch http://projects.o-hand.com/matchbox/sources/libmatchbox/1.9/libmatchbox-1.9.tar.gz
+| ERROR: Function 'Fetcher failure for URL:
+'http://projects.o-hand.com/matchbox/sources/libmatchbox/1.9/libmatchbox-1.9.tar.gz'.
+Unable to fetch URL
+http://projects.o-hand.com/matchbox/sources/libmatchbox/1.9/libmatchbox-1.9.tar.gz
+from any source.' failed
+NOTE: package libmatchbox-1.9-r8: task do_fetch: Failed
+ERROR: Task 1884
+(/scratch/oe/openembedded-core/meta/recipes-graphics/libmatchbox/libmatchbox_1.9.bb,
+do_fetch) failed with exit code '1'
 
-diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-index 1c6626c..f29417f 100644
---- a/meta/recipes-core/eglibc/eglibc-package.inc
-+++ b/meta/recipes-core/eglibc/eglibc-package.inc
-@@ -91,9 +91,11 @@ inherit libc-common
- do_install_locale () {
- 	dest=${D}/${includedir}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS}
- 	install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir} ${dest}${datadir}
--	cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
-+	if [ "${base_libdir}" != "${libdir}" ]; then
-+		cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
-+	fi
- 	mv ${D}${bindir}/localedef ${dest}${bindir}
--        mv ${D}${libdir}/gconv ${dest}${libdir}
-+	mv ${D}${libdir}/gconv ${dest}${libdir}
- 	cp -fpPR ${D}${libdir}/* ${dest}${libdir}
-         mv ${D}${datadir}/i18n ${dest}${datadir}
- 	cp -fpPR ${D}${datadir}/* ${dest}${datadir}
+It seems like the matchbox site is in flux right now.  Is there a
+stable place to get the download?
+
+Thanks,
+Cliff
+
 -- 
-1.7.4.1
-
-
-
+=================
+http://bec-systems.com
 
 
