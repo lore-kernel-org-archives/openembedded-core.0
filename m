@@ -1,35 +1,35 @@
 Received: from mail-bw0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QfDMW-0002As-PH
+	(envelope-from <otavio.salvador@gmail.com>) id 1QfDNM-0002CU-2g
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 17:53:04 +0200
-Received: by bwf20 with SMTP id 20so2159031bwf.6
+	Fri, 08 Jul 2011 17:53:56 +0200
+Received: by bwf20 with SMTP id 20so2159795bwf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2011 08:49:12 -0700 (PDT)
+	Fri, 08 Jul 2011 08:50:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:content-type
 	:content-transfer-encoding;
-	bh=WykjaEzjf1OgcbBfYWBvBM0P2JjHfSa5IE2MpVgvH24=;
-	b=ZVUInA8BMW9iOCnmQ5oJhI23IVNDlkvr/i5YIcBwhrMCRJ2mMvyWwOGqICJj7lKlrP
-	9QRrENCJQqWRTVFsPzRuEg88weby/7di10f2KjDNnqPs7LsM/VIpfhx2oZl8m05THomR
-	CyjTW2TSZU4ATVffRKBFc3MasZZWEB93CCl5o=
+	bh=3nUZrPNsiV2jkVoqmSEezBuEp5VMea+rQ2bEysVguvU=;
+	b=YsHc8UV86fisxUioabas2hGcyab6qHLS2bT+miW1OSTShgkF+do8U/lE1d2Vfco96W
+	zHvoKv33/RDI6FwTydD+VOCt4HBt3Wv6cH94d4wdM/tlkpMcnvVbvzrpt3w/K7gKARSZ
+	k/ByrGRF5vmGSWipiVBjldzlfoET5W6JG06uM=
 MIME-Version: 1.0
-Received: by 10.204.144.197 with SMTP id a5mr406916bkv.281.1310140152170; Fri,
-	08 Jul 2011 08:49:12 -0700 (PDT)
+Received: by 10.204.144.197 with SMTP id a5mr407269bkv.281.1310140203332; Fri,
+	08 Jul 2011 08:50:03 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.204.120.75 with HTTP; Fri, 8 Jul 2011 08:49:12 -0700 (PDT)
-In-Reply-To: <1310138939.20015.883.camel@rex>
+Received: by 10.204.120.75 with HTTP; Fri, 8 Jul 2011 08:50:03 -0700 (PDT)
+In-Reply-To: <1310138840.20015.881.camel@rex>
 References: <cover.1310132765.git.otavio@ossystems.com.br>
-	<4ed38d13d68e132c90e0c41cb9584c414334e01c.1310132765.git.otavio@ossystems.com.br>
-	<1310138939.20015.883.camel@rex>
-Date: Fri, 8 Jul 2011 12:49:12 -0300
-X-Google-Sender-Auth: mBsJqPZ6BJIK5IeCMECuylxsV-I
-Message-ID: <CAP9ODKpcSZcKOjgBa3LEZTXEtizBUe219dzLNn_tvb6Pk=3K+A@mail.gmail.com>
+	<b81093b9840677dd5c63bbed58ebfe2150791504.1310132765.git.otavio@ossystems.com.br>
+	<1310138840.20015.881.camel@rex>
+Date: Fri, 8 Jul 2011 12:50:03 -0300
+X-Google-Sender-Auth: x7M8uCHxifuAGSRxwBqkKIzfQ0A
+Message-ID: <CAP9ODKpg3jMB=PbSgmPqSsuJTz78k5wBVHOwb0-7Yc4SgfrY6w@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/8] cmake: add nativesdk and target versions
+Subject: Re: [PATCH 5/8] libarchive: add 2.8.4 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,37 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 15:53:04 -0000
+X-List-Received-Date: Fri, 08 Jul 2011 15:53:56 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 8, 2011 at 12:28, Richard Purdie
+On Fri, Jul 8, 2011 at 12:27, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
 > On Fri, 2011-07-08 at 13:47 +0000, Otavio Salvador wrote:
->> Adds a recipe that provides the nativesdk and target versions of
->> CMake.
->>
->> This recipe is based on code from OpenEmbeeded (rev
->> b1f2e1501c19540617a829b37415c0616101c7ad).
->>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
-> [...]
+>> This recipe has been imported from OpenEmbedded (rev
+>> 6db4b9050e0e8b963e2a6b63790e48e3042ea99e).
 >
->> +# FIXME: Hack due gcc-crosssdk not being able to detect those automatic=
-ally
->> +CXXFLAGS_virtclass-nativesdk +=3D " \
->> + =A0 -I${STAGING_DIR_HOST}${SDKPATHNATIVE}/usr/include/c++ \
->> + =A0 -I${STAGING_DIR_HOST}${SDKPATHNATIVE}/usr/include/c++/${TARGET_SYS=
-} \
->> + =A0 "
->
-> I get worried when I see things like this :(
->
-> Has anyone attempted to work out why gcc-crosssdk can't locate c++
-> include files?
+> The piece of data I don't have here is the reason we need this OE-Core?
 
-Not sure why but this is the same things as done on qt4-tools-nativesdk.
+cmake uses it.
 
 --=20
 Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
