@@ -1,33 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QfEOZ-0003un-4E for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 18:59:15 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68GtNbm022110
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jul 2011 17:55:23 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21561-10 for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2011 17:55:19 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68GtEE7022104
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jul 2011 17:55:14 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QfESv-0004J0-Pr
+	for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 19:03:46 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 08 Jul 2011 09:59:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,500,1304319600"; d="scan'208";a="24515714"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
+	by azsmga001.ch.intel.com with ESMTP; 08 Jul 2011 09:59:51 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.226.213) by
+	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 8 Jul 2011 09:59:50 -0700
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx601.amr.corp.intel.com ([10.22.226.213]) with mapi;
+	Fri, 8 Jul 2011 09:59:51 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1309883050.git.paul.eggleton@linux.intel.com>
-References: <cover.1309883050.git.paul.eggleton@linux.intel.com>
-Date: Fri, 08 Jul 2011 17:54:35 +0100
-Message-ID: <1310144075.20015.912.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/1] combo-layer tool v3
+Date: Fri, 8 Jul 2011 09:59:49 -0700
+Thread-Topic: [OE-core] eglibc issuettes continued
+Thread-Index: Acw9jxeiy/BxS6CgSh282AVTzzkWHgAATnFA
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94DE226629@orsmsx504.amr.corp.intel.com>
+References: <1310139697.6337.134.camel@phil-desktop>
+	<1310143750.20015.911.camel@rex>
+In-Reply-To: <1310143750.20015.911.camel@rex>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: eglibc issuettes continued
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,32 +45,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 16:59:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jul 2011 17:03:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-07-05 at 17:28 +0100, Paul Eggleton wrote:
-> This is the third version of Yu Ke's combo-layer tool. Changes since v2:
->  * Fix splitpatch so that it handles commits that only affect some of the
->    components (reports the ones that have been skipped and avoids writing
->    out empty patches)
->  * A few fixes to the help text & comments
-> 
-> 
-> The following changes since commit f05b7ee7716d1e5cc1ba0bbab57e91c3a0569e9e:
-> 
->   x-load: Update to 1.5.0 (2011-07-05 14:16:33 +0100)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib paule/combo-layer-v3
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/combo-layer-v3
-> 
-> Yu Ke (1):
->   combo-layer-tool: add tool to manipulate combo layers
+I sent a patch to fix /etc/localtime & /etc/rpc files. Other than that I am=
+ not seeing any issues for the eglibc recipe packaging.
 
-Merged to master, thanks.
+Nitin
 
-Richard
 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: Friday, July 08, 2011 9:49 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] eglibc issuettes continued
+>=20
+> On Fri, 2011-07-08 at 16:41 +0100, Phil Blundell wrote:
+> > I'm not sure whether there are pending patches which will address
+> these
+> > or not, but with a fresh pull from today I'm still not getting very
+> good
+> > packaging for eglibc 2.13.  Specifically:
+> >
+> > WARNING: For recipe eglibc, the following files were installed but
+> not
+> > shipped in any package:
+> > WARNING:   /etc/localtime
+> > WARNING:   /etc/rpc
+> > WARNING:   /etc/ld.so.conf
+> > WARNING:   /lib/gconv/ISO-2022-CN-EXT.so
+> > WARNING:   /lib/gconv/IBM921.so
+> > [... etc ...]
+> > WARNING:   /lib/gconv/.debug/ISO-2022-CN-EXT.so
+> > WARNING:   /lib/gconv/.debug/IBM921.so
+> > [... etc ...]
+> > WARNING:   /share/i18n/charmaps/ISO-8859-15.gz
+> > WARNING:   /share/i18n/charmaps/IBM285.gz
+> > [... etc ...]
+> > WARNING:   /share/i18n/locales/ss_ZA
+> > WARNING:   /share/i18n/locales/is_IS
+> > [... etc ...]
+> > WARNING: QA Issue: libc-extra-nss rdepends on eglibc-dev
+> > WARNING: QA Issue: libc-thread-db rdepends on eglibc-dev
+> > ERROR: QA run found fatal errors. Please consider fixing them.
+> >
+> > I'm not sure if these are actually new or not, though.  It's possible
+> > that they've been there for ages and I only just noticed.
+>=20
+> I'm guessing something is going wrong with prefixes somewhere. I'm
+> certainly not seeing the bulk of those locally...
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
