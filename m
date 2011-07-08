@@ -1,32 +1,26 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qf5cE-0004FX-4t
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Qf63I-0005Eq-AP for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 10:04:44 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1Qf5za-0006pa-8D
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 09:36:46 +0200
-Received: by bwf20 with SMTP id 20so1828093bwf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2011 00:32:50 -0700 (PDT)
-Received: by 10.204.156.194 with SMTP id y2mr222034bkw.369.1310109951403;
-	Fri, 08 Jul 2011 00:25:51 -0700 (PDT)
-Received: from [10.105.55.80] (62-50-199-254.client.stsn.net [62.50.199.254])
-	by mx.google.com with ESMTPS id m6sm5151653fac.3.2011.07.08.00.25.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 08 Jul 2011 00:25:50 -0700 (PDT)
-References: <cover.1310027619.git.dexuan.cui@intel.com>
-	<cb76f021571c5f35239192ff05eb89cab4713d04.1310027619.git.dexuan.cui@intel.com>
-	<4E15D389.9040906@mentor.com>
-	<1865303E0DED764181A9D882DEF65FB6A6B2A2650F@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6A6B2A2650F@shsmsx502.ccr.corp.intel.com>
-Mime-Version: 1.0 (iPhone Mail 8J2)
-Message-Id: <27ED3419-C3F8-40B4-AF21-D7BEDC631813@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPhone Mail (8J2)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 8 Jul 2011 08:25:46 +0100
+	Fri, 08 Jul 2011 10:00:54 +0200
+From: Phil Blundell <pb@pbcl.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] powertop: inherit update-alternatives and use	a higher priority than busybox
+In-Reply-To: <1310080368.20015.855.camel@rex>
+References: <cover.1310070283.git.nitin.a.kamble@intel.com>
+	<629561972efd884a87edc521d0430af83511ae58.1310070283.git.nitin.a.kamble@intel.com>
+	<CAMKF1srHWhp36iNaMPKBbkBNBQSSWCb7fbULP9efAsg3r29J=A@mail.gmail.com>
+	<1310080368.20015.855.camel@rex>
+Date: Fri, 08 Jul 2011 09:00:48 +0100
+Message-ID: <1310112048.18564.11.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [PATCH 1/7] binutils: upgrade from 2.21 to 2.21.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,54 +35,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 07:36:46 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Fri, 08 Jul 2011 08:04:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Fri, 2011-07-08 at 00:12 +0100, Richard Purdie wrote:
+> On Thu, 2011-07-07 at 14:39 -0700, Khem Raj wrote:
+> > How about changing the recipe to fetch from binutils-2_21-branch and
+> > call it binutils 2.21 as it is
+> 
+> I don't really see the benefits in fetching this from the SCM?
 
+Agreed, seems like fetching it from CVS will just make it slower and not
+really buy us anything.  I think sticking with the tarballs is the right
+answer here.
 
-Op 8 jul. 2011 om 02:40 heeft "Cui, Dexuan" <dexuan.cui@intel.com> het volge=
-nde geschreven:
-
-> Tom Rini wrote:
->> On 07/07/2011 01:39 AM, Dexuan Cui wrote:
->>> busybox-1.18.4 installs /bin/powertop and the powertop recipe
->>> installs /usr/bin/powertop. So, in PATH, if /bin appears before
->>> /usr/bin, we would run the version offered by busybox, which has a
->>> very limited function (e.g., no parameter is accepted) and this
->>> causes trouble to eclipse plugin.=20
->>>=20
->>> We can use update-alternatives for powertop with higher priority to
->>> resolve the issue.=20
->>>=20
->>> Fixes [YOCTO #1208]
->>>=20
->>> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
->>=20
->> This fix seems a bit incomplete.  Why is busybox putting powertop into
->> /bin when it almost certainly belongs in /usr/bin like the real recipe
->> was placing it.  busybox needs a fix here too.
-> Thanks for the comment!=20
-> I was hesitant about fixing busybox as I wasn't sure if it's worthy to mak=
-e a patch to only fix the path for busybox. I don't know why busybox puts it=
- into /bin. I think the best place may be /usr/sbin/.=20
-> A little unluckily this patch to powertop has been already in poky master.=
-.. So maybe we could try to fix the recipes in future, e.g., when upgrading t=
-hem.
-
-we should do the right thing in oe-core,  the poky people can clean up on th=
-eir own.=20
+p.
 
 
 
 
->=20
-> Thanks,
-> -- Dexuan
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
