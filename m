@@ -1,30 +1,39 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1Qeye6-0003TG-9s
+	(envelope-from <raj.khem@gmail.com>) id 1QezCv-0003v8-K1
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 02:10:14 +0200
-Received: by pvf24 with SMTP id 24so849758pvf.6
+	Fri, 08 Jul 2011 02:46:13 +0200
+Received: by vws2 with SMTP id 2so1279882vws.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jul 2011 17:06:21 -0700 (PDT)
+	Thu, 07 Jul 2011 17:42:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=F1jSumebhCvMZ1nhasu3EQWQywtmkkTNScleO7hz96k=;
-	b=AEvn2TApMk1SHqdmsJFRMchlZuqlGU79OvIziIRGiGbOco6WNzFQV3KbbqzG5T8wXa
-	VE40NWop6ODVdQ10Wbszmv0vbxBBjz6nlvKjvBWnTk/PTDjHL82kOOe9nxZpZf8b4d1t
-	M76uQAkPINp8xrePB5+3jTzpeQrBbPYJnkeag=
-MIME-Version: 1.0
-Received: by 10.68.33.225 with SMTP id u1mr1950147pbi.199.1310083247482; Thu,
-	07 Jul 2011 17:00:47 -0700 (PDT)
-Received: by 10.142.239.3 with HTTP; Thu, 7 Jul 2011 17:00:47 -0700 (PDT)
-In-Reply-To: <54796cbee0dc1928f2295a57b4a4783a1222ace1.1310079506.git.andrea.adami@gmail.com>
-References: <cover.1310079506.git.andrea.adami@gmail.com>
-	<54796cbee0dc1928f2295a57b4a4783a1222ace1.1310079506.git.andrea.adami@gmail.com>
-Date: Fri, 8 Jul 2011 02:00:47 +0200
-Message-ID: <CAAQYJAuSgb=pK1ZgpEtymW7skVbcBejqy4DY6-em8-GD2Uridw@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] kernel.bbclass: handle embedding of initramfs images
+	h=references:in-reply-to:mime-version:content-transfer-encoding
+	:content-type:message-id:cc:x-mailer:from:subject:date:to;
+	bh=wUq0NB5a7sGhgsK8mKWjejF3+X9WFrIgvxIa7RWl1Q4=;
+	b=EyK251UuiqRzQg3vHuexewOATbQ1LpcDxsGtMcp4jGrPnl+N3YXVc0/ftCiKfFUZsG
+	jdmTPkPb7vFjYuddhmH83Q4P0OCY/RY9Xb1Y+YMwISDdy9UOxkDQk6lD5UywbgopYFqy
+	3d/MIYu0XwpDAwNNuprUNtl4YBS5AScScCGXk=
+Received: by 10.52.177.1 with SMTP id cm1mr1839546vdc.295.1310085740740;
+	Thu, 07 Jul 2011 17:42:20 -0700 (PDT)
+Received: from [192.168.30.25] (ns-visitor-nsrp.juniper.net [208.223.208.242])
+	by mx.google.com with ESMTPS id p1sm2210567vby.12.2011.07.07.17.42.19
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 07 Jul 2011 17:42:19 -0700 (PDT)
+References: <cover.1310070283.git.nitin.a.kamble@intel.com>
+	<629561972efd884a87edc521d0430af83511ae58.1310070283.git.nitin.a.kamble@intel.com>
+	<CAMKF1srHWhp36iNaMPKBbkBNBQSSWCb7fbULP9efAsg3r29J=A@mail.gmail.com>
+	<1310080368.20015.855.camel@rex>
+In-Reply-To: <1310080368.20015.855.camel@rex>
+Mime-Version: 1.0 (iPad Mail 8J2)
+Message-Id: <A64F9A3E-6359-4C99-B332-378FFE4F644C@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPad Mail (8J2)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 7 Jul 2011 17:42:47 -0700
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] binutils: upgrade from 2.21 to 2.21.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,93 +48,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 00:10:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 08 Jul 2011 00:46:13 -0000
 Content-Transfer-Encoding: quoted-printable
-
-Ehm,
-some cruft slipped in :/
-
-On Fri, Jul 8, 2011 at 1:11 AM, Andrea Adami <andrea.adami@gmail.com> wrote=
-:
-> * from org.openembedded.dev (oe-classic)
->
-> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-> ---
-> =A0meta/classes/kernel.bbclass | =A0 22 ++++++++++++++++++++++
-> =A01 files changed, 22 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 943252a..03b321d 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -14,8 +14,20 @@ python __anonymous () {
-> =A0 =A0 =A0 =A0depends =3D bb.data.getVar("DEPENDS", d, 1)
-> =A0 =A0 =A0 =A0depends =3D "%s u-boot-mkimage-native" % depends
-> =A0 =A0 =A0 =A0bb.data.setVar("DEPENDS", depends, d)
-> +
-> + =A0 =A0image =3D bb.data.getVar('INITRAMFS_IMAGE', d, True)
-> + =A0 =A0if image !=3D '' and image is not None:
-> + =A0 =A0 =A0 =A0bb.data.setVar('INITRAMFS_TASK', '${INITRAMFS_IMAGE}:do_=
-rootfs', d)
-> +
-
-
-> + =A0 =A0machine_kernel_pr =3D bb.data.getVar('MACHINE_KERNEL_PR', d, Tru=
-e)
-> +
-> + =A0 =A0if machine_kernel_pr:
-> + =A0 =A0 =A0 =A0bb.data.setVar('PR', machine_kernel_pr, d)
-
-Those bits are extraneous and copied and pasted by mistake.
+Content-Type: text/plain;
+	charset=us-ascii
 
 
 
-> =A0}
->
-> +INITRAMFS_IMAGE ?=3D ""
-> +INITRAMFS_TASK ?=3D ""
-> +
-> =A0inherit kernel-arch deploy
->
-> =A0PACKAGES_DYNAMIC +=3D "kernel-module-*"
-> @@ -179,8 +191,18 @@ kernel_do_configure() {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0cp "${WORKDIR}/defconfig" "${S}/.config"
-> =A0 =A0 =A0 =A0fi
-> =A0 =A0 =A0 =A0 yes '' | oe_runmake oldconfig
-> +
-> + =A0 =A0 =A0 if [ ! -z "${INITRAMFS_IMAGE}" ]; then
+On Jul 7, 2011, at 4:12 PM, Richard Purdie <richard.purdie@linuxfoundation.o=
+rg> wrote:
 
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 for img in cpio.gz cpio.lzo cpio.lzma; do
+> On Thu, 2011-07-07 at 14:39 -0700, Khem Raj wrote:
+>> On Thu, Jul 7, 2011 at 1:25 PM,  <nitin.a.kamble@intel.com> wrote:
+>>> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>>>=20
+>>> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+>>> ---
+>>> ...n_2.21.bb =3D> binutils-cross-canadian_2.21.1.bb} |    0
+>>> ...tils-cross_2.21.bb =3D> binutils-cross_2.21.1.bb} |    0
+>>> ...rosssdk_2.21.bb =3D> binutils-crosssdk_2.21.1.bb} |    0
+>>> .../110-arm-eabi-conf.patch                        |    0
+>>> .../binutils-2.19.1-ld-sysroot.patch               |    0
+>>> .../binutils-poison.patch                          |    0
+>>> .../binutils-pr12366.patch                         |    0
+>>> .../binutils-uclibc-100-uclibc-conf.patch          |    0
+>>> ...binutils-uclibc-300-001_ld_makefile_patch.patch |    0
+>>> ...binutils-uclibc-300-006_better_file_error.patch |    0
+>>> ...ils-uclibc-300-012_check_ldrunpath_length.patch |    0
+>>> .../binutils-uclibc-gas-needs-libm.patch           |    0
+>>> .../binutils-x86_64_i386_biarch.patch              |    0
+>>> .../libiberty_path_fix.patch                       |    0
+>>> .../libtool-2.4-update.patch                       | 1725 ++++++++++----=
+------
+>>> .../libtool-rpath-fix.patch                        |    0
+>>> .../{binutils_2.21.bb =3D> binutils_2.21.1.bb}       |    7 +-
+>>> 17 files changed, 871 insertions(+), 861 deletions(-)
+>>> rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.21.bb =3D=
+> binutils-cross-canadian_2.21.1.bb} (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-cross_2.21.bb =3D> binut=
+ils-cross_2.21.1.bb} (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.21.bb =3D> bi=
+nutils-crosssdk_2.21.1.bb} (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/110-=
+arm-eabi-conf.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
+tils-2.19.1-ld-sysroot.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
+tils-poison.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
+tils-pr12366.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
+tils-uclibc-100-uclibc-conf.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
+tils-uclibc-300-001_ld_makefile_patch.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
+tils-uclibc-300-006_better_file_error.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
+tils-uclibc-300-012_check_ldrunpath_length.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
+tils-uclibc-gas-needs-libm.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
+tils-x86_64_i386_biarch.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/libi=
+berty_path_fix.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/libt=
+ool-2.4-update.patch (94%)
+>>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/libt=
+ool-rpath-fix.patch (100%)
+>>> rename meta/recipes-devtools/binutils/{binutils_2.21.bb =3D> binutils_2.=
+21.1.bb} (87%)
+>>>=20
+>>=20
+>> How about changing the recipe to fetch from binutils-2_21-branch and
+>> call it binutils 2.21 as it is
+>=20
+> I don't really see the benefits in fetching this from the SCM?
 
-We'll have to add cpio.xz as bonus too, being there is support for it
-in image_types.bbclass
+Not much yes however
+
+Releases happen not so frequently but bug fixes go into the branch and it ma=
+kes it easier to upgrade may be same as adding patches to metadata but we do=
+n't need to keep them local in metadata
+
+It will match the process we do for other toolchain components
 
 
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IM=
-AGE}-${MACHINE}.$img"
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 cp "${DEPLOY_DIR_IMAGE}/${I=
-NITRAMFS_IMAGE}-${MACHINE}.$i
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 fi
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 done
-> + =A0 =A0 =A0 fi
-> =A0}
->
-> +kernel_do_configure[depends] +=3D "${INITRAMFS_TASK}"
-> +
-> =A0do_menuconfig() {
-> =A0 =A0 =A0 =A0 export DISPLAY=3D'${DISPLAY}'
-> =A0 =A0 =A0 =A0 export DBUS_SESSION_BUS_ADDRESS=3D'${DBUS_SESSION_BUS_ADD=
-RESS}'
-> --
-> 1.7.3.4
->
->
 
-If you mind, I'll resend a corrected V2 of the patch
-
-Regards
-
-Andrea
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
