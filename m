@@ -1,31 +1,37 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QfDj9-000329-88
-	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 18:16:27 +0200
-Received: by wwi18 with SMTP id 18so1737766wwi.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QfDkk-000346-7F for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 18:18:06 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68FPb5H021268
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2011 09:12:34 -0700 (PDT)
-Received: by 10.227.174.11 with SMTP id r11mr1942363wbz.11.1310141554643;
-	Fri, 08 Jul 2011 09:12:34 -0700 (PDT)
-Received: from [172.16.66.153] (host-131-196-68-109.spectrum1.uk.sharedband.net
-	[109.68.196.131])
-	by mx.google.com with ESMTPS id c17sm7805394wbh.46.2011.07.08.09.12.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 08 Jul 2011 09:12:33 -0700 (PDT)
-References: <cover.1310132765.git.otavio@ossystems.com.br>
-	<73f52ab56a2f932082e954f5650896cdee010fee.1310132765.git.otavio@ossystems.com.br>
-	<1310139528.20015.894.camel@rex>
-In-Reply-To: <1310139528.20015.894.camel@rex>
-Mime-Version: 1.0 (iPhone Mail 8J2)
-Message-Id: <834CF89E-9509-4847-9AC1-A0F9581CDE20@dominion.thruhere.net>
-X-Mailer: iPhone Mail (8J2)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 8 Jul 2011 17:12:28 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 8 Jul 2011 16:25:37 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20388-06 for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Jul 2011 16:25:33 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68FPSMP021262
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Jul 2011 16:25:29 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 8/8] fix SDK building due TARGET_ARCH use in installation path
+In-Reply-To: <A64F9A3E-6359-4C99-B332-378FFE4F644C@gmail.com>
+References: <cover.1310070283.git.nitin.a.kamble@intel.com>
+	<629561972efd884a87edc521d0430af83511ae58.1310070283.git.nitin.a.kamble@intel.com>
+	<CAMKF1srHWhp36iNaMPKBbkBNBQSSWCb7fbULP9efAsg3r29J=A@mail.gmail.com>
+	<1310080368.20015.855.camel@rex>
+	<A64F9A3E-6359-4C99-B332-378FFE4F644C@gmail.com>
+Date: Fri, 08 Jul 2011 16:24:50 +0100
+Message-ID: <1310138690.20015.878.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/7] binutils: upgrade from 2.21 to 2.21.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,72 +46,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 16:16:27 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Fri, 08 Jul 2011 16:18:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I'll take a look when I get back into the country next week
+On Thu, 2011-07-07 at 17:42 -0700, Khem Raj wrote:
+> 
+> On Jul 7, 2011, at 4:12 PM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> 
+> > On Thu, 2011-07-07 at 14:39 -0700, Khem Raj wrote:
+> >> On Thu, Jul 7, 2011 at 1:25 PM,  <nitin.a.kamble@intel.com> wrote:
+> >>> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >>> 
+> >>> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >>> ---
+> >>> ...n_2.21.bb => binutils-cross-canadian_2.21.1.bb} |    0
+> >>> ...tils-cross_2.21.bb => binutils-cross_2.21.1.bb} |    0
+> >>> ...rosssdk_2.21.bb => binutils-crosssdk_2.21.1.bb} |    0
+> >>> .../110-arm-eabi-conf.patch                        |    0
+> >>> .../binutils-2.19.1-ld-sysroot.patch               |    0
+> >>> .../binutils-poison.patch                          |    0
+> >>> .../binutils-pr12366.patch                         |    0
+> >>> .../binutils-uclibc-100-uclibc-conf.patch          |    0
+> >>> ...binutils-uclibc-300-001_ld_makefile_patch.patch |    0
+> >>> ...binutils-uclibc-300-006_better_file_error.patch |    0
+> >>> ...ils-uclibc-300-012_check_ldrunpath_length.patch |    0
+> >>> .../binutils-uclibc-gas-needs-libm.patch           |    0
+> >>> .../binutils-x86_64_i386_biarch.patch              |    0
+> >>> .../libiberty_path_fix.patch                       |    0
+> >>> .../libtool-2.4-update.patch                       | 1725 ++++++++++----------
+> >>> .../libtool-rpath-fix.patch                        |    0
+> >>> .../{binutils_2.21.bb => binutils_2.21.1.bb}       |    7 +-
+> >>> 17 files changed, 871 insertions(+), 861 deletions(-)
+> >>> rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.21.bb => binutils-cross-canadian_2.21.1.bb} (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-cross_2.21.bb => binutils-cross_2.21.1.bb} (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.21.bb => binutils-crosssdk_2.21.1.bb} (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/110-arm-eabi-conf.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-2.19.1-ld-sysroot.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-poison.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-pr12366.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-100-uclibc-conf.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-300-001_ld_makefile_patch.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-300-006_better_file_error.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-300-012_check_ldrunpath_length.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-gas-needs-libm.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-x86_64_i386_biarch.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/libiberty_path_fix.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/libtool-2.4-update.patch (94%)
+> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/libtool-rpath-fix.patch (100%)
+> >>> rename meta/recipes-devtools/binutils/{binutils_2.21.bb => binutils_2.21.1.bb} (87%)
+> >>> 
+> >> 
+> >> How about changing the recipe to fetch from binutils-2_21-branch and
+> >> call it binutils 2.21 as it is
+> > 
+> > I don't really see the benefits in fetching this from the SCM?
+> 
+> Not much yes however
+> 
+> Releases happen not so frequently but bug fixes go into the branch and
+> it makes it easier to upgrade may be same as adding patches to
+> metadata but we don't need to keep them local in metadata
+> 
+> It will match the process we do for other toolchain components
 
-Op 8 jul. 2011 om 16:38 heeft Richard Purdie <richard.purdie@linuxfoundation=
-.org> het volgende geschreven:
+I have a dislike for depending on what are usually slow SCMs for
+components of the system. I've been convinced we need to do it for gcc
+but I think that is the exception to the rule and we don't have a
+seriously large number of patches queued against binutils...
 
-> On Fri, 2011-07-08 at 13:47 +0000, Otavio Salvador wrote:
->> TARGET_ARCH makes the building too fragile since it changes during
->> building of target and nativesdk binaries thus making it difficult to
->> handle a proper path for installation of binaries. The fix for it is
->> to move it to toolchain tarball name.
->>=20
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->> meta/classes/populate_sdk.bbclass |    2 +-
->> meta/conf/bitbake.conf            |    2 +-
->> 2 files changed, 2 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/meta/classes/populate_sdk.bbclass b/meta/classes/populate_sd=
-k.bbclass
->> index 089ed9a..03b6d0f 100644
->> --- a/meta/classes/populate_sdk.bbclass
->> +++ b/meta/classes/populate_sdk.bbclass
->> @@ -9,7 +9,7 @@ SDKTARGETSYSROOT =3D "${SDKPATH}/sysroots/${TARGET_SYS}"
->>=20
->> TOOLCHAIN_HOST_TASK ?=3D "task-sdk-host-nativesdk task-cross-canadian-${T=
-RANSLATED_TARGET_ARCH}"
->> TOOLCHAIN_TARGET_TASK ?=3D "task-core-standalone-sdk-target task-core-sta=
-ndalone-sdk-target-dbg"
->> -TOOLCHAIN_OUTPUTNAME ?=3D "${SDK_NAME}-toolchain-${DISTRO_VERSION}"
->> +TOOLCHAIN_OUTPUTNAME ?=3D "${SDK_NAME}-${SDK_ARCH}-${TARGET_ARCH}-toolch=
-ain-${DISTRO_VERSION}"
->>=20
->> RDEPENDS =3D "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
->> DEPENDS =3D "virtual/fakeroot-native sed-native"
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index bdaa35d..cc2b8e2 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -341,7 +341,7 @@ DEPLOY_DIR_TOOLS =3D "${DEPLOY_DIR}/tools"
->>=20
->> PKGDATA_DIR =3D "${TMPDIR}/pkgdata/${MULTIMACH_TARGET_SYS}"
->>=20
->> -SDK_NAME =3D "oecore-${SDK_ARCH}-${TARGET_ARCH}"
->> +SDK_NAME =3D "oecore-sdk-${DISTRO}"
->> SDKPATH =3D "/usr/local/${SDK_NAME}"
->> SDKPATHNATIVE =3D "${SDKPATH}/sysroots/${SDK_SYS}"
->=20
-> I'd really like Koen to take a look at this with his Angstrom hat on. I
-> still suspect the better fix for this is likely to end up with:
->=20
-> SDK_NAME =3D "oecore-${SDK_ARCH}-${TARGET_ARCH}"
-> -SDKPATH =3D "/usr/local/${SDK_NAME}"
-> +SDKPATH =3D "/usr/local/oecore-sdk-${DISTRO}"
-> SDKPATHNATIVE =3D "${SDKPATH}/sysroots/${SDK_SYS}"
->=20
-> Certainly having TARGET_ARCH in SDKPATH is a bad idea but I think the
-> SDK_NAME variable could make sense as it is originally...
->=20
-> Cheers,
->=20
-> Richard
->=20
+I've therefore taken the patch.
+
+Cheers,
+
+Richard
+
 
 
