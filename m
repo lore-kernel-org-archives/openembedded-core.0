@@ -1,32 +1,31 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1QfIvu-0000eL-Ey
-	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 23:50:29 +0200
-Received: by pvf24 with SMTP id 24so1451429pvf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2011 14:44:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=oC7EjcB5xiByhpZu37sBU8PR5wOCAFreDsDyYwuWuFQ=;
-	b=U+6Wr3qWsLjXC89Ia2NjRZ3IGGkAnCo1JvpRPWkp1dzH/01WBptO9DqRUPIci7VdFx
-	lmfS5POy27aRRiIoHr2STZH+2DD9xeBN8vLVWmcZBo9im0VbzCaTWhbsrM0IR8onez+j
-	VJpCpqaU/DTi0N5rap/DnMKGZ+8S2uImZI6yg=
-MIME-Version: 1.0
-Received: by 10.142.242.12 with SMTP id p12mr491126wfh.346.1310161462922; Fri,
-	08 Jul 2011 14:44:22 -0700 (PDT)
-Received: by 10.142.239.3 with HTTP; Fri, 8 Jul 2011 14:44:22 -0700 (PDT)
-In-Reply-To: <4E172466.6040805@linux.intel.com>
-References: <cover.1310079506.git.andrea.adami@gmail.com>
-	<54796cbee0dc1928f2295a57b4a4783a1222ace1.1310079506.git.andrea.adami@gmail.com>
-	<4E172466.6040805@linux.intel.com>
-Date: Fri, 8 Jul 2011 23:44:22 +0200
-Message-ID: <CAAQYJAvA1BPC=JoSbeckRcBLE5eX3qO0gwrUOmua_EjN538ccg@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QfJ2W-0000kk-OQ for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 23:56:48 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68Lqskw024019;
+	Fri, 8 Jul 2011 22:52:54 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23250-05; Fri,  8 Jul 2011 22:52:50 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68Lqi94024013
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 8 Jul 2011 22:52:45 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] kernel.bbclass: handle embedding of initramfs images
+In-Reply-To: <CAOd_LFwKQHF7-wtHPALJhfDZTvWkpWBR_wmgLPAUCRh3Y8-RaA@mail.gmail.com>
+References: <CAOd_LFwKQHF7-wtHPALJhfDZTvWkpWBR_wmgLPAUCRh3Y8-RaA@mail.gmail.com>
+Date: Fri, 08 Jul 2011 22:52:05 +0100
+Message-ID: <1310161925.20015.918.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Michael Halstead <michaelx.d.halstead@intel.com>
+Subject: Re: libmatchbox fetch error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,55 +40,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 21:50:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Jul 2011 21:56:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 8, 2011 at 5:38 PM, Darren Hart <dvhart@linux.intel.com> wrote:
->
->
-> On 07/07/2011 04:11 PM, Andrea Adami wrote:
->> * from org.openembedded.dev (oe-classic)
->
-> Hi Andrea,
->
-> Please include a descriptive blurb about the patch. When people read
-> through the commit log they need to know what problem this patch
-> addresses and how it intends to go about it. If possible, it should also
-> include the commit id from the source (I suspect that isn't an option her=
-e).
->
-Well, there isn't =A0really much to say: whether you know what an
-initramfs is or not :)
-Seriously, about the history of the patch, there have been so many
-commits that I could not choose one. See next comment.
+On Fri, 2011-07-08 at 16:16 -0400, Cliff Brake wrote:
+> I'm trying to get some basic oe-core builds going (core-image-sato)
+> and am running into:
+> 
+> ERROR: Logfile of failure stored in:
+> /scratch/oe/openembedded-core/build/tmp-eglibc/work/i586-oe-linux/libmatchbox-1.9-r8/temp/log.do_fetch.24235
+> Log data follows:
+> | NOTE: fetch http://projects.o-hand.com/matchbox/sources/libmatchbox/1.9/libmatchbox-1.9.tar.gz
+> | ERROR: Function 'Fetcher failure for URL:
+> 'http://projects.o-hand.com/matchbox/sources/libmatchbox/1.9/libmatchbox-1.9.tar.gz'.
+> Unable to fetch URL
+> http://projects.o-hand.com/matchbox/sources/libmatchbox/1.9/libmatchbox-1.9.tar.gz
+> from any source.' failed
+> NOTE: package libmatchbox-1.9-r8: task do_fetch: Failed
+> ERROR: Task 1884
+> (/scratch/oe/openembedded-core/meta/recipes-graphics/libmatchbox/libmatchbox_1.9.bb,
+> do_fetch) failed with exit code '1'
+> 
+> It seems like the matchbox site is in flux right now.  Is there a
+> stable place to get the download?
 
->
-> Hrm... Why is this part of do_configure? Seems a lot more like a deploy
-> or install step.
+At the very least the yocto mirrors have those pieces on them. I don't
+know what has happened to those urls but I'll try and find out.
 
-If you look at the history at
-http://cgit.openembedded.org/cgit.cgi/openembedded/log/classes/kernel.bbcla=
-ss?h=3Dorg.openembedded.dev&ofs=3D50
-you'll discover that there was a separate task (72761e4) which has
-been unified by the author as of commit =A03e3f297.
+Cheers,
 
-After some rounds of fixes, =A0the code was moved in do_configure with
-commit id fc03e2b (kernel.bbclass: move initramfs stuff to configure
-so we can do postprocessing on it with do_configure_append).
+Richard
 
-
->Also, the cp line has been truncated here.
-The original patch sent by git send.email should be sane.
-
-> --
-> Darren Hart
-> Intel Open Source Technology Center
-> Yocto Project - Linux Kernel
->
-
-Regards
-
-Andrea
 
 
