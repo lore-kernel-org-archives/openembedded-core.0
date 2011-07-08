@@ -1,37 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jessica.zhang@intel.com>) id 1QfGSJ-0006Wb-Eb
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QfH6M-000718-FC for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 21:52:38 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1QfH2d-0007TF-Dx
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 21:11:15 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 08 Jul 2011 12:07:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,500,1304319600"; d="scan'208";a="23306178"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
-	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2011 12:07:21 -0700
-Received: from orsmsx106.amr.corp.intel.com (10.22.225.133) by
-	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 8 Jul 2011 12:07:21 -0700
-Received: from orsmsx101.amr.corp.intel.com ([169.254.8.138]) by
-	ORSMSX106.amr.corp.intel.com ([169.254.5.75]) with mapi id
-	14.01.0289.001; Fri, 8 Jul 2011 12:07:21 -0700
-From: "Zhang, Jessica" <jessica.zhang@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/1] [bug 1195] site/mips-common: Cache
-	cvs_cv_func_printf_ptr
-Thread-Index: AQHMPZ4jkuJ2yE0w8UmEnpY54pRccpTiyKbQ
-Date: Fri, 8 Jul 2011 19:07:20 +0000
-Message-ID: <C6510F6D410BB64A8C15398EDC6B847C02A284@ORSMSX101.amr.corp.intel.com>
-References: <cover.1310080780.git.jessica.zhang@intel.com>
-	<1310142693.20015.906.camel@rex> <4E174E52.2@mentor.com>
-In-Reply-To: <4E174E52.2@mentor.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.9.131.214]
-MIME-Version: 1.0
-Subject: Re: [PATCH 0/1] [bug 1195] site/mips-common: Cache	cvs_cv_func_printf_ptr
+	Fri, 08 Jul 2011 21:48:47 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 08 Jul 2011 20:48:39 +0100
+Message-ID: <1310154519.18564.17.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: [PATCH] eglibc: avoid copying ${libdir} twice if it's the same as ${base_libdir}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,54 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 19:11:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Jul 2011 19:52:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We only have arm-common, common, ix86-common, mips-common, powerpc-common, =
-sh-common under site, no Linux-common or glibc-common, and it's defined in =
-all the arches-common files except mips-common.
+Otherwise the following "mv ${libdir}/gconv" fails because the destination
+has already been created.
 
-Thanks,
-Jessica
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/recipes-core/eglibc/eglibc-package.inc |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Tom Rini
-Sent: Friday, July 08, 2011 11:37 AM
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 0/1] [bug 1195] site/mips-common: Cache cvs_c=
-v_func_printf_ptr
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 1c6626c..f29417f 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -91,9 +91,11 @@ inherit libc-common
+ do_install_locale () {
+ 	dest=${D}/${includedir}/eglibc-locale-internal-${MULTIMACH_TARGET_SYS}
+ 	install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir} ${dest}${datadir}
+-	cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
++	if [ "${base_libdir}" != "${libdir}" ]; then
++		cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
++	fi
+ 	mv ${D}${bindir}/localedef ${dest}${bindir}
+-        mv ${D}${libdir}/gconv ${dest}${libdir}
++	mv ${D}${libdir}/gconv ${dest}${libdir}
+ 	cp -fpPR ${D}${libdir}/* ${dest}${libdir}
+         mv ${D}${datadir}/i18n ${dest}${datadir}
+ 	cp -fpPR ${D}${datadir}/* ${dest}${datadir}
+-- 
+1.7.4.1
 
-On 07/08/2011 09:31 AM, Richard Purdie wrote:
-> On Thu, 2011-07-07 at 16:23 -0700, Jessica Zhang wrote:
->> The following changes since commit c412674cf818e77e35857fb93353e392e7ac9=
-e53:
->>   Khem Raj (1):
->>         package.bbclass,prserv.bbclass: Compare USE_PR_SERV with "1" or =
-"0"
->>
->> are available in the git repository at:
->>
->>   git://git.yoctoproject.org/poky-contrib jzhang/1195
->>   http://git.yoctoproject.org/cgit.cgi//log/?h=3Djzhang/1195
->>
->> Khem Raj (1):
->>   [bug 1195] site/mips-common: Cache cvs_cv_func_printf_ptr
->
-> Merged to master, thanks.
 
-Late again and my fault this time but why is this in site/mips-common
-and not site/linux-common or glibc-common?
 
---
-Tom Rini
-Mentor Graphics Corporation
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
