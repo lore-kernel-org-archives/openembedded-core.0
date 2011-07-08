@@ -1,29 +1,30 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
+Received: from mail-fx0-f51.google.com ([209.85.161.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QfI3S-00087r-OY
+	(envelope-from <koen@dominion.thruhere.net>) id 1QfI76-0008AH-6C
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 22:53:42 +0200
-Received: by bwf20 with SMTP id 20so2380576bwf.6
+	Fri, 08 Jul 2011 22:57:28 +0200
+Received: by fxh10 with SMTP id 10so2709890fxh.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2011 13:49:50 -0700 (PDT)
-Received: by 10.204.7.85 with SMTP id c21mr532659bkc.260.1310158189777;
-	Fri, 08 Jul 2011 13:49:49 -0700 (PDT)
-Received: from [10.87.31.240] ([80.187.195.39])
-	by mx.google.com with ESMTPS id ld17sm360636bkb.21.2011.07.08.13.49.47
+	Fri, 08 Jul 2011 13:53:35 -0700 (PDT)
+Received: by 10.223.17.68 with SMTP id r4mr3665043faa.62.1310158415207;
+	Fri, 08 Jul 2011 13:53:35 -0700 (PDT)
+Received: from [94.157.42.61] ([94.157.42.61])
+	by mx.google.com with ESMTPS id h28sm7593137faj.29.2011.07.08.13.53.20
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 08 Jul 2011 13:49:49 -0700 (PDT)
-References: <cover.1310080780.git.jessica.zhang@intel.com>
-	<1310142693.20015.906.camel@rex> <4E174E52.2@mentor.com>
-	<C6510F6D410BB64A8C15398EDC6B847C02A284@ORSMSX101.amr.corp.intel.com>
+	Fri, 08 Jul 2011 13:53:34 -0700 (PDT)
+References: <1310139697.6337.134.camel@phil-desktop>
+	<1310143750.20015.911.camel@rex>
+	<9DA5872FEF993D41B7173F58FCF6BE94DE226629@orsmsx504.amr.corp.intel.com>
+	<1310145557.20015.914.camel@rex>
 From: Koen Kooi <koen@dominion.thruhere.net>
 X-Mailer: iPhone Mail (8J2)
-In-Reply-To: <C6510F6D410BB64A8C15398EDC6B847C02A284@ORSMSX101.amr.corp.intel.com>
-Message-Id: <7A271CF8-4DB2-43E9-9FC2-860A9ACD3649@dominion.thruhere.net>
-Date: Fri, 8 Jul 2011 22:49:40 +0200
+In-Reply-To: <1310145557.20015.914.camel@rex>
+Message-Id: <A82B3490-1824-4A3F-A5F8-24CE82E41E39@dominion.thruhere.net>
+Date: Fri, 8 Jul 2011 22:53:13 +0200
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Mime-Version: 1.0 (iPhone Mail 8J2)
-Subject: Re: [PATCH 0/1] [bug 1195] site/mips-common: Cache	cvs_cv_func_printf_ptr
+Subject: Re: eglibc issuettes continued
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,61 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 20:53:42 -0000
+X-List-Received-Date: Fri, 08 Jul 2011 20:57:28 -0000
 Content-Type: text/plain;
-	charset=utf-8
+	charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-I have a crude merged version of siteinfo.bbclass in meta-oe, any volunteers=
- to have =C3=A0 look at the differences?
 
-Op 8 jul. 2011 om 21:07 heeft "Zhang, Jessica" <jessica.zhang@intel.com> het=
- volgende geschreven:
 
-> We only have arm-common, common, ix86-common, mips-common, powerpc-common,=
- sh-common under site, no Linux-common or glibc-common, and it's defined in a=
-ll the arches-common files except mips-common.
+Op 8 jul. 2011 om 19:19 heeft Richard Purdie <richard.purdie@linuxfoundation=
+.org> het volgende geschreven:
+
+> On Fri, 2011-07-08 at 09:59 -0700, Kamble, Nitin A wrote:
+>> I sent a patch to fix /etc/localtime & /etc/rpc files. Other than that I a=
+m not seeing any issues for the eglibc recipe packaging.
 >=20
-> Thanks,
-> Jessica
+> I pushed:
 >=20
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedde=
-d-core-bounces@lists.openembedded.org] On Behalf Of Tom Rini
-> Sent: Friday, July 08, 2011 11:37 AM
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 0/1] [bug 1195] site/mips-common: Cache cvs_=
-cv_func_printf_ptr
+> http://git.openembedded.net/cgit.cgi/openembedded-core/commit/?id=3D93ce74=
+a299832ca7f24b4ce1b951abffa0232612
 >=20
-> On 07/08/2011 09:31 AM, Richard Purdie wrote:
->> On Thu, 2011-07-07 at 16:23 -0700, Jessica Zhang wrote:
->>> The following changes since commit c412674cf818e77e35857fb93353e392e7ac9=
-e53:
->>>  Khem Raj (1):
->>>        package.bbclass,prserv.bbclass: Compare USE_PR_SERV with "1" or "=
-0"
->>>=20
->>> are available in the git repository at:
->>>=20
->>>  git://git.yoctoproject.org/poky-contrib jzhang/1195
->>>  http://git.yoctoproject.org/cgit.cgi//log/?h=3Djzhang/1195
->>>=20
->>> Khem Raj (1):
->>>  [bug 1195] site/mips-common: Cache cvs_cv_func_printf_ptr
->>=20
->> Merged to master, thanks.
+> to fix one of those. If there is still the localtime issue, we probably
+> need a patch for that one...
+
+iirc we don't use the libc localtime, but another in .dev, but I can't check=
+ that right now. fwiw having a image function to change the localtime would b=
+e nice to have, but is a different issue=20
+
+
 >=20
-> Late again and my fault this time but why is this in site/mips-common
-> and not site/linux-common or glibc-common?
+> Cheers,
 >=20
-> --
-> Tom Rini
-> Mentor Graphics Corporation
+> Richard
 >=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >=20
 > _______________________________________________
 > Openembedded-core mailing list
