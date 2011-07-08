@@ -1,25 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qf7kC-0007el-SZ
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Qf7of-0007hp-Kz for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 11:57:45 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1Qf7kx-0006x1-GZ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 11:53:09 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2011 02:49:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,498,1304319600"; d="scan'208";a="23072647"
-Received: from unknown (HELO helios.localnet) ([10.255.17.130])
-	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2011 02:49:14 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: celston@katalix.com, "Patches and discussions about the oe-core layer"
+	Fri, 08 Jul 2011 11:53:55 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 8 Jul 2011 10:49:13 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+In-Reply-To: <201107080938.37370.paul.eggleton@linux.intel.com>
 References: <cover.1310044227.git.paul.eggleton@linux.intel.com>
+	<201107071534.51372.paul.eggleton@linux.intel.com>
+	<4E1693CC.8080403@gmail.com>
 	<201107080938.37370.paul.eggleton@linux.intel.com>
-	<1310114794.3629.7.camel@ce-laptop>
-In-Reply-To: <1310114794.3629.7.camel@ce-laptop>
-MIME-Version: 1.0
-Message-Id: <201107081049.13142.paul.eggleton@linux.intel.com>
+Date: Fri, 08 Jul 2011 10:53:49 +0100
+Message-ID: <1310118829.18564.13.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
 Subject: Re: [PATCH 1/2] bitbake.conf: update OLDEST_KERNEL to 2.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,26 +35,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 09:53:09 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Fri, 08 Jul 2011 09:57:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Friday 08 July 2011 09:46:34 Chris Elston wrote:
-> It's very rare that we get a free hand in the choice of kernel version.
-> We get stuck with whichever version the silicon vendor chooses to
-> support, so it would be bad for us if we couldn't use an older kernel in
-> our layers.
+On Fri, 2011-07-08 at 09:38 +0100, Paul Eggleton wrote:
+> On Friday 08 July 2011 06:21:16 Khem Raj wrote:
+> > If oe-core never supported older kernel than 2.6.37 then setting it to
+> > 2.6.37 would be better IMO
+> 
+> It's not necessarily just about oe-core - it's about what layers get used on 
+> top, and some of those will be using kernels older than 2.6.37.
 
-Just out of interest, what's the oldest kernel you have to deal with in your 
-current/recent projects?
+They can always provide their own OLDEST_KERNEL setting, though.  To
+some extent I think it's a bit academic what the default in oe-core is.
 
-Cheers,
-Paul
+p.
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
