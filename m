@@ -1,33 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QfDJX-00027J-Tl for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 17:50:00 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68Fk804021434
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QfDMW-0002As-PH
+	for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 17:53:04 +0200
+Received: by bwf20 with SMTP id 20so2159031bwf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jul 2011 16:46:08 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20817-09 for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2011 16:46:04 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68Fk1qs021428
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jul 2011 16:46:02 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 08 Jul 2011 08:49:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=WykjaEzjf1OgcbBfYWBvBM0P2JjHfSa5IE2MpVgvH24=;
+	b=ZVUInA8BMW9iOCnmQ5oJhI23IVNDlkvr/i5YIcBwhrMCRJ2mMvyWwOGqICJj7lKlrP
+	9QRrENCJQqWRTVFsPzRuEg88weby/7di10f2KjDNnqPs7LsM/VIpfhx2oZl8m05THomR
+	CyjTW2TSZU4ATVffRKBFc3MasZZWEB93CCl5o=
+MIME-Version: 1.0
+Received: by 10.204.144.197 with SMTP id a5mr406916bkv.281.1310140152170; Fri,
+	08 Jul 2011 08:49:12 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.120.75 with HTTP; Fri, 8 Jul 2011 08:49:12 -0700 (PDT)
+In-Reply-To: <1310138939.20015.883.camel@rex>
+References: <cover.1310132765.git.otavio@ossystems.com.br>
+	<4ed38d13d68e132c90e0c41cb9584c414334e01c.1310132765.git.otavio@ossystems.com.br>
+	<1310138939.20015.883.camel@rex>
+Date: Fri, 8 Jul 2011 12:49:12 -0300
+X-Google-Sender-Auth: mBsJqPZ6BJIK5IeCMECuylxsV-I
+Message-ID: <CAP9ODKpcSZcKOjgBa3LEZTXEtizBUe219dzLNn_tvb6Pk=3K+A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1310090994.git.dongxiao.xu@intel.com>
-References: <cover.1310090994.git.dongxiao.xu@intel.com>
-Date: Fri, 08 Jul 2011 16:45:23 +0100
-Message-ID: <1310139923.20015.899.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/2][PULL] alsa-tools: Fix recipe build error
+Subject: Re: [PATCH 6/8] cmake: add nativesdk and target versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,41 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 15:50:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jul 2011 15:53:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2011-07-08 at 10:11 +0800, Dongxiao Xu wrote:
-> Hi Saul,
-> 
-> This pull request fixes the alsa-tools recipe build error.
-> Please help to review and pull.
-> 
-> [YOCTO #1038]
-> 
-> Thanks,
-> Dongxiao
-> 
-> The following changes since commit 2c79c9eb7ef8ef0aef8c3096c3c4387e28e56ea2:
-> 
->   pulseaudio: add 0.9.23 (2011-07-07 13:45:32 +0100)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib dxu4/alsa-tools
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/alsa-tools
-> 
-> Dongxiao Xu (2):
->   fltk: add this recipe for alsa-tools build
->   alsa-tools: Fix recipe build error.
+On Fri, Jul 8, 2011 at 12:28, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2011-07-08 at 13:47 +0000, Otavio Salvador wrote:
+>> Adds a recipe that provides the nativesdk and target versions of
+>> CMake.
+>>
+>> This recipe is based on code from OpenEmbeeded (rev
+>> b1f2e1501c19540617a829b37415c0616101c7ad).
+>>
+>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> ---
+> [...]
+>
+>> +# FIXME: Hack due gcc-crosssdk not being able to detect those automatic=
+ally
+>> +CXXFLAGS_virtclass-nativesdk +=3D " \
+>> + =A0 -I${STAGING_DIR_HOST}${SDKPATHNATIVE}/usr/include/c++ \
+>> + =A0 -I${STAGING_DIR_HOST}${SDKPATHNATIVE}/usr/include/c++/${TARGET_SYS=
+} \
+>> + =A0 "
+>
+> I get worried when I see things like this :(
+>
+> Has anyone attempted to work out why gcc-crosssdk can't locate c++
+> include files?
 
-I'd like to understand whether we need gtk and fltk tools from
-alsa-tools at this point in time?
+Not sure why but this is the same things as done on qt4-tools-nativesdk.
 
-Could we just disable those?
-
-Cheers,
-
-Richard
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
