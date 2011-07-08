@@ -1,24 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QfEw5-0004u6-BU
+	(envelope-from <Tom_Rini@mentor.com>) id 1QfFzJ-0005tu-8M
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 19:33:53 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2011 10:29:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,500,1304319600"; d="scan'208";a="24991329"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.180])
-	by orsmga001.jf.intel.com with ESMTP; 08 Jul 2011 10:29:59 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jul 2011 10:29:42 -0700
-Message-Id: <110ffac7f56eaf55ce13d3f35007dec4d60e1b08.1310145969.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1310145969.git.sgw@linux.intel.com>
-References: <cover.1310145969.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1310145969.git.sgw@linux.intel.com>
-References: <cover.1310145969.git.sgw@linux.intel.com>
-Subject: [PATCH v2 4/4] libx11: enable xcb support
+	Fri, 08 Jul 2011 20:41:17 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QfFvY-0000hz-Vp from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 11:37:25 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 8 Jul 2011 11:36:11 -0700
+Received: from [172.30.80.17] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
+	Fri, 8 Jul 2011 11:37:24 -0700
+Message-ID: <4E174E52.2@mentor.com>
+Date: Fri, 8 Jul 2011 11:37:06 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1310080780.git.jessica.zhang@intel.com>
+	<1310142693.20015.906.camel@rex>
+In-Reply-To: <1310142693.20015.906.camel@rex>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 08 Jul 2011 18:36:11.0483 (UTC)
+	FILETIME=[E8FB12B0:01CC3D9D]
+Subject: Re: [PATCH 0/1] [bug 1195] site/mips-common: Cache cvs_cv_func_printf_ptr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 17:33:53 -0000
+X-List-Received-Date: Fri, 08 Jul 2011 18:41:17 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #1196]
+On 07/08/2011 09:31 AM, Richard Purdie wrote:
+> On Thu, 2011-07-07 at 16:23 -0700, Jessica Zhang wrote:
+>> The following changes since commit c412674cf818e77e35857fb93353e392e7ac9e53:
+>>   Khem Raj (1):
+>>         package.bbclass,prserv.bbclass: Compare USE_PR_SERV with "1" or "0"
+>>
+>> are available in the git repository at:
+>>
+>>   git://git.yoctoproject.org/poky-contrib jzhang/1195
+>>   http://git.yoctoproject.org/cgit.cgi//log/?h=jzhang/1195
+>>
+>> Khem Raj (1):
+>>   [bug 1195] site/mips-common: Cache cvs_cv_func_printf_ptr
+> 
+> Merged to master, thanks.
 
-XCB support is needed in libx1l, it has been enabled in libx11-trim for
-sometime and was not in full version. The usage here is for LSB testing,
-which uses full libx11.
+Late again and my fault this time but why is this in site/mips-common
+and not site/linux-common or glibc-common?
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb |   11 ++++++++---
- 1 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb b/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
-index 3e046a1..04d4a97 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT & MIT-style & BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bf75bfe4d05068311b5e6862d4b5f2c5"
- 
- PE = "1"
--PR = "r1"
-+PR = "r3"
- 
- SRC_URI += "file://x11_disable_makekeys.patch \
-             file://nodolt.patch \
-@@ -16,8 +16,13 @@ SRC_URI[md5sum] = "f65c9c7ecbfb64c19dbd7927160d63fd"
- SRC_URI[sha256sum] = "88d7238ce5f7cd123450567de7a3b56a43556e4ccc45df38b8324147c889a844"
- 
- DEPENDS += "bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
--            libxdmcp xf86bigfontproto kbproto inputproto xproto-native"
-+            libxdmcp xf86bigfontproto kbproto inputproto xproto-native libxcb"
- 
--EXTRA_OECONF += "--without-xcb"
-+DEPENDS_virtclass-native += "bigreqsproto-native xproto-native xextproto-native xtrans-native libxau-native xcmiscproto-native \
-+            libxdmcp-native xf86bigfontproto-native kbproto-native inputproto-native xproto-native"
-+
-+XCB = "--with-xcb"
-+XCB_virtclass-native = "--without-xcb"
-+EXTRA_OECONF += "${XCB}"
- 
- BBCLASSEXTEND = "native nativesdk"
 -- 
-1.7.3.4
-
+Tom Rini
+Mentor Graphics Corporation
 
 
