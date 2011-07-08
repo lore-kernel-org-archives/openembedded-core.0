@@ -1,27 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qf8EI-0000ES-8f
+Received: from stoexhub01.domain01.net ([83.145.59.142]
+	helo=stoexhub02.domain01.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <anders@chargestorm.se>) id 1QfBCm-0007Cm-8v
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 12:24:14 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 08 Jul 2011 03:20:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,498,1304319600"; d="scan'208";a="24350940"
-Received: from unknown (HELO helios.localnet) ([10.255.17.130])
-	by azsmga001.ch.intel.com with ESMTP; 08 Jul 2011 03:20:18 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Fri, 8 Jul 2011 11:20:17 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <cover.1310044227.git.paul.eggleton@linux.intel.com>
-	<201107081103.37637.paul.eggleton@linux.intel.com>
-	<1310119932.18564.15.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1310119932.18564.15.camel@lenovo.internal.reciva.com>
-MIME-Version: 1.0
-Message-Id: <201107081120.17232.paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 08 Jul 2011 15:34:52 +0200
+Received: from STOEXMBXC03.domain01.net
+	([fe80:0000:0000:0000:99c4:3913:164.170.217.90]) by
+	stoexhub02.domain01.net
+	([10.12.10.2]) with mapi; Fri, 8 Jul 2011 15:30:58 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] bitbake.conf: update OLDEST_KERNEL to 2.6.0
+Date: Fri, 8 Jul 2011 15:31:35 +0200
+Thread-Topic: [OE-core] [PATCH 1/1] kernel.bbclass: make external module
+	compile
+Thread-Index: Acw9c0VHDw3zEodFQMOmxm4utQQMgA==
+Message-ID: <41FA4BAA-39A6-4F15-9CCA-102CF3503300@chargestorm.se>
+References: <cover.1309867242.git.anders@chargestorm.se>
+	<406427a001cfa7c1859f54147b678f0ef647a922.1309867242.git.anders@chargestorm.se>
+	<1309869846.2410.3.camel@phil-desktop>
+	<201107051454.04409.anders@chargestorm.se>
+	<1309871340.20015.700.camel@rex>
+	<ECF13383-E711-4CE2-8E50-222852DC392D@chargestorm.se>
+	<4E148F5C.4020902@linux.intel.com>
+	<CADF341D-7B4B-416D-BAEE-38A5FC373788@chargestorm.se>
+	<4E14A7EB.4030104@linux.intel.com>
+In-Reply-To: <4E14A7EB.4030104@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] kernel.bbclass: make external module	compile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,33 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 10:24:14 -0000
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jul 2011 13:34:52 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Friday 08 July 2011 11:12:12 Phil Blundell wrote:
-> If OLDEST_KERNEL is set to a value that's too new then the failure you
-> get is anything but subtle: glibc will just print "kernel too old" and
-> exit.
 
-OK, I had just assumed you would just get errors about missing syscalls, good 
-to know that it would be more obvious than that.
 
-> I guess we could enhance that message to refer directly to
-> OLDEST_KERNEL to make it a bit more obvious what you need to do.
-> Also, we could teach kernel.bbclass to issue a diagnostic if you try to
-> build a kernel that's older than OLDEST_KERNEL.
+On 6 jul 2011, at 20:32, "Darren Hart" <dvhart@linux.intel.com> wrote:
+>=20
+> On 07/06/2011 10:31 AM, Anders Darander wrote:
+>> Hi Darren,
+>>=20
+>> On 6 jul 2011, at 18:37, "Darren Hart" <dvhart@linux.intel.com>
+>> wrote:
+>>> The scripts are recreated during the build of module.bbclass
+>>> derived recipes. Are you trying to build modules independently of
+>>> this method? Richard expressed concerns about not including host
+>>> specific binaries in the sstate, which was part of the reason this
+>>> approach was taken.
+>>=20
+>> Thanks for pointing out this, especially the first sentence in this
+>> paragraph. No matter how many times I've looked at both the recipes
+>> in question, as well as the meta/classes directory, I haven't noticed
+>> that the old, inherited recipes were not using module.bbclass, but
+>> rather inherited module-base.bbclass directly. I'll assume that once
+>> I change that, and fix the recipes properly all my issues will go
+>> away.
+>>=20
+>> Once more, thanks for pointing me to the real problem.
+>=20
+> Excellent, please keep us posted!
 
-These sound like good ideas. I'll add them to my todo list to have a look at 
-if nobody else gets there first.
+Fixing the module recipes as hinted above, solved my problems. Thus, I've b=
+ack ported the fixes to our current build system, based on oe-dev.
+
+Thanks again!
 
 Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Anders=
 
 
