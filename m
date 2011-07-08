@@ -1,21 +1,35 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QfDFA-0001z9-3T for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 17:45:28 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1QfDBR-0007IO-LP
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QfDFH-00020k-69
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 17:41:37 +0200
-From: Phil Blundell <pb@pbcl.net>
+	Fri, 08 Jul 2011 17:45:35 +0200
+Received: by bwf20 with SMTP id 20so2152665bwf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Jul 2011 08:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=zTEvf5KZPtOtgLuvH9DN98dRblc0rM993GJ/dKwrg1A=;
+	b=pq+atakMlNjOgwOcs2wUoIYBENa1Mfz5eNT0T5U+XHibDWlOsgVmArnkhNTxGJv385
+	TqKWu8WJhDmIQwlE+GXHTcGn21rHPYa9JmGWk7598zseF4Fjk3fIKYA2VTk1XzBetPdk
+	txbLmJ+UO6m5/ASoa1WPSJJrBo66vnDMGiKZk=
+MIME-Version: 1.0
+Received: by 10.204.129.66 with SMTP id n2mr419091bks.333.1310139702323; Fri,
+	08 Jul 2011 08:41:42 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.120.75 with HTTP; Fri, 8 Jul 2011 08:41:42 -0700 (PDT)
+In-Reply-To: <1310139323.20015.890.camel@rex>
+References: <cover.1310132765.git.otavio@ossystems.com.br>
+	<d851796fdf475882423cc97929d0242f7fcaf75e.1310132765.git.otavio@ossystems.com.br>
+	<1310139323.20015.890.camel@rex>
+Date: Fri, 8 Jul 2011 12:41:42 -0300
+X-Google-Sender-Auth: m_XTp4QU9t8AKlspEG_KJ6TPudU
+Message-ID: <CAP9ODKr9ZyKMyY1B+s+kdSfTyedKTEeWzA52=9NQ6CXqbjnVhA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 08 Jul 2011 16:41:36 +0100
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1310139697.6337.134.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: eglibc issuettes continued
+Subject: Re: [PATCH 7/8] cmake: update to 2.8.5-rc3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,40 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 15:45:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jul 2011 15:45:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-I'm not sure whether there are pending patches which will address these
-or not, but with a fresh pull from today I'm still not getting very good
-packaging for eglibc 2.13.  Specifically:
+On Fri, Jul 8, 2011 at 12:35, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2011-07-08 at 13:47 +0000, Otavio Salvador wrote:
+>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> ---
+>> =A0meta/recipes-devtools/cmake/cmake-native_2.8.3.bb =A0| =A0 =A07 -----=
+--
+>> =A0meta/recipes-devtools/cmake/cmake-native_2.8.5.bb =A0| =A0 12 +++++++=
++++++
+>> =A0.../cmake/cmake/support-oe-qt4-tools-names.patch =A0 | =A0 14 +++++++=
+-------
+>> =A0.../cmake/{cmake_2.8.3.bb =3D> cmake_2.8.5.bb} =A0 =A0 =A0 | =A0 =A09=
+ +++++++--
+>> =A04 files changed, 26 insertions(+), 16 deletions(-)
+>> =A0delete mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.3.bb
+>> =A0create mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
+>> =A0rename meta/recipes-devtools/cmake/{cmake_2.8.3.bb =3D> cmake_2.8.5.b=
+b} (76%)
+>
+> What is the reason for moving to an -rcX release? When is the main
+> release likely to be made?
 
-WARNING: For recipe eglibc, the following files were installed but not
-shipped in any package:
-WARNING:   /etc/localtime
-WARNING:   /etc/rpc
-WARNING:   /etc/ld.so.conf
-WARNING:   /lib/gconv/ISO-2022-CN-EXT.so
-WARNING:   /lib/gconv/IBM921.so
-[... etc ...]
-WARNING:   /lib/gconv/.debug/ISO-2022-CN-EXT.so
-WARNING:   /lib/gconv/.debug/IBM921.so
-[... etc ...]
-WARNING:   /share/i18n/charmaps/ISO-8859-15.gz
-WARNING:   /share/i18n/charmaps/IBM285.gz
-[... etc ...]
-WARNING:   /share/i18n/locales/ss_ZA
-WARNING:   /share/i18n/locales/is_IS
-[... etc ...]
-WARNING: QA Issue: libc-extra-nss rdepends on eglibc-dev
-WARNING: QA Issue: libc-thread-db rdepends on eglibc-dev
-ERROR: QA run found fatal errors. Please consider fixing them.
+Saul asked me to update it since the current one has some license
+issues that he wants fixed for M2; by the way, this patch has been
+fixed in my branch to fix a build failure so take the github one, not
+this (I can send an update patch to ml but seems not worth if not
+required).
 
-I'm not sure if these are actually new or not, though.  It's possible
-that they've been there for ages and I only just noticed.
-
-p.
-
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
