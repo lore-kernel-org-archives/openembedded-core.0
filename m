@@ -1,24 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1Qf0M1-0005pU-Mo
+	(envelope-from <raj.khem@gmail.com>) id 1Qf3Yt-0004gC-2R
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 03:59:41 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 07 Jul 2011 18:55:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,496,1304319600"; d="scan'208";a="22891257"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.20])
-	by orsmga002.jf.intel.com with ESMTP; 07 Jul 2011 18:55:48 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+	Fri, 08 Jul 2011 07:25:11 +0200
+Received: by iwn4 with SMTP id 4so1549323iwn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Jul 2011 22:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=uLkdsabaC3hqeUrsA3xuAK0HYwkZhWyVLMrCiQi0FPU=;
+	b=L/uDHY5fT7Uzl5WPdjjZpeikl2zlV8y5NwzkP1nMUS1dDtjsBhw8883GskdHFbSDUJ
+	DgWq2E/pjMi1uhhbWJcZnllgvYgMjs7T9FXH8TwYsCc0+Uf2oZHjaUY4y97MHXWwGtZM
+	K9PZROiWM4Ve71fjD05ioMbKw4Cs6uHRz+uLs=
+Received: by 10.231.24.193 with SMTP id w1mr1445626ibb.41.1310102478407;
+	Thu, 07 Jul 2011 22:21:18 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id e23sm5851766ibe.40.2011.07.07.22.21.17
+	(version=SSLv3 cipher=OTHER); Thu, 07 Jul 2011 22:21:17 -0700 (PDT)
+Message-ID: <4E1693CC.8080403@gmail.com>
+Date: Thu, 07 Jul 2011 22:21:16 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110516 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jul 2011 10:11:54 +0800
-Message-Id: <1fe84f84d97483fed090aa4e34f68f1edf253ca4.1310090994.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1310090994.git.dongxiao.xu@intel.com>
-References: <cover.1310090994.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1310090994.git.dongxiao.xu@intel.com>
-References: <cover.1310090994.git.dongxiao.xu@intel.com>
-Subject: [PATCH 2/2] alsa-tools: Fix recipe build error.
+References: <cover.1310044227.git.paul.eggleton@linux.intel.com>	<b53c3209e62b53c744afeed13e1563932770cf1f.1310044227.git.paul.eggleton@linux.intel.com>	<09ECC867-24F5-4CC7-8312-F00F34897B68@dominion.thruhere.net>
+	<201107071534.51372.paul.eggleton@linux.intel.com>
+In-Reply-To: <201107071534.51372.paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 1/2] bitbake.conf: update OLDEST_KERNEL to 2.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,93 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 01:59:42 -0000
+X-List-Received-Date: Fri, 08 Jul 2011 05:25:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-1. Fix the autoreconf error with gtk2 and alsa.
-2. Add libtool sysroot path while configuration.
-3. Remove one element in alsa-tools which depends on qt2.
+On 07/07/2011 07:34 AM, Paul Eggleton wrote:
+> On Thursday 07 July 2011 15:24:46 Koen Kooi wrote:
+>> angstrom has been setting it to 2.6.16 for some years now, I forget which
+>> bug that fixed over 2.6.0
+>
+> Personally I don't know enough about which crusty old 2.6 kernels people are
+> still using out there, so I figured 2.6.0 was the safest bet.
 
-[YOCTO #1038]
+If oe-core never supported older kernel than 2.6.37 then setting it to 
+2.6.37 would be better IMO
 
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- .../alsa/alsa-tools-1.0.24.1/autotools.patch       |   31 ++++++++++++++++++++
- .../recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb |   16 ++++++++--
- 2 files changed, 44 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools.patch
-
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools.patch b/meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools.patch
-new file mode 100644
-index 0000000..27e887a
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools.patch
-@@ -0,0 +1,31 @@
-+Add aclocal path to the autoreconf command.
-+Remove qlo10k1 element which depends on qt2.
-+
-+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+diff -ruN alsa-tools-1.0.24.1-orig//ld10k1/gitcompile alsa-tools-1.0.24.1/ld10k1/gitcompile
-+--- alsa-tools-1.0.24.1-orig//ld10k1/gitcompile	2011-07-06 11:27:40.227665002 +0800
-++++ alsa-tools-1.0.24.1/ld10k1/gitcompile	2011-07-08 09:49:11.177665001 +0800
-+@@ -1,6 +1,6 @@
-+ #!/bin/bash
-+ 
-+-autoreconf -fi || exit 1
-++autoreconf -fi $ACLOCAL_FLAGS || exit 1
-+ export CFLAGS='-O2 -Wall -pipe -g'
-+ echo "CFLAGS=$CFLAGS"
-+ echo "./configure $@"
-+diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1.0.24.1/Makefile
-+--- alsa-tools-1.0.24.1-orig//Makefile	2011-07-06 11:27:40.207665000 +0800
-++++ alsa-tools-1.0.24.1/Makefile	2011-07-08 09:48:39.157665001 +0800
-+@@ -2,8 +2,7 @@
-+ TOP = .
-+ SUBDIRS = ac3dec as10k1 envy24control hdsploader hdspconf hdspmixer \
-+ 	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
-+-	  us428control usx2yloader vxloader echomixer ld10k1 qlo10k1 \
-+-	  hwmixvolume
-++	  us428control usx2yloader vxloader echomixer ld10k1 hwmixvolume
-+ 
-+ all:
-+ 	@for i in $(SUBDIRS); do \
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-index 5b3ea98..d370d3c 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-@@ -3,15 +3,25 @@ BROKEN = "1"
- DESCRIPTION = "Alsa Tools"
- SECTION = "console/utils"
- LICENSE = "GPLv2"
--DEPENDS = "alsa-lib ncurses"
-+DEPENDS = "alsa-lib ncurses gtk+ fltk"
- 
--PR = "r1"
-+PR = "r2"
- 
- LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
--SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2"
-+SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
-+           file://autotools.patch"
- 
- SRC_URI[md5sum] = "08fe93a12006093e590d7ecc02b119dd"
- SRC_URI[sha256sum] = "17d43de93ab2db98886d89a53e45341daa46a4ef6edd405db87f4b5a5dc64a05"
- 
- inherit autotools
-+
-+do_compile_prepend() {
-+	subdirs="envy24control rmedigicontrol echomixer"
-+	for i in $subdirs; do
-+		mv ${S}/${i}/aclocal.m4 ${S}/${i}/acinclude.m4
-+	done
-+}
-+
-+EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST}' ACLOCAL_FLAGS='-I ${STAGING_DATADIR}/aclocal'"
--- 
-1.7.1
+>
+> A trawl of the OE history turns up these two:
+>
+> -----------------------------------
+> commit 8b0202e6e3f90a772df301e8522f9deb03e50132
+> Author: Tom Rini<tom_rini@mentor.com>
+> Date:   Wed Mar 3 12:17:38 2010 -0700
+>
+>      glibc*.inc: Bump OLDEST_KERNEL to 2.6.16
+>
+>      Per glibc's ChangeLog, 2.6.16 is the minimum required by at least glibc
+>      2.9
+>      Prior to this, it was a murky 2.6.14 + patches to 2.6.16 (when it was all
+>      upstream).
+> -----------------------------------
+> commit 794e8652f5c4fef71a8b9ab834b39f75b99f9420
+> Author: Koen Kooi<koen@openembedded.org>
+> Date:   Thu May 21 20:30:37 2009 +0200
+>
+>      Angstrom 2009.X: set OLDEST_KERNEL to 2.6.16 to avoid problems with
+> ppoll()
+> -----------------------------------
+>
+> Any further comments/info? Should we be using 2.6.16 in oe-core as well?
+>
+> Cheers,
+> Paul
+>
 
 
 
