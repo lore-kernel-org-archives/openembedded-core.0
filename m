@@ -1,34 +1,35 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QfBxK-00007w-2y
-	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 16:24:21 +0200
-Received: by pwi1 with SMTP id 1so1198718pwi.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QfCUN-0000aX-Kj for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 16:57:35 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68Er9bD021052
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2011 07:17:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=301M7AdyyRI91fpFFHBxrFDfrR4xvuAO4+CYtbVljWM=;
-	b=xYq4LAUdQx7qVmpvpYoX8yUP2Njq8hZGO7Vy805IJ7FjwokXHQH0SzYCkh4EVftVDs
-	+Esc1m7ySRKsFtv2Le9PxDeg98bwI14hPf9QtRQckg/9XNINtVytXIGKBxc11PHA7Lmd
-	Hr4FXk8CkdQlybtNOsK+Cfl7gR0J03JnuFz5I=
-Received: by 10.68.0.200 with SMTP id 8mr2730091pbg.163.1310134655177; Fri, 08
-	Jul 2011 07:17:35 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.57.104 with HTTP; Fri, 8 Jul 2011 07:17:03 -0700 (PDT)
-In-Reply-To: <201107080938.37370.paul.eggleton@linux.intel.com>
-References: <cover.1310044227.git.paul.eggleton@linux.intel.com>
-	<201107071534.51372.paul.eggleton@linux.intel.com>
-	<4E1693CC.8080403@gmail.com>
-	<201107080938.37370.paul.eggleton@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 8 Jul 2011 07:17:03 -0700
-Message-ID: <CAMKF1sqqYk60t5_CTOx8ueAWyZ5X0KmESLMqy+wjv_W7vr0WOg@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 8 Jul 2011 15:53:09 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20817-01 for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Jul 2011 15:53:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68Er0Bu021046
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Jul 2011 15:53:01 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] bitbake.conf: update OLDEST_KERNEL to 2.6.0
+In-Reply-To: <4E1698CE.4070207@linux.intel.com>
+References: <cover.1310081443.git.sgw@linux.intel.com>
+	<c55e57619344a0ddff4444e1a4403c9516089e5b.1310081443.git.sgw@linux.intel.com>
+	<1310081883.20015.862.camel@rex>  <4E1698CE.4070207@linux.intel.com>
+Date: Fri, 08 Jul 2011 15:52:21 +0100
+Message-ID: <1310136741.20015.869.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/8] rootfs_rpm: Add 50Meg to image size for zypper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,31 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 14:24:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Jul 2011 14:57:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 8, 2011 at 1:38 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Friday 08 July 2011 06:21:16 Khem Raj wrote:
->> If oe-core never supported older kernel than 2.6.37 then setting it to
->> 2.6.37 would be better IMO
->
-> It's not necessarily just about oe-core - it's about what layers get used on
-> top, and some of those will be using kernels older than 2.6.37.
+On Thu, 2011-07-07 at 22:42 -0700, Saul Wold wrote:
+> On 07/07/2011 04:38 PM, Richard Purdie wrote:
+> > On Thu, 2011-07-07 at 16:31 -0700, Saul Wold wrote:
+> >> [YOCTO #1171]
+> >>
+> >> Add /var space for zypper due to its space usage for db maintence
+> >
+> > This hasn't been tested for opkg/deb and is missing something like:
+> >
+> > ZYPPER_VAR_DB_SPACE ??= 0
+> >
+> > I'd suggest we just change this to append " + 51200" to
+> > IMAGE_ROOTFS_EXTRA_SPACE. I'd also like this only to happen when we're
+> > actually installing zypper so the minimal images are unaffected...
+> >
+> I can do the + 51200, but I have not figured out how to do the check for 
+> zypper, maybe it's something straight forward, but I am not finding a 
+> way to do it easily.
 
-Its similar to  a situation where some of the layers might be using
-gcc older than 4.6.0 but we still chose 4.6.0
-in default distro vars. There always is a possibility to override it
-if user has to.
+How about something like:
 
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
+IMAGE_ROOTFS_EXTRA_SPACE += "${@base_contains("PACKAGE_INSTALL", "zypper", " + 51200", "" ,d)}"
+
+?
+
+Not perfect but should basically work for what we need until we find a
+bettr fix for zypper itself.
+
+Cheers,
+
+Richard
+
 
 
