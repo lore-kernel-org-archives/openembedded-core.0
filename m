@@ -1,39 +1,27 @@
-Received: from mail-vw0-f47.google.com ([209.85.212.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QezCv-0003v8-K1
+	(envelope-from <ke.yu@intel.com>) id 1QezMw-00046J-Qd
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 02:46:13 +0200
-Received: by vws2 with SMTP id 2so1279882vws.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jul 2011 17:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=references:in-reply-to:mime-version:content-transfer-encoding
-	:content-type:message-id:cc:x-mailer:from:subject:date:to;
-	bh=wUq0NB5a7sGhgsK8mKWjejF3+X9WFrIgvxIa7RWl1Q4=;
-	b=EyK251UuiqRzQg3vHuexewOATbQ1LpcDxsGtMcp4jGrPnl+N3YXVc0/ftCiKfFUZsG
-	jdmTPkPb7vFjYuddhmH83Q4P0OCY/RY9Xb1Y+YMwISDdy9UOxkDQk6lD5UywbgopYFqy
-	3d/MIYu0XwpDAwNNuprUNtl4YBS5AScScCGXk=
-Received: by 10.52.177.1 with SMTP id cm1mr1839546vdc.295.1310085740740;
-	Thu, 07 Jul 2011 17:42:20 -0700 (PDT)
-Received: from [192.168.30.25] (ns-visitor-nsrp.juniper.net [208.223.208.242])
-	by mx.google.com with ESMTPS id p1sm2210567vby.12.2011.07.07.17.42.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 07 Jul 2011 17:42:19 -0700 (PDT)
-References: <cover.1310070283.git.nitin.a.kamble@intel.com>
-	<629561972efd884a87edc521d0430af83511ae58.1310070283.git.nitin.a.kamble@intel.com>
-	<CAMKF1srHWhp36iNaMPKBbkBNBQSSWCb7fbULP9efAsg3r29J=A@mail.gmail.com>
-	<1310080368.20015.855.camel@rex>
-In-Reply-To: <1310080368.20015.855.camel@rex>
-Mime-Version: 1.0 (iPad Mail 8J2)
-Message-Id: <A64F9A3E-6359-4C99-B332-378FFE4F644C@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPad Mail (8J2)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 7 Jul 2011 17:42:47 -0700
+	Fri, 08 Jul 2011 02:56:35 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 07 Jul 2011 17:52:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,496,1304319600"; d="scan'208";a="24702714"
+Received: from kyu3-desk.ccr.corp.intel.com (HELO [10.238.154.176])
+	([10.238.154.176])
+	by orsmga001.jf.intel.com with ESMTP; 07 Jul 2011 17:52:41 -0700
+Message-ID: <4E1654D8.2040406@intel.com>
+Date: Fri, 08 Jul 2011 08:52:40 +0800
+From: Yu Ke <ke.yu@intel.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US;
+	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] binutils: upgrade from 2.21 to 2.21.1
+References: <cover.1310047266.git.ke.yu@intel.com>	<46e97fb7d91eecd7e874e65a59b88a1e51ca131f.1310047266.git.ke.yu@intel.com>
+	<1310066545.20015.844.camel@rex>
+In-Reply-To: <1310066545.20015.844.camel@rex>
+Subject: Re: [PATCH 4/8] python: fix for libdir=/usr/lib64 case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,101 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 00:46:13 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Fri, 08 Jul 2011 00:56:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+on 2011-7-8 3:22, Richard Purdie wrote:
+> On Thu, 2011-07-07 at 22:10 +0800, Yu Ke wrote:
+>> python has several place hard code "lib" which breaks build
+>> when libdir=/usr/lib64. SUSE has a patch to fix this issue.
+>>
+>> So this patch add the SUSE patch to address this issue
+>>
+>> Signed-off-by: Yu Ke<ke.yu@intel.com>
+> [...]
+>> ++AC_SUBST(LIB)
+>> ++AC_MSG_CHECKING(LIB)
+>> ++case $ac_sys_system in
+>> ++Linux*)
+>> ++  # Test if the compiler is 64bit
+>> ++  echo 'int i;'>  conftest.$ac_ext
+>> ++  python_cv_cc_64bit_output=no
+>> ++  if AC_TRY_EVAL(ac_compile); then
+>> ++    case `/usr/bin/file conftest.$ac_objext` in
+>> ++    *"ELF 64"*)
+>> ++      python_cv_cc_64bit_output=yes
+>> ++      ;;
+>> ++    esac
+>> ++  fi
+>> ++  rm -rf conftest*
+>> ++  ;;
+>> ++esac
+>> ++
+>> ++case $ARCH:$python_cv_cc_64bit_output in
+>> ++ppc64:yes | powerpc64:yes | s390x:yes | sparc64:yes | x86_64:yes)
+>> ++  LIB="lib64"
+>> ++  ;;
+>> ++*:*)
+>> ++  LIB="lib"
+>> ++  ;;
+>> ++esac
+>> ++AC_MSG_RESULT($LIB)
+>> +
+>
+> This patch is good apart from this bit. I think we need to be able to
+> pass in our own string to use here which we derive from the libdir
+> variable...
+>
 
+Yes, indeed. I will revise it to use libdir instead of hardcode lib/lib64.
 
-On Jul 7, 2011, at 4:12 PM, Richard Purdie <richard.purdie@linuxfoundation.o=
-rg> wrote:
-
-> On Thu, 2011-07-07 at 14:39 -0700, Khem Raj wrote:
->> On Thu, Jul 7, 2011 at 1:25 PM,  <nitin.a.kamble@intel.com> wrote:
->>> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->>>=20
->>> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
->>> ---
->>> ...n_2.21.bb =3D> binutils-cross-canadian_2.21.1.bb} |    0
->>> ...tils-cross_2.21.bb =3D> binutils-cross_2.21.1.bb} |    0
->>> ...rosssdk_2.21.bb =3D> binutils-crosssdk_2.21.1.bb} |    0
->>> .../110-arm-eabi-conf.patch                        |    0
->>> .../binutils-2.19.1-ld-sysroot.patch               |    0
->>> .../binutils-poison.patch                          |    0
->>> .../binutils-pr12366.patch                         |    0
->>> .../binutils-uclibc-100-uclibc-conf.patch          |    0
->>> ...binutils-uclibc-300-001_ld_makefile_patch.patch |    0
->>> ...binutils-uclibc-300-006_better_file_error.patch |    0
->>> ...ils-uclibc-300-012_check_ldrunpath_length.patch |    0
->>> .../binutils-uclibc-gas-needs-libm.patch           |    0
->>> .../binutils-x86_64_i386_biarch.patch              |    0
->>> .../libiberty_path_fix.patch                       |    0
->>> .../libtool-2.4-update.patch                       | 1725 ++++++++++----=
-------
->>> .../libtool-rpath-fix.patch                        |    0
->>> .../{binutils_2.21.bb =3D> binutils_2.21.1.bb}       |    7 +-
->>> 17 files changed, 871 insertions(+), 861 deletions(-)
->>> rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.21.bb =3D=
-> binutils-cross-canadian_2.21.1.bb} (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-cross_2.21.bb =3D> binut=
-ils-cross_2.21.1.bb} (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.21.bb =3D> bi=
-nutils-crosssdk_2.21.1.bb} (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/110-=
-arm-eabi-conf.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
-tils-2.19.1-ld-sysroot.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
-tils-poison.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
-tils-pr12366.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
-tils-uclibc-100-uclibc-conf.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
-tils-uclibc-300-001_ld_makefile_patch.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
-tils-uclibc-300-006_better_file_error.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
-tils-uclibc-300-012_check_ldrunpath_length.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
-tils-uclibc-gas-needs-libm.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/binu=
-tils-x86_64_i386_biarch.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/libi=
-berty_path_fix.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/libt=
-ool-2.4-update.patch (94%)
->>> rename meta/recipes-devtools/binutils/{binutils-2.21 =3D> binutils}/libt=
-ool-rpath-fix.patch (100%)
->>> rename meta/recipes-devtools/binutils/{binutils_2.21.bb =3D> binutils_2.=
-21.1.bb} (87%)
->>>=20
->>=20
->> How about changing the recipe to fetch from binutils-2_21-branch and
->> call it binutils 2.21 as it is
->=20
-> I don't really see the benefits in fetching this from the SCM?
-
-Not much yes however
-
-Releases happen not so frequently but bug fixes go into the branch and it ma=
-kes it easier to upgrade may be same as adding patches to metadata but we do=
-n't need to keep them local in metadata
-
-It will match the process we do for other toolchain components
-
-
-
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Regards
+Ke
 
 
