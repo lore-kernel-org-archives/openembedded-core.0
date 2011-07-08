@@ -1,37 +1,32 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QfDkk-000346-7F for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 18:18:06 +0200
+	id 1QfDkk-000346-JD for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 18:18:07 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68FPb5H021268
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jul 2011 16:25:37 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68FXvic021330;
+	Fri, 8 Jul 2011 16:33:57 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 20388-06 for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2011 16:25:33 +0100 (BST)
+	id 20817-06; Fri,  8 Jul 2011 16:33:53 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68FPSMP021262
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jul 2011 16:25:29 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68FXoCk021324
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 8 Jul 2011 16:33:51 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <A64F9A3E-6359-4C99-B332-378FFE4F644C@gmail.com>
-References: <cover.1310070283.git.nitin.a.kamble@intel.com>
-	<629561972efd884a87edc521d0430af83511ae58.1310070283.git.nitin.a.kamble@intel.com>
-	<CAMKF1srHWhp36iNaMPKBbkBNBQSSWCb7fbULP9efAsg3r29J=A@mail.gmail.com>
-	<1310080368.20015.855.camel@rex>
-	<A64F9A3E-6359-4C99-B332-378FFE4F644C@gmail.com>
-Date: Fri, 08 Jul 2011 16:24:50 +0100
-Message-ID: <1310138690.20015.878.camel@rex>
+In-Reply-To: <3e091c2f3f0f39d3557004dba908b650e9aea7fb.1310132765.git.otavio@ossystems.com.br>
+References: <cover.1310132765.git.otavio@ossystems.com.br>
+	<3e091c2f3f0f39d3557004dba908b650e9aea7fb.1310132765.git.otavio@ossystems.com.br>
+Date: Fri, 08 Jul 2011 16:33:12 +0100
+Message-ID: <1310139192.20015.888.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/7] binutils: upgrade from 2.21 to 2.21.1
+Cc: Chris Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 1/8] Rework how the devshell functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,80 +41,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 16:18:06 -0000
+X-List-Received-Date: Fri, 08 Jul 2011 16:18:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-07-07 at 17:42 -0700, Khem Raj wrote:
+On Fri, 2011-07-08 at 13:47 +0000, Otavio Salvador wrote:
+> From: Chris Larson <chris_larson@mentor.com>
 > 
-> On Jul 7, 2011, at 4:12 PM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> In the new implementation, each known terminal is defined as a class in
+> oe.terminal, as a subclass of bb.process.Popen.  terminal.bbclass wraps this
+> functionality, providing the metadata pieces.  It obeys the OE_TERMINAL
+> variable, which is a 'choice' typed variable.  This variable may be 'auto',
+> 'none', or any of the names of the defined terminals.
 > 
-> > On Thu, 2011-07-07 at 14:39 -0700, Khem Raj wrote:
-> >> On Thu, Jul 7, 2011 at 1:25 PM,  <nitin.a.kamble@intel.com> wrote:
-> >>> From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >>> 
-> >>> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >>> ---
-> >>> ...n_2.21.bb => binutils-cross-canadian_2.21.1.bb} |    0
-> >>> ...tils-cross_2.21.bb => binutils-cross_2.21.1.bb} |    0
-> >>> ...rosssdk_2.21.bb => binutils-crosssdk_2.21.1.bb} |    0
-> >>> .../110-arm-eabi-conf.patch                        |    0
-> >>> .../binutils-2.19.1-ld-sysroot.patch               |    0
-> >>> .../binutils-poison.patch                          |    0
-> >>> .../binutils-pr12366.patch                         |    0
-> >>> .../binutils-uclibc-100-uclibc-conf.patch          |    0
-> >>> ...binutils-uclibc-300-001_ld_makefile_patch.patch |    0
-> >>> ...binutils-uclibc-300-006_better_file_error.patch |    0
-> >>> ...ils-uclibc-300-012_check_ldrunpath_length.patch |    0
-> >>> .../binutils-uclibc-gas-needs-libm.patch           |    0
-> >>> .../binutils-x86_64_i386_biarch.patch              |    0
-> >>> .../libiberty_path_fix.patch                       |    0
-> >>> .../libtool-2.4-update.patch                       | 1725 ++++++++++----------
-> >>> .../libtool-rpath-fix.patch                        |    0
-> >>> .../{binutils_2.21.bb => binutils_2.21.1.bb}       |    7 +-
-> >>> 17 files changed, 871 insertions(+), 861 deletions(-)
-> >>> rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.21.bb => binutils-cross-canadian_2.21.1.bb} (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-cross_2.21.bb => binutils-cross_2.21.1.bb} (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.21.bb => binutils-crosssdk_2.21.1.bb} (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/110-arm-eabi-conf.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-2.19.1-ld-sysroot.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-poison.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-pr12366.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-100-uclibc-conf.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-300-001_ld_makefile_patch.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-300-006_better_file_error.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-300-012_check_ldrunpath_length.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-uclibc-gas-needs-libm.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/binutils-x86_64_i386_biarch.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/libiberty_path_fix.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/libtool-2.4-update.patch (94%)
-> >>> rename meta/recipes-devtools/binutils/{binutils-2.21 => binutils}/libtool-rpath-fix.patch (100%)
-> >>> rename meta/recipes-devtools/binutils/{binutils_2.21.bb => binutils_2.21.1.bb} (87%)
-> >>> 
-> >> 
-> >> How about changing the recipe to fetch from binutils-2_21-branch and
-> >> call it binutils 2.21 as it is
-> > 
-> > I don't really see the benefits in fetching this from the SCM?
+> When using 'auto', or requesting an unsupported terminal, we attempt to spawn
+> them in priority order until we get one that's available on this system (and
+> in the case of the X terminals, has DISPLAY defined).  The 'none' value is
+> used when we're doing things like automated builds, and want to ensure that no
+> terminal is *ever* spawned, under any circumstances.
 > 
-> Not much yes however
+> Current available terminals:
 > 
-> Releases happen not so frequently but bug fixes go into the branch and
-> it makes it easier to upgrade may be same as adding patches to
-> metadata but we don't need to keep them local in metadata
+>     gnome
+>     konsole
+>     xterm
+>     rxvt
+>     screen
 > 
-> It will match the process we do for other toolchain components
+> Signed-off-by: Chris Larson <chris_larson@mentor.com>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  meta/classes/devshell.bbclass |   26 ++++-------
+>  meta/classes/terminal.bbclass |   30 ++++++++++++
+>  meta/lib/oe/classutils.py     |    2 +
+>  meta/lib/oe/terminal.py       |  102 +++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 143 insertions(+), 17 deletions(-)
+>  create mode 100644 meta/classes/terminal.bbclass
+>  create mode 100644 meta/lib/oe/terminal.py
+> 
+> diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+> index 5f262f4..7317d64 100644
+> --- a/meta/classes/devshell.bbclass
+> +++ b/meta/classes/devshell.bbclass
+> @@ -1,22 +1,14 @@
+> -do_devshell[dirs] = "${S}"
+> -do_devshell[nostamp] = "1"
+> +inherit terminal
+>  
+> -XAUTHORITY ?= "${HOME}/.Xauthority"
+>  
+> -devshell_do_devshell() {
+> -	export DISPLAY='${DISPLAY}'
+> -	export DBUS_SESSION_BUS_ADDRESS='${DBUS_SESSION_BUS_ADDRESS}'
+> -	export XAUTHORITY='${XAUTHORITY}'
+> -	export TERMWINDOWTITLE="Bitbake Developer Shell"
+> -	export EXTRA_OEMAKE='${EXTRA_OEMAKE}'
+> -	export SHELLCMDS="bash"
+> -	${TERMCMDRUN}
+> -	if [ $? -ne 0 ]; then
+> -	    echo "Fatal: '${TERMCMD}' not found. Check TERMCMD variable."
+> -	    exit 1
+> -	fi
 
-I have a dislike for depending on what are usually slow SCMs for
-components of the system. I've been convinced we need to do it for gcc
-but I think that is the exception to the rule and we don't have a
-seriously large number of patches queued against binutils...
+For reference, the reason I keep putting off merging this is that there
+are a number of variables above that were added there for a reason (e.g.
+DBUS_SESSION_BUS_ADDRESS) and this patch wipes them out.
 
-I've therefore taken the patch.
+The patch therefore makes someone's usecase work better and the expense
+of breaking some others and to me that doesn't make a good patch.
+
+I'm the first to agree that the bitbake environment handling sucks,
+badly. It would be nice if there were some way we could save off the
+original environment and then restore it under certain conditions which
+would then make the need for gross code like the above go away. Likely
+that would need changes at the bitbake level but I think we need to try
+and fix this problem properly...
+
+[I'm fine with the other changes that patch makes, I just worry about
+the environment bits]
 
 Cheers,
 
 Richard
+
+
 
 
 
