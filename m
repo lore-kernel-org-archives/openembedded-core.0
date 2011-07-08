@@ -1,30 +1,35 @@
-Received: from mail-fx0-f51.google.com ([209.85.161.51])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QfI76-0008AH-6C
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QfIXu-0000MW-5M
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 22:57:28 +0200
-Received: by fxh10 with SMTP id 10so2709890fxh.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2011 13:53:35 -0700 (PDT)
-Received: by 10.223.17.68 with SMTP id r4mr3665043faa.62.1310158415207;
-	Fri, 08 Jul 2011 13:53:35 -0700 (PDT)
-Received: from [94.157.42.61] ([94.157.42.61])
-	by mx.google.com with ESMTPS id h28sm7593137faj.29.2011.07.08.13.53.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 08 Jul 2011 13:53:34 -0700 (PDT)
-References: <1310139697.6337.134.camel@phil-desktop>
-	<1310143750.20015.911.camel@rex>
-	<9DA5872FEF993D41B7173F58FCF6BE94DE226629@orsmsx504.amr.corp.intel.com>
-	<1310145557.20015.914.camel@rex>
-From: Koen Kooi <koen@dominion.thruhere.net>
-X-Mailer: iPhone Mail (8J2)
-In-Reply-To: <1310145557.20015.914.camel@rex>
-Message-Id: <A82B3490-1824-4A3F-A5F8-24CE82E41E39@dominion.thruhere.net>
-Date: Fri, 8 Jul 2011 22:53:13 +0200
+	Fri, 08 Jul 2011 23:25:10 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Jul 2011 14:15:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,500,1304319600"; d="scan'208";a="28020979"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Jul 2011 14:15:15 -0700
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx604.amr.corp.intel.com ([10.250.113.17]) with mapi;
+	Fri, 8 Jul 2011 14:15:14 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (iPhone Mail 8J2)
-Subject: Re: eglibc issuettes continued
+Date: Fri, 8 Jul 2011 14:15:14 -0700
+Thread-Topic: [OE-core] [PATCH 4/7] binutils: package unpackaged files
+Thread-Index: Acw9hIATQJ09IHktR7+DyiM5k1FkjgALtSDA
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94DE293C92@orsmsx504.amr.corp.intel.com>
+References: <629561972efd884a87edc521d0430af83511ae58.1310070283.git.nitin.a.kamble@intel.com>
+	<12dc19831b4766f0894ff43ae916150057a0e65e.1310070283.git.nitin.a.kamble@intel.com>
+	<1310138792.20015.880.camel@rex>
+	<1310139246.6337.130.camel@phil-desktop>
+In-Reply-To: <1310139246.6337.130.camel@phil-desktop>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 4/7] binutils: package unpackaged files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,37 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 20:57:28 -0000
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Fri, 08 Jul 2011 21:25:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 
 
-Op 8 jul. 2011 om 19:19 heeft Richard Purdie <richard.purdie@linuxfoundation=
-.org> het volgende geschreven:
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Phil Blundell
+> Sent: Friday, July 08, 2011 8:34 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 4/7] binutils: package unpackaged files
+>=20
+> On Fri, 2011-07-08 at 16:26 +0100, Richard Purdie wrote:
+> > > @@ -35,11 +35,13 @@ FILES_${PN}-symlinks =3D " \
+> > >  	${bindir}/c++filt \
+> > >  	${bindir}/gprof \
+> > >  	${bindir}/ld \
+> > > +	${bindir}/ld.bfd \
+> > >  	${bindir}/nm \
+> > >  	${bindir}/objcopy \
+> > >  	${bindir}/objdump \
+> > >  	${bindir}/ranlib \
+> > >  	${bindir}/readelf \
+> > > +	${bindir}/elfedit \
+> > >  	${bindir}/size \
+> > >  	${bindir}/strip"
+> >
+> > Nitin, do you know if the ld.bfd above is a hardlinked copy of ld?
+>=20
+> If you're getting ld.bfd at all (at least with our current recipes)
+> then
+> it probably means that ${bindir}/ld is gold.  So in that case they
+> oughtn't to be symlinked.
+>=20
+Just verified that ld.bfd is a soft link to i586-poky-linux-ld.bfd
 
-> On Fri, 2011-07-08 at 09:59 -0700, Kamble, Nitin A wrote:
->> I sent a patch to fix /etc/localtime & /etc/rpc files. Other than that I a=
-m not seeing any issues for the eglibc recipe packaging.
->=20
-> I pushed:
->=20
-> http://git.openembedded.net/cgit.cgi/openembedded-core/commit/?id=3D93ce74=
-a299832ca7f24b4ce1b951abffa0232612
->=20
-> to fix one of those. If there is still the localtime issue, we probably
-> need a patch for that one...
+So what is the right think here, rm -f ld.bfd, or putting it in the symlink=
+s package is good?
 
-iirc we don't use the libc localtime, but another in .dev, but I can't check=
- that right now. fwiw having a image function to change the localtime would b=
-e nice to have, but is a different issue=20
+Nitin
 
-
->=20
-> Cheers,
->=20
-> Richard
+> p.
 >=20
 >=20
 > _______________________________________________
