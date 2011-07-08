@@ -1,35 +1,33 @@
-Received: from mail-bw0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1QfDFH-00020k-69
-	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 17:45:35 +0200
-Received: by bwf20 with SMTP id 20so2152665bwf.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QfDFk-00023F-N9 for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 17:46:04 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68FgDgo021400
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jul 2011 08:41:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=zTEvf5KZPtOtgLuvH9DN98dRblc0rM993GJ/dKwrg1A=;
-	b=pq+atakMlNjOgwOcs2wUoIYBENa1Mfz5eNT0T5U+XHibDWlOsgVmArnkhNTxGJv385
-	TqKWu8WJhDmIQwlE+GXHTcGn21rHPYa9JmGWk7598zseF4Fjk3fIKYA2VTk1XzBetPdk
-	txbLmJ+UO6m5/ASoa1WPSJJrBo66vnDMGiKZk=
-MIME-Version: 1.0
-Received: by 10.204.129.66 with SMTP id n2mr419091bks.333.1310139702323; Fri,
-	08 Jul 2011 08:41:42 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.204.120.75 with HTTP; Fri, 8 Jul 2011 08:41:42 -0700 (PDT)
-In-Reply-To: <1310139323.20015.890.camel@rex>
-References: <cover.1310132765.git.otavio@ossystems.com.br>
-	<d851796fdf475882423cc97929d0242f7fcaf75e.1310132765.git.otavio@ossystems.com.br>
-	<1310139323.20015.890.camel@rex>
-Date: Fri, 8 Jul 2011 12:41:42 -0300
-X-Google-Sender-Auth: m_XTp4QU9t8AKlspEG_KJ6TPudU
-Message-ID: <CAP9ODKr9ZyKMyY1B+s+kdSfTyedKTEeWzA52=9NQ6CXqbjnVhA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Fri, 8 Jul 2011 16:42:13 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20817-08 for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Jul 2011 16:42:09 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68Fg5Di021394
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Jul 2011 16:42:05 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/8] cmake: update to 2.8.5-rc3
+In-Reply-To: <cover.1310081443.git.sgw@linux.intel.com>
+References: <cover.1310081443.git.sgw@linux.intel.com>
+Date: Fri, 08 Jul 2011 16:41:26 +0100
+Message-ID: <1310139686.20015.897.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/8] Bug Fixes for M2 Rc2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,43 +42,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 15:45:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Jul 2011 15:46:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 8, 2011 at 12:35, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2011-07-08 at 13:47 +0000, Otavio Salvador wrote:
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->> =A0meta/recipes-devtools/cmake/cmake-native_2.8.3.bb =A0| =A0 =A07 -----=
---
->> =A0meta/recipes-devtools/cmake/cmake-native_2.8.5.bb =A0| =A0 12 +++++++=
-+++++
->> =A0.../cmake/cmake/support-oe-qt4-tools-names.patch =A0 | =A0 14 +++++++=
--------
->> =A0.../cmake/{cmake_2.8.3.bb =3D> cmake_2.8.5.bb} =A0 =A0 =A0 | =A0 =A09=
- +++++++--
->> =A04 files changed, 26 insertions(+), 16 deletions(-)
->> =A0delete mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.3.bb
->> =A0create mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
->> =A0rename meta/recipes-devtools/cmake/{cmake_2.8.3.bb =3D> cmake_2.8.5.b=
-b} (76%)
->
-> What is the reason for moving to an -rcX release? When is the main
-> release likely to be made?
+On Thu, 2011-07-07 at 16:31 -0700, Saul Wold wrote:
+> Richard,
+> 
+> This address the bash, xcb missing from libx11, locale issue and
+> the lack of space due to zypper eating space.
+> 
+> Sau!
+> 
+> 
+> The following changes since commit f1fc6d084b079dea21ff1a30b815496452042490:
+> 
+>   pulseaudio: add 0.9.23 (2011-07-07 13:44:36 +0100)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/fix
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+> 
+> Saul Wold (8):
+>  
+>   image.bbclass: add LINGUAS_INSTALL to depends list
+>   gnome-doc-utils: Add RDEPENDS on bash
+>   quilt: Add RDEPENDS on bash
+>   console-tools: Add RDEPENDS on bash
+>   usbutils: Add RDEPENDS on bash
 
-Saul asked me to update it since the current one has some license
-issues that he wants fixed for M2; by the way, this patch has been
-fixed in my branch to fix a build failure so take the github one, not
-this (I can send an update patch to ml but seems not worth if not
-required).
+I've taken these (rewording the image.bbclass commit).
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+>   rootfs_rpm: Add 50Meg to image size for zypper
+
+This needs tweaking as per the discussion
+
+>   eglibc: Add RDEPENDS on bash
+
+We should likely take OE's ldd patch here and then this can go in.
+
+>   libx11: enable xcb support
+
+and this needs a revised commit message.
+
+Cheers,
+
+Richard
+
 
 
