@@ -1,39 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QfEDn-0003jF-GL for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 18:48:07 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68GiDPU021956
+Received: from mail-bw0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QfEHG-0003ms-08
+	for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 18:51:42 +0200
+Received: by bwf20 with SMTP id 20so2208973bwf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jul 2011 17:44:13 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21561-08 for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2011 17:44:09 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68Gi6O7021950
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jul 2011 17:44:06 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 08 Jul 2011 09:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=7hZ08jxKYI1onoxRNatKFVzAIHBQ3mRMHg4e7vzBNas=;
+	b=OLrO7Ee9S+rNjRoBM8FS/+pFRP1l3pjCRvWD7oIBvjoA5mcfaV+AHBsVTsQ/w7sno/
+	ts5N0OjTAqlD5/2U9u8qkkhVdU5hKW+hrrJprGrz7yibNyyu4xxRqxoQ4nPZKOBqNL1X
+	niIpQbgTR3Q0bilNs99DhIvQHSVwNwqRPIefc=
+MIME-Version: 1.0
+Received: by 10.204.74.17 with SMTP id s17mr461212bkj.229.1310143669160; Fri,
+	08 Jul 2011 09:47:49 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.204.120.75 with HTTP; Fri, 8 Jul 2011 09:47:49 -0700 (PDT)
+In-Reply-To: <1310141934.20015.900.camel@rex>
+References: <cover.1310132765.git.otavio@ossystems.com.br>
+	<b81093b9840677dd5c63bbed58ebfe2150791504.1310132765.git.otavio@ossystems.com.br>
+	<1310138840.20015.881.camel@rex>
+	<CAP9ODKpg3jMB=PbSgmPqSsuJTz78k5wBVHOwb0-7Yc4SgfrY6w@mail.gmail.com>
+	<1310141934.20015.900.camel@rex>
+Date: Fri, 8 Jul 2011 13:47:49 -0300
+X-Google-Sender-Auth: Rz6rXFv3N1Hx2DXC7-b7oqLvS4Q
+Message-ID: <CAP9ODKqP9YrMGcVAfhaiuRbGaN3GyH_k4_cUyB45JeD98fABMw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <AAA99274-8387-49A8-9DD1-0AA9FC18D344@dominion.thruhere.net>
-References: <cover.1310027619.git.dexuan.cui@intel.com>
-	<cb76f021571c5f35239192ff05eb89cab4713d04.1310027619.git.dexuan.cui@intel.com>
-	<4E15D389.9040906@mentor.com>
-	<1865303E0DED764181A9D882DEF65FB6A6B2A2650F@shsmsx502.ccr.corp.intel.com>
-	<27ED3419-C3F8-40B4-AF21-D7BEDC631813@dominion.thruhere.net>
-	<1310137217.20015.874.camel@rex>
-	<AAA99274-8387-49A8-9DD1-0AA9FC18D344@dominion.thruhere.net>
-Date: Fri, 08 Jul 2011 17:43:27 +0100
-Message-ID: <1310143407.20015.910.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] powertop: inherit update-alternatives and use	a higher priority than busybox
+Subject: Re: [PATCH 5/8] libarchive: add 2.8.4 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,63 +46,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 16:48:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jul 2011 16:51:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2011-07-08 at 16:57 +0100, Koen Kooi wrote:
-> 
-> Op 8 jul. 2011 om 16:00 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
-> 
-> > On Fri, 2011-07-08 at 08:25 +0100, Koen Kooi wrote:
-> >> 
-> >> Op 8 jul. 2011 om 02:40 heeft "Cui, Dexuan" <dexuan.cui@intel.com> het volgende geschreven:
-> >> 
-> >>> Tom Rini wrote:
-> >>>> On 07/07/2011 01:39 AM, Dexuan Cui wrote:
-> >>>>> busybox-1.18.4 installs /bin/powertop and the powertop recipe
-> >>>>> installs /usr/bin/powertop. So, in PATH, if /bin appears before
-> >>>>> /usr/bin, we would run the version offered by busybox, which has a
-> >>>>> very limited function (e.g., no parameter is accepted) and this
-> >>>>> causes trouble to eclipse plugin. 
-> >>>>> 
-> >>>>> We can use update-alternatives for powertop with higher priority to
-> >>>>> resolve the issue. 
-> >>>>> 
-> >>>>> Fixes [YOCTO #1208]
-> >>>>> 
-> >>>>> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> >>>> 
-> >>>> This fix seems a bit incomplete.  Why is busybox putting powertop into
-> >>>> /bin when it almost certainly belongs in /usr/bin like the real recipe
-> >>>> was placing it.  busybox needs a fix here too.
-> >>> Thanks for the comment! 
-> >>> I was hesitant about fixing busybox as I wasn't sure if it's worthy
-> >> to make a patch to only fix the path for busybox. I don't know why
-> >> busybox puts it into /bin. I think the best place may be /usr/sbin/. 
-> >>> A little unluckily this patch to powertop has been already in poky
-> >> master... So maybe we could try to fix the recipes in future, e.g.,
-> >> when upgrading them.
-> >> 
-> >> we should do the right thing in oe-core,  the poky people can clean up on their own. 
-> > 
-> > I don't think anyone is suggesting we shouldn't do the right thing in
-> > OE-Core? :)
-> > 
-> > I merged the original patch on the grounds that its was an improvement
-> > to the situation. We've identified a better improvement so can someone
-> > please send me the patch and I'll likely merge that too.
-> 
-> the email makes it seem that the patch was merged into poky, but not
-> oe-core.  When reading it like that the proposal involved merging the
-> 'incomplete' patch for the sake of keeping poky and oe-core in sync
+On Fri, Jul 8, 2011 at 13:18, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2011-07-08 at 12:50 -0300, Otavio Salvador wrote:
+>> On Fri, Jul 8, 2011 at 12:27, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > On Fri, 2011-07-08 at 13:47 +0000, Otavio Salvador wrote:
+>> >> This recipe has been imported from OpenEmbedded (rev
+>> >> 6db4b9050e0e8b963e2a6b63790e48e3042ea99e).
+>> >
+>> > The piece of data I don't have here is the reason we need this OE-Core=
+?
+>>
+>> cmake uses it.
+>
+> How did we get away without that for cmake-native? :/
 
-The OE-Core component of Poky always stays in sync now...
+It can use the internal one but is wrong; I will work on that for next merg=
+ings.
 
-Cheers,
-
-Richard
-
-
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
