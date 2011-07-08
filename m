@@ -1,27 +1,31 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QfDiE-00030o-UW
+	(envelope-from <koen@dominion.thruhere.net>) id 1QfDj9-000329-88
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 18:15:31 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Jul 2011 09:09:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,500,1304319600"; d="scan'208";a="27911063"
-Received: from unknown (HELO [10.255.13.187]) ([10.255.13.187])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Jul 2011 09:09:33 -0700
-Message-ID: <4E172BBD.30709@linux.intel.com>
-Date: Fri, 08 Jul 2011 09:09:33 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+	Fri, 08 Jul 2011 18:16:27 +0200
+Received: by wwi18 with SMTP id 18so1737766wwi.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Jul 2011 09:12:34 -0700 (PDT)
+Received: by 10.227.174.11 with SMTP id r11mr1942363wbz.11.1310141554643;
+	Fri, 08 Jul 2011 09:12:34 -0700 (PDT)
+Received: from [172.16.66.153] (host-131-196-68-109.spectrum1.uk.sharedband.net
+	[109.68.196.131])
+	by mx.google.com with ESMTPS id c17sm7805394wbh.46.2011.07.08.09.12.32
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 08 Jul 2011 09:12:33 -0700 (PDT)
+References: <cover.1310132765.git.otavio@ossystems.com.br>
+	<73f52ab56a2f932082e954f5650896cdee010fee.1310132765.git.otavio@ossystems.com.br>
+	<1310139528.20015.894.camel@rex>
+In-Reply-To: <1310139528.20015.894.camel@rex>
+Mime-Version: 1.0 (iPhone Mail 8J2)
+Message-Id: <834CF89E-9509-4847-9AC1-A0F9581CDE20@dominion.thruhere.net>
+X-Mailer: iPhone Mail (8J2)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Fri, 8 Jul 2011 17:12:28 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1309503004.git.sgw@linux.intel.com>	<1b743a32b4fc3ccdea5ebbb94691d6441bdd706a.1309503004.git.sgw@linux.intel.com>
-	<A9686B58-013C-4390-B43C-3F06E9EDB02B@dominion.thruhere.net>
-In-Reply-To: <A9686B58-013C-4390-B43C-3F06E9EDB02B@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH 2/4] uboot: Update to 2011.06
+Subject: Re: [PATCH 8/8] fix SDK building due TARGET_ARCH use in installation path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,35 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 16:15:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jul 2011 16:16:27 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
+I'll take a look when I get back into the country next week
 
+Op 8 jul. 2011 om 16:38 heeft Richard Purdie <richard.purdie@linuxfoundation=
+.org> het volgende geschreven:
 
-On 07/01/2011 12:16 AM, Koen Kooi wrote:
-> 
-> Op 1 jul 2011, om 08:54 heeft Saul Wold het volgende geschreven:
-> 
->> [YOCTO #1198]
->>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> On Fri, 2011-07-08 at 13:47 +0000, Otavio Salvador wrote:
+>> TARGET_ARCH makes the building too fragile since it changes during
+>> building of target and nativesdk binaries thus making it difficult to
+>> handle a proper path for installation of binaries. The fix for it is
+>> to move it to toolchain tarball name.
+>>=20
+>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 >> ---
->> ...Drop-config.h-include-in-tools-imximage.h.patch |    0
->> ...ove-LDSCRIPT-processing-to-the-top-level-.patch |    0
->> ...kimage_2011.03.bb => u-boot-mkimage_2011.06.bb} |   12 +++++-------
->> .../uboot/{u-boot_2011.03.bb => u-boot_2011.06.bb} |   10 +++++-----
-> 
-> You do realize that people .bbappending 2011.03 are now left out in the cold, right?
-
-My apologies to Saul as I probably contributed to this by not being
-explicit in the bug report. As stated in my earlier mail regarding uboot
-policy, we should keep at least two revisions of u-boot around to give
-people time to migrate to the newer one (if they can at all).
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+>> meta/classes/populate_sdk.bbclass |    2 +-
+>> meta/conf/bitbake.conf            |    2 +-
+>> 2 files changed, 2 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/meta/classes/populate_sdk.bbclass b/meta/classes/populate_sd=
+k.bbclass
+>> index 089ed9a..03b6d0f 100644
+>> --- a/meta/classes/populate_sdk.bbclass
+>> +++ b/meta/classes/populate_sdk.bbclass
+>> @@ -9,7 +9,7 @@ SDKTARGETSYSROOT =3D "${SDKPATH}/sysroots/${TARGET_SYS}"
+>>=20
+>> TOOLCHAIN_HOST_TASK ?=3D "task-sdk-host-nativesdk task-cross-canadian-${T=
+RANSLATED_TARGET_ARCH}"
+>> TOOLCHAIN_TARGET_TASK ?=3D "task-core-standalone-sdk-target task-core-sta=
+ndalone-sdk-target-dbg"
+>> -TOOLCHAIN_OUTPUTNAME ?=3D "${SDK_NAME}-toolchain-${DISTRO_VERSION}"
+>> +TOOLCHAIN_OUTPUTNAME ?=3D "${SDK_NAME}-${SDK_ARCH}-${TARGET_ARCH}-toolch=
+ain-${DISTRO_VERSION}"
+>>=20
+>> RDEPENDS =3D "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+>> DEPENDS =3D "virtual/fakeroot-native sed-native"
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index bdaa35d..cc2b8e2 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -341,7 +341,7 @@ DEPLOY_DIR_TOOLS =3D "${DEPLOY_DIR}/tools"
+>>=20
+>> PKGDATA_DIR =3D "${TMPDIR}/pkgdata/${MULTIMACH_TARGET_SYS}"
+>>=20
+>> -SDK_NAME =3D "oecore-${SDK_ARCH}-${TARGET_ARCH}"
+>> +SDK_NAME =3D "oecore-sdk-${DISTRO}"
+>> SDKPATH =3D "/usr/local/${SDK_NAME}"
+>> SDKPATHNATIVE =3D "${SDKPATH}/sysroots/${SDK_SYS}"
+>=20
+> I'd really like Koen to take a look at this with his Angstrom hat on. I
+> still suspect the better fix for this is likely to end up with:
+>=20
+> SDK_NAME =3D "oecore-${SDK_ARCH}-${TARGET_ARCH}"
+> -SDKPATH =3D "/usr/local/${SDK_NAME}"
+> +SDKPATH =3D "/usr/local/oecore-sdk-${DISTRO}"
+> SDKPATHNATIVE =3D "${SDKPATH}/sysroots/${SDK_SYS}"
+>=20
+> Certainly having TARGET_ARCH in SDKPATH is a bad idea but I think the
+> SDK_NAME variable could make sense as it is originally...
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 
 
