@@ -1,37 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QfCdS-00018u-Dx for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jul 2011 17:07:23 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68F10xB021115
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jul 2011 16:01:00 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 20817-02 for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jul 2011 16:00:56 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p68F0uEF021109
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jul 2011 16:00:56 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1QfCuF-0001LX-FL
+	for openembedded-core@lists.openembedded.org;
+	Fri, 08 Jul 2011 17:23:51 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2011 08:19:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,499,1304319600"; d="scan'208";a="23176147"
+Received: from unknown (HELO [10.255.13.187]) ([10.255.13.187])
+	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2011 08:19:57 -0700
+Message-ID: <4E17201D.6040205@linux.intel.com>
+Date: Fri, 08 Jul 2011 08:19:57 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <27ED3419-C3F8-40B4-AF21-D7BEDC631813@dominion.thruhere.net>
-References: <cover.1310027619.git.dexuan.cui@intel.com>
-	<cb76f021571c5f35239192ff05eb89cab4713d04.1310027619.git.dexuan.cui@intel.com>
-	<4E15D389.9040906@mentor.com>
-	<1865303E0DED764181A9D882DEF65FB6A6B2A2650F@shsmsx502.ccr.corp.intel.com>
-	<27ED3419-C3F8-40B4-AF21-D7BEDC631813@dominion.thruhere.net>
-Date: Fri, 08 Jul 2011 16:00:17 +0100
-Message-ID: <1310137217.20015.874.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] powertop: inherit update-alternatives and use	a higher priority than busybox
+References: <1309881139.2410.14.camel@phil-desktop>	<201107051731.12273.paul.eggleton@linux.intel.com>	<1309891044.3176.7.camel@lenovo.internal.reciva.com>	<201107061506.04010.paul.eggleton@linux.intel.com>
+	<4E14F23C.5050001@linux.intel.com>
+In-Reply-To: <4E14F23C.5050001@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH] bluez-dtl1-workaround: remove PRIORITY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,55 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jul 2011 15:07:23 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Jul 2011 15:23:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-07-08 at 08:25 +0100, Koen Kooi wrote:
+
+
+On 07/06/2011 04:39 PM, Saul Wold wrote:
+> On 07/06/2011 07:06 AM, Paul Eggleton wrote:
+>> On Tuesday 05 July 2011 19:37:24 you wrote:
+>>> On Tue, 2011-07-05 at 17:31 +0100, Paul Eggleton wrote:
+>>>> Is it possible some people are still using PCMCIA/CF cards with this
+>>>> hardware in it?
+>>>
+>>> It's certainly possible, yes.  But I don't think that the mere
+>>> possibility is a very strong argument for keeping the recipe in oe-core.
+>>> Maybe it would be better suited to meta-oe or some BSP layer,
+>>
+>> You're right, I guess it doesn't really belong in oe-core.
+>>
+> Phil,
 > 
-> Op 8 jul. 2011 om 02:40 heeft "Cui, Dexuan" <dexuan.cui@intel.com> het volgende geschreven:
+> I will take a patch that deletes from here and adds it into the 
+> meta-extra's layer.
+
+
+In some cases this is simple enough to do - move one recipe from here to
+there. In other cases, not so much. Note that in addition to the removal
+of these recipes, Phil also kindly cleaned up kernel.bbclass by removing
+a bunch of special casing that was in place for this specific module.
+Adding that support to meta-extras is a considerable effort and not
+particularly sustainable as more old-and-crusty code is purged from OE.
+It is also not likely to be well tested, which makes meta-extra less and
+less useful.
+
+We need an exit-path for old-and-crusty code - the git repository has
+the history, so if it's needed we can always pull it into meta-extras
+and properly test it when we know there is an interest, but if some due
+diligence has been performed to determine the code is no longer of any
+use, it seems like a lot of effort for very little gain to move any and
+all removal of code from oe-core to meta-extras.
+
+Thanks,
+
+Darren
+
 > 
-> > Tom Rini wrote:
-> >> On 07/07/2011 01:39 AM, Dexuan Cui wrote:
-> >>> busybox-1.18.4 installs /bin/powertop and the powertop recipe
-> >>> installs /usr/bin/powertop. So, in PATH, if /bin appears before
-> >>> /usr/bin, we would run the version offered by busybox, which has a
-> >>> very limited function (e.g., no parameter is accepted) and this
-> >>> causes trouble to eclipse plugin. 
-> >>> 
-> >>> We can use update-alternatives for powertop with higher priority to
-> >>> resolve the issue. 
-> >>> 
-> >>> Fixes [YOCTO #1208]
-> >>> 
-> >>> Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
-> >> 
-> >> This fix seems a bit incomplete.  Why is busybox putting powertop into
-> >> /bin when it almost certainly belongs in /usr/bin like the real recipe
-> >> was placing it.  busybox needs a fix here too.
-> > Thanks for the comment! 
-> > I was hesitant about fixing busybox as I wasn't sure if it's worthy
-> to make a patch to only fix the path for busybox. I don't know why
-> busybox puts it into /bin. I think the best place may be /usr/sbin/. 
-> > A little unluckily this patch to powertop has been already in poky
-> master... So maybe we could try to fix the recipes in future, e.g.,
-> when upgrading them.
+> Sau!
 > 
-> we should do the right thing in oe-core,  the poky people can clean up on their own. 
+>> Cheers,
+>> Paul
+>>
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-I don't think anyone is suggesting we shouldn't do the right thing in
-OE-Core? :)
-
-I merged the original patch on the grounds that its was an improvement
-to the situation. We've identified a better improvement so can someone
-please send me the patch and I'll likely merge that too.
-
-FWIW, I agree that powertop should really be under /usr/...
-
-Cheers,
-
-Richard
-
-
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
