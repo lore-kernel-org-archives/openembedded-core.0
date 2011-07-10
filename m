@@ -1,33 +1,20 @@
-Received: from mail-pw0-f47.google.com ([209.85.160.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1QfdDd-0003Tw-Vz
+	(envelope-from <sgw@linux.intel.com>) id 1Qfj25-0002bD-Us
 	for openembedded-core@lists.openembedded.org;
-	Sat, 09 Jul 2011 21:29:38 +0200
-Received: by pwi1 with SMTP id 1so1815642pwi.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jul 2011 12:25:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=mJibp9wKkm4FQRteo9e2iTUxDn6LiLNwWzGjN6/lPN4=;
-	b=cOzuyXYrzizLm8IP1IkHtLR9roZ2KBaBlQP6c7N1kv6q5RkPAmzVvol/IQnHkJjC5i
-	2/O0GZ6ENQOAXUI4k3JbEt6QmBBX8YPmdVZ7vdsFavw23IgcK6f+94S9xj6HfLZVGLBX
-	8fQpvBYRJdF7+xVO+xhqOBQOvCPrFkNanI+t8=
-MIME-Version: 1.0
-Received: by 10.143.27.25 with SMTP id e25mr1058280wfj.61.1310239542363; Sat,
-	09 Jul 2011 12:25:42 -0700 (PDT)
-Received: by 10.142.239.3 with HTTP; Sat, 9 Jul 2011 12:25:42 -0700 (PDT)
-In-Reply-To: <CAAQYJAvA1BPC=JoSbeckRcBLE5eX3qO0gwrUOmua_EjN538ccg@mail.gmail.com>
-References: <cover.1310079506.git.andrea.adami@gmail.com>
-	<54796cbee0dc1928f2295a57b4a4783a1222ace1.1310079506.git.andrea.adami@gmail.com>
-	<4E172466.6040805@linux.intel.com>
-	<CAAQYJAvA1BPC=JoSbeckRcBLE5eX3qO0gwrUOmua_EjN538ccg@mail.gmail.com>
-Date: Sat, 9 Jul 2011 21:25:42 +0200
-Message-ID: <CAAQYJAuTpzEjAshanOsWWjtYQoLkTRhxbTRuwGEsfJ6qEY-Ysg@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] kernel.bbclass: handle embedding of initramfs images
+	Sun, 10 Jul 2011 03:42:06 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2011 18:38:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,506,1304319600"; d="scan'208";a="26044871"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.180])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2011 18:38:10 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  9 Jul 2011 18:38:07 -0700
+Message-Id: <cover.1310261708.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [RC2 PATCH 0/2] Patch for meta-toolchain-gmae for RC2 build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,57 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Jul 2011 19:29:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 10 Jul 2011 01:42:06 -0000
 
-On Fri, Jul 8, 2011 at 11:44 PM, Andrea Adami <andrea.adami@gmail.com> wrot=
-e:
-> On Fri, Jul 8, 2011 at 5:38 PM, Darren Hart <dvhart@linux.intel.com> wrot=
-e:
->>
->>
->> On 07/07/2011 04:11 PM, Andrea Adami wrote:
->>> * from org.openembedded.dev (oe-classic)
->>
->> Hi Andrea,
->>
->> Please include a descriptive blurb about the patch. When people read
->> through the commit log they need to know what problem this patch
->> addresses and how it intends to go about it. If possible, it should also
->> include the commit id from the source (I suspect that isn't an option he=
-re).
->>
-> Well, there isn't =A0really much to say: whether you know what an
-> initramfs is or not :)
-> Seriously, about the history of the patch, there have been so many
-> commits that I could not choose one. See next comment.
->
+Richard,
 
-Anyway, you're right. I'm putting together something more descriptive :)
+This the libx11 patch is needed to ensure that meta-toolchain-gmae
+built, we missed updating the nativesdk DEPENDS (without xcb enabled).
 
->>
->> Hrm... Why is this part of do_configure? Seems a lot more like a deploy
->> or install step.
->
-> If you look at the history at
-> http://cgit.openembedded.org/cgit.cgi/openembedded/log/classes/kernel.bbc=
-lass?h=3Dorg.openembedded.dev&ofs=3D50
-> you'll discover that there was a separate task (72761e4) which has
-> been unified by the author as of commit =A03e3f297.
->
-> After some rounds of fixes, =A0the code was moved in do_configure with
-> commit id fc03e2b (kernel.bbclass: move initramfs stuff to configure
-> so we can do postprocessing on it with do_configure_append).
->
+The tcmode-default updates binutils to remove the preferred provider warnings.
 
-If there are any further remarks I would keep the code in do_configure
-for the initial commit.
-
-<cut>
+Thanks
+	Sau!
 
 
-Regards
-Andrea
+The following changes since commit 4f36a7f698de5056cb38641a7bf12921dba7d962:
+
+  libx11: enable xcb support (2011-07-08 23:01:54 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (2):
+  libx11: ensure nativesdk uses correct DEPENDS and XCB flags
+  tcmode-default: update binutils version
+
+ meta/conf/distro/include/tcmode-default.inc    |    2 +-
+ meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb |   13 ++++++++++---
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+-- 
+1.7.3.4
+
 
 
