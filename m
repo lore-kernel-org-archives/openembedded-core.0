@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QgAwk-0001Zw-Nz
+	(envelope-from <ke.yu@intel.com>) id 1QgAwm-0001Zw-CK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jul 2011 09:30:27 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Jul 2011 00:26:30 -0700
+	Mon, 11 Jul 2011 09:30:28 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Jul 2011 00:26:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,513,1304319600"; d="scan'208";a="28803504"
+X-IronPort-AV: E=Sophos;i="4.65,513,1304319600"; d="scan'208";a="26361800"
 Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2011 00:26:29 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2011 00:26:31 -0700
 From: Yu Ke <ke.yu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2011 15:23:20 +0800
-Message-Id: <445641a13d3894a158d2458cd1b31c2eb8f19731.1310368636.git.ke.yu@intel.com>
+Date: Mon, 11 Jul 2011 15:23:21 +0800
+Message-Id: <a492610d2aa5ed3bf7970febd464b35c3877da21.1310368636.git.ke.yu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1310368636.git.ke.yu@intel.com>
 References: <cover.1310368636.git.ke.yu@intel.com>
 In-Reply-To: <cover.1310368636.git.ke.yu@intel.com>
 References: <cover.1310368636.git.ke.yu@intel.com>
-Subject: [PATCH 07/10] libcap: fix for non /usr/lib libdir case
+Subject: [PATCH 08/10] rpm: fix for non /usr/lib libdir case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,47 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2011 07:30:27 -0000
+X-List-Received-Date: Mon, 11 Jul 2011 07:30:28 -0000
 
-the recipe has hardcoded "lib=lib", which does not work in
-libdir=/usr/lib64 case where should be "lib=lib64",
+rpm default will use /usr/lib if the --with-path-lib is not specified.
+this will not work in non /usr/lib libdir case.
 
-So this patch fix it by replacing lib with libdir
+so this patch add the --with-path-lib to fix this issue.
 
 Signed-off-by: Yu Ke <ke.yu@intel.com>
 ---
- meta/recipes-support/libcap/libcap.inc     |    5 +++--
- meta/recipes-support/libcap/libcap_2.20.bb |    2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
-index 93bdf95..3bff3b9 100644
---- a/meta/recipes-support/libcap/libcap.inc
-+++ b/meta/recipes-support/libcap/libcap.inc
-@@ -20,8 +20,9 @@ do_configure() {
- 	sed -e 's,BUILD_CFLAGS ?=,BUILD_CFLAGS := $(BUILD_CFLAGS),' -i Make.Rules
- }
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+index 0c88f91..075c91a 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+@@ -45,7 +45,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
+ extrarpmdeps = "python perl"
+ extrarpmdeps_virtclass-native = ""
+-PR = "r17"
++PR = "r18"
  
--EXTRA_OEMAKE = "LIBATTR=yes PAM_CAP=yes INDENT= lib=lib SYSTEM_HEADERS=${STAGING_INCDIR} RAISE_SETFCAP=no"
--EXTRA_OEMAKE_virtclass-native = "LIBATTR=no PAM_CAP=no INDENT= lib=lib"
-+EXTRA_OEMAKE = "LIBATTR=yes PAM_CAP=yes INDENT= SYSTEM_HEADERS=${STAGING_INCDIR} RAISE_SETFCAP=no"
-+EXTRA_OEMAKE_virtclass-native = "LIBATTR=no PAM_CAP=no INDENT= "
-+EXTRA_OEMAKE += " lib=${@os.path.basename('${libdir}')}"
+ # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+ # in order to extract the distribution SRPM into a format we can extract...
+@@ -162,6 +162,7 @@ EXTRA_OECONF = "--verbose \
+ 		--enable-build-debug \
+ 		--enable-maintainer-mode \
+ 		--with-path-macros=${rpm_macros} \
++		--with-path-lib=${libdir}/rpm \
+ 		--with-bugreport=http://bugzilla.yoctoproject.org"
  
- do_compile() {
- 	oe_runmake
-diff --git a/meta/recipes-support/libcap/libcap_2.20.bb b/meta/recipes-support/libcap/libcap_2.20.bb
-index ab3638a..c9741c2 100644
---- a/meta/recipes-support/libcap/libcap_2.20.bb
-+++ b/meta/recipes-support/libcap/libcap_2.20.bb
-@@ -1,6 +1,6 @@
- require libcap.inc
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI[md5sum] = "10e47ed32ca2214eb0e58780282d27b4"
- SRC_URI[sha256sum] = "20e7c1ea4d3d5c410efb3a6ff138dc417912fae316d883460dcd58d9803a9220"
+ CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY"
 -- 
 1.7.0.4
 
