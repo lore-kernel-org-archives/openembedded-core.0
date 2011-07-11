@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QgJBW-0004Gu-TQ for openembedded-core@lists.openembedded.org;
+	id 1QgJBX-0004Gu-Ev for openembedded-core@lists.openembedded.org;
 	Mon, 11 Jul 2011 18:18:15 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6BFwf6k012663
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6BFwWlP012647
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 16:58:41 +0100
+	Mon, 11 Jul 2011 16:58:32 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 12380-04 for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 16:58:33 +0100 (BST)
+	id 12581-01 for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jul 2011 16:58:24 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6BFwQND012638
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6BFwNGY012631
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 16:58:26 +0100
+	Mon, 11 Jul 2011 16:58:23 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jul 2011 16:57:40 +0100
-Message-ID: <1310399860.20015.980.camel@rex>
+Date: Mon, 11 Jul 2011 16:57:36 +0100
+Message-ID: <1310399856.20015.979.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [RFC PATCH 2/3] conf/machine: Overhaul tune include files
+Subject: [RFC PATCH 3/3] bitbake.conf/classes: Variable cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,271 +43,264 @@ X-List-Received-Date: Mon, 11 Jul 2011 16:18:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-There is currently considerable confusion over how the tune files
-operate and hwo these interact with the rest of the build system.
+This patch removes the variables BASE_PACKAGE_ARCH, BASEPKG_HOST_SYS,
+BASEPKG_TARGET_SYS and also removes the immediate assignments in
+several core classes as these are no longer required.
 
-This update/overhaul changes things so the tune files are primarily
-responsible for setting:
-
-TUNE_ARCH - What was formerly set as TARGET_ARCH and is the value
-that represents the architecture we're targetting.
-
-TUNE_PKGARCH - The value that represents the tune configuration that
-this set of tune parameters results in.
-
-The tune files continue to be responsible for setting the compiler
-flags as previously.
-
-To determine the values for these fields, the tune code looks at
-the values set in TUNE_FEATURES. Possible values that can be included
-in this variable for a given tune file are shown in the TUNEVALID
-variable.
-
-This code allows several significant improvements:
-
-1) The core can now always determine the target architecture value,
-even when TARGET_ARCH needs to be reset to something different.
-
-2) The tune code can allow for the definition of multilib configurations
-which can be enabled in the TUNE_FEATURES variable by the multilib class.
-
-3) Distros can easily configure/override specific tunable values
-that they're specifically interested in.
-
-4) Several versions of partial and buggy architecture support can be
-rolled into one good implementation (e.g. the arm endianness support).
+This should make it clearer what some of the core variables do and
+simplfy some overly complex and confusing class code.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta-yocto/conf/machine/beagleboard.conf         |    1 -
- meta/conf/bitbake.conf                           |   11 +++++++----
- meta/conf/machine/include/tune-arm1136jf-s.inc   |    2 ++
- meta/conf/machine/include/tune-arm920t.inc       |    2 ++
- meta/conf/machine/include/tune-arm926ejs.inc     |    2 ++
- meta/conf/machine/include/tune-arm9tdmi.inc      |    2 ++
- meta/conf/machine/include/tune-armv7.inc         |   16 ++++++++++++----
- meta/conf/machine/include/tune-atom.inc          |    8 ++++++--
- meta/conf/machine/include/tune-cortexa8.inc      |   10 +++++++---
- meta/conf/machine/include/tune-strongarm1100.inc |    2 ++
- meta/conf/machine/include/tune-thumb.inc         |   22 ++++------------------
- meta/conf/machine/qemux86.conf                   |    3 ++-
- 12 files changed, 48 insertions(+), 33 deletions(-)
+ meta/classes/allarch.bbclass                       |    1 -
+ meta/classes/cross-canadian.bbclass                |   13 +++++--------
+ meta/classes/cross.bbclass                         |   14 +++-----------
+ meta/classes/crosssdk.bbclass                      |    4 ++--
+ meta/classes/native.bbclass                        |    4 ----
+ meta/classes/nativesdk.bbclass                     |   11 ++++-------
+ meta/classes/sstate.bbclass                        |    6 +++---
+ meta/conf/bitbake.conf                             |    7 ++-----
+ meta/conf/distro/include/tclibc-eglibc.inc         |    2 +-
+ meta/conf/distro/include/tclibc-glibc.inc          |    2 +-
+ meta/recipes-graphics/xorg-font/font-util_1.2.0.bb |    2 --
+ 11 files changed, 21 insertions(+), 45 deletions(-)
 
-diff --git a/meta-yocto/conf/machine/beagleboard.conf b/meta-yocto/conf/machine/beagleboard.conf
-index fddacf9..0b3cebc 100644
---- a/meta-yocto/conf/machine/beagleboard.conf
-+++ b/meta-yocto/conf/machine/beagleboard.conf
-@@ -1,7 +1,6 @@
- #@TYPE: Machine
- #@NAME: Beagleboard machine
- #@DESCRIPTION: Machine configuration for the http://beagleboard.org/ board 
--TARGET_ARCH = "arm"
+diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+index e3ac392..26fca70 100644
+--- a/meta/classes/allarch.bbclass
++++ b/meta/classes/allarch.bbclass
+@@ -2,7 +2,6 @@
+ # This class is used for architecture independent recipes/data files (usally scripts)
+ #
  
- PREFERRED_PROVIDER_virtual/xserver = "xserver-xf86-lite"
- XSERVER = "xserver-xf86-lite \
+-BASE_PACKAGE_ARCH = "all"
+ PACKAGE_ARCH = "all"
+ 
+ # No need for virtual/libc or a cross compiler
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index edd51da..c878d7f 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -9,15 +9,12 @@
+ # or indirectly via dependency.  No need to be in 'world'.
+ EXCLUDE_FROM_WORLD = "1"
+ 
+-STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${SDK_VENDOR}-${SDK_OS}:${STAGING_DIR_NATIVE}${bindir_native}/${OLD_BASE_PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
++STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${SDK_VENDOR}-${SDK_OS}:${STAGING_DIR_NATIVE}${bindir_native}/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ 
+ #
+ # Update BASE_PACKAGE_ARCH and PACKAGE_ARCHS
+ #
+-OLD_PACKAGE_ARCH := "${PACKAGE_ARCH}"
+-OLD_MULTIMACH_TARGET_SYS := "${MULTIMACH_TARGET_SYS}"
+-OLD_BASE_PACKAGE_ARCH := ${BASE_PACKAGE_ARCH}
+-BASE_PACKAGE_ARCH = "${SDK_ARCH}-nativesdk"
++PACKAGE_ARCH = "${SDK_ARCH}-nativesdk"
+ python () {
+     archs = bb.data.getVar('PACKAGE_ARCHS', d, True).split()
+     sdkarchs = []
+@@ -66,12 +63,12 @@ target_exec_prefix := "${exec_prefix}"
+ base_prefix = "${SDKPATHNATIVE}"
+ prefix = "${SDKPATHNATIVE}${prefix_nativesdk}"
+ exec_prefix = "${SDKPATHNATIVE}${prefix_nativesdk}"
+-bindir = "${exec_prefix}/bin/${OLD_PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
++bindir = "${exec_prefix}/bin/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ sbindir = "${bindir}"
+ base_bindir = "${bindir}"
+ base_sbindir = "${bindir}"
+-libdir = "${exec_prefix}/lib/${OLD_PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
+-libexecdir = "${exec_prefix}/libexec/${OLD_PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
++libdir = "${exec_prefix}/lib/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
++libexecdir = "${exec_prefix}/libexec/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ 
+ FILES_${PN} = "${prefix}"
+ FILES_${PN}-dbg += "${prefix}/.debug \
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index f9fd07a..01752dc 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -4,14 +4,6 @@ inherit relocatable
+ # no need for them to be a direct target of 'world'
+ EXCLUDE_FROM_WORLD = "1"
+ 
+-# Save PACKAGE_ARCH before changing HOST_ARCH
+-OLD_PACKAGE_ARCH := "${PACKAGE_ARCH}"
+-PACKAGE_ARCH = "${OLD_PACKAGE_ARCH}"
+-# Also save BASE_PACKAGE_ARCH since HOST_ARCH can influence it
+-OLD_BASE_PACKAGE_ARCH := "${BASE_PACKAGE_ARCH}"
+-BASE_PACKAGE_ARCH = "${OLD_BASE_PACKAGE_ARCH}"
+-BASEPKG_HOST_SYS = "${HOST_ARCH}${HOST_VENDOR}-${HOST_OS}"
+-
+ PACKAGES = ""
+ 
+ HOST_ARCH = "${BUILD_ARCH}"
+@@ -20,10 +12,10 @@ HOST_OS = "${BUILD_OS}"
+ HOST_PREFIX = "${BUILD_PREFIX}"
+ HOST_CC_ARCH = "${BUILD_CC_ARCH}"
+ 
+-STAGING_DIR_HOST = "${STAGING_DIR}/${BASEPKG_HOST_SYS}"
++STAGING_DIR_HOST = "${STAGING_DIR}/${HOST_ARCH}${HOST_VENDOR}-${HOST_OS}"
+ 
+-export PKG_CONFIG_DIR = "${STAGING_DIR}/${BASE_PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}${libdir}/pkgconfig"
+-export PKG_CONFIG_SYSROOT_DIR = "${STAGING_DIR}/${BASE_PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
++export PKG_CONFIG_DIR = "${STAGING_DIR}/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}${libdir}/pkgconfig"
++export PKG_CONFIG_SYSROOT_DIR = "${STAGING_DIR}/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ 
+ CPPFLAGS = "${BUILD_CPPFLAGS}"
+ CFLAGS = "${BUILD_CFLAGS}"
+diff --git a/meta/classes/crosssdk.bbclass b/meta/classes/crosssdk.bbclass
+index 3952ebd..a2e5a22 100644
+--- a/meta/classes/crosssdk.bbclass
++++ b/meta/classes/crosssdk.bbclass
+@@ -1,8 +1,8 @@
+ inherit cross
+ 
+-BASE_PACKAGE_ARCH = "${SDK_ARCH}"
+-PACKAGE_ARCH = "${BASE_PACKAGE_ARCH}"
++PACKAGE_ARCH = "${SDK_ARCH}"
+ STAGING_DIR_TARGET = "${STAGING_DIR}/${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
++STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ 
+ TARGET_ARCH = "${SDK_ARCH}"
+ TARGET_VENDOR = "${SDK_VENDOR}"
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 11ec6dc..53f0acc 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -15,10 +15,6 @@ PACKAGE_ARCH = "${BUILD_ARCH}"
+ OECMAKE_RPATH = "${libdir}"
+ OECMAKE_RPATH_virtclass-native = "${libdir}"
+ 
+-BASE_PACKAGE_ARCH = "${BUILD_ARCH}"
+-BASEPKG_HOST_SYS = "${BUILD_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
+-BASEPKG_TARGET_SYS = "${BUILD_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
+-
+ # When this class has packaging enabled, setting 
+ # RPROVIDES becomes unnecessary.
+ RPROVIDES = "${PN}"
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 3fe4bf9..de7a883 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -5,10 +5,9 @@ EXCLUDE_FROM_WORLD = "1"
+ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${SDK_VENDOR}-${SDK_OS}"
+ 
+ #
+-# Update BASE_PACKAGE_ARCH and PACKAGE_ARCHS
++# Update PACKAGE_ARCH and PACKAGE_ARCHS
+ #
+-OLD_PACKAGE_ARCH := ${BASE_PACKAGE_ARCH}
+-BASE_PACKAGE_ARCH = "${SDK_ARCH}-nativesdk"
++PACKAGE_ARCH = "${SDK_ARCH}-nativesdk"
+ python () {
+     archs = bb.data.getVar('PACKAGE_ARCHS', d, True).split()
+     sdkarchs = []
+@@ -17,10 +16,8 @@ python () {
+     bb.data.setVar('PACKAGE_ARCHS', " ".join(sdkarchs), d)
+ }
+ 
+-#STAGING_DIR_HOST = "${STAGING_DIR}/${HOST_SYS}-nativesdk"
+-#STAGING_DIR_TARGET = "${STAGING_DIR}/${BASEPKG_TARGET_SYS}-nativesdk"
+-STAGING_DIR_HOST = "${STAGING_DIR}/${BASEPKG_HOST_SYS}"
+-STAGING_DIR_TARGET = "${STAGING_DIR}/${BASEPKG_TARGET_SYS}"
++STAGING_DIR_HOST = "${STAGING_DIR}/${MULTIMACH_HOST_SYS}"
++STAGING_DIR_TARGET = "${STAGING_DIR}/${MULTIMACH_TARGET_SYS}"
+ 
+ HOST_ARCH = "${SDK_ARCH}"
+ HOST_VENDOR = "${SDK_VENDOR}"
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 0daaf48..52033e9 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -22,14 +22,14 @@ python () {
+     if bb.data.inherits_class('native', d):
+         bb.data.setVar('SSTATE_PKGARCH', bb.data.getVar('BUILD_ARCH', d), d)
+     elif bb.data.inherits_class('cross', d):
+-        bb.data.setVar('SSTATE_PKGARCH', bb.data.expand("${BUILD_ARCH}_${BASE_PACKAGE_ARCH}", d), d)
++        bb.data.setVar('SSTATE_PKGARCH', bb.data.expand("${BUILD_ARCH}_${TUNE_PKGARCH}", d), d)
+         bb.data.setVar('SSTATE_MANMACH', bb.data.expand("${BUILD_ARCH}_${MACHINE}", d), d)
+     elif bb.data.inherits_class('crosssdk', d):
+-        bb.data.setVar('SSTATE_PKGARCH', bb.data.expand("${BUILD_ARCH}_${BASE_PACKAGE_ARCH}", d), d)
++        bb.data.setVar('SSTATE_PKGARCH', bb.data.expand("${BUILD_ARCH}_${PACKAGE_ARCH}", d), d)
+     elif bb.data.inherits_class('nativesdk', d):
+         bb.data.setVar('SSTATE_PKGARCH', bb.data.expand("${SDK_ARCH}", d), d)
+     elif bb.data.inherits_class('cross-canadian', d):
+-        bb.data.setVar('SSTATE_PKGARCH', bb.data.expand("${SDK_ARCH}_${BASE_PACKAGE_ARCH}", d), d)
++        bb.data.setVar('SSTATE_PKGARCH', bb.data.expand("${SDK_ARCH}_${PACKAGE_ARCH}", d), d)
+     else:
+         bb.data.setVar('SSTATE_MANMACH', bb.data.expand("${MACHINE}", d), d)
+ 
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 463991d..5258c91 100644
+index 5258c91..c5a8ea5 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
-@@ -76,7 +76,7 @@ HOST_PREFIX = "${TARGET_PREFIX}"
- HOST_CC_ARCH = "${TARGET_CC_ARCH}"
- HOST_EXEEXT = ""
- 
--TARGET_ARCH = "INVALID"
-+TARGET_ARCH = "${TUNE_ARCH}"
- TARGET_OS = "INVALID"
- TARGET_VENDOR = "-oe"
- TARGET_SYS = "${TARGET_ARCH}${TARGET_VENDOR}${@['-' + bb.data.getVar('TARGET_OS', d, 1), ''][bb.data.getVar('TARGET_OS', d, 1) == ('' or 'custom')]}"
-@@ -90,9 +90,9 @@ SDK_SYS = "${SDK_ARCH}${SDK_VENDOR}${@['-' + bb.data.getVar('SDK_OS', d, 1), '']
+@@ -90,8 +90,7 @@ SDK_SYS = "${SDK_ARCH}${SDK_VENDOR}${@['-' + bb.data.getVar('SDK_OS', d, 1), '']
  SDK_PREFIX = "${SDK_SYS}-"
  SDK_CC_ARCH = "${BUILD_CC_ARCH}"
  
--BASE_PACKAGE_ARCH = "${HOST_ARCH}"
--PACKAGE_ARCH = "${BASE_PACKAGE_ARCH}"
--MACHINE_ARCH = "${@[bb.data.getVar('BASE_PACKAGE_ARCH', d, 1), bb.data.getVar('MACHINE', d, 1)][bool(bb.data.getVar('MACHINE', d, 1))].replace('-', '_')}"
-+BASE_PACKAGE_ARCH = "${TUNE_PKGARCH}"
-+PACKAGE_ARCH = "${BASE_PACKAGE_PKGARCH}"
-+MACHINE_ARCH = "${@[bb.data.getVar('TUNE_PKGARCH', d, 1), bb.data.getVar('MACHINE', d, 1)][bool(bb.data.getVar('MACHINE', d, 1))].replace('-', '_')}"
+-BASE_PACKAGE_ARCH = "${TUNE_PKGARCH}"
+-PACKAGE_ARCH = "${BASE_PACKAGE_PKGARCH}"
++PACKAGE_ARCH = "${TUNE_PKGARCH}"
+ MACHINE_ARCH = "${@[bb.data.getVar('TUNE_PKGARCH', d, 1), bb.data.getVar('MACHINE', d, 1)][bool(bb.data.getVar('MACHINE', d, 1))].replace('-', '_')}"
  PACKAGE_EXTRA_ARCHS ??= "${TARGET_ARCH}"
  PACKAGE_ARCHS = "all any noarch ${PACKAGE_EXTRA_ARCHS} ${MACHINE_ARCH}"
- # MACHINE_ARCH shouldn't be included here as a variable dependency
-@@ -654,6 +654,9 @@ include conf/documentation.conf
- require conf/sanity.conf
- require conf/abi_version.conf
+@@ -101,8 +100,6 @@ PACKAGE_ARCHS[vardepsexclude] = "MACHINE_ARCH"
  
-+TUNE_ARCH ?= "INVALID"
-+TUNE_FEATURES ?= "${TUNE_FEATURES_tune-${TUNE_PKGARCH}}"
-+
- ##################################################################
- # Weak variables (usually to retain backwards compatibility)
- ##################################################################
-diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
-index 2ea3c9d..d18a7ba 100644
---- a/meta/conf/machine/include/tune-arm1136jf-s.inc
-+++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
-@@ -1,3 +1,5 @@
-+require conf/machine/include/arch-arm.inc
-+
- TARGET_CC_ARCH = "-march=armv6j -mtune=arm1136jf-s"
- TARGET_CC_ARCH += "${@['', '-mfloat-abi=softfp -mfpu=vfp'][(bb.data.getVar('TARGET_FPU', d, 1) == 'soft') and (bb.data.getVar('CPU_FEATURES', d, 1).find('vfp') != -1)]}"
- FEED_ARCH = "armv6"
-diff --git a/meta/conf/machine/include/tune-arm920t.inc b/meta/conf/machine/include/tune-arm920t.inc
-index 564b557..3ee2e90 100644
---- a/meta/conf/machine/include/tune-arm920t.inc
-+++ b/meta/conf/machine/include/tune-arm920t.inc
-@@ -1,3 +1,5 @@
-+require conf/machine/include/arch-arm.inc
-+
- FEED_ARCH = "armv4t"
- BASE_PACKAGE_ARCH = "armv4t" 
- TARGET_CC_ARCH = "-march=armv4t -mtune=arm920t"
-diff --git a/meta/conf/machine/include/tune-arm926ejs.inc b/meta/conf/machine/include/tune-arm926ejs.inc
-index 9d546c9..eeb63f4 100644
---- a/meta/conf/machine/include/tune-arm926ejs.inc
-+++ b/meta/conf/machine/include/tune-arm926ejs.inc
-@@ -1,3 +1,5 @@
-+require conf/machine/include/arch-arm.inc
-+
- FEED_ARCH = "armv5te"
- PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t armv5te"
- # For gcc 3.x you need:
-diff --git a/meta/conf/machine/include/tune-arm9tdmi.inc b/meta/conf/machine/include/tune-arm9tdmi.inc
-index 5446ce8..a7dc1be 100644
---- a/meta/conf/machine/include/tune-arm9tdmi.inc
-+++ b/meta/conf/machine/include/tune-arm9tdmi.inc
-@@ -1,3 +1,5 @@
-+require conf/machine/include/arch-arm.inc
-+
- FEED_ARCH = "armv4t"
- BASE_PACKAGE_ARCH = "armv4t"
- PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t"
-diff --git a/meta/conf/machine/include/tune-armv7.inc b/meta/conf/machine/include/tune-armv7.inc
-index 979d6fe..6f7062f 100644
---- a/meta/conf/machine/include/tune-armv7.inc
-+++ b/meta/conf/machine/include/tune-armv7.inc
-@@ -1,7 +1,15 @@
-+require conf/machine/include/arch-arm.inc
-+
-+TUNE_PKGARCH = "armv7"
-+TUNE_FEATURES_tune-armv7 ??= "hard-fpu"
-+
- # valid options for -march: `armv7', `armv7-a', `armv7-r', `armv7-m'
- # valid option for -mtune: `cortex-a8', `cortex-r4', `cortex-m3', `cortex-m1'
- # This will NOT compile programs in 'ARM' mode, which is what you really want
--TARGET_CC_ARCH = "-march=armv7 -mfpu=vfp -mfloat-abi=softfp"
--FEED_ARCH = "armv7"
--PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t armv5te armv6 armv7"
--BASE_PACKAGE_ARCH = "armv7"
-+TARGET_CC_ARCH += "-march=armv7"
-+TARGET_CC_ARCH += "-mfpu=vfp -mfloat-abi=softfp"
-+
-+TARGET_FPU = "${@bb.utils.contains("TUNE_FEATURES", "hard-fpu", "hard", "soft" ,d)}"
-+
-+PACKAGE_EXTRA_ARCHS = "${TUNE_ARCH} armv4${ENDSUFX} armv4t${ENDSUFX} armv5te${ENDSUFX} armv6${ENDSUFX} armv7${ENDSUFX}"
-+
-diff --git a/meta/conf/machine/include/tune-atom.inc b/meta/conf/machine/include/tune-atom.inc
-index 399ea54..b00c223 100644
---- a/meta/conf/machine/include/tune-atom.inc
-+++ b/meta/conf/machine/include/tune-atom.inc
-@@ -1,5 +1,9 @@
--BASE_PACKAGE_ARCH = "core2"
-+require conf/machine/include/arch-ia32.inc
-+
-+TUNE_PKGARCH = "core2"
-+TUNE_FEATURES_tune-core2 ??= ""
-+
- TARGET_CC_ARCH = "-m32 -march=core2 -msse3 -mtune=generic -mfpmath=sse"
--#MOBLIN_CFLAGS = "-Os -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -fasynchronous-unwind-tables"
-+TARGET_CC_ARCH_ml-tune-lib64 = "-m64 -march=core2 -msse3 -mtune=generic -mfpmath=sse"
+ MULTIMACH_TARGET_SYS = "${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ MULTIMACH_HOST_SYS = "${PACKAGE_ARCH}${HOST_VENDOR}-${HOST_OS}"
+-BASEPKG_HOST_SYS = "${BASE_PACKAGE_ARCH}${HOST_VENDOR}-${HOST_OS}"
+-BASEPKG_TARGET_SYS = "${BASE_PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
  
- PACKAGE_EXTRA_ARCHS = "x86 i386 i486 i586 i686 core2"
-diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
-index a5b982a..74c1e9e 100644
---- a/meta/conf/machine/include/tune-cortexa8.inc
-+++ b/meta/conf/machine/include/tune-cortexa8.inc
-@@ -1,3 +1,8 @@
-+require conf/machine/include/arch-arm.inc
-+
-+TUNE_PKGARCH = "armv7a"
-+TUNE_FEATURES_tune-armv7a ??= "hard-fpu"
-+
- # Instead of using -mfpu=vfp[2] we can use -mfpu=neon to make use of gcc intrinsics[1] and vectorize loops with -ftree-vectorize[3]
- # [1] http://gcc.gnu.org/onlinedocs/gcc/ARM-NEON-Intrinsics.html
- # [2] http://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html 
-@@ -8,6 +13,5 @@ TARGET_CC_ARCH = "-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
- # Other potentially useful options
- #-ftree-vectorize -ffast-math -fno-omit-frame-pointer
+ # select proper CPU to get binary locales generated
+ QEMU_OPTIONS = ""
+@@ -310,7 +307,7 @@ STAGING_DIR = "${TMPDIR}/sysroots"
+ STAGING_DIR_NATIVE = "${STAGING_DIR}/${BUILD_SYS}"
+ STAGING_BINDIR_NATIVE = "${STAGING_DIR_NATIVE}${bindir_native}"
+ STAGING_BINDIR_CROSS = "${STAGING_BINDIR}/crossscripts"
+-STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${BASEPKG_TARGET_SYS}"
++STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
+ STAGING_LIBDIR_NATIVE = "${STAGING_DIR_NATIVE}${libdir_native}"
+ STAGING_INCDIR_NATIVE = "${STAGING_DIR_NATIVE}${includedir_native}"
+ STAGING_ETCDIR_NATIVE = "${STAGING_DIR_NATIVE}${sysconfdir_native}"
+diff --git a/meta/conf/distro/include/tclibc-eglibc.inc b/meta/conf/distro/include/tclibc-eglibc.inc
+index e070aad..1a805fb 100644
+--- a/meta/conf/distro/include/tclibc-eglibc.inc
++++ b/meta/conf/distro/include/tclibc-eglibc.inc
+@@ -5,7 +5,7 @@
+ TARGET_OS = "linux"
+ TARGET_OS_arm = "linux-gnueabi"
+ TARGET_OS_armeb = "linux-gnueabi"
+-TARGET_OS_powerpc = "linux${@['','-gnuspe'][bb.data.getVar('BASE_PACKAGE_ARCH',d,1) in ['ppce500', 'ppce500v2']]}"
++TARGET_OS_powerpc = "linux${@['','-gnuspe'][bb.data.getVar('TUNE_PKGARCH', d, True) in ['ppce500', 'ppce500v2']]}"
  
--FEED_ARCH = "armv7a"
--BASE_PACKAGE_ARCH = "armv7a"
--PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t armv5te armv6 armv7 armv7a"
-+PACKAGE_EXTRA_ARCHS = "${TUNE_ARCH} armv4${ENDSUFX} armv4t${ENDSUFX} armv5te${ENDSUFX} armv6${ENDSUFX} armv7${ENDSUFX} armv7a${ENDSUFX}"
-+
-diff --git a/meta/conf/machine/include/tune-strongarm1100.inc b/meta/conf/machine/include/tune-strongarm1100.inc
-index f136710..7e1e2f7 100644
---- a/meta/conf/machine/include/tune-strongarm1100.inc
-+++ b/meta/conf/machine/include/tune-strongarm1100.inc
-@@ -1,3 +1,5 @@
-+require conf/machine/include/arch-arm.inc
-+
- # This machine lists common configuration options for Strongarm 1100 devices
- # NOTE: The Zaurus Collie also has a Strongarm processor, but uses the 1110 type
+ # Add glibc overrides to the overrides for eglibc.
+ OVERRIDES .= ":libc-glibc"
+diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
+index 5e7afc1..9957074 100644
+--- a/meta/conf/distro/include/tclibc-glibc.inc
++++ b/meta/conf/distro/include/tclibc-glibc.inc
+@@ -5,7 +5,7 @@
+ TARGET_OS = "linux"
+ TARGET_OS_arm = "linux-gnueabi"
+ TARGET_OS_armeb = "linux-gnueabi"
+-TARGET_OS_powerpc = "linux${@['','-gnuspe'][bb.data.getVar('BASE_PACKAGE_ARCH',d,1) in ['ppce500', 'ppce500v2']]}"
++TARGET_OS_powerpc = "linux${@['','-gnuspe'][bb.data.getVar('TUNE_PKGARCH', d, True) in ['ppce500', 'ppce500v2']]}"
  
-diff --git a/meta/conf/machine/include/tune-thumb.inc b/meta/conf/machine/include/tune-thumb.inc
-index a25cb53..548868f 100644
---- a/meta/conf/machine/include/tune-thumb.inc
-+++ b/meta/conf/machine/include/tune-thumb.inc
-@@ -1,32 +1,18 @@
--#tune file for thumb instructions
+ # Add glibc to the overrides.
+ OVERRIDES =. "libc-glibc:"
+diff --git a/meta/recipes-graphics/xorg-font/font-util_1.2.0.bb b/meta/recipes-graphics/xorg-font/font-util_1.2.0.bb
+index a04bd6d..8834708 100644
+--- a/meta/recipes-graphics/xorg-font/font-util_1.2.0.bb
++++ b/meta/recipes-graphics/xorg-font/font-util_1.2.0.bb
+@@ -8,8 +8,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c0067273d90f6336008cb2504e14bd32 \
+                     file://bdftruncate.c;endline=26;md5=4f82ffc101a1b165eae9c6998abff937 \
+                     file://map-ISO8859-1;beginline=9;endline=23;md5=1cecb984063248f29ffe5c46f5c04f34"
+ 
+-PACKAGE_ARCH = "${BASE_PACKAGE_ARCH}"
 -
--ARM_INSTRUCTION_SET ?= "arm"
--# "arm" "thumb"
- #    The instruction set the compiler should use when generating application
- #    code.  The kernel is always compiled with arm code at present.  arm code
- #    is the original 32 bit ARM instruction set, thumb code is the 16 bit
- #    encoded RISC sub-set.  Thumb code is smaller (maybe 70% of the ARM size)
- #    but requires more instructions (140% for 70% smaller code) so may be
- #    slower.
-+TARGET_CC_ARCH +=  "${@bb.utils.contains("TUNE_FEATURES", "thumb-instructions", "-mthumb", "-mno-thumb" ,d)}"
-+OVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "thumb-instructions", ":thumb", "" ,d)}
- 
--THUMB_INTERWORK ?= "yes"
--# "yes" "no"
- #    Whether to compile with code to allow interworking between the two
- #    instruction sets.  This allows thumb code to be executed on a primarily
- #    arm system and vice versa.  It is strongly recommended that DISTROs not
- #    turn this off - the actual cost is very small.
-+TARGET_CC_ARCH +=  "${@bb.utils.contains("TUNE_FEATURES", "thumb-interwork", "-mthumb-interwork", "-mno-thumb-interwork" ,d)}"
-+OVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "thumb-interwork", ":thumb-interwork", "" ,d)}
- 
--OVERRIDE_THUMB = "${@['', ':thumb'][bb.data.getVar('ARM_INSTRUCTION_SET', d, 1) == 'thumb']}"
--OVERRIDE_INTERWORK = "${@['', ':thumb-interwork'][bb.data.getVar('THUMB_INTERWORK', d, 1) == 'yes']}"
--OVERRIDES .= "${OVERRIDE_THUMB}${OVERRIDE_INTERWORK}"
--
--#    Compiler and linker options for application code and kernel code.  These
--#    options ensure that the compiler has the correct settings for the selected
--#    instruction set and interworking.
--ARM_INTERWORK_M_OPT = "${@['-mno-thumb-interwork', '-mthumb-interwork'][bb.data.getVar('THUMB_INTERWORK', d, 1) == 'yes']}"
--ARM_THUMB_M_OPT = "${@['-mno-thumb', '-mthumb'][bb.data.getVar('ARM_INSTRUCTION_SET', d, 1) == 'thumb']}"
--
--#
--TARGET_CC_ARCH +=  "${ARM_INTERWORK_M_OPT} ${ARM_THUMB_M_OPT}"
- TARGET_CC_KERNEL_ARCH  += "-mno-thumb-interwork -mno-thumb"
- 
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index 8b14731..2eb885b 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -2,7 +2,8 @@
- #@NAME: common_pc
- #@DESCRIPTION: Machine configuration for running a common x86
- 
--TARGET_ARCH = "i586"
-+require conf/machine/include/arch-ia32.inc
-+TUNE_PKGARCH = "i586"
- 
- PREFERRED_PROVIDER_virtual/libgl  = "mesa-dri"
- PREFERRED_PROVIDER_virtual/libx11 ?= "libx11-trim"
+ DEPENDS = "encodings util-macros"
+ DEPENDS_virtclass-native = "util-macros-native"
+ RDEPENDS_${PN} = "mkfontdir mkfontscale encodings"
 -- 
 1.7.4.1
 
