@@ -1,23 +1,20 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1QgPhs-0005Xv-Ga
+	(envelope-from <sgw@linux.intel.com>) id 1QgPjI-0005b2-Ls
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 01:16:05 +0200
-Received: from mail-wy0-f180.google.com ([74.125.82.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 11 Jul 2011 16:12:06 -0700
-Received: by wye20 with SMTP id 20so2993000wye.25
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 16:12:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.216.50.2 with SMTP id y2mr4496333web.77.1310425924912; Mon, 11
-	Jul 2011 16:12:04 -0700 (PDT)
-Received: by 10.216.155.16 with HTTP; Mon, 11 Jul 2011 16:12:04 -0700 (PDT)
-Date: Mon, 11 Jul 2011 16:12:04 -0700
-Message-ID: <CAPhnLPDJB0VrLZjLC5jmvxdwp7k1sOZMio1ADSm8Jgfk=WYKpA@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] license.bbclass: License Manifests and more.
+	Tue, 12 Jul 2011 01:17:32 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 11 Jul 2011 16:13:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,517,1304319600"; d="scan'208";a="26491801"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.180])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2011 16:13:34 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jul 2011 16:13:07 -0700
+Message-Id: <cover.1310425837.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 00/26] Staticdev re-packaging - split version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,329 +29,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2011 23:16:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 11 Jul 2011 23:17:32 -0000
 
-Adding a bit more functionality here:
+Richard:
 
-1. Adding some more SPDX Maps to take care of + licenses
-2. Adding an event handler that waits for BuildComplete
-   and creates a license manifest file.
-3. Strip out -native and -cross package license wrangling.
-   If it doesn't go on the image, we shouldn't wrangle it.
-4. Split out the license destination directory to a IMAGE_NAME
-   time stamped dir in /tmp/deploy/licenses/${IMAGE_NAME}/<stamp>
+Here is a split up version of the staticdev repackaging, it adds a
+new shared_lib.bbclass for packaging lib${PN} that don't fall under
+Debian renaming rules (about 5 recipes).
 
-Signed-off-by: Beth Flanagan <elizabeth.flanagan@intel.com>
----
- meta/classes/license.bbclass |  179 ++++++++++++++++++++++++++++--------------
- 1 files changed, 120 insertions(+), 59 deletions(-)
+This is the first pass, and will be iterative as I believe there are
+other recipes that will need modifications.
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 3f93bf5..d5f6220 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -3,15 +3,16 @@
- # TODO:
- # - We should also enable the ability to put the generated license
-directory onto the
- #  rootfs
--# - Gather up more generic licenses
- # - There is a real issue revolving around license naming standards.
-See license names
- #  licenses.conf and compare them to the license names in the
-recipes. You'll see some
- #  differences and that should be corrected.
+Thanks
+	Sau!
 
--LICENSE_DIRECTORY ??= "${DEPLOY_DIR}/licenses"
-+LICENSE_DIRECTORY ??= "${DEPLOY_DIR}/licenses/"
-+IMAGE_LICENSE_DIRECTORY ?= ""
- LICSSTATEDIR = "${WORKDIR}/license-destdir/"
 
- addtask populate_lic after do_patch before do_package
-+
- do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
- do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
+The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
 
-@@ -27,6 +28,8 @@ do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
- SPDXLICENSEMAP[GPL] = "GPL-1"
- SPDXLICENSEMAP[GPLv2] = "GPL-2"
- SPDXLICENSEMAP[GPLv3] = "GPL-3"
-+SPDXLICENSEMAP[GPLv2+] = "GPL-2+"
-+SPDXLICENSEMAP[GPLv3+] = "GPL-3+"
+  libx11: ensure nativesdk uses correct DEPENDS and XCB flags (2011-07-10 09:49:06 +0100)
 
- #LGPL variations
- SPDXLICENSEMAP[LGPL] = "LGPL-2"
-@@ -49,6 +52,47 @@ SPDXLICENSEMAP[openssl] = "Openssl"
- #Other variations
- SPDXLICENSEMAP[AFL2.1] = "AFL-2"
- SPDXLICENSEMAP[EPLv1.0] = "EPL-1"
-+SPDXLICENSEMAP[zlib] = "Zlib"
-+SPDXLICENSEMAP[EPLv1.0] = "EPL-1"
-+
-+# We use an event handler to detect the BuildComplete event. From here, we
-+# gather up all the licenses and add them to a license manifest.
-+
-+python run_lic_manifest(){
-+    import bb.build
-+    import bb.event
-+    import bb.data
-+    import stat, os
-+
-+    if isinstance(e, bb.event.BuildCompleted):
-+        try:
-+            file = open(bb.data.getVar('BNFILE', e.data, True))
-+            bn = file.readline()
-+            file.close()
-+            manifestdir =
-os.path.join(os.path.join(bb.data.getVar('LICENSE_DIRECTORY', e.data,
-True),
-+
-bb.data.getVar('IMAGE_LICENSE_DIRECTORY', e.data, True)),
-+                                       bn)
-+
-+            file =
-open(os.path.join(bb.data.getVar('LICENSE_DIRECTORY', e.data, True),
-+                                                     bn +
-"_license_manifest"), 'w')
-+            packages = os.listdir(manifestdir)
-+            packages = [filename for filename in packages if
-(filename[0] != '.')
-+                                                              or
-(filename[0] != 'common-licenses')
-+                                                              or
-(filename[0] != bn + "_license_manifest")]
-+            for package in packages:
-+                if stat.S_ISDIR(os.lstat(os.path.join(manifestdir,
-package)).st_mode):
-+                   file.write("Package Name: " + package + "\n")
-+                   file.write("----------------------------\n")
-+                   for license in
-os.listdir(os.path.join(os.path.join(manifestdir, package))):
-+                       if
-stat.S_ISLNK(os.lstat(os.path.join(os.path.join(manifestdir,
-+
-    package),
-+
-license)).st_mode):
-+                           file.write(license.replace("generic_", "") + "\n")
-+                   file.write("\n")
-+            file.close()
-+        except:
-+            bb.note("The license manifest creation failed.")
-+}
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/static
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/static
 
- python do_populate_lic() {
-     """
-@@ -64,13 +108,11 @@ python do_populate_lic() {
-             ast.NodeVisitor.generic_visit(self, node)
+Saul Wold (26):
+  bitbake.conf: Add *-config to default ${PN}-dev package
+  lib_package.bbclass: add *_nonshared.a to -dev package
+  shared_lib.bbclass: create common class
+  pciutils: repackage development files in pciutils instead of libpci
+  wireless-tools: Updated for staticdev packaging
+  augeas: inherit shared_lib class
+  gamin: inherit shared_lib class
+  sqlite3: inherit shared_lib class
+  curl: inherit shared_lib class
+  attr: inherit shared_lib class
+  rpm: Create ${PN}-staticdev package
+  libxft: use default bitbake.conf FILES Packaging to handle staticdev
+  js: Use bitbake default FILES for packaging
+  tcp-wrappers: Use bitbake default FILES for packaging
+  udev: Use bitbake default FILES for packaging
+  liba52: Use bitbake default FILES for packaging
+  python: Use bitbake default FILES for packaging
+  external-csl-toolchain: Use bitbake default FILES for packaging
+  opkg: Use bitbake default FILES for packaging
+  util-linux: Use bitbake default FILES for packaging
+  gettext: Use bitbake default FILES for packaging
+  gcc: Use bitbake default FILES for packaging
+  glibc: Use bitbake default FILES for packaging
+  eglibc: Use bitbake default FILES for packaging
+  uclibc: Use bitbake default FILES for packaging
+  binutils: Use bitbake default FILES for packaging
 
-         def visit_Str(self, node):
--            #
-             # Until I figure out what to do with
--            # the two modifiers I support (or greater = +
--            # and "with exceptions" being *
-+            # "with exceptions" (*)
-             # we'll just strip out the modifier and put
-             # the base license.
--            find_license(node.s.replace("+", "").replace("*", ""))
-+            find_license(node.s.replace("*", ""))
-             ast.NodeVisitor.generic_visit(self, node)
+ meta/classes/lib_package.bbclass                   |    7 +++--
+ meta/classes/shared_lib.bbclass                    |    9 +++++++
+ meta/conf/bitbake.conf                             |    2 +-
+ meta/recipes-bsp/pciutils/pciutils_3.1.7.bb        |   10 +++----
+ .../wireless-tools/wireless-tools_29.bb            |   12 +++++----
+ meta/recipes-core/eglibc/eglibc-common.inc         |    2 +-
+ meta/recipes-core/eglibc/eglibc-package.inc        |    8 ++++--
+ meta/recipes-core/gettext/gettext_0.16.1.bb        |    4 +-
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb      |   22 ++++++++--------
+ meta/recipes-core/glibc/glibc-package.inc          |   12 ++++++---
+ .../meta/external-csl-toolchain_2008q3-72.bb       |   20 ++++++++-------
+ meta/recipes-core/uclibc/uclibc.inc                |    7 +++--
+ meta/recipes-core/udev/udev-new.inc                |   26 ++++++++++++-------
+ meta/recipes-core/udev/udev_164.bb                 |    2 +-
+ meta/recipes-core/util-linux/util-linux.inc        |   17 +++++++++----
+ meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    2 +-
+ .../binutils/binutils-cross-canadian_2.21.1.bb     |    2 +-
+ meta/recipes-devtools/binutils/binutils-cross.inc  |    2 +
+ .../binutils/binutils-cross_csl-arm-2008q1.bb      |    2 +-
+ .../binutils/binutils-crosssdk_2.21.1.bb           |    2 +-
+ meta/recipes-devtools/binutils/binutils.inc        |    9 +-----
+ meta/recipes-devtools/binutils/binutils_2.21.1.bb  |    2 +-
+ meta/recipes-devtools/gcc/gcc-package-runtime.inc  |   25 +++++++++++++-----
+ meta/recipes-devtools/gcc/libgcc_4.6.bb            |    2 +-
+ meta/recipes-devtools/opkg/opkg_0.1.8.bb           |   10 ++++---
+ meta/recipes-devtools/opkg/opkg_svn.bb             |   10 ++++---
+ meta/recipes-devtools/python/python_2.6.6.bb       |    2 -
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |   16 +++++++-----
+ meta/recipes-extended/augeas/augeas.inc            |    7 +----
+ meta/recipes-extended/augeas/augeas_0.8.1.bb       |    2 +-
+ meta/recipes-extended/gamin/gamin_0.1.10.bb        |   13 +--------
+ .../tcp-wrappers/tcp-wrappers_7.6.bb               |   17 +++++++-----
+ meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb     |    7 +----
+ meta/recipes-multimedia/liba52/liba52_0.7.4.bb     |    4 +--
+ meta/recipes-support/attr/acl_2.2.51.bb            |    2 +-
+ meta/recipes-support/attr/attr_2.4.46.bb           |    2 +-
+ meta/recipes-support/attr/ea-acl.inc               |   16 +-----------
+ meta/recipes-support/curl/curl_7.21.7.bb           |   17 ++++--------
+ meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb       |    3 +-
+ meta/recipes-support/sqlite/sqlite3.inc            |   10 +------
+ 40 files changed, 175 insertions(+), 171 deletions(-)
+ create mode 100644 meta/classes/shared_lib.bbclass
 
-         def visit_BinOp(self, node):
-@@ -86,14 +128,14 @@ python do_populate_lic() {
-         try:
-             bb.copyfile(os.path.join(source, file_name),
-os.path.join(destination, file_name))
-         except:
--            bb.warn("%s: No generic license file exists for: %s at
-%s" % (pn, file_name, source))
-+            bb.note("%s: No generic license file exists for: %s at
-%s" % (pn, file_name, source))
-             pass
-
-     def link_license(source, destination, file_name):
-         try:
-             os.symlink(os.path.join(source, file_name),
-os.path.join(destination, "generic_" + file_name))
-         except:
--            bb.warn("%s: Could not symlink: %s at %s to %s at %s" %
-(pn, file_name, source, file_name, destination))
-+            bb.note("%s: Could not symlink: %s at %s to %s at %s" %
-(pn, file_name, source, file_name, destination))
-             pass
-
-     def find_license(license_type):
-@@ -111,72 +153,91 @@ python do_populate_lic() {
-                 copy_license(generic_directory, gen_lic_dest,
-spdx_generic)
-                 link_license(gen_lic_dest, destdir, spdx_generic)
-             else:
--                # And here is where we warn people that their
-licenses are lousy
--                bb.warn("%s: No generic license file exists for: %s
-at %s" % (pn, license_type, generic_directory))
--                bb.warn("%s: There is also no SPDXLICENSEMAP for this
-license type: %s at %s" % (pn, license_type, generic_directory))
-+                # And here is where we tell people that their
-licenses are lousy
-+                bb.note("%s: No generic license file exists for: %s
-at %s" % (pn, license_type, generic_directory))
-+                bb.note("%s: There is also no SPDXLICENSEMAP for this
-license type: %s at %s" % (pn, license_type, generic_directory))
-                 pass
-         elif os.path.isfile(os.path.join(generic_directory, license_type)):
-             copy_license(generic_directory, gen_lic_dest, license_type)
-             link_license(gen_lic_dest, destdir, license_type)
-
--    # All the license types for the package
--    license_types = bb.data.getVar('LICENSE', d, True)
--    # All the license files for the package
--    lic_files = bb.data.getVar('LIC_FILES_CHKSUM', d, True)
--    pn = bb.data.getVar('PN', d, True)
--    # The base directory we wrangle licenses to
--    destdir = os.path.join(bb.data.getVar('LICSSTATEDIR', d, True), pn)
--    # The license files are located in S/LIC_FILE_CHECKSUM.
--    srcdir = bb.data.getVar('S', d, True)
--    # Directory we store the generic licenses as set in the distro
-configuration
--    generic_directory = bb.data.getVar('COMMON_LICENSE_DIR', d, True)
--
-     try:
--        bb.mkdirhier(destdir)
-+        bb.mkdirhier(bb.data.getVar('LICENSE_DIRECTORY', d, True))
-+    except:
-+        pass
-+    file = open(bb.data.getVar('BNFILE', d, True))
-+    bn = file.readline()
-+    file.close()
-+    bb.data.setVar('IMAGE_LICENSE_DIRECTORY',
-os.path.join(bb.data.getVar('LICENSE_DIRECTORY', d, True), bn), d)
-+    try:
-+        bb.mkdirhier(bb.data.getVar('IMAGE_LICENSE_DIRECTORY', d, True))
-     except:
-         pass
-
--    if not generic_directory:
--        raise bb.build.FuncFailed("COMMON_LICENSE_DIR is unset.
-Please set this in your distro config")
--
--    if not lic_files:
--        # No recipe should have an invalid license file. This is checked else
--        # where, but let's be pedantic
--        bb.note(pn + ": Recipe file does not have license file information.")
--        return True
--
--    for url in lic_files.split():
--        (type, host, path, user, pswd, parm) = bb.decodeurl(url)
--        # We want the license file to be copied into the destination
--        srclicfile = os.path.join(srcdir, path)
--        ret = bb.copyfile(srclicfile, os.path.join(destdir,
-os.path.basename(path)))
--        # If the copy didn't occur, something horrible went wrong and
-we fail out
--        if ret is False or ret == 0:
--            bb.warn("%s could not be copied for some reason. It may
-not exist. WARN for now." % srclicfile)
--
--    gen_lic_dest = os.path.join(bb.data.getVar('LICENSE_DIRECTORY',
-d, True), "common-licenses")
--
--    clean_licenses = ""
--
--    for x in license_types.replace("(", " ( ").replace(")", " ) ").split():
--        if ((x != "(") and (x != ")") and (x != "&") and (x != "|")):
--            clean_licenses += "'" + x + "'"
--        else:
--            clean_licenses += " " + x + " "
--
--    # lstrip any possible indents, since ast needs python syntax.
--    node = ast.parse(clean_licenses.lstrip())
--    v = LicenseVisitor()
--    v.visit(node)
-+    # Let's stop polluting the wrangled licenses with packages that
-don't go on the image
-+    if not ("-native" in bb.data.getVar('PN', d, True) ) and  not
-("-cross" in bb.data.getVar('PN', d, True)):
-+        # All the license types for the package
-+        license_types = bb.data.getVar('LICENSE', d, True)
-+        # All the license files for the package
-+        lic_files = bb.data.getVar('LIC_FILES_CHKSUM', d, True)
-+        pn = bb.data.getVar('PN', d, True)
-+        # The base directory we wrangle licenses to
-+        destdir = os.path.join(bb.data.getVar('LICSSTATEDIR', d, True), pn)
-+        # The license files are located in S/LIC_FILE_CHECKSUM.
-+        srcdir = bb.data.getVar('S', d, True)
-+        # Directory we store the generic licenses as set in the
-distro configuration
-+        generic_directory = bb.data.getVar('COMMON_LICENSE_DIR', d, True)
-+
-+        try:
-+           bb.mkdirhier(destdir)
-+        except:
-+            pass
-+
-+        if not generic_directory:
-+            raise bb.build.FuncFailed("COMMON_LICENSE_DIR is unset.
-Please set this in your distro config")
-+
-+        if not lic_files:
-+            # No recipe should have an invalid license file. This is
-checked else
-+            # where, but let's be pedantic
-+            bb.note(pn + ": Recipe file does not have license file
-information.")
-+            return True
-+
-+        for url in lic_files.split():
-+            (type, host, path, user, pswd, parm) = bb.decodeurl(url)
-+            # We want the license file to be copied into the destination
-+            srclicfile = os.path.join(srcdir, path)
-+            ret = bb.copyfile(srclicfile, os.path.join(destdir,
-os.path.basename(path)))
-+            # If the copy didn't occur, something horrible went wrong
-and we fail out
-+            if ret is False or ret == 0:
-+                bb.warn("%s could not be copied for some reason. It
-may not exist. WARN for now." % srclicfile)
-+
-+        gen_lic_dest =
-os.path.join(bb.data.getVar('IMAGE_LICENSE_DIRECTORY', d, True),
-"common-licenses")
-+
-+        clean_licenses = ""
-+
-+        for x in license_types.replace("(", " ( ").replace(")", " ) ").split():
-+            if ((x != "(") and (x != ")") and (x != "&") and (x != "|")):
-+                clean_licenses += "'" + x + "'"
-+            else:
-+                clean_licenses += " " + x + " "
-+
-+        # lstrip any possible indents, since ast needs python syntax.
-+        node = ast.parse(clean_licenses.lstrip())
-+        v = LicenseVisitor()
-+        v.visit(node)
-+    else:
-+        shutil.rmtree(os.path.join(bb.data.getVar('LICSSTATEDIR', d,
-True), bb.data.getVar('PN', d, True)))
- }
-
- SSTATETASKS += "do_populate_lic"
-+
- do_populate_lic[sstate-name] = "populate-lic"
- do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
--do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
-+do_populate_lic[sstate-outputdirs] = "${IMAGE_LICENSE_DIRECTORY}/"
-
- python do_populate_lic_setscene () {
--	sstate_setscene(d)
-+    sstate_setscene(d)
- }
--addtask do_populate_lic_setscene
-
-+addtask do_populate_lic_setscene
-+addhandler run_lic_manifest
 -- 
-1.7.1
+1.7.3.4
+
 
 
