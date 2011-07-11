@@ -1,27 +1,30 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QgImt-0003VG-1e
-	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jul 2011 17:52:47 +0200
-Received: by wyg30 with SMTP id 30so3068168wyg.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QgInD-0003WX-Ph for openembedded-core@lists.openembedded.org;
+	Mon, 11 Jul 2011 17:53:07 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6BFnCWA012578
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 08:48:51 -0700 (PDT)
-Received: by 10.227.158.21 with SMTP id d21mr4358677wbx.26.1310399330574;
-	Mon, 11 Jul 2011 08:48:50 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id e11sm7922846wbh.2.2011.07.11.08.48.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 11 Jul 2011 08:48:49 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1310399223.20015.967.camel@rex>
-Date: Mon, 11 Jul 2011 17:48:43 +0200
-Message-Id: <47D9CE90-7C60-4233-9370-5734E841D8A0@dominion.thruhere.net>
-References: <1310399223.20015.967.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] sysklogd: Drop ONLINE_PACKAGE_MANAGEMENT as per mailing list discussion
+	Mon, 11 Jul 2011 16:49:12 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10630-10 for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jul 2011 16:49:08 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6BFn5jW012572
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jul 2011 16:49:05 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Jul 2011 16:48:18 +0100
+Message-ID: <1310399298.20015.969.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] sstate: Improve performance by moving files rather than using copy and delete
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,51 +39,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2011 15:52:47 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 Jul 2011 15:53:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/sstate.bbclass |   16 +++++++++++-----
+ 1 files changed, 11 insertions(+), 5 deletions(-)
 
-Op 11 jul 2011, om 17:47 heeft Richard Purdie het volgende geschreven:
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 0daaf48..62c7c43 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -147,6 +147,13 @@ def sstate_install(ss, d):
+ def sstate_installpkg(ss, d):
+     import oe.path
+ 
++    def prepdir(dir):
++        # remove dir if it exists, ensure any parent directories do exist
++        if os.path.exists(dir):
++            oe.path.remove(dir)
++        bb.mkdirhier(dir)
++        oe.path.remove(dir)
++
+     sstateinst = bb.data.expand("${WORKDIR}/sstate-install-%s/" % ss['name'], d)
+     sstatepkg = bb.data.getVar('SSTATE_PKG', d, True) + '_' + ss['name'] + ".tgz"
+ 
+@@ -178,9 +185,8 @@ def sstate_installpkg(ss, d):
+             os.system("sed -i -e s:FIXMESTAGINGDIR:%s:g %s" % (staging, sstateinst + file))
+ 
+     for state in ss['dirs']:
+-        if os.path.exists(state[1]):
+-            oe.path.remove(state[1])
+-        oe.path.copytree(sstateinst + state[0], state[1])
++        prepdir(state[1])
++        os.rename(sstateinst + state[0], state[1])
+     sstate_install(ss, d)
+ 
+     for plain in ss['plaindirs']:
+@@ -188,8 +194,8 @@ def sstate_installpkg(ss, d):
+         src = sstateinst + "/" + plain.replace(workdir, '')
+         dest = plain
+         bb.mkdirhier(src)
+-        bb.mkdirhier(dest)
+-        oe.path.copytree(src, dest)
++        prepdir(dest)
++        os.rename(src, dest)
+ 
+     return True
+ 
+-- 
+1.7.4.1
 
-> Online package management decisions like this are now handled by =
-image.bbclass
-> itself so this code is superfluous to requirements.
-
-That's missing a PR bump :)
-
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> meta/recipes-extended/sysklogd/sysklogd.inc |    2 +-
-> 1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc =
-b/meta/recipes-extended/sysklogd/sysklogd.inc
-> index f2b1c15..891dd3b 100644
-> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
-> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-> @@ -14,7 +14,7 @@ LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D8ca43cbc842c2336e835926c2166c28b \
-> # syslog initscript is handled explicitly because order of
-> # update-rc.d and update-alternatives is important (see below)
-> DEPENDS_append =3D " update-rc.d update-rc.d-native"
-> -RDEPENDS_${PN}_append =3D " =
-${@base_conditional("ONLINE_PACKAGE_MANAGEMENT", "none", "", =
-"update-rc.d", d)}"
-> +RDEPENDS_${PN}_append =3D " update-rc.d"
->=20
-> SRC_URI =3D =
-"http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz =
-\
->            file://no-strip-install.patch \
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
