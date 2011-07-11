@@ -1,30 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QgImZ-0003Tw-L2 for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jul 2011 17:52:27 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6BFmW97012569
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QgImt-0003VG-1e
+	for openembedded-core@lists.openembedded.org;
+	Mon, 11 Jul 2011 17:52:47 +0200
+Received: by wyg30 with SMTP id 30so3068168wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 16:48:32 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 12380-02 for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 16:48:28 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6BFmN4Q012562
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 16:48:24 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jul 2011 16:47:37 +0100
-Message-ID: <1310399257.20015.968.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] update-rc.d: Switch from a tag to a sepcific revision
+	Mon, 11 Jul 2011 08:48:51 -0700 (PDT)
+Received: by 10.227.158.21 with SMTP id d21mr4358677wbx.26.1310399330574;
+	Mon, 11 Jul 2011 08:48:50 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id e11sm7922846wbh.2.2011.07.11.08.48.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 11 Jul 2011 08:48:49 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1310399223.20015.967.camel@rex>
+Date: Mon, 11 Jul 2011 17:48:43 +0200
+Message-Id: <47D9CE90-7C60-4233-9370-5734E841D8A0@dominion.thruhere.net>
+References: <1310399223.20015.967.camel@rex>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH] sysklogd: Drop ONLINE_PACKAGE_MANAGEMENT as per mailing list discussion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,41 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2011 15:52:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Jul 2011 15:52:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Unfortunately the git fetcher cannot resolve a named tag into a revision
-without network access. Since its desireable for OE-Core to function
-in a networkless environment, we need to specify the revision in the
-recipe which corresponds to the 0.7 tag.
 
-[YOCTO #1140]
+Op 11 jul 2011, om 17:47 heeft Richard Purdie het volgende geschreven:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/update-rc.d/update-rc.d_0.7.bb |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+> Online package management decisions like this are now handled by =
+image.bbclass
+> itself so this code is superfluous to requirements.
 
-diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
-index 5bd88cb..8bc3dbf 100644
---- a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
-+++ b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
-@@ -7,7 +7,10 @@ LIC_FILES_CHKSUM = "file://update-rc.d;beginline=5;endline=15;md5=148a48321b10eb
- 
- PR = "r4"
- 
--SRC_URI = "git://github.com/philb/update-rc.d.git;tag=update-rc.d_${PV};protocol=git \
-+# Revision corresponding to tag update-rc.d_0.7
-+SRCREV = "eca680ddf28d024954895f59a241a622dd575c11"
-+
-+SRC_URI = "git://github.com/philb/update-rc.d.git;protocol=git \
-            file://add-verbose.patch;striplevel=1"
- 
- S = "${WORKDIR}/git"
--- 
-1.7.4.1
+That's missing a PR bump :)
 
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> meta/recipes-extended/sysklogd/sysklogd.inc |    2 +-
+> 1 files changed, 1 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc =
+b/meta/recipes-extended/sysklogd/sysklogd.inc
+> index f2b1c15..891dd3b 100644
+> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
+> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+> @@ -14,7 +14,7 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D8ca43cbc842c2336e835926c2166c28b \
+> # syslog initscript is handled explicitly because order of
+> # update-rc.d and update-alternatives is important (see below)
+> DEPENDS_append =3D " update-rc.d update-rc.d-native"
+> -RDEPENDS_${PN}_append =3D " =
+${@base_conditional("ONLINE_PACKAGE_MANAGEMENT", "none", "", =
+"update-rc.d", d)}"
+> +RDEPENDS_${PN}_append =3D " update-rc.d"
+>=20
+> SRC_URI =3D =
+"http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz =
+\
+>            file://no-strip-install.patch \
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
