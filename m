@@ -1,36 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpurdie@rpsys.net>) id 1QgK7X-0005Tu-MZ
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1QgKKQ-0005jy-A4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jul 2011 19:18:11 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6BGopU5013094
+	Mon, 11 Jul 2011 19:31:30 +0200
+Received: by yxi19 with SMTP id 19so1697860yxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 17:50:51 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 12581-06 for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 17:50:46 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6BGojZ9013088
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jul 2011 17:50:45 +0100
-From: Richard Purdie <rpurdie@rpsys.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1310402833.20015.986.camel@rex>
-References: <1310399860.20015.980.camel@rex>
-	<164DA52B-98AF-47AA-A42D-1DE7FA9A1200@dominion.thruhere.net>
-	<1310402833.20015.986.camel@rex>
-Date: Mon, 11 Jul 2011 17:49:59 +0100
-Message-ID: <1310402999.20015.989.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-Mailman-Approved-At: Mon, 11 Jul 2011 19:19:25 +0200
-Subject: Re: [RFC PATCH 2/3] conf/machine: Overhaul tune include files
+	Mon, 11 Jul 2011 10:27:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=YWp3IYpZOWGkeZIStjQs0yYvpB/mWQv/epyoSk+07Ek=;
+	b=BhbiE1oGw72X+MTIS4OWBT7jW+UbcH7V/xEr6+8UsLplJ9UeyYb1sl7iqkNdNYnyio
+	zp7VOu0A5Yv6VkZlNk+jK6Vq9XCBenBsvr1XzsAnAKteN/ZaJoPrlb7D4QuoNPUuvDaS
+	3DuAm+L9qp7WSW8E9gT9m07lKf3fISCEFOiUg=
+Received: by 10.236.155.39 with SMTP id i27mr5834683yhk.445.1310405252121;
+	Mon, 11 Jul 2011 10:27:32 -0700 (PDT)
+Received: from localhost.localdomain ([189.114.111.55])
+	by mx.google.com with ESMTPS id z28sm3592901yhn.35.2011.07.11.10.27.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 11 Jul 2011 10:27:30 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jul 2011 17:27:14 +0000
+Message-Id: <cover.1310405202.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 0/5] Pending patches on O.S. Systems tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,42 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2011 17:18:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Jul 2011 17:31:30 -0000
 
-On Mon, 2011-07-11 at 17:47 +0100, Richard Purdie wrote:
-> On Mon, 2011-07-11 at 18:34 +0200, Koen Kooi wrote:
-> > Taking armv7a as an example with my angstrom hat on I need the following knobs:
-> > 
-> > 1) softp or hardfp calling conventions, resulting in a different package arch (e.g. armv7a vs armv7ahf) (link incompatible)
-> > 2) neon or not, resulting in a different packagearch (e.g armv7a vs armv7a-vfponly) (link compatible)
-> > 3) Thumb2 or arm mode, no direct need for different packagearch, they are compatible
-> > 4) use FPU fw or not (TARGET_PFU) (slightly different from 2.)
-> > 
-> > Do you have any examples on how the package arch will look with this patchset?
-> 
-> I added in code to differentiate between big and little endian. We can
-> add in code to add extra options, e.g. in the tune-armv7 case:
-> 
-> 
-> TARGET_CC_ARCH += "${@bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "-mfloat-abi=hardfp", "-mfloat-abi=softfp" ,d)}"
-> 
-> PACKAGE_EXTRA_ARCHS = "${TUNE_ARCH}${SUFX2} armv4${ENDSUFX}${SUFX2} armv4t${ENDSUFX}${SUFX2} armv5te${ENDSUFX}${SUFX2} armv6${ENDSUFX}${SUFX2} armv7${ENDSUFX}${SUFX2}"
+The following changes since commit 4f36a7f698de5056cb38641a7bf12921dba7d962:
 
-Sorry, I hit sent early accidently whilst trying to paste something in
-here.
+  libx11: enable xcb support (2011-07-08 23:01:54 +0100)
 
-I was thinking something along these lines:
+are available in the git repository at:
+  git://github.com/OSSystems/oe-core master
+  https://github.com/OSSystems/oe-core/tree/master
 
-TUNE_PKGARCH = "armv7${SUFX2}"
-TARGET_CC_ARCH += "${@bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "-mfloat-abi=hardfp", "-mfloat-abi=softfp" ,d)}"
-SUFX2 = "${@bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "-hfp", "" ,d)}
+Chris Larson (2):
+  Rework how the devshell functions
+  oe.terminal: improve how we spawn screen
 
-PACKAGE_EXTRA_ARCHS = "${TUNE_ARCH}${SUFX2} armv4${ENDSUFX}${SUFX2} armv4t${ENDSUFX}${SUFX2} armv5te${ENDSUFX}${SUFX2} armv6${ENDSUFX}${SUFX2} armv7${ENDSUFX}${SUFX2}"
+Otavio Salvador (3):
+  fix SDK building due TARGET_ARCH use in installation path
+  libarchive: remove undistributable copyright content from source
+  cmake: update to 2.8.5 release
 
-Where "hardfp" support might be in tune-arm-feature-hardfp.inc
+ meta/classes/devshell.bbclass                      |   26 ++---
+ meta/classes/populate_sdk.bbclass                  |    2 +-
+ meta/classes/terminal.bbclass                      |   30 ++++++
+ meta/conf/bitbake.conf                             |    2 +-
+ meta/lib/oe/classutils.py                          |    2 +
+ meta/lib/oe/terminal.py                            |  107 ++++++++++++++++++++
+ meta/recipes-devtools/cmake/cmake-native_2.8.5.bb  |   11 +--
+ meta/recipes-devtools/cmake/cmake_2.8.5.bb         |   11 +--
+ ...rchive_2.8.4.bb => libarchive_2.8.4.yocto.1.bb} |    8 +-
+ 9 files changed, 161 insertions(+), 38 deletions(-)
+ create mode 100644 meta/classes/terminal.bbclass
+ create mode 100644 meta/lib/oe/terminal.py
+ rename meta/recipes-extended/libarchive/{libarchive_2.8.4.bb => libarchive_2.8.4.yocto.1.bb} (68%)
 
+-- 
+1.7.2.5
 
 
 
