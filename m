@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QgPjM-0005b8-G8
+	(envelope-from <sgw@linux.intel.com>) id 1QgPjM-0005b2-RV
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 01:17:36 +0200
+	Tue, 12 Jul 2011 01:17:37 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 11 Jul 2011 16:13:36 -0700
+	by orsmga101.jf.intel.com with ESMTP; 11 Jul 2011 16:13:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,517,1304319600"; d="scan'208";a="26491806"
+X-IronPort-AV: E=Sophos;i="4.65,517,1304319600"; d="scan'208";a="26491808"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.180])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2011 16:13:36 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2011 16:13:37 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2011 16:13:12 -0700
-Message-Id: <b7b22ed31de766af73e19834937744280273bdd5.1310425837.git.sgw@linux.intel.com>
+Date: Mon, 11 Jul 2011 16:13:14 -0700
+Message-Id: <83256924d47e30212fc6143af9475500c5244f60.1310425837.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1310425837.git.sgw@linux.intel.com>
 References: <cover.1310425837.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1310425837.git.sgw@linux.intel.com>
 References: <cover.1310425837.git.sgw@linux.intel.com>
-Subject: [PATCH 05/26] wireless-tools: Updated for staticdev packaging
+Subject: [PATCH 07/26] gamin: inherit shared_lib class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,46 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2011 23:17:36 -0000
+X-List-Received-Date: Mon, 11 Jul 2011 23:17:37 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../wireless-tools/wireless-tools_29.bb            |   12 +++++++-----
- 1 files changed, 7 insertions(+), 5 deletions(-)
+ meta/recipes-extended/gamin/gamin_0.1.10.bb |   13 ++-----------
+ 1 files changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
-index cc51dec..a9de242 100644
---- a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
-+++ b/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 			file://sample_enc.c;beginline=1;endline=4;md5=838372be07874260b566bae2f6ed33b6"
- SECTION = "base"
- PE = "1"
--PR = "r2"
-+PR = "r3"
+diff --git a/meta/recipes-extended/gamin/gamin_0.1.10.bb b/meta/recipes-extended/gamin/gamin_0.1.10.bb
+index 81b27c0..374a563 100644
+--- a/meta/recipes-extended/gamin/gamin_0.1.10.bb
++++ b/meta/recipes-extended/gamin/gamin_0.1.10.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=412a9be54757a155d0b997b52b519f62"
  
- SRC_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.29.tar.gz \
-            file://man.patch;apply=yes \
-@@ -41,13 +41,15 @@ do_install() {
- }
+ DEPENDS = "glib-2.0"
+ PROVIDES = "fam"
+-PR = "r3"
++PR = "r4"
  
- PACKAGES = "libiw-dbg ifrename-dbg ${PN}-dbg \
--libiw libiw-dev libiw-doc ifrename-doc ifrename ${PN} ${PN}-doc"
-+libiw libiw-dev libiw-doc libiw-staticdev ifrename-doc ifrename ${PN} ${PN}-doc"
+ SRC_URI = "http://www.gnome.org/~veillard/gamin/sources/gamin-${PV}.tar.gz \
+            file://no-abstract-sockets.patch"
+@@ -16,18 +16,9 @@ SRC_URI = "http://www.gnome.org/~veillard/gamin/sources/gamin-${PV}.tar.gz \
+ SRC_URI[md5sum] = "b4ec549e57da470c04edd5ec2876a028"
+ SRC_URI[sha256sum] = "28085f0ae8be10eab582ff186af4fb0be92cc6c62b5cc19cd09b295c7c2899a1"
  
--FILES_libiw-dbg = "${libdir}/.debug/*.so.*"
-+FILES_libiw-dbg = "${libdir}/.debug/*${SOLIBS}"
- FILES_ifrename-dbg = "${sbindir}/.debug/ifrename"
--FILES_libiw = "${libdir}/*.so.*"
--FILES_libiw-dev = "${libdir}/*.a ${libdir}/*.so ${includedir}"
-+FILES_libiw = "${libdir}/*${SOLIBS}"
-+FILES_libiw-dev = "${libdir}/${SOLIBSDEV} ${includedir}"
- FILES_libiw-doc = "${mandir}/man7"
-+FILES_libiw-staticdev = "${libdir}/*.a"
-+RDEPENDS_libiw-staticdev = "libiw-dev (= ${EXTENDPKGV})"
- FILES_ifrename = "${sbindir}/ifrename"
- FILES_ifrename-doc = "${mandir}/man8/ifrename.8 ${mandir}/man5/iftab.5"
- FILES_${PN} = "${bindir} ${sbindir}/iw* ${base_sbindir} ${base_bindir} ${sysconfdir}/network"
+-inherit autotools pkgconfig
++inherit autotools pkgconfig shared_lib
+ 
+ EXTRA_OECONF = "--without-python"
+ 
+-PACKAGES += "lib${PN} lib${PN}-dev"
+-FILES_${PN} = "${libexecdir}"
+-FILES_${PN}-dbg += "${libexecdir}/.debug"
+-FILES_lib${PN} = "${libdir}/lib*.so.*"
+-FILES_lib${PN}-dev = "${includedir} ${libdir}/pkgconfig ${libdir}/lib*.la \
+-                      ${libdir}/lib*.a ${libdir}/lib*.so"
+-
+-RDEPENDS_lib${PN} = "${PN}"
+-
+ LEAD_SONAME = "libgamin-1.so"
+ 
 -- 
 1.7.3.4
 
