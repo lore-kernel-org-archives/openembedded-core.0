@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QgPjR-0005ba-EV
+	(envelope-from <sgw@linux.intel.com>) id 1QgPjR-0005b2-Ml
 	for openembedded-core@lists.openembedded.org;
 	Tue, 12 Jul 2011 01:17:41 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 Jul 2011 16:13:41 -0700
+	by orsmga101.jf.intel.com with ESMTP; 11 Jul 2011 16:13:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,517,1304319600"; d="scan'208";a="26491830"
+X-IronPort-AV: E=Sophos;i="4.65,517,1304319600"; d="scan'208";a="26491818"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.180])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2011 16:13:40 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2011 16:13:39 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2011 16:13:26 -0700
-Message-Id: <6c6b7f52f170b2b5b052b62b6849cca53942cb1a.1310425837.git.sgw@linux.intel.com>
+Date: Mon, 11 Jul 2011 16:13:22 -0700
+Message-Id: <243e2ca4ddf6f04b238903c9dd79a2a93946605b.1310425837.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1310425837.git.sgw@linux.intel.com>
 References: <cover.1310425837.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1310425837.git.sgw@linux.intel.com>
 References: <cover.1310425837.git.sgw@linux.intel.com>
-Subject: [PATCH 19/26] opkg: Use bitbake default FILES for packaging
+Subject: [PATCH 15/26] udev: Use bitbake default FILES for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,64 +33,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2011 23:17:41 -0000
+X-List-Received-Date: Mon, 11 Jul 2011 23:17:42 -0000
 
 This will ensure correct -dev and -staticdev packging
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/opkg/opkg_0.1.8.bb |   10 ++++++----
- meta/recipes-devtools/opkg/opkg_svn.bb   |   10 ++++++----
- 2 files changed, 12 insertions(+), 8 deletions(-)
+ meta/recipes-core/udev/udev-new.inc |   26 ++++++++++++++++----------
+ meta/recipes-core/udev/udev_164.bb  |    2 +-
+ 2 files changed, 17 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg_0.1.8.bb b/meta/recipes-devtools/opkg/opkg_0.1.8.bb
-index 18cf042..f43cbc5 100644
---- a/meta/recipes-devtools/opkg/opkg_0.1.8.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.1.8.bb
-@@ -13,13 +13,15 @@ SRC_URI = "http://opkg.googlecode.com/files/opkg-${PV}.tar.gz \
-            file://headerfix.patch \
- "
+diff --git a/meta/recipes-core/udev/udev-new.inc b/meta/recipes-core/udev/udev-new.inc
+index 4c4451f..6e49e42 100644
+--- a/meta/recipes-core/udev/udev-new.inc
++++ b/meta/recipes-core/udev/udev-new.inc
+@@ -10,6 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://libudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://extras/gudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
  
--PR = "r4"
-+PR = "r5"
++INC_PR = "r4"
++
+ DEPENDS = "acl glib-2.0 libusb usbutils pciutils linux-libc-headers gperf-native libxslt-native"
+ RPROVIDES_${PN} = "hotplug"
+ RRECOMMENDS_${PN} += "udev-extraconf udev-cache usbutils-ids pciutils-ids"
+@@ -35,8 +37,8 @@ libexecdir = "${base_libdir}/udev"
+ EXTRA_OECONF = "--disable-introspection --with-rootlibdir=${base_libdir} \
+                 --with-pci-ids-path=${datadir}/pci.ids"
  
--PACKAGES =+ "libopkg${PKGSUFFIX}-dev libopkg${PKGSUFFIX} update-alternatives-cworth${PKGSUFFIX}"
-+PACKAGES =+ "libopkg${PKGSUFFIX}-dev libopkg${PKGSUFFIX}-staticdev libopkg${PKGSUFFIX} update-alternatives-cworth${PKGSUFFIX}"
+-PACKAGES =+ "udev-cache libudev libudev-dev libudev-dbg"
+-PACKAGES =+ "libgudev libgudev-dev libgudev-dbg"
++PACKAGES =+ "udev-cache libudev libudev-dev libudev-dbg libudev-staticdev"
++PACKAGES =+ "libgudev libgudev-dev libgudev-dbg libgudev-staticdev"
  
- FILES_update-alternatives-cworth${PKGSUFFIX} = "${bindir}/update-alternatives"
--FILES_libopkg${PKGSUFFIX}-dev = "${libdir}/*.a ${libdir}/*.la ${libdir}/*.so"
--FILES_libopkg${PKGSUFFIX} = "${libdir}/*.so.* ${localstatedir}/lib/opkg/"
-+FILES_libopkg${PKGSUFFIX} = "${libdir}/*${SOLIBS} ${localstatedir}/lib/opkg/"
-+FILES_libopkg${PKGSUFFIX}-dev = "${libdir}/*.la ${libdir}/*${SOLIBSDEV}"
-+FILES_libopkg${PKGSUFFIX}-staticdev = "${libdir}/*.a"
-+RDEPENDS_libopkg${PKGSUFFIX}-staticdev = "libopkg${PKGSUFFIX}-dev (= ${EXTENDPKGV})"
+ INITSCRIPT_PACKAGES = "udev udev-cache"
+ INITSCRIPT_NAME_udev = "udev"
+@@ -47,14 +49,18 @@ INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
+ FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit"
+ FILES_${PN}-dbg += "${libexecdir}/.debug"
+ FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
+-FILES_libudev = "${base_libdir}/libudev.so.*"
+-FILES_libudev-dbg = "${base_libdir}/.debug/libudev.so.*"
+-FILES_libudev-dev = "${includedir}/libudev.h ${libdir}/libudev.so ${libdir}/libudev.la \
+-                     ${libdir}/libudev.a ${libdir}/pkgconfig/libudev.pc"
+-FILES_libgudev = "${libdir}/libgudev*.so.*"
+-FILES_libgudev-dbg = "${libdir}/.debug/libgudev*.so.*"
+-FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*.so ${libdir}/libgudev*.la \
+-                     ${libdir}/libgudev*.a ${libdir}/pkgconfig/gudev*.pc"
++FILES_libudev = "${base_libdir}/libudev${SOLIBS}"
++FILES_libudev-dbg = "${base_libdir}/.debug/libudev${SOLIBS}"
++FILES_libudev-dev = "${includedir}/libudev.h ${libdir}/libudev${SOLIBSDEV} ${libdir}/libudev.la \
++                     ${libdir}/pkgconfig/libudev.pc"
++FILES_libudev-staticdev = "${libdir}/libudev.a"
++RDEPENDS_libudev-staticdev = "libudev-dev (= ${EXTENDPKGV})"
++FILES_libgudev = "${libdir}/libgudev*${SOLIBS}"
++FILES_libgudev-dbg = "${libdir}/.debug/libgudev*${SOLIBS}"
++FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*${SOLIBSDEV} ${libdir}/libgudev*.la \
++                     ${libdir}/pkgconfig/gudev*.pc"
++FILES_libgudev-staticdev = "${libdir}/libgudev.a"
++RDEPENDS_libgudev-staticdev = "libgudev-dev (= ${EXTENDPKGV})"
+ FILES_udev-cache = "${sysconfdir}/init.d/udev-cache"
  
- # We need to create the lock directory
- do_install_append() {
-diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
-index 5f07c17..6f81419 100644
---- a/meta/recipes-devtools/opkg/opkg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-@@ -17,13 +17,15 @@ S = "${WORKDIR}/trunk"
+ do_install_append () {
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+index 567e62e..bee0bad 100644
+--- a/meta/recipes-core/udev/udev_164.bb
++++ b/meta/recipes-core/udev/udev_164.bb
+@@ -1,6 +1,6 @@
+ include udev-new.inc
  
- SRCREV = "609"
- PV = "0.1.8+svnr${SRCPV}"
--PR = "r2"
-+PR = "r3"
+-PR = "r3"
++PR = "${INC_PR}.0"
  
--PACKAGES =+ "libopkg${PKGSUFFIX}-dev libopkg${PKGSUFFIX} update-alternatives-cworth${PKGSUFFIX}"
-+PACKAGES =+ "libopkg${PKGSUFFIX}-dev libopkg${PKGSUFFIX}-staticdev libopkg${PKGSUFFIX} update-alternatives-cworth${PKGSUFFIX}"
- 
- FILES_update-alternatives-cworth${PKGSUFFIX} = "${bindir}/update-alternatives"
--FILES_libopkg${PKGSUFFIX}-dev = "${libdir}/*.a ${libdir}/*.la ${libdir}/*.so"
--FILES_libopkg${PKGSUFFIX} = "${libdir}/*.so.* ${localstatedir}/lib/opkg/"
-+FILES_libopkg${PKGSUFFIX}-dev = "${libdir}/*.la ${libdir}/*${SOLIBSDEV}"
-+FILES_libopkg${PKGSUFFIX}-staticdev = "${libdir}/*.a"
-+RDEPENDS_libopkg${PKGSUFFIX}-staticdev = "libopkg${PKGSUFFIX}-dev (= ${EXTENDPKGV})"
-+FILES_libopkg${PKGSUFFIX} = "${libdir}/*${SOLIBS} ${localstatedir}/lib/opkg/"
- 
- # We need to create the lock directory
- do_install_append() {
+ SRC_URI[md5sum] = "fddac2d54761ea34865af9467377ca9f"
+ SRC_URI[sha256sum] = "c12e66280b5e1465f6587a8cfa47d7405c4caa7e52ce5dd13478d04f6ec05e5c"
 -- 
 1.7.3.4
 
