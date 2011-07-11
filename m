@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QgAwm-0001Zw-CK
+	(envelope-from <ke.yu@intel.com>) id 1QgAwm-0001WD-NV
 	for openembedded-core@lists.openembedded.org;
 	Mon, 11 Jul 2011 09:30:28 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Jul 2011 00:26:32 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 11 Jul 2011 00:26:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,513,1304319600"; d="scan'208";a="26361800"
+X-IronPort-AV: E=Sophos;i="4.65,513,1304319600"; d="scan'208";a="26166188"
 Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2011 00:26:31 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2011 00:26:33 -0700
 From: Yu Ke <ke.yu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2011 15:23:21 +0800
-Message-Id: <a492610d2aa5ed3bf7970febd464b35c3877da21.1310368636.git.ke.yu@intel.com>
+Date: Mon, 11 Jul 2011 15:23:22 +0800
+Message-Id: <1529ac537a8c149c363002a26232eb5800fcdd41.1310368636.git.ke.yu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1310368636.git.ke.yu@intel.com>
 References: <cover.1310368636.git.ke.yu@intel.com>
 In-Reply-To: <cover.1310368636.git.ke.yu@intel.com>
 References: <cover.1310368636.git.ke.yu@intel.com>
-Subject: [PATCH 08/10] rpm: fix for non /usr/lib libdir case
+Subject: [PATCH 09/10] sat-solver: fix for non /usr/lib libdir case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +33,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2011 07:30:28 -0000
+X-List-Received-Date: Mon, 11 Jul 2011 07:30:29 -0000
 
-rpm default will use /usr/lib if the --with-path-lib is not specified.
-this will not work in non /usr/lib libdir case.
+when libdir set to non /usr/lib like /usr/lib64, there is do_configure error:
+"
+-- Libraries will be installed in /usr/lib
+CMake Error at /home/kyu3/sdb/lib64/tmp/sysroots/x86_64-linux/usr/share/cmake-2.8/Modules/FindPackageHandleStandardArgs.cmake:91  (MESSAGE):
+  Please install 'check' and 'check-devel' packages (missing: CHECK_LIBRARY)
+Call Stack (most recent call first):
+  /home/kyu3/sdb/lib64/tmp/sysroots/x86_64-linux/usr/share/cmake-2.8/Modules/FindPackageHandleStandardArgs.cmake:252              (_FPHSA_FAILURE_MESSAGE)
+  cmake/modules/FindCheck.cmake:17 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)
+  CMakeLists.txt:35 (FIND_PACKAGE)
+-- Configuring incomplete, errors occurred!
+"
 
-so this patch add the --with-path-lib to fix this issue.
+The reason is that cmake did not search /usr/lib64 for libcheck, thus report error
+
+add ${libdir} to the CMAKE_SYSTEM_LIBRARY_PATH can fix this issue.
 
 Signed-off-by: Yu Ke <ke.yu@intel.com>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.0.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/classes/cmake.bbclass                         |    4 ++++
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |    6 ++++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index 0c88f91..075c91a 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -45,7 +45,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
- DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
- extrarpmdeps = "python perl"
- extrarpmdeps_virtclass-native = ""
--PR = "r17"
-+PR = "r18"
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 011c232..7ef6948 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -55,6 +55,10 @@ set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
  
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
-@@ -162,6 +162,7 @@ EXTRA_OECONF = "--verbose \
- 		--enable-build-debug \
- 		--enable-maintainer-mode \
- 		--with-path-macros=${rpm_macros} \
-+		--with-path-lib=${libdir}/rpm \
- 		--with-bugreport=http://bugzilla.yoctoproject.org"
+ # Use native cmake modules
+ set( CMAKE_MODULE_PATH ${STAGING_DATADIR}/cmake/Modules/ )
++
++# add for non /usr/lib libdir, e.g. /usr/lib64
++LIST(APPEND CMAKE_SYSTEM_LIBRARY_PATH ${libdir})
++
+ EOF
+ }
  
- CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY"
+diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+index c608bb7..9b212db 100644
+--- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
++++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+@@ -8,7 +8,7 @@ DEPENDS = "libcheck rpm zlib expat db"
+ 
+ SRCREV = "0a7378d5f482f477a01cf1690d76871ab8bdcc32"
+ PV = "0.0-git${SRCPV}"
+-PR = "r10"
++PR = "r11"
+ 
+ PARALLEL_MAKE=""
+ 
+@@ -23,7 +23,9 @@ SRC_URI = "git://gitorious.org/opensuse/sat-solver.git;protocol=git \
+ 
+ S = "${WORKDIR}/git"
+ 
+-EXTRA_OECMAKE += "-DLIB=lib -DRPM5=RPM5 -DOE_CORE=OE_CORE"
++EXTRA_OECMAKE += "-DRPM5=RPM5 -DOE_CORE=OE_CORE"
++
++EXTRA_OECMAKE += " -DLIB=${@os.path.basename('${libdir}')}"
+ 
+ inherit cmake pkgconfig
+ 
 -- 
 1.7.0.4
 
