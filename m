@@ -1,25 +1,28 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1QgBNT-00025V-Hy
+	(envelope-from <koen@dominion.thruhere.net>) id 1QgBgN-0002eO-0g
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jul 2011 09:58:03 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Jul 2011 00:54:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,514,1304319600"; d="scan'208";a="26369984"
-Received: from kyu3-desk.ccr.corp.intel.com (HELO [10.238.154.176])
-	([10.238.154.176])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2011 00:54:04 -0700
-Message-ID: <4E1AAC1A.6090308@intel.com>
-Date: Mon, 11 Jul 2011 15:54:02 +0800
-From: Yu Ke <ke.yu@intel.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US;
-	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+	Mon, 11 Jul 2011 10:17:35 +0200
+Received: by wwi14 with SMTP id 14so1967891wwi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jul 2011 01:13:39 -0700 (PDT)
+Received: by 10.227.39.66 with SMTP id f2mr4055795wbe.2.1310372019301;
+	Mon, 11 Jul 2011 01:13:39 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id gd1sm5159758wbb.61.2011.07.11.01.13.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 11 Jul 2011 01:13:38 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4E1AAC1A.6090308@intel.com>
+Date: Mon, 11 Jul 2011 10:13:32 +0200
+Message-Id: <D504B8DC-24B9-46A9-AA2B-735D200B2F87@dominion.thruhere.net>
 References: <cover.1310368636.git.ke.yu@intel.com>
 	<C833B024-D1B6-40F9-9ED6-B008FEEA483E@dominion.thruhere.net>
-In-Reply-To: <C833B024-D1B6-40F9-9ED6-B008FEEA483E@dominion.thruhere.net>
+	<4E1AAC1A.6090308@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
 Subject: Re: [PATCH 00/10] [RFC] patch for non /usr/lib libdir - V2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,90 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2011 07:58:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Jul 2011 08:17:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-on 2011-7-11 15:40, Koen Kooi wrote:
->
-> Op 11 jul 2011, om 09:23 heeft Yu Ke het volgende geschreven:
->
->> This is the V2 patches. the changes compared to V1 are:
->> - revise python patch to make the sys.lib deriving from libdir, instead of hardcode to lib64
->> - add two more fixes: sat-solver and libzypp, with these two more fixes, i can build
->>   qemux86-64 core-image-sato and core-image-sato-sdk with libdir=/usr/lib64
->>
->> Next step, I will do through test to make sure it does not impact normal libdir=/usr/lib case
->>
->> The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
->>   Tom Zanussi (1):
->>         systemtap: remove non-core COMPATIBLE_MACHINES
->>
->> are available in the git repository at:
->>
->>   git://git.pokylinux.org/poky-contrib kyu3/libdir-fix-v2
->
-> Do you also have patches against oe-core instead of poky?
 
-Not yet. But I assume the difference between poky and oe-core is very 
-small. do you see issue of applying these patches to oe-core? if so, I 
+Op 11 jul 2011, om 09:54 heeft Yu Ke het volgende geschreven:
+
+> on 2011-7-11 15:40, Koen Kooi wrote:
+>>=20
+>> Op 11 jul 2011, om 09:23 heeft Yu Ke het volgende geschreven:
+>>=20
+>>> This is the V2 patches. the changes compared to V1 are:
+>>> - revise python patch to make the sys.lib deriving from libdir, =
+instead of hardcode to lib64
+>>> - add two more fixes: sat-solver and libzypp, with these two more =
+fixes, i can build
+>>>  qemux86-64 core-image-sato and core-image-sato-sdk with =
+libdir=3D/usr/lib64
+>>>=20
+>>> Next step, I will do through test to make sure it does not impact =
+normal libdir=3D/usr/lib case
+>>>=20
+>>> The following changes since commit =
+2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
+>>>  Tom Zanussi (1):
+>>>        systemtap: remove non-core COMPATIBLE_MACHINES
+>>>=20
+>>> are available in the git repository at:
+>>>=20
+>>>  git://git.pokylinux.org/poky-contrib kyu3/libdir-fix-v2
+>>=20
+>> Do you also have patches against oe-core instead of poky?
+>=20
+> Not yet. But I assume the difference between poky and oe-core is very =
+small. do you see issue of applying these patches to oe-core? if so, I =
 am happy to rebase this patch against oe-core.
 
->
->>   http://git.pokylinux.org/cgit.cgi//log/?h=kyu3/libdir-fix-v2
->
-> That one doesn't exist
-
-oh, this URL is generated by the create-pull-request script. seems there 
-is some issue. Here is the correct URL: 
-http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/log/?h=kyu3/libdir-fix-v2
-
->
->>
->> Yu Ke (10):
->>   native.bbclass: generate libdir from libdir_native
->>   openssl: fix for non /usr/lib libdir case
->>   libc-package.bbclass: fix for non /usr/lib libdir case
->>   python: fix for libdir=/usr/lib64 case
->>   python-native: fix for non /usr/lib libdir case
->>   perl: fix for non /usr/lib libdir case
->>   libcap: fix for non /usr/lib libdir case
->>   rpm: fix for non /usr/lib libdir case
->>   sat-solver: fix for non /usr/lib libdir case
->>   libzypp: fix for non /usr/lib libdir case
->>
->> meta/classes/cmake.bbclass                         |    4 +
->> meta/classes/libc-package.bbclass                  |    4 +-
->> meta/classes/native.bbclass                        |    2 +
->> meta/recipes-connectivity/openssl/openssl.inc      |    2 +-
->> .../recipes-connectivity/openssl/openssl_0.9.8r.bb |    2 +-
->> meta/recipes-devtools/perl/perl_5.12.3.bb          |    3 +-
->> ...2-distutils-prefix-is-inside-staging-area.patch |   15 +-
->> .../recipes-devtools/python/python-native_2.6.6.bb |    2 +-
->> meta/recipes-devtools/python/python/multilib.patch |  250 ++++++++++++++++++++
->> meta/recipes-devtools/python/python_2.6.6.bb       |    3 +-
->> meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
->> .../libzypp/libzypp/hardcode-lib-fix.patch         |   22 ++
->> meta/recipes-extended/libzypp/libzypp_git.bb       |    5 +-
->> meta/recipes-extended/sat-solver/sat-solver_git.bb |    6 +-
->> meta/recipes-support/libcap/libcap.inc             |    5 +-
->> meta/recipes-support/libcap/libcap_2.20.bb         |    2 +-
->> 16 files changed, 311 insertions(+), 19 deletions(-)
->> create mode 100644 meta/recipes-devtools/python/python/multilib.patch
->> create mode 100644 meta/recipes-extended/libzypp/libzypp/hardcode-lib-fix.patch
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
+'git merge' won't work if you publish a tree against poky. I can cherry =
+pick 2 or 3 patches, but 10 is way too many :)=
 
 
