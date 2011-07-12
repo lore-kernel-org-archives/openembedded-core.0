@@ -1,31 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QgdNA-00064S-UE for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 15:51:37 +0200
+	id 1QgdQF-0006Si-Tk for openembedded-core@lists.openembedded.org;
+	Tue, 12 Jul 2011 15:54:48 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CDlbCD020785;
-	Tue, 12 Jul 2011 14:47:37 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CDom3o020824
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2011 14:50:48 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 20598-03; Tue, 12 Jul 2011 14:47:34 +0100 (BST)
+	id 20598-04 for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2011 14:50:44 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CDlXMo020779
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 12 Jul 2011 14:47:33 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CDoeu3020818
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2011 14:50:40 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1310379842-14951-1-git-send-email-koen@dominion.thruhere.net>
-References: <1310379842-14951-1-git-send-email-koen@dominion.thruhere.net>
-Date: Tue, 12 Jul 2011 14:47:32 +0100
-Message-ID: <1310478452.20015.1049.camel@rex>
+In-Reply-To: <cover.1310455097.git.sgw@linux.intel.com>
+References: <cover.1310455097.git.sgw@linux.intel.com>
+Date: Tue, 12 Jul 2011 14:50:39 +0100
+Message-ID: <1310478639.20015.1051.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [RFC] webkit-gtk: update SRCREV
+Subject: Re: [PATCH 0/1] Fix for GCC missing liblto_plugin.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,36 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 13:51:37 -0000
+X-List-Received-Date: Tue, 12 Jul 2011 13:54:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-07-11 at 12:24 +0200, Koen Kooi wrote:
-> The layout of the repository has changed, so we need to account for that:
+On Tue, 2011-07-12 at 00:20 -0700, Saul Wold wrote:
+> Richard,
 > 
-> * fixed license checksums
-> * fixed SRC_URI
-> * fixed SRCREV_FORMAT
+> This is the patch for the missing liblto_plugin.so issue, minor
+> correction of how things get packaged.
 > 
-> PCRE is gone, so no need for the dftables hack anymore
+> Sau!
 > 
-> But most importantly, this fixes the crash issues when using javascript (e.g. github.com)
 > 
-> Tested on:
+> The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
 > 
-> * usrp-e1xx/angstrom-2011.07
+>   libx11: ensure nativesdk uses correct DEPENDS and XCB flags (2011-07-10 09:49:06 +0100)
 > 
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/recipes-sato/webkit/files/GNUmakefile.am   |  107 +++---
->  meta/recipes-sato/webkit/files/Makefile         |    2 +-
->  meta/recipes-sato/webkit/files/Makefile.shared  |    2 +-
->  meta/recipes-sato/webkit/files/autogen.sh       |   51 +---
->  meta/recipes-sato/webkit/files/configure.ac     |  451 ++++++++++++++++++-----
->  meta/recipes-sato/webkit/files/update-webkit.sh |    8 +
->  meta/recipes-sato/webkit/webkit-gtk_svn.bb      |   53 +--
->  7 files changed, 454 insertions(+), 220 deletions(-)
->  create mode 100755 meta/recipes-sato/webkit/files/update-webkit.sh
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/fix
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+> 
+> Saul Wold (1):
+>   gcc: Fix packaging correctly
 
 Merged to master, thanks.
 
