@@ -1,28 +1,16 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from smtp206.alice.it ([82.57.200.102])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Qgksp-0003bL-Sv
+	(envelope-from <andrea.adami@gmail.com>) id 1QglTK-0007X5-F4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 23:52:48 +0200
-Received: from localhost.localdomain (c-71-236-175-18.hsd1.or.comcast.net
-	[71.236.175.18])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id A60E02FF36;
-	Tue, 12 Jul 2011 16:26:03 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2011 13:25:57 -0700
-Message-Id: <cover.1310502258.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.1
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: A60E02FF36.15BAE
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [PATCH 0/1] distro tracking updates
+	Wed, 13 Jul 2011 00:30:30 +0200
+Received: from mizar.localdomain (87.14.251.219) by smtp206.alice.it
+	(8.5.124.08) id 4DE63E3204324481; Wed, 13 Jul 2011 00:21:06 +0200
+From: Andrea Adami <andrea.adami@gmail.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Jul 2011 00:15:31 +0200
+Message-Id: <1310508931-1640-1-git-send-email-andrea.adami@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH] kernel.bbclass: fix malformed patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,26 +25,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 21:52:48 -0000
+X-List-Received-Date: Tue, 12 Jul 2011 22:30:30 -0000
 
-Hello,
+* commit 19bda7f2c2dac6363468a49295c38f2095c67c98
+* was unfortunately based on a truncated patch.
+* Fix the broken line and repair kernel.bbclass.
+* Sorry for the noise...
 
-This adds the RECIPE_MANUAL_CHECK_DATE field for various recipes
-that the upstream tracking webapp can't figure out automatically.
+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+---
+ meta/classes/kernel.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-The following changes since commit 7354fc9213f27aa1b643dbe88070437f1ee4c063:
-
-  insane.bbclass: skip rdepends QA checks for kernel / modules (2011-07-12 15:22:09 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib sgarman/distro-tracking
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/distro-tracking
-
-Scott Garman (1):
-  distro-tracking: add RECIPE_MANUAL_CHECK_DATE for various recipes
-
- .../conf/distro/include/distro_tracking_fields.inc |    7 +++++++
- 1 files changed, 7 insertions(+), 0 deletions(-)
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e441748..9be55d0 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -189,7 +189,7 @@ kernel_do_configure() {
+ 	if [ ! -z "${INITRAMFS_IMAGE}" ]; then
+ 		for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
+ 		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img"
+-			cp "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$i
++			cp "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" initramfs.$img
+ 		fi
+ 		done
+ 	fi
+-- 
+1.7.3.4
 
 
 
