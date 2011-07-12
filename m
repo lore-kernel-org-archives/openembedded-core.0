@@ -1,27 +1,28 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qgem5-00029M-OI
+	(envelope-from <mark.hatle@windriver.com>) id 1QggQg-0007XS-21
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 17:21:27 +0200
-Received: by wwi18 with SMTP id 18so4100681wwi.24
+	Tue, 12 Jul 2011 19:07:26 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6CH3RJ7003270
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 08:16:20 -0700 (PDT)
-Received: by 10.216.166.132 with SMTP id g4mr55311wel.35.1310483779763;
-	Tue, 12 Jul 2011 08:16:19 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id w10sm7614349weq.27.2011.07.12.08.16.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 12 Jul 2011 08:16:18 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1310483720-11729-1-git-send-email-koen@dominion.thruhere.net>
-Date: Tue, 12 Jul 2011 17:16:16 +0200
-Message-Id: <D2DF7696-0988-469C-A6BC-013B6E5830BF@dominion.thruhere.net>
-References: <1310483720-11729-1-git-send-email-koen@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] pulseaudio: enable bluetooth support
+	Tue, 12 Jul 2011 10:03:27 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 12 Jul 2011 10:03:27 -0700
+Message-ID: <4E1C7E5E.5020001@windriver.com>
+Date: Tue, 12 Jul 2011 12:03:26 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1309780493.20200.17.camel@desktop.home>	<4E11DFA1.70608@slimlogic.co.uk>	<1309795942.20200.123.camel@desktop.home>
+	<4E11EDD1.1000308@slimlogic.co.uk>
+In-Reply-To: <4E11EDD1.1000308@slimlogic.co.uk>
+Subject: Re: [PROPOSAL] Package feature switches, redux.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,81 +37,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 15:21:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Jul 2011 17:07:26 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-This is the final patch in the pulseaudio series, I have bluetooth audio =
-working again :)
+On 7/4/11 11:44 AM, Graeme Gregory wrote:
+> On 07/04/2011 05:12 PM, Chris Elston wrote:
+>>> Hi, with my Angstrom cap on I like this syntax and I think it will be
+>>> really useful.
+>>>
+>>> A second level concern I have is about conflicting features, its not
+>>> something we will come across probably in DISTRO land as we are sensible
+>>> enough not to select them. But users could select them in local.conf.
+>>>
+>>> Graeme
+>> As a new developer, I've discovered that there are plenty of things that
+>> you can set in local.conf which break things :D
+>>
+>> Could you please give an example of conflicting features that could
+>> cause problems, I'm not experienced enough with OE to have encountered
+>> that problem yet.
+>>
+>>
+> Cant think of a solid one off the top of my head, but I mean the cases where
+> 
+> --enable-feature means that --disable-another-feature is done.
+> 
+> This is why I listed it as a secondary issue.
 
+I remember seeing similar issues as well.
 
-Op 12 jul 2011, om 17:15 heeft Koen Kooi het volgende geschreven:
+I really like this syntax described for the options.  If there is some way to
+list a conflicting option -- or even simple some python syntax useful within a
+recipe itself to say "hey you can't specify these two things and use this
+recipe", that would be all that I think is needed.
 
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
-> meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    4 ++--
-> .../pulseaudio/pulseaudio_0.9.22.bb                |    2 +-
-> .../pulseaudio/pulseaudio_0.9.23.bb                |    2 +-
-> 3 files changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc =
-b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> index a520343..4bb1c59 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D =
-"file://GPL;md5=3D4325afd396febcb659c36b49533135d4 \
->                     =
-file://src/pulsecore/vector.h;beginline=3D1;endline=3D21;md5=3D1b561f0a2ca=
-47b1fa49862a6ccaacff1"
-> DEPENDS =3D "libatomics-ops liboil avahi libsamplerate0 libsndfile1 =
-libtool virtual/libx11"
-> # optional
-> -DEPENDS +=3D "udev alsa-lib glib-2.0 dbus consolekit"
-> +DEPENDS +=3D "bluez4 udev alsa-lib glib-2.0 dbus consolekit"
->=20
-> SRC_URI =3D =
-"http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-${PV}.tar.gz =
-\
->            file://gcc4-compile-fix.patch;patch=3D1 \
-> @@ -19,7 +19,7 @@ inherit autotools pkgconfig
->=20
-> EXTRA_OECONF =3D "\
-> 		--disable-lynx \
-> -		--disable-bluez \
-> +		--enable-bluez \
-> 		--disable-polkit \
-> 		--with-x \
-> 		--without-jack \
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb =
-b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
-> index 2757b32..da2e988 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
-> @@ -1,6 +1,6 @@
-> require pulseaudio.inc
->=20
-> -PR =3D "r5"
-> +PR =3D "r6"
->=20
-> DEPENDS +=3D "gdbm speex"
->=20
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb =
-b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> index 8b96aed..1edd913 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-> @@ -1,6 +1,6 @@
-> require pulseaudio.inc
->=20
-> -PR =3D "r3"
-> +PR =3D "r4"
->=20
-> DEPENDS +=3D "gdbm speex"
->=20
-> --=20
-> 1.6.6.1
->=20
+I rarely find packages where it's likely someone will try to configure a
+conflicting option set, but it does happen.. if we find it.. we should be able
+to note it within the recipe and have it flag the user before do_configure is
+run.  (Preferably even before that!)
+
+--Mark
+
+> Graeme
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
