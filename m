@@ -1,24 +1,39 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QgPjW-0005ba-2c
+	(envelope-from <dongxiao.xu@intel.com>) id 1QgVWi-0006TY-Rh
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 01:17:46 +0200
+	Tue, 12 Jul 2011 07:28:57 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 Jul 2011 16:13:43 -0700
+	by orsmga102.jf.intel.com with ESMTP; 11 Jul 2011 22:24:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,517,1304319600"; d="scan'208";a="26491847"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.180])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2011 16:13:43 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jul 2011 16:13:33 -0700
-Message-Id: <bec0ee6bd47296fed4efd8e11894b0e907080b54.1310425837.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1310425837.git.sgw@linux.intel.com>
-References: <cover.1310425837.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1310425837.git.sgw@linux.intel.com>
-References: <cover.1310425837.git.sgw@linux.intel.com>
-Subject: [PATCH 26/26] binutils: Use bitbake default FILES for packaging
+X-IronPort-AV: E=Sophos;i="4.65,518,1304319600"; d="scan'208";a="26590302"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2011 22:24:57 -0700
+Received: from pgsmsx104.gar.corp.intel.com (10.221.44.91) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Tue, 12 Jul 2011 13:24:19 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX104.gar.corp.intel.com (10.221.44.91) with Microsoft SMTP Server
+	(TLS) id 14.1.289.1; Tue, 12 Jul 2011 13:24:19 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Tue, 12 Jul 2011 13:24:18 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Jul 2011 13:24:17 +0800
+Thread-Topic: [OE-core] [PATCH 0/2][PULL] alsa-tools: Fix recipe build error
+Thread-Index: Acw9hkQSwdRc/78IRxSqxCKRwjcDpACzNubw
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D6D85432@shsmsx501.ccr.corp.intel.com>
+References: <cover.1310090994.git.dongxiao.xu@intel.com>
+	<1310139923.20015.899.camel@rex>
+In-Reply-To: <1310139923.20015.899.camel@rex>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/2][PULL] alsa-tools: Fix recipe build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,105 +48,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jul 2011 23:17:46 -0000
+X-List-Received-Date: Tue, 12 Jul 2011 05:28:57 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-This will ensure correct -dev and -staticdev packging
+Hi Richard,
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../binutils/binutils-cross-canadian_2.21.1.bb     |    2 +-
- meta/recipes-devtools/binutils/binutils-cross.inc  |    2 ++
- .../binutils/binutils-cross_csl-arm-2008q1.bb      |    2 +-
- .../binutils/binutils-crosssdk_2.21.1.bb           |    2 +-
- meta/recipes-devtools/binutils/binutils.inc        |    9 ++-------
- meta/recipes-devtools/binutils/binutils_2.21.1.bb  |    2 +-
- 6 files changed, 8 insertions(+), 11 deletions(-)
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: Friday, July 08, 2011 11:45 PM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 0/2][PULL] alsa-tools: Fix recipe build err=
+or
+>=20
+> On Fri, 2011-07-08 at 10:11 +0800, Dongxiao Xu wrote:
+> > Hi Saul,
+> >
+> > This pull request fixes the alsa-tools recipe build error.
+> > Please help to review and pull.
+> >
+> > [YOCTO #1038]
+> >
+> > Thanks,
+> > Dongxiao
+> >
+> > The following changes since commit
+> 2c79c9eb7ef8ef0aef8c3096c3c4387e28e56ea2:
+> >
+> >   pulseaudio: add 0.9.23 (2011-07-07 13:45:32 +0100)
+> >
+> > are available in the git repository at:
+> >   git://git.pokylinux.org/poky-contrib dxu4/alsa-tools
+> >
+> > http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Ddxu4/alsa-tools
+> >
+> > Dongxiao Xu (2):
+> >   fltk: add this recipe for alsa-tools build
+> >   alsa-tools: Fix recipe build error.
+>=20
+> I'd like to understand whether we need gtk and fltk tools from alsa-tools=
+ at this
+> point in time?
+>=20
+> Could we just disable those?
 
-diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian_2.21.1.bb b/meta/recipes-devtools/binutils/binutils-cross-canadian_2.21.1.bb
-index 7dad2a6..0a91dfb 100644
---- a/meta/recipes-devtools/binutils/binutils-cross-canadian_2.21.1.bb
-+++ b/meta/recipes-devtools/binutils/binutils-cross-canadian_2.21.1.bb
-@@ -1,3 +1,3 @@
- require binutils_${PV}.bb
- require binutils-cross-canadian.inc
--PR = "r0"
-+PR = "${INC_PR}.0"
-diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
-index 5a41970..87bfe5a 100644
---- a/meta/recipes-devtools/binutils/binutils-cross.inc
-+++ b/meta/recipes-devtools/binutils/binutils-cross.inc
-@@ -1,6 +1,8 @@
- inherit cross
- PROVIDES = "virtual/${TARGET_PREFIX}binutils"
- 
-+INC_PR = "r2"
-+
- EXTRA_OECONF = "--with-sysroot=${STAGING_DIR_TARGET} \
-                 --program-prefix=${TARGET_PREFIX} \
-                 --disable-install-libbfd \
-diff --git a/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb b/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb
-index 8ab1e7f..f7a2c48 100644
---- a/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb
-+++ b/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb
-@@ -1,3 +1,3 @@
- require binutils_csl-arm-2008q1.bb
- require binutils-cross.inc
--PR = "r1"
-+PR = "${INC_PR}.0"
-diff --git a/meta/recipes-devtools/binutils/binutils-crosssdk_2.21.1.bb b/meta/recipes-devtools/binutils/binutils-crosssdk_2.21.1.bb
-index 0d6efff..3886d85 100644
---- a/meta/recipes-devtools/binutils/binutils-crosssdk_2.21.1.bb
-+++ b/meta/recipes-devtools/binutils/binutils-crosssdk_2.21.1.bb
-@@ -4,7 +4,7 @@ inherit crosssdk
- 
- PROVIDES = "virtual/${TARGET_PREFIX}binutils-crosssdk"
- 
--PR = "r0"
-+PR = "${INC_PR}.0"
- 
- do_configure_prepend () {
- 	sed -i 's#/usr/local/lib /lib /usr/lib#${SDKPATHNATIVE}/lib ${SDKPATHNATIVE}/usr/lib /usr/local/lib /lib /usr/lib#' ${S}/ld/configure.tgt
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 08c14b2..8085a21 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -11,6 +11,8 @@ BUGTRACKER = "http://sourceware.org/bugzilla/"
- SECTION = "devel"
- LICENSE = "GPLv3"
- 
-+INC_PR = "r2"
-+
- DEPENDS = "flex-native bison-native zlib-native"
- 
- inherit autotools gettext
-@@ -22,13 +24,6 @@ FILES_${PN} = " \
- 	${libdir}/lib*-*.so \
- 	${prefix}/${TARGET_SYS}/bin/*"
- 
--FILES_${PN}-dev = " \
--	${includedir} \
--	${libdir}/*.a \
--	${libdir}/*.la \
--	${libdir}/libbfd.so \
--	${libdir}/libopcodes.so"
--
- FILES_${PN}-symlinks = " \
- 	${bindir}/addr2line \
- 	${bindir}/as \
-diff --git a/meta/recipes-devtools/binutils/binutils_2.21.1.bb b/meta/recipes-devtools/binutils/binutils_2.21.1.bb
-index 368ec4a..a005aa6 100644
---- a/meta/recipes-devtools/binutils/binutils_2.21.1.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.21.1.bb
-@@ -1,6 +1,6 @@
- require binutils.inc
- 
--PR = "r0"
-+PR = "${INC_PR}.0"
- 
- LIC_FILES_CHKSUM="\
-     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
--- 
-1.7.3.4
+I added those dependencies in since alsa-tools is not in our reference imag=
+es (sato, sato-sdk, etc.), and it may not impact our daily builds.
 
+Actually alsa-tools is a set of subprojects, we can disable certain sub-pro=
+jects in alsa-tools to avoid including gtk and fltk.
+
+Thanks,
+Dongxiao
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
