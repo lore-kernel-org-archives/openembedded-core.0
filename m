@@ -1,28 +1,28 @@
 Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QgXB7-0008HP-01
+	(envelope-from <koen@dominion.thruhere.net>) id 1QgXCC-0008Iv-Og
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 09:14:45 +0200
-Received: by wyg30 with SMTP id 30so3513732wyg.6
+	Tue, 12 Jul 2011 09:15:52 +0200
+Received: by wyg30 with SMTP id 30so3514282wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 00:10:45 -0700 (PDT)
-Received: by 10.216.63.2 with SMTP id z2mr3813428wec.11.1310454642421;
-	Tue, 12 Jul 2011 00:10:42 -0700 (PDT)
+	Tue, 12 Jul 2011 00:11:56 -0700 (PDT)
+Received: by 10.227.32.73 with SMTP id b9mr5043278wbd.107.1310454715993;
+	Tue, 12 Jul 2011 00:11:55 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id g55sm660680wee.11.2011.07.12.00.10.41
+	by mx.google.com with ESMTPS id fe4sm10625564wbb.11.2011.07.12.00.11.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 12 Jul 2011 00:10:41 -0700 (PDT)
+	Tue, 12 Jul 2011 00:11:55 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1084)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <febb9488289e43ac06b9383dfffa2d584f49aa16.1310425837.git.sgw@linux.intel.com>
-Date: Tue, 12 Jul 2011 09:10:39 +0200
-Message-Id: <2541EF21-1EB2-47BD-9F58-CA2FB08F8541@dominion.thruhere.net>
+In-Reply-To: <c5a86ee71f9a3fb65e9f411ffa3ef76f16530631.1310425837.git.sgw@linux.intel.com>
+Date: Tue, 12 Jul 2011 09:11:49 +0200
+Message-Id: <9B559E61-0AFC-47B4-8C69-294CB5AB4082@dominion.thruhere.net>
 References: <cover.1310425837.git.sgw@linux.intel.com>
-	<febb9488289e43ac06b9383dfffa2d584f49aa16.1310425837.git.sgw@linux.intel.com>
+	<c5a86ee71f9a3fb65e9f411ffa3ef76f16530631.1310425837.git.sgw@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 12/26] libxft: use default bitbake.conf FILES Packaging to handle staticdev
+Subject: Re: [PATCH 11/26] rpm: Create ${PN}-staticdev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 07:14:45 -0000
+X-List-Received-Date: Tue, 12 Jul 2011 07:15:52 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
@@ -45,56 +45,76 @@ Content-Transfer-Encoding: quoted-printable
 Op 12 jul 2011, om 01:13 heeft Saul Wold het volgende geschreven:
 
 > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+
+Missing PR bump
+
+
 > ---
-> meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb |    7 ++-----
-> 1 files changed, 2 insertions(+), 5 deletions(-)
+> meta/recipes-devtools/rpm/rpm_5.4.0.bb |   16 +++++++++-------
+> 1 files changed, 9 insertions(+), 7 deletions(-)
 >=20
-> diff --git a/meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb =
-b/meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb
-> index 1a56702..997db3e 100644
-> --- a/meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb
-> @@ -18,7 +18,7 @@ LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D90b90b60eb30f65fc9c2673d7cf59e24"
-> DEPENDS +=3D "libxrender freetype fontconfig"
-> PROVIDES =3D "xft"
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb =
+b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> index d093345..5e6d0a4 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+> @@ -166,7 +166,7 @@ EXTRA_OECONF =3D "--verbose \
 >=20
-> -PR =3D "r0"
-> +PR =3D "r1"
-> PE =3D "1"
+> CFLAGS_append =3D " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY"
 >=20
-> XORG_PN =3D "libXft"
-> @@ -28,10 +28,7 @@ python () {
->             bb.data.setVar('PKG_${PN}', 'libxft2', d)
-> }
+> -PACKAGES =3D "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev =
+${PN}-common ${PN}-build python-rpm-dbg python-rpm perl-module-rpm =
+perl-module-rpm-dev ${PN}-locale"
+> +PACKAGES =3D "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev =
+${PN}-staticdev ${PN}-common ${PN}-build python-rpm-dbg python-rpm =
+perl-module-rpm perl-module-rpm-dev ${PN}-locale"
 >=20
-> -FILES_${PN} =3D "${libdir}/lib*${SOLIBS}"
-> -FILES_${PN}-dev =3D "${includedir} ${libdir}/lib*${SOLIBSDEV} =
-${libdir}/*.la \
-> -		${libdir}/*.a ${libdir}/pkgconfig \
-> -		${datadir}/aclocal ${bindir} ${sbindir}"
-> +FILES_${PN}-dev +=3D "${bindir} ${sbindir}"
+> SOLIBS =3D "5.4.so"
+>=20
+> @@ -301,26 +301,28 @@ FILES_perl-module-rpm-dev =3D =
+"${prefix}/share/man/man3/RPM* \
+> 		"
+>=20
+> FILE_${PN}-dev =3D "${includedir}/rpm \
+> -		${libdir}/librpm.a \
+> 		${libdir}/librpm.la \
+> 		${libdir}/librpm.so \
+> -		${libdir}/librpmconstant.a \
+> 		${libdir}/librpmconstant.la \
+> 		${libdir}/librpmconstant.so \
+> -		${libdir}/librpmdb.a \
+> 		${libdir}/librpmdb.la \
+> 		${libdir}/librpmdb.so \
+> -		${libdir}/librpmio.a \
+> 		${libdir}/librpmio.la \
+> 		${libdir}/librpmio.so \
+> -		${libdir}/librpmmisc.a \
+> 		${libdir}/librpmmisc.la \
+> 		${libdir}/librpmmisc.so \
+> -		${libdir}/librpmbuild.a \
+> 		${libdir}/librpmbuild.la \
+> 		${libdir}/librpmbuild.so \
+> 		${libdir}/pkgconfig/rpm.pc \
+> 		"
+> +FILE_${PN}-staticdev =3D " \
+> +		${libdir}/librpm.a \
+> +		${libdir}/librpmconstant.a \
+> +		${libdir}/librpmdb.a \
+> +		${libdir}/librpmio.a \
+> +		${libdir}/librpmmisc.a \
+> +		${libdir}/librpmbuild.a \
+> +                "
+>=20
+> ###%{_rpmhome}/lib/libxar.a
+> ###%{_rpmhome}/lib/libxar.la
+> --=20
+> 1.7.3.4
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-
-$ dpkg-deb -c ipk/armv7a/libxft-dev_2.2.0-r0_armv7a.ipk=20
-drwxr-xr-x root/root         0 2011-07-11 09:28 ./
-drwxr-xr-x root/root         0 2011-07-11 09:28 ./usr/
-drwxr-xr-x root/root         0 2011-07-11 09:28 ./usr/include/
-drwxr-xr-x root/root         0 2011-07-11 09:28 ./usr/include/X11/
-drwxr-xr-x root/root         0 2011-07-11 09:28 ./usr/include/X11/Xft/
--rw-r--r-- root/root      5223 2011-07-11 09:28 =
-./usr/include/X11/Xft/XftCompat.h
--rw-r--r-- root/root     12533 2011-07-11 09:28 =
-./usr/include/X11/Xft/Xft.h
-drwxr-xr-x root/root         0 2011-07-11 09:28 ./usr/lib/
--rwxr-xr-x root/root      1228 2011-07-11 09:28 ./usr/lib/libXft.la
-drwxr-xr-x root/root         0 2011-07-11 09:28 ./usr/lib/pkgconfig/
--rw-r--r-- root/root       241 2011-07-11 09:28 =
-./usr/lib/pkgconfig/xft.pc
-lrwxrwxrwx root/root         0 2011-07-11 09:28 ./usr/lib/libXft.so -> =
-libXft.so.2.2.0
--rw-r--r-- root/root    847424 2011-07-11 09:28 ./usr/lib/libXft.a
-
-Is there actually something in (s)bindir?=
 
 
