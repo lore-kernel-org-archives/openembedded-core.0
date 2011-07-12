@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QgXK8-0008UC-HF
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1QgYy7-0001ql-75 for openembedded-core@lists.openembedded.org;
+	Tue, 12 Jul 2011 11:09:27 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1QgYuK-0002wK-G8
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 09:24:04 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 Jul 2011 00:20:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,519,1304319600"; d="scan'208";a="26624982"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.180])
-	by orsmga001.jf.intel.com with ESMTP; 12 Jul 2011 00:20:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2011 00:20:04 -0700
-Message-Id: <6afa19c8b049d42c67f009e6f616deb8a5c6f882.1310455097.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1310455097.git.sgw@linux.intel.com>
-References: <cover.1310455097.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1310455097.git.sgw@linux.intel.com>
-References: <cover.1310455097.git.sgw@linux.intel.com>
-Subject: [PATCH 1/1] gcc: Fix packaging correctly
+	Tue, 12 Jul 2011 11:05:32 +0200
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Jul 2011 10:05:31 +0100
+In-Reply-To: <48abd2efac6bb607f6fdf8273cb3b7afdd3f135e.1310425837.git.sgw@linux.intel.com>
+References: <cover.1310425837.git.sgw@linux.intel.com>
+	<48abd2efac6bb607f6fdf8273cb3b7afdd3f135e.1310425837.git.sgw@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1310461532.6337.176.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 01/26] bitbake.conf: Add *-config to default ${PN}-dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,69 +33,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 07:24:04 -0000
+X-List-Received-Date: Tue, 12 Jul 2011 09:09:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #1233]
+On Mon, 2011-07-11 at 16:13 -0700, Saul Wold wrote:
+>  FILES_${PN}-dev = "${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la \
+>                  ${libdir}/*.o ${libdir}/pkgconfig ${datadir}/pkgconfig \
+> -                ${datadir}/aclocal ${base_libdir}/*.o"
+> +                ${datadir}/aclocal ${base_libdir}/*.o ${bindir}/*-config"
 
-This fix directly packages the contents in  and adds the lib*.so
-correctly to the -dev package.
+Wouldn't that be better in binconfig.bbclass?
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-devtools/gcc/gcc-4.6.inc            |    2 +-
- meta/recipes-devtools/gcc/gcc-package-target.inc |    9 ++++++---
- 2 files changed, 7 insertions(+), 4 deletions(-)
+p.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index a880111..56064b5 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r6"
-+PR = "r8"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-diff --git a/meta/recipes-devtools/gcc/gcc-package-target.inc b/meta/recipes-devtools/gcc/gcc-package-target.inc
-index 69abf72..9a91a7f 100644
---- a/meta/recipes-devtools/gcc/gcc-package-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
-@@ -14,10 +14,12 @@ FILES_${PN} = "\
-   ${bindir}/${TARGET_PREFIX}gcc \
-   ${bindir}/${TARGET_PREFIX}gccbug \
-   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/collect2 \
--  ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/* \
-+  ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc* \
-+  ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lto* \
-+  ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lib*${SOLIBS} \
-   ${gcclibdir}/${TARGET_SYS}/${BINV}/*.o \
-   ${gcclibdir}/${TARGET_SYS}/${BINV}/specs \
--  ${gcclibdir}/${TARGET_SYS}/${BINV}/lib* \
-+  ${gcclibdir}/${TARGET_SYS}/${BINV}/lib*${SOLIBS} \
-   ${gcclibdir}/${TARGET_SYS}/${BINV}/include \
-   ${gcclibdir}/${TARGET_SYS}/${BINV}/include-fixed \
- "
-@@ -26,6 +28,8 @@ FILES_${PN}-dbg += "\
- "
- FILES_${PN}-dev = "\
-   ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/include/ \
-+  ${gcclibdir}/${TARGET_SYS}/${BINV}/lib*${SOLIBSDEV} \
-+  ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lib*${SOLIBSDEV} \
- "
- FILES_${PN}-symlinks = "\
-   ${bindir}/cc \
-@@ -80,7 +84,6 @@ do_install () {
- 	# Cleanup some of the ${libdir}{,exec}/gcc stuff ...
- 	rm -r ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
- 	rm -r ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
--	rm -r ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/*.so
- 	rm -r ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/*.la
- 
- 	# Hack around specs file assumptions
--- 
-1.7.3.4
 
 
 
