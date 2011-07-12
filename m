@@ -1,24 +1,26 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QgbBr-0005Kq-W0
+	(envelope-from <koen@dominion.thruhere.net>) id 1QgbBu-0005Kz-F5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 13:31:48 +0200
-Received: by wwi14 with SMTP id 14so2951852wwi.0
+	Tue, 12 Jul 2011 13:31:50 +0200
+Received: by wyg30 with SMTP id 30so3653944wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 04:27:50 -0700 (PDT)
-Received: by 10.227.204.148 with SMTP id fm20mr5352441wbb.38.1310470070492;
-	Tue, 12 Jul 2011 04:27:50 -0700 (PDT)
+	Tue, 12 Jul 2011 04:27:53 -0700 (PDT)
+Received: by 10.216.205.160 with SMTP id j32mr5152311weo.36.1310470073253;
+	Tue, 12 Jul 2011 04:27:53 -0700 (PDT)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ex2sm10784814wbb.31.2011.07.12.04.27.49
+	by mx.google.com with ESMTPS id t79sm7498451weq.5.2011.07.12.04.27.51
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 12 Jul 2011 04:27:49 -0700 (PDT)
+	Tue, 12 Jul 2011 04:27:52 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2011 13:27:43 +0200
-Message-Id: <1310470064-22366-1-git-send-email-koen@dominion.thruhere.net>
+Date: Tue, 12 Jul 2011 13:27:44 +0200
+Message-Id: <1310470064-22366-2-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
+In-Reply-To: <1310470064-22366-1-git-send-email-koen@dominion.thruhere.net>
+References: <1310470064-22366-1-git-send-email-koen@dominion.thruhere.net>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 1/2] pulseaudio: try harder to disable HAL
+Subject: [PATCH 2/2] pulseaudio 0.9.15: delete, but keep 0.9.22 and 0.9.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,83 +35,1091 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 11:31:48 -0000
-
-This disables linking against (lib)hal but enables the udev-hal compat layer so the hal-detect plugin keeps working. The hal-detect plugin is removed from the default dependencies to discourage its usage, but can be installed manually if needed.
+X-List-Received-Date: Tue, 12 Jul 2011 11:31:50 -0000
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    3 +--
- .../pulseaudio/pulseaudio_0.9.15.bb                |    2 +-
- .../pulseaudio/pulseaudio_0.9.22.bb                |    2 +-
- .../pulseaudio/pulseaudio_0.9.23.bb                |    2 +-
- 4 files changed, 4 insertions(+), 5 deletions(-)
+ .../pulseaudio/pulseaudio-0.9.15/alsaerror.patch   |  527 --------------------
+ .../pulseaudio-0.9.15/autoconf_version.patch       |   15 -
+ .../pulseaudio/pulseaudio-0.9.15/buildfix.patch    |   15 -
+ .../pulseaudio/pulseaudio-0.9.15/fallback.patch    |  340 -------------
+ .../pulseaudio-0.9.15/gcc4-compile-fix.patch       |   20 -
+ .../pulseaudio/pulseaudio-0.9.15/periodfix.patch   |   75 ---
+ .../pulseaudio-0.9.15/volatiles.04_pulse           |    2 -
+ .../pulseaudio/pulseaudio_0.9.15.bb                |   21 -
+ 8 files changed, 0 insertions(+), 1015 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/alsaerror.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/autoconf_version.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/buildfix.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/fallback.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/gcc4-compile-fix.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/periodfix.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/volatiles.04_pulse
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 12e6ef3..979d0a9 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -27,6 +27,7 @@ EXTRA_OECONF = "\
- 		--with-alsa \
- 		--with-oss \
- 		--without-hal \
-+		--disable-hal \
- "
- 
- PARALLEL_MAKE = ""
-@@ -108,7 +109,6 @@ python populate_packages_prepend() {
- }
- 
- RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
--RDEPENDS_pulseaudio-module-hal-detect =+ "hal"
- RDEPENDS_pulseaudio-server = " \
-     pulseaudio-module-device-restore \
-     pulseaudio-module-stream-restore \
-@@ -119,7 +119,6 @@ RDEPENDS_pulseaudio-server = " \
-     pulseaudio-module-alsa-source \
-     pulseaudio-module-alsa-card \
-     pulseaudio-module-native-protocol-unix \
--    pulseaudio-module-hal-detect \
-     pulseaudio-module-default-device-restore \
-     pulseaudio-module-rescue-streams \
-     pulseaudio-module-always-sink \
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/alsaerror.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/alsaerror.patch
+deleted file mode 100644
+index 0f09d2e..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/alsaerror.patch
++++ /dev/null
+@@ -1,527 +0,0 @@
+-From: Lennart Poettering <lennart@poettering.net>
+-Date: Sun, 19 Apr 2009 17:22:51 +0000 (+0200)
+-Subject: alsa: properly convert return values of snd_strerror() to utf8
+-X-Git-Url: http://git.0pointer.de/?p=pulseaudio.git;a=commitdiff_plain;h=98a25c506e692ab091b4af7e1b37e8432fc08e8f
+-
+-alsa: properly convert return values of snd_strerror() to utf8
+----
+-
+-Upstream-Status: Backport
+-
+-diff --git a/src/modules/alsa/alsa-sink.c b/src/modules/alsa/alsa-sink.c
+-index 2fbcd7b..41e8b47 100644
+---- a/src/modules/alsa/alsa-sink.c
+-+++ b/src/modules/alsa/alsa-sink.c
+-@@ -281,7 +281,7 @@ static int try_recover(struct userdata *u, const char *call, int err) {
+-     pa_assert(call);
+-     pa_assert(err < 0);
+- 
+--    pa_log_debug("%s: %s", call, snd_strerror(err));
+-+    pa_log_debug("%s: %s", call, pa_alsa_strerror(err));
+- 
+-     pa_assert(err != -EAGAIN);
+- 
+-@@ -289,7 +289,7 @@ static int try_recover(struct userdata *u, const char *call, int err) {
+-         pa_log_debug("%s: Buffer underrun!", call);
+- 
+-     if ((err = snd_pcm_recover(u->pcm_handle, err, 1)) < 0) {
+--        pa_log("%s: %s", call, snd_strerror(err));
+-+        pa_log("%s: %s", call, pa_alsa_strerror(err));
+-         return -1;
+-     }
+- 
+-@@ -636,12 +636,12 @@ static void update_smoother(struct userdata *u) {
+-     /* Let's update the time smoother */
+- 
+-     if (PA_UNLIKELY((err = pa_alsa_safe_delay(u->pcm_handle, &delay, u->hwbuf_size, &u->sink->sample_spec)) < 0)) {
+--        pa_log_warn("Failed to query DSP status data: %s", snd_strerror(err));
+-+        pa_log_warn("Failed to query DSP status data: %s", pa_alsa_strerror(err));
+-         return;
+-     }
+- 
+-     if (PA_UNLIKELY((err = snd_pcm_status(u->pcm_handle, status)) < 0))
+--        pa_log_warn("Failed to get timestamp: %s", snd_strerror(err));
+-+        pa_log_warn("Failed to get timestamp: %s", pa_alsa_strerror(err));
+-     else {
+-         snd_htimestamp_t htstamp = { 0, 0 };
+-         snd_pcm_status_get_htstamp(status, &htstamp);
+-@@ -764,7 +764,7 @@ static int update_sw_params(struct userdata *u) {
+-     pa_log_debug("setting avail_min=%lu", (unsigned long) avail_min);
+- 
+-     if ((err = pa_alsa_set_sw_params(u->pcm_handle, avail_min)) < 0) {
+--        pa_log("Failed to set software parameters: %s", snd_strerror(err));
+-+        pa_log("Failed to set software parameters: %s", pa_alsa_strerror(err));
+-         return err;
+-     }
+- 
+-@@ -792,7 +792,7 @@ static int unsuspend(struct userdata *u) {
+-                             SND_PCM_NO_AUTO_RESAMPLE|
+-                             SND_PCM_NO_AUTO_CHANNELS|
+-                             SND_PCM_NO_AUTO_FORMAT)) < 0) {
+--        pa_log("Error opening PCM device %s: %s", u->device_name, snd_strerror(err));
+-+        pa_log("Error opening PCM device %s: %s", u->device_name, pa_alsa_strerror(err));
+-         goto fail;
+-     }
+- 
+-@@ -803,7 +803,7 @@ static int unsuspend(struct userdata *u) {
+-     d = u->use_tsched;
+- 
+-     if ((err = pa_alsa_set_hw_params(u->pcm_handle, &ss, &nfrags, &period_size, u->hwbuf_size / u->frame_size, &b, &d, TRUE)) < 0) {
+--        pa_log("Failed to set hardware parameters: %s", snd_strerror(err));
+-+        pa_log("Failed to set hardware parameters: %s", pa_alsa_strerror(err));
+-         goto fail;
+-     }
+- 
+-@@ -1030,7 +1030,7 @@ static void sink_get_volume_cb(pa_sink *s) {
+-     return;
+- 
+- fail:
+--    pa_log_error("Unable to read volume: %s", snd_strerror(err));
+-+    pa_log_error("Unable to read volume: %s", pa_alsa_strerror(err));
+- }
+- 
+- static void sink_set_volume_cb(pa_sink *s) {
+-@@ -1141,7 +1141,7 @@ static void sink_set_volume_cb(pa_sink *s) {
+-     return;
+- 
+- fail:
+--    pa_log_error("Unable to set volume: %s", snd_strerror(err));
+-+    pa_log_error("Unable to set volume: %s", pa_alsa_strerror(err));
+- }
+- 
+- static void sink_get_mute_cb(pa_sink *s) {
+-@@ -1152,7 +1152,7 @@ static void sink_get_mute_cb(pa_sink *s) {
+-     pa_assert(u->mixer_elem);
+- 
+-     if ((err = snd_mixer_selem_get_playback_switch(u->mixer_elem, 0, &sw)) < 0) {
+--        pa_log_error("Unable to get switch: %s", snd_strerror(err));
+-+        pa_log_error("Unable to get switch: %s", pa_alsa_strerror(err));
+-         return;
+-     }
+- 
+-@@ -1167,7 +1167,7 @@ static void sink_set_mute_cb(pa_sink *s) {
+-     pa_assert(u->mixer_elem);
+- 
+-     if ((err = snd_mixer_selem_set_playback_switch_all(u->mixer_elem, !s->muted)) < 0) {
+--        pa_log_error("Unable to set switch: %s", snd_strerror(err));
+-+        pa_log_error("Unable to set switch: %s", pa_alsa_strerror(err));
+-         return;
+-     }
+- }
+-@@ -1206,7 +1206,7 @@ static int process_rewind(struct userdata *u) {
+-     pa_log_debug("Requested to rewind %lu bytes.", (unsigned long) rewind_nbytes);
+- 
+-     if (PA_UNLIKELY((unused = pa_alsa_safe_avail(u->pcm_handle, u->hwbuf_size, &u->sink->sample_spec)) < 0)) {
+--        pa_log("snd_pcm_avail() failed: %s", snd_strerror((int) unused));
+-+        pa_log("snd_pcm_avail() failed: %s", pa_alsa_strerror((int) unused));
+-         return -1;
+-     }
+- 
+-@@ -1228,7 +1228,7 @@ static int process_rewind(struct userdata *u) {
+-         in_frames = (snd_pcm_sframes_t) (rewind_nbytes / u->frame_size);
+-         pa_log_debug("before: %lu", (unsigned long) in_frames);
+-         if ((out_frames = snd_pcm_rewind(u->pcm_handle, (snd_pcm_uframes_t) in_frames)) < 0) {
+--            pa_log("snd_pcm_rewind() failed: %s", snd_strerror((int) out_frames));
+-+            pa_log("snd_pcm_rewind() failed: %s", pa_alsa_strerror((int) out_frames));
+-             return -1;
+-         }
+-         pa_log_debug("after: %lu", (unsigned long) out_frames);
+-@@ -1359,7 +1359,7 @@ static void thread_func(void *userdata) {
+-             pollfd = pa_rtpoll_item_get_pollfd(u->alsa_rtpoll_item, &n);
+- 
+-             if ((err = snd_pcm_poll_descriptors_revents(u->pcm_handle, pollfd, n, &revents)) < 0) {
+--                pa_log("snd_pcm_poll_descriptors_revents() failed: %s", snd_strerror(err));
+-+                pa_log("snd_pcm_poll_descriptors_revents() failed: %s", pa_alsa_strerror(err));
+-                 goto fail;
+-             }
+- 
+-diff --git a/src/modules/alsa/alsa-source.c b/src/modules/alsa/alsa-source.c
+-index c59fc75..843f70b 100644
+---- a/src/modules/alsa/alsa-source.c
+-+++ b/src/modules/alsa/alsa-source.c
+-@@ -278,7 +278,7 @@ static int try_recover(struct userdata *u, const char *call, int err) {
+-     pa_assert(call);
+-     pa_assert(err < 0);
+- 
+--    pa_log_debug("%s: %s", call, snd_strerror(err));
+-+    pa_log_debug("%s: %s", call, pa_alsa_strerror(err));
+- 
+-     pa_assert(err != -EAGAIN);
+- 
+-@@ -286,7 +286,7 @@ static int try_recover(struct userdata *u, const char *call, int err) {
+-         pa_log_debug("%s: Buffer overrun!", call);
+- 
+-     if ((err = snd_pcm_recover(u->pcm_handle, err, 1)) < 0) {
+--        pa_log("%s: %s", call, snd_strerror(err));
+-+        pa_log("%s: %s", call, pa_alsa_strerror(err));
+-         return -1;
+-     }
+- 
+-@@ -606,12 +606,12 @@ static void update_smoother(struct userdata *u) {
+-     /* Let's update the time smoother */
+- 
+-     if (PA_UNLIKELY((err = pa_alsa_safe_delay(u->pcm_handle, &delay, u->hwbuf_size, &u->source->sample_spec)) < 0)) {
+--        pa_log_warn("Failed to get delay: %s", snd_strerror(err));
+-+        pa_log_warn("Failed to get delay: %s", pa_alsa_strerror(err));
+-         return;
+-     }
+- 
+-     if (PA_UNLIKELY((err = snd_pcm_status(u->pcm_handle, status)) < 0))
+--        pa_log_warn("Failed to get timestamp: %s", snd_strerror(err));
+-+        pa_log_warn("Failed to get timestamp: %s", pa_alsa_strerror(err));
+-     else {
+-         snd_htimestamp_t htstamp = { 0, 0 };
+-         snd_pcm_status_get_htstamp(status, &htstamp);
+-@@ -721,7 +721,7 @@ static int update_sw_params(struct userdata *u) {
+-     pa_log_debug("setting avail_min=%lu", (unsigned long) avail_min);
+- 
+-     if ((err = pa_alsa_set_sw_params(u->pcm_handle, avail_min)) < 0) {
+--        pa_log("Failed to set software parameters: %s", snd_strerror(err));
+-+        pa_log("Failed to set software parameters: %s", pa_alsa_strerror(err));
+-         return err;
+-     }
+- 
+-@@ -747,7 +747,7 @@ static int unsuspend(struct userdata *u) {
+-                             SND_PCM_NO_AUTO_RESAMPLE|
+-                             SND_PCM_NO_AUTO_CHANNELS|
+-                             SND_PCM_NO_AUTO_FORMAT)) < 0) {
+--        pa_log("Error opening PCM device %s: %s", u->device_name, snd_strerror(err));
+-+        pa_log("Error opening PCM device %s: %s", u->device_name, pa_alsa_strerror(err));
+-         goto fail;
+-     }
+- 
+-@@ -758,7 +758,7 @@ static int unsuspend(struct userdata *u) {
+-     d = u->use_tsched;
+- 
+-     if ((err = pa_alsa_set_hw_params(u->pcm_handle, &ss, &nfrags, &period_size, u->hwbuf_size / u->frame_size, &b, &d, TRUE)) < 0) {
+--        pa_log("Failed to set hardware parameters: %s", snd_strerror(err));
+-+        pa_log("Failed to set hardware parameters: %s", pa_alsa_strerror(err));
+-         goto fail;
+-     }
+- 
+-@@ -988,7 +988,7 @@ static void source_get_volume_cb(pa_source *s) {
+-     return;
+- 
+- fail:
+--    pa_log_error("Unable to read volume: %s", snd_strerror(err));
+-+    pa_log_error("Unable to read volume: %s", pa_alsa_strerror(err));
+- }
+- 
+- static void source_set_volume_cb(pa_source *s) {
+-@@ -1100,7 +1100,7 @@ static void source_set_volume_cb(pa_source *s) {
+-     return;
+- 
+- fail:
+--    pa_log_error("Unable to set volume: %s", snd_strerror(err));
+-+    pa_log_error("Unable to set volume: %s", pa_alsa_strerror(err));
+- }
+- 
+- static void source_get_mute_cb(pa_source *s) {
+-@@ -1111,7 +1111,7 @@ static void source_get_mute_cb(pa_source *s) {
+-     pa_assert(u->mixer_elem);
+- 
+-     if ((err = snd_mixer_selem_get_capture_switch(u->mixer_elem, 0, &sw)) < 0) {
+--        pa_log_error("Unable to get switch: %s", snd_strerror(err));
+-+        pa_log_error("Unable to get switch: %s", pa_alsa_strerror(err));
+-         return;
+-     }
+- 
+-@@ -1126,7 +1126,7 @@ static void source_set_mute_cb(pa_source *s) {
+-     pa_assert(u->mixer_elem);
+- 
+-     if ((err = snd_mixer_selem_set_capture_switch_all(u->mixer_elem, !s->muted)) < 0) {
+--        pa_log_error("Unable to set switch: %s", snd_strerror(err));
+-+        pa_log_error("Unable to set switch: %s", pa_alsa_strerror(err));
+-         return;
+-     }
+- }
+-@@ -1218,7 +1218,7 @@ static void thread_func(void *userdata) {
+-             pollfd = pa_rtpoll_item_get_pollfd(u->alsa_rtpoll_item, &n);
+- 
+-             if ((err = snd_pcm_poll_descriptors_revents(u->pcm_handle, pollfd, n, &revents)) < 0) {
+--                pa_log("snd_pcm_poll_descriptors_revents() failed: %s", snd_strerror(err));
+-+                pa_log("snd_pcm_poll_descriptors_revents() failed: %s", pa_alsa_strerror(err));
+-                 goto fail;
+-             }
+- 
+-diff --git a/src/modules/alsa/alsa-util.c b/src/modules/alsa/alsa-util.c
+-index d2dc6e8..ddc3c77 100644
+---- a/src/modules/alsa/alsa-util.c
+-+++ b/src/modules/alsa/alsa-util.c
+-@@ -33,6 +33,7 @@
+- #include <pulse/timeval.h>
+- #include <pulse/util.h>
+- #include <pulse/i18n.h>
+-+#include <pulse/utf8.h>
+- 
+- #include <pulsecore/log.h>
+- #include <pulsecore/macro.h>
+-@@ -40,6 +41,7 @@
+- #include <pulsecore/atomic.h>
+- #include <pulsecore/core-error.h>
+- #include <pulsecore/once.h>
+-+#include <pulsecore/thread.h>
+- 
+- #include "alsa-util.h"
+- 
+-@@ -106,7 +108,7 @@ static void io_cb(pa_mainloop_api*a, pa_io_event* e, int fd, pa_io_event_flags_t
+-     pa_assert(i != fdl->num_fds);
+- 
+-     if ((err = snd_mixer_poll_descriptors_revents(fdl->mixer, fdl->work_fds, fdl->num_fds, &revents)) < 0) {
+--        pa_log_error("Unable to get poll revent: %s", snd_strerror(err));
+-+        pa_log_error("Unable to get poll revent: %s", pa_alsa_strerror(err));
+-         return;
+-     }
+- 
+-@@ -129,7 +131,7 @@ static void defer_cb(pa_mainloop_api*a, pa_defer_event* e, void *userdata) {
+-     a->defer_enable(fdl->defer, 0);
+- 
+-     if ((n = snd_mixer_poll_descriptors_count(fdl->mixer)) < 0) {
+--        pa_log("snd_mixer_poll_descriptors_count() failed: %s", snd_strerror(n));
+-+        pa_log("snd_mixer_poll_descriptors_count() failed: %s", pa_alsa_strerror(n));
+-         return;
+-     }
+-     num_fds = (unsigned) n;
+-@@ -146,7 +148,7 @@ static void defer_cb(pa_mainloop_api*a, pa_defer_event* e, void *userdata) {
+-     memset(fdl->work_fds, 0, sizeof(struct pollfd) * num_fds);
+- 
+-     if ((err = snd_mixer_poll_descriptors(fdl->mixer, fdl->work_fds, num_fds)) < 0) {
+--        pa_log_error("Unable to get poll descriptors: %s", snd_strerror(err));
+-+        pa_log_error("Unable to get poll descriptors: %s", pa_alsa_strerror(err));
+-         return;
+-     }
+- 
+-@@ -482,42 +484,42 @@ int pa_alsa_set_sw_params(snd_pcm_t *pcm, snd_pcm_uframes_t avail_min) {
+-     snd_pcm_sw_params_alloca(&swparams);
+- 
+-     if ((err = snd_pcm_sw_params_current(pcm, swparams) < 0)) {
+--        pa_log_warn("Unable to determine current swparams: %s\n", snd_strerror(err));
+-+        pa_log_warn("Unable to determine current swparams: %s\n", pa_alsa_strerror(err));
+-         return err;
+-     }
+- 
+-     if ((err = snd_pcm_sw_params_set_period_event(pcm, swparams, 0)) < 0) {
+--        pa_log_warn("Unable to disable period event: %s\n", snd_strerror(err));
+-+        pa_log_warn("Unable to disable period event: %s\n", pa_alsa_strerror(err));
+-         return err;
+-     }
+- 
+-     if ((err = snd_pcm_sw_params_set_tstamp_mode(pcm, swparams, SND_PCM_TSTAMP_ENABLE)) < 0) {
+--        pa_log_warn("Unable to enable time stamping: %s\n", snd_strerror(err));
+-+        pa_log_warn("Unable to enable time stamping: %s\n", pa_alsa_strerror(err));
+-         return err;
+-     }
+- 
+-     if ((err = snd_pcm_sw_params_get_boundary(swparams, &boundary)) < 0) {
+--        pa_log_warn("Unable to get boundary: %s\n", snd_strerror(err));
+-+        pa_log_warn("Unable to get boundary: %s\n", pa_alsa_strerror(err));
+-         return err;
+-     }
+- 
+-     if ((err = snd_pcm_sw_params_set_stop_threshold(pcm, swparams, boundary)) < 0) {
+--        pa_log_warn("Unable to set stop threshold: %s\n", snd_strerror(err));
+-+        pa_log_warn("Unable to set stop threshold: %s\n", pa_alsa_strerror(err));
+-         return err;
+-     }
+- 
+-     if ((err = snd_pcm_sw_params_set_start_threshold(pcm, swparams, (snd_pcm_uframes_t) -1)) < 0) {
+--        pa_log_warn("Unable to set start threshold: %s\n", snd_strerror(err));
+-+        pa_log_warn("Unable to set start threshold: %s\n", pa_alsa_strerror(err));
+-         return err;
+-     }
+- 
+-     if ((err = snd_pcm_sw_params_set_avail_min(pcm, swparams, avail_min)) < 0) {
+--        pa_log_error("snd_pcm_sw_params_set_avail_min() failed: %s", snd_strerror(err));
+-+        pa_log_error("snd_pcm_sw_params_set_avail_min() failed: %s", pa_alsa_strerror(err));
+-         return err;
+-     }
+- 
+-     if ((err = snd_pcm_sw_params(pcm, swparams)) < 0) {
+--        pa_log_warn("Unable to set sw params: %s\n", snd_strerror(err));
+-+        pa_log_warn("Unable to set sw params: %s\n", pa_alsa_strerror(err));
+-         return err;
+-     }
+- 
+-@@ -854,7 +856,7 @@ snd_pcm_t *pa_alsa_open_by_device_string(
+-                                 SND_PCM_NO_AUTO_RESAMPLE|
+-                                 SND_PCM_NO_AUTO_CHANNELS|
+-                                 (reformat ? 0 : SND_PCM_NO_AUTO_FORMAT))) < 0) {
+--            pa_log_info("Error opening PCM device %s: %s", d, snd_strerror(err));
+-+            pa_log_info("Error opening PCM device %s: %s", d, pa_alsa_strerror(err));
+-             goto fail;
+-         }
+- 
+-@@ -882,7 +884,7 @@ snd_pcm_t *pa_alsa_open_by_device_string(
+-                 continue;
+-             }
+- 
+--            pa_log_info("Failed to set hardware parameters on %s: %s", d, snd_strerror(err));
+-+            pa_log_info("Failed to set hardware parameters on %s: %s", d, pa_alsa_strerror(err));
+-             snd_pcm_close(pcm_handle);
+- 
+-             goto fail;
+-@@ -1000,17 +1002,17 @@ int pa_alsa_prepare_mixer(snd_mixer_t *mixer, const char *dev) {
+-     pa_assert(dev);
+- 
+-     if ((err = snd_mixer_attach(mixer, dev)) < 0) {
+--        pa_log_info("Unable to attach to mixer %s: %s", dev, snd_strerror(err));
+-+        pa_log_info("Unable to attach to mixer %s: %s", dev, pa_alsa_strerror(err));
+-         return -1;
+-     }
+- 
+-     if ((err = snd_mixer_selem_register(mixer, NULL, NULL)) < 0) {
+--        pa_log_warn("Unable to register mixer: %s", snd_strerror(err));
+-+        pa_log_warn("Unable to register mixer: %s", pa_alsa_strerror(err));
+-         return -1;
+-     }
+- 
+-     if ((err = snd_mixer_load(mixer)) < 0) {
+--        pa_log_warn("Unable to load mixer: %s", snd_strerror(err));
+-+        pa_log_warn("Unable to load mixer: %s", pa_alsa_strerror(err));
+-         return -1;
+-     }
+- 
+-@@ -1136,7 +1138,7 @@ int pa_alsa_find_mixer_and_elem(
+-     }
+- 
+-     if ((err = snd_mixer_open(&m, 0)) < 0) {
+--        pa_log("Error opening mixer: %s", snd_strerror(err));
+-+        pa_log("Error opening mixer: %s", pa_alsa_strerror(err));
+-         return -1;
+-     }
+- 
+-@@ -1338,7 +1340,7 @@ void pa_alsa_dump(pa_log_level_t level, snd_pcm_t *pcm) {
+-     pa_assert_se(snd_output_buffer_open(&out) == 0);
+- 
+-     if ((err = snd_pcm_dump(pcm, out)) < 0)
+--        pa_logl(level, "snd_pcm_dump(): %s", snd_strerror(err));
+-+        pa_logl(level, "snd_pcm_dump(): %s", pa_alsa_strerror(err));
+-     else {
+-         char *s = NULL;
+-         snd_output_buffer_string(out, &s);
+-@@ -1362,7 +1364,7 @@ void pa_alsa_dump_status(snd_pcm_t *pcm) {
+-     pa_assert_se(snd_pcm_status(pcm, status) == 0);
+- 
+-     if ((err = snd_pcm_status_dump(status, out)) < 0)
+--        pa_log_debug("snd_pcm_dump(): %s", snd_strerror(err));
+-+        pa_log_debug("snd_pcm_dump(): %s", pa_alsa_strerror(err));
+-     else {
+-         char *s = NULL;
+-         snd_output_buffer_string(out, &s);
+-@@ -1524,7 +1526,7 @@ void pa_alsa_init_proplist_pcm(pa_core *c, pa_proplist *p, snd_pcm_t *pcm, snd_m
+-     snd_pcm_info_alloca(&info);
+- 
+-     if ((err = snd_pcm_hw_params_current(pcm, hwparams)) < 0)
+--        pa_log_warn("Error fetching hardware parameter info: %s", snd_strerror(err));
+-+        pa_log_warn("Error fetching hardware parameter info: %s", pa_alsa_strerror(err));
+-     else {
+- 
+-         if ((bits = snd_pcm_hw_params_get_sbits(hwparams)) >= 0)
+-@@ -1535,7 +1537,7 @@ void pa_alsa_init_proplist_pcm(pa_core *c, pa_proplist *p, snd_pcm_t *pcm, snd_m
+-         pa_proplist_sets(p, "alsa.mixer_element", snd_mixer_selem_get_name(elem));
+- 
+-     if ((err = snd_pcm_info(pcm, info)) < 0)
+--        pa_log_warn("Error fetching PCM info: %s", snd_strerror(err));
+-+        pa_log_warn("Error fetching PCM info: %s", pa_alsa_strerror(err));
+-     else
+-         pa_alsa_init_proplist_pcm_info(c, p, info);
+- }
+-@@ -1568,14 +1570,14 @@ int pa_alsa_recover_from_poll(snd_pcm_t *pcm, int revents) {
+- 
+-         case SND_PCM_STATE_XRUN:
+-             if ((err = snd_pcm_recover(pcm, -EPIPE, 1)) != 0) {
+--                pa_log_warn("Could not recover from POLLERR|POLLNVAL|POLLHUP and XRUN: %s", snd_strerror(err));
+-+                pa_log_warn("Could not recover from POLLERR|POLLNVAL|POLLHUP and XRUN: %s", pa_alsa_strerror(err));
+-                 return -1;
+-             }
+-             break;
+- 
+-         case SND_PCM_STATE_SUSPENDED:
+-             if ((err = snd_pcm_recover(pcm, -ESTRPIPE, 1)) != 0) {
+--                pa_log_warn("Could not recover from POLLERR|POLLNVAL|POLLHUP and SUSPENDED: %s", snd_strerror(err));
+-+                pa_log_warn("Could not recover from POLLERR|POLLNVAL|POLLHUP and SUSPENDED: %s", pa_alsa_strerror(err));
+-                 return -1;
+-             }
+-             break;
+-@@ -1585,7 +1587,7 @@ int pa_alsa_recover_from_poll(snd_pcm_t *pcm, int revents) {
+-             snd_pcm_drop(pcm);
+- 
+-             if ((err = snd_pcm_prepare(pcm)) < 0) {
+--                pa_log_warn("Could not recover from POLLERR|POLLNVAL|POLLHUP with snd_pcm_prepare(): %s", snd_strerror(err));
+-+                pa_log_warn("Could not recover from POLLERR|POLLNVAL|POLLHUP with snd_pcm_prepare(): %s", pa_alsa_strerror(err));
+-                 return -1;
+-             }
+-             break;
+-@@ -1602,7 +1604,7 @@ pa_rtpoll_item* pa_alsa_build_pollfd(snd_pcm_t *pcm, pa_rtpoll *rtpoll) {
+-     pa_assert(pcm);
+- 
+-     if ((n = snd_pcm_poll_descriptors_count(pcm)) < 0) {
+--        pa_log("snd_pcm_poll_descriptors_count() failed: %s", snd_strerror(n));
+-+        pa_log("snd_pcm_poll_descriptors_count() failed: %s", pa_alsa_strerror(n));
+-         return NULL;
+-     }
+- 
+-@@ -1610,7 +1612,7 @@ pa_rtpoll_item* pa_alsa_build_pollfd(snd_pcm_t *pcm, pa_rtpoll *rtpoll) {
+-     pollfd = pa_rtpoll_item_get_pollfd(item, NULL);
+- 
+-     if ((err = snd_pcm_poll_descriptors(pcm, pollfd, (unsigned) n)) < 0) {
+--        pa_log("snd_pcm_poll_descriptors() failed: %s", snd_strerror(err));
+-+        pa_log("snd_pcm_poll_descriptors() failed: %s", pa_alsa_strerror(err));
+-         pa_rtpoll_item_free(item);
+-         return NULL;
+-     }
+-@@ -1819,3 +1821,30 @@ pa_bool_t pa_alsa_pcm_is_modem(snd_pcm_t *pcm) {
+- 
+-     return snd_pcm_info_get_class(info) == SND_PCM_CLASS_MODEM;
+- }
+-+
+-+PA_STATIC_TLS_DECLARE(cstrerror, pa_xfree);
+-+
+-+const char* pa_alsa_strerror(int errnum) {
+-+    const char *original = NULL;
+-+    char *translated, *t;
+-+    char errbuf[128];
+-+
+-+    if ((t = PA_STATIC_TLS_GET(cstrerror)))
+-+        pa_xfree(t);
+-+
+-+    original = snd_strerror(errnum);
+-+
+-+    if (!original) {
+-+        pa_snprintf(errbuf, sizeof(errbuf), "Unknown error %i", errnum);
+-+        original = errbuf;
+-+    }
+-+
+-+    if (!(translated = pa_locale_to_utf8(original))) {
+-+        pa_log_warn("Unable to convert error string to locale, filtering.");
+-+        translated = pa_utf8_filter(original);
+-+    }
+-+
+-+    PA_STATIC_TLS_SET(cstrerror, translated);
+-+
+-+    return translated;
+-+}
+-diff --git a/src/modules/alsa/alsa-util.h b/src/modules/alsa/alsa-util.h
+-index c8acc7c..77ac8a7 100644
+---- a/src/modules/alsa/alsa-util.h
+-+++ b/src/modules/alsa/alsa-util.h
+-@@ -146,4 +146,6 @@ pa_bool_t pa_alsa_pcm_is_hw(snd_pcm_t *pcm);
+- 
+- pa_bool_t pa_alsa_pcm_is_modem(snd_pcm_t *pcm);
+- 
+-+const char* pa_alsa_strerror(int errnum);
+-+
+- #endif
+-diff --git a/src/modules/alsa/module-alsa-card.c b/src/modules/alsa/module-alsa-card.c
+-index fdc952d..51d466e 100644
+---- a/src/modules/alsa/module-alsa-card.c
+-+++ b/src/modules/alsa/module-alsa-card.c
+-@@ -304,7 +304,7 @@ int pa__init(pa_module *m) {
+-     u->modargs = ma;
+- 
+-     if ((alsa_card_index = snd_card_get_index(u->device_id)) < 0) {
+--        pa_log("Card '%s' doesn't exist: %s", u->device_id, snd_strerror(alsa_card_index));
+-+        pa_log("Card '%s' doesn't exist: %s", u->device_id, pa_alsa_strerror(alsa_card_index));
+-         goto fail;
+-     }
+- 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/autoconf_version.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/autoconf_version.patch
+deleted file mode 100644
+index 158c883..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/autoconf_version.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: pulseaudio-0.9.15/configure.ac
+-===================================================================
+---- pulseaudio-0.9.15.orig/configure.ac	2009-04-14 00:09:53.000000000 +0100
+-+++ pulseaudio-0.9.15/configure.ac	2009-05-22 11:32:50.000000000 +0100
+-@@ -20,7 +20,7 @@
+- # along with PulseAudio; if not, write to the Free Software Foundation,
+- # Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+- 
+--AC_PREREQ(2.63)
+-+AC_PREREQ(2.61)
+- 
+- m4_define(pa_major, [0])
+- m4_define(pa_minor, [9])
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/buildfix.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/buildfix.patch
+deleted file mode 100644
+index da46d4b..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/buildfix.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Pending
+-
+-Index: pulseaudio-0.9.11/src/pulsecore/atomic.h
+-===================================================================
+---- pulseaudio-0.9.11.orig/src/pulsecore/atomic.h
+-+++ pulseaudio-0.9.11/src/pulsecore/atomic.h
+-@@ -40,6 +40,8 @@
+- #error "Please include config.h before including this file!"
+- #endif
+- 
+-+#include "macro.h"
+-+
+- #ifdef HAVE_ATOMIC_BUILTINS
+- 
+- /* __sync based implementation */
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/fallback.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/fallback.patch
+deleted file mode 100644
+index 5808d41..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/fallback.patch
++++ /dev/null
+@@ -1,340 +0,0 @@
+-From: Lennart Poettering <lennart@poettering.net>
+-Date: Tue, 28 Apr 2009 23:58:18 +0000 (+0200)
+-Subject: alsa: allow configuration of fallback device strings in profiles
+-X-Git-Url: http://git.0pointer.de/?p=pulseaudio.git;a=commitdiff_plain;h=d8710711fb0c74b4ad83ac99c2501218155b502b
+-
+-alsa: allow configuration of fallback device strings in profiles
+-
+-This has the benefit that we can properly support ALSA devices where
+-only the raw 'hw' device exists but no 'front' although it's a proper
+-2ch stereo device.
+----
+-
+-Upstream-Status: Backport
+-
+-diff --git a/src/modules/alsa/alsa-util.c b/src/modules/alsa/alsa-util.c
+-index 18d6880..a3a0450 100644
+---- a/src/modules/alsa/alsa-util.c
+-+++ b/src/modules/alsa/alsa-util.c
+-@@ -528,7 +528,7 @@ int pa_alsa_set_sw_params(snd_pcm_t *pcm, snd_pcm_uframes_t avail_min) {
+- 
+- static const struct pa_alsa_profile_info device_table[] = {
+-     {{ 1, { PA_CHANNEL_POSITION_MONO }},
+--     "hw",
+-+     "hw", NULL,
+-      N_("Analog Mono"),
+-      "analog-mono",
+-      1,
+-@@ -536,7 +536,7 @@ static const struct pa_alsa_profile_info device_table[] = {
+-      "Capture", "Mic" },
+- 
+-     {{ 2, { PA_CHANNEL_POSITION_LEFT, PA_CHANNEL_POSITION_RIGHT }},
+--     "front",
+-+     "front", "hw",
+-      N_("Analog Stereo"),
+-      "analog-stereo",
+-      10,
+-@@ -544,7 +544,7 @@ static const struct pa_alsa_profile_info device_table[] = {
+-      "Capture", "Mic" },
+- 
+-     {{ 2, { PA_CHANNEL_POSITION_LEFT, PA_CHANNEL_POSITION_RIGHT }},
+--     "iec958",
+-+     "iec958", NULL,
+-      N_("Digital Stereo (IEC958)"),
+-      "iec958-stereo",
+-      5,
+-@@ -552,7 +552,7 @@ static const struct pa_alsa_profile_info device_table[] = {
+-      "IEC958 In", NULL },
+- 
+-     {{ 2, { PA_CHANNEL_POSITION_LEFT, PA_CHANNEL_POSITION_RIGHT }},
+--     "hdmi",
+-+     "hdmi", NULL,
+-      N_("Digital Stereo (HDMI)"),
+-      "hdmi-stereo",
+-      4,
+-@@ -561,7 +561,7 @@ static const struct pa_alsa_profile_info device_table[] = {
+- 
+-     {{ 4, { PA_CHANNEL_POSITION_FRONT_LEFT, PA_CHANNEL_POSITION_FRONT_RIGHT,
+-             PA_CHANNEL_POSITION_REAR_LEFT, PA_CHANNEL_POSITION_REAR_RIGHT }},
+--     "surround40",
+-+     "surround40", NULL,
+-      N_("Analog Surround 4.0"),
+-      "analog-surround-40",
+-      7,
+-@@ -570,7 +570,7 @@ static const struct pa_alsa_profile_info device_table[] = {
+- 
+-     {{ 4, { PA_CHANNEL_POSITION_FRONT_LEFT, PA_CHANNEL_POSITION_FRONT_RIGHT,
+-             PA_CHANNEL_POSITION_REAR_LEFT, PA_CHANNEL_POSITION_REAR_RIGHT }},
+--     "a52",
+-+     "a52", NULL,
+-      N_("Digital Surround 4.0 (IEC958/AC3)"),
+-      "iec958-ac3-surround-40",
+-      2,
+-@@ -580,7 +580,7 @@ static const struct pa_alsa_profile_info device_table[] = {
+-     {{ 5, { PA_CHANNEL_POSITION_FRONT_LEFT, PA_CHANNEL_POSITION_FRONT_RIGHT,
+-             PA_CHANNEL_POSITION_REAR_LEFT, PA_CHANNEL_POSITION_REAR_RIGHT,
+-             PA_CHANNEL_POSITION_LFE }},
+--     "surround41",
+-+     "surround41", NULL,
+-      N_("Analog Surround 4.1"),
+-      "analog-surround-41",
+-      7,
+-@@ -590,7 +590,7 @@ static const struct pa_alsa_profile_info device_table[] = {
+-     {{ 5, { PA_CHANNEL_POSITION_FRONT_LEFT, PA_CHANNEL_POSITION_FRONT_RIGHT,
+-             PA_CHANNEL_POSITION_REAR_LEFT, PA_CHANNEL_POSITION_REAR_RIGHT,
+-             PA_CHANNEL_POSITION_CENTER }},
+--     "surround50",
+-+     "surround50", NULL,
+-      N_("Analog Surround 5.0"),
+-      "analog-surround-50",
+-      7,
+-@@ -600,7 +600,7 @@ static const struct pa_alsa_profile_info device_table[] = {
+-     {{ 6, { PA_CHANNEL_POSITION_FRONT_LEFT, PA_CHANNEL_POSITION_FRONT_RIGHT,
+-             PA_CHANNEL_POSITION_REAR_LEFT, PA_CHANNEL_POSITION_REAR_RIGHT,
+-             PA_CHANNEL_POSITION_CENTER, PA_CHANNEL_POSITION_LFE }},
+--     "surround51",
+-+     "surround51", NULL,
+-      N_("Analog Surround 5.1"),
+-      "analog-surround-51",
+-      8,
+-@@ -610,7 +610,7 @@ static const struct pa_alsa_profile_info device_table[] = {
+-     {{ 6, { PA_CHANNEL_POSITION_FRONT_LEFT, PA_CHANNEL_POSITION_FRONT_RIGHT,
+-             PA_CHANNEL_POSITION_REAR_LEFT, PA_CHANNEL_POSITION_REAR_RIGHT,
+-             PA_CHANNEL_POSITION_FRONT_CENTER, PA_CHANNEL_POSITION_LFE}},
+--     "a52",
+-+     "a52", NULL,
+-      N_("Digital Surround 5.1 (IEC958/AC3)"),
+-      "iec958-ac3-surround-51",
+-      3,
+-@@ -621,16 +621,72 @@ static const struct pa_alsa_profile_info device_table[] = {
+-             PA_CHANNEL_POSITION_REAR_LEFT, PA_CHANNEL_POSITION_REAR_RIGHT,
+-             PA_CHANNEL_POSITION_CENTER, PA_CHANNEL_POSITION_LFE,
+-             PA_CHANNEL_POSITION_SIDE_LEFT, PA_CHANNEL_POSITION_SIDE_RIGHT }},
+--     "surround71",
+-+     "surround71", NULL,
+-      N_("Analog Surround 7.1"),
+-      "analog-surround-71",
+-      7,
+-      "Master", "PCM",
+-      "Capture", "Mic" },
+- 
+--    {{ 0, { 0 }}, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL }
+-+    {{ 0, { 0 }}, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL }
+- };
+- 
+-+static snd_pcm_t *open_by_device_string_with_fallback(
+-+        const char *prefix,
+-+        const char *prefix_fallback,
+-+        const char *dev_id,
+-+        char **dev,
+-+        pa_sample_spec *ss,
+-+        pa_channel_map* map,
+-+        int mode,
+-+        uint32_t *nfrags,
+-+        snd_pcm_uframes_t *period_size,
+-+        snd_pcm_uframes_t tsched_size,
+-+        pa_bool_t *use_mmap,
+-+        pa_bool_t *use_tsched,
+-+        pa_bool_t require_exact_channel_number) {
+-+
+-+    snd_pcm_t *pcm_handle;
+-+    char *d;
+-+
+-+    d = pa_sprintf_malloc("%s:%s", prefix, dev_id);
+-+
+-+    pcm_handle = pa_alsa_open_by_device_string(
+-+            d,
+-+            dev,
+-+            ss,
+-+            map,
+-+            mode,
+-+            nfrags,
+-+            period_size,
+-+            tsched_size,
+-+            use_mmap,
+-+            use_tsched,
+-+            require_exact_channel_number);
+-+    pa_xfree(d);
+-+
+-+    if (!pcm_handle && prefix_fallback) {
+-+
+-+        d = pa_sprintf_malloc("%s:%s", prefix_fallback, dev_id);
+-+
+-+        pcm_handle = pa_alsa_open_by_device_string(
+-+                d,
+-+                dev,
+-+                ss,
+-+                map,
+-+                mode,
+-+                nfrags,
+-+                period_size,
+-+                tsched_size,
+-+                use_mmap,
+-+                use_tsched,
+-+                require_exact_channel_number);
+-+        pa_xfree(d);
+-+    }
+-+
+-+    return pcm_handle;
+-+}
+-+
+- snd_pcm_t *pa_alsa_open_by_device_id_auto(
+-         const char *dev_id,
+-         char **dev,
+-@@ -671,14 +727,14 @@ snd_pcm_t *pa_alsa_open_by_device_id_auto(
+- 
+-             pa_log_debug("Checking for %s (%s)", device_table[i].name, device_table[i].alsa_name);
+- 
+--            d = pa_sprintf_malloc("%s:%s", device_table[i].alsa_name, dev_id);
+--
+-             try_ss.channels = device_table[i].map.channels;
+-             try_ss.rate = ss->rate;
+-             try_ss.format = ss->format;
+- 
+--            pcm_handle = pa_alsa_open_by_device_string(
+--                    d,
+-+            pcm_handle = open_by_device_string_with_fallback(
+-+                    device_table[i].alsa_name,
+-+                    device_table[i].alsa_name_fallback,
+-+                    dev_id,
+-                     dev,
+-                     &try_ss,
+-                     map,
+-@@ -690,8 +746,6 @@ snd_pcm_t *pa_alsa_open_by_device_id_auto(
+-                     use_tsched,
+-                     TRUE);
+- 
+--            pa_xfree(d);
+--
+-             if (pcm_handle) {
+- 
+-                 *ss = try_ss;
+-@@ -703,6 +757,7 @@ snd_pcm_t *pa_alsa_open_by_device_id_auto(
+- 
+-                 return pcm_handle;
+-             }
+-+
+-         }
+- 
+-         if (direction > 0) {
+-@@ -775,7 +830,6 @@ snd_pcm_t *pa_alsa_open_by_device_id_profile(
+-         pa_bool_t *use_tsched,
+-         const pa_alsa_profile_info *profile) {
+- 
+--    char *d;
+-     snd_pcm_t *pcm_handle;
+-     pa_sample_spec try_ss;
+- 
+-@@ -787,14 +841,14 @@ snd_pcm_t *pa_alsa_open_by_device_id_profile(
+-     pa_assert(period_size);
+-     pa_assert(profile);
+- 
+--    d = pa_sprintf_malloc("%s:%s", profile->alsa_name, dev_id);
+--
+-     try_ss.channels = profile->map.channels;
+-     try_ss.rate = ss->rate;
+-     try_ss.format = ss->format;
+- 
+--    pcm_handle = pa_alsa_open_by_device_string(
+--            d,
+-+    pcm_handle = open_by_device_string_with_fallback(
+-+            profile->alsa_name,
+-+            profile->alsa_name_fallback,
+-+            dev_id,
+-             dev,
+-             &try_ss,
+-             map,
+-@@ -806,8 +860,6 @@ snd_pcm_t *pa_alsa_open_by_device_id_profile(
+-             use_tsched,
+-             TRUE);
+- 
+--    pa_xfree(d);
+--
+-     if (!pcm_handle)
+-         return NULL;
+- 
+-@@ -860,6 +912,8 @@ snd_pcm_t *pa_alsa_open_by_device_string(
+-             goto fail;
+-         }
+- 
+-+        pa_log_debug("Managed to open %s", d);
+-+
+-         if ((err = pa_alsa_set_hw_params(pcm_handle, ss, nfrags, period_size, tsched_size, use_mmap, use_tsched, require_exact_channel_number)) < 0) {
+- 
+-             if (!reformat) {
+-@@ -928,26 +982,25 @@ int pa_alsa_probe_profiles(
+-         snd_pcm_t *pcm_i = NULL;
+- 
+-         if (i->alsa_name) {
+--            char *id;
+-             pa_sample_spec try_ss;
+-             pa_channel_map try_map;
+- 
+-             pa_log_debug("Checking for playback on %s (%s)", i->name, i->alsa_name);
+--            id = pa_sprintf_malloc("%s:%s", i->alsa_name, dev_id);
+- 
+-             try_ss = *ss;
+-             try_ss.channels = i->map.channels;
+-             try_map = i->map;
+- 
+--            pcm_i = pa_alsa_open_by_device_string(
+--                    id, NULL,
+-+            pcm_i = open_by_device_string_with_fallback(
+-+                    i->alsa_name,
+-+                    i->alsa_name_fallback,
+-+                    dev_id,
+-+                    NULL,
+-                     &try_ss, &try_map,
+-                     SND_PCM_STREAM_PLAYBACK,
+-                     NULL, NULL, 0, NULL, NULL,
+-                     TRUE);
+- 
+--            pa_xfree(id);
+--
+-             if (!pcm_i)
+-                 continue;
+-         }
+-@@ -956,26 +1009,25 @@ int pa_alsa_probe_profiles(
+-             snd_pcm_t *pcm_j = NULL;
+- 
+-             if (j->alsa_name) {
+--                char *jd;
+-                 pa_sample_spec try_ss;
+-                 pa_channel_map try_map;
+- 
+-                 pa_log_debug("Checking for capture on %s (%s)", j->name, j->alsa_name);
+--                jd = pa_sprintf_malloc("%s:%s", j->alsa_name, dev_id);
+- 
+-                 try_ss = *ss;
+-                 try_ss.channels = j->map.channels;
+-                 try_map = j->map;
+- 
+--                pcm_j = pa_alsa_open_by_device_string(
+--                        jd, NULL,
+-+                pcm_j = open_by_device_string_with_fallback(
+-+                        j->alsa_name,
+-+                        j->alsa_name_fallback,
+-+                        dev_id,
+-+                        NULL,
+-                         &try_ss, &try_map,
+-                         SND_PCM_STREAM_CAPTURE,
+-                         NULL, NULL, 0, NULL, NULL,
+-                         TRUE);
+- 
+--                pa_xfree(jd);
+--
+-                 if (!pcm_j)
+-                     continue;
+-             }
+-diff --git a/src/modules/alsa/alsa-util.h b/src/modules/alsa/alsa-util.h
+-index 77ac8a7..4c5d336 100644
+---- a/src/modules/alsa/alsa-util.h
+-+++ b/src/modules/alsa/alsa-util.h
+-@@ -56,6 +56,7 @@ int pa_alsa_set_sw_params(snd_pcm_t *pcm, snd_pcm_uframes_t avail_min);
+- typedef struct pa_alsa_profile_info {
+-     pa_channel_map map;
+-     const char *alsa_name;
+-+    const char *alsa_name_fallback;
+-     const char *description; /* internationalized */
+-     const char *name;
+-     unsigned priority;
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/gcc4-compile-fix.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/gcc4-compile-fix.patch
+deleted file mode 100644
+index f229687..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/gcc4-compile-fix.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-| fix for more strict syntax compliance in gcc4.x
+-| pulsecore/core-util.c: In function 'pa_raise_priority':
+-| pulsecore/core-util.c:547: error: label at end of compound statement
+-| Signed off: mickey@openmoko.org
+-|
+-Upstream-Status: Pending
+-
+-Index: pulseaudio-0.9.6/src/pulsecore/core-util.c
+-===================================================================
+---- pulseaudio-0.9.6.orig/src/pulsecore/core-util.c
+-+++ pulseaudio-0.9.6/src/pulsecore/core-util.c
+-@@ -535,7 +535,7 @@ void pa_raise_priority(void) {
+-         pa_log_info("Successfully gained high priority class.");
+- #endif
+- 
+--fail:
+-+fail:;
+- 
+- #if defined(HAVE_SYS_CAPABILITY_H)
+-     if (caps) {
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/periodfix.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/periodfix.patch
+deleted file mode 100644
+index 4fc6c15..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/periodfix.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-X-Git-Url: http://git.0pointer.de/?p=pulseaudio.git;a=blobdiff_plain;f=src%2Fmodules%2Falsa%2Falsa-util.c;h=107bec357c7889f0197853f5e5f1951a5a2f5be0;hp=a3a045080dac0e1b30e8671443ce73a03337cf14;hb=4bffc7849f7898fa85dd6ac8e735db86b57814b3;hpb=d2b5ae5525e9036c4f91b1615879a5a07aac5bf2
+-
+-Upstream-Status: Backport
+-
+-diff --git a/src/modules/alsa/alsa-util.c b/src/modules/alsa/alsa-util.c
+-index a3a0450..107bec3 100644
+---- a/src/modules/alsa/alsa-util.c
+-+++ b/src/modules/alsa/alsa-util.c
+-@@ -334,7 +334,6 @@ int pa_alsa_set_hw_params(
+-     int ret = -1;
+-     snd_pcm_uframes_t _period_size = period_size ? *period_size : 0;
+-     unsigned int _periods = periods ? *periods : 0;
+--    snd_pcm_uframes_t buffer_size;
+-     unsigned int r = ss->rate;
+-     unsigned int c = ss->channels;
+-     pa_sample_format_t f = ss->format;
+-@@ -390,39 +389,47 @@ int pa_alsa_set_hw_params(
+-         goto finish;
+- 
+-     if (_period_size && tsched_size && _periods) {
+-+
+-         /* Adjust the buffer sizes, if we didn't get the rate we were asking for */
+-         _period_size = (snd_pcm_uframes_t) (((uint64_t) _period_size * r) / ss->rate);
+-         tsched_size = (snd_pcm_uframes_t) (((uint64_t) tsched_size * r) / ss->rate);
+- 
+-         if (_use_tsched) {
+--            _period_size = tsched_size;
+--            _periods = 1;
+-+            snd_pcm_uframes_t buffer_size;
+- 
+-             pa_assert_se(snd_pcm_hw_params_get_buffer_size_max(hwparams, &buffer_size) == 0);
+-             pa_log_debug("Maximum hw buffer size is %u ms", (unsigned) buffer_size * 1000 / r);
+-+
+-+            _period_size = tsched_size;
+-+            _periods = 1;
+-         }
+- 
+-+        if (_period_size > 0 && _periods > 0) {
+-+            snd_pcm_uframes_t buffer_size;
+-+
+-         buffer_size = _periods * _period_size;
+- 
+-+            if ((ret = snd_pcm_hw_params_set_buffer_size_near(pcm_handle, hwparams, &buffer_size)) < 0)
+-+                pa_log_info("snd_pcm_hw_params_set_buffer_size_near() failed: %s", pa_alsa_strerror(ret));
+-+        }
+-+
+-         if (_periods > 0) {
+- 
+--            /* First we pass 0 as direction to get exactly what we asked
+--             * for. That this is necessary is presumably a bug in ALSA */
+-+            /* First we pass 0 as direction to get exactly what we
+-+             * asked for. That this is necessary is presumably a bug
+-+             * in ALSA. All in all this is mostly a hint to ALSA, so
+-+             * we don't care if this fails. */
+- 
+-             dir = 0;
+--            if ((ret = snd_pcm_hw_params_set_periods_near(pcm_handle, hwparams, &_periods, &dir)) < 0) {
+-+            if (snd_pcm_hw_params_set_periods_near(pcm_handle, hwparams, &_periods, &dir) < 0) {
+-                 dir = 1;
+--                if ((ret = snd_pcm_hw_params_set_periods_near(pcm_handle, hwparams, &_periods, &dir)) < 0) {
+-+                if (snd_pcm_hw_params_set_periods_near(pcm_handle, hwparams, &_periods, &dir) < 0) {
+-                     dir = -1;
+-                     if ((ret = snd_pcm_hw_params_set_periods_near(pcm_handle, hwparams, &_periods, &dir)) < 0)
+--                        goto finish;
+-+                        pa_log_info("snd_pcm_hw_params_set_periods_near() failed: %s", pa_alsa_strerror(ret));
+-                 }
+-             }
+-         }
+--
+--        if (_period_size > 0)
+--            if ((ret = snd_pcm_hw_params_set_buffer_size_near(pcm_handle, hwparams, &buffer_size)) < 0)
+--                goto finish;
+-     }
+- 
+-     if  ((ret = snd_pcm_hw_params(pcm_handle, hwparams)) < 0)
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/volatiles.04_pulse b/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/volatiles.04_pulse
+deleted file mode 100644
+index 5b19980..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio-0.9.15/volatiles.04_pulse
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# <type> <owner> <group> <mode> <path> <linksource>
+-d pulse pulse 0755 /var/run/pulse none
 diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
-index 71e19e9..a46782b 100644
+deleted file mode 100644
+index a46782b..0000000
 --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
-@@ -1,7 +1,7 @@
- require pulseaudio.inc
- 
- DEPENDS += "dbus gdbm speex"
--PR = "r15"
-+PR = "r16"
- 
- SRC_URI += "\
-   file://buildfix.patch;patch=1 \
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
-index 5124bd7..d03a726 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
-@@ -1,6 +1,6 @@
- require pulseaudio.inc
- 
--PR = "r2"
-+PR = "r3"
- 
- DEPENDS += "gdbm speex"
- 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-index 4bdc4ed..9f354ff 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
-@@ -1,6 +1,6 @@
- require pulseaudio.inc
- 
--PR = "r0"
-+PR = "r1"
- 
- DEPENDS += "gdbm speex"
- 
++++ /dev/null
+@@ -1,21 +0,0 @@
+-require pulseaudio.inc
+-
+-DEPENDS += "dbus gdbm speex"
+-PR = "r16"
+-
+-SRC_URI += "\
+-  file://buildfix.patch;patch=1 \
+-  file://alsaerror.patch;patch=1 \
+-  file://periodfix.patch;patch=1 \
+-  file://fallback.patch;patch=1 \
+-  file://autoconf_version.patch;patch=1 \
+-"
+-
+-SRC_URI[md5sum] = "4510364eeab219fd100bd1b373b1a002"
+-SRC_URI[sha256sum] = "1e8ad5b7c5cf3485bd0738c296274ff2c99d26d12a25a225dc250eddea25b9f1"
+-
+-do_compile_prepend() {
+-    cd ${S}
+-    mkdir -p ${S}/libltdl
+-    cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
+-}
 -- 
 1.6.6.1
 
