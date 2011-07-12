@@ -1,34 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QgdRg-0007qb-7B for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 15:56:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CDqI1F020833
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 14:52:18 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19843-05 for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 14:52:14 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CDq98J020827
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 14:52:09 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <47D9CE90-7C60-4233-9370-5734E841D8A0@dominion.thruhere.net>
-References: <1310399223.20015.967.camel@rex>
-	<47D9CE90-7C60-4233-9370-5734E841D8A0@dominion.thruhere.net>
-Date: Tue, 12 Jul 2011 14:52:08 +0100
-Message-ID: <1310478728.20015.1052.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] sysklogd: Drop ONLINE_PACKAGE_MANAGEMENT as per mailing list discussion
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QgdYW-0008Ia-EZ
+	for openembedded-core@lists.openembedded.org;
+	Tue, 12 Jul 2011 16:03:20 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 Jul 2011 06:59:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,521,1304319600"; d="scan'208";a="26744101"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.17.183])
+	by orsmga001.jf.intel.com with ESMTP; 12 Jul 2011 06:59:11 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jul 2011 14:59:07 +0100
+Message-Id: <cover.1310478977.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/1] busybox: fix missing features due to lack of variable expansion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,23 +29,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 13:56:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Jul 2011 14:03:20 -0000
 
-On Mon, 2011-07-11 at 17:48 +0200, Koen Kooi wrote:
-> Op 11 jul 2011, om 17:47 heeft Richard Purdie het volgende geschreven:
-> 
-> > Online package management decisions like this are now handled by image.bbclass
-> > itself so this code is superfluous to requirements.
-> 
-> That's missing a PR bump :)
+This fixes the issue with ipv4/ipv6 features not being enabled in busybox
+(which Gary Thomas pointed out on the poky mailing list.)
 
-Merged to master with the addition of a PR bump.
+The following change since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
 
-Cheers,
+  libx11: ensure nativesdk uses correct DEPENDS and XCB flags (2011-07-10 09:49:06 +0100)
 
-Richard
+is available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/busybox-features-fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/busybox-features-fix
+
+Paul Eggleton (1):
+  busybox: fix missing features due to lack of variable expansion
+
+ meta/recipes-core/busybox/busybox.inc       |    4 ++--
+ meta/recipes-core/busybox/busybox_1.18.4.bb |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+1.7.4.1
 
 
 
