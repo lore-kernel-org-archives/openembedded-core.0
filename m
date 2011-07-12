@@ -1,26 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qghj5-0000k4-7T
+	(envelope-from <sgw@linux.intel.com>) id 1QghxQ-0000wJ-DC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 20:30:31 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 12 Jul 2011 11:26:33 -0700
+	Tue, 12 Jul 2011 20:45:20 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Jul 2011 11:41:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,522,1304319600"; d="scan'208";a="25018419"
+X-IronPort-AV: E=Sophos;i="4.65,522,1304319600"; d="scan'208";a="27067920"
 Received: from unknown (HELO [10.255.14.40]) ([10.255.14.40])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jul 2011 11:26:32 -0700
-Message-ID: <4E1C91D8.4050403@linux.intel.com>
-Date: Tue, 12 Jul 2011 11:26:32 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 12 Jul 2011 11:41:21 -0700
+Message-ID: <4E1C9551.7070803@linux.intel.com>
+Date: Tue, 12 Jul 2011 11:41:21 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1310425837.git.sgw@linux.intel.com>	<1122cff5b635c23b36bc76ad58a088f522ac21a5.1310425837.git.sgw@linux.intel.com>	<1310461868.6337.179.camel@phil-desktop>
-	<1310462034.6337.181.camel@phil-desktop>
-In-Reply-To: <1310462034.6337.181.camel@phil-desktop>
-Subject: Re: [PATCH 03/26] shared_lib.bbclass: create common class
+References: <cover.1310425837.git.sgw@linux.intel.com>	<d92f0fcf6f83379a91b23e697cd43ac00078257e.1310425837.git.sgw@linux.intel.com>
+	<C1E5A836-FA0D-40EF-9257-11885C935182@dominion.thruhere.net>
+In-Reply-To: <C1E5A836-FA0D-40EF-9257-11885C935182@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 08/26] sqlite3: inherit shared_lib class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,42 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 18:30:31 -0000
+X-List-Received-Date: Tue, 12 Jul 2011 18:45:20 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/12/2011 02:13 AM, Phil Blundell wrote:
-> On Tue, 2011-07-12 at 10:11 +0100, Phil Blundell wrote:
->> On Mon, 2011-07-11 at 16:13 -0700, Saul Wold wrote:
->>> This class is for packages that do not work with debian library naming
+On 07/12/2011 12:00 AM, Koen Kooi wrote:
+>
+> Op 12 jul 2011, om 01:13 heeft Saul Wold het volgende geschreven:
+>
+>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+>> ---
+>> meta/recipes-support/sqlite/sqlite3.inc |   10 ++--------
+>> 1 files changed, 2 insertions(+), 8 deletions(-)
 >>
->> I tend to feel that most of those packages should be fixed so that they
->> do.  If they aren't currently getting renamed then it usually means that
->> they include too much (i.e. both binaries and libraries, or multiple
->> libraries) and should be split up so that this doesn't happen.
+>> diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+>> index a5d122d..5f1adb3 100644
+>> --- a/meta/recipes-support/sqlite/sqlite3.inc
+>> +++ b/meta/recipes-support/sqlite/sqlite3.inc
+>> @@ -5,7 +5,7 @@ DEPENDS = "readline ncurses"
+>> DEPENDS_virtclass-native = ""
+>> LICENSE = "PD"
+>>
+>> -inherit autotools pkgconfig
+>> +inherit autotools pkgconfig shared_lib
 >
-> Actually, looking at the patch more carefully I guess this does
-> basically address the first case above (binaries and libraries).  But it
-> looks like it will result in the slightly confusing situation where the
-> libraries go into lib${PN} but the corresponding headers are in
-> ${PN}-dev.
+> that has lib${PN} at the end of packages
 >
-Correct, this is trying to address the existing cases that have both 
-binaries and libraries, I guess the other way to do this would be for 
-those 5 or so packages to use "lib_packaging" and which renames the 
-binary packages ${PN}-bin and the libraries then get auto renamed via 
-debian renaming rules.
+The renamed shlibpackaging.bbclass has PACKAGES += "lib${PN}, that an 
+perpend according to my understanding.
 
-This is kind of the inverse of lib_packaging.bbclass, binaries go in 
-${PN} and libraries need to be placed into the named lib${PN}.
+>> -PACKAGES = "lib${PN} lib${PN}-dev lib${PN}-doc ${PN} ${PN}-dbg"
+>
+> And this one at the front.
+>
+So they are the same.
 
-As for headers and debug, they go in the ${PN}-[dev,dbg] packagse
-
-I can go with Koen's name of shlibpackaging.bbclass
 Sau!
 
-> p.
->
+>> -FILES_${PN} = "${bindir}/*"
+>> -FILES_lib${PN} = "${libdir}/*.so.*"
+>> -FILES_lib${PN}-dev = "${libdir}/*.a ${libdir}/*.la ${libdir}/*.so \
+>> -		       ${libdir}/pkgconfig ${includedir}"
+>> -FILES_lib${PN}-doc = "${docdir} ${mandir} ${infodir}"
+>> -AUTO_LIBNAME_PKGS = "lib${PN}"
+>> +FILES_lib${PN}-doc += "${docdir} ${mandir} ${infodir}"
+>>
+>> BBCLASSEXTEND = "native nativesdk"
+>> --
+>> 1.7.3.4
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 >
 > _______________________________________________
