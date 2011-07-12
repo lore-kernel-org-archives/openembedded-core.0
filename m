@@ -1,36 +1,20 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Qgo2i-0001y1-Ij
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QgoKo-0002An-8V
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 03:15:12 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1Qgnyu-0007mK-Bq from Tom_Rini@mentor.com ;
-	Tue, 12 Jul 2011 18:11:16 -0700
-Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Tue, 12 Jul 2011 18:11:16 -0700
-Received: from [172.30.80.17] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
-	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
-	Tue, 12 Jul 2011 18:11:15 -0700
-Message-ID: <4E1CF0B1.6060400@mentor.com>
-Date: Tue, 12 Jul 2011 18:11:13 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Gary Thomas <gary@mlbassoc.com>
-References: <cover.1310511423.git.josh@linux.intel.com>	<1314a49d823f6e174ca09773cde0fee7ed0e1306.1310511423.git.josh@linux.intel.com>
-	<4E1CDAE7.3040501@mentor.com> <4E1CE8D6.80605@mlbassoc.com>
-	<4E1CEA80.70806@mentor.com> <4E1CEC39.1030202@mlbassoc.com>
-In-Reply-To: <4E1CEC39.1030202@mlbassoc.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 13 Jul 2011 01:11:16.0063 (UTC)
-	FILETIME=[C3A9EEF0:01CC40F9]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] classes/image_types: add a variable to list	available IMAGE_FSTYPE's
+	Wed, 13 Jul 2011 03:33:54 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Jul 2011 18:29:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25172498"
+Received: from nbuild1.sc.intel.com ([172.25.110.36])
+	by orsmga002.jf.intel.com with ESMTP; 12 Jul 2011 18:29:55 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jul 2011 12:02:35 -0700
+Message-Id: <cover.1310497097.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/5] commits for yocto.git tree for x32 work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,71 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 01:15:12 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Jul 2011 01:33:54 -0000
 
-On 07/12/2011 05:52 PM, Gary Thomas wrote:
-> On 07/12/2011 06:44 PM, Tom Rini wrote:
->> On 07/12/2011 05:37 PM, Gary Thomas wrote:
->>> On 07/12/2011 05:38 PM, Tom Rini wrote:
->>>> On 07/12/2011 04:24 PM, Joshua Lock wrote:
->>>>> This is for use in the Hob GUI to enable the user to change the type
->>>>> of the
->>>>> generated image.
->>>>>
->>>>> Signed-off-by: Joshua Lock<josh@linux.intel.com>
->>>>> ---
->>>>>    meta/classes/image_types.bbclass |    2 ++
->>>>>    1 files changed, 2 insertions(+), 0 deletions(-)
->>>>>
->>>>> diff --git a/meta/classes/image_types.bbclass
->>>>> b/meta/classes/image_types.bbclass
->>>>> index 89a745c..29d7a57 100644
->>>>> --- a/meta/classes/image_types.bbclass
->>>>> +++ b/meta/classes/image_types.bbclass
->>>>> @@ -102,3 +102,5 @@ IMAGE_DEPENDS_cpio.xz = "xz-native"
->>>>>    IMAGE_DEPENDS_ubi = "mtd-utils-native"
->>>>>    IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->>>>>
->>>>> +# This variable is available to request which values are suitable
->>>>> for IMAGE_FSTYPES
->>>>> +IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz squashfs
->>>>> squashfs-lzma ubi ubifs"
->>>>
->>>> Concept is fine, but please don't list ubi and ubifs just list ubi.
->>>
->>> Perhaps the [brokwn] rule to explicitly build ubifs should also be
->>> purged?
->>
->> Nope, that's how the ubi is created.  Essentially at the time anyhow, OE
->> didn't make it too easy to add in an image that needs to be in a
->> container to be used.  So we have the ubifs rule (yes, that needs a
->> cherry-pick from oe.dev) for 'advanced' users and the ubi rule to create
->> a simple ubi image.
-> 
-> I might be missing something, but I don't see why this rule is necessary
-> in image_types.bbclass:
->   IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o
-> ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.ubifs.img ${MKUBIFS_ARGS}"
-> 
-> Having it there leads to the confusion (I was) that ubifs was useful.
-> 
-> At least for me, I can build ubi images with that rule removed.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-OK, refreshed my memory again.  We have ubifs (and it might indeed need
-some quick kicking/fixing) target (a) since that's what was there to
-start with, but not quite enough (b) for advanced users.  There is a
-point to making a ubifs image which is when you're making a complex ubi
-volume (either outside of OE or in your collection/layer that provides a
-more complex ubinize conf).
+These are commits for yocto tree. I came up with as part of the x32 work. 
+I think these commits does not belong in the x32 layer and should go
+in the yocto/oecore tree.
 
-The problem in oe-core today is that we were using non-standard
-extensions on the ubifs part to try and distinguish between usable
-standalone files (ubi) and parts (ubifs).
+The siteinfo.bbclass commit is a hacky way to get the the right siteinfo for 
+x32 now. In the future a better solution will be implemented for that purpose.
+
+The following changes since commit 7354fc9213f27aa1b643dbe88070437f1ee4c063:
+
+  insane.bbclass: skip rdepends QA checks for kernel / modules (2011-07-12 15:22:09 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/x32
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/x32
+
+Nitin A Kamble (5):
+  siteinfo.bbclass: hack for x32
+  udev-172: add a newer version for newer kernel
+  runqemu: support qemux32 machine
+  kernel.bbclass: fix the broken lines
+  glibc: fix false failure
+
+ meta/classes/kernel.bbclass                       |    4 +-
+ meta/classes/siteinfo.bbclass                     |    3 +
+ meta/recipes-core/glibc/glibc.inc                 |    2 +-
+ meta/recipes-core/udev/udev-172/init              |   59 +++++++++
+ meta/recipes-core/udev/udev-172/local.rules       |   35 ++++++
+ meta/recipes-core/udev/udev-172/permissions.rules |  131 +++++++++++++++++++++
+ meta/recipes-core/udev/udev-172/run.rules         |   14 +++
+ meta/recipes-core/udev/udev-172/udev.rules        |  116 ++++++++++++++++++
+ meta/recipes-core/udev/udev_172.bb                |    6 +
+ scripts/qemuimage-testlib                         |    2 +-
+ scripts/runqemu                                   |   12 ++-
+ scripts/runqemu-internal                          |   25 ++++
+ 12 files changed, 401 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-core/udev/udev-172/init
+ create mode 100644 meta/recipes-core/udev/udev-172/local.rules
+ create mode 100644 meta/recipes-core/udev/udev-172/permissions.rules
+ create mode 100644 meta/recipes-core/udev/udev-172/run.rules
+ create mode 100644 meta/recipes-core/udev/udev-172/udev.rules
+ create mode 100644 meta/recipes-core/udev/udev_172.bb
 
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.5.4
+
 
 
