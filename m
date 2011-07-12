@@ -1,25 +1,36 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1QgZ6D-0001xV-JH for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 11:17:49 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1QgZ2Q-0002x4-Sw
-	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 11:13:55 +0200
-From: Phil Blundell <pb@pbcl.net>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QgZ6b-0001yr-Ae for openembedded-core@lists.openembedded.org;
+	Tue, 12 Jul 2011 11:18:13 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6C8g68G018690
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2011 09:42:06 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 18636-01 for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2011 09:42:02 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6C8fuV3018684
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2011 09:41:57 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Jul 2011 10:13:54 +0100
-In-Reply-To: <1310461868.6337.179.camel@phil-desktop>
-References: <cover.1310425837.git.sgw@linux.intel.com>
-	<1122cff5b635c23b36bc76ad58a088f522ac21a5.1310425837.git.sgw@linux.intel.com>
-	<1310461868.6337.179.camel@phil-desktop>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1310462034.6337.181.camel@phil-desktop>
+In-Reply-To: <839342D0-8691-4528-8B7A-9515ED47B6C2@dominion.thruhere.net>
+References: <1310399860.20015.980.camel@rex>
+	<164DA52B-98AF-47AA-A42D-1DE7FA9A1200@dominion.thruhere.net>
+	<1310402833.20015.986.camel@rex>
+	<839342D0-8691-4528-8B7A-9515ED47B6C2@dominion.thruhere.net>
+Date: Tue, 12 Jul 2011 09:41:08 +0100
+Message-ID: <1310460068.20015.1021.camel@rex>
 Mime-Version: 1.0
-Subject: Re: [PATCH 03/26] shared_lib.bbclass: create common class
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [RFC PATCH 2/3] conf/machine: Overhaul tune include files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,26 +45,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 09:17:49 -0000
+X-List-Received-Date: Tue, 12 Jul 2011 09:18:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-07-12 at 10:11 +0100, Phil Blundell wrote:
-> On Mon, 2011-07-11 at 16:13 -0700, Saul Wold wrote:
-> > This class is for packages that do not work with debian library naming
+On Mon, 2011-07-11 at 19:04 +0200, Koen Kooi wrote:
+> Op 11 jul 2011, om 18:47 heeft Richard Purdie het volgende geschreven:
+> >> Taking armv7a as an example with my angstrom hat on I need the following knobs:
+> >> 
+> >> 1) softp or hardfp calling conventions, resulting in a different package arch (e.g. armv7a vs armv7ahf) (link incompatible)
+> >> 2) neon or not, resulting in a different packagearch (e.g armv7a vs armv7a-vfponly) (link compatible)
+> >> 3) Thumb2 or arm mode, no direct need for different packagearch, they are compatible
+> >> 4) use FPU fw or not (TARGET_PFU) (slightly different from 2.)
+> >> 
+> >> Do you have any examples on how the package arch will look with this patchset?
+> > 
+> > I added in code to differentiate between big and little endian. We can
+> > add in code to add extra options, e.g. in the tune-armv7 case:
+> > 
+> > 
+> > TARGET_CC_ARCH += "${@bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "-mfloat-abi=hardfp", "-mfloat-abi=softfp" ,d)}"
+> > 
+> > PACKAGE_EXTRA_ARCHS = "${TUNE_ARCH}${SUFX2} armv4${ENDSUFX}${SUFX2} armv4t${ENDSUFX}${SUFX2} armv5te${ENDSUFX}${SUFX2} armv6${ENDSUFX}${SUFX2} armv7${ENDSUFX}${SUFX2}"
 > 
-> I tend to feel that most of those packages should be fixed so that they
-> do.  If they aren't currently getting renamed then it usually means that
-> they include too much (i.e. both binaries and libraries, or multiple
-> libraries) and should be split up so that this doesn't happen.
+> And SUFX2 being 'hf' or '', right? If so, the proposal looks good to me, but I need to digest it some more.
 
-Actually, looking at the patch more carefully I guess this does
-basically address the first case above (binaries and libraries).  But it
-looks like it will result in the slightly confusing situation where the
-libraries go into lib${PN} but the corresponding headers are in
-${PN}-dev.
+Correct.
 
-p.
+An updated version of this with a few more pieces filled out is
+available at:
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/temp4&id=d2a0bf99fd573221f230bb5253b85166997fac69
+
+Cheers,
+
+Richard
 
 
 
