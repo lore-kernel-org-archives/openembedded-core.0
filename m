@@ -1,38 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qgb9S-0005ID-AX for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 13:29:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CBPJ64019586
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QgbBr-0005Kq-W0
+	for openembedded-core@lists.openembedded.org;
+	Tue, 12 Jul 2011 13:31:48 +0200
+Received: by wwi14 with SMTP id 14so2951852wwi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 12:25:19 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 18595-06 for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 12:25:15 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CBPBWk019580
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 12:25:11 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <E040CBE3-4C88-4768-B056-0588A5566BDA@dominion.thruhere.net>
-References: <1310399860.20015.980.camel@rex>
-	<164DA52B-98AF-47AA-A42D-1DE7FA9A1200@dominion.thruhere.net>
-	<1310402833.20015.986.camel@rex>
-	<839342D0-8691-4528-8B7A-9515ED47B6C2@dominion.thruhere.net>
-	<1310460068.20015.1021.camel@rex>
-	<E040CBE3-4C88-4768-B056-0588A5566BDA@dominion.thruhere.net>
-Date: Tue, 12 Jul 2011 12:25:10 +0100
-Message-ID: <1310469910.20015.1039.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC PATCH 2/3] conf/machine: Overhaul tune include files
+	Tue, 12 Jul 2011 04:27:50 -0700 (PDT)
+Received: by 10.227.204.148 with SMTP id fm20mr5352441wbb.38.1310470070492;
+	Tue, 12 Jul 2011 04:27:50 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id ex2sm10784814wbb.31.2011.07.12.04.27.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 12 Jul 2011 04:27:49 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jul 2011 13:27:43 +0200
+Message-Id: <1310470064-22366-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/2] pulseaudio: try harder to disable HAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,89 +33,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 11:29:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Jul 2011 11:31:48 -0000
 
-On Tue, 2011-07-12 at 11:30 +0200, Koen Kooi wrote:
-> Op 12 jul 2011, om 10:41 heeft Richard Purdie het volgende geschreven:
-> > An updated version of this with a few more pieces filled out is
-> > available at:
-> > 
-> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/temp4&id=d2a0bf99fd573221f230bb5253b85166997fac69
-> 
-> If I understand it correctly
-> 
-> 	TARGET_FPU_armv7a = "hard"
-> 	TARGET_FPU ?= "soft"
+This disables linking against (lib)hal but enables the udev-hal compat layer so the hal-detect plugin keeps working. The hal-detect plugin is removed from the default dependencies to discourage its usage, but can be installed manually if needed.
 
-These actually become the defaults for armv7 since:
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    3 +--
+ .../pulseaudio/pulseaudio_0.9.15.bb                |    2 +-
+ .../pulseaudio/pulseaudio_0.9.22.bb                |    2 +-
+ .../pulseaudio/pulseaudio_0.9.23.bb                |    2 +-
+ 4 files changed, 4 insertions(+), 5 deletions(-)
 
-meta/conf/machine/include/tune-armv7.inc:
-
-TUNE_FEATURES_tune-armv7 ??= "fpu-hard"
-
-> becomes
-> 
-> 	TUNE_FEATURES_append_armv7a = " hard"
-
-but the distro can override TUNE_FEATURES_tune-armv7 as required. The
-value in question would be "" or "fpu-hard". You'd actually want:
-
-TUNE_FEATURES_tune-armv7_append = "xxx"
-
-or just set it to what you want:
-
-TUNE_FEATURES_tune-armv7 = "fpu-hard neon"
-
-> And
-> 
-> 	ARM_FP_ABI = "hardfp"
-> 
-> becomes
-> 
-> 	TUNE_FEATURES += "callconvention-hard"
-
-Correct.
-
-> And to maintain the status quo for beagleboard/angstrom:
-> 
-> 	TUNE_FEATURES_append_omap3 = " neon"
-
-There isn't an omap3 tune in there at present but:
-
-meta/conf/machine/include/tune-cortexa8.inc:
-
-TUNE_FEATURES_tune-cortexa8 ??= "hard-fpu neon"
-
-so neon is the default for that platform. I'm imagining that for omap3
-we can do something similar.
-
-> I would also add something like the following:
-> 
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -166,7 +166,7 @@ python base_eventhandler() {
->          if name.startswith("BuildStarted"):
->                 bb.data.setVar( 'BB_VERSION', bb.__version__, e.data )
-> -               statusvars = ['BB_VERSION', 'TARGET_ARCH', 'TARGET_OS', 'MACHINE', 'DISTRO', 'DISTRO_VERSION','TARGET_FPU']
-> +               statusvars = ['BB_VERSION', 'TARGET_ARCH', 'TARGET_OS', 'MACHINE', 'DISTRO', 'DISTRO_VERSION','TUNE_FEATURES']
->                 statuslines = ["%-17s = \"%s\"" % (i, bb.data.getVar(i, e.data, 1) or '') for i in statusvars]
-
-Agreed, that is a useful touch and makes that line in the status way
-more useful for other architectures too.
-
-> Finally a small nitpick: debian uses 'hf' as hardfloat suffix and I prefer that over '-hfp'.
-
-Easy to change, I have no real preference.
-
->  Meego calls it armv8, but let's not go there.
-
-Agreed ;-).
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 12e6ef3..979d0a9 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -27,6 +27,7 @@ EXTRA_OECONF = "\
+ 		--with-alsa \
+ 		--with-oss \
+ 		--without-hal \
++		--disable-hal \
+ "
+ 
+ PARALLEL_MAKE = ""
+@@ -108,7 +109,6 @@ python populate_packages_prepend() {
+ }
+ 
+ RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
+-RDEPENDS_pulseaudio-module-hal-detect =+ "hal"
+ RDEPENDS_pulseaudio-server = " \
+     pulseaudio-module-device-restore \
+     pulseaudio-module-stream-restore \
+@@ -119,7 +119,6 @@ RDEPENDS_pulseaudio-server = " \
+     pulseaudio-module-alsa-source \
+     pulseaudio-module-alsa-card \
+     pulseaudio-module-native-protocol-unix \
+-    pulseaudio-module-hal-detect \
+     pulseaudio-module-default-device-restore \
+     pulseaudio-module-rescue-streams \
+     pulseaudio-module-always-sink \
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
+index 71e19e9..a46782b 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.15.bb
+@@ -1,7 +1,7 @@
+ require pulseaudio.inc
+ 
+ DEPENDS += "dbus gdbm speex"
+-PR = "r15"
++PR = "r16"
+ 
+ SRC_URI += "\
+   file://buildfix.patch;patch=1 \
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
+index 5124bd7..d03a726 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ DEPENDS += "gdbm speex"
+ 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+index 4bdc4ed..9f354ff 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ DEPENDS += "gdbm speex"
+ 
+-- 
+1.6.6.1
 
 
 
