@@ -1,34 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qgdx3-0000vI-Td for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 16:28:53 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CEO3ab021057
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qgek6-00026z-Rg
+	for openembedded-core@lists.openembedded.org;
+	Tue, 12 Jul 2011 17:19:22 +0200
+Received: by wwi18 with SMTP id 18so4099936wwi.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 15:24:03 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21024-01 for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 15:23:59 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CENr16021051
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 15:23:56 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <5d74762c2631c97aee2bbebc5e0baf56fa4ed1ad.1310048449.git.ke.yu@intel.com>
-References: <cover.1310048449.git.ke.yu@intel.com>
-	<5d74762c2631c97aee2bbebc5e0baf56fa4ed1ad.1310048449.git.ke.yu@intel.com>
-Date: Tue, 12 Jul 2011 15:23:51 +0100
-Message-ID: <1310480631.20015.1064.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] sato-sdk: add clutter for sato-sdk image
+	Tue, 12 Jul 2011 08:15:25 -0700 (PDT)
+Received: by 10.216.221.33 with SMTP id q33mr4064568wep.90.1310483725439;
+	Tue, 12 Jul 2011 08:15:25 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id u64sm7617852weq.4.2011.07.12.08.15.24
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 12 Jul 2011 08:15:24 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jul 2011 17:15:20 +0200
+Message-Id: <1310483720-11729-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] pulseaudio: enable bluetooth support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 14:28:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Jul 2011 15:19:22 -0000
 
-On Thu, 2011-07-07 at 22:22 +0800, Yu Ke wrote:
-> Yocto ADT has Eclips clutter template, so it is better to have
-> clutter in SDK image to support ADT. this patch add clutter
-> and clutter-box2d app to sato-sdk image for this purpose
-> 
-> Fix [YOCTO #891]
-> 
-> Signed-off-by: Yu Ke <ke.yu@intel.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    4 ++--
+ .../pulseaudio/pulseaudio_0.9.22.bb                |    2 +-
+ .../pulseaudio/pulseaudio_0.9.23.bb                |    2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-Merged to master, thanks.
-
-Richard
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index a520343..4bb1c59 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+                     file://src/pulsecore/vector.h;beginline=1;endline=21;md5=1b561f0a2ca47b1fa49862a6ccaacff1"
+ DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libtool virtual/libx11"
+ # optional
+-DEPENDS += "udev alsa-lib glib-2.0 dbus consolekit"
++DEPENDS += "bluez4 udev alsa-lib glib-2.0 dbus consolekit"
+ 
+ SRC_URI = "http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-${PV}.tar.gz \
+            file://gcc4-compile-fix.patch;patch=1 \
+@@ -19,7 +19,7 @@ inherit autotools pkgconfig
+ 
+ EXTRA_OECONF = "\
+ 		--disable-lynx \
+-		--disable-bluez \
++		--enable-bluez \
+ 		--disable-polkit \
+ 		--with-x \
+ 		--without-jack \
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
+index 2757b32..da2e988 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.22.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ DEPENDS += "gdbm speex"
+ 
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+index 8b96aed..1edd913 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_0.9.23.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ DEPENDS += "gdbm speex"
+ 
+-- 
+1.6.6.1
 
 
 
