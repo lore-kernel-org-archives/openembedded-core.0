@@ -1,28 +1,28 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QgX5O-0008Ac-Bu
+	(envelope-from <koen@dominion.thruhere.net>) id 1QgX9K-0008F0-E6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 09:08:50 +0200
-Received: by wyg30 with SMTP id 30so3511267wyg.6
+	Tue, 12 Jul 2011 09:12:54 +0200
+Received: by wwi14 with SMTP id 14so2787137wwi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 00:04:53 -0700 (PDT)
-Received: by 10.216.202.9 with SMTP id c9mr3873522weo.14.1310453878281;
-	Mon, 11 Jul 2011 23:57:58 -0700 (PDT)
+	Tue, 12 Jul 2011 00:08:57 -0700 (PDT)
+Received: by 10.216.136.18 with SMTP id v18mr4999127wei.23.1310454537642;
+	Tue, 12 Jul 2011 00:08:57 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id g48sm4608474wee.37.2011.07.11.23.57.56
+	by mx.google.com with ESMTPS id w10sm7365821weq.27.2011.07.12.00.08.56
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 11 Jul 2011 23:57:57 -0700 (PDT)
+	Tue, 12 Jul 2011 00:08:56 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1084)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1122cff5b635c23b36bc76ad58a088f522ac21a5.1310425837.git.sgw@linux.intel.com>
-Date: Tue, 12 Jul 2011 08:57:55 +0200
-Message-Id: <0EEBB56F-FFD0-48AD-A04E-E1FE5080E594@dominion.thruhere.net>
+In-Reply-To: <b57884dfeeaa8e5b4c1c9b35b72c01481cc1899c.1310425837.git.sgw@linux.intel.com>
+Date: Tue, 12 Jul 2011 09:08:55 +0200
+Message-Id: <1129C3DF-DF72-4BB8-9BC3-42A3F13AF032@dominion.thruhere.net>
 References: <cover.1310425837.git.sgw@linux.intel.com>
-	<1122cff5b635c23b36bc76ad58a088f522ac21a5.1310425837.git.sgw@linux.intel.com>
+	<b57884dfeeaa8e5b4c1c9b35b72c01481cc1899c.1310425837.git.sgw@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 03/26] shared_lib.bbclass: create common class
+Subject: Re: [PATCH 17/26] python: Use bitbake default FILES for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,47 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 07:08:50 -0000
+X-List-Received-Date: Tue, 12 Jul 2011 07:12:54 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+missing PR bump
 
 Op 12 jul 2011, om 01:13 heeft Saul Wold het volgende geschreven:
 
-> This class is for packages that do not work with debian library naming
-
-If you put a single library in a package it *will* do shlib renaming.=20
-
+>    This will ensure correct -dev and -staticdev packging
 >=20
 > Signed-off-by: Saul Wold <sgw@linux.intel.com>
 > ---
-> meta/classes/shared_lib.bbclass |    9 +++++++++
-
-Can we name is sharedlib.bbclass or better shlibpackaging.bbclass?
-
-> 1 files changed, 9 insertions(+), 0 deletions(-)
-> create mode 100644 meta/classes/shared_lib.bbclass
+> meta/recipes-devtools/python/python_2.6.6.bb |    2 --
+> 1 files changed, 0 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/meta/classes/shared_lib.bbclass =
-b/meta/classes/shared_lib.bbclass
-> new file mode 100644
-> index 0000000..4237c8c
-> --- /dev/null
-> +++ b/meta/classes/shared_lib.bbclass
-> @@ -0,0 +1,9 @@
-> +#
-> +# This bbclass it a common case for lib${PN} shared libraries
-> +#
-> +SUMMARY_lib${PN} ?=3D "${SUMMARY} - Shared Libraries"
-> +DESCRIPTION_lib${PN} ?=3D "${DESCRIPTION} This package contains the =
-shared libraries"
-> +
-> +PACKAGES +=3D "lib${PN}"
-
-I think you want =3D+ there
-
-> +FILES_lib${PN} =3D "${libdir}/*${SOLIBS} ${base_libdir}/*${SOLIBS}"
-> +RDEPENDS_lib${PN} =3D "${PN}"
+> diff --git a/meta/recipes-devtools/python/python_2.6.6.bb =
+b/meta/recipes-devtools/python/python_2.6.6.bb
+> index 418457c..2c3c6da 100644
+> --- a/meta/recipes-devtools/python/python_2.6.6.bb
+> +++ b/meta/recipes-devtools/python/python_2.6.6.bb
+> @@ -121,10 +121,8 @@ FILES_${PN}-dev =3D "\
+>   ${includedir} \
+>   ${libdir}/lib*${SOLIBSDEV} \
+>   ${libdir}/*.la \
+> -  ${libdir}/*.a \
+>   ${libdir}/*.o \
+>   ${libdir}/pkgconfig \
+> -  ${base_libdir}/*.a \
+>   ${base_libdir}/*.o \
+>   ${datadir}/aclocal \
+>   ${datadir}/pkgconfig \
 > --=20
 > 1.7.3.4
 >=20
