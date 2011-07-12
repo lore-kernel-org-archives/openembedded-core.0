@@ -1,28 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QggQg-0007XS-21
+	(envelope-from <andrea.adami@gmail.com>) id 1QggSd-0007Ze-F9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 19:07:26 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6CH3RJ7003270
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 12 Jul 2011 19:09:28 +0200
+Received: by pvf24 with SMTP id 24so3896839pvf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 10:03:27 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 12 Jul 2011 10:03:27 -0700
-Message-ID: <4E1C7E5E.5020001@windriver.com>
-Date: Tue, 12 Jul 2011 12:03:26 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+	Tue, 12 Jul 2011 10:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=kvgx2o+otVUxKGtWCsh3DUiZ2G+R7bMn/zt3574VSkk=;
+	b=mTpQ2Vuff3omzbIPFh9wNzs9MG1bbXXlw2e2FFeMLHJ51uDMhYSF2ndMiwHmSb4XKv
+	14fu+zgFQyBWokmCKD9HKHRvnW1cVL1c2Qk2TwAGCbGjVscBnjFzjeGLVeoa7uPXSnpE
+	oVC/BKoCTI/6rSJzL9qgcGEC6ZAqNECXRrCEE=
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1309780493.20200.17.camel@desktop.home>	<4E11DFA1.70608@slimlogic.co.uk>	<1309795942.20200.123.camel@desktop.home>
-	<4E11EDD1.1000308@slimlogic.co.uk>
-In-Reply-To: <4E11EDD1.1000308@slimlogic.co.uk>
-Subject: Re: [PROPOSAL] Package feature switches, redux.
+Received: by 10.142.142.9 with SMTP id p9mr67039wfd.175.1310490329010; Tue, 12
+	Jul 2011 10:05:29 -0700 (PDT)
+Received: by 10.142.239.3 with HTTP; Tue, 12 Jul 2011 10:05:28 -0700 (PDT)
+In-Reply-To: <1310479486.20015.1056.camel@rex>
+References: <cover.1310421821.git.andrea.adami@gmail.com>
+	<1310479486.20015.1056.camel@rex>
+Date: Tue, 12 Jul 2011 19:05:28 +0200
+Message-ID: <CAAQYJAsswgjXmLB+2sd32rcGuh_AmCKmDzu=yRUgT0QbfqOpFQ@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 0/2] Embedding initramfs images during kernel build.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,56 +40,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 17:07:26 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Jul 2011 17:09:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 7/4/11 11:44 AM, Graeme Gregory wrote:
-> On 07/04/2011 05:12 PM, Chris Elston wrote:
->>> Hi, with my Angstrom cap on I like this syntax and I think it will be
->>> really useful.
->>>
->>> A second level concern I have is about conflicting features, its not
->>> something we will come across probably in DISTRO land as we are sensible
->>> enough not to select them. But users could select them in local.conf.
->>>
->>> Graeme
->> As a new developer, I've discovered that there are plenty of things that
->> you can set in local.conf which break things :D
+For some reasons one line has been horribly truncated:
+
+cp "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$i
+^
+
+below the correct line:
+
+kernel_do_configure() {
+	yes '' | oe_runmake oldconfig
+	if [ ! -z "${INITRAMFS_IMAGE}" ]; then
+		for img in cpio.gz cpio.lzo cpio.lzma; do
+		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
+			cp "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" initramfs.$i=
+mg
+		fi
+		done
+	fi
+
+
+Sorry
+
+Andrea
+
+
+
+On Tue, Jul 12, 2011 at 4:04 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2011-07-12 at 00:33 +0200, Andrea Adami wrote:
+>> * Sync with org.openembedded.dev and allow the inclusion of
+>> * lzma and xz compressed initramfs images.
+>> *
+>> * Provide a convenient way to include an initramfs by setting
+>> * INITRAMFS_IMAGE =3D "your_initramfs_image.bb"
+>> * and specifying the chosen output format in the initramfs image recipe,=
+ e.g.
+>> * IMAGE_FSTYPES =3D "cpio.gz cpio.lzma"
 >>
->> Could you please give an example of conflicting features that could
->> cause problems, I'm not experienced enough with OE to have encountered
->> that problem yet.
->>
->>
-> Cant think of a solid one off the top of my head, but I mean the cases where
-> 
-> --enable-feature means that --disable-another-feature is done.
-> 
-> This is why I listed it as a secondary issue.
-
-I remember seeing similar issues as well.
-
-I really like this syntax described for the options.  If there is some way to
-list a conflicting option -- or even simple some python syntax useful within a
-recipe itself to say "hey you can't specify these two things and use this
-recipe", that would be all that I think is needed.
-
-I rarely find packages where it's likely someone will try to configure a
-conflicting option set, but it does happen.. if we find it.. we should be able
-to note it within the recipe and have it flag the user before do_configure is
-run.  (Preferably even before that!)
-
---Mark
-
-> Graeme
-> 
-> 
-> 
+>> Andrea Adami (2):
+>> =A0 kernel.bbclass: handle embedding of initramfs images
+>> =A0 image_types.bbclass: support xz compressed initramfs.cpio and
+>> =A0 =A0 tarballs
+>
+> Merged to master, thanks.
+>
+> Richard
+>
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+>
 
 
