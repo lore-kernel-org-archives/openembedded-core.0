@@ -1,24 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QgdYX-0008Ia-6v
-	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jul 2011 16:03:21 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 Jul 2011 06:59:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,521,1304319600"; d="scan'208";a="26744102"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.17.183])
-	by orsmga001.jf.intel.com with ESMTP; 12 Jul 2011 06:59:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2011 14:59:08 +0100
-Message-Id: <e06067f253d42feefee8852f159de8a22d3f897b.1310478977.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1310478977.git.paul.eggleton@linux.intel.com>
-References: <cover.1310478977.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1310478977.git.paul.eggleton@linux.intel.com>
-References: <cover.1310478977.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] busybox: fix missing features due to lack of variable expansion
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QgdZ3-0008L0-RH for openembedded-core@lists.openembedded.org;
+	Tue, 12 Jul 2011 16:03:54 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CDxv7G020880
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2011 14:59:57 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19843-06 for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2011 14:59:53 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6CDxncg020874
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jul 2011 14:59:49 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <cover.1310368636.git.ke.yu@intel.com>
+References: <cover.1310368636.git.ke.yu@intel.com>
+Date: Tue, 12 Jul 2011 14:59:48 +0100
+Message-ID: <1310479188.20015.1054.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 00/10] [RFC] patch for non /usr/lib libdir - V2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +42,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jul 2011 14:03:21 -0000
+X-List-Received-Date: Tue, 12 Jul 2011 14:03:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Expand DISTRO_FEATURES and MACHINE_FEATURES fully so that any inner
-variable references (such as DISTRO_FEATURES_LIBC) are expanded properly.
+On Mon, 2011-07-11 at 15:23 +0800, Yu Ke wrote:
+> This is the V2 patches. the changes compared to V1 are:
+> - revise python patch to make the sys.lib deriving from libdir, instead of hardcode to lib64
+> - add two more fixes: sat-solver and libzypp, with these two more fixes, i can build
+>   qemux86-64 core-image-sato and core-image-sato-sdk with libdir=/usr/lib64
+> 
+> Next step, I will do through test to make sure it does not impact normal libdir=/usr/lib case
+> 
+> The following changes since commit 2163461ec94528ecf046a04edc5db3d2dd3a6b8b:
+>   Tom Zanussi (1):
+>         systemtap: remove non-core COMPATIBLE_MACHINES
+> 
+> are available in the git repository at:
+> 
+>   git://git.pokylinux.org/poky-contrib kyu3/libdir-fix-v2
+>   http://git.pokylinux.org/cgit.cgi//log/?h=kyu3/libdir-fix-v2
+> 
+> Yu Ke (10):
+>   native.bbclass: generate libdir from libdir_native
+>   openssl: fix for non /usr/lib libdir case
+>   libc-package.bbclass: fix for non /usr/lib libdir case
+>   python: fix for libdir=/usr/lib64 case
+>   python-native: fix for non /usr/lib libdir case
+>   perl: fix for non /usr/lib libdir case
+>   libcap: fix for non /usr/lib libdir case
+>   rpm: fix for non /usr/lib libdir case
+>   sat-solver: fix for non /usr/lib libdir case
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-core/busybox/busybox.inc       |    4 ++--
- meta/recipes-core/busybox/busybox_1.18.4.bb |    2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+I merged these apart from the libc-package.bbclass change which doesn't
+apply against master and isn't needed since a different patch was
+already applied.
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 1334d06..c51cf6a 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -47,8 +47,8 @@ def busybox_cfg(feature, features, tokens, cnf, rem):
- # Map distro and machine features to config settings
- def features_to_busybox_settings(d):
- 	cnf, rem = ([], [])
--	distro_features = bb.data.getVar('DISTRO_FEATURES', d).split()
--	machine_features = bb.data.getVar('MACHINE_FEATURES', d).split()
-+	distro_features = bb.data.getVar('DISTRO_FEATURES', d, True).split()
-+	machine_features = bb.data.getVar('MACHINE_FEATURES', d, True).split()
- 	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IPV6', cnf, rem)
- 	busybox_cfg('largefile', distro_features, 'CONFIG_LFS', cnf, rem)
- 	busybox_cfg('largefile', distro_features, 'CONFIG_FDISK_SUPPORT_LARGE_DISKS', cnf, rem)
-diff --git a/meta/recipes-core/busybox/busybox_1.18.4.bb b/meta/recipes-core/busybox/busybox_1.18.4.bb
-index 5883cc6..9d3d5b1 100644
---- a/meta/recipes-core/busybox/busybox_1.18.4.bb
-+++ b/meta/recipes-core/busybox/busybox_1.18.4.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://udhcpscript.patch \
--- 
-1.7.4.1
+FWIW, these were hard to apply as they're based against an older tree :(
+
+>   libzypp: fix for non /usr/lib libdir case
+
+This one didn't make it to the mailing list, please resend.
+
+Cheers,
+
+Richard
 
 
 
