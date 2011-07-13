@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qgu1A-0003mK-WA
+	(envelope-from <sgw@linux.intel.com>) id 1Qgu1B-0003mD-Gy
 	for openembedded-core@lists.openembedded.org;
 	Wed, 13 Jul 2011 09:38:01 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 00:34:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272058"
+X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272062"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.40])
 	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 00:34:00 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 00:33:39 -0700
-Message-Id: <f78f4ed985e86d8054066ec1c810e915a0d850fd.1310541680.git.sgw@linux.intel.com>
+Date: Wed, 13 Jul 2011 00:33:40 -0700
+Message-Id: <68f61d86cd90440d5a9433c3342fd3df9b05aa40.1310541680.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
-Subject: [PATCH V2 07/25] sqlite3: inherit shlibpackaging class
+Subject: [PATCH V2 08/25] curl: inherit shlibpackaging class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,34 +37,59 @@ X-List-Received-Date: Wed, 13 Jul 2011 07:38:01 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/sqlite/sqlite3.inc |   10 ++--------
- 1 files changed, 2 insertions(+), 8 deletions(-)
+ meta/recipes-support/curl/curl_7.21.7.bb |   17 ++++++-----------
+ 1 files changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index a5d122d..f1aa087 100644
---- a/meta/recipes-support/sqlite/sqlite3.inc
-+++ b/meta/recipes-support/sqlite/sqlite3.inc
-@@ -5,7 +5,7 @@ DEPENDS = "readline ncurses"
- DEPENDS_virtclass-native = ""
- LICENSE = "PD"
+diff --git a/meta/recipes-support/curl/curl_7.21.7.bb b/meta/recipes-support/curl/curl_7.21.7.bb
+index 28344e2..fd8d358 100644
+--- a/meta/recipes-support/curl/curl_7.21.7.bb
++++ b/meta/recipes-support/curl/curl_7.21.7.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e66
+ DEPENDS = "zlib gnutls"
+ DEPENDS_virtclass-native = "zlib-native"
+ DEPENDS_virtclass-nativesdk = "zlib-nativesdk"
+-PR = "r0"
++PR = "r2"
  
--inherit autotools pkgconfig
-+inherit autotools pkgconfig shlibpackaging
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://noldlibpath.patch \
+@@ -17,7 +17,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ SRC_URI[md5sum] = "5f6d50c4d4ee38c57fe37e3cff75adbd"
+ SRC_URI[sha256sum] = "1a50dd17400c042090203eef347e946f29c342c32b6c4843c740c80975e8215a"
  
- EXTRA_OECONF = "--disable-tcl --enable-shared --enable-threadsafe"
- EXTRA_OECONF_virtclass-native = "--disable-tcl --enable-shared --enable-threadsafe --disable-readline --enable-tempstore"
-@@ -17,12 +17,6 @@ export config_TARGET_LINK = "${CCLD}"
- export config_TARGET_CFLAGS = "${CFLAGS}"
- export config_TARGET_LFLAGS = "${LDFLAGS}"
+-inherit autotools pkgconfig binconfig
++inherit autotools pkgconfig binconfig shlibpackaging
  
--PACKAGES = "lib${PN} lib${PN}-dev lib${PN}-doc ${PN} ${PN}-dbg"
--FILES_${PN} = "${bindir}/*"
--FILES_lib${PN} = "${libdir}/*.so.*"
--FILES_lib${PN}-dev = "${libdir}/*.a ${libdir}/*.la ${libdir}/*.so \
--		       ${libdir}/pkgconfig ${includedir}"
--FILES_lib${PN}-doc = "${docdir} ${mandir} ${infodir}"
--AUTO_LIBNAME_PKGS = "lib${PN}"
-+FILES_lib${PN}-doc += "${docdir} ${mandir} ${infodir}"
+ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+                 --without-ssl \
+@@ -36,7 +36,7 @@ do_configure_prepend() {
+ 	sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g configure.ac
+ }
+ 
+-PACKAGES += "${PN}-certs libcurl libcurl-dev libcurl-doc"
++PACKAGES += "${PN}-certs"
+ 
+ FILES_${PN} = "${bindir}/curl"
+ 
+@@ -45,17 +45,12 @@ PACKAGE_ARCH_${PN}-certs = "all"
+ 
+ FILES_${PN}-doc = "${mandir}/man1/curl.1"
+ 
+-FILES_lib${PN} = "${libdir}/lib*.so.*"
+ RRECOMMENDS_lib${PN} += "${PN}-certs"
+-FILES_lib${PN}-dev = "${includedir} \
+-                      ${libdir}/lib*.so \
+-                      ${libdir}/lib*.a \
+-                      ${libdir}/lib*.la \
+-                      ${libdir}/pkgconfig \
++FILES_lib${PN}-dev =+ "${libdir}/pkgconfig \
+                       ${datadir}/aclocal \
+                       ${bindir}/*-config"
+ 
+-FILES_lib${PN}-doc = "${mandir}/man3 \
+-                      ${mandir}/man1/curl-config.1"
++
++FILES_lib${PN}-doc =+ "${mandir}/man1/curl-config.1"
  
  BBCLASSEXTEND = "native nativesdk"
 -- 
