@@ -1,32 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qh5IC-0003ES-KB for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 21:40:20 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DJaLo7001121;
-	Wed, 13 Jul 2011 20:36:21 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30590-10; Wed, 13 Jul 2011 20:36:17 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DJaDFH001114
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 13 Jul 2011 20:36:14 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <2a927e54abaec88f79de810e5b48293d4db4740a.1310581914.git.kergoth@gmail.com>
-References: <cover.1310581914.git.kergoth@gmail.com>
-	<2a927e54abaec88f79de810e5b48293d4db4740a.1310581914.git.kergoth@gmail.com>
-Date: Wed, 13 Jul 2011 20:36:11 +0100
-Message-ID: <1310585771.20015.1121.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Chris Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 1/2] Rework how the devshell functions
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1Qh5Nn-0003Iu-1n
+	for openembedded-core@lists.openembedded.org;
+	Wed, 13 Jul 2011 21:46:07 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6DJg7Db004590
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jul 2011 12:42:07 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 13 Jul 2011 12:42:06 -0700
+Message-ID: <4E1DF50E.7080305@windriver.com>
+Date: Wed, 13 Jul 2011 14:42:06 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
+	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1310583666.git.tom_rini@mentor.com>
+In-Reply-To: <cover.1310583666.git.tom_rini@mentor.com>
+Subject: Re: [PATCH 0/3] siteinfo.bbclass re-merge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,81 +36,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 19:40:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Jul 2011 19:46:07 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-07-13 at 11:35 -0700, Christopher Larson wrote:
-> From: Chris Larson <chris_larson@mentor.com>
+On 7/13/11 2:05 PM, Tom Rini wrote:
+> Hey all,
 > 
-> In the new implementation, each known terminal is defined as a class in
-> oe.terminal, as a subclass of bb.process.Popen.  terminal.bbclass wraps this
-> functionality, providing the metadata pieces.  It obeys the OE_TERMINAL
-> variable, which is a 'choice' typed variable.  This variable may be 'auto',
-> 'none', or any of the names of the defined terminals.
-> 
-> When using 'auto', or requesting an unsupported terminal, we attempt to spawn
-> them in priority order until we get one that's available on this system (and
-> in the case of the X terminals, has DISPLAY defined).  The 'none' value is
-> used when we're doing things like automated builds, and want to ensure that no
-> terminal is *ever* spawned, under any circumstances.
-> 
-> Current available terminals:
-> 
->     gnome
->     konsole
->     xterm
->     rxvt
->     screen
-> 
-> Signed-off-by: Chris Larson <chris_larson@mentor.com>
-> ---
->  meta/classes/devshell.bbclass |   29 +++++-------
->  meta/classes/terminal.bbclass |   30 ++++++++++++
->  meta/lib/oe/terminal.py       |  102 +++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 144 insertions(+), 17 deletions(-)
->  create mode 100644 meta/classes/terminal.bbclass
->  create mode 100644 meta/lib/oe/terminal.py
-> 
-> diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-> index 5f262f4..95c29f3 100644
-> --- a/meta/classes/devshell.bbclass
-> +++ b/meta/classes/devshell.bbclass
-> @@ -1,22 +1,17 @@
-> -do_devshell[dirs] = "${S}"
-> -do_devshell[nostamp] = "1"
-> +inherit terminal
->  
-> -XAUTHORITY ?= "${HOME}/.Xauthority"
->  
-> -devshell_do_devshell() {
-> -	export DISPLAY='${DISPLAY}'
-> -	export DBUS_SESSION_BUS_ADDRESS='${DBUS_SESSION_BUS_ADDRESS}'
-> -	export XAUTHORITY='${XAUTHORITY}'
-> -	export TERMWINDOWTITLE="Bitbake Developer Shell"
-> -	export EXTRA_OEMAKE='${EXTRA_OEMAKE}'
-> -	export SHELLCMDS="bash"
-> -	${TERMCMDRUN}
-> -	if [ $? -ne 0 ]; then
-> -	    echo "Fatal: '${TERMCMD}' not found. Check TERMCMD variable."
-> -	    exit 1
-> -	fi
-> +export XAUTHORITY ?= "${HOME}/.Xauthority"
-> +export SHELL ?= "bash"
-> +export DBUS_SESSION_BUS_ADDRESS
-> +export DISPLAY
-> +export EXTRA_OEMAKE
+> This is the second of two pull requests.  This doesn't depend on the first
+> request, it's just splitting changes up.  There's three changes here.  First,
+> site/ix86-common was setting the wrong value for unsigned int.  Second,
+> change perl to use SITEINFO variables rather than functions.  Third, bring
+> in the various changes in siteinfo.bbclass that have been in oe.dev.  This
+> last part will, I hope, also make dealing with multilib-specific siteinfo
+> stuff easier (also alternative ABIs like x32).
 
-Variables that are placed into the global environment affect the
-checksums of any shell tasks when they change so I don't think we can do
-this (and its why they are in a function as above).
+Note, this is NOT an objection to the changes.  However, one thing to keep in mind.
 
-Perhaps we could list the variables we want to export in a variable and
-then pass that list to popen's environment?
+(In fact I like the changes being suggested)
 
-Cheers,
+We have a dynamic site-configuation mechanism already in place.  So it's
+important that we don't duplicate things within the site/* files.
 
-Richard
+Currently the recipes: glibc, zlib, eglibc, and uclibc contain dynamic
+site_config files.  (See ./recipes-core/glibc/site_config/* for an example)
+
+The output of these files get placed into a target arch specific site config
+directory: ${STAGING_DATADIR}/${TARGET_SYS}_config_site.d
+
+These are automatically loaded as well as the predefined "common" items.  By
+using the dynamically generated versions we can change the configuration options
+for glibc, uclibc, etc and the site config will automatically get updated based
+on the existing checks.
+
+So instead of updating the various site/* files, if the value can be discovered
+-- or is defined by a given package.. we should be using the dynamic method as
+it'll be safer over the long-haul.  Someone might need to go over the existing
+ones and see if there is anything that falls under this.
+
+BTW, I did notice that ncurses is supposed to have a dynamic site_config, but it
+somehow got checked into the wrong location.  I'll submit a pull request for
+that shortly.
+
+--Mark
+
+> My next step is to work on merging and verifying as much as possible
+> the site files in oe-core and oe.dev.
+> 
+> The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
+>   Saul Wold (1):
+>         libx11: ensure nativesdk uses correct DEPENDS and XCB flags
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib trini/update-siteinfo
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/update-siteinfo
+> 
+> Tom Rini (3):
+>   site/ix86-common: Fix ac_cv_sizeof_unsigned_char definition
+>   perl: Use SITEINFO variables not functions
+>   siteinfo.bbclass: Port over oe.dev logic for site files
+> 
+>  meta/classes/autotools.bbclass             |    2 +-
+>  meta/classes/siteinfo.bbclass              |  202 +++++++++++++---------------
+>  meta/classes/toolchain-scripts.bbclass     |    2 +-
+>  meta/recipes-core/meta/meta-environment.bb |    2 +-
+>  meta/recipes-core/meta/meta-toolchain.bb   |    2 +-
+>  meta/recipes-devtools/perl/perl_5.12.3.bb  |    4 +-
+>  meta/site/ix86-common                      |    2 +-
+>  7 files changed, 103 insertions(+), 113 deletions(-)
+>  create mode 100644 meta/site/common-linux
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
