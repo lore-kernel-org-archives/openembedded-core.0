@@ -1,24 +1,21 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QgvdB-0006It-I3
+	(envelope-from <ke.yu@intel.com>) id 1Qgvj5-0006Nq-HF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 11:21:21 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QgvZN-0004P8-N4
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 11:17:25 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Jul 2011 10:17:24 +0100
-In-Reply-To: <79c857d74346635be316e2bf42dc8d4224095da2.1310541680.git.sgw@linux.intel.com>
-References: <cover.1310541680.git.sgw@linux.intel.com>
-	<79c857d74346635be316e2bf42dc8d4224095da2.1310541680.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1310548645.6337.218.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH V2 02/25] shlibpackaging.bbclass: create common class
+	Wed, 13 Jul 2011 11:27:27 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Jul 2011 02:23:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,524,1304319600"; d="scan'208";a="27345032"
+Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Jul 2011 02:23:27 -0700
+From: Yu Ke <ke.yu@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Wed, 13 Jul 2011 17:22:21 +0800
+Message-Id: <cover.1310548638.git.ke.yu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/2] extra fix for non /usr/lib libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 09:21:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Jul 2011 09:27:27 -0000
 
-On Wed, 2011-07-13 at 00:33 -0700, Saul Wold wrote:
-> +RDEPENDS_lib${PN} = "${PN}"
+sta-solver and libzypp also need fix to pass the build with non /usr/lib libdir
+e.g. libdir=/usr/lib64
 
-Why do we want lib${PN} to have a hard dependency on ${PN}?  This seems
-somewhat backwards to me.  
+The following changes since commit 7354fc9213f27aa1b643dbe88070437f1ee4c063:
+  Paul Eggleton (1):
+        insane.bbclass: skip rdepends QA checks for kernel / modules
 
-Also, if ${PN} is the one with the binaries then it will get an
-auto-generated dependency back to lib${PN} anyway and it looks like this
-will cause a dependency loop.
+are available in the git repository at:
 
-Also also, if it really is correct for lib${PN} to RDEPEND on ${PN}
-then, in the general case, it probably ought to be a precisely versioned
-dependency to guarantee correctness.  Individual recipes can relax that
-if they want to.
+  git://git.pokylinux.org/poky-contrib kyu3/libdir-fix-v3
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kyu3/libdir-fix-v3
 
-p.
+Yu Ke (2):
+  sat-solver: fix for non /usr/lib libdir case
+  libzypp: fix for non /usr/lib libdir case
 
+ meta/classes/cmake.bbclass                         |    4 +++
+ .../libzypp/libzypp/hardcode-lib-fix.patch         |   22 ++++++++++++++++++++
+ meta/recipes-extended/libzypp/libzypp_git.bb       |    5 ++-
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |    6 +++-
+ 4 files changed, 33 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-extended/libzypp/libzypp/hardcode-lib-fix.patch
 
 
 
