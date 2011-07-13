@@ -1,28 +1,34 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qh5oA-0001Gq-2F
+	(envelope-from <Tom_Rini@mentor.com>) id 1Qh6IH-0005Nf-U6
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 22:14:01 +0200
-Received: by wyg30 with SMTP id 30so444363wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2011 13:06:44 -0700 (PDT)
-Received: by 10.216.54.197 with SMTP id i47mr5623785wec.48.1310587604491;
-	Wed, 13 Jul 2011 13:06:44 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id p80sm1770232weq.17.2011.07.13.13.06.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 13 Jul 2011 13:06:43 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAOd_LFwkz6w5oOmwbQwikW6bptwtWiwXGXwmPLDEHga0SAjCdQ@mail.gmail.com>
-Date: Wed, 13 Jul 2011 22:06:37 +0200
-Message-Id: <22EEF991-A119-48E8-8387-2B6315008E78@dominion.thruhere.net>
-References: <CAPhnLPCXP0mPU6=WxG8n-zLJJOozwyqZo9pMqkrmO4gdOJrDOg@mail.gmail.com>
-	<CAOd_LFwkz6w5oOmwbQwikW6bptwtWiwXGXwmPLDEHga0SAjCdQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 0/1] Additional license wrangling functionality
+	Wed, 13 Jul 2011 22:44:31 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Qh6ES-0001Zy-5Y from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 13 Jul 2011 13:40:32 -0700
+Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 13 Jul 2011 13:40:30 -0700
+Received: from [172.30.80.17] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
+	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
+	Wed, 13 Jul 2011 13:40:30 -0700
+Message-ID: <4E1E02BB.7080305@mentor.com>
+Date: Wed, 13 Jul 2011 13:40:27 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1310583666.git.tom_rini@mentor.com>
+	<4E1DF50E.7080305@windriver.com>
+In-Reply-To: <4E1DF50E.7080305@windriver.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 13 Jul 2011 20:40:30.0676 (UTC)
+	FILETIME=[1B125940:01CC419D]
+Subject: Re: [PATCH 0/3] siteinfo.bbclass re-merge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,101 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 20:14:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 13 Jul 2011 20:44:31 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
+On 07/13/2011 12:42 PM, Mark Hatle wrote:
+> On 7/13/11 2:05 PM, Tom Rini wrote:
+>> Hey all,
+>>
+>> This is the second of two pull requests.  This doesn't depend on the first
+>> request, it's just splitting changes up.  There's three changes here.  First,
+>> site/ix86-common was setting the wrong value for unsigned int.  Second,
+>> change perl to use SITEINFO variables rather than functions.  Third, bring
+>> in the various changes in siteinfo.bbclass that have been in oe.dev.  This
+>> last part will, I hope, also make dealing with multilib-specific siteinfo
+>> stuff easier (also alternative ABIs like x32).
+> 
+> Note, this is NOT an objection to the changes.  However, one thing to keep in mind.
+> 
+> (In fact I like the changes being suggested)
+> 
+> We have a dynamic site-configuation mechanism already in place.  So it's
+> important that we don't duplicate things within the site/* files.
+> 
+> Currently the recipes: glibc, zlib, eglibc, and uclibc contain dynamic
+> site_config files.  (See ./recipes-core/glibc/site_config/* for an example)
+> 
+> The output of these files get placed into a target arch specific site config
+> directory: ${STAGING_DATADIR}/${TARGET_SYS}_config_site.d
 
-Op 13 jul 2011, om 16:06 heeft Cliff Brake het volgende geschreven:
+I want to confirm that these files are still generated, found and
+working.  But maybe part 4 of my series will be talking about some of
+this stuff a bit more and if that's really the best method for the goal.
 
-> Many thanks for implementing these improvements!
->=20
-> The manifest file for core-image-minimal is attached.
->=20
-> A few thoughts after testing this ...
->=20
-> I like the way the license information is being cleaned up in the =
-recipes.
->=20
-> In the past, I have collected licenses by using the following
-> procedure directly on a device:
->=20
-> cd /usr/lib/opkg/info
-> grep License *
->=20
-> In the past (OE Classic build from a year ago or so), the Control file
-> in a packaged looked like:
->=20
-> Package: libc6
-> Version: 2.9-r37.3.6
-> Description: GNU C Library
-> Section: libs
-> Priority: required
-> Maintainer: Angstrom Developers <angstrom-distro-devel@linuxtogo.org>
-> License: LGPL
-> Architecture: armv5te
-> OE: glibc
-> Homepage: http://www.gnu.org/software/libc/libc.html
-> Depends: update-rc.d, libcidn1
-> Source: ...
->=20
-> Now, in OE core they look like this:
->=20
-> Package: libc6
-> Version: 2.13-r6+svnr14157
-> Description: Embedded GLIBC (GNU C Library)
-> Embedded GLIBC (EGLIBC) is a variant of the GNU C Library (GLIBC) that =
-is
-> designed to work well on embedded systems. EGLIBC strives to be source
-> and binary compatible with GLIBC. EGLIBC's goals include reduced
-> footprint, configurable components, better support for =
-cross-compilation
-> and cross-testing.
-> Section: libs
-> Priority: optional
-> Maintainer: OE-Core Developers =
-<openembedded-core@lists.openembedded.org>
-> Architecture: i586
-> OE: eglibc
-> Homepage: http://www.eglibc.org/home
-> Provides: glibc
-> Source:  ...
->=20
-> Why is the License field no longer included in the control file?
->=20
-> One of the biggest issues with the current license mechanism is the
-> license directory seems to only populated at recipe build time, not at
-> image rootfs generation.  Therefore, you have to do a clean build to
-> get a list of licenses.  It seems like it would be more optimal if the
-> License information was stored in the packages (as it was in the
-> past), and then extracted from each package during the rootfs phase.
-> The license manifest could then be created similar to the way the
-> testlab stuff is done in OE:
->=20
-> =
-http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/class=
-es/testlab.bbclass
-
-I ported bits of that to narcissus to generate a manifest, have a look =
-at:
-
-=
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/narcissus/tree/scrip=
-ts/extract-metadata.sh
-=
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/narcissus/tree/scrip=
-ts/assemble-image.sh#n275
-
-Narcissus will generate a html page that looks like the manifest we use =
-internally in TI to get things approved by the opensource reviewboard, =
-so if things look strange, that's why :)
-
-The angstrom autobuilders log a subset of testlab into a git repo: =
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/testlab/log/?h=3Dyoc=
-to
-
-regards,
-
-Koen=
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
