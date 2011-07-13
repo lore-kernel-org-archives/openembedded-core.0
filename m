@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qgu1G-0003mK-IS
+	(envelope-from <sgw@linux.intel.com>) id 1Qgu1G-0003mD-PF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 09:38:06 +0200
+	Wed, 13 Jul 2011 09:38:07 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 00:34:03 -0700
+	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 00:34:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272075"
+X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272080"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.40])
 	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 00:34:03 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 00:33:51 -0700
-Message-Id: <79b5f497335a060a1f78bb6b9bf149d9f7820645.1310541680.git.sgw@linux.intel.com>
+Date: Wed, 13 Jul 2011 00:33:53 -0700
+Message-Id: <880e54c243ee3547d1eb3c566bd9fba17e87013b.1310541680.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
-Subject: [PATCH V2 19/25] util-linux: Use bitbake default FILES for packaging
+Subject: [PATCH V2 21/25] gcc: Use bitbake default FILES for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,63 +39,96 @@ This will ensure correct -dev and -staticdev packging
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc       |   17 ++++++++++++-----
- meta/recipes-core/util-linux/util-linux_2.19.1.bb |    2 +-
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/gcc/gcc-package-runtime.inc |   25 +++++++++++++++------
+ meta/recipes-devtools/gcc/libgcc_4.6.bb           |    2 +-
+ 2 files changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index b77266a..52fa173 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -13,6 +13,8 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=9c920d811858a74b67a36ba23cbaa95f
-                     file://licenses/COPYING.UCB;md5=263860f8968d8bafa5392cab74285262 \
-                     file://getopt/COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+diff --git a/meta/recipes-devtools/gcc/gcc-package-runtime.inc b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
+index 7ac68f2..fafb655 100644
+--- a/meta/recipes-devtools/gcc/gcc-package-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
+@@ -3,14 +3,19 @@ PACKAGES = "\
+   libstdc++ \
+   libstdc++-precompile-dev \
+   libstdc++-dev \
++  libstdc++-staticdev \
+   libg2c \
+   libg2c-dev \
++  libg2c-staticdev \
+   libssp \
+   libssp-dev \
++  libssp-staticdev \
+   libgfortran \
+   libgfortran-dev \
++  libgfortran-staticdev \
+   libmudflap \
+   libmudflap-dev \
++  libmudflap-staticdev \
+ "
+ # The base package doesn't exist, so we clear the recommends.
+ RRECOMMENDS_${PN}-dbg = ""
+@@ -23,36 +28,42 @@ FILES_${PN}-dbg += "\
+ FILES_libg2c = "${target_libdir}/libg2c.so.*"
+ FILES_libg2c-dev = "\
+   ${libdir}/libg2c.so \
++FILES_libg2c-staticdev = "\
+   ${libdir}/libg2c.a \
+   ${libdir}/libfrtbegin.a"
+-
++RDEPENDS_libg2c-staticdev = "libg2c-dev (= ${EXTENDPKGV})"
+ FILES_libstdc++ = "${libdir}/libstdc++.so.*"
+ FILES_libstdc++-dev = "\
+   ${includedir}/c++/ \
+   ${libdir}/libstdc++.so \
+   ${libdir}/libstdc++.la \
+-  ${libdir}/libstdc++.a \
+   ${libdir}/libsupc++.la \
++FILES_libstdc++-staticdev = " \
++  ${libdir}/libstdc++.a \
+   ${libdir}/libsupc++.a"
++RDEPENDS_libstdc++-staticdev = "libstdc++-dev (= ${EXTENDPKGV})"
  
-+INC_PR = "r3"
-+
- inherit autotools gettext pkgconfig
- DEPENDS = "zlib ncurses"
- DEPENDS_virtclass-native = " lzo-native"
-@@ -28,7 +30,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux-ng/v${MAJOR_VERSION}/util-
- PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfdisk \
-              util-linux-swaponoff util-linux-losetup util-linux-umount \
-              util-linux-mount util-linux-readprofile util-linux-libblkid \
--             util-linux-libblkid-dev util-linux-libuuid util-linux-libuuid-dev \
-+             util-linux-libblkid-dev util-linux-libblkid-staticdev \
-+             util-linux-libuuid util-linux-libuuid-dev util-linux-libuuid-staticdev \
-              util-linux-uuidgen util-linux-lscpu"
+ FILES_libstdc++-precompile-dev = "${includedir}/c++/${TARGET_SYS}/bits/*.gch"
  
- EXTRA_OECONF = "--disable-use-tty-group --disable-makeinstall-chown --enable-elvtune --enable-init --enable-kill --enable-last \
-@@ -48,10 +51,14 @@ FILES_util-linux-umount = "${base_bindir}/umount.${PN}"
- FILES_util-linux-readprofile = "${base_sbindir}/readprofile"
- FILES_util-linux-uuidgen = "${bindir}/uuidgen"
+ FILES_libssp = "${libdir}/libssp.so.*"
+ FILES_libssp-dev = " \
+   ${libdir}/libssp*.so \
+-  ${libdir}/libssp*.a \
+   ${libdir}/libssp*.la \
++  ${libdir}/libssp_nonshared.a \
+   ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/ssp"
++FILES_libssp-staticdev = "${libdir}/libssp.a"
++RDEPENDS_libssp-staticdev = "libssp-dev (= ${EXTENDPKGV})"
  
--FILES_util-linux-libblkid = "${libdir}/libblkid.so.*"
--FILES_util-linux-libblkid-dev = "${libdir}/libblkid.so ${libdir}/libblkid.a ${libdir}/libblkid.la ${includedir}/blkid"
--FILES_util-linux-libuuid = "${libdir}/libuuid.so.*"
--FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${libdir}/libuuid.a ${libdir}/libuuid.la ${includedir}/uuid"
-+FILES_util-linux-libblkid = "${libdir}/libblkid${SOLIBS}"
-+FILES_util-linux-libblkid-dev = "${libdir}/libblkid${SOLIBSDEV} ${libdir}/libblkid.la ${includedir}/blkid"
-+FILES_util-linux-libblkid-staticdev = "${libdir}/libblkid.a"
-+RDEPENDS_util-linux-libblkid-staticdev = "util-linux-libblkid-dev (= ${EXTENDPKGV})"
-+FILES_util-linux-libuuid = "${libdir}/libuuid${SOLIBS}"
-+FILES_util-linux-libuuid-dev = "${libdir}/libuuid${SOLIBSDEV} ${libdir}/libuuid.la ${includedir}/uuid"
-+FILES_util-linux-libuuid-staticdev = "${libdir}/libuuid.a"
-+RDEPENDS_util-linux-libuuid-staticdev = "util-linux-libuuid-dev (= ${EXTENDPKGV})"
- FILES_util-linux-lscpu = "${bindir}/lscpu"
+ FILES_libgfortran = "${libdir}/libgfortran.so.*"
+-FILES_libgfortran-dev = " \
++FILES_libgfortran-dev = "${libdir}/libgfortran.so"
++FILES_libgfortran-staticdev = " \
+   ${libdir}/libgfortran.a \
+-  ${libdir}/libgfortran.so \
+   ${libdir}/libgfortranbegin.a"
++RDEPENDS_libfortran-staticdev = "libfortran-dev (= ${EXTENDPKGV})"
  
- RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile "
-diff --git a/meta/recipes-core/util-linux/util-linux_2.19.1.bb b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-index 0fd67d1..3c5747c 100644
---- a/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.19"
--PR = "r2"
-+PR = "${INC_PR}.0"
- require util-linux.inc
+ FILES_libmudflap = "${libdir}/libmudflap*.so.*"
+ FILES_libmudflap-dev = "\
+   ${libdir}/libmudflap*.so \
+-  ${libdir}/libmudflap*.a \
+   ${libdir}/libmudflap*.la"
+-
++FILES_libmudflap-staticdev = "${libdir}/libmudflap*.a"
++RDEPENDS_libmudflap-staticdev = "libmudflap-dev (= ${EXTENDPKGV})"
+diff --git a/meta/recipes-devtools/gcc/libgcc_4.6.bb b/meta/recipes-devtools/gcc/libgcc_4.6.bb
+index b0523c7..71130bf 100644
+--- a/meta/recipes-devtools/gcc/libgcc_4.6.bb
++++ b/meta/recipes-devtools/gcc/libgcc_4.6.bb
+@@ -1,6 +1,6 @@
+ require gcc-${PV}.inc
  
- # note that `lscpu' is under GPLv3+
+-PR = "r0"
++PR = "r1"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++"
 -- 
 1.7.3.4
 
