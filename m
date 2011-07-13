@@ -1,24 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Qgxuv-0004qS-Mw
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 13:47:49 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qgxr7-0004V8-NJ
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 13:43:53 +0200
-From: Phil Blundell <philb@gnu.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QgxvJ-0004rs-CJ for openembedded-core@lists.openembedded.org;
+	Wed, 13 Jul 2011 13:48:13 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DBZ8Lk028814
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jul 2011 12:35:08 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28111-10 for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jul 2011 12:35:03 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DBYxbN028796
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jul 2011 12:34:59 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Jul 2011 12:43:52 +0100
-In-Reply-To: <880e54c243ee3547d1eb3c566bd9fba17e87013b.1310541680.git.sgw@linux.intel.com>
-References: <cover.1310541680.git.sgw@linux.intel.com>
-	<880e54c243ee3547d1eb3c566bd9fba17e87013b.1310541680.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1310557433.2378.8.camel@phil-desktop>
+In-Reply-To: <cover.1310496679.git.nitin.a.kamble@intel.com>
+References: <cover.1310496679.git.nitin.a.kamble@intel.com>
+Date: Wed, 13 Jul 2011 12:34:57 +0100
+Message-ID: <1310556897.20015.1114.camel@rex>
 Mime-Version: 1.0
-Subject: Re: [PATCH V2 21/25] gcc: Use bitbake default FILES for packaging
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/3] a bugfix & fix for couple of qa warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,26 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 11:47:49 -0000
+X-List-Received-Date: Wed, 13 Jul 2011 11:48:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-07-13 at 00:33 -0700, Saul Wold wrote:
-> This will ensure correct -dev and -staticdev packging
+On Tue, 2011-07-12 at 11:52 -0700, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> The following changes since commit 7354fc9213f27aa1b643dbe88070437f1ee4c063:
+> 
+>   insane.bbclass: skip rdepends QA checks for kernel / modules (2011-07-12 15:22:09 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib nitin/misc
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+> 
+> Nitin A Kamble (3):
+>   binutils: package unpackaged files
+>   eglibc: fix installed but not packaged files
+>   eglibc: fix runtime assertion failure
 
-[...]
+Merged to master, thanks.
 
-> +FILES_libgfortran-dev = "${libdir}/libgfortran.so"
-> +FILES_libgfortran-staticdev = " \
->    ${libdir}/libgfortran.a \
-> -  ${libdir}/libgfortran.so \
->    ${libdir}/libgfortranbegin.a"
-
-Are you sure that's right?  I would have expected libgfortranbegin.a to
-go into -dev not -staticdev.
-
-p.
-
+Richard
 
 
 
