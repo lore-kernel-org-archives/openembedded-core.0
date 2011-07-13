@@ -1,29 +1,20 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QgtTw-00039b-2M
+	(envelope-from <sgw@linux.intel.com>) id 1Qgu17-0003mD-DC
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 09:03:40 +0200
-Received: by wyg30 with SMTP id 30so357862wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 23:59:42 -0700 (PDT)
-Received: by 10.216.211.13 with SMTP id v13mr608882weo.98.1310540381791;
-	Tue, 12 Jul 2011 23:59:41 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id n17sm6530187wed.16.2011.07.12.23.59.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 12 Jul 2011 23:59:40 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <B49A8790-9DF0-4DAA-A95A-EC2E9F854CCB@gmail.com>
-Date: Wed, 13 Jul 2011 08:59:38 +0200
-Message-Id: <C30E8605-35B6-48C5-B6DA-D4F7D1C64759@dominion.thruhere.net>
-References: <af851424130d145cef560c4bfaf2ba88ea4c3da6.1310497097.git.nitin.a.kamble@intel.com>
-	<bd724f86b719044e4e7958999893f8fbf3801f76.1310497097.git.nitin.a.kamble@intel.com>
-	<B49A8790-9DF0-4DAA-A95A-EC2E9F854CCB@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 2/5] udev-172: add a newer version for newer kernel
+	Wed, 13 Jul 2011 09:37:57 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 00:33:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272045"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.40])
+	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 00:33:58 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jul 2011 00:33:32 -0700
+Message-Id: <cover.1310541680.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH V2 00/25] Static Library Updated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,54 +29,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 07:03:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 13 Jul 2011 07:37:57 -0000
+
+Richard,
+
+This patch includes feedback from the community.
 
 
-Op 13 jul 2011, om 08:22 heeft Khem Raj het volgende geschreven:
+Thanks
+	Sau!
 
->=20
->=20
-> On Jul 12, 2011, at 12:02 PM, nitin.a.kamble@intel.com wrote:
->=20
->> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->>=20
->> the 2.6.38 kernel has dropped v4lv1 support. and udev-168 fails to
->> compile because of that. So add a newer 172 version of udev to work =
-with
->> 2.6.38 kernel.
->>=20
->> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
->> ---
->> meta/recipes-core/udev/udev-172/init              |   59 +++++++++
->> meta/recipes-core/udev/udev-172/local.rules       |   35 ++++++
->> meta/recipes-core/udev/udev-172/permissions.rules |  131 =
-+++++++++++++++++++++
->> meta/recipes-core/udev/udev-172/run.rules         |   14 +++
->> meta/recipes-core/udev/udev-172/udev.rules        |  116 =
-++++++++++++++++++
->> meta/recipes-core/udev/udev_172.bb                |    6 +
->> 6 files changed, 361 insertions(+), 0 deletions(-)
->> create mode 100644 meta/recipes-core/udev/udev-172/init
->> create mode 100644 meta/recipes-core/udev/udev-172/local.rules
->> create mode 100644 meta/recipes-core/udev/udev-172/permissions.rules
->> create mode 100644 meta/recipes-core/udev/udev-172/run.rules
->> create mode 100644 meta/recipes-core/udev/udev-172/udev.rules
->> create mode 100644 meta/recipes-core/udev/udev_172.bb
->=20
-> Meta-oe ha 171 it would be nice if you could look inti it and =
-incorporate any differences into 172
-> Then we can retire 171 from meta-oe
+The following changes since commit a6e9edb7b4b5b0bdb067a59d691d33fba8948963:
 
-Meta-oe has had 172 since yesterday :) The main difference between the =
-oe-core and meta-oe version is that the meta-oe version has removed a =
-lot of udev rules that weren't needed and made booting slow. Where udev =
-trigger used to take >8 seconds I can now boot X in less than a second =
-on a cortex A9.
+  sato-sdk: add clutter for sato-sdk image (2011-07-12 15:23:35 +0100)
 
-regards,
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/static
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/static
 
-Koen=
+Saul Wold (25):
+  bitbake.conf: Add *-config to default ${PN}-dev package
+  shlibpackaging.bbclass: create common class
+  pciutils: repackage development files in pciutils instead of libpci
+  wireless-tools: Updated for staticdevpackaging
+  augeas: inherit shlibpackaging class
+  gamin: inherit shlibpackaging class
+  sqlite3: inherit shlibpackaging class
+  curl: inherit shlibpackaging class
+  attr: inherit shlibpackaging class
+  rpm: Create -staticdev package
+  libxft: use default bitbake.conf FILES Packaging to handle staticdev
+  js: Use bitbake default FILES for packaging
+  tcp-wrappers: Use bitbake default FILES for packaging
+  udev: Use bitbake default FILES for packaging
+  liba52: Use bitbake default FILES for packaging
+  python: Use bitbake default FILES for packaging
+  external-csl-toolchain: Use bitbake default FILES for packaging
+  opkg: Use bitbake default FILES for packaging
+  util-linux: Use bitbake default FILES for packaging
+  gettext: Use bitbake default FILES for packaging
+  gcc: Use bitbake default FILES for packaging
+  glibc: Use bitbake default FILES for packaging
+  eglibc: Use bitbake default FILES for packaging
+  uclibc: Use bitbake default FILES for packaging
+  binutils: Use bitbake default FILES for packaging
+
+ meta/classes/shlibpackaging.bbclass                |    9 +++++++
+ meta/conf/bitbake.conf                             |    2 +-
+ meta/recipes-bsp/pciutils/pciutils_3.1.7.bb        |   10 +++----
+ .../wireless-tools/wireless-tools_29.bb            |   14 ++++++----
+ meta/recipes-core/eglibc/eglibc-common.inc         |    2 +-
+ meta/recipes-core/eglibc/eglibc-package.inc        |    8 ++++--
+ meta/recipes-core/gettext/gettext_0.16.1.bb        |    6 ++--
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb      |   24 +++++++++---------
+ meta/recipes-core/glibc/glibc-package.inc          |   12 ++++++---
+ meta/recipes-core/glibc/glibc_2.10.1.bb            |    2 +-
+ .../meta/external-csl-toolchain_2008q3-72.bb       |   20 ++++++++-------
+ meta/recipes-core/uclibc/uclibc.inc                |    7 +++--
+ meta/recipes-core/udev/udev-new.inc                |   26 ++++++++++++-------
+ meta/recipes-core/udev/udev_164.bb                 |    2 +-
+ meta/recipes-core/util-linux/util-linux.inc        |   17 +++++++++----
+ meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    2 +-
+ .../binutils/binutils-cross-canadian_2.21.1.bb     |    2 +-
+ meta/recipes-devtools/binutils/binutils-cross.inc  |    2 +
+ .../binutils/binutils-cross_csl-arm-2008q1.bb      |    2 +-
+ .../binutils/binutils-crosssdk_2.21.1.bb           |    2 +-
+ meta/recipes-devtools/binutils/binutils.inc        |    9 +-----
+ meta/recipes-devtools/binutils/binutils_2.21.1.bb  |    2 +-
+ meta/recipes-devtools/gcc/gcc-package-runtime.inc  |   25 +++++++++++++-----
+ meta/recipes-devtools/gcc/libgcc_4.6.bb            |    2 +-
+ meta/recipes-devtools/opkg/opkg_0.1.8.bb           |   10 ++++---
+ meta/recipes-devtools/opkg/opkg_svn.bb             |   10 ++++---
+ meta/recipes-devtools/python/python_2.6.6.bb       |    4 +--
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |   18 +++++++------
+ meta/recipes-extended/augeas/augeas.inc            |    7 +----
+ meta/recipes-extended/augeas/augeas_0.8.1.bb       |    2 +-
+ meta/recipes-extended/gamin/gamin_0.1.10.bb        |   13 +--------
+ .../tcp-wrappers/tcp-wrappers_7.6.bb               |   17 +++++++-----
+ meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb     |    7 +----
+ meta/recipes-multimedia/liba52/liba52_0.7.4.bb     |    4 +--
+ meta/recipes-support/attr/acl_2.2.51.bb            |    2 +-
+ meta/recipes-support/attr/attr_2.4.46.bb           |    2 +-
+ meta/recipes-support/attr/ea-acl.inc               |   16 +-----------
+ meta/recipes-support/curl/curl_7.21.7.bb           |   17 ++++--------
+ meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb       |    3 +-
+ meta/recipes-support/sqlite/sqlite3.inc            |   10 +------
+ 40 files changed, 176 insertions(+), 175 deletions(-)
+ create mode 100644 meta/classes/shlibpackaging.bbclass
+
+-- 
+1.7.3.4
+
 
 
