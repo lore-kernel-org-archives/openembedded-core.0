@@ -1,25 +1,31 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Qgxe2-0004Qu-P9
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 13:30:22 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QgxaE-0004UN-Qw
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 13:26:26 +0200
-From: Phil Blundell <philb@gnu.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QgxhV-0004cB-94 for openembedded-core@lists.openembedded.org;
+	Wed, 13 Jul 2011 13:33:57 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DBTvuL028751;
+	Wed, 13 Jul 2011 12:29:57 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28111-08; Wed, 13 Jul 2011 12:29:53 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DBTn3w028745
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 13 Jul 2011 12:29:49 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Jul 2011 12:26:26 +0100
-In-Reply-To: <6FD8E09E-1FDA-4CB6-84B0-085F878F0214@dominion.thruhere.net>
-References: <1310547824.6337.212.camel@phil-desktop>
-	<1310555312.20015.1096.camel@rex>
-	<6FD8E09E-1FDA-4CB6-84B0-085F878F0214@dominion.thruhere.net>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1310556386.2378.6.camel@phil-desktop>
+In-Reply-To: <cover.1310502258.git.scott.a.garman@intel.com>
+References: <cover.1310502258.git.scott.a.garman@intel.com>
+Date: Wed, 13 Jul 2011 12:29:47 +0100
+Message-ID: <1310556587.20015.1110.camel@rex>
 Mime-Version: 1.0
-Subject: Re: [PATCH] eglibc: ensure that NSS libs go into the right package when ${base_libdir} and ${libdir} are the same
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Scott Garman <scott.a.garman@intel.com>
+Subject: Re: [PATCH 0/1] distro tracking updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,37 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 11:30:22 -0000
+X-List-Received-Date: Wed, 13 Jul 2011 11:33:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-07-13 at 13:13 +0200, Koen Kooi wrote:
-> Op 13 jul 2011, om 13:08 heeft Richard Purdie het volgende geschreven:
+On Tue, 2011-07-12 at 13:25 -0700, Scott Garman wrote:
+> Hello,
 > 
-> > On Wed, 2011-07-13 at 10:03 +0100, Phil Blundell wrote:
-> >> Previously, libnss_hesiod et al. could get swallowed by the wildcarded glob in ${PN}-dev.
-> >> Fix it by moving eglibc-extra-nss earlier in the PACKAGES and adjusting its FILES to ensure
-> >> that the devel symlinks don't get caught.
-> >> 
-> >> Signed-off-by: Phil Blundell <philb@gnu.org>
-> >> ---
-> >> meta/recipes-core/eglibc/eglibc-package.inc |    4 ++--
-> >> meta/recipes-core/eglibc/eglibc_2.13.bb     |    2 +-
-> >> 2 files changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > Merged to master, thanks.
+> This adds the RECIPE_MANUAL_CHECK_DATE field for various recipes
+> that the upstream tracking webapp can't figure out automatically.
 > 
-> That is missing a PR bump for eglibc 2.12
+> The following changes since commit 7354fc9213f27aa1b643dbe88070437f1ee4c063:
+> 
+>   insane.bbclass: skip rdepends QA checks for kernel / modules (2011-07-12 15:22:09 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib sgarman/distro-tracking
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/distro-tracking
+> 
+> Scott Garman (1):
+>   distro-tracking: add RECIPE_MANUAL_CHECK_DATE for various recipes
+> 
+>  .../conf/distro/include/distro_tracking_fields.inc |    7 +++++++
+>  1 files changed, 7 insertions(+), 0 deletions(-)
 
-Oh yeah.  Do we really need to keep 2.12 around still?
+Merged to master, thanks.
 
-I also wonder if glibc 2.10 could/should be deleted now.  That recipe
-probably has a lot of the same issues that we've been fixing in eglibc
-recently and it seems a bit of a waste of time to keep beating away at a
-package that's four major versions out of date.
-
-p.
-
+Richard
 
 
 
