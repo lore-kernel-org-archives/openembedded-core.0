@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QgwQM-0007PI-AM for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 12:12:10 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DA8CGv028247
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qgx7w-0001QL-1E
+	for openembedded-core@lists.openembedded.org;
+	Wed, 13 Jul 2011 12:57:12 +0200
+Received: by wyg30 with SMTP id 30so43926wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2011 11:08:12 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28111-01 for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2011 11:08:08 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DA7xY0028237
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2011 11:08:03 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
-References: <cover.1310541680.git.sgw@linux.intel.com>
-Date: Wed, 13 Jul 2011 11:07:56 +0100
-Message-ID: <1310551676.20015.1094.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH V2 00/25] Static Library Updated
+	Wed, 13 Jul 2011 03:53:13 -0700 (PDT)
+Received: by 10.216.62.135 with SMTP id y7mr4967373wec.60.1310554391979;
+	Wed, 13 Jul 2011 03:53:11 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id g2sm8041407weg.38.2011.07.13.03.53.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 13 Jul 2011 03:53:11 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jul 2011 12:53:07 +0200
+Message-Id: <1310554388-28844-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/2] ofono: fix packaging and clean up custom do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,56 +33,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 10:12:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Jul 2011 10:57:12 -0000
 
-Hi Saul,
+The makefile installs the udev rule in the proper place already. Also fix:
 
-I know we touched on this when we've talked but I'm not sure you saw
-what I was getting and and its probably better to ask this question on
-the list anyhow.
+WARNING: For recipe ofono, the following files were installed but not shipped in any package:
+WARNING:   /lib/udev/rules.d/97-ofono.rules
+WARNING:   /lib/systemd/system/ofono.service
 
-Fundamentally, is it useful to have a ton of xxx-staticdev packages?
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-connectivity/ofono/ofono.inc     |    3 +--
+ meta/recipes-connectivity/ofono/ofono_0.50.bb |    2 +-
+ meta/recipes-connectivity/ofono/ofono_git.bb  |    2 ++
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-In a few key cases split -dev packages are useful (qt, eds, gcc spring
-to mind). In general however they probably aren't and often no thought
-has been given into splitting them out. One good indicator is whether
-the headers are split up. If not, then there are likely issues.
-
-If split -dev packages aren't useful, its likely that split staticdev
-packages are also less useful. I'm really wondering if there ever is a
-use case where you'd need the individual staticdev packages or you'd
-have the disk space to manage installing the full thing?
-
-Taking wireless-tools as an example, its going to a lot of effort to
-change the default PACKAGES and create a libiw-dev package. It drops the
-wireless-tools-dev package in the original, your patch changes this so
-we have both a wireless-tools-dev and a libiw-dev package.
-
-Perhaps instead we should just add:
-
-PKG_${PN}-dev = "libiw-dev"
-PKG_${PN}-staticdev = "libiw-staticdev"
-
-? 
-
-Do we even care about that renaming?
-
-Likewise, does it need two separate docs packages? or separate -dbg
-packages?
-
-We really need to work out the approach to these fundamental questions
-before we can then look at the series...
-
-I think I'm in favour of minimising the number of split
--dev/-dbg/-staticdev/-doc packages out there and hence I therefore am
-uncomfortable with the direction the series is taking.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index 4fc969c..a14b35a 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -15,7 +15,6 @@ INITSCRIPT_PARAMS = "defaults 22"
+ do_install_append() {
+   install -d ${D}${sysconfdir}/init.d/
+   install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
+-  install -d ${D}${sysconfdir}/udev/rules.d/
+-  install -m 0644 ${S}/plugins/97-ofono.rules ${D}${sysconfdir}/udev/rules.d/
+ }
+ 
++FILES_${PN} += "${base_libdir}/udev ${base_libdir}/systemd"
+diff --git a/meta/recipes-connectivity/ofono/ofono_0.50.bb b/meta/recipes-connectivity/ofono/ofono_0.50.bb
+index eb82e39..4635386 100644
+--- a/meta/recipes-connectivity/ofono/ofono_0.50.bb
++++ b/meta/recipes-connectivity/ofono/ofono_0.50.bb
+@@ -1,6 +1,6 @@
+ require ofono.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/ofono/${P}.tar.bz2 \
+ 	          file://ofono"
+diff --git a/meta/recipes-connectivity/ofono/ofono_git.bb b/meta/recipes-connectivity/ofono/ofono_git.bb
+index 4e55745..dbad5a1 100644
+--- a/meta/recipes-connectivity/ofono/ofono_git.bb
++++ b/meta/recipes-connectivity/ofono/ofono_git.bb
+@@ -1,5 +1,7 @@
+ require ofono.inc
+ 
++PR = "r1"
++
+ S	 = "${WORKDIR}/git"
+ SRCREV = "14544d5996836f628613c2ce544380ee6fc8f514"
+ PV	 = "0.12-git${SRCPV}"
+-- 
+1.6.6.1
 
 
 
