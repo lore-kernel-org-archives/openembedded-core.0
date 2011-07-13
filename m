@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qgu1B-0003mD-Gy
+	(envelope-from <sgw@linux.intel.com>) id 1Qgu1B-0003mE-HA
 	for openembedded-core@lists.openembedded.org;
 	Wed, 13 Jul 2011 09:38:01 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 00:34:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272062"
+X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272063"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.40])
 	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 00:34:00 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 00:33:40 -0700
-Message-Id: <68f61d86cd90440d5a9433c3342fd3df9b05aa40.1310541680.git.sgw@linux.intel.com>
+Date: Wed, 13 Jul 2011 00:33:41 -0700
+Message-Id: <31a932836b949d49967b1bab0439d03e5eeaee00.1310541680.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
-Subject: [PATCH V2 08/25] curl: inherit shlibpackaging class
+Subject: [PATCH V2 09/25] attr: inherit shlibpackaging class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,61 +37,68 @@ X-List-Received-Date: Wed, 13 Jul 2011 07:38:01 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/curl/curl_7.21.7.bb |   17 ++++++-----------
- 1 files changed, 6 insertions(+), 11 deletions(-)
+ meta/recipes-support/attr/acl_2.2.51.bb  |    2 +-
+ meta/recipes-support/attr/attr_2.4.46.bb |    2 +-
+ meta/recipes-support/attr/ea-acl.inc     |   16 +---------------
+ 3 files changed, 3 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl_7.21.7.bb b/meta/recipes-support/curl/curl_7.21.7.bb
-index 28344e2..fd8d358 100644
---- a/meta/recipes-support/curl/curl_7.21.7.bb
-+++ b/meta/recipes-support/curl/curl_7.21.7.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e66
- DEPENDS = "zlib gnutls"
- DEPENDS_virtclass-native = "zlib-native"
- DEPENDS_virtclass-nativesdk = "zlib-nativesdk"
+diff --git a/meta/recipes-support/attr/acl_2.2.51.bb b/meta/recipes-support/attr/acl_2.2.51.bb
+index 301d44a..40ba5f1 100644
+--- a/meta/recipes-support/attr/acl_2.2.51.bb
++++ b/meta/recipes-support/attr/acl_2.2.51.bb
+@@ -1,6 +1,6 @@
+ require acl.inc
+ 
 -PR = "r0"
 +PR = "r2"
  
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://noldlibpath.patch \
-@@ -17,7 +17,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "5f6d50c4d4ee38c57fe37e3cff75adbd"
- SRC_URI[sha256sum] = "1a50dd17400c042090203eef347e946f29c342c32b6c4843c740c80975e8215a"
+ SRC_URI[md5sum] = "3fc0ce99dc5253bdcce4c9cd437bc267"
+ SRC_URI[sha256sum] = "06854521cf5d396801af7e54b9636680edf8064355e51c07657ec7442a185225"
+diff --git a/meta/recipes-support/attr/attr_2.4.46.bb b/meta/recipes-support/attr/attr_2.4.46.bb
+index 9fef41b..85c35d0 100644
+--- a/meta/recipes-support/attr/attr_2.4.46.bb
++++ b/meta/recipes-support/attr/attr_2.4.46.bb
+@@ -1,6 +1,6 @@
+ require attr.inc
  
--inherit autotools pkgconfig binconfig
-+inherit autotools pkgconfig binconfig shlibpackaging
+-PR = "r0"
++PR = "r2"
  
- EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
-                 --without-ssl \
-@@ -36,7 +36,7 @@ do_configure_prepend() {
- 	sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g configure.ac
+ SRC_URI[md5sum] = "db557c17fdfa4f785333ecda08654010"
+ SRC_URI[sha256sum] = "dcd69bdca7ff166bc45141eddbcf21967999a6b66b0544be12a1cc2fd6340e1f"
+diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
+index afe2f1c..8b903c7 100644
+--- a/meta/recipes-support/attr/ea-acl.inc
++++ b/meta/recipes-support/attr/ea-acl.inc
+@@ -3,7 +3,7 @@
+ SRC_URI += "file://relative-libdir.patch;striplevel=0 \
+            "
+ 
+-inherit autotools gettext
++inherit autotools gettext shlibpackaging
+ 
+ # the package comes with a custom config.h.in, it cannot be
+ # overwritten by autoheader
+@@ -16,19 +16,5 @@ do_install () {
+ 	oe_runmake install install-lib install-dev DIST_ROOT="${D}"
  }
  
--PACKAGES += "${PN}-certs libcurl libcurl-dev libcurl-doc"
-+PACKAGES += "${PN}-certs"
- 
- FILES_${PN} = "${bindir}/curl"
- 
-@@ -45,17 +45,12 @@ PACKAGE_ARCH_${PN}-certs = "all"
- 
- FILES_${PN}-doc = "${mandir}/man1/curl.1"
- 
--FILES_lib${PN} = "${libdir}/lib*.so.*"
- RRECOMMENDS_lib${PN} += "${PN}-certs"
+-PACKAGES =+ "lib${PN} lib${PN}-dev lib${PN}-doc"
+-
+-FILES_lib${PN} = "${base_libdir}/lib*.so.*"
+-
 -FILES_lib${PN}-dev = "${includedir} \
 -                      ${libdir}/lib*.so \
 -                      ${libdir}/lib*.a \
 -                      ${libdir}/lib*.la \
--                      ${libdir}/pkgconfig \
-+FILES_lib${PN}-dev =+ "${libdir}/pkgconfig \
-                       ${datadir}/aclocal \
-                       ${bindir}/*-config"
+-                      ${base_libdir}/lib*.so \
+-                      ${base_libdir}/lib*.a \
+-                      ${base_libdir}/lib*.la"
+-
+-FILES_lib${PN}-doc = "${mandir}/man2 \
+-                      ${mandir}/man3"
  
--FILES_lib${PN}-doc = "${mandir}/man3 \
--                      ${mandir}/man1/curl-config.1"
-+
-+FILES_lib${PN}-doc =+ "${mandir}/man1/curl-config.1"
- 
- BBCLASSEXTEND = "native nativesdk"
+ BBCLASSEXTEND = "native"
 -- 
 1.7.3.4
 
