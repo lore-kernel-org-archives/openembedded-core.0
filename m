@@ -1,30 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QgxSm-0002TL-Vw for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 13:18:45 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DBEjUD028597;
-	Wed, 13 Jul 2011 12:14:45 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28092-04; Wed, 13 Jul 2011 12:14:42 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DBEfVG028591
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 13 Jul 2011 12:14:41 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yu Ke <ke.yu@intel.com>
-In-Reply-To: <cover.1310548638.git.ke.yu@intel.com>
-References: <cover.1310548638.git.ke.yu@intel.com>
-Date: Wed, 13 Jul 2011 12:14:40 +0100
-Message-ID: <1310555680.20015.1098.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] extra fix for non /usr/lib libdir
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QgxTT-0002aW-46
+	for openembedded-core@lists.openembedded.org;
+	Wed, 13 Jul 2011 13:19:27 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 04:15:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,524,1304319600"; d="scan'208";a="25336757"
+Received: from unknown (HELO helios.localnet) ([10.255.17.187])
+	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 04:15:27 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jul 2011 12:15:26 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+MIME-Version: 1.0
+Message-Id: <201107131215.26777.paul.eggleton@linux.intel.com>
+Subject: RFC: classes cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,30 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 11:18:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Jul 2011 11:19:27 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-07-13 at 17:22 +0800, Yu Ke wrote:
-> sta-solver and libzypp also need fix to pass the build with non /usr/lib libdir
-> e.g. libdir=/usr/lib64
-> 
-> The following changes since commit 7354fc9213f27aa1b643dbe88070437f1ee4c063:
->   Paul Eggleton (1):
->         insane.bbclass: skip rdepends QA checks for kernel / modules
-> 
-> are available in the git repository at:
-> 
->   git://git.pokylinux.org/poky-contrib kyu3/libdir-fix-v3
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kyu3/libdir-fix-v3
-> 
-> Yu Ke (2):
->   sat-solver: fix for non /usr/lib libdir case
->   libzypp: fix for non /usr/lib libdir case
+Hi all,
 
-Merged to master, thanks.
+I was looking through classes/ the other day and I noticed a few that probably 
+don't need to be in oe-core. The list I came up with:
 
-Richard
+* base_srpm.bbclass - unused, refers to missing rpm_core.bbclass
+* ccdv.bbclass - unused, not sure what this is for?
+* flow-lossage.bbclass - unused, looks obsolete (refers to gcc 3.4)
+* mozilla.bbclass - should this be in an upper layer?
+* openmoko*.bbclass - should be in an upper layer
+* patcher.bbclass - obsolete?
+* singlemachine.bbclass - obsolete?
+* srec.bbclass - appears to be something LinuxMIPS related. Not sure it 
+belongs in oe-core.
+* tmake.bbclass - obsolete? even oe-dev doesn't use this AFAICT...
+* xfce.bbclass - should this be in an upper layer?
+* xlibs.bbclass - unused, obsolete?
 
+Comments? Any others we ought to look at removing?
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
