@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qgu1D-0003mK-3m
+	(envelope-from <sgw@linux.intel.com>) id 1Qgu1C-0003mE-E1
 	for openembedded-core@lists.openembedded.org;
 	Wed, 13 Jul 2011 09:38:03 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 00:34:02 -0700
+	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 00:34:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272069"
+X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272068"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.40])
 	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 00:34:01 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 00:33:45 -0700
-Message-Id: <d5a3635fff05ecb159fa736f4045c030726be268.1310541680.git.sgw@linux.intel.com>
+Date: Wed, 13 Jul 2011 00:33:44 -0700
+Message-Id: <58104be5bc339d318eb7f9d8e545fe137cecafe2.1310541680.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
-Subject: [PATCH V2 13/25] tcp-wrappers: Use bitbake default FILES for packaging
+Subject: [PATCH V2 12/25] js: Use bitbake default FILES for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,47 +39,28 @@ This will ensure correct -dev and -staticdev packging
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../tcp-wrappers/tcp-wrappers_7.6.bb               |   17 ++++++++++-------
- 1 files changed, 10 insertions(+), 7 deletions(-)
+ meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index 1aeb9ff..1acb15a 100644
---- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -5,13 +5,16 @@ SECTION = "console/network"
+diff --git a/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb b/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
+index a4423ab..d4e1e4d 100644
+--- a/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
++++ b/meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb
+@@ -5,7 +5,7 @@ SECTION = "libs"
+ # the package is licensed under either of the following
+ LICENSE = "MPL-1 | GPLv2+ | LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://jsapi.c;beginline=4;endline=39;md5=347c6bbf4fb4547de1fa5ad830030063"
+-PR = "r2"
++PR = "r4"
  
- LICENSE = "tcp-wrappers"
- LIC_FILES_CHKSUM = "file://DISCLAIMER;md5=071bd69cb78b18888ea5e3da5c3127fa"
--PR ="r0"
-+PR ="r1"
+ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/js/js-1.8.0-rc1.tar.gz \
+            file://link_with_gcc.patch \
+@@ -47,5 +47,4 @@ do_install() {
+ }
  
+ FILES_${PN} = "${libdir}/lib*.so"
+-FILES_${PN}-dev = "${includedir} ${libdir}/lib*.a"
  
--PACKAGES = "${PN}-dbg libwrap libwrap-doc libwrap-dev tcp-wrappers tcp-wrappers-doc"
--FILES_libwrap = "${base_libdir}/lib*.so.*"
-+PACKAGES = "${PN}-dbg libwrap libwrap-doc libwrap-dev libwrap-staticdev \
-+            tcp-wrappers tcp-wrappers-doc"
-+FILES_libwrap = "${base_libdir}/lib*${SOLIBS}
- FILES_libwrap-doc = "${mandir}/man3 ${mandir}/man5"
--FILES_libwrap-dev = "${libdir}/lib*.so ${libdir}/lib*.a ${includedir}"
-+FILES_libwrap-dev = "${libdir}/lib*${SOLIBSDEV} ${includedir}"
-+FILES_libwrap-staticdev = "${libdir}/lib*.a"
-+RDEPENDS_libwrap-staticdev = "libwrap-dev (= ${EXTENDPKGV})"
- FILES_tcp-wrappers = "${bindir}"
- FILES_tcp-wrappers-doc = "${mandir}/man8"
- 
-@@ -86,9 +89,9 @@ do_install () {
- 	oe_libinstall -C shared -so libwrap ${D}${base_libdir}
- 
- 	rel_lib_prefix=`echo ${libdir} | sed 's,\(^/\|\)[^/][^/]*,..,g'`
--	libname=`readlink ${D}${base_libdir}/libwrap.so | xargs basename`
--	ln -s ${rel_lib_prefix}${base_libdir}/${libname} ${D}${libdir}/libwrap.so
--	rm -f ${D}${base_libdir}/libwrap.so
-+	libname=`readlink ${D}${base_libdir}/libwrap${SOLIBSDEV} | xargs basename`
-+	ln -s ${rel_lib_prefix}${base_libdir}/${libname} ${D}${libdir}/libwrap${SOLIBSDEV}
-+	rm -f ${D}${base_libdir}/libwrap${SOLIBSDEV}
- 
- 	install -d ${D}${sbindir}
- 	for b in ${BINS}; do
 -- 
 1.7.3.4
 
