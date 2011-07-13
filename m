@@ -1,24 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Qh595-00034N-76
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 21:30:55 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 13 Jul 2011 12:26:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,526,1304319600"; d="scan'208";a="25507390"
-Received: from nbuild1.sc.intel.com ([172.25.110.36])
-	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 12:26:52 -0700
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 05:59:33 -0700
-Message-Id: <3eb60049ded541f640a15c6f4b8558baf0663541.1310561877.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <6220e9316f6033364724b5d7a86917848dadf6be.1310561877.git.nitin.a.kamble@intel.com>
-References: <6220e9316f6033364724b5d7a86917848dadf6be.1310561877.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1310561877.git.nitin.a.kamble@intel.com>
-References: <cover.1310561877.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 3/3] openssl: compilation fixes for x32
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qh5IC-0003ES-KB for openembedded-core@lists.openembedded.org;
+	Wed, 13 Jul 2011 21:40:20 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DJaLo7001121;
+	Wed, 13 Jul 2011 20:36:21 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30590-10; Wed, 13 Jul 2011 20:36:17 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6DJaDFH001114
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 13 Jul 2011 20:36:14 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <2a927e54abaec88f79de810e5b48293d4db4740a.1310581914.git.kergoth@gmail.com>
+References: <cover.1310581914.git.kergoth@gmail.com>
+	<2a927e54abaec88f79de810e5b48293d4db4740a.1310581914.git.kergoth@gmail.com>
+Date: Wed, 13 Jul 2011 20:36:11 +0100
+Message-ID: <1310585771.20015.1121.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Chris Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 1/2] Rework how the devshell functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,137 +41,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 19:30:56 -0000
+X-List-Received-Date: Wed, 13 Jul 2011 19:40:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Wed, 2011-07-13 at 11:35 -0700, Christopher Larson wrote:
+> From: Chris Larson <chris_larson@mentor.com>
+> 
+> In the new implementation, each known terminal is defined as a class in
+> oe.terminal, as a subclass of bb.process.Popen.  terminal.bbclass wraps this
+> functionality, providing the metadata pieces.  It obeys the OE_TERMINAL
+> variable, which is a 'choice' typed variable.  This variable may be 'auto',
+> 'none', or any of the names of the defined terminals.
+> 
+> When using 'auto', or requesting an unsupported terminal, we attempt to spawn
+> them in priority order until we get one that's available on this system (and
+> in the case of the X terminals, has DISPLAY defined).  The 'none' value is
+> used when we're doing things like automated builds, and want to ensure that no
+> terminal is *ever* spawned, under any circumstances.
+> 
+> Current available terminals:
+> 
+>     gnome
+>     konsole
+>     xterm
+>     rxvt
+>     screen
+> 
+> Signed-off-by: Chris Larson <chris_larson@mentor.com>
+> ---
+>  meta/classes/devshell.bbclass |   29 +++++-------
+>  meta/classes/terminal.bbclass |   30 ++++++++++++
+>  meta/lib/oe/terminal.py       |  102 +++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 144 insertions(+), 17 deletions(-)
+>  create mode 100644 meta/classes/terminal.bbclass
+>  create mode 100644 meta/lib/oe/terminal.py
+> 
+> diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+> index 5f262f4..95c29f3 100644
+> --- a/meta/classes/devshell.bbclass
+> +++ b/meta/classes/devshell.bbclass
+> @@ -1,22 +1,17 @@
+> -do_devshell[dirs] = "${S}"
+> -do_devshell[nostamp] = "1"
+> +inherit terminal
+>  
+> -XAUTHORITY ?= "${HOME}/.Xauthority"
+>  
+> -devshell_do_devshell() {
+> -	export DISPLAY='${DISPLAY}'
+> -	export DBUS_SESSION_BUS_ADDRESS='${DBUS_SESSION_BUS_ADDRESS}'
+> -	export XAUTHORITY='${XAUTHORITY}'
+> -	export TERMWINDOWTITLE="Bitbake Developer Shell"
+> -	export EXTRA_OEMAKE='${EXTRA_OEMAKE}'
+> -	export SHELLCMDS="bash"
+> -	${TERMCMDRUN}
+> -	if [ $? -ne 0 ]; then
+> -	    echo "Fatal: '${TERMCMD}' not found. Check TERMCMD variable."
+> -	    exit 1
+> -	fi
+> +export XAUTHORITY ?= "${HOME}/.Xauthority"
+> +export SHELL ?= "bash"
+> +export DBUS_SESSION_BUS_ADDRESS
+> +export DISPLAY
+> +export EXTRA_OEMAKE
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../openssl/openssl-0.9.8r/x32_compile_fix.patch   |   74 ++++++++++++++++++++
- meta/recipes-connectivity/openssl/openssl.inc      |    5 ++
- .../recipes-connectivity/openssl/openssl_0.9.8r.bb |    5 +-
- 3 files changed, 82 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-0.9.8r/x32_compile_fix.patch
+Variables that are placed into the global environment affect the
+checksums of any shell tasks when they change so I don't think we can do
+this (and its why they are in a function as above).
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-0.9.8r/x32_compile_fix.patch b/meta/recipes-connectivity/openssl/openssl-0.9.8r/x32_compile_fix.patch
-new file mode 100644
-index 0000000..24f2df5
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-0.9.8r/x32_compile_fix.patch
-@@ -0,0 +1,74 @@
-+UpstreamStatus: Pending
-+
-+Received from H J Liu @ Intel
-+
-+This patch fixes the compilation for x32 build
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/07/13
-+
-+Index: openssl-0.9.8r/Configure
-+===================================================================
-+--- openssl-0.9.8r.orig/Configure
-++++ openssl-0.9.8r/Configure
-+@@ -390,6 +390,7 @@ my %table=(
-+ "linux-ia64-ecc","ecc:-DL_ENDIAN -DTERMIO -O2 -Wall -no_cpprt::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK:${ia64_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-+ "linux-ia64-icc","icc:-DL_ENDIAN -DTERMIO -O2 -Wall -no_cpprt::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK:${ia64_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-+ "linux-x86_64",	"gcc:-m64 -DL_ENDIAN -DTERMIO -O3 -Wall -DMD32_REG_T=int::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT DES_UNROLL:${x86_64_asm}:dlfcn:linux-shared:-fPIC:-m64:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-++"linux-x32",	"gcc:-mx32 -DL_ENDIAN -DTERMIO -Wall -DMD32_REG_T=int::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT RC4_CHUNK DES_INT DES_UNROLL:${x86_64_asm}:dlfcn:linux-shared:-fPIC:-mx32:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-+ #### SPARC Linux setups
-+ # Ray Miller <ray.miller@computing-services.oxford.ac.uk> has patiently
-+ # assisted with debugging of following two configs.
-+Index: openssl-0.9.8r/crypto/bn/asm/x86_64-gcc.c
-+===================================================================
-+--- openssl-0.9.8r.orig/crypto/bn/asm/x86_64-gcc.c
-++++ openssl-0.9.8r/crypto/bn/asm/x86_64-gcc.c
-+@@ -55,7 +55,11 @@
-+  *    machine.
-+  */
-+ 
-++#if defined _WIN64 || !defined __LP64__
-++#define BN_ULONG unsigned long long
-++#else
-+ #define BN_ULONG unsigned long
-++#endif
-+ 
-+ #undef mul
-+ #undef mul_add
-+@@ -188,9 +192,9 @@ BN_ULONG bn_add_words (BN_ULONG *rp, con
-+ 	asm (
-+ 	"	subq	%2,%2		\n"
-+ 	".align 16			\n"
-+-	"1:	movq	(%4,%2,8),%0	\n"
-+-	"	adcq	(%5,%2,8),%0	\n"
-+-	"	movq	%0,(%3,%2,8)	\n"
-++	"1:	movq	(%q4,%2,8),%0	\n"
-++	"	adcq	(%q5,%2,8),%0	\n"
-++	"	movq	%0,(%q3,%2,8)	\n"
-+ 	"	leaq	1(%2),%2	\n"
-+ 	"	loop	1b		\n"
-+ 	"	sbbq	%0,%0		\n"
-+@@ -211,9 +215,9 @@ BN_ULONG bn_sub_words (BN_ULONG *rp, con
-+ 	asm (
-+ 	"	subq	%2,%2		\n"
-+ 	".align 16			\n"
-+-	"1:	movq	(%4,%2,8),%0	\n"
-+-	"	sbbq	(%5,%2,8),%0	\n"
-+-	"	movq	%0,(%3,%2,8)	\n"
-++	"1:	movq	(%q4,%2,8),%0	\n"
-++	"	sbbq	(%q5,%2,8),%0	\n"
-++	"	movq	%0,(%q3,%2,8)	\n"
-+ 	"	leaq	1(%2),%2	\n"
-+ 	"	loop	1b		\n"
-+ 	"	sbbq	%0,%0		\n"
-+Index: openssl-0.9.8r/crypto/bn/bn_exp.c
-+===================================================================
-+--- openssl-0.9.8r.orig/crypto/bn/bn_exp.c
-++++ openssl-0.9.8r/crypto/bn/bn_exp.c
-+@@ -561,7 +561,7 @@ static int MOD_EXP_CTIME_COPY_FROM_PREBU
-+ 
-+ /* Given a pointer value, compute the next address that is a cache line multiple. */
-+ #define MOD_EXP_CTIME_ALIGN(x_) \
-+-	((unsigned char*)(x_) + (MOD_EXP_CTIME_MIN_CACHE_LINE_WIDTH - (((BN_ULONG)(x_)) & (MOD_EXP_CTIME_MIN_CACHE_LINE_MASK))))
-++	((unsigned char*)(x_) + (MOD_EXP_CTIME_MIN_CACHE_LINE_WIDTH - (((unsigned long)(x_)) & (MOD_EXP_CTIME_MIN_CACHE_LINE_MASK))))
-+ 
-+ /* This variant of BN_mod_exp_mont() uses fixed windows and the special
-+  * precomputation memory layout to limit data-dependency to a minimum
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index d42ae1c..f62b936 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -71,6 +71,11 @@ do_configure () {
- 	linux-i686)
- 		target=debian-i386-i686/cmov
- 		;;
-+	linux-x86_64)
-+		if [ "x${TARGET_CC_ARCH}" = "x-mx32" ]; then
-+			target=linux-x32
-+		fi
-+		;;
- 	linux-mips)
- 		target=debian-mips
- 		;;
-diff --git a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-index c95b1f1..a42bfcd 100644
---- a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-@@ -1,6 +1,6 @@
- require openssl.inc
- 
--PR = "r2"
-+PR = "r3"
- SRC_URI += "file://debian/ca.patch \
-             file://debian/config-hurd.patch;apply=no \
-             file://debian/debian-targets.patch \
-@@ -25,6 +25,7 @@ SRC_URI[md5sum] = "0352932ea863bc02b056cda7c9ac5b79"
- SRC_URI[sha256sum] = "42b2368f786b05ed3be846838dce126b4e8e3dba8fb2e0ce83102df28c102fad"
- 
- SRC_URI += "file://configure-targets.patch \
--            file://shared-libs.patch"
-+            file://shared-libs.patch \
-+            file://x32_compile_fix.patch"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.7.5.4
+Perhaps we could list the variables we want to export in a variable and
+then pass that list to popen's environment?
+
+Cheers,
+
+Richard
 
 
 
