@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qgu1G-0003mE-OU
+	(envelope-from <sgw@linux.intel.com>) id 1Qgu1G-0003mK-IS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 09:38:07 +0200
+	Wed, 13 Jul 2011 09:38:06 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 00:34:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272078"
+X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272075"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.40])
 	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 00:34:03 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 00:33:52 -0700
-Message-Id: <f860214ace789b3259c91c36f654199c6969526e.1310541680.git.sgw@linux.intel.com>
+Date: Wed, 13 Jul 2011 00:33:51 -0700
+Message-Id: <79b5f497335a060a1f78bb6b9bf149d9f7820645.1310541680.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
-Subject: [PATCH V2 20/25] gettext: Use bitbake default FILES for packaging
+Subject: [PATCH V2 19/25] util-linux: Use bitbake default FILES for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,83 +39,63 @@ This will ensure correct -dev and -staticdev packging
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/gettext/gettext_0.16.1.bb   |    6 +++---
- meta/recipes-core/gettext/gettext_0.18.1.1.bb |   24 ++++++++++++------------
- 2 files changed, 15 insertions(+), 15 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc       |   17 ++++++++++++-----
+ meta/recipes-core/util-linux/util-linux_2.19.1.bb |    2 +-
+ 2 files changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/gettext/gettext_0.16.1.bb b/meta/recipes-core/gettext/gettext_0.16.1.bb
-index 73e5f55..4b44ede 100644
---- a/meta/recipes-core/gettext/gettext_0.16.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.16.1.bb
-@@ -4,7 +4,7 @@ SECTION = "libs"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=9ea3144f04c41cd2eada5d3f472e6ea5"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index b77266a..52fa173 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -13,6 +13,8 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=9c920d811858a74b67a36ba23cbaa95f
+                     file://licenses/COPYING.UCB;md5=263860f8968d8bafa5392cab74285262 \
+                     file://getopt/COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
  
--PR = "r4"
-+PR = "r5"
- DEPENDS = "virtual/libiconv"
- DEPENDS_virtclass-native = ""
- PROVIDES = "virtual/libintl virtual/gettext"
-@@ -51,5 +51,5 @@ do_configure_prepend() {
- # 4       KiB /ep93xx/libgcc-s-dev_4.2.2-r2_ep93xx.ipk
- 
- PACKAGES =+ "libgettextlib libgettextsrc"
--FILES_libgettextlib = "${libdir}/libgettextlib-*.so*"
--FILES_libgettextsrc = "${libdir}/libgettextsrc-*.so*"
-+FILES_libgettextlib = "${libdir}/libgettextlib-*${SOLIBS}"
-+FILES_libgettextsrc = "${libdir}/libgettextsrc-*${SOLIBS}"
-diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-index 0b11a90..670af19 100644
---- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-@@ -5,7 +5,7 @@ SECTION = "libs"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
--PR = "r1"
-+PR = "r2"
- DEPENDS = "gettext-native virtual/libiconv ncurses expat"
- DEPENDS_virtclass-native = ""
- PROVIDES = "virtual/libintl virtual/gettext"
-@@ -53,27 +53,27 @@ acpaths = '-I ${S}/gettext-runtime/m4 \
- # 4       KiB /ep93xx/libgcc-s-dev_4.2.2-r2_ep93xx.ipk
- 
- PACKAGES =+ "libgettextlib libgettextsrc"
--FILES_libgettextlib = "${libdir}/libgettextlib-*.so*"
--FILES_libgettextsrc = "${libdir}/libgettextsrc-*.so*"
-+FILES_libgettextlib = "${libdir}/libgettextlib-*${SOLIBS}"
-+FILES_libgettextsrc = "${libdir}/libgettextsrc-*${SOLIBS}"
- 
--PACKAGES =+ "gettext-runtime gettext-runtime-dev gettext-runtime-doc"
-+PACKAGES =+ "gettext-runtime gettext-runtime-dev gettext-runtime-staticdev gettext-runtime-doc"
- 
- FILES_gettext-runtime = "${bindir}/gettext \
-                          ${bindir}/ngettext \
-                          ${bindir}/envsubst \
-                          ${bindir}/gettext.sh \
--                         ${libdir}/libasprintf.so* \
-+                         ${libdir}/libasprintf${SOLIBS} \
-                          ${libdir}/GNU.Gettext.dll \
-                         "
--FILES_gettext-runtime_append_libc-uclibc = " ${libdir}/libintl.so* \
-+FILES_gettext-runtime_append_libc-uclibc = " ${libdir}/libintl${SOLIBS} \
-                                              ${libdir}/charset.alias \
-                                            "
--FILES_gettext-runtime-dev += "${libdir}/libasprintf.a \
--                      ${includedir}/autosprintf.h \
--                     "
--FILES_gettext-runtime-dev_append_libc-uclibc = " ${libdir}/libintl.a \
--                                                 ${includedir}/libintl.h \
--                                               "
-+FILES_gettext-runtime-dev += "${includedir}/autosprintf.h"
-+FILES_gettext-runtime-staticdev = "${libdir}/libasprintf.a"
-+FILES_gettext-runtime-dev_append_libc-uclibc = " ${includedir}/libintl.h"
-+FILES_gettext-runtime-staticdev_append_libc-uclibc = " ${libdir}/libintl.a"
-+RDEPENDS_gettext-runtime-staticdev = "gettext-runtime-dev (= ${EXTENDPKGV})"
++INC_PR = "r3"
 +
- FILES_gettext-runtime-doc = "${mandir}/man1/gettext.* \
-                              ${mandir}/man1/ngettext.* \
-                              ${mandir}/man1/envsubst.* \
+ inherit autotools gettext pkgconfig
+ DEPENDS = "zlib ncurses"
+ DEPENDS_virtclass-native = " lzo-native"
+@@ -28,7 +30,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux-ng/v${MAJOR_VERSION}/util-
+ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfdisk \
+              util-linux-swaponoff util-linux-losetup util-linux-umount \
+              util-linux-mount util-linux-readprofile util-linux-libblkid \
+-             util-linux-libblkid-dev util-linux-libuuid util-linux-libuuid-dev \
++             util-linux-libblkid-dev util-linux-libblkid-staticdev \
++             util-linux-libuuid util-linux-libuuid-dev util-linux-libuuid-staticdev \
+              util-linux-uuidgen util-linux-lscpu"
+ 
+ EXTRA_OECONF = "--disable-use-tty-group --disable-makeinstall-chown --enable-elvtune --enable-init --enable-kill --enable-last \
+@@ -48,10 +51,14 @@ FILES_util-linux-umount = "${base_bindir}/umount.${PN}"
+ FILES_util-linux-readprofile = "${base_sbindir}/readprofile"
+ FILES_util-linux-uuidgen = "${bindir}/uuidgen"
+ 
+-FILES_util-linux-libblkid = "${libdir}/libblkid.so.*"
+-FILES_util-linux-libblkid-dev = "${libdir}/libblkid.so ${libdir}/libblkid.a ${libdir}/libblkid.la ${includedir}/blkid"
+-FILES_util-linux-libuuid = "${libdir}/libuuid.so.*"
+-FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${libdir}/libuuid.a ${libdir}/libuuid.la ${includedir}/uuid"
++FILES_util-linux-libblkid = "${libdir}/libblkid${SOLIBS}"
++FILES_util-linux-libblkid-dev = "${libdir}/libblkid${SOLIBSDEV} ${libdir}/libblkid.la ${includedir}/blkid"
++FILES_util-linux-libblkid-staticdev = "${libdir}/libblkid.a"
++RDEPENDS_util-linux-libblkid-staticdev = "util-linux-libblkid-dev (= ${EXTENDPKGV})"
++FILES_util-linux-libuuid = "${libdir}/libuuid${SOLIBS}"
++FILES_util-linux-libuuid-dev = "${libdir}/libuuid${SOLIBSDEV} ${libdir}/libuuid.la ${includedir}/uuid"
++FILES_util-linux-libuuid-staticdev = "${libdir}/libuuid.a"
++RDEPENDS_util-linux-libuuid-staticdev = "util-linux-libuuid-dev (= ${EXTENDPKGV})"
+ FILES_util-linux-lscpu = "${bindir}/lscpu"
+ 
+ RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile "
+diff --git a/meta/recipes-core/util-linux/util-linux_2.19.1.bb b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
+index 0fd67d1..3c5747c 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.19.1.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
+@@ -1,5 +1,5 @@
+ MAJOR_VERSION = "2.19"
+-PR = "r2"
++PR = "${INC_PR}.0"
+ require util-linux.inc
+ 
+ # note that `lscpu' is under GPLv3+
 -- 
 1.7.3.4
 
