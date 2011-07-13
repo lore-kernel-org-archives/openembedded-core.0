@@ -1,27 +1,29 @@
 Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Qh4oN-0002hR-NJ
+	(envelope-from <Tom_Rini@mentor.com>) id 1Qh4oS-0002hg-Hf
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 21:09:31 +0200
+	Wed, 13 Jul 2011 21:09:36 +0200
 Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
 	by relay1.mentorg.com with esmtp 
-	id 1Qh4kY-0000nL-KX from Tom_Rini@mentor.com 
+	id 1Qh4kd-0000pM-GL from Tom_Rini@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 12:05:34 -0700
+	Wed, 13 Jul 2011 12:05:39 -0700
 Received: from na2-mail.mgc.mentorg.com ([134.86.114.213]) by
 	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Wed, 13 Jul 2011 12:03:55 -0700
+	SMTPSVC(6.0.3790.4675); Wed, 13 Jul 2011 12:04:00 -0700
 Received: from localhost.localdomain ([172.30.80.65]) by
 	na2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Wed, 13 Jul 2011 13:05:33 -0600
+	Wed, 13 Jul 2011 13:05:37 -0600
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 12:05:30 -0700
-Message-Id: <cover.1310583292.git.tom_rini@mentor.com>
+Date: Wed, 13 Jul 2011 12:05:32 -0700
+Message-Id: <da0990e947463da6c333254055750f36967565ba.1310583292.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
-X-OriginalArrivalTime: 13 Jul 2011 19:05:33.0505 (UTC)
-	FILETIME=[D74B0B10:01CC418F]
-Subject: [PATCH 0/4] Misc updates
+In-Reply-To: <cover.1310583292.git.tom_rini@mentor.com>
+References: <cover.1310583292.git.tom_rini@mentor.com>
+X-OriginalArrivalTime: 13 Jul 2011 19:05:38.0442 (UTC)
+	FILETIME=[DA3C5EA0:01CC418F]
+Subject: [PATCH 1/4] libsamplerate0: Update checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,36 +38,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 19:09:31 -0000
+X-List-Received-Date: Wed, 13 Jul 2011 19:09:36 -0000
 
-Hey all,
-
-This is the first of two pull requests.  As part of updating siteinfo.bbclass
-I did a world build (qemux86) before and after the changes and diff'd the
-config.log files.  That showed two classes of problems, both fixed in this
-series.  The first is a checksum mismatch and an invalid SRC_URI.  The second
-is some implicit DEPENDS in recipes.
-
-The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
-  Saul Wold (1):
-        libx11: ensure nativesdk uses correct DEPENDS and XCB flags
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib trini/misc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/misc
-
-Tom Rini (4):
-  libsamplerate0: Update checksums
-  hicolor-icon-theme: Use ${BPN}-${PV} not ${P} to unbreak nativesdk
-  groff: Disable x11 support
-  libpcre: Add bzip2, zlib and readline to DEPENDS
-
- meta/recipes-extended/groff/groff_1.20.1.bb        |    1 +
- .../hicolor-icon-theme/hicolor-icon-theme_0.12.bb  |    2 +-
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
+---
  .../libsamplerate/libsamplerate0_0.1.7.bb          |    4 ++--
- meta/recipes-support/libpcre/libpcre_8.12.bb       |    1 +
- 4 files changed, 5 insertions(+), 3 deletions(-)
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb
+index d08640f..194f885 100644
+--- a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb
++++ b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb
+@@ -9,8 +9,8 @@ PR = "r0"
+ SRC_URI = "http://www.mega-nerd.com/SRC/libsamplerate-${PV}.tar.gz \
+            file://libsamplerate-0.1.7-macro-quoting.patch"
+ 
+-SRC_URI[md5sum] = "6731a81cb0c622c483b28c0d7f90867d"
+-SRC_URI[sha256sum] = "78ed5d9ff1bf162c4a078f6a3e7432a537dd2f22dc58872b081fb01156027fcc"
++SRC_URI[md5sum] = "ad093e60ec44f0a60de8e29983ddbc0f"
++SRC_URI[sha256sum] = "e0a646224a0323ac63f56ef009b2d7fee11452a7b8af139b19ae71d2890dbc9c"
+ S = "${WORKDIR}/libsamplerate-${PV}"
+ 
+ inherit autotools pkgconfig
+-- 
+1.7.0.4
 
 
 
