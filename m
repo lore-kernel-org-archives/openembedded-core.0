@@ -1,25 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ke.yu@intel.com>) id 1Qgvj7-0006Nr-IV
+	(envelope-from <philb@gnu.org>) id 1QgvxM-0006bU-JX
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 11:27:29 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 13 Jul 2011 02:23:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,524,1304319600"; d="scan'208";a="25304828"
-Received: from kyu3-dev32.bj.intel.com (HELO localhost) ([10.238.153.187])
-	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 02:23:29 -0700
-From: Yu Ke <ke.yu@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Wed, 13 Jul 2011 17:22:22 +0800
-Message-Id: <dc66133d2105c598de3d85d5a7290add05b67b59.1310548638.git.ke.yu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1310548638.git.ke.yu@intel.com>
-References: <cover.1310548638.git.ke.yu@intel.com>
-In-Reply-To: <cover.1310548638.git.ke.yu@intel.com>
-References: <cover.1310548638.git.ke.yu@intel.com>
-Subject: [PATCH 1/2] sat-solver: fix for non /usr/lib libdir case
+	Wed, 13 Jul 2011 11:42:12 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QgvtY-0004Pz-J8
+	for openembedded-core@lists.openembedded.org;
+	Wed, 13 Jul 2011 11:38:16 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Jul 2011 10:38:15 +0100
+In-Reply-To: <e952c3fc280158938a1eda095a9518b58ba578a2.1310541680.git.sgw@linux.intel.com>
+References: <cover.1310541680.git.sgw@linux.intel.com>
+	<e952c3fc280158938a1eda095a9518b58ba578a2.1310541680.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1310549896.6337.232.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH V2 14/25] udev: Use bitbake default FILES for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,71 +33,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 09:27:29 -0000
+X-List-Received-Date: Wed, 13 Jul 2011 09:42:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-when libdir set to non /usr/lib like /usr/lib64, there is do_configure error:
-"
--- Libraries will be installed in /usr/lib
-CMake Error at /home/kyu3/sdb/lib64/tmp/sysroots/x86_64-linux/usr/share/cmake-2.8/Modules/FindPackageHandleStandardArgs.cmake:91  (MESSAGE):
-  Please install 'check' and 'check-devel' packages (missing: CHECK_LIBRARY)
-Call Stack (most recent call first):
-  /home/kyu3/sdb/lib64/tmp/sysroots/x86_64-linux/usr/share/cmake-2.8/Modules/FindPackageHandleStandardArgs.cmake:252              (_FPHSA_FAILURE_MESSAGE)
-  cmake/modules/FindCheck.cmake:17 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)
-  CMakeLists.txt:35 (FIND_PACKAGE)
--- Configuring incomplete, errors occurred!
-"
+It's not totally obvious to me that the change below really matches the
+description "Use bitbake default FILES".  As far as I can tell, after
+this patch the recipe actually contains more assignments to FILES_xx
+than it did before, whereas if the "default FILES" were being used I
+would naively have expected the number of assignments to go down.
 
-The reason is that cmake did not search /usr/lib64 for libcheck, thus report error
+If I'm reading the patch right, the real changes are:
 
-add ${libdir} to the CMAKE_SYSTEM_LIBRARY_PATH can fix this issue.
+- now uses ${SOLIBS}/${SOLIBSDEV} for shared library globs
+- added -staticdev packages for libudev and libgudev
+- now uses INC_PR for versioning
 
-Signed-off-by: Yu Ke <ke.yu@intel.com>
----
- meta/classes/cmake.bbclass                         |    4 ++++
- meta/recipes-extended/sat-solver/sat-solver_git.bb |    6 ++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+All of those look like commendable things to be doing but none of them
+seem to be mentioned in the changelog.
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 672325e..5ac540c 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -55,6 +55,10 @@ set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
- 
- # Use native cmake modules
- set( CMAKE_MODULE_PATH ${STAGING_DATADIR}/cmake/Modules/ )
-+
-+# add for non /usr/lib libdir, e.g. /usr/lib64
-+LIST(APPEND CMAKE_SYSTEM_LIBRARY_PATH ${libdir})
-+
- EOF
- }
- 
-diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb b/meta/recipes-extended/sat-solver/sat-solver_git.bb
-index c608bb7..9b212db 100644
---- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
-+++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
-@@ -8,7 +8,7 @@ DEPENDS = "libcheck rpm zlib expat db"
- 
- SRCREV = "0a7378d5f482f477a01cf1690d76871ab8bdcc32"
- PV = "0.0-git${SRCPV}"
--PR = "r10"
-+PR = "r11"
- 
- PARALLEL_MAKE=""
- 
-@@ -23,7 +23,9 @@ SRC_URI = "git://gitorious.org/opensuse/sat-solver.git;protocol=git \
- 
- S = "${WORKDIR}/git"
- 
--EXTRA_OECMAKE += "-DLIB=lib -DRPM5=RPM5 -DOE_CORE=OE_CORE"
-+EXTRA_OECMAKE += "-DRPM5=RPM5 -DOE_CORE=OE_CORE"
-+
-+EXTRA_OECMAKE += " -DLIB=${@os.path.basename('${libdir}')}"
- 
- inherit cmake pkgconfig
- 
--- 
-1.7.0.4
+p.
+
+On Wed, 2011-07-13 at 00:33 -0700, Saul Wold wrote:
+> This will ensure correct -dev and -staticdev packging
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/recipes-core/udev/udev-new.inc |   26 ++++++++++++++++----------
+>  meta/recipes-core/udev/udev_164.bb  |    2 +-
+>  2 files changed, 17 insertions(+), 11 deletions(-)
+> 
+> diff --git a/meta/recipes-core/udev/udev-new.inc b/meta/recipes-core/udev/udev-new.inc
+> index 4c4451f..6e49e42 100644
+> --- a/meta/recipes-core/udev/udev-new.inc
+> +++ b/meta/recipes-core/udev/udev-new.inc
+> @@ -10,6 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+>                      file://libudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+>                      file://extras/gudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
+>  
+> +INC_PR = "r4"
+> +
+>  DEPENDS = "acl glib-2.0 libusb usbutils pciutils linux-libc-headers gperf-native libxslt-native"
+>  RPROVIDES_${PN} = "hotplug"
+>  RRECOMMENDS_${PN} += "udev-extraconf udev-cache usbutils-ids pciutils-ids"
+> @@ -35,8 +37,8 @@ libexecdir = "${base_libdir}/udev"
+>  EXTRA_OECONF = "--disable-introspection --with-rootlibdir=${base_libdir} \
+>                  --with-pci-ids-path=${datadir}/pci.ids"
+>  
+> -PACKAGES =+ "udev-cache libudev libudev-dev libudev-dbg"
+> -PACKAGES =+ "libgudev libgudev-dev libgudev-dbg"
+> +PACKAGES =+ "udev-cache libudev libudev-dev libudev-dbg libudev-staticdev"
+> +PACKAGES =+ "libgudev libgudev-dev libgudev-dbg libgudev-staticdev"
+>  
+>  INITSCRIPT_PACKAGES = "udev udev-cache"
+>  INITSCRIPT_NAME_udev = "udev"
+> @@ -47,14 +49,18 @@ INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
+>  FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit"
+>  FILES_${PN}-dbg += "${libexecdir}/.debug"
+>  FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
+> -FILES_libudev = "${base_libdir}/libudev.so.*"
+> -FILES_libudev-dbg = "${base_libdir}/.debug/libudev.so.*"
+> -FILES_libudev-dev = "${includedir}/libudev.h ${libdir}/libudev.so ${libdir}/libudev.la \
+> -                     ${libdir}/libudev.a ${libdir}/pkgconfig/libudev.pc"
+> -FILES_libgudev = "${libdir}/libgudev*.so.*"
+> -FILES_libgudev-dbg = "${libdir}/.debug/libgudev*.so.*"
+> -FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*.so ${libdir}/libgudev*.la \
+> -                     ${libdir}/libgudev*.a ${libdir}/pkgconfig/gudev*.pc"
+> +FILES_libudev = "${base_libdir}/libudev${SOLIBS}"
+> +FILES_libudev-dbg = "${base_libdir}/.debug/libudev${SOLIBS}"
+> +FILES_libudev-dev = "${includedir}/libudev.h ${libdir}/libudev${SOLIBSDEV} ${libdir}/libudev.la \
+> +                     ${libdir}/pkgconfig/libudev.pc"
+> +FILES_libudev-staticdev = "${libdir}/libudev.a"
+> +RDEPENDS_libudev-staticdev = "libudev-dev (= ${EXTENDPKGV})"
+> +FILES_libgudev = "${libdir}/libgudev*${SOLIBS}"
+> +FILES_libgudev-dbg = "${libdir}/.debug/libgudev*${SOLIBS}"
+> +FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*${SOLIBSDEV} ${libdir}/libgudev*.la \
+> +                     ${libdir}/pkgconfig/gudev*.pc"
+> +FILES_libgudev-staticdev = "${libdir}/libgudev.a"
+> +RDEPENDS_libgudev-staticdev = "libgudev-dev (= ${EXTENDPKGV})"
+>  FILES_udev-cache = "${sysconfdir}/init.d/udev-cache"
+>  
+>  do_install_append () {
+> diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+> index 567e62e..bee0bad 100644
+> --- a/meta/recipes-core/udev/udev_164.bb
+> +++ b/meta/recipes-core/udev/udev_164.bb
+> @@ -1,6 +1,6 @@
+>  include udev-new.inc
+>  
+> -PR = "r3"
+> +PR = "${INC_PR}.0"
+>  
+>  SRC_URI[md5sum] = "fddac2d54761ea34865af9467377ca9f"
+>  SRC_URI[sha256sum] = "c12e66280b5e1465f6587a8cfa47d7405c4caa7e52ce5dd13478d04f6ec05e5c"
+
 
 
 
