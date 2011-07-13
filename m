@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Qh593-00034N-KE
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Qh595-00034N-76
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 21:30:54 +0200
+	Wed, 13 Jul 2011 21:30:55 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 13 Jul 2011 12:26:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,526,1304319600"; d="scan'208";a="25507386"
+X-IronPort-AV: E=Sophos;i="4.65,526,1304319600"; d="scan'208";a="25507390"
 Received: from nbuild1.sc.intel.com ([172.25.110.36])
 	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 12:26:52 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 05:59:32 -0700
-Message-Id: <c8ed5900d3ef67a57db6d0b50226269f1c25477e.1310561877.git.nitin.a.kamble@intel.com>
+Date: Wed, 13 Jul 2011 05:59:33 -0700
+Message-Id: <3eb60049ded541f640a15c6f4b8558baf0663541.1310561877.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <6220e9316f6033364724b5d7a86917848dadf6be.1310561877.git.nitin.a.kamble@intel.com>
 References: <6220e9316f6033364724b5d7a86917848dadf6be.1310561877.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1310561877.git.nitin.a.kamble@intel.com>
 References: <cover.1310561877.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 2/3] glib-2.0: fix makefiles
+Subject: [PATCH 3/3] openssl: compilation fixes for x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,110 +33,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 19:30:54 -0000
+X-List-Received-Date: Wed, 13 Jul 2011 19:30:56 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-x32 exposed this bug in the makefiles.
-
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../glib-2.0/glib-2.0/x32_compile_fix.patch        |   65 ++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb      |    3 +-
- 2 files changed, 67 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/x32_compile_fix.patch
+ .../openssl/openssl-0.9.8r/x32_compile_fix.patch   |   74 ++++++++++++++++++++
+ meta/recipes-connectivity/openssl/openssl.inc      |    5 ++
+ .../recipes-connectivity/openssl/openssl_0.9.8r.bb |    5 +-
+ 3 files changed, 82 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-0.9.8r/x32_compile_fix.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/x32_compile_fix.patch b/meta/recipes-core/glib-2.0/glib-2.0/x32_compile_fix.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-0.9.8r/x32_compile_fix.patch b/meta/recipes-connectivity/openssl/openssl-0.9.8r/x32_compile_fix.patch
 new file mode 100644
-index 0000000..b25516e
+index 0000000..24f2df5
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/x32_compile_fix.patch
-@@ -0,0 +1,65 @@
-+Received from H J Liu @intel
++++ b/meta/recipes-connectivity/openssl/openssl-0.9.8r/x32_compile_fix.patch
+@@ -0,0 +1,74 @@
 +UpstreamStatus: Pending
 +
++Received from H J Liu @ Intel
++
++This patch fixes the compilation for x32 build
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/07/13
 +
-+--- glib-2.28.8/glib/Makefile.am.x32	2011-06-05 16:18:49.000000000 -0700
-++++ glib-2.28.8/glib/Makefile.am	2011-07-13 07:00:51.350088697 -0700
-+@@ -347,10 +347,10 @@ INSTALL_PROGS=
++Index: openssl-0.9.8r/Configure
++===================================================================
++--- openssl-0.9.8r.orig/Configure
+++++ openssl-0.9.8r/Configure
++@@ -390,6 +390,7 @@ my %table=(
++ "linux-ia64-ecc","ecc:-DL_ENDIAN -DTERMIO -O2 -Wall -no_cpprt::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK:${ia64_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ "linux-ia64-icc","icc:-DL_ENDIAN -DTERMIO -O2 -Wall -no_cpprt::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK:${ia64_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ "linux-x86_64",	"gcc:-m64 -DL_ENDIAN -DTERMIO -O3 -Wall -DMD32_REG_T=int::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT DES_UNROLL:${x86_64_asm}:dlfcn:linux-shared:-fPIC:-m64:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-x32",	"gcc:-mx32 -DL_ENDIAN -DTERMIO -Wall -DMD32_REG_T=int::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT RC4_CHUNK DES_INT DES_UNROLL:${x86_64_asm}:dlfcn:linux-shared:-fPIC:-mx32:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ #### SPARC Linux setups
++ # Ray Miller <ray.miller@computing-services.oxford.ac.uk> has patiently
++ # assisted with debugging of following two configs.
++Index: openssl-0.9.8r/crypto/bn/asm/x86_64-gcc.c
++===================================================================
++--- openssl-0.9.8r.orig/crypto/bn/asm/x86_64-gcc.c
+++++ openssl-0.9.8r/crypto/bn/asm/x86_64-gcc.c
++@@ -55,7 +55,11 @@
++  *    machine.
++  */
 + 
-+ if ENABLE_DTRACE
-+ glib_probes.h: glib_probes.d Makefile
-+-	$(DTRACE) -C -h -s $< -o $@.tmp
-++	CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -C -h -s $< -o $@.tmp
-+ 	sed -e "s,define STAP_HAS_SEMAPHORES 1,undef STAP_HAS_SEMAPHORES," < $@.tmp > $@ && rm -f $@.tmp
-+ glib_probes.o: glib_probes.d Makefile
-+-	$(DTRACE) -G -s $< -o $@
-++	CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -G -s $< -o $@
-+ BUILT_SOURCES += glib_probes.h glib_probes.o
-+ CLEANFILES += glib_probes.h glib_probes.h.tmp
-+ libglib_2_0_la_LIBADD += glib_probes.o
-+--- glib-2.28.8/glib/Makefile.in.x32	2011-06-05 16:24:51.000000000 -0700
-++++ glib-2.28.8/glib/Makefile.in	2011-07-13 07:00:51.351088697 -0700
-+@@ -1745,10 +1745,10 @@ uninstall-local: uninstall-ms-lib uninst
-+ @OS_WIN32_AND_DLL_COMPILATION_FALSE@uninstall-def-file:
+++#if defined _WIN64 || !defined __LP64__
+++#define BN_ULONG unsigned long long
+++#else
++ #define BN_ULONG unsigned long
+++#endif
 + 
-+ @ENABLE_DTRACE_TRUE@glib_probes.h: glib_probes.d Makefile
-+-@ENABLE_DTRACE_TRUE@	$(DTRACE) -C -h -s $< -o $@.tmp
-++@ENABLE_DTRACE_TRUE@	CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -C -h -s $< -o $@.tmp
-+ @ENABLE_DTRACE_TRUE@	sed -e "s,define STAP_HAS_SEMAPHORES 1,undef STAP_HAS_SEMAPHORES," < $@.tmp > $@ && rm -f $@.tmp
-+ @ENABLE_DTRACE_TRUE@glib_probes.o: glib_probes.d Makefile
-+-@ENABLE_DTRACE_TRUE@	$(DTRACE) -G -s $< -o $@
-++@ENABLE_DTRACE_TRUE@	CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -G -s $< -o $@
++ #undef mul
++ #undef mul_add
++@@ -188,9 +192,9 @@ BN_ULONG bn_add_words (BN_ULONG *rp, con
++ 	asm (
++ 	"	subq	%2,%2		\n"
++ 	".align 16			\n"
++-	"1:	movq	(%4,%2,8),%0	\n"
++-	"	adcq	(%5,%2,8),%0	\n"
++-	"	movq	%0,(%3,%2,8)	\n"
+++	"1:	movq	(%q4,%2,8),%0	\n"
+++	"	adcq	(%q5,%2,8),%0	\n"
+++	"	movq	%0,(%q3,%2,8)	\n"
++ 	"	leaq	1(%2),%2	\n"
++ 	"	loop	1b		\n"
++ 	"	sbbq	%0,%0		\n"
++@@ -211,9 +215,9 @@ BN_ULONG bn_sub_words (BN_ULONG *rp, con
++ 	asm (
++ 	"	subq	%2,%2		\n"
++ 	".align 16			\n"
++-	"1:	movq	(%4,%2,8),%0	\n"
++-	"	sbbq	(%5,%2,8),%0	\n"
++-	"	movq	%0,(%3,%2,8)	\n"
+++	"1:	movq	(%q4,%2,8),%0	\n"
+++	"	sbbq	(%q5,%2,8),%0	\n"
+++	"	movq	%0,(%q3,%2,8)	\n"
++ 	"	leaq	1(%2),%2	\n"
++ 	"	loop	1b		\n"
++ 	"	sbbq	%0,%0		\n"
++Index: openssl-0.9.8r/crypto/bn/bn_exp.c
++===================================================================
++--- openssl-0.9.8r.orig/crypto/bn/bn_exp.c
+++++ openssl-0.9.8r/crypto/bn/bn_exp.c
++@@ -561,7 +561,7 @@ static int MOD_EXP_CTIME_COPY_FROM_PREBU
 + 
-+ gspawn-win32-helper-console.c:
-+ 	echo '#define HELPER_CONSOLE' >$@
-+--- glib-2.28.8/gobject/Makefile.am.x32	2011-06-05 16:18:50.000000000 -0700
-++++ glib-2.28.8/gobject/Makefile.am	2011-07-13 07:09:42.410088595 -0700
-+@@ -140,10 +140,10 @@ BUILT_SOURCES = gmarshal.h gmarshal.c
++ /* Given a pointer value, compute the next address that is a cache line multiple. */
++ #define MOD_EXP_CTIME_ALIGN(x_) \
++-	((unsigned char*)(x_) + (MOD_EXP_CTIME_MIN_CACHE_LINE_WIDTH - (((BN_ULONG)(x_)) & (MOD_EXP_CTIME_MIN_CACHE_LINE_MASK))))
+++	((unsigned char*)(x_) + (MOD_EXP_CTIME_MIN_CACHE_LINE_WIDTH - (((unsigned long)(x_)) & (MOD_EXP_CTIME_MIN_CACHE_LINE_MASK))))
 + 
-+ if ENABLE_DTRACE
-+ gobject_probes.h: gobject_probes.d Makefile
-+-	$(DTRACE) -C -h -s $< -o $@.tmp
-++	CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -C -h -s $< -o $@.tmp
-+ 	sed -e "s,define STAP_HAS_SEMAPHORES 1,undef STAP_HAS_SEMAPHORES," < $@.tmp > $@ && rm -f $@.tmp
-+ gobject_probes.o: gobject_probes.d Makefile
-+-	$(DTRACE) -G -s $< -o $@
-++	CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -G -s $< -o $@
-+ BUILT_SOURCES += gobject_probes.h gobject_probes.o
-+ CLEANFILES += gobject_probes.h
-+ libgobject_2_0_la_LIBADD += gobject_probes.o
-+--- glib-2.28.8/gobject/Makefile.in.x32	2011-06-05 16:24:52.000000000 -0700
-++++ glib-2.28.8/gobject/Makefile.in	2011-07-13 07:10:00.365088596 -0700
-+@@ -1430,10 +1430,10 @@ uninstall-ms-lib:
-+ @OS_WIN32_AND_DLL_COMPILATION_FALSE@uninstall-def-file:
-+ 
-+ @ENABLE_DTRACE_TRUE@gobject_probes.h: gobject_probes.d Makefile
-+-@ENABLE_DTRACE_TRUE@	$(DTRACE) -C -h -s $< -o $@.tmp
-++@ENABLE_DTRACE_TRUE@	CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -C -h -s $< -o $@.tmp
-+ @ENABLE_DTRACE_TRUE@	sed -e "s,define STAP_HAS_SEMAPHORES 1,undef STAP_HAS_SEMAPHORES," < $@.tmp > $@ && rm -f $@.tmp
-+ @ENABLE_DTRACE_TRUE@gobject_probes.o: gobject_probes.d Makefile
-+-@ENABLE_DTRACE_TRUE@	$(DTRACE) -G -s $< -o $@
-++@ENABLE_DTRACE_TRUE@	CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -G -s $< -o $@
-+ 
-+ gmarshal.h: stamp-gmarshal.h
-+ 	@true
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb
-index a2e609f..a793eb0 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb
++ /* This variant of BN_mod_exp_mont() uses fixed windows and the special
++  * precomputation memory layout to limit data-dependency to a minimum
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index d42ae1c..f62b936 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -71,6 +71,11 @@ do_configure () {
+ 	linux-i686)
+ 		target=debian-i386-i686/cmov
+ 		;;
++	linux-x86_64)
++		if [ "x${TARGET_CC_ARCH}" = "x-mx32" ]; then
++			target=linux-x32
++		fi
++		;;
+ 	linux-mips)
+ 		target=debian-mips
+ 		;;
+diff --git a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
+index c95b1f1..a42bfcd 100644
+--- a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
++++ b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
 @@ -1,6 +1,6 @@
- require glib.inc
+ require openssl.inc
  
 -PR = "r2"
 +PR = "r3"
- PE = "1"
+ SRC_URI += "file://debian/ca.patch \
+             file://debian/config-hurd.patch;apply=no \
+             file://debian/debian-targets.patch \
+@@ -25,6 +25,7 @@ SRC_URI[md5sum] = "0352932ea863bc02b056cda7c9ac5b79"
+ SRC_URI[sha256sum] = "42b2368f786b05ed3be846838dce126b4e8e3dba8fb2e0ce83102df28c102fad"
  
- SRC_URI = "${GNOME_MIRROR}/glib/2.28/glib-${PV}.tar.bz2 \
-@@ -9,6 +9,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/2.28/glib-${PV}.tar.bz2 \
-            file://g_once_init_enter.patch \
-            file://0003-gatomic-proper-pointer-get-cast.patch.patch \
-            file://0005-glib-mkenums-interpreter.patch.patch \
-+           file://x32_compile_fix.patch \
-           "
- # Only apply this patch for target recipe on uclibc
- SRC_URI_append_libc-uclibc = " ${@['', 'file://no-iconv.patch']['${PN}' == '${BPN}']}"
+ SRC_URI += "file://configure-targets.patch \
+-            file://shared-libs.patch"
++            file://shared-libs.patch \
++            file://x32_compile_fix.patch"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.5.4
 
