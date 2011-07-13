@@ -1,29 +1,31 @@
 Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Qh4oS-0002hg-Hf
+	(envelope-from <Tom_Rini@mentor.com>) id 1Qh4oU-0002hh-Rl
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 21:09:36 +0200
+	Wed, 13 Jul 2011 21:09:39 +0200
 Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
 	by relay1.mentorg.com with esmtp 
-	id 1Qh4kd-0000pM-GL from Tom_Rini@mentor.com 
+	id 1Qh4kd-0000pa-VE from Tom_Rini@mentor.com 
 	for openembedded-core@lists.openembedded.org;
 	Wed, 13 Jul 2011 12:05:39 -0700
 Received: from na2-mail.mgc.mentorg.com ([134.86.114.213]) by
 	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Wed, 13 Jul 2011 12:04:00 -0700
+	SMTPSVC(6.0.3790.4675); Wed, 13 Jul 2011 12:04:01 -0700
 Received: from localhost.localdomain ([172.30.80.65]) by
 	na2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Wed, 13 Jul 2011 13:05:37 -0600
+	Wed, 13 Jul 2011 13:05:39 -0600
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 12:05:32 -0700
-Message-Id: <da0990e947463da6c333254055750f36967565ba.1310583292.git.tom_rini@mentor.com>
+Date: Wed, 13 Jul 2011 12:05:33 -0700
+Message-Id: <64da3fe941f5db344d9550d3d7c0e94fe673f638.1310583292.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <da0990e947463da6c333254055750f36967565ba.1310583292.git.tom_rini@mentor.com>
+References: <da0990e947463da6c333254055750f36967565ba.1310583292.git.tom_rini@mentor.com>
 In-Reply-To: <cover.1310583292.git.tom_rini@mentor.com>
 References: <cover.1310583292.git.tom_rini@mentor.com>
-X-OriginalArrivalTime: 13 Jul 2011 19:05:38.0442 (UTC)
-	FILETIME=[DA3C5EA0:01CC418F]
-Subject: [PATCH 1/4] libsamplerate0: Update checksums
+X-OriginalArrivalTime: 13 Jul 2011 19:05:39.0176 (UTC)
+	FILETIME=[DAAC5E80:01CC418F]
+Subject: [PATCH 2/4] hicolor-icon-theme: Use ${BPN}-${PV} not ${P} to unbreak nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,28 +40,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 19:09:36 -0000
+X-List-Received-Date: Wed, 13 Jul 2011 19:09:39 -0000
 
 Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- .../libsamplerate/libsamplerate0_0.1.7.bb          |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ .../hicolor-icon-theme/hicolor-icon-theme_0.12.bb  |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb
-index d08640f..194f885 100644
---- a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb
-+++ b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.7.bb
-@@ -9,8 +9,8 @@ PR = "r0"
- SRC_URI = "http://www.mega-nerd.com/SRC/libsamplerate-${PV}.tar.gz \
-            file://libsamplerate-0.1.7-macro-quoting.patch"
+diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+index 98c0d91..c9d65a2 100644
+--- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
++++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.12.bb
+@@ -10,7 +10,7 @@ inherit gnome
  
--SRC_URI[md5sum] = "6731a81cb0c622c483b28c0d7f90867d"
--SRC_URI[sha256sum] = "78ed5d9ff1bf162c4a078f6a3e7432a537dd2f22dc58872b081fb01156027fcc"
-+SRC_URI[md5sum] = "ad093e60ec44f0a60de8e29983ddbc0f"
-+SRC_URI[sha256sum] = "e0a646224a0323ac63f56ef009b2d7fee11452a7b8af139b19ae71d2890dbc9c"
- S = "${WORKDIR}/libsamplerate-${PV}"
+ PR = "r0"
  
- inherit autotools pkgconfig
+-SRC_URI = "http://icon-theme.freedesktop.org/releases/${P}.tar.gz \
++SRC_URI = "http://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.gz \
+         file://index.theme"
+ 
+ SRC_URI[md5sum] = "55cafbcef8bcf7107f6d502149eb4d87"
 -- 
 1.7.0.4
 
