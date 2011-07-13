@@ -1,32 +1,16 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from smtp208.alice.it ([82.57.200.104])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Qh7kq-0002et-F5
+	(envelope-from <andrea.adami@gmail.com>) id 1Qh8Q0-0003Nj-IN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jul 2011 00:18:04 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1Qh7h0-0000N5-Tn from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 15:14:06 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Wed, 13 Jul 2011 15:12:27 -0700
-Received: from [172.30.80.17] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.289.1;
-	Wed, 13 Jul 2011 15:14:06 -0700
-Message-ID: <4E1E18AA.2050808@mentor.com>
-Date: Wed, 13 Jul 2011 15:14:02 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 13 Jul 2011 22:12:27.0499 (UTC)
-	FILETIME=[F35ABBB0:01CC41A9]
-Subject: siteinfo for recipes oe-core lacks?
+	Thu, 14 Jul 2011 01:00:36 +0200
+Received: from mizar.localdomain (87.14.251.219) by smtp208.alice.it
+	(8.5.124.08) id 4DE64DF1044861F5; Thu, 14 Jul 2011 00:51:01 +0200
+From: Andrea Adami <andrea.adami@gmail.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Jul 2011 00:50:26 +0200
+Message-Id: <1310597426-25339-1-git-send-email-andrea.adami@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH] kernel.bbclass: remove unintended change of INITRAMFS_TASK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,20 +25,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 22:18:05 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Jul 2011 23:00:36 -0000
 
-Hey all,
+* during an unfortunate round of tests right before commiting the patch
+* do_configure[depends] became  kernel_do_configure[depends]
+* Nonsense!
+* As documented in commit 4dfef62dfe54a3b2c557a6df81d155adc1e03ccb
+* of OpenEmbedded git server, this must be in do_configure[depends]
+* to do the magic.
 
-Do we have an opinion on siteinfo for recipes that oe-core lacks?  I
-have two easy examples:
-- mono: neither meta-oe nor oe-core have a recipe, we have siteinfo
-stuff specific to it.  Ignore it? drop it?  update it with what meta-oe has?
-- postgresql: meta-oe has it, oe-core lacks it.  Keep in meta-oe only?
+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+---
+ meta/classes/kernel.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index b71a650..d1f6480 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -195,7 +195,7 @@ kernel_do_configure() {
+ 	fi
+ }
+ 
+-kernel_do_configure[depends] += "${INITRAMFS_TASK}"
++do_configure[depends] += "${INITRAMFS_TASK}"
+ 
+ do_menuconfig() {
+         export DISPLAY='${DISPLAY}'
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.3.4
+
 
 
