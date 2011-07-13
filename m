@@ -1,30 +1,32 @@
 Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QgqzJ-00050g-GP
+	(envelope-from <raj.khem@gmail.com>) id 1QgqzN-00050g-F1
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 06:23:53 +0200
-Received: by iym10 with SMTP id 10so5392633iym.6
+	Wed, 13 Jul 2011 06:23:57 +0200
+Received: by mail-iy0-f175.google.com with SMTP id 10so5392633iym.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jul 2011 21:19:54 -0700 (PDT)
+	Tue, 12 Jul 2011 21:20:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=i3tu7eEN5YoGS3n1e1D7AJuOwNImxIhYpcV8OPwpjn4=;
-	b=nnph6i2ts36ILsFcgXbmRZgBfISf0bNtAMaBupPb4PwZQAO3xRefFE2PWIUnzQwUuU
-	GkLOLOJJmvmaGtaunbwLy9kySZqWuFVGSUp53S8+ov1u8awLwyw2DObCFAeMSc8UOQQt
-	hLYW2dx++fdF/eTGtUludUniR2zGFNHAGOrPs=
-Received: by 10.231.114.104 with SMTP id d40mr561886ibq.114.1310530794831;
-	Tue, 12 Jul 2011 21:19:54 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=Ecc1fQHtig8+wwtMVm922VOT5G+bdDA1sAFMZilZlK0=;
+	b=RlJIyQeyupZAyuvuysMhFUgsOa9Imfe+5phxrr29fzhNTXwSHsGvgoOhpU/sCMY1wt
+	vvoOHz0o52xiYnA80tN/RGFn7eEFgwKmMzir5kjS2+Twouu0nRQLAndDYl6hZf87CZf/
+	WK1QyBkq7NWCQ8WkdFszq0EMVhmP8HBPYYLDI=
+Received: by 10.42.73.4 with SMTP id q4mr723822icj.156.1310530795994;
+	Tue, 12 Jul 2011 21:19:55 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id ft12sm8672139ibb.19.2011.07.12.21.19.53
+	by mx.google.com with ESMTPS id ft12sm8672139ibb.19.2011.07.12.21.19.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 12 Jul 2011 21:19:54 -0700 (PDT)
+	Tue, 12 Jul 2011 21:19:55 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jul 2011 21:19:43 -0700
-Message-Id: <1310530784-16538-1-git-send-email-raj.khem@gmail.com>
+Date: Tue, 12 Jul 2011 21:19:44 -0700
+Message-Id: <1310530784-16538-2-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 1/2] strace: Define own sigmask macro if not defined already in signal.h
+In-Reply-To: <1310530784-16538-1-git-send-email-raj.khem@gmail.com>
+References: <1310530784-16538-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 2/2] util-linux: Replace sigsetmask with posix compliant functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,65 +41,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 04:23:53 -0000
+X-List-Received-Date: Wed, 13 Jul 2011 04:23:57 -0000
 
-This is required especially on uclibc systems where BSD compatible
-obsolete functions are disabled by kconfig. Therefore we check
-if the macro is undefined then we define it. Therefore eglibc/glibc
-builds should work as they use to.
+This patch is not needed upstream since the code using sigsetmask
+has been deleted.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../strace/strace-4.5.20/sigmask.patch             |   21 ++++++++++++++++++++
- meta/recipes-devtools/strace/strace_4.5.20.bb      |    6 +++-
- 2 files changed, 25 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/strace/strace-4.5.20/sigmask.patch
+ .../util-linux-2.19.1/remove_sigsetmark.patch      |   35 ++++++++++++++++++++
+ meta/recipes-core/util-linux/util-linux_2.19.1.bb  |    3 +-
+ 2 files changed, 37 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/util-linux/util-linux-2.19.1/remove_sigsetmark.patch
 
-diff --git a/meta/recipes-devtools/strace/strace-4.5.20/sigmask.patch b/meta/recipes-devtools/strace/strace-4.5.20/sigmask.patch
+diff --git a/meta/recipes-core/util-linux/util-linux-2.19.1/remove_sigsetmark.patch b/meta/recipes-core/util-linux/util-linux-2.19.1/remove_sigsetmark.patch
 new file mode 100644
-index 0000000..f99abe9
+index 0000000..02e4d16
 --- /dev/null
-+++ b/meta/recipes-devtools/strace/strace-4.5.20/sigmask.patch
-@@ -0,0 +1,21 @@
-+sigmask is a macro which is dropped if BSD compatibility is
-+not enabled. So we check if the macro does not exist then
-+we define it to __sigmask
++++ b/meta/recipes-core/util-linux/util-linux-2.19.1/remove_sigsetmark.patch
+@@ -0,0 +1,35 @@
++simpleinit: remove deprecated sigsetmask()
++
++The sigsetmask() is deprecated in favor of sigprocmask().
++
++This is not needed upstream since simpleinit is removed from
++util-linux-ng master
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+Index: strace-4.5.20/signal.c
++Upstream-Status: Inappropriate
++
++Index: util-linux-2.19.1/simpleinit/shutdown.c
 +===================================================================
-+--- strace-4.5.20.orig/signal.c	2010-02-23 13:26:16.000000000 -0800
-++++ strace-4.5.20/signal.c	2011-07-12 21:08:58.628861476 -0700
-+@@ -140,6 +140,10 @@
-+ #endif
-+ #endif /* LINUX */
++--- util-linux-2.19.1.orig/simpleinit/shutdown.c	2011-03-04 03:47:47.000000000 -0800
+++++ util-linux-2.19.1/simpleinit/shutdown.c	2011-07-06 08:43:39.183849752 -0700
++@@ -145,7 +145,7 @@
++ {
++ 	int c, i, fd;
++ 	char *ptr;
++-
+++	sigset_t sigmask;
++ 	i = getdtablesize ();
++ 	for (fd = 3; fd < i; fd++) close (fd);
++ 	if (getpid () == 1)
++@@ -153,7 +153,9 @@
++ 	    for (fd = 0; fd < 3; fd++) close (fd);
++ 	    while (1) wait (NULL);  /*  Grim reaper never stops  */
++ 	}
++-	sigsetmask (0); /*  simpleinit(8) blocks all signals: undo for ALRM  */
+++	/*  simpleinit(8) blocks all signals: undo for ALRM  */
+++	sigemptyset(&sigmask);
+++	sigprocmask (SIG_SETMASK, &sigmask, NULL);
++ 	for (i = 1; i < NSIG; i++) signal (i, SIG_DFL);
 + 
-++#ifndef sigmask
-++/* Compute mask for signal SIG.  */
-++#define sigmask(sig)   __sigmask(sig)
-++#endif /* sigmask */
-+ const char *const signalent0[] = {
-+ #include "signalent.h"
-+ };
-diff --git a/meta/recipes-devtools/strace/strace_4.5.20.bb b/meta/recipes-devtools/strace/strace_4.5.20.bb
-index 3dba59f..391669f 100644
---- a/meta/recipes-devtools/strace/strace_4.5.20.bb
-+++ b/meta/recipes-devtools/strace/strace_4.5.20.bb
-@@ -3,9 +3,11 @@ HOMEPAGE = "http://strace.sourceforge.net"
- SECTION = "console/utils"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4535377ede62550fdeaf39f595fd550a"
--PR = "r1"
-+PR = "r2"
++         setlocale(LC_ALL, "");
+diff --git a/meta/recipes-core/util-linux/util-linux_2.19.1.bb b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
+index 0fd67d1..2ef95e6 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.19.1.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.19.1.bb
+@@ -1,5 +1,5 @@
+ MAJOR_VERSION = "2.19"
+-PR = "r2"
++PR = "r3"
+ require util-linux.inc
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.bz2"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.bz2 \
-+           file://sigmask.patch \
-+          "
+ # note that `lscpu' is under GPLv3+
+@@ -8,6 +8,7 @@ LICENSE_util-linux-lscpu = "GPLv3+"
+ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
+             file://util-linux-ng-2.16-mount_lock_path.patch \
+             file://uclibc-__progname-conflict.patch \      
++            file://remove_sigsetmark.patch \
+ "
  
- SRC_URI[md5sum] = "64dfe10d9db0c1e34030891695ffca4b"
- SRC_URI[sha256sum] = "ea8c059369eaa5ad90b246f34eab247d0ee48bfdee2670c7196320a4669ccabd"
+ SRC_URI[md5sum] = "3eab06f05163dfa65479c44e5231932c"
 -- 
 1.7.5.1
 
