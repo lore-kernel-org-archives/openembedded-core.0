@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qgu1I-0003mE-U4
+	(envelope-from <sgw@linux.intel.com>) id 1Qgu1H-0003mD-SJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 09:38:09 +0200
+	Wed, 13 Jul 2011 09:38:08 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 00:34:05 -0700
+	by orsmga101.jf.intel.com with ESMTP; 13 Jul 2011 00:34:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272087"
+X-IronPort-AV: E=Sophos;i="4.65,523,1304319600"; d="scan'208";a="25272084"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.40])
 	by orsmga002.jf.intel.com with ESMTP; 13 Jul 2011 00:34:04 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 00:33:57 -0700
-Message-Id: <ee5356cc9180f408424bb365fe19dfd9a68231bc.1310541680.git.sgw@linux.intel.com>
+Date: Wed, 13 Jul 2011 00:33:55 -0700
+Message-Id: <595118ea7451583299c28fbdcfed13ee83966a46.1310541680.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1310541680.git.sgw@linux.intel.com>
 References: <cover.1310541680.git.sgw@linux.intel.com>
-Subject: [PATCH V2 25/25] binutils: Use bitbake default FILES for packaging
+Subject: [PATCH V2 23/25] eglibc: Use bitbake default FILES for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,103 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 07:38:09 -0000
+X-List-Received-Date: Wed, 13 Jul 2011 07:41:51 -0000
 
 This will ensure correct -dev and -staticdev packging
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../binutils/binutils-cross-canadian_2.21.1.bb     |    2 +-
- meta/recipes-devtools/binutils/binutils-cross.inc  |    2 ++
- .../binutils/binutils-cross_csl-arm-2008q1.bb      |    2 +-
- .../binutils/binutils-crosssdk_2.21.1.bb           |    2 +-
- meta/recipes-devtools/binutils/binutils.inc        |    9 ++-------
- meta/recipes-devtools/binutils/binutils_2.21.1.bb  |    2 +-
- 6 files changed, 8 insertions(+), 11 deletions(-)
+ meta/recipes-core/eglibc/eglibc-common.inc  |    2 +-
+ meta/recipes-core/eglibc/eglibc-package.inc |    8 +++++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian_2.21.1.bb b/meta/recipes-devtools/binutils/binutils-cross-canadian_2.21.1.bb
-index 7dad2a6..e2af092 100644
---- a/meta/recipes-devtools/binutils/binutils-cross-canadian_2.21.1.bb
-+++ b/meta/recipes-devtools/binutils/binutils-cross-canadian_2.21.1.bb
-@@ -1,3 +1,3 @@
- require binutils_${PV}.bb
- require binutils-cross-canadian.inc
--PR = "r0"
-+PR = "${INC_PR}.2"
-diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
-index 5a41970..87bfe5a 100644
---- a/meta/recipes-devtools/binutils/binutils-cross.inc
-+++ b/meta/recipes-devtools/binutils/binutils-cross.inc
-@@ -1,6 +1,8 @@
- inherit cross
- PROVIDES = "virtual/${TARGET_PREFIX}binutils"
+diff --git a/meta/recipes-core/eglibc/eglibc-common.inc b/meta/recipes-core/eglibc/eglibc-common.inc
+index d812618..3e9a77e 100644
+--- a/meta/recipes-core/eglibc/eglibc-common.inc
++++ b/meta/recipes-core/eglibc/eglibc-common.inc
+@@ -3,7 +3,7 @@ DESCRIPTION = "Embedded GLIBC (EGLIBC) is a variant of the GNU C Library (GLIBC)
+ HOMEPAGE = "http://www.eglibc.org/home"
+ SECTION = "libs"
+ LICENSE = "LGPL"
+-INC_PR = "r11"
++INC_PR = "r12"
+ LIC_FILES_CHKSUM ?= "file://LICENSES;md5=07a394b26e0902b9ffdec03765209770 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
+       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index dd40af1..834cf81 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -20,7 +20,7 @@ USE_LDCONFIG ?= "1"
+ PKGSUFFIX = ""
+ PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
  
-+INC_PR = "r2"
-+
- EXTRA_OECONF = "--with-sysroot=${STAGING_DIR_TARGET} \
-                 --program-prefix=${TARGET_PREFIX} \
-                 --disable-install-libbfd \
-diff --git a/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb b/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb
-index 8ab1e7f..f7a2c48 100644
---- a/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb
-+++ b/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb
-@@ -1,3 +1,3 @@
- require binutils_csl-arm-2008q1.bb
- require binutils-cross.inc
--PR = "r1"
-+PR = "${INC_PR}.0"
-diff --git a/meta/recipes-devtools/binutils/binutils-crosssdk_2.21.1.bb b/meta/recipes-devtools/binutils/binutils-crosssdk_2.21.1.bb
-index 0d6efff..7508cdf 100644
---- a/meta/recipes-devtools/binutils/binutils-crosssdk_2.21.1.bb
-+++ b/meta/recipes-devtools/binutils/binutils-crosssdk_2.21.1.bb
-@@ -4,7 +4,7 @@ inherit crosssdk
+-PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils ${PN}-pic ${PN}-dev eglibc-doc libcidn libmemusage libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile libsotruss${PKGSUFFIX}"
++PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils ${PN}-pic ${PN}-dev ${PN}-staticdev eglibc-doc libcidn libmemusage libsegfault${PKGSUFFIX} eglibc-extra-nss eglibc-thread-db${PKGSUFFIX} eglibc-pcprofile libsotruss${PKGSUFFIX}"
  
- PROVIDES = "virtual/${TARGET_PREFIX}binutils-crosssdk"
+ # Create a eglibc-binaries
+ ALLOW_EMPTY_${PN}-binaries = "1"
+@@ -50,6 +50,7 @@ RPROVIDES_eglibc-doc = "glibc-doc"
+ RPROVIDES_eglibc-extra-nss = "glibc-extra-nss"
+ RPROVIDES_eglibc-thread-db = "glibc-thread-db"
+ RPROVIDES_eglibc-pcprofile = "glibc-pcprofile"
++RPROVIDES_eglibc-staticdev = "glibc-staticdev"
+ RPROVIDES_eglibc-dbg = "glibc-dbg"
+ libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
  
--PR = "r0"
-+PR = "${INC_PR}.2"
- 
- do_configure_prepend () {
- 	sed -i 's#/usr/local/lib /lib /usr/lib#${SDKPATHNATIVE}/lib ${SDKPATHNATIVE}/usr/lib /usr/local/lib /lib /usr/lib#' ${S}/ld/configure.tgt
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 08c14b2..8085a21 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -11,6 +11,8 @@ BUGTRACKER = "http://sourceware.org/bugzilla/"
- SECTION = "devel"
- LICENSE = "GPLv3"
- 
-+INC_PR = "r2"
-+
- DEPENDS = "flex-native bison-native zlib-native"
- 
- inherit autotools gettext
-@@ -22,13 +24,6 @@ FILES_${PN} = " \
- 	${libdir}/lib*-*.so \
- 	${prefix}/${TARGET_SYS}/bin/*"
- 
--FILES_${PN}-dev = " \
--	${includedir} \
--	${libdir}/*.a \
--	${libdir}/*.la \
--	${libdir}/libbfd.so \
--	${libdir}/libopcodes.so"
--
- FILES_${PN}-symlinks = " \
- 	${bindir}/addr2line \
- 	${bindir}/as \
-diff --git a/meta/recipes-devtools/binutils/binutils_2.21.1.bb b/meta/recipes-devtools/binutils/binutils_2.21.1.bb
-index 368ec4a..76e8fdc 100644
---- a/meta/recipes-devtools/binutils/binutils_2.21.1.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.21.1.bb
-@@ -1,6 +1,6 @@
- require binutils.inc
- 
--PR = "r0"
-+PR = "${INC_PR}.2"
- 
- LIC_FILES_CHKSUM="\
-     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
+@@ -62,8 +63,9 @@ FILES_eglibc-extra-nss = "${base_libdir}/libnss*"
+ FILES_sln = "/sbin/sln"
+ FILES_eglibc-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/"
+ FILES_libsotruss${PKGSUFFIX} = "${libdir}/audit/sotruss-lib.so"
+-FILES_eglibc-dev_append += "${bindir}/rpcgen ${libdir}/*.a \
+-	${base_libdir}/*.a ${base_libdir}/*.o ${datadir}/aclocal"
++FILES_eglibc-dev_append = "${bindir}/rpcgen ${base_libdir}/*.o ${datadir}/aclocal ${libdir}/lib*_nonshared.a"
++FILES_eglibc-staticdev_append = "${libdir}/*.a ${base_libdir}/*.a"
++RDEPENDS_eglibc-staticdev = "eglibc-dev (= ${EXTENDPKGV})"
+ FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
+ FILES_eglibc-utils = "${bindir}/* ${sbindir}/*"
+ FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
 -- 
 1.7.3.4
 
