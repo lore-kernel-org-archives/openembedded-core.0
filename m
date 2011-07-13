@@ -1,20 +1,36 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Qh0pL-0000Ih-Ph
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Qh1ea-0001KH-PM
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 16:54:16 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qh0lX-0004eh-MO
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jul 2011 16:50:19 +0200
-From: Phil Blundell <philb@gnu.org>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Jul 2011 15:50:18 +0100
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1310568619.2378.14.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: [PATCH] insane: make GNU_HASH check slightly more robust (avoids false negatives with gold); add check for useless rpaths
+	Wed, 13 Jul 2011 17:47:12 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 13 Jul 2011 08:43:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,526,1304319600"; d="scan'208";a="26787028"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by azsmga001.ch.intel.com with ESMTP; 13 Jul 2011 08:43:13 -0700
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx604.amr.corp.intel.com ([10.250.113.17]) with mapi;
+	Wed, 13 Jul 2011 08:43:12 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Jul 2011 08:43:11 -0700
+Thread-Topic: [OE-core] [PATCH 2/5] udev-172: add a newer version for newer
+	kernel
+Thread-Index: AcxBKnj/Q9u76KI5RdePWzC5WyKlKgASQG6w
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94DE310424@orsmsx504.amr.corp.intel.com>
+References: <af851424130d145cef560c4bfaf2ba88ea4c3da6.1310497097.git.nitin.a.kamble@intel.com>
+	<bd724f86b719044e4e7958999893f8fbf3801f76.1310497097.git.nitin.a.kamble@intel.com>
+	<B49A8790-9DF0-4DAA-A95A-EC2E9F854CCB@gmail.com>
+	<C30E8605-35B6-48C5-B6DA-D4F7D1C64759@dominion.thruhere.net>
+In-Reply-To: <C30E8605-35B6-48C5-B6DA-D4F7D1C64759@dominion.thruhere.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 2/5] udev-172: add a newer version for newer	kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,102 +45,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jul 2011 14:54:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-It isn't safe to make assumptions about the order of the entries in the
-dynamic section.  Fix the ldflags test to cope with the case where
-GNU_HASH comes before NEEDED and/or INIT, which seems to happen with
-binaries linked by gold.
-
-Also, add a new warning for binaries which contain useless (but benign)
-rpath entries pointing to the default search locations.
-
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/classes/insane.bbclass |   44 ++++++++++++++++++++++++++++++++----------
- 1 files changed, 33 insertions(+), 11 deletions(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 8d5da00..3e355bf 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -92,7 +92,7 @@ def package_qa_get_machine_dict():
-        }
- 
- 
--WARN_QA ?= "dev-so rpaths debug-deps dev-deps debug-files arch la2 pkgconfig desktop la ldflags perms"
-+WARN_QA ?= "dev-so rpaths debug-deps dev-deps debug-files arch la2 pkgconfig desktop la ldflags perms useless-rpaths"
- ERROR_QA ?= ""
- #ERROR_QA ?= "rpaths debug-deps dev-deps debug-files arch pkgconfig perms"
- 
-@@ -141,6 +141,31 @@ def package_qa_check_rpath(file,name, d, elf, messages):
-             if dir in line:
-                 messages.append("package %s contains bad RPATH %s in file %s" % (name, line, file))
- 
-+QAPATHTEST[useless-rpaths] = "package_qa_check_useless_rpaths"
-+def package_qa_check_useless_rpaths(file,name, d, elf, messages):
-+    """
-+    Check for RPATHs that are useless but not dangerous
-+    """
-+    if not elf:
-+        return
-+
-+    objdump = bb.data.getVar('OBJDUMP', d, True)
-+    env_path = bb.data.getVar('PATH', d, True)
-+
-+    libdir = bb.data.getVar("libdir", d, True)
-+    base_libdir = bb.data.getVar("base_libdir", d, True)
-+
-+    import re
-+    rpath_re = re.compile("\s+RPATH\s+(.*)")
-+    for line in os.popen("LC_ALL=C PATH=%s %s -p '%s' 2> /dev/null" % (env_path, objdump, file), "r"):
-+    	m = rpath_re.match(line)
-+	if m:
-+	   rpath = m.group(1)
-+	   if rpath == libdir or rpath == baselibdir:
-+	      # The dynamic linker searches both these places anyway.  There is no point in
-+	      # looking there again.
-+	      messages.append("dynamic section contains probably-redundant RPATH %s" % rpath)
-+
- QAPATHTEST[dev-so] = "package_qa_check_dev"
- def package_qa_check_dev(path, name, d, elf, messages):
-     """
-@@ -238,22 +263,19 @@ def package_qa_hash_style(path, name, d, elf, messages):
-     objdump = bb.data.getVar('OBJDUMP', d, True)
-     env_path = bb.data.getVar('PATH', d, True)
- 
--    sane = True
--    elf = False
--    # A bit hacky. We do not know if path is an elf binary or not
--    # we will search for 'NEEDED' or 'INIT' as this should be printed...
--    # and come before the HASH section (guess!!!) and works on split out
--    # debug symbols too
-+    sane = False
-+    has_syms = False
-+
-+    # If this binary has symbols, we expect it to have GNU_HASH too.
-     for line in os.popen("LC_ALL=C PATH=%s %s -p '%s' 2> /dev/null" % (env_path, objdump, path), "r"):
--        if "NEEDED" in line or "INIT" in line:
--            sane = False
--            elf = True
-+        if "SYMTAB" in line:
-+            has_syms = True
-         if "GNU_HASH" in line:
-             sane = True
-         if "[mips32]" in line or "[mips64]" in line:
- 	    sane = True
- 
--    if elf and not sane:
-+    if has_syms and not sane:
-         messages.append("No GNU_HASH in the elf binary: '%s'" % path)
- 
- 
--- 
-1.7.4.1
+X-List-Received-Date: Wed, 13 Jul 2011 15:47:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Koen Kooi
+> Sent: Wednesday, July 13, 2011 12:00 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 2/5] udev-172: add a newer version for
+> newer kernel
+>=20
+>=20
+> Op 13 jul 2011, om 08:22 heeft Khem Raj het volgende geschreven:
+>=20
+> >
+> >
+> > On Jul 12, 2011, at 12:02 PM, nitin.a.kamble@intel.com wrote:
+> >
+> >> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >>
+> >> the 2.6.38 kernel has dropped v4lv1 support. and udev-168 fails to
+> >> compile because of that. So add a newer 172 version of udev to work
+> with
+> >> 2.6.38 kernel.
+> >>
+> >> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >> ---
+> >> meta/recipes-core/udev/udev-172/init              |   59 +++++++++
+> >> meta/recipes-core/udev/udev-172/local.rules       |   35 ++++++
+> >> meta/recipes-core/udev/udev-172/permissions.rules |  131
+> +++++++++++++++++++++
+> >> meta/recipes-core/udev/udev-172/run.rules         |   14 +++
+> >> meta/recipes-core/udev/udev-172/udev.rules        |  116
+> ++++++++++++++++++
+> >> meta/recipes-core/udev/udev_172.bb                |    6 +
+> >> 6 files changed, 361 insertions(+), 0 deletions(-)
+> >> create mode 100644 meta/recipes-core/udev/udev-172/init
+> >> create mode 100644 meta/recipes-core/udev/udev-172/local.rules
+> >> create mode 100644 meta/recipes-core/udev/udev-172/permissions.rules
+> >> create mode 100644 meta/recipes-core/udev/udev-172/run.rules
+> >> create mode 100644 meta/recipes-core/udev/udev-172/udev.rules
+> >> create mode 100644 meta/recipes-core/udev/udev_172.bb
+> >
+> > Meta-oe ha 171 it would be nice if you could look inti it and
+> incorporate any differences into 172
+> > Then we can retire 171 from meta-oe
+>=20
+> Meta-oe has had 172 since yesterday :) The main difference between the
+> oe-core and meta-oe version is that the meta-oe version has removed a
+> lot of udev rules that weren't needed and made booting slow. Where udev
+> trigger used to take >8 seconds I can now boot X in less than a second
+> on a cortex A9.
+>=20
+> regards,
+>=20
+> Koen
+
+Great, then we can take meta-oe version of 172 into oe-core.
+
+Thanks,
+Nitin
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
