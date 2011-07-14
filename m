@@ -1,20 +1,32 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QhNqL-0007Uw-RV
+	(envelope-from <koen@dominion.thruhere.net>) id 1QhNxr-0007yy-NZ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jul 2011 17:28:49 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QhNmW-0005bd-G2
-	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jul 2011 17:24:52 +0200
-From: Phil Blundell <philb@gnu.org>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Jul 2011 16:24:51 +0100
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1310657092.2378.67.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: [PATCH] sanity, base: remove gcc3 check since qemu doesn't need it any more
+	Thu, 14 Jul 2011 17:36:35 +0200
+Received: by wwi18 with SMTP id 18so401117wwi.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Jul 2011 08:32:36 -0700 (PDT)
+Received: by 10.217.6.79 with SMTP id x57mr6463972wes.10.1310657556062;
+	Thu, 14 Jul 2011 08:32:36 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fo2sm286554wbb.14.2011.07.14.08.32.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 14 Jul 2011 08:32:34 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1310653014.20015.1162.camel@rex>
+Date: Thu, 14 Jul 2011 17:32:32 +0200
+Message-Id: <CEFEABD6-A0CB-4B03-9271-97749572D7A8@dominion.thruhere.net>
+References: <1310547824.6337.212.camel@phil-desktop>
+	<1310555312.20015.1096.camel@rex>
+	<6FD8E09E-1FDA-4CB6-84B0-085F878F0214@dominion.thruhere.net>
+	<1310556386.2378.6.camel@phil-desktop>
+	<DA356529-F7C2-4402-B058-6537D1272BCD@dominion.thruhere.net>
+	<1310653014.20015.1162.camel@rex>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH] eglibc: ensure that NSS libs go into the right package when ${base_libdir} and ${libdir} are the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,64 +41,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2011 15:28:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-Recent versions of qemu seem to be happy enough building with gcc 4.x, and indeed most modern distributions aren't shipping gcc3 any more, so there is no point checking for its presence as part of sanity.
-
-Also remove the check_gcc3 function from base since nothing else uses it.
-
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/classes/base.bbclass   |   10 ----------
- meta/classes/sanity.bbclass |    8 --------
- 2 files changed, 0 insertions(+), 18 deletions(-)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 0c2c546..3ca4e47 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -397,16 +397,6 @@ python () {
-             bb.warn("Recipe %s is marked as only being architecture specific but seems to have machine specific packages?! The recipe may as well mark itself as machine specific directly." % d.getVar("PN", True))
- }
- 
--def check_gcc3(data):
--
--	gcc3_versions = 'gcc-3.4.6 gcc-3.4.7 gcc-3.4 gcc34 gcc-3.4.4 gcc-3.3 gcc33 gcc-3.3.6 gcc-3.2 gcc32'
--
--	for gcc3 in gcc3_versions.split():
--		if check_app_exists(gcc3, data):
--			return gcc3
--	
--	return False
--
- addtask cleansstate after do_clean
- python do_cleansstate() {
-         sstate_clean_cachefiles(d)
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index c9d37c9..716b158 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -211,14 +211,6 @@ def check_sanity(e):
- 
-     required_utilities = "patch help2man diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk hg chrpath wget cpio"
- 
--    # qemu-native needs gcc 3.x
--    if "qemu-native" not in assume_provided and "gcc3-native" in assume_provided:
--        gcc_version = commands.getoutput("${BUILD_PREFIX}gcc --version | head -n 1 | cut -f 3 -d ' '")
--
--        if not check_gcc3(e.data) and gcc_version[0] != '3':
--            messages = messages + "gcc3-native was in ASSUME_PROVIDED but the gcc-3.x binary can't be found in PATH"
--            missing = missing + "gcc-3.x (needed for qemu-native),"
--
-     if "qemu-native" in assume_provided:
-         if not check_app_exists("qemu-arm", e.data):
-             messages = messages + "qemu-native was in ASSUME_PROVIDED but the QEMU binaries (qemu-arm) can't be found in PATH"
--- 
-1.7.4.1
+X-List-Received-Date: Thu, 14 Jul 2011 15:36:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 14 jul 2011, om 16:16 heeft Richard Purdie het volgende geschreven:
 
+> On Wed, 2011-07-13 at 15:14 +0200, Koen Kooi wrote:
+>> Op 13 jul 2011, om 13:26 heeft Phil Blundell het volgende geschreven:
+>>=20
+>>> On Wed, 2011-07-13 at 13:13 +0200, Koen Kooi wrote:
+>>>> Op 13 jul 2011, om 13:08 heeft Richard Purdie het volgende =
+geschreven:
+>>>>=20
+>>>>> On Wed, 2011-07-13 at 10:03 +0100, Phil Blundell wrote:
+>>>>>> Previously, libnss_hesiod et al. could get swallowed by the =
+wildcarded glob in ${PN}-dev.
+>>>>>> Fix it by moving eglibc-extra-nss earlier in the PACKAGES and =
+adjusting its FILES to ensure
+>>>>>> that the devel symlinks don't get caught.
+>>>>>>=20
+>>>>>> Signed-off-by: Phil Blundell <philb@gnu.org>
+>>>>>> ---
+>>>>>> meta/recipes-core/eglibc/eglibc-package.inc |    4 ++--
+>>>>>> meta/recipes-core/eglibc/eglibc_2.13.bb     |    2 +-
+>>>>>> 2 files changed, 3 insertions(+), 3 deletions(-)
+>>>>>=20
+>>>>> Merged to master, thanks.
+>>>>=20
+>>>> That is missing a PR bump for eglibc 2.12
+>>>=20
+>>> Oh yeah.  Do we really need to keep 2.12 around still?
+>>=20
+>> It's the default for angstrom, dunno if that's a good enough reason =
+:)
+>=20
+> Does Angstrom have any plans to switch to 2.13?
+
+angstrom-bleeding is on 2.13, but as the name implies, it's on the =
+bleeding edge=
 
 
