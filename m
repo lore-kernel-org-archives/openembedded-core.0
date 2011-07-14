@@ -1,25 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QhTAT-0005bx-QI
+	(envelope-from <sgw@linux.intel.com>) id 1QhUTT-0007Z8-0X
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jul 2011 23:09:58 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Jul 2011 14:05:52 -0700
+	Fri, 15 Jul 2011 00:33:39 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Jul 2011 15:29:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,531,1304319600"; d="scan'208";a="27787713"
-Received: from doubt.jf.intel.com (HELO localhost) ([10.7.199.58])
-	by orsmga001.jf.intel.com with ESMTP; 14 Jul 2011 14:05:51 -0700
-From: Darren Hart <dvhart@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.65,531,1304319600"; d="scan'208";a="30467041"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Jul 2011 15:29:37 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2011 14:05:42 -0700
-Message-Id: <3e0a1eff55415a317e061a39af7e81f7b9aae30e.1310677351.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1310677351.git.dvhart@linux.intel.com>
-References: <cover.1310677351.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1310677351.git.dvhart@linux.intel.com>
-References: <cover.1310677351.git.dvhart@linux.intel.com>
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH 1/1] bb-matrix: correct BB and PM number canonicalization
+Date: Thu, 14 Jul 2011 15:21:21 -0700
+Message-Id: <cover.1310681919.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 0/2] libiconv update and distro tracking updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,34 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2011 21:09:58 -0000
+X-List-Received-Date: Thu, 14 Jul 2011 22:33:39 -0000
 
-The bash string operation ${BB##*0} was greedy and in addition to converting
-"02" to "2", also converted "20" to "", causing all builds for a BB value ending
-in 0 to run with BB_NUMBER_THREADS=1.
+Richard,
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
----
- scripts/contrib/bb-perf/bb-matrix.sh |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+This patch adds libiconv 1.13.1 which is now GPLv3, so we need
+to keep 1.11.1
 
-diff --git a/scripts/contrib/bb-perf/bb-matrix.sh b/scripts/contrib/bb-perf/bb-matrix.sh
-index 64d5513..b9edd5f 100755
---- a/scripts/contrib/bb-perf/bb-matrix.sh
-+++ b/scripts/contrib/bb-perf/bb-matrix.sh
-@@ -62,8 +62,8 @@ for BB in $BB_RANGE; do
- 		echo "BB=$BB PM=$PM Logging to $BB_LOG"
- 
- 		# Export the variables under test and run the bitbake command
--		export BB_NUMBER_THREADS="${BB##*0}"
--		export PARALLEL_MAKE="-j ${PM##*0}"
-+		export BB_NUMBER_THREADS=$(echo $BB | sed 's/^0*//')
-+		export PARALLEL_MAKE="-j $(echo $PM | sed 's/^0*//')"
- 		/usr/bin/time -f "$BB $PM $TIME_STR" -a -o $RUNTIME_LOG $BB_CMD &> $BB_LOG
- 		
- 		echo "  $(tail -n1 $RUNTIME_LOG)"
+Also updates to distro_tracking.
+
+Sau!
+
+
+The following changes since commit 615f05dc46afa14ea4fca49a551278b92d2c99d3:
+
+  perl: Use SITEINFO variables not functions (2011-07-14 15:40:26 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (2):
+  libiconv: add version 1.13.1
+  distro tracking: Updates
+
+ .../conf/distro/include/distro_tracking_fields.inc |   21 +++++++++-----
+ .../{libiconv-1.11.1 => files}/autoconf.patch      |    2 +
+ .../shared_preloadable_libiconv_linux.patch        |    2 +
+ meta/recipes-support/libiconv/libiconv_1.13.1.bb   |   29 ++++++++++++++++++++
+ 4 files changed, 46 insertions(+), 8 deletions(-)
+ rename meta/recipes-support/libiconv/{libiconv-1.11.1 => files}/autoconf.patch (98%)
+ rename meta/recipes-support/libiconv/{libiconv-1.11.1 => files}/shared_preloadable_libiconv_linux.patch (98%)
+ create mode 100644 meta/recipes-support/libiconv/libiconv_1.13.1.bb
+
 -- 
-1.7.1
+1.7.3.4
 
 
 
