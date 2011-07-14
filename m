@@ -1,36 +1,34 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QhS45-0004Fm-J7
+	(envelope-from <Tom_Rini@mentor.com>) id 1QhSAf-0004fn-DF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jul 2011 21:59:17 +0200
-Received: by pvf24 with SMTP id 24so538932pvf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jul 2011 12:55:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=kOJB+mR+ODgQqU5t89mbkZPNnRv6dFysIc3YvijL06c=;
-	b=dFWx7HQst34k8N4F+KjJ0jSPM3WYKcMkzKV/ncS1y4BEONmoM9RMLkeDDfML0j9B4S
-	YQFA4eJczaIsI000avT3UjhLl5yQVAM+2skMJlPRShGYGVa1LB8X08NbtsJ0omSH+4W5
-	8S0d8c/IJdUGauLKSwAz2p0ubIQ3C28g0mJfY=
-Received: by 10.68.10.103 with SMTP id h7mr3145331pbb.211.1310672882062; Thu,
-	14 Jul 2011 12:48:02 -0700 (PDT)
+	Thu, 14 Jul 2011 22:06:05 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1QhPEy-00026Y-Rg from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Jul 2011 09:58:20 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 14 Jul 2011 09:58:20 -0700
+Received: from [172.30.80.17] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 14 Jul 2011 09:58:19 -0700
+Message-ID: <4E1F2027.5050700@mentor.com>
+Date: Thu, 14 Jul 2011 09:58:15 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
 MIME-Version: 1.0
-Received: by 10.68.62.36 with HTTP; Thu, 14 Jul 2011 12:47:32 -0700 (PDT)
-In-Reply-To: <1310653552.2378.64.camel@phil-desktop>
-References: <1310547824.6337.212.camel@phil-desktop>
-	<1310555312.20015.1096.camel@rex>
-	<6FD8E09E-1FDA-4CB6-84B0-085F878F0214@dominion.thruhere.net>
-	<1310556386.2378.6.camel@phil-desktop>
-	<DA356529-F7C2-4402-B058-6537D1272BCD@dominion.thruhere.net>
-	<1310653014.20015.1162.camel@rex>
-	<1310653552.2378.64.camel@phil-desktop>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 14 Jul 2011 12:47:32 -0700
-Message-ID: <CAMKF1sp3UPLr_OP9x7WcwkHD00pRzozOKXn38Lxc4_tcfgHQMQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] eglibc: ensure that NSS libs go into the right package when ${base_libdir} and ${libdir} are the same
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1310583666.git.tom_rini@mentor.com>
+	<1310654527.20015.1174.camel@rex>
+In-Reply-To: <1310654527.20015.1174.camel@rex>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 14 Jul 2011 16:58:20.0567 (UTC)
+	FILETIME=[3C1EE270:01CC4247]
+Subject: Re: [PATCH 0/3] siteinfo.bbclass re-merge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,59 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2011 19:59:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 14 Jul 2011 20:06:05 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 14, 2011 at 7:25 AM, Phil Blundell <philb@gnu.org> wrote:
-> On Thu, 2011-07-14 at 15:16 +0100, Richard Purdie wrote:
->> On Wed, 2011-07-13 at 15:14 +0200, Koen Kooi wrote:
->> > Op 13 jul 2011, om 13:26 heeft Phil Blundell het volgende geschreven:
->> >
->> > > On Wed, 2011-07-13 at 13:13 +0200, Koen Kooi wrote:
->> > >> Op 13 jul 2011, om 13:08 heeft Richard Purdie het volgende geschrev=
-en:
->> > >>
->> > >>> On Wed, 2011-07-13 at 10:03 +0100, Phil Blundell wrote:
->> > >>>> Previously, libnss_hesiod et al. could get swallowed by the wildc=
-arded glob in ${PN}-dev.
->> > >>>> Fix it by moving eglibc-extra-nss earlier in the PACKAGES and adj=
-usting its FILES to ensure
->> > >>>> that the devel symlinks don't get caught.
->> > >>>>
->> > >>>> Signed-off-by: Phil Blundell <philb@gnu.org>
->> > >>>> ---
->> > >>>> meta/recipes-core/eglibc/eglibc-package.inc | =C2=A0 =C2=A04 ++--
->> > >>>> meta/recipes-core/eglibc/eglibc_2.13.bb =C2=A0 =C2=A0 | =C2=A0 =
-=C2=A02 +-
->> > >>>> 2 files changed, 3 insertions(+), 3 deletions(-)
->> > >>>
->> > >>> Merged to master, thanks.
->> > >>
->> > >> That is missing a PR bump for eglibc 2.12
->> > >
->> > > Oh yeah. =C2=A0Do we really need to keep 2.12 around still?
->> >
->> > It's the default for angstrom, dunno if that's a good enough reason :)
+On 07/14/2011 07:42 AM, Richard Purdie wrote:
+> On Wed, 2011-07-13 at 12:05 -0700, Tom Rini wrote:
+>> Hey all,
 >>
->> Does Angstrom have any plans to switch to 2.13?
+>> This is the second of two pull requests.  This doesn't depend on the first
+>> request, it's just splitting changes up.  There's three changes here.  First,
+>> site/ix86-common was setting the wrong value for unsigned int.  Second,
+>> change perl to use SITEINFO variables rather than functions.  Third, bring
+>> in the various changes in siteinfo.bbclass that have been in oe.dev.  This
+>> last part will, I hope, also make dealing with multilib-specific siteinfo
+>> stuff easier (also alternative ABIs like x32).
 >>
->> Certainly we're not aware of issues with 2.13 and as such we should
->> really consider phasing out 2.12 from OE-Core at least...
->
-> How about glibc 2.10; is anybody still using that at all?
+>> My next step is to work on merging and verifying as much as possible
+>> the site files in oe-core and oe.dev.
+>>
+>> The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
+>>   Saul Wold (1):
+>>         libx11: ensure nativesdk uses correct DEPENDS and XCB flags
+>>
+>> are available in the git repository at:
+>>
+>>   git://git.openembedded.org/openembedded-core-contrib trini/update-siteinfo
+>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/update-siteinfo
+>>
+>> Tom Rini (3):
+>>   site/ix86-common: Fix ac_cv_sizeof_unsigned_char definition
+>>   perl: Use SITEINFO variables not functions
+> 
+> I've merged these two.
+> 
+>>   siteinfo.bbclass: Port over oe.dev logic for site files
+> 
+> I'm still in the process of reviewing this as its not easy to see
+> everything thats changing in there...
 
-I think all glibc recipes should go away.
+Yeah, sorry, I just couldn't break it down anymore.  I can say I did a
+world before and after on qemux86, diff'd config.logs and didn't see
+anything other than the ix86-common bugfix in differences.
 
->
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
