@@ -1,32 +1,28 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from mail-ww0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QhFWI-0003OI-CX
+	(envelope-from <koen@dominion.thruhere.net>) id 1QhFlv-0003b5-Gd
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jul 2011 08:35:34 +0200
-Received: by iym10 with SMTP id 10so6347206iym.6
+	Thu, 14 Jul 2011 08:51:43 +0200
+Received: by wwi14 with SMTP id 14so223560wwi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jul 2011 23:31:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=WrAV/0p7Cil98gzY4HNqvYcBQMBS/ksuWMalwqwzn6U=;
-	b=ZjQv1pzMVwlhF9JH2WLX3Yv/Dy1qsGeqVBD4KrnrKWjYkd/oa7RoeWRnIWrGwYObLu
-	uYnupF9wKJsLeDI9y/j189hv6mj1oF49bIbyA8D7dIsd7J5mB14O67bPfJryzrZrOGG+
-	embbis6x42S0FVcvFg9P0+LioY7cmNZHW4Jvc=
-Received: by 10.42.197.1 with SMTP id ei1mr2026966icb.275.1310625094885;
-	Wed, 13 Jul 2011 23:31:34 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id h6sm1508400icy.1.2011.07.13.23.31.33
+	Wed, 13 Jul 2011 23:47:44 -0700 (PDT)
+Received: by 10.216.132.129 with SMTP id o1mr5730865wei.73.1310626064108;
+	Wed, 13 Jul 2011 23:47:44 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id m35sm4415781weq.36.2011.07.13.23.47.42
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 13 Jul 2011 23:31:34 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jul 2011 23:31:20 -0700
-Message-Id: <1310625080-30964-2-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
+	Wed, 13 Jul 2011 23:47:43 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <1310625080-30964-1-git-send-email-raj.khem@gmail.com>
+Date: Thu, 14 Jul 2011 08:47:36 +0200
+Message-Id: <7F425BAC-8BED-4312-B341-0B9D926A61D5@dominion.thruhere.net>
 References: <1310625080-30964-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 2/2] opkg-utils: Print out License field
+To: Khem Raj <raj.khem@gmail.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] package_ipk: add License field to control file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,80 +37,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2011 06:35:34 -0000
+X-List-Received-Date: Thu, 14 Jul 2011 06:51:43 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../opkg-utils/opkg-utils/add-license-field.patch  |   39 ++++++++++++++++++++
- meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb |    3 +-
- 2 files changed, 41 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
+While we're at it, how about this one as well:
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
-new file mode 100644
-index 0000000..0d33459
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
-@@ -0,0 +1,39 @@
-+Add knowledge about License field in ipk headers
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: opkg-utils/opkg.py
-+===================================================================
-+--- opkg-utils.orig/opkg.py	2010-11-01 04:52:35.000000000 -0700
-++++ opkg-utils/opkg.py	2011-07-13 15:18:03.900037344 -0700
-+@@ -145,6 +145,7 @@
-+         self.priority = None
-+         self.tags = None
-+         self.fn = fn
-++        self.license = None
-+ 
-+         if fn:
-+             # see if it is deb format
-+@@ -319,6 +320,12 @@
-+     def get_section(self, section):
-+         return self.section
-+ 
-++    def set_license(self, license):
-++        self.license = license
-++
-++    def get_license(self, license):
-++        return self.license
-++
-+     def get_file_list(self):
-+         if not self.fn:
-+             return []
-+@@ -425,6 +432,7 @@
-+         if self.description: out = out + "Description: %s\n" % (self.description)
-+         if self.oe: out = out + "OE: %s\n" % (self.oe)
-+         if self.homepage: out = out + "HomePage: %s\n" % (self.homepage)
-++        if self.license: out = out + "License: %s\n" % (self.license)
-+         if self.priority: out = out + "Priority: %s\n" % (self.priority)
-+         if self.tags: out = out + "Tags: %s\n" % (self.tags)
-+         out = out + "\n"
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-index 897fe11..fd2b5e6 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_svn.bb
-@@ -8,11 +8,12 @@ RDEPENDS_${PN} = "python"
- RDEPENDS_${PN}_virtclass-native = ""
- SRCREV = "4747"
- PV = "0.1.8+svnr${SRCPV}"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "svn://svn.openmoko.org/trunk/src/host/;module=opkg-utils;proto=http \
-            file://index-ignore-filenotfound.patch \
-            file://mtime-int.patch \
-+           file://add-license-field.patch \
-            "
- 
- S = "${WORKDIR}/opkg-utils"
--- 
-1.7.4.1
+------>8----------------
+commit 6ae45bbf2b5ca9e4fd7e8b04e461f0bf120dd44d
+Author: Koen Kooi <koen.kooi@gmail.com>
+Date:   Tue Dec 21 18:06:06 2010 +0000
+
+    package ipk bbclass: store build branch and revision in ipkg =
+metadata
+   =20
+    The ipkg metadata will look like this now:
+   =20
+    koen@dominion:/OE/angstrom-dev/deploy/glibc$ dpkg-deb -I =
+ipk/am3517-evm/matrix-gui_1.3-r19.0.6_am3517-evm.ipk
+     new debian package, version 2.0.
+     size 24112 bytes: control archive=3D 540 bytes.
+         629 bytes,    13 lines      control
+     Package: matrix-gui
+     Version: 1.3-r19.0.6
+     Description: Matrix GUI for Qt X11
+     Section: multimedia
+     Priority: optional
+     Maintainer: Angstrom Developers =
+<angstrom-distro-devel@linuxtogo.org>
+     License: BSD
+     Architecture: am3517-evm
+     OE: matrix-gui
+     Homepage: https://gforge.ti.com/gf/project/matrix_gui/
+     Build: org.openembedded.dev/f35ab2d
+     Depends: matrix-gui-common, libpng12-0, libfreetype6, libz1, =
+libgthread-2.0-0, libqtwebkit4, libphonon4, libqtdbus4, libqtxml4, =
+libqtgui4, libqtnetwork4, libqtcore4, libglib-2.0-0, libc6, libstdc++
+     Source: =
+svn://gforge.ti.com/svn/matrix_gui/;module=3Dtrunk;proto=3Dhttps;user=3Dan=
+onymous;pswd=3D''
+    koen@dominion:/OE/angstrom-dev/deploy/glibc$
+   =20
+    Signed-off-by: Koen Kooi <koen@openembedded.org>
+    Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+    Acked-by: Chase Maupin <chase.maupin@ti.com>
+------8<----------------
+
+Having some info on the oe-core revision (and branch) would be usefull.
+
+Op 14 jul 2011, om 08:31 heeft Khem Raj het volgende geschreven:
+
+> From: Koen Kooi <koen@openembedded.org>
+>=20
+> Port of oe.dev Revision e35d1ffad1553f259b084578992f15d10f590f98
+>=20
+> Signed-off-by: Koen Kooi <koen@openembedded.org>
+> Signed-off-by: Khem Raj <raj.khem@gmail.org>
+> ---
+> meta/classes/package_ipk.bbclass |    1 +
+> 1 files changed, 1 insertions(+), 0 deletions(-)
+>=20
+> diff --git a/meta/classes/package_ipk.bbclass =
+b/meta/classes/package_ipk.bbclass
+> index 4317028..0c0f00d 100644
+> --- a/meta/classes/package_ipk.bbclass
+> +++ b/meta/classes/package_ipk.bbclass
+> @@ -263,6 +263,7 @@ python do_package_ipk () {
+> 		fields.append(["Section: %s\n", ['SECTION']])
+> 		fields.append(["Priority: %s\n", ['PRIORITY']])
+> 		fields.append(["Maintainer: %s\n", ['MAINTAINER']])
+> +		fields.append(["License: %s\n", ['LICENSE']])
+> 		fields.append(["Architecture: %s\n", ['PACKAGE_ARCH']])
+> 		fields.append(["OE: %s\n", ['PN']])
+> 		fields.append(["Homepage: %s\n", ['HOMEPAGE']])
+> --=20
+> 1.7.4.1
+>=20
 
 
 
