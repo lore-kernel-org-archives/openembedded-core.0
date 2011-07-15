@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QhiKm-0006g7-5Z
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QhiKp-0006g6-3v
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 15:21:36 +0200
+	Fri, 15 Jul 2011 15:21:39 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Jul 2011 06:17:32 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 15 Jul 2011 06:17:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,535,1304319600"; d="scan'208";a="28373923"
+X-IronPort-AV: E=Sophos;i="4.65,535,1304319600"; d="scan'208";a="28373928"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.17.182])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2011 06:17:30 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2011 06:17:31 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jul 2011 14:17:18 +0100
-Message-Id: <d80cbd0588059d397c293912467f67aeb460e9cb.1310735644.git.paul.eggleton@linux.intel.com>
+Date: Fri, 15 Jul 2011 14:17:19 +0100
+Message-Id: <769b19321ac3436a2b3e2bc7db4204aca0449f94.1310735644.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1310735644.git.paul.eggleton@linux.intel.com>
 References: <cover.1310735644.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1310735644.git.paul.eggleton@linux.intel.com>
 References: <cover.1310735644.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/3] classes: remove obsolete classes
+Subject: [PATCH 3/3] classes: remove classes that don't belong in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,233 +33,240 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 13:21:37 -0000
+X-List-Received-Date: Fri, 15 Jul 2011 13:21:39 -0000
 
-All of these classes are currently unused in oe-core and meta-oe; several
-are no longer in use even in OE classic:
+These classes are not used within oe-core and really belong in an upper
+layer that makes use of them, if they are still useful:
 
-* base_srpm.bbclass
-* ccdv.bbclass
-* flow-lossage.bbclass
-* patcher.bbclass
-* singlemachine.bbclass
-* tmake.bbclass
-* xlibs.bbclass
-
-patcher.bbclass and singlemachine.bbclass probably still work but it is
-unlikely that anyone is still using them.
+* mozilla.bbclass
+* openmoko*.bbclass
+* srec.bbclass
+* xfce.bbclass
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/base_srpm.bbclass     |   20 ---------
- meta/classes/ccdv.bbclass          |   21 ----------
- meta/classes/flow-lossage.bbclass  |    5 --
- meta/classes/patcher.bbclass       |    7 ---
- meta/classes/singlemachine.bbclass |   15 -------
- meta/classes/tmake.bbclass         |   77 ------------------------------------
- meta/classes/xlibs.bbclass         |    7 ---
- 7 files changed, 0 insertions(+), 152 deletions(-)
- delete mode 100644 meta/classes/base_srpm.bbclass
- delete mode 100644 meta/classes/ccdv.bbclass
- delete mode 100644 meta/classes/flow-lossage.bbclass
- delete mode 100644 meta/classes/patcher.bbclass
- delete mode 100644 meta/classes/singlemachine.bbclass
- delete mode 100644 meta/classes/tmake.bbclass
- delete mode 100644 meta/classes/xlibs.bbclass
+ meta/classes/mozilla.bbclass               |   53 ----------------------------
+ meta/classes/openmoko-base.bbclass         |   19 ----------
+ meta/classes/openmoko-panel-plugin.bbclass |    6 ---
+ meta/classes/openmoko.bbclass              |    3 --
+ meta/classes/openmoko2.bbclass             |   31 ----------------
+ meta/classes/srec.bbclass                  |   28 ---------------
+ meta/classes/xfce.bbclass                  |   25 -------------
+ 7 files changed, 0 insertions(+), 165 deletions(-)
+ delete mode 100644 meta/classes/mozilla.bbclass
+ delete mode 100644 meta/classes/openmoko-base.bbclass
+ delete mode 100644 meta/classes/openmoko-panel-plugin.bbclass
+ delete mode 100644 meta/classes/openmoko.bbclass
+ delete mode 100644 meta/classes/openmoko2.bbclass
+ delete mode 100644 meta/classes/srec.bbclass
+ delete mode 100644 meta/classes/xfce.bbclass
 
-diff --git a/meta/classes/base_srpm.bbclass b/meta/classes/base_srpm.bbclass
+diff --git a/meta/classes/mozilla.bbclass b/meta/classes/mozilla.bbclass
 deleted file mode 100644
-index aea6335..0000000
---- a/meta/classes/base_srpm.bbclass
+index d7ec747..0000000
+--- a/meta/classes/mozilla.bbclass
 +++ /dev/null
-@@ -1,20 +0,0 @@
--inherit base package rpm_core
+@@ -1,53 +0,0 @@
+-SECTION = "x11/utils"
+-DEPENDS += "gnu-config-native virtual/libintl xt libxi \
+-	    zip-native gtk+"
+-LICENSE = "MPL NPL"
+-SRC_URI += "file://mozconfig"
 -
--SPECFILE="${RPMBUILDPATH}/SPECS/${PN}.spec"
+-inherit gettext pkgconfig
 -
--base_srpm_do_unpack() {
--	test -e ${SRPMFILE} || die "Source rpm \"${SRPMFILE}\"does not exist"
--	if ! test -e ${SPECFILE}; then
--		${RPM} -i ${SRPMFILE}
--	fi
--	test -e ${SPECFILE} || die "Spec file \"${SPECFILE}\" does not exist"
--	${RPMBUILD} -bp ${SPECFILE}
+-EXTRA_OECONF = "--target=${TARGET_SYS} --host=${BUILD_SYS} \
+-		--build=${BUILD_SYS} --prefix=${prefix}"
+-EXTRA_OEMAKE = "'HOST_LIBIDL_LIBS=${HOST_LIBIDL_LIBS}' \
+-		'HOST_LIBIDL_CFLAGS=${HOST_LIBIDL_CFLAGS}'"
+-SELECTED_OPTIMIZATION = "-Os -fsigned-char -fno-strict-aliasing"
+-
+-export CROSS_COMPILE = "1"
+-export MOZCONFIG = "${WORKDIR}/mozconfig"
+-export MOZ_OBJDIR = "${S}"
+-
+-export CONFIGURE_ARGS = "${EXTRA_OECONF}"
+-export HOST_LIBIDL_CFLAGS = "`${HOST_LIBIDL_CONFIG} --cflags`"
+-export HOST_LIBIDL_LIBS = "`${HOST_LIBIDL_CONFIG} --libs`"
+-export HOST_LIBIDL_CONFIG = "PKG_CONFIG_SYSROOT_DIR="" PKG_CONFIG_PATH=${STAGING_LIBDIR_NATIVE}/pkgconfig pkg-config libIDL-2.0"
+-export HOST_CC = "${BUILD_CC}"
+-export HOST_CXX = "${BUILD_CXX}"
+-export HOST_CFLAGS = "${BUILD_CFLAGS}"
+-export HOST_CXXFLAGS = "${BUILD_CXXFLAGS}"
+-export HOST_LDFLAGS = "${BUILD_LDFLAGS}"
+-export HOST_RANLIB = "${BUILD_RANLIB}"
+-export HOST_AR = "${BUILD_AR}"
+-
+-mozilla_do_configure() {
+-	(
+-		set -e
+-		for cg in `find ${S} -name config.guess`; do
+-			install -m 0755 \
+-			${STAGING_DATADIR_NATIVE}/gnu-config/config.guess \
+-			${STAGING_DATADIR_NATIVE}/gnu-config/config.sub \
+-			`dirname $cg`/
+-		done
+-	)
+-	oe_runmake -f client.mk ${MOZ_OBJDIR}/Makefile \
+-				${MOZ_OBJDIR}/config.status
 -}
 -
--base_srpm_do_compile() {
--	${RPMBUILD} -bc ${SPECFILE}
+-mozilla_do_compile() {
+-	oe_runmake -f client.mk build_all
 -}
 -
--base_srpm_do_install() {
--	${RPMBUILD} -bi ${SPECFILE}
--}
-diff --git a/meta/classes/ccdv.bbclass b/meta/classes/ccdv.bbclass
-deleted file mode 100644
-index 8c8306c..0000000
---- a/meta/classes/ccdv.bbclass
-+++ /dev/null
-@@ -1,21 +0,0 @@
--python () {
--    if bb.data.getVar('PN', d, 1) in ['ccdv-native']:
--        if not bb.data.getVar('INHIBIT_DEFAULT_DEPS', d, 1):
--            bb.data.setVar("DEPENDS", '%s %s' % ("ccdv-native", bb.data.getVar("DEPENDS", d, 1) or ""), d)
--            bb.data.setVar("CC", '%s %s' % ("ccdv", bb.data.getVar("CC", d, 1) or ""), d)
--            bb.data.setVar("BUILD_CC", '%s %s' % ("ccdv", bb.data.getVar("BUILD_CC", d, 1) or ""), d)
--            bb.data.setVar("CCLD", '%s %s' % ("ccdv", bb.data.getVar("CCLD", d, 1) or ""), d)
+-mozilla_do_install() {
+-	oe_runmake DESTDIR="${D}" destdir="${D}" install
 -}
 -
--def quiet_libtool(bb,d):
--	deps = (bb.data.getVar('DEPENDS', d, 1) or "").split()
--	if 'libtool-cross' in deps:
--		return "'LIBTOOL=${STAGING_BINDIR_NATIVE}/${HOST_SYS}-libtool --silent'"
--	elif 'libtool-native' in deps:
--		return "'LIBTOOL=${B}/${HOST_SYS}-libtool --silent'"
--	else:
--		return ""
--
--CCDV = "ccdv"
--EXTRA_OEMAKE_append = " ${@quiet_libtool(bb,d)}"
--MAKE += "-s"
-diff --git a/meta/classes/flow-lossage.bbclass b/meta/classes/flow-lossage.bbclass
+-EXPORT_FUNCTIONS do_configure do_compile do_install
+diff --git a/meta/classes/openmoko-base.bbclass b/meta/classes/openmoko-base.bbclass
 deleted file mode 100644
-index 00e6bf0..0000000
---- a/meta/classes/flow-lossage.bbclass
+index b8b4119..0000000
+--- a/meta/classes/openmoko-base.bbclass
 +++ /dev/null
-@@ -1,5 +0,0 @@
--# gcc-3.4 blows up in gtktext with -frename-registers on arm-linux
--python () {
--    cflags = (bb.data.getVar('CFLAGS', d, 1) or '').replace('-frename-registers', '')
--    bb.data.setVar('CFLAGS', cflags, d)
--}
-diff --git a/meta/classes/patcher.bbclass b/meta/classes/patcher.bbclass
+@@ -1,19 +0,0 @@
+-HOMEPAGE = "http://www.openmoko.org"
+-LICENSE ?= "GPL"
+-OPENMOKO_RELEASE ?= "OM-2007"
+-OPENMOKO_MIRROR ?= "svn://svn.openmoko.org/trunk"
+-
+-def openmoko_base_get_subdir(d):
+-    openmoko, section = bb.data.getVar('SECTION', d, 1).split("/")
+-    if section == 'base' or section == 'libs': return ""
+-    elif section in 'apps tools pim'.split(): return "applications"
+-    elif section == "panel-plugin": return "panel-plugins"
+-    elif section == "inputmethods": return "inputmethods"
+-    else: return section
+-
+-SUBDIR = "${@openmoko_base_get_subdir(d)}"
+-
+-SRC_URI := "${OPENMOKO_MIRROR}/src/target/${OPENMOKO_RELEASE}/${SUBDIR};module=${BPN};proto=http"
+-S = "${WORKDIR}/${PN}"
+-
+-FILES_${PN} += "${datadir}/icons"
+diff --git a/meta/classes/openmoko-panel-plugin.bbclass b/meta/classes/openmoko-panel-plugin.bbclass
 deleted file mode 100644
-index c8a1b03..0000000
---- a/meta/classes/patcher.bbclass
+index 6a22a92..0000000
+--- a/meta/classes/openmoko-panel-plugin.bbclass
 +++ /dev/null
-@@ -1,7 +0,0 @@
--# Now that BitBake/OpenEmbedded uses Quilt by default, you can simply add an
--#	inherit patcher
--# to one of your config files to let BB/OE use patcher again.
+@@ -1,6 +0,0 @@
+-SECTION = "openmoko/panel-plugin"
+-DEPENDS += "matchbox-panel-2 libmokopanelui2"
 -
--PATCHCLEANCMD = "patcher -B"
--PATCHCMD = "patcher -R -p '%s' -n '%s' -i '%s'"
--PATCH_DEPENDS = "${@["patcher-native", ""][(bb.data.getVar('PN', d, 1) == 'patcher-native')]}"
-diff --git a/meta/classes/singlemachine.bbclass b/meta/classes/singlemachine.bbclass
+-inherit openmoko2
+-
+-FILES_${PN} = "${libdir}/matchbox-panel/lib*.so* ${datadir}"
+diff --git a/meta/classes/openmoko.bbclass b/meta/classes/openmoko.bbclass
 deleted file mode 100644
-index c685ce3..0000000
---- a/meta/classes/singlemachine.bbclass
+index 808ab8f..0000000
+--- a/meta/classes/openmoko.bbclass
 +++ /dev/null
-@@ -1,15 +0,0 @@
--#
--# Emulates the old mode of OE operation where only one machine can be targetted.
--#
+@@ -1,3 +0,0 @@
+-inherit openmoko-base autotools pkgconfig
 -
--MULTIMACH_TARGET_SYS = "${TARGET_SYS}"
--MULTIMACH_HOST_SYS = "${HOST_SYS}"
--
--STAMP = "${TMPDIR}/stamps/${PF}"
--WORKDIR = "${TMPDIR}/work/${PF}"
--STAGING_DIR_HOST = "${STAGING_DIR}/${HOST_SYS}"
--STAGING_DIR_TARGET = "${STAGING_DIR}/${TARGET_SYS}"
--PKGDATA_DIR = "${STAGING_DIR}/pkgdata"
--STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/kernel"
-- 
--
-diff --git a/meta/classes/tmake.bbclass b/meta/classes/tmake.bbclass
+-DEPENDS_prepend = "${@["openmoko-libs ", ""][(bb.data.getVar('PN', d, 1) == 'openmoko-libs')]}"
+diff --git a/meta/classes/openmoko2.bbclass b/meta/classes/openmoko2.bbclass
 deleted file mode 100644
-index dbd0bf2..0000000
---- a/meta/classes/tmake.bbclass
+index 2d9f71a..0000000
+--- a/meta/classes/openmoko2.bbclass
 +++ /dev/null
-@@ -1,77 +0,0 @@
--DEPENDS_prepend="tmake "
--
--python tmake_do_createpro() {
--	import glob, sys
--	from bb import note
--	out_vartranslate = {
--		"TMAKE_HEADERS": "HEADERS",
--		"TMAKE_INTERFACES": "INTERFACES",
--		"TMAKE_TEMPLATE": "TEMPLATE",
--		"TMAKE_CONFIG": "CONFIG",
--		"TMAKE_DESTDIR": "DESTDIR",
--		"TMAKE_SOURCES": "SOURCES",
--		"TMAKE_DEPENDPATH": "DEPENDPATH",
--		"TMAKE_INCLUDEPATH": "INCLUDEPATH",
--		"TMAKE_TARGET": "TARGET",
--		"TMAKE_LIBS": "LIBS",
--	}
--	s = data.getVar('S', d, 1) or ""
--	os.chdir(s)
--	profiles = (data.getVar('TMAKE_PROFILES', d, 1) or "").split()
--	if not profiles:
--		profiles = ["*.pro"]
--	for pro in profiles:
--		ppro = glob.glob(pro)
--		if ppro:
--			if ppro != [pro]:
--				del profiles[profiles.index(pro)]
--				profiles += ppro
--				continue
--			if ppro[0].find('*'):
--				del profiles[profiles.index(pro)]
--				continue
--		else:
--			del profiles[profiles.index(pro)]
--	if len(profiles) != 0:
--		return
--
--	# output .pro using this metadata store
--	try:
--		from __builtin__ import file
--		profile = file(data.expand('${PN}.pro', d), 'w')
--	except OSError:
--		raise FuncFailed("unable to open pro file for writing.")
--
--#	fd = sys.__stdout__
--	fd = profile
--	for var in out_vartranslate.keys():
--		val = data.getVar(var, d, 1)
--		if val:
--			fd.write("%s\t: %s\n" % (out_vartranslate[var], val))
--
--#	if fd is not sys.__stdout__:
--	fd.close()
--}
--
--tmake_do_configure() {
--	paths="${STAGING_DATADIR}/tmake/qws/${TARGET_OS}-${TARGET_ARCH}-g++ ${STAGING_DATADIR}/tmake/$OS-g++"
--	if (echo "${TARGET_ARCH}"|grep -q 'i.86'); then
--		paths="${STAGING_DATADIR}/tmake/qws/${TARGET_OS}-x86-g++ $paths"
--	fi
--	for i in $paths; do
--		if test -e $i; then
--			export TMAKEPATH=$i
--			break
--		fi
--	done
--
--	if [ -z "${TMAKE_PROFILES}" ]; then
--		TMAKE_PROFILES="`ls *.pro`"
--	fi
--	tmake -o Makefile $TMAKE_PROFILES || die "Error calling tmake on ${TMAKE_PROFILES}"
--}
--
--EXPORT_FUNCTIONS do_configure do_createpro
--
--addtask configure after do_unpack do_patch before do_compile
--addtask createpro before do_configure after do_unpack do_patch
-diff --git a/meta/classes/xlibs.bbclass b/meta/classes/xlibs.bbclass
-deleted file mode 100644
-index 7271d7b..0000000
---- a/meta/classes/xlibs.bbclass
-+++ /dev/null
-@@ -1,7 +0,0 @@
--LICENSE= "BSD-X"
--SECTION = "x11/libs"
--
--XLIBS_CVS = "${FREEDESKTOP_CVS}/xlibs"
--
+@@ -1,31 +0,0 @@
 -inherit autotools pkgconfig
+-
+-HOMEPAGE = "http://www.openmoko.org"
+-OPENMOKO_RELEASE ?= "OM-2007.2"
+-OPENMOKO_MIRROR ?= "svn://svn.openmoko.org/trunk"
+-
+-def openmoko_two_get_license(d):
+-    openmoko, section = bb.data.getVar('SECTION', d, 1).split("/")
+-    return "LGPL GPL".split()[section != "libs"]
+-
+-def openmoko_two_get_subdir(d):
+-    openmoko, section = bb.data.getVar('SECTION', d, 1).split("/")
+-    if section == 'base': return ""
+-    elif section == 'libs': return "libraries"
+-    elif section in 'apps tools pim'.split(): return "applications"
+-    elif section == "panel-plugin": return "panel-plugins"
+-    elif section == "inputmethods": return "inputmethods"
+-    elif section == "daemons": return "daemons"
+-    elif section == "misc": return "misc"
+-    else: return section
+-
+-LICENSE = "${@openmoko_two_get_license(d)}"
+-SUBDIR = "${@openmoko_two_get_subdir(d)}"
+-
+-SRC_URI := "${OPENMOKO_MIRROR}/src/target/${OPENMOKO_RELEASE}/${SUBDIR};module=${BPN};proto=http"
+-S = "${WORKDIR}/${PN}"
+-
+-FILES_${PN} += "${datadir}/icons"
+-
+-SVNREV = "r${SRCREV}"
+-#SVNREV = "${SRCDATE}"
+diff --git a/meta/classes/srec.bbclass b/meta/classes/srec.bbclass
+deleted file mode 100644
+index 390d5ab..0000000
+--- a/meta/classes/srec.bbclass
++++ /dev/null
+@@ -1,28 +0,0 @@
+-#
+-# Creates .srec files from images.
+-#
+-# Useful for loading with Yamon.
+-
+-# Define SREC_VMAADDR in your machine.conf.
+-
+-SREC_CMD = "${TARGET_PREFIX}objcopy -O srec -I binary --adjust-vma ${SREC_VMAADDR} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.${type} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.${type}.srec"
+-
+-# Do not build srec files for these types of images:
+-SREC_SKIP = "tar"
+-
+-do_srec[nostamp] = "1"
+-
+-do_srec () {
+-    if [ ${SREC_VMAADDR} = "" ] ; then
+-       bbfatal Cannot do_srec without SREC_VMAADDR defined.
+-    fi
+-    for type in ${IMAGE_FSTYPES}; do
+-        for skiptype in ${SREC_SKIP}; do
+-            if [ $type = $skiptype ] ; then continue 2 ; fi
+-        done
+-        ${SREC_CMD}
+-    done
+-    return 0
+-}
+-
+-addtask srec after do_rootfs before do_build
+diff --git a/meta/classes/xfce.bbclass b/meta/classes/xfce.bbclass
+deleted file mode 100644
+index d21bb42..0000000
+--- a/meta/classes/xfce.bbclass
++++ /dev/null
+@@ -1,25 +0,0 @@
+-# xfce.oeclass
+-# Copyright (C) 2004, Advanced Micro Devices, Inc.  All Rights Reserved
+-# Released under the MIT license (see packages/COPYING)
+-
+-# Global class to make it easier to maintain XFCE packages
+-
+-HOMEPAGE = "http://www.xfce.org"
+-LICENSE = "LGPLv2"
+-DEPENDS += "startup-notification"
+-
+-XFCE_VERSION = ${PV}
+-SRC_URI = "http://www.us.xfce.org/archive/xfce/${XFCE_VERSION}/src/${BPN}-${PV}.tar.bz2"
+-
+-inherit autotools
+-
+-EXTRA_OECONF += "--with-pluginsdir=${libdir}/xfce4/panel-plugins/"
+-
+-# FIXME:  Put icons in their own package too?
+-
+-FILES_${PN} += "${datadir}/icons/* ${datadir}/applications/* ${libdir}/xfce4/modules/*.so*"
+-FILES_${PN}-doc += "${datadir}/xfce4/doc"
+-
+-FILES_${PN}-dev += "${libdir}/xfce4/*/*.la"
+-FILES_${PN}-dbg += "${libdir}/xfce4/*/.debug"
 -
 -- 
 1.7.4.1
