@@ -1,26 +1,25 @@
-Received: from mail-pz0-f44.google.com ([209.85.210.44])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1QhqEH-0005X2-V0; Fri, 15 Jul 2011 23:47:26 +0200
-Received: by pzk5 with SMTP id 5so2645272pzk.3
-	for <multiple recipients>; Fri, 15 Jul 2011 14:43:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:from:date:message-id:subject:to:cc:content-type;
-	bh=ekg3XEOrnFfx51xhkzgvy28RzxpBOPXFS83NVPKlTTM=;
-	b=CppZGA/HUSHu9e+U/zu6eiad0VcjAvR+ubBG3qEnbyQKARpHyyu6GBpG36Bjz8p8GW
-	iumdFNi1n1ek/ChscDY6yWtkIu3au/XqxN1iLZjYKE6qZ2a/EUjoViR+mXyLST4AWUJD
-	k0DVn2ctAX7qufw841uogfq/9wmgEFUIm0IHA=
-Received: by 10.68.14.98 with SMTP id o2mr5271298pbc.10.1310766204068; Fri, 15
-	Jul 2011 14:43:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.62.36 with HTTP; Fri, 15 Jul 2011 14:42:54 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 15 Jul 2011 14:42:54 -0700
-Message-ID: <CAMKF1spOJJP=qdDbYpcnArUR1rjvJznXXiB7KAqQNT5R7J8N_Q@mail.gmail.com>
-To: openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Populating meta-oe with new patches on oe.dev
+	(envelope-from <dvhart@linux.intel.com>) id 1QhqQr-00067P-HP
+	for openembedded-core@lists.openembedded.org;
+	Sat, 16 Jul 2011 00:00:25 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 15 Jul 2011 14:51:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,210,1309762800"; d="scan'208";a="28238713"
+Received: from unknown (HELO localhost) ([10.255.14.16])
+	by orsmga001.jf.intel.com with ESMTP; 15 Jul 2011 14:51:32 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jul 2011 14:51:28 -0700
+Message-Id: <8fa1659821ae83babe6f28d57fbb5d25cf5146ce.1310766615.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1310766615.git.dvhart@linux.intel.com>
+References: <cover.1310766615.git.dvhart@linux.intel.com>
+In-Reply-To: <cover.1310766615.git.dvhart@linux.intel.com>
+References: <cover.1310766615.git.dvhart@linux.intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 1/1] ofono: fix test block syntax error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,23 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 21:47:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 15 Jul 2011 22:00:25 -0000
 
-Hello
+A space is required prior to the closing square bracket. Without it,
+a parsing error is reported to the console. I don't have hardware to
+confirm, but I suspect the service would fail to function properly
+as well.
 
-As we all know that next release of OpenEmbedded is slated based on
-oe-core, I would like to request submitters and committers of
-the patches for oe.dev to port the patches to meta-oe or any other
-layer that is suitable for a given patch. Any new recipes
-being added to oe.dev should definitely go into the new layered structure
+Correct the typo.
 
-Please follow the commit guidelines for meta-oe/oe-core and submit the
-appropriate pull requests so that when we cut out the next release we
-don't miss any of those patches.
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
+ meta/recipes-connectivity/ofono/ofono/ofono |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Thanks for your cooperation and help
+diff --git a/meta/recipes-connectivity/ofono/ofono/ofono b/meta/recipes-connectivity/ofono/ofono/ofono
+index 6d46fb8..cc99709 100644
+--- a/meta/recipes-connectivity/ofono/ofono/ofono
++++ b/meta/recipes-connectivity/ofono/ofono/ofono
+@@ -4,7 +4,7 @@ DAEMON=/usr/sbin/ofonod
+ PIDFILE=/var/run/ofonod.pid
+ DESC="Telephony daemon"
+ 
+-if [ -f /etc/default/ofono] ; then
++if [ -f /etc/default/ofono ] ; then
+ 	. /etc/default/ofono
+ fi
+ 
+-- 
+1.7.1
 
--Khem
 
 
