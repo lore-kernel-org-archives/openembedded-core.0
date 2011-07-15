@@ -1,18 +1,21 @@
-Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1QhqZ1-0006C2-9r
+	(envelope-from <dvhart@linux.intel.com>) id 1QhqaI-0006L7-E6
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Jul 2011 00:09:07 +0200
-Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6FM3CMf018958
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2011 17:03:12 -0500
-From: Tom Rini <tom_rini@mentor.com>
+	Sat, 16 Jul 2011 00:10:10 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 15 Jul 2011 14:51:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,210,1309762800"; d="scan'208";a="26411333"
+Received: from unknown (HELO localhost) ([10.255.14.16])
+	by orsmga002.jf.intel.com with ESMTP; 15 Jul 2011 14:51:31 -0700
+From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jul 2011 15:03:04 -0700
-Message-Id: <cover.1310758615.git.tom_rini@mentor.com>
-X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/5] Optionally trade required_utils for -native builds
+Date: Fri, 15 Jul 2011 14:51:27 -0700
+Message-Id: <cover.1310766615.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.1
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 0/1] ofono: fix test block syntax error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,49 +30,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 22:09:07 -0000
+X-List-Received-Date: Fri, 15 Jul 2011 22:10:10 -0000
 
-Hey all,
+The following changes since commit fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
 
-As I said in another thread, today we depend on a few more host utilities
-being installed on the host than oe.dev does.  This is an attempt to fix
-that a bit and improve on the situation at the same time.  First up is
-adding mercurial-native and then a test to add it to ASSUME_PROVIDED.  This
-was build tested but I can't spot any hg URIs in the metadata.  Next up is
-help2man-native.  First, I've added the GPLv2 and GPLv3 versions.  Second,
-I've tested this with qemux86 and core-image-sato and it still all builds
-and works as much as it has been for me wrt tests.  Finally, in the commit
-message I said avoiding perl-native problem and what I'm speaking of is
-that since I put help2man-native in with all of the autotools deps, adding
-perlnative to the inherits list would bring perl in for everything.  We
-can punt on this by just not adding target help2man for now.
-
-The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
-  Saul Wold (1):
-        libx11: ensure nativesdk uses correct DEPENDS and XCB flags
+  bb-matrix: correct BB and PM number canonicalization (2011-07-14 22:23:09 +0100)
 
 are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dvhart/ofono
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dvhart/ofono
 
-  git://git.openembedded.org/openembedded-core-contrib trini/add-more-native-recipes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/add-more-native-recipes
+Darren Hart (1):
+  ofono: fix test block syntax error
 
-Tom Rini (5):
-  mercurial-native: Add 1.9 version
-  bitbake.conf, sanity.bbclass: Make mercurial-native optional
-  help2man-native: Add 1.36.4 (GPLv2) and 1.38.2 (GPLv3)
-  sanity.bbclass: Add help2man-native to ASSUME_PROVIDED if found
-  autotools.bbclass: Add help2man-native to the main DEPENDS tree
-
- meta/classes/autotools.bbclass                     |    4 +-
- meta/classes/sanity.bbclass                        |   10 +++++++-
- meta/conf/bitbake.conf                             |    1 -
- .../help2man/help2man-native_1.36.4.bb             |   26 ++++++++++++++++++++
- .../help2man/help2man-native_1.38.2.bb             |   24 ++++++++++++++++++
- .../mercurial/mercurial-native_1.9.bb              |   24 ++++++++++++++++++
- 6 files changed, 85 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-devtools/help2man/help2man-native_1.36.4.bb
- create mode 100644 meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
- create mode 100644 meta/recipes-devtools/mercurial/mercurial-native_1.9.bb
+ meta/recipes-connectivity/ofono/ofono/ofono |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
 
 
