@@ -1,28 +1,28 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Qhjfa-00089q-SK
+	(envelope-from <koen@dominion.thruhere.net>) id 1QhjoG-0008Gh-KO
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 16:47:11 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6FEh8Jk026371
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 15 Jul 2011 16:56:08 +0200
+Received: by wyg30 with SMTP id 30so959896wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2011 07:43:08 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 15 Jul 2011 07:43:08 -0700
-Message-ID: <4E2051FB.8080006@windriver.com>
-Date: Fri, 15 Jul 2011 09:43:07 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US;
-	rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4E1F9F59.5050305@mentor.com> <4E1FAC5A.2090308@windriver.com>
-	<1310740753.2350.0.camel@scimitar>
-In-Reply-To: <1310740753.2350.0.camel@scimitar>
-Subject: Re: Building hg/help2man not relying on them?
+	Fri, 15 Jul 2011 07:52:07 -0700 (PDT)
+Received: by 10.216.20.143 with SMTP id p15mr587888wep.0.1310741527750;
+	Fri, 15 Jul 2011 07:52:07 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id h47sm807397wed.1.2011.07.15.07.52.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 15 Jul 2011 07:52:07 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <769b19321ac3436a2b3e2bc7db4204aca0449f94.1310735644.git.paul.eggleton@linux.intel.com>
+Date: Fri, 15 Jul 2011 16:52:04 +0200
+Message-Id: <76BA0D0F-4665-4D73-A7F3-C8D4401F5DC2@dominion.thruhere.net>
+References: <cover.1310735644.git.paul.eggleton@linux.intel.com>
+	<769b19321ac3436a2b3e2bc7db4204aca0449f94.1310735644.git.paul.eggleton@linux.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 3/3] classes: remove classes that don't belong in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,47 +37,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 14:47:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Jul 2011 14:56:08 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 7/15/11 9:39 AM, Joshua Lock wrote:
-> On Thu, 2011-07-14 at 21:56 -0500, Mark Hatle wrote:
->> On 7/14/11 9:00 PM, Tom Rini wrote:
->>> Hey all,
->>>
->>> As I work on bringing jenkins up on my stripped down builder machines
->>> I've once again run into the "wait, I'm supposed to have installed...?"
->>> problem.  Can we switch to building help2man and mercurial rather than
->>> making the end user install them?  Perhaps some sort of test for if we
->>> find it, ASSUME_PROVIDED it, otherwise build it?
->>>
->>
->> The full sanity list is:
->>
->> patch help2man diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk hg
->> chrpath wget cpio
->>
->> Of the above, help2man, texi2html, hg, and chrpath seem to be the ones I usually
->> have to find or build myself.
-> 
-> Originally I built chrpath when I added relocatable.bbclass but then we
-> wanted to relocate native packages and it got extremely tricky...
 
-I wonder if we can do something like pseudo and force chrpath to be built -very-
-early in the process.. and then have most things have an automatic requirement
-on chrpath-native...
+Op 15 jul 2011, om 15:17 heeft Paul Eggleton het volgende geschreven:
 
-(pseudo of course has the advantage it's NOT used for native packages...)
+> These classes are not used within oe-core and really belong in an =
+upper
+> layer that makes use of them, if they are still useful:
+>=20
+> * mozilla.bbclass
+> * openmoko*.bbclass
+> * srec.bbclass
+> * xfce.bbclass
 
-Is the native chrpath usage only in do_package [or later]?  If so, we could
-probably put a dependency on do_package of chrpath.. with the affect that
-chrpath would have to be built first...
-
---Mark
-
-> 
-> Joshua
-
+I'll take patches to add those to meta-xfce and meta-oe if people are =
+interested=
 
 
