@@ -1,29 +1,20 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qhhf6-0005vg-Ph
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QhiKk-0006g7-5J
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 14:38:32 +0200
-Received: by wyg30 with SMTP id 30so863948wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2011 05:34:32 -0700 (PDT)
-Received: by 10.216.159.211 with SMTP id s61mr2992345wek.26.1310733272195;
-	Fri, 15 Jul 2011 05:34:32 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id r56sm714424weq.15.2011.07.15.05.34.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 15 Jul 2011 05:34:30 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1310728890.3805.1.camel@phil-desktop>
-Date: Fri, 15 Jul 2011 14:34:24 +0200
-Message-Id: <79CCB037-3465-454F-999E-8FDEACD98F73@dominion.thruhere.net>
-References: <1310634132.2378.36.camel@phil-desktop>
-	<6D6FE0B9-0A59-4376-972B-2262C766FDEF@dominion.thruhere.net>
-	<1310728890.3805.1.camel@phil-desktop>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH v2] insane: make GNU_HASH check slightly more robust (avoids false negatives with gold); add check for useless rpaths
+	Fri, 15 Jul 2011 15:21:34 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Jul 2011 06:17:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.65,535,1304319600"; d="scan'208";a="28373890"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.17.182])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2011 06:17:29 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jul 2011 14:17:16 +0100
+Message-Id: <cover.1310735644.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/3] cleanup of classes/
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,72 +29,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 12:38:32 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 15 Jul 2011 13:21:34 -0000
 
+This set includes the removal of classes as previously discussed (briefly)
+on the oe-core mailing list, as well as a minor whitespace fix for
+kernel.bbclass.
 
-Op 15 jul 2011, om 13:21 heeft Phil Blundell het volgende geschreven:
+The following changes since commit b975de5ea76c5f8827fb48c0c3c29902872ad3d6:
 
-> On Thu, 2011-07-14 at 21:26 +0200, Koen Kooi wrote:
->> The new rpath warning is nice, but a bit too terse:
->=20
-> Yes, agreed.  Try this patch and see if the situation improves.
+  bb-matrix: correct BB and PM number canonicalization (2011-07-14 22:22:59 +0100)
 
-Much better!
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/classes-cleanup
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/classes-cleanup
 
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/sbin/groupadd contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/sbin/newusers contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/sbin/chgpasswd contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/sbin/groupmems contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/sbin/groupmod contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/sbin/useradd contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/sbin/groupdel contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/sbin/usermod contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/sbin/userdel contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/sbin/chpasswd.shadow contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/bin/su contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/bin/passwd.shadow contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/bin/chfn.shadow contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/bin/chage contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/usr/bin/chsh.shadow contains probably-redundant RPATH /lib
-WARNING: QA Issue: shadow: =
-/work/beagleboard-angstrom-linux-gnueabi/shadow-4.1.4.3-r2/packages-split/=
-shadow/bin/login.shadow contains probably-redundant RPATH /lib
+Paul Eggleton (3):
+  kernel.bbclass: minor whitespace fixes
+  classes: remove obsolete classes
+  classes: remove classes that don't belong in oe-core
 
-For the patch:
+ meta/classes/base_srpm.bbclass             |   20 -------
+ meta/classes/ccdv.bbclass                  |   21 --------
+ meta/classes/flow-lossage.bbclass          |    5 --
+ meta/classes/kernel.bbclass                |    4 +-
+ meta/classes/mozilla.bbclass               |   53 -------------------
+ meta/classes/openmoko-base.bbclass         |   19 -------
+ meta/classes/openmoko-panel-plugin.bbclass |    6 --
+ meta/classes/openmoko.bbclass              |    3 -
+ meta/classes/openmoko2.bbclass             |   31 -----------
+ meta/classes/patcher.bbclass               |    7 ---
+ meta/classes/singlemachine.bbclass         |   15 -----
+ meta/classes/srec.bbclass                  |   28 ----------
+ meta/classes/tmake.bbclass                 |   77 ----------------------------
+ meta/classes/xfce.bbclass                  |   25 ---------
+ meta/classes/xlibs.bbclass                 |    7 ---
+ 15 files changed, 2 insertions(+), 319 deletions(-)
+ delete mode 100644 meta/classes/base_srpm.bbclass
+ delete mode 100644 meta/classes/ccdv.bbclass
+ delete mode 100644 meta/classes/flow-lossage.bbclass
+ delete mode 100644 meta/classes/mozilla.bbclass
+ delete mode 100644 meta/classes/openmoko-base.bbclass
+ delete mode 100644 meta/classes/openmoko-panel-plugin.bbclass
+ delete mode 100644 meta/classes/openmoko.bbclass
+ delete mode 100644 meta/classes/openmoko2.bbclass
+ delete mode 100644 meta/classes/patcher.bbclass
+ delete mode 100644 meta/classes/singlemachine.bbclass
+ delete mode 100644 meta/classes/srec.bbclass
+ delete mode 100644 meta/classes/tmake.bbclass
+ delete mode 100644 meta/classes/xfce.bbclass
+ delete mode 100644 meta/classes/xlibs.bbclass
 
-Acked-by: Koen Kooi <koen@dominion.thruhere.net>
+-- 
+1.7.4.1
 
 
 
