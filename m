@@ -1,28 +1,24 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QhjoG-0008Gh-KO
+	(envelope-from <philb@gnu.org>) id 1Qhjyf-0000NO-Ea
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 16:56:08 +0200
-Received: by wyg30 with SMTP id 30so959896wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2011 07:52:07 -0700 (PDT)
-Received: by 10.216.20.143 with SMTP id p15mr587888wep.0.1310741527750;
-	Fri, 15 Jul 2011 07:52:07 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id h47sm807397wed.1.2011.07.15.07.52.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 15 Jul 2011 07:52:07 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <769b19321ac3436a2b3e2bc7db4204aca0449f94.1310735644.git.paul.eggleton@linux.intel.com>
-Date: Fri, 15 Jul 2011 16:52:04 +0200
-Message-Id: <76BA0D0F-4665-4D73-A7F3-C8D4401F5DC2@dominion.thruhere.net>
-References: <cover.1310735644.git.paul.eggleton@linux.intel.com>
-	<769b19321ac3436a2b3e2bc7db4204aca0449f94.1310735644.git.paul.eggleton@linux.intel.com>
+	Fri, 15 Jul 2011 17:06:53 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qhjup-0007HI-1a
+	for openembedded-core@lists.openembedded.org;
+	Fri, 15 Jul 2011 17:02:55 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 3/3] classes: remove classes that don't belong in oe-core
+Date: Fri, 15 Jul 2011 16:02:54 +0100
+In-Reply-To: <CADkTA4OYB0mch1SRSgidwGfZiWBeBuaWKH1BU1NgF9jPVa1Niw@mail.gmail.com>
+References: <1310736077.3805.37.camel@phil-desktop>
+	<CADkTA4OYB0mch1SRSgidwGfZiWBeBuaWKH1BU1NgF9jPVa1Niw@mail.gmail.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1310742175.30326.1.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,23 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 14:56:08 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 15 Jul 2011 15:06:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Fri, 2011-07-15 at 09:51 -0400, Bruce Ashfield wrote:
+> On Fri, Jul 15, 2011 at 9:21 AM, Phil Blundell <pb@pbcl.net> wrote:
+> > The other day I was working on a BSP layer for a fairly generic i586
+> > system and I was struck by the fact that we don't appear to have any
+> > vanilla kernel recipes in oe-core.  I had sort of expected that, to get
+> > a standard bzImage out, I would just need to ship an appropriate
+> > defconfig in my layer and everything else would "just work".
+> 
+> Hmm. Perhaps it isn't documented clearly enough as such, but the linux-yocto
+> kernel base can work in this mode, since that was a design goal of
+> 1.0.
+> 
+> You pick a branch, throw in a config fragment (or defconfig if you really
+> want)  and build. The base branches in the tree are generic enough to
+> sort a range of boards out of the box, and should form a base.
+
+Okay, cool.  I'll give it a go and see how I get on.
+
+Is there a description anywhere of what the functional differences are
+between the code in linux-yocto git and the upstream kernel.org tree?
+
+p.
 
 
-Op 15 jul 2011, om 15:17 heeft Paul Eggleton het volgende geschreven:
-
-> These classes are not used within oe-core and really belong in an =
-upper
-> layer that makes use of them, if they are still useful:
->=20
-> * mozilla.bbclass
-> * openmoko*.bbclass
-> * srec.bbclass
-> * xfce.bbclass
-
-I'll take patches to add those to meta-xfce and meta-oe if people are =
-interested=
 
 
