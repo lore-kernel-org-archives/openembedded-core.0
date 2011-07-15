@@ -1,31 +1,22 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QhkgM-00013v-UQ
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 17:52:03 +0200
-Received: by wyg30 with SMTP id 30so1002342wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2011 08:48:02 -0700 (PDT)
-Received: by 10.216.237.131 with SMTP id y3mr662780weq.87.1310744882255;
-	Fri, 15 Jul 2011 08:48:02 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id em16sm1167584wbb.16.2011.07.15.08.48.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 15 Jul 2011 08:48:01 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <201107151620.24845.paul.eggleton@linux.intel.com>
-Date: Fri, 15 Jul 2011 17:47:55 +0200
-Message-Id: <C48549BB-6362-4A9F-9C3A-55936D2C12B3@dominion.thruhere.net>
-References: <cover.1310735644.git.paul.eggleton@linux.intel.com>
-	<769b19321ac3436a2b3e2bc7db4204aca0449f94.1310735644.git.paul.eggleton@linux.intel.com>
-	<76BA0D0F-4665-4D73-A7F3-C8D4401F5DC2@dominion.thruhere.net>
-	<201107151620.24845.paul.eggleton@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] classes: remove classes that don't belong in oe-core
+	(envelope-from <tom_rini@mentor.com>)
+	id 1QhmML-0006cg-T1; Fri, 15 Jul 2011 19:39:30 +0200
+Received: from localhost.localdomain ([134.86.97.33])
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6FHZPMg018374;
+	Fri, 15 Jul 2011 12:35:28 -0500
+From: Tom Rini <tom_rini@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jul 2011 10:35:22 -0700
+Message-Id: <7465d2456e98a7e66bf3ffca559ff58604323d65.1310751195.git.tom_rini@mentor.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1310751195.git.tom_rini@mentor.com>
+References: <cover.1310751195.git.tom_rini@mentor.com>
+In-Reply-To: <cover.1310751195.git.tom_rini@mentor.com>
+References: <cover.1310751195.git.tom_rini@mentor.com>
+Cc: Koen Kooi <koen@openembedded.org>,
+	Ihar Hrachyshka <ihar.hrachyshka@gmail.com>
+Subject: [PATCH v2 1/1] Fixed concurrency problem for ZIP packed recipes.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,19 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 15:52:03 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 15 Jul 2011 17:39:30 -0000
 
+From: Ihar Hrachyshka <ihar.hrachyshka@gmail.com>
 
-Op 15 jul 2011, om 17:20 heeft Paul Eggleton het volgende geschreven:
+The problem occured when unzip-native is not yet staged, and ZIP
+archive unpacking already started resulting in failed do_unpack task.
+Added NEED_UNZIP_FOR_UNPACK variable to use in recipes which do_unpack
+with unzip utility but doesn't have '.zip' in SRC_URI (f.e. .EXE
+windows self-extraction binaries).
 
-> On Friday 15 July 2011 15:52:04 Koen Kooi wrote:
->> meta-xfce
->=20
-> Is there such a thing at the moment?=20
+Signed-off-by: Ihar Hrachyshka <ihar.hrachyshka@gmail.com>
+Signed-off-by: Koen Kooi <koen@openembedded.org>
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
+---
+ meta/classes/base.bbclass |    9 +++++++++
+ 1 files changed, 9 insertions(+), 0 deletions(-)
 
-Apparently only in my local meta-oe tree :/ I'll delete it and want for =
-Andreas to send his patches.=
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 0c2c546..35fcec2 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -354,6 +354,15 @@ python () {
+         depends = depends + " xz-native:do_populate_sysroot"
+         bb.data.setVarFlag('do_unpack', 'depends', depends, d)
+ 
++    # unzip-native should already be staged before unpacking ZIP recipes
++    need_unzip = bb.data.getVar('NEED_UNZIP_FOR_UNPACK', d, 1)
++    src_uri = bb.data.getVar('SRC_URI', d, 1)
++
++    if ".zip" in src_uri or need_unzip == "1":
++        depends = bb.data.getVarFlag('do_unpack', 'depends', d) or ""
++        depends = depends + " unzip-native:do_populate_sysroot"
++        bb.data.setVarFlag('do_unpack', 'depends', depends, d)
++
+     # 'multimachine' handling
+     mach_arch = bb.data.getVar('MACHINE_ARCH', d, 1)
+     pkg_arch = bb.data.getVar('PACKAGE_ARCH', d, 1)
+-- 
+1.7.0.4
+
 
 
