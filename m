@@ -1,22 +1,18 @@
 Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>)
-	id 1QhmML-0006cg-T1; Fri, 15 Jul 2011 19:39:30 +0200
+	(envelope-from <tom_rini@mentor.com>) id 1QhmZg-0006kB-NJ
+	for openembedded-core@lists.openembedded.org;
+	Fri, 15 Jul 2011 19:53:18 +0200
 Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6FHZPMg018374;
-	Fri, 15 Jul 2011 12:35:28 -0500
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6FHZPMf018374
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jul 2011 12:35:25 -0500
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jul 2011 10:35:22 -0700
-Message-Id: <7465d2456e98a7e66bf3ffca559ff58604323d65.1310751195.git.tom_rini@mentor.com>
+Date: Fri, 15 Jul 2011 10:35:21 -0700
+Message-Id: <cover.1310751195.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1310751195.git.tom_rini@mentor.com>
-References: <cover.1310751195.git.tom_rini@mentor.com>
-In-Reply-To: <cover.1310751195.git.tom_rini@mentor.com>
-References: <cover.1310751195.git.tom_rini@mentor.com>
-Cc: Koen Kooi <koen@openembedded.org>,
-	Ihar Hrachyshka <ihar.hrachyshka@gmail.com>
-Subject: [PATCH v2 1/1] Fixed concurrency problem for ZIP packed recipes.
+Subject: [PATCH v2 0/1] Add unzip DEPENDS for .zip SRC_URI files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,45 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 17:39:30 -0000
+X-List-Received-Date: Fri, 15 Jul 2011 17:53:18 -0000
 
-From: Ihar Hrachyshka <ihar.hrachyshka@gmail.com>
+Hey all,
 
-The problem occured when unzip-native is not yet staged, and ZIP
-archive unpacking already started resulting in failed do_unpack task.
-Added NEED_UNZIP_FOR_UNPACK variable to use in recipes which do_unpack
-with unzip utility but doesn't have '.zip' in SRC_URI (f.e. .EXE
-windows self-extraction binaries).
+In doing some world builds I ran into "oops, we don't make .zip files
+depend on unzip-native".  So this is a port of the commit from oe.dev
+that does this.
 
-Signed-off-by: Ihar Hrachyshka <ihar.hrachyshka@gmail.com>
-Signed-off-by: Koen Kooi <koen@openembedded.org>
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
----
+v2: Don brown paper bag, s/do_populate_staging/do_populate_sysroot, test
+The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
+  Saul Wold (1):
+        libx11: ensure nativesdk uses correct DEPENDS and XCB flags
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib trini/add-zip-native-check
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/add-zip-native-check
+
+Ihar Hrachyshka (1):
+  Fixed concurrency problem for ZIP packed recipes.
+
  meta/classes/base.bbclass |    9 +++++++++
  1 files changed, 9 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 0c2c546..35fcec2 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -354,6 +354,15 @@ python () {
-         depends = depends + " xz-native:do_populate_sysroot"
-         bb.data.setVarFlag('do_unpack', 'depends', depends, d)
- 
-+    # unzip-native should already be staged before unpacking ZIP recipes
-+    need_unzip = bb.data.getVar('NEED_UNZIP_FOR_UNPACK', d, 1)
-+    src_uri = bb.data.getVar('SRC_URI', d, 1)
-+
-+    if ".zip" in src_uri or need_unzip == "1":
-+        depends = bb.data.getVarFlag('do_unpack', 'depends', d) or ""
-+        depends = depends + " unzip-native:do_populate_sysroot"
-+        bb.data.setVarFlag('do_unpack', 'depends', depends, d)
-+
-     # 'multimachine' handling
-     mach_arch = bb.data.getVar('MACHINE_ARCH', d, 1)
-     pkg_arch = bb.data.getVar('PACKAGE_ARCH', d, 1)
--- 
-1.7.0.4
 
 
 
