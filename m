@@ -1,30 +1,26 @@
-Received: from mail-iw0-f175.google.com ([209.85.214.175])
+Received: from mail-pz0-f44.google.com ([209.85.210.44])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QhptY-0005G0-NN
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 23:26:00 +0200
-Received: by iwn4 with SMTP id 4so1487449iwn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2011 14:21:59 -0700 (PDT)
+	(envelope-from <raj.khem@gmail.com>)
+	id 1QhqEH-0005X2-V0; Fri, 15 Jul 2011 23:47:26 +0200
+Received: by pzk5 with SMTP id 5so2645272pzk.3
+	for <multiple recipients>; Fri, 15 Jul 2011 14:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=8HD7Iyb6tOTAxqF9pHW00YkRuai/azE14Ug9nBqrBSc=;
-	b=NPyzDZ+qZMvAQeobO89IR2j/0ed+ZmXhTxBALmol99+TAiYkWxdEA0keqfoHikCKes
-	MW8W0uZfReNnt7c8J6gihWV45fDImnOplWTJHFx5Jzqu9fvTwXz+2otexUVESC1XeOMU
-	shkzQLdx4T9ERA9CQtBVeEW1pL03PXPKpBHb4=
-Received: by 10.42.154.201 with SMTP id r9mr135205icw.473.1310764919056;
-	Fri, 15 Jul 2011 14:21:59 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id s2sm1771141icw.5.2011.07.15.14.21.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 15 Jul 2011 14:21:58 -0700 (PDT)
+	h=mime-version:from:date:message-id:subject:to:cc:content-type;
+	bh=ekg3XEOrnFfx51xhkzgvy28RzxpBOPXFS83NVPKlTTM=;
+	b=CppZGA/HUSHu9e+U/zu6eiad0VcjAvR+ubBG3qEnbyQKARpHyyu6GBpG36Bjz8p8GW
+	iumdFNi1n1ek/ChscDY6yWtkIu3au/XqxN1iLZjYKE6qZ2a/EUjoViR+mXyLST4AWUJD
+	k0DVn2ctAX7qufw841uogfq/9wmgEFUIm0IHA=
+Received: by 10.68.14.98 with SMTP id o2mr5271298pbc.10.1310766204068; Fri, 15
+	Jul 2011 14:43:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.68.62.36 with HTTP; Fri, 15 Jul 2011 14:42:54 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jul 2011 14:23:07 -0700
-Message-Id: <1310764987-26717-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH] bitbake.conf: Change TERM default fallback to XTERM instead of GNOME_TERM
+Date: Fri, 15 Jul 2011 14:42:54 -0700
+Message-ID: <CAMKF1spOJJP=qdDbYpcnArUR1rjvJznXXiB7KAqQNT5R7J8N_Q@mail.gmail.com>
+To: openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Populating meta-oe with new patches on oe.dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,34 +35,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 21:26:00 -0000
+X-List-Received-Date: Fri, 15 Jul 2011 21:47:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Its better to use xterm since some folks may not be using gnome
-or KDE. Chances of having xterm on build machines are lot more
-than having gnome-terminal.
+Hello
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/bitbake.conf |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+As we all know that next release of OpenEmbedded is slated based on
+oe-core, I would like to request submitters and committers of
+the patches for oe.dev to port the patches to meta-oe or any other
+layer that is suitable for a given patch. Any new recipes
+being added to oe.dev should definitely go into the new layered structure
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 463991d..128b0b6 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -571,8 +571,8 @@ KONSOLE_TERMCMD = 'konsole -T "$TERMWINDOWTITLE"'
- KONSOLE_TERMCMDRUN = '${KONSOLE_TERMCMD} -e $SHELLCMDS'
- 
- # Set a default
--TERMCMD ?= "${GNOME_TERMCMD}"
--TERMCMDRUN ?= "${GNOME_TERMCMDRUN}"
-+TERMCMD ?= "${XTERM_TERMCMD}"
-+TERMCMDRUN ?= "${XTERM_TERMCMDRUN}"
- 
- ##################################################################
- # Miscellaneous utilities.
--- 
-1.7.4.1
+Please follow the commit guidelines for meta-oe/oe-core and submit the
+appropriate pull requests so that when we cut out the next release we
+don't miss any of those patches.
 
+Thanks for your cooperation and help
+
+-Khem
 
 
