@@ -1,34 +1,30 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QhnV8-0001sU-FJ
+	(envelope-from <raj.khem@gmail.com>) id 1QhptY-0005G0-NN
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 20:52:38 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1Qhmpn-0004iS-Or from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 11:09:55 -0700
-Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Fri, 15 Jul 2011 11:08:07 -0700
-Received: from [172.30.80.62] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
-	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
-	Fri, 15 Jul 2011 11:09:54 -0700
-Message-ID: <4E208271.5070301@mentor.com>
-Date: Fri, 15 Jul 2011 11:09:53 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4E1F9F59.5050305@mentor.com>	<4E1FAC5A.2090308@windriver.com>	<1310740753.2350.0.camel@scimitar>	<4E2051FB.8080006@windriver.com>
-	<4E2057F8.5090100@mentor.com>
-In-Reply-To: <4E2057F8.5090100@mentor.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 15 Jul 2011 18:08:07.0108 (UTC)
-	FILETIME=[25E81840:01CC431A]
-Subject: Re: Building hg/help2man not relying on them?
+	Fri, 15 Jul 2011 23:26:00 +0200
+Received: by iwn4 with SMTP id 4so1487449iwn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jul 2011 14:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=8HD7Iyb6tOTAxqF9pHW00YkRuai/azE14Ug9nBqrBSc=;
+	b=NPyzDZ+qZMvAQeobO89IR2j/0ed+ZmXhTxBALmol99+TAiYkWxdEA0keqfoHikCKes
+	MW8W0uZfReNnt7c8J6gihWV45fDImnOplWTJHFx5Jzqu9fvTwXz+2otexUVESC1XeOMU
+	shkzQLdx4T9ERA9CQtBVeEW1pL03PXPKpBHb4=
+Received: by 10.42.154.201 with SMTP id r9mr135205icw.473.1310764919056;
+	Fri, 15 Jul 2011 14:21:59 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id s2sm1771141icw.5.2011.07.15.14.21.57
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 15 Jul 2011 14:21:58 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jul 2011 14:23:07 -0700
+Message-Id: <1310764987-26717-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH] bitbake.conf: Change TERM default fallback to XTERM instead of GNOME_TERM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,57 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 18:52:38 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Jul 2011 21:26:00 -0000
 
-On 07/15/2011 08:08 AM, Tom Rini wrote:
-> On 07/15/2011 07:43 AM, Mark Hatle wrote:
->> On 7/15/11 9:39 AM, Joshua Lock wrote:
->>> On Thu, 2011-07-14 at 21:56 -0500, Mark Hatle wrote:
->>>> On 7/14/11 9:00 PM, Tom Rini wrote:
->>>>> Hey all,
->>>>>
->>>>> As I work on bringing jenkins up on my stripped down builder machines
->>>>> I've once again run into the "wait, I'm supposed to have installed...?"
->>>>> problem.  Can we switch to building help2man and mercurial rather than
->>>>> making the end user install them?  Perhaps some sort of test for if we
->>>>> find it, ASSUME_PROVIDED it, otherwise build it?
->>>>>
->>>>
->>>> The full sanity list is:
->>>>
->>>> patch help2man diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk hg
->>>> chrpath wget cpio
->>>>
->>>> Of the above, help2man, texi2html, hg, and chrpath seem to be the ones I usually
->>>> have to find or build myself.
->>>
->>> Originally I built chrpath when I added relocatable.bbclass but then we
->>> wanted to relocate native packages and it got extremely tricky...
->>
->> I wonder if we can do something like pseudo and force chrpath to be built -very-
->> early in the process.. and then have most things have an automatic requirement
->> on chrpath-native...
->>
->> (pseudo of course has the advantage it's NOT used for native packages...)
->>
->> Is the native chrpath usage only in do_package [or later]?  If so, we could
->> probably put a dependency on do_package of chrpath.. with the affect that
->> chrpath would have to be built first...
-> 
-> IIRC, it's somewhere between really tricky and just not possible to
-> nicely shove chrpath-native as a dependency into the graph.  I'm going
-> to pause my siteinfo stuff shortly and take a stab at mercurial and
-> help2man since I know the recipes exist in oe.dev and this time around
-> I'll take a stab at adding stuff to ASSUME_PROVIDED if found (oe.dev
-> just has help2man-native in local.conf.sample).
+Its better to use xterm since some folks may not be using gnome
+or KDE. Chances of having xterm on build machines are lot more
+than having gnome-terminal.
 
-Here's a fun one, I've got the magic done, I think, but I can't test
-since there's no hg:// URIs in the metadata atm :)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/bitbake.conf |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 463991d..128b0b6 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -571,8 +571,8 @@ KONSOLE_TERMCMD = 'konsole -T "$TERMWINDOWTITLE"'
+ KONSOLE_TERMCMDRUN = '${KONSOLE_TERMCMD} -e $SHELLCMDS'
+ 
+ # Set a default
+-TERMCMD ?= "${GNOME_TERMCMD}"
+-TERMCMDRUN ?= "${GNOME_TERMCMDRUN}"
++TERMCMD ?= "${XTERM_TERMCMD}"
++TERMCMDRUN ?= "${XTERM_TERMCMDRUN}"
+ 
+ ##################################################################
+ # Miscellaneous utilities.
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.4.1
+
 
 
