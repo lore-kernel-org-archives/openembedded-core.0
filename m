@@ -1,24 +1,35 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Qhjyf-0000NO-Ea
+	(envelope-from <Tom_Rini@mentor.com>) id 1Qhk4J-0000S5-Ga
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 17:06:53 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qhjup-0007HI-1a
+	Fri, 15 Jul 2011 17:12:43 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Qhk0P-0003qW-VE from Tom_Rini@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 17:02:55 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Jul 2011 16:02:54 +0100
-In-Reply-To: <CADkTA4OYB0mch1SRSgidwGfZiWBeBuaWKH1BU1NgF9jPVa1Niw@mail.gmail.com>
-References: <1310736077.3805.37.camel@phil-desktop>
-	<CADkTA4OYB0mch1SRSgidwGfZiWBeBuaWKH1BU1NgF9jPVa1Niw@mail.gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1310742175.30326.1.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: kernels
+	Fri, 15 Jul 2011 08:08:41 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Fri, 15 Jul 2011 08:08:41 -0700
+Received: from [172.30.80.62] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.289.1;
+	Fri, 15 Jul 2011 08:08:41 -0700
+Message-ID: <4E2057F8.5090100@mentor.com>
+Date: Fri, 15 Jul 2011 08:08:40 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <4E1F9F59.5050305@mentor.com>
+	<4E1FAC5A.2090308@windriver.com>	<1310740753.2350.0.camel@scimitar>
+	<4E2051FB.8080006@windriver.com>
+In-Reply-To: <4E2051FB.8080006@windriver.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 15 Jul 2011 15:08:41.0781 (UTC)
+	FILETIME=[15458E50:01CC4301]
+Subject: Re: Building hg/help2man not relying on them?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 15:06:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 15 Jul 2011 15:12:43 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2011-07-15 at 09:51 -0400, Bruce Ashfield wrote:
-> On Fri, Jul 15, 2011 at 9:21 AM, Phil Blundell <pb@pbcl.net> wrote:
-> > The other day I was working on a BSP layer for a fairly generic i586
-> > system and I was struck by the fact that we don't appear to have any
-> > vanilla kernel recipes in oe-core.  I had sort of expected that, to get
-> > a standard bzImage out, I would just need to ship an appropriate
-> > defconfig in my layer and everything else would "just work".
+On 07/15/2011 07:43 AM, Mark Hatle wrote:
+> On 7/15/11 9:39 AM, Joshua Lock wrote:
+>> On Thu, 2011-07-14 at 21:56 -0500, Mark Hatle wrote:
+>>> On 7/14/11 9:00 PM, Tom Rini wrote:
+>>>> Hey all,
+>>>>
+>>>> As I work on bringing jenkins up on my stripped down builder machines
+>>>> I've once again run into the "wait, I'm supposed to have installed...?"
+>>>> problem.  Can we switch to building help2man and mercurial rather than
+>>>> making the end user install them?  Perhaps some sort of test for if we
+>>>> find it, ASSUME_PROVIDED it, otherwise build it?
+>>>>
+>>>
+>>> The full sanity list is:
+>>>
+>>> patch help2man diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk hg
+>>> chrpath wget cpio
+>>>
+>>> Of the above, help2man, texi2html, hg, and chrpath seem to be the ones I usually
+>>> have to find or build myself.
+>>
+>> Originally I built chrpath when I added relocatable.bbclass but then we
+>> wanted to relocate native packages and it got extremely tricky...
 > 
-> Hmm. Perhaps it isn't documented clearly enough as such, but the linux-yocto
-> kernel base can work in this mode, since that was a design goal of
-> 1.0.
+> I wonder if we can do something like pseudo and force chrpath to be built -very-
+> early in the process.. and then have most things have an automatic requirement
+> on chrpath-native...
 > 
-> You pick a branch, throw in a config fragment (or defconfig if you really
-> want)  and build. The base branches in the tree are generic enough to
-> sort a range of boards out of the box, and should form a base.
+> (pseudo of course has the advantage it's NOT used for native packages...)
+> 
+> Is the native chrpath usage only in do_package [or later]?  If so, we could
+> probably put a dependency on do_package of chrpath.. with the affect that
+> chrpath would have to be built first...
 
-Okay, cool.  I'll give it a go and see how I get on.
+IIRC, it's somewhere between really tricky and just not possible to
+nicely shove chrpath-native as a dependency into the graph.  I'm going
+to pause my siteinfo stuff shortly and take a stab at mercurial and
+help2man since I know the recipes exist in oe.dev and this time around
+I'll take a stab at adding stuff to ASSUME_PROVIDED if found (oe.dev
+just has help2man-native in local.conf.sample).
 
-Is there a description anywhere of what the functional differences are
-between the code in linux-yocto git and the upstream kernel.org tree?
-
-p.
-
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
