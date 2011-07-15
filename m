@@ -1,24 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QhUi8-000804-HW
+	(envelope-from <Tom_Rini@mentor.com>) id 1QhY63-0003tN-A0
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 00:48:48 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Jul 2011 15:44:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.65,531,1304319600"; d="scan'208";a="27825174"
-Received: from doubt.jf.intel.com (HELO localhost) ([10.7.199.58])
-	by orsmga001.jf.intel.com with ESMTP; 14 Jul 2011 15:44:47 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jul 2011 15:44:32 -0700
-Message-Id: <521f9f1e955212a9974eb0897c0b322aa8356192.1310683406.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1310683406.git.dvhart@linux.intel.com>
-References: <cover.1310683406.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1310683406.git.dvhart@linux.intel.com>
-References: <cover.1310683406.git.dvhart@linux.intel.com>
-Subject: [PATCH 1/1] send-pull-request: default to --supress-cc=all
+	Fri, 15 Jul 2011 04:25:43 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1QhXiC-0004s8-57 from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Jul 2011 19:01:04 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 14 Jul 2011 19:01:03 -0700
+Received: from [172.30.80.62] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 14 Jul 2011 19:01:03 -0700
+Message-ID: <4E1F9F59.5050305@mentor.com>
+Date: Thu, 14 Jul 2011 19:00:57 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 15 Jul 2011 02:01:03.0990 (UTC)
+	FILETIME=[0D6EE960:01CC4293]
+Subject: Building hg/help2man not relying on them?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +41,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jul 2011 22:48:48 -0000
+X-List-Received-Date: Fri, 15 Jul 2011 02:25:43 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Unless the user specifies -c, don't pull in any email addresses from the
-patches in the series. This avoids having to remove the email addresses from
-patches being pulled in from upstream. If you want the email addresses on the
-patch to be added, continue to use the -c option as before.
+Hey all,
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
----
- scripts/send-pull-request |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+As I work on bringing jenkins up on my stripped down builder machines
+I've once again run into the "wait, I'm supposed to have installed...?"
+problem.  Can we switch to building help2man and mercurial rather than
+making the end user install them?  Perhaps some sort of test for if we
+find it, ASSUME_PROVIDED it, otherwise build it?
 
-diff --git a/scripts/send-pull-request b/scripts/send-pull-request
-index 4904a0d..be13009 100755
---- a/scripts/send-pull-request
-+++ b/scripts/send-pull-request
-@@ -26,7 +26,7 @@
- 
- AUTO=0
- AUTO_CL=0
--GITSOBCC=""
-+GITSOBCC="--suppress-cc=all"
- 
- # Prevent environment leakage to these vars.
- unset TO
 -- 
-1.7.1
-
+Tom Rini
+Mentor Graphics Corporation
 
 
