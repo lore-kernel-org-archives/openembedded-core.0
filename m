@@ -1,27 +1,31 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Qhkcb-0000xD-UJ
+	(envelope-from <koen@dominion.thruhere.net>) id 1QhkgM-00013v-UQ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 17:48:09 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QhkYk-0007K7-Tx
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 17:44:11 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
+	Fri, 15 Jul 2011 17:52:03 +0200
+Received: by wyg30 with SMTP id 30so1002342wyg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jul 2011 08:48:02 -0700 (PDT)
+Received: by 10.216.237.131 with SMTP id y3mr662780weq.87.1310744882255;
+	Fri, 15 Jul 2011 08:48:02 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id em16sm1167584wbb.16.2011.07.15.08.48.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 15 Jul 2011 08:48:01 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <201107151620.24845.paul.eggleton@linux.intel.com>
+Date: Fri, 15 Jul 2011 17:47:55 +0200
+Message-Id: <C48549BB-6362-4A9F-9C3A-55936D2C12B3@dominion.thruhere.net>
+References: <cover.1310735644.git.paul.eggleton@linux.intel.com>
+	<769b19321ac3436a2b3e2bc7db4204aca0449f94.1310735644.git.paul.eggleton@linux.intel.com>
+	<76BA0D0F-4665-4D73-A7F3-C8D4401F5DC2@dominion.thruhere.net>
+	<201107151620.24845.paul.eggleton@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Jul 2011 16:44:02 +0100
-In-Reply-To: <1310744304.30326.8.camel@phil-desktop>
-References: <4E1F9F59.5050305@mentor.com> <4E1FAC5A.2090308@windriver.com>
-	<1310740753.2350.0.camel@scimitar> <4E2051FB.8080006@windriver.com>
-	<4E2057F8.5090100@mentor.com> <1310743089.30326.6.camel@phil-desktop>
-	<1310743401.20015.1251.camel@rex>
-	<1310744304.30326.8.camel@phil-desktop>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1310744650.30326.9.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: Building hg/help2man not relying on them?
+Subject: Re: [PATCH 3/3] classes: remove classes that don't belong in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,27 +40,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 15:48:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Fri, 2011-07-15 at 16:38 +0100, Phil Blundell wrote:
-> On Fri, 2011-07-15 at 16:23 +0100, Richard Purdie wrote:
-> > If we don't have chrpath present it means we need to disable sstate for
-> > all its dependencies and the whole thing got really messy and nasty very
-> > quickly :(.
-> 
-> Looking at the output of bitbake -e, the only dependencies for
-> gettext-native are:
-
-... irrelevant, of course, but the dependencies for chrpath-native
-are...
-
->DEPENDS="autoconf-native automake-native libtool-native
->gnu-config-native"
-
-p.
+X-List-Received-Date: Fri, 15 Jul 2011 15:52:03 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 15 jul 2011, om 17:20 heeft Paul Eggleton het volgende geschreven:
+
+> On Friday 15 July 2011 15:52:04 Koen Kooi wrote:
+>> meta-xfce
+>=20
+> Is there such a thing at the moment?=20
+
+Apparently only in my local meta-oe tree :/ I'll delete it and want for =
+Andreas to send his patches.=
 
 
