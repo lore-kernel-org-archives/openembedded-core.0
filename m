@@ -1,22 +1,37 @@
-Received: from mailout-de.gmx.net ([213.165.64.22])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <schnitzeltony@gmx.de>) id 1QiEPm-0004ha-Fk
+Received: from mail-pz0-f44.google.com ([209.85.210.44])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1QiEkr-0004u5-Ig
 	for openembedded-core@lists.openembedded.org;
-	Sun, 17 Jul 2011 01:36:54 +0200
-Received: (qmail invoked by alias); 16 Jul 2011 23:32:51 -0000
-Received: from p4FDF0445.dip.t-dialin.net (EHLO localhost.localdomain)
-	[79.223.4.69]
-	by mail.gmx.net (mp004) with SMTP; 17 Jul 2011 01:32:51 +0200
-X-Authenticated: #62780362
-X-Provags-ID: V01U2FsdGVkX1/3JthTHjr35tJzdP0B3NxVZ/owGIgwg1av14a15Y
-	Uo2ifSVW0WZpUc
-From: Andreas Mueller <schnitzeltony@gmx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jul 2011 01:34:56 +0200
-Message-Id: <1310859296-18797-1-git-send-email-schnitzeltony@gmx.de>
-X-Mailer: git-send-email 1.7.4.4
-X-Y-GMX-Trusted: 0
-Subject: [PATCH] gdk-pixbuf: Fix QA issues and clean minor formatting
+	Sun, 17 Jul 2011 01:58:41 +0200
+Received: by pzk5 with SMTP id 5so3631838pzk.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 16 Jul 2011 16:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=references:in-reply-to:mime-version:content-transfer-encoding
+	:content-type:message-id:cc:x-mailer:from:subject:date:to;
+	bh=xSeRN2zwawGObnr28mTGISCbrE5RDYBtk6TfvEp02SI=;
+	b=TAmpj00UOL9YRNkj6pfrwItb3d7VVmy/OwIxWuWi2NPhfiM/C40kSK+nJOEHp3XTCU
+	zeDG2L31EeVCArU/39pdngtOXuvuChcYKvHKMUeV4INZrRD14l2yqxDUvlhdv6vwZffL
+	YiTSSIz4BU2gB5T6SuyXt+nevkrxWxQMOjGTo=
+Received: by 10.142.43.6 with SMTP id q6mr2177225wfq.421.1310860476807;
+	Sat, 16 Jul 2011 16:54:36 -0700 (PDT)
+Received: from [192.168.1.81] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id d1sm1517180pbj.40.2011.07.16.16.54.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 16 Jul 2011 16:54:36 -0700 (PDT)
+References: <201107170122.49326.schnitzeltony@gmx.de>
+In-Reply-To: <201107170122.49326.schnitzeltony@gmx.de>
+Mime-Version: 1.0 (iPad Mail 8J2)
+Message-Id: <796ECE90-6B1E-4AC0-AD49-98BE5512E0B5@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: iPad Mail (8J2)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 16 Jul 2011 16:55:19 -0700
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: How to force rebuild of a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,53 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jul 2011 23:36:54 -0000
+X-List-Received-Date: Sat, 16 Jul 2011 23:58:41 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-QA warnings fixed:
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-png.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-wbmp.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-xbm.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-ras.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-tga.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-bmp.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-ani.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-pnm.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-icns.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-pcx.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-ico.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-gif.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-qtif.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-xpm.la
-WARNING:   /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-jpeg.la
 
-Signed-off-by: Andreas Mueller <schnitzeltony@gmx.de>
----
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb |    7 +++++--
- 1 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
-index e3f5977..e3e1819 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
-@@ -34,11 +34,14 @@ FILES_${PN} = "${bindir}/gdk-pixbuf-query-loaders \
- 
- FILES_${PN}-dev += " \
- 	${bindir}/gdk-pixbuf-csource \
--	${includedir}/*"
-+	${includedir}/* \
-+	${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders/*.la \
-+"
- 
- FILES_${PN}-dbg += " \
-         ${libdir}/.debug/* \
--	${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders/.debug/*"
-+	${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders/.debug/* \
-+"
- 
- postinst_pixbufloader () {
- if [ "x$D" != "x" ]; then
--- 
-1.7.4.4
+On Jul 16, 2011, at 4:22 PM, Andreas Mueller <schnitzeltony@gmx.de> wrote:
 
+> Hi
+>=20
+> in oe during development I forced a full recipe rebuild by
+>=20
+> bitbake -cclean recipe && bitbake recipe
+>=20
+> in oe-core environment this does not seem to work. I found out that it=20
+> additional needs manual deleting of the archives belonging to the recipe i=
+n the=20
+> build folder sstate-cache. Is it a bug that -cclean does not delete these?=
+ Or=20
+> how do I force a rebuild of a recipe under oe-core?
+
+Use -c cleansstate or -c cleanall
+
+>=20
+> Thanks
+>=20
+> Andreas
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
