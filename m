@@ -1,30 +1,32 @@
-Received: from mail-iw0-f175.google.com ([209.85.214.175])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QhuDh-0002AE-Ij
+	(envelope-from <raj.khem@gmail.com>) id 1QhuDp-0002An-TZ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Jul 2011 04:03:05 +0200
-Received: by iwn4 with SMTP id 4so1618496iwn.6
+	Sat, 16 Jul 2011 04:03:14 +0200
+Received: by iyj12 with SMTP id 12so272193iyj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jul 2011 18:59:03 -0700 (PDT)
+	Fri, 15 Jul 2011 18:59:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ELu2TL9Db1Snq7zAg3DB3eg85munqA9eobLNi5VSdHI=;
-	b=h4Uu2rXbY1KppLnMD72I4rytgACeAa62sDicqXnC/fT3z0N2mCjJhQXJ9WTdyJ28CD
-	ZAvEQJUX+TjP38CLEB0tkm4MohXiHXFY7iSHzrvO2umSPsKS78REA7mp/sdiB/XJ8bsW
-	ZJqu40ODM3xyuCzO1JvMZpqCuyIYweMOTd1Sw=
-Received: by 10.231.207.71 with SMTP id fx7mr3426305ibb.168.1310781543677;
-	Fri, 15 Jul 2011 18:59:03 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=8HD7Iyb6tOTAxqF9pHW00YkRuai/azE14Ug9nBqrBSc=;
+	b=pn+TOc36OQjRz3nLVNhDFYd95XHE+V3LQfJ9NE/fmKQIwpSE2Cl3y1h/H4uvvaGNU2
+	kWrmYIAfwnVbpBBAMbNqvInkO7vhxZKYLTMLDU5bE+xLaZu+yhVRAh5fQrlaZ//DIdgm
+	RV7M7sG5vdNsdL9vi9agRTtDYXdP9uxuSMYHg=
+Received: by 10.42.151.138 with SMTP id e10mr4509636icw.251.1310781552168;
+	Fri, 15 Jul 2011 18:59:12 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id v16sm1208792ibe.17.2011.07.15.18.59.02
+	by mx.google.com with ESMTPS id hq1sm2001828icc.14.2011.07.15.18.59.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 15 Jul 2011 18:59:03 -0700 (PDT)
+	Fri, 15 Jul 2011 18:59:11 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jul 2011 18:58:52 -0700
-Message-Id: <cover.1310781382.git.raj.khem@gmail.com>
+Date: Fri, 15 Jul 2011 18:59:02 -0700
+Message-Id: <e286a25378756398463d3bf34174005a8cef8841.1310781382.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH 0/4] Make oecore default images buildable with uclibc
+In-Reply-To: <cover.1310781382.git.raj.khem@gmail.com>
+References: <cover.1310781382.git.raj.khem@gmail.com>
+Subject: [PATCH 1/4] bitbake.conf: Change TERM default fallback to XTERM instead of GNOME_TERM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,37 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jul 2011 02:03:05 -0000
+X-List-Received-Date: Sat, 16 Jul 2011 02:03:14 -0000
 
-These patches make sure that core-image-minimal is buildable
-by using *just* oe-core layer. Testing building and booting
-qemux86-64 core-image-minimal
+Its better to use xterm since some folks may not be using gnome
+or KDE. Chances of having xterm on build machines are lot more
+than having gnome-terminal.
 
-The following changes since commit 3d2c1ca9096790e4c6922b65b83ea1dffb90c362:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/bitbake.conf |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-  util-linux: Replace sigsetmask with posix compliant functions (2011-07-15 18:52:49 -0700)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-oecore
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-oecore
-
-Khem Raj (4):
-  bitbake.conf: Change TERM default fallback to XTERM instead of
-    GNOME_TERM
-  oe-buildenv-internal: Replace POKYMODE POKYLIBC with TCMODE and
-    TCLIBC
-  default-distrovars: Add largefile to DISTRO_FEATURES
-  acl,attr: Fix build failures when NLS is disabled on uclibc
-
- meta/conf/bitbake.conf                          |    4 ++--
- meta/conf/distro/include/default-distrovars.inc |    3 +--
- meta/recipes-support/attr/acl_2.2.51.bb         |    2 +-
- meta/recipes-support/attr/attr.inc              |    4 ----
- meta/recipes-support/attr/attr_2.4.46.bb        |    2 +-
- meta/recipes-support/attr/ea-acl.inc            |    4 ++++
- scripts/oe-buildenv-internal                    |    2 +-
- 7 files changed, 10 insertions(+), 11 deletions(-)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 463991d..128b0b6 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -571,8 +571,8 @@ KONSOLE_TERMCMD = 'konsole -T "$TERMWINDOWTITLE"'
+ KONSOLE_TERMCMDRUN = '${KONSOLE_TERMCMD} -e $SHELLCMDS'
+ 
+ # Set a default
+-TERMCMD ?= "${GNOME_TERMCMD}"
+-TERMCMDRUN ?= "${GNOME_TERMCMDRUN}"
++TERMCMD ?= "${XTERM_TERMCMD}"
++TERMCMDRUN ?= "${XTERM_TERMCMDRUN}"
+ 
+ ##################################################################
+ # Miscellaneous utilities.
 -- 
 1.7.4.1
 
