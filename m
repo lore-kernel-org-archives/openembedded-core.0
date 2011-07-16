@@ -1,34 +1,30 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QhrJy-00072D-Bx
+	(envelope-from <raj.khem@gmail.com>) id 1QhsLg-0000Gk-85
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Jul 2011 00:57:22 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1QhrG6-0004zk-O4 from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jul 2011 15:53:22 -0700
-Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Fri, 15 Jul 2011 15:53:22 -0700
-Received: from [172.30.80.62] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
-	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
-	Fri, 15 Jul 2011 15:53:21 -0700
-Message-ID: <4E20C4E0.2030908@mentor.com>
-Date: Fri, 15 Jul 2011 15:53:20 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1310758615.git.tom_rini@mentor.com>	<c7276dd332ad9e38935443d679c0296a032a511c.1310758615.git.tom_rini@mentor.com>
-	<1310770123.20015.1259.camel@rex>
-In-Reply-To: <1310770123.20015.1259.camel@rex>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 15 Jul 2011 22:53:22.0581 (UTC)
-	FILETIME=[FF860450:01CC4341]
-Subject: Re: [PATCH 3/5] help2man-native: Add 1.36.4 (GPLv2) and 1.38.2 (GPLv3)
+	Sat, 16 Jul 2011 02:03:12 +0200
+Received: by iwn4 with SMTP id 4so1573216iwn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jul 2011 16:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ABlAfwxKg7ZAiYi8UI4px9VJdg2R6C+bHQH40fviwPE=;
+	b=aDeFJ7rjYIdAUMECAkVXOTcWaXJWrWzcufnVsLP+PsDSOvPr4OO2qYLdJ5rOnwIV7i
+	JMB+JMPOuaGfHzi+mTnFn135OtRu9l9AExMeRwGx/qnup63cT6OnecsdmemZszVS3ZDv
+	KiF6yFoIQv+T4A2/7OywtX2Mye1UNRVS8pOlw=
+Received: by 10.42.161.129 with SMTP id t1mr4540600icx.123.1310774350448;
+	Fri, 15 Jul 2011 16:59:10 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id vj5sm1904952icb.11.2011.07.15.16.59.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 15 Jul 2011 16:59:09 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jul 2011 17:00:20 -0700
+Message-Id: <1310774420-27181-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH] oe-buildenv-internal: Replace POKYMODE POKYLIBC with TCMODE and TCLIBC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,62 +39,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jul 2011 22:57:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 16 Jul 2011 00:03:12 -0000
 
-On 07/15/2011 03:48 PM, Richard Purdie wrote:
-> On Fri, 2011-07-15 at 15:03 -0700, Tom Rini wrote:
->> These are 'side ports' of current oe.dev versions.  PR is kept in sync
->> but we drop out the target recipes in order to punt on potential perl
->> problems.
->>
->> Signed-off-by: Tom Rini <tom_rini@mentor.com>
->> ---
->>  .../help2man/help2man-native_1.36.4.bb             |   26 ++++++++++++++++++++
->>  .../help2man/help2man-native_1.38.2.bb             |   24 ++++++++++++++++++
->>  2 files changed, 50 insertions(+), 0 deletions(-)
->>  create mode 100644 meta/recipes-devtools/help2man/help2man-native_1.36.4.bb
->>  create mode 100644 meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
->>
-> [...]
->> diff --git a/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb b/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
->> new file mode 100644
->> index 0000000..5612eda
->> --- /dev/null
->> +++ b/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
->> @@ -0,0 +1,24 @@
->> +DESCRIPTION = "Program to create simple man pages"
->> +SECTION = "devel"
->> +LICENSE = "GPLv3"
->> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->> +DEPENDS = "autoconf-native automake-native"
->> +PR = "r2"
->> +
->> +SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
->> +SRC_URI[md5sum] = "426671c6fe79e5ef2233303367eab5a6"
->> +SRC_URI[sha256sum] = "952c29561bce8b233aa10af7f0e0c79c8243712810bf8ddf01e6efd82ce250d1"
->> +
->> +inherit autotools native
->> +
->> +EXTRA_OECONF = "--disable-nls"
->> +
->> +# We don't want to reconfigure things
->> +do_configure() {
->> +	oe_runconf
->> +}
-> 
-> At the very least I'd like to know why we can't do this. Its a great way
-> to hide bugs (such as libtool rpath injection issues, admittedly in the
-> target case).
+These are new variable names in oe-core
 
-In oe.dev, chicken and egg problem wrt perl.  Here, I'll see if we can
-drop this part too, as part of a v2 with the older help2man dropped and
-per IRC, mercurial-native moved over to a meta-oe patch (but keeping the
-sanity.bbclass/bitbake.conf change).
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ scripts/oe-buildenv-internal |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index 09dbf02..c13fc40 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -55,4 +55,4 @@ unset BITBAKEDIR
+ export BUILDDIR
+ export PATH
+ 
+-export BB_ENV_EXTRAWHITE="MACHINE DISTRO POKYMODE POKYLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
++export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.4.1
+
 
 
