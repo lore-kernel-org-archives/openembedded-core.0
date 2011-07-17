@@ -1,25 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QiNtz-0001MB-0Q
+	(envelope-from <Tom_Rini@mentor.com>) id 1QiSLz-0008Sw-RB
 	for openembedded-core@lists.openembedded.org;
-	Sun, 17 Jul 2011 11:44:43 +0200
-Received: by wwi18 with SMTP id 18so1994502wwi.24
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jul 2011 02:40:40 -0700 (PDT)
-Received: by 10.217.3.80 with SMTP id q58mr4455628wes.53.1310895640319;
-	Sun, 17 Jul 2011 02:40:40 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id r56sm1668864weq.39.2011.07.17.02.40.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 17 Jul 2011 02:40:39 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Sun, 17 Jul 2011 11:40:37 +0200
-Message-Id: <2ACEB6D6-846E-479C-AAE1-5C43687FD581@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1084)
-X-Mailer: Apple Mail (2.1084)
-Subject: Incomplete licensing in recipes
+	Sun, 17 Jul 2011 16:29:56 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QiSI5-0005pF-EH from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Sun, 17 Jul 2011 07:25:53 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Sun, 17 Jul 2011 07:23:55 -0700
+Received: from [172.30.80.62] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
+	Sun, 17 Jul 2011 07:25:52 -0700
+Message-ID: <4E22F0EC.7000603@mentor.com>
+Date: Sun, 17 Jul 2011 07:25:48 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1310856514-12964-1-git-send-email-schnitzeltony@gmx.de>
+In-Reply-To: <1310856514-12964-1-git-send-email-schnitzeltony@gmx.de>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 17 Jul 2011 14:23:55.0436 (UTC)
+	FILETIME=[28E956C0:01CC448D]
+Subject: Re: [PATCH] gdk-pixbuf(-native): Fix build by disabling introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,23 +42,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jul 2011 09:44:43 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 17 Jul 2011 14:29:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 07/16/2011 03:48 PM, Andreas Mueller wrote:
+> Error message was:
+> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/g-ir-compiler  --includedir=. GdkPixbuf-2.0.gir -o GdkPixbuf-2.0.typelib
+> | /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
+> | /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
+> | error parsing file GdkPixbuf-2.0.gir: Failed to parse included gir GLib-2.0
+> | make[4]: *** [GdkPixbuf-2.0.typelib] Error 1
+> 
+> Signed-off-by: Andreas Mueller <schnitzeltony@gmx.de>
 
-I was looking at the testlab output for licensing [1] and noticed that =
-eglibc(-locale) and libcap2 just say (L)GPL and don't specify the =
-version, was that intended?
+Sounds like gnome.bbclass is out of sync and we need both
+--enable-introspection=no and --disable-scrollkeeper.
 
-regards,
-
-Koen
-
-[1] =
-http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/testlab/tree/hawkboa=
-rd/eglibc/systemd-image/installed-package-licenses.txt?h=3Dyocto&id=3Dff18=
-5d46e0da70dba80a540a9d7d6757cd213931=
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
