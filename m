@@ -1,33 +1,24 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from vms173001pub.verizon.net ([206.46.173.1])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QiSLz-0008Sw-RB
-	for openembedded-core@lists.openembedded.org;
-	Sun, 17 Jul 2011 16:29:56 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QiSI5-0005pF-EH from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Sun, 17 Jul 2011 07:25:53 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Sun, 17 Jul 2011 07:23:55 -0700
-Received: from [172.30.80.62] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
-	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
-	Sun, 17 Jul 2011 07:25:52 -0700
-Message-ID: <4E22F0EC.7000603@mentor.com>
-Date: Sun, 17 Jul 2011 07:25:48 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110424 Lightning/1.0b2 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1310856514-12964-1-git-send-email-schnitzeltony@gmx.de>
-In-Reply-To: <1310856514-12964-1-git-send-email-schnitzeltony@gmx.de>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 17 Jul 2011 14:23:55.0436 (UTC)
-	FILETIME=[28E956C0:01CC448D]
-Subject: Re: [PATCH] gdk-pixbuf(-native): Fix build by disabling introspection
+	(envelope-from <denis@denix.org>)
+	id 1QiVJU-00038m-Cb; Sun, 17 Jul 2011 19:39:32 +0200
+Received: from gandalf.denix.org ([unknown] [108.18.140.4])
+	by vms173001.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009))
+	with ESMTPA id <0LOH00IE3KPZOJB2@vms173001.mailsrvcs.net>; Sun,
+	17 Jul 2011 11:35:00 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 848F514AF5D; Sun,
+	17 Jul 2011 12:34:47 -0400 (EDT)
+Date: Sun, 17 Jul 2011 12:34:47 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-members@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-id: <20110717163447.GF21964@denix.org>
+MIME-version: 1.0
+User-Agent: Mutt/1.5.16 (2007-06-09)
+Subject: Minutes: OpenEmbedded eV Board meeting, 11-Jul-2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,25 +33,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jul 2011 14:29:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 17 Jul 2011 17:39:32 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On 07/16/2011 03:48 PM, Andreas Mueller wrote:
-> Error message was:
-> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/g-ir-compiler  --includedir=. GdkPixbuf-2.0.gir -o GdkPixbuf-2.0.typelib
-> | /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
-> | /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
-> | error parsing file GdkPixbuf-2.0.gir: Failed to parse included gir GLib-2.0
-> | make[4]: *** [GdkPixbuf-2.0.typelib] Error 1
-> 
-> Signed-off-by: Andreas Mueller <schnitzeltony@gmx.de>
+Minutes: OpenEmbedded eV Board meeting, 11-Jul-2011
 
-Sounds like gnome.bbclass is out of sync and we need both
---enable-introspection=no and --disable-scrollkeeper.
+Attendees:
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+Michael Lauer (mickey)
+Philip Balister (Crofton)
+Florian Boor (florian)
+Denys Dmytriyenko (denix)
+
+
+00) action items from last meeting:
+* call for TSC elections (Mickey) - done
+* call for OE eV General Assembly (Crofton) - done
+* status update on sending money for the switch
+  ** florian is waiting for additional info (bank address) from Jeff (OSUOSL) to initiate the transfer
+  ** once received, florian has to go to the bank in person to make the transfer
+  ** sent the reminder to Jeff, the required info was received after the meeting
+* check and open a credit/debit card for simple money transfers
+  ** florian to take care when at the bank
+* call for donations
+  ** denix checked with TI, waiting for after Yocto budget is approved to see if any money left after LF and Yocto fees
+  ** Intel offered a donation too - need to follow up with Dirk or DaveSt
+  ** encourage people to make individual donations
+
+01) agenda:
+* TSC elections
+* LF server donation status
+* more financial/donation discussion
+* financial contributions to OSUOSL for hosting OE
+* some/any financial support from LF/Yocto
+
+02) TSC elections
+* call for TSC candidates was made
+* 2 weeks period is over - only 1 candidate (RP)
+* is call for votes required?
+* can one candidate be accepted by acllamation?
+* there were no reminders at the end of 2 weeks encouraging more candidates
+  ** should the reminder be sent now and period extended by 1-2 days?
+  ** Board decides by majority that 2 weeks were enough for anyone interested to propose their candidacy
+* Board agrees to suggest electing RP by acclamation on the list (Mickey)
+  ** if nobody objects, close the voting and announce the results
+* make a note to send reminders next time before the 2-week application/discussion/voting period is over
+* during GA we should discuss and/or update the statutes covering this situation (acclamation) in detail
+
+03) LF server donation status
+* still in the process - the previous hardware specs were scrapped
+* while talking to involved parties, it's not clear who's the legal recipient of the donation
+  ** Tom King is in the talks with LF and OSUOSL directly
+  ** are the servers donated to OSUOSL/nas-admin or OE eV/Board?
+* need to talk to LF to clarify things
+  ** who are the people involved, who's overseeing, paperwork?
+  ** Crofton on travel, denix to cover for him during next Yocto-AB meeting and raise the above questions
+* suggest involved parties (Tom, LF, OSUOSL) to copy the Board (board@openembedded.org) in ongoing discussions instead of direct peer-to-peer emails or random IRC chats
+* possibly hold a conference call to make the process more transparent
+
+04) is the corporate donation procedure documented?
+* check the Wiki, update if needed
+* there is some form needed to be filled
+  ** Crofton has the copy from previous TI donation
+  ** florian will work with Intel, consult with Crofton for any legal aspects
+
+05) individual donations
+* denix makes first individual donation through PayPal
+  ** hopes to inspire others to donate... :)
+* Crofton to donate an SSD
+
+06) financial contributions to OSUOSL
+* Tom reports that OE is consuming most of the free resources provided by OSUOSL to Open Source projects
+  ** OE needs to be a good citizen and contribute financially back to OSUOSL, like other projects
+* Mickey: what's consuming the resources - web, git?
+  ** According to Tom, git traffic is up, plus oe.org source mirror contributes to network traffic
+  ** Also autobuilders doing regression testing on Angstrom and oe-core - cpu/disk load
+* Estimate the amount of financial contribution to OSUOSL
+  ** Still under discussion, Tom suggesting around $300-$500 per year?
+  ** to offset the free hosting and bandwidth...
+* Tom estimates to have 4-8 physical servers for OE in the near future
+
+07) financial support from LF/Yocto
+* LF is already supporting OE
+  ** server donation
+  ** sponsoring Tom's travel to the site for admin work
+  ** offering travel sponsorship to key OE people for big events?
+* some OE community members are suggesting that Yocto should provide additional financial support to OE
+  ** to help with OE's ongoing expenses
+  ** to support oe-core/meta-oe development, hosting and regression testing
+  ** not talking about big money though
+
+08) agree on next Board meeting
+* next meeting is either Aug 8-12 or short one the last week of July for financial updates
+* need to start fomalizing the budget and concrete financial goals
+
+09) anyone attending CCC?
+* http://events.ccc.de/camp/2011
+* http://en.wikipedia.org/wiki/Chaos_Communication_Camp
+
 
 
