@@ -1,37 +1,25 @@
-Received: from mail-pz0-f44.google.com ([209.85.210.44])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QiEkr-0004u5-Ig
+	(envelope-from <koen@dominion.thruhere.net>) id 1QiNtz-0001MB-0Q
 	for openembedded-core@lists.openembedded.org;
-	Sun, 17 Jul 2011 01:58:41 +0200
-Received: by pzk5 with SMTP id 5so3631838pzk.3
+	Sun, 17 Jul 2011 11:44:43 +0200
+Received: by wwi18 with SMTP id 18so1994502wwi.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jul 2011 16:54:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=references:in-reply-to:mime-version:content-transfer-encoding
-	:content-type:message-id:cc:x-mailer:from:subject:date:to;
-	bh=xSeRN2zwawGObnr28mTGISCbrE5RDYBtk6TfvEp02SI=;
-	b=TAmpj00UOL9YRNkj6pfrwItb3d7VVmy/OwIxWuWi2NPhfiM/C40kSK+nJOEHp3XTCU
-	zeDG2L31EeVCArU/39pdngtOXuvuChcYKvHKMUeV4INZrRD14l2yqxDUvlhdv6vwZffL
-	YiTSSIz4BU2gB5T6SuyXt+nevkrxWxQMOjGTo=
-Received: by 10.142.43.6 with SMTP id q6mr2177225wfq.421.1310860476807;
-	Sat, 16 Jul 2011 16:54:36 -0700 (PDT)
-Received: from [192.168.1.81] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id d1sm1517180pbj.40.2011.07.16.16.54.35
+	Sun, 17 Jul 2011 02:40:40 -0700 (PDT)
+Received: by 10.217.3.80 with SMTP id q58mr4455628wes.53.1310895640319;
+	Sun, 17 Jul 2011 02:40:40 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id r56sm1668864weq.39.2011.07.17.02.40.39
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 16 Jul 2011 16:54:36 -0700 (PDT)
-References: <201107170122.49326.schnitzeltony@gmx.de>
-In-Reply-To: <201107170122.49326.schnitzeltony@gmx.de>
-Mime-Version: 1.0 (iPad Mail 8J2)
-Message-Id: <796ECE90-6B1E-4AC0-AD49-98BE5512E0B5@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: iPad Mail (8J2)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 16 Jul 2011 16:55:19 -0700
+	Sun, 17 Jul 2011 02:40:39 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sun, 17 Jul 2011 11:40:37 +0200
+Message-Id: <2ACEB6D6-846E-479C-AAE1-5C43687FD581@dominion.thruhere.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: How to force rebuild of a recipe
+Mime-Version: 1.0 (Apple Message framework v1084)
+X-Mailer: Apple Mail (2.1084)
+Subject: Incomplete licensing in recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,38 +34,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jul 2011 23:58:41 -0000
+X-List-Received-Date: Sun, 17 Jul 2011 09:44:43 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+Hi,
 
+I was looking at the testlab output for licensing [1] and noticed that =
+eglibc(-locale) and libcap2 just say (L)GPL and don't specify the =
+version, was that intended?
 
-On Jul 16, 2011, at 4:22 PM, Andreas Mueller <schnitzeltony@gmx.de> wrote:
+regards,
 
-> Hi
->=20
-> in oe during development I forced a full recipe rebuild by
->=20
-> bitbake -cclean recipe && bitbake recipe
->=20
-> in oe-core environment this does not seem to work. I found out that it=20
-> additional needs manual deleting of the archives belonging to the recipe i=
-n the=20
-> build folder sstate-cache. Is it a bug that -cclean does not delete these?=
- Or=20
-> how do I force a rebuild of a recipe under oe-core?
+Koen
 
-Use -c cleansstate or -c cleanall
-
->=20
-> Thanks
->=20
-> Andreas
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+[1] =
+http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/testlab/tree/hawkboa=
+rd/eglibc/systemd-image/installed-package-licenses.txt?h=3Dyocto&id=3Dff18=
+5d46e0da70dba80a540a9d7d6757cd213931=
 
 
