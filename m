@@ -1,24 +1,16 @@
-Received: from vms173001pub.verizon.net ([206.46.173.1])
+Received: from smtp206.alice.it ([82.57.200.102])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>)
-	id 1QiVJU-00038m-Cb; Sun, 17 Jul 2011 19:39:32 +0200
-Received: from gandalf.denix.org ([unknown] [108.18.140.4])
-	by vms173001.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009))
-	with ESMTPA id <0LOH00IE3KPZOJB2@vms173001.mailsrvcs.net>; Sun,
-	17 Jul 2011 11:35:00 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 848F514AF5D; Sun,
-	17 Jul 2011 12:34:47 -0400 (EDT)
-Date: Sun, 17 Jul 2011 12:34:47 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-members@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-id: <20110717163447.GF21964@denix.org>
-MIME-version: 1.0
-User-Agent: Mutt/1.5.16 (2007-06-09)
-Subject: Minutes: OpenEmbedded eV Board meeting, 11-Jul-2011
+	(envelope-from <andrea.adami@gmail.com>) id 1Qiai3-0000Wo-IJ
+	for openembedded-core@lists.openembedded.org;
+	Mon, 18 Jul 2011 01:25:15 +0200
+Received: from mizar.localdomain (87.5.51.182) by smtp206.alice.it (8.5.124.08)
+	id 4DE63E3204945C4D; Mon, 18 Jul 2011 01:21:12 +0200
+From: Andrea Adami <andrea.adami@gmail.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Jul 2011 01:20:45 +0200
+Message-Id: <1310944845-15037-1-git-send-email-andrea.adami@gmail.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH] device_table-minimal: add more devices, sync with org.openembedded.dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,104 +25,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jul 2011 17:39:32 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Sun, 17 Jul 2011 23:25:15 -0000
 
-Minutes: OpenEmbedded eV Board meeting, 11-Jul-2011
+* add a layered structure (IMAGE_DEVICE_TABLES foresees that)
+*
+* In some cases static devices can be of use (e.g. initramfs) but
+* unfortunately the file in oe-core lacks input events and more.
+* People do not notice the issues because IMAGE_DEV_MANAGER
+* recreates the device nodes in userland.
+* Though, in the case of e.g. special purposed initramfs images you may
+* not have any udev/mdev, nor initscripts.
+* Typically one would use smthg like
+*
+* IMAGE_DEVICE_TABLES = "files/device_table-minimal.txt \
+*                        files/device_table_add-scsi.txt \
+*                        files/device_table_add-loop.txt \
+*                       "
 
-Attendees:
+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+---
+ meta/files/device_table-minimal.txt  |   16 +++++++++++++++-
+ meta/files/device_table_add-loop.txt |    1 +
+ meta/files/device_table_add-scsi.txt |    6 ++++++
+ 3 files changed, 22 insertions(+), 1 deletions(-)
+ create mode 100644 meta/files/device_table_add-loop.txt
+ create mode 100644 meta/files/device_table_add-scsi.txt
 
-Michael Lauer (mickey)
-Philip Balister (Crofton)
-Florian Boor (florian)
-Denys Dmytriyenko (denix)
-
-
-00) action items from last meeting:
-* call for TSC elections (Mickey) - done
-* call for OE eV General Assembly (Crofton) - done
-* status update on sending money for the switch
-  ** florian is waiting for additional info (bank address) from Jeff (OSUOSL) to initiate the transfer
-  ** once received, florian has to go to the bank in person to make the transfer
-  ** sent the reminder to Jeff, the required info was received after the meeting
-* check and open a credit/debit card for simple money transfers
-  ** florian to take care when at the bank
-* call for donations
-  ** denix checked with TI, waiting for after Yocto budget is approved to see if any money left after LF and Yocto fees
-  ** Intel offered a donation too - need to follow up with Dirk or DaveSt
-  ** encourage people to make individual donations
-
-01) agenda:
-* TSC elections
-* LF server donation status
-* more financial/donation discussion
-* financial contributions to OSUOSL for hosting OE
-* some/any financial support from LF/Yocto
-
-02) TSC elections
-* call for TSC candidates was made
-* 2 weeks period is over - only 1 candidate (RP)
-* is call for votes required?
-* can one candidate be accepted by acllamation?
-* there were no reminders at the end of 2 weeks encouraging more candidates
-  ** should the reminder be sent now and period extended by 1-2 days?
-  ** Board decides by majority that 2 weeks were enough for anyone interested to propose their candidacy
-* Board agrees to suggest electing RP by acclamation on the list (Mickey)
-  ** if nobody objects, close the voting and announce the results
-* make a note to send reminders next time before the 2-week application/discussion/voting period is over
-* during GA we should discuss and/or update the statutes covering this situation (acclamation) in detail
-
-03) LF server donation status
-* still in the process - the previous hardware specs were scrapped
-* while talking to involved parties, it's not clear who's the legal recipient of the donation
-  ** Tom King is in the talks with LF and OSUOSL directly
-  ** are the servers donated to OSUOSL/nas-admin or OE eV/Board?
-* need to talk to LF to clarify things
-  ** who are the people involved, who's overseeing, paperwork?
-  ** Crofton on travel, denix to cover for him during next Yocto-AB meeting and raise the above questions
-* suggest involved parties (Tom, LF, OSUOSL) to copy the Board (board@openembedded.org) in ongoing discussions instead of direct peer-to-peer emails or random IRC chats
-* possibly hold a conference call to make the process more transparent
-
-04) is the corporate donation procedure documented?
-* check the Wiki, update if needed
-* there is some form needed to be filled
-  ** Crofton has the copy from previous TI donation
-  ** florian will work with Intel, consult with Crofton for any legal aspects
-
-05) individual donations
-* denix makes first individual donation through PayPal
-  ** hopes to inspire others to donate... :)
-* Crofton to donate an SSD
-
-06) financial contributions to OSUOSL
-* Tom reports that OE is consuming most of the free resources provided by OSUOSL to Open Source projects
-  ** OE needs to be a good citizen and contribute financially back to OSUOSL, like other projects
-* Mickey: what's consuming the resources - web, git?
-  ** According to Tom, git traffic is up, plus oe.org source mirror contributes to network traffic
-  ** Also autobuilders doing regression testing on Angstrom and oe-core - cpu/disk load
-* Estimate the amount of financial contribution to OSUOSL
-  ** Still under discussion, Tom suggesting around $300-$500 per year?
-  ** to offset the free hosting and bandwidth...
-* Tom estimates to have 4-8 physical servers for OE in the near future
-
-07) financial support from LF/Yocto
-* LF is already supporting OE
-  ** server donation
-  ** sponsoring Tom's travel to the site for admin work
-  ** offering travel sponsorship to key OE people for big events?
-* some OE community members are suggesting that Yocto should provide additional financial support to OE
-  ** to help with OE's ongoing expenses
-  ** to support oe-core/meta-oe development, hosting and regression testing
-  ** not talking about big money though
-
-08) agree on next Board meeting
-* next meeting is either Aug 8-12 or short one the last week of July for financial updates
-* need to start fomalizing the budget and concrete financial goals
-
-09) anyone attending CCC?
-* http://events.ccc.de/camp/2011
-* http://en.wikipedia.org/wiki/Chaos_Communication_Camp
+diff --git a/meta/files/device_table-minimal.txt b/meta/files/device_table-minimal.txt
+index 495b5d5..8f455fd 100644
+--- a/meta/files/device_table-minimal.txt
++++ b/meta/files/device_table-minimal.txt
+@@ -13,7 +13,7 @@
+ /dev/apm_bios	c	660	0	46	10	134	-	-	-
+ /dev/fb0	c	600	0	0	29	0	-	-	-
+ /dev/hda	b	660	0	6	3	0	-	-	-
+-/dev/hda	b	660	0	6	3	1	1	1	20
++/dev/hda	b	660	0	6	3	1	1	1	19
+ /dev/kmem	c	640	0	15	1	2	-	-	-
+ /dev/mem	c	640	0	15	1	1	-	-	-
+ /dev/null	c	666	0	0	1	3	-	-	-
+@@ -28,3 +28,17 @@
+ /dev/console	c	662	0	5	5	1	-	-	-
+ /dev/random	c	644	0	0	1	8	-	-	-
+ /dev/urandom	c	644	0	0	1	9	-	-	-
++/dev/ptmx	c	644	0	0	5	2	-	-	-
++
++# Input stuff
++/dev/input	d	755	0	0	-	-	-	-	-
++/dev/input/event c	660	0	0	13	64	0	1	8
++
++/dev/mmcblk0	b	660	0	6	179	0	-	-	-
++/dev/mmcblk0p	b	660	0	6	179	1	1	1	7
++
++# for older kernels before 2.6.22
++# mmc numbers are assigned dynamicly so if you have other dynamic assigned block devices it may be wrong
++#
++#/dev/mmcblk0    b       660     0       6       254     0       -       -       -
++#/dev/mmcblk0p   b       660     0       6       254     1       1       1       7
+diff --git a/meta/files/device_table_add-loop.txt b/meta/files/device_table_add-loop.txt
+new file mode 100644
+index 0000000..0176135
+--- /dev/null
++++ b/meta/files/device_table_add-loop.txt
+@@ -0,0 +1 @@
++/dev/loop	b	664	0	0	7	0	0	1	2
+diff --git a/meta/files/device_table_add-scsi.txt b/meta/files/device_table_add-scsi.txt
+new file mode 100644
+index 0000000..d15f236
+--- /dev/null
++++ b/meta/files/device_table_add-scsi.txt
+@@ -0,0 +1,6 @@
++/dev/sda	b	660	0	6	8	0	-	-	-
++/dev/sda	b	660	0	6	8	1	1	1	15
++/dev/sdb	b	660	0	6	8	16	-	-	-
++/dev/sdb	b	660	0	6	8	17	1	1	4
++/dev/sdc	b	660	0	6	8	32	-	-	-
++/dev/sdc	b	660	0	6	8	33	1	1	4
+-- 
+1.7.3.4
 
 
 
