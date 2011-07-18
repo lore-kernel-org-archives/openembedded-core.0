@@ -1,24 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QihBf-0002h6-JU
+	(envelope-from <dongxiao.xu@intel.com>) id 1QihBk-0002id-DJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jul 2011 08:20:15 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Jul 2011 23:16:11 -0700
+	Mon, 18 Jul 2011 08:20:20 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2011 23:16:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,221,1309762800"; d="scan'208";a="29141412"
+X-IronPort-AV: E=Sophos;i="4.67,221,1309762800"; d="scan'208";a="31466305"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2011 23:16:05 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jul 2011 23:15:59 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jul 2011 14:13:05 +0800
-Message-Id: <bc12f21ba719d2396fb422296b2261c9653ec014.1310969462.git.dongxiao.xu@intel.com>
+Date: Mon, 18 Jul 2011 14:13:01 +0800
+Message-Id: <cover.1310969462.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1310969462.git.dongxiao.xu@intel.com>
-References: <cover.1310969462.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1310969462.git.dongxiao.xu@intel.com>
-References: <cover.1310969462.git.dongxiao.xu@intel.com>
-Subject: [PATCH 4/4] perl: revise the RRECOMMENDS_perl-modules for multilib case
+Subject: [PATCH 0/4][PULL] Resend: multilib: change hard coded /usr/lib path.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,38 +29,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2011 06:20:15 -0000
+X-List-Received-Date: Mon, 18 Jul 2011 06:20:20 -0000
 
-From: Yu Ke <ke.yu@intel.com>
+Hi Richard,
 
-current RRECOMMENDS_perl-modules replace the hardcode "perl-dbg",
-"perl-misc" etc. which does not work in multilib case. Instead, it
-should replace the "lib64-perl-dbg", "lib-64-perl-misc". without
-doing this, current code will produce RRECOMMENDS=lib64-lib64-xxx etc
+(Please ignore the previous pull request which doesn't contain the latest code.)
 
-This patch revise the code to fix this issue
+This pull request fixes some hard coded /usr/lib path in recipes within
+minimal image. Please help to review and pull.
 
-Signed-off-by: Yu Ke <ke.yu@intel.com>
-Signed-off-by: Xu Dongxiao <dongxiao.xu@intel.com>
----
- meta/recipes-devtools/perl/perl_5.12.3.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Thanks,
+Dongxiao
 
-diff --git a/meta/recipes-devtools/perl/perl_5.12.3.bb b/meta/recipes-devtools/perl/perl_5.12.3.bb
-index c75a532..4b6b5a7 100644
---- a/meta/recipes-devtools/perl/perl_5.12.3.bb
-+++ b/meta/recipes-devtools/perl/perl_5.12.3.bb
-@@ -282,7 +282,7 @@ FILES_perl-module-unicore += "${libdir}/perl/${PV}/unicore"
- # packages (actually the non modules packages and not created too)
- ALLOW_EMPTY_perl-modules = "1"
- PACKAGES_append = " perl-modules "
--RRECOMMENDS_perl-modules = "${@bb.data.getVar('PACKAGES', d, 1).replace('perl-modules ', '').replace('perl-dbg ', '').replace('perl-misc ', '').replace('perl-dev ', '').replace('perl-pod ', '').replace('perl-doc ', '')}"
-+RRECOMMENDS_perl-modules = "${@bb.data.getVar('PACKAGES', d, 1).replace('${PN}-modules ', '').replace('${PN}-dbg ', '').replace('${PN}-misc ', '').replace('${PN}-dev ', '').replace('${PN}-pod ', '').replace('${PN}-doc ', '')}"
- 
- python populate_packages_prepend () {
-         libdir = bb.data.expand('${libdir}/perl/${PV}', d)
--- 
-1.7.1
+The following changes since commit fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
+
+  bb-matrix: correct BB and PM number canonicalization (2011-07-14 22:23:09 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dxu4/multilib
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/multilib
+
+Dongxiao Xu (3):
+  xcb-proto: add multilib support.
+  pciutils: Change the hardcoded /usr/lib to support multilib.
+  udev: Change hard coded /usr/lib to support multilib
+
+Yu Ke (1):
+  perl: revise the RRECOMMENDS_perl-modules for multilib case
+
+ .../pciutils/pciutils-3.1.7/makefile.patch         |   14 ++++++++++++
+ meta/recipes-bsp/pciutils/pciutils_3.1.7.bb        |    5 ++-
+ meta/recipes-core/udev/udev-164/makefile.patch     |   16 ++++++++++++++
+ meta/recipes-core/udev/udev-new.inc                |    1 +
+ meta/recipes-core/udev/udev_164.bb                 |    2 +-
+ meta/recipes-devtools/perl/perl_5.12.3.bb          |    2 +-
+ .../xcb/xcb-proto-1.6/aclocal.patch                |   22 ++++++++++++++++++++
+ meta/recipes-graphics/xcb/xcb-proto.inc            |    3 +-
+ meta/recipes-graphics/xcb/xcb-proto_1.6.bb         |    2 +-
+ meta/recipes-graphics/xcb/xcb-proto_git.bb         |    2 +-
+ 10 files changed, 62 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-bsp/pciutils/pciutils-3.1.7/makefile.patch
+ create mode 100644 meta/recipes-core/udev/udev-164/makefile.patch
+ create mode 100644 meta/recipes-graphics/xcb/xcb-proto-1.6/aclocal.patch
 
 
 
