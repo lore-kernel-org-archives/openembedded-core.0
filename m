@@ -1,38 +1,20 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QivIq-0006kR-1C
-	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jul 2011 23:24:36 +0200
-Received: by ewy5 with SMTP id 5so1797566ewy.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2011 14:20:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=+1BHjLjmuNV24ERtq/CUUVI+ME6xlzP78l8Opw8JDYY=;
-	b=MD95JwMa/SV0N5SMQAjKIDVqlGBqVrMXU9hJ/UdHi1v0Wi/QYTEgG/wwtqflKu+RvP
-	YeoqvQyEatSnsUea1VhfCKccwN7B0pneJrsLrZWDE3n3Wojah1zc/x49CnN9pXueePuv
-	2bAYZwdh4iR691Qv16+SsDOLdwEI3qNJwHe68=
-Received: by 10.204.32.207 with SMTP id e15mr1869254bkd.60.1311024031518;
-	Mon, 18 Jul 2011 14:20:31 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id s16sm2809192fah.0.2011.07.18.14.20.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 18 Jul 2011 14:20:30 -0700 (PDT)
-Date: Mon, 18 Jul 2011 23:20:21 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: celston@katalix.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110718212021.GG3412@jama.jama.net>
-References: <1309780493.20200.17.camel@desktop.home>
-	<4E11DFA1.70608@slimlogic.co.uk>
-	<1309795942.20200.123.camel@desktop.home>
-	<4E11EDD1.1000308@slimlogic.co.uk>
-	<1309798177.20200.128.camel@desktop.home>
+Received: from oh-69-34-21-229.sta.embarqhsd.net ([69.34.21.229]
+	helo=happy.bec-systems.com) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <cliff.brake@gmail.com>)
+	id 1Qivou-0007by-Lk; Mon, 18 Jul 2011 23:57:45 +0200
+Received: from localhost ([127.0.0.1] helo=happy.bec-systems.com)
+	by happy.bec-systems.com with esmtp (Exim 4.72)
+	(envelope-from <cliff.brake@gmail.com>)
+	id 1Qivkw-0005IS-9Y; Mon, 18 Jul 2011 17:53:38 -0400
+Date: Mon, 18 Jul 2011 17:53:38 -0400
+Message-Id: <E1Qivkw-0005IS-9Y@happy.bec-systems.com>
+X-Mailer: Nodemailer (0.1.13; +http://www.nodemailer.org)
+From: cliff.brake@gmail.com
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	angstrom-distro-devel@linuxtogo.org
 MIME-Version: 1.0
-In-Reply-To: <1309798177.20200.128.camel@desktop.home>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PROPOSAL] Package feature switches, redux.
+Subject: OE Changelog for 2011-07-11 to 2011-07-18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,83 +29,278 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2011 21:24:36 -0000
-X-Groupsio-MsgNum: 6062
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="JIpyCmsTxyPLrmrM"
-Content-Disposition: inline
-
---JIpyCmsTxyPLrmrM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Jul 2011 21:57:45 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 04, 2011 at 05:49:37PM +0100, Chris Elston wrote:
-> On Mon, 2011-07-04 at 17:44 +0100, Graeme Gregory wrote:
-> > On 07/04/2011 05:12 PM, Chris Elston wrote:
-> > >> Hi, with my Angstrom cap on I like this syntax and I think it will be
-> > >> really useful.
-> > >>
-> > >> A second level concern I have is about conflicting features, its not
-> > >> something we will come across probably in DISTRO land as we are sens=
-ible
-> > >> enough not to select them. But users could select them in local.conf.
-> > >>
-> > >> Graeme
-> > > As a new developer, I've discovered that there are plenty of things t=
-hat
-> > > you can set in local.conf which break things :D
-> > >
-> > > Could you please give an example of conflicting features that could
-> > > cause problems, I'm not experienced enough with OE to have encountered
-> > > that problem yet.
-> > >
-> > >
-> > Cant think of a solid one off the top of my head, but I mean the cases =
-where
-> >=20
-> > --enable-feature means that --disable-another-feature is done.
-> >=20
-> > This is why I listed it as a secondary issue.
-> >=20
-> > Graeme
->=20
-> I understand. We could capture that information with an optional extra
-> field in the config info something like:
->=20
-> PACKAGE_CONFIG[foo] =3D "--enable-foo, --disable-foo, libfoo, <options
-> which conflict with foo>"
+Changelog for 2011-07-11 to 2011-07-18.  Projects included in this report:
 
-Maybe I'm influenced a lot by gentoo, but most options are set with
---enable-foo/--disable-foo or --with-foo/--without-foo so shortcuts for
-such cases would be nice instead of repeating "foo" 3 times on same line.
+bitbake: git://git.openembedded.org/bitbake
+openembedded-core: git://git.openembedded.org/openembedded-core
+meta-openembedded: git://git.openembedded.org/meta-openembedded
+meta-angstrom: git://git.angstrom-distribution.org/meta-angstrom
+meta-yocto: git://git.yoctoproject.org/poky
+meta-texasinstruments: =
+git://git.angstrom-distribution.org/meta-texasinstruments
+meta-smartphone: http://git.shr-project.org/repo/meta-smartphone.git
+meta-micro: git://git.openembedded.org/meta-micro
+meta-slugos: git://github.com/kraj/meta-slugos
+meta-nslu2: git://github.com/kraj/meta-nslu2
+meta-intel: git://git.yoctoproject.org/meta-intel
+openembedded: git://git.openembedded.org/openembedded
 
-Also again from gentoo world.. can I say in recipe bar.bb
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for bitbake:
 
-DEPENDS =3D "abc[foo]"
-or
-DEPENDS =3D "abc[-foo]"
+Joshua Lock (2):
+=20=20ui/crumbs/tasklistmodel: update brought in by column when possible
+=20=20ui/crumbs/tasklistmodel: fix automatic removal of orphaned items
 
-because if some recipe depends on gstreamer with vorbis enabled it
-should be easy to say it in DEPENDS then some magic python fce and if
-someone tries to build it in distribution with vorbis disabled then it
-should fail with message like "No provider for gstreamer[vorbis]"
+Yu Ke (1):
+=20=20fetcher2: retry mirror if upstream checksum mismatch
 
-Cheers,
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for openembedded-core:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Andrea Adami (2):
+=20=20image_types.bbclass: add support for tar.xz, cpio.xz, cpio.lzma
+=20=20kernel.bbclass: handle embedding of initramfs images
 
---JIpyCmsTxyPLrmrM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Chris Elston (1):
+=20=20Add support for BAD_RECOMMENDATIONS to rootfs_ipk
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
+Darren Hart (1):
+=20=20bb-matrix: initial scripts to record TIME(1) metrics for BB and PM =
+combinati
 
-iEYEARECAAYFAk4ko5UACgkQN1Ujt2V2gByn4QCbBzBlJPIqZY8xvOyp0ylZRPve
-N24An1kb4cHyOMVRGXUmXU0QacrWOy9L
-=Ugf4
------END PGP SIGNATURE-----
+Joshua Lock (1):
+=20=20classes/image_types: add a variable to list available IMAGE_FSTYPE's
 
---JIpyCmsTxyPLrmrM--
+Koen Kooi (7):
+=20=20pulseaudio: try harder to disable HAL
+=20=20pulseaudio 0.9.15: delete, but keep 0.9.22 and 0.9.23
+=20=20webkit-gtk: update SRCREV
+=20=20pulseaudio: make it work out of the box
+=20=20ofono: fix packaging and clean up custom do_install
+=20=20connman-gnome: run oe-stylize over recipe
+=20=20pulseaudio: enable bluetooth support
+
+Nitin A Kamble (5):
+=20=20kernel.bbclass: fix the broken lines
+=20=20glibc: fix false failure
+=20=20binutils: package unpackaged files
+=20=20eglibc: fix installed but not packaged files
+=20=20eglibc: fix runtime assertion failure
+
+Otavio Salvador (2):
+=20=20libarchive: remove undistributable copyright content from source
+=20=20cmake: update to 2.8.5 release
+
+Paul Eggleton (2):
+=20=20busybox: fix missing features due to lack of variable expansion
+=20=20insane.bbclass: skip rdepends QA checks for kernel / modules
+
+Phil Blundell (3):
+=20=20kernel.bbclass, task-base: remove references to obsolete =
+bluez-dtl1-workarou
+=20=20bluez-dtl1-workaround: deleted
+=20=20eglibc: ensure that NSS libs go into the right package when =
+${base_libdir} a
+
+Richard Purdie (4):
+=20=20sysklogd: Drop ONLINE_PACKAGE_MANAGEMENT as per mailing list =
+discussion
+=20=20update-rc.d: Switch from a tag to a sepcific revision
+=20=20sstate: Improve performance by moving files rather than using copy =
+and delet
+=20=20python: Fix libdir usage which broke python packaging
+
+Saul Wold (2):
+=20=20gcc: Fix packaging correctly
+=20=20Patches: Fix Upstream-Status info
+
+Scott Garman (1):
+=20=20distro-tracking: add RECIPE_MANUAL_CHECK_DATE for various recipes
+
+Yu Ke (11):
+=20=20native.bbclass: generate libdir from libdir_native
+=20=20openssl: fix for non /usr/lib libdir case
+=20=20python: fix for libdir=3D/usr/lib64 case
+=20=20python-native: fix for non /usr/lib libdir case
+=20=20perl: fix for non /usr/lib libdir case
+=20=20libcap: fix for non /usr/lib libdir case
+=20=20rpm: fix for non /usr/lib libdir case
+=20=20sato-sdk: add clutter for sato-sdk image
+=20=20xserver-kdrive: add patch upstream status info
+=20=20sat-solver: fix for non /usr/lib libdir case
+=20=20libzypp: fix for non /usr/lib libdir case
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-openembedded:
+
+Khem Raj (2):
+=20=20icon-naming-utils: inherit allarch
+=20=20icon-naming-utils: Inherit perlnative
+
+Koen Kooi (10):
+=20=20mm-common: add 0.9.5
+=20=20libsigc++: add 2.2.9
+=20=20glibmm: add 2.28.2
+=20=20cairo: update to 1.10.2
+=20=20cairomm: add 1.10.0
+=20=20pangomm: add 2.28.2
+=20=20gtkmm: add 2.20.0
+=20=20pavucontrol: add 0.9.10+git
+=20=20jack 0.121.0: import from OE.dev
+=20=20midori 0.3.6: fix source checksums
+
+Tom Rini (1):
+=20=20icon-naming-utils-native: Fix long path to perl in icon-name-mapping
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-angstrom:
+
+Khem Raj (3):
+=20=20angstrom-bleeding: Pin eglibc-locale version
+=20=20angstrom-uclibc: Use tclibc-uclibc defaults from oe-core
+=20=20angstrom-eglibc: Use tclibc-eglibc defaults from oe-core
+
+Koen Kooi (2):
+=20=20angstrom: prefer cairo 1.10.2
+=20=20angstrom-zeroconf-audio: move to tasks and clean up
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-yocto:
+
+Andrea Adami (3):
+=20=20image_types.bbclass: add support for tar.xz, cpio.xz, cpio.lzma
+=20=20kernel.bbclass: handle embedding of initramfs images
+=20=20kernel.bbclass: remove unintended change of INITRAMFS_TASK
+
+Chris Elston (1):
+=20=20Add support for BAD_RECOMMENDATIONS to rootfs_ipk
+
+Darren Hart (2):
+=20=20bb-matrix: initial scripts to record TIME(1) metrics for BB and PM =
+combinati
+=20=20bb-matrix: correct BB and PM number canonicalization
+
+Joshua Lock (4):
+=20=20ui/crumbs/tasklistmodel: update brought in by column when possible
+=20=20ui/crumbs/tasklistmodel: fix automatic removal of orphaned items
+=20=20classes/image_types: add a variable to list available IMAGE_FSTYPE's
+=20=20cooker: only return *Found events if something was actually found
+
+Khem Raj (1):
+=20=20opkg-utils: Print out License field
+
+Koen Kooi (8):
+=20=20pulseaudio: try harder to disable HAL
+=20=20pulseaudio 0.9.15: delete, but keep 0.9.22 and 0.9.23
+=20=20webkit-gtk: update SRCREV
+=20=20pulseaudio: make it work out of the box
+=20=20ofono: fix packaging and clean up custom do_install
+=20=20connman-gnome: run oe-stylize over recipe
+=20=20pulseaudio: enable bluetooth support
+=20=20package_ipk: add License field to control file
+
+Mark Hatle (1):
+=20=20ncurses: Fix site_config
+
+Nitin A Kamble (5):
+=20=20kernel.bbclass: fix the broken lines
+=20=20glibc: fix false failure
+=20=20binutils: package unpackaged files
+=20=20eglibc: fix installed but not packaged files
+=20=20eglibc: fix runtime assertion failure
+
+Otavio Salvador (2):
+=20=20libarchive: remove undistributable copyright content from source
+=20=20cmake: update to 2.8.5 release
+
+Paul Eggleton (2):
+=20=20busybox: fix missing features due to lack of variable expansion
+=20=20insane.bbclass: skip rdepends QA checks for kernel / modules
+
+Phil Blundell (7):
+=20=20kernel.bbclass, task-base: remove references to obsolete =
+bluez-dtl1-workarou
+=20=20bluez-dtl1-workaround: deleted
+=20=20eglibc: ensure that NSS libs go into the right package when =
+${base_libdir} a
+=20=20openssl: pass ${mandir} explicitly to "make install"
+=20=20insane: make GNU_HASH check slightly more robust (avoids false =
+negatives wit
+=20=20busybox: respect ${LDFLAGS}
+=20=20eglibc: fix packaging of thread_db
+
+Richard Purdie (4):
+=20=20sysklogd: Drop ONLINE_PACKAGE_MANAGEMENT as per mailing list =
+discussion
+=20=20update-rc.d: Switch from a tag to a sepcific revision
+=20=20sstate: Improve performance by moving files rather than using copy =
+and delet
+=20=20python: Fix libdir usage which broke python packaging
+
+Robert P. J. Day (1):
+=20=20scripts: Rename "adt-install" to "adt-installer" in user help.
+
+Saul Wold (2):
+=20=20gcc: Fix packaging correctly
+=20=20Patches: Fix Upstream-Status info
+
+Scott Garman (1):
+=20=20distro-tracking: add RECIPE_MANUAL_CHECK_DATE for various recipes
+
+Tom Rini (4):
+=20=20hicolor-icon-theme: Use ${BPN}-${PV} not ${P} to unbreak nativesdk
+=20=20groff: Disable x11 support
+=20=20libpcre: Add bzip2, zlib and readline to DEPENDS
+=20=20perl: Use SITEINFO variables not functions
+
+Yu Ke (12):
+=20=20native.bbclass: generate libdir from libdir_native
+=20=20openssl: fix for non /usr/lib libdir case
+=20=20python: fix for libdir=3D/usr/lib64 case
+=20=20python-native: fix for non /usr/lib libdir case
+=20=20perl: fix for non /usr/lib libdir case
+=20=20libcap: fix for non /usr/lib libdir case
+=20=20rpm: fix for non /usr/lib libdir case
+=20=20sato-sdk: add clutter for sato-sdk image
+=20=20fetcher2: retry mirror if upstream checksum mismatch
+=20=20xserver-kdrive: add patch upstream status info
+=20=20sat-solver: fix for non /usr/lib libdir case
+=20=20libzypp: fix for non /usr/lib libdir case
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-texasinstruments:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-smartphone:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-micro:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-slugos:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-nslu2:
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for meta-intel:
+
+Tom Zanussi (1):
+=20=20meta-emenlow: fix glx bug
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Changelog for openembedded:
+
+Marco Cavallini (2):
+=20=20kaeilos.conf: changed version identifier
+=20=20linux-2.6.28/mh355/defconfig: updated configuration file for mh355 =
+kernel
+
+
+
+
