@@ -1,33 +1,34 @@
 Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Qivsc-0008Fy-23
+	(envelope-from <Tom_Rini@mentor.com>) id 1Qiw7h-0008Vp-Uq
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 00:01:34 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	Tue, 19 Jul 2011 00:17:10 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
 	by relay1.mentorg.com with esmtp 
-	id 1Qivog-00004Q-F4 from Tom_Rini@mentor.com 
+	id 1Qiw3n-0001E1-1H from Tom_Rini@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jul 2011 14:57:30 -0700
+	Mon, 18 Jul 2011 15:13:07 -0700
 Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 18 Jul 2011 14:55:25 -0700
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Mon, 18 Jul 2011 15:13:06 -0700
 Received: from [172.30.80.76] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
 	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
-	Mon, 18 Jul 2011 14:57:29 -0700
-Message-ID: <4E24AC48.7050108@mentor.com>
-Date: Mon, 18 Jul 2011 14:57:28 -0700
+	Mon, 18 Jul 2011 15:13:05 -0700
+Message-ID: <4E24AFF0.9060408@mentor.com>
+Date: Mon, 18 Jul 2011 15:13:04 -0700
 From: Tom Rini <tom_rini@mentor.com>
 Organization: Mentor Graphics Corporation
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <E1Qivkw-0005IS-9Y@happy.bec-systems.com>
-In-Reply-To: <E1Qivkw-0005IS-9Y@happy.bec-systems.com>
+References: <cover.1310758615.git.tom_rini@mentor.com>	<c7276dd332ad9e38935443d679c0296a032a511c.1310758615.git.tom_rini@mentor.com>	<1310770123.20015.1259.camel@rex>
+	<4E20C4E0.2030908@mentor.com>
+In-Reply-To: <4E20C4E0.2030908@mentor.com>
 X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 18 Jul 2011 21:55:25.0858 (UTC)
-	FILETIME=[66797020:01CC4595]
-Subject: Re: OE Changelog for 2011-07-11 to 2011-07-18
+X-OriginalArrivalTime: 18 Jul 2011 22:13:06.0880 (UTC)
+	FILETIME=[DEE48C00:01CC4597]
+Subject: Re: [PATCH 3/5] help2man-native: Add 1.36.4 (GPLv2) and 1.38.2 (GPLv3)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,27 +43,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2011 22:01:34 -0000
+X-List-Received-Date: Mon, 18 Jul 2011 22:17:10 -0000
 Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-
-> ====================================================
-> Changelog for meta-openembedded:
+On 07/15/2011 03:53 PM, Tom Rini wrote:
+> On 07/15/2011 03:48 PM, Richard Purdie wrote:
+>> On Fri, 2011-07-15 at 15:03 -0700, Tom Rini wrote:
+>>> These are 'side ports' of current oe.dev versions.  PR is kept in sync
+>>> but we drop out the target recipes in order to punt on potential perl
+>>> problems.
+>>>
+>>> Signed-off-by: Tom Rini <tom_rini@mentor.com>
+>>> ---
+>>>  .../help2man/help2man-native_1.36.4.bb             |   26 ++++++++++++++++++++
+>>>  .../help2man/help2man-native_1.38.2.bb             |   24 ++++++++++++++++++
+>>>  2 files changed, 50 insertions(+), 0 deletions(-)
+>>>  create mode 100644 meta/recipes-devtools/help2man/help2man-native_1.36.4.bb
+>>>  create mode 100644 meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
+>>>
+>> [...]
+>>> diff --git a/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb b/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
+>>> new file mode 100644
+>>> index 0000000..5612eda
+>>> --- /dev/null
+>>> +++ b/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
+>>> @@ -0,0 +1,24 @@
+>>> +DESCRIPTION = "Program to create simple man pages"
+>>> +SECTION = "devel"
+>>> +LICENSE = "GPLv3"
+>>> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>>> +DEPENDS = "autoconf-native automake-native"
+>>> +PR = "r2"
+>>> +
+>>> +SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+>>> +SRC_URI[md5sum] = "426671c6fe79e5ef2233303367eab5a6"
+>>> +SRC_URI[sha256sum] = "952c29561bce8b233aa10af7f0e0c79c8243712810bf8ddf01e6efd82ce250d1"
+>>> +
+>>> +inherit autotools native
+>>> +
+>>> +EXTRA_OECONF = "--disable-nls"
+>>> +
+>>> +# We don't want to reconfigure things
+>>> +do_configure() {
+>>> +	oe_runconf
+>>> +}
+>>
+>> At the very least I'd like to know why we can't do this. Its a great way
+>> to hide bugs (such as libtool rpath injection issues, admittedly in the
+>> target case).
 > 
-> Khem Raj (2):
->   icon-naming-utils: inherit allarch
->   icon-naming-utils: Inherit perlnative
-[snip]
-> Tom Rini (1):
->   icon-naming-utils-native: Fix long path to perl in icon-name-mapping
+> In oe.dev, chicken and egg problem wrt perl.  Here, I'll see if we can
+> drop this part too, as part of a v2 with the older help2man dropped and
+> per IRC, mercurial-native moved over to a meta-oe patch (but keeping the
+> sanity.bbclass/bitbake.conf change).
 
-Having just completed my world build in a long build path (pull requests
-tomorrow after I sort them out better), why is this in meta-openembedded
-and not oe-core?   Oversight I assume since I don't see
-icon-naming-utils-native coming into oe-core as a recent thing.  Or is
-there additional stuff in the recipes in meta-openembedded that don't
-belong in oe-core?
+OK, here's a "why" on not changing:
+| configure.in:4: error: possibly undefined macro: AC_PROG_PERL
+|       If this token and others are legitimate, please use
+m4_pattern_allow.
+|       See the Autoconf documentation.
+| configure.in:7: error: possibly undefined macro: AC_PERL_MODULE
+
+Which if we fix by building vs perlnative we then need autotools.bbclass
+to inherit perlnative to make life reliable which isn't what you want
+wrt perl-native in the build chain :)
 
 -- 
 Tom Rini
