@@ -1,24 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QihBZ-0002fL-4q
+	(envelope-from <dongxiao.xu@intel.com>) id 1QihBZ-0002fH-E6
 	for openembedded-core@lists.openembedded.org;
 	Mon, 18 Jul 2011 08:20:09 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Jul 2011 23:16:04 -0700
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 17 Jul 2011 23:16:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,221,1309762800"; d="scan'208";a="28796897"
+X-IronPort-AV: E=Sophos;i="4.67,221,1309762800"; d="scan'208";a="28317537"
 Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga001.jf.intel.com with ESMTP; 17 Jul 2011 23:16:04 -0700
+	by azsmga001.ch.intel.com with ESMTP; 17 Jul 2011 23:16:02 -0700
 From: Dongxiao Xu <dongxiao.xu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jul 2011 14:13:04 +0800
-Message-Id: <c4ca6242b49eddc218fa3c0f58d172efc1601c84.1310969462.git.dongxiao.xu@intel.com>
+Date: Mon, 18 Jul 2011 14:13:03 +0800
+Message-Id: <f95b2b1a8c6f212e7be5f0f60af7027feb843aa9.1310969462.git.dongxiao.xu@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1310969462.git.dongxiao.xu@intel.com>
 References: <cover.1310969462.git.dongxiao.xu@intel.com>
 In-Reply-To: <cover.1310969462.git.dongxiao.xu@intel.com>
 References: <cover.1310969462.git.dongxiao.xu@intel.com>
-Subject: [PATCH 3/4] udev: Change hard coded /usr/lib to support multilib
+Subject: [PATCH 2/4] pciutils: Change the hardcoded /usr/lib to support multilib.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,58 +37,52 @@ X-List-Received-Date: Mon, 18 Jul 2011 06:20:09 -0000
 
 Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 ---
- meta/recipes-core/udev/udev-164/makefile.patch |   16 ++++++++++++++++
- meta/recipes-core/udev/udev-new.inc            |    1 +
- meta/recipes-core/udev/udev_164.bb             |    2 +-
- 3 files changed, 18 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/udev/udev-164/makefile.patch
+ .../pciutils/pciutils-3.1.7/makefile.patch         |   14 ++++++++++++++
+ meta/recipes-bsp/pciutils/pciutils_3.1.7.bb        |    5 +++--
+ 2 files changed, 17 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-bsp/pciutils/pciutils-3.1.7/makefile.patch
 
-diff --git a/meta/recipes-core/udev/udev-164/makefile.patch b/meta/recipes-core/udev/udev-164/makefile.patch
+diff --git a/meta/recipes-bsp/pciutils/pciutils-3.1.7/makefile.patch b/meta/recipes-bsp/pciutils/pciutils-3.1.7/makefile.patch
 new file mode 100644
-index 0000000..c46ff4b
+index 0000000..811aac8
 --- /dev/null
-+++ b/meta/recipes-core/udev/udev-164/makefile.patch
-@@ -0,0 +1,16 @@
++++ b/meta/recipes-bsp/pciutils/pciutils-3.1.7/makefile.patch
+@@ -0,0 +1,14 @@
 +Upstream-Status: Inappropriate [configuration]
 +
-+diff -ruN udev-164-orig/Makefile.am udev-164/Makefile.am
-+--- udev-164-orig/Makefile.am	2011-07-11 16:10:26.000000000 +0800
-++++ udev-164/Makefile.am	2011-07-11 16:11:14.000000000 +0800
-+@@ -468,8 +468,8 @@
-+ libexec_PROGRAMS += extras/udev-acl/udev-acl
++diff -ruN pciutils-3.1.7-orig/Makefile pciutils-3.1.7/Makefile
++--- pciutils-3.1.7-orig/Makefile	2011-07-11 14:41:59.000000000 +0800
+++++ pciutils-3.1.7/Makefile	2011-07-11 14:42:31.000000000 +0800
++@@ -31,7 +31,7 @@
++ IDSDIR=$(SHAREDIR)
++ MANDIR:=$(shell if [ -d $(PREFIX)/share/man ] ; then echo $(PREFIX)/share/man ; else echo $(PREFIX)/man ; fi)
++ INCDIR=$(PREFIX)/include
++-LIBDIR=$(PREFIX)/lib
+++LIBDIR=$(libdir)
++ PKGCFDIR=$(LIBDIR)/pkgconfig
 + 
-+ udevacl-install-hook:
-+-	mkdir -p $(DESTDIR)$(prefix)/lib/ConsoleKit/run-seat.d
-+-	ln -sf $(libexecdir)/udev-acl $(DESTDIR)$(prefix)/lib/ConsoleKit/run-seat.d/udev-acl.ck
-++	mkdir -p $(DESTDIR)$(libdir)/ConsoleKit/run-seat.d
-++	ln -sf $(libexecdir)/udev-acl $(DESTDIR)$(libdir)/ConsoleKit/run-seat.d/udev-acl.ck
-+ 
-+ INSTALL_EXEC_HOOKS += udevacl-install-hook
-+ 
-diff --git a/meta/recipes-core/udev/udev-new.inc b/meta/recipes-core/udev/udev-new.inc
-index 4c4451f..b482a5a 100644
---- a/meta/recipes-core/udev/udev-new.inc
-+++ b/meta/recipes-core/udev/udev-new.inc
-@@ -16,6 +16,7 @@ RRECOMMENDS_${PN} += "udev-extraconf udev-cache usbutils-ids pciutils-ids"
- RDEPENDS_libudev = "${PN} (= ${EXTENDPKGV})"
++ # Commands
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.1.7.bb b/meta/recipes-bsp/pciutils/pciutils_3.1.7.bb
+index 4e6d4e1..b48aaf0 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.1.7.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.1.7.bb
+@@ -9,13 +9,14 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ DEPENDS = "zlib"
+ RDEPENDS_${PN} = "${PN}-ids"
+-PR = "r1"
++PR = "r2"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-+           file://makefile.patch \
-            file://run.rules \
-            file://udev.rules \
-            file://devfs-udev.rules \
-diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-index 567e62e..518d37a 100644
---- a/meta/recipes-core/udev/udev_164.bb
-+++ b/meta/recipes-core/udev/udev_164.bb
-@@ -1,6 +1,6 @@
- include udev-new.inc
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.bz2 \
+            file://configure.patch \
+            file://pcimodules-pciutils.diff \
+            file://lib-build-fix.patch \
+-           file://guess-fix.patch"
++           file://guess-fix.patch \
++           file://makefile.patch"
  
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI[md5sum] = "fddac2d54761ea34865af9467377ca9f"
- SRC_URI[sha256sum] = "c12e66280b5e1465f6587a8cfa47d7405c4caa7e52ce5dd13478d04f6ec05e5c"
+ SRC_URI[md5sum] = "35222edb86b50a6641352c66fe829b2e"
+ SRC_URI[sha256sum] = "d8fe23b6966c1abf29b3b38b08b0cf33f731cd6e6a89d9b8d2b8d5e982c3f544"
 -- 
 1.7.1
 
