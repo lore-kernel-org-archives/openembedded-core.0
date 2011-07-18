@@ -1,16 +1,28 @@
-Received: from smtp206.alice.it ([82.57.200.102])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1Qiai3-0000Wo-IJ
+	(envelope-from <scott.a.garman@intel.com>) id 1QieEl-0004AU-Bx
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jul 2011 01:25:15 +0200
-Received: from mizar.localdomain (87.5.51.182) by smtp206.alice.it (8.5.124.08)
-	id 4DE63E3204945C4D; Mon, 18 Jul 2011 01:21:12 +0200
-From: Andrea Adami <andrea.adami@gmail.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Jul 2011 01:20:45 +0200
-Message-Id: <1310944845-15037-1-git-send-email-andrea.adami@gmail.com>
-X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH] device_table-minimal: add more devices, sync with org.openembedded.dev
+	Mon, 18 Jul 2011 05:11:15 +0200
+Received: from localhost.localdomain (c-71-236-175-18.hsd1.or.comcast.net
+	[71.236.175.18])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 972C830528;
+	Sun, 17 Jul 2011 23:07:05 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 17 Jul 2011 20:06:57 -0700
+Message-Id: <cover.1310958357.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.1
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 972C830528.21782
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Cc: Scott Garman <scott.a.garman@intel.com>
+Subject: [PATCH 0/2] Upstream-Status patch additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,84 +37,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jul 2011 23:25:15 -0000
+X-List-Received-Date: Mon, 18 Jul 2011 03:11:15 -0000
 
-* add a layered structure (IMAGE_DEVICE_TABLES foresees that)
-*
-* In some cases static devices can be of use (e.g. initramfs) but
-* unfortunately the file in oe-core lacks input events and more.
-* People do not notice the issues because IMAGE_DEV_MANAGER
-* recreates the device nodes in userland.
-* Though, in the case of e.g. special purposed initramfs images you may
-* not have any udev/mdev, nor initscripts.
-* Typically one would use smthg like
-*
-* IMAGE_DEVICE_TABLES = "files/device_table-minimal.txt \
-*                        files/device_table_add-scsi.txt \
-*                        files/device_table_add-loop.txt \
-*                       "
+Hello,
 
-Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
----
- meta/files/device_table-minimal.txt  |   16 +++++++++++++++-
- meta/files/device_table_add-loop.txt |    1 +
- meta/files/device_table_add-scsi.txt |    6 ++++++
- 3 files changed, 22 insertions(+), 1 deletions(-)
- create mode 100644 meta/files/device_table_add-loop.txt
- create mode 100644 meta/files/device_table_add-scsi.txt
+This pull request simply adds the Upstream-Status metadata field to
+patches for the man and unfs-server recipes.
 
-diff --git a/meta/files/device_table-minimal.txt b/meta/files/device_table-minimal.txt
-index 495b5d5..8f455fd 100644
---- a/meta/files/device_table-minimal.txt
-+++ b/meta/files/device_table-minimal.txt
-@@ -13,7 +13,7 @@
- /dev/apm_bios	c	660	0	46	10	134	-	-	-
- /dev/fb0	c	600	0	0	29	0	-	-	-
- /dev/hda	b	660	0	6	3	0	-	-	-
--/dev/hda	b	660	0	6	3	1	1	1	20
-+/dev/hda	b	660	0	6	3	1	1	1	19
- /dev/kmem	c	640	0	15	1	2	-	-	-
- /dev/mem	c	640	0	15	1	1	-	-	-
- /dev/null	c	666	0	0	1	3	-	-	-
-@@ -28,3 +28,17 @@
- /dev/console	c	662	0	5	5	1	-	-	-
- /dev/random	c	644	0	0	1	8	-	-	-
- /dev/urandom	c	644	0	0	1	9	-	-	-
-+/dev/ptmx	c	644	0	0	5	2	-	-	-
-+
-+# Input stuff
-+/dev/input	d	755	0	0	-	-	-	-	-
-+/dev/input/event c	660	0	0	13	64	0	1	8
-+
-+/dev/mmcblk0	b	660	0	6	179	0	-	-	-
-+/dev/mmcblk0p	b	660	0	6	179	1	1	1	7
-+
-+# for older kernels before 2.6.22
-+# mmc numbers are assigned dynamicly so if you have other dynamic assigned block devices it may be wrong
-+#
-+#/dev/mmcblk0    b       660     0       6       254     0       -       -       -
-+#/dev/mmcblk0p   b       660     0       6       254     1       1       1       7
-diff --git a/meta/files/device_table_add-loop.txt b/meta/files/device_table_add-loop.txt
-new file mode 100644
-index 0000000..0176135
---- /dev/null
-+++ b/meta/files/device_table_add-loop.txt
-@@ -0,0 +1 @@
-+/dev/loop	b	664	0	0	7	0	0	1	2
-diff --git a/meta/files/device_table_add-scsi.txt b/meta/files/device_table_add-scsi.txt
-new file mode 100644
-index 0000000..d15f236
---- /dev/null
-+++ b/meta/files/device_table_add-scsi.txt
-@@ -0,0 +1,6 @@
-+/dev/sda	b	660	0	6	8	0	-	-	-
-+/dev/sda	b	660	0	6	8	1	1	1	15
-+/dev/sdb	b	660	0	6	8	16	-	-	-
-+/dev/sdb	b	660	0	6	8	17	1	1	4
-+/dev/sdc	b	660	0	6	8	32	-	-	-
-+/dev/sdc	b	660	0	6	8	33	1	1	4
--- 
-1.7.3.4
+The following changes since commit fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
+
+  bb-matrix: correct BB and PM number canonicalization (2011-07-14 22:23:09 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/upstream-status
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/upstream-status
+
+Scott Garman (2):
+  man: add Upstream-Status field to paches
+  unfs-server: add Upstream-Status field to patches
+
+ .../001-2.2b47-2.2b51.patch                        |    5 +++++
+ .../unfs-server-2.1+2.2beta47/002-destdir.patch    |    5 +++++
+ .../unfs-server-2.1+2.2beta47/003-manpages.patch   |    5 +++++
+ .../unfs-server-2.1+2.2beta47/004-strsignal.patch  |    5 +++++
+ .../unfs-server-2.1+2.2beta47/005-sys-time.patch   |    5 +++++
+ .../unfs-server-2.1+2.2beta47/006-reiserfs.patch   |    5 +++++
+ .../unfs-server-2.1+2.2beta47/007-map.patch        |    5 +++++
+ .../unfs-server-2.1+2.2beta47/008-configure.patch  |    5 +++++
+ .../unfs-server-2.1+2.2beta47/009-multirw.patch    |    5 +++++
+ .../unfs-server-2.1+2.2beta47/010-realpath.patch   |    5 +++++
+ .../011-fno-strict-aliasing.patch                  |    5 +++++
+ .../unfs-server-2.1+2.2beta47/012-nostrip.patch    |    5 +++++
+ .../unfs-server-2.1+2.2beta47/013-mntpathlen.patch |    5 +++++
+ .../014-uninitialized.patch                        |    5 +++++
+ .../unfs-server-2.1+2.2beta47/015-setattr.patch    |    5 +++++
+ .../016-makefile.in.patch                          |    5 +++++
+ .../017-wrs-dynamic-rpc.patch                      |    5 +++++
+ .../018-remove-tcp-wrappers.patch                  |    5 +++++
+ .../019-pid-before-fork.patch                      |    5 +++++
+ .../020-undefined-chmod-fix.patch                  |    5 +++++
+ .../unfs-server-2.1+2.2beta47/021-nolibwrap.patch  |    5 +++++
+ .../022-add-close-on-exec-descriptors.patch        |    5 +++++
+ .../man/man-1.6f/man-1.5g-nonrootbuild.patch       |    4 ++++
+ .../man/man-1.6f/man-1.5h1-gencat.patch            |    4 ++++
+ .../man/man-1.6f/man-1.5h1-make.patch              |    4 ++++
+ .../man/man-1.6f/man-1.5i2-initial.patch           |    4 ++++
+ .../man/man-1.6f/man-1.5i2-newline.patch           |    4 ++++
+ .../man/man-1.6f/man-1.5i2-overflow.patch          |    4 ++++
+ .../man/man-1.6f/man-1.5j-i18n.patch               |    4 ++++
+ .../man/man-1.6f/man-1.5j-nocache.patch            |    4 ++++
+ .../man/man-1.6f/man-1.5j-utf8.patch               |    4 ++++
+ .../man/man-1.6f/man-1.5k-confpath.patch           |    4 ++++
+ .../man/man-1.6f/man-1.5k-nonascii.patch           |    4 ++++
+ .../man/man-1.6f/man-1.5k-sofix.patch              |    4 ++++
+ .../man/man-1.6f/man-1.5m2-bug11621.patch          |    4 ++++
+ .../man/man-1.6f/man-1.5m2-buildroot.patch         |    4 ++++
+ .../man/man-1.6f/man-1.5m2-multiple.patch          |    4 ++++
+ .../man-1.6f/man-1.5m2-no-color-for-printing.patch |    4 ++++
+ .../man/man-1.6f/man-1.5m2-sigpipe.patch           |    4 ++++
+ .../man/man-1.6f/man-1.5m2-tv_fhs.patch            |    4 ++++
+ .../man/man-1.6f/man-1.6e-i18n_whatis.patch        |    4 ++++
+ .../man/man-1.6f/man-1.6e-lzma+xz-support.patch    |    4 ++++
+ .../man/man-1.6f/man-1.6e-mandirs.patch            |    4 ++++
+ .../man/man-1.6f/man-1.6e-new_sections.patch       |    4 ++++
+ .../man/man-1.6f/man-1.6e-ro_usr.patch             |    4 ++++
+ .../man/man-1.6f/man-1.6e-security.patch           |    4 ++++
+ .../man-1.6e-use_i18n_vars_in_a_std_way.patch      |    4 ++++
+ .../man/man-1.6f/man-1.6e-whatis2.patch            |    4 ++++
+ 48 files changed, 214 insertions(+), 0 deletions(-)
 
 
 
