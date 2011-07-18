@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QieEm-0004Ab-4l
+	(envelope-from <scott.a.garman@intel.com>) id 1QieEp-0004BN-Uw
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jul 2011 05:11:16 +0200
+	Mon, 18 Jul 2011 05:11:20 +0200
 Received: from localhost.localdomain (c-71-236-175-18.hsd1.or.comcast.net
 	[71.236.175.18])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 0B95B3052A;
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 54E3730529;
 	Sun, 17 Jul 2011 23:07:06 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jul 2011 20:06:59 -0700
-Message-Id: <6111f5e332bf351d54916e238c425ed6712c48d6.1310958357.git.scott.a.garman@intel.com>
+Date: Sun, 17 Jul 2011 20:06:58 -0700
+Message-Id: <dcde53d362659fa3afff5e0be9fe08956dddd330.1310958357.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1310958357.git.scott.a.garman@intel.com>
 References: <cover.1310958357.git.scott.a.garman@intel.com>
@@ -20,13 +20,13 @@ In-Reply-To: <cover.1310958357.git.scott.a.garman@intel.com>
 References: <cover.1310958357.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 0B95B3052A.26CDA
+X-MailScanner-ID: 54E3730529.88FA7
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
 Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [PATCH 2/2] unfs-server: add Upstream-Status field to patches
+Subject: [PATCH 1/2] man: add Upstream-Status field to paches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,320 +41,350 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2011 03:11:16 -0000
+X-List-Received-Date: Mon, 18 Jul 2011 03:11:21 -0000
 
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- .../001-2.2b47-2.2b51.patch                        |    5 +++++
- .../unfs-server-2.1+2.2beta47/002-destdir.patch    |    5 +++++
- .../unfs-server-2.1+2.2beta47/003-manpages.patch   |    5 +++++
- .../unfs-server-2.1+2.2beta47/004-strsignal.patch  |    5 +++++
- .../unfs-server-2.1+2.2beta47/005-sys-time.patch   |    5 +++++
- .../unfs-server-2.1+2.2beta47/006-reiserfs.patch   |    5 +++++
- .../unfs-server-2.1+2.2beta47/007-map.patch        |    5 +++++
- .../unfs-server-2.1+2.2beta47/008-configure.patch  |    5 +++++
- .../unfs-server-2.1+2.2beta47/009-multirw.patch    |    5 +++++
- .../unfs-server-2.1+2.2beta47/010-realpath.patch   |    5 +++++
- .../011-fno-strict-aliasing.patch                  |    5 +++++
- .../unfs-server-2.1+2.2beta47/012-nostrip.patch    |    5 +++++
- .../unfs-server-2.1+2.2beta47/013-mntpathlen.patch |    5 +++++
- .../014-uninitialized.patch                        |    5 +++++
- .../unfs-server-2.1+2.2beta47/015-setattr.patch    |    5 +++++
- .../016-makefile.in.patch                          |    5 +++++
- .../017-wrs-dynamic-rpc.patch                      |    5 +++++
- .../018-remove-tcp-wrappers.patch                  |    5 +++++
- .../019-pid-before-fork.patch                      |    5 +++++
- .../020-undefined-chmod-fix.patch                  |    5 +++++
- .../unfs-server-2.1+2.2beta47/021-nolibwrap.patch  |    5 +++++
- .../022-add-close-on-exec-descriptors.patch        |    5 +++++
- 22 files changed, 110 insertions(+), 0 deletions(-)
+ .../man/man-1.6f/man-1.5g-nonrootbuild.patch       |    4 ++++
+ .../man/man-1.6f/man-1.5h1-gencat.patch            |    4 ++++
+ .../man/man-1.6f/man-1.5h1-make.patch              |    4 ++++
+ .../man/man-1.6f/man-1.5i2-initial.patch           |    4 ++++
+ .../man/man-1.6f/man-1.5i2-newline.patch           |    4 ++++
+ .../man/man-1.6f/man-1.5i2-overflow.patch          |    4 ++++
+ .../man/man-1.6f/man-1.5j-i18n.patch               |    4 ++++
+ .../man/man-1.6f/man-1.5j-nocache.patch            |    4 ++++
+ .../man/man-1.6f/man-1.5j-utf8.patch               |    4 ++++
+ .../man/man-1.6f/man-1.5k-confpath.patch           |    4 ++++
+ .../man/man-1.6f/man-1.5k-nonascii.patch           |    4 ++++
+ .../man/man-1.6f/man-1.5k-sofix.patch              |    4 ++++
+ .../man/man-1.6f/man-1.5m2-bug11621.patch          |    4 ++++
+ .../man/man-1.6f/man-1.5m2-buildroot.patch         |    4 ++++
+ .../man/man-1.6f/man-1.5m2-multiple.patch          |    4 ++++
+ .../man-1.6f/man-1.5m2-no-color-for-printing.patch |    4 ++++
+ .../man/man-1.6f/man-1.5m2-sigpipe.patch           |    4 ++++
+ .../man/man-1.6f/man-1.5m2-tv_fhs.patch            |    4 ++++
+ .../man/man-1.6f/man-1.6e-i18n_whatis.patch        |    4 ++++
+ .../man/man-1.6f/man-1.6e-lzma+xz-support.patch    |    4 ++++
+ .../man/man-1.6f/man-1.6e-mandirs.patch            |    4 ++++
+ .../man/man-1.6f/man-1.6e-new_sections.patch       |    4 ++++
+ .../man/man-1.6f/man-1.6e-ro_usr.patch             |    4 ++++
+ .../man/man-1.6f/man-1.6e-security.patch           |    4 ++++
+ .../man-1.6e-use_i18n_vars_in_a_std_way.patch      |    4 ++++
+ .../man/man-1.6f/man-1.6e-whatis2.patch            |    4 ++++
+ 26 files changed, 104 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch
-index 886ce92..b2cdc5e 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5g-nonrootbuild.patch b/meta/recipes-extended/man/man-1.6f/man-1.5g-nonrootbuild.patch
+index ae2bc4d..6f834bd 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5g-nonrootbuild.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5g-nonrootbuild.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- diff -urN nfs-server-2.2beta47/.version nfs-server-2.2beta51/.version
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch
-index 9388332..df290f2 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ diff -u -r man-1.5g.old/configure man-1.5g/configure
+ --- man-1.5g.old/configure	Wed Apr  7 04:16:05 1999
+ +++ man-1.5g/configure	Mon May 15 15:22:44 2000
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5h1-gencat.patch b/meta/recipes-extended/man/man-1.6f/man-1.5h1-gencat.patch
+index 6409dfc..044b14c 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5h1-gencat.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5h1-gencat.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/Makefile.in	2002/11/07 16:56:07	1.1
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch
-index a17a8dc..412dbf6 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- gencat/genlib.c	2006-08-02 20:11:44.000000000 +0200
+ +++ gencat/genlib.c.oden	2008-12-21 19:18:50.000000000 +0100
+ @@ -47,6 +47,7 @@ up-to-date.  Many thanks.
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5h1-make.patch b/meta/recipes-extended/man/man-1.6f/man-1.5h1-make.patch
+index f9f91e4..8631eb2 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5h1-make.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5h1-make.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/exports.man	2002/11/07 17:15:59	1.1
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch
-index 3ac4ed7..6982b47 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.5g/man/Makefile.in.mike	Fri Apr  9 13:35:54 1999
+ +++ man-1.5g/man/Makefile.in	Fri Apr  9 13:36:45 1999
+ @@ -1,8 +1,8 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5i2-initial.patch b/meta/recipes-extended/man/man-1.6f/man-1.5i2-initial.patch
+index 1b14423..fe56c07 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5i2-initial.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5i2-initial.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/failsafe.c	2002/11/07 17:12:46	1.1
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch
-index c21fb05..17208d8 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.5i2/src/makewhatis.sh.initial	Tue Jul  3 15:38:39 2001
+ +++ man-1.5i2/src/makewhatis.sh	Tue Jul  3 15:39:39 2001
+ @@ -81,8 +81,10 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5i2-newline.patch b/meta/recipes-extended/man/man-1.6f/man-1.5i2-newline.patch
+index da95d5a..611df5d 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5i2-newline.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5i2-newline.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/system.h	2002/11/07 17:10:47	1.1
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch
-index abdc674..22dcc42 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- src/man.c	2008-12-21 19:17:31.000000000 +0100
+ +++ src/man.c.oden	2008-12-21 19:17:38.000000000 +0100
+ @@ -391,7 +391,7 @@ again:
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5i2-overflow.patch b/meta/recipes-extended/man/man-1.6f/man-1.5i2-overflow.patch
+index f1ef06b..52d2881 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5i2-overflow.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5i2-overflow.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/Makefile.in
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch
-index 89baabe..e031fef 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.5i2/src/man.c.overflow	Mon Jun 25 00:01:45 2001
+ +++ man-1.5i2/src/man.c	Mon Jun 25 00:01:45 2001
+ @@ -381,6 +381,9 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5j-i18n.patch b/meta/recipes-extended/man/man-1.6f/man-1.5j-i18n.patch
+index 7645542..2ae09c0 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5j-i18n.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5j-i18n.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/auth.c
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch
-index a6d4599..98405ea 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.5j/msgs/inst.sh.i18n	Wed Apr 25 10:40:50 2001
+ +++ man-1.5j/msgs/inst.sh	Wed Apr 25 10:41:17 2001
+ @@ -27,8 +27,7 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5j-nocache.patch b/meta/recipes-extended/man/man-1.6f/man-1.5j-nocache.patch
+index 267b34b..751dddd 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5j-nocache.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5j-nocache.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/configure.in	2002/11/08 14:24:55	1.1
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch
-index 65b0b9e..a4cf1f5 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.5j/src/man.conf.in.nocache	Thu Nov 22 15:07:12 2001
+ +++ man-1.5j/src/man.conf.in	Thu Nov 22 15:07:12 2001
+ @@ -81,6 +81,9 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5j-utf8.patch b/meta/recipes-extended/man/man-1.6f/man-1.5j-utf8.patch
+index c817763..33d3e4c 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5j-utf8.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5j-utf8.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/nfsd.c
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch
-index c3b5d58..2e53b37 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.5j/configure.utf8	Thu Nov 22 15:02:35 2001
+ +++ man-1.5j/configure	Thu Nov 22 15:03:15 2001
+ @@ -408,9 +408,9 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5k-confpath.patch b/meta/recipes-extended/man/man-1.6f/man-1.5k-confpath.patch
+index 71ac9fc..b5746c2 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5k-confpath.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5k-confpath.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/configure.in
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch
-index 695b8c7..1d0535b 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- configure	2006-05-01 19:56:14.000000000 +0200
+ +++ configure.oden	2008-12-21 19:16:50.000000000 +0100
+ @@ -198,7 +198,7 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5k-nonascii.patch b/meta/recipes-extended/man/man-1.6f/man-1.5k-nonascii.patch
+index 465d839..d662d9b 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5k-nonascii.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5k-nonascii.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/Makefile.in
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch
-index a815ee4..d04e0d1 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- ./src/apropos.sh.nonascii	2001-11-23 00:30:42.000000000 +0100
+ +++ ./src/apropos.sh	2002-08-13 15:44:53.000000000 +0200
+ @@ -18,9 +18,9 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5k-sofix.patch b/meta/recipes-extended/man/man-1.6f/man-1.5k-sofix.patch
+index d4522ea..50b9252 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5k-sofix.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5k-sofix.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/Makefile.in.xx	2006-01-12 12:43:09.000000000 +0100
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch
-index 1f10d3c..b161fe4 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.5j/src/man.c.sofix	Thu Nov 22 14:51:44 2001
+ +++ man-1.5j/src/man.c	Thu Nov 22 14:52:44 2001
+ @@ -300,7 +300,7 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5m2-bug11621.patch b/meta/recipes-extended/man/man-1.6f/man-1.5m2-bug11621.patch
+index 9c06c4c..0512999 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5m2-bug11621.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5m2-bug11621.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/mountd.c	2006/01/12 14:00:13	1.13
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch
-index 233c08a..370f440 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- ./configure.ad	2003-12-11 19:17:10.000000000 +0100
+ +++ ./configure	2003-12-11 19:17:27.000000000 +0100
+ @@ -26,7 +26,7 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5m2-buildroot.patch b/meta/recipes-extended/man/man-1.6f/man-1.5m2-buildroot.patch
+index d842083..bc97f56 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5m2-buildroot.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5m2-buildroot.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/mountd.c
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch
-index cbfb8e8..3b86d43 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- ./configure.less	2003-12-11 19:18:15.000000000 +0100
+ +++ ./configure	2003-12-11 19:20:03.000000000 +0100
+ @@ -401,18 +401,13 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5m2-multiple.patch b/meta/recipes-extended/man/man-1.6f/man-1.5m2-multiple.patch
+index cc5bffd..ec06ab7 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5m2-multiple.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5m2-multiple.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Patch origin: nfs-server source RPM from openSUSE 10.3
- 
- --- nfs-server/setattr.c.orig	2006-07-28 16:38:26.000000000 +0200
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch
-index 634ce46..211aa0b 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.5m2/src/manfile.c_multiple	2006-12-08 23:42:17.000000000 +0100
+ +++ man-1.5m2/src/manfile.c	2006-12-09 00:00:01.000000000 +0100
+ @@ -25,9 +25,12 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5m2-no-color-for-printing.patch b/meta/recipes-extended/man/man-1.6f/man-1.5m2-no-color-for-printing.patch
+index d1f810a..c85ff1d 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5m2-no-color-for-printing.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5m2-no-color-for-printing.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Makefile fix for staging to work correctly.
- # Scott Garman <scott.a.garman@intel.com>
- 
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch
-index 18e12de..99cd6b1 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.5m2/configure.color	2006-09-16 18:27:37.000000000 +0200
+ +++ man-1.5m2/configure	2006-09-16 18:28:44.000000000 +0200
+ @@ -539,6 +539,8 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5m2-sigpipe.patch b/meta/recipes-extended/man/man-1.6f/man-1.5m2-sigpipe.patch
+index 81fb2d7..8af78ea 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5m2-sigpipe.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5m2-sigpipe.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Add the ability to choose alternate RPC ports at runtime and disable
- # security so that it can run as a userland process
- # Patch origin: Wind River
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch
-index 95ecdee..1b407e4 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.5m2/src/util.c_sigpipe	2006-12-09 13:43:21.000000000 +0100
+ +++ man-1.5m2/src/util.c	2006-12-09 13:53:13.000000000 +0100
+ @@ -116,11 +116,14 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.5m2-tv_fhs.patch b/meta/recipes-extended/man/man-1.6f/man-1.5m2-tv_fhs.patch
+index 20389d9..fe66d75 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.5m2-tv_fhs.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.5m2-tv_fhs.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Remove the requirement to link with libwrap
- # Patch origin: Wind River
- 
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch
-index 960ca8e..1b9c06a 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man/Makefile.in	2008-12-21 19:19:33.000000000 +0100
+ +++ man/Makefile.in.oden	2008-12-21 19:19:39.000000000 +0100
+ @@ -34,6 +34,15 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.6e-i18n_whatis.patch b/meta/recipes-extended/man/man-1.6f/man-1.6e-i18n_whatis.patch
+index ad62a60..e321325 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.6e-i18n_whatis.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.6e-i18n_whatis.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Write a pid file before forking
- # Patch origin: Wind River
- 
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch
-index 0f1108c..fb51300 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ diff -Naur man-1.6e.orig/src/apropos.sh man-1.6e/src/apropos.sh
+ --- man-1.6e.orig/src/apropos.sh	2007-05-18 13:49:31.000000000 -0300
+ +++ man-1.6e/src/apropos.sh	2007-05-18 14:24:33.000000000 -0300
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.6e-lzma+xz-support.patch b/meta/recipes-extended/man/man-1.6f/man-1.6e-lzma+xz-support.patch
+index f8ade4f..aae980f 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.6e-lzma+xz-support.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.6e-lzma+xz-support.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Fix a problem with chmod attributes when using no_squash_all
- # Patch origin: Wind River
- 
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch
-index c0901fa..335d098 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ Index: man-1.6f/configure
+ ===================================================================
+ --- man-1.6f.orig/configure	2010-12-29 14:00:35.000000000 -0800
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.6e-mandirs.patch b/meta/recipes-extended/man/man-1.6f/man-1.6e-mandirs.patch
+index 06e9869..b240064 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.6e-mandirs.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.6e-mandirs.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Remove libwrap linkage
- # Patch origin: Wind River
- 
-diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch
-index 011ae74..c35bb7c 100644
---- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch
-+++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch
-@@ -1,3 +1,8 @@
-+Upstream-Status: Inappropriate [other]
-+Upstream is not making further releases of this software.
+ --- man-1.6e.orig/src/man.conf.in	2005-08-20 20:26:06.000000000 -0300
+ +++ man-1.6e/src/man.conf.in	2007-05-18 10:30:29.000000000 -0300
+ @@ -36,11 +36,12 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.6e-new_sections.patch b/meta/recipes-extended/man/man-1.6f/man-1.6e-new_sections.patch
+index 5172758..fb9773c 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.6e-new_sections.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.6e-new_sections.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
 +
 +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 +
- # Force socket fds to close on exec when used in conjunction with pseudo
- # Patch origin: Wind River
- 
+ --- man-1.6e.orig/configure	2006-05-01 14:56:14.000000000 -0300
+ +++ man-1.6e/configure	2007-05-18 14:35:43.000000000 -0300
+ @@ -960,7 +960,7 @@
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.6e-ro_usr.patch b/meta/recipes-extended/man/man-1.6f/man-1.6e-ro_usr.patch
+index d330e62..1d1cb0c 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.6e-ro_usr.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.6e-ro_usr.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ Index: man-1.6f/src/makewhatis.sh
+ ===================================================================
+ --- man-1.6f.orig/src/makewhatis.sh	2010-12-29 13:42:34.000000000 -0800
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.6e-security.patch b/meta/recipes-extended/man/man-1.6f/man-1.6e-security.patch
+index 85fdf4e..312a882 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.6e-security.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.6e-security.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ diff -Naur man-1.6e.orig/src/makewhatis.sh man-1.6e/src/makewhatis.sh
+ --- man-1.6e.orig/src/makewhatis.sh	2006-07-19 01:58:08.000000000 -0300
+ +++ man-1.6e/src/makewhatis.sh	2007-05-18 10:18:31.000000000 -0300
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.6e-use_i18n_vars_in_a_std_way.patch b/meta/recipes-extended/man/man-1.6f/man-1.6e-use_i18n_vars_in_a_std_way.patch
+index a448da5..568f742 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.6e-use_i18n_vars_in_a_std_way.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.6e-use_i18n_vars_in_a_std_way.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ diff -Naur man-1.6e.orig/catopen/catopen.c man-1.6e/catopen/catopen.c
+ --- man-1.6e.orig/catopen/catopen.c	2005-08-20 20:26:06.000000000 -0300
+ +++ man-1.6e/catopen/catopen.c	2007-05-18 11:31:05.000000000 -0300
+diff --git a/meta/recipes-extended/man/man-1.6f/man-1.6e-whatis2.patch b/meta/recipes-extended/man/man-1.6f/man-1.6e-whatis2.patch
+index 1a10be3..7f01383 100644
+--- a/meta/recipes-extended/man/man-1.6f/man-1.6e-whatis2.patch
++++ b/meta/recipes-extended/man/man-1.6f/man-1.6e-whatis2.patch
+@@ -1,3 +1,7 @@
++Upstream-Status: Pending
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ Index: man-1.6f/src/makewhatis.sh
+ ===================================================================
+ --- man-1.6f.orig/src/makewhatis.sh	2010-12-29 13:51:45.000000000 -0800
 -- 
 1.7.1
 
