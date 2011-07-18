@@ -1,28 +1,32 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QieEl-0004AU-Bx
+	(envelope-from <scott.a.garman@intel.com>) id 1QieEm-0004Ab-4l
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jul 2011 05:11:15 +0200
+	Mon, 18 Jul 2011 05:11:16 +0200
 Received: from localhost.localdomain (c-71-236-175-18.hsd1.or.comcast.net
 	[71.236.175.18])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 972C830528;
-	Sun, 17 Jul 2011 23:07:05 -0400 (EDT)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 0B95B3052A;
+	Sun, 17 Jul 2011 23:07:06 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jul 2011 20:06:57 -0700
-Message-Id: <cover.1310958357.git.scott.a.garman@intel.com>
+Date: Sun, 17 Jul 2011 20:06:59 -0700
+Message-Id: <6111f5e332bf351d54916e238c425ed6712c48d6.1310958357.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1310958357.git.scott.a.garman@intel.com>
+References: <cover.1310958357.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1310958357.git.scott.a.garman@intel.com>
+References: <cover.1310958357.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 972C830528.21782
+X-MailScanner-ID: 0B95B3052A.26CDA
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
 Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [PATCH 0/2] Upstream-Status patch additions
+Subject: [PATCH 2/2] unfs-server: add Upstream-Status field to patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,25 +41,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2011 03:11:15 -0000
+X-List-Received-Date: Mon, 18 Jul 2011 03:11:16 -0000
 
-Hello,
-
-This pull request simply adds the Upstream-Status metadata field to
-patches for the man and unfs-server recipes.
-
-The following changes since commit fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
-
-  bb-matrix: correct BB and PM number canonicalization (2011-07-14 22:23:09 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib sgarman/upstream-status
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/upstream-status
-
-Scott Garman (2):
-  man: add Upstream-Status field to paches
-  unfs-server: add Upstream-Status field to patches
-
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
  .../001-2.2b47-2.2b51.patch                        |    5 +++++
  .../unfs-server-2.1+2.2beta47/002-destdir.patch    |    5 +++++
  .../unfs-server-2.1+2.2beta47/003-manpages.patch   |    5 +++++
@@ -78,33 +67,296 @@ Scott Garman (2):
  .../020-undefined-chmod-fix.patch                  |    5 +++++
  .../unfs-server-2.1+2.2beta47/021-nolibwrap.patch  |    5 +++++
  .../022-add-close-on-exec-descriptors.patch        |    5 +++++
- .../man/man-1.6f/man-1.5g-nonrootbuild.patch       |    4 ++++
- .../man/man-1.6f/man-1.5h1-gencat.patch            |    4 ++++
- .../man/man-1.6f/man-1.5h1-make.patch              |    4 ++++
- .../man/man-1.6f/man-1.5i2-initial.patch           |    4 ++++
- .../man/man-1.6f/man-1.5i2-newline.patch           |    4 ++++
- .../man/man-1.6f/man-1.5i2-overflow.patch          |    4 ++++
- .../man/man-1.6f/man-1.5j-i18n.patch               |    4 ++++
- .../man/man-1.6f/man-1.5j-nocache.patch            |    4 ++++
- .../man/man-1.6f/man-1.5j-utf8.patch               |    4 ++++
- .../man/man-1.6f/man-1.5k-confpath.patch           |    4 ++++
- .../man/man-1.6f/man-1.5k-nonascii.patch           |    4 ++++
- .../man/man-1.6f/man-1.5k-sofix.patch              |    4 ++++
- .../man/man-1.6f/man-1.5m2-bug11621.patch          |    4 ++++
- .../man/man-1.6f/man-1.5m2-buildroot.patch         |    4 ++++
- .../man/man-1.6f/man-1.5m2-multiple.patch          |    4 ++++
- .../man-1.6f/man-1.5m2-no-color-for-printing.patch |    4 ++++
- .../man/man-1.6f/man-1.5m2-sigpipe.patch           |    4 ++++
- .../man/man-1.6f/man-1.5m2-tv_fhs.patch            |    4 ++++
- .../man/man-1.6f/man-1.6e-i18n_whatis.patch        |    4 ++++
- .../man/man-1.6f/man-1.6e-lzma+xz-support.patch    |    4 ++++
- .../man/man-1.6f/man-1.6e-mandirs.patch            |    4 ++++
- .../man/man-1.6f/man-1.6e-new_sections.patch       |    4 ++++
- .../man/man-1.6f/man-1.6e-ro_usr.patch             |    4 ++++
- .../man/man-1.6f/man-1.6e-security.patch           |    4 ++++
- .../man-1.6e-use_i18n_vars_in_a_std_way.patch      |    4 ++++
- .../man/man-1.6f/man-1.6e-whatis2.patch            |    4 ++++
- 48 files changed, 214 insertions(+), 0 deletions(-)
+ 22 files changed, 110 insertions(+), 0 deletions(-)
+
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch
+index 886ce92..b2cdc5e 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ diff -urN nfs-server-2.2beta47/.version nfs-server-2.2beta51/.version
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch
+index 9388332..df290f2 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/Makefile.in	2002/11/07 16:56:07	1.1
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch
+index a17a8dc..412dbf6 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/exports.man	2002/11/07 17:15:59	1.1
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch
+index 3ac4ed7..6982b47 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/failsafe.c	2002/11/07 17:12:46	1.1
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch
+index c21fb05..17208d8 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/system.h	2002/11/07 17:10:47	1.1
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch
+index abdc674..22dcc42 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/Makefile.in
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch
+index 89baabe..e031fef 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/auth.c
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch
+index a6d4599..98405ea 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/configure.in	2002/11/08 14:24:55	1.1
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch
+index 65b0b9e..a4cf1f5 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/nfsd.c
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch
+index c3b5d58..2e53b37 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/configure.in
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch
+index 695b8c7..1d0535b 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/Makefile.in
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch
+index a815ee4..d04e0d1 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/Makefile.in.xx	2006-01-12 12:43:09.000000000 +0100
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch
+index 1f10d3c..b161fe4 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/mountd.c	2006/01/12 14:00:13	1.13
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch
+index 233c08a..370f440 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/mountd.c
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch
+index cbfb8e8..3b86d43 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Patch origin: nfs-server source RPM from openSUSE 10.3
+ 
+ --- nfs-server/setattr.c.orig	2006-07-28 16:38:26.000000000 +0200
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch
+index 634ce46..211aa0b 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Makefile fix for staging to work correctly.
+ # Scott Garman <scott.a.garman@intel.com>
+ 
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch
+index 18e12de..99cd6b1 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Add the ability to choose alternate RPC ports at runtime and disable
+ # security so that it can run as a userland process
+ # Patch origin: Wind River
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch
+index 95ecdee..1b407e4 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Remove the requirement to link with libwrap
+ # Patch origin: Wind River
+ 
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch
+index 960ca8e..1b9c06a 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Write a pid file before forking
+ # Patch origin: Wind River
+ 
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch
+index 0f1108c..fb51300 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Fix a problem with chmod attributes when using no_squash_all
+ # Patch origin: Wind River
+ 
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch
+index c0901fa..335d098 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Remove libwrap linkage
+ # Patch origin: Wind River
+ 
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch
+index 011ae74..c35bb7c 100644
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch
++++ b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch
+@@ -1,3 +1,8 @@
++Upstream-Status: Inappropriate [other]
++Upstream is not making further releases of this software.
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
+ # Force socket fds to close on exec when used in conjunction with pseudo
+ # Patch origin: Wind River
+ 
+-- 
+1.7.1
 
 
 
