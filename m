@@ -1,18 +1,22 @@
 Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1QirFJ-0005A9-AH
-	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jul 2011 19:04:41 +0200
+	(envelope-from <tom_rini@mentor.com>)
+	id 1QirFJ-0005AB-H3; Mon, 18 Jul 2011 19:04:41 +0200
 Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6IH0XMf028031
-	for <openembedded-core@lists.openembedded.org>;
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6IH0XMg028031;
 	Mon, 18 Jul 2011 12:00:34 -0500
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jul 2011 10:00:28 -0700
-Message-Id: <cover.1311008331.git.tom_rini@mentor.com>
+Date: Mon, 18 Jul 2011 10:00:29 -0700
+Message-Id: <7da7d67b36cfd010e56a401f51e20b81e20ddba0.1311008331.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH v3 0/1] Add unzip DEPENDS for .zip SRC_URI files
+In-Reply-To: <cover.1311008331.git.tom_rini@mentor.com>
+References: <cover.1311008331.git.tom_rini@mentor.com>
+In-Reply-To: <cover.1311008331.git.tom_rini@mentor.com>
+References: <cover.1311008331.git.tom_rini@mentor.com>
+Cc: Koen Kooi <koen@openembedded.org>,
+	Ihar Hrachyshka <ihar.hrachyshka@gmail.com>
+Subject: [PATCH v3 1/1] Fixed concurrency problem for ZIP packed recipes.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,28 +33,41 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 18 Jul 2011 17:04:47 -0000
 
-Hey all,
+From: Ihar Hrachyshka <ihar.hrachyshka@gmail.com>
 
-In doing some world builds I ran into "oops, we don't make .zip files
-depend on unzip-native".  So this is a port of the commit from oe.dev
-that does this.
+The problem occured when unzip-native is not yet staged, and ZIP
+archive unpacking already started resulting in failed do_unpack task.
 
-v2: Don brown paper bag, s/do_populate_staging/do_populate_sysroot, test
-v3: Drop NEED_UNZIP_FOR_UNPACK at Richard's request (on IRC)
-The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
-  Saul Wold (1):
-        libx11: ensure nativesdk uses correct DEPENDS and XCB flags
+(oe.dev has a NEED_UNZIP_FOR_UNPACK variable we did not bring over)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib trini/add-zip-native-check-v3
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/add-zip-native-check-v3
-
-Ihar Hrachyshka (1):
-  Fixed concurrency problem for ZIP packed recipes.
-
+Signed-off-by: Ihar Hrachyshka <ihar.hrachyshka@gmail.com>
+Signed-off-by: Koen Kooi <koen@openembedded.org>
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
+---
  meta/classes/base.bbclass |    8 ++++++++
  1 files changed, 8 insertions(+), 0 deletions(-)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 0c2c546..0347b90 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -354,6 +354,14 @@ python () {
+         depends = depends + " xz-native:do_populate_sysroot"
+         bb.data.setVarFlag('do_unpack', 'depends', depends, d)
+ 
++    # unzip-native should already be staged before unpacking ZIP recipes
++    src_uri = bb.data.getVar('SRC_URI', d, 1)
++
++    if ".zip" in src_uri:
++        depends = bb.data.getVarFlag('do_unpack', 'depends', d) or ""
++        depends = depends + " unzip-native:do_populate_sysroot"
++        bb.data.setVarFlag('do_unpack', 'depends', depends, d)
++
+     # 'multimachine' handling
+     mach_arch = bb.data.getVar('MACHINE_ARCH', d, 1)
+     pkg_arch = bb.data.getVar('PACKAGE_ARCH', d, 1)
+-- 
+1.7.0.4
 
 
 
