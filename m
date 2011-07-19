@@ -1,22 +1,18 @@
 Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1Qj0Kj-0004xb-9m
+	(envelope-from <tom_rini@mentor.com>) id 1Qj0Kk-0004xb-0v
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 04:46:53 +0200
+	Tue, 19 Jul 2011 04:46:54 +0200
 Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6J27KMh030170
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6J27KMf030170
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 18 Jul 2011 21:07:20 -0500
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jul 2011 19:07:16 -0700
-Message-Id: <0e096c8a1ecdd3123b192b7216b34d235c612e88.1311041054.git.tom_rini@mentor.com>
+Date: Mon, 18 Jul 2011 19:07:14 -0700
+Message-Id: <cover.1311041054.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1311041054.git.tom_rini@mentor.com>
-References: <cover.1311041054.git.tom_rini@mentor.com>
-In-Reply-To: <cover.1311041054.git.tom_rini@mentor.com>
-References: <cover.1311041054.git.tom_rini@mentor.com>
-Subject: [PATCH v2 2/4] help2man-native: Add 1.38.2
+Subject: [PATCH v2 0/4] Optionally trade required_utils for -nativebuilds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,52 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2011 02:46:53 -0000
+X-List-Received-Date: Tue, 19 Jul 2011 02:46:54 -0000
 
-This is a 'side port' of current oe.dev versions.  PR is kept in sync
-but we drop out the target recipes in order to punt on potential perl
-problems.  Here we do re-configure as we don't have a dance with
-perl-native to deal with.
+Hey all,
 
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
----
+As I said in another thread, today we depend on a few more host utilities
+being installed on the host than oe.dev does.  This is an attempt to fix
+that a bit and improve on the situation at the same time.  First up is
+adding a test for mercurial-native to sanity.bbclass since we don't have
+any hg:// URIs at the moment and dropping from the default ASSUME_PROVIDED
+list.  Next up is help2man-native.  We now only ship the GPLv3 version as
+a -native recipe.  This retains a "don't re-conf" do_configure and an
+expanded comment that explains that if we did so we would need perlnative
+here.  Second, I've tested this with qemux86 and core-image-sato
+and it still all builds and works as much as it has been for me wrt tests.
+Finally, in the commit message I said avoiding perl-native problem and what
+I'm speaking of is that since I put help2man-native in with all of the
+autotools deps, adding perlnative to the inherits list would bring perl in
+for everything.  We can punt on this by just not adding target help2man for
+now.
+
+v2: Move mercurial-native recipe to meta-oe, GPLv2 version of help2man-native
+
+The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
+  Saul Wold (1):
+        libx11: ensure nativesdk uses correct DEPENDS and XCB flags
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib trini/add-more-native-recipes-v2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/add-more-native-recipes-v2
+
+Tom Rini (4):
+  bitbake.conf, sanity.bbclass: Make mercurial-native optional
+  help2man-native: Add 1.38.2
+  sanity.bbclass: Add help2man-native to ASSUME_PROVIDED if found
+  autotools.bbclass: Add help2man-native to the main DEPENDS tree
+
+ meta/classes/autotools.bbclass                     |    4 +-
+ meta/classes/sanity.bbclass                        |   10 +++++++-
+ meta/conf/bitbake.conf                             |    1 -
  .../help2man/help2man-native_1.38.2.bb             |   25 ++++++++++++++++++++
- 1 files changed, 25 insertions(+), 0 deletions(-)
+ 4 files changed, 36 insertions(+), 4 deletions(-)
  create mode 100644 meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
-
-diff --git a/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb b/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
-new file mode 100644
-index 0000000..bea7fe9
---- /dev/null
-+++ b/meta/recipes-devtools/help2man/help2man-native_1.38.2.bb
-@@ -0,0 +1,25 @@
-+DESCRIPTION = "Program to create simple man pages"
-+SECTION = "devel"
-+LICENSE = "GPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+DEPENDS = "autoconf-native automake-native"
-+PR = "r2"
-+
-+SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
-+SRC_URI[md5sum] = "426671c6fe79e5ef2233303367eab5a6"
-+SRC_URI[sha256sum] = "952c29561bce8b233aa10af7f0e0c79c8243712810bf8ddf01e6efd82ce250d1"
-+
-+inherit autotools native
-+
-+EXTRA_OECONF = "--disable-nls"
-+
-+# We don't want to reconfigure things as it would require 'perlnative' to be
-+# used.
-+do_configure() {
-+	oe_runconf
-+}
-+
-+do_install_append () {
-+	# Make sure we use /usr/bin/env perl
-+	sed -i -e "1s:#!.*:#! /usr/bin/env perl:" ${D}${bindir}/help2man
-+}
--- 
-1.7.0.4
 
 
 
