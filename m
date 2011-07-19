@@ -1,35 +1,35 @@
 Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qiy4f-0002Iy-UV
+	(envelope-from <raj.khem@gmail.com>) id 1Qiy5a-0002Os-Uv
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 02:22:11 +0200
-Received: by iwn4 with SMTP id 4so3529022iwn.6
+	Tue, 19 Jul 2011 02:23:14 +0200
+Received: by iwn4 with SMTP id 4so3528940iwn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2011 17:18:03 -0700 (PDT)
+	Mon, 18 Jul 2011 17:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=McD48v2dRMXYENORGFlNGy/fpATKbvEP/evRP+yU9Pc=;
-	b=GdBliigagodCsWviJ6WbtxC4On9Mv/1aZ4532QL91q6gpgoYRyYgs2f4+091sA8raF
-	SZkFGfEno4XCoZtcbcf33t5t1p2YxAAtoc61/JDzKraWrz66VlP0rScnNuq3/QRJ1jJE
-	+0s2/4C7inlnqFDMDm8X2hJ6pFOMYZsmhwOS4=
-Received: by 10.231.52.209 with SMTP id j17mr1065043ibg.94.1311034681837;
-	Mon, 18 Jul 2011 17:18:01 -0700 (PDT)
+	bh=Lk/ceGt3W6nvbx+AL25eQZuezmjan+aUVNTLijC1V4U=;
+	b=rkB4pwzHk2L44XU7YCbnoTvV0bFp5p32QEhRtrLDkWdEcSbuLShnaE0N9nPGZUTTYo
+	VPMEzmL2eQXC0YD6v4OTRS8glimGUDukxBeCyd/XAxIEN28zR+/IbQgbwJ915xkcyBeF
+	vSJ1pbEsZF80CdJ1s+G9pof8WTkz5fARSjJC8=
+Received: by 10.42.150.71 with SMTP id z7mr7414584icv.474.1311034674350;
+	Mon, 18 Jul 2011 17:17:54 -0700 (PDT)
 Received: from localhost.localdomain
 	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id b6sm3248255ibg.14.2011.07.18.17.18.00
+	by mx.google.com with ESMTPS id b6sm3248255ibg.14.2011.07.18.17.17.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 18 Jul 2011 17:18:01 -0700 (PDT)
+	Mon, 18 Jul 2011 17:17:53 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jul 2011 17:17:34 -0700
-Message-Id: <2ef6713615812e4c14255667c26dbea751998165.1311034342.git.raj.khem@gmail.com>
+Date: Mon, 18 Jul 2011 17:17:28 -0700
+Message-Id: <bcd71928a9187721cbbd00795a8bde5f2b503710.1311034342.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <1dd2e2b995b65326b14426fe01116b99a920d779.1311034342.git.raj.khem@gmail.com>
 References: <1dd2e2b995b65326b14426fe01116b99a920d779.1311034342.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1311034342.git.raj.khem@gmail.com>
 References: <cover.1311034342.git.raj.khem@gmail.com>
-Subject: [PATCH 15/16] sysprof: Define NT_GNU_BUILD_ID if undefined
+Subject: [PATCH 09/16] uclibc_0.9.32: Implement sync_file_range2.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,64 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2011 00:22:13 -0000
+X-List-Received-Date: Tue, 19 Jul 2011 00:23:14 -0000
 
-This is needed on uclibc which does not have all GNU extentions
+On some arches e.g. arm, ppc sync_file_range2 is used
+instead of sync_file_range so we should consider that
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../sysprof/files/define-NT_GNU_BUILD_ID.patch     |   22 ++++++++++++++++++++
- meta/recipes-kernel/sysprof/sysprof_git.bb         |    5 ++-
- 2 files changed, 25 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
+ .../uclibc/uclibc-0.9.32/sync_file_range2.patch    |   15 +++++++++++++++
+ meta/recipes-core/uclibc/uclibc_0.9.32.bb          |    3 ++-
+ 2 files changed, 17 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/sync_file_range2.patch
 
-diff --git a/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch b/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
+diff --git a/meta/recipes-core/uclibc/uclibc-0.9.32/sync_file_range2.patch b/meta/recipes-core/uclibc/uclibc-0.9.32/sync_file_range2.patch
 new file mode 100644
-index 0000000..dcc2cbe
+index 0000000..8ca2560
 --- /dev/null
-+++ b/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
-@@ -0,0 +1,22 @@
-+On uclibc elf.h does not have GNU extentions but we need this define
-+so we define it locally if its not getting it from elf.h
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+
-+Index: git/elfparser.h
++++ b/meta/recipes-core/uclibc/uclibc-0.9.32/sync_file_range2.patch
+@@ -0,0 +1,15 @@
++Index: git/libc/sysdeps/linux/common/sync_file_range.c
 +===================================================================
-+--- git.orig/elfparser.h	2011-07-16 18:57:41.000000000 -0700
-++++ git/elfparser.h	2011-07-16 20:28:54.733829895 -0700
-+@@ -17,6 +17,10 @@
-+  */
-+ #include <glib.h>
-+ 
-++#ifndef NT_GNU_BUILD_ID
-++#define NT_GNU_BUILD_ID 3
++--- git.orig/libc/sysdeps/linux/common/sync_file_range.c	2011-07-16 19:19:40.000000000 -0700
+++++ git/libc/sysdeps/linux/common/sync_file_range.c	2011-07-17 22:21:48.893808544 -0700
++@@ -10,7 +10,9 @@
++ #include <sys/syscall.h>
++ #if defined __USE_GNU
++ #include <fcntl.h>
++-
+++#if defined __NR_sync_file_range2
+++#define __NR_sync_file_range __NR_sync_file_range2
 ++#endif
-++
-+ typedef struct ElfSym ElfSym;
-+ typedef struct ElfParser ElfParser;
-+ 
-diff --git a/meta/recipes-kernel/sysprof/sysprof_git.bb b/meta/recipes-kernel/sysprof/sysprof_git.bb
-index 2246803..1af5822 100644
---- a/meta/recipes-kernel/sysprof/sysprof_git.bb
-+++ b/meta/recipes-kernel/sysprof/sysprof_git.bb
-@@ -5,11 +5,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- DEPENDS = "gtk+ libglade"
++ #if defined __NR_sync_file_range && defined __UCLIBC_HAS_LFS__
++ #define __NR___syscall_sync_file_range __NR_sync_file_range
++ static __inline__ _syscall6(int, __syscall_sync_file_range, int, fd,
+diff --git a/meta/recipes-core/uclibc/uclibc_0.9.32.bb b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
+index b959279..8dcb260 100644
+--- a/meta/recipes-core/uclibc/uclibc_0.9.32.bb
++++ b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
+@@ -1,7 +1,7 @@
+ SRCREV="9152c4d67c763fde5712e2d181d92c0d7e1e2ab9"
  
- SRCREV = "38a6af1f0a45e528fd2842983da71e0f23c70d6a"
--PR = r0
-+PR = r1
- PV = "1.1.6+git${SRCPV}"
+ require uclibc.inc
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
+ PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
  
- SRC_URI = "git://git.gnome.org/sysprof;protocol=git \
--           "
-+           file://define-NT_GNU_BUILD_ID.patch \
-+          "
- 
- SRC_URI_append_arm  = " file://rmb-arm.patch"
- SRC_URI_append_mips = " file://rmb-mips.patch"
+ SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
+@@ -28,5 +28,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
+ 	file://0001-mips-signalfd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch \
+ 	file://uclibc-execvpe.patch \
+ 	file://uclibc_scheduler_update.patch \
++	file://sync_file_range2.patch \
+ 	"
+ S = "${WORKDIR}/git"
 -- 
 1.7.4.1
 
