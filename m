@@ -1,31 +1,30 @@
-Received: from mail-out.m-online.net ([212.18.0.10])
+Received: from mail-out.m-online.net ([212.18.0.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <yanok@emcraft.com>) id 1Qiyko-0003QX-Iu
+	(envelope-from <yanok@emcraft.com>) id 1Qiyl0-0003Qq-81
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 03:05:49 +0200
-Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
-	[192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id A458D188A197
-	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jul 2011 03:05:54 +0200
+Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id A9F771C01DF1;
 	Tue, 19 Jul 2011 03:01:39 +0200 (CEST)
 X-Auth-Info: QwU0fjf/rkYacHihTLM0kEyjs2aTpbkvJUWW4MeFoGE=
 Received: from mail.denx.de (host-82-135-33-74.customer.m-online.net
 	[82.135.33.74])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 7B3DB1C000AD
-	for <openembedded-core@lists.openembedded.org>;
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 868BD1C000B1;
 	Tue, 19 Jul 2011 03:01:39 +0200 (CEST)
 Received: from pollux.denx.de (pollux [192.168.1.1])
-	by mail.denx.de (Postfix) with ESMTP id 321C634003F
-	for <openembedded-core@lists.openembedded.org>;
+	by mail.denx.de (Postfix) with ESMTP id 62D1F340058;
 	Tue, 19 Jul 2011 03:01:39 +0200 (CEST)
 Received: by pollux.denx.de (Postfix, from userid 547)
-	id D39464BFF; Tue, 19 Jul 2011 03:01:38 +0200 (CEST)
+	id 3A7B44C04; Tue, 19 Jul 2011 03:01:39 +0200 (CEST)
 From: Ilya Yanok <yanok@emcraft.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jul 2011 03:00:51 +0200
-Message-Id: <1311037258-11777-1-git-send-email-yanok@emcraft.com>
+Date: Tue, 19 Jul 2011 03:00:55 +0200
+Message-Id: <1311037258-11777-5-git-send-email-yanok@emcraft.com>
 X-Mailer: git-send-email 1.7.6
-Subject: [PATCH 0/7] Fixes to some gcc 4.5.1 bugs
+In-Reply-To: <1311037258-11777-1-git-send-email-yanok@emcraft.com>
+References: <1311037258-11777-1-git-send-email-yanok@emcraft.com>
+Cc: Ilya Yanok <yanok@emcraft.com>
+Subject: [PATCH 4/7] gcc_4.5.1: add pr44606.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,29 +39,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2011 01:05:53 -0000
+X-List-Received-Date: Tue, 19 Jul 2011 01:05:56 -0000
 
-Hi everybody,
+Add fix for PR44606 as proposed in
+http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44606
 
-It seems like everybody are using GCC 4.6 already but as support for
-GCC 4.5.1 is still here I'd like to publish the changes we've done to
-GCC 4.5.1 recipe some time ago.
+Signed-off-by: Ilya Yanok <yanok@emcraft.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.5.1.inc           |    1 +
+ meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch |  106 +++++++++++++++++++++
+ 2 files changed, 107 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch
 
-We've incorporated the patches for some know GCC 4.5.1 problems:
- PR44392: Already fixed by arm_bswapsi2 patch but the patch differs
-slightly from the one in the gcc tree.
- PR43810: linking with optspace on PowerPC results in undefined
-references to _savegpr_* _restgpr_*_x. Added the patch from bugzilla
-but the issue is still here.
- PR44290: __naked attribute is broken on ARM.
- PR44606: Wrong SPE floating point during computation (PowerPC).
- PR45094: [arm] wrong instructions for dword move in some cases.
- PR45052: volatile ignored
- PR45886: [ARM] support for __ARM_PCS_VFP predefined symbol
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
+index 99f2ad6..e84df82 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
+@@ -60,6 +60,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://use-defaults.h-and-t-oe-in-B.patch \
+ 	   file://pr43810.patch \
+ 	   file://pr44290.patch \
++	   file://pr44606.patch \
+ 	  "
+ 	
+ SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch
+new file mode 100644
+index 0000000..dd590bb
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch
+@@ -0,0 +1,106 @@
++From aff0ca6587a2f0849db55eef62a85bc8721869f2 Mon Sep 17 00:00:00 2001
++From: froydnj <froydnj@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Tue, 1 Feb 2011 02:11:54 +0000
++Subject: [PATCH 3/6] gcc/ Backport from mainline: 2010-12-30 Nathan Froyd <froydnj@codesourcery.com>
++
++        PR target/44606
++        * reload1.c (choose_reload_regs): Don't look for equivalences for
++        output reloads of constant loads.
++
++gcc/testsuite/
++	Backport from mainline:
++	2010-12-30  Nathan Froyd  <froydnj@codesourcery.com>
++
++        PR target/44606
++        * gcc.dg/pr44606.c: New test.
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-4_4-branch@169465 138bc75d-0d04-0410-961f-82ee72b054a4
++---
++ gcc/reload1.c                  |   11 --------
++ gcc/testsuite/gcc.dg/pr44606.c |   52 ++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 52 insertions(+), 11 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.dg/pr44606.c
++
++diff --git a/gcc/reload1.c b/gcc/reload1.c
++index 02fef2d..5732677 100644
++--- a/gcc/reload1.c
+++++ b/gcc/reload1.c
++@@ -6273,17 +6273,6 @@ choose_reload_regs (struct insn_chain *chain)
++ 	      && (rld[r].nregs == max_group_size
++ 		  || ! reg_classes_intersect_p (rld[r].rclass, group_class)))
++ 	    search_equiv = rld[r].in;
++-	  /* If this is an output reload from a simple move insn, look
++-	     if an equivalence for the input is available.  */
++-	  else if (inheritance && rld[r].in == 0 && rld[r].out != 0)
++-	    {
++-	      rtx set = single_set (insn);
++-
++-	      if (set
++-		  && rtx_equal_p (rld[r].out, SET_DEST (set))
++-		  && CONSTANT_P (SET_SRC (set)))
++-		search_equiv = SET_SRC (set);
++-	    }
++ 
++ 	  if (search_equiv)
++ 	    {
++diff --git a/gcc/testsuite/gcc.dg/pr44606.c b/gcc/testsuite/gcc.dg/pr44606.c
++new file mode 100644
++index 0000000..3929775
++--- /dev/null
+++++ b/gcc/testsuite/gcc.dg/pr44606.c
++@@ -0,0 +1,52 @@
+++/* PR target/44606 */
+++/* { dg-do run } */
+++/* { dg-options "-O2" } */
+++
+++#include <stdio.h>
+++
+++extern void abort (void);
+++
+++ typedef struct _PixelPacket { 	unsigned char r, g, b; }
+++ PixelPacket;
+++#define ARRAYLEN(X) (sizeof(X)/sizeof(X[0]))
+++PixelPacket q[6];
+++#define COLS (ARRAYLEN(q) - 1)
+++PixelPacket p[2*COLS + 22];
+++#define Minify(POS, WEIGHT) do {	\
+++	total_r += (WEIGHT)*(p[POS].r);	\
+++	total_g += (WEIGHT)*(p[POS].g);	\
+++	total_b += (WEIGHT)*(p[POS].b);	\
+++} while (0)
+++unsigned long columns = COLS;
+++int main(void)
+++{
+++	static const unsigned char answers[COLS] = { 31, 32, 34, 35, 36 };
+++	unsigned long x;
+++	for (x = 0; x < sizeof(p)/sizeof(p[0]); x++) {
+++		p[x].b = (x + 34) | 1;
+++	}
+++	for (x = 0; x < columns; x++) {
+++		double total_r = 0, total_g = 0, total_b = 0;
+++		double saved_r = 0, saved_g = 0, saved_b = 0;
+++		Minify(2*x +  0,  3.0);
+++		Minify(2*x +  1,  7.0);
+++		Minify(2*x +  2,  7.0);
+++		saved_r = total_r;
+++		saved_g = total_g;
+++		Minify(2*x + 11, 15.0);
+++		Minify(2*x + 12,  7.0);
+++		Minify(2*x + 18,  7.0);
+++		Minify(2*x + 19, 15.0);
+++		Minify(2*x + 20, 15.0);
+++		Minify(2*x + 21,  7.0);
+++		q[x].r = (unsigned char)(total_r/128.0 + 0.5);
+++		q[x].g = (unsigned char)(total_g/128.0 + 0.5);
+++		q[x].b = (unsigned char)(total_b/128.0 + 0.5);
+++		fprintf(stderr, "r:%f g:%f b:%f\n", saved_r, saved_g, saved_b);
+++	}
+++	for (x = 0; x < COLS; x++) {
+++		if (answers[x] != q[x].b)
+++			abort();
+++	}
+++	return 0;
+++}
++-- 
++1.7.4
++
+-- 
+1.7.6
 
-Hope this will be useful for someone.
-
-Regards, Ilya.
- 
 
 
