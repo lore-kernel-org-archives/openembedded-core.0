@@ -1,18 +1,22 @@
 Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1QjCNl-0003fn-15
+	(envelope-from <tom_rini@mentor.com>) id 1QjCNl-0003fr-4T
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jul 2011 17:38:49 +0200
 Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6JFYhMf027827
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6JFYhMj027827
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 19 Jul 2011 10:34:43 -0500
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jul 2011 08:34:41 -0700
-Message-Id: <cover.1311089204.git.tom_rini@mentor.com>
+Date: Tue, 19 Jul 2011 08:34:45 -0700
+Message-Id: <053df0dc079b5d83dc8e0a62e4d6c0c845572254.1311089204.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/4] Misc fixes, July 19
+In-Reply-To: <cover.1311089204.git.tom_rini@mentor.com>
+References: <cover.1311089204.git.tom_rini@mentor.com>
+In-Reply-To: <cover.1311089204.git.tom_rini@mentor.com>
+References: <cover.1311089204.git.tom_rini@mentor.com>
+Subject: [PATCH 4/4] btrfs-tools: Add util-linux to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,35 +33,34 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Jul 2011 15:38:49 -0000
 
-Hey all,
+This needs libuuid bits in order to build.
 
-As part of doing some "fix builds in very long paths" builds of world I've
-hit a few DEPENDS problems.  The following series is mostly adding DEPENDS
-where they're missing today.  While I was fixing up gnome-doc-utils-native
-I noticed it has the installed but not packaged QA problem so I fixed that
-while in here.
-
-The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
-  Saul Wold (1):
-        libx11: ensure nativesdk uses correct DEPENDS and XCB flags
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib trini/misc-fixes-19july
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/misc-fixes-19july
-
-Tom Rini (4):
-  metacity: Add gnome-doc-utils to DEPENDS
-  gnome-doc-utils: Package up python site packages, bump PR
-  iptuils: Add sgmlspl-native to DEPENDS
-  btrfs-tools: Add util-linux to DEPENDS
-
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
+---
  .../btrfs-tools/btrfs-tools_git.bb                 |    3 ++-
- meta/recipes-extended/iputils/iputils_s20101006.bb |    4 ++--
- meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    4 ++--
- meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb |    2 +-
- meta/recipes-gnome/gnome/metacity_2.30.3.bb        |    4 ++--
- 5 files changed, 9 insertions(+), 8 deletions(-)
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+index a5c556d..9b5a17a 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+@@ -10,12 +10,13 @@ HOMEPAGE = "https://btrfs.wiki.kernel.org"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+ SECTION = "base"
++DEPENDS = "util-linux"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs-unstable.git;protocol=git;tag=1b444cd2e6ab8dcafdd47dbaeaae369dd1517c17;branch=master"
+ 
+ S = "${WORKDIR}/git"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI += "file://upstream-tmp/0001-Btrfs-progs-add-a-btrfs-select-super-command-to-over.patch \
+ 	    file://upstream-tmp/0002-Btrfs-progs-use-safe-string-manipulation-functions.patch \
+-- 
+1.7.0.4
 
 
 
