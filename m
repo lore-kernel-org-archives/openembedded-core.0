@@ -1,22 +1,18 @@
 Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1QjCNl-0003fo-2w
+	(envelope-from <tom_rini@mentor.com>) id 1QjCNl-0003fn-15
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jul 2011 17:38:49 +0200
 Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6JFYhMg027827
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6JFYhMf027827
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 19 Jul 2011 10:34:43 -0500
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jul 2011 08:34:42 -0700
-Message-Id: <a580d59f2b25e32026cb88dc1d59590d0e8eb799.1311089204.git.tom_rini@mentor.com>
+Date: Tue, 19 Jul 2011 08:34:41 -0700
+Message-Id: <cover.1311089204.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1311089204.git.tom_rini@mentor.com>
-References: <cover.1311089204.git.tom_rini@mentor.com>
-In-Reply-To: <cover.1311089204.git.tom_rini@mentor.com>
-References: <cover.1311089204.git.tom_rini@mentor.com>
-Subject: [PATCH 1/4] metacity: Add gnome-doc-utils to DEPENDS
+Subject: [PATCH 0/4] Misc fixes, July 19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +29,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Jul 2011 15:38:49 -0000
 
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
----
- meta/recipes-gnome/gnome/metacity_2.30.3.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Hey all,
 
-diff --git a/meta/recipes-gnome/gnome/metacity_2.30.3.bb b/meta/recipes-gnome/gnome/metacity_2.30.3.bb
-index 44e21c9..92ddd68 100644
---- a/meta/recipes-gnome/gnome/metacity_2.30.3.bb
-+++ b/meta/recipes-gnome/gnome/metacity_2.30.3.bb
-@@ -4,8 +4,8 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://src/include/main.h;endline=24;md5=c2242df552c880280315989bab626b90"
- 
--DEPENDS = "startup-notification gtk+ gconf gdk-pixbuf-native libcanberra"
--PR = "r1"
-+DEPENDS = "startup-notification gtk+ gconf gdk-pixbuf-native libcanberra gnome-doc-utils"
-+PR = "r2"
- 
- inherit gnome update-alternatives
- 
--- 
-1.7.0.4
+As part of doing some "fix builds in very long paths" builds of world I've
+hit a few DEPENDS problems.  The following series is mostly adding DEPENDS
+where they're missing today.  While I was fixing up gnome-doc-utils-native
+I noticed it has the installed but not packaged QA problem so I fixed that
+while in here.
+
+The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
+  Saul Wold (1):
+        libx11: ensure nativesdk uses correct DEPENDS and XCB flags
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib trini/misc-fixes-19july
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/misc-fixes-19july
+
+Tom Rini (4):
+  metacity: Add gnome-doc-utils to DEPENDS
+  gnome-doc-utils: Package up python site packages, bump PR
+  iptuils: Add sgmlspl-native to DEPENDS
+  btrfs-tools: Add util-linux to DEPENDS
+
+ .../btrfs-tools/btrfs-tools_git.bb                 |    3 ++-
+ meta/recipes-extended/iputils/iputils_s20101006.bb |    4 ++--
+ meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    4 ++--
+ meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb |    2 +-
+ meta/recipes-gnome/gnome/metacity_2.30.3.bb        |    4 ++--
+ 5 files changed, 9 insertions(+), 8 deletions(-)
 
 
 
