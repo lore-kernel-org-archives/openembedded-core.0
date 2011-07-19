@@ -1,30 +1,31 @@
-Received: from mail-out.m-online.net ([212.18.0.9])
+Received: from mail-out.m-online.net ([212.18.0.10])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <yanok@emcraft.com>) id 1Qiykp-0003QU-U7
+	(envelope-from <yanok@emcraft.com>) id 1Qiyko-0003QX-Iu
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jul 2011 03:05:49 +0200
-Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id 9077A1C1D9FB;
+Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
+	[192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id A458D188A197
+	for <openembedded-core@lists.openembedded.org>;
 	Tue, 19 Jul 2011 03:01:39 +0200 (CEST)
 X-Auth-Info: QwU0fjf/rkYacHihTLM0kEyjs2aTpbkvJUWW4MeFoGE=
 Received: from mail.denx.de (host-82-135-33-74.customer.m-online.net
 	[82.135.33.74])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 7B3941C000AC;
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 7B3DB1C000AD
+	for <openembedded-core@lists.openembedded.org>;
 	Tue, 19 Jul 2011 03:01:39 +0200 (CEST)
 Received: from pollux.denx.de (pollux [192.168.1.1])
-	by mail.denx.de (Postfix) with ESMTP id 38457340049;
+	by mail.denx.de (Postfix) with ESMTP id 321C634003F
+	for <openembedded-core@lists.openembedded.org>;
 	Tue, 19 Jul 2011 03:01:39 +0200 (CEST)
 Received: by pollux.denx.de (Postfix, from userid 547)
-	id E3DD44BFD; Tue, 19 Jul 2011 03:01:38 +0200 (CEST)
+	id D39464BFF; Tue, 19 Jul 2011 03:01:38 +0200 (CEST)
 From: Ilya Yanok <yanok@emcraft.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jul 2011 03:00:52 +0200
-Message-Id: <1311037258-11777-2-git-send-email-yanok@emcraft.com>
+Date: Tue, 19 Jul 2011 03:00:51 +0200
+Message-Id: <1311037258-11777-1-git-send-email-yanok@emcraft.com>
 X-Mailer: git-send-email 1.7.6
-In-Reply-To: <1311037258-11777-1-git-send-email-yanok@emcraft.com>
-References: <1311037258-11777-1-git-send-email-yanok@emcraft.com>
-Cc: Ilya Yanok <yanok@emcraft.com>
-Subject: [PATCH 1/7] gcc_4.5.1: fix arm_bswapsi2.patch
+Subject: [PATCH 0/7] Fixes to some gcc 4.5.1 bugs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,32 +42,27 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Jul 2011 01:05:53 -0000
 
-Acoording to http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44392
-correct fix should be
-TARGET_EITHER && (arm_arch6 || !optimize_size)
-not
-TARGET_EITHER && (arm_arch6 && !optimize_size)
+Hi everybody,
 
-Signed-off-by: Ilya Yanok <yanok@emcraft.com>
----
- .../gcc/gcc-4.5.1/arm-bswapsi2.patch               |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+It seems like everybody are using GCC 4.6 already but as support for
+GCC 4.5.1 is still here I'd like to publish the changes we've done to
+GCC 4.5.1 recipe some time ago.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/arm-bswapsi2.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/arm-bswapsi2.patch
-index 9b9f874..a7a6684 100644
---- a/meta/recipes-devtools/gcc/gcc-4.5.1/arm-bswapsi2.patch
-+++ b/meta/recipes-devtools/gcc/gcc-4.5.1/arm-bswapsi2.patch
-@@ -9,7 +9,7 @@ Index: gcc-4.5/gcc/config/arm/arm.md
-    [(set (match_operand:SI 0 "s_register_operand" "=r")
-    	(bswap:SI (match_operand:SI 1 "s_register_operand" "r")))]
- -"TARGET_EITHER"
--+"TARGET_EITHER && (arm_arch6 && !optimize_size)"
-++"TARGET_EITHER && (arm_arch6 || !optimize_size)"
-  "
-    if (!arm_arch6)
-      {
--- 
-1.7.6
+We've incorporated the patches for some know GCC 4.5.1 problems:
+ PR44392: Already fixed by arm_bswapsi2 patch but the patch differs
+slightly from the one in the gcc tree.
+ PR43810: linking with optspace on PowerPC results in undefined
+references to _savegpr_* _restgpr_*_x. Added the patch from bugzilla
+but the issue is still here.
+ PR44290: __naked attribute is broken on ARM.
+ PR44606: Wrong SPE floating point during computation (PowerPC).
+ PR45094: [arm] wrong instructions for dword move in some cases.
+ PR45052: volatile ignored
+ PR45886: [ARM] support for __ARM_PCS_VFP predefined symbol
 
+Hope this will be useful for someone.
+
+Regards, Ilya.
+ 
 
 
