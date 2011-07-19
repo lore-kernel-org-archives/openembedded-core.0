@@ -1,34 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QjJks-0003lT-L8 for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 01:31:10 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6JNR5qM030760
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 00:27:05 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25999-01 for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 00:26:56 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6JNQowl030715
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 00:26:51 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1311100227-8624-2-git-send-email-raj.khem@gmail.com>
-References: <1311100227-8624-1-git-send-email-raj.khem@gmail.com>
-	<1311100227-8624-2-git-send-email-raj.khem@gmail.com>
-Date: Wed, 20 Jul 2011 00:26:49 +0100
-Message-ID: <1311118009.2344.33.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/2] libiconv: Add recipes for 1.13.1
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <josh@linux.intel.com>) id 1QjKEr-0004QX-GN
+	for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jul 2011 02:02:09 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jul 2011 16:58:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,231,1309762800"; d="scan'208";a="29979617"
+Received: from unknown (HELO scimitar.amr.corp.intel.com) ([10.255.14.85])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Jul 2011 16:58:02 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jul 2011 16:57:54 -0700
+Message-Id: <cover.1311119488.git.josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/1] Fix Pseudo on hosts with older compilers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +29,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2011 23:31:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Jul 2011 00:02:09 -0000
 
-On Tue, 2011-07-19 at 11:30 -0700, Khem Raj wrote:
-> Import 1.13.1 recipes from meta-oe
-> share common code through libiconv.inc
+The realpath_fix patch included an unitialised variable which modern GCC
+cleverly optimises away, however hosts with older GCC like CentOS 5.x weren't
+so lucky and... BOOM.
 
-The big question this triggers for me is "why"?
+See http://git.yoctoproject.org/cgit/cgit.cgi/pseudo/commit/?id=4a646c8bbe73ca830cb8c2e80be4b457d925cdd4 for a more detailed description.
 
-Deleting libtool.m4 certainly looks neater than this version of patching
-it out. Is that do_configure hack still needed with libtool 2.4?
+The following changes since commit 6ca80453618fa308cc2d6329450aaf5dfdf2d610:
 
-Cheers,
+  Fixed concurrency problem for ZIP packed recipes. (2011-07-19 18:03:04 +0100)
 
-Richard
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib josh/pseudo
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/pseudo
 
+Joshua Lock (1):
+  pseudo: fix uninitialised variable in realpath_fix.patch
 
+ .../pseudo/pseudo/realpath_fix.patch               |    2 +-
+ meta/recipes-devtools/pseudo/pseudo_1.1.1.bb       |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+-- 
+1.7.6
 
 
 
