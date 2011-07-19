@@ -1,27 +1,24 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qj60u-0002Xh-PO
+	(envelope-from <philb@gnu.org>) id 1Qj8D7-0003qk-7I
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 10:50:48 +0200
-Received: by wyg30 with SMTP id 30so2879458wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2011 01:46:43 -0700 (PDT)
-Received: by 10.216.220.212 with SMTP id o62mr428886wep.75.1311065203674;
-	Tue, 19 Jul 2011 01:46:43 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id j54sm1587221wed.47.2011.07.19.01.46.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 19 Jul 2011 01:46:42 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1310976967-7251-1-git-send-email-koen@dominion.thruhere.net>
-Date: Tue, 19 Jul 2011 10:46:40 +0200
-Message-Id: <10AF858D-EEF0-4B5C-A001-DC007E0A5B30@dominion.thruhere.net>
-References: <1310976967-7251-1-git-send-email-koen@dominion.thruhere.net>
+	Tue, 19 Jul 2011 13:11:33 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qj89C-0002Bb-6b
+	for openembedded-core@lists.openembedded.org;
+	Tue, 19 Jul 2011 13:07:30 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] gcc-package-target: don't fail if the .la files we try to delete are not there to start with
+Date: Tue, 19 Jul 2011 12:07:29 +0100
+In-Reply-To: <bcd71928a9187721cbbd00795a8bde5f2b503710.1311034342.git.raj.khem@gmail.com>
+References: <1dd2e2b995b65326b14426fe01116b99a920d779.1311034342.git.raj.khem@gmail.com>
+	<bcd71928a9187721cbbd00795a8bde5f2b503710.1311034342.git.raj.khem@gmail.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311073650.30326.26.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 09/16] uclibc_0.9.32: Implement sync_file_range2.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,50 +33,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2011 08:50:49 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 Jul 2011 11:11:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Any comments on this one?
+On Mon, 2011-07-18 at 17:17 -0700, Khem Raj wrote:
+> ++#if defined __NR_sync_file_range2
+> ++#define __NR_sync_file_range __NR_sync_file_range2
+> ++#endif
 
-Op 18 jul 2011, om 10:16 heeft Koen Kooi het volgende geschreven:
+Does that really work?  If I remember right, the argument lists for
+those two syscalls are not the same.  It isn't entirely obvious to me
+that it makes sense to just define one as an alias for the other.
 
-> This fixes:
->=20
-> | rm: cannot remove =
-`/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-=
-gnueabi/gcc-4.5-r39.1+svnr175127/image/usr/libexec/gcc/arm-angstrom-linux-=
-gnueabi/4.5.4/*.la': No such file or directory
-> | ERROR: Function 'do_install' failed (see =
-/OE/tentacle/build/tmp-angstrom_2010_x-eglibc/work/armv7a-angstrom-linux-g=
-nueabi/gcc-4.5-r39.1+svnr175127/temp/log.do_install.19514 for further =
-information)
-> NOTE: package gcc-4.5-r39.1+svnr175127: task do_install: Failed
->=20
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
-> meta/recipes-devtools/gcc/gcc-package-target.inc |    2 +-
-> 1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-package-target.inc =
-b/meta/recipes-devtools/gcc/gcc-package-target.inc
-> index 9a91a7f..e6105da 100644
-> --- a/meta/recipes-devtools/gcc/gcc-package-target.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
-> @@ -84,7 +84,7 @@ do_install () {
-> 	# Cleanup some of the ${libdir}{,exec}/gcc stuff ...
-> 	rm -r ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
-> 	rm -r ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
-> -	rm -r ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/*.la
-> +	rm -rf ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/*.la
->=20
-> 	# Hack around specs file assumptions
-> 	test -f ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/specs && sed -i =
--e '/^*cross_compile:$/ { n; s/1/0/; }' =
-${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/specs
-> --=20
-> 1.6.6.1
->=20
+p.
+
 
 
 
