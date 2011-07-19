@@ -1,35 +1,30 @@
-Received: from mail-fx0-f51.google.com ([209.85.161.51])
+Received: from mail-iw0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QiwnK-0000x7-0M
+	(envelope-from <raj.khem@gmail.com>) id 1Qiy4E-000258-3B
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 01:00:10 +0200
-Received: by fxh10 with SMTP id 10so7574928fxh.10
+	Tue, 19 Jul 2011 02:21:42 +0200
+Received: by iwn4 with SMTP id 4so3528794iwn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jul 2011 15:56:05 -0700 (PDT)
+	Mon, 18 Jul 2011 17:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=eTpR3+Fv+5jyA/AA+jzGUGD3xBND1Z1OHmzz/zv+Yck=;
-	b=vFIYynOFFmUReuUGEh6msUXLGc4aO4j2GK/H6fEs1/tl/sMzeM8j4INc4vkw0fMdOQ
-	yJyKW6mZBnONdFWI6qIS1gLdqOL1HkqxfyklkAWtQXUNxVWOb6edFI/ClURIqp8dVjXj
-	0Yx6vvQ8W0zCrBXerqEjeIEZ5OPUpmiSo9LP8=
-Received: by 10.223.100.83 with SMTP id x19mr10696074fan.59.1311029765344;
-	Mon, 18 Jul 2011 15:56:05 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id o17sm3247271fal.2.2011.07.18.15.56.03
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=lLGVTkMrd1c//Lj2bZhb71nBEwnXw5D/a9ooHCtIdyE=;
+	b=YVqNI2aXVW5s4uwJSmwb+Lt90bQJXMlibb2S1lvso9ZrWN9SqsPO46umFLrBL510mV
+	0LKzsBcZ6JqAtnWhxVqs9/upRTp3A05zoTQFZXB9O6b3u2rRoZTxUPFu1GUspMoxl4Ym
+	XcLrLKGQSTtBqHFOIzhToox2oSX+b8Tf66Y0Q=
+Received: by 10.42.117.9 with SMTP id r9mr2448861icq.67.1311034656346;
+	Mon, 18 Jul 2011 17:17:36 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id d3sm3200047iba.23.2011.07.18.17.17.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 18 Jul 2011 15:56:04 -0700 (PDT)
-Date: Tue, 19 Jul 2011 00:55:56 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110718225556.GI3412@jama.jama.net>
-References: <cover.1310081443.git.sgw@linux.intel.com>
-	<0a996270e51deae8b1f22299e1e024dcb6c0be88.1310081443.git.sgw@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <0a996270e51deae8b1f22299e1e024dcb6c0be88.1310081443.git.sgw@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 8/8] libx11: enable xcb support
+	Mon, 18 Jul 2011 17:17:35 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Jul 2011 17:17:26 -0700
+Message-Id: <cover.1311034342.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 00/16] Make core-image-minimal core-image-sato buildable with uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,81 +39,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jul 2011 23:00:10 -0000
-X-Groupsio-MsgNum: 6066
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="T4Djgzn3z2HSNnx0"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 Jul 2011 00:21:42 -0000
 
---T4Djgzn3z2HSNnx0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch is V3 of the recents posts I have been doing from kraj/uclibc-oecore
+branch. With this patchset now core-image-minimal is buildable and bootable
+for all arches in oe-core. Core-image-sato is buildable but I have not tried to
+boot it first attemp hung but then I have been trying to build eglibc based 
+core-image-sato and make sure that that boots.
 
-On Thu, Jul 07, 2011 at 04:31:40PM -0700, Saul Wold wrote:
-> [YOCTO #1196]
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb |   11 ++++++++---
->  1 files changed, 8 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb b/meta/recipe=
-s-graphics/xorg-lib/libx11_1.3.4.bb
-> index 3e046a1..04d4a97 100644
-> --- a/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libx11_1.3.4.bb
-> @@ -5,7 +5,7 @@ LICENSE =3D "MIT & MIT-style & BSD"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dbf75bfe4d05068311b5e6862d4b5f=
-2c5"
-> =20
->  PE =3D "1"
-> -PR =3D "r1"
-> +PR =3D "r3"
-> =20
->  SRC_URI +=3D "file://x11_disable_makekeys.patch \
->              file://nodolt.patch \
-> @@ -16,8 +16,13 @@ SRC_URI[md5sum] =3D "f65c9c7ecbfb64c19dbd7927160d63fd"
->  SRC_URI[sha256sum] =3D "88d7238ce5f7cd123450567de7a3b56a43556e4ccc45df38=
-b8324147c889a844"
-> =20
->  DEPENDS +=3D "bigreqsproto xproto xextproto xtrans libxau xcmiscproto \
-> -            libxdmcp xf86bigfontproto kbproto inputproto xproto-native"
-> +            libxdmcp xf86bigfontproto kbproto inputproto xproto-native l=
-ibxcb"
-> =20
-> -EXTRA_OECONF +=3D "--without-xcb"
-> +DEPENDS_virtclass-native +=3D "bigreqsproto-native xproto-native xextpro=
-to-native xtrans-native libxau-native xcmiscproto-native \
-> +            libxdmcp-native xf86bigfontproto-native kbproto-native input=
-proto-native xproto-native"
-> +
-> +XCB =3D "--with-xcb"
-> +XCB_virtclass-native =3D "--without-xcb"
-> +EXTRA_OECONF +=3D "${XCB}"
-> =20
->  BBCLASSEXTEND =3D "native nativesdk"
+The following changes since commit 3d2c1ca9096790e4c6922b65b83ea1dffb90c362:
 
-FWIW:
+  util-linux: Replace sigsetmask with posix compliant functions (2011-07-15 18:52:49 -0700)
 
-few months back I've replied on similar change that --without-xcb is not
-available in newer libx11 and that it would be better to upgrade to
-newer libx11 or keep xcb enabled for -native too and add 2
-BBCLASSEXTENDS to needed xcb recipes..
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-oecore
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-oecore
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Khem Raj (16):
+  bitbake.conf: Change TERM default fallback to XTERM instead of
+    GNOME_TERM
+  oe-buildenv-internal: Replace POKYMODE POKYLIBC with TCMODE and
+    TCLIBC
+  default-distrovars: Add largefile and argp to DISTRO_FEATURES
+  acl,attr: Fix build failures when NLS is disabled on uclibc
+  classes/gettext: Do not disable nls for non target recipes
+  libxdamage,libxft,libxrandr: Add missing dependency on virtual/libx11
+  tzcode,tzdata: Update tzdata to 2011h
+  task-core-x11-sato: Add empty NETWORK_MANAGER for uclibc
+  uclibc_0.9.32: Implement sync_file_range2.
+  oprofile: Fix build when query_module is not there
+  powertop: Add lintl to linker commandline on uclibc
+  pimlico/dates: Fix build on uclibc
+  binutils: Fix build when compiling target binutils recipe with gcc
+    4.6
+  clutter-box2d: Replace use of finite macro with C99 compliant
+    isfinite()
+  sysprof: Define NT_GNU_BUILD_ID if undefined
+  mesa-xlib: Dont use locales with uclibc
 
---T4Djgzn3z2HSNnx0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+ meta/classes/gettext.bbclass                       |    2 +-
+ meta/conf/bitbake.conf                             |    4 +-
+ meta/conf/distro/include/default-distrovars.inc    |    3 +-
+ .../uclibc/uclibc-0.9.32/sync_file_range2.patch    |   15 ++++
+ meta/recipes-core/uclibc/uclibc_0.9.32.bb          |    3 +-
+ .../binutils/binutils/clone-shadow.patch           |   79 ++++++++++++++++++++
+ meta/recipes-devtools/binutils/binutils_2.21.1.bb  |    3 +-
+ .../recipes-extended/tzcode/tzcode-native_2011g.bb |    7 +-
+ .../tzdata/{tzdata_2011g.bb => tzdata_2011h.bb}    |    8 +-
+ .../clutter/clutter-box2d/isfinite.patch           |   19 +++++
+ meta/recipes-graphics/clutter/clutter-box2d_git.bb |    6 +-
+ .../mesa/mesa-xlib/uclibc_locale.patch             |   18 +++++
+ meta/recipes-graphics/mesa/mesa-xlib_7.10.2.bb     |    3 +-
+ meta/recipes-graphics/xorg-lib/libxdamage_1.1.3.bb |    4 +-
+ meta/recipes-graphics/xorg-lib/libxft_2.2.0.bb     |    4 +-
+ meta/recipes-graphics/xorg-lib/libxrandr_1.3.1.bb  |    4 +-
+ .../oprofile/oprofile-no-query-modules.patch       |   29 +++++++
+ meta/recipes-kernel/oprofile/oprofile_0.9.6.bb     |    3 +-
+ meta/recipes-kernel/powertop/powertop_1.13.bb      |   11 ++-
+ .../sysprof/files/define-NT_GNU_BUILD_ID.patch     |   22 ++++++
+ meta/recipes-kernel/sysprof/sysprof_git.bb         |    5 +-
+ meta/recipes-sato/pimlico/dates.inc                |    2 +-
+ .../uclibc-NL_TIME_FIRST_WEEKDAY-absent.patch      |   37 +++++++++
+ meta/recipes-sato/pimlico/dates_git.bb             |    6 +-
+ meta/recipes-sato/tasks/task-core-x11-sato.bb      |    2 +
+ meta/recipes-support/attr/acl_2.2.51.bb            |    2 +-
+ meta/recipes-support/attr/attr.inc                 |    4 -
+ meta/recipes-support/attr/attr_2.4.46.bb           |    2 +-
+ meta/recipes-support/attr/ea-acl.inc               |    3 +
+ scripts/oe-buildenv-internal                       |    2 +-
+ 30 files changed, 271 insertions(+), 41 deletions(-)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/sync_file_range2.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/clone-shadow.patch
+ rename meta/recipes-extended/tzdata/{tzdata_2011g.bb => tzdata_2011h.bb} (96%)
+ create mode 100644 meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+ create mode 100644 meta/recipes-graphics/mesa/mesa-xlib/uclibc_locale.patch
+ create mode 100644 meta/recipes-kernel/oprofile/oprofile/oprofile-no-query-modules.patch
+ create mode 100644 meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
+ create mode 100644 meta/recipes-sato/pimlico/dates/uclibc-NL_TIME_FIRST_WEEKDAY-absent.patch
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
+-- 
+1.7.4.1
 
-iEYEARECAAYFAk4kufwACgkQN1Ujt2V2gByinACeOAvwwiSJ6bnio5bU6YbIjaDE
-9HsAnR5U8swFQ5ELAIvmn/WtHfSOxZZO
-=Gjj5
------END PGP SIGNATURE-----
 
---T4Djgzn3z2HSNnx0--
+
