@@ -1,24 +1,24 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/m5If5dhZHP6Cnndko5qE38ytmElkj3LQ=])
+Received: from gate.crashing.org ([63.228.1.57])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QjEMb-0006Tk-53
+	(envelope-from <galak@kernel.crashing.org>) id 1QjEMd-0006Tl-Vk
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 19:45:45 +0200
+	Tue, 19 Jul 2011 19:45:48 +0200
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6JHfe0F009986;
-	Tue, 19 Jul 2011 12:41:40 -0500
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6JHffJo009996;
+	Tue, 19 Jul 2011 12:41:41 -0500
 From: Kumar Gala <galak@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jul 2011 12:41:35 -0500
-Message-Id: <1311097296-17200-5-git-send-email-galak@kernel.crashing.org>
+Date: Tue, 19 Jul 2011 12:41:36 -0500
+Message-Id: <1311097296-17200-6-git-send-email-galak@kernel.crashing.org>
 X-Mailer: git-send-email 1.5.6.5
-In-Reply-To: <1311097296-17200-4-git-send-email-galak@kernel.crashing.org>
+In-Reply-To: <1311097296-17200-5-git-send-email-galak@kernel.crashing.org>
 References: <1311097296-17200-1-git-send-email-galak@kernel.crashing.org>
 	<1311097296-17200-2-git-send-email-galak@kernel.crashing.org>
 	<1311097296-17200-3-git-send-email-galak@kernel.crashing.org>
 	<1311097296-17200-4-git-send-email-galak@kernel.crashing.org>
+	<1311097296-17200-5-git-send-email-galak@kernel.crashing.org>
 Cc: yocto@yoctoproject.org
-Subject: [PATCH v2 4/5] openssl: Add handling for linux-gnuspe-powerpc
+Subject: [PATCH v2 5/5] flac: fix build issues with e500v2 (gnuspe) toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,43 +33,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2011 17:45:45 -0000
+X-List-Received-Date: Tue, 19 Jul 2011 17:45:48 -0000
 
-If trying to build for an e500v2 target openssl will fail to build since
-the configure script didn't know how to handle a 'gnuspe' target.
+For a PPC target flac will try to build with altivec optimizations.
+Altivec and SPE are mutually exclusive options.  Between flac's
+configure choices and the ppce500v2 tune file options we'd end up with
+a compile invocation with the following arguments:
+
+-mabi=spe -mspe -mabi=altivec -maltivec
+
+Which would cause the compile to fail due to the mutual exclusion.
+
+Pulled in a patch from the debian SPE port that addresses this issue:
+
+http://lists.alioth.debian.org/pipermail/pkg-multimedia-maintainers/2010-June/010212.html
 
 Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- meta/recipes-connectivity/openssl/openssl.inc      |    3 +++
- .../recipes-connectivity/openssl/openssl_0.9.8r.bb |    2 +-
- 2 files changed, 4 insertions(+), 1 deletions(-)
+ .../flac/flac-1.2.1/0001-No-AltiVec-on-SPE.patch   |   74 ++++++++++++++++++++
+ meta/recipes-multimedia/flac/flac_1.2.1.bb         |    5 +-
+ 2 files changed, 77 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/flac/flac-1.2.1/0001-No-AltiVec-on-SPE.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 39143ad..79620b3 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -80,6 +80,9 @@ do_configure () {
- 	linux-powerpc)
- 		target=linux-ppc
- 		;;
-+	linux-gnuspe-powerpc)
-+		target=linux-ppc
-+		;;
- 	linux-supersparc)
- 		target=linux-sparcv8
- 		;;
-diff --git a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-index ea83cb8..344747f 100644
---- a/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_0.9.8r.bb
-@@ -1,6 +1,6 @@
- require openssl.inc
+diff --git a/meta/recipes-multimedia/flac/flac-1.2.1/0001-No-AltiVec-on-SPE.patch b/meta/recipes-multimedia/flac/flac-1.2.1/0001-No-AltiVec-on-SPE.patch
+new file mode 100644
+index 0000000..8626336
+--- /dev/null
++++ b/meta/recipes-multimedia/flac/flac-1.2.1/0001-No-AltiVec-on-SPE.patch
+@@ -0,0 +1,74 @@
++From f9b017c2c958d968cc5dfd36dc68fc8e5fb89a58 Mon Sep 17 00:00:00 2001
++From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
++Date: Fri, 11 Jun 2010 09:48:58 +0200
++Subject: [PATCH] No AltiVec on SPE
++
++Consider *gnuspe which matches powerpc-unknown-linux-gnuspe where
++AltiVec is not available at all. This triplet uses SPE which is
++incompatible with AltiVec shares the same opcode range and can't be used
++at all.
++
++Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
++---
++ configure.in            |    8 ++++++++
++ src/libFLAC/Makefile.am |   10 +++++++++-
++ 2 files changed, 17 insertions(+), 1 deletions(-)
++
++diff --git a/configure.in b/configure.in
++index bfa6d8e..17b7c73 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -82,6 +82,14 @@ case "$host" in
++ 	*) OBJ_FORMAT=elf ;;
++ esac
++ AC_SUBST(OBJ_FORMAT)
+++case "$host" in
+++	*-gnuspe)
+++		abi_spe=true
+++		AC_DEFINE(FLAC__CPU_PPC_SPE)
+++		AH_TEMPLATE(FLAC__CPU_PPC_SPE, [define if building for PowerPC with SPE ABI])
+++		;;
+++esac
+++AM_CONDITIONAL(FLaC__CPU_PPC_SPE, test "x$abi_spe" = xtrue)
++ 
++ # only needed because of ntohl() usage, can get rid of after that's gone:
++ case "$host" in
++diff --git a/src/libFLAC/Makefile.am b/src/libFLAC/Makefile.am
++index cbfb0ac..5785372 100644
++--- a/src/libFLAC/Makefile.am
+++++ b/src/libFLAC/Makefile.am
++@@ -40,8 +40,13 @@ if FLaC__SYS_DARWIN
++ CPUCFLAGS = -faltivec -force_cpusubtype_ALL -DFLAC__NO_ASM
++ else
++ # Linux-gcc for PPC does not have -force_cpusubtype_ALL, it is Darwin-specific
+++CPUCFLAGS =
+++if FLaC__CPU_PPC_SPE
+++else
+++CPUCFLAGS += -maltivec -mabi=altivec
+++endif
++ #@@@ PPC optimizations temporarily disabled
++-CPUCFLAGS = -maltivec -mabi=altivec -DFLAC__NO_ASM
+++CPUCFLAGS += -DFLAC__NO_ASM
++ endif
++ endif
++ 
++@@ -58,6 +63,8 @@ endif
++ if FLaC__CPU_PPC
++ ARCH_SUBDIRS = ppc
++ if FLaC__HAS_AS__TEMPORARILY_DISABLED
+++if FLaC__CPU_PPC_SPE
+++else
++ LOCAL_EXTRA_LIBADD = ppc/as/libFLAC-asm.la
++ LOCAL_EXTRA_LDFLAGS = "-Wl,-read_only_relocs,warning"
++ else
++@@ -68,6 +75,7 @@ endif
++ endif
++ endif
++ endif
+++endif
++ 
++ libFLAC_la_LIBADD = $(LOCAL_EXTRA_LIBADD) @OGG_LIBS@
++ 
++-- 
++1.5.6.5
++
+diff --git a/meta/recipes-multimedia/flac/flac_1.2.1.bb b/meta/recipes-multimedia/flac/flac_1.2.1.bb
+index 92bcec6..fc8e14f 100644
+--- a/meta/recipes-multimedia/flac/flac_1.2.1.bb
++++ b/meta/recipes-multimedia/flac/flac_1.2.1.bb
+@@ -14,12 +14,13 @@ LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=ad1419ecc56e060eccf8184a87c4285f \
+                     file://include/FLAC/all.h;beginline=64;endline=69;md5=64474f2b22e9e77b28d8b8b25c983a48"
+ DEPENDS = "libogg"
  
--PR = "r3"
-+PR = "r4"
- SRC_URI += "file://debian/ca.patch \
-             file://debian/config-hurd.patch;apply=no \
-             file://debian/debian-targets.patch \
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/flac/flac-${PV}.tar.gz \
+            file://disable-xmms-plugin.patch;patch=1 \
+            file://flac-gcc43-fixes.patch;patch=1 \
+-           file://xmms.m4"
++           file://xmms.m4 \
++           file://0001-No-AltiVec-on-SPE.patch"
+ 
+ SRC_URI[md5sum] = "153c8b15a54da428d1f0fadc756c22c7"
+ SRC_URI[sha256sum] = "9635a44bceb478bbf2ee8a785cf6986fba525afb5fad1fd4bba73cf71f2d3edf"
 -- 
 1.7.3.4
 
