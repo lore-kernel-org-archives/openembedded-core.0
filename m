@@ -1,26 +1,26 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjF9D-0007VT-BW
+	(envelope-from <sgw@linux.intel.com>) id 1QjFKb-0007fZ-9J
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 20:35:59 +0200
+	Tue, 19 Jul 2011 20:47:45 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Jul 2011 11:25:37 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jul 2011 11:43:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,229,1309762800"; d="scan'208";a="32174191"
+X-IronPort-AV: E=Sophos;i="4.67,229,1309762800"; d="scan'208";a="32183358"
 Received: from unknown (HELO [10.255.13.254]) ([10.255.13.254])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Jul 2011 11:25:36 -0700
-Message-ID: <4E25CC20.3070806@linux.intel.com>
-Date: Tue, 19 Jul 2011 11:25:36 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 19 Jul 2011 11:43:38 -0700
+Message-ID: <4E25D059.30605@linux.intel.com>
+Date: Tue, 19 Jul 2011 11:43:37 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1310735644.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1310735644.git.paul.eggleton@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 0/3] cleanup of classes/
+References: <1310654732.2378.65.camel@phil-desktop>
+In-Reply-To: <1310654732.2378.65.camel@phil-desktop>
+Cc: Phil Blundell <philb@gnu.org>
+Subject: Re: [PATCH] libcap: pass prefix to "make install"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,61 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2011 18:35:59 -0000
+X-List-Received-Date: Tue, 19 Jul 2011 18:47:45 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/15/2011 06:17 AM, Paul Eggleton wrote:
-> This set includes the removal of classes as previously discussed (briefly)
-> on the oe-core mailing list, as well as a minor whitespace fix for
-> kernel.bbclass.
+On 07/14/2011 07:45 AM, Phil Blundell wrote:
+> Otherwise it will use /usr by default which may not be the right place.
 >
-> The following changes since commit b975de5ea76c5f8827fb48c0c3c29902872ad3d6:
+> Signed-off-by: Phil Blundell<philb@gnu.org>
+> ---
+>   meta/recipes-support/libcap/libcap.inc     |    2 +-
+>   meta/recipes-support/libcap/libcap_2.20.bb |    2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 >
->    bb-matrix: correct BB and PM number canonicalization (2011-07-14 22:22:59 +0100)
+> diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
+> index 3bff3b9..efa46d6 100644
+> --- a/meta/recipes-support/libcap/libcap.inc
+> +++ b/meta/recipes-support/libcap/libcap.inc
+> @@ -29,7 +29,7 @@ do_compile() {
+>   }
 >
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib paule/classes-cleanup
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/classes-cleanup
+>   do_install() {
+> -	oe_runmake install DESTDIR="${D}"
+> +	oe_runmake install DESTDIR="${D}" prefix="${prefix}"
+>   }
 >
-> Paul Eggleton (3):
->    kernel.bbclass: minor whitespace fixes
->    classes: remove obsolete classes
->    classes: remove classes that don't belong in oe-core
+>   # pam files
+> diff --git a/meta/recipes-support/libcap/libcap_2.20.bb b/meta/recipes-support/libcap/libcap_2.20.bb
+> index c9741c2..a2b49c6 100644
+> --- a/meta/recipes-support/libcap/libcap_2.20.bb
+> +++ b/meta/recipes-support/libcap/libcap_2.20.bb
+> @@ -1,6 +1,6 @@
+>   require libcap.inc
 >
->   meta/classes/base_srpm.bbclass             |   20 -------
->   meta/classes/ccdv.bbclass                  |   21 --------
->   meta/classes/flow-lossage.bbclass          |    5 --
->   meta/classes/kernel.bbclass                |    4 +-
->   meta/classes/mozilla.bbclass               |   53 -------------------
->   meta/classes/openmoko-base.bbclass         |   19 -------
->   meta/classes/openmoko-panel-plugin.bbclass |    6 --
->   meta/classes/openmoko.bbclass              |    3 -
->   meta/classes/openmoko2.bbclass             |   31 -----------
->   meta/classes/patcher.bbclass               |    7 ---
->   meta/classes/singlemachine.bbclass         |   15 -----
->   meta/classes/srec.bbclass                  |   28 ----------
->   meta/classes/tmake.bbclass                 |   77 ----------------------------
->   meta/classes/xfce.bbclass                  |   25 ---------
->   meta/classes/xlibs.bbclass                 |    7 ---
->   15 files changed, 2 insertions(+), 319 deletions(-)
->   delete mode 100644 meta/classes/base_srpm.bbclass
->   delete mode 100644 meta/classes/ccdv.bbclass
->   delete mode 100644 meta/classes/flow-lossage.bbclass
->   delete mode 100644 meta/classes/mozilla.bbclass
->   delete mode 100644 meta/classes/openmoko-base.bbclass
->   delete mode 100644 meta/classes/openmoko-panel-plugin.bbclass
->   delete mode 100644 meta/classes/openmoko.bbclass
->   delete mode 100644 meta/classes/openmoko2.bbclass
->   delete mode 100644 meta/classes/patcher.bbclass
->   delete mode 100644 meta/classes/singlemachine.bbclass
->   delete mode 100644 meta/classes/srec.bbclass
->   delete mode 100644 meta/classes/tmake.bbclass
->   delete mode 100644 meta/classes/xfce.bbclass
->   delete mode 100644 meta/classes/xlibs.bbclass
+> -PR = "r2"
+> +PR = "r3"
 >
+>   SRC_URI[md5sum] = "10e47ed32ca2214eb0e58780282d27b4"
+>   SRC_URI[sha256sum] = "20e7c1ea4d3d5c410efb3a6ff138dc417912fae316d883460dcd58d9803a9220"
 
-This set has been merged into OE-Core
+Merged into oe-core
 
 Thanks
 	Sau!
