@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjB3P-0001do-Mn
+	(envelope-from <sgw@linux.intel.com>) id 1QjB3Q-0001ds-8N
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 16:13:43 +0200
+	Tue, 19 Jul 2011 16:13:44 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 19 Jul 2011 07:09:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,228,1309762800"; d="scan'208";a="29396906"
+X-IronPort-AV: E=Sophos;i="4.67,228,1309762800"; d="scan'208";a="29396910"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jul 2011 07:09:35 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Jul 2011 07:09:36 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jul 2011 23:50:49 -0700
-Message-Id: <b1ea6e9d9e01ea3d05901a90b8926114f0659151.1311058024.git.sgw@linux.intel.com>
+Date: Mon, 18 Jul 2011 23:50:50 -0700
+Message-Id: <e5bf0d53a6fb1268e8b79a9f9bfa1c6f46351ba9.1311058024.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311058024.git.sgw@linux.intel.com>
 References: <cover.1311058024.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311058024.git.sgw@linux.intel.com>
 References: <cover.1311058024.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/22] libiconv: add version 1.13.1
+Subject: [CONSOLIDATED PULL 03/22] distro tracking: Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,85 +35,71 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Jul 2011 14:13:44 -0000
 
-Keep older libiconv 1.11.1 as 1.13.1 is now LGPLv3
-
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../{libiconv-1.11.1 => files}/autoconf.patch      |    2 +
- .../shared_preloadable_libiconv_linux.patch        |    2 +
- meta/recipes-support/libiconv/libiconv_1.13.1.bb   |   29 ++++++++++++++++++++
- 3 files changed, 33 insertions(+), 0 deletions(-)
- rename meta/recipes-support/libiconv/{libiconv-1.11.1 => files}/autoconf.patch (98%)
- rename meta/recipes-support/libiconv/{libiconv-1.11.1 => files}/shared_preloadable_libiconv_linux.patch (98%)
- create mode 100644 meta/recipes-support/libiconv/libiconv_1.13.1.bb
+ .../conf/distro/include/distro_tracking_fields.inc |   21 ++++++++++++-------
+ 1 files changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-support/libiconv/libiconv-1.11.1/autoconf.patch b/meta/recipes-support/libiconv/files/autoconf.patch
-similarity index 98%
-rename from meta/recipes-support/libiconv/libiconv-1.11.1/autoconf.patch
-rename to meta/recipes-support/libiconv/files/autoconf.patch
-index 2b24894..3cbf549 100644
---- a/meta/recipes-support/libiconv/libiconv-1.11.1/autoconf.patch
-+++ b/meta/recipes-support/libiconv/files/autoconf.patch
-@@ -2,6 +2,8 @@ It adds the variables that are needed
- for autoconf 2.65 to reconfigure libiconv and defines the m4 macros 
- directory. Its imported from OE.
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index efb4c0b..48b4cf3 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -562,7 +562,9 @@ RECIPE_LATEST_VERSION_pn-tcp-wrappers = "7.6"
+ RECIPE_INTEL_SECTION_pn-tcp-wrappers = "base libs"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-tcp-wrappers = "n/a"
+ RECIPE_LATEST_RELEASE_DATE_pn-tcp-wrappers = "n/a"
+-RECIPE_COMMENTS_pn-tcp-wrappers = ""
++RECIPE_MANUAL_CHECK_DATE_pn-tcp-wrappers = "Jul 12, 2011"
++RECIPE_COMMENTS_pn-tcp-wrappers = "Consider looking at ipv6.4 version"
++RECIPE_NO_UPDATE_REASON_pn-tcp-wrapers = "7.6 is last Stable release"
  
-+Upstream-Status: Pending
-+
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ RECIPE_STATUS_pn-libaio = "green"
+ RECIPE_LAST_UPDATE_pn-libaio = "Aug 27, 2010"
+@@ -1529,16 +1531,17 @@ RECIPE_LATEST_RELEASE_DATE_pn-findutils = "06/2009"
+ RECIPE_COMMENTS_pn-findutils = ""
  
- Index: libiconv-1.11.1/configure.ac
-diff --git a/meta/recipes-support/libiconv/libiconv-1.11.1/shared_preloadable_libiconv_linux.patch b/meta/recipes-support/libiconv/files/shared_preloadable_libiconv_linux.patch
-similarity index 98%
-rename from meta/recipes-support/libiconv/libiconv-1.11.1/shared_preloadable_libiconv_linux.patch
-rename to meta/recipes-support/libiconv/files/shared_preloadable_libiconv_linux.patch
-index a913dad..fb07f73 100644
---- a/meta/recipes-support/libiconv/libiconv-1.11.1/shared_preloadable_libiconv_linux.patch
-+++ b/meta/recipes-support/libiconv/files/shared_preloadable_libiconv_linux.patch
-@@ -4,6 +4,8 @@ Its more enforced by libtool 2.4. I have not checked it with older libtool
- libiconv 1.11.x is relatively old release and libtool 2.4 did not exist when it
- was released these kind of problem are more likely
+ RECIPE_STATUS_pn-file = "green"
+-RECIPE_LAST_UPDATE_pn-file = "Jul 6, 2010"
++RECIPE_LAST_UPDATE_pn-file = "Jul 12, 2011"
+ RECIPE_MAINTAINER_pn-file = "Saul Wold <sgw@linux.intel.com>"
+ RECIPE_DEPENDENCY_CHECK_pn-file = "done"
+-RECIPE_LATEST_VERSION_pn-file = "5.04"
++RECIPE_LATEST_VERSION_pn-file = "5.07"
+ RECIPE_PATCH_pn-file+dump = "some new magic data"
+ RECIPE_PATCH_pn-file+filesystems = "some other new magic data"
+ RECIPE_INTEL_SECTION_pn-file = "base utils"
+-RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-file = "8 months"
+-RECIPE_LATEST_RELEASE_DATE_pn-file = "01/2010"
++RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-file = "1-3 months"
++RECIPE_LATEST_RELEASE_DATE_pn-file = "05/2011"
+ RECIPE_COMMENTS_pn-file = "2-clause BSD"
++RECIPE_MANUAL_CHECK_DATE_pn-file = "Jul 12, 2011"
  
-+Upstream-Status: Pending
-+
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ RECIPE_STATUS_pn-rsync = "green"
+ RECIPE_LAST_UPDATE_pn-rsync = "Jul 6, 2010"
+@@ -1872,7 +1875,8 @@ RECIPE_LATEST_VERSION_pn-zaurusd = "0.0+svnr426"
+ DISTRO_PN_ALIAS_pn-zaurusd = "OpenedHand"
+ RECIPE_LAST_UPDATE_pn-zaurusd = "Jan 20, 2011"
+ RECIPE_MAINTAINER_pn-zaurusd = "Saul Wold <sgw@linux.intel.com>"
+-RECIPE_MANUAL_CHECK_DATE_pn-zip = "May 24, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-zaurusd = "Jul 12, 2011"
++RECIPE_NO_UPDATE_REASON_pn-zaurusd = "SVN rev 426 is last Stable release"
  
- Index: libiconv-1.11.1/lib/Makefile.in
-diff --git a/meta/recipes-support/libiconv/libiconv_1.13.1.bb b/meta/recipes-support/libiconv/libiconv_1.13.1.bb
-new file mode 100644
-index 0000000..069881d
---- /dev/null
-+++ b/meta/recipes-support/libiconv/libiconv_1.13.1.bb
-@@ -0,0 +1,29 @@
-+DESCRIPTION = "GNU libiconv - libiconv is for you if your application needs to support \
-+multiple character encodings, but that support lacks from your system."
-+HOMEPAGE = "http://www.gnu.org/software/libiconv"
-+SECTION = "libs"
-+NOTES = "Needs to be stripped down to: ascii iso8859-1 eucjp iso-2022jp gb utf8"
-+PROVIDES = "virtual/libiconv"
-+PR = "r0"
-+LICENSE = "LGPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
-+                    file://libcharset/COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
-+SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-+           file://autoconf.patch \
-+	   file://shared_preloadable_libiconv_linux.patch \
-+          "
-+
-+SRC_URI[md5sum] = "d42b97f6ef5dd0ba4469d520ed732fed"
-+SRC_URI[sha256sum] = "e78c347a1a0cb15f2648519e9799151f4b4a934b61ad9ee7424478efe2b8257f"
-+
-+S = "${WORKDIR}/libiconv-${PV}"
-+
-+inherit autotools pkgconfig gettext
-+
-+EXTRA_OECONF += "--enable-shared --enable-static --enable-relocatable"
-+
-+LEAD_SONAME = "libiconv.so"
-+
-+do_configure_prepend () {
-+	rm -f m4/libtool.m4 libcharset/m4/libtool.m4
-+}
+ RECIPE_STATUS_pn-yaffs2-utils = "red"
+ RECIPE_LATEST_VERSION_pn-yaffs2-utils = "HEAD"
+@@ -1892,9 +1896,10 @@ RECIPE_MAINTAINER_pn-ubootchart = "Saul Wold <sgw@linux.intel.com>"
+ DISTRO_PN_ALIAS_pn-ubootchart = "OSPDT upstream=http://code.google.com/p/ubootchart"
+ 
+ RECIPE_STATUS_pn-tiff = "red"
+-RECIPE_LATEST_VERSION_pn-tiff = "3.9.4"
+-RECIPE_LAST_UPDATE_pn-tiff = "Aug 25, 2008"
++RECIPE_LATEST_VERSION_pn-tiff = "3.9.5"
++RECIPE_LAST_UPDATE_pn-tiff = "Jul 12, 2011"
+ RECIPE_MAINTAINER_pn-tiff = "Saul Wold <sgw@linux.intel.com>"
++RECIPE_MANUAL_CHECK_DATE_pn-tiff = "Jul 12, 2011"
+ 
+ RECIPE_STATUS_pn-libexif = "red"
+ RECIPE_LATEST_VERSION_pn-libexif = "0.6.19"
 -- 
 1.7.3.4
 
