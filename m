@@ -1,26 +1,20 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1+LXSBBBQBCAMHjLdw7TPAED1bUmEp+Gdw=])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QjCm4-0004Wd-U6
+	(envelope-from <philb@gnu.org>) id 1QjCnm-0004ZC-8E
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 18:03:57 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6JE7v4S032469;
-	Tue, 19 Jul 2011 09:07:57 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <4537825C-7D8E-4260-88D2-C5F851FF827A@kernel.crashing.org>
-Date: Tue, 19 Jul 2011 09:07:57 -0500
-Message-Id: <E7D51FCF-F5DC-448D-8354-410E0217D10F@kernel.crashing.org>
-References: <1311052872-10569-1-git-send-email-galak@kernel.crashing.org>
-	<1311052872-10569-2-git-send-email-galak@kernel.crashing.org>
-	<CAMKF1sq4ho3-P6L0PfDVxpAscccS561LLRUNc64okvsU9R=f9Q@mail.gmail.com>
-	<4537825C-7D8E-4260-88D2-C5F851FF827A@kernel.crashing.org>
-To: Kumar Gala <galak@kernel.crashing.org>
-X-Mailer: Apple Mail (2.1084)
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [yocto] [PATCH 1/5] gcc: Add gcc configure for PowerPC e500v2/SPE embedded floating point ABI
+	Tue, 19 Jul 2011 18:05:42 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QjCjr-0002Qq-1F
+	for openembedded-core@lists.openembedded.org;
+	Tue, 19 Jul 2011 18:01:39 +0200
+From: Phil Blundell <philb@gnu.org>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Jul 2011 17:01:38 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311091299.30326.38.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: [PATCH] uclibc: improve packaging granularity
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,99 +29,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2011 16:03:57 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 Jul 2011 16:05:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Adding openembedded-core to see if any feedback on my query.
+Put each of the libraries into its own package rather than dumping them
+all into libc0.  This saves ~300kB on the installed size of an i586 micro-base-image
+and avoids the need to set the hated LEAD_SONAME.
 
-- k
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/recipes-core/uclibc/uclibc.inc |   31 ++++++++++++++++---------------
+ 1 files changed, 16 insertions(+), 15 deletions(-)
 
-On Jul 19, 2011, at 1:47 AM, Kumar Gala wrote:
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index 23a8ecb..222c34f 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -13,7 +13,7 @@ SECTION = "libs"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+ 		    file://COPYING.LIB.boilerplate;md5=aaddeadcddeb918297e0e4afc52ce46f \
+ file://${S}/test/regex/testregex.c;startline=1;endline=31;md5=234efb227d0a40677f895e4a1e26e960"
+-INC_PR = "r2"
++INC_PR = "r4"
+ 
+ require uclibc-config.inc
+ STAGINGCC = "gcc-cross-intermediate"
+@@ -49,27 +49,28 @@ RDEPENDS_${PN}-dev = "linux-libc-headers-dev"
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ PACKAGES =+ "ldd uclibc-utils-dbg uclibc-utils uclibc-gconv uclibc-thread-db uclibc-argp uclibc-backtrace"
+-
+-LEAD_SONAME = "libc.so"
++PACKAGES =+ "uclibc-libcrypt uclibc-libintl uclibc-libnsl uclibc-libresolv uclibc-libm"
++PACKAGES =+ "uclibc-libdl uclibc-libutil uclibc-libpthread uclibc-librt"
++
++FILES_uclibc-libcrypt = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so"
++FILES_uclibc-libintl = "${base_libdir}/libintl*.so.* ${base_libdir}/libintl-*.so"
++FILES_uclibc-libnsl = "${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so"
++FILES_uclibc-libresolv = "${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so"
++FILES_uclibc-libm = "${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so"
++FILES_uclibc-libdl = "${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so"
++FILES_uclibc-libutil = "${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so"
++FILES_uclibc-libpthread = "${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so"
++FILES_uclibc-librt = "${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so"
+ 
+ # The last line (gdb and lib1) is for uclinux-uclibc builds
+-uclibc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so \
+-                   ${base_libdir}/libintl*.so.* ${base_libdir}/libintl-*.so \
+-                   ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so \
+-                   ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so \
+-                   ${base_libdir}/ld*.so.* ${base_libdir}/ld*.so \
++uclibc_baselibs = "${base_libdir}/ld*.so.* ${base_libdir}/ld*.so \
+                    ${base_libdir}/libc*.so.* ${base_libdir}/libuClibc-*.so \
+-                   ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so \
+-                   ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so \
+-                   ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so \
+-                   ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so \
+-                   ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so \
+                    ${libdir}/libc.gdb ${libdir}/libc ${base_libdir}/lib1.so \
+                   "
+ FILES_${PN} = "${sysconfdir} ${uclibc_baselibs} /sbin/ldconfig \
+                ${libexecdir} ${datadir}/zoneinfo ${libdir}/locale"
+ FILES_ldd = "${bindir}/ldd"
+-FILES_uclibc-dev_append = "\
++FILES_${PN}-dev_append = "\
+         ${libdir}/lib*.so \
+         ${libdir}/*_nonshared.a \
+         ${libdir}/[S]*crt[1in].o \
+@@ -84,7 +85,7 @@ FILES_uclibc-thread-db = "${base_libdir}/libthread_db*"
+ FILES_uclibc-argp = "${base_libdir}/libuargp-*.so ${base_libdir}/libuargp*.so.*"
+ FILES_uclibc-backtrace = "${base_libdir}/libubacktrace-*.so ${base_libdir}/libubacktrace*.so.*"
+ 
+-RPROVIDES_uclibc-dev += "libc-dev virtual-libc-dev"
++RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
+ # uclibc does not really have libsegfault but then using the one from glibc is also not
+ # going to work. So we pretend that we have it to make bitbake not pull other recipes
+ # to satisfy this dependency for the images/tasks
+-- 
+1.7.4.1
 
->=20
-> On Jul 19, 2011, at 1:04 AM, Khem Raj wrote:
->=20
->> On Mon, Jul 18, 2011 at 10:21 PM, Kumar Gala =
-<galak@kernel.crashing.org> wrote:
->>> The e500v2 core utilizes a unique floating point programming model / =
-ABI.
->>> We utilize TARGET_FPU =3D "spe" to distinguish this choice.  When =
-building
->>> the toolchain for this ABI we need configure gcc with =
---enable-e500_double.
->>>=20
->>> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
->>> ---
->>> meta/recipes-devtools/gcc/gcc-4.6.inc    |    2 +-
->>> meta/recipes-devtools/gcc/gcc-common.inc |    2 ++
->>> 2 files changed, 3 insertions(+), 1 deletions(-)
->>>=20
->>> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc =
-b/meta/recipes-devtools/gcc/gcc-4.6.inc
->>> index 56064b5..b719155 100644
->>> --- a/meta/recipes-devtools/gcc/gcc-4.6.inc
->>> +++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
->>> @@ -1,6 +1,6 @@
->>> require gcc-common.inc
->>>=20
->>> -PR =3D "r8"
->>> +PR =3D "r9"
->>>=20
->>> # Third digit in PV should be incremented after a minor release
->>> # happens from this branch on gcc e.g. currently its 4.6.0
->>> diff --git a/meta/recipes-devtools/gcc/gcc-common.inc =
-b/meta/recipes-devtools/gcc/gcc-common.inc
->>> index 7bf036c..409ad01 100644
->>> --- a/meta/recipes-devtools/gcc/gcc-common.inc
->>> +++ b/meta/recipes-devtools/gcc/gcc-common.inc
->>> @@ -12,6 +12,8 @@ FILESDIR =3D =
-"${@os.path.dirname(bb.data.getVar('FILE',d,1))}/gcc-${PV}"
->>> def get_gcc_fpu_setting(bb, d):
->>>    if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:
->>>        return "--with-float=3Dsoft"
->>> +    if bb.data.getVar('TARGET_FPU', d, 1) in [ 'spe' ]:
->>> +        return "--enable-e500_double"
->>>    return ""
->>>=20
->>=20
->> this will enable e500_double even for e500v1 which IIRC does not have
->> DFP support
->> have you tried building for e500v1 with this ?
->=20
-> I think you are correct.  Any suggestions on how to distinguish e500v1 =
-vs e500v2?  Utilizing BASE_PACKAGE_ARCH has problems w/native builds =
-since it seems to get set to x86_64 at some point.
->=20
-> I could do:
->=20
-> TARGET_FPU =3D "ppc-efs"  [Embedded scalar single-precision =
-floating-point]
-> TARGET_FPU =3D "ppc-efd"  [Embedded scalar double-precision =
-floating-point]
->=20
-> Than meta/recipes-devtools/gcc/gcc-common.inc:
->=20
-> def get_gcc_fpu_setting(bb, d):
->    if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:
->        return "--with-float=3Dsoft"
-> +    if bb.data.getVar('TARGET_FPU', d, 1) in [ 'ppc-efd' ]:
-> +        return "--enable-e500_double"
->    return ""
->=20
-> And meta/conf/distro/include/tclibc-*libc.inc:
->=20
-> TARGET_OS_powerpc =3D =
-"linux${@['','-gnuspe'][bb.data.getVar('TARGET_FPU',d,1) in ['ppc-efs', =
-'ppc-efd']]}"
->=20
-> thoughts?
->=20
-> - k
-> _______________________________________________
-> yocto mailing list
-> yocto@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/yocto
+
 
 
 
