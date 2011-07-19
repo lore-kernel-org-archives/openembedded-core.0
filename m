@@ -1,20 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1QjKEr-0004QX-GN
+	(envelope-from <josh@linux.intel.com>) id 1QjKEs-0004QX-7D
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 02:02:09 +0200
+	Wed, 20 Jul 2011 02:02:10 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 19 Jul 2011 16:58:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,231,1309762800"; d="scan'208";a="29979617"
+X-IronPort-AV: E=Sophos;i="4.67,231,1309762800"; d="scan'208";a="29979618"
 Received: from unknown (HELO scimitar.amr.corp.intel.com) ([10.255.14.85])
 	by fmsmga002.fm.intel.com with ESMTP; 19 Jul 2011 16:58:02 -0700
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jul 2011 16:57:54 -0700
-Message-Id: <cover.1311119488.git.josh@linux.intel.com>
+Date: Tue, 19 Jul 2011 16:57:55 -0700
+Message-Id: <2c1b7876622089db0c47848a456d9d6b0b1d6234.1311119488.git.josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.6
-Subject: [PATCH 0/1] Fix Pseudo on hosts with older compilers
+In-Reply-To: <cover.1311119488.git.josh@linux.intel.com>
+References: <cover.1311119488.git.josh@linux.intel.com>
+In-Reply-To: <cover.1311119488.git.josh@linux.intel.com>
+References: <cover.1311119488.git.josh@linux.intel.com>
+Subject: [PATCH 1/1] pseudo: fix uninitialised variable in realpath_fix.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,29 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 00:02:09 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 00:02:10 -0000
 
-The realpath_fix patch included an unitialised variable which modern GCC
-cleverly optimises away, however hosts with older GCC like CentOS 5.x weren't
-so lucky and... BOOM.
+Several users reported issues with pseudo on CentOS 5.x hosts, Matthew
+McClintock tracked the issue to the realpath_fix.patch and Mark Hatle
+supplied the included fix.
 
-See http://git.yoctoproject.org/cgit/cgit.cgi/pseudo/commit/?id=4a646c8bbe73ca830cb8c2e80be4b457d925cdd4 for a more detailed description.
+CC: Matthew McClintock <msm@freescale.com>
+CC: Mark Hatle <mark.hatle@windriver.com>
 
-The following changes since commit 6ca80453618fa308cc2d6329450aaf5dfdf2d610:
-
-  Fixed concurrency problem for ZIP packed recipes. (2011-07-19 18:03:04 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib josh/pseudo
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=josh/pseudo
-
-Joshua Lock (1):
-  pseudo: fix uninitialised variable in realpath_fix.patch
-
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
+---
  .../pseudo/pseudo/realpath_fix.patch               |    2 +-
  meta/recipes-devtools/pseudo/pseudo_1.1.1.bb       |    2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch b/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch
+index 7beea51..4a107e0 100644
+--- a/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch
++++ b/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch
+@@ -65,7 +65,7 @@ index 600a918..07a4429 100644
+  
+ +static void
+ +pseudo_init_one_wrapper(pseudo_function *func) {
+-+	int (*f)(void);
+++	int (*f)(void) = (int (*)(void)) NULL;
+ +	char *e;
+ +	if (*func->real != NULL) {
+ +		/* already initialized */
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
+index f1c8e63..0a61aec 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
+@@ -1,6 +1,6 @@
+ require pseudo.inc
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://oe-config.patch \
 -- 
 1.7.6
 
