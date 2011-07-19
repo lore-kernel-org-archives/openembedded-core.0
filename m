@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjB3X-0001do-Cp
+	(envelope-from <sgw@linux.intel.com>) id 1QjB3W-0001ds-SF
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jul 2011 16:13:52 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jul 2011 07:09:39 -0700
+	by orsmga101.jf.intel.com with ESMTP; 19 Jul 2011 07:09:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,228,1309762800"; d="scan'208";a="29396944"
+X-IronPort-AV: E=Sophos;i="4.67,228,1309762800"; d="scan'208";a="29396942"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
 	by orsmga001.jf.intel.com with ESMTP; 19 Jul 2011 07:09:38 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jul 2011 23:51:00 -0700
-Message-Id: <1224b568bdebfb2bb48325d38dae748dc575dbc3.1311058024.git.sgw@linux.intel.com>
+Date: Mon, 18 Jul 2011 23:50:59 -0700
+Message-Id: <25609d6e907ea770dfb09f40a8ee5f8a1001caf7.1311058024.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311058024.git.sgw@linux.intel.com>
 References: <cover.1311058024.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311058024.git.sgw@linux.intel.com>
 References: <cover.1311058024.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 13/22] sanity, base: remove gcc3 check since qemu doesn't need it any more
+Subject: [CONSOLIDATED PULL 12/22] libcap: pass prefix to "make install"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,56 +37,39 @@ X-List-Received-Date: Tue, 19 Jul 2011 14:13:52 -0000
 
 From: Phil Blundell <philb@gnu.org>
 
-Recent versions of qemu seem to be happy enough building with gcc 4.x, and indeed most modern distributions aren't shipping gcc3 any more, so there is no point checking for its presence as part of sanity.
-
-Also remove the check_gcc3 function from base since nothing else uses it.
+Otherwise it will use /usr by default which may not be the right place.
 
 Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- meta/classes/base.bbclass   |   10 ----------
- meta/classes/sanity.bbclass |    8 --------
- 2 files changed, 0 insertions(+), 18 deletions(-)
+ meta/recipes-support/libcap/libcap.inc     |    2 +-
+ meta/recipes-support/libcap/libcap_2.20.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 0c2c546..3ca4e47 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -397,16 +397,6 @@ python () {
-             bb.warn("Recipe %s is marked as only being architecture specific but seems to have machine specific packages?! The recipe may as well mark itself as machine specific directly." % d.getVar("PN", True))
+diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
+index 3bff3b9..efa46d6 100644
+--- a/meta/recipes-support/libcap/libcap.inc
++++ b/meta/recipes-support/libcap/libcap.inc
+@@ -29,7 +29,7 @@ do_compile() {
  }
  
--def check_gcc3(data):
--
--	gcc3_versions = 'gcc-3.4.6 gcc-3.4.7 gcc-3.4 gcc34 gcc-3.4.4 gcc-3.3 gcc33 gcc-3.3.6 gcc-3.2 gcc32'
--
--	for gcc3 in gcc3_versions.split():
--		if check_app_exists(gcc3, data):
--			return gcc3
--	
--	return False
--
- addtask cleansstate after do_clean
- python do_cleansstate() {
-         sstate_clean_cachefiles(d)
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index b586de9..bbaa9d3 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -217,14 +217,6 @@ def check_sanity(e):
+ do_install() {
+-	oe_runmake install DESTDIR="${D}"
++	oe_runmake install DESTDIR="${D}" prefix="${prefix}"
+ }
  
-     required_utilities = "patch help2man diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk hg chrpath wget cpio"
+ # pam files
+diff --git a/meta/recipes-support/libcap/libcap_2.20.bb b/meta/recipes-support/libcap/libcap_2.20.bb
+index c9741c2..a2b49c6 100644
+--- a/meta/recipes-support/libcap/libcap_2.20.bb
++++ b/meta/recipes-support/libcap/libcap_2.20.bb
+@@ -1,6 +1,6 @@
+ require libcap.inc
  
--    # qemu-native needs gcc 3.x
--    if "qemu-native" not in assume_provided and "gcc3-native" in assume_provided:
--        gcc_version = commands.getoutput("${BUILD_PREFIX}gcc --version | head -n 1 | cut -f 3 -d ' '")
--
--        if not check_gcc3(e.data) and gcc_version[0] != '3':
--            messages = messages + "gcc3-native was in ASSUME_PROVIDED but the gcc-3.x binary can't be found in PATH"
--            missing = missing + "gcc-3.x (needed for qemu-native),"
--
-     if "qemu-native" in assume_provided:
-         if not check_app_exists("qemu-arm", e.data):
-             messages = messages + "qemu-native was in ASSUME_PROVIDED but the QEMU binaries (qemu-arm) can't be found in PATH"
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI[md5sum] = "10e47ed32ca2214eb0e58780282d27b4"
+ SRC_URI[sha256sum] = "20e7c1ea4d3d5c410efb3a6ff138dc417912fae316d883460dcd58d9803a9220"
 -- 
 1.7.3.4
 
