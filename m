@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjB3W-0001dy-7F
+	(envelope-from <sgw@linux.intel.com>) id 1QjB3X-0001do-Cp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 16:13:51 +0200
+	Tue, 19 Jul 2011 16:13:52 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jul 2011 07:09:38 -0700
+	by orsmga101.jf.intel.com with ESMTP; 19 Jul 2011 07:09:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,228,1309762800"; d="scan'208";a="29396939"
+X-IronPort-AV: E=Sophos;i="4.67,228,1309762800"; d="scan'208";a="29396944"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
 	by orsmga001.jf.intel.com with ESMTP; 19 Jul 2011 07:09:38 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jul 2011 23:50:58 -0700
-Message-Id: <3c1fa2d2d2f7362cc11c7cd9eff88a99b87ee9b9.1311058024.git.sgw@linux.intel.com>
+Date: Mon, 18 Jul 2011 23:51:00 -0700
+Message-Id: <1224b568bdebfb2bb48325d38dae748dc575dbc3.1311058024.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311058024.git.sgw@linux.intel.com>
 References: <cover.1311058024.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311058024.git.sgw@linux.intel.com>
 References: <cover.1311058024.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 11/22] linux-yocto/meta: update meta SRCREV for routerstation pro
+Subject: [CONSOLIDATED PULL 13/22] sanity, base: remove gcc3 check since qemu doesn't need it any more
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,54 +35,58 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Jul 2011 14:13:52 -0000
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+From: Phil Blundell <philb@gnu.org>
 
-Fixes bug [YOCTO #1161]
-Fixes bug [YOCTO #773]
+Recent versions of qemu seem to be happy enough building with gcc 4.x, and indeed most modern distributions aren't shipping gcc3 any more, so there is no point checking for its presence as part of sanity.
 
-This streamlines the routerstation pro configuration to remove options
-that are either unecessary or that are causing bugs.
+Also remove the check_gcc3 function from base since nothing else uses it.
 
-Also added to all branches is:
-
-  commit ffd73d6b2a9bfa0de5710b90a2237f4be66ae9a7
-  Author: Yinghai Lu <yinghai@kernel.org>
-  Date:   Thu Jul 14 15:27:44 2011 -0700
-
-    mm: use alloc_bootmem_node_nopanic() on really needed path
-
-    commit 8f389a99b652aab5b42297280bd94d95933ad12f upstream.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- meta/recipes-kernel/linux/linux-yocto_2.6.37.bb |   14 +++++++-------
- 1 files changed, 7 insertions(+), 7 deletions(-)
+ meta/classes/base.bbclass   |   10 ----------
+ meta/classes/sanity.bbclass |    8 --------
+ 2 files changed, 0 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb b/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
-index 90dc930..8260a08 100644
---- a/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
-@@ -14,13 +14,13 @@ KMETA = meta
- LINUX_VERSION ?= "2.6.37"
- LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 0c2c546..3ca4e47 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -397,16 +397,6 @@ python () {
+             bb.warn("Recipe %s is marked as only being architecture specific but seems to have machine specific packages?! The recipe may as well mark itself as machine specific directly." % d.getVar("PN", True))
+ }
  
--SRCREV_machine_qemuarm = "92232beb4e72fcf8d85abe79edba0cdf53f1ce41"
--SRCREV_machine_qemumips = "30cc7e06fba9126e79b4a0a3219c7d0259638f7a"
--SRCREV_machine_qemuppc = "4ae67af1d0ece9944f8e640925aaf69aa5f10e34"
--SRCREV_machine_qemux86 = "ea7bcd9e408ddfaf5ecd0bcc37956998add58e2d"
--SRCREV_machine_qemux86-64 = "790b4cd5ff0bb8c4f4523763436efd438c692342"
--SRCREV_machine = "bb8e31f2c99f5e007660d4540df246fb7ecfa746"
--SRCREV_meta = "d5d3c6480d61f83503ccef7fbcd765f7aca8b71b"
-+SRCREV_machine_qemuarm = "f5aaddc24d0866ac12e924c4cee1382cce4cdb44"
-+SRCREV_machine_qemumips = "f988df822335de0e463056f8c43f2984c29e2bd1"
-+SRCREV_machine_qemuppc = "b03682b7db2f21c7dcabbbe4073061b601ad5ee9"
-+SRCREV_machine_qemux86 = "ff1a08b4f5a0c4afa04160460421d67f37299f2c"
-+SRCREV_machine_qemux86-64 = "be49445d1504c3d4021c01471223208cd3cc9c4f"
-+SRCREV_machine = "ffd73d6b2a9bfa0de5710b90a2237f4be66ae9a7"
-+SRCREV_meta = "84f1a422d7e21fbc23a687035bdf9d42471f19e0"
+-def check_gcc3(data):
+-
+-	gcc3_versions = 'gcc-3.4.6 gcc-3.4.7 gcc-3.4 gcc34 gcc-3.4.4 gcc-3.3 gcc33 gcc-3.3.6 gcc-3.2 gcc32'
+-
+-	for gcc3 in gcc3_versions.split():
+-		if check_app_exists(gcc3, data):
+-			return gcc3
+-	
+-	return False
+-
+ addtask cleansstate after do_clean
+ python do_cleansstate() {
+         sstate_clean_cachefiles(d)
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index b586de9..bbaa9d3 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -217,14 +217,6 @@ def check_sanity(e):
  
- PR = "r20"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+     required_utilities = "patch help2man diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk hg chrpath wget cpio"
+ 
+-    # qemu-native needs gcc 3.x
+-    if "qemu-native" not in assume_provided and "gcc3-native" in assume_provided:
+-        gcc_version = commands.getoutput("${BUILD_PREFIX}gcc --version | head -n 1 | cut -f 3 -d ' '")
+-
+-        if not check_gcc3(e.data) and gcc_version[0] != '3':
+-            messages = messages + "gcc3-native was in ASSUME_PROVIDED but the gcc-3.x binary can't be found in PATH"
+-            missing = missing + "gcc-3.x (needed for qemu-native),"
+-
+     if "qemu-native" in assume_provided:
+         if not check_app_exists("qemu-arm", e.data):
+             messages = messages + "qemu-native was in ASSUME_PROVIDED but the QEMU binaries (qemu-arm) can't be found in PATH"
 -- 
 1.7.3.4
 
