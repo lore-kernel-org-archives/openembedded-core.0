@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1QjDF8-0004tr-Fl
+	(envelope-from <scott.a.garman@intel.com>) id 1QjDF8-0004tz-Ic
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jul 2011 18:33:58 +0200
 Received: from localhost.localdomain (c-71-236-175-18.hsd1.or.comcast.net
 	[71.236.175.18])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 69FA130537;
-	Tue, 19 Jul 2011 12:29:49 -0400 (EDT)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id ADBD930536;
+	Tue, 19 Jul 2011 12:29:48 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jul 2011 09:29:41 -0700
-Message-Id: <9dd34deb729afe42d041879a891d9f5ff0f7ff7a.1311092892.git.scott.a.garman@intel.com>
+Date: Tue, 19 Jul 2011 09:29:40 -0700
+Message-Id: <81fb23b56900bc440adcd99d67be36794b9d57fe.1311092892.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1311092892.git.scott.a.garman@intel.com>
 References: <cover.1311092892.git.scott.a.garman@intel.com>
@@ -20,13 +20,13 @@ In-Reply-To: <cover.1311092892.git.scott.a.garman@intel.com>
 References: <cover.1311092892.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 69FA130537.9F3B6
+X-MailScanner-ID: ADBD930536.0DC04
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
 Cc: Scott Garman <scott.a.garman@intel.com>
-Subject: [PATCH 2/2] distro-tracking: update libpng
+Subject: [PATCH 1/2] libpng: upgrade to v1.2.46
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +43,52 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Jul 2011 16:33:58 -0000
 
+This addresses the following security advisories:
+
+* CVE-2011-2690
+* CVE-2011-2692
+
+This fixes bug [YOCTO #1255]
+
+The LICENSE and png.h checksum changes were due to trivial changes
+in the files.
+
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+ .../libpng/{libpng_1.2.44.bb => libpng_1.2.46.bb}  |   11 ++++++-----
+ 1 files changed, 6 insertions(+), 5 deletions(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.2.44.bb => libpng_1.2.46.bb} (55%)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index efb4c0b..2f078c9 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -255,14 +255,14 @@ RECIPE_MAINTAINER_pn-neon = "Dongxiao Xu <dongxiao.xu@intel.com>"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.2.44.bb b/meta/recipes-multimedia/libpng/libpng_1.2.46.bb
+similarity index 55%
+rename from meta/recipes-multimedia/libpng/libpng_1.2.44.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.2.46.bb
+index d81a5c1..57d9037 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.2.44.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.2.46.bb
+@@ -1,16 +1,17 @@
++SUMMARY = "PNG Library"
+ DESCRIPTION = "PNG Library"
+ HOMEPAGE = "http://www.libpng.org/"
+ SECTION = "libs"
+ LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=a294a2bb08b7f25558119edbfd6b2e92 \
+-                    file://png.h;startline=172;endline=261;md5=3253923f0093658f470e52a06ddcf4e7"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=21b4b6e3523afa9f03f00b43b991dad0 \
++                    file://png.h;startline=172;endline=261;md5=996460063a9bf2de35b2d61d2776dabc"
+ DEPENDS = "zlib"
+ PR = "r0"
  
- RECIPE_STATUS_pn-libpng = "green"
- RECIPE_DEPENDENCY_CHECK_pn-libpng = "not done"
--RECIPE_LATEST_VERSION_pn-libpng = "1.4.5"
--RECIPE_NO_UPDATE_REASON_pn-libpng = "1.4.3 has API compatibility issue, e.g. break libmatchbox. choose 1.2.44 instead"
-+RECIPE_LATEST_VERSION_pn-libpng = "1.5.4"
-+RECIPE_NO_UPDATE_REASON_pn-libpng = "1.4.3 and later changes the API and breaks libmatchbox. Sticking with the 1.2.x series instead"
- RECIPE_PATCH_pn-libpng+makefile = "by RP; 2008; to define ECHO explicitly for lbitool 2.2.2. need check whether it's still valide for new libtool. candidate for upstream"
- RECIPE_INTEL_SECTION_pn-libpng = "base libs"
--RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libpng = "1 month"
--RECIPE_LATEST_RELEASE_DATE_pn-libpng = "06/2010"
-+RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-libpng = "unknown"
-+RECIPE_LATEST_RELEASE_DATE_pn-libpng = "07/2011"
- RECIPE_COMMENTS_pn-libpng = ""
--RECIPE_LAST_UPDATE_pn-libpng = "Jul 20, 2010"
-+RECIPE_LAST_UPDATE_pn-libpng = "Jul 18, 2011"
- RECIPE_MAINTAINER_pn-libpng = "Scott Garman <scott.a.garman@intel.com>"
+-SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/libpng-${PV}.tar.bz2"
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.bz2"
  
- RECIPE_STATUS_pn-libidn = "green"
+-SRC_URI[md5sum] = "e3ac7879d62ad166a6f0c7441390d12b"
+-SRC_URI[sha256sum] = "b9ab20f1c2c3bf6c4448fd9bd8a4a8905b918114d5fada56c97bb758a17b7215"
++SRC_URI[md5sum] = "e8b43dc78ef95b3949af7f961d76874b"
++SRC_URI[sha256sum] = "a5e796e1802b2e221498bda09ff9850bc7ec9068b6788948cc2c42af213914d8"
+ 
+ inherit autotools binconfig pkgconfig
+ 
 -- 
 1.7.1
 
