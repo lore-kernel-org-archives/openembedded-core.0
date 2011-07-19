@@ -1,27 +1,26 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QjDfd-0005v7-RQ for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jul 2011 19:01:22 +0200
+	id 1QjDmP-00062N-1v; Tue, 19 Jul 2011 19:08:21 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6JGvChW003471;
-	Tue, 19 Jul 2011 17:57:12 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6JH4DUM003526;
+	Tue, 19 Jul 2011 18:04:13 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 02278-09; Tue, 19 Jul 2011 17:57:08 +0100 (BST)
+	id 02290-09; Tue, 19 Jul 2011 18:04:09 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6JGv3v0003465
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6JH47n0003518
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 19 Jul 2011 17:57:04 +0100
+	Tue, 19 Jul 2011 18:04:07 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 In-Reply-To: <7da7d67b36cfd010e56a401f51e20b81e20ddba0.1311008331.git.tom_rini@mentor.com>
 References: <cover.1311008331.git.tom_rini@mentor.com>
 	<7da7d67b36cfd010e56a401f51e20b81e20ddba0.1311008331.git.tom_rini@mentor.com>
-Date: Tue, 19 Jul 2011 17:57:02 +0100
-Message-ID: <1311094622.2344.16.camel@rex>
+Date: Tue, 19 Jul 2011 18:04:07 +0100
+Message-ID: <1311095047.2344.17.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
@@ -42,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jul 2011 17:01:22 -0000
+X-List-Received-Date: Tue, 19 Jul 2011 17:08:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -81,15 +80,13 @@ On Mon, 2011-07-18 at 10:00 -0700, Tom Rini wrote:
 >      mach_arch = bb.data.getVar('MACHINE_ARCH', d, 1)
 >      pkg_arch = bb.data.getVar('PACKAGE_ARCH', d, 1)
 
-Any reason we can't use the value of SRC_URI we already have in the
-srcuri variable a few lines above this? :)
-
-Assuming you're ok with the change I can just fix this to save it
-bouncing around the lists further...
+I merged this with a tweak to use the already existing srcuri variable
+after talking to Tom on irc.
 
 Cheers,
 
 Richard
+
 
 
 
