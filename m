@@ -1,26 +1,34 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/yeJ7ESa3QvrxeegkmxyaqkM+/neNVoIc=])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QjWnH-0001ZR-0O
+	(envelope-from <raj.khem@gmail.com>) id 1QjWvD-0001gS-Nh
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 15:26:31 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6KDMO0P013893
+	Wed, 20 Jul 2011 15:34:43 +0200
+Received: by iyj12 with SMTP id 12so198306iyj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 08:22:25 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <1311166533.30326.69.camel@phil-desktop>
-Date: Wed, 20 Jul 2011 08:22:24 -0500
-Message-Id: <DC646D4C-BD60-47B8-A310-57C5FDF55FC7@kernel.crashing.org>
-References: <611DBEB9-A901-4A01-AEB0-EAC2724FBED1@kernel.crashing.org>
-	<1311165818.30326.67.camel@phil-desktop>
-	<202EE89F-DBDC-444E-B95F-01DD7DC36201@kernel.crashing.org>
-	<1311166533.30326.69.camel@phil-desktop>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: lzo build failure
+	Wed, 20 Jul 2011 06:30:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=kG70wcpVTeVFmUU6G03iF3ZFPuipFMS0bDQO9tOFf0Y=;
+	b=Q/RaA0XWylz+nBusf06j8xw/6lasLvboLg0Zvx8OVwhzIt4jdFTuZ0R2EzNA6k/VWb
+	eg/iRzLMbXvOOHhV6PnsHDNFL2lEUVlhlDyOylyHDnIssvclFDDK8E21+rsE8vGr4L6g
+	cDlCkzCRty2aDGSHMda5b2FqWcJVUCI9UxcSk=
+Received: by 10.231.114.208 with SMTP id f16mr347163ibq.158.1311168636787;
+	Wed, 20 Jul 2011 06:30:36 -0700 (PDT)
+Received: from [172.23.10.146] (natint3.juniper.net [66.129.224.36])
+	by mx.google.com with ESMTPS id q13sm168449ibi.43.2011.07.20.06.30.35
+	(version=SSLv3 cipher=OTHER); Wed, 20 Jul 2011 06:30:36 -0700 (PDT)
+Message-ID: <4E26D87A.5020808@gmail.com>
+Date: Wed, 20 Jul 2011 06:30:34 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1311154909.30326.51.camel@phil-desktop>
+	<CACW_hTYXboQ+Zzkt3PXBuA_=uMDVovTgt7g7BNJSxbCdjuoS2A@mail.gmail.com>
+In-Reply-To: <CACW_hTYXboQ+Zzkt3PXBuA_=uMDVovTgt7g7BNJSxbCdjuoS2A@mail.gmail.com>
+Subject: Re: libiconv checksum wrong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,59 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 13:26:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Jul 2011 13:34:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 07/20/2011 04:55 AM, Frans Meulenbroeks wrote:
+> 2011/7/20 Phil Blundell<philb@gnu.org>
+>
+>> Since updating this morning I'm getting
+>>
+>> | ERROR: Function 'File: '/home/pb/sources/libiconv-1.13.1.tar.gz' has
+>> md5 checksum 7ab33ebd26687c744a37264a330bbe9a when
+>> d42b97f6ef5dd0ba4469d520ed732fed was expected (from URL:
+>> 'ftp://ftp.gnu.org/gnu/libiconv/libiconv-1.13.1.tar.gz')' failed
+>> NOTE: package libiconv-1.13.1-r0: task do_fetch: Failed
+>>
+>> The offending commit appears to be
+>> bd1e627bef29830f9346b4b984905fd8fcf2e716.  As far as I can tell from a
+>> quick inspection of the files, the checksum that was added for
+>> libiconv-1.13.1.tar.gz in that commit is actually the md5sum of the
+>> earlier version 1.11.1.
+>>
+>> This seems to indicate that the added 1.13.1 recipe has not been build by
+> neither the submitter nor the committer (let alone tested by someone).
+> is that the kind of quality we want to achieve in oe-core ?
+>
 
-On Jul 20, 2011, at 7:55 AM, Phil Blundell wrote:
+there is already patch sent to fix it.
+http://patches.openembedded.org/patch/7933/
+libiconv is not default provider of virtual/libiconv on eglibc/glibc 
+based systems and sometimes that can trip you over. It happens and as 
+long as we find it and fix it quickly I don't see a problem. Do you ?
 
-> On Wed, 2011-07-20 at 07:51 -0500, Kumar Gala wrote:
->> On Jul 20, 2011, at 7:43 AM, Phil Blundell wrote:
->>=20
->>> On Wed, 2011-07-20 at 07:31 -0500, Kumar Gala wrote:
->>>> configure:=20
->>>> configure: Your compiler failed the ACC conformance test - for =
-details see=20
->>>> configure: `config.log'. Please check that log file and consider =
-sending
->>>> configure: a patch or bug-report to <markus@oberhumer.com>.
->>>> configure: Thanks for your support.
->>>> configure:=20
->>>> configure: error: ACC conformance test failed. Stop.
->>>=20
->>> Did you check config.log as it suggests?  If yes, what did you find
->>> there?
->=20
->> Here's what config.log looks like:
->>=20
->> http://pastebin.com/y9KzkQ5M
->>=20
->> Can't see anything obvious in there.
->=20
-> Well, if you search for "ACC conformance test" in that pastebin, you
-> will see:
->=20
-> configure:13578: checking whether your compiler passes the ACC
-> conformance test
-> configure:13623: ccache powerpc64-poky-linux-gcc -mcpu=3De5500 -m64
-> =
---sysroot=3D/local/home/galak/git/poky64/build-p5020/tmp/sysroots/p5020-ds=
+IMO we should not get so pedantic that people start getting scared of 
+making changes
 
-> -c -O2 -pipe -g -feliminate-unused-debug-types -I.  conftest.c >&5
-> In file included from conftest.c:118:0:
-> src/miniacc.h:4348:16: error: size of array '__acc_cta' is negative
-> [...]
-> configure:13631: result: FAILED
->=20
-> So I think you need to inspect that part of the code and figure out =
-what
-> exactly it's upset about.
->=20
-> p.
+> Frans.
+>
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Thanks, missed that in the log.
-
-- k=
 
 
