@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDJ-0001ZS-52
+	(envelope-from <sgw@linux.intel.com>) id 1QjSDK-0001Zu-5W
 	for openembedded-core@lists.openembedded.org;
 	Wed, 20 Jul 2011 10:33:06 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:49 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753296"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753301"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:49 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:50 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:13 -0700
-Message-Id: <f395d65a73eda5e814c74653f9c9611f4b0236b3.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:28:16 -0700
+Message-Id: <096ebbd80258f8b30bab76b5d8be77fc7af97135.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 26/50] gcc_4.5.1: add pr44606.patch
+Subject: [PATCH 29/50] gcc_4.5.1: add pr45886.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,137 +37,86 @@ X-List-Received-Date: Wed, 20 Jul 2011 08:33:12 -0000
 
 From: Ilya Yanok <yanok@emcraft.com>
 
-Add fix for PR44606 as proposed in
-http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44606
+Add fix for PR45886 as proposed in
+http://gcc.gnu.org/bugzilla/show_bug.cgi?id=45886
 
 Signed-off-by: Ilya Yanok <yanok@emcraft.com>
 ---
  meta/recipes-devtools/gcc/gcc-4.5.1.inc           |    1 +
- meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch |  106 +++++++++++++++++++++
- 2 files changed, 107 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch
+ meta/recipes-devtools/gcc/gcc-4.5.1/pr45886.patch |   55 +++++++++++++++++++++
+ 2 files changed, 56 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/pr45886.patch
 
 diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-index 99f2ad6..e84df82 100644
+index 03dca08..1b21a75 100644
 --- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
 +++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-@@ -60,6 +60,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://use-defaults.h-and-t-oe-in-B.patch \
- 	   file://pr43810.patch \
- 	   file://pr44290.patch \
-+	   file://pr44606.patch \
+@@ -63,6 +63,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://pr44606.patch \
+ 	   file://pr45094.patch \
+ 	   file://pr45052.patch \
++	   file://pr45886.patch \
  	  "
  	
  SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/pr45886.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/pr45886.patch
 new file mode 100644
-index 0000000..dd590bb
+index 0000000..36aa37e
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch
-@@ -0,0 +1,106 @@
-+From aff0ca6587a2f0849db55eef62a85bc8721869f2 Mon Sep 17 00:00:00 2001
-+From: froydnj <froydnj@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Tue, 1 Feb 2011 02:11:54 +0000
-+Subject: [PATCH 3/6] gcc/ Backport from mainline: 2010-12-30 Nathan Froyd <froydnj@codesourcery.com>
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1/pr45886.patch
+@@ -0,0 +1,55 @@
++From d066d0682da4e60b811d9282b00128244caa5c29 Mon Sep 17 00:00:00 2001
++From: Ilya Yanok <yanok@emcraft.com>
++Date: Mon, 21 Mar 2011 00:55:25 +0100
++Subject: [PATCH 6/6] PR45886
 +
-+        PR target/44606
-+        * reload1.c (choose_reload_regs): Don't look for equivalences for
-+        output reloads of constant loads.
-+
-+gcc/testsuite/
-+	Backport from mainline:
-+	2010-12-30  Nathan Froyd  <froydnj@codesourcery.com>
-+
-+        PR target/44606
-+        * gcc.dg/pr44606.c: New test.
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-4_4-branch@169465 138bc75d-0d04-0410-961f-82ee72b054a4
 +---
-+ gcc/reload1.c                  |   11 --------
-+ gcc/testsuite/gcc.dg/pr44606.c |   52 ++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 52 insertions(+), 11 deletions(-)
-+ create mode 100644 gcc/testsuite/gcc.dg/pr44606.c
++ gcc/config/arm/arm.c |    2 +-
++ gcc/config/arm/arm.h |   11 ++++++++++-
++ 2 files changed, 11 insertions(+), 2 deletions(-)
 +
-+diff --git a/gcc/reload1.c b/gcc/reload1.c
-+index 02fef2d..5732677 100644
-+--- a/gcc/reload1.c
-++++ b/gcc/reload1.c
-+@@ -6273,17 +6273,6 @@ choose_reload_regs (struct insn_chain *chain)
-+ 	      && (rld[r].nregs == max_group_size
-+ 		  || ! reg_classes_intersect_p (rld[r].rclass, group_class)))
-+ 	    search_equiv = rld[r].in;
-+-	  /* If this is an output reload from a simple move insn, look
-+-	     if an equivalence for the input is available.  */
-+-	  else if (inheritance && rld[r].in == 0 && rld[r].out != 0)
-+-	    {
-+-	      rtx set = single_set (insn);
-+-
-+-	      if (set
-+-		  && rtx_equal_p (rld[r].out, SET_DEST (set))
-+-		  && CONSTANT_P (SET_SRC (set)))
-+-		search_equiv = SET_SRC (set);
-+-	    }
++diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
++index 0382b24..5634829 100644
++--- a/gcc/config/arm/arm.c
+++++ b/gcc/config/arm/arm.c
++@@ -700,7 +700,7 @@ static int after_arm_reorg = 0;
++ /* The maximum number of insns to be used when loading a constant.  */
++ static int arm_constant_limit = 3;
 + 
-+ 	  if (search_equiv)
-+ 	    {
-+diff --git a/gcc/testsuite/gcc.dg/pr44606.c b/gcc/testsuite/gcc.dg/pr44606.c
-+new file mode 100644
-+index 0000000..3929775
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/pr44606.c
-+@@ -0,0 +1,52 @@
-++/* PR target/44606 */
-++/* { dg-do run } */
-++/* { dg-options "-O2" } */
++-static enum arm_pcs arm_pcs_default;
+++enum arm_pcs arm_pcs_default;
++ 
++ /* For an explanation of these variables, see final_prescan_insn below.  */
++ int arm_ccfsm_state;
++diff --git a/gcc/config/arm/arm.h b/gcc/config/arm/arm.h
++index 26ffaf8..ac7bbb3 100644
++--- a/gcc/config/arm/arm.h
+++++ b/gcc/config/arm/arm.h
++@@ -94,7 +94,13 @@ extern char arm_arch_name[];
++ 	if (arm_arch_iwmmxt)				\
++ 	  builtin_define ("__IWMMXT__");		\
++ 	if (TARGET_AAPCS_BASED)				\
++-	  builtin_define ("__ARM_EABI__");		\
+++	  {						\
+++	    if (arm_pcs_default == ARM_PCS_AAPCS_VFP)	\
+++	      builtin_define ("__ARM_PCS_VFP");		\
+++	    else if (arm_pcs_default == ARM_PCS_AAPCS)	\
+++	      builtin_define ("__ARM_PCS");		\
+++	    builtin_define ("__ARM_EABI__");		\
+++	  }						\
++     } while (0)
++ 
++ /* The various ARM cores.  */
++@@ -1648,6 +1654,9 @@ enum arm_pcs
++   ARM_PCS_UNKNOWN
++ };
++ 
+++/* Default procedure calling standard of current compilation unit. */
+++extern enum arm_pcs arm_pcs_default;
 ++
-++#include <stdio.h>
-++
-++extern void abort (void);
-++
-++ typedef struct _PixelPacket { 	unsigned char r, g, b; }
-++ PixelPacket;
-++#define ARRAYLEN(X) (sizeof(X)/sizeof(X[0]))
-++PixelPacket q[6];
-++#define COLS (ARRAYLEN(q) - 1)
-++PixelPacket p[2*COLS + 22];
-++#define Minify(POS, WEIGHT) do {	\
-++	total_r += (WEIGHT)*(p[POS].r);	\
-++	total_g += (WEIGHT)*(p[POS].g);	\
-++	total_b += (WEIGHT)*(p[POS].b);	\
-++} while (0)
-++unsigned long columns = COLS;
-++int main(void)
-++{
-++	static const unsigned char answers[COLS] = { 31, 32, 34, 35, 36 };
-++	unsigned long x;
-++	for (x = 0; x < sizeof(p)/sizeof(p[0]); x++) {
-++		p[x].b = (x + 34) | 1;
-++	}
-++	for (x = 0; x < columns; x++) {
-++		double total_r = 0, total_g = 0, total_b = 0;
-++		double saved_r = 0, saved_g = 0, saved_b = 0;
-++		Minify(2*x +  0,  3.0);
-++		Minify(2*x +  1,  7.0);
-++		Minify(2*x +  2,  7.0);
-++		saved_r = total_r;
-++		saved_g = total_g;
-++		Minify(2*x + 11, 15.0);
-++		Minify(2*x + 12,  7.0);
-++		Minify(2*x + 18,  7.0);
-++		Minify(2*x + 19, 15.0);
-++		Minify(2*x + 20, 15.0);
-++		Minify(2*x + 21,  7.0);
-++		q[x].r = (unsigned char)(total_r/128.0 + 0.5);
-++		q[x].g = (unsigned char)(total_g/128.0 + 0.5);
-++		q[x].b = (unsigned char)(total_b/128.0 + 0.5);
-++		fprintf(stderr, "r:%f g:%f b:%f\n", saved_r, saved_g, saved_b);
-++	}
-++	for (x = 0; x < COLS; x++) {
-++		if (answers[x] != q[x].b)
-++			abort();
-++	}
-++	return 0;
-++}
++ /* A C type for declaring a variable that is used as the first argument of
++    `FUNCTION_ARG' and other related values.  */
++ typedef struct
 +-- 
 +1.7.4
 +
