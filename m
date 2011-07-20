@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDI-0001ZJ-A7
+	(envelope-from <sgw@linux.intel.com>) id 1QjSDJ-0001ZN-NB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 10:33:05 +0200
+	Wed, 20 Jul 2011 10:33:06 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:49 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753295"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753298"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:49 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:50 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:12 -0700
-Message-Id: <e1c2478824c1660f855e59e7ffac4f5242ee6657.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:28:14 -0700
+Message-Id: <4c3d139ef564a879dd32997c5bd9828653d1acf0.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 25/50] gcc_4.5.1: add pr44290.patch
+Subject: [PATCH 27/50] gcc_4.5.1: add pr45094.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,154 +33,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 08:33:06 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 08:33:12 -0000
 
 From: Ilya Yanok <yanok@emcraft.com>
 
-Add fix for PR44290 as proposed in
-http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44290
+Add fix for PR45094 as proposed in
+http://gcc.gnu.org/bugzilla/show_bug.cgi?id=45094
 
 Signed-off-by: Ilya Yanok <yanok@emcraft.com>
 ---
  meta/recipes-devtools/gcc/gcc-4.5.1.inc           |    1 +
- meta/recipes-devtools/gcc/gcc-4.5.1/pr44290.patch |  119 +++++++++++++++++++++
- 2 files changed, 120 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/pr44290.patch
+ meta/recipes-devtools/gcc/gcc-4.5.1/pr45094.patch |   75 +++++++++++++++++++++
+ 2 files changed, 76 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/pr45094.patch
 
 diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-index efed414..99f2ad6 100644
+index e84df82..2473775 100644
 --- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
 +++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-@@ -59,6 +59,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://COLLECT_GCC_OPTIONS.patch \
- 	   file://use-defaults.h-and-t-oe-in-B.patch \
+@@ -61,6 +61,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
  	   file://pr43810.patch \
-+	   file://pr44290.patch \
+ 	   file://pr44290.patch \
+ 	   file://pr44606.patch \
++	   file://pr45094.patch \
  	  "
  	
  SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/pr44290.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/pr44290.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/pr45094.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/pr45094.patch
 new file mode 100644
-index 0000000..9cf187a
+index 0000000..182e005
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.5.1/pr44290.patch
-@@ -0,0 +1,119 @@
-+From cb13264f07c419149b86e19c2187729bda8dd47d Mon Sep 17 00:00:00 2001
-+From: jiez <jiez@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Fri, 23 Jul 2010 14:47:46 +0000
-+Subject: [PATCH 2/6] PR target/44290 * attribs.c (decl_attributes): Insert "noinline" and "noclone" if "naked". * tree-sra.c (ipa_sra_preliminary_function_checks): Return false if ! tree_versionable_function_p.
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1/pr45094.patch
+@@ -0,0 +1,75 @@
++From 34bd4baaa0f6583f9ff99544c732350c199ec0e2 Mon Sep 17 00:00:00 2001
++From: qiyao <qiyao@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Wed, 18 Aug 2010 12:33:43 +0000
++Subject: [PATCH 4/6] gcc/ PR target/45094 * config/arm/arm.c (output_move_double): Fix typo generating instructions ('ldr'->'str').
 +
-+	testsuite/
-+	PR target/44290
-+	* gcc.dg/pr44290-1.c: New test.
-+	* gcc.dg/pr44290-2.c: New test.
++gcc/testsuite/
 +
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@162466 138bc75d-0d04-0410-961f-82ee72b054a4
++        PR target/45094
++        * gcc.target/arm/pr45094.c: New test.
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@163338 138bc75d-0d04-0410-961f-82ee72b054a4
 +---
-+ gcc/attribs.c                    |   13 +++++++++++++
-+ gcc/testsuite/gcc.dg/pr44290-1.c |   18 ++++++++++++++++++
-+ gcc/testsuite/gcc.dg/pr44290-2.c |   24 ++++++++++++++++++++++++
-+ gcc/tree-sra.c                   |    7 +++++++
-+ 4 files changed, 62 insertions(+), 0 deletions(-)
-+ create mode 100644 gcc/testsuite/gcc.dg/pr44290-1.c
-+ create mode 100644 gcc/testsuite/gcc.dg/pr44290-2.c
++ gcc/config/arm/arm.c                   |    8 ++++----
++ gcc/testsuite/gcc.target/arm/pr45094.c |   27 +++++++++++++++++++++++++++
++ 2 files changed, 31 insertions(+), 4 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.target/arm/pr45094.c
 +
-+diff --git a/gcc/attribs.c b/gcc/attribs.c
-+index 4d91a0d..2e06608 100644
-+--- a/gcc/attribs.c
-++++ b/gcc/attribs.c
-+@@ -278,6 +278,19 @@ decl_attributes (tree *node, tree attributes, int flags)
-+ 	TREE_VALUE (cur_attr) = chainon (opts, TREE_VALUE (cur_attr));
-+     }
-+ 
-++  /* A "naked" function attribute implies "noinline" and "noclone" for
-++     those targets that support it.  */
-++  if (TREE_CODE (*node) == FUNCTION_DECL
-++      && lookup_attribute_spec (get_identifier ("naked"))
-++      && lookup_attribute ("naked", attributes) != NULL)
-++    {
-++      if (lookup_attribute ("noinline", attributes) == NULL)
-++	attributes = tree_cons (get_identifier ("noinline"), NULL, attributes);
-++
-++      if (lookup_attribute ("noclone", attributes) == NULL)
-++	attributes = tree_cons (get_identifier ("noclone"),  NULL, attributes);
-++    }
-++
-+   targetm.insert_attributes (*node, &attributes);
-+ 
-+   for (a = attributes; a; a = TREE_CHAIN (a))
-+diff --git a/gcc/testsuite/gcc.dg/pr44290-1.c b/gcc/testsuite/gcc.dg/pr44290-1.c
++diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
++index a06a38b..0382b24 100644
++--- a/gcc/config/arm/arm.c
+++++ b/gcc/config/arm/arm.c
++@@ -12182,13 +12182,13 @@ output_move_double (rtx *operands)
++ 	    {
++ 	      if (GET_CODE (XEXP (operands[0], 0)) == PRE_MODIFY)
++ 		{
++-		  output_asm_insn ("ldr%?\t%0, [%1, %2]!", otherops);
++-		  output_asm_insn ("ldr%?\t%H0, [%1, #4]", otherops);
+++		  output_asm_insn ("str%?\t%0, [%1, %2]!", otherops);
+++		  output_asm_insn ("str%?\t%H0, [%1, #4]", otherops);
++ 		}
++ 	      else
++ 		{
++-		  output_asm_insn ("ldr%?\t%H0, [%1, #4]", otherops);
++-		  output_asm_insn ("ldr%?\t%0, [%1], %2", otherops);
+++		  output_asm_insn ("str%?\t%H0, [%1, #4]", otherops);
+++		  output_asm_insn ("str%?\t%0, [%1], %2", otherops);
++ 		}
++ 	    }
++ 	  else if (GET_CODE (XEXP (operands[0], 0)) == PRE_MODIFY)
++diff --git a/gcc/testsuite/gcc.target/arm/pr45094.c b/gcc/testsuite/gcc.target/arm/pr45094.c
 +new file mode 100644
-+index 0000000..071a271
++index 0000000..05f16d8
 +--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/pr44290-1.c
-+@@ -0,0 +1,18 @@
-++/* { dg-do compile { target arm*-*-* avr-*-* mcore-*-* rx-*-* spu-*-* } } */
-++/* { dg-options "-O2 -fdump-tree-optimized" } */
+++++ b/gcc/testsuite/gcc.target/arm/pr45094.c
++@@ -0,0 +1,27 @@
+++/* { dg-do run } */
+++/* { dg-require-effective-target arm_neon_hw } */
+++/* { dg-options "-O2 -mcpu=cortex-a8" } */
+++/* { dg-add-options arm_neon } */
 ++
-++static void __attribute__((naked))
-++foo(void *from, void *to)
+++#include <stdlib.h>
+++
+++long long buffer[32];
+++
+++void __attribute__((noinline)) f(long long *p, int n)
 ++{
-++  asm volatile("dummy"::"r"(from), "r"(to));
-++}
-++
-++unsigned int fie[2];
-++
-++void fum(void *to)
-++{
-++  foo(fie, to);
-++}
-++
-++/* { dg-final { scan-tree-dump "foo \\\(void \\\* from, void \\\* to\\\)" "optimized" } } */
-++/* { dg-final { cleanup-tree-dump "optimized" } } */
-+diff --git a/gcc/testsuite/gcc.dg/pr44290-2.c b/gcc/testsuite/gcc.dg/pr44290-2.c
-+new file mode 100644
-+index 0000000..1951a51
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/pr44290-2.c
-+@@ -0,0 +1,24 @@
-++/* { dg-do compile { target arm*-*-* avr-*-* mcore-*-* rx-*-* spu-*-* } } */
-++/* { dg-options "-O2 -fdump-tree-optimized" } */
-++
-++static unsigned long __attribute__((naked))
-++foo (unsigned long base)
-++{
-++  asm volatile ("dummy");
-++}
-++unsigned long
-++bar (void)
-++{
-++  static int start, set;
-++
-++  if (!set)
+++  while (--n >= 0)
 ++    {
-++      set = 1;
-++      start = foo (0);
+++      *p = 1;
+++      p += 32;
 ++    }
-++
-++  return foo (start);
 ++}
 ++
-++/* { dg-final { scan-tree-dump "foo \\\(long unsigned int base\\\)" "optimized" } } */
-++/* { dg-final { cleanup-tree-dump "optimized" } } */
-+diff --git a/gcc/tree-sra.c b/gcc/tree-sra.c
-+index 6a5b577..ea37d97 100644
-+--- a/gcc/tree-sra.c
-++++ b/gcc/tree-sra.c
-+@@ -4126,6 +4126,13 @@ modify_function (struct cgraph_node *node, ipa_parm_adjustment_vec adjustments)
-+ static bool
-+ ipa_sra_preliminary_function_checks (struct cgraph_node *node)
-+ {
-++  if (!tree_versionable_function_p (current_function_decl))
-++    {
-++      if (dump_file)
-++	fprintf (dump_file, "Function isn't allowed to be versioned.\n");
-++      return false;
-++    }
+++int main(void)
+++{
+++  f(buffer, 1);
+++  
+++  if (!buffer[0])
+++    abort();
 ++
-+   if (!cgraph_node_can_be_local_p (node))
-+     {
-+       if (dump_file)
+++  return 0;
+++}
 +-- 
 +1.7.4
 +
