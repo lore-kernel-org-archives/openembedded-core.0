@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDK-0001ZJ-Lc
+	(envelope-from <sgw@linux.intel.com>) id 1QjSDY-0001ZJ-5o
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 10:33:07 +0200
+	Wed, 20 Jul 2011 10:33:21 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:51 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753302"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753351"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:50 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:56 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:17 -0700
-Message-Id: <1b812a72a5218ac2a113b8c8e5d4c9a126707b9c.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:28:34 -0700
+Message-Id: <28d06c0e89a302478ed339d17802b4d184e6a9d3.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 30/50] bitbake.conf, sanity.bbclass: Drop mercurial-native
+Subject: [PATCH 47/50] mesa-dri: Fix build on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,45 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 08:36:51 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 08:36:52 -0000
 
-From: Tom Rini <tom_rini@mentor.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-We have no hg URIs in the metadata, so don't require and don't
-ASSUME_PROVIDED it either.  meta-oe has a mercurial-native recipe
-if hg URIs are added in a recipe later.
+We do not enable locales with uclibc in oe
+Imported from oe.dev rev f2253e23c7fbbf2bfa1a0d1b47342800755e71c6
 
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/sanity.bbclass |    2 +-
- meta/conf/bitbake.conf      |    1 -
- 2 files changed, 1 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/mesa/mesa-dri/uclibc.patch |   26 ++++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa-dri_7.10.2.bb    |    6 +++-
+ 2 files changed, 30 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/mesa-dri/uclibc.patch
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 716b158..28c9ecd 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -209,7 +209,7 @@ def check_sanity(e):
-     if not check_app_exists('${BUILD_PREFIX}g++', e.data):
-         missing = missing + "C++ Compiler (%sg++)," % data.getVar("BUILD_PREFIX", e.data, True)
+diff --git a/meta/recipes-graphics/mesa/mesa-dri/uclibc.patch b/meta/recipes-graphics/mesa/mesa-dri/uclibc.patch
+new file mode 100644
+index 0000000..c87c354
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/mesa-dri/uclibc.patch
+@@ -0,0 +1,26 @@
++Index: Mesa-7.10.2/src/mesa/main/imports.c
++===================================================================
++--- Mesa-7.10.2.orig/src/mesa/main/imports.c	2011-03-01 12:57:29.000000000 -0800
+++++ Mesa-7.10.2/src/mesa/main/imports.c	2011-07-19 10:02:32.593779110 -0700
++@@ -757,7 +757,7 @@
++ float
++ _mesa_strtof( const char *s, char **end )
++ {
++-#if defined(_GNU_SOURCE) && !defined(__CYGWIN__) && !defined(__FreeBSD__)
+++#if defined(_GNU_SOURCE) && !defined(__CYGWIN__) && !defined(__FreeBSD__) && !defined(__UCLIBC__)
++    static locale_t loc = NULL;
++    if (!loc) {
++       loc = newlocale(LC_CTYPE_MASK, "C", NULL);
++Index: Mesa-7.10.2/src/glsl/strtod.c
++===================================================================
++--- Mesa-7.10.2.orig/src/glsl/strtod.c	2011-01-03 16:45:51.000000000 -0800
+++++ Mesa-7.10.2/src/glsl/strtod.c	2011-07-19 10:02:32.643779110 -0700
++@@ -44,7 +44,7 @@
++ double
++ glsl_strtod(const char *s, char **end)
++ {
++-#if defined(_GNU_SOURCE) && !defined(__CYGWIN__) && !defined(__FreeBSD__)
+++#if defined(_GNU_SOURCE) && !defined(__CYGWIN__) && !defined(__FreeBSD__) && !defined(__UCLIBC__)
++    static locale_t loc = NULL;
++    if (!loc) {
++       loc = newlocale(LC_CTYPE_MASK, "C", NULL);
+diff --git a/meta/recipes-graphics/mesa/mesa-dri_7.10.2.bb b/meta/recipes-graphics/mesa/mesa-dri_7.10.2.bb
+index c7bd974..aac7a1c 100644
+--- a/meta/recipes-graphics/mesa/mesa-dri_7.10.2.bb
++++ b/meta/recipes-graphics/mesa/mesa-dri_7.10.2.bb
+@@ -8,10 +8,12 @@ LIB_DEPS = "libdrm virtual/libx11 libxext libxxf86vm libxdamage libxfixes expat
  
--    required_utilities = "patch help2man diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk hg chrpath wget cpio"
-+    required_utilities = "patch help2man diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk chrpath wget cpio"
+ DEPENDS = "${PROTO_DEPS}  ${LIB_DEPS} makedepend-native python-native"
  
-     if "qemu-native" in assume_provided:
-         if not check_app_exists("qemu-arm", e.data):
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 128b0b6..975e24c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -132,7 +132,6 @@ ASSUME_PROVIDED = "\
-     cvs-native \
-     grep-native \
-     diffstat-native \
--    mercurial-native \
-     patch-native \
-     perl-native-runtime \
-     python-native-runtime \
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+-           file://crossfix.patch"
++           file://crossfix.patch \
++           file://uclibc.patch \
++          "
+ 
+ SRC_URI[md5sum] = "f5de82852f1243f42cc004039e10b771"
+ SRC_URI[sha256sum] = "8ced2678ce11cf30804694a92ea3ca6b82f158ae8995bdc626c7e85aac71c7c1"
 -- 
 1.7.3.4
 
