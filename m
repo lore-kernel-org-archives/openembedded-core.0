@@ -1,25 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1QjSOG-0003zL-Bm
+	(envelope-from <philb@gnu.org>) id 1QjSlJ-0005K9-IH
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 10:44:24 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:40:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29757350"
-Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
-	([10.239.47.21])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:40:19 -0700
-From: Mei Lei <lei.mei@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 16:48:18 +0800
-Message-Id: <93848d65e679794e5aa41e548ee275378518d071.1311151283.git.lei.mei@intel.com>
-X-Mailer: git-send-email 1.6.3.3
-In-Reply-To: <cover.1311151283.git.lei.mei@intel.com>
-References: <cover.1311151283.git.lei.mei@intel.com>
-In-Reply-To: <cover.1311151283.git.lei.mei@intel.com>
-References: <cover.1311151283.git.lei.mei@intel.com>
-Subject: [PATCH 2/2] perl-dynloader.patch: Fix libdir issue for multilib
+	Wed, 20 Jul 2011 11:08:13 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QjShN-00035v-Ms
+	for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jul 2011 11:04:09 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 20 Jul 2011 10:04:08 +0100
+In-Reply-To: <c1e38312fe3efff38610002ac534d90e32a2f669.1311150183.git.sgw@linux.intel.com>
+References: <cover.1311150183.git.sgw@linux.intel.com>
+	<c1e38312fe3efff38610002ac534d90e32a2f669.1311150183.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311152649.30326.46.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 39/50] uclibc_0.9.32: Implement sync_file_range2.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,30 +33,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 08:44:25 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 09:08:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The perl-dynloader.patch can't support /usr/lib64, change the regular expression to support multilib.
+On Wed, 2011-07-20 at 01:28 -0700, Saul Wold wrote:
+> --- /dev/null
+> +++ b/meta/recipes-core/uclibc/uclibc-0.9.32/sync_file_range2.patch
+> @@ -0,0 +1,40 @@
+> +Index: git/libc/sysdeps/linux/common/sync_file_range.c
 
-Signed-off-by: Mei Lei <lei.mei@intel.com>
----
- .../perl/perl-5.12.3/perl-dynloader.patch          |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+This new patch seems to be missing Signed-off-by and Upstream-Status.
+Functionally though it does look much better than the old one.
 
-diff --git a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch b/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
-index d5ea00f..a45af91 100644
---- a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
-+++ b/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
-@@ -19,7 +19,7 @@ Update by Nitin A Kamble <nitin.a.kamble@intel.com> 2011/04/21
- +    {
- +        my $hostlib = $ENV{PERLHOSTLIB};
- +        print STDERR "*** Module name IN: $modlibname\n";
--+        ($p1, $p2, $p3, $p4, $p5) = $modlibname =~ m/(^(.*lib\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
-++        ($p1, $p2, $p3, $p4, $p5) = $modlibname =~ m/(^(.*lib[0-9]*\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
- +        print STDERR "*** p1: $p1  p3: $p3  p5: $p5\n";
- +        if ( $p1 ne "" ) {
- +            $modlibname = $hostlib.$p5;
--- 
-1.6.3.3
+p.
+
 
 
 
