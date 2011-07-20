@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDJ-0001aO-NF
+	(envelope-from <sgw@linux.intel.com>) id 1QjSDJ-0001ZS-52
 	for openembedded-core@lists.openembedded.org;
 	Wed, 20 Jul 2011 10:33:06 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:50 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753300"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753296"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:50 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:49 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:15 -0700
-Message-Id: <a34e79e061406ec30a7a9bbb7e8e2bb49e83b2dd.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:28:13 -0700
+Message-Id: <f395d65a73eda5e814c74653f9c9611f4b0236b3.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 28/50] gcc_4.5.1: add pr45052.patch
+Subject: [PATCH 26/50] gcc_4.5.1: add pr44606.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,61 +37,137 @@ X-List-Received-Date: Wed, 20 Jul 2011 08:33:12 -0000
 
 From: Ilya Yanok <yanok@emcraft.com>
 
-Add fix for PR45052 as proposed in
-http://gcc.gnu.org/bugzilla/show_bug.cgi?id=45052
+Add fix for PR44606 as proposed in
+http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44606
 
 Signed-off-by: Ilya Yanok <yanok@emcraft.com>
 ---
  meta/recipes-devtools/gcc/gcc-4.5.1.inc           |    1 +
- meta/recipes-devtools/gcc/gcc-4.5.1/pr45052.patch |   30 +++++++++++++++++++++
- 2 files changed, 31 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/pr45052.patch
+ meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch |  106 +++++++++++++++++++++
+ 2 files changed, 107 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch
 
 diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-index 2473775..03dca08 100644
+index 99f2ad6..e84df82 100644
 --- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
 +++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-@@ -62,6 +62,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+@@ -60,6 +60,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://use-defaults.h-and-t-oe-in-B.patch \
+ 	   file://pr43810.patch \
  	   file://pr44290.patch \
- 	   file://pr44606.patch \
- 	   file://pr45094.patch \
-+	   file://pr45052.patch \
++	   file://pr44606.patch \
  	  "
  	
  SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/pr45052.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/pr45052.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch
 new file mode 100644
-index 0000000..855a823
+index 0000000..dd590bb
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.5.1/pr45052.patch
-@@ -0,0 +1,30 @@
-+From 138f1af2d77d56762a2c2af4759efd53c275b67e Mon Sep 17 00:00:00 2001
-+From: Ilya Yanok <yanok@emcraft.com>
-+Date: Mon, 21 Mar 2011 00:49:43 +0100
-+Subject: [PATCH 5/6] PR45052
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1/pr44606.patch
+@@ -0,0 +1,106 @@
++From aff0ca6587a2f0849db55eef62a85bc8721869f2 Mon Sep 17 00:00:00 2001
++From: froydnj <froydnj@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Tue, 1 Feb 2011 02:11:54 +0000
++Subject: [PATCH 3/6] gcc/ Backport from mainline: 2010-12-30 Nathan Froyd <froydnj@codesourcery.com>
 +
++        PR target/44606
++        * reload1.c (choose_reload_regs): Don't look for equivalences for
++        output reloads of constant loads.
++
++gcc/testsuite/
++	Backport from mainline:
++	2010-12-30  Nathan Froyd  <froydnj@codesourcery.com>
++
++        PR target/44606
++        * gcc.dg/pr44606.c: New test.
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-4_4-branch@169465 138bc75d-0d04-0410-961f-82ee72b054a4
 +---
-+ gcc/ipa-pure-const.c |    7 +++++++
-+ 1 files changed, 7 insertions(+), 0 deletions(-)
++ gcc/reload1.c                  |   11 --------
++ gcc/testsuite/gcc.dg/pr44606.c |   52 ++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 52 insertions(+), 11 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.dg/pr44606.c
 +
-+diff --git a/gcc/ipa-pure-const.c b/gcc/ipa-pure-const.c
-+index 166dabb..da9d5d6 100644
-+--- a/gcc/ipa-pure-const.c
-++++ b/gcc/ipa-pure-const.c
-+@@ -416,6 +416,13 @@ check_stmt (gimple_stmt_iterator *gsip, funct_state local, bool ipa)
-+       print_gimple_stmt (dump_file, stmt, 0, 0);
-+     }
++diff --git a/gcc/reload1.c b/gcc/reload1.c
++index 02fef2d..5732677 100644
++--- a/gcc/reload1.c
+++++ b/gcc/reload1.c
++@@ -6273,17 +6273,6 @@ choose_reload_regs (struct insn_chain *chain)
++ 	      && (rld[r].nregs == max_group_size
++ 		  || ! reg_classes_intersect_p (rld[r].rclass, group_class)))
++ 	    search_equiv = rld[r].in;
++-	  /* If this is an output reload from a simple move insn, look
++-	     if an equivalence for the input is available.  */
++-	  else if (inheritance && rld[r].in == 0 && rld[r].out != 0)
++-	    {
++-	      rtx set = single_set (insn);
++-
++-	      if (set
++-		  && rtx_equal_p (rld[r].out, SET_DEST (set))
++-		  && CONSTANT_P (SET_SRC (set)))
++-		search_equiv = SET_SRC (set);
++-	    }
 + 
-++  if (gimple_has_volatile_ops (stmt))
-++    {
-++      local->pure_const_state = IPA_NEITHER;
-++      if (dump_file)
-++	fprintf (dump_file, "    Volatile stmt is not const/pure\n");
-++    }
++ 	  if (search_equiv)
++ 	    {
++diff --git a/gcc/testsuite/gcc.dg/pr44606.c b/gcc/testsuite/gcc.dg/pr44606.c
++new file mode 100644
++index 0000000..3929775
++--- /dev/null
+++++ b/gcc/testsuite/gcc.dg/pr44606.c
++@@ -0,0 +1,52 @@
+++/* PR target/44606 */
+++/* { dg-do run } */
+++/* { dg-options "-O2" } */
 ++
-+   /* Look for loads and stores.  */
-+   walk_stmt_load_store_ops (stmt, local, check_load, check_store);
-+ 
+++#include <stdio.h>
+++
+++extern void abort (void);
+++
+++ typedef struct _PixelPacket { 	unsigned char r, g, b; }
+++ PixelPacket;
+++#define ARRAYLEN(X) (sizeof(X)/sizeof(X[0]))
+++PixelPacket q[6];
+++#define COLS (ARRAYLEN(q) - 1)
+++PixelPacket p[2*COLS + 22];
+++#define Minify(POS, WEIGHT) do {	\
+++	total_r += (WEIGHT)*(p[POS].r);	\
+++	total_g += (WEIGHT)*(p[POS].g);	\
+++	total_b += (WEIGHT)*(p[POS].b);	\
+++} while (0)
+++unsigned long columns = COLS;
+++int main(void)
+++{
+++	static const unsigned char answers[COLS] = { 31, 32, 34, 35, 36 };
+++	unsigned long x;
+++	for (x = 0; x < sizeof(p)/sizeof(p[0]); x++) {
+++		p[x].b = (x + 34) | 1;
+++	}
+++	for (x = 0; x < columns; x++) {
+++		double total_r = 0, total_g = 0, total_b = 0;
+++		double saved_r = 0, saved_g = 0, saved_b = 0;
+++		Minify(2*x +  0,  3.0);
+++		Minify(2*x +  1,  7.0);
+++		Minify(2*x +  2,  7.0);
+++		saved_r = total_r;
+++		saved_g = total_g;
+++		Minify(2*x + 11, 15.0);
+++		Minify(2*x + 12,  7.0);
+++		Minify(2*x + 18,  7.0);
+++		Minify(2*x + 19, 15.0);
+++		Minify(2*x + 20, 15.0);
+++		Minify(2*x + 21,  7.0);
+++		q[x].r = (unsigned char)(total_r/128.0 + 0.5);
+++		q[x].g = (unsigned char)(total_g/128.0 + 0.5);
+++		q[x].b = (unsigned char)(total_b/128.0 + 0.5);
+++		fprintf(stderr, "r:%f g:%f b:%f\n", saved_r, saved_g, saved_b);
+++	}
+++	for (x = 0; x < COLS; x++) {
+++		if (answers[x] != q[x].b)
+++			abort();
+++	}
+++	return 0;
+++}
 +-- 
 +1.7.4
 +
