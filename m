@@ -1,18 +1,35 @@
-Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1Qjd8x-00006z-8C
+	(envelope-from <bruce.ashfield@gmail.com>) id 1QjdHn-0000qx-3Y
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 22:13:20 +0200
-Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6KK91Mf020211
+	Wed, 20 Jul 2011 22:22:27 +0200
+Received: by gwb11 with SMTP id 11so677677gwb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 15:09:02 -0500
-From: Tom Rini <tom_rini@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 13:08:55 -0700
-Message-Id: <cover.1311192464.git.tom_rini@mentor.com>
-X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/5] Fix building in very long paths
+	Wed, 20 Jul 2011 13:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=cM0q7Oan3Q8jIPkxUnIZxuXp2im7V5MfUlwi/3k1bt4=;
+	b=MkiiCZ3h6kB9U1r7pOJdPbF6gpHd3upkh1jV+bdG33AEPmBZvLnLa8MIAcUW5Y5KKd
+	BNWvQAQRsfE1b29m3Sw2agrFb65lY5/SIAVBb2Dopv89GsIN9lVl1ddFUIsqwVoYTwNd
+	MOMWEMqP7dzNX6ND9hI5r45e9O1TO2LZWbnrY=
+MIME-Version: 1.0
+Received: by 10.91.135.1 with SMTP id m1mr8509465agn.162.1311191267228; Wed,
+	20 Jul 2011 12:47:47 -0700 (PDT)
+Received: by 10.91.12.2 with HTTP; Wed, 20 Jul 2011 12:47:47 -0700 (PDT)
+In-Reply-To: <772ABCD3-A957-469A-A2AB-F2C27A0A5F0C@dominion.thruhere.net>
+References: <1310736077.3805.37.camel@phil-desktop>
+	<CADkTA4OYB0mch1SRSgidwGfZiWBeBuaWKH1BU1NgF9jPVa1Niw@mail.gmail.com>
+	<1310742175.30326.1.camel@phil-desktop>
+	<CADkTA4MoCmtKypORoGvShciAgiFsOJFLmSiAQiVdAxLAYKkyHQ@mail.gmail.com>
+	<CADkTA4MetjKoZfS7gcKSm9wm3iQZoxaJPqmrJ6KBOWsXF1QVSQ@mail.gmail.com>
+	<772ABCD3-A957-469A-A2AB-F2C27A0A5F0C@dominion.thruhere.net>
+Date: Wed, 20 Jul 2011 15:47:47 -0400
+Message-ID: <CADkTA4Mpg3bQfyq+NmhK2=ySM+9-7eQzj_HueMirrcV4rs2bWA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,58 +44,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 20:13:20 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 20:22:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hey all,
+On Wed, Jul 20, 2011 at 11:45 AM, Koen Kooi <koen@dominion.thruhere.net> wr=
+ote:
+>
+> Op 20 jul 2011, om 17:42 heeft Bruce Ashfield het volgende geschreven:
+>
+>> On Fri, Jul 15, 2011 at 11:36 AM, Bruce Ashfield
+>> <bruce.ashfield@gmail.com> wrote:
+>>> On Fri, Jul 15, 2011 at 11:02 AM, Phil Blundell <philb@gnu.org> wrote:
+>>>> On Fri, 2011-07-15 at 09:51 -0400, Bruce Ashfield wrote:
+>>>>> On Fri, Jul 15, 2011 at 9:21 AM, Phil Blundell <pb@pbcl.net> wrote:
+>>>>>> The other day I was working on a BSP layer for a fairly generic i586
+>>>>>> system and I was struck by the fact that we don't appear to have any
+>>>>>> vanilla kernel recipes in oe-core. =A0I had sort of expected that, t=
+o get
+>>>>>> a standard bzImage out, I would just need to ship an appropriate
+>>>>>> defconfig in my layer and everything else would "just work".
+>>>>>
+>>>>> Hmm. Perhaps it isn't documented clearly enough as such, but the linu=
+x-yocto
+>>>>> kernel base can work in this mode, since that was a design goal of
+>>>>> 1.0.
+>>>>>
+>>>>> You pick a branch, throw in a config fragment (or defconfig if you re=
+ally
+>>>>> want) =A0and build. The base branches in the tree are generic enough =
+to
+>>>>> sort a range of boards out of the box, and should form a base.
+>>>>
+>>>> Okay, cool. =A0I'll give it a go and see how I get on.
+>>>>
+>>>> Is there a description anywhere of what the functional differences are
+>>>> between the code in linux-yocto git and the upstream kernel.org tree?
+>>>
+>>> It varies, and the variables are many, so I can answer this in several =
+ways.
+>>
+>> Following up on my own email. I'm just about to push out the 3.0
+>> kernel support / changes, so I'm seeing the light at the end of the tunn=
+el
+>> and recalled that this is still hanging a bit.
+>>
+>> Is there anything tangible you wanted me to do here ? =A0Create an examp=
+le ?
+>> Write a short howto =A0.. or something else ?
+>
+> A guide to make your own setup that isn't based on linux-yocto but which =
+does work with the linux-yocto bbclass?
 
-The following series fixes building in deep paths.  To be clear, the
-biggest problem is that shebang (#!) is not portable over 80 chars in
-length and we already eat up 51 chars with sysroot paths on x86_64.
-The fix, in concept is easy, use /usr/bin/env instead.  In practice,
-perl makes this difficult.  In this series we fix python to use
-/usr/bin/env, add a 'nativeperl' wrapper (RP's name) so that we can
-do /usr/bin/env nativeperl and not require sub-recipes to have inherit
-perlnative (eg sato-icon-theme would need perlnative if we didn't do this).
-Next we have cpan make sure it mangles everything to use nativeperl and
-then go fix a few hard cases by hand.  All of these changes are either
-direct ports (python) or port + more work (perl/cpan) of changes I did
-in oe.dev.  With this series I'm able to build world for qemux86 in a
-very long path (which means I could then turn on doing this in our jenkins
-cluster on the weekend like I did for oe.dev on testing-next).
+That's reasonable. Once I get the imminent kernel uprev out the door, I'll
+focus on something along these lines.
 
-The following changes since commit 0d03800caffc2341b74190d38f7a372223c89f4c:
-  Mei Lei (1):
-        lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib
+Bruce
 
-are available in the git repository at:
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-  git://git.openembedded.org/openembedded-core-contrib trini/work-in-deep-paths-v1
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/work-in-deep-paths-v1
 
-Tom Rini (5):
-  python-native: Mangle scripts to use /usr/bin/env python, bump PR
-  gnome-doc-utils: Use /usr/bin/env python in xml2po, bump PR
-  perl-native: Add a perl-native wrapper in the normal bindir
-  cpan.bbclass: Perform more mangling for perl path
-  icon-naming-utils-native: Fix long path to perl in icon-name-mapping
 
- meta/classes/cpan.bbclass                          |    3 ++
- .../icon-naming-utils-native_0.8.7.bb              |    7 +++-
- meta/recipes-devtools/perl/liburi-perl_1.58.bb     |    2 +-
- .../perl/libxml-parser-perl_2.40.bb                |    2 +-
- meta/recipes-devtools/perl/libxml-perl_0.08.bb     |    2 +-
- .../perl/libxml-simple-perl_2.18.bb                |    2 +-
- meta/recipes-devtools/perl/perl-native_5.12.3.bb   |   17 +++++++++-
- .../recipes-devtools/python/python-native_2.6.6.bb |    5 +++
- .../sgmlspl/sgmlspl-native_1.03ii.bb               |    2 +-
- .../perl/libconvert-asn1-perl_0.22.bb              |    2 +-
- .../recipes-extended/perl/libtimedate-perl_1.20.bb |    2 +-
- .../perl/libxml-namespacesupport-perl_1.11.bb      |    2 +-
- meta/recipes-extended/perl/libxml-sax-perl_0.96.bb |    2 +-
- .../use-usr-bin-env-for-python-in-xml2po.patch     |   33 ++++++++++++++++++++
- meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb |    5 ++-
- 15 files changed, 75 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/use-usr-bin-env-for-python-in-xml2po.patch
-
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
