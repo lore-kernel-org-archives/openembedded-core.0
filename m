@@ -1,33 +1,34 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-fx0-f51.google.com ([209.85.161.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1QjdzO-00041J-R7
+	(envelope-from <martin.jansa@gmail.com>) id 1Qje2c-000446-Hy
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 23:07:36 +0200
-Received: by ywa12 with SMTP id 12so312610ywa.6
+	Wed, 20 Jul 2011 23:10:50 +0200
+Received: by fxh10 with SMTP id 10so2396807fxh.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 14:02:55 -0700 (PDT)
+	Wed, 20 Jul 2011 14:06:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=20Z6ioEbxj2YQVhikExZVdojKoUvqv80OrVhO/UEwLk=;
-	b=VbIMW4d7M3rI5iK/85pSd7qNgOV71ECZWXELck2VlXC8effaO9YFS7KzqynQC5Shd4
-	6PYQgPhZAlinjyEmCH3vKYm/hgeuTlR49s7hshapvwrgmaZwEYFfSGBM4h5qsTRrUwJT
-	2eKjhY6aGwd+OXjFvAyRteO8zHVHN8kHWOKew=
-MIME-Version: 1.0
-Received: by 10.91.186.19 with SMTP id n19mr8818639agp.48.1311195774881; Wed,
-	20 Jul 2011 14:02:54 -0700 (PDT)
-Received: by 10.90.223.19 with HTTP; Wed, 20 Jul 2011 14:02:54 -0700 (PDT)
-In-Reply-To: <1311172926.2344.49.camel@rex>
-References: <1311154909.30326.51.camel@phil-desktop>
-	<CACW_hTYXboQ+Zzkt3PXBuA_=uMDVovTgt7g7BNJSxbCdjuoS2A@mail.gmail.com>
-	<4E26D87A.5020808@gmail.com>
-	<CACW_hTb=t9hMoVc-3F538xn1kTwrGT7-wk7DW8FTmi6=Txmvpg@mail.gmail.com>
-	<1311172926.2344.49.camel@rex>
-Date: Wed, 20 Jul 2011 23:02:54 +0200
-Message-ID: <CACW_hTbh69QjuJrOXUdTb4t-k01CHDpTeWVyWQ7Lwk6fdGeskQ@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: libiconv checksum wrong
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=9EsyMEm1OJeuUjT7bBfP4LM1cSnEIa4UPkv/bdR3/1E=;
+	b=dDKrPGtmHQeuopvvfUbpks5pap9NVIzc3TS3/mmCkuDi5WTxhVfT4foRPrPRaezww+
+	WbPl9bfjBtLDCUV+5tL0rug5W+FEq07MMVd+zqFrsxDPAVPbM9kSJh//6RhrTZY6i/fV
+	SBkXQvUm2xTJmmTlAJr0KAzRFhMZW6tfGfIK0=
+Received: by 10.223.64.66 with SMTP id d2mr809859fai.116.1311196004165;
+	Wed, 20 Jul 2011 14:06:44 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id 12sm433320fad.16.2011.07.20.14.06.42
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 20 Jul 2011 14:06:43 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jul 2011 23:06:19 +0200
+Message-Id: <cd4a85ccaa27bdd77ad06d9300ac71bd6b27e36d.1311195893.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.6
+In-Reply-To: <7ac4de095ea2d0543c8c665e2cfd1be131781e8c.1311195893.git.Martin.Jansa@gmail.com>
+References: <7ac4de095ea2d0543c8c665e2cfd1be131781e8c.1311195893.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1311195893.git.Martin.Jansa@gmail.com>
+References: <cover.1311195893.git.Martin.Jansa@gmail.com>
+Subject: [PATCH 02/10] eglibc-package: don't fail without localedef/gconv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,174 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 21:07:36 -0000
-Content-Type: multipart/alternative; boundary=0016e68db882648f9704a8868e7b
+X-List-Received-Date: Wed, 20 Jul 2011 21:10:50 -0000
 
---0016e68db882648f9704a8868e7b
-Content-Type: text/plain; charset=ISO-8859-1
+* in some cases we don't have localedef/gconv built
+  ie when DISTRO_FEATURES lacks one of libc-charsets, libc-locales, libc-locale-code
+  then is better ignore localedef/gconv instead of do_install_locale
+  failing like in this bugreport:
+  http://bugzilla.yoctoproject.org/show_bug.cgi?id=1209
 
-2011/7/20 Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/eglibc/eglibc-package.inc |    8 ++++++--
+ 1 files changed, 6 insertions(+), 2 deletions(-)
 
-> On Wed, 2011-07-20 at 16:26 +0200, Frans Meulenbroeks wrote
-> >         there is already patch sent to fix it.
-> >         http://patches.openembedded.org/patch/7933/
-> >         libiconv is not default provider of virtual/libiconv on
-> >         eglibc/glibc based systems and sometimes that can trip you
-> >         over. It happens and as long as we find it and fix it quickly
-> >         I don't see a problem. Do you ?
-> > Some people seem to think differently about this. I still recall the
-> > pile of shit Koen dumped upon me about a year ago when I accidentally
-> > removed a version of openssh or so that was still used. Even though
-> > the problem was fixed very quickly after it was brought to my
-> > attention. Ah well. As Orwell already said "all animals are equal but
-> > some animals are more equal than others".
-> >
-> >
-> >         IMO we should not get so pedantic that people start getting
-> >         scared of making changes
-> >
-> > It was by no means my intention to be pedantic.
-> >
-> > Then again I *do* think it is good practice if someone creates a new
-> > recipe that (s)he tests it before submitting it.
-> >
-> > And my impression was that one of the goals of YP and oe-core was to
-> > increase the quality level.
-> > One of the ways to increase quality is to do a build after pulling
-> > changes and before committing them.
-> > (at least I feel that is one of the ways to increase quality, and yes
-> > there are other ways too).
-> >
-> > And where people work, mistakes happen. One can accept that, but one
-> > can also see if there are ways to improve and avoid that a problem
-> > re-occurs.
->
-> I think its fair to ask how this happened and it appears to be due to
-> PREFERRED_VERSION and/or PROVIDER confusion. Its unfortunate but I think
-> the people involved will not do it again :).
->
-> I don't think its entirely fair to immediately bring into question the
-> overall quality goals as we are continuing to work towards those and
-> this is an exception, not the norm.
->
-> Cheers,
->
-> Richard, Saul, all,
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index faf68f7..9e71150 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -98,8 +98,12 @@ do_install_locale () {
+ 	if [ "${base_libdir}" != "${libdir}" ]; then
+ 		cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
+ 	fi
+-	mv ${D}${bindir}/localedef ${dest}${bindir}
+-	mv ${D}${libdir}/gconv ${dest}${libdir}
++	if [ -f ${D}${bindir}/localedef ]; then
++		mv -f ${D}${bindir}/localedef ${dest}${bindir}
++	fi
++	if [ -f ${D}${libdir}/gconv ]; then
++		mv -f ${D}${libdir}/gconv ${dest}${libdir}
++	fi
+ 	cp -fpPR ${D}${libdir}/* ${dest}${libdir}
+         mv ${D}${datadir}/i18n ${dest}${datadir}
+ 	cp -fpPR ${D}${datadir}/* ${dest}${datadir}
+-- 
+1.7.6
 
-I understand that these things can happen. It is a pretty basic mistake, but
-I made my share of those as well. Unfortunately some community members were
-not too forgiving in those situations :-(
-I feel as long as those mistakes lead to improvement of the process and we
-learn from it, I have no problem with it (and I'm sure this has happened in
-this case).
-What slightly irridated me was the email of Khem which stated "as long as we
-find it and fix it quickly I don't see a problem". I'm not sure if that is
-the most desirable way of working, and definitely not a statement I had
-expected from a TSC member.
 
-Wrt commits: in the past I have been picking up oe postings from other
-people without commit access and commit these for them. When I did that I
-always made sure to review and to build the changed or new recipe.
-I think that is good practice. Now I know that a lot of patches are being
-thrown to Richard, so this might not be too workable to do it that way. It
-could help though to do some automated tests after taking patches and before
-pushing to the oe-core repo. (ideally it would be an (incremental?) build of
-world (if there is a bitbake world in YP, actually never attempted that, but
-I can also imagine a fetchall or so).
 
-And yeah, on reading back maybe I should have formulated things a little bit
-more diplomatic.
-
-Frans.
-
---0016e68db882648f9704a8868e7b
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><br><div class=3D"gmail_quote">2011/7/20 Richard Purdie <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie=
-@linuxfoundation.org</a>&gt;</span><br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
-On Wed, 2011-07-20 at 16:26 +0200, Frans Meulenbroeks wrote<br>
-<div><div></div><div class=3D"h5">&gt; =A0 =A0 =A0 =A0 there is already pat=
-ch sent to fix it.<br>
-&gt; =A0 =A0 =A0 =A0 <a href=3D"http://patches.openembedded.org/patch/7933/=
-" target=3D"_blank">http://patches.openembedded.org/patch/7933/</a><br>
-&gt; =A0 =A0 =A0 =A0 libiconv is not default provider of virtual/libiconv o=
-n<br>
-&gt; =A0 =A0 =A0 =A0 eglibc/glibc based systems and sometimes that can trip=
- you<br>
-&gt; =A0 =A0 =A0 =A0 over. It happens and as long as we find it and fix it =
-quickly<br>
-&gt; =A0 =A0 =A0 =A0 I don&#39;t see a problem. Do you ?<br>
-&gt; Some people seem to think differently about this. I still recall the<b=
-r>
-&gt; pile of shit Koen dumped upon me about a year ago when I accidentally<=
-br>
-&gt; removed a version of openssh or so that was still used. Even though<br=
->
-&gt; the problem was fixed very quickly after it was brought to my<br>
-&gt; attention. Ah well. As Orwell already said &quot;all animals are equal=
- but<br>
-&gt; some animals are more equal than others&quot;.<br>
-&gt;<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 =A0 IMO we should not get so pedantic that people start ge=
-tting<br>
-&gt; =A0 =A0 =A0 =A0 scared of making changes<br>
-&gt;<br>
-&gt; It was by no means my intention to be pedantic.<br>
-&gt;<br>
-&gt; Then again I *do* think it is good practice if someone creates a new<b=
-r>
-&gt; recipe that (s)he tests it before submitting it.<br>
-&gt;<br>
-&gt; And my impression was that one of the goals of YP and oe-core was to<b=
-r>
-&gt; increase the quality level.<br>
-&gt; One of the ways to increase quality is to do a build after pulling<br>
-&gt; changes and before committing them.<br>
-&gt; (at least I feel that is one of the ways to increase quality, and yes<=
-br>
-&gt; there are other ways too).<br>
-&gt;<br>
-&gt; And where people work, mistakes happen. One can accept that, but one<b=
-r>
-&gt; can also see if there are ways to improve and avoid that a problem<br>
-&gt; re-occurs.<br>
-<br>
-</div></div>I think its fair to ask how this happened and it appears to be =
-due to<br>
-PREFERRED_VERSION and/or PROVIDER confusion. Its unfortunate but I think<br=
->
-the people involved will not do it again :).<br>
-<br>
-I don&#39;t think its entirely fair to immediately bring into question the<=
-br>
-overall quality goals as we are continuing to work towards those and<br>
-this is an exception, not the norm.<br>
-<br>
-Cheers,<br>
-<font color=3D"#888888"><br></font></blockquote><div>Richard, Saul, all, <b=
-r><br>I understand that these things can happen. It is a pretty basic mista=
-ke, but I made my share of those as well. Unfortunately some community memb=
-ers were not too forgiving in those situations :-(<br>
-I feel as long as those mistakes lead to improvement of the process and we =
-learn from it, I have no problem with it (and I&#39;m sure this has happene=
-d in this case).<br>What slightly irridated me was the email of Khem which =
-stated &quot;as long as we find it and fix it quickly I don&#39;t see a pro=
-blem&quot;. I&#39;m not sure if that is the most desirable way of working, =
-and definitely not a statement I had expected from a TSC member.<br>
-<br>Wrt commits: in the past I have been picking up oe postings from other =
-people without commit access and commit these for them. When I did that I a=
-lways made sure to review and to build the changed or new recipe.<br>I thin=
-k that is good practice. Now I know that a lot of patches are being thrown =
-to Richard, so this might not be too workable to do it that way. It could h=
-elp though to do some automated tests after taking patches and before pushi=
-ng to the oe-core repo. (ideally it would be an (incremental?) build of wor=
-ld (if there is a bitbake world in YP, actually never attempted that, but I=
- can also imagine a fetchall or so).<br>
-<br>And yeah, on reading back maybe I should have formulated things a littl=
-e bit more diplomatic. <br><br>Frans.<br><br><br></div></div><br>
-
---0016e68db882648f9704a8868e7b--
