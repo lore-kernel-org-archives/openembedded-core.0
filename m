@@ -1,34 +1,31 @@
 Received: from mail-fx0-f51.google.com ([209.85.161.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Qje3T-000446-Sv
+	(envelope-from <martin.jansa@gmail.com>) id 1Qje3G-000444-VO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 23:11:43 +0200
-Received: by mail-fx0-f51.google.com with SMTP id 10so2396807fxh.10
+	Wed, 20 Jul 2011 23:11:44 +0200
+Received: by fxh10 with SMTP id 10so2396656fxh.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 14:07:39 -0700 (PDT)
+	Wed, 20 Jul 2011 14:06:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=cKRxlLsqIjCwt6Shn/Z0qjSPUVffUcX4H9EC/yVWsis=;
-	b=QsGqZxSySa9S11jVX24nnPAWyAm5GoZh4Q/PXusZXfQLDwVWwci45QGOtxAsSiFvXj
-	bmyQtn5ed+OjJKwhfeulRki9OMwJZ0F1OhWgB8pWow5y7yH7/R/N0XZrdTYYIAXp/iGr
-	iM8ALsyD7cBCze4qZKbW+uvNbslLa7E2wmK0g=
-Received: by 10.223.158.72 with SMTP id e8mr646962fax.39.1311196059549;
-	Wed, 20 Jul 2011 14:07:39 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=c48PIlcVRWccD+/OjIQQQ8lROul4QZEvNr1epvBKHpA=;
+	b=mWkzYdIVJ2etwr19sgeGmR27/tMQUDNBZRkrs3kmYuryJMNhuWSbOTVymbRp5V1LxR
+	sp5qjm/VNsiJbQQJXPthwrCIoVswKbmrLXFkjt7mPzun6QQyYGunJ2RHZjv614gojPfH
+	96SmQ5FWkOJNq//ibwtSxSZN6TTmEKU7f8JJA=
+Received: by 10.223.9.217 with SMTP id m25mr839607fam.122.1311195996058;
+	Wed, 20 Jul 2011 14:06:36 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id 21sm936482fay.21.2011.07.20.14.07.37
+	by mx.google.com with ESMTPS id 22sm933301fas.35.2011.07.20.14.06.34
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 20 Jul 2011 14:07:38 -0700 (PDT)
+	Wed, 20 Jul 2011 14:06:35 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 23:06:26 +0200
-Message-Id: <b894d6fe17e750aa9ae5b0c4c9fc4c2fe64f66d0.1311195893.git.Martin.Jansa@gmail.com>
+Date: Wed, 20 Jul 2011 23:06:18 +0200
+Message-Id: <7ac4de095ea2d0543c8c665e2cfd1be131781e8c.1311195893.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.6
-In-Reply-To: <7ac4de095ea2d0543c8c665e2cfd1be131781e8c.1311195893.git.Martin.Jansa@gmail.com>
-References: <7ac4de095ea2d0543c8c665e2cfd1be131781e8c.1311195893.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1311195893.git.Martin.Jansa@gmail.com>
 References: <cover.1311195893.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 09/10] python: save Makefile.sysroot in do_compile
+Subject: [PATCH 01/10] tcmode-default: set preferred version also for (e)glibc-locale
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,52 +42,28 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 20 Jul 2011 21:11:44 -0000
 
-* otherwise calling do_install twice results in Makefile.sysroot == Makefile.orig and distutils using wrong LIBDIR (from host)
-
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/python/python_2.6.6.bb |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python_2.6.6.bb b/meta/recipes-devtools/python/python_2.6.6.bb
-index 800ba04..76f32f2 100644
---- a/meta/recipes-devtools/python/python_2.6.6.bb
-+++ b/meta/recipes-devtools/python/python_2.6.6.bb
-@@ -1,7 +1,7 @@
- require python.inc
- DEPENDS = "python-native db gdbm openssl readline sqlite3 zlib"
- DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
--PR = "${INC_PR}.8"
-+PR = "${INC_PR}.9"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=38fdd546420fab09ac6bd3d8a1c83eb6"
- 
- DISTRO_SRC_URI ?= "file://sitecustomize.py"
-@@ -54,6 +54,9 @@ do_compile() {
- 	sed -i -e 's,${includedir},${STAGING_INCDIR},' Makefile
- 	sed -i -e 's,${libdir},${STAGING_LIBDIR},' Makefile
- 	install -m 0644 Makefile ${STAGING_LIBDIR}/python${PYTHON_MAJMIN}/config/
-+	# save copy of it now, because if we do it in do_install and 
-+	# then call do_install twice we get Makefile.orig == Makefile.sysroot
-+	install -m 0644 Makefile Makefile.sysroot
- 
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
- 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python \
-@@ -75,7 +78,6 @@ do_compile() {
- do_install() {
- 	# make install needs the original Makefile, or otherwise the inclues would
- 	# go to ${D}${STAGING...}/...
--	install -m 0644 Makefile Makefile.sysroot
- 	install -m 0644 Makefile.orig Makefile
- 	
- 	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
-@@ -86,7 +88,6 @@ do_install() {
- 		DESTDIR=${D} LIBDIR=${libdir} install
- 
- 	install -m 0644 Makefile.sysroot ${D}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
--	rm Makefile.sysroot
- 
- 	if [ -e ${WORKDIR}/sitecustomize.py ]; then
- 		install -m 0644 ${WORKDIR}/sitecustomize.py ${D}/${libdir}/python${PYTHON_MAJMIN}
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index e27a1b4..86538f1 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -50,10 +50,12 @@ PREFERRED_VERSION_binutils-cross-canadian ?= "${BINUVERSION}"
+ PREFERRED_VERSION_linux-libc-headers ?= "${LINUXLIBCVERSION}"
+ PREFERRED_VERSION_linux-libc-headers-nativesdk ?= "${LINUXLIBCVERSION}"
+ PREFERRED_VERSION_glibc ?= "${GLIBCVERSION}"
++PREFERRED_VERSION_glibc-locale ?= "${GLIBCVERSION}"
+ PREFERRED_VERSION_glibc-nativesdk ?= "${GLIBCVERSION}"
+ PREFERRED_VERSION_glibc-initial ?= "${GLIBCVERSION}"
+ PREFERRED_VERSION_glibc-initial-nativesdk ?= "${GLIBCVERSION}"
+ PREFERRED_VERSION_eglibc                   ?= "${EGLIBCVERSION}"
++PREFERRED_VERSION_eglibc-locale            ?= "${EGLIBCVERSION}"
+ PREFERRED_VERSION_eglibc-nativesdk         ?= "${EGLIBCVERSION}"
+ PREFERRED_VERSION_eglibc-initial           ?= "${EGLIBCVERSION}"
+ PREFERRED_VERSION_eglibc-initial-nativesdk ?= "${EGLIBCVERSION}"
 -- 
 1.7.6
 
