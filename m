@@ -1,34 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QjXv8-0004Qx-KV for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 16:38:42 +0200
+	id 1QjXxu-0006wz-BH for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jul 2011 16:41:35 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6KEYa0s023560
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6KEbQRe023588
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 15:34:36 +0100
+	Wed, 20 Jul 2011 15:37:26 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 22788-07 for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 15:34:32 +0100 (BST)
+	id 22766-08 for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2011 15:37:22 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6KEYTOR023554
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6KEbJcQ023582
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 15:34:29 +0100
+	Wed, 20 Jul 2011 15:37:19 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <93848d65e679794e5aa41e548ee275378518d071.1311151283.git.lei.mei@intel.com>
-References: <cover.1311151283.git.lei.mei@intel.com>
-	<93848d65e679794e5aa41e548ee275378518d071.1311151283.git.lei.mei@intel.com>
-Date: Wed, 20 Jul 2011 15:34:25 +0100
-Message-ID: <1311172466.2344.43.camel@rex>
+In-Reply-To: <1311154909.30326.51.camel@phil-desktop>
+References: <1311154909.30326.51.camel@phil-desktop>
+Date: Wed, 20 Jul 2011 15:37:16 +0100
+Message-ID: <1311172636.2344.44.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/2] perl-dynloader.patch: Fix libdir issue for multilib
+Subject: Re: libiconv checksum wrong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,38 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 14:38:42 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 14:41:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-07-20 at 16:48 +0800, Mei Lei wrote:
-> The perl-dynloader.patch can't support /usr/lib64, change the regular expression to support multilib.
+On Wed, 2011-07-20 at 10:41 +0100, Phil Blundell wrote:
+> Since updating this morning I'm getting
 > 
-> Signed-off-by: Mei Lei <lei.mei@intel.com>
-> ---
->  .../perl/perl-5.12.3/perl-dynloader.patch          |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+> | ERROR: Function 'File: '/home/pb/sources/libiconv-1.13.1.tar.gz' has
+> md5 checksum 7ab33ebd26687c744a37264a330bbe9a when
+> d42b97f6ef5dd0ba4469d520ed732fed was expected (from URL:
+> 'ftp://ftp.gnu.org/gnu/libiconv/libiconv-1.13.1.tar.gz')' failed
+> NOTE: package libiconv-1.13.1-r0: task do_fetch: Failed
 > 
-> diff --git a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch b/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
-> index d5ea00f..a45af91 100644
-> --- a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
-> +++ b/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
-> @@ -19,7 +19,7 @@ Update by Nitin A Kamble <nitin.a.kamble@intel.com> 2011/04/21
->  +    {
->  +        my $hostlib = $ENV{PERLHOSTLIB};
->  +        print STDERR "*** Module name IN: $modlibname\n";
-> -+        ($p1, $p2, $p3, $p4, $p5) = $modlibname =~ m/(^(.*lib\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
-> ++        ($p1, $p2, $p3, $p4, $p5) = $modlibname =~ m/(^(.*lib[0-9]*\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
->  +        print STDERR "*** p1: $p1  p3: $p3  p5: $p5\n";
->  +        if ( $p1 ne "" ) {
->  +            $modlibname = $hostlib.$p5;
+> The offending commit appears to be
+> bd1e627bef29830f9346b4b984905fd8fcf2e716.  As far as I can tell from a
+> quick inspection of the files, the checksum that was added for
+> libiconv-1.13.1.tar.gz in that commit is actually the md5sum of the
+> earlier version 1.11.1.
 
-We might need to relax this a little further since we might want things
-like libx32 to work in future?
+There is a big patch out there which includes a fix for this but I'm
+asking it be reworked. In the meantime I've pushed a fix for the
+checksums.
 
 Cheers,
 
 Richard
+
 
 
 
