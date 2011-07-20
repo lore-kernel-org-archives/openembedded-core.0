@@ -1,28 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QjNbj-0007So-PD
+	(envelope-from <raj.khem@gmail.com>) id 1QjOYK-0003XB-V2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 05:38:00 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6K3XqG4013093
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 20 Jul 2011 06:38:33 +0200
+Received: by pvf24 with SMTP id 24so4398737pvf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2011 20:33:52 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 19 Jul 2011 20:33:52 -0700
-Message-ID: <4E264C9F.7060502@windriver.com>
-Date: Tue, 19 Jul 2011 22:33:51 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
+	Tue, 19 Jul 2011 21:34:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=dAXHpfyEQFsuHAWdhm9TzIEKoUt116WynSXOe3wdYNA=;
+	b=IJnxt3p63DavEpedECGmYwBydfwShTyK28jutezZ9DiQjplmfml1a95kc1rsOeK0g0
+	6pvjYxgAD75WYA0WbOQ/m2n6DDgrO30ptV+OfRQMmrvLATVBK6Csle1kau8mYOCr/okv
+	LectWuceNuPMjy1J8Zi3MbTH7junyj0ptyOD8=
+Received: by 10.68.33.200 with SMTP id t8mr9734454pbi.144.1311136448069; Tue,
+	19 Jul 2011 21:34:08 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1311119488.git.josh@linux.intel.com>
-	<2c1b7876622089db0c47848a456d9d6b0b1d6234.1311119488.git.josh@linux.intel.com>
-In-Reply-To: <2c1b7876622089db0c47848a456d9d6b0b1d6234.1311119488.git.josh@linux.intel.com>
-Subject: Re: [PATCH 1/1] pseudo: fix uninitialised variable in realpath_fix.patch
+Received: by 10.68.62.36 with HTTP; Tue, 19 Jul 2011 21:33:38 -0700 (PDT)
+In-Reply-To: <4E26253D.8040000@linux.intel.com>
+References: <1dd2e2b995b65326b14426fe01116b99a920d779.1311034342.git.raj.khem@gmail.com>
+	<d12eac7e3b3d9c368f99e4163fb297858e577d00.1311034342.git.raj.khem@gmail.com>
+	<4E26253D.8040000@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 19 Jul 2011 21:33:38 -0700
+Message-ID: <CAMKF1spHX9gU5ftXFJKQBzsw7Z=JJeR-RD=zXOw1emvfaRDzCw@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 14/16] clutter-box2d: Replace use of finite macro with C99 compliant isfinite()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,54 +42,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 03:38:00 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Jul 2011 04:38:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 7/19/11 6:57 PM, Joshua Lock wrote:
-> Several users reported issues with pseudo on CentOS 5.x hosts, Matthew
-> McClintock tracked the issue to the realpath_fix.patch and Mark Hatle
-> supplied the included fix.
-> 
-> CC: Matthew McClintock <msm@freescale.com>
-> CC: Mark Hatle <mark.hatle@windriver.com>
+On Tue, Jul 19, 2011 at 5:45 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 07/18/2011 05:17 PM, Khem Raj wrote:
+>>
+>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>> ---
+>> =C2=A0.../clutter/clutter-box2d/isfinite.patch =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 19
+>> +++++++++++++++++++
+>> =C2=A0meta/recipes-graphics/clutter/clutter-box2d_git.bb | =C2=A0 =C2=A0=
+6 ++++--
+>> =C2=A02 files changed, 23 insertions(+), 2 deletions(-)
+>> =C2=A0create mode 100644
+>> meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+>>
+>> diff --git a/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+>> b/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+>> new file mode 100644
+>> index 0000000..fd2bf74
+>> --- /dev/null
+>> +++ b/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+>> @@ -0,0 +1,19 @@
+>> +_finite is obsoleted and C99 has isfinite instead so we should use it
+>> +
+>> +Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Index: clutter-box2d-0.10.0/box2d/Source/Common/b2Math.h
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +--- clutter-box2d-0.10.0.orig/box2d/Source/Common/b2Math.h =C2=A0 =C2=
+=A0 2008-12-16
+>> 06:42:10.000000000 -0800
+>> ++++ clutter-box2d-0.10.0/box2d/Source/Common/b2Math.h =C2=A02011-07-17
+>> 02:10:29.833825198 -0700
+>> +@@ -60,7 +60,7 @@
+>> + #ifdef _MSC_VER
+>> + =C2=A0 =C2=A0 =C2=A0 return _finite(x) !=3D 0;
+>> + #else
+>> +- =C2=A0 =C2=A0 =C2=A0return finite(x) !=3D 0;
+>> ++ =C2=A0 =C2=A0 =C2=A0return std::isfinite(x) !=3D 0;
+>> + #endif
+>> + }
+>> +
+>> diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>> b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>> index bfd46b2..06f5fa2 100644
+>> --- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>> +++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>> @@ -4,9 +4,11 @@ LIC_FILES_CHKSUM =3D
+>> "file://box2d/License.txt;md5=3De5d39ad91f7dc4692dcdb1d85139ec6
+>>
+>> =C2=A0SRCREV =3D "4799ac10ae8cb7da936a2b999aba58fe62eb1ee3"
+>> =C2=A0PV =3D "0.10.1+git${SRCPV}"
+>> -PR =3D "r0"
+>> +PR =3D "r1"
+>>
+>> -SRC_URI =3D "git://git.gnome.org/clutter-box2d.git"
+>> +SRC_URI =3D "git://git.gnome.org/clutter-box2d.git \
+>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://isfinite.patch \
+>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"
+>>
+>> =C2=A0S =3D "${WORKDIR}/git"
+>>
+>
+> Khem,
+>
+> This patch seems to have patched clutter-box2d-1.6_0.10.0.bb also, with t=
+he
+> isfinite patch. =C2=A0This fails to apply. =C2=A0Was this intentional wer=
+e you
+> planning on updating the 1.6 version?
 
-Ack..  this has also already been included in the upstream pseudo.. when we move
-to pseudo 1.1.2 we'll get this fix.
+yes the patch should be applied to both recipes since x86 uses
+clutter-box2d-1.6_0.10.0.bb
+and arm uses the git version. It applied well for arm and x86 here.
+Let me check once more
 
---Mark
-
-> Signed-off-by: Joshua Lock <josh@linux.intel.com>
-> ---
->  .../pseudo/pseudo/realpath_fix.patch               |    2 +-
->  meta/recipes-devtools/pseudo/pseudo_1.1.1.bb       |    2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch b/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch
-> index 7beea51..4a107e0 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch
-> +++ b/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch
-> @@ -65,7 +65,7 @@ index 600a918..07a4429 100644
->   
->  +static void
->  +pseudo_init_one_wrapper(pseudo_function *func) {
-> -+	int (*f)(void);
-> ++	int (*f)(void) = (int (*)(void)) NULL;
->  +	char *e;
->  +	if (*func->real != NULL) {
->  +		/* already initialized */
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
-> index f1c8e63..0a61aec 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
-> @@ -1,6 +1,6 @@
->  require pseudo.inc
->  
-> -PR = "r1"
-> +PR = "r2"
->  
->  SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
->             file://oe-config.patch \
-
+>
+> Sau!
+>
 
 
