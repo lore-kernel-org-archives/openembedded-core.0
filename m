@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDV-0001ZS-Dy
+	(envelope-from <sgw@linux.intel.com>) id 1QjSDW-0001aO-31
 	for openembedded-core@lists.openembedded.org;
 	Wed, 20 Jul 2011 10:33:18 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753333"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753338"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
 	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:54 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:27 -0700
-Message-Id: <bb40d5c61e69e62cc1cadd97e34c89c5ade9eae6.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:28:29 -0700
+Message-Id: <040fa1a6589b8fd2c189cc1434b675649791bc05.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 40/50] oprofile: Fix build when query_module is not there
+Subject: [PATCH 42/50] pimlico/dates: Fix build on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,68 +37,91 @@ X-List-Received-Date: Wed, 20 Jul 2011 08:33:19 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
-on 2.6 kernels we do not have query_module so warn
-about it
+uclibc does not have NL_TIME_FIRST_WEEKDAY
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../oprofile/oprofile-no-query-modules.patch       |   29 ++++++++++++++++++++
- meta/recipes-kernel/oprofile/oprofile_0.9.6.bb     |    3 +-
- 2 files changed, 31 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-kernel/oprofile/oprofile/oprofile-no-query-modules.patch
+ meta/recipes-sato/pimlico/dates.inc                |    2 +-
+ .../uclibc-NL_TIME_FIRST_WEEKDAY-absent.patch      |   37 ++++++++++++++++++++
+ meta/recipes-sato/pimlico/dates_git.bb             |    6 ++-
+ 3 files changed, 42 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-sato/pimlico/dates/uclibc-NL_TIME_FIRST_WEEKDAY-absent.patch
 
-diff --git a/meta/recipes-kernel/oprofile/oprofile/oprofile-no-query-modules.patch b/meta/recipes-kernel/oprofile/oprofile/oprofile-no-query-modules.patch
+diff --git a/meta/recipes-sato/pimlico/dates.inc b/meta/recipes-sato/pimlico/dates.inc
+index 01ab409..b3be6b6 100644
+--- a/meta/recipes-sato/pimlico/dates.inc
++++ b/meta/recipes-sato/pimlico/dates.inc
+@@ -8,7 +8,7 @@ SECTION = "x11"
+ DEPENDS = "glib-2.0 gtk+ libglade eds-dbus"
+ RDEPENDS_${PN} = "libedata-cal"
+ 
+-inherit autotools pkgconfig gtk-icon-cache
++inherit autotools gettext pkgconfig gtk-icon-cache
+ 
+ # Poky/Sato specific enhancements
+ OWL = "--disable-owl"
+diff --git a/meta/recipes-sato/pimlico/dates/uclibc-NL_TIME_FIRST_WEEKDAY-absent.patch b/meta/recipes-sato/pimlico/dates/uclibc-NL_TIME_FIRST_WEEKDAY-absent.patch
 new file mode 100644
-index 0000000..c9d7cd6
+index 0000000..6ade470
 --- /dev/null
-+++ b/meta/recipes-kernel/oprofile/oprofile/oprofile-no-query-modules.patch
-@@ -0,0 +1,29 @@
-+disable portions which use query_module on 2.6 kernel this is not available
-+in OE we dont support 2.4 anyway
++++ b/meta/recipes-sato/pimlico/dates/uclibc-NL_TIME_FIRST_WEEKDAY-absent.patch
+@@ -0,0 +1,37 @@
++uclibc has langinfo.h but it does not define _NL_TIME_FIRST_WEEKDAY
++therefore we introduce a check in configure for the this define
++and then we make sure that we use it when it really exists
 +
-+
-+Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+Index: oprofile-0.9.6/daemon/liblegacy/opd_kernel.c
++Upstream-Status: Pending
++
++Index: git/configure.ac
 +===================================================================
-+--- oprofile-0.9.6.orig/daemon/liblegacy/opd_kernel.c	2009-11-24 07:25:17.000000000 -0800
-++++ oprofile-0.9.6/daemon/liblegacy/opd_kernel.c	2011-07-18 10:08:39.863798825 -0700
-+@@ -270,6 +270,9 @@
-+  */
-+ static void opd_drop_module_sample(unsigned long eip)
-+ {
-++	verbprintf(vmodule, "query_module not available on linux-2.6: %s\n", strerror(EPERM));
++--- git.orig/configure.ac	2011-07-18 10:34:15.000000000 -0700
+++++ git/configure.ac	2011-07-18 10:54:26.403798188 -0700
++@@ -98,6 +98,8 @@
++ 		src/libgtkdatesview.pc
++ ])
++ 
+++AC_CHECK_DECLS([_NL_TIME_FIRST_WEEKDAY],[],[],[[#include <langinfo.h>]])
 ++
-++#if	0
-+ 	char * module_names;
-+ 	char * name;
-+ 	size_t size = 1024;
-+@@ -307,6 +310,7 @@
++ AC_OUTPUT
 + 
-+ 	if (module_names)
-+ 		free(module_names);
++ echo " "
++Index: git/src/dates_view.c
++===================================================================
++--- git.orig/src/dates_view.c	2011-07-18 10:34:15.000000000 -0700
+++++ git/src/dates_view.c	2011-07-18 10:58:46.093798136 -0700
++@@ -1505,7 +1505,11 @@
++ 	priv->days = 1;
++ 	priv->months = 0;
++ 	priv->months_in_row = 4;
+++#if HAVE_DECL__NL_TIME_FIRST_WEEKDAY
++ 	priv->week_start = *nl_langinfo (_NL_TIME_FIRST_WEEKDAY) - 1;
+++#else
+++	priv->week_start = 0;
 ++#endif
-+ }
-+ 
-+ 
-diff --git a/meta/recipes-kernel/oprofile/oprofile_0.9.6.bb b/meta/recipes-kernel/oprofile/oprofile_0.9.6.bb
-index 603500d..0f154c8 100644
---- a/meta/recipes-kernel/oprofile/oprofile_0.9.6.bb
-+++ b/meta/recipes-kernel/oprofile/oprofile_0.9.6.bb
-@@ -19,10 +19,11 @@ FILES_${PN} = "${bindir} ${libdir}/${BPN}/lib*.so.* ${datadir}/${BPN}"
- FILES_${PN}-dev += "${libdir}/${BPN}/lib*.so ${libdir}/${BPN}/lib*.la"
- FILES_${PN}-staticdev += "${libdir}/${BPN}/lib*.a"
++ 	priv->dragbox = TRUE;
++ 	priv->single_click = TRUE;
++ 	priv->double_click = FALSE;
+diff --git a/meta/recipes-sato/pimlico/dates_git.bb b/meta/recipes-sato/pimlico/dates_git.bb
+index 4b6a3e9..094ef30 100644
+--- a/meta/recipes-sato/pimlico/dates_git.bb
++++ b/meta/recipes-sato/pimlico/dates_git.bb
+@@ -7,10 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
  
--PR = "r1"
-+PR = "r2"
+ SRCREV = "514185dc1f6588085fda41eb59898b93d0487dd4"
+ PV = "0.4.11+git${SRCPV}"
+-PR = "r3"
++PR = "r4"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/oprofile/oprofile-${PV}.tar.gz \
-            file://opstart.patch \
-+           file://oprofile-no-query-modules.patch \
-            file://acinclude.m4"
+ S = "${WORKDIR}/git"
  
- SRC_URI[md5sum] = "4e407093ac06200185d5a5e6437d7242"
+ SRC_URI = "git://git.gnome.org/${BPN};protocol=git \
+ 	   file://make-382.patch \
+-	   file://dso_linking_change_build_fix.patch"
++	   file://dso_linking_change_build_fix.patch \
++	   file://uclibc-NL_TIME_FIRST_WEEKDAY-absent.patch \
++          "
 -- 
 1.7.3.4
 
