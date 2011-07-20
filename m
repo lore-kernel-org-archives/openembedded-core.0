@@ -1,35 +1,24 @@
-Received: from mail-gw0-f47.google.com ([74.125.83.47])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19IvtOxS9SOP1r1ymHsJyNbQQlV0IV/TAI=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1QjdHn-0000qx-3Y
+	(envelope-from <galak@kernel.crashing.org>) id 1QjdWa-0002a0-CE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 22:22:27 +0200
-Received: by gwb11 with SMTP id 11so677677gwb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 13:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=cM0q7Oan3Q8jIPkxUnIZxuXp2im7V5MfUlwi/3k1bt4=;
-	b=MkiiCZ3h6kB9U1r7pOJdPbF6gpHd3upkh1jV+bdG33AEPmBZvLnLa8MIAcUW5Y5KKd
-	BNWvQAQRsfE1b29m3Sw2agrFb65lY5/SIAVBb2Dopv89GsIN9lVl1ddFUIsqwVoYTwNd
-	MOMWEMqP7dzNX6ND9hI5r45e9O1TO2LZWbnrY=
-MIME-Version: 1.0
-Received: by 10.91.135.1 with SMTP id m1mr8509465agn.162.1311191267228; Wed,
-	20 Jul 2011 12:47:47 -0700 (PDT)
-Received: by 10.91.12.2 with HTTP; Wed, 20 Jul 2011 12:47:47 -0700 (PDT)
-In-Reply-To: <772ABCD3-A957-469A-A2AB-F2C27A0A5F0C@dominion.thruhere.net>
-References: <1310736077.3805.37.camel@phil-desktop>
-	<CADkTA4OYB0mch1SRSgidwGfZiWBeBuaWKH1BU1NgF9jPVa1Niw@mail.gmail.com>
-	<1310742175.30326.1.camel@phil-desktop>
-	<CADkTA4MoCmtKypORoGvShciAgiFsOJFLmSiAQiVdAxLAYKkyHQ@mail.gmail.com>
-	<CADkTA4MetjKoZfS7gcKSm9wm3iQZoxaJPqmrJ6KBOWsXF1QVSQ@mail.gmail.com>
-	<772ABCD3-A957-469A-A2AB-F2C27A0A5F0C@dominion.thruhere.net>
-Date: Wed, 20 Jul 2011 15:47:47 -0400
-Message-ID: <CADkTA4Mpg3bQfyq+NmhK2=ySM+9-7eQzj_HueMirrcV4rs2bWA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
+	Wed, 20 Jul 2011 22:37:44 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6KKXW2A003854;
+	Wed, 20 Jul 2011 15:33:33 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <4E270AF4.3050401@linux.intel.com>
+Date: Wed, 20 Jul 2011 15:33:34 -0500
+Message-Id: <40CB4CC7-500E-4976-82BD-400979681CEE@kernel.crashing.org>
+References: <1311097296-17200-1-git-send-email-galak@kernel.crashing.org>
+	<4E270AF4.3050401@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: yocto@yoctoproject.org, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: kernels
+Subject: Re: [PATCH v2 0/5] Add support for PowerPC e500v2/SPE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,73 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 20:22:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jul 20, 2011 at 11:45 AM, Koen Kooi <koen@dominion.thruhere.net> wr=
-ote:
->
-> Op 20 jul 2011, om 17:42 heeft Bruce Ashfield het volgende geschreven:
->
->> On Fri, Jul 15, 2011 at 11:36 AM, Bruce Ashfield
->> <bruce.ashfield@gmail.com> wrote:
->>> On Fri, Jul 15, 2011 at 11:02 AM, Phil Blundell <philb@gnu.org> wrote:
->>>> On Fri, 2011-07-15 at 09:51 -0400, Bruce Ashfield wrote:
->>>>> On Fri, Jul 15, 2011 at 9:21 AM, Phil Blundell <pb@pbcl.net> wrote:
->>>>>> The other day I was working on a BSP layer for a fairly generic i586
->>>>>> system and I was struck by the fact that we don't appear to have any
->>>>>> vanilla kernel recipes in oe-core. =A0I had sort of expected that, t=
-o get
->>>>>> a standard bzImage out, I would just need to ship an appropriate
->>>>>> defconfig in my layer and everything else would "just work".
->>>>>
->>>>> Hmm. Perhaps it isn't documented clearly enough as such, but the linu=
-x-yocto
->>>>> kernel base can work in this mode, since that was a design goal of
->>>>> 1.0.
->>>>>
->>>>> You pick a branch, throw in a config fragment (or defconfig if you re=
-ally
->>>>> want) =A0and build. The base branches in the tree are generic enough =
-to
->>>>> sort a range of boards out of the box, and should form a base.
->>>>
->>>> Okay, cool. =A0I'll give it a go and see how I get on.
->>>>
->>>> Is there a description anywhere of what the functional differences are
->>>> between the code in linux-yocto git and the upstream kernel.org tree?
->>>
->>> It varies, and the variables are many, so I can answer this in several =
-ways.
->>
->> Following up on my own email. I'm just about to push out the 3.0
->> kernel support / changes, so I'm seeing the light at the end of the tunn=
-el
->> and recalled that this is still hanging a bit.
->>
->> Is there anything tangible you wanted me to do here ? =A0Create an examp=
-le ?
->> Write a short howto =A0.. or something else ?
->
-> A guide to make your own setup that isn't based on linux-yocto but which =
-does work with the linux-yocto bbclass?
-
-That's reasonable. Once I get the imminent kernel uprev out the door, I'll
-focus on something along these lines.
-
-Bruce
-
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+X-List-Received-Date: Wed, 20 Jul 2011 20:37:44 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
 
+On Jul 20, 2011, at 12:05 PM, Saul Wold wrote:
 
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+> On 07/19/2011 10:41 AM, Kumar Gala wrote:
+>> The majority of support for the PowerPC e500v2/SPE target already
+>> exists.  However some minor cleans are required to get things working
+>> completely.
+>> 
+>> The e500v2 utilizes a unique floating point programming model / ABI from
+>> other PowerPC targets and thus requires special handling.
+>> 
+>> - k
+>> 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>> 
+> 
+> Merged into OE-Core
+> 
+> Thanks
+> 	Sau!
+
+Thanks, how does this propagate to poky?
+
+- k
 
 
