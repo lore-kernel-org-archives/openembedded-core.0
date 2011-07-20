@@ -1,31 +1,34 @@
 Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QjOcO-0003ae-MQ
+	(envelope-from <raj.khem@gmail.com>) id 1QjPCP-0004EJ-T6
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 06:42:44 +0200
-Received: by pvf24 with SMTP id 24so4400612pvf.6
+	Wed, 20 Jul 2011 07:19:58 +0200
+Received: by pvf24 with SMTP id 24so4416647pvf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2011 21:38:38 -0700 (PDT)
+	Tue, 19 Jul 2011 22:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=w8WBrXUKJV8nteDyM03lOP9UFIO/owScB6ArNRUjhVo=;
-	b=Si5MgnMs/Z75cUOctHD3CgJGiWvldRZKScURHnD+HnqTvFj5p9F9jQksHn7P8s2yf7
-	9Z64pz69oTugfADjo0F9m0iQAjgmpip5uk5yRuPhNumJXq99762DNzkAg/hXa32IcRET
-	+rnKq0IE8mkZnA+WoYROMe+XbeayDAbojP47g=
-Received: by 10.68.33.200 with SMTP id t8mr9737657pbi.144.1311136718065; Tue,
-	19 Jul 2011 21:38:38 -0700 (PDT)
+	:cc:content-type:content-transfer-encoding;
+	bh=IJjfQ7awP2mk/g3RqGW7V+K/QiYDAsMNIJdPqpldj1s=;
+	b=w0oX39PBj1akgnV6Lg4O7PO4bmktF46DD8ps0zjESZIiAorxNCxZvoRW0SuGQ668+1
+	LFTPdYVgT0pcJwl1ELWmrCGcvDSq7NPZ5nVNx/CBjOc9V75MKYjQcxgp/xDl3UpwX2sl
+	m8Bjx5/Qt7Mgmp7YU/1WadMW0dZH+B93UX9pk=
+Received: by 10.68.35.105 with SMTP id g9mr9181552pbj.479.1311138951185; Tue,
+	19 Jul 2011 22:15:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.68.62.36 with HTTP; Tue, 19 Jul 2011 21:38:08 -0700 (PDT)
-In-Reply-To: <1311118009.2344.33.camel@rex>
-References: <1311100227-8624-1-git-send-email-raj.khem@gmail.com>
-	<1311100227-8624-2-git-send-email-raj.khem@gmail.com>
-	<1311118009.2344.33.camel@rex>
+Received: by 10.68.62.36 with HTTP; Tue, 19 Jul 2011 22:15:21 -0700 (PDT)
+In-Reply-To: <CAMKF1spHX9gU5ftXFJKQBzsw7Z=JJeR-RD=zXOw1emvfaRDzCw@mail.gmail.com>
+References: <1dd2e2b995b65326b14426fe01116b99a920d779.1311034342.git.raj.khem@gmail.com>
+	<d12eac7e3b3d9c368f99e4163fb297858e577d00.1311034342.git.raj.khem@gmail.com>
+	<4E26253D.8040000@linux.intel.com>
+	<CAMKF1spHX9gU5ftXFJKQBzsw7Z=JJeR-RD=zXOw1emvfaRDzCw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Jul 2011 21:38:08 -0700
-Message-ID: <CAMKF1spaX+Ax0w0UJyQjqOd03vA2zexkpfN2kbDKfhvrfuhDyg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+Date: Tue, 19 Jul 2011 22:15:21 -0700
+Message-ID: <CAMKF1souG6mAbu3h-sc_soWsevkggMayss2ppXY+tsxpb=faOQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] libiconv: Add recipes for 1.13.1
+Subject: Re: [PATCH 14/16] clutter-box2d: Replace use of finite macro with C99 compliant isfinite()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,39 +43,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 04:42:44 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 05:19:58 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 19, 2011 at 4:26 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2011-07-19 at 11:30 -0700, Khem Raj wrote:
->> Import 1.13.1 recipes from meta-oe
->> share common code through libiconv.inc
+On Tue, Jul 19, 2011 at 9:33 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Jul 19, 2011 at 5:45 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>> On 07/18/2011 05:17 PM, Khem Raj wrote:
+>>>
+>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>>> ---
+>>> =C2=A0.../clutter/clutter-box2d/isfinite.patch =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 19
+>>> +++++++++++++++++++
+>>> =C2=A0meta/recipes-graphics/clutter/clutter-box2d_git.bb | =C2=A0 =C2=
+=A06 ++++--
+>>> =C2=A02 files changed, 23 insertions(+), 2 deletions(-)
+>>> =C2=A0create mode 100644
+>>> meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+>>>
+>>> diff --git a/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+>>> b/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+>>> new file mode 100644
+>>> index 0000000..fd2bf74
+>>> --- /dev/null
+>>> +++ b/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+>>> @@ -0,0 +1,19 @@
+>>> +_finite is obsoleted and C99 has isfinite instead so we should use it
+>>> +
+>>> +Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>>> +
+>>> +Upstream-Status: Pending
+>>> +
+>>> +Index: clutter-box2d-0.10.0/box2d/Source/Common/b2Math.h
+>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>> +--- clutter-box2d-0.10.0.orig/box2d/Source/Common/b2Math.h =C2=A0 =C2=
+=A0 2008-12-16
+>>> 06:42:10.000000000 -0800
+>>> ++++ clutter-box2d-0.10.0/box2d/Source/Common/b2Math.h =C2=A02011-07-17
+>>> 02:10:29.833825198 -0700
+>>> +@@ -60,7 +60,7 @@
+>>> + #ifdef _MSC_VER
+>>> + =C2=A0 =C2=A0 =C2=A0 return _finite(x) !=3D 0;
+>>> + #else
+>>> +- =C2=A0 =C2=A0 =C2=A0return finite(x) !=3D 0;
+>>> ++ =C2=A0 =C2=A0 =C2=A0return std::isfinite(x) !=3D 0;
+>>> + #endif
+>>> + }
+>>> +
+>>> diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>>> b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>>> index bfd46b2..06f5fa2 100644
+>>> --- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>>> +++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
+>>> @@ -4,9 +4,11 @@ LIC_FILES_CHKSUM =3D
+>>> "file://box2d/License.txt;md5=3De5d39ad91f7dc4692dcdb1d85139ec6
+>>>
+>>> =C2=A0SRCREV =3D "4799ac10ae8cb7da936a2b999aba58fe62eb1ee3"
+>>> =C2=A0PV =3D "0.10.1+git${SRCPV}"
+>>> -PR =3D "r0"
+>>> +PR =3D "r1"
+>>>
+>>> -SRC_URI =3D "git://git.gnome.org/clutter-box2d.git"
+>>> +SRC_URI =3D "git://git.gnome.org/clutter-box2d.git \
+>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://isfinite.patch \
+>>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"
+>>>
+>>> =C2=A0S =3D "${WORKDIR}/git"
+>>>
+>>
+>> Khem,
+>>
+>> This patch seems to have patched clutter-box2d-1.6_0.10.0.bb also, with =
+the
+>> isfinite patch. =C2=A0This fails to apply. =C2=A0Was this intentional we=
+re you
+>> planning on updating the 1.6 version?
 >
-> The big question this triggers for me is "why"?
+> yes the patch should be applied to both recipes since x86 uses
+> clutter-box2d-1.6_0.10.0.bb
+> and arm uses the git version. It applied well for arm and x86 here.
+> Let me check once more
 
-are there any downside of using .inc files ?
-the code in the .inc file should hardly change and .bb files look simpler
+MACHINE=3Dqemux86 TCLIBC=3Duclibc bitbake -ccleanall clutter-box2d-1.6;
+MACHINE=3Dqemux86 TCLIBC=3Duclibc bitbake clutter-box2d-1.6
+
+worked fine and I checked that it applied the isfinite.patch cleanly.
+
+Although one thing I observed is that the file this patch is modifying
+has DOS eols
+therefore the patch also has DOS eols in it
+
+I wonder if thats somehow problematic on your machine
 
 >
-> Deleting libtool.m4 certainly looks neater than this version of patching
-> it out. Is that do_configure hack still needed with libtool 2.4?
-
-May be not. I just imported what was in meta-oe.
-
->
-> Cheers,
->
-> Richard
->
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>> Sau!
+>>
 >
 
 
