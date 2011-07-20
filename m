@@ -1,34 +1,21 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QjPCP-0004EJ-T6
+	(envelope-from <niqingliang@insigma.com.cn>) id 1QjPgA-0004Tc-19
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 07:19:58 +0200
-Received: by pvf24 with SMTP id 24so4416647pvf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jul 2011 22:15:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=IJjfQ7awP2mk/g3RqGW7V+K/QiYDAsMNIJdPqpldj1s=;
-	b=w0oX39PBj1akgnV6Lg4O7PO4bmktF46DD8ps0zjESZIiAorxNCxZvoRW0SuGQ668+1
-	LFTPdYVgT0pcJwl1ELWmrCGcvDSq7NPZ5nVNx/CBjOc9V75MKYjQcxgp/xDl3UpwX2sl
-	m8Bjx5/Qt7Mgmp7YU/1WadMW0dZH+B93UX9pk=
-Received: by 10.68.35.105 with SMTP id g9mr9181552pbj.479.1311138951185; Tue,
-	19 Jul 2011 22:15:51 -0700 (PDT)
+	Wed, 20 Jul 2011 07:50:42 +0200
+Received: from WX-ExchMB.insigma.com.cn (10.0.1.203) by WX-Edge.insigma.com.cn
+	(10.0.1.205) with Microsoft SMTP Server (TLS) id 8.1.436.0;
+	Wed, 20 Jul 2011 13:45:07 +0800
+Received: from [192.168.0.101] (122.224.76.38) by WX-ExchMB.insigma.com.cn
+	(10.0.1.203) with Microsoft SMTP Server id 8.1.240.5; Wed, 20 Jul 2011
+	13:45:05 +0800
+From: NiQingliang <niqingliang@insigma.com.cn>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 20 Jul 2011 13:56:04 +0800
+X-Mailer: Evolution 3.0.2 
+Message-ID: <1311141365.6973.7.camel@localhost.localdomain>
 MIME-Version: 1.0
-Received: by 10.68.62.36 with HTTP; Tue, 19 Jul 2011 22:15:21 -0700 (PDT)
-In-Reply-To: <CAMKF1spHX9gU5ftXFJKQBzsw7Z=JJeR-RD=zXOw1emvfaRDzCw@mail.gmail.com>
-References: <1dd2e2b995b65326b14426fe01116b99a920d779.1311034342.git.raj.khem@gmail.com>
-	<d12eac7e3b3d9c368f99e4163fb297858e577d00.1311034342.git.raj.khem@gmail.com>
-	<4E26253D.8040000@linux.intel.com>
-	<CAMKF1spHX9gU5ftXFJKQBzsw7Z=JJeR-RD=zXOw1emvfaRDzCw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Jul 2011 22:15:21 -0700
-Message-ID: <CAMKF1souG6mAbu3h-sc_soWsevkggMayss2ppXY+tsxpb=faOQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/16] clutter-box2d: Replace use of finite macro with C99 compliant isfinite()
+Subject: [patch]for different default python version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,105 +30,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 05:19:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 20 Jul 2011 05:50:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 19, 2011 at 9:33 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Jul 19, 2011 at 5:45 PM, Saul Wold <sgw@linux.intel.com> wrote:
->> On 07/18/2011 05:17 PM, Khem Raj wrote:
->>>
->>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
->>> ---
->>> =C2=A0.../clutter/clutter-box2d/isfinite.patch =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | =C2=A0 19
->>> +++++++++++++++++++
->>> =C2=A0meta/recipes-graphics/clutter/clutter-box2d_git.bb | =C2=A0 =C2=
-=A06 ++++--
->>> =C2=A02 files changed, 23 insertions(+), 2 deletions(-)
->>> =C2=A0create mode 100644
->>> meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
->>>
->>> diff --git a/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
->>> b/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
->>> new file mode 100644
->>> index 0000000..fd2bf74
->>> --- /dev/null
->>> +++ b/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
->>> @@ -0,0 +1,19 @@
->>> +_finite is obsoleted and C99 has isfinite instead so we should use it
->>> +
->>> +Signed-off-by: Khem Raj<raj.khem@gmail.com>
->>> +
->>> +Upstream-Status: Pending
->>> +
->>> +Index: clutter-box2d-0.10.0/box2d/Source/Common/b2Math.h
->>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>> +--- clutter-box2d-0.10.0.orig/box2d/Source/Common/b2Math.h =C2=A0 =C2=
-=A0 2008-12-16
->>> 06:42:10.000000000 -0800
->>> ++++ clutter-box2d-0.10.0/box2d/Source/Common/b2Math.h =C2=A02011-07-17
->>> 02:10:29.833825198 -0700
->>> +@@ -60,7 +60,7 @@
->>> + #ifdef _MSC_VER
->>> + =C2=A0 =C2=A0 =C2=A0 return _finite(x) !=3D 0;
->>> + #else
->>> +- =C2=A0 =C2=A0 =C2=A0return finite(x) !=3D 0;
->>> ++ =C2=A0 =C2=A0 =C2=A0return std::isfinite(x) !=3D 0;
->>> + #endif
->>> + }
->>> +
->>> diff --git a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
->>> b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
->>> index bfd46b2..06f5fa2 100644
->>> --- a/meta/recipes-graphics/clutter/clutter-box2d_git.bb
->>> +++ b/meta/recipes-graphics/clutter/clutter-box2d_git.bb
->>> @@ -4,9 +4,11 @@ LIC_FILES_CHKSUM =3D
->>> "file://box2d/License.txt;md5=3De5d39ad91f7dc4692dcdb1d85139ec6
->>>
->>> =C2=A0SRCREV =3D "4799ac10ae8cb7da936a2b999aba58fe62eb1ee3"
->>> =C2=A0PV =3D "0.10.1+git${SRCPV}"
->>> -PR =3D "r0"
->>> +PR =3D "r1"
->>>
->>> -SRC_URI =3D "git://git.gnome.org/clutter-box2d.git"
->>> +SRC_URI =3D "git://git.gnome.org/clutter-box2d.git \
->>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://isfinite.patch \
->>> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"
->>>
->>> =C2=A0S =3D "${WORKDIR}/git"
->>>
->>
->> Khem,
->>
->> This patch seems to have patched clutter-box2d-1.6_0.10.0.bb also, with =
-the
->> isfinite patch. =C2=A0This fails to apply. =C2=A0Was this intentional we=
-re you
->> planning on updating the 1.6 version?
->
-> yes the patch should be applied to both recipes since x86 uses
-> clutter-box2d-1.6_0.10.0.bb
-> and arm uses the git version. It applied well for arm and x86 here.
-> Let me check once more
+most Linux distribution use python 2.x as the default as bitbake
+expected, but some use python 3.x as the default (like archlinux), so
+this patch come.
 
-MACHINE=3Dqemux86 TCLIBC=3Duclibc bitbake -ccleanall clutter-box2d-1.6;
-MACHINE=3Dqemux86 TCLIBC=3Duclibc bitbake clutter-box2d-1.6
+if the default python is 2.x, it will do nothing.
+or it will search the python 2.x in /usr/bin and /bin.
+if find it out, then make a soft link in the build dir, and add the
+build dir into the env var PATH.
 
-worked fine and I checked that it applied the isfinite.patch cleanly.
+diff --git a/oe-init-build-env b/oe-init-build-env
+index 77332a7..acf4e96 100755
+--- a/oe-init-build-env
++++ b/oe-init-build-env
+@@ -39,6 +39,34 @@ else
+    $OEROOT/scripts/oe-setup-builddir
+    unset OEROOT
+    unset BBPATH
++
++   # find the python 2.x, if the default python is not.
++   # NOTE:
++   #    the 'python -V' need redirect to stdout
++   #    once we can ensure every distribution has 'python2' (currently,
+except
++   #    ubuntu), we should change bitbake's shebang to '/usr/bin/env
+python2',
++   #    and remove this patch.
++   # precondition:
++   #    $BUILDDIR is not NULL, but I doubt when it will be NULL.
++   #    user have not made the file $BUILDDIR/python by himself.
++   if [ -z "`/usr/bin/env python -V 2>&1|grep '^Python 2\.'`" ]; then
++      PYTHON2_BIN=3D""
++      for PY_BIN in `find /{usr/,}bin -regex '.*/python\(\|2\|2\.[0-9]*
+\)'`; do
++         if [ -n "`$PY_BIN -V 2>&1|grep '^Python 2\.'`" ]; then
++            PYTHON2_BIN=3D$PY_BIN
++            break
++         fi
++      done
++      if [ -n "$PYTHON2_BIN" ]; then
++         ln -sf $PY_BIN $BUILDDIR/python
++         export PATH=3D"$BUILDDIR:$PATH"
++         echo "NOTE: poky will use '$PY_BIN' to execute python code."
++      else
++         echo "ERROR: unable to find Python 2.x, BitBake requires
+Python 2.6 or 2.7."
++      fi
++      unset PYTHON2_BIN
++   fi
++
+    [ -n "$BUILDDIR" ] && cd $BUILDDIR
+ fi
 
-Although one thing I observed is that the file this patch is modifying
-has DOS eols
-therefore the patch also has DOS eols in it
 
-I wonder if thats somehow problematic on your machine
+--=20
+=E5=80=AA=E5=BA=86=E4=BA=AE
+TEL:    13588371863
+E-MAIL: niqingliang@insigma.com.cn
+BLOG:   http://niqingliang2003.wordpress.com
 
->
->>
->> Sau!
->>
->
+
 
 
