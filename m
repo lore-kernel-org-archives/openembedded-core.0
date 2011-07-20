@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDK-0001Zu-5W
+	(envelope-from <sgw@linux.intel.com>) id 1QjSDL-0001aO-TV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 10:33:06 +0200
+	Wed, 20 Jul 2011 10:33:13 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:50 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753301"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753310"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:50 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:51 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:16 -0700
-Message-Id: <096ebbd80258f8b30bab76b5d8be77fc7af97135.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:28:19 -0700
+Message-Id: <e4d86b4e20a9a8dad113fb599272c58657b26450.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 29/50] gcc_4.5.1: add pr45886.patch
+Subject: [PATCH 32/50] autotools.bbclass: Add help2man-native to the main DEPENDS tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,93 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 08:33:12 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 08:33:15 -0000
 
-From: Ilya Yanok <yanok@emcraft.com>
+From: Tom Rini <tom_rini@mentor.com>
 
-Add fix for PR45886 as proposed in
-http://gcc.gnu.org/bugzilla/show_bug.cgi?id=45886
+With help2man no longer being required by sanity.bbclass we need to
+make sure that if we are going to build autotools stuff that help2man
+will be there as it's a frequent implicit dependency.
 
-Signed-off-by: Ilya Yanok <yanok@emcraft.com>
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.5.1.inc           |    1 +
- meta/recipes-devtools/gcc/gcc-4.5.1/pr45886.patch |   55 +++++++++++++++++++++
- 2 files changed, 56 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.5.1/pr45886.patch
+ meta/classes/autotools.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1.inc b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-index 03dca08..1b21a75 100644
---- a/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.5.1.inc
-@@ -63,6 +63,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://pr44606.patch \
- 	   file://pr45094.patch \
- 	   file://pr45052.patch \
-+	   file://pr45886.patch \
- 	  "
- 	
- SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/pr45886.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/pr45886.patch
-new file mode 100644
-index 0000000..36aa37e
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.5.1/pr45886.patch
-@@ -0,0 +1,55 @@
-+From d066d0682da4e60b811d9282b00128244caa5c29 Mon Sep 17 00:00:00 2001
-+From: Ilya Yanok <yanok@emcraft.com>
-+Date: Mon, 21 Mar 2011 00:55:25 +0100
-+Subject: [PATCH 6/6] PR45886
-+
-+---
-+ gcc/config/arm/arm.c |    2 +-
-+ gcc/config/arm/arm.h |   11 ++++++++++-
-+ 2 files changed, 11 insertions(+), 2 deletions(-)
-+
-+diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
-+index 0382b24..5634829 100644
-+--- a/gcc/config/arm/arm.c
-++++ b/gcc/config/arm/arm.c
-+@@ -700,7 +700,7 @@ static int after_arm_reorg = 0;
-+ /* The maximum number of insns to be used when loading a constant.  */
-+ static int arm_constant_limit = 3;
-+ 
-+-static enum arm_pcs arm_pcs_default;
-++enum arm_pcs arm_pcs_default;
-+ 
-+ /* For an explanation of these variables, see final_prescan_insn below.  */
-+ int arm_ccfsm_state;
-+diff --git a/gcc/config/arm/arm.h b/gcc/config/arm/arm.h
-+index 26ffaf8..ac7bbb3 100644
-+--- a/gcc/config/arm/arm.h
-++++ b/gcc/config/arm/arm.h
-+@@ -94,7 +94,13 @@ extern char arm_arch_name[];
-+ 	if (arm_arch_iwmmxt)				\
-+ 	  builtin_define ("__IWMMXT__");		\
-+ 	if (TARGET_AAPCS_BASED)				\
-+-	  builtin_define ("__ARM_EABI__");		\
-++	  {						\
-++	    if (arm_pcs_default == ARM_PCS_AAPCS_VFP)	\
-++	      builtin_define ("__ARM_PCS_VFP");		\
-++	    else if (arm_pcs_default == ARM_PCS_AAPCS)	\
-++	      builtin_define ("__ARM_PCS");		\
-++	    builtin_define ("__ARM_EABI__");		\
-++	  }						\
-+     } while (0)
-+ 
-+ /* The various ARM cores.  */
-+@@ -1648,6 +1654,9 @@ enum arm_pcs
-+   ARM_PCS_UNKNOWN
-+ };
-+ 
-++/* Default procedure calling standard of current compilation unit. */
-++extern enum arm_pcs arm_pcs_default;
-++
-+ /* A C type for declaring a variable that is used as the first argument of
-+    `FUNCTION_ARG' and other related values.  */
-+ typedef struct
-+-- 
-+1.7.4
-+
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 98c871a..ed5637e 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -5,9 +5,9 @@ def autotools_dep_prepend(d):
+ 	pn = bb.data.getVar('PN', d, 1)
+ 	deps = ''
+ 
+-	if pn in ['autoconf-native', 'automake-native']:
++	if pn in ['autoconf-native', 'automake-native', 'help2man-native']:
+ 		return deps
+-	deps += 'autoconf-native automake-native '
++	deps += 'autoconf-native automake-native help2man-native '
+ 
+ 	if not pn in ['libtool', 'libtool-native', 'libtool-cross']:
+ 		deps += 'libtool-native '
 -- 
 1.7.3.4
 
