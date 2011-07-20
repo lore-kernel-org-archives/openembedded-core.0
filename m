@@ -1,25 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qja85-0005ar-EP
+	(envelope-from <sgw@linux.intel.com>) id 1Qja8W-0005cP-2S
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 19:00:13 +0200
+	Wed, 20 Jul 2011 19:00:41 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Jul 2011 09:56:06 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 20 Jul 2011 09:56:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,236,1309762800"; d="scan'208";a="30291878"
+X-IronPort-AV: E=Sophos;i="4.67,236,1309762800"; d="scan'208";a="30292020"
 Received: from unknown (HELO [10.255.13.254]) ([10.255.13.254])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Jul 2011 09:56:06 -0700
-Message-ID: <4E2708A5.2050904@linux.intel.com>
-Date: Wed, 20 Jul 2011 09:56:05 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 20 Jul 2011 09:56:29 -0700
+Message-ID: <4E2708BD.2070606@linux.intel.com>
+Date: Wed, 20 Jul 2011 09:56:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1311089204.git.tom_rini@mentor.com>
-In-Reply-To: <cover.1311089204.git.tom_rini@mentor.com>
-Subject: Re: [PATCH 0/4] Misc fixes, July 19
+References: <cover.1311092892.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1311092892.git.scott.a.garman@intel.com>
+Cc: Scott Garman <scott.a.garman@intel.com>
+Subject: Re: [PATCH 0/2] libpng upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,40 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 17:00:13 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 17:00:41 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/19/2011 08:34 AM, Tom Rini wrote:
-> Hey all,
+On 07/19/2011 09:29 AM, Scott Garman wrote:
+> Hello,
 >
-> As part of doing some "fix builds in very long paths" builds of world I've
-> hit a few DEPENDS problems.  The following series is mostly adding DEPENDS
-> where they're missing today.  While I was fixing up gnome-doc-utils-native
-> I noticed it has the installed but not packaged QA problem so I fixed that
-> while in here.
+> This upgrade to libpng addresses some security vulnerabilities. It
+> has been build tested on all five of our qemu MACHINEs.
 >
-> The following changes since commit e66c2999afa2b3efbce8bb46c89f9db5e15f35c7:
->    Saul Wold (1):
->          libx11: ensure nativesdk uses correct DEPENDS and XCB flags
+> The following changes since commit fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
+>
+>    bb-matrix: correct BB and PM number canonicalization (2011-07-14 22:23:09 +0100)
 >
 > are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib sgarman/libpng-upgrade
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/libpng-upgrade
 >
->    git://git.openembedded.org/openembedded-core-contrib trini/misc-fixes-19july
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/misc-fixes-19july
+> Scott Garman (2):
+>    libpng: upgrade to v1.2.46
+>    distro-tracking: update libpng
 >
-> Tom Rini (4):
->    metacity: Add gnome-doc-utils to DEPENDS
->    gnome-doc-utils: Package up python site packages, bump PR
->    iptuils: Add sgmlspl-native to DEPENDS
->    btrfs-tools: Add util-linux to DEPENDS
->
->   .../btrfs-tools/btrfs-tools_git.bb                 |    3 ++-
->   meta/recipes-extended/iputils/iputils_s20101006.bb |    4 ++--
->   meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    4 ++--
->   meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb |    2 +-
->   meta/recipes-gnome/gnome/metacity_2.30.3.bb        |    4 ++--
->   5 files changed, 9 insertions(+), 8 deletions(-)
+>   .../conf/distro/include/distro_tracking_fields.inc |   10 +++++-----
+>   .../libpng/{libpng_1.2.44.bb =>  libpng_1.2.46.bb}  |   11 ++++++-----
+>   2 files changed, 11 insertions(+), 10 deletions(-)
+>   rename meta/recipes-multimedia/libpng/{libpng_1.2.44.bb =>  libpng_1.2.46.bb} (55%)
 >
 >
 > _______________________________________________
