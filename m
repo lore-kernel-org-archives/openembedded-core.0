@@ -1,26 +1,25 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjZxF-00054D-UG
+	(envelope-from <sgw@linux.intel.com>) id 1Qja0s-00057K-HP
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 18:49:02 +0200
+	Wed, 20 Jul 2011 18:52:46 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Jul 2011 09:44:54 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 20 Jul 2011 09:47:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,236,1309762800"; d="scan'208";a="30287039"
+X-IronPort-AV: E=Sophos;i="4.67,236,1309762800"; d="scan'208";a="30288265"
 Received: from unknown (HELO [10.255.13.254]) ([10.255.13.254])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Jul 2011 09:44:54 -0700
-Message-ID: <4E270605.1090802@linux.intel.com>
-Date: Wed, 20 Jul 2011 09:44:53 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 20 Jul 2011 09:47:54 -0700
+Message-ID: <4E2706BA.2000600@linux.intel.com>
+Date: Wed, 20 Jul 2011 09:47:54 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1311154909.30326.51.camel@phil-desktop>	<CACW_hTYXboQ+Zzkt3PXBuA_=uMDVovTgt7g7BNJSxbCdjuoS2A@mail.gmail.com>	<4E26D87A.5020808@gmail.com>	<CACW_hTb=t9hMoVc-3F538xn1kTwrGT7-wk7DW8FTmi6=Txmvpg@mail.gmail.com>
-	<1311172926.2344.49.camel@rex>
-In-Reply-To: <1311172926.2344.49.camel@rex>
-Subject: Re: libiconv checksum wrong
+References: <1310856514-12964-1-git-send-email-schnitzeltony@gmx.de>
+In-Reply-To: <1310856514-12964-1-git-send-email-schnitzeltony@gmx.de>
+Subject: Re: [PATCH] gdk-pixbuf(-native): Fix build by disabling introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,70 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 16:49:02 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 16:52:46 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/20/2011 07:42 AM, Richard Purdie wrote:
-> On Wed, 2011-07-20 at 16:26 +0200, Frans Meulenbroeks wrote
->>          there is already patch sent to fix it.
->>          http://patches.openembedded.org/patch/7933/
->>          libiconv is not default provider of virtual/libiconv on
->>          eglibc/glibc based systems and sometimes that can trip you
->>          over. It happens and as long as we find it and fix it quickly
->>          I don't see a problem. Do you ?
->> Some people seem to think differently about this. I still recall the
->> pile of shit Koen dumped upon me about a year ago when I accidentally
->> removed a version of openssh or so that was still used. Even though
->> the problem was fixed very quickly after it was brought to my
->> attention. Ah well. As Orwell already said "all animals are equal but
->> some animals are more equal than others".
->>
->>
->>          IMO we should not get so pedantic that people start getting
->>          scared of making changes
->>
->> It was by no means my intention to be pedantic.
->>
->> Then again I *do* think it is good practice if someone creates a new
->> recipe that (s)he tests it before submitting it.
->>
->> And my impression was that one of the goals of YP and oe-core was to
->> increase the quality level.
->> One of the ways to increase quality is to do a build after pulling
->> changes and before committing them.
->> (at least I feel that is one of the ways to increase quality, and yes
->> there are other ways too).
->>
->> And where people work, mistakes happen. One can accept that, but one
->> can also see if there are ways to improve and avoid that a problem
->> re-occurs.
+On 07/16/2011 03:48 PM, Andreas Mueller wrote:
+> Error message was:
+> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/g-ir-compiler  --includedir=. GdkPixbuf-2.0.gir -o GdkPixbuf-2.0.typelib
+> | /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
+> | /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
+> | error parsing file GdkPixbuf-2.0.gir: Failed to parse included gir GLib-2.0
+> | make[4]: *** [GdkPixbuf-2.0.typelib] Error 1
 >
-> I think its fair to ask how this happened and it appears to be due to
-> PREFERRED_VERSION and/or PROVIDER confusion. Its unfortunate but I think
-> the people involved will not do it again :).
+> Signed-off-by: Andreas Mueller<schnitzeltony@gmx.de>
+> ---
+>   meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb |    3 ++-
+>   1 files changed, 2 insertions(+), 1 deletions(-)
 >
-Yes, the lesson has been learned, I am working on adding a UCLIBC build 
-into the mix, and the Autobuilder will have a vanilla oe-core build with 
-both uclibc and egligc some time soon as well.
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
+> index 8b6314f..e3f5977 100644
+> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
+> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
+> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+>   SECTION = "libs"
+>
+>   DEPENDS = "libpng glib-2.0 jpeg"
+> -PR = "r0"
+> +PR = "r1"
+>
+>   SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.22/gdk-pixbuf-${PV}.tar.gz \
+>              file://hardcoded_libtool.patch;patch=1 \
+> @@ -26,6 +26,7 @@ LIBV = "2.10.0"
+>   EXTRA_OECONF = "\
+>     --without-libtiff \
+>     --with-libpng \
+> +  --disable-introspection \
+>   "
+>
+>   FILES_${PN} = "${bindir}/gdk-pixbuf-query-loaders \
 
-Please chalk this up to live and learn not a common practice.
+Merged into oe-core
+
+There was a comment from Tom about gnome.bbclass, are you looking into that?
 
 Sau!
-
-> I don't think its entirely fair to immediately bring into question the
-> overall quality goals as we are continuing to work towards those and
-> this is an exception, not the norm.
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
