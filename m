@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSD2-0001ZJ-93
+	(envelope-from <sgw@linux.intel.com>) id 1QjSD3-0001ZJ-A2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 10:32:48 +0200
+	Wed, 20 Jul 2011 10:32:49 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753225"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753227"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
 	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:39 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:27:48 -0700
-Message-Id: <81e92e8eab7f0f3d4ca72d4c7d1b872ebdc82fc8.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:27:49 -0700
+Message-Id: <93af543bca2b78530d369d8c51b8b23f9daab6c5.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 01/50] alsa-tools: Fix recipe build error.
+Subject: [PATCH 02/50] Revert "libiconv: add version 1.13.1"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,85 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 08:32:48 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 08:32:49 -0000
 
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Remove some elements in alsa-tools to avoid build error and further
-dependency on new recipes.
+This reverts commit bd1e627bef29830f9346b4b984905fd8fcf2e716.
 
-[YOCTO #1038]
-
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../alsa/alsa-tools-1.0.24.1/autotools.patch       |   34 ++++++++++++++++++++
- .../recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb |    7 +++-
- 2 files changed, 39 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools.patch
+ .../{files => libiconv-1.11.1}/autoconf.patch      |    2 -
+ .../shared_preloadable_libiconv_linux.patch        |    2 -
+ meta/recipes-support/libiconv/libiconv_1.13.1.bb   |   29 --------------------
+ 3 files changed, 0 insertions(+), 33 deletions(-)
+ rename meta/recipes-support/libiconv/{files => libiconv-1.11.1}/autoconf.patch (98%)
+ rename meta/recipes-support/libiconv/{files => libiconv-1.11.1}/shared_preloadable_libiconv_linux.patch (98%)
+ delete mode 100644 meta/recipes-support/libiconv/libiconv_1.13.1.bb
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools.patch b/meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools.patch
-new file mode 100644
-index 0000000..c7bc2d6
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-tools-1.0.24.1/autotools.patch
-@@ -0,0 +1,34 @@
-+Add parameters to autoreconf to support cross compile.
-+Remove some sub-components which needs further recipe support.
-+
-+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+diff -ruN alsa-tools-1.0.24.1-orig//ld10k1/gitcompile alsa-tools-1.0.24.1/ld10k1/gitcompile
-+--- alsa-tools-1.0.24.1-orig//ld10k1/gitcompile	2011-07-06 11:27:40.227665002 +0800
-++++ alsa-tools-1.0.24.1/ld10k1/gitcompile	2011-07-14 13:26:18.017665004 +0800
-+@@ -1,6 +1,6 @@
-+ #!/bin/bash
-+ 
-+-autoreconf -fi || exit 1
-++autoreconf $ACLOCAL_FLAGS -fi || exit 1
-+ export CFLAGS='-O2 -Wall -pipe -g'
-+ echo "CFLAGS=$CFLAGS"
-+ echo "./configure $@"
-+diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1.0.24.1/Makefile
-+--- alsa-tools-1.0.24.1-orig//Makefile	2011-07-06 11:27:40.207665000 +0800
-++++ alsa-tools-1.0.24.1/Makefile	2011-07-14 15:08:08.877665009 +0800
-+@@ -1,9 +1,8 @@
-+ VERSION = 1.0.24.1
-+ TOP = .
-+-SUBDIRS = ac3dec as10k1 envy24control hdsploader hdspconf hdspmixer \
-+-	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
-+-	  us428control usx2yloader vxloader echomixer ld10k1 qlo10k1 \
-+-	  hwmixvolume
-++SUBDIRS = ac3dec as10k1 hdsploader mixartloader pcxhrloader sb16_csp \
-++          seq sscape_ctl us428control usx2yloader vxloader ld10k1 \
-++          hwmixvolume
-+ 
-+ all:
-+ 	@for i in $(SUBDIRS); do \
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-index 5b3ea98..1bf9cd0 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-@@ -5,13 +5,16 @@ SECTION = "console/utils"
- LICENSE = "GPLv2"
- DEPENDS = "alsa-lib ncurses"
+diff --git a/meta/recipes-support/libiconv/files/autoconf.patch b/meta/recipes-support/libiconv/libiconv-1.11.1/autoconf.patch
+similarity index 98%
+rename from meta/recipes-support/libiconv/files/autoconf.patch
+rename to meta/recipes-support/libiconv/libiconv-1.11.1/autoconf.patch
+index 3cbf549..2b24894 100644
+--- a/meta/recipes-support/libiconv/files/autoconf.patch
++++ b/meta/recipes-support/libiconv/libiconv-1.11.1/autoconf.patch
+@@ -2,8 +2,6 @@ It adds the variables that are needed
+ for autoconf 2.65 to reconfigure libiconv and defines the m4 macros 
+ directory. Its imported from OE.
  
--PR = "r1"
-+PR = "r2"
+-Upstream-Status: Pending
+-
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  
- LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ Index: libiconv-1.11.1/configure.ac
+diff --git a/meta/recipes-support/libiconv/files/shared_preloadable_libiconv_linux.patch b/meta/recipes-support/libiconv/libiconv-1.11.1/shared_preloadable_libiconv_linux.patch
+similarity index 98%
+rename from meta/recipes-support/libiconv/files/shared_preloadable_libiconv_linux.patch
+rename to meta/recipes-support/libiconv/libiconv-1.11.1/shared_preloadable_libiconv_linux.patch
+index fb07f73..a913dad 100644
+--- a/meta/recipes-support/libiconv/files/shared_preloadable_libiconv_linux.patch
++++ b/meta/recipes-support/libiconv/libiconv-1.11.1/shared_preloadable_libiconv_linux.patch
+@@ -4,8 +4,6 @@ Its more enforced by libtool 2.4. I have not checked it with older libtool
+ libiconv 1.11.x is relatively old release and libtool 2.4 did not exist when it
+ was released these kind of problem are more likely
  
--SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2"
-+SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
-+           file://autotools.patch"
+-Upstream-Status: Pending
+-
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  
- SRC_URI[md5sum] = "08fe93a12006093e590d7ecc02b119dd"
- SRC_URI[sha256sum] = "17d43de93ab2db98886d89a53e45341daa46a4ef6edd405db87f4b5a5dc64a05"
- 
- inherit autotools
-+
-+EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST}' ACLOCAL_FLAGS='-I ${STAGING_DATADIR}/aclocal'"
+ Index: libiconv-1.11.1/lib/Makefile.in
+diff --git a/meta/recipes-support/libiconv/libiconv_1.13.1.bb b/meta/recipes-support/libiconv/libiconv_1.13.1.bb
+deleted file mode 100644
+index 069881d..0000000
+--- a/meta/recipes-support/libiconv/libiconv_1.13.1.bb
++++ /dev/null
+@@ -1,29 +0,0 @@
+-DESCRIPTION = "GNU libiconv - libiconv is for you if your application needs to support \
+-multiple character encodings, but that support lacks from your system."
+-HOMEPAGE = "http://www.gnu.org/software/libiconv"
+-SECTION = "libs"
+-NOTES = "Needs to be stripped down to: ascii iso8859-1 eucjp iso-2022jp gb utf8"
+-PROVIDES = "virtual/libiconv"
+-PR = "r0"
+-LICENSE = "LGPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
+-                    file://libcharset/COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+-SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+-           file://autoconf.patch \
+-	   file://shared_preloadable_libiconv_linux.patch \
+-          "
+-
+-SRC_URI[md5sum] = "d42b97f6ef5dd0ba4469d520ed732fed"
+-SRC_URI[sha256sum] = "e78c347a1a0cb15f2648519e9799151f4b4a934b61ad9ee7424478efe2b8257f"
+-
+-S = "${WORKDIR}/libiconv-${PV}"
+-
+-inherit autotools pkgconfig gettext
+-
+-EXTRA_OECONF += "--enable-shared --enable-static --enable-relocatable"
+-
+-LEAD_SONAME = "libiconv.so"
+-
+-do_configure_prepend () {
+-	rm -f m4/libtool.m4 libcharset/m4/libtool.m4
+-}
 -- 
 1.7.3.4
 
