@@ -1,36 +1,20 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1QjT6F-0005nf-1F
+	(envelope-from <philb@gnu.org>) id 1QjTLl-00062u-Tx
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 11:29:51 +0200
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1QjSm4-00040S-4Q>; Wed, 20 Jul 2011 11:09:00 +0200
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by relay1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1QjSm4-0003bF-1r>; Wed, 20 Jul 2011 11:09:00 +0200
-Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
-	4.72) id 1QjSm3-0001h0-VK
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 11:08:59 +0200
-Date: Wed, 20 Jul 2011 11:08:59 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110720090859.GB3173@mi.fu-berlin.de>
-References: <1311100227-8624-1-git-send-email-raj.khem@gmail.com>
-	<1311100227-8624-2-git-send-email-raj.khem@gmail.com>
-	<1311118009.2344.33.camel@rex>
-MIME-Version: 1.0
-In-Reply-To: <1311118009.2344.33.camel@rex>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Heinold <heinold@mi.fu-berlin.de>
-X-Originating-IP: 160.45.42.84
-Subject: Re: [PATCH 2/2] libiconv: Add recipes for 1.13.1
+	Wed, 20 Jul 2011 11:45:53 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QjTHp-00037N-SV
+	for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jul 2011 11:41:50 +0200
+From: Phil Blundell <philb@gnu.org>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 20 Jul 2011 10:41:49 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311154909.30326.51.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: libiconv checksum wrong
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,30 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 09:29:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Jul 2011 09:45:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 20, 2011 at 12:26:49AM +0100, Richard Purdie wrote:
-> On Tue, 2011-07-19 at 11:30 -0700, Khem Raj wrote:
-> > Import 1.13.1 recipes from meta-oe
-> > share common code through libiconv.inc
-> 
-> The big question this triggers for me is "why"?
-> 
-> Deleting libtool.m4 certainly looks neater than this version of patching
-> it out. Is that do_configure hack still needed with libtool 2.4?
-> 
-> Cheers,
-> 
-> Richard
+Since updating this morning I'm getting
 
-Hi,
+| ERROR: Function 'File: '/home/pb/sources/libiconv-1.13.1.tar.gz' has
+md5 checksum 7ab33ebd26687c744a37264a330bbe9a when
+d42b97f6ef5dd0ba4469d520ed732fed was expected (from URL:
+'ftp://ftp.gnu.org/gnu/libiconv/libiconv-1.13.1.tar.gz')' failed
+NOTE: package libiconv-1.13.1-r0: task do_fetch: Failed
 
-we maybee should consider deleting the libtool m4-stuff as default in the autotools-class.
-There maybee a libtool 2.8 can be released which produces the same problems as the
-libtool 1.x -> 2.2 and 2.2 -> 2.4 transition.
+The offending commit appears to be
+bd1e627bef29830f9346b4b984905fd8fcf2e716.  As far as I can tell from a
+quick inspection of the files, the checksum that was added for
+libiconv-1.13.1.tar.gz in that commit is actually the md5sum of the
+earlier version 1.11.1.
 
-Bye Henning
+p.
+
+
 
 
