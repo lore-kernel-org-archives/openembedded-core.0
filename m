@@ -1,24 +1,21 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDZ-0001ZS-2z
+	(envelope-from <lei.mei@intel.com>) id 1QjSOE-0003zL-4a
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 10:33:21 +0200
+	Wed, 20 Jul 2011 10:44:22 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:57 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:40:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753354"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:56 -0700
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29757318"
+Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
+	([10.239.47.21])
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:40:14 -0700
+From: Mei Lei <lei.mei@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:36 -0700
-Message-Id: <e08db3de08c9ee61eecc6aa56d133863bd2403e4.1311150183.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
-References: <cover.1311150183.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
-References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 49/50] site/x86_64-linux-uclibc: Cache lf_cv_sane_realloc
+Date: Wed, 20 Jul 2011 16:48:16 +0800
+Message-Id: <cover.1311151283.git.lei.mei@intel.com>
+X-Mailer: git-send-email 1.6.3.3
+Subject: [PATCH 0/2]multilib: Change hard coded /usr/lib path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,32 +30,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 08:36:54 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 08:44:22 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+This pull request fixes some hard coded /usr/lib path issues when building poky-lsb on qemux86-64, please review it.
 
-If left to configure, it tried to run the testcase
-to determine this and that fails on cross compile
-e.g. compiling startup-notification-0.12
+Thanks,
+Lei
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/site/x86_64-linux-uclibc |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+The following changes since commit fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
+  Darren Hart (1):
+        bb-matrix: correct BB and PM number canonicalization
 
-diff --git a/meta/site/x86_64-linux-uclibc b/meta/site/x86_64-linux-uclibc
-index d83ed1d..d0d0f32 100644
---- a/meta/site/x86_64-linux-uclibc
-+++ b/meta/site/x86_64-linux-uclibc
-@@ -102,3 +102,6 @@ ac_cv_alignof_CORBA_short=2
- ac_cv_alignof_CORBA_struct=1
- ac_cv_alignof_CORBA_wchar=2
- ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
-+
-+# startup-notification
-+lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
--- 
-1.7.3.4
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib lmei3/multilib-lsb
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/multilib-lsb
+
+Mei Lei (2):
+  lsbsetup_1.0.bb:  Change the hardcoded /usr/lib to support multilib
+  perl-dynloader.patch: Fix libdir issue for multilib
+
+ .../perl/perl-5.12.3/perl-dynloader.patch          |    2 +-
+ meta/recipes-extended/lsb/lsbsetup_1.0.bb          |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 
 
