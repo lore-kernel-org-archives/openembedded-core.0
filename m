@@ -1,34 +1,34 @@
 Received: from mail-fx0-f51.google.com ([209.85.161.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Qje2y-000446-Ez
+	(envelope-from <martin.jansa@gmail.com>) id 1Qje36-000446-Ah
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 23:11:12 +0200
+	Wed, 20 Jul 2011 23:11:20 +0200
 Received: by mail-fx0-f51.google.com with SMTP id 10so2396807fxh.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 14:07:08 -0700 (PDT)
+	Wed, 20 Jul 2011 14:07:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=axpIHkBixS4Ht663uLKf1l7NMJSV9AR6zIZaD37Hfe8=;
-	b=AmgjgPNuy1MkPnsRp9981s2gP50JHTKX/8HJaal12LRq4wsJOZD/8kxvxAQCPeSO5X
-	UojavuF9uQgdNtFlSwoDeoYoZpdWxzMqBb2y6erMLj5Ibt+87ialQQK96RpRHOuDjZUf
-	7xSVRqJgM41ODQwruqqI681sPYfez498SyJZQ=
-Received: by 10.223.22.148 with SMTP id n20mr2953124fab.29.1311196028106;
-	Wed, 20 Jul 2011 14:07:08 -0700 (PDT)
+	bh=B6Ze/o5Llzv86+375+ol70xothlKvyx5RmHPs5IsAEc=;
+	b=osb4x+38sNU/o6CKYpIxtltctCxuD0Jk5i/5b9fasOtGzUQqY3B82MHjCGxgmhI/vc
+	JDvfzyhs6XmisMUmmA5I2YtgdP8CXKUHTGskLlG29LS8JrtC6YR8tKNp1+/dSQX9kWMs
+	Uf13qnpcKFxLX0LnFRqZRyzzINJ0a9s2IPGsg=
+Received: by 10.223.69.83 with SMTP id y19mr894613fai.108.1311196035964;
+	Wed, 20 Jul 2011 14:07:15 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id e10sm936518fak.18.2011.07.20.14.07.06
+	by mx.google.com with ESMTPS id w11sm933236faj.38.2011.07.20.14.07.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 20 Jul 2011 14:07:07 -0700 (PDT)
+	Wed, 20 Jul 2011 14:07:14 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 23:06:22 +0200
-Message-Id: <644356962890630dc522d66d5143afd13dd7fde2.1311195893.git.Martin.Jansa@gmail.com>
+Date: Wed, 20 Jul 2011 23:06:23 +0200
+Message-Id: <c308195bbd9a282ef7b60c3d60f91ad02d7eaa32.1311195893.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.6
 In-Reply-To: <7ac4de095ea2d0543c8c665e2cfd1be131781e8c.1311195893.git.Martin.Jansa@gmail.com>
 References: <7ac4de095ea2d0543c8c665e2cfd1be131781e8c.1311195893.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1311195893.git.Martin.Jansa@gmail.com>
 References: <cover.1311195893.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 05/10] shared-mime-info: inherit perlnative
+Subject: [PATCH 06/10] xkeyboard-config: inherit perlnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,7 +43,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 21:11:12 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 21:11:20 -0000
 
 * otherwise perl from host is used and if there isn't libxml-parser-perl
   installed on host it fails with:
@@ -51,22 +51,22 @@ X-List-Received-Date: Wed, 20 Jul 2011 21:11:12 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../shared-mime-info/shared-mime-info.inc          |    2 +-
+ .../xorg-lib/xkeyboard-config_2.1.bb               |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info.inc b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-index 64eef9d..8b10535 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-@@ -10,7 +10,7 @@ DEPENDS_virtclass-native = "libxml2-native intltool-native glib-2.0-native"
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
+index b077fa3..5633d9c 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
+@@ -26,7 +26,7 @@ EXTRA_OECONF = "--with-xkb-rules-symlink=xorg"
+ RDEPENDS_${PN} += "xkbcomp"
+ FILES_${PN} += "${datadir}/X11/xkb"
  
- SRC_URI = "http://freedesktop.org/~hadess/shared-mime-info-${PV}.tar.bz2"
+-inherit autotools pkgconfig
++inherit autotools pkgconfig perlnative
  
--inherit autotools pkgconfig gettext
-+inherit autotools pkgconfig gettext perlnative
- 
- EXTRA_OECONF = "--disable-update-mimedb"
- 
+ do_install_append () {
+     install -d ${D}/usr/share/X11/xkb/compiled
 -- 
 1.7.6
 
