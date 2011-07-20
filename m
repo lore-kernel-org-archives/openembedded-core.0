@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDI-0001b6-Cb
+	(envelope-from <sgw@linux.intel.com>) id 1QjSDH-0001aO-Oc
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 10:33:05 +0200
+	Wed, 20 Jul 2011 10:33:04 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 20 Jul 2011 01:28:57 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753359"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753292"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:57 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:48 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:37 -0700
-Message-Id: <3eccfdcd973a97a8bc4a30421ab2638b35503e16.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:28:10 -0700
+Message-Id: <0c3f88376a18f789749965ce5fc60a718ac73020.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 50/50] pseudo: fix uninitialised variable in realpath_fix.patch
+Subject: [PATCH 23/50] gcc_4.5.1: fix arm_bswapsi2.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +35,32 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 20 Jul 2011 08:33:06 -0000
 
-From: Joshua Lock <josh@linux.intel.com>
+From: Ilya Yanok <yanok@emcraft.com>
 
-Several users reported issues with pseudo on CentOS 5.x hosts, Matthew
-McClintock tracked the issue to the realpath_fix.patch and Mark Hatle
-supplied the included fix.
+Acoording to http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44392
+correct fix should be
+TARGET_EITHER && (arm_arch6 || !optimize_size)
+not
+TARGET_EITHER && (arm_arch6 && !optimize_size)
 
-CC: Matthew McClintock <msm@freescale.com>
-CC: Mark Hatle <mark.hatle@windriver.com>
-
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+Signed-off-by: Ilya Yanok <yanok@emcraft.com>
 ---
- .../pseudo/pseudo/realpath_fix.patch               |    2 +-
- meta/recipes-devtools/pseudo/pseudo_1.1.1.bb       |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../gcc/gcc-4.5.1/arm-bswapsi2.patch               |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch b/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch
-index 7beea51..4a107e0 100644
---- a/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch
-+++ b/meta/recipes-devtools/pseudo/pseudo/realpath_fix.patch
-@@ -65,7 +65,7 @@ index 600a918..07a4429 100644
-  
- +static void
- +pseudo_init_one_wrapper(pseudo_function *func) {
--+	int (*f)(void);
-++	int (*f)(void) = (int (*)(void)) NULL;
- +	char *e;
- +	if (*func->real != NULL) {
- +		/* already initialized */
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
-index f1c8e63..0a61aec 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.1.1.bb
-@@ -1,6 +1,6 @@
- require pseudo.inc
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://oe-config.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/arm-bswapsi2.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/arm-bswapsi2.patch
+index 9b9f874..a7a6684 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.5.1/arm-bswapsi2.patch
++++ b/meta/recipes-devtools/gcc/gcc-4.5.1/arm-bswapsi2.patch
+@@ -9,7 +9,7 @@ Index: gcc-4.5/gcc/config/arm/arm.md
+    [(set (match_operand:SI 0 "s_register_operand" "=r")
+    	(bswap:SI (match_operand:SI 1 "s_register_operand" "r")))]
+ -"TARGET_EITHER"
+-+"TARGET_EITHER && (arm_arch6 && !optimize_size)"
+++"TARGET_EITHER && (arm_arch6 || !optimize_size)"
+  "
+    if (!arm_arch6)
+      {
 -- 
 1.7.3.4
 
