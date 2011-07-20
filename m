@@ -1,29 +1,32 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QjXxu-0006wz-BH for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 16:41:35 +0200
+	id 1QjY2Z-00076a-46 for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jul 2011 16:46:23 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6KEbQRe023588
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6KEgHvs023620
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 15:37:26 +0100
+	Wed, 20 Jul 2011 15:42:17 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 22766-08 for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 15:37:22 +0100 (BST)
+	id 22788-08 for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2011 15:42:13 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6KEbJcQ023582
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6KEg910023614
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 15:37:19 +0100
+	Wed, 20 Jul 2011 15:42:09 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1311154909.30326.51.camel@phil-desktop>
+In-Reply-To: <CACW_hTb=t9hMoVc-3F538xn1kTwrGT7-wk7DW8FTmi6=Txmvpg@mail.gmail.com>
 References: <1311154909.30326.51.camel@phil-desktop>
-Date: Wed, 20 Jul 2011 15:37:16 +0100
-Message-ID: <1311172636.2344.44.camel@rex>
+	<CACW_hTYXboQ+Zzkt3PXBuA_=uMDVovTgt7g7BNJSxbCdjuoS2A@mail.gmail.com>
+	<4E26D87A.5020808@gmail.com>
+	<CACW_hTb=t9hMoVc-3F538xn1kTwrGT7-wk7DW8FTmi6=Txmvpg@mail.gmail.com>
+Date: Wed, 20 Jul 2011 15:42:06 +0100
+Message-ID: <1311172926.2344.49.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
@@ -42,34 +45,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 14:41:35 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 14:46:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-07-20 at 10:41 +0100, Phil Blundell wrote:
-> Since updating this morning I'm getting
+On Wed, 2011-07-20 at 16:26 +0200, Frans Meulenbroeks wrote
+>         there is already patch sent to fix it.
+>         http://patches.openembedded.org/patch/7933/
+>         libiconv is not default provider of virtual/libiconv on
+>         eglibc/glibc based systems and sometimes that can trip you
+>         over. It happens and as long as we find it and fix it quickly
+>         I don't see a problem. Do you ? 
+> Some people seem to think differently about this. I still recall the
+> pile of shit Koen dumped upon me about a year ago when I accidentally
+> removed a version of openssh or so that was still used. Even though
+> the problem was fixed very quickly after it was brought to my
+> attention. Ah well. As Orwell already said "all animals are equal but
+> some animals are more equal than others".
 > 
-> | ERROR: Function 'File: '/home/pb/sources/libiconv-1.13.1.tar.gz' has
-> md5 checksum 7ab33ebd26687c744a37264a330bbe9a when
-> d42b97f6ef5dd0ba4469d520ed732fed was expected (from URL:
-> 'ftp://ftp.gnu.org/gnu/libiconv/libiconv-1.13.1.tar.gz')' failed
-> NOTE: package libiconv-1.13.1-r0: task do_fetch: Failed
+>         
+>         IMO we should not get so pedantic that people start getting
+>         scared of making changes
 > 
-> The offending commit appears to be
-> bd1e627bef29830f9346b4b984905fd8fcf2e716.  As far as I can tell from a
-> quick inspection of the files, the checksum that was added for
-> libiconv-1.13.1.tar.gz in that commit is actually the md5sum of the
-> earlier version 1.11.1.
+> It was by no means my intention to be pedantic.
+> 
+> Then again I *do* think it is good practice if someone creates a new
+> recipe that (s)he tests it before submitting it.
+> 
+> And my impression was that one of the goals of YP and oe-core was to
+> increase the quality level.
+> One of the ways to increase quality is to do a build after pulling
+> changes and before committing them.
+> (at least I feel that is one of the ways to increase quality, and yes
+> there are other ways too).
+> 
+> And where people work, mistakes happen. One can accept that, but one
+> can also see if there are ways to improve and avoid that a problem
+> re-occurs.
 
-There is a big patch out there which includes a fix for this but I'm
-asking it be reworked. In the meantime I've pushed a fix for the
-checksums.
+I think its fair to ask how this happened and it appears to be due to
+PREFERRED_VERSION and/or PROVIDER confusion. Its unfortunate but I think
+the people involved will not do it again :).
+
+I don't think its entirely fair to immediately bring into question the
+overall quality goals as we are continuing to work towards those and
+this is an exception, not the norm.
 
 Cheers,
 
 Richard
-
-
 
 
 
