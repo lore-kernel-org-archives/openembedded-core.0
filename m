@@ -1,34 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QjYBf-0007Hg-L9 for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 16:55:51 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6KEp26a023721
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QjYHE-00012k-Ur
+	for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jul 2011 17:01:33 +0200
+Received: by wyg30 with SMTP id 30so249197wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 15:51:02 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22788-10 for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 15:50:58 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6KEovuv023715
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 15:50:57 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1310737071.3805.38.camel@phil-desktop>
-References: <1310736662.20015.1232.camel@rex>
-	<1310737071.3805.38.camel@phil-desktop>
-Date: Wed, 20 Jul 2011 15:50:54 +0100
-Message-ID: <1311173454.2344.53.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Performance datapoint - impact of static libs
+	Wed, 20 Jul 2011 07:57:26 -0700 (PDT)
+Received: by 10.216.164.200 with SMTP id c50mr2918244wel.107.1311173846468;
+	Wed, 20 Jul 2011 07:57:26 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id m46sm227912weq.5.2011.07.20.07.57.24
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 20 Jul 2011 07:57:25 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jul 2011 16:57:18 +0200
+Message-Id: <1311173838-12349-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Phil Blundell <philb@gnu.org>, Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] insane: improve diagnostic for redundant rpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,28 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 14:55:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Jul 2011 15:01:33 -0000
 
-On Fri, 2011-07-15 at 14:37 +0100, Phil Blundell wrote:
-> > So static libs add an extra ~30mins of processing (7%) and ~5 mins to
-> > the overall build time. Not as much of a gain as I'd have liked but
-> > interesting none the less.
-> 
-> Do you know how many packages actually respect the --disable-static
-> flag?  I don't think (e)glibc does, for example, which is a bit of a
-> shame since it obviously has one of the largest build times.
+From: Phil Blundell <philb@gnu.org>
 
-I did a quick search over the resulting build looking for image/*.a
-files and it seems a lot of the system did respect it. There were some
-significant exceptions (eglibc, boost, openssl spring to mind) but in
-general it looked pretty good.
+Make it more obvious which file, and which recipe, are at issue.
 
-Cheers,
+Signed-off-by: Phil Blundell <philb@gnu.org>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/insane.bbclass |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Richard
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index c45f2cb..65eda9e 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -142,7 +142,7 @@ def package_qa_check_rpath(file,name, d, elf, messages):
+                 messages.append("package %s contains bad RPATH %s in file %s" % (name, line, file))
+ 
+ QAPATHTEST[useless-rpaths] = "package_qa_check_useless_rpaths"
+-def package_qa_check_useless_rpaths(file,name, d, elf, messages):
++def package_qa_check_useless_rpaths(file, name, d, elf, messages):
+     """
+     Check for RPATHs that are useless but not dangerous
+     """
+@@ -164,7 +164,7 @@ def package_qa_check_useless_rpaths(file,name, d, elf, messages):
+ 	   if rpath == libdir or rpath == base_libdir:
+ 	      # The dynamic linker searches both these places anyway.  There is no point in
+ 	      # looking there again.
+-	      messages.append("dynamic section contains probably-redundant RPATH %s" % rpath)
++	      messages.append("%s: %s contains probably-redundant RPATH %s" % (name, package_qa_clean_path(file, d), rpath))
+ 
+ QAPATHTEST[dev-so] = "package_qa_check_dev"
+ def package_qa_check_dev(path, name, d, elf, messages):
+-- 
+1.6.6.1
 
 
 
