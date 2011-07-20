@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDU-0001ZN-Ae
+	(envelope-from <sgw@linux.intel.com>) id 1QjSDV-0001ZS-Dy
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 10:33:17 +0200
+	Wed, 20 Jul 2011 10:33:18 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:53 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753330"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753333"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:53 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:54 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:26 -0700
-Message-Id: <c1e38312fe3efff38610002ac534d90e32a2f669.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:28:27 -0700
+Message-Id: <bb40d5c61e69e62cc1cadd97e34c89c5ade9eae6.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 39/50] uclibc_0.9.32: Implement sync_file_range2.
+Subject: [PATCH 40/50] oprofile: Fix build when query_module is not there
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,86 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 08:33:18 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 08:33:19 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
-On some arches e.g. arm, ppc sync_file_range2 is used
-instead of sync_file_range so we should consider that
+on 2.6 kernels we do not have query_module so warn
+about it
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../uclibc/uclibc-0.9.32/sync_file_range2.patch    |   40 ++++++++++++++++++++
- meta/recipes-core/uclibc/uclibc_0.9.32.bb          |    3 +-
- 2 files changed, 42 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.32/sync_file_range2.patch
+ .../oprofile/oprofile-no-query-modules.patch       |   29 ++++++++++++++++++++
+ meta/recipes-kernel/oprofile/oprofile_0.9.6.bb     |    3 +-
+ 2 files changed, 31 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-kernel/oprofile/oprofile/oprofile-no-query-modules.patch
 
-diff --git a/meta/recipes-core/uclibc/uclibc-0.9.32/sync_file_range2.patch b/meta/recipes-core/uclibc/uclibc-0.9.32/sync_file_range2.patch
+diff --git a/meta/recipes-kernel/oprofile/oprofile/oprofile-no-query-modules.patch b/meta/recipes-kernel/oprofile/oprofile/oprofile-no-query-modules.patch
 new file mode 100644
-index 0000000..b5e972e
+index 0000000..c9d7cd6
 --- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-0.9.32/sync_file_range2.patch
-@@ -0,0 +1,40 @@
-+Index: git/libc/sysdeps/linux/common/sync_file_range.c
++++ b/meta/recipes-kernel/oprofile/oprofile/oprofile-no-query-modules.patch
+@@ -0,0 +1,29 @@
++disable portions which use query_module on 2.6 kernel this is not available
++in OE we dont support 2.4 anyway
++
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: oprofile-0.9.6/daemon/liblegacy/opd_kernel.c
 +===================================================================
-+--- git.orig/libc/sysdeps/linux/common/sync_file_range.c	2011-07-19 14:23:35.000000000 -0700
-++++ git/libc/sysdeps/linux/common/sync_file_range.c	2011-07-19 15:04:38.631808666 -0700
-+@@ -11,7 +11,8 @@
-+ #if defined __USE_GNU
-+ #include <fcntl.h>
++--- oprofile-0.9.6.orig/daemon/liblegacy/opd_kernel.c	2009-11-24 07:25:17.000000000 -0800
+++++ oprofile-0.9.6/daemon/liblegacy/opd_kernel.c	2011-07-18 10:08:39.863798825 -0700
++@@ -270,6 +270,9 @@
++  */
++ static void opd_drop_module_sample(unsigned long eip)
++ {
+++	verbprintf(vmodule, "query_module not available on linux-2.6: %s\n", strerror(EPERM));
+++
+++#if	0
++ 	char * module_names;
++ 	char * name;
++ 	size_t size = 1024;
++@@ -307,6 +310,7 @@
 + 
-+-#if defined __NR_sync_file_range && defined __UCLIBC_HAS_LFS__
-++#if defined __UCLIBC_HAS_LFS__
-++#if defined __NR_sync_file_range
-+ #define __NR___syscall_sync_file_range __NR_sync_file_range
-+ static __inline__ _syscall6(int, __syscall_sync_file_range, int, fd,
-+ 		off_t, offset_hi, off_t, offset_lo,
-+@@ -23,5 +24,23 @@
-+ 		__LONG_LONG_PAIR((long)(nbytes >> 32), (long)(nbytes & 0xffffffff)),
-+ 		flags);
++ 	if (module_names)
++ 		free(module_names);
+++#endif
 + }
-+-#endif
-+-#endif
-++#elif defined __NR_sync_file_range2
-++#define __NR___syscall_sync_file_range2 __NR_sync_file_range2
-++static __inline__ _syscall6(int, __syscall_sync_file_range2, int, fd,
-++		unsigned int, flags, off_t, offset_hi, off_t, offset_lo,
-++		off_t, nbytes_hi, off_t, nbytes_lo)
-++int sync_file_range(int fd, off64_t offset, off64_t nbytes, unsigned int flags)
-++{
-++	return __syscall_sync_file_range2(fd, flags,
-++		__LONG_LONG_PAIR((long)(offset >> 32), (long)(offset & 0xffffffff)),
-++		__LONG_LONG_PAIR((long)(nbytes >> 32), (long)(nbytes & 0xffffffff)));
-++}
-++#else
-++int sync_file_range(int fd, off64_t offset, off64_t nbytes, unsigned int flags)
-++{
-++	__set_errno (ENOSYS);
-++	return -1
-++}
-++#endif /* __NR_sync_file_range */
-++#endif /* __UCLIBC_HAS_LFS__ */
-++#endif /* __USE_GNU */
-diff --git a/meta/recipes-core/uclibc/uclibc_0.9.32.bb b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
-index b959279..8dcb260 100644
---- a/meta/recipes-core/uclibc/uclibc_0.9.32.bb
-+++ b/meta/recipes-core/uclibc/uclibc_0.9.32.bb
-@@ -1,7 +1,7 @@
- SRCREV="9152c4d67c763fde5712e2d181d92c0d7e1e2ab9"
++ 
++ 
+diff --git a/meta/recipes-kernel/oprofile/oprofile_0.9.6.bb b/meta/recipes-kernel/oprofile/oprofile_0.9.6.bb
+index 603500d..0f154c8 100644
+--- a/meta/recipes-kernel/oprofile/oprofile_0.9.6.bb
++++ b/meta/recipes-kernel/oprofile/oprofile_0.9.6.bb
+@@ -19,10 +19,11 @@ FILES_${PN} = "${bindir} ${libdir}/${BPN}/lib*.so.* ${datadir}/${BPN}"
+ FILES_${PN}-dev += "${libdir}/${BPN}/lib*.so ${libdir}/${BPN}/lib*.la"
+ FILES_${PN}-staticdev += "${libdir}/${BPN}/lib*.a"
  
- require uclibc.inc
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
- PROVIDES += "virtual/${TARGET_PREFIX}libc-for-gcc"
+-PR = "r1"
++PR = "r2"
  
- SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
-@@ -28,5 +28,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=${PV};protocol=git \
- 	file://0001-mips-signalfd.h-SFD_NONBLOCK-for-mips-is-0200-unlike.patch \
- 	file://uclibc-execvpe.patch \
- 	file://uclibc_scheduler_update.patch \
-+	file://sync_file_range2.patch \
- 	"
- S = "${WORKDIR}/git"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/oprofile/oprofile-${PV}.tar.gz \
+            file://opstart.patch \
++           file://oprofile-no-query-modules.patch \
+            file://acinclude.m4"
+ 
+ SRC_URI[md5sum] = "4e407093ac06200185d5a5e6437d7242"
 -- 
 1.7.3.4
 
