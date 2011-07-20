@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDW-0001Zu-EK
+	(envelope-from <sgw@linux.intel.com>) id 1QjSDW-0001ZN-ST
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 10:33:18 +0200
+	Wed, 20 Jul 2011 10:33:20 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753342"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753344"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
 	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:55 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:30 -0700
-Message-Id: <f0e9251b694fae92b9a5f00e0b7ebaba3a80e1e9.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:28:31 -0700
+Message-Id: <6553480f1a0d19545d688460b1f6ad8cf42daa05.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 43/50] binutils: Fix build when compiling target binutils recipe with gcc 4.6
+Subject: [PATCH 44/50] clutter-box2d: Replace use of finite macro with C99 compliant isfinite()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,116 +39,56 @@ From: Khem Raj <raj.khem@gmail.com>
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../binutils/binutils/clone-shadow.patch           |   79 ++++++++++++++++++++
- meta/recipes-devtools/binutils/binutils_2.21.1.bb  |    3 +-
- 2 files changed, 81 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/binutils/binutils/clone-shadow.patch
+ .../clutter/clutter-box2d-1.6_0.10.0.bb            |    6 ++++--
+ .../clutter/clutter-box2d/isfinite.patch           |   19 +++++++++++++++++++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils/clone-shadow.patch b/meta/recipes-devtools/binutils/binutils/clone-shadow.patch
+diff --git a/meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb b/meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb
+index ad94aa5..a0024d0 100644
+--- a/meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb
++++ b/meta/recipes-graphics/clutter/clutter-box2d-1.6_0.10.0.bb
+@@ -1,11 +1,13 @@
+ require clutter-box2d.inc
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ DEPENDS += "clutter-1.6"
+ 
+ SRC_URI = "http://source.clutter-project.org/sources/clutter-box2d/0.10/clutter-box2d-${PV}.tar.bz2 \
+-           file://fix-disable-introspection.patch"
++           file://fix-disable-introspection.patch \
++           file://isfinite.patch \
++          "
+ 
+ S = "${WORKDIR}/clutter-box2d-${PV}"
+ 
+diff --git a/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch b/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
 new file mode 100644
-index 0000000..2939011
+index 0000000..fd2bf74
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/clone-shadow.patch
-@@ -0,0 +1,79 @@
-+This fixes a global shadow warning. The warning is treated as error hence breaks the build of target
-+binutils.
++++ b/meta/recipes-graphics/clutter/clutter-box2d/isfinite.patch
+@@ -0,0 +1,19 @@
++_finite is obsoleted and C99 has isfinite instead so we should use it
 +
-+ /b/openembedded-core/build/tmp-uclibc/work/armv5te-oe-linux-uclibceabi/binutils-2.21.1-r1/binutils-2.21.1/gas/config/obj-elf.c: In function 'obj_elf_parse_section_letters':
-+| /b/openembedded-core/build/tmp-uclibc/work/armv5te-oe-linux-uclibceabi/binutils-2.21.1-r1/binutils-2.21.1/gas/config/obj-elf.c:744:68: error: declaration of 'clone' shadows a global declaration [-Werror=shadow]
-+| /b/openembedded-core/build/tmp-uclibc/work/armv5te-oe-linux-uclibceabi/binutils-2.21.1-r1/binutils-2.21.1/gas/config/obj-elf.c: In function 'obj_elf_section':
-+| /b/openembedded-core/build/tmp-uclibc/work/armv5te-oe-linux-uclibceabi/binutils-2.21.1-r1/binutils-2.21.1/gas/config/obj-elf.c:981:16: error: declaration of 'clone' shadows a global declaration [-Werror=shadow]
-+| cc1: all warnings being treated as errors
-+|
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
 +Upstream-Status: Pending
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Index: binutils-2.21.1/gas/config/obj-elf.c
++Index: clutter-box2d-0.10.0/box2d/Source/Common/b2Math.h
 +===================================================================
-+--- binutils-2.21.1.orig/gas/config/obj-elf.c	2011-03-23 07:14:03.000000000 -0700
-++++ binutils-2.21.1/gas/config/obj-elf.c	2011-07-16 19:05:57.003831035 -0700
-+@@ -741,10 +741,10 @@
++--- clutter-box2d-0.10.0.orig/box2d/Source/Common/b2Math.h	2008-12-16 06:42:10.000000000 -0800
+++++ clutter-box2d-0.10.0/box2d/Source/Common/b2Math.h	2011-07-17 02:10:29.833825198 -0700
++@@ -60,7 +60,7 @@
++ #ifdef _MSC_VER
++ 	return _finite(x) != 0;
++ #else
++-	return finite(x) != 0;
+++	return std::isfinite(x) != 0;
++ #endif
 + }
 + 
-+ static bfd_vma
-+-obj_elf_parse_section_letters (char *str, size_t len, bfd_boolean *clone)
-++obj_elf_parse_section_letters (char *str, size_t len, bfd_boolean *cloneit)
-+ {
-+   bfd_vma attr = 0;
-+-  *clone = FALSE;
-++  *cloneit = FALSE;
-+ 
-+   while (len > 0)
-+     {
-+@@ -775,7 +775,7 @@
-+ 	  attr |= SHF_TLS;
-+ 	  break;
-+ 	case '?':
-+-	  *clone = TRUE;
-++	  *cloneit = TRUE;
-+ 	  break;
-+ 	/* Compatibility.  */
-+ 	case 'm':
-+@@ -978,7 +978,7 @@
-+ 
-+       if (*input_line_pointer == '"')
-+ 	{
-+-	  bfd_boolean clone;
-++	  bfd_boolean cloneit;
-+ 
-+ 	  beg = demand_copy_C_string (&dummy);
-+ 	  if (beg == NULL)
-+@@ -986,7 +986,7 @@
-+ 	      ignore_rest_of_line ();
-+ 	      return;
-+ 	    }
-+-	  attr |= obj_elf_parse_section_letters (beg, strlen (beg), &clone);
-++	  attr |= obj_elf_parse_section_letters (beg, strlen (beg), &cloneit);
-+ 
-+ 	  SKIP_WHITESPACE ();
-+ 	  if (*input_line_pointer == ',')
-+@@ -1038,10 +1038,10 @@
-+ 	      attr &= ~SHF_MERGE;
-+ 	    }
-+ 
-+-	  if ((attr & SHF_GROUP) != 0 && clone)
-++	  if ((attr & SHF_GROUP) != 0 && cloneit)
-+ 	    {
-+ 	      as_warn (_("? section flag ignored with G present"));
-+-	      clone = FALSE;
-++	      cloneit = FALSE;
-+ 	    }
-+ 	  if ((attr & SHF_GROUP) != 0 && *input_line_pointer == ',')
-+ 	    {
-+@@ -1063,7 +1063,7 @@
-+ 	      attr &= ~SHF_GROUP;
-+ 	    }
-+ 
-+-	  if (clone)
-++	  if (cloneit)
-+ 	    {
-+ 	      const char *now_group = elf_group_name (now_seg);
-+ 	      if (now_group != NULL)
-diff --git a/meta/recipes-devtools/binutils/binutils_2.21.1.bb b/meta/recipes-devtools/binutils/binutils_2.21.1.bb
-index 4eb6566..e1a16a6 100644
---- a/meta/recipes-devtools/binutils/binutils_2.21.1.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.21.1.bb
-@@ -1,6 +1,6 @@
- require binutils.inc
- 
--PR = "r1"
-+PR = "r2"
- 
- LIC_FILES_CHKSUM="\
-     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
-@@ -29,6 +29,7 @@ SRC_URI = "\
-      file://libiberty_path_fix.patch \
-      file://binutils-poison.patch \
-      file://libtool-rpath-fix.patch \
-+     file://clone-shadow.patch \
-      "
- 
- SRC_URI[md5sum] = "a22801a9cad45c85e9ff6afc10537d72"
 -- 
 1.7.3.4
 
