@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjSDY-0001Zu-SF
+	(envelope-from <sgw@linux.intel.com>) id 1QjSDK-0001ZJ-Lc
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 10:33:21 +0200
+	Wed, 20 Jul 2011 10:33:07 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:56 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2011 01:28:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753353"
+X-IronPort-AV: E=Sophos;i="4.67,233,1309762800"; d="scan'208";a="29753302"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:56 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2011 01:28:50 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jul 2011 01:28:35 -0700
-Message-Id: <c8e181edc6af7a536412ea05d88899beeabcd93e.1311150183.git.sgw@linux.intel.com>
+Date: Wed, 20 Jul 2011 01:28:17 -0700
+Message-Id: <1b812a72a5218ac2a113b8c8e5d4c9a126707b9c.1311150183.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311150183.git.sgw@linux.intel.com>
 References: <cover.1311150183.git.sgw@linux.intel.com>
-Subject: [PATCH 48/50] task-core-tools: Exclude systemtap for uclibc
+Subject: [PATCH 30/50] bitbake.conf, sanity.bbclass: Drop mercurial-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jul 2011 08:33:23 -0000
+X-List-Received-Date: Wed, 20 Jul 2011 08:36:51 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Tom Rini <tom_rini@mentor.com>
 
-systemtap needs full fledged elfutils which cant be
-built on uclibc therefore we live without systemtap
-on uclibc
+We have no hg URIs in the metadata, so don't require and don't
+ASSUME_PROVIDED it either.  meta-oe has a mercurial-native recipe
+if hg URIs are added in a recipe later.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- meta/recipes-core/tasks/task-core-tools.bb |   11 ++++++++---
- 1 files changed, 8 insertions(+), 3 deletions(-)
+ meta/classes/sanity.bbclass |    2 +-
+ meta/conf/bitbake.conf      |    1 -
+ 2 files changed, 1 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/tasks/task-core-tools.bb b/meta/recipes-core/tasks/task-core-tools.bb
-index 44520a7..eed4afb 100644
---- a/meta/recipes-core/tasks/task-core-tools.bb
-+++ b/meta/recipes-core/tasks/task-core-tools.bb
-@@ -53,6 +53,11 @@ RRECOMMENDS_task-core-tools-profile = "\
-     sysprof \
-     "
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 716b158..28c9ecd 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -209,7 +209,7 @@ def check_sanity(e):
+     if not check_app_exists('${BUILD_PREFIX}g++', e.data):
+         missing = missing + "C++ Compiler (%sg++)," % data.getVar("BUILD_PREFIX", e.data, True)
  
-+# systemtap needs elfutils which is not fully buildable on uclibc
-+# hence we exclude it from uclibc based builds
-+SYSTEMTAP = "systemtap"
-+SYSTEMTAP_libc-uclibc = ""
-+
- #    exmap-console
- #    exmap-server
+-    required_utilities = "patch help2man diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk hg chrpath wget cpio"
++    required_utilities = "patch help2man diffstat texi2html makeinfo cvs svn bzip2 tar gzip gawk chrpath wget cpio"
  
-@@ -60,9 +65,9 @@ RRECOMMENDS_task-core-tools-profile = "\
- # qemux86/qemux86-64/qemuppc/qemuarm/emenlow/atom-pc since upstream liburcu
- # (which is required by lttng-ust) may not build on other platforms, like
- # MIPS.
--RDEPENDS_task-core-tools-profile_append_qemux86 = " valgrind lttng-ust systemtap"
--RDEPENDS_task-core-tools-profile_append_qemux86-64 = " lttng-ust systemtap"
--RDEPENDS_task-core-tools-profile_append_qemuppc = " lttng-ust systemtap"
-+RDEPENDS_task-core-tools-profile_append_qemux86 = " valgrind lttng-ust ${SYSTEMTAP}"
-+RDEPENDS_task-core-tools-profile_append_qemux86-64 = " lttng-ust ${SYSTEMTAP}"
-+RDEPENDS_task-core-tools-profile_append_qemuppc = " lttng-ust ${SYSTEMTAP}"
- RDEPENDS_task-core-tools-profile_append_qemuarm = " lttng-ust"
- 
- RDEPENDS_task-core-tools-testapps = "\
+     if "qemu-native" in assume_provided:
+         if not check_app_exists("qemu-arm", e.data):
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 128b0b6..975e24c 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -132,7 +132,6 @@ ASSUME_PROVIDED = "\
+     cvs-native \
+     grep-native \
+     diffstat-native \
+-    mercurial-native \
+     patch-native \
+     perl-native-runtime \
+     python-native-runtime \
 -- 
 1.7.3.4
 
