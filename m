@@ -1,34 +1,31 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-pv0-f175.google.com ([74.125.83.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QjxzO-0004xX-Ea
+	(envelope-from <raj.khem@gmail.com>) id 1QjyLW-0005Kl-Uz
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 20:28:50 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QjxvN-0006Lc-W1 from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 11:24:42 -0700
-Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 21 Jul 2011 11:22:22 -0700
-Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
-	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
-	Thu, 21 Jul 2011 11:24:41 -0700
-Message-ID: <4E286EE4.3020502@mentor.com>
-Date: Thu, 21 Jul 2011 11:24:36 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+	Thu, 21 Jul 2011 20:51:43 +0200
+Received: by pvf24 with SMTP id 24so1357522pvf.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jul 2011 11:47:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=AiwPSmJWvbEq9jj+5sx+D8ldyd84px1AFfFheDhgmFk=;
+	b=Xw3UvRCfzfbSv+p2X3v/AIp505sWSoXmMNvQFZZsHcgdoZ5Mzm0XKlAvbRjKatBlQl
+	r7qkCVoFNbm6oBhqMuYQYSpIk61NOosO29QKKX9vpwaynt8fisl2OvJzL4DTT23Gqtfy
+	lkWfnDzfC3a57zuD4wNDaFI8RT2Fwq2j63rPw=
+Received: by 10.68.33.200 with SMTP id t8mr739819pbi.144.1311274054525; Thu,
+	21 Jul 2011 11:47:34 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>	<CAMKF1srHzFH9PpmKcSMFhSRUstGnt6Pf-z6pirXQFWTpci0vWg@mail.gmail.com>	<4E285C54.5000308@mentor.com>
-	<CAMKF1spLfWX4ANoyAjzypTHpwBUJjOhRKT4Asg22=qw1qPcHQA@mail.gmail.com>
-In-Reply-To: <CAMKF1spLfWX4ANoyAjzypTHpwBUJjOhRKT4Asg22=qw1qPcHQA@mail.gmail.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 21 Jul 2011 18:22:22.0983 (UTC)
-	FILETIME=[2286C170:01CC47D3]
-Subject: Re: siteinfo split between powerpc-common & powerpc-linux
+Received: by 10.68.62.36 with HTTP; Thu, 21 Jul 2011 11:47:04 -0700 (PDT)
+In-Reply-To: <fc7ecf3f3b90f6949e790f18eeea908d069282d5.1311234475.git.sgw@linux.intel.com>
+References: <cover.1311234475.git.sgw@linux.intel.com>
+	<fc7ecf3f3b90f6949e790f18eeea908d069282d5.1311234475.git.sgw@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 21 Jul 2011 11:47:04 -0700
+Message-ID: <CAMKF1spf5Q2-fFL6=dGEjG+2Xrovujf9EXV70R5eZ4A9NDZUcw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED PULL 14/20] Make intltool use perlnative instead of perl on host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,48 +40,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 18:28:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Jul 2011 18:51:43 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 07/21/2011 11:20 AM, Khem Raj wrote:
-> On Thu, Jul 21, 2011 at 10:05 AM, Tom Rini <tom_rini@mentor.com> wrote:
->> On 07/21/2011 09:48 AM, Khem Raj wrote:
->>> On Thu, Jul 21, 2011 at 5:17 AM, Kumar Gala <galak@kernel.crashing.org> wrote:
->>>> Why do we have a split between powerpc-common & powerpc-linux?
->>>>
->>>> I assume powerpc-linux is used and picked up for powerpc-linux-uclibc in addition to normal powerpc-linux.
->>>>
->>>> I'm looking at adding powerpc64 support and powerpc-common is all kinda of broken for it.  I'd like to just merge powerpc-common & powerpc-linux (as powerpc-linux 32-bit) for now and start a new powerpc-common that refactors 32/64 commonalities.
->>>>
->>>> Unless someone says otherwise about the meaning of these files.
->>>
->>> powerpc-common is shared between uclibc and eglibc at present and may
->>> be shared with other OSes that may build with OE in future.
->>> traditionally powerpc-common implicitly implied 32bit so I am not
->>> surprised if its broken for ppc64. You could add powerpc64-common
->>> and leave 32bit alone. See how its done for mips64 in oe.dev
->>>
->>> http://git.openembedded.org/cgit.cgi/openembedded/tree/site
->>
->> I'd argue that what we do for mips today is also wrong and I'm going to
->> try and fix it as soon as I can.  In these cases we should have:
->> common, common-linux, common-$libc, mips-common, mips-linux,
->> mips64-linux and if needed mips64-linux-libc.
-> 
-> yes that structure would be desirable. It would need a bit of overhaul
-> and lot of testing.
-> since you have something setup for your import from oe stuff for same.
-> may be you can take a stab at it
+On Thu, Jul 21, 2011 at 12:53 AM, Saul Wold <sgw@linux.intel.com> wrote:
+>
+> -inherit autotools pkgconfig
+> +inherit autotools pkgconfig perlnative
+>
+> =C2=A0export PERL_virtclass-native =3D "/usr/bin/env perl"
 
-Yeah, it's on my list now that the first step is really in :)  I hope to
-get the obvious bits rebased and tested and posted today at least, and
-then get to finishing the obvious bits and start trying the less obvious
-ones.  Glad you fixed uclibc, btw, that had me scratching my head on a
-few things we do today :)
+is the above line still needed
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+
+> =C2=A0BBCLASSEXTEND =3D "native"
+>
 
 
