@@ -1,38 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1QjoAl-0001g7-C8
+	(envelope-from <Kai.Kang@windriver.com>) id 1QjoEz-00026C-3r
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 09:59:55 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2011 00:55:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,240,1309762800"; d="scan'208";a="32891161"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2011 00:55:46 -0700
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 21 Jul 2011 15:54:10 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Thu, 21 Jul 2011 15:54:09 +0800
-From: "Mei, Lei" <lei.mei@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Jul 2011 15:54:09 +0800
-Thread-Topic: [OE-core] [PATCH 2/2] perl-dynloader.patch: Fix libdir issue
-	for multilib
-Thread-Index: AcxG6j6jy+hEofZ1SYefPNV6jyt4FAAkKSDw
-Message-ID: <749B9D3DBF0F054390025D9EAFF47F2212D0EAC182@shsmsx501.ccr.corp.intel.com>
-References: <cover.1311151283.git.lei.mei@intel.com>
-	<93848d65e679794e5aa41e548ee275378518d071.1311151283.git.lei.mei@intel.com>
-	<1311172466.2344.43.camel@rex>
-In-Reply-To: <1311172466.2344.43.camel@rex>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Thu, 21 Jul 2011 10:04:17 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6L804TX017182
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 21 Jul 2011 01:00:07 -0700 (PDT)
+Received: from localhost (128.224.162.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 21 Jul 2011 01:00:04 -0700
+Message-ID: <cover.1311234759.git.kai.kang@windriver.com>
+Old-Date: Thu, 21 Jul 2011 15:52:39 +0800
+Date: Thu, 21 Jul 2011 16:00:11 +0800
+To: <scott.a.garman@intel.com>
+From: Kang Kai <kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] perl-dynloader.patch: Fix libdir issue for multilib
+X-Originating-IP: [128.224.162.154]
+Cc: Wenzong, openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/10] works of adding packages pam support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,71 +33,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 07:59:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Jul 2011 08:04:17 -0000
+Content-Type: text/plain
 
+From: Kang Kai <kai.kang@windriver.com>
 
+Hi Scott,
 
->-----Original Message-----
->From: openembedded-core-bounces@lists.openembedded.org
->[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->Richard Purdie
->Sent: Wednesday, July 20, 2011 10:34 PM
->To: Patches and discussions about the oe-core layer
->Subject: Re: [OE-core] [PATCH 2/2] perl-dynloader.patch: Fix libdir issue =
-for
->multilib
->
->On Wed, 2011-07-20 at 16:48 +0800, Mei Lei wrote:
->> The perl-dynloader.patch can't support /usr/lib64, change the regular
->expression to support multilib.
->>
->> Signed-off-by: Mei Lei <lei.mei@intel.com>
->> ---
->>  .../perl/perl-5.12.3/perl-dynloader.patch          |    2 +-
->>  1 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
->b/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
->> index d5ea00f..a45af91 100644
->> --- a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
->> +++ b/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
->> @@ -19,7 +19,7 @@ Update by Nitin A Kamble <nitin.a.kamble@intel.com>
->2011/04/21
->>  +    {
->>  +        my $hostlib =3D $ENV{PERLHOSTLIB};
->>  +        print STDERR "*** Module name IN: $modlibname\n";
->> -+        ($p1, $p2, $p3, $p4, $p5) =3D $modlibname =3D~
->m/(^(.*lib\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
->> ++        ($p1, $p2, $p3, $p4, $p5) =3D $modlibname =3D~
->m/(^(.*lib[0-9]*\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
->>  +        print STDERR "*** p1: $p1  p3: $p3  p5: $p5\n";
->>  +        if ( $p1 ne "" ) {
->>  +            $modlibname =3D $hostlib.$p5;
->
->We might need to relax this a little further since we might want things
->like libx32 to work in future?
+This is the current work of adding pam supports. 
 
-Hi Nitin,
-	I am not sure what is the perl work style under libx32, can you supply som=
-e information about it?
+After update libpam to 1.1.4, we enable the packages pam support. And if the pacakge
+doesn't have a pam configure file, import from Fedora.
 
-Thanks
-Lei
+The following changes since commit fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
 
+  bb-matrix: correct BB and PM number canonicalization (2011-07-14 22:23:09 +0100)
 
->
->Cheers,
->
->Richard
->
->
->
->_______________________________________________
->Openembedded-core mailing list
->Openembedded-core@lists.openembedded.org
->http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/distro
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/pam-commits
+
+Kang Kai (5):
+  libpam: update to 1.1.4 and add subpackage xtests
+  cups: add pam support
+  screen: add pam support
+  sudo: add pam support
+  shadow: update pam related configure files
+
+Wenzong Fan (2):
+  cronie: enable PAM support for cronie
+  at: enable pam support
+
+Xiaofeng Yan (3):
+  dropbear: Support PAM
+  openssh: Support PAM
+  polkit: Support PAM
+
+ .../openssh/openssh-5.8p2/sshd                     |   10 +
+ meta/recipes-connectivity/openssh/openssh_5.8p2.bb |    7 +-
+ meta/recipes-core/dropbear/dropbear.inc            |    6 +-
+ .../dropbear/dropbear/dropbear-enable-pam.patch    |   21 +++
+ .../at/at-3.1.12/configure-add-enable-pam.patch    |   23 +++
+ meta/recipes-extended/at/at-3.1.12/pam.conf.patch  |   16 ++
+ meta/recipes-extended/at/at_3.1.12.bb              |   13 +-
+ .../cronie/cronie/crond_pam_config.patch           |   13 ++
+ meta/recipes-extended/cronie/cronie_1.4.7.bb       |    9 +-
+ meta/recipes-extended/cups/cups_1.4.6.bb           |    8 +-
+ .../pam/libpam/libpam-xtests.patch                 |   35 ++++
+ .../pam/{libpam_1.1.3.bb => libpam_1.1.4.bb}       |   14 +-
+ .../polkit/polkit-0.101/polkit-1_pam.patch         |   23 +++
+ meta/recipes-extended/polkit/polkit_0.101.bb       |    6 +-
+ .../screen/screen-4.0.3/screen.pamd                |    2 +
+ meta/recipes-extended/screen/screen_4.0.3.bb       |   14 +-
+ .../shadow/files/shadow-update-pam-conf.patch      |  175 ++++++++++++++++++++
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    5 +-
+ meta/recipes-extended/sudo/files/sudo.pamd         |    6 +
+ meta/recipes-extended/sudo/sudo_1.8.1p2.bb         |   11 +-
+ 20 files changed, 389 insertions(+), 28 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
+ create mode 100644 meta/recipes-extended/at/at-3.1.12/configure-add-enable-pam.patch
+ create mode 100644 meta/recipes-extended/at/at-3.1.12/pam.conf.patch
+ create mode 100644 meta/recipes-extended/cronie/cronie/crond_pam_config.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/libpam-xtests.patch
+ rename meta/recipes-extended/pam/{libpam_1.1.3.bb => libpam_1.1.4.bb} (85%)
+ create mode 100644 meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
+ create mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen.pamd
+ create mode 100644 meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
+ create mode 100644 meta/recipes-extended/sudo/files/sudo.pamd
+
+-- 
+1.7.5.1.300.gc565c
+
 
 
