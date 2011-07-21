@@ -1,31 +1,32 @@
-Received: from mail-gy0-f175.google.com ([209.85.160.175])
+Received: from mail-yi0-f47.google.com ([209.85.218.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <fransmeulenbroeks@gmail.com>) id 1Qjlyz-0006mM-NV
+	(envelope-from <raj.khem@gmail.com>) id 1QjmWl-0007aQ-FP
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 07:39:37 +0200
-Received: by gyd12 with SMTP id 12so481530gyd.6
+	Thu, 21 Jul 2011 08:14:31 +0200
+Received: by yib18 with SMTP id 18so494276yib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 22:35:30 -0700 (PDT)
+	Wed, 20 Jul 2011 23:10:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=Z2t4OYxQhfFVkWS7NepqeZH5TDhioj+zSQ/R+Gc8Gy8=;
-	b=N1QH+xgDJwr9gF/P8YR/Og8kzL4tOTEDwD8cpKkl+WlM/yDbRrDWJHW+MOgfj/OpEm
-	UZGTJ0aXAmBsO/Wb8wTAcCcE+OKvXvj8s1Zg8HGy2nRVwBaUz0qBC+OSnBZg43T8bO/r
-	ISoAWlSFj9txk/zl7YHr2ISfhR8Nvfsm8chQc=
-MIME-Version: 1.0
-Received: by 10.90.22.32 with SMTP id 32mr152831agv.183.1311226530038; Wed, 20
-	Jul 2011 22:35:30 -0700 (PDT)
-Received: by 10.90.223.19 with HTTP; Wed, 20 Jul 2011 22:35:29 -0700 (PDT)
-In-Reply-To: <53e99ac545b7ee871abe9f814e7ea3cc45b5a87f.1311195893.git.Martin.Jansa@gmail.com>
-References: <cover.1311195893.git.Martin.Jansa@gmail.com>
-	<7ac4de095ea2d0543c8c665e2cfd1be131781e8c.1311195893.git.Martin.Jansa@gmail.com>
-	<53e99ac545b7ee871abe9f814e7ea3cc45b5a87f.1311195893.git.Martin.Jansa@gmail.com>
-Date: Thu, 21 Jul 2011 07:35:29 +0200
-Message-ID: <CACW_hTZ1XODVOPOrxzCnFCEmsT87PD_t+bFs0_nZdXCpDWTXGA@mail.gmail.com>
-From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/10] intltool: inherit perlnative
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=8yQqo2R+kBEdhiMsFSH7IrjK5MfpXiretaI+ui8dVMM=;
+	b=NGLZjgixkOKKkfh801cVk2qFLg0W8yyhE8ssaIG73NLYCxrp/cCTL+0/2SQ3ku4W2u
+	VUIrdX6NBSgDowOmyoxPhmbJ4WREX/8zMszUrSu/g1kttjN4VaND03dhnZV7XDD4hHsN
+	MSzK8v71fJo829V/T4d/wAL0LqNKcVkMuF8g8=
+Received: by 10.236.185.136 with SMTP id u8mr12403547yhm.320.1311228623965;
+	Wed, 20 Jul 2011 23:10:23 -0700 (PDT)
+Received: from localhost.localdomain
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id f14sm1398877icm.3.2011.07.20.23.10.22
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 20 Jul 2011 23:10:23 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jul 2011 23:10:13 -0700
+Message-Id: <1311228617-29732-2-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <1311228617-29732-1-git-send-email-raj.khem@gmail.com>
+References: <1311228617-29732-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 2/6] task-core-tools.bb: Exclude lttng-ust for x86_64/uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,50 +41,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 05:39:37 -0000
-Content-Type: multipart/alternative; boundary=001636283cbc8b04a504a88db713
+X-List-Received-Date: Thu, 21 Jul 2011 06:14:31 -0000
 
---001636283cbc8b04a504a88db713
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/tasks/task-core-tools.bb |   11 ++++++++++-
+ 1 files changed, 10 insertions(+), 1 deletions(-)
 
-General remark:
+diff --git a/meta/recipes-core/tasks/task-core-tools.bb b/meta/recipes-core/tasks/task-core-tools.bb
+index eed4afb..b0eb7d4 100644
+--- a/meta/recipes-core/tasks/task-core-tools.bb
++++ b/meta/recipes-core/tasks/task-core-tools.bb
+@@ -58,6 +58,15 @@ RRECOMMENDS_task-core-tools-profile = "\
+ SYSTEMTAP = "systemtap"
+ SYSTEMTAP_libc-uclibc = ""
+ 
++# lttng-ust uses sched_getcpu() which is not there on uclibc
++# for some of the architectures it can be patched to call the
++# syscall directly but for x86_64 __NR_getcpu is a vsyscall
++# which means we can not use syscall() to call it. So we ignore
++# it for x86_64/uclibc
++
++LTTNGUST = "lttng-ust"
++LTTNGUST_libc-uclibc = ""
++
+ #    exmap-console
+ #    exmap-server
+ 
+@@ -66,7 +75,7 @@ SYSTEMTAP_libc-uclibc = ""
+ # (which is required by lttng-ust) may not build on other platforms, like
+ # MIPS.
+ RDEPENDS_task-core-tools-profile_append_qemux86 = " valgrind lttng-ust ${SYSTEMTAP}"
+-RDEPENDS_task-core-tools-profile_append_qemux86-64 = " lttng-ust ${SYSTEMTAP}"
++RDEPENDS_task-core-tools-profile_append_qemux86-64 = " ${LTTNGUST} ${SYSTEMTAP}"
+ RDEPENDS_task-core-tools-profile_append_qemuppc = " lttng-ust ${SYSTEMTAP}"
+ RDEPENDS_task-core-tools-profile_append_qemuarm = " lttng-ust"
+ 
+-- 
+1.7.4.1
 
-I suspect lots of recipes depend on perl if only in their configure scripts.
-I guess doing per-patckage staging could improve the visibility of this.
 
-Also wrt /usr/bin/env perl:
-I haven't peeked into the source of env, but ideally non-native recipes
-should maybe not rely on host packages, only on the ones we build.
-E.g. no /usr/bin in PATH wehn building these (and yes, I know that is not
-trivial and will trigger some bugs and it also does not help against hard
-coded paths, and probalby some progs will cause a pain (e.g. /bin/sh)).
-Maybe a chrooted system would be better, but I vaguely recall that this was
-once discussed (and presumably rejected).
 
-Another thing we could do is have  our own env program which (in this case)
-does not return a path to perl if the native package is not there (and
-thereby causing things to fail instead of silently using the host perl).
-
-Have fun!
-Frans.
-
---001636283cbc8b04a504a88db713
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-General remark:<br><br>I suspect lots of recipes depend on perl if only in =
-their configure scripts.<br>I guess doing per-patckage staging could improv=
-e the visibility of this.<br><br>Also wrt /usr/bin/env perl:<br>I haven&#39=
-;t peeked into the source of env, but ideally non-native recipes should may=
-be not rely on host packages, only on the ones we build.<br>
-E.g. no /usr/bin in PATH wehn building these (and yes, I know that is not t=
-rivial and will trigger some bugs and it also does not help against hard co=
-ded paths, and probalby some progs will cause a pain (e.g. /bin/sh)).<br>
-Maybe a chrooted system would be better, but I vaguely recall that this was=
- once discussed (and presumably rejected).<br><br>Another thing we could do=
- is have=A0 our own env program which (in this case) does not return a path=
- to perl if the native package is not there (and thereby causing things to =
-fail instead of silently using the host perl).<br>
-<br>Have fun! <br>Frans.<br>
-
---001636283cbc8b04a504a88db713--
