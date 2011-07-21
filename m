@@ -1,31 +1,20 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qjvd8-000784-Ne
+	(envelope-from <nitin.a.kamble@intel.com>) id 1QjveD-0000KU-Ih
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 17:57:42 +0200
-Received: by pvf24 with SMTP id 24so1228887pvf.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2011 08:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=yx8GRLBS97gFdrFvGgwHcTZLopJEzcvZcEDq+OnG/l4=;
-	b=UfjXzgQFMYIAIiKqNMKfFf94w6j8i3XydZjaMRazppJYQrrIJAtlhIpTeJT3kdbse7
-	TokUOm+iG6wMpbzT4eub2c8Y140CZ0Uf73PCMDQ9U6SBLS6siinGrQv12J2WIjjenT4/
-	Cv9MItEND7mHyvF2czJLe3FJxJItkYQRdUEak=
-Received: by 10.68.2.103 with SMTP id 7mr482949pbt.211.1311263614087; Thu, 21
-	Jul 2011 08:53:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.62.36 with HTTP; Thu, 21 Jul 2011 08:53:03 -0700 (PDT)
-In-Reply-To: <20110721081209.GA3423@rhein.zuhause.netz>
-References: <1311228617-29732-1-git-send-email-raj.khem@gmail.com>
-	<1311228617-29732-3-git-send-email-raj.khem@gmail.com>
-	<20110721081209.GA3423@rhein.zuhause.netz>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 21 Jul 2011 08:53:03 -0700
-Message-ID: <CAMKF1spt2VpRKBZUB5tNc-vjxtX-F6OmJ7dWnagqEF7Rti=D8w@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] libiconv: Fix build failure on 1.13.1
+	Thu, 21 Jul 2011 17:59:04 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Jul 2011 08:54:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,240,1309762800"; d="scan'208";a="33030641"
+Received: from nbuild1.sc.intel.com ([172.25.110.36])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2011 08:54:41 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jul 2011 02:29:10 -0700
+Message-Id: <cover.1311240498.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/2] Misc Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,18 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 15:57:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 21 Jul 2011 15:59:06 -0000
 
-On Thu, Jul 21, 2011 at 1:12 AM, Henning Heinold
-<heinold@inf.fu-berlin.de> wrote:
-> Hi Khem,
->
-> what was the reason to patch out the libtool-macros instead of deleting them? That would be
-> reduce the changelines a lot.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-I had some problems building but it was long time ago when I did that
-patch. I can try and see
-if that helps. It certainly would be better.
+The following changes since commit 35f20c5aacc9b23affe0380e8451ccc41cbc1799:
+
+  eglibc: Tighten LICENSE Fields (2011-07-19 17:34:21 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Nitin A Kamble (2):
+  python: fix security vulnerability
+  glib-2.0: fix a compilation issue due to dtrace
+
+ meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb      |    1 -
+ meta/recipes-core/glib-2.0/glib.inc                |    2 +-
+ meta/recipes-devtools/python/python.inc            |    2 +-
+ .../python/python/security_issue_2254_fix.patch    |  184 ++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.6.6.bb       |    3 +-
+ 5 files changed, 188 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python/security_issue_2254_fix.patch
+
+-- 
+1.7.6
+
 
 
