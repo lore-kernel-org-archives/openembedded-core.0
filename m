@@ -1,31 +1,33 @@
-Received: from mail-pz0-f43.google.com ([209.85.210.43])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qjxva-0004Lt-H8
+	(envelope-from <Tom_Rini@mentor.com>) id 1QjxzO-0004xX-Ea
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 20:24:54 +0200
-Received: by pzk1 with SMTP id 1so2386834pzk.16
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2011 11:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=N5qoMq8NBps9zH5BkJMC/Bvo6XqKtHAk7xZnGy2cMGU=;
-	b=xrOKd4+uwizINkyKJkVyGnhSMYP0xPoGUd5XhKxITzGcWsQlh8/xICNkdlz2KeuUYG
-	UFB7Hqy1eOpb6JeBqfBhkuyRf3yxfuZZCSAHg24MqcraqarB1roXDZFCHg1Yzt7/ycxc
-	mYBXDYzFC0zIlpeqKgdgkm/U9mBDnY+jl8Kxo=
-Received: by 10.68.33.200 with SMTP id t8mr708063pbi.144.1311272446089; Thu,
-	21 Jul 2011 11:20:46 -0700 (PDT)
+	Thu, 21 Jul 2011 20:28:50 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QjxvN-0006Lc-W1 from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 21 Jul 2011 11:24:42 -0700
+Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 21 Jul 2011 11:22:22 -0700
+Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
+	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 21 Jul 2011 11:24:41 -0700
+Message-ID: <4E286EE4.3020502@mentor.com>
+Date: Thu, 21 Jul 2011 11:24:36 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
-Received: by 10.68.62.36 with HTTP; Thu, 21 Jul 2011 11:20:16 -0700 (PDT)
-In-Reply-To: <4E285C54.5000308@mentor.com>
-References: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>
-	<CAMKF1srHzFH9PpmKcSMFhSRUstGnt6Pf-z6pirXQFWTpci0vWg@mail.gmail.com>
-	<4E285C54.5000308@mentor.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 21 Jul 2011 11:20:16 -0700
-Message-ID: <CAMKF1spLfWX4ANoyAjzypTHpwBUJjOhRKT4Asg22=qw1qPcHQA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+To: <openembedded-core@lists.openembedded.org>
+References: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>	<CAMKF1srHzFH9PpmKcSMFhSRUstGnt6Pf-z6pirXQFWTpci0vWg@mail.gmail.com>	<4E285C54.5000308@mentor.com>
+	<CAMKF1spLfWX4ANoyAjzypTHpwBUJjOhRKT4Asg22=qw1qPcHQA@mail.gmail.com>
+In-Reply-To: <CAMKF1spLfWX4ANoyAjzypTHpwBUJjOhRKT4Asg22=qw1qPcHQA@mail.gmail.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 21 Jul 2011 18:22:22.0983 (UTC)
+	FILETIME=[2286C170:01CC47D3]
 Subject: Re: siteinfo split between powerpc-common & powerpc-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -41,55 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 18:24:54 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Jul 2011 18:28:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 21, 2011 at 10:05 AM, Tom Rini <tom_rini@mentor.com> wrote:
-> On 07/21/2011 09:48 AM, Khem Raj wrote:
->> On Thu, Jul 21, 2011 at 5:17 AM, Kumar Gala <galak@kernel.crashing.org> =
-wrote:
->>> Why do we have a split between powerpc-common & powerpc-linux?
+On 07/21/2011 11:20 AM, Khem Raj wrote:
+> On Thu, Jul 21, 2011 at 10:05 AM, Tom Rini <tom_rini@mentor.com> wrote:
+>> On 07/21/2011 09:48 AM, Khem Raj wrote:
+>>> On Thu, Jul 21, 2011 at 5:17 AM, Kumar Gala <galak@kernel.crashing.org> wrote:
+>>>> Why do we have a split between powerpc-common & powerpc-linux?
+>>>>
+>>>> I assume powerpc-linux is used and picked up for powerpc-linux-uclibc in addition to normal powerpc-linux.
+>>>>
+>>>> I'm looking at adding powerpc64 support and powerpc-common is all kinda of broken for it.  I'd like to just merge powerpc-common & powerpc-linux (as powerpc-linux 32-bit) for now and start a new powerpc-common that refactors 32/64 commonalities.
+>>>>
+>>>> Unless someone says otherwise about the meaning of these files.
 >>>
->>> I assume powerpc-linux is used and picked up for powerpc-linux-uclibc i=
-n addition to normal powerpc-linux.
+>>> powerpc-common is shared between uclibc and eglibc at present and may
+>>> be shared with other OSes that may build with OE in future.
+>>> traditionally powerpc-common implicitly implied 32bit so I am not
+>>> surprised if its broken for ppc64. You could add powerpc64-common
+>>> and leave 32bit alone. See how its done for mips64 in oe.dev
 >>>
->>> I'm looking at adding powerpc64 support and powerpc-common is all kinda=
- of broken for it. =C2=A0I'd like to just merge powerpc-common & powerpc-li=
-nux (as powerpc-linux 32-bit) for now and start a new powerpc-common that r=
-efactors 32/64 commonalities.
->>>
->>> Unless someone says otherwise about the meaning of these files.
+>>> http://git.openembedded.org/cgit.cgi/openembedded/tree/site
 >>
->> powerpc-common is shared between uclibc and eglibc at present and may
->> be shared with other OSes that may build with OE in future.
->> traditionally powerpc-common implicitly implied 32bit so I am not
->> surprised if its broken for ppc64. You could add powerpc64-common
->> and leave 32bit alone. See how its done for mips64 in oe.dev
->>
->> http://git.openembedded.org/cgit.cgi/openembedded/tree/site
->
-> I'd argue that what we do for mips today is also wrong and I'm going to
-> try and fix it as soon as I can. =C2=A0In these cases we should have:
-> common, common-linux, common-$libc, mips-common, mips-linux,
-> mips64-linux and if needed mips64-linux-libc.
+>> I'd argue that what we do for mips today is also wrong and I'm going to
+>> try and fix it as soon as I can.  In these cases we should have:
+>> common, common-linux, common-$libc, mips-common, mips-linux,
+>> mips64-linux and if needed mips64-linux-libc.
+> 
+> yes that structure would be desirable. It would need a bit of overhaul
+> and lot of testing.
+> since you have something setup for your import from oe stuff for same.
+> may be you can take a stab at it
 
-yes that structure would be desirable. It would need a bit of overhaul
-and lot of testing.
-since you have something setup for your import from oe stuff for same.
-may be you can take a stab at it
+Yeah, it's on my list now that the first step is really in :)  I hope to
+get the obvious bits rebased and tested and posted today at least, and
+then get to finishing the obvious bits and start trying the less obvious
+ones.  Glad you fixed uclibc, btw, that had me scratching my head on a
+few things we do today :)
 
->
-> But I suspect some of the above won't exist, and that's OK.
->
-> --
-> Tom Rini
-> Mentor Graphics Corporation
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
