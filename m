@@ -1,34 +1,20 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QjhbW-0007X7-0w
+	(envelope-from <sgw@linux.intel.com>) id 1QjidM-0000NO-AO
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 02:59:06 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1QjhXY-0004zL-7b from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 17:55:00 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 20 Jul 2011 17:55:00 -0700
-Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.289.1;
-	Wed, 20 Jul 2011 17:54:59 -0700
-Message-ID: <4E2778DF.4040001@mentor.com>
-Date: Wed, 20 Jul 2011 17:54:55 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1311195893.git.Martin.Jansa@gmail.com>
-	<4E277049.6020308@gmail.com>
-In-Reply-To: <4E277049.6020308@gmail.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 21 Jul 2011 00:55:00.0018 (UTC)
-	FILETIME=[D1334920:01CC4740]
-Subject: Re: [PATCH 00/10] Small fixes
+	Thu, 21 Jul 2011 04:05:04 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 20 Jul 2011 18:58:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,238,1309762800"; d="scan'208";a="29688868"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
+	by azsmga001.ch.intel.com with ESMTP; 20 Jul 2011 18:58:54 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jul 2011 18:58:52 -0700
+Message-Id: <cover.1311213306.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 0/1] Fix for OpenSuse build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,43 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 00:59:06 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Jul 2011 02:05:04 -0000
 
-On 07/20/2011 05:18 PM, Khem Raj wrote:
-> On 07/20/2011 02:06 PM, Martin Jansa wrote:
->> Fixes for recipes using intltool, distributions not having locales
->> support in libc and distutils fix
->>
->> The following changes since commit
->> 0d03800caffc2341b74190d38f7a372223c89f4c:
->>
->>    lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib
->> (2011-07-20 15:43:43 +0100)
->>
->> are available in the git repository at:
->>    git://git.openembedded.org/openembedded-core-contrib jansa/pull
->>   
->> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
->>
->>
->> Martin Jansa (10):
->>    tcmode-default: set preferred version also for (e)glibc-locale
->>    eglibc-package: don't fail without localedef/gconv
->>    intltool: inherit perlnative
->>    polkit: inherit perlnative
->>    shared-mime-info: inherit perlnative
->>    xkeyboard-config: inherit perlnative
->>    avahi: inherit perlnative
->>    vte: inherit perlnative
-> 
-> I guess all inherit perlnative patches can me squashed into one
+Richard,
 
-Or not done? :)
+This fixes a problem with OpenSuse host contamination.
+
+Sau!
+
+The following changes since commit 0d03800caffc2341b74190d38f7a372223c89f4c:
+
+  lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib (2011-07-20 15:43:43 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (1):
+  gettext: Use internal libxml to avoid host contamination
+
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.3.4
+
 
 
