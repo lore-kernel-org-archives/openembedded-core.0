@@ -1,26 +1,20 @@
-Received: from mx.insigma.com.cn ([115.236.48.170] helo=WX-Edge.insigma.com.cn)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <niqingliang@insigma.com.cn>) id 1Qjmc4-0007pj-56
+	(envelope-from <sgw@linux.intel.com>) id 1QjnY6-0000mW-PS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 08:20:00 +0200
-Received: from WX-ExchMB.insigma.com.cn (10.0.1.203) by WX-Edge.insigma.com.cn
-	(10.0.1.205) with Microsoft SMTP Server (TLS) id 8.1.436.0;
-	Thu, 21 Jul 2011 14:15:40 +0800
-Received: from [192.168.0.101] (122.224.76.38) by WX-ExchMB.insigma.com.cn
-	(10.0.1.203) with Microsoft SMTP Server id 8.1.240.5; Thu, 21 Jul 2011
-	14:15:38 +0800
-From: NiQingliang <niqingliang@insigma.com.cn>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Thu, 21 Jul 2011 14:26:41 +0800
-In-Reply-To: <4E27486A.7090401@linux.intel.com>
-References: <1311141365.6973.7.camel@localhost.localdomain>
-	<4E27486A.7090401@linux.intel.com>
-X-Mailer: Evolution 3.0.2 
-Message-ID: <1311229602.13861.17.camel@localhost.localdomain>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [patch]oe-init-build-env: Find and use python2 as default python
+	Thu, 21 Jul 2011 09:19:58 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Jul 2011 00:15:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,240,1309762800"; d="scan'208";a="32877412"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2011 00:15:50 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jul 2011 00:15:48 -0700
+Message-Id: <cover.1311232435.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH v2 0/1] Fix for OpenSuse build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,84 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 06:20:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Jul 2011 07:19:59 -0000
 
-thanks your guide, I have read the link, but it looks like only show the
-rule with result without generating process. my mean is how to generate
-one patch.
-setp 1 ... step 2 ... step3 ...
+Richard,
 
-so after made other patch mail as reference, I got that (`git diff -p
---stat` after a new clean clone) (and sorry for that if still mistake):
+This fixes a problem with OpenSuse host contamination.
+Adds one depends in the initial depends chain for gettext-native.
 
-oe-init-build-env: Find and use python2 as default python
+Thanks
+Sau!
 
-most Linux distribution use python 2.x as the default as bitbake
-expected, but some use python 3.x as the default (like archlinux).
+The following changes since commit 0d03800caffc2341b74190d38f7a372223c89f4c:
 
-if the default python is 2.x, it will do nothing. or it will search it
-in /usr/bin and /bin. if found, then make a soft link in the build dir,
-and add the build dir into the env var PATH.
- =20
-Signed-off-by: Ni Qingliang <niqingliang@insigma.com.cn>
----
- oe-init-build-env |   28 ++++++++++++++++++++++++++++
- 1 files changed, 28 insertions(+), 0 deletions(-)
+  lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib (2011-07-20 15:43:43 +0100)
 
-diff --git a/oe-init-build-env b/oe-init-build-env
-index 77332a7..a11a4c4 100755
---- a/oe-init-build-env
-+++ b/oe-init-build-env
-@@ -39,6 +39,34 @@ else
-    $OEROOT/scripts/oe-setup-builddir
-    unset OEROOT
-    unset BBPATH
-+
-+   # find the python 2.x, if the default python is not.
-+   # NOTE:
-+   #    the 'python -V' need redirect to stdout
-+   #    once we can ensure every distribution has 'python2' (currently,
-except
-+   #    ubuntu), we should change bitbake's shebang to '/usr/bin/env
-python2',
-+   #    and remove this patch.
-+   # precondition:
-+   #    $BUILDDIR is not NULL, but I doubt when it will be NULL.
-+   #    user have not made the file $BUILDDIR/python by himself.
-+   if [ -z "`/usr/bin/env python -V 2>&1|grep '^Python 2\.'`" ]; then
-+      PYTHON2_BIN=3D""
-+      for PY_BIN in `find /{usr/,}bin -regex '.*/python\(\|2\|2\.[0-9]*
-\)'`; do
-+         if [ -n "`$PY_BIN -V 2>&1|grep '^Python 2\.'`" ]; then
-+            PYTHON2_BIN=3D$PY_BIN
-+            break
-+         fi
-+      done
-+      if [ -n "$PYTHON2_BIN" ]; then
-+         ln -sf $PY_BIN $BUILDDIR/python
-+         export PATH=3D"$BUILDDIR:$PATH"
-+         echo "NOTE: BitBake will use '$PY_BIN' to execute python
-code."
-+      else
-+         echo "ERROR: unable to find Python 2.x, BitBake requires
-Python 2.6 or 2.7."
-+      fi
-+      unset PYTHON2_BIN
-+   fi
-+
-    [ -n "$BUILDDIR" ] && cd $BUILDDIR
- fi
-=20
-On Thu, 2011-07-21 at 05:28 +0800, Saul Wold wrote:
-> oe-init-build-env: Find and use python2 as default python
---=20
-=E5=80=AA=E5=BA=86=E4=BA=AE
-TEL:    13588371863
-E-MAIL: niqingliang@insigma.com.cn
-BLOG:   http://niqingliang2003.wordpress.com
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
 
+Saul Wold (1):
+  gettext: Add depends to gettext to avoid host contamination
+
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+1.7.3.4
 
 
 
