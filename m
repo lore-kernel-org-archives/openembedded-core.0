@@ -1,25 +1,29 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1Qjp2S-00035d-0K
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qjp4U-00039F-Rd
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 10:55:24 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2011 01:51:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,240,1309762800"; d="scan'208";a="32906944"
-Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
-	([10.239.47.21])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2011 01:51:16 -0700
-From: Mei Lei <lei.mei@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jul 2011 16:59:23 +0800
-Message-Id: <f623c7c79851ef287ce6f0dbba90a1cd8d1177e0.1311238455.git.lei.mei@intel.com>
-X-Mailer: git-send-email 1.6.3.3
-In-Reply-To: <cover.1311238455.git.lei.mei@intel.com>
-References: <cover.1311238455.git.lei.mei@intel.com>
-In-Reply-To: <cover.1311238455.git.lei.mei@intel.com>
-References: <cover.1311238455.git.lei.mei@intel.com>
-Subject: [PATCH 1/1] dhcp: Fix libdir issue for multilib
+	Thu, 21 Jul 2011 10:57:30 +0200
+Received: by wyg30 with SMTP id 30so772509wyg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jul 2011 01:53:23 -0700 (PDT)
+Received: by 10.216.132.214 with SMTP id o64mr8169939wei.75.1311238403473;
+	Thu, 21 Jul 2011 01:53:23 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id f8sm691053wed.34.2011.07.21.01.53.21
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 21 Jul 2011 01:53:22 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4E27DDAC.1060707@windriver.com>
+Date: Thu, 21 Jul 2011 10:53:16 +0200
+Message-Id: <39A05AC0-9577-4EB1-83F6-DADB53725801@dominion.thruhere.net>
+References: <cover.1311234759.git.kai.kang@windriver.com>
+	<4E27DDAC.1060707@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Cc: scott.a.garman@intel.com
+Subject: Re: [PATCH 00/10] works of adding packages pam support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,89 +38,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 08:55:24 -0000
+X-List-Received-Date: Thu, 21 Jul 2011 08:57:30 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Mei Lei <lei.mei@intel.com>
----
- .../dhcp/dhcp-4.2.0/fix-external-bind.patch        |   14 +++++++-------
- meta/recipes-connectivity/dhcp/dhcp4.inc           |    2 +-
- 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-external-bind.patch b/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-external-bind.patch
-index f03936d..4f11655 100644
---- a/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-external-bind.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp-4.2.0/fix-external-bind.patch
-@@ -28,7 +28,7 @@ index 77ed055..5a77f2d 100644
-  		   scripts/solaris scripts/openwrt
-  dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
- -		 ../bind/lib/libdns.a ../bind/lib/libisc.a
--+		 $(libbind)/lib/libdns.a $(libbind)/lib/libisc.a
-++		 $(libbind)/libdns.a $(libbind)/libisc.a
-  man_MANS = dhclient.8 dhclient-script.8 dhclient.conf.5 dhclient.leases.5
-  EXTRA_DIST = $(man_MANS)
-  
-@@ -53,7 +53,7 @@ index 61049be..85aefa3 100644
-  omshell_SOURCES = omshell.c
-  omshell_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
- -	        ../bind/lib/libdns.a ../bind/lib/libisc.a
--+	        $(libbind)/lib/libdns.a $(libbind)/lib/libisc.a
-++	        $(libbind)/libdns.a $(libbind)/libisc.a
-  
-  libdhcpctl_a_SOURCES = dhcpctl.c callback.c remote.c
-  
-@@ -61,7 +61,7 @@ index 61049be..85aefa3 100644
-  cltest_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
- -	       ../bind/lib/libdns.a ../bind/lib/libisc.a
- \ No newline at end of file
--+	       $(libbind)/lib/libdns.a $(libbind)/lib/libisc.a
-++	       $(libbind)/libdns.a $(libbind)/libisc.a
- diff --git a/omapip/Makefile.am b/omapip/Makefile.am
- index 595950a..17f2233 100644
- --- a/omapip/Makefile.am
-@@ -71,7 +71,7 @@ index 595950a..17f2233 100644
-  
-  svtest_SOURCES = test.c
- -svtest_LDADD = libomapi.a ../bind/lib/libdns.a ../bind/lib/libisc.a
--+svtest_LDADD = libomapi.a $(libbind)/lib/libdns.a $(libbind)/lib/libisc.a
-++svtest_LDADD = libomapi.a $(libbind)/libdns.a $(libbind)/libisc.a
-  
- diff --git a/relay/Makefile.am b/relay/Makefile.am
- index d8757ca..a7885da 100644
-@@ -82,7 +82,7 @@ index d8757ca..a7885da 100644
-  dhcrelay_SOURCES = dhcrelay.c
-  dhcrelay_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
- -		 ../bind/lib/libdns.a ../bind/lib/libisc.a
--+		 $(libbind)/lib/libdns.a $(libbind)/lib/libisc.a
-++		 $(libbind)/libdns.a $(libbind)/libisc.a
-  man_MANS = dhcrelay.8
-  EXTRA_DIST = $(man_MANS)
-  
-@@ -96,8 +96,8 @@ index cdfaf47..d2c254b 100644
-  dhcpd_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
- -	      ../dhcpctl/libdhcpctl.a ../bind/lib/libdns.a \
- -	      ../bind/lib/libisc.a
--+	      ../dhcpctl/libdhcpctl.a $(libbind)/lib/libdns.a \
--+	      $(libbind)/lib/libisc.a
-++	      ../dhcpctl/libdhcpctl.a $(libbind)/libdns.a \
-++	      $(libbind)/libisc.a
-  
-  man_MANS = dhcpd.8 dhcpd.conf.5 dhcpd.leases.5
-  EXTRA_DIST = $(man_MANS)
-diff --git a/meta/recipes-connectivity/dhcp/dhcp4.inc b/meta/recipes-connectivity/dhcp/dhcp4.inc
-index 885cc19..bdaa5e9 100644
---- a/meta/recipes-connectivity/dhcp/dhcp4.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp4.inc
-@@ -25,7 +25,7 @@ EXTRA_OECONF = "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases \
-                 --with-srv6-lease-file=${localstatedir}/lib/dhcp/dhcpd6.leases \
-                 --with-cli-lease-file=${localstatedir}/lib/dhcp/dhclient.leases \
-                 --with-cli6-lease-file=${localstatedir}/lib/dhcp/dhclient6.leases \
--                --with-libbind=${STAGING_LIBDIR}/.. \
-+                --with-libbind=${STAGING_LIBDIR}/ \
-                "
- 
- do_compile_prepend () {
--- 
-1.6.3.3
+Op 21 jul. 2011, om 10:05 heeft Kang Kai het volgende geschreven:
 
+> On 2011=E5=B9=B407=E6=9C=8821=E6=97=A5 16:00, Kang Kai wrote:
+>> From: Kang Kai <kai.kang@windriver.com>
+>>=20
+>>=20
+>> Hi Scott,
+>>=20
+>> This is the current work of adding pam supports.=20
+>>=20
+>> After update libpam to 1.1.4, we enable the packages pam support. And =
+if the pacakge
+>> doesn't have a pam configure file, import from Fedora.
+>>=20
+>> The following changes since commit =
+fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
+>>=20
+>>   bb-matrix: correct BB and PM number canonicalization (2011-07-14 =
+22:23:09 +0100)
+>>=20
+>> are available in the git repository at:
+>>   git://git.pokylinux.org/poky-contrib kangkai/distro
+>>  =20
+>> =
+http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dkangkai/pam-commit=
+s
+>=20
+> sorry, the branch info is wrong, should be=20
+>=20
+> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dkangkai/distro
+
+Is that against oe-core or against poky? If it's against poky please =
+rebase it against oe-core since that make it possible to test it.=
 
 
