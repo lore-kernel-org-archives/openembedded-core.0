@@ -1,25 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QjwhY-0002o1-FJ
+	(envelope-from <Tom_Rini@mentor.com>) id 1Qjwkj-0002rO-1W
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 19:06:20 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Jul 2011 10:02:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,242,1309762800"; d="scan'208";a="33054987"
-Received: from unknown (HELO [10.255.13.254]) ([10.255.13.254])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2011 10:02:11 -0700
-Message-ID: <4E285B8E.4070502@linux.intel.com>
-Date: Thu, 21 Jul 2011 10:02:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Thu, 21 Jul 2011 19:09:37 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1Qjwgj-0005Wk-Qb from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 21 Jul 2011 10:05:29 -0700
+Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 21 Jul 2011 10:03:11 -0700
+Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
+	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 21 Jul 2011 10:05:29 -0700
+Message-ID: <4E285C54.5000308@mentor.com>
+Date: Thu, 21 Jul 2011 10:05:24 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1311234759.git.kai.kang@windriver.com>
-In-Reply-To: <cover.1311234759.git.kai.kang@windriver.com>
-Subject: Re: [PATCH 00/10] works of adding packages pam support
+To: <openembedded-core@lists.openembedded.org>
+References: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>
+	<CAMKF1srHzFH9PpmKcSMFhSRUstGnt6Pf-z6pirXQFWTpci0vWg@mail.gmail.com>
+In-Reply-To: <CAMKF1srHzFH9PpmKcSMFhSRUstGnt6Pf-z6pirXQFWTpci0vWg@mail.gmail.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 21 Jul 2011 17:03:11.0093 (UTC)
+	FILETIME=[122DE250:01CC47C8]
+Subject: Re: siteinfo split between powerpc-common & powerpc-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,102 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 17:06:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 21 Jul 2011 17:09:37 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/21/2011 01:00 AM, Kang Kai wrote:
-> From: Kang Kai<kai.kang@windriver.com>
->
-> Hi Scott,
->
-> This is the current work of adding pam supports.
->
-> After update libpam to 1.1.4, we enable the packages pam support. And if the pacakge
-> doesn't have a pam configure file, import from Fedora.
->
-Kai,
+On 07/21/2011 09:48 AM, Khem Raj wrote:
+> On Thu, Jul 21, 2011 at 5:17 AM, Kumar Gala <galak@kernel.crashing.org> wrote:
+>> Why do we have a split between powerpc-common & powerpc-linux?
+>>
+>> I assume powerpc-linux is used and picked up for powerpc-linux-uclibc in addition to normal powerpc-linux.
+>>
+>> I'm looking at adding powerpc64 support and powerpc-common is all kinda of broken for it.  I'd like to just merge powerpc-common & powerpc-linux (as powerpc-linux 32-bit) for now and start a new powerpc-common that refactors 32/64 commonalities.
+>>
+>> Unless someone says otherwise about the meaning of these files.
+> 
+> powerpc-common is shared between uclibc and eglibc at present and may
+> be shared with other OSes that may build with OE in future.
+> traditionally powerpc-common implicitly implied 32bit so I am not
+> surprised if its broken for ppc64. You could add powerpc64-common
+> and leave 32bit alone. See how its done for mips64 in oe.dev
+> 
+> http://git.openembedded.org/cgit.cgi/openembedded/tree/site
 
-Thanks for this work, you have already gotten some feedback, I have a 
-few general comments to add that are across many of these patches, so I 
-will note them here.
+I'd argue that what we do for mips today is also wrong and I'm going to
+try and fix it as soon as I can.  In these cases we should have:
+common, common-linux, common-$libc, mips-common, mips-linux,
+mips64-linux and if needed mips64-linux-libc.
 
-Whitespace: you seem to be using tabs instead of spaces, please check 
-that you have spaces and your items are lined up. Yocto uses 4 spaces 
-for python and bb recipes and tabs for shell scripts and shell functions 
-in bb recipes.
+But I suspect some of the above won't exist, and that's OK.
 
-As has already been noted in a couple of places, ensure that you only 
-install things pam specific when the pam DISTRO_FEATURE is enabled, 
-there are multiple places that need this (not just the ones already noted).
-
-Worth noting here also make sure you check all your PR bumps are correct.
-
-Commit messages and comments for things to oe-core should talk about 
-oe-core not yocto or poky as this upsets people ;-)
-
-I am going to hold of on taking this series until you fix it up.
-
-Sau!
-
-
-
-> The following changes since commit fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
->
->    bb-matrix: correct BB and PM number canonicalization (2011-07-14 22:23:09 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib kangkai/distro
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/pam-commits
->
-> Kang Kai (5):
->    libpam: update to 1.1.4 and add subpackage xtests
->    cups: add pam support
->    screen: add pam support
->    sudo: add pam support
->    shadow: update pam related configure files
->
-> Wenzong Fan (2):
->    cronie: enable PAM support for cronie
->    at: enable pam support
->
-> Xiaofeng Yan (3):
->    dropbear: Support PAM
->    openssh: Support PAM
->    polkit: Support PAM
->
->   .../openssh/openssh-5.8p2/sshd                     |   10 +
->   meta/recipes-connectivity/openssh/openssh_5.8p2.bb |    7 +-
->   meta/recipes-core/dropbear/dropbear.inc            |    6 +-
->   .../dropbear/dropbear/dropbear-enable-pam.patch    |   21 +++
->   .../at/at-3.1.12/configure-add-enable-pam.patch    |   23 +++
->   meta/recipes-extended/at/at-3.1.12/pam.conf.patch  |   16 ++
->   meta/recipes-extended/at/at_3.1.12.bb              |   13 +-
->   .../cronie/cronie/crond_pam_config.patch           |   13 ++
->   meta/recipes-extended/cronie/cronie_1.4.7.bb       |    9 +-
->   meta/recipes-extended/cups/cups_1.4.6.bb           |    8 +-
->   .../pam/libpam/libpam-xtests.patch                 |   35 ++++
->   .../pam/{libpam_1.1.3.bb =>  libpam_1.1.4.bb}       |   14 +-
->   .../polkit/polkit-0.101/polkit-1_pam.patch         |   23 +++
->   meta/recipes-extended/polkit/polkit_0.101.bb       |    6 +-
->   .../screen/screen-4.0.3/screen.pamd                |    2 +
->   meta/recipes-extended/screen/screen_4.0.3.bb       |   14 +-
->   .../shadow/files/shadow-update-pam-conf.patch      |  175 ++++++++++++++++++++
->   meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    5 +-
->   meta/recipes-extended/sudo/files/sudo.pamd         |    6 +
->   meta/recipes-extended/sudo/sudo_1.8.1p2.bb         |   11 +-
->   20 files changed, 389 insertions(+), 28 deletions(-)
->   create mode 100644 meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
->   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
->   create mode 100644 meta/recipes-extended/at/at-3.1.12/configure-add-enable-pam.patch
->   create mode 100644 meta/recipes-extended/at/at-3.1.12/pam.conf.patch
->   create mode 100644 meta/recipes-extended/cronie/cronie/crond_pam_config.patch
->   create mode 100644 meta/recipes-extended/pam/libpam/libpam-xtests.patch
->   rename meta/recipes-extended/pam/{libpam_1.1.3.bb =>  libpam_1.1.4.bb} (85%)
->   create mode 100644 meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
->   create mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen.pamd
->   create mode 100644 meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
->   create mode 100644 meta/recipes-extended/sudo/files/sudo.pamd
->
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
