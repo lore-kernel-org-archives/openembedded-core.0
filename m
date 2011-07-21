@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1QjoF1-00026E-M9
+	(envelope-from <Kai.Kang@windriver.com>) id 1QjoF6-000273-HL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 10:04:20 +0200
+	Thu, 21 Jul 2011 10:04:24 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6L80B35017283
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6L80F6b017307
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Jul 2011 01:00:11 -0700 (PDT)
+	Thu, 21 Jul 2011 01:00:15 -0700 (PDT)
 Received: from localhost (128.224.162.154) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 21 Jul 2011 01:00:11 -0700
-Message-ID: <fb9463e2c0dc7d1d378b0954bf65502c27cb2ddc.1311234759.git.kai.kang@windriver.com>
+	Thu, 21 Jul 2011 01:00:15 -0700
+Message-ID: <6cd8526778ee4b4ccd54bbac16dfbd492baa06c3.1311234759.git.kai.kang@windriver.com>
 In-Reply-To: <cover.1311234759.git.kai.kang@windriver.com>
 References: <cover.1311234759.git.kai.kang@windriver.com>
-Old-Date: Tue, 19 Jul 2011 17:08:31 +0800
-Date: Thu, 21 Jul 2011 16:00:18 +0800
+Old-Date: Mon, 18 Jul 2011 14:34:08 +0800
+Date: Thu, 21 Jul 2011 16:00:23 +0800
 To: <scott.a.garman@intel.com>
 From: Kang Kai <kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.154]
 Cc: Wenzong, openembedded-core@lists.openembedded.org
-Subject: [PATCH 01/10] libpam: update to 1.1.4 and add subpackage xtests
+Subject: [PATCH 02/10] dropbear: Support PAM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,113 +35,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 08:04:20 -0000
+X-List-Received-Date: Thu, 21 Jul 2011 08:04:24 -0000
 Content-Type: text/plain
 
-From: Kang Kai <kai.kang@windriver.com>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Update libpam to 1.1.4, and add dependecy cracklib because run xtexts will
-need pam-plugin-cracklib.
-There are some additional checks under subdirectory xtests and make it
-as a subpackage libpam-xtests.
+I make a patch and some changes in dropbear.inc for supporting pam.
+- Enable pam in configure
+- Modify file option.h to open pam supporting
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- .../pam/libpam/libpam-xtests.patch                 |   35 ++++++++++++++++++++
- .../pam/{libpam_1.1.3.bb => libpam_1.1.4.bb}       |   14 +++++---
- 2 files changed, 44 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-extended/pam/libpam/libpam-xtests.patch
- rename meta/recipes-extended/pam/{libpam_1.1.3.bb => libpam_1.1.4.bb} (85%)
+ meta/recipes-core/dropbear/dropbear.inc            |    6 ++++-
+ .../dropbear/dropbear/dropbear-enable-pam.patch    |   21 ++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
 
-diff --git a/meta/recipes-extended/pam/libpam/libpam-xtests.patch b/meta/recipes-extended/pam/libpam/libpam-xtests.patch
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 1b51e1a..48cefb6 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -9,13 +9,15 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3a5b0c2f0d0c49dfde9558ae2036683c"
+ 
+ DEPENDS = "zlib"
+ RPROVIDES = "ssh sshd"
++DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
+ 	         file://urandom-xauth-changes-to-options.h.patch \
+ 	         file://configure.patch \
+ 	         file://fix-2kb-keys.patch \
+ 	         file://allow-nopw.patch;apply=no \
+-	         file://init"
++	         file://init \
++		 file://dropbear-enable-pam.patch "
+ 
+ inherit autotools update-rc.d
+ 
+@@ -28,6 +30,8 @@ LD = "${CC}"
+ SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
+ BINCOMMANDS = "dbclient ssh scp"
+ EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
++EXTRA_OECONF += "\
++	${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
+ 
+ DISTRO_TYPE = "${@base_contains("IMAGE_FEATURES", "debug-tweaks", "debug", "",d)}"
+ 
+diff --git a/meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch b/meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
 new file mode 100644
-index 0000000..be68745
+index 0000000..b941db5
 --- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/libpam-xtests.patch
-@@ -0,0 +1,35 @@
-+This patch is used to create a new sub package libpam-xtests to do more checks.
++++ b/meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
+@@ -0,0 +1,21 @@
++dropbear: We need modify file option.h besides enabling pam in \
++configure if we want dropbear to support pam.
 +
 +Upstream-Status: Pending
 +
-+Signed-off-by: Kang Kai <kai.kang@windriver.com>
-+--- Linux-PAM-1.1.4/xtests/Makefile.am.orig	2011-07-19 17:00:09.619980001 +0800
-++++ Linux-PAM-1.1.4/xtests/Makefile.am	2011-07-19 16:54:00.229979998 +0800
-+@@ -7,7 +7,7 @@
-+ AM_LDFLAGS = -L$(top_builddir)/libpam -lpam \
-+ 	-L$(top_builddir)/libpam_misc -lpam_misc
++Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
++
++--- a/options.h	2011-07-12 13:27:39.008819183 +0800
+++++ b/options.h.new	2011-07-12 13:37:37.780819308 +0800
++@@ -149,9 +149,9 @@
++  * but there's an interface via a PAM module - don't bother using it otherwise.
++  * You can't enable both PASSWORD and PAM. */
 + 
-+-CLEANFILES = *~ $(XTESTS)
-++CLEANFILES = *~
++-#define ENABLE_SVR_PASSWORD_AUTH
+++//#define ENABLE_SVR_PASSWORD_AUTH
++ /* PAM requires ./configure --enable-pam */
++-/*#define ENABLE_SVR_PAM_AUTH*/
+++#define ENABLE_SVR_PAM_AUTH
++ #define ENABLE_SVR_PUBKEY_AUTH
 + 
-+ EXTRA_DIST = run-xtests.sh tst-pam_dispatch1.pamd tst-pam_dispatch2.pamd \
-+ 	tst-pam_dispatch3.pamd tst-pam_dispatch4.pamd \
-+@@ -51,3 +51,18 @@
-+ 
-+ xtests: $(XTESTS) run-xtests.sh
-+ 	"$(srcdir)"/run-xtests.sh "$(srcdir)" ${XTESTS} ${NOSRCTESTS}
-++
-++all: $(XTESTS)
-++
-++install: install_xtests
-++
-++install_xtests:
-++	$(INSTALL) -d $(DESTDIR)$(pkgdatadir)/xtests
-++	for file in $(EXTRA_DIST) ; do \
-++		$(INSTALL) $$file $(DESTDIR)$(pkgdatadir)/xtests ; \
-++	done
-++	for file in $(XTESTS); do \
-++		$(INSTALL) .libs/$$file $(DESTDIR)$(pkgdatadir)/xtests ; \
-++	done
-++
-++.PHONY: all install_xtests
-diff --git a/meta/recipes-extended/pam/libpam_1.1.3.bb b/meta/recipes-extended/pam/libpam_1.1.4.bb
-similarity index 85%
-rename from meta/recipes-extended/pam/libpam_1.1.3.bb
-rename to meta/recipes-extended/pam/libpam_1.1.4.bb
-index b62e2f2..f2379e4 100644
---- a/meta/recipes-extended/pam/libpam_1.1.3.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.4.bb
-@@ -11,18 +11,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ca0395de9a86191a078b8b79302e3083"
- 
- PR = "r0"
- 
--DEPENDS = "bison flex"
-+DEPENDS = "bison flex cracklib"
- RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
-+RDEPENDS_${PN}-xtests = "libpam pam-plugin-access pam-plugin-debug pam-plugin-cracklib pam-plugin-pwhistory \
-+						pam-plugin-succeed-if pam-plugin-time coreutils"
- RRECOMMENDS_${PN} = "libpam-runtime"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/pam/library/Linux-PAM-${PV}.tar.bz2 \
-            file://99_pam \
--           file://pam.d/*"
-+           file://pam.d/* \
-+		   file://libpam-xtests.patch"
- 
- SRC_URI_append_libc-uclibc = " file://pam-no-innetgr.patch"
- 
--SRC_URI[md5sum] = "6db7fcb5db6253350e3a4648ceac40e7"
--SRC_URI[sha256sum] = "17b268789b935a76e736a1150210dd12f156972973e79347668f828d43632652"
-+SRC_URI[md5sum] = "e9af5fb27bb22edb55d077e2888b3ebc"
-+SRC_URI[sha256sum] = "ccd89331914390b1e9e99c954471d65f19b660d81e15a46eeb96cee125d44056"
- 
- EXTRA_OECONF = "--with-db-uniquename=_pam \
-                 --includedir=${includedir}/security \
-@@ -34,12 +37,13 @@ S = "${WORKDIR}/Linux-PAM-${PV}"
- 
- inherit autotools gettext
- 
--PACKAGES += "${PN}-runtime"
-+PACKAGES += "${PN}-runtime ${PN}-xtests"
- FILES_${PN} = "${base_libdir}/lib*${SOLIBS}"
- FILES_${PN}-dbg += "${base_libdir}/security/.debug \
-                     ${base_libdir}/security/pam_filter/.debug"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${base_libdir}/*.la ${base_libdir}/lib*${SOLIBSDEV}"
- FILES_${PN}-runtime = "${sysconfdir}"
-+FILES_${PN}-xtests = "${datadir}/Linux-PAM/xtests"
- 
- PACKAGES_DYNAMIC += " pam-plugin-*"
- 
++ /* Wether to ake public key options in authorized_keys file into account */
 -- 
 1.7.5.1.300.gc565c
 
