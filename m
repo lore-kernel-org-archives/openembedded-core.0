@@ -1,33 +1,35 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-fx0-f51.google.com ([209.85.161.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QjuJ3-0002XB-8q
+	(envelope-from <martin.jansa@gmail.com>) id 1Qjugh-0002pX-VS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 16:32:57 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QjuEz-0002nY-GR from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 07:28:41 -0700
-Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 21 Jul 2011 07:26:23 -0700
-Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
-	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
-	Thu, 21 Jul 2011 07:28:40 -0700
-Message-ID: <4E283794.6010503@mentor.com>
-Date: Thu, 21 Jul 2011 07:28:36 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+	Thu, 21 Jul 2011 16:57:20 +0200
+Received: by fxh10 with SMTP id 10so3723780fxh.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jul 2011 07:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=oqYX4fMjiGmpD6k2SR8m7FZRQJvkjiRV7a8q2mRhCAc=;
+	b=SdL0yg5Upfn09mLcDmhVarwybAF1MX+6NAnH4Vd5LSnsZGwe3r5p53eFcdiuyRSZYK
+	sqrgymzuc+K+NTfrCBjOMPuOae1yLZVae018Y0xYLbNwNIKb8R36Zg5PUK6IrQr2aYLa
+	WlQt2hW0b6aFV314hTizzKdfB6TOks0EHDs+s=
+Received: by 10.223.1.129 with SMTP id 1mr404063faf.103.1311259992357;
+	Thu, 21 Jul 2011 07:53:12 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id 22sm1440182fas.35.2011.07.21.07.53.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 21 Jul 2011 07:53:11 -0700 (PDT)
+Date: Thu, 21 Jul 2011 16:53:03 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110721145303.GF3443@jama.jama.net>
+References: <cover.1311195893.git.Martin.Jansa@gmail.com>
+	<4E277049.6020308@gmail.com> <4E2778DF.4040001@mentor.com>
+	<20110721061111.GD3443@jama.jama.net> <4E283794.6010503@mentor.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1311195893.git.Martin.Jansa@gmail.com>	<4E277049.6020308@gmail.com>
-	<4E2778DF.4040001@mentor.com> <20110721061111.GD3443@jama.jama.net>
-In-Reply-To: <20110721061111.GD3443@jama.jama.net>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 21 Jul 2011 14:26:23.0358 (UTC)
-	FILETIME=[2ABB71E0:01CC47B2]
+In-Reply-To: <4E283794.6010503@mentor.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Subject: Re: [PATCH 00/10] Small fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,51 +45,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 14:32:57 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Jul 2011 14:57:20 -0000
+X-Groupsio-MsgNum: 6399
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="UKNXkkdQCYZ6W5l3"
+Content-Disposition: inline
 
-On 07/20/2011 11:11 PM, Martin Jansa wrote:
-> On Wed, Jul 20, 2011 at 05:54:55PM -0700, Tom Rini wrote:
->> On 07/20/2011 05:18 PM, Khem Raj wrote:
->>> On 07/20/2011 02:06 PM, Martin Jansa wrote:
->>>> Fixes for recipes using intltool, distributions not having locales
->>>> support in libc and distutils fix
->>>>
->>>> The following changes since commit
->>>> 0d03800caffc2341b74190d38f7a372223c89f4c:
->>>>
->>>>    lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib
->>>> (2011-07-20 15:43:43 +0100)
->>>>
->>>> are available in the git repository at:
->>>>    git://git.openembedded.org/openembedded-core-contrib jansa/pull
->>>>   
->>>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
->>>>
->>>>
->>>> Martin Jansa (10):
->>>>    tcmode-default: set preferred version also for (e)glibc-locale
->>>>    eglibc-package: don't fail without localedef/gconv
->>>>    intltool: inherit perlnative
->>>>    polkit: inherit perlnative
->>>>    shared-mime-info: inherit perlnative
->>>>    xkeyboard-config: inherit perlnative
->>>>    avahi: inherit perlnative
->>>>    vte: inherit perlnative
->>>
->>> I guess all inherit perlnative patches can me squashed into one
->>
->> Or not done? :)
-> 
-> I still see this issue, with
-> http://patches.openembedded.org/patch/8069/
-> applied.
+--UKNXkkdQCYZ6W5l3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That's not enough.  You then need the cpan mangling patch applied on top.
+On Thu, Jul 21, 2011 at 07:28:36AM -0700, Tom Rini wrote:
+> On 07/20/2011 11:11 PM, Martin Jansa wrote:
+> > On Wed, Jul 20, 2011 at 05:54:55PM -0700, Tom Rini wrote:
+> >> On 07/20/2011 05:18 PM, Khem Raj wrote:
+> >>> On 07/20/2011 02:06 PM, Martin Jansa wrote:
+> >>>> Fixes for recipes using intltool, distributions not having locales
+> >>>> support in libc and distutils fix
+> >>>>
+> >>>> The following changes since commit
+> >>>> 0d03800caffc2341b74190d38f7a372223c89f4c:
+> >>>>
+> >>>>    lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib
+> >>>> (2011-07-20 15:43:43 +0100)
+> >>>>
+> >>>> are available in the git repository at:
+> >>>>    git://git.openembedded.org/openembedded-core-contrib jansa/pull
+> >>>>  =20
+> >>>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/=
+?h=3Djansa/pull
+> >>>>
+> >>>>
+> >>>> Martin Jansa (10):
+> >>>>    tcmode-default: set preferred version also for (e)glibc-locale
+> >>>>    eglibc-package: don't fail without localedef/gconv
+> >>>>    intltool: inherit perlnative
+> >>>>    polkit: inherit perlnative
+> >>>>    shared-mime-info: inherit perlnative
+> >>>>    xkeyboard-config: inherit perlnative
+> >>>>    avahi: inherit perlnative
+> >>>>    vte: inherit perlnative
+> >>>
+> >>> I guess all inherit perlnative patches can me squashed into one
+> >>
+> >> Or not done? :)
+> >=20
+> > I still see this issue, with
+> > http://patches.openembedded.org/patch/8069/
+> > applied.
+>=20
+> That's not enough.  You then need the cpan mangling patch applied on top.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+I had both..
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--UKNXkkdQCYZ6W5l3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
+
+iEYEARECAAYFAk4oPU8ACgkQN1Ujt2V2gBzQVQCgq/+eV+SJ/dKhaNRMLZ9zbREN
+RzoAnjRidron4TalW5JzodA5nsSc3mjb
+=mkwy
+-----END PGP SIGNATURE-----
+
+--UKNXkkdQCYZ6W5l3--
