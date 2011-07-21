@@ -1,34 +1,33 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Qjgta-000791-2p
+	(envelope-from <raj.khem@gmail.com>) id 1Qjh24-0007FS-4M
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 02:13:42 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QjgV4-0005Ii-7T from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 16:48:22 -0700
-Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Wed, 20 Jul 2011 16:46:07 -0700
-Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
-	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
-	Wed, 20 Jul 2011 16:48:21 -0700
-Message-ID: <4E276942.9080804@mentor.com>
-Date: Wed, 20 Jul 2011 16:48:18 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
+	Thu, 21 Jul 2011 02:22:28 +0200
+Received: by iyj12 with SMTP id 12so691730iyj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2011 17:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=lEdPXK2+9n69YNuGj8AGL+k1pwZgvYsma8TIsQeySks=;
+	b=LUPoCyN9kMREGbLR1ibPT1/aCWwgD48fb01VbOV91RSNi9EJuQwx2b1lGJqMIh0VE/
+	B84CQcB6a9m2LnExIkgePSszW7/iqyilo9xXn31xBlVXnnulCfo7X9VWyZWVJx1eLJGR
+	Llr5X4+kaCCxI+pHaa+HDq3oz/rcPIvB5fHiM=
+Received: by 10.231.41.69 with SMTP id n5mr1079564ibe.83.1311207500580;
+	Wed, 20 Jul 2011 17:18:20 -0700 (PDT)
+Received: from [172.23.10.146] (natint3.juniper.net [66.129.224.36])
+	by mx.google.com with ESMTPS id d3sm486346iba.6.2011.07.20.17.18.19
+	(version=SSLv3 cipher=OTHER); Wed, 20 Jul 2011 17:18:19 -0700 (PDT)
+Message-ID: <4E277049.6020308@gmail.com>
+Date: Wed, 20 Jul 2011 17:18:17 -0700
+From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1310856514-12964-1-git-send-email-schnitzeltony@gmx.de>	<4E2706BA.2000600@linux.intel.com>
-	<201107210114.00633.schnitzeltony@gmx.de>
-In-Reply-To: <201107210114.00633.schnitzeltony@gmx.de>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 20 Jul 2011 23:46:07.0108 (UTC)
-	FILETIME=[31CB4440:01CC4737]
-Subject: Re: [PATCH] gdk-pixbuf(-native): Fix build by disabling introspection
+To: openembedded-core@lists.openembedded.org
+References: <cover.1311195893.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1311195893.git.Martin.Jansa@gmail.com>
+Subject: Re: [PATCH 00/10] Small fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,87 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 00:13:42 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Thu, 21 Jul 2011 00:22:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/20/2011 04:14 PM, Andreas Mueller wrote:
-> On Wednesday, July 20, 2011 06:47:54 PM you wrote:
->> On 07/16/2011 03:48 PM, Andreas Mueller wrote:
->>> Error message was:
->>> | /home/Superandy/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/g-ir-c
->>> | ompiler  --includedir=. GdkPixbuf-2.0.gir -o GdkPixbuf-2.0.typelib
->>> | /usr/share/gir-1.0/GLib-2.0.gir:9:1: error: Unsupported version '1.1'
->>> | /usr/share/gir-1.0/GLib-2.0.gir:9:39: error: Unsupported version '1.1'
->>> | error parsing file GdkPixbuf-2.0.gir: Failed to parse included gir
->>> | GLib-2.0 make[4]: *** [GdkPixbuf-2.0.typelib] Error 1
->>>
->>> Signed-off-by: Andreas Mueller<schnitzeltony@gmx.de>
->>> ---
->>>
->>>   meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb |    3 ++-
->>>   1 files changed, 2 insertions(+), 1 deletions(-)
->>>
->>> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
->>> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb index
->>> 8b6314f..e3f5977 100644
->>> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
->>> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.22.1.bb
->>> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =
->>> "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
->>>
->>>   SECTION = "libs"
->>>   
->>>   DEPENDS = "libpng glib-2.0 jpeg"
->>>
->>> -PR = "r0"
->>> +PR = "r1"
->>>
->>>   SRC_URI =
->>>   "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.22/gdk-pixbuf-${
->>>   PV}.tar.gz \
->>>   
->>>              file://hardcoded_libtool.patch;patch=1 \
->>>
->>> @@ -26,6 +26,7 @@ LIBV = "2.10.0"
->>>
->>>   EXTRA_OECONF = "\
->>>   
->>>     --without-libtiff \
->>>     --with-libpng \
->>>
->>> +  --disable-introspection \
->>>
->>>   "
->>>   
->>>   FILES_${PN} = "${bindir}/gdk-pixbuf-query-loaders \
->>
->> Merged into oe-core
->>
->> There was a comment from Tom about gnome.bbclass, are you looking into
->> that?
-> 
-> On Sunday, July 17, 2011 04:25:48 PM Tom Rini wrote:
->> Sounds like gnome.bbclass is out of sync and we need both
->> --enable-introspection=no and --disable-scrollkeeper.
-> 
-> --enable-introspection=no: 
-> I grepped around in oe-core for recipes with gobject-introspection disabled (did 
-> not care of other layers - e.g meta-oe has its own gnome-bbclass with "--enable-
-> introspection=no").
+On 07/20/2011 02:06 PM, Martin Jansa wrote:
+> Fixes for recipes using intltool, distributions not having locales support in libc and distutils fix
+>
+> The following changes since commit 0d03800caffc2341b74190d38f7a372223c89f4c:
+>
+>    lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib (2011-07-20 15:43:43 +0100)
+>
+> are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib jansa/pull
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
+>
+> Martin Jansa (10):
+>    tcmode-default: set preferred version also for (e)glibc-locale
+>    eglibc-package: don't fail without localedef/gconv
+>    intltool: inherit perlnative
+>    polkit: inherit perlnative
+>    shared-mime-info: inherit perlnative
+>    xkeyboard-config: inherit perlnative
+>    avahi: inherit perlnative
+>    vte: inherit perlnative
 
-And it requires meta-oe to have its own copy of gnome.bbclass and to
-make sure we don't get new recipes wrong in oe-core.
+I guess all inherit perlnative patches can me squashed into one
 
->  --disable-scrollkeeper: 
-> Sorry but can anybody (e.g. Tom?) give a hint what this is about/for?
+>    python: save Makefile.sysroot in do_compile
+>    python: add patch to fix cross compilation on host with linux-3.0
+>
+>   meta/conf/distro/include/tcmode-default.inc        |    2 ++
+>   meta/recipes-connectivity/avahi/avahi.inc          |    2 +-
+>   meta/recipes-core/eglibc/eglibc-package.inc        |    8 ++++++--
+>   meta/recipes-devtools/intltool/intltool.inc        |    3 +--
+>   .../python/python/07-linux3-regen-fix.patch        |   18 ++++++++++++++++++
+>   meta/recipes-devtools/python/python_2.6.6.bb       |    8 +++++---
+>   meta/recipes-extended/polkit/polkit_0.101.bb       |    2 +-
+>   .../xorg-lib/xkeyboard-config_2.1.bb               |    2 +-
+>   .../shared-mime-info/shared-mime-info.inc          |    2 +-
+>   meta/recipes-support/vte/vte.inc                   |    2 +-
+>   10 files changed, 37 insertions(+), 12 deletions(-)
+>   create mode 100644 meta/recipes-devtools/python/python/07-linux3-regen-fix.patch
+>
 
-iirc "gnome" documentation stuff that's also wrong / not working in
-certain cases.  I don't recall exactly but I'm pretty sure we did it
-with good reason in oe.dev :)
-
--- 
-Tom Rini
-Mentor Graphics Corporation
 
 
