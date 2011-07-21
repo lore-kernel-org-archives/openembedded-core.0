@@ -1,37 +1,26 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1QjxEa-0003Rv-ES
+	(envelope-from <dvhart@linux.intel.com>) id 1Qjxga-00046A-AE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 19:40:28 +0200
-Received: by gxk3 with SMTP id 3so760079gxk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2011 10:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=zRZpzwsEe6I9+Pek07XyXfKZQmo477YlSkEb70ycUUk=;
-	b=ovnmlZAfSH6ejO+aRDrp4uw4YGhZgYuxU6mulYeh7eY7INlLjBYr5dCw17eded/8eh
-	M7c0hy8n5+YRbGcTMWUIzd8XdGN/kKoaqK0xIbStl2a0nMe6uxF6B9PCP29mekAj+f5N
-	PrS3zJJ9bBotxAsoHJ7z09M4mUVfPyrq4Uw20=
+	Thu, 21 Jul 2011 20:09:24 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 21 Jul 2011 11:05:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,242,1309762800"; d="scan'208";a="28639536"
+Received: from doubt.jf.intel.com (HELO [10.7.199.53]) ([10.7.199.53])
+	by orsmga002.jf.intel.com with ESMTP; 21 Jul 2011 11:04:56 -0700
+Message-ID: <4E286A62.1060207@linux.intel.com>
+Date: Thu, 21 Jul 2011 11:05:22 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
-Received: by 10.91.164.27 with SMTP id r27mr463014ago.27.1311269777377; Thu,
-	21 Jul 2011 10:36:17 -0700 (PDT)
-Received: by 10.91.12.2 with HTTP; Thu, 21 Jul 2011 10:36:17 -0700 (PDT)
-In-Reply-To: <81ED61E2-5C03-4E01-B588-633B6F19B39D@chargestorm.se>
-References: <1310736077.3805.37.camel@phil-desktop>
-	<CADkTA4OYB0mch1SRSgidwGfZiWBeBuaWKH1BU1NgF9jPVa1Niw@mail.gmail.com>
-	<1310742175.30326.1.camel@phil-desktop>
-	<CADkTA4MoCmtKypORoGvShciAgiFsOJFLmSiAQiVdAxLAYKkyHQ@mail.gmail.com>
-	<CADkTA4MetjKoZfS7gcKSm9wm3iQZoxaJPqmrJ6KBOWsXF1QVSQ@mail.gmail.com>
-	<772ABCD3-A957-469A-A2AB-F2C27A0A5F0C@dominion.thruhere.net>
-	<CADkTA4Mpg3bQfyq+NmhK2=ySM+9-7eQzj_HueMirrcV4rs2bWA@mail.gmail.com>
-	<81ED61E2-5C03-4E01-B588-633B6F19B39D@chargestorm.se>
-Date: Thu, 21 Jul 2011 13:36:17 -0400
-Message-ID: <CADkTA4MY=qn1emEvVd6=tPNZJEfwPUKX7AkzdSDF7JtUqRYXbw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: kernels
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <cover.1311267679.git.bruce.ashfield@windriver.com>
+	<65d8b50e5c377f6f1c2f4943a0f41d66cf6b9831.1311267679.git.bruce.ashfield@windriver.com>
+In-Reply-To: <65d8b50e5c377f6f1c2f4943a0f41d66cf6b9831.1311267679.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: Re: [PATCH 3/4] linux-yocto: update LICENSE to GPLv2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,129 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 17:40:28 -0000
+X-List-Received-Date: Thu, 21 Jul 2011 18:09:24 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 21, 2011 at 1:23 PM, Anders Darander <anders@chargestorm.se> wr=
-ote:
->
-> On 20 jul 2011, at 22:18, "Bruce Ashfield" <bruce.ashfield@gmail.com> wro=
-te:
->
->> On Wed, Jul 20, 2011 at 11:45 AM, Koen Kooi <koen@dominion.thruhere.net>=
- wrote:
->>>
->>> Op 20 jul 2011, om 17:42 heeft Bruce Ashfield het volgende geschreven:
->>>
->>>> On Fri, Jul 15, 2011 at 11:36 AM, Bruce Ashfield
->>>> <bruce.ashfield@gmail.com> wrote:
->>>>> On Fri, Jul 15, 2011 at 11:02 AM, Phil Blundell <philb@gnu.org> wrote=
-:
->>>>>> On Fri, 2011-07-15 at 09:51 -0400, Bruce Ashfield wrote:
->>>>>>> On Fri, Jul 15, 2011 at 9:21 AM, Phil Blundell <pb@pbcl.net> wrote:
->>>>>>>> The other day I was working on a BSP layer for a fairly generic i5=
-86
->>>>>>>> system and I was struck by the fact that we don't appear to have a=
-ny
->>>>>>>> vanilla kernel recipes in oe-core. =A0I had sort of expected that,=
- to get
->>>>>>>> a standard bzImage out, I would just need to ship an appropriate
->>>>>>>> defconfig in my layer and everything else would "just work".
->>>>>>>
->>>>>>> Hmm. Perhaps it isn't documented clearly enough as such, but the li=
-nux-yocto
->>>>>>> kernel base can work in this mode, since that was a design goal of
->>>>>>> 1.0.
->>>>>>>
->>>>>>> You pick a branch, throw in a config fragment (or defconfig if you =
-really
->>>>>>> want) =A0and build. The base branches in the tree are generic enoug=
-h to
->>>>>>> sort a range of boards out of the box, and should form a base.
->>>>>>
->>>>>> Okay, cool. =A0I'll give it a go and see how I get on.
->>>>>>
->>>>>> Is there a description anywhere of what the functional differences a=
-re
->>>>>> between the code in linux-yocto git and the upstream kernel.org tree=
-?
->>>>>
->>>>> It varies, and the variables are many, so I can answer this in severa=
-l ways.
->>>>
->>>> Following up on my own email. I'm just about to push out the 3.0
->>>> kernel support / changes, so I'm seeing the light at the end of the tu=
-nnel
->>>> and recalled that this is still hanging a bit.
->>>>
->>>> Is there anything tangible you wanted me to do here ? =A0Create an exa=
-mple ?
->>>> Write a short howto =A0.. or something else ?
->>>
->>> A guide to make your own setup that isn't based on linux-yocto but whic=
-h does work with the linux-yocto bbclass?
->>
->> That's reasonable. Once I get the imminent kernel uprev out the door, I'=
-ll
->> focus on something along these lines.
->
-> That sounds good. Upon re-reading the email, I wasn't really sure if the =
-intent was a guide on how to supply your own configuration, or whether it w=
-as intended to be about how to integrate a custom BSP-kernel (preferably bo=
-th tarball and directly from a local git repo). If it was the first, then I=
- hope that later on we'll be able to derive a guide for developing a custom=
- BSP-layer (it's the kernel part I'm interested in).
+Ahh, /me deletes this from his list of things he isn't getting to...
 
-It was more the first in this case, but it can actually encompass the
-second. What would be covered here would be a special case of developing
-a custom layer. Taking some arbitrary source, configuration, patches, git t=
-rees
-and creating a kernel repo that would work with the linux-yocto tools and
-recipes.
+On 07/21/2011 10:16 AM, Bruce Ashfield wrote:
+> As reported by Koen Kooi, the LICENSE for linux-yocto can be tightened
+> up to specifiy the particular version of the GPL.
+> 
+> cc: Koen Kooi <koen@dominion.thruhere.net>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-The second topic of creating a custom BSP layer, doesn't (and shouldn't
-normally) have to go so far. A simple branch reference, or reference to
-a tree based on a known linux-yocto is all you need to build with linux-yoc=
-to
-for most custom BSPs. As for the source of that custom BSP (tarball or
-git) that would be covered in how to create that custom branch reference.
-
->
-> Preferably first a guide on how to get a custom BSP kernel built from git=
-, and later on, when there both are time available as well as some more sta=
-bilization, how to base my own BSP kernel on linux-yocto (eg. using linux-y=
-octo as the upstream repo). It's unfortunately not always that likely that =
-the BSP for some products will be mainlined...
-
-I experience this every day as well .. bsp patches that will largely
-live forever, so
-I completely understand. The structure of the repos is created to manage ju=
-st
-this sort of nagging patch and any crimes they may have committed. So this
-topic can be explicitly called out and worked on.
-
-The basics are covered in the existing guides, but it sounds like some end
-to end use cases might be in order.
-
-Bruce
-
->
-> Cheers,
-> Anders
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Acked-by: Darren Hart <dvhart@linux.intel.com>
 
 
+> ---
+>  meta/recipes-kernel/linux/linux-yocto.inc |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+> index c304d00..595795b 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> @@ -1,6 +1,6 @@
+>  DESCRIPTION = "Yocto Kernel"
+>  SECTION = "kernel"
+> -LICENSE = "GPL"
+> +LICENSE = "GPLv2"
+>  
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+>  
 
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
