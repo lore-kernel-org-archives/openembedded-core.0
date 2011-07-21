@@ -1,40 +1,21 @@
-Received: from familie-heinold.de
-	([85.214.48.103] helo=mail.familie-heinold.de ident=postfix)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1QjoS1-0002Wj-Nv
+	(envelope-from <lei.mei@intel.com>) id 1Qjp2R-00035d-9Q
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 10:17:45 +0200
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 14FBB11000AA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2011 10:13:40 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 751F2110009A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2011 10:13:39 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.1
-Received: from rhein.familie-heinold.de (g225145048.adsl.alicedsl.de
-	[92.225.145.48]) by mail.familie-heinold.de (Postfix) with ESMTPA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2011 10:13:39 +0200 (CEST)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id F30363C155; Thu, 21 Jul 2011 10:12:09 +0200 (CEST)
-Date: Thu, 21 Jul 2011 10:12:09 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110721081209.GA3423@rhein.zuhause.netz>
-References: <1311228617-29732-1-git-send-email-raj.khem@gmail.com>
-	<1311228617-29732-3-git-send-email-raj.khem@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1311228617-29732-3-git-send-email-raj.khem@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: [PATCH 3/6] libiconv: Fix build failure on 1.13.1
+	Thu, 21 Jul 2011 10:55:23 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2011 01:51:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,240,1309762800"; d="scan'208";a="32906922"
+Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
+	([10.239.47.21])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2011 01:51:14 -0700
+From: Mei Lei <lei.mei@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jul 2011 16:59:22 +0800
+Message-Id: <cover.1311238455.git.lei.mei@intel.com>
+X-Mailer: git-send-email 1.6.3.3
+Subject: [PATCH 0/1]dhcp: Fix hard coded libdir issue for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,15 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 08:17:45 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 21 Jul 2011 08:55:23 -0000
 
-Hi Khem,
+This pull request fixes some hard coded /usr/lib path issues, please review it.
 
-what was the reason to patch out the libtool-macros instead of deleting them? That would be
-reduce the changelines a lot.
+Thanks,
+Lei
 
-Bye henning
+The following changes since commit 8af286885353d5740971f137f8c1ada2b43dd2a8:
+  Paul Eggleton (1):
+        README.hardware: update MPC8315E-RDB instructions
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib lmei3/multilib-lsb-v2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/multilib-lsb-v2
+
+Mei Lei (1):
+  dhcp: Fix libdir issue for multilib
+
+ .../dhcp/dhcp-4.2.0/fix-external-bind.patch        |   14 +++++++-------
+ meta/recipes-connectivity/dhcp/dhcp4.inc           |    2 +-
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
 
 
