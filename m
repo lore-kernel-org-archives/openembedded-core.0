@@ -1,24 +1,34 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1Qju0Z-0002A2-Ta
+	(envelope-from <Tom_Rini@mentor.com>) id 1QjuJ3-0002XB-8q
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 16:13:48 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 21 Jul 2011 07:09:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,240,1309762800"; d="scan'208";a="28532523"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.112])
-	by orsmga002.jf.intel.com with ESMTP; 21 Jul 2011 07:09:38 -0700
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jul 2011 22:09:46 +0800
-Message-Id: <63cc3215c18b3f48b1f98f5162bb42faf2e9abaa.1311256622.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1311256622.git.dexuan.cui@intel.com>
-References: <cover.1311256622.git.dexuan.cui@intel.com>
-In-Reply-To: <cover.1311256622.git.dexuan.cui@intel.com>
-References: <cover.1311256622.git.dexuan.cui@intel.com>
-Subject: [PATCH 2/2] distro_tracking_fields.inc: update the info for tcf-agent
+	Thu, 21 Jul 2011 16:32:57 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QjuEz-0002nY-GR from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 21 Jul 2011 07:28:41 -0700
+Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 21 Jul 2011 07:26:23 -0700
+Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
+	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 21 Jul 2011 07:28:40 -0700
+Message-ID: <4E283794.6010503@mentor.com>
+Date: Thu, 21 Jul 2011 07:28:36 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1311195893.git.Martin.Jansa@gmail.com>	<4E277049.6020308@gmail.com>
+	<4E2778DF.4040001@mentor.com> <20110721061111.GD3443@jama.jama.net>
+In-Reply-To: <20110721061111.GD3443@jama.jama.net>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 21 Jul 2011 14:26:23.0358 (UTC)
+	FILETIME=[2ABB71E0:01CC47B2]
+Subject: Re: [PATCH 00/10] Small fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,43 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 14:13:48 -0000
+X-List-Received-Date: Thu, 21 Jul 2011 14:32:57 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+On 07/20/2011 11:11 PM, Martin Jansa wrote:
+> On Wed, Jul 20, 2011 at 05:54:55PM -0700, Tom Rini wrote:
+>> On 07/20/2011 05:18 PM, Khem Raj wrote:
+>>> On 07/20/2011 02:06 PM, Martin Jansa wrote:
+>>>> Fixes for recipes using intltool, distributions not having locales
+>>>> support in libc and distutils fix
+>>>>
+>>>> The following changes since commit
+>>>> 0d03800caffc2341b74190d38f7a372223c89f4c:
+>>>>
+>>>>    lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib
+>>>> (2011-07-20 15:43:43 +0100)
+>>>>
+>>>> are available in the git repository at:
+>>>>    git://git.openembedded.org/openembedded-core-contrib jansa/pull
+>>>>   
+>>>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
+>>>>
+>>>>
+>>>> Martin Jansa (10):
+>>>>    tcmode-default: set preferred version also for (e)glibc-locale
+>>>>    eglibc-package: don't fail without localedef/gconv
+>>>>    intltool: inherit perlnative
+>>>>    polkit: inherit perlnative
+>>>>    shared-mime-info: inherit perlnative
+>>>>    xkeyboard-config: inherit perlnative
+>>>>    avahi: inherit perlnative
+>>>>    vte: inherit perlnative
+>>>
+>>> I guess all inherit perlnative patches can me squashed into one
+>>
+>> Or not done? :)
+> 
+> I still see this issue, with
+> http://patches.openembedded.org/patch/8069/
+> applied.
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index efb4c0b..4de543e 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -2781,17 +2781,17 @@ RECIPE_MAINTAINER_pn-latencytop = "Dexuan Cui <dexuan.cui@intel.com>"
- RECIPE_STATUS_pn-tcf-agent = "green"
- DISTRO_PN_ALIAS_pn-tcf-agent = "WindRiver upstream=http://www.eclipse.org/dsdp/tm/"
- RECIPE_DEPENDENCY_CHECK_pn-tcf-agent = "not done"
--RECIPE_LATEST_VERSION_pn-tcf-agent = "0.3.0+svnr1078"
--RECIPE_MANUAL_CHECK_DATE_pn-tcf-agent = "June 29, 2011"
--RECIPE_NO_UPDATE_REASON_pn-tcf-agent = "Do not upgrade to version: (998)? because upstraem hasn't defined a formal release tag."
-+RECIPE_LATEST_VERSION_pn-tcf-agent = "0.0+svnr1855"
-+RECIPE_MANUAL_CHECK_DATE_pn-tcf-agent = "Jul 21, 2011"
-+RECIPE_NO_UPDATE_REASON_pn-tcf-agent = "1855 is the latest stable revision"
- RECIPE_NO_OF_PATCHES_pn-tcf-agent = "2"
--RECIPE_PATCH_pn-tcf-agent+terminals_agent = "we might get the patch from git://git.yoctoproject.org/eclipse-poky.git in future"
- RECIPE_PATCH_pn-tcf-agent+fix_tcf-agent.init = "a proper script /etc/init.d/tcf-agent"
-+RECIPE_PATCH_pn-tcf-agent+fix_ranlib = "need to pass arguments to RANLIB"
- RECIPE_INTEL_SECTION_pn-tcf-agent = "sdk-tools"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-tcf-agent = "1+ years"
--RECIPE_LATEST_RELEASE_DATE_pn-tcf-agent = "07/2010"
-+RECIPE_LATEST_RELEASE_DATE_pn-tcf-agent = "Jul 07, 2011"
- RECIPE_COMMENTS_pn-tcf-agent = ""
--RECIPE_LAST_UPDATE_pn-tcf-agent = "Jul 23, 2010"
-+RECIPE_LAST_UPDATE_pn-tcf-agent = "Jul 21, 2011"
- RECIPE_MAINTAINER_pn-tcf-agent = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-liburcu = "green"
+That's not enough.  You then need the cpan mangling patch applied on top.
+
 -- 
-1.7.6
-
+Tom Rini
+Mentor Graphics Corporation
 
 
