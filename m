@@ -1,28 +1,36 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qjvgp-00021U-UO
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Qjvh9-0004Jy-Gx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 18:01:32 +0200
-Received: by wwi18 with SMTP id 18so1160738wwi.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2011 08:57:24 -0700 (PDT)
-Received: by 10.216.140.141 with SMTP id e13mr327836wej.85.1311263843935;
-	Thu, 21 Jul 2011 08:57:23 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id q20sm946199wec.41.2011.07.21.08.57.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 21 Jul 2011 08:57:23 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <3a3c12b31f8d8dc600750be9d75aeeb236c5b618.1311240498.git.nitin.a.kamble@intel.com>
-Date: Thu, 21 Jul 2011 17:57:22 +0200
-Message-Id: <B9F7AADC-C257-48A7-A607-41CB161DBA6C@dominion.thruhere.net>
-References: <cover.1311240498.git.nitin.a.kamble@intel.com>
-	<3a3c12b31f8d8dc600750be9d75aeeb236c5b618.1311240498.git.nitin.a.kamble@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH 2/2] glib-2.0: fix a compilation issue due to dtrace
+	Thu, 21 Jul 2011 18:01:51 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2011 08:57:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,240,1309762800"; d="scan'208";a="30791783"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2011 08:57:43 -0700
+Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
+	orsmsx604.amr.corp.intel.com ([10.250.113.17]) with mapi;
+	Thu, 21 Jul 2011 08:57:42 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Mei, Lei" <lei.mei@intel.com>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Jul 2011 08:57:40 -0700
+Thread-Topic: [OE-core] [PATCH 2/2] perl-dynloader.patch: Fix libdir issue
+	for multilib
+Thread-Index: AcxG6j6jy+hEofZ1SYefPNV6jyt4FAAkKSDwABD0buA=
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94DE4E7610@orsmsx504.amr.corp.intel.com>
+References: <cover.1311151283.git.lei.mei@intel.com>
+	<93848d65e679794e5aa41e548ee275378518d071.1311151283.git.lei.mei@intel.com>
+	<1311172466.2344.43.camel@rex>
+	<749B9D3DBF0F054390025D9EAFF47F2212D0EAC182@shsmsx501.ccr.corp.intel.com>
+In-Reply-To: <749B9D3DBF0F054390025D9EAFF47F2212D0EAC182@shsmsx501.ccr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 2/2] perl-dynloader.patch: Fix libdir issue for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,61 +45,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 16:01:32 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 21 Jul 2011 16:01:51 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 21 jul. 2011, om 11:29 heeft nitin.a.kamble@intel.com het volgende =
-geschreven:
 
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> -----Original Message-----
+> From: Mei, Lei
+> Sent: Thursday, July 21, 2011 12:54 AM
+> To: Patches and discussions about the oe-core layer
+> Cc: Kamble, Nitin A
+> Subject: RE: [OE-core] [PATCH 2/2] perl-dynloader.patch: Fix libdir
+> issue for multilib
 >=20
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
-> meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb |    1 -
-> meta/recipes-core/glib-2.0/glib.inc           |    2 +-
-> 2 files changed, 1 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb =
-b/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb
-> index a2e609f..7d095c1 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb
-> @@ -19,4 +19,3 @@ SRC_URI[md5sum] =3D =
-"789e7520f71c6a4bf08bc683ec764d24"
-> SRC_URI[sha256sum] =3D =
-"222f3055d6c413417b50901008c654865e5a311c73f0ae918b0a9978d1f9466f"
 >=20
-> BBCLASSEXTEND =3D "native"
-> -
+> >-----Original Message-----
+> >From: openembedded-core-bounces@lists.openembedded.org
+> >[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> >Richard Purdie
+> >Sent: Wednesday, July 20, 2011 10:34 PM
+> >To: Patches and discussions about the oe-core layer
+> >Subject: Re: [OE-core] [PATCH 2/2] perl-dynloader.patch: Fix libdir
+> issue for
+> >multilib
+> >
+> >On Wed, 2011-07-20 at 16:48 +0800, Mei Lei wrote:
+> >> The perl-dynloader.patch can't support /usr/lib64, change the
+> regular
+> >expression to support multilib.
+> >>
+> >> Signed-off-by: Mei Lei <lei.mei@intel.com>
+> >> ---
+> >>  .../perl/perl-5.12.3/perl-dynloader.patch          |    2 +-
+> >>  1 files changed, 1 insertions(+), 1 deletions(-)
+> >>
+> >> diff --git a/meta/recipes-devtools/perl/perl-5.12.3/perl-
+> dynloader.patch
+> >b/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
+> >> index d5ea00f..a45af91 100644
+> >> --- a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
+> >> +++ b/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
+> >> @@ -19,7 +19,7 @@ Update by Nitin A Kamble
+> <nitin.a.kamble@intel.com>
+> >2011/04/21
+> >>  +    {
+> >>  +        my $hostlib =3D $ENV{PERLHOSTLIB};
+> >>  +        print STDERR "*** Module name IN: $modlibname\n";
+> >> -+        ($p1, $p2, $p3, $p4, $p5) =3D $modlibname =3D~
+> >m/(^(.*lib\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
+> >> ++        ($p1, $p2, $p3, $p4, $p5) =3D $modlibname =3D~
+> >m/(^(.*lib[0-9]*\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
+> >>  +        print STDERR "*** p1: $p1  p3: $p3  p5: $p5\n";
+> >>  +        if ( $p1 ne "" ) {
+> >>  +            $modlibname =3D $hostlib.$p5;
+> >
+> >We might need to relax this a little further since we might want
+> things
+> >like libx32 to work in future?
+>=20
+> Hi Nitin,
+> 	I am not sure what is the perl work style under libx32, can you
+> supply some information about it?
+>=20
+> Thanks
+> Lei
 
-
-Missing PR bump
-
-> diff --git a/meta/recipes-core/glib-2.0/glib.inc =
-b/meta/recipes-core/glib-2.0/glib.inc
-> index e25db3d..9768284 100644
-> --- a/meta/recipes-core/glib-2.0/glib.inc
-> +++ b/meta/recipes-core/glib-2.0/glib.inc
-> @@ -25,7 +25,7 @@ inherit autotools pkgconfig gettext
->=20
-> S =3D "${WORKDIR}/glib-${PV}"
->=20
-> -EXTRA_OECONF =3D "--disable-debug --enable-included-printf=3Dno"
-> +EXTRA_OECONF =3D "--disable-debug --enable-included-printf=3Dno =
---enable-dtrace=3Dno"
-> EXTRA_OECONF_virtclass-native =3D ""
-> EXTRA_OECONF_linuxstdbase =3D "--enable-included-printf=3Dno"
->=20
-> --=20
-> 1.7.6
+Hi Lei,
+  x32 would use libx32 as the lib dirname.
+Thanks,
+Nitin
 >=20
 >=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+> >
+> >Cheers,
+> >
+> >Richard
+> >
+> >
+> >
+> >_______________________________________________
+> >Openembedded-core mailing list
+> >Openembedded-core@lists.openembedded.org
+> >http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
