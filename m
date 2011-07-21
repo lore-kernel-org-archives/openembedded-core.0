@@ -1,32 +1,33 @@
-Received: from mail-iy0-f175.google.com ([209.85.210.175])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qjh24-0007FS-4M
+	(envelope-from <Tom_Rini@mentor.com>) id 1QjhbW-0007X7-0w
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 02:22:28 +0200
-Received: by iyj12 with SMTP id 12so691730iyj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jul 2011 17:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=lEdPXK2+9n69YNuGj8AGL+k1pwZgvYsma8TIsQeySks=;
-	b=LUPoCyN9kMREGbLR1ibPT1/aCWwgD48fb01VbOV91RSNi9EJuQwx2b1lGJqMIh0VE/
-	B84CQcB6a9m2LnExIkgePSszW7/iqyilo9xXn31xBlVXnnulCfo7X9VWyZWVJx1eLJGR
-	Llr5X4+kaCCxI+pHaa+HDq3oz/rcPIvB5fHiM=
-Received: by 10.231.41.69 with SMTP id n5mr1079564ibe.83.1311207500580;
-	Wed, 20 Jul 2011 17:18:20 -0700 (PDT)
-Received: from [172.23.10.146] (natint3.juniper.net [66.129.224.36])
-	by mx.google.com with ESMTPS id d3sm486346iba.6.2011.07.20.17.18.19
-	(version=SSLv3 cipher=OTHER); Wed, 20 Jul 2011 17:18:19 -0700 (PDT)
-Message-ID: <4E277049.6020308@gmail.com>
-Date: Wed, 20 Jul 2011 17:18:17 -0700
-From: Khem Raj <raj.khem@gmail.com>
+	Thu, 21 Jul 2011 02:59:06 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1QjhXY-0004zL-7b from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jul 2011 17:55:00 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 20 Jul 2011 17:55:00 -0700
+Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.289.1;
+	Wed, 20 Jul 2011 17:54:59 -0700
+Message-ID: <4E2778DF.4040001@mentor.com>
+Date: Wed, 20 Jul 2011 17:54:55 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
 User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
 	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+To: <openembedded-core@lists.openembedded.org>
 References: <cover.1311195893.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1311195893.git.Martin.Jansa@gmail.com>
+	<4E277049.6020308@gmail.com>
+In-Reply-To: <4E277049.6020308@gmail.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 21 Jul 2011 00:55:00.0018 (UTC)
+	FILETIME=[D1334920:01CC4740]
 Subject: Re: [PATCH 00/10] Small fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,49 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 00:22:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 21 Jul 2011 00:59:06 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 07/20/2011 02:06 PM, Martin Jansa wrote:
-> Fixes for recipes using intltool, distributions not having locales support in libc and distutils fix
->
-> The following changes since commit 0d03800caffc2341b74190d38f7a372223c89f4c:
->
->    lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib (2011-07-20 15:43:43 +0100)
->
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib jansa/pull
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
->
-> Martin Jansa (10):
->    tcmode-default: set preferred version also for (e)glibc-locale
->    eglibc-package: don't fail without localedef/gconv
->    intltool: inherit perlnative
->    polkit: inherit perlnative
->    shared-mime-info: inherit perlnative
->    xkeyboard-config: inherit perlnative
->    avahi: inherit perlnative
->    vte: inherit perlnative
+On 07/20/2011 05:18 PM, Khem Raj wrote:
+> On 07/20/2011 02:06 PM, Martin Jansa wrote:
+>> Fixes for recipes using intltool, distributions not having locales
+>> support in libc and distutils fix
+>>
+>> The following changes since commit
+>> 0d03800caffc2341b74190d38f7a372223c89f4c:
+>>
+>>    lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib
+>> (2011-07-20 15:43:43 +0100)
+>>
+>> are available in the git repository at:
+>>    git://git.openembedded.org/openembedded-core-contrib jansa/pull
+>>   
+>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
+>>
+>>
+>> Martin Jansa (10):
+>>    tcmode-default: set preferred version also for (e)glibc-locale
+>>    eglibc-package: don't fail without localedef/gconv
+>>    intltool: inherit perlnative
+>>    polkit: inherit perlnative
+>>    shared-mime-info: inherit perlnative
+>>    xkeyboard-config: inherit perlnative
+>>    avahi: inherit perlnative
+>>    vte: inherit perlnative
+> 
+> I guess all inherit perlnative patches can me squashed into one
 
-I guess all inherit perlnative patches can me squashed into one
+Or not done? :)
 
->    python: save Makefile.sysroot in do_compile
->    python: add patch to fix cross compilation on host with linux-3.0
->
->   meta/conf/distro/include/tcmode-default.inc        |    2 ++
->   meta/recipes-connectivity/avahi/avahi.inc          |    2 +-
->   meta/recipes-core/eglibc/eglibc-package.inc        |    8 ++++++--
->   meta/recipes-devtools/intltool/intltool.inc        |    3 +--
->   .../python/python/07-linux3-regen-fix.patch        |   18 ++++++++++++++++++
->   meta/recipes-devtools/python/python_2.6.6.bb       |    8 +++++---
->   meta/recipes-extended/polkit/polkit_0.101.bb       |    2 +-
->   .../xorg-lib/xkeyboard-config_2.1.bb               |    2 +-
->   .../shared-mime-info/shared-mime-info.inc          |    2 +-
->   meta/recipes-support/vte/vte.inc                   |    2 +-
->   10 files changed, 37 insertions(+), 12 deletions(-)
->   create mode 100644 meta/recipes-devtools/python/python/07-linux3-regen-fix.patch
->
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
