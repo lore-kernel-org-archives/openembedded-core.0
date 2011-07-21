@@ -1,34 +1,31 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-gy0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Qjiqx-0000Y5-Vw
+	(envelope-from <fransmeulenbroeks@gmail.com>) id 1Qjlyz-0006mM-NV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 04:19:08 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1Qjimz-0001qo-JY from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jul 2011 19:15:01 -0700
-Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 20 Jul 2011 19:15:01 -0700
-Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
-	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
-	Wed, 20 Jul 2011 19:15:00 -0700
-Message-ID: <4E278BA1.5040406@mentor.com>
-Date: Wed, 20 Jul 2011 19:14:57 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+	Thu, 21 Jul 2011 07:39:37 +0200
+Received: by gyd12 with SMTP id 12so481530gyd.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jul 2011 22:35:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=Z2t4OYxQhfFVkWS7NepqeZH5TDhioj+zSQ/R+Gc8Gy8=;
+	b=N1QH+xgDJwr9gF/P8YR/Og8kzL4tOTEDwD8cpKkl+WlM/yDbRrDWJHW+MOgfj/OpEm
+	UZGTJ0aXAmBsO/Wb8wTAcCcE+OKvXvj8s1Zg8HGy2nRVwBaUz0qBC+OSnBZg43T8bO/r
+	ISoAWlSFj9txk/zl7YHr2ISfhR8Nvfsm8chQc=
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1311213306.git.sgw@linux.intel.com>
-	<4c15caba38740bfc1f30b8f0c2e0d857cb24b38b.1311213306.git.sgw@linux.intel.com>
-In-Reply-To: <4c15caba38740bfc1f30b8f0c2e0d857cb24b38b.1311213306.git.sgw@linux.intel.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 21 Jul 2011 02:15:01.0425 (UTC)
-	FILETIME=[FF0FDA10:01CC474B]
-Subject: Re: [PATCH 1/1] gettext: Use internal libxml to avoid host contamination
+Received: by 10.90.22.32 with SMTP id 32mr152831agv.183.1311226530038; Wed, 20
+	Jul 2011 22:35:30 -0700 (PDT)
+Received: by 10.90.223.19 with HTTP; Wed, 20 Jul 2011 22:35:29 -0700 (PDT)
+In-Reply-To: <53e99ac545b7ee871abe9f814e7ea3cc45b5a87f.1311195893.git.Martin.Jansa@gmail.com>
+References: <cover.1311195893.git.Martin.Jansa@gmail.com>
+	<7ac4de095ea2d0543c8c665e2cfd1be131781e8c.1311195893.git.Martin.Jansa@gmail.com>
+	<53e99ac545b7ee871abe9f814e7ea3cc45b5a87f.1311195893.git.Martin.Jansa@gmail.com>
+Date: Thu, 21 Jul 2011 07:35:29 +0200
+Message-ID: <CACW_hTZ1XODVOPOrxzCnFCEmsT87PD_t+bFs0_nZdXCpDWTXGA@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 03/10] intltool: inherit perlnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +40,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 02:19:08 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Jul 2011 05:39:37 -0000
+Content-Type: multipart/alternative; boundary=001636283cbc8b04a504a88db713
 
-On 07/20/2011 06:58 PM, Saul Wold wrote:
-> [YOCTO #1242]
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-core/gettext/gettext_0.18.1.1.bb |    1 +
->  1 files changed, 1 insertions(+), 0 deletions(-)
-> 
-> diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-> index 0b11a90..e95e674 100644
-> --- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-> +++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
-> @@ -32,6 +32,7 @@ EXTRA_OECONF += "--without-lispdir \
->                   --disable-native-java \
->                   --disable-openmp \
->                   --with-included-glib \
-> +                 --with-included-libxml \
->                   --with-libncurses-prefix=${STAGING_LIBDIR}/.. \
->                   --without-emacs \
->                   --without-cvs \
+--001636283cbc8b04a504a88db713
+Content-Type: text/plain; charset=ISO-8859-1
 
-Better than just DEPENDS libxml2 ala oe.dev?
+General remark:
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+I suspect lots of recipes depend on perl if only in their configure scripts.
+I guess doing per-patckage staging could improve the visibility of this.
 
+Also wrt /usr/bin/env perl:
+I haven't peeked into the source of env, but ideally non-native recipes
+should maybe not rely on host packages, only on the ones we build.
+E.g. no /usr/bin in PATH wehn building these (and yes, I know that is not
+trivial and will trigger some bugs and it also does not help against hard
+coded paths, and probalby some progs will cause a pain (e.g. /bin/sh)).
+Maybe a chrooted system would be better, but I vaguely recall that this was
+once discussed (and presumably rejected).
 
+Another thing we could do is have  our own env program which (in this case)
+does not return a path to perl if the native package is not there (and
+thereby causing things to fail instead of silently using the host perl).
+
+Have fun!
+Frans.
+
+--001636283cbc8b04a504a88db713
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+General remark:<br><br>I suspect lots of recipes depend on perl if only in =
+their configure scripts.<br>I guess doing per-patckage staging could improv=
+e the visibility of this.<br><br>Also wrt /usr/bin/env perl:<br>I haven&#39=
+;t peeked into the source of env, but ideally non-native recipes should may=
+be not rely on host packages, only on the ones we build.<br>
+E.g. no /usr/bin in PATH wehn building these (and yes, I know that is not t=
+rivial and will trigger some bugs and it also does not help against hard co=
+ded paths, and probalby some progs will cause a pain (e.g. /bin/sh)).<br>
+Maybe a chrooted system would be better, but I vaguely recall that this was=
+ once discussed (and presumably rejected).<br><br>Another thing we could do=
+ is have=A0 our own env program which (in this case) does not return a path=
+ to perl if the native package is not there (and thereby causing things to =
+fail instead of silently using the host perl).<br>
+<br>Have fun! <br>Frans.<br>
+
+--001636283cbc8b04a504a88db713--
