@@ -1,20 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from stoexhubfe02.domain01.net ([83.145.59.141])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1QjwvK-0002zI-1s
+	(envelope-from <anders@chargestorm.se>) id 1Qjx00-00036m-Sz
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 19:20:34 +0200
-Received: from yow-bashfiel-l1.corp.ad.wrs.com
-	(dhcp-146-217.ottawa.windriver.com [128.224.146.217])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6LHGDp6016866;
-	Thu, 21 Jul 2011 10:16:14 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Thu, 21 Jul 2011 13:16:04 -0400
-Message-Id: <cover.1311267679.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: [PATCH 0/4] kernel: consolidated pull request
+	Thu, 21 Jul 2011 19:25:25 +0200
+Received: from STOEXMBXC03.domain01.net
+	([fe80:0000:0000:0000:99c4:3913:164.170.217.90]) by
+	stoexhubfe02.domain01.net
+	([10.12.10.7]) with mapi; Thu, 21 Jul 2011 19:21:17 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Jul 2011 19:23:13 +0200
+Thread-Topic: [OE-core] kernels
+Thread-Index: AcxHypiT5QbAWR6jRNOJ+0LqYRiKzg==
+Message-ID: <81ED61E2-5C03-4E01-B588-633B6F19B39D@chargestorm.se>
+References: <1310736077.3805.37.camel@phil-desktop>
+	<CADkTA4OYB0mch1SRSgidwGfZiWBeBuaWKH1BU1NgF9jPVa1Niw@mail.gmail.com>
+	<1310742175.30326.1.camel@phil-desktop>
+	<CADkTA4MoCmtKypORoGvShciAgiFsOJFLmSiAQiVdAxLAYKkyHQ@mail.gmail.com>
+	<CADkTA4MetjKoZfS7gcKSm9wm3iQZoxaJPqmrJ6KBOWsXF1QVSQ@mail.gmail.com>
+	<772ABCD3-A957-469A-A2AB-F2C27A0A5F0C@dominion.thruhere.net>
+	<CADkTA4Mpg3bQfyq+NmhK2=ySM+9-7eQzj_HueMirrcV4rs2bWA@mail.gmail.com>
+In-Reply-To: <CADkTA4Mpg3bQfyq+NmhK2=ySM+9-7eQzj_HueMirrcV4rs2bWA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,79 +42,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 17:20:34 -0000
+X-List-Received-Date: Thu, 21 Jul 2011 17:25:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Richard/Saul,
 
-What follows is a set of kernel changes that have been brewing for a while
-now:
+On 20 jul 2011, at 22:18, "Bruce Ashfield" <bruce.ashfield@gmail.com> wrote=
+:
 
-  294170 kern-tools: update SRCREV
-  65d8b50 linux-yocto: update LICENSE to GPLv2
-  069e9d9 kernel: copy defconfig to {B} vs {S}
-  6796e11 linux-yocto: kernel-3.0 support recipe
+> On Wed, Jul 20, 2011 at 11:45 AM, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+>>=20
+>> Op 20 jul 2011, om 17:42 heeft Bruce Ashfield het volgende geschreven:
+>>=20
+>>> On Fri, Jul 15, 2011 at 11:36 AM, Bruce Ashfield
+>>> <bruce.ashfield@gmail.com> wrote:
+>>>> On Fri, Jul 15, 2011 at 11:02 AM, Phil Blundell <philb@gnu.org> wrote:
+>>>>> On Fri, 2011-07-15 at 09:51 -0400, Bruce Ashfield wrote:
+>>>>>> On Fri, Jul 15, 2011 at 9:21 AM, Phil Blundell <pb@pbcl.net> wrote:
+>>>>>>> The other day I was working on a BSP layer for a fairly generic i58=
+6
+>>>>>>> system and I was struck by the fact that we don't appear to have an=
+y
+>>>>>>> vanilla kernel recipes in oe-core.  I had sort of expected that, to=
+ get
+>>>>>>> a standard bzImage out, I would just need to ship an appropriate
+>>>>>>> defconfig in my layer and everything else would "just work".
+>>>>>>=20
+>>>>>> Hmm. Perhaps it isn't documented clearly enough as such, but the lin=
+ux-yocto
+>>>>>> kernel base can work in this mode, since that was a design goal of
+>>>>>> 1.0.
+>>>>>>=20
+>>>>>> You pick a branch, throw in a config fragment (or defconfig if you r=
+eally
+>>>>>> want)  and build. The base branches in the tree are generic enough t=
+o
+>>>>>> sort a range of boards out of the box, and should form a base.
+>>>>>=20
+>>>>> Okay, cool.  I'll give it a go and see how I get on.
+>>>>>=20
+>>>>> Is there a description anywhere of what the functional differences ar=
+e
+>>>>> between the code in linux-yocto git and the upstream kernel.org tree?
+>>>>=20
+>>>> It varies, and the variables are many, so I can answer this in several=
+ ways.
+>>>=20
+>>> Following up on my own email. I'm just about to push out the 3.0
+>>> kernel support / changes, so I'm seeing the light at the end of the tun=
+nel
+>>> and recalled that this is still hanging a bit.
+>>>=20
+>>> Is there anything tangible you wanted me to do here ?  Create an exampl=
+e ?
+>>> Write a short howto  .. or something else ?
+>>=20
+>> A guide to make your own setup that isn't based on linux-yocto but which=
+ does work with the linux-yocto bbclass?
+>=20
+> That's reasonable. Once I get the imminent kernel uprev out the door, I'l=
+l
+> focus on something along these lines.
 
-The patches are pretty self explanitory, but a few comments follow. 
+That sounds good. Upon re-reading the email, I wasn't really sure if the in=
+tent was a guide on how to supply your own configuration, or whether it was=
+ intended to be about how to integrate a custom BSP-kernel (preferably both=
+ tarball and directly from a local git repo). If it was the first, then I h=
+ope that later on we'll be able to derive a guide for developing a custom B=
+SP-layer (it's the kernel part I'm interested in).=20
 
-The kern-tools tweak Fixes [YOCTO #1261], which allows both the 2.6.34
-and 3.0 based -rt kernels to build again. 
+Preferably first a guide on how to get a custom BSP kernel built from git, =
+and later on, when there both are time available as well as some more stabi=
+lization, how to base my own BSP kernel on linux-yocto (eg. using linux-yoc=
+to as the upstream repo). It's unfortunately not always that likely that th=
+e BSP for some products will be mainlined...
 
-The next two changes are small cleanups and a allow linux-yocto to inherit
-changes to the base kernel class' do_configure().
+Cheers,
+Anders
 
-And finally, we create the 3.0 base recipe. A few notes about this are:
-
-  - it is a carry forward of the immediately available 2.6.37 (and before)
-    functionality
-  - it has an audit and cleanup of the config fragments, which was one
-    of the 1.1 deliverables
-  - it has been built for all core arches, and (attempted) boot tested on 
-    them as well.
-  - it is not the default for any target at the moment, this needs more
-    testing, and there are two known issues I'm tracking a qemumips boot
-    failure that snuck in during the 3.0 -rc cycle (it did boot) and 
-    qemuppc interrupts being lost. I'll update the preferred versions as
-    targets are validated.
-  - I've built and booted the core-images on them, but functionality like
-    graphics, etc, still needs to be tested. There's only so much I 
-    can do :)
-  - the -rt branch is populated with tglx's recent update of -rt!
-  - separate patches will go out for other layers (meta-kernel-dev, meta-rt,
-    meta-yocto, etc) shortly.
-
-** This obviously builds on the other hard work done to get userspace and
-tools ready for the 3.0 kernel version change. Many thanks for that, since
-it allowed me to focus on the kernel only.
-
-Patches are welcome for any misbehaving boards or qemu targets :
-
-cc: Darren Hart <dvhart@linux.intel.com>
-cc: Tom Zanussi <tom.zanussi@intel.com>
-
-The following changes since commit 1df5ab5ee285b3220348ce0cf371b81446d55832:
-
-  parse/ConfHandler: Fix multiline variable corruption (2011-07-21 11:09:47 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (4):
-  linux-yocto: kernel-3.0 support recipe
-  kernel: copy defconfig to {B} vs {S}
-  linux-yocto: update LICENSE to GPLv2
-  kern-tools: update SRCREV
-
- meta/classes/kernel-yocto.bbclass                  |    6 ---
- meta/classes/kernel.bbclass                        |    4 +-
- .../kern-tools/kern-tools-native_git.bb            |    2 +-
- meta/recipes-kernel/linux/linux-yocto.inc          |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   47 ++++++++++++++++++++
- 5 files changed, 51 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.0.bb
-
--- 
-1.7.4.1
 
 
 
