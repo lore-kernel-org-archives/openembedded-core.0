@@ -1,26 +1,32 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Qjxjm-0004C4-1k
+	(envelope-from <raj.khem@gmail.com>) id 1Qjxva-0004Lt-H8
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 20:12:42 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 21 Jul 2011 11:08:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,242,1309762800"; d="scan'208";a="30441257"
-Received: from doubt.jf.intel.com (HELO [10.7.199.53]) ([10.7.199.53])
-	by orsmga001.jf.intel.com with ESMTP; 21 Jul 2011 11:08:33 -0700
-Message-ID: <4E286B3C.4020405@linux.intel.com>
-Date: Thu, 21 Jul 2011 11:09:00 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+	Thu, 21 Jul 2011 20:24:54 +0200
+Received: by pzk1 with SMTP id 1so2386834pzk.16
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jul 2011 11:20:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=N5qoMq8NBps9zH5BkJMC/Bvo6XqKtHAk7xZnGy2cMGU=;
+	b=xrOKd4+uwizINkyKJkVyGnhSMYP0xPoGUd5XhKxITzGcWsQlh8/xICNkdlz2KeuUYG
+	UFB7Hqy1eOpb6JeBqfBhkuyRf3yxfuZZCSAHg24MqcraqarB1roXDZFCHg1Yzt7/ycxc
+	mYBXDYzFC0zIlpeqKgdgkm/U9mBDnY+jl8Kxo=
+Received: by 10.68.33.200 with SMTP id t8mr708063pbi.144.1311272446089; Thu,
+	21 Jul 2011 11:20:46 -0700 (PDT)
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-References: <cover.1311267679.git.bruce.ashfield@windriver.com>
-	<6796e1125a6b209fdd4d56e470f915063be67916.1311267679.git.bruce.ashfield@windriver.com>
-In-Reply-To: <6796e1125a6b209fdd4d56e470f915063be67916.1311267679.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: Re: [PATCH 1/4] linux-yocto: kernel-3.0 support recipe
+Received: by 10.68.62.36 with HTTP; Thu, 21 Jul 2011 11:20:16 -0700 (PDT)
+In-Reply-To: <4E285C54.5000308@mentor.com>
+References: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>
+	<CAMKF1srHzFH9PpmKcSMFhSRUstGnt6Pf-z6pirXQFWTpci0vWg@mail.gmail.com>
+	<4E285C54.5000308@mentor.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 21 Jul 2011 11:20:16 -0700
+Message-ID: <CAMKF1spLfWX4ANoyAjzypTHpwBUJjOhRKT4Asg22=qw1qPcHQA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: siteinfo split between powerpc-common & powerpc-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,90 +41,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 18:12:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Jul 2011 18:24:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Jul 21, 2011 at 10:05 AM, Tom Rini <tom_rini@mentor.com> wrote:
+> On 07/21/2011 09:48 AM, Khem Raj wrote:
+>> On Thu, Jul 21, 2011 at 5:17 AM, Kumar Gala <galak@kernel.crashing.org> =
+wrote:
+>>> Why do we have a split between powerpc-common & powerpc-linux?
+>>>
+>>> I assume powerpc-linux is used and picked up for powerpc-linux-uclibc i=
+n addition to normal powerpc-linux.
+>>>
+>>> I'm looking at adding powerpc64 support and powerpc-common is all kinda=
+ of broken for it. =C2=A0I'd like to just merge powerpc-common & powerpc-li=
+nux (as powerpc-linux 32-bit) for now and start a new powerpc-common that r=
+efactors 32/64 commonalities.
+>>>
+>>> Unless someone says otherwise about the meaning of these files.
+>>
+>> powerpc-common is shared between uclibc and eglibc at present and may
+>> be shared with other OSes that may build with OE in future.
+>> traditionally powerpc-common implicitly implied 32bit so I am not
+>> surprised if its broken for ppc64. You could add powerpc64-common
+>> and leave 32bit alone. See how its done for mips64 in oe.dev
+>>
+>> http://git.openembedded.org/cgit.cgi/openembedded/tree/site
+>
+> I'd argue that what we do for mips today is also wrong and I'm going to
+> try and fix it as soon as I can. =C2=A0In these cases we should have:
+> common, common-linux, common-$libc, mips-common, mips-linux,
+> mips64-linux and if needed mips64-linux-libc.
 
+yes that structure would be desirable. It would need a bit of overhaul
+and lot of testing.
+since you have something setup for your import from oe stuff for same.
+may be you can take a stab at it
 
-On 07/21/2011 10:16 AM, Bruce Ashfield wrote:
-> Establish the infrastructure to start more comprehensive linux-3.0
-> testing. With this in place, the populated linux-yocto 3.0 can
-> optionally be built for supported machines.
-> 
-> Note: this commit does not change the default for any targets and
-> as such, it would need to be explicitly set as the preferred version
-> to be built. The staged introduction allows some remaining issues to
-> be solved, while making this available. Subsequent commits will be
-> done to switch qemu machines ones they have been validated. If the
-> default for a machine is not this kernel, consider it best effort.
-> 
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-Acked-by: Darren Hart <dvhart@linux.intel.com>
-
-> ---
->  meta/recipes-kernel/linux/linux-yocto_3.0.bb |   47 ++++++++++++++++++++++++++
->  1 files changed, 47 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.0.bb
-> 
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-> new file mode 100644
-> index 0000000..342993f
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-> @@ -0,0 +1,47 @@
-> +inherit kernel
-> +require recipes-kernel/linux/linux-yocto.inc
-> +
-> +KMACHINE = "yocto/standard/base"
-> +KMACHINE_qemux86  = "yocto/standard/common-pc/base"
-> +KMACHINE_qemux86-64  = "yocto/standard/common-pc-64/base"
-> +KMACHINE_qemuppc  = "yocto/standard/qemu-ppc32"
-> +KMACHINE_qemumips = "yocto/standard/mti-malta32-be"
-> +KMACHINE_qemuarm  = "yocto/standard/arm-versatile-926ejs"
-> +
-> +KBRANCH = ${KMACHINE}
-> +KMETA = meta
-> +
-> +LINUX_VERSION ?= "3.0"
-> +LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
-> +
-> +SRCREV_machine_qemuarm = "021129d0ad7dd63cbe68c9a1d369519a9e5e8440"
-> +SRCREV_machine_qemumips = "e86282b3085c5310d1c43af66242845ddadd49b6"
-> +SRCREV_machine_qemuppc = "f4ce805d0b74f9f32b6455730485120e27a4711e"
-> +SRCREV_machine_qemux86 = "3216e7d5c3cada16161481826cdb39c930457587"
-> +SRCREV_machine_qemux86-64 = "3216e7d5c3cada16161481826cdb39c930457587"
-> +SRCREV_machine = "3216e7d5c3cada16161481826cdb39c930457587"
-> +SRCREV_meta = "9010d1cbef2633dac7e559a7705c326b7601dd4c"
-> +
-> +PR = "r0"
-> +PV = "${LINUX_VERSION}+git${SRCPV}"
-> +SRCREV_FORMAT = "meta_machine"
-> +
-> +SRC_URI = "git://git.pokylinux.org/linux-yocto-3.0;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
-> +
-> +COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
-> +
-> +# Functionality flags
-> +KERNEL_REVISION_CHECKING ?= "t"
-> +KERNEL_FEATURES="features/netfilter"
-> +KERNEL_FEATURES_append=" features/taskstats"
-> +KERNEL_FEATURES_append_qemux86=" cfg/sound"
-> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
-> +
-> +YOCTO_KERNEL_META_DATA=t
-> +
-> +# extra tasks
-> +addtask kernel_link_vmlinux after do_compile before do_install
-> +addtask validate_branches before do_patch after do_kernel_checkout
-> +addtask kernel_configcheck after do_configure before do_compile
-> +
-> +require linux-tools.inc
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+>
+> But I suspect some of the above won't exist, and that's OK.
+>
+> --
+> Tom Rini
+> Mentor Graphics Corporation
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
