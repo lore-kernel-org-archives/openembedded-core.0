@@ -1,34 +1,24 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Qjwkj-0002rO-1W
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QjwvF-0002zH-Aw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 19:09:37 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1Qjwgj-0005Wk-Qb from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 10:05:29 -0700
-Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 21 Jul 2011 10:03:11 -0700
-Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
-	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
-	Thu, 21 Jul 2011 10:05:29 -0700
-Message-ID: <4E285C54.5000308@mentor.com>
-Date: Thu, 21 Jul 2011 10:05:24 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>
-	<CAMKF1srHzFH9PpmKcSMFhSRUstGnt6Pf-z6pirXQFWTpci0vWg@mail.gmail.com>
-In-Reply-To: <CAMKF1srHzFH9PpmKcSMFhSRUstGnt6Pf-z6pirXQFWTpci0vWg@mail.gmail.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 21 Jul 2011 17:03:11.0093 (UTC)
-	FILETIME=[122DE250:01CC47C8]
-Subject: Re: siteinfo split between powerpc-common & powerpc-linux
+	Thu, 21 Jul 2011 19:20:30 +0200
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(dhcp-146-217.ottawa.windriver.com [128.224.146.217])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6LHGDp9016866;
+	Thu, 21 Jul 2011 10:16:16 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Thu, 21 Jul 2011 13:16:07 -0400
+Message-Id: <65d8b50e5c377f6f1c2f4943a0f41d66cf6b9831.1311267679.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1311267679.git.bruce.ashfield@windriver.com>
+References: <cover.1311267679.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1311267679.git.bruce.ashfield@windriver.com>
+References: <cover.1311267679.git.bruce.ashfield@windriver.com>
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 3/4] linux-yocto: update LICENSE to GPLv2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,37 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 17:09:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Jul 2011 17:20:30 -0000
 
-On 07/21/2011 09:48 AM, Khem Raj wrote:
-> On Thu, Jul 21, 2011 at 5:17 AM, Kumar Gala <galak@kernel.crashing.org> wrote:
->> Why do we have a split between powerpc-common & powerpc-linux?
->>
->> I assume powerpc-linux is used and picked up for powerpc-linux-uclibc in addition to normal powerpc-linux.
->>
->> I'm looking at adding powerpc64 support and powerpc-common is all kinda of broken for it.  I'd like to just merge powerpc-common & powerpc-linux (as powerpc-linux 32-bit) for now and start a new powerpc-common that refactors 32/64 commonalities.
->>
->> Unless someone says otherwise about the meaning of these files.
-> 
-> powerpc-common is shared between uclibc and eglibc at present and may
-> be shared with other OSes that may build with OE in future.
-> traditionally powerpc-common implicitly implied 32bit so I am not
-> surprised if its broken for ppc64. You could add powerpc64-common
-> and leave 32bit alone. See how its done for mips64 in oe.dev
-> 
-> http://git.openembedded.org/cgit.cgi/openembedded/tree/site
+As reported by Koen Kooi, the LICENSE for linux-yocto can be tightened
+up to specifiy the particular version of the GPL.
 
-I'd argue that what we do for mips today is also wrong and I'm going to
-try and fix it as soon as I can.  In these cases we should have:
-common, common-linux, common-$libc, mips-common, mips-linux,
-mips64-linux and if needed mips64-linux-libc.
+cc: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-But I suspect some of the above won't exist, and that's OK.
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index c304d00..595795b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -1,6 +1,6 @@
+ DESCRIPTION = "Yocto Kernel"
+ SECTION = "kernel"
+-LICENSE = "GPL"
++LICENSE = "GPLv2"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ 
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.4.1
+
 
 
