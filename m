@@ -1,33 +1,30 @@
-Received: from mail-pv0-f175.google.com ([74.125.83.175])
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QjwQw-00022D-1N
+	(envelope-from <raj.khem@gmail.com>) id 1QjwUt-00026F-NF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 18:49:10 +0200
-Received: by pvf24 with SMTP id 24so1267279pvf.6
+	Thu, 21 Jul 2011 18:53:15 +0200
+Received: by pzk1 with SMTP id 1so2270847pzk.16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2011 09:45:01 -0700 (PDT)
+	Thu, 21 Jul 2011 09:49:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:content-type:content-transfer-encoding;
-	bh=J6G1N47I+yyIhtfzuiltcL8nYvFPOAXNar5JxiZ2ZOc=;
-	b=Nk3Mhh9D/U+i0EmEAJMbDGC/utYESHkVKV9+gWkyMB28Bfpcg1ZF+Ra9WPxBvwQpuf
-	i98wIjcuPLh263bl04x+79CCx7KmqEtxHyieEuy0cMV9QOtEJPbtRsXcgvVrQIOB10sM
-	bLTjig2DFe+OTabcOVGFOKXH/hVARdbJGJI48=
-Received: by 10.68.33.200 with SMTP id t8mr567342pbi.144.1311266701505; Thu,
-	21 Jul 2011 09:45:01 -0700 (PDT)
+	bh=U+Qswnx7kDe7aA9ZB5rPkapV/W8TdR3xYXhX7b/yg5U=;
+	b=kiXH+RBDyWdwsnvODZmKpyIX+Twwl0IRqZQHRVq7Bqn+0hDM3/jzd8MWof7e5c3ONW
+	69hOl8sZ60rAsNMb6sC1EEZfhCqsRwdsijPPBfilZwrtZxyAotgJ7s5vhWcQDleTI16O
+	4B/i+IWVTYwegzNOh4zplyX5cEv+/FE8Lewug=
+Received: by 10.68.35.105 with SMTP id g9mr505947pbj.479.1311266947242; Thu,
+	21 Jul 2011 09:49:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.68.62.36 with HTTP; Thu, 21 Jul 2011 09:44:30 -0700 (PDT)
-In-Reply-To: <1311241147.2344.74.camel@rex>
-References: <cover.1311195893.git.Martin.Jansa@gmail.com>
-	<4E277049.6020308@gmail.com>
-	<4E2778DF.4040001@mentor.com> <20110721061111.GD3443@jama.jama.net>
-	<1311241147.2344.74.camel@rex>
+Received: by 10.68.62.36 with HTTP; Thu, 21 Jul 2011 09:48:37 -0700 (PDT)
+In-Reply-To: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>
+References: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 21 Jul 2011 09:44:30 -0700
-Message-ID: <CAMKF1sp0iaFrCSj6u+G=UADeCY=MEKiM783VF-SWxdZNLSwFxQ@mail.gmail.com>
+Date: Thu, 21 Jul 2011 09:48:37 -0700
+Message-ID: <CAMKF1srHzFH9PpmKcSMFhSRUstGnt6Pf-z6pirXQFWTpci0vWg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/10] Small fixes
+Subject: Re: siteinfo split between powerpc-common & powerpc-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,81 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 16:49:10 -0000
+X-List-Received-Date: Thu, 21 Jul 2011 16:53:16 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 21, 2011 at 2:39 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2011-07-21 at 08:11 +0200, Martin Jansa wrote:
->> On Wed, Jul 20, 2011 at 05:54:55PM -0700, Tom Rini wrote:
->> > On 07/20/2011 05:18 PM, Khem Raj wrote:
->> > > On 07/20/2011 02:06 PM, Martin Jansa wrote:
->> > >> Fixes for recipes using intltool, distributions not having locales
->> > >> support in libc and distutils fix
->> > >>
->> > >> The following changes since commit
->> > >> 0d03800caffc2341b74190d38f7a372223c89f4c:
->> > >>
->> > >> =C2=A0 =C2=A0lsbsetup_1.0.bb: Change the hardcoded /usr/lib to supp=
-ort multilib
->> > >> (2011-07-20 15:43:43 +0100)
->> > >>
->> > >> are available in the git repository at:
->> > >> =C2=A0 =C2=A0git://git.openembedded.org/openembedded-core-contrib j=
-ansa/pull
->> > >>
->> > >> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log=
-/?h=3Djansa/pull
->> > >>
->> > >>
->> > >> Martin Jansa (10):
->> > >> =C2=A0 =C2=A0tcmode-default: set preferred version also for (e)glib=
-c-locale
->> > >> =C2=A0 =C2=A0eglibc-package: don't fail without localedef/gconv
->> > >> =C2=A0 =C2=A0intltool: inherit perlnative
->> > >> =C2=A0 =C2=A0polkit: inherit perlnative
->> > >> =C2=A0 =C2=A0shared-mime-info: inherit perlnative
->> > >> =C2=A0 =C2=A0xkeyboard-config: inherit perlnative
->> > >> =C2=A0 =C2=A0avahi: inherit perlnative
->> > >> =C2=A0 =C2=A0vte: inherit perlnative
->> > >
->> > > I guess all inherit perlnative patches can me squashed into one
->> >
->> > Or not done? :)
->>
->> I still see this issue, with
->> http://patches.openembedded.org/patch/8069/
->> applied.
+On Thu, Jul 21, 2011 at 5:17 AM, Kumar Gala <galak@kernel.crashing.org> wro=
+te:
+> Why do we have a split between powerpc-common & powerpc-linux?
 >
-> I'm wondering if a better approach to fixing this might be to change
-> intltool.m4 so where it says AC_PATH_PROG(INTLTOOL_PERL, perl), it says
-> AC_PATH_PROG(INTLTOOL_PERL, nativeperl) instead, at least in the
-> sysroot.
+> I assume powerpc-linux is used and picked up for powerpc-linux-uclibc in =
+addition to normal powerpc-linux.
 >
-
-yeah though it wont work for folks who would want to use intltool on the ta=
-rget
-unless nativeperl is installed on target too
-
-> Another option would be a class that did:
+> I'm looking at adding powerpc64 support and powerpc-common is all kinda o=
+f broken for it. =C2=A0I'd like to just merge powerpc-common & powerpc-linu=
+x (as powerpc-linux 32-bit) for now and start a new powerpc-common that ref=
+actors 32/64 commonalities.
 >
-> DEPENDS =3D+ "intltool"
-> export INTLTOOL_PERL =3D "nativeperl"
+> Unless someone says otherwise about the meaning of these files.
 
-this might work well.
+powerpc-common is shared between uclibc and eglibc at present and may
+be shared with other OSes that may build with OE in future.
+traditionally powerpc-common implicitly implied 32bit so I am not
+surprised if its broken for ppc64. You could add powerpc64-common
+and leave 32bit alone. See how its done for mips64 in oe.dev
+
+http://git.openembedded.org/cgit.cgi/openembedded/tree/site
 
 >
-> although I think I prefer correcting the intltool m4 macro slightly
-> more. Or do we just add the export to the core in bitbake.conf or
-> autotools.bbclass?...
->
-> Cheers,
->
-> Richard
->
->
->
+> - k
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
