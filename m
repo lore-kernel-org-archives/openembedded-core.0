@@ -1,30 +1,20 @@
-Received: from mail-pz0-f43.google.com ([209.85.210.43])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <leon.woestenberg@gmail.com>) id 1QjsTO-00080h-Lf
+	(envelope-from <dexuan.cui@intel.com>) id 1Qju0W-00029v-Kt
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 14:35:26 +0200
-Received: by pzk1 with SMTP id 1so1933858pzk.16
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2011 05:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=nUUpIxonVzeSc/cHCezbbq4saOKL5HmOzTMM1SED6y4=;
-	b=vVI3RhgBYMQ/IDF/x+vQ5CY0uAizrgydwzNoqa3sa5CNYV/2JNetbG9Ic1DSNfO5F3
-	6deP7jK3aO/xSclZtPBUxfqMj5D/bTLZ8QNs6xj3YCAmR1SwjC9AhoRPSADPvNg/AnO6
-	tK6LROaIZAEnzqyIoTQrtpueNtoKJ25ElsP28=
-MIME-Version: 1.0
-Received: by 10.68.13.68 with SMTP id f4mr199536pbc.404.1311251476455; Thu, 21
-	Jul 2011 05:31:16 -0700 (PDT)
-Received: by 10.68.66.135 with HTTP; Thu, 21 Jul 2011 05:31:16 -0700 (PDT)
-In-Reply-To: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>
-References: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>
-Date: Thu, 21 Jul 2011 14:31:16 +0200
-Message-ID: <CAF3Rn=w6gEoOafnMG72zsWGs4mL2Ho+Qt4xuP=F3Qt==1iQ1qw@mail.gmail.com>
-From: Leon Woestenberg <leon.woestenberg@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: siteinfo split between powerpc-common & powerpc-linux
+	Thu, 21 Jul 2011 16:13:44 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2011 07:09:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,240,1309762800"; d="scan'208";a="30751220"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.112])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2011 07:09:35 -0700
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jul 2011 22:09:44 +0800
+Message-Id: <cover.1311256622.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 0/2] upgrade tcf-agent to the latest stable revision 0.0+svnr1855
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,31 +29,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 12:35:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Jul 2011 14:13:44 -0000
 
-Kumar,
+The following changes since commit 068839698fe192d8846c0ed4db65861448e8e524:
 
-On Thu, Jul 21, 2011 at 2:17 PM, Kumar Gala <galak@kernel.crashing.org> wro=
-te:
-> Why do we have a split between powerpc-common & powerpc-linux?
->
-> I assume powerpc-linux is used and picked up for powerpc-linux-uclibc in =
-addition to normal powerpc-linux.
->
-> I'm looking at adding powerpc64 support and powerpc-common is all kinda o=
-f broken for it. =A0I'd like to just merge powerpc-common & powerpc-linux (=
-as powerpc-linux 32-bit) for now and start a new powerpc-common that refact=
-ors 32/64 commonalities.
->
-> Unless someone says otherwise about the meaning of these files.
->
+  eglibc: fix runtime assertion failure (2011-07-13 12:34:30 +0100)
 
-Good fine, go ahead, I think these are left-overs from long ago.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib dcui/tcf-agent
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/tcf-agent
 
-Regards,
---=20
-Leon
+Dexuan Cui (2):
+  tcf-agent: upgrade to the latest stable revision 0.0+svnr1855
+  distro_tracking_fields.inc: update the info for tcf-agent
+
+ .../conf/distro/include/distro_tracking_fields.inc |   12 +-
+ .../tcf-agent/tcf-agent/fix_ranlib.patch           |   14 +
+ .../tcf-agent/tcf-agent/fix_tcf-agent.init.patch   |   14 +-
+ .../tcf-agent/tcf-agent/terminals_agent.patch      | 1027 --------------------
+ meta/recipes-devtools/tcf-agent/tcf-agent_svn.bb   |   21 +-
+ 5 files changed, 40 insertions(+), 1048 deletions(-)
+ create mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/fix_ranlib.patch
+ delete mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/terminals_agent.patch
+
+-- 
+1.7.6
+
 
 
