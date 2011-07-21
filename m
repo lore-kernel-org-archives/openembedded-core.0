@@ -1,24 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1QjoEz-00026C-3r
+	(envelope-from <Kai.Kang@windriver.com>) id 1QjoF1-00026E-M9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jul 2011 10:04:17 +0200
+	Thu, 21 Jul 2011 10:04:20 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6L804TX017182
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6L80B35017283
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Jul 2011 01:00:07 -0700 (PDT)
+	Thu, 21 Jul 2011 01:00:11 -0700 (PDT)
 Received: from localhost (128.224.162.154) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 21 Jul 2011 01:00:04 -0700
-Message-ID: <cover.1311234759.git.kai.kang@windriver.com>
-Old-Date: Thu, 21 Jul 2011 15:52:39 +0800
-Date: Thu, 21 Jul 2011 16:00:11 +0800
+	Thu, 21 Jul 2011 01:00:11 -0700
+Message-ID: <fb9463e2c0dc7d1d378b0954bf65502c27cb2ddc.1311234759.git.kai.kang@windriver.com>
+In-Reply-To: <cover.1311234759.git.kai.kang@windriver.com>
+References: <cover.1311234759.git.kai.kang@windriver.com>
+Old-Date: Tue, 19 Jul 2011 17:08:31 +0800
+Date: Thu, 21 Jul 2011 16:00:18 +0800
 To: <scott.a.garman@intel.com>
 From: Kang Kai <kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.154]
 Cc: Wenzong, openembedded-core@lists.openembedded.org
-Subject: [PATCH 00/10] works of adding packages pam support
+Subject: [PATCH 01/10] libpam: update to 1.1.4 and add subpackage xtests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,75 +35,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 08:04:17 -0000
+X-List-Received-Date: Thu, 21 Jul 2011 08:04:20 -0000
 Content-Type: text/plain
 
 From: Kang Kai <kai.kang@windriver.com>
 
-Hi Scott,
+Update libpam to 1.1.4, and add dependecy cracklib because run xtexts will
+need pam-plugin-cracklib.
+There are some additional checks under subdirectory xtests and make it
+as a subpackage libpam-xtests.
 
-This is the current work of adding pam supports. 
-
-After update libpam to 1.1.4, we enable the packages pam support. And if the pacakge
-doesn't have a pam configure file, import from Fedora.
-
-The following changes since commit fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
-
-  bb-matrix: correct BB and PM number canonicalization (2011-07-14 22:23:09 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/distro
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/pam-commits
-
-Kang Kai (5):
-  libpam: update to 1.1.4 and add subpackage xtests
-  cups: add pam support
-  screen: add pam support
-  sudo: add pam support
-  shadow: update pam related configure files
-
-Wenzong Fan (2):
-  cronie: enable PAM support for cronie
-  at: enable pam support
-
-Xiaofeng Yan (3):
-  dropbear: Support PAM
-  openssh: Support PAM
-  polkit: Support PAM
-
- .../openssh/openssh-5.8p2/sshd                     |   10 +
- meta/recipes-connectivity/openssh/openssh_5.8p2.bb |    7 +-
- meta/recipes-core/dropbear/dropbear.inc            |    6 +-
- .../dropbear/dropbear/dropbear-enable-pam.patch    |   21 +++
- .../at/at-3.1.12/configure-add-enable-pam.patch    |   23 +++
- meta/recipes-extended/at/at-3.1.12/pam.conf.patch  |   16 ++
- meta/recipes-extended/at/at_3.1.12.bb              |   13 +-
- .../cronie/cronie/crond_pam_config.patch           |   13 ++
- meta/recipes-extended/cronie/cronie_1.4.7.bb       |    9 +-
- meta/recipes-extended/cups/cups_1.4.6.bb           |    8 +-
- .../pam/libpam/libpam-xtests.patch                 |   35 ++++
- .../pam/{libpam_1.1.3.bb => libpam_1.1.4.bb}       |   14 +-
- .../polkit/polkit-0.101/polkit-1_pam.patch         |   23 +++
- meta/recipes-extended/polkit/polkit_0.101.bb       |    6 +-
- .../screen/screen-4.0.3/screen.pamd                |    2 +
- meta/recipes-extended/screen/screen_4.0.3.bb       |   14 +-
- .../shadow/files/shadow-update-pam-conf.patch      |  175 ++++++++++++++++++++
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    5 +-
- meta/recipes-extended/sudo/files/sudo.pamd         |    6 +
- meta/recipes-extended/sudo/sudo_1.8.1p2.bb         |   11 +-
- 20 files changed, 389 insertions(+), 28 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
- create mode 100644 meta/recipes-extended/at/at-3.1.12/configure-add-enable-pam.patch
- create mode 100644 meta/recipes-extended/at/at-3.1.12/pam.conf.patch
- create mode 100644 meta/recipes-extended/cronie/cronie/crond_pam_config.patch
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
+---
+ .../pam/libpam/libpam-xtests.patch                 |   35 ++++++++++++++++++++
+ .../pam/{libpam_1.1.3.bb => libpam_1.1.4.bb}       |   14 +++++---
+ 2 files changed, 44 insertions(+), 5 deletions(-)
  create mode 100644 meta/recipes-extended/pam/libpam/libpam-xtests.patch
  rename meta/recipes-extended/pam/{libpam_1.1.3.bb => libpam_1.1.4.bb} (85%)
- create mode 100644 meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
- create mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen.pamd
- create mode 100644 meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
- create mode 100644 meta/recipes-extended/sudo/files/sudo.pamd
 
+diff --git a/meta/recipes-extended/pam/libpam/libpam-xtests.patch b/meta/recipes-extended/pam/libpam/libpam-xtests.patch
+new file mode 100644
+index 0000000..be68745
+--- /dev/null
++++ b/meta/recipes-extended/pam/libpam/libpam-xtests.patch
+@@ -0,0 +1,35 @@
++This patch is used to create a new sub package libpam-xtests to do more checks.
++
++Upstream-Status: Pending
++
++Signed-off-by: Kang Kai <kai.kang@windriver.com>
++--- Linux-PAM-1.1.4/xtests/Makefile.am.orig	2011-07-19 17:00:09.619980001 +0800
+++++ Linux-PAM-1.1.4/xtests/Makefile.am	2011-07-19 16:54:00.229979998 +0800
++@@ -7,7 +7,7 @@
++ AM_LDFLAGS = -L$(top_builddir)/libpam -lpam \
++ 	-L$(top_builddir)/libpam_misc -lpam_misc
++ 
++-CLEANFILES = *~ $(XTESTS)
+++CLEANFILES = *~
++ 
++ EXTRA_DIST = run-xtests.sh tst-pam_dispatch1.pamd tst-pam_dispatch2.pamd \
++ 	tst-pam_dispatch3.pamd tst-pam_dispatch4.pamd \
++@@ -51,3 +51,18 @@
++ 
++ xtests: $(XTESTS) run-xtests.sh
++ 	"$(srcdir)"/run-xtests.sh "$(srcdir)" ${XTESTS} ${NOSRCTESTS}
+++
+++all: $(XTESTS)
+++
+++install: install_xtests
+++
+++install_xtests:
+++	$(INSTALL) -d $(DESTDIR)$(pkgdatadir)/xtests
+++	for file in $(EXTRA_DIST) ; do \
+++		$(INSTALL) $$file $(DESTDIR)$(pkgdatadir)/xtests ; \
+++	done
+++	for file in $(XTESTS); do \
+++		$(INSTALL) .libs/$$file $(DESTDIR)$(pkgdatadir)/xtests ; \
+++	done
+++
+++.PHONY: all install_xtests
+diff --git a/meta/recipes-extended/pam/libpam_1.1.3.bb b/meta/recipes-extended/pam/libpam_1.1.4.bb
+similarity index 85%
+rename from meta/recipes-extended/pam/libpam_1.1.3.bb
+rename to meta/recipes-extended/pam/libpam_1.1.4.bb
+index b62e2f2..f2379e4 100644
+--- a/meta/recipes-extended/pam/libpam_1.1.3.bb
++++ b/meta/recipes-extended/pam/libpam_1.1.4.bb
+@@ -11,18 +11,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ca0395de9a86191a078b8b79302e3083"
+ 
+ PR = "r0"
+ 
+-DEPENDS = "bison flex"
++DEPENDS = "bison flex cracklib"
+ RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
++RDEPENDS_${PN}-xtests = "libpam pam-plugin-access pam-plugin-debug pam-plugin-cracklib pam-plugin-pwhistory \
++						pam-plugin-succeed-if pam-plugin-time coreutils"
+ RRECOMMENDS_${PN} = "libpam-runtime"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/pam/library/Linux-PAM-${PV}.tar.bz2 \
+            file://99_pam \
+-           file://pam.d/*"
++           file://pam.d/* \
++		   file://libpam-xtests.patch"
+ 
+ SRC_URI_append_libc-uclibc = " file://pam-no-innetgr.patch"
+ 
+-SRC_URI[md5sum] = "6db7fcb5db6253350e3a4648ceac40e7"
+-SRC_URI[sha256sum] = "17b268789b935a76e736a1150210dd12f156972973e79347668f828d43632652"
++SRC_URI[md5sum] = "e9af5fb27bb22edb55d077e2888b3ebc"
++SRC_URI[sha256sum] = "ccd89331914390b1e9e99c954471d65f19b660d81e15a46eeb96cee125d44056"
+ 
+ EXTRA_OECONF = "--with-db-uniquename=_pam \
+                 --includedir=${includedir}/security \
+@@ -34,12 +37,13 @@ S = "${WORKDIR}/Linux-PAM-${PV}"
+ 
+ inherit autotools gettext
+ 
+-PACKAGES += "${PN}-runtime"
++PACKAGES += "${PN}-runtime ${PN}-xtests"
+ FILES_${PN} = "${base_libdir}/lib*${SOLIBS}"
+ FILES_${PN}-dbg += "${base_libdir}/security/.debug \
+                     ${base_libdir}/security/pam_filter/.debug"
+ FILES_${PN}-dev += "${base_libdir}/security/*.la ${base_libdir}/*.la ${base_libdir}/lib*${SOLIBSDEV}"
+ FILES_${PN}-runtime = "${sysconfdir}"
++FILES_${PN}-xtests = "${datadir}/Linux-PAM/xtests"
+ 
+ PACKAGES_DYNAMIC += " pam-plugin-*"
+ 
 -- 
 1.7.5.1.300.gc565c
 
