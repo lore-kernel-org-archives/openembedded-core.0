@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qjo8Y-0001FT-U6
+	(envelope-from <sgw@linux.intel.com>) id 1Qjo8Y-0001En-Lg
 	for openembedded-core@lists.openembedded.org;
 	Thu, 21 Jul 2011 09:57:39 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 21 Jul 2011 00:53:20 -0700
+	by azsmga102.ch.intel.com with ESMTP; 21 Jul 2011 00:53:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,240,1309762800"; d="scan'208";a="29787057"
+X-IronPort-AV: E=Sophos;i="4.67,240,1309762800"; d="scan'208";a="29787062"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.13.254])
-	by azsmga001.ch.intel.com with ESMTP; 21 Jul 2011 00:53:11 -0700
+	by azsmga001.ch.intel.com with ESMTP; 21 Jul 2011 00:53:12 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jul 2011 00:52:53 -0700
-Message-Id: <d0319bc382ea4891ea0dd98dae01a1d21f9e296e.1311234475.git.sgw@linux.intel.com>
+Date: Thu, 21 Jul 2011 00:52:55 -0700
+Message-Id: <5e61d293276ae107e3e873837ef378b18bf29eb3.1311234475.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311234475.git.sgw@linux.intel.com>
 References: <cover.1311234475.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311234475.git.sgw@linux.intel.com>
 References: <cover.1311234475.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 05/20] cpan.bbclass: Perform more mangling for perl path
+Subject: [CONSOLIDATED PULL 07/20] siteinfo.bbclass: Port over oe.dev logic for site files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,157 +37,245 @@ X-List-Received-Date: Thu, 21 Jul 2011 07:57:39 -0000
 
 From: Tom Rini <tom_rini@mentor.com>
 
-On hosts where we may already be past the #! limit this is required
-and this is safe on the target as well.  This is be7fe31 in oe.dev.
-Related to this we now bump all PRs for recipes that inherit cpan.
-Note that in oe.dev we mangle for perl but here we use the new
-nativeperl script.
+In oe.dev we have a sets to pick out hostos/hostarch/etc site
+files out of and include things like a common-linux site file.
+This should also help out with adding multilib-specific site files
+(ie x32).  In oe.dev we have an iterator but at Richard's request
+we continue to return a list of files in siteinfo_get_files().
 
 Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- meta/classes/cpan.bbclass                          |    3 +++
- meta/recipes-devtools/perl/liburi-perl_1.58.bb     |    2 +-
- .../perl/libxml-parser-perl_2.40.bb                |    2 +-
- meta/recipes-devtools/perl/libxml-perl_0.08.bb     |    2 +-
- .../perl/libxml-simple-perl_2.18.bb                |    2 +-
- .../sgmlspl/sgmlspl-native_1.03ii.bb               |    2 +-
- .../perl/libconvert-asn1-perl_0.22.bb              |    2 +-
- .../recipes-extended/perl/libtimedate-perl_1.20.bb |    2 +-
- .../perl/libxml-namespacesupport-perl_1.11.bb      |    2 +-
- meta/recipes-extended/perl/libxml-sax-perl_0.96.bb |    2 +-
- 10 files changed, 12 insertions(+), 9 deletions(-)
+ meta/classes/siteinfo.bbclass |  203 ++++++++++++++++++++---------------------
+ 1 files changed, 98 insertions(+), 105 deletions(-)
+ create mode 100644 meta/site/common-linux
 
-diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
-index cbf428d..cb1c2f4 100644
---- a/meta/classes/cpan.bbclass
-+++ b/meta/classes/cpan.bbclass
-@@ -35,6 +35,9 @@ cpan_do_compile () {
+diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
+index 78b7008..ff9fd0d 100644
+--- a/meta/classes/siteinfo.bbclass
++++ b/meta/classes/siteinfo.bbclass
+@@ -15,121 +15,114 @@
+ # It is an error for the target not to exist.
+ # If 'what' doesn't exist then an empty value is returned
+ #
+-def get_siteinfo_list(d):
+-       target = bb.data.getVar('HOST_ARCH', d, 1) + "-" + bb.data.getVar('HOST_OS', d, 1)
++def siteinfo_data(d):
++    archinfo = {
++        "allarch": "endian-little bit-32", # bogus, but better than special-casing the checks below for allarch
++        "arm": "endian-little bit-32 arm-common",
++        "armeb": "endian-big bit-32 arm-common",
++        "avr32": "endian-big bit-32 avr32-common",
++        "bfin": "endian-little bit-32 bfin-common",
++        "i386": "endian-little bit-32 ix86-common",
++        "i486": "endian-little bit-32 ix86-common",
++        "i586": "endian-little bit-32 ix86-common",
++        "i686": "endian-little bit-32 ix86-common",
++        "ia64": "endian-little bit-64",
++        "microblaze": "endian-big bit-32 microblaze-common",
++        "microblazeel": "endian-little bit-32 microblaze-common",
++        "mips": "endian-big bit-32 mips-common",
++        "mips64": "endian-big bit-64 mips64-common",
++        "mips64el": "endian-little bit-64 mips64-common",
++        "mipsel": "endian-little bit-32 mips-common",
++        "powerpc": "endian-big bit-32 powerpc-common",
++        "nios2": "endian-little bit-32 nios2-common",
++        "powerpc64": "endian-big bit-64 powerpc-common powerpc64-linux",
++        "ppc": "endian-big bit-32 powerpc-common",
++        "ppc64": "endian-big bit-64 powerpc-common powerpc64-linux",
++        "sh3": "endian-little bit-32 sh-common",
++        "sh4": "endian-little bit-32 sh-common",
++        "sparc": "endian-big bit-32",
++        "viac3": "endian-little bit-32 ix86-common",
++        "x86_64": "endian-little bit-64",
++    }
++    osinfo = {
++        "darwin": "common-darwin",
++        "darwin9": "common-darwin",
++        "linux": "common-linux common-glibc",
++        "linux-gnueabi": "common-linux common-glibc",
++        "linux-gnuspe": "common-linux common-glibc",
++        "linux-uclibc": "common-linux common-uclibc",
++        "linux-uclibceabi": "common-linux common-uclibc",
++        "linux-uclibcspe": "common-linux common-uclibc",
++        "uclinux-uclibc": "common-uclibc",
++        "cygwin": "common-cygwin",
++        "mingw32": "common-mingw",
++    }
++    targetinfo = {
++        "arm-linux-gnueabi": "arm-linux",
++        "arm-linux-uclibceabi": "arm-linux-uclibc",
++        "armeb-linux-gnueabi": "armeb-linux",
++        "armeb-linux-uclibceabi": "armeb-linux-uclibc",
++        "powerpc-linux-gnuspe": "powerpc-linux",
++        "powerpc-linux-uclibcspe": "powerpc-linux-uclibc",
++    }
  
- cpan_do_install () {
- 	oe_runmake DESTDIR="${D}" install_vendor
-+	for PERLSCRIPT in `grep -rIEl '#!${bindir}/perl-native.*/perl' ${D}`; do
-+		sed -i -e 's|^#!${bindir}/perl-native.*/perl|#!/usr/bin/env nativeperl|' $PERLSCRIPT
-+	done
- }
+-       targetinfo = {\
+-               "allarch-linux":           "",\
+-               "armeb-linux":             "endian-big bit-32 common-glibc arm-common",\
+-               "armeb-linux-gnueabi":     "endian-big bit-32 common-glibc arm-common armeb-linux",\
+-               "armeb-linux-uclibc":      "endian-big bit-32 common-uclibc arm-common",\
+-               "armeb-linux-uclibceabi": "endian-big bit-32 common-uclibc arm-common armeb-linux-uclibc",\
+-               "arm-darwin":              "endian-little bit-32 common-darwin",\
+-               "arm-darwin8":              "endian-little bit-32 common-darwin",\
+-               "arm-linux":               "endian-little bit-32 common-glibc arm-common",\
+-               "arm-linux-gnueabi":       "endian-little bit-32 common-glibc arm-common arm-linux",\
+-               "arm-linux-uclibc":        "endian-little bit-32 common-uclibc arm-common",\
+-               "arm-linux-uclibceabi": "endian-little bit-32 common-uclibc arm-common arm-linux-uclibc",\
+-               "avr32-linux":             "endian-big bit-32 common-glibc avr32-common",\ 
+-               "avr32-linux-uclibc":      "endian-big bit-32 common-uclibc avr32-common",\
+-               "bfin-uclinux-uclibc":       "endian-little bit-32 common-uclibc bfin-common",\
+-               "i386-linux":              "endian-little bit-32 common-glibc ix86-common",\
+-               "i486-linux":              "endian-little bit-32 common-glibc ix86-common",\
+-               "i586-linux":              "endian-little bit-32 common-glibc ix86-common",\
+-               "i686-linux":              "endian-little bit-32 common-glibc ix86-common",\
+-               "i386-linux-uclibc":       "endian-little bit-32 common-uclibc ix86-common",\
+-               "i486-linux-uclibc":       "endian-little bit-32 common-uclibc ix86-common",\
+-               "i586-linux-uclibc":       "endian-little bit-32 common-uclibc ix86-common",\
+-               "i686-linux-uclibc":       "endian-little bit-32 common-uclibc ix86-common",\
+-               "microblaze-linux-gnu":    "endian-big bit-32 common-glibc microblaze-common",\
+-               "microblazeel-linux-gnu":  "endian-little bit-32 common-glibc microblaze-common",\
+-               "mipsel-linux":            "endian-little bit-32 common-glibc mips-common",\
+-               "mipsel-linux-uclibc":     "endian-little bit-32 common-uclibc mips-common",\
+-               "mips-linux":              "endian-big bit-32 common-glibc mips-common",\
+-               "mips-linux-uclibc":       "endian-big bit-32 common-uclibc mips-common",\
+-               "powerpc-darwin":          "endian-big bit-32 common-darwin",\
+-               "ppc-linux":               "endian-big bit-32 common-glibc powerpc-common",\ 
+-	       "powerpc-linux":           "endian-big bit-32 common-glibc powerpc-common",\
+-               "powerpc-linux-gnuspe":    "endian-big bit-32 common-glibc powerpc-common",\
+-               "powerpc-linux-uclibc":    "endian-big bit-32 common-uclibc powerpc-common",\
+-               "sh3-linux":               "endian-little bit-32 common-glibc sh-common",\
+-               "sh4-linux":               "endian-little bit-32 common-glibc sh-common",\
+-               "sh4-linux-uclibc":        "endian-little bit-32 common-uclibc sh-common",\
+-               "sparc-linux":             "endian-big bit-32 common-glibc",\
+-               "x86_64-linux":            "endian-little bit-64 common-glibc",\
+-               "x86_64-linux-uclibc":     "endian-little bit-64 common-uclibc"}
+-       if target in targetinfo:
+-               info = targetinfo[target].split()
+-               info.append(target)
+-               info.append("common")
+-               return info
+-       else:
+-               bb.error("Information not available for target '%s'" % target)
++    hostarch = d.getVar("HOST_ARCH", True)
++    hostos = d.getVar("HOST_OS", True)
++    target = "%s-%s" % (hostarch, hostos)
  
- EXPORT_FUNCTIONS do_configure do_compile do_install
-diff --git a/meta/recipes-devtools/perl/liburi-perl_1.58.bb b/meta/recipes-devtools/perl/liburi-perl_1.58.bb
-index 76a1231..ebb4911 100644
---- a/meta/recipes-devtools/perl/liburi-perl_1.58.bb
-+++ b/meta/recipes-devtools/perl/liburi-perl_1.58.bb
-@@ -4,7 +4,7 @@ and manipulate the various components that make up these strings."
++    sitedata = []
++    if hostarch in archinfo:
++        sitedata.extend(archinfo[hostarch].split())
++    if hostos in osinfo:
++        sitedata.extend(osinfo[hostos].split())
++    if target in targetinfo:
++        sitedata.extend(targetinfo[target].split())
++    sitedata.append(target)
++    sitedata.append("common")
  
- SECTION = "libs"
- LICENSE = "Artistic | GPLv1+"
--PR = "r0"
-+PR = "r1"
+-#
+-# Define which site files to use. We check for several site files and
+-# use each one that is found, based on the list returned by get_siteinfo_list()
+-#
+-# Search for the files in the following directories:
+-# 1) ${BBPATH}/site (in reverse) - app specific, then site wide
+-# 2) ${FILE_DIRNAME}/site-${PV}         - app version specific
+-#
+-def siteinfo_get_files(d):
+-       sitefiles = ""
++    bb.debug(1, "SITE files %s" % sitedata);
++    return sitedata
  
- LIC_FILES_CHKSUM = "file://README;beginline=26;endline=30;md5=6c33ae5c87fd1c4897714e122dd9c23d"
+-       # Determine which site files to look for
+-       sites = get_siteinfo_list(d)
++python () {
++    sitedata = set(siteinfo_data(d))
++    if "endian-little" in sitedata:
++        d.setVar("SITEINFO_ENDIANESS", "le")
++    elif "endian-big" in sitedata:
++        d.setVar("SITEINFO_ENDIANESS", "be")
++    else:
++        bb.error("Unable to determine endianness for architecture '%s'" %
++                 d.getVar("HOST_ARCH", True))
++        bb.fatal("Please add your architecture to siteinfo.bbclass")
  
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
-index 3f1a0ad..1d1593b 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.40.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e
+-       # Check along bbpath for site files and append in reverse order so
+-       # the application specific sites files are last and system site
+-       # files first.
+-       path_bb = bb.data.getVar('BBPATH', d, 1)
+-       for p in (path_bb or "").split(':'):
+-               tmp = ""
+-               for i in sites:
+-                       fname = os.path.join(p, 'site', i)
+-                       if os.path.exists(fname):
+-                               tmp += fname + " "
+-               sitefiles = tmp + sitefiles;
++    if "bit-32" in sitedata:
++        d.setVar("SITEINFO_BITS", "32")
++    elif "bit-64" in sitedata:
++        d.setVar("SITEINFO_BITS", "64")
++    else:
++        bb.error("Unable to determine bit size for architecture '%s'" %
++                 d.getVar("HOST_ARCH", True))
++        bb.fatal("Please add your architecture to siteinfo.bbclass")
++}
  
- DEPENDS += "expat expat-native"
+-       # Now check for the applications version specific site files
+-       path_pkgv = os.path.join(bb.data.getVar('FILE_DIRNAME', d, 1), "site-" + bb.data.getVar('PV', d, 1))
+-       for i in sites:
+-               fname = os.path.join(path_pkgv, i)
+-               if os.path.exists(fname):
+-                       sitefiles += fname + " "
+-
+-       # Now check for siteconfig cache files
+-       path_siteconfig = bb.data.getVar('SITECONFIG_SYSROOTCACHE', d, 1)
+-       if os.path.isdir(path_siteconfig):
+-               for i in os.listdir(path_siteconfig):
+-                       fname = os.path.join(path_siteconfig, i)
+-                       sitefiles += fname + " "
+-
+-       bb.debug(1, "SITE files " + sitefiles);
+-       return sitefiles
++def siteinfo_get_files(d):
++    sitedata = siteinfo_data(d)
++    sitefiles = ""
++    for path in d.getVar("BBPATH", True).split(":"):
++        for element in sitedata:
++            filename = os.path.join(path, "site", element)
++            if os.path.exists(filename):
++                sitefiles += filename + " "
  
--PR = "r3"
-+PR = "r4"
+-def siteinfo_get_endianess(d):
+-       info = get_siteinfo_list(d)
+-       if 'endian-little' in info:
+-              return "le"
+-       elif 'endian-big' in info:
+-              return "be"
+-       bb.error("Site info could not determine endianess for target")
++    # Now check for siteconfig cache files
++    path_siteconfig = bb.data.getVar('SITECONFIG_SYSROOTCACHE', d, 1)
++    if os.path.isdir(path_siteconfig):
++        for i in os.listdir(path_siteconfig):
++            filename = os.path.join(path_siteconfig, i)
++            sitefiles += filename + " "
  
- SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
- SRC_URI[md5sum] = "c66e9adba003d0667cc40115ccd837a5"
-diff --git a/meta/recipes-devtools/perl/libxml-perl_0.08.bb b/meta/recipes-devtools/perl/libxml-perl_0.08.bb
-index 9c74cdb..fb637a8 100644
---- a/meta/recipes-devtools/perl/libxml-perl_0.08.bb
-+++ b/meta/recipes-devtools/perl/libxml-perl_0.08.bb
-@@ -5,7 +5,7 @@ XML::Grove and others."
- SUMMARY = "Collection of Perl modules for working with XML."
- SECTION = "libs"
- LICENSE = "Artistic | GPLv1+"
--PR = "r0"
-+PR = "r1"
+-def siteinfo_get_bits(d):
+-       info = get_siteinfo_list(d)
+-       if 'bit-32' in info:
+-              return "32"
+-       elif 'bit-64' in info:
+-              return "64"
+-       bb.error("Site info could not determine bit size for target")
++    return sitefiles
  
- LIC_FILES_CHKSUM = "file://README;beginline=33;endline=35;md5=1705549eef7577a3d6ba71123a1f0ce8"
- 
-diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
-index 89b65b2..3a50d7f 100644
---- a/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
-+++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.18.bb
-@@ -2,7 +2,7 @@ SECTION = "libs"
- LICENSE = "Artistic"
- LIC_FILES_CHKSUM = "file://README;beginline=70;md5=94aa5d46682b411a53a5494cfb22640e"
- DEPENDS += "libxml-parser-perl"
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Simple-${PV}.tar.gz"
- 
-diff --git a/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb b/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb
-index 4e01f17..28e0e9f 100644
---- a/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb
-+++ b/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://search.cpan.org/src/DMEGG/SGMLSpm-1.03ii/DOC/HTML/SGMLSpm/sgm
- SECTION = "libs"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "http://www.cpan.org/authors/id/D/DM/DMEGG/SGMLSpm-${PV}.tar.gz \
-            file://combined.patch"
-diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb
-index fc77b75..48e107c 100644
---- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb
-+++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Convert::ASN1 - ASN.1 Encode/Decode library"
- SECTION = "libs"
- LICENSE = "Artistic|GPLv1+"
- LIC_FILES_CHKSUM = "file://README;beginline=10;endline=12;md5=a64b291b13ffddeef33b14f047ee8b26"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/Convert-ASN1-${PV}.tar.gz"
- 
-diff --git a/meta/recipes-extended/perl/libtimedate-perl_1.20.bb b/meta/recipes-extended/perl/libtimedate-perl_1.20.bb
-index 7298f37..c925980 100644
---- a/meta/recipes-extended/perl/libtimedate-perl_1.20.bb
-+++ b/meta/recipes-extended/perl/libtimedate-perl_1.20.bb
-@@ -3,7 +3,7 @@ SECTION = "libs"
- # You can redistribute it and/or modify it under the same terms as Perl itself.
- LICENSE = "Artistic|GPLv1+"
- LIC_FILES_CHKSUM = "file://README;beginline=21;md5=576b7cb41e5e821501a01ed66f0f9d9e"
--PR = "r2"
-+PR = "r3"
- 
- 
- SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/TimeDate-${PV}.tar.gz"
-diff --git a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb
-index d96430e..f306ff1 100644
---- a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb
-+++ b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.11.bb
-@@ -5,7 +5,7 @@ DESCRIPTION = "XML::NamespaceSupport offers a simple way to process namespace-ba
- 
- SECTION = "libs"
- LICENSE = "Artistic|GPLv1+"
--PR = "r0"
-+PR = "r1"
- 
- LIC_FILES_CHKSUM = "file://META.yml;beginline=22;endline=22;md5=3b2b564dae8b9af9e8896e85c07dcbe5"
- 
-diff --git a/meta/recipes-extended/perl/libxml-sax-perl_0.96.bb b/meta/recipes-extended/perl/libxml-sax-perl_0.96.bb
-index 13956cb..97d2025 100644
---- a/meta/recipes-extended/perl/libxml-sax-perl_0.96.bb
-+++ b/meta/recipes-extended/perl/libxml-sax-perl_0.96.bb
-@@ -11,7 +11,7 @@ SECTION = "libs"
- LICENSE = "Artistic|GPLv1+"
- DEPENDS += "libxml-namespacesupport-perl-native"
- RDEPENDS_${PN} += "libxml-namespacesupport-perl perl-module-file-temp"
--PR = "r0"
-+PR = "r1"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=65c4cd8f39c24c7135ed70dacbcb09e3"
- 
+ #
+ # Make some information available via variables
+ #
+-SITEINFO_ENDIANESS  = "${@siteinfo_get_endianess(d)}"
+-SITEINFO_BITS       = "${@siteinfo_get_bits(d)}"
+ SITECONFIG_SYSROOTCACHE = "${STAGING_DATADIR}/${TARGET_SYS}_config_site.d"
+-
+diff --git a/meta/site/common-linux b/meta/site/common-linux
+new file mode 100644
+index 0000000..e69de29
 -- 
 1.7.3.4
 
