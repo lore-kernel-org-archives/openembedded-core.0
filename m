@@ -1,31 +1,26 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1QkHi4-0006M7-0K
+	(envelope-from <sgw@linux.intel.com>) id 1QkHmI-0006Qi-Pg
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 17:32:16 +0200
-Received: from mail-gx0-f180.google.com ([209.85.161.180])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 22 Jul 2011 08:27:01 -0700
-Received: by gxk10 with SMTP id 10so1709138gxk.25
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2011 08:27:00 -0700 (PDT)
-Received: by 10.143.15.2 with SMTP id s2mr110304wfi.57.1311348418413;
-	Fri, 22 Jul 2011 08:26:58 -0700 (PDT)
-Received: from [10.6.18.247] (c-71-193-189-117.hsd1.wa.comcast.net
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id t7sm1504557wfl.2.2011.07.22.08.26.54
-	(version=SSLv3 cipher=OTHER); Fri, 22 Jul 2011 08:26:56 -0700 (PDT)
-Message-ID: <4E2996BD.3020208@intel.com>
-Date: Fri, 22 Jul 2011 08:26:53 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
+	Fri, 22 Jul 2011 17:36:38 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Jul 2011 08:32:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,247,1309762800"; d="scan'208";a="30823614"
+Received: from unknown (HELO [10.255.14.61]) ([10.255.14.61])
+	by orsmga001.jf.intel.com with ESMTP; 22 Jul 2011 08:32:21 -0700
+Message-ID: <4E299804.5030706@linux.intel.com>
+Date: Fri, 22 Jul 2011 08:32:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1311267679.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1311267679.git.bruce.ashfield@windriver.com>
-Subject: Re: [PATCH 0/4] kernel: consolidated pull request
+References: <cover.1311195893.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1311195893.git.Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH 00/10] Small fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,83 +35,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 15:32:16 -0000
+X-List-Received-Date: Fri, 22 Jul 2011 15:36:39 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/21/2011 10:16 AM, Bruce Ashfield wrote:
-> Richard/Saul,
+On 07/20/2011 02:06 PM, Martin Jansa wrote:
+> Fixes for recipes using intltool, distributions not having locales support in libc and distutils fix
 >
-> What follows is a set of kernel changes that have been brewing for a while
-> now:
+> The following changes since commit 0d03800caffc2341b74190d38f7a372223c89f4c:
 >
->    294170 kern-tools: update SRCREV
->    65d8b50 linux-yocto: update LICENSE to GPLv2
->    069e9d9 kernel: copy defconfig to {B} vs {S}
->    6796e11 linux-yocto: kernel-3.0 support recipe
->
-> The patches are pretty self explanitory, but a few comments follow.
->
-> The kern-tools tweak Fixes [YOCTO #1261], which allows both the 2.6.34
-> and 3.0 based -rt kernels to build again.
->
-> The next two changes are small cleanups and a allow linux-yocto to inherit
-> changes to the base kernel class' do_configure().
->
-> And finally, we create the 3.0 base recipe. A few notes about this are:
->
->    - it is a carry forward of the immediately available 2.6.37 (and before)
->      functionality
->    - it has an audit and cleanup of the config fragments, which was one
->      of the 1.1 deliverables
->    - it has been built for all core arches, and (attempted) boot tested on
->      them as well.
->    - it is not the default for any target at the moment, this needs more
->      testing, and there are two known issues I'm tracking a qemumips boot
->      failure that snuck in during the 3.0 -rc cycle (it did boot) and
->      qemuppc interrupts being lost. I'll update the preferred versions as
->      targets are validated.
->    - I've built and booted the core-images on them, but functionality like
->      graphics, etc, still needs to be tested. There's only so much I
->      can do :)
->    - the -rt branch is populated with tglx's recent update of -rt!
->    - separate patches will go out for other layers (meta-kernel-dev, meta-rt,
->      meta-yocto, etc) shortly.
->
-> ** This obviously builds on the other hard work done to get userspace and
-> tools ready for the 3.0 kernel version change. Many thanks for that, since
-> it allowed me to focus on the kernel only.
->
-> Patches are welcome for any misbehaving boards or qemu targets :
->
-> cc: Darren Hart<dvhart@linux.intel.com>
-> cc: Tom Zanussi<tom.zanussi@intel.com>
->
-> The following changes since commit 1df5ab5ee285b3220348ce0cf371b81446d55832:
->
->    parse/ConfHandler: Fix multiline variable corruption (2011-07-21 11:09:47 +0100)
+>    lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib (2011-07-20 15:43:43 +0100)
 >
 > are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib zedd/kernel
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>    git://git.openembedded.org/openembedded-core-contrib jansa/pull
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/pull
 >
-> Bruce Ashfield (4):
->    linux-yocto: kernel-3.0 support recipe
->    kernel: copy defconfig to {B} vs {S}
->    linux-yocto: update LICENSE to GPLv2
->    kern-tools: update SRCREV
->
->   meta/classes/kernel-yocto.bbclass                  |    6 ---
->   meta/classes/kernel.bbclass                        |    4 +-
->   .../kern-tools/kern-tools-native_git.bb            |    2 +-
->   meta/recipes-kernel/linux/linux-yocto.inc          |    2 +-
->   meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   47 ++++++++++++++++++++
->   5 files changed, 51 insertions(+), 10 deletions(-)
->   create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.0.bb
->
-Merged into OE-Core
+> Martin Jansa (10):
+>    tcmode-default: set preferred version also for (e)glibc-locale
+>    eglibc-package: don't fail without localedef/gconv
+These two were pulled
+
+>    intltool: inherit perlnative
+>    polkit: inherit perlnative
+>    shared-mime-info: inherit perlnative
+>    xkeyboard-config: inherit perlnative
+>    avahi: inherit perlnative
+>    vte: inherit perlnative
+There has been discussion about how to correctly handle this on the list
+
+>    python: save Makefile.sysroot in do_compile
+>    python: add patch to fix cross compilation on host with linux-3.0
+These two were pulled.
+
+4/10 merged into OE-Core
 
 Thanks
 	Sau!
+
+>
+>   meta/conf/distro/include/tcmode-default.inc        |    2 ++
+>   meta/recipes-connectivity/avahi/avahi.inc          |    2 +-
+>   meta/recipes-core/eglibc/eglibc-package.inc        |    8 ++++++--
+>   meta/recipes-devtools/intltool/intltool.inc        |    3 +--
+>   .../python/python/07-linux3-regen-fix.patch        |   18 ++++++++++++++++++
+>   meta/recipes-devtools/python/python_2.6.6.bb       |    8 +++++---
+>   meta/recipes-extended/polkit/polkit_0.101.bb       |    2 +-
+>   .../xorg-lib/xkeyboard-config_2.1.bb               |    2 +-
+>   .../shared-mime-info/shared-mime-info.inc          |    2 +-
+>   meta/recipes-support/vte/vte.inc                   |    2 +-
+>   10 files changed, 37 insertions(+), 12 deletions(-)
+>   create mode 100644 meta/recipes-devtools/python/python/07-linux3-regen-fix.patch
+>
+
 
 
