@@ -1,24 +1,18 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX19RUR4G61jJFOfnCqe78j+fXV/ap0IRB14=])
+Received: from gate.crashing.org ([63.228.1.57])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QkGCD-0000gX-QO
+	(envelope-from <galak@kernel.crashing.org>) id 1QkGIh-0001DM-Ml
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 15:55:18 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6MDp6ev013290;
-	Fri, 22 Jul 2011 08:51:07 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
+	Fri, 22 Jul 2011 16:02:01 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6MDvmmo016716
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jul 2011 08:57:49 -0500
 From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <1311332149.2344.131.camel@rex>
-Date: Fri, 22 Jul 2011 08:51:06 -0500
-Message-Id: <5021E937-F4E5-48D4-9649-1DF5FB7CA3EE@kernel.crashing.org>
-References: <1311326223-10708-1-git-send-email-galak@kernel.crashing.org>
-	<1311332149.2344.131.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Cc: Tom Rini <Tom_Rini@mentor.com>
-Subject: Re: [PATCH] site/powerpc*-linux: refactor needed options that are common
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jul 2011 08:57:48 -0500
+Message-Id: <1311343068-942-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH] gcc-4.6: Fix packaging of native toolchains
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +27,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 13:55:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 22 Jul 2011 14:02:01 -0000
 
+The base gcc package is missing liblto_plugin.so.  If we try a simple
+hello world compile we get something like:
 
-On Jul 22, 2011, at 5:55 AM, Richard Purdie wrote:
+root@p5020-ds:~# gcc hello.c
+gcc: fatal error: -fuse-linker-plugin, but liblto_plugin.so not found
+compilation terminated.
 
-> On Fri, 2011-07-22 at 04:17 -0500, Kumar Gala wrote:
->> Pulled common options that are needed for powerpc64-linux to build
->> out of powerpc32-linux and put them into powerpc-linux.
->>=20
->> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
->> ---
->> meta/site/powerpc-linux   |   24 ++++++++++++++++++++++++
->> meta/site/powerpc32-linux |   19 -------------------
->> 2 files changed, 24 insertions(+), 19 deletions(-)
->=20
-> Merged to master, thanks.
->=20
-> Richard
+We need to include liblto_plugin.so in the base gcc package and not
+gcc-dev.
 
-I posted this more for Tom, but I'm sure he can refactor this where it =
-really needs to go.
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+---
+ meta/recipes-devtools/gcc/gcc-4.6.inc            |    2 +-
+ meta/recipes-devtools/gcc/gcc-package-target.inc |    1 +
+ 2 files changed, 2 insertions(+), 1 deletions(-)
 
-- k=
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index a724594..4c1e1e1 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+diff --git a/meta/recipes-devtools/gcc/gcc-package-target.inc b/meta/recipes-devtools/gcc/gcc-package-target.inc
+index e6105da..a0e5da4 100644
+--- a/meta/recipes-devtools/gcc/gcc-package-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
+@@ -17,6 +17,7 @@ FILES_${PN} = "\
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc* \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lto* \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lib*${SOLIBS} \
++  ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/liblto*${SOLIBSDEV} \
+   ${gcclibdir}/${TARGET_SYS}/${BINV}/*.o \
+   ${gcclibdir}/${TARGET_SYS}/${BINV}/specs \
+   ${gcclibdir}/${TARGET_SYS}/${BINV}/lib*${SOLIBS} \
+-- 
+1.7.3.4
+
 
 
