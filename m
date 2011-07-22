@@ -1,22 +1,22 @@
 Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1QkJJY-0000R9-UC
+	(envelope-from <tom_rini@mentor.com>) id 1QkJoN-0001Id-PY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 19:15:05 +0200
+	Fri, 22 Jul 2011 19:46:56 +0200
 Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6MHAtMn020977
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6MGSkMj010603
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2011 12:10:55 -0500
+	Fri, 22 Jul 2011 11:28:46 -0500
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jul 2011 10:10:52 -0700
-Message-Id: <23947a01d7d76590efa100c59741eaa9b35f582b.1311354521.git.tom_rini@mentor.com>
+Date: Fri, 22 Jul 2011 09:28:39 -0700
+Message-Id: <6d9a061dcc1a15a74da81ae23d5e47c817c3d937.1311352057.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1311354521.git.tom_rini@mentor.com>
-References: <cover.1311354521.git.tom_rini@mentor.com>
-In-Reply-To: <cover.1311354521.git.tom_rini@mentor.com>
-References: <cover.1311354521.git.tom_rini@mentor.com>
-Subject: [PATCH v2 8/8] siteinfo: Move (getpgrp|setpgrp|setgrent|*get{pwuid, grgid}) to common-libc
+In-Reply-To: <cover.1311352057.git.tom_rini@mentor.com>
+References: <cover.1311352057.git.tom_rini@mentor.com>
+In-Reply-To: <cover.1311352057.git.tom_rini@mentor.com>
+References: <cover.1311352057.git.tom_rini@mentor.com>
+Subject: [PATCH 4/8] siteinfo: Move certain mysql entries to common-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,375 +31,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 17:15:05 -0000
+X-List-Received-Date: Fri, 22 Jul 2011 17:46:56 -0000
 
-These functions are determined by the C library so move them to common-glibc
-and common-uclibc
+More re-sync with oe.dev
 
 Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- meta/site/arm-common          |    4 ----
- meta/site/arm-linux           |    5 -----
- meta/site/arm-linux-uclibc    |    5 -----
- meta/site/armeb-linux         |    5 -----
- meta/site/armeb-linux-uclibc  |    5 -----
- meta/site/common-glibc        |    7 +++++++
- meta/site/common-uclibc       |    7 +++++++
- meta/site/ix86-common         |    6 ------
- meta/site/mips-linux          |    6 ------
- meta/site/mips-linux-uclibc   |    6 ------
- meta/site/mipsel-linux        |    6 ------
- meta/site/mipsel-linux-uclibc |    4 ----
- meta/site/powerpc-linux       |    6 ------
- meta/site/sh-common           |    4 ----
- meta/site/sparc-linux         |    4 ----
- meta/site/x86_64-linux        |    6 ------
- meta/site/x86_64-linux-uclibc |    5 -----
- 17 files changed, 14 insertions(+), 77 deletions(-)
+ meta/site/arm-common         |    1 -
+ meta/site/arm-linux          |    1 -
+ meta/site/arm-linux-uclibc   |    1 -
+ meta/site/armeb-linux        |    1 -
+ meta/site/armeb-linux-uclibc |    1 -
+ meta/site/common-linux       |    4 ++++
+ meta/site/ix86-common        |    3 ---
+ meta/site/powerpc-common     |    2 --
+ meta/site/powerpc32-linux    |    2 --
+ meta/site/sh-common          |    2 --
+ meta/site/sparc-linux        |    1 -
+ 11 files changed, 4 insertions(+), 15 deletions(-)
 
 diff --git a/meta/site/arm-common b/meta/site/arm-common
-index c216b57..04d1164 100644
+index 39eb30b..2880cfc 100644
 --- a/meta/site/arm-common
 +++ b/meta/site/arm-common
-@@ -48,9 +48,6 @@ ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
- # gettext
- am_cv_func_working_getline=${am_cv_func_working_getline=yes}
+@@ -138,7 +138,6 @@ cv_mono_sizeof_sunpath=108
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+-ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
  
--# gio
--ac_cv_func_getgrgid_r=${ac_cv_func_getgrgid_r=yes}
--
- # glib
- glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
- glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
-@@ -67,7 +64,6 @@ glib_cv_va_copy=${glib_cv_va_copy=yes}
- glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
- glib_cv___va_copy=${glib_cv___va_copy=yes}
- glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=no}
--ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
- glib_cv_sys_pthread_mutex_trylock_posix=${glib_cv_sys_pthread_mutex_trylock_posix=yes}
- glib_cv_sys_pthread_getspecific_posix=${glib_cv_sys_pthread_getspecific_posix=yes}
- glib_cv_sys_pthread_cond_timedwait_posix=${glib_cv_sys_pthread_cond_timedwait_posix=yes}
+ # nano
+ ac_cv_regexec_segfault_emptystr=${ac_cv_regexec_segfault_emptystr=no}
 diff --git a/meta/site/arm-linux b/meta/site/arm-linux
-index 8ac9041..412be5a 100644
+index 4dd4132..c141c5e 100644
 --- a/meta/site/arm-linux
 +++ b/meta/site/arm-linux
-@@ -1,8 +1,3 @@
--ac_cv_func_getpgrp_void=yes
--ac_cv_func_setpgrp_void=yes
--ac_cv_func_setgrent_void=yes
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
- ac_cv_func_setvbuf_reversed=no
- ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
- ac_cv_sizeof_char=${ac_cv_sizeof_char=1}
+@@ -34,7 +34,6 @@ ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long=4}
+ ac_cv_sizeof_unsigned_long_long=${ac_cv_sizeof_unsigned_long_long=8}
+ ac_cv_sizeof_signed_char=${ac_cv_sizeof_signed_char=1}
+ 
+-ac_cv_sys_restartable_syscalls=yes
+ ac_cv_uchar=${ac_cv_uchar=no}
+ ac_cv_uint=${ac_cv_uint=yes}
+ ac_cv_ulong=${ac_cv_ulong=yes}
 diff --git a/meta/site/arm-linux-uclibc b/meta/site/arm-linux-uclibc
-index 70d0908..6ae7c6e 100644
+index 5f8ba34..5dbdba1 100644
 --- a/meta/site/arm-linux-uclibc
 +++ b/meta/site/arm-linux-uclibc
-@@ -1,8 +1,3 @@
--ac_cv_func_getpgrp_void=yes
--ac_cv_func_setpgrp_void=yes
--ac_cv_func_setgrent_void=yes
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_getgrgid_r=yes}
- ac_cv_func_setvbuf_reversed=no
- ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
- ac_cv_sizeof_char=${ac_cv_sizeof_char=1}
+@@ -18,7 +18,6 @@ ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t=4}
+ ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=4}
+ ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double=8}
+ 
+-ac_cv_sys_restartable_syscalls=yes
+ ac_cv_uchar=${ac_cv_uchar=no}
+ ac_cv_uint=${ac_cv_uint=yes}
+ ac_cv_ulong=${ac_cv_ulong=yes}
 diff --git a/meta/site/armeb-linux b/meta/site/armeb-linux
-index ecff3da..6521ff5 100644
+index d8da123..45fa692 100644
 --- a/meta/site/armeb-linux
 +++ b/meta/site/armeb-linux
-@@ -1,8 +1,3 @@
--ac_cv_func_getpgrp_void=yes
--ac_cv_func_setpgrp_void=yes
--ac_cv_func_setgrent_void=yes
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
- ac_cv_func_setvbuf_reversed=no
- ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
- ac_cv_sizeof_char=${ac_cv_sizeof_char=1}
+@@ -21,7 +21,6 @@ ac_cv_sizeof_char_p=${ac_cv_sizeof_char_p=4}
+ ac_cv_sizeof_unsigned=${ac_cv_sizeof_unsigned=4}
+ ac_cv_sizeof_ptrdiff_t=${glib_cv_sizeof_ptrdiff_t=4}
+ 
+-ac_cv_sys_restartable_syscalls=yes
+ ac_cv_uchar=${ac_cv_uchar=no}
+ ac_cv_uint=${ac_cv_uint=yes}
+ ac_cv_ulong=${ac_cv_ulong=yes}
 diff --git a/meta/site/armeb-linux-uclibc b/meta/site/armeb-linux-uclibc
-index 8365810..731e857 100644
+index 5e86009..50874c4 100644
 --- a/meta/site/armeb-linux-uclibc
 +++ b/meta/site/armeb-linux-uclibc
-@@ -1,8 +1,3 @@
--ac_cv_func_getpgrp_void=yes
--ac_cv_func_setpgrp_void=yes
--ac_cv_func_setgrent_void=yes
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
- ac_cv_func_setvbuf_reversed=no
- ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
- ac_cv_sizeof_char=${ac_cv_sizeof_char=1}
-diff --git a/meta/site/common-glibc b/meta/site/common-glibc
-index 9339655..8cfa695 100644
---- a/meta/site/common-glibc
-+++ b/meta/site/common-glibc
-@@ -5,6 +5,13 @@ ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
- ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
- ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
- ac_cv_func_memcmp_working=${ac_cv_func_memcmp_working=yes}
-+ac_cv_func_getpgrp_void=yes
-+ac_cv_func_setpgrp_void=yes
-+ac_cv_func_setgrent_void=yes
-+ac_cv_func_getgrgid_r=${ac_cv_func_getgrgid_r=yes}
-+ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
-+ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
-+ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
- ac_cv_type_uid_t={ac_cv_type_uid_t=yes}
+@@ -21,7 +21,6 @@ ac_cv_sizeof_char_p=${ac_cv_sizeof_char_p=4}
+ ac_cv_sizeof_unsigned=${ac_cv_sizeof_unsigned=4}
+ ac_cv_sizeof_ptrdiff_t=${glib_cv_sizeof_ptrdiff_t=4}
  
- # bash
-diff --git a/meta/site/common-uclibc b/meta/site/common-uclibc
-index 8ea192c..093f60e 100644
---- a/meta/site/common-uclibc
-+++ b/meta/site/common-uclibc
-@@ -4,6 +4,13 @@ ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
- ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
- ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
- ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
-+ac_cv_func_getpgrp_void=yes
-+ac_cv_func_setpgrp_void=yes
-+ac_cv_func_setgrent_void=yes
-+ac_cv_func_getgrgid_r=${ac_cv_func_getgrgid_r=yes}
-+ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
-+ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
-+ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
- 
- # glib
- glib_cv_strlcpy=${glib_cv_strlcpy=no}
+-ac_cv_sys_restartable_syscalls=yes
+ ac_cv_uchar=${ac_cv_uchar=no}
+ ac_cv_uint=${ac_cv_uint=yes}
+ ac_cv_ulong=${ac_cv_ulong=yes}
+diff --git a/meta/site/common-linux b/meta/site/common-linux
+index 74a822d..7cdfb63 100644
+--- a/meta/site/common-linux
++++ b/meta/site/common-linux
+@@ -19,3 +19,7 @@ bash_cv_pgrp_pipe=${bash_cv_pgrp_pipe=no}
+ bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
+ bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
+ bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
++
++# mysql
++ac_cv_sys_restartable_syscalls=${ac_cv_sys_restartable_syscalls=yes}
++ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
 diff --git a/meta/site/ix86-common b/meta/site/ix86-common
-index ea8937e..2ead4e1 100644
+index 267d59f..cacf7ee 100644
 --- a/meta/site/ix86-common
 +++ b/meta/site/ix86-common
-@@ -21,15 +21,11 @@ ac_cv_sizeof_uid_t=${ac_cv_sizeof_uid_t=4}
- ac_cv_sizeof_gid_t=${ac_cv_sizeof_gid_t=4}
- ac_cv_sizeof_ino_t=${ac_cv_sizeof_ino_t=4}
- ac_cv_sizeof_dev_t=${ac_cv_sizeof_dev_t=8}
--ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
--ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
- ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
- ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
- ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
--ac_cv_func_setpgrp_void=${ac_cv_func_setpgrp_void=yes}
- ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
- ac_cv_func_stat_empty_string_bug=${ac_cv_func_stat_empty_string_bug=no}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- ac_cv_func_stat_ignores_trailing_slash=${ac_cv_func_stat_ignores_trailing_slash=no}
- 
- ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
-@@ -106,9 +102,7 @@ glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=yes}
- # glib-2.0
- glib_cv_stack_grows=${glib_cv_stack_grows=no}
- utils_cv_sys_open_max=${utils_cv_sys_open_max=1015}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+@@ -47,7 +47,6 @@ lf_cv_sane_realloc=yes
+ jm_cv_func_gettimeofday_clobber=no
+ samba_cv_HAVE_GETTIMEOFDAY_TZ=yes
+ bf_lsbf=1
+-ac_cv_sys_restartable_syscalls=yes
+ ac_cv_uchar=${ac_cv_uchar=no}
+ ac_cv_uint=${ac_cv_uint=yes}
+ ac_cv_ulong=${ac_cv_ulong=yes}
+@@ -126,7 +125,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
  
  # guile
+-ac_cv_sys_restartable_syscalls=yes
  ac_cv_uchar=${ac_cv_uchar=no}
-diff --git a/meta/site/mips-linux b/meta/site/mips-linux
-index a8e52ae..86d396e 100644
---- a/meta/site/mips-linux
-+++ b/meta/site/mips-linux
-@@ -1,7 +1,4 @@
--
--ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
- ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_uint=${ac_cv_uint=yes}
+ ac_cv_ulong=${ac_cv_ulong=yes}
+@@ -165,7 +163,6 @@ cv_mono_sizeof_sunpath=108
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=yes}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=yes}
+-ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
  
- # bash
- ac_cv_c_long_double=${ac_cv_c_long_double=no}
-@@ -35,9 +32,7 @@ glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
- # glib-2.0
- glib_cv_stack_grows=${glib_cv_stack_grows=no}
- utils_cv_sys_open_max=${utils_cv_sys_open_max=1015}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+ # ORBit2
+ ac_cv_alignof_CORBA_boolean=1
+diff --git a/meta/site/powerpc-common b/meta/site/powerpc-common
+index cb95a4d..9784f30 100644
+--- a/meta/site/powerpc-common
++++ b/meta/site/powerpc-common
+@@ -24,7 +24,6 @@ ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=4}
+ ac_cv_sizeof_long_p=${ac_cv_sizeof_long_p=4}
+ ac_cv_sizeof_wchar_t=${ac_cv_sizeof_wchar_t=4}
+ ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double=8}
+-ac_cv_sys_restartable_syscalls=yes
+ ac_cv_type___int64=${ac_cv_type___int64=no}
+ ac_cv_type_size_t=${ac_cv_type_size_t=yes}
+ ac_cv_type_void_p=${ac_cv_type_void_p=yes}
+@@ -301,7 +300,6 @@ ac_cv_sync_with_stdio_2=${ac_cv_sync_with_stdio_2=yes}
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+-ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
  
- # libpcap
- ac_cv_linux_vers=${ac_cv_linux_vers=2}
-@@ -55,7 +50,6 @@ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
- libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+ # sudo
+ sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index 9d89f73..3a05053 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -28,7 +28,6 @@ ac_cv_sizeof_unsigned_short=${ac_cv_sizeof_unsigned_short=2}
+ ac_cv_sizeof_unsigned_short_int=${ac_cv_sizeof_unsigned_short_int=2}
+ ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=4}
+ ac_cv_sizeof_wchar_t=${ac_cv_sizeof_wchar_t=4}
+-ac_cv_sys_restartable_syscalls=yes
+ ac_cv_type___int64=${ac_cv_type___int64=no}
+ ac_cv_type_size_t=${ac_cv_type_size_t=yes}
+ ac_cv_type_void_p=${ac_cv_type_void_p=yes}
+@@ -296,7 +295,6 @@ ac_cv_sync_with_stdio_2=${ac_cv_sync_with_stdio_2=yes}
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+-ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
  
- # ncftp
--ac_cv_func_setpgrp_void=${ac_cv_func_setpgrp_void=yes}
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
- wi_cv_unix_domain_sockets=${wi_cv_unix_domain_sockets=yes}
-diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
-index a8e52ae..86d396e 100644
---- a/meta/site/mips-linux-uclibc
-+++ b/meta/site/mips-linux-uclibc
-@@ -1,7 +1,4 @@
--
--ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
- ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- 
- # bash
- ac_cv_c_long_double=${ac_cv_c_long_double=no}
-@@ -35,9 +32,7 @@ glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
- # glib-2.0
- glib_cv_stack_grows=${glib_cv_stack_grows=no}
- utils_cv_sys_open_max=${utils_cv_sys_open_max=1015}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
- 
- # libpcap
- ac_cv_linux_vers=${ac_cv_linux_vers=2}
-@@ -55,7 +50,6 @@ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
- libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
- 
- # ncftp
--ac_cv_func_setpgrp_void=${ac_cv_func_setpgrp_void=yes}
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
- wi_cv_unix_domain_sockets=${wi_cv_unix_domain_sockets=yes}
-diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
-index fc2a9c0..4070055 100644
---- a/meta/site/mipsel-linux
-+++ b/meta/site/mipsel-linux
-@@ -1,7 +1,5 @@
- 
--ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
- ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- 
- # bash
- ac_cv_c_long_double=${ac_cv_c_long_double=no}
-@@ -35,10 +33,7 @@ glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
- # glib-2.0
- glib_cv_stack_grows=${glib_cv_stack_grows=no}
- utils_cv_sys_open_max=${utils_cv_sys_open_max=1015}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
--
- 
- # libpcap
- ac_cv_linux_vers=${ac_cv_linux_vers=2}
-@@ -56,7 +51,6 @@ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
- libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
- 
- # ncftp
--ac_cv_func_setpgrp_void=${ac_cv_func_setpgrp_void=yes}
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
- wi_cv_unix_domain_sockets=${wi_cv_unix_domain_sockets=yes}
-diff --git a/meta/site/mipsel-linux-uclibc b/meta/site/mipsel-linux-uclibc
-index c589cfd..aaf47c0 100644
---- a/meta/site/mipsel-linux-uclibc
-+++ b/meta/site/mipsel-linux-uclibc
-@@ -1,7 +1,4 @@
--
--ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
- ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- 
- # bash
- ac_cv_c_long_double=${ac_cv_c_long_double=no}
-@@ -48,7 +45,6 @@ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
- libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
- 
- # ncftp
--ac_cv_func_setpgrp_void=${ac_cv_func_setpgrp_void=yes}
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
- wi_cv_unix_domain_sockets=${wi_cv_unix_domain_sockets=yes}
-diff --git a/meta/site/powerpc-linux b/meta/site/powerpc-linux
-index 93a94f5..74eb0a7 100644
---- a/meta/site/powerpc-linux
-+++ b/meta/site/powerpc-linux
-@@ -1,9 +1,3 @@
--ac_cv_func_getpgrp_void=yes
--ac_cv_func_setpgrp_void=yes
--ac_cv_func_setgrent_void=yes
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
--
- # startup-notification
- lf_cv_sane_realloc=yes
- 
+ # sudo
+ sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
 diff --git a/meta/site/sh-common b/meta/site/sh-common
-index ce7c41b..3fe00f0 100644
+index 196af11..7fe36cc 100644
 --- a/meta/site/sh-common
 +++ b/meta/site/sh-common
-@@ -1,6 +1,3 @@
--ac_cv_func_setpgrp_void=yes
--ac_cv_func_setgrent_void=yes
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- ac_cv_func_setvbuf_reversed=no
- ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
- ac_cv_sizeof_char=${ac_cv_sizeof_char=1}
-@@ -127,7 +124,6 @@ glib_cv_va_copy=${glib_cv_va_copy=no}
- glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
- glib_cv___va_copy=${glib_cv___va_copy=yes}
- glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=no}
--ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
- glib_cv_sys_pthread_mutex_trylock_posix=${glib_cv_sys_pthread_mutex_trylock_posix=yes}
- glib_cv_sys_pthread_getspecific_posix=${glib_cv_sys_pthread_getspecific_posix=yes}
- glib_cv_sys_pthread_cond_timedwait_posix=${glib_cv_sys_pthread_cond_timedwait_posix=yes}
+@@ -24,7 +24,6 @@ ac_cv_sizeof_signed_char=${ac_cv_sizeof_signed_char=1}
+ # lzo
+ ac_cv_sizeof_char_p=${ac_cv_sizeof_char_p=4}
+ 
+-ac_cv_sys_restartable_syscalls=yes
+ ac_cv_uchar=${ac_cv_uchar=no}
+ ac_cv_uint=${ac_cv_uint=yes}
+ ac_cv_ulong=${ac_cv_ulong=yes}
+@@ -230,7 +229,6 @@ cv_mono_sizeof_sunpath=108
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+-ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
+ 
+ # rp-pppoe
+ rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
 diff --git a/meta/site/sparc-linux b/meta/site/sparc-linux
-index a0ac8d1..49d0d9a 100644
+index ea6386b..f4c221c 100644
 --- a/meta/site/sparc-linux
 +++ b/meta/site/sparc-linux
-@@ -1,7 +1,3 @@
--ac_cv_func_getpgrp_void=yes
--ac_cv_func_setpgrp_void=yes
--ac_cv_func_setgrent_void=yes
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- ac_cv_func_setvbuf_reversed=no
- ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
- ac_cv_sizeof_char=${ac_cv_sizeof_char=1}
-diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
-index 48e94da..968dedc 100644
---- a/meta/site/x86_64-linux
-+++ b/meta/site/x86_64-linux
-@@ -1,10 +1,6 @@
--ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
--ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
- ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
- ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
- ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
--ac_cv_func_setpgrp_void=${ac_cv_func_setpgrp_void=yes}
- ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
- ac_cv_func_stat_empty_string_bug=${ac_cv_func_stat_empty_string_bug=no}
- ac_cv_func_stat_ignores_trailing_slash=${ac_cv_func_stat_ignores_trailing_slash=no}
-@@ -96,8 +92,6 @@ ac_cv_alignof_CORBA_short=2
- ac_cv_alignof_CORBA_struct=1
- ac_cv_alignof_CORBA_wchar=2
+@@ -29,7 +29,6 @@ ac_cv_alignof_CORBA_long_double=4
+ ac_cv_c_long_double=${ac_cv_c_long_double=yes}
  
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
--
- sudo_cv_uid_t=${sudo_cv_uid_t_len=10}
- lf_cv_sane_realloc=yes
- as_cv_unaligned_access=${as_cv_unaligned_access=yes}
-diff --git a/meta/site/x86_64-linux-uclibc b/meta/site/x86_64-linux-uclibc
-index be74642..4699240 100644
---- a/meta/site/x86_64-linux-uclibc
-+++ b/meta/site/x86_64-linux-uclibc
-@@ -1,10 +1,6 @@
--ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
--ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
- ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
- ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
- ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
--ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
--ac_cv_func_setpgrp_void=${ac_cv_func_setpgrp_void=yes}
- ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
- ac_cv_func_stat_empty_string_bug=${ac_cv_func_stat_empty_string_bug=no}
- ac_cv_func_stat_ignores_trailing_slash=${ac_cv_func_stat_ignores_trailing_slash=no}
-@@ -65,7 +61,6 @@ am_cv_func_working_getline=${am_cv_func_working_getline=yes}
  
- # glib-2.0
- glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
--ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
- 
- # libidl
- libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+-ac_cv_sys_restartable_syscalls=yes
+ ac_cv_uchar=${ac_cv_uchar=no}
+ ac_cv_uint=${ac_cv_uint=yes}
+ ac_cv_ulong=${ac_cv_ulong=yes}
 -- 
 1.7.0.4
 
