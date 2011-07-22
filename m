@@ -1,39 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19RUR4G61jJFOfnCqe78j+fXV/ap0IRB14=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1QkFHN-0007sQ-DF
+	(envelope-from <galak@kernel.crashing.org>) id 1QkGCD-0000gX-QO
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 14:56:33 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 22 Jul 2011 05:52:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,247,1309762800"; d="scan'208";a="30315322"
-Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
-	by azsmga001.ch.intel.com with ESMTP; 22 Jul 2011 05:52:23 -0700
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 22 Jul 2011 20:52:22 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi;
-	Fri, 22 Jul 2011 20:52:21 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
+	Fri, 22 Jul 2011 15:55:18 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6MDp6ev013290;
+	Fri, 22 Jul 2011 08:51:07 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <1311332149.2344.131.camel@rex>
+Date: Fri, 22 Jul 2011 08:51:06 -0500
+Message-Id: <5021E937-F4E5-48D4-9649-1DF5FB7CA3EE@kernel.crashing.org>
+References: <1311326223-10708-1-git-send-email-galak@kernel.crashing.org>
+	<1311332149.2344.131.camel@rex>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Jul 2011 20:52:20 +0800
-Thread-Topic: [OE-core] [PATCH 1/2] tcf-agent: upgrade to the latest stable
-	revision 0.0+svnr1855
-Thread-Index: AcxIKOtcd7VfYnwXTk+a8vWK95eL6AAD4azAAA09BcA=
-Message-ID: <1865303E0DED764181A9D882DEF65FB6AD59F36262@shsmsx502.ccr.corp.intel.com>
-References: <cover.1311256622.git.dexuan.cui@intel.com>
-	<e97fc4ed752510e6e03944bf5e8f9c5e6a42409e.1311256622.git.dexuan.cui@intel.com>
-	<4E28FE28.8040402@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6AD1E494E66@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6AD1E494E66@shsmsx502.ccr.corp.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] tcf-agent: upgrade to the latest stable revision 0.0+svnr1855
+X-Mailer: Apple Mail (2.1084)
+Cc: Tom Rini <Tom_Rini@mentor.com>
+Subject: Re: [PATCH] site/powerpc*-linux: refactor needed options that are common
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,22 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 12:56:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 22 Jul 2011 13:55:18 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Cui, Dexuan wrote on 2011-07-22:
-> Saul Wold wrote on 2011-07-22:
->> There seems to be a compile issue with this patch.
-Hi Saul,
-Lianhao and I have made the v2 patches and did tests.
-I sent out the patches just now.
-Please review them.
 
-Thanks,
--- Dexuan
+On Jul 22, 2011, at 5:55 AM, Richard Purdie wrote:
 
+> On Fri, 2011-07-22 at 04:17 -0500, Kumar Gala wrote:
+>> Pulled common options that are needed for powerpc64-linux to build
+>> out of powerpc32-linux and put them into powerpc-linux.
+>>=20
+>> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+>> ---
+>> meta/site/powerpc-linux   |   24 ++++++++++++++++++++++++
+>> meta/site/powerpc32-linux |   19 -------------------
+>> 2 files changed, 24 insertions(+), 19 deletions(-)
+>=20
+> Merged to master, thanks.
+>=20
+> Richard
 
+I posted this more for Tom, but I'm sure he can refactor this where it =
+really needs to go.
+
+- k=
 
 
