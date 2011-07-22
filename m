@@ -1,41 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1Qk9Rs-0006Nv-NZ
+	(envelope-from <sgw@linux.intel.com>) id 1QkA7v-0008PE-Rs
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 08:43:00 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2011 23:38:51 -0700
+	Fri, 22 Jul 2011 09:26:28 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 22 Jul 2011 00:22:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,245,1309762800"; d="scan'208";a="33324887"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2011 23:38:50 -0700
-Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 22 Jul 2011 14:37:32 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 22 Jul 2011 14:37:29 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
-	Fri, 22 Jul 2011 14:37:10 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
+X-IronPort-AV: E=Sophos;i="4.67,246,1309762800"; d="scan'208";a="30230996"
+Received: from unknown (HELO [10.255.14.1]) ([10.255.14.1])
+	by azsmga001.ch.intel.com with ESMTP; 22 Jul 2011 00:22:10 -0700
+Message-ID: <4E292522.801@linux.intel.com>
+Date: Fri, 22 Jul 2011 00:22:10 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Jul 2011 14:37:09 +0800
-Thread-Topic: [OE-core] [PATCH 1/2] tcf-agent: upgrade to the latest stable
-	revision 0.0+svnr1855
-Thread-Index: AcxIKOtcd7VfYnwXTk+a8vWK95eL6AAD4azA
-Message-ID: <1865303E0DED764181A9D882DEF65FB6AD1E494E66@shsmsx502.ccr.corp.intel.com>
-References: <cover.1311256622.git.dexuan.cui@intel.com>
-	<e97fc4ed752510e6e03944bf5e8f9c5e6a42409e.1311256622.git.dexuan.cui@intel.com>
-	<4E28FE28.8040402@linux.intel.com>
-In-Reply-To: <4E28FE28.8040402@linux.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] tcf-agent: upgrade to the latest stable revision 0.0+svnr1855
+References: <cover.1311246527.git.nitin.a.kamble@intel.com>
+	<eafb85c6bdc1904c6d99ae3fee97298fc5798f2b.1311246527.git.nitin.a.kamble@intel.com>
+In-Reply-To: <eafb85c6bdc1904c6d99ae3fee97298fc5798f2b.1311246527.git.nitin.a.kamble@intel.com>
+Subject: Re: [PATCH 1/1] glib-2.0: fix a compilation issue due to dtrace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,46 +35,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 06:43:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 22 Jul 2011 07:26:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Saul Wold wrote on 2011-07-22:
-> There seems to be a compile issue with this patch.
->=20
-> For an X86 Build
-> fatal error: uuid/uuid.h: No such file or directory | compilation
-Hi Saul,
-Sorry! We didn't do enough test...
+On 07/21/2011 04:09 AM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>
+> With multilib&  x32 builds dtrace is getting turned-on by the glib-2.0
+> configure, which causes following compilation failure.
+>
+> | x86_64-linux-libtool: link: ccache gcc
+> -isystem/disk0/pokybuild/build-multilib/tmp/sysroots/x86_64-linux/usr/include
+> -O2 -pipe -Wall -Wl,-rpath-link
+> -Wl,/disk0/pokybuild/build-multilib/tmp/sysroots/x86_64-linux/usr/lib
+> -Wl,-rpath
+> -Wl,/disk0/pokybuild/build-multilib/tmp/sysroots/x86_64-linux/usr/lib
+> -Wl,-O1 -o .libs/gtester gtester.o
+> -L/disk0/pokybuild/build-multilib/tmp/sysroots/x86_64-linux/usr/lib
+> ./.libs/libglib-2.0.so -lrt -Wl,-rpath
+> -Wl,/disk0/pokybuild/build-multilib/tmp/sysroots/x86_64-linux/usr/lib
+> | ./.libs/libglib-2.0.so: undefined reference to `GLIB_SLICE_ALLOC'
+> | ./.libs/libglib-2.0.so: undefined reference to `GLIB_MEM_REALLOC'
+> | ./.libs/libglib-2.0.so: undefined reference to `GLIB_SLICE_FREE'
+> | ./.libs/libglib-2.0.so: undefined reference to `GLIB_MEM_ALLOC'
+> | ./.libs/libglib-2.0.so: undefined reference to `GLIB_MEM_FREE'
+> | ./.libs/libglib-2.0.so: undefined reference to `GLIB_QUARK_NEW'
+> | collect2: ld returned 1 exit status
+> | make[4]: *** [gtester] Error 1
+>
+> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+> ---
+>   meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb |    2 +-
+>   meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb |    3 ++-
+>   2 files changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb
+> index 0b30d17..26fc8fb 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.27.5.bb
+> @@ -1,6 +1,6 @@
+>   require glib.inc
+>
+> -PR = "r5"
+> +PR = "r6"
+>
+Why do you bump the PR here?
 
-Lianhao and I have got the causes of the failures.
-This uuid.h issue is due to the lackness of util-linux in DEPENDS -- the ne=
-w tcf-agent code introduces the dependency.
-=20
-> And then for an ARM build:
->=20
-> services/dwarfframe.c | In file included from framework/cpudefs.c:33:0:
-> | ././machine/cpudefs-ext.h:23:26: fatal error: cpudefs-mdep.h: No |
-> such file or directory | compilation terminated. | make: ***
-The new tcf-agent code by default enables some services we don't actually n=
-eed, and the they cause the ARM build failure.
-We added the following to fix the issue:
-+CFLAGS +=3D "-DSERVICE_RunControl=3D0 -DSERVICE_Breakpoints=3D0 \
-+    -DSERVICE_Memory=3D0 -DSERVICE_Registers=3D0 -DSERVICE_MemoryMap=3D0 \
-+    -DSERVICE_StackTrace=3D0 -DSERVICE_Symbols=3D0 -DSERVICE_LineNumbers=
-=3D0 \
-+    -DSERVICE_Expressions=3D0"
+Sau!
 
-Below is the new commit(in the same branch dcui/tcf-agent)
-http://git.pokylinux.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Ddcui/tcf-ag=
-ent&id=3Dba36534bfc048d7bd2b15dc55ba253cc98c3e037
-
-Currently Lianhao and I are doing more testing and will report back asap.
-
-Thanks,
--- Dexuan
-
-
+>   SRC_URI = "${GNOME_MIRROR}/glib/2.27/glib-${PV}.tar.bz2 \
+>              file://configure-libtool.patch \
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb
+> index a2e609f..dce6802 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.28.8.bb
+> @@ -1,6 +1,6 @@
+>   require glib.inc
+>
+> -PR = "r2"
+> +PR = "r3"
+>   PE = "1"
+>
+>   SRC_URI = "${GNOME_MIRROR}/glib/2.28/glib-${PV}.tar.bz2 \
+> @@ -20,3 +20,4 @@ SRC_URI[sha256sum] = "222f3055d6c413417b50901008c654865e5a311c73f0ae918b0a9978d1
+>
+>   BBCLASSEXTEND = "native"
+>
+> +EXTRA_OECONF_append = " --enable-dtrace=no"
 
 
