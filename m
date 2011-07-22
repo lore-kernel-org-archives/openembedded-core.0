@@ -1,35 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QkHTg-00065h-68 for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 17:17:24 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6MFDFJr029507
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QkHVo-00067z-I5
+	for openembedded-core@lists.openembedded.org;
+	Fri, 22 Jul 2011 17:19:36 +0200
+Received: by wwi18 with SMTP id 18so1924750wwi.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2011 16:13:15 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28584-10 for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2011 16:13:11 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6MFDAmE029501
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2011 16:13:10 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 22 Jul 2011 08:15:27 -0700 (PDT)
+Received: by 10.216.79.4 with SMTP id h4mr242008wee.71.1311347727518;
+	Fri, 22 Jul 2011 08:15:27 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id z83sm1608539weq.20.2011.07.22.08.15.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 22 Jul 2011 08:15:26 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1311347496.2344.144.camel@rex>
+Date: Fri, 22 Jul 2011 17:15:24 +0200
+Message-Id: <0F43B6DD-9EBD-47CE-AF50-F267C6AD270F@dominion.thruhere.net>
+References: <aeea22da699b276a97ca1a17e3c53176c9afd9de.1311345613.git.richard.purdie@linuxfoundation.org>
+	<3a3c69a1bc3cf0b6f6a3b13d86c12ed21798d48e.1311345613.git.richard.purdie@linuxfoundation.org>
+	<29D487E1-5E59-4A53-B518-3692FF11C70C@dominion.thruhere.net>
+	<1311347496.2344.144.camel@rex>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <6FB5127C-35E2-42F7-9763-65BF73085B1E@kernel.crashing.org>
-References: <aeea22da699b276a97ca1a17e3c53176c9afd9de.1311345613.git.richard.purdie@linuxfoundation.org>
-	<a10de4cf8b424ee95c8e283e75d486be5b3b8eac.1311345613.git.richard.purdie@linuxfoundation.org>
-	<6FB5127C-35E2-42F7-9763-65BF73085B1E@kernel.crashing.org>
-Date: Fri, 22 Jul 2011 16:13:07 +0100
-Message-ID: <1311347587.2344.146.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/3] conf/machine/tune: Overhaul tune include file variables
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCH 3/3] conf/machine/include: Set TUNE_CCARGS instead of TARGET_CC_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,49 +39,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 15:17:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Fri, 2011-07-22 at 10:03 -0500, Kumar Gala wrote:
-> On Jul 22, 2011, at 9:49 AM, Richard Purdie wrote:
-> 
-> > There is currently consideradble confusion over how the tune files operate
-> > and how these interact with the rest of the build system. This update/overhaul
-> > changes things so the tune files are primarily resonsible for setting:
-> > 
-> > TUNE_ARCH - What was formerly set as TARGET_ARCH and is the value that
-> > represents the architecture we're targetting.
-> > 
-> > TUNE_PKGARCH - The value that represents the tune confuration that this set
-> > of tune parameters results in.
-> > 
-> > This allows the significant improvement that the core can now always determine
-> > the target architecture value, even when TARGET_ARCH needs to be reset to
-> > something different and likewise, there is one package architecture variable
-> > the core can reference allowing simplification of the BASE_PACKAGE_ARCH, PACKAGE_ARCH
-> > and FEED_ARCH variables.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> 
-> Can you give an example of how this will work for multilib?
-
-These are setting the scene for multilib, it doesn't directly enable it.
-For an example of the end result see this branch:
-
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/oe-core/ml
-
-but this isn't in a form suitable for submission yet which is what I'm
-working towards.
-
-Cheers,
-
-Richard
+X-List-Received-Date: Fri, 22 Jul 2011 15:19:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 22 jul. 2011, om 17:11 heeft Richard Purdie het volgende geschreven:
+
+> On Fri, 2011-07-22 at 16:54 +0200, Koen Kooi wrote:
+>> Op 22 jul. 2011, om 16:49 heeft Richard Purdie het volgende =
+geschreven:
+>>=20
+>>> Since we're updating the tune file format, it makes sense to =
+abstract
+>>> the compiler tune arguments at this point too. This means that =
+should
+>>> these need to be overridden at any point, the original values can
+>>> still be obtained in a similar manner to the other TUNE* variables.
+>>>=20
+>>> Whilst this isn't strictly necessary for any current need, its =
+likely
+>>> good practise to standardise this behaviour.
+>>=20
+>> So if I'm reading the patch correctly this doesn't result in a
+>> behaviour change, it just shuffles the definitions around in
+>> preparation for Mark's tune overhaul.
+>=20
+> Yes.
+>=20
+> I'm trying to split the work Mark and I have done into logical chunks =
+we
+> can review and these are the pieces to setup the externally facing
+> variables we need.
+>=20
+> I've not yet finished the patches which change the tune files =
+themselves
+> but we have a pretty good idea of what the finished result needs to =
+look
+> like to get all this working which we have experimented and tested =
+with.
 
 
+After some changes to meta-ti to move aside the tune files in there =
+'bitbake -e' is functionally the same. So for arm926 and cortexa8:
 
+Tested-by: Koen Kooi <koen@dominion.thruhere.net>
+
+regards,
+
+Koen=
 
 
