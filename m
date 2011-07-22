@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QkABn-0008T9-9d
+	(envelope-from <sgw@linux.intel.com>) id 1QkABn-0008Sl-Aw
 	for openembedded-core@lists.openembedded.org;
 	Fri, 22 Jul 2011 09:30:27 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 22 Jul 2011 00:26:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,246,1309762800"; d="scan'208";a="31084146"
+X-IronPort-AV: E=Sophos;i="4.67,246,1309762800"; d="scan'208";a="31084148"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.1])
 	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2011 00:26:09 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jul 2011 00:26:00 -0700
-Message-Id: <d38ca77de9df19dc6c14b74f67fc459a24c3fbf5.1311318447.git.sgw@linux.intel.com>
+Date: Fri, 22 Jul 2011 00:26:01 -0700
+Message-Id: <3db90aad784b7de369c547a3dfe2ca106b2f1d30.1311318447.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311318447.git.sgw@linux.intel.com>
 References: <cover.1311318447.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311318447.git.sgw@linux.intel.com>
 References: <cover.1311318447.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 12/16] .gitignore: Update build ignores to have wildcard
+Subject: [CONSOLIDATED PULL 13/16] tclibc-uclibc: Fix TARGET_OS for powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +35,31 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Jul 2011 07:30:27 -0000
 
-From: Kumar Gala <galak@kernel.crashing.org>
+From: Khem Raj <raj.khem@gmail.com>
 
-ignore not just build/* but any build*/* cases.
+1a9ae8ea8c0540d41b8ff4d95c0420d6df754634 removed -uclibc
+hence it got all wrong for powerpc. uclibc TARGET_OS
+for classic ppc is linux-uclibc and for ppc w/ SPE its
+linux-uclibcspe
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .gitignore |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+ meta/conf/distro/include/tclibc-uclibc.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index b13086d..d44e729 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -1,11 +1,11 @@
- *.pyc
- *.pyo
--build/conf/local.conf
--build/conf/bblayers.conf
--build/downloads
--build/tmp/
--build/sstate-cache
--build/pyshtables.py
-+build*/conf/local.conf
-+build*/conf/bblayers.conf
-+build*/downloads
-+build*/tmp/
-+build*/sstate-cache
-+build*/pyshtables.py
- pstage/
- scripts/oe-git-proxy-socks
- sources/
+diff --git a/meta/conf/distro/include/tclibc-uclibc.inc b/meta/conf/distro/include/tclibc-uclibc.inc
+index 2ccda5b..7c06654 100644
+--- a/meta/conf/distro/include/tclibc-uclibc.inc
++++ b/meta/conf/distro/include/tclibc-uclibc.inc
+@@ -5,7 +5,7 @@
+ TARGET_OS = "linux-uclibc"
+ TARGET_OS_arm = "linux-uclibceabi"
+ TARGET_OS_armeb = "linux-uclibceabi"
+-TARGET_OS_powerpc = "linux${@['','-gnuspe'][bb.data.getVar('TARGET_FPU',d,1) in ['ppc-efd', 'ppc-efs']]}"
++TARGET_OS_powerpc = "linux-uclibc${@['','spe'][bb.data.getVar('TARGET_FPU',d,1) in ['ppc-efd', 'ppc-efs']]}"
+ 
+ # Add uclibc overrides to the overrides.
+ OVERRIDES =. "libc-uclibc:"
 -- 
 1.7.3.4
 
