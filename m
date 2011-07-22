@@ -1,31 +1,31 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1Qk6GF-0007t1-4G
+	(envelope-from <Kai.Kang@windriver.com>) id 1Qk6Hk-0007vI-2x
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 05:18:47 +0200
+	Fri, 22 Jul 2011 05:20:20 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6M3EbaG011820
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Jul 2011 20:14:38 -0700 (PDT)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6M3GBbH012021
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jul 2011 20:16:11 -0700 (PDT)
 Received: from [128.224.162.154] (128.224.162.154) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 21 Jul 2011 20:14:37 -0700
-Message-ID: <4E28EB23.5040808@windriver.com>
-Date: Fri, 22 Jul 2011 11:14:43 +0800
+	Thu, 21 Jul 2011 20:16:10 -0700
+Message-ID: <4E28EB80.1030804@windriver.com>
+Date: Fri, 22 Jul 2011 11:16:16 +0800
 From: Kang Kai <Kai.Kang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64;
 	rv:5.0) Gecko/20110624 Thunderbird/5.0
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
+To: <openembedded-core@lists.openembedded.org>
 References: <cover.1311234759.git.kai.kang@windriver.com>
-	<4E285B8E.4070502@linux.intel.com> <4E28DE0A.70308@windriver.com>
-	<4E28EA39.9060101@linux.intel.com>
-In-Reply-To: <4E28EA39.9060101@linux.intel.com>
+	<9405a37200fcbc535469cc97f091bfb873944919.1311234759.git.kai.kang@windriver.com>
+	<08642C66-37F6-40C2-BCE7-45668EAA0B58@dominion.thruhere.net>
+In-Reply-To: <08642C66-37F6-40C2-BCE7-45668EAA0B58@dominion.thruhere.net>
 X-Originating-IP: [128.224.162.154]
 X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	p6M3EbaG011820
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/10] works of adding packages pam support
+	p6M3GBbH012021
+Subject: Re: [PATCH 09/10] shadow: update pam related configure files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,160 +40,308 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 03:18:47 -0000
+X-List-Received-Date: Fri, 22 Jul 2011 03:20:20 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On 2011=E5=B9=B407=E6=9C=8822=E6=97=A5 11:10, Saul Wold wrote:
-> On 07/21/2011 07:18 PM, Kang Kai wrote:
->> On 2011=E5=B9=B407=E6=9C=8822=E6=97=A5 01:02, Saul Wold wrote:
->>> On 07/21/2011 01:00 AM, Kang Kai wrote:
->>>> From: Kang Kai<kai.kang@windriver.com>
->>>>
->>>> Hi Scott,
->>>>
->>>> This is the current work of adding pam supports.
->>>>
->>>> After update libpam to 1.1.4, we enable the packages pam support. An=
-d
->>>> if the pacakge
->>>> doesn't have a pam configure file, import from Fedora.
->>>>
->>> Kai,
->>>
->>> Thanks for this work, you have already gotten some feedback, I have a
->>> few general comments to add that are across many of these patches, so
->>> I will note them here.
->>>
->>> Whitespace: you seem to be using tabs instead of spaces, please check
->>> that you have spaces and your items are lined up. Yocto uses 4 spaces
->>> for python and bb recipes and tabs for shell scripts and shell
->>> functions in bb recipes.
->>>
->>> As has already been noted in a couple of places, ensure that you only
->>> install things pam specific when the pam DISTRO_FEATURE is enabled,
->>> there are multiple places that need this (not just the ones already
->>> noted).
->>>
->>> Worth noting here also make sure you check all your PR bumps are=20
->>> correct.
->>>
+On 2011=E5=B9=B407=E6=9C=8821=E6=97=A5 16:58, Koen Kooi wrote:
+> Op 21 jul. 2011, om 10:00 heeft Kang Kai het volgende geschreven:
+>
+>> From: Kang Kai<kai.kang@windriver.com>
 >>
->> Hi Saul,
->>
->> We will check the commits and send them again. Thanks for you comments.
->>
->>> Commit messages and comments for things to oe-core should talk about
->>> oe-core not yocto or poky as this upsets people ;-)
->>
->> I am a little confused about this. Do you mean the commits about
->> packages under directory meta/ should use word "oe-core" rather than
->> Yocto? Would you like to tell me that how do you merge the commits,
->> merge the commits to the oe-core master first and then merge the oe-co=
-re
->> master to Yocto master or some branch?
->>
-> Yocto uses oe-core, so it's merged to oe-core and the the Yocto pulls=20
-> from oe-core.  For 1.2, we will have layering scripts that do some of=20
-> this.
+>> add shadow-update-pam-conf.patch to update the pam related configure f=
+iles
+>> in Yocto way rather than Fedora.
+> I'm not entirely sure, but do the updated conf files need something lik=
+e http://cgit.openembedded.org/cgit.cgi/openembedded-core/commit/?id=3Db9=
+0e9c2318fc421f37c57788ece54ce791a90b62 as well?
 
-Thanks, I got it.
+ok, I'll check the commits for module selinux
 
 >
->> At the same time, tests we did are based on core-image-sato/lsb. Shoul=
-d
->> we test them again base on the image create by oe-core?
->>
-> No need. your testing agains core-image-sato / lsb is fine.
 >
-> Sau!
+>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>> ---
+>> .../shadow/files/shadow-update-pam-conf.patch      |  175 ++++++++++++=
+++++++++
+>> meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    5 +-
+>> 2 files changed, 178 insertions(+), 2 deletions(-)
+>> create mode 100644 meta/recipes-extended/shadow/files/shadow-update-pa=
+m-conf.patch
+>>
+>> diff --git a/meta/recipes-extended/shadow/files/shadow-update-pam-conf=
+.patch b/meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
+>> new file mode 100644
+>> index 0000000..33789f5
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
+>> @@ -0,0 +1,175 @@
+>> +The system-auth in the configure files is from Fedora which put all t=
+he 4 pam type rules
+>> +in one file.
+>> +In yocto it obey the way with Debian/Ubuntu, and the names are common=
+-auth, common-account,
+>> +common-password and common-session.
+>> +So update them in Yocto way.
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>> +
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/chage shadow-4.1.4.3/etc/pam.=
+d/chage
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/chage	2011-07-20 19:02:27.384844958=
+ +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/chage	2011-07-20 19:03:08.964844958 +080=
+0
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/chfn shadow-4.1.4.3/etc/pam.d=
+/chfn
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/chfn	2011-07-20 19:02:27.384844958 =
++0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/chfn	2011-07-20 19:03:17.804844958 +0800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/chgpasswd shadow-4.1.4.3/etc/=
+pam.d/chgpasswd
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/chgpasswd	2011-07-20 19:02:27.38484=
+4958 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/chgpasswd	2011-07-20 19:03:26.544844958 =
++0800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/chpasswd shadow-4.1.4.3/etc/p=
+am.d/chpasswd
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/chpasswd	2011-07-20 19:02:27.384844=
+958 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/chpasswd	2011-07-20 19:03:42.724844958 +=
+0800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/chsh shadow-4.1.4.3/etc/pam.d=
+/chsh
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/chsh	2011-07-20 19:02:27.384844958 =
++0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/chsh	2011-07-20 19:03:51.524844958 +0800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/groupadd shadow-4.1.4.3/etc/p=
+am.d/groupadd
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/groupadd	2011-07-20 19:02:27.384844=
+958 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/groupadd	2011-07-20 19:04:08.124844958 +=
+0800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/groupdel shadow-4.1.4.3/etc/p=
+am.d/groupdel
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/groupdel	2011-07-20 19:02:27.384844=
+958 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/groupdel	2011-07-20 19:04:26.114844958 +=
+0800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/groupmems shadow-4.1.4.3/etc/=
+pam.d/groupmems
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/groupmems	2011-07-20 19:02:27.38484=
+4958 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/groupmems	2011-07-20 19:04:35.074844958 =
++0800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/groupmod shadow-4.1.4.3/etc/p=
+am.d/groupmod
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/groupmod	2011-07-20 19:02:27.384844=
+958 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/groupmod	2011-07-20 19:04:44.864844958 +=
+0800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/login shadow-4.1.4.3/etc/pam.=
+d/login
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/login	2011-07-20 19:02:27.384844958=
+ +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/login	2011-07-20 19:05:36.924844958 +080=
+0
+>> +@@ -1,11 +1,11 @@
+>> + #%PAM-1.0
+>> + auth		required	pam_securetty.so
+>> +-auth		include		system-auth
+>> ++auth		include		common-auth
+>> + account		required	pam_nologin.so
+>> +-account		include		system-auth
+>> +-password	include		system-auth
+>> ++account		include		common-account
+>> ++password	include		common-password
+>> + session		required	pam_selinux.so close
+>> +-session		include		system-auth
+>> ++session		include		common-session
+>> + session		required	pam_loginuid.so
+>> + session		optional	pam_console.so
+>> + session		required	pam_selinux.so open
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/newusers shadow-4.1.4.3/etc/p=
+am.d/newusers
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/newusers	2011-07-20 19:02:27.384844=
+958 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/newusers	2011-07-20 19:05:49.344844958 +=
+0800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/passwd shadow-4.1.4.3/etc/pam=
+.d/passwd
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/passwd	2011-07-20 19:02:27.38484495=
+8 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/passwd	2011-07-20 19:06:29.014844958 +08=
+00
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> +-auth		include		system-auth
+>> +-account		include		system-auth
+>> +-password	include		system-auth
+>> ++auth		include		common-auth
+>> ++account		include		common-account
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/su shadow-4.1.4.3/etc/pam.d/s=
+u
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/su	2011-07-20 19:02:27.384844958 +0=
+800
+>> ++++ shadow-4.1.4.3/etc/pam.d/su	2011-07-20 19:07:07.584844958 +0800
+>> +@@ -4,10 +4,10 @@
+>> + #auth		sufficient	pam_wheel.so trust use_uid
+>> + # Uncomment the following line to require a user to be in the "wheel=
+" group.
+>> + auth		required	pam_wheel.so use_uid
+>> +-auth		include		system-auth
+>> +-account		include		system-auth
+>> +-password	include		system-auth
+>> ++auth		include		common-auth
+>> ++account		include		common-account
+>> ++password	include		common-password
+>> + session		required	pam_selinux.so close
+>> +-session		include		system-auth
+>> ++session		include		common-session
+>> + session		required	pam_selinux.so open multiple
+>> + session		optional	pam_xauth.so
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/useradd shadow-4.1.4.3/etc/pa=
+m.d/useradd
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/useradd	2011-07-20 19:02:27.3848449=
+58 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/useradd	2011-07-20 19:07:26.244844958 +0=
+800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/userdel shadow-4.1.4.3/etc/pa=
+m.d/userdel
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/userdel	2011-07-20 19:02:27.3848449=
+58 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/userdel	2011-07-20 19:07:35.734844958 +0=
+800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> +diff -Nur shadow-4.1.4.3/etc/pam.d.orig/usermod shadow-4.1.4.3/etc/pa=
+m.d/usermod
+>> +--- shadow-4.1.4.3/etc/pam.d.orig/usermod	2011-07-20 19:02:27.3848449=
+58 +0800
+>> ++++ shadow-4.1.4.3/etc/pam.d/usermod	2011-07-20 19:07:42.024844958 +0=
+800
+>> +@@ -1,4 +1,4 @@
+>> + #%PAM-1.0
+>> + auth		sufficient	pam_rootok.so
+>> + account		required	pam_permit.so
+>> +-password	include		system-auth
+>> ++password	include		common-password
+>> diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/rec=
+ipes-extended/shadow/shadow_4.1.4.3.bb
+>> index 5731a26..0e6ba871 100644
+>> --- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
+>> +++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
+>> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D08c553a87d4=
+e51bbed50b20e0adcaede \
+>>
+>> DEPENDS =3D "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', =
+d)}"
+>> RDEPENDS_${PN} =3D "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_=
+PLUGINS}', '', d)}"
+>> -PR =3D "r2"
+>> +PR =3D "r3"
+>>
+>> SRC_URI =3D "ftp://pkg-shadow.alioth.debian.org/pub/pkg-shadow/shadow-=
+${PV}.tar.bz2 \
+>>             file://login_defs_pam.sed \
+>> @@ -19,7 +19,8 @@ SRC_URI =3D "ftp://pkg-shadow.alioth.debian.org/pub/=
+pkg-shadow/shadow-${PV}.tar.bz
+>>             file://shadow-4.1.3-dots-in-usernames.patch \
+>>             file://shadow-4.1.4.2-env-reset-keep-locale.patch \
+>>             file://shadow-4.1.4.2-groupmod-pam-check.patch \
+>> -           file://shadow-4.1.4.2-su_no_sanitize_env.patch"
+>> +           file://shadow-4.1.4.2-su_no_sanitize_env.patch \
+>> +		   file://shadow-update-pam-conf.patch"
+>>
+>> SRC_URI[md5sum] =3D "b8608d8294ac88974f27b20f991c0e79"
+>> SRC_URI[sha256sum] =3D "633f5bb4ea0c88c55f3642c97f9d25cbef74f82e0b4cf8=
+d54e7ad6f9f9caa778"
+>> --=20
+>> 1.7.5.1.300.gc565c
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
->>>
->>> I am going to hold of on taking this series until you fix it up.
->>>
->>> Sau!
->>>
->>
->> Regards,
->> Kai
->>
->>>
->>>
->>>> The following changes since commit
->>>> fa4bcfdb73167f8159b88e5a4d711c0d37627a70:
->>>>
->>>> bb-matrix: correct BB and PM number canonicalization (2011-07-14
->>>> 22:23:09 +0100)
->>>>
->>>> are available in the git repository at:
->>>> git://git.pokylinux.org/poky-contrib kangkai/distro
->>>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dkangkai/pam-=
-commits=20
->>>>
->>>>
->>>>
->>>> Kang Kai (5):
->>>> libpam: update to 1.1.4 and add subpackage xtests
->>>> cups: add pam support
->>>> screen: add pam support
->>>> sudo: add pam support
->>>> shadow: update pam related configure files
->>>>
->>>> Wenzong Fan (2):
->>>> cronie: enable PAM support for cronie
->>>> at: enable pam support
->>>>
->>>> Xiaofeng Yan (3):
->>>> dropbear: Support PAM
->>>> openssh: Support PAM
->>>> polkit: Support PAM
->>>>
->>>> .../openssh/openssh-5.8p2/sshd | 10 +
->>>> meta/recipes-connectivity/openssh/openssh_5.8p2.bb | 7 +-
->>>> meta/recipes-core/dropbear/dropbear.inc | 6 +-
->>>> .../dropbear/dropbear/dropbear-enable-pam.patch | 21 +++
->>>> .../at/at-3.1.12/configure-add-enable-pam.patch | 23 +++
->>>> meta/recipes-extended/at/at-3.1.12/pam.conf.patch | 16 ++
->>>> meta/recipes-extended/at/at_3.1.12.bb | 13 +-
->>>> .../cronie/cronie/crond_pam_config.patch | 13 ++
->>>> meta/recipes-extended/cronie/cronie_1.4.7.bb | 9 +-
->>>> meta/recipes-extended/cups/cups_1.4.6.bb | 8 +-
->>>> .../pam/libpam/libpam-xtests.patch | 35 ++++
->>>> .../pam/{libpam_1.1.3.bb =3D> libpam_1.1.4.bb} | 14 +-
->>>> .../polkit/polkit-0.101/polkit-1_pam.patch | 23 +++
->>>> meta/recipes-extended/polkit/polkit_0.101.bb | 6 +-
->>>> .../screen/screen-4.0.3/screen.pamd | 2 +
->>>> meta/recipes-extended/screen/screen_4.0.3.bb | 14 +-
->>>> .../shadow/files/shadow-update-pam-conf.patch | 175=20
->>>> ++++++++++++++++++++
->>>> meta/recipes-extended/shadow/shadow_4.1.4.3.bb | 5 +-
->>>> meta/recipes-extended/sudo/files/sudo.pamd | 6 +
->>>> meta/recipes-extended/sudo/sudo_1.8.1p2.bb | 11 +-
->>>> 20 files changed, 389 insertions(+), 28 deletions(-)
->>>> create mode 100644=20
->>>> meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
->>>> create mode 100644
->>>> meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
->>>> create mode 100644
->>>> meta/recipes-extended/at/at-3.1.12/configure-add-enable-pam.patch
->>>> create mode 100644 meta/recipes-extended/at/at-3.1.12/pam.conf.patch
->>>> create mode 100644
->>>> meta/recipes-extended/cronie/cronie/crond_pam_config.patch
->>>> create mode 100644=20
->>>> meta/recipes-extended/pam/libpam/libpam-xtests.patch
->>>> rename meta/recipes-extended/pam/{libpam_1.1.3.bb =3D> libpam_1.1.4.=
-bb}
->>>> (85%)
->>>> create mode 100644
->>>> meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
->>>> create mode 100644=20
->>>> meta/recipes-extended/screen/screen-4.0.3/screen.pamd
->>>> create mode 100644
->>>> meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
->>>> create mode 100644 meta/recipes-extended/sudo/files/sudo.pamd
->>>>
->>
->>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
