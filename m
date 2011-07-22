@@ -1,34 +1,20 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QkKJe-000267-1u
+	(envelope-from <sgw@linux.intel.com>) id 1QkPc1-0005gA-PJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 20:19:14 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QkKFd-0001Bg-Ro from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 11:15:05 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Fri, 22 Jul 2011 11:12:41 -0700
-Received: from [172.30.80.68] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.289.1;
-	Fri, 22 Jul 2011 11:15:05 -0700
-Message-ID: <4E29BE22.5060002@mentor.com>
-Date: Fri, 22 Jul 2011 11:14:58 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1311345613.git.richard.purdie@linuxfoundation.org>
-	<1311357628.2344.153.camel@rex>
-In-Reply-To: <1311357628.2344.153.camel@rex>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 22 Jul 2011 18:12:41.0858 (UTC)
-	FILETIME=[F28FDE20:01CC489A]
-Subject: Re: [PATCH 5/3] conf/machine/include: Start to fill out architecture specific tune include files and tune features
+	Sat, 23 Jul 2011 01:58:34 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 22 Jul 2011 16:54:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,250,1309762800"; d="scan'208";a="30520846"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.61])
+	by azsmga001.ch.intel.com with ESMTP; 22 Jul 2011 16:54:23 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jul 2011 16:54:18 -0700
+Message-Id: <cover.1311378711.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 0/3] Fix for share state native binary issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,39 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 18:19:14 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Jul 2011 23:58:34 -0000
 
-On 07/22/2011 11:00 AM, Richard Purdie wrote:
-> These changes revolve around the idea of tune features. These are represented by
-> 'flag' strings that are included in the TUNE_FEATURES variable.
-> 
-> Any string included in TUNE_FEATURES should also add a TUNEVALID[<name>] entry so
-> we can know which flags are available in TUNE_FEATURES and have documentation about
-> what the flags do. We will add sanity code to error if flags are listed in
-> TUNE_FEATURES but are not documented in TUNEVALID.
-> 
-> A given tune configuration will want to define one or more predetermined sets of
-> _FEATURE flag lists. These are defined in the form TUNE_FEATURES_tune-<name>.
-> For defined tune configuation, <name> should be added to the AVAILTUNE list so that
-> we can determine what tune configurations are available. Flags cannot be used in this
-> case as with TUNEVALID since its useful to be able to build up tune lists from other
-> TUNE_FEATURES_tune-yyy options.
-> 
-> A given tune configuration may also define PACKAGE_EXTRA_ARCHS_tune-<name> and
-> BASE_LIB_tune-<name> to control the multilib location. All options can be overridden
-> by the distro or local user configuration.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Richard,
 
-As a specific nit, we can't use x86_64 in OVERRIDES (using the normal
-mechanism need base_contains(...).  Can we switch to calling it amd64
-ala Debian/Ubuntu?  Aside from that, as I told Mark the other day, this
-looks good to me.
+This fixes the install-catalog issue with shared state native
+dependencies.  This is the point fix, it does not address the
+underlying issue which will take more work and time.
+
+Sau!
+
+
+The following changes since commit b4c23fce3eadaff8fc621d38759d493cd03cc131:
+
+  consolekit 0.4.5: fix PAM installation dir (2011-07-22 11:56:42 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (3):
+  openjade-native: Add SYSROOT_PREPROCESS_FUNC
+  docbook-sgml-dtd-native: Add SYSROOT_PREPROCESS_FUNC
+  docbook-dsssl-stylesheets-native: Add SYSROOT_PREPROCESS_FUNC
+
+ .../docbook-dsssl-stylesheets-native_1.79.bb       |   12 ++++++++++--
+ .../docbook-sgml-dtd/docbook-sgml-dtd-native.inc   |   11 +++++++++--
+ .../openjade/openjade-native_1.3.2.bb              |   12 ++++++++++--
+ 3 files changed, 29 insertions(+), 6 deletions(-)
 
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.3.4
+
 
 
