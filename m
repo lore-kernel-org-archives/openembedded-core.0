@@ -1,33 +1,16 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QkGdO-0001cg-DW
+	(envelope-from <richard@tim.rpsys.net>) id 1QkH78-0005ES-41
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 16:23:22 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QkGZN-0002r3-FT from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 07:19:13 -0700
-Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Fri, 22 Jul 2011 07:16:50 -0700
-Received: from [172.30.80.68] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
-	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
-	Fri, 22 Jul 2011 07:19:12 -0700
-Message-ID: <4E2986DA.7020906@mentor.com>
-Date: Fri, 22 Jul 2011 07:19:06 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1311326696-11745-1-git-send-email-galak@kernel.crashing.org>
-In-Reply-To: <1311326696-11745-1-git-send-email-galak@kernel.crashing.org>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 22 Jul 2011 14:16:50.0327 (UTC)
-	FILETIME=[FF979A70:01CC4879]
-Subject: Re: [PATCH 0/5] Add support for powerpc64
+	Fri, 22 Jul 2011 16:54:06 +0200
+Received: by rex (Postfix, from userid 1000)
+	id BDFDE201DD; Fri, 22 Jul 2011 15:49:54 +0100 (BST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jul 2011 15:49:50 +0100
+Message-Id: <cover.1311345613.git.richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/3] First round of tune config file updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,18 +25,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 14:23:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Jul 2011 14:54:06 -0000
 
-On 07/22/2011 02:24 AM, Kumar Gala wrote:
-> Add various cleanups to core scripts and packages that are needed for
-> building for a 64-bit powerpc target.
+These patches set the scene for the multilib work. I'm posting these first 
+as they're the more invasive changes to the variables the tune
+files currently expose and are likely the more user visible changes.
 
-Everything looks fine here, added my Ack's for bits I recall doing too :)
+The first patch allows multilib to be able to change "/lib" as needed 
+dynamically to variants like "/lib64". Reasons for doing it the way its
+been done are included in the commit message of the patch.
+
+The second two patches change the tune files to operate on TUNE* variables.
+This allows some cleanup and simplification of the core and creates a clear
+namespace for the tune files to operate under.
+
+It does mean that machine support files need to remove any explicit 
+TARGET_ARCH setting and now should always include an appopriate tune file
+to ensure the TUNE variables are set correctly.
+
+Sanity checks have been added to ensure users are informed when this has
+not been done.
+
+These should be the only compatibility break multilib requires with the
+rest of the work involving changes to the tune file internals themselves.
+
+The changes are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib rpurdie/ml-stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rpurdie/ml-stage
+
+Richard Purdie (3):
+  bitbake.conf/cross.bbclass: Add ability to dynamically change library
+    location
+  conf/machine/tune: Overhaul tune include file variables
+  conf/machine/include: Set TUNE_CCARGS instead of TARGET_CC_ARCH
+
+ meta/classes/cross.bbclass                       |    7 +++--
+ meta/classes/sanity.bbclass                      |   10 ++++++--
+ meta/conf/bitbake.conf                           |   26 ++++++++++++++-------
+ meta/conf/machine/include/tune-arm1136jf-s.inc   |    9 ++++---
+ meta/conf/machine/include/tune-arm920t.inc       |    7 +++--
+ meta/conf/machine/include/tune-arm926ejs.inc     |   10 +++++---
+ meta/conf/machine/include/tune-arm9tdmi.inc      |    7 +++--
+ meta/conf/machine/include/tune-armv7.inc         |    7 +++--
+ meta/conf/machine/include/tune-atom.inc          |    6 +++-
+ meta/conf/machine/include/tune-c3.inc            |    8 ++++--
+ meta/conf/machine/include/tune-cortexa8.inc      |    7 +++--
+ meta/conf/machine/include/tune-cortexm1.inc      |    7 +++--
+ meta/conf/machine/include/tune-cortexm3.inc      |    7 +++--
+ meta/conf/machine/include/tune-cortexr4.inc      |    7 +++--
+ meta/conf/machine/include/tune-ep9312.inc        |    7 +++--
+ meta/conf/machine/include/tune-i586.inc          |    6 +++++
+ meta/conf/machine/include/tune-iwmmxt.inc        |    7 +++--
+ meta/conf/machine/include/tune-mips32.inc        |    7 +++--
+ meta/conf/machine/include/tune-ppc603e.inc       |    7 +++--
+ meta/conf/machine/include/tune-ppce300c2.inc     |    6 +++-
+ meta/conf/machine/include/tune-ppce500.inc       |    6 +++-
+ meta/conf/machine/include/tune-ppce500mc.inc     |    7 +++--
+ meta/conf/machine/include/tune-ppce500v2.inc     |    7 +++--
+ meta/conf/machine/include/tune-sh3.inc           |    7 +++--
+ meta/conf/machine/include/tune-sh4.inc           |    7 +++--
+ meta/conf/machine/include/tune-strongarm1100.inc |    6 ++++-
+ meta/conf/machine/include/tune-supersparc.inc    |    7 +++--
+ meta/conf/machine/include/tune-thumb.inc         |    2 +-
+ meta/conf/machine/include/tune-x86_64.inc        |    5 ++++
+ meta/conf/machine/include/tune-xscale.inc        |   10 ++++----
+ meta/conf/machine/qemuarm.conf                   |    2 -
+ meta/conf/machine/qemumips.conf                  |    2 -
+ meta/conf/machine/qemuppc.conf                   |    2 -
+ meta/conf/machine/qemux86-64.conf                |    3 +-
+ meta/conf/machine/qemux86.conf                   |    4 +--
+ 35 files changed, 144 insertions(+), 98 deletions(-)
+ create mode 100644 meta/conf/machine/include/tune-i586.inc
+ create mode 100644 meta/conf/machine/include/tune-x86_64.inc
 
 -- 
-Tom Rini
-Mentor Graphics Corporation
+1.7.4.1
+
 
 
