@@ -1,18 +1,22 @@
 Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1QkIem-0007jC-Bw
+	(envelope-from <tom_rini@mentor.com>) id 1QkIem-0007jH-5q
 	for openembedded-core@lists.openembedded.org;
 	Fri, 22 Jul 2011 18:32:56 +0200
 Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6MGSkMf010603
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6MGSkMm010603
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2011 11:28:46 -0500
+	Fri, 22 Jul 2011 11:28:47 -0500
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jul 2011 09:28:35 -0700
-Message-Id: <cover.1311352057.git.tom_rini@mentor.com>
+Date: Fri, 22 Jul 2011 09:28:42 -0700
+Message-Id: <8b812cc86926fc2a46977a0c9f59bcbd4a23e468.1311352057.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/8] Start consolidating siteinfo information
+In-Reply-To: <cover.1311352057.git.tom_rini@mentor.com>
+References: <cover.1311352057.git.tom_rini@mentor.com>
+In-Reply-To: <cover.1311352057.git.tom_rini@mentor.com>
+References: <cover.1311352057.git.tom_rini@mentor.com>
+Subject: [PATCH 7/8] siteinfo: Move general realloc/malloc values to common-$libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,67 +33,358 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Jul 2011 16:32:56 -0000
 
-Hey all,
+These are tests for glibc behavior which we have enabled in uclibc.
+Note that if we ever disable MALLOC_GLIBC_COMPAT the uclibc tests
+will need to be changed (but I believe this would also entail massive
+patching to the rest of userspace so this should be unlikely).
 
-As I've been talking about for a while, here is the first part of re-syncing
-oe.dev siteinfo files with oe-core AND doing more consolidation.  There's
-more to do, but I don't want this to grow too large before I start submitting.
-This contains what I would call the obviously correct stuff where:
-- all of the common platforms set things to the same value
-- A little poking around shows it's a libc test or a standard linux
-  feature.
-- All of the arches that didn't set it just hadn't tried to build that yet.
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
+---
+ meta/site/arm-common          |    4 ----
+ meta/site/arm-linux           |    2 --
+ meta/site/arm-linux-uclibc    |    2 --
+ meta/site/armeb-linux         |    2 --
+ meta/site/armeb-linux-uclibc  |    2 --
+ meta/site/common-glibc        |    3 +++
+ meta/site/common-uclibc       |    4 ++++
+ meta/site/ix86-common         |    5 -----
+ meta/site/mips-common         |    3 ---
+ meta/site/mips-linux          |    3 ---
+ meta/site/mips-linux-uclibc   |    3 ---
+ meta/site/mipsel-linux        |    3 ---
+ meta/site/mipsel-linux-uclibc |    3 ---
+ meta/site/powerpc-common      |    6 ------
+ meta/site/powerpc-linux       |    4 ----
+ meta/site/powerpc32-linux     |    4 ----
+ meta/site/sh-common           |    6 ------
+ meta/site/sparc-linux         |    2 --
+ meta/site/x86_64-linux        |    2 --
+ meta/site/x86_64-linux-uclibc |    5 -----
+ 20 files changed, 7 insertions(+), 61 deletions(-)
 
-The only part that's not 100% in that would be the db mutex drops.  But
-after trying the version of db we have and looking at the recipe:
-- These values weren't being used at all and were incorrect in some
-  cases anyhow (eg x86_64 uclibc went with the x86_64 asm bits it has for
-  mutex, not none)
-- It's not how you set mutex bits either.  ie arm was doing one thing in
-  siteinfo and the recipe another and the way the recipe did it, works.
-
-The following changes since commit b4c23fce3eadaff8fc621d38759d493cd03cc131:
-  Koen Kooi (1):
-        consolekit 0.4.5: fix PAM installation dir
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib trini/update-site-files-22jul
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/update-site-files-22jul
-
-Tom Rini (8):
-  siteinfo: Move certain samba entries to common-linux
-  siteinfo: Move certain bash entries to common-linux
-  x86_64-linux siteinfo: Add bash info
-  siteinfo: Move certain mysql entries to common-linux
-  siteinfo: Move the rp-pppoe entry to common-linux
-  siteinfo: Move certain db entries to common-linux
-  siteinfo: Move general realloc/malloc values to common-$libc
-  siteinfo: Move (getpgrp|setpgrp|setgrent|*get{pwuid,grgid}) to
-    common-libc
-
- meta/site/arm-common          |   35 -----
- meta/site/arm-linux           |   14 --
- meta/site/arm-linux-uclibc    |   11 --
- meta/site/armeb-linux         |   10 --
- meta/site/armeb-linux-uclibc  |   10 --
- meta/site/common-glibc        |   10 ++
- meta/site/common-linux        |   39 ++++++
- meta/site/common-uclibc       |   11 ++
- meta/site/ix86-common         |   43 ------
- meta/site/mips-common         |    3 -
- meta/site/mips-linux          |   29 +----
- meta/site/mips-linux-uclibc   |   29 +----
- meta/site/mipsel-linux        |   40 +------
- meta/site/mipsel-linux-uclibc |   26 ----
- meta/site/powerpc-common      |  285 +++++++++++++++++++++++++++++++++++++++++
- meta/site/powerpc-linux       |   13 --
- meta/site/powerpc32-linux     |   36 +-----
- meta/site/sh-common           |   45 +-------
- meta/site/sparc-linux         |   10 --
- meta/site/x86_64-linux        |   28 +---
- meta/site/x86_64-linux-uclibc |   23 ----
- 21 files changed, 357 insertions(+), 393 deletions(-)
+diff --git a/meta/site/arm-common b/meta/site/arm-common
+index 2524db4..c216b57 100644
+--- a/meta/site/arm-common
++++ b/meta/site/arm-common
+@@ -180,10 +180,6 @@ screen_cv_sys_terminfo_used=${screen_cv_sys_terminfo_used=yes}
+ slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+ slrn_cv_va_copy=${slrn_cv_va_copy=yes}
+ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+-ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
+-ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+-ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+ 
+ # socat
+ ac_cv_ispeed_offset=${ac_cv_ispeed_offset=13}
+diff --git a/meta/site/arm-linux b/meta/site/arm-linux
+index 6e69c03..69d251d 100644
+--- a/meta/site/arm-linux
++++ b/meta/site/arm-linux
+@@ -1,8 +1,6 @@
+ ac_cv_func_getpgrp_void=yes
+ ac_cv_func_setpgrp_void=yes
+ ac_cv_func_setgrent_void=yes
+-ac_cv_func_malloc_0_nonnull=yes
+-ac_cv_func_malloc_works=yes
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+ ac_cv_func_setvbuf_reversed=no
+diff --git a/meta/site/arm-linux-uclibc b/meta/site/arm-linux-uclibc
+index 5dbdba1..1e283ef 100644
+--- a/meta/site/arm-linux-uclibc
++++ b/meta/site/arm-linux-uclibc
+@@ -1,8 +1,6 @@
+ ac_cv_func_getpgrp_void=yes
+ ac_cv_func_setpgrp_void=yes
+ ac_cv_func_setgrent_void=yes
+-ac_cv_func_malloc_0_nonnull=yes
+-ac_cv_func_malloc_works=yes
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_getgrgid_r=yes}
+ ac_cv_func_setvbuf_reversed=no
+diff --git a/meta/site/armeb-linux b/meta/site/armeb-linux
+index 45fa692..ecff3da 100644
+--- a/meta/site/armeb-linux
++++ b/meta/site/armeb-linux
+@@ -1,8 +1,6 @@
+ ac_cv_func_getpgrp_void=yes
+ ac_cv_func_setpgrp_void=yes
+ ac_cv_func_setgrent_void=yes
+-ac_cv_func_malloc_0_nonnull=yes
+-ac_cv_func_malloc_works=yes
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+ ac_cv_func_setvbuf_reversed=no
+diff --git a/meta/site/armeb-linux-uclibc b/meta/site/armeb-linux-uclibc
+index 50874c4..8365810 100644
+--- a/meta/site/armeb-linux-uclibc
++++ b/meta/site/armeb-linux-uclibc
+@@ -1,8 +1,6 @@
+ ac_cv_func_getpgrp_void=yes
+ ac_cv_func_setpgrp_void=yes
+ ac_cv_func_setgrent_void=yes
+-ac_cv_func_malloc_0_nonnull=yes
+-ac_cv_func_malloc_works=yes
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+ ac_cv_func_setvbuf_reversed=no
+diff --git a/meta/site/common-glibc b/meta/site/common-glibc
+index a34396f..9339655 100644
+--- a/meta/site/common-glibc
++++ b/meta/site/common-glibc
+@@ -1,5 +1,8 @@
+ # general
+ ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=yes}
++ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
++ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
++ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
+ ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+ ac_cv_func_memcmp_working=${ac_cv_func_memcmp_working=yes}
+ ac_cv_type_uid_t={ac_cv_type_uid_t=yes}
+diff --git a/meta/site/common-uclibc b/meta/site/common-uclibc
+index ce216bb..8ea192c 100644
+--- a/meta/site/common-uclibc
++++ b/meta/site/common-uclibc
+@@ -1,5 +1,9 @@
+ # general
+ ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=no}
++ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
++ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
++ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
++ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+ 
+ # glib
+ glib_cv_strlcpy=${glib_cv_strlcpy=no}
+diff --git a/meta/site/ix86-common b/meta/site/ix86-common
+index 47f7178..ea8937e 100644
+--- a/meta/site/ix86-common
++++ b/meta/site/ix86-common
+@@ -25,8 +25,6 @@ ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
+ ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
+ ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
+ ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+-ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
+ ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
+ ac_cv_func_setpgrp_void=${ac_cv_func_setpgrp_void=yes}
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+@@ -167,9 +165,6 @@ ac_cv_alignof_CORBA_struct=4
+ ac_cv_alignof_CORBA_wchar=2
+ ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
+ 
+-# p3scan
+-ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+-
+ # php
+ ac_cv_pread=${ac_cv_pread=no}
+ ac_cv_pwrite=${ac_cv_pwrite=no}
+diff --git a/meta/site/mips-common b/meta/site/mips-common
+index bbfc779..e7eb3af 100644
+--- a/meta/site/mips-common
++++ b/meta/site/mips-common
+@@ -1,6 +1,3 @@
+-ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+-
+ # cvs
+ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+ 
+diff --git a/meta/site/mips-linux b/meta/site/mips-linux
+index f81d4fa..a8e52ae 100644
+--- a/meta/site/mips-linux
++++ b/meta/site/mips-linux
+@@ -3,9 +3,6 @@ ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ 
+-# tslib, others
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+-
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=no}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
+diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
+index f81d4fa..a8e52ae 100644
+--- a/meta/site/mips-linux-uclibc
++++ b/meta/site/mips-linux-uclibc
+@@ -3,9 +3,6 @@ ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ 
+-# tslib, others
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+-
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=no}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
+diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
+index 2805be1..fc2a9c0 100644
+--- a/meta/site/mipsel-linux
++++ b/meta/site/mipsel-linux
+@@ -3,9 +3,6 @@ ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ 
+-# tslib, others
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+-
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=no}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
+diff --git a/meta/site/mipsel-linux-uclibc b/meta/site/mipsel-linux-uclibc
+index 838bdff..c589cfd 100644
+--- a/meta/site/mipsel-linux-uclibc
++++ b/meta/site/mipsel-linux-uclibc
+@@ -3,9 +3,6 @@ ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ 
+-# tslib, others
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+-
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=no}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
+diff --git a/meta/site/powerpc-common b/meta/site/powerpc-common
+index 804d33c..e5b9f54 100644
+--- a/meta/site/powerpc-common
++++ b/meta/site/powerpc-common
+@@ -1,8 +1,6 @@
+ ac_cv_func_getpgrp_void=yes
+ ac_cv_func_setpgrp_void=yes
+ ac_cv_func_setgrent_void=yes
+-ac_cv_func_malloc_0_nonnull=yes
+-ac_cv_func_malloc_works=yes
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_setvbuf_reversed=no
+@@ -165,10 +163,6 @@ compat_cv_func_dirname_works=${compat_cv_func_dirname_works=no}
+ slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+ slrn_cv_va_copy=${slrn_cv_va_copy=no}
+ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+-ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
+-ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+-ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+ 
+ # startup-notification
+ lf_cv_sane_realloc=yes
+diff --git a/meta/site/powerpc-linux b/meta/site/powerpc-linux
+index 399a58e..93a94f5 100644
+--- a/meta/site/powerpc-linux
++++ b/meta/site/powerpc-linux
+@@ -7,10 +7,6 @@ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+ # startup-notification
+ lf_cv_sane_realloc=yes
+ 
+-# flex
+-ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
+-ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+-
+ # glib
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ glib_cv_uscore=${glib_cv_uscore=no}
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index 6df66dc..46b64eb 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -1,5 +1,3 @@
+-ac_cv_func_malloc_0_nonnull=yes
+-ac_cv_func_malloc_works=yes
+ ac_cv_func_setvbuf_reversed=no
+ ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
+ ac_cv_sizeof_bool=${ac_cv_sizeof_bool=1}
+@@ -165,8 +163,6 @@ compat_cv_func_dirname_works=${compat_cv_func_dirname_works=no}
+ slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+ slrn_cv_va_copy=${slrn_cv_va_copy=no}
+ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+-ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+ 
+ # libidl
+ libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+diff --git a/meta/site/sh-common b/meta/site/sh-common
+index 12ac3d8..ce7c41b 100644
+--- a/meta/site/sh-common
++++ b/meta/site/sh-common
+@@ -1,7 +1,5 @@
+ ac_cv_func_setpgrp_void=yes
+ ac_cv_func_setgrent_void=yes
+-ac_cv_func_malloc_0_nonnull=yes
+-ac_cv_func_malloc_works=yes
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_setvbuf_reversed=no
+ ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
+@@ -178,10 +176,6 @@ compat_cv_func_dirname_works=${compat_cv_func_dirname_works=no}
+ slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+ slrn_cv_va_copy=${slrn_cv_va_copy=no}
+ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+-ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
+-ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+-ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+ 
+ # startup-notification
+ lf_cv_sane_realloc=yes
+diff --git a/meta/site/sparc-linux b/meta/site/sparc-linux
+index f4c221c..a0ac8d1 100644
+--- a/meta/site/sparc-linux
++++ b/meta/site/sparc-linux
+@@ -1,8 +1,6 @@
+ ac_cv_func_getpgrp_void=yes
+ ac_cv_func_setpgrp_void=yes
+ ac_cv_func_setgrent_void=yes
+-ac_cv_func_malloc_0_nonnull=yes
+-ac_cv_func_malloc_works=yes
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_setvbuf_reversed=no
+ ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
+diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
+index 1b83ce9..48e94da 100644
+--- a/meta/site/x86_64-linux
++++ b/meta/site/x86_64-linux
+@@ -2,7 +2,6 @@ ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
+ ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
+ ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
+ ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_setpgrp_void=${ac_cv_func_setpgrp_void=yes}
+@@ -100,7 +99,6 @@ ac_cv_alignof_CORBA_wchar=2
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+ 
+ sudo_cv_uid_t=${sudo_cv_uid_t_len=10}
+-ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+ lf_cv_sane_realloc=yes
+ as_cv_unaligned_access=${as_cv_unaligned_access=yes}
+ 
+diff --git a/meta/site/x86_64-linux-uclibc b/meta/site/x86_64-linux-uclibc
+index f646c31..be74642 100644
+--- a/meta/site/x86_64-linux-uclibc
++++ b/meta/site/x86_64-linux-uclibc
+@@ -2,7 +2,6 @@ ac_cv_func_getpgrp_void=${ac_cv_func_getpgrp_void=yes}
+ ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
+ ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
+ ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
+-ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_setpgrp_void=${ac_cv_func_setpgrp_void=yes}
+@@ -68,10 +67,6 @@ am_cv_func_working_getline=${am_cv_func_working_getline=yes}
+ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+ 
+-# flex
+-ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
+-ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+-
+ # libidl
+ libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+ 
+-- 
+1.7.0.4
 
 
 
