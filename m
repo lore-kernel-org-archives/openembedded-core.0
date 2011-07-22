@@ -1,24 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from gate.crashing.org ([63.228.1.57])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QkABo-0008T9-36
+	(envelope-from <galak@kernel.crashing.org>) id 1QkAYB-0000en-Kb
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 09:30:28 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Jul 2011 00:26:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,246,1309762800"; d="scan'208";a="31084152"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.1])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2011 00:26:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jul 2011 00:26:03 -0700
-Message-Id: <3ed2e5b8f3912096a3e223bf47e2bce885233774.1311318447.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1311318447.git.sgw@linux.intel.com>
-References: <cover.1311318447.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1311318447.git.sgw@linux.intel.com>
-References: <cover.1311318447.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 15/16] python: fix security vulnerability
+	Fri, 22 Jul 2011 09:53:36 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6M7nKs8019355;
+	Fri, 22 Jul 2011 02:49:21 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <1311280985.2344.82.camel@rex>
+Date: Fri, 22 Jul 2011 02:49:19 -0500
+Message-Id: <BD5C61B9-8EC9-4C55-AE35-71D9B022F532@kernel.crashing.org>
+References: <cover.1311234475.git.sgw@linux.intel.com>
+	<1311280985.2344.82.camel@rex>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1084)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED PULL 00/20] July 21, 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,242 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 07:30:28 -0000
+X-List-Received-Date: Fri, 22 Jul 2011 07:53:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This Fixes bug: [Yocto #1254]
+On Jul 21, 2011, at 3:43 PM, Richard Purdie wrote:
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1015
+> On Thu, 2011-07-21 at 00:52 -0700, Saul Wold wrote:
+>> Review and tested, the inherit perlnatives are needed.
+>>=20
+>> The following changes since commit =
+0d03800caffc2341b74190d38f7a372223c89f4c:
+>>=20
+>>  lsbsetup_1.0.bb: Change the hardcoded /usr/lib to support multilib =
+(2011-07-20 15:43:43 +0100)
+>>=20
+>> are available in the git repository at:
+>>  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>>  =
+http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3Ds=
+gw/stage
+>>=20
+>> Martin Jansa (9):
+>>  tcmode-default: set preferred version also for (e)glibc-locale
+>>  eglibc-package: don't fail without localedef/gconv
+>>  python: save Makefile.sysroot in do_compile
+>>  python: add patch to fix cross compilation on host with linux-3.0
+>>  polkit: inherit perlnative
+>>  shared-mime-info: inherit perlnative
+>>  xkeyboard-config: inherit perlnative
+>>  avahi: inherit perlnative
+>>  vte: inherit perlnative
+>>=20
+>> Matthew McClintock (2):
+>>  Add endianess macros used by previous endian-ness_handling.patch
+>>  Make intltool use perlnative instead of perl on host
+>>=20
+>> Saul Wold (2):
+>>  clutter-box2d: fix isfinite.patch
+>>  gettext: Add depends to gettext to avoid host contamination
+>>=20
+>> Tom Rini (7):
+>>  python-native: Mangle scripts to use /usr/bin/env python, bump PR
+>>  gnome-doc-utils: Use /usr/bin/env python in xml2po, bump PR
+>>  perl-native: Add a perl-native wrapper in the normal bindir
+>>  cpan.bbclass: Perform more mangling for perl path
+>>  icon-naming-utils-native: Fix long path to perl in icon-name-mapping
+>>  siteinfo.bbclass: Port over oe.dev logic for site files
+>>  local.conf.sample: Add a note about ASSUME_PROVIDED for help2man
+>=20
+> Thanks Saul, I merged this minus the perlnative pieces since I think =
+we
+> might be able to solve this in a better way and we should at least
+> discuss that.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 
-Issue #2254: Fix CGIHTTPServer information disclosure.  Relative paths are
-  now collapsed within the url properly before looking in cgi_directories.
+The version of:
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/recipes-devtools/python/python.inc            |    2 +-
- .../python/python/security_issue_2254_fix.patch    |  184 ++++++++++++++++++++
- meta/recipes-devtools/python/python_2.6.6.bb       |    1 +
- 3 files changed, 186 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python/security_issue_2254_fix.patch
+clutter-box2d: fix isfinite.patch
 
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index 25a458e..a6cc917 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.python.org"
- LICENSE = "PSF"
- SECTION = "devel/python"
- # bump this on every change in contrib/python/generate-manifest-2.6.py
--INC_PR = "nk2"
-+INC_PR = "r2"
- 
- DEFAULT_PREFERENCE = "-26"
- 
-diff --git a/meta/recipes-devtools/python/python/security_issue_2254_fix.patch b/meta/recipes-devtools/python/python/security_issue_2254_fix.patch
-new file mode 100644
-index 0000000..f032858
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/security_issue_2254_fix.patch
-@@ -0,0 +1,184 @@
-+Upstream-Status: Backport
-+http://svn.python.org/view?view=revision&revision=71303
-+
-+Issue #2254: Fix CGIHTTPServer information disclosure.  Relative paths are
-+  now collapsed within the url properly before looking in cgi_directories.
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 
-+2011/07/19
-+
-+Index: Python-2.6.6/Lib/CGIHTTPServer.py
-+===================================================================
-+--- Python-2.6.6.orig/Lib/CGIHTTPServer.py
-++++ Python-2.6.6/Lib/CGIHTTPServer.py
-+@@ -70,27 +70,20 @@ class CGIHTTPRequestHandler(SimpleHTTPSe
-+             return SimpleHTTPServer.SimpleHTTPRequestHandler.send_head(self)
-+ 
-+     def is_cgi(self):
-+-        """Test whether self.path corresponds to a CGI script,
-+-        and return a boolean.
-++        """Test whether self.path corresponds to a CGI script.
-+ 
-+-        This function sets self.cgi_info to a tuple (dir, rest)
-+-        when it returns True, where dir is the directory part before
-+-        the CGI script name.  Note that rest begins with a
-+-        slash if it is not empty.
-+-
-+-        The default implementation tests whether the path
-+-        begins with one of the strings in the list
-+-        self.cgi_directories (and the next character is a '/'
-+-        or the end of the string).
-++        Returns True and updates the cgi_info attribute to the tuple
-++        (dir, rest) if self.path requires running a CGI script.
-++        Returns False otherwise.
-++
-++        The default implementation tests whether the normalized url
-++        path begins with one of the strings in self.cgi_directories
-++        (and the next character is a '/' or the end of the string).
-+         """
-+-
-+-        path = self.path
-+-
-+-        for x in self.cgi_directories:
-+-            i = len(x)
-+-            if path[:i] == x and (not path[i:] or path[i] == '/'):
-+-                self.cgi_info = path[:i], path[i+1:]
-+-                return True
-++        splitpath = _url_collapse_path_split(self.path)
-++        if splitpath[0] in self.cgi_directories:
-++            self.cgi_info = splitpath
-++            return True
-+         return False
-+ 
-+     cgi_directories = ['/cgi-bin', '/htbin']
-+@@ -299,6 +292,46 @@ class CGIHTTPRequestHandler(SimpleHTTPSe
-+                 self.log_message("CGI script exited OK")
-+ 
-+ 
-++# TODO(gregory.p.smith): Move this into an appropriate library.
-++def _url_collapse_path_split(path):
-++    """
-++    Given a URL path, remove extra '/'s and '.' path elements and collapse
-++    any '..' references.
-++
-++    Implements something akin to RFC-2396 5.2 step 6 to parse relative paths.
-++
-++    Returns: A tuple of (head, tail) where tail is everything after the final /
-++    and head is everything before it.  Head will always start with a '/' and,
-++    if it contains anything else, never have a trailing '/'.
-++
-++    Raises: IndexError if too many '..' occur within the path.
-++    """
-++    # Similar to os.path.split(os.path.normpath(path)) but specific to URL
-++    # path semantics rather than local operating system semantics.
-++    path_parts = []
-++    for part in path.split('/'):
-++        if part == '.':
-++            path_parts.append('')
-++        else:
-++            path_parts.append(part)
-++    # Filter out blank non trailing parts before consuming the '..'.
-++    path_parts = [part for part in path_parts[:-1] if part] + path_parts[-1:]
-++    if path_parts:
-++        tail_part = path_parts.pop()
-++    else:
-++        tail_part = ''
-++    head_parts = []
-++    for part in path_parts:
-++        if part == '..':
-++            head_parts.pop()
-++        else:
-++            head_parts.append(part)
-++    if tail_part and tail_part == '..':
-++        head_parts.pop()
-++        tail_part = ''
-++    return ('/' + '/'.join(head_parts), tail_part)
-++
-++
-+ nobody = None
-+ 
-+ def nobody_uid():
-+Index: Python-2.6.6/Lib/test/test_httpservers.py
-+===================================================================
-+--- Python-2.6.6.orig/Lib/test/test_httpservers.py
-++++ Python-2.6.6/Lib/test/test_httpservers.py
-+@@ -7,6 +7,7 @@ Josip Dzolonga, and Michael Otteneder fo
-+ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-+ from SimpleHTTPServer import SimpleHTTPRequestHandler
-+ from CGIHTTPServer import CGIHTTPRequestHandler
-++import CGIHTTPServer
-+ 
-+ import os
-+ import sys
-+@@ -324,6 +325,45 @@ class CGIHTTPServerTestCase(BaseTestCase
-+         finally:
-+             BaseTestCase.tearDown(self)
-+ 
-++    def test_url_collapse_path_split(self):
-++        test_vectors = {
-++            '': ('/', ''),
-++            '..': IndexError,
-++            '/.//..': IndexError,
-++            '/': ('/', ''),
-++            '//': ('/', ''),
-++            '/\\': ('/', '\\'),
-++            '/.//': ('/', ''),
-++            'cgi-bin/file1.py': ('/cgi-bin', 'file1.py'),
-++            '/cgi-bin/file1.py': ('/cgi-bin', 'file1.py'),
-++            'a': ('/', 'a'),
-++            '/a': ('/', 'a'),
-++            '//a': ('/', 'a'),
-++            './a': ('/', 'a'),
-++            './C:/': ('/C:', ''),
-++            '/a/b': ('/a', 'b'),
-++            '/a/b/': ('/a/b', ''),
-++            '/a/b/c/..': ('/a/b', ''),
-++            '/a/b/c/../d': ('/a/b', 'd'),
-++            '/a/b/c/../d/e/../f': ('/a/b/d', 'f'),
-++            '/a/b/c/../d/e/../../f': ('/a/b', 'f'),
-++            '/a/b/c/../d/e/.././././..//f': ('/a/b', 'f'),
-++            '../a/b/c/../d/e/.././././..//f': IndexError,
-++            '/a/b/c/../d/e/../../../f': ('/a', 'f'),
-++            '/a/b/c/../d/e/../../../../f': ('/', 'f'),
-++            '/a/b/c/../d/e/../../../../../f': IndexError,
-++            '/a/b/c/../d/e/../../../../f/..': ('/', ''),
-++        }
-++        for path, expected in test_vectors.iteritems():
-++            if isinstance(expected, type) and issubclass(expected, Exception):
-++                self.assertRaises(expected,
-++                                  CGIHTTPServer._url_collapse_path_split, path)
-++            else:
-++                actual = CGIHTTPServer._url_collapse_path_split(path)
-++                self.assertEquals(expected, actual,
-++                                  msg='path = %r\nGot:    %r\nWanted: %r' % (
-++                                  path, actual, expected))
-++
-+     def test_headers_and_content(self):
-+         res = self.request('/cgi-bin/file1.py')
-+         self.assertEquals(('Hello World\n', 'text/html', 200), \
-+@@ -348,6 +388,12 @@ class CGIHTTPServerTestCase(BaseTestCase
-+         self.assertEquals(('Hello World\n', 'text/html', 200), \
-+              (res.read(), res.getheader('Content-type'), res.status))
-+ 
-++    def test_no_leading_slash(self):
-++        # http://bugs.python.org/issue2254
-++        res = self.request('cgi-bin/file1.py')
-++        self.assertEquals(('Hello World\n', 'text/html', 200),
-++             (res.read(), res.getheader('Content-type'), res.status))
-++
-+ 
-+ def test_main(verbose=None):
-+     cwd = os.getcwd()
-+Index: Python-2.6.6/Misc/NEWS
-+===================================================================
-+--- Python-2.6.6.orig/Misc/NEWS
-++++ Python-2.6.6/Misc/NEWS
-+@@ -137,6 +137,9 @@ C-API
-+ Library
-+ -------
-+ 
-++- Issue #2254: Fix CGIHTTPServer information disclosure.  Relative paths are
-++  now collapsed within the url properly before looking in cgi_directories.
-++
-+ - Issue #8447: Make distutils.sysconfig follow symlinks in the path to
-+   the interpreter executable.  This fixes a failure of test_httpservers
-+   on OS X.
-diff --git a/meta/recipes-devtools/python/python_2.6.6.bb b/meta/recipes-devtools/python/python_2.6.6.bb
-index 598fea8..f71440a 100644
---- a/meta/recipes-devtools/python/python_2.6.6.bb
-+++ b/meta/recipes-devtools/python/python_2.6.6.bb
-@@ -19,6 +19,7 @@ SRC_URI = "\
-   file://99-ignore-optimization-flag.patch \
-   ${DISTRO_SRC_URI} \
-   file://multilib.patch \
-+  file://security_issue_2254_fix.patch \
- "
- 
- SRC_URI[md5sum] = "cf4e6881bb84a7ce6089e4a307f71f14"
--- 
-1.7.3.4
+in poky.git seems to still be broken
 
+- k=
 
 
