@@ -1,24 +1,33 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QkCon-0002aL-GX
-	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 12:18:54 +0200
-Received: by wwi18 with SMTP id 18so1698342wwi.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QkDOy-00059v-E8 for openembedded-core@lists.openembedded.org;
+	Fri, 22 Jul 2011 12:56:32 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6MApgQP027592
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2011 03:14:45 -0700 (PDT)
-Received: by 10.227.205.78 with SMTP id fp14mr1102674wbb.65.1311329684990;
-	Fri, 22 Jul 2011 03:14:44 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id p14sm1782581wbh.13.2011.07.22.03.14.43
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 22 Jul 2011 03:14:44 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jul 2011 12:14:39 +0200
-Message-Id: <1311329679-2872-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] consolekit 0.4.5: fix PAM installation dir
+	Fri, 22 Jul 2011 11:51:42 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27374-02 for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jul 2011 11:51:36 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6MApRaL027586
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jul 2011 11:51:31 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <cover.1311318447.git.sgw@linux.intel.com>
+References: <cover.1311318447.git.sgw@linux.intel.com>
+Date: Fri, 22 Jul 2011 11:51:24 +0100
+Message-ID: <1311331884.2344.128.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [CONSOLIDATED PULL 00/16] July 22, 2011
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +42,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 10:18:55 -0000
+X-List-Received-Date: Fri, 22 Jul 2011 10:56:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- .../recipes-support/consolekit/consolekit_0.4.5.bb |    7 ++++---
- 1 files changed, 4 insertions(+), 3 deletions(-)
+On Fri, 2011-07-22 at 00:25 -0700, Saul Wold wrote:
+> Richard,
+> 
+> This contains more uclibc updates from Khem along with Bruce's
+> 3.0 Updates.
+> 
+> There are a couple of small updates for .gitignore and other recipes.
+> 
+> Thanks
+> 	Sau!
+> 
+> 
+> The following changes since commit f175e4f28aa835abef8c3d5e2065054416692418:
+> 
+>   libiconv: Fix build failure on 1.13.1 (2011-07-21 22:50:06 +0100)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Bruce Ashfield (4):
+>   linux-yocto: kernel-3.0 support recipe
+>   kernel: copy defconfig to {B} vs {S}
+>   linux-yocto: update LICENSE to GPLv2
+>   kern-tools: update SRCREV
+> 
+> Khem Raj (6):
+>   mesa-xlib, mesa-dri: Probe for newlocale() before using it.
+>   task-core-tools.bb: Exclude lttng-ust for x86_64/uclibc
+>   uclibc: Add patch header for sync_file_range2.patch
+>   strace: Define own sigmask macro if not defined already in signal.h
+>   util-linux: Replace sigsetmask with posix compliant functions
+>   tclibc-uclibc: Fix TARGET_OS for powerpc
+> 
+> Kumar Gala (1):
+>   .gitignore: Update build ignores to have wildcard
+> 
+> Mei Lei (1):
+>   dhcp: Fix libdir issue for multilib
+> 
+> Nitin A Kamble (3):
+>   glib-2.0: fix a compilation issue due to dtrace
+>   python: fix security vulnerability
+>   fix Upstream-Status line for few patches
+> 
+> Saul Wold (1):
+>   default-versions: Update pulseaudio as arm no longer needs a seperate
+>     backport
 
-diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-index 661cca6..562dfb3 100644
---- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-+++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
- HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
- BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
- 
--PR = "r4"
-+PR = "r5"
- 
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-@@ -20,12 +20,13 @@ SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b22368
- S = "${WORKDIR}/ConsoleKit-${PV}"
- 
- EXTRA_OECONF = "--with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
--                ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${libdir}/security', '--disable-pam-module', d)} \
-+                ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
-                "
- 
- FILES_${PN} += "${libdir}/ConsoleKit ${base_libdir} ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
-+FILES_${PN}-dbg += "${base_libdir}/security/.debug"
- 
- PACKAGES =+ "pam-plugin-ck-connector"
--FILES_pam-plugin-ck-connector += "${libdir}/security/*.so"
-+FILES_pam-plugin-ck-connector += "${base_libdir}/security/*.so"
- RDEPENDS_pam-plugin-ck-connector += "${PN}"
- 
--- 
-1.6.6.1
+Merged to master, thanks.
+
+Richard
 
 
 
