@@ -1,20 +1,20 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QkH7D-0005Ei-4E
+	(envelope-from <richard@tim.rpsys.net>) id 1QkH7E-0005FL-30
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 16:54:11 +0200
+	Fri, 22 Jul 2011 16:54:12 +0200
 Received: by rex (Postfix, from userid 1000)
-	id 1C4BD201DD; Fri, 22 Jul 2011 15:50:00 +0100 (BST)
+	id 047DC206FF; Fri, 22 Jul 2011 15:50:00 +0100 (BST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jul 2011 15:49:55 +0100
-Message-Id: <a10de4cf8b424ee95c8e283e75d486be5b3b8eac.1311345613.git.richard.purdie@linuxfoundation.org>
+Date: Fri, 22 Jul 2011 15:49:56 +0100
+Message-Id: <3a3c69a1bc3cf0b6f6a3b13d86c12ed21798d48e.1311345613.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <aeea22da699b276a97ca1a17e3c53176c9afd9de.1311345613.git.richard.purdie@linuxfoundation.org>
 References: <aeea22da699b276a97ca1a17e3c53176c9afd9de.1311345613.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1311345613.git.richard.purdie@linuxfoundation.org>
 References: <cover.1311345613.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/3] conf/machine/tune: Overhaul tune include file variables
+Subject: [PATCH 3/3] conf/machine/include: Set TUNE_CCARGS instead of TARGET_CC_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,529 +29,386 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 14:54:11 -0000
+X-List-Received-Date: Fri, 22 Jul 2011 14:54:13 -0000
 
-There is currently consideradble confusion over how the tune files operate
-and how these interact with the rest of the build system. This update/overhaul
-changes things so the tune files are primarily resonsible for setting:
+Since we're updating the tune file format, it makes sense to abstract
+the compiler tune arguments at this point too. This means that should
+these need to be overridden at any point, the original values can
+still be obtained in a similar manner to the other TUNE* variables.
 
-TUNE_ARCH - What was formerly set as TARGET_ARCH and is the value that
-represents the architecture we're targetting.
-
-TUNE_PKGARCH - The value that represents the tune confuration that this set
-of tune parameters results in.
-
-This allows the significant improvement that the core can now always determine
-the target architecture value, even when TARGET_ARCH needs to be reset to
-something different and likewise, there is one package architecture variable
-the core can reference allowing simplification of the BASE_PACKAGE_ARCH, PACKAGE_ARCH
-and FEED_ARCH variables.
+Whilst this isn't strictly necessary for any current need, its likely
+good practise to standardise this behaviour.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/sanity.bbclass                      |   10 +++++++---
- meta/conf/bitbake.conf                           |    7 ++++---
- meta/conf/machine/include/tune-arm1136jf-s.inc   |    5 +++--
- meta/conf/machine/include/tune-arm920t.inc       |    5 +++--
- meta/conf/machine/include/tune-arm926ejs.inc     |    6 ++++--
- meta/conf/machine/include/tune-arm9tdmi.inc      |    5 +++--
- meta/conf/machine/include/tune-armv7.inc         |    5 +++--
- meta/conf/machine/include/tune-atom.inc          |    4 +++-
- meta/conf/machine/include/tune-c3.inc            |    6 ++++--
- meta/conf/machine/include/tune-cortexa8.inc      |    5 +++--
- meta/conf/machine/include/tune-cortexm1.inc      |    5 +++--
- meta/conf/machine/include/tune-cortexm3.inc      |    5 +++--
- meta/conf/machine/include/tune-cortexr4.inc      |    5 +++--
- meta/conf/machine/include/tune-ep9312.inc        |    5 +++--
- meta/conf/machine/include/tune-i586.inc          |    6 ++++++
- meta/conf/machine/include/tune-iwmmxt.inc        |    5 +++--
- meta/conf/machine/include/tune-mips32.inc        |    5 +++--
- meta/conf/machine/include/tune-ppc603e.inc       |    5 +++--
- meta/conf/machine/include/tune-ppce300c2.inc     |    4 +++-
- meta/conf/machine/include/tune-ppce500.inc       |    4 +++-
- meta/conf/machine/include/tune-ppce500mc.inc     |    5 +++--
- meta/conf/machine/include/tune-ppce500v2.inc     |    5 +++--
- meta/conf/machine/include/tune-sh3.inc           |    5 +++--
- meta/conf/machine/include/tune-sh4.inc           |    5 +++--
- meta/conf/machine/include/tune-strongarm1100.inc |    4 ++++
- meta/conf/machine/include/tune-supersparc.inc    |    5 +++--
- meta/conf/machine/include/tune-x86_64.inc        |    5 +++++
- meta/conf/machine/include/tune-xscale.inc        |    4 ++--
- meta/conf/machine/qemuarm.conf                   |    2 --
- meta/conf/machine/qemumips.conf                  |    2 --
- meta/conf/machine/qemuppc.conf                   |    2 --
- meta/conf/machine/qemux86-64.conf                |    3 +--
- meta/conf/machine/qemux86.conf                   |    4 +---
- 33 files changed, 98 insertions(+), 60 deletions(-)
- create mode 100644 meta/conf/machine/include/tune-i586.inc
- create mode 100644 meta/conf/machine/include/tune-x86_64.inc
+ meta/conf/bitbake.conf                           |    4 +++-
+ meta/conf/machine/include/tune-arm1136jf-s.inc   |    4 ++--
+ meta/conf/machine/include/tune-arm920t.inc       |    2 +-
+ meta/conf/machine/include/tune-arm926ejs.inc     |    4 ++--
+ meta/conf/machine/include/tune-arm9tdmi.inc      |    2 +-
+ meta/conf/machine/include/tune-armv7.inc         |    2 +-
+ meta/conf/machine/include/tune-atom.inc          |    2 +-
+ meta/conf/machine/include/tune-c3.inc            |    2 +-
+ meta/conf/machine/include/tune-cortexa8.inc      |    2 +-
+ meta/conf/machine/include/tune-cortexm1.inc      |    2 +-
+ meta/conf/machine/include/tune-cortexm3.inc      |    2 +-
+ meta/conf/machine/include/tune-cortexr4.inc      |    2 +-
+ meta/conf/machine/include/tune-ep9312.inc        |    2 +-
+ meta/conf/machine/include/tune-i586.inc          |    2 +-
+ meta/conf/machine/include/tune-iwmmxt.inc        |    2 +-
+ meta/conf/machine/include/tune-mips32.inc        |    2 +-
+ meta/conf/machine/include/tune-ppc603e.inc       |    2 +-
+ meta/conf/machine/include/tune-ppce300c2.inc     |    2 +-
+ meta/conf/machine/include/tune-ppce500.inc       |    2 +-
+ meta/conf/machine/include/tune-ppce500mc.inc     |    2 +-
+ meta/conf/machine/include/tune-ppce500v2.inc     |    2 +-
+ meta/conf/machine/include/tune-sh3.inc           |    2 +-
+ meta/conf/machine/include/tune-sh4.inc           |    2 +-
+ meta/conf/machine/include/tune-strongarm1100.inc |    2 +-
+ meta/conf/machine/include/tune-supersparc.inc    |    2 +-
+ meta/conf/machine/include/tune-thumb.inc         |    2 +-
+ meta/conf/machine/include/tune-x86_64.inc        |    2 +-
+ meta/conf/machine/include/tune-xscale.inc        |    6 +++---
+ 28 files changed, 34 insertions(+), 32 deletions(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index acda1a9..b054146 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -147,9 +147,13 @@ def check_sanity(e):
-     if (LooseVersion(__version__) < LooseVersion(minversion)):
-         messages = messages + 'Bitbake version %s is required and version %s was found\n' % (minversion, __version__)
- 
--    # Check TARGET_ARCH is set
--    if data.getVar('TARGET_ARCH', e.data, True) == 'INVALID':
--        messages = messages + 'Please set TARGET_ARCH directly, or choose a MACHINE or DISTRO that does so.\n'
-+    # Check TUNE_ARCH is set
-+    if data.getVar('TUNE_ARCH', e.data, True) == 'INVALID':
-+        messages = messages + 'TUNE_ARCH is unset. Please ensure your MACHINE configuration includes a valid tune configuration file which will set this correctly.\n'
-+
-+    # Check TARGET_ARCH is set correctly
-+    if data.getVar('TARGE_ARCH', e.data, False) == '${TUNE_ARCH}':
-+        messages = messages + 'TARGET_ARCH is being overwritten, likely by your MACHINE configuration files.\nPlease use a valid tune configuration file which should set this correctly automatically\nand avoid setting this in the machine configuration. See the OE-Core mailing list for more information.\n'
-     
-     # Check TARGET_OS is set
-     if data.getVar('TARGET_OS', e.data, True) == 'INVALID':
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index e768df5..f95343f 100644
+index f95343f..2954faa 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
-@@ -81,7 +81,8 @@ HOST_PREFIX = "${TARGET_PREFIX}"
- HOST_CC_ARCH = "${TARGET_CC_ARCH}"
+@@ -82,12 +82,14 @@ HOST_CC_ARCH = "${TARGET_CC_ARCH}"
  HOST_EXEEXT = ""
  
--TARGET_ARCH = "INVALID"
-+TUNE_ARCH ??= "INVALID"
-+TARGET_ARCH = "${TUNE_ARCH}"
+ TUNE_ARCH ??= "INVALID"
++TUNE_CCARGS ??= ""
++
+ TARGET_ARCH = "${TUNE_ARCH}"
  TARGET_OS = "INVALID"
  TARGET_VENDOR = "-oe"
  TARGET_SYS = "${TARGET_ARCH}${TARGET_VENDOR}${@['-' + bb.data.getVar('TARGET_OS', d, 1), ''][bb.data.getVar('TARGET_OS', d, 1) == ('' or 'custom')]}"
-@@ -95,9 +96,9 @@ SDK_SYS = "${SDK_ARCH}${SDK_VENDOR}${@['-' + bb.data.getVar('SDK_OS', d, 1), '']
- SDK_PREFIX = "${SDK_SYS}-"
- SDK_CC_ARCH = "${BUILD_CC_ARCH}"
+ TARGET_PREFIX = "${TARGET_SYS}-"
+-TARGET_CC_ARCH = ""
++TARGET_CC_ARCH = "${TUNE_CCARGS}"
  
--BASE_PACKAGE_ARCH = "${HOST_ARCH}"
-+BASE_PACKAGE_ARCH = "${TUNE_PKGARCH}"
- PACKAGE_ARCH = "${BASE_PACKAGE_ARCH}"
--MACHINE_ARCH = "${@[bb.data.getVar('BASE_PACKAGE_ARCH', d, 1), bb.data.getVar('MACHINE', d, 1)][bool(bb.data.getVar('MACHINE', d, 1))].replace('-', '_')}"
-+MACHINE_ARCH = "${@[bb.data.getVar('TUNE_PKGARCH', d, 1), bb.data.getVar('MACHINE', d, 1)][bool(bb.data.getVar('MACHINE', d, 1))].replace('-', '_')}"
- PACKAGE_EXTRA_ARCHS ??= "${TARGET_ARCH}"
- PACKAGE_ARCHS = "all any noarch ${PACKAGE_EXTRA_ARCHS} ${MACHINE_ARCH}"
- # MACHINE_ARCH shouldn't be included here as a variable dependency
+ SDK_ARCH = "${BUILD_ARCH}"
+ SDK_OS = "${BUILD_OS}"
 diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
-index 2ea3c9d..bc90924 100644
+index bc90924..c1d0c07 100644
 --- a/meta/conf/machine/include/tune-arm1136jf-s.inc
 +++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
-@@ -1,7 +1,8 @@
-+TUNE_ARCH = "arm"
-+
- TARGET_CC_ARCH = "-march=armv6j -mtune=arm1136jf-s"
- TARGET_CC_ARCH += "${@['', '-mfloat-abi=softfp -mfpu=vfp'][(bb.data.getVar('TARGET_FPU', d, 1) == 'soft') and (bb.data.getVar('CPU_FEATURES', d, 1).find('vfp') != -1)]}"
--FEED_ARCH = "armv6"
--BASE_PACKAGE_ARCH = "armv6"
-+TUNE_PKGARCH = "armv6"
+@@ -1,7 +1,7 @@
+ TUNE_ARCH = "arm"
+ 
+-TARGET_CC_ARCH = "-march=armv6j -mtune=arm1136jf-s"
+-TARGET_CC_ARCH += "${@['', '-mfloat-abi=softfp -mfpu=vfp'][(bb.data.getVar('TARGET_FPU', d, 1) == 'soft') and (bb.data.getVar('CPU_FEATURES', d, 1).find('vfp') != -1)]}"
++TUNE_CCARGS = "-march=armv6j -mtune=arm1136jf-s"
++TUNE_CCARGS += "${@['', '-mfloat-abi=softfp -mfpu=vfp'][(bb.data.getVar('TARGET_FPU', d, 1) == 'soft') and (bb.data.getVar('CPU_FEATURES', d, 1).find('vfp') != -1)]}"
+ TUNE_PKGARCH = "armv6"
  
  ARM_INSTRUCTION_SET = "${@['thumb','arm'][bb.data.getVar('CPU_FEATURES', d, 1).find('thumb') == -1]}"
- PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t armv5te armv6"
 diff --git a/meta/conf/machine/include/tune-arm920t.inc b/meta/conf/machine/include/tune-arm920t.inc
-index 564b557..2991e85 100644
+index 2991e85..3f30e2a 100644
 --- a/meta/conf/machine/include/tune-arm920t.inc
 +++ b/meta/conf/machine/include/tune-arm920t.inc
-@@ -1,4 +1,5 @@
--FEED_ARCH = "armv4t"
--BASE_PACKAGE_ARCH = "armv4t" 
-+TUNE_ARCH = "arm"
-+
-+TUNE_PKGARCH = "armv4t"
- TARGET_CC_ARCH = "-march=armv4t -mtune=arm920t"
+@@ -1,5 +1,5 @@
+ TUNE_ARCH = "arm"
+ 
+ TUNE_PKGARCH = "armv4t"
+-TARGET_CC_ARCH = "-march=armv4t -mtune=arm920t"
++TUNE_CCARGS = "-march=armv4t -mtune=arm920t"
  PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t"
 diff --git a/meta/conf/machine/include/tune-arm926ejs.inc b/meta/conf/machine/include/tune-arm926ejs.inc
-index 9d546c9..e54403b 100644
+index e54403b..049f57c 100644
 --- a/meta/conf/machine/include/tune-arm926ejs.inc
 +++ b/meta/conf/machine/include/tune-arm926ejs.inc
-@@ -1,7 +1,9 @@
--FEED_ARCH = "armv5te"
-+TUNE_ARCH = "arm"
-+
-+TUNE_PKGARCH = "armv5te"
+@@ -3,7 +3,7 @@ TUNE_ARCH = "arm"
+ TUNE_PKGARCH = "armv5te"
  PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t armv5te"
  # For gcc 3.x you need:
- #TARGET_CC_ARCH = "-march=armv5te -mtune=arm926ejs"
+-#TARGET_CC_ARCH = "-march=armv5te -mtune=arm926ejs"
++#TUNE_CCARGS = "-march=armv5te -mtune=arm926ejs"
  # For gcc 4.x you need:
- TARGET_CC_ARCH = "-march=armv5te -mtune=arm926ej-s"
--BASE_PACKAGE_ARCH = "armv5te"
-+
+-TARGET_CC_ARCH = "-march=armv5te -mtune=arm926ej-s"
++TUNE_CCARGS = "-march=armv5te -mtune=arm926ej-s"
+ 
 diff --git a/meta/conf/machine/include/tune-arm9tdmi.inc b/meta/conf/machine/include/tune-arm9tdmi.inc
-index 5446ce8..b75de3d 100644
+index b75de3d..0ed2f40 100644
 --- a/meta/conf/machine/include/tune-arm9tdmi.inc
 +++ b/meta/conf/machine/include/tune-arm9tdmi.inc
-@@ -1,4 +1,5 @@
--FEED_ARCH = "armv4t"
--BASE_PACKAGE_ARCH = "armv4t"
-+TUNE_ARCH = "arm"
-+
-+TUNE_PKGARCH = "armv4t"
+@@ -2,4 +2,4 @@ TUNE_ARCH = "arm"
+ 
+ TUNE_PKGARCH = "armv4t"
  PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t"
- TARGET_CC_ARCH = "-mcpu=arm9tdmi -mtune=arm9tdmi"
+-TARGET_CC_ARCH = "-mcpu=arm9tdmi -mtune=arm9tdmi"
++TUNE_CCARGS = "-mcpu=arm9tdmi -mtune=arm9tdmi"
 diff --git a/meta/conf/machine/include/tune-armv7.inc b/meta/conf/machine/include/tune-armv7.inc
-index 979d6fe..a6cc346 100644
+index a6cc346..2e32323 100644
 --- a/meta/conf/machine/include/tune-armv7.inc
 +++ b/meta/conf/machine/include/tune-armv7.inc
-@@ -1,7 +1,8 @@
-+TUNE_ARCH = "arm"
-+
+@@ -3,6 +3,6 @@ TUNE_ARCH = "arm"
  # valid options for -march: `armv7', `armv7-a', `armv7-r', `armv7-m'
  # valid option for -mtune: `cortex-a8', `cortex-r4', `cortex-m3', `cortex-m1'
  # This will NOT compile programs in 'ARM' mode, which is what you really want
- TARGET_CC_ARCH = "-march=armv7 -mfpu=vfp -mfloat-abi=softfp"
--FEED_ARCH = "armv7"
-+TUNE_PKGARCH = "armv7"
+-TARGET_CC_ARCH = "-march=armv7 -mfpu=vfp -mfloat-abi=softfp"
++TUNE_CCARGS = "-march=armv7 -mfpu=vfp -mfloat-abi=softfp"
+ TUNE_PKGARCH = "armv7"
  PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t armv5te armv6 armv7"
--BASE_PACKAGE_ARCH = "armv7"
 diff --git a/meta/conf/machine/include/tune-atom.inc b/meta/conf/machine/include/tune-atom.inc
-index 399ea54..8141a67 100644
+index 8141a67..52acd12 100644
 --- a/meta/conf/machine/include/tune-atom.inc
 +++ b/meta/conf/machine/include/tune-atom.inc
-@@ -1,4 +1,6 @@
--BASE_PACKAGE_ARCH = "core2"
-+TUNE_ARCH = "i586"
-+
-+TUNE_PKGARCH = "core2"
- TARGET_CC_ARCH = "-m32 -march=core2 -msse3 -mtune=generic -mfpmath=sse"
+@@ -1,7 +1,7 @@
+ TUNE_ARCH = "i586"
+ 
+ TUNE_PKGARCH = "core2"
+-TARGET_CC_ARCH = "-m32 -march=core2 -msse3 -mtune=generic -mfpmath=sse"
++TUNE_CCARGS = "-m32 -march=core2 -msse3 -mtune=generic -mfpmath=sse"
  #MOBLIN_CFLAGS = "-Os -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4 -fasynchronous-unwind-tables"
  
+ PACKAGE_EXTRA_ARCHS = "x86 i386 i486 i586 i686 core2"
 diff --git a/meta/conf/machine/include/tune-c3.inc b/meta/conf/machine/include/tune-c3.inc
-index d33df5f..dd8dce1 100644
+index dd8dce1..dbe1e43 100644
 --- a/meta/conf/machine/include/tune-c3.inc
 +++ b/meta/conf/machine/include/tune-c3.inc
-@@ -1,4 +1,6 @@
-+TUNE_ARCH = "i586"
-+
-+TUNE_PKGARCH = "i586"
-+
- TARGET_CC_ARCH = "-march=c3 -mtune=c3"
+@@ -2,5 +2,5 @@ TUNE_ARCH = "i586"
+ 
+ TUNE_PKGARCH = "i586"
+ 
+-TARGET_CC_ARCH = "-march=c3 -mtune=c3"
++TUNE_CCARGS = "-march=c3 -mtune=c3"
  PACKAGE_EXTRA_ARCHS = "i386 i486 i586"
--BASE_PACKAGE_ARCH = "i586"
--FEED_ARCH = "i586"
 diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
-index a5b982a..cf5b418 100644
+index cf5b418..9be423a 100644
 --- a/meta/conf/machine/include/tune-cortexa8.inc
 +++ b/meta/conf/machine/include/tune-cortexa8.inc
-@@ -1,3 +1,5 @@
-+TUNE_ARCH = "arm"
-+
- # Instead of using -mfpu=vfp[2] we can use -mfpu=neon to make use of gcc intrinsics[1] and vectorize loops with -ftree-vectorize[3]
- # [1] http://gcc.gnu.org/onlinedocs/gcc/ARM-NEON-Intrinsics.html
+@@ -5,7 +5,7 @@ TUNE_ARCH = "arm"
  # [2] http://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html 
-@@ -8,6 +10,5 @@ TARGET_CC_ARCH = "-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp
+ # [3] https://support.codesourcery.com/GNUToolchain/kbentry29
+ 
+-TARGET_CC_ARCH = "-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp -fno-tree-vectorize"
++TUNE_CCARGS = "-march=armv7-a -mtune=cortex-a8 -mfpu=neon -mfloat-abi=softfp -fno-tree-vectorize"
+ 
  # Other potentially useful options
  #-ftree-vectorize -ffast-math -fno-omit-frame-pointer
- 
--FEED_ARCH = "armv7a"
--BASE_PACKAGE_ARCH = "armv7a"
-+TUNE_PKGARCH = "armv7a"
- PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t armv5te armv6 armv7 armv7a"
 diff --git a/meta/conf/machine/include/tune-cortexm1.inc b/meta/conf/machine/include/tune-cortexm1.inc
-index 6c4a70a..6dbfd2c 100644
+index 6dbfd2c..d0d3b2c 100644
 --- a/meta/conf/machine/include/tune-cortexm1.inc
 +++ b/meta/conf/machine/include/tune-cortexm1.inc
-@@ -1,3 +1,4 @@
-+TUNE_ARCH = "arm"
-+
- TARGET_CC_ARCH = "-march=armv7 -mtune=cortex-m1 -mfpu=vfp -mfloat-abi=softfp"
--FEED_ARCH = "armv6"
--BASE_PACKAGE_ARCH = "armv6"
-+TUNE_PKGARCH = "armv6"
+@@ -1,4 +1,4 @@
+ TUNE_ARCH = "arm"
+ 
+-TARGET_CC_ARCH = "-march=armv7 -mtune=cortex-m1 -mfpu=vfp -mfloat-abi=softfp"
++TUNE_CCARGS = "-march=armv7 -mtune=cortex-m1 -mfpu=vfp -mfloat-abi=softfp"
+ TUNE_PKGARCH = "armv6"
 diff --git a/meta/conf/machine/include/tune-cortexm3.inc b/meta/conf/machine/include/tune-cortexm3.inc
-index 6da9aee..63959e4 100644
+index 63959e4..495c8f6 100644
 --- a/meta/conf/machine/include/tune-cortexm3.inc
 +++ b/meta/conf/machine/include/tune-cortexm3.inc
-@@ -1,4 +1,5 @@
-+TUNE_ARCH = "arm"
-+
+@@ -1,5 +1,5 @@
+ TUNE_ARCH = "arm"
+ 
  # valid options for -march: `armv7', `armv7-m'
- TARGET_CC_ARCH = "-march=armv7-m -mtune=cortex-m3 -mfpu=vfp -mfloat-abi=softfp"
--FEED_ARCH = "armv7"
--BASE_PACKAGE_ARCH = "armv7"
-+TUNE_PKGARCH = "armv7"
+-TARGET_CC_ARCH = "-march=armv7-m -mtune=cortex-m3 -mfpu=vfp -mfloat-abi=softfp"
++TUNE_CCARGS = "-march=armv7-m -mtune=cortex-m3 -mfpu=vfp -mfloat-abi=softfp"
+ TUNE_PKGARCH = "armv7"
 diff --git a/meta/conf/machine/include/tune-cortexr4.inc b/meta/conf/machine/include/tune-cortexr4.inc
-index b8bb7f5..780a510 100644
+index 780a510..c775e83 100644
 --- a/meta/conf/machine/include/tune-cortexr4.inc
 +++ b/meta/conf/machine/include/tune-cortexr4.inc
-@@ -1,4 +1,5 @@
-+TUNE_ARCH = "arm"
-+
+@@ -1,5 +1,5 @@
+ TUNE_ARCH = "arm"
+ 
  # valid options for -march: `armv7', `armv7-r'
- TARGET_CC_ARCH = "-march=armv7-r -mtune=cortex-r4 -mfpu=vfp -mfloat-abi=softfp"
--FEED_ARCH = "armv7"
--BASE_PACKAGE_ARCH = "armv7"
-+TUNE_PKGARCH = "armv7"
+-TARGET_CC_ARCH = "-march=armv7-r -mtune=cortex-r4 -mfpu=vfp -mfloat-abi=softfp"
++TUNE_CCARGS = "-march=armv7-r -mtune=cortex-r4 -mfpu=vfp -mfloat-abi=softfp"
+ TUNE_PKGARCH = "armv7"
 diff --git a/meta/conf/machine/include/tune-ep9312.inc b/meta/conf/machine/include/tune-ep9312.inc
-index e1515a0..81be6dd 100644
+index 81be6dd..8c7fc5a 100644
 --- a/meta/conf/machine/include/tune-ep9312.inc
 +++ b/meta/conf/machine/include/tune-ep9312.inc
-@@ -1,8 +1,9 @@
-+TUNE_ARCH = "arm"
-+
- TARGET_CC_ARCH = "-march=ep9312 -mtune=ep9312 -mcpu=ep9312"
+@@ -1,6 +1,6 @@
+ TUNE_ARCH = "arm"
+ 
+-TARGET_CC_ARCH = "-march=ep9312 -mtune=ep9312 -mcpu=ep9312"
++TUNE_CCARGS = "-march=ep9312 -mtune=ep9312 -mcpu=ep9312"
  # add "-mfp=maverick" for newer gcc versions > 4.0
  
  #set arch to ep9312 for all generated packages
- PACKAGE_EXTRA_ARCHS = "arm armv4t ep9312"
--BASE_PACKAGE_ARCH = "ep9312"
--FEED_ARCH = "ep9312"
-+TUNE_PKGARCH = "ep9312"
- 
 diff --git a/meta/conf/machine/include/tune-i586.inc b/meta/conf/machine/include/tune-i586.inc
-new file mode 100644
-index 0000000..7ea8b4f
---- /dev/null
+index 7ea8b4f..1dc44df 100644
+--- a/meta/conf/machine/include/tune-i586.inc
 +++ b/meta/conf/machine/include/tune-i586.inc
-@@ -0,0 +1,6 @@
-+TUNE_ARCH = "i586"
-+
-+TUNE_PKGARCH = "i586"
-+TARGET_CC_ARCH = "-m32 -march=i586"
-+
-+PACKAGE_EXTRA_ARCHS = "x86 i386 i486 i586"
+@@ -1,6 +1,6 @@
+ TUNE_ARCH = "i586"
+ 
+ TUNE_PKGARCH = "i586"
+-TARGET_CC_ARCH = "-m32 -march=i586"
++TUNE_CCARGS = "-m32 -march=i586"
+ 
+ PACKAGE_EXTRA_ARCHS = "x86 i386 i486 i586"
 diff --git a/meta/conf/machine/include/tune-iwmmxt.inc b/meta/conf/machine/include/tune-iwmmxt.inc
-index 7191ab0..68e118a 100644
+index 68e118a..236cede 100644
 --- a/meta/conf/machine/include/tune-iwmmxt.inc
 +++ b/meta/conf/machine/include/tune-iwmmxt.inc
-@@ -1,7 +1,8 @@
-+TUNE_ARCH = "arm"
-+
+@@ -2,7 +2,7 @@ TUNE_ARCH = "arm"
+ 
  # Configurations for the Intel PXA27x Appications Processor Family. 
  # Please use tune-xscale for PXA255/PXA26x based processors.
- TARGET_CC_ARCH = "-march=iwmmxt -mcpu=iwmmxt -mtune=iwmmxt"
--BASE_PACKAGE_ARCH = "iwmmxt"
+-TARGET_CC_ARCH = "-march=iwmmxt -mcpu=iwmmxt -mtune=iwmmxt"
++TUNE_CCARGS = "-march=iwmmxt -mcpu=iwmmxt -mtune=iwmmxt"
  PACKAGE_EXTRA_ARCHS = "arm armv4 armv4t armv5te iwmmxt"
--FEED_ARCH = "iwmmxt"
-+TUNE_PKGARCH = "iwmmxt"
+ TUNE_PKGARCH = "iwmmxt"
  
 diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
-index 67edca2..a7bcb50 100644
+index a7bcb50..182d16c 100644
 --- a/meta/conf/machine/include/tune-mips32.inc
 +++ b/meta/conf/machine/include/tune-mips32.inc
-@@ -1,3 +1,4 @@
-+TUNE_ARCH = "mips"
-+
- TARGET_CC_ARCH = "-march=mips32"
--FEED_ARCH = "${TARGET_ARCH}"
--BASE_PACKAGE_ARCH = "${TARGET_ARCH}"
-+TUNE_PKGARCH = "mips"
+@@ -1,4 +1,4 @@
+ TUNE_ARCH = "mips"
+ 
+-TARGET_CC_ARCH = "-march=mips32"
++TUNE_CCARGS = "-march=mips32"
+ TUNE_PKGARCH = "mips"
 diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
-index dc95d0d..daa1cd3 100644
+index daa1cd3..ec43cfe 100644
 --- a/meta/conf/machine/include/tune-ppc603e.inc
 +++ b/meta/conf/machine/include/tune-ppc603e.inc
-@@ -1,4 +1,5 @@
-+TUNE_ARCH = "powerpc"
-+
- TARGET_CC_ARCH = "-mcpu=603e  -mhard-float"
--BASE_PACKAGE_ARCH = "ppc603e"
--FEED_ARCH = "ppc603e"
-+TUNE_PKGARCH = "ppc603e"
+@@ -1,5 +1,5 @@
+ TUNE_ARCH = "powerpc"
+ 
+-TARGET_CC_ARCH = "-mcpu=603e  -mhard-float"
++TUNE_CCARGS = "-mcpu=603e  -mhard-float"
+ TUNE_PKGARCH = "ppc603e"
  PACKAGE_EXTRA_ARCHS = "powerpc ppc603e"
 diff --git a/meta/conf/machine/include/tune-ppce300c2.inc b/meta/conf/machine/include/tune-ppce300c2.inc
-index 3e552e6..a2989ae 100644
+index a2989ae..ac23242 100644
 --- a/meta/conf/machine/include/tune-ppce300c2.inc
 +++ b/meta/conf/machine/include/tune-ppce300c2.inc
-@@ -1,3 +1,5 @@
-+TUNE_ARCH = "powerpc"
-+
- TARGET_CC_ARCH = "-mcpu=e300c2 -msoft-float"
--BASE_PACKAGE_ARCH = "ppce300"
-+TUNE_PKGARCH = "ppce300"
+@@ -1,5 +1,5 @@
+ TUNE_ARCH = "powerpc"
+ 
+-TARGET_CC_ARCH = "-mcpu=e300c2 -msoft-float"
++TUNE_CCARGS = "-mcpu=e300c2 -msoft-float"
+ TUNE_PKGARCH = "ppce300"
  PACKAGE_EXTRA_ARCHS = "powerpc ppce300"
 diff --git a/meta/conf/machine/include/tune-ppce500.inc b/meta/conf/machine/include/tune-ppce500.inc
-index 45e1f0d..8d67b86 100644
+index 8d67b86..a342cfb 100644
 --- a/meta/conf/machine/include/tune-ppce500.inc
 +++ b/meta/conf/machine/include/tune-ppce500.inc
-@@ -1,4 +1,6 @@
-+TUNE_ARCH = "powerpc"
-+
- TARGET_CC_ARCH = "-mcpu=8540"
+@@ -1,6 +1,6 @@
+ TUNE_ARCH = "powerpc"
+ 
+-TARGET_CC_ARCH = "-mcpu=8540"
++TUNE_CCARGS = "-mcpu=8540"
  BASE_PACKAGE_ARCH = "ppce500"
--FEED_ARCH = "ppce500"
-+TUNE_PKGARCH = "ppce500"
+ TUNE_PKGARCH = "ppce500"
  PACKAGE_EXTRA_ARCHS = "powerpc ppce500"
 diff --git a/meta/conf/machine/include/tune-ppce500mc.inc b/meta/conf/machine/include/tune-ppce500mc.inc
-index 763ec1a..0cdcfa8 100644
+index 0cdcfa8..497c1a4 100644
 --- a/meta/conf/machine/include/tune-ppce500mc.inc
 +++ b/meta/conf/machine/include/tune-ppce500mc.inc
-@@ -1,4 +1,5 @@
-+TUNE_ARCH = "powerpc"
-+
- TARGET_CC_ARCH = "-mcpu=e500mc"
--BASE_PACKAGE_ARCH = "ppce500mc"
--FEED_ARCH = "ppce500mc"
-+TUNE_PKGARCH = "ppce500mc"
+@@ -1,5 +1,5 @@
+ TUNE_ARCH = "powerpc"
+ 
+-TARGET_CC_ARCH = "-mcpu=e500mc"
++TUNE_CCARGS = "-mcpu=e500mc"
+ TUNE_PKGARCH = "ppce500mc"
  PACKAGE_EXTRA_ARCHS = "powerpc ppce500mc"
 diff --git a/meta/conf/machine/include/tune-ppce500v2.inc b/meta/conf/machine/include/tune-ppce500v2.inc
-index d76dbc9..219bcaf 100644
+index 219bcaf..1c56829 100644
 --- a/meta/conf/machine/include/tune-ppce500v2.inc
 +++ b/meta/conf/machine/include/tune-ppce500v2.inc
-@@ -1,4 +1,5 @@
-+TUNE_ARCH = "powerpc"
-+
- TARGET_CC_ARCH = "-mcpu=8548 -mabi=spe -mspe"
--BASE_PACKAGE_ARCH = "ppce500v2"
--FEED_ARCH = "ppce500v2"
-+TUNE_PKGARCH = "ppce500v2"
+@@ -1,5 +1,5 @@
+ TUNE_ARCH = "powerpc"
+ 
+-TARGET_CC_ARCH = "-mcpu=8548 -mabi=spe -mspe"
++TUNE_CCARGS = "-mcpu=8548 -mabi=spe -mspe"
+ TUNE_PKGARCH = "ppce500v2"
  PACKAGE_EXTRA_ARCHS = "powerpc ppce500v2"
 diff --git a/meta/conf/machine/include/tune-sh3.inc b/meta/conf/machine/include/tune-sh3.inc
-index 32801a6..45ad6de 100644
+index 45ad6de..dd12cd4 100644
 --- a/meta/conf/machine/include/tune-sh3.inc
 +++ b/meta/conf/machine/include/tune-sh3.inc
-@@ -1,3 +1,4 @@
-+TUNE_ARCH = "sh3"
-+
- TARGET_CC_ARCH = "-ml -m3"
--FEED_ARCH = "sh3"
--BASE_PACKAGE_ARCH = "sh3"
-+TUNE_PKGARCH = "sh3"
+@@ -1,4 +1,4 @@
+ TUNE_ARCH = "sh3"
+ 
+-TARGET_CC_ARCH = "-ml -m3"
++TUNE_CCARGS = "-ml -m3"
+ TUNE_PKGARCH = "sh3"
 diff --git a/meta/conf/machine/include/tune-sh4.inc b/meta/conf/machine/include/tune-sh4.inc
-index 51b4069..3d89d49 100644
+index 3d89d49..473122c 100644
 --- a/meta/conf/machine/include/tune-sh4.inc
 +++ b/meta/conf/machine/include/tune-sh4.inc
-@@ -1,7 +1,8 @@
-+TUNE_ARCH = "sh4"
-+
- # NOTE: If you want to optimize to sh4a, conf/machine/include/tune-sh4a.inc.
+@@ -4,5 +4,5 @@ TUNE_ARCH = "sh4"
  # But it is not compatible for sh4.
  # The binary optimized by m4a doesn't operate on sh4. It works on sh4a only.
  
- TARGET_CC_ARCH = "-ml -m4"
--FEED_ARCH = "sh4"
--BASE_PACKAGE_ARCH = "sh4"
-+TUNE_PKGARCH = "sh4"
+-TARGET_CC_ARCH = "-ml -m4"
++TUNE_CCARGS = "-ml -m4"
+ TUNE_PKGARCH = "sh4"
 diff --git a/meta/conf/machine/include/tune-strongarm1100.inc b/meta/conf/machine/include/tune-strongarm1100.inc
-index f136710..2d4ce38 100644
+index 2d4ce38..ec29053 100644
 --- a/meta/conf/machine/include/tune-strongarm1100.inc
 +++ b/meta/conf/machine/include/tune-strongarm1100.inc
-@@ -1,3 +1,7 @@
-+TUNE_ARCH = "arm"
-+
-+TUNE_PKGARCH = "arm"
-+
+@@ -5,5 +5,5 @@ TUNE_PKGARCH = "arm"
  # This machine lists common configuration options for Strongarm 1100 devices
  # NOTE: The Zaurus Collie also has a Strongarm processor, but uses the 1110 type
  
+-TARGET_CC_ARCH = "-march=armv4 -mtune=strongarm1100"
++TUNE_CCARGS = "-march=armv4 -mtune=strongarm1100"
+ 
 diff --git a/meta/conf/machine/include/tune-supersparc.inc b/meta/conf/machine/include/tune-supersparc.inc
-index a402e7c..7eaa736 100644
+index 7eaa736..0faa361 100644
 --- a/meta/conf/machine/include/tune-supersparc.inc
 +++ b/meta/conf/machine/include/tune-supersparc.inc
-@@ -1,3 +1,4 @@
-+TUNE_ARCH = "sparc"
-+
- TARGET_CC_ARCH = "-mcpu=supersparc"
--BASE_PACKAGE_ARCH = "supersparc"
--FEED_ARCH = "supersparc" 
-+TUNE_PKGARCH = "supersparc"
+@@ -1,4 +1,4 @@
+ TUNE_ARCH = "sparc"
+ 
+-TARGET_CC_ARCH = "-mcpu=supersparc"
++TUNE_CCARGS = "-mcpu=supersparc"
+ TUNE_PKGARCH = "supersparc"
+diff --git a/meta/conf/machine/include/tune-thumb.inc b/meta/conf/machine/include/tune-thumb.inc
+index a25cb53..9f6ce95 100644
+--- a/meta/conf/machine/include/tune-thumb.inc
++++ b/meta/conf/machine/include/tune-thumb.inc
+@@ -27,6 +27,6 @@ ARM_INTERWORK_M_OPT = "${@['-mno-thumb-interwork', '-mthumb-interwork'][bb.data.
+ ARM_THUMB_M_OPT = "${@['-mno-thumb', '-mthumb'][bb.data.getVar('ARM_INSTRUCTION_SET', d, 1) == 'thumb']}"
+ 
+ #
+-TARGET_CC_ARCH +=  "${ARM_INTERWORK_M_OPT} ${ARM_THUMB_M_OPT}"
++TUNE_CCARGS +=  "${ARM_INTERWORK_M_OPT} ${ARM_THUMB_M_OPT}"
+ TARGET_CC_KERNEL_ARCH  += "-mno-thumb-interwork -mno-thumb"
+ 
 diff --git a/meta/conf/machine/include/tune-x86_64.inc b/meta/conf/machine/include/tune-x86_64.inc
-new file mode 100644
-index 0000000..d7665ec
---- /dev/null
+index d7665ec..08ff30a 100644
+--- a/meta/conf/machine/include/tune-x86_64.inc
 +++ b/meta/conf/machine/include/tune-x86_64.inc
-@@ -0,0 +1,5 @@
-+TUNE_ARCH = "x86_64"
-+
-+TUNE_PKGARCH = "x86_64"
-+TARGET_CC_ARCH = "-m64"
-+
+@@ -1,5 +1,5 @@
+ TUNE_ARCH = "x86_64"
+ 
+ TUNE_PKGARCH = "x86_64"
+-TARGET_CC_ARCH = "-m64"
++TUNE_CCARGS = "-m64"
+ 
 diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
-index cfdcc99..69c60f5 100644
+index 69c60f5..9618a8b 100644
 --- a/meta/conf/machine/include/tune-xscale.inc
 +++ b/meta/conf/machine/include/tune-xscale.inc
-@@ -1,10 +1,10 @@
--FEED_ARCH = "armv5te"
-+TUNE_ARCH = "arm"
+@@ -2,12 +2,12 @@ TUNE_ARCH = "arm"
  
  INHERIT += "siteinfo"
  
- TARGET_CC_ARCH = "-march=armv5te -mtune=xscale"
+-TARGET_CC_ARCH = "-march=armv5te -mtune=xscale"
++TUNE_CCARGS = "-march=armv5te -mtune=xscale"
  TARGET_CC_KERNEL_ARCH = "-march=armv5te -mtune=xscale"
--BASE_PACKAGE_ARCH = "${@['armv5teb', 'armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) == 'le']}"
-+TUNE_PKGARCH = "${@['armv5teb', 'armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) == 'le']}"
+ TUNE_PKGARCH = "${@['armv5teb', 'armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) == 'le']}"
  PACKAGE_EXTRA_ARCHS = "${@['armeb armv4b armv4tb armv5teb', 'arm armv4 armv4t armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) == 'le']}"
  
  # webkit-gtk has alignment issues with double instructions on armv5 so
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index 9fb1893..526d713 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -2,8 +2,6 @@
- #@NAME: arm_versaile_926ejs
- #@DESCRIPTION: arm_versaile_926ejs
- 
--TARGET_ARCH = "arm"
--
- require conf/machine/include/qemu.inc
- require conf/machine/include/tune-arm926ejs.inc
- #require conf/machine/include/tune-arm1136jf-s.inc
-diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
-index 283ae1e..ce1c419 100644
---- a/meta/conf/machine/qemumips.conf
-+++ b/meta/conf/machine/qemumips.conf
-@@ -2,8 +2,6 @@
- #@NAME: mti_malta32_be MIPS
- #@DESCRIPTION: mti_malta32_be
- 
--TARGET_ARCH = "mips"
--
- require conf/machine/include/qemu.inc
- require conf/machine/include/tune-mips32.inc
- 
-diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
-index bfbcc7f..dacc802 100644
---- a/meta/conf/machine/qemuppc.conf
-+++ b/meta/conf/machine/qemuppc.conf
-@@ -2,8 +2,6 @@
- #@NAME: qemu PPC Emulator setup
- #@DESCRIPTION: Machine configuration for running an PPC system under qemu emulation
- 
--TARGET_ARCH = "powerpc"
--
- PREFERRED_PROVIDER_virtual/libgl  = "mesa-xlib"
- 
- require conf/machine/include/qemu.inc
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index ca91388..46d7d12 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -10,6 +10,7 @@ PREFERRED_PROVIDER_virtual/libx11 ?= "libx11-trim"
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xf86-dri-lite"
- PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xf86-dri-lite"
- 
-+require conf/machine/include/tune-x86_64.inc
- require conf/machine/include/qemu.inc
- 
- MACHINE_FEATURES += "x86"
-@@ -31,5 +32,3 @@ GLIBC_ADDONS = "nptl"
- GLIBC_EXTRA_OECONF = "--with-tls"
- 
- MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
--
--TARGET_CC_ARCH = "-m64"
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index 8b14731..5d0d03e 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -2,13 +2,12 @@
- #@NAME: common_pc
- #@DESCRIPTION: Machine configuration for running a common x86
- 
--TARGET_ARCH = "i586"
--
- PREFERRED_PROVIDER_virtual/libgl  = "mesa-dri"
- PREFERRED_PROVIDER_virtual/libx11 ?= "libx11-trim"
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xf86-dri-lite"
- PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xf86-dri-lite"
- 
-+require conf/machine/include/tune-i586.inc
- require conf/machine/include/qemu.inc
- 
- MACHINE_FEATURES += "x86"
-@@ -31,4 +30,3 @@ GLIBC_EXTRA_OECONF = "--with-tls"
- 
- MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
- 
--TARGET_CC_ARCH = "-march=i586"
+ # disable them here
+-TARGET_CC_ARCH_pn-webkit-gtk = "-march=armv4t"
+-TARGET_CC_ARCH_pn-cairo = "-march=armv4t"
++TUNE_CCARGS_pn-webkit-gtk = "-march=armv4t"
++TUNE_CCARGS_pn-cairo = "-march=armv4t"
 -- 
 1.7.4.1
 
