@@ -1,28 +1,24 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX1+opSB6etTBFQ7uJbZGfVhtbzSB59HfLoc=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QkHBY-0005Pq-8Y
+	(envelope-from <galak@kernel.crashing.org>) id 1QkHCh-0005Rl-IM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 16:58:40 +0200
-Received: by wyg30 with SMTP id 30so1732974wyg.6
+	Fri, 22 Jul 2011 16:59:52 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6MEtd8d014621
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2011 07:54:31 -0700 (PDT)
-Received: by 10.216.229.210 with SMTP id h60mr1984975weq.29.1311346471575;
-	Fri, 22 Jul 2011 07:54:31 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id j54sm1591050wed.47.2011.07.22.07.54.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 22 Jul 2011 07:54:30 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <3a3c69a1bc3cf0b6f6a3b13d86c12ed21798d48e.1311345613.git.richard.purdie@linuxfoundation.org>
-Date: Fri, 22 Jul 2011 16:54:24 +0200
-Message-Id: <29D487E1-5E59-4A53-B518-3692FF11C70C@dominion.thruhere.net>
-References: <aeea22da699b276a97ca1a17e3c53176c9afd9de.1311345613.git.richard.purdie@linuxfoundation.org>
-	<3a3c69a1bc3cf0b6f6a3b13d86c12ed21798d48e.1311345613.git.richard.purdie@linuxfoundation.org>
+	Fri, 22 Jul 2011 09:55:40 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <4E2986DA.7020906@mentor.com>
+Date: Fri, 22 Jul 2011 09:55:39 -0500
+Message-Id: <2029D825-E53E-44B6-8B86-368F4451F1AD@kernel.crashing.org>
+References: <1311326696-11745-1-git-send-email-galak@kernel.crashing.org>
+	<4E2986DA.7020906@mentor.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH 3/3] conf/machine/include: Set TUNE_CCARGS instead of TARGET_CC_ARCH
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 0/5] Add support for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,27 +33,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 14:58:40 -0000
+X-List-Received-Date: Fri, 22 Jul 2011 14:59:52 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
 
-Op 22 jul. 2011, om 16:49 heeft Richard Purdie het volgende geschreven:
+On Jul 22, 2011, at 9:19 AM, Tom Rini wrote:
 
-> Since we're updating the tune file format, it makes sense to abstract
-> the compiler tune arguments at this point too. This means that should
-> these need to be overridden at any point, the original values can
-> still be obtained in a similar manner to the other TUNE* variables.
->=20
-> Whilst this isn't strictly necessary for any current need, its likely
-> good practise to standardise this behaviour.
+> On 07/22/2011 02:24 AM, Kumar Gala wrote:
+>> Add various cleanups to core scripts and packages that are needed for
+>> building for a 64-bit powerpc target.
+> 
+> Everything looks fine here, added my Ack's for bits I recall doing too :)
 
-So if I'm reading the patch correctly this doesn't result in a behaviour =
-change, it just shuffles the definitions around in preparation for =
-Mark's tune overhaul.
+Yeah, probably duplicated a bit of work there ;)
 
-regards,
-
-Koen=
+- k
 
 
