@@ -1,25 +1,34 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX19BdezyPA02xpxaS9ixdFy5lQP+D6cJMLc=])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qk1pk-0002si-Ig
+	(envelope-from <Tom_Rini@mentor.com>) id 1Qk3Le-0004wr-3D
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 00:35:09 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6LMV0QU028805
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jul 2011 17:31:01 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <4E286EE4.3020502@mentor.com>
-Date: Thu, 21 Jul 2011 17:30:59 -0500
-Message-Id: <EF91174D-BB2C-43BF-9AAC-5E47779E9766@kernel.crashing.org>
-References: <BBB3C9E0-A02C-4375-8075-5DD2C6588AB4@kernel.crashing.org>	<CAMKF1srHzFH9PpmKcSMFhSRUstGnt6Pf-z6pirXQFWTpci0vWg@mail.gmail.com>	<4E285C54.5000308@mentor.com>
-	<CAMKF1spLfWX4ANoyAjzypTHpwBUJjOhRKT4Asg22=qw1qPcHQA@mail.gmail.com>
-	<4E286EE4.3020502@mentor.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: siteinfo split between powerpc-common & powerpc-linux
+	Fri, 22 Jul 2011 02:12:10 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Qk3He-0004mn-Dj from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 21 Jul 2011 17:08:02 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 21 Jul 2011 17:07:59 -0700
+Received: from [172.30.80.89] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
+	Thu, 21 Jul 2011 17:07:58 -0700
+Message-ID: <4E28BF59.20907@mentor.com>
+Date: Thu, 21 Jul 2011 17:07:53 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1311287411-31634-1-git-send-email-galak@kernel.crashing.org>	<1311287411-31634-2-git-send-email-galak@kernel.crashing.org>	<1311287411-31634-3-git-send-email-galak@kernel.crashing.org>
+	<1311287411-31634-4-git-send-email-galak@kernel.crashing.org>
+In-Reply-To: <1311287411-31634-4-git-send-email-galak@kernel.crashing.org>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 22 Jul 2011 00:07:59.0114 (UTC)
+	FILETIME=[6A393EA0:01CC4803]
+Subject: Re: [RFC][PATCH 4/4] site/powerpc*-linux: refactor needed options that are common
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,64 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jul 2011 22:35:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 22 Jul 2011 00:12:10 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
+On 07/21/2011 03:30 PM, Kumar Gala wrote:
+> Pulled common options that are needed for powerpc64-linux to build
+> out of powerpc32-linux and put them into powerpc-linux.
+> 
+> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 
-On Jul 21, 2011, at 1:24 PM, Tom Rini wrote:
+NAK.  Almost all of the stuff going into powerpc-linux really belongs in
+common-linux or common-glibc.  Some other tasks held me up here but I
+plan to post the series moving these bits over and dropping them from
+the arch files tomorrow.  Rest of the series looks good tho
 
-> On 07/21/2011 11:20 AM, Khem Raj wrote:
->> On Thu, Jul 21, 2011 at 10:05 AM, Tom Rini <tom_rini@mentor.com> =
-wrote:
->>> On 07/21/2011 09:48 AM, Khem Raj wrote:
->>>> On Thu, Jul 21, 2011 at 5:17 AM, Kumar Gala =
-<galak@kernel.crashing.org> wrote:
->>>>> Why do we have a split between powerpc-common & powerpc-linux?
->>>>>=20
->>>>> I assume powerpc-linux is used and picked up for =
-powerpc-linux-uclibc in addition to normal powerpc-linux.
->>>>>=20
->>>>> I'm looking at adding powerpc64 support and powerpc-common is all =
-kinda of broken for it.  I'd like to just merge powerpc-common & =
-powerpc-linux (as powerpc-linux 32-bit) for now and start a new =
-powerpc-common that refactors 32/64 commonalities.
->>>>>=20
->>>>> Unless someone says otherwise about the meaning of these files.
->>>>=20
->>>> powerpc-common is shared between uclibc and eglibc at present and =
-may
->>>> be shared with other OSes that may build with OE in future.
->>>> traditionally powerpc-common implicitly implied 32bit so I am not
->>>> surprised if its broken for ppc64. You could add powerpc64-common
->>>> and leave 32bit alone. See how its done for mips64 in oe.dev
->>>>=20
->>>> http://git.openembedded.org/cgit.cgi/openembedded/tree/site
->>>=20
->>> I'd argue that what we do for mips today is also wrong and I'm going =
-to
->>> try and fix it as soon as I can.  In these cases we should have:
->>> common, common-linux, common-$libc, mips-common, mips-linux,
->>> mips64-linux and if needed mips64-linux-libc.
->>=20
->> yes that structure would be desirable. It would need a bit of =
-overhaul
->> and lot of testing.
->> since you have something setup for your import from oe stuff for =
-same.
->> may be you can take a stab at it
->=20
-> Yeah, it's on my list now that the first step is really in :)  I hope =
-to
-> get the obvious bits rebased and tested and posted today at least, and
-> then get to finishing the obvious bits and start trying the less =
-obvious
-> ones.  Glad you fixed uclibc, btw, that had me scratching my head on a
-> few things we do today :)
-
-Started an initial attempt at this for PPC and posted some RFC patches.  =
-Take a look and we can go from there.
-
-- k=
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
