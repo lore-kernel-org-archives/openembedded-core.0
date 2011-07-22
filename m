@@ -1,20 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QkPc1-0005gA-PJ
+	(envelope-from <sgw@linux.intel.com>) id 1QkPc2-0005gA-PN
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Jul 2011 01:58:34 +0200
+	Sat, 23 Jul 2011 01:58:35 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 22 Jul 2011 16:54:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,250,1309762800"; d="scan'208";a="30520846"
+X-IronPort-AV: E=Sophos;i="4.67,250,1309762800"; d="scan'208";a="30520848"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.61])
 	by azsmga001.ch.intel.com with ESMTP; 22 Jul 2011 16:54:23 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jul 2011 16:54:18 -0700
-Message-Id: <cover.1311378711.git.sgw@linux.intel.com>
+Date: Fri, 22 Jul 2011 16:54:19 -0700
+Message-Id: <5d2ad40722bd5bca32c9c1da396e5dfc252120c7.1311378711.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH 0/3] Fix for share state native binary issue
+In-Reply-To: <cover.1311378711.git.sgw@linux.intel.com>
+References: <cover.1311378711.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1311378711.git.sgw@linux.intel.com>
+References: <cover.1311378711.git.sgw@linux.intel.com>
+Subject: [PATCH 1/3] openjade-native: Add SYSROOT_PREPROCESS_FUNC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,35 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 23:58:34 -0000
+X-List-Received-Date: Fri, 22 Jul 2011 23:58:35 -0000
 
-Richard,
+[YOCTO #1250]
 
-This fixes the install-catalog issue with shared state native
-dependencies.  This is the point fix, it does not address the
-underlying issue which will take more work and time.
+This added function will install a private install-catalog binary so that shared state
+can find the binary as there is not a guarantee.
 
-Sau!
-
-
-The following changes since commit b4c23fce3eadaff8fc621d38759d493cd03cc131:
-
-  consolekit 0.4.5: fix PAM installation dir (2011-07-22 11:56:42 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/fix
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
-
-Saul Wold (3):
-  openjade-native: Add SYSROOT_PREPROCESS_FUNC
-  docbook-sgml-dtd-native: Add SYSROOT_PREPROCESS_FUNC
-  docbook-dsssl-stylesheets-native: Add SYSROOT_PREPROCESS_FUNC
-
- .../docbook-dsssl-stylesheets-native_1.79.bb       |   12 ++++++++++--
- .../docbook-sgml-dtd/docbook-sgml-dtd-native.inc   |   11 +++++++++--
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
  .../openjade/openjade-native_1.3.2.bb              |   12 ++++++++++--
- 3 files changed, 29 insertions(+), 6 deletions(-)
+ 1 files changed, 10 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+index 1c672e1..3922968 100644
+--- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
++++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+@@ -7,7 +7,7 @@ SECTION = "base"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ DEPENDS = "opensp-native sgml-common-native"
+ RDEPENDS_${PN} = "sgml-common"
+@@ -31,6 +31,8 @@ CONFIGUREOPTS := "${@d.getVar('CONFIGUREOPTS', True).replace('--datadir=${datadi
+ CFLAGS =+ "-I${S}/include"
+ 
+ SSTATEPOSTINSTFUNCS += "openjade_sstate_postinst"
++SYSROOT_PREPROCESS_FUNCS += "openjade_sysroot_preprocess"
++
+ 
+ # We need to do this else the source interdependencies aren't generated and
+ # build failures can result (e.g. zero size style/Makefile.dep file)
+@@ -66,8 +68,14 @@ openjade_sstate_postinst() {
+ 	then
+ 		# Ensure that the catalog file sgml-docbook.cat is properly
+ 		# updated when the package is installed from sstate cache.
+-		install-catalog \
++		${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-openjade \
+ 			--add ${sysconfdir}/sgml/sgml-docbook.cat \
+ 			${sysconfdir}/sgml/openjade-${PV}.cat
+ 	fi
+ }
++
++docbook_sgml_dtd_sysroot_preprocess () {
++    install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}/
++    install -m 755 ${STAGING_BINDIR_NATIVE}/install-catalog ${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-openjade
++}
++
 -- 
 1.7.3.4
 
