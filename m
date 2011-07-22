@@ -1,24 +1,24 @@
 Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QkCjT-0002TT-4s
+	(envelope-from <koen@dominion.thruhere.net>) id 1QkCon-0002aL-GX
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jul 2011 12:13:23 +0200
-Received: by wwi18 with SMTP id 18so1694103wwi.24
+	Fri, 22 Jul 2011 12:18:54 +0200
+Received: by wwi18 with SMTP id 18so1698342wwi.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jul 2011 03:09:13 -0700 (PDT)
-Received: by 10.216.235.83 with SMTP id t61mr1039079weq.112.1311329353657;
-	Fri, 22 Jul 2011 03:09:13 -0700 (PDT)
+	Fri, 22 Jul 2011 03:14:45 -0700 (PDT)
+Received: by 10.227.205.78 with SMTP id fp14mr1102674wbb.65.1311329684990;
+	Fri, 22 Jul 2011 03:14:44 -0700 (PDT)
 Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id j54sm1422276wed.47.2011.07.22.03.09.12
+	by mx.google.com with ESMTPS id p14sm1782581wbh.13.2011.07.22.03.14.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 22 Jul 2011 03:09:12 -0700 (PDT)
+	Fri, 22 Jul 2011 03:14:44 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jul 2011 12:09:08 +0200
-Message-Id: <1311329348-25568-1-git-send-email-koen@dominion.thruhere.net>
+Date: Fri, 22 Jul 2011 12:14:39 +0200
+Message-Id: <1311329679-2872-1-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.6.6.1
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] gnome-keyring 2.32.1: fix PAM support and make it conditional on DISTRO_FEATURES
+Subject: [PATCH] consolekit 0.4.5: fix PAM installation dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,49 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jul 2011 10:13:23 -0000
-
-The plugin got installed into the wrong dir leading to:
-
-gdm-session-worker[515]: PAM unable to dlopen(/lib/security/pam_gnome_keyring.so): /lib/security/pam_gnome_keyring.so: cannot open shared object file: No such file or directory
+X-List-Received-Date: Fri, 22 Jul 2011 10:18:55 -0000
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+ .../recipes-support/consolekit/consolekit_0.4.5.bb |    7 ++++---
+ 1 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-index 3f38401..cc97225 100644
---- a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-+++ b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-@@ -11,14 +11,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+index 661cca6..562dfb3 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
+ HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
+ BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
  
- SECTION = "x11/gnome"
+-PR = "r4"
++PR = "r5"
  
--PR = "r2"
-+PR = "r3"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+@@ -20,12 +20,13 @@ SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b22368
+ S = "${WORKDIR}/ConsoleKit-${PV}"
  
- inherit autotools gnome pkgconfig
+ EXTRA_OECONF = "--with-systemdsystemunitdir=${base_libdir}/systemd/system/ \
+-                ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${libdir}/security', '--disable-pam-module', d)} \
++                ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module --with-pam-module-dir=${base_libdir}/security', '--disable-pam-module', d)} \
+                "
  
--DEPENDS = "gtk+ libgcrypt libtasn1 libtasn1-native gconf"
-+DEPENDS = "gtk+ libgcrypt libtasn1 libtasn1-native gconf ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} = "libgnome-keyring"
+ FILES_${PN} += "${libdir}/ConsoleKit ${base_libdir} ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
++FILES_${PN}-dbg += "${base_libdir}/security/.debug"
  
--EXTRA_OECONF = "--disable-gtk-doc"
-+EXTRA_OECONF = "--disable-gtk-doc ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam --with-pam-dir=${base_libdir}/security', '--disable-pam', d)}"
+ PACKAGES =+ "pam-plugin-ck-connector"
+-FILES_pam-plugin-ck-connector += "${libdir}/security/*.so"
++FILES_pam-plugin-ck-connector += "${base_libdir}/security/*.so"
+ RDEPENDS_pam-plugin-ck-connector += "${PN}"
  
- SRC_URI += "file://org.gnome.keyring.service"
- 
-@@ -30,6 +30,6 @@ do_install_append () {
- 	install -m 0644 ${WORKDIR}/org.gnome.keyring.service ${D}${datadir}/dbus-1/services
- }
- 
--FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr ${libdir}/security/*.so"
--FILES_${PN}-dbg += "${libdir}/gnome-keyring/standalone/.debug/"
--FILES_${PN}-dbg += "${libdir}/gnome-keyring/devel/.debug/"
-+FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr ${base_libdir}/security/*.so"
-+FILES_${PN}-dbg += "${libdir}/gnome-keyring/standalone/.debug/ ${base_libdir}/security/*.la"
-+FILES_${PN}-dbg += "${libdir}/gnome-keyring/devel/.debug/ ${base_libdir}/security/.debug"
 -- 
 1.6.6.1
 
