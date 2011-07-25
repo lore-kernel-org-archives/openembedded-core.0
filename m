@@ -1,28 +1,23 @@
-Received: from mailout-de.gmx.net ([213.165.64.22])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <schnitzeltony@gmx.de>) id 1QlT1f-0004s3-3r
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1QlUa5-0006kB-TH
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 23:49:23 +0200
-Received: (qmail invoked by alias); 25 Jul 2011 21:45:10 -0000
-Received: from p5B0A39BD.dip.t-dialin.net (EHLO localhost.localdomain)
-	[91.10.57.189]
-	by mail.gmx.net (mp052) with SMTP; 25 Jul 2011 23:45:10 +0200
-X-Authenticated: #62780362
-X-Provags-ID: V01U2FsdGVkX18hSO1tfTEh6Fe4l/nzKxOhL0GWqbt2V2f0zBvZFb
-	nONWMBE7ZaMO/2
-From: Andreas Mueller <schnitzeltony@gmx.de>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Jul 2011 23:47:32 +0200
-User-Agent: KMail/1.13.7 (Linux/2.6.35.13-92.fc14.x86_64; KDE/4.6.5; x86_64; ;
-	)
-References: <201107242234.51777.schnitzeltony@gmx.de>
-	<EBE64358-255D-41CD-BA27-A9A733515E3D@dominion.thruhere.net>
-In-Reply-To: <EBE64358-255D-41CD-BA27-A9A733515E3D@dominion.thruhere.net>
+	Tue, 26 Jul 2011 01:29:02 +0200
+Received: from mail-gw0-f52.google.com ([74.125.83.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 25 Jul 2011 16:24:47 -0700
+Received: by gwj15 with SMTP id 15so4069077gwj.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jul 2011 16:24:47 -0700 (PDT)
 MIME-Version: 1.0
-Message-Id: <201107252347.32868.schnitzeltony@gmx.de>
-X-Y-GMX-Trusted: 0
-Subject: Re: [meta-ti]Pandaboard issues
+Received: by 10.236.185.169 with SMTP id u29mr6682316yhm.108.1311636287150;
+	Mon, 25 Jul 2011 16:24:47 -0700 (PDT)
+Received: by 10.236.108.9 with HTTP; Mon, 25 Jul 2011 16:24:47 -0700 (PDT)
+Date: Mon, 25 Jul 2011 16:24:47 -0700
+Message-ID: <CAPhnLPC30D=CRQ5WQO9X_7Ub8bw1=ymLS_JMye10eVoD_b17aw@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/1] Additional license wrangling functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,27 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 21:49:23 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Jul 2011 23:29:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Monday, July 25, 2011 08:14:55 AM Koen Kooi wrote:
-> Op 24 jul. 2011, om 22:34 heeft Andreas Mueller het volgende geschreven:
-> > Hi,
-> > 
-> > while working on xfce48 recipes for meta-oe I wanted to do some run
-> > tests. My only hardware currently supported in oe-core environment is
-> > pandaboard. Herewith I face the following issues:
-> > 
-> > - Starting X stops / log attached
-> > - Inputting at serial console causes bit errors (115200 8N1). Data coming
-> > from board seems OK.
-> > - No network (eth0 eth1 tested) available.
-> 
-> Tried usb0 or usb1?
-usb1 works fine - thanks :-)
+Resubmitting this without manifest functionality. It's a longer discussion that
+should be had. This has some basic functionality additions, bug fixes
+and corrects
+non-standard indentation.
 
-Andreas
+The following changes since commit 819f18f8bc000f13b644edc194d2a12b4ea5fecf:
+
+  Move architecture specific TARGET_OS mangling into tune files
+(2011-07-25 14:36:30 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib eflanagan/lic_sans_manifest
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=eflanagan/license_sans_manifest
+
+Beth Flanagan (1):
+  license.bbclass: Splitting out licenses
+
+ meta/classes/license.bbclass |  140 ++++++++++++++++++++++++------------------
+ 1 files changed, 81 insertions(+), 59 deletions(-)
 
 
