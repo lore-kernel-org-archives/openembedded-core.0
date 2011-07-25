@@ -1,30 +1,28 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1QlMeE-00044d-N0
+	(envelope-from <koen@dominion.thruhere.net>) id 1QlMqD-0004TD-34
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 17:00:46 +0200
-Received: by yib18 with SMTP id 18so2285575yib.6
+	Mon, 25 Jul 2011 17:13:09 +0200
+Received: by wyg30 with SMTP id 30so3139734wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 07:56:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=na0o7aMZ82UOUBKZl5oaoE3m6PFaPFLib9o8Y5T5ZgY=;
-	b=X00tCdbOUSiK6dvRst/JsyZF3yNZt0QLEm9Y+4k67e/tygoBSWI0MRoP25vnDungRP
-	0Dk0Eba9P649vr77xWpjgLS2pRO9Zw6SA1ctduGCJ6fNl3x7TlxooeqKOT/NbNjvMfRA
-	+QZ3I07/Ca0GtE7cquJca8k1Bo3OS2UD8bGQ8=
-MIME-Version: 1.0
-Received: by 10.91.17.22 with SMTP id u22mr4610414agi.133.1311605793570; Mon,
-	25 Jul 2011 07:56:33 -0700 (PDT)
-Received: by 10.91.12.2 with HTTP; Mon, 25 Jul 2011 07:56:33 -0700 (PDT)
+	Mon, 25 Jul 2011 08:08:56 -0700 (PDT)
+Received: by 10.227.142.78 with SMTP id p14mr4064386wbu.58.1311606235945;
+	Mon, 25 Jul 2011 08:03:55 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fe4sm4398308wbb.11.2011.07.25.08.03.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 25 Jul 2011 08:03:55 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <35b13046d50006f3eec3f0cbfd37c8463c1fb485.1311605321.git.bruce.ashfield@windriver.com>
+Date: Mon, 25 Jul 2011 17:03:49 +0200
+Message-Id: <AA347147-88BC-4B0F-AD8D-BE0AA9C41AD4@dominion.thruhere.net>
 References: <cover.1311605321.git.bruce.ashfield@windriver.com>
 	<35b13046d50006f3eec3f0cbfd37c8463c1fb485.1311605321.git.bruce.ashfield@windriver.com>
-Date: Mon, 25 Jul 2011 10:56:33 -0400
-Message-ID: <CADkTA4O9CVTN+ZDFDtajPM2=E-EdYPCvagphm9iGToC1vvRoCA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Cc: saul.wold@intel.com
 Subject: Re: [PATCH 1/1] machine/qemu: set preferred linux-yocto kernel version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -40,53 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 15:00:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 25 Jul 2011 15:13:09 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 25, 2011 at 10:51 AM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
+
+Op 25 jul. 2011, om 16:51 heeft Bruce Ashfield het volgende geschreven:
+
 > The introduction of the linux-yocto-3.0 kernel is taking
 > precedence over the known working 2.6.37 version. Forcing
 > 2.6.37 until 3.0 is validated on the qemu machines.
->
+>=20
 > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 > ---
-> =A0meta/conf/machine/include/qemu.inc | =A0 =A01 +
-> =A01 files changed, 1 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/inclu=
-de/qemu.inc
+> meta/conf/machine/include/qemu.inc |    1 +
+> 1 files changed, 1 insertions(+), 0 deletions(-)
+>=20
+> diff --git a/meta/conf/machine/include/qemu.inc =
+b/meta/conf/machine/include/qemu.inc
 > index 9ef242f..c2d116f 100644
 > --- a/meta/conf/machine/include/qemu.inc
 > +++ b/meta/conf/machine/include/qemu.inc
 > @@ -12,6 +12,7 @@ RDEPENDS_kernel-base =3D ""
->
-> =A0# Use a common kernel recipe for all QEMU machines
-> =A0PREFERRED_PROVIDER_virtual/kernel ?=3D "linux-yocto"
+>=20
+> # Use a common kernel recipe for all QEMU machines
+> PREFERRED_PROVIDER_virtual/kernel ?=3D "linux-yocto"
 > +PREFERRED_VERSION_linux-yocto =3D "2.6.37+git%"
 
-gak. This should be ?=3D, I'll update the patch and re-push.
-
-Bruce
-
-> =A0#PREFERRED_PROVIDER_linux-libc-headers ?=3D "linux-libc-headers-yocto"
->
-> =A0EXTRA_IMAGEDEPENDS +=3D "qemu-native qemu-helper-native"
-> --
-> 1.7.4.1
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Please not that this won't do anything on incremental builds or when =
+using package feeds since the cat is already out of the bag for the =
+3.0rc7 version.=
 
 
