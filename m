@@ -1,25 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QlNLM-0005ec-H3
+	(envelope-from <philb@gnu.org>) id 1QlNbG-0006NF-Qv
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 17:45:20 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 25 Jul 2011 08:41:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,262,1309762800"; d="scan'208";a="31185607"
-Received: from unknown (HELO [10.255.14.61]) ([10.255.14.61])
-	by azsmga001.ch.intel.com with ESMTP; 25 Jul 2011 08:41:07 -0700
-Message-ID: <4E2D8E93.6030302@linux.intel.com>
-Date: Mon, 25 Jul 2011 08:41:07 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
+	Mon, 25 Jul 2011 18:01:46 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QlNX9-0000uD-Pq
+	for openembedded-core@lists.openembedded.org;
+	Mon, 25 Jul 2011 17:57:31 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1311558123.git.lei.mei@intel.com>
-In-Reply-To: <cover.1311558123.git.lei.mei@intel.com>
-Subject: Re: [PATCH 0/1]perl-dynloader.patch: Fix libdir issue for multilib
+Date: Mon, 25 Jul 2011 16:57:30 +0100
+In-Reply-To: <c0c3e475a5fe98d61d0b92dca026486b955c2812.1311354521.git.tom_rini@mentor.com>
+References: <cover.1311354521.git.tom_rini@mentor.com>
+	<c0c3e475a5fe98d61d0b92dca026486b955c2812.1311354521.git.tom_rini@mentor.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311609451.30326.244.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH v2 5/8] siteinfo: Move the rp-pppoe entry to common-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 15:45:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 25 Jul 2011 16:01:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/24/2011 07:13 PM, Mei Lei wrote:
-> Hi Richard,
-> 	This patch fixes the libdir issue, relax the regular expression to match lib32, lib64 and libx32, etc. Please review it.
->
-> Thanks
-> Lei
->
-> The following changes since commit eea4bd731ef286516ee1fb934fe2222a09c06e70:
->    Kumar Gala (1):
->          mpc8315e-rdb: Set TARGET_FPU correct
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib lmei3/ml-perl
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/ml-perl
->
-> Mei Lei (1):
->    perl-dynloader.patch: Fix multilib issue for perl
->
->   .../perl/perl-5.12.3/perl-dynloader.patch          |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+On Fri, 2011-07-22 at 10:10 -0700, Tom Rini wrote:
+> --- a/meta/site/common-linux
+> +++ b/meta/site/common-linux
+> @@ -23,3 +23,6 @@ bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
+>  # mysql
+>  ac_cv_sys_restartable_syscalls=${ac_cv_sys_restartable_syscalls=yes}
+>  ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
+> +
+> +# rp-pppoe
+> +rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
 
-Merged into OE-Core
+Is that really correct?  Bitfield packing isn't an OS issue, it's
+primarily a question of compiler choice.  For GCC I think it correlates
+with endianness; looking at what that test is doing, I'd expect you to
+get "reversed" on little-endian and "normal" on big-endian.
 
-Thanks
-	Sau!
+p.
+
+
 
 
