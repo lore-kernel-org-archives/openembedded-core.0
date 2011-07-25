@@ -1,34 +1,20 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1QlMR3-00037e-LR
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QlMSt-0003BC-Gx
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 16:47:09 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with SMTP id p6PEgu0v010843
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 16:42:56 +0200
-Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
-	Mon, 25 Jul 2011 16:42:56 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Mon, 25 Jul 2011 16:49:03 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Jul 2011 07:44:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,261,1309762800"; d="scan'208";a="32018312"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.17.240])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2011 07:44:49 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <bd2e16888f6520e2d02d3ff6c43b360d217572e4.1311601422.git.richard.purdie@linuxfoundation.org>
-	<b7b6ab25887f5d5fcc541f44287942e1ccd150af.1311601422.git.richard.purdie@linuxfoundation.org>
-Date: Mon, 25 Jul 2011 16:42:56 +0200
-In-Reply-To: <b7b6ab25887f5d5fcc541f44287942e1ccd150af.1311601422.git.richard.purdie@linuxfoundation.org>
-	(Richard Purdie's message of "Mon, 25 Jul 2011 14:47:19 +0100")
-Message-ID: <lyzkk2ifpr.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.2 (gnu/linux)
-MIME-Version: 1.0
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.9
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.71 on 62.153.82.30
-Subject: Re: [PATCH 4/5] ncurses: Uncompress man pages
+Date: Mon, 25 Jul 2011 15:44:46 +0100
+Message-Id: <cover.1311605016.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/2] Couple of fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,23 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 14:47:09 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 25 Jul 2011 14:49:03 -0000
 
-Richard Purdie
-<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-writes:
+The following changes since commit f10a3457cdfbb4a94978da998d178d4254632fa7:
 
-> If the man pages are compressed, then they cause file conflicts between
-> the 32-bit and 64-bit versions of the package.
+  Move architecture specific TARGET_OS mangling into tune files (2011-07-25 14:19:54 +0100)
 
-Patching the buildsystem to use 'gzip --no-name' might be a better
-solution than uncompressing the man pages.
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/fixes2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/fixes2
 
-Alternatively, fixing/changing man page compression should be done in a
-central class instead per recipe.
+Paul Eggleton (2):
+  eglibc: remove unnecessary FILESPATHPKG usage
+  scripts/combo-layer: keep carriage returns at the end of lines
 
+ meta/recipes-core/eglibc/eglibc_2.13.bb |    3 +--
+ scripts/combo-layer                     |    2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-Enrico
+-- 
+1.7.4.1
+
 
 
