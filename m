@@ -1,29 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QlMqD-0004TD-34
+	(envelope-from <philb@gnu.org>) id 1QlN9I-00051y-TA
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 17:13:09 +0200
-Received: by wyg30 with SMTP id 30so3139734wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 08:08:56 -0700 (PDT)
-Received: by 10.227.142.78 with SMTP id p14mr4064386wbu.58.1311606235945;
-	Mon, 25 Jul 2011 08:03:55 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fe4sm4398308wbb.11.2011.07.25.08.03.54
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 25 Jul 2011 08:03:55 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <35b13046d50006f3eec3f0cbfd37c8463c1fb485.1311605321.git.bruce.ashfield@windriver.com>
-Date: Mon, 25 Jul 2011 17:03:49 +0200
-Message-Id: <AA347147-88BC-4B0F-AD8D-BE0AA9C41AD4@dominion.thruhere.net>
-References: <cover.1311605321.git.bruce.ashfield@windriver.com>
-	<35b13046d50006f3eec3f0cbfd37c8463c1fb485.1311605321.git.bruce.ashfield@windriver.com>
+	Mon, 25 Jul 2011 17:32:52 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QlN5G-0000tZ-W8
+	for openembedded-core@lists.openembedded.org;
+	Mon, 25 Jul 2011 17:28:43 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Cc: saul.wold@intel.com
-Subject: Re: [PATCH 1/1] machine/qemu: set preferred linux-yocto kernel version
+Date: Mon, 25 Jul 2011 16:28:42 +0100
+In-Reply-To: <lyzkk2ifpr.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <bd2e16888f6520e2d02d3ff6c43b360d217572e4.1311601422.git.richard.purdie@linuxfoundation.org>
+	<b7b6ab25887f5d5fcc541f44287942e1ccd150af.1311601422.git.richard.purdie@linuxfoundation.org>
+	<lyzkk2ifpr.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311607723.30326.240.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 4/5] ncurses: Uncompress man pages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,35 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 15:13:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 25 Jul 2011 15:32:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Mon, 2011-07-25 at 16:42 +0200, Enrico Scholz wrote:
+> Richard Purdie
+> <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+> writes:
+> 
+> > If the man pages are compressed, then they cause file conflicts between
+> > the 32-bit and 64-bit versions of the package.
+> 
+> Patching the buildsystem to use 'gzip --no-name' might be a better
+> solution than uncompressing the man pages.
+> 
+> Alternatively, fixing/changing man page compression should be done in a
+> central class instead per recipe.
+
+I guess the other question that springs to mind is why the manpages are
+in the same package as the binaries anyway.  Surely they ought to be in
+the -doc package, which is presumably wordsize-agnostic, in which case
+there oughtn't to be any conflict in the first place.
+
+p.
 
 
-Op 25 jul. 2011, om 16:51 heeft Bruce Ashfield het volgende geschreven:
-
-> The introduction of the linux-yocto-3.0 kernel is taking
-> precedence over the known working 2.6.37 version. Forcing
-> 2.6.37 until 3.0 is validated on the qemu machines.
->=20
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
-> meta/conf/machine/include/qemu.inc |    1 +
-> 1 files changed, 1 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/conf/machine/include/qemu.inc =
-b/meta/conf/machine/include/qemu.inc
-> index 9ef242f..c2d116f 100644
-> --- a/meta/conf/machine/include/qemu.inc
-> +++ b/meta/conf/machine/include/qemu.inc
-> @@ -12,6 +12,7 @@ RDEPENDS_kernel-base =3D ""
->=20
-> # Use a common kernel recipe for all QEMU machines
-> PREFERRED_PROVIDER_virtual/kernel ?=3D "linux-yocto"
-> +PREFERRED_VERSION_linux-yocto =3D "2.6.37+git%"
-
-Please not that this won't do anything on incremental builds or when =
-using package feeds since the cat is already out of the bag for the =
-3.0rc7 version.=
 
 
