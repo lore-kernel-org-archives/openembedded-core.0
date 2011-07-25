@@ -1,25 +1,35 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QlNxk-0000W9-1o
+	(envelope-from <Tom_Rini@mentor.com>) id 1QlNzN-0000Zo-Aj
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 18:25:00 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 25 Jul 2011 09:20:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,262,1309762800"; d="scan'208";a="31199450"
-Received: from unknown (HELO [10.255.14.61]) ([10.255.14.61])
-	by azsmga001.ch.intel.com with ESMTP; 25 Jul 2011 09:20:36 -0700
-Message-ID: <4E2D97D4.9050509@linux.intel.com>
-Date: Mon, 25 Jul 2011 09:20:36 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Mon, 25 Jul 2011 18:26:41 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1QlNvK-0001UZ-Lx from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 25 Jul 2011 09:22:30 -0700
+Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Mon, 25 Jul 2011 09:22:30 -0700
+Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
+	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
+	Mon, 25 Jul 2011 09:22:29 -0700
+Message-ID: <4E2D9843.2040409@mentor.com>
+Date: Mon, 25 Jul 2011 09:22:27 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1311574519.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1311574519.git.xiaofeng.yan@windriver.com>
-Subject: Re: [PATCH 0/3] Adding pam supporting
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1311352057.git.tom_rini@mentor.com>	<516e42bf64159cbea7c5500eb2dbc6452ca3825a.1311352057.git.tom_rini@mentor.com>	<1311609656.30326.246.camel@phil-desktop>
+	<4E2D93D3.7030505@mentor.com>
+	<1311609936.30326.248.camel@phil-desktop>
+In-Reply-To: <1311609936.30326.248.camel@phil-desktop>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 25 Jul 2011 16:22:30.0482 (UTC)
+	FILETIME=[0D1D3320:01CC4AE7]
+Subject: Re: [PATCH 6/8] siteinfo: Move certain db entries to common-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,69 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 16:25:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 25 Jul 2011 16:26:41 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 07/25/2011 01:23 AM, Xiaofeng Yan wrote:
-> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->
-> Hi Saul,
->
-> I modified my patches according to your suggestion.
-> - Using spaces instead of tab
+On 07/25/2011 09:05 AM, Phil Blundell wrote:
+> On Mon, 2011-07-25 at 09:03 -0700, Tom Rini wrote:
+>> On 07/25/2011 09:00 AM, Phil Blundell wrote:
+>>> On Fri, 2011-07-22 at 09:28 -0700, Tom Rini wrote:
+>>>> +db_cv_path_ar=${db_cv_path_ar=/usr/bin/ar}
+>>>> +db_cv_path_chmod=${db_cv_path_chmod=/bin/chmod}
+>>>> +db_cv_path_cp=${db_cv_path_cp=/bin/cp}
+>>>> +db_cv_path_ln=${db_cv_path_ln=/bin/ln}
+>>>> +db_cv_path_mkdir=${db_cv_path_mkdir=/bin/mkdir}
+>>>> +db_cv_path_ranlib=${db_cv_path_ranlib=/usr/bin/ranlib}
+>>>> +db_cv_path_rm=${db_cv_path_rm=/bin/rm}
+>>>> +db_cv_path_sh=${db_cv_path_sh=/bin/sh}
+>>>> +db_cv_path_strip=${db_cv_path_strip=/usr/bin/strip}
+>>>
+>>> Those contain assumptions about ${bindir} and ${base_bindir} which are
+>>> not necessarily valid.  I think db should probably be patched for those
+>>> rather than putting them here,
+>>
+>> It's possible they simply aren't used anymore, if micro in oe.dev is
+>> building / working with db.
+> 
+> Yeah, could be.  (I haven't checked recently but I don't recall any db
+> breakage with micro in oe.dev.)  It does seem a bit weird that db would
+> want to use things like "strip".
 
-Xiaofeng,
+As an aside, db is one of the things that makes me want to finish this
+re-sync round so I can wipe out all of the site files and try again.  As
+I mention in the comments, we have a wrong and ignored bits for db since
+it dates back to db3.
 
-As Richard already pointed out you changed the white space incorrectly, 
-there are 2 types of white space used in recipe files.  For things that 
-are shell commands, we use TAB (as the file originally was doing), for 
-python fragments 4 spaces are used. For recipe metadata, spaces are used 
-to line up indentation of lists (Such as SRC_URI, EXTRA_OEMAKE, ...)
-
-Please review
-
-https://wiki.yoctoproject.org/wiki/Best_Known_Methods_%28BKMs%29_for_Package_Updating#White_Space_Management
-
-I am sorry that was not clear from my email.
-
-Sau!
-
-> - The patches can work only when pam is enabled
-> - Using OE-Core instead of poky
->
->
-> Pull URL: git://git.pokylinux.org/poky-contrib.git
->    Branch: xiaofeng/pam
->    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/pam
->
-> Thanks,
->      Xiaofeng Yan<xiaofeng.yan@windriver.com>
-> ---
->
->
-> Xiaofeng Yan (3):
->    openssh: Support PAM
->    polkit: Support pam
->    dropbear: Support pam
->
->   .../openssh/openssh-5.8p2/sshd                     |   10 +++
->   meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   77 +++++++++++---------
->   meta/recipes-core/dropbear/dropbear.inc            |   78 +++++++++++---------
->   .../dropbear/dropbear/dropbear-enable-pam.patch    |   22 ++++++
->   meta/recipes-core/dropbear/dropbear_0.52.bb        |    2 +-
->   .../polkit/polkit-0.101/polkit-1_pam.patch         |   23 ++++++
->   meta/recipes-extended/polkit/polkit_0.101.bb       |    7 +-
->   7 files changed, 146 insertions(+), 73 deletions(-)
->   create mode 100644 meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
->   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
->   create mode 100644 meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
