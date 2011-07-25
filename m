@@ -1,31 +1,30 @@
-Received: from mail-pz0-f43.google.com ([209.85.210.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QlPWP-0003Bw-U6
-	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 20:04:54 +0200
-Received: by pzk1 with SMTP id 1so8923594pzk.16
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QlPob-0005Ym-3m for openembedded-core@lists.openembedded.org;
+	Mon, 25 Jul 2011 20:23:41 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6PIJSWM031431
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 11:00:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=kzcFw4nQxNTESylr/0oZ9eOI/0GtU0IiCu+zoCWgWQg=;
-	b=Dtx9+P/qszyDIn+nQRfPAkp5XmYsgsxBc3Tf9fCLuNdHhkDovrFsdyQ7LgLwj0EmsN
-	f9oaMY4VJUQY+SV2/DrI516LZCbwcIxyJqbV+dA6p0lwYwPc3F+HW3yJmiNpaMBKiqXn
-	hdh1vzRFSXkdbQv7qE1jChPrEE9GgcZDZxMIc=
-Received: by 10.68.64.200 with SMTP id q8mr4814281pbs.144.1311616840634; Mon,
-	25 Jul 2011 11:00:40 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.65.130 with HTTP; Mon, 25 Jul 2011 11:00:10 -0700 (PDT)
-In-Reply-To: <C1FA9199-EF24-48DF-BCCD-7A3D084A5F0F@dominion.thruhere.net>
-References: <1311343068-942-1-git-send-email-galak@kernel.crashing.org>
-	<C1FA9199-EF24-48DF-BCCD-7A3D084A5F0F@dominion.thruhere.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 25 Jul 2011 11:00:10 -0700
-Message-ID: <CAMKF1sovKx1HU3jQnT6cHAF29pDy47TpsfAyy7s27J-YnybXBQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-4.6: Fix packaging of native toolchains
+	Mon, 25 Jul 2011 19:19:28 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 29591-02 for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jul 2011 19:19:24 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6PIJHNb031417
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jul 2011 19:19:21 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Jul 2011 19:19:11 +0100
+Message-ID: <1311617951.2344.193.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] lib/oe/utils: 'Fix' oe.utils.contains() behaviour
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,53 +39,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 18:04:54 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 25 Jul 2011 18:23:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 25, 2011 at 5:25 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
->
-> Op 22 jul. 2011, om 15:57 heeft Kumar Gala het volgende geschreven:
->
->> The base gcc package is missing liblto_plugin.so. =C2=A0If we try a simp=
-le
->> hello world compile we get something like:
->>
->> root@p5020-ds:~# gcc hello.c
->> gcc: fatal error: -fuse-linker-plugin, but liblto_plugin.so not found
->> compilation terminated.
->>
->> We need to include liblto_plugin.so in the base gcc package and not
->> gcc-dev.
->>
->> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
->> ---
->> meta/recipes-devtools/gcc/gcc-4.6.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| =C2=A0 =C2=A02 +-
->> meta/recipes-devtools/gcc/gcc-package-target.inc | =C2=A0 =C2=A01 +
->> 2 files changed, 2 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-4.6.inc
->> index a724594..4c1e1e1 100644
->> --- a/meta/recipes-devtools/gcc/gcc-4.6.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
->> @@ -1,6 +1,6 @@
->> require gcc-common.inc
->>
->> -PR =3D "r1"
->> +PR =3D "r2"
->
-> Doesn't this need a PR bump in gcc-4.5 as well?
+Currently oe.utils.contains(X, "A", true, false) will return true for substring matches,
+e.g. if X = "ABC". This is not what most users expect from the function.
 
-yes indeed it does
+In the common OE use of this function there is the case of "touchscreen" and "screen" being
+used as independent variables. Whilst it could be argued there isn't a problem in that
+specific case (touchscreens are usually on screens), there is no substring usage of this
+function is OE-Core so this patch changes the behaviour to match only full strings.
+
+It also fixes a bug where duplicate entries would confuse multiple matches, e.g.
+contains(X, ["A", "B"], ...) would match X = "A A" which is clearly wrong.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 4287eee..b3473d3 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -35,16 +35,15 @@ def version_less_or_equal(variable, checkvalue, truevalue, falsevalue, d):
+         return falsevalue
+ 
+ def contains(variable, checkvalues, truevalue, falsevalue, d):
+-    val = bb.data.getVar(variable,d,1)
++    val = d.getVar(variable, True)
+     if not val:
+         return falsevalue
+-    matches = 0
+-    if type(checkvalues).__name__ == "str":
+-        checkvalues = [checkvalues]
+-    for value in checkvalues:
+-        if val.find(value) != -1:
+-            matches = matches + 1
+-    if matches == len(checkvalues):
++    val = set(val.split())
++    if isinstance(checkvalues, basestring):
++        checkvalues = set(checkvalues.split())
++    else:
++        checkvalues = set(checkvalues)
++    if checkvalues.issubset(val):
+         return truevalue
+     return falsevalue
+ 
 
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
 
