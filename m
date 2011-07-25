@@ -1,34 +1,25 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1QlLzO-0002So-C9
+	(envelope-from <philb@gnu.org>) id 1QlM0L-0002Us-E9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 16:18:34 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with SMTP id p6PEEKWt005774
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 16:14:21 +0200
-Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
-	Mon, 25 Jul 2011 16:14:20 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
+	Mon, 25 Jul 2011 16:19:33 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QlLwJ-0000rw-KV
+	for openembedded-core@lists.openembedded.org;
+	Mon, 25 Jul 2011 16:15:23 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Jul 2011 15:15:22 +0100
+In-Reply-To: <ly7h76jvlw.fsf@ensc-virt.intern.sigma-chemnitz.de>
 References: <bd2e16888f6520e2d02d3ff6c43b360d217572e4.1311601422.git.richard.purdie@linuxfoundation.org>
 	<586cbf5404ff76795c3d967266e7338b01e47c8b.1311601422.git.richard.purdie@linuxfoundation.org>
 	<1311602747.30326.224.camel@phil-desktop>
-Date: Mon, 25 Jul 2011 16:14:19 +0200
-In-Reply-To: <1311602747.30326.224.camel@phil-desktop> (Phil Blundell's
-	message of "Mon, 25 Jul 2011 15:05:46 +0100")
-Message-ID: <ly7h76jvlw.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.2 (gnu/linux)
-MIME-Version: 1.0
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.9
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.71 on 62.153.82.30
+	<ly7h76jvlw.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311603323.30326.230.camel@phil-desktop>
+Mime-Version: 1.0
 Subject: Re: [PATCH 5/5] package.bbclass: fixup_perms - symlink bug fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,22 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 14:18:34 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 25 Jul 2011 14:19:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Phil Blundell <philb-mXXj517/zsQ@public.gmane.org> writes:
+On Mon, 2011-07-25 at 16:14 +0200, Enrico Scholz wrote:
+> Phil Blundell <philb-mXXj517/zsQ@public.gmane.org> writes:
+> 
+> >> We don't want to change the owner/mode of symlinks, as this may
+> >> affect the target of the link.  Also broken links will fail as well.
+> >
+> > This seems like it will cause links themselves to end up getting shipped
+> > under the UID/GID that was used for building
+> 
+> there should be used 'os.lchown()' instead of 'os.chown()' in fix_perms()
+> and the 'os.chmod()' call must be omitted for links.
 
->> We don't want to change the owner/mode of symlinks, as this may
->> affect the target of the link.  Also broken links will fail as well.
->
-> This seems like it will cause links themselves to end up getting shipped
-> under the UID/GID that was used for building
+Right, exactly.  I think that would be a much better change.
 
-there should be used 'os.lchown()' instead of 'os.chown()' in fix_perms()
-and the 'os.chmod()' call must be omitted for links.
+p.
 
 
-
-Enrico
 
 
