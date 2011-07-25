@@ -1,35 +1,34 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QlOVe-0001by-VP
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1QlOjb-00022u-4f
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 19:00:03 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QlORc-0004Tf-8k from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 09:55:52 -0700
-Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 25 Jul 2011 09:53:13 -0700
-Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
-	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
-	Mon, 25 Jul 2011 09:55:51 -0700
-Message-ID: <4E2DA015.2050105@mentor.com>
-Date: Mon, 25 Jul 2011 09:55:49 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+	Mon, 25 Jul 2011 19:14:27 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with SMTP id p6PHA9wu002255
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jul 2011 19:10:10 +0200
+Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
+	Mon, 25 Jul 2011 19:10:09 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1311603506-14101-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+	<1311612593.30326.256.camel@phil-desktop>
+Date: Mon, 25 Jul 2011 19:10:09 +0200
+In-Reply-To: <1311612593.30326.256.camel@phil-desktop> (Phil Blundell's
+	message of "Mon, 25 Jul 2011 17:49:52 +0100")
+Message-ID: <lyvcuqi8we.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.2 (gnu/linux)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1311354521.git.tom_rini@mentor.com>	<c0c3e475a5fe98d61d0b92dca026486b955c2812.1311354521.git.tom_rini@mentor.com>	<1311609451.30326.244.camel@phil-desktop>
-	<4E2D9304.6090502@mentor.com>
-	<1311612043.30326.254.camel@phil-desktop>
-In-Reply-To: <1311612043.30326.254.camel@phil-desktop>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 25 Jul 2011 16:53:13.0421 (UTC)
-	FILETIME=[57975FD0:01CC4AEB]
-Subject: Re: [PATCH v2 5/8] siteinfo: Move the rp-pppoe entry to common-linux
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.9
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.71 on 62.153.82.30
+Subject: Re: [PATCH] ncurses: enforce creation of pkg-config files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,46 +43,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 17:00:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Jul 2011 17:14:27 -0000
+Content-Type: text/plain; charset=us-ascii
 
-On 07/25/2011 09:40 AM, Phil Blundell wrote:
-> On Mon, 2011-07-25 at 09:00 -0700, Tom Rini wrote:
->> On 07/25/2011 08:57 AM, Phil Blundell wrote:
->>> On Fri, 2011-07-22 at 10:10 -0700, Tom Rini wrote:
->>>> --- a/meta/site/common-linux
->>>> +++ b/meta/site/common-linux
->>>> @@ -23,3 +23,6 @@ bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
->>>>  # mysql
->>>>  ac_cv_sys_restartable_syscalls=${ac_cv_sys_restartable_syscalls=yes}
->>>>  ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
->>>> +
->>>> +# rp-pppoe
->>>> +rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
->>>
->>> Is that really correct?  Bitfield packing isn't an OS issue, it's
->>> primarily a question of compiler choice.  For GCC I think it correlates
->>> with endianness; looking at what that test is doing, I'd expect you to
->>> get "reversed" on little-endian and "normal" on big-endian.
->>
->> It's possible we're getting this, and have been getting this wrong on
->> big-endian targets but I haven't heard from Freescale this is failing
->> for them.  I'm OK with dropping this bit out for now until we can
->> confirm this test on a BE machine.
-> 
-> That's probably best.  In any case, as far as I can tell rp-pppoe is
-> (despite what you might expect from the name) not actually in oe-core
-> itself, so perhaps its definitions don't belong in oe-core's site files
-> either.
+Phil Blundell <philb-mXXj517/zsQ@public.gmane.org> writes:
 
-Yeah.  At one point I was going to try and move the bits that oe-core
-doesn't use to meta-oe where they are or likely will be, but possibly
-after consolidation (and then just not adding in brand new ones, eg
-postgresql).
+>> +-	if test -n "$PKG_CONFIG_LIBDIR" && test -d "$PKG_CONFIG_LIBDIR" ; then
+>> ++	if test -n "$PKG_CONFIG_LIBDIR" ; then
+>
+> I wonder if it would be easier to just create the directory in
+> do_configure() 
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+This directory is in the staged sysroot
+(e.g. ${TMPDIR}/sysroots/kk-trizeps6//usr/lib/pkgconfig). Is it really
+permitted to touch this area outside of the normal staging?
+
+
+Enrico
 
 
