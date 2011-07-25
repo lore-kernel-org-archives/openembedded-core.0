@@ -1,25 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lei.mei@intel.com>) id 1QlAbd-0001GI-Bo
+	(envelope-from <koen@dominion.thruhere.net>) id 1QlEVW-0000Re-U0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 04:09:17 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 Jul 2011 19:05:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,258,1309762800"; d="scan'208";a="31446854"
-Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
-	([10.239.47.21])
-	by orsmga001.jf.intel.com with ESMTP; 24 Jul 2011 19:05:06 -0700
-From: Mei Lei <lei.mei@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jul 2011 10:13:17 +0800
-Message-Id: <652d45839982a56f3e70b8533a3ef655f33e4eef.1311558123.git.lei.mei@intel.com>
-X-Mailer: git-send-email 1.6.3.3
-In-Reply-To: <cover.1311558123.git.lei.mei@intel.com>
-References: <cover.1311558123.git.lei.mei@intel.com>
-In-Reply-To: <cover.1311558123.git.lei.mei@intel.com>
-References: <cover.1311558123.git.lei.mei@intel.com>
-Subject: [PATCH 1/1] perl-dynloader.patch: Fix multilib issue for perl
+	Mon, 25 Jul 2011 08:19:15 +0200
+Received: by wyg30 with SMTP id 30so2825197wyg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 24 Jul 2011 23:15:03 -0700 (PDT)
+Received: by 10.216.46.75 with SMTP id q53mr3276771web.65.1311574502756;
+	Sun, 24 Jul 2011 23:15:02 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id f8sm3156657wed.34.2011.07.24.23.15.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 24 Jul 2011 23:15:01 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <201107242234.51777.schnitzeltony@gmx.de>
+Date: Mon, 25 Jul 2011 08:14:55 +0200
+Message-Id: <EBE64358-255D-41CD-BA27-A9A733515E3D@dominion.thruhere.net>
+References: <201107242234.51777.schnitzeltony@gmx.de>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [meta-ti]Pandaboard issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,31 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 02:09:17 -0000
+X-List-Received-Date: Mon, 25 Jul 2011 06:19:15 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-The perl-dynloader.patch can't support lib64 lib32, libx32, etc.
-Relax the regular expression to fix this issue.
 
-Signed-off-by: Mei Lei <lei.mei@intel.com>
----
- .../perl/perl-5.12.3/perl-dynloader.patch          |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Op 24 jul. 2011, om 22:34 heeft Andreas Mueller het volgende geschreven:
 
-diff --git a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch b/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
-index d5ea00f..1840605 100644
---- a/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
-+++ b/meta/recipes-devtools/perl/perl-5.12.3/perl-dynloader.patch
-@@ -19,7 +19,7 @@ Update by Nitin A Kamble <nitin.a.kamble@intel.com> 2011/04/21
- +    {
- +        my $hostlib = $ENV{PERLHOSTLIB};
- +        print STDERR "*** Module name IN: $modlibname\n";
--+        ($p1, $p2, $p3, $p4, $p5) = $modlibname =~ m/(^(.*lib\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
-++        ($p1, $p2, $p3, $p4, $p5) = $modlibname =~ m/(^(.*lib\w*\/)?)((perl\/[0-9\.]*\/)?)(.*)$/;
- +        print STDERR "*** p1: $p1  p3: $p3  p5: $p5\n";
- +        if ( $p1 ne "" ) {
- +            $modlibname = $hostlib.$p5;
--- 
-1.6.3.3
+> Hi,
+>=20
+> while working on xfce48 recipes for meta-oe I wanted to do some run =
+tests. My=20
+> only hardware currently supported in oe-core environment is =
+pandaboard. Herewith=20
+> I face the following issues:
+>=20
+> - Starting X stops / log attached
+> - Inputting at serial console causes bit errors (115200 8N1). Data =
+coming from=20
+> board seems OK.
+> - No network (eth0 eth1 tested) available.
 
+Tried usb0 or usb1?=
 
 
