@@ -1,34 +1,29 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1QlOjb-00022u-4f
+	(envelope-from <mark.hatle@windriver.com>) id 1QlOl0-000257-SQ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 19:14:27 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with SMTP id p6PHA9wu002255
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Mon, 25 Jul 2011 19:15:55 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6PHBegV005320
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 19:10:10 +0200
-Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
-	Mon, 25 Jul 2011 19:10:09 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1311603506-14101-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-	<1311612593.30326.256.camel@phil-desktop>
-Date: Mon, 25 Jul 2011 19:10:09 +0200
-In-Reply-To: <1311612593.30326.256.camel@phil-desktop> (Phil Blundell's
-	message of "Mon, 25 Jul 2011 17:49:52 +0100")
-Message-ID: <lyvcuqi8we.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.2 (gnu/linux)
+	Mon, 25 Jul 2011 10:11:40 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 25 Jul 2011 10:11:40 -0700
+Message-ID: <4E2DA3CB.7070902@windriver.com>
+Date: Mon, 25 Jul 2011 12:11:39 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
 MIME-Version: 1.0
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.9
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.71 on 62.153.82.30
-Subject: Re: [PATCH] ncurses: enforce creation of pkg-config files
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1311601422.git.richard.purdie@linuxfoundation.org>
+	<bd2e16888f6520e2d02d3ff6c43b360d217572e4.1311601422.git.richard.purdie@linuxfoundation.org>
+	<1311602099.30326.217.camel@phil-desktop>
+In-Reply-To: <1311602099.30326.217.camel@phil-desktop>
+Subject: Re: [PATCH 1/5] multilib_header.bbclass: Add oe_multilib_header wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,22 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 17:14:27 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 25 Jul 2011 17:15:55 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Phil Blundell <philb-mXXj517/zsQ@public.gmane.org> writes:
+On 7/25/11 8:54 AM, Phil Blundell wrote:
+> On Mon, 2011-07-25 at 14:47 +0100, Richard Purdie wrote:
+>> +/*  Copyright (c) 2005-2011 Wind River Systems, Inc.
+>> + *
+>> + * This program is free software; you can redistribute it and/or modify
+>> + * it under the terms of the GNU Lesser General Public License version 2.1 as
+>> + * published by the Free Software Foundation.
 
->> +-	if test -n "$PKG_CONFIG_LIBDIR" && test -d "$PKG_CONFIG_LIBDIR" ; then
->> ++	if test -n "$PKG_CONFIG_LIBDIR" ; then
->
-> I wonder if it would be easier to just create the directory in
-> do_configure() 
+I believe we're flexibly with the license statement in the file.. (Just
+verifying it to make sure I am allowed to change it.)
 
-This directory is in the staged sysroot
-(e.g. ${TMPDIR}/sysroots/kk-trizeps6//usr/lib/pkgconfig). Is it really
-permitted to touch this area outside of the normal staging?
+I personally don't believe it's a big deal, but I understand the concern.  Is
+there a different wording/license statement that would make more sense?  My
+concern is that if we make the license dynamic it's a lot of pain for no real
+technical reason.
 
+I'd like to see if we (WR) can just put a statement on it that it can be used
+for any purpose -- whatever the legalize is for that -- and if that would
+satisfy your concerns.  (BTW: Our goal of course is NOT to change the license of
+the produced binary in any way...)
 
-Enrico
+> This is going to cause LGPL 2.1 content to appear in the output
+> packages.  For things like binutils this is probably not a big deal,
+> since they are GPL already, but for ncurses (previously MIT-licensed)
+> this is a potentially significant change.  In any case I think there
+> needs to be some way of making sure that the LICENSE is updated
+> appropriately when this file is included.
+> 
+> p.
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
