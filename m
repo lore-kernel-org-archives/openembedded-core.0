@@ -1,30 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QlPob-0005Ym-3m for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 20:23:41 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6PIJSWM031431
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1QlQNj-00063t-A2
+	for openembedded-core@lists.openembedded.org;
+	Mon, 25 Jul 2011 20:59:59 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6PItjre024028
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 19:19:28 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 29591-02 for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 19:19:24 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6PIJHNb031417
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 19:19:21 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Jul 2011 19:19:11 +0100
-Message-ID: <1311617951.2344.193.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] lib/oe/utils: 'Fix' oe.utils.contains() behaviour
+	Mon, 25 Jul 2011 11:55:45 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 25 Jul 2011 11:55:45 -0700
+Message-ID: <4E2DBC30.9070808@windriver.com>
+Date: Mon, 25 Jul 2011 13:55:44 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1311345613.git.richard.purdie@linuxfoundation.org>
+	<1311357628.2344.153.camel@rex> <4E29BE22.5060002@mentor.com>
+In-Reply-To: <4E29BE22.5060002@mentor.com>
+Subject: Re: [PATCH 5/3] conf/machine/include: Start to fill out architecture specific tune include files and tune features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,52 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 18:23:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 25 Jul 2011 18:59:59 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-Currently oe.utils.contains(X, "A", true, false) will return true for substring matches,
-e.g. if X = "ABC". This is not what most users expect from the function.
+On 7/22/11 1:14 PM, Tom Rini wrote:
+> On 07/22/2011 11:00 AM, Richard Purdie wrote:
+>> These changes revolve around the idea of tune features. These are represented by
+>> 'flag' strings that are included in the TUNE_FEATURES variable.
+>>
+>> Any string included in TUNE_FEATURES should also add a TUNEVALID[<name>] entry so
+>> we can know which flags are available in TUNE_FEATURES and have documentation about
+>> what the flags do. We will add sanity code to error if flags are listed in
+>> TUNE_FEATURES but are not documented in TUNEVALID.
+>>
+>> A given tune configuration will want to define one or more predetermined sets of
+>> _FEATURE flag lists. These are defined in the form TUNE_FEATURES_tune-<name>.
+>> For defined tune configuation, <name> should be added to the AVAILTUNE list so that
+>> we can determine what tune configurations are available. Flags cannot be used in this
+>> case as with TUNEVALID since its useful to be able to build up tune lists from other
+>> TUNE_FEATURES_tune-yyy options.
+>>
+>> A given tune configuration may also define PACKAGE_EXTRA_ARCHS_tune-<name> and
+>> BASE_LIB_tune-<name> to control the multilib location. All options can be overridden
+>> by the distro or local user configuration.
+>>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> As a specific nit, we can't use x86_64 in OVERRIDES (using the normal
+> mechanism need base_contains(...).  Can we switch to calling it amd64
+> ala Debian/Ubuntu?  Aside from that, as I told Mark the other day, this
+> looks good to me.
+> 
 
-In the common OE use of this function there is the case of "touchscreen" and "screen" being
-used as independent variables. Whilst it could be argued there isn't a problem in that
-specific case (touchscreens are usually on screens), there is no substring usage of this
-function is OE-Core so this patch changes the behaviour to match only full strings.
+I actually prefer "x86-64" I think that is a reasonable compromise between the
+x86_64 naming and the need to not use "_".
 
-It also fixes a bug where duplicate entries would confuse multiple matches, e.g.
-contains(X, ["A", "B"], ...) would match X = "A A" which is clearly wrong.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 4287eee..b3473d3 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -35,16 +35,15 @@ def version_less_or_equal(variable, checkvalue, truevalue, falsevalue, d):
-         return falsevalue
- 
- def contains(variable, checkvalues, truevalue, falsevalue, d):
--    val = bb.data.getVar(variable,d,1)
-+    val = d.getVar(variable, True)
-     if not val:
-         return falsevalue
--    matches = 0
--    if type(checkvalues).__name__ == "str":
--        checkvalues = [checkvalues]
--    for value in checkvalues:
--        if val.find(value) != -1:
--            matches = matches + 1
--    if matches == len(checkvalues):
-+    val = set(val.split())
-+    if isinstance(checkvalues, basestring):
-+        checkvalues = set(checkvalues.split())
-+    else:
-+        checkvalues = set(checkvalues)
-+    if checkvalues.issubset(val):
-         return truevalue
-     return falsevalue
- 
-
-
+--Mark
 
 
