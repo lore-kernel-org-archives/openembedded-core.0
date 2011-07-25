@@ -1,24 +1,23 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QlGHr-0006vW-Ra
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1QlGcJ-0007Js-8x
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 10:13:15 +0200
-Received: by wyg30 with SMTP id 30so2874746wyg.6
+	Mon, 25 Jul 2011 10:34:23 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6P8UAbc003230
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 01:09:03 -0700 (PDT)
-Received: by 10.227.13.77 with SMTP id b13mr3657370wba.54.1311581343696;
-	Mon, 25 Jul 2011 01:09:03 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fo2sm4103710wbb.31.2011.07.25.01.09.02
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 25 Jul 2011 01:09:02 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jul 2011 10:08:59 +0200
-Message-Id: <1311581339-6009-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] dropbear: don't override DISTRO_TYPE if it is already set
+	Mon, 25 Jul 2011 01:30:10 -0700 (PDT)
+Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 25 Jul 2011 01:30:09 -0700
+Message-ID: <cover.1311574519.git.xiaofeng.yan@windriver.com>
+Old-Date: Mon, 25 Jul 2011 14:15:19 +0800
+Date: Mon, 25 Jul 2011 16:23:27 +0800
+To: <openembedded-core@lists.openembedded.org>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 0/3] Adding pam supporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 08:13:15 -0000
+X-List-Received-Date: Mon, 25 Jul 2011 08:34:23 -0000
+Content-Type: text/plain
 
-The long term solution is to remove the IMAGE_FEATURE check since images are not allowed to influence recipe compile options.
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Hi Saul,
+
+I modified my patches according to your suggestion.
+- Using spaces instead of tab
+- The patches can work only when pam is enabled
+- Using OE-Core instead of poky
+
+
+Pull URL: git://git.pokylinux.org/poky-contrib.git
+  Branch: xiaofeng/pam
+  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/pam
+
+Thanks,
+    Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/recipes-core/dropbear/dropbear.inc     |    2 +-
- meta/recipes-core/dropbear/dropbear_0.52.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 1b51e1a..526a5a0 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -29,7 +29,7 @@ SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
- BINCOMMANDS = "dbclient ssh scp"
- EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
- 
--DISTRO_TYPE = "${@base_contains("IMAGE_FEATURES", "debug-tweaks", "debug", "",d)}"
-+DISTRO_TYPE ?= "${@base_contains("IMAGE_FEATURES", "debug-tweaks", "debug", "",d)}"
- 
- do_debug_patch() {
- 	if [ "${DISTRO_TYPE}" = "debug" ]; then
-diff --git a/meta/recipes-core/dropbear/dropbear_0.52.bb b/meta/recipes-core/dropbear/dropbear_0.52.bb
-index 78d6cf1..4013c65 100644
---- a/meta/recipes-core/dropbear/dropbear_0.52.bb
-+++ b/meta/recipes-core/dropbear/dropbear_0.52.bb
-@@ -3,4 +3,4 @@ require dropbear.inc
- SRC_URI[md5sum] = "1c69ec674481d7745452f68f2ea5597e"
- SRC_URI[sha256sum] = "e3a2ca49ed85ce562240c0ac06e2f72826d7e52a83e80d91c067c8b97bf5c108"
- 
--PR = "r2"
-+PR = "r3"
--- 
-1.6.6.1
+
+Xiaofeng Yan (3):
+  openssh: Support PAM
+  polkit: Support pam
+  dropbear: Support pam
+
+ .../openssh/openssh-5.8p2/sshd                     |   10 +++
+ meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   77 +++++++++++---------
+ meta/recipes-core/dropbear/dropbear.inc            |   78 +++++++++++---------
+ .../dropbear/dropbear/dropbear-enable-pam.patch    |   22 ++++++
+ meta/recipes-core/dropbear/dropbear_0.52.bb        |    2 +-
+ .../polkit/polkit-0.101/polkit-1_pam.patch         |   23 ++++++
+ meta/recipes-extended/polkit/polkit_0.101.bb       |    7 +-
+ 7 files changed, 146 insertions(+), 73 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
+ create mode 100644 meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
 
 
 
