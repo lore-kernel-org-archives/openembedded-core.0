@@ -1,29 +1,24 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1QlMJC-0002ws-FV
+	(envelope-from <philb@gnu.org>) id 1QlMKI-0002zg-5m
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 16:39:02 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with SMTP id p6PEYm6f008626
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 25 Jul 2011 16:34:48 +0200
-Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
-	Mon, 25 Jul 2011 16:34:48 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jul 2011 16:34:45 +0200
-Message-Id: <1311604485-14447-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 1.7.6
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.92
-X-Spam-Score: -5.9
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.71 on 62.153.82.30
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] module-init-tools: do not build static utilities for -cross
+	Mon, 25 Jul 2011 16:40:10 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QlMGG-0000sK-2c
+	for openembedded-core@lists.openembedded.org;
+	Mon, 25 Jul 2011 16:36:00 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 25 Jul 2011 15:35:58 +0100
+In-Reply-To: <bd2e16888f6520e2d02d3ff6c43b360d217572e4.1311601422.git.richard.purdie@linuxfoundation.org>
+References: <cover.1311601422.git.richard.purdie@linuxfoundation.org>
+	<bd2e16888f6520e2d02d3ff6c43b360d217572e4.1311601422.git.richard.purdie@linuxfoundation.org>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311604560.30326.234.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/5] multilib_header.bbclass: Add oe_multilib_header wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,31 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 14:39:02 -0000
+X-List-Received-Date: Mon, 25 Jul 2011 14:40:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-There is no need to have static module-init-tools for the cross
-tools.  Building such binaries requires a static libc which is not
-required by the rest of OE and which is deprecated and not installed
-by distributions like Fedora.
+On Mon, 2011-07-25 at 14:47 +0100, Richard Purdie wrote:
+> +oe_multilib_header() {
+> +	for each_header in "$@" ; do
+> +	   if [ ! -f "${D}/${includedir}/$each_header" ]; then
+> +	      bberror "oe_multilib_header: Unable to find header $each_header."
+> +	      continue
+> +	   fi
+> +	   stem=$(echo $each_header | sed 's#\.h$##')
+> +	   mv ${D}/${includedir}/$each_header ${D}/${includedir}/${stem}-${SITEINFO_BITS}.h
+> +
+> +	   sed -e "s#ENTER_HEADER_FILENAME_HERE#${stem}#g" ${COREBASE}/scripts/multilib_header_wrapper.h > ${D}/${includedir}/$each_header
+> +	done
+> +}
 
+I guess it would also be nice if this was conditionalized in some way so
+that it only triggered if one was trying to do a multilib build (or, at
+least, had a TARGET_ARCH which supported multiple different wordsizes).
+I don't especially want to have all the headers on, say, arm wrapped in
+wordsize conditionals since the word size is basically invariant there.
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
----
- .../module-init-tools-cross_3.16.bb                |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+po.
 
-diff --git a/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb b/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb
-index a59f96a..38f0476 100644
---- a/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb
-+++ b/meta/recipes-kernel/module-init-tools/module-init-tools-cross_3.16.bb
-@@ -8,4 +8,4 @@ SRC_URI += "file://no-static-binaries.patch"
- SRC_URI[md5sum] = "bc44832c6e41707b8447e2847d2019f5"
- SRC_URI[sha256sum] = "e1f2cdcae64a8effc25e545a5e0bdaf312f816ebbcd0916e4e87450755fab64b"
- 
--EXTRA_OECONF_append = " --program-prefix=${TARGET_PREFIX}"
-+EXTRA_OECONF_append = " --program-prefix=${TARGET_PREFIX} --disable-static-utils"
--- 
-1.7.6
 
 
 
