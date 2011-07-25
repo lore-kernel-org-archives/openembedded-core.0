@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QlFgt-0001mf-Ar
+	(envelope-from <sgw@linux.intel.com>) id 1QlFgu-0001mf-7c
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 09:35:03 +0200
+	Mon, 25 Jul 2011 09:35:04 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 25 Jul 2011 00:30:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,259,1309762800"; d="scan'208";a="31038668"
+X-IronPort-AV: E=Sophos;i="4.67,259,1309762800"; d="scan'208";a="31038672"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.61])
-	by azsmga001.ch.intel.com with ESMTP; 25 Jul 2011 00:30:45 -0700
+	by azsmga001.ch.intel.com with ESMTP; 25 Jul 2011 00:30:46 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jul 2011 00:30:39 -0700
-Message-Id: <98e85bedb8633fa8017afd801a36920b96b35951.1311578785.git.sgw@linux.intel.com>
+Date: Mon, 25 Jul 2011 00:30:40 -0700
+Message-Id: <8c205878ed523de45ca31dc70cc54cc10f932db3.1311578785.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311578785.git.sgw@linux.intel.com>
 References: <cover.1311578785.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311578785.git.sgw@linux.intel.com>
 References: <cover.1311578785.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED 25 July PULL 3/7] gcc-4.6: Fix packaging of native toolchains
+Subject: [CONSOLIDATED 25 July PULL 4/7] openjade-native: Add SYSROOT_PREPROCESS_FUNC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 07:35:03 -0000
+X-List-Received-Date: Mon, 25 Jul 2011 07:35:04 -0000
 
-From: Kumar Gala <galak@kernel.crashing.org>
+[YOCTO #1250]
 
-The base gcc package is missing liblto_plugin.so.  If we try a simple
-hello world compile we get something like:
+This added function will install a private install-catalog binary so that shared state
+can find the binary as there is not a guarantee.
 
-root@p5020-ds:~# gcc hello.c
-gcc: fatal error: -fuse-linker-plugin, but liblto_plugin.so not found
-compilation terminated.
-
-We need to include liblto_plugin.so in the base gcc package and not
-gcc-dev.
-
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.6.inc            |    2 +-
- meta/recipes-devtools/gcc/gcc-package-target.inc |    1 +
- 2 files changed, 2 insertions(+), 1 deletions(-)
+ .../openjade/openjade-native_1.3.2.bb              |   12 ++++++++++--
+ 1 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index a636d32..6956677 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
+diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+index 1c672e1..da59406 100644
+--- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
++++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+@@ -7,7 +7,7 @@ SECTION = "base"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
  
--PR = "r1"
-+PR = "r2"
+-PR = "r2"
++PR = "r3"
  
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-diff --git a/meta/recipes-devtools/gcc/gcc-package-target.inc b/meta/recipes-devtools/gcc/gcc-package-target.inc
-index e6105da..a0e5da4 100644
---- a/meta/recipes-devtools/gcc/gcc-package-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
-@@ -17,6 +17,7 @@ FILES_${PN} = "\
-   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc* \
-   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lto* \
-   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/lib*${SOLIBS} \
-+  ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/liblto*${SOLIBSDEV} \
-   ${gcclibdir}/${TARGET_SYS}/${BINV}/*.o \
-   ${gcclibdir}/${TARGET_SYS}/${BINV}/specs \
-   ${gcclibdir}/${TARGET_SYS}/${BINV}/lib*${SOLIBS} \
+ DEPENDS = "opensp-native sgml-common-native"
+ RDEPENDS_${PN} = "sgml-common"
+@@ -31,6 +31,8 @@ CONFIGUREOPTS := "${@d.getVar('CONFIGUREOPTS', True).replace('--datadir=${datadi
+ CFLAGS =+ "-I${S}/include"
+ 
+ SSTATEPOSTINSTFUNCS += "openjade_sstate_postinst"
++SYSROOT_PREPROCESS_FUNCS += "openjade_sysroot_preprocess"
++
+ 
+ # We need to do this else the source interdependencies aren't generated and
+ # build failures can result (e.g. zero size style/Makefile.dep file)
+@@ -66,8 +68,14 @@ openjade_sstate_postinst() {
+ 	then
+ 		# Ensure that the catalog file sgml-docbook.cat is properly
+ 		# updated when the package is installed from sstate cache.
+-		install-catalog \
++		${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-openjade \
+ 			--add ${sysconfdir}/sgml/sgml-docbook.cat \
+ 			${sysconfdir}/sgml/openjade-${PV}.cat
+ 	fi
+ }
++
++openjade_sysroot_preprocess () {
++    install -d ${SYSROOT_DESTDIR}${bindir_crossscripts}/
++    install -m 755 ${STAGING_BINDIR_NATIVE}/install-catalog ${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-openjade
++}
++
 -- 
 1.7.3.4
 
