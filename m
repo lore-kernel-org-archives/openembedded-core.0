@@ -1,25 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1QlGcT-0007MV-Rx
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1QlIAj-0004Nw-Tx
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jul 2011 10:34:34 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6P8ULpP003259
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jul 2011 01:30:21 -0700 (PDT)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 25 Jul 2011 01:30:20 -0700
-Message-ID: <850c23ba7c3be44ccd18825ace22f17e5dcda83d.1311574519.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <cover.1311574519.git.xiaofeng.yan@windriver.com>
-References: <cover.1311574519.git.xiaofeng.yan@windriver.com>
-Old-Date: Mon, 25 Jul 2011 13:59:32 +0800
-Date: Mon, 25 Jul 2011 16:23:38 +0800
-To: <openembedded-core@lists.openembedded.org>
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+	Mon, 25 Jul 2011 12:14:02 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with SMTP id p6P9vaFA004940
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 25 Jul 2011 11:57:37 +0200
+Received: by ensc-virt.intern.sigma-chemnitz.de (sSMTP sendmail emulation);
+	Mon, 25 Jul 2011 11:57:36 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <cover.1311191810.git.tom_rini@mentor.com>
+	<7add784e793424e835ea062df57713257e42481b.1311191810.git.tom_rini@mentor.com>
+Date: Mon, 25 Jul 2011 11:57:35 +0200
+In-Reply-To: <7add784e793424e835ea062df57713257e42481b.1311191810.git.tom_rini@mentor.com>
+	(Tom Rini's message of "Wed, 20 Jul 2011 13:50:45 -0700")
+Message-ID: <lyfwluk7hs.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.2 (gnu/linux)
 MIME-Version: 1.0
-Subject: [PATCH 3/3] dropbear: Support pam
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.9
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.71 on 62.153.82.30
+Cc: Tom Rini <tom_rini-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH v2 1/1] siteinfo.bbclass: Port over oe.dev logic for site files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,178 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jul 2011 08:34:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 25 Jul 2011 10:14:02 -0000
+Content-Type: text/plain; charset=us-ascii
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+Tom Rini <tom_rini-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org> writes:
 
-I make a patch and some changes in dropbear.inc for supporting pam.
-- Enable pam in configure
-- Modify file option.h to open pam supporting
+> +python () {
+> +    sitedata = set(siteinfo_data(d))
+> +    if "endian-little" in sitedata:
+> +        d.setVar("SITEINFO_ENDIANESS", "le")
+> +    elif "endian-big" in sitedata:
+> +        d.setVar("SITEINFO_ENDIANESS", "be")
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- meta/recipes-core/dropbear/dropbear.inc            |   78 +++++++++++---------
- .../dropbear/dropbear/dropbear-enable-pam.patch    |   22 ++++++
- meta/recipes-core/dropbear/dropbear_0.52.bb        |    2 +-
- 3 files changed, 65 insertions(+), 37 deletions(-)
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
+Assigning SITEINFO_ENDIANESS in this way seems to break build of cross
+packages (binutils, gcc).  E.g. for xscale (--> armv5te), these packages
+will be build for armv5teb. This happens because tune-xscale.inc uses an
+(unsafe)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 1b51e1a..df1c2a0 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -9,13 +9,17 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3a5b0c2f0d0c49dfde9558ae2036683c"
- 
- DEPENDS = "zlib"
- RPROVIDES = "ssh sshd"
-+DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
--	         file://urandom-xauth-changes-to-options.h.patch \
--	         file://configure.patch \
--	         file://fix-2kb-keys.patch \
--	         file://allow-nopw.patch;apply=no \
--	         file://init"
-+           file://urandom-xauth-changes-to-options.h.patch \
-+           file://configure.patch \
-+           file://fix-2kb-keys.patch \
-+           file://allow-nopw.patch;apply=no \
-+           file://init \
-+           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
-+
-+PAM_SRC_URI = "file://dropbear-enable-pam.patch"
- 
- inherit autotools update-rc.d
- 
-@@ -28,54 +32,56 @@ LD = "${CC}"
- SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
- BINCOMMANDS = "dbclient ssh scp"
- EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
-+EXTRA_OECONF += "\
-+    ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
- 
- DISTRO_TYPE = "${@base_contains("IMAGE_FEATURES", "debug-tweaks", "debug", "",d)}"
- 
- do_debug_patch() {
--	if [ "${DISTRO_TYPE}" = "debug" ]; then
--		bbnote "WARNING: applying allow-nopw.patch which allows password-less logins!"
--		patch -p1 < ${WORKDIR}/allow-nopw.patch
--	fi
-+    if [ "${DISTRO_TYPE}" = "debug" ]; then
-+        bbnote "WARNING: applying allow-nopw.patch which allows password-less logins!"
-+        patch -p1 < ${WORKDIR}/allow-nopw.patch
-+    fi
- }
- 
- addtask do_debug_patch after do_patch before do_configure
- 
- do_install() {
--	install -d ${D}${sysconfdir} \
--		   ${D}${sysconfdir}/init.d \
--		   ${D}${sysconfdir}/default \
--		   ${D}${sysconfdir}/dropbear \
-+    install -d ${D}${sysconfdir} \
-+           ${D}${sysconfdir}/init.d \
-+           ${D}${sysconfdir}/default \
-+           ${D}${sysconfdir}/dropbear \
-                    ${D}${bindir} \
--		   ${D}${sbindir} \
--		   ${D}${localstatedir}
-+           ${D}${sbindir} \
-+           ${D}${localstatedir}
- 
--	install -m 0755 dropbearmulti ${D}${sbindir}/
--	ln -s ${sbindir}/dropbearmulti ${D}${bindir}/dbclient
--	
--	for i in ${SBINCOMMANDS}
--	do
--		ln -s ./dropbearmulti ${D}${sbindir}/$i
--	done
--	cat ${WORKDIR}/init | sed -e 's,/etc,${sysconfdir},g' \
--				  -e 's,/usr/sbin,${sbindir},g' \
--				  -e 's,/var,${localstatedir},g' \
--				  -e 's,/usr/bin,${bindir},g' \
--				  -e 's,/usr,${prefix},g' > ${D}${sysconfdir}/init.d/dropbear
--	chmod 755 ${D}${sysconfdir}/init.d/dropbear
-+    install -m 0755 dropbearmulti ${D}${sbindir}/
-+    ln -s ${sbindir}/dropbearmulti ${D}${bindir}/dbclient
-+    
-+    for i in ${SBINCOMMANDS}
-+    do
-+        ln -s ./dropbearmulti ${D}${sbindir}/$i
-+    done
-+    cat ${WORKDIR}/init | sed -e 's,/etc,${sysconfdir},g' \
-+                  -e 's,/usr/sbin,${sbindir},g' \
-+                  -e 's,/var,${localstatedir},g' \
-+                  -e 's,/usr/bin,${bindir},g' \
-+                  -e 's,/usr,${prefix},g' > ${D}${sysconfdir}/init.d/dropbear
-+    chmod 755 ${D}${sysconfdir}/init.d/dropbear
- }
- 
- pkg_postinst_${PN} () {
--	update-alternatives --install ${bindir}/scp scp ${sbindir}/dropbearmulti 20
--	update-alternatives --install ${bindir}/ssh ssh ${sbindir}/dropbearmulti 20
-+    update-alternatives --install ${bindir}/scp scp ${sbindir}/dropbearmulti 20
-+    update-alternatives --install ${bindir}/ssh ssh ${sbindir}/dropbearmulti 20
- }
- 
- pkg_postrm_append_${PN} () {
--  if [ -f "${sysconfdir}/dropbear/dropbear_rsa_host_key" ]; then
-+    if [ -f "${sysconfdir}/dropbear/dropbear_rsa_host_key" ]; then
-         rm ${sysconfdir}/dropbear/dropbear_rsa_host_key
--  fi
--  if [ -f "${sysconfdir}/dropbear/dropbear_dss_host_key" ]; then
-+    fi
-+    if [ -f "${sysconfdir}/dropbear/dropbear_dss_host_key" ]; then
-         rm ${sysconfdir}/dropbear/dropbear_dss_host_key
--  fi
--  update-alternatives --remove ssh ${bindir}/dropbearmulti
--  update-alternatives --remove scp ${bindir}/dropbearmulti
-+    fi
-+    update-alternatives --remove ssh ${bindir}/dropbearmulti
-+    update-alternatives --remove scp ${bindir}/dropbearmulti
- }
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch b/meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
-new file mode 100644
-index 0000000..004d773
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
-@@ -0,0 +1,22 @@
-+dropbear: We need modify file option.h besides enabling pam in \
-+configure if we want dropbear to support pam.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-+
-+--- a/options.h	2011-07-12 13:27:39.008819183 +0800
-++++ b/options.h.new	2011-07-12 13:37:37.780819308 +0800
-+@@ -149,9 +149,9 @@
-+  * but there's an interface via a PAM module - don't bother using it otherwise.
-+  * You can't enable both PASSWORD and PAM. */
-+ 
-+-#define ENABLE_SVR_PASSWORD_AUTH
-++//#define ENABLE_SVR_PASSWORD_AUTH
-+ /* PAM requires ./configure --enable-pam */
-+-/*#define ENABLE_SVR_PAM_AUTH*/
-++#define ENABLE_SVR_PAM_AUTH
-+ #define ENABLE_SVR_PUBKEY_AUTH
-+ 
-+ /* Wether to ake public key options in authorized_keys file into account */
-+
-diff --git a/meta/recipes-core/dropbear/dropbear_0.52.bb b/meta/recipes-core/dropbear/dropbear_0.52.bb
-index 78d6cf1..4013c65 100644
---- a/meta/recipes-core/dropbear/dropbear_0.52.bb
-+++ b/meta/recipes-core/dropbear/dropbear_0.52.bb
-@@ -3,4 +3,4 @@ require dropbear.inc
- SRC_URI[md5sum] = "1c69ec674481d7745452f68f2ea5597e"
- SRC_URI[sha256sum] = "e3a2ca49ed85ce562240c0ac06e2f72826d7e52a83e80d91c067c8b97bf5c108"
- 
--PR = "r2"
-+PR = "r3"
--- 
-1.7.0.4
+| BASE_PACKAGE_ARCH = "${@['armv5teb', 'armv5te'][bb.data.getVar('SITEINFO_ENDIANESS', d, 1) == 'le']}"
 
+statement. As there seems that something wents wrong when setting
+SITEINFO_ENDIANESS in an anonymous python function, 'armv5teb' will be
+assumed.
+
+Using a more safe construct like
+
+| BASE_PACKAGE_ARCH = "${@{'le' : 'armv5te', 'be' : 'armv5teb'}[ \
+|                        bb.data.getVar('SITEINFO_ENDIANESS', d, 1)]}"
+
+reveals that SITEINFO_ENDIANESS is undefined when expression is evaluated.
+
+I am using bitbake master (5c8eeefc79455f058dda8f04cf4c12dc5418e00f).
+
+
+
+Enrico
 
 
