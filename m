@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1QlYOi-0002wW-Fd
+	(envelope-from <Kai.Kang@windriver.com>) id 1QlYOm-0002wh-Ks
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 05:33:33 +0200
+	Tue, 26 Jul 2011 05:33:37 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6Q3TIjV004498
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6Q3TM9M004501
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Jul 2011 20:29:18 -0700 (PDT)
+	Mon, 25 Jul 2011 20:29:22 -0700 (PDT)
 Received: from localhost (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 25 Jul 2011 20:29:17 -0700
-Message-ID: <473d200a58af58edc88e1fab1de9022675fa02ae.1311648798.git.kai.kang@windriver.com>
+	Mon, 25 Jul 2011 20:29:22 -0700
+Message-ID: <91d24bec4de6457460841637c65a68c38c09dd53.1311648798.git.kai.kang@windriver.com>
 In-Reply-To: <cover.1311648798.git.kai.kang@windriver.com>
 References: <cover.1311648798.git.kai.kang@windriver.com>
-Old-Date: Tue, 19 Jul 2011 17:08:31 +0800
-Date: Tue, 26 Jul 2011 11:29:14 +0800
+Old-Date: Wed, 20 Jul 2011 09:57:12 +0800
+Date: Tue, 26 Jul 2011 11:29:19 +0800
 To: <scott.a.garman@intel.com>
 From: Kang Kai <kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.213]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/7] libpam: update to 1.1.4 and add subpackage xtests
+Subject: [PATCH 2/7] cups: add pam support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,113 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 03:33:34 -0000
+X-List-Received-Date: Tue, 26 Jul 2011 03:33:37 -0000
 Content-Type: text/plain
 
 From: Kang Kai <kai.kang@windriver.com>
 
-Update libpam to 1.1.4, and add dependecy cracklib because run xtexts will
-need pam-plugin-cracklib.
-There are some additional checks under subdirectory xtests and make it
-as a subpackage libpam-xtests.
+According to distro_feature then add pam support for cups or not.
 
 Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- .../pam/libpam/libpam-xtests.patch                 |   35 ++++++++++++++++++++
- .../pam/{libpam_1.1.3.bb => libpam_1.1.4.bb}       |   14 +++++---
- 2 files changed, 44 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-extended/pam/libpam/libpam-xtests.patch
- rename meta/recipes-extended/pam/{libpam_1.1.3.bb => libpam_1.1.4.bb} (85%)
+ meta/recipes-extended/cups/cups_1.4.6.bb |    8 +++++---
+ 1 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/pam/libpam/libpam-xtests.patch b/meta/recipes-extended/pam/libpam/libpam-xtests.patch
-new file mode 100644
-index 0000000..be68745
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/libpam-xtests.patch
-@@ -0,0 +1,35 @@
-+This patch is used to create a new sub package libpam-xtests to do more checks.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Kang Kai <kai.kang@windriver.com>
-+--- Linux-PAM-1.1.4/xtests/Makefile.am.orig	2011-07-19 17:00:09.619980001 +0800
-++++ Linux-PAM-1.1.4/xtests/Makefile.am	2011-07-19 16:54:00.229979998 +0800
-+@@ -7,7 +7,7 @@
-+ AM_LDFLAGS = -L$(top_builddir)/libpam -lpam \
-+ 	-L$(top_builddir)/libpam_misc -lpam_misc
-+ 
-+-CLEANFILES = *~ $(XTESTS)
-++CLEANFILES = *~
-+ 
-+ EXTRA_DIST = run-xtests.sh tst-pam_dispatch1.pamd tst-pam_dispatch2.pamd \
-+ 	tst-pam_dispatch3.pamd tst-pam_dispatch4.pamd \
-+@@ -51,3 +51,18 @@
-+ 
-+ xtests: $(XTESTS) run-xtests.sh
-+ 	"$(srcdir)"/run-xtests.sh "$(srcdir)" ${XTESTS} ${NOSRCTESTS}
-++
-++all: $(XTESTS)
-++
-++install: install_xtests
-++
-++install_xtests:
-++	$(INSTALL) -d $(DESTDIR)$(pkgdatadir)/xtests
-++	for file in $(EXTRA_DIST) ; do \
-++		$(INSTALL) $$file $(DESTDIR)$(pkgdatadir)/xtests ; \
-++	done
-++	for file in $(XTESTS); do \
-++		$(INSTALL) .libs/$$file $(DESTDIR)$(pkgdatadir)/xtests ; \
-++	done
-++
-++.PHONY: all install_xtests
-diff --git a/meta/recipes-extended/pam/libpam_1.1.3.bb b/meta/recipes-extended/pam/libpam_1.1.4.bb
-similarity index 85%
-rename from meta/recipes-extended/pam/libpam_1.1.3.bb
-rename to meta/recipes-extended/pam/libpam_1.1.4.bb
-index b62e2f2..59fbdcd 100644
---- a/meta/recipes-extended/pam/libpam_1.1.3.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.4.bb
-@@ -11,18 +11,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ca0395de9a86191a078b8b79302e3083"
+diff --git a/meta/recipes-extended/cups/cups_1.4.6.bb b/meta/recipes-extended/cups/cups_1.4.6.bb
+index 86b5340..fd20dcc 100644
+--- a/meta/recipes-extended/cups/cups_1.4.6.bb
++++ b/meta/recipes-extended/cups/cups_1.4.6.bb
+@@ -1,7 +1,8 @@
+ require cups14.inc
  
- PR = "r0"
+-PR = "r0"
+-DEPENDS += "libusb"
++PR = "r1"
++DEPENDS += "libusb \
++       ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
  
--DEPENDS = "bison flex"
-+DEPENDS = "bison flex cracklib"
- RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
-+RDEPENDS_${PN}-xtests = "libpam pam-plugin-access pam-plugin-debug pam-plugin-cracklib pam-plugin-pwhistory \
-+                        pam-plugin-succeed-if pam-plugin-time coreutils"
- RRECOMMENDS_${PN} = "libpam-runtime"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=956e7600195e6139f12de8c2a5bbefa9"
+ SRC_URI += " \
+@@ -12,6 +13,7 @@ SRC_URI += " \
+ SRC_URI[md5sum] = "de8fb5a29c36554925c0c6a6e2c0dae1"
+ SRC_URI[sha256sum] = "f08711702a77b52c7150f96fe1f45482f6151cb95ef601268c528607fe6ad514"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/pam/library/Linux-PAM-${PV}.tar.bz2 \
-            file://99_pam \
--           file://pam.d/*"
-+           file://pam.d/* \
-+           file://libpam-xtests.patch"
+-EXTRA_OECONF += " --disable-gssapi --enable-debug --disable-relro --enable-libusb"
++EXTRA_OECONF += " --disable-gssapi --enable-debug --disable-relro --enable-libusb \
++       ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
  
- SRC_URI_append_libc-uclibc = " file://pam-no-innetgr.patch"
- 
--SRC_URI[md5sum] = "6db7fcb5db6253350e3a4648ceac40e7"
--SRC_URI[sha256sum] = "17b268789b935a76e736a1150210dd12f156972973e79347668f828d43632652"
-+SRC_URI[md5sum] = "e9af5fb27bb22edb55d077e2888b3ebc"
-+SRC_URI[sha256sum] = "ccd89331914390b1e9e99c954471d65f19b660d81e15a46eeb96cee125d44056"
- 
- EXTRA_OECONF = "--with-db-uniquename=_pam \
-                 --includedir=${includedir}/security \
-@@ -34,12 +37,13 @@ S = "${WORKDIR}/Linux-PAM-${PV}"
- 
- inherit autotools gettext
- 
--PACKAGES += "${PN}-runtime"
-+PACKAGES += "${PN}-runtime ${PN}-xtests"
- FILES_${PN} = "${base_libdir}/lib*${SOLIBS}"
- FILES_${PN}-dbg += "${base_libdir}/security/.debug \
-                     ${base_libdir}/security/pam_filter/.debug"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${base_libdir}/*.la ${base_libdir}/lib*${SOLIBSDEV}"
- FILES_${PN}-runtime = "${sysconfdir}"
-+FILES_${PN}-xtests = "${datadir}/Linux-PAM/xtests"
- 
- PACKAGES_DYNAMIC += " pam-plugin-*"
- 
+ CONFFILES_${PN} += "${sysconfdir}/cups/cupsd.conf"
 -- 
 1.7.5.1.300.gc565c
 
