@@ -1,34 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qlioo-0005t0-6u for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 16:41:10 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QEavfw022277
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1QlitO-0005xS-7r
+	for openembedded-core@lists.openembedded.org;
+	Tue, 26 Jul 2011 16:45:54 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6QEfc5Q015744
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 15:36:57 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22091-05 for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 15:36:53 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QEaqnD022271
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 15:36:53 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1f4c4205e480da53c3af9bb89f8d49a73fdc1c1e.1311668437.git.sgw@linux.intel.com>
-References: <cover.1311668437.git.sgw@linux.intel.com>
-	<1f4c4205e480da53c3af9bb89f8d49a73fdc1c1e.1311668437.git.sgw@linux.intel.com>
-Date: Tue, 26 Jul 2011 15:36:44 +0100
-Message-ID: <1311691004.2344.256.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC-WIP 1/3] classes/image*: Revamp creation of live images
+	Tue, 26 Jul 2011 07:41:38 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 26 Jul 2011 07:41:38 -0700
+Message-ID: <4E2ED221.3010705@windriver.com>
+Date: Tue, 26 Jul 2011 09:41:37 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
+	<b270e42da9fef8715c84054fc968ee7fe2492eab.1311683981.git.richard.purdie@linuxfoundation.org>
+In-Reply-To: <b270e42da9fef8715c84054fc968ee7fe2492eab.1311683981.git.richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH 2/3] Add basic Mips core tune config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,123 +37,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 14:41:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 26 Jul 2011 14:45:54 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-07-26 at 01:24 -0700, Saul Wold wrote:
-> This creates a live image as an IMAGE_FSTYPES, thus removing the
-> need to have additional -live.bb recipes.  To create a live image
-> one just needs to add live to the IMAGE_FSTYPES list
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Few quick items here:
+
+On 7/26/11 7:44 AM, Richard Purdie wrote:
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  .../{bootimg.bbclass => image-live.bbclass}        |   11 +++++++++++
->  meta/classes/image.bbclass                         |    3 +++
->  meta/classes/image_types.bbclass                   |   20 ++++++++++++++++++--
->  3 files changed, 32 insertions(+), 2 deletions(-)
->  create mode 100644 meta/classes/image-empty.bbclass
->  rename meta/classes/{bootimg.bbclass => image-live.bbclass} (91%)
+>  meta/conf/machine/include/mips/arch-mips.inc |   64 +++++++++++++++++++++++++-
+>  meta/conf/machine/include/tune-mips32.inc    |   10 +++-
+>  2 files changed, 71 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meta/classes/image-empty.bbclass b/meta/classes/image-empty.bbclass
-> new file mode 100644
-> index 0000000..e69de29
-> diff --git a/meta/classes/bootimg.bbclass b/meta/classes/image-live.bbclass
-> similarity index 91%
-> rename from meta/classes/bootimg.bbclass
-> rename to meta/classes/image-live.bbclass
-> index 49ee85e..c9cd524 100644
-> --- a/meta/classes/bootimg.bbclass
-> +++ b/meta/classes/image-live.bbclass
-> @@ -25,6 +25,17 @@
->  # ${APPEND} - an override list of append strings for each label
->  # ${SYSLINUX_OPTS} - additional options to add to the syslinux file ';' delimited 
+> diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
+> index f7f4eed..071e6b5 100644
+> --- a/meta/conf/machine/include/mips/arch-mips.inc
+> +++ b/meta/conf/machine/include/mips/arch-mips.inc
+> @@ -1 +1,63 @@
+...
+
+> +# Floating point
+> +TUNEVALID[fpu-hard] = "Use hardware FPU"
+> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "-mhard-float", "-msoft-float", d)}"
+> +TARGET_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "", "soft", d)}"
+> +
+> +# Package naming
+> +MIPSPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
+> +MIPSPKGSFX_BYTE = "${@bb.utils.contains("TUNE_FEATURES", "n64" , "64", "", d)}"
+
+n32 is also MIPS64.
+
+so a:
+
+MIPSPKGSFX_BYTE .= "${@bb.utils.contains("TUNE_FEATURES", "n32" , "64", "", d)}"
+
+should fix the issue.
+
+> +TUNE_ARCH = "mips${MIPSPKGSFX_BYTE}${MIPSPKGSFX_ENDIAN}"
+> +
+> +# Base tunes
+> +AVAILTUNES += "mips mips64-n32 mips64 mipsel mips64el-n32 mips64el mips-nf mips64-nf-n32 mips64-nf mipsel-nf mips64el-nf-n32 mips64el-nf"
+> +TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
+> +BASE_LIB_tune-mips = "lib"
+> +TUNE_FEATURES_tune-mips64-n32 = "n32 bigendian fpu-hard"
+> +BASE_LIB_tune-mips64-n32 = "lib32"
+> +TUNE_FEATURES_tune-mips64 = "n64 bigendian fpu-hard"
+> +BASE_LIB_tune-mips64 = "lib64"
+> +TUNE_FEATURES_tune-mipsel = "o32 fpu-hard"
+> +BASE_LIB_tune-mipsel = "lib"
+> +TUNE_FEATURES_tune-mips64el-n32 = "n32 fpu-hard"
+> +BASE_LIB_tune-mips64el-n32 = "lib32"
+> +TUNE_FEATURES_tune-mips64el = "n64 fpu-hard"
+> +BASE_LIB_tune-mips64el = "lib64"
+> +TUNE_FEATURES_tune-mips-nf = "o32 bigendian"
+> +BASE_LIB_tune-mips-nf = "lib"
+> +TUNE_FEATURES_tune-mips64-nf-n32 = "n32 bigendian"
+> +BASE_LIB_tune-mips64-nf-n32 = "lib32"
+> +TUNE_FEATURES_tune-mips64-nf = "n64 bigendian"
+> +BASE_LIB_tune-mips64-nf = "lib64"
+> +TUNE_FEATURES_tune-mipsel-nf = "o32"
+> +BASE_LIB_tune-mipsel-nf = "lib"
+> +TUNE_FEATURES_tune-mips64el-nf-n32 = "n32"
+> +BASE_LIB_tune-mips64el-nf-n32 = "lib32"
+> +TUNE_FEATURES_tune-mips64el-nf = "n64"
+> +BASE_LIB_tune-mips64el-nf = "lib64"
+> +
+> diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
+> index 28b0047..1f913df 100644
+> --- a/meta/conf/machine/include/tune-mips32.inc
+> +++ b/meta/conf/machine/include/tune-mips32.inc
+> @@ -1,4 +1,10 @@
+> +DEFAULTTUNE ?= "mips32"
+> +
+>  require conf/machine/include/mips/arch-mips.inc
 >  
-> +AUTO_SYSLINUXCFG = "1"
-> +INITRD = "${DEPLOY_DIR_IMAGE}/core-image-minimal-initramfs-${MACHINE}.cpio.gz"
-> +APPEND += "root=/dev/ram0 "
-> +TIMEOUT = "10"
-> +LABELS += "boot install"
+> -TUNE_CCARGS = "-march=mips32"
+> -TUNE_PKGARCH = "mips"
+> +TUNEVALID[mips32] = "Enable mips32 specific processor optimizations"
+
+If tune-mips32 is used, then all of the n32 and n64 variants are not possible.
+Do we have a way to specify that?  Perhaps using the TUNECONFLICT?
+
+> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mips32", "-march=mips32", "", d)}"
 > +
-> +ROOTFS = "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
-> +
-> +do_bootimg[depends] += "core-image-minimal-initramfs:do_rootfs"
-> +do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
-> +
->  do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
->                         syslinux:do_populate_sysroot \
->                         syslinux-native:do_populate_sysroot \
-
-It might be an idea to leave bootimg.bbclass as is for anyone using it
-as it currently stands and make this image-xxx.bbclass inherit it?
-
-
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index edfb2d6..79a56f0 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -29,6 +29,9 @@ LDCONFIGDEPEND_libc-uclibc = ""
->  do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND}"
->  do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
->  
-> +IMAGE_TYPE = ${@base_contains("IMAGE_FSTYPES", "live", "live", "empty", d)}
-> +inherit image-${IMAGE_TYPE}
-> +
->  python () {
->      deps = bb.data.getVarFlag('do_rootfs', 'depends', d) or ""
->      for type in (bb.data.getVar('IMAGE_FSTYPES', d, True) or "").split():
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 1108802..1efdf06 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -1,7 +1,23 @@
-> +
->  def get_imagecmds(d):
->      cmds = "\n"
->      old_overrides = bb.data.getVar('OVERRIDES', d, 0)
-> -    for type in bb.data.getVar('IMAGE_FSTYPES', d, True).split():
-> +
-> +    types = bb.data.getVar('IMAGE_FSTYPES', d, True).split()
-
-Er, how about:
-
-if "live" in types:
-    # For live images, ensure they get processed last
-    # live images also depend on ext3 so ensure its present
-    types.remove("live")
-    if "ext3" not in types:
-        types.append("ext3")
-    types.append("live")
-
-> +    try:
-> +        live_pos = types.index("live")
-> +        try:
-> +            ext3_pos = types.index("ext3")
-> +        except ValueError:
-> +            types.insert(live_pos, "ext3")
-> +        else:
-> +            if ext3_pos > live_pos:
-> +                types.pop(live_pos)
-> +                #types.append("live")
-> +    except ValueError:
-> +        pass
-> +
-> +    for type in types:
->          localdata = bb.data.createCopy(d)
->          localdata.setVar('OVERRIDES', '%s:%s' % (type, old_overrides))
->          bb.data.update_data(localdata)
-> @@ -103,4 +119,4 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
->  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->  
->  # This variable is available to request which values are suitable for IMAGE_FSTYPES
-> -IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz squashfs squashfs-lzma ubi"
-> +IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz live squashfs squashfs-lzma ubi"
-
-Otherwise looks good :)
-
-Cheers,
-
-Richard
+> +AVAILTUNES += "mips32"
+> +TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
+> +PACKAGE_EXTRA_ARCHS_tune-mips32 = "mips"
 
 
 
