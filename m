@@ -1,31 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QljZp-0007Ma-8Y
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Qlji4-0007Xy-LA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 17:29:45 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6QFPVQt024444
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 08:25:31 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 26 Jul 2011 08:25:31 -0700
-Message-ID: <4E2EDC6A.50001@windriver.com>
-Date: Tue, 26 Jul 2011 10:25:30 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1311601422.git.richard.purdie@linuxfoundation.org>
-	<bd2e16888f6520e2d02d3ff6c43b360d217572e4.1311601422.git.richard.purdie@linuxfoundation.org>
-	<1311602099.30326.217.camel@phil-desktop>
-	<4E2DA3CB.7070902@windriver.com>
-In-Reply-To: <4E2DA3CB.7070902@windriver.com>
-Subject: Re: [PATCH 1/5] multilib_header.bbclass: Add oe_multilib_header wrapper
+	Tue, 26 Jul 2011 17:38:16 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Jul 2011 08:33:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,270,1309762800"; d="scan'208";a="34658274"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.17.235])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2011 08:33:38 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jul 2011 16:33:32 +0100
+Message-Id: <cover.1311694250.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/4] local.conf.sample cleanup for OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,61 +29,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 15:29:45 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Jul 2011 15:38:16 -0000
 
-On 7/25/11 12:11 PM, Mark Hatle wrote:
-> On 7/25/11 8:54 AM, Phil Blundell wrote:
->> On Mon, 2011-07-25 at 14:47 +0100, Richard Purdie wrote:
->>> +/*  Copyright (c) 2005-2011 Wind River Systems, Inc.
->>> + *
->>> + * This program is free software; you can redistribute it and/or modify
->>> + * it under the terms of the GNU Lesser General Public License version 2.1 as
->>> + * published by the Free Software Foundation.
-> 
-> I believe we're flexibly with the license statement in the file.. (Just
-> verifying it to make sure I am allowed to change it.)
-> 
-> I personally don't believe it's a big deal, but I understand the concern.  Is
-> there a different wording/license statement that would make more sense?  My
-> concern is that if we make the license dynamic it's a lot of pain for no real
-> technical reason.
-> 
-> I'd like to see if we (WR) can just put a statement on it that it can be used
-> for any purpose -- whatever the legalize is for that -- and if that would
-> satisfy your concerns.  (BTW: Our goal of course is NOT to change the license of
-> the produced binary in any way...)
+The following changes since commit dad2169cfb331b7af5c6d380347ea279a59bd716:
 
-Looking for feedback, would the CC0:
+  classes/image_types: IMAGE_TYPES was missing some entries (2011-07-26 15:52:40 +0100)
 
-http://creativecommons.org/publicdomain/zero/1.0/legalcode.txt
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/local-conf-cleanup-core
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/local-conf-cleanup-core
 
-work, or would this still "contaminate" the license statement in your opinion?
+Paul Eggleton (4):
+  meta/conf/local.conf.sample: remove oprofileui-native related
+    settings
+  meta/conf/local.conf.sample: improve comments/layout
+  meta/conf/local.conf.sample: improve terminal examples/comments
+  meta/conf/local.conf.sample: remove nonfunctional BBINCLUDELOGS
+    setting
 
---Mark
+ meta/conf/local.conf.sample |   38 +++++++++++++++++++-------------------
+ 1 files changed, 19 insertions(+), 19 deletions(-)
 
->> This is going to cause LGPL 2.1 content to appear in the output
->> packages.  For things like binutils this is probably not a big deal,
->> since they are GPL already, but for ncurses (previously MIT-licensed)
->> this is a potentially significant change.  In any case I think there
->> needs to be some way of making sure that the LICENSE is updated
->> appropriately when this file is included.
->>
->> p.
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
+1.7.4.1
 
 
 
