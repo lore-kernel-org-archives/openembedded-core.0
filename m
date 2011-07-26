@@ -1,26 +1,16 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QlpHF-0007IJ-Te
+	(envelope-from <richard@tim.rpsys.net>) id 1Qlpd6-0007sI-QR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 23:34:58 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6QLUhi5028078
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 14:30:43 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 26 Jul 2011 14:30:43 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Jul 2011 16:31:09 -0500
-Message-ID: <84d5793eb7e14beb3c2c1396a58cc3a475510a27.1311715727.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1311715727.git.mark.hatle@windriver.com>
-References: <cover.1311715727.git.mark.hatle@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [v2 PATCH 8/8] package.bbclass: fixup_perms - change symlink processing
+	Tue, 26 Jul 2011 23:57:33 +0200
+Received: by rex (Postfix, from userid 1000)
+	id 1F1C520284; Tue, 26 Jul 2011 22:53:11 +0100 (BST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jul 2011 22:53:09 +0100
+Message-Id: <cover.1311716946.git.richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH 0/8] Multilib core enablement patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +25,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 21:34:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Jul 2011 21:57:33 -0000
 
-We switch to using os.lchown in order to avoid following a symlink.
+This patch series forms the core multilib enablement for OE-Core. The first patch
+adds the main class which can be enabled as per the local.conf.sample code. 
 
-We also now check if an item is a symlink, if so we avoid the
-os.chmod as a symlink inherits the mode of it's target.
+The following patches are various misc multilib related tweaks the system needed.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/package.bbclass |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+Following this series, the tune changes I posted earlier and Mark's header changes, 
+the only remaining piece is the package manager integration. I'll post those as a
+separate follow on series but those are likely still in need of some tweaks before
+merging.
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index f2950e2..076a532 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -472,7 +472,7 @@ python fixup_perms () {
- 			else:
- 				return int(mode,8)
- 
--		# Note uid/gid -1 has special significance in os.chown
-+		# Note uid/gid -1 has special significance in os.lchown
- 		def _procuid(self, uid):
- 			if uid is None or uid == "-":
- 				return -1
-@@ -514,14 +514,14 @@ python fixup_perms () {
- 
- 	# Fix the permission, owner and group of path
- 	def fix_perms(path, mode, uid, gid, dir):
--		if mode:
-+		if mode and not os.path.islink(path):
- 			#bb.note("Fixup Perms: chmod 0%o %s" % (mode, dir))
- 			os.chmod(path, mode)
- 		# -1 is a special value that means don't change the uid/gid
--		# if they are BOTH -1, don't bother to chown
-+		# if they are BOTH -1, don't bother to lchown
- 		if not (uid == -1 and gid == -1):
--			#bb.note("Fixup Perms: chown %d:%d %s" % (uid, gid, dir))
--			os.chown(path, uid, gid)
-+			#bb.note("Fixup Perms: lchown %d:%d %s" % (uid, gid, dir))
-+			os.lchown(path, uid, gid)
- 
- 	# Return a list of configuration files based on either the default
- 	# files/fs-perms.txt or the contents of FILESYSTEM_PERMS_TABLES
+The patches are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib rpurdie/ml4
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rpurdie/ml4
+
+Dongxiao Xu (1):
+  distcc: fix makefile parameter order
+
+Mark Hatle (1):
+  RPM: multilib file class/color
+
+Richard Purdie (2):
+  multilib: Add support for compiling recipes against multiple ABIs
+  lib/oe/util.py: Add MLPREFIX support to prune_suffix()
+
+Yu Ke (4):
+  do_split_packages: revise for multilib case
+  eglibc: fix for multilib RPROVIDES issue
+  cmake.bbclass: add ${libdir}} for multilib case
+  linux-yocto: revise the dependency for multilib
+
+ meta/classes/autotools.bbclass                     |    2 +-
+ meta/classes/cmake.bbclass                         |    2 +-
+ meta/classes/insane.bbclass                        |    3 +-
+ meta/classes/multilib.bbclass                      |   87 ++++++++++++++++++++
+ meta/classes/package.bbclass                       |   15 ++++
+ meta/conf/bitbake.conf                             |    1 +
+ meta/conf/local.conf.sample                        |    5 +
+ meta/conf/multilib.conf                            |   24 ++++++
+ meta/lib/oe/utils.py                               |    7 ++-
+ meta/recipes-core/dbus/dbus.inc                    |    8 +-
+ meta/recipes-core/eglibc/eglibc-package.inc        |    2 +-
+ meta/recipes-devtools/distcc/distcc_2.18.3.bb      |    3 +-
+ .../distcc/files/makefile-param-order.patch        |   20 +++++
+ meta/recipes-devtools/gcc/libgcc_4.6.bb            |    6 +-
+ meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch  |   34 ++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    1 +
+ meta/recipes-kernel/linux/linux-tools.inc          |    2 +-
+ 17 files changed, 207 insertions(+), 15 deletions(-)
+ create mode 100644 meta/classes/multilib.bbclass
+ create mode 100644 meta/conf/multilib.conf
+ create mode 100644 meta/recipes-devtools/distcc/files/makefile-param-order.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch
+
 -- 
-1.7.3.4
+1.7.4.1
 
 
 
