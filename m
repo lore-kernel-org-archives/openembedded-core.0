@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1QlYOq-0002xf-Tf
+	(envelope-from <Kai.Kang@windriver.com>) id 1QlYOv-0002yr-DE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 05:33:41 +0200
+	Tue, 26 Jul 2011 05:33:45 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6Q3TRGB004507
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6Q3TVlM004513
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Jul 2011 20:29:27 -0700 (PDT)
+	Mon, 25 Jul 2011 20:29:31 -0700 (PDT)
 Received: from localhost (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 25 Jul 2011 20:29:26 -0700
-Message-ID: <7f47dec7aab5feaaafedb4d0c12a91722eb2e6cc.1311648798.git.kai.kang@windriver.com>
+	Mon, 25 Jul 2011 20:29:31 -0700
+Message-ID: <1051c5aaf34edd1a2af3d51714bd105001459873.1311648798.git.kai.kang@windriver.com>
 In-Reply-To: <cover.1311648798.git.kai.kang@windriver.com>
 References: <cover.1311648798.git.kai.kang@windriver.com>
-Old-Date: Wed, 20 Jul 2011 10:16:47 +0800
-Date: Tue, 26 Jul 2011 11:29:23 +0800
+Old-Date: Wed, 20 Jul 2011 11:17:07 +0800
+Date: Tue, 26 Jul 2011 11:29:27 +0800
 To: <scott.a.garman@intel.com>
 From: Kang Kai <kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.213]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/7] screen: add pam support
+Subject: [PATCH 4/7] sudo: add pam support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,68 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 03:33:41 -0000
+X-List-Received-Date: Tue, 26 Jul 2011 03:33:45 -0000
 Content-Type: text/plain
 
 From: Kang Kai <kai.kang@windriver.com>
 
-According to DISTRO_FEATURES then add screen pam support or not.
-Press "Ctrl+a x" will lock the screen terminal, then unlock it will
-use pam.
-Add pam related configure file sceen.pam from Fedora.
+According to DISTRO_FEATURES to add pam support for sudo, and import
+configure file from Fedora.
 
 Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- .../screen/screen-4.0.3/screen.pam                 |    2 +
- meta/recipes-extended/screen/screen_4.0.3.bb       |   23 +++++++++++++++----
- 2 files changed, 20 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen.pam
+ meta/recipes-extended/sudo/files/sudo.pam  |    6 ++++++
+ meta/recipes-extended/sudo/sudo_1.8.1p2.bb |   18 +++++++++++++++---
+ 2 files changed, 21 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/sudo/files/sudo.pam
 
-diff --git a/meta/recipes-extended/screen/screen-4.0.3/screen.pam b/meta/recipes-extended/screen/screen-4.0.3/screen.pam
+diff --git a/meta/recipes-extended/sudo/files/sudo.pam b/meta/recipes-extended/sudo/files/sudo.pam
 new file mode 100644
-index 0000000..ff657fa
+index 0000000..5bc26e7
 --- /dev/null
-+++ b/meta/recipes-extended/screen/screen-4.0.3/screen.pam
-@@ -0,0 +1,2 @@
++++ b/meta/recipes-extended/sudo/files/sudo.pam
+@@ -0,0 +1,6 @@
 +#%PAM-1.0
 +auth       include      common-auth
-diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb b/meta/recipes-extended/screen/screen_4.0.3.bb
-index dac2893..27f39dd 100644
---- a/meta/recipes-extended/screen/screen_4.0.3.bb
-+++ b/meta/recipes-extended/screen/screen_4.0.3.bb
-@@ -10,12 +10,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0774d66808b0f602e94448108f59448b \
-                     file://screen.h;endline=23;md5=9a7ae69a2aafed891bf7c38ddf9f6b7d"
++account    include      common-account
++password   include      common-password
++session    required     pam_keyinit.so revoke
++session    required     pam_limits.so
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.1p2.bb b/meta/recipes-extended/sudo/sudo_1.8.1p2.bb
+index 7eba307..9cf9ecc 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.1p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.1p2.bb
+@@ -1,11 +1,23 @@
+ require sudo.inc
  
- SECTION = "console/utils"
--DEPENDS = "ncurses"
 -PR = "r0"
-+DEPENDS = "ncurses \
-+          ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
 +PR = "r1"
  
- SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz;name=tarball \
-            ${DEBIAN_MIRROR}/main/s/screen/screen_4.0.3-11+lenny1.diff.gz;name=patch \
--           file://configure.patch"
-+           file://configure.patch \
+ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+-           file://libtool.patch"
++           file://libtool.patch \
 +           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
 +
-+PAM_SRC_URI = "file://screen.pam"
++PAM_SRC_URI = "file://sudo.pam"
  
- SRC_URI[tarball.md5sum] = "8506fd205028a96c741e4037de6e3c42"
- SRC_URI[tarball.sha256sum] = "78f0d5b1496084a5902586304d4a73954b2bfe33ea13edceecf21615c39e6c77"
-@@ -25,5 +29,14 @@ SRC_URI[patch.sha256sum] = "19130d097e9ed897c84a2c640634dd36ee3233c17b0bf5d18549
+ SRC_URI[md5sum] = "e8330f0e63b0ecb2e12b5c76922818cc"
+ SRC_URI[sha256sum] = "281f90c80547cf22132e351e7f61c25ba4ba9cf393438468f318f9a7884026fb"
  
- inherit autotools
- 
--EXTRA_OECONF = "--with-pty-mode=0620 --with-pty-group=5"
--
-+EXTRA_OECONF = "--with-pty-mode=0620 --with-pty-group=5 \
-+               ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
+-EXTRA_OECONF += " --with-pam=no"
++EXTRA_OECONF += " ${@base_contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)}"
 +
 +do_install_append () {
 +	for feature in ${DISTRO_FEATURES}; do
 +		if [ "$feature" = "pam" ]; then
-+			install -D -m 644 ${WORKDIR}/screen.pam ${D}/${sysconfdir}/pam.d/screen
++			install -D -m 664 ${WORKDIR}/sudo.pam ${D}/${sysconfdir}/pam.d/sudo
 +			break
 +		fi
 +	done
