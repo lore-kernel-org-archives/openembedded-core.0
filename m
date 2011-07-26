@@ -1,25 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1QlejQ-0000YP-Ez
+	(envelope-from <edwin.zhai@intel.com>) id 1QlgtC-0001NR-LR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 12:19:21 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6QAF61N003076
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 03:15:06 -0700 (PDT)
-Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 26 Jul 2011 03:15:06 -0700
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Jul 2011 18:08:09 +0800
-Message-ID: <80d928168da0299329e10eb36f3822892371466e.1311671726.git.xiaofeng.yan@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1311671726.git.xiaofeng.yan@windriver.com>
-References: <cover.1311671726.git.xiaofeng.yan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] polkit: Support pam
+	Tue, 26 Jul 2011 14:37:34 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Jul 2011 05:33:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,269,1309762800"; d="scan'208";a="34603576"
+Received: from yocto-build3.sh.intel.com ([10.239.48.58])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2011 05:33:19 -0700
+From: edwin.zhai@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jul 2011 20:30:52 +0800
+Message-Id: <cover.1311682779.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/3] utils for touchscreen calibration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,67 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 10:19:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Jul 2011 12:37:35 -0000
 
-Modify configuration "polkit-1" in /etc/pam.d/ for supporting pam.
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- .../polkit/polkit-0.101/polkit-1_pam.patch         |   23 ++++++++++++++++++++
- meta/recipes-extended/polkit/polkit_0.101.bb       |    7 ++++-
- 2 files changed, 28 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
+These are some debug and calibration utils for touchscreen. Xinput and evtest
+can also be used for other input device. I'm not sure about where they should
+go under meta. Any comments?
 
-diff --git a/meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch b/meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
-new file mode 100644
-index 0000000..74647ef
---- /dev/null
-+++ b/meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
-@@ -0,0 +1,23 @@
-+polkit: No system-auth in OE-Core, we can use common-* in place of it.
-+
-+Upstream-Status:Inappropriate [configuration]
-+
-+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-+
-+--- a/configure.ac	2011-03-04 02:26:20.000000000 +0800
-++++ b/configure.ac.new	2011-07-18 10:14:12.516818852 +0800
-+@@ -350,10 +350,10 @@
-+     PAM_FILE_INCLUDE_PASSWORD=system
-+     PAM_FILE_INCLUDE_SESSION=system
-+ else
-+-   PAM_FILE_INCLUDE_AUTH=system-auth
-+-   PAM_FILE_INCLUDE_ACCOUNT=system-auth
-+-   PAM_FILE_INCLUDE_PASSWORD=system-auth
-+-   PAM_FILE_INCLUDE_SESSION=system-auth
-++   PAM_FILE_INCLUDE_AUTH=common-auth
-++   PAM_FILE_INCLUDE_ACCOUNT=common-account
-++   PAM_FILE_INCLUDE_PASSWORD=common-password
-++   PAM_FILE_INCLUDE_SESSION=common-session
-+ fi
-+ 
-+ AC_SUBST(PAM_FILE_INCLUDE_AUTH)
-diff --git a/meta/recipes-extended/polkit/polkit_0.101.bb b/meta/recipes-extended/polkit/polkit_0.101.bb
-index 6769914..56ceca4 100644
---- a/meta/recipes-extended/polkit/polkit_0.101.bb
-+++ b/meta/recipes-extended/polkit/polkit_0.101.bb
-@@ -7,8 +7,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
-                     file://docs/polkit/html/license.html;md5=07ddbf5f29e44c80c99be19c1690ec1f"
- 
- SRC_URI = "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
--           file://introspection.patch"
--PR = "r0"
-+           file://introspection.patch \
-+           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
-+
-+PAM_SRC_URI = "file://polkit-1_pam.patch"
-+PR = "r1"
- DEPENDS = "libpam expat dbus-glib eggdbus intltool"
- RDEPENDS_${PN} = "libpam"
- EXTRA_OECONF = "--with-authfw=pam --with-os-type=moblin --disable-man-pages --disable-gtk-doc --disable-introspection"
--- 
-1.7.0.4
+Thanks,
+Edwin
+
+The following changes since commit e0fc42b51a8209dac1163ae8126f8c687b6bfddf:
+
+  distro_tracking_fields.inc: update RECIPE_MANUAL_CHECK_DATE for screen and tcf-agent (2011-06-29 15:04:59 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib gzhai/master
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/master
+
+Zhai Edwin (3):
+  xinput: Add 1.5.3 as new recipes
+  xinput-calibrator: Add 0.7.5 as new recipe
+  evtest: Add 1.25 as new recipe
+
+ meta/recipes-graphics/evtest/evtest_1.25.bb        |   16 +++++++++++++
+ .../xinput-calibrator/xinput-calibrator_0.7.5.bb   |   24 ++++++++++++++++++++
+ meta/recipes-graphics/xorg-app/xinput_1.5.3.bb     |    9 +++++++
+ 3 files changed, 49 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-graphics/evtest/evtest_1.25.bb
+ create mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator_0.7.5.bb
+ create mode 100644 meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
 
 
 
