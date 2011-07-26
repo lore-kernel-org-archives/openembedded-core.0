@@ -1,28 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QlitO-0005xS-7r
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 16:45:54 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6QEfc5Q015744
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qlj0B-00064p-Ua for openembedded-core@lists.openembedded.org;
+	Tue, 26 Jul 2011 16:52:56 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QEmhp4022354
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 07:41:38 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 26 Jul 2011 07:41:38 -0700
-Message-ID: <4E2ED221.3010705@windriver.com>
-Date: Tue, 26 Jul 2011 09:41:37 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
-	<b270e42da9fef8715c84054fc968ee7fe2492eab.1311683981.git.richard.purdie@linuxfoundation.org>
-In-Reply-To: <b270e42da9fef8715c84054fc968ee7fe2492eab.1311683981.git.richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH 2/3] Add basic Mips core tune config
+	Tue, 26 Jul 2011 15:48:43 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 22177-02 for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 15:48:39 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QEmYF0022348
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 15:48:34 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <f7fda63d4b69592f85b4d2817755519be8e1b774.1311669316.git.dongxiao.xu@intel.com>
+References: <cover.1311669316.git.dongxiao.xu@intel.com>
+	<f7fda63d4b69592f85b4d2817755519be8e1b774.1311669316.git.dongxiao.xu@intel.com>
+Date: Tue, 26 Jul 2011 15:48:26 +0100
+Message-ID: <1311691706.2344.257.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] Upstream-Status: Add Upstream-Status for some missing patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,93 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 14:45:54 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Tue, 26 Jul 2011 14:52:56 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Few quick items here:
-
-On 7/26/11 7:44 AM, Richard Purdie wrote:
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Tue, 2011-07-26 at 16:36 +0800, Dongxiao Xu wrote:
+> Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
 > ---
->  meta/conf/machine/include/mips/arch-mips.inc |   64 +++++++++++++++++++++++++-
->  meta/conf/machine/include/tune-mips32.inc    |   10 +++-
->  2 files changed, 71 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-> index f7f4eed..071e6b5 100644
-> --- a/meta/conf/machine/include/mips/arch-mips.inc
-> +++ b/meta/conf/machine/include/mips/arch-mips.inc
-> @@ -1 +1,63 @@
-...
+>  .../connman/connman-gnome/3g.patch                 |    2 ++
+>  .../flac/flac-1.2.1/0001-No-AltiVec-on-SPE.patch   |    2 ++
+>  .../lame/lame-3.98.4/no-gtk1.patch                 |    2 ++
+>  .../libtheora/libtheora-1.1.1/no-docs.patch        |    2 ++
+>  .../libtiff/files/libtool2.patch                   |    2 ++
+>  .../pulseaudio/libatomics-ops/doublefix.patch      |    2 ++
+>  .../fedora/libatomic_ops-1.2-ppclwzfix.patch       |    5 +++++
+>  .../gentoo/libatomic_ops-1.2-mips.patch            |    4 ++++
+>  8 files changed, 21 insertions(+), 0 deletions(-)
 
-> +# Floating point
-> +TUNEVALID[fpu-hard] = "Use hardware FPU"
-> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "-mhard-float", "-msoft-float", d)}"
-> +TARGET_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "", "soft", d)}"
-> +
-> +# Package naming
-> +MIPSPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
-> +MIPSPKGSFX_BYTE = "${@bb.utils.contains("TUNE_FEATURES", "n64" , "64", "", d)}"
+Merged to master, thanks.
 
-n32 is also MIPS64.
-
-so a:
-
-MIPSPKGSFX_BYTE .= "${@bb.utils.contains("TUNE_FEATURES", "n32" , "64", "", d)}"
-
-should fix the issue.
-
-> +TUNE_ARCH = "mips${MIPSPKGSFX_BYTE}${MIPSPKGSFX_ENDIAN}"
-> +
-> +# Base tunes
-> +AVAILTUNES += "mips mips64-n32 mips64 mipsel mips64el-n32 mips64el mips-nf mips64-nf-n32 mips64-nf mipsel-nf mips64el-nf-n32 mips64el-nf"
-> +TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
-> +BASE_LIB_tune-mips = "lib"
-> +TUNE_FEATURES_tune-mips64-n32 = "n32 bigendian fpu-hard"
-> +BASE_LIB_tune-mips64-n32 = "lib32"
-> +TUNE_FEATURES_tune-mips64 = "n64 bigendian fpu-hard"
-> +BASE_LIB_tune-mips64 = "lib64"
-> +TUNE_FEATURES_tune-mipsel = "o32 fpu-hard"
-> +BASE_LIB_tune-mipsel = "lib"
-> +TUNE_FEATURES_tune-mips64el-n32 = "n32 fpu-hard"
-> +BASE_LIB_tune-mips64el-n32 = "lib32"
-> +TUNE_FEATURES_tune-mips64el = "n64 fpu-hard"
-> +BASE_LIB_tune-mips64el = "lib64"
-> +TUNE_FEATURES_tune-mips-nf = "o32 bigendian"
-> +BASE_LIB_tune-mips-nf = "lib"
-> +TUNE_FEATURES_tune-mips64-nf-n32 = "n32 bigendian"
-> +BASE_LIB_tune-mips64-nf-n32 = "lib32"
-> +TUNE_FEATURES_tune-mips64-nf = "n64 bigendian"
-> +BASE_LIB_tune-mips64-nf = "lib64"
-> +TUNE_FEATURES_tune-mipsel-nf = "o32"
-> +BASE_LIB_tune-mipsel-nf = "lib"
-> +TUNE_FEATURES_tune-mips64el-nf-n32 = "n32"
-> +BASE_LIB_tune-mips64el-nf-n32 = "lib32"
-> +TUNE_FEATURES_tune-mips64el-nf = "n64"
-> +BASE_LIB_tune-mips64el-nf = "lib64"
-> +
-> diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
-> index 28b0047..1f913df 100644
-> --- a/meta/conf/machine/include/tune-mips32.inc
-> +++ b/meta/conf/machine/include/tune-mips32.inc
-> @@ -1,4 +1,10 @@
-> +DEFAULTTUNE ?= "mips32"
-> +
->  require conf/machine/include/mips/arch-mips.inc
->  
-> -TUNE_CCARGS = "-march=mips32"
-> -TUNE_PKGARCH = "mips"
-> +TUNEVALID[mips32] = "Enable mips32 specific processor optimizations"
-
-If tune-mips32 is used, then all of the n32 and n64 variants are not possible.
-Do we have a way to specify that?  Perhaps using the TUNECONFLICT?
-
-> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mips32", "-march=mips32", "", d)}"
-> +
-> +AVAILTUNES += "mips32"
-> +TUNE_FEATURES_tune-mips32 = "${TUNE_FEATURES_tune-mips} mips32"
-> +PACKAGE_EXTRA_ARCHS_tune-mips32 = "mips"
+Richard
 
 
 
