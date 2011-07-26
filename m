@@ -1,30 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QljB1-0006nV-Ff
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1QljQa-0007Ao-AR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 17:04:07 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6QExrfk019331
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 26 Jul 2011 17:20:13 +0200
+Received: from mail-yx0-f180.google.com ([209.85.213.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 26 Jul 2011 08:15:42 -0700
+Received: by yxk30 with SMTP id 30so625396yxk.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 07:59:53 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 26 Jul 2011 07:59:53 -0700
-Message-ID: <4E2ED668.3060301@windriver.com>
-Date: Tue, 26 Jul 2011 09:59:52 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
+	Tue, 26 Jul 2011 08:15:42 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
-	<992efbf4ec3d7c55346953dbe82f9745590e64bf.1311683981.git.richard.purdie@linuxfoundation.org>
-	<969FA904-0086-42FA-B605-07B74FB728B4@kernel.crashing.org>
-	<1311688752.2344.238.camel@rex>
-In-Reply-To: <1311688752.2344.238.camel@rex>
-Subject: Re: [PATCH 3/3] Add basic PowerPC core tune config
+Received: by 10.236.72.229 with SMTP id t65mr8145870yhd.41.1311693342245; Tue,
+	26 Jul 2011 08:15:42 -0700 (PDT)
+Received: by 10.236.108.9 with HTTP; Tue, 26 Jul 2011 08:15:42 -0700 (PDT)
+In-Reply-To: <1311692251.2344.262.camel@rex>
+References: <CAPhnLPBkbaj6MzfnLKfkwKpDO4UwejH+cWa2V=4CCpv55CReaw@mail.gmail.com>
+	<1311692251.2344.262.camel@rex>
+Date: Tue, 26 Jul 2011 08:15:42 -0700
+Message-ID: <CAPhnLPBO+_t-FXdCd5heU7mwz1aQVi45LKhZ3+cBZehgV42QHg@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] license.bbclass: Splitting out licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,57 +35,365 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 15:04:07 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Jul 2011 15:20:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 7/26/11 8:59 AM, Richard Purdie wrote:
-> On Tue, 2011-07-26 at 08:47 -0500, Kumar Gala wrote:
->> On Jul 26, 2011, at 7:44 AM, Richard Purdie wrote:
+On Tue, Jul 26, 2011 at 7:57 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2011-07-25 at 16:24 -0700, Flanagan, Elizabeth wrote:
+>> Adding a bit more functionality here:
+>> 1. Adding some more SPDX Maps to take care of + licenses
+>> 2. Strip out -native and -cross package license wrangling.
+>> =A0 =A0If it doesn't go on the image, we shouldn't wrangle it.
+>> 3. Split out the license destination directory to a
+>> =A0 =A0IMAGE_NAME time stamped dir in
+>> =A0 =A0/tmp/deploy/licenses/${IMAGE_NAME}/<stamp>
 >>
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>> ---
->>> meta/conf/machine/include/powerpc/arch-powerpc.inc |   45 +++++++++++++++++++-
->>> meta/conf/machine/include/tune-ppc603e.inc         |   12 ++++-
->>> meta/conf/machine/include/tune-ppce300c2.inc       |   12 ++++-
->>> meta/conf/machine/include/tune-ppce500.inc         |   13 ++++--
->>> meta/conf/machine/include/tune-ppce500mc.inc       |   12 ++++-
->>> meta/conf/machine/include/tune-ppce500v2.inc       |   12 ++++-
->>> 6 files changed, 88 insertions(+), 18 deletions(-)
->>
->> One thing I'm wondering about as we do this is the ability to pass
->> --with-cpu to gcc & [e]glibc configure to pickup proper optimized cfgs
->> & libs for a given target.
-> 
-> As far as I can tell, gcc 4.x has no --with-cpu option. We pass the
-> correct march and mtune options to the compiler at runtime through
-> CFLAGS and friends.
-> 
-> You're already found the way to pass configuration to *libc using values
-> in TARGET_FPU to pickup the right configuration.
-> 
-> Is there a use case we're missing?
+>> I've removed the handler from my previous Pull as license
+>> manifest needs more discussion and I don't want these
+>> bug fixes to be held up by an added feature.
+>
+> I obviously don't understand this code :/
+>
+> What happens when I run "bitbake core-image-minimal core-image-sato",
+> i.e. when I build two images in one build?
+>
+> I suspect this current approach is flawed and we actually need to
+> postprocess the installed package list after do_rootfs completes at
+> image generation time to build the *real* list based on the installed
+> packages?
+>
 
-glibc is capable of some processor specific optimizations.  So you can say I
-want e500 or ppc603e or... as it's base configuration.  This is useful on MIPS
-as well.
+Yes. I've found that this approach is definitely flawed. It works
+great for a single image build. Outside of that it acts funny, like
+you mentioned and can return incorrect results. I'm planning on
+revisting this soon.
 
-My suggestion would be to use the TUNE_FEATURES in eglibc to figure out what
-option(s) we want to pass to glibc.  (We could also use the tune name, but I'd
-be afraid that the names could change arbitrarily over time..  the tune_features
-I would expect to have a longer life span.)
+I'm suspecting that your suggested approach is the way it'll have to
+be. Looking at what is generated by various runs and I see issues.
 
---Mark
+> This code is obviously still needed as it would provide the basis so the
+> code can get the licenses it needs to pull together...
 
+Yes, agreed.
+
+>
 > Cheers,
-> 
+>
 > Richard
-> 
-> 
+>
+>
+>
+>> Signed-off-by: Beth Flanagan <elizabeth.flanagan@intel.com>
+>> ---
+>> =A0meta/classes/license.bbclass | =A0140 ++++++++++++++++++++++++-------=
+-----------
+>> =A01 files changed, 81 insertions(+), 59 deletions(-)
+>>
+>> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+>> index 3f93bf5..7e440e5 100644
+>> --- a/meta/classes/license.bbclass
+>> +++ b/meta/classes/license.bbclass
+>> @@ -3,15 +3,16 @@
+>> =A0# TODO:
+>> =A0# - We should also enable the ability to put the generated license
+>> directory onto the
+>> =A0# =A0rootfs
+>> -# - Gather up more generic licenses
+>> =A0# - There is a real issue revolving around license naming standards.
+>> See license names
+>> =A0# =A0licenses.conf and compare them to the license names in the
+>> recipes. You'll see some
+>> =A0# =A0differences and that should be corrected.
+>>
+>> -LICENSE_DIRECTORY ??=3D "${DEPLOY_DIR}/licenses"
+>> +LICENSE_DIRECTORY ??=3D "${DEPLOY_DIR}/licenses/"
+>> +IMAGE_LICENSE_DIRECTORY ?=3D ""
+>> =A0LICSSTATEDIR =3D "${WORKDIR}/license-destdir/"
+>>
+>> =A0addtask populate_lic after do_patch before do_package
+>> +
+>> =A0do_populate_lic[dirs] =3D "${LICSSTATEDIR}/${PN}"
+>> =A0do_populate_lic[cleandirs] =3D "${LICSSTATEDIR}"
+>>
+>> @@ -27,6 +28,8 @@ do_populate_lic[cleandirs] =3D "${LICSSTATEDIR}"
+>> =A0SPDXLICENSEMAP[GPL] =3D "GPL-1"
+>> =A0SPDXLICENSEMAP[GPLv2] =3D "GPL-2"
+>> =A0SPDXLICENSEMAP[GPLv3] =3D "GPL-3"
+>> +SPDXLICENSEMAP[GPLv2+] =3D "GPL-2+"
+>> +SPDXLICENSEMAP[GPLv3+] =3D "GPL-3+"
+>>
+>> =A0#LGPL variations
+>> =A0SPDXLICENSEMAP[LGPL] =3D "LGPL-2"
+>> @@ -49,6 +52,9 @@ SPDXLICENSEMAP[openssl] =3D "Openssl"
+>> =A0#Other variations
+>> =A0SPDXLICENSEMAP[AFL2.1] =3D "AFL-2"
+>> =A0SPDXLICENSEMAP[EPLv1.0] =3D "EPL-1"
+>> +SPDXLICENSEMAP[zlib] =3D "Zlib"
+>> +SPDXLICENSEMAP[EPLv1.0] =3D "EPL-1"
+>> +
+>>
+>> =A0python do_populate_lic() {
+>> =A0 =A0 =A0"""
+>> @@ -64,13 +70,11 @@ python do_populate_lic() {
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0ast.NodeVisitor.generic_visit(self, node)
+>>
+>> =A0 =A0 =A0 =A0 =A0def visit_Str(self, node):
+>> - =A0 =A0 =A0 =A0 =A0 =A0#
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0# Until I figure out what to do with
+>> - =A0 =A0 =A0 =A0 =A0 =A0# the two modifiers I support (or greater =3D +
+>> - =A0 =A0 =A0 =A0 =A0 =A0# and "with exceptions" being *
+>> + =A0 =A0 =A0 =A0 =A0 =A0# "with exceptions" (*)
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0# we'll just strip out the modifier and put
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0# the base license.
+>> - =A0 =A0 =A0 =A0 =A0 =A0find_license(node.s.replace("+", "").replace("*=
+", ""))
+>> + =A0 =A0 =A0 =A0 =A0 =A0find_license(node.s.replace("*", ""))
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0ast.NodeVisitor.generic_visit(self, node)
+>>
+>> =A0 =A0 =A0 =A0 =A0def visit_BinOp(self, node):
+>> @@ -86,14 +90,14 @@ python do_populate_lic() {
+>> =A0 =A0 =A0 =A0 =A0try:
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0bb.copyfile(os.path.join(source, file_name),
+>> os.path.join(destination, file_name))
+>> =A0 =A0 =A0 =A0 =A0except:
+>> - =A0 =A0 =A0 =A0 =A0 =A0bb.warn("%s: No generic license file exists for=
+: %s at
+>> %s" % (pn, file_name, source))
+>> + =A0 =A0 =A0 =A0 =A0 =A0bb.note("%s: No generic license file exists for=
+: %s at
+>> %s" % (pn, file_name, source))
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0pass
+>>
+>> =A0 =A0 =A0def link_license(source, destination, file_name):
+>> =A0 =A0 =A0 =A0 =A0try:
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0os.symlink(os.path.join(source, file_name),
+>> os.path.join(destination, "generic_" + file_name))
+>> =A0 =A0 =A0 =A0 =A0except:
+>> - =A0 =A0 =A0 =A0 =A0 =A0bb.warn("%s: Could not symlink: %s at %s to %s =
+at %s" %
+>> (pn, file_name, source, file_name, destination))
+>> + =A0 =A0 =A0 =A0 =A0 =A0bb.note("%s: Could not symlink: %s at %s to %s =
+at %s" %
+>> (pn, file_name, source, file_name, destination))
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0pass
+>>
+>> =A0 =A0 =A0def find_license(license_type):
+>> @@ -111,72 +115,90 @@ python do_populate_lic() {
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0copy_license(generic_directory, gen_l=
+ic_dest,
+>> spdx_generic)
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0link_license(gen_lic_dest, destdir, s=
+pdx_generic)
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0else:
+>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0# And here is where we warn people that=
+ their
+>> licenses are lousy
+>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bb.warn("%s: No generic license file ex=
+ists for: %s
+>> at %s" % (pn, license_type, generic_directory))
+>> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bb.warn("%s: There is also no SPDXLICEN=
+SEMAP for this
+>> license type: %s at %s" % (pn, license_type, generic_directory))
+>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0# And here is where we tell people that=
+ their
+>> licenses are lousy
+>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bb.note("%s: No generic license file ex=
+ists for: %s
+>> at %s" % (pn, license_type, generic_directory))
+>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bb.note("%s: There is also no SPDXLICEN=
+SEMAP for this
+>> license type: %s at %s" % (pn, license_type, generic_directory))
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0pass
+>> =A0 =A0 =A0 =A0 =A0elif os.path.isfile(os.path.join(generic_directory, l=
+icense_type)):
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0copy_license(generic_directory, gen_lic_dest,=
+ license_type)
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0link_license(gen_lic_dest, destdir, license_t=
+ype)
+>>
+>> - =A0 =A0# All the license types for the package
+>> - =A0 =A0license_types =3D bb.data.getVar('LICENSE', d, True)
+>> - =A0 =A0# All the license files for the package
+>> - =A0 =A0lic_files =3D bb.data.getVar('LIC_FILES_CHKSUM', d, True)
+>> - =A0 =A0pn =3D bb.data.getVar('PN', d, True)
+>> - =A0 =A0# The base directory we wrangle licenses to
+>> - =A0 =A0destdir =3D os.path.join(bb.data.getVar('LICSSTATEDIR', d, True=
+), pn)
+>> - =A0 =A0# The license files are located in S/LIC_FILE_CHECKSUM.
+>> - =A0 =A0srcdir =3D bb.data.getVar('S', d, True)
+>> - =A0 =A0# Directory we store the generic licenses as set in the distro
+>> configuration
+>> - =A0 =A0generic_directory =3D bb.data.getVar('COMMON_LICENSE_DIR', d, T=
+rue)
+>> -
+>> =A0 =A0 =A0try:
+>> - =A0 =A0 =A0 =A0bb.mkdirhier(destdir)
+>> + =A0 =A0 =A0 =A0bb.mkdirhier(bb.data.getVar('LICENSE_DIRECTORY', d, Tru=
+e))
+>> + =A0 =A0except:
+>> + =A0 =A0 =A0 =A0pass
+>> + =A0 =A0file =3D open(bb.data.getVar('BNFILE', d, True))
+>> + =A0 =A0bn =3D file.readline()
+>> + =A0 =A0file.close()
+>> + =A0 =A0bb.data.setVar('IMAGE_LICENSE_DIRECTORY',
+>> os.path.join(bb.data.getVar('LICENSE_DIRECTORY', d, True), bn), d)
+>> + =A0 =A0try:
+>> + =A0 =A0 =A0 =A0bb.mkdirhier(bb.data.getVar('IMAGE_LICENSE_DIRECTORY', =
+d, True))
+>> =A0 =A0 =A0except:
+>> =A0 =A0 =A0 =A0 =A0pass
+>>
+>> - =A0 =A0if not generic_directory:
+>> - =A0 =A0 =A0 =A0raise bb.build.FuncFailed("COMMON_LICENSE_DIR is unset.
+>> Please set this in your distro config")
+>> -
+>> - =A0 =A0if not lic_files:
+>> - =A0 =A0 =A0 =A0# No recipe should have an invalid license file. This i=
+s checked else
+>> - =A0 =A0 =A0 =A0# where, but let's be pedantic
+>> - =A0 =A0 =A0 =A0bb.note(pn + ": Recipe file does not have license file =
+information.")
+>> - =A0 =A0 =A0 =A0return True
+>> -
+>> - =A0 =A0for url in lic_files.split():
+>> - =A0 =A0 =A0 =A0(type, host, path, user, pswd, parm) =3D bb.decodeurl(u=
+rl)
+>> - =A0 =A0 =A0 =A0# We want the license file to be copied into the destin=
+ation
+>> - =A0 =A0 =A0 =A0srclicfile =3D os.path.join(srcdir, path)
+>> - =A0 =A0 =A0 =A0ret =3D bb.copyfile(srclicfile, os.path.join(destdir,
+>> os.path.basename(path)))
+>> - =A0 =A0 =A0 =A0# If the copy didn't occur, something horrible went wro=
+ng and
+>> we fail out
+>> - =A0 =A0 =A0 =A0if ret is False or ret =3D=3D 0:
+>> - =A0 =A0 =A0 =A0 =A0 =A0bb.warn("%s could not be copied for some reason=
+. It may
+>> not exist. WARN for now." % srclicfile)
+>> -
+>> - =A0 =A0gen_lic_dest =3D os.path.join(bb.data.getVar('LICENSE_DIRECTORY=
+',
+>> d, True), "common-licenses")
+>> -
+>> - =A0 =A0clean_licenses =3D ""
+>> -
+>> - =A0 =A0for x in license_types.replace("(", " ( ").replace(")", " ) ").=
+split():
+>> - =A0 =A0 =A0 =A0if ((x !=3D "(") and (x !=3D ")") and (x !=3D "&") and =
+(x !=3D "|")):
+>> - =A0 =A0 =A0 =A0 =A0 =A0clean_licenses +=3D "'" + x + "'"
+>> - =A0 =A0 =A0 =A0else:
+>> - =A0 =A0 =A0 =A0 =A0 =A0clean_licenses +=3D " " + x + " "
+>> -
+>> - =A0 =A0# lstrip any possible indents, since ast needs python syntax.
+>> - =A0 =A0node =3D ast.parse(clean_licenses.lstrip())
+>> - =A0 =A0v =3D LicenseVisitor()
+>> - =A0 =A0v.visit(node)
+>> + =A0 =A0# Let's stop polluting the wrangled licenses with packages that
+>> don't go on the image
+>> + =A0 =A0if not ("-native" in bb.data.getVar('PN', d, True) ) and =A0not
+>> ("-cross" in bb.data.getVar('PN', d, True)):
+>> + =A0 =A0 =A0 =A0# All the license types for the package
+>> + =A0 =A0 =A0 =A0license_types =3D bb.data.getVar('LICENSE', d, True)
+>> + =A0 =A0 =A0 =A0# All the license files for the package
+>> + =A0 =A0 =A0 =A0lic_files =3D bb.data.getVar('LIC_FILES_CHKSUM', d, Tru=
+e)
+>> + =A0 =A0 =A0 =A0pn =3D bb.data.getVar('PN', d, True)
+>> + =A0 =A0 =A0 =A0# The base directory we wrangle licenses to
+>> + =A0 =A0 =A0 =A0destdir =3D os.path.join(bb.data.getVar('LICSSTATEDIR',=
+ d, True), pn)
+>> + =A0 =A0 =A0 =A0# The license files are located in S/LIC_FILE_CHECKSUM.
+>> + =A0 =A0 =A0 =A0srcdir =3D bb.data.getVar('S', d, True)
+>> + =A0 =A0 =A0 =A0# Directory we store the generic licenses as set in the
+>> distro configuration
+>> + =A0 =A0 =A0 =A0generic_directory =3D bb.data.getVar('COMMON_LICENSE_DI=
+R', d, True)
+>> +
+>> + =A0 =A0 =A0 =A0try:
+>> + =A0 =A0 =A0 =A0 =A0 bb.mkdirhier(destdir)
+>> + =A0 =A0 =A0 =A0except:
+>> + =A0 =A0 =A0 =A0 =A0 =A0pass
+>> +
+>> + =A0 =A0 =A0 =A0if not generic_directory:
+>> + =A0 =A0 =A0 =A0 =A0 =A0raise bb.build.FuncFailed("COMMON_LICENSE_DIR i=
+s unset.
+>> Please set this in your distro config")
+>> +
+>> + =A0 =A0 =A0 =A0if not lic_files:
+>> + =A0 =A0 =A0 =A0 =A0 =A0# No recipe should have an invalid license file=
+. This is
+>> checked else
+>> + =A0 =A0 =A0 =A0 =A0 =A0# where, but let's be pedantic
+>> + =A0 =A0 =A0 =A0 =A0 =A0bb.note(pn + ": Recipe file does not have licen=
+se file
+>> information.")
+>> + =A0 =A0 =A0 =A0 =A0 =A0return True
+>> +
+>> + =A0 =A0 =A0 =A0for url in lic_files.split():
+>> + =A0 =A0 =A0 =A0 =A0 =A0(type, host, path, user, pswd, parm) =3D bb.dec=
+odeurl(url)
+>> + =A0 =A0 =A0 =A0 =A0 =A0# We want the license file to be copied into th=
+e destination
+>> + =A0 =A0 =A0 =A0 =A0 =A0srclicfile =3D os.path.join(srcdir, path)
+>> + =A0 =A0 =A0 =A0 =A0 =A0ret =3D bb.copyfile(srclicfile, os.path.join(de=
+stdir,
+>> os.path.basename(path)))
+>> + =A0 =A0 =A0 =A0 =A0 =A0# If the copy didn't occur, something horrible =
+went wrong
+>> and we fail out
+>> + =A0 =A0 =A0 =A0 =A0 =A0if ret is False or ret =3D=3D 0:
+>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bb.warn("%s could not be copied for som=
+e reason. It
+>> may not exist. WARN for now." % srclicfile)
+>> +
+>> + =A0 =A0 =A0 =A0gen_lic_dest =3D
+>> os.path.join(bb.data.getVar('IMAGE_LICENSE_DIRECTORY', d, True),
+>> "common-licenses")
+>> +
+>> + =A0 =A0 =A0 =A0clean_licenses =3D ""
+>> +
+>> + =A0 =A0 =A0 =A0for x in license_types.replace("(", " ( ").replace(")",=
+ " ) ").split():
+>> + =A0 =A0 =A0 =A0 =A0 =A0if ((x !=3D "(") and (x !=3D ")") and (x !=3D "=
+&") and (x !=3D "|")):
+>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0clean_licenses +=3D "'" + x + "'"
+>> + =A0 =A0 =A0 =A0 =A0 =A0else:
+>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0clean_licenses +=3D " " + x + " "
+>> +
+>> + =A0 =A0 =A0 =A0# lstrip any possible indents, since ast needs python s=
+yntax.
+>> + =A0 =A0 =A0 =A0node =3D ast.parse(clean_licenses.lstrip())
+>> + =A0 =A0 =A0 =A0v =3D LicenseVisitor()
+>> + =A0 =A0 =A0 =A0v.visit(node)
+>> + =A0 =A0else:
+>> + =A0 =A0 =A0 =A0shutil.rmtree(os.path.join(bb.data.getVar('LICSSTATEDIR=
+', d,
+>> True), bb.data.getVar('PN', d, True)))
+>> =A0}
+>>
+>> =A0SSTATETASKS +=3D "do_populate_lic"
+>> +
+>> =A0do_populate_lic[sstate-name] =3D "populate-lic"
+>> =A0do_populate_lic[sstate-inputdirs] =3D "${LICSSTATEDIR}"
+>> -do_populate_lic[sstate-outputdirs] =3D "${LICENSE_DIRECTORY}/"
+>> +do_populate_lic[sstate-outputdirs] =3D "${IMAGE_LICENSE_DIRECTORY}/"
+>>
+>> =A0python do_populate_lic_setscene () {
+>> - =A0 =A0 sstate_setscene(d)
+>> + =A0 =A0sstate_setscene(d)
+>> =A0}
+>> -addtask do_populate_lic_setscene
+>>
+>> +addtask do_populate_lic_setscene
+>
+>
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+>
 
 
