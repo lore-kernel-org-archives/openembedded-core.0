@@ -1,36 +1,31 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from mx2.ll.mit.edu ([129.55.12.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QlqCU-0000ke-SF
-	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 00:34:07 +0200
-Received: by gxk3 with SMTP id 3so688796gxk.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 15:29:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=A7b+X3vcrE0vY5MqKZzjGlNbf4tkc5aoZzsMZQ+Sg9Q=;
-	b=ABoEHmvv1DBuG6MXGkpRLN5PMSMgQpOk0P3Ru9luyFLWmckD3LLTG+yI5jb50ZZDvp
-	QXOcdDaYsKcHQ/HuxSD3IuSoiCq1znr3bbKSPFXHlNIuF+wDiP3NaIRY9DTqIuhHQzt5
-	Wt2h95lhkexmZ979NypklswIHOc8SKHDu7Syc=
-Received: by 10.68.28.1 with SMTP id x1mr11616500pbg.77.1311719392063; Tue, 26
-	Jul 2011 15:29:52 -0700 (PDT)
+	(envelope-from <prvs=6188cc0d54=jmitchell@ll.mit.edu>)
+	id 1QlqNj-000118-4U for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 00:45:43 +0200
+Received: from LLE2K7-HUB01.mitll.ad.local (LLE2K7-HUB01.mitll.ad.local) by
+	mx2.ll.mit.edu (unknown) with ESMTP id p6QMfTM0017957 for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 18:41:29 -0400
+Message-ID: <4E2F4298.3070605@ll.mit.edu>
+Date: Tue, 26 Jul 2011 18:41:28 -0400
+From: Jeff Mitchell <jmitchell@ll.mit.edu>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:5.0) Gecko/20110721 Thunderbird/5.0
 MIME-Version: 1.0
-Received: by 10.68.65.130 with HTTP; Tue, 26 Jul 2011 15:29:22 -0700 (PDT)
-In-Reply-To: <7B0836D8-31B6-407E-848E-FED9C5BFE78A@kernel.crashing.org>
-References: <346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
-	<992efbf4ec3d7c55346953dbe82f9745590e64bf.1311683981.git.richard.purdie@linuxfoundation.org>
-	<969FA904-0086-42FA-B605-07B74FB728B4@kernel.crashing.org>
-	<1311688752.2344.238.camel@rex>
-	<627CF4AB-F07D-4285-B31C-3C5631270420@kernel.crashing.org>
-	<1311697113.2344.268.camel@rex>
-	<7B0836D8-31B6-407E-848E-FED9C5BFE78A@kernel.crashing.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 26 Jul 2011 15:29:22 -0700
-Message-ID: <CAMKF1spteYHGqLht8hQ=y1ABGjy0-z__VNm9E-Bur7PhYp+3gw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] Add basic PowerPC core tune config
+To: <openembedded-core@lists.openembedded.org>
+References: <4E2F384F.6060907@ll.mit.edu>
+In-Reply-To: <4E2F384F.6060907@ll.mit.edu>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.4.6813, 1.0.211,
+	0.0.0000
+	definitions=2011-07-26_07:2011-07-27, 2011-07-26,
+	1970-01-01 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	ipscore=0 suspectscore=4
+	phishscore=0 bulkscore=0 adultscore=0 classifier=spam adjust=0
+	reason=mlx
+	scancount=1 engine=6.0.2-1012030000 definitions=main-1107260216
+Subject: Re: [PATCH] bb-matrix.sh: check for the existence of time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,46 +40,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 22:34:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 26 Jul 2011 22:45:43 -0000
+X-Groupsio-MsgNum: 6766
+Content-Type: multipart/mixed; boundary="------------000000090309060006040205"
 
-On Tue, Jul 26, 2011 at 3:02 PM, Kumar Gala <galak@kernel.crashing.org> wro=
-te:
->
-> On Jul 26, 2011, at 11:18 AM, Richard Purdie wrote:
->
->>>> You're already found the way to pass configuration to *libc using valu=
-es
->>>> in TARGET_FPU to pickup the right configuration.
->>>>
->>>> Is there a use case we're missing?
->>>
->>> Yes, for [e]glibc we have optimized libc functions for a given /
->>> specific PPC processor. =C2=A0So we need someway to tell configure this=
-.
->>
->> I'd do this by looking for flags in TUNE_FEATURES as Mark has also
->> mentioned.
->>
->> Cheers,
->>
->> Richard
->
-> Are we thinking something like the following in e[glibc] recipes:
->
-> EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-w=
-ith-cpu=3De500mc", "", d)}"
->
+--------------000000090309060006040205
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I guess we can make a python function since most architectures can
-benefit from --with-cpu
-
-> - k
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+On 07/26/2011 05:57 PM, Jeff Mitchell wrote:
+> What an existential subject. The patch is quite self-explanatory.
 >
+> Thanks,
+> Jeff
+
+This version has a Signed-off-by line...sorry about that.
+
+Thanks,
+Jeff
+
+--------------000000090309060006040205
+Content-Type: text/x-patch;
+	name="0001-Check-that-the-time-binary-is-installed-in-usr-bin-t.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename*0="0001-Check-that-the-time-binary-is-installed-in-usr-bin-t.pa";
+	filename*1="tch"
+
+From 62972e71cd952a890068a1f6b6e2234608747a1c Mon Sep 17 00:00:00 2001
+From: Jeff Mitchell <jmitchell@ll.mit.edu>
+Date: Tue, 26 Jul 2011 17:45:58 -0400
+Subject: [PATCH] Check that the time binary is installed in /usr/bin/time when running
+ bb-matrix.sh. Also fix a typo.
 
 
+Signed-off-by: Jeff Mitchell <jmitchell@ll.mit.edu>
+---
+ scripts/contrib/bb-perf/bb-matrix.sh |    9 +++++++--
+ 1 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/contrib/bb-perf/bb-matrix.sh b/scripts/contrib/bb-perf/bb-matrix.sh
+index b9edd5f..66bd567 100755
+--- a/scripts/contrib/bb-perf/bb-matrix.sh
++++ b/scripts/contrib/bb-perf/bb-matrix.sh
+@@ -18,7 +18,7 @@
+ # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ #
+ # DESCRIPTION
+-# This script runs BB_CMD (typically building core-image-sato) for all
++# This script runs BB_CMD (typically building core-image-minimal) for all
+ # combincations of BB_RANGE and PM_RANGE values. It saves off all the console
+ # logs, the buildstats directories, and creates a bb-pm-runtime.dat file which
+ # can be used to postprocess the results with a plotting tool, spreadsheet, etc.
+@@ -32,6 +32,11 @@
+ # Darren Hart <dvhart@linux.intel.com>
+ #
+ 
++if [ ! -f /usr/bin/time ]; then
++  echo "The \"time\" binary was not found at /usr/bin/time -- please install it!"
++  exit 1
++fi
++
+ # The following ranges are appropriate for a 4 core system with 8 logical units
+ BB_RANGE="04 05 06 07 08 09 10 11 12 13 14 15 16"
+ PM_RANGE="04 05 06 07 08 09 10 11 12 13 14 15 16"
+@@ -48,7 +53,7 @@ TIME_STR="%e %S %U %P %c %w %R %F %M %x"
+ mkdir $DATADIR
+ if [ $? -ne 0 ]; then
+ 	echo "Failed to create $DATADIR."
+-	exit 1
++	exit 2
+ fi
+ 
+ # Add a simple header
+-- 
+1.7.3.4
+
+
+--------------000000090309060006040205--
