@@ -1,26 +1,35 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qlkve-00014z-Co
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 18:56:22 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Jul 2011 09:52:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,270,1309762800"; d="scan'208";a="31667587"
-Received: from unknown (HELO [10.255.14.61]) ([10.255.14.61])
-	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2011 09:52:07 -0700
-Message-ID: <4E2EF0B7.5050709@linux.intel.com>
-Date: Tue, 26 Jul 2011 09:52:07 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qlkvi-00015d-Gy for openembedded-core@lists.openembedded.org;
+	Tue, 26 Jul 2011 18:56:26 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QGqDBi023303
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 17:52:13 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23068-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 17:52:09 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QGq8tA023297
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 17:52:08 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1311386389-9819-1-git-send-email-raj.khem@gmail.com>
-	<CAMKF1spH8MKhC458LkDaXZBFurg7J=9W76wp8YDFXYc4PKRm9Q@mail.gmail.com>
-In-Reply-To: <CAMKF1spH8MKhC458LkDaXZBFurg7J=9W76wp8YDFXYc4PKRm9Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] siteinfo: Rework the siteinfo for powerpc to fix uclibc fallout
+In-Reply-To: <4E2ED221.3010705@windriver.com>
+References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
+	<b270e42da9fef8715c84054fc968ee7fe2492eab.1311683981.git.richard.purdie@linuxfoundation.org>
+	<4E2ED221.3010705@windriver.com>
+Date: Tue, 26 Jul 2011 17:51:59 +0100
+Message-ID: <1311699119.2344.281.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 2/3] Add basic Mips core tune config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,88 +44,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 16:56:22 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Tue, 26 Jul 2011 16:56:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/26/2011 09:48 AM, Khem Raj wrote:
-> ping ? ppc/uclibc is broken in oe-core w/o this atm.
->
+On Tue, 2011-07-26 at 09:41 -0500, Mark Hatle wrote:
+> Few quick items here:
+> 
+> On 7/26/11 7:44 AM, Richard Purdie wrote:
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  meta/conf/machine/include/mips/arch-mips.inc |   64 +++++++++++++++++++++++++-
+> >  meta/conf/machine/include/tune-mips32.inc    |   10 +++-
+> >  2 files changed, 71 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
+> > index f7f4eed..071e6b5 100644
+> > --- a/meta/conf/machine/include/mips/arch-mips.inc
+> > +++ b/meta/conf/machine/include/mips/arch-mips.inc
+> > @@ -1 +1,63 @@
+> ...
+> 
+> > +# Floating point
+> > +TUNEVALID[fpu-hard] = "Use hardware FPU"
+> > +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "-mhard-float", "-msoft-float", d)}"
+> > +TARGET_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "", "soft", d)}"
+> > +
+> > +# Package naming
+> > +MIPSPKGSFX_ENDIAN = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
+> > +MIPSPKGSFX_BYTE = "${@bb.utils.contains("TUNE_FEATURES", "n64" , "64", "", d)}"
+> 
+> n32 is also MIPS64.
+> 
+> so a:
+> 
+> MIPSPKGSFX_BYTE .= "${@bb.utils.contains("TUNE_FEATURES", "n32" , "64", "", d)}"
+> 
+> should fix the issue.
+> 
+> > +TUNE_ARCH = "mips${MIPSPKGSFX_BYTE}${MIPSPKGSFX_ENDIAN}"
+> > +
+> > +# Base tunes
+> > +AVAILTUNES += "mips mips64-n32 mips64 mipsel mips64el-n32 mips64el mips-nf mips64-nf-n32 mips64-nf mipsel-nf mips64el-nf-n32 mips64el-nf"
+> > +TUNE_FEATURES_tune-mips = "o32 bigendian fpu-hard"
+> > +BASE_LIB_tune-mips = "lib"
+> > +TUNE_FEATURES_tune-mips64-n32 = "n32 bigendian fpu-hard"
+> > +BASE_LIB_tune-mips64-n32 = "lib32"
+> > +TUNE_FEATURES_tune-mips64 = "n64 bigendian fpu-hard"
+> > +BASE_LIB_tune-mips64 = "lib64"
+> > +TUNE_FEATURES_tune-mipsel = "o32 fpu-hard"
+> > +BASE_LIB_tune-mipsel = "lib"
+> > +TUNE_FEATURES_tune-mips64el-n32 = "n32 fpu-hard"
+> > +BASE_LIB_tune-mips64el-n32 = "lib32"
+> > +TUNE_FEATURES_tune-mips64el = "n64 fpu-hard"
+> > +BASE_LIB_tune-mips64el = "lib64"
+> > +TUNE_FEATURES_tune-mips-nf = "o32 bigendian"
+> > +BASE_LIB_tune-mips-nf = "lib"
+> > +TUNE_FEATURES_tune-mips64-nf-n32 = "n32 bigendian"
+> > +BASE_LIB_tune-mips64-nf-n32 = "lib32"
+> > +TUNE_FEATURES_tune-mips64-nf = "n64 bigendian"
+> > +BASE_LIB_tune-mips64-nf = "lib64"
+> > +TUNE_FEATURES_tune-mipsel-nf = "o32"
+> > +BASE_LIB_tune-mipsel-nf = "lib"
+> > +TUNE_FEATURES_tune-mips64el-nf-n32 = "n32"
+> > +BASE_LIB_tune-mips64el-nf-n32 = "lib32"
+> > +TUNE_FEATURES_tune-mips64el-nf = "n64"
+> > +BASE_LIB_tune-mips64el-nf = "lib64"
+> > +
+> > diff --git a/meta/conf/machine/include/tune-mips32.inc b/meta/conf/machine/include/tune-mips32.inc
+> > index 28b0047..1f913df 100644
+> > --- a/meta/conf/machine/include/tune-mips32.inc
+> > +++ b/meta/conf/machine/include/tune-mips32.inc
+> > @@ -1,4 +1,10 @@
+> > +DEFAULTTUNE ?= "mips32"
+> > +
+> >  require conf/machine/include/mips/arch-mips.inc
+> >  
+> > -TUNE_CCARGS = "-march=mips32"
+> > -TUNE_PKGARCH = "mips"
+> > +TUNEVALID[mips32] = "Enable mips32 specific processor optimizations"
+> 
+> If tune-mips32 is used, then all of the n32 and n64 variants are not possible.
+> Do we have a way to specify that?  Perhaps using the TUNECONFLICT?
 
-RP is looking at the siteinfo stuff (both yours and Tom's).
+Agreed, TUNE_CONFLICTS is the way to go. I've updated the patch on my
+branch with this and the other tweak:
 
-I am working on the libxcb change, had some other build issues that 
-jammed me up yesterday.
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/ml4&id=2a31a7d38149b6bc972831964bfdeae7422c128c
 
-Sau!
+Cheers,
 
-> On Fri, Jul 22, 2011 at 6:59 PM, Khem Raj<raj.khem@gmail.com>  wrote:
->> I believe that powerpc-linux is now a common file across 32bit/64bit
->> linux for powerpc be it uclibc or glibc. I compared the differences
->> between powerpc-linux-uclibc and powerpc-linux files and it
->> powerpc-linux was more uptodate and all the new stuff it had was needed
->> for uclibc anyway so we do not need to keep exact copy of powerpc-linux
->> as powerpc-linux-uclibc instead we use powerpc-linux for powerpc/uclibc
->> targets.
->>
->> Secondly linux specific files were added in archinfo dictionary
->> which I think logically belongs to targetinfo dictionary therefore
->> moved them to targetinfo
->>
->> now uclibc/powerpc is buildable again
->>
->> Signed-off-by: Khem Raj<raj.khem@gmail.com>
->> ---
->>   meta/classes/siteinfo.bbclass  |   16 ++++++++++------
->>   1 files changed, 10 insertions(+), 6 deletions(-)
->>   delete mode 100644 meta/site/powerpc-linux-uclibc
->>
->> diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
->> index c5308b3..056c519 100644
->> --- a/meta/classes/siteinfo.bbclass
->> +++ b/meta/classes/siteinfo.bbclass
->> @@ -33,11 +33,11 @@ def siteinfo_data(d):
->>          "mips64": "endian-big bit-64 mips64-common",
->>          "mips64el": "endian-little bit-64 mips64-common",
->>          "mipsel": "endian-little bit-32 mips-common",
->> -        "powerpc": "endian-big bit-32 powerpc-common powerpc32-linux",
->> +        "powerpc": "endian-big bit-32 powerpc-common",
->>          "nios2": "endian-little bit-32 nios2-common",
->> -        "powerpc64": "endian-big bit-64 powerpc-common powerpc-linux powerpc64-linux",
->> -        "ppc": "endian-big bit-32 powerpc-common powerpc32-linux",
->> -        "ppc64": "endian-big bit-64 powerpc-common powerpc-linux powerpc64-linux",
->> +        "powerpc64": "endian-big bit-64 powerpc-common",
->> +        "ppc": "endian-big bit-32 powerpc-common",
->> +        "ppc64": "endian-big bit-64 powerpc-common",
->>          "sh3": "endian-little bit-32 sh-common",
->>          "sh4": "endian-little bit-32 sh-common",
->>          "sparc": "endian-big bit-32",
->> @@ -62,8 +62,12 @@ def siteinfo_data(d):
->>          "arm-linux-uclibceabi": "arm-linux-uclibc",
->>          "armeb-linux-gnueabi": "armeb-linux",
->>          "armeb-linux-uclibceabi": "armeb-linux-uclibc",
->> -        "powerpc-linux-gnuspe": "powerpc-linux",
->> -        "powerpc-linux-uclibcspe": "powerpc-linux-uclibc",
->> +        "powerpc-linux": "powerpc32-linux",
->> +        "powerpc-linux-uclibc": "powerpc-linux powerpc32-linux",
->> +        "powerpc-linux-gnuspe": "powerpc-linux powerpc32-linux",
->> +        "powerpc-linux-uclibcspe": "powerpc-linux powerpc32-linux powerpc-linux-uclibc",
->> +        "powerpc64-linux-gnuspe": "powerpc-linux powerpc64-linux",
->> +        "powerpc64-linux": "powerpc-linux",
->>      }
->>
->>      hostarch = d.getVar("HOST_ARCH", True)
->> diff --git a/meta/site/powerpc-linux-uclibc b/meta/site/powerpc-linux-uclibc
->> deleted file mode 100644
->> index e69de29..0000000
->> --
->> 1.7.4.1
->>
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Richard
+
 
 
