@@ -1,35 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QliEV-0005Ls-Uo for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 16:03:40 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QDxRME021943
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 14:59:27 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21143-05 for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 14:59:24 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QDxLB0021937
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 14:59:22 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <969FA904-0086-42FA-B605-07B74FB728B4@kernel.crashing.org>
-References: <346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
-	<992efbf4ec3d7c55346953dbe82f9745590e64bf.1311683981.git.richard.purdie@linuxfoundation.org>
-	<969FA904-0086-42FA-B605-07B74FB728B4@kernel.crashing.org>
-Date: Tue, 26 Jul 2011 14:59:12 +0100
-Message-ID: <1311688752.2344.238.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 3/3] Add basic PowerPC core tune config
+Received: from relay1.mentorg.com ([192.94.38.131])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Tom_Rini@mentor.com>) id 1QliLA-0005Rp-Ca
+	for openembedded-core@lists.openembedded.org;
+	Tue, 26 Jul 2011 16:10:32 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QliH3-00000i-UA from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 26 Jul 2011 07:06:17 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Tue, 26 Jul 2011 07:03:34 -0700
+Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
+	Tue, 26 Jul 2011 07:06:17 -0700
+Message-ID: <4E2EC9D5.9070209@mentor.com>
+Date: Tue, 26 Jul 2011 07:06:13 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1311653945.git.josh@linux.intel.com>
+	<ecf0ccbec73c85ee2e5bbbe9828468fcd995c88c.1311653945.git.josh@linux.intel.com>
+In-Reply-To: <ecf0ccbec73c85ee2e5bbbe9828468fcd995c88c.1311653945.git.josh@linux.intel.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 26 Jul 2011 14:03:34.0624 (UTC)
+	FILETIME=[CEF7F600:01CC4B9C]
+Subject: Re: [PATCH 1/1] classes/image_types: IMAGE_TYPES was missing some entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,39 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 14:03:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 26 Jul 2011 14:10:32 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-07-26 at 08:47 -0500, Kumar Gala wrote:
-> On Jul 26, 2011, at 7:44 AM, Richard Purdie wrote:
+On 07/25/2011 09:21 PM, Joshua Lock wrote:
+> Some of these entries are required by the GUI to enable the expected workflow
+> of the ADT, namely a compressed rootfs image.
 > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > meta/conf/machine/include/powerpc/arch-powerpc.inc |   45 +++++++++++++++++++-
-> > meta/conf/machine/include/tune-ppc603e.inc         |   12 ++++-
-> > meta/conf/machine/include/tune-ppce300c2.inc       |   12 ++++-
-> > meta/conf/machine/include/tune-ppce500.inc         |   13 ++++--
-> > meta/conf/machine/include/tune-ppce500mc.inc       |   12 ++++-
-> > meta/conf/machine/include/tune-ppce500v2.inc       |   12 ++++-
-> > 6 files changed, 88 insertions(+), 18 deletions(-)
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+> ---
+>  meta/classes/image_types.bbclass |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
 > 
-> One thing I'm wondering about as we do this is the ability to pass
-> --with-cpu to gcc & [e]glibc configure to pickup proper optimized cfgs
-> & libs for a given target.
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 1108802..f1aef86 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -103,4 +103,4 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+>  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+>  
+>  # This variable is available to request which values are suitable for IMAGE_FSTYPES
+> -IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz squashfs squashfs-lzma ubi"
+> +IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma"
 
-As far as I can tell, gcc 4.x has no --with-cpu option. We pass the
-correct march and mtune options to the compiler at runtime through
-CFLAGS and friends.
+So, is there some way we can do this dynamically?  Either oe-core is
+missing ext4, or we'll have to add that and all it's permutations.  And
+then there's u-boot signed copies of all of the ext* compressed versions.
 
-You're already found the way to pass configuration to *libc using values
-in TARGET_FPU to pickup the right configuration.
-
-Is there a use case we're missing?
-
-Cheers,
-
-Richard
-
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
