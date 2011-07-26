@@ -1,34 +1,37 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QlmrA-0003vd-RA
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 20:59:53 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1Qlmn6-00065u-9z from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 11:55:40 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 26 Jul 2011 11:52:55 -0700
-Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
-	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
-	Tue, 26 Jul 2011 11:55:39 -0700
-Message-ID: <4E2F0DA7.4080507@mentor.com>
-Date: Tue, 26 Jul 2011 11:55:35 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1311354521.git.tom_rini@mentor.com>	<c0c3e475a5fe98d61d0b92dca026486b955c2812.1311354521.git.tom_rini@mentor.com>	<1311609451.30326.244.camel@phil-desktop>	<4E2D9304.6090502@mentor.com>	<1311612043.30326.254.camel@phil-desktop>
-	<4E2DA015.2050105@mentor.com>
-In-Reply-To: <4E2DA015.2050105@mentor.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 26 Jul 2011 18:52:55.0983 (UTC)
-	FILETIME=[3B251BF0:01CC4BC5]
-Subject: Re: [PATCH v2 5/8] siteinfo: Move the rp-pppoe entry to common-linux
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QlnGL-0004Xr-KT for openembedded-core@lists.openembedded.org;
+	Tue, 26 Jul 2011 21:25:53 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QJLfM0024215
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 20:21:41 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23667-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 20:21:37 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QJLanA024209
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 20:21:36 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E2EF641.5050204@windriver.com>
+References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
+	<992efbf4ec3d7c55346953dbe82f9745590e64bf.1311683981.git.richard.purdie@linuxfoundation.org>
+	<4E2ED5F2.3090306@windriver.com> <1311698198.2344.279.camel@rex>
+	<4E2EF10A.2030705@windriver.com> <1311699937.2344.289.camel@rex>
+	<4E2EF641.5050204@windriver.com>
+Date: Tue, 26 Jul 2011 20:21:27 +0100
+Message-ID: <1311708087.2344.305.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 3/3] Add basic PowerPC core tune config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,50 +46,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 18:59:54 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Tue, 26 Jul 2011 19:25:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/25/2011 09:55 AM, Tom Rini wrote:
-> On 07/25/2011 09:40 AM, Phil Blundell wrote:
->> On Mon, 2011-07-25 at 09:00 -0700, Tom Rini wrote:
->>> On 07/25/2011 08:57 AM, Phil Blundell wrote:
->>>> On Fri, 2011-07-22 at 10:10 -0700, Tom Rini wrote:
->>>>> --- a/meta/site/common-linux
->>>>> +++ b/meta/site/common-linux
->>>>> @@ -23,3 +23,6 @@ bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
->>>>>  # mysql
->>>>>  ac_cv_sys_restartable_syscalls=${ac_cv_sys_restartable_syscalls=yes}
->>>>>  ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
->>>>> +
->>>>> +# rp-pppoe
->>>>> +rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
->>>>
->>>> Is that really correct?  Bitfield packing isn't an OS issue, it's
->>>> primarily a question of compiler choice.  For GCC I think it correlates
->>>> with endianness; looking at what that test is doing, I'd expect you to
->>>> get "reversed" on little-endian and "normal" on big-endian.
->>>
->>> It's possible we're getting this, and have been getting this wrong on
->>> big-endian targets but I haven't heard from Freescale this is failing
->>> for them.  I'm OK with dropping this bit out for now until we can
->>> confirm this test on a BE machine.
->>
->> That's probably best.  In any case, as far as I can tell rp-pppoe is
->> (despite what you might expect from the name) not actually in oe-core
->> itself, so perhaps its definitions don't belong in oe-core's site files
->> either.
+On Tue, 2011-07-26 at 12:15 -0500, Mark Hatle wrote:
+> On 7/26/11 12:05 PM, Richard Purdie wrote:
+> > On Tue, 2011-07-26 at 11:53 -0500, Mark Hatle wrote:
+> >> On 7/26/11 11:36 AM, Richard Purdie wrote:
+> >>> On Tue, 2011-07-26 at 09:57 -0500, Mark Hatle wrote:
+> >>>> On 7/26/11 7:44 AM, Richard Purdie wrote:
+> >>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >>>>> ---
+> >>>>>  meta/conf/machine/include/powerpc/arch-powerpc.inc |   45 +++++++++++++++++++-
+> >>>>>  meta/conf/machine/include/tune-ppc603e.inc         |   12 ++++-
+> >>>>>  meta/conf/machine/include/tune-ppce300c2.inc       |   12 ++++-
+> >>>>>  meta/conf/machine/include/tune-ppce500.inc         |   13 ++++--
+> >>>>>  meta/conf/machine/include/tune-ppce500mc.inc       |   12 ++++-
+> >>>>>  meta/conf/machine/include/tune-ppce500v2.inc       |   12 ++++-
+> >>>>>  6 files changed, 88 insertions(+), 18 deletions(-)
+> >>>>>
+> >>>>> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> >>>>> index 17ace32..3f7befb 100644
+> >>>>> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> >>>>> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> >>>>> @@ -1,3 +1,44 @@
+> >>>>> -TUNE_ARCH = "powerpc"
+> >>>>> +# Power Architecture definition
+> >>>>> +# Four defined ABIs, all combinations of:
+> >>>>> +# *) Hard/Soft Floating Point
+> >>>>> +# *) 32-bit/64-bit
+> >>>>> +
+> >>>>> +DEFAULTTUNE ?= "powerpc"
+> >>>>> +
+> >>>>> +TUNEVALID[m32] = "Power ELF32 standard ABI"
+> >>>>> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m32", "-m32", "", d)}"
+> >>>>> +
+> >>>>> +TUNEVALID[m32-arch] = "Enable powerpc package architecture"
+> >>>>> +TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m32-arch" ], "powerpc", "", d)}"
+> >>>>> +
+> >>>>> +TUNEVALID[m64] = "Power ELF64 standard ABI"
+> >>>>> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "n64", "-m64", "", d)}"
+> >>>>> +
+> >>>>> +TUNEVALID[m64-arch] = "Enable powerpc64 package architecture"
+> >>>>> +TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64-arch" ], "powerpc64", "", d)}"
+> >>>>
+> >>>> Why m32-arch and m64-arch?  If m32 or m64 is selected then it should mean
+> >>>> powerpc or powerpc64.
+> >>>
+> >>> I've gotten confused here and mixed up TUNE_ARCH and TUNE_PKGARCH but
+> >>> there was a reason.
+> >>>
+> >>> The missing piece is 
+> >>>
+> >>> TUNE_PKGARCH ?= "${TUNE_ARCH}"
+> >>>
+> >>> and the trouble comes when a tune file wants to change this only when
+> >>> its tune config is in action.
+> >>>
+> >>> I'm thinking ahead to trying a mixed ppc 32 and 64 bit build where
+> >>> TUNE_PKGARCH needs to take on the values for both configs.
+> >>
+> >> As far as I can tell, in all cases m32 = powerpc and m64 = powerpc64..  There is
+> >> no way to mix a build of ppc32 and ppc64 w/o using the multilib code.
+> >>
+> >> The m32/m64 is the ABI, so only one can be present in the TUNE_FEATURES.. and
+> >> passed via gcc through the TUNE_CCARGS.
+> > 
+> > Ok, say I use tune-ppcXXX and it sets TUNE_PKGARCH:
+> > 
+> > TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "ppc603e", "", d)}"
+> > 
+> > and I want a multilib config using this as the m32 ABI and also have
+> > powerpc64 as my other multilib. I can't select that as it will get
+> > TUNE_PKGARCH wrong in the 64 bit case since:
+> > 
+> > TUNE_PKGARCH ?= "${TUNE_ARCH}"
+> > 
+> > is overwritten. I guess we could do:
+> > 
+> > TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "ppc603e", "${TUNE_ARCH}", d)}"
 > 
-> Yeah.  At one point I was going to try and move the bits that oe-core
-> doesn't use to meta-oe where they are or likely will be, but possibly
-> after consolidation (and then just not adding in brand new ones, eg
-> postgresql).
+> ppc603e is the new option.. (lets say for argument it can run in 64-bit mode, in
+> reality it can't and is an invalid config....)
+> 
+> TUNEVALID[ppc603e] = "PowerPC 603e Optimization"
+> 
+> # Note the TUNE_NAME is used differently from the TUNE_FEATURES
+> TUNE_NAME ?= "ppc603e"
+> 
+> TUNE_FEATURES_ppc603e = "m32 ppc603e"
+> TUNE_FEATURES_ppc603e-64 = "m64 ppc603e"
+> 
+> The if you include the tune-ppc603e.inc the default is the 32-bit version (what
+> I'd consider the reasonable default...)  If you wanted the 64-bit version
+> instead you'd simply change set the TUNE_NAME to "ppc603e-64" and the properly
+> tuned set of features is set for you.
+> 
+> TUNE_PKGARCH_ppc603e = "ppc603e"
+> TUNE_PKGARCH_ppc603e-64 = "ppc603e-64"
 
-As you suspected, this is normal on BE and rev on LE.  I'll fix this for
-meta-oe.
+The thing is we don't' support the above syntax for TUNE_PKGARCH...
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+> etc...
+> 
+> in the default (ppc603e) case, the TUNE_ARCH should always be "powerpc", and in
+> the ppc603e-64 case (if manually enabled), it would be "powerpc64"...
+> 
+> This is what was done in the ARM cases and I believe the core2 case in ia32.
+
+which turns out to be broken :/.
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/ml4&id=244e28
+
+is what I'm considering to "fix" this. I guess the config could do:
+
+TUNE_PKGARCH ?= "${@bb.utils.contains("TUNE_FEATURES", "ppc603e-64", "ppc603e-64", "ppc603e", d)}"
+
+as per the x86 case but since this really limits the reuse of any of the
+core variables as you might as well do:
+
+AVAILTUNES = "ppc603e ppc603e-64" 
+
+after doing that since TUNE_PKGARCH will be wrong in any other case.
+
+Cheers,
+
+Richard
+
+
+
 
 
