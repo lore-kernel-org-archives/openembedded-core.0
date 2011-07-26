@@ -1,25 +1,39 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1QlqYj-0001IG-NO
-	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 00:57:06 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Jul 2011 15:41:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,272,1309762800"; d="scan'208";a="31799541"
-Received: from unknown (HELO [10.255.14.148]) ([10.255.14.148])
-	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2011 15:41:32 -0700
-Message-ID: <4E2F429E.5030607@linux.intel.com>
-Date: Tue, 26 Jul 2011 15:41:34 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QlqZ4-0001JW-GX for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 00:57:26 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QMrDPi025265
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 23:53:13 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24305-05 for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 23:53:09 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QMr5QC025259
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 23:53:06 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <4E2F384F.6060907@ll.mit.edu>
-In-Reply-To: <4E2F384F.6060907@ll.mit.edu>
-Subject: Re: [PATCH] bb-matrix.sh: check for the existence of time
+In-Reply-To: <7B0836D8-31B6-407E-848E-FED9C5BFE78A@kernel.crashing.org>
+References: <346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
+	<992efbf4ec3d7c55346953dbe82f9745590e64bf.1311683981.git.richard.purdie@linuxfoundation.org>
+	<969FA904-0086-42FA-B605-07B74FB728B4@kernel.crashing.org>
+	<1311688752.2344.238.camel@rex>
+	<627CF4AB-F07D-4285-B31C-3C5631270420@kernel.crashing.org>
+	<1311697113.2344.268.camel@rex>
+	<7B0836D8-31B6-407E-848E-FED9C5BFE78A@kernel.crashing.org>
+Date: Tue, 26 Jul 2011 23:52:56 +0100
+Message-ID: <1311720776.2344.319.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 3/3] Add basic PowerPC core tune config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,62 +48,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 22:57:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 26 Jul 2011 22:57:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Tue, 2011-07-26 at 17:02 -0500, Kumar Gala wrote:
+> On Jul 26, 2011, at 11:18 AM, Richard Purdie wrote:
+> 
+> >>> You're already found the way to pass configuration to *libc using values
+> >>> in TARGET_FPU to pickup the right configuration.
+> >>> 
+> >>> Is there a use case we're missing?
+> >> 
+> >> Yes, for [e]glibc we have optimized libc functions for a given /
+> >> specific PPC processor.  So we need someway to tell configure this.
+> > 
+> > I'd do this by looking for flags in TUNE_FEATURES as Mark has also
+> > mentioned.
+> > 
+> > Cheers,
+> > 
+> > Richard
+> 
+> Are we thinking something like the following in e[glibc] recipes:
+> 
+> EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-with-cpu=e500mc", "", d)}"
 
-Hi Jeff,
+Could we glean this information from the TUNE_CCARGS variable and do
+this automatically?
 
-Thanks for the patch. A couple points of feedback below:
+Cheers,
 
-On 07/26/2011 02:57 PM, Jeff Mitchell wrote:
-> What an existential subject. The patch is quite self-explanatory.
+Richard
 
-Well, there is almost always a need for commit log beyond just the
-subject. The only exception might be "whitespace fixes only" or
-"spelling fixes only".
-
-Something like:
-
-"If time is missing, bb-matrix will fail to run and report misleading
- errors about tmp/buildstats not existing. Check and abort with an
- appropriate error message."
-
-Also, while it is tempting to squeeze in typo fixes and such with a
-functional patch, unless they are in the code you are changing anyway,
-they should be sent as separate patches. If it were necessary to revert
-the functional patch, we'd rather not have to also lose the typo or
-whitespace cleanup, for example.
-
-> -# This script runs BB_CMD (typically building core-image-sato) for all
-> +# This script runs BB_CMD (typically building core-image-minimal) for all
->  # combincations of BB_RANGE and PM_RANGE values. It saves off all the console
-
-           ^ heh, another typo! bad dvhart.
-
->  # logs, the buildstats directories, and creates a bb-pm-runtime.dat file which
->  # can be used to postprocess the results with a plotting tool, spreadsheet, etc.
-> @@ -32,6 +32,11 @@
->  # Darren Hart <dvhart@linux.intel.com>
->  #
->  
-> +if [ ! -f /usr/bin/time ]; then
-
-This should probably be a bit more generic:
-
-TIME_CMD=$(which time)
-if [ -z "$TIME_CMD" ]; then
-	echo 'The "time" binary was not found in your path, \
-              please install it.'
-	exit 1
-fi
-
-Then replace /usr/bin/time below with TIME_CMD.
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
 
 
