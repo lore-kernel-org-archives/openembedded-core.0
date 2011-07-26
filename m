@@ -1,20 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19mi0sY412aMcqPtbsXrLTiZAM9lIjomVI=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QlplE-0008UJ-Vf
+	(envelope-from <galak@kernel.crashing.org>) id 1Qlpm7-0008WM-7i
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 00:05:57 +0200
-Received: by rex (Postfix, from userid 1000)
-	id 0848320EA7; Tue, 26 Jul 2011 22:53:17 +0100 (BST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jul 2011 22:53:15 +0100
-Message-Id: <5aaef860790c0799550116da35b16a73ee8d7b2d.1311716946.git.richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <e393d2644b26b14f2b3b4b8e12177644921076b9.1311716946.git.richard.purdie@linuxfoundation.org>
-References: <e393d2644b26b14f2b3b4b8e12177644921076b9.1311716946.git.richard.purdie@linuxfoundation.org>
-In-Reply-To: <cover.1311716946.git.richard.purdie@linuxfoundation.org>
-References: <cover.1311716946.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 8/8] RPM: multilib file class/color
+	Wed, 27 Jul 2011 00:06:51 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6QM2bsf017743
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 17:02:38 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <1311697113.2344.268.camel@rex>
+Date: Tue, 26 Jul 2011 17:02:42 -0500
+Message-Id: <7B0836D8-31B6-407E-848E-FED9C5BFE78A@kernel.crashing.org>
+References: <346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
+	<992efbf4ec3d7c55346953dbe82f9745590e64bf.1311683981.git.richard.purdie@linuxfoundation.org>
+	<969FA904-0086-42FA-B605-07B74FB728B4@kernel.crashing.org>
+	<1311688752.2344.238.camel@rex>
+	<627CF4AB-F07D-4285-B31C-3C5631270420@kernel.crashing.org>
+	<1311697113.2344.268.camel@rex>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 3/3] Add basic PowerPC core tune config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,76 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 22:05:57 -0000
+X-List-Received-Date: Tue, 26 Jul 2011 22:06:51 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Mark Hatle <mark.hatle@windriver.com>
 
-We need to include file class and file color in order to do the conflict
-resolution required with a multilib design.  This is normally disabled when
-we don't use the internal dependency generator, patch enables it in
-all cases.
+On Jul 26, 2011, at 11:18 AM, Richard Purdie wrote:
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch |   34 +++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.0.bb            |    1 +
- 2 files changed, 35 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch
+>>> You're already found the way to pass configuration to *libc using =
+values
+>>> in TARGET_FPU to pickup the right configuration.
+>>>=20
+>>> Is there a use case we're missing?
+>>=20
+>> Yes, for [e]glibc we have optimized libc functions for a given /
+>> specific PPC processor.  So we need someway to tell configure this.
+>=20
+> I'd do this by looking for flags in TUNE_FEATURES as Mark has also
+> mentioned.
+>=20
+> Cheers,
+>=20
+> Richard
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch b/meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch
-new file mode 100644
-index 0000000..d1e4bf6
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch
-@@ -0,0 +1,34 @@
-+rpmfc.c:  Always generate per-file information
-+
-+Even when the per-file dependency generate is disabled, we want to generate
-+per file classification and other associated data.
-+
-+Note: this is a temporary workaround.  Eventually we will want to have a way
-+to seed per-file dependency and other information in order to generate a
-+package from previously determined information.
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+diff --git a/lib/rpmfc.c b/lib/rpmfc.c
-+index 0c3befd..9306999 100644
-+--- a/lib/rpmfc.c
-++++ b/lib/rpmfc.c
-+@@ -1692,7 +1692,6 @@ rpmRC rpmfcGenerateDepends(void * specp, void * pkgp)
-+ 	/* ... then generate dependencies using %{__find_requires} et al. */
-+ 	rc = rpmfcGenerateDependsHelper(spec, pkg, fi);
-+ 	printDeps(pkg->header);
-+-	return rc;
-+     }
-+ 
-+     /* Generate scriptlet Dependencies. */
-+@@ -1720,8 +1719,8 @@ rpmRC rpmfcGenerateDepends(void * specp, void * pkgp)
-+     av[ac] = NULL;
-+ 
-+     fc = rpmfcNew();
-+-    fc->skipProv = !pkg->autoProv;
-+-    fc->skipReq = !pkg->autoReq;
-++    fc->skipProv = !pkg->autoProv || !internaldeps;
-++    fc->skipReq = !pkg->autoReq || !internaldeps;
-+     fc->tracked = 0;
-+ 
-+     {	const char * buildRootURL;
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index 9cfb3ab..c0e3208 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -60,6 +60,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;ex
- 	   file://rpm-solvedb.patch \
- 	   file://rpm-tools-mtree-LDFLAGS.patch \
- 	   file://fprint-pointer-fix.patch \
-+	   file://rpm-fileclass.patch \
- 	  "
- 
- #           file://hdraddorappend.patch \
--- 
-1.7.4.1
+Are we thinking something like the following in e[glibc] recipes:
 
+EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", =
+"-with-cpu=3De500mc", "", d)}"
+
+- k=
 
 
