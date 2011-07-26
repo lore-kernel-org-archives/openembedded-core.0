@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QljiA-0007Xy-Ie
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1QljiA-0007Y4-R2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 17:38:22 +0200
+	Tue, 26 Jul 2011 17:38:23 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Jul 2011 08:33:51 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 26 Jul 2011 08:33:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,270,1309762800"; d="scan'208";a="34658288"
+X-IronPort-AV: E=Sophos;i="4.67,270,1309762800"; d="scan'208";a="34658297"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.255.17.235])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2011 08:33:40 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2011 08:33:41 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jul 2011 16:33:35 +0100
-Message-Id: <555a89ad6f8e908f695d40f1f7ff2d59f1ea2f1a.1311694250.git.paul.eggleton@linux.intel.com>
+Date: Tue, 26 Jul 2011 16:33:36 +0100
+Message-Id: <dfcbc9b235c10e43b325c27ee1a1231d7aa82b44.1311694250.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1311694250.git.paul.eggleton@linux.intel.com>
 References: <cover.1311694250.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1311694250.git.paul.eggleton@linux.intel.com>
 References: <cover.1311694250.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/4] meta/conf/local.conf.sample: improve terminal examples/comments
+Subject: [PATCH 4/4] meta/conf/local.conf.sample: remove nonfunctional BBINCLUDELOGS setting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 15:38:22 -0000
+X-List-Received-Date: Tue, 26 Jul 2011 15:38:23 -0000
 
-Default to XTERM_TERM* instead of KONSOLE_TERM* since Konsole support
-only works for KDE 3.x, and note this in the comments (see Yocto bug 1294
-for further details.) Also add a comment about PATCHRESOLVE = "noop".
+This option does nothing in recent versions of BitBake, and the vast
+majority of users will want the log printed out on failure anyway.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/conf/local.conf.sample |    8 ++++++--
- 1 files changed, 6 insertions(+), 2 deletions(-)
+ meta/conf/local.conf.sample |    3 ---
+ 1 files changed, 0 insertions(+), 3 deletions(-)
 
 diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 1322202..d8e2383 100644
+index d8e2383..c719dab 100644
 --- a/meta/conf/local.conf.sample
 +++ b/meta/conf/local.conf.sample
-@@ -183,8 +183,12 @@ NO32LIBS = "1"
- # when resolving patches which cannot be applied
- # Supported shell prefixes for *_TERMCMD and *_TERMCMDRUN ARE:
- # GNOME, SCREEN, XTERM and KONSOLE
--#TERMCMD = "${KONSOLE_TERMCMD}"
--#TERMCMDRUN = "${KONSOLE_TERMCMDRUN}"
-+# Note: currently, Konsole support only works for KDE 3.x due to the way
-+# newer Konsole versions behave
-+#TERMCMD = "${XTERM_TERMCMD}"
-+#TERMCMDRUN = "${XTERM_TERMCMDRUN}"
-+# Alternatively, if you prefer you can disable patch resolution:
-+#PATCHRESOLVE = "noop"
+@@ -117,9 +117,6 @@ PACKAGE_DEBUG_SPLIT_STYLE = '.debug'
+ # SELECTED_OPTIMIZATION = "${PROFILE_OPTIMIZATION}"
+ # LDFLAGS =+ "-pg"
  
- # Uncomment this if your host distribution provides the help2man tool.
- #ASSUME_PROVIDED += "help2man-native"
+-# Uncomment this if you want BitBake to emit the log if a build fails.
+-BBINCLUDELOGS = "yes"
+-
+ # The architecture to build SDK items for, by setting this you can build SDK
+ # packages for architectures other than the host i.e. building i686 packages
+ # on an x86_64 host.
 -- 
 1.7.4.1
 
