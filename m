@@ -1,26 +1,31 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1+tClu09AiGMoSDNgNOjTfTFruAGK087G4=])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QljXJ-0007Jh-Kp
+	(envelope-from <mark.hatle@windriver.com>) id 1QljZp-0007Ma-8Y
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 17:27:10 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6QFMtc2011597
+	Tue, 26 Jul 2011 17:29:45 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6QFPVQt024444
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 10:22:55 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <1311688752.2344.238.camel@rex>
-Date: Tue, 26 Jul 2011 10:22:57 -0500
-Message-Id: <627CF4AB-F07D-4285-B31C-3C5631270420@kernel.crashing.org>
-References: <346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
-	<992efbf4ec3d7c55346953dbe82f9745590e64bf.1311683981.git.richard.purdie@linuxfoundation.org>
-	<969FA904-0086-42FA-B605-07B74FB728B4@kernel.crashing.org>
-	<1311688752.2344.238.camel@rex>
+	Tue, 26 Jul 2011 08:25:31 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 26 Jul 2011 08:25:31 -0700
+Message-ID: <4E2EDC6A.50001@windriver.com>
+Date: Tue, 26 Jul 2011 10:25:30 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 3/3] Add basic PowerPC core tune config
+References: <cover.1311601422.git.richard.purdie@linuxfoundation.org>
+	<bd2e16888f6520e2d02d3ff6c43b360d217572e4.1311601422.git.richard.purdie@linuxfoundation.org>
+	<1311602099.30326.217.camel@phil-desktop>
+	<4E2DA3CB.7070902@windriver.com>
+In-Reply-To: <4E2DA3CB.7070902@windriver.com>
+Subject: Re: [PATCH 1/5] multilib_header.bbclass: Add oe_multilib_header wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,65 +40,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 15:27:10 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 26 Jul 2011 15:29:45 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
+On 7/25/11 12:11 PM, Mark Hatle wrote:
+> On 7/25/11 8:54 AM, Phil Blundell wrote:
+>> On Mon, 2011-07-25 at 14:47 +0100, Richard Purdie wrote:
+>>> +/*  Copyright (c) 2005-2011 Wind River Systems, Inc.
+>>> + *
+>>> + * This program is free software; you can redistribute it and/or modify
+>>> + * it under the terms of the GNU Lesser General Public License version 2.1 as
+>>> + * published by the Free Software Foundation.
+> 
+> I believe we're flexibly with the license statement in the file.. (Just
+> verifying it to make sure I am allowed to change it.)
+> 
+> I personally don't believe it's a big deal, but I understand the concern.  Is
+> there a different wording/license statement that would make more sense?  My
+> concern is that if we make the license dynamic it's a lot of pain for no real
+> technical reason.
+> 
+> I'd like to see if we (WR) can just put a statement on it that it can be used
+> for any purpose -- whatever the legalize is for that -- and if that would
+> satisfy your concerns.  (BTW: Our goal of course is NOT to change the license of
+> the produced binary in any way...)
 
-On Jul 26, 2011, at 8:59 AM, Richard Purdie wrote:
+Looking for feedback, would the CC0:
 
-> On Tue, 2011-07-26 at 08:47 -0500, Kumar Gala wrote:
->> On Jul 26, 2011, at 7:44 AM, Richard Purdie wrote:
->>=20
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>> ---
->>> meta/conf/machine/include/powerpc/arch-powerpc.inc |   45 =
-+++++++++++++++++++-
->>> meta/conf/machine/include/tune-ppc603e.inc         |   12 ++++-
->>> meta/conf/machine/include/tune-ppce300c2.inc       |   12 ++++-
->>> meta/conf/machine/include/tune-ppce500.inc         |   13 ++++--
->>> meta/conf/machine/include/tune-ppce500mc.inc       |   12 ++++-
->>> meta/conf/machine/include/tune-ppce500v2.inc       |   12 ++++-
->>> 6 files changed, 88 insertions(+), 18 deletions(-)
->>=20
->> One thing I'm wondering about as we do this is the ability to pass
->> --with-cpu to gcc & [e]glibc configure to pickup proper optimized =
-cfgs
->> & libs for a given target.
->=20
-> As far as I can tell, gcc 4.x has no --with-cpu option. We pass the
-> correct march and mtune options to the compiler at runtime through
-> CFLAGS and friends.
+http://creativecommons.org/publicdomain/zero/1.0/legalcode.txt
 
-Hmm, gcc still supports this:
+work, or would this still "contaminate" the license statement in your opinion?
 
-http://gcc.gnu.org/install/configure.html
+--Mark
 
---with-cpu=3Dcpu
---with-cpu-32=3Dcpu
---with-cpu-64=3Dcpu
-Specify which cpu variant the compiler should generate code for by =
-default. cpu will be used as the default value of the -mcpu=3D switch. =
-This option is only supported on some targets, including ARM, i386, =
-M68k, PowerPC, and SPARC. The --with-cpu-32 and --with-cpu-64 options =
-specify separate default CPUs for 32-bit and 64-bit modes; these options =
-are only supported for i386, x86-64 and PowerPC.=20
+>> This is going to cause LGPL 2.1 content to appear in the output
+>> packages.  For things like binutils this is probably not a big deal,
+>> since they are GPL already, but for ncurses (previously MIT-licensed)
+>> this is a potentially significant change.  In any case I think there
+>> needs to be some way of making sure that the LICENSE is updated
+>> appropriately when this file is included.
+>>
+>> p.
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-http://gcc.gnu.org/install/specific.html
-
-powerpc-*-*
-You can specify a default version for the -mcpu=3Dcpu_type switch by =
-using the configure option --with-cpu-cpu_type.
-
-> You're already found the way to pass configuration to *libc using =
-values
-> in TARGET_FPU to pickup the right configuration.
->=20
-> Is there a use case we're missing?
-
-Yes, for [e]glibc we have optimized libc functions for a given / =
-specific PPC processor.  So we need someway to tell configure this.
-
-- k=
 
 
