@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qld09-00005I-Pu
+	(envelope-from <sgw@linux.intel.com>) id 1Qld0A-00005I-Fx
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 10:28:29 +0200
+	Tue, 26 Jul 2011 10:28:30 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 26 Jul 2011 01:24:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,268,1309762800"; d="scan'208";a="34539816"
+X-IronPort-AV: E=Sophos;i="4.67,268,1309762800"; d="scan'208";a="34539818"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.61])
 	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2011 01:24:15 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jul 2011 01:24:08 -0700
-Message-Id: <1f4c4205e480da53c3af9bb89f8d49a73fdc1c1e.1311668437.git.sgw@linux.intel.com>
+Date: Tue, 26 Jul 2011 01:24:09 -0700
+Message-Id: <8900d3b75d30d436f4ab4a5576cf2b4bf1557f89.1311668437.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311668437.git.sgw@linux.intel.com>
 References: <cover.1311668437.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311668437.git.sgw@linux.intel.com>
 References: <cover.1311668437.git.sgw@linux.intel.com>
-Subject: [RFC-WIP 1/3] classes/image*: Revamp creation of live images
+Subject: [RFC-WIP 2/3] Remove -live.bb recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,96 +35,134 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 26 Jul 2011 08:28:30 -0000
 
-This creates a live image as an IMAGE_FSTYPES, thus removing the
-need to have additional -live.bb recipes.  To create a live image
-one just needs to add live to the IMAGE_FSTYPES list
-
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../{bootimg.bbclass => image-live.bbclass}        |   11 +++++++++++
- meta/classes/image.bbclass                         |    3 +++
- meta/classes/image_types.bbclass                   |   20 ++++++++++++++++++--
- 3 files changed, 32 insertions(+), 2 deletions(-)
- create mode 100644 meta/classes/image-empty.bbclass
- rename meta/classes/{bootimg.bbclass => image-live.bbclass} (91%)
+ meta/recipes-core/images/core-image-live.inc       |   21 --------------------
+ .../recipes-core/images/core-image-minimal-live.bb |   11 ----------
+ .../recipes-extended/images/core-image-lsb-live.bb |   11 ----------
+ .../images/core-image-lsb-sdk-live.bb              |   11 ----------
+ meta/recipes-sato/images/core-image-sato-live.bb   |   11 ----------
+ .../images/core-image-sato-sdk-live.bb             |   11 ----------
+ 6 files changed, 0 insertions(+), 76 deletions(-)
+ delete mode 100644 meta/recipes-core/images/core-image-live.inc
+ delete mode 100644 meta/recipes-core/images/core-image-minimal-live.bb
+ delete mode 100644 meta/recipes-extended/images/core-image-lsb-live.bb
+ delete mode 100644 meta/recipes-extended/images/core-image-lsb-sdk-live.bb
+ delete mode 100644 meta/recipes-sato/images/core-image-sato-live.bb
+ delete mode 100644 meta/recipes-sato/images/core-image-sato-sdk-live.bb
 
-diff --git a/meta/classes/image-empty.bbclass b/meta/classes/image-empty.bbclass
-new file mode 100644
-index 0000000..e69de29
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/image-live.bbclass
-similarity index 91%
-rename from meta/classes/bootimg.bbclass
-rename to meta/classes/image-live.bbclass
-index 49ee85e..c9cd524 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -25,6 +25,17 @@
- # ${APPEND} - an override list of append strings for each label
- # ${SYSLINUX_OPTS} - additional options to add to the syslinux file ';' delimited 
- 
-+AUTO_SYSLINUXCFG = "1"
-+INITRD = "${DEPLOY_DIR_IMAGE}/core-image-minimal-initramfs-${MACHINE}.cpio.gz"
-+APPEND += "root=/dev/ram0 "
-+TIMEOUT = "10"
-+LABELS += "boot install"
-+
-+ROOTFS = "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
-+
-+do_bootimg[depends] += "core-image-minimal-initramfs:do_rootfs"
-+do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
-+
- do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
-                        syslinux:do_populate_sysroot \
-                        syslinux-native:do_populate_sysroot \
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index edfb2d6..79a56f0 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -29,6 +29,9 @@ LDCONFIGDEPEND_libc-uclibc = ""
- do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot ${LDCONFIGDEPEND}"
- do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
- 
-+IMAGE_TYPE = ${@base_contains("IMAGE_FSTYPES", "live", "live", "empty", d)}
-+inherit image-${IMAGE_TYPE}
-+
- python () {
-     deps = bb.data.getVarFlag('do_rootfs', 'depends', d) or ""
-     for type in (bb.data.getVar('IMAGE_FSTYPES', d, True) or "").split():
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 1108802..1efdf06 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -1,7 +1,23 @@
-+
- def get_imagecmds(d):
-     cmds = "\n"
-     old_overrides = bb.data.getVar('OVERRIDES', d, 0)
--    for type in bb.data.getVar('IMAGE_FSTYPES', d, True).split():
-+
-+    types = bb.data.getVar('IMAGE_FSTYPES', d, True).split()
-+    try:
-+        live_pos = types.index("live")
-+        try:
-+            ext3_pos = types.index("ext3")
-+        except ValueError:
-+            types.insert(live_pos, "ext3")
-+        else:
-+            if ext3_pos > live_pos:
-+                types.pop(live_pos)
-+                #types.append("live")
-+    except ValueError:
-+        pass
-+
-+    for type in types:
-         localdata = bb.data.createCopy(d)
-         localdata.setVar('OVERRIDES', '%s:%s' % (type, old_overrides))
-         bb.data.update_data(localdata)
-@@ -103,4 +119,4 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
--IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz squashfs squashfs-lzma ubi"
-+IMAGE_TYPES = "jffs2 cramfs ext2 ext2.gz ext3 ext3.gz live squashfs squashfs-lzma ubi"
+diff --git a/meta/recipes-core/images/core-image-live.inc b/meta/recipes-core/images/core-image-live.inc
+deleted file mode 100644
+index 2c9b3fb..0000000
+--- a/meta/recipes-core/images/core-image-live.inc
++++ /dev/null
+@@ -1,21 +0,0 @@
+-AUTO_SYSLINUXCFG = "1"
+-INITRD = "${DEPLOY_DIR_IMAGE}/core-image-minimal-initramfs-${MACHINE}.cpio.gz"
+-APPEND += "root=/dev/ram0 "
+-TIMEOUT = "10"
+-
+-EXCLUDE_FROM_WORLD = "1"
+-
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-
+-do_bootimg[depends] += "core-image-minimal-initramfs:do_rootfs"
+-
+-inherit bootimg
+-
+-do_bootimg_prepend () {
+-	import bb
+-	fstypes = bb.data.getVar('IMAGE_FSTYPES', d, True)
+-	if 'ext3' not in fstypes:
+-		bb.msg.fatal(bb.msg.domain.Build, "ext3 not in IMAGE_FSTYPES")
+-}
+-
+diff --git a/meta/recipes-core/images/core-image-minimal-live.bb b/meta/recipes-core/images/core-image-minimal-live.bb
+deleted file mode 100644
+index 0ce2afb..0000000
+--- a/meta/recipes-core/images/core-image-minimal-live.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-DESCRIPTION = "Minimal Bootable Live Image"
+-
+-require core-image-live.inc
+-
+-LABELS += "boot install"
+-
+-ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-minimal-${MACHINE}.ext3"
+-
+-LICENSE = "MIT"
+-
+-do_bootimg[depends] += "core-image-minimal:do_rootfs"
+diff --git a/meta/recipes-extended/images/core-image-lsb-live.bb b/meta/recipes-extended/images/core-image-lsb-live.bb
+deleted file mode 100644
+index 72f10f7..0000000
+--- a/meta/recipes-extended/images/core-image-lsb-live.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-DESCRIPTION = "LSB Bootable Live Image"
+-
+-require recipes-core/images/core-image-live.inc
+-
+-LABELS += "boot install"
+-
+-ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-lsb-${MACHINE}.ext3"
+-
+-LICENSE = "MIT"
+-
+-do_bootimg[depends] += "core-image-lsb:do_rootfs"
+diff --git a/meta/recipes-extended/images/core-image-lsb-sdk-live.bb b/meta/recipes-extended/images/core-image-lsb-sdk-live.bb
+deleted file mode 100644
+index b01ae06..0000000
+--- a/meta/recipes-extended/images/core-image-lsb-sdk-live.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-DESCRIPTION = "LSB SDK Bootable Live Image"
+-
+-require recipes-core/images/core-image-live.inc
+-
+-LABELS += "boot install"
+-
+-ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-lsb-sdk-${MACHINE}.ext3"
+-
+-LICENSE = "MIT"
+-
+-do_bootimg[depends] += "core-image-lsb-sdk:do_rootfs"
+diff --git a/meta/recipes-sato/images/core-image-sato-live.bb b/meta/recipes-sato/images/core-image-sato-live.bb
+deleted file mode 100644
+index 9511ca6..0000000
+--- a/meta/recipes-sato/images/core-image-sato-live.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-DESCRIPTION = "Sato Bootable Live Image"
+-
+-require recipes-core/images/core-image-live.inc
+-
+-LABELS += "boot install"
+-
+-ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-sato-${MACHINE}.ext3"
+-
+-LICENSE = "MIT"
+-
+-do_bootimg[depends] += "core-image-sato:do_rootfs"
+diff --git a/meta/recipes-sato/images/core-image-sato-sdk-live.bb b/meta/recipes-sato/images/core-image-sato-sdk-live.bb
+deleted file mode 100644
+index f11d895..0000000
+--- a/meta/recipes-sato/images/core-image-sato-sdk-live.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-DESCRIPTION = "Bootable Live Sato SDK Image"
+-
+-require recipes-core/images/core-image-live.inc
+-
+-LABELS += "boot install"
+-
+-ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-sato-sdk-${MACHINE}.ext3"
+-
+-LICENSE = "MIT"
+-
+-do_bootimg[depends] += "core-image-sato-sdk:do_rootfs"
 -- 
 1.7.3.4
 
