@@ -1,20 +1,20 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237] helo=rex)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard@tim.rpsys.net>) id 1QlpdF-0007ts-E9
+	(envelope-from <richard@tim.rpsys.net>) id 1QlplE-0008UJ-Vf
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 23:57:42 +0200
+	Wed, 27 Jul 2011 00:05:57 +0200
 Received: by rex (Postfix, from userid 1000)
-	id E6F9620E22; Tue, 26 Jul 2011 22:53:17 +0100 (BST)
+	id 0848320EA7; Tue, 26 Jul 2011 22:53:17 +0100 (BST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jul 2011 22:53:14 +0100
-Message-Id: <7802b73e727799d20c3ce37775ef90e0aab59ab9.1311716946.git.richard.purdie@linuxfoundation.org>
+Date: Tue, 26 Jul 2011 22:53:15 +0100
+Message-Id: <5aaef860790c0799550116da35b16a73ee8d7b2d.1311716946.git.richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <e393d2644b26b14f2b3b4b8e12177644921076b9.1311716946.git.richard.purdie@linuxfoundation.org>
 References: <e393d2644b26b14f2b3b4b8e12177644921076b9.1311716946.git.richard.purdie@linuxfoundation.org>
 In-Reply-To: <cover.1311716946.git.richard.purdie@linuxfoundation.org>
 References: <cover.1311716946.git.richard.purdie@linuxfoundation.org>
-Subject: [PATCH 7/8] distcc: fix makefile parameter order
+Subject: [PATCH 8/8] RPM: multilib file class/color
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,71 +29,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 21:57:43 -0000
+X-List-Received-Date: Tue, 26 Jul 2011 22:05:57 -0000
 
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
 
-When linking with gcc, the parameter is read from left to write, if *.o
-calls a function contained in libxxx, the parameter order should be
+We need to include file class and file color in order to do the conflict
+resolution required with a multilib design.  This is normally disabled when
+we don't use the internal dependency generator, patch enables it in
+all cases.
 
-"gcc ... *.o -lxxx".
-
-This commit fixes the problem in distcc.
-
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-devtools/distcc/distcc_2.18.3.bb      |    3 ++-
- .../distcc/files/makefile-param-order.patch        |   20 ++++++++++++++++++++
- 2 files changed, 22 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/distcc/files/makefile-param-order.patch
+ meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch |   34 +++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb            |    1 +
+ 2 files changed, 35 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch
 
-diff --git a/meta/recipes-devtools/distcc/distcc_2.18.3.bb b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-index ece1b02..e474cce 100644
---- a/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-+++ b/meta/recipes-devtools/distcc/distcc_2.18.3.bb
-@@ -4,7 +4,7 @@ compilation of C/C++/ObjC code across machines on a network."
- SECTION = "devel"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
--PR = "r6"
-+PR = "r7"
- 
- DEPENDS = "avahi ${GTKDEP}"
- GTKDEP_libc-uclibc = ""
-@@ -16,6 +16,7 @@ RRECOMMENDS_${PN} = "avahi-daemon"
- # http://0pointer.de/public/distcc-avahi.patch
- SRC_URI = "http://distcc.googlecode.com/files/${PN}-${PV}.tar.bz2 \
-            file://distcc-avahi.patch \	  
-+           file://makefile-param-order.patch \
- 	   file://default \
- 	   file://distccmon-gnome.desktop \
- 	   file://distcc"
-diff --git a/meta/recipes-devtools/distcc/files/makefile-param-order.patch b/meta/recipes-devtools/distcc/files/makefile-param-order.patch
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch b/meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch
 new file mode 100644
-index 0000000..fc57414
+index 0000000..d1e4bf6
 --- /dev/null
-+++ b/meta/recipes-devtools/distcc/files/makefile-param-order.patch
-@@ -0,0 +1,20 @@
-+distcc: Put the "-lLIB" parameter in the end of the gcc command.
++++ b/meta/recipes-devtools/rpm/rpm/rpm-fileclass.patch
+@@ -0,0 +1,34 @@
++rpmfc.c:  Always generate per-file information
 +
-+Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
++Even when the per-file dependency generate is disabled, we want to generate
++per file classification and other associated data.
 +
-+Upstream-Status: Pending
++Note: this is a temporary workaround.  Eventually we will want to have a way
++to seed per-file dependency and other information in order to generate a
++package from previously determined information.
 +
-+diff -ruN distcc-2.18.3-orig/Makefile.in distcc-2.18.3/Makefile.in
-+--- distcc-2.18.3-orig/Makefile.in	2011-07-25 16:43:21.000000000 +0800
-++++ distcc-2.18.3/Makefile.in	2011-07-25 16:45:39.000000000 +0800
-+@@ -378,8 +378,8 @@
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
++diff --git a/lib/rpmfc.c b/lib/rpmfc.c
++index 0c3befd..9306999 100644
++--- a/lib/rpmfc.c
+++++ b/lib/rpmfc.c
++@@ -1692,7 +1692,6 @@ rpmRC rpmfcGenerateDepends(void * specp, void * pkgp)
++ 	/* ... then generate dependencies using %{__find_requires} et al. */
++ 	rc = rpmfcGenerateDependsHelper(spec, pkg, fi);
++ 	printDeps(pkg->header);
++-	return rc;
++     }
 + 
-+ distccmon-gnome@EXEEXT@: $(mon_obj) $(gnome_obj)
-+ 	$(CC) -o $@ $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(LIBS)	\
-+-		$(GNOME_CFLAGS) $(GNOME_LIBS)			\
-+-		$(mon_obj) $(gnome_obj)
-++		$(GNOME_CFLAGS) 				\
-++		$(mon_obj) $(gnome_obj) $(GNOME_LIBS)
++     /* Generate scriptlet Dependencies. */
++@@ -1720,8 +1719,8 @@ rpmRC rpmfcGenerateDepends(void * specp, void * pkgp)
++     av[ac] = NULL;
 + 
++     fc = rpmfcNew();
++-    fc->skipProv = !pkg->autoProv;
++-    fc->skipReq = !pkg->autoReq;
+++    fc->skipProv = !pkg->autoProv || !internaldeps;
+++    fc->skipReq = !pkg->autoReq || !internaldeps;
++     fc->tracked = 0;
 + 
-+ ## Dist targets
++     {	const char * buildRootURL;
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+index 9cfb3ab..c0e3208 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
+@@ -60,6 +60,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;ex
+ 	   file://rpm-solvedb.patch \
+ 	   file://rpm-tools-mtree-LDFLAGS.patch \
+ 	   file://fprint-pointer-fix.patch \
++	   file://rpm-fileclass.patch \
+ 	  "
+ 
+ #           file://hdraddorappend.patch \
 -- 
 1.7.4.1
 
