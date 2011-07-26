@@ -1,29 +1,29 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Qlkhk-0000nq-Ls
+	(envelope-from <scott.a.garman@intel.com>) id 1Qlkhl-0000nq-DP
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 18:42:00 +0200
-Received: from mail-yw0-f52.google.com ([209.85.213.52])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 26 Jul 2011 09:37:46 -0700
-Received: by ywo7 with SMTP id 7so725436ywo.25
+	Tue, 26 Jul 2011 18:42:01 +0200
+Received: from mail-yx0-f180.google.com ([209.85.213.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 26 Jul 2011 09:37:48 -0700
+Received: by yxk30 with SMTP id 30so726440yxk.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 09:37:45 -0700 (PDT)
-Received: by 10.68.19.163 with SMTP id g3mr161347pbe.73.1311698263832;
-	Tue, 26 Jul 2011 09:37:43 -0700 (PDT)
+	Tue, 26 Jul 2011 09:37:48 -0700 (PDT)
+Received: by 10.142.242.11 with SMTP id p11mr3659239wfh.270.1311698267660;
+	Tue, 26 Jul 2011 09:37:47 -0700 (PDT)
 Received: from [10.1.10.192] (c-67-170-181-205.hsd1.or.comcast.net
 	[67.170.181.205])
-	by mx.google.com with ESMTPS id e6sm714637pbm.71.2011.07.26.09.37.42
-	(version=SSLv3 cipher=OTHER); Tue, 26 Jul 2011 09:37:43 -0700 (PDT)
-Message-ID: <4E2EED55.5070104@intel.com>
-Date: Tue, 26 Jul 2011 09:37:41 -0700
+	by mx.google.com with ESMTPS id q2sm715666pbj.67.2011.07.26.09.37.46
+	(version=SSLv3 cipher=OTHER); Tue, 26 Jul 2011 09:37:46 -0700 (PDT)
+Message-ID: <4E2EED58.2020004@intel.com>
+Date: Tue, 26 Jul 2011 09:37:44 -0700
 From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <cover.1311648798.git.kai.kang@windriver.com>
-In-Reply-To: <cover.1311648798.git.kai.kang@windriver.com>
-Subject: Re: [PATCH 0/7] works of adding packages pam support V2
+References: <cover.1311671726.git.xiaofeng.yan@windriver.com>
+In-Reply-To: <cover.1311671726.git.xiaofeng.yan@windriver.com>
+Subject: Re: [PATCH 0/3] Adding patches to support pam
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,78 +38,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 16:42:00 -0000
+X-List-Received-Date: Tue, 26 Jul 2011 16:42:01 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/25/2011 08:29 PM, Kang Kai wrote:
-> From: Kang Kai<kai.kang@windriver.com>
+On 07/26/2011 03:08 AM, Xiaofeng Yan wrote:
+> Hi Saul&  Richard,
 >
-> Hi Scott,
->
-> This is the work of adding pam supports version 2.
+> I modified my patches about how to whitespace and tab in .bb file according to your suggestion.
 
 Acked-by: Scott Garman <scott.a.garman@intel.com>
 
 for this patch series.
 
-Thanks Kai!
+Thank you Yan!
 
 >
-> Xiaofeng Yan's commits will be commited by himself, including openssh, dropbear and polkit.
+> Pull URL: git://git.pokylinux.org/poky-contrib.git
+>    Branch: xiaofeng/pam
+>    Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/pam
 >
-> As Saul told,
-> * update the indent
-> * check the PR
-> * make install configure file when pam support enabled
->
-> After update libpam to 1.1.4, we enable the packages pam support. And if the pacakge
-> doesn't have a pam configure file, import from Fedora.
+> Thanks,
+>      Xiaofeng Yan<xiaofeng.yan@windriver.com>
+> ---
 >
 >
-> The following changes since commit e803c58ffb05e6d1f5938f1bfe6dfca9e3c26e02:
+> Xiaofeng Yan (3):
+>    openssh: Support PAM
+>    dropbear: Support pam
+>    polkit: Support pam
 >
->    libiconv: Fix build failure on 1.13.1 (2011-07-21 22:50:24 +0100)
+>   .../openssh/openssh-5.8p2/sshd                     |   10 ++++++++
+>   meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   13 +++++++++-
+>   meta/recipes-core/dropbear/dropbear.inc            |    8 ++++++-
+>   .../dropbear/dropbear/dropbear-enable-pam.patch    |   22 +++++++++++++++++++
+>   meta/recipes-core/dropbear/dropbear_0.52.bb        |    2 +-
+>   .../polkit/polkit-0.101/polkit-1_pam.patch         |   23 ++++++++++++++++++++
+>   meta/recipes-extended/polkit/polkit_0.101.bb       |    7 ++++-
+>   7 files changed, 79 insertions(+), 6 deletions(-)
+>   create mode 100644 meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
+>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
+>   create mode 100644 meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
 >
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib kangkai/distro
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/distro
 >
-> Kang Kai (5):
->    libpam: update to 1.1.4 and add subpackage xtests
->    cups: add pam support
->    screen: add pam support
->    sudo: add pam support
->    shadow: update pam related configure files
->
-> Wenzong Fan (2):
->    cronie: enable PAM support for cronie
->    at: enable pam support
->
->   .../at/at-3.1.12/configure-add-enable-pam.patch    |   23 +++++
->   meta/recipes-extended/at/at-3.1.12/pam.conf.patch  |   21 +++++
->   meta/recipes-extended/at/at_3.1.12.bb              |   21 ++++-
->   .../cronie/cronie/crond_pam_config.patch           |   19 ++++
->   meta/recipes-extended/cronie/cronie_1.4.7.bb       |   12 ++-
->   meta/recipes-extended/cups/cups_1.4.6.bb           |    8 +-
->   .../pam/libpam/libpam-xtests.patch                 |   35 ++++++++
->   .../pam/{libpam_1.1.3.bb =>  libpam_1.1.4.bb}       |   14 ++-
->   .../screen/screen-4.0.3/screen.pam                 |    2 +
->   meta/recipes-extended/screen/screen_4.0.3.bb       |   23 ++++-
->   .../shadow/files/shadow-update-pam-conf.patch      |   91 ++++++++++++++++++++
->   meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    5 +-
->   meta/recipes-extended/sudo/files/sudo.pam          |    6 ++
->   meta/recipes-extended/sudo/sudo_1.8.1p2.bb         |   18 +++-
->   14 files changed, 274 insertions(+), 24 deletions(-)
->   create mode 100644 meta/recipes-extended/at/at-3.1.12/configure-add-enable-pam.patch
->   create mode 100644 meta/recipes-extended/at/at-3.1.12/pam.conf.patch
->   create mode 100644 meta/recipes-extended/cronie/cronie/crond_pam_config.patch
->   create mode 100644 meta/recipes-extended/pam/libpam/libpam-xtests.patch
->   rename meta/recipes-extended/pam/{libpam_1.1.3.bb =>  libpam_1.1.4.bb} (85%)
->   create mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen.pam
->   create mode 100644 meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
->   create mode 100644 meta/recipes-extended/sudo/files/sudo.pam
->
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 -- 
