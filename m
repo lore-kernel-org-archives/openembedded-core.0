@@ -1,30 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QllIj-0001uO-2V
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 19:20:13 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6QHFxEo015214
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 10:15:59 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 26 Jul 2011 10:15:50 -0700
-Message-ID: <4E2EF641.5050204@windriver.com>
-Date: Tue, 26 Jul 2011 12:15:45 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1QllSe-00025F-BY; Tue, 26 Jul 2011 19:30:28 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 26 Jul 2011 10:20:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,270,1309762800"; d="scan'208";a="30320407"
+Received: from unknown (HELO helios.localnet) ([10.255.17.235])
+	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2011 10:20:02 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-devel@lists.openembedded.org
+Date: Tue, 26 Jul 2011 18:20:01 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+References: <CAMKF1spOJJP=qdDbYpcnArUR1rjvJznXXiB7KAqQNT5R7J8N_Q@mail.gmail.com>
+	<1310822738895594500@rkmorris.us>
+In-Reply-To: <1310822738895594500@rkmorris.us>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
-	<992efbf4ec3d7c55346953dbe82f9745590e64bf.1311683981.git.richard.purdie@linuxfoundation.org>
-	<4E2ED5F2.3090306@windriver.com> <1311698198.2344.279.camel@rex>
-	<4E2EF10A.2030705@windriver.com> <1311699937.2344.289.camel@rex>
-In-Reply-To: <1311699937.2344.289.camel@rex>
-Subject: Re: [PATCH 3/3] Add basic PowerPC core tune config
+Message-Id: <201107261820.01424.paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Russell Morris <openembedded@rkmorris.us>
+Subject: Re: [oe] Populating meta-oe with new patches on oe.dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,125 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 17:20:13 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Tue, 26 Jul 2011 17:30:28 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 7/26/11 12:05 PM, Richard Purdie wrote:
-> On Tue, 2011-07-26 at 11:53 -0500, Mark Hatle wrote:
->> On 7/26/11 11:36 AM, Richard Purdie wrote:
->>> On Tue, 2011-07-26 at 09:57 -0500, Mark Hatle wrote:
->>>> On 7/26/11 7:44 AM, Richard Purdie wrote:
->>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>>> ---
->>>>>  meta/conf/machine/include/powerpc/arch-powerpc.inc |   45 +++++++++++++++++++-
->>>>>  meta/conf/machine/include/tune-ppc603e.inc         |   12 ++++-
->>>>>  meta/conf/machine/include/tune-ppce300c2.inc       |   12 ++++-
->>>>>  meta/conf/machine/include/tune-ppce500.inc         |   13 ++++--
->>>>>  meta/conf/machine/include/tune-ppce500mc.inc       |   12 ++++-
->>>>>  meta/conf/machine/include/tune-ppce500v2.inc       |   12 ++++-
->>>>>  6 files changed, 88 insertions(+), 18 deletions(-)
->>>>>
->>>>> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
->>>>> index 17ace32..3f7befb 100644
->>>>> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
->>>>> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
->>>>> @@ -1,3 +1,44 @@
->>>>> -TUNE_ARCH = "powerpc"
->>>>> +# Power Architecture definition
->>>>> +# Four defined ABIs, all combinations of:
->>>>> +# *) Hard/Soft Floating Point
->>>>> +# *) 32-bit/64-bit
->>>>> +
->>>>> +DEFAULTTUNE ?= "powerpc"
->>>>> +
->>>>> +TUNEVALID[m32] = "Power ELF32 standard ABI"
->>>>> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m32", "-m32", "", d)}"
->>>>> +
->>>>> +TUNEVALID[m32-arch] = "Enable powerpc package architecture"
->>>>> +TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m32-arch" ], "powerpc", "", d)}"
->>>>> +
->>>>> +TUNEVALID[m64] = "Power ELF64 standard ABI"
->>>>> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "n64", "-m64", "", d)}"
->>>>> +
->>>>> +TUNEVALID[m64-arch] = "Enable powerpc64 package architecture"
->>>>> +TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64-arch" ], "powerpc64", "", d)}"
->>>>
->>>> Why m32-arch and m64-arch?  If m32 or m64 is selected then it should mean
->>>> powerpc or powerpc64.
->>>
->>> I've gotten confused here and mixed up TUNE_ARCH and TUNE_PKGARCH but
->>> there was a reason.
->>>
->>> The missing piece is 
->>>
->>> TUNE_PKGARCH ?= "${TUNE_ARCH}"
->>>
->>> and the trouble comes when a tune file wants to change this only when
->>> its tune config is in action.
->>>
->>> I'm thinking ahead to trying a mixed ppc 32 and 64 bit build where
->>> TUNE_PKGARCH needs to take on the values for both configs.
->>
->> As far as I can tell, in all cases m32 = powerpc and m64 = powerpc64..  There is
->> no way to mix a build of ppc32 and ppc64 w/o using the multilib code.
->>
->> The m32/m64 is the ABI, so only one can be present in the TUNE_FEATURES.. and
->> passed via gcc through the TUNE_CCARGS.
-> 
-> Ok, say I use tune-ppcXXX and it sets TUNE_PKGARCH:
-> 
-> TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "ppc603e", "", d)}"
-> 
-> and I want a multilib config using this as the m32 ABI and also have
-> powerpc64 as my other multilib. I can't select that as it will get
-> TUNE_PKGARCH wrong in the 64 bit case since:
-> 
-> TUNE_PKGARCH ?= "${TUNE_ARCH}"
-> 
-> is overwritten. I guess we could do:
-> 
-> TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "ppc603e", "${TUNE_ARCH}", d)}"
+On Saturday 16 July 2011 14:25:38 Russell Morris wrote:
+> Can someone explain the differences between oe-core and OpenEmbedded, and
+> in particular the various git repositories? 
 
-ppc603e is the new option.. (lets say for argument it can run in 64-bit mode, in
-reality it can't and is an invalid config....)
+Well, as I just mentioned in my reply to Paul I have produced a document 
+describing OE-core here:
 
-TUNEVALID[ppc603e] = "PowerPC 603e Optimization"
+ http://www.openembedded.org/index.php/OpenEmbedded-Core
 
-# Note the TUNE_NAME is used differently from the TUNE_FEATURES
-TUNE_NAME ?= "ppc603e"
+I don't know that it explicitly describes all the repositories but it does 
+give some idea of the motivations.
 
-TUNE_FEATURES_ppc603e = "m32 ppc603e"
-TUNE_FEATURES_ppc603e-64 = "m64 ppc603e"
+> I ask because I'm struggling to get OE running on my h1940 (using
+> openembedded), but I have a feeling that this may be the wrong repository to
+> use ... but I just don't know ...
 
-The if you include the tune-ppc603e.inc the default is the 32-bit version (what
-I'd consider the reasonable default...)  If you wanted the 64-bit version
-instead you'd simply change set the TUNE_NAME to "ppc603e-64" and the properly
-tuned set of features is set for you.
+OE-dev provides support for h1940, yes, but I wouldn't expect that to be 
+maintained in future. However, read on...
 
-TUNE_PKGARCH_ppc603e = "ppc603e"
-TUNE_PKGARCH_ppc603e-64 = "ppc603e-64"
+> I'm also not sure which ones are being worked on going forward (as I
+> would like to submit changes once I get things working, but again don't
+> know which repository is the right one).
 
-etc...
+So most of the new development should happen either in OE-core or some layer 
+on top. Hopefully I will soon be able to release a layer called "meta-
+handheld" that I have been working on which will provide machine support for 
+h1940 amongst other handheld devices. If you're using OE-dev now that's OK, if 
+you have any patches against OE-dev they will be easy to re-apply to meta-
+handheld or whereever is appropriate.
 
-in the default (ppc603e) case, the TUNE_ARCH should always be "powerpc", and in
-the ppc603e-64 case (if manually enabled), it would be "powerpc64"...
+Cheers,
+Paul
 
-This is what was done in the ARM cases and I believe the core2 case in ia32.
 
---Mark
+-- 
 
-> ?
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
