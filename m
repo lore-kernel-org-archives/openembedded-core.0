@@ -1,33 +1,33 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QliLg-0005TD-Kt
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 16:11:04 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QliHc-00003T-V7 from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 07:06:52 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 26 Jul 2011 07:04:09 -0700
-Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
-	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
-	Tue, 26 Jul 2011 07:06:52 -0700
-Message-ID: <4E2EC9F5.9000904@mentor.com>
-Date: Tue, 26 Jul 2011 07:06:45 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1311656953-30417-1-git-send-email-raj.khem@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qlibe-0005fF-EE for openembedded-core@lists.openembedded.org;
+	Tue, 26 Jul 2011 16:27:34 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QENLei022174
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 15:23:21 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21143-10 for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 15:23:17 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QENDV8022168
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 15:23:13 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 In-Reply-To: <1311656953-30417-1-git-send-email-raj.khem@gmail.com>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 26 Jul 2011 14:04:09.0655 (UTC)
-	FILETIME=[E3D94470:01CC4B9C]
-Subject: Re: [PATCH] meta: Rename SITEINFO_ENDIANESS to	SITEINFO_ENDIANNESS
+References: <1311656953-30417-1-git-send-email-raj.khem@gmail.com>
+Date: Tue, 26 Jul 2011 15:23:05 +0100
+Message-ID: <1311690185.2344.248.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] meta: Rename SITEINFO_ENDIANESS to SITEINFO_ENDIANNESS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,11 +42,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 14:11:04 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Tue, 26 Jul 2011 14:27:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/25/2011 10:09 PM, Khem Raj wrote:
+On Mon, 2011-07-25 at 22:09 -0700, Khem Raj wrote:
 > There is this discrepency in spelling. Lets fix it in
 > core. There are lot of layers using SITEINFO_ENDIANNESS
 > This was shielded since meta-oe had its own copy of
@@ -54,13 +54,20 @@ On 07/25/2011 10:09 PM, Khem Raj wrote:
 > favor of oe-core
 > 
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/siteinfo.bbclass                      |    4 ++--
+>  meta/conf/machine/include/tune-xscale.inc          |    4 ++--
+>  meta/recipes-connectivity/openssl/openssl.inc      |    2 +-
+>  .../recipes-connectivity/openssl/openssl_0.9.8r.bb |    2 +-
+>  meta/recipes-devtools/perl/perl_5.12.3.bb          |    4 ++--
+>  meta/recipes-qt/qt4/qt4-embedded.inc               |    2 +-
+>  meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
+>  meta/recipes-qt/qt4/qt4_arch.inc                   |    4 ++--
+>  8 files changed, 12 insertions(+), 12 deletions(-)
 
-Since this pops this off my list,
+Merged to master, thanks.
 
-Acked-by: Tom Rini <tom_rini@mentor.com>
+Richard
 
--- 
-Tom Rini
-Mentor Graphics Corporation
 
 
