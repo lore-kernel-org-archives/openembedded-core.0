@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qld0A-00005I-Fx
+	(envelope-from <sgw@linux.intel.com>) id 1Qld0B-00005I-6j
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 10:28:30 +0200
+	Tue, 26 Jul 2011 10:28:31 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP; 26 Jul 2011 01:24:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,268,1309762800"; d="scan'208";a="34539818"
+X-IronPort-AV: E=Sophos;i="4.67,268,1309762800"; d="scan'208";a="34539820"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.61])
 	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2011 01:24:15 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jul 2011 01:24:09 -0700
-Message-Id: <8900d3b75d30d436f4ab4a5576cf2b4bf1557f89.1311668437.git.sgw@linux.intel.com>
+Date: Tue, 26 Jul 2011 01:24:10 -0700
+Message-Id: <d52c37c3456ce4d159a0e5795436eaf44a3716a5.1311668437.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311668437.git.sgw@linux.intel.com>
 References: <cover.1311668437.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311668437.git.sgw@linux.intel.com>
 References: <cover.1311668437.git.sgw@linux.intel.com>
-Subject: [RFC-WIP 2/3] Remove -live.bb recipes
+Subject: [RFC-WIP 3/3] Remove -directdisk.bb recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,136 +33,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 08:28:30 -0000
+X-List-Received-Date: Tue, 26 Jul 2011 08:28:31 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/images/core-image-live.inc       |   21 --------------------
- .../recipes-core/images/core-image-minimal-live.bb |   11 ----------
- .../recipes-extended/images/core-image-lsb-live.bb |   11 ----------
- .../images/core-image-lsb-sdk-live.bb              |   11 ----------
- meta/recipes-sato/images/core-image-sato-live.bb   |   11 ----------
- .../images/core-image-sato-sdk-live.bb             |   11 ----------
- 6 files changed, 0 insertions(+), 76 deletions(-)
- delete mode 100644 meta/recipes-core/images/core-image-live.inc
- delete mode 100644 meta/recipes-core/images/core-image-minimal-live.bb
- delete mode 100644 meta/recipes-extended/images/core-image-lsb-live.bb
- delete mode 100644 meta/recipes-extended/images/core-image-lsb-sdk-live.bb
- delete mode 100644 meta/recipes-sato/images/core-image-sato-live.bb
- delete mode 100644 meta/recipes-sato/images/core-image-sato-sdk-live.bb
+ meta-rt/images/core-image-minimal-rt-directdisk.bb |   15 ---------------
+ meta/recipes-core/images/core-image-directdisk.inc |   11 -----------
+ .../images/core-image-minimal-directdisk.bb        |   11 -----------
+ .../images/core-image-sato-directdisk.bb           |    9 ---------
+ .../images/core-image-sato-sdk-directdisk.bb       |    9 ---------
+ 5 files changed, 0 insertions(+), 55 deletions(-)
+ delete mode 100644 meta-rt/images/core-image-minimal-rt-directdisk.bb
+ delete mode 100644 meta/recipes-core/images/core-image-directdisk.inc
+ delete mode 100644 meta/recipes-core/images/core-image-minimal-directdisk.bb
+ delete mode 100644 meta/recipes-sato/images/core-image-sato-directdisk.bb
+ delete mode 100644 meta/recipes-sato/images/core-image-sato-sdk-directdisk.bb
 
-diff --git a/meta/recipes-core/images/core-image-live.inc b/meta/recipes-core/images/core-image-live.inc
+diff --git a/meta-rt/images/core-image-minimal-rt-directdisk.bb b/meta-rt/images/core-image-minimal-rt-directdisk.bb
 deleted file mode 100644
-index 2c9b3fb..0000000
---- a/meta/recipes-core/images/core-image-live.inc
+index b3f3523..0000000
+--- a/meta-rt/images/core-image-minimal-rt-directdisk.bb
 +++ /dev/null
-@@ -1,21 +0,0 @@
--AUTO_SYSLINUXCFG = "1"
--INITRD = "${DEPLOY_DIR_IMAGE}/core-image-minimal-initramfs-${MACHINE}.cpio.gz"
--APPEND += "root=/dev/ram0 "
--TIMEOUT = "10"
+@@ -1,15 +0,0 @@
+-#
+-# Copyright (C) 2010 Intel Corporation.
+-#
 -
--EXCLUDE_FROM_WORLD = "1"
+-require recipes-core/images/core-image-directdisk.inc
+-
+-DESCRIPTION = "Bootable Minimal Real-Time Direct Disk Image"
+-
+-ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-minimal-rt-${MACHINE}.ext3"
+-
+-LICENSE = "MIT"
+-
+-do_bootdirectdisk[depends] += "core-image-minimal-rt:do_rootfs"
+-
+-
+diff --git a/meta/recipes-core/images/core-image-directdisk.inc b/meta/recipes-core/images/core-image-directdisk.inc
+deleted file mode 100644
+index ef9e72d..0000000
+--- a/meta/recipes-core/images/core-image-directdisk.inc
++++ /dev/null
+@@ -1,11 +0,0 @@
+-inherit boot-directdisk
 -
 -LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
 -                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 -
--do_bootimg[depends] += "core-image-minimal-initramfs:do_rootfs"
--
--inherit bootimg
--
--do_bootimg_prepend () {
+-do_bootdirectdisk_prepend () {
 -	import bb
 -	fstypes = bb.data.getVar('IMAGE_FSTYPES', d, True)
 -	if 'ext3' not in fstypes:
 -		bb.msg.fatal(bb.msg.domain.Build, "ext3 not in IMAGE_FSTYPES")
 -}
--
-diff --git a/meta/recipes-core/images/core-image-minimal-live.bb b/meta/recipes-core/images/core-image-minimal-live.bb
+\ No newline at end of file
+diff --git a/meta/recipes-core/images/core-image-minimal-directdisk.bb b/meta/recipes-core/images/core-image-minimal-directdisk.bb
 deleted file mode 100644
-index 0ce2afb..0000000
---- a/meta/recipes-core/images/core-image-minimal-live.bb
+index ed23e45..0000000
+--- a/meta/recipes-core/images/core-image-minimal-directdisk.bb
 +++ /dev/null
 @@ -1,11 +0,0 @@
--DESCRIPTION = "Minimal Bootable Live Image"
+-require core-image-directdisk.inc
 -
--require core-image-live.inc
--
--LABELS += "boot install"
+-DESCRIPTION = "Minimal Bootable Direct Disk Image"
 -
 -ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-minimal-${MACHINE}.ext3"
 -
 -LICENSE = "MIT"
 -
--do_bootimg[depends] += "core-image-minimal:do_rootfs"
-diff --git a/meta/recipes-extended/images/core-image-lsb-live.bb b/meta/recipes-extended/images/core-image-lsb-live.bb
+-do_bootdirectdisk[depends] += "core-image-minimal:do_rootfs"
+-
+-
+diff --git a/meta/recipes-sato/images/core-image-sato-directdisk.bb b/meta/recipes-sato/images/core-image-sato-directdisk.bb
 deleted file mode 100644
-index 72f10f7..0000000
---- a/meta/recipes-extended/images/core-image-lsb-live.bb
+index 1e6aa66..0000000
+--- a/meta/recipes-sato/images/core-image-sato-directdisk.bb
 +++ /dev/null
-@@ -1,11 +0,0 @@
--DESCRIPTION = "LSB Bootable Live Image"
+@@ -1,9 +0,0 @@
+-require recipes-core/images/core-image-directdisk.inc
 -
--require recipes-core/images/core-image-live.inc
--
--LABELS += "boot install"
--
--ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-lsb-${MACHINE}.ext3"
+-DESCRIPTION = "Sato Direct Disk Image"
 -
 -LICENSE = "MIT"
--
--do_bootimg[depends] += "core-image-lsb:do_rootfs"
-diff --git a/meta/recipes-extended/images/core-image-lsb-sdk-live.bb b/meta/recipes-extended/images/core-image-lsb-sdk-live.bb
-deleted file mode 100644
-index b01ae06..0000000
---- a/meta/recipes-extended/images/core-image-lsb-sdk-live.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--DESCRIPTION = "LSB SDK Bootable Live Image"
--
--require recipes-core/images/core-image-live.inc
--
--LABELS += "boot install"
--
--ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-lsb-sdk-${MACHINE}.ext3"
--
--LICENSE = "MIT"
--
--do_bootimg[depends] += "core-image-lsb-sdk:do_rootfs"
-diff --git a/meta/recipes-sato/images/core-image-sato-live.bb b/meta/recipes-sato/images/core-image-sato-live.bb
-deleted file mode 100644
-index 9511ca6..0000000
---- a/meta/recipes-sato/images/core-image-sato-live.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--DESCRIPTION = "Sato Bootable Live Image"
--
--require recipes-core/images/core-image-live.inc
--
--LABELS += "boot install"
 -
 -ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-sato-${MACHINE}.ext3"
 -
--LICENSE = "MIT"
--
--do_bootimg[depends] += "core-image-sato:do_rootfs"
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk-live.bb b/meta/recipes-sato/images/core-image-sato-sdk-live.bb
+-do_bootdirectdisk[depends] += "core-image-sato:do_rootfs"
+diff --git a/meta/recipes-sato/images/core-image-sato-sdk-directdisk.bb b/meta/recipes-sato/images/core-image-sato-sdk-directdisk.bb
 deleted file mode 100644
-index f11d895..0000000
---- a/meta/recipes-sato/images/core-image-sato-sdk-live.bb
+index 4c1535a..0000000
+--- a/meta/recipes-sato/images/core-image-sato-sdk-directdisk.bb
 +++ /dev/null
-@@ -1,11 +0,0 @@
--DESCRIPTION = "Bootable Live Sato SDK Image"
+@@ -1,9 +0,0 @@
+-require recipes-core/images/core-image-directdisk.inc
 -
--require recipes-core/images/core-image-live.inc
+-DESCRIPTION = "Sato SDK Direct Disk Image"
 -
--LABELS += "boot install"
+-LICENSE = "MIT"
 -
 -ROOTFS = "${DEPLOY_DIR_IMAGE}/core-image-sato-sdk-${MACHINE}.ext3"
 -
--LICENSE = "MIT"
--
--do_bootimg[depends] += "core-image-sato-sdk:do_rootfs"
+-do_bootdirectdisk[depends] += "core-image-sato-sdk:do_rootfs"
 -- 
 1.7.3.4
 
