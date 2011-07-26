@@ -1,22 +1,25 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Qljyb-0007wU-Fn
+	(envelope-from <josh@linux.intel.com>) id 1QlkBC-0008Ud-8F
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jul 2011 17:55:22 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Jul 2011 08:51:07 -0700
+	Tue, 26 Jul 2011 18:08:22 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 Jul 2011 09:03:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,270,1309762800"; d="scan'208";a="31638868"
-Received: from nbuild1.sc.intel.com ([172.25.110.36])
-	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2011 08:51:06 -0700
-From: nitin.a.kamble@intel.com
+X-IronPort-AV: E=Sophos;i="4.67,270,1309762800"; d="scan'208";a="30289300"
+Received: from unknown (HELO [10.255.14.155]) ([10.255.14.155])
+	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2011 09:03:59 -0700
+From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jul 2011 02:25:21 -0700
-Message-Id: <8d43cc48ca1bf055f3553fed79cf72bb3f611657.1311672205.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6
-In-Reply-To: <cover.1311672205.git.nitin.a.kamble@intel.com>
-References: <cover.1311672205.git.nitin.a.kamble@intel.com>
-Subject: [RFC x32 1/1] insane.bbclass: add entries for linux-gnu<ABI>
+Date: Tue, 26 Jul 2011 09:03:53 -0700
+In-Reply-To: <1311692004.2344.259.camel@rex>
+References: <cover.1311653945.git.josh@linux.intel.com>
+	<ecf0ccbec73c85ee2e5bbbe9828468fcd995c88c.1311653945.git.josh@linux.intel.com>
+	<1311692004.2344.259.camel@rex>
+X-Mailer: Evolution 3.0.2 (3.0.2-3.fc15) 
+Message-ID: <1311696239.2314.0.camel@scimitar>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] classes/image_types: IMAGE_TYPES was missing some entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,40 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 15:55:22 -0000
+X-List-Received-Date: Tue, 26 Jul 2011 16:08:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Tue, 2011-07-26 at 15:53 +0100, Richard Purdie wrote:
+> On Mon, 2011-07-25 at 21:21 -0700, Joshua Lock wrote:
+> > Some of these entries are required by the GUI to enable the expected workflow
+> > of the ADT, namely a compressed rootfs image.
+> > 
+> > Signed-off-by: Joshua Lock <josh@linux.intel.com>
+> > ---
+> >  meta/classes/image_types.bbclass |    2 +-
+> >  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> I've merged this since its obviously correct, we probably do need to
+> think about better ways to generate it though as Tom mentions...
 
-for x86_64 we have multiple ABIs now. Add entries for
-linux-gnu32, linux-gnux32, linux-gn64u
+Agreed, I'll add this to my to do list.
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/classes/insane.bbclass |    9 +++++++++
- 1 files changed, 9 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 5fb0d98..15e7fc7 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -90,6 +90,15 @@ def package_qa_get_machine_dict():
-                         "microblaze":   (47787,  0,    0,          False,         32),
-                         "microblazeel": (47787,  0,    0,          True,          32),
-                       },
-+            "linux-gnu32" :       {
-+                        "x86_64":     (62,     0,    0,          True,          32),
-+                      },
-+            "linux-gnux32" :       {
-+                        "x86_64":     (62,     0,    0,          True,          32),
-+                      },
-+            "linux-gnu64" :       {
-+                        "x86_64":     (62,     0,    0,          True,          64),
-+                      },
-        }
- 
- 
+Thanks,
+Joshua
 -- 
-1.7.6
+Joshua Lock
+        Yocto Project "Johannes factotum"
+        Intel Open Source Technology Centre
 
 
 
