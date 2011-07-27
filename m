@@ -1,25 +1,27 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Qm6TX-0004HL-HR
+	(envelope-from <sgw@linux.intel.com>) id 1Qm6Tl-0004Iq-04
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 17:56:47 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qm6PT-0002Cm-Ag
-	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 17:52:35 +0200
-From: Phil Blundell <philb@gnu.org>
+	Wed, 27 Jul 2011 17:57:01 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Jul 2011 08:52:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,276,1309762800"; d="scan'208";a="32912181"
+Received: from unknown (HELO [10.255.14.61]) ([10.255.14.61])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Jul 2011 08:52:41 -0700
+Message-ID: <4E303449.30105@linux.intel.com>
+Date: Wed, 27 Jul 2011 08:52:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jul 2011 16:52:34 +0100
-In-Reply-To: <4E303031.2070506@mentor.com>
-References: <cover.1311752531.git.sgw@linux.intel.com>
-	<4adc1ac758823bf95ef5259ecf90a7906b38afc9.1311752531.git.sgw@linux.intel.com>
-	<1311759861.30326.276.camel@phil-desktop> <4E303031.2070506@mentor.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1311781955.30326.387.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [Consolidated & Tested 24/35] siteinfo: Move certain bash entries to common-linux
+References: <cover.1311752531.git.sgw@linux.intel.com>	<3a8dba4abda014b2368eceff10b455c48dd54f39.1311752531.git.sgw@linux.intel.com>
+	<1311759396.30326.272.camel@phil-desktop>
+In-Reply-To: <1311759396.30326.272.camel@phil-desktop>
+Cc: Phil Blundell <philb@gnu.org>
+Subject: Re: [Consolidated & Tested 02/35] meta/conf/local.conf.sample: improve comments/layout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,21 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 15:56:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 27 Jul 2011 15:57:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-07-27 at 08:35 -0700, Tom Rini wrote:
-> Agreed that we're far from complete here.  oe.dev has this one done and
-> once I've got the rest of the oe.dev re-sync done I'm just going to wipe
-> the site files clean and see what's needed anywhere, really.
+On 07/27/2011 02:36 AM, Phil Blundell wrote:
+> On Wed, 2011-07-27 at 00:46 -0700, Saul Wold wrote:
+>>   # There are other application targets too, see meta/classes/core-image.bbclass
+>> +<<<<<<<  HEAD:meta/conf/local.conf.sample
+>>   # and meta/packages/tasks/task-core.bb for more details.
+>>
+>>   EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
+>> +=======
+>> +# and meta/recipes-core/tasks/task-core.bb for more details.
+>> +<<<<<<<  HEAD:meta-yocto/conf/local.conf.sample
+>> +# The -sdk image includes these features by default now.
+>> +EXTRA_IMAGE_FEATURES = "debug-tweaks"
+>> +=======
+>> +EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
+>> +>>>>>>>  d82e8ed... meta/conf/local.conf.sample: improve comments/layout:meta/conf/local.conf.sample
+>> +>>>>>>>  8d50670... meta/conf/local.conf.sample: improve comments/layout:meta-yocto/conf/local.conf.sampl
+>
+> Er?  That doesn't look like it can be right.  I'm a bit surprised that
+> you managed to test successfully with those conflict markers in there.
+>
+> p.
+>
+>
+Your right, this was respun it did not trigger a conflict message
+though.
 
-Out of interest, why are you doing the resync first?  It seems like it
-would be a better use of time to wipe the site files clean and see which
-bits we need before spending time on syncing them up.
+Crazy.
 
-p.
+Sau!
 
-
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
