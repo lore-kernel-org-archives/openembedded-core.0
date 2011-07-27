@@ -1,33 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qm21J-0000Mu-KV for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 13:11:21 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6RB77K6029362
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <andrea.adami@gmail.com>) id 1Qm2zW-0001X7-GA
+	for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 14:13:34 +0200
+Received: by yxi19 with SMTP id 19so665234yxi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 12:07:07 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28892-04 for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 12:07:03 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6RB6wJ2029356
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 12:06:58 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 27 Jul 2011 05:09:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=zPvelTXqaeB7adZwndwe616MRw2M9fsFAxQ7Tskqjt4=;
+	b=fbgmKaaH7NxJ7YV7u9+nHZdxGrCHjpKsIUsw94q2Ixwk6i05mbzNn3y30ApyxsdLwu
+	cnYZVXJyPFN/0LLm4mYezHG8DEgXUN0H5CkVveguudj47IcSa6B+w/xTn8+YjLMUpynO
+	pguSmyf0iCLlhOfUslSbvKOJq5fV4zpvNxIlw=
+MIME-Version: 1.0
+Received: by 10.142.248.21 with SMTP id v21mr4372388wfh.42.1311768558869; Wed,
+	27 Jul 2011 05:09:18 -0700 (PDT)
+Received: by 10.142.141.2 with HTTP; Wed, 27 Jul 2011 05:09:18 -0700 (PDT)
+In-Reply-To: <f37fcfa993314db58e3734ffb0de119f47e7e8a8.1311715727.git.mark.hatle@windriver.com>
+References: <cover.1311715727.git.mark.hatle@windriver.com>
+	<f37fcfa993314db58e3734ffb0de119f47e7e8a8.1311715727.git.mark.hatle@windriver.com>
+Date: Wed, 27 Jul 2011 14:09:18 +0200
+Message-ID: <CAAQYJAsq2XoXvsL9xgXM3g+gMALFxQunxfE97tm0+YsiGWhWYg@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1311752531.git.sgw@linux.intel.com>
-References: <cover.1311752531.git.sgw@linux.intel.com>
-Date: Wed, 27 Jul 2011 12:06:48 +0100
-Message-ID: <1311764808.2344.354.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [Consolidated & Tested 00/35] July 27
+Subject: Re: [v2 PATCH 5/8] linux-libc-headers: Fix file conflict -- ..install.cmd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,102 +40,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 11:11:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Jul 2011 12:13:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hi Saul,
+On Tue, Jul 26, 2011 at 11:31 PM, Mark Hatle <mark.hatle@windriver.com> wro=
+te:
+> The ..install.cmd conflicts between various configure runs.
+>
+> This isn't used anywhere, so remove it to avoid the conflict.
+>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+> =A0.../linux-libc-headers-yocto_git.bb =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0| =
+=A0 =A05 ++++-
+> =A0.../linux-libc-headers_2.6.37.2.bb =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =
+=A0 =A05 ++++-
+> =A0.../linux-libc-headers_2.6.39.bb =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 |=
+ =A0 =A05 +++++
+> =A03 files changed, 13 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yo=
+cto_git.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yoct=
+o_git.bb
+> index a9b041f..1c709cb 100644
+> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yocto_git=
+.bb
+> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers-yocto_git=
+.bb
+> @@ -10,7 +10,7 @@ RPROVIDES_${PN}-dev =3D "linux-libc-headers-dev"
+> =A0RPROVIDES_${PN}-dbg =3D "linux-libc-headers-dbg"
+> =A0SRCREV =3D "69cfbdf9f1ff461a75e5b77d6d7ba35e97db4cc3"
+> =A0PV =3D "2.6.37+git-${SRCPV}"
+> -PR =3D "r3"
+> +PR =3D "r4"
+>
+> =A0SRCREV_FORMAT =3D "meta_machine"
+> =A0SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-2.6.37;protocol=3D=
+git;nocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta"
+> @@ -47,6 +47,9 @@ do_compile () {
+> =A0do_install() {
+> =A0 =A0 =A0 =A0set_arch
+> =A0 =A0 =A0 =A0oe_runmake headers_install INSTALL_HDR_PATH=3D${D}${exec_p=
+refix} ARCH=3D$ARCH
+> +
+> + =A0 =A0 =A0 =A0# The ..install.cmd conflicts between various configure =
+runs
+> + =A0 =A0 =A0 =A0find ${D}${includedir} -name ..install.cmd | xargs rm -f
+> =A0}
+>
+> =A0BBCLASSEXTEND =3D "nativesdk"
+> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.=
+6.37.2.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.3=
+7.2.bb
+> index 51c4926..55d7527 100644
+> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.=
+bb
+> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.37.2.=
+bb
+> @@ -2,7 +2,7 @@ require linux-libc-headers.inc
+>
+> =A0INHIBIT_DEFAULT_DEPS =3D "1"
+> =A0DEPENDS +=3D "unifdef-native"
+> -PR =3D "r1"
+> +PR =3D "r2"
+>
+> =A0SRC_URI +=3D " file://connector-msg-size-fix.patch"
+>
+> @@ -43,6 +43,9 @@ do_install() {
+> =A0 =A0 =A0 =A0oe_runmake headers_install INSTALL_HDR_PATH=3D${D}${exec_p=
+refix} ARCH=3D$ARCH
+> =A0 =A0 =A0 =A0# Kernel should not be exporting this header
+> =A0 =A0 =A0 =A0rm -f ${D}${exec_prefix}/include/scsi/scsi.h
+> +
+> + =A0 =A0 =A0 # The ..install.cmd conflicts between various configure run=
+s
+> + =A0 =A0 =A0 find ${D}${includedir} -name ..install.cmd | xargs rm -f
+> =A0}
+>
+> =A0BBCLASSEXTEND =3D "nativesdk"
+> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.=
+6.39.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.=
+bb
+> index 65c19ec..14f5e8a 100644
+> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
+> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_2.6.39.bb
+> @@ -9,6 +9,8 @@ SRC_URI[sha256sum] =3D "584d17f2a3ee18a9501d7ff36907639e5=
+38cfdba4529978b8550c461d4
+>
+> =A0S =3D "${WORKDIR}/linux-${PV}"
+>
+> +PR =3D "r2"
+> +
+> =A0set_arch() {
+> =A0 =A0 =A0 =A0case ${TARGET_ARCH} in
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0alpha*) =A0 ARCH=3Dalpha ;;
+> @@ -44,6 +46,9 @@ do_install() {
+> =A0 =A0 =A0 =A0oe_runmake headers_install INSTALL_HDR_PATH=3D${D}${exec_p=
+refix} ARCH=3D$ARCH
+> =A0 =A0 =A0 =A0# Kernel should not be exporting this header
+> =A0 =A0 =A0 =A0rm -f ${D}${exec_prefix}/include/scsi/scsi.h
+> +
+> + =A0 =A0 =A0 =A0# The ..install.cmd conflicts between various configure =
+runs
+> + =A0 =A0 =A0 =A0find ${D}${includedir} -name ..install.cmd | xargs rm -f
+> =A0}
+>
+> =A0BBCLASSEXTEND =3D "nativesdk"
+> --
+> 1.7.3.4
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-On Wed, 2011-07-27 at 00:46 -0700, Saul Wold wrote:
-> The following changes since commit 02031d766f983cd7e01e468cb2c926604313cd2a:
-> 
->   arch-ia32.inc: Fix up TUNE_ARCH variable conflicts (2011-07-26 22:39:49 +0100)
-> 
-> are available in the git repository at:
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/live
+Thanks for having fixed that.
 
-I merged the following:
+I noticed two kinds of cruft while packaging: .install and ..install.cmd
 
-> Bruce Ashfield (1):
->   machine/qemu: set preferred linux-yocto kernel version
-> 
-> Enrico Scholz (2):
->   console-tools: removed wildcard from SRC_URI
->   module-init-tools: do not build static utilities for -cross
+       # remove Linux headers .install and ..install.cmd files
+        find ${D}${base_libdir}/klibc/include -name '.install' -delete
+        find ${D}${base_libdir}/klibc/include -name '..install.cmd' -delete
 
-[I've made a note on this one to remove the static patch from that
-recipe]
+I'll check now after your patch.
 
-> Kang Kai (5):
->   libpam: update to 1.1.4 and add subpackage xtests
->   cups: add pam support
->   screen: add pam support
->   sudo: add pam support
->   shadow: update pam related configure files
-> 
-> Khem Raj (2):
->   libxcb: Add missing DEPENDS on libxdmcp
->   siteinfo: Rework the siteinfo for powerpc to fix uclibc fallout
-> 
-> Koen Kooi (1):
->   dropbear: don't override DISTRO_TYPE if it is already set
-> 
-> Paul Eggleton (6):
->   meta/conf/local.conf.sample: remove oprofileui-native related
->     settings
->   meta/conf/local.conf.sample: improve comments/layout
+Regards
 
-[merged with fixes to remove the patch conflict it contained]
-
->   meta/conf/local.conf.sample: improve terminal examples/comments
->   eglibc: remove unnecessary FILESPATHPKG usage
->   scripts/combo-layer: keep carriage returns at the end of lines
-> 
-> Saul Wold (5):
->   libcap: Update to 2.22 with License Clarification
->   Remove -live.bb recipes
->   Remove -directdisk.bb recipes
->   classes/image*: Revamp creation of live images
-
-[fixed to inherit the right class]
-
->   utils.bbclass: Don't forget to pass the cmdline options
-> 
-> Tom Rini (8):
->   siteinfo: Move certain samba entries to common-linux
->   siteinfo: Move certain bash entries to common-linux
->   x86_64-linux siteinfo: Add bash info
->   siteinfo: Move certain mysql entries to common-linux
-
->   siteinfo: Move certain db entries to common-linux
->   siteinfo: Move general realloc/malloc values to common-$libc
->   siteinfo: Move (getpgrp|setpgrp|setgrent|*get{pwuid,grgid}) to
->     common-libc
-> 
-> Wenzong Fan (2):
->   cronie: enable PAM support for cronie
->   at: enable pam support
-> 
-> Xiaofeng Yan (3):
->   openssh: Support PAM
->   dropbear: Support pam
->   polkit: Support pam
-
-I discussed this one with Paul and we've agreed to patch bitbake so I
-didn't take it:
-
-  meta/conf/local.conf.sample: remove nonfunctional BBINCLUDELOGS
-    setting
-
-I dropped this as per discussion and comments from Phil:
-
-  siteinfo: Move the rp-pppoe entry to common-linux
-
-Cheers,
-
-Richard
-
-
+Andrea
 
 
