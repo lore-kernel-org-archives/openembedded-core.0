@@ -1,38 +1,28 @@
-Received: from mail-gw0-f47.google.com ([74.125.83.47])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qm8OQ-0006W0-RX
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1Qm8XJ-0006xf-6m
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 19:59:39 +0200
-Received: by gwb11 with SMTP id 11so1290799gwb.6
+	Wed, 27 Jul 2011 20:08:49 +0200
+Received: from mail-yx0-f180.google.com ([209.85.213.180])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 27 Jul 2011 11:04:32 -0700
+Received: by yxk30 with SMTP id 30so1870112yxk.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 10:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=jMXOu/5fdH3cG/9iW3Ad4LtynB2ZU0O2BEqLm7c5PoU=;
-	b=gd34s1YxMxuMqMvl/d0eSXhaCtS+L0+2wjK85NUXxD6jFBOX8DrbpC5dlgNuemq0o0
-	g5ZQntVIxuTTGlj3uZImp98iQH+GKPYtZay4ubFaOAy6UievnENU7YmBwQ0/o8y/gJJ0
-	7NZAs42ab1ElX2sURKt24ijuvJ+ulWNntUBW0=
-Received: by 10.68.35.70 with SMTP id f6mr90317pbj.506.1311789323402;
-	Wed, 27 Jul 2011 10:55:23 -0700 (PDT)
-Received: from sakrah.homelinux.org
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id u6sm99832pbh.32.2011.07.27.10.55.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 27 Jul 2011 10:55:22 -0700 (PDT)
-Date: Wed, 27 Jul 2011 10:56:18 -0700
-From: Khem Raj <raj.khem@gmail.com>
+	Wed, 27 Jul 2011 11:04:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.236.180.67 with SMTP id i43mr110942yhm.443.1311789872242; Wed,
+	27 Jul 2011 11:04:32 -0700 (PDT)
+Received: by 10.236.108.9 with HTTP; Wed, 27 Jul 2011 11:04:32 -0700 (PDT)
+In-Reply-To: <1311721253.2344.320.camel@rex>
+References: <CAPhnLPBkbaj6MzfnLKfkwKpDO4UwejH+cWa2V=4CCpv55CReaw@mail.gmail.com>
+	<1311692251.2344.262.camel@rex>
+	<CAPhnLPBO+_t-FXdCd5heU7mwz1aQVi45LKhZ3+cBZehgV42QHg@mail.gmail.com>
+	<1311721253.2344.320.camel@rex>
+Date: Wed, 27 Jul 2011 11:04:32 -0700
+Message-ID: <CAPhnLPB9AggLQ52m=p3Vi6Vod19b+wFsMf000YX4aHc9990xtw@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110727175618.GC14766@sakrah.homelinux.org>
-References: <cover.1311234475.git.sgw@linux.intel.com>
-	<1311280985.2344.82.camel@rex>
-	<BD5C61B9-8EC9-4C55-AE35-71D9B022F532@kernel.crashing.org>
-	<1311325508.2344.102.camel@rex> <1311326309.2344.104.camel@rex>
-MIME-Version: 1.0
-In-Reply-To: <1311326309.2344.104.camel@rex>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [CONSOLIDATED PULL 00/20] July 21, 2011
+Subject: Re: [PATCH 1/1] license.bbclass: Splitting out licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,39 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 17:59:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Jul 2011 18:08:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-> > There is something in my patch workflow which seems to corrupt dos line
-> > endings. I've manually fixed the patches which were out of sync in poky
-> > compared with OE-Core and am looking into how this happened with a view
-> > to fixing the scripts.
-> 
-> The reason is we need to use "git am --keep-cr". I've updated my local
-> scripts and we're also checking the layer handling tools. I haven't
-> switched to them yet as we haven't had a lull in the patches to allow me
-> to make the transition. I've got that pencilled in for after multilib is
-> done.
+On Tue, Jul 26, 2011 at 4:00 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2011-07-26 at 08:15 -0700, Flanagan, Elizabeth wrote:
+>> On Tue, Jul 26, 2011 at 7:57 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > On Mon, 2011-07-25 at 16:24 -0700, Flanagan, Elizabeth wrote:
+>> >> Adding a bit more functionality here:
+>> >> 1. Adding some more SPDX Maps to take care of + licenses
+>> >> 2. Strip out -native and -cross package license wrangling.
+>> >> =A0 =A0If it doesn't go on the image, we shouldn't wrangle it.
+>> >> 3. Split out the license destination directory to a
+>> >> =A0 =A0IMAGE_NAME time stamped dir in
+>> >> =A0 =A0/tmp/deploy/licenses/${IMAGE_NAME}/<stamp>
+>> >>
+>> >> I've removed the handler from my previous Pull as license
+>> >> manifest needs more discussion and I don't want these
+>> >> bug fixes to be held up by an added feature.
+>> >
+>> > I obviously don't understand this code :/
+>> >
+>> > What happens when I run "bitbake core-image-minimal core-image-sato",
+>> > i.e. when I build two images in one build?
+>> >
+>> > I suspect this current approach is flawed and we actually need to
+>> > postprocess the installed package list after do_rootfs completes at
+>> > image generation time to build the *real* list based on the installed
+>> > packages?
+>> >
+>>
+>> Yes. I've found that this approach is definitely flawed. It works
+>> great for a single image build. Outside of that it acts funny, like
+>> you mentioned and can return incorrect results. I'm planning on
+>> revisting this soon.
+>>
+>> I'm suspecting that your suggested approach is the way it'll have to
+>> be. Looking at what is generated by various runs and I see issues.
+>>
+>> > This code is obviously still needed as it would provide the basis so t=
+he
+>> > code can get the licenses it needs to pull together...
+>>
+>> Yes, agreed.
+>
+> So with this in mind, where does that put this pull request? :)
 
-configuring the clones repo with
+I would still pull it. It does give us a basis to work on and splits
+things out a bit.
+When I get back from the conference this week, I'll fix it so that
+it's a more reliable
+in returning results. My guess is that I'll have to rip this all out
+from being event driven
+and do it, as you suggest, a postprocess right after do_rootfs
 
-git config am.keepcr true
-
-will make it automatic
-
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
--- 
--Khem
+-b
 
 
