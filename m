@@ -1,18 +1,22 @@
 Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1QmD6C-0004F2-TZ
+	(envelope-from <tom_rini@mentor.com>) id 1QmD6C-0004F4-U7
 	for openembedded-core@lists.openembedded.org;
 	Thu, 28 Jul 2011 01:01:09 +0200
 Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6RMurMf004891
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6RMurMi004891
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 27 Jul 2011 17:56:53 -0500
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2011 15:56:44 -0700
-Message-Id: <cover.1311807353.git.tom_rini@mentor.com>
+Date: Wed, 27 Jul 2011 15:56:47 -0700
+Message-Id: <d395c1bac934913af1ed7c8fc3a09601c823339b.1311807353.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/9] Re-sync and update siteinfo, round 2
+In-Reply-To: <cover.1311807353.git.tom_rini@mentor.com>
+References: <cover.1311807353.git.tom_rini@mentor.com>
+In-Reply-To: <cover.1311807353.git.tom_rini@mentor.com>
+References: <cover.1311807353.git.tom_rini@mentor.com>
+Subject: [PATCH 3/9] Various site files: Drop monotone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,69 +33,156 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Jul 2011 23:01:09 -0000
 
-Hey all,
+Not in oe-core nor meta-oe and based on oe.dev, possibly incomplete.
 
-Here's my last series before I try the "clean slate" approach to updating
-the siteinfo files.  In a few cases there's some behavior change and
-that's a good thing.  In short, for sudo we set a variable to the default
-if not set, so stop doing that.  For tcl, we had correctly figured out
-an optional variable in one case, and now we re-use it everywhere.  We
-drop out totally monotone (not in oe-core nor meta-oe nor oe.dev),
-rp-pppoe (meta-oe, correctly) and enca (not needed when oe.dev is moved
-over, not in oe-core nor meta-oe).  Finally there's a few sets of $libc
-variables being moved to the common-$libc files.  Of slight note here
-is that va_copy doing a value copy (va_val_copy) is arch dependent and
-we were getting this wrong in some cases on x86_64.  Given that it's
-assumed to be true when not set from what I can see, it's possible we're
-going from implicit breakage to explicit breakage here in some of the less
-common arches, but that's better (IMHO) that the alternative.
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
+---
+ meta/site/arm-common        |    3 ---
+ meta/site/arm-linux         |    3 ---
+ meta/site/common-glibc      |    3 ---
+ meta/site/ix86-common       |    3 ---
+ meta/site/mips-linux        |    5 -----
+ meta/site/mips-linux-uclibc |    5 -----
+ meta/site/mipsel-linux      |    5 -----
+ meta/site/powerpc32-linux   |    4 ----
+ meta/site/sh-common         |    3 ---
+ 9 files changed, 0 insertions(+), 34 deletions(-)
 
-I've build-tested world on qemux86/qemux86-64 and core-image-sato on
-qemuppc/qemumips for eglibc and some smaller subsets (in checking the
-"is it really?" in making uclibc changes) for uclibc over the past few
-weeks.  I've got a world build going now for qemux86-64 and will kick off
-qemux86 next but I don't expect any failures nor believe waiting on these
-to complete should be gating.
-
-The following changes since commit 1fe892ab6876c405599c79657221a8b4675b6ecf:
-  Matthew McClintock (1):
-        Update TERMCMD message to align with previous change
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib trini/update-siteinfo-round-2-v1
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/update-siteinfo-round-2-v1
-
-Tom Rini (9):
-  sudo: Drop sudo_cv_uid_t_len from site files
-  tcl: Add tcl_cv_api_serial to siteinfo
-  Various site files: Drop monotone
-  Various siteinfo files: Consolidate ac_cv_func_getaddrinfo
-  Various siteinfo files: Drop enca section
-  Various siteinfo files: Consolidate va_copy/__va_copy/va_val_copy
-  site/common-linux: Add ac_cv_file__dev_zero=yes
-  siteinfo: Add posix_getpwuid_r posix_getgrgid_r posix_getpwnam_r to
-    uclibc
-  Various siteinfo: Drop rp-pppoe variables
-
- meta/recipes-devtools/tcltk/tcl_8.5.9.bb |    2 +-
- meta/site/arm-common                     |   25 +----------------------
- meta/site/arm-linux                      |    9 --------
- meta/site/common-glibc                   |   12 ++++++++--
- meta/site/common-linux                   |    3 ++
- meta/site/common-uclibc                  |   15 ++++++++++++++
- meta/site/ix86-common                    |   31 ++---------------------------
- meta/site/mips-common                    |   18 ++++++++++++----
- meta/site/mips-linux                     |   25 +-----------------------
- meta/site/mips-linux-uclibc              |   24 +----------------------
- meta/site/mipsel-linux                   |   26 +-----------------------
- meta/site/mipsel-linux-uclibc            |   12 +----------
- meta/site/powerpc-linux                  |   13 ++++++++---
- meta/site/powerpc32-linux                |   17 ----------------
- meta/site/sh-common                      |   24 +---------------------
- meta/site/x86_64-linux                   |   14 ++++++------
- meta/site/x86_64-linux-uclibc            |   12 +++++++---
- 17 files changed, 77 insertions(+), 205 deletions(-)
+diff --git a/meta/site/arm-common b/meta/site/arm-common
+index 2129298..7317a13 100644
+--- a/meta/site/arm-common
++++ b/meta/site/arm-common
+@@ -116,9 +116,6 @@ with_broken_putenv=${with_broken_putenv=no}
+ # links
+ ac_cv_lib_png_png_create_info_struct=${ac_cv_lib_png_png_create_info_struct=yes}
+ 
+-# mono
+-cv_mono_sizeof_sunpath=108
+-
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+diff --git a/meta/site/arm-linux b/meta/site/arm-linux
+index 22b455a..87b45eb 100644
+--- a/meta/site/arm-linux
++++ b/meta/site/arm-linux
+@@ -154,9 +154,6 @@ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
+ # lftp
+ ac_cv_file___dev_ptc_=yes
+ 
+-#mono
+-mono_cv_uscore=${mono_cv_uscore=no}
+-
+ # guile
+ ac_cv_func_pthread_attr_getstack=${ac_cv_func_pthread_attr_getstack=yes}
+ 
+diff --git a/meta/site/common-glibc b/meta/site/common-glibc
+index baca5f8..258f9ad 100644
+--- a/meta/site/common-glibc
++++ b/meta/site/common-glibc
+@@ -38,9 +38,6 @@ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
+ # gnucash
+ am_cv_scanf_lld=${am_cv_scanf_lld=yes}
+ 
+-# mono
+-mono_cv_uscore=${mono_cv_uscore=no}
+-
+ # guile
+ ac_cv_func_pthread_attr_getstack=${ac_cv_func_pthread_attr_getstack=yes}
+ 
+diff --git a/meta/site/ix86-common b/meta/site/ix86-common
+index 122eb14..141ef3a 100644
+--- a/meta/site/ix86-common
++++ b/meta/site/ix86-common
+@@ -137,9 +137,6 @@ ac_libnet_have_packet_socket=${ac_libnet_have_packet_socket=yes}
+ # libxfce4util
+ with_broken_putenv=${with_broken_putenv=no}
+ 
+-# mono
+-cv_mono_sizeof_sunpath=108
+-
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=yes}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=yes}
+diff --git a/meta/site/mips-linux b/meta/site/mips-linux
+index 212c3ad..b99633b 100644
+--- a/meta/site/mips-linux
++++ b/meta/site/mips-linux
+@@ -85,11 +85,6 @@ ac_cv_uint=${ac_cv_unit=yes}
+ # D-BUS
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+ 
+-# mono
+-cv_mono_sizeof_sunpath=108
+-mono_cv_sizeof_sunpath=108
+-mono_cv_uscore=${mono_cv_uscore=no}
+-
+ # popt
+ ac_cv_va_copy=${ac_cv_va_copy=yes}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
+diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
+index 212c3ad..b99633b 100644
+--- a/meta/site/mips-linux-uclibc
++++ b/meta/site/mips-linux-uclibc
+@@ -85,11 +85,6 @@ ac_cv_uint=${ac_cv_unit=yes}
+ # D-BUS
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+ 
+-# mono
+-cv_mono_sizeof_sunpath=108
+-mono_cv_sizeof_sunpath=108
+-mono_cv_uscore=${mono_cv_uscore=no}
+-
+ # popt
+ ac_cv_va_copy=${ac_cv_va_copy=yes}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
+diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
+index a9032ac..3347914 100644
+--- a/meta/site/mipsel-linux
++++ b/meta/site/mipsel-linux
+@@ -85,11 +85,6 @@ ac_cv_uint=${ac_cv_unit=yes}
+ 
+ # D-BUS
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+-
+-#mono
+-cv_mono_sizeof_sunpath=108
+-mono_cv_uscore=${mono_cv_uscore=no}
+-
+ # popt
+ ac_cv_va_copy=${ac_cv_va_copy=yes}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index 8a10111..c0e3804 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -272,10 +272,6 @@ samba_cv_have_longlong=${samba_cv_have_longlong=yes}
+ samba_cv_have_setresgid=${samba_cv_have_setresgid=yes}
+ samba_cv_have_setresuid=${samba_cv_have_setresuid=yes}
+ 
+-#monotone
+-ac_cv_sync_with_stdio=${ac_cv_sync_with_stdio=yes} 
+-ac_cv_sync_with_stdio_2=${ac_cv_sync_with_stdio_2=yes}
+-
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+diff --git a/meta/site/sh-common b/meta/site/sh-common
+index 63abe57..bbf98a5 100644
+--- a/meta/site/sh-common
++++ b/meta/site/sh-common
+@@ -201,9 +201,6 @@ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+ ac_cv_c_long_double=${ac_cv_c_long_double=yes}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
+ 
+-# mono
+-cv_mono_sizeof_sunpath=108
+-
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+-- 
+1.7.0.4
 
 
 
