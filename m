@@ -1,24 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Qm0jB-0005GT-Ut
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qm0mO-0005JR-Ty
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 11:48:34 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qm0f7-00022u-Vi
-	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 11:44:22 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jul 2011 10:44:21 +0100
-In-Reply-To: <4adc1ac758823bf95ef5259ecf90a7906b38afc9.1311752531.git.sgw@linux.intel.com>
-References: <cover.1311752531.git.sgw@linux.intel.com>
-	<4adc1ac758823bf95ef5259ecf90a7906b38afc9.1311752531.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1311759861.30326.276.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [Consolidated & Tested 24/35] siteinfo: Move certain bash entries to common-linux
+	Wed, 27 Jul 2011 11:51:53 +0200
+Received: by wyg30 with SMTP id 30so980538wyg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 02:47:37 -0700 (PDT)
+Received: by 10.216.158.77 with SMTP id p55mr2551334wek.26.1311760057485;
+	Wed, 27 Jul 2011 02:47:37 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id gb1sm1175472wbb.37.2011.07.27.02.47.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 27 Jul 2011 02:47:36 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Jul 2011 11:47:33 +0200
+Message-Id: <1311760053-15667-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] opkg svn: bump SRCREV to 625
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,29 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 09:48:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Jul 2011 09:51:53 -0000
 
-On Wed, 2011-07-27 at 00:47 -0700, Saul Wold wrote:
-> diff --git a/meta/site/arm-common b/meta/site/arm-common
-> index 5d3e68a..39eb30b 100644
-> --- a/meta/site/arm-common
-> +++ b/meta/site/arm-common
-> @@ -14,21 +14,7 @@ apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
->  
->  # bash
->  ac_cv_c_long_double=${ac_cv_c_long_double=yes}
-> -bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
->  bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
+tested on beagleboard/angstrom and qemuarm/angstrom
 
-That sigsetjmp thing looks pretty bogus to me.  sigsetjmp() is POSIX.1;
-it isn't (shouldn't be) architecture specific in any way, and both
-eglibc and uclibc implement it nowadays.  I think you should probably
-have sigsetjmp=present in linux-common.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-devtools/opkg/opkg_svn.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-p.
-
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index 5f07c17..099a373 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -15,7 +15,7 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
+ 
+ S = "${WORKDIR}/trunk"
+ 
+-SRCREV = "609"
++SRCREV = "625"
+ PV = "0.1.8+svnr${SRCPV}"
+ PR = "r2"
+ 
+-- 
+1.6.6.1
 
 
 
