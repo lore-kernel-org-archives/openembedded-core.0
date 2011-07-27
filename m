@@ -1,30 +1,35 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1Qm6fI-0004sO-CR
-	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 18:08:56 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id 048091660172; Wed, 27 Jul 2011 10:04:41 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 0783E166012C;
-	Wed, 27 Jul 2011 10:04:41 -0600 (MDT)
-Message-ID: <4E303718.7050706@mlbassoc.com>
-Date: Wed, 27 Jul 2011 10:04:40 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc15 Thunderbird/3.1.10
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qm7Bb-0005Ws-QZ for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 18:42:20 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6RGc6So031389
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 17:38:06 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 31114-04 for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 17:38:02 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6RGbv8J031383
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 17:37:57 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1311708150-24226-1-git-send-email-msm@freescale.com>	<1311708150-24226-2-git-send-email-msm@freescale.com>
-	<1311778995.2193.1.camel@scimitar>
-In-Reply-To: <1311778995.2193.1.camel@scimitar>
-Subject: Re: [PATCH] Update TERMCMD message to align with previous change
+In-Reply-To: <1311611027.30326.252.camel@phil-desktop>
+References: <cover.1311345613.git.richard.purdie@linuxfoundation.org>
+	<1311357674.2344.155.camel@rex> <1311601337.2344.192.camel@rex>
+	<1311611027.30326.252.camel@phil-desktop>
+Date: Wed, 27 Jul 2011 17:37:55 +0100
+Message-ID: <1311784675.2344.408.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 6/3] Move architecture specific TARGET_OS mangling into tune files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,50 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 16:08:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 27 Jul 2011 16:42:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2011-07-27 09:03, Joshua Lock wrote:
-> On Tue, 2011-07-26 at 14:22 -0500, Matthew McClintock wrote:
->> A previous patch changed the default TERM to use xterm. This updates
->> local.conf.sample to match the change
->>
->> Signed-off-by: Matthew McClintock<msm@freescale.com>
->
-> Signed-off-by: Joshua Lock<josh@linux.intel.com>
->
-> We should probably change the suggested / commented TERMCMD to be
-> something other than KONSOLE too, as that doesn't work so well for
-> KDE4...
+On Mon, 2011-07-25 at 17:23 +0100, Phil Blundell wrote:
+> On Mon, 2011-07-25 at 14:42 +0100, Richard Purdie wrote:
+> > To try and help preserve my sanity when pulling the various multilib
+> > patches together, I've merged these six patches, along with a patch
+> > incrementing bitbake's miniumum version requirement for the
+> > bb.utils.contains usage.
+> 
+> FWIW, the bitbake minimum version check (at least in its current form)
+> doesn't buy much in this sort of situation because you get a parse error
+> before the event handler in sanity.bbclass ever runs.  I think this
+> happened last time there was a bitbake-affecting change too although I
+> don't recall the details.
+> 
+> Perhaps adding something like:
+> 
+> __sane_bitbake := "${oe.check_bb_version_sanity}"
+> 
+> to the top of bitbake.conf would improve matters, I dunno.
 
-or remotely via SSH tunnel
+Ouch, yes, we probably should do something like this.
 
-xterm does work fine via SSH, so I've changed to that.
+Cheers,
 
->> ---
->>   meta-yocto/conf/local.conf.sample |    2 +-
->>   1 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta-yocto/conf/local.conf.sample b/meta-yocto/conf/local.conf.sample
->> index 499c48e..7a0fc89 100644
->> --- a/meta-yocto/conf/local.conf.sample
->> +++ b/meta-yocto/conf/local.conf.sample
->> @@ -205,7 +205,7 @@ ENABLE_BINARY_LOCALE_GENERATION = "1"
->>   # out if that is desired
->>   NO32LIBS = "1"
->>
->> -# If you do not use (or have installed) gnome-terminal you will need to
->> +# If you do not use (or have installed) xterm you will need to
->>   # uncomment these variables and set them to the terminal you wish to use
->>   # when resolving patches which cannot be applied
->>   # Supported shell prefixes for *_TERMCMD and *_TERMCMDRUN ARE:
->
+Richard
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
 
 
