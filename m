@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QlyuP-00028m-Hl
+	(envelope-from <sgw@linux.intel.com>) id 1QlyuQ-00028l-6s
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 09:52:01 +0200
+	Wed, 27 Jul 2011 09:52:02 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 27 Jul 2011 00:47:33 -0700
+	by azsmga102.ch.intel.com with ESMTP; 27 Jul 2011 00:47:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,275,1309762800"; d="scan'208";a="31949342"
+X-IronPort-AV: E=Sophos;i="4.67,275,1309762800"; d="scan'208";a="31949318"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.61])
-	by azsmga001.ch.intel.com with ESMTP; 27 Jul 2011 00:47:33 -0700
+	by azsmga001.ch.intel.com with ESMTP; 27 Jul 2011 00:47:30 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2011 00:47:11 -0700
-Message-Id: <162c6133188d15bf43820e7671cb641136c14ca2.1311752531.git.sgw@linux.intel.com>
+Date: Wed, 27 Jul 2011 00:47:04 -0700
+Message-Id: <edc298bc9044cf6edc3fa3a91584a8e8008c23ba.1311752531.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311752531.git.sgw@linux.intel.com>
 References: <cover.1311752531.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311752531.git.sgw@linux.intel.com>
 References: <cover.1311752531.git.sgw@linux.intel.com>
-Subject: [Consolidated & Tested 21/35] dropbear: Support pam
+Subject: [Consolidated & Tested 14/35] cups: add pam support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,81 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 07:52:02 -0000
+X-List-Received-Date: Wed, 27 Jul 2011 07:52:03 -0000
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+From: Kang Kai <kai.kang@windriver.com>
 
-I make a patch and some changes in dropbear.inc for supporting pam.
-- Enable pam in configure
-- Modify file option.h to open pam supporting
+According to distro_feature then add pam support for cups or not.
 
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- meta/recipes-core/dropbear/dropbear.inc            |    8 ++++++-
- .../dropbear/dropbear/dropbear-enable-pam.patch    |   22 ++++++++++++++++++++
- 2 files changed, 29 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
+ meta/recipes-extended/cups/cups_1.4.6.bb |    8 +++++---
+ 1 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 526a5a0..5af9ebd 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -9,13 +9,17 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3a5b0c2f0d0c49dfde9558ae2036683c"
+diff --git a/meta/recipes-extended/cups/cups_1.4.6.bb b/meta/recipes-extended/cups/cups_1.4.6.bb
+index 86b5340..fd20dcc 100644
+--- a/meta/recipes-extended/cups/cups_1.4.6.bb
++++ b/meta/recipes-extended/cups/cups_1.4.6.bb
+@@ -1,7 +1,8 @@
+ require cups14.inc
  
- DEPENDS = "zlib"
- RPROVIDES = "ssh sshd"
-+DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+-PR = "r0"
+-DEPENDS += "libusb"
++PR = "r1"
++DEPENDS += "libusb \
++       ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
  
- SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.gz \
- 	         file://urandom-xauth-changes-to-options.h.patch \
- 	         file://configure.patch \
- 	         file://fix-2kb-keys.patch \
- 	         file://allow-nopw.patch;apply=no \
--	         file://init"
-+	         file://init \
-+                 ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
-+
-+PAM_SRC_URI = "file://dropbear-enable-pam.patch"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=956e7600195e6139f12de8c2a5bbefa9"
+ SRC_URI += " \
+@@ -12,6 +13,7 @@ SRC_URI += " \
+ SRC_URI[md5sum] = "de8fb5a29c36554925c0c6a6e2c0dae1"
+ SRC_URI[sha256sum] = "f08711702a77b52c7150f96fe1f45482f6151cb95ef601268c528607fe6ad514"
  
- inherit autotools update-rc.d
+-EXTRA_OECONF += " --disable-gssapi --enable-debug --disable-relro --enable-libusb"
++EXTRA_OECONF += " --disable-gssapi --enable-debug --disable-relro --enable-libusb \
++       ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
  
-@@ -28,6 +32,8 @@ LD = "${CC}"
- SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
- BINCOMMANDS = "dbclient ssh scp"
- EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
-+EXTRA_OECONF += "\
-+ ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
- 
- DISTRO_TYPE ?= "${@base_contains("IMAGE_FEATURES", "debug-tweaks", "debug", "",d)}"
- 
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch b/meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
-new file mode 100644
-index 0000000..004d773
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
-@@ -0,0 +1,22 @@
-+dropbear: We need modify file option.h besides enabling pam in \
-+configure if we want dropbear to support pam.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-+
-+--- a/options.h	2011-07-12 13:27:39.008819183 +0800
-++++ b/options.h.new	2011-07-12 13:37:37.780819308 +0800
-+@@ -149,9 +149,9 @@
-+  * but there's an interface via a PAM module - don't bother using it otherwise.
-+  * You can't enable both PASSWORD and PAM. */
-+ 
-+-#define ENABLE_SVR_PASSWORD_AUTH
-++//#define ENABLE_SVR_PASSWORD_AUTH
-+ /* PAM requires ./configure --enable-pam */
-+-/*#define ENABLE_SVR_PAM_AUTH*/
-++#define ENABLE_SVR_PAM_AUTH
-+ #define ENABLE_SVR_PUBKEY_AUTH
-+ 
-+ /* Wether to ake public key options in authorized_keys file into account */
-+
+ CONFFILES_${PN} += "${sysconfdir}/cups/cupsd.conf"
 -- 
 1.7.3.4
 
