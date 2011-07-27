@@ -1,35 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QlqtS-0002JC-Rb for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 01:18:31 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QN18Sp025326
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 00:01:08 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 23667-09 for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 00:01:04 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6QN12gl025320
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 00:01:03 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <edwin.zhai@intel.com>) id 1QlsUa-00047T-3y
+	for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 03:00:57 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 26 Jul 2011 17:56:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,272,1309762800"; d="scan'208";a="30476017"
+Received: from shxpwgzhai1a.ccr.corp.intel.com (HELO [10.239.48.130])
+	([10.239.48.130])
+	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2011 17:56:41 -0700
+Message-ID: <4E2F624B.4070701@intel.com>
+Date: Wed, 27 Jul 2011 08:56:43 +0800
+From: "Zhai, Edwin" <edwin.zhai@intel.com>
+User-Agent: Thunderbird 2.0.0.17 (Windows/20080914)
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CAPhnLPBO+_t-FXdCd5heU7mwz1aQVi45LKhZ3+cBZehgV42QHg@mail.gmail.com>
-References: <CAPhnLPBkbaj6MzfnLKfkwKpDO4UwejH+cWa2V=4CCpv55CReaw@mail.gmail.com>
-	<1311692251.2344.262.camel@rex>
-	<CAPhnLPBO+_t-FXdCd5heU7mwz1aQVi45LKhZ3+cBZehgV42QHg@mail.gmail.com>
-Date: Wed, 27 Jul 2011 00:00:53 +0100
-Message-ID: <1311721253.2344.320.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] license.bbclass: Splitting out licenses
+References: <cover.1311682779.git.edwin.zhai@intel.com>	<73ea8ff94e4bda213df1a5a39615f4cd39899589.1311682779.git.edwin.zhai@intel.com>
+	<C36AA1E0-9A00-4761-9912-A3AC81367446@dominion.thruhere.net>
+In-Reply-To: <C36AA1E0-9A00-4761-9912-A3AC81367446@dominion.thruhere.net>
+Subject: Re: [PATCH 2/3] xinput-calibrator: Add 0.7.5 as new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,55 +35,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 23:18:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 27 Jul 2011 01:00:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-07-26 at 08:15 -0700, Flanagan, Elizabeth wrote:
-> On Tue, Jul 26, 2011 at 7:57 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Mon, 2011-07-25 at 16:24 -0700, Flanagan, Elizabeth wrote:
-> >> Adding a bit more functionality here:
-> >> 1. Adding some more SPDX Maps to take care of + licenses
-> >> 2. Strip out -native and -cross package license wrangling.
-> >>    If it doesn't go on the image, we shouldn't wrangle it.
-> >> 3. Split out the license destination directory to a
-> >>    IMAGE_NAME time stamped dir in
-> >>    /tmp/deploy/licenses/${IMAGE_NAME}/<stamp>
-> >>
-> >> I've removed the handler from my previous Pull as license
-> >> manifest needs more discussion and I don't want these
-> >> bug fixes to be held up by an added feature.
-> >
-> > I obviously don't understand this code :/
-> >
-> > What happens when I run "bitbake core-image-minimal core-image-sato",
-> > i.e. when I build two images in one build?
-> >
-> > I suspect this current approach is flawed and we actually need to
-> > postprocess the installed package list after do_rootfs completes at
-> > image generation time to build the *real* list based on the installed
-> > packages?
-> >
-> 
-> Yes. I've found that this approach is definitely flawed. It works
-> great for a single image build. Outside of that it acts funny, like
-> you mentioned and can return incorrect results. I'm planning on
-> revisting this soon.
-> 
-> I'm suspecting that your suggested approach is the way it'll have to
-> be. Looking at what is generated by various runs and I see issues.
-> 
-> > This code is obviously still needed as it would provide the basis so the
-> > code can get the licenses it needs to pull together...
-> 
-> Yes, agreed.
+I borrowed it from meta-oe with minor modification.
+xinput is very useful for debug and test of input device under X. 
+xinput_calibrator is a must for touchscreen device.
 
-So with this in mind, where does that put this pull request? :)
-
-Cheers,
-
-Richard
-
+Koen Kooi wrote:
+>
+> This one looks suspicously like the one in meta-oe. Apart from that, 
+> is it really needed in oe-core?
+>
+> Op 26 jul. 2011, om 14:30 heeft edwin.zhai@intel.com het volgende 
+> geschreven:
+>
+> > From: Zhai Edwin <edwin.zhai@intel.com>
+> >
+> > Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+> > ---
+> > .../xinput-calibrator/xinput-calibrator_0.7.5.bb   |   24 
+> ++++++++++++++++++++
+> > 1 files changed, 24 insertions(+), 0 deletions(-)
+> > create mode 100644 
+> meta/recipes-graphics/xinput-calibrator/xinput-calibrator_0.7.5.bb
+> >
+> > diff --git 
+> a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_0.7.5.bb 
+> b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_0.7.5.bb
+>
+> > new file mode 100644
+> > index 0000000..5a868f7
+> > --- /dev/null
+> > +++ 
+> b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_0.7.5.bb
+> > @@ -0,0 +1,24 @@
+> > +DESCRIPTION = "A generic touchscreen calibration program for X.Org"
+> > +HOMEPAGE = 
+> "http://www.freedesktop.org/wiki/Software/xinput_calibrator"
+> > +
+> > +LICENSE = "MIT/X11"
+> > +LIC_FILES_CHKSUM = 
+> "file://COPYING;md5=d9a6926aaad6b8f38bb4f995fe088466\ 
+> <file://COPYING;md5=d9a6926aaad6b8f38bb4f995fe088466%5C>
+> > +                    
+> file://src/calibrator.cpp;endline=22;md5=998e238a7638a7446eaeb02398f691fc" 
+>
+> > +
+> > +DEPENDS = "virtual/libx11 libxi"
+> > +
+> > +inherit autotools
+> > +
+> > +RDEPENDS_${PN} = "xinput"
+> > +
+> > +SRC_URI = 
+> "http://github.com/downloads/tias/xinput_calibrator/xinput_calibrator-${PV}.tar.gz" 
+>
+> > +SRC_URI[md5sum] = "20da0a2055a5a75962add8c6b44f60fa"
+> > +SRC_URI[sha256sum] = 
+> "baa4ddca49ec94c27ba4c715bfa26692fec1132103e927213c3169e475d3d971"
+> > +
+> > +S = "${WORKDIR}/xinput_calibrator-${PV}"
+> > +
+> > +do_install_append() {
+> > +        install -d ${D}${bindir}
+> > +        install -m 0755 scripts/xinput_calibrator_pointercal.sh 
+> ${D}${bindir}/xinput_calibrator_once.sh
+> > +        install -m 0755 
+> scripts/xinput_calibrator_get_hal_calibration.sh 
+> ${D}${bindir}/xinput_calibrator_get_hal_calibration.sh
+>
+> > +}
+> > --
+> > 1.7.1
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
