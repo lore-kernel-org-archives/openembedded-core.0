@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QlyuV-00028l-MY
+	(envelope-from <sgw@linux.intel.com>) id 1QlyuV-00028m-Od
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 09:52:07 +0200
+	Wed, 27 Jul 2011 09:52:08 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 27 Jul 2011 00:47:34 -0700
+	by azsmga102.ch.intel.com with ESMTP; 27 Jul 2011 00:47:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,275,1309762800"; d="scan'208";a="31949369"
+X-IronPort-AV: E=Sophos;i="4.67,275,1309762800"; d="scan'208";a="31949339"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.61])
-	by azsmga001.ch.intel.com with ESMTP; 27 Jul 2011 00:47:34 -0700
+	by azsmga001.ch.intel.com with ESMTP; 27 Jul 2011 00:47:32 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2011 00:47:16 -0700
-Message-Id: <ffe24256966444606569ff38c86bc682a6080cad.1311752531.git.sgw@linux.intel.com>
+Date: Wed, 27 Jul 2011 00:47:10 -0700
+Message-Id: <e3222bc3dd469df9bbaf7316637072b9867eea9d.1311752531.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311752531.git.sgw@linux.intel.com>
 References: <cover.1311752531.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311752531.git.sgw@linux.intel.com>
 References: <cover.1311752531.git.sgw@linux.intel.com>
-Subject: [Consolidated & Tested 26/35] siteinfo: Move certain mysql entries to common-linux
+Subject: [Consolidated & Tested 20/35] openssh: Support PAM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,176 +35,71 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Jul 2011 07:52:08 -0000
 
-From: Tom Rini <tom_rini@mentor.com>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-More re-sync with oe.dev
+Adding configuration file "sshd" in /etc/pam.d/ for supporting pam.
 
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/site/arm-common         |    1 -
- meta/site/arm-linux          |    1 -
- meta/site/arm-linux-uclibc   |    1 -
- meta/site/armeb-linux        |    1 -
- meta/site/armeb-linux-uclibc |    1 -
- meta/site/common-linux       |    4 ++++
- meta/site/ix86-common        |    3 ---
- meta/site/powerpc32-linux    |    2 --
- meta/site/sh-common          |    2 --
- meta/site/sparc-linux        |    1 -
- 10 files changed, 4 insertions(+), 13 deletions(-)
+ .../openssh/openssh-5.8p2/sshd                     |   10 ++++++++++
+ meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   13 +++++++++++--
+ 2 files changed, 21 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
 
-diff --git a/meta/site/arm-common b/meta/site/arm-common
-index 39eb30b..2880cfc 100644
---- a/meta/site/arm-common
-+++ b/meta/site/arm-common
-@@ -138,7 +138,6 @@ cv_mono_sizeof_sunpath=108
- # mysql
- mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
- mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
--ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
- 
- # nano
- ac_cv_regexec_segfault_emptystr=${ac_cv_regexec_segfault_emptystr=no}
-diff --git a/meta/site/arm-linux b/meta/site/arm-linux
-index cb3bcbb..96a1dde 100644
---- a/meta/site/arm-linux
-+++ b/meta/site/arm-linux
-@@ -34,7 +34,6 @@ ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long=4}
- ac_cv_sizeof_unsigned_long_long=${ac_cv_sizeof_unsigned_long_long=8}
- ac_cv_sizeof_signed_char=${ac_cv_sizeof_signed_char=1}
- 
--ac_cv_sys_restartable_syscalls=yes
- ac_cv_uchar=${ac_cv_uchar=no}
- ac_cv_uint=${ac_cv_uint=yes}
- ac_cv_ulong=${ac_cv_ulong=yes}
-diff --git a/meta/site/arm-linux-uclibc b/meta/site/arm-linux-uclibc
-index 55cd68e..017594d 100644
---- a/meta/site/arm-linux-uclibc
-+++ b/meta/site/arm-linux-uclibc
-@@ -18,7 +18,6 @@ ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t=4}
- ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=4}
- ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double=8}
- 
--ac_cv_sys_restartable_syscalls=yes
- ac_cv_uchar=${ac_cv_uchar=no}
- ac_cv_uint=${ac_cv_uint=yes}
- ac_cv_ulong=${ac_cv_ulong=yes}
-diff --git a/meta/site/armeb-linux b/meta/site/armeb-linux
-index d8da123..45fa692 100644
---- a/meta/site/armeb-linux
-+++ b/meta/site/armeb-linux
-@@ -21,7 +21,6 @@ ac_cv_sizeof_char_p=${ac_cv_sizeof_char_p=4}
- ac_cv_sizeof_unsigned=${ac_cv_sizeof_unsigned=4}
- ac_cv_sizeof_ptrdiff_t=${glib_cv_sizeof_ptrdiff_t=4}
- 
--ac_cv_sys_restartable_syscalls=yes
- ac_cv_uchar=${ac_cv_uchar=no}
- ac_cv_uint=${ac_cv_uint=yes}
- ac_cv_ulong=${ac_cv_ulong=yes}
-diff --git a/meta/site/armeb-linux-uclibc b/meta/site/armeb-linux-uclibc
-index 5e86009..50874c4 100644
---- a/meta/site/armeb-linux-uclibc
-+++ b/meta/site/armeb-linux-uclibc
-@@ -21,7 +21,6 @@ ac_cv_sizeof_char_p=${ac_cv_sizeof_char_p=4}
- ac_cv_sizeof_unsigned=${ac_cv_sizeof_unsigned=4}
- ac_cv_sizeof_ptrdiff_t=${glib_cv_sizeof_ptrdiff_t=4}
- 
--ac_cv_sys_restartable_syscalls=yes
- ac_cv_uchar=${ac_cv_uchar=no}
- ac_cv_uint=${ac_cv_uint=yes}
- ac_cv_ulong=${ac_cv_ulong=yes}
-diff --git a/meta/site/common-linux b/meta/site/common-linux
-index 74a822d..7cdfb63 100644
---- a/meta/site/common-linux
-+++ b/meta/site/common-linux
-@@ -19,3 +19,7 @@ bash_cv_pgrp_pipe=${bash_cv_pgrp_pipe=no}
- bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
- bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
- bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
+diff --git a/meta/recipes-connectivity/openssh/openssh-5.8p2/sshd b/meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
+new file mode 100644
+index 0000000..4882e58
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
+@@ -0,0 +1,10 @@
++#%PAM-1.0
 +
-+# mysql
-+ac_cv_sys_restartable_syscalls=${ac_cv_sys_restartable_syscalls=yes}
-+ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
-diff --git a/meta/site/ix86-common b/meta/site/ix86-common
-index 267d59f..cacf7ee 100644
---- a/meta/site/ix86-common
-+++ b/meta/site/ix86-common
-@@ -47,7 +47,6 @@ lf_cv_sane_realloc=yes
- jm_cv_func_gettimeofday_clobber=no
- samba_cv_HAVE_GETTIMEOFDAY_TZ=yes
- bf_lsbf=1
--ac_cv_sys_restartable_syscalls=yes
- ac_cv_uchar=${ac_cv_uchar=no}
- ac_cv_uint=${ac_cv_uint=yes}
- ac_cv_ulong=${ac_cv_ulong=yes}
-@@ -126,7 +125,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
- ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
++auth       include      common-auth
++account    required     pam_nologin.so
++account    include      common-account
++password   include      common-password
++session    optional     pam_keyinit.so force revoke
++session    include      common-session
++session    required     pam_loginuid.so
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+index e23069c..89b011d 100644
+--- a/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
++++ b/meta/recipes-connectivity/openssh/openssh_5.8p2.bb
+@@ -7,7 +7,7 @@ SECTION = "console/network"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=bae9a689be41581503bcf95d8fb42c4e"
  
- # guile
--ac_cv_sys_restartable_syscalls=yes
- ac_cv_uchar=${ac_cv_uchar=no}
- ac_cv_uint=${ac_cv_uint=yes}
- ac_cv_ulong=${ac_cv_ulong=yes}
-@@ -165,7 +163,6 @@ cv_mono_sizeof_sunpath=108
- # mysql
- mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=yes}
- mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=yes}
--ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
+-PR = "r0"
++PR = "r1"
  
- # ORBit2
- ac_cv_alignof_CORBA_boolean=1
-diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
-index 9d89f73..3a05053 100644
---- a/meta/site/powerpc32-linux
-+++ b/meta/site/powerpc32-linux
-@@ -28,7 +28,6 @@ ac_cv_sizeof_unsigned_short=${ac_cv_sizeof_unsigned_short=2}
- ac_cv_sizeof_unsigned_short_int=${ac_cv_sizeof_unsigned_short_int=2}
- ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=4}
- ac_cv_sizeof_wchar_t=${ac_cv_sizeof_wchar_t=4}
--ac_cv_sys_restartable_syscalls=yes
- ac_cv_type___int64=${ac_cv_type___int64=no}
- ac_cv_type_size_t=${ac_cv_type_size_t=yes}
- ac_cv_type_void_p=${ac_cv_type_void_p=yes}
-@@ -296,7 +295,6 @@ ac_cv_sync_with_stdio_2=${ac_cv_sync_with_stdio_2=yes}
- # mysql
- mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
- mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
--ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
+ DEPENDS = "zlib openssl"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -23,7 +23,9 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            file://sshd_config \
+            file://ssh_config \
+            file://init \
+-          "
++           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
++
++PAM_SRC_URI = "file://sshd"
+ SRC_URI[md5sum] = "0541579adf9d55abb15ef927048d372e"
+ SRC_URI[sha256sum] = "5c35ec7c966ce05cc4497ac59c0b54a556e55ae7368165cc8c4129694654f314"
  
- # sudo
- sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
-diff --git a/meta/site/sh-common b/meta/site/sh-common
-index 196af11..7fe36cc 100644
---- a/meta/site/sh-common
-+++ b/meta/site/sh-common
-@@ -24,7 +24,6 @@ ac_cv_sizeof_signed_char=${ac_cv_sizeof_signed_char=1}
- # lzo
- ac_cv_sizeof_char_p=${ac_cv_sizeof_char_p=4}
+@@ -58,6 +60,13 @@ do_compile_append () {
+ }
  
--ac_cv_sys_restartable_syscalls=yes
- ac_cv_uchar=${ac_cv_uchar=no}
- ac_cv_uint=${ac_cv_uint=yes}
- ac_cv_ulong=${ac_cv_ulong=yes}
-@@ -230,7 +229,6 @@ cv_mono_sizeof_sunpath=108
- # mysql
- mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
- mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
--ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
- 
- # rp-pppoe
- rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
-diff --git a/meta/site/sparc-linux b/meta/site/sparc-linux
-index ea6386b..f4c221c 100644
---- a/meta/site/sparc-linux
-+++ b/meta/site/sparc-linux
-@@ -29,7 +29,6 @@ ac_cv_alignof_CORBA_long_double=4
- ac_cv_c_long_double=${ac_cv_c_long_double=yes}
- 
- 
--ac_cv_sys_restartable_syscalls=yes
- ac_cv_uchar=${ac_cv_uchar=no}
- ac_cv_uint=${ac_cv_uint=yes}
- ac_cv_ulong=${ac_cv_ulong=yes}
+ do_install_append () {
++	for i in ${DISTRO_FEATURES};
++	do
++		if [ ${i} = "pam" ];  then
++			install -d ${D}${sysconfdir}/pam.d
++			install -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
++		fi
++	done
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
+ 	mv ${D}${bindir}/scp ${D}${bindir}/scp.${PN}
 -- 
 1.7.3.4
 
