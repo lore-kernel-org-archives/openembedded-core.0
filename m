@@ -1,24 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1QmDJ1-0004Z1-BK
+	(envelope-from <Tom_Rini@mentor.com>) id 1QmDLo-0004gz-0C
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 01:14:23 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Jul 2011 16:10:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,279,1309762800"; d="scan'208";a="35283201"
-Received: from nbuild2.sc.intel.com ([172.25.110.37])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2011 16:10:04 -0700
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2011 16:10:01 -0700
-Message-Id: <f419e50c47b97544691f3f0ffcc9903a4ea9791e.1311806842.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.4.4
-In-Reply-To: <610ee02966da6261e12eca830bdebf9c2cc090e9.1311806842.git.nitin.a.kamble@intel.com>
-References: <610ee02966da6261e12eca830bdebf9c2cc090e9.1311806842.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1311806842.git.nitin.a.kamble@intel.com>
+	Thu, 28 Jul 2011 01:17:16 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1QmDHi-0002UK-AA from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 16:13:02 -0700
+Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 27 Jul 2011 16:10:12 -0700
+Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
+	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
+	Wed, 27 Jul 2011 16:13:01 -0700
+Message-ID: <4E309B77.1050703@mentor.com>
+Date: Wed, 27 Jul 2011 16:12:55 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
 References: <cover.1311806842.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 4/4] x86 tune inc files: add x32 abi tune parameters
+	<368d4cd746ace1a99c7eced1e00275e0eec27573.1311806842.git.nitin.a.kamble@intel.com>
+In-Reply-To: <368d4cd746ace1a99c7eced1e00275e0eec27573.1311806842.git.nitin.a.kamble@intel.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 27 Jul 2011 23:10:12.0015 (UTC)
+	FILETIME=[56266BF0:01CC4CB2]
+Subject: Re: [PATCH 2/4] siteinfo.bbclass: add entries for new x86_64 ABI targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,87 +43,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 23:14:24 -0000
+X-List-Received-Date: Wed, 27 Jul 2011 23:17:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On 07/27/2011 04:09 PM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  meta/classes/siteinfo.bbclass |   14 +++++++++++++-
+>  1 files changed, 13 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
+> index 9dacd58..daa7946 100644
+> --- a/meta/classes/siteinfo.bbclass
+> +++ b/meta/classes/siteinfo.bbclass
+> @@ -42,12 +42,15 @@ def siteinfo_data(d):
+>          "sh4": "endian-little bit-32 sh-common",
+>          "sparc": "endian-big bit-32",
+>          "viac3": "endian-little bit-32 ix86-common",
+> -        "x86_64": "endian-little bit-64",
+> +        "x86_64": "endian-little", # bitinfo specified in targetinfo
+>      }
+>      osinfo = {
+>          "darwin": "common-darwin",
+>          "darwin9": "common-darwin",
+>          "linux": "common-linux common-glibc",
+> +        "linux-gnu32": "common-linux common-glibc",
+> +        "linux-gnux32": "common-linux common-glibc",
+> +        "linux-gnu64": "common-linux common-glibc",
+>          "linux-gnueabi": "common-linux common-glibc",
+>          "linux-gnuspe": "common-linux common-glibc",
+>          "linux-uclibc": "common-linux common-uclibc",
+> @@ -68,6 +71,15 @@ def siteinfo_data(d):
+>          "powerpc-linux-uclibcspe": "powerpc-linux powerpc32-linux powerpc-linux-uclibc",
+>          "powerpc64-linux-gnuspe": "powerpc-linux powerpc64-linux",
+>          "powerpc64-linux": "powerpc-linux",
+> +        "x86_64-cygwin": "bit-64",
+> +        "x86_64-darvin": "bit-64",
+> +        "x86_64-darvin9": "bit-64",
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/conf/machine/include/ia32/arch-ia32.inc |   23 ++++++++++++++++++++---
- meta/conf/machine/include/tune-core2.inc     |    4 ++++
- meta/conf/machine/include/tune-x86_64.inc    |    2 +-
- 3 files changed, 25 insertions(+), 4 deletions(-)
+dar_v_in? :)
 
-diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc b/meta/conf/machine/include/ia32/arch-ia32.inc
-index 2709440..fb527da 100644
---- a/meta/conf/machine/include/ia32/arch-ia32.inc
-+++ b/meta/conf/machine/include/ia32/arch-ia32.inc
-@@ -6,17 +6,29 @@ DEFAULTTUNE ?= "x86"
- TARGET_FPU ?= ""
- X86ARCH32 ?= "i586"
- X86ARCH64 ?= "x86_64"
-+X86ARCHX32 ?= "x86_64"
- 
- # ELF32 ABI
- TUNEVALID[m32] = "IA32 ELF32 standard ABI"
--TUNECONFLICTS[m32] = "m64"
-+TUNECONFLICTS[m32] = "m64 mx32"
- TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", "m32", "${X86ARCH32}", "" ,d)}"
-+ABIEXTENSION .= "${@bb.utils.contains("TUNE_FEATURES", "m32", "32", "" ,d)}"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m32", "-m32", "", d)}"
- 
-+# x32 ABI
-+TUNEVALID[mx32] = "IA32e (x86_64) ELF32 standard ABI"
-+TUNECONFLICTS[mx32] = "m64 m32"
-+TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "${X86ARCHX32}", "" ,d)}"
-+ABIEXTENSION .= "${@bb.utils.contains("TUNE_FEATURES", "mx32", "x32", "" ,d)}"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-mx32", "", d)}"
-+TUNE_LDARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-m elf32_x86_64", "", d)}"
-+TUNE_ASARGS += "${@bb.utils.contains("TUNE_FEATURES", "mx32", "-x32", "", d)}"
-+
- # ELF64 ABI
- TUNEVALID[m64] = "IA32e (x86_64) ELF64 standard ABI"
--TUNECONFLICT[m64] = "m32"
-+TUNECONFLICT[m64] = "m32 mx32"
- TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", "m64", "${X86ARCH64}", "" ,d)}"
-+ABIEXTENSION .= "${@bb.utils.contains("TUNE_FEATURES", "m64", "64", "" ,d)}"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m64", "-m64", "", d)}"
- 
- TUNE_PKGARCH ?= "${@bb.utils.contains("TUNE_FEATURES", "m32", "x86", "x86_64", d)}"
-@@ -30,4 +42,9 @@ PACKAGE_EXTRA_ARCHS_tune-x86 = "x86"
- AVAILTUNES += "x86-64"
- TUNE_FEATURES_tune-x86-64 ?= "m64"
- BASE_LIB_tune-x86-64 ?= "lib64"
--PACKAGE_EXTRA_ARCHS_tune-x86-64 = "x86_64"
-+PACKAGE_EXTRA_ARCHS_tune-x86-64 = "x86-64"
-+
-+AVAILTUNES += "x86-64-x32"
-+TUNE_FEATURES_tune-x86-64-x32 ?= "mx32"
-+BASE_LIB_tune-x86-64-x32 ?= "lib"
-+PACKAGE_EXTRA_ARCHS_tune-x86-64-x32 = "x86-64-x32"
-diff --git a/meta/conf/machine/include/tune-core2.inc b/meta/conf/machine/include/tune-core2.inc
-index 25c2226..8a4de3e 100644
---- a/meta/conf/machine/include/tune-core2.inc
-+++ b/meta/conf/machine/include/tune-core2.inc
-@@ -18,3 +18,7 @@ TUNE_FEATURES_tune-core2-64 ?= "${TUNE_FEATURES_tune-x86-64} core2"
- BASE_LIB_tune-core2-64 ?= "lib64"
- PACKAGE_EXTRA_ARCHS_tune-core2-64 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64} core2-64"
- 
-+AVAILTUNES += "core2-x32"
-+TUNE_FEATURES_tune-core2-x32 ?= "${TUNE_FEATURES_tune-x86-64-x32} core2"
-+BASE_LIB_tune-core2-x32 ?= "lib"
-+PACKAGE_EXTRA_ARCHS_tune-core2-x32 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64-x32} core2-x32"
-diff --git a/meta/conf/machine/include/tune-x86_64.inc b/meta/conf/machine/include/tune-x86_64.inc
-index 04b0f96..50f20ba 100644
---- a/meta/conf/machine/include/tune-x86_64.inc
-+++ b/meta/conf/machine/include/tune-x86_64.inc
-@@ -1,3 +1,3 @@
- require conf/machine/include/ia32/arch-ia32.inc
- 
--DEFAULTTUNE = "x86-64"
-+DEFAULTTUNE ?= "x86-64"
+Slightly more seriously, lets drop out ones we can't / aren't using, wrt
+hosts, until we're going to do them for real.
+
 -- 
-1.7.4.4
-
+Tom Rini
+Mentor Graphics Corporation
 
 
