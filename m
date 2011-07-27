@@ -1,22 +1,22 @@
 Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1QmD6D-0004F9-TK
+	(envelope-from <tom_rini@mentor.com>) id 1QmD6M-0004IN-0W
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 01:01:10 +0200
+	Thu, 28 Jul 2011 01:01:19 +0200
 Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6RMurMg004891
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6RMurMl004891
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 17:56:53 -0500
+	Wed, 27 Jul 2011 17:56:54 -0500
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2011 15:56:45 -0700
-Message-Id: <13ae8210a401f000beaf5ab54523e07c5b113831.1311807353.git.tom_rini@mentor.com>
+Date: Wed, 27 Jul 2011 15:56:50 -0700
+Message-Id: <0e4f703959c0cde8e8252f45bf299af1a76a436d.1311807353.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1311807353.git.tom_rini@mentor.com>
 References: <cover.1311807353.git.tom_rini@mentor.com>
 In-Reply-To: <cover.1311807353.git.tom_rini@mentor.com>
 References: <cover.1311807353.git.tom_rini@mentor.com>
-Subject: [PATCH 1/9] sudo: Drop sudo_cv_uid_t_len from site files
+Subject: [PATCH 6/9] Various siteinfo files: Consolidate va_copy/__va_copy/va_val_copy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,135 +31,552 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 23:01:10 -0000
+X-List-Received-Date: Wed, 27 Jul 2011 23:01:19 -0000
 
-We were just setting this to the assumed default.  If anything, this
-belongs in the libc files if we must set it.
+Providing va_copy / __va_copy come down to the libc.  va_val_copy
+comes down to the architecture.  Unfortunately it's assumed true
+if not set, so we need to make sure to set this to false for
+x86_64 where it is not true.
 
 Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- meta/site/arm-common        |    3 ---
- meta/site/ix86-common       |    3 ---
- meta/site/mips-linux        |    3 ---
- meta/site/mips-linux-uclibc |    3 ---
- meta/site/mipsel-linux      |    5 +----
- meta/site/powerpc32-linux   |    3 ---
- meta/site/sh-common         |    3 ---
- meta/site/x86_64-linux      |    1 -
- 8 files changed, 1 insertions(+), 23 deletions(-)
+ meta/site/arm-common          |   17 ++---------------
+ meta/site/common-glibc        |    6 ++++++
+ meta/site/common-uclibc       |    6 ++++++
+ meta/site/ix86-common         |   17 +++--------------
+ meta/site/mips-common         |   18 +++++++++++++-----
+ meta/site/mips-linux          |   12 +-----------
+ meta/site/mips-linux-uclibc   |   12 +-----------
+ meta/site/mipsel-linux        |   12 +-----------
+ meta/site/mipsel-linux-uclibc |    8 +-------
+ meta/site/powerpc-linux       |   12 +++++++++---
+ meta/site/powerpc32-linux     |    9 ---------
+ meta/site/sh-common           |   13 ++-----------
+ meta/site/x86_64-linux        |   13 +++++++------
+ meta/site/x86_64-linux-uclibc |   11 ++++++++---
+ 14 files changed, 60 insertions(+), 106 deletions(-)
 
 diff --git a/meta/site/arm-common b/meta/site/arm-common
-index 04d1164..2129298 100644
+index 65ebd06..d5a55b6 100644
 --- a/meta/site/arm-common
 +++ b/meta/site/arm-common
-@@ -191,9 +191,6 @@ ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=yes}
- # startup-notification
- lf_cv_sane_realloc=yes
+@@ -1,3 +1,5 @@
++# general
++ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+ ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
+ ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
+ ac_cv_func_stat_empty_string_bug=${ac_cv_func_stat_empty_string_bug=no}
+@@ -60,9 +62,7 @@ glib_cv_hasinline=${glib_cv_hasinline=yes}
+ glib_cv_sane_realloc=${glib_cv_sane_realloc=yes}
+ glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
+ glib_cv_uscore=${glib_cv_uscore=no}
+-glib_cv_va_copy=${glib_cv_va_copy=yes}
+ glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+-glib_cv___va_copy=${glib_cv___va_copy=yes}
+ glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=no}
+ glib_cv_sys_pthread_mutex_trylock_posix=${glib_cv_sys_pthread_mutex_trylock_posix=yes}
+ glib_cv_sys_pthread_getspecific_posix=${glib_cv_sys_pthread_getspecific_posix=yes}
+@@ -83,19 +83,12 @@ as_cv_unaligned_access=${as_cv_unaligned_access=no}
+ # httppc
+ ac_cv_strerror_r_SUSv3=${ac_cv_strerror_r_SUSv3=no}
  
--# sudo
--sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-# ipsec-tools
+-ac_cv_va_copy=${ac_cv_va_copy=yes}
+-ac_cv___va_copy=${ac_cv___va_copy=yes}
+-ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
 -
+ # jikes
+ ac_cv_sizeof_wchar_t=4
+ 
+ # lftp
+ ac_cv_need_trio=${ac_cv_need_trio=no}
+-lftp_cv_va_copy=${lftp_cv_va_copy=yes}
+ lftp_cv_va_val_copy=${lftp_cv_va_val_copy=yes}
+-lftp_cv___va_copy=${lftp_cv___va_copy=yes}
+ 
+ # libesmtp
+ acx_working_snprintf=${acx_working_snprintf=yes}
+@@ -168,8 +161,6 @@ screen_cv_sys_sockets_usable=${screen_cv_sys_sockets_usable=yes}
+ screen_cv_sys_terminfo_used=${screen_cv_sys_terminfo_used=yes}
+ 
+ # slrn
+-slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+-slrn_cv_va_copy=${slrn_cv_va_copy=yes}
+ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+ 
+ # socat
+@@ -189,9 +180,5 @@ lf_cv_sane_realloc=yes
  # xffm
  jm_cv_func_working_readdir=yes
  
+-# dpkg
+-dpkg_cv_va_copy=${ac_cv_va_copy=yes}
+-dpkg_cv___va_copy=${ac_cv___va_copy=yes}
+-
+ # eds-dbus
+ ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
+diff --git a/meta/site/common-glibc b/meta/site/common-glibc
+index 8cb8b8e..d2e70ed 100644
+--- a/meta/site/common-glibc
++++ b/meta/site/common-glibc
+@@ -67,5 +67,11 @@ gl_cv_func_mbrtowc_null_arg=${gl_cv_func_mbrtowc_null_arg=yes}
+ gl_cv_func_mbrtowc_retval=${gl_cv_func_mbrtowc_retval=yes}
+ gl_cv_func_mbrtowc_nul_retval=${gl_cv_func_mbrtowc_nul_retval=yes}
+ 
++# va_copy and _va_copy
++ac_cv_va_copy=${ac_cv_va_copy=yes}
++ac_cv___va_copy=${ac_cv___va_copy=yes}
++ac_cv_func_va_copy=${ac_cv_func_va_copy=yes}
++ac_cv_func___va_copy=${ac_cv_func___va_copy=yes}
++
+ # TCL
+ tcl_cv_api_serial=${tcl_cv_api_serial=termios}
+diff --git a/meta/site/common-uclibc b/meta/site/common-uclibc
+index d8a66a6..b4a313e 100644
+--- a/meta/site/common-uclibc
++++ b/meta/site/common-uclibc
+@@ -28,5 +28,11 @@ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
+ bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
+ bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
+ 
++# va_copy and _va_copy
++ac_cv_va_copy=${ac_cv_va_copy=yes}
++ac_cv___va_copy=${ac_cv___va_copy=yes}
++ac_cv_func_va_copy=${ac_cv_func_va_copy=yes}
++ac_cv_func___va_copy=${ac_cv_func___va_copy=yes}
++
+ # TCL
+ tcl_cv_api_serial=${tcl_cv_api_serial=termios}
 diff --git a/meta/site/ix86-common b/meta/site/ix86-common
-index 7a7e253..122eb14 100644
+index f89835d..0aa54c7 100644
 --- a/meta/site/ix86-common
 +++ b/meta/site/ix86-common
-@@ -211,9 +211,6 @@ ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=yes}
+@@ -1,3 +1,4 @@
++# general
+ ac_cv_sizeof_char=${ac_cv_sizeof_char=1}
+ ac_cv_sizeof_unsigned_char=${ac_cv_sizeof_unsigned_int=1}
+ ac_cv_sizeof_char_p=${ac_cv_sizeof_char_p=4}
+@@ -27,6 +28,7 @@ ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+ ac_cv_func_stat_empty_string_bug=${ac_cv_func_stat_empty_string_bug=no}
+ ac_cv_func_stat_ignores_trailing_slash=${ac_cv_func_stat_ignores_trailing_slash=no}
++ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+ 
+ ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
+ ac_cv_header_netinet_sctp_uio_h=${ac_cv_header_netinet_sctp_uio_h=no}
+@@ -71,9 +73,6 @@ db_cv_sprintf_count=${db_cv_sprintf_count=yes}
+ # D-BUS
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+ 
+-dpkg_cv_va_copy=${ac_cv_va_copy=no}
+-dpkg_cv___va_copy=${ac_cv___va_copy=yes}
+-
+ # ettercap
+ ettercap_cv_type_socklen_t=${ettercap_cv_type_socklen_t=yes}
+ 
+@@ -91,8 +90,6 @@ glib_cv_sys_pthread_cond_timedwait_posix=${glib_cv_sys_pthread_cond_timedwait_po
+ glib_cv_sys_pthread_getspecific_posix=${glib_cv_sys_pthread_getspecific_posix=yes}
+ glib_cv_sys_pthread_mutex_trylock_posix=${glib_cv_sys_pthread_mutex_trylock_posix=yes}
+ glib_cv_uscore=${glib_cv_uscore=no}
+-glib_cv___va_copy=${glib_cv___va_copy=yes}
+-glib_cv_va_copy=${glib_cv_va_copy=yes}
+ glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+ glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=yes}
+ 
+@@ -110,18 +107,12 @@ ac_cv_ushort=${ac_cv_ushort=yes}
+ # intercom
+ ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
+ 
+-# ipsec-tools
+-ac_cv_va_copy=${ac_cv_va_copy=no}
+-ac_cv___va_copy=${ac_cv___va_copy=yes}
+-ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+-
+ # jikes-native
+ ac_cv_sizeof_wchar_t=4
+ 
+ # lftp
+ ac_cv_need_trio=${ac_cv_need_trio=no}
+-lftp_cv_va_copy=${lftp_cv_va_copy=no}
+-lftp_cv___va_copy=${lftp_cv___va_copy=yes}
++lftp_cv_va_val_copy=${lftp_cv_va_val_copy=yes}
+ 
+ # libidl
+ libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
+@@ -188,8 +179,6 @@ screen_cv_sys_sockets_usable=${screen_cv_sys_sockets_usable=yes}
+ screen_cv_sys_terminfo_used=${screen_cv_sys_terminfo_used=yes}
+ 
+ # slrn
+-slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+-slrn_cv_va_copy=${slrn_cv_va_copy=no}
+ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+ 
+ # ssh
+diff --git a/meta/site/mips-common b/meta/site/mips-common
+index e7eb3af..df8da05 100644
+--- a/meta/site/mips-common
++++ b/meta/site/mips-common
+@@ -1,3 +1,6 @@
++# general
++ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
++
+ # cvs
+ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+ 
+@@ -26,9 +29,14 @@ ac_cv_alignof_CORBA_long_double=8
+ ac_cv_alignof_CORBA_pointer=4
+ ac_cv_alignof_CORBA_struct=1
+ 
+-# dpkg
+-dpkg_cv_va_copy=${ac_cv_va_copy=yes}
+-dpkg_cv___va_copy=${ac_cv___va_copy=yes}
+-
+-# apr
++# apache
++ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
++apr_cv_process_shared_works=${apr_cv_process_shared_works=no}
++ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
+ apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
++
++# glib
++glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
++
++# slrn
++slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+diff --git a/meta/site/mips-linux b/meta/site/mips-linux
+index e90b983..b1f8be2 100644
+--- a/meta/site/mips-linux
++++ b/meta/site/mips-linux
+@@ -1,3 +1,4 @@
++# general
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+ 
+ # bash
+@@ -26,8 +27,6 @@ glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
+ glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ glib_cv_uscore=${glib_cv_uscore=no}
+-glib_cv_va_copy=${glib_cv_va_copy=yes}
+-glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+ 
+ # glib-2.0
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+@@ -37,11 +36,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
+ # libpcap
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ 
+-# slrn
+-slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+-slrn_cv_va_copy=${slrn_cv_va_copy=yes}
+-slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+-
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+@@ -84,10 +78,6 @@ ac_cv_uint=${ac_cv_unit=yes}
+ # D-BUS
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+ 
+-# popt
+-ac_cv_va_copy=${ac_cv_va_copy=yes}
+-ac_cv___va_copy=${ac_cv___va_copy=yes}
+-
+ # eds-dbus
+ ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
+ 
+diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
+index e90b983..b1f8be2 100644
+--- a/meta/site/mips-linux-uclibc
++++ b/meta/site/mips-linux-uclibc
+@@ -1,3 +1,4 @@
++# general
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+ 
+ # bash
+@@ -26,8 +27,6 @@ glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
+ glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ glib_cv_uscore=${glib_cv_uscore=no}
+-glib_cv_va_copy=${glib_cv_va_copy=yes}
+-glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+ 
+ # glib-2.0
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+@@ -37,11 +36,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
+ # libpcap
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ 
+-# slrn
+-slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+-slrn_cv_va_copy=${slrn_cv_va_copy=yes}
+-slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+-
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+@@ -84,10 +78,6 @@ ac_cv_uint=${ac_cv_unit=yes}
+ # D-BUS
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+ 
+-# popt
+-ac_cv_va_copy=${ac_cv_va_copy=yes}
+-ac_cv___va_copy=${ac_cv___va_copy=yes}
+-
+ # eds-dbus
+ ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
+ 
+diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
+index 7292f6f..3c70af0 100644
+--- a/meta/site/mipsel-linux
++++ b/meta/site/mipsel-linux
+@@ -1,4 +1,4 @@
+-
++# general
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+ 
+ # bash
+@@ -27,8 +27,6 @@ glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
+ glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ glib_cv_uscore=${glib_cv_uscore=no}
+-glib_cv_va_copy=${glib_cv_va_copy=yes}
+-glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+ 
+ # glib-2.0
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+@@ -38,11 +36,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
+ # libpcap
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ 
+-# slrn
+-slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+-slrn_cv_va_copy=${slrn_cv_va_copy=yes}
+-slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+-
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+@@ -84,9 +77,6 @@ ac_cv_uint=${ac_cv_unit=yes}
+ 
+ # D-BUS
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+-# popt
+-ac_cv_va_copy=${ac_cv_va_copy=yes}
+-ac_cv___va_copy=${ac_cv___va_copy=yes}
+ 
+ # eds-dbus
+ ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
+diff --git a/meta/site/mipsel-linux-uclibc b/meta/site/mipsel-linux-uclibc
+index ed426a9..cdf4757 100644
+--- a/meta/site/mipsel-linux-uclibc
++++ b/meta/site/mipsel-linux-uclibc
+@@ -1,3 +1,4 @@
++# general
+ ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
+ 
+ # bash
+@@ -26,17 +27,10 @@ glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
+ glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ glib_cv_uscore=${glib_cv_uscore=no}
+-glib_cv_va_copy=${glib_cv_va_copy=yes}
+-glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+ 
+ # libpcap
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ 
+-# slrn
+-slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+-slrn_cv_va_copy=${slrn_cv_va_copy=yes}
+-slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+-
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ 
+diff --git a/meta/site/powerpc-linux b/meta/site/powerpc-linux
+index 74eb0a7..ac681b2 100644
+--- a/meta/site/powerpc-linux
++++ b/meta/site/powerpc-linux
+@@ -1,11 +1,17 @@
++# general
++ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
++
  # startup-notification
  lf_cv_sane_realloc=yes
  
--# sudo
--sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
--
- # xffm
- jm_cv_func_working_readdir=yes
+ # glib
+ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ glib_cv_uscore=${glib_cv_uscore=no}
++glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+ ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
  
-diff --git a/meta/site/mips-linux b/meta/site/mips-linux
-index 807e552..212c3ad 100644
---- a/meta/site/mips-linux
-+++ b/meta/site/mips-linux
-@@ -76,9 +76,6 @@ samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
- # vim
- ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
- 
--# sudo
--sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
--
- # intercom
- ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
- 
-diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
-index 807e552..212c3ad 100644
---- a/meta/site/mips-linux-uclibc
-+++ b/meta/site/mips-linux-uclibc
-@@ -76,9 +76,6 @@ samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
- # vim
- ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
- 
--# sudo
--sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
--
- # intercom
- ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
- 
-diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
-index c59d85f..a9032ac 100644
---- a/meta/site/mipsel-linux
-+++ b/meta/site/mipsel-linux
-@@ -77,10 +77,7 @@ samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
- # vim
- ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
- 
--# sudo
--sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
--
--#intercom
-+# intercom
- ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
- 
- #lmbench
+-# popt/rpm
+-ac_cv_va_copy=${ac_cv_va_copy=yes}
+-ac_cv___va_copy=${ac_cv___va_copy=yes}
++# lftp
++lftp_cv_va_val_copy=${lftp_cv_va_val_copy=yes}
++
++# slrn
++slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
 diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
-index 46b64eb..8a10111 100644
+index 60dad35..4550df3 100644
 --- a/meta/site/powerpc32-linux
 +++ b/meta/site/powerpc32-linux
-@@ -280,9 +280,6 @@ ac_cv_sync_with_stdio_2=${ac_cv_sync_with_stdio_2=yes}
+@@ -114,9 +114,7 @@ glib_cv_has__inline__=${glib_cv_has__inline__=yes}
+ glib_cv_hasinline=${glib_cv_hasinline=yes}
+ glib_cv_sane_realloc=${glib_cv_sane_realloc=yes}
+ glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
+-glib_cv_va_copy=${glib_cv_va_copy=no}
+ glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+-glib_cv___va_copy=${glib_cv___va_copy=yes}
+ glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=no}
+ glib_cv_sys_pthread_mutex_trylock_posix=${glib_cv_sys_pthread_mutex_trylock_posix=yes}
+ glib_cv_sys_pthread_getspecific_posix=${glib_cv_sys_pthread_getspecific_posix=yes}
+@@ -147,9 +145,7 @@ ac_cv_strerror_r_SUSv3=${ac_cv_strerror_r_SUSv3=no}
+ 
+ # lftp
+ ac_cv_need_trio=${ac_cv_need_trio=no}
+-lftp_cv_va_copy=${lftp_cv_va_copy=no}
+ lftp_cv_va_val_copy=${lftp_cv_va_val_copy=yes}
+-lftp_cv___va_copy=${lftp_cv___va_copy=yes}
+ 
+ # edb
+ db_cv_spinlocks=${db_cv_spinlocks=no}
+@@ -160,8 +156,6 @@ compat_cv_func_basename_works=${compat_cv_func_basename_works=no}
+ compat_cv_func_dirname_works=${compat_cv_func_dirname_works=no}
+ 
+ # slrn
+-slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+-slrn_cv_va_copy=${slrn_cv_va_copy=no}
+ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+ 
+ # libidl
+@@ -275,9 +269,6 @@ samba_cv_have_setresuid=${samba_cv_have_setresuid=yes}
  mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
  mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
  
--# sudo
--sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
--
- # dpkg
- dpkg_cv_va_copy=${ac_cv_va_copy=yes}
- dpkg_cv___va_copy=${ac_cv___va_copy=yes}
+-# dpkg
+-dpkg_cv_va_copy=${ac_cv_va_copy=yes}
+-dpkg_cv___va_copy=${ac_cv___va_copy=yes}
+ 
+ # libc
+ libc_cv_ppc_machine=${libc_cv_ppc_machine=yes}
 diff --git a/meta/site/sh-common b/meta/site/sh-common
-index 26a612a..63abe57 100644
+index 6d57a08..d2db0c6 100644
 --- a/meta/site/sh-common
 +++ b/meta/site/sh-common
-@@ -231,9 +231,6 @@ rsync_cv_HAVE_SECURE_MKSTEMP=${rsync_cv_HAVE_SECURE_MKSTEMP=yes}
+@@ -1,3 +1,5 @@
++# general
++ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+ ac_cv_func_setvbuf_reversed=no
+ ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
+ ac_cv_sizeof_char=${ac_cv_sizeof_char=1}
+@@ -120,9 +122,7 @@ glib_cv_hasinline=${glib_cv_hasinline=yes}
+ glib_cv_sane_realloc=${glib_cv_sane_realloc=yes}
+ glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
+ glib_cv_uscore=${glib_cv_uscore=no}
+-glib_cv_va_copy=${glib_cv_va_copy=no}
+ glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+-glib_cv___va_copy=${glib_cv___va_copy=yes}
+ glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=no}
+ glib_cv_sys_pthread_mutex_trylock_posix=${glib_cv_sys_pthread_mutex_trylock_posix=yes}
+ glib_cv_sys_pthread_getspecific_posix=${glib_cv_sys_pthread_getspecific_posix=yes}
+@@ -156,9 +156,7 @@ ac_cv_sizeof_wchar_t=4
+ 
+ # lftp
+ ac_cv_need_trio=${ac_cv_need_trio=no}
+-lftp_cv_va_copy=${lftp_cv_va_copy=no}
+ lftp_cv_va_val_copy=${lftp_cv_va_val_copy=yes}
+-lftp_cv___va_copy=${lftp_cv___va_copy=yes}
+ 
+ # edb
+ db_cv_spinlocks=${db_cv_spinlocks=no}
+@@ -169,8 +167,6 @@ compat_cv_func_basename_works=${compat_cv_func_basename_works=no}
+ compat_cv_func_dirname_works=${compat_cv_func_dirname_works=no}
+ 
+ # slrn
+-slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+-slrn_cv_va_copy=${slrn_cv_va_copy=no}
+ slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
+ 
+ # startup-notification
+@@ -227,11 +223,6 @@ rsync_cv_HAVE_SECURE_MKSTEMP=${rsync_cv_HAVE_SECURE_MKSTEMP=yes}
  rsync_cv_REPLACE_INET_NTOA=${rsync_cv_REPLACE_INET_NTOA=no}
  rsync_cv_REPLACE_INET_ATON=${rsync_cv_REPLACE_INET_ATON=no}
  
--# sudo
--sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-# ipsec-tools
+-ac_cv_va_copy=${ac_cv_va_copy=no}
+-ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+-ac_cv___va_copy=${ac_cv___va_copy=yes}
 -
- # ipsec-tools
- ac_cv_va_copy=${ac_cv_va_copy=no}
- ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+ # libxfce4util
+ with_broken_putenv=${with_broken_putenv=no}
+ 
 diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
-index 968dedc..91965b9 100644
+index 91965b9..f3a6ea1 100644
 --- a/meta/site/x86_64-linux
 +++ b/meta/site/x86_64-linux
-@@ -92,7 +92,6 @@ ac_cv_alignof_CORBA_short=2
- ac_cv_alignof_CORBA_struct=1
- ac_cv_alignof_CORBA_wchar=2
+@@ -1,3 +1,5 @@
++# general
++ac_cv_va_val_copy=${ac_cv_va_val_copy=no}
+ ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
+ ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+@@ -49,10 +51,8 @@ glib_cv_sys_pthread_cond_timedwait_posix=${glib_cv_sys_pthread_cond_timedwait_po
+ glib_cv_sys_pthread_getspecific_posix=${glib_cv_sys_pthread_getspecific_posix=yes}
+ glib_cv_sys_pthread_mutex_trylock_posix=${glib_cv_sys_pthread_mutex_trylock_posix=yes}
+ glib_cv_uscore=${glib_cv_uscore=no}
+-glib_cv___va_copy=${glib_cv___va_copy=yes}
+-glib_cv_va_copy=${glib_cv_va_copy=yes}
+ glib_cv_va_val_copy=${glib_cv_va_val_copy=no}
+-lftp_cv_va_copy=${lftp_cv_va_copy=yes}
++
+ nano_cv_func_regexec_segv_emptystr=${nano_cv_func_regexec_segv_emptystr=no}
+ samba_cv_HAVE_VA_COPY=${samba_cv_HAVE_VA_COPY=yes}
+ screen_cv_sys_bcopy_overlap=${screen_cv_sys_bcopy_overlap=no}
+@@ -103,7 +103,8 @@ nfsd_cv_bsd_signals=${nfsd_cv_bsd_signals=yes}
+ #apr
+ apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
  
--sudo_cv_uid_t=${sudo_cv_uid_t_len=10}
- lf_cv_sane_realloc=yes
- as_cv_unaligned_access=${as_cv_unaligned_access=yes}
+-# rpm
+-rpm_ac_cv_va_copy=${ac_cv_va_copy=yes}
+-rpm_ac_cv___va_copy=${ac_cv___va_copy=yes}
++# lftp
++lftp_cv_va_val_copy=${lftp_cv_va_val_copy=no}
  
++# slrn
++slrn_cv_va_val_copy=${slrn_cv_va_val_copy=no}
+diff --git a/meta/site/x86_64-linux-uclibc b/meta/site/x86_64-linux-uclibc
+index 6eb5285..bad2ed9 100644
+--- a/meta/site/x86_64-linux-uclibc
++++ b/meta/site/x86_64-linux-uclibc
+@@ -1,3 +1,5 @@
++# general
++ac_cv_va_val_copy=${ac_cv_va_val_copy=no}
+ ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
+ ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+@@ -39,10 +41,7 @@ glib_cv_sys_pthread_cond_timedwait_posix=${glib_cv_sys_pthread_cond_timedwait_po
+ glib_cv_sys_pthread_getspecific_posix=${glib_cv_sys_pthread_getspecific_posix=yes}
+ glib_cv_sys_pthread_mutex_trylock_posix=${glib_cv_sys_pthread_mutex_trylock_posix=yes}
+ glib_cv_uscore=${glib_cv_uscore=no}
+-glib_cv___va_copy=${glib_cv___va_copy=yes}
+-glib_cv_va_copy=${glib_cv_va_copy=yes}
+ glib_cv_va_val_copy=${glib_cv_va_val_copy=no}
+-lftp_cv_va_copy=${lftp_cv_va_copy=yes}
+ nano_cv_func_regexec_segv_emptystr=${nano_cv_func_regexec_segv_emptystr=no}
+ samba_cv_HAVE_VA_COPY=${samba_cv_HAVE_VA_COPY=yes}
+ screen_cv_sys_bcopy_overlap=${screen_cv_sys_bcopy_overlap=no}
+@@ -81,3 +80,9 @@ ac_cv_alignof_CORBA_wchar=2
+ 
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
++
++# lftp
++lftp_cv_va_val_copy=${lftp_cv_va_val_copy=no}
++
++# slrn
++slrn_cv_va_val_copy=${slrn_cv_va_val_copy=no}
 -- 
 1.7.0.4
 
