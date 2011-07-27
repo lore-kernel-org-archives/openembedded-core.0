@@ -1,30 +1,23 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1+vo8S/e7cWgmdqkyfAau1HC+5CNFYBzRI=])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qlunv-0006yB-2Q
+	(envelope-from <bruce.ashfield@windriver.com>) id 1QlvHS-0007IS-Oz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 05:29:03 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6R3NmaM014678
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jul 2011 22:23:49 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <1311720776.2344.319.camel@rex>
-Date: Tue, 26 Jul 2011 22:23:54 -0500
-Message-Id: <9A300C7A-E352-4566-AB92-88DF3CF743D7@kernel.crashing.org>
-References: <346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
-	<992efbf4ec3d7c55346953dbe82f9745590e64bf.1311683981.git.richard.purdie@linuxfoundation.org>
-	<969FA904-0086-42FA-B605-07B74FB728B4@kernel.crashing.org>
-	<1311688752.2344.238.camel@rex>
-	<627CF4AB-F07D-4285-B31C-3C5631270420@kernel.crashing.org>
-	<1311697113.2344.268.camel@rex>
-	<7B0836D8-31B6-407E-848E-FED9C5BFE78A@kernel.crashing.org>
-	<1311720776.2344.319.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 3/3] Add basic PowerPC core tune config
+	Wed, 27 Jul 2011 05:59:35 +0200
+Received: from yow-bashfiel-l1.corp.ad.wrs.com
+	(dhcp-146-223.ottawa.windriver.com [128.224.146.223])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6R3tF6c016454;
+	Tue, 26 Jul 2011 20:55:16 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Tue, 26 Jul 2011 23:55:12 -0400
+Message-Id: <35a96b8d01511443b0743cca3543a4cdc007cff2.1311738733.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+In-Reply-To: <cover.1311738733.git.bruce.ashfield@windriver.com>
+References: <cover.1311738733.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1311738733.git.bruce.ashfield@windriver.com>
+References: <cover.1311738733.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 1/1] linux-yocto: update SRCREVs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,68 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 03:29:03 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 27 Jul 2011 03:59:35 -0000
 
+Updating the linux-yocto SRCREVs to pickup changes from the
+continuing uprev to korg 3.0. With this set of update, the
+meta/feature audits are complete.
 
-On Jul 26, 2011, at 5:52 PM, Richard Purdie wrote:
+qemumips and qemuppc are fixed with this update and can now
+boot to a prompt.
 
-> On Tue, 2011-07-26 at 17:02 -0500, Kumar Gala wrote:
->> On Jul 26, 2011, at 11:18 AM, Richard Purdie wrote:
->>=20
->>>>> You're already found the way to pass configuration to *libc using =
-values
->>>>> in TARGET_FPU to pickup the right configuration.
->>>>>=20
->>>>> Is there a use case we're missing?
->>>>=20
->>>> Yes, for [e]glibc we have optimized libc functions for a given /
->>>> specific PPC processor.  So we need someway to tell configure this.
->>>=20
->>> I'd do this by looking for flags in TUNE_FEATURES as Mark has also
->>> mentioned.
->>>=20
->>> Cheers,
->>>=20
->>> Richard
->>=20
->> Are we thinking something like the following in e[glibc] recipes:
->>=20
->> EXTRA_OECONF +=3D "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", =
-"-with-cpu=3De500mc", "", d)}"
->=20
-> Could we glean this information from the TUNE_CCARGS variable and do
-> this automatically?
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb |   14 +++++++-------
+ 1 files changed, 7 insertions(+), 7 deletions(-)
 
-For PPC we'd have:
-
-405
-440
-464
-476
-603e
-e500
-e500mc
-e5500
-970
-a2
-cell
-power4
-power5
-power5+
-power6
-power6x
-power7
-
-There isn't always a clean mapping.  For example ppce500 & ppce500v2 =
-would want --with-cpu=3De500.  I believe ppc603e, ppce300c2 would want =
---with-cpu=3D603e.
-
-If we want to just do it as a python function w/a mapping table we could =
-easily handle it that way.
-
-- k
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index 342993f..8f49668 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -14,13 +14,13 @@ KMETA = meta
+ LINUX_VERSION ?= "3.0"
+ LINUX_VERSION_EXTENSION ?= "-yocto-${LINUX_KERNEL_TYPE}"
+ 
+-SRCREV_machine_qemuarm = "021129d0ad7dd63cbe68c9a1d369519a9e5e8440"
+-SRCREV_machine_qemumips = "e86282b3085c5310d1c43af66242845ddadd49b6"
+-SRCREV_machine_qemuppc = "f4ce805d0b74f9f32b6455730485120e27a4711e"
+-SRCREV_machine_qemux86 = "3216e7d5c3cada16161481826cdb39c930457587"
+-SRCREV_machine_qemux86-64 = "3216e7d5c3cada16161481826cdb39c930457587"
+-SRCREV_machine = "3216e7d5c3cada16161481826cdb39c930457587"
+-SRCREV_meta = "9010d1cbef2633dac7e559a7705c326b7601dd4c"
++SRCREV_machine_qemuarm = "703430f6cd786d9f42fdee1936337ecf1c3d27b5"
++SRCREV_machine_qemumips = "a3bb11ebd7dd1482de334dd71f8e4afe5e2bcd32"
++SRCREV_machine_qemuppc = "582dcc88c7c4d765c03b38ff384210d6efbf7956"
++SRCREV_machine_qemux86 = "099a40c1669d20fdae2846cfd28bf74fd38dacea"
++SRCREV_machine_qemux86-64 = "896b8fd5783a6aac80d1447da5958334f4734845"
++SRCREV_machine = "2d22c15ef4802bc117c5482217c2b2c4d34ab303"
++SRCREV_meta = "37856a69113155d343efc8f8c59c7e63fbf963c4"
+ 
+ PR = "r0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+-- 
+1.7.4.1
 
 
 
