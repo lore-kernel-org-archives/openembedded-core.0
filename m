@@ -1,34 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qm1yF-0000Jr-FQ for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 13:08:11 +0200
+	id 1Qm21J-0000Mu-KV for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 13:11:21 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6RB3vIl029335
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6RB77K6029362
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 12:03:57 +0100
+	Wed, 27 Jul 2011 12:07:07 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 28368-10 for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 12:03:53 +0100 (BST)
+	id 28892-04 for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 12:07:03 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6RB3mrg029329
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6RB6wJ2029356
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 12:03:48 +0100
+	Wed, 27 Jul 2011 12:06:58 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <32b657583d80fc2bd481b1e5ea12af01dda14e49.1311752531.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1311752531.git.sgw@linux.intel.com>
 References: <cover.1311752531.git.sgw@linux.intel.com>
-	<32b657583d80fc2bd481b1e5ea12af01dda14e49.1311752531.git.sgw@linux.intel.com>
-Date: Wed, 27 Jul 2011 12:03:38 +0100
-Message-ID: <1311764618.2344.350.camel@rex>
+Date: Wed, 27 Jul 2011 12:06:48 +0100
+Message-ID: <1311764808.2344.354.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [Consolidated & Tested 34/35] classes/image*: Revamp creation of live images
+Subject: Re: [Consolidated & Tested 00/35] July 27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,52 +42,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 11:08:11 -0000
+X-List-Received-Date: Wed, 27 Jul 2011 11:11:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-07-27 at 00:47 -0700, Saul Wold wrote:
-> This creates a live image as an IMAGE_FSTYPES, thus removing the
-> need to have additional -live.bb recipes.  To create a live image
-> one just needs to add live to the IMAGE_FSTYPES list
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/classes/image-live.bbclass  |   13 +++++++++++++
->  meta/classes/image.bbclass       |    3 +++
->  meta/classes/image_types.bbclass |   15 +++++++++++++--
->  3 files changed, 29 insertions(+), 2 deletions(-)
->  create mode 100644 meta/classes/image-empty.bbclass
->  create mode 100644 meta/classes/image-live.bbclass
-> 
-> diff --git a/meta/classes/image-empty.bbclass b/meta/classes/image-empty.bbclass
-> new file mode 100644
-> index 0000000..e69de29
-> diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-> new file mode 100644
-> index 0000000..2568d5c
-> --- /dev/null
-> +++ b/meta/classes/image-live.bbclass
-> @@ -0,0 +1,13 @@
-> +
-> +AUTO_SYSLINUXCFG = "1"
-> +INITRD = "${DEPLOY_DIR_IMAGE}/core-image-minimal-initramfs-${MACHINE}.cpio.gz"
-> +APPEND += "root=/dev/ram0 "
-> +TIMEOUT = "10"
-> +LABELS += "boot install"
-> +
-> +ROOTFS = "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
-> +
-> +do_bootimg[depends] += "core-image-minimal-initramfs:do_rootfs"
-> +do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
-> +
-> +inherit image-live
+Hi Saul,
 
-You mean bootimg here but I fixed up the patch ;-)
+On Wed, 2011-07-27 at 00:46 -0700, Saul Wold wrote:
+> The following changes since commit 02031d766f983cd7e01e468cb2c926604313cd2a:
+> 
+>   arch-ia32.inc: Fix up TUNE_ARCH variable conflicts (2011-07-26 22:39:49 +0100)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/live
+
+I merged the following:
+
+> Bruce Ashfield (1):
+>   machine/qemu: set preferred linux-yocto kernel version
+> 
+> Enrico Scholz (2):
+>   console-tools: removed wildcard from SRC_URI
+>   module-init-tools: do not build static utilities for -cross
+
+[I've made a note on this one to remove the static patch from that
+recipe]
+
+> Kang Kai (5):
+>   libpam: update to 1.1.4 and add subpackage xtests
+>   cups: add pam support
+>   screen: add pam support
+>   sudo: add pam support
+>   shadow: update pam related configure files
+> 
+> Khem Raj (2):
+>   libxcb: Add missing DEPENDS on libxdmcp
+>   siteinfo: Rework the siteinfo for powerpc to fix uclibc fallout
+> 
+> Koen Kooi (1):
+>   dropbear: don't override DISTRO_TYPE if it is already set
+> 
+> Paul Eggleton (6):
+>   meta/conf/local.conf.sample: remove oprofileui-native related
+>     settings
+>   meta/conf/local.conf.sample: improve comments/layout
+
+[merged with fixes to remove the patch conflict it contained]
+
+>   meta/conf/local.conf.sample: improve terminal examples/comments
+>   eglibc: remove unnecessary FILESPATHPKG usage
+>   scripts/combo-layer: keep carriage returns at the end of lines
+> 
+> Saul Wold (5):
+>   libcap: Update to 2.22 with License Clarification
+>   Remove -live.bb recipes
+>   Remove -directdisk.bb recipes
+>   classes/image*: Revamp creation of live images
+
+[fixed to inherit the right class]
+
+>   utils.bbclass: Don't forget to pass the cmdline options
+> 
+> Tom Rini (8):
+>   siteinfo: Move certain samba entries to common-linux
+>   siteinfo: Move certain bash entries to common-linux
+>   x86_64-linux siteinfo: Add bash info
+>   siteinfo: Move certain mysql entries to common-linux
+
+>   siteinfo: Move certain db entries to common-linux
+>   siteinfo: Move general realloc/malloc values to common-$libc
+>   siteinfo: Move (getpgrp|setpgrp|setgrent|*get{pwuid,grgid}) to
+>     common-libc
+> 
+> Wenzong Fan (2):
+>   cronie: enable PAM support for cronie
+>   at: enable pam support
+> 
+> Xiaofeng Yan (3):
+>   openssh: Support PAM
+>   dropbear: Support pam
+>   polkit: Support pam
+
+I discussed this one with Paul and we've agreed to patch bitbake so I
+didn't take it:
+
+  meta/conf/local.conf.sample: remove nonfunctional BBINCLUDELOGS
+    setting
+
+I dropped this as per discussion and comments from Phil:
+
+  siteinfo: Move the rp-pppoe entry to common-linux
 
 Cheers,
 
 Richard
+
 
 
 
