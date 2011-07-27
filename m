@@ -1,26 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QlsUa-00047T-3y
+	(envelope-from <mark.hatle@windriver.com>) id 1QluiG-0006tU-Bi
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 03:00:57 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 26 Jul 2011 17:56:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,272,1309762800"; d="scan'208";a="30476017"
-Received: from shxpwgzhai1a.ccr.corp.intel.com (HELO [10.239.48.130])
-	([10.239.48.130])
-	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2011 17:56:41 -0700
-Message-ID: <4E2F624B.4070701@intel.com>
-Date: Wed, 27 Jul 2011 08:56:43 +0800
-From: "Zhai, Edwin" <edwin.zhai@intel.com>
-User-Agent: Thunderbird 2.0.0.17 (Windows/20080914)
+	Wed, 27 Jul 2011 05:23:12 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6R3IvGv012919
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jul 2011 20:18:57 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 26 Jul 2011 20:18:56 -0700
+Message-ID: <4E2F839F.70005@windriver.com>
+Date: Tue, 26 Jul 2011 22:18:55 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1311682779.git.edwin.zhai@intel.com>	<73ea8ff94e4bda213df1a5a39615f4cd39899589.1311682779.git.edwin.zhai@intel.com>
-	<C36AA1E0-9A00-4761-9912-A3AC81367446@dominion.thruhere.net>
-In-Reply-To: <C36AA1E0-9A00-4761-9912-A3AC81367446@dominion.thruhere.net>
-Subject: Re: [PATCH 2/3] xinput-calibrator: Add 0.7.5 as new recipe
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1311720062.git.richard.purdie@linuxfoundation.org>
+	<bfe5838302fbcfe989e3c26c9e04c927c4755e65.1311720062.git.richard.purdie@linuxfoundation.org>
+In-Reply-To: <bfe5838302fbcfe989e3c26c9e04c927c4755e65.1311720062.git.richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH 1/3] package/rootfs_rpm: Implement RPM multilib package handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,92 +37,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 01:00:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 27 Jul 2011 03:23:12 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-I borrowed it from meta-oe with minor modification.
-xinput is very useful for debug and test of input device under X. 
-xinput_calibrator is a must for touchscreen device.
+We found a minor bug in the patch since it was first sent out:
 
-Koen Kooi wrote:
->
-> This one looks suspicously like the one in meta-oe. Apart from that, 
-> is it really needed in oe-core?
->
-> Op 26 jul. 2011, om 14:30 heeft edwin.zhai@intel.com het volgende 
-> geschreven:
->
-> > From: Zhai Edwin <edwin.zhai@intel.com>
-> >
-> > Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-> > ---
-> > .../xinput-calibrator/xinput-calibrator_0.7.5.bb   |   24 
-> ++++++++++++++++++++
-> > 1 files changed, 24 insertions(+), 0 deletions(-)
-> > create mode 100644 
-> meta/recipes-graphics/xinput-calibrator/xinput-calibrator_0.7.5.bb
-> >
-> > diff --git 
-> a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_0.7.5.bb 
-> b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_0.7.5.bb
->
-> > new file mode 100644
-> > index 0000000..5a868f7
-> > --- /dev/null
-> > +++ 
-> b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_0.7.5.bb
-> > @@ -0,0 +1,24 @@
-> > +DESCRIPTION = "A generic touchscreen calibration program for X.Org"
-> > +HOMEPAGE = 
-> "http://www.freedesktop.org/wiki/Software/xinput_calibrator"
-> > +
-> > +LICENSE = "MIT/X11"
-> > +LIC_FILES_CHKSUM = 
-> "file://COPYING;md5=d9a6926aaad6b8f38bb4f995fe088466\ 
-> <file://COPYING;md5=d9a6926aaad6b8f38bb4f995fe088466%5C>
-> > +                    
-> file://src/calibrator.cpp;endline=22;md5=998e238a7638a7446eaeb02398f691fc" 
->
-> > +
-> > +DEPENDS = "virtual/libx11 libxi"
-> > +
-> > +inherit autotools
-> > +
-> > +RDEPENDS_${PN} = "xinput"
-> > +
-> > +SRC_URI = 
-> "http://github.com/downloads/tias/xinput_calibrator/xinput_calibrator-${PV}.tar.gz" 
->
-> > +SRC_URI[md5sum] = "20da0a2055a5a75962add8c6b44f60fa"
-> > +SRC_URI[sha256sum] = 
-> "baa4ddca49ec94c27ba4c715bfa26692fec1132103e927213c3169e475d3d971"
-> > +
-> > +S = "${WORKDIR}/xinput_calibrator-${PV}"
-> > +
-> > +do_install_append() {
-> > +        install -d ${D}${bindir}
-> > +        install -m 0755 scripts/xinput_calibrator_pointercal.sh 
-> ${D}${bindir}/xinput_calibrator_once.sh
-> > +        install -m 0755 
-> scripts/xinput_calibrator_get_hal_calibration.sh 
-> ${D}${bindir}/xinput_calibrator_get_hal_calibration.sh
->
-> > +}
-> > --
-> > 1.7.1
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+On 7/26/11 5:50 PM, Richard Purdie wrote:
+> From: Mark Hatle <mark.hatle@windriver.com>
+> 
+> This is a first pass at adding multilib support to the RPM package
+> and image handling code.
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/classes/package_rpm.bbclass |  229 ++++++++++++++++++++++++--------------
+>  meta/classes/rootfs_rpm.bbclass  |   17 +++-
+>  2 files changed, 160 insertions(+), 86 deletions(-)
+> 
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index 2cc5742..05f3929 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -21,67 +21,71 @@ RPMCONF_HOST_BASE = "${DEPLOY_DIR_RPM}/solvedb-sdk"
+>  # Update the Packages depsolver db in ${DEPLOY_DIR_RPM}
+>  #
+>  package_update_index_rpm () {
+> -	rpmarchs="${PACKAGE_ARCHS}"
+> -
+>  	if [ ! -z "${DEPLOY_KEEP_PACKAGES}" ]; then
+>  		return
+>  	fi
+>  
+> -	packagedirs=""
+> -	packagedirs_sdk=""
+> -	for arch in $rpmarchs ; do
+> -		sdkarch=`echo $arch | sed -e 's/${HOST_ARCH}/${SDK_ARCH}/'`
+> -		extension="-nativesdk"
+> -		if [ "$sdkarch" = "all" -o "$sdkarch" = "any" -o "$sdkarch" = "noarch" ]; then
+> -		    extension=""
+> -		fi
+> -		packagedirs="${DEPLOY_DIR_RPM}/$arch $packagedirs"
+> -		packagedirs_sdk="${DEPLOY_DIR_RPM}/$sdkarch$extension $packagedirs_sdk"
+> +	base_package_archs="${PACKAGE_ARCHS}"
+> +	ml_package_archs="${MULTILIB_PACKAGE_ARCHS}"
+> +
+> +	for archvar in base_package_archs ml_package_archs; do
+> +		eval archs=\${${archvar}}
+> +		packagedirs=""
+> +		packagedirs_sdk=""
+> +		for arch in $archs; do
+> +			sdkarch=`echo $arch | sed -e 's/${HOST_ARCH}/${SDK_ARCH}/'`
+> +			extension="-nativesdk"
+> +			if [ "$sdkarch" = "all" -o "$sdkarch" = "any" -o "$sdkarch" = "noarch" ]; then
+> +			    extension=""
+> +			fi
+> +			packagedirs="${DEPLOY_DIR_RPM}/$arch $packagedirs"
+> +			packagedirs_sdk="${DEPLOY_DIR_RPM}/$sdkarch$extension $packagedirs_sdk"
+>  
+> -		rm -rf ${DEPLOY_DIR_RPM}/$arch/solvedb
+> -		rm -rf ${DEPLOY_DIR_RPM}/$sdkarch$extension/solvedb
+> -	done
+> +			rm -rf ${DEPLOY_DIR_RPM}/$arch/solvedb
+> +			rm -rf ${DEPLOY_DIR_RPM}/$sdkarch$extension/solvedb
+> +		done
+>  
+> -	cat /dev/null > ${RPMCONF_TARGET_BASE}.conf
+> -	for pkgdir in $packagedirs; do
+> -		if [ -e $pkgdir/ ]; then
+> -			echo "Generating solve db for $pkgdir..."
+> -			echo $pkgdir/solvedb >> ${RPMCONF_TARGET_BASE}.conf
+> -			if [ -d $pkgdir/solvedb ]; then
+> -				# We've already processed this and it's a duplicate
+> -				continue
+> +		cat /dev/null > ${RPMCONF_TARGET_BASE}-${archvar}.conf
+> +		for pkgdir in $packagedirs; do
+> +			if [ -e $pkgdir/ ]; then
+> +				echo "Generating solve db for $pkgdir..."
+> +				echo $pkgdir/solvedb >> ${RPMCONF_TARGET_BASE}-${archvar}.conf
+> +				if [ -d $pkgdir/solvedb ]; then
+> +					# We've already processed this and it's a duplicate
+> +					continue
+> +				fi
+> +				mkdir -p $pkgdir/solvedb
+> +				echo "# Dynamically generated solve manifest" >> $pkgdir/solvedb/manifest
+> +				find $pkgdir -maxdepth 1 -type f >> $pkgdir/solvedb/manifest
+> +				${RPM} -i --replacepkgs --replacefiles --oldpackage \
+> +					-D "_dbpath $pkgdir/solvedb" --justdb \
+> +					--noaid --nodeps --noorder --noscripts --notriggers --noparentdirs --nolinktos --stats \
+> +					--ignoresize --nosignature --nodigest \
+> +					-D "__dbi_txn create nofsync" \
+> +					$pkgdir/solvedb/manifest
+>  			fi
+> -			mkdir -p $pkgdir/solvedb
+> -			echo "# Dynamically generated solve manifest" >> $pkgdir/solvedb/manifest
+> -			find $pkgdir -maxdepth 1 -type f >> $pkgdir/solvedb/manifest
+> -			${RPM} -i --replacepkgs --replacefiles --oldpackage \
+> -				-D "_dbpath $pkgdir/solvedb" --justdb \
+> -				--noaid --nodeps --noorder --noscripts --notriggers --noparentdirs --nolinktos --stats \
+> -				--ignoresize --nosignature --nodigest \
+> -				-D "__dbi_txn create nofsync" \
+> -				$pkgdir/solvedb/manifest
+> -		fi
+> -	done
+> +		done
+>  
+> -	cat /dev/null > ${RPMCONF_HOST_BASE}.conf
+> -	for pkgdir in $packagedirs_sdk; do
+> -		if [ -e $pkgdir/ ]; then
+> -			echo "Generating solve db for $pkgdir..."
+> -			echo $pkgdir/solvedb >> ${RPMCONF_HOST_BASE}.conf
+> -			if [ -d $pkgdir/solvedb ]; then
+> -				# We've already processed this and it's a duplicate
+> -				continue
+> -			fi	
+> -			mkdir -p $pkgdir/solvedb
+> -			echo "# Dynamically generated solve manifest" >> $pkgdir/solvedb/manifest
+> -			find $pkgdir -maxdepth 1 -type f >> $pkgdir/solvedb/manifest
+> -			${RPM} -i --replacepkgs --replacefiles --oldpackage \
+> -				-D "_dbpath $pkgdir/solvedb" --justdb \
+> -				--noaid --nodeps --noorder --noscripts --notriggers --noparentdirs --nolinktos --stats \
+> -				--ignoresize --nosignature --nodigest \
+> -				-D "__dbi_txn create nofsync" \
+> -				$pkgdir/solvedb/manifest
+> -		fi
+> +		cat /dev/null > ${RPMCONF_HOST_BASE}.conf
+
+The above line should be:
+
+cat /dev/null > ${RPMCONF_HOST_BASE}-${archvar}.conf
+
+....
 
 
