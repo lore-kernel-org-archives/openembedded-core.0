@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QlyuR-00028v-JH
+	(envelope-from <sgw@linux.intel.com>) id 1QlyuS-00028l-6X
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 09:52:03 +0200
+	Wed, 27 Jul 2011 09:52:05 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 27 Jul 2011 00:47:32 -0700
+	by azsmga102.ch.intel.com with ESMTP; 27 Jul 2011 00:47:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,275,1309762800"; d="scan'208";a="31949336"
+X-IronPort-AV: E=Sophos;i="4.67,275,1309762800"; d="scan'208";a="31949359"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.61])
-	by azsmga001.ch.intel.com with ESMTP; 27 Jul 2011 00:47:32 -0700
+	by azsmga001.ch.intel.com with ESMTP; 27 Jul 2011 00:47:34 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2011 00:47:09 -0700
-Message-Id: <486265ab5645a58f8956c7c1e99d6aae84ececee.1311752531.git.sgw@linux.intel.com>
+Date: Wed, 27 Jul 2011 00:47:14 -0700
+Message-Id: <4adc1ac758823bf95ef5259ecf90a7906b38afc9.1311752531.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1311752531.git.sgw@linux.intel.com>
 References: <cover.1311752531.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1311752531.git.sgw@linux.intel.com>
 References: <cover.1311752531.git.sgw@linux.intel.com>
-Subject: [Consolidated & Tested 19/35] at: enable pam support
+Subject: [Consolidated & Tested 24/35] siteinfo: Move certain bash entries to common-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,132 +33,284 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 07:52:05 -0000
+X-List-Received-Date: Wed, 27 Jul 2011 07:52:07 -0000
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+From: Tom Rini <tom_rini@mentor.com>
 
-add patches to make at enable pam support
+More re-sync with oe.dev
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- .../at/at-3.1.12/configure-add-enable-pam.patch    |   23 ++++++++++++++++++++
- meta/recipes-extended/at/at-3.1.12/pam.conf.patch  |   21 ++++++++++++++++++
- meta/recipes-extended/at/at_3.1.12.bb              |   21 ++++++++++++++---
- 3 files changed, 61 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-extended/at/at-3.1.12/configure-add-enable-pam.patch
- create mode 100644 meta/recipes-extended/at/at-3.1.12/pam.conf.patch
+ meta/site/arm-common          |   14 --------------
+ meta/site/common-linux        |   16 ++++++++++++++++
+ meta/site/ix86-common         |   14 --------------
+ meta/site/mips-linux          |    3 ---
+ meta/site/mips-linux-uclibc   |    3 ---
+ meta/site/mipsel-linux        |   14 --------------
+ meta/site/mipsel-linux-uclibc |   14 --------------
+ meta/site/powerpc-linux       |    3 ---
+ meta/site/powerpc32-linux     |   13 -------------
+ meta/site/sh-common           |   14 --------------
+ meta/site/sparc-linux         |    3 ---
+ meta/site/x86_64-linux        |    1 -
+ meta/site/x86_64-linux-uclibc |    1 -
+ 13 files changed, 16 insertions(+), 97 deletions(-)
 
-diff --git a/meta/recipes-extended/at/at-3.1.12/configure-add-enable-pam.patch b/meta/recipes-extended/at/at-3.1.12/configure-add-enable-pam.patch
-new file mode 100644
-index 0000000..1f73cdd
---- /dev/null
-+++ b/meta/recipes-extended/at/at-3.1.12/configure-add-enable-pam.patch
-@@ -0,0 +1,23 @@
-+--- at-3.1.12/configure.ac	2011-06-23 14:51:03.653572945 +0800
-++++ at-3.1.12/configure.ac.new	2011-06-27 16:12:14.903572945 +0800
-+@@ -81,10 +81,18 @@
-+ AC_FUNC_VPRINTF
-+ AC_FUNC_GETLOADAVG
-+ AC_CHECK_FUNCS(getcwd mktime strftime setreuid setresuid sigaction waitpid)
-++
-++AC_ARG_WITH([pam],
-++  [AS_HELP_STRING([--without-pam], [without PAM support])])
-++
-++if test "x$with_pam" != xno; then
-+ AC_CHECK_HEADERS(security/pam_appl.h, [
-+   PAMLIB="-lpam"
-+-  AC_DEFINE(HAVE_PAM, 1, [Define to 1 for PAM support])
-+-])
-++  AC_DEFINE(HAVE_PAM, 1, [Define to 1 for PAM support])],
-++   [if test "x$with_pam" = xyes; then
-++   AC_MSG_ERROR([PAM selected but security/pam_misc.h not found])
-++   fi])
-++fi
-+
-+ dnl Checking for programs
-+
-diff --git a/meta/recipes-extended/at/at-3.1.12/pam.conf.patch b/meta/recipes-extended/at/at-3.1.12/pam.conf.patch
-new file mode 100644
-index 0000000..dfe76d7
---- /dev/null
-+++ b/meta/recipes-extended/at/at-3.1.12/pam.conf.patch
-@@ -0,0 +1,21 @@
-+oe doesn't support "@include", use the concrete directive instead.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+--- at-3.1.12/pam.conf.orig	2009-11-23 23:11:52.000000000 +0800
-++++ at-3.1.12/pam.conf	2011-07-15 11:14:04.132818950 +0800
-+@@ -2,8 +2,8 @@
-+ # The PAM configuration file for the at daemon
-+ #
-+
-+-auth	required	pam_env.so
-+-@include common-auth
-+-@include common-account
-+-@include common-session-noninteractive
-+-session    required   pam_limits.so
-++auth    required    pam_env.so
-++auth    include     common-auth
-++account include     common-account
-++session include     common-session-noninteractive
-++session required    pam_limits.so
-diff --git a/meta/recipes-extended/at/at_3.1.12.bb b/meta/recipes-extended/at/at_3.1.12.bb
-index 3a94497..c76b50e 100644
---- a/meta/recipes-extended/at/at_3.1.12.bb
-+++ b/meta/recipes-extended/at/at_3.1.12.bb
-@@ -4,10 +4,11 @@ the system load levels drop to a particular level."
- SECTION = "base"
- LICENSE="GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
--DEPENDS = "flex libpam initscripts"
-+DEPENDS = "flex libpam initscripts \
-+	${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RCONFLICTS_${PN} = "atd"
- RREPLACES_${PN} = "atd"
--PR = "r4"
-+PR = "r5"
+diff --git a/meta/site/arm-common b/meta/site/arm-common
+index 5d3e68a..39eb30b 100644
+--- a/meta/site/arm-common
++++ b/meta/site/arm-common
+@@ -14,21 +14,7 @@ apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
  
- SRC_URI = "${DEBIAN_MIRROR}/main/a/at/at_${PV}.orig.tar.gz \
-     file://configure.patch \
-@@ -17,7 +18,11 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/at/at_${PV}.orig.tar.gz \
-     file://posixtm.c \
-     file://posixtm.h \
-     file://file_replacement_with_gplv2.patch \
--    file://S99at"
-+    file://S99at \
-+    ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=yes}
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
+-bash_cv_must_reinstall_sighandlers=${bash_cv_must_reinstall_sighandlers=no}
+-bash_cv_func_strcoll_broken=${bash_cv_func_strcoll_broken=no}
+-bash_cv_dup2_broken=${bash_cv_dup2_broken=no}
+-bash_cv_opendir_not_robust=${bash_cv_opendir_not_robust=no}
+-bash_cv_type_rlimit=${bash_cv_type_rlimit=rlim_t}
+-bash_cv_getenv_redef=${bash_cv_getenv_redef=yes}
+-bash_cv_ulimit_maxfds=${bash_cv_ulimit_maxfds=yes}
+-bash_cv_getcwd_calls_popen=${bash_cv_getcwd_calls_popen=no}
+-bash_cv_printf_a_format=${bash_cv_printf_a_format=yes}
+-bash_cv_pgrp_pipe=${bash_cv_pgrp_pipe=no}
+-bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
+-bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
+-bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
+ 
+ # coreutils
+ utils_cv_sys_open_max=${utils_cv_sys_open_max=1019}
+diff --git a/meta/site/common-linux b/meta/site/common-linux
+index c37c76a..74a822d 100644
+--- a/meta/site/common-linux
++++ b/meta/site/common-linux
+@@ -3,3 +3,19 @@ samba_cv_HAVE_IFACE_AIX=${samba_cv_HAVE_IFACE_AIX=no}
+ samba_cv_HAVE_IFACE_IFCONF=${samba_cv_HAVE_IFACE_IFCONF=yes}
+ samba_cv_HAVE_IFACE_IFREQ=${samba_cv_HAVE_IFACE_IFREQ=yes}
+ samba_cv_HAVE_IRIX_SPECIFIC_CAPABILITIES=${samba_cv_HAVE_IRIX_SPECIFIC_CAPABILITIES=no}
 +
-+PAM_SRC_URI = "file://pam.conf.patch \
-+               file://configure-add-enable-pam.patch"
++# bash
++bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
++bash_cv_must_reinstall_sighandlers=${bash_cv_must_reinstall_sighandlers=no}
++bash_cv_func_strcoll_broken=${bash_cv_func_strcoll_broken=no}
++bash_cv_dup2_broken=${bash_cv_dup2_broken=no}
++bash_cv_opendir_not_robust=${bash_cv_opendir_not_robust=no}
++bash_cv_type_rlimit=${bash_cv_type_rlimit=rlim_t}
++bash_cv_getenv_redef=${bash_cv_getenv_redef=yes}
++bash_cv_ulimit_maxfds=${bash_cv_ulimit_maxfds=yes}
++bash_cv_getcwd_calls_popen=${bash_cv_getcwd_calls_popen=no}
++bash_cv_printf_a_format=${bash_cv_printf_a_format=yes}
++bash_cv_pgrp_pipe=${bash_cv_pgrp_pipe=no}
++bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
++bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
++bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
+diff --git a/meta/site/ix86-common b/meta/site/ix86-common
+index 4a4442a..267d59f 100644
+--- a/meta/site/ix86-common
++++ b/meta/site/ix86-common
+@@ -58,21 +58,7 @@ ac_cv_file_lib_src_libmad_frame_h=${ac_cv_file_lib_src_libmad_frame_h=no}
  
- SRC_URI[md5sum] = "1e67991776148fb319fd77a2e599a765"
- SRC_URI[sha256sum] = "7c55c6ab4fbe8add9e68f31b2b0ebf3fe805c9a4e7cfb2623a3d8a4789cc18f3"
-@@ -26,7 +31,8 @@ EXTRA_OECONF += "ac_cv_path_SENDMAIL=/bin/true \
-                  --with-daemon_username=root \
-                  --with-daemon_groupname=root \
-                  --with-jobdir=/var/spool/at/jobs \
--                 --with-atspool=/var/spool/at/spool"
-+                 --with-atspool=/var/spool/at/spool \
-+                 ${@base_contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} "
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=yes}
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
+-bash_cv_must_reinstall_sighandlers=${bash_cv_must_reinstall_sighandlers=no}
+-bash_cv_func_strcoll_broken=${bash_cv_func_strcoll_broken=no}
+-bash_cv_dup2_broken=${bash_cv_dup2_broken=no}
+-bash_cv_opendir_not_robust=${bash_cv_opendir_not_robust=no}
+-bash_cv_type_rlimit=${bash_cv_type_rlimit=rlim_t}
+-bash_cv_getenv_redef=${bash_cv_getenv_redef=yes}
+-bash_cv_ulimit_maxfds=${bash_cv_ulimit_maxfds=yes}
+-bash_cv_getcwd_calls_popen=${bash_cv_getcwd_calls_popen=no}
+-bash_cv_printf_a_format=${bash_cv_printf_a_format=yes}
+-bash_cv_pgrp_pipe=${bash_cv_pgrp_pipe=no}
+-bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
+-bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
+-bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
  
- inherit autotools
+ # clamav
+ clamav_av_func_working_snprintf_long=${clamav_av_func_working_snprintf_long=yes}
+diff --git a/meta/site/mips-linux b/meta/site/mips-linux
+index 074cb09..495df5f 100644
+--- a/meta/site/mips-linux
++++ b/meta/site/mips-linux
+@@ -118,9 +118,6 @@ mono_cv_uscore=${mono_cv_uscore=no}
+ ac_cv_va_copy=${ac_cv_va_copy=yes}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
  
-@@ -41,6 +47,13 @@ do_install () {
- 	install -d ${D}${sysconfdir}/rcS.d
- 	install -m 0755    ${WORKDIR}/S99at		${D}${sysconfdir}/init.d/atd
- 	ln -sf		../init.d/atd		${D}${sysconfdir}/rcS.d/S99at
-+
-+	for feature in ${DISTRO_FEATURES}; do
-+		if [ "$feature" = "pam" ]; then
-+			install -D -m 0644 ${WORKDIR}/${P}/pam.conf ${D}${sysconfdir}/pam.d/atd
-+			break
-+		fi
-+	done
- }
+-# readline
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+-
+ # eds-dbus
+ ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
  
- pkg_postinst_${PN} () {
+diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
+index 074cb09..495df5f 100644
+--- a/meta/site/mips-linux-uclibc
++++ b/meta/site/mips-linux-uclibc
+@@ -118,9 +118,6 @@ mono_cv_uscore=${mono_cv_uscore=no}
+ ac_cv_va_copy=${ac_cv_va_copy=yes}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
+ 
+-# readline
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+-
+ # eds-dbus
+ ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
+ 
+diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
+index c20e5ee..0959883 100644
+--- a/meta/site/mipsel-linux
++++ b/meta/site/mipsel-linux
+@@ -8,21 +8,7 @@ ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+ 
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=no}
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
+-bash_cv_must_reinstall_sighandlers=${bash_cv_must_reinstall_sighandlers=no}
+-bash_cv_func_strcoll_broken=${bash_cv_func_strcoll_broken=no}
+-bash_cv_dup2_broken=${bash_cv_dup2_broken=no}
+-bash_cv_opendir_not_robust=${bash_cv_opendir_not_robust=no}
+-bash_cv_type_rlimit=${bash_cv_type_rlimit=rlim_t}
+-bash_cv_getenv_redef=${bash_cv_getenv_redef=yes}
+-bash_cv_ulimit_maxfds=${bash_cv_ulimit_maxfds=yes}
+-bash_cv_getcwd_calls_popen=${bash_cv_getcwd_calls_popen=no}
+-bash_cv_printf_a_format=${bash_cv_printf_a_format=yes}
+-bash_cv_pgrp_pipe=${bash_cv_pgrp_pipe=no}
+-bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
+-bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
+-bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
+ 
+ # openssh
+ ac_cv_have_accrights_in_msghdr=${ac_cv_have_accrights_in_msghdr=no}
+diff --git a/meta/site/mipsel-linux-uclibc b/meta/site/mipsel-linux-uclibc
+index 9545fea..25fa8b5 100644
+--- a/meta/site/mipsel-linux-uclibc
++++ b/meta/site/mipsel-linux-uclibc
+@@ -8,21 +8,7 @@ ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
+ 
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=no}
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
+-bash_cv_must_reinstall_sighandlers=${bash_cv_must_reinstall_sighandlers=no}
+-bash_cv_func_strcoll_broken=${bash_cv_func_strcoll_broken=no}
+-bash_cv_dup2_broken=${bash_cv_dup2_broken=no}
+-bash_cv_opendir_not_robust=${bash_cv_opendir_not_robust=no}
+-bash_cv_type_rlimit=${bash_cv_type_rlimit=rlim_t}
+-bash_cv_getenv_redef=${bash_cv_getenv_redef=yes}
+-bash_cv_ulimit_maxfds=${bash_cv_ulimit_maxfds=yes}
+-bash_cv_getcwd_calls_popen=${bash_cv_getcwd_calls_popen=no}
+-bash_cv_printf_a_format=${bash_cv_printf_a_format=yes}
+-bash_cv_pgrp_pipe=${bash_cv_pgrp_pipe=no}
+-bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
+-bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
+-bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
+ 
+ # openssh
+ ac_cv_have_accrights_in_msghdr=${ac_cv_have_accrights_in_msghdr=no}
+diff --git a/meta/site/powerpc-linux b/meta/site/powerpc-linux
+index 9498b8a..399a58e 100644
+--- a/meta/site/powerpc-linux
++++ b/meta/site/powerpc-linux
+@@ -4,9 +4,6 @@ ac_cv_func_setgrent_void=yes
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+ 
+-# bash
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+-
+ # startup-notification
+ lf_cv_sane_realloc=yes
+ 
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index 5d92ecf..9d89f73 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -205,19 +205,6 @@ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=yes}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
+-bash_cv_must_reinstall_sighandlers=${bash_cv_must_reinstall_sighandlers=no}
+-bash_cv_func_strcoll_broken=${bash_cv_func_strcoll_broken=no}
+-bash_cv_dup2_broken=${bash_cv_dup2_broken=no}
+-bash_cv_opendir_not_robust=${bash_cv_opendir_not_robust=no}
+-bash_cv_type_rlimit=${bash_cv_type_rlimit=rlim_t}
+-bash_cv_getenv_redef=${bash_cv_getenv_redef=yes}
+-bash_cv_ulimit_maxfds=${bash_cv_ulimit_maxfds=yes}
+-bash_cv_getcwd_calls_popen=${bash_cv_getcwd_calls_popen=no}
+-bash_cv_printf_a_format=${bash_cv_printf_a_format=yes}
+-bash_cv_pgrp_pipe=${bash_cv_pgrp_pipe=no}
+-bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
+-bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
+-bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
+ 
+ # openssh
+ ac_cv_have_broken_dirname=${ac_cv_have_broken_dirname='yes'}
+diff --git a/meta/site/sh-common b/meta/site/sh-common
+index 9368444..196af11 100644
+--- a/meta/site/sh-common
++++ b/meta/site/sh-common
+@@ -222,21 +222,7 @@ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+ 
+ # bash
+ ac_cv_c_long_double=${ac_cv_c_long_double=yes}
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
+-bash_cv_must_reinstall_sighandlers=${bash_cv_must_reinstall_sighandlers=no}
+-bash_cv_func_strcoll_broken=${bash_cv_func_strcoll_broken=no}
+-bash_cv_dup2_broken=${bash_cv_dup2_broken=no}
+-bash_cv_opendir_not_robust=${bash_cv_opendir_not_robust=no}
+-bash_cv_type_rlimit=${bash_cv_type_rlimit=rlim_t}
+-bash_cv_getenv_redef=${bash_cv_getenv_redef=yes}
+-bash_cv_ulimit_maxfds=${bash_cv_ulimit_maxfds=yes}
+-bash_cv_getcwd_calls_popen=${bash_cv_getcwd_calls_popen=no}
+-bash_cv_printf_a_format=${bash_cv_printf_a_format=yes}
+-bash_cv_pgrp_pipe=${bash_cv_pgrp_pipe=no}
+-bash_cv_job_control_missing=${bash_cv_job_control_missing=present}
+-bash_cv_sys_named_pipes=${bash_cv_sys_named_pipes=present}
+-bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
+ 
+ # mono
+ cv_mono_sizeof_sunpath=108
+diff --git a/meta/site/sparc-linux b/meta/site/sparc-linux
+index 491dc74..ea6386b 100644
+--- a/meta/site/sparc-linux
++++ b/meta/site/sparc-linux
+@@ -53,6 +53,3 @@ glib_cv_stack_grows=${glib_cv_stack_grows=no}
+ 
+ #linux
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+-
+-#bash
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
+index 9c9e0f8..ba6e57c 100644
+--- a/meta/site/x86_64-linux
++++ b/meta/site/x86_64-linux
+@@ -32,7 +32,6 @@ ac_cv_sizeof_ino_t=${ac_cv_sizeof_ino_t=8}
+ ac_cv_sizeof_dev_t=${ac_cv_sizeof_dev_t=8}
+ ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=8}
+ ac_cv_strerror_r_SUSv3=${ac_cv_strerror_r_SUSv3=no}
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+ db_cv_alignp_t=${db_cv_alignp_t='unsigned long long'}
+ db_cv_align_t=${db_cv_align_t='unsigned long long'}
+ db_cv_fcntl_f_setfd=${db_cv_fcntl_f_setfd=yes}
+diff --git a/meta/site/x86_64-linux-uclibc b/meta/site/x86_64-linux-uclibc
+index d0d0f32..771e725 100644
+--- a/meta/site/x86_64-linux-uclibc
++++ b/meta/site/x86_64-linux-uclibc
+@@ -24,7 +24,6 @@ ac_cv_sizeof_short_int=${ac_cv_sizeof_short_int=2}
+ ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t=8}
+ ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=8}
+ ac_cv_strerror_r_SUSv3=${ac_cv_strerror_r_SUSv3=no}
+-bash_cv_have_mbstate_t=${bash_cv_have_mbstate_t=yes}
+ db_cv_alignp_t=${db_cv_alignp_t='unsigned long long'}
+ db_cv_align_t=${db_cv_align_t='unsigned long long'}
+ db_cv_fcntl_f_setfd=${db_cv_fcntl_f_setfd=yes}
 -- 
 1.7.3.4
 
