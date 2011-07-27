@@ -1,25 +1,22 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QmCgn-0003Xt-HK
+	(envelope-from <tom_rini@mentor.com>) id 1QmD6C-0004F3-Tg
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 00:34:53 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Jul 2011 15:30:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,279,1309762800"; d="scan'208";a="35271480"
-Received: from unknown (HELO [10.255.14.61]) ([10.255.14.61])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2011 15:30:37 -0700
-Message-ID: <4E30918D.2030304@linux.intel.com>
-Date: Wed, 27 Jul 2011 15:30:37 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1311758933.2344.342.camel@rex>
-In-Reply-To: <1311758933.2344.342.camel@rex>
-Subject: Re: Master branch merges
+	Thu, 28 Jul 2011 01:01:09 +0200
+Received: from localhost.localdomain ([134.86.97.33])
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6RMurMh004891
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 17:56:53 -0500
+From: Tom Rini <tom_rini@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Jul 2011 15:56:46 -0700
+Message-Id: <d8f714075dcbe37ef21b17639f91a8faeb868bf1.1311807353.git.tom_rini@mentor.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1311807353.git.tom_rini@mentor.com>
+References: <cover.1311807353.git.tom_rini@mentor.com>
+In-Reply-To: <cover.1311807353.git.tom_rini@mentor.com>
+References: <cover.1311807353.git.tom_rini@mentor.com>
+Subject: [PATCH 2/9] tcl: Add tcl_cv_api_serial to siteinfo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,48 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 22:34:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Jul 2011 23:01:09 -0000
 
-On 07/27/2011 02:28 AM, Richard Purdie wrote:
-> We're coming up to an interesting point in the development cycle since a
-> lot of the feature development work Yocto has been working on is winding
-> up. It means there are a few significant patches waiting to go into
-> master.
->
-> Typically, life isn't straightforward and this is complicated by the
-> fact I'll be in a black hole as far as modern communication goes for
-> Thur/Fri/Sat.
->
-> I've given what I should do under these circumstances a fair bit of
-> thought and currently I'm thinking that the best approach is likely to
-> merge everything that is ready. This is realistically the only way it
-> will get the final round of testing.
->
-> Its possible something will break. Fixes can easily be shared and queued
-> up on a branch in my absence and Saul should be able to help with that
-> if needed.
->
-To help with this process, if there is patch for an M3 related problem, 
-please include M3 in the patch/pull request subject line so I can 
-quickly get to those this week.
+This comes from oe.dev which had this set for arm-linux only.  Bump PR
+since this changes how builds happen.
 
-Thanks
-	Sau!
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
+---
+ meta/recipes-devtools/tcltk/tcl_8.5.9.bb |    2 +-
+ meta/site/common-glibc                   |    2 ++
+ meta/site/common-uclibc                  |    3 +++
+ 3 files changed, 6 insertions(+), 1 deletions(-)
 
-> So this is a conscious decision and we'll see how it works out! :)
->
-> Cheers,
->
-> Richard
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+index 12e2bd0..7dcaeb3 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://../license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11
+     file://../win/license.terms;md5=a47a9be26d03f925fc1fbd2784f27e11 \
+     "
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
+                 file://tcl-add-soname.patch"
+diff --git a/meta/site/common-glibc b/meta/site/common-glibc
+index 8cfa695..baca5f8 100644
+--- a/meta/site/common-glibc
++++ b/meta/site/common-glibc
+@@ -69,3 +69,5 @@ gl_cv_func_mbrtowc_null_arg=${gl_cv_func_mbrtowc_null_arg=yes}
+ gl_cv_func_mbrtowc_retval=${gl_cv_func_mbrtowc_retval=yes}
+ gl_cv_func_mbrtowc_nul_retval=${gl_cv_func_mbrtowc_nul_retval=yes}
+ 
++# TCL
++tcl_cv_api_serial=${tcl_cv_api_serial=termios}
+diff --git a/meta/site/common-uclibc b/meta/site/common-uclibc
+index 093f60e..002a559 100644
+--- a/meta/site/common-uclibc
++++ b/meta/site/common-uclibc
+@@ -26,3 +26,6 @@ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
+ # bash
+ bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=no}
+ bash_cv_sys_siglist=${bash_cv_sys_siglist=no}
++
++# TCL
++tcl_cv_api_serial=${tcl_cv_api_serial=termios}
+-- 
+1.7.0.4
+
 
 
