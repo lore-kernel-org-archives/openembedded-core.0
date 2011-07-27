@@ -1,30 +1,18 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QmBXU-0002Qz-IK
+	(envelope-from <tom_rini@mentor.com>) id 1QmCEf-0003F8-CR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 23:21:12 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QmBTQ-0002Rs-2W
-	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 23:17:00 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4E3079BA.30705@windriver.com>
-References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
-	<346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
-	<1311777255.30326.347.camel@phil-desktop>
-	<4E302785.9070705@windriver.com>
-	<1311780347.30326.376.camel@phil-desktop> <4E30489A.100@windriver.com>
-	<1311795061.3398.9.camel@lenovo.internal.reciva.com>
-	<4E3079BA.30705@windriver.com>
-Date: Wed, 27 Jul 2011 22:16:44 +0100
-Message-ID: <1311801404.3398.16.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 
-Subject: Re: [PATCH 1/3] Add ARM tune file overhaul based largely on work from Mark Hatle
+	Thu, 28 Jul 2011 00:05:49 +0200
+Received: from localhost.localdomain ([134.86.97.33])
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6RM1XMf024302
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 17:01:33 -0500
+From: Tom Rini <tom_rini@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Jul 2011 15:01:35 -0700
+Message-Id: <1311804095-3244-1-git-send-email-tom_rini@mentor.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH] connman_test.sh: Rework for busybox 'ps'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,70 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 21:21:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Jul 2011 22:05:49 -0000
 
-On Wed, 2011-07-27 at 15:48 -0500, Mark Hatle wrote:
-> On 7/27/11 2:31 PM, Phil Blundell wrote:
-> > On Wed, 2011-07-27 at 12:19 -0500, Mark Hatle wrote:
-> >> On 7/27/11 10:25 AM, Phil Blundell wrote:
-> >>> On Wed, 2011-07-27 at 09:58 -0500, Mark Hatle wrote:
-> >>>> For the tune names..  armv5 means I want classic ARM instructions, while armv5t
-> >>>> means I was thumb instructions.
-> >>>>
-> >>>> So armv5 and armv5t are distinct in the contents of the tunings.
-> >>>
-> >>> Ah, I see.  Does that go for v4t too?  I can imagine cases where you
-> >>> would want to say "select the v4T ISA but generate ARM code not Thumb".
-> >>
-> >> Yes, for all of them, the TUNENAME selects the features that you want to use to
-> >> compile, and suggests the other information like compatible architectures.
-> >>
-> >> In the case where you want to build primarily one, and optionally the other the
-> >> tunename makes it easy..
-> >>
-> >> Say you want all of your system thumb, except for a few specific programs..
-> >>
-> >> TUNENAME = "armv4t"
-> >>
-> >> TUNENAME_pn-mysql = "armv4"
-> >>
-> >> In the opposite case, where you want everything ARM, except for a few thumb:
-> >>
-> >> TUNENAME = "armv7"
-> >> TUNENAME_pn-bash = "armv7t"
-> > 
-> > I'm not quite sure that this answers the question I was trying to ask.
-> > 
-> > The thing about v4/v4T is that, unlike later versions of the
-> > architecture, plain v4 doesn't include the BX instruction.  So, if you
-> > want your code to be interworking-capable without requiring linker
-> > shims, you need to specify -march=armv4t (and -mthumb-interwork) even
-> > for CUs that you want to compile as ARM code.
-> > 
-> > If the architecture name implies the execution state then it doesn't
-> > appear as though there is going to be any way to select -march=armv4t
-> > without also selecting -mthumb, which would make it impossible to build
-> > interworking-capable ARM-state code for v4T.
-> 
-> It was my understanding that interwork was always enabled these days.  Does
-> interworking require a thumb compatible arm core?
+This script has two problems today.  First, it does 'ps -ef cmd'
+in failure which real ps doesn't grok and busybox ps just ignores
+the argument on.  Switch that to 'ps -ef'.  Second, busybox ps -o
+doesn't understand cmd but does understand comm.  Using comm lets
+us simplify the test logic as well, so switch to that.
 
-Not for v5 and up, since the ARM-state BX instruction always exists
-(even if it isn't capable of switching to Thumb-state), and pop {pc}
-always changes state if necessary.  The combination of these two things
-means that interworking basically comes for free and there is no benefit
-to turning it off.
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
+---
+ scripts/qemuimage-tests/tools/connman_test.sh |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-But for v4T, the only instruction which is capable of a state change is
-BX, and that instruction simply doesn't exist at all in the non-T v4
-architecture.  So, if you plan to run on a v4 core you must either build
-with interworking off, or (more commonly nowadays) use the --fix-v4bx
-linker option to convert BX back to MOV during final link.
-
-p.
-
+diff --git a/scripts/qemuimage-tests/tools/connman_test.sh b/scripts/qemuimage-tests/tools/connman_test.sh
+index d7e63e7..dd5554c 100644
+--- a/scripts/qemuimage-tests/tools/connman_test.sh
++++ b/scripts/qemuimage-tests/tools/connman_test.sh
+@@ -27,21 +27,21 @@ if [ ! -f /usr/sbin/connmand ]; then
+ fi
+ 
+ # Check if connmand is running in background
+-count=`ps -eo cmd | cut -d " " -f 1 | grep -c connmand`
++count=`ps -eo comm | grep -c connmand`
+ 
+ if [ $count -ne 1 ]; then
+ 	Target_Info "connmand has issue when running in background, Pls, check the output of ps"
+-	ps -ef cmd | grep connmand
++	ps -ef | grep connmand
+ 	exit 1
+ fi
+ 
+ # Check if there is always only one connmand running in background
+ if [ connmand > /dev/null 2>&1 ]; then
+ 	Target_Info "connmand command run without problem"
+-	count=`ps -eo cmd | cut -d " " -f 1 | grep -c connmand`
++	count=`ps -eo comm | grep -c connmand`
+ 	if [ $count -ne 1 ]; then
+ 		Target_Info "There are more than one connmand running in background, Pls, check the output of ps"
+-		ps -ef cmd | grep connmand
++		ps -ef | grep connmand
+ 		exit 1
+ 	else
+ 		Target_Info "There is always one connmand running in background, test pass"
+-- 
+1.7.0.4
 
 
 
