@@ -1,24 +1,26 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qm5zc-0003U4-VA
+	(envelope-from <philb@gnu.org>) id 1Qm63b-0003Z9-81
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 17:25:52 +0200
-Received: by wyg30 with SMTP id 30so1216678wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 08:21:38 -0700 (PDT)
-Received: by 10.216.88.132 with SMTP id a4mr165942wef.31.1311780095919;
-	Wed, 27 Jul 2011 08:21:35 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id l68sm159843weq.34.2011.07.27.08.21.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 27 Jul 2011 08:21:35 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2011 17:21:31 +0200
-Message-Id: <1311780091-10692-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] libpam 1.1.4: fix packaging
+	Wed, 27 Jul 2011 17:29:59 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qm5zX-0002BA-0Z
+	for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 17:25:47 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Jul 2011 16:25:41 +0100
+In-Reply-To: <4E302785.9070705@windriver.com>
+References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
+	<346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
+	<1311777255.30326.347.camel@phil-desktop>
+	<4E302785.9070705@windriver.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311780347.30326.376.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/3] Add ARM tune file overhaul based largely on work from Mark Hatle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +35,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 15:25:53 -0000
+X-List-Received-Date: Wed, 27 Jul 2011 15:29:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-| ERROR: QA Issue: non debug package contains .debug directory: libpam-xtests path /work/armv7a-angstrom-linux-gnueabi/libpam-1.1.4-r0/packages-split/libpam-xtests/usr/share/Linux-PAM/xtests/.debug/tst-pam_dispatch4
+On Wed, 2011-07-27 at 09:58 -0500, Mark Hatle wrote:
+> For the tune names..  armv5 means I want classic ARM instructions, while armv5t
+> means I was thumb instructions.
+> 
+> So armv5 and armv5t are distinct in the contents of the tunings.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-extended/pam/libpam_1.1.4.bb |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+Ah, I see.  Does that go for v4t too?  I can imagine cases where you
+would want to say "select the v4T ISA but generate ARM code not Thumb".
 
-diff --git a/meta/recipes-extended/pam/libpam_1.1.4.bb b/meta/recipes-extended/pam/libpam_1.1.4.bb
-index 59fbdcd..ae20a97 100644
---- a/meta/recipes-extended/pam/libpam_1.1.4.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.4.bb
-@@ -9,7 +9,7 @@ SECTION = "base"
- LICENSE = "GPLv2+ | BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ca0395de9a86191a078b8b79302e3083"
- 
--PR = "r0"
-+PR = "r1"
- 
- DEPENDS = "bison flex cracklib"
- RDEPENDS_${PN}-runtime = "libpam pam-plugin-deny pam-plugin-permit pam-plugin-warn pam-plugin-unix"
-@@ -40,7 +40,9 @@ inherit autotools gettext
- PACKAGES += "${PN}-runtime ${PN}-xtests"
- FILES_${PN} = "${base_libdir}/lib*${SOLIBS}"
- FILES_${PN}-dbg += "${base_libdir}/security/.debug \
--                    ${base_libdir}/security/pam_filter/.debug"
-+                    ${base_libdir}/security/pam_filter/.debug \
-+                    ${datadir}/Linux-PAM/xtests/.debug"
-+
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${base_libdir}/*.la ${base_libdir}/lib*${SOLIBSDEV}"
- FILES_${PN}-runtime = "${sysconfdir}"
- FILES_${PN}-xtests = "${datadir}/Linux-PAM/xtests"
--- 
-1.6.6.1
+> Yes, the mention of DSP should be using the 'e'.  What I'm not sure of is does
+> the "dsp" capabilities actually change any of the code or support generated.  If
+> not then we can ignore it.
+
+Yes.  PLD, for example, is only available in ARMv5E (not ARMv5) and this
+will affect any code which uses __builtin_prefetch().  I don't think GCC
+will ever open-code the saturating arithmetic instructions, but it does
+expose the v5/v5e distinction through preprocessor macros and source
+code might use that to select asm() statements which use those opcodes.
+
+> For armv5 this gives us:
+> 
+> armv5, armv5t, armv5e, armv5te... add in their VFP variants and the hard float
+> EABI...
+
+Does anybody really want the hardfloat abi on armv5?  I guess it doesn't
+hurt all that much to offer it, but anything that makes that monstrous
+set of .inc files bigger seems like a bad thing.
+
+p.
 
 
 
