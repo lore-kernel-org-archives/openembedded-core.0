@@ -1,44 +1,20 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1QloSU-0006A5-D6
-	for openembedded-core@openembedded.org; Tue, 26 Jul 2011 22:42:30 +0200
-Received: from mail52-ch1-R.bigfish.com (216.32.181.169) by
-	CH1EHSOBE003.bigfish.com (10.43.70.53) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 26 Jul 2011 19:22:34 +0000
-Received: from mail52-ch1 (localhost.localdomain [127.0.0.1])	by
-	mail52-ch1-R.bigfish.com (Postfix) with ESMTP id B9EE51840291;
-	Tue, 26 Jul 2011 19:22:34 +0000 (UTC)
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bh8275dhz2dh2a8h668h839h61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail52-ch1 (localhost.localdomain [127.0.0.1]) by mail52-ch1
-	(MessageSwitch) id 1311708154354214_21299;
-	Tue, 26 Jul 2011 19:22:34 +0000 (UTC)
-Received: from CH1EHSMHS026.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.249])	by mail52-ch1.bigfish.com (Postfix) with ESMTP id
-	53ACFE0052; Tue, 26 Jul 2011 19:22:34 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS026.bigfish.com
-	(10.43.70.26) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Tue, 26 Jul 2011 19:22:33 +0000
-Received: from az33smr02.freescale.net (10.64.34.200) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server id 14.1.289.8; Tue, 26 Jul 2011 14:22:32 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by az33smr02.freescale.net (8.13.1/8.13.0) with ESMTP id
-	p6QJMV9S002817; Tue, 26 Jul 2011 14:22:31 -0500 (CDT)
-From: Matthew McClintock <msm@freescale.com>
-To: <yocto@yoctoproject.org>, <openembedded-core@openembedded.org>
-Date: Tue, 26 Jul 2011 14:22:29 -0500
-Message-ID: <1311708150-24226-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.5
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-Mailman-Approved-At: Wed, 27 Jul 2011 09:21:47 +0200
-Cc: Matthew McClintock <msm@freescale.com>
-Subject: [PATCH] Switch to using perl-native for various packages instead of host perl
+	(envelope-from <sgw@linux.intel.com>) id 1Qlyu5-0001t0-L5
+	for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 09:51:42 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 27 Jul 2011 00:47:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,275,1309762800"; d="scan'208";a="31949277"
+Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.61])
+	by azsmga001.ch.intel.com with ESMTP; 27 Jul 2011 00:47:26 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Jul 2011 00:46:50 -0700
+Message-Id: <cover.1311752531.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [Consolidated & Tested 00/35] July 27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,250 +29,194 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jul 2011 20:42:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 27 Jul 2011 07:51:42 -0000
 
-Several builds are using perl on the host instead of perl built by
-poky. This fixes the issue for several packages.
+Richard,
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/recipes-connectivity/avahi/avahi.inc          |    2 +-
- meta/recipes-connectivity/avahi/avahi_0.6.30.bb    |    2 +-
- meta/recipes-devtools/intltool/intltool.inc        |    2 +-
- meta/recipes-extended/polkit/polkit_0.101.bb       |    4 ++--
- meta/recipes-gnome/gnome/gconf-dbus_705.bb         |    4 ++--
- meta/recipes-gnome/gnome/gnome-desktop.inc         |    4 ++--
- meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    2 +-
- meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb |    2 +-
- .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |    4 ++--
- meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |    4 ++--
- .../recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |    4 ++--
- .../xorg-lib/xkeyboard-config_2.1.bb               |    4 ++--
- .../shared-mime-info/shared-mime-info.inc          |    2 +-
- .../shared-mime-info/shared-mime-info_0.90.bb      |    2 +-
- 14 files changed, 21 insertions(+), 21 deletions(-)
+There are a number of M3 features (pam and live images)along with
+ some bug fixes in this pull request.
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index dc7a5ae..5695403 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -21,7 +21,7 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://99avahi-autoipd \
-           file://initscript.patch"
- 
--inherit autotools pkgconfig update-rc.d gettext
-+inherit autotools pkgconfig update-rc.d gettext perlnative
- 
- EXTRA_OECONF = "--with-distro=debian \
-              --with-avahi-priv-access-group=adm \
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-index 05716d0..da40426 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.6.30.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://avahi-daemon/main.c;endline=21;md5=9ee77368c5407af77caaef1b07285969 \
-                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
- 
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI[md5sum] = "e4db89a2a403ff4c47d66ac66fad1f43"
- SRC_URI[sha256sum] = "f9e4316c2339d0020726edd846d01bee0c39980906db0c247479e5807457ff1f"
-diff --git a/meta/recipes-devtools/intltool/intltool.inc b/meta/recipes-devtools/intltool/intltool.inc
-index d8917ad..7885b01 100644
---- a/meta/recipes-devtools/intltool/intltool.inc
-+++ b/meta/recipes-devtools/intltool/intltool.inc
-@@ -12,5 +12,5 @@ RRECOMMENDS_${PN} = "perl-modules"
- 
- inherit autotools pkgconfig perlnative
- 
--export PERL = "/usr/bin/env perl"
-+export INTLTOOL_PERL_virtclass-native = "/usr/bin/env perl"
- BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-extended/polkit/polkit_0.101.bb b/meta/recipes-extended/polkit/polkit_0.101.bb
-index 6769914..2dd8f58 100644
---- a/meta/recipes-extended/polkit/polkit_0.101.bb
-+++ b/meta/recipes-extended/polkit/polkit_0.101.bb
-@@ -8,12 +8,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
- 
- SRC_URI = "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
-            file://introspection.patch"
--PR = "r0"
-+PR = "r1"
- DEPENDS = "libpam expat dbus-glib eggdbus intltool"
- RDEPENDS_${PN} = "libpam"
- EXTRA_OECONF = "--with-authfw=pam --with-os-type=moblin --disable-man-pages --disable-gtk-doc --disable-introspection"
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig perlnative
- 
- FILES_${PN} += "${libdir}/${PN}-1/extensions/*.so \
-                 ${datadir}/${PN}-1/actions/* \
-diff --git a/meta/recipes-gnome/gnome/gconf-dbus_705.bb b/meta/recipes-gnome/gnome/gconf-dbus_705.bb
-index fdfc45f..cbfc42d 100644
---- a/meta/recipes-gnome/gnome/gconf-dbus_705.bb
-+++ b/meta/recipes-gnome/gnome/gconf-dbus_705.bb
-@@ -10,7 +10,7 @@ RPROVIDES_${PN}-dev = "gconf-dev"
- 
- #SRCREV = "705"
- #PV = "2.16.0+svnr${SRCPV}"
--PR = "r0"
-+PR = "r1"
- 
- # This SVN repo is no longer available use a tarball mirror site until
- # we move to proper gconf recipe.
-@@ -19,7 +19,7 @@ SRC_URI = "http://autobuilder.pokylinux.org/sources/trunk_developer.imendio.com_
- 
- S = "${WORKDIR}/trunk"
- 
--inherit pkgconfig autotools
-+inherit pkgconfig autotools perlnative
- 
- PARALLEL_MAKE = ""
- 
-diff --git a/meta/recipes-gnome/gnome/gnome-desktop.inc b/meta/recipes-gnome/gnome/gnome-desktop.inc
-index 336b87f..670d56b 100644
---- a/meta/recipes-gnome/gnome/gnome-desktop.inc
-+++ b/meta/recipes-gnome/gnome/gnome-desktop.inc
-@@ -11,7 +11,7 @@ do_configure_prepend () {
- 
- FILES_${PN} += "${datadir}/gnome-about"
- 
--PR = "r1"
-+PR = "r2"
- 
--inherit gnome pkgconfig
-+inherit gnome pkgconfig perlnative
- 
-diff --git a/meta/recipes-gnome/gnome/gnome-doc-utils.inc b/meta/recipes-gnome/gnome/gnome-doc-utils.inc
-index bd7c615..525c1b4 100644
---- a/meta/recipes-gnome/gnome/gnome-doc-utils.inc
-+++ b/meta/recipes-gnome/gnome/gnome-doc-utils.inc
-@@ -2,7 +2,7 @@ LICENSE = "GPL & LGPL"
- DEPENDS = "libxml2 libxslt libxslt-native gnome-doc-utils-native"
- DEPENDS_virtclass-native = "libxml2-native libxslt-native intltool-native"
- 
--inherit gnome gettext python-dir
-+inherit gnome gettext python-dir perlnative
- 
- EXTRA_OECONF = "--disable-scrollkeeper"
- 
-diff --git a/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb b/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb
-index 1ec1076..c65cf64 100644
---- a/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb
-+++ b/meta/recipes-gnome/gnome/gnome-doc-utils_0.20.6.bb
-@@ -1,7 +1,7 @@
- require gnome-doc-utils.inc
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=eb723b61539feef013de476e68b5c50a \
- 		    file://COPYING.LGPL;md5=a6f89e2100d9b6cdffcea4f398e37343"
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI += "file://xsltproc_nonet.patch \
- 	    file://use-usr-bin-env-for-python-in-xml2po.patch"
-diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-index 55868ab..e7f17f5 100644
---- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-+++ b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-@@ -9,7 +9,7 @@ SECTION = "x11/gnome"
- DEPENDS = "icon-naming-utils-native glib-2.0 intltool-native"
- RDEPENDS_${PN} = "hicolor-icon-theme"
- RRECOMMENDS_${PN} = "librsvg-gtk"
--PR = "r1"
-+PR = "r2"
- 
- FILES_${PN} += "${datadir}/*"
- 
-@@ -21,7 +21,7 @@ SRC_URI[sha256sum] = "ea7e05b77ead159379392b3b275ca0c9cbacd7d936014e447cc7c5e27a
- 
- EXTRA_OECONF = "--disable-hicolor-check --with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-mapping"
- 
--inherit autotools
-+inherit autotools perlnative
- 
- # We can't do this until the output is shared into all target sysroots
- #PACKAGE_ARCH = "all"
-diff --git a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-index 3f38401..7ae49c4 100644
---- a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-+++ b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
-@@ -11,9 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 
- SECTION = "x11/gnome"
- 
--PR = "r2"
-+PR = "r3"
- 
--inherit autotools gnome pkgconfig
-+inherit autotools gnome pkgconfig perlnative
- 
- DEPENDS = "gtk+ libgcrypt libtasn1 libtasn1-native gconf"
- RDEPENDS_${PN} = "libgnome-keyring"
-diff --git a/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb b/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
-index 09b6d9c..77c82d3 100644
---- a/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
-+++ b/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
-@@ -9,9 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0914b9d3ebaba41ef2e3e0ae16f296cf \
-                     file://egg/egg-dh.h;endline=22;md5=1626c16af2a8da1f88324cf3ced33f08"
- 
- SECTION = "x11/gnome/libs"
--PR = "r0"
-+PR = "r1"
- 
--inherit gnome
-+inherit gnome perlnative
- 
- DEPENDS = "dbus eggdbus"
- 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
-index b077fa3..e4c7dc0 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.1.bb
-@@ -19,14 +19,14 @@ SRC_URI[sha256sum] = "e293aa4b0dd259dbb4f0e7f56fdd95db5047d052c7b3b80922fe566392
- SECTION = "x11/libs"
- DEPENDS = "intltool-native xkbcomp-native glib-2.0"
- 
--PR = "r1"
-+PR = "r2"
- 
- EXTRA_OECONF = "--with-xkb-rules-symlink=xorg"
- 
- RDEPENDS_${PN} += "xkbcomp"
- FILES_${PN} += "${datadir}/X11/xkb"
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig perlnative
- 
- do_install_append () {
-     install -d ${D}/usr/share/X11/xkb/compiled
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info.inc b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-index 64eef9d..8b10535 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-@@ -10,7 +10,7 @@ DEPENDS_virtclass-native = "libxml2-native intltool-native glib-2.0-native"
- 
- SRC_URI = "http://freedesktop.org/~hadess/shared-mime-info-${PV}.tar.bz2"
- 
--inherit autotools pkgconfig gettext
-+inherit autotools pkgconfig gettext perlnative
- 
- EXTRA_OECONF = "--disable-update-mimedb"
- 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_0.90.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_0.90.bb
-index cbbd0fe..4c852fa 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info_0.90.bb
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info_0.90.bb
-@@ -1,5 +1,5 @@
- require shared-mime-info.inc
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI += "file://fix-parallel-build.patch \
-             file://fix-parallel-build-backport.patch \
+Notably is Paul's changes to local.conf.sample, which once propagted
+will have some changes to the Poky version.
+
+
+This includes the siteinfo re-work from Tom and Khem, along with the live Image 
+changes from me.
+
+NOTE to all: to create live images, you will need to include the following in your
+local.conf or IMAGE_FSTYPES list:
+
+IMAGE_FSTYPES += "live" # append live to the end of the list
+
+Thanks
+	Sau!
+
+The following changes since commit 02031d766f983cd7e01e468cb2c926604313cd2a:
+
+  arch-ia32.inc: Fix up TUNE_ARCH variable conflicts (2011-07-26 22:39:49 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/live
+
+Bruce Ashfield (1):
+  machine/qemu: set preferred linux-yocto kernel version
+
+Enrico Scholz (2):
+  console-tools: removed wildcard from SRC_URI
+  module-init-tools: do not build static utilities for -cross
+
+Kang Kai (5):
+  libpam: update to 1.1.4 and add subpackage xtests
+  cups: add pam support
+  screen: add pam support
+  sudo: add pam support
+  shadow: update pam related configure files
+
+Khem Raj (2):
+  libxcb: Add missing DEPENDS on libxdmcp
+  siteinfo: Rework the siteinfo for powerpc to fix uclibc fallout
+
+Koen Kooi (1):
+  dropbear: don't override DISTRO_TYPE if it is already set
+
+Paul Eggleton (6):
+  meta/conf/local.conf.sample: remove oprofileui-native related
+    settings
+  meta/conf/local.conf.sample: improve comments/layout
+  meta/conf/local.conf.sample: improve terminal examples/comments
+  meta/conf/local.conf.sample: remove nonfunctional BBINCLUDELOGS
+    setting
+  eglibc: remove unnecessary FILESPATHPKG usage
+  scripts/combo-layer: keep carriage returns at the end of lines
+
+Saul Wold (5):
+  libcap: Update to 2.22 with License Clarification
+  Remove -live.bb recipes
+  Remove -directdisk.bb recipes
+  classes/image*: Revamp creation of live images
+  utils.bbclass: Don't forget to pass the cmdline options
+
+Tom Rini (8):
+  siteinfo: Move certain samba entries to common-linux
+  siteinfo: Move certain bash entries to common-linux
+  x86_64-linux siteinfo: Add bash info
+  siteinfo: Move certain mysql entries to common-linux
+  siteinfo: Move the rp-pppoe entry to common-linux
+  siteinfo: Move certain db entries to common-linux
+  siteinfo: Move general realloc/malloc values to common-$libc
+  siteinfo: Move (getpgrp|setpgrp|setgrent|*get{pwuid,grgid}) to
+    common-libc
+
+Wenzong Fan (2):
+  cronie: enable PAM support for cronie
+  at: enable pam support
+
+Xiaofeng Yan (3):
+  openssh: Support PAM
+  dropbear: Support pam
+  polkit: Support pam
+
+ meta-rt/images/core-image-minimal-rt-directdisk.bb |   15 ---
+ meta-rt/images/core-image-minimal-rt-live.bb       |   15 ---
+ .../image-empty.bbclass}                           |    0
+ meta/classes/image-live.bbclass                    |   13 +++
+ meta/classes/image.bbclass                         |    3 +
+ meta/classes/image_types.bbclass                   |   15 +++-
+ meta/classes/siteinfo.bbclass                      |   16 ++--
+ meta/classes/utils.bbclass                         |    2 +-
+ meta/conf/local.conf.sample                        |   45 ++++++----
+ meta/conf/machine/include/qemu.inc                 |    1 +
+ .../openssh/openssh-5.8p2/sshd                     |   10 ++
+ meta/recipes-connectivity/openssh/openssh_5.8p2.bb |   13 +++-
+ .../console-tools/console-tools_0.3.2.bb           |    2 +-
+ meta/recipes-core/dropbear/dropbear.inc            |   10 ++-
+ .../dropbear/dropbear/dropbear-enable-pam.patch    |   22 +++++
+ meta/recipes-core/dropbear/dropbear_0.52.bb        |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |    3 +-
+ meta/recipes-core/images/core-image-directdisk.inc |   11 ---
+ meta/recipes-core/images/core-image-live.inc       |   21 -----
+ .../images/core-image-minimal-directdisk.bb        |   11 ---
+ .../recipes-core/images/core-image-minimal-live.bb |   11 ---
+ .../at/at-3.1.12/configure-add-enable-pam.patch    |   23 +++++
+ meta/recipes-extended/at/at-3.1.12/pam.conf.patch  |   21 +++++
+ meta/recipes-extended/at/at_3.1.12.bb              |   21 ++++-
+ .../cronie/cronie/crond_pam_config.patch           |   19 ++++
+ meta/recipes-extended/cronie/cronie_1.4.7.bb       |   12 ++-
+ meta/recipes-extended/cups/cups_1.4.6.bb           |    8 +-
+ .../recipes-extended/images/core-image-lsb-live.bb |   11 ---
+ .../images/core-image-lsb-sdk-live.bb              |   11 ---
+ .../pam/libpam/libpam-xtests.patch                 |   35 ++++++++
+ .../pam/{libpam_1.1.3.bb => libpam_1.1.4.bb}       |   14 ++-
+ .../polkit/polkit-0.101/polkit-1_pam.patch         |   23 +++++
+ meta/recipes-extended/polkit/polkit_0.101.bb       |    7 +-
+ .../screen/screen-4.0.3/screen.pam                 |    2 +
+ meta/recipes-extended/screen/screen_4.0.3.bb       |   23 ++++-
+ .../shadow/files/shadow-update-pam-conf.patch      |   91 ++++++++++++++++++++
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    5 +-
+ meta/recipes-extended/sudo/files/sudo.pam          |    6 ++
+ meta/recipes-extended/sudo/sudo_1.8.1p2.bb         |   18 +++-
+ meta/recipes-graphics/xcb/libxcb_1.7.bb            |    4 +-
+ .../module-init-tools-cross_3.16.bb                |    2 +-
+ .../images/core-image-sato-directdisk.bb           |    9 --
+ meta/recipes-sato/images/core-image-sato-live.bb   |   11 ---
+ .../images/core-image-sato-sdk-directdisk.bb       |    9 --
+ .../images/core-image-sato-sdk-live.bb             |   11 ---
+ meta/recipes-support/libcap/libcap.inc             |    4 +-
+ meta/recipes-support/libcap/libcap_2.20.bb         |    6 --
+ meta/recipes-support/libcap/libcap_2.22.bb         |    6 ++
+ meta/site/arm-common                               |   35 --------
+ meta/site/arm-linux                                |   15 ---
+ meta/site/arm-linux-uclibc                         |   12 ---
+ meta/site/armeb-linux                              |   10 --
+ meta/site/armeb-linux-uclibc                       |   10 --
+ meta/site/common-glibc                             |   10 ++
+ meta/site/common-linux                             |   39 +++++++++
+ meta/site/common-uclibc                            |   11 +++
+ meta/site/ix86-common                              |   43 ---------
+ meta/site/mips-common                              |    3 -
+ meta/site/mips-linux                               |   29 +------
+ meta/site/mips-linux-uclibc                        |   29 +------
+ meta/site/mipsel-linux                             |   40 +---------
+ meta/site/mipsel-linux-uclibc                      |   26 ------
+ meta/site/powerpc-linux                            |   13 ---
+ meta/site/powerpc32-linux                          |   36 +--------
+ meta/site/sh-common                                |   45 +----------
+ meta/site/sparc-linux                              |   10 --
+ meta/site/x86_64-linux                             |   28 ++-----
+ meta/site/x86_64-linux-uclibc                      |   23 -----
+ scripts/combo-layer                                |    2 +-
+ 69 files changed, 509 insertions(+), 613 deletions(-)
+ delete mode 100644 meta-rt/images/core-image-minimal-rt-directdisk.bb
+ delete mode 100644 meta-rt/images/core-image-minimal-rt-live.bb
+ rename meta/{site/powerpc-linux-uclibc => classes/image-empty.bbclass} (100%)
+ create mode 100644 meta/classes/image-live.bbclass
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-5.8p2/sshd
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear-enable-pam.patch
+ delete mode 100644 meta/recipes-core/images/core-image-directdisk.inc
+ delete mode 100644 meta/recipes-core/images/core-image-live.inc
+ delete mode 100644 meta/recipes-core/images/core-image-minimal-directdisk.bb
+ delete mode 100644 meta/recipes-core/images/core-image-minimal-live.bb
+ create mode 100644 meta/recipes-extended/at/at-3.1.12/configure-add-enable-pam.patch
+ create mode 100644 meta/recipes-extended/at/at-3.1.12/pam.conf.patch
+ create mode 100644 meta/recipes-extended/cronie/cronie/crond_pam_config.patch
+ delete mode 100644 meta/recipes-extended/images/core-image-lsb-live.bb
+ delete mode 100644 meta/recipes-extended/images/core-image-lsb-sdk-live.bb
+ create mode 100644 meta/recipes-extended/pam/libpam/libpam-xtests.patch
+ rename meta/recipes-extended/pam/{libpam_1.1.3.bb => libpam_1.1.4.bb} (85%)
+ create mode 100644 meta/recipes-extended/polkit/polkit-0.101/polkit-1_pam.patch
+ create mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen.pam
+ create mode 100644 meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
+ create mode 100644 meta/recipes-extended/sudo/files/sudo.pam
+ delete mode 100644 meta/recipes-sato/images/core-image-sato-directdisk.bb
+ delete mode 100644 meta/recipes-sato/images/core-image-sato-live.bb
+ delete mode 100644 meta/recipes-sato/images/core-image-sato-sdk-directdisk.bb
+ delete mode 100644 meta/recipes-sato/images/core-image-sato-sdk-live.bb
+ delete mode 100644 meta/recipes-support/libcap/libcap_2.20.bb
+ create mode 100644 meta/recipes-support/libcap/libcap_2.22.bb
+
 -- 
-1.7.5
-
+1.7.3.4
 
 
 
