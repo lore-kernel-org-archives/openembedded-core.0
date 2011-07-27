@@ -1,22 +1,22 @@
 Received: from hsvwanfw1-nat.mentorg.com ([139.181.24.34] helo=alm.mentorg.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom_rini@mentor.com>) id 1QmD6D-0004F8-4L
+	(envelope-from <tom_rini@mentor.com>) id 1QmD6D-0004F9-TK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 01:01:09 +0200
+	Thu, 28 Jul 2011 01:01:10 +0200
 Received: from localhost.localdomain ([134.86.97.33])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6RMurMo004891
+	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id p6RMurMg004891
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 17:56:54 -0500
+	Wed, 27 Jul 2011 17:56:53 -0500
 From: Tom Rini <tom_rini@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2011 15:56:53 -0700
-Message-Id: <923febf93a6baa14fa7771bc365cf9a5210c9bcd.1311807353.git.tom_rini@mentor.com>
+Date: Wed, 27 Jul 2011 15:56:45 -0700
+Message-Id: <13ae8210a401f000beaf5ab54523e07c5b113831.1311807353.git.tom_rini@mentor.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1311807353.git.tom_rini@mentor.com>
 References: <cover.1311807353.git.tom_rini@mentor.com>
 In-Reply-To: <cover.1311807353.git.tom_rini@mentor.com>
 References: <cover.1311807353.git.tom_rini@mentor.com>
-Subject: [PATCH 9/9] Various siteinfo: Drop rp-pppoe variables
+Subject: [PATCH 1/9] sudo: Drop sudo_cv_uid_t_len from site files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,114 +31,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 23:01:09 -0000
+X-List-Received-Date: Wed, 27 Jul 2011 23:01:10 -0000
 
-These variables were wrong on big-endian machines and this recipe is now
-handled in meta-oe (along with the siteinfo files).
+We were just setting this to the assumed default.  If anything, this
+belongs in the libc files if we must set it.
 
 Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- meta/site/arm-linux           |    3 ---
- meta/site/ix86-common         |    3 ---
- meta/site/mips-linux          |    4 ----
- meta/site/mips-linux-uclibc   |    3 ---
- meta/site/mipsel-linux        |    3 ---
- meta/site/mipsel-linux-uclibc |    3 ---
- meta/site/sh-common           |    3 ---
- 7 files changed, 0 insertions(+), 22 deletions(-)
+ meta/site/arm-common        |    3 ---
+ meta/site/ix86-common       |    3 ---
+ meta/site/mips-linux        |    3 ---
+ meta/site/mips-linux-uclibc |    3 ---
+ meta/site/mipsel-linux      |    5 +----
+ meta/site/powerpc32-linux   |    3 ---
+ meta/site/sh-common         |    3 ---
+ meta/site/x86_64-linux      |    1 -
+ 8 files changed, 1 insertions(+), 23 deletions(-)
 
-diff --git a/meta/site/arm-linux b/meta/site/arm-linux
-index 2f4974b..14b1889 100644
---- a/meta/site/arm-linux
-+++ b/meta/site/arm-linux
-@@ -158,6 +158,3 @@ ac_cv_func_pthread_attr_getstack=${ac_cv_func_pthread_attr_getstack=yes}
- ac_cv_member_struct_sockaddr_sa_len=${ac_cv_member_struct_sockaddr_sa_len=no}
- ac_cv_gnet_have_abstract_sockets=${ac_cv_gnet_have_abstract_sockets=no}
- gnet_sockaddr_family_field_name=${gnet_sockaddr_family_field_name=ss_family}
+diff --git a/meta/site/arm-common b/meta/site/arm-common
+index 04d1164..2129298 100644
+--- a/meta/site/arm-common
++++ b/meta/site/arm-common
+@@ -191,9 +191,6 @@ ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=yes}
+ # startup-notification
+ lf_cv_sane_realloc=yes
+ 
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
 -
--# rp-pppoe
--rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
+ # xffm
+ jm_cv_func_working_readdir=yes
+ 
 diff --git a/meta/site/ix86-common b/meta/site/ix86-common
-index 0aa54c7..512c9a0 100644
+index 7a7e253..122eb14 100644
 --- a/meta/site/ix86-common
 +++ b/meta/site/ix86-common
-@@ -147,9 +147,6 @@ ac_cv_pread=${ac_cv_pread=no}
- ac_cv_pwrite=${ac_cv_pwrite=no}
- php_cv_lib_cookie_io_functions_use_off64_t=${php_cv_lib_cookie_io_functions_use_off64_t=yes}
+@@ -211,9 +211,6 @@ ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=yes}
+ # startup-notification
+ lf_cv_sane_realloc=yes
  
--# rp-pppoe
--rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
 -
- # rsync
- rsync_cv_HAVE_BROKEN_LARGEFILE=${rsync_cv_HAVE_BROKEN_LARGEFILE=no}
- rsync_cv_HAVE_SOCKETPAIR=${rsync_cv_HAVE_SOCKETPAIR=yes}
+ # xffm
+ jm_cv_func_working_readdir=yes
+ 
 diff --git a/meta/site/mips-linux b/meta/site/mips-linux
-index b1f8be2..876d997 100644
+index 807e552..212c3ad 100644
 --- a/meta/site/mips-linux
 +++ b/meta/site/mips-linux
-@@ -45,10 +45,6 @@ libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
- # ncftp
- wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
--wi_cv_unix_domain_sockets=${wi_cv_unix_domain_sockets=yes}
--
--# rp-pppoe
--rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
+@@ -76,9 +76,6 @@ samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
+ # vim
+ ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
  
- # db
- db_cv_align_t=${db_cv_align_t='unsigned long long'}
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-
+ # intercom
+ ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
+ 
 diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
-index b1f8be2..73167bb 100644
+index 807e552..212c3ad 100644
 --- a/meta/site/mips-linux-uclibc
 +++ b/meta/site/mips-linux-uclibc
-@@ -47,9 +47,6 @@ wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
- wi_cv_unix_domain_sockets=${wi_cv_unix_domain_sockets=yes}
+@@ -76,9 +76,6 @@ samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
+ # vim
+ ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
  
--# rp-pppoe
--rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
 -
- # db
- db_cv_align_t=${db_cv_align_t='unsigned long long'}
- db_cv_alignp_t=${db_cv_alignp_t='unsigned long'}
+ # intercom
+ ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
+ 
 diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
-index 3c70af0..15eded8 100644
+index c59d85f..a9032ac 100644
 --- a/meta/site/mipsel-linux
 +++ b/meta/site/mipsel-linux
-@@ -47,9 +47,6 @@ wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
- wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
- wi_cv_unix_domain_sockets=${wi_cv_unix_domain_sockets=yes}
+@@ -77,10 +77,7 @@ samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
+ # vim
+ ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
  
--# rp-pppoe
--rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
 -
- # db
- db_cv_align_t=${db_cv_align_t='unsigned long long'}
- db_cv_alignp_t=${db_cv_alignp_t='unsigned long'}
-diff --git a/meta/site/mipsel-linux-uclibc b/meta/site/mipsel-linux-uclibc
-index cdf4757..f921cda 100644
---- a/meta/site/mipsel-linux-uclibc
-+++ b/meta/site/mipsel-linux-uclibc
-@@ -98,6 +98,3 @@ samba_cv_sysquotas_file=${samba_cv_sysquotas_file=lib/sysquotas_4A.c}
- # This cached value needs a local patch to pick it up, upstream 3.0.14a
- # doesn't cache it.
- samba_cv_LINUX_LFS_SUPPORT=${samba_cv_LINUX_LFS_SUPPORT=yes}
--
--# rp-pppoe
--rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
-diff --git a/meta/site/sh-common b/meta/site/sh-common
-index d2db0c6..c386266 100644
---- a/meta/site/sh-common
-+++ b/meta/site/sh-common
-@@ -200,9 +200,6 @@ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
+-#intercom
++# intercom
+ ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
+ 
+ #lmbench
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index 46b64eb..8a10111 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -280,9 +280,6 @@ ac_cv_sync_with_stdio_2=${ac_cv_sync_with_stdio_2=yes}
  mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
  mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
  
--# rp-pppoe
--rpppoe_cv_pack_bitfields=${rpppoe_cv_pack_bitfields=rev}
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
 -
- # gettext
- am_cv_func_working_getline=${am_cv_func_working_getline=yes}
+ # dpkg
+ dpkg_cv_va_copy=${ac_cv_va_copy=yes}
+ dpkg_cv___va_copy=${ac_cv___va_copy=yes}
+diff --git a/meta/site/sh-common b/meta/site/sh-common
+index 26a612a..63abe57 100644
+--- a/meta/site/sh-common
++++ b/meta/site/sh-common
+@@ -231,9 +231,6 @@ rsync_cv_HAVE_SECURE_MKSTEMP=${rsync_cv_HAVE_SECURE_MKSTEMP=yes}
+ rsync_cv_REPLACE_INET_NTOA=${rsync_cv_REPLACE_INET_NTOA=no}
+ rsync_cv_REPLACE_INET_ATON=${rsync_cv_REPLACE_INET_ATON=no}
+ 
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-
+ # ipsec-tools
+ ac_cv_va_copy=${ac_cv_va_copy=no}
+ ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
+index 968dedc..91965b9 100644
+--- a/meta/site/x86_64-linux
++++ b/meta/site/x86_64-linux
+@@ -92,7 +92,6 @@ ac_cv_alignof_CORBA_short=2
+ ac_cv_alignof_CORBA_struct=1
+ ac_cv_alignof_CORBA_wchar=2
+ 
+-sudo_cv_uid_t=${sudo_cv_uid_t_len=10}
+ lf_cv_sane_realloc=yes
+ as_cv_unaligned_access=${as_cv_unaligned_access=yes}
  
 -- 
 1.7.0.4
