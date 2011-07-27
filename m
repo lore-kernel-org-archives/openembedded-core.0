@@ -1,24 +1,27 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qm5s0-0003Ji-So
+	(envelope-from <philb@gnu.org>) id 1Qm5s3-0003KN-J4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 17:18:00 +0200
-Received: by wyg30 with SMTP id 30so1209914wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 08:13:46 -0700 (PDT)
-Received: by 10.227.27.67 with SMTP id h3mr875480wbc.45.1311779626449;
-	Wed, 27 Jul 2011 08:13:46 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fr7sm186120wbb.5.2011.07.27.08.13.45
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 27 Jul 2011 08:13:45 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2011 17:13:39 +0200
-Message-Id: <1311779619-28654-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] base bbclass: add TUNE_FEATURES to the default banner
+	Wed, 27 Jul 2011 17:18:03 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qm5nz-0002Ak-Eh
+	for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 17:13:51 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Jul 2011 16:13:47 +0100
+In-Reply-To: <EF599739-F511-4465-B5BD-B19F15534482@dominion.thruhere.net>
+References: <cover.1311776363.git.richard.purdie@linuxfoundation.org>
+	<7cdd5b62608ae2047d4fdd2ee98e452398401b1e.1311776363.git.richard.purdie@linuxfoundation.org>
+	<4E30244A.5030209@windriver.com>
+	<1311778937.30326.361.camel@phil-desktop>
+	<EF599739-F511-4465-B5BD-B19F15534482@dominion.thruhere.net>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311779631.30326.366.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/4] base.bbclass: Add compatibility package name mapping handler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 15:18:01 -0000
+X-List-Received-Date: Wed, 27 Jul 2011 15:18:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This makes debugging the new tune code easier since it doesn't involve staring at 'bitbake -e' output anymore.
+On Wed, 2011-07-27 at 17:06 +0200, Koen Kooi wrote:
+> From the conversations I had with ARM they implied that it isn't optional for cortex a8/9/15, only neon is (e.g. marvell dove, nvidia tegra2). I haven't seen any black on white contracts saying that, though :)
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/classes/base.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+The spec on the web seems to say fairly clearly that it's optional, at
+least in theory.  I guess they might have commercial reasons for not
+wanting to sell it without VFP in any given situation.
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 3ed1bb8..e41cce2 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -173,7 +173,7 @@ python base_eventhandler() {
- 
- 	if name.startswith("BuildStarted"):
- 		bb.data.setVar( 'BB_VERSION', bb.__version__, e.data )
--		statusvars = ['BB_VERSION', 'TARGET_ARCH', 'TARGET_OS', 'MACHINE', 'DISTRO', 'DISTRO_VERSION','TARGET_FPU']
-+		statusvars = ['BB_VERSION', 'TARGET_ARCH', 'TARGET_OS', 'MACHINE', 'DISTRO', 'DISTRO_VERSION','TUNE_FEATURES', 'TARGET_FPU']
- 		statuslines = ["%-17s = \"%s\"" % (i, bb.data.getVar(i, e.data, 1) or '') for i in statusvars]
- 
- 		layers = (data.getVar("BBLAYERS", e.data, 1) or "").split()
--- 
-1.6.6.1
+See:
+
+http://www.arm.com/products/processors/cortex-a/cortex-a5.php?tab=Specifications
+
+for example
+
+p.
+
 
 
 
