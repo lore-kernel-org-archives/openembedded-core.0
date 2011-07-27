@@ -1,36 +1,30 @@
-Received: from mail-ww0-f41.google.com ([74.125.82.41])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QlznW-0003nd-PZ
-	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 10:48:58 +0200
-Received: by wwi14 with SMTP id 14so2717413wwi.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qm0UX-0004cV-3l for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jul 2011 11:33:25 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6R9TBoc028867
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jul 2011 01:44:44 -0700 (PDT)
-Received: by 10.227.55.129 with SMTP id u1mr5767666wbg.85.1311756284368;
-	Wed, 27 Jul 2011 01:44:44 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fx12sm1133202wbb.25.2011.07.27.01.44.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 27 Jul 2011 01:44:43 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1311755778.2344.325.camel@rex>
-Date: Wed, 27 Jul 2011 10:44:41 +0200
-Message-Id: <704B147D-6F12-4534-9C34-01AE69290717@dominion.thruhere.net>
-References: <346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
-	<992efbf4ec3d7c55346953dbe82f9745590e64bf.1311683981.git.richard.purdie@linuxfoundation.org>
-	<969FA904-0086-42FA-B605-07B74FB728B4@kernel.crashing.org>
-	<1311688752.2344.238.camel@rex>
-	<627CF4AB-F07D-4285-B31C-3C5631270420@kernel.crashing.org>
-	<1311697113.2344.268.camel@rex>
-	<7B0836D8-31B6-407E-848E-FED9C5BFE78A@kernel.crashing.org>
-	<1311720776.2344.319.camel@rex>
-	<9A300C7A-E352-4566-AB92-88DF3CF743D7@kernel.crashing.org>
-	<1311755778.2344.325.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH 3/3] Add basic PowerPC core tune config
+	Wed, 27 Jul 2011 10:29:11 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28368-06 for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 10:29:07 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p6R9T2qY028861
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 10:29:03 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Jul 2011 10:28:52 +0100
+Message-ID: <1311758933.2344.342.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Master branch merges
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,27 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 08:48:58 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 27 Jul 2011 09:33:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+We're coming up to an interesting point in the development cycle since a
+lot of the feature development work Yocto has been working on is winding
+up. It means there are a few significant patches waiting to go into
+master.
+
+Typically, life isn't straightforward and this is complicated by the
+fact I'll be in a black hole as far as modern communication goes for
+Thur/Fri/Sat.
+
+I've given what I should do under these circumstances a fair bit of
+thought and currently I'm thinking that the best approach is likely to
+merge everything that is ready. This is realistically the only way it
+will get the final round of testing.
+
+Its possible something will break. Fixes can easily be shared and queued
+up on a branch in my absence and Saul should be able to help with that
+if needed.
+
+So this is a conscious decision and we'll see how it works out! :)
+
+Cheers,
+
+Richard
 
 
-Op 27 jul. 2011, om 10:36 heeft Richard Purdie het volgende geschreven:
-
-> [..]
-
-> We could also put:
->=20
-> GLIBC_EXTRA_OECONF =3D "--with-cpu=3De500"
->=20
-> in the machine config files.
-
-Note that that will make glibc 'machine' specific and by association all =
-userspace. So if you're going that route, you need to touch TUNE_PKGARCH =
-as well.
-
-regards,
-
-Koen=
 
 
