@@ -1,24 +1,30 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1Qm5hu-000300-Az
+	(envelope-from <mark.hatle@windriver.com>) id 1Qm5k2-00032g-8P
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jul 2011 17:07:34 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 27 Jul 2011 08:03:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,276,1309762800"; d="scan'208";a="32092277"
-Received: from unknown (HELO [10.255.14.126]) ([10.255.14.126])
-	by azsmga001.ch.intel.com with ESMTP; 27 Jul 2011 08:03:15 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jul 2011 08:03:09 -0700
-In-Reply-To: <1311708150-24226-2-git-send-email-msm@freescale.com>
-References: <1311708150-24226-1-git-send-email-msm@freescale.com>
-	<1311708150-24226-2-git-send-email-msm@freescale.com>
-X-Mailer: Evolution 3.0.2 (3.0.2-3.fc15) 
-Message-ID: <1311778995.2193.1.camel@scimitar>
-Mime-Version: 1.0
-Subject: Re: [PATCH] Update TERMCMD message to align with previous change
+	Wed, 27 Jul 2011 17:09:46 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6RF37FV022343
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 08:05:31 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 27 Jul 2011 08:04:53 -0700
+Message-ID: <4E302914.7040207@windriver.com>
+Date: Wed, 27 Jul 2011 10:04:52 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1311776363.git.richard.purdie@linuxfoundation.org>
+	<7cdd5b62608ae2047d4fdd2ee98e452398401b1e.1311776363.git.richard.purdie@linuxfoundation.org>
+	<4E30244A.5030209@windriver.com>
+	<1311778937.30326.361.camel@phil-desktop>
+In-Reply-To: <1311778937.30326.361.camel@phil-desktop>
+Subject: Re: [PATCH 1/4] base.bbclass: Add compatibility package name mapping handler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,46 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jul 2011 15:07:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 27 Jul 2011 15:09:46 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-07-26 at 14:22 -0500, Matthew McClintock wrote:
-> A previous patch changed the default TERM to use xterm. This updates
-> local.conf.sample to match the change
+On 7/27/11 10:02 AM, Phil Blundell wrote:
+> On Wed, 2011-07-27 at 09:44 -0500, Mark Hatle wrote:
+>> On 7/27/11 9:29 AM, Richard Purdie wrote:
+>>> This means if PKGARCHCOMPAT_ARMV7A is set, "armv7a-vfp-neon" is renamed
+>>> to be "armv7a". Other compatibility mappings can be added as needed.
+>>
+>> There are multiple armv7 cores without neon...  I think there might even be one
+>> or two custom cores w/o VFP.  (Yes I know this violates the core spec from ARM,
+>> but people do that all of the time.)
 > 
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> Which spec are you thinking of?  As far as I know, VFP has always been
+> optional for both ARM11 and Cortex.
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+I thought VFP was part of the instruction set as of ARMv7.  Neon is recommended
+but options.  As I mentioned though, I know of chips in design that don't have
+Neon, and I suspect also don't have VFP -- but they're ARMv7.. (they also have
+stripped out the thumb2 part as well..)
 
-We should probably change the suggested / commented TERMCMD to be
-something other than KONSOLE too, as that doesn't work so well for
-KDE4...
+--Mark
 
-Joshua
-
-> ---
->  meta-yocto/conf/local.conf.sample |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+> p.
 > 
-> diff --git a/meta-yocto/conf/local.conf.sample b/meta-yocto/conf/local.conf.sample
-> index 499c48e..7a0fc89 100644
-> --- a/meta-yocto/conf/local.conf.sample
-> +++ b/meta-yocto/conf/local.conf.sample
-> @@ -205,7 +205,7 @@ ENABLE_BINARY_LOCALE_GENERATION = "1"
->  # out if that is desired
->  NO32LIBS = "1"
->  
-> -# If you do not use (or have installed) gnome-terminal you will need to
-> +# If you do not use (or have installed) xterm you will need to
->  # uncomment these variables and set them to the terminal you wish to use
->  # when resolving patches which cannot be applied
->  # Supported shell prefixes for *_TERMCMD and *_TERMCMDRUN ARE:
-
--- 
-Joshua Lock
-        Yocto Project "Johannes factotum"
-        Intel Open Source Technology Centre
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
