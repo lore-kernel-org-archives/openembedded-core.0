@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QmQLd-00080A-6J
+	(envelope-from <edwin.zhai@intel.com>) id 1QmQLd-00080B-Kw
 	for openembedded-core@lists.openembedded.org;
 	Thu, 28 Jul 2011 15:09:57 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 28 Jul 2011 06:05:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,282,1309762800"; d="scan'208";a="33091580"
+X-IronPort-AV: E=Sophos;i="4.67,282,1309762800"; d="scan'208";a="33091583"
 Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2011 06:05:41 -0700
+	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2011 06:05:42 -0700
 From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2011 21:03:07 +0800
-Message-Id: <fb05abcb8783b829789b1dc77b331b2d150cddbc.1311858056.git.edwin.zhai@intel.com>
+Date: Thu, 28 Jul 2011 21:03:08 +0800
+Message-Id: <0b618bc447e909f06f0a0f0150f14b32fe144be2.1311858056.git.edwin.zhai@intel.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1311858056.git.edwin.zhai@intel.com>
 References: <cover.1311858056.git.edwin.zhai@intel.com>
 In-Reply-To: <cover.1311858056.git.edwin.zhai@intel.com>
 References: <cover.1311858056.git.edwin.zhai@intel.com>
-Subject: [PATCH 5/7] libassuan: Upgrade to 2.0.2
+Subject: [PATCH 6/7] gpgme: Upgrade to 1.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,27 +39,47 @@ From: Zhai Edwin <edwin.zhai@intel.com>
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../{libassuan_2.0.1.bb => libassuan_2.0.2.bb}     |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libassuan/{libassuan_2.0.1.bb => libassuan_2.0.2.bb} (82%)
+ .../disable_gpgconf_check.patch                    |    0
+ .../gpgme/{gpgme_1.3.0.bb => gpgme_1.3.1.bb}       |    8 ++++----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/gpgme/{gpgme-1.3.0 => gpgme-1.3.1}/disable_gpgconf_check.patch (100%)
+ rename meta/recipes-support/gpgme/{gpgme_1.3.0.bb => gpgme_1.3.1.bb} (78%)
 
-diff --git a/meta/recipes-support/libassuan/libassuan_2.0.1.bb b/meta/recipes-support/libassuan/libassuan_2.0.2.bb
-similarity index 82%
-rename from meta/recipes-support/libassuan/libassuan_2.0.1.bb
-rename to meta/recipes-support/libassuan/libassuan_2.0.2.bb
-index 5425673..53c1230 100644
---- a/meta/recipes-support/libassuan/libassuan_2.0.1.bb
-+++ b/meta/recipes-support/libassuan/libassuan_2.0.2.bb
-@@ -12,7 +12,7 @@ DEPENDS = "libgpg-error"
+diff --git a/meta/recipes-support/gpgme/gpgme-1.3.0/disable_gpgconf_check.patch b/meta/recipes-support/gpgme/gpgme-1.3.1/disable_gpgconf_check.patch
+similarity index 100%
+rename from meta/recipes-support/gpgme/gpgme-1.3.0/disable_gpgconf_check.patch
+rename to meta/recipes-support/gpgme/gpgme-1.3.1/disable_gpgconf_check.patch
+diff --git a/meta/recipes-support/gpgme/gpgme_1.3.0.bb b/meta/recipes-support/gpgme/gpgme_1.3.1.bb
+similarity index 78%
+rename from meta/recipes-support/gpgme/gpgme_1.3.0.bb
+rename to meta/recipes-support/gpgme/gpgme_1.3.1.bb
+index 4c45a44..64b6ea2 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.3.0.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.3.1.bb
+@@ -5,14 +5,14 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
+ LICENSE = "GPLv2+ & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LESSER;md5=bbb461211a33b134d42ed5ee802b37ff \
+-                    file://src/gpgme.h;endline=23;md5=2775a99d3dd524c4f848ff1c59093038 \
++                    file://src/gpgme.h.in;endline=23;md5=942b47052c0674c6a3b9b9e6127628a4 \
+                     file://src/engine.h;endline=22;md5=e96acfaab1cff82dd8fbefddd2f5c436"
  
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libassuan/libassuan-${PV}.tar.bz2"
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-${PV}.tar.bz2 \
+            file://disable_gpgconf_check.patch;patch=1;pnum=1"
  
--SRC_URI[md5sum] = "53a7d4c22af909d7236d17d454ef935b"
--SRC_URI[sha256sum] = "1117be532ac41b13790b4756df7fa747d3d04264f7b4544aa9d7ff468a24b457"
-+SRC_URI[md5sum] = "3e7d00fd2ee8a0b9c51ac7616ef3f1ec"
-+SRC_URI[sha256sum] = "61e0cba33dcbade2dce953b95f06b843af2a73de875303f2585227ecd475b4d8"
+-SRC_URI[md5sum] = "4784e3c6086c9c25e9a1b4d9f7c5aa96"
+-SRC_URI[sha256sum] = "74e040fcd46061f6b0d8b621a2a2a48100a7ba5c9f69e7cf207259a6e2e3e6a1"
++SRC_URI[md5sum] = "90afa8436ce2b2683c001c824bd22601"
++SRC_URI[sha256sum] = "15ef27a875ae0d79d7446fd931deda11438e724ffbeac74449ed19cba23df4d4"
+ DEPENDS = "libgpg-error libassuan pth"
+ PR = "r0"
  
- inherit autotools binconfig
+@@ -25,4 +25,4 @@ PACKAGES =+ "${PN}-pth ${PN}-pthread"
+ FILES_${PN}-pth = "${libdir}/libgpgme-pth.so.*"
+ FILES_${PN}-pthread = "${libdir}/libgpgme-pthread.so.*"
+ FILES_${PN} = "${libdir}/libgpgme.so.*"
+-FILES_${PN}-dev += "${bindir}/gpgme-config"
++FILES_${PN}-dev += "${bindir}/gpgme-config ${datadir}/common-lisp/source/gpgme/*"
 -- 
 1.7.1
 
