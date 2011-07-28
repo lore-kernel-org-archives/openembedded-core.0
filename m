@@ -1,27 +1,25 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QmKjL-00083Z-OV
+	(envelope-from <lei.mei@intel.com>) id 1QmKpq-0008Am-4m
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 09:10:03 +0200
-Received: by wyg30 with SMTP id 30so1707545wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2011 00:05:48 -0700 (PDT)
-Received: by 10.227.201.10 with SMTP id ey10mr928202wbb.103.1311836748591;
-	Thu, 28 Jul 2011 00:05:48 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id eo18sm559136wbb.46.2011.07.28.00.05.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 28 Jul 2011 00:05:47 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <7EF5CC6C-A2D5-40CD-B6FD-F857FAA6B515@kernel.crashing.org>
-Date: Thu, 28 Jul 2011 09:05:45 +0200
-Message-Id: <F2F247DB-057A-4EF9-AAA5-72ED8131DB42@dominion.thruhere.net>
-References: <7EF5CC6C-A2D5-40CD-B6FD-F857FAA6B515@kernel.crashing.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: libzypp variable expansion problem
+	Thu, 28 Jul 2011 09:16:46 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Jul 2011 00:12:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,280,1309762800"; d="scan'208";a="33184154"
+Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
+	([10.239.47.21])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Jul 2011 00:12:17 -0700
+From: Mei Lei <lei.mei@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jul 2011 15:20:36 +0800
+Message-Id: <2241650b6cb4e409a5463d38cfa0274eec3a3ee2.1311836896.git.lei.mei@intel.com>
+X-Mailer: git-send-email 1.6.3.3
+In-Reply-To: <cover.1311836896.git.lei.mei@intel.com>
+References: <cover.1311836896.git.lei.mei@intel.com>
+In-Reply-To: <cover.1311836896.git.lei.mei@intel.com>
+References: <cover.1311836896.git.lei.mei@intel.com>
+Subject: [PATCH 1/1] python-native: Fix a compiler finding issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,45 +34,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 07:10:03 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 28 Jul 2011 07:16:46 -0000
 
+The CC variable sometimes add option information after compiler name, but python can't get the real compiler name if those information added.
+Fix this issue by dropping the option information when finding compiler name.
 
-Op 28 jul. 2011, om 04:19 heeft Kumar Gala het volgende geschreven:
+Signed-off-by: Mei Lei <lei.mei@intel.com>
+---
+ .../python/python-native/unixccompiler.patch       |   20 ++++++++++++++++++++
+ .../recipes-devtools/python/python-native_2.6.6.bb |    3 ++-
+ 2 files changed, 22 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-native/unixccompiler.patch
 
-> In meta/recipes-extended/libzypp/libzypp_git.bb we having something =
-that looks like:
->=20
->        while [ $# -gt 0 ]; do
-> 		...
->                if [ "${AVOID_CONSTRUCTOR}" !=3D "true" ]; then
->                  ARCH=3D"_$1"
->                else
->                  ARCH=3D"IdString(\"$1\")"
->                fi
-> 		...
->                COMPAT_WITH=3D"${ARCH},${COMPAT} $COMPAT_WITH"
->        done
->=20
-> The problem is the COMPAT_WITH line should show up in the resulting =
-script as is, however its not getting expanded because ARCH is set.  So =
-we end up with:
->=20
-> 	COMPAT_WITH=3D"powerpc,${COMPAT} $COMPAT_WITH"
->=20
-> instead of
->=20
-> 	COMPAT_WITH=3D"${ARCH},${COMPAT} $COMPAT_WITH"
->=20
-> Not quite sure how to fix this w/regards to quoting to prevent the =
-expansion.  One solution is to just rename ARCH to something like CARCH.
+diff --git a/meta/recipes-devtools/python/python-native/unixccompiler.patch b/meta/recipes-devtools/python/python-native/unixccompiler.patch
+new file mode 100644
+index 0000000..10a9baf
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-native/unixccompiler.patch
+@@ -0,0 +1,20 @@
++Upstream-Status: Inappropriate [embedded specific]
++
++# The CC variable,sometimes like:"x86_64-poky-linux-gcc   -m64 --sysroot=/${TMPDIR}/sysroots/qemux86-64", contains option information. 
++# This will lead to wrong compiler name "qemux86-64" rather than "x86_64-poky-linux-gcc" when python finding the compiler name.
++
++#Signed-off-by: Mei Lei <lei.mei@intel.com>
++
++diff --git Python-2.6.6/Lib/distutils/unixccompiler.py Python-2.6.6/Lib/distutils/unixccompiler.py
++index 6d0b84d..aaf49cb 100644
++--- Python-2.6.6/Lib/distutils/unixccompiler.py
+++++ Python-2.6.6/Lib/distutils/unixccompiler.py
++@@ -282,7 +282,7 @@ class UnixCCompiler(CCompiler):
++         # this time, there's no way to determine this information from
++         # the configuration data stored in the Python installation, so
++         # we use this hack.
++-        compiler = os.path.basename(sysconfig.get_config_var("CC"))
+++        compiler = os.path.basename(sysconfig.get_config_var("CC").split()[0])
++         if sys.platform[:6] == "darwin":
++             # MacOSX's linker doesn't understand the -R flag at all
++             return "-L" + dir
+diff --git a/meta/recipes-devtools/python/python-native_2.6.6.bb b/meta/recipes-devtools/python/python-native_2.6.6.bb
+index 59ed61a..2b00d32 100644
+--- a/meta/recipes-devtools/python/python-native_2.6.6.bb
++++ b/meta/recipes-devtools/python/python-native_2.6.6.bb
+@@ -1,6 +1,6 @@
+ require python.inc
+ DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
+-PR = "${INC_PR}.2"
++PR = "${INC_PR}.3"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=38fdd546420fab09ac6bd3d8a1c83eb6"
+ 
+@@ -12,6 +12,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
+            file://11-distutils-never-modify-shebang-line.patch \
+            file://12-distutils-prefix-is-inside-staging-area.patch \
+            file://debug.patch \
++           file://unixccompiler.patch \
+            file://nohostlibs.patch"
+ S = "${WORKDIR}/Python-${PV}"
+ 
+-- 
+1.6.3.3
 
-Not really a solution to your problem, but in general ${FOO} gets =
-expanded by bitbake, $FOO gets expanded by shell.
-
-regards,
-
-Koen=
 
 
