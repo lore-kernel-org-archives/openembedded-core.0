@@ -1,36 +1,40 @@
-Received: from na3sys009aog102.obsmtp.com ([74.125.149.69])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bengardiner@nanometrics.ca>) id 1QmRht-0001hy-EB
-	for openembedded-core@openembedded.org; Thu, 28 Jul 2011 16:37:01 +0200
-Received: from mail-vw0-f42.google.com ([209.85.212.42]) (using TLSv1) by
-	na3sys009aob102.postini.com ([74.125.148.12]) with SMTP
-	ID DSNKTjFzDqamcQvp0h0PzgFxq0OpPv3bP1KT@postini.com;
-	Thu, 28 Jul 2011 07:32:48 PDT
-Received: by mail-vw0-f42.google.com with SMTP id 1so2359183vwl.15
-	for <openembedded-core@openembedded.org>;
-	Thu, 28 Jul 2011 07:32:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nanometrics.ca; s=google;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=uPn/gcpLUiafr5Wa7/sH31X/Sl3x35H6bXcgEqiyvVk=;
-	b=WqdWBqQJ95YhziqKih8qRenbYxgQQRBh/XrrDHoTxJM+UMdmrf9lXir50xZWEZysMg
-	q1mpJZCXtBk85nC6plEV5A+bvzscwQAtLKFoHixpOPlY2k+KTd/08+AEIv+5xtkQtW7u
-	BCWr2VXJacSvtgQYiFhcK+gIln+dPe4HptkUg=
+	(envelope-from <lianhao.lu@intel.com>) id 1QmRkg-0001kb-F3
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jul 2011 16:39:54 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Jul 2011 07:35:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,282,1309762800"; d="scan'208";a="35531399"
+Received: from pgsmsx601.gar.corp.intel.com ([10.221.43.69])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2011 07:35:37 -0700
+Received: from pgsmsx103.gar.corp.intel.com (10.221.44.82) by
+	pgsmsx601.gar.corp.intel.com (10.221.43.69) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 28 Jul 2011 22:35:13 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX103.gar.corp.intel.com (10.221.44.82) with Microsoft SMTP Server
+	(TLS) id 14.1.289.1; Thu, 28 Jul 2011 22:35:13 +0800
+Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Thu, 28 Jul 2011 22:35:12 +0800
+From: "Lu, Lianhao" <lianhao.lu@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Jul 2011 22:35:11 +0800
+Thread-Topic: [OE-core] [PATCH 2/4] gcc: Drop part of the 64bithack patch
+	which	is no longer used
+Thread-Index: AcxMaZ6Y2oSPLSsASXSaJxkp2IRLUgAyCwaQ
+Message-ID: <C10D3FB0CD45994C8A51FEC1227CE22F2C40DBAFF4@shsmsx502.ccr.corp.intel.com>
+References: <cover.1311776363.git.richard.purdie@linuxfoundation.org>
+	<fe78c19406d856cb9473e062f1c2905dfe063c2a.1311776363.git.richard.purdie@linuxfoundation.org>
+In-Reply-To: <fe78c19406d856cb9473e062f1c2905dfe063c2a.1311776363.git.richard.purdie@linuxfoundation.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
 MIME-Version: 1.0
-Received: by 10.52.29.42 with SMTP id g10mr955vdh.36.1311857541558; Thu, 28
-	Jul 2011 05:52:21 -0700 (PDT)
-Received: by 10.52.165.200 with HTTP; Thu, 28 Jul 2011 05:52:21 -0700 (PDT)
-In-Reply-To: <CACW_hTZEgveniP0x3R6Q1mNb9+T0kYP=TsOF4A2SwHKJeAqUjA@mail.gmail.com>
-References: <1311824295-13464-1-git-send-email-bengardiner@nanometrics.ca>
-	<CACW_hTZEgveniP0x3R6Q1mNb9+T0kYP=TsOF4A2SwHKJeAqUjA@mail.gmail.com>
-Date: Thu, 28 Jul 2011 08:52:21 -0400
-Message-ID: <CAPcSpE+ZKH=o7RsotsiCmo3ss5zHo=wH9-z6htc7zVWDo7YSOQ@mail.gmail.com>
-From: Ben Gardiner <bengardiner@nanometrics.ca>
-To: Koen Kooi <koen@dominion.thruhere.net>, 
-	Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
-Cc: openembedded-core@openembedded.org
-Subject: Re: [PATCH] [PATCH] raptor: add recipe
+Subject: Re: [PATCH 2/4] gcc: Drop part of the 64bithack patch which	is no longer used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,118 +49,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 14:37:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 28 Jul 2011 14:39:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Koen, Frans,
+Richard Purdie wrote on 2011-07-27:
+> Since we now handle GLIBC_DYNAMIC_LINKER in gcc-configure-common.inc:
+>=20
+> 's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 SYSTEMLIBS_DIR\2#'
+>=20
 
-On Thu, Jul 28, 2011 at 6:48 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
->
-> Op 28 jul. 2011, om 05:38 heeft Ben Gardiner het volgende geschreven:
->
->> Signed-off-by: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
->> Signed-off-by: Ben Gardiner <bengardiner@nanometrics.ca>
->> Signed-off-by: Tom Rini <tom_rini@mentor.com>
->>
->> This recipe is a port of recipes/raptor/raptor_1.4.21.bb from
->> git://git.openembedded.org/openembedded, commits
->> 01e8e9f325d8d251e852e7a5704b5fe50880e1ad 'raptor: added recipe' and
->> f1d24b5a986233f869364eb109476f5184e76d10 'raptor: add libxml2 DEPENDS'
->
-> Why does this need to be in OE-core and not in some other layer? It doesn=
-'t look so core to me, especially since nothing in oe-core (or meta-oe/efl/=
-gnome for that matter) depends on it
+It seems to me that this patch may not be removed. The above code in gcc-co=
+nfigure-common.inc said it only useful for SDK. For gcc-cross, it doesn't c=
+hange /lib64/ld-linux-x86-64.so.2 to /lib/ld-linux-x86-64.so.2 as what the =
+64bithack.patch does.
 
-Because oe-core's meta/recipes-support (naively) seemed like a
-reasonable place for it. I would be happy to re-spin the patch for
-locating it in any layer. Please advise me.
+-Lianhao
 
-It's true that nothing depends on it. As Frans mentions later it's
-only dependent in oe.dev is flickrcurl. Raptor is both a library and a
-utility; we use the latter so raptor itself is a dependency of our
-images.
+> we can drop the patch which changes a hardcoded value for this.
+>=20
+> No PR bump since there is no code change resulting from this, its just
+> a cleanup.
+>=20
+> There is still a valid question over the remainder of this patch and
+> its interaction with multilib configurations.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  .../recipes-devtools/gcc/gcc-4.5.1/64bithack.patch |   13 -------------
+>  meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch  |   13 -------------
+>  2 files changed, 0 insertions(+), 26 deletions(-)
 
->>
->> The recipe was modified by adding a LIC_FILES_CHKSUM assignment.
->>
->> Signed-off-by: Ben Gardiner <bengardiner@nanometrics.ca>
->>
->> ---
->>
->> Not tested in the oe-core + meta-openembedded et. al. layers.
 
-I'm sorry for the confusion -- this recipe is/was tested in oe.dev and
-2011.03-maintenance branches.
-
-> So why are you sending it if it isn't tested?
->
->> We are not
->> ready yet to migrate from the 2011.03-maintenance branch. This patch is
->> proposed for inclusion in oe-core so that we can meet the new policy
->> requirements for inclusion in the 2011.03-maintenance branch
->
-> Where does it say it's OK to do a pull request for untested recipes? And =
-where does it say it needs to be in OE-core first?
-
-My understanding of Tom's post to the oe.dev mailing list is that
-commits in pull-requests for 2011.03 need to first be oe-core or one
-of its layers.
-
-In Message-ID: <4DFA7108.5020103@mentor.com> On Thu, Jun 16, 2011 at
-5:09 PM, Tom Rini <tom_rini@mentor.com> wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
->
-> Hi all,
->
-> As part of this weeks TSC meeting, an agenda item was brought up about
-> the 2011.03-maintenance branch and oe-core / etc. =A0I have now updated
-> the policy about where changes need to be before they can be included in
-> 2011.03-maintenance to include being in oe-core / meta-oe or other
-> relevant public layer instead of being only in the oe.dev master branch.
-> =A0This is not a policy change, but a clarification of what was there
-> previously. =A0Thanks all!
->
-
-On Thu, Jul 28, 2011 at 7:29 AM, Frans Meulenbroeks
-<fransmeulenbroeks@gmail.com> wrote:
->
->
-> 2011/7/28 Ben Gardiner <bengardiner@nanometrics.ca>
->>
->> Signed-off-by: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
->
-> Eh, yes and no.
->
-> I did write the original recipe and commited it on 14 aug 2010 with a
-> sign-off message.
-> As such this got my signoff, but I am not sure the signoff should be
-> repeated if this moved to oe-core.
-
-Fair enough. It is your Sign-off to give or take.
-
-I was following the patch message guidelines. "Example: Importaing
-from Elsewhere Modified" in particular:
-
-http://wiki.openembedded.org/index.php/Commit_Patch_Message_Guidelines#Exam=
-ple:_Importing_from_Elsewhere_Modified
-
-I will remove your Sign-off in v2.
-
-> My sign-off at that time is definitely not to be used as a suggestion it =
-is
-> ok for oe-core (actually I feel this is not something for oe-core)
-
-Understood -- I am happy to re-spin for inclusion in any layer. Please advi=
-se.
-
-Best Regards,
-Ben Gardiner
-
----
-Nanometrics Inc.
-http://www.nanometrics.ca
 
 
