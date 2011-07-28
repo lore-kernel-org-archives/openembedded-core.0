@@ -1,34 +1,25 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX18/kys9s6w55v6w4vKy87mkKnIA1yBaXB4=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QmRv7-0001u4-9f
-	for openembedded-core@openembedded.org; Thu, 28 Jul 2011 16:50:41 +0200
-Received: by wwi18 with SMTP id 18so2152691wwi.12
-	for <openembedded-core@openembedded.org>;
-	Thu, 28 Jul 2011 07:46:25 -0700 (PDT)
-Received: by 10.227.197.21 with SMTP id ei21mr80131wbb.107.1311864385632;
-	Thu, 28 Jul 2011 07:46:25 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id m38sm736084weq.45.2011.07.28.07.46.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 28 Jul 2011 07:46:24 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAPcSpEJLMsg+HkPbtu=6L=QEr=S7+bb34xzSKgYAwa2Qq_mnPA@mail.gmail.com>
-Date: Thu, 28 Jul 2011 16:46:21 +0200
-Message-Id: <DB1D5A60-CC02-493E-B6E0-9246AC19F47D@dominion.thruhere.net>
-References: <1311824295-13464-1-git-send-email-bengardiner@nanometrics.ca>
-	<CACW_hTZEgveniP0x3R6Q1mNb9+T0kYP=TsOF4A2SwHKJeAqUjA@mail.gmail.com>
-	<CAPcSpE+ZKH=o7RsotsiCmo3ss5zHo=wH9-z6htc7zVWDo7YSOQ@mail.gmail.com>
-	<CACW_hTaR-BfLXDpUyrCcL+Ns2KOOSiT+kH9fJ07HGJwOZ51a4w@mail.gmail.com>
-	<CAPcSpEJphsRYSr_CmXtDc=G5MnGNyoEd8MQcbaALKu4GPQ__Uw@mail.gmail.com>
-	<CACW_hTYaTBDZjfwHo=fYaZZ72KqEHVKS1DYaxDgeEVOkArmjEw@mail.gmail.com>
-	<CAPcSpELL=VJEdcO+0m1goAQdgV8PkjGqmZ9+3U_SZRTed=Yu-A@mail.gmail.com>
-	<F5078022-9A0A-4728-8D9A-814BD5EF1564@dominion.thruhere.net>
-	<CAPcSpEJLMsg+HkPbtu=6L=QEr=S7+bb34xzSKgYAwa2Qq_mnPA@mail.gmail.com>
-To: Ben Gardiner <bengardiner@nanometrics.ca>
-X-Mailer: Apple Mail (2.1244.3)
-Cc: openembedded-core@openembedded.org
-Subject: Re: [PATCH] [PATCH] raptor: add recipe
+	(envelope-from <galak@kernel.crashing.org>) id 1QmS4A-00025F-Pa
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jul 2011 17:00:03 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6SEtlrE016092
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jul 2011 09:55:47 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <C10D3FB0CD45994C8A51FEC1227CE22F2C40DBAFF4@shsmsx502.ccr.corp.intel.com>
+Date: Thu, 28 Jul 2011 09:55:48 -0500
+Message-Id: <F025041A-C81D-433F-B330-1F5530B72131@kernel.crashing.org>
+References: <cover.1311776363.git.richard.purdie@linuxfoundation.org>
+	<fe78c19406d856cb9473e062f1c2905dfe063c2a.1311776363.git.richard.purdie@linuxfoundation.org>
+	<C10D3FB0CD45994C8A51FEC1227CE22F2C40DBAFF4@shsmsx502.ccr.corp.intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 2/4] gcc: Drop part of the 64bithack patch which	is no longer used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,56 +34,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 14:50:41 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Thu, 28 Jul 2011 15:00:03 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 28 jul. 2011, om 16:43 heeft Ben Gardiner het volgende geschreven:
+On Jul 28, 2011, at 9:35 AM, Lu, Lianhao wrote:
 
-> Hi Koen,
+> Richard Purdie wrote on 2011-07-27:
+>> Since we now handle GLIBC_DYNAMIC_LINKER in gcc-configure-common.inc:
+>>=20
+>> 's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 SYSTEMLIBS_DIR\2#'
+>>=20
 >=20
-> On Thu, Jul 28, 2011 at 10:36 AM, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
->>=20
->> Op 28 jul. 2011, om 16:29 heeft Ben Gardiner het volgende geschreven:
->>=20
->>> On Thu, Jul 28, 2011 at 10:24 AM, Frans Meulenbroeks
->>> <fransmeulenbroeks@gmail.com> wrote:
->>>>=20
->>>>=20
->>>> 2011/7/28 Ben Gardiner <bengardiner@nanometrics.ca>
->>>>>=20
->>>>>=20
->>>>> Well, I would not submit _this_ patch for pull-request. I was =
-hoping
->>>>> to get this version of raptor included and then submit a =
-pull-request
->>>>> for a cherry-pick of the patch to add libxml2 to DEPENDS.
->>>>=20
->>>> Ah, missed that you also added libxml2.
->>>> Not sure about the policies of the maintenance branch, but I =
-suspect the
->>>> proper way would be to fix and test in openembedded then submit a =
-pull
->>>> request.
->>>> Then again maybe the policies for the maintenance branch are =
-different.
->>>=20
->>> :) They are. AFAICT I need to get this recipe (including libxml2 dep
->>> update) into oe-core or its layers :)
->>=20
->> I ask again, what makes you think that? Pretty much all of the recent =
-maintenance commits are from .dev.
+> It seems to me that this patch may not be removed. The above code in =
+gcc-configure-common.inc said it only useful for SDK. For gcc-cross, it =
+doesn't change /lib64/ld-linux-x86-64.so.2 to /lib/ld-linux-x86-64.so.2 =
+as what the 64bithack.patch does.
 >=20
-> I'm sorry I guess my previous reply got lost in the noise. I think
-> that because I read it from Tom. If it is at all possible to
-> circumvent this requirement
+> -Lianhao
 
-What did you exactly read and why do you think it's a requirement? =46rom =
-http://wiki.openembedded.org/index.php/2011.03-maintenance:
+Agreed, seeing similar issues on ppc64.  I think the sed line might not =
+be doing with Richard intended.
 
-"Changes may reside in either the openembedded 'master' repository OR a =
-relevant public layer in the oe-core / meta-oe / etc universe"=
+We get:
+
+./i386/linux.h:#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR =
+"/lib/ld-linux.so.2"
+./i386/linux64.h:#define GLIBC_DYNAMIC_LINKER32 SYSTEMLIBS_DIR =
+"/lib/ld-linux.so.2"
+./i386/linux64.h:#define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR =
+"/lib64/ld-linux-x86-64.so.2"
+
+- k
+
+
+>=20
+>> we can drop the patch which changes a hardcoded value for this.
+>>=20
+>> No PR bump since there is no code change resulting from this, its =
+just
+>> a cleanup.
+>>=20
+>> There is still a valid question over the remainder of this patch and
+>> its interaction with multilib configurations.
+>>=20
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> ---
+>> .../recipes-devtools/gcc/gcc-4.5.1/64bithack.patch |   13 =
+-------------
+>> meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch  |   13 =
+-------------
+>> 2 files changed, 0 insertions(+), 26 deletions(-)
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
