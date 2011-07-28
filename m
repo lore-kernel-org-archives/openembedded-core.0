@@ -1,25 +1,39 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX18/kys9s6w55v6w4vKy87mkKnIA1yBaXB4=])
+Received: from na3sys009aog101.obsmtp.com ([74.125.149.67])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QmS4A-00025F-Pa
-	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 17:00:03 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6SEtlrE016092
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2011 09:55:47 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <C10D3FB0CD45994C8A51FEC1227CE22F2C40DBAFF4@shsmsx502.ccr.corp.intel.com>
-Date: Thu, 28 Jul 2011 09:55:48 -0500
-Message-Id: <F025041A-C81D-433F-B330-1F5530B72131@kernel.crashing.org>
-References: <cover.1311776363.git.richard.purdie@linuxfoundation.org>
-	<fe78c19406d856cb9473e062f1c2905dfe063c2a.1311776363.git.richard.purdie@linuxfoundation.org>
-	<C10D3FB0CD45994C8A51FEC1227CE22F2C40DBAFF4@shsmsx502.ccr.corp.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH 2/4] gcc: Drop part of the 64bithack patch which	is no longer used
+	(envelope-from <bengardiner@nanometrics.ca>) id 1QmS5r-0002Op-TB
+	for openembedded-core@openembedded.org; Thu, 28 Jul 2011 17:01:48 +0200
+Received: from mail-vw0-f50.google.com ([209.85.212.50]) (using TLSv1) by
+	na3sys009aob101.postini.com ([74.125.148.12]) with SMTP
+	ID DSNKTjF43aF9t1qg2yPY6qAsi58NlhRgjuRA@postini.com;
+	Thu, 28 Jul 2011 07:57:34 PDT
+Received: by vws14 with SMTP id 14so2274395vws.9
+	for <openembedded-core@openembedded.org>;
+	Thu, 28 Jul 2011 07:57:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nanometrics.ca; s=google;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=4tUOp+ad4lFLc18HyIAcUnLfgs8eJEgg1KjKV64es9s=;
+	b=MZI4GBBpfKt4WeKtYdFGxBvnuoXku6qfI9sWZpet5n6q680RXOUiFonDcy1wT+jTgK
+	dEG9dcb3MApAycz4TEVsvfjY5Q7t6YaohXXI1JqhgVL1Kc6xlg1ss08aufPToE1AyW2X
+	RcXLoMh5iUSzZvbp6pZJs2pnd6ekpiwNhtxXE=
+MIME-Version: 1.0
+Received: by 10.52.22.49 with SMTP id a17mr95265vdf.170.1311863367273; Thu, 28
+	Jul 2011 07:29:27 -0700 (PDT)
+Received: by 10.52.165.200 with HTTP; Thu, 28 Jul 2011 07:29:27 -0700 (PDT)
+In-Reply-To: <CACW_hTYaTBDZjfwHo=fYaZZ72KqEHVKS1DYaxDgeEVOkArmjEw@mail.gmail.com>
+References: <1311824295-13464-1-git-send-email-bengardiner@nanometrics.ca>
+	<CACW_hTZEgveniP0x3R6Q1mNb9+T0kYP=TsOF4A2SwHKJeAqUjA@mail.gmail.com>
+	<CAPcSpE+ZKH=o7RsotsiCmo3ss5zHo=wH9-z6htc7zVWDo7YSOQ@mail.gmail.com>
+	<CACW_hTaR-BfLXDpUyrCcL+Ns2KOOSiT+kH9fJ07HGJwOZ51a4w@mail.gmail.com>
+	<CAPcSpEJphsRYSr_CmXtDc=G5MnGNyoEd8MQcbaALKu4GPQ__Uw@mail.gmail.com>
+	<CACW_hTYaTBDZjfwHo=fYaZZ72KqEHVKS1DYaxDgeEVOkArmjEw@mail.gmail.com>
+Date: Thu, 28 Jul 2011 10:29:27 -0400
+Message-ID: <CAPcSpELL=VJEdcO+0m1goAQdgV8PkjGqmZ9+3U_SZRTed=Yu-A@mail.gmail.com>
+From: Ben Gardiner <bengardiner@nanometrics.ca>
+To: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>, openembedded-core@openembedded.org
+Subject: Re: [PATCH] [PATCH] raptor: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,65 +48,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 15:00:03 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 28 Jul 2011 15:01:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+On Thu, Jul 28, 2011 at 10:24 AM, Frans Meulenbroeks
+<fransmeulenbroeks@gmail.com> wrote:
+>
+>
+> 2011/7/28 Ben Gardiner <bengardiner@nanometrics.ca>
+>>
+>>
+>> Well, I would not submit _this_ patch for pull-request. I was hoping
+>> to get this version of raptor included and then submit a pull-request
+>> for a cherry-pick of the patch to add libxml2 to DEPENDS.
+>
+> Ah, missed that you also added libxml2.
+> Not sure about the policies of the maintenance branch, but I suspect the
+> proper way would be to fix and test in openembedded then submit a pull
+> request.
+> Then again maybe the policies for the maintenance branch are different.
 
-On Jul 28, 2011, at 9:35 AM, Lu, Lianhao wrote:
+:) They are. AFAICT I need to get this recipe (including libxml2 dep
+update) into oe-core or its layers :)
 
-> Richard Purdie wrote on 2011-07-27:
->> Since we now handle GLIBC_DYNAMIC_LINKER in gcc-configure-common.inc:
->>=20
->> 's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 SYSTEMLIBS_DIR\2#'
->>=20
->=20
-> It seems to me that this patch may not be removed. The above code in =
-gcc-configure-common.inc said it only useful for SDK. For gcc-cross, it =
-doesn't change /lib64/ld-linux-x86-64.so.2 to /lib/ld-linux-x86-64.so.2 =
-as what the 64bithack.patch does.
->=20
-> -Lianhao
+>
+> [...]
+>>
+>> >>
+>> >> http://wiki.openembedded.org/index.php/Commit_Patch_Message_Guideline=
+s#Example:_Importing_from_Elsewhere_Modified
+>> >
+>> > Ah ok, Those guidelines are fairly new and I was not too aware of them=
+.
+>> > If
+>> > it is in accordance with the guidelines it is fine with me to keep the=
+m.
+>> > I was mainly triggered by the signed-off lines at the beginning of you=
+r
+>> > message (which I don't think are in accordance to the above mentioned
+>> > guidelines).
+>>
+>>
+>> Oh. I thought they were [in accordance]. I guess there would usually
+>> be a commit body before the initial Signed-off-by:'s ; however, there
+>> was no original commit body to preserve.
+>
+> Ah ok, understood.
+> Actually, I guess we should preserve the first line of the commit too.
+> This is what git log says:
+>
+> frans@frans-desktop:~/workspace/openembedded/recipes/raptor$ git log *
+> commit 01e8e9f325d8d251e852e7a5704b5fe50880e1ad
+> Author: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+> Date:=A0=A0 Sat Aug 14 21:27:49 2010 +0200
+>
+> =A0=A0=A0 raptor: added recipe
+>
+> =A0=A0=A0 Signed-off-by: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
 
-Agreed, seeing similar issues on ppc64.  I think the sed line might not =
-be doing with Richard intended.
+Yes! Good point, Frans. It is 'added' not 'add' Sorry about that.
 
-We get:
+Best Regards,
+Ben Gardiner
 
-./i386/linux.h:#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR =
-"/lib/ld-linux.so.2"
-./i386/linux64.h:#define GLIBC_DYNAMIC_LINKER32 SYSTEMLIBS_DIR =
-"/lib/ld-linux.so.2"
-./i386/linux64.h:#define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR =
-"/lib64/ld-linux-x86-64.so.2"
-
-- k
-
-
->=20
->> we can drop the patch which changes a hardcoded value for this.
->>=20
->> No PR bump since there is no code change resulting from this, its =
-just
->> a cleanup.
->>=20
->> There is still a valid question over the remainder of this patch and
->> its interaction with multilib configurations.
->>=20
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> ---
->> .../recipes-devtools/gcc/gcc-4.5.1/64bithack.patch |   13 =
--------------
->> meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch  |   13 =
--------------
->> 2 files changed, 0 insertions(+), 26 deletions(-)
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+---
+Nanometrics Inc.
+http://www.nanometrics.ca
 
 
