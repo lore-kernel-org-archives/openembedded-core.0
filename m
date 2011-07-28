@@ -1,21 +1,23 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX18zpF4bor/o/vCA58IP4muy8kgr9zBbLzE=])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QmRRI-0001Mp-2d
+	(envelope-from <philb@gnu.org>) id 1QmRTM-0001QY-Io
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 16:19:52 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6SEFXQj028483
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2011 09:15:34 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-Date: Thu, 28 Jul 2011 09:15:34 -0500
-Message-Id: <A64E29D1-A803-4CC3-B7D7-C82C915869D0@kernel.crashing.org>
+	Thu, 28 Jul 2011 16:22:00 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QmRPH-00038Q-9u
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jul 2011 16:17:47 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1084)
-X-Mailer: Apple Mail (2.1084)
-Subject: lib vs lib64?
+Date: Thu, 28 Jul 2011 15:17:46 +0100
+In-Reply-To: <A64E29D1-A803-4CC3-B7D7-C82C915869D0@kernel.crashing.org>
+References: <A64E29D1-A803-4CC3-B7D7-C82C915869D0@kernel.crashing.org>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311862667.30326.443.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: lib vs lib64?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,13 +32,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 14:19:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 28 Jul 2011 14:22:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-With recent multilib changes for a pure 64-bit target (no multilib) =
-should things be in /lib or /lib64?
+On Thu, 2011-07-28 at 09:15 -0500, Kumar Gala wrote:
+> With recent multilib changes for a pure 64-bit target (no multilib) should things be in /lib or /lib64?
 
-- k=
+They should be in ${base_libdir}.  Whether that's /lib or /lib64 is a
+DISTRO choice I suppose.
+
+p.
+
+
 
 
