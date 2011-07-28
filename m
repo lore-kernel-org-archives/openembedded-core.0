@@ -1,41 +1,37 @@
-Received: from na3sys009aog102.obsmtp.com ([74.125.149.69])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bengardiner@nanometrics.ca>) id 1QmTPJ-0007gR-4k
-	for openembedded-core@openembedded.org; Thu, 28 Jul 2011 18:25:57 +0200
-Received: from mail-vw0-f53.google.com ([209.85.212.53]) (using TLSv1) by
-	na3sys009aob102.postini.com ([74.125.148.12]) with SMTP
-	ID DSNKTjGMliUwRiiXhNYn/9duJw6yW+89Mnza@postini.com;
-	Thu, 28 Jul 2011 09:21:43 PDT
-Received: by mail-vw0-f53.google.com with SMTP id 13so2478238vws.26
-	for <openembedded-core@openembedded.org>;
-	Thu, 28 Jul 2011 09:21:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nanometrics.ca; s=google;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=BTl5DQ8k7awdI+4nr8ZpPdfKu4qUsgkaiWAxYOTQT9A=;
-	b=rkx0mOSZMtEf3suggylh9fawmU7orM5jWCez4+C68BU1hVQUACgwcWtiOOTqZfeYLb
-	RvT5NuronRbIMeUjTcM8ma7+T0xajkt0oi9xLTFIXKu9Ay60NmrTuJJAtAiwBumK5mFu
-	cBYWjHOUPNQuaWcWCLVZjYdMoW7NowqGJk164=
+	(envelope-from <jessica.zhang@intel.com>) id 1QmTRT-0007kY-4E
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jul 2011 18:28:11 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 28 Jul 2011 09:23:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,283,1309762800"; d="scan'208";a="31328467"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
+	by orsmga002.jf.intel.com with ESMTP; 28 Jul 2011 09:23:54 -0700
+Received: from orsmsx104.amr.corp.intel.com (10.22.225.131) by
+	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 28 Jul 2011 09:23:54 -0700
+Received: from orsmsx101.amr.corp.intel.com ([169.254.8.233]) by
+	ORSMSX104.amr.corp.intel.com ([169.254.3.12]) with mapi id
+	14.01.0289.001; Thu, 28 Jul 2011 09:23:53 -0700
+From: "Zhang, Jessica" <jessica.zhang@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/1] [M3]meta-environment: set correct
+	*MULTIMACH_TARGET_SYS.
+Thread-Index: AQHMTUK9heVr/VKd9EKvLX/J8Z02mA==
+Date: Thu, 28 Jul 2011 16:23:53 +0000
+Message-ID: <C6510F6D410BB64A8C15398EDC6B847C136FBF0A@ORSMSX101.amr.corp.intel.com>
+References: <cover.1311851957.git.lianhao.lu@intel.com>
+	<4249ed775fcb53aec8c516f5c10fbed2a084bf16.1311851957.git.lianhao.lu@intel.com>
+In-Reply-To: <4249ed775fcb53aec8c516f5c10fbed2a084bf16.1311851957.git.lianhao.lu@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.132]
 MIME-Version: 1.0
-Received: by 10.52.74.231 with SMTP id x7mr107799vdv.237.1311864231390; Thu,
-	28 Jul 2011 07:43:51 -0700 (PDT)
-Received: by 10.52.165.200 with HTTP; Thu, 28 Jul 2011 07:43:51 -0700 (PDT)
-In-Reply-To: <F5078022-9A0A-4728-8D9A-814BD5EF1564@dominion.thruhere.net>
-References: <1311824295-13464-1-git-send-email-bengardiner@nanometrics.ca>
-	<CACW_hTZEgveniP0x3R6Q1mNb9+T0kYP=TsOF4A2SwHKJeAqUjA@mail.gmail.com>
-	<CAPcSpE+ZKH=o7RsotsiCmo3ss5zHo=wH9-z6htc7zVWDo7YSOQ@mail.gmail.com>
-	<CACW_hTaR-BfLXDpUyrCcL+Ns2KOOSiT+kH9fJ07HGJwOZ51a4w@mail.gmail.com>
-	<CAPcSpEJphsRYSr_CmXtDc=G5MnGNyoEd8MQcbaALKu4GPQ__Uw@mail.gmail.com>
-	<CACW_hTYaTBDZjfwHo=fYaZZ72KqEHVKS1DYaxDgeEVOkArmjEw@mail.gmail.com>
-	<CAPcSpELL=VJEdcO+0m1goAQdgV8PkjGqmZ9+3U_SZRTed=Yu-A@mail.gmail.com>
-	<F5078022-9A0A-4728-8D9A-814BD5EF1564@dominion.thruhere.net>
-Date: Thu, 28 Jul 2011 10:43:51 -0400
-Message-ID: <CAPcSpEJLMsg+HkPbtu=6L=QEr=S7+bb34xzSKgYAwa2Qq_mnPA@mail.gmail.com>
-From: Ben Gardiner <bengardiner@nanometrics.ca>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: openembedded-core@openembedded.org
-Subject: Re: [PATCH] [PATCH] raptor: add recipe
+Subject: Re: [PATCH 1/1] [M3]meta-environment: set correct	*MULTIMACH_TARGET_SYS.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,85 +46,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 16:25:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 28 Jul 2011 16:28:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Koen,
-
-On Thu, Jul 28, 2011 at 10:36 AM, Koen Kooi <koen@dominion.thruhere.net> wr=
-ote:
->
-> Op 28 jul. 2011, om 16:29 heeft Ben Gardiner het volgende geschreven:
->
->> On Thu, Jul 28, 2011 at 10:24 AM, Frans Meulenbroeks
->> <fransmeulenbroeks@gmail.com> wrote:
->>>
->>>
->>> 2011/7/28 Ben Gardiner <bengardiner@nanometrics.ca>
->>>>
->>>>
->>>> Well, I would not submit _this_ patch for pull-request. I was hoping
->>>> to get this version of raptor included and then submit a pull-request
->>>> for a cherry-pick of the patch to add libxml2 to DEPENDS.
->>>
->>> Ah, missed that you also added libxml2.
->>> Not sure about the policies of the maintenance branch, but I suspect th=
-e
->>> proper way would be to fix and test in openembedded then submit a pull
->>> request.
->>> Then again maybe the policies for the maintenance branch are different.
->>
->> :) They are. AFAICT I need to get this recipe (including libxml2 dep
->> update) into oe-core or its layers :)
->
-> I ask again, what makes you think that? Pretty much all of the recent mai=
-ntenance commits are from .dev.
-
-I'm sorry I guess my previous reply got lost in the noise. I think
-that because I read it from Tom. If it is at all possible to
-circumvent this requirement and avoid bothering you on the oe-core
-list that I would be happy to be obliged.
-
-On Thu, Jul 28, 2011 at 8:52 AM, Ben Gardiner
-<bengardiner@nanometrics.ca> wrote:
-> Hi Koen, Frans,
->
-> On Thu, Jul 28, 2011 at 6:48 AM, Koen Kooi <koen@dominion.thruhere.net> w=
-rote:
->> [...]
->> And where does it say it needs to be in OE-core first?
->
-> My understanding of Tom's post to the oe.dev mailing list is that
-> commits in pull-requests for 2011.03 need to first be oe-core or one
-> of its layers.
->
-> In Message-ID: <4DFA7108.5020103@mentor.com> On Thu, Jun 16, 2011 at
-> 5:09 PM, Tom Rini <tom_rini@mentor.com> wrote:
->> -----BEGIN PGP SIGNED MESSAGE-----
->> Hash: SHA1
->>
->> Hi all,
->>
->> As part of this weeks TSC meeting, an agenda item was brought up about
->> the 2011.03-maintenance branch and oe-core / etc. =A0I have now updated
->> the policy about where changes need to be before they can be included in
->> 2011.03-maintenance to include being in oe-core / meta-oe or other
->> relevant public layer instead of being only in the oe.dev master branch.
->> =A0This is not a policy change, but a clarification of what was there
->> previously. =A0Thanks all!
 
 
-> As for getting it in meta-oe, you need to test it first in that layer bef=
-ore sending a patch.
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Lianhao Lu
+Sent: Thursday, July 28, 2011 4:24 AM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH 1/1] meta-environment: set correct *MULTIMACH_TAR=
+GET_SYS.
 
-Understood; I will test in meta-oe before sending a patch.
+Fixed [BUGID #1299]. OLD_MULTIMACH_TARGET_SYS is no longer available.
+Use new recipe-scope variable REAL_MULTIMACH_TARGET_SYS instead.
 
-Best Regards,
-Ben Gardiner
-
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+Acted-by: Jessica Zhang <jessica.zhang@intel.com>
 ---
-Nanometrics Inc.
-http://www.nanometrics.ca
+ meta/classes/toolchain-scripts.bbclass     |    7 ++++---
+ meta/recipes-core/meta/meta-environment.bb |    9 +++++----
+ 2 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchai=
+n-scripts.bbclass
+index 3301319..832cce4 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -66,13 +66,14 @@ toolchain_create_tree_env_script () {
+ # This function creates an environment-setup-script for use by the ADT ins=
+taller
+ toolchain_create_sdk_env_script_for_installer () {
+        # Create environment setup script
+-       script=3D${SDK_OUTPUT}/${SDKPATH}/environment-setup-${OLD_MULTIMACH=
+_TARGET_SYS}
++       local multimach_target_sys=3D$1
++       script=3D${SDK_OUTPUT}/${SDKPATH}/environment-setup-${multimach_tar=
+get_sys}
+        rm -f $script
+        touch $script
+-       echo 'export PATH=3D${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNA=
+TIVE}${bindir_nativesdk}/${OLD_MULTIMACH_TARGET_SYS}:$PATH' >> $script
++       echo 'export PATH=3D${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNA=
+TIVE}${bindir_nativesdk}/'"${multimach_target_sys}"':$PATH' >> $script
+        echo 'export PKG_CONFIG_SYSROOT_DIR=3D##SDKTARGETSYSROOT##' >> $scr=
+ipt
+        echo 'export PKG_CONFIG_PATH=3D##SDKTARGETSYSROOT##${target_libdir}=
+/pkgconfig' >> $script
+-       echo 'export CONFIG_SITE=3D${SDKPATH}/site-config-${OLD_MULTIMACH_T=
+ARGET_SYS}' >> $script
++       echo 'export CONFIG_SITE=3D${SDKPATH}/site-config-'"${multimach_tar=
+get_sys}" >> $script
+        echo 'export CC=3D${TARGET_PREFIX}gcc' >> $script
+        echo 'export CXX=3D${TARGET_PREFIX}g++' >> $script
+        echo 'export GDB=3D${TARGET_PREFIX}gdb' >> $script
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core=
+/meta/meta-environment.bb
+index 351cbf0..6d547bb 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -2,13 +2,14 @@ DESCRIPTION =3D "Package of environment files for SDK"
+ LIC_FILES_CHKSUM =3D "file://${COREBASE}/LICENSE;md5=3D3f40d7994397109285e=
+c7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb788=
+c80a0384361b4de20420"
+ LICENSE =3D "MIT"
+-PR =3D "r4"
++PR =3D "r5"
+
+ EXCLUDE_FROM_WORLD =3D "1"
+
+ inherit toolchain-scripts
+ # get target config site before inheritting cross-canadian
+ TARGET_CONFIG_SITE :=3D "${@siteinfo_get_files(d)}"
++REAL_MULTIMACH_TARGET_SYS =3D "${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS=
+}"
+
+ SDK_DIR =3D "${WORKDIR}/sdk"
+ SDK_OUTPUT =3D "${SDK_DIR}/image"
+@@ -22,12 +23,12 @@ do_generate_content() {
+     rm -rf ${SDK_OUTPUT}
+     mkdir -p ${SDK_OUTPUT}/${SDKPATH}
+
+-    toolchain_create_sdk_siteconfig ${SDK_OUTPUT}/${SDKPATH}/site-config-$=
+{OLD_MULTIMACH_TARGET_SYS} ${TARGET_CONFIG_SITE}
++    toolchain_create_sdk_siteconfig ${SDK_OUTPUT}/${SDKPATH}/site-config-$=
+{REAL_MULTIMACH_TARGET_SYS} ${TARGET_CONFIG_SITE}
+
+-    toolchain_create_sdk_env_script_for_installer
++    toolchain_create_sdk_env_script_for_installer ${REAL_MULTIMACH_TARGET_=
+SYS}
+
+     # Add version information
+-    toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${OLD_MU=
+LTIMACH_TARGET_SYS}
++    toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${REAL_M=
+ULTIMACH_TARGET_SYS}
+ }
+ addtask generate_content before do_install after do_compile
+
+--
+1.7.0.4
+
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
