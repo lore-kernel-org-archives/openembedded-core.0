@@ -1,44 +1,20 @@
-Received: from na3sys009aob106.obsmtp.com ([74.125.149.76]
-	helo=na3sys009aog106.obsmtp.com)
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bengardiner@nanometrics.ca>) id 1QmTVB-0007p5-AR
-	for openembedded-core@openembedded.org; Thu, 28 Jul 2011 18:32:03 +0200
-Received: from mail-vx0-f177.google.com ([209.85.220.177]) (using TLSv1) by
-	na3sys009aob106.postini.com ([74.125.148.12]) with SMTP
-	ID DSNKTjGOAohvQuz71g/io/9unA+1+FWxc/YZ@postini.com;
-	Thu, 28 Jul 2011 09:27:47 PDT
-Received: by mail-vx0-f177.google.com with SMTP id 29so2639832vxh.8
-	for <openembedded-core@openembedded.org>;
-	Thu, 28 Jul 2011 09:27:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nanometrics.ca; s=google;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=FDii2X9XAYalRzIRcMzpEvnSc+nodS/btmhBUEhDMEo=;
-	b=Eb1pgIypGRYQd3mm/DGttovHuuFAObmJa48pcywHJTYV3WfvHNXK02V3MRZK7ykvnx
-	6WmTNh8lPYKOuDcvOHBpJ2rYGUPi3uKY1y1ZZ0BXRVECK/zzvzk9oaT+Z+qz64+YJjQQ
-	/F1Sr5CAuR4eBa+m6yT7iKSYSKwxEheJs2k5E=
-MIME-Version: 1.0
-Received: by 10.52.174.195 with SMTP id bu3mr103370vdc.371.1311864696541; Thu,
-	28 Jul 2011 07:51:36 -0700 (PDT)
-Received: by 10.52.165.200 with HTTP; Thu, 28 Jul 2011 07:51:36 -0700 (PDT)
-In-Reply-To: <DB1D5A60-CC02-493E-B6E0-9246AC19F47D@dominion.thruhere.net>
-References: <1311824295-13464-1-git-send-email-bengardiner@nanometrics.ca>
-	<CACW_hTZEgveniP0x3R6Q1mNb9+T0kYP=TsOF4A2SwHKJeAqUjA@mail.gmail.com>
-	<CAPcSpE+ZKH=o7RsotsiCmo3ss5zHo=wH9-z6htc7zVWDo7YSOQ@mail.gmail.com>
-	<CACW_hTaR-BfLXDpUyrCcL+Ns2KOOSiT+kH9fJ07HGJwOZ51a4w@mail.gmail.com>
-	<CAPcSpEJphsRYSr_CmXtDc=G5MnGNyoEd8MQcbaALKu4GPQ__Uw@mail.gmail.com>
-	<CACW_hTYaTBDZjfwHo=fYaZZ72KqEHVKS1DYaxDgeEVOkArmjEw@mail.gmail.com>
-	<CAPcSpELL=VJEdcO+0m1goAQdgV8PkjGqmZ9+3U_SZRTed=Yu-A@mail.gmail.com>
-	<F5078022-9A0A-4728-8D9A-814BD5EF1564@dominion.thruhere.net>
-	<CAPcSpEJLMsg+HkPbtu=6L=QEr=S7+bb34xzSKgYAwa2Qq_mnPA@mail.gmail.com>
-	<DB1D5A60-CC02-493E-B6E0-9246AC19F47D@dominion.thruhere.net>
-Date: Thu, 28 Jul 2011 10:51:36 -0400
-Message-ID: <CAPcSpE+N3PRLB27fEfqgu5c9iuybCHr+G-hgJwu2JrLiCUY8Ew@mail.gmail.com>
-From: Ben Gardiner <bengardiner@nanometrics.ca>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: openembedded-core@openembedded.org
-Subject: Re: [PATCH] [PATCH] raptor: add recipe
+	(envelope-from <philb@gnu.org>) id 1QmTYY-0007tA-C1
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jul 2011 18:35:30 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QmTUS-0003Cq-W5
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jul 2011 18:31:17 +0200
+From: Phil Blundell <philb@gnu.org>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Jul 2011 17:31:15 +0100
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311870676.30326.452.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: [PATCH] arch-armv6, arch-armv5-dsp: correct endianness confusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,69 +29,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 16:32:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 28 Jul 2011 16:35:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 28, 2011 at 10:46 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
-> Op 28 jul. 2011, om 16:43 heeft Ben Gardiner het volgende geschreven:
->
->> Hi Koen,
->>
->> On Thu, Jul 28, 2011 at 10:36 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>>
->>> Op 28 jul. 2011, om 16:29 heeft Ben Gardiner het volgende geschreven:
->>>
->>>> On Thu, Jul 28, 2011 at 10:24 AM, Frans Meulenbroeks
->>>> <fransmeulenbroeks@gmail.com> wrote:
->>>>>
->>>>>
->>>>> 2011/7/28 Ben Gardiner <bengardiner@nanometrics.ca>
->>>>>>
->>>>>>
->>>>>> Well, I would not submit _this_ patch for pull-request. I was hoping
->>>>>> to get this version of raptor included and then submit a pull-request
->>>>>> for a cherry-pick of the patch to add libxml2 to DEPENDS.
->>>>>
->>>>> Ah, missed that you also added libxml2.
->>>>> Not sure about the policies of the maintenance branch, but I suspect the
->>>>> proper way would be to fix and test in openembedded then submit a pull
->>>>> request.
->>>>> Then again maybe the policies for the maintenance branch are different.
->>>>
->>>> :) They are. AFAICT I need to get this recipe (including libxml2 dep
->>>> update) into oe-core or its layers :)
->>>
->>> I ask again, what makes you think that? Pretty much all of the recent maintenance commits are from .dev.
->>
->> I'm sorry I guess my previous reply got lost in the noise. I think
->> that because I read it from Tom. If it is at all possible to
->> circumvent this requirement
->
-> What did you exactly read and why do you think it's a requirement? From http://wiki.openembedded.org/index.php/2011.03-maintenance:
->
-> "Changes may reside in either the openembedded 'master' repository OR a relevant public layer in the oe-core / meta-oe / etc universe"
+PACKAGE_EXTRA_ARCHS_tune-armv5eb needs to be defined in terms of
+the non-e with the same endianness, i.e. PACKAGE_EXTRA_ARCHS_tune-armv5b
+not PACKAGE_EXTRA_ARCHS_tune-armv5, otherwise PACKAGE_EXTRA_ARCHS will 
+end up containing a semi-random mixture of endiannesses and disaster 
+will ensue.  Likewise for the vfp and armv6 variants.
 
-I read:
+This is all a bit confusing because TUNE_FEATURES is done the opposite
+way around, i.e. TUNE_FEATURES_tune-armv5eb is derived by taking the
+armv5e version and adding bigendian.  But fixing that is probably
+a subject for a separate patch.
 
-In Message-ID: <4DFA7108.5020103@mentor.com> On Thu, Jun 16, 2011 at
-5:09 PM, Tom Rini <tom_rini@mentor.com> wrote:
-> [...]
-> the policy about where changes need to be before they can be included in
-> 2011.03-maintenance to include being in oe-core / meta-oe or other
-> relevant public layer instead of being only in the oe.dev master branch.
-
-and took "instead of being only" to mean that the development effort
-must shift to pushing into oe-core (or it's layers).
-
-My mistake and thank you for clarifying this is not a requirement.
-Please drop this patch from consideration.
-
-Best Regards,
-Ben Gardiner
-
+Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
-Nanometrics Inc.
-http://www.nanometrics.ca
+ meta/conf/machine/include/arm/arch-armv5-dsp.inc |    8 ++++----
+ meta/conf/machine/include/arm/arch-armv6.inc     |    4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/meta/conf/machine/include/arm/arch-armv5-dsp.inc b/meta/conf/machine/include/arm/arch-armv5-dsp.inc
+index 498a012..9f03a0f 100644
+--- a/meta/conf/machine/include/arm/arch-armv5-dsp.inc
++++ b/meta/conf/machine/include/arm/arch-armv5-dsp.inc
+@@ -24,8 +24,8 @@ PACKAGE_EXTRA_ARCHS_tune-armv5tehf-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5thf-vf
+ AVAILTUNES += "armv5eb armv5teb"
+ TUNE_FEATURES_tune-armv5eb ?= "${TUNE_FEATURES_tune-armv5e} bigendian"
+ TUNE_FEATURES_tune-armv5teb ?= "${TUNE_FEATURES_tune-armv5te} bigendian"
+-PACKAGE_EXTRA_ARCHS_tune-armv5eb = "${PACKAGE_EXTRA_ARCHS_tune-armv5} armv5eb"
+-PACKAGE_EXTRA_ARCHS_tune-armv5teb = "${PACKAGE_EXTRA_ARCHS_tune-armv5t} armv5eb armv5teb"
++PACKAGE_EXTRA_ARCHS_tune-armv5eb = "${PACKAGE_EXTRA_ARCHS_tune-armv5b} armv5eb"
++PACKAGE_EXTRA_ARCHS_tune-armv5teb = "${PACKAGE_EXTRA_ARCHS_tune-armv5tb} armv5eb armv5teb"
+ 
+ # Big Endian + VFP/DSP
+ AVAILTUNES += "armv5eb-vfp armv5teb-vfp armv5ehfb-vfp armv5tehfb-vfp"
+@@ -33,8 +33,8 @@ TUNE_FEATURES_tune-armv5eb-vfp ?= "${TUNE_FEATURES_tune-armv5e-vfp} bigendian"
+ TUNE_FEATURES_tune-armv5teb-vfp ?= "${TUNE_FEATURES_tune-armv5te-vfp} bigendian"
+ TUNE_FEATURES_tune-armv5ehfb-vfp ?= "${TUNE_FEATURES_tune-armv5eb-vfp} callconvention-hard"
+ TUNE_FEATURES_tune-armv5tehfb-vfp ?= "${TUNE_FEATURES_tune-armv5teb-vfp} callconvention-hard"
+-PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5-vfp} armv5eb armv5eb-vfp"
+-PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5t-vfp} armv5eb armv5teb armv5eb-vfp armv5teb-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5b-vfp} armv5eb armv5eb-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5tb-vfp} armv5eb armv5teb armv5eb-vfp armv5teb-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-armv5ehfb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5hfb-vfp} armv5ehfb-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-armv5tehfb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5thfb-vfp} armv5ehfb-vfp armv5tehfb-vfp"
+ 
+diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
+index 20924c9..9f2e9ac 100644
+--- a/meta/conf/machine/include/arm/arch-armv6.inc
++++ b/meta/conf/machine/include/arm/arch-armv6.inc
+@@ -25,8 +25,8 @@ TUNE_FEATURES_tune-armv6b ?= "${TUNE_FEATURES_tune-armv6} bigendian"
+ TUNE_FEATURES_tune-armv6tb ?= "${TUNE_FEATURES_tune-armv6t} bigendian"
+ TUNE_FEATURES_tune-armv6hfb ?= "${TUNE_FEATURES_tune-armv6b} callconvention-hard"
+ TUNE_FEATURES_tune-armv6thfb ?= "${TUNE_FEATURES_tune-armv6tb} callconvention-hard"
+-PACKAGE_EXTRA_ARCHS_tune-armv6b = "${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp} armv6b-vfp"
+-PACKAGE_EXTRA_ARCHS_tune-armv6tb = "${PACKAGE_EXTRA_ARCHS_tune-armv5te-vfp} armv6b-vfp armv6tb-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv6b = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp} armv6b-vfp"
++PACKAGE_EXTRA_ARCHS_tune-armv6tb = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp} armv6b-vfp armv6tb-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-armv6hfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehfb-vfp} armv6hfb-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-armv6thfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehfb-vfp} armv6hfb-vfp armv6thfb-vfp"
+ 
+-- 
+1.7.4.1
+
+
+
 
 
