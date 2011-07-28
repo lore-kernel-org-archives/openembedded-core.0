@@ -1,25 +1,28 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QmMK0-0001Wu-6j
+	(envelope-from <philb@gnu.org>) id 1QmMQ9-0001cn-36
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 10:52:00 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Jul 2011 01:47:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,281,1309762800"; d="scan'208";a="35426903"
-Received: from unknown (HELO helios.localnet) ([10.255.17.224])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2011 01:47:42 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2011 09:47:41 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-References: <346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
-	<4E30FD0C.7040503@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6B1A8AF9A65@shsmsx502.ccr.corp.intel.com>
-In-Reply-To: <1865303E0DED764181A9D882DEF65FB6B1A8AF9A65@shsmsx502.ccr.corp.intel.com>
-MIME-Version: 1.0
-Message-Id: <201107280947.42048.paul.eggleton@linux.intel.com>
-Subject: Re: Add basic PowerPC core tune config (bug?)
+	Thu, 28 Jul 2011 10:58:21 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QmMM4-0002yq-2V
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jul 2011 10:54:08 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Jul 2011 09:54:06 +0100
+In-Reply-To: <20110728072450.GE15286@jama.jama.net>
+References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
+	<346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
+	<1311777255.30326.347.camel@phil-desktop>
+	<4E302785.9070705@windriver.com>
+	<1311780347.30326.376.camel@phil-desktop> <4E30489A.100@windriver.com>
+	<20110728072450.GE15286@jama.jama.net>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311843248.30326.403.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/3] Add ARM tune file overhaul based largely on work from Mark Hatle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,43 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 08:52:00 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+X-List-Received-Date: Thu, 28 Jul 2011 08:58:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thursday 28 July 2011 08:48:43 Cui, Dexuan wrote:
-> Saul Wold wrote on 2011-07-28:
-> > On 07/27/2011 10:25 PM, Kumar Gala wrote:
-> >> For some reason when I get to do_rootfs for core-image-sato when using
-> >> rpms I run into an issue in that:
-> >> 
-> >> ${PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE}}
-> >> 
-> >> Isn't expanding or taking the assignment in
-> >> meta/conf/machine/include/tune-ppcFOO.inc but just using what it
-> >> found in meta/conf/bitbake.conf
-> > 
-> > I believe that I am seeing this also with an atom-pc build, where the
-> > PACKAGE_EXTRA_ARCHS seems OK, but ends up just being i586 instead of a
-> > list of ARCHS that includes core2 (which atom-pc should be).
-> 
-> Hi, I'm suffering from the exactly same issue... :-(
-> I don't know why PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE} isn't expending
-> yet.
+On Thu, 2011-07-28 at 09:24 +0200, Martin Jansa wrote:
+> Mark is right that if we have PACKAGE_ARCH = "armv4t" and we force
+> no-thumb with ARM_INSTRUCTION_SET = "arm" then PACKAGE_ARCH should be
+> switched to "armv4" only to indicate that.
 
-It seems to me that ??= gets confused because the variable name needs 
-expanding. If you change the ${DEFAULTTUNE} reference to core2 in 
-PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE} ??= "${TARGET_ARCH}" it all works. I 
-don't know if that indicates a BitBake bug or whether we should try to work 
-around it.
+No, this is wrong.  Even with ARM_INSTRUCTION_SET = "arm" you might have
+BX instructions in the output, in which case "armv4t" is the correct
+PACKAGE_ARCH.  You can only set PACKAGE_ARCH = "armv4" if all the BXs
+have been suppressed, which means that you lose the ability to do
+interworking.
 
-Cheers,
-Paul
+p.
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
