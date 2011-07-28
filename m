@@ -1,25 +1,43 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-gw0-f42.google.com ([74.125.83.42])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QmEjZ-00067M-29
+	(envelope-from <raj.khem@gmail.com>) id 1QmEkR-000693-Ur
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 02:45:53 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 Jul 2011 17:41:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,279,1309762800"; d="scan'208";a="32883105"
-Received: from unknown (HELO [10.255.14.61]) ([10.255.14.61])
-	by orsmga001.jf.intel.com with ESMTP; 27 Jul 2011 17:41:37 -0700
-Message-ID: <4E30B041.7060801@linux.intel.com>
-Date: Wed, 27 Jul 2011 17:41:37 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
+	Thu, 28 Jul 2011 02:46:48 +0200
+Received: by gwb17 with SMTP id 17so1671980gwb.29
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jul 2011 17:42:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=xaL1D0DjhagRR0OFpDVklmS5L3SIB9FtIaESV6ijhRw=;
+	b=l4hvdKVaoniQOtj88QuW8N+G1DaNjMDbnSgLmAAuoMYQ7vvuWjebUh8QTIYe0B4Gu1
+	4ojhlyb0+mF6+2JkL6Cwxy2U4MeMeZaYTtsXVB7FWnyu7dqDeeba5k2VsahJBXMDBDt0
+	o0uIQKrMSn2y6G3Z/e/7Wz0Jkqyw1ivRYArEw=
+Received: by 10.68.33.196 with SMTP id t4mr704078pbi.280.1311813752104;
+	Wed, 27 Jul 2011 17:42:32 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id 9sm399935pbx.66.2011.07.27.17.42.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 27 Jul 2011 17:42:31 -0700 (PDT)
+Date: Wed, 27 Jul 2011 17:43:26 -0700
+From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1311715727.git.mark.hatle@windriver.com>
-In-Reply-To: <cover.1311715727.git.mark.hatle@windriver.com>
-Subject: Re: [v2 PATCH 0/8] Number of multilib related fixes
+Message-ID: <20110728004326.GA16204@sakrah.homelinux.org>
+References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
+	<346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
+	<1311777255.30326.347.camel@phil-desktop>
+	<4E302785.9070705@windriver.com>
+	<1311780347.30326.376.camel@phil-desktop>
+	<4E30489A.100@windriver.com>
+	<1311795061.3398.9.camel@lenovo.internal.reciva.com>
+	<4E3079BA.30705@windriver.com>
+	<1311801404.3398.16.camel@lenovo.internal.reciva.com>
+MIME-Version: 1.0
+In-Reply-To: <1311801404.3398.16.camel@lenovo.internal.reciva.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH 1/3] Add ARM tune file overhaul based largely on work from Mark Hatle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,55 +52,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 00:45:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Jul 2011 00:46:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 07/26/2011 02:31 PM, Mark Hatle wrote:
-> Fix a number of multilib issues include IA32 eglibc header generation,
-> misc header conflicts and ncurses man page collisions.
->
-> This is v2 of the patch set, original was sent by Richard.
->
-> The following changes since commit dad2169cfb331b7af5c6d380347ea279a59bd716:
->
->    classes/image_types: IMAGE_TYPES was missing some entries (2011-07-26 15:52:40 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib mhatle/ml_fixes
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/ml_fixes
->
-> Mark Hatle (8):
->    multilib_header.bbclass: Add oe_multilib_header wrapper
->    binutils: Fix multilib header conflict - bfd.h
->    apr: Fix multilib header conflict - apr.h
->    beecrypt: Fix multilib header conflict - beecrypt/gnu.h
->    linux-libc-headers: Fix file conflict -- ..install.cmd
->    eglibc_2.13: Resolve multilib header conflicts
->    ncurses: Resolve header and man page multilib conflicts
->    package.bbclass: fixup_perms - change symlink processing
->
->   meta/classes/multilib_header.bbclass               |   29 ++++++
->   meta/classes/package.bbclass                       |   10 +-
->   meta/recipes-core/eglibc/eglibc-package.inc        |    4 +-
->   meta/recipes-core/eglibc/eglibc_2.13.bb            |   91 ++++++++++++++++++++
->   meta/recipes-core/ncurses/ncurses.inc              |    7 +-
->   meta/recipes-devtools/binutils/binutils.inc        |    4 +-
->   meta/recipes-devtools/binutils/binutils_2.21.1.bb  |    2 +-
->   .../linux-libc-headers-yocto_git.bb                |    5 +-
->   .../linux-libc-headers_2.6.37.2.bb                 |    5 +-
->   .../linux-libc-headers_2.6.39.bb                   |    5 +
->   meta/recipes-support/apr/apr_1.4.2.bb              |    8 ++-
->   meta/recipes-support/beecrypt/beecrypt_4.2.1.bb    |    8 ++-
->   scripts/multilib_header_wrapper.h                  |   55 ++++++++++++
->   13 files changed, 217 insertions(+), 16 deletions(-)
->   create mode 100644 meta/classes/multilib_header.bbclass
->   create mode 100644 scripts/multilib_header_wrapper.h
->
+> > 
+> > It was my understanding that interwork was always enabled these days.  Does
+> > interworking require a thumb compatible arm core?
+> 
+> Not for v5 and up, since the ARM-state BX instruction always exists
+> (even if it isn't capable of switching to Thumb-state), and pop {pc}
+> always changes state if necessary.  The combination of these two things
+> means that interworking basically comes for free and there is no benefit
+> to turning it off.
+> 
+> But for v4T, the only instruction which is capable of a state change is
+> BX, and that instruction simply doesn't exist at all in the non-T v4
+> architecture.  So, if you plan to run on a v4 core you must either build
+> with interworking off, or (more commonly nowadays) use the --fix-v4bx
+> linker option to convert BX back to MOV during final link.
 
-Merged into OE-Core
+We use --fix-v4bx in oe
 
-Thanks
-	Sau!
+-- 
+-Khem
 
 
