@@ -1,24 +1,18 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX19UliPWpKBwjI6Ybs/qbxQdc03tG0ccPdY=])
+	ident=[U2FsdGVkX181CLHIFZSjDrcFDUXTPuJdzHlrCkuKrL8=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QmXjq-0004gj-TU
+	(envelope-from <galak@kernel.crashing.org>) id 1QmYUI-0005TW-PN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 23:03:27 +0200
+	Thu, 28 Jul 2011 23:51:27 +0200
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6SKxBD8002622
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2011 15:59:12 -0500
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6SLl7op026484;
+	Thu, 28 Jul 2011 16:47:08 -0500
 From: Kumar Gala <galak@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2011 15:59:08 -0500
-Message-Id: <1311886748-17637-5-git-send-email-galak@kernel.crashing.org>
+Date: Thu, 28 Jul 2011 16:47:07 -0500
+Message-Id: <1311889627-28232-1-git-send-email-galak@kernel.crashing.org>
 X-Mailer: git-send-email 1.5.6.5
-In-Reply-To: <1311886748-17637-4-git-send-email-galak@kernel.crashing.org>
-References: <1311886748-17637-1-git-send-email-galak@kernel.crashing.org>
-	<1311886748-17637-2-git-send-email-galak@kernel.crashing.org>
-	<1311886748-17637-3-git-send-email-galak@kernel.crashing.org>
-	<1311886748-17637-4-git-send-email-galak@kernel.crashing.org>
-Subject: [PATCH 5/5] image-mklibs.bbclass: Add powerpc64 arch support
+Subject: [PATCH] tune-ppce500mc: Adjust PowerPC e500mc tune file to correctly set hard fpu.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +27,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 21:03:27 -0000
+X-List-Received-Date: Thu, 28 Jul 2011 21:51:27 -0000
 
-Just mimic what we do on powerpc (32-bit).
+From: Malcolm Crossley <malcolm.crossley@ge.com>
 
+Signed-off-by: Malcolm Crossley <malcolm.crossley@ge.com>
 Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- meta/classes/image-mklibs.bbclass |    2 +-
+ meta/conf/machine/include/tune-ppce500mc.inc |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
-index 9f5a4ea..d5e8ab7 100644
---- a/meta/classes/image-mklibs.bbclass
-+++ b/meta/classes/image-mklibs.bbclass
-@@ -16,7 +16,7 @@ mklibs_optimize_image_doit() {
- 		> ${WORKDIR}/mklibs/executables.list
+diff --git a/meta/conf/machine/include/tune-ppce500mc.inc b/meta/conf/machine/include/tune-ppce500mc.inc
+index a4cdb1f..73217dd 100644
+--- a/meta/conf/machine/include/tune-ppce500mc.inc
++++ b/meta/conf/machine/include/tune-ppce500mc.inc
+@@ -7,5 +7,5 @@ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-mcpu=e500mc
+ TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "ppce500mc", "", d)}"
  
- 	case ${TARGET_ARCH} in
--		powerpc | mips | microblaze )
-+		powerpc | powerpc64 | mips | microblaze )
- 			dynamic_loader="/lib/ld.so.1"
- 			;;
- 		x86_64)
+ AVAILTUNES += "ppce500mc"
+-TUNE_FEATURES_tune-ppce500mc = "m32 hard-fpu ppce500mc"
++TUNE_FEATURES_tune-ppce500mc = "m32 fpu-hard ppce500mc"
+ PACKAGE_EXTRA_ARCHS_tune-ppce500mc = "powerpc ppce500mc"
 -- 
 1.7.3.4
 
