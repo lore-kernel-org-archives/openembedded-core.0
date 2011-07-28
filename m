@@ -1,24 +1,19 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX1/+3TvMtxu9sxAea0JcScgT/1n7PcGkV5o=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1QmQLe-00080A-22
+	(envelope-from <galak@kernel.crashing.org>) id 1QmQQC-0008Jp-0I
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 15:09:58 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Jul 2011 06:05:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,282,1309762800"; d="scan'208";a="33091584"
-Received: from yocto-build3.sh.intel.com ([10.239.48.58])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2011 06:05:42 -0700
-From: edwin.zhai@intel.com
+	Thu, 28 Jul 2011 15:14:40 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6SDAOZ2027548
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jul 2011 08:10:24 -0500
+From: Kumar Gala <galak@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2011 21:03:09 +0800
-Message-Id: <b6ff3d05a5c5a7fc6182b389da8d43ba531cd053.1311858056.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1311858056.git.edwin.zhai@intel.com>
-References: <cover.1311858056.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1311858056.git.edwin.zhai@intel.com>
-References: <cover.1311858056.git.edwin.zhai@intel.com>
-Subject: [PATCH 7/7] parted: Upgrade to 3.0
+Date: Thu, 28 Jul 2011 08:10:24 -0500
+Message-Id: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH] scripts/oe-buildenv-internal: Add SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 13:09:58 -0000
+X-List-Received-Date: Thu, 28 Jul 2011 13:14:40 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+If a SOCKS5 gateway is needed for a proxy access like git it might also
+require authentication to the proxy via a password and username.  Adding
+SOCKS5_USER & SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for automation
+of the authentication request to occur when something like a git fetch
+is going through the proxy.
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- .../{parted-2.3 => parted-3.0}/no_check.patch      |    0
- .../{parted-2.3 => parted-3.0}/syscalls.patch      |    0
- .../parted/{parted_2.3.bb => parted_3.0.bb}        |    4 ++--
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/parted/{parted-2.3 => parted-3.0}/no_check.patch (100%)
- rename meta/recipes-extended/parted/{parted-2.3 => parted-3.0}/syscalls.patch (100%)
- rename meta/recipes-extended/parted/{parted_2.3.bb => parted_3.0.bb} (78%)
+* Fixes issue with a git fetch request failing to get pass a firewall
 
-diff --git a/meta/recipes-extended/parted/parted-2.3/no_check.patch b/meta/recipes-extended/parted/parted-3.0/no_check.patch
-similarity index 100%
-rename from meta/recipes-extended/parted/parted-2.3/no_check.patch
-rename to meta/recipes-extended/parted/parted-3.0/no_check.patch
-diff --git a/meta/recipes-extended/parted/parted-2.3/syscalls.patch b/meta/recipes-extended/parted/parted-3.0/syscalls.patch
-similarity index 100%
-rename from meta/recipes-extended/parted/parted-2.3/syscalls.patch
-rename to meta/recipes-extended/parted/parted-3.0/syscalls.patch
-diff --git a/meta/recipes-extended/parted/parted_2.3.bb b/meta/recipes-extended/parted/parted_3.0.bb
-similarity index 78%
-rename from meta/recipes-extended/parted/parted_2.3.bb
-rename to meta/recipes-extended/parted/parted_3.0.bb
-index 14c9c25..29daf01 100644
---- a/meta/recipes-extended/parted/parted_2.3.bb
-+++ b/meta/recipes-extended/parted/parted_3.0.bb
-@@ -10,8 +10,8 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.gz \
-            file://no_check.patch \
-            file://syscalls.patch "
+ scripts/oe-buildenv-internal |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index c13fc40..b223292 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -55,4 +55,4 @@ unset BITBAKEDIR
+ export BUILDDIR
+ export PATH
  
--SRC_URI[md5sum] = "30ceb6df7e8681891e865e2fe5a7903d"
--SRC_URI[sha256sum] = "e81fa140805b5cd029ff6dda5cfa94d223e83ac182ebcae94f841d62ce468829"
-+SRC_URI[md5sum] = "a94e84a9b9944715c4453f82ccc639bf"
-+SRC_URI[sha256sum] = "8886eece015202f6bd5ce8414f4b68838452cef509f2e3389ad56128219837b7"
- 
- EXTRA_OECONF = "--disable-Werror --disable-device-mapper"
- 
+-export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
++export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD SOCSK5_USER"
 -- 
-1.7.1
+1.7.3.4
 
 
 
