@@ -1,23 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QmNYo-00043K-JV
+	(envelope-from <koen@dominion.thruhere.net>) id 1QmNYv-000449-A0
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 12:11:22 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QmNUj-00030w-HB
-	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 12:07:09 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Jul 2011 11:07:08 +0100
-In-Reply-To: <CAGiJk9fwxUGUbb1Fwf731X+Ujz4RN_3OkXpGHcJq+ER_sYMRQQ@mail.gmail.com>
-References: <CAGiJk9fwxUGUbb1Fwf731X+Ujz4RN_3OkXpGHcJq+ER_sYMRQQ@mail.gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1311847629.30326.428.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: Sanity check failed after glibc deletion (was: Re: [PATCH] glibc: deleted)
+	Thu, 28 Jul 2011 12:11:29 +0200
+Received: by wwi18 with SMTP id 18so1946465wwi.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jul 2011 03:07:14 -0700 (PDT)
+Received: by 10.227.61.17 with SMTP id r17mr4239721wbh.69.1311847633896;
+	Thu, 28 Jul 2011 03:07:13 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id gg16sm690917wbb.51.2011.07.28.03.07.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 28 Jul 2011 03:07:13 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jul 2011 12:07:09 +0200
+Message-Id: <1311847629-4047-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] bitbake.conf: attemp to fix PACKAGE_EXTRA_ARCHS problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,60 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 10:11:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Jul 2011 10:11:29 -0000
 
-I'm not familiar with oebb.sh or its functionality.  But, from what
-you're saying below it sounds as though it works something like
-"git-am".  If I'm understanding correctly you used it to apply the glibc
-deletion patch, and now you get this sanity failure (whereas you didn't
-get it immediately before applying the patch).  Is that right?
+See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-July/007075.html for more background
 
-I can't think of any reason why deleting the glibc recipes would cause
-the 32-bit header check to start failing, and that error certainly isn't
-happening for me.  If you revert the patch, does the failure go away?
-Have you verified that you really do have gnu/stubs-32.h installed in
-the appropriate place?
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/conf/bitbake.conf |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-p.
-
-On Thu, 2011-07-28 at 09:30 +0200, Samuel Stirtzel wrote:
-> My current configuration was set up with the help of the Angstrom
-> instructions [1], and I applied patches via the "oebb.sh update"
-> command.
-> Running Bitbake would show the following sanity error on any image / machine:
-> 
-> samuel@S-Linux:/var/oe-core/setup-scripts$ bitbake console-image
-> ERROR:  Poky's config sanity checker detected a potential misconfiguration.
->     Either fix the cause of this error or at your own risk disable the
-> checker (see sanity.conf).
->     Following is the list of potential problems / advisories:
-> 
->     You have a 32-bit libc, but no 32-bit headers.  You must install
-> the 32-bit libc headers.
-> 
-> ERROR: Execution of event handler 'check_sanity_eventhandler' failed
-> 
-> 
-> For me it looks like an error with my configuration, but on the other
-> side, before the update building images with bitbake worked.
-> Well I don't know exactly if this is caused by the glibc deletion, but
-> IMHO it seems very likely.
-> Anyone else faced the same problem?
-> 
-> Help would be very appreciated.
-> 
-> Regards
-> --Samuel
-> 
-> [1] http://git.angstrom-distribution.org/cgi-bin/cgit.cgi/meta-angstrom/tree/README
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6e109ec..1a6969b 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -84,7 +84,8 @@ HOST_EXEEXT = ""
+ TUNE_ARCH ??= "INVALID"
+ TUNE_CCARGS ??= ""
+ TUNE_FEATURES ??= "${TUNE_FEATURES_tune-${DEFAULTTUNE}}"
+-PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE} ??= "${TARGET_ARCH}"
++# Uncommenting the below line leads to all kinds of problems: http://lists.linuxtogo.org/pipermail/openembedded-core/2011-July/007075.html
++#PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE} ?= "${TARGET_ARCH}"
+ LIBCEXTENSION ??= ""
+ ABIEXTENSION ??= ""
+ 
+-- 
+1.6.6.1
 
 
 
