@@ -1,26 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QmQHK-0007s9-JE
+	(envelope-from <koen@dominion.thruhere.net>) id 1QmQJb-0007vu-W4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 15:05:30 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 28 Jul 2011 06:00:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,282,1309762800"; d="scan'208";a="31227689"
-Received: from unknown (HELO helios.localnet) ([10.255.17.244])
-	by orsmga002.jf.intel.com with ESMTP; 28 Jul 2011 06:00:55 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Jul 2011 14:00:54 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+	Thu, 28 Jul 2011 15:07:52 +0200
+Received: by wyg30 with SMTP id 30so106328wyg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jul 2011 06:03:36 -0700 (PDT)
+Received: by 10.227.62.195 with SMTP id y3mr1329214wbh.94.1311858216287;
+	Thu, 28 Jul 2011 06:03:36 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id l55sm666742wed.41.2011.07.28.06.03.34
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 28 Jul 2011 06:03:35 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1311857437.3398.18.camel@lenovo.internal.reciva.com>
+Date: Thu, 28 Jul 2011 15:03:29 +0200
+Message-Id: <48068E2E-4F39-44D1-AB81-9C6495B3C0AC@dominion.thruhere.net>
 References: <cover.1309883050.git.paul.eggleton@linux.intel.com>
 	<e50edfa0e355ecfe38887adace64247e363150a8.1309883050.git.paul.eggleton@linux.intel.com>
 	<613A1098-12B3-4A25-9E82-AC97326DBEA3@dominion.thruhere.net>
-In-Reply-To: <613A1098-12B3-4A25-9E82-AC97326DBEA3@dominion.thruhere.net>
-MIME-Version: 1.0
-Message-Id: <201107281400.54581.paul.eggleton@linux.intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
+	<1311857437.3398.18.camel@lenovo.internal.reciva.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
 Subject: Re: [PATCH 1/1] combo-layer-tool: add tool to manipulate combo layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,61 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 13:05:30 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Jul 2011 13:07:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Thursday 28 July 2011 13:11:00 Koen Kooi wrote:
-> I've been playing with this script and I have a few remarks about it. First
-> the ones that aren't the fault of the script:
-> 
-> 1) overlapping files like .gitignore breaks the script
 
-This can be a problem, yes. However if you know about these sorts of conflicts 
-ahead of time you can mitigate them by adding the appropriate logic to a hook 
-script (which can filter out stuff from the patches as they pass through).
+Op 28 jul. 2011, om 14:50 heeft Phil Blundell het volgende geschreven:
 
-> 2) git format-patch | git am is a lossy process, so you can't import
-> oe-core and bitbake from scratch:
-> 
-> 	[14:08:48] Apply
-> /Users/koen/Projects/Angstrom/setup-scripts/sources/combo-layer/patch-d99a
-> aa2f-57f3-4c07-aac3-afc0538cae88/bitbake/0020-codeparser.py-Ignore-incomple
-> te-cache-files.patch [14:08:48] Applying: codeparser.py: Ignore incomplete
-> cache files error: patch failed: bitbake/lib/bb/codeparser.py:75
-> 	error: bitbake/lib/bb/codeparser.py: patch does not apply
-> 	Patch failed at 0001 codeparser.py: Ignore incomplete cache files
-> 	When you have resolved this problem run "git am --resolved".
-> 	If you would prefer to skip this patch, instead run "git am --skip".
-> 	To restore the original branch and stop patching run "git am --abort".
+> On Thu, 2011-07-28 at 14:11 +0200, Koen Kooi wrote:
+>> 1) overlapping files like .gitignore breaks the script
+>> 2) git format-patch | git am is a lossy process, so you can't import =
+oe-core and bitbake from scratch:=20
+>=20
+> Assuming I understand the intent correctly (which is by no means
+> certain), it sounds like maybe what you want for (2) is git-subtree.  =
+I
+> agree that generating patches and piping them into git am sounds a bit
+> suboptimal for moving changesets from one place to another.
 
-Perhaps I'm being thick, but what's the reason for this failing?
- 
-> 3) rotating disks are slow when trying to apply a few thousand patches
+It indeed looks like scripts/combo-layer can be replaced with =
+https://github.com/apenwarr/git-subtree/blob/master/git-subtree.txt
 
-I think this is kind of the fault of the script in that it's the default 
-behaviour - frankly I never expected anyone to use combo-layer to build a 
-combined repo from scratch dragging across the entire history. Ideally you 
-would begin from an existing repository that you had manually combined 
-together, and combo-layer is the way of keeping it up-to-date after that 
-point. We could easily automate the initial creation within the script if 
-people think it's useful - I did think about doing that but I figured it's not 
-something you expect to do very often.
+I'm still not sure how much the "everything in one repo" approach will =
+buy the angstrom maintainers, but at least now I now a few more ways to =
+assemble the one-git-repo-to-rule-them-all :)
 
-> As for the script I only have one real complaint: The inability to set
-> branches so you can make a combo layer based on non-master (e.g. release)
-> branches.
+regards,
 
-Agreed, this is an omission, shouldn't be too difficult to fix though. It's on my 
-todo list, feel free to submit a patch if you want it fixed faster ;)
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Koen=
 
 
