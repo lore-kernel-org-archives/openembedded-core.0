@@ -1,20 +1,40 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QmTYY-0007tA-C1
+	(envelope-from <martin.jansa@gmail.com>) id 1QmVDX-0001Py-AU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 18:35:30 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QmTUS-0003Cq-W5
-	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 18:31:17 +0200
-From: Phil Blundell <philb@gnu.org>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Jul 2011 17:31:15 +0100
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1311870676.30326.452.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: [PATCH] arch-armv6, arch-armv5-dsp: correct endianness confusion
+	Thu, 28 Jul 2011 20:21:55 +0200
+Received: by fxg11 with SMTP id 11so1661331fxg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jul 2011 11:17:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=X9n9zcUSg5L+R3v2G6I+R/k6240Bee6xrSY3aCejHcY=;
+	b=DnS05bdC8RUTSQNpbAhUz3SsJNLQAdZVM5lCXQA9mDOAXgG9Bobp5mvLKlVxlxjOKm
+	RHv/M5L0RcST/AEhZUZwRIH9x+VHvbXaBp/rK0Odznsdq89r8qzAJ/9TnBO6PS8yPtqX
+	ow2qVx+yqQOD/u3lRcAPZv+QRDlCPct7/+Usw=
+Received: by 10.204.24.5 with SMTP id t5mr119418bkb.122.1311877059470;
+	Thu, 28 Jul 2011 11:17:39 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id q1sm2267355faa.1.2011.07.28.11.17.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 28 Jul 2011 11:17:37 -0700 (PDT)
+Date: Thu, 28 Jul 2011 20:17:30 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20110728181730.GJ15286@jama.jama.net>
+References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
+	<346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
+	<1311777255.30326.347.camel@phil-desktop>
+	<4E302785.9070705@windriver.com>
+	<1311780347.30326.376.camel@phil-desktop>
+	<4E30489A.100@windriver.com> <20110728072450.GE15286@jama.jama.net>
+	<1311843248.30326.403.camel@phil-desktop>
+MIME-Version: 1.0
+In-Reply-To: <1311843248.30326.403.camel@phil-desktop>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 1/3] Add ARM tune file overhaul based largely on work from Mark Hatle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,72 +49,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 16:35:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Jul 2011 18:21:55 -0000
+X-Groupsio-MsgNum: 7012
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Xssso5lpTBgMxDfe"
+Content-Disposition: inline
 
-PACKAGE_EXTRA_ARCHS_tune-armv5eb needs to be defined in terms of
-the non-e with the same endianness, i.e. PACKAGE_EXTRA_ARCHS_tune-armv5b
-not PACKAGE_EXTRA_ARCHS_tune-armv5, otherwise PACKAGE_EXTRA_ARCHS will 
-end up containing a semi-random mixture of endiannesses and disaster 
-will ensue.  Likewise for the vfp and armv6 variants.
+--Xssso5lpTBgMxDfe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is all a bit confusing because TUNE_FEATURES is done the opposite
-way around, i.e. TUNE_FEATURES_tune-armv5eb is derived by taking the
-armv5e version and adding bigendian.  But fixing that is probably
-a subject for a separate patch.
+On Thu, Jul 28, 2011 at 09:54:06AM +0100, Phil Blundell wrote:
+> On Thu, 2011-07-28 at 09:24 +0200, Martin Jansa wrote:
+> > Mark is right that if we have PACKAGE_ARCH =3D "armv4t" and we force
+> > no-thumb with ARM_INSTRUCTION_SET =3D "arm" then PACKAGE_ARCH should be
+> > switched to "armv4" only to indicate that.
+>=20
+> No, this is wrong.  Even with ARM_INSTRUCTION_SET =3D "arm" you might have
+> BX instructions in the output, in which case "armv4t" is the correct
+> PACKAGE_ARCH.  You can only set PACKAGE_ARCH =3D "armv4" if all the BXs
+> have been suppressed, which means that you lose the ability to do
+> interworking.
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/conf/machine/include/arm/arch-armv5-dsp.inc |    8 ++++----
- meta/conf/machine/include/arm/arch-armv6.inc     |    4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+Ah right, we cannot allow this to be in ie collie feed. So old behavior
+was correct in this aspect too.
 
-diff --git a/meta/conf/machine/include/arm/arch-armv5-dsp.inc b/meta/conf/machine/include/arm/arch-armv5-dsp.inc
-index 498a012..9f03a0f 100644
---- a/meta/conf/machine/include/arm/arch-armv5-dsp.inc
-+++ b/meta/conf/machine/include/arm/arch-armv5-dsp.inc
-@@ -24,8 +24,8 @@ PACKAGE_EXTRA_ARCHS_tune-armv5tehf-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5thf-vf
- AVAILTUNES += "armv5eb armv5teb"
- TUNE_FEATURES_tune-armv5eb ?= "${TUNE_FEATURES_tune-armv5e} bigendian"
- TUNE_FEATURES_tune-armv5teb ?= "${TUNE_FEATURES_tune-armv5te} bigendian"
--PACKAGE_EXTRA_ARCHS_tune-armv5eb = "${PACKAGE_EXTRA_ARCHS_tune-armv5} armv5eb"
--PACKAGE_EXTRA_ARCHS_tune-armv5teb = "${PACKAGE_EXTRA_ARCHS_tune-armv5t} armv5eb armv5teb"
-+PACKAGE_EXTRA_ARCHS_tune-armv5eb = "${PACKAGE_EXTRA_ARCHS_tune-armv5b} armv5eb"
-+PACKAGE_EXTRA_ARCHS_tune-armv5teb = "${PACKAGE_EXTRA_ARCHS_tune-armv5tb} armv5eb armv5teb"
- 
- # Big Endian + VFP/DSP
- AVAILTUNES += "armv5eb-vfp armv5teb-vfp armv5ehfb-vfp armv5tehfb-vfp"
-@@ -33,8 +33,8 @@ TUNE_FEATURES_tune-armv5eb-vfp ?= "${TUNE_FEATURES_tune-armv5e-vfp} bigendian"
- TUNE_FEATURES_tune-armv5teb-vfp ?= "${TUNE_FEATURES_tune-armv5te-vfp} bigendian"
- TUNE_FEATURES_tune-armv5ehfb-vfp ?= "${TUNE_FEATURES_tune-armv5eb-vfp} callconvention-hard"
- TUNE_FEATURES_tune-armv5tehfb-vfp ?= "${TUNE_FEATURES_tune-armv5teb-vfp} callconvention-hard"
--PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5-vfp} armv5eb armv5eb-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5t-vfp} armv5eb armv5teb armv5eb-vfp armv5teb-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5b-vfp} armv5eb armv5eb-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5tb-vfp} armv5eb armv5teb armv5eb-vfp armv5teb-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv5ehfb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5hfb-vfp} armv5ehfb-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv5tehfb-vfp = "${PACKAGE_EXTRA_ARCHS_tune-armv5thfb-vfp} armv5ehfb-vfp armv5tehfb-vfp"
- 
-diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
-index 20924c9..9f2e9ac 100644
---- a/meta/conf/machine/include/arm/arch-armv6.inc
-+++ b/meta/conf/machine/include/arm/arch-armv6.inc
-@@ -25,8 +25,8 @@ TUNE_FEATURES_tune-armv6b ?= "${TUNE_FEATURES_tune-armv6} bigendian"
- TUNE_FEATURES_tune-armv6tb ?= "${TUNE_FEATURES_tune-armv6t} bigendian"
- TUNE_FEATURES_tune-armv6hfb ?= "${TUNE_FEATURES_tune-armv6b} callconvention-hard"
- TUNE_FEATURES_tune-armv6thfb ?= "${TUNE_FEATURES_tune-armv6tb} callconvention-hard"
--PACKAGE_EXTRA_ARCHS_tune-armv6b = "${PACKAGE_EXTRA_ARCHS_tune-armv5e-vfp} armv6b-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv6tb = "${PACKAGE_EXTRA_ARCHS_tune-armv5te-vfp} armv6b-vfp armv6tb-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6b = "${PACKAGE_EXTRA_ARCHS_tune-armv5eb-vfp} armv6b-vfp"
-+PACKAGE_EXTRA_ARCHS_tune-armv6tb = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb-vfp} armv6b-vfp armv6tb-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv6hfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5ehfb-vfp} armv6hfb-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv6thfb = "${PACKAGE_EXTRA_ARCHS_tune-armv5tehfb-vfp} armv6hfb-vfp armv6thfb-vfp"
- 
--- 
-1.7.4.1
+Thanks
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--Xssso5lpTBgMxDfe
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
 
+iEYEARECAAYFAk4xp7oACgkQN1Ujt2V2gBzY2wCdG5MOUxldlInGGUpydTJItcGl
+OcgAoJ96tP/gdt92yQ61/Xbs3oylrFig
+=/hgD
+-----END PGP SIGNATURE-----
 
+--Xssso5lpTBgMxDfe--
