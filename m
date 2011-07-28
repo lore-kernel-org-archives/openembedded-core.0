@@ -1,24 +1,23 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QmNDV-00038p-OM
+	(envelope-from <philb@gnu.org>) id 1QmNHX-0003G3-8y
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 11:49:21 +0200
-Received: by wwi18 with SMTP id 18so1930525wwi.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2011 02:45:06 -0700 (PDT)
-Received: by 10.227.55.81 with SMTP id t17mr1097996wbg.100.1311846306208;
-	Thu, 28 Jul 2011 02:45:06 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id n6sm541199wed.16.2011.07.28.02.45.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 28 Jul 2011 02:45:05 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2011 11:44:57 +0200
-Message-Id: <1311846297-30202-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCHv2] gst-plugins: partially sync packaging with OE .dev
+	Thu, 28 Jul 2011 11:53:32 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QmNDS-00030P-4K
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jul 2011 11:49:18 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Jul 2011 10:49:17 +0100
+In-Reply-To: <1311846297-30202-1-git-send-email-koen@dominion.thruhere.net>
+References: <1311846297-30202-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311846558.30326.420.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCHv2] gst-plugins: partially sync packaging with OE .dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,173 +32,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 09:49:21 -0000
+X-List-Received-Date: Thu, 28 Jul 2011 09:53:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Gst-plugins get 2 extra packages:
+On Thu, 2011-07-28 at 11:44 +0200, Koen Kooi wrote:
+> +ALLOW_EMPTY = "1"
 
-${PN}-apps: helper apps in ${bindir}
-${PN}-meta: meta package that will drag in all plugins, libs and apps ${PN} generates
+Is that necessary?  You seem to be setting ALLOW_EMPTY_${PN}-meta=1 in
+your python code anyway.
 
-And all libs are split out and run through debian style renaming if enabled.
+p.
 
-The packaging include was split out to be reused by external plugins (e.g. gst-plugin-gl, gst-fluendo-*).
-
-The new package list looks like:
-
-libgstapp-0.10-0_0.10.32-r1_armv7a.ipk
-libgstfft-0.10-0_0.10.32-r1_armv7a.ipk
-[..]
-gst-plugins-base-videorate_0.10.32-r1_armv7a.ipk
-gst-plugins-base-videoscale_0.10.32-r1_armv7a.ipk
-[..]
-gst-plugins-base-meta_0.10.32-r1_armv7a.ipk
-[..]
-gst-plugins-base-apps_0.10.32-r1_armv7a.ipk
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
-
-Changes since v1:
-	* keep gst-plugin-{base,good,base,ugly}-foo naming, this will get addressed in a follow-up patch
-
- .../gstreamer/gst-plugins-bad_0.10.21.bb           |    2 +-
- .../gstreamer/gst-plugins-base_0.10.32.bb          |    2 +-
- .../gstreamer/gst-plugins-good_0.10.28.bb          |    2 +-
- .../gstreamer/gst-plugins-package.inc              |   34 ++++++++++++++++++++
- .../gstreamer/gst-plugins-ugly_0.10.17.bb          |    2 +-
- meta/recipes-multimedia/gstreamer/gst-plugins.inc  |   18 +---------
- 6 files changed, 40 insertions(+), 20 deletions(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
-index 2b8a89c..a7023e3 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- 
- DEPENDS += "gst-plugins-base libmusicbrainz tremor librsvg"
- 
--PR = "r0"
-+PR = "r1"
- 
- inherit gettext
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-index a9e2b52..82d9afc 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
-@@ -13,7 +13,7 @@ SRC_URI += " file://gst-plugins-base-tremor.patch"
- SRC_URI[md5sum] = "2920af2b3162f3d9fbaa7fabc8ed4d38"
- SRC_URI[sha256sum] = "e9aabfac83f6480896da0686e9c911989f896fbad634821b7771ed84a446172b"
- 
--PR = "r0"
-+PR = "r1"
- 
- inherit gettext
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
-index b9648e3..cca63e9 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
- 
- DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
- 	    speex libsoup-2.4"
--PR = "r0"
-+PR = "r1"
- 
- inherit gettext
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-new file mode 100644
-index 0000000..796df14
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-@@ -0,0 +1,34 @@
-+LIBV = "0.10"
-+
-+python populate_packages_prepend () {
-+	gst_libdir = bb.data.expand('${libdir}/gstreamer-${LIBV}', d)
-+	postinst = bb.data.getVar('plugin_postinst', d, 1)
-+	glibdir = bb.data.expand('${libdir}', d)
-+
-+	do_split_packages(d, glibdir, '^lib(.*)\.so\.*', 'lib%s', 'gstreamer %s library', extra_depends='', allow_links=True)
-+	do_split_packages(d, gst_libdir, 'libgst(.*)\.so$', bb.data.expand('${PN}-%s', d), 'GStreamer plugin for %s', postinst=postinst, extra_depends=bb.data.expand('${PN}',d))
-+	do_split_packages(d, gst_libdir, 'libgst(.*)\.l?a$', bb.data.expand('${PN}-%s-dev', d), 'GStreamer plugin for %s (development files)', extra_depends=bb.data.expand('${PN}-dev',d))
-+	
-+	pn = bb.data.getVar('PN', d, 1)
-+	metapkg =  pn + '-meta'
-+	bb.data.setVar('ALLOW_EMPTY_' + metapkg, "1", d)
-+	bb.data.setVar('FILES_' + metapkg, "", d)
-+	blacklist = [ pn + '-locale', pn + '-dev', pn + '-dbg', pn + '-doc' ]
-+	metapkg_rdepends = []
-+	packages = bb.data.getVar('PACKAGES', d, 1).split()
-+	for pkg in packages[1:]:
-+		if not pkg in blacklist and not pkg in metapkg_rdepends and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.count('locale') and not pkg.count('-static'):
-+			metapkg_rdepends.append(pkg)
-+	bb.data.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends), d)
-+	bb.data.setVar('DESCRIPTION_' + metapkg, pn + ' meta package', d)
-+}
-+
-+ALLOW_EMPTY = "1"
-+
-+PACKAGES += "${PN}-apps ${PN}-meta"
-+FILES_${PN}-apps = "${bindir}"
-+
-+FILES_${PN} = "${datadir}/gstreamer-${LIBV}"
-+FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
-+
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
-index 76e00a5..2a79c2a 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://gst/mpegstream/gstmpegparse.h;beginline=1;endline=18;md5=ff65467b0c53cdfa98d0684c1bc240a9"
- 
- DEPENDS += "gst-plugins-base libid3tag libmad mpeg2dec liba52 lame"
--PR = "r0"
-+PR = "r1"
- 
- inherit gettext
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins.inc b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-index ad6c3a4..b23d399 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
-@@ -14,13 +14,6 @@ EXTRA_OECONF = "--disable-valgrind --disable-debug --disable-examples "
- 
- acpaths = "-I ${S}/common/m4 -I ${S}/m4"
- 
--LIBV = "0.10"
--#FILES_${PN} += "${libdir}/gstreamer-${LIBV}/*.so"
--#FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/*.la ${libdir}/gstreamer-${LIBV}/*.a"
--FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
--
--PACKAGES_DYNAMIC = "${PN}-*"
--
- # orc.m4 calls pkg-config ----variable=orcc orc-0.4 to get the path to orcc,
- # resulting in /usr/bin/orcc. Force it to use the staged orcc.
- do_configure_append() {
-@@ -29,14 +22,7 @@ do_configure_append() {
-  	done
- }
- 
--python populate_packages_prepend () {
--	gst_libdir = bb.data.expand('${libdir}/gstreamer-${LIBV}', d)
--	postinst = bb.data.getVar('plugin_postinst', d, 1)
-+require gst-plugins-package.inc
- 
--#	Can't package separate debug packages yet
--#	do_split_packages(d, gst_libdir, '\.debug/libgst(.*)\.so$', bb.data.expand('${PN}-%s-dbg', d), 'GStreamer plugin for %s (with debugging symbols)', recursive=True, extra_depends=bb.data.expand('${PN}-dbg', d), match_path=True)
--	do_split_packages(d, gst_libdir, 'libgst(.*)\.so$', bb.data.expand('${PN}-%s', d), 'GStreamer plugin for %s', postinst=postinst, extra_depends=bb.data.expand('${PN}',d))
--	do_split_packages(d, gst_libdir, 'libgst(.*)\.l?a$', bb.data.expand('${PN}-%s-dev', d), 'GStreamer plugin for %s (development files)', extra_depends=bb.data.expand('${PN}-dev',d))
--}
-+PACKAGES_DYNAMIC = "${PN}-*"
- 
--ALLOW_EMPTY = "1"
--- 
-1.7.4.4
 
 
 
