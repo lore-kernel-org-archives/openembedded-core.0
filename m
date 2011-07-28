@@ -1,26 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ww0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1QmNAV-00032U-0k
+	(envelope-from <koen@dominion.thruhere.net>) id 1QmNDV-00038p-OM
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 11:46:15 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6S9fxtq001105
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Jul 2011 02:41:59 -0700 (PDT)
-Received: from localhost (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 28 Jul 2011 02:41:58 -0700
-Message-ID: <1622205b307e89426a6387eb497497df00725019.1311845680.git.kai.kang@windriver.com>
-In-Reply-To: <cover.1311845680.git.kai.kang@windriver.com>
-References: <cover.1311845680.git.kai.kang@windriver.com>
-Old-Date: Thu, 28 Jul 2011 17:30:19 +0800
-Date: Thu, 28 Jul 2011 17:41:59 +0800
-To: <sgw@linux.intel.com>
-From: Kang Kai <kai.kang@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.213]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] distro_tracking_fields: update packages info
+	Thu, 28 Jul 2011 11:49:21 +0200
+Received: by wwi18 with SMTP id 18so1930525wwi.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jul 2011 02:45:06 -0700 (PDT)
+Received: by 10.227.55.81 with SMTP id t17mr1097996wbg.100.1311846306208;
+	Thu, 28 Jul 2011 02:45:06 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id n6sm541199wed.16.2011.07.28.02.45.04
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 28 Jul 2011 02:45:05 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jul 2011 11:44:57 +0200
+Message-Id: <1311846297-30202-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.6.6.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCHv2] gst-plugins: partially sync packaging with OE .dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,114 +33,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 09:46:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Jul 2011 09:49:21 -0000
 
-From: Kang Kai <kai.kang@windriver.com>
+Gst-plugins get 2 extra packages:
 
-update distro tracking fields of libnewt mailx slang and alsa-tools.
+${PN}-apps: helper apps in ${bindir}
+${PN}-meta: meta package that will drag in all plugins, libs and apps ${PN} generates
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
+And all libs are split out and run through debian style renaming if enabled.
+
+The packaging include was split out to be reused by external plugins (e.g. gst-plugin-gl, gst-fluendo-*).
+
+The new package list looks like:
+
+libgstapp-0.10-0_0.10.32-r1_armv7a.ipk
+libgstfft-0.10-0_0.10.32-r1_armv7a.ipk
+[..]
+gst-plugins-base-videorate_0.10.32-r1_armv7a.ipk
+gst-plugins-base-videoscale_0.10.32-r1_armv7a.ipk
+[..]
+gst-plugins-base-meta_0.10.32-r1_armv7a.ipk
+[..]
+gst-plugins-base-apps_0.10.32-r1_armv7a.ipk
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- .../conf/distro/include/distro_tracking_fields.inc |   28 ++++++++++++-------
- meta/recipes-extended/slang/slang_2.2.4.bb         |    1 +
- .../recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb |    9 ++++--
- 3 files changed, 25 insertions(+), 13 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 3a3991d..974f6bd 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -5697,8 +5697,13 @@ RECIPE_MAINTAINER_pn-docbook-utils = "Scott Garman <scott.a.garman@intel.com>"
- RECIPE_LATEST_VERSION_pn-task-qte-toolchain-target = "1.0"
- RECIPE_MANUAL_CHECK_DATE_pn-task-qte-toolchain-target = "Feb 28, 2011"
- DISTRO_PN_ALIAS_pn-task-qte-toolchain-target = "Intel"
--RECIPE_LATEST_VERSION_pn-mailx = "12.4"
--RECIPE_MANUAL_CHECK_DATE_pn-mailx = "Feb 28, 2011"
+Changes since v1:
+	* keep gst-plugin-{base,good,base,ugly}-foo naming, this will get addressed in a follow-up patch
+
+ .../gstreamer/gst-plugins-bad_0.10.21.bb           |    2 +-
+ .../gstreamer/gst-plugins-base_0.10.32.bb          |    2 +-
+ .../gstreamer/gst-plugins-good_0.10.28.bb          |    2 +-
+ .../gstreamer/gst-plugins-package.inc              |   34 ++++++++++++++++++++
+ .../gstreamer/gst-plugins-ugly_0.10.17.bb          |    2 +-
+ meta/recipes-multimedia/gstreamer/gst-plugins.inc  |   18 +---------
+ 6 files changed, 40 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
+index 2b8a89c..a7023e3 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.21.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ 
+ DEPENDS += "gst-plugins-base libmusicbrainz tremor librsvg"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ inherit gettext
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
+index a9e2b52..82d9afc 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.32.bb
+@@ -13,7 +13,7 @@ SRC_URI += " file://gst-plugins-base-tremor.patch"
+ SRC_URI[md5sum] = "2920af2b3162f3d9fbaa7fabc8ed4d38"
+ SRC_URI[sha256sum] = "e9aabfac83f6480896da0686e9c911989f896fbad634821b7771ed84a446172b"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ inherit gettext
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
+index b9648e3..cca63e9 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.28.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+ 
+ DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
+ 	    speex libsoup-2.4"
+-PR = "r0"
++PR = "r1"
+ 
+ inherit gettext
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+new file mode 100644
+index 0000000..796df14
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+@@ -0,0 +1,34 @@
++LIBV = "0.10"
 +
-+RECIPE_STATUS_pn-mailx = "red"
-+RECIPE_LATEST_VERSION_pn-mailx = "12.5"
-+RECIPE_LAST_UPDATE_pn-mailx = "Jul 1, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-mailx = "Jul 28, 2011"
-+RECIPE_MAINTAINER_pn-mailx = "Kai Kang <kai.kang@windriver.com>"
++python populate_packages_prepend () {
++	gst_libdir = bb.data.expand('${libdir}/gstreamer-${LIBV}', d)
++	postinst = bb.data.getVar('plugin_postinst', d, 1)
++	glibdir = bb.data.expand('${libdir}', d)
 +
- RECIPE_LATEST_VERSION_pn-libgcc = "4.5.1"
- RECIPE_MANUAL_CHECK_DATE_pn-libgcc = "Feb 28, 2011"
++	do_split_packages(d, glibdir, '^lib(.*)\.so\.*', 'lib%s', 'gstreamer %s library', extra_depends='', allow_links=True)
++	do_split_packages(d, gst_libdir, 'libgst(.*)\.so$', bb.data.expand('${PN}-%s', d), 'GStreamer plugin for %s', postinst=postinst, extra_depends=bb.data.expand('${PN}',d))
++	do_split_packages(d, gst_libdir, 'libgst(.*)\.l?a$', bb.data.expand('${PN}-%s-dev', d), 'GStreamer plugin for %s (development files)', extra_depends=bb.data.expand('${PN}-dev',d))
++	
++	pn = bb.data.getVar('PN', d, 1)
++	metapkg =  pn + '-meta'
++	bb.data.setVar('ALLOW_EMPTY_' + metapkg, "1", d)
++	bb.data.setVar('FILES_' + metapkg, "", d)
++	blacklist = [ pn + '-locale', pn + '-dev', pn + '-dbg', pn + '-doc' ]
++	metapkg_rdepends = []
++	packages = bb.data.getVar('PACKAGES', d, 1).split()
++	for pkg in packages[1:]:
++		if not pkg in blacklist and not pkg in metapkg_rdepends and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.count('locale') and not pkg.count('-static'):
++			metapkg_rdepends.append(pkg)
++	bb.data.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends), d)
++	bb.data.setVar('DESCRIPTION_' + metapkg, pn + ' meta package', d)
++}
++
++ALLOW_EMPTY = "1"
++
++PACKAGES += "${PN}-apps ${PN}-meta"
++FILES_${PN}-apps = "${bindir}"
++
++FILES_${PN} = "${datadir}/gstreamer-${LIBV}"
++FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
++
++
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
+index 76e00a5..2a79c2a 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.17.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://gst/mpegstream/gstmpegparse.h;beginline=1;endline=18;md5=ff65467b0c53cdfa98d0684c1bc240a9"
  
-@@ -5724,13 +5729,15 @@ RECIPE_MAINTAINER_pn-linuxdoc-tools = "Scott Garman <scott.a.garman@intel.com>"
+ DEPENDS += "gst-plugins-base libid3tag libmad mpeg2dec liba52 lame"
+-PR = "r0"
++PR = "r1"
  
- RECIPE_STATUS_pn-slang = "green"
- RECIPE_LATEST_VERSION_pn-slang = "2.2.4"
--RECIPE_LAST_UPDATE_pn-slang = "Apr 10, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-slang = "Jun 6, 2011"
-+RECIPE_LAST_UPDATE_pn-slang = "Jul 28, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-slang = "Jun 28, 2011"
-+RECIPE_MAINTAINER_pn-slang = "Kai Kang <kai.kang@windriver.com>"
+ inherit gettext
  
- RECIPE_STATUS_pn-libnewt = "green"
--RECIPE_LATEST_VERSION_pn-libnewt = "0.52.12"
--RECIPE_LAST_UPDATE_pn-libnewt = "Aug 06, 2010"
--RECIPE_MANUAL_CHECK_DATE_pn-libnewt = "Jun 4, 2011"
-+RECIPE_LATEST_VERSION_pn-libnewt = "0.52.13"
-+RECIPE_MAINTAINER_pn-libnewt = "Kai Kang <kai.kang@windriver.com>"
-+RECIPE_LAST_UPDATE_pn-libnewt = "Jul 27, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-libnewt = "Jul 27, 2011"
- RECIPE_NO_UPDATE_REASON_pn-libnewt = ""
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins.inc b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+index ad6c3a4..b23d399 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins.inc
+@@ -14,13 +14,6 @@ EXTRA_OECONF = "--disable-valgrind --disable-debug --disable-examples "
  
- RECIPE_STATUS_pn-createrepo = "green"
-@@ -5762,10 +5769,11 @@ RECIPE_COMMENTS_pn-rxvt-unicode = ""
- RECIPE_LAST_UPDATE_pn-rxvt-unicode = "May 25, 2011"
- RECIPE_MAINTAINER_pn-rxvt-unicode = "Saul Wold <sgw@linux.intel.com>"
+ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
  
--RECIPE_STATUS_pn-alsa-tools = "red"
-+RECIPE_STATUS_pn-alsa-tools = "green"
- RECIPE_LATEST_VERIONS_pn-alsa-tools = "1.0.24.1
--RECIPE_LAST_UPDATE_pn-alsa-tools = "Jan 31, 2011"
--RECIPE_MANUAL_CHECK_DATE_pn-alsa-tools = "Jun 7, 2011" 
-+RECIPE_LAST_UPDATE_pn-alsa-tools = "Jul 28, 2011"
-+RECIPE_MANUAL_CHECK_DATE_pn-alsa-tools = "Jul 28, 2011"
-+RECIPE_MAINTAINER_pn-alsa-tools = "Kai Kang <kai.kang@windriver.com>"
+-LIBV = "0.10"
+-#FILES_${PN} += "${libdir}/gstreamer-${LIBV}/*.so"
+-#FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/*.la ${libdir}/gstreamer-${LIBV}/*.a"
+-FILES_${PN}-dbg += "${libdir}/gstreamer-${LIBV}/.debug"
+-
+-PACKAGES_DYNAMIC = "${PN}-*"
+-
+ # orc.m4 calls pkg-config ----variable=orcc orc-0.4 to get the path to orcc,
+ # resulting in /usr/bin/orcc. Force it to use the staged orcc.
+ do_configure_append() {
+@@ -29,14 +22,7 @@ do_configure_append() {
+  	done
+ }
  
- RECIPE_STATUS_pn-mesa-demos = "red"
- RECIPE_LATEST_VERSION_pn-mesa-demos = "8.0.1"
-diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
-index 4bf5737..e13f0ad 100644
---- a/meta/recipes-extended/slang/slang_2.2.4.bb
-+++ b/meta/recipes-extended/slang/slang_2.2.4.bb
-@@ -7,6 +7,7 @@ The S-Lang library, provided in this package, provides the S-Lang \
- extension language.  S-Lang's syntax resembles C, which makes it easy \
- to recode S-Lang procedures in C if you need to."
+-python populate_packages_prepend () {
+-	gst_libdir = bb.data.expand('${libdir}/gstreamer-${LIBV}', d)
+-	postinst = bb.data.getVar('plugin_postinst', d, 1)
++require gst-plugins-package.inc
  
-+HOMEPAGE = "http://www.jedsoft.org/slang/"
- SECTION = "libs"
- DEPENDS = "pcre"
- PR = "r5"
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-index 1bf9cd0..d6ecf7f 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
-@@ -1,13 +1,16 @@
- BROKEN = "1"
+-#	Can't package separate debug packages yet
+-#	do_split_packages(d, gst_libdir, '\.debug/libgst(.*)\.so$', bb.data.expand('${PN}-%s-dbg', d), 'GStreamer plugin for %s (with debugging symbols)', recursive=True, extra_depends=bb.data.expand('${PN}-dbg', d), match_path=True)
+-	do_split_packages(d, gst_libdir, 'libgst(.*)\.so$', bb.data.expand('${PN}-%s', d), 'GStreamer plugin for %s', postinst=postinst, extra_depends=bb.data.expand('${PN}',d))
+-	do_split_packages(d, gst_libdir, 'libgst(.*)\.l?a$', bb.data.expand('${PN}-%s-dev', d), 'GStreamer plugin for %s (development files)', extra_depends=bb.data.expand('${PN}-dev',d))
+-}
++PACKAGES_DYNAMIC = "${PN}-*"
  
--DESCRIPTION = "Alsa Tools"
-+DESCRIPTION = "Alsa Tools package contains advanced tools for certain sound cards."
-+HOMEPAGE = "http://www.alsa-project.org"
-+BUGTRACKER = "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
- SECTION = "console/utils"
--LICENSE = "GPLv2"
-+LICENSE = "GPLv2 & LGPLv2+"
- DEPENDS = "alsa-lib ncurses"
- 
- PR = "r2"
- 
--LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-+                    file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
-            file://autotools.patch"
+-ALLOW_EMPTY = "1"
 -- 
-1.7.5.1.300.gc565c
+1.7.4.4
 
 
 
