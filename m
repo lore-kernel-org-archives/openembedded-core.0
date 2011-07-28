@@ -1,24 +1,28 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QmNYv-000449-A0
+	(envelope-from <koen@dominion.thruhere.net>) id 1QmNpE-0004Ig-EZ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jul 2011 12:11:29 +0200
-Received: by wwi18 with SMTP id 18so1946465wwi.24
+	Thu, 28 Jul 2011 12:28:20 +0200
+Received: by wyg30 with SMTP id 30so7912wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2011 03:07:14 -0700 (PDT)
-Received: by 10.227.61.17 with SMTP id r17mr4239721wbh.69.1311847633896;
-	Thu, 28 Jul 2011 03:07:13 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id gg16sm690917wbb.51.2011.07.28.03.07.12
+	Thu, 28 Jul 2011 03:22:42 -0700 (PDT)
+Received: by 10.227.10.66 with SMTP id o2mr1171608wbo.36.1311848065978;
+	Thu, 28 Jul 2011 03:14:25 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fx12sm702087wbb.25.2011.07.28.03.14.23
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 28 Jul 2011 03:07:13 -0700 (PDT)
+	Thu, 28 Jul 2011 03:14:24 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
 From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2011 12:07:09 +0200
-Message-Id: <1311847629-4047-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.6.6.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] bitbake.conf: attemp to fix PACKAGE_EXTRA_ARCHS problems
+In-Reply-To: <1311846558.30326.420.camel@phil-desktop>
+Date: Thu, 28 Jul 2011 12:14:17 +0200
+Message-Id: <D489697C-D752-4255-8110-9AC1468D4D87@dominion.thruhere.net>
+References: <1311846297-30202-1-git-send-email-koen@dominion.thruhere.net>
+	<1311846558.30326.420.camel@phil-desktop>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCHv2] gst-plugins: partially sync packaging with OE .dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +37,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 10:11:29 -0000
+X-List-Received-Date: Thu, 28 Jul 2011 10:28:20 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-July/007075.html for more background
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/conf/bitbake.conf |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+Op 28 jul. 2011, om 11:49 heeft Phil Blundell het volgende geschreven:
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 6e109ec..1a6969b 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -84,7 +84,8 @@ HOST_EXEEXT = ""
- TUNE_ARCH ??= "INVALID"
- TUNE_CCARGS ??= ""
- TUNE_FEATURES ??= "${TUNE_FEATURES_tune-${DEFAULTTUNE}}"
--PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE} ??= "${TARGET_ARCH}"
-+# Uncommenting the below line leads to all kinds of problems: http://lists.linuxtogo.org/pipermail/openembedded-core/2011-July/007075.html
-+#PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE} ?= "${TARGET_ARCH}"
- LIBCEXTENSION ??= ""
- ABIEXTENSION ??= ""
- 
--- 
-1.6.6.1
+> On Thu, 2011-07-28 at 11:44 +0200, Koen Kooi wrote:
+>> +ALLOW_EMPTY =3D "1"
+>=20
+> Is that necessary?  You seem to be setting ALLOW_EMPTY_${PN}-meta=3D1 =
+in
+> your python code anyway.
 
+In OE classic that was to keep ${PN} alive after all libs and apps were =
+removed, I'm not sure we need it in OE-core.
+
+regards,
+
+Koen=
 
 
