@@ -1,26 +1,31 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mail-ey0-f178.google.com ([209.85.215.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Noor_Ahsan@mentor.com>) id 1Qmmng-0003Cz-Bb
+	(envelope-from <dbaryshkov@gmail.com>) id 1Qmp9b-0004qE-Ix
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jul 2011 15:08:24 +0200
-Received: from nat-dem.mentorg.com ([195.212.93.2]
-	helo=eu2-mail.mgc.mentorg.com) by relay1.mentorg.com with esmtp 
-	id 1Qmm7w-0001HQ-Up from Noor_Ahsan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jul 2011 05:25:17 -0700
-Received: from localhost.localdomain ([137.202.156.152]) by
-	eu2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.4675); 
-	Fri, 29 Jul 2011 14:25:15 +0200
-From: "Noor, Ahsan" <noor_ahsan@mentor.com>
+	Fri, 29 Jul 2011 17:39:11 +0200
+Received: by eye4 with SMTP id 4so4978589eye.37
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jul 2011 08:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=sKLk/bxSaeMCe1fBfNk1NABF4zZi9hSJm/SlgmmjKA4=;
+	b=Tg7WAD3eXVxtg3hEBJXXMU9/0CDnG59Htkb7wMWWt9nUxCgAvbLznMwLbUVyRlehki
+	gwhmyxjZHR3eax50SVgue16TTHSnIGARNySmlIlMpRutrgsyRIWBKDCzpLBQ5loqQcyc
+	oCGnuk9OiIFxYyRdGfK/YTMyPaxDW3M+YTMR8=
+Received: by 10.14.18.193 with SMTP id l41mr303838eel.107.1311953691653;
+	Fri, 29 Jul 2011 08:34:51 -0700 (PDT)
+Received: from localhost.localdomain ([194.85.238.22])
+	by mx.google.com with ESMTPS id o53sm167883eef.30.2011.07.29.08.34.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 29 Jul 2011 08:34:51 -0700 (PDT)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jul 2011 17:24:50 +0500
-Message-Id: <1311942290-27217-1-git-send-email-noor_ahsan@mentor.com>
-X-Mailer: git-send-email 1.7.0.4
-X-OriginalArrivalTime: 29 Jul 2011 12:25:16.0073 (UTC)
-	FILETIME=[9265C190:01CC4DEA]
+Date: Fri, 29 Jul 2011 19:34:44 +0400
+Message-Id: <1311953684-1206-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 1.7.2.3
 X-Mailman-Approved-At: Sat, 30 Jul 2011 10:58:52 +0200
-Cc: "Noor, Ahsan" <noor_ahsan@mentor.com>
-Subject: [PATCH] kernel,cml1.bbclass: Move menuconfig to cml1
+Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Subject: [PATCH] tune-xscale: fix xscale/xscale-be confusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,64 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2011 13:08:24 -0000
+X-List-Received-Date: Fri, 29 Jul 2011 15:39:11 -0000
 
-* The menuconfig target exists in places other than the kernel that use kernel style config.
+Currently tune-xscale.inc has options wrt. setting of xscale/xscale-be tunes.
+Fix that.
 
-Signed-off-by: Noor, Ahsan <noor_ahsan@mentor.com>
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/classes/cml1.bbclass   |   12 ++++++++++++
- meta/classes/kernel.bbclass |   15 ---------------
- 2 files changed, 12 insertions(+), 15 deletions(-)
+ meta/conf/machine/include/tune-xscale.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index 79218b4..a747af5 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -6,3 +6,15 @@ cml1_do_configure() {
+diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
+index 9fe9685..54f3727 100644
+--- a/meta/conf/machine/include/tune-xscale.inc
++++ b/meta/conf/machine/include/tune-xscale.inc
+@@ -10,7 +10,7 @@ TUNE_FEATURES_tune-xscale = "${TUNE_FEATURES_tune-armv5te} xscale"
+ PACKAGE_EXTRA_ARCHS_tune-xscale = "${PACKAGE_EXTRA_ARCHS_tune-armv5te}"
  
- EXPORT_FUNCTIONS do_configure
- addtask configure after do_unpack do_patch before do_compile
-+
-+do_menuconfig() {
-+	export TERMWINDOWTITLE="${PN} Configuration"
-+	export SHELLCMDS="make menuconfig"
-+	${TERMCMDRUN}
-+	if [ $? -ne 0 ]; then
-+		oefatal "'${TERMCMD}' not found. Check TERMCMD variable."
-+	fi
-+}
-+do_menuconfig[nostamp] = "1"
-+addtask menuconfig after do_configure
-+
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 9c492a3..25d2629 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -197,21 +197,6 @@ kernel_do_configure() {
+ AVAILTUNES += "xscale-be"
+-TUNE_FEATURES_tune-xscale = "${TUNE_FEATURES_tune-armv5teb} xscale"
++TUNE_FEATURES_tune-xscale-be = "${TUNE_FEATURES_tune-armv5teb} xscale-be"
+ PACKAGE_EXTRA_ARCHS_tune-xscale-be = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb}"
  
- do_configure[depends] += "${INITRAMFS_TASK}"
- 
--do_menuconfig() {
--        export DISPLAY='${DISPLAY}'
--        export DBUS_SESSION_BUS_ADDRESS='${DBUS_SESSION_BUS_ADDRESS}'
--        export XAUTHORITY='${XAUTHORITY}'
--	export TERMWINDOWTITLE="${PN} Kernel Configuration"
--	export SHELLCMDS="make menuconfig"
--	${TERMCMDRUN}
--	if [ $? -ne 0 ]; then
--		echo "Fatal: '${TERMCMD}' not found. Check TERMCMD variable."
--		exit 1
--	fi
--}
--do_menuconfig[nostamp] = "1"
--addtask menuconfig after do_configure
--
- pkg_postinst_kernel () {
- 	cd /${KERNEL_IMAGEDEST}; update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
- }
+ # webkit-gtk has alignment issues with double instructions on armv5 so
 -- 
-1.7.0.4
+1.7.2.3
 
 
 
