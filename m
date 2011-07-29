@@ -1,58 +1,30 @@
-Received: from am1ehsobe003.messaging.microsoft.com ([213.199.154.206]
-	helo=AM1EHSOBE003.bigfish.com)
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1QmTim-000833-67
-	for openembedded-core@openembedded.org; Thu, 28 Jul 2011 18:46:04 +0200
-Received: from mail90-am1-R.bigfish.com (10.3.201.242) by
-	AM1EHSOBE003.bigfish.com (10.3.204.23) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 28 Jul 2011 16:26:44 +0000
-Received: from mail90-am1 (localhost.localdomain [127.0.0.1])	by
-	mail90-am1-R.bigfish.com (Postfix) with ESMTP id 55C9A18902F4;
-	Thu, 28 Jul 2011 16:26:44 +0000 (UTC)
-X-SpamScore: -20
-X-BigFish: VS-20(zzbb2dK9371K148cM1432N98dKzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h61h)
-X-Spam-TCS-SCL: 0:0
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null);
-	IPVD:NLI; H:mail.freescale.net; RD:none; EFVD:NLI
-Received: from mail90-am1 (localhost.localdomain [127.0.0.1]) by mail90-am1
-	(MessageSwitch) id 131187038441884_18606;
-	Thu, 28 Jul 2011 16:26:24 +0000 (UTC)
-Received: from AM1EHSMHS014.bigfish.com (unknown [10.3.201.243])	by
-	mail90-am1.bigfish.com (Postfix) with ESMTP id BE3E79A80BF;
-	Thu, 28 Jul 2011 16:25:15 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS014.bigfish.com
-	(10.3.207.152) with Microsoft SMTP Server (TLS) id 14.1.225.22;
-	Thu, 28 Jul 2011 16:24:58 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.56]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.01.0289.008; Thu, 28 Jul 2011 11:24:54 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [yocto] [OE-core] [PATCH] Switch to using perl-native for
-	various packages instead of host perl
-Thread-Index: AQHMS8leWmpqeI+5xkiGoGtDn+MuR5UBZ4mAgADaXwA=
-Date: Thu, 28 Jul 2011 16:24:53 +0000
-Message-ID: <CAEsOVNf1VK+YsHqVcyY5c9rpRbS27uiN2Gz4wGoeT2j9+YgOYw@mail.gmail.com>
-References: <1311708150-24226-1-git-send-email-msm@freescale.com>
-	<4E30D611.1050002@linux.intel.com>
-In-Reply-To: <4E30D611.1050002@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [50.57.111.205]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
+	(envelope-from <Noor_Ahsan@mentor.com>) id 1Qmmng-0003Cz-Bb
+	for openembedded-core@lists.openembedded.org;
+	Fri, 29 Jul 2011 15:08:24 +0200
+Received: from nat-dem.mentorg.com ([195.212.93.2]
+	helo=eu2-mail.mgc.mentorg.com) by relay1.mentorg.com with esmtp 
+	id 1Qmm7w-0001HQ-Up from Noor_Ahsan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 29 Jul 2011 05:25:17 -0700
+Received: from localhost.localdomain ([137.202.156.152]) by
+	eu2-mail.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.4675); 
+	Fri, 29 Jul 2011 14:25:15 +0200
+From: "Noor, Ahsan" <noor_ahsan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Jul 2011 17:24:50 +0500
+Message-Id: <1311942290-27217-1-git-send-email-noor_ahsan@mentor.com>
+X-Mailer: git-send-email 1.7.0.4
+X-OriginalArrivalTime: 29 Jul 2011 12:25:16.0073 (UTC)
+	FILETIME=[9265C190:01CC4DEA]
 X-Mailman-Approved-At: Sat, 30 Jul 2011 10:58:52 +0200
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@openembedded.org" <openembedded-core@openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [PATCH] Switch to using perl-native for various packages instead of host perl
+Cc: "Noor, Ahsan" <noor_ahsan@mentor.com>
+Subject: [PATCH] kernel,cml1.bbclass: Move menuconfig to cml1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -63,35 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jul 2011 16:46:04 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C964FDDD0222D442AD4EAA68FBF0321F@freescale.net>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 29 Jul 2011 13:08:24 -0000
 
-On Wed, Jul 27, 2011 at 10:22 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 07/26/2011 12:22 PM, Matthew McClintock wrote:
->>
->> Several builds are using perl on the host instead of perl built by
->> poky. This fixes the issue for several packages.
->>
-> Matthew,
->
-> Thanks for submitting this.
->
-> A similar fix was recently rejected, as we are looking at a different way=
- to
-> accomplish this.
->
-> See
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2011-July/006439.h=
-tml
+* The menuconfig target exists in places other than the kernel that use kernel style config.
 
-Why do we let the host perl in the path for target installs at all? Is
-there some precedence for what can be used from the host machine and
-what can not?
+Signed-off-by: Noor, Ahsan <noor_ahsan@mentor.com>
+---
+ meta/classes/cml1.bbclass   |   12 ++++++++++++
+ meta/classes/kernel.bbclass |   15 ---------------
+ 2 files changed, 12 insertions(+), 15 deletions(-)
 
--M=
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index 79218b4..a747af5 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -6,3 +6,15 @@ cml1_do_configure() {
+ 
+ EXPORT_FUNCTIONS do_configure
+ addtask configure after do_unpack do_patch before do_compile
++
++do_menuconfig() {
++	export TERMWINDOWTITLE="${PN} Configuration"
++	export SHELLCMDS="make menuconfig"
++	${TERMCMDRUN}
++	if [ $? -ne 0 ]; then
++		oefatal "'${TERMCMD}' not found. Check TERMCMD variable."
++	fi
++}
++do_menuconfig[nostamp] = "1"
++addtask menuconfig after do_configure
++
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 9c492a3..25d2629 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -197,21 +197,6 @@ kernel_do_configure() {
+ 
+ do_configure[depends] += "${INITRAMFS_TASK}"
+ 
+-do_menuconfig() {
+-        export DISPLAY='${DISPLAY}'
+-        export DBUS_SESSION_BUS_ADDRESS='${DBUS_SESSION_BUS_ADDRESS}'
+-        export XAUTHORITY='${XAUTHORITY}'
+-	export TERMWINDOWTITLE="${PN} Kernel Configuration"
+-	export SHELLCMDS="make menuconfig"
+-	${TERMCMDRUN}
+-	if [ $? -ne 0 ]; then
+-		echo "Fatal: '${TERMCMD}' not found. Check TERMCMD variable."
+-		exit 1
+-	fi
+-}
+-do_menuconfig[nostamp] = "1"
+-addtask menuconfig after do_configure
+-
+ pkg_postinst_kernel () {
+ 	cd /${KERNEL_IMAGEDEST}; update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
+ }
+-- 
+1.7.0.4
 
 
 
