@@ -1,31 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Qmu60-0002oc-Je
+	(envelope-from <cliff.brake@gmail.com>) id 1Qmuum-0004Zn-JS
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jul 2011 22:55:49 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6TKpUtd005606
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 29 Jul 2011 23:48:30 +0200
+Received: by pzk1 with SMTP id 1so7078636pzk.16
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2011 13:51:30 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 29 Jul 2011 13:51:29 -0700
-Message-ID: <4E331D50.1040004@windriver.com>
-Date: Fri, 29 Jul 2011 15:51:28 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
+	Fri, 29 Jul 2011 14:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=ebNsmq/9fmSS1eLa/fN0qu+UceeDXFds+MJ6NqT1u6w=;
+	b=U+YQkBe7nhvN5jDg+wtnwdCRL1arYSC6Gd1NAOVXzJJDACwhXfyqQw6WUKXfTLsAxU
+	yiynzCtZeKjseLLRzNtqS7BzJolXefvOh8BgSn684KK9MjcsFU0uiv9yLzb7IhT4nuR5
+	C8U+n39Zew7rwqpCoaHj0y0dESV38VSSS8le0=
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <20110729163912.GN15286@jama.jama.net>
-	<1311959073-16925-1-git-send-email-Martin.Jansa@gmail.com>
-	<20110729171007.GO15286@jama.jama.net>
-	<4E32F718.7060906@windriver.com>
-	<1311971039.3141.33.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1311971039.3141.33.camel@lenovo.internal.reciva.com>
-Subject: Re: [PATCH] feature-arm-thumb: respect ARM_INSTRUCTION_SET
+Received: by 10.68.35.201 with SMTP id k9mr3120713pbj.15.1311975677169; Fri,
+	29 Jul 2011 14:41:17 -0700 (PDT)
+Received: by 10.68.71.137 with HTTP; Fri, 29 Jul 2011 14:41:17 -0700 (PDT)
+In-Reply-To: <CAPhnLPB9AggLQ52m=p3Vi6Vod19b+wFsMf000YX4aHc9990xtw@mail.gmail.com>
+References: <CAPhnLPBkbaj6MzfnLKfkwKpDO4UwejH+cWa2V=4CCpv55CReaw@mail.gmail.com>
+	<1311692251.2344.262.camel@rex>
+	<CAPhnLPBO+_t-FXdCd5heU7mwz1aQVi45LKhZ3+cBZehgV42QHg@mail.gmail.com>
+	<1311721253.2344.320.camel@rex>
+	<CAPhnLPB9AggLQ52m=p3Vi6Vod19b+wFsMf000YX4aHc9990xtw@mail.gmail.com>
+Date: Fri, 29 Jul 2011 17:41:17 -0400
+Message-ID: <CAOd_LFzkiKNAM=6nnfmE-X4F-CDOZm5_UPFt4aEei6pt4W94CQ@mail.gmail.com>
+From: Cliff Brake <cliff.brake@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] license.bbclass: Splitting out licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,137 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2011 20:55:49 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Jul 2011 21:48:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 7/29/11 3:23 PM, Phil Blundell wrote:
-> On Fri, 2011-07-29 at 13:08 -0500, Mark Hatle wrote:
->> Sorry I was gone much of yesterday and not able to comment.  I'm going to break
->> this down into the two problems that I see people having.
->>
->> 1) "interworking".  I was recently told EABI requires interworking to be
->> enabled, and in OE-core we only support EABI.  So we should always have the
->> interworking enabled for the tunes that we support.
->>
->> Is this correct, any objections?  If so, assume from this point forward
->> interworking is always enabled and we only support (in oe-core) interworking
->> capable ARM chips.
-> 
-> That's pretty much right though not 100% correct.  Although it is true
-> that the AAPCS (and by extension the EABI) effectively requires all
-> relocatable objects to be built with interworking on, there are special
-> provisions for translating BX to MOV during link edit and hence allowing
-> v4 CPUs to run executables which are non-interworking but otherwise
-> conformant with the EABI.  The effect of this is that, although v4 isn't
-> naturally an interworking-capable architecture, it is nonetheless
-> grandfathered into the EABI universe.  See the remarks in section 5.6 of
-> ARM IHI 0042D.
-> 
-> And, pragmatically, there is a small but significant base of OE users on
-> v4 (not v4t) platforms and I don't think we want to do anything that
-> would disenfranchise them in OE-core.
+On Wed, Jul 27, 2011 at 2:04 PM, Flanagan, Elizabeth
+<elizabeth.flanagan@intel.com> wrote:
 
-Which set of users is still v4 (not interworking compatible)?  Are new
-processors being made that still require that capability? or (in oe-core) is it
-time to drop support?
+> I would still pull it. It does give us a basis to work on and splits
+> things out a bit.
+> When I get back from the conference this week, I'll fix it so that
+> it's a more reliable
+> in returning results. My guess is that I'll have to rip this all out
+> from being event driven
+> and do it, as you suggest, a postprocess right after do_rootfs
 
-Just because it's not in oe-core, doesn't mean it can't be in angstrom, or even
-meta-oe as unique tunings for those architectures..
+Khem took a pass at this (using the approach Richard suggested), so
+you might want to consider building on what he did.  The testlab stuff
+in OE is incredibly useful, and might be considered for OE core.
 
-> Neither the AAPCS nor the wider EABI makes any attempt to cater for
-> architectures earlier than v4 and I don't think OE-core needs to do so
-> either.  It's not totally unimaginable that someone might wish to target
-> OE-core at a v3 system but, if that ever happens, they can fill in the
-> missing bits in an overlay.
+Thanks,
+Cliff
 
-Ya, I never expected we'd support anything older the v4... but there is more
-variation in v4 then I had realized.
+http://patches.openembedded.org/patch/7587/
+http://patches.openembedded.org/patch/7589/
 
->> The confusion continues that people are expecting a package arch of "armv5t" to
->> be arbitrarily thumb or not thumb.. since the arch (to them) indicates that the
->> CPU is compatible with both thumb and ARM code.  That was not the intent of this
->> change.  Instead the _package architecture_ is designed to convey the ABI and
->> instruction set used when building the software in the package.
-> 
-> It's worth pointing out, just in case it isn't already obvious, that an
-> individual package might contain a mixture of ARM and Thumb binaries,
-> and an individual binary might contain a mixture of ARM-state and
-> Thumb-state functions.  This is doubly true when static libraries are
-> involved, of course.  Some compilers may (although GCC doesn't, today)
-> even switch automatically between ARM-state and Thumb-state depending on
-> their view of which is going to give the best results.
+to oe-core (these patches have been applied)
 
-I didn't realize there were compilers that would switch states.. the others I
-knew, but for the most part things are built on a package-level basis with a
-single set of options for the whole package.  (There will always be exceptions
-of course.)
+and
 
-> So, the distinction between "arm" and "thumb" binaries is always going
-> to be a slightly blurry one and, although I can see the attraction of
-> being able to label a particular package as "arm" or "thumb", it's more
-> a question of picking points on a continuum than a binary switch.
+http://patches.openembedded.org/patch/7591/ (still being discussed)
 
-Currently the switching point is on a recipe basis.  I'm sure we could make a
-recipe that does both thumb and arm and do dynamic switching on a binary by
-binary basis inside of a recipe.. but nothing that I am aware of does that
-today.  I've also not seen any real-world use cases that point to this --
-outside of custom application code that is being specifically tuned for a device.
+to meta-openembedded
 
->> This not only helps with debugging what someone is using, but also helps with
->> designing filesystems that may contain both arm and thumb code.  For example a
->> developer is building a device.. they have the requirements of "higher"
->> performance in there specific application, but maximum space savings everywhere
->> else.  They want to start with a binary package feed, NOT the build system.  So
->> they will mix and match the armv5 and armv5t packages by choosing the smaller
->> packages for most things (usually thumb), and using the ARM instruction set
->> where they need performance (usually armv5 packages).
->>
->> ---
->>
->> So having a single value that simply switches the instruction set, without
->> changing the package arch violates the intent of the change.  An alternative
->> would be something like:
-> 
-> It's not entirely obvious to me that Thumb-ness is, in this sense,
-> sufficiently special to deserve a distinct package architecture.  After
-> all, one can already switch between -Os and -O99, or different -mtune
-> levels or no doubt many other things which influence code size and
+Then INHERIT += "testlab" in local.conf if you are using angstrom them
+testlab is already inherited
 
-I've always seen -O levels set at the distribution or recipe level, not
-dynamically changes as a user creates a system.  Yes it can be done, but
-practically speaking I don't see that.. (other then building say one recipe with
--O0 to facilitate in additional debugging, but that's not usually distributed
-beyond the developer doing the individual work.)
+bitbake console-image
 
-> performance without the package architecture changing.  I guess some
-> DISTROs might want to offer a smorgasbord kind of approach where every
-> binary is compiled in N different ways and packaged separately, but I
-> get the general sense that most distros will probably not want to do
-> that and perhaps it oughtn't to be the default behaviour.
+and you should see a new file called installed-package-licenses.txt in
+testlab directory along with other testlab results.
 
-again, if a distribution doesn't want to distinguish between thumb and not,
-that's fine.. oe-core doesn't set distribution policy.  But for oe-core it is a
-use-case that I had in mind while doing much of the development.  It's also a
-use-case that I have active customers requesting from me...
 
-> (And of course, on another pragmatic point, it isn't by any means
-> universally true that ARM-state has better performance than Thumb-state
-> on real world systems.  There are a significant number of cases where
-> you get higher performance in Thumb-state than ARM-state.)
 
-Yup I'm aware of that as well..  which is why many customers want both ARM and
-thumb versions of the software so they can compare the disk size vs performance
-to meet whatever their targets are.. (most of the time for the OS it's purely
-disk size.. their application is where they tune the performance characteristics.)
-
-> p.
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+-- 
+=================
+http://bec-systems.com
 
 
