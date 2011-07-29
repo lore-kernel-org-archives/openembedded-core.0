@@ -1,29 +1,27 @@
-Received: from mail-fx0-f47.google.com ([209.85.161.47])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QmgrX-0006Vg-4h
+	(envelope-from <philb@gnu.org>) id 1QmgvL-0000My-03
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jul 2011 08:47:59 +0200
-Received: by mail-fx0-f47.google.com with SMTP id 11so2229244fxg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2011 23:43:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=FSEKMLe1XyPfS1ifTwqea6Q73a4mIqNYAcjWB3GkUwI=;
-	b=dVP1KT7Qh1+tmRjMATcatMKSK5cpL81kVmMU0UBYAmIFZv0a18xlQzyxnnFk30dGlP
-	pCY5xVBX0hMRBwFEBWToK5NgArbt11cdqmN0Qqz6YUS0nTHHaXMSn1x5bW3f3k8wckj7
-	Hhm8FQRWylUXwY5Zfwx23ldq18eA2IdxO+WsE=
-Received: by 10.223.160.131 with SMTP id n3mr711749fax.111.1311921825146;
-	Thu, 28 Jul 2011 23:43:45 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id g20sm378081fai.21.2011.07.28.23.43.43
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 28 Jul 2011 23:43:44 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jul 2011 08:43:36 +0200
-Message-Id: <1311921816-28895-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.6
-Subject: [PATCH] libfm: depend on intltool-native instead of intltool
+	Fri, 29 Jul 2011 08:51:55 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QmgrE-0003fk-RR
+	for openembedded-core@lists.openembedded.org;
+	Fri, 29 Jul 2011 08:47:40 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E324E62.1080601@gmail.com>
+References: <cover.1311683981.git.richard.purdie@linuxfoundation.org>
+	<346abefc87d21d0cc111ef87a6e48f40c5b6cb0b.1311683981.git.richard.purdie@linuxfoundation.org>
+	<1311769062.30326.322.camel@phil-desktop>
+	<1311773637.2344.365.camel@rex> <4E324E62.1080601@gmail.com>
+Date: Fri, 29 Jul 2011 07:47:35 +0100
+Message-ID: <1311922055.3141.2.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [PATCH 1/3] Add ARM tune file overhaul based largely on work from Mark Hatle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,28 +36,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2011 06:47:59 -0000
+X-List-Received-Date: Fri, 29 Jul 2011 06:51:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-support/libfm/libfm_0.1.14.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+On Thu, 2011-07-28 at 23:08 -0700, Khem Raj wrote:
+> I know SHR uses armv4t but I dont know of armv4 usecases. May be we 
+> could may armv4t as oldest supported arm arch and leave armv4 out.
 
-diff --git a/meta/recipes-support/libfm/libfm_0.1.14.bb b/meta/recipes-support/libfm/libfm_0.1.14.bb
-index 5c7e95c..38f1d73 100644
---- a/meta/recipes-support/libfm/libfm_0.1.14.bb
-+++ b/meta/recipes-support/libfm/libfm_0.1.14.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://src/base/fm-config.h;endline=23;md5=ad0fc418c3cf041eea35ddb3daf37f17"
- 
- SECTION = "x11/libs"
--DEPENDS = "gtk+ menu-cache intltool"
-+DEPENDS = "gtk+ menu-cache intltool-native"
- 
- PR = "r3"
- 
--- 
-1.7.6
+There are definitely still folks using OE with SA1100 machines.  I think
+armv4 support should be kept unless there is a really compelling reason
+to leave it out.
+
+p.
+
 
 
 
