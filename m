@@ -1,25 +1,40 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QmbCz-0008VR-1A
+	(envelope-from <lei.mei@intel.com>) id 1Qmbks-0000uJ-EZ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jul 2011 02:45:45 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Jul 2011 17:41:28 -0700
+	Fri, 29 Jul 2011 03:20:47 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 28 Jul 2011 18:16:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,285,1309762800"; d="scan'208";a="33368688"
-Received: from unknown (HELO [10.255.14.61]) ([10.255.14.61])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2011 17:41:27 -0700
-Message-ID: <4E3201B7.9040607@linux.intel.com>
-Date: Thu, 28 Jul 2011 17:41:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.67,285,1309762800"; d="scan'208";a="32834167"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by azsmga001.ch.intel.com with ESMTP; 28 Jul 2011 18:16:28 -0700
+Received: from pgsmsx509.gar.corp.intel.com (172.30.13.17) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 29 Jul 2011 09:15:36 +0800
+Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
+	PGSMSX509.gar.corp.intel.com (172.30.13.17) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 29 Jul 2011 09:15:35 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi;
+	Fri, 29 Jul 2011 09:15:35 +0800
+From: "Mei, Lei" <lei.mei@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1311898077-13062-1-git-send-email-galak@kernel.crashing.org>
-In-Reply-To: <1311898077-13062-1-git-send-email-galak@kernel.crashing.org>
-Subject: Re: [PATCH] sanity.bbclass: Add sanity check that	TUNE_PKGARCH appears in PACKAGE_ARCHS
+Date: Fri, 29 Jul 2011 09:15:33 +0800
+Thread-Topic: [OE-core] [PATCH 1/1] python-native: Fix a compiler finding issue
+Thread-Index: AcxNOE82btDmtgACTImRfzQ/QS1wuAAVAQJA
+Message-ID: <749B9D3DBF0F054390025D9EAFF47F2212D0F6D3D5@shsmsx501.ccr.corp.intel.com>
+References: <cover.1311836896.git.lei.mei@intel.com>
+	<2241650b6cb4e409a5463d38cfa0274eec3a3ee2.1311836896.git.lei.mei@intel.com>
+	<4E317B82.1020907@mentor.com>
+In-Reply-To: <4E317B82.1020907@mentor.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: zh-CN, en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] python-native: Fix a compiler finding	issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,60 +49,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2011 00:45:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Jul 2011 01:20:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 07/28/2011 05:07 PM, Kumar Gala wrote:
-> Its possible we get duplications if we explicity add TUNE_PKGARCH to
-> PACKAGE_ARCHS so instead just add a sanity check to verify it.
->
-> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
-> ---
->   meta/classes/sanity.bbclass |   10 +++++++++-
->   1 files changed, 9 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index b054146..999e15d 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -375,8 +375,10 @@ def check_sanity(e):
->       elif oeroot.find (' ') != -1:
->           messages = messages + "Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space."
->
-> -    # Check that we don't have duplicate entries in PACKAGE_ARCHS
-> +    # Check that we don't have duplicate entries in PACKAGE_ARCHS&  that TUNE_PKGARCH is in PACKAGE_ARCHS
->       pkgarchs = data.getVar('PACKAGE_ARCHS', e.data, True)
-> +    tunepkg = data.getVar('TUNE_PKGARCH', e.data, True)
-> +    tunefound = False
->       seen = {}
->       dups = []
->
-> @@ -385,9 +387,15 @@ def check_sanity(e):
->   	    dups.append(pa)
->   	else:
->   	    seen[pa] = 1
-> +	if pa == tunepkg:
-> +	    tunefound = True
-> +
->       if len(dups):
->          messages = messages + "Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: %s" % " ".join(dups)
->
-Kumar,
 
-Thanks for the patch, some questions.
 
-Is this correct, do you still want to report the error, if there is a dup?
-
-Would it not just be better to just drop the dup if it is the TUNE_PKGARCH?
-
-Sau!
-
-> +    if tunefound == False:
-> +       messages = messages + "Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (%s)." % tunepkg
-> +
->       if messages != "":
->           raise_sanity_error(messages)
+>-----Original Message-----
+>From: openembedded-core-bounces@lists.openembedded.org
+>[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>Tom Rini
+>Sent: Thursday, July 28, 2011 11:09 PM
+>To: openembedded-core@lists.openembedded.org
+>Subject: Re: [OE-core] [PATCH 1/1] python-native: Fix a compiler finding i=
+ssue
 >
+>On 07/28/2011 12:20 AM, Mei Lei wrote:
+>> The CC variable sometimes add option information after compiler name, bu=
+t
+>python can't get the real compiler name if those information added.
+>> Fix this issue by dropping the option information when finding compiler =
+name.
+>>
+>> Signed-off-by: Mei Lei <lei.mei@intel.com>
+>
+>I think this is going to cause problems when you must pass flags to gcc
+>to have it work, eg 'gcc -m64'.
+
+This patch fixed your worried issue.
+The CC variable, sometimes like:  "x86_64-poky-linux-gcc -m64 --sysroot=3D/=
+${TMPDIR}/sysroots/qemux86-64", contains flags information.=20
+This will lead to wrong compiler name "qemux86-64" rather than "x86_64-poky=
+-linux-gcc" when python finding the compiler name, so add this patch to fin=
+d the real gcc name.
+
+Thanks
+Lei=20
+
+
+>
+>--
+>Tom Rini
+>Mentor Graphics Corporation
+>
+>_______________________________________________
+>Openembedded-core mailing list
+>Openembedded-core@lists.openembedded.org
+>http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
