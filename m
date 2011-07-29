@@ -1,19 +1,25 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX18TICMer1n0U937G3le5bd2JZAyLY6juYg=])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qmaga-0008B4-Pn
+	(envelope-from <sgw@linux.intel.com>) id 1QmbCz-0008VR-1A
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jul 2011 02:12:17 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p6T081nm031450
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2011 19:08:01 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jul 2011 19:08:01 -0500
-Message-Id: <1311898081-13085-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH] tune/powerpc: Cleanup setting of TUNE_PKGARCH
+	Fri, 29 Jul 2011 02:45:45 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 28 Jul 2011 17:41:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,285,1309762800"; d="scan'208";a="33368688"
+Received: from unknown (HELO [10.255.14.61]) ([10.255.14.61])
+	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2011 17:41:27 -0700
+Message-ID: <4E3201B7.9040607@linux.intel.com>
+Date: Thu, 28 Jul 2011 17:41:27 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1311898077-13062-1-git-send-email-galak@kernel.crashing.org>
+In-Reply-To: <1311898077-13062-1-git-send-email-galak@kernel.crashing.org>
+Subject: Re: [PATCH] sanity.bbclass: Add sanity check that	TUNE_PKGARCH appears in PACKAGE_ARCHS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,122 +34,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2011 00:12:17 -0000
+X-List-Received-Date: Fri, 29 Jul 2011 00:45:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add some uniformity to the naming scheme and reduce a bit of redudancy.
+On 07/28/2011 05:07 PM, Kumar Gala wrote:
+> Its possible we get duplications if we explicity add TUNE_PKGARCH to
+> PACKAGE_ARCHS so instead just add a sanity check to verify it.
+>
+> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
+> ---
+>   meta/classes/sanity.bbclass |   10 +++++++++-
+>   1 files changed, 9 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index b054146..999e15d 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -375,8 +375,10 @@ def check_sanity(e):
+>       elif oeroot.find (' ') != -1:
+>           messages = messages + "Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space."
+>
+> -    # Check that we don't have duplicate entries in PACKAGE_ARCHS
+> +    # Check that we don't have duplicate entries in PACKAGE_ARCHS&  that TUNE_PKGARCH is in PACKAGE_ARCHS
+>       pkgarchs = data.getVar('PACKAGE_ARCHS', e.data, True)
+> +    tunepkg = data.getVar('TUNE_PKGARCH', e.data, True)
+> +    tunefound = False
+>       seen = {}
+>       dups = []
+>
+> @@ -385,9 +387,15 @@ def check_sanity(e):
+>   	    dups.append(pa)
+>   	else:
+>   	    seen[pa] = 1
+> +	if pa == tunepkg:
+> +	    tunefound = True
+> +
+>       if len(dups):
+>          messages = messages + "Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: %s" % " ".join(dups)
+>
+Kumar,
 
-Names are now back to: ppc603e, ppce300c2, ppce500, ppce500mc,
-ppce500v2.
+Thanks for the patch, some questions.
 
-On 64-bit we'll have something like ppc64e5500.
+Is this correct, do you still want to report the error, if there is a dup?
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
- meta/conf/machine/include/powerpc/arch-powerpc.inc |    5 +++--
- meta/conf/machine/include/tune-ppc603e.inc         |    2 +-
- meta/conf/machine/include/tune-ppce300c2.inc       |    2 +-
- meta/conf/machine/include/tune-ppce500.inc         |    2 +-
- meta/conf/machine/include/tune-ppce500mc.inc       |    2 +-
- meta/conf/machine/include/tune-ppce500v2.inc       |    2 +-
- 6 files changed, 8 insertions(+), 7 deletions(-)
+Would it not just be better to just drop the dup if it is the TUNE_PKGARCH?
 
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-index 93b1c05..a8226ea 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-@@ -3,6 +3,7 @@
- # *) Hard Floating Point on 64-bit
- 
- DEFAULTTUNE ?= "powerpc"
-+TUNE_PKGARCH ?= "ppc"
- 
- TUNEVALID[m32] = "Power ELF32 standard ABI"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m32", "-m32", "", d)}"
-@@ -12,6 +13,7 @@ TUNEVALID[m64] = "Power ELF64 standard ABI"
- TUNE_CONFLICTS[m64] = "m32 nf"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m64", "-m64", "", d)}"
- TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], "powerpc64", "", d)}"
-+TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], "64", "", d)}"
- 
- TUNEVALID[fpu-hard] = "Use hardware FPU."
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "-mhard-float", "", d)}"
-@@ -23,8 +25,7 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
- ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
- 
- PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "-nf", "", d)}"
--
--TUNE_PKGARCH ?= "${TUNE_ARCH}${PPCPKGSFX_FPU}"
-+TUNE_PKGARCH .= "${PPCPKGSFX_FPU}"
- 
- # Basic tune definitions
- AVAILTUNES += "powerpc powerpc-nf" 
-diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
-index 7c05394..12ba425 100644
---- a/meta/conf/machine/include/tune-ppc603e.inc
-+++ b/meta/conf/machine/include/tune-ppc603e.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppc603e] = "Enable ppc603e specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-mcpu=603e", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "ppc603e", "", d)}"
-+TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "603e", "", d)}"
- 
- AVAILTUNES += "ppc603e"
- TUNE_FEATURES_tune-ppc603e = "m32 fpu-hard ppc603e"
-diff --git a/meta/conf/machine/include/tune-ppce300c2.inc b/meta/conf/machine/include/tune-ppce300c2.inc
-index bad2611..6fe3e42 100644
---- a/meta/conf/machine/include/tune-ppce300c2.inc
-+++ b/meta/conf/machine/include/tune-ppce300c2.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppce300c2] = "Enable ppce300c2 specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c2", "-mcpu=e300c2", "", d)}"
--TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce300c2", "ppce300c2", "${TUNE_ARCH}", d)}"
-+TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce300c2", "e300c2", "${TUNE_ARCH}", d)}"
- 
- AVAILTUNES += "ppce300c2"
- TUNE_FEATURES_tune-ppce300c2 = "m32 fpu-soft ppce300c2"
-diff --git a/meta/conf/machine/include/tune-ppce500.inc b/meta/conf/machine/include/tune-ppce500.inc
-index c34d631..0e850f1 100644
---- a/meta/conf/machine/include/tune-ppce500.inc
-+++ b/meta/conf/machine/include/tune-ppce500.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppce500] = "Enable ppce500 specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "-mcpu=8540", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "ppce500", "", d)}"
-+TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "e500", "", d)}"
- 
- TUNEVALID[spe] = "Enable SPE ABI extensions"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe", "", d)}"
-diff --git a/meta/conf/machine/include/tune-ppce500mc.inc b/meta/conf/machine/include/tune-ppce500mc.inc
-index 73217dd..9fee226 100644
---- a/meta/conf/machine/include/tune-ppce500mc.inc
-+++ b/meta/conf/machine/include/tune-ppce500mc.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppce500mc] = "Enable ppce500mc specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-mcpu=e500mc", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "ppce500mc", "", d)}"
-+TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "e500mc", "", d)}"
- 
- AVAILTUNES += "ppce500mc"
- TUNE_FEATURES_tune-ppce500mc = "m32 fpu-hard ppce500mc"
-diff --git a/meta/conf/machine/include/tune-ppce500v2.inc b/meta/conf/machine/include/tune-ppce500v2.inc
-index 819d68a..2a0451b 100644
---- a/meta/conf/machine/include/tune-ppce500v2.inc
-+++ b/meta/conf/machine/include/tune-ppce500v2.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppce500v2] = "Enable ppce500v2 specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", "-mcpu=8548", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", "ppce500v2", "", d)}"
-+TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", "e500v2", "", d)}"
- 
- TUNEVALID[spe] = "Enable SPE ABI extensions"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe", "", d)}"
--- 
-1.7.3.4
+Sau!
 
+> +    if tunefound == False:
+> +       messages = messages + "Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (%s)." % tunepkg
+> +
+>       if messages != "":
+>           raise_sanity_error(messages)
+>
 
 
