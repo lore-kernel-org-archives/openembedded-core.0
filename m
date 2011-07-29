@@ -1,29 +1,29 @@
 Received: from mail-fx0-f47.google.com ([209.85.161.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1QmgrI-0006Vg-I6
+	(envelope-from <martin.jansa@gmail.com>) id 1QmgrX-0006Vg-4h
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jul 2011 08:47:46 +0200
-Received: by fxg11 with SMTP id 11so2229244fxg.6
+	Fri, 29 Jul 2011 08:47:59 +0200
+Received: by mail-fx0-f47.google.com with SMTP id 11so2229244fxg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jul 2011 23:43:28 -0700 (PDT)
+	Thu, 28 Jul 2011 23:43:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ENdYMqTOmbskRUE0VdbbI9mAd75i5kdP6uKvGEmHAag=;
-	b=YToz78QnMX3Ag28QLyWiLYC6ZORU36Ju8toqjHqJwX/EQSminnsDslCVeqsdtey7Ae
-	xwoQZs4U8GnGuoek0ol2q5qgZWpDecaaDA2Q1H1JFJeCclcy9+DDW2ouFACNim7SF3kr
-	sfkjhwWvdbSLjYM2B6bjyo4bIbgGugEo9H+C4=
-Received: by 10.223.98.130 with SMTP id q2mr1251609fan.137.1311921808108;
-	Thu, 28 Jul 2011 23:43:28 -0700 (PDT)
+	bh=FSEKMLe1XyPfS1ifTwqea6Q73a4mIqNYAcjWB3GkUwI=;
+	b=dVP1KT7Qh1+tmRjMATcatMKSK5cpL81kVmMU0UBYAmIFZv0a18xlQzyxnnFk30dGlP
+	pCY5xVBX0hMRBwFEBWToK5NgArbt11cdqmN0Qqz6YUS0nTHHaXMSn1x5bW3f3k8wckj7
+	Hhm8FQRWylUXwY5Zfwx23ldq18eA2IdxO+WsE=
+Received: by 10.223.160.131 with SMTP id n3mr711749fax.111.1311921825146;
+	Thu, 28 Jul 2011 23:43:45 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id c28sm899182fam.40.2011.07.28.23.43.26
+	by mx.google.com with ESMTPS id g20sm378081fai.21.2011.07.28.23.43.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 28 Jul 2011 23:43:27 -0700 (PDT)
+	Thu, 28 Jul 2011 23:43:44 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jul 2011 08:43:19 +0200
-Message-Id: <1311921799-28859-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Fri, 29 Jul 2011 08:43:36 +0200
+Message-Id: <1311921816-28895-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.6
-Subject: [PATCH] polkit: depend on intltool-native instead of intltool
+Subject: [PATCH] libfm: depend on intltool-native instead of intltool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,25 +38,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2011 06:47:47 -0000
+X-List-Received-Date: Fri, 29 Jul 2011 06:47:59 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-extended/polkit/polkit_0.101.bb |    2 +-
+ meta/recipes-support/libfm/libfm_0.1.14.bb |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/polkit/polkit_0.101.bb b/meta/recipes-extended/polkit/polkit_0.101.bb
-index 64cca10..f3a6f1c 100644
---- a/meta/recipes-extended/polkit/polkit_0.101.bb
-+++ b/meta/recipes-extended/polkit/polkit_0.101.bb
-@@ -12,7 +12,7 @@ SRC_URI = "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
+diff --git a/meta/recipes-support/libfm/libfm_0.1.14.bb b/meta/recipes-support/libfm/libfm_0.1.14.bb
+index 5c7e95c..38f1d73 100644
+--- a/meta/recipes-support/libfm/libfm_0.1.14.bb
++++ b/meta/recipes-support/libfm/libfm_0.1.14.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://src/base/fm-config.h;endline=23;md5=ad0fc418c3cf041eea35ddb3daf37f17"
  
- PAM_SRC_URI = "file://polkit-1_pam.patch"
- PR = "r1"
--DEPENDS = "libpam expat dbus-glib eggdbus intltool"
-+DEPENDS = "libpam expat dbus-glib eggdbus intltool-native"
- RDEPENDS_${PN} = "libpam"
- EXTRA_OECONF = "--with-authfw=pam --with-os-type=moblin --disable-man-pages --disable-gtk-doc --disable-introspection"
+ SECTION = "x11/libs"
+-DEPENDS = "gtk+ menu-cache intltool"
++DEPENDS = "gtk+ menu-cache intltool-native"
+ 
+ PR = "r3"
  
 -- 
 1.7.6
