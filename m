@@ -1,30 +1,24 @@
-Received: from mail-ey0-f178.google.com ([209.85.215.178])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dbaryshkov@gmail.com>) id 1QmpCM-0004sn-32
+	(envelope-from <philb@gnu.org>) id 1QmpCs-0004uL-Rb
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jul 2011 17:42:02 +0200
-Received: by eye4 with SMTP id 4so4982989eye.37
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jul 2011 08:37:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=sKLk/bxSaeMCe1fBfNk1NABF4zZi9hSJm/SlgmmjKA4=;
-	b=BdSlqQ4wrgjBVGGLEuevAKX5kx5HnNdjaSAUr7iprMnTFVNFKfYzqY/NowfNTDiiMN
-	ZGGpCUw5U8DuvGzKURuSfn2nJhfLRBeH3mgtfVDOHov8AcWS/G6bd67nK93ATk7KEGaz
-	pAop8x87BlaGykoqdgFVFVx2+rUdDv1JdlacE=
-Received: by 10.14.95.5 with SMTP id o5mr573469eef.98.1311953865295;
-	Fri, 29 Jul 2011 08:37:45 -0700 (PDT)
-Received: from localhost.localdomain ([194.85.238.22])
-	by mx.google.com with ESMTPS id t1sm919431eeb.6.2011.07.29.08.37.43
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 29 Jul 2011 08:37:44 -0700 (PDT)
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jul 2011 19:37:38 +0400
-Message-Id: <1311953858-21349-1-git-send-email-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 1.7.2.3
-Cc: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Subject: [PATCH] tune-xscale: fix xscale/xscale-be confusion
+	Fri, 29 Jul 2011 17:42:34 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qmp8m-000471-Br
+	for openembedded-core@lists.openembedded.org;
+	Fri, 29 Jul 2011 17:38:20 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 29 Jul 2011 16:38:19 +0100
+In-Reply-To: <8d920461c0a2d050b30d99d5a5ce464af6209f40.1311950827.git.lianhao.lu@intel.com>
+References: <86e74f97a7eea07d74dafa632c053da2d37e03eb.1311950827.git.lianhao.lu@intel.com>
+	<8d920461c0a2d050b30d99d5a5ce464af6209f40.1311950827.git.lianhao.lu@intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1311953900.30326.495.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [RFC BUG #1236 2/2] eglibc: Modify ldd script according to multilib config.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,31 +33,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2011 15:42:02 -0000
+X-List-Received-Date: Fri, 29 Jul 2011 15:42:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Currently tune-xscale.inc has options wrt. setting of xscale/xscale-be tunes.
-Fix that.
+On Fri, 2011-07-29 at 22:57 +0800, Lianhao Lu wrote:
+> +		"x86": ["ld-linux.so.2", "FLAG_ELF_LIBC5"],
 
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
----
- meta/conf/machine/include/tune-xscale.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+That looks a bit weird to me.  Are you sure that's right?
 
-diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
-index 9fe9685..54f3727 100644
---- a/meta/conf/machine/include/tune-xscale.inc
-+++ b/meta/conf/machine/include/tune-xscale.inc
-@@ -10,7 +10,7 @@ TUNE_FEATURES_tune-xscale = "${TUNE_FEATURES_tune-armv5te} xscale"
- PACKAGE_EXTRA_ARCHS_tune-xscale = "${PACKAGE_EXTRA_ARCHS_tune-armv5te}"
- 
- AVAILTUNES += "xscale-be"
--TUNE_FEATURES_tune-xscale = "${TUNE_FEATURES_tune-armv5teb} xscale"
-+TUNE_FEATURES_tune-xscale-be = "${TUNE_FEATURES_tune-armv5teb} xscale-be"
- PACKAGE_EXTRA_ARCHS_tune-xscale-be = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb}"
- 
- # webkit-gtk has alignment issues with double instructions on armv5 so
--- 
-1.7.2.3
+p.
+
 
 
 
