@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1QmcrU-0002It-6s
+	(envelope-from <Kai.Kang@windriver.com>) id 1QmcrY-0002JE-Qg
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jul 2011 04:31:40 +0200
+	Fri, 29 Jul 2011 04:31:47 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6T2RNv0029385
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p6T2RRIZ029389
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Jul 2011 19:27:23 -0700 (PDT)
+	Thu, 28 Jul 2011 19:27:27 -0700 (PDT)
 Received: from localhost (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 28 Jul 2011 19:27:22 -0700
-Message-ID: <c54e9de8a4f095810ccecde5b7c1cb44e48e040b.1311906027.git.kai.kang@windriver.com>
+	Thu, 28 Jul 2011 19:27:26 -0700
+Message-ID: <6a3a2889548525813514095a36a5b38912a85fbc.1311906027.git.kai.kang@windriver.com>
 In-Reply-To: <cover.1311906027.git.kai.kang@windriver.com>
 References: <cover.1311906027.git.kai.kang@windriver.com>
-Old-Date: Thu, 28 Jul 2011 17:28:42 +0800
-Date: Fri, 29 Jul 2011 10:27:19 +0800
+Old-Date: Thu, 28 Jul 2011 17:30:19 +0800
+Date: Fri, 29 Jul 2011 10:27:23 +0800
 To: <sgw@linux.intel.com>
 From: Kang Kai <kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.213]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] libnewt: update to 0.52.13
+Subject: [PATCH 2/2] distro_tracking_fields: update packages info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,132 +35,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jul 2011 02:31:40 -0000
+X-List-Received-Date: Fri, 29 Jul 2011 02:31:47 -0000
 Content-Type: text/plain
 
 From: Kang Kai <kai.kang@windriver.com>
 
-Update libnewt to 0.52.13, and remove include-without-python.patch
-because it has been merged.
-Update SRC_URI and add SRC_URI checksum.
+update distro tracking fields of libnewt mailx slang and alsa-tools.
 
 Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- .../newt/files/include-without-python.patch        |   73 --------------------
- .../{libnewt_0.52.12.bb => libnewt_0.52.13.bb}     |   10 ++-
- 2 files changed, 6 insertions(+), 77 deletions(-)
- delete mode 100644 meta/recipes-extended/newt/files/include-without-python.patch
- rename meta/recipes-extended/newt/{libnewt_0.52.12.bb => libnewt_0.52.13.bb} (80%)
+ .../conf/distro/include/distro_tracking_fields.inc |   28 ++++++++++++-------
+ meta/recipes-extended/slang/slang_2.2.4.bb         |    1 +
+ .../recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb |    9 ++++--
+ 3 files changed, 25 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-extended/newt/files/include-without-python.patch b/meta/recipes-extended/newt/files/include-without-python.patch
-deleted file mode 100644
-index 263e9de..0000000
---- a/meta/recipes-extended/newt/files/include-without-python.patch
-+++ /dev/null
-@@ -1,73 +0,0 @@
--Upstream-Status: Pending
--
--From 3d13bbbb769050fac4cc6c904c174edc27e4f03d Mon Sep 17 00:00:00 2001
--From: Otavio Salvador <otavio@ossystems.com.br>
--Date: Thu, 20 Jan 2011 14:14:51 -0200
--Subject: [PATCH] build: add -without-python
--
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-----
-- Makefile.in  |    8 ++++----
-- configure.ac |   10 ++++++++--
-- 2 files changed, 12 insertions(+), 6 deletions(-)
--
--diff --git a/Makefile.in b/Makefile.in
--index e764e61..74e9097 100644
----- a/Makefile.in
--+++ b/Makefile.in
--@@ -77,7 +77,7 @@ showkey:	showkey.o $(LIBNEWT)
-- 	$(CC) -g -o showkey showkey.o $(LIBNEWT) $(LDFLAGS) $(LIBS)
-- 
-- _snackmodule.so:   snackmodule.c $(LIBNEWTSH)
---	for ver in $(PYTHONVERS) ; do \
--+	[ -n "$(PYTHONVERS)" ] && for ver in $(PYTHONVERS) ; do \
-- 	    	mkdir -p $$ver ;\
-- 			PCFLAGS=`$$ver-config --cflags`; \
-- 			PIFLAGS=`$$ver-config --includes`; \
--@@ -85,7 +85,7 @@ _snackmodule.so:   snackmodule.c $(LIBNEWTSH)
-- 			PLFLAGS=`$$ver-config --libs`; \
-- 	        $(CC) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snackmodule.o snackmodule.c ;\
-- 	        $(CC) --shared $$PLDFLAGS $$PLFLAGS $(LDFLAGS) -o $$ver/_snackmodule.so $$ver/snackmodule.o -L.  -lnewt $(LIBS);\
---	done
--+	done || :
-- 	touch $@
-- 
-- whiptail: $(NDIALOGOBJS) $(LIBNEWTSH)
--@@ -141,11 +141,11 @@ install-sh: sharedlib $(WHIPTCLSO) _snackmodule.so
-- 	ln -sf $(LIBNEWTSONAME) $(instroot)/$(libdir)/libnewt.so
-- 	ln -sf $(LIBNEWTSH) $(instroot)/$(libdir)/$(LIBNEWTSONAME)
-- 	[ -n "$(WHIPTCLSO)" ] && install -m 755 whiptcl.so $(instroot)/$(libdir) || :
---	for ver in $(PYTHONVERS) ; do \
--+	[ -n "$(PYTHONVERS)" ] && for ver in $(PYTHONVERS) ; do \
-- 	   [ -d $(instroot)/$(libdir)/$$ver/site-packages ] || install -m 755 -d $(instroot)/$(libdir)/$$ver/site-packages ;\
-- 	   install -m 755 $$ver/_snackmodule.so $(instroot)/$(libdir)/$$ver/site-packages ;\
-- 	   install -m 644 snack.py $(instroot)/$(libdir)/$$ver/site-packages ;\
---	done
--+	done || :
-- 
-- Makefile: newt.spec
-- 	echo "You need to rerun ./configure before continuing"
--diff --git a/configure.ac b/configure.ac
--index 7bc381a..dc04352 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -54,8 +54,14 @@ fi
-- AC_CHECK_HEADERS([popt.h libintl.h])
-- 
-- AC_MSG_CHECKING([for python versions])
---PYTHONVERS=$(echo /usr/include/python*/Python.h | sed "s|/usr/include/||g"| sed "s|/Python.h||g" 2> /dev/null)
---AC_MSG_RESULT([$PYTHONVERS])
--+AC_ARG_WITH([python], [  --without-python        do not compile python support])
--+if test "x$with_python" = "xno"; then
--+  AC_MSG_RESULT([skipped])
--+  PYTHONVERS=
--+else
--+  PYTHONVERS=$(ls /usr/include/python*/Python.h 2> /dev/null | sed "s|/usr/include/||g"| sed "s|/Python.h||g" 2> /dev/null)
--+  AC_MSG_RESULT([$PYTHONVERS])
--+fi
-- AC_SUBST([PYTHONVERS])
-- 
-- AC_ARG_WITH([tcl], [  --without-tcl           do not compile whiptcl.so])
---- 
--1.7.2.3
--
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.12.bb b/meta/recipes-extended/newt/libnewt_0.52.13.bb
-similarity index 80%
-rename from meta/recipes-extended/newt/libnewt_0.52.12.bb
-rename to meta/recipes-extended/newt/libnewt_0.52.13.bb
-index e2ad559..38e09a9 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.12.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.13.bb
-@@ -17,16 +17,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
- # slang needs to be >= 2.2
- DEPENDS = "slang popt"
- 
--PR = "r2"
-+PR = "r0"
- 
- SRCREV = "c3c7be75f6ef1adfc2be5f99c1e8ef3f0ab58c38"
- 
--SRC_URI = "git://git.fedorahosted.org/git/newt;protocol=git \
--           file://include-without-python.patch \
-+SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
-            file://remove_slang_include.patch \
-            file://fix_SHAREDDIR.patch"
- 
--S = "${WORKDIR}/git"
-+SRC_URI[md5sum] = "77de05b3f58540152a4ae32a1a64e5d0"
-+SRC_URI[sha256sum] = "01c254b00a3d27e22f13240b6db74df04e721ccec4d1d4fc7b45fee009efc05f"
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 3a3991d..974f6bd 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -5697,8 +5697,13 @@ RECIPE_MAINTAINER_pn-docbook-utils = "Scott Garman <scott.a.garman@intel.com>"
+ RECIPE_LATEST_VERSION_pn-task-qte-toolchain-target = "1.0"
+ RECIPE_MANUAL_CHECK_DATE_pn-task-qte-toolchain-target = "Feb 28, 2011"
+ DISTRO_PN_ALIAS_pn-task-qte-toolchain-target = "Intel"
+-RECIPE_LATEST_VERSION_pn-mailx = "12.4"
+-RECIPE_MANUAL_CHECK_DATE_pn-mailx = "Feb 28, 2011"
 +
-+S = "${WORKDIR}/newt-${PV}"
++RECIPE_STATUS_pn-mailx = "red"
++RECIPE_LATEST_VERSION_pn-mailx = "12.5"
++RECIPE_LAST_UPDATE_pn-mailx = "Jul 1, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-mailx = "Jul 28, 2011"
++RECIPE_MAINTAINER_pn-mailx = "Kai Kang <kai.kang@windriver.com>"
++
+ RECIPE_LATEST_VERSION_pn-libgcc = "4.5.1"
+ RECIPE_MANUAL_CHECK_DATE_pn-libgcc = "Feb 28, 2011"
  
- EXTRA_OECONF = "--without-python --without-tcl"
+@@ -5724,13 +5729,15 @@ RECIPE_MAINTAINER_pn-linuxdoc-tools = "Scott Garman <scott.a.garman@intel.com>"
  
+ RECIPE_STATUS_pn-slang = "green"
+ RECIPE_LATEST_VERSION_pn-slang = "2.2.4"
+-RECIPE_LAST_UPDATE_pn-slang = "Apr 10, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-slang = "Jun 6, 2011"
++RECIPE_LAST_UPDATE_pn-slang = "Jul 28, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-slang = "Jun 28, 2011"
++RECIPE_MAINTAINER_pn-slang = "Kai Kang <kai.kang@windriver.com>"
+ 
+ RECIPE_STATUS_pn-libnewt = "green"
+-RECIPE_LATEST_VERSION_pn-libnewt = "0.52.12"
+-RECIPE_LAST_UPDATE_pn-libnewt = "Aug 06, 2010"
+-RECIPE_MANUAL_CHECK_DATE_pn-libnewt = "Jun 4, 2011"
++RECIPE_LATEST_VERSION_pn-libnewt = "0.52.13"
++RECIPE_MAINTAINER_pn-libnewt = "Kai Kang <kai.kang@windriver.com>"
++RECIPE_LAST_UPDATE_pn-libnewt = "Jul 27, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-libnewt = "Jul 27, 2011"
+ RECIPE_NO_UPDATE_REASON_pn-libnewt = ""
+ 
+ RECIPE_STATUS_pn-createrepo = "green"
+@@ -5762,10 +5769,11 @@ RECIPE_COMMENTS_pn-rxvt-unicode = ""
+ RECIPE_LAST_UPDATE_pn-rxvt-unicode = "May 25, 2011"
+ RECIPE_MAINTAINER_pn-rxvt-unicode = "Saul Wold <sgw@linux.intel.com>"
+ 
+-RECIPE_STATUS_pn-alsa-tools = "red"
++RECIPE_STATUS_pn-alsa-tools = "green"
+ RECIPE_LATEST_VERIONS_pn-alsa-tools = "1.0.24.1
+-RECIPE_LAST_UPDATE_pn-alsa-tools = "Jan 31, 2011"
+-RECIPE_MANUAL_CHECK_DATE_pn-alsa-tools = "Jun 7, 2011" 
++RECIPE_LAST_UPDATE_pn-alsa-tools = "Jul 28, 2011"
++RECIPE_MANUAL_CHECK_DATE_pn-alsa-tools = "Jul 28, 2011"
++RECIPE_MAINTAINER_pn-alsa-tools = "Kai Kang <kai.kang@windriver.com>"
+ 
+ RECIPE_STATUS_pn-mesa-demos = "red"
+ RECIPE_LATEST_VERSION_pn-mesa-demos = "8.0.1"
+diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+index 4bf5737..e13f0ad 100644
+--- a/meta/recipes-extended/slang/slang_2.2.4.bb
++++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+@@ -7,6 +7,7 @@ The S-Lang library, provided in this package, provides the S-Lang \
+ extension language.  S-Lang's syntax resembles C, which makes it easy \
+ to recode S-Lang procedures in C if you need to."
+ 
++HOMEPAGE = "http://www.jedsoft.org/slang/"
+ SECTION = "libs"
+ DEPENDS = "pcre"
+ PR = "r5"
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
+index 1bf9cd0..d6ecf7f 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.24.1.bb
+@@ -1,13 +1,16 @@
+ BROKEN = "1"
+ 
+-DESCRIPTION = "Alsa Tools"
++DESCRIPTION = "Alsa Tools package contains advanced tools for certain sound cards."
++HOMEPAGE = "http://www.alsa-project.org"
++BUGTRACKER = "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
+ SECTION = "console/utils"
+-LICENSE = "GPLv2"
++LICENSE = "GPLv2 & LGPLv2+"
+ DEPENDS = "alsa-lib ncurses"
+ 
+ PR = "r2"
+ 
+-LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
++LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
++                    file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/alsa-tools-${PV}.tar.bz2 \
+            file://autotools.patch"
 -- 
 1.7.5.1.300.gc565c
 
