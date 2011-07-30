@@ -1,36 +1,37 @@
-Received: from mail-pz0-f43.google.com ([209.85.210.43])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QnEX3-0000fe-Bf
+	(envelope-from <raj.khem@gmail.com>) id 1QnEZl-0000jV-4f
 	for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jul 2011 20:45:05 +0200
-Received: by pzk1 with SMTP id 1so8483945pzk.16
+	Sat, 30 Jul 2011 20:47:53 +0200
+Received: by iyj12 with SMTP id 12so5756854iyj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jul 2011 11:40:46 -0700 (PDT)
+	Sat, 30 Jul 2011 11:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=from:to:subject:date:message-id:organization:user-agent:in-reply-to
 	:references:mime-version:content-transfer-encoding:content-type;
-	bh=sJ/p1zG0xsMbBwb+TWds4VweNZNPjEMffPh28LuXDc0=;
-	b=ezfYqyWh84ybO63mXH3MQXu6hxoEdPLUanmWOUnUFrvN2i4P64AUKK8WruhqK7NHFk
-	h8Im62SVJXh5BAIXf3LM7NmmYKlB3yHqwAHv92ejsyfmT382p7XyEhL+JtSBcWgd8wsi
-	zTyMjXVB98H3GG18tAgC1ewmSu2BMcPORVHJ4=
-Received: by 10.68.5.129 with SMTP id s1mr4499549pbs.205.1312051246320;
-	Sat, 30 Jul 2011 11:40:46 -0700 (PDT)
+	bh=1U1EyTAsyYYVwb2Lt27jKyo/TGm//Qsa7tnkn9leRXk=;
+	b=i62W/o4Ma+zTrX5FQ8Qo1Oow2Kmtmi/V5rTyB3B+1+MlMzOa8finTkqTMH+HoZqlt1
+	/4lgOdDOjt2SvEF8PKN/9j71lrVFnaxdyE4plf2UqNv9HDcmtxD++XExGUyam+z5KzDq
+	Rp8iV65gzLet/SLC6LwPdMvfC2KrHdgUOpamc=
+Received: by 10.142.117.1 with SMTP id p1mr1801113wfc.420.1312051412689;
+	Sat, 30 Jul 2011 11:43:32 -0700 (PDT)
 Received: from perseus.localnet (99-57-141-118.lightspeed.sntcca.sbcglobal.net
 	[99.57.141.118])
-	by mx.google.com with ESMTPS id p7sm3509730pbn.1.2011.07.30.11.40.45
-	(version=SSLv3 cipher=OTHER); Sat, 30 Jul 2011 11:40:45 -0700 (PDT)
+	by mx.google.com with ESMTPS id v17sm1974861wfd.5.2011.07.30.11.43.31
+	(version=SSLv3 cipher=OTHER); Sat, 30 Jul 2011 11:43:32 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sat, 30 Jul 2011 11:40:43 -0700
-Message-ID: <2717944.t8ib7oWynB@perseus>
+Date: Sat, 30 Jul 2011 11:43:30 -0700
+Message-ID: <16609727.QKxnTdGfvX@perseus>
 Organization: Sakrah
 User-Agent: KMail/4.7.0  (Linux/2.6.38-10-generic; KDE/4.7.0; i686; ; )
-In-Reply-To: <706a2e04c5d4373a4f5a0dfbaf94bc63f95bc850.1311776363.git.richard.purdie@linuxfoundation.org>
-References: <7cdd5b62608ae2047d4fdd2ee98e452398401b1e.1311776363.git.richard.purdie@linuxfoundation.org>
-	<706a2e04c5d4373a4f5a0dfbaf94bc63f95bc850.1311776363.git.richard.purdie@linuxfoundation.org>
+In-Reply-To: <1311779631.30326.366.camel@phil-desktop>
+References: <cover.1311776363.git.richard.purdie@linuxfoundation.org>
+	<EF599739-F511-4465-B5BD-B19F15534482@dominion.thruhere.net>
+	<1311779631.30326.366.camel@phil-desktop>
 MIME-Version: 1.0
-Subject: Re: [PATCH 4/4] base.bbclass: Fix PACKAGE_ARCH typo
+Subject: Re: [PATCH 1/4] base.bbclass: Add compatibility package name mapping handler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,32 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jul 2011 18:45:05 -0000
+X-List-Received-Date: Sat, 30 Jul 2011 18:47:53 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Wednesday, July 27, 2011 03:29:15 PM Richard Purdie wrote:
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/base.bbclass |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+On Wednesday, July 27, 2011 04:13:47 PM Phil Blundell wrote:
+> On Wed, 2011-07-27 at 17:06 +0200, Koen Kooi wrote:
+> > From the conversations I had with ARM they implied that it isn't
+> > optional for cortex a8/9/15, only neon is (e.g. marvell dove, nvidia
+> > tegra2). I haven't seen any black on white contracts saying that,
+> > though :)
+> The spec on the web seems to say fairly clearly that it's optional, at
+> least in theory.  I guess they might have commercial reasons for not
+> wanting to sell it without VFP in any given situation.
 > 
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 3ed1bb8..a0a189f 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -407,7 +407,7 @@ python () {
->          # if multiple differences are present?
->          # Look through PACKAGE_ARCHS for the priority order?
->          if pkgarch and pkgarch == mach_arch:
-> -            bb.data.setVar('PACAKGE_ARCH', "${MACHINE_ARCH}", d)
-> +            bb.data.setVar('PACKAGE_ARCH', "${MACHINE_ARCH}", d)
+> See:
+> 
+> http://www.arm.com/products/processors/cortex-a/cortex-a5.php?tab=Specificat
+> ions
+> 
+> for example
 
-nice I was wondering this warning in my builds
-
->              bb.warn("Recipe %s is marked as only being architecture
-> specific but seems to have machine specific packages?! The recipe may as
-> well mark itself as machine specific directly." % d.getVar("PN", True)) }
+thats only for for a5. For procesors koen mentioned VFP is mandatory
+> 
+> p.
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 -- 
 Khem Raj
 
