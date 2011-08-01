@@ -1,27 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qnw2i-0000Cn-0x
+	(envelope-from <Tom_Rini@mentor.com>) id 1Qnw9M-0000Ju-TY
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 19:12:40 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2011 10:08:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,301,1309762800"; d="scan'208";a="34310872"
-Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
-	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2011 10:08:10 -0700
-Message-ID: <4E36DD7A.1040007@linux.intel.com>
-Date: Mon, 01 Aug 2011 10:08:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
-	Lightning/1.0b3pre Thunderbird/3.1.10
+	Mon, 01 Aug 2011 19:19:33 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Qnw5B-00040f-TT from Tom_Rini@mentor.com ;
+	Mon, 01 Aug 2011 10:15:13 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Mon, 1 Aug 2011 10:15:13 -0700
+Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
+	Mon, 1 Aug 2011 10:15:13 -0700
+Message-ID: <4E36DF12.1060208@mentor.com>
+Date: Mon, 1 Aug 2011 10:14:58 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1311865616.30326.450.camel@phil-desktop>
-In-Reply-To: <1311865616.30326.450.camel@phil-desktop>
-Cc: Phil Blundell <philb@gnu.org>
-Subject: Re: [PATCH] tune-cortex{m1, m3, r4}: correct spelling of "cortex"
+To: <openembedded-core@lists.openembedded.org>, Saul Wold <sgw@linux.intel.com>
+References: <cover.1311807353.git.tom_rini@mentor.com>	<7954213.WCcvt5c9xE@perseus>	<4E3496FB.7050605@mentor.com>
+	<1651296.NY6EmKFV0b@perseus> <4E35A9F1.701@mentor.com>
+In-Reply-To: <4E35A9F1.701@mentor.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 01 Aug 2011 17:15:13.0749 (UTC)
+	FILETIME=[9375B050:01CC506E]
+Subject: Re: [PATCH 2/9] tcl: Add tcl_cv_api_serial to siteinfo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,60 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 17:12:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 01 Aug 2011 17:19:33 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 07/28/2011 08:06 AM, Phil Blundell wrote:
-> Otherwise the test in TUNE_CCARGS will never match.
->
-> Signed-off-by: Phil Blundell<philb@gnu.org>
-> ---
->   meta/conf/machine/include/tune-cortexm1.inc |    2 +-
->   meta/conf/machine/include/tune-cortexm3.inc |    2 +-
->   meta/conf/machine/include/tune-cortexr4.inc |    3 +--
->   3 files changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/conf/machine/include/tune-cortexm1.inc b/meta/conf/machine/include/tune-cortexm1.inc
-> index 493025d..3eecd5b 100644
-> --- a/meta/conf/machine/include/tune-cortexm1.inc
-> +++ b/meta/conf/machine/include/tune-cortexm1.inc
-> @@ -6,6 +6,6 @@ TUNEVALID[cortexm1] = "Enable Cortex-M1 specific processor optimizations"
->   TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "cortexm1", "-mtune=cortex-m1", "", d)}"
->
->   AVAILTUNES += "cortexm1"
-> -TUNE_FEATURES_tune-cortexm1 = "${TUNE_FEATURES_tune-armv7a} coretexm1"
-> +TUNE_FEATURES_tune-cortexm1 = "${TUNE_FEATURES_tune-armv7a} cortexm1"
->   PACKAGE_EXTRA_ARCHS_tune-cortexm1 = "${PACKAGE_EXTRA_ARCHS_tune-armv7at}"
->
-> diff --git a/meta/conf/machine/include/tune-cortexm3.inc b/meta/conf/machine/include/tune-cortexm3.inc
-> index f774fa6..85408eb 100644
-> --- a/meta/conf/machine/include/tune-cortexm3.inc
-> +++ b/meta/conf/machine/include/tune-cortexm3.inc
-> @@ -10,6 +10,6 @@ TUNEVALID[armv7m] = "Enable Cortex-M3 specific processor optimizations"
->   TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv7m", "-march=armv7-m", "", d)}"
->
->   AVAILTUNES += "cortexm3"
-> -TUNE_FEATURES_tune-cortexm3 = "armv7m vfp coretexm3"
-> +TUNE_FEATURES_tune-cortexm3 = "armv7m vfp cortexm3"
->   PACKAGE_EXTRA_ARCHS_tune-cortexm3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7m"
->
-> diff --git a/meta/conf/machine/include/tune-cortexr4.inc b/meta/conf/machine/include/tune-cortexr4.inc
-> index 738f5af..8d2459f 100644
-> --- a/meta/conf/machine/include/tune-cortexr4.inc
-> +++ b/meta/conf/machine/include/tune-cortexr4.inc
-> @@ -10,6 +10,5 @@ TUNEVALID[armv7r] = "Enable Cortex-R4 specific processor optimizations"
->   TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "armv7r", "-march=armv7-m", "", d)}"
->
->   AVAILTUNES += "cortexr4"
-> -TUNE_FEATURES_tune-cortexr4 = "armv7r vfp coretexr4"
-> +TUNE_FEATURES_tune-cortexr4 = "armv7r vfp cortexr4"
->   PACKAGE_EXTRA_ARCHS_tune-cortexr4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7r"
-> -
+On 07/31/2011 12:16 PM, Tom Rini wrote:
+> On 07/30/2011 05:56 PM, Khem Raj wrote:
+>> On Saturday, July 30, 2011 04:42:51 PM Tom Rini wrote:
+>>> On 07/30/2011 10:33 AM, Khem Raj wrote:
+>>>> On Wednesday, July 27, 2011 03:56:46 PM Tom Rini wrote:
+>>>>> This comes from oe.dev which had this set for arm-linux only.  Bump PR
+>>>>> since this changes how builds happen.
+>>>>
+>>>> if you are clubbing them in right site files then this variable is for
+>>>> deciding what serial API(termios or termio or sgtty) to use its not
+>>>> dependent on libc imo.
+>>>
+>>> Where do you think it should go?  common-linux?
+>> yes
+> 
+> k, I'll v2 just this patch, tomorrow.
 
-Merged into OE-Core
+OK,
+http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/update-siteinfo-round-2-v2
+and
+http://git.openembedded.org/cgit.cgi/openembedded-core-contrib/commit/?h=trini/update-siteinfo-round-2-v2&id=d8f714075dcbe37ef21b17639f91a8faeb868bf1
+in particular.
 
-Thanks
-	Sau!
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
