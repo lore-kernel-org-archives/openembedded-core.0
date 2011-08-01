@@ -1,29 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Qnu5U-0005HE-Lg
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 17:07:25 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p71F33aD028278
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 08:03:03 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 1 Aug 2011 08:03:03 -0700
-Message-ID: <4E36C026.2050804@windriver.com>
-Date: Mon, 1 Aug 2011 10:03:02 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1312208782-14078-1-git-send-email-galak@kernel.crashing.org>
-	<4E36BDFA.4020409@windriver.com>
-	<24530743-BB87-468D-908B-4321D5C8D9F6@kernel.crashing.org>
-In-Reply-To: <24530743-BB87-468D-908B-4321D5C8D9F6@kernel.crashing.org>
-Subject: Re: [PATCH] eglibc_2.13: Add support for handling sqrt & sqrtf on powerpc
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qnup7-0006OO-TJ for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2011 17:54:34 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71FoAvd008423;
+	Mon, 1 Aug 2011 16:50:10 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07336-10; Mon,  1 Aug 2011 16:50:06 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71Fo1oP008408
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 1 Aug 2011 16:50:02 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <50CF8F6D-804A-4401-8EA3-5F19581E78D2@dominion.thruhere.net>
+References: <1312206102-16094-1-git-send-email-koen@dominion.thruhere.net>
+	<1312206461.2344.457.camel@rex>
+	<50CF8F6D-804A-4401-8EA3-5F19581E78D2@dominion.thruhere.net>
+Date: Mon, 01 Aug 2011 16:49:48 +0100
+Message-ID: <1312213788.2344.504.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] arch-armv7a.inc: fix armv7a-vfp-neon -> armv7a compat case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,44 +42,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 15:07:25 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Mon, 01 Aug 2011 15:54:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 8/1/11 9:56 AM, Kumar Gala wrote:
+On Mon, 2011-08-01 at 16:00 +0200, Koen Kooi wrote:
+> Op 1 aug. 2011, om 15:47 heeft Richard Purdie het volgende geschreven:
 > 
-> On Aug 1, 2011, at 9:53 AM, Mark Hatle wrote:
+> > On Mon, 2011-08-01 at 15:41 +0200, Koen Kooi wrote:
+> >> Without this 'armv7a' is used as TUNE_ARCH but does *not* end up in PACKAGE_EXTRA_ARCHS:
+> >> 
+> >> arch all 1
+> >> arch any 6
+> >> arch noarch 11
+> >> arch arm 16
+> >> arch armv4 21
+> >> arch armv4t 26
+> >> arch armv5 31
+> >> arch armv5t 36
+> >> arch armv5-vfp 41
+> >> arch armv5t-vfp 46
+> >> arch armv5e 51
+> >> arch armv5te 56
+> >> arch armv5e-vfp 61
+> >> arch armv5te-vfp 66
+> >> arch armv6-vfp 71
+> >> arch armv6t-vfp 76
+> >> arch armv7-vfp 81
+> >> arch armv7t2-vfp 86
+> >> arch armv7a-vfp 91
+> >> arch armv7at2-vfp 96
+> >> arch armv7a-vfp-neon 101
+> >> arch armv7at2-vfp-neon 106
+> >> arch beagleboard 111
+> >> 
+> >> Which leads to a failing do_rootfs
+> >> 
+> >> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> >> ---
+> >> meta/conf/machine/include/arm/arch-armv7a.inc |    4 ++--
+> >> 1 files changed, 2 insertions(+), 2 deletions(-)
+> >> 
+> >> diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+> >> index ce9cee5..704f86b 100644
+> >> --- a/meta/conf/machine/include/arm/arch-armv7a.inc
+> >> +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+> >> @@ -14,9 +14,9 @@ TUNE_FEATURES_tune-armv7a ?= "armv7a vfp"
+> >> TUNE_FEATURES_tune-armv7at ?= "armv7a vfp thumb"
+> >> TUNE_FEATURES_tune-armv7a-neon ?= "armv7a vfp neon"
+> >> TUNE_FEATURES_tune-armv7at-neon ?= "armv7a vfp neon thumb"
+> >> -PACKAGE_EXTRA_ARCHS_tune-armv7a = "${PACKAGE_EXTRA_ARCHS_tune-armv7} armv7a-vfp"
+> >> +PACKAGE_EXTRA_ARCHS_tune-armv7a = "${PACKAGE_EXTRA_ARCHS_tune-armv7} armv7a armv7a-vfp"
+> >> PACKAGE_EXTRA_ARCHS_tune-armv7a-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv7a-vfp-neon"
+> >> -PACKAGE_EXTRA_ARCHS_tune-armv7at = "${PACKAGE_EXTRA_ARCHS_tune-armv7t} armv7a-vfp armv7at2-vfp"
+> >> +PACKAGE_EXTRA_ARCHS_tune-armv7at = "${PACKAGE_EXTRA_ARCHS_tune-armv7t} armv7a armv7a-vfp armv7at2-vfp"
+> >> PACKAGE_EXTRA_ARCHS_tune-armv7at-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7a-vfp-neon armv7at2-vfp-neon"
+> > 
+> > I didn't spell it out but you still need the b versions too for the
+> > equivalent lines ;-)
 > 
->> On 8/1/11 9:26 AM, Kumar Gala wrote:
->>> Some of powerpc's dont support the fsqrt[s] instructions so we need an
->>> implementation of the library functions for those processors.
->>>
->>> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
->>> ---
->>> .../recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch |  538 ++++++++++++++++++++
->>> meta/recipes-core/eglibc/eglibc_2.13.bb            |    3 +-
->>> 2 files changed, 540 insertions(+), 1 deletions(-)
->>> create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch
->>
->> I'm a bit confused by this patch.  Why is gcc even generating (or trying to) the
->> fsqrt instructions on cores that don't have it?  Did someone optimize gcc so
->> that it always requires fsqrt on PPC?  (This is horribly broken behavior BTW...)
->>
->> As for the patch, I don't object.. but this just looks like the wrong solution
->> to me..
->>
-> 
-> Mark, the issue isn't w/gcc but glibc itself.  It will use inline asm of the 'fsqrt[s]' instruction.  This we need a different implementation of the math lib functions for these cores.
+> Actually, no :) There only is a little endian compat mapping in
+> base.bbclass, so it only makes sense to fix that one. There are no BE
+> v7as in classic OE or in any layer google.com knows about, so let's
+> leave that out.
 
-Ahh, I see.  That makes a lot more sense.
+Ok, merged to master, thanks.
 
---Mark
+Richard
 
-> - k
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
