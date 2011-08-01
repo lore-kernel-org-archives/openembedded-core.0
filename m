@@ -1,34 +1,21 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QnbYy-0002If-DA
+	(envelope-from <lei.mei@intel.com>) id 1QngcB-0003T8-Fa
 	for openembedded-core@lists.openembedded.org;
-	Sun, 31 Jul 2011 21:20:36 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1QnbUl-0002Zl-PR from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Sun, 31 Jul 2011 12:16:15 -0700
-Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Sun, 31 Jul 2011 12:16:15 -0700
-Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
-	(147.34.96.168) with Microsoft SMTP Server id 14.1.289.1;
-	Sun, 31 Jul 2011 12:16:14 -0700
-Message-ID: <4E35A9F1.701@mentor.com>
-Date: Sun, 31 Jul 2011 12:16:01 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1311807353.git.tom_rini@mentor.com>	<7954213.WCcvt5c9xE@perseus>
-	<4E3496FB.7050605@mentor.com> <1651296.NY6EmKFV0b@perseus>
-In-Reply-To: <1651296.NY6EmKFV0b@perseus>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 31 Jul 2011 19:16:15.0608 (UTC)
-	FILETIME=[5173AF80:01CC4FB6]
-Subject: Re: [PATCH 2/9] tcl: Add tcl_cv_api_serial to siteinfo
+	Mon, 01 Aug 2011 02:44:15 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2011 17:32:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,297,1309762800"; d="scan'208";a="34337737"
+Received: from daocaoren-desktop.sh.intel.com (HELO localhost.localdomain)
+	([10.239.47.21])
+	by fmsmga002.fm.intel.com with ESMTP; 31 Jul 2011 17:32:34 -0700
+From: Mei Lei <lei.mei@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Aug 2011 08:41:02 +0800
+Message-Id: <cover.1312158816.git.lei.mei@intel.com>
+X-Mailer: git-send-email 1.6.3.3
+Subject: [PATCH 0/1]aspell: upgrade from 0.60.6 to 0.60.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,28 +30,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 31 Jul 2011 19:20:36 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Aug 2011 00:44:15 -0000
 
-On 07/30/2011 05:56 PM, Khem Raj wrote:
-> On Saturday, July 30, 2011 04:42:51 PM Tom Rini wrote:
->> On 07/30/2011 10:33 AM, Khem Raj wrote:
->>> On Wednesday, July 27, 2011 03:56:46 PM Tom Rini wrote:
->>>> This comes from oe.dev which had this set for arm-linux only.  Bump PR
->>>> since this changes how builds happen.
->>>
->>> if you are clubbing them in right site files then this variable is for
->>> deciding what serial API(termios or termio or sgtty) to use its not
->>> dependent on libc imo.
->>
->> Where do you think it should go?  common-linux?
-> yes
+Hi Saul,
+	This pull request upgrade aspell from 0.60.6 to 0.60.6.1, please review it.
 
-k, I'll v2 just this patch, tomorrow.
+Thanks
+Lei
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+The following changes since commit f94b781695cd8fa387daff16ecbf3987a0883018:
+  Bruce Ashfield (1):
+        poky.conf: explicitly referenced preferred linux-yocto version
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib lmei3/upgrade-0730
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=lmei3/upgrade-0730
+
+Mei Lei (1):
+  aspell: upgrade from 0.60.6 to 0.60.6.1
+
+ .../{aspell_0.60.6.bb => aspell_0.60.6.1.bb}       |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/aspell/{aspell_0.60.6.bb => aspell_0.60.6.1.bb} (82%)
+
 
 
