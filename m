@@ -1,35 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qnvvh-0008TH-Ie for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 19:05:25 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71H15BU008884
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 18:01:05 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08397-04 for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2011 18:01:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71H0vjM008878
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 18:00:58 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1Qnvwq-0008Vp-LE
+	for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2011 19:06:36 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 01 Aug 2011 10:02:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,301,1309762800"; d="scan'208";a="32921288"
+Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
+	by orsmga002.jf.intel.com with ESMTP; 01 Aug 2011 10:02:15 -0700
+Message-ID: <4E36DC16.1040202@linux.intel.com>
+Date: Mon, 01 Aug 2011 10:02:14 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
+	Lightning/1.0b3pre Thunderbird/3.1.10
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1312216211.30326.537.camel@phil-desktop>
-References: <cover.1311716946.git.richard.purdie@linuxfoundation.org>
-	<e393d2644b26b14f2b3b4b8e12177644921076b9.1311716946.git.richard.purdie@linuxfoundation.org>
-	<1312216211.30326.537.camel@phil-desktop>
-Date: Mon, 01 Aug 2011 18:00:45 +0100
-Message-ID: <1312218045.2344.515.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/8] multilib: Add support for compiling recipes against multiple ABIs
+References: <1311847629-4047-1-git-send-email-koen@dominion.thruhere.net>
+In-Reply-To: <1311847629-4047-1-git-send-email-koen@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] bitbake.conf: attemp to fix PACKAGE_EXTRA_ARCHS problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,51 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 17:05:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 01 Aug 2011 17:06:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-08-01 at 17:30 +0100, Phil Blundell wrote:
-> On Tue, 2011-07-26 at 22:53 +0100, Richard Purdie wrote:
-> > +MULTILIBS ??= "multilib:lib32"
-> > +BBCLASSEXTEND_append_pn-linux-libc-headers = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-eglibc-initial = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-eglibc = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-libgcc = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-gcc-runtime = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-libtool-cross = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-zlib = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-binutils-cross = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-gcc-cross-initial = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-gcc-cross-intermediate = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-gcc-cross = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-busybox = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-update-rc.d = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-util-linux = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-gettext = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-bash = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-ncurses = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-expat = " ${MULTILIBS}"
-> > +BBCLASSEXTEND_append_pn-eglibc-locale = " ${MULTILIBS}"
-> 
-> What's the significance of this set of package names?  I couldn't
-> immediately spot an obvious reason why these particular recipes were
-> getting special treatment.
->  
-> It seems particularly weird to have update-rc.d in there since that is
-> an allarch recipe and (one hopes) isn't going to change much under
-> multilib.
+On 07/28/2011 03:07 AM, Koen Kooi wrote:
+> See http://lists.linuxtogo.org/pipermail/openembedded-core/2011-July/007075.html for more background
+>
+> Signed-off-by: Koen Kooi<koen@dominion.thruhere.net>
+> ---
+>   meta/conf/bitbake.conf |    3 ++-
+>   1 files changed, 2 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 6e109ec..1a6969b 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -84,7 +84,8 @@ HOST_EXEEXT = ""
+>   TUNE_ARCH ??= "INVALID"
+>   TUNE_CCARGS ??= ""
+>   TUNE_FEATURES ??= "${TUNE_FEATURES_tune-${DEFAULTTUNE}}"
+> -PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE} ??= "${TARGET_ARCH}"
+> +# Uncommenting the below line leads to all kinds of problems: http://lists.linuxtogo.org/pipermail/openembedded-core/2011-July/007075.html
+> +#PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE} ?= "${TARGET_ARCH}"
+>   LIBCEXTENSION ??= ""
+>   ABIEXTENSION ??= ""
+>
+Koen,
 
-It was the basic testing set of things we'd tested with multilib. We
-still need to better handle "all" arch, likely by adding in some
-RPROVIDES and disabling the class extensions themselves.
+As similar fix was pulled in from Paul
 
-Its intended this list go away in time and the extentions work with any
-recipe and this is purely a transition artefact.
-
-Cheers,
-
-Richard
-
+Sau!
 
 
