@@ -1,34 +1,22 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1Qnz0d-0005SP-Iu
+Received: from mailout-de.gmx.net ([213.165.64.23])
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <schnitzeltony@gmx.de>) id 1Qnzmg-0000Ju-4d
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 22:22:43 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QnywQ-00015z-PH from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 13:18:22 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 1 Aug 2011 13:15:07 -0700
-Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server id 14.1.289.1;
-	Mon, 1 Aug 2011 13:18:22 -0700
-Message-ID: <4E3709FF.4090904@mentor.com>
-Date: Mon, 1 Aug 2011 13:18:07 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1312206333.2344.456.camel@rex> <4E36FDA2.7030001@mentor.com>
-	<1312228607.2344.526.camel@rex>
-In-Reply-To: <1312228607.2344.526.camel@rex>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 01 Aug 2011 20:15:07.0827 (UTC)
-	FILETIME=[B53B4830:01CC5087]
-Subject: Re: Commits to master in my absence
+	Mon, 01 Aug 2011 23:12:22 +0200
+Received: (qmail invoked by alias); 01 Aug 2011 21:08:01 -0000
+Received: from p4FDF0322.dip.t-dialin.net (EHLO localhost.localdomain)
+	[79.223.3.34]
+	by mail.gmx.net (mp045) with SMTP; 01 Aug 2011 23:08:01 +0200
+X-Authenticated: #62780362
+X-Provags-ID: V01U2FsdGVkX19RC25fBHpRf9w0iZ8++tRp7IA8bVREakUbIb1T99
+	pPNv8Zj5gwslLg
+From: Andreas Mueller <schnitzeltony@gmx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Aug 2011 23:10:54 +0200
+Message-Id: <1312233054-8118-1-git-send-email-schnitzeltony@gmx.de>
+X-Mailer: git-send-email 1.7.4.4
+X-Y-GMX-Trusted: 0
+Subject: [angstrom] xfce-base-image: Add image for xfce48 desktop image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,63 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 20:22:43 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Aug 2011 21:12:22 -0000
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+* This patch requires patch series [1] to be committed in meta-oe
 
-On 08/01/2011 12:56 PM, Richard Purdie wrote:
-> On Mon, 2011-08-01 at 12:25 -0700, Tom Rini wrote:
->> -----BEGIN PGP SIGNED MESSAGE-----
->> Hash: SHA1
->>
->> On 08/01/2011 06:45 AM, Richard Purdie wrote:
->>
->>> I'm a little frustrated to see what happened when I was away from a
->>> couple of days. I thought we'd agreed we'd queue up patches in a branch
->>> and then I'd take care of things when I got back.
->>
->> So, I agree with everything you did say.  But I'd also like to suggest
->> we should have gone with "merge everything Monday" not "merge everything
->> Wednesday before RP runs off".  Yes, this would have meant either moving
->> some testing, or having testing also pull from a different (merged)
->> branch.  And I too was "wait, what, more stuff went in?  I thought we
->> caught the big problem already".
-> 
-> If I'd merged everything unexpectedly and not communicated the situation
-> I think that would be bad. As it was, I did merge things but I also
-> hopefully clearly communicated the issues and the expectation. Master is
-> the development tip and some instability, particularly as new features
-> merge is not entirely unexpected at this point in the cycle.
-> 
-> I'd hope we don't end up in a situation like that again, if we do, I'll
-> see what other options there and weigh them up as the situation
-> dictates.
+[1] http://lists.linuxtogo.org/pipermail/openembedded-devel/2011-August/034221.html
 
-Yes, it was an intentional and communicated decision.  I guess what my
-gut says right now is that while some folks are willing to live with
-some "it's broken, try again in a few days or go back to ...", a lot of
-the community expects things to be mostly working, and there was also
-some "ok, I want to expand / use this stuff, but..." that we ran into,
-which really is situation dependent.  And yes, next time we will need to
-weigh the options once again.
+Signed-off-by: Andreas Mueller <schnitzeltony@gmx.de>
+---
+ recipes-angstrom/images/xfce-base-image.bb |   26 ++++++++++++++++++++++++++
+ 1 files changed, 26 insertions(+), 0 deletions(-)
+ create mode 100644 recipes-angstrom/images/xfce-base-image.bb
 
-- -- 
-Tom Rini
-Mentor Graphics Corporation
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
-Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
+diff --git a/recipes-angstrom/images/xfce-base-image.bb b/recipes-angstrom/images/xfce-base-image.bb
+new file mode 100644
+index 0000000..80f5062
+--- /dev/null
++++ b/recipes-angstrom/images/xfce-base-image.bb
+@@ -0,0 +1,26 @@
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
++PR = "r0"
++
++require console-base-image.bb
++
++export IMAGE_BASENAME = "xfce-base-image"
++
++XSERVER ?= " \
++    xserver-xorg \
++    xf86-input-evdev \
++    xf86-input-mouse \
++    xf86-video-fbdev \
++    xf86-input-keyboard \
++"
++
++IMAGE_INSTALL += " \
++    ${XSERVER} \
++    task-base-extended \
++    task-xfce-base \
++    xserver-common \
++#    xserver-nodm-init \
++    ttf-dejavu-sans ttf-dejavu-sans-mono ttf-dejavu-common \
++"
++
++inherit image
+-- 
+1.7.4.4
 
-iQEcBAEBAgAGBQJONwn7AAoJEI4NMjfc3nJx2vQH/2u2MKHdqhsHNfoZoHlhPCJQ
-jk144kwp69HHVS9gKjiJCf1fkum9MTblT5V5VDIYgoD2yHDBnCe/P/9GWS8rlTcq
-lUweqPMDuWvoWPEGRWnNLPAnXP+bsWqoQLGEUuHkcmMag4yJsJSZYTmU6btTOSNa
-ON6Q4RnkTcD08AiHark/R5YHS46HaQ6tVyRpK3DgMUgfGVGnYa0EFzGG73p6q44x
-GKsXqNRverf4uu9KbnRTcciuxeIytGlZ3ewT9yHJBcKOjaT9a8FEkA03fHOIqRy/
-VJnfjOL4NbdoSRa67INQm8nAnI20WzxCrkzZPJ/2+VXXCfrZ4TFiabUviocPpmA=
-=oTtt
------END PGP SIGNATURE-----
 
 
