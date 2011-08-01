@@ -1,27 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QnvQQ-0007VE-D4
+	(envelope-from <philb@gnu.org>) id 1QnvRl-0007Xc-1L
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 18:33:06 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p71GSjcR013785
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 09:28:45 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 1 Aug 2011 09:28:44 -0700
-Message-ID: <4E36D43B.2060207@windriver.com>
-Date: Mon, 1 Aug 2011 11:28:43 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <55CEBFCA-8098-4A58-BC84-0C88D2484ED3@kernel.crashing.org>
-In-Reply-To: <55CEBFCA-8098-4A58-BC84-0C88D2484ED3@kernel.crashing.org>
-Subject: Re: lib64 not getting picked up
+	Mon, 01 Aug 2011 18:34:29 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QnvNb-0001z5-2u
+	for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2011 18:30:11 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 01 Aug 2011 17:30:10 +0100
+In-Reply-To: <e393d2644b26b14f2b3b4b8e12177644921076b9.1311716946.git.richard.purdie@linuxfoundation.org>
+References: <cover.1311716946.git.richard.purdie@linuxfoundation.org>
+	<e393d2644b26b14f2b3b4b8e12177644921076b9.1311716946.git.richard.purdie@linuxfoundation.org>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1312216211.30326.537.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/8] multilib: Add support for compiling recipes against multiple ABIs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,29 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 16:33:06 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Mon, 01 Aug 2011 16:34:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 8/1/11 11:15 AM, Kumar Gala wrote:
-> I'm trying to build a powerpc 64-bit system and for some reason everything is still in /lib instead of /lib64.
-> 
-> I'd expect things in /lib64 based on how arch-powerpc64.inc has:
-> 
-> BASE_LIB_tune-powerpc64 = "lib64"
-> 
-> any ideas on what to look at for why this isn't happening?
-> 
-> - k
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+On Tue, 2011-07-26 at 22:53 +0100, Richard Purdie wrote:
+> +MULTILIBS ??= "multilib:lib32"
+> +BBCLASSEXTEND_append_pn-linux-libc-headers = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-eglibc-initial = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-eglibc = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-libgcc = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-gcc-runtime = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-libtool-cross = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-zlib = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-binutils-cross = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-gcc-cross-initial = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-gcc-cross-intermediate = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-gcc-cross = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-busybox = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-update-rc.d = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-util-linux = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-gettext = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-bash = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-ncurses = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-expat = " ${MULTILIBS}"
+> +BBCLASSEXTEND_append_pn-eglibc-locale = " ${MULTILIBS}"
 
-in bitbake.conf try changing "baselib" to:
+What's the significance of this set of package names?  I couldn't
+immediately spot an obvious reason why these particular recipes were
+getting special treatment.
+ 
+It seems particularly weird to have update-rc.d in there since that is
+an allarch recipe and (one hopes) isn't going to change much under
+multilib.
 
-baselib = "${@d.getVar('BASE_LIB_tune-${DEFAULTTUNE}', True) or 'lib'}"
+p.
 
---Mark
+
 
 
