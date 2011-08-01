@@ -1,16 +1,16 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QnwRB-0000bB-EC
+	(envelope-from <sgw@linux.intel.com>) id 1QnwV4-0000fu-3Q
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 19:37:57 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Aug 2011 10:33:35 -0700
+	Mon, 01 Aug 2011 19:41:58 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Aug 2011 10:37:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,301,1309762800"; d="scan'208";a="36737621"
+X-IronPort-AV: E=Sophos;i="4.67,301,1309762800"; d="scan'208";a="34607923"
 Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Aug 2011 10:33:35 -0700
-Message-ID: <4E36E36F.4020303@linux.intel.com>
-Date: Mon, 01 Aug 2011 10:33:35 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 01 Aug 2011 10:37:36 -0700
+Message-ID: <4E36E45F.4010307@linux.intel.com>
+Date: Mon, 01 Aug 2011 10:37:35 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
@@ -18,9 +18,11 @@ User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1311851957.git.lianhao.lu@intel.com>
-In-Reply-To: <cover.1311851957.git.lianhao.lu@intel.com>
-Subject: Re: [PATCH 0/1] Fix bug #1299 for meta-environment
+References: <1311708150-24226-1-git-send-email-msm@freescale.com>
+	<1311708150-24226-2-git-send-email-msm@freescale.com>
+In-Reply-To: <1311708150-24226-2-git-send-email-msm@freescale.com>
+Cc: Matthew McClintock <msm@freescale.com>, openembedded-core@openembedded.org
+Subject: Re: [PATCH] Update TERMCMD message to align with previous change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,41 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 17:37:57 -0000
+X-List-Received-Date: Mon, 01 Aug 2011 17:41:58 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/28/2011 04:24 AM, Lianhao Lu wrote:
-> Using recipe-scope variable REAL_MULTIMACH_TARGET_SYS instead of the unavailable
-> OLD_MULTIMACH_TARGET_SYS to generate meta-environment files for ADT installer.
+On 07/26/2011 12:22 PM, Matthew McClintock wrote:
+> A previous patch changed the default TERM to use xterm. This updates
+> local.conf.sample to match the change
 >
-> The following changes since commit f94b781695cd8fa387daff16ecbf3987a0883018:
->    Bruce Ashfield (1):
->          poky.conf: explicitly referenced preferred linux-yocto version
+> Signed-off-by: Matthew McClintock<msm@freescale.com>
+> ---
+>   meta-yocto/conf/local.conf.sample |    2 +-
+>   1 files changed, 1 insertions(+), 1 deletions(-)
 >
-> are available in the git repository at:
+> diff --git a/meta-yocto/conf/local.conf.sample b/meta-yocto/conf/local.conf.sample
+> index 499c48e..7a0fc89 100644
+> --- a/meta-yocto/conf/local.conf.sample
+> +++ b/meta-yocto/conf/local.conf.sample
+> @@ -205,7 +205,7 @@ ENABLE_BINARY_LOCALE_GENERATION = "1"
+>   # out if that is desired
+>   NO32LIBS = "1"
 >
->    git://git.pokylinux.org/poky-contrib llu/bug1299
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=llu/bug1299
->
-> Lianhao Lu (1):
->    meta-environment: set correct *MULTIMACH_TARGET_SYS.
->
->   meta/classes/toolchain-scripts.bbclass     |    7 ++++---
->   meta/recipes-core/meta/meta-environment.bb |    9 +++++----
->   2 files changed, 9 insertions(+), 7 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+> -# If you do not use (or have installed) gnome-terminal you will need to
+> +# If you do not use (or have installed) xterm you will need to
+>   # uncomment these variables and set them to the terminal you wish to use
+>   # when resolving patches which cannot be applied
+>   # Supported shell prefixes for *_TERMCMD and *_TERMCMDRUN ARE:
 
-Merged into OE-Core
+This patch was merged.
 
 Thanks
 	Sau!
-
 
 
