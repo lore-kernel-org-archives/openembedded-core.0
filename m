@@ -1,24 +1,34 @@
-Received: from exprod5ob109.obsmtp.com ([64.18.0.187])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <malcolm.crossley@ge.com>) id 1Qo1D2-0003aa-6O
+	(envelope-from <Tom_Rini@mentor.com>) id 1Qo1PR-0003jj-RF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 00:43:40 +0200
-Received: from Alpmlip06.e2k.ad.ge.com ([12.43.191.1]) (using TLSv1) by
-	exprod5ob109.postini.com ([64.18.4.12]) with SMTP
-	ID DSNKTjcrF9BWNSyjZGLd8NZuN9a9kNydekVi@postini.com;
-	Mon, 01 Aug 2011 15:39:20 PDT
-Received: from unknown (HELO cinmlip01.e2k.ad.ge.com) ([3.159.213.48])
-	by Alpmlip06.e2k.ad.ge.com with ESMTP; 01 Aug 2011 11:51:51 -0400
-Received: from es-641xt3j.amer.consind.ge.com (HELO [3.138.54.93])
-	([3.138.54.93])
-	by cinmlip01.e2k.ad.ge.com with ESMTP; 01 Aug 2011 11:51:48 -0400
-Message-ID: <4E36CB93.2030006@ge.com>
-Date: Mon, 01 Aug 2011 16:51:47 +0100
-From: Malcolm Crossley <malcolm.crossley@ge.com>
-User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20110624 Thunderbird/5.0
+	Tue, 02 Aug 2011 00:56:30 +0200
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Qo1LG-0003hG-EF from Tom_Rini@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2011 15:52:10 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Mon, 1 Aug 2011 15:52:10 -0700
+Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.1.289.1;
+	Mon, 1 Aug 2011 15:52:09 -0700
+Message-ID: <4E372E0A.1020504@mentor.com>
+Date: Mon, 1 Aug 2011 15:51:54 -0700
+From: Tom Rini <tom_rini@mentor.com>
+Organization: Mentor Graphics Corporation
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] tune-powerpc: Set TUNE_PKGARCH instead of adding to it on powerpc machine tune.inc files
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1311758282.git.kai.kang@windriver.com>	<d5e06516ed6656364b8127740700d1403b72d567.1311758282.git.kai.kang@windriver.com>	<2070961.C8JsuWrOh5@perseus>
+	<4E3728A7.1050707@linux.intel.com>
+In-Reply-To: <4E3728A7.1050707@linux.intel.com>
+X-Enigmail-Version: 1.1.1
+X-OriginalArrivalTime: 01 Aug 2011 22:52:10.0260 (UTC)
+	FILETIME=[A5707540:01CC509D]
+Subject: Re: [PATCH 1/1] ghostscript: fix parallel build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,100 +43,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 22:43:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 01 Aug 2011 22:56:30 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-Set TUNE_PKGARCH instead of adding to it on powerpc machine tune.inc 
-files.The ppce300c2 tune file already sets the TUNE_PKGARCH variable 
-instead of adding to it.
+On 08/01/2011 03:28 PM, Saul Wold wrote:
+> On 07/30/2011 11:20 AM, Khem Raj wrote:
+>> On Wednesday, July 27, 2011 05:34:45 PM Kang Kai wrote:
+>>> From: Kang Kai<kai.kang@windriver.com>
+>>>
+>>> ghostscript fails some time on autobuilder, it seems a parallel build
+>>> issue.
+>>> Add patch to fix it.
+>>>
+>>> Fixes [Yocto #1202]
+>>>
+>>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>>> ---
+>>>   .../ghostscript-9.02-parallel-make.patch           |   17
+>>> +++++++++++++++++
+>>> .../ghostscript/ghostscript_9.02.bb                |    3 ++-
+>>>   2 files changed, 19 insertions(+), 1 deletions(-)
+>>>   create mode 100644
+>>> meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parallel-mak
+>>>
+>>> e.patch
+>>>
+>>> diff --git
+>>> a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parallel-m
+>>>
+>>> ake.patch
+>>> b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parallel-m
+>>>
+>>> ake.patch new file mode 100644
+>>> index 0000000..76d1676
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parallel-m
+>>>
+>>> ake.patch @@ -0,0 +1,17 @@
+>>> +When parallel make it will fail with multi copy, see
+>>> +http://bugzilla.pokylinux.org/show_bug.cgi?id=1202
+>>> +
+>>> +Upstream-Status: Pending
+>>> +
+>>> +Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>>> +--- ghostscript-9.02/base/unixhead.mak.orig    2011-07-27
+>>> 17:06:17.749456100
+>>> +0800 ++++ ghostscript-9.02/base/unixhead.mak    2011-07-27
+>>> 17:06:37.449456100
+>>> +0800 +@@ -54,7 +54,7 @@
+>>> +
+>>> + # Define generic commands.
+>>> +
+>>> +-CP_=cp
+>>> ++CP_=cp -f
+>>
+>> It means it will first delete the target if it exists. Did you check
+>> if this
+>> is correct behavior ?
+>>
+> Khem,
+> 
+> As far as I know the file is that is being copied to is the same file
+> and the CP is only used in that case, the 2 files are copied to the same
+> location due to the Parallel make.
 
-Adding to the TUNE_PKGARCH variable is causing the TUNE_PKGARCH to not 
-match the PACKAGE_EXTRA_ARCHS variable. This then meant the packaging 
-mechanism could not find the packages to install into the rootfs. E.G. 
-powerpcppce500mc was not in PACKAGE_EXTRA_ARCHS.
+Er, that sounds like we're just changing the race around.  Now we could
+get an incomplete file?
 
-Signed-off-by: Malcolm Crossley <malcolm.crossley@ge.com>
----
-
-I chose to implement it this way because it mirrored how the ppce300c2 
-and core2.inc tune file's are done. If the intention is to keep the 
-"powerpc" on the front then the PACKAGE_EXTRA_ARCHS variable will need 
-to be changed instead.
-
-diff --git a/meta/conf/machine/include/tune-ppc603e.inc 
-b/meta/conf/machine/include/tune-ppc603e.inc
-index 7c05394..fb6abaf 100644
---- a/meta/conf/machine/include/tune-ppc603e.inc
-+++ b/meta/conf/machine/include/tune-ppc603e.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
-
-  TUNEVALID[ppc603e] = "Enable ppc603e specific processor optimizations"
-  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", 
-"-mcpu=603e", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", 
-"ppc603e", "", d)}"
-+TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", 
-"ppc603e", "", d)}"
-
-  AVAILTUNES += "ppc603e"
-  TUNE_FEATURES_tune-ppc603e = "m32 fpu-hard ppc603e"
-diff --git a/meta/conf/machine/include/tune-ppce500.inc 
-b/meta/conf/machine/incl
-ude/tune-ppce500.inc
-index c34d631..53c8038 100644
---- a/meta/conf/machine/include/tune-ppce500.inc
-+++ b/meta/conf/machine/include/tune-ppce500.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
-
-  TUNEVALID[ppce500] = "Enable ppce500 specific processor optimizations"
-  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500", 
-"-mcpu=8540",
-"", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500", 
-"ppce500", ""
-, d)}"
-+TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500", 
-"ppce500", "",
-  d)}"
-
-  TUNEVALID[spe] = "Enable SPE ABI extensions"
-  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", 
-"-mabi=spe -mspe", "", d)}"
-diff --git a/meta/conf/machine/include/tune-ppce500mc.inc 
-b/meta/conf/machine/include/tune-ppce500mc.inc
-index 73217dd..8cbaec3 100644
---- a/meta/conf/machine/include/tune-ppce500mc.inc
-+++ b/meta/conf/machine/include/tune-ppce500mc.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
-
-  TUNEVALID[ppce500mc] = "Enable ppce500mc specific processor optimizations"
-  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", 
-"-mcpu=e500mc", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", 
-"ppce500mc", "", d)}"
-+TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", 
-"ppce500mc", "", d)}"
-
-  AVAILTUNES += "ppce500mc"
-  TUNE_FEATURES_tune-ppce500mc = "m32 fpu-hard ppce500mc"
-diff --git a/meta/conf/machine/include/tune-ppce500v2.inc 
-b/meta/conf/machine/include/tune-ppce500v2.inc
-index 819d68a..1594e51 100644
---- a/meta/conf/machine/include/tune-ppce500v2.inc
-+++ b/meta/conf/machine/include/tune-ppce500v2.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
-
-  TUNEVALID[ppce500v2] = "Enable ppce500v2 specific processor optimizations"
-  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", 
-"-mcpu=8548", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", 
-"ppce500v2", "", d)}"
-+TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", 
-"ppce500v2", "", d)}"
-
-  TUNEVALID[spe] = "Enable SPE ABI extensions"
-  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", 
-"-mabi=spe -mspe", "", d)}"
+-- 
+Tom Rini
+Mentor Graphics Corporation
 
 
