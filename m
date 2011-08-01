@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qnn7J-0006ZU-GD
+	(envelope-from <sgw@linux.intel.com>) id 1Qnn7K-0006Zd-3w
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 09:40:49 +0200
+	Mon, 01 Aug 2011 09:40:50 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2011 00:36:21 -0700
+	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2011 00:36:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,299,1309762800"; d="scan'208";a="34147076"
+X-IronPort-AV: E=Sophos;i="4.67,299,1309762800"; d="scan'208";a="34147066"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
-	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2011 00:36:21 -0700
+	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2011 00:36:19 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Aug 2011 00:36:04 -0700
-Message-Id: <f215d757b3ee8163f5a1a6925968c39b2eea7673.1312182844.git.sgw@linux.intel.com>
+Date: Mon,  1 Aug 2011 00:35:58 -0700
+Message-Id: <6691c2882a54f5e889975e14388383d64dadf1cf.1312182844.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312182844.git.sgw@linux.intel.com>
 References: <cover.1312182844.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312182844.git.sgw@linux.intel.com>
 References: <cover.1312182844.git.sgw@linux.intel.com>
-Subject: [PATCH 12/22] sanity.bbclass: Add sanity check that TUNE_PKGARCH appears in PACKAGE_ARCHS
+Subject: [PATCH 06/22] openjade-native: Write a bak file for shared state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 07:40:49 -0000
+X-List-Received-Date: Mon, 01 Aug 2011 07:40:50 -0000
 
-From: Kumar Gala <galak@kernel.crashing.org>
+This patch writes a sgml-docbook.bak that is read by the sgml-common during a shared
+state sysroot populate, because it comes out of order.
 
-Its possible we get duplications if we explicity add TUNE_PKGARCH to
-PACKAGE_ARCHS so instead just add a sanity check to verify it.
-
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/sanity.bbclass |   10 +++++++++-
- 1 files changed, 9 insertions(+), 1 deletions(-)
+ .../openjade/openjade-native_1.3.2.bb              |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index b054146..999e15d 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -375,8 +375,10 @@ def check_sanity(e):
-     elif oeroot.find (' ') != -1:
-         messages = messages + "Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space."
+diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+index da59406..c71f22a 100644
+--- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
++++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+@@ -7,7 +7,7 @@ SECTION = "base"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
  
--    # Check that we don't have duplicate entries in PACKAGE_ARCHS
-+    # Check that we don't have duplicate entries in PACKAGE_ARCHS & that TUNE_PKGARCH is in PACKAGE_ARCHS
-     pkgarchs = data.getVar('PACKAGE_ARCHS', e.data, True)
-+    tunepkg = data.getVar('TUNE_PKGARCH', e.data, True)
-+    tunefound = False
-     seen = {}
-     dups = []
+-PR = "r3"
++PR = "r4"
  
-@@ -385,9 +387,15 @@ def check_sanity(e):
- 	    dups.append(pa)
- 	else:
- 	    seen[pa] = 1
-+	if pa == tunepkg:
-+	    tunefound = True
-+
-     if len(dups):
-        messages = messages + "Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: %s" % " ".join(dups)
- 
-+    if tunefound == False:
-+       messages = messages + "Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (%s)." % tunepkg
-+
-     if messages != "":
-         raise_sanity_error(messages)
- 
+ DEPENDS = "opensp-native sgml-common-native"
+ RDEPENDS_${PN} = "sgml-common"
+@@ -69,6 +69,9 @@ openjade_sstate_postinst() {
+ 		# Ensure that the catalog file sgml-docbook.cat is properly
+ 		# updated when the package is installed from sstate cache.
+ 		${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-openjade \
++			--add ${sysconfdir}/sgml/sgml-docbook.bak \
++			${sysconfdir}/sgml/openjade-${PV}.cat
++		${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-openjade \
+ 			--add ${sysconfdir}/sgml/sgml-docbook.cat \
+ 			${sysconfdir}/sgml/openjade-${PV}.cat
+ 	fi
 -- 
 1.7.3.4
 
