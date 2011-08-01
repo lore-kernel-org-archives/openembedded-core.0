@@ -1,35 +1,27 @@
-Received: from mail-gx0-f175.google.com ([209.85.161.175])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX1+tBCPWqeBwafHytBbaowZK3QAbupwnRd4=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QnwpM-0001PX-OG
+	(envelope-from <galak@kernel.crashing.org>) id 1QnxeO-0002Vd-B4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 20:02:56 +0200
-Received: by gxk3 with SMTP id 3so3731775gxk.6
+	Mon, 01 Aug 2011 20:55:41 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p71IpJYk028710
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Aug 2011 10:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=w/THKfLWoUFWCtD51pmCHevnC+B2lBvYK/qXZhzGubE=;
-	b=wmjaPShDpGKM7erN4LZZCMDqM8yJjdXfre2DbiodQxxQ4+xy8kGCzvpEPLy4lViZpU
-	g2wayI7ZuE/KH4KV9YmPIFfZGy0rDacNeIlmWduc4s25hsKp2KhvDQcWCbzB9OONF9dU
-	YNyAkeXOXI8VZGbnbbnnrNR57XkYTcNrk3Fto=
-Received: by 10.68.2.134 with SMTP id 6mr8863342pbu.368.1312221515328;
-	Mon, 01 Aug 2011 10:58:35 -0700 (PDT)
-Received: from sakrah.homelinux.org
-	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
-	by mx.google.com with ESMTPS id d3sm3114137pbg.60.2011.08.01.10.58.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 01 Aug 2011 10:58:34 -0700 (PDT)
-Date: Mon, 1 Aug 2011 10:59:58 -0700
-From: Khem Raj <raj.khem@gmail.com>
+	Mon, 1 Aug 2011 13:51:20 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <20110801173429.GC7798@sakrah.homelinux.org>
+Date: Mon, 1 Aug 2011 13:51:22 -0500
+Message-Id: <917D82F8-94FC-4311-A7D3-5B07589ED4B5@kernel.crashing.org>
+References: <cover.1312182844.git.sgw@linux.intel.com>
+	<d16f8ea81d614e2dd5608cbf8b773de9764b8d56.1312182844.git.sgw@linux.intel.com>
+	<1312203836.2344.431.camel@rex>
+	<BD97115A-63EB-467F-AA18-3ECAEBA017E3@kernel.crashing.org>
+	<20110801173429.GC7798@sakrah.homelinux.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20110801175958.GE7798@sakrah.homelinux.org>
-References: <1312206333.2344.456.camel@rex>
-MIME-Version: 1.0
-In-Reply-To: <1312206333.2344.456.camel@rex>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: Commits to master in my absence
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 13/22] sanity: Dont throw a warning if TUNE_PKGARCH is in PACKAGE_ARCHS twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,55 +36,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 18:02:56 -0000
+X-List-Received-Date: Mon, 01 Aug 2011 18:55:41 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On (01/08/11 14:45), Richard Purdie wrote:
-> I'm a little frustrated to see what happened when I was away from a
-> couple of days. I thought we'd agreed we'd queue up patches in a branch
-> and then I'd take care of things when I got back.
-> 
-> I appreciate a serious bug was then found and a fix was committed
-> against what I thought was agreed. This then opened the gates and more
-> patches were merged with decreasing severity and in the end something
-> got added which is just plain broken :(.
-> 
-> The problematic patch is:
-> 
-> http://git.openembedded.org/cgit.cgi/openembedded-core/commit/?id=e23f9ce928353c9da2b9c4bfa9a1a125a7d160f2
-> 
-> and I've commented in emails elsewhere against the various attempts to
-> further "fix" this.
-> 
-> I *really* need people to step up and start thinking about quality and
-> the long term impact of changes rather than just X fixes bug Y which I'm
-> hitting right now. This is particularly true if anyone wants to step
-> into the position of doing final commit merging. You *have* to take the
-> time to fully understand and review the changes you're adding and
-> consider the big picture.
-> 
-> I'm really hoping that I can find people who I can share the final
-> review/commit responsibility with but until people stop presenting me
-> patches which I have to reject we're not going to get the point where
-> they can work in that role :(.
-> 
-> This is particularly frustrating since I've seen people push patches
-> they know to be lacking in quality just because they were running low on
-> time and hoped they might get away with it.
-> 
-> Cheers,
-> 
-> Richard (a bit disappointed)
 
-It was me.
-since master was broken for arm (even qemuarm) after the tune overhaul
-It was a mimimum workaround since many devs were complaining about it I
-thought until we rework the tune overhaul this could be a survival path
-and at the same time tune overhaul for arm could be worked out. I was
-just thinking about making devs keep going.
-But I apologize for this. Kindly revert it.
+On Aug 1, 2011, at 12:34 PM, Khem Raj wrote:
 
--Khem
+> On (01/08/11 09:11), Kumar Gala wrote:
+>>=20
+>> On Aug 1, 2011, at 8:03 AM, Richard Purdie wrote:
+>>=20
+>>> On Mon, 2011-08-01 at 00:36 -0700, Saul Wold wrote:
+>>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>>>> ---
+>>>> meta/classes/sanity.bbclass |    8 +++++---
+>>>> 1 files changed, 5 insertions(+), 3 deletions(-)
+>>>>=20
+>>>> diff --git a/meta/classes/sanity.bbclass =
+b/meta/classes/sanity.bbclass
+>>>> index 999e15d..dc11c9e 100644
+>>>> --- a/meta/classes/sanity.bbclass
+>>>> +++ b/meta/classes/sanity.bbclass
+>>>> @@ -383,12 +383,14 @@ def check_sanity(e):
+>>>>    dups =3D []
+>>>>=20
+>>>>    for pa in pkgarchs.split():
+>>>> -    	if seen.get(pa, 0) =3D=3D 1:
+>>>> +	if pa =3D=3D tunepkg:
+>>>> +	    tunefound =3D True
+>>>> +            if seen.get(pa, 0) =3D=3D 1:
+>>>> +               pkgarchs.remove(pa)
+>>>> +    	elif seen.get(pa, 0) =3D=3D 1:
+>>>> 	    dups.append(pa)
+>>>> 	else:
+>>>> 	    seen[pa] =3D 1
+>>>> -	if pa =3D=3D tunepkg:
+>>>> -	    tunefound =3D True
+>>>>=20
+>>>>    if len(dups):
+>>>>       messages =3D messages + "Error, the PACKAGE_ARCHS variable =
+contains duplicates. The following archs are listed more than once: %s" =
+% " ".join(dups)
+>>>=20
+>>> How about we don't put duplicates in there in the first place?
+>>>=20
+>>> Which board/tune files is this occurring with?
+>>=20
+>> Yeah, not sure about this one, I added the sanity check to find this =
+early.  Ran into issues with my PPC patch set and took a while to find =
+(thus figured a sanity check made sense to check early on).
+>=20
+> I think the issue is when TUNE_PKGARCH does not end up in the
+> PACKAGE_ARCHS and then package managers dont pick the ipks/rpms/debs
+> which are under that dir in deploy/ipk.
+> Usually we have been doing +=3D to PACKAGE_EXTRA_ARCH
+> variable in layers but with latest tune overhaul +=3D does not work
+> and we have to do _append/_prepend. I dont know if that is Kumar's
+> original problem=20
+
+Yeah, its why I added the sanity check to make sure TUNE_PKGARCH was in =
+the PACKAGE_ARCHS list.
+
+- k=
 
 
