@@ -1,33 +1,35 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QnvgC-0007nv-TE
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 18:49:25 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1Qnvbz-0001ZS-TR from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 09:45:03 -0700
-Received: from SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 1 Aug 2011 09:45:03 -0700
-Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-03.mgc.mentorg.com
-	(147.34.97.39) with Microsoft SMTP Server id 14.1.289.1;
-	Mon, 1 Aug 2011 09:45:02 -0700
-Message-ID: <4E36D800.1050906@mentor.com>
-Date: Mon, 1 Aug 2011 09:44:48 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1312208500-13381-1-git-send-email-galak@kernel.crashing.org>	<1312209045.30326.515.camel@phil-desktop>	<4727DFCB-0AA2-43D1-A0CA-58717D815FE8@kernel.crashing.org>
-	<1312214835.30326.528.camel@phil-desktop>
-In-Reply-To: <1312214835.30326.528.camel@phil-desktop>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 01 Aug 2011 16:45:03.0714 (UTC)
-	FILETIME=[5C984420:01CC506A]
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QnvsJ-0008N3-Ca for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2011 19:01:55 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71GvZBT008843
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 1 Aug 2011 17:57:35 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08397-03 for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Aug 2011 17:57:31 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71GvQlC008837
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 1 Aug 2011 17:57:30 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E36D800.1050906@mentor.com>
+References: <1312208500-13381-1-git-send-email-galak@kernel.crashing.org>
+	<1312209045.30326.515.camel@phil-desktop>
+	<4727DFCB-0AA2-43D1-A0CA-58717D815FE8@kernel.crashing.org>
+	<1312214835.30326.528.camel@phil-desktop> <4E36D800.1050906@mentor.com>
+Date: Mon, 01 Aug 2011 17:57:13 +0100
+Message-ID: <1312217833.2344.511.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH] gcc: Add ability for tune files to pass in configure options to gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,24 +45,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 16:49:25 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Mon, 01 Aug 2011 17:01:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/01/2011 09:07 AM, Phil Blundell wrote:
-> On Mon, 2011-08-01 at 09:37 -0500, Kumar Gala wrote:
->> Not sure I understand the statement about disambiguate the resulting compilers, on PPC where I intend to utilize this we'd have the toolchains already named something like:
+On Mon, 2011-08-01 at 09:44 -0700, Tom Rini wrote:
+> On 08/01/2011 09:07 AM, Phil Blundell wrote:
+> > On Mon, 2011-08-01 at 09:37 -0500, Kumar Gala wrote:
+> >> Not sure I understand the statement about disambiguate the resulting compilers, on PPC where I intend to utilize this we'd have the toolchains already named something like:
+> > 
+> > The thing about disambiguating was that, if you're going to modify the
+> > configure opts for gcc-cross based (indirectly) on ${MACHINE} you need
+> > to consider what happens if you have a single build directory that's
+> > being used for multiple MACHINEs.
 > 
-> The thing about disambiguating was that, if you're going to modify the
-> configure opts for gcc-cross based (indirectly) on ${MACHINE} you need
-> to consider what happens if you have a single build directory that's
-> being used for multiple MACHINEs.
+> What, I think, Kumar is driving at is why are you saying MACHINE when
+> it's a per core tune he's doing.  eg, every e5500 would do --with-cpu=e5500
 
-What, I think, Kumar is driving at is why are you saying MACHINE when
-it's a per core tune he's doing.  eg, every e5500 would do --with-cpu=e5500
+The question is whether we'd like to get to the point of having more
+toolchains or less toolchains. I'd personally like to get to the point
+of less toolchains (e.g. one per arch) rather than more of them. We
+already pass all the appropriate flags around in the ADT/sdk code and in
+our own cross builds, we could easily add those to the default target
+environment too. This would actually make it clearer what is going on to
+the end user too rather than hiding the details into the gcc
+compilation.
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+So all things considered, I don't think this is the best way to go...
+
+
+Cheers,
+
+Richard
+
+
+
 
 
