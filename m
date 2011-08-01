@@ -1,34 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QnoRU-0000gW-MT for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 11:05:44 +0200
+	id 1QnoWh-0000m0-8m for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2011 11:11:07 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7191NCU005099
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7196iFs005124
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 10:01:23 +0100
+	Mon, 1 Aug 2011 10:06:44 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 04880-01 for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2011 10:01:19 +0100 (BST)
+	id 04933-01 for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Aug 2011 10:06:40 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7191BNn005093
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7196d0p005118
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 10:01:15 +0100
+	Mon, 1 Aug 2011 10:06:39 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <44bd82a28e643c335047026c581b34497b6c8fb5.1312182844.git.sgw@linux.intel.com>
+In-Reply-To: <f2fee70727d940b61a8470d13c22a3313d9ee3ae.1312182844.git.sgw@linux.intel.com>
 References: <cover.1312182844.git.sgw@linux.intel.com>
-	<44bd82a28e643c335047026c581b34497b6c8fb5.1312182844.git.sgw@linux.intel.com>
-Date: Mon, 01 Aug 2011 10:00:59 +0100
-Message-ID: <1312189259.2344.422.camel@rex>
+	<f2fee70727d940b61a8470d13c22a3313d9ee3ae.1312182844.git.sgw@linux.intel.com>
+Date: Mon, 01 Aug 2011 10:06:27 +0100
+Message-ID: <1312189587.2344.427.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 17/22] bitbake.conf: Add default tune-${DEFAULTTUNE} override
+Subject: Re: [PATCH 15/22] tune/powerpc: Cleanup setting of TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,55 +43,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 09:05:45 -0000
+X-List-Received-Date: Mon, 01 Aug 2011 09:11:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Mon, 2011-08-01 at 00:36 -0700, Saul Wold wrote:
 > From: Mark Hatle <mark.hatle@windriver.com>
 > 
-> We need to add the tune-* override in order for more complicated tune
-> features to function properly.
+> Based on Kumar Gala <galak@kernel.crashing.org>'s patch.
+> 
+> By default we use ppc, or ppc64.  Each tune either specifies their
+> manual version or can use the PPC_PKGARCH to specify a new prefix
+> if they support both float and no-float variants.
 > 
 > Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 > ---
->  meta/conf/bitbake.conf |    3 ++-
->  1 files changed, 2 insertions(+), 1 deletions(-)
+>  meta/conf/machine/include/powerpc/arch-powerpc.inc |    3 ++-
+>  .../machine/include/powerpc/arch-powerpc64.inc     |    1 +
+>  meta/conf/machine/include/tune-ppc603e.inc         |    4 ++--
+>  meta/conf/machine/include/tune-ppce300c2.inc       |    5 +++--
+>  meta/conf/machine/include/tune-ppce500.inc         |    5 +++--
+>  meta/conf/machine/include/tune-ppce500mc.inc       |    5 +++--
+>  meta/conf/machine/include/tune-ppce500v2.inc       |    5 +++--
+>  7 files changed, 17 insertions(+), 11 deletions(-)
 > 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 9c80f11..11dfb6d 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -637,9 +637,10 @@ AUTO_LIBNAME_PKGS = "${PACKAGES}"
->  #
->  # This works for  functions as well, they are really just environment variables.
->  # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
-> -OVERRIDES = "${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:forcevariable"
-> +OVERRIDES = "${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${TUNEOVERRIDES}:${DISTROOVERRIDES}:forcevariable"
->  DISTROOVERRIDES ?= "${DISTRO}"
->  MACHINEOVERRIDES ?= "${MACHINE}"
-> +TUNEOVERRIDES ?= "tune-${DEFAULTTUNE}"
+> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> index 013755d..2621932 100644
+> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> @@ -8,6 +8,7 @@ DEFAULTTUNE ?= "powerpc"
+>  TUNEVALID[m32] = "Power ELF32 standard ABI"
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m32", "-m32", "", d)}"
+>  TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", "m32", "powerpc", "", d)}"
+> +PPC_PKGARCH = "ppc"
 >  
->  CPU_FEATURES ?= ""
->  CPU_FEATURES_arm ?= "vfp"
+>  TUNEVALID[fpu-hard] = "Use hardware FPU."
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "-mhard-float", "", d)}"
+> @@ -20,7 +21,7 @@ ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-e
+>  
+>  PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "-nf", "", d)}"
+>  
+> -TUNE_PKGARCH ?= "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+> +TUNE_PKGARCH ?= "${PPC_PKGARCH}${PPCPKGSFX_FPU}"
+>  
+>  # Basic tune definitions
+>  AVAILTUNES += "powerpc powerpc-nf" 
+> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+> index a965d59..0a104a2 100644
+> --- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+> +++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+> @@ -2,6 +2,7 @@ TUNEVALID[m64] = "Power ELF64 standard ABI"
+>  TUNE_CONFLICTS[m64] = "m32 nf"
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m64", "-m64", "", d)}"
+>  TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], "powerpc64", "", d)}"
+> +PPC_PKGARCH = "ppc64"
+>  
+>  AVAILTUNES += "powerpc64"
+>  TUNE_FEATURES_tune-powerpc64 ?= "m64 fpu-hard"
+> diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
+> index 7c05394..2eec64b 100644
+> --- a/meta/conf/machine/include/tune-ppc603e.inc
+> +++ b/meta/conf/machine/include/tune-ppc603e.inc
+> @@ -4,8 +4,8 @@ require conf/machine/include/powerpc/arch-powerpc.inc
+>  
+>  TUNEVALID[ppc603e] = "Enable ppc603e specific processor optimizations"
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-mcpu=603e", "", d)}"
+> -TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "ppc603e", "", d)}"
+> +PPC_PKGARCH_tune-ppc603e = "ppc603e"
 
-This is a really bad idea and evidently hasn't been tested or thought
-through :(
+I was going to ask how this is meant to work without overrides, then I
+saw the later patch (which are queued in the wrong order). I suspect you
+need to use syntax like:
 
-Why? The problem is you can't "unset" an override. This means you will
-lock DEFAULTTUNE's values into the system and if you then want to change
-to a different multilib the result will be confused at best.
+PPC_PKGARCH ??= "${@d.getvar(bb.data.expand("PPC_PKGARCH_tune-${DEFAULTTUNE}"), True) or d.getvar("PPC_PKGARCH", True)}" 
 
-So I'm afraid this is going to need a rethink.
+above and then this will work without overrides.
 
 Cheers,
 
 Richard
-
-
-
-
-
 
 
 
