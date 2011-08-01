@@ -1,34 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QnsKg-0001Wn-On for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 15:14:59 +0200
+	id 1QnsLr-0001Zr-R9 for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2011 15:16:20 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71DAeFQ007323
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71DBobv007333
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 14:10:40 +0100
+	Mon, 1 Aug 2011 14:11:50 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 04933-10 for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2011 14:10:36 +0100 (BST)
+	id 04880-10 for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Aug 2011 14:11:46 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71DAXvf007317
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71DBg3Z007327
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 14:10:34 +0100
+	Mon, 1 Aug 2011 14:11:42 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <e115e9e68704cb7b327f4f7c215953873f1fdea9.1312182844.git.sgw@linux.intel.com>
+In-Reply-To: <527a7669b89693abe83d557ba22e64d6a5554c81.1312182844.git.sgw@linux.intel.com>
 References: <cover.1312182844.git.sgw@linux.intel.com>
-	<e115e9e68704cb7b327f4f7c215953873f1fdea9.1312182844.git.sgw@linux.intel.com>
-Date: Mon, 01 Aug 2011 14:10:20 +0100
-Message-ID: <1312204220.2344.436.camel@rex>
+	<527a7669b89693abe83d557ba22e64d6a5554c81.1312182844.git.sgw@linux.intel.com>
+Date: Mon, 01 Aug 2011 14:11:29 +0100
+Message-ID: <1312204289.2344.438.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 20/22] arch-armv7a.inc: fix armv7a-vfp-neon -> armv7a compat case
+Subject: Re: [PATCH 21/22] external-*toolchain: remove glibc-utils provide
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,67 +43,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 13:14:59 -0000
+X-List-Received-Date: Mon, 01 Aug 2011 13:16:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Mon, 2011-08-01 at 00:36 -0700, Saul Wold wrote:
-> From: Koen Kooi <koen@dominion.thruhere.net>
-> 
-> Without this 'armv7a' is used as TUNE_ARCH but does *not* end up in PACKAGE_EXTRA_ARCHS:
-> 
-> arch all 1
-> arch any 6
-> arch noarch 11
-> arch arm 16
-> arch armv4 21
-> arch armv4t 26
-> arch armv5 31
-> arch armv5t 36
-> arch armv5-vfp 41
-> arch armv5t-vfp 46
-> arch armv5e 51
-> arch armv5te 56
-> arch armv5e-vfp 61
-> arch armv5te-vfp 66
-> arch armv6-vfp 71
-> arch armv6t-vfp 76
-> arch armv7-vfp 81
-> arch armv7t2-vfp 86
-> arch armv7a-vfp 91
-> arch armv7at2-vfp 96
-> arch armv7a-vfp-neon 101
-> arch armv7at2-vfp-neon 106
-> arch beagleboard 111
-> 
-> Which leads to a failing do_rootfs
-> 
-> The fix might look like it's in the wrong line, but it's only place in the .inc where it works.
-> 
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/conf/machine/include/arm/arch-armv7a.inc |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
-> index ce9cee5..6ac2950 100644
-> --- a/meta/conf/machine/include/arm/arch-armv7a.inc
-> +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-> @@ -17,7 +17,7 @@ TUNE_FEATURES_tune-armv7at-neon ?= "armv7a vfp neon thumb"
->  PACKAGE_EXTRA_ARCHS_tune-armv7a = "${PACKAGE_EXTRA_ARCHS_tune-armv7} armv7a-vfp"
->  PACKAGE_EXTRA_ARCHS_tune-armv7a-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv7a-vfp-neon"
->  PACKAGE_EXTRA_ARCHS_tune-armv7at = "${PACKAGE_EXTRA_ARCHS_tune-armv7t} armv7a-vfp armv7at2-vfp"
-> -PACKAGE_EXTRA_ARCHS_tune-armv7at-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7a-vfp-neon armv7at2-vfp-neon"
-> +PACKAGE_EXTRA_ARCHS_tune-armv7at-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7a armv7a-vfp-neon armv7at2-vfp-neon"
+> This was causing a multiple providers error
 
-Nearly :)
-
-You need to add it to the PACKAGE_EXTRA_ARCHS_tune-armv7a and
-PACKAGE_EXTRA_ARCHS_tune-armv7at lines.
+What kind of multiple providers error? This change doesn't feel right to
+me and likely breaks external toolchains.
 
 Cheers,
 
 Richard
+
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  .../meta/external-csl-toolchain_2008q3-72.bb       |    4 ++--
+>  meta/recipes-core/meta/external-poky-toolchain.bb  |    4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-core/meta/external-csl-toolchain_2008q3-72.bb b/meta/recipes-core/meta/external-csl-toolchain_2008q3-72.bb
+> index a874c8b..1cd45d2 100644
+> --- a/meta/recipes-core/meta/external-csl-toolchain_2008q3-72.bb
+> +++ b/meta/recipes-core/meta/external-csl-toolchain_2008q3-72.bb
+> @@ -16,9 +16,9 @@ PROVIDES = "\
+>  	virtual/libiconv \
+>  	glibc-thread-db \
+>  	virtual/linux-libc-headers "
+> -RPROVIDES = "glibc-utils libsegfault glibc-thread-db"
+> +RPROVIDES = "libsegfault glibc-thread-db"
+>  PACKAGES_DYNAMIC = "glibc-gconv-*"
+> -PR = "r1"
+> +PR = "r2"
+>  
+>  #SRC_URI = "http://www.codesourcery.com/public/gnu_toolchain/arm-none-linux-gnueabi/arm-${PV}-arm-none-linux-gnueabi-i686-pc-linux-gnu.tar.bz2"
+>  
+> diff --git a/meta/recipes-core/meta/external-poky-toolchain.bb b/meta/recipes-core/meta/external-poky-toolchain.bb
+> index 5507746..b4b4418 100644
+> --- a/meta/recipes-core/meta/external-poky-toolchain.bb
+> +++ b/meta/recipes-core/meta/external-poky-toolchain.bb
+> @@ -9,10 +9,10 @@ PROVIDES = "\
+>      virtual/libintl \
+>      virtual/libiconv \
+>      virtual/linux-libc-headers "
+> -RPROVIDES = "glibc-utils libsegfault glibc-thread-db libgcc-dev libstdc++-dev libstdc++"
+> +RPROVIDES = "libsegfault glibc-thread-db libgcc-dev libstdc++-dev libstdc++"
+>  PACKAGES_DYNAMIC = "glibc-gconv-*"
+>  INHIBIT_DEFAULT_DEPS = "1"
+> -PR = "r1"
+> +PR = "r2"
+>  
+>  # License applies to this recipe code, not the toolchain itself
+>  LICENSE = "MIT"
+
 
 
 
