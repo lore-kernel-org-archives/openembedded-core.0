@@ -1,33 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QnsU3-0001sC-K5 for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 15:24:39 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71DKKsA007396
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1QnscJ-00022t-Lk
+	for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2011 15:33:11 +0200
+Received: by wyg30 with SMTP id 30so1698031wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 14:20:20 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07326-02 for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Aug 2011 14:20:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71DKG24007390
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 14:20:16 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 01 Aug 2011 06:28:51 -0700 (PDT)
+Received: by 10.227.3.2 with SMTP id 2mr6398341wbl.4.1312205331537;
+	Mon, 01 Aug 2011 06:28:51 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fn12sm4180024wbb.38.2011.08.01.06.28.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 01 Aug 2011 06:28:50 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1312203836.2344.431.camel@rex>
+Date: Mon, 1 Aug 2011 15:28:47 +0200
+Message-Id: <F39391A7-A197-4BFD-8EAB-CC03B10EE71B@dominion.thruhere.net>
+References: <cover.1312182844.git.sgw@linux.intel.com>
+	<d16f8ea81d614e2dd5608cbf8b773de9764b8d56.1312182844.git.sgw@linux.intel.com>
+	<1312203836.2344.431.camel@rex>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <cover.1312182844.git.sgw@linux.intel.com>
-References: <cover.1312182844.git.sgw@linux.intel.com>
-Date: Mon, 01 Aug 2011 14:20:02 +0100
-Message-ID: <1312204802.2344.445.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PATCH 00/22] Fixes Multi-Lib & M3
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [PATCH 13/22] sanity: Dont throw a warning if TUNE_PKGARCH is in PACKAGE_ARCHS twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,30 +38,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 13:24:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Aug 2011 13:33:11 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2011-08-01 at 00:35 -0700, Saul Wold wrote:
-> This set of patches are what have been pulled together for the
-> M3 RC1 build.  They include patches to multi-lib and tuning changes
-> put last week.
-> 
-> There are also 2 changes from Josh for bitbake, not included here,
-> which are included in stage/master_under_test.
-> 
-> There are competing changes from Martin and Khem for the ARM fix, the 
-> first change from Martin did not seem to solve (or there is a different
-> issue that I have not evaluated).  I am building Khem's change, but it 
-> also seems to fail in eglibc, so ARM is still an issue
 
-I've sent some feedback on the patches in this series, I've taken about
-half the patches, the others are going to need some further work I'm
-afraid :(
+Op 1 aug. 2011, om 15:03 heeft Richard Purdie het volgende geschreven:
 
-Cheers,
+> On Mon, 2011-08-01 at 00:36 -0700, Saul Wold wrote:
+>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>> ---
+>> meta/classes/sanity.bbclass |    8 +++++---
+>> 1 files changed, 5 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/meta/classes/sanity.bbclass =
+b/meta/classes/sanity.bbclass
+>> index 999e15d..dc11c9e 100644
+>> --- a/meta/classes/sanity.bbclass
+>> +++ b/meta/classes/sanity.bbclass
+>> @@ -383,12 +383,14 @@ def check_sanity(e):
+>>     dups =3D []
+>>=20
+>>     for pa in pkgarchs.split():
+>> -    	if seen.get(pa, 0) =3D=3D 1:
+>> +	if pa =3D=3D tunepkg:
+>> +	    tunefound =3D True
+>> +            if seen.get(pa, 0) =3D=3D 1:
+>> +               pkgarchs.remove(pa)
+>> +    	elif seen.get(pa, 0) =3D=3D 1:
+>> 	    dups.append(pa)
+>> 	else:
+>> 	    seen[pa] =3D 1
+>> -	if pa =3D=3D tunepkg:
+>> -	    tunefound =3D True
+>>=20
+>>     if len(dups):
+>>        messages =3D messages + "Error, the PACKAGE_ARCHS variable =
+contains duplicates. The following archs are listed more than once: %s" =
+% " ".join(dups)
+>=20
+> How about we don't put duplicates in there in the first place?
 
-Richard
-
+AIUI this is fatal in OE classic as well, so there really shouldn't be =
+any duplicates in PACKAGE_(EXTRA_)ARCHS=
 
 
