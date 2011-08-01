@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qnn7M-0006ZU-Lz
+	(envelope-from <sgw@linux.intel.com>) id 1Qnn7N-0006Zd-5e
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 09:40:52 +0200
+	Mon, 01 Aug 2011 09:40:53 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2011 00:36:19 -0700
+	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2011 00:36:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,299,1309762800"; d="scan'208";a="34147068"
+X-IronPort-AV: E=Sophos;i="4.67,299,1309762800"; d="scan'208";a="34147092"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
-	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2011 00:36:19 -0700
+	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2011 00:36:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Aug 2011 00:35:59 -0700
-Message-Id: <5bf947f68ef666aeda554b9d2981ec5dee506413.1312182844.git.sgw@linux.intel.com>
+Date: Mon,  1 Aug 2011 00:36:09 -0700
+Message-Id: <44bd82a28e643c335047026c581b34497b6c8fb5.1312182844.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312182844.git.sgw@linux.intel.com>
 References: <cover.1312182844.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312182844.git.sgw@linux.intel.com>
 References: <cover.1312182844.git.sgw@linux.intel.com>
-Subject: [PATCH 07/22] sgml-common-native: Read a catalog backup to repopulate sgml-docbook.cat
+Subject: [PATCH 17/22] bitbake.conf: Add default tune-${DEFAULTTUNE} override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,56 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 07:40:52 -0000
+X-List-Received-Date: Mon, 01 Aug 2011 07:40:53 -0000
 
-This reads the sgml-docbook.bak and adds the entries into sgml-docbook.cat since
-this occurs out of order during shared state sysroot populate.
+From: Mark Hatle <mark.hatle@windriver.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+We need to add the tune-* override in order for more complicated tune
+features to function properly.
+
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../sgml-common/sgml-common-native_0.6.3.bb        |   18 +++++++++++++++++-
- 1 files changed, 17 insertions(+), 1 deletions(-)
+ meta/conf/bitbake.conf |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/sgml-common/sgml-common-native_0.6.3.bb b/meta/recipes-devtools/sgml-common/sgml-common-native_0.6.3.bb
-index 2c8d874..af7e104 100644
---- a/meta/recipes-devtools/sgml-common/sgml-common-native_0.6.3.bb
-+++ b/meta/recipes-devtools/sgml-common/sgml-common-native_0.6.3.bb
-@@ -13,7 +13,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://LICENSE-GPLv2;md5=ab8a50abe86dfc859e148baae043c89b"
- SECTION = "base"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9c80f11..11dfb6d 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -637,9 +637,10 @@ AUTO_LIBNAME_PKGS = "${PACKAGES}"
+ #
+ # This works for  functions as well, they are really just environment variables.
+ # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
+-OVERRIDES = "${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:forcevariable"
++OVERRIDES = "${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${TUNEOVERRIDES}:${DISTROOVERRIDES}:forcevariable"
+ DISTROOVERRIDES ?= "${DISTRO}"
+ MACHINEOVERRIDES ?= "${MACHINE}"
++TUNEOVERRIDES ?= "tune-${DEFAULTTUNE}"
  
--PR = "r0"
-+PR = "r1"
- 
- require sgml-common_${PV}.bb
- inherit native
-@@ -21,6 +21,8 @@ inherit native
- S = "${WORKDIR}/sgml-common-${PV}"
- 
- SYSROOT_PREPROCESS_FUNCS += "sgml_common_native_mangle"
-+SSTATEPOSTINSTFUNCS += "sgml_common_sstate_postinst"
-+
- 
- do_install_append() {
- 	# install-catalog script contains hard-coded references to
-@@ -46,3 +48,17 @@ sgml_common_native_mangle () {
- 	# Remove ${D} path from catalog file created by install-catalog script
- 	sed -i -e "s|${D}||g" ${SYSROOT_DESTDIR}${sysconfdir}/sgml/catalog
- }
-+
-+sgml_common_sstate_postinst() {
-+	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
-+	then
-+		if [ -e ${sysconfdir}/sgml/sgml-docbook.bak ]; then
-+			for catalog in `awk '{print $2}' ${sysconfdir}/sgml/sgml-docbook.bak`; do
-+				if [ ! `grep $catalog ${sysconfdir}/sgml/sgml-docbook.cat 1> /dev/null 2>&1` ]; then
-+					${bindir}/install-catalog \
-+						--add ${sysconfdir}/sgml/sgml-docbook.cat $catalog
-+				fi
-+			done
-+		fi
-+	fi
-+}
+ CPU_FEATURES ?= ""
+ CPU_FEATURES_arm ?= "vfp"
 -- 
 1.7.3.4
 
