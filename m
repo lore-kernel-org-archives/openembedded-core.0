@@ -1,20 +1,22 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1QnqIB-0004yr-4l
+	(envelope-from <lianhao.lu@intel.com>) id 1QnqIB-0004yr-Ti
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 13:04:15 +0200
+	Mon, 01 Aug 2011 13:04:16 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 01 Aug 2011 03:59:54 -0700
+	by orsmga101.jf.intel.com with ESMTP; 01 Aug 2011 03:59:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,299,1309762800"; d="scan'208";a="32775792"
+X-IronPort-AV: E=Sophos;i="4.67,299,1309762800"; d="scan'208";a="32775807"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
-	by orsmga002.jf.intel.com with ESMTP; 01 Aug 2011 03:59:53 -0700
+	by orsmga002.jf.intel.com with ESMTP; 01 Aug 2011 03:59:56 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Aug 2011 19:01:56 +0800
-Message-Id: <cover.1312195779.git.lianhao.lu@intel.com>
+Date: Mon,  1 Aug 2011 19:02:00 +0800
+Message-Id: <86e74f97a7eea07d74dafa632c053da2d37e03eb.1312195779.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH BUG #1236 0/3] Unify ldd/ldconfig for all multilib eglibcs
+In-Reply-To: <cover.1312195779.git.lianhao.lu@intel.com>
+References: <cover.1312195779.git.lianhao.lu@intel.com>
+Subject: [PATCH BUG #1236 1/3] utils.bbclass/multilib.conf: Added misc supporting functions.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,43 +31,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 11:04:15 -0000
+X-List-Received-Date: Mon, 01 Aug 2011 11:04:16 -0000
 
-This series of patch allow all the eglibc(s) in the current multilib 
-configuration have the same ldd/ldconfig settings. 
+1. Added variable MULTILIB_VARIANTS to store all the instance variants
+for multilib extend.
 
-We put the dynamic loaders'(ld.so) names in the dictionary of "ld_info_all" 
-defined in the file eglibc-ld.inc. This dictionary is indexed by the 
-TUNENAME. To support a new ABI, new entry should be added into this 
-dictionary along with the new ABI's TUNENAME.
+2. Added function all_multilib_tune_values to collect the variable
+values for all multilib instance.
 
-The information in ld_info_all can be used for both ldd script and ldconfig 
-binary.
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ meta/classes/utils.bbclass |   35 +++++++++++++++++++++++++++++++++++
+ meta/conf/bitbake.conf     |    1 +
+ meta/conf/multilib.conf    |    6 +++++-
+ 3 files changed, 41 insertions(+), 1 deletions(-)
 
-The following changes since commit f94b781695cd8fa387daff16ecbf3987a0883018:
-  Bruce Ashfield (1):
-        poky.conf: explicitly referenced preferred linux-yocto version
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib llu/bug1236
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=llu/bug1236
-
-Lianhao Lu (3):
-  utils.bbclass/multilib.conf: Added misc supporting functions.
-  eglibc: Modify ldd script according to multilib config.
-  eglibc: Setting KNOWN_INTERPRETER_NAMES for ldconfig.
-
- meta/classes/utils.bbclass                         |   31 ++++++++++++
- meta/conf/bitbake.conf                             |    1 +
- meta/conf/multilib.conf                            |    6 ++-
- .../eglibc/eglibc-2.13/multilib_readlib.patch      |   20 ++++++++
- meta/recipes-core/eglibc/eglibc-ld.inc             |   49 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc.inc                |    1 +
- meta/recipes-core/eglibc/eglibc_2.13.bb            |   12 ++++-
- 7 files changed, 118 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-ld.inc
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index 8c3a9b8..f8adaea 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -341,3 +341,38 @@ def base_set_filespath(path, d):
+ 		for o in overrides.split(":"):
+ 			filespath.append(os.path.join(p, o))
+ 	return ":".join(filespath)
++
++def extend_variants(d, var, extend, delim=':'):
++	"""Return a string of all bb class extend variants for the given extend"""
++	variants = []
++	whole = d.getVar(var, True) or ""
++	for ext in whole.split():
++		eext = ext.split(delim)
++		if len(eext) > 1 and eext[0] == extend:
++			variants.append(eext[1])
++	return " ".join(variants)
++
++def all_multilib_tune_values(d, var, unique=True):
++	"""Return a string of all ${var} in all multilib tune configuration"""
++	values = []
++	value = d.getVar(var, True) or ""
++	if value != "":
++		values.append(value)
++	variants = d.getVar("MULTILIB_VARIANTS", True) or ""
++	for item in variants.split():
++		localdata = bb.data.createCopy(d)
++		#Fix ME. OVERRIDES not work, we have to set DEFAULTTUNE to TUNENAME
++		#overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
++		#localdata.setVar("OVERRIDES", overrides)
++		if localdata.getVar("BBEXTENDVARIANT", True) == item:
++			tunename=localdata.getVar("TUNENAME", False) or ""
++		else:
++			tunename=localdata.getVar("TUNENAME_virtclass-multilib-" + item, False) or ""
++		if tunename != "":
++			localdata.setVar("DEFAULTTUNE", tunename)
++		value = localdata.getVar(var, True) or ""
++		if value != "":
++			values.append(value)
++	if unique:
++		values = set(values)
++	return " ".join(values)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6e109ec..bcff50e 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -736,3 +736,4 @@ BB_HASHTASK_WHITELIST ?= "(.*-cross$|.*-native$|.*-cross-initial$|.*-cross-inter
+ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH USERNAME STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE"
+ 
+ MLPREFIX ??= ""
++MULTILIB_VARIANTS ??= ""
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index 894b7a5..60760df 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -1,6 +1,11 @@
+ 
+ baselib = "${@d.getVar('BASE_LIB_tune-' + (d.getVar('DEFAULTTUNE', True) or 'INVALID'), True) or 'lib'}"
+ 
++MULTILIB_VARIANTS = "${@extend_variants(d,'MULTILIBS','multilib')}"
++
++TUNENAME_virtclass-multilib-lib64 ?= "x86-64"
++TUNENAME_virtclass-multilib-lib32 ?= "x86"
++
+ MULTILIBS ??= "multilib:lib32"
+ BBCLASSEXTEND_append_pn-linux-libc-headers = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-eglibc-initial = " ${MULTILIBS}"
+@@ -21,4 +26,3 @@ BBCLASSEXTEND_append_pn-bash = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-ncurses = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-expat = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-eglibc-locale = " ${MULTILIBS}"
+-
+-- 
+1.7.0.4
 
 
 
