@@ -1,24 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qnn7O-0006ZU-LX
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 09:40:55 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2011 00:36:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,299,1309762800"; d="scan'208";a="34147103"
-Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
-	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2011 00:36:23 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Aug 2011 00:36:12 -0700
-Message-Id: <e115e9e68704cb7b327f4f7c215953873f1fdea9.1312182844.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1312182844.git.sgw@linux.intel.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QnoRU-0000gW-MT for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2011 11:05:44 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7191NCU005099
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 1 Aug 2011 10:01:23 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04880-01 for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Aug 2011 10:01:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p7191BNn005093
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 1 Aug 2011 10:01:15 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <44bd82a28e643c335047026c581b34497b6c8fb5.1312182844.git.sgw@linux.intel.com>
 References: <cover.1312182844.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1312182844.git.sgw@linux.intel.com>
-References: <cover.1312182844.git.sgw@linux.intel.com>
-Subject: [PATCH 20/22] arch-armv7a.inc: fix armv7a-vfp-neon -> armv7a compat case
+	<44bd82a28e643c335047026c581b34497b6c8fb5.1312182844.git.sgw@linux.intel.com>
+Date: Mon, 01 Aug 2011 10:00:59 +0100
+Message-ID: <1312189259.2344.422.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 17/22] bitbake.conf: Add default tune-${DEFAULTTUNE} override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,69 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 07:41:53 -0000
+X-List-Received-Date: Mon, 01 Aug 2011 09:05:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Koen Kooi <koen@dominion.thruhere.net>
+On Mon, 2011-08-01 at 00:36 -0700, Saul Wold wrote:
+> From: Mark Hatle <mark.hatle@windriver.com>
+> 
+> We need to add the tune-* override in order for more complicated tune
+> features to function properly.
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/conf/bitbake.conf |    3 ++-
+>  1 files changed, 2 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 9c80f11..11dfb6d 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -637,9 +637,10 @@ AUTO_LIBNAME_PKGS = "${PACKAGES}"
+>  #
+>  # This works for  functions as well, they are really just environment variables.
+>  # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
+> -OVERRIDES = "${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:forcevariable"
+> +OVERRIDES = "${TARGET_OS}:${TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${TUNEOVERRIDES}:${DISTROOVERRIDES}:forcevariable"
+>  DISTROOVERRIDES ?= "${DISTRO}"
+>  MACHINEOVERRIDES ?= "${MACHINE}"
+> +TUNEOVERRIDES ?= "tune-${DEFAULTTUNE}"
+>  
+>  CPU_FEATURES ?= ""
+>  CPU_FEATURES_arm ?= "vfp"
 
-Without this 'armv7a' is used as TUNE_ARCH but does *not* end up in PACKAGE_EXTRA_ARCHS:
+This is a really bad idea and evidently hasn't been tested or thought
+through :(
 
-arch all 1
-arch any 6
-arch noarch 11
-arch arm 16
-arch armv4 21
-arch armv4t 26
-arch armv5 31
-arch armv5t 36
-arch armv5-vfp 41
-arch armv5t-vfp 46
-arch armv5e 51
-arch armv5te 56
-arch armv5e-vfp 61
-arch armv5te-vfp 66
-arch armv6-vfp 71
-arch armv6t-vfp 76
-arch armv7-vfp 81
-arch armv7t2-vfp 86
-arch armv7a-vfp 91
-arch armv7at2-vfp 96
-arch armv7a-vfp-neon 101
-arch armv7at2-vfp-neon 106
-arch beagleboard 111
+Why? The problem is you can't "unset" an override. This means you will
+lock DEFAULTTUNE's values into the system and if you then want to change
+to a different multilib the result will be confused at best.
 
-Which leads to a failing do_rootfs
+So I'm afraid this is going to need a rethink.
 
-The fix might look like it's in the wrong line, but it's only place in the .inc where it works.
+Cheers,
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/conf/machine/include/arm/arch-armv7a.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Richard
 
-diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
-index ce9cee5..6ac2950 100644
---- a/meta/conf/machine/include/arm/arch-armv7a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-@@ -17,7 +17,7 @@ TUNE_FEATURES_tune-armv7at-neon ?= "armv7a vfp neon thumb"
- PACKAGE_EXTRA_ARCHS_tune-armv7a = "${PACKAGE_EXTRA_ARCHS_tune-armv7} armv7a-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7a-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv7a-vfp-neon"
- PACKAGE_EXTRA_ARCHS_tune-armv7at = "${PACKAGE_EXTRA_ARCHS_tune-armv7t} armv7a-vfp armv7at2-vfp"
--PACKAGE_EXTRA_ARCHS_tune-armv7at-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7a-vfp-neon armv7at2-vfp-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv7at-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7a armv7a-vfp-neon armv7at2-vfp-neon"
- 
- # VFP Tunes
- AVAILTUNES += "armv7hf armv7thf armv7hf-neon armv7thf-neon
-@@ -39,7 +39,7 @@ TUNE_FEATURES_tune-armv7atb-neon ?= "${TUNE_FEATURES_tune-armv7at-neon} bigendia
- PACKAGE_EXTRA_ARCHS_tune-armv7ab = "${PACKAGE_EXTRA_ARCHS_tune-armv7} armv7ab-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7atb = "${PACKAGE_EXTRA_ARCHS_tune-armv7t} armv7ab-vfp armv7at2b-vfp"
- PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} armv7ab-vfp-neon"
--PACKAGE_EXTRA_ARCHS_tune-armv7atb-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7ab-vfp-neon armv7at2b-vfp-neon"
-+PACKAGE_EXTRA_ARCHS_tune-armv7atb-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7ab armv7ab-vfp-neon armv7at2b-vfp-neon"
- 
- # Big Endian + VFP
- AVAILTUNES += "armv7ahfb armv7athfb armv7ahfb-neon armv7athfb-neon"
--- 
-1.7.3.4
+
+
+
+
 
 
 
