@@ -1,32 +1,32 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QnyBa-0003pm-4o
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 21:29:58 +0200
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1Qny7O-0005aS-Ib from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 12:25:38 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 1 Aug 2011 12:25:38 -0700
-Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
-	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
-	Mon, 1 Aug 2011 12:25:37 -0700
-Message-ID: <4E36FDA2.7030001@mentor.com>
-Date: Mon, 1 Aug 2011 12:25:22 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1312206333.2344.456.camel@rex>
-In-Reply-To: <1312206333.2344.456.camel@rex>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 01 Aug 2011 19:25:38.0418 (UTC)
-	FILETIME=[CB536D20:01CC5080]
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qnyg5-0004o8-0Z for openembedded-core@lists.openembedded.org;
+	Mon, 01 Aug 2011 22:01:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71Jv9El009756
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 1 Aug 2011 20:57:09 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08426-06 for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Aug 2011 20:57:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p71Jv18W009748
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 1 Aug 2011 20:57:04 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E36FDA2.7030001@mentor.com>
+References: <1312206333.2344.456.camel@rex>  <4E36FDA2.7030001@mentor.com>
+Date: Mon, 01 Aug 2011 20:56:47 +0100
+Message-ID: <1312228607.2344.526.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: Commits to master in my absence
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,40 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 19:29:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Mon, 01 Aug 2011 20:01:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+On Mon, 2011-08-01 at 12:25 -0700, Tom Rini wrote:
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA1
+> 
+> On 08/01/2011 06:45 AM, Richard Purdie wrote:
+> 
+> > I'm a little frustrated to see what happened when I was away from a
+> > couple of days. I thought we'd agreed we'd queue up patches in a branch
+> > and then I'd take care of things when I got back.
+> 
+> So, I agree with everything you did say.  But I'd also like to suggest
+> we should have gone with "merge everything Monday" not "merge everything
+> Wednesday before RP runs off".  Yes, this would have meant either moving
+> some testing, or having testing also pull from a different (merged)
+> branch.  And I too was "wait, what, more stuff went in?  I thought we
+> caught the big problem already".
 
-On 08/01/2011 06:45 AM, Richard Purdie wrote:
+If I'd merged everything unexpectedly and not communicated the situation
+I think that would be bad. As it was, I did merge things but I also
+hopefully clearly communicated the issues and the expectation. Master is
+the development tip and some instability, particularly as new features
+merge is not entirely unexpected at this point in the cycle.
 
-> I'm a little frustrated to see what happened when I was away from a
-> couple of days. I thought we'd agreed we'd queue up patches in a branch
-> and then I'd take care of things when I got back.
+I'd hope we don't end up in a situation like that again, if we do, I'll
+see what other options there and weigh them up as the situation
+dictates.
 
-So, I agree with everything you did say.  But I'd also like to suggest
-we should have gone with "merge everything Monday" not "merge everything
-Wednesday before RP runs off".  Yes, this would have meant either moving
-some testing, or having testing also pull from a different (merged)
-branch.  And I too was "wait, what, more stuff went in?  I thought we
-caught the big problem already".
+Cheers,
 
-- -- 
-Tom Rini
-Mentor Graphics Corporation
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
-Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
+Richard
 
-iQEcBAEBAgAGBQJONv2eAAoJEI4NMjfc3nJxudcIAMg7yMIdl648ZdRsFGAUTKTD
-HSP8lLzawtEcl1bxektShH7amCf45wHvlw36joNNt3dG78FwAfO9bozubZEypwcS
-N7YXBo8JVJVi1WUIni23CZor4I091Ubt0tEHFOk4iDIyU9B9q+T77xg2qn+r6RJN
-7yNzs7XRffM8D2v7OxG/6kK4FvQDflVbnqEYkN+dE0rgUFOMUDdaSkB5JO0NShG2
-yYLkXljRNJ24Of5crsuQ/F4Vqk86b41Ax9jYrdFUOl+qgdovbPs3ninKtbDgT9ez
-Adh8behhx/LvbQQNldOi0l/UakPAmEPHEjEBNxmKX/GoZjfLHN0nb4Ucy5sAtBM=
-=PIo2
------END PGP SIGNATURE-----
+
+
+
+
 
 
