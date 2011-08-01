@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qnn7K-0006ZU-7b
+	(envelope-from <sgw@linux.intel.com>) id 1Qnn7K-0006Zd-R8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 01 Aug 2011 09:40:50 +0200
+	Mon, 01 Aug 2011 09:40:51 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2011 00:36:20 -0700
+	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2011 00:36:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,299,1309762800"; d="scan'208";a="34147069"
+X-IronPort-AV: E=Sophos;i="4.67,299,1309762800"; d="scan'208";a="34147062"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
-	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2011 00:36:20 -0700
+	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2011 00:36:18 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Aug 2011 00:36:00 -0700
-Message-Id: <8b019678dfc22df3410b5b1c551874195922cdbf.1312182844.git.sgw@linux.intel.com>
+Date: Mon,  1 Aug 2011 00:35:56 -0700
+Message-Id: <71edc715da5b36bf3707cac4cf1ebb56918f8298.1312182844.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312182844.git.sgw@linux.intel.com>
 References: <cover.1312182844.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312182844.git.sgw@linux.intel.com>
 References: <cover.1312182844.git.sgw@linux.intel.com>
-Subject: [PATCH 08/22] tune/arch-powerpc64: Fix typo with 64-bit TUNE_CCARGS handling
+Subject: [PATCH 04/22] docbook-sgml-dtd-native: Write a bak file for shared state
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Aug 2011 07:40:50 -0000
+X-List-Received-Date: Mon, 01 Aug 2011 07:40:51 -0000
 
-From: Kumar Gala <galak@kernel.crashing.org>
+This patch writes a sgml-docbook.bak that is read by the sgml-common during a shared
+state sysroot populate, because it comes out of order.
 
-When figuring out how to set TUNE_CCARGS we should look for 'm64' not
-'n64' in TUNE_FEATURES.
-
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../machine/include/powerpc/arch-powerpc64.inc     |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../docbook-sgml-dtd/docbook-sgml-dtd-native.inc   |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-index a99f18d..e55910c 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-@@ -1,6 +1,6 @@
- TUNEVALID[m64] = "Power ELF64 standard ABI"
- TUNE_CONFLICTS[m64] = "m32"
--TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "n64", "-m64", "", d)}"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m64", "-m64", "", d)}"
- TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], "powerpc64", "", d)}"
+diff --git a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
+index 542600a..1b357b5 100644
+--- a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
++++ b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-native.inc
+@@ -20,7 +20,7 @@ SRC_URI = "http://www.docbook.org/sgml/${DTD_VERSION}/docbook-${DTD_VERSION}.zip
+ # The .zip file extracts to the current dir
+ S = "${WORKDIR}"
  
- AVAILTUNES += "powerpc64 powerpc64-nf"
+-INC_PR = "r2"
++INC_PR = "r3"
+ 
+ SSTATEPOSTINSTFUNCS += "docbook_sgml_dtd_sstate_postinst"
+ SYSROOT_PREPROCESS_FUNCS += "docbook_sgml_dtd_sysroot_preprocess"
+@@ -45,6 +45,9 @@ docbook_sgml_dtd_sstate_postinst () {
+ 		# Ensure that the catalog file sgml-docbook.cat is properly
+ 		# updated when the package is installed from sstate cache.
+ 		${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-docbook-sgml-dtd-${DTD_VERSION} \
++			--add ${sysconfdir}/sgml/sgml-docbook.bak \
++			${sysconfdir}/sgml/sgml-docbook-dtd-${DTD_VERSION}.cat
++		${SYSROOT_DESTDIR}${bindir_crossscripts}/install-catalog-docbook-sgml-dtd-${DTD_VERSION} \
+ 			--add ${sysconfdir}/sgml/sgml-docbook.cat \
+ 			${sysconfdir}/sgml/sgml-docbook-dtd-${DTD_VERSION}.cat
+ 	fi
 -- 
 1.7.3.4
 
