@@ -1,28 +1,25 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19C+pA6rU57JrQI5UkaB72gdx4vVtjIo3w=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QoJyF-0001fF-SD
+	(envelope-from <galak@kernel.crashing.org>) id 1QoK2B-00028O-7S
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 20:45:39 +0200
-Received: by wwi18 with SMTP id 18so42550wwi.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2011 11:41:18 -0700 (PDT)
-Received: by 10.216.167.8 with SMTP id h8mr2280519wel.87.1312310478105;
-	Tue, 02 Aug 2011 11:41:18 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id l68sm26779weq.10.2011.08.02.11.41.15
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 02 Aug 2011 11:41:16 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4E3843B1.2060008@linux.intel.com>
-Date: Tue, 2 Aug 2011 20:41:10 +0200
-Message-Id: <163C78A4-A69C-49D1-9498-A77F45918E00@dominion.thruhere.net>
-References: <1311942290-27217-1-git-send-email-noor_ahsan@mentor.com>
-	<4E3843B1.2060008@linux.intel.com>
+	Tue, 02 Aug 2011 20:49:43 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72Iijfa028082;
+	Tue, 2 Aug 2011 13:44:45 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <1312203799.2344.430.camel@rex>
+Date: Tue, 2 Aug 2011 13:31:36 -0500
+Message-Id: <4805A8EA-3CA5-4BE5-A078-0F5B0DAA1710@kernel.crashing.org>
+References: <cover.1312182844.git.sgw@linux.intel.com>
+	<3e502d7441be9c7c25598237f79c527bdf3ce38e.1312182844.git.sgw@linux.intel.com>
+	<1312203799.2344.430.camel@rex>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH] kernel,cml1.bbclass: Move menuconfig to cml1
+	<openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH 10/22] tune/arch-powerpc: Use fpu-soft to set PPCPKGSFX_FPU
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,82 +34,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 18:45:39 -0000
+X-List-Received-Date: Tue, 02 Aug 2011 18:49:43 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 2 aug. 2011, om 20:36 heeft Saul Wold het volgende geschreven:
+On Aug 1, 2011, at 8:03 AM, Richard Purdie wrote:
 
-> On 07/29/2011 05:24 AM, Noor, Ahsan wrote:
->> * The menuconfig target exists in places other than the kernel that =
-use kernel style config.
+> On Mon, 2011-08-01 at 00:36 -0700, Saul Wold wrote:
+>> From: Kumar Gala <galak@kernel.crashing.org>
 >>=20
->> Signed-off-by: Noor, Ahsan<noor_ahsan@mentor.com>
+>> Its more likely that we explicitly set soft-floating point support =
+for a
+>> given target than hard.  So use 'fpu-soft' in TUNE_FEATURES rather =
+than
+>> 'fpu-hard' to determine setting 'nf' (no-float) in PPCPKGSFX_FPU.
+>>=20
+>> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 >> ---
->>  meta/classes/cml1.bbclass   |   12 ++++++++++++
->>  meta/classes/kernel.bbclass |   15 ---------------
->>  2 files changed, 12 insertions(+), 15 deletions(-)
+>> meta/conf/machine/include/powerpc/arch-powerpc.inc |    2 +-
+>> 1 files changed, 1 insertions(+), 1 deletions(-)
 >>=20
->> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
->> index 79218b4..a747af5 100644
->> --- a/meta/classes/cml1.bbclass
->> +++ b/meta/classes/cml1.bbclass
->> @@ -6,3 +6,15 @@ cml1_do_configure() {
+>> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc =
+b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>> index 8cc76ab..013755d 100644
+>> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+>> @@ -18,7 +18,7 @@ TARGET_FPU .=3D =
+"${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
 >>=20
->>  EXPORT_FUNCTIONS do_configure
->>  addtask configure after do_unpack do_patch before do_compile
->> +
->> +do_menuconfig() {
->> +	export TERMWINDOWTITLE=3D"${PN} Configuration"
->> +	export SHELLCMDS=3D"make menuconfig"
->> +	${TERMCMDRUN}
->> +	if [ $? -ne 0 ]; then
->> +		oefatal "'${TERMCMD}' not found. Check TERMCMD =
-variable."
->> +	fi
->> +}
->> +do_menuconfig[nostamp] =3D "1"
->> +addtask menuconfig after do_configure
->> +
->> diff --git a/meta/classes/kernel.bbclass =
-b/meta/classes/kernel.bbclass
->> index 9c492a3..25d2629 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -197,21 +197,6 @@ kernel_do_configure() {
+>> ABIEXTENSION =3D "${@['','spe'][d.getVar('TARGET_FPU', True) in =
+['ppc-efd', 'ppc-efs']]}"
 >>=20
->>  do_configure[depends] +=3D "${INITRAMFS_TASK}"
+>> -PPCPKGSFX_FPU =3D "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" =
+, "", "-nf", d)}"
+>> +PPCPKGSFX_FPU =3D "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", =
+"-nf", "", d)}"
 >>=20
->> -do_menuconfig() {
->> -        export DISPLAY=3D'${DISPLAY}'
->> -        export =
-DBUS_SESSION_BUS_ADDRESS=3D'${DBUS_SESSION_BUS_ADDRESS}'
->> -        export XAUTHORITY=3D'${XAUTHORITY}'
->> -	export TERMWINDOWTITLE=3D"${PN} Kernel Configuration"
->> -	export SHELLCMDS=3D"make menuconfig"
->> -	${TERMCMDRUN}
->> -	if [ $? -ne 0 ]; then
->> -		echo "Fatal: '${TERMCMD}' not found. Check TERMCMD =
-variable."
->> -		exit 1
->> -	fi
->> -}
->> -do_menuconfig[nostamp] =3D "1"
->> -addtask menuconfig after do_configure
->> -
->>  pkg_postinst_kernel () {
->>  	cd /${KERNEL_IMAGEDEST}; update-alternatives --install =
-/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} =
-${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
->>  }
+>> TUNE_PKGARCH ?=3D "${TUNE_ARCH}${PPCPKGSFX_FPU}"
 >=20
-> I think this patch will break the linux-* recipes if someone tries to =
-use the menuconfig task.
+> Whilst the change itself may or may not be ok, it would need to change
+> the various boards that are already setting or not setting fpu-hard as =
+a
+> feature so as it stands this change is incomplete.
 >=20
-> I think you need to also modify the linux-* recipes that currently =
-inherit kernel to also include cmd1
+> Cheers,
+>=20
+> Richard
 
-or make kernel.bbclass inherit it?=
+Maybe I misunderstood when I first read this, did you mean we should =
+remove explicitly setting 'fpu-hard' on the boards / tune files that are =
+doing this?
+
+- k=
 
 
