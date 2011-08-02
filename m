@@ -1,24 +1,24 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QoFN7-00021c-QB
+	(envelope-from <philb@gnu.org>) id 1QoFT0-0002BU-9g
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 15:51:01 +0200
+	Tue, 02 Aug 2011 15:57:06 +0200
 Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QoFIw-0002SC-RR
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 15:46:42 +0200
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1QoFOp-0002SM-7U; Tue, 02 Aug 2011 15:52:47 +0200
 From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 02 Aug 2011 14:46:42 +0100
-In-Reply-To: <d97dcf096a3a72a2a087b2dbbcdd74c853f7e940.1312243899.git.mark.hatle@windriver.com>
-References: <cover.1312243899.git.mark.hatle@windriver.com>
-	<d97dcf096a3a72a2a087b2dbbcdd74c853f7e940.1312243899.git.mark.hatle@windriver.com>
+Date: Tue, 02 Aug 2011 14:52:46 +0100
+In-Reply-To: <1312292735.2344.597.camel@rex>
+References: <201108021226.34560.paul.eggleton@linux.intel.com>
+	<1312292735.2344.597.camel@rex>
 X-Mailer: Evolution 3.0.2- 
-Message-ID: <1312292802.4325.33.camel@phil-desktop>
+Message-ID: <1312293167.4325.38.camel@phil-desktop>
 Mime-Version: 1.0
-Subject: Re: [PATCH 5/5] update-alternatives: Add alternatives as a runtime provide
+Cc: bitbake-devel@lists.openembedded.org
+Subject: Re: Layer priorities influencing default version selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 13:51:01 -0000
+X-List-Received-Date: Tue, 02 Aug 2011 13:57:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2011-08-01 at 19:17 -0500, Mark Hatle wrote:
-> The following allows RPM to generate the SDK image, however without it
-> we get a failure because the system has nothing that provides /bin/sh.
-> 
-> Unfortunately the patch causes failures with ipk and deb packages because
-> they can not have filenames within their RPROVIDES.  I'm looking for some
-> type of a resolution to the issue, the only thing I can think of is to
-> add a way to manually add a FILERPROVIDE for the items.  This will require
-> changes to the way FILERPROVIDE is currently generated... but I'm not sure
-> how we can automatically generate the FILERPROVIDE values without the use of
-> python...
-> 
-> Any suggestions?
+On Tue, 2011-08-02 at 14:45 +0100, Richard Purdie wrote:
+> We could do with clearly documenting this in the bitbake manual. I
+> suspect users would expect the highest version to win and we probably
+> should change the behaviour but I'm open to other opinions.
 
-It's never really been the intent that update-alternatives should put
-the name of the link being provided into RPROVIDES.  If you want to
-solve the specific problem with /bin/sh then just adding RPROVIDES_${PN}
-+= "virtual-bourne-shell" or something to bash and busybox is probably
-the easiest way of doing that.
+The original intent with BBFILE_COLLECTIONS was that the recipe from the
+highest-priority collection would win even if it was an older version.
+(The rationale for this was that the one in the higher priority
+collection was the most likely to have local customisations, and you
+wouldn't want those to suddenly be negated if a newer version popped up
+in some upstream collection.)
 
-I wouldn't be entirely opposed to the concept of what you're proposing
-here, though.  Something like:
+I suspect the same logic probably does apply to layers to some extent
+for the same reason.  If there is a situation where you are just trying
+to aggregate the recipes together from a bunch of layers and you just
+want the highest version from that set then my first reaction would be
+that the layers should probably all have the same priority.  
 
-RPROVIDES_${PN} += "${@' '.join(map(lambda x:
-legitimize_package_name("virtual-path-" + x), filter(lambda x: x != '',
-[ d.getVar('ALTERNATIVE_LINK', True) or '' ] +
-(d.getVar('ALTERNATIVE_LINKS', True) or '').split())))}"
-
-might be what you want, perhaps.  I'm not sure that the resulting
-virtual names will be very pretty though.
+Actually, to some extent I consider it a bit of a misfeature that the
+layer priority is specified by the layer rather than by the user in
+bblayers.conf, since this makes it harder to vary the stack-up order
+without local hackery to the layer files.  For example, meta-oe
+currently sets itself to a higher priority than oe-core, but I've found
+that it generally seems to suit me better if meta-oe is actually the
+lower-priority layer.
 
 p.
 
