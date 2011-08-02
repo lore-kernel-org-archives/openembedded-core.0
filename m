@@ -1,23 +1,39 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QoGpK-0004wC-MQ
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 17:24:14 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QoGl9-0002UN-Jq
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 17:19:55 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
+	(envelope-from <raj.khem@gmail.com>)
+	id 1QoH36-0005E3-1v; Tue, 02 Aug 2011 17:38:28 +0200
+Received: by pzk1 with SMTP id 1so13454023pzk.16
+	for <multiple recipients>; Tue, 02 Aug 2011 08:34:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=references:in-reply-to:mime-version:content-transfer-encoding
+	:content-type:message-id:cc:x-mailer:from:subject:date:to;
+	bh=fao9qAe9ytPiequxomyPqWmDp4xPKvsOCnbKqWHD9sI=;
+	b=ajYkIiVZiDHtAHT9ex1wXsWIDLki9HI2qh1JYQWU1dYQbjPBm7FKivYQj2kjqT5dkh
+	uM/+amGC3lIIuPikwx4iiLICLXU7pyxeLO7mKqnkmcwWAkzRMtJl1Z4rjNDGrhRWyzx+
+	53t0CbCQLdR45iEURJ0WY6WbnlUBeHm4Tbn7s=
+Received: by 10.68.25.162 with SMTP id d2mr329565pbg.372.1312299245741;
+	Tue, 02 Aug 2011 08:34:05 -0700 (PDT)
+Received: from [192.168.1.81] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id d1sm6869346pbj.72.2011.08.02.08.34.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 02 Aug 2011 08:34:04 -0700 (PDT)
+References: <201108021226.34560.paul.eggleton@linux.intel.com>
+	<1312292735.2344.597.camel@rex>
+	<1312293167.4325.38.camel@phil-desktop>
+	<CABcZAN=rG0acoqcV6s-gNvvziM0ON97BzNwtZkESu+wz7vQO-g@mail.gmail.com>
+In-Reply-To: <CABcZAN=rG0acoqcV6s-gNvvziM0ON97BzNwtZkESu+wz7vQO-g@mail.gmail.com>
+Mime-Version: 1.0 (iPad Mail 8J2)
+Message-Id: <A3E3935F-5D98-4208-A45F-DC409F1C97CF@gmail.com>
+X-Mailer: iPad Mail (8J2)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 2 Aug 2011 08:35:12 -0700
+To: Chris Larson <clarson@kergoth.com>
+Cc: "bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 02 Aug 2011 16:19:54 +0100
-In-Reply-To: <1312272881-15695-1-git-send-email-galak@kernel.crashing.org>
-References: <1312272881-15695-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1312298395.4325.53.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH] automake: Fix issue with tar configure failing with large UID/GIDs
+Subject: Re: [bitbake-devel] Layer priorities influencing default version selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,46 +48,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 15:24:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Aug 2011 15:38:28 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Tue, 2011-08-02 at 03:14 -0500, Kumar Gala wrote:
-> +-_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
-> ++_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) cpio pax none'
 
-Have you discussed that with upstream?  If not, are you confident that
-preferring cpio will not simply mean that we are swapping one deficiency
-for another?
 
-> +Index: automake-1.11.1/Makefile.in
-> +===================================================================
-> +--- automake-1.11.1.orig/Makefile.in
-> ++++ automake-1.11.1/Makefile.in
-> +@@ -44,7 +44,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/a
-> + 	$(top_srcdir)/m4/missing.m4 $(top_srcdir)/m4/mkdirp.m4 \
-> + 	$(top_srcdir)/m4/options.m4 $(top_srcdir)/m4/runlog.m4 \
-> + 	$(top_srcdir)/m4/sanity.m4 $(top_srcdir)/m4/strip.m4 \
-> +-	$(top_srcdir)/m4/substnot.m4 $(top_srcdir)/m4/tar.m4 \
-> ++	$(top_srcdir)/m4/substnot.m4 \
-> + 	$(top_srcdir)/configure.ac
-> + am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
-> + 	$(ACLOCAL_M4)
+On Aug 2, 2011, at 7:14 AM, Chris Larson <clarson@kergoth.com> wrote:
 
-Can you explain why this hunk is necessary?
+> On Tue, Aug 2, 2011 at 6:52 AM, Phil Blundell <philb@gnu.org> wrote:
+>> Actually, to some extent I consider it a bit of a misfeature that the
+>> layer priority is specified by the layer rather than by the user in
+>> bblayers.conf, since this makes it harder to vary the stack-up order
+>> without local hackery to the layer files.  For example, meta-oe
+>> currently sets itself to a higher priority than oe-core, but I've found
+>> that it generally seems to suit me better if meta-oe is actually the
+>> lower-priority layer.
+>=20
+> Agreed. It also means that the priority knowledge is split between
+> layer.conf and bblayers.conf today, as config/class priority is
+> determined by order of entries in BBLAYERS, whereas recipe priority is
+> determined by layer.conf.
 
-> +do_configure () {
-> +	touch ${S}/Makefile.in
-> +	autotools_do_configure
-> +}
 
-... and this one?
+In my opinion the layer priority for all kind of meta data should be consist=
+ent and selected using bblayers.conf=20
 
-Also, your patch is missing a Signed-off-by line.  See:
 
-http://wiki.openembedded.org/index.php/Commit_Patch_Message_Guidelines#Patch_Headers_and_Commit_Messages
-
-p.
-
+> --=20
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
+>=20
+> _______________________________________________
+> bitbake-devel mailing list
+> bitbake-devel@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/bitbake-devel
 
 
