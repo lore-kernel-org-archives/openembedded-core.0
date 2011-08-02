@@ -1,21 +1,28 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1Qo6Vl-0003W9-OL
+	(envelope-from <koen@dominion.thruhere.net>) id 1Qo7Fz-0008Ka-Qr
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 06:23:21 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 01 Aug 2011 21:19:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,305,1309762800"; 
-   d="scan'208";a="3261088"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Aug 2011 21:18:46 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Aug 2011 12:20:49 +0800
-Message-Id: <cover.1312258679.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/1] Set version related variables in environment files.
+	Tue, 02 Aug 2011 07:11:07 +0200
+Received: by wyg30 with SMTP id 30so2247278wyg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Aug 2011 22:06:47 -0700 (PDT)
+Received: by 10.227.197.194 with SMTP id el2mr6881261wbb.55.1312261606688;
+	Mon, 01 Aug 2011 22:06:46 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id fx12sm4699264wbb.59.2011.08.01.22.06.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 01 Aug 2011 22:06:45 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1443716.1agPb8MbFj@perseus>
+Date: Tue, 2 Aug 2011 07:06:39 +0200
+Message-Id: <CB80DCD2-F1B5-45EA-B740-6FF0675882E0@dominion.thruhere.net>
+References: <1312233054-8118-1-git-send-email-schnitzeltony@gmx.de>
+	<1443716.1agPb8MbFj@perseus>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Re: [angstrom] xfce-base-image: Add image for xfce48 desktop image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,29 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 04:23:22 -0000
+X-List-Received-Date: Tue, 02 Aug 2011 05:11:07 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-Fixed bug #1306. Have all the environment files created by meta-toolchain, 
-meta-ide-support and meta-envrionment-xxx contain the same version related 
-variables.
 
-The following changes since commit 2a41a311ddda11713296391050f3c2c1b2c1d3d3:
-  Koen Kooi (1):
-        arch-armv7a.inc: fix armv7a-vfp-neon -> armv7a compat case
+Op 2 aug. 2011, om 04:31 heeft Khem Raj het volgende geschreven:
 
-are available in the git repository at:
+> On Monday, August 01, 2011 11:10:54 PM Andreas Mueller wrote:
+>> * This patch requires patch series [1] to be committed in meta-oe
+>>=20
+>> [1]
+>> =
+http://lists.linuxtogo.org/pipermail/openembedded-devel/2011-August/034221=
+.
+>> html
+>>=20
+>> Signed-off-by: Andreas Mueller <schnitzeltony@gmx.de>
+>> ---
+>> recipes-angstrom/images/xfce-base-image.bb |   26
+>> ++++++++++++++++++++++++++ 1 files changed, 26 insertions(+), 0
+>> deletions(-)
+>> create mode 100644 recipes-angstrom/images/xfce-base-image.bb
+>>=20
+>=20
+> this recipe belongs to meta-angstrom or may be meta-xfce
 
-  git://git.yoctoproject.org/poky-contrib llu/bug1306
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/bug1306
+While I agree with the general idea...
 
-Lianhao Lu (1):
-  environment files: Added and unified version related variables.
+>=20
+>> diff --git a/recipes-angstrom/images/xfce-base-image.bb
+>> b/recipes-angstrom/images/xfce-base-image.bb new file mode 100644
+>> index 0000000..80f5062
+>> --- /dev/null
+>> +++ b/recipes-angstrom/images/xfce-base-image.bb
+>> @@ -0,0 +1,26 @@
+>> +LICENSE =3D "MIT"
+>> +LIC_FILES_CHKSUM =3D
+>> "file://${COREBASE}/LICENSE;md5=3D3f40d7994397109285ec7b81fdeb3b58" =
++PR =3D
+>> "r0"
+>> +
+>> +require console-base-image.bb
 
- meta/classes/toolchain-scripts.bbclass     |    3 +++
- meta/recipes-core/meta/meta-environment.bb |    2 +-
- meta/recipes-core/meta/meta-ide-support.bb |    2 +-
- meta/recipes-core/meta/meta-toolchain.bb   |    2 +-
- 4 files changed, 6 insertions(+), 3 deletions(-)
-
+=85 this file is only present in meta-angstrom.=
 
 
