@@ -1,25 +1,19 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/IInxt4DiMIE8ukiSt2s85tMEjrSKZGE0=])
+	ident=[U2FsdGVkX19/Dd+oeiSNMSD5xXKUbdxJtR1WSsJOE/Y=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QoHaL-0006SF-5F
+	(envelope-from <galak@kernel.crashing.org>) id 1QoHwi-0006su-Gu
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 18:12:49 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72G8S5X015680;
-	Tue, 2 Aug 2011 11:08:28 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
+	Tue, 02 Aug 2011 18:35:56 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72GVZ5B027262
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Aug 2011 11:31:36 -0500
 From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <4E38201A.8080006@mentor.com>
-Date: Tue, 2 Aug 2011 11:08:27 -0500
-Message-Id: <2E0759C0-DEB5-4B29-9DD1-C991E3DBA98E@kernel.crashing.org>
-References: <1312272881-15695-1-git-send-email-galak@kernel.crashing.org>	<1312298395.4325.53.camel@phil-desktop>	<4E381902.6050408@mentor.com>
-	<12877E24-5764-42AA-B48C-6F90914DC709@kernel.crashing.org>
-	<4E38201A.8080006@mentor.com>
-To: Tom Rini <Tom_Rini@mentor.com>
-X-Mailer: Apple Mail (2.1084)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] automake: Fix issue with tar configure	failing with large UID/GIDs
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Aug 2011 11:31:35 -0500
+Message-Id: <1312302695-17747-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH] tune/powerpc: Cleanup setting of TUNE_PKGARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,78 +28,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 16:12:49 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Aug 2011 16:35:57 -0000
 
+Add some uniformity to the naming scheme and reduce a bit of redudancy.
 
-On Aug 2, 2011, at 11:04 AM, Tom Rini wrote:
+Names are now back to: ppc603e, ppce300c2, ppce500, ppce500mc,
+ppce500v2.
 
-> On 08/02/2011 09:01 AM, Kumar Gala wrote:
->>=20
->> On Aug 2, 2011, at 10:34 AM, Tom Rini wrote:
->>=20
->>> On 08/02/2011 08:19 AM, Phil Blundell wrote:
->>>> On Tue, 2011-08-02 at 03:14 -0500, Kumar Gala wrote:
->>>>> +-_am_tools=3D'gnutar m4_if([$1], [ustar], [plaintar]) pax cpio =
-none'
->>>>> ++_am_tools=3D'gnutar m4_if([$1], [ustar], [plaintar]) cpio pax =
-none'
->>>>=20
->>>> Have you discussed that with upstream?  If not, are you confident =
-that
->>>> preferring cpio will not simply mean that we are swapping one =
-deficiency
->>>> for another?
->>>=20
->>> A bug was filed with upstream automake.  At issue is that pax does =
-not
->>> fail gracefully when it cannot create ustar archives while cpio =
-does.
->>>=20
->>>>> +Index: automake-1.11.1/Makefile.in
->>>>> =
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>>>> +--- automake-1.11.1.orig/Makefile.in
->>>>> ++++ automake-1.11.1/Makefile.in
->>>>> +@@ -44,7 +44,7 @@ am__aclocal_m4_deps =3D $(top_srcdir)/m4/a
->>>>> + 	$(top_srcdir)/m4/missing.m4 $(top_srcdir)/m4/mkdirp.m4 \
->>>>> + 	$(top_srcdir)/m4/options.m4 $(top_srcdir)/m4/runlog.m4 \
->>>>> + 	$(top_srcdir)/m4/sanity.m4 $(top_srcdir)/m4/strip.m4 \
->>>>> +-	$(top_srcdir)/m4/substnot.m4 $(top_srcdir)/m4/tar.m4 \
->>>>> ++	$(top_srcdir)/m4/substnot.m4 \
->>>>> + 	$(top_srcdir)/configure.ac
->>>>> + am__configure_deps =3D $(am__aclocal_m4_deps) =
-$(CONFIGURE_DEPENDENCIES) \
->>>>> + 	$(ACLOCAL_M4)
->>>>=20
->>>> Can you explain why this hunk is necessary?
->>>=20
->>> That I don't recall.  Possibly some sort of re-gen hell I was trying =
-/
->>> needing to avoid.
->>>=20
->>>>=20
->>>>> +do_configure () {
->>>>> +	touch ${S}/Makefile.in
->>>>> +	autotools_do_configure
->>>>> +}
->>>>=20
->>>> ... and this one?
->>>=20
->>> Didn't do that one.  Kumar? :)
->>=20
->> I think I pulled that from the SB3 change you made.
->=20
-> Gah, you're right.  I think it was more "avoid re-gen" bits.
+On 64-bit we'll have something like ppc64e5500.
 
-Tom,
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+---
+ meta/conf/machine/include/powerpc/arch-powerpc.inc |    5 +++--
+ meta/conf/machine/include/tune-ppc603e.inc         |    2 +-
+ meta/conf/machine/include/tune-ppce300c2.inc       |    2 +-
+ meta/conf/machine/include/tune-ppce500.inc         |    2 +-
+ meta/conf/machine/include/tune-ppce500mc.inc       |    2 +-
+ meta/conf/machine/include/tune-ppce500v2.inc       |    2 +-
+ 6 files changed, 8 insertions(+), 7 deletions(-)
 
-Do you mind take a stab at updating this patch based on feedback as your =
-far more familiar with that I am ;)
+diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+index 93b1c05..a8226ea 100644
+--- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
++++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+@@ -3,6 +3,7 @@
+ # *) Hard Floating Point on 64-bit
+ 
+ DEFAULTTUNE ?= "powerpc"
++TUNE_PKGARCH ?= "ppc"
+ 
+ TUNEVALID[m32] = "Power ELF32 standard ABI"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m32", "-m32", "", d)}"
+@@ -12,6 +13,7 @@ TUNEVALID[m64] = "Power ELF64 standard ABI"
+ TUNE_CONFLICTS[m64] = "m32 nf"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m64", "-m64", "", d)}"
+ TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], "powerpc64", "", d)}"
++TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], "64", "", d)}"
+ 
+ TUNEVALID[fpu-hard] = "Use hardware FPU."
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "-mhard-float", "", d)}"
+@@ -23,8 +25,7 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
+ ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
+ 
+ PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "-nf", "", d)}"
+-
+-TUNE_PKGARCH ?= "${TUNE_ARCH}${PPCPKGSFX_FPU}"
++TUNE_PKGARCH .= "${PPCPKGSFX_FPU}"
+ 
+ # Basic tune definitions
+ AVAILTUNES += "powerpc powerpc-nf" 
+diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
+index 7c05394..12ba425 100644
+--- a/meta/conf/machine/include/tune-ppc603e.inc
++++ b/meta/conf/machine/include/tune-ppc603e.inc
+@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
+ 
+ TUNEVALID[ppc603e] = "Enable ppc603e specific processor optimizations"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-mcpu=603e", "", d)}"
+-TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "ppc603e", "", d)}"
++TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "603e", "", d)}"
+ 
+ AVAILTUNES += "ppc603e"
+ TUNE_FEATURES_tune-ppc603e = "m32 fpu-hard ppc603e"
+diff --git a/meta/conf/machine/include/tune-ppce300c2.inc b/meta/conf/machine/include/tune-ppce300c2.inc
+index bad2611..6fe3e42 100644
+--- a/meta/conf/machine/include/tune-ppce300c2.inc
++++ b/meta/conf/machine/include/tune-ppce300c2.inc
+@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
+ 
+ TUNEVALID[ppce300c2] = "Enable ppce300c2 specific processor optimizations"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c2", "-mcpu=e300c2", "", d)}"
+-TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce300c2", "ppce300c2", "${TUNE_ARCH}", d)}"
++TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce300c2", "e300c2", "${TUNE_ARCH}", d)}"
+ 
+ AVAILTUNES += "ppce300c2"
+ TUNE_FEATURES_tune-ppce300c2 = "m32 fpu-soft ppce300c2"
+diff --git a/meta/conf/machine/include/tune-ppce500.inc b/meta/conf/machine/include/tune-ppce500.inc
+index c34d631..0e850f1 100644
+--- a/meta/conf/machine/include/tune-ppce500.inc
++++ b/meta/conf/machine/include/tune-ppce500.inc
+@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
+ 
+ TUNEVALID[ppce500] = "Enable ppce500 specific processor optimizations"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "-mcpu=8540", "", d)}"
+-TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "ppce500", "", d)}"
++TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "e500", "", d)}"
+ 
+ TUNEVALID[spe] = "Enable SPE ABI extensions"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe", "", d)}"
+diff --git a/meta/conf/machine/include/tune-ppce500mc.inc b/meta/conf/machine/include/tune-ppce500mc.inc
+index 73217dd..9fee226 100644
+--- a/meta/conf/machine/include/tune-ppce500mc.inc
++++ b/meta/conf/machine/include/tune-ppce500mc.inc
+@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
+ 
+ TUNEVALID[ppce500mc] = "Enable ppce500mc specific processor optimizations"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-mcpu=e500mc", "", d)}"
+-TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "ppce500mc", "", d)}"
++TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "e500mc", "", d)}"
+ 
+ AVAILTUNES += "ppce500mc"
+ TUNE_FEATURES_tune-ppce500mc = "m32 fpu-hard ppce500mc"
+diff --git a/meta/conf/machine/include/tune-ppce500v2.inc b/meta/conf/machine/include/tune-ppce500v2.inc
+index 819d68a..2a0451b 100644
+--- a/meta/conf/machine/include/tune-ppce500v2.inc
++++ b/meta/conf/machine/include/tune-ppce500v2.inc
+@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
+ 
+ TUNEVALID[ppce500v2] = "Enable ppce500v2 specific processor optimizations"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", "-mcpu=8548", "", d)}"
+-TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", "ppce500v2", "", d)}"
++TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", "e500v2", "", d)}"
+ 
+ TUNEVALID[spe] = "Enable SPE ABI extensions"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe", "", d)}"
+-- 
+1.7.3.4
 
-- k=
 
 
