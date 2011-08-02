@@ -1,19 +1,19 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1+9dCWVLkJR2mk3+zWQ3Al2S5Smj3FB8ww=])
+	ident=[U2FsdGVkX18mjygCVNc/3eL8QL+Bet0OJB9W5xL5COU=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QoMO0-00081o-SQ
+	(envelope-from <galak@kernel.crashing.org>) id 1QoMSj-00086Z-8n
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 23:20:25 +0200
+	Tue, 02 Aug 2011 23:25:17 +0200
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72LG3qR005648
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72LKuMn008002
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Aug 2011 16:16:04 -0500
+	Tue, 2 Aug 2011 16:20:56 -0500
 From: Kumar Gala <galak@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Aug 2011 16:16:03 -0500
-Message-Id: <1312319763-4379-1-git-send-email-galak@kernel.crashing.org>
+Date: Tue,  2 Aug 2011 16:20:56 -0500
+Message-Id: <1312320056-4613-1-git-send-email-galak@kernel.crashing.org>
 X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH] gcc: Fix setting of GLIBC_DYNAMIC_LINKER
+Subject: [PATCH v3] automake: Fix issue with tar configure failing with large UID/GIDs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,91 +28,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 21:20:25 -0000
+X-List-Received-Date: Tue, 02 Aug 2011 21:25:17 -0000
 
-The sed regex in do_configure_prepend was producing the following result:
+Add a fixup for trying to create ustar archives when the users
+UID or GID is larger than the format allows.
 
- #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "/lib64//ld-linux-x86-64.so.2"
-
-instead of
-
- #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
-
-Additionally, with the regex fixed the manipulation of SYSTEMLIBS_DIR
-needs to be removed.
-
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
 Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
- meta/recipes-devtools/gcc/gcc-configure-common.inc |   12 ++++++++----
- meta/recipes-devtools/gcc/gcc_4.5.1.bb             |    2 +-
- meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb    |    2 +-
- 4 files changed, 11 insertions(+), 7 deletions(-)
+* Removed patch=1
+* Fixed a few whitespace issues
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index b054266..3a6f273 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
+ meta/recipes-devtools/automake/automake.inc        |    2 +-
+ .../prefer-cpio-over-pax-for-ustar-archives.patch  |   41 ++++++++++++++++++++
+ meta/recipes-devtools/automake/automake_1.11.1.bb  |    3 +-
+ 3 files changed, 44 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
+
+diff --git a/meta/recipes-devtools/automake/automake.inc b/meta/recipes-devtools/automake/automake.inc
+index beeec7b..96d797f 100644
+--- a/meta/recipes-devtools/automake/automake.inc
++++ b/meta/recipes-devtools/automake/automake.inc
+@@ -4,7 +4,7 @@ Standards. Automake requires the use of Autoconf."
+ LICENSE = "GPLv2"
+ HOMEPAGE = "http://www.gnu.org/software/automake/"
+ SECTION = "devel"
+-PR = "r2"
++PR = "r3"
  
--PR = "r3"
-+PR = "r4"
+ SRC_URI = "${GNU_MIRROR}/automake/automake-${PV}.tar.bz2 "
  
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index aac6d69..83a3972 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -66,11 +66,15 @@ SYSTEMLIBS1 = "${target_libdir}/"
- do_configure_prepend () {
- 	# Change the default dynamic linker path, only useful for SDK, other's value
- 	# are not changed according to the SYSTEMLIBS_DIR
-+	#
-+	# We want something like the following:
-+	# 	#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
-+	# becomes
-+	#	#define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
-+	#
- 	sed -i ${S}/gcc/config/*/linux*.h -e \
--		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 SYSTEMLIBS_DIR\2#'
-+		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \( *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR"/\3#'
+diff --git a/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch b/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
+new file mode 100644
+index 0000000..083547a
+--- /dev/null
++++ b/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
+@@ -0,0 +1,41 @@
++When the user has a UID or GID that is larger than the ustar format
++supports, pax does not error out gracefully in some cases (FC13).  In
++this case cpio does.
++
++See for more details: http://debbugs.gnu.org/cgi/bugreport.cgi?bug=8343
++
++Additionally drop tar.m4 out of that part of the Makefile or we end up in
++a fatal attempt to regen loop:
++
++CDPATH="${ZSH_VERSION+.}:" && cd . && perllibdir="automake-1.11.1/lib:./lib" "automake-1.11.1/aclocal" --acdir=m4 -I m4
++/bin/sh: automake-1.11.1/aclocal: No such file or directory
++make: *** [aclocal.m4] Error 127
++
++Signed-off-by: Tom Rini <tom_rini@mentor.com>
++
++Index: automake-1.11.1/m4/tar.m4
++===================================================================
++--- automake-1.11.1.orig/m4/tar.m4
+++++ automake-1.11.1/m4/tar.m4
++@@ -30,7 +30,7 @@ m4_if([$1], [v7],
++               [m4_fatal([Unknown tar format])])
++ AC_MSG_CHECKING([how to create a $1 tar archive])
++ # Loop over all known methods to create a tar archive until one works.
++-_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
+++_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) cpio pax none'
++ _am_tools=${am_cv_prog_tar_$1-$_am_tools}
++ # Do not fold the above two line into one, because Tru64 sh and
++ # Solaris sh will not grok spaces in the rhs of `-'.
++Index: automake-1.11.1/Makefile.in
++===================================================================
++--- automake-1.11.1.orig/Makefile.in
+++++ automake-1.11.1/Makefile.in
++@@ -44,7 +44,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/a
++ 	$(top_srcdir)/m4/missing.m4 $(top_srcdir)/m4/mkdirp.m4 \
++ 	$(top_srcdir)/m4/options.m4 $(top_srcdir)/m4/runlog.m4 \
++ 	$(top_srcdir)/m4/sanity.m4 $(top_srcdir)/m4/strip.m4 \
++-	$(top_srcdir)/m4/substnot.m4 $(top_srcdir)/m4/tar.m4 \
+++	$(top_srcdir)/m4/substnot.m4 \
++ 	$(top_srcdir)/configure.ac
++ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
++ 	$(ACLOCAL_M4)
+diff --git a/meta/recipes-devtools/automake/automake_1.11.1.bb b/meta/recipes-devtools/automake/automake_1.11.1.bb
+index b231a94..c66155f 100644
+--- a/meta/recipes-devtools/automake/automake_1.11.1.bb
++++ b/meta/recipes-devtools/automake/automake_1.11.1.bb
+@@ -32,7 +32,8 @@ RDEPENDS_automake-native = "autoconf-native perl-native-runtime"
+ PATHFIXPATCH = "file://path_prog_fixes.patch;patch=1"
+ PATHFIXPATCH_virtclass-native = ""
  
--	SYSTEMLIBS_DIR=`dirname ${SYSTEMLIBS}`
--	[ "$SYSTEMLIBS_DIR" = "/" ] && SYSTEMLIBS_DIR=""
- 	# teach gcc to find correct target includedir when checking libc ssp support
- 	mkdir -p ${B}/gcc
- 	echo "NATIVE_SYSTEM_HEADER_DIR = ${SYSTEMHEADERS}" > ${B}/gcc/t-oe
-@@ -85,7 +89,7 @@ do_configure_prepend () {
- #ifndef STANDARD_STARTFILE_PREFIX_2
- #define STANDARD_STARTFILE_PREFIX_2 "${SYSTEMLIBS1}"
- #endif
--#define SYSTEMLIBS_DIR "$SYSTEMLIBS_DIR"
-+#define SYSTEMLIBS_DIR "$SYSTEMLIBS"
- #endif /* ! GCC_DEFAULTS_H */
- _EOF
- 	mv ${B}/gcc/defaults.h.new ${B}/gcc/defaults.h
-diff --git a/meta/recipes-devtools/gcc/gcc_4.5.1.bb b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
-index f036cb1..75901ba 100644
---- a/meta/recipes-devtools/gcc/gcc_4.5.1.bb
-+++ b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
-@@ -1,4 +1,4 @@
--PR = "r8"
-+PR = "r9"
- require gcc-${PV}.inc
- require gcc-configure-target.inc
- require gcc-package-target.inc
-diff --git a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
-index 9fd2b0a..1bbab50 100644
---- a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
-+++ b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
-@@ -1,4 +1,4 @@
--PR = "r5"
-+PR = "r6"
+-SRC_URI += "${PATHFIXPATCH}"
++SRC_URI += "${PATHFIXPATCH} \
++	    file://prefer-cpio-over-pax-for-ustar-archives.patch"
  
- require gcc-${PV}.inc
- require gcc-configure-target.inc
+ SRC_URI[md5sum] = "c2972c4d9b3e29c03d5f2af86249876f"
+ SRC_URI[sha256sum] = "5b159d3c0e0a1f87de71b68bcb9f1a1c49e9e71749c9b723f17e2e1e0295c7ae"
 -- 
 1.7.3.4
 
