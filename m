@@ -1,22 +1,31 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QoFT0-0002BU-9g
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 15:57:06 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1QoFOp-0002SM-7U; Tue, 02 Aug 2011 15:52:47 +0200
-From: Phil Blundell <philb@gnu.org>
+	(envelope-from <kergoth@gmail.com>)
+	id 1QoFoZ-000356-1X; Tue, 02 Aug 2011 16:19:23 +0200
+Received: by vws2 with SMTP id 2so5655758vws.6
+	for <multiple recipients>; Tue, 02 Aug 2011 07:15:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type
+	:content-transfer-encoding;
+	bh=MI8XseQW219Sop7PPqmioFFMomV/G72UwPKEz47G8r8=;
+	b=B7DIAcBl/UNxe/0ZX5m3p5rs808mMbaYEC9c/04kTISRASKNQLX0W5YafCw9sKiKGk
+	gR+PVjBpThH/vKpkAkD4tzf1EdiP9sSIgpn54er0dStoGTcaSUllFLSSbza7o3Y2tCNd
+	vyBx0qv6dzmKBBrsyGgNp5Mqf1GxvNTo/Fld0=
+Received: by 10.52.24.16 with SMTP id q16mr6041088vdf.227.1312294501090; Tue,
+	02 Aug 2011 07:15:01 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.52.112.194 with HTTP; Tue, 2 Aug 2011 07:14:41 -0700 (PDT)
+In-Reply-To: <1312293167.4325.38.camel@phil-desktop>
+References: <201108021226.34560.paul.eggleton@linux.intel.com>
+	<1312292735.2344.597.camel@rex> <1312293167.4325.38.camel@phil-desktop>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 2 Aug 2011 07:14:41 -0700
+X-Google-Sender-Auth: S-NSV0iloZwX3xq4t1G1gwtK954
+Message-ID: <CABcZAN=rG0acoqcV6s-gNvvziM0ON97BzNwtZkESu+wz7vQO-g@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 02 Aug 2011 14:52:46 +0100
-In-Reply-To: <1312292735.2344.597.camel@rex>
-References: <201108021226.34560.paul.eggleton@linux.intel.com>
-	<1312292735.2344.597.camel@rex>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1312293167.4325.38.camel@phil-desktop>
-Mime-Version: 1.0
 Cc: bitbake-devel@lists.openembedded.org
 Subject: Re: Layer priorities influencing default version selection
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -33,38 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 13:57:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Aug 2011 14:19:23 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2011-08-02 at 14:45 +0100, Richard Purdie wrote:
-> We could do with clearly documenting this in the bitbake manual. I
-> suspect users would expect the highest version to win and we probably
-> should change the behaviour but I'm open to other opinions.
+On Tue, Aug 2, 2011 at 6:52 AM, Phil Blundell <philb@gnu.org> wrote:
+> Actually, to some extent I consider it a bit of a misfeature that the
+> layer priority is specified by the layer rather than by the user in
+> bblayers.conf, since this makes it harder to vary the stack-up order
+> without local hackery to the layer files. =C2=A0For example, meta-oe
+> currently sets itself to a higher priority than oe-core, but I've found
+> that it generally seems to suit me better if meta-oe is actually the
+> lower-priority layer.
 
-The original intent with BBFILE_COLLECTIONS was that the recipe from the
-highest-priority collection would win even if it was an older version.
-(The rationale for this was that the one in the higher priority
-collection was the most likely to have local customisations, and you
-wouldn't want those to suddenly be negated if a newer version popped up
-in some upstream collection.)
-
-I suspect the same logic probably does apply to layers to some extent
-for the same reason.  If there is a situation where you are just trying
-to aggregate the recipes together from a bunch of layers and you just
-want the highest version from that set then my first reaction would be
-that the layers should probably all have the same priority.  
-
-Actually, to some extent I consider it a bit of a misfeature that the
-layer priority is specified by the layer rather than by the user in
-bblayers.conf, since this makes it harder to vary the stack-up order
-without local hackery to the layer files.  For example, meta-oe
-currently sets itself to a higher priority than oe-core, but I've found
-that it generally seems to suit me better if meta-oe is actually the
-lower-priority layer.
-
-p.
-
-
+Agreed. It also means that the priority knowledge is split between
+layer.conf and bblayers.conf today, as config/class priority is
+determined by order of entries in BBLAYERS, whereas recipe priority is
+determined by layer.conf.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
