@@ -1,24 +1,26 @@
-Received: from smtp24.4emm.com ([69.18.222.25])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1Qo9Tu-0004BL-Av
+	(envelope-from <edwin.zhai@intel.com>) id 1Qo9ry-0004o4-Je
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 09:33:38 +0200
-Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
-	HUB24.4emm.local ([::1]) with mapi id 14.01.0289.001; Tue, 2 Aug 2011
-	03:24:11 -0400
-From: James Limbouris <james@digitalmatter.com.au>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: erratic failure of pseudo
-Thread-Index: AcxQ5AdgoKX0fNmvSF+eAAH9XHel8g==
-Date: Tue, 2 Aug 2011 07:28:07 +0000
-Message-ID: <840A81C1B782724A8EB52725BD519EFF181E0B@MBX20.4emm.local>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [203.59.132.158]
+	Tue, 02 Aug 2011 09:58:30 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 02 Aug 2011 00:53:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,305,1309762800"; d="scan'208";a="34148679"
+Received: from shxpwgzhai1a.ccr.corp.intel.com (HELO [10.239.48.130])
+	([10.239.48.130])
+	by azsmga001.ch.intel.com with ESMTP; 02 Aug 2011 00:53:03 -0700
+Message-ID: <4E37ACE5.6000300@intel.com>
+Date: Tue, 02 Aug 2011 15:53:09 +0800
+From: "Zhai, Edwin" <edwin.zhai@intel.com>
+User-Agent: Thunderbird 2.0.0.17 (Windows/20080914)
 MIME-Version: 1.0
-Subject: erratic failure of pseudo
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1311858056.git.edwin.zhai@intel.com>	<dbe75b1d05a85f17c749a45fdfbca0025c481c24.1311858056.git.edwin.zhai@intel.com>
+	<2074233.Hg07R4aRha@perseus>
+In-Reply-To: <2074233.Hg07R4aRha@perseus>
+Subject: Re: [PATCH 4/7] apr-util: Upgrade to 1.3.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 07:33:38 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Aug 2011 07:58:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-I've just switched to oe-core from -dev, and I'm finding that my root image=
-s are showing incorrect permissions on files, randomly. From one build to t=
-he next, different subsets of files and folders end up owned by 1000:1000, =
-instead of root:root. They aren't strictly grouped by package - just random=
- files, different every time.
 
-Has anyone else noticed this behaviour? Does anyone have any advice on how =
-to go about debugging? It might help to look at the pseudo db, and see if t=
-he permissions are in there - can anyone tell me where it is? I find an emp=
-ty pseudo folder in the work folder after do_rm_work, but it is not there i=
-f I do a bitbake -c build image-xxx.
-=A0=A0
-Regards
-James Limbouris
+Khem Raj wrote:
+>
+> On Thursday, July 28, 2011 09:03:06 PM edwin.zhai@intel.com wrote:
+> >
+> >
+> > +FILES_${PN}-dev += "${libdir}/aprutil.exp"
+> > +FILES_${PN}     += "${libdir}/apr-util-1/apr_dbm_gdbm-1.so"
+> > +FILES_${PN}-dbg += "${libdir}/apr-util-1/* 
+> ${libdir}/apr-util-1/.debug/*"
+>
+> do you really want ${libdir}/apr-util-1/* wildcard to go into a dbg 
+> package
+> here ?
+>
 
+2nd thought make them into dev package like following:
+
++FILES_${PN}     += "${libdir}/apr-util-1/apr_dbm_gdbm-1.so"
++FILES_${PN}-dev += "${libdir}/aprutil.exp 
+${libdir}/apr-util-1/apr_dbm_gdbm.*"
++FILES_${PN}-dbg += "${libdir}/apr-util-1/.debug/*"
+
+
+> > +
+> -- 
+> Khem Raj
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
