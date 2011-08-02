@@ -1,17 +1,17 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QoIoU-0008Bq-Bi
+	(envelope-from <sgw@linux.intel.com>) id 1QoIqr-0008Fd-Vi
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 19:31:30 +0200
+	Tue, 02 Aug 2011 19:33:58 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2011 10:27:08 -0700
+	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2011 10:29:35 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.67,307,1309762800"; 
-   d="scan'208";a="3459534"
+   d="scan'208";a="3460181"
 Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2011 10:27:07 -0700
-Message-ID: <4E38336B.8010604@linux.intel.com>
-Date: Tue, 02 Aug 2011 10:27:07 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2011 10:29:35 -0700
+Message-ID: <4E3833FF.2070503@linux.intel.com>
+Date: Tue, 02 Aug 2011 10:29:35 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
@@ -19,11 +19,9 @@ User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1311923851-6341-1-git-send-email-Martin.Jansa@gmail.com>
-	<20110729073415.GM15286@jama.jama.net>
-In-Reply-To: <20110729073415.GM15286@jama.jama.net>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH] eglibc: unify eglibc-utils/${PN}-utils and remove PACKAGES from eglibc.inc
+References: <1311898077-13062-1-git-send-email-galak@kernel.crashing.org>
+In-Reply-To: <1311898077-13062-1-git-send-email-galak@kernel.crashing.org>
+Subject: Re: [PATCH] sanity.bbclass: Add sanity check that	TUNE_PKGARCH appears in PACKAGE_ARCHS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,51 +36,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 17:31:30 -0000
+X-List-Received-Date: Tue, 02 Aug 2011 17:33:58 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/29/2011 12:34 AM, Martin Jansa wrote:
-> On Fri, Jul 29, 2011 at 09:17:31AM +0200, Martin Jansa wrote:
->> * PACKAGES were defined in eglibc.inc as well as eglibc-package.inc, definition
->>    from eglibc.inc was overriden from recipes including eglibc.inc only
->> * 37ff0fea8f7180b1a9d91d24dfe1735730427497 changed RPROVIDES_eglibc-utils,
->>    but ie FILES_ were still using eglibc-utils instead of ${PN}-utils, unify
->>    all eglibc-utils
+On 07/28/2011 05:07 PM, Kumar Gala wrote:
+> Its possible we get duplications if we explicity add TUNE_PKGARCH to
+> PACKAGE_ARCHS so instead just add a sanity check to verify it.
 >
-> BTW: there is still problem with ie
-> RPROVIDES_${PN}-utils = "glibc-utils"
-> leading to
-> ERROR: Trying to resolve runtime dependency glibc-utils resulted in conflicting PREFERRED_PROVIDER entries being found.
-> The providers found were: ['virtual:nativesdk:/OE/shr-core/openembedded-core/meta/recipes-core/eglibc/eglibc_2.13.bb', '/OE/shr-core/openembedded-core/meta/recipes-core/eglibc/eglibc_2.13.bb']
-> The PREFERRED_PROVIDER entries resulting in this conflict were: ['PREFERRED_PROVIDER_virtual/libc-nativesdk = eglibc-nativesdk', 'PREFERRED_PROVIDER_virtual/libc = eglibc']
-> NOTE: multiple providers are available for runtime glibc-utils (eglibc, eglibc-nativesdk, external-csl-toolchain, external-poky-toolchain)
-> NOTE: consider defining a PREFERRED_PROVIDER entry to match glibc-utils
+> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
+> ---
+>   meta/classes/sanity.bbclass |   10 +++++++++-
+>   1 files changed, 9 insertions(+), 1 deletions(-)
 >
-> now with glibc recipes removed, do we need to RPROVIDE this or can we fix recipes
-> RDEPENDing on glibc-utils to use eglibc-utils directly?
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index b054146..999e15d 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -375,8 +375,10 @@ def check_sanity(e):
+>       elif oeroot.find (' ') != -1:
+>           messages = messages + "Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space."
 >
-> otherwise we should fix right side to use ${PN/eglibc/glibc} to keep
-> eglibc-nativesdk from providing glibc-utils (glibc-nativesdk-utils only).
+> -    # Check that we don't have duplicate entries in PACKAGE_ARCHS
+> +    # Check that we don't have duplicate entries in PACKAGE_ARCHS&  that TUNE_PKGARCH is in PACKAGE_ARCHS
+>       pkgarchs = data.getVar('PACKAGE_ARCHS', e.data, True)
+> +    tunepkg = data.getVar('TUNE_PKGARCH', e.data, True)
+> +    tunefound = False
+>       seen = {}
+>       dups = []
 >
-Martin,
+> @@ -385,9 +387,15 @@ def check_sanity(e):
+>   	    dups.append(pa)
+>   	else:
+>   	    seen[pa] = 1
+> +	if pa == tunepkg:
+> +	    tunefound = True
+> +
+>       if len(dups):
+>          messages = messages + "Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: %s" % " ".join(dups)
+>
+> +    if tunefound == False:
+> +       messages = messages + "Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (%s)." % tunepkg
+> +
+>       if messages != "":
+>           raise_sanity_error(messages)
+>
 
-Richard pushed a fix to this and possibly addressed most of your changes 
-in the above patch also, please rebase you patch against the 
-oe-core/master and resend if you have any additional fixes to make in 
-this area.
+Merged as is into OE-Core, we still want to check for duplicates since 
+it means something else might be wrong.
 
 Thanks
 	Sau!
 
-> Regards,
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
