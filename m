@@ -1,24 +1,19 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/EqyjdtY6W4SEOzpDPl3/KpQXAZub4dJI=])
+	ident=[U2FsdGVkX1+9dCWVLkJR2mk3+zWQ3Al2S5Smj3FB8ww=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QoM92-0007ik-UO
+	(envelope-from <galak@kernel.crashing.org>) id 1QoMO0-00081o-SQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 23:04:57 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72L0YcE030406
+	Tue, 02 Aug 2011 23:20:25 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72LG3qR005648
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Aug 2011 16:00:34 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
+	Tue, 2 Aug 2011 16:16:04 -0500
 From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <1312317548.2344.612.camel@rex>
-Date: Tue, 2 Aug 2011 16:00:35 -0500
-Message-Id: <992464A7-1010-4A47-BFAA-A7F93C683C99@kernel.crashing.org>
-References: <1312312720-20828-1-git-send-email-galak@kernel.crashing.org>
-	<1312317548.2344.612.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] tune/arch-powerpc64: keep insync with arch-powerpc.inc
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Aug 2011 16:16:03 -0500
+Message-Id: <1312319763-4379-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH] gcc: Fix setting of GLIBC_DYNAMIC_LINKER
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,66 +28,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 21:04:57 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Aug 2011 21:20:25 -0000
 
+The sed regex in do_configure_prepend was producing the following result:
 
-On Aug 2, 2011, at 3:39 PM, Richard Purdie wrote:
+ #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "/lib64//ld-linux-x86-64.so.2"
 
-> On Tue, 2011-08-02 at 14:18 -0500, Kumar Gala wrote:
->> * Add DEFAULTTUNE setting
->> * Sync TUNE_PKGARCH with:
->> 	commit 20f285728219c1efcc23d8e861902c212893c68d
->> 	Author: Richard Purdie <richard.purdie@linuxfoundation.org>
->> 	Date:   Tue Aug 2 12:40:06 2011 +0100
->>=20
->> 	    tune/ppc: Fix various TUNE_PKGARCH issues
->=20
-> Quick question, are all ppc64 cores ppc32 capable or not?
->=20
-> Cheers,
->=20
-> Richard
+instead of
 
-yes
+ #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
 
-- k
+Additionally, with the regex fixed the manipulation of SYSTEMLIBS_DIR
+needs to be removed.
 
->=20
->> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
->> ---
->> .../machine/include/powerpc/arch-powerpc64.inc     |    5 +++++
->> 1 files changed, 5 insertions(+), 0 deletions(-)
->>=20
->> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc =
-b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
->> index a965d59..daad355 100644
->> --- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
->> +++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
->> @@ -1,8 +1,13 @@
->> +DEFAULTTUNE ?=3D "powerpc64"
->> +
->> TUNEVALID[m64] =3D "Power ELF64 standard ABI"
->> TUNE_CONFLICTS[m64] =3D "m32 nf"
->> TUNE_CCARGS +=3D "${@bb.utils.contains("TUNE_FEATURES", "m64", =
-"-m64", "", d)}"
->> TUNE_ARCH .=3D "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], =
-"powerpc64", "", d)}"
->>=20
->> +PPCPKGARCH =3D "${TUNE_ARCH}"
->> +TUNE_PKGARCH ?=3D "${PPCPKGARCH}"
->> +
->> AVAILTUNES +=3D "powerpc64"
->> TUNE_FEATURES_tune-powerpc64 ?=3D "m64 fpu-hard"
->> BASE_LIB_tune-powerpc64 =3D "lib64"
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+---
+ meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |   12 ++++++++----
+ meta/recipes-devtools/gcc/gcc_4.5.1.bb             |    2 +-
+ meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb    |    2 +-
+ 4 files changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index b054266..3a6f273 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index aac6d69..83a3972 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -66,11 +66,15 @@ SYSTEMLIBS1 = "${target_libdir}/"
+ do_configure_prepend () {
+ 	# Change the default dynamic linker path, only useful for SDK, other's value
+ 	# are not changed according to the SYSTEMLIBS_DIR
++	#
++	# We want something like the following:
++	# 	#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
++	# becomes
++	#	#define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
++	#
+ 	sed -i ${S}/gcc/config/*/linux*.h -e \
+-		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 SYSTEMLIBS_DIR\2#'
++		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \( *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR"/\3#'
+ 
+-	SYSTEMLIBS_DIR=`dirname ${SYSTEMLIBS}`
+-	[ "$SYSTEMLIBS_DIR" = "/" ] && SYSTEMLIBS_DIR=""
+ 	# teach gcc to find correct target includedir when checking libc ssp support
+ 	mkdir -p ${B}/gcc
+ 	echo "NATIVE_SYSTEM_HEADER_DIR = ${SYSTEMHEADERS}" > ${B}/gcc/t-oe
+@@ -85,7 +89,7 @@ do_configure_prepend () {
+ #ifndef STANDARD_STARTFILE_PREFIX_2
+ #define STANDARD_STARTFILE_PREFIX_2 "${SYSTEMLIBS1}"
+ #endif
+-#define SYSTEMLIBS_DIR "$SYSTEMLIBS_DIR"
++#define SYSTEMLIBS_DIR "$SYSTEMLIBS"
+ #endif /* ! GCC_DEFAULTS_H */
+ _EOF
+ 	mv ${B}/gcc/defaults.h.new ${B}/gcc/defaults.h
+diff --git a/meta/recipes-devtools/gcc/gcc_4.5.1.bb b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
+index f036cb1..75901ba 100644
+--- a/meta/recipes-devtools/gcc/gcc_4.5.1.bb
++++ b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
+@@ -1,4 +1,4 @@
+-PR = "r8"
++PR = "r9"
+ require gcc-${PV}.inc
+ require gcc-configure-target.inc
+ require gcc-package-target.inc
+diff --git a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
+index 9fd2b0a..1bbab50 100644
+--- a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
++++ b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
+@@ -1,4 +1,4 @@
+-PR = "r5"
++PR = "r6"
+ 
+ require gcc-${PV}.inc
+ require gcc-configure-target.inc
+-- 
+1.7.3.4
 
 
 
