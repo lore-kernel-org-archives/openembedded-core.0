@@ -1,30 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QoEXN-0000NW-0h for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 14:57:33 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p72CrDei015527
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Aug 2011 13:53:13 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 14687-07 for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Aug 2011 13:53:09 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p72Cr826015521
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Aug 2011 13:53:09 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 02 Aug 2011 13:52:52 +0100
-Message-ID: <1312289572.2344.589.camel@rex>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1QoEgR-0000rv-HA
+	for openembedded-core@lists.openembedded.org;
+	Tue, 02 Aug 2011 15:06:55 +0200
+Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QoEcG-0002Qk-Hw
+	for openembedded-core@lists.openembedded.org;
+	Tue, 02 Aug 2011 15:02:36 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 02 Aug 2011 14:02:35 +0100
+In-Reply-To: <4E36D800.1050906@mentor.com>
+References: <1312208500-13381-1-git-send-email-galak@kernel.crashing.org>
+	<1312209045.30326.515.camel@phil-desktop>
+	<4727DFCB-0AA2-43D1-A0CA-58717D815FE8@kernel.crashing.org>
+	<1312214835.30326.528.camel@phil-desktop> <4E36D800.1050906@mentor.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1312290156.4325.19.camel@phil-desktop>
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] tune/ppc: Fix various TUNE_PKGARCH issues
+Subject: Re: [PATCH] gcc: Add ability for tune files to pass in configure options to gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,95 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 12:57:33 -0000
+X-List-Received-Date: Tue, 02 Aug 2011 13:06:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-We need to ensure only one value ends up in TUNE_PKGARCH rather than several.
-This change ensures consistency accross all the PPC tune files and that they
-correctly inherit the core value but also allow it to be overwritten.
+On Mon, 2011-08-01 at 09:44 -0700, Tom Rini wrote:
+> On 08/01/2011 09:07 AM, Phil Blundell wrote:
+> > On Mon, 2011-08-01 at 09:37 -0500, Kumar Gala wrote:
+> >> Not sure I understand the statement about disambiguate the resulting compilers, on PPC where I intend to utilize this we'd have the toolchains already named something like:
+> > 
+> > The thing about disambiguating was that, if you're going to modify the
+> > configure opts for gcc-cross based (indirectly) on ${MACHINE} you need
+> > to consider what happens if you have a single build directory that's
+> > being used for multiple MACHINEs.
+> 
+> What, I think, Kumar is driving at is why are you saying MACHINE when
+> it's a per core tune he's doing.  eg, every e5500 would do --with-cpu=e5500
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-index 8cc76ab..da1a1d6 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-@@ -20,7 +20,8 @@ ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-e
- 
- PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
- 
--TUNE_PKGARCH ?= "${TUNE_ARCH}${PPCPKGSFX_FPU}"
-+PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
-+TUNE_PKGARCH ?= "${PPCPKGARCH}"
- 
- # Basic tune definitions
- AVAILTUNES += "powerpc powerpc-nf" 
-diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
-index 7c05394..da8114f 100644
---- a/meta/conf/machine/include/tune-ppc603e.inc
-+++ b/meta/conf/machine/include/tune-ppc603e.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppc603e] = "Enable ppc603e specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "-mcpu=603e", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppc603e", "ppc603e", "", d)}"
-+TUNE_PKGARCH = "${@bb.utils.contains('TUNE_FEATURES', 'ppc603e', 'ppc603e', '${PPCPKGARCH}', d)}"
- 
- AVAILTUNES += "ppc603e"
- TUNE_FEATURES_tune-ppc603e = "m32 fpu-hard ppc603e"
-diff --git a/meta/conf/machine/include/tune-ppce300c2.inc b/meta/conf/machine/include/tune-ppce300c2.inc
-index bad2611..5eea4a6 100644
---- a/meta/conf/machine/include/tune-ppce300c2.inc
-+++ b/meta/conf/machine/include/tune-ppce300c2.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppce300c2] = "Enable ppce300c2 specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce300c2", "-mcpu=e300c2", "", d)}"
--TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce300c2", "ppce300c2", "${TUNE_ARCH}", d)}"
-+TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce300c2", "ppce300c2", "${PPCPKGARCH}", d)}"
- 
- AVAILTUNES += "ppce300c2"
- TUNE_FEATURES_tune-ppce300c2 = "m32 fpu-soft ppce300c2"
-diff --git a/meta/conf/machine/include/tune-ppce500.inc b/meta/conf/machine/include/tune-ppce500.inc
-index c34d631..709e14f 100644
---- a/meta/conf/machine/include/tune-ppce500.inc
-+++ b/meta/conf/machine/include/tune-ppce500.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppce500] = "Enable ppce500 specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "-mcpu=8540", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "ppce500", "", d)}"
-+TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500", "ppce500", "${PPCPKGARCH}", d)}"
- 
- TUNEVALID[spe] = "Enable SPE ABI extensions"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe", "", d)}"
-diff --git a/meta/conf/machine/include/tune-ppce500mc.inc b/meta/conf/machine/include/tune-ppce500mc.inc
-index 73217dd..64e7bdc 100644
---- a/meta/conf/machine/include/tune-ppce500mc.inc
-+++ b/meta/conf/machine/include/tune-ppce500mc.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppce500mc] = "Enable ppce500mc specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "-mcpu=e500mc", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "ppce500mc", "", d)}"
-+TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500mc", "ppce500mc", "${PPCPKGARCH}", d)}"
- 
- AVAILTUNES += "ppce500mc"
- TUNE_FEATURES_tune-ppce500mc = "m32 fpu-hard ppce500mc"
-diff --git a/meta/conf/machine/include/tune-ppce500v2.inc b/meta/conf/machine/include/tune-ppce500v2.inc
-index 819d68a..0cbe5af 100644
---- a/meta/conf/machine/include/tune-ppce500v2.inc
-+++ b/meta/conf/machine/include/tune-ppce500v2.inc
-@@ -4,7 +4,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- 
- TUNEVALID[ppce500v2] = "Enable ppce500v2 specific processor optimizations"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", "-mcpu=8548", "", d)}"
--TUNE_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", "ppce500v2", "", d)}"
-+TUNE_PKGARCH = "${@bb.utils.contains("TUNE_FEATURES", "ppce500v2", "ppce500v2", "${PPCPKGARCH}", d)}"
- 
- TUNEVALID[spe] = "Enable SPE ABI extensions"
- TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "spe", "-mabi=spe -mspe", "", d)}"
+I said MACHINE because, in general, it's the MACHINE which selects the
+tune.  If it's the case that (for powerpc at least) all the tunes end up
+setting a distinct PACKAGE_ARCH then this probably is a non-issue there,
+but that isn't true in the general case.  (For example, the arm926ejs
+tune file sets PACKAGE_ARCH=armv5te or something, so it wouldn't be
+sensible for it to be configuring gcc --with-cpu=arm926ej-s.)
+
+Likewise for gcc-cross, if you're going to let this apply there then you
+need to make sure that the TARGET_ARCH value in the triplet is at least
+as specific as the tuning you ask for, otherwise you will end up with
+multiple different compilers all called armv5te-oe-linux-gcc or
+whatever.
+
+p.
 
 
 
