@@ -1,25 +1,33 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QoDDI-0004St-CK
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 13:32:44 +0200
-Received: by wyg30 with SMTP id 30so2443309wyg.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QoDSA-0004jg-R0 for openembedded-core@lists.openembedded.org;
+	Tue, 02 Aug 2011 13:48:07 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p72BhhRL015083
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2011 04:28:23 -0700 (PDT)
-Received: by 10.216.141.166 with SMTP id g38mr1911904wej.54.1312284502990;
-	Tue, 02 Aug 2011 04:28:22 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id t46sm3950109wec.14.2011.08.02.04.28.21
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 02 Aug 2011 04:28:22 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 2 Aug 2011 13:28:16 +0200
-Message-Id: <7743C457-85FC-40B5-A6B6-3C7C0D1D6C05@dominion.thruhere.net>
+	Tue, 2 Aug 2011 12:43:43 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14687-03 for <openembedded-core@lists.openembedded.org>;
+	Tue,  2 Aug 2011 12:43:39 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p72BhZ5b015077
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Aug 2011 12:43:35 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Ideal (combined) repo layout?
+In-Reply-To: <1312249633-23675-1-git-send-email-raj.khem@gmail.com>
+References: <1312249633-23675-1-git-send-email-raj.khem@gmail.com>
+Date: Tue, 02 Aug 2011 12:43:19 +0100
+Message-ID: <1312285399.2344.581.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] scripts/runqemu: grep for line beginning with TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,58 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 11:32:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Aug 2011 11:48:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Mon, 2011-08-01 at 18:47 -0700, Khem Raj wrote:
+> Currently the grep regexp matches any occurance of
+> 'TMPDIR=' but if you have another variable defined
+> e.g. OE_BUILD_TMPDIR=xxx then that gets picked up
+> too.
+> 
+> $ bitbake -e | grep TMPDIR=\"
+> TMPDIR="/home/kraj/work/angstrom/build/tmp-angstrom_2010_x-eglibc"
+> OE_BUILD_TMPDIR="/home/kraj/work/angstrom/build/tmp-angstrom_2010_x"
+> 
+> So we become a bit more stringent and look for
+> line starting with TMPDIR
+> 
+> $ bitbake -e | grep ^TMPDIR=\"
+> TMPDIR="/home/kraj/work/angstrom/build/tmp-angstrom_2010_x-eglibc"
+> 
+> make sure that it greps
+> only TMPDIR=xxx occurance and not values of other variables
+> whose names happens to end with TMPDIR
 
-I've been experimenting with a combined repo =
-(https://github.com/koenkooi/Angstrom-integration-layer/) the past few =
-days and I have some mixed feelings about it. I tried to mimic the yocto =
-setup and the questions I get from people are "how do I know where all =
-the stuff is originally from", "what if I want to contribute upstream" =
-and "git submodules are awesome, combo repos aren't".=20
+Merged to master, thanks.
 
-So let's assume that we want a single git repo that people can clone the =
-way they expect (awesome, submodules ruled out already), is intuitive to =
-use and facilitates contributing back upstream. Since this is a from =
-scratch effort I don't need to mimic yocto since, but can if it makes =
-sense. Having said all that, here's the layout I was thinking of:
+Richard
 
-sources/
-	o bitbake (external git, bitbake)
-	o layers/
-		* meta (external git, oe-core)
-		* meta-openembedded (external git, meta-oe)
-		* meta-efl (external git, meta-oe)
-		* meta-angstrom (external git, meta-angstrom)
-		* ...
-	o downloads (DL_DIR)
-
-build/
-	o tmp(-$TCLIBC) (TMPDIR)
-	o shared-state-cache (SSTATE_DIR)
-
-output/
-	o images (DEPLOY_DIR_IMAGE)
-	o packages (DEPLOY_DIR_(IPK/RPM/DEB)
-
-conf/
-	o auto.conf  bblayers.conf  local.conf  sanity_info  site.conf =
-(under git control)
-
-All the meta-* directories are at the same level and the build output is =
-easier to find and not hidden a few levels deep in build/TMPDIR. I think =
-this would be an improvement over the existing angstrom and yocto =
-layout, but I've been doing this for the past 7 years so I'd appreciate =
-a fresh look from other people[1].
-
-regards,
-
-Koen
-
-[1] especially if you have been or are presently using eclipse, I don't =
-get along with IDEs=
 
 
