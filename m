@@ -1,27 +1,19 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX19a0okdQSx/ksBa1d49Fb79vGqoH7a5zps=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QoA1G-0005Xj-7E
+	(envelope-from <galak@kernel.crashing.org>) id 1QoABv-0005qB-Kp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 10:08:06 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.3])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qo9x4-0002Lo-Cs
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 10:03:46 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4E372E0A.1020504@mentor.com>
-References: <cover.1311758282.git.kai.kang@windriver.com>
-	<d5e06516ed6656364b8127740700d1403b72d567.1311758282.git.kai.kang@windriver.com>
-	<2070961.C8JsuWrOh5@perseus> <4E3728A7.1050707@linux.intel.com>
-	<4E372E0A.1020504@mentor.com>
-Date: Tue, 02 Aug 2011 09:03:38 +0100
-Message-ID: <1312272218.3223.15.camel@lenovo.internal.reciva.com>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 
-Subject: Re: [PATCH 1/1] ghostscript: fix parallel build issue
+	Tue, 02 Aug 2011 10:19:08 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p728EfAe002486
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Aug 2011 03:14:42 -0500
+From: Kumar Gala <galak@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Aug 2011 03:14:41 -0500
+Message-Id: <1312272881-15695-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH] automake: Fix issue with tar configure failing with large UID/GIDs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,101 +28,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 08:08:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Aug 2011 08:19:08 -0000
 
-On Mon, 2011-08-01 at 15:51 -0700, Tom Rini wrote:
-> On 08/01/2011 03:28 PM, Saul Wold wrote:
-> > On 07/30/2011 11:20 AM, Khem Raj wrote:
-> >> On Wednesday, July 27, 2011 05:34:45 PM Kang Kai wrote:
-> >>> From: Kang Kai<kai.kang@windriver.com>
-> >>>
-> >>> ghostscript fails some time on autobuilder, it seems a parallel build
-> >>> issue.
-> >>> Add patch to fix it.
-> >>>
-> >>> Fixes [Yocto #1202]
-> >>>
-> >>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
-> >>> ---
-> >>>   .../ghostscript-9.02-parallel-make.patch           |   17
-> >>> +++++++++++++++++
-> >>> .../ghostscript/ghostscript_9.02.bb                |    3 ++-
-> >>>   2 files changed, 19 insertions(+), 1 deletions(-)
-> >>>   create mode 100644
-> >>> meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parallel-mak
-> >>>
-> >>> e.patch
-> >>>
-> >>> diff --git
-> >>> a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parallel-m
-> >>>
-> >>> ake.patch
-> >>> b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parallel-m
-> >>>
-> >>> ake.patch new file mode 100644
-> >>> index 0000000..76d1676
-> >>> --- /dev/null
-> >>> +++
-> >>> b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parallel-m
-> >>>
-> >>> ake.patch @@ -0,0 +1,17 @@
-> >>> +When parallel make it will fail with multi copy, see
-> >>> +http://bugzilla.pokylinux.org/show_bug.cgi?id=1202
-> >>> +
-> >>> +Upstream-Status: Pending
-> >>> +
-> >>> +Signed-off-by: Kang Kai<kai.kang@windriver.com>
-> >>> +--- ghostscript-9.02/base/unixhead.mak.orig    2011-07-27
-> >>> 17:06:17.749456100
-> >>> +0800 ++++ ghostscript-9.02/base/unixhead.mak    2011-07-27
-> >>> 17:06:37.449456100
-> >>> +0800 +@@ -54,7 +54,7 @@
-> >>> +
-> >>> + # Define generic commands.
-> >>> +
-> >>> +-CP_=cp
-> >>> ++CP_=cp -f
-> >>
-> >> It means it will first delete the target if it exists. Did you check
-> >> if this
-> >> is correct behavior ?
-> >>
-> > Khem,
-> > 
-> > As far as I know the file is that is being copied to is the same file
-> > and the CP is only used in that case, the 2 files are copied to the same
-> > location due to the Parallel make.
-> 
-> Er, that sounds like we're just changing the race around.  Now we could
-> get an incomplete file?
+Add a fixup for trying to create ustar archives when the users
+UID or GID is larger than the format allows.
 
-I don't think you would get an incomplete file, but using "cp -f" just
-makes the race less likely rather than eliminating it.  You can still
-get:
+Based on a patch from Tom Rini
 
-cp 1			cp 2
-open(foo) = -EACCESS
-unlink(foo)
-			open(foo) = 0
-open(foo) = -EACCESS
-exit(1)
-			write()
-			exit(0)
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+---
+ meta/recipes-devtools/automake/automake.inc        |    2 +-
+ .../prefer-cpio-over-pax-for-ustar-archives.patch  |   26 ++++++++++++++++++++
+ meta/recipes-devtools/automake/automake_1.11.1.bb  |    8 +++++-
+ 3 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
 
-if the two copies of cp end up running at the same time.
-
-It seems pretty clear that the right fix is to figure out why this race
-is happening in the first place and adjust the make rules to avoid it,
-rather than trying to paper over it by making the conflict harmless.  If
-that's hard/impossible for any reason then "cp -n" might possibly be
-acceptable since then the copy of cp that loses the race will just do
-nothing harmlessly.  I don't think -n is POSIX though so this is
-definitely a less-good workaround.
-
-p.
-
+diff --git a/meta/recipes-devtools/automake/automake.inc b/meta/recipes-devtools/automake/automake.inc
+index beeec7b..96d797f 100644
+--- a/meta/recipes-devtools/automake/automake.inc
++++ b/meta/recipes-devtools/automake/automake.inc
+@@ -4,7 +4,7 @@ Standards. Automake requires the use of Autoconf."
+ LICENSE = "GPLv2"
+ HOMEPAGE = "http://www.gnu.org/software/automake/"
+ SECTION = "devel"
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "${GNU_MIRROR}/automake/automake-${PV}.tar.bz2 "
+ 
+diff --git a/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch b/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
+new file mode 100644
+index 0000000..3fda937
+--- /dev/null
++++ b/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
+@@ -0,0 +1,26 @@
++Index: automake-1.11.1/m4/tar.m4
++===================================================================
++--- automake-1.11.1.orig/m4/tar.m4
+++++ automake-1.11.1/m4/tar.m4
++@@ -30,7 +30,7 @@ m4_if([$1], [v7],
++               [m4_fatal([Unknown tar format])])
++ AC_MSG_CHECKING([how to create a $1 tar archive])
++ # Loop over all known methods to create a tar archive until one works.
++-_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
+++_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) cpio pax none'
++ _am_tools=${am_cv_prog_tar_$1-$_am_tools}
++ # Do not fold the above two line into one, because Tru64 sh and
++ # Solaris sh will not grok spaces in the rhs of `-'.
++Index: automake-1.11.1/Makefile.in
++===================================================================
++--- automake-1.11.1.orig/Makefile.in
+++++ automake-1.11.1/Makefile.in
++@@ -44,7 +44,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/a
++ 	$(top_srcdir)/m4/missing.m4 $(top_srcdir)/m4/mkdirp.m4 \
++ 	$(top_srcdir)/m4/options.m4 $(top_srcdir)/m4/runlog.m4 \
++ 	$(top_srcdir)/m4/sanity.m4 $(top_srcdir)/m4/strip.m4 \
++-	$(top_srcdir)/m4/substnot.m4 $(top_srcdir)/m4/tar.m4 \
+++	$(top_srcdir)/m4/substnot.m4 \
++ 	$(top_srcdir)/configure.ac
++ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
++ 	$(ACLOCAL_M4)
+diff --git a/meta/recipes-devtools/automake/automake_1.11.1.bb b/meta/recipes-devtools/automake/automake_1.11.1.bb
+index b231a94..764b6fc 100644
+--- a/meta/recipes-devtools/automake/automake_1.11.1.bb
++++ b/meta/recipes-devtools/automake/automake_1.11.1.bb
+@@ -32,11 +32,17 @@ RDEPENDS_automake-native = "autoconf-native perl-native-runtime"
+ PATHFIXPATCH = "file://path_prog_fixes.patch;patch=1"
+ PATHFIXPATCH_virtclass-native = ""
+ 
+-SRC_URI += "${PATHFIXPATCH}"
++SRC_URI += "${PATHFIXPATCH} \
++	    file://prefer-cpio-over-pax-for-ustar-archives.patch;patch=1"
+ 
+ SRC_URI[md5sum] = "c2972c4d9b3e29c03d5f2af86249876f"
+ SRC_URI[sha256sum] = "5b159d3c0e0a1f87de71b68bcb9f1a1c49e9e71749c9b723f17e2e1e0295c7ae"
+ 
++do_configure () {
++	touch ${S}/Makefile.in
++	autotools_do_configure
++}
++
+ do_install () {
+ 	oe_runmake 'DESTDIR=${D}' install
+ 	install -d ${D}${datadir}
+-- 
+1.7.3.4
 
 
 
