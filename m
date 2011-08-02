@@ -1,29 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QoGM2-0003wM-28
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 16:53:59 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p72Enarh016999
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Aug 2011 07:49:36 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 2 Aug 2011 07:49:35 -0700
-Message-ID: <4E380E7E.9050803@windriver.com>
-Date: Tue, 2 Aug 2011 09:49:34 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1QoGO3-0003zq-Hs; Tue, 02 Aug 2011 16:56:03 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 02 Aug 2011 07:51:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,306,1309762800"; d="scan'208";a="34278617"
+Received: from unknown (HELO helios.localnet) ([10.255.18.59])
+	by azsmga001.ch.intel.com with ESMTP; 02 Aug 2011 07:51:39 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 2 Aug 2011 15:51:38 +0100
+User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
+References: <201108021226.34560.paul.eggleton@linux.intel.com>
+	<201108021521.38404.paul.eggleton@linux.intel.com>
+	<CABcZANmfd=HbE-wLQ6y-6s_DNYOhDQ7uYPuJ=Yebb6cpVpnykA@mail.gmail.com>
+In-Reply-To: <CABcZANmfd=HbE-wLQ6y-6s_DNYOhDQ7uYPuJ=Yebb6cpVpnykA@mail.gmail.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1312243899.git.mark.hatle@windriver.com>
-	<d97dcf096a3a72a2a087b2dbbcdd74c853f7e940.1312243899.git.mark.hatle@windriver.com>
-	<1312292802.4325.33.camel@phil-desktop>
-In-Reply-To: <1312292802.4325.33.camel@phil-desktop>
-Subject: Re: [PATCH 5/5] update-alternatives: Add alternatives as a runtime provide
+Message-Id: <201108021551.38368.paul.eggleton@linux.intel.com>
+Cc: Chris Larson <clarson@kergoth.com>, bitbake-devel@lists.openembedded.org,
+	Phil Blundell <philb@gnu.org>
+Subject: Re: [bitbake-devel] Layer priorities influencing default version selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,60 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 14:53:59 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Tue, 02 Aug 2011 14:56:03 -0000
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 8/2/11 8:46 AM, Phil Blundell wrote:
-> On Mon, 2011-08-01 at 19:17 -0500, Mark Hatle wrote:
->> The following allows RPM to generate the SDK image, however without it
->> we get a failure because the system has nothing that provides /bin/sh.
->>
->> Unfortunately the patch causes failures with ipk and deb packages because
->> they can not have filenames within their RPROVIDES.  I'm looking for some
->> type of a resolution to the issue, the only thing I can think of is to
->> add a way to manually add a FILERPROVIDE for the items.  This will require
->> changes to the way FILERPROVIDE is currently generated... but I'm not sure
->> how we can automatically generate the FILERPROVIDE values without the use of
->> python...
->>
->> Any suggestions?
+On Tuesday 02 August 2011 15:27:58 Chris Larson wrote:
+> On Tue, Aug 2, 2011 at 7:21 AM, Paul Eggleton
 > 
-> It's never really been the intent that update-alternatives should put
-> the name of the link being provided into RPROVIDES.  If you want to
-> solve the specific problem with /bin/sh then just adding RPROVIDES_${PN}
-> += "virtual-bourne-shell" or something to bash and busybox is probably
-> the easiest way of doing that.
+> <paul.eggleton@linux.intel.com> wrote:
+> > On Tuesday 02 August 2011 15:14:41 Chris Larson wrote:
+> >> as config/class priority is
+> >> determined by order of entries in BBLAYERS, whereas recipe priority is
+> >> determined by layer.conf.
+> > 
+> > Is that a good thing though? At the moment I'm not convinced that it is.
 > 
-> I wouldn't be entirely opposed to the concept of what you're proposing
-> here, though.  Something like:
-> 
-> RPROVIDES_${PN} += "${@' '.join(map(lambda x:
-> legitimize_package_name("virtual-path-" + x), filter(lambda x: x != '',
-> [ d.getVar('ALTERNATIVE_LINK', True) or '' ] +
-> (d.getVar('ALTERNATIVE_LINKS', True) or '').split())))}"
-> 
-> might be what you want, perhaps.  I'm not sure that the resulting
-> virtual names will be very pretty though.
+> I probably could have worded my reply better. I was pointing out the
+> fact that the order is determined in two places right now as being one
+> reason why I agreed with his statement that ordering determined by the
+> layer isn't ideal.
 
-Hmm.. Coming from the RPM world, the virtual-path- because we can't just
-"provide" a file in the system seems a bit wonky to me.  But it should be able
-to work.  For RPM at least, we'd want a reversing function to turn virtual paths
-back into real paths.
+Well, all the same I'd like to have that question answered, maybe that's a 
+different thread.
 
-If I have time today, I'll try to implement a proof of concept and see if I can
-get it to work reasonably well.
+Back to Phil's original point though, I tend to think issues with meta-oe 
+ought to be solved by fixing meta-oe - if some things in meta-oe are causing so 
+much trouble that we have to down-grade the priority of the layer in order to 
+squelch them, that's bad.
 
---Mark
+Cheers,
+Paul
 
-> p.
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
