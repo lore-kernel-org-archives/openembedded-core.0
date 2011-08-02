@@ -1,26 +1,19 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX1/sRkaNdsUhAQsjwyBvBm3LmS2kDkLmJtQ=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QoK4M-0002CU-KS
+	(envelope-from <galak@kernel.crashing.org>) id 1QoKYQ-0004qH-D2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 20:52:00 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Aug 2011 11:47:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,307,1309762800"; d="scan'208";a="35066428"
-Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Aug 2011 11:47:36 -0700
-Message-ID: <4E384647.7020407@linux.intel.com>
-Date: Tue, 02 Aug 2011 11:47:35 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
-	Lightning/1.0b3pre Thunderbird/3.1.10
-MIME-Version: 1.0
+	Tue, 02 Aug 2011 21:23:02 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72JIfCJ012383
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Aug 2011 14:18:41 -0500
+From: Kumar Gala <galak@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-References: <1311942290-27217-1-git-send-email-noor_ahsan@mentor.com>	<4E3843B1.2060008@linux.intel.com>
-	<1312310743.3223.17.camel@lenovo.internal.reciva.com>
-In-Reply-To: <1312310743.3223.17.camel@lenovo.internal.reciva.com>
-Subject: Re: [PATCH] kernel,cml1.bbclass: Move menuconfig to cml1
+Date: Tue,  2 Aug 2011 14:18:40 -0500
+Message-Id: <1312312720-20828-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH] tune/arch-powerpc64: keep insync with arch-powerpc.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +28,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 18:52:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Aug 2011 19:23:02 -0000
 
-On 08/02/2011 11:45 AM, Phil Blundell wrote:
-> On Tue, 2011-08-02 at 11:36 -0700, Saul Wold wrote:
->> I think this patch will break the linux-* recipes if someone tries to
->> use the menuconfig task.
->>
->> I think you need to also modify the linux-* recipes that currently
->> inherit kernel to also include cmd1
->
-> kernel.bbclass already does "inherit cml1" so I think it should be fine.
->
-Thanks, missed that, searched other places, but did not notice it there!
+* Add DEFAULTTUNE setting
+* Sync TUNE_PKGARCH with:
+	commit 20f285728219c1efcc23d8e861902c212893c68d
+	Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Date:   Tue Aug 2 12:40:06 2011 +0100
 
-Issue resolved, will pull it now.
+	    tune/ppc: Fix various TUNE_PKGARCH issues
 
-Sau!
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+---
+ .../machine/include/powerpc/arch-powerpc64.inc     |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+index a965d59..daad355 100644
+--- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
++++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
+@@ -1,8 +1,13 @@
++DEFAULTTUNE ?= "powerpc64"
++
+ TUNEVALID[m64] = "Power ELF64 standard ABI"
+ TUNE_CONFLICTS[m64] = "m32 nf"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "m64", "-m64", "", d)}"
+ TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], "powerpc64", "", d)}"
+ 
++PPCPKGARCH = "${TUNE_ARCH}"
++TUNE_PKGARCH ?= "${PPCPKGARCH}"
++
+ AVAILTUNES += "powerpc64"
+ TUNE_FEATURES_tune-powerpc64 ?= "m64 fpu-hard"
+ BASE_LIB_tune-powerpc64 = "lib64"
+-- 
+1.7.3.4
+
 
 
