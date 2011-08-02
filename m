@@ -1,26 +1,36 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-pz0-f43.google.com ([209.85.210.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QoJTT-00012q-OB
+	(envelope-from <raj.khem@gmail.com>) id 1QoJkv-0001L2-9j
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 20:13:51 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Aug 2011 11:09:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,307,1309762800"; d="scan'208";a="35054364"
-Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Aug 2011 11:09:27 -0700
-Message-ID: <4E383D57.9060003@linux.intel.com>
-Date: Tue, 02 Aug 2011 11:09:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
-	Lightning/1.0b3pre Thunderbird/3.1.10
-MIME-Version: 1.0
+	Tue, 02 Aug 2011 20:31:53 +0200
+Received: by pzk1 with SMTP id 1so68983pzk.16
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Aug 2011 11:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=+fI5Pb7LD+jcxS9njWiozscKkYzsF7mMOR+ngKuZ1/4=;
+	b=UZP3e/uVQsQEv8Pyx2uPot7E9H2NtYHZ8j0QZW+YUmiWVa3xLsygmOXbI0HdBZd45X
+	XC+RGh9U4IuhbmlWIo3OX2/35bBinz0oAyydeVu5zL0CsHzm/bsfv7iklhkDzICm6L9g
+	RUe1iAQcXjM1jrLPpZycSs+BG8Ggj1Y2W2pak=
+Received: by 10.68.31.199 with SMTP id c7mr4056136pbi.231.1312309650107;
+	Tue, 02 Aug 2011 11:27:30 -0700 (PDT)
+Received: from sakrah.homelinux.org
+	(99-57-141-118.lightspeed.sntcca.sbcglobal.net [99.57.141.118])
+	by mx.google.com with ESMTPS id d1sm72047pbj.88.2011.08.02.11.27.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 02 Aug 2011 11:27:27 -0700 (PDT)
+Date: Tue, 2 Aug 2011 11:28:44 -0700
+From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1311885993-13462-1-git-send-email-galak@kernel.crashing.org>
-In-Reply-To: <1311885993-13462-1-git-send-email-galak@kernel.crashing.org>
-Subject: Re: [PATCH] bitbake.conf: Add PACKAGE_ARCHS to include TUNE_PKGARCH
+Message-ID: <20110802182844.GA10977@sakrah.homelinux.org>
+References: <cover.1311776363.git.richard.purdie@linuxfoundation.org>
+	<fe78c19406d856cb9473e062f1c2905dfe063c2a.1311776363.git.richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <fe78c19406d856cb9473e062f1c2905dfe063c2a.1311776363.git.richard.purdie@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH 2/4] gcc: Drop part of the 64bithack patch which is no longer used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,47 +45,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 18:13:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Aug 2011 18:31:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 07/28/2011 01:46 PM, Kumar Gala wrote:
-> Recent changes to how TUNE_PKGARCH is composed means it might not be in
-> the PACKAGE_EXTRA_ARCHS_tune list.  Rather than having to update all
-> such lists we just add TUNE_PKGARCH to PACKAGE_ARCHS.
->
-> An example, for ppc603e TUNE_PKGARCH is now:
->
-> 	powerpcppc603e
->
-> However, PACKAGE_EXTRA_ARCHS_tune-ppc603e = "powerpc ppc603e"
->
-> Thus we run into issues during things like rpm packagine since it will
-> not end up dealing the rpms created in a 'powerpcppc603e' directory.
->
-> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
+On (27/07/11 15:29), Richard Purdie wrote:
+> Since we now handle GLIBC_DYNAMIC_LINKER in gcc-configure-common.inc:
+> 
+> 's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 SYSTEMLIBS_DIR\2#'
+> 
+> we can drop the patch which changes a hardcoded value for this.
+> 
+> No PR bump since there is no code change resulting from this, its just
+> a cleanup.
+> 
+> There is still a valid question over the remainder of this patch and its
+> interaction with multilib configurations.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->   meta/conf/bitbake.conf |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 9c80f11..d8b9f36 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -104,7 +104,7 @@ SDK_CC_ARCH = "${BUILD_CC_ARCH}"
->   PACKAGE_ARCH = "${TUNE_PKGARCH}"
->   MACHINE_ARCH = "${@[bb.data.getVar('TUNE_PKGARCH', d, 1), bb.data.getVar('MACHINE', d, 1)][bool(bb.data.getVar('MACHINE', d, 1))].replace('-', '_')}"
->   PACKAGE_EXTRA_ARCHS ??= "${PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE}}"
-> -PACKAGE_ARCHS = "all any noarch ${PACKAGE_EXTRA_ARCHS} ${MACHINE_ARCH}"
-> +PACKAGE_ARCHS = "all any noarch ${TUNE_PKGARCH} ${PACKAGE_EXTRA_ARCHS} ${MACHINE_ARCH}"
->   # MACHINE_ARCH shouldn't be included here as a variable dependency
->   # since machine specific packages are handled using multimachine
->   PACKAGE_ARCHS[vardepsexclude] = "MACHINE_ARCH"
+>  .../recipes-devtools/gcc/gcc-4.5.1/64bithack.patch |   13 -------------
+>  meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch  |   13 -------------
+>  2 files changed, 0 insertions(+), 26 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.5.1/64bithack.patch b/meta/recipes-devtools/gcc/gcc-4.5.1/64bithack.patch
+> index 890cc2f..05eafe3 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.5.1/64bithack.patch
+> +++ b/meta/recipes-devtools/gcc/gcc-4.5.1/64bithack.patch
+> @@ -20,16 +20,3 @@ Index: gcc-4.5.0/gcc/config/i386/t-linux64
+>   
+>   LIBGCC = stmp-multilib
+>   INSTALL_LIBGCC = install-multilib
+> -Index: gcc-4.5.0/gcc/config/i386/linux64.h
+> -===================================================================
+> ---- gcc-4.5.0.orig/gcc/config/i386/linux64.h	2010-08-10 15:49:06.000000000 +0100
+> -+++ gcc-4.5.0/gcc/config/i386/linux64.h	2010-08-10 15:49:16.000000000 +0100
+> -@@ -59,7 +59,7 @@
+> -    done.  */
+> - 
+> - #define GLIBC_DYNAMIC_LINKER32 "/lib/ld-linux.so.2"
+> --#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
+> -+#define GLIBC_DYNAMIC_LINKER64 "/lib/ld-linux-x86-64.so.2"
 
+This change while I like it that we are moving to use default will now
+emit /lib64/ld-linux-x86-64.so.2 into INTERP section but I dont see
+a corresponding patch to fix root file systems where the defualt libdir
+for x86-64 is changed to be lib64
 
-Not pulled, this has been fixed in another way
+So this will end up in userspace not booting at all since init wont
+find the dynamic linker to start with.
 
 Thanks
-	Sau!
+
+-Khem
+
+
 
 
