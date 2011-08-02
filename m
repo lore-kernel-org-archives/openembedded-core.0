@@ -1,19 +1,34 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX185LZf2e/1P8r2s0fgIfFEf0j6I+42HzDE=])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QoNal-0001mY-0k
-	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 00:37:39 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72MXHsM011117
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Aug 2011 17:33:18 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Aug 2011 17:33:17 -0500
-Message-Id: <1312324397-1923-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH v2] gcc: Fix setting of GLIBC_DYNAMIC_LINKER
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QoNeE-0001uW-5G for openembedded-core@lists.openembedded.org;
+	Wed, 03 Aug 2011 00:41:14 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p72MamOO020402;
+	Tue, 2 Aug 2011 23:36:48 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19250-05; Tue,  2 Aug 2011 23:36:44 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p72Mae0P020396
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 2 Aug 2011 23:36:41 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <4805A8EA-3CA5-4BE5-A078-0F5B0DAA1710@kernel.crashing.org>
+References: <cover.1312182844.git.sgw@linux.intel.com>
+	<3e502d7441be9c7c25598237f79c527bdf3ce38e.1312182844.git.sgw@linux.intel.com>
+	<1312203799.2344.430.camel@rex>
+	<4805A8EA-3CA5-4BE5-A078-0F5B0DAA1710@kernel.crashing.org>
+Date: Tue, 02 Aug 2011 23:36:23 +0100
+Message-ID: <1312324583.2344.616.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 10/22] tune/arch-powerpc: Use fpu-soft to set PPCPKGSFX_FPU
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,98 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 22:37:39 -0000
+X-List-Received-Date: Tue, 02 Aug 2011 22:41:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The sed regex in do_configure_prepend was producing the following result:
+On Tue, 2011-08-02 at 13:31 -0500, Kumar Gala wrote:
+> On Aug 1, 2011, at 8:03 AM, Richard Purdie wrote:
+> 
+> > On Mon, 2011-08-01 at 00:36 -0700, Saul Wold wrote:
+> >> From: Kumar Gala <galak@kernel.crashing.org>
+> >> 
+> >> Its more likely that we explicitly set soft-floating point support for a
+> >> given target than hard.  So use 'fpu-soft' in TUNE_FEATURES rather than
+> >> 'fpu-hard' to determine setting 'nf' (no-float) in PPCPKGSFX_FPU.
+> >> 
+> >> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+> >> ---
+> >> meta/conf/machine/include/powerpc/arch-powerpc.inc |    2 +-
+> >> 1 files changed, 1 insertions(+), 1 deletions(-)
+> >> 
+> >> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> >> index 8cc76ab..013755d 100644
+> >> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> >> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
+> >> @@ -18,7 +18,7 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
+> >> 
+> >> ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
+> >> 
+> >> -PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
+> >> +PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "-nf", "", d)}"
+> >> 
+> >> TUNE_PKGARCH ?= "${TUNE_ARCH}${PPCPKGSFX_FPU}"
+> > 
+> > Whilst the change itself may or may not be ok, it would need to change
+> > the various boards that are already setting or not setting fpu-hard as a
+> > feature so as it stands this change is incomplete.
+>
+> Maybe I misunderstood when I first read this, did you mean we should
+> remove explicitly setting 'fpu-hard' on the boards / tune files that
+> are doing this?
 
- #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "/lib64/ld-linux-x86-64.so.2"
+Yes, that is what I meant.
 
-instead of removing the leading "/lib" or "/lib64".
+Cheers,
 
-Now we have it do:
-
- #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld-linux-x86-64.so.2"
-
-Additionally, with the regex fixed the manipulation of SYSTEMLIBS_DIR
-needs to be removed.
-
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
-* cleanup regex so we dont add in / explicity but just pull it in from 
-  how SYSTEMLIBS_DIR is set.
-
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    2 +-
- meta/recipes-devtools/gcc/gcc-configure-common.inc |   12 ++++++++----
- meta/recipes-devtools/gcc/gcc_4.5.1.bb             |    2 +-
- meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb    |    2 +-
- 4 files changed, 11 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index b054266..3a6f273 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r3"
-+PR = "r4"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index aac6d69..238496f 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -66,11 +66,15 @@ SYSTEMLIBS1 = "${target_libdir}/"
- do_configure_prepend () {
- 	# Change the default dynamic linker path, only useful for SDK, other's value
- 	# are not changed according to the SYSTEMLIBS_DIR
-+	#
-+	# We want something like the following:
-+	# 	#define GLIBC_DYNAMIC_LINKER64 "/lib64/ld-linux-x86-64.so.2"
-+	# becomes
-+	#	#define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld-linux-x86-64.so.2"
-+	#
- 	sed -i ${S}/gcc/config/*/linux*.h -e \
--		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 SYSTEMLIBS_DIR\2#'
-+		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \( *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR "\3#'
- 
--	SYSTEMLIBS_DIR=`dirname ${SYSTEMLIBS}`
--	[ "$SYSTEMLIBS_DIR" = "/" ] && SYSTEMLIBS_DIR=""
- 	# teach gcc to find correct target includedir when checking libc ssp support
- 	mkdir -p ${B}/gcc
- 	echo "NATIVE_SYSTEM_HEADER_DIR = ${SYSTEMHEADERS}" > ${B}/gcc/t-oe
-@@ -85,7 +89,7 @@ do_configure_prepend () {
- #ifndef STANDARD_STARTFILE_PREFIX_2
- #define STANDARD_STARTFILE_PREFIX_2 "${SYSTEMLIBS1}"
- #endif
--#define SYSTEMLIBS_DIR "$SYSTEMLIBS_DIR"
-+#define SYSTEMLIBS_DIR "${SYSTEMLIBS}"
- #endif /* ! GCC_DEFAULTS_H */
- _EOF
- 	mv ${B}/gcc/defaults.h.new ${B}/gcc/defaults.h
-diff --git a/meta/recipes-devtools/gcc/gcc_4.5.1.bb b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
-index f036cb1..75901ba 100644
---- a/meta/recipes-devtools/gcc/gcc_4.5.1.bb
-+++ b/meta/recipes-devtools/gcc/gcc_4.5.1.bb
-@@ -1,4 +1,4 @@
--PR = "r8"
-+PR = "r9"
- require gcc-${PV}.inc
- require gcc-configure-target.inc
- require gcc-package-target.inc
-diff --git a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
-index 9fd2b0a..1bbab50 100644
---- a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
-+++ b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
-@@ -1,4 +1,4 @@
--PR = "r5"
-+PR = "r6"
- 
- require gcc-${PV}.inc
- require gcc-configure-target.inc
--- 
-1.7.3.4
+Richard
 
 
 
