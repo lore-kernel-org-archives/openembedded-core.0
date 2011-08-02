@@ -1,25 +1,26 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX1+pQ13gGBwXUzI7M06U4yJuhQCNw3V1apk=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QoEgR-0000rv-HA
+	(envelope-from <galak@kernel.crashing.org>) id 1QoEp3-000101-C3
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 15:06:55 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QoEcG-0002Qk-Hw
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 15:02:36 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 02 Aug 2011 14:02:35 +0100
-In-Reply-To: <4E36D800.1050906@mentor.com>
+	Tue, 02 Aug 2011 15:15:50 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72DBOBN024506
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Aug 2011 08:11:25 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <1312217833.2344.511.camel@rex>
+Date: Tue, 2 Aug 2011 08:11:25 -0500
+Message-Id: <9C87AA3D-2AE6-4C57-B903-0D939E577BB8@kernel.crashing.org>
 References: <1312208500-13381-1-git-send-email-galak@kernel.crashing.org>
 	<1312209045.30326.515.camel@phil-desktop>
 	<4727DFCB-0AA2-43D1-A0CA-58717D815FE8@kernel.crashing.org>
-	<1312214835.30326.528.camel@phil-desktop> <4E36D800.1050906@mentor.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1312290156.4325.19.camel@phil-desktop>
-Mime-Version: 1.0
+	<1312214835.30326.528.camel@phil-desktop>
+	<4E36D800.1050906@mentor.com> <1312217833.2344.511.camel@rex>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1084)
 Subject: Re: [PATCH] gcc: Add ability for tune files to pass in configure options to gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,38 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 13:06:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Mon, 2011-08-01 at 09:44 -0700, Tom Rini wrote:
-> On 08/01/2011 09:07 AM, Phil Blundell wrote:
-> > On Mon, 2011-08-01 at 09:37 -0500, Kumar Gala wrote:
-> >> Not sure I understand the statement about disambiguate the resulting compilers, on PPC where I intend to utilize this we'd have the toolchains already named something like:
-> > 
-> > The thing about disambiguating was that, if you're going to modify the
-> > configure opts for gcc-cross based (indirectly) on ${MACHINE} you need
-> > to consider what happens if you have a single build directory that's
-> > being used for multiple MACHINEs.
-> 
-> What, I think, Kumar is driving at is why are you saying MACHINE when
-> it's a per core tune he's doing.  eg, every e5500 would do --with-cpu=e5500
-
-I said MACHINE because, in general, it's the MACHINE which selects the
-tune.  If it's the case that (for powerpc at least) all the tunes end up
-setting a distinct PACKAGE_ARCH then this probably is a non-issue there,
-but that isn't true in the general case.  (For example, the arm926ejs
-tune file sets PACKAGE_ARCH=armv5te or something, so it wouldn't be
-sensible for it to be configuring gcc --with-cpu=arm926ej-s.)
-
-Likewise for gcc-cross, if you're going to let this apply there then you
-need to make sure that the TARGET_ARCH value in the triplet is at least
-as specific as the tuning you ask for, otherwise you will end up with
-multiple different compilers all called armv5te-oe-linux-gcc or
-whatever.
-
-p.
+X-List-Received-Date: Tue, 02 Aug 2011 13:15:50 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+On Aug 1, 2011, at 11:57 AM, Richard Purdie wrote:
+
+> On Mon, 2011-08-01 at 09:44 -0700, Tom Rini wrote:
+>> On 08/01/2011 09:07 AM, Phil Blundell wrote:
+>>> On Mon, 2011-08-01 at 09:37 -0500, Kumar Gala wrote:
+>>>> Not sure I understand the statement about disambiguate the =
+resulting compilers, on PPC where I intend to utilize this we'd have the =
+toolchains already named something like:
+>>>=20
+>>> The thing about disambiguating was that, if you're going to modify =
+the
+>>> configure opts for gcc-cross based (indirectly) on ${MACHINE} you =
+need
+>>> to consider what happens if you have a single build directory that's
+>>> being used for multiple MACHINEs.
+>>=20
+>> What, I think, Kumar is driving at is why are you saying MACHINE when
+>> it's a per core tune he's doing.  eg, every e5500 would do =
+--with-cpu=3De5500
+>=20
+> The question is whether we'd like to get to the point of having more
+> toolchains or less toolchains. I'd personally like to get to the point
+> of less toolchains (e.g. one per arch) rather than more of them. We
+> already pass all the appropriate flags around in the ADT/sdk code and =
+in
+> our own cross builds, we could easily add those to the default target
+> environment too. This would actually make it clearer what is going on =
+to
+> the end user too rather than hiding the details into the gcc
+> compilation.
+>=20
+> So all things considered, I don't think this is the best way to go...
+>=20
+
+How is this done or exported to the user of an ADT/sdk toolchain?
+
+- k=
 
 
