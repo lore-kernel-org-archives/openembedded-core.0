@@ -1,22 +1,25 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1QoDBa-0004PG-GM
+	(envelope-from <koen@dominion.thruhere.net>) id 1QoDDI-0004St-CK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 13:30:58 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2011 04:26:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,305,1309762800"; d="scan'208";a="34217675"
-Received: from unknown (HELO helios.localnet) ([10.255.18.59])
-	by azsmga001.ch.intel.com with ESMTP; 02 Aug 2011 04:26:35 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 2 Aug 2011 12:26:34 +0100
-User-Agent: KMail/1.13.6 (Linux/2.6.38-8-generic-pae; KDE/4.6.2; i686; ; )
-MIME-Version: 1.0
-Message-Id: <201108021226.34560.paul.eggleton@linux.intel.com>
-Cc: bitbake-devel@lists.openembedded.org
-Subject: Layer priorities influencing default version selection
+	Tue, 02 Aug 2011 13:32:44 +0200
+Received: by wyg30 with SMTP id 30so2443309wyg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Aug 2011 04:28:23 -0700 (PDT)
+Received: by 10.216.141.166 with SMTP id g38mr1911904wej.54.1312284502990;
+	Tue, 02 Aug 2011 04:28:22 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id t46sm3950109wec.14.2011.08.02.04.28.21
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 02 Aug 2011 04:28:22 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 2 Aug 2011 13:28:16 +0200
+Message-Id: <7743C457-85FC-40B5-A6B6-3C7C0D1D6C05@dominion.thruhere.net>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+X-Mailer: Apple Mail (2.1244.3)
+Subject: Ideal (combined) repo layout?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,64 +34,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 11:30:59 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Aug 2011 11:32:44 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+Hi,
 
-Andrea pointed out a situation where he has seen the layer priority overriding 
-version selection, and I've been able to confirm it.
+I've been experimenting with a combined repo =
+(https://github.com/koenkooi/Angstrom-integration-layer/) the past few =
+days and I have some mixed feelings about it. I tried to mimic the yocto =
+setup and the questions I get from people are "how do I know where all =
+the stuff is originally from", "what if I want to contribute upstream" =
+and "git submodules are awesome, combo repos aren't".=20
 
-Basically, if you have a recipe with a lower version in a layer with a higher 
-priority it selects the lower version. What's more after digging further I 
-found there were some rather anomalous interactions with the version logic and 
-BBCLASSEXTEND. Here's an example using Poky:
+So let's assume that we want a single git repo that people can clone the =
+way they expect (awesome, submodules ruled out already), is intuitive to =
+use and facilitates contributing back upstream. Since this is a from =
+scratch effort I don't need to mimic yocto since, but can if it makes =
+sense. Having said all that, here's the layout I was thinking of:
 
-1. Firstly, copy meta/recipes-support/curl to meta-yocto/recipes-support, then 
-rename the version in meta-yocto so that its version is 7.20.0. At this point 
-both meta/ and meta-yocto/ have the same layer priority of 5.
+sources/
+	o bitbake (external git, bitbake)
+	o layers/
+		* meta (external git, oe-core)
+		* meta-openembedded (external git, meta-oe)
+		* meta-efl (external git, meta-oe)
+		* meta-angstrom (external git, meta-angstrom)
+		* ...
+	o downloads (DL_DIR)
 
-2.  "bitbake -s | grep ^curl" reports:
-curl                                               :7.21.7-r0                          
-curl-native                                        :7.21.7-r0                          
-curl-nativesdk                                     :7.21.7-r0                          
+build/
+	o tmp(-$TCLIBC) (TMPDIR)
+	o shared-state-cache (SSTATE_DIR)
 
-3. Now increase the layer priority in meta-yocto/conf/layer.conf to 6, and run  
-"bitbake -s | grep ^curl" again:
-curl                                               :7.20.0-r0                          
-curl-native                                        :7.21.7-r0                          
-curl-nativesdk                                     :7.21.7-r0                          
+output/
+	o images (DEPLOY_DIR_IMAGE)
+	o packages (DEPLOY_DIR_(IPK/RPM/DEB)
 
-So the latest version here is a lie, this is not the latest version available. 
-Furthermore it seems not to have affected the BBCLASSEXTENDs.
+conf/
+	o auto.conf  bblayers.conf  local.conf  sanity_info  site.conf =
+(under git control)
 
-4. Now add PREFERRED_VERSION_curl = "7.21.7" to conf/layer.conf and run 
-"bitbake -s | grep ^curl" again:
-curl                                 :7.20.0-r0                :7.21.7-r0
-curl-native                    :7.21.7-r0                          
-curl-nativesdk               :7.21.7-r0                          
+All the meta-* directories are at the same level and the build output is =
+easier to find and not hidden a few levels deep in build/TMPDIR. I think =
+this would be an improvement over the existing angstrom and yocto =
+layout, but I've been doing this for the past 7 years so I'd appreciate =
+a fresh look from other people[1].
 
-So it can clearly see the other recipe, it just doesn't acknowledge it until 
-you force the matter.
+regards,
 
-This is all rather undesirable behaviour IMHO - even if the BBCLASSEXTEND and 
-reported "latest version available" issues were corrected, I think the policy 
-of "latest version wins unless DEFAULT_PREFERENCE or PREFERRED_VERSION says 
-otherwise" should not be affected by layer priority.
+Koen
 
-Thoughts?
-
-Cheers,
-Paul
-
-(PS: this is not unique to Poky, Andrea and I first reproduced this with 
-Angstrom using bitbake master.)
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+[1] especially if you have been or are presently using eclipse, I don't =
+get along with IDEs=
 
 
