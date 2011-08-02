@@ -1,27 +1,33 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QoEwg-0001Ag-EE
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 15:23:42 +0200
-Received: by wyg30 with SMTP id 30so2521886wyg.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QoFBY-0001c0-WB for openembedded-core@lists.openembedded.org;
+	Tue, 02 Aug 2011 15:39:05 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p72DYjKE015673
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2011 06:19:21 -0700 (PDT)
-Received: by 10.216.132.169 with SMTP id o41mr1748766wei.83.1312291161318;
-	Tue, 02 Aug 2011 06:19:21 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id y29sm4017474weq.9.2011.08.02.06.19.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 02 Aug 2011 06:19:20 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1312288218-15909-1-git-send-email-noor_ahsan@mentor.com>
-Date: Tue, 2 Aug 2011 15:19:18 +0200
-Message-Id: <0345DE75-8B54-42F3-96D1-DD37F271A3A8@dominion.thruhere.net>
-References: <1312288218-15909-1-git-send-email-noor_ahsan@mentor.com>
+	Tue, 2 Aug 2011 14:34:45 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14658-08 for <openembedded-core@lists.openembedded.org>;
+	Tue,  2 Aug 2011 14:34:41 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p72DYbwU015667
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Aug 2011 14:34:38 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH] kernel.bbcalss: Added do_savedefconfig task.
+In-Reply-To: <cover.1312243899.git.mark.hatle@windriver.com>
+References: <cover.1312243899.git.mark.hatle@windriver.com>
+Date: Tue, 02 Aug 2011 14:34:21 +0100
+Message-ID: <1312292061.2344.591.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/5] Fix the SDK generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,40 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 13:23:42 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Aug 2011 13:39:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Mon, 2011-08-01 at 19:17 -0500, Mark Hatle wrote:
+> This is an attempt to fix a number of issues with the SDK generation.  It has been
+> tested using bitbake meta-toolchain-sdk.
+> 
+> Note, patches:
+> 
+>  4/5: package_ipk: SDK generation workaround
+>  5/5: update-alternatives: Add alternatives as a runtime provide
+> 
+> 4/5 might be reasonable to implement immediately to resolve this issue.. However
+> 5/5 is absolutely incorrect and that is noted within the patch header.  I'd
+> like comments on the issue to understand how to fix the problem.
+
+I've merged 1-4 to master, 4 on the grounds that it improves the
+situation substantially.
+
+For 5, I suspect we'll need to process the path using python, I can't
+really see a way to avoid it. I assume / is an illegal character for deb
+anywhere, not just at the start of the dependency name?
+
+Cheers,
+
+Richard
 
 
-Op 2 aug. 2011, om 14:30 heeft Noor, Ahsan het volgende geschreven:
 
-> * Added do_savedefconfig task to kernel.bbclass.
->=20
-> Signed-off-by: Noor, Ahsan <noor_ahsan@mentor.com>
-> ---
-> meta/classes/kernel.bbclass |    6 ++++++
-> 1 files changed, 6 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 25d2629..f2f05b1 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -197,6 +197,12 @@ kernel_do_configure() {
->=20
-> do_configure[depends] +=3D "${INITRAMFS_TASK}"
->=20
-> +do_savedefconfig() {
-> +	oe_runmake savedefconfig
-> +}
-> +do_savedefconfig[nostamp] =3D "1"
-> +addtask savedefconfig after do_configure
-> +
-> pkg_postinst_kernel () {
-> 	cd /${KERNEL_IMAGEDEST}; update-alternatives --install =
-/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} =
-${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
-> }
-
-Is there a matching function to copy it to deploy?=
 
 
