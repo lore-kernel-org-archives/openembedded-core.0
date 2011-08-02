@@ -1,28 +1,24 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Qo7Fz-0008Ka-Qr
+	(envelope-from <dexuan.cui@intel.com>) id 1Qo8DZ-0001UV-C1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 07:11:07 +0200
-Received: by wyg30 with SMTP id 30so2247278wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Aug 2011 22:06:47 -0700 (PDT)
-Received: by 10.227.197.194 with SMTP id el2mr6881261wbb.55.1312261606688;
-	Mon, 01 Aug 2011 22:06:46 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fx12sm4699264wbb.59.2011.08.01.22.06.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 01 Aug 2011 22:06:45 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1443716.1agPb8MbFj@perseus>
-Date: Tue, 2 Aug 2011 07:06:39 +0200
-Message-Id: <CB80DCD2-F1B5-45EA-B740-6FF0675882E0@dominion.thruhere.net>
-References: <1312233054-8118-1-git-send-email-schnitzeltony@gmx.de>
-	<1443716.1agPb8MbFj@perseus>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [angstrom] xfce-base-image: Add image for xfce48 desktop image
+	Tue, 02 Aug 2011 08:12:41 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Aug 2011 23:08:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,305,1309762800"; d="scan'208";a="34812620"
+Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.112])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Aug 2011 23:08:19 -0700
+From: Dexuan Cui <dexuan.cui@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Aug 2011 14:08:32 +0800
+Message-Id: <6def4624e63c8c7cf439dff32cb155dd2bba0ebe.1312265186.git.dexuan.cui@intel.com>
+X-Mailer: git-send-email 1.7.6
+In-Reply-To: <cover.1312265186.git.dexuan.cui@intel.com>
+References: <cover.1312265186.git.dexuan.cui@intel.com>
+In-Reply-To: <cover.1312265186.git.dexuan.cui@intel.com>
+References: <cover.1312265186.git.dexuan.cui@intel.com>
+Subject: [PATCH 1/1] oe-init-build-env, scripts/oe-buildenv-internal: add error detecting for $BDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,49 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 05:11:07 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Aug 2011 06:12:41 -0000
 
+[YOCTO #671]
 
-Op 2 aug. 2011, om 04:31 heeft Khem Raj het volgende geschreven:
+"readlink -f" in Ubuntu 10.04 is buggy: it doesn't ignore a trailing / (e.g.,
+"readlink -f /tmp/non-existent-dir/" returns nothing, but according to
+http://www.gnu.org/s/coreutils/manual/coreutils.pdf it should do that --
+hence we get bug 671. It seems Ubuntu 10.10 or even later Ubuntu 11.04,
+and other Linux distributions(e.g., Open Suse 11.4) haven't such an issue.
 
-> On Monday, August 01, 2011 11:10:54 PM Andreas Mueller wrote:
->> * This patch requires patch series [1] to be committed in meta-oe
->>=20
->> [1]
->> =
-http://lists.linuxtogo.org/pipermail/openembedded-devel/2011-August/034221=
-.
->> html
->>=20
->> Signed-off-by: Andreas Mueller <schnitzeltony@gmx.de>
->> ---
->> recipes-angstrom/images/xfce-base-image.bb |   26
->> ++++++++++++++++++++++++++ 1 files changed, 26 insertions(+), 0
->> deletions(-)
->> create mode 100644 recipes-angstrom/images/xfce-base-image.bb
->>=20
->=20
-> this recipe belongs to meta-angstrom or may be meta-xfce
+So I think we should detect this and ask Ubuntu 10.04 users to avoid supply
+a path with trailing slash here.
 
-While I agree with the general idea...
+Moreever, I also add the detection of non-existent path, e.g.,
+source oe-init-build-env /non-existent-dir/build
+can be detected and we'll print an error msg.
+And, if we get errors in oe-buildenv-internal, we should stop the script
+and shouldn't further run.
 
->=20
->> diff --git a/recipes-angstrom/images/xfce-base-image.bb
->> b/recipes-angstrom/images/xfce-base-image.bb new file mode 100644
->> index 0000000..80f5062
->> --- /dev/null
->> +++ b/recipes-angstrom/images/xfce-base-image.bb
->> @@ -0,0 +1,26 @@
->> +LICENSE =3D "MIT"
->> +LIC_FILES_CHKSUM =3D
->> "file://${COREBASE}/LICENSE;md5=3D3f40d7994397109285ec7b81fdeb3b58" =
-+PR =3D
->> "r0"
->> +
->> +require console-base-image.bb
+Signed-off-by: Dexuan Cui <dexuan.cui@intel.com>
+---
+ oe-init-build-env            |    6 +++---
+ scripts/oe-buildenv-internal |   13 +++++++++++--
+ 2 files changed, 14 insertions(+), 5 deletions(-)
 
-=85 this file is only present in meta-angstrom.=
+diff --git a/oe-init-build-env b/oe-init-build-env
+index 77332a7..cc30a3b 100755
+--- a/oe-init-build-env
++++ b/oe-init-build-env
+@@ -35,10 +35,10 @@ else
+    fi
+    OEROOT=`readlink -f "$OEROOT"`
+    export OEROOT
+-   . $OEROOT/scripts/oe-buildenv-internal
+-   $OEROOT/scripts/oe-setup-builddir
++   . $OEROOT/scripts/oe-buildenv-internal && \
++        $OEROOT/scripts/oe-setup-builddir && \
++        [ -n "$BUILDDIR" ] && cd $BUILDDIR
+    unset OEROOT
+    unset BBPATH
+-   [ -n "$BUILDDIR" ] && cd $BUILDDIR
+ fi
+ 
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index c13fc40..117b0c5 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -21,7 +21,7 @@
+ # It is assumed OEROOT is already defined when this is called
+ if [ -z "$OEROOT" ]; then
+     echo >&2 "Error: OEROOT is not defined!"
+-    return
++    return 1
+ fi
+ 
+ if [ "x$BDIR" = "x" ]; then
+@@ -29,6 +29,15 @@ if [ "x$BDIR" = "x" ]; then
+         BDIR="build"
+     else
+         BDIR=`readlink -f "$1"`
++        if [ -z "$BDIR"  ]; then
++            if expr "$1" : '.*/$' >/dev/null; then
++                echo >&2 "Error: please remove any trailing / in the argument."
++            else
++                PARENTDIR=`dirname "$1"`
++                echo >&2 "Error: the directory $PARENTDIR doesn't exist?"
++            fi
++            return 1
++        fi
+     fi
+ fi
+ if expr "$BDIR" : '/.*' > /dev/null ; then
+@@ -45,7 +54,7 @@ BUILDDIR=`readlink -f "$BUILDDIR"`
+ 
+ if ! (test -d "$BITBAKEDIR"); then
+     echo >&2 "Error: The bitbake directory ($BITBAKEDIR) does not exist!  Please ensure a copy of bitbake exists at this location"
+-    return
++    return 1
+ fi
+ 
+ PATH="${OEROOT}/scripts:$BITBAKEDIR/bin/:$PATH"
+-- 
+1.7.6
+
 
 
