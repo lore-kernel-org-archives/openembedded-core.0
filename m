@@ -1,20 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from smtp24.4emm.com ([69.18.222.25])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1Qo8DZ-0001UU-EJ
+	(envelope-from <james@digitalmatter.com.au>) id 1Qo9Tu-0004BL-Av
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 08:12:41 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Aug 2011 23:08:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,305,1309762800"; d="scan'208";a="36936717"
-Received: from dcui-desktop.sh.intel.com (HELO localhost) ([10.239.36.112])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Aug 2011 23:08:18 -0700
-From: Dexuan Cui <dexuan.cui@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Aug 2011 14:08:31 +0800
-Message-Id: <cover.1312265186.git.dexuan.cui@intel.com>
-X-Mailer: git-send-email 1.7.6
-Subject: [PATCH 0/1] fix to bug 671
+	Tue, 02 Aug 2011 09:33:38 +0200
+Received: from MBX20.4emm.local ([fe80::382d:f6d3:f4de:a97f]) by
+	HUB24.4emm.local ([::1]) with mapi id 14.01.0289.001; Tue, 2 Aug 2011
+	03:24:11 -0400
+From: James Limbouris <james@digitalmatter.com.au>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: erratic failure of pseudo
+Thread-Index: AcxQ5AdgoKX0fNmvSF+eAAH9XHel8g==
+Date: Tue, 2 Aug 2011 07:28:07 +0000
+Message-ID: <840A81C1B782724A8EB52725BD519EFF181E0B@MBX20.4emm.local>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [203.59.132.158]
+MIME-Version: 1.0
+Subject: erratic failure of pseudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,26 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 06:12:41 -0000
+X-List-Received-Date: Tue, 02 Aug 2011 07:33:38 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit 46cf540e63a848512617b20fd8492f81bfb2f704:
+Hi,
 
-  arch-armv7a.inc: fix armv7a-vfp-neon -> armv7a compat case (2011-08-01 16:49:11 +0100)
+I've just switched to oe-core from -dev, and I'm finding that my root image=
+s are showing incorrect permissions on files, randomly. From one build to t=
+he next, different subsets of files and folders end up owned by 1000:1000, =
+instead of root:root. They aren't strictly grouped by package - just random=
+ files, different every time.
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib dcui/bug-671
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dcui/bug-671
-
-Dexuan Cui (1):
-  oe-init-build-env, scripts/oe-buildenv-internal: add error detecting
-    for $BDIR
-
- oe-init-build-env            |    6 +++---
- scripts/oe-buildenv-internal |   13 +++++++++++--
- 2 files changed, 14 insertions(+), 5 deletions(-)
-
--- 
-1.7.6
+Has anyone else noticed this behaviour? Does anyone have any advice on how =
+to go about debugging? It might help to look at the pseudo db, and see if t=
+he permissions are in there - can anyone tell me where it is? I find an emp=
+ty pseudo folder in the work folder after do_rm_work, but it is not there i=
+f I do a bitbake -c build image-xxx.
+=A0=A0
+Regards
+James Limbouris
 
 
 
