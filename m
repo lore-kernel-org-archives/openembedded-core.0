@@ -1,26 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gw0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Qo2jE-0005dl-Qp
+	(envelope-from <raj.khem@gmail.com>) id 1Qo3Jp-0006Al-EJ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 02:21:01 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p720GdrV020017
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 02 Aug 2011 02:58:49 +0200
+Received: by gwb11 with SMTP id 11so4393085gwb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Aug 2011 17:16:39 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 1 Aug 2011 17:16:39 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 1 Aug 2011 19:17:42 -0500
-Message-ID: <d97dcf096a3a72a2a087b2dbbcdd74c853f7e940.1312243899.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1312243899.git.mark.hatle@windriver.com>
-References: <cover.1312243899.git.mark.hatle@windriver.com>
+	Mon, 01 Aug 2011 17:54:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=fKUFLFFahUuSAbShKMe3Qbd6RN8+yBSSQaSDuZxBjk0=;
+	b=ib2RYXOGyhV3chInFwbb9EZPENh6dXoKWLnKJ8cunLVF+cye/6qeIfR8/dwKY6Nq/3
+	TPLQXUqCP78CqBio8sbiY57M9hwPEAh2M/wxzKZkQpjxKQuBU3JQDJl8dOh3W5XE661m
+	tAtHaer1iaKTTkFfMt1TpTk1yPp4/VuAh81r8=
+Received: by 10.68.35.105 with SMTP id g9mr7734443pbj.479.1312246467838; Mon,
+	01 Aug 2011 17:54:27 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 5/5] update-alternatives: Add alternatives as a runtime provide
+Received: by 10.68.65.130 with HTTP; Mon, 1 Aug 2011 17:53:57 -0700 (PDT)
+In-Reply-To: <4E3728A7.1050707@linux.intel.com>
+References: <cover.1311758282.git.kai.kang@windriver.com>
+	<d5e06516ed6656364b8127740700d1403b72d567.1311758282.git.kai.kang@windriver.com>
+	<2070961.C8JsuWrOh5@perseus> <4E3728A7.1050707@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 1 Aug 2011 17:53:57 -0700
+Message-ID: <CAMKF1sosKO92oLq8tNgD=Sb7_bYNBFFw3edutmTeCoxPRE+QtA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ghostscript: fix parallel build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +42,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 00:21:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Aug 2011 00:58:49 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The following allows RPM to generate the SDK image, however without it
-we get a failure because the system has nothing that provides /bin/sh.
+On Mon, Aug 1, 2011 at 3:28 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 07/30/2011 11:20 AM, Khem Raj wrote:
+>>
+>> On Wednesday, July 27, 2011 05:34:45 PM Kang Kai wrote:
+>>>
+>>> From: Kang Kai<kai.kang@windriver.com>
+>>>
+>>> ghostscript fails some time on autobuilder, it seems a parallel build
+>>> issue.
+>>> Add patch to fix it.
+>>>
+>>> Fixes [Yocto #1202]
+>>>
+>>> Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>>> ---
+>>> =C2=A0.../ghostscript-9.02-parallel-make.patch =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 17
+>>> +++++++++++++++++
+>>> .../ghostscript/ghostscript_9.02.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A03 ++-
+>>> =C2=A02 files changed, 19 insertions(+), 1 deletions(-)
+>>> =C2=A0create mode 100644
+>>>
+>>> meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parallel=
+-mak
+>>> e.patch
+>>>
+>>> diff --git
+>>>
+>>> a/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parall=
+el-m
+>>> ake.patch
+>>>
+>>> b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parall=
+el-m
+>>> ake.patch new file mode 100644
+>>> index 0000000..76d1676
+>>> --- /dev/null
+>>> +++
+>>>
+>>> b/meta/recipes-extended/ghostscript/ghostscript/ghostscript-9.02-parall=
+el-m
+>>> ake.patch @@ -0,0 +1,17 @@
+>>> +When parallel make it will fail with multi copy, see
+>>> +http://bugzilla.pokylinux.org/show_bug.cgi?id=3D1202
+>>> +
+>>> +Upstream-Status: Pending
+>>> +
+>>> +Signed-off-by: Kang Kai<kai.kang@windriver.com>
+>>> +--- ghostscript-9.02/base/unixhead.mak.orig =C2=A0 =C2=A02011-07-27
+>>> 17:06:17.749456100
+>>> +0800 ++++ ghostscript-9.02/base/unixhead.mak =C2=A0 2011-07-27
+>>> 17:06:37.449456100
+>>> +0800 +@@ -54,7 +54,7 @@
+>>> +
+>>> + # Define generic commands.
+>>> +
+>>> +-CP_=3Dcp
+>>> ++CP_=3Dcp -f
+>>
+>> It means it will first delete the target if it exists. Did you check if
+>> this
+>> is correct behavior ?
+>>
+> Khem,
+>
+> As far as I know the file is that is being copied to is the same file and
+> the CP is only used in that case, the 2 files are copied to the same
+> location due to the Parallel make.
 
-Unfortunately the patch causes failures with ipk and deb packages because
-they can not have filenames within their RPROVIDES.  I'm looking for some
-type of a resolution to the issue, the only thing I can think of is to
-add a way to manually add a FILERPROVIDE for the items.  This will require
-changes to the way FILERPROVIDE is currently generated... but I'm not sure
-how we can automatically generate the FILERPROVIDE values without the use of
-python...
-
-Any suggestions?
-
------
-
-Add the automatic alternatives as runtime provides.
-
-This was discovered when programers were requiring "/bin/sh" and there
-was nothing within the system providing "/bin/sh", however bash had an
-alternative for /bin/sh that would satisfy this dependency.
-
-NOTE: THIS BREAKS IPK AND DEB PACKAGE GENERATION!  IT SHOULD NOT BE
-MERGED!
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/update-alternatives.bbclass |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index ba81221..4cd680e 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -40,6 +40,8 @@
- ALTERNATIVE_PRIORITY = "10"
- ALTERNATIVE_LINK = "${bindir}/${ALTERNATIVE_NAME}"
- 
-+RPROVIDES_${PN} += "${@(d.getVar('ALTERNATIVE_LINK', True) or '') + ' ' + (d.getVar('ALTERNATIVE_LINKS', True) or '')}"
-+
- update_alternatives_postinst() {
- update-alternatives --install ${ALTERNATIVE_LINK} ${ALTERNATIVE_NAME} ${ALTERNATIVE_PATH} ${ALTERNATIVE_PRIORITY}
- }
--- 
-1.7.3.4
-
+if thats the case then probably checking for existence of file before
+copying it over
+might be one approach
 
 
