@@ -1,33 +1,24 @@
-Received: from relay1.mentorg.com ([192.94.38.131])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX1/IInxt4DiMIE8ukiSt2s85tMEjrSKZGE0=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Tom_Rini@mentor.com>) id 1QoHWz-0006Ms-3m
+	(envelope-from <galak@kernel.crashing.org>) id 1QoHaL-0006SF-5F
 	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 18:09:21 +0200
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1QoHSl-00016g-FM from Tom_Rini@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 02 Aug 2011 09:04:59 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 2 Aug 2011 09:01:40 -0700
-Received: from [172.30.80.87] (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
-	(147.34.97.43) with Microsoft SMTP Server id 14.1.289.1;
-	Tue, 2 Aug 2011 09:04:58 -0700
-Message-ID: <4E38201A.8080006@mentor.com>
-Date: Tue, 2 Aug 2011 09:04:42 -0700
-From: Tom Rini <tom_rini@mentor.com>
-Organization: Mentor Graphics Corporation
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+	Tue, 02 Aug 2011 18:12:49 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p72G8S5X015680;
+	Tue, 2 Aug 2011 11:08:28 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <4E38201A.8080006@mentor.com>
+Date: Tue, 2 Aug 2011 11:08:27 -0500
+Message-Id: <2E0759C0-DEB5-4B29-9DD1-C991E3DBA98E@kernel.crashing.org>
 References: <1312272881-15695-1-git-send-email-galak@kernel.crashing.org>	<1312298395.4325.53.camel@phil-desktop>	<4E381902.6050408@mentor.com>
 	<12877E24-5764-42AA-B48C-6F90914DC709@kernel.crashing.org>
-In-Reply-To: <12877E24-5764-42AA-B48C-6F90914DC709@kernel.crashing.org>
-X-Enigmail-Version: 1.1.1
-X-OriginalArrivalTime: 02 Aug 2011 16:01:40.0358 (UTC)
-	FILETIME=[77496A60:01CC512D]
+	<4E38201A.8080006@mentor.com>
+To: Tom Rini <Tom_Rini@mentor.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] automake: Fix issue with tar configure	failing with large UID/GIDs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,61 +34,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Aug 2011 16:09:21 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Aug 2011 16:12:49 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 08/02/2011 09:01 AM, Kumar Gala wrote:
-> 
-> On Aug 2, 2011, at 10:34 AM, Tom Rini wrote:
-> 
->> On 08/02/2011 08:19 AM, Phil Blundell wrote:
->>> On Tue, 2011-08-02 at 03:14 -0500, Kumar Gala wrote:
->>>> +-_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
->>>> ++_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) cpio pax none'
->>>
->>> Have you discussed that with upstream?  If not, are you confident that
->>> preferring cpio will not simply mean that we are swapping one deficiency
->>> for another?
->>
->> A bug was filed with upstream automake.  At issue is that pax does not
->> fail gracefully when it cannot create ustar archives while cpio does.
->>
->>>> +Index: automake-1.11.1/Makefile.in
->>>> +===================================================================
->>>> +--- automake-1.11.1.orig/Makefile.in
->>>> ++++ automake-1.11.1/Makefile.in
->>>> +@@ -44,7 +44,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/a
->>>> + 	$(top_srcdir)/m4/missing.m4 $(top_srcdir)/m4/mkdirp.m4 \
->>>> + 	$(top_srcdir)/m4/options.m4 $(top_srcdir)/m4/runlog.m4 \
->>>> + 	$(top_srcdir)/m4/sanity.m4 $(top_srcdir)/m4/strip.m4 \
->>>> +-	$(top_srcdir)/m4/substnot.m4 $(top_srcdir)/m4/tar.m4 \
->>>> ++	$(top_srcdir)/m4/substnot.m4 \
->>>> + 	$(top_srcdir)/configure.ac
->>>> + am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
->>>> + 	$(ACLOCAL_M4)
->>>
->>> Can you explain why this hunk is necessary?
->>
->> That I don't recall.  Possibly some sort of re-gen hell I was trying /
->> needing to avoid.
->>
->>>
->>>> +do_configure () {
->>>> +	touch ${S}/Makefile.in
->>>> +	autotools_do_configure
->>>> +}
->>>
->>> ... and this one?
->>
->> Didn't do that one.  Kumar? :)
-> 
-> I think I pulled that from the SB3 change you made.
 
-Gah, you're right.  I think it was more "avoid re-gen" bits.
+On Aug 2, 2011, at 11:04 AM, Tom Rini wrote:
 
--- 
-Tom Rini
-Mentor Graphics Corporation
+> On 08/02/2011 09:01 AM, Kumar Gala wrote:
+>>=20
+>> On Aug 2, 2011, at 10:34 AM, Tom Rini wrote:
+>>=20
+>>> On 08/02/2011 08:19 AM, Phil Blundell wrote:
+>>>> On Tue, 2011-08-02 at 03:14 -0500, Kumar Gala wrote:
+>>>>> +-_am_tools=3D'gnutar m4_if([$1], [ustar], [plaintar]) pax cpio =
+none'
+>>>>> ++_am_tools=3D'gnutar m4_if([$1], [ustar], [plaintar]) cpio pax =
+none'
+>>>>=20
+>>>> Have you discussed that with upstream?  If not, are you confident =
+that
+>>>> preferring cpio will not simply mean that we are swapping one =
+deficiency
+>>>> for another?
+>>>=20
+>>> A bug was filed with upstream automake.  At issue is that pax does =
+not
+>>> fail gracefully when it cannot create ustar archives while cpio =
+does.
+>>>=20
+>>>>> +Index: automake-1.11.1/Makefile.in
+>>>>> =
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>>>> +--- automake-1.11.1.orig/Makefile.in
+>>>>> ++++ automake-1.11.1/Makefile.in
+>>>>> +@@ -44,7 +44,7 @@ am__aclocal_m4_deps =3D $(top_srcdir)/m4/a
+>>>>> + 	$(top_srcdir)/m4/missing.m4 $(top_srcdir)/m4/mkdirp.m4 \
+>>>>> + 	$(top_srcdir)/m4/options.m4 $(top_srcdir)/m4/runlog.m4 \
+>>>>> + 	$(top_srcdir)/m4/sanity.m4 $(top_srcdir)/m4/strip.m4 \
+>>>>> +-	$(top_srcdir)/m4/substnot.m4 $(top_srcdir)/m4/tar.m4 \
+>>>>> ++	$(top_srcdir)/m4/substnot.m4 \
+>>>>> + 	$(top_srcdir)/configure.ac
+>>>>> + am__configure_deps =3D $(am__aclocal_m4_deps) =
+$(CONFIGURE_DEPENDENCIES) \
+>>>>> + 	$(ACLOCAL_M4)
+>>>>=20
+>>>> Can you explain why this hunk is necessary?
+>>>=20
+>>> That I don't recall.  Possibly some sort of re-gen hell I was trying =
+/
+>>> needing to avoid.
+>>>=20
+>>>>=20
+>>>>> +do_configure () {
+>>>>> +	touch ${S}/Makefile.in
+>>>>> +	autotools_do_configure
+>>>>> +}
+>>>>=20
+>>>> ... and this one?
+>>>=20
+>>> Didn't do that one.  Kumar? :)
+>>=20
+>> I think I pulled that from the SB3 change you made.
+>=20
+> Gah, you're right.  I think it was more "avoid re-gen" bits.
+
+Tom,
+
+Do you mind take a stab at updating this patch based on feedback as your =
+far more familiar with that I am ;)
+
+- k=
 
 
