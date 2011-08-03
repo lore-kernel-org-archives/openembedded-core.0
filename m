@@ -1,33 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QoepU-00033s-EK for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 19:02:00 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73GvdCP027764
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX1/UYTQqwenpJOUNYKLBgSsq0sN86Yj1ksk=])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <galak@kernel.crashing.org>) id 1Qoepg-00034b-Cv
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Aug 2011 19:02:12 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p73GvniO003357
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2011 17:57:39 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 27440-07 for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2011 17:57:34 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73GvTbv027756
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2011 17:57:30 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 3 Aug 2011 11:57:50 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <1312390197.2344.702.camel@rex>
+Date: Wed, 3 Aug 2011 11:57:53 -0500
+Message-Id: <70C5D15F-E754-412E-845B-5F6D5C52442C@kernel.crashing.org>
+References: <1312312720-20828-1-git-send-email-galak@kernel.crashing.org>
+	<1312317548.2344.612.camel@rex>
+	<992464A7-1010-4A47-BFAA-A7F93C683C99@kernel.crashing.org>
+	<1312390197.2344.702.camel@rex>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1312349327-27463-1-git-send-email-galak@kernel.crashing.org>
-References: <1312349327-27463-1-git-send-email-galak@kernel.crashing.org>
-Date: Wed, 03 Aug 2011 17:57:11 +0100
-Message-ID: <1312390631.2344.709.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH v2] tune/arch-powerpc: Use fpu-soft to set PPCPKGSFX_FPU
+X-Mailer: Apple Mail (2.1084)
+Subject: Re: [PATCH] tune/arch-powerpc64: keep insync with arch-powerpc.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,53 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 17:02:00 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 03 Aug 2011 17:02:12 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-08-03 at 00:28 -0500, Kumar Gala wrote:
-> Its more likely that we explicitly set soft-floating point support for a
-> given target than hard.  So use 'fpu-soft' in TUNE_FEATURES rather than
-> 'fpu-hard' to determine setting 'nf' (no-float) in PPCPKGSFX_FPU.
->
-> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
-> ---
-> * Removed setting of 'fpu-hard' from the tune files that it set
+
+On Aug 3, 2011, at 11:49 AM, Richard Purdie wrote:
+
+> On Tue, 2011-08-02 at 16:00 -0500, Kumar Gala wrote:
+>> On Aug 2, 2011, at 3:39 PM, Richard Purdie wrote:
+>> 
+>>> On Tue, 2011-08-02 at 14:18 -0500, Kumar Gala wrote:
+>>>> * Add DEFAULTTUNE setting
+>>>> * Sync TUNE_PKGARCH with:
+>>>> 	commit 20f285728219c1efcc23d8e861902c212893c68d
+>>>> 	Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>>> 	Date:   Tue Aug 2 12:40:06 2011 +0100
+>>>> 
+>>>> 	    tune/ppc: Fix various TUNE_PKGARCH issues
+>>> 
+>>> Quick question, are all ppc64 cores ppc32 capable or not?
+>>> 
+>>> Cheers,
+>>> 
+>>> Richard
+>> 
+>> yes
 > 
->  meta/conf/machine/include/powerpc/arch-powerpc.inc |    2 +-
->  meta/conf/machine/include/tune-ppc603e.inc         |    2 +-
->  meta/conf/machine/include/tune-ppce500mc.inc       |    2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+> Should we make the 64 bit include file automatically include the 32 bit
+> one then?
 > 
-> diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> index da1a1d6..c073f18 100644
-> --- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> +++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-> @@ -18,7 +18,7 @@ TARGET_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "soft", "", d)}
->  
->  ABIEXTENSION = "${@['','spe'][d.getVar('TARGET_FPU', True) in ['ppc-efd', 'ppc-efs']]}"
->  
-> -PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard" , "", "-nf", d)}"
-> +PPCPKGSFX_FPU = "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "-nf", "", d)}"
->  
->  PPCPKGARCH = "${TUNE_ARCH}${PPCPKGSFX_FPU}"
->  TUNE_PKGARCH ?= "${PPCPKGARCH}"
-> diff --git a/meta/conf/machine/include/tune-ppc603e.inc b/meta/conf/machine/include/tune-ppc603e.inc
+> That would take care of the
+> 
+>>> +PPCPKGARCH = "${TUNE_ARCH}"
+>>> +TUNE_PKGARCH ?= "${PPCPKGARCH}"
+> 
+> part but we probably should set the DEFAULTTUNE still...
 
-I've remembered the issue here. Further up in that file we have:
+Not a bad idea, I'll look at doing that.
 
-TUNEVALID[fpu-hard] = "Use hardware FPU."
-TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "fpu-hard", "-mhard-float", "", d)}"
-
-TUNEVALID[fpu-soft] = "Use software FPU."
-TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "fpu-soft", "-msoft-float", "", d)}"
-
-further up in the file and there are optionally other "float" models
-which some processors seemed to need to use. This meant you had to
-specify which fpu option you wanted explicitly.
-
-I'm open to better ways of handling this.
-
-
+- k
 
 
