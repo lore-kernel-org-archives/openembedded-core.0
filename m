@@ -1,36 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QoaVo-0000ZT-Vi for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 14:25:26 +0200
+	id 1Qoaaj-0000fj-Be for openembedded-core@lists.openembedded.org;
+	Wed, 03 Aug 2011 14:30:29 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73CL2lt025064
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73CQ7pn025087
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2011 13:21:02 +0100
+	Wed, 3 Aug 2011 13:26:07 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 23919-09 for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Aug 2011 13:20:58 +0100 (BST)
+	id 23958-09 for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Aug 2011 13:26:03 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73CKr8s025058
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73CPwhD025081
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2011 13:20:54 +0100
+	Wed, 3 Aug 2011 13:25:59 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4E380E7E.9050803@windriver.com>
-References: <cover.1312243899.git.mark.hatle@windriver.com>
-	<d97dcf096a3a72a2a087b2dbbcdd74c853f7e940.1312243899.git.mark.hatle@windriver.com>
-	<1312292802.4325.33.camel@phil-desktop>
-	<4E380E7E.9050803@windriver.com>
-Date: Wed, 03 Aug 2011 13:20:36 +0100
-Message-ID: <1312374036.2344.658.camel@rex>
+In-Reply-To: <A8C5CE71-29E0-4C18-9D66-7CE0EFAE4782@kernel.crashing.org>
+References: <3C9A62B9-7C88-4DF0-A379-8E58955B89CD@kernel.crashing.org>
+	<A8C5CE71-29E0-4C18-9D66-7CE0EFAE4782@kernel.crashing.org>
+Date: Wed, 03 Aug 2011 13:25:41 +0100
+Message-ID: <1312374341.2344.661.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 5/5] update-alternatives: Add alternatives as a runtime provide
+Subject: Re: help with gcc-configure-common bug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,72 +43,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 12:25:26 -0000
+X-List-Received-Date: Wed, 03 Aug 2011 12:30:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2011-08-02 at 09:49 -0500, Mark Hatle wrote:
-> On 8/2/11 8:46 AM, Phil Blundell wrote:
-> > On Mon, 2011-08-01 at 19:17 -0500, Mark Hatle wrote:
-> >> The following allows RPM to generate the SDK image, however without it
-> >> we get a failure because the system has nothing that provides /bin/sh.
-> >>
-> >> Unfortunately the patch causes failures with ipk and deb packages because
-> >> they can not have filenames within their RPROVIDES.  I'm looking for some
-> >> type of a resolution to the issue, the only thing I can think of is to
-> >> add a way to manually add a FILERPROVIDE for the items.  This will require
-> >> changes to the way FILERPROVIDE is currently generated... but I'm not sure
-> >> how we can automatically generate the FILERPROVIDE values without the use of
-> >> python...
-> >>
-> >> Any suggestions?
-> > 
-> > It's never really been the intent that update-alternatives should put
-> > the name of the link being provided into RPROVIDES.  If you want to
-> > solve the specific problem with /bin/sh then just adding RPROVIDES_${PN}
-> > += "virtual-bourne-shell" or something to bash and busybox is probably
-> > the easiest way of doing that.
-> > 
-> > I wouldn't be entirely opposed to the concept of what you're proposing
-> > here, though.  Something like:
-> > 
-> > RPROVIDES_${PN} += "${@' '.join(map(lambda x:
-> > legitimize_package_name("virtual-path-" + x), filter(lambda x: x != '',
-> > [ d.getVar('ALTERNATIVE_LINK', True) or '' ] +
-> > (d.getVar('ALTERNATIVE_LINKS', True) or '').split())))}"
-> > 
-> > might be what you want, perhaps.  I'm not sure that the resulting
-> > virtual names will be very pretty though.
+On Tue, 2011-08-02 at 10:36 -0500, Kumar Gala wrote:
+> On Aug 1, 2011, at 1:58 PM, Kumar Gala wrote:
 > 
-> Hmm.. Coming from the RPM world, the virtual-path- because we can't just
-> "provide" a file in the system seems a bit wonky to me.  But it should be able
-> to work.  For RPM at least, we'd want a reversing function to turn virtual paths
-> back into real paths.
+> > I'm trying to track down a bug related the following in gcc-configure-common.inc.  I know there is one bug in the sed line, but when I fix that I run into a second issue.  I'm trying to understand what we think the following two lines are trying to attempt:
+> > 
+> >        SYSTEMLIBS_DIR=`dirname ${SYSTEMLIBS}`
+> >        [ "$SYSTEMLIBS_DIR" = "/" ] && SYSTEMLIBS_DIR=""
+> > 
+> > any ideas?
+> > 
+> >> From the commit log we expect something like:
+> >        #define GLIBC_DYNAMIC_LINKER64 SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
+> >        and we define SYSTEMLIBS_DIR in defaults.h.
+> > 
+> > so its seems if SYSTEMLIBS = 'lib', that we end up with:
+> > 	#define SYSTEMLIBS ""
+> > 
+> > and thus becomes:
+> > 	GLIBC_DYNAMIC_LINKER64 "ld-linux-x86-64.so.2"
+> > 
+> > which ends up being wrong.
+> > 
+> > - k
+> > 
+> > do_configure_prepend () {
+> >        # Change the default dynamic linker path, only useful for SDK, other's value
+> >        # are not changed according to the SYSTEMLIBS_DIR
+> >        sed -i ${S}/gcc/config/*/linux*.h -e \
+> >                's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 SYSTEMLIBS_DIR\2#'
+> > 
+> >        SYSTEMLIBS_DIR=`dirname ${SYSTEMLIBS}`
+> >        [ "$SYSTEMLIBS_DIR" = "/" ] && SYSTEMLIBS_DIR=""
+> >        # teach gcc to find correct target includedir when checking libc ssp support
+> >        mkdir -p ${B}/gcc
+> >        echo "NATIVE_SYSTEM_HEADER_DIR = ${SYSTEMHEADERS}" > ${B}/gcc/t-oe
+> >        cat ${S}/gcc/defaults.h | grep -v "\#endif.*GCC_DEFAULTS_H" > ${B}/gcc/defaults.h.new
+> >        cat >>${B}/gcc/defaults.h.new <<_EOF
+> > #ifndef STANDARD_INCLUDE_DIR
+> > #define STANDARD_INCLUDE_DIR "${SYSTEMHEADERS}"
+> > #endif
+> > #ifndef STANDARD_STARTFILE_PREFIX_1
+> > #define STANDARD_STARTFILE_PREFIX_1 "${SYSTEMLIBS}"
+> > #endif
+> > #ifndef STANDARD_STARTFILE_PREFIX_2
+> > #define STANDARD_STARTFILE_PREFIX_2 "${SYSTEMLIBS1}"
+> > #endif
+> > #define SYSTEMLIBS_DIR "$SYSTEMLIBS_DIR"
+> > #endif /* ! GCC_DEFAULTS_H */
+> > _EOF
+> >        mv ${B}/gcc/defaults.h.new ${B}/gcc/defaults.h
+> > }
 > 
-> If I have time today, I'll try to implement a proof of concept and see if I can
-> get it to work reasonably well.
+> Would really love if anyone knows what is suppose to be going on with SYSTEMLIBS_DIR to chime in here.
 
-Just to be clear for Phil's benefit, RPM natively supports file based
-dependencies, so a dependency of "/bin/sh" is automatically fulfilled by
-a package which contains "/bin/sh". Some dependencies such as the
-shebang in scripts are automatically added to packages and resolved by
-rpm.
+Ah, I can help here :)
 
-I did chase down this bug a bit and it seems that if you "bitbake
-meta-toolchain-game" you hit an error about /bin/sh being missing but if
-you "bitbake busybox; bitbake meta-toolchain-gmae" it will work. This is
-due to busybox shipping a /bin/sh.
+We only have one gcc source checkout with the shared work directory.
+Each multilib (or sdk build) needs to customise SYSTEMLIBS depending on
+its configuration. This is why its being done in the defaults.h file in
+${B} instead of files in ${S}.
 
-The question is therefore how to handle this on the deb/ipk side and
-ensure we get consistency between the behaviours of the different
-backends. I thought with the rpm filedeps code in do_package, we were
-adding things like /bin/sh dependencies to the other package formats but
-now I'm not so sure. 
+We likely should do the substitutions in ${S} at unpack time to make
+this clearer.
 
 Cheers,
 
 Richard
-
 
 
 
