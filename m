@@ -1,30 +1,25 @@
-Received: from mail-yi0-f47.google.com ([209.85.218.47])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX1/BiZ9Zl3wLtMGFcWKJSU2Eb0UZfGMucos=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QofvP-0004yf-N1
+	(envelope-from <galak@kernel.crashing.org>) id 1QohOS-0007fd-Bu
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 20:12:11 +0200
-Received: by yib18 with SMTP id 18so660432yib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Aug 2011 11:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=0J1GMu6TyIk/Z5a8FrXlr28MqDl1g4N4z4oMEms0QDE=;
-	b=Mg3r3PusDpc38uEqKv25Ddg6JzxT2VK/UnzTHzmAn2eBVi/2gzFvZ134/jlIich2IQ
-	9GLVjSNr0kIpGHziI0/LO+YpRiF5r/1RamFmhOmXCCHrnxmeal6zpnymt4a2msA2QEhG
-	DFvnaOXL8lVMvQeVwEJSJ7bftQMDqgtbVPdZs=
-Received: by 10.142.215.10 with SMTP id n10mr216379wfg.290.1312394868109; Wed,
-	03 Aug 2011 11:07:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.68.46.137 with HTTP; Wed, 3 Aug 2011 11:07:18 -0700 (PDT)
-In-Reply-To: <1312386236-11826-1-git-send-email-galak@kernel.crashing.org>
-References: <1312386236-11826-1-git-send-email-galak@kernel.crashing.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 3 Aug 2011 11:07:18 -0700
-Message-ID: <CAMKF1srMkWCjX+18PDwoM5GB4hZwJGepUokfphn55Z29JkL9Xg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+	Wed, 03 Aug 2011 21:46:16 +0200
+Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p73Jfpp7019388;
+	Wed, 3 Aug 2011 14:41:52 -0500
+Mime-Version: 1.0 (Apple Message framework v1084)
+From: Kumar Gala <galak@kernel.crashing.org>
+In-Reply-To: <4E3985C8.9070000@linux.intel.com>
+Date: Wed, 3 Aug 2011 14:41:55 -0500
+Message-Id: <D9C996B9-65E0-4373-90F5-5B5286E05444@kernel.crashing.org>
+References: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>
+	<37BC502A-3FEA-4059-85FB-F6A3F401C3F9@kernel.crashing.org>
+	<4E3985C8.9070000@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1084)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tcl: Fix packaging of platform independent files
+Subject: Re: [PATCH] scripts/oe-buildenv-internal: Add	SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,64 +34,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 18:12:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 03 Aug 2011 19:46:16 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 3, 2011 at 8:43 AM, Kumar Gala <galak@kernel.crashing.org> wrot=
-e:
-> Tcl's doesn't utilize ${baselib} for platform independent files but
-> defines it as follows:
->
-> TCL_LIBRARY =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D $(prefix)/lib/t=
-cl$(VERSION)
->
-> Match that so if ${baselib} is not just /lib things work properly.
 
+On Aug 3, 2011, at 12:30 PM, Saul Wold wrote:
 
-hmm may be fixing tcl to honour --libdir=3D<dir> to generate TCL_LIBRARY
-from configure would be a nice solution
+> On 08/03/2011 10:00 AM, Kumar Gala wrote:
+>>=20
+>> On Jul 28, 2011, at 8:10 AM, Kumar Gala wrote:
+>>=20
+>>> If a SOCKS5 gateway is needed for a proxy access like git it might =
+also
+>>> require authentication to the proxy via a password and username.  =
+Adding
+>>> SOCKS5_USER&  SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for =
+automation
+>>> of the authentication request to occur when something like a git =
+fetch
+>>> is going through the proxy.
+>>>=20
+>>> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
+>>> ---
+>>> * Fixes issue with a git fetch request failing to get pass a =
+firewall
+>>>=20
+>>> scripts/oe-buildenv-internal |    2 +-
+>>> 1 files changed, 1 insertions(+), 1 deletions(-)
+>>>=20
+>>> diff --git a/scripts/oe-buildenv-internal =
+b/scripts/oe-buildenv-internal
+>>> index c13fc40..b223292 100755
+>>> --- a/scripts/oe-buildenv-internal
+>>> +++ b/scripts/oe-buildenv-internal
+>>> @@ -55,4 +55,4 @@ unset BITBAKEDIR
+>>> export BUILDDIR
+>>> export PATH
+>>>=20
+>>> -export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC http_proxy =
+ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID =
+SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS =
+PARALLEL_MAKE GIT_PROXY_COMMAND"
+>>> +export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC http_proxy =
+ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID =
+SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS =
+PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD SOCSK5_USER"
+>>> --
+>>> 1.7.3.4
+>>=20
+>> Ping on this patch
+>>=20
+> Kumar,
+>=20
+> I think you were asked to modify this patch so that the additinal =
+SOCKS5_* do not get into sstate, Paul Eggleton provided the =
+BB_HASHSPACE_WHITELIST info.
+>=20
+> Please update this patch
+>=20
+> Thanks
+> 	Sau!
 
->
-> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
-> ---
-> =C2=A0meta/recipes-devtools/tcltk/tcl_8.5.9.bb | =C2=A0 =C2=A04 ++--
-> =C2=A01 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb b/meta/recipes-devt=
-ools/tcltk/tcl_8.5.9.bb
-> index 12e2bd0..2eabb4d 100644
-> --- a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
-> +++ b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "file://../license.terms;md5=3Da47=
-a9be26d03f925fc1fbd2784f27e11
-> =C2=A0 =C2=A0 file://../win/license.terms;md5=3Da47a9be26d03f925fc1fbd278=
-4f27e11 \
-> =C2=A0 =C2=A0 "
->
-> -PR =3D "r0"
-> +PR =3D "r1"
->
-> =C2=A0BASE_SRC_URI =3D "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://tcl-add-so=
-name.patch"
-> @@ -59,7 +59,7 @@ do_install() {
->
-> =C2=A0PACKAGES =3D+ "${PN}-lib"
-> =C2=A0FILES_${PN}-lib =3D "${libdir}/libtcl8.5.so*"
-> -FILES_${PN} +=3D "${libdir}/tcl8.5"
-> +FILES_${PN} +=3D "${prefix}/lib/tcl8.5"
-> =C2=A0FILES_${PN}-dev +=3D "${libdir}/tclConfig.sh"
->
-> =C2=A0BBCLASSEXTEND =3D "native"
-> --
-> 1.7.3.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+=46rom the thread it sounded as if that was NOT needed.  As nothing =
+refers to SOCKS5_* we didn't need to add it.  Much like how it doesn't =
+have SSH_AGENT_PID or SSH_AUTH_SOCK in it.
+
+- k=
 
 
