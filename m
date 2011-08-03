@@ -1,28 +1,27 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QoUtf-0007hf-Sr
+	(envelope-from <philb@gnu.org>) id 1QoVB7-0007wa-Ia
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 08:25:40 +0200
-Received: by wyg30 with SMTP id 30so371541wyg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2011 23:21:17 -0700 (PDT)
-Received: by 10.227.198.15 with SMTP id em15mr8543483wbb.3.1312352477795;
-	Tue, 02 Aug 2011 23:21:17 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id ff6sm405594wbb.15.2011.08.02.23.21.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 02 Aug 2011 23:21:17 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAGiJk9e01+q-P51iknAFut7jWgSP4NrzLoNDKAjM-wC+=7U+4w@mail.gmail.com>
-Date: Wed, 3 Aug 2011 08:21:11 +0200
-Message-Id: <726E23E7-68EA-42E8-86B4-0147FCB827FB@dominion.thruhere.net>
-References: <CAGiJk9dWLc6TqMRfG4nqfgHbBHnRVb3V7b_QQwH9UPjip1aNeg@mail.gmail.com>
-	<CAGiJk9e01+q-P51iknAFut7jWgSP4NrzLoNDKAjM-wC+=7U+4w@mail.gmail.com>
+	Wed, 03 Aug 2011 08:43:41 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QoV6v-0002qV-Kb
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Aug 2011 08:39:21 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: Error running QEMU with oe-core / angstrom console-image, hwclock: can't open '/dev/misc/rtc' : No such file or directory
+In-Reply-To: <F2D133A8-03CF-408A-A22B-CCC200E2AF18@dominion.thruhere.net>
+References: <1312296431-18991-1-git-send-email-koen@dominion.thruhere.net>
+	<C9D28EB1-CE86-42E9-9825-0A408698FD66@dominion.thruhere.net>
+	<1312297317.4325.46.camel@phil-desktop>
+	<F2D133A8-03CF-408A-A22B-CCC200E2AF18@dominion.thruhere.net>
+Date: Wed, 03 Aug 2011 07:39:16 +0100
+Message-ID: <1312353556.3223.21.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [PATCH] libc-package bbclass: fix binary localedata dependency code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,37 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 06:25:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Aug 2011 06:43:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Wed, 2011-08-03 at 08:19 +0200, Koen Kooi wrote:
+> Op 2 aug. 2011, om 17:01 heeft Phil Blundell het volgende geschreven:
+> 
+> > It does look a bit weird.  That code was introduced in 561d8754,
+> > ostensibly as a merger of the eglibc and glibc equivalents.  But, the
+> > original code from glibc-package.bbclass did:
+> > 
+> >       def output_locale_binary_rdepends(name, pkgname, locale, encoding):
+> >               m = re.match("(.*)\.(.*)", name)
+> >               if m:
+> >                       glibc_name = "%s.%s" % (m.group(1), m.group(2).lower().replace("-",""))
+> >               else:
+> >                       glibc_name = name
+> >               bb.data.setVar('RDEPENDS_%s' % pkgname, legitimize_package_name('glibc-binary-localedata-%s' % glibc_name), d)
+> > 
+> > ... i.e. it was using the "." separator both for splitting and joining,
+> > which seems reasonable.  But somehow when it showed up in
+> > libc-package.bbclass it had gotten transmogrified so that it split on
+> > "_" but joined with "." as you showed below.  That seems bogus to me.
+> 
+> There is something funky going on if you use cross-localedef instead of on-target localedef and it looks like this is one of the reasons. I can respin the patch in different split formats if people want. But most of all I'd like to know what is going on :)
+
+Well, the original purpose of that code (when it split on dots) was to
+squash hyphens in encoding names.  That is, it transforms "en-US.utf-8"
+to "en-US.utf8", on the grounds that the dash isn't significant there
+and might be confusing with all the other dashes that go on in the
+package name.
+
+I don't know why cross-localdef would be doing anything different to the
+on-target one.  Can you expand on what exactly is the funky behaviour
+you see?
+
+p.
 
 
-Op 3 aug. 2011, om 08:18 heeft Samuel Stirtzel het volgende geschreven:
-
-> Hi,
-> well I never thought this would work out, but after adding "-o rw" to
-> the -append parameters the system started and the login prompt
-> appeared.
->=20
-> So this problem is solved, for completenes I append my used command
-> line to start qemu:
->=20
-> qemu-system-arm -M versatilepb -m 128 -kernel
-> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin -hda
-> =
-/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
-> -append "root=3D/dev/sda -o rw"
-
-FWIW, this is what I use:
-
-qemu-system-arm -M versatilepb -m 256M -kernel zImage --append =
-'root=3D/dev/sda rw console=3Dtty0 raid=3Dnoautodetect' =
-Angstrom-efl-nodm-image-eglibc-ipk-v2011.07-core-qemuarm.rootfs.ext3
-
-Since I'm on OSX I build qemu myself and don't use the wrapper scripts.
-
-regards,
-
-Koen=
 
 
