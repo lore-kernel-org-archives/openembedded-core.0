@@ -1,26 +1,27 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QocS1-0003nc-BH
+	(envelope-from <mark.hatle@windriver.com>) id 1Qocdm-0005Qg-Qz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 16:29:37 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1QocNp-0003v7-79
-	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 16:25:17 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 03 Aug 2011 15:25:16 +0100
-In-Reply-To: <201108031521.07596.paul.eggleton@linux.intel.com>
-References: <cover.1312265186.git.dexuan.cui@intel.com>
-	<201108031501.58796.paul.eggleton@linux.intel.com>
-	<1312380668.4325.79.camel@phil-desktop>
-	<201108031521.07596.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1312381517.4325.83.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] oe-init-build-env, scripts/oe-buildenv-internal: add error detecting for $BDIR
+	Wed, 03 Aug 2011 16:41:47 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p73EbMTK003158
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 3 Aug 2011 07:37:22 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 3 Aug 2011 07:37:21 -0700
+Message-ID: <4E395D20.8020608@windriver.com>
+Date: Wed, 3 Aug 2011 09:37:20 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <BC707063-0722-4F72-A066-4E811125354B@kernel.crashing.org>
+In-Reply-To: <BC707063-0722-4F72-A066-4E811125354B@kernel.crashing.org>
+Subject: Re: prelink issue with ppc64?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 14:29:37 -0000
+X-List-Received-Date: Wed, 03 Aug 2011 14:41:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2011-08-03 at 15:21 +0100, Paul Eggleton wrote:
-> On Wednesday 03 August 2011 15:11:07 Phil Blundell wrote:
-> > Has anybody ever tried to quantify how much work would be involved in
-> > making OE work within the constraints of POSIX sh (i.e. work with dash)?
-> > It does seem fairly obnoxious/embarrassing that you're obliged to
-> > make /bin/sh be bash on a systemwide basis; I can't think offhand of any
-> > other piece of software I use that has this kind of requirement.
+On 8/3/11 12:35 AM, Kumar Gala wrote:
+> If prelink gets a chance to properly run I get a rootfs that does:
 > 
-> Would that not entail fixing everything we build that contains shell scripts 
-> with bashisms that claim "#!/bin/sh"?
+> /sbin/init: relocation error: /lib64/libc.so.6: symbol _rtld_global_ro, version GLIBC_PRIVATE not defined in file ld64.so.1 with link time reference
+> 
+> if 'baselib' is set to /lib we get:
+> 
+> /local/home/galak/git/poky/build-p5020/tmp/sysroots/x86_64-linux/usr/sbin/prelink: /sbin/init.sysvinit: Using /lib/ld64.so.1, not /lib64/ld64.so.1 as dynamic linker
+> 
+> if 'baselib' is set to /lib64 we get:
+> 
+> Assigned virtual address space slots for libraries:
+> /lib64/ld64.so.1                                             00000080f4910000-00000080f49473d0
+> /lib64/libc.so.6                                             00000080f4950000-00000080f4afe090
+> /lib64/libdl.so.2                                            00000080f4b10000-00000080f4b23520
+> /lib64/libcrypt.so.1                                         00000080f4b10000-00000080f4b57708
+> /lib64/libutil.so.1                                          00000080f4b10000-00000080f4b234a0
+> Would prelink /lib64/ld-2.13.so
+> Would prelink /lib64/libc-2.13.so
+> 
+> Not sure what prelink is doing but it seems to breaking things.  Any ideas?
+> 
+> ---
+> 
+> I'm also concerned that we use /etc/prelink.conf when invoking prelink.
 
-Yes, but anything that builds on current Ubuntu (etc) will presumably be
-OK in that respect, and any shell scripts which are installed on the
-target ought to be getting fixed anyway since bash is unlikely to be
-available there.  If you assume that those two groups of things are
-going to have to be solved anyway (by someone) then it isn't obvious to
-me that the remaining problem set will be all that large.
+Prelinker is being run within the rootfs, so the /etc/prelink.conf being used is
+the one inside of the image -- NOT the system version.
 
-If it were to become a real issue then one could write a class which
-searched for shell scripts inside ${S} and reprocessed them to use
-#!/bin/bash, or alternatively write an LD_PRELOAD sort of shim to detect
-such scripts at exec() time and redirect them to bash rather than sh.
+I would suspect that the cross-prelinker rtld emulation is likely setup for the
+LSB style library paths and may be causing some of the problems.
 
-p.
+I'd suggest simply disabling prelink and getting everything to work first.. once
+it does we can work through any prelinker issues.  (Prelink on PPC64 hasn't been
+tested within the oe-core environment.. so it could very well have issues beyond
+the ld.so path.)
 
+--Mark
+
+> - k
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
