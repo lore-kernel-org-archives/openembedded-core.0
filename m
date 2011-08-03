@@ -1,19 +1,31 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX19a1iKtD16tsOgYWVeHjw/2DvZUGZ62z1Y=])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QohRC-0007jN-QS
-	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 21:49:07 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p73JiivE020807
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2011 14:44:44 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 14:44:44 -0500
-Message-Id: <1312400684-8063-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH v2] libmusicbrainz: utilize base_libdir when configured
+	(envelope-from <gary@mlbassoc.com>) id 1Qohhi-0008S1-JQ
+	for openembedded-core@openembedded.org; Wed, 03 Aug 2011 22:06:10 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 999)
+	id 536C1166050E; Wed,  3 Aug 2011 14:01:48 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 4F962166050C;
+	Wed,  3 Aug 2011 14:01:47 -0600 (MDT)
+Message-ID: <4E39A92B.5040207@mlbassoc.com>
+Date: Wed, 03 Aug 2011 14:01:47 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc15 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: McClintock Matthew-B29882 <B29882@freescale.com>
+References: <1312389206-15422-1-git-send-email-msm@freescale.com>
+	<4E397AE8.5020707@mlbassoc.com>
+	<CAEsOVNf5eZ6PLkqw_Ya8XEEzr1uQprGXOeqc4aS7BCcja7Bsmw@mail.gmail.com>
+In-Reply-To: <CAEsOVNf5eZ6PLkqw_Ya8XEEzr1uQprGXOeqc4aS7BCcja7Bsmw@mail.gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@openembedded.org" <openembedded-core@openembedded.org>
+Subject: Re: [yocto] [PATCH] Update intltool to set perl shebang correctly for installed tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,39 +40,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 19:49:07 -0000
+X-List-Received-Date: Wed, 03 Aug 2011 20:06:10 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Pass $libdir through when we configure to support a location
-other than /lib.
+On 2011-08-03 13:52, McClintock Matthew-B29882 wrote:
+> (Sorry if this get sent twice...)
+>
+> On Wed, Aug 3, 2011 at 11:44 AM, Gary Thomas<gary@mlbassoc.com>  wrote:
+>> On 2011-08-03 10:33, Matthew McClintock wrote:
+>>>
+>>> Several installed scripts set the perl shebang that is too long
+>>> which can cause failures on certian older bash versions.
+>>
+>> How does the change below correspond to this comment?  It's not
+>> clear [at least to me] how changing that environment variable
+>> affects shebang constructs.  Can you give a more thorough explanation?
+>
+> The scripts intltool-{update,etc} installed in sysroot end up having
+> *really* long shebangs without this change. On older distros this
+> causes the intltool scripts to just fail usually during the configure
+> task. intltools recipe itself will
+> build and install fine. However, when a package that requires
+> intltool's is being configured they will all fail withing invoking
+> intltools.
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
-* Make it libdir instead of base_libdir
+This much was already clear from your explanation - the "what happens and
+why it needs fixing" part.
 
- .../musicbrainz/libmusicbrainz_3.0.3.bb            |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+What I don't see is the "why" - why does defining PERL vs PERL_virtclass-native
+have this effect?
 
-diff --git a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb
-index d6fb2f4..6331452 100644
---- a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb
-+++ b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING.txt;md5=fbc093901857fcd118f065f900982c24 \
-                     file://include/musicbrainz3/includes.h;beginline=1;endline=21;md5=9ab2846573f560cea7561da472803a72"
- DEPENDS = "expat neon"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://ftp.musicbrainz.org/pub/musicbrainz/${BPN}-${PV}.tar.gz \
-            file://fix_build_issue_for_gcc_4.5.0.patch "
-@@ -15,3 +15,5 @@ SRC_URI[md5sum] = "f4824d0a75bdeeef1e45cc88de7bb58a"
- SRC_URI[sha256sum] = "7fd459a9fd05be9faec60a9a21caa9a1e9fda03147d58d8c7c95f33582a738c5"
- 
- inherit cmake pkgconfig
-+
-+EXTRA_OECMAKE = "-DLIB_INSTALL_DIR=${libdir}"
 -- 
-1.7.3.4
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
