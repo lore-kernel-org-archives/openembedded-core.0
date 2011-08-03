@@ -1,25 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qojja-0004Tu-HF
+	(envelope-from <sgw@linux.intel.com>) id 1Qojja-0004U0-Gm
 	for openembedded-core@lists.openembedded.org;
 	Thu, 04 Aug 2011 00:16:18 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2011 15:11:48 -0700
+	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2011 15:11:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.67,312,1309762800"; 
-   d="scan'208";a="3912933"
+   d="scan'208";a="3912931"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
 	by AZSMGA002.ch.intel.com with ESMTP; 03 Aug 2011 15:11:47 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 15:10:56 -0700
-Message-Id: <e529ac8a91191ed8b859c065efe998c7527861a7.1312407628.git.sgw@linux.intel.com>
+Date: Wed,  3 Aug 2011 15:10:55 -0700
+Message-Id: <bcceab50a3d5210022cc94ca70ac7cf1f5134343.1312407628.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL v2 12/33] libsoup-2.4: Upgrade to 2.34.2
+Subject: [CONSOLIDATED PULL v2 11/33] lighttpd: Upgrade to 1.4.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,28 +40,35 @@ From: Zhai Edwin <edwin.zhai@intel.com>
 
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- ...libsoup-2.4_2.34.1.bb => libsoup-2.4_2.34.2.bb} |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.34.1.bb => libsoup-2.4_2.34.2.bb} (76%)
+ .../{lighttpd_1.4.28.bb => lighttpd_1.4.29.bb}     |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.28.bb => lighttpd_1.4.29.bb} (90%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.34.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.34.2.bb
-similarity index 76%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.34.1.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.34.2.bb
-index f9e8de5..57af8f7 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.34.1.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.34.2.bb
-@@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 libgnome-keyring"
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.28.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb
+similarity index 90%
+rename from meta/recipes-extended/lighttpd/lighttpd_1.4.28.bb
+rename to meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb
+index d43766c..c1d5f81 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.28.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.29.bb
+@@ -18,14 +18,14 @@ RDEPENDS_${PN} += " \
  
- SRC_URI = "${GNOME_MIRROR}/libsoup/2.34/libsoup-${PV}.tar.bz2"
+ PR = "r0"
  
--SRC_URI[md5sum] = "846779d898c11f97b5de28a79ea82254"
--SRC_URI[sha256sum] = "a2f846af2c4c08e15eacc9879c8c9be4d85f8105f960f96a9ba3dbabd9ee517b"
-+SRC_URI[md5sum] = "2454b38681a6e082b613a781a501e721"
-+SRC_URI[sha256sum] = "1d70edc48c309528635012269733739f9cd22548913125864318a65d1b6f1261"
+-SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.tar.gz;name=src \
++SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.tar.bz2 \
+         file://index.html \
+         file://lighttpd.conf \
+         file://lighttpd \
+ "
  
- S = "${WORKDIR}/libsoup-${PV}"
+-SRC_URI[src.md5sum] = "202d36efc6324adb95a3600d2826ec6a"
+-SRC_URI[src.sha256sum] = "efd7623f43182723b99c51d57a24158e22a207cd90dca35aaf3b2e3bac115712"
++SRC_URI[md5sum] = "e6e67b09986cb504db630b5a86b2dd76"
++SRC_URI[sha256sum] = "afd8af213e65afb48b397d004696c6620a7ae7f3d4f162ec46a04b9b9dbfd599"
  
+ EXTRA_OECONF = " \
+              --without-bzip2 \
 -- 
 1.7.3.4
 
