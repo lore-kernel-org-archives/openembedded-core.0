@@ -1,25 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qojji-0004Tu-3X
+	(envelope-from <sgw@linux.intel.com>) id 1Qojjj-0004U0-Aj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 00:16:22 +0200
+	Thu, 04 Aug 2011 00:16:23 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2011 15:11:51 -0700
+	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2011 15:11:52 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.67,312,1309762800"; 
-   d="scan'208";a="3912954"
+   d="scan'208";a="3912958"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Aug 2011 15:11:51 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Aug 2011 15:11:52 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 15:11:07 -0700
-Message-Id: <b218ee9ca19aeab9e2c7b9bf3c62b72731264164.1312407628.git.sgw@linux.intel.com>
+Date: Wed,  3 Aug 2011 15:11:09 -0700
+Message-Id: <9809d7cb8136a3ca18653337755d80a9de804297.1312407628.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL v2 23/33] eglibc: fix build for armv4 machines
+Subject: [CONSOLIDATED PULL v2 25/33] sudo: Drop sudo_cv_uid_t_len from site files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,134 +34,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 22:16:22 -0000
+X-List-Received-Date: Wed, 03 Aug 2011 22:16:23 -0000
 
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+From: Tom Rini <tom_rini@mentor.com>
 
-eglibc builds for arm-eabi unconditionally enables the libc-do-syscall.S
-file, which contains thumb assembly. It's unused in arm-eabi-nothumb case,
-so just ifdef the actual code.
+We were just setting this to the assumed default.  If anything, this
+belongs in the libc files if we must set it.
 
-V2: use the patch from oe.dev.
-
-The patch is submitted to sourceware bugzilla by Khem Raj back in October
-of 2010, but the status is still UNCONFIRMED and the patch isn't commited.
-
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- .../eglibc-2.12/armv4-eabi-compile-fix.patch       |   25 ++++++++++++++++++++
- .../eglibc-2.13/armv4-eabi-compile-fix.patch       |   25 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.12.bb            |    3 +-
- meta/recipes-core/eglibc/eglibc_2.13.bb            |    3 +-
- 4 files changed, 54 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.12/armv4-eabi-compile-fix.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch
+ meta/site/arm-common        |    3 ---
+ meta/site/ix86-common       |    3 ---
+ meta/site/mips-linux        |    3 ---
+ meta/site/mips-linux-uclibc |    3 ---
+ meta/site/mipsel-linux      |    5 +----
+ meta/site/powerpc32-linux   |    3 ---
+ meta/site/sh-common         |    3 ---
+ meta/site/x86_64-linux      |    1 -
+ 8 files changed, 1 insertions(+), 23 deletions(-)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.12/armv4-eabi-compile-fix.patch b/meta/recipes-core/eglibc/eglibc-2.12/armv4-eabi-compile-fix.patch
-new file mode 100644
-index 0000000..c2407ee
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.12/armv4-eabi-compile-fix.patch
-@@ -0,0 +1,25 @@
-+Source: http://sourceware.org/bugzilla/show_bug.cgi?id=12097
-+Upstream-Status: Submitted
-+
-+The patch should be merged into glibc-ports
-+
-+-Khem
-+Index: libc/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-+===================================================================
-+--- libc.orig/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-++++ libc/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-+@@ -16,6 +16,8 @@
-+    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-+    02111-1307 USA.  */
-+ 
-++#if defined(__thumb__)
-++
-+ #include <sysdep.h>
-+ 
-+ /* Out-of-line syscall stub.  We expect the system call number in ip
-+@@ -41,3 +43,5 @@ ENTRY (__libc_do_syscall)
-+ 	pop	{r7, pc}
-+ 	.fnend
-+ END (__libc_do_syscall)
-++
-++#endif /* __thumb__ */
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch b/meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch
-new file mode 100644
-index 0000000..c2407ee
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch
-@@ -0,0 +1,25 @@
-+Source: http://sourceware.org/bugzilla/show_bug.cgi?id=12097
-+Upstream-Status: Submitted
-+
-+The patch should be merged into glibc-ports
-+
-+-Khem
-+Index: libc/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-+===================================================================
-+--- libc.orig/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-++++ libc/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-+@@ -16,6 +16,8 @@
-+    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-+    02111-1307 USA.  */
-+ 
-++#if defined(__thumb__)
-++
-+ #include <sysdep.h>
-+ 
-+ /* Out-of-line syscall stub.  We expect the system call number in ip
-+@@ -41,3 +43,5 @@ ENTRY (__libc_do_syscall)
-+ 	pop	{r7, pc}
-+ 	.fnend
-+ END (__libc_do_syscall)
-++
-++#endif /* __thumb__ */
-diff --git a/meta/recipes-core/eglibc/eglibc_2.12.bb b/meta/recipes-core/eglibc/eglibc_2.12.bb
-index 1ada892..ce16bd6 100644
---- a/meta/recipes-core/eglibc/eglibc_2.12.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.12.bb
-@@ -1,7 +1,7 @@
- require eglibc.inc
+diff --git a/meta/site/arm-common b/meta/site/arm-common
+index 04d1164..2129298 100644
+--- a/meta/site/arm-common
++++ b/meta/site/arm-common
+@@ -191,9 +191,6 @@ ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=yes}
+ # startup-notification
+ lf_cv_sane_realloc=yes
  
- DEPENDS += "gperf-native"
--PR = "r20"
-+PR = "r21"
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-
+ # xffm
+ jm_cv_func_working_readdir=yes
  
- SRCREV = "14158"
+diff --git a/meta/site/ix86-common b/meta/site/ix86-common
+index 7a7e253..122eb14 100644
+--- a/meta/site/ix86-common
++++ b/meta/site/ix86-common
+@@ -211,9 +211,6 @@ ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=yes}
+ # startup-notification
+ lf_cv_sane_realloc=yes
  
-@@ -11,6 +11,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://IO-acquire-lock-fix.patch \
-            file://shorten-build-commands.patch \
-            file://mips-rld-map-check.patch \
-+           file://armv4-eabi-compile-fix.patch \
-            file://etc/ld.so.conf \
-            file://generate-supported.mk \
- 	  "
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index 41fe7c7..ddca50f 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "14157"
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-
+ # xffm
+ jm_cv_func_working_readdir=yes
  
- DEPENDS += "gperf-native"
--PR = "r9"
-+PR = "r10"
- PR_append = "+svnr${SRCPV}"
+diff --git a/meta/site/mips-linux b/meta/site/mips-linux
+index 807e552..212c3ad 100644
+--- a/meta/site/mips-linux
++++ b/meta/site/mips-linux
+@@ -76,9 +76,6 @@ samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
+ # vim
+ ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
  
- EGLIBC_BRANCH="eglibc-2_13"
-@@ -13,6 +13,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://shorten-build-commands.patch \
-            file://mips-rld-map-check.patch \
-            file://stack-protector-test.patch \
-+           file://armv4-eabi-compile-fix.patch \
-            file://etc/ld.so.conf \
-            file://generate-supported.mk \
-            file://glibc_bug_fix_12454.patch \
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-
+ # intercom
+ ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
+ 
+diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
+index 807e552..212c3ad 100644
+--- a/meta/site/mips-linux-uclibc
++++ b/meta/site/mips-linux-uclibc
+@@ -76,9 +76,6 @@ samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
+ # vim
+ ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
+ 
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-
+ # intercom
+ ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
+ 
+diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
+index c59d85f..a9032ac 100644
+--- a/meta/site/mipsel-linux
++++ b/meta/site/mipsel-linux
+@@ -77,10 +77,7 @@ samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
+ # vim
+ ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
+ 
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-
+-#intercom
++# intercom
+ ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
+ 
+ #lmbench
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index 46b64eb..8a10111 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -280,9 +280,6 @@ ac_cv_sync_with_stdio_2=${ac_cv_sync_with_stdio_2=yes}
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+ 
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-
+ # dpkg
+ dpkg_cv_va_copy=${ac_cv_va_copy=yes}
+ dpkg_cv___va_copy=${ac_cv___va_copy=yes}
+diff --git a/meta/site/sh-common b/meta/site/sh-common
+index 26a612a..63abe57 100644
+--- a/meta/site/sh-common
++++ b/meta/site/sh-common
+@@ -231,9 +231,6 @@ rsync_cv_HAVE_SECURE_MKSTEMP=${rsync_cv_HAVE_SECURE_MKSTEMP=yes}
+ rsync_cv_REPLACE_INET_NTOA=${rsync_cv_REPLACE_INET_NTOA=no}
+ rsync_cv_REPLACE_INET_ATON=${rsync_cv_REPLACE_INET_ATON=no}
+ 
+-# sudo
+-sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
+-
+ # ipsec-tools
+ ac_cv_va_copy=${ac_cv_va_copy=no}
+ ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
+index 968dedc..91965b9 100644
+--- a/meta/site/x86_64-linux
++++ b/meta/site/x86_64-linux
+@@ -92,7 +92,6 @@ ac_cv_alignof_CORBA_short=2
+ ac_cv_alignof_CORBA_struct=1
+ ac_cv_alignof_CORBA_wchar=2
+ 
+-sudo_cv_uid_t=${sudo_cv_uid_t_len=10}
+ lf_cv_sane_realloc=yes
+ as_cv_unaligned_access=${as_cv_unaligned_access=yes}
+ 
 -- 
 1.7.3.4
 
