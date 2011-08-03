@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qoiva-0002CA-Nt
+	(envelope-from <sgw@linux.intel.com>) id 1Qoiva-0002Bt-Qj
 	for openembedded-core@lists.openembedded.org;
 	Wed, 03 Aug 2011 23:24:35 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 03 Aug 2011 14:20:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,312,1309762800"; d="scan'208";a="34056957"
+X-IronPort-AV: E=Sophos;i="4.67,312,1309762800"; d="scan'208";a="34056962"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
-	by orsmga002.jf.intel.com with ESMTP; 03 Aug 2011 14:19:54 -0700
+	by orsmga002.jf.intel.com with ESMTP; 03 Aug 2011 14:19:55 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 14:19:36 -0700
-Message-Id: <2084694f884885740d4bc0ab88f8a32d068d38bd.1312394851.git.sgw@linux.intel.com>
+Date: Wed,  3 Aug 2011 14:19:37 -0700
+Message-Id: <435abb0da92fa15bad15e638087b5e5fb4008c9f.1312394851.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312394851.git.sgw@linux.intel.com>
 References: <cover.1312394851.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312394851.git.sgw@linux.intel.com>
 References: <cover.1312394851.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 23/33] Various site files: Drop monotone
+Subject: [CONSOLIDATED PULL 24/33] Various siteinfo files: Consolidate ac_cv_func_getaddrinfo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,154 +37,181 @@ X-List-Received-Date: Wed, 03 Aug 2011 21:24:39 -0000
 
 From: Tom Rini <tom_rini@mentor.com>
 
-Not in oe-core nor meta-oe and based on oe.dev, possibly incomplete.
+This is a libc feature, move there.  Drop the ipsec-tools specific
+test as ipsec-tools (a) assumes fine on cross-compile and (b) doesn't
+support buggy getaddrinfo now.
 
 Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- meta/site/arm-common        |    3 ---
- meta/site/arm-linux         |    3 ---
- meta/site/common-glibc      |    3 ---
- meta/site/ix86-common       |    3 ---
- meta/site/mips-linux        |    5 -----
- meta/site/mips-linux-uclibc |    5 -----
- meta/site/mipsel-linux      |    5 -----
- meta/site/powerpc32-linux   |    4 ----
- meta/site/sh-common         |    3 ---
- 9 files changed, 0 insertions(+), 34 deletions(-)
+ meta/site/arm-common          |    2 --
+ meta/site/common-glibc        |    1 +
+ meta/site/common-uclibc       |    1 +
+ meta/site/ix86-common         |    2 --
+ meta/site/mips-linux          |    1 -
+ meta/site/mips-linux-uclibc   |    1 -
+ meta/site/mipsel-linux        |    1 -
+ meta/site/mipsel-linux-uclibc |    1 -
+ meta/site/powerpc32-linux     |    1 -
+ meta/site/sh-common           |    2 --
+ meta/site/x86_64-linux-uclibc |    1 -
+ 11 files changed, 2 insertions(+), 12 deletions(-)
 
 diff --git a/meta/site/arm-common b/meta/site/arm-common
-index 2129298..7317a13 100644
+index 7317a13..65ebd06 100644
 --- a/meta/site/arm-common
 +++ b/meta/site/arm-common
-@@ -116,9 +116,6 @@ with_broken_putenv=${with_broken_putenv=no}
- # links
- ac_cv_lib_png_png_create_info_struct=${ac_cv_lib_png_png_create_info_struct=yes}
+@@ -87,7 +87,6 @@ ac_cv_strerror_r_SUSv3=${ac_cv_strerror_r_SUSv3=no}
+ ac_cv_va_copy=${ac_cv_va_copy=yes}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
+ ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+-racoon_cv_bug_getaddrinfo=${racoon_cv_bug_getaddrinfo=no}
  
--# mono
--cv_mono_sizeof_sunpath=108
--
- # mysql
- mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
- mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
-diff --git a/meta/site/arm-linux b/meta/site/arm-linux
-index 22b455a..87b45eb 100644
---- a/meta/site/arm-linux
-+++ b/meta/site/arm-linux
-@@ -154,9 +154,6 @@ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
- # lftp
- ac_cv_file___dev_ptc_=yes
+ # jikes
+ ac_cv_sizeof_wchar_t=4
+@@ -137,7 +136,6 @@ ac_cv_alignof_CORBA_pointer=4
+ ac_cv_alignof_CORBA_short=2
+ ac_cv_alignof_CORBA_struct=1
+ ac_cv_alignof_CORBA_wchar=2
+-ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
  
--#mono
--mono_cv_uscore=${mono_cv_uscore=no}
--
- # guile
- ac_cv_func_pthread_attr_getstack=${ac_cv_func_pthread_attr_getstack=yes}
- 
+ # php
+ ac_cv_pread=${ac_cv_pread=no}
 diff --git a/meta/site/common-glibc b/meta/site/common-glibc
-index baca5f8..258f9ad 100644
+index 258f9ad..8cb8b8e 100644
 --- a/meta/site/common-glibc
 +++ b/meta/site/common-glibc
-@@ -38,9 +38,6 @@ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
- # gnucash
- am_cv_scanf_lld=${am_cv_scanf_lld=yes}
+@@ -13,6 +13,7 @@ ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
+ ac_cv_type_uid_t={ac_cv_type_uid_t=yes}
++ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
  
--# mono
--mono_cv_uscore=${mono_cv_uscore=no}
--
- # guile
- ac_cv_func_pthread_attr_getstack=${ac_cv_func_pthread_attr_getstack=yes}
+ # bash
+ bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=yes}
+diff --git a/meta/site/common-uclibc b/meta/site/common-uclibc
+index 002a559..d8a66a6 100644
+--- a/meta/site/common-uclibc
++++ b/meta/site/common-uclibc
+@@ -11,6 +11,7 @@ ac_cv_func_getgrgid_r=${ac_cv_func_getgrgid_r=yes}
+ ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
+ ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
+ ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
++ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
  
+ # glib
+ glib_cv_strlcpy=${glib_cv_strlcpy=no}
 diff --git a/meta/site/ix86-common b/meta/site/ix86-common
-index 122eb14..141ef3a 100644
+index 141ef3a..c663466 100644
 --- a/meta/site/ix86-common
 +++ b/meta/site/ix86-common
-@@ -137,9 +137,6 @@ ac_libnet_have_packet_socket=${ac_libnet_have_packet_socket=yes}
- # libxfce4util
- with_broken_putenv=${with_broken_putenv=no}
+@@ -117,7 +117,6 @@ ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
+ ac_cv_va_copy=${ac_cv_va_copy=no}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
+ ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+-racoon_cv_bug_getaddrinfo=${racoon_cv_bug_getaddrinfo=no}
  
--# mono
--cv_mono_sizeof_sunpath=108
--
- # mysql
- mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=yes}
- mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=yes}
+ # jikes-native
+ ac_cv_sizeof_wchar_t=4
+@@ -154,7 +153,6 @@ ac_cv_alignof_CORBA_pointer=4
+ ac_cv_alignof_CORBA_short=2
+ ac_cv_alignof_CORBA_struct=4
+ ac_cv_alignof_CORBA_wchar=2
+-ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
+ 
+ # php
+ ac_cv_pread=${ac_cv_pread=no}
 diff --git a/meta/site/mips-linux b/meta/site/mips-linux
-index 212c3ad..b99633b 100644
+index b99633b..e90b983 100644
 --- a/meta/site/mips-linux
 +++ b/meta/site/mips-linux
-@@ -85,11 +85,6 @@ ac_cv_uint=${ac_cv_unit=yes}
- # D-BUS
- ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+@@ -36,7 +36,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
  
--# mono
--cv_mono_sizeof_sunpath=108
--mono_cv_sizeof_sunpath=108
--mono_cv_uscore=${mono_cv_uscore=no}
--
- # popt
- ac_cv_va_copy=${ac_cv_va_copy=yes}
- ac_cv___va_copy=${ac_cv___va_copy=yes}
+ # libpcap
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+-ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
+ 
+ # slrn
+ slrn_cv___va_copy=${slrn_cv___va_copy=yes}
 diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
-index 212c3ad..b99633b 100644
+index b99633b..e90b983 100644
 --- a/meta/site/mips-linux-uclibc
 +++ b/meta/site/mips-linux-uclibc
-@@ -85,11 +85,6 @@ ac_cv_uint=${ac_cv_unit=yes}
- # D-BUS
- ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+@@ -36,7 +36,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
  
--# mono
--cv_mono_sizeof_sunpath=108
--mono_cv_sizeof_sunpath=108
--mono_cv_uscore=${mono_cv_uscore=no}
--
- # popt
- ac_cv_va_copy=${ac_cv_va_copy=yes}
- ac_cv___va_copy=${ac_cv___va_copy=yes}
+ # libpcap
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+-ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
+ 
+ # slrn
+ slrn_cv___va_copy=${slrn_cv___va_copy=yes}
 diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
-index a9032ac..3347914 100644
+index 3347914..7292f6f 100644
 --- a/meta/site/mipsel-linux
 +++ b/meta/site/mipsel-linux
-@@ -85,11 +85,6 @@ ac_cv_uint=${ac_cv_unit=yes}
+@@ -37,7 +37,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
  
- # D-BUS
- ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
--
--#mono
--cv_mono_sizeof_sunpath=108
--mono_cv_uscore=${mono_cv_uscore=no}
--
- # popt
- ac_cv_va_copy=${ac_cv_va_copy=yes}
- ac_cv___va_copy=${ac_cv___va_copy=yes}
+ # libpcap
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+-ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
+ 
+ # slrn
+ slrn_cv___va_copy=${slrn_cv___va_copy=yes}
+diff --git a/meta/site/mipsel-linux-uclibc b/meta/site/mipsel-linux-uclibc
+index 3c8f41e..ed426a9 100644
+--- a/meta/site/mipsel-linux-uclibc
++++ b/meta/site/mipsel-linux-uclibc
+@@ -31,7 +31,6 @@ glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
+ 
+ # libpcap
+ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+-ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
+ 
+ # slrn
+ slrn_cv___va_copy=${slrn_cv___va_copy=yes}
 diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
-index 8a10111..c0e3804 100644
+index c0e3804..60dad35 100644
 --- a/meta/site/powerpc32-linux
 +++ b/meta/site/powerpc32-linux
-@@ -272,10 +272,6 @@ samba_cv_have_longlong=${samba_cv_have_longlong=yes}
- samba_cv_have_setresgid=${samba_cv_have_setresgid=yes}
- samba_cv_have_setresuid=${samba_cv_have_setresuid=yes}
+@@ -180,7 +180,6 @@ ac_cv_alignof_CORBA_pointer=4
+ ac_cv_alignof_CORBA_short=2
+ ac_cv_alignof_CORBA_struct=4
+ ac_cv_alignof_CORBA_wchar=2
+-ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
  
--#monotone
--ac_cv_sync_with_stdio=${ac_cv_sync_with_stdio=yes} 
--ac_cv_sync_with_stdio_2=${ac_cv_sync_with_stdio_2=yes}
--
- # mysql
- mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
- mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+ # cvs
+ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
 diff --git a/meta/site/sh-common b/meta/site/sh-common
-index 63abe57..bbf98a5 100644
+index bbf98a5..6d57a08 100644
 --- a/meta/site/sh-common
 +++ b/meta/site/sh-common
-@@ -201,9 +201,6 @@ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
- ac_cv_c_long_double=${ac_cv_c_long_double=yes}
- bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
+@@ -192,7 +192,6 @@ ac_cv_alignof_CORBA_pointer=4
+ ac_cv_alignof_CORBA_short=2
+ ac_cv_alignof_CORBA_struct=4
+ ac_cv_alignof_CORBA_wchar=2
+-ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
  
--# mono
--cv_mono_sizeof_sunpath=108
--
- # mysql
- mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
- mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+ # cvs
+ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+@@ -232,7 +231,6 @@ rsync_cv_REPLACE_INET_ATON=${rsync_cv_REPLACE_INET_ATON=no}
+ ac_cv_va_copy=${ac_cv_va_copy=no}
+ ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
+-racoon_cv_bug_getaddrinfo=${racoon_cv_bug_getaddrinfo=no}
+ 
+ # libxfce4util
+ with_broken_putenv=${with_broken_putenv=no}
+diff --git a/meta/site/x86_64-linux-uclibc b/meta/site/x86_64-linux-uclibc
+index 4699240..6eb5285 100644
+--- a/meta/site/x86_64-linux-uclibc
++++ b/meta/site/x86_64-linux-uclibc
+@@ -78,7 +78,6 @@ ac_cv_alignof_CORBA_pointer=8
+ ac_cv_alignof_CORBA_short=2
+ ac_cv_alignof_CORBA_struct=1
+ ac_cv_alignof_CORBA_wchar=2
+-ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
+ 
+ # startup-notification
+ lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
 -- 
 1.7.3.4
 
