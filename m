@@ -1,25 +1,28 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1+sobcivBBKTlf25FTYBUbuA73w1wvhTLw=])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qoay7-00019R-Fm
+	(envelope-from <dvhart@linux.intel.com>) id 1Qobue-0002b7-NW
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 14:54:39 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p73CoFQB009250
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2011 07:50:16 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <1312374341.2344.661.camel@rex>
-Date: Wed, 3 Aug 2011 07:50:18 -0500
-Message-Id: <A39C067A-56CC-4019-9E2A-EC8DD9039677@kernel.crashing.org>
-References: <3C9A62B9-7C88-4DF0-A379-8E58955B89CD@kernel.crashing.org>
-	<A8C5CE71-29E0-4C18-9D66-7CE0EFAE4782@kernel.crashing.org>
-	<1312374341.2344.661.camel@rex>
-To: Patches and discussions about the oe-core layer
+	Wed, 03 Aug 2011 15:55:08 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2011 06:50:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,310,1309762800"; d="scan'208";a="37462112"
+Received: from unknown (HELO [10.255.14.151]) ([10.255.14.151])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2011 06:50:45 -0700
+Message-ID: <4E395235.9010709@linux.intel.com>
+Date: Wed, 03 Aug 2011 06:50:45 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: "Cui, Dexuan" <dexuan.cui@intel.com>
+References: <cover.1312265186.git.dexuan.cui@intel.com>	<6def4624e63c8c7cf439dff32cb155dd2bba0ebe.1312265186.git.dexuan.cui@intel.com>	<1312285430.2344.582.camel@rex>
+	<4E38C941.30805@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6B304414CE2@shsmsx502.ccr.corp.intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6B304414CE2@shsmsx502.ccr.corp.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: help with gcc-configure-common bug
+Subject: Re: [PATCH 1/1] oe-init-build-env, scripts/oe-buildenv-internal: add error detecting for $BDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,96 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 12:54:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Aug 2011 13:55:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
 
-On Aug 3, 2011, at 7:25 AM, Richard Purdie wrote:
 
-> On Tue, 2011-08-02 at 10:36 -0500, Kumar Gala wrote:
->> On Aug 1, 2011, at 1:58 PM, Kumar Gala wrote:
->>=20
->>> I'm trying to track down a bug related the following in =
-gcc-configure-common.inc.  I know there is one bug in the sed line, but =
-when I fix that I run into a second issue.  I'm trying to understand =
-what we think the following two lines are trying to attempt:
->>>=20
->>>       SYSTEMLIBS_DIR=3D`dirname ${SYSTEMLIBS}`
->>>       [ "$SYSTEMLIBS_DIR" =3D "/" ] && SYSTEMLIBS_DIR=3D""
->>>=20
->>> any ideas?
->>>=20
->>>> =46rom the commit log we expect something like:
->>>       #define GLIBC_DYNAMIC_LINKER64 =
-SYSTEMLIBS_DIR"/ld-linux-x86-64.so.2"
->>>       and we define SYSTEMLIBS_DIR in defaults.h.
->>>=20
->>> so its seems if SYSTEMLIBS =3D 'lib', that we end up with:
->>> 	#define SYSTEMLIBS ""
->>>=20
->>> and thus becomes:
->>> 	GLIBC_DYNAMIC_LINKER64 "ld-linux-x86-64.so.2"
->>>=20
->>> which ends up being wrong.
->>>=20
->>> - k
->>>=20
->>> do_configure_prepend () {
->>>       # Change the default dynamic linker path, only useful for SDK, =
-other's value
->>>       # are not changed according to the SYSTEMLIBS_DIR
->>>       sed -i ${S}/gcc/config/*/linux*.h -e \
->>>               's#\(GLIBC_DYNAMIC_LINKER[^ ]*\)\( *"/lib.*\)#\1 =
-SYSTEMLIBS_DIR\2#'
->>>=20
->>>       SYSTEMLIBS_DIR=3D`dirname ${SYSTEMLIBS}`
->>>       [ "$SYSTEMLIBS_DIR" =3D "/" ] && SYSTEMLIBS_DIR=3D""
->>>       # teach gcc to find correct target includedir when checking =
-libc ssp support
->>>       mkdir -p ${B}/gcc
->>>       echo "NATIVE_SYSTEM_HEADER_DIR =3D ${SYSTEMHEADERS}" > =
-${B}/gcc/t-oe
->>>       cat ${S}/gcc/defaults.h | grep -v "\#endif.*GCC_DEFAULTS_H" > =
-${B}/gcc/defaults.h.new
->>>       cat >>${B}/gcc/defaults.h.new <<_EOF
->>> #ifndef STANDARD_INCLUDE_DIR
->>> #define STANDARD_INCLUDE_DIR "${SYSTEMHEADERS}"
->>> #endif
->>> #ifndef STANDARD_STARTFILE_PREFIX_1
->>> #define STANDARD_STARTFILE_PREFIX_1 "${SYSTEMLIBS}"
->>> #endif
->>> #ifndef STANDARD_STARTFILE_PREFIX_2
->>> #define STANDARD_STARTFILE_PREFIX_2 "${SYSTEMLIBS1}"
->>> #endif
->>> #define SYSTEMLIBS_DIR "$SYSTEMLIBS_DIR"
->>> #endif /* ! GCC_DEFAULTS_H */
->>> _EOF
->>>       mv ${B}/gcc/defaults.h.new ${B}/gcc/defaults.h
->>> }
->>=20
->> Would really love if anyone knows what is suppose to be going on with =
-SYSTEMLIBS_DIR to chime in here.
->=20
-> Ah, I can help here :)
->=20
-> We only have one gcc source checkout with the shared work directory.
-> Each multilib (or sdk build) needs to customise SYSTEMLIBS depending =
-on
-> its configuration. This is why its being done in the defaults.h file =
-in
-> ${B} instead of files in ${S}.
->=20
-> We likely should do the substitutions in ${S} at unpack time to make
-> this clearer.
->=20
-> Cheers,
->=20
-> Richard
->=20
+On 08/02/2011 11:46 PM, Cui, Dexuan wrote:
+> Darren Hart wrote on 2011-08-03:
+>> On 08/02/2011 04:43 AM, Richard Purdie wrote:
+>>> On Tue, 2011-08-02 at 14:08 +0800, Dexuan Cui wrote:
+>>>> [YOCTO #671]
+>>> 
+>> For a patch to address a relatively benign bug I thought the
+>> standard procedure would be for it to await feedback for more than
+>> 5 hours. I
+> I agree. :-)
+> 
+>> was hoping to have an opportunity to review this fix as I was
+>> working with the team in root causing the bug.
+>> 
+>> + if [ -z "$BDIR" ]; then + if expr "$1" : '.*/$' >/dev/null; then
+>> echo >&2 "Error: please + remove any trailing / in the argument."
+>> 
+>> This portion of the patch is really not necessary. There is no 
+>> meaningful difference between the path with or without the
+>> trailing slash, a much simpler and less noisy solution would be to
+>> simply strip the trailing slash from the user input before doing
+>> the rest of the input validation.
+> Hi Darren, thanks for the suggestion! I considered the idea too,
+> however, if we use the idea, it looks not that simple to gracefully
+> and concisely handle the case if a user (by accident or by prank)
+> passes / as $1 here, i.e., "readlink -f" would fail. So I didn't do
+> that.
 
-Post some patches to address this, so take a look.
+Hi Dexuan,
 
-- k=
+I had not considered that case, good catch. I can't think of a valid use
+case for BDIR="/". Not only are write permissions unlikely, but the
+build would conflict with /tmp as well.
+
+if [ "$BDIR" == "/" ]; then
+	echo "ERROR: / is not supported as a build directory."
+	exit 1
+fi
+BDIR=${BDIR%/}
+
+I would be happy with something like the above (untested). It seems a
+lot more clear and direct to me.
+
+In any case, I don't see any reason to bail out and ask the user to
+remove a trailing slash. We should just do this and move on. There is no
+semantic difference from the user's perspective, and the blame is to be
+placed on readlink, not the user.
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
