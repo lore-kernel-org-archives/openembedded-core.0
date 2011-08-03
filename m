@@ -1,34 +1,29 @@
-Received: from mail-pz0-f43.google.com ([209.85.210.43])
+Received: from mail-ey0-f174.google.com ([209.85.215.174])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QoQnT-0007JQ-QD
-	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 04:03:00 +0200
-Received: by pzk1 with SMTP id 1so649617pzk.16
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Aug 2011 18:58:36 -0700 (PDT)
+	(envelope-from <agnel.joel@gmail.com>)
+	id 1QoRl7-0008On-Be; Wed, 03 Aug 2011 05:04:37 +0200
+Received: by eyx24 with SMTP id 24so425160eyx.19
+	for <multiple recipients>; Tue, 02 Aug 2011 20:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=j3rvHccL0rjYTX5ov2dJUEaDX48gscZ36hb8efV3YCU=;
-	b=imZBqP54mz+UFPGQ/VJOLnhXaQww0xLKs8XXY2qikgW20LTxV1wu6Wxi0KDs4Y0U2R
-	2YL1YJpU6ue5pEVxsKnMmWH5Mzov4ja2GuXv/LD3EuiHjMEYrB/93ZERmqLB9RSz3pIC
-	BR2vXKa7tsD4Yy0VSs7Hwl+/gBZV259HiwTQQ=
-Received: by 10.142.71.4 with SMTP id t4mr4068026wfa.101.1312336716145;
-	Tue, 02 Aug 2011 18:58:36 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id p12sm205054wfh.12.2011.08.02.18.58.32
-	(version=SSLv3 cipher=OTHER); Tue, 02 Aug 2011 18:58:33 -0700 (PDT)
-Message-ID: <4E38AB47.1060803@gmail.com>
-Date: Tue, 02 Aug 2011 18:58:31 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=IJOJDFu3lkJOkYTWGRy3IbrnUMB9I6gLicUIQSUtj68=;
+	b=QHwFV1DE0E7Y1QtJiQJU4ZzT9DHDyerd889VohgB48151seOtDqddu6fxOkwuCjl2h
+	QllQMK7JDRVOHXP5OqPlRFMAn3cDACFCfXEDSXDWkBOd6/yN/B1FS+4RHV9Nibbk41ht
+	TxuMdit4v/vyzgO98DFnwwF2RAp/ZuQ/GEDnY=
 MIME-Version: 1.0
+Received: by 10.213.25.77 with SMTP id y13mr25901ebb.129.1312340415151; Tue,
+	02 Aug 2011 20:00:15 -0700 (PDT)
+Received: by 10.213.113.196 with HTTP; Tue, 2 Aug 2011 20:00:15 -0700 (PDT)
+In-Reply-To: <CAD=GYpYeDmU6CN1MzztiKsf+tfOrWgBmkGfQoSpSRhoToDDskg@mail.gmail.com>
+References: <CAD=GYpYeDmU6CN1MzztiKsf+tfOrWgBmkGfQoSpSRhoToDDskg@mail.gmail.com>
+Date: Tue, 2 Aug 2011 22:00:15 -0500
+Message-ID: <CAD=GYpbk+qV3E2uTuSpQV1R2G77K3-QL+6aHo0kGW5yodmxEvg@mail.gmail.com>
+From: Joel A Fernandes <agnel.joel@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <1312208782-14078-1-git-send-email-galak@kernel.crashing.org>
-In-Reply-To: <1312208782-14078-1-git-send-email-galak@kernel.crashing.org>
-Subject: Re: [PATCH] eglibc_2.13: Add support for handling sqrt & sqrtf on powerpc
+Cc: "Kooi, Koen" <k-kooi@ti.com>, openembedded-devel@lists.openembedded.org,
+	"Kridner, Jason" <jdk@ti.com>
+Subject: Re: systemd-gnome-image do_rootfs failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,592 +38,471 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 02:03:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Aug 2011 03:04:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 08/01/2011 07:26 AM, Kumar Gala wrote:
-> Some of powerpc's dont support the fsqrt[s] instructions so we need an
-> implementation of the library functions for those processors.
+Hi,
+
+I now get a build error as below with systemd-gnome-image in
+do_rootfs, could you take a look?
+
+Also I had to remove 'fontconfig' from RDEPENDS_task-gnome-fonts in
+recipes-angstrom/tasks/angstrom-task-gnome.bb as the package didn't
+exist and it was causing more opkg install problems in do_rootfs .
+Could you comment on this? Thanks
+
+| Configuring e2fsprogs-e2fsck.
+| Configuring shadow.
+| Configuring xauth.
+| Configuring e2fsprogs-blkid.
+| Configuring libavahi-core7.
+| Configuring libdaemon0.
+| Configuring sysvinit-pidof.
+| Configuring libnss-mdns.
+| Configuring avahi-daemon.
+| Configuring avahi-systemd.
+| Configuring connman-plugin-ethernet.
+| Configuring kernel-module-nf-nat.
+| Configuring kernel-module-ipt-masquerade.
+| Configuring kernel-module-iptable-nat.
+| Configuring kernel-module-iptable-filter.
+| Configuring iptables.
+| Configuring xf86-input-mouse.
+| Configuring udev.
+| Configuring xhost.
+| Configuring xset.
+| Configuring xrandr.
+| Configuring xinetd.
+| Configuring xrdb.
+| Configuring task-gnome-xserver-base.
+| Configuring connman-plugin-wifi.
+| Configuring connman-systemd.
+| Configuring avahi-utils.
+| Configuring tinylogin.
+| Configuring htop.
+| Configuring openssh-sftp.
+| Configuring xf86-input-evdev.
+| Configuring task-xserver.
+| Configuring cpufrequtils.
+| Configuring systemd-compat-units.
+| Configuring dnsmasq-dbus.
+| Configuring connman.
+| Collected errors:
+|  * satisfy_dependencies_for: Cannot satisfy the following
+dependencies for task-gnome-fonts:
+|  *    eglibc (>=3D 2.12) *
+|  * opkg_install_cmd: Cannot install package task-gnome-fonts.
+|  * satisfy_dependencies_for: Cannot satisfy the following
+dependencies for task-gnome:
+|  *    eglibc (>=3D 2.12) *
+|  * opkg_install_cmd: Cannot install package task-gnome.
+| ERROR: Function 'do_rootfs' failed (see
+/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglibc/=
+work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/temp/log=
+.do_rootfs.25130
+for further information)
+NOTE: package systemd-gnome-image-1.0-r0: task do_rootfs: Failed
+ERROR: Task 8 (/home/joel/angstrom-oe/setup-scripts-core/sources/meta-angst=
+rom/recipes-angstrom/images/systemd-gnome-image.bb,
+do_rootfs) failed with exit code '1'
+ERROR: '/home/joel/angstrom-oe/setup-scripts-core/sources/meta-angstrom/rec=
+ipes-angstrom/images/systemd-gnome-image.bb'
+failed
+
+
+On Tue, Aug 2, 2011 at 4:57 PM, Joel A Fernandes <agnel.joel@gmail.com> wro=
+te:
+> I'd like to report a possible problem with oe-core that I'm not sure how =
+to fix:
 >
-> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
-
-This patch is ok.
-
-Acked-by: Khem Raj <raj.khem@gmail.com>
-
-
-> ---
->   .../recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch |  538 ++++++++++++++++++++
->   meta/recipes-core/eglibc/eglibc_2.13.bb            |    3 +-
->   2 files changed, 540 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch
+> On running a "bitbake systemd-gnome-image", the do_rootfs stage fails
+> saying certain packages are missing.
 >
-> diff --git a/meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch b/meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch
-> new file mode 100644
-> index 0000000..203040c
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch
-> @@ -0,0 +1,538 @@
-> +Upstream-Status: Pending
-> +
-> +2011-03-22  Joseph Myers<joseph@codesourcery.com>
-> +
-> +        Merge from SG++ 2.11:
-> +
-> +        2010-10-05  Nathan Froyd<froydnj@codesourcery.com>
-> +
-> +        Issue #9382
-> +
-> +        * sysdeps/powerpc/powerpc32/603e/: New directory.
-> +        * sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/: New directory.
-> +        * sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/: New directory.
-> +        * sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/: New directory.
-> +        * sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c: Update.
-> +        * sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c: Update.
-> +        * sysdeps/powerpc/powerpc64/e5500/fpu/Implies: New file.
-> +
-> +Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
-> +===================================================================
-> +--- /dev/null
-> ++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
-> +@@ -0,0 +1,134 @@
-> ++/* Double-precision floating point square root.
-> ++   Copyright (C) 2010 Free Software Foundation, Inc.
-> ++   This file is part of the GNU C Library.
-> ++
-> ++   The GNU C Library is free software; you can redistribute it and/or
-> ++   modify it under the terms of the GNU Lesser General Public
-> ++   License as published by the Free Software Foundation; either
-> ++   version 2.1 of the License, or (at your option) any later version.
-> ++
-> ++   The GNU C Library is distributed in the hope that it will be useful,
-> ++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> ++   Lesser General Public License for more details.
-> ++
-> ++   You should have received a copy of the GNU Lesser General Public
-> ++   License along with the GNU C Library; if not, write to the Free
-> ++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-> ++   02111-1307 USA.  */
-> ++
-> ++#include<math.h>
-> ++#include<math_private.h>
-> ++#include<fenv_libc.h>
-> ++#include<inttypes.h>
-> ++
-> ++#include<sysdep.h>
-> ++#include<ldsodefs.h>
-> ++
-> ++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
-> ++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
-> ++static const float two108 = 3.245185536584267269e+32;
-> ++static const float twom54 = 5.551115123125782702e-17;
-> ++static const float half = 0.5;
-> ++
-> ++/* The method is based on the descriptions in:
-> ++
-> ++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
-> ++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
-> ++
-> ++   We find the actual square root and half of its reciprocal
-> ++   simultaneously.  */
-> ++
-> ++#ifdef __STDC__
-> ++double
-> ++__ieee754_sqrt (double b)
-> ++#else
-> ++double
-> ++__ieee754_sqrt (b)
-> ++     double b;
-> ++#endif
-> ++{
-> ++  if (__builtin_expect (b>  0, 1))
-> ++    {
-> ++      double y, g, h, d, r;
-> ++      ieee_double_shape_type u;
-> ++
-> ++      if (__builtin_expect (b != a_inf.value, 1))
-> ++        {
-> ++          fenv_t fe;
-> ++
-> ++          fe = fegetenv_register ();
-> ++
-> ++          u.value = b;
-> ++
-> ++          relax_fenv_state ();
-> ++
-> ++          __asm__ ("frsqrte %[estimate], %[x]\n"
-> ++                   : [estimate] "=f" (y) : [x] "f" (b));
-> ++
-> ++          /* Following Muller et al, page 168, equation 5.20.
-> ++
-> ++             h goes to 1/(2*sqrt(b))
-> ++             g goes to sqrt(b).
-> ++
-> ++             We need three iterations to get within 1ulp.  */
-> ++
-> ++          /* Indicate that these can be performed prior to the branch.  GCC
-> ++             insists on sinking them below the branch, however; it seems like
-> ++             they'd be better before the branch so that we can cover any latency
-> ++             from storing the argument and loading its high word.  Oh well.  */
-> ++
-> ++          g = b * y;
-> ++          h = 0.5 * y;
-> ++
-> ++          /* Handle small numbers by scaling.  */
-> ++          if (__builtin_expect ((u.parts.msw&  0x7ff00000)<= 0x02000000, 0))
-> ++            return __ieee754_sqrt (b * two108) * twom54;
-> ++
-> ++#define FMADD(a_, c_, b_)                                               \
-> ++          ({ double __r;                                                \
-> ++          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
-> ++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
-> ++          __r;})
-> ++#define FNMSUB(a_, c_, b_)                                          \
-> ++          ({ double __r;                                                \
-> ++          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
-> ++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
-> ++          __r;})
-> ++
-> ++          r = FNMSUB (g, h, half);
-> ++          g = FMADD (g, r, g);
-> ++          h = FMADD (h, r, h);
-> ++
-> ++          r = FNMSUB (g, h, half);
-> ++          g = FMADD (g, r, g);
-> ++          h = FMADD (h, r, h);
-> ++
-> ++          r = FNMSUB (g, h, half);
-> ++          g = FMADD (g, r, g);
-> ++          h = FMADD (h, r, h);
-> ++
-> ++          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
-> ++
-> ++          /* Final refinement.  */
-> ++          d = FNMSUB (g, g, b);
-> ++
-> ++          fesetenv_register (fe);
-> ++          return FMADD (d, h, g);
-> ++        }
-> ++    }
-> ++  else if (b<  0)
-> ++    {
-> ++      /* For some reason, some PowerPC32 processors don't implement
-> ++         FE_INVALID_SQRT.  */
-> ++#ifdef FE_INVALID_SQRT
-> ++      feraiseexcept (FE_INVALID_SQRT);
-> ++
-> ++      fenv_union_t u = { .fenv = fegetenv_register () };
-> ++      if ((u.l[1]&  FE_INVALID) == 0)
-> ++#endif
-> ++	feraiseexcept (FE_INVALID);
-> ++      b = a_nan.value;
-> ++    }
-> ++  return f_wash (b);
-> ++}
-> +Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
-> +===================================================================
-> +--- /dev/null
-> ++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
-> +@@ -0,0 +1,101 @@
-> ++/* Single-precision floating point square root.
-> ++   Copyright (C) 2010 Free Software Foundation, Inc.
-> ++   This file is part of the GNU C Library.
-> ++
-> ++   The GNU C Library is free software; you can redistribute it and/or
-> ++   modify it under the terms of the GNU Lesser General Public
-> ++   License as published by the Free Software Foundation; either
-> ++   version 2.1 of the License, or (at your option) any later version.
-> ++
-> ++   The GNU C Library is distributed in the hope that it will be useful,
-> ++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> ++   Lesser General Public License for more details.
-> ++
-> ++   You should have received a copy of the GNU Lesser General Public
-> ++   License along with the GNU C Library; if not, write to the Free
-> ++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-> ++   02111-1307 USA.  */
-> ++
-> ++#include<math.h>
-> ++#include<math_private.h>
-> ++#include<fenv_libc.h>
-> ++#include<inttypes.h>
-> ++
-> ++#include<sysdep.h>
-> ++#include<ldsodefs.h>
-> ++
-> ++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
-> ++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
-> ++static const float threehalf = 1.5;
-> ++
-> ++/* The method is based on the descriptions in:
-> ++
-> ++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
-> ++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
-> ++
-> ++   We find the reciprocal square root and use that to compute the actual
-> ++   square root.  */
-> ++
-> ++#ifdef __STDC__
-> ++float
-> ++__ieee754_sqrtf (float b)
-> ++#else
-> ++float
-> ++__ieee754_sqrtf (b)
-> ++     float b;
-> ++#endif
-> ++{
-> ++  if (__builtin_expect (b>  0, 1))
-> ++    {
-> ++#define FMSUB(a_, c_, b_)                                               \
-> ++      ({ double __r;                                                    \
-> ++        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
-> ++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
-> ++        __r;})
-> ++#define FNMSUB(a_, c_, b_)                                              \
-> ++      ({ double __r;                                                    \
-> ++        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
-> ++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
-> ++        __r;})
-> ++
-> ++      if (__builtin_expect (b != a_inf.value, 1))
-> ++        {
-> ++          double y, x;
-> ++          fenv_t fe;
-> ++
-> ++          fe = fegetenv_register ();
-> ++
-> ++          relax_fenv_state ();
-> ++
-> ++          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
-> ++          y = FMSUB (threehalf, b, b);
-> ++
-> ++          /* Initial estimate.  */
-> ++          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
-> ++
-> ++          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
-> ++          x = x * FNMSUB (y, x * x, threehalf);
-> ++          x = x * FNMSUB (y, x * x, threehalf);
-> ++          x = x * FNMSUB (y, x * x, threehalf);
-> ++
-> ++          /* All done.  */
-> ++          fesetenv_register (fe);
-> ++          return x * b;
-> ++        }
-> ++    }
-> ++  else if (b<  0)
-> ++    {
-> ++      /* For some reason, some PowerPC32 processors don't implement
-> ++         FE_INVALID_SQRT.  */
-> ++#ifdef FE_INVALID_SQRT
-> ++      feraiseexcept (FE_INVALID_SQRT);
-> ++
-> ++      fenv_union_t u = { .fenv = fegetenv_register () };
-> ++      if ((u.l[1]&  FE_INVALID) == 0)
-> ++#endif
-> ++	feraiseexcept (FE_INVALID);
-> ++      b = a_nan.value;
-> ++    }
-> ++  return f_washf (b);
-> ++}
-> +Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
-> +===================================================================
-> +--- /dev/null
-> ++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
-> +@@ -0,0 +1,134 @@
-> ++/* Double-precision floating point square root.
-> ++   Copyright (C) 2010 Free Software Foundation, Inc.
-> ++   This file is part of the GNU C Library.
-> ++
-> ++   The GNU C Library is free software; you can redistribute it and/or
-> ++   modify it under the terms of the GNU Lesser General Public
-> ++   License as published by the Free Software Foundation; either
-> ++   version 2.1 of the License, or (at your option) any later version.
-> ++
-> ++   The GNU C Library is distributed in the hope that it will be useful,
-> ++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> ++   Lesser General Public License for more details.
-> ++
-> ++   You should have received a copy of the GNU Lesser General Public
-> ++   License along with the GNU C Library; if not, write to the Free
-> ++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-> ++   02111-1307 USA.  */
-> ++
-> ++#include<math.h>
-> ++#include<math_private.h>
-> ++#include<fenv_libc.h>
-> ++#include<inttypes.h>
-> ++
-> ++#include<sysdep.h>
-> ++#include<ldsodefs.h>
-> ++
-> ++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
-> ++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
-> ++static const float two108 = 3.245185536584267269e+32;
-> ++static const float twom54 = 5.551115123125782702e-17;
-> ++static const float half = 0.5;
-> ++
-> ++/* The method is based on the descriptions in:
-> ++
-> ++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
-> ++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
-> ++
-> ++   We find the actual square root and half of its reciprocal
-> ++   simultaneously.  */
-> ++
-> ++#ifdef __STDC__
-> ++double
-> ++__ieee754_sqrt (double b)
-> ++#else
-> ++double
-> ++__ieee754_sqrt (b)
-> ++     double b;
-> ++#endif
-> ++{
-> ++  if (__builtin_expect (b>  0, 1))
-> ++    {
-> ++      double y, g, h, d, r;
-> ++      ieee_double_shape_type u;
-> ++
-> ++      if (__builtin_expect (b != a_inf.value, 1))
-> ++        {
-> ++          fenv_t fe;
-> ++
-> ++          fe = fegetenv_register ();
-> ++
-> ++          u.value = b;
-> ++
-> ++          relax_fenv_state ();
-> ++
-> ++          __asm__ ("frsqrte %[estimate], %[x]\n"
-> ++                   : [estimate] "=f" (y) : [x] "f" (b));
-> ++
-> ++          /* Following Muller et al, page 168, equation 5.20.
-> ++
-> ++             h goes to 1/(2*sqrt(b))
-> ++             g goes to sqrt(b).
-> ++
-> ++             We need three iterations to get within 1ulp.  */
-> ++
-> ++          /* Indicate that these can be performed prior to the branch.  GCC
-> ++             insists on sinking them below the branch, however; it seems like
-> ++             they'd be better before the branch so that we can cover any latency
-> ++             from storing the argument and loading its high word.  Oh well.  */
-> ++
-> ++          g = b * y;
-> ++          h = 0.5 * y;
-> ++
-> ++          /* Handle small numbers by scaling.  */
-> ++          if (__builtin_expect ((u.parts.msw&  0x7ff00000)<= 0x02000000, 0))
-> ++            return __ieee754_sqrt (b * two108) * twom54;
-> ++
-> ++#define FMADD(a_, c_, b_)                                               \
-> ++          ({ double __r;                                                \
-> ++          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
-> ++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
-> ++          __r;})
-> ++#define FNMSUB(a_, c_, b_)                                          \
-> ++          ({ double __r;                                                \
-> ++          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
-> ++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
-> ++          __r;})
-> ++
-> ++          r = FNMSUB (g, h, half);
-> ++          g = FMADD (g, r, g);
-> ++          h = FMADD (h, r, h);
-> ++
-> ++          r = FNMSUB (g, h, half);
-> ++          g = FMADD (g, r, g);
-> ++          h = FMADD (h, r, h);
-> ++
-> ++          r = FNMSUB (g, h, half);
-> ++          g = FMADD (g, r, g);
-> ++          h = FMADD (h, r, h);
-> ++
-> ++          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
-> ++
-> ++          /* Final refinement.  */
-> ++          d = FNMSUB (g, g, b);
-> ++
-> ++          fesetenv_register (fe);
-> ++          return FMADD (d, h, g);
-> ++        }
-> ++    }
-> ++  else if (b<  0)
-> ++    {
-> ++      /* For some reason, some PowerPC32 processors don't implement
-> ++         FE_INVALID_SQRT.  */
-> ++#ifdef FE_INVALID_SQRT
-> ++      feraiseexcept (FE_INVALID_SQRT);
-> ++
-> ++      fenv_union_t u = { .fenv = fegetenv_register () };
-> ++      if ((u.l[1]&  FE_INVALID) == 0)
-> ++#endif
-> ++	feraiseexcept (FE_INVALID);
-> ++      b = a_nan.value;
-> ++    }
-> ++  return f_wash (b);
-> ++}
-> +Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
-> +===================================================================
-> +--- /dev/null
-> ++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
-> +@@ -0,0 +1,101 @@
-> ++/* Single-precision floating point square root.
-> ++   Copyright (C) 2010 Free Software Foundation, Inc.
-> ++   This file is part of the GNU C Library.
-> ++
-> ++   The GNU C Library is free software; you can redistribute it and/or
-> ++   modify it under the terms of the GNU Lesser General Public
-> ++   License as published by the Free Software Foundation; either
-> ++   version 2.1 of the License, or (at your option) any later version.
-> ++
-> ++   The GNU C Library is distributed in the hope that it will be useful,
-> ++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> ++   Lesser General Public License for more details.
-> ++
-> ++   You should have received a copy of the GNU Lesser General Public
-> ++   License along with the GNU C Library; if not, write to the Free
-> ++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-> ++   02111-1307 USA.  */
-> ++
-> ++#include<math.h>
-> ++#include<math_private.h>
-> ++#include<fenv_libc.h>
-> ++#include<inttypes.h>
-> ++
-> ++#include<sysdep.h>
-> ++#include<ldsodefs.h>
-> ++
-> ++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
-> ++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
-> ++static const float threehalf = 1.5;
-> ++
-> ++/* The method is based on the descriptions in:
-> ++
-> ++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
-> ++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
-> ++
-> ++   We find the reciprocal square root and use that to compute the actual
-> ++   square root.  */
-> ++
-> ++#ifdef __STDC__
-> ++float
-> ++__ieee754_sqrtf (float b)
-> ++#else
-> ++float
-> ++__ieee754_sqrtf (b)
-> ++     float b;
-> ++#endif
-> ++{
-> ++  if (__builtin_expect (b>  0, 1))
-> ++    {
-> ++#define FMSUB(a_, c_, b_)                                               \
-> ++      ({ double __r;                                                    \
-> ++        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
-> ++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
-> ++        __r;})
-> ++#define FNMSUB(a_, c_, b_)                                              \
-> ++      ({ double __r;                                                    \
-> ++        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
-> ++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
-> ++        __r;})
-> ++
-> ++      if (__builtin_expect (b != a_inf.value, 1))
-> ++        {
-> ++          double y, x;
-> ++          fenv_t fe;
-> ++
-> ++          fe = fegetenv_register ();
-> ++
-> ++          relax_fenv_state ();
-> ++
-> ++          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
-> ++          y = FMSUB (threehalf, b, b);
-> ++
-> ++          /* Initial estimate.  */
-> ++          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
-> ++
-> ++          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
-> ++          x = x * FNMSUB (y, x * x, threehalf);
-> ++          x = x * FNMSUB (y, x * x, threehalf);
-> ++          x = x * FNMSUB (y, x * x, threehalf);
-> ++
-> ++          /* All done.  */
-> ++          fesetenv_register (fe);
-> ++          return x * b;
-> ++        }
-> ++    }
-> ++  else if (b<  0)
-> ++    {
-> ++      /* For some reason, some PowerPC32 processors don't implement
-> ++         FE_INVALID_SQRT.  */
-> ++#ifdef FE_INVALID_SQRT
-> ++      feraiseexcept (FE_INVALID_SQRT);
-> ++
-> ++      fenv_union_t u = { .fenv = fegetenv_register () };
-> ++      if ((u.l[1]&  FE_INVALID) == 0)
-> ++#endif
-> ++	feraiseexcept (FE_INVALID);
-> ++      b = a_nan.value;
-> ++    }
-> ++  return f_washf (b);
-> ++}
-> +Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
-> +===================================================================
-> +--- /dev/null
-> ++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
-> +@@ -0,0 +1 @@
-> ++powerpc/powerpc32/603e/fpu
-> +Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/fpu/Implies
-> +===================================================================
-> +--- /dev/null
-> ++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/fpu/Implies
-> +@@ -0,0 +1 @@
-> ++powerpc/powerpc32/603e/fpu
-> +Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
-> +===================================================================
-> +--- /dev/null
-> ++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
-> +@@ -0,0 +1 @@
-> ++powerpc/powerpc32/603e/fpu
-> +Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
-> +===================================================================
-> +--- /dev/null
-> ++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
-> +@@ -0,0 +1 @@
-> ++powerpc/powerpc64/e5500/fpu
-> +Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
-> +===================================================================
-> +--- /dev/null
-> ++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
-> +@@ -0,0 +1 @@
-> ++powerpc/powerpc32/603e/fpu
-> diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-> index 41fe7c7..772c01f 100644
-> --- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-> +++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-> @@ -3,7 +3,7 @@ require eglibc.inc
->   SRCREV = "14157"
+> On digging further, I find that the opkg.conf that opkg-cl uses (in
+> image.bbclass do_rootfs function) has the following contents:
 >
->   DEPENDS += "gperf-native"
-> -PR = "r9"
-> +PR = "r10"
->   PR_append = "+svnr${SRCPV}"
+> arch all 1
+> arch any 6
+> arch noarch 11
+> arch arm 16
+> arch beagleboard 21
+> src oe file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_=
+2010_x-eglibc/deploy/ipk
+> src oe-all file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angst=
+rom_2010_x-eglibc/deploy/ipk/all
+> src oe-beagleboard
+> file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-=
+eglibc/deploy/ipk/beagleboard
 >
->   EGLIBC_BRANCH="eglibc-2_13"
-> @@ -16,6 +16,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
->              file://etc/ld.so.conf \
->              file://generate-supported.mk \
->              file://glibc_bug_fix_12454.patch \
-> +           file://ppc-sqrt.patch \
->   	   "
->   LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
->         file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
-
+> But there is no entry for:
+> file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-=
+eglibc/deploy/ipk/armv7a
+>
+> As a result, many packages like xserver-xorg are not found by opkg and
+> the do_rootfs stage fails.
+>
+> This could be a potential problem in package_generate_ipkg_conf in
+> ./openembedded-core/meta/classes/package_ipk.bbclass (?)
+>
+> Here is the build log:
+> [..]
+> ++ echo any
+> ++ sed -e s/arm/i686/
+> + sdkarch=3Dany
+> + extension=3D-nativesdk
+> + '[' any =3D all -o any =3D any -o any =3D noarch ']'
+> + extension=3D
+> + '[' -e /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_201=
+0_x-eglibc/deploy/ipk/any/Packages
+> ']'
+> + for arch in '$ipkgarchs'
+> + '[' -e /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_201=
+0_x-eglibc/deploy/ipk/noarch/Packages
+> ']'
+> ++ echo noarch
+> ++ sed -e s/arm/i686/
+> + sdkarch=3Dnoarch
+> + extension=3D-nativesdk
+> + '[' noarch =3D all -o noarch =3D any -o noarch =3D noarch ']'
+> + extension=3D
+> + '[' -e /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_201=
+0_x-eglibc/deploy/ipk/noarch/Packages
+> ']'
+> + for arch in '$ipkgarchs'
+> + '[' -e /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_201=
+0_x-eglibc/deploy/ipk/arm/Packages
+> ']'
+> ++ echo arm
+> ++ sed -e s/arm/i686/
+> + sdkarch=3Di686
+> + extension=3D-nativesdk
+> + '[' i686 =3D all -o i686 =3D any -o i686 =3D noarch ']'
+> + '[' -e /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_201=
+0_x-eglibc/deploy/ipk/i686-nativesdk/Packages
+> ']'
+> + for arch in '$ipkgarchs'
+> + '[' -e /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_201=
+0_x-eglibc/deploy/ipk/beagleboard/Packages
+> ']'
+> + echo 'src oe-beagleboard
+> file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-=
+eglibc/deploy/ipk/beagleboard'
+> ++ echo beagleboard
+> ++ sed -e s/arm/i686/
+> + sdkarch=3Dbeagleboard
+> + extension=3D-nativesdk
+> + '[' beagleboard =3D all -o beagleboard =3D any -o beagleboard =3D noarc=
+h ']'
+> + '[' -e /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_201=
+0_x-eglibc/deploy/ipk/beagleboard-nativesdk/Packages
+> ']'
+> + multilib_archs=3D
+> + mkdir -p /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2=
+010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.=
+0-r0/temp/
+> + STATUS=3D/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2=
+010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.=
+0-r0/rootfs/var/lib/opkg/status
+> + mkdir -p /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2=
+010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.=
+0-r0/rootfs/var/lib/opkg
+> + opkg-cl -f /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom=
+_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-=
+1.0-r0/opkg.conf
+> -o /home/joel/angstrom-o
+> e/setup-scripts-core/build/tmp-angstrom_2010_x-eglibc/work/beagleboard-an=
+gstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/rootfs
+> --force-overwrite update
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/Packages.
+> Updated list of available packages in
+> /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglib=
+c/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/rootfs=
+//v
+> ar/lib/opkg/lists/oe.
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/all/Packages.
+> Updated list of available packages in
+> /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglib=
+c/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/rootfs=
+//v
+> ar/lib/opkg/lists/oe-all.
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/beagleboard/Packages.
+> Updated list of available packages in
+> /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglib=
+c/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/rootfs=
+//v
+> ar/lib/opkg/lists/oe-beagleboard.
+> + export INSTALL_PACKAGES_ATTEMPTONLY_IPK=3D
+> + INSTALL_PACKAGES_ATTEMPTONLY_IPK=3D
+> + export INSTALL_PACKAGES_LINGUAS_IPK=3Dlocale-base-en-us
+> + INSTALL_PACKAGES_LINGUAS_IPK=3Dlocale-base-en-us
+> + export INSTALL_TASK_IPK=3Drootfs
+> + INSTALL_TASK_IPK=3Drootfs
+> + export INSTALL_ROOTFS_IPK=3D/home/joel/angstrom-oe/setup-scripts-core/b=
+uild/tmp-angstrom_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/sys=
+temd-gnome-image-1.0-r0/rootfs
+> + INSTALL_ROOTFS_IPK=3D/home/joel/angstrom-oe/setup-scripts-core/build/tm=
+p-angstrom_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-gn=
+ome-image-1.0-r0/rootfs
+> + export INSTALL_CONF_IPK=3D/home/joel/angstrom-oe/setup-scripts-core/bui=
+ld/tmp-angstrom_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/syste=
+md-gnome-image-1.0-r0/opkg.conf
+> + INSTALL_CONF_IPK=3D/home/joel/angstrom-oe/setup-scripts-core/build/tmp-=
+angstrom_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-gnom=
+e-image-1.0-r0/opkg.conf
+> + export 'INSTALL_PACKAGES_NORMAL_IPK=3Dconnman-plugin-loopback
+> openssh-sftp udev e2fsprogs-blkid htop rsyslog cpufrequtils systemd
+> connman-plugin-wifi connman task-gnome-themes avahi-daemon
+> e2fsprogs-e2fsck task-gnome-fonts task-gnome-apps systemd-compat-units
+> connman-systemd task-gnome avahi-utils task-xserver avahi-systemd
+> shadow dropbear-systemd tinylogin angstrom-task-boot
+> =A0task-gnome-xserver-base connman-plugin-ethernet'
+> + INSTALL_PACKAGES_NORMAL_IPK=3D'connman-plugin-loopback openssh-sftp
+> udev e2fsprogs-blkid htop rsyslog cpufrequtils systemd
+> connman-plugin-wifi connman task-gnome-themes avahi-daemon e2fspro
+> gs-e2fsck task-gnome-fonts task-gnome-apps systemd-compat-units
+> connman-systemd task-gnome avahi-utils task-xserver avahi-systemd
+> shadow dropbear-systemd tinylogin angstrom-task-boot task-g
+> nome-xserver-base connman-plugin-ethernet'
+> + export INSTALL_PACKAGES_MULTILIB_IPK=3D
+> + INSTALL_PACKAGES_MULTILIB_IPK=3D
+> + package_install_internal_ipk
+> + local target_rootfs=3D/home/joel/angstrom-oe/setup-scripts-core/build/t=
+mp-angstrom_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-g=
+nome-image-1.0-r0/rootfs
+> + local conffile=3D/home/joel/angstrom-oe/setup-scripts-core/build/tmp-an=
+gstrom_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-=
+image-1.0-r0/opkg.conf
+> + local 'package_to_install=3Dconnman-plugin-loopback openssh-sftp udev
+> e2fsprogs-blkid htop rsyslog cpufrequtils systemd connman-plugin-wifi
+> connman task-gnome-themes avahi-daemon e2fsprogs-
+> e2fsck task-gnome-fonts task-gnome-apps systemd-compat-units
+> connman-systemd task-gnome avahi-utils task-xserver avahi-systemd
+> shadow dropbear-systemd tinylogin angstrom-task-boot task-gnom
+> e-xserver-base connman-plugin-ethernet'
+> + local package_attemptonly=3D
+> + local package_lingusa=3D
+> + local package_multilib=3D
+> + local task=3Drootfs
+> + mkdir -p /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2=
+010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.=
+0-r0/rootfs/var/lib/opkg/
+> + local 'ipkg_args=3D-f
+> /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglib=
+c/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/opkg.c=
+onf
+> -o /home/joel/a
+> ngstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglibc/work/beagl=
+eboard-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/rootfs
+> --force-overwrite'
+> + opkg-cl -f /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom=
+_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-=
+1.0-r0/opkg.conf
+> -o /home/joel/angstrom-o
+> e/setup-scripts-core/build/tmp-angstrom_2010_x-eglibc/work/beagleboard-an=
+gstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/rootfs
+> --force-overwrite update
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/Packages.
+> Updated list of available packages in
+> /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglib=
+c/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/rootfs=
+//v
+> ar/lib/opkg/lists/oe.
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/all/Packages.
+> Updated list of available packages in
+> /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglib=
+c/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/rootfs=
+//v
+> ar/lib/opkg/lists/oe-all.
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/beagleboard/Packages.
+> Updated list of available packages in
+> /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglib=
+c/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/rootfs=
+//v
+> ar/lib/opkg/lists/oe-beagleboard.
+> + '[' xlinux-gnueabi =3D xlinux ']'
+> + '[' xlinux-gnueabi =3D xlinux-gnueabi ']'
+> + '[' '!' -z '' ']'
+> + '[' '!' -z 'connman-plugin-loopback openssh-sftp udev
+> e2fsprogs-blkid htop rsyslog cpufrequtils systemd connman-plugin-wifi
+> connman task-gnome-themes avahi-daemon e2fsprogs-e2fsck task-gn
+> ome-fonts task-gnome-apps systemd-compat-units connman-systemd
+> task-gnome avahi-utils task-xserver avahi-systemd shadow
+> dropbear-systemd tinylogin angstrom-task-boot task-gnome-xserver-base
+> =A0connman-plugin-ethernet' ']'
+> + opkg-cl -f /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom=
+_2010_x-eglibc/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-=
+1.0-r0/opkg.conf
+> -o /home/joel/angstrom-o
+> e/setup-scripts-core/build/tmp-angstrom_2010_x-eglibc/work/beagleboard-an=
+gstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/rootfs
+> --force-overwrite install connman-plugin-loopback openssh-sft
+> p udev e2fsprogs-blkid htop rsyslog cpufrequtils systemd
+> connman-plugin-wifi connman task-gnome-themes avahi-daemon
+> e2fsprogs-e2fsck task-gnome-fonts task-gnome-apps systemd-compat-units
+> co
+> nnman-systemd task-gnome avahi-utils task-xserver avahi-systemd shadow
+> dropbear-systemd tinylogin angstrom-task-boot task-gnome-xserver-base
+> connman-plugin-ethernet
+> Unknown package 'connman-plugin-loopback'.
+> Unknown package 'openssh-sftp'.
+> Unknown package 'udev'.
+> Unknown package 'e2fsprogs-blkid'.
+> Unknown package 'htop'.
+> Unknown package 'rsyslog'.
+> Unknown package 'cpufrequtils'.
+> Unknown package 'systemd'.
+> Unknown package 'connman-plugin-wifi'.
+> Unknown package 'connman'.
+> Installing task-gnome-themes (1.0-r9) to root...
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/all/task-gnome-themes_1.0-r9_all.ipk.
+> Unknown package 'avahi-daemon'.
+> Unknown package 'e2fsprogs-e2fsck'.
+> Installing task-gnome-fonts (1.0-r9) to root...
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/all/task-gnome-fonts_1.0-r9_all.ipk.
+> Installing task-gnome-apps (1.0-r9) to root...
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/all/task-gnome-apps_1.0-r9_all.ipk.
+> Installing systemd-compat-units (1.0-r10) to root...
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/all/systemd-compat-units_1.0-r10_all.ipk.
+> Unknown package 'connman-systemd'.
+> Installing task-gnome (1.0-r9) to root...
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/all/task-gnome_1.0-r9_all.ipk.
+> task-gnome: unsatisfied recommendation for ofono
+> Unknown package 'avahi-utils'.
+> Installing task-xserver (1.0-r0) to root...
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/beagleboard/task-xserver_1.0-r0_beagleboard.i=
+pk.
+> Unknown package 'avahi-systemd'.
+> Installing shadow (4.1.4.3-r3) to root...
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/beagleboard/shadow_4.1.4.3-r3_beagleboard.ipk=
+.
+> Installing dropbear-systemd (v1-r0) to root...
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/all/dropbear-systemd_v1-r0_all.ipk.
+> Unknown package 'tinylogin'.
+> Installing angstrom-task-boot (1.0-r1) to root...
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/beagleboard/angstrom-task-boot_1.0-r1_beagleb=
+oard.ipk.
+> angstrom-feed-configs: unsatisfied recommendation for opkg
+> Installing task-gnome-xserver-base (1.0-r9) to root...
+> Downloading file:/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angs=
+trom_2010_x-eglibc/deploy/ipk/all/task-gnome-xserver-base_1.0-r9_all.ipk.
+> mime-support: unsatisfied recommendation for file
+> Unknown package 'connman-plugin-ethernet'.
+> Configuring systemd-compat-units.
+> Collected errors:
+> =A0* opkg_install_cmd: Cannot install package connman-plugin-loopback.
+> =A0* opkg_install_cmd: Cannot install package openssh-sftp.
+> =A0* opkg_install_cmd: Cannot install package udev.
+> =A0* opkg_install_cmd: Cannot install package e2fsprogs-blkid.
+> =A0* opkg_install_cmd: Cannot install package htop.
+> =A0* opkg_install_cmd: Cannot install package rsyslog.
+> =A0* opkg_install_cmd: Cannot install package cpufrequtils.
+> =A0* opkg_install_cmd: Cannot install package systemd.
+> =A0* opkg_install_cmd: Cannot install package connman-plugin-wifi.
+> =A0* opkg_install_cmd: Cannot install package connman.
+> =A0* satisfy_dependencies_for: Cannot satisfy the following dependencies
+> for task-gnome-themes:
+> =A0* =A0 =A0 =A0gnome-icon-theme * =A0 =A0 =A0gtk-engine-thinice *
+> gtk-engine-redmond95 * =A0gtk-theme-crux * =A0 =A0 =A0 =A0gtk-engine-clea=
+rlooks
+> * =A0 =A0 =A0 =A0 gtk-engine-hcengine * =A0 gtk-theme-clearlooks *
+> gnome-icon-theme * =A0 =A0 =A0gtk-theme-thinice * =A0 =A0 gnome-icon-them=
+e *
+> =A0gtk-engine-crux-engine * =A0 =A0 =A0 =A0gtk-theme-redmond *
+> gtk-engine-glide * =A0 =A0 =A0gtk-theme-mist *
+> =A0* opkg_install_cmd: Cannot install package task-gnome-themes.
+> =A0* opkg_install_cmd: Cannot install package avahi-daemon.
+> =A0* opkg_install_cmd: Cannot install package e2fsprogs-e2fsck.
+> =A0* satisfy_dependencies_for: Cannot satisfy the following dependencies
+> for task-gnome-fonts:
+> =A0* =A0 =A0 =A0mkfontdir * =A0 =A0 eglibc (>=3D 2.12) * =A0 =A0 =A0mkfon=
+tscale *
+> fontconfig * =A0 =A0fontconfig-utils *
+> =A0* opkg_install_cmd: Cannot install package task-gnome-fonts.
+> =A0* satisfy_dependencies_for: Cannot satisfy the following dependencies
+> for task-gnome-apps:
+> =A0* =A0 =A0 =A0epiphany * =A0 =A0 =A0matchbox-terminal * =A0 =A0 x11vnc =
+*
+> =A0* opkg_install_cmd: Cannot install package task-gnome-apps.
+> =A0* opkg_install_cmd: Cannot install package connman-systemd.
+> =A0* satisfy_dependencies_for: Cannot satisfy the following dependencies
+> for task-gnome:
+> =A0* =A0 =A0 =A0gnome-keyring * =A0 =A0 =A0 =A0 gnome-bluetooth * =A0 =A0=
+ =A0 nautilus *
+> =A0gtk-engine-clearlooks * =A0 =A0 =A0 =A0 gtk-theme-clearlooks * =A0gdm =
+*
+> gnome-settings-daemon * =A0 =A0 =A0 =A0 gnome-panel * =A0 gnome-power-man=
+ager *
+> =A0gnome-control-center * =A0gnome-system-monitor * =A0upower *
+> gnome-disk-utility * =A0 =A0connman-gnome * =A0 =A0 =A0 =A0 connman-plugi=
+n-ntpd *
+> =A0gdm-systemd * =A0 gpe-scap * =A0 =A0 =A0bash * =A0udisks *
+> =A0* opkg_install_cmd: Cannot install package task-gnome.
+> =A0* opkg_install_cmd: Cannot install package avahi-utils.
+> =A0* satisfy_dependencies_for: Cannot satisfy the following dependencies
+> for task-xserver:
+> =A0* =A0 =A0 =A0xserver-xorg * =A0xf86-input-mouse * =A0 =A0 =A0xf86-inpu=
+t-keyboard *
+> =A0xf86-input-evdev * =A0 =A0 =A0xf86-video-omapfb *
+> =A0* opkg_install_cmd: Cannot install package task-xserver.
+> =A0* opkg_install_cmd: Cannot install package avahi-systemd.
+> =A0* satisfy_dependencies_for: Cannot satisfy the following dependencies
+> for shadow:
+> =A0* =A0 =A0 =A0libpam-runtime * =A0 =A0 =A0 =A0pam-plugin-env *
+> pam-plugin-shells * =A0 =A0 pam-plugin-faildelay * =A0pam-plugin-securett=
+y *
+> =A0pam-plugin-limits * =A0 =A0 pam-plugin-nologin * =A0 =A0pam-plugin-mot=
+d *
+> =A0eglibc (>=3D 2.12) * =A0 =A0 =A0pam-plugin-group * =A0 =A0 =A0pam-plug=
+in-mail *
+> =A0 pam-plugin-rootok * =A0 =A0 libpam (>=3D 1.1.4) * =A0 =A0 pam-plugin-=
+lastlog
+> *
+> =A0* opkg_install_cmd: Cannot install package shadow.
+> =A0* satisfy_dependencies_for: Cannot satisfy the following dependencies
+> for dropbear-systemd:
+> =A0* =A0 =A0 =A0dropbear * =A0 =A0 =A0systemd *
+> =A0* opkg_install_cmd: Cannot install package dropbear-systemd.
+> =A0* opkg_install_cmd: Cannot install package tinylogin.
+> =A0* satisfy_dependencies_for: Cannot satisfy the following dependencies
+> for angstrom-task-boot:
+> =A0* =A0 =A0 =A0busybox * =A0 =A0 =A0 netbase * =A0 =A0 =A0 opkg * =A0bas=
+e-passwd *
+> =A0* opkg_install_cmd: Cannot install package angstrom-task-boot.
+> =A0* satisfy_dependencies_for: Cannot satisfy the following dependencies
+> for task-gnome-xserver-base:
+> =A0* =A0 =A0 =A0xvinfo * =A0 =A0 =A0 =A0dbus-x11 * =A0 =A0 =A0xdg-utils *=
+ =A0 =A0 xhost *
+> =A0xset * =A0xrandr * =A0 =A0 =A0 =A0xinetd * =A0 =A0 =A0 =A0xauth * =A0 =
+=A0 =A0 =A0 xrdb * =A0xinit
+> *
+> =A0* opkg_install_cmd: Cannot install package task-gnome-xserver-base.
+> =A0* opkg_install_cmd: Cannot install package connman-plugin-ethernet.
+> ERROR: Function 'do_rootfs' failed (see
+> /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglib=
+c/work/beagleboard-angstrom-linux-gnueabi/systemd-gnome-image-1.0-r0/temp/l=
+og.do_rootfs.32044
+> for further information)
+> (END)
+>
+>
+> Thanks,
+> Joel
+>
 
 
