@@ -1,29 +1,30 @@
-Received: from mail-ww0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1QodCO-00087r-EA
-	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 17:17:32 +0200
-Received: by wwe32 with SMTP id 32so502100wwe.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QodDL-00089p-9l for openembedded-core@lists.openembedded.org;
+	Wed, 03 Aug 2011 17:18:31 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73FE859026185
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Aug 2011 08:13:09 -0700 (PDT)
-Received: by 10.216.164.149 with SMTP id c21mr751233wel.98.1312384389831;
-	Wed, 03 Aug 2011 08:13:09 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id fp3sm758157wbb.13.2011.08.03.08.13.07
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 03 Aug 2011 08:13:08 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1244.3)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4E396289.5070509@gmail.com>
-Date: Wed, 3 Aug 2011 17:13:06 +0200
-Message-Id: <ECABAD7B-80FC-4AED-8BA9-483B6CC2F37F@dominion.thruhere.net>
-References: <cover.1311682779.git.edwin.zhai@intel.com>	<73ea8ff94e4bda213df1a5a39615f4cd39899589.1311682779.git.edwin.zhai@intel.com>	<C36AA1E0-9A00-4761-9912-A3AC81367446@dominion.thruhere.net>
-	<1311686782.2344.236.camel@rex> <4E38FE6C.3010005@intel.com>
-	<4E396289.5070509@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1244.3)
-Subject: Re: [PATCH 2/3] xinput-calibrator: Add 0.7.5 as new recipe
+	Wed, 3 Aug 2011 16:14:08 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25105-09 for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Aug 2011 16:14:04 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73FE1db026179
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 3 Aug 2011 16:14:01 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 03 Aug 2011 16:13:43 +0100
+Message-ID: <1312384423.2344.678.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] libzypp: Correctly handle - in package architecture names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,45 +39,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 15:17:32 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Aug 2011 15:18:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+If package architectures contain - characters this needs to be mapped
+to something else in (_) since its illegal in C variable names.
+
+[YOCTO #1313 partially]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-extended/libzypp/libzypp_git.bb b/meta/recipes-extended/libzypp/libzypp_git.bb
+index 6e8fe16..bb36a90 100644
+--- a/meta/recipes-extended/libzypp/libzypp_git.bb
++++ b/meta/recipes-extended/libzypp/libzypp_git.bb
+@@ -54,7 +54,7 @@ do_archgen () {
+ 	echo ""									>> zypp/poky-arch.h
+ 	echo "#ifndef POKY_ARCH_H"						>> zypp/poky-arch.h
+ 	echo "#define POKY_ARCH_H 1"						>> zypp/poky-arch.h
+-	echo "#define Arch_machine Arch_${MACHINE_ARCH}"			>> zypp/poky-arch.h
++	echo "#define Arch_machine Arch_${MACHINE_ARCH}" | tr - _		>> zypp/poky-arch.h
+ 	echo "#endif /* POKY_ARCH_H */"						>> zypp/poky-arch.h
+ 	echo ""									>> zypp/poky-arch.h
+ 	if [ "${AVOID_CONSTRUCTOR}" != "true" ]; then
+@@ -65,7 +65,7 @@ do_archgen () {
+ 			all | any | noarch)
+ 				continue;;
+ 		esac
+-		echo "    DEF_BUILTIN( ${each_arch} );"				>> zypp/poky-arch.h
++		echo "    DEF_BUILTIN( ${each_arch} );"	 | tr - _		>> zypp/poky-arch.h
+ 	  done
+ 	  echo "#endif /* DEF_BUILTIN */"						>> zypp/poky-arch.h
+ 	  echo ""									>> zypp/poky-arch.h
+@@ -77,7 +77,7 @@ do_archgen () {
+ 			all | any | noarch)
+ 				continue;;
+ 		esac
+-		echo "  extern const Arch Arch_${each_arch};"			>> zypp/poky-arch.h
++		echo "  extern const Arch Arch_${each_arch};" | tr - _		>> zypp/poky-arch.h
+ 	done
+ 	echo "#endif /* POKY_EXTERN_PROTO */"					>> zypp/poky-arch.h
+ 	echo ""									>> zypp/poky-arch.h
+@@ -89,9 +89,11 @@ do_archgen () {
+ 				continue;;
+ 		esac
+ 		if [ "${AVOID_CONSTRUCTOR}" != "true" ]; then
+-		  echo "  const Arch Arch_${each_arch} (_${each_arch});"		>> zypp/poky-arch.h
++		  echo -n "  const Arch Arch_${each_arch} " | tr - _		>> zypp/poky-arch.h
++		  echo "(_${each_arch});" 					>> zypp/poky-arch.h
+ 		else
+-		  echo "  const Arch Arch_${each_arch} ( IdString ( \"${each_arch}\" ) );"		>> zypp/poky-arch.h
++		  echo -n "  const Arch Arch_${each_arch} " | tr - _		>> zypp/poky-arch.h
++		  echo "( IdString ( \"${each_arch}\" ) );" 			>> zypp/poky-arch.h
+ 		fi
+ 	done
+ 	echo "#endif /* POKY_PROTO */"						>> zypp/poky-arch.h
 
 
-Op 3 aug. 2011, om 17:00 heeft Khem Raj het volgende geschreven:
-
-> On 08/03/2011 12:53 AM, Zhai, Edwin wrote:
->>=20
->>=20
->> Richard Purdie wrote:
->>>=20
->>> On Tue, 2011-07-26 at 14:53 +0200, Koen Kooi wrote:
->>> > This one looks suspicously like the one in meta-oe. Apart from =
-that,
->>> > is it really needed in oe-core?
->>>=20
->>> Given that the xcalibrate extension has been removed from the =
-xserver I
->>> think we're going to either need to migrate the tools like xtscal or
->>> adopt other tools. Certainly OE-Core should have a consistent story =
-for
->>> touchscreens...
->>>=20
->>=20
->> RP,
->> There is another recipe pointercal-xinput that provides script for
->> calibration based on xinput_calibrator's output. So moving xinput,
->> xinput_calibrator and pointercal-xinput from meta-oe to oe-core make =
-a
->> consistent story?
->>=20
->> If no objection, I'll do this...
->=20
-> yes please. I have not been able to caliberate screen using =
-xinput-calibrator. I would try anything that will get me going.
-
-I've only used it under X and if you use xf86-input-evdev it "just =
-works". The most recent system I tried was an ipaq hx4700 with kernel =
-3.0.=
 
 
