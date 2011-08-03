@@ -1,25 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qojjf-0004Tu-Nr
+	(envelope-from <sgw@linux.intel.com>) id 1Qojjf-0004U0-TE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 00:16:19 +0200
+	Thu, 04 Aug 2011 00:16:20 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2011 15:11:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.67,312,1309762800"; 
-   d="scan'208";a="3912940"
+   d="scan'208";a="3912941"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Aug 2011 15:11:48 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Aug 2011 15:11:49 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 15:10:59 -0700
-Message-Id: <ce46b2dc0a2a3e5d9edb426035b3d12e413447c6.1312407628.git.sgw@linux.intel.com>
+Date: Wed,  3 Aug 2011 15:11:00 -0700
+Message-Id: <cb89e5f1664b8b44eae3f8d6c24bf0c65c0af280.1312407628.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL v2 15/33] parted: Upgrade to 3.0
+Subject: [CONSOLIDATED PULL v2 16/33] apr: Upgrade to 1.4.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,42 +38,88 @@ X-List-Received-Date: Wed, 03 Aug 2011 22:16:20 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- .../{parted-2.3 => parted-3.0}/no_check.patch      |    0
- .../{parted-2.3 => parted-3.0}/syscalls.patch      |    0
- .../parted/{parted_2.3.bb => parted_3.0.bb}        |    4 ++--
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/parted/{parted-2.3 => parted-3.0}/no_check.patch (100%)
- rename meta/recipes-extended/parted/{parted-2.3 => parted-3.0}/syscalls.patch (100%)
- rename meta/recipes-extended/parted/{parted_2.3.bb => parted_3.0.bb} (78%)
+Remove buildconf_fix.patch as already in upstream.
 
-diff --git a/meta/recipes-extended/parted/parted-2.3/no_check.patch b/meta/recipes-extended/parted/parted-3.0/no_check.patch
-similarity index 100%
-rename from meta/recipes-extended/parted/parted-2.3/no_check.patch
-rename to meta/recipes-extended/parted/parted-3.0/no_check.patch
-diff --git a/meta/recipes-extended/parted/parted-2.3/syscalls.patch b/meta/recipes-extended/parted/parted-3.0/syscalls.patch
-similarity index 100%
-rename from meta/recipes-extended/parted/parted-2.3/syscalls.patch
-rename to meta/recipes-extended/parted/parted-3.0/syscalls.patch
-diff --git a/meta/recipes-extended/parted/parted_2.3.bb b/meta/recipes-extended/parted/parted_3.0.bb
-similarity index 78%
-rename from meta/recipes-extended/parted/parted_2.3.bb
-rename to meta/recipes-extended/parted/parted_3.0.bb
-index 14c9c25..29daf01 100644
---- a/meta/recipes-extended/parted/parted_2.3.bb
-+++ b/meta/recipes-extended/parted/parted_3.0.bb
-@@ -10,8 +10,8 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.gz \
-            file://no_check.patch \
-            file://syscalls.patch "
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+
+Merged with ${BPN} change
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-support/apr/apr/buildconf_fix.patch   |   27 --------------------
+ .../apr/{apr_1.4.2.bb => apr_1.4.5.bb}             |   13 +++++----
+ 2 files changed, 7 insertions(+), 33 deletions(-)
+ delete mode 100644 meta/recipes-support/apr/apr/buildconf_fix.patch
+ rename meta/recipes-support/apr/{apr_1.4.2.bb => apr_1.4.5.bb} (82%)
+
+diff --git a/meta/recipes-support/apr/apr/buildconf_fix.patch b/meta/recipes-support/apr/apr/buildconf_fix.patch
+deleted file mode 100644
+index 2c9d62e..0000000
+--- a/meta/recipes-support/apr/apr/buildconf_fix.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-Remove the new libtool detection method to avoid config failure. Poky's libtool
+-has different format for "aclocaldir", and there is no elegant parsing method,
+-so fall back to old detection.
+-
+-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: apr-1.4.2/buildconf
+-===================================================================
+---- apr-1.4.2.orig/buildconf	2009-11-13 06:19:49.000000000 +0800
+-+++ apr-1.4.2/buildconf	2010-11-29 14:39:19.000000000 +0800
+-@@ -50,14 +50,6 @@
+- 
+- if [ -f libtool.m4 ]; then 
+-    ltfile=`pwd`/libtool.m4
+--elif grep all_pkgmacro_files $libtoolize > /dev/null; then
+--    # libtool 2.x
+--   aclocal_dir=`sed -n '/^aclocaldir=/{s/.*=//;p;q;}' < $libtoolize`
+--   ltfiles=`sed -n '/^all_pkgmacro_files=/{s/.*=//;;s/"//;p;q;}' < $libtoolize`
+--   for f in $ltfiles; do
+--       test -f "$aclocal_dir/$f" && cp "$aclocal_dir/$f" build
+--   done
+--   ltfile=$aclocal_dir/libtool.m4
+- else
+-    ltfindcmd="`sed -n \"/=[^\\\`]/p;/libtool_m4=/{s/.*=/echo /p;q;}\" \
+-                    < $libtoolize`"
+diff --git a/meta/recipes-support/apr/apr_1.4.2.bb b/meta/recipes-support/apr/apr_1.4.5.bb
+similarity index 82%
+rename from meta/recipes-support/apr/apr_1.4.2.bb
+rename to meta/recipes-support/apr/apr_1.4.5.bb
+index 2d5edaa..b65e042 100644
+--- a/meta/recipes-support/apr/apr_1.4.2.bb
++++ b/meta/recipes-support/apr/apr_1.4.5.bb
+@@ -9,13 +9,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0c35ff3c4c83b89d2f076e315caac28b \
+ PR = "r1"
  
--SRC_URI[md5sum] = "30ceb6df7e8681891e865e2fe5a7903d"
--SRC_URI[sha256sum] = "e81fa140805b5cd029ff6dda5cfa94d223e83ac182ebcae94f841d62ce468829"
-+SRC_URI[md5sum] = "a94e84a9b9944715c4453f82ccc639bf"
-+SRC_URI[sha256sum] = "8886eece015202f6bd5ce8414f4b68838452cef509f2e3389ad56128219837b7"
+ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+-           file://configure_fixes.patch;patch=1 \
+-	   file://cleanup.patch;patch=1 \
+-           file://configfix.patch;patch=1 \
+-           file://buildconf_fix.patch;patch=1"
++           file://configure_fixes.patch \
++           file://cleanup.patch \
++           file://configfix.patch"
  
- EXTRA_OECONF = "--disable-Werror --disable-device-mapper"
+-SRC_URI[md5sum] = "4b00e8f70c067893d075577962656b35"
+-SRC_URI[sha256sum] = "2017ca700694d09d2b0b21dd7c4d195e43a48735aac88526160c6195ee8f5391"
++SRC_URI[md5sum] = "8b53f5a5669d0597f2da889a2f576eb6"
++SRC_URI[sha256sum] = "38c61cacb39be649411cdab212979c71ce29495549c249c2e9a1b0d12480c93e"
  
+ inherit autotools lib_package binconfig multilib_header
+ 
+@@ -26,6 +25,8 @@ do_configure_prepend() {
+ 	./buildconf
+ }
+ 
++FILES_${PN}-dev += "${libdir}/apr.exp ${datadir}/build-1/*"
++
+ #for some reason, build/libtool.m4 handled by buildconf still be overwritten
+ #when autoconf, so handle it again.
+ do_configure_append() {
 -- 
 1.7.3.4
 
