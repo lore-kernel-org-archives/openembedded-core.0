@@ -1,25 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qojjj-0004Tp-Ch
+	(envelope-from <sgw@linux.intel.com>) id 1Qojjj-0004Tu-Fb
 	for openembedded-core@lists.openembedded.org;
 	Thu, 04 Aug 2011 00:16:23 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2011 15:11:52 -0700
+	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2011 15:11:53 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.67,312,1309762800"; 
-   d="scan'208";a="3912960"
+   d="scan'208";a="3912962"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
 	by AZSMGA002.ch.intel.com with ESMTP; 03 Aug 2011 15:11:52 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 15:11:10 -0700
-Message-Id: <87ffe261065b6e5e1cff5a4bf0af32a6b3e0e624.1312407628.git.sgw@linux.intel.com>
+Date: Wed,  3 Aug 2011 15:11:11 -0700
+Message-Id: <0740736ea6433bec67180ae5b8fc4526326d0a79.1312407628.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL v2 26/33] tcl: Add tcl_cv_api_serial to siteinfo
+Subject: [CONSOLIDATED PULL v2 27/33] Various site files: Drop monotone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,29 +34,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 22:16:23 -0000
+X-List-Received-Date: Wed, 03 Aug 2011 22:16:24 -0000
 
 From: Tom Rini <tom_rini@mentor.com>
 
-This comes from oe.dev which had this set for arm-linux only.  Bump PR
-since this changes how builds happen.
+Not in oe-core nor meta-oe and based on oe.dev, possibly incomplete.
 
 Signed-off-by: Tom Rini <tom_rini@mentor.com>
 ---
- meta/site/common-linux |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ meta/site/arm-common        |    3 ---
+ meta/site/arm-linux         |    3 ---
+ meta/site/common-glibc      |    3 ---
+ meta/site/ix86-common       |    3 ---
+ meta/site/mips-linux        |    5 -----
+ meta/site/mips-linux-uclibc |    5 -----
+ meta/site/mipsel-linux      |    5 -----
+ meta/site/powerpc32-linux   |    4 ----
+ meta/site/sh-common         |    3 ---
+ 9 files changed, 0 insertions(+), 34 deletions(-)
 
-diff --git a/meta/site/common-linux b/meta/site/common-linux
-index 14d671b..fd46d62 100644
---- a/meta/site/common-linux
-+++ b/meta/site/common-linux
-@@ -34,3 +34,6 @@ bash_cv_unusable_rtsigs=${bash_cv_unusable_rtsigs=no}
+diff --git a/meta/site/arm-common b/meta/site/arm-common
+index 2129298..7317a13 100644
+--- a/meta/site/arm-common
++++ b/meta/site/arm-common
+@@ -116,9 +116,6 @@ with_broken_putenv=${with_broken_putenv=no}
+ # links
+ ac_cv_lib_png_png_create_info_struct=${ac_cv_lib_png_png_create_info_struct=yes}
+ 
+-# mono
+-cv_mono_sizeof_sunpath=108
+-
  # mysql
- ac_cv_sys_restartable_syscalls=${ac_cv_sys_restartable_syscalls=yes}
- ac_cv_conv_longlong_to_float=${ac_cv_conv_longlong_to_float=yes}
-+
-+# TCL
-+tcl_cv_api_serial=${tcl_cv_api_serial=termios}
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+diff --git a/meta/site/arm-linux b/meta/site/arm-linux
+index 22b455a..87b45eb 100644
+--- a/meta/site/arm-linux
++++ b/meta/site/arm-linux
+@@ -154,9 +154,6 @@ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
+ # lftp
+ ac_cv_file___dev_ptc_=yes
+ 
+-#mono
+-mono_cv_uscore=${mono_cv_uscore=no}
+-
+ # guile
+ ac_cv_func_pthread_attr_getstack=${ac_cv_func_pthread_attr_getstack=yes}
+ 
+diff --git a/meta/site/common-glibc b/meta/site/common-glibc
+index 8cfa695..157baa4 100644
+--- a/meta/site/common-glibc
++++ b/meta/site/common-glibc
+@@ -38,9 +38,6 @@ ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
+ # gnucash
+ am_cv_scanf_lld=${am_cv_scanf_lld=yes}
+ 
+-# mono
+-mono_cv_uscore=${mono_cv_uscore=no}
+-
+ # guile
+ ac_cv_func_pthread_attr_getstack=${ac_cv_func_pthread_attr_getstack=yes}
+ 
+diff --git a/meta/site/ix86-common b/meta/site/ix86-common
+index 122eb14..141ef3a 100644
+--- a/meta/site/ix86-common
++++ b/meta/site/ix86-common
+@@ -137,9 +137,6 @@ ac_libnet_have_packet_socket=${ac_libnet_have_packet_socket=yes}
+ # libxfce4util
+ with_broken_putenv=${with_broken_putenv=no}
+ 
+-# mono
+-cv_mono_sizeof_sunpath=108
+-
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=yes}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=yes}
+diff --git a/meta/site/mips-linux b/meta/site/mips-linux
+index 212c3ad..b99633b 100644
+--- a/meta/site/mips-linux
++++ b/meta/site/mips-linux
+@@ -85,11 +85,6 @@ ac_cv_uint=${ac_cv_unit=yes}
+ # D-BUS
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+ 
+-# mono
+-cv_mono_sizeof_sunpath=108
+-mono_cv_sizeof_sunpath=108
+-mono_cv_uscore=${mono_cv_uscore=no}
+-
+ # popt
+ ac_cv_va_copy=${ac_cv_va_copy=yes}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
+diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
+index 212c3ad..b99633b 100644
+--- a/meta/site/mips-linux-uclibc
++++ b/meta/site/mips-linux-uclibc
+@@ -85,11 +85,6 @@ ac_cv_uint=${ac_cv_unit=yes}
+ # D-BUS
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+ 
+-# mono
+-cv_mono_sizeof_sunpath=108
+-mono_cv_sizeof_sunpath=108
+-mono_cv_uscore=${mono_cv_uscore=no}
+-
+ # popt
+ ac_cv_va_copy=${ac_cv_va_copy=yes}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
+diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
+index a9032ac..3347914 100644
+--- a/meta/site/mipsel-linux
++++ b/meta/site/mipsel-linux
+@@ -85,11 +85,6 @@ ac_cv_uint=${ac_cv_unit=yes}
+ 
+ # D-BUS
+ ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
+-
+-#mono
+-cv_mono_sizeof_sunpath=108
+-mono_cv_uscore=${mono_cv_uscore=no}
+-
+ # popt
+ ac_cv_va_copy=${ac_cv_va_copy=yes}
+ ac_cv___va_copy=${ac_cv___va_copy=yes}
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index 8a10111..c0e3804 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -272,10 +272,6 @@ samba_cv_have_longlong=${samba_cv_have_longlong=yes}
+ samba_cv_have_setresgid=${samba_cv_have_setresgid=yes}
+ samba_cv_have_setresuid=${samba_cv_have_setresuid=yes}
+ 
+-#monotone
+-ac_cv_sync_with_stdio=${ac_cv_sync_with_stdio=yes} 
+-ac_cv_sync_with_stdio_2=${ac_cv_sync_with_stdio_2=yes}
+-
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
+diff --git a/meta/site/sh-common b/meta/site/sh-common
+index 63abe57..bbf98a5 100644
+--- a/meta/site/sh-common
++++ b/meta/site/sh-common
+@@ -201,9 +201,6 @@ cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+ ac_cv_c_long_double=${ac_cv_c_long_double=yes}
+ bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
+ 
+-# mono
+-cv_mono_sizeof_sunpath=108
+-
+ # mysql
+ mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
+ mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
 -- 
 1.7.3.4
 
