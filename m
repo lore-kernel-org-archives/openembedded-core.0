@@ -1,25 +1,19 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from gate.crashing.org ([63.228.1.57]
+	ident=[U2FsdGVkX1+D6eav3XMgtkH3a04qhhACappfycbP5Gw=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QodKf-0008Vd-7t
+	(envelope-from <galak@kernel.crashing.org>) id 1QodPO-0000En-1p
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 17:26:05 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 03 Aug 2011 08:21:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,310,1309762800"; 
-   d="scan'208";a="3779457"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Aug 2011 08:21:24 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
+	Wed, 03 Aug 2011 17:30:58 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p73FQaB6022710
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 3 Aug 2011 10:26:36 -0500
+From: Kumar Gala <galak@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 23:19:38 +0800
-Message-Id: <a59303a5b3249096635224817a6b20c828277132.1312384552.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1312384552.git.dongxiao.xu@intel.com>
-References: <cover.1312384552.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1312384552.git.dongxiao.xu@intel.com>
-References: <cover.1312384552.git.dongxiao.xu@intel.com>
-Subject: [PATCH 6/7] package_rpm: fix strip_multilib function
+Date: Wed,  3 Aug 2011 10:26:36 -0500
+Message-Id: <1312385196-14664-1-git-send-email-galak@kernel.crashing.org>
+X-Mailer: git-send-email 1.5.6.5
+Subject: [PATCH] libproxy: utilize base_libdir when configured
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,43 +28,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 15:26:05 -0000
+X-List-Received-Date: Wed, 03 Aug 2011 15:30:58 -0000
 
-The previous logic could only strip MLPREFIX from the first element in
-an array, take an example, strip_multilib the [lib32-a lib32-b lib32-c]
-will result in [a lib32-b lib32-c]. This commit change it to strip all
-elements' multilib prefix.
+Pass $base_libdir through when we configure to support a location other
+than /lib.
 
-CC: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- meta/classes/package_rpm.bbclass |    4 ++--
+ meta/recipes-support/libproxy/libproxy_0.4.6.bb |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 9d0eeba..a29ce9d 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -326,7 +326,7 @@ python write_specfile () {
- 		for ext in multilibs.split():
- 			eext = ext.split(':')
- 			if len(eext) > 1 and eext[0] == 'multilib' and name and name.find(eext[1] + '-') == 0:
--				name = (eext[1] + '-').join(name.split(eext[1] + '-', 1)[1:])
-+				name = " ".join(name.split(eext[1] + '-')[1:])
- 		return name
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.6.bb b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+index b24e8ba..8d9a332 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.6.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
+@@ -14,12 +14,12 @@ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
+ SRC_URI[md5sum] = "199c6b120baf1f7258a55f38d5ec74f5"
+ SRC_URI[sha256sum] = "9ad912e63b1efca98fb442240a2bc7302e6021c1d0b1b9363327729f29462f30"
  
- #		ml = bb.data.getVar("MLPREFIX", d, True)
-@@ -720,7 +720,7 @@ python do_package_rpm () {
- 	def strip_multilib(name, d):
- 		ml = bb.data.getVar("MLPREFIX", d, True)
- 		if ml and name and len(ml) != 0 and name.find(ml) == 0:
--			return ml.join(name.split(ml, 1)[1:])
-+			return " ".join(name.split(ml)[1:])
- 		return name
+-PR = "r1"
++PR = "r2"
  
- 	workdir = bb.data.getVar('WORKDIR', d, True)
+ inherit cmake pkgconfig
+ 
+ EXTRA_OECMAKE = "-DWITH_WEBKIT=no -DWITH_GNOME=yes -DWITH_KDE4=no \
+-	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no"
++	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no -DLIB_INSTALL_DIR=${base_libdir}"
+ 
+ FILES_${PN}-dbg += "${libdir}/libproxy/${PV}/plugins/.debug/ ${libdir}/libproxy/${PV}/modules/.debug/"
+ 
 -- 
-1.7.1
+1.7.3.4
 
 
 
