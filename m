@@ -1,31 +1,24 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1Qohhi-0008S1-JQ
-	for openembedded-core@openembedded.org; Wed, 03 Aug 2011 22:06:10 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 999)
-	id 536C1166050E; Wed,  3 Aug 2011 14:01:48 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [127.0.0.1] (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 4F962166050C;
-	Wed,  3 Aug 2011 14:01:47 -0600 (MDT)
-Message-ID: <4E39A92B.5040207@mlbassoc.com>
-Date: Wed, 03 Aug 2011 14:01:47 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc15 Thunderbird/3.1.10
-MIME-Version: 1.0
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-References: <1312389206-15422-1-git-send-email-msm@freescale.com>
-	<4E397AE8.5020707@mlbassoc.com>
-	<CAEsOVNf5eZ6PLkqw_Ya8XEEzr1uQprGXOeqc4aS7BCcja7Bsmw@mail.gmail.com>
-In-Reply-To: <CAEsOVNf5eZ6PLkqw_Ya8XEEzr1uQprGXOeqc4aS7BCcja7Bsmw@mail.gmail.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@openembedded.org" <openembedded-core@openembedded.org>
-Subject: Re: [yocto] [PATCH] Update intltool to set perl shebang correctly for installed tools
+	(envelope-from <philb@gnu.org>) id 1QohjH-0008V7-Gc
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Aug 2011 22:07:47 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.3])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qohf4-0004E7-B1
+	for openembedded-core@lists.openembedded.org;
+	Wed, 03 Aug 2011 22:03:26 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <1312386236-11826-1-git-send-email-galak@kernel.crashing.org>
+References: <1312386236-11826-1-git-send-email-galak@kernel.crashing.org>
+Date: Wed, 03 Aug 2011 21:03:19 +0100
+Message-ID: <1312401799.4007.3.camel@lenovo.internal.reciva.com>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 
+Subject: Re: [PATCH] tcl: Fix packaging of platform independent files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,41 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 20:06:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 03 Aug 2011 20:07:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2011-08-03 13:52, McClintock Matthew-B29882 wrote:
-> (Sorry if this get sent twice...)
->
-> On Wed, Aug 3, 2011 at 11:44 AM, Gary Thomas<gary@mlbassoc.com>  wrote:
->> On 2011-08-03 10:33, Matthew McClintock wrote:
->>>
->>> Several installed scripts set the perl shebang that is too long
->>> which can cause failures on certian older bash versions.
->>
->> How does the change below correspond to this comment?  It's not
->> clear [at least to me] how changing that environment variable
->> affects shebang constructs.  Can you give a more thorough explanation?
->
-> The scripts intltool-{update,etc} installed in sysroot end up having
-> *really* long shebangs without this change. On older distros this
-> causes the intltool scripts to just fail usually during the configure
-> task. intltools recipe itself will
-> build and install fine. However, when a package that requires
-> intltool's is being configured they will all fail withing invoking
-> intltools.
+On Wed, 2011-08-03 at 10:43 -0500, Kumar Gala wrote:
+> Tcl's doesn't utilize ${baselib} for platform independent files but
+> defines it as follows:
+> 
+> TCL_LIBRARY             = $(prefix)/lib/tcl$(VERSION)
+> 
+> Match that so if ${baselib} is not just /lib things work properly.
+> 
+> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+> ---
 
-This much was already clear from your explanation - the "what happens and
-why it needs fixing" part.
+Even better would be bashing tcl so that it puts its bits in ${datadir}
+where they belong. :-)  But your patch is fine though.
 
-What I don't see is the "why" - why does defining PERL vs PERL_virtclass-native
-have this effect?
+p.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+
 
 
