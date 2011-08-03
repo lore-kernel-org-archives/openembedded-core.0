@@ -1,24 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QoivY-0002CB-54
+	(envelope-from <sgw@linux.intel.com>) id 1QoivY-0002Bt-4N
 	for openembedded-core@lists.openembedded.org;
 	Wed, 03 Aug 2011 23:24:32 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Aug 2011 14:20:02 -0700
+	by orsmga101.jf.intel.com with ESMTP; 03 Aug 2011 14:20:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,312,1309762800"; d="scan'208";a="34057000"
+X-IronPort-AV: E=Sophos;i="4.67,312,1309762800"; d="scan'208";a="34056913"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
-	by orsmga002.jf.intel.com with ESMTP; 03 Aug 2011 14:19:57 -0700
+	by orsmga002.jf.intel.com with ESMTP; 03 Aug 2011 14:19:51 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 14:19:45 -0700
-Message-Id: <b678f49997a66517521fb1809401798255b3a2d6.1312394851.git.sgw@linux.intel.com>
+Date: Wed,  3 Aug 2011 14:19:25 -0700
+Message-Id: <4a1d4b730410fd5b0948a30d3a7fbca481566419.1312394851.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312394851.git.sgw@linux.intel.com>
 References: <cover.1312394851.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312394851.git.sgw@linux.intel.com>
 References: <cover.1312394851.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 32/33] eglibc: fix build for armv4 machines
+Subject: [CONSOLIDATED PULL 12/33] libsoup-2.4: Upgrade to 2.34.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,132 +35,32 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 03 Aug 2011 21:24:32 -0000
 
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-eglibc builds for arm-eabi unconditionally enables the libc-do-syscall.S
-file, which contains thumb assembly. It's unused in arm-eabi-nothumb case,
-so just ifdef the actual code.
-
-V2: use the patch from oe.dev.
-
-The patch is submitted to sourceware bugzilla by Khem Raj back in October
-of 2010, but the status is still UNCONFIRMED and the patch isn't commited.
-
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 ---
- .../eglibc-2.12/armv4-eabi-compile-fix.patch       |   25 ++++++++++++++++++++
- .../eglibc-2.13/armv4-eabi-compile-fix.patch       |   25 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.12.bb            |    3 +-
- meta/recipes-core/eglibc/eglibc_2.13.bb            |    3 +-
- 4 files changed, 54 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.12/armv4-eabi-compile-fix.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch
+ ...libsoup-2.4_2.34.1.bb => libsoup-2.4_2.34.2.bb} |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.34.1.bb => libsoup-2.4_2.34.2.bb} (76%)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.12/armv4-eabi-compile-fix.patch b/meta/recipes-core/eglibc/eglibc-2.12/armv4-eabi-compile-fix.patch
-new file mode 100644
-index 0000000..c2407ee
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.12/armv4-eabi-compile-fix.patch
-@@ -0,0 +1,25 @@
-+Source: http://sourceware.org/bugzilla/show_bug.cgi?id=12097
-+Upstream-Status: Submitted
-+
-+The patch should be merged into glibc-ports
-+
-+-Khem
-+Index: libc/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-+===================================================================
-+--- libc.orig/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-++++ libc/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-+@@ -16,6 +16,8 @@
-+    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-+    02111-1307 USA.  */
-+ 
-++#if defined(__thumb__)
-++
-+ #include <sysdep.h>
-+ 
-+ /* Out-of-line syscall stub.  We expect the system call number in ip
-+@@ -41,3 +43,5 @@ ENTRY (__libc_do_syscall)
-+ 	pop	{r7, pc}
-+ 	.fnend
-+ END (__libc_do_syscall)
-++
-++#endif /* __thumb__ */
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch b/meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch
-new file mode 100644
-index 0000000..c2407ee
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch
-@@ -0,0 +1,25 @@
-+Source: http://sourceware.org/bugzilla/show_bug.cgi?id=12097
-+Upstream-Status: Submitted
-+
-+The patch should be merged into glibc-ports
-+
-+-Khem
-+Index: libc/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-+===================================================================
-+--- libc.orig/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-++++ libc/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
-+@@ -16,6 +16,8 @@
-+    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-+    02111-1307 USA.  */
-+ 
-++#if defined(__thumb__)
-++
-+ #include <sysdep.h>
-+ 
-+ /* Out-of-line syscall stub.  We expect the system call number in ip
-+@@ -41,3 +43,5 @@ ENTRY (__libc_do_syscall)
-+ 	pop	{r7, pc}
-+ 	.fnend
-+ END (__libc_do_syscall)
-++
-++#endif /* __thumb__ */
-diff --git a/meta/recipes-core/eglibc/eglibc_2.12.bb b/meta/recipes-core/eglibc/eglibc_2.12.bb
-index 1ada892..ce16bd6 100644
---- a/meta/recipes-core/eglibc/eglibc_2.12.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.12.bb
-@@ -1,7 +1,7 @@
- require eglibc.inc
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.34.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.34.2.bb
+similarity index 76%
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.34.1.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.34.2.bb
+index f9e8de5..57af8f7 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.34.1.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.34.2.bb
+@@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 libgnome-keyring"
  
- DEPENDS += "gperf-native"
--PR = "r20"
-+PR = "r21"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/2.34/libsoup-${PV}.tar.bz2"
  
- SRCREV = "14158"
+-SRC_URI[md5sum] = "846779d898c11f97b5de28a79ea82254"
+-SRC_URI[sha256sum] = "a2f846af2c4c08e15eacc9879c8c9be4d85f8105f960f96a9ba3dbabd9ee517b"
++SRC_URI[md5sum] = "2454b38681a6e082b613a781a501e721"
++SRC_URI[sha256sum] = "1d70edc48c309528635012269733739f9cd22548913125864318a65d1b6f1261"
  
-@@ -11,6 +11,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://IO-acquire-lock-fix.patch \
-            file://shorten-build-commands.patch \
-            file://mips-rld-map-check.patch \
-+           file://armv4-eabi-compile-fix.patch \
-            file://etc/ld.so.conf \
-            file://generate-supported.mk \
- 	  "
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index 41fe7c7..ddca50f 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "14157"
+ S = "${WORKDIR}/libsoup-${PV}"
  
- DEPENDS += "gperf-native"
--PR = "r9"
-+PR = "r10"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_13"
-@@ -13,6 +13,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://shorten-build-commands.patch \
-            file://mips-rld-map-check.patch \
-            file://stack-protector-test.patch \
-+           file://armv4-eabi-compile-fix.patch \
-            file://etc/ld.so.conf \
-            file://generate-supported.mk \
-            file://glibc_bug_fix_12454.patch \
 -- 
 1.7.3.4
 
