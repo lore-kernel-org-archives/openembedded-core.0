@@ -1,23 +1,33 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/jRtAKuk5DgDFmax+SPmlSi6tVjxy6Kpc=])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QoesX-0003Ag-DY
-	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 19:05:09 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p73H0lnI004901
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QoezH-0003Iq-7w for openembedded-core@lists.openembedded.org;
+	Wed, 03 Aug 2011 19:12:07 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73H7i1s027862
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2011 12:00:47 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>
-Date: Wed, 3 Aug 2011 12:00:51 -0500
-Message-Id: <37BC502A-3FEA-4059-85FB-F6A3F401C3F9@kernel.crashing.org>
-References: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>
+	Wed, 3 Aug 2011 18:07:44 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27767-02 for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Aug 2011 18:07:40 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73H7aVS027856
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 3 Aug 2011 18:07:37 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH] scripts/oe-buildenv-internal: Add SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
+In-Reply-To: <cover.1312384552.git.dongxiao.xu@intel.com>
+References: <cover.1312384552.git.dongxiao.xu@intel.com>
+Date: Wed, 03 Aug 2011 18:07:19 +0100
+Message-ID: <1312391239.2344.714.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/7][PULL] Multilib: various fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,50 +42,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 17:05:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Aug 2011 17:12:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Wed, 2011-08-03 at 23:19 +0800, Dongxiao Xu wrote:
+> Hi Richard,
+> 
+> This pull request contains several multilib fixes, especially for rpm side.
+> Please help to review and pull.
+> 
+> Current status for rpm sato is, most of the error dependency issues have been solved except one error while do_rootfs:
+> 
+> error: Failed dependencies:
+>         /bin/sh is needed by dbus-1.4.12-r0.x86_64
+>         /bin/sh is needed by psplash-0.0+svnr424-r6.x86_64
+>         /bin/sh is needed by portmap-6.0-r7.x86_64
+>         /bin/sh is needed by dropbear-0.52-r3.x86_64
+>         ...
+> 
+> I am looking into that currently. Any suggestion would be appreciated.
+
+There should be a fix merged for that issue now :)
 
 
-On Jul 28, 2011, at 8:10 AM, Kumar Gala wrote:
+> The following changes since commit 07864a16baf18046b726ec72b688594a91c6e4b4:
+> 
+>   local.conf.sample: Fix TUNENAME reference (should be DEFAULTTUNE) (2011-08-02 14:40:54 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib dxu4/ml
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=dxu4/ml
+> 
+> Dongxiao Xu (7):
+>   eglibc-locale: Specially handle FILES_eglibc-gconv for multilib
+>   libxml-simple-perl: Use BBCLASSEXTEND insteand of *-native recipe
+>   openjade-native: Change RDEPENDS of sgml-common-native
+>   multilib: Use BPN instead of PN for style like lib${PN}
 
-> If a SOCKS5 gateway is needed for a proxy access like git it might =
-also
-> require authentication to the proxy via a password and username.  =
-Adding
-> SOCKS5_USER & SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for automation
-> of the authentication request to occur when something like a git fetch
-> is going through the proxy.
->=20
-> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
-> ---
-> * Fixes issue with a git fetch request failing to get pass a firewall
->=20
-> scripts/oe-buildenv-internal |    2 +-
-> 1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/scripts/oe-buildenv-internal =
-b/scripts/oe-buildenv-internal
-> index c13fc40..b223292 100755
-> --- a/scripts/oe-buildenv-internal
-> +++ b/scripts/oe-buildenv-internal
-> @@ -55,4 +55,4 @@ unset BITBAKEDIR
-> export BUILDDIR
-> export PATH
->=20
-> -export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC http_proxy =
-ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID =
-SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS =
-PARALLEL_MAKE GIT_PROXY_COMMAND"
-> +export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC http_proxy =
-ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID =
-SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS =
-PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD SOCSK5_USER"
-> --=20
-> 1.7.3.4
+I've merged these.
 
-Ping on this patch
+>   multilib: remove MULTILIB_PACKAGE_ARCHS variable
+>   package_rpm: fix strip_multilib function
+>   package_rpm: Fix package rename issue in multilib case
 
-- k=
+These look like they need more discussion with Mark.
+
+Cheers,
+
+Richard
+
 
 
