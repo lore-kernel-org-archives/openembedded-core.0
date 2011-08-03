@@ -1,25 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qojjk-0004U0-8h
+	(envelope-from <sgw@linux.intel.com>) id 1Qojjj-0004YH-3v
 	for openembedded-core@lists.openembedded.org;
 	Thu, 04 Aug 2011 00:16:25 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2011 15:11:53 -0700
+	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2011 15:11:52 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.67,312,1309762800"; 
-   d="scan'208";a="3912964"
+   d="scan'208";a="3912956"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Aug 2011 15:11:53 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Aug 2011 15:11:51 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 15:11:12 -0700
-Message-Id: <4af5e1edf06e14b637eecd0ff539a948a3a2ae9c.1312407628.git.sgw@linux.intel.com>
+Date: Wed,  3 Aug 2011 15:11:08 -0700
+Message-Id: <e6ec210b3270f990a123ff68fd8132b1e897c20c.1312407628.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL v2 28/33] Various siteinfo files: Consolidate ac_cv_func_getaddrinfo
+Subject: [CONSOLIDATED PULL v2 24/33] eglibc_2.13: Add support for handling sqrt & sqrtf on powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,183 +36,583 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 03 Aug 2011 22:16:32 -0000
 
-From: Tom Rini <tom_rini@mentor.com>
+From: Kumar Gala <galak@kernel.crashing.org>
 
-This is a libc feature, move there.  Drop the ipsec-tools specific
-test as ipsec-tools (a) assumes fine on cross-compile and (b) doesn't
-support buggy getaddrinfo now.
+Some of powerpc's dont support the fsqrt[s] instructions so we need an
+implementation of the library functions for those processors.
 
-Signed-off-by: Tom Rini <tom_rini@mentor.com>
+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
- meta/site/arm-common          |    2 --
- meta/site/common-glibc        |    1 +
- meta/site/common-uclibc       |    1 +
- meta/site/ix86-common         |    2 --
- meta/site/mips-linux          |    1 -
- meta/site/mips-linux-uclibc   |    1 -
- meta/site/mipsel-linux        |    1 -
- meta/site/mipsel-linux-uclibc |    1 -
- meta/site/powerpc32-linux     |    1 -
- meta/site/sh-common           |    2 --
- meta/site/x86_64-linux-uclibc |    1 -
- 11 files changed, 2 insertions(+), 12 deletions(-)
+ .../recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch |  538 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.13.bb            |    3 +-
+ 2 files changed, 540 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch
 
-diff --git a/meta/site/arm-common b/meta/site/arm-common
-index 7317a13..65ebd06 100644
---- a/meta/site/arm-common
-+++ b/meta/site/arm-common
-@@ -87,7 +87,6 @@ ac_cv_strerror_r_SUSv3=${ac_cv_strerror_r_SUSv3=no}
- ac_cv_va_copy=${ac_cv_va_copy=yes}
- ac_cv___va_copy=${ac_cv___va_copy=yes}
- ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
--racoon_cv_bug_getaddrinfo=${racoon_cv_bug_getaddrinfo=no}
+diff --git a/meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch b/meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch
+new file mode 100644
+index 0000000..0c6f0cb
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch
+@@ -0,0 +1,538 @@
++Upstream-Status: Pending
++
++2011-03-22  Joseph Myers  <joseph@codesourcery.com>
++
++        Merge from SG++ 2.11:
++
++        2010-10-05  Nathan Froyd  <froydnj@codesourcery.com>
++
++        Issue #9382
++
++        * sysdeps/powerpc/powerpc32/603e/: New directory.
++        * sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/: New directory.
++        * sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/: New directory.
++        * sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/: New directory.
++        * sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c: Update.
++        * sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c: Update.
++        * sysdeps/powerpc/powerpc64/e5500/fpu/Implies: New file.
++
++Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
++@@ -0,0 +1,134 @@
+++/* Double-precision floating point square root.
+++   Copyright (C) 2010 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, write to the Free
+++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+++   02111-1307 USA.  */
+++
+++#include <math.h>
+++#include <math_private.h>
+++#include <fenv_libc.h>
+++#include <inttypes.h>
+++
+++#include <sysdep.h>
+++#include <ldsodefs.h>
+++
+++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+++static const float two108 = 3.245185536584267269e+32;
+++static const float twom54 = 5.551115123125782702e-17;
+++static const float half = 0.5;
+++
+++/* The method is based on the descriptions in:
+++
+++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+++
+++   We find the actual square root and half of its reciprocal
+++   simultaneously.  */
+++
+++#ifdef __STDC__
+++double
+++__ieee754_sqrt (double b)
+++#else
+++double
+++__ieee754_sqrt (b)
+++     double b;
+++#endif
+++{
+++  if (__builtin_expect (b > 0, 1))
+++    {
+++      double y, g, h, d, r;
+++      ieee_double_shape_type u;
+++
+++      if (__builtin_expect (b != a_inf.value, 1))
+++        {
+++          fenv_t fe;
+++
+++          fe = fegetenv_register ();
+++
+++          u.value = b;
+++
+++          relax_fenv_state ();
+++
+++          __asm__ ("frsqrte %[estimate], %[x]\n"
+++                   : [estimate] "=f" (y) : [x] "f" (b));
+++
+++          /* Following Muller et al, page 168, equation 5.20.
+++
+++             h goes to 1/(2*sqrt(b))
+++             g goes to sqrt(b).
+++
+++             We need three iterations to get within 1ulp.  */
+++
+++          /* Indicate that these can be performed prior to the branch.  GCC
+++             insists on sinking them below the branch, however; it seems like
+++             they'd be better before the branch so that we can cover any latency
+++             from storing the argument and loading its high word.  Oh well.  */
+++
+++          g = b * y;
+++          h = 0.5 * y;
+++  
+++          /* Handle small numbers by scaling.  */
+++          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+++            return __ieee754_sqrt (b * two108) * twom54;
+++
+++#define FMADD(a_, c_, b_)                                               \
+++          ({ double __r;                                                \
+++          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
+++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++          __r;})
+++#define FNMSUB(a_, c_, b_)                                          \
+++          ({ double __r;                                                \
+++          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
+++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++          __r;})
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
+++
+++          /* Final refinement.  */
+++          d = FNMSUB (g, g, b);
+++
+++          fesetenv_register (fe);
+++          return FMADD (d, h, g);
+++        }
+++    }
+++  else if (b < 0)
+++    {
+++      /* For some reason, some PowerPC32 processors don't implement
+++         FE_INVALID_SQRT.  */
+++#ifdef FE_INVALID_SQRT
+++      feraiseexcept (FE_INVALID_SQRT);
+++
+++      fenv_union_t u = { .fenv = fegetenv_register () };
+++      if ((u.l[1] & FE_INVALID) == 0)
+++#endif
+++	feraiseexcept (FE_INVALID);
+++      b = a_nan.value;
+++    }
+++  return f_wash (b);
+++}
++Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
++@@ -0,0 +1,101 @@
+++/* Single-precision floating point square root.
+++   Copyright (C) 2010 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, write to the Free
+++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+++   02111-1307 USA.  */
+++
+++#include <math.h>
+++#include <math_private.h>
+++#include <fenv_libc.h>
+++#include <inttypes.h>
+++
+++#include <sysdep.h>
+++#include <ldsodefs.h>
+++
+++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+++static const float threehalf = 1.5;
+++
+++/* The method is based on the descriptions in:
+++
+++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+++
+++   We find the reciprocal square root and use that to compute the actual
+++   square root.  */
+++
+++#ifdef __STDC__
+++float
+++__ieee754_sqrtf (float b)
+++#else
+++float
+++__ieee754_sqrtf (b)
+++     float b;
+++#endif
+++{
+++  if (__builtin_expect (b > 0, 1))
+++    {
+++#define FMSUB(a_, c_, b_)                                               \
+++      ({ double __r;                                                    \
+++        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
+++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++        __r;})
+++#define FNMSUB(a_, c_, b_)                                              \
+++      ({ double __r;                                                    \
+++        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
+++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++        __r;})
+++
+++      if (__builtin_expect (b != a_inf.value, 1))
+++        {
+++          double y, x;
+++          fenv_t fe;
+++
+++          fe = fegetenv_register ();
+++
+++          relax_fenv_state ();
+++
+++          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
+++          y = FMSUB (threehalf, b, b);
+++
+++          /* Initial estimate.  */
+++          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
+++
+++          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
+++          x = x * FNMSUB (y, x * x, threehalf);
+++          x = x * FNMSUB (y, x * x, threehalf);
+++          x = x * FNMSUB (y, x * x, threehalf);
+++
+++          /* All done.  */
+++          fesetenv_register (fe);
+++          return x * b;
+++        }
+++    }
+++  else if (b < 0)
+++    {
+++      /* For some reason, some PowerPC32 processors don't implement
+++         FE_INVALID_SQRT.  */
+++#ifdef FE_INVALID_SQRT
+++      feraiseexcept (FE_INVALID_SQRT);
+++
+++      fenv_union_t u = { .fenv = fegetenv_register () };
+++      if ((u.l[1] & FE_INVALID) == 0)
+++#endif
+++	feraiseexcept (FE_INVALID);
+++      b = a_nan.value;
+++    }
+++  return f_washf (b);
+++}
++Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
++@@ -0,0 +1,134 @@
+++/* Double-precision floating point square root.
+++   Copyright (C) 2010 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, write to the Free
+++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+++   02111-1307 USA.  */
+++
+++#include <math.h>
+++#include <math_private.h>
+++#include <fenv_libc.h>
+++#include <inttypes.h>
+++
+++#include <sysdep.h>
+++#include <ldsodefs.h>
+++
+++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+++static const float two108 = 3.245185536584267269e+32;
+++static const float twom54 = 5.551115123125782702e-17;
+++static const float half = 0.5;
+++
+++/* The method is based on the descriptions in:
+++
+++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+++
+++   We find the actual square root and half of its reciprocal
+++   simultaneously.  */
+++
+++#ifdef __STDC__
+++double
+++__ieee754_sqrt (double b)
+++#else
+++double
+++__ieee754_sqrt (b)
+++     double b;
+++#endif
+++{
+++  if (__builtin_expect (b > 0, 1))
+++    {
+++      double y, g, h, d, r;
+++      ieee_double_shape_type u;
+++
+++      if (__builtin_expect (b != a_inf.value, 1))
+++        {
+++          fenv_t fe;
+++
+++          fe = fegetenv_register ();
+++
+++          u.value = b;
+++
+++          relax_fenv_state ();
+++
+++          __asm__ ("frsqrte %[estimate], %[x]\n"
+++                   : [estimate] "=f" (y) : [x] "f" (b));
+++
+++          /* Following Muller et al, page 168, equation 5.20.
+++
+++             h goes to 1/(2*sqrt(b))
+++             g goes to sqrt(b).
+++
+++             We need three iterations to get within 1ulp.  */
+++
+++          /* Indicate that these can be performed prior to the branch.  GCC
+++             insists on sinking them below the branch, however; it seems like
+++             they'd be better before the branch so that we can cover any latency
+++             from storing the argument and loading its high word.  Oh well.  */
+++
+++          g = b * y;
+++          h = 0.5 * y;
+++  
+++          /* Handle small numbers by scaling.  */
+++          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+++            return __ieee754_sqrt (b * two108) * twom54;
+++
+++#define FMADD(a_, c_, b_)                                               \
+++          ({ double __r;                                                \
+++          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
+++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++          __r;})
+++#define FNMSUB(a_, c_, b_)                                          \
+++          ({ double __r;                                                \
+++          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
+++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++          __r;})
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
+++
+++          /* Final refinement.  */
+++          d = FNMSUB (g, g, b);
+++
+++          fesetenv_register (fe);
+++          return FMADD (d, h, g);
+++        }
+++    }
+++  else if (b < 0)
+++    {
+++      /* For some reason, some PowerPC32 processors don't implement
+++         FE_INVALID_SQRT.  */
+++#ifdef FE_INVALID_SQRT
+++      feraiseexcept (FE_INVALID_SQRT);
+++
+++      fenv_union_t u = { .fenv = fegetenv_register () };
+++      if ((u.l[1] & FE_INVALID) == 0)
+++#endif
+++	feraiseexcept (FE_INVALID);
+++      b = a_nan.value;
+++    }
+++  return f_wash (b);
+++}
++Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
++@@ -0,0 +1,101 @@
+++/* Single-precision floating point square root.
+++   Copyright (C) 2010 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, write to the Free
+++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+++   02111-1307 USA.  */
+++
+++#include <math.h>
+++#include <math_private.h>
+++#include <fenv_libc.h>
+++#include <inttypes.h>
+++
+++#include <sysdep.h>
+++#include <ldsodefs.h>
+++
+++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+++static const float threehalf = 1.5;
+++
+++/* The method is based on the descriptions in:
+++
+++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+++
+++   We find the reciprocal square root and use that to compute the actual
+++   square root.  */
+++
+++#ifdef __STDC__
+++float
+++__ieee754_sqrtf (float b)
+++#else
+++float
+++__ieee754_sqrtf (b)
+++     float b;
+++#endif
+++{
+++  if (__builtin_expect (b > 0, 1))
+++    {
+++#define FMSUB(a_, c_, b_)                                               \
+++      ({ double __r;                                                    \
+++        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
+++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++        __r;})
+++#define FNMSUB(a_, c_, b_)                                              \
+++      ({ double __r;                                                    \
+++        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
+++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++        __r;})
+++
+++      if (__builtin_expect (b != a_inf.value, 1))
+++        {
+++          double y, x;
+++          fenv_t fe;
+++
+++          fe = fegetenv_register ();
+++
+++          relax_fenv_state ();
+++
+++          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
+++          y = FMSUB (threehalf, b, b);
+++
+++          /* Initial estimate.  */
+++          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
+++
+++          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
+++          x = x * FNMSUB (y, x * x, threehalf);
+++          x = x * FNMSUB (y, x * x, threehalf);
+++          x = x * FNMSUB (y, x * x, threehalf);
+++
+++          /* All done.  */
+++          fesetenv_register (fe);
+++          return x * b;
+++        }
+++    }
+++  else if (b < 0)
+++    {
+++      /* For some reason, some PowerPC32 processors don't implement
+++         FE_INVALID_SQRT.  */
+++#ifdef FE_INVALID_SQRT
+++      feraiseexcept (FE_INVALID_SQRT);
+++
+++      fenv_union_t u = { .fenv = fegetenv_register () };
+++      if ((u.l[1] & FE_INVALID) == 0)
+++#endif
+++	feraiseexcept (FE_INVALID);
+++      b = a_nan.value;
+++    }
+++  return f_washf (b);
+++}
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
++@@ -0,0 +1 @@
+++powerpc/powerpc32/603e/fpu
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/fpu/Implies
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/fpu/Implies
++@@ -0,0 +1 @@
+++powerpc/powerpc32/603e/fpu
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
++@@ -0,0 +1 @@
+++powerpc/powerpc32/603e/fpu
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
++@@ -0,0 +1 @@
+++powerpc/powerpc64/e5500/fpu
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
++@@ -0,0 +1 @@
+++powerpc/powerpc32/603e/fpu
+diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
+index ddca50f..b0a8bfd 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.13.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "14157"
  
- # jikes
- ac_cv_sizeof_wchar_t=4
-@@ -137,7 +136,6 @@ ac_cv_alignof_CORBA_pointer=4
- ac_cv_alignof_CORBA_short=2
- ac_cv_alignof_CORBA_struct=1
- ac_cv_alignof_CORBA_wchar=2
--ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
+ DEPENDS += "gperf-native"
+-PR = "r10"
++PR = "r11"
+ PR_append = "+svnr${SRCPV}"
  
- # php
- ac_cv_pread=${ac_cv_pread=no}
-diff --git a/meta/site/common-glibc b/meta/site/common-glibc
-index 157baa4..7946023 100644
---- a/meta/site/common-glibc
-+++ b/meta/site/common-glibc
-@@ -13,6 +13,7 @@ ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
- ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
- ac_cv_type_uid_t={ac_cv_type_uid_t=yes}
-+ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- 
- # bash
- bash_cv_under_sys_siglist=${bash_cv_under_sys_siglist=yes}
-diff --git a/meta/site/common-uclibc b/meta/site/common-uclibc
-index 093f60e..f6e0b44 100644
---- a/meta/site/common-uclibc
-+++ b/meta/site/common-uclibc
-@@ -11,6 +11,7 @@ ac_cv_func_getgrgid_r=${ac_cv_func_getgrgid_r=yes}
- ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
- ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
- ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
-+ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- 
- # glib
- glib_cv_strlcpy=${glib_cv_strlcpy=no}
-diff --git a/meta/site/ix86-common b/meta/site/ix86-common
-index 141ef3a..c663466 100644
---- a/meta/site/ix86-common
-+++ b/meta/site/ix86-common
-@@ -117,7 +117,6 @@ ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
- ac_cv_va_copy=${ac_cv_va_copy=no}
- ac_cv___va_copy=${ac_cv___va_copy=yes}
- ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
--racoon_cv_bug_getaddrinfo=${racoon_cv_bug_getaddrinfo=no}
- 
- # jikes-native
- ac_cv_sizeof_wchar_t=4
-@@ -154,7 +153,6 @@ ac_cv_alignof_CORBA_pointer=4
- ac_cv_alignof_CORBA_short=2
- ac_cv_alignof_CORBA_struct=4
- ac_cv_alignof_CORBA_wchar=2
--ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- 
- # php
- ac_cv_pread=${ac_cv_pread=no}
-diff --git a/meta/site/mips-linux b/meta/site/mips-linux
-index b99633b..e90b983 100644
---- a/meta/site/mips-linux
-+++ b/meta/site/mips-linux
-@@ -36,7 +36,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
- 
- # libpcap
- ac_cv_linux_vers=${ac_cv_linux_vers=2}
--ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- 
- # slrn
- slrn_cv___va_copy=${slrn_cv___va_copy=yes}
-diff --git a/meta/site/mips-linux-uclibc b/meta/site/mips-linux-uclibc
-index b99633b..e90b983 100644
---- a/meta/site/mips-linux-uclibc
-+++ b/meta/site/mips-linux-uclibc
-@@ -36,7 +36,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
- 
- # libpcap
- ac_cv_linux_vers=${ac_cv_linux_vers=2}
--ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- 
- # slrn
- slrn_cv___va_copy=${slrn_cv___va_copy=yes}
-diff --git a/meta/site/mipsel-linux b/meta/site/mipsel-linux
-index 3347914..7292f6f 100644
---- a/meta/site/mipsel-linux
-+++ b/meta/site/mipsel-linux
-@@ -37,7 +37,6 @@ glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
- 
- # libpcap
- ac_cv_linux_vers=${ac_cv_linux_vers=2}
--ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- 
- # slrn
- slrn_cv___va_copy=${slrn_cv___va_copy=yes}
-diff --git a/meta/site/mipsel-linux-uclibc b/meta/site/mipsel-linux-uclibc
-index 3c8f41e..ed426a9 100644
---- a/meta/site/mipsel-linux-uclibc
-+++ b/meta/site/mipsel-linux-uclibc
-@@ -31,7 +31,6 @@ glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
- 
- # libpcap
- ac_cv_linux_vers=${ac_cv_linux_vers=2}
--ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- 
- # slrn
- slrn_cv___va_copy=${slrn_cv___va_copy=yes}
-diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
-index c0e3804..60dad35 100644
---- a/meta/site/powerpc32-linux
-+++ b/meta/site/powerpc32-linux
-@@ -180,7 +180,6 @@ ac_cv_alignof_CORBA_pointer=4
- ac_cv_alignof_CORBA_short=2
- ac_cv_alignof_CORBA_struct=4
- ac_cv_alignof_CORBA_wchar=2
--ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- 
- # cvs
- cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
-diff --git a/meta/site/sh-common b/meta/site/sh-common
-index bbf98a5..6d57a08 100644
---- a/meta/site/sh-common
-+++ b/meta/site/sh-common
-@@ -192,7 +192,6 @@ ac_cv_alignof_CORBA_pointer=4
- ac_cv_alignof_CORBA_short=2
- ac_cv_alignof_CORBA_struct=4
- ac_cv_alignof_CORBA_wchar=2
--ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- 
- # cvs
- cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
-@@ -232,7 +231,6 @@ rsync_cv_REPLACE_INET_ATON=${rsync_cv_REPLACE_INET_ATON=no}
- ac_cv_va_copy=${ac_cv_va_copy=no}
- ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
- ac_cv___va_copy=${ac_cv___va_copy=yes}
--racoon_cv_bug_getaddrinfo=${racoon_cv_bug_getaddrinfo=no}
- 
- # libxfce4util
- with_broken_putenv=${with_broken_putenv=no}
-diff --git a/meta/site/x86_64-linux-uclibc b/meta/site/x86_64-linux-uclibc
-index 4699240..6eb5285 100644
---- a/meta/site/x86_64-linux-uclibc
-+++ b/meta/site/x86_64-linux-uclibc
-@@ -78,7 +78,6 @@ ac_cv_alignof_CORBA_pointer=8
- ac_cv_alignof_CORBA_short=2
- ac_cv_alignof_CORBA_struct=1
- ac_cv_alignof_CORBA_wchar=2
--ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
- 
- # startup-notification
- lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
+ EGLIBC_BRANCH="eglibc-2_13"
+@@ -17,6 +17,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
+            file://etc/ld.so.conf \
+            file://generate-supported.mk \
+            file://glibc_bug_fix_12454.patch \
++           file://ppc-sqrt.patch \
+ 	   "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
 -- 
 1.7.3.4
 
