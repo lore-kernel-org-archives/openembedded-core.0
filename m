@@ -1,25 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qojjf-0004U0-TE
+	(envelope-from <sgw@linux.intel.com>) id 1Qojjf-0004YH-VC
 	for openembedded-core@lists.openembedded.org;
 	Thu, 04 Aug 2011 00:16:20 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2011 15:11:49 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="4.67,312,1309762800"; 
-   d="scan'208";a="3912941"
+   d="scan'208";a="3912943"
 Received: from unknown (HELO swold-MOBL.bigsur.com) ([10.255.14.76])
 	by AZSMGA002.ch.intel.com with ESMTP; 03 Aug 2011 15:11:49 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 15:11:00 -0700
-Message-Id: <cb89e5f1664b8b44eae3f8d6c24bf0c65c0af280.1312407628.git.sgw@linux.intel.com>
+Date: Wed,  3 Aug 2011 15:11:01 -0700
+Message-Id: <d00b84ded1608e061f6635ce4175214e72f9568b.1312407628.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1312407628.git.sgw@linux.intel.com>
 References: <cover.1312407628.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL v2 16/33] apr: Upgrade to 1.4.5
+Subject: [CONSOLIDATED PULL v2 17/33] apr-util: Upgrade to 1.3.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,88 +38,47 @@ X-List-Received-Date: Wed, 03 Aug 2011 22:16:20 -0000
 
 From: Zhai Edwin <edwin.zhai@intel.com>
 
-Remove buildconf_fix.patch as already in upstream.
-
 Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
 
 Merged with ${BPN} change
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/apr/apr/buildconf_fix.patch   |   27 --------------------
- .../apr/{apr_1.4.2.bb => apr_1.4.5.bb}             |   13 +++++----
- 2 files changed, 7 insertions(+), 33 deletions(-)
- delete mode 100644 meta/recipes-support/apr/apr/buildconf_fix.patch
- rename meta/recipes-support/apr/{apr_1.4.2.bb => apr_1.4.5.bb} (82%)
+ .../apr/{apr-util_1.3.10.bb => apr-util_1.3.12.bb} |   12 ++++++++----
+ 1 files changed, 8 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/apr/{apr-util_1.3.10.bb => apr-util_1.3.12.bb} (67%)
 
-diff --git a/meta/recipes-support/apr/apr/buildconf_fix.patch b/meta/recipes-support/apr/apr/buildconf_fix.patch
-deleted file mode 100644
-index 2c9d62e..0000000
---- a/meta/recipes-support/apr/apr/buildconf_fix.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--Remove the new libtool detection method to avoid config failure. Poky's libtool
--has different format for "aclocaldir", and there is no elegant parsing method,
--so fall back to old detection.
--
--Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
--
--Upstream-Status: Inappropriate [configuration]
--
--Index: apr-1.4.2/buildconf
--===================================================================
----- apr-1.4.2.orig/buildconf	2009-11-13 06:19:49.000000000 +0800
--+++ apr-1.4.2/buildconf	2010-11-29 14:39:19.000000000 +0800
--@@ -50,14 +50,6 @@
-- 
-- if [ -f libtool.m4 ]; then 
--    ltfile=`pwd`/libtool.m4
---elif grep all_pkgmacro_files $libtoolize > /dev/null; then
---    # libtool 2.x
---   aclocal_dir=`sed -n '/^aclocaldir=/{s/.*=//;p;q;}' < $libtoolize`
---   ltfiles=`sed -n '/^all_pkgmacro_files=/{s/.*=//;;s/"//;p;q;}' < $libtoolize`
---   for f in $ltfiles; do
---       test -f "$aclocal_dir/$f" && cp "$aclocal_dir/$f" build
---   done
---   ltfile=$aclocal_dir/libtool.m4
-- else
--    ltfindcmd="`sed -n \"/=[^\\\`]/p;/libtool_m4=/{s/.*=/echo /p;q;}\" \
--                    < $libtoolize`"
-diff --git a/meta/recipes-support/apr/apr_1.4.2.bb b/meta/recipes-support/apr/apr_1.4.5.bb
-similarity index 82%
-rename from meta/recipes-support/apr/apr_1.4.2.bb
-rename to meta/recipes-support/apr/apr_1.4.5.bb
-index 2d5edaa..b65e042 100644
---- a/meta/recipes-support/apr/apr_1.4.2.bb
-+++ b/meta/recipes-support/apr/apr_1.4.5.bb
-@@ -9,13 +9,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0c35ff3c4c83b89d2f076e315caac28b \
- PR = "r1"
+diff --git a/meta/recipes-support/apr/apr-util_1.3.10.bb b/meta/recipes-support/apr/apr-util_1.3.12.bb
+similarity index 67%
+rename from meta/recipes-support/apr/apr-util_1.3.10.bb
+rename to meta/recipes-support/apr/apr-util_1.3.12.bb
+index 01595df..6635202 100644
+--- a/meta/recipes-support/apr/apr-util_1.3.10.bb
++++ b/meta/recipes-support/apr/apr-util_1.3.12.bb
+@@ -10,11 +10,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=519e0a18e03f7c023070568c14b077bb \
+ PR = "r0"
  
- SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
--           file://configure_fixes.patch;patch=1 \
--	   file://cleanup.patch;patch=1 \
+ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
 -           file://configfix.patch;patch=1 \
--           file://buildconf_fix.patch;patch=1"
-+           file://configure_fixes.patch \
-+           file://cleanup.patch \
-+           file://configfix.patch"
+-           file://configure_fixes.patch;patch=1"
++           file://configfix.patch \
++           file://configure_fixes.patch"
  
--SRC_URI[md5sum] = "4b00e8f70c067893d075577962656b35"
--SRC_URI[sha256sum] = "2017ca700694d09d2b0b21dd7c4d195e43a48735aac88526160c6195ee8f5391"
-+SRC_URI[md5sum] = "8b53f5a5669d0597f2da889a2f576eb6"
-+SRC_URI[sha256sum] = "38c61cacb39be649411cdab212979c71ce29495549c249c2e9a1b0d12480c93e"
+-SRC_URI[md5sum] = "82acd25cf3df8c72eba44eaee8b80c19"
+-SRC_URI[sha256sum] = "7c37ac40b2351bfc23000fb6b7b54a67e0872255df315c82eb60c821bcef4b23"
++SRC_URI[md5sum] = "d1977289889592ef998e3f777f68efe4"
++SRC_URI[sha256sum] = "815b6fc82950f61050a5e711a7f3c20fd9b6ffcc7a4cacfe9f291fb241210cd8"
  
- inherit autotools lib_package binconfig multilib_header
- 
-@@ -26,6 +25,8 @@ do_configure_prepend() {
- 	./buildconf
+ EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \ 
+ 		--without-odbc \
+@@ -33,3 +33,7 @@ do_configure_prepend() {
+ 	cp ${STAGING_DATADIR}/apr/apr_rules.mk ${S}/build/rules.mk
  }
  
-+FILES_${PN}-dev += "${libdir}/apr.exp ${datadir}/build-1/*"
++FILES_${PN}     += "${libdir}/apr-util-1/apr_dbm_gdbm-1.so"
++FILES_${PN}-dev += "${libdir}/aprutil.exp ${libdir}/apr-util-1/apr_dbm_gdbm.*"
++FILES_${PN}-dbg += "${libdir}/apr-util-1/.debug/*"
 +
- #for some reason, build/libtool.m4 handled by buildconf still be overwritten
- #when autoconf, so handle it again.
- do_configure_append() {
 -- 
 1.7.3.4
 
