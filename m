@@ -1,29 +1,30 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from mail-yi0-f47.google.com ([209.85.218.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <agnel.joel@gmail.com>) id 1Qofb0-0004BG-Mw
+	(envelope-from <raj.khem@gmail.com>) id 1QofvP-0004yf-N1
 	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Aug 2011 19:51:06 +0200
-Received: by ewy5 with SMTP id 5so571774ewy.6
+	Wed, 03 Aug 2011 20:12:11 +0200
+Received: by yib18 with SMTP id 18so660432yib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Aug 2011 10:46:44 -0700 (PDT)
+	Wed, 03 Aug 2011 11:07:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=Dqzpt39sr/DigWQqCwmRJ6JlObfkQxbLFAk/4RIJas8=;
-	b=FEUtTibKtvxhjp5Erf25KGKZSVtmzRS6plKHnu1VAhG3rq2L8VFUeJuVFOfUIwFk8R
-	RyTvoD9Jr8DfbZYBkiEkYuOFagio1ur1NJv4dATOZCpIiPRE3MnbThsg5oqWkwdPlVmM
-	IkT7GjonoRw0xjjGAgayoXiQFDWncGnffGC50=
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=0J1GMu6TyIk/Z5a8FrXlr28MqDl1g4N4z4oMEms0QDE=;
+	b=Mg3r3PusDpc38uEqKv25Ddg6JzxT2VK/UnzTHzmAn2eBVi/2gzFvZ134/jlIich2IQ
+	9GLVjSNr0kIpGHziI0/LO+YpRiF5r/1RamFmhOmXCCHrnxmeal6zpnymt4a2msA2QEhG
+	DFvnaOXL8lVMvQeVwEJSJ7bftQMDqgtbVPdZs=
+Received: by 10.142.215.10 with SMTP id n10mr216379wfg.290.1312394868109; Wed,
+	03 Aug 2011 11:07:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.213.3.198 with SMTP id 6mr370496ebo.15.1312393603572; Wed, 03
-	Aug 2011 10:46:43 -0700 (PDT)
-Received: by 10.213.113.196 with HTTP; Wed, 3 Aug 2011 10:46:43 -0700 (PDT)
-In-Reply-To: <CAD=GYpbk+qV3E2uTuSpQV1R2G77K3-QL+6aHo0kGW5yodmxEvg@mail.gmail.com>
-References: <CAD=GYpYeDmU6CN1MzztiKsf+tfOrWgBmkGfQoSpSRhoToDDskg@mail.gmail.com>
-	<CAD=GYpbk+qV3E2uTuSpQV1R2G77K3-QL+6aHo0kGW5yodmxEvg@mail.gmail.com>
-Date: Wed, 3 Aug 2011 12:46:43 -0500
-Message-ID: <CAD=GYpa608_XqqOChnpVVoCfrWrEWfDdRL-4sefc4MbcP8=txA@mail.gmail.com>
-From: Joel A Fernandes <agnel.joel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: systemd-gnome-image do_rootfs failure
+Received: by 10.68.46.137 with HTTP; Wed, 3 Aug 2011 11:07:18 -0700 (PDT)
+In-Reply-To: <1312386236-11826-1-git-send-email-galak@kernel.crashing.org>
+References: <1312386236-11826-1-git-send-email-galak@kernel.crashing.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 3 Aug 2011 11:07:18 -0700
+Message-ID: <CAMKF1srMkWCjX+18PDwoM5GB4hZwJGepUokfphn55Z29JkL9Xg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tcl: Fix packaging of platform independent files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,19 +39,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 17:51:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 03 Aug 2011 18:12:11 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 2, 2011 at 10:00 PM, Joel A Fernandes <agnel.joel@gmail.com> wrote:
-> Hi,
+On Wed, Aug 3, 2011 at 8:43 AM, Kumar Gala <galak@kernel.crashing.org> wrot=
+e:
+> Tcl's doesn't utilize ${baselib} for platform independent files but
+> defines it as follows:
 >
-> I now get a build error as below with systemd-gnome-image in
-> do_rootfs, could you take a look?
+> TCL_LIBRARY =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D $(prefix)/lib/t=
+cl$(VERSION)
+>
+> Match that so if ${baselib} is not just /lib things work properly.
 
-I did a clean rebuild of a few packages like: font-util, mesa-dri and shadow,
- opkg-cl now doesn't show those errors anymore.
 
-Thanks,
-Joel
+hmm may be fixing tcl to honour --libdir=3D<dir> to generate TCL_LIBRARY
+from configure would be a nice solution
+
+>
+> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+> ---
+> =C2=A0meta/recipes-devtools/tcltk/tcl_8.5.9.bb | =C2=A0 =C2=A04 ++--
+> =C2=A01 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb b/meta/recipes-devt=
+ools/tcltk/tcl_8.5.9.bb
+> index 12e2bd0..2eabb4d 100644
+> --- a/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+> +++ b/meta/recipes-devtools/tcltk/tcl_8.5.9.bb
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "file://../license.terms;md5=3Da47=
+a9be26d03f925fc1fbd2784f27e11
+> =C2=A0 =C2=A0 file://../win/license.terms;md5=3Da47a9be26d03f925fc1fbd278=
+4f27e11 \
+> =C2=A0 =C2=A0 "
+>
+> -PR =3D "r0"
+> +PR =3D "r1"
+>
+> =C2=A0BASE_SRC_URI =3D "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://tcl-add-so=
+name.patch"
+> @@ -59,7 +59,7 @@ do_install() {
+>
+> =C2=A0PACKAGES =3D+ "${PN}-lib"
+> =C2=A0FILES_${PN}-lib =3D "${libdir}/libtcl8.5.so*"
+> -FILES_${PN} +=3D "${libdir}/tcl8.5"
+> +FILES_${PN} +=3D "${prefix}/lib/tcl8.5"
+> =C2=A0FILES_${PN}-dev +=3D "${libdir}/tclConfig.sh"
+>
+> =C2=A0BBCLASSEXTEND =3D "native"
+> --
+> 1.7.3.4
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
