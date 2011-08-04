@@ -1,27 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QozQJ-00048Y-8Y
+	(envelope-from <sgw@linux.intel.com>) id 1QozQN-00048h-5O
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 17:01:23 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p74Euwpi000272
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Aug 2011 07:56:58 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 4 Aug 2011 07:56:57 -0700
-Message-ID: <4E3AB339.8040600@windriver.com>
-Date: Thu, 4 Aug 2011 09:56:57 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:5.0) Gecko/20110624 Thunderbird/5.0
+	Thu, 04 Aug 2011 17:01:27 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Aug 2011 07:57:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,317,1309762800"; d="scan'208";a="37853486"
+Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2011 07:57:02 -0700
+Message-ID: <4E3AB33E.50305@linux.intel.com>
+Date: Thu, 04 Aug 2011 07:57:02 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
+	Lightning/1.0b3pre Thunderbird/3.1.10
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1312430603-5629-1-git-send-email-galak@kernel.crashing.org>
-In-Reply-To: <1312430603-5629-1-git-send-email-galak@kernel.crashing.org>
-Subject: Re: [PATCH] image-mklibs.bbclass: Utilize ${base_libdir} instead of static /lib
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1311807353.git.tom_rini@mentor.com>
+In-Reply-To: <cover.1311807353.git.tom_rini@mentor.com>
+Subject: Re: [PATCH 0/9] Re-sync and update siteinfo, round 2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,54 +35,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 15:01:23 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Thu, 04 Aug 2011 15:01:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/3/11 11:03 PM, Kumar Gala wrote:
-> We might redefine ${base_libdir} from being set to just /lib.
-> 
-> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+On 07/27/2011 03:56 PM, Tom Rini wrote:
+> Hey all,
+>
+> Here's my last series before I try the "clean slate" approach to updating
+> the siteinfo files.  In a few cases there's some behavior change and
+> that's a good thing.  In short, for sudo we set a variable to the default
+> if not set, so stop doing that.  For tcl, we had correctly figured out
+> an optional variable in one case, and now we re-use it everywhere.  We
+> drop out totally monotone (not in oe-core nor meta-oe nor oe.dev),
+> rp-pppoe (meta-oe, correctly) and enca (not needed when oe.dev is moved
+> over, not in oe-core nor meta-oe).  Finally there's a few sets of $libc
+> variables being moved to the common-$libc files.  Of slight note here
+> is that va_copy doing a value copy (va_val_copy) is arch dependent and
+> we were getting this wrong in some cases on x86_64.  Given that it's
+> assumed to be true when not set from what I can see, it's possible we're
+> going from implicit breakage to explicit breakage here in some of the less
+> common arches, but that's better (IMHO) that the alternative.
+>
+> I've build-tested world on qemux86/qemux86-64 and core-image-sato on
+> qemuppc/qemumips for eglibc and some smaller subsets (in checking the
+> "is it really?" in making uclibc changes) for uclibc over the past few
+> weeks.  I've got a world build going now for qemux86-64 and will kick off
+> qemux86 next but I don't expect any failures nor believe waiting on these
+> to complete should be gating.
+>
+> The following changes since commit 1fe892ab6876c405599c79657221a8b4675b6ecf:
+>    Matthew McClintock (1):
+>          Update TERMCMD message to align with previous change
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib trini/update-siteinfo-round-2-v1
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/update-siteinfo-round-2-v1
+>
+> Tom Rini (9):
+>    sudo: Drop sudo_cv_uid_t_len from site files
+>    tcl: Add tcl_cv_api_serial to siteinfo
+>    Various site files: Drop monotone
+>    Various siteinfo files: Consolidate ac_cv_func_getaddrinfo
+>    Various siteinfo files: Drop enca section
+>    Various siteinfo files: Consolidate va_copy/__va_copy/va_val_copy
+>    site/common-linux: Add ac_cv_file__dev_zero=yes
+>    siteinfo: Add posix_getpwuid_r posix_getgrgid_r posix_getpwnam_r to
+>      uclibc
+>    Various siteinfo: Drop rp-pppoe variables
+>
+>   meta/recipes-devtools/tcltk/tcl_8.5.9.bb |    2 +-
+>   meta/site/arm-common                     |   25 +----------------------
+>   meta/site/arm-linux                      |    9 --------
+>   meta/site/common-glibc                   |   12 ++++++++--
+>   meta/site/common-linux                   |    3 ++
+>   meta/site/common-uclibc                  |   15 ++++++++++++++
+>   meta/site/ix86-common                    |   31 ++---------------------------
+>   meta/site/mips-common                    |   18 ++++++++++++----
+>   meta/site/mips-linux                     |   25 +-----------------------
+>   meta/site/mips-linux-uclibc              |   24 +----------------------
+>   meta/site/mipsel-linux                   |   26 +-----------------------
+>   meta/site/mipsel-linux-uclibc            |   12 +----------
+>   meta/site/powerpc-linux                  |   13 ++++++++---
+>   meta/site/powerpc32-linux                |   17 ----------------
+>   meta/site/sh-common                      |   24 +---------------------
+>   meta/site/x86_64-linux                   |   14 ++++++------
+>   meta/site/x86_64-linux-uclibc            |   12 +++++++---
+>   17 files changed, 77 insertions(+), 205 deletions(-)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-Only tangentially related to this patch.. It doesn't appear mklibs has knowledge
-of multilibs.. but I don't think anyone would use mklibs with a multilib
-environment.  So something we might want to add is a warning that mklibs and
-multilibs don't work together.
+Merged into OE-Core
 
---Mark
+Thanks for your help and patience on getting this one merged.
 
-> ---
->  meta/classes/image-mklibs.bbclass |    8 ++++----
->  1 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
-> index d6630c4..69dac2f 100644
-> --- a/meta/classes/image-mklibs.bbclass
-> +++ b/meta/classes/image-mklibs.bbclass
-> @@ -17,19 +17,19 @@ mklibs_optimize_image_doit() {
->  
->  	case ${TARGET_ARCH} in
->  		powerpc | mips | microblaze )
-> -			dynamic_loader="/lib/ld.so.1"
-> +			dynamic_loader="${base_libdir}/ld.so.1"
->  			;;
->  		powerpc64)
->  			dynamic_loader="${base_libdir}/ld64.so.1"
->  			;;
->  		x86_64)
-> -			dynamic_loader="/lib/ld-linux-x86-64.so.2"
-> +			dynamic_loader="${base_libdir}/ld-linux-x86-64.so.2"
->  			;;
->  		i586 )
-> -			dynamic_loader="/lib/ld-linux.so.2"
-> +			dynamic_loader="${base_libdir}/ld-linux.so.2"
->  			;;
->  		arm )
-> -			dynamic_loader="/lib/ld-linux.so.3"
-> +			dynamic_loader="${base_libdir}/ld-linux.so.3"
->  			;;
->  		* )
->  			dynamic_loader="/unknown_dynamic_linker"
-
+Sau!
 
 
