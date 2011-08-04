@@ -1,26 +1,30 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX18PjSrAQAouZHdnDzBRJlfh8xQr6VditoY=])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qoqgm-00026V-6n
+	(envelope-from <dvhart@linux.intel.com>) id 1Qor2j-0002no-3x
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 07:41:48 +0200
-Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p745bOf6019387
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Aug 2011 00:37:25 -0500
-Mime-Version: 1.0 (Apple Message framework v1084)
-From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <4E3964A2.9020704@windriver.com>
-Date: Thu, 4 Aug 2011 00:37:24 -0500
-Message-Id: <DA53B8C1-B1AB-4621-B1CC-753DE184A2A7@kernel.crashing.org>
-References: <BC707063-0722-4F72-A066-4E811125354B@kernel.crashing.org>
-	<4E395D20.8020608@windriver.com>
-	<AE047C85-8214-4716-920E-3B0177117231@kernel.crashing.org>
-	<4E3964A2.9020704@windriver.com>
-To: Patches and discussions about the oe-core layer
+	Thu, 04 Aug 2011 08:04:29 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Aug 2011 23:00:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,315,1309762800"; d="scan'208";a="37720450"
+Received: from unknown (HELO [10.255.14.93]) ([10.255.14.93])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2011 23:00:03 -0700
+Message-ID: <4E3A3562.1060907@linux.intel.com>
+Date: Wed, 03 Aug 2011 23:00:02 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.18) Gecko/20110617 Lightning/1.0b2 Thunderbird/3.1.11
+MIME-Version: 1.0
+To: "Cui, Dexuan" <dexuan.cui@intel.com>
+References: <cover.1312265186.git.dexuan.cui@intel.com>	<6def4624e63c8c7cf439dff32cb155dd2bba0ebe.1312265186.git.dexuan.cui@intel.com>	<1312285430.2344.582.camel@rex>
+	<4E38C941.30805@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6B304414CE2@shsmsx502.ccr.corp.intel.com>
+	<4E395235.9010709@linux.intel.com>
+	<1865303E0DED764181A9D882DEF65FB6B3044150C6@shsmsx502.ccr.corp.intel.com>
+In-Reply-To: <1865303E0DED764181A9D882DEF65FB6B3044150C6@shsmsx502.ccr.corp.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1084)
-Subject: Re: prelink issue with ppc64?
+Subject: Re: [PATCH 1/1] oe-init-build-env, scripts/oe-buildenv-internal: add error detecting for $BDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,130 +39,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 05:41:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 Aug 2011 06:04:29 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
 
-On Aug 3, 2011, at 10:09 AM, Mark Hatle wrote:
 
-> On 8/3/11 9:53 AM, Kumar Gala wrote:
->>=20
->> On Aug 3, 2011, at 9:37 AM, Mark Hatle wrote:
->>=20
->>> On 8/3/11 12:35 AM, Kumar Gala wrote:
->>>> If prelink gets a chance to properly run I get a rootfs that does:
->>>>=20
->>>> /sbin/init: relocation error: /lib64/libc.so.6: symbol =
-_rtld_global_ro, version GLIBC_PRIVATE not defined in file ld64.so.1 =
-with link time reference
->>>>=20
->>>> if 'baselib' is set to /lib we get:
->>>>=20
->>>> =
-/local/home/galak/git/poky/build-p5020/tmp/sysroots/x86_64-linux/usr/sbin/=
-prelink: /sbin/init.sysvinit: Using /lib/ld64.so.1, not /lib64/ld64.so.1 =
-as dynamic linker
->>>>=20
->>>> if 'baselib' is set to /lib64 we get:
->>>>=20
->>>> Assigned virtual address space slots for libraries:
->>>> /lib64/ld64.so.1                                             =
-00000080f4910000-00000080f49473d0
->>>> /lib64/libc.so.6                                             =
-00000080f4950000-00000080f4afe090
->>>> /lib64/libdl.so.2                                            =
-00000080f4b10000-00000080f4b23520
->>>> /lib64/libcrypt.so.1                                         =
-00000080f4b10000-00000080f4b57708
->>>> /lib64/libutil.so.1                                          =
-00000080f4b10000-00000080f4b234a0
->>>> Would prelink /lib64/ld-2.13.so
->>>> Would prelink /lib64/libc-2.13.so
->>>>=20
->>>> Not sure what prelink is doing but it seems to breaking things.  =
-Any ideas?
->>>>=20
->>>> ---
->>>>=20
->>>> I'm also concerned that we use /etc/prelink.conf when invoking =
-prelink.
->>>=20
->>> Prelinker is being run within the rootfs, so the /etc/prelink.conf =
-being used is
->>> the one inside of the image -- NOT the system version.
->>=20
->> Is this because of psuedo or something else?
->=20
-> In the cross prelinker, we pass in the --root=3D<image>.  This =
-instructs the
-> cross-prelinker to prefix <image> to most paths.
->=20
->>> I would suspect that the cross-prelinker rtld emulation is likely =
-setup for the
->>> LSB style library paths and may be causing some of the problems.
->=20
-> You can run the cross-prelinker's rtld emulation by running the =
-prelink-rtld
-> program located in =
-build/tmp-eglibc/work/x86_64-linux/usr/sbin/prelink-rtld
->=20
-> Passing --root=3D<path> will setup the sysroot path for reference, =
-adding in
-> --target-paths will allow you to pass further arguments as referenced =
-on the
-> sysroot.
->=20
-> So prelink-rtld --root=3D/foo/bar/build/sysroot/image --target-paths =
-/sbin/init
->=20
-> Should give you back an ldd like syntax within the sysroot, for =
-/sbin/init.
-> (without --target-paths, you need to specify the full path to the =
-/sbin/init..
-> this is useful when running the rtld against items outside of the =
-image.)
->=20
->>>=20
->>> I'd suggest simply disabling prelink and getting everything to work =
-first.. once
->>> it does we can work through any prelinker issues.  (Prelink on PPC64 =
-hasn't been
->>> tested within the oe-core environment.. so it could very well have =
-issues beyond
->>> the ld.so path.)
->>=20
->> Everything else is working, so prelink is what fails for me (at least =
-for a simple minimal) build.
->>=20
->> any suggestions on how to try and debug further, who might be more =
-familiar with prelink and what its doing?  When I ran readelf -a on =
-ld-2.13.so after prelink was getting weird results, not sure if thats =
-normal or not.
->=20
-> I'm the prelink maintainer for Yocto, however I know more about the =
-way the
-> cross-prelinker functionality works then how the ELF specific prelink =
-functions
-> work.  I've been relying on the upstream prelink project to manage the
-> individual architecture/ABI prelink standards.
->=20
-> My suggestion is to disable cross-prelinking, and revert to the =
-upstream prelink
-> project -- run the binary on the target and see if it fails in the =
-same way.  If
-> it does, then we know it's a deeper problem then the cross prelink =
-integration.
->=20
-> You can pull down the git repository:  =
-git://git.yoctoproject.org/prelink-cross.git
->=20
-> The "master" branch is identical to the upstream SVN branch.  The
-> "cross_prelink" branch is the current state of integration.
+On 08/03/2011 07:25 PM, Cui, Dexuan wrote:
+> Darren Hart wrote on 2011-08-03:
+>> On 08/02/2011 11:46 PM, Cui, Dexuan wrote:
+>>> Hi Darren, thanks for the suggestion! I considered the idea too,
+>>> however, if we use the idea, it looks not that simple to gracefully
+>>> and concisely handle the case if a user (by accident or by prank)
+>>> passes / as $1 here, i.e., "readlink -f" would fail. So I didn't do
+>>> that.
+>>
+>> Hi Dexuan, 
+>> I had not considered that case, good catch. I can't think of a valid
+>> use case for BDIR="/". Not only are write permissions unlikely, but
+> Agree.
+> 
+>> the build would conflict with /tmp as well.
+>>
+>> if [ "$BDIR" == "/" ]; then
+>> 	echo "ERROR: / is not supported as a build directory."
+>> 	exit 1
+>> fi
+>> BDIR=${BDIR%/}
+> Hi Darren,
+> This seems good to me.
+> Looks ${BDIR%/} can only remove one trailing slash. Do we need to consider more-than-one-slashes, e.g., $BDIR is /home/poky/build///? :-)   (We could use sed:  BDIR=`echo $BDIR | sed -re 's|/+$||'` , but I'm not sure if it deserves the complexity)
+> Darren, could you please help to make a patch? 
+> I really have few experience about how to validate a user's input. :-)
 
-So running prelink on target seems ok.  I used the version from =
-prelink_git.bb.
+At some point I think it's fair for us to say "so don't do that" when
+someone says "if I pass this random string of garbage to the script it
+gives up and uses the current directory".
 
-- k=
+As for a patch, I'm on Jury duty all this week and only get to a very
+small percentage of my tasks. I would appreciate if you would try to put
+one together using the above source snippet, with the suggested changes
+from Paul of course. Then just send it to the list with Paul and myself
+on CC. We'll review and provided additional Acked-by's to confirm we're
+all happy with the end result.
+
+I would suggest you include a patch to first revert the previous patch
+that was applied to address this issue.
+
+--
+Darren
+
+> 
+>> I would be happy with something like the above (untested). It seems a
+>> lot more clear and direct to me.
+>>
+>> In any case, I don't see any reason to bail out and ask the user to
+>> remove a trailing slash. We should just do this and move on. There is
+>> no semantic difference from the user's perspective, and the blame is
+>> to be placed on readlink, not the user.
+> I agree.
+> 
+> Thanks,
+> -- Dexuan
+> 
+> 
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
