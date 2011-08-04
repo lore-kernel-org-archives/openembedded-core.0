@@ -1,24 +1,25 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX18gx5WkCPxmqjJ5vANix/BqidPZaO988rY=])
+	ident=[U2FsdGVkX18OMnphRzxfLnSOpKM5hGiCHfSNcCAt0Dg=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QopEK-0005BB-8N
+	(envelope-from <galak@kernel.crashing.org>) id 1QopTu-0005WA-Od
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 06:08:20 +0200
+	Thu, 04 Aug 2011 06:24:27 +0200
 Received: from [IPv6:::1] (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7443vJu006332
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2011 23:03:58 -0500
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p744K24t014075;
+	Wed, 3 Aug 2011 23:20:02 -0500
 Mime-Version: 1.0 (Apple Message framework v1084)
 From: Kumar Gala <galak@kernel.crashing.org>
-In-Reply-To: <1312390439.2344.706.camel@rex>
-Date: Wed, 3 Aug 2011 23:03:57 -0500
-Message-Id: <979DCE00-39AF-4DF4-B5EE-97E662FAEDAF@kernel.crashing.org>
-References: <1312349222-27254-1-git-send-email-galak@kernel.crashing.org>
-	<1312390439.2344.706.camel@rex>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E3A1813.3010906@linux.intel.com>
+Date: Wed, 3 Aug 2011 23:20:02 -0500
+Message-Id: <2706988A-EDF1-4963-AC3D-065238FAF8D9@kernel.crashing.org>
+References: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>	<37BC502A-3FEA-4059-85FB-F6A3F401C3F9@kernel.crashing.org>	<4E3985C8.9070000@linux.intel.com>	<D9C996B9-65E0-4373-90F5-5B5286E05444@kernel.crashing.org>	<1312410888.2344.718.camel@rex>
+	<0BDD06D6-757A-4F43-B38E-95C857324D14@kernel.crashing.org>
+	<4E3A1813.3010906@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
 X-Mailer: Apple Mail (2.1084)
-Subject: Re: [PATCH v2] image-mklibs.bbclass: Add powerpc64 arch support
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] scripts/oe-buildenv-internal: Add	SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +34,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 04:08:20 -0000
+X-List-Received-Date: Thu, 04 Aug 2011 04:24:27 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-On Aug 3, 2011, at 11:53 AM, Richard Purdie wrote:
+On Aug 3, 2011, at 10:54 PM, Saul Wold wrote:
 
-> On Wed, 2011-08-03 at 00:27 -0500, Kumar Gala wrote:
->> powerp64 dynamic loader is 'ld64.so.1'.
+> On 08/03/2011 07:56 PM, Kumar Gala wrote:
 >>=20
->> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
->> ---
->> * Use correct name of ppc64 dynamic loader
->> * user ${baselib} so if we are /lib or /lib64 things work
+>> On Aug 3, 2011, at 5:34 PM, Richard Purdie wrote:
 >>=20
->> meta/classes/image-mklibs.bbclass |    3 +++
->> 1 files changed, 3 insertions(+), 0 deletions(-)
+>>> On Wed, 2011-08-03 at 14:41 -0500, Kumar Gala wrote:
+>>>> On Aug 3, 2011, at 12:30 PM, Saul Wold wrote:
+>>>>=20
+>>>>> On 08/03/2011 10:00 AM, Kumar Gala wrote:
+>>>>>>=20
+>>>>>> On Jul 28, 2011, at 8:10 AM, Kumar Gala wrote:
+>>>>>>=20
+>>>>>>> If a SOCKS5 gateway is needed for a proxy access like git it =
+might also
+>>>>>>> require authentication to the proxy via a password and username. =
+ Adding
+>>>>>>> SOCKS5_USER&   SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for =
+automation
+>>>>>>> of the authentication request to occur when something like a git =
+fetch
+>>>>>>> is going through the proxy.
+>>>>>>>=20
+>>>>>>> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
+>>>>>>> ---
+>>>>>>> * Fixes issue with a git fetch request failing to get pass a =
+firewall
+>>>>>>>=20
+>>>>>>> scripts/oe-buildenv-internal |    2 +-
+>>>>>>> 1 files changed, 1 insertions(+), 1 deletions(-)
+>>>>>>>=20
+>>>>>>> diff --git a/scripts/oe-buildenv-internal =
+b/scripts/oe-buildenv-internal
+>>>>>>> index c13fc40..b223292 100755
+>>>>>>> --- a/scripts/oe-buildenv-internal
+>>>>>>> +++ b/scripts/oe-buildenv-internal
+>>>>>>> @@ -55,4 +55,4 @@ unset BITBAKEDIR
+>>>>>>> export BUILDDIR
+>>>>>>> export PATH
+>>>>>>>=20
+>>>>>>> -export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC =
+http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy =
+SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE =
+BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
+>>>>>>> +export BB_ENV_EXTRAWHITE=3D"MACHINE DISTRO TCMODE TCLIBC =
+http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy =
+SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE =
+BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD =
+SOCSK5_USER"
+>>>>>>> --
+>>>>>>> 1.7.3.4
+>>>>>>=20
+>>>>>> Ping on this patch
+>>>>>>=20
+>>>>> Kumar,
+>>>>>=20
+>>>>> I think you were asked to modify this patch so that the additinal
+>>>> SOCKS5_* do not get into sstate, Paul Eggleton provided the
+>>>> BB_HASHSPACE_WHITELIST info.
+>>>>>=20
+>>>>> Please update this patch
+>>>>>=20
+>>>>> Thanks
+>>>>> 	Sau!
+>>>>=20
+>>>> =46rom the thread it sounded as if that was NOT needed.  As nothing
+>>>> refers to SOCKS5_* we didn't need to add it.  Much like how it =
+doesn't
+>>>> have SSH_AGENT_PID or SSH_AUTH_SOCK in it.
+>>>=20
+>>> It would be good is someone could confirm it but its in the =
+environment
+>>> so it likely is needed.
 >>=20
->> diff --git a/meta/classes/image-mklibs.bbclass =
-b/meta/classes/image-mklibs.bbclass
->> index 9f5a4ea..83f609c 100644
->> --- a/meta/classes/image-mklibs.bbclass
->> +++ b/meta/classes/image-mklibs.bbclass
->> @@ -19,6 +19,9 @@ mklibs_optimize_image_doit() {
->> 		powerpc | mips | microblaze )
->> 			dynamic_loader=3D"/lib/ld.so.1"
->> 			;;
->> +		powerpc64)
->> +			dynamic_loader=3D"/${baselib}/ld64.so.1"
->> +			;;
->> 		x86_64)
->> 			dynamic_loader=3D"/lib/ld-linux-x86-64.so.2"
->> 			;;
+>> Not sure I follow.  Confirm what?
+>>=20
+> Kumar,
 >=20
-> Can we use ${base_libdir} there please?
->=20
-> ${baselib} is really intended only for use to build the other
-> expressions.
->=20
-> We should probably use ${base_libdir} elsewhere in this file too. I =
-also
-> suspect prelinking of a multilib image may need work :/.
+> I think Richard wants you to confirm that the SSH_* and SOCKS5_* =
+information is not stored in the shared state hash.
 
-Sent a fixed patch for powerpc64 and a new patch to change everyone =
-else.
+How?
 
 - k=
 
