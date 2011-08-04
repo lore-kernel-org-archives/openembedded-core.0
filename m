@@ -1,29 +1,37 @@
-Received: from mail-wy0-f175.google.com ([74.125.82.175])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@beagleboard.org>) id 1Qp07s-00054F-Kl
+	(envelope-from <raj.khem@gmail.com>) id 1Qp0FF-0005DO-13
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 17:46:24 +0200
-Received: by wyg30 with SMTP id 30so1545402wyg.6
+	Thu, 04 Aug 2011 17:54:01 +0200
+Received: by pzk2 with SMTP id 2so1904259pzk.34
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Aug 2011 08:42:01 -0700 (PDT)
-Received: by 10.227.198.73 with SMTP id en9mr880189wbb.0.1312472520940;
-	Thu, 04 Aug 2011 08:42:00 -0700 (PDT)
-Received: from [172.20.1.16] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
-	by mx.google.com with ESMTPS id es3sm1030160wbb.23.2011.08.04.08.41.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 04 Aug 2011 08:42:00 -0700 (PDT)
-Message-Id: <6D81583F-E000-4875-9BB3-0ADFA7CC2A4D@dominion.thruhere.net>
-From: Koen Kooi <koen@beagleboard.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4E3AAEB3.6070907@linux.intel.com>
-Mime-Version: 1.0 (Apple Message framework v936)
-Date: Thu, 4 Aug 2011 17:41:52 +0200
-References: <1311846297-30202-1-git-send-email-koen@dominion.thruhere.net>	<1311846558.30326.420.camel@phil-desktop>
-	<D489697C-D752-4255-8110-9AC1468D4D87@dominion.thruhere.net>
-	<4E3AAEB3.6070907@linux.intel.com>
-X-Mailer: Apple Mail (2.936)
-Subject: Re: [PATCHv2] gst-plugins: partially sync packaging with OE .dev
+	Thu, 04 Aug 2011 08:49:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=wdR47MyyriPb63+BS54PqCWeUm8t1FtBnUjf/i9Rhas=;
+	b=aOIb+KY6R1fktYknbOdZHxz/ZzhoU+xKF8piTXV4G+Tnk26rI1W4r3dSHdoZlowYi+
+	IgooS54qF8qRyJfm3pQao09AFCFLusvWVx/YZxWZQMFi5KLyUJqthij+kyORwODNSsDK
+	MCrrVroxPks82n1zEJOajvcRpfLMnxlFeefFw=
+Received: by 10.143.68.4 with SMTP id v4mr887334wfk.292.1312472973727;
+	Thu, 04 Aug 2011 08:49:33 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id d1sm2346434pbj.56.2011.08.04.08.49.32
+	(version=SSLv3 cipher=OTHER); Thu, 04 Aug 2011 08:49:32 -0700 (PDT)
+Message-ID: <4E3ABF8B.2090808@gmail.com>
+Date: Thu, 04 Aug 2011 08:49:31 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:5.0) Gecko/20110627 Thunderbird/5.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1311807353.git.tom_rini@mentor.com>
+	<d395c1bac934913af1ed7c8fc3a09601c823339b.1311807353.git.tom_rini@mentor.com>
+	<1312465942.2344.743.camel@rex> <3084551.78r5ORDKhl@perseus>
+	<1312470848.6733.2.camel@phil-desktop>
+In-Reply-To: <1312470848.6733.2.camel@phil-desktop>
+Subject: Re: [PATCH 3/9] Various site files: Drop monotone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,33 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 15:46:24 -0000
-Content-Type: text/plain; charset=US-ASCII; format=flowed; delsp=yes
+X-List-Received-Date: Thu, 04 Aug 2011 15:54:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-Op 4 aug 2011, om 16:37 heeft Saul Wold het volgende geschreven:
-
-> On 07/28/2011 03:14 AM, Koen Kooi wrote:
+On 08/04/2011 08:14 AM, Phil Blundell wrote:
+> On Thu, 2011-08-04 at 08:08 -0700, Khem Raj wrote:
+>> On Thursday, August 04, 2011 02:52:22 PM Richard Purdie wrote:
+>>> On Wed, 2011-07-27 at 15:56 -0700, Tom Rini wrote:
+>>>>   # links
+>>>>   ac_cv_lib_png_png_create_info_struct=${ac_cv_lib_png_png_create_info_s
+>>>>   truct=yes}>
+>>>> -# mono
+>>>> -cv_mono_sizeof_sunpath=108
+>>>> -
+>>>>
+>>> Isn't mono different from monotone?
 >>
->> Op 28 jul. 2011, om 11:49 heeft Phil Blundell het volgende  
->> geschreven:
->>
->>> On Thu, 2011-07-28 at 11:44 +0200, Koen Kooi wrote:
->>>> +ALLOW_EMPTY = "1"
->>>
->>> Is that necessary?  You seem to be setting ALLOW_EMPTY_${PN}- 
->>> meta=1 in
->>> your python code anyway.
->>
->> In OE classic that was to keep ${PN} alive after all libs and apps  
->> were removed, I'm not sure we need it in OE-core.
->>
-> Koen,
+>> yes its for mono. I think we should keep it since there are many users of mono
+>> from oe.dev world who would want mono in future may be from  future meta-mono
 >
-> Are you re-submitting a v2 pf this patch or do you still want it to  
-> go as is?
+> Why couldn't the site entry just go in meta-mono too, if that's where
+> the recipes are living?  I don't think it makes much/any sense (for
+> testability reasons as much as anything else) to have a load of siteinfo
+> entries lying around that no oe-core recipe actually uses.
 
-As is would be fine for me.
+yes it could. Infact having this variable exported during mono configure 
+would be better solution.
+
+>
+> p.
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
