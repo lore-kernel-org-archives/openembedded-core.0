@@ -1,31 +1,27 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1QozYh-0004Hz-Bq
+	(envelope-from <mark.hatle@windriver.com>) id 1QozaI-0004Kl-3O
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 17:10:03 +0200
+	Thu, 04 Aug 2011 17:11:42 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p74F5dpB004491
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p74F7Hwx005046
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Aug 2011 08:05:39 -0700 (PDT)
+	Thu, 4 Aug 2011 08:07:18 -0700 (PDT)
 Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 4 Aug 2011 08:05:38 -0700
-Message-ID: <4E3AB541.8060704@windriver.com>
-Date: Thu, 4 Aug 2011 10:05:37 -0500
+	Thu, 4 Aug 2011 08:07:17 -0700
+Message-ID: <4E3AB5A4.9080300@windriver.com>
+Date: Thu, 4 Aug 2011 10:07:16 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
 	rv:5.0) Gecko/20110624 Thunderbird/5.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <BC707063-0722-4F72-A066-4E811125354B@kernel.crashing.org>
-	<4E395D20.8020608@windriver.com>
-	<AE047C85-8214-4716-920E-3B0177117231@kernel.crashing.org>
-	<4E3964A2.9020704@windriver.com>
-	<DA53B8C1-B1AB-4621-B1CC-753DE184A2A7@kernel.crashing.org>
-In-Reply-To: <DA53B8C1-B1AB-4621-B1CC-753DE184A2A7@kernel.crashing.org>
-Subject: Re: prelink issue with ppc64?
+References: <1312437938-29860-1-git-send-email-galak@kernel.crashing.org>
+In-Reply-To: <1312437938-29860-1-git-send-email-galak@kernel.crashing.org>
+Subject: Re: [PATCH] prelink: Add lib64 dirs to prelink.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,109 +36,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 15:10:03 -0000
+X-List-Received-Date: Thu, 04 Aug 2011 15:11:42 -0000
 Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 8/4/11 12:37 AM, Kumar Gala wrote:
+On 8/4/11 1:05 AM, Kumar Gala wrote:
+> Handle multlib or cases that baselib is lib64.
 > 
-> On Aug 3, 2011, at 10:09 AM, Mark Hatle wrote:
+> Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+
+Acked-by: Mark Hatle <mark.hatle@windriver.com>
+
+(BTW I think as we move more into the multilib stuff, we'll likely want to
+generate this list from the final multilib configuration.. but for now this
+should be good.)
+
+> ---
+>  meta/recipes-devtools/prelink/prelink/prelink.conf |    8 ++++----
+>  meta/recipes-devtools/prelink/prelink_git.bb       |    2 +-
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 > 
->> On 8/3/11 9:53 AM, Kumar Gala wrote:
->>>
->>> On Aug 3, 2011, at 9:37 AM, Mark Hatle wrote:
->>>
->>>> On 8/3/11 12:35 AM, Kumar Gala wrote:
->>>>> If prelink gets a chance to properly run I get a rootfs that does:
->>>>>
->>>>> /sbin/init: relocation error: /lib64/libc.so.6: symbol _rtld_global_ro, version GLIBC_PRIVATE not defined in file ld64.so.1 with link time reference
->>>>>
->>>>> if 'baselib' is set to /lib we get:
->>>>>
->>>>> /local/home/galak/git/poky/build-p5020/tmp/sysroots/x86_64-linux/usr/sbin/prelink: /sbin/init.sysvinit: Using /lib/ld64.so.1, not /lib64/ld64.so.1 as dynamic linker
->>>>>
->>>>> if 'baselib' is set to /lib64 we get:
->>>>>
->>>>> Assigned virtual address space slots for libraries:
->>>>> /lib64/ld64.so.1                                             00000080f4910000-00000080f49473d0
->>>>> /lib64/libc.so.6                                             00000080f4950000-00000080f4afe090
->>>>> /lib64/libdl.so.2                                            00000080f4b10000-00000080f4b23520
->>>>> /lib64/libcrypt.so.1                                         00000080f4b10000-00000080f4b57708
->>>>> /lib64/libutil.so.1                                          00000080f4b10000-00000080f4b234a0
->>>>> Would prelink /lib64/ld-2.13.so
->>>>> Would prelink /lib64/libc-2.13.so
->>>>>
->>>>> Not sure what prelink is doing but it seems to breaking things.  Any ideas?
->>>>>
->>>>> ---
->>>>>
->>>>> I'm also concerned that we use /etc/prelink.conf when invoking prelink.
->>>>
->>>> Prelinker is being run within the rootfs, so the /etc/prelink.conf being used is
->>>> the one inside of the image -- NOT the system version.
->>>
->>> Is this because of psuedo or something else?
->>
->> In the cross prelinker, we pass in the --root=<image>.  This instructs the
->> cross-prelinker to prefix <image> to most paths.
->>
->>>> I would suspect that the cross-prelinker rtld emulation is likely setup for the
->>>> LSB style library paths and may be causing some of the problems.
->>
->> You can run the cross-prelinker's rtld emulation by running the prelink-rtld
->> program located in build/tmp-eglibc/work/x86_64-linux/usr/sbin/prelink-rtld
->>
->> Passing --root=<path> will setup the sysroot path for reference, adding in
->> --target-paths will allow you to pass further arguments as referenced on the
->> sysroot.
->>
->> So prelink-rtld --root=/foo/bar/build/sysroot/image --target-paths /sbin/init
->>
->> Should give you back an ldd like syntax within the sysroot, for /sbin/init.
->> (without --target-paths, you need to specify the full path to the /sbin/init..
->> this is useful when running the rtld against items outside of the image.)
->>
->>>>
->>>> I'd suggest simply disabling prelink and getting everything to work first.. once
->>>> it does we can work through any prelinker issues.  (Prelink on PPC64 hasn't been
->>>> tested within the oe-core environment.. so it could very well have issues beyond
->>>> the ld.so path.)
->>>
->>> Everything else is working, so prelink is what fails for me (at least for a simple minimal) build.
->>>
->>> any suggestions on how to try and debug further, who might be more familiar with prelink and what its doing?  When I ran readelf -a on ld-2.13.so after prelink was getting weird results, not sure if thats normal or not.
->>
->> I'm the prelink maintainer for Yocto, however I know more about the way the
->> cross-prelinker functionality works then how the ELF specific prelink functions
->> work.  I've been relying on the upstream prelink project to manage the
->> individual architecture/ABI prelink standards.
->>
->> My suggestion is to disable cross-prelinking, and revert to the upstream prelink
->> project -- run the binary on the target and see if it fails in the same way.  If
->> it does, then we know it's a deeper problem then the cross prelink integration.
->>
->> You can pull down the git repository:  git://git.yoctoproject.org/prelink-cross.git
->>
->> The "master" branch is identical to the upstream SVN branch.  The
->> "cross_prelink" branch is the current state of integration.
-> 
-> So running prelink on target seems ok.  I used the version from prelink_git.bb.
-
-The prelink_git versions should be the cross-prelink version.  The only
-difference MIGHT be the rtld emulation, but I'm not sure.
-
-Any chance you can diff the output between the cross prelink and the on-target
-prelink?  The other thing is to run the prelinker (on both systems) with the -v.
- This should give a more verbose set of prelinker information.  It would be
-interesting if there are any differences between the two.
-
---Mark
-
-> - k
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> diff --git a/meta/recipes-devtools/prelink/prelink/prelink.conf b/meta/recipes-devtools/prelink/prelink/prelink.conf
+> index c5a4f4a..ed30c28 100644
+> --- a/meta/recipes-devtools/prelink/prelink/prelink.conf
+> +++ b/meta/recipes-devtools/prelink/prelink/prelink.conf
+> @@ -12,7 +12,7 @@
+>  -l /usr/bin
+>  -l /usr/X11R6/bin
+>  -l /usr/games
+> --l /usr/local/lib
+> --l /lib
+> --l /usr/lib
+> --l /usr/X11R6/lib
+> +-l /usr/local/lib{,64}
+> +-l /lib{,64}
+> +-l /usr/lib{,64}
+> +-l /usr/X11R6/lib{,64}
+> diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
+> index c653d4d..bb95da7 100644
+> --- a/meta/recipes-devtools/prelink/prelink_git.bb
+> +++ b/meta/recipes-devtools/prelink/prelink_git.bb
+> @@ -10,7 +10,7 @@ LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
+>  SRCREV = "ac461e73b17253a4da25c5aafeac7193b553156c"
+>  PV = "1.0+git${SRCPV}"
+> -PR = "r4"
+> +PR = "r5"
+>  
+>  #
+>  # The cron script attempts to re-prelink the system daily -- on
 
 
 
