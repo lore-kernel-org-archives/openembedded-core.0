@@ -1,36 +1,33 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QozdY-0004Q5-UQ
+	(envelope-from <mark.hatle@windriver.com>) id 1Qozf0-0004SE-OX
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 17:15:05 +0200
-Received: by pzk2 with SMTP id 2so1836550pzk.34
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Aug 2011 08:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=from:to:subject:date:message-id:organization:user-agent:in-reply-to
-	:references:mime-version:content-transfer-encoding:content-type;
-	bh=rK3pVEtiIj4P2/6FXt0nXoFV1FvYIV94QjiDwhJlzVE=;
-	b=dk3GIH8n/5/ATy45YftSTvzACJG6Fnnd24b4Q9/VfqsSgI/P1uiJ/2I7h34nRV50N+
-	3Zv2pm7kqDWmO0aTqag3Izx/6OwoGlsd3241ubJyBA7IFk02KcKgW5UzI5SyUgdp6nq3
-	latHLwr/5YbJMKIaFf9qgLhC0tyZ2T/PlB9kU=
-Received: by 10.142.169.19 with SMTP id r19mr956140wfe.33.1312470640268;
-	Thu, 04 Aug 2011 08:10:40 -0700 (PDT)
-Received: from perseus.localnet (natint3.juniper.net [66.129.224.36])
-	by mx.google.com with ESMTPS id m12sm1271718wfh.19.2011.08.04.08.10.38
-	(version=SSLv3 cipher=OTHER); Thu, 04 Aug 2011 08:10:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 04 Aug 2011 08:10:32 -0700
-Message-ID: <2073777.2Ge9Hm0uQT@perseus>
-Organization: Sakrah
-User-Agent: KMail/4.7.0  (Linux/2.6.38-10-generic; KDE/4.7.0; i686; ; )
-In-Reply-To: <1312449841.4325.95.camel@phil-desktop>
-References: <1308219330.25285.4194.camel@phil-desktop>
-	<4E0C885D.9000505@gmail.com>
-	<1312449841.4325.95.camel@phil-desktop>
+	Thu, 04 Aug 2011 17:16:35 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p74FC8J6007306
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 4 Aug 2011 08:12:09 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 4 Aug 2011 08:12:08 -0700
+Message-ID: <4E3AB6C7.30805@windriver.com>
+Date: Thu, 4 Aug 2011 10:12:07 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
 MIME-Version: 1.0
-Subject: Re: eglibc testing?
+To: Kumar Gala <galak@kernel.crashing.org>
+References: <BC707063-0722-4F72-A066-4E811125354B@kernel.crashing.org>
+	<4E395D20.8020608@windriver.com>
+	<AE047C85-8214-4716-920E-3B0177117231@kernel.crashing.org>
+	<4E3964A2.9020704@windriver.com>
+	<DA53B8C1-B1AB-4621-B1CC-753DE184A2A7@kernel.crashing.org>
+	<19EFFEB5-BBBE-4E6C-BEFE-23168731EA16@kernel.crashing.org>
+In-Reply-To: <19EFFEB5-BBBE-4E6C-BEFE-23168731EA16@kernel.crashing.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: prelink issue with ppc64?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,36 +42,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 15:15:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 04 Aug 2011 15:16:35 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-On Thursday, August 04, 2011 10:24:00 AM Phil Blundell wrote:
-> On Thu, 2011-06-30 at 07:29 -0700, Khem Raj wrote:
-> > On 06/30/2011 03:32 AM, Phil Blundell wrote:
-> > > On Thu, 2011-06-16 at 16:18 -0700, Khem Raj wrote:
-> > >> Yes I think I should put together my mechanism somewhere and post
-> > >> it
-> > >> and dejaGNU setup I use for cross testing
-> > > 
-> > > Did you get a chance to do this at all?
-> > 
-> > so far no. Let me collect them and make sure they work
+On 8/4/11 9:03 AM, Kumar Gala wrote:
 > 
-> Just a quick reminder about this :-)
+> On Aug 4, 2011, at 12:37 AM, Kumar Gala wrote:
 > 
+>>
+>> On Aug 3, 2011, at 10:09 AM, Mark Hatle wrote:
+>>
+>>> On 8/3/11 9:53 AM, Kumar Gala wrote:
+>>>>
+>>>> On Aug 3, 2011, at 9:37 AM, Mark Hatle wrote:
+>>>>
+>>>>> On 8/3/11 12:35 AM, Kumar Gala wrote:
+>>>>>> If prelink gets a chance to properly run I get a rootfs that does:
+>>>>>>
+>>>>>> /sbin/init: relocation error: /lib64/libc.so.6: symbol _rtld_global_ro, version GLIBC_PRIVATE not defined in file ld64.so.1 with link time reference
+>>>>>>
+>>>>>> if 'baselib' is set to /lib we get:
+>>>>>>
+>>>>>> /local/home/galak/git/poky/build-p5020/tmp/sysroots/x86_64-linux/usr/sbin/prelink: /sbin/init.sysvinit: Using /lib/ld64.so.1, not /lib64/ld64.so.1 as dynamic linker
+>>>>>>
+>>>>>> if 'baselib' is set to /lib64 we get:
+>>>>>>
+>>>>>> Assigned virtual address space slots for libraries:
+>>>>>> /lib64/ld64.so.1                                             00000080f4910000-00000080f49473d0
+>>>>>> /lib64/libc.so.6                                             00000080f4950000-00000080f4afe090
+>>>>>> /lib64/libdl.so.2                                            00000080f4b10000-00000080f4b23520
+>>>>>> /lib64/libcrypt.so.1                                         00000080f4b10000-00000080f4b57708
+>>>>>> /lib64/libutil.so.1                                          00000080f4b10000-00000080f4b234a0
+>>>>>> Would prelink /lib64/ld-2.13.so
+>>>>>> Would prelink /lib64/libc-2.13.so
+>>>>>>
+>>>>>> Not sure what prelink is doing but it seems to breaking things.  Any ideas?
+>>>>>>
+>>>>>> ---
+>>>>>>
+>>>>>> I'm also concerned that we use /etc/prelink.conf when invoking prelink.
+>>>>>
+>>>>> Prelinker is being run within the rootfs, so the /etc/prelink.conf being used is
+>>>>> the one inside of the image -- NOT the system version.
+>>>>
+>>>> Is this because of psuedo or something else?
+>>>
+>>> In the cross prelinker, we pass in the --root=<image>.  This instructs the
+>>> cross-prelinker to prefix <image> to most paths.
+>>>
+>>>>> I would suspect that the cross-prelinker rtld emulation is likely setup for the
+>>>>> LSB style library paths and may be causing some of the problems.
+>>>
+>>> You can run the cross-prelinker's rtld emulation by running the prelink-rtld
+>>> program located in build/tmp-eglibc/work/x86_64-linux/usr/sbin/prelink-rtld
+>>>
+>>> Passing --root=<path> will setup the sysroot path for reference, adding in
+>>> --target-paths will allow you to pass further arguments as referenced on the
+>>> sysroot.
+>>>
+>>> So prelink-rtld --root=/foo/bar/build/sysroot/image --target-paths /sbin/init
+>>>
+>>> Should give you back an ldd like syntax within the sysroot, for /sbin/init.
+>>> (without --target-paths, you need to specify the full path to the /sbin/init..
+>>> this is useful when running the rtld against items outside of the image.)
+>>>
+>>>>>
+>>>>> I'd suggest simply disabling prelink and getting everything to work first.. once
+>>>>> it does we can work through any prelinker issues.  (Prelink on PPC64 hasn't been
+>>>>> tested within the oe-core environment.. so it could very well have issues beyond
+>>>>> the ld.so path.)
+>>>>
+>>>> Everything else is working, so prelink is what fails for me (at least for a simple minimal) build.
+>>>>
+>>>> any suggestions on how to try and debug further, who might be more familiar with prelink and what its doing?  When I ran readelf -a on ld-2.13.so after prelink was getting weird results, not sure if thats normal or not.
+>>>
+>>> I'm the prelink maintainer for Yocto, however I know more about the way the
+>>> cross-prelinker functionality works then how the ELF specific prelink functions
+>>> work.  I've been relying on the upstream prelink project to manage the
+>>> individual architecture/ABI prelink standards.
+>>>
+>>> My suggestion is to disable cross-prelinking, and revert to the upstream prelink
+>>> project -- run the binary on the target and see if it fails in the same way.  If
+>>> it does, then we know it's a deeper problem then the cross prelink integration.
+>>>
+>>> You can pull down the git repository:  git://git.yoctoproject.org/prelink-cross.git
+>>>
+>>> The "master" branch is identical to the upstream SVN branch.  The
+>>> "cross_prelink" branch is the current state of integration.
+>>
+>> So running prelink on target seems ok.  I used the version from prelink_git.bb.
+>>
+>> - k
+> 
+> I get the following output when running cross_prelink by hand:
+> 
+> prelink: /lib64/libc.so.6: Recorded 1 dependencies, now seeing -1
+> 
+> I noticed this as well (in dmesg):
+> 
+> prelink-rtld[14492]: segfault at 289986a94 ip 0000000000408de2 sp 00007fff65ad3c10 error 4 in prelink-rtld[400000+e000]
 
-Sorry Phil, I owe it to you :) I have not finished it yet.
+That could explain it..  interesting that prelink didn't see the failure.
 
-> p.
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
--- 
-Khem Raj
+I'd suggest running w/ -v and see if that will tell you what it was processing
+at the time.  Also collect a core and run me a back trace.  (You should create a
+bug on bugzilla.yoctoproject.org.. add that info and assign it to me..  I'll try
+to reproduce it or at least trace through the code and see what may have lead to
+the failure.)
+
+--Mark
+
+> - k
+
 
 
