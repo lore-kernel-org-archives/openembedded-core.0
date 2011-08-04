@@ -1,26 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QozS6-0004Cd-0A
+	(envelope-from <mark.hatle@windriver.com>) id 1QozYh-0004Hz-Bq
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 17:03:14 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Aug 2011 07:58:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,317,1309762800"; d="scan'208";a="37854088"
-Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2011 07:58:49 -0700
-Message-ID: <4E3AB3A9.1020908@linux.intel.com>
-Date: Thu, 04 Aug 2011 07:58:49 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
-	Lightning/1.0b3pre Thunderbird/3.1.10
+	Thu, 04 Aug 2011 17:10:03 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p74F5dpB004491
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Aug 2011 08:05:39 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 4 Aug 2011 08:05:38 -0700
+Message-ID: <4E3AB541.8060704@windriver.com>
+Date: Thu, 4 Aug 2011 10:05:37 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1311990837.git.ke.yu@intel.com>
-In-Reply-To: <cover.1311990837.git.ke.yu@intel.com>
-Subject: Re: [PATCH 0/1] replace PN with BPN in SRC_URI and S for multilib
+To: <openembedded-core@lists.openembedded.org>
+References: <BC707063-0722-4F72-A066-4E811125354B@kernel.crashing.org>
+	<4E395D20.8020608@windriver.com>
+	<AE047C85-8214-4716-920E-3B0177117231@kernel.crashing.org>
+	<4E3964A2.9020704@windriver.com>
+	<DA53B8C1-B1AB-4621-B1CC-753DE184A2A7@kernel.crashing.org>
+In-Reply-To: <DA53B8C1-B1AB-4621-B1CC-753DE184A2A7@kernel.crashing.org>
+Subject: Re: prelink issue with ppc64?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,88 +40,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 15:03:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 04 Aug 2011 15:10:03 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On 07/29/2011 06:59 PM, Yu Ke wrote:
-> in multilibcase, PN has multilib prefix, so it is not
-> correct to use PN in SRC_URI and S. instead,  we've
-> dedicately pruned multilib prefix in BPN, so BPN is
-> the right alternative for PN.
->
-> The following changes since commit f94b781695cd8fa387daff16ecbf3987a0883018:
->    Bruce Ashfield (1):
->          poky.conf: explicitly referenced preferred linux-yocto version
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib kyu3/src-uri
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kyu3/src-uri
->
-> Yu Ke (1):
->    SRC_URI, S: use BPN instead of PN for multilib case
->
->   .../farsight/farsight2_0.0.9.bb                    |    2 +-
->   .../loudmouth/loudmouth_1.4.0.bb                   |    2 +-
->   .../opensync/libopensync-plugin_0.36.inc           |    2 +-
->   .../telepathy/telepathy-farsight_0.0.7.bb          |    2 +-
->   .../telepathy/telepathy-gabble_0.7.8.bb            |    2 +-
->   .../recipes-connectivity/wbxml/wbxml2_0.9.2.bb     |    2 +-
->   .../recipes-gnome/gcalctool/gcalctool_5.7.32.bb    |    2 +-
->   .../recipes-gnome/gcalctool/gcalctool_5.8.17.bb    |    2 +-
->   .../recipes-gnome/libgtkstylus/libgtkstylus_0.5.bb |    2 +-
->   meta-demoapps/recipes-gnome/wv/wv_1.2.0.bb         |    2 +-
->   meta-demoapps/recipes-sato/kf/kf_0.5.4.1.bb        |    2 +-
->   .../matchbox-themes-extra_git.bb                   |    2 +-
->   .../recipes-support/poppler/poppler-data_0.1.bb    |    2 +-
->   meta-demoapps/recipes-support/poppler/poppler.inc  |    2 +-
->   .../omap3-sgx-modules_1.3.13.1397.bb               |    4 ++--
->   meta/recipes-bsp/zaurusd/zaurusd_svn.bb            |    2 +-
->   .../galago/galago-daemon_0.5.1.bb                  |    2 +-
->   .../iproute2/iproute2_2.6.38.bb                    |    2 +-
->   meta/recipes-connectivity/ofono/ofono_0.50.bb      |    2 +-
->   .../telepathy/telepathy-glib_0.14.3.bb             |    2 +-
->   .../telepathy/telepathy-idle_0.1.8.bb              |    2 +-
->   .../telepathy/telepathy-python_0.15.19.bb          |    2 +-
->   meta/recipes-core/dbus-wait/dbus-wait_svn.bb       |    2 +-
->   .../glib-networking/glib-networking_2.28.7.bb      |    2 +-
->   meta/recipes-devtools/distcc/distcc_2.18.3.bb      |    2 +-
->   .../subversion/subversion_1.6.15.bb                |    2 +-
->   meta/recipes-extended/blktool/blktool_4-6.bb       |    2 +-
->   .../recipes-extended/chkconfig/chkconfig_1.3.52.bb |    2 +-
->   meta/recipes-extended/libidn/libidn_0.6.14.bb      |    2 +-
->   meta/recipes-extended/libidn/libidn_1.22.bb        |    2 +-
->   meta/recipes-extended/libtirpc/libtirpc_0.2.2.bb   |    4 ++--
->   meta/recipes-extended/mktemp/mktemp_1.7.bb         |    2 +-
->   meta/recipes-extended/xdg-utils/xdg-utils_1.0.2.bb |    2 +-
->   .../ttf-fonts/liberation-fonts_1.06.bb             |    2 +-
->   .../xorg-driver/xf86-driver-common.inc             |    2 +-
->   meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb |    2 +-
->   meta/recipes-sato/eds/eds-tools_bzr.bb             |    2 +-
->   meta/recipes-sato/gaku/gaku_svn.bb                 |    2 +-
->   meta/recipes-sato/libical/libical_0.46.bb          |    2 +-
->   meta/recipes-sato/libowl/libowl_svn.bb             |    2 +-
->   .../recipes-sato/owl-video-widget/libowl-av_svn.bb |    2 +-
->   meta/recipes-sato/puzzles/oh-puzzles_svn.bb        |    2 +-
->   meta/recipes-sato/puzzles/puzzles_r9175.bb         |    2 +-
->   meta/recipes-sato/screenshot/screenshot_svn.bb     |    2 +-
->   meta/recipes-support/apr/apr-util_1.3.10.bb        |    2 +-
->   meta/recipes-support/apr/apr_1.4.2.bb              |    2 +-
->   meta/recipes-support/liboil/liboil_0.3.17.bb       |    2 +-
->   meta/recipes-support/neon/neon_0.29.5.bb           |    2 +-
->   48 files changed, 50 insertions(+), 50 deletions(-)
->
->
+On 8/4/11 12:37 AM, Kumar Gala wrote:
+> 
+> On Aug 3, 2011, at 10:09 AM, Mark Hatle wrote:
+> 
+>> On 8/3/11 9:53 AM, Kumar Gala wrote:
+>>>
+>>> On Aug 3, 2011, at 9:37 AM, Mark Hatle wrote:
+>>>
+>>>> On 8/3/11 12:35 AM, Kumar Gala wrote:
+>>>>> If prelink gets a chance to properly run I get a rootfs that does:
+>>>>>
+>>>>> /sbin/init: relocation error: /lib64/libc.so.6: symbol _rtld_global_ro, version GLIBC_PRIVATE not defined in file ld64.so.1 with link time reference
+>>>>>
+>>>>> if 'baselib' is set to /lib we get:
+>>>>>
+>>>>> /local/home/galak/git/poky/build-p5020/tmp/sysroots/x86_64-linux/usr/sbin/prelink: /sbin/init.sysvinit: Using /lib/ld64.so.1, not /lib64/ld64.so.1 as dynamic linker
+>>>>>
+>>>>> if 'baselib' is set to /lib64 we get:
+>>>>>
+>>>>> Assigned virtual address space slots for libraries:
+>>>>> /lib64/ld64.so.1                                             00000080f4910000-00000080f49473d0
+>>>>> /lib64/libc.so.6                                             00000080f4950000-00000080f4afe090
+>>>>> /lib64/libdl.so.2                                            00000080f4b10000-00000080f4b23520
+>>>>> /lib64/libcrypt.so.1                                         00000080f4b10000-00000080f4b57708
+>>>>> /lib64/libutil.so.1                                          00000080f4b10000-00000080f4b234a0
+>>>>> Would prelink /lib64/ld-2.13.so
+>>>>> Would prelink /lib64/libc-2.13.so
+>>>>>
+>>>>> Not sure what prelink is doing but it seems to breaking things.  Any ideas?
+>>>>>
+>>>>> ---
+>>>>>
+>>>>> I'm also concerned that we use /etc/prelink.conf when invoking prelink.
+>>>>
+>>>> Prelinker is being run within the rootfs, so the /etc/prelink.conf being used is
+>>>> the one inside of the image -- NOT the system version.
+>>>
+>>> Is this because of psuedo or something else?
+>>
+>> In the cross prelinker, we pass in the --root=<image>.  This instructs the
+>> cross-prelinker to prefix <image> to most paths.
+>>
+>>>> I would suspect that the cross-prelinker rtld emulation is likely setup for the
+>>>> LSB style library paths and may be causing some of the problems.
+>>
+>> You can run the cross-prelinker's rtld emulation by running the prelink-rtld
+>> program located in build/tmp-eglibc/work/x86_64-linux/usr/sbin/prelink-rtld
+>>
+>> Passing --root=<path> will setup the sysroot path for reference, adding in
+>> --target-paths will allow you to pass further arguments as referenced on the
+>> sysroot.
+>>
+>> So prelink-rtld --root=/foo/bar/build/sysroot/image --target-paths /sbin/init
+>>
+>> Should give you back an ldd like syntax within the sysroot, for /sbin/init.
+>> (without --target-paths, you need to specify the full path to the /sbin/init..
+>> this is useful when running the rtld against items outside of the image.)
+>>
+>>>>
+>>>> I'd suggest simply disabling prelink and getting everything to work first.. once
+>>>> it does we can work through any prelinker issues.  (Prelink on PPC64 hasn't been
+>>>> tested within the oe-core environment.. so it could very well have issues beyond
+>>>> the ld.so path.)
+>>>
+>>> Everything else is working, so prelink is what fails for me (at least for a simple minimal) build.
+>>>
+>>> any suggestions on how to try and debug further, who might be more familiar with prelink and what its doing?  When I ran readelf -a on ld-2.13.so after prelink was getting weird results, not sure if thats normal or not.
+>>
+>> I'm the prelink maintainer for Yocto, however I know more about the way the
+>> cross-prelinker functionality works then how the ELF specific prelink functions
+>> work.  I've been relying on the upstream prelink project to manage the
+>> individual architecture/ABI prelink standards.
+>>
+>> My suggestion is to disable cross-prelinking, and revert to the upstream prelink
+>> project -- run the binary on the target and see if it fails in the same way.  If
+>> it does, then we know it's a deeper problem then the cross prelink integration.
+>>
+>> You can pull down the git repository:  git://git.yoctoproject.org/prelink-cross.git
+>>
+>> The "master" branch is identical to the upstream SVN branch.  The
+>> "cross_prelink" branch is the current state of integration.
+> 
+> So running prelink on target seems ok.  I used the version from prelink_git.bb.
+
+The prelink_git versions should be the cross-prelink version.  The only
+difference MIGHT be the rtld emulation, but I'm not sure.
+
+Any chance you can diff the output between the cross prelink and the on-target
+prelink?  The other thing is to run the prelinker (on both systems) with the -v.
+ This should give a more verbose set of prelinker information.  It would be
+interesting if there are any differences between the two.
+
+--Mark
+
+> - k
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
-Merged into OE-Core
-
-Thanks
-	Sau!
 
 
