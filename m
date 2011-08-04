@@ -1,39 +1,39 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Qp6tA-0007Wq-0e
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Qp6vl-0007vI-6p
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 00:59:40 +0200
+	Fri, 05 Aug 2011 01:02:21 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 04 Aug 2011 15:55:15 -0700
+	by azsmga101.ch.intel.com with ESMTP; 04 Aug 2011 15:57:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,320,1309762800"; d="scan'208";a="35292251"
+X-IronPort-AV: E=Sophos;i="4.67,320,1309762800"; d="scan'208";a="35292964"
 Received: from orsmsx602.amr.corp.intel.com ([10.22.226.211])
-	by azsmga001.ch.intel.com with ESMTP; 04 Aug 2011 15:54:57 -0700
-Received: from orsmsx605.amr.corp.intel.com (10.22.226.10) by
-	orsmsx602.amr.corp.intel.com (10.22.226.211) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 4 Aug 2011 15:54:57 -0700
+	by azsmga001.ch.intel.com with ESMTP; 04 Aug 2011 15:57:56 -0700
 Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx605.amr.corp.intel.com ([10.22.226.10]) with mapi; Thu, 4 Aug 2011
-	15:54:56 -0700
+	orsmsx602.amr.corp.intel.com ([10.22.226.211]) with mapi;
+	Thu, 4 Aug 2011 15:57:56 -0700
 From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 4 Aug 2011 15:54:56 -0700
-Thread-Topic: [OE-core] [PATCH 10/10] local.conf.sample: make BBMASK
-	assignment weak
-Thread-Index: AcxS+Tzz/zyHtsUNQrmw5MepmOvhwAAAD8MQ
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94DE85F57C@orsmsx504.amr.corp.intel.com>
-References: <cover.1312469789.git.nitin.a.kamble@intel.com>
-	<e5fc6a2b0a315f9ade50a7f357b98068c38d49e3.1312469789.git.nitin.a.kamble@intel.com>
-	<aa5a0621a4d7110828517949f4c07221e62b068c.1312469790.git.nitin.a.kamble@intel.com>
-	<CA+M6bXnGxvjb7y23xss2epiaMXW3CWAK5Hq2ixPqM8iyATXuCA@mail.gmail.com>
-In-Reply-To: <CA+M6bXnGxvjb7y23xss2epiaMXW3CWAK5Hq2ixPqM8iyATXuCA@mail.gmail.com>
+Date: Thu, 4 Aug 2011 15:57:56 -0700
+Thread-Topic: [OE-core] [PATCH 04/10] glibc: bring back the needed support
+	for glibc recipes
+Thread-Index: AcxS+OBWMZLN9ScsTtWQA+JYwRn4zQAALEZQ
+Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94DE85F584@orsmsx504.amr.corp.intel.com>
+References: <e5fc6a2b0a315f9ade50a7f357b98068c38d49e3.1312469789.git.nitin.a.kamble@intel.com>
+	<03d062a7104f31d03893833485ec3836c07e8f90.1312469790.git.nitin.a.kamble@intel.com>
+	<1312494646.3169.2.camel@lenovo.internal.reciva.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94DE85F4C1@orsmsx504.amr.corp.intel.com>
+	<1312495815.3169.9.camel@lenovo.internal.reciva.com>
+	<9DA5872FEF993D41B7173F58FCF6BE94DE85F563@orsmsx504.amr.corp.intel.com>
+	<CA+M6bXmzQdpJfADuj65emFTfED=o-HhF7QufdVtMTJCbcCgGGQ@mail.gmail.com>
+In-Reply-To: <CA+M6bXmzQdpJfADuj65emFTfED=o-HhF7QufdVtMTJCbcCgGGQ@mail.gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 acceptlanguage: en-US
 MIME-Version: 1.0
-Subject: Re: [PATCH 10/10] local.conf.sample: make BBMASK	assignment weak
+Subject: Re: [PATCH 04/10] glibc: bring back the needed support for glibc recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,7 +48,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 22:59:40 -0000
+X-List-Received-Date: Thu, 04 Aug 2011 23:02:21 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
@@ -59,43 +59,65 @@ Content-Transfer-Encoding: quoted-printable
 > From: openembedded-core-bounces@lists.openembedded.org
 > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
 > Tom Rini
-> Sent: Thursday, August 04, 2011 3:53 PM
+> Sent: Thursday, August 04, 2011 3:50 PM
 > To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH 10/10] local.conf.sample: make BBMASK
-> assignment weak
+> Subject: Re: [OE-core] [PATCH 04/10] glibc: bring back the needed
+> support for glibc recipes
 >=20
-> On Thu, Aug 4, 2011 at 8:01 AM,  <nitin.a.kamble@intel.com> wrote:
-> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> On Thu, Aug 4, 2011 at 3:47 PM, Kamble, Nitin A
+> <nitin.a.kamble@intel.com> wrote:
 > >
-> > So that it can be overridden by layers if needed.
 > >
-> > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> > ---
-> > =A0meta-yocto/conf/local.conf.sample | =A0 =A02 +-
-> > =A01 files changed, 1 insertions(+), 1 deletions(-)
-> >
-> > diff --git a/meta-yocto/conf/local.conf.sample b/meta-
-> yocto/conf/local.conf.sample
-> > index 3e71b0a..4acec37 100644
-> > --- a/meta-yocto/conf/local.conf.sample
-> > +++ b/meta-yocto/conf/local.conf.sample
-> > @@ -39,7 +39,7 @@ DISTRO ?=3D "poky"
-> >
-> > =A0# BBMASK is a regular expression that can be used to tell BitBake to
-> ignore
-> > =A0# certain recipes.
-> > -BBMASK =3D ""
-> > +BBMASK ?=3D ""
-> >
-> > =A0# EXTRA_IMAGE_FEATURES allows extra packages to be added to the
-> generated images
-> > =A0# (Some of these are automatically added to certain image types)
+> >> -----Original Message-----
+> >> From: openembedded-core-bounces@lists.openembedded.org
+> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of
+> >> Phil Blundell
+> >> Sent: Thursday, August 04, 2011 3:10 PM
+> >> To: Patches and discussions about the oe-core layer
+> >> Subject: Re: [OE-core] [PATCH 04/10] glibc: bring back the needed
+> >> support for glibc recipes
+> >>
+> >> On Thu, 2011-08-04 at 15:04 -0700, Kamble, Nitin A wrote:
+> >> >
+> >> > > -----Original Message-----
+> >> > > From: openembedded-core-bounces@lists.openembedded.org
+> >> > > [mailto:openembedded-core-bounces@lists.openembedded.org] On
+> Behalf
+> >> Of
+> >> > > Phil Blundell
+> >> > > Sent: Thursday, August 04, 2011 2:51 PM
+> >> > > To: Patches and discussions about the oe-core layer
+> >> > > Subject: Re: [OE-core] [PATCH 04/10] glibc: bring back the
+> needed
+> >> > > support for glibc recipes
+> >> > >
+> >> > > On Thu, 2011-08-04 at 08:01 -0700, nitin.a.kamble@intel.com
+> wrote:
+> >> > > > From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >> > > >
+> >> > > > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >> > >
+> >> > > This commit message is very terse. =A0Why is this change
+> necessary?
+> >> >
+> >> > Because meta-x32 layer has glibc, which needs these support files.
+> I
+> >> will update the commit message in the tree.
+> >>
+> >> Can't the tclibc-glibc file go in meta-x32 as well, then?
+> >>
+> > It can go in the meta-x32 layer, but I think better place for this
+> support file is in the meta layer. It would help avoid duplication of
+> the code in multiple layers.
 >=20
-> In oe.dev we just dropped this from local.conf iirc since a real
-> assignmnet was overriding a useful setting we provided.  IMHO, we
-> should do the same here (or at least comment it out).
+> Part of the answer here is that obsolete / etc things don't belong in
+> the core, but in other layers that need them.  My read on things is
+> that we've removed glibc in favor of eglibc...
 
-I agree. We should comment it out.
+With high demand I will move the glibc file in the meta-x32 layer. I was tr=
+ying to do what felt right at 1st, but I wasn't aware that eglibc is favore=
+d so much over glibc.
 >=20
 > --
 > Tom
