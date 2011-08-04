@@ -1,28 +1,20 @@
-Received: from mailout-de.gmx.net ([213.165.64.23])
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <schnitzeltony@gmx.de>) id 1Qp5PV-0005EF-NU
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Qp5Wx-0005MH-Gh
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 23:24:58 +0200
-Received: (qmail invoked by alias); 04 Aug 2011 21:20:33 -0000
-Received: from p5B0A21F4.dip.t-dialin.net (EHLO localhost.localdomain)
-	[91.10.33.244]
-	by mail.gmx.net (mp071) with SMTP; 04 Aug 2011 23:20:33 +0200
-X-Authenticated: #62780362
-X-Provags-ID: V01U2FsdGVkX1+FcaNaNKyFPbT/H6t0ZXY+XYk9qtajv8XByOUcZ4
-	eFIfDFKCEbzko/
-From: Andreas Mueller <schnitzeltony@gmx.de>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 4 Aug 2011 23:23:29 +0200
-User-Agent: KMail/1.13.7 (Linux/2.6.35.13-92.fc14.x86_64; KDE/4.6.5; x86_64; ;
-	)
-References: <201108040011.52049.schnitzeltony@gmx.de>
-	<1808891.sPgEKESHSy@perseus>
-In-Reply-To: <1808891.sPgEKESHSy@perseus>
-MIME-Version: 1.0
-Message-Id: <201108042323.29579.schnitzeltony@gmx.de>
-X-Y-GMX-Trusted: 0
-Subject: Re: Howto pin u-boot to a version supplied by oe-core
+	Thu, 04 Aug 2011 23:32:39 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 04 Aug 2011 14:28:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,319,1309762800"; d="scan'208";a="35511606"
+Received: from nbuild1.sc.intel.com ([172.25.110.36])
+	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2011 14:28:14 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Aug 2011 08:01:52 -0700
+Message-Id: <cover.1312469789.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6
+Subject: [PATCH 00/10] Commits to enable x32 infrastructure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,13 +29,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 21:24:58 -0000
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Aug 2011 21:32:39 -0000
 
-On Thursday, August 04, 2011 03:34:17 AM Khem Raj wrote:
-> PREFERRED_VERSION_pn-u-boot = "v2011.03+git%"
-Works perfect: Both 2011.03 and 2011.06 are running fine. Thanks
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
+
+Here are commits to enable infrastructure for use of x32 layer.
+
+The kernel fixes from Bruce are for getting linux-korg recipe to work.
+
+The following changes since commit 5561aaad28ed6db6d962f88db32814043044731f:
+
+  eglibc: Fix patch merge breakage (2011-08-04 15:41:19 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/x32.rebased
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/x32.rebased
+
+Bruce Ashfield (3):
+  kern-tools: extend arbitrary repository support
+  linux-yocto: process the existing branch for configuration
+  linux-yocto: pass KMACHINE to updateme, not MACHINE
+
+Nitin A Kamble (7):
+  glibc: bring back the needed support for glibc recipes
+  toolchain-scripts & other classes: add TARGET_LD_ARCH &
+    TARGET_AS_ARCH vars
+  kernel,module-base.bbclass: fix KERNEL_LD & KERNEL_AR vars
+  siteinfo.bbclass: add entries for new x86_64 ABI targets
+  insane.bbclass: add entries for linux-gnu<ABI>
+  x86 tune inc files: add x32 abi tune parameters
+  local.conf.sample: make BBMASK assignment weak
+
+ meta-yocto/conf/local.conf.sample                  |    2 +-
+ meta/classes/allarch.bbclass                       |    2 +
+ meta/classes/cross-canadian.bbclass                |    2 +
+ meta/classes/cross.bbclass                         |    2 +
+ meta/classes/crosssdk.bbclass                      |    2 +
+ meta/classes/insane.bbclass                        |    9 +++++
+ meta/classes/kernel-yocto.bbclass                  |   11 +-----
+ meta/classes/kernel.bbclass                        |    2 +-
+ meta/classes/module-base.bbclass                   |    4 +-
+ meta/classes/native.bbclass                        |   10 ++++--
+ meta/classes/nativesdk.bbclass                     |    4 ++
+ meta/classes/siteinfo.bbclass                      |   14 ++++++++-
+ meta/classes/toolchain-scripts.bbclass             |    9 +++--
+ meta/conf/bitbake.conf                             |   23 ++++++++++----
+ meta/conf/distro/include/tclibc-glibc.inc          |   32 ++++++++++++++++++++
+ meta/conf/distro/include/tcmode-default.inc        |    5 +++
+ meta/conf/machine/include/ia32/arch-ia32.inc       |   23 ++++++++++++--
+ meta/conf/machine/include/tune-core2.inc           |    4 ++
+ meta/conf/machine/include/tune-x86_64.inc          |    2 +-
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ 20 files changed, 132 insertions(+), 32 deletions(-)
+ create mode 100644 meta/conf/distro/include/tclibc-glibc.inc
+
+-- 
+1.7.6
+
 
 
