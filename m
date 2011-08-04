@@ -1,37 +1,29 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Qoztj-0004nY-R4
+	(envelope-from <koen@beagleboard.org>) id 1Qp07s-00054F-Kl
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 17:31:48 +0200
-Received: by pzk2 with SMTP id 2so1866112pzk.34
+	Thu, 04 Aug 2011 17:46:24 +0200
+Received: by wyg30 with SMTP id 30so1545402wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Aug 2011 08:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=P7KJw6IwkFBrEY32jWE2YVOY7/d5E/hqaDSpBrWFVS0=;
-	b=CinvXFgr3Hd+981amo5d2RNpMtu5EXVw/PHCOFxhG/Y2ScEHAYpDH/pCncuBmtuFsp
-	78SLu+6I7uRUIx03NL/s38gP7wML0QalFQslmtrSrhIeZIWzktsclxR6gGk2PGG0y7p2
-	FWARofw34XRrkfaaDp8AM+hs6514l9QfZZCzI=
-Received: by 10.142.152.32 with SMTP id z32mr894154wfd.396.1312471643319;
-	Thu, 04 Aug 2011 08:27:23 -0700 (PDT)
-Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
-	[99.57.141.118])
-	by mx.google.com with ESMTPS id v2sm2333721pbi.35.2011.08.04.08.27.22
-	(version=SSLv3 cipher=OTHER); Thu, 04 Aug 2011 08:27:22 -0700 (PDT)
-Message-ID: <4E3ABA58.9040408@gmail.com>
-Date: Thu, 04 Aug 2011 08:27:20 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:5.0) Gecko/20110627 Thunderbird/5.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAGiJk9dWLc6TqMRfG4nqfgHbBHnRVb3V7b_QQwH9UPjip1aNeg@mail.gmail.com>
-	<CAGiJk9e01+q-P51iknAFut7jWgSP4NrzLoNDKAjM-wC+=7U+4w@mail.gmail.com>
-	<4E396097.1000207@gmail.com>
-	<CAGiJk9fsRGZiA92vpOcT8X95KscOg-vFxqdB7hcW16MOSk0PWQ@mail.gmail.com>
-In-Reply-To: <CAGiJk9fsRGZiA92vpOcT8X95KscOg-vFxqdB7hcW16MOSk0PWQ@mail.gmail.com>
-Subject: Re: Error running QEMU with oe-core / angstrom console-image, hwclock: can't open '/dev/misc/rtc' : No such file or directory
+	Thu, 04 Aug 2011 08:42:01 -0700 (PDT)
+Received: by 10.227.198.73 with SMTP id en9mr880189wbb.0.1312472520940;
+	Thu, 04 Aug 2011 08:42:00 -0700 (PDT)
+Received: from [172.20.1.16] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id es3sm1030160wbb.23.2011.08.04.08.41.59
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 04 Aug 2011 08:42:00 -0700 (PDT)
+Message-Id: <6D81583F-E000-4875-9BB3-0ADFA7CC2A4D@dominion.thruhere.net>
+From: Koen Kooi <koen@beagleboard.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4E3AAEB3.6070907@linux.intel.com>
+Mime-Version: 1.0 (Apple Message framework v936)
+Date: Thu, 4 Aug 2011 17:41:52 +0200
+References: <1311846297-30202-1-git-send-email-koen@dominion.thruhere.net>	<1311846558.30326.420.camel@phil-desktop>
+	<D489697C-D752-4255-8110-9AC1468D4D87@dominion.thruhere.net>
+	<4E3AAEB3.6070907@linux.intel.com>
+X-Mailer: Apple Mail (2.936)
+Subject: Re: [PATCHv2] gst-plugins: partially sync packaging with OE .dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,79 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 15:31:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 04 Aug 2011 15:46:24 -0000
+Content-Type: text/plain; charset=US-ASCII; format=flowed; delsp=yes
 Content-Transfer-Encoding: 7bit
 
-On 08/04/2011 01:08 AM, Samuel Stirtzel wrote:
-> 2011/8/3 Khem Raj<raj.khem@gmail.com>:
->> There is a smart script in scripts/ dir that you could use something like
->> this
+
+Op 4 aug 2011, om 16:37 heeft Saul Wold het volgende geschreven:
+
+> On 07/28/2011 03:14 AM, Koen Kooi wrote:
 >>
->> runqemu /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin
->> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
+>> Op 28 jul. 2011, om 11:49 heeft Phil Blundell het volgende  
+>> geschreven:
 >>
->> and it will setup everything (even networking) for you
+>>> On Thu, 2011-07-28 at 11:44 +0200, Koen Kooi wrote:
+>>>> +ALLOW_EMPTY = "1"
+>>>
+>>> Is that necessary?  You seem to be setting ALLOW_EMPTY_${PN}- 
+>>> meta=1 in
+>>> your python code anyway.
 >>
-> Already tried this one, but for some unknown reasons it doesn't work,
-> I get the following output:
-> -
-> samuel@S-Linux:/var/oe-core/setup-scripts$ runqemu
-> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin
-> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
-> Set MACHINE to [qemuarm] based on kernel
-> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
+>> In OE classic that was to keep ${PN} alive after all libs and apps  
+>> were removed, I'm not sure we need it in OE-core.
+>>
+> Koen,
 >
-> Continuing with the following parameters:
-> KERNEL: [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
-> ROOTFS: [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2]
-> FSTYPE: [ext2]
-> Setting up tap interface under sudo
-> [sudo] password for samuel:
-> sudo runqemu-ifup<gid>  <native-sysroot-basedir>
-> samuel@S-Linux:/var/oe-core/setup-scripts$
+> Are you re-submitting a v2 pf this patch or do you still want it to  
+> go as is?
 
-A fix for this problem has been committed to oe-core already. Update and 
-retry
-
-> -
-> This is all, no QEMU window appears or any other messages, or do I
-> have run something else.
-
-Nothing more. It should pop up a window where you will see the new 
-machine booting
-
->
-> For remote debugging purpose I wrote a generic script that will set up
-> a tap and bridge interface and restores the network connection after
-> qemu closes.
-> This script can also run QEMU with standard network settings.
-> Basically runqemu and my scripts should do the same thing(?), but
-> since runqemu doesn't work for me I made my own scripts (also it won't
-> need sudo if the standard network option is used).
->
-> The scripts are attached in this mail, to run the script you could use
-> "sh /somedir/generic_qemu_loader.sh --help".
-> This script however may not work on other systems than ubuntu, I share
-> it only for information exchange purpose.
-> If you still want to use it, keep in thought that I am a beginner in
-> shell coding!
->
-> The difference between the standard network settings and the
-> bridge/tap interfaces is, that the standard network only supports
-> outgoing TCP and UDP connections while the bridge/tap interface can be
-> used to host, for example, a gdbserver.
->
->
-> Regards
-> Samuel
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+As is would be fine for me.
 
 
