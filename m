@@ -1,41 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QomMT-0000ZR-PH
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1QomkH-00013U-L4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 03:04:41 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2011 18:00:06 -0700
+	Thu, 04 Aug 2011 03:29:11 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 03 Aug 2011 18:23:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,313,1309762800"; d="scan'208";a="37670333"
-Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2011 18:00:05 -0700
-Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
-	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 4 Aug 2011 08:59:49 +0800
-Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
-	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
-	(TLS) id 14.1.289.1; Thu, 4 Aug 2011 08:59:48 +0800
-Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
-	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Thu, 4 Aug 2011
-	08:59:47 +0800
-From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 4 Aug 2011 08:59:47 +0800
-Thread-Topic: [OE-core] [PATCH 5/7] multilib: remove MULTILIB_PACKAGE_ARCHS
-	variable
-Thread-Index: AcxR8pgGWV9VYL3HT6SG22N8IuOmRgATepjg
-Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D7029D0B@shsmsx501.ccr.corp.intel.com>
-References: <cover.1312384552.git.dongxiao.xu@intel.com>
-	<ba3e6c58f74119dcdf1c26cfa6f31ab1383004d1.1312384552.git.dongxiao.xu@intel.com>
-	<4E396A0A.5010205@windriver.com>
-In-Reply-To: <4E396A0A.5010205@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
-Subject: Re: [PATCH 5/7] multilib: remove MULTILIB_PACKAGE_ARCHS variable
+X-IronPort-AV: E=Sophos;i="4.67,313,1309762800"; d="scan'208";a="34156033"
+Received: from envy.jf.intel.com ([10.7.201.175])
+	by orsmga002.jf.intel.com with ESMTP; 03 Aug 2011 18:23:41 -0700
+From: Beth Flanagan <elizabeth.flanagan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Aug 2011 18:18:25 -0700
+Message-Id: <cover.1312419801.git.elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1] Disk io measurements for build statistics
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,175 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 01:04:41 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 Aug 2011 01:29:11 -0000
 
-Hi Mark,
+This commit adds disk-io statistics functionality on a build
+and per-task basis. I've also started drying it up some.
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Mark Hatle
-> Sent: Wednesday, August 03, 2011 11:32 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 5/7] multilib: remove
-> MULTILIB_PACKAGE_ARCHS variable
->=20
-> On 8/3/11 10:19 AM, Dongxiao Xu wrote:
-> > multilib package and normal package shares the same architecture
-> > deploy folder, thus we do not need the ${MULTILIB_PACKAGE_ARCHS}.
->=20
-> This is incorrect behavior, at least for RPM.  The folder should have the
-> pkgarch specific to the tuning used to generate the multilib.  (Behavior =
-may be
-> correct for deb/ipk.)
+We pull measurements for whatever partition TMPDIR exists on.
+We pull /proc/diskstats for every task and the entire build and collect
+I do no analysis in this, leaving that for the end user. 
+The following changes since commit 5fbac72eb8c3cddf10876cf007aff54180c7264e:
 
-Yes, ipk package name is different between normal package and multilib pack=
-age (tagged with MLPREFIX), so even they are put in the same deploy folder,=
- there should be no problem.
+  multilib: Use BPN instead of PN for style like lib${PN} (2011-08-03 18:07:25 +0100)
 
-However for currently for rpm multilib, the normal package and multilib pac=
-kage are in the same folder with same name, thus one will override the othe=
-r.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib eflanagan/disk-io-stats
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=eflanagan/disk-io-stats
 
-Take "initscript" as an example, the normal rpm package name is: "initscrip=
-ts-1.0-r127.x86_64.rpm". However the lib32 version of initscript's rpm pack=
-age is also named as=20
-"initscripts-1.0-r127.x86_64.rpm", putting in the same deploy folder: "tmp/=
-deploy/rpm/x86_64".
+Beth Flanagan (1):
+  buildstats.bbclass: Adding disk io measurement
 
-I think this should be an issue to fix, also we need to think about how to =
-co-work with ipk side.
+ meta/classes/buildstats.bbclass |  220 +++++++++++++++++++++++++--------------
+ 1 files changed, 142 insertions(+), 78 deletions(-)
 
-Thanks,
-Dongxiao
-
->=20
-> (If RPM sees two packages with the same .arch, it assumes that it's an
-> upgrade operation.  If the .arch is different then it goes into the multi=
-lib mode
-> and will be able to install both packages together, assuming the conflict
-> resolution results in a working -- non-conflicting -- install solution.)
->=20
-> --Mark
->=20
-> > CC: Mark Hatle <mark.hatle@windriver.com>
-> > Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-> > ---
-> >  meta/classes/package_rpm.bbclass      |   13 ++-----------
-> >  meta/classes/populate_sdk_rpm.bbclass |    3 ---
-> >  meta/classes/rootfs_rpm.bbclass       |    3 ---
-> >  3 files changed, 2 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/meta/classes/package_rpm.bbclass
-> > b/meta/classes/package_rpm.bbclass
-> > index abedc68..9d0eeba 100644
-> > --- a/meta/classes/package_rpm.bbclass
-> > +++ b/meta/classes/package_rpm.bbclass
-> > @@ -27,8 +27,7 @@ package_update_index_rpm () {
-> >
-> >  	# Update target packages
-> >  	base_archs=3D"${PACKAGE_ARCHS}"
-> > -	ml_archs=3D"${MULTILIB_PACKAGE_ARCHS}"
-> > -	package_update_index_rpm_common "${RPMCONF_TARGET_BASE}"
-> base_archs ml_archs
-> > +	package_update_index_rpm_common "${RPMCONF_TARGET_BASE}"
-> base_archs
-> >
-> >  	# Update SDK packages
-> >  	base_archs=3D"${SDK_PACKAGE_ARCHS}"
-> > @@ -76,7 +75,7 @@ package_update_index_rpm_common () {  #
-> > package_generate_rpm_conf () {
-> >  	# Update target packages
-> > -	package_generate_rpm_conf_common "${RPMCONF_TARGET_BASE}"
-> base_archs ml_archs
-> > +	package_generate_rpm_conf_common "${RPMCONF_TARGET_BASE}"
-> base_archs
-> >
-> >  	# Update SDK packages
-> >  	package_generate_rpm_conf_common "${RPMCONF_HOST_BASE}"
-> base_archs
-> > @@ -203,10 +202,6 @@ package_install_internal_rpm () {
-> >
-> >  				archvar=3Dbase_archs
-> >  				ml_pkg=3D$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
-> > -				if [ "${ml_pkg}" !=3D "${pkg}" ]; then
-> > -					archvar=3Dml_archs
-> > -				fi
-> > -
-> >  				pkg_name=3D$(resolve_package_rpm
-> ${confbase}-${archvar}.conf ${ml_pkg})
-> >  				if [ -z "$pkg_name" ]; then
-> >  					echo "Unable to find package $pkg ($ml_pkg)!"
-> > @@ -223,10 +218,6 @@ package_install_internal_rpm () {
-> >
-> >  			archvar=3Dbase_archs
-> >  			ml_pkg=3D$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
-> > -			if [ "${ml_pkg}" !=3D "${pkg}" ]; then
-> > -				archvar=3Dml_archs
-> > -			fi
-> > -
-> >  			pkg_name=3D$(resolve_package_rpm ${confbase}-${archvar}.conf
-> ${ml_pkg})
-> >  			if [ -z "$pkg_name" ]; then
-> >  				echo "Unable to find package $pkg ($ml_pkg)!"
-> > diff --git a/meta/classes/populate_sdk_rpm.bbclass
-> > b/meta/classes/populate_sdk_rpm.bbclass
-> > index 5fb0234..f33e4a9 100644
-> > --- a/meta/classes/populate_sdk_rpm.bbclass
-> > +++ b/meta/classes/populate_sdk_rpm.bbclass
-> > @@ -115,7 +115,6 @@ EOF
-> >  }
-> >
-> >  python () {
-> > -    ml_package_archs =3D ""
-> >      multilibs =3D d.getVar('MULTILIBS', True) or ""
-> >      for ext in multilibs.split():
-> >          eext =3D ext.split(':')
-> > @@ -125,8 +124,6 @@ python () {
-> >              localdata.setVar("OVERRIDES", overrides)
-> >              # TEMP: OVERRIDES isn't working right
-> >              localdata.setVar("DEFAULTTUNE",
-> localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False) or "=
-")
-> > -            ml_package_archs +=3D localdata.getVar("PACKAGE_ARCHS",
-> True) or ""
-> >              #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1],
-> localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
-> > -    bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
-> >  }
-> >
-> > diff --git a/meta/classes/rootfs_rpm.bbclass
-> > b/meta/classes/rootfs_rpm.bbclass index 7c06064..c188d27 100644
-> > --- a/meta/classes/rootfs_rpm.bbclass
-> > +++ b/meta/classes/rootfs_rpm.bbclass
-> > @@ -209,7 +209,6 @@ python () {
-> >          bb.data.setVar('RPM_PREPROCESS_COMMANDS', '', d)
-> >          bb.data.setVar('RPM_POSTPROCESS_COMMANDS', '', d)
-> >
-> > -    ml_package_archs =3D ""
-> >      multilibs =3D d.getVar('MULTILIBS', True) or ""
-> >      for ext in multilibs.split():
-> >          eext =3D ext.split(':')
-> > @@ -219,7 +218,5 @@ python () {
-> >              localdata.setVar("OVERRIDES", overrides)
-> >              # TEMP: OVERRIDES isn't working right
-> >              localdata.setVar("DEFAULTTUNE",
-> localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False) or "=
-")
-> > -            ml_package_archs +=3D localdata.getVar("PACKAGE_ARCHS",
-> True) or ""
-> >              #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1],
-> localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
-> > -    bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
-> >  }
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
