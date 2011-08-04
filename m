@@ -1,19 +1,19 @@
 Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1+By3mLpfy2BxEphyJ64UfMe28aZPHAn4c=])
+	ident=[U2FsdGVkX18Dxwg9Fy5fk6vcJyRMhL/vBZR1Akui0DM=])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qop6A-0004Zo-As
+	(envelope-from <galak@kernel.crashing.org>) id 1QopDd-00057z-7Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 05:59:56 +0200
+	Thu, 04 Aug 2011 06:07:37 +0200
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p743tV0N002194
+	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p7443Ege005987
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2011 22:55:31 -0500
+	Wed, 3 Aug 2011 23:03:15 -0500
 From: Kumar Gala <galak@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 22:55:31 -0500
-Message-Id: <1312430131-4986-1-git-send-email-galak@kernel.crashing.org>
+Date: Wed,  3 Aug 2011 23:03:14 -0500
+Message-Id: <1312430594-5605-1-git-send-email-galak@kernel.crashing.org>
 X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH v2] libproxy: utilize libdir when configured
+Subject: [PATCH v3] image-mklibs.bbclass: Add powerpc64 arch support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,37 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 03:59:56 -0000
+X-List-Received-Date: Thu, 04 Aug 2011 04:07:37 -0000
 
-Pass $libdir through when we configure to support a location other
-than /lib.
+powerp64 dynamic loader is 'ld64.so.1'.
 
 Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
 ---
-* Use libdir instead of base_libdir
+v2: 
+* Use correct name of ppc64 dynamic loader
+* user ${baselib} so if we are /lib or /lib64 things work
 
- meta/recipes-support/libproxy/libproxy_0.4.6.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+v3:
+* use base_libdir instead of baselib
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.6.bb b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
-index b24e8ba..5ee4979 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.6.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.6.bb
-@@ -14,12 +14,12 @@ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz"
- SRC_URI[md5sum] = "199c6b120baf1f7258a55f38d5ec74f5"
- SRC_URI[sha256sum] = "9ad912e63b1efca98fb442240a2bc7302e6021c1d0b1b9363327729f29462f30"
- 
--PR = "r1"
-+PR = "r2"
- 
- inherit cmake pkgconfig
- 
- EXTRA_OECMAKE = "-DWITH_WEBKIT=no -DWITH_GNOME=yes -DWITH_KDE4=no \
--	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no"
-+	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no -DLIB_INSTALL_DIR=${libdir}"
- 
- FILES_${PN}-dbg += "${libdir}/libproxy/${PV}/plugins/.debug/ ${libdir}/libproxy/${PV}/modules/.debug/"
- 
+ meta/classes/image-mklibs.bbclass |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
+diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
+index 9f5a4ea..d6630c4 100644
+--- a/meta/classes/image-mklibs.bbclass
++++ b/meta/classes/image-mklibs.bbclass
+@@ -19,6 +19,9 @@ mklibs_optimize_image_doit() {
+ 		powerpc | mips | microblaze )
+ 			dynamic_loader="/lib/ld.so.1"
+ 			;;
++		powerpc64)
++			dynamic_loader="${base_libdir}/ld64.so.1"
++			;;
+ 		x86_64)
+ 			dynamic_loader="/lib/ld-linux-x86-64.so.2"
+ 			;;
 -- 
 1.7.3.4
 
