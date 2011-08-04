@@ -1,19 +1,25 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1+vdsfBGTwrHX/gOQtoLpJWNMq/XykuCnM=])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qp38c-0000KU-Gz
+	(envelope-from <sgw@linux.intel.com>) id 1Qp3Me-0000vH-LL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 20:59:22 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p74IsxoF027093
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Aug 2011 13:54:59 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Aug 2011 13:54:59 -0500
-Message-Id: <1312484099-29314-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH] gcc: use ${base_lib} to match gcc default configuration
+	Thu, 04 Aug 2011 21:13:52 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 04 Aug 2011 12:09:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,318,1309762800"; d="scan'208";a="34533071"
+Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
+	by orsmga002.jf.intel.com with ESMTP; 04 Aug 2011 12:09:27 -0700
+Message-ID: <4E3AEE66.9020608@linux.intel.com>
+Date: Thu, 04 Aug 2011 12:09:26 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1312483886-31682-1-git-send-email-galak@kernel.crashing.org>
+In-Reply-To: <1312483886-31682-1-git-send-email-galak@kernel.crashing.org>
+Subject: Re: [PATCH] bitbake.conf/powerpc64: Set baselib to 'lib64' for ppc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,32 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 18:59:23 -0000
+X-List-Received-Date: Thu, 04 Aug 2011 19:13:53 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Rather than tweaking MULTILIB_DIRNAMES & MULTILIB_OSDIRNAMES like is
-done for x86-64 via 64bithack.patch.  We can just go with gcc defaults
-and utilize ${base_lib} for where to find gcc libs.
+On 08/04/2011 11:51 AM, Kumar Gala wrote:
+> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
+> ---
+>   meta/conf/bitbake.conf |    4 +++-
+>   1 files changed, 3 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 6f0b42c..1d83459 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -7,7 +7,9 @@
+>   #
+>
+>   # Used by multilib code to change the library paths
+> -baselib = "lib"
+> +baselib = "${BASELIB}"
+> +BASELIB = "lib"
+Should the be ?=
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
- .../gcc/gcc-cross-intermediate.inc                 |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+> +BASELIB_powerpc64 = "lib64"
+>
+And this located in the arch-powerpc64 file?
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-index df5958a..7b1bb38 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
-@@ -34,7 +34,7 @@ do_compile () {
- do_install () {
- 	oe_runmake 'DESTDIR=${D}' install
- 	install -d ${D}${target_base_libdir}/
--	mv ${D}${exec_prefix}/${TARGET_SYS}/lib/* ${D}${target_base_libdir}/
-+	mv ${D}${exec_prefix}/${TARGET_SYS}/${baselib}/* ${D}${target_base_libdir}/
- 
- 	# We don't really need this (here shares/ contains man/, info/, locale/).
- 	rm -rf ${D}${datadir}/
--- 
-1.7.3.4
+Sau!
 
+
+>   # Path prefixes
+>   export base_prefix = ""
 
 
