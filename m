@@ -1,19 +1,32 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX1/+ScrgcRU+La6fh9sThzEN6vb823ljP58=])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qossc-00079c-Kb
+	(envelope-from <s.stirtzel@googlemail.com>) id 1Qot2z-0007Mr-Af
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 10:02:11 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p747vmam023319
+	Thu, 04 Aug 2011 10:12:53 +0200
+Received: by wyg30 with SMTP id 30so1237085wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Aug 2011 02:57:48 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Aug 2011 02:57:47 -0500
-Message-Id: <1312444667-29024-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH] gcc-4.6: Add support for the e5500 PowerPC core
+	Thu, 04 Aug 2011 01:08:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=d3KcgxOnP7RRh2W4Dmzg+tGZB3lKuHXU6BeH59c/3sw=;
+	b=X2HuRC/ebIQSP9rX49DP3EnGEAJKpYMwjDToTsvraEraU/H8DEAUyJJQ07tihz7ymL
+	bvwqC5HUFZfXXB36c6gpYFdWMiwpdwyOraTnU4HqZPl0SNLn++CGFRNLkl5DRHY2C1Qz
+	rnNeHth+rNC6VBomFkEnMYE6o7xM28X5gm1Ck=
+MIME-Version: 1.0
+Received: by 10.227.6.205 with SMTP id a13mr396693wba.106.1312445310113; Thu,
+	04 Aug 2011 01:08:30 -0700 (PDT)
+Received: by 10.227.2.74 with HTTP; Thu, 4 Aug 2011 01:08:30 -0700 (PDT)
+In-Reply-To: <4E396097.1000207@gmail.com>
+References: <CAGiJk9dWLc6TqMRfG4nqfgHbBHnRVb3V7b_QQwH9UPjip1aNeg@mail.gmail.com>
+	<CAGiJk9e01+q-P51iknAFut7jWgSP4NrzLoNDKAjM-wC+=7U+4w@mail.gmail.com>
+	<4E396097.1000207@gmail.com>
+Date: Thu, 4 Aug 2011 10:08:30 +0200
+Message-ID: <CAGiJk9fsRGZiA92vpOcT8X95KscOg-vFxqdB7hcW16MOSk0PWQ@mail.gmail.com>
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Error running QEMU with oe-core / angstrom console-image, hwclock: can't open '/dev/misc/rtc' : No such file or directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,511 +41,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 08:02:11 -0000
+X-List-Received-Date: Thu, 04 Aug 2011 08:12:53 -0000
+X-Groupsio-MsgNum: 7518
+Content-Type: multipart/mixed; boundary=002215974dee7f196904a9a97c11
 
-Implements basic e5500 enablement in gcc, with a scheduler, -mcpu
-flag, etc...
+--002215974dee7f196904a9a97c11
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    3 +-
- .../gcc/gcc-4.6/powerpc-e5500.patch                |  465 ++++++++++++++++++++
- 2 files changed, 467 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/powerpc-e5500.patch
+2011/8/3 Khem Raj <raj.khem@gmail.com>:
+> There is a smart script in scripts/ dir that you could use something like
+> this
+>
+> runqemu /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin
+> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
+>
+> and it will setup everything (even networking) for you
+>
+Already tried this one, but for some unknown reasons it doesn't work,
+I get the following output:
+-
+samuel@S-Linux:/var/oe-core/setup-scripts$ runqemu
+/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin
+/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
+Set MACHINE to [qemuarm] based on kernel
+[/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index 7d8170c..f952ac8 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r3"
-+PR = "r4"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-@@ -67,6 +67,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
- 	   file://COLLECT_GCC_OPTIONS.patch \
-            file://volatile_access_backport.patch \
-            file://use-defaults.h-and-t-oe-in-B.patch \
-+	   file://powerpc-e5500.patch \
- 	  "
- 
- SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch;patch=1 "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6/powerpc-e5500.patch b/meta/recipes-devtools/gcc/gcc-4.6/powerpc-e5500.patch
-new file mode 100644
-index 0000000..1f478f3
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.6/powerpc-e5500.patch
-@@ -0,0 +1,465 @@
-+Upstream-Status: Pending
-+
-+Implements basic e5500 enablement in gcc, with a scheduler, -mcpu
-+flag, etc...
-+
-+Also splits the masks for popcntb, popcntd, and cmpb. Originally those
-+masks would also control other instructions that e5500 does not
-+support (so, we either get none or all).
-+
-+For the lack of means to do tests, those instructions were never
-+enabled until now. The new instructions enabled with this patch are:
-+popcntb, popcntw, popcntd, bpermd, prtyw, prtyd, cmpb, ldbrx, and
-+stdbrx.
-+
-+Signed-off-by: Edmar Wienskoski <edmar@freescale.com>
-+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
-+
-+Index: gcc-4_6-branch/gcc/config.gcc
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config.gcc
-++++ gcc-4_6-branch/gcc/config.gcc
-+@@ -395,7 +395,7 @@ powerpc*-*-*)
-+ 	extra_headers="ppc-asm.h altivec.h spe.h ppu_intrinsics.h paired.h spu2vmx.h vec_types.h si2vmx.h"
-+ 	need_64bit_hwint=yes
-+ 	case x$with_cpu in
-+-	    xpowerpc64|xdefault64|x6[23]0|x970|xG5|xpower[34567]|xpower6x|xrs64a|xcell|xa2|xe500mc64)
-++	    xpowerpc64|xdefault64|x6[23]0|x970|xG5|xpower[34567]|xpower6x|xrs64a|xcell|xa2|xe500mc64|xe5500)
-+ 		cpu_is_64bit=yes
-+ 		;;
-+ 	esac
-+@@ -3493,7 +3493,7 @@ case "${target}" in
-+ 			| 401 | 403 | 405 | 405fp | 440 | 440fp | 464 | 464fp \
-+ 			| 476 | 476fp | 505 | 601 | 602 | 603 | 603e | ec603e \
-+ 			| 604 | 604e | 620 | 630 | 740 | 750 | 7400 | 7450 \
-+-			| a2 | e300c[23] | 854[08] | e500mc | e500mc64 | titan\
-++			| a2 | e300c[23] | 854[08] | e500mc | e500mc64 | e5500 | titan\
-+ 			| 801 | 821 | 823 | 860 | 970 | G3 | G4 | G5 | cell)
-+ 				# OK
-+ 				;;
-+Index: gcc-4_6-branch/gcc/config/rs6000/e5500.md
-+===================================================================
-+--- /dev/null
-++++ gcc-4_6-branch/gcc/config/rs6000/e5500.md
-+@@ -0,0 +1,176 @@
-++;; Pipeline description for Freescale PowerPC e5500 core.
-++;;   Copyright (C) 2011 Free Software Foundation, Inc.
-++;;   Contributed by Edmar Wienskoski (edmar@freescale.com)
-++;;
-++;; This file is part of GCC.
-++;;
-++;; GCC is free software; you can redistribute it and/or modify it
-++;; under the terms of the GNU General Public License as published
-++;; by the Free Software Foundation; either version 3, or (at your
-++;; option) any later version.
-++;;
-++;; GCC is distributed in the hope that it will be useful, but WITHOUT
-++;; ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-++;; or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
-++;; License for more details.
-++;;
-++;; You should have received a copy of the GNU General Public License
-++;; along with GCC; see the file COPYING3.  If not see
-++;; <http://www.gnu.org/licenses/>.
-++;;
-++;; e5500 64-bit SFX(2), CFX, LSU, FPU, BU
-++;; Max issue 3 insns/clock cycle (includes 1 branch)
-++
-++(define_automaton "e5500_most,e5500_long")
-++(define_cpu_unit "e5500_decode_0,e5500_decode_1" "e5500_most")
-++
-++;; SFX.
-++(define_cpu_unit "e5500_sfx_0,e5500_sfx_1" "e5500_most")
-++
-++;; CFX.
-++(define_cpu_unit "e5500_cfx_stage0,e5500_cfx_stage1" "e5500_most")
-++
-++;; Non-pipelined division.
-++(define_cpu_unit "e5500_cfx_div" "e5500_long")
-++
-++;; LSU.
-++(define_cpu_unit "e5500_lsu" "e5500_most")
-++
-++;; FPU.
-++(define_cpu_unit "e5500_fpu" "e5500_long")
-++
-++;; BU.
-++(define_cpu_unit "e5500_bu" "e5500_most")
-++
-++;; The following units are used to make the automata deterministic.
-++(define_cpu_unit "present_e5500_decode_0" "e5500_most")
-++(define_cpu_unit "present_e5500_sfx_0" "e5500_most")
-++(presence_set "present_e5500_decode_0" "e5500_decode_0")
-++(presence_set "present_e5500_sfx_0" "e5500_sfx_0")
-++
-++;; Some useful abbreviations.
-++(define_reservation "e5500_decode"
-++    "e5500_decode_0|e5500_decode_1+present_e5500_decode_0")
-++(define_reservation "e5500_sfx"
-++   "e5500_sfx_0|e5500_sfx_1+present_e5500_sfx_0")
-++
-++;; SFX.
-++(define_insn_reservation "e5500_sfx" 1
-++  (and (eq_attr "type" "integer,insert_word,insert_dword,delayed_compare,\
-++	shift,cntlz,exts")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_sfx")
-++
-++(define_insn_reservation "e5500_sfx2" 2
-++  (and (eq_attr "type" "cmp,compare,fast_compare,trap")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_sfx")
-++
-++(define_insn_reservation "e5500_delayed" 2
-++  (and (eq_attr "type" "var_shift_rotate,var_delayed_compare,popcnt")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_sfx*2")
-++
-++(define_insn_reservation "e5500_two" 2
-++  (and (eq_attr "type" "two")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_decode+e5500_sfx,e5500_sfx")
-++
-++(define_insn_reservation "e5500_three" 3
-++  (and (eq_attr "type" "three")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,(e5500_decode+e5500_sfx)*2,e5500_sfx")
-++
-++;; SFX - Mfcr.
-++(define_insn_reservation "e5500_mfcr" 4
-++  (and (eq_attr "type" "mfcr")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_sfx_0*4")
-++
-++;; SFX - Mtcrf.
-++(define_insn_reservation "e5500_mtcrf" 1
-++  (and (eq_attr "type" "mtcr")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_sfx_0")
-++
-++;; SFX - Mtjmpr.
-++(define_insn_reservation "e5500_mtjmpr" 1
-++  (and (eq_attr "type" "mtjmpr,mfjmpr")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_sfx")
-++
-++;; CFX - Multiply.
-++(define_insn_reservation "e5500_multiply" 4
-++  (and (eq_attr "type" "imul")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_cfx_stage0,e5500_cfx_stage1")
-++
-++(define_insn_reservation "e5500_multiply_i" 5
-++  (and (eq_attr "type" "imul2,imul3,imul_compare")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_cfx_stage0,\
-++   e5500_cfx_stage0+e5500_cfx_stage1,e5500_cfx_stage1")
-++
-++;; CFX - Divide.
-++(define_insn_reservation "e5500_divide" 16
-++  (and (eq_attr "type" "idiv")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_cfx_stage0+e5500_cfx_div,\
-++   e5500_cfx_div*15")
-++
-++(define_insn_reservation "e5500_divide_d" 26
-++  (and (eq_attr "type" "ldiv")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_cfx_stage0+e5500_cfx_div,\
-++   e5500_cfx_div*25")
-++
-++;; LSU - Loads.
-++(define_insn_reservation "e5500_load" 3
-++  (and (eq_attr "type" "load,load_ext,load_ext_u,load_ext_ux,load_ux,load_u,\
-++			load_l,sync")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_lsu")
-++
-++(define_insn_reservation "e5500_fpload" 4
-++  (and (eq_attr "type" "fpload,fpload_ux,fpload_u")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_lsu")
-++
-++;; LSU - Stores.
-++(define_insn_reservation "e5500_store" 3
-++  (and (eq_attr "type" "store,store_ux,store_u,store_c")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_lsu")
-++
-++(define_insn_reservation "e5500_fpstore" 3
-++  (and (eq_attr "type" "fpstore,fpstore_ux,fpstore_u")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_lsu")
-++
-++;; FP.
-++(define_insn_reservation "e5500_float" 7
-++  (and (eq_attr "type" "fpsimple,fp,fpcompare,dmul")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_fpu")
-++
-++(define_insn_reservation "e5500_sdiv" 20
-++  (and (eq_attr "type" "sdiv")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_fpu*20")
-++
-++(define_insn_reservation "e5500_ddiv" 35
-++  (and (eq_attr "type" "ddiv")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_fpu*35")
-++
-++;; BU.
-++(define_insn_reservation "e5500_branch" 1
-++  (and (eq_attr "type" "jmpreg,branch,isync")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_bu")
-++
-++;; BU - CR logical.
-++(define_insn_reservation "e5500_cr_logical" 1
-++  (and (eq_attr "type" "cr_logical,delayed_cr")
-++       (eq_attr "cpu" "ppce5500"))
-++  "e5500_decode,e5500_bu")
-+Index: gcc-4_6-branch/gcc/config/rs6000/rs6000-opts.h
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config/rs6000/rs6000-opts.h
-++++ gcc-4_6-branch/gcc/config/rs6000/rs6000-opts.h
-+@@ -53,6 +53,7 @@ enum processor_type
-+    PROCESSOR_PPCE300C3,
-+    PROCESSOR_PPCE500MC,
-+    PROCESSOR_PPCE500MC64,
-++   PROCESSOR_PPCE5500,
-+    PROCESSOR_POWER4,
-+    PROCESSOR_POWER5,
-+    PROCESSOR_POWER6,
-+Index: gcc-4_6-branch/gcc/config/rs6000/rs6000.c
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config/rs6000/rs6000.c
-++++ gcc-4_6-branch/gcc/config/rs6000/rs6000.c
-+@@ -779,6 +779,25 @@ struct processor_costs ppce500mc64_cost 
-+   1,			/* prefetch streams /*/
-+ };
-+ 
-++/* Instruction costs on PPCE5500 processors.  */
-++static const
-++struct processor_costs ppce5500_cost = {
-++  COSTS_N_INSNS (5),    /* mulsi */
-++  COSTS_N_INSNS (5),    /* mulsi_const */
-++  COSTS_N_INSNS (5),    /* mulsi_const9 */
-++  COSTS_N_INSNS (5),    /* muldi */
-++  COSTS_N_INSNS (14),   /* divsi */
-++  COSTS_N_INSNS (14),   /* divdi */
-++  COSTS_N_INSNS (7),    /* fp */
-++  COSTS_N_INSNS (10),   /* dmul */
-++  COSTS_N_INSNS (36),   /* sdiv */
-++  COSTS_N_INSNS (66),   /* ddiv */
-++  64,			/* cache line size */
-++  32,			/* l1 cache */
-++  128,			/* l2 cache */
-++  1,			/* prefetch streams /*/
-++};
-++
-+ /* Instruction costs on AppliedMicro Titan processors.  */
-+ static const
-+ struct processor_costs titan_cost = {
-+@@ -1784,6 +1803,9 @@ static struct rs6000_ptt const processor
-+    | MASK_ISEL},
-+   {"e500mc64", PROCESSOR_PPCE500MC64, POWERPC_BASE_MASK | MASK_POWERPC64
-+    | MASK_PPC_GFXOPT | MASK_ISEL},
-++  {"e5500", PROCESSOR_PPCE5500, POWERPC_BASE_MASK | MASK_POWERPC64
-++   | MASK_PPC_GFXOPT | MASK_ISEL | MASK_CMPB | MASK_POPCNTB
-++   | MASK_POPCNTD},
-+   {"860", PROCESSOR_MPCCORE, POWERPC_BASE_MASK | MASK_SOFT_FLOAT},
-+   {"970", PROCESSOR_POWER4,
-+    POWERPC_7400_MASK | MASK_PPC_GPOPT | MASK_MFCRF | MASK_POWERPC64},
-+@@ -2741,7 +2763,8 @@ rs6000_option_override_internal (bool gl
-+ 		   : PROCESSOR_DEFAULT));
-+ 
-+   if (rs6000_cpu == PROCESSOR_PPCE300C2 || rs6000_cpu == PROCESSOR_PPCE300C3
-+-      || rs6000_cpu == PROCESSOR_PPCE500MC || rs6000_cpu == PROCESSOR_PPCE500MC64)
-++      || rs6000_cpu == PROCESSOR_PPCE500MC || rs6000_cpu == PROCESSOR_PPCE500MC64
-++      || rs6000_cpu == PROCESSOR_PPCE5500)
-+     {
-+       if (TARGET_ALTIVEC)
-+ 	error ("AltiVec not supported in this target");
-+@@ -2842,9 +2865,14 @@ rs6000_option_override_internal (bool gl
-+      user's opinion, though.  */
-+   if (rs6000_block_move_inline_limit == 0
-+       && (rs6000_cpu == PROCESSOR_PPCE500MC
-+-	  || rs6000_cpu == PROCESSOR_PPCE500MC64))
-++	  || rs6000_cpu == PROCESSOR_PPCE500MC64
-++	  || rs6000_cpu == PROCESSOR_PPCE5500))
-+     rs6000_block_move_inline_limit = 128;
-+ 
-++  /* Those machines does not have fsqrt instruction */
-++  if (rs6000_cpu == PROCESSOR_PPCE5500)
-++    target_flags &= ~MASK_PPC_GPOPT;
-++
-+   /* store_one_arg depends on expand_block_move to handle at least the
-+      size of reg_parm_stack_space.  */
-+   if (rs6000_block_move_inline_limit < (TARGET_POWERPC64 ? 64 : 32))
-+@@ -2976,7 +3004,8 @@ rs6000_option_override_internal (bool gl
-+ #endif
-+ 
-+   if (TARGET_E500 || rs6000_cpu == PROCESSOR_PPCE500MC
-+-      || rs6000_cpu == PROCESSOR_PPCE500MC64)
-++      || rs6000_cpu == PROCESSOR_PPCE500MC64
-++      || rs6000_cpu == PROCESSOR_PPCE5500)
-+     {
-+       /* The e500 and e500mc do not have string instructions, and we set
-+ 	 MASK_STRING above when optimizing for size.  */
-+@@ -3023,7 +3052,8 @@ rs6000_option_override_internal (bool gl
-+ 				 || rs6000_cpu == PROCESSOR_POWER6
-+ 				 || rs6000_cpu == PROCESSOR_POWER7
-+ 				 || rs6000_cpu == PROCESSOR_PPCE500MC
-+-				 || rs6000_cpu == PROCESSOR_PPCE500MC64);
-++				 || rs6000_cpu == PROCESSOR_PPCE500MC64
-++				 || rs6000_cpu == PROCESSOR_PPCE5500);
-+ 
-+   /* Allow debug switches to override the above settings.  These are set to -1
-+      in rs6000.opt to indicate the user hasn't directly set the switch.  */
-+@@ -3245,6 +3275,10 @@ rs6000_option_override_internal (bool gl
-+ 	rs6000_cost = &ppce500mc64_cost;
-+ 	break;
-+ 
-++      case PROCESSOR_PPCE5500:
-++	rs6000_cost = &ppce5500_cost;
-++	break;
-++
-+       case PROCESSOR_TITAN:
-+ 	rs6000_cost = &titan_cost;
-+ 	break;
-+@@ -23227,6 +23261,7 @@ rs6000_adjust_cost (rtx insn, rtx link, 
-+                  || rs6000_cpu_attr == CPU_PPC750
-+                  || rs6000_cpu_attr == CPU_PPC7400
-+                  || rs6000_cpu_attr == CPU_PPC7450
-++                 || rs6000_cpu_attr == CPU_PPCE5500
-+                  || rs6000_cpu_attr == CPU_POWER4
-+                  || rs6000_cpu_attr == CPU_POWER5
-+ 		 || rs6000_cpu_attr == CPU_POWER7
-+@@ -23771,6 +23806,7 @@ rs6000_issue_rate (void)
-+   case CPU_PPCE300C3:
-+   case CPU_PPCE500MC:
-+   case CPU_PPCE500MC64:
-++  case CPU_PPCE5500:
-+   case CPU_TITAN:
-+     return 2;
-+   case CPU_RIOS2:
-+Index: gcc-4_6-branch/gcc/config/rs6000/rs6000.h
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config/rs6000/rs6000.h
-++++ gcc-4_6-branch/gcc/config/rs6000/rs6000.h
-+@@ -168,6 +168,7 @@
-+ %{mcpu=e300c3: -me300} \
-+ %{mcpu=e500mc: -me500mc} \
-+ %{mcpu=e500mc64: -me500mc64} \
-++%{mcpu=e5500: -me5500} \
-+ %{maltivec: -maltivec} \
-+ %{mvsx: -mvsx %{!maltivec: -maltivec} %{!mcpu*: %(asm_cpu_power7)}} \
-+ -many"
-+@@ -477,13 +478,13 @@ extern int rs6000_vector_align[];
-+ 
-+ #define TARGET_FCTIDZ	TARGET_FCFID
-+ #define TARGET_STFIWX	TARGET_PPC_GFXOPT
-+-#define TARGET_LFIWAX	TARGET_CMPB
-+-#define TARGET_LFIWZX	TARGET_POPCNTD
-+-#define TARGET_FCFIDS	TARGET_POPCNTD
-+-#define TARGET_FCFIDU	TARGET_POPCNTD
-+-#define TARGET_FCFIDUS	TARGET_POPCNTD
-+-#define TARGET_FCTIDUZ	TARGET_POPCNTD
-+-#define TARGET_FCTIWUZ	TARGET_POPCNTD
-++#define TARGET_LFIWAX	(TARGET_CMPB && rs6000_cpu != PROCESSOR_PPCE5500)
-++#define TARGET_LFIWZX	(TARGET_POPCNTD && rs6000_cpu != PROCESSOR_PPCE5500)
-++#define TARGET_FCFIDS	TARGET_LFIWZX
-++#define TARGET_FCFIDU	TARGET_LFIWZX
-++#define TARGET_FCFIDUS	TARGET_LFIWZX
-++#define TARGET_FCTIDUZ	TARGET_LFIWZX
-++#define TARGET_FCTIWUZ	TARGET_LFIWZX
-+ 
-+ /* E500 processors only support plain "sync", not lwsync.  */
-+ #define TARGET_NO_LWSYNC TARGET_E500
-+@@ -494,10 +495,12 @@ extern int rs6000_vector_align[];
-+ 
-+ #define TARGET_FRE	(TARGET_HARD_FLOAT && TARGET_FPRS \
-+ 			 && TARGET_DOUBLE_FLOAT \
-+-			 && (TARGET_POPCNTB || VECTOR_UNIT_VSX_P (DFmode)))
-++			 && (TARGET_POPCNTB || VECTOR_UNIT_VSX_P (DFmode)) \
-++			 && rs6000_cpu != PROCESSOR_PPCE5500)
-+ 
-+ #define TARGET_FRSQRTES	(TARGET_HARD_FLOAT && TARGET_POPCNTB \
-+-			 && TARGET_FPRS && TARGET_SINGLE_FLOAT)
-++			 && TARGET_FPRS && TARGET_SINGLE_FLOAT \
-++			 && rs6000_cpu != PROCESSOR_PPCE5500)
-+ 
-+ #define TARGET_FRSQRTE	(TARGET_HARD_FLOAT && TARGET_FPRS \
-+ 			 && TARGET_DOUBLE_FLOAT \
-+Index: gcc-4_6-branch/gcc/config/rs6000/rs6000.md
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config/rs6000/rs6000.md
-++++ gcc-4_6-branch/gcc/config/rs6000/rs6000.md
-+@@ -126,7 +126,7 @@
-+ 
-+ ;; Define an insn type attribute.  This is used in function unit delay
-+ ;; computations.
-+-(define_attr "type" "integer,two,three,load,load_ext,load_ext_u,load_ext_ux,load_ux,load_u,store,store_ux,store_u,fpload,fpload_ux,fpload_u,fpstore,fpstore_ux,fpstore_u,vecload,vecstore,imul,imul2,imul3,lmul,idiv,ldiv,insert_word,branch,cmp,fast_compare,compare,var_delayed_compare,delayed_compare,imul_compare,lmul_compare,fpcompare,cr_logical,delayed_cr,mfcr,mfcrf,mtcr,mfjmpr,mtjmpr,fp,fpsimple,dmul,sdiv,ddiv,ssqrt,dsqrt,jmpreg,brinc,vecsimple,veccomplex,vecdiv,veccmp,veccmpsimple,vecperm,vecfloat,vecfdiv,isync,sync,load_l,store_c,shift,trap,insert_dword,var_shift_rotate,cntlz,exts,mffgpr,mftgpr,isel"
-++(define_attr "type" "integer,two,three,load,load_ext,load_ext_u,load_ext_ux,load_ux,load_u,store,store_ux,store_u,fpload,fpload_ux,fpload_u,fpstore,fpstore_ux,fpstore_u,vecload,vecstore,imul,imul2,imul3,lmul,idiv,ldiv,insert_word,branch,cmp,fast_compare,compare,var_delayed_compare,delayed_compare,imul_compare,lmul_compare,fpcompare,cr_logical,delayed_cr,mfcr,mfcrf,mtcr,mfjmpr,mtjmpr,fp,fpsimple,dmul,sdiv,ddiv,ssqrt,dsqrt,jmpreg,brinc,vecsimple,veccomplex,vecdiv,veccmp,veccmpsimple,vecperm,vecfloat,vecfdiv,isync,sync,load_l,store_c,shift,trap,insert_dword,var_shift_rotate,cntlz,exts,mffgpr,mftgpr,isel,popcnt"
-+   (const_string "integer"))
-+ 
-+ ;; Define floating point instruction sub-types for use with Xfpu.md
-+@@ -148,7 +148,7 @@
-+ ;; Processor type -- this attribute must exactly match the processor_type
-+ ;; enumeration in rs6000.h.
-+ 
-+-(define_attr "cpu" "rios1,rios2,rs64a,mpccore,ppc403,ppc405,ppc440,ppc476,ppc601,ppc603,ppc604,ppc604e,ppc620,ppc630,ppc750,ppc7400,ppc7450,ppc8540,ppce300c2,ppce300c3,ppce500mc,ppce500mc64,power4,power5,power6,power7,cell,ppca2,titan"
-++(define_attr "cpu" "rios1,rios2,rs64a,mpccore,ppc403,ppc405,ppc440,ppc476,ppc601,ppc603,ppc604,ppc604e,ppc620,ppc630,ppc750,ppc7400,ppc7450,ppc8540,ppce300c2,ppce300c3,ppce500mc,ppce500mc64,ppce5500,power4,power5,power6,power7,cell,ppca2,titan"
-+   (const (symbol_ref "rs6000_cpu_attr")))
-+ 
-+ 
-+@@ -176,6 +176,7 @@
-+ (include "e300c2c3.md")
-+ (include "e500mc.md")
-+ (include "e500mc64.md")
-++(include "e5500.md")
-+ (include "power4.md")
-+ (include "power5.md")
-+ (include "power6.md")
-+@@ -2302,13 +2303,17 @@
-+         (unspec:GPR [(match_operand:GPR 1 "gpc_reg_operand" "r")]
-+                      UNSPEC_POPCNTB))]
-+   "TARGET_POPCNTB"
-+-  "popcntb %0,%1")
-++  "popcntb %0,%1"
-++  [(set_attr "length" "4")
-++   (set_attr "type" "popcnt")])
-+ 
-+ (define_insn "popcntd<mode>2"
-+   [(set (match_operand:GPR 0 "gpc_reg_operand" "=r")
-+ 	(popcount:GPR (match_operand:GPR 1 "gpc_reg_operand" "r")))]
-+   "TARGET_POPCNTD"
-+-  "popcnt<wd> %0,%1")
-++  "popcnt<wd> %0,%1"
-++  [(set_attr "length" "4")
-++   (set_attr "type" "popcnt")])
-+ 
-+ (define_expand "popcount<mode>2"
-+   [(set (match_operand:GPR 0 "gpc_reg_operand" "")
-+@@ -5957,10 +5962,10 @@
-+    && ((TARGET_PPC_GFXOPT
-+         && !HONOR_NANS (<MODE>mode)
-+         && !HONOR_SIGNED_ZEROS (<MODE>mode))
-+-       || TARGET_CMPB
-++       || TARGET_LFIWAX
-+        || VECTOR_UNIT_VSX_P (<MODE>mode))"
-+ {
-+-  if (TARGET_CMPB || VECTOR_UNIT_VSX_P (<MODE>mode))
-++  if (TARGET_LFIWAX || VECTOR_UNIT_VSX_P (<MODE>mode))
-+     {
-+       emit_insn (gen_copysign<mode>3_fcpsgn (operands[0], operands[1],
-+ 					     operands[2]));
-+@@ -5979,7 +5984,7 @@
-+ 	(unspec:SFDF [(match_operand:SFDF 1 "gpc_reg_operand" "<rreg2>")
-+ 		      (match_operand:SFDF 2 "gpc_reg_operand" "<rreg2>")]
-+ 		     UNSPEC_COPYSIGN))]
-+-  "TARGET_CMPB && !VECTOR_UNIT_VSX_P (<MODE>mode)"
-++  "TARGET_LFIWAX && !VECTOR_UNIT_VSX_P (<MODE>mode)"
-+   "fcpsgn %0,%2,%1"
-+   [(set_attr "type" "fp")])
-+ 
--- 
-1.7.3.4
+Continuing with the following parameters:
+KERNEL: [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
+ROOTFS: [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2]
+FSTYPE: [ext2]
+Setting up tap interface under sudo
+[sudo] password for samuel:
+sudo runqemu-ifup <gid> <native-sysroot-basedir>
+samuel@S-Linux:/var/oe-core/setup-scripts$
+-
+This is all, no QEMU window appears or any other messages, or do I
+have run something else.
+
+For remote debugging purpose I wrote a generic script that will set up
+a tap and bridge interface and restores the network connection after
+qemu closes.
+This script can also run QEMU with standard network settings.
+Basically runqemu and my scripts should do the same thing(?), but
+since runqemu doesn't work for me I made my own scripts (also it won't
+need sudo if the standard network option is used).
+
+The scripts are attached in this mail, to run the script you could use
+"sh /somedir/generic_qemu_loader.sh --help".
+This script however may not work on other systems than ubuntu, I share
+it only for information exchange purpose.
+If you still want to use it, keep in thought that I am a beginner in
+shell coding!
+
+The difference between the standard network settings and the
+bridge/tap interfaces is, that the standard network only supports
+outgoing TCP and UDP connections while the bridge/tap interface can be
+used to host, for example, a gdbserver.
 
 
+Regards
+Samuel
 
+--002215974dee7f196904a9a97c11
+Content-Type: application/x-gzip; name="generic_qemu_loader.tar.gz"
+Content-Disposition: attachment; filename="generic_qemu_loader.tar.gz"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_gqxftmk90
+
+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
+
+--002215974dee7f196904a9a97c11--
