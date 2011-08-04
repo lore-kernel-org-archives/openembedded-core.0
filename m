@@ -1,20 +1,23 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Qp5Wx-0005MH-Gh
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Qp5X0-0005MJ-5Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 23:32:39 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Aug 2011 14:28:14 -0700
+	Thu, 04 Aug 2011 23:32:42 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 04 Aug 2011 14:28:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,319,1309762800"; d="scan'208";a="35511606"
+X-IronPort-AV: E=Sophos;i="4.67,319,1309762800"; 
+   d="scan'208";a="4260466"
 Received: from nbuild1.sc.intel.com ([172.25.110.36])
-	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2011 14:28:14 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 04 Aug 2011 14:28:16 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Aug 2011 08:01:52 -0700
-Message-Id: <cover.1312469789.git.nitin.a.kamble@intel.com>
+Date: Thu,  4 Aug 2011 08:01:47 -0700
+Message-Id: <e5fc6a2b0a315f9ade50a7f357b98068c38d49e3.1312469789.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6
-Subject: [PATCH 00/10] Commits to enable x32 infrastructure
+In-Reply-To: <cover.1312469789.git.nitin.a.kamble@intel.com>
+References: <cover.1312469789.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 01/10] kern-tools: extend arbitrary repository support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,60 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 21:32:39 -0000
+X-List-Received-Date: Thu, 04 Aug 2011 21:32:42 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-Here are commits to enable infrastructure for use of x32 layer.
+Updating the kern-tools SRCREV to pickup better support for
+non-yocto repository support.
 
-The kernel fixes from Bruce are for getting linux-korg recipe to work.
+  59859ca createme: use branch name when creating meta data
+  91b4275 configme: determine meta branch based on directories, not branch naming
+  f5a915c kgit-meta: make branch creation and renaming more robust
 
-The following changes since commit 5561aaad28ed6db6d962f88db32814043044731f:
-
-  eglibc: Fix patch merge breakage (2011-08-04 15:41:19 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/x32.rebased
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/x32.rebased
-
-Bruce Ashfield (3):
-  kern-tools: extend arbitrary repository support
-  linux-yocto: process the existing branch for configuration
-  linux-yocto: pass KMACHINE to updateme, not MACHINE
-
-Nitin A Kamble (7):
-  glibc: bring back the needed support for glibc recipes
-  toolchain-scripts & other classes: add TARGET_LD_ARCH &
-    TARGET_AS_ARCH vars
-  kernel,module-base.bbclass: fix KERNEL_LD & KERNEL_AR vars
-  siteinfo.bbclass: add entries for new x86_64 ABI targets
-  insane.bbclass: add entries for linux-gnu<ABI>
-  x86 tune inc files: add x32 abi tune parameters
-  local.conf.sample: make BBMASK assignment weak
-
- meta-yocto/conf/local.conf.sample                  |    2 +-
- meta/classes/allarch.bbclass                       |    2 +
- meta/classes/cross-canadian.bbclass                |    2 +
- meta/classes/cross.bbclass                         |    2 +
- meta/classes/crosssdk.bbclass                      |    2 +
- meta/classes/insane.bbclass                        |    9 +++++
- meta/classes/kernel-yocto.bbclass                  |   11 +-----
- meta/classes/kernel.bbclass                        |    2 +-
- meta/classes/module-base.bbclass                   |    4 +-
- meta/classes/native.bbclass                        |   10 ++++--
- meta/classes/nativesdk.bbclass                     |    4 ++
- meta/classes/siteinfo.bbclass                      |   14 ++++++++-
- meta/classes/toolchain-scripts.bbclass             |    9 +++--
- meta/conf/bitbake.conf                             |   23 ++++++++++----
- meta/conf/distro/include/tclibc-glibc.inc          |   32 ++++++++++++++++++++
- meta/conf/distro/include/tcmode-default.inc        |    5 +++
- meta/conf/machine/include/ia32/arch-ia32.inc       |   23 ++++++++++++--
- meta/conf/machine/include/tune-core2.inc           |    4 ++
- meta/conf/machine/include/tune-x86_64.inc          |    2 +-
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
  .../kern-tools/kern-tools-native_git.bb            |    2 +-
- 20 files changed, 132 insertions(+), 32 deletions(-)
- create mode 100644 meta/conf/distro/include/tclibc-glibc.inc
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 1fbb1f7..7ede52a 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d8
+ 
+ DEPENDS = "git-native guilt-native"
+ 
+-SRCREV = "f5a915c277a37ba5949b4c0778356189e7dd9ec0"
++SRCREV = "cdcb97cfea5f98003b2e0fb1a77b6d0d016a69e7"
+ PR = r10
+ PV = "0.1+git${SRCPV}"
+ 
 -- 
 1.7.6
 
