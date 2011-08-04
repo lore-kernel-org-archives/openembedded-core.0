@@ -1,21 +1,30 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX199xaLq3lkcoLXp1aMQ0ymrFABuLLnH+YM=])
+Received: from mail-wy0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1QosQE-0005ZL-Ip
+	(envelope-from <koen@dominion.thruhere.net>) id 1QosZ1-0005py-FT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 09:32:51 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p747SSap008894
+	Thu, 04 Aug 2011 09:41:55 +0200
+Received: by wyg30 with SMTP id 30so1221699wyg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Aug 2011 02:28:28 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Aug 2011 02:28:27 -0500
-Message-Id: <1312442907-21017-2-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-In-Reply-To: <1312442907-21017-1-git-send-email-galak@kernel.crashing.org>
-References: <1312442907-21017-1-git-send-email-galak@kernel.crashing.org>
-Subject: [PATCH 2/2] arch-powerpc64: set BASE_LIB to 'lib64'
+	Thu, 04 Aug 2011 00:37:32 -0700 (PDT)
+Received: by 10.227.7.18 with SMTP id b18mr395651wbb.63.1312443452085;
+	Thu, 04 Aug 2011 00:37:32 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl [84.80.112.235])
+	by mx.google.com with ESMTPS id eo18sm1262796wbb.46.2011.08.04.00.37.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 04 Aug 2011 00:37:30 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1244.3)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAD=GYpae2g43NMJnpD96cv9dpxoyJgB_CEoaUVEFpMsFKB24Kw@mail.gmail.com>
+Date: Thu, 4 Aug 2011 09:37:28 +0200
+Message-Id: <B80761F6-F016-4AF5-9BF4-21E64368DCBB@dominion.thruhere.net>
+References: <CAD=GYpae2g43NMJnpD96cv9dpxoyJgB_CEoaUVEFpMsFKB24Kw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1244.3)
+Cc: "Kridner, Jason" <jdk@ti.com>,
+	Discussion of the angstrom distribution development
+	<angstrom-distro-devel@linuxtogo.org>, "Kooi, Koen" <k-kooi@ti.com>
+Subject: Re: ti-codec-engine build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,28 +39,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 07:32:51 -0000
+X-List-Received-Date: Thu, 04 Aug 2011 07:41:55 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Default baselib location on ppc64 to 'lib64'.  This matches what other
-Linux ppc64 distro's have done to date and keeps thing in sync for the
-multilib case.
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
- .../machine/include/powerpc/arch-powerpc64.inc     |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+Op 4 aug. 2011, om 08:07 heeft Joel A Fernandes het volgende geschreven:
 
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-index 7ef8ddc..7681eae 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-@@ -10,3 +10,4 @@ TUNE_ARCH .= "${@bb.utils.contains("TUNE_FEATURES", [ "m64" ], "powerpc64", "",
- AVAILTUNES += "powerpc64"
- TUNE_FEATURES_tune-powerpc64 ?= "m64 fpu-hard"
- BASE_LIB_tune-powerpc64 = "lib64"
-+BASE_LIB = "lib64"
--- 
-1.7.3.4
+> I have been working on migrating the codec-engine recipe from OE
+> classic to OE-core,
+>=20
+> As of now, do_compile stage fails as it expects "bin/ar" in the
+> toolchain path. What would be a correct fix for this?
+>=20
+> My meta-texasinstruments git tree is at:
+> https://github.com/joelagnel/meta-texasinstruments
+>=20
+> Here is a build log:
+>=20
+> [..]
+>=20
+> # clv5T viddec1_copy.c ...
+> =
+/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglibc=
+/sysroots/i686-linux/usr/bin/armv7a-angstrom-linux-gnueabi/arm-angstrom-li=
+nux-gnueabi-gcc
+> -c -MD -MF package/lib/lib/release/viddec1_copy/viddec1_copy.ov5T.dep
 
+So here it's picking up TOOLCHAIN_PATH correctly thru CGTOOLS_V5T
+
+> make[1]: =
+/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglibc=
+/sysroots/i686-linux/usr/bin/armv7a-angstrom-linux-gnueabi/arm-angstrom-li=
+nux-gnueabi/bin/ar:
+
+But it seems to want to call ar differently. In other recipes we add the =
+following to make:
+
+AR=3D"${TOOLCHAIN_PATH}/${TARGET_PREFIX}ar" \
+ARCHIVER=3D"${TOOLCHAIN_PATH}/${TARGET_PREFIX}ar" \
+
+And a minor nit: please copy over only 1 version when moving things to =
+meta-ti, the latest version is usually fine.
+
+regards,
+
+Koen=
 
 
