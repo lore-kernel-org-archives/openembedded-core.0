@@ -1,19 +1,27 @@
-Received: from gate.crashing.org ([63.228.1.57]
-	ident=[U2FsdGVkX19G4h/GD+dRNMJiq6f++4dG+jjaFB/nX1E=])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <galak@kernel.crashing.org>) id 1Qop4m-0004VV-Rf
+	(envelope-from <sgw@linux.intel.com>) id 1Qop5g-0004Xt-CD
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 05:58:29 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.13.8) with ESMTP id p743s5mr001469
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 3 Aug 2011 22:54:05 -0500
-From: Kumar Gala <galak@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Aug 2011 22:54:05 -0500
-Message-Id: <1312430045-4947-1-git-send-email-galak@kernel.crashing.org>
-X-Mailer: git-send-email 1.5.6.5
-Subject: [PATCH v3] libmusicbrainz: utilize base_libdir when configured
+	Thu, 04 Aug 2011 05:59:25 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Aug 2011 20:55:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,314,1309762800"; d="scan'208";a="37698289"
+Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2011 20:55:00 -0700
+Message-ID: <4E3A1813.3010906@linux.intel.com>
+Date: Wed, 03 Aug 2011 20:54:59 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
+	Lightning/1.0b3pre Thunderbird/3.1.10
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>	<37BC502A-3FEA-4059-85FB-F6A3F401C3F9@kernel.crashing.org>	<4E3985C8.9070000@linux.intel.com>	<D9C996B9-65E0-4373-90F5-5B5286E05444@kernel.crashing.org>	<1312410888.2344.718.camel@rex>
+	<0BDD06D6-757A-4F43-B38E-95C857324D14@kernel.crashing.org>
+In-Reply-To: <0BDD06D6-757A-4F43-B38E-95C857324D14@kernel.crashing.org>
+Subject: Re: [PATCH] scripts/oe-buildenv-internal: Add	SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,71 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 03:58:29 -0000
+X-List-Received-Date: Thu, 04 Aug 2011 03:59:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Pass $libdir through when we configure to support a location
-other than /lib.  We also have to tweak the cmake files to allow $libdir
-to even be set.
+On 08/03/2011 07:56 PM, Kumar Gala wrote:
+>
+> On Aug 3, 2011, at 5:34 PM, Richard Purdie wrote:
+>
+>> On Wed, 2011-08-03 at 14:41 -0500, Kumar Gala wrote:
+>>> On Aug 3, 2011, at 12:30 PM, Saul Wold wrote:
+>>>
+>>>> On 08/03/2011 10:00 AM, Kumar Gala wrote:
+>>>>>
+>>>>> On Jul 28, 2011, at 8:10 AM, Kumar Gala wrote:
+>>>>>
+>>>>>> If a SOCKS5 gateway is needed for a proxy access like git it might also
+>>>>>> require authentication to the proxy via a password and username.  Adding
+>>>>>> SOCKS5_USER&   SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for automation
+>>>>>> of the authentication request to occur when something like a git fetch
+>>>>>> is going through the proxy.
+>>>>>>
+>>>>>> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
+>>>>>> ---
+>>>>>> * Fixes issue with a git fetch request failing to get pass a firewall
+>>>>>>
+>>>>>> scripts/oe-buildenv-internal |    2 +-
+>>>>>> 1 files changed, 1 insertions(+), 1 deletions(-)
+>>>>>>
+>>>>>> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+>>>>>> index c13fc40..b223292 100755
+>>>>>> --- a/scripts/oe-buildenv-internal
+>>>>>> +++ b/scripts/oe-buildenv-internal
+>>>>>> @@ -55,4 +55,4 @@ unset BITBAKEDIR
+>>>>>> export BUILDDIR
+>>>>>> export PATH
+>>>>>>
+>>>>>> -export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
+>>>>>> +export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD SOCSK5_USER"
+>>>>>> --
+>>>>>> 1.7.3.4
+>>>>>
+>>>>> Ping on this patch
+>>>>>
+>>>> Kumar,
+>>>>
+>>>> I think you were asked to modify this patch so that the additinal
+>>> SOCKS5_* do not get into sstate, Paul Eggleton provided the
+>>> BB_HASHSPACE_WHITELIST info.
+>>>>
+>>>> Please update this patch
+>>>>
+>>>> Thanks
+>>>> 	Sau!
+>>>
+>>>  From the thread it sounded as if that was NOT needed.  As nothing
+>>> refers to SOCKS5_* we didn't need to add it.  Much like how it doesn't
+>>> have SSH_AGENT_PID or SSH_AUTH_SOCK in it.
+>>
+>> It would be good is someone could confirm it but its in the environment
+>> so it likely is needed.
+>
+> Not sure I follow.  Confirm what?
+>
+Kumar,
 
-Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
----
-v2: Make it libdir instead of base_libdir
-v3: added patch to make it so we can set libdir and it works
+I think Richard wants you to confirm that the SSH_* and SOCKS5_* 
+information is not stored in the shared state hash.
 
- .../allow-libdir-override.patch                    |   19 +++++++++++++++++++
- .../musicbrainz/libmusicbrainz_3.0.3.bb            |    7 +++++--
- 2 files changed, 24 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-multimedia/musicbrainz/libmusicbrainz-3.0.3/allow-libdir-override.patch
+Sau!
 
-diff --git a/meta/recipes-multimedia/musicbrainz/libmusicbrainz-3.0.3/allow-libdir-override.patch b/meta/recipes-multimedia/musicbrainz/libmusicbrainz-3.0.3/allow-libdir-override.patch
-new file mode 100644
-index 0000000..88f414a
---- /dev/null
-+++ b/meta/recipes-multimedia/musicbrainz/libmusicbrainz-3.0.3/allow-libdir-override.patch
-@@ -0,0 +1,19 @@
-+Allow LIB_INSTALL_DIR to be set by the the cmake configure invocation.  We dont
-+easily have a way of determining something that patches ${LIB_SUFFIX} so we'll
-+set LIB_INSTALL_DIR.
-+
-+Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
-+
-+Index: libmusicbrainz-3.0.3/CMakeLists.txt
-+===================================================================
-+--- libmusicbrainz-3.0.3.orig/CMakeLists.txt
-++++ libmusicbrainz-3.0.3/CMakeLists.txt
-+@@ -26,7 +26,7 @@ FIND_PACKAGE(DiscId)
-+ SET(LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)")
-+ SET(EXEC_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX} CACHE PATH "Installation prefix for executables and object code libraries" FORCE)
-+ SET(BIN_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/bin CACHE PATH "Installation prefix for user executables" FORCE)
-+-SET(LIB_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH  "Installation prefix for object code libraries" FORCE)
-++SET(LIB_INSTALL_DIR ${EXEC_INSTALL_PREFIX}/lib${LIB_SUFFIX} CACHE PATH  "Installation prefix for object code libraries")
-+ SET(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "Installation prefix for C header files" FORCE)
-+ 
-+ CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/libmusicbrainz3.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/libmusicbrainz3.pc)
-diff --git a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb
-index d6fb2f4..4814b6d 100644
---- a/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb
-+++ b/meta/recipes-multimedia/musicbrainz/libmusicbrainz_3.0.3.bb
-@@ -6,12 +6,15 @@ LIC_FILES_CHKSUM = "file://COPYING.txt;md5=fbc093901857fcd118f065f900982c24 \
-                     file://include/musicbrainz3/includes.h;beginline=1;endline=21;md5=9ab2846573f560cea7561da472803a72"
- DEPENDS = "expat neon"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://ftp.musicbrainz.org/pub/musicbrainz/${BPN}-${PV}.tar.gz \
--           file://fix_build_issue_for_gcc_4.5.0.patch "
-+           file://fix_build_issue_for_gcc_4.5.0.patch \
-+           file://allow-libdir-override.patch "
- 
- SRC_URI[md5sum] = "f4824d0a75bdeeef1e45cc88de7bb58a"
- SRC_URI[sha256sum] = "7fd459a9fd05be9faec60a9a21caa9a1e9fda03147d58d8c7c95f33582a738c5"
- 
- inherit cmake pkgconfig
-+
-+EXTRA_OECMAKE = "-DLIB_INSTALL_DIR:PATH=${libdir}"
--- 
-1.7.3.4
-
+> - k
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
