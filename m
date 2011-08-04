@@ -1,26 +1,22 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1QouE2-0002ky-Uy
+	(envelope-from <lianhao.lu@intel.com>) id 1QovKC-0004M4-Sw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 11:28:22 +0200
-Received: from cambridge.roku.com ([81.142.160.137] helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Qou9p-0004a7-PZ
-	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 11:24:01 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 04 Aug 2011 10:24:00 +0100
-In-Reply-To: <4E0C885D.9000505@gmail.com>
-References: <1308219330.25285.4194.camel@phil-desktop>
-	<4DFA0824.5030809@gmail.com> <1308234598.25285.4740.camel@phil-desktop>
-	<4DFA8F49.8000309@gmail.com> <1309429954.2551.109.camel@phil-desktop>
-	<4E0C885D.9000505@gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1312449841.4325.95.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: eglibc testing?
+	Thu, 04 Aug 2011 12:38:49 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Aug 2011 03:34:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,315,1309762800"; d="scan'208";a="35726871"
+Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.146])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Aug 2011 03:34:23 -0700
+From: Lianhao Lu <lianhao.lu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Aug 2011 18:36:23 +0800
+Message-Id: <bc89b720712af0813e1e85285ee1dcbbd260fcfd.1312454023.git.lianhao.lu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1312454023.git.lianhao.lu@intel.com>
+References: <cover.1312454023.git.lianhao.lu@intel.com>
+Subject: [PATCH 1/1] eglibc-package.inc: Fixed error in referencing PKGSUFFIX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,25 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 09:28:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Aug 2011 10:38:49 -0000
 
-On Thu, 2011-06-30 at 07:29 -0700, Khem Raj wrote:
-> On 06/30/2011 03:32 AM, Phil Blundell wrote:
-> > On Thu, 2011-06-16 at 16:18 -0700, Khem Raj wrote:
-> >> Yes I think I should put together my mechanism somewhere and post it
-> >> and dejaGNU setup I use for cross testing
-> >
-> > Did you get a chance to do this at all?
-> >
-> 
-> so far no. Let me collect them and make sure they work
+[YOCTO #1329] Added the missing $ when referencing PKGSUFFIX in FILES_*
+variables set.
 
-Just a quick reminder about this :-)
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ meta/recipes-core/eglibc/eglibc-package.inc |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-p.
-
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 77519d2..5308bb9 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -56,10 +56,10 @@ libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${ba
+ FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${@base_conditional('USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf', '', d)}"
+ FILES_ldd${PKGSUFFIX} = "${bindir}/ldd"
+ FILES_libsegfault${PKGSUFFIX} = "${base_libdir}/libSegFault*"
+-FILES_libcidn{PKGSUFFIX} = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
+-FILES_libmemusage{PKGSUFFIX} = "${base_libdir}/libmemusage.so"
+-FILES_eglibc-extra-nss{PKGSUFFIX} = "${base_libdir}/libnss_*-*.so ${base_libdir}/libnss_*.so.*"
+-FILES_sln{PKGSUFFIX} = "/sbin/sln"
++FILES_libcidn${PKGSUFFIX} = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
++FILES_libmemusage${PKGSUFFIX} = "${base_libdir}/libmemusage.so"
++FILES_eglibc-extra-nss${PKGSUFFIX} = "${base_libdir}/libnss_*-*.so ${base_libdir}/libnss_*.so.*"
++FILES_sln${PKGSUFFIX} = "/sbin/sln"
+ FILES_${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/"
+ FILES_libsotruss${PKGSUFFIX} = "${libdir}/audit/sotruss-lib.so"
+ FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*.a \
+-- 
+1.7.0.4
 
 
 
