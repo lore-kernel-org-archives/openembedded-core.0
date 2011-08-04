@@ -1,33 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qok6C-0005fL-GJ for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 00:39:36 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73MZDhn029498;
-	Wed, 3 Aug 2011 23:35:13 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28830-03; Wed,  3 Aug 2011 23:35:09 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p73MZ7VV029488
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 3 Aug 2011 23:35:08 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga11.intel.com ([192.55.52.93])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dongxiao.xu@intel.com>) id 1QomMT-0000ZR-PH
+	for openembedded-core@lists.openembedded.org;
+	Thu, 04 Aug 2011 03:04:41 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2011 18:00:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,313,1309762800"; d="scan'208";a="37670333"
+Received: from pgsmsx602.gar.corp.intel.com ([10.221.43.81])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2011 18:00:05 -0700
+Received: from pgsmsx102.gar.corp.intel.com (10.221.44.80) by
+	pgsmsx602.gar.corp.intel.com (10.221.43.81) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 4 Aug 2011 08:59:49 +0800
+Received: from shsmsx601.ccr.corp.intel.com (10.239.4.112) by
+	PGSMSX102.gar.corp.intel.com (10.221.44.80) with Microsoft SMTP Server
+	(TLS) id 14.1.289.1; Thu, 4 Aug 2011 08:59:48 +0800
+Received: from shsmsx501.ccr.corp.intel.com ([10.239.4.141]) by
+	shsmsx601.ccr.corp.intel.com ([10.239.4.112]) with mapi; Thu, 4 Aug 2011
+	08:59:47 +0800
+From: "Xu, Dongxiao" <dongxiao.xu@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <D9C996B9-65E0-4373-90F5-5B5286E05444@kernel.crashing.org>
-References: <1311858624-3686-1-git-send-email-galak@kernel.crashing.org>
-	<37BC502A-3FEA-4059-85FB-F6A3F401C3F9@kernel.crashing.org>
-	<4E3985C8.9070000@linux.intel.com>
-	<D9C996B9-65E0-4373-90F5-5B5286E05444@kernel.crashing.org>
-Date: Wed, 03 Aug 2011 23:34:48 +0100
-Message-ID: <1312410888.2344.718.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] scripts/oe-buildenv-internal: Add SOCKS5_{USER, PASSWD} to BB_ENV_EXTRAWHITE
+Date: Thu, 4 Aug 2011 08:59:47 +0800
+Thread-Topic: [OE-core] [PATCH 5/7] multilib: remove MULTILIB_PACKAGE_ARCHS
+	variable
+Thread-Index: AcxR8pgGWV9VYL3HT6SG22N8IuOmRgATepjg
+Message-ID: <D5AB6E638E5A3E4B8F4406B113A5A19A12D7029D0B@shsmsx501.ccr.corp.intel.com>
+References: <cover.1312384552.git.dongxiao.xu@intel.com>
+	<ba3e6c58f74119dcdf1c26cfa6f31ab1383004d1.1312384552.git.dongxiao.xu@intel.com>
+	<4E396A0A.5010205@windriver.com>
+In-Reply-To: <4E396A0A.5010205@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US
+MIME-Version: 1.0
+Subject: Re: [PATCH 5/7] multilib: remove MULTILIB_PACKAGE_ARCHS variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,66 +50,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Aug 2011 22:39:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Aug 2011 01:04:41 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2011-08-03 at 14:41 -0500, Kumar Gala wrote:
-> On Aug 3, 2011, at 12:30 PM, Saul Wold wrote:
-> 
-> > On 08/03/2011 10:00 AM, Kumar Gala wrote:
-> >> 
-> >> On Jul 28, 2011, at 8:10 AM, Kumar Gala wrote:
-> >> 
-> >>> If a SOCKS5 gateway is needed for a proxy access like git it might also
-> >>> require authentication to the proxy via a password and username.  Adding
-> >>> SOCKS5_USER&  SOCKS5_PASSWD to BB_ENV_EXTRAWHITE allow for automation
-> >>> of the authentication request to occur when something like a git fetch
-> >>> is going through the proxy.
-> >>> 
-> >>> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
-> >>> ---
-> >>> * Fixes issue with a git fetch request failing to get pass a firewall
-> >>> 
-> >>> scripts/oe-buildenv-internal |    2 +-
-> >>> 1 files changed, 1 insertions(+), 1 deletions(-)
-> >>> 
-> >>> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-> >>> index c13fc40..b223292 100755
-> >>> --- a/scripts/oe-buildenv-internal
-> >>> +++ b/scripts/oe-buildenv-internal
-> >>> @@ -55,4 +55,4 @@ unset BITBAKEDIR
-> >>> export BUILDDIR
-> >>> export PATH
-> >>> 
-> >>> -export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND"
-> >>> +export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND SOCKS5_PASSWD SOCSK5_USER"
-> >>> --
-> >>> 1.7.3.4
-> >> 
-> >> Ping on this patch
-> >> 
-> > Kumar,
-> > 
-> > I think you were asked to modify this patch so that the additinal
-> SOCKS5_* do not get into sstate, Paul Eggleton provided the
-> BB_HASHSPACE_WHITELIST info.
-> > 
-> > Please update this patch
-> > 
-> > Thanks
-> > 	Sau!
-> 
-> From the thread it sounded as if that was NOT needed.  As nothing
-> refers to SOCKS5_* we didn't need to add it.  Much like how it doesn't
-> have SSH_AGENT_PID or SSH_AUTH_SOCK in it.
+Hi Mark,
 
-It would be good is someone could confirm it but its in the environment
-so it likely is needed.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Mark Hatle
+> Sent: Wednesday, August 03, 2011 11:32 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 5/7] multilib: remove
+> MULTILIB_PACKAGE_ARCHS variable
+>=20
+> On 8/3/11 10:19 AM, Dongxiao Xu wrote:
+> > multilib package and normal package shares the same architecture
+> > deploy folder, thus we do not need the ${MULTILIB_PACKAGE_ARCHS}.
+>=20
+> This is incorrect behavior, at least for RPM.  The folder should have the
+> pkgarch specific to the tuning used to generate the multilib.  (Behavior =
+may be
+> correct for deb/ipk.)
 
-Cheers,
+Yes, ipk package name is different between normal package and multilib pack=
+age (tagged with MLPREFIX), so even they are put in the same deploy folder,=
+ there should be no problem.
 
-Richard
+However for currently for rpm multilib, the normal package and multilib pac=
+kage are in the same folder with same name, thus one will override the othe=
+r.
 
+Take "initscript" as an example, the normal rpm package name is: "initscrip=
+ts-1.0-r127.x86_64.rpm". However the lib32 version of initscript's rpm pack=
+age is also named as=20
+"initscripts-1.0-r127.x86_64.rpm", putting in the same deploy folder: "tmp/=
+deploy/rpm/x86_64".
+
+I think this should be an issue to fix, also we need to think about how to =
+co-work with ipk side.
+
+Thanks,
+Dongxiao
+
+>=20
+> (If RPM sees two packages with the same .arch, it assumes that it's an
+> upgrade operation.  If the .arch is different then it goes into the multi=
+lib mode
+> and will be able to install both packages together, assuming the conflict
+> resolution results in a working -- non-conflicting -- install solution.)
+>=20
+> --Mark
+>=20
+> > CC: Mark Hatle <mark.hatle@windriver.com>
+> > Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> > ---
+> >  meta/classes/package_rpm.bbclass      |   13 ++-----------
+> >  meta/classes/populate_sdk_rpm.bbclass |    3 ---
+> >  meta/classes/rootfs_rpm.bbclass       |    3 ---
+> >  3 files changed, 2 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/meta/classes/package_rpm.bbclass
+> > b/meta/classes/package_rpm.bbclass
+> > index abedc68..9d0eeba 100644
+> > --- a/meta/classes/package_rpm.bbclass
+> > +++ b/meta/classes/package_rpm.bbclass
+> > @@ -27,8 +27,7 @@ package_update_index_rpm () {
+> >
+> >  	# Update target packages
+> >  	base_archs=3D"${PACKAGE_ARCHS}"
+> > -	ml_archs=3D"${MULTILIB_PACKAGE_ARCHS}"
+> > -	package_update_index_rpm_common "${RPMCONF_TARGET_BASE}"
+> base_archs ml_archs
+> > +	package_update_index_rpm_common "${RPMCONF_TARGET_BASE}"
+> base_archs
+> >
+> >  	# Update SDK packages
+> >  	base_archs=3D"${SDK_PACKAGE_ARCHS}"
+> > @@ -76,7 +75,7 @@ package_update_index_rpm_common () {  #
+> > package_generate_rpm_conf () {
+> >  	# Update target packages
+> > -	package_generate_rpm_conf_common "${RPMCONF_TARGET_BASE}"
+> base_archs ml_archs
+> > +	package_generate_rpm_conf_common "${RPMCONF_TARGET_BASE}"
+> base_archs
+> >
+> >  	# Update SDK packages
+> >  	package_generate_rpm_conf_common "${RPMCONF_HOST_BASE}"
+> base_archs
+> > @@ -203,10 +202,6 @@ package_install_internal_rpm () {
+> >
+> >  				archvar=3Dbase_archs
+> >  				ml_pkg=3D$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
+> > -				if [ "${ml_pkg}" !=3D "${pkg}" ]; then
+> > -					archvar=3Dml_archs
+> > -				fi
+> > -
+> >  				pkg_name=3D$(resolve_package_rpm
+> ${confbase}-${archvar}.conf ${ml_pkg})
+> >  				if [ -z "$pkg_name" ]; then
+> >  					echo "Unable to find package $pkg ($ml_pkg)!"
+> > @@ -223,10 +218,6 @@ package_install_internal_rpm () {
+> >
+> >  			archvar=3Dbase_archs
+> >  			ml_pkg=3D$(echo ${pkg} | sed "s,^${MLPREFIX}\(.*\),\1,")
+> > -			if [ "${ml_pkg}" !=3D "${pkg}" ]; then
+> > -				archvar=3Dml_archs
+> > -			fi
+> > -
+> >  			pkg_name=3D$(resolve_package_rpm ${confbase}-${archvar}.conf
+> ${ml_pkg})
+> >  			if [ -z "$pkg_name" ]; then
+> >  				echo "Unable to find package $pkg ($ml_pkg)!"
+> > diff --git a/meta/classes/populate_sdk_rpm.bbclass
+> > b/meta/classes/populate_sdk_rpm.bbclass
+> > index 5fb0234..f33e4a9 100644
+> > --- a/meta/classes/populate_sdk_rpm.bbclass
+> > +++ b/meta/classes/populate_sdk_rpm.bbclass
+> > @@ -115,7 +115,6 @@ EOF
+> >  }
+> >
+> >  python () {
+> > -    ml_package_archs =3D ""
+> >      multilibs =3D d.getVar('MULTILIBS', True) or ""
+> >      for ext in multilibs.split():
+> >          eext =3D ext.split(':')
+> > @@ -125,8 +124,6 @@ python () {
+> >              localdata.setVar("OVERRIDES", overrides)
+> >              # TEMP: OVERRIDES isn't working right
+> >              localdata.setVar("DEFAULTTUNE",
+> localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False) or "=
+")
+> > -            ml_package_archs +=3D localdata.getVar("PACKAGE_ARCHS",
+> True) or ""
+> >              #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1],
+> localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+> > -    bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
+> >  }
+> >
+> > diff --git a/meta/classes/rootfs_rpm.bbclass
+> > b/meta/classes/rootfs_rpm.bbclass index 7c06064..c188d27 100644
+> > --- a/meta/classes/rootfs_rpm.bbclass
+> > +++ b/meta/classes/rootfs_rpm.bbclass
+> > @@ -209,7 +209,6 @@ python () {
+> >          bb.data.setVar('RPM_PREPROCESS_COMMANDS', '', d)
+> >          bb.data.setVar('RPM_POSTPROCESS_COMMANDS', '', d)
+> >
+> > -    ml_package_archs =3D ""
+> >      multilibs =3D d.getVar('MULTILIBS', True) or ""
+> >      for ext in multilibs.split():
+> >          eext =3D ext.split(':')
+> > @@ -219,7 +218,5 @@ python () {
+> >              localdata.setVar("OVERRIDES", overrides)
+> >              # TEMP: OVERRIDES isn't working right
+> >              localdata.setVar("DEFAULTTUNE",
+> localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + eext[1], False) or "=
+")
+> > -            ml_package_archs +=3D localdata.getVar("PACKAGE_ARCHS",
+> True) or ""
+> >              #bb.note("ML_PACKAGE_ARCHS %s %s %s" % (eext[1],
+> localdata.getVar("PACKAGE_ARCHS", True) or "(none)", overrides))
+> > -    bb.data.setVar('MULTILIB_PACKAGE_ARCHS', ml_package_archs, d)
+> >  }
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
