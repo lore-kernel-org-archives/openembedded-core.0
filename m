@@ -1,32 +1,26 @@
-Received: from [93.97.173.237] (helo=tim.rpsys.net)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Qp0cq-0005yS-V4 for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 18:18:25 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p74GE1uS003670
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Aug 2011 17:14:01 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03417-03 for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Aug 2011 17:13:57 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p74GDqBf003664
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Aug 2011 17:13:53 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	(envelope-from <mark.hatle@windriver.com>) id 1Qp0fu-00062F-V0
+	for openembedded-core@lists.openembedded.org;
+	Thu, 04 Aug 2011 18:21:35 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id p74GH8XU029150
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 4 Aug 2011 09:17:08 -0700 (PDT)
+Received: from Macintosh-5.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 4 Aug 2011 09:17:08 -0700
+Message-ID: <4E3AC603.7070504@windriver.com>
+Date: Thu, 4 Aug 2011 11:17:07 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:5.0) Gecko/20110624 Thunderbird/5.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1255C164-37B1-4DE1-B95D-7BA7D0E20A39@kernel.crashing.org>
 References: <1255C164-37B1-4DE1-B95D-7BA7D0E20A39@kernel.crashing.org>
-Date: Thu, 04 Aug 2011 17:13:32 +0100
-Message-ID: <1312474412.14274.15.camel@rex>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.2 
-X-Virus-Scanned: amavisd-new at rpsys.net
+In-Reply-To: <1255C164-37B1-4DE1-B95D-7BA7D0E20A39@kernel.crashing.org>
 Subject: Re: do_rootfs failure for core-image-sato on mpc8315e-rdb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,14 +36,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 16:18:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 04 Aug 2011 16:21:35 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-08-04 at 10:58 -0500, Kumar Gala wrote:
+On 8/4/11 10:58 AM, Kumar Gala wrote:
 > | error: Failed dependencies:
 > |       hicolor-icon-theme is needed by tasks-0.19-r0.ppc603e
 > |       hicolor-icon-theme is needed by connman-gnome-0.5-r6.ppc603e
+
+The actual failure is above...  the items below are indicating circular
+dependencies within the resolution.  They're tagged as errors for reporting
+purposes but are non-fatal....
+
 > | error: LOOP:
 > | error: removing busybox-1.18.4-r7.ppc603e "Requires(hint): busybox-udhcpc" from tsort relations.
 > | error: removing busybox-udhcpc-1.18.4-r7.ppc603e "Requires(post): /bin/sh" from tsort relations.
@@ -84,14 +83,12 @@ On Thu, 2011-08-04 at 10:58 -0500, Kumar Gala wrote:
 > ERROR: '/local/home/galak/git/poky/meta/recipes-sato/images/core-image-sato.bb' failed
 > 
 > thoughts?
-
-Was this a recent build from scratch? I suspect Koen's recent icon
-bbclass change and we probably need to ensure hicolor-icon-theme is
-added do DEPENDS (instead of RDEPENDS like it used to be).
-
-Cheers,
-
-Richard
+> 
+> - k
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
