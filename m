@@ -1,51 +1,34 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-yi0-f47.google.com ([209.85.218.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dexuan.cui@intel.com>) id 1Qozgx-0004W3-Ru
+	(envelope-from <raj.khem@gmail.com>) id 1QozrA-0004kG-KR
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 17:18:36 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Aug 2011 08:14:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,317,1309762800"; d="scan'208";a="35388924"
-Received: from pgsmsx603.gar.corp.intel.com ([10.221.43.87])
-	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2011 08:14:09 -0700
-Received: from pgsmsx151.gar.corp.intel.com (172.30.236.41) by
-	pgsmsx603.gar.corp.intel.com (10.221.43.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 4 Aug 2011 23:14:08 +0800
-Received: from shsmsx602.ccr.corp.intel.com (10.239.4.104) by
-	PGSMSX151.gar.corp.intel.com (172.30.236.41) with Microsoft SMTP Server
-	(TLS) id 14.1.289.1; Thu, 4 Aug 2011 23:13:56 +0800
-Received: from shsmsx502.ccr.corp.intel.com ([10.239.4.96]) by
-	SHSMSX602.ccr.corp.intel.com ([10.239.4.104]) with mapi; Thu, 4 Aug 2011
-	23:14:07 +0800
-From: "Cui, Dexuan" <dexuan.cui@intel.com>
-To: Phil Blundell <philb@gnu.org>
-Date: Thu, 4 Aug 2011 23:14:05 +0800
-Thread-Topic: [OE-core] [PATCH 1/1] oe-init-build-env,
-	scripts/oe-buildenv-internal: add error detecting for $BDIR
-Thread-Index: AcxStlCLHyyhDAAyS5unJmHx1B9CwwAAJ9ng
-Message-ID: <1865303E0DED764181A9D882DEF65FB6B3046C9C16@shsmsx502.ccr.corp.intel.com>
-References: <cover.1312265186.git.dexuan.cui@intel.com>
-	<6def4624e63c8c7cf439dff32cb155dd2bba0ebe.1312265186.git.dexuan.cui@intel.com>
-	<1312285430.2344.582.camel@rex> <4E38C941.30805@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6B304414CE2@shsmsx502.ccr.corp.intel.com>
-	<4E395235.9010709@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6B3044150C6@shsmsx502.ccr.corp.intel.com>
-	<4E3A3562.1060907@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6B3046C9A79@shsmsx502.ccr.corp.intel.com>
-	<4E3AA24A.7050400@linux.intel.com>
-	<1865303E0DED764181A9D882DEF65FB6B3046C9C11@shsmsx502.ccr.corp.intel.com>
-	<1312469622.5417.1.camel@phil-desktop>
-In-Reply-To: <1312469622.5417.1.camel@phil-desktop>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: zh-CN, en-US
+	Thu, 04 Aug 2011 17:29:09 +0200
+Received: by yib18 with SMTP id 18so1175956yib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Aug 2011 08:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=uhtaXPPTXzCEKUmEepOez8StkIhPTHhgeCM5eN8ff8Q=;
+	b=QBr477oBrhiu9BTq0gkpyIOGyHSr3zQRyXaSs6JR9qh4llXr/ubntDBhVV4a96dFbh
+	ctmWcd15LT1F9Yn51iAb5uJYbj0U1YgzvErJ0dQg9cUH3dlUehjzPLxdmOopWv9kdo/2
+	Ut/TmzpO6HDauXeYl3MhEikGJFfk/bepi/frw=
+Received: by 10.142.188.7 with SMTP id l7mr835093wff.385.1312471484121;
+	Thu, 04 Aug 2011 08:24:44 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id v2sm2331434pbi.35.2011.08.04.08.24.43
+	(version=SSLv3 cipher=OTHER); Thu, 04 Aug 2011 08:24:43 -0700 (PDT)
+Message-ID: <4E3AB9B9.9010201@gmail.com>
+Date: Thu, 04 Aug 2011 08:24:41 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:5.0) Gecko/20110627 Thunderbird/5.0
 MIME-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Darren Hart <dvhart@linux.intel.com>, Patches,
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] oe-init-build-env, scripts/oe-buildenv-internal: add error detecting for $BDIR
+To: openembedded-core@lists.openembedded.org
+References: <EEDE7930-C960-4D86-86EE-D8E1E0A28017@kernel.crashing.org>
+In-Reply-To: <EEDE7930-C960-4D86-86EE-D8E1E0A28017@kernel.crashing.org>
+Subject: Re: 64-bit gcc hack patch /
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -60,29 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 15:18:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 04 Aug 2011 15:29:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-UGhpbCBCbHVuZGVsbCB3cm90ZSBvbiAyMDExLTA4LTA0Og0KPiBPbiBUaHUsIDIwMTEtMDgtMDQg
-YXQgMjI6NDkgKzA4MDAsIEN1aSwgRGV4dWFuIHdyb3RlOg0KPj4gKyAgICAgICAgQkRJUj1gcmVh
-ZGxpbmsgLWYgIiRCRElSImANCj4+ICsgICAgICAgIGlmIFsgLXogIiRCRElSIiBdOyB0aGVuDQo+
-PiArICAgICAgICAgICAgUEFSRU5URElSPWBkaXJuYW1lICIkMSJgDQo+PiArICAgICAgICAgICAg
-ZWNobyA+JjIgIkVycm9yOiB0aGUgZGlyZWN0b3J5ICRQQVJFTlRESVIgZG9lcyBub3QgZXhpc3Q/
-Ig0KPj4gICAgICAgICAgICAgIHJldHVybiAxDQo+PiAgICAgICAgICBmaQ0KPj4gICAgICBmaQ0K
-PiANCj4gSnVzdCBvdXQgb2YgY3VyaW9zaXR5LCBjb3VsZCB5b3Ugbm90IGp1c3QgZG8gIm1rZGly
-IC1wICRCRElSIiBhbmQNCj4gYXZvaWQgdGhpcyB3aG9sZSBzZXQgb2YgY29tcGxpY2F0ZWQgdGVz
-dHM/ICBPciBpcyB0aGVyZSBzb21lIHJlYXNvbg0KPiB3aHkgaXQncyBhY3R1YWxseSBpbXBvcnRh
-bnQgdG8ga25vdyB3aGV0aGVyIHRoZSBwYXJlbnQgZGlyZWN0b3J5IGV4aXN0ZWQgYWxyZWFkeT8N
-CkhpIFBoaWwsDQpBY3R1YWxseSBpbiBzY3JpcHRzL29lLXNldHVwLWJ1aWxkZGlyLCB3ZSBkbyBo
-YXZlIGEgbGluZQ0KbWtkaXIgLXAgJEJVSUxERElSL2NvbmYgLg0KDQpUaGUgaXNzdWUgaXM6ICJy
-ZWFkbGluayAtZiBub3RfZXhpc3RlbnRfZGlyL2J1aWxkIiByZXR1cm5zIGVtcHR5LCBzbyBCVUlM
-RERJUiB3b3VsZCBiZSBhc3NpZ25lZCB3aXRoIGBwd2RgIGFuZCB0aGlzIGlzIG5vdCBleHBlY3Rl
-ZC4NCg0KSSBkb24ndCByZWFsbHkga25vdyB3aHkgdGhlIHRlc3QgInJlYWRsaW5rIC1mIiBpcyBo
-ZXJlIC0tICJyZWFkbGluayAtZiIgaXMgdXNlZCAzIHRpbWVzIGluIHNjcmlwdHMvb2UtYnVpbGRl
-bnYtaW50ZXJuYWwuIE1heWJlIFJQIGtub3dzIHRoZSBoaXN0b3J5PyBJIGFsc28gdGhpbmsgd2Ug
-Y2FuIGRyb3AgdGhlIHRlc3RzICJyZWFkbGluayAtZiIgc2luY2Ugd2UgdXNlICJta2RpciAtcCI/
-DQoNClRoYW5rcywNCi0tIERleHVhbg0KDQoNCg==
+On 08/04/2011 12:55 AM, Kumar Gala wrote:
+> What is meta/recipes-devtools/gcc/gcc-4.6/64bithack.patch really accomplishing at this point?
+>
+> Its not clear to me what benefit or what is really impacted by the following change:
+>
+>   MULTILIB_OPTIONS = m64/m32
+> -MULTILIB_DIRNAMES = 64 32
+> -MULTILIB_OSDIRNAMES = ../lib64 $(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib)
+> +MULTILIB_DIRNAMES = . 32
+> +MULTILIB_OSDIRNAMES = . $(if $(wildcard $(shell echo $(SYSTEM_HEADER_DIR))/../../usr/lib32),../lib32,../lib)
+>
+> Trying to decide if the ppc equivalent of this patch is really needed or not.
+
+I think this patch should not be needed.
+
+>
+> - k
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 
 
