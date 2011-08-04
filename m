@@ -1,26 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from [93.97.173.237] (helo=tim.rpsys.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QozNt-0003gE-4k
-	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 16:58:53 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 04 Aug 2011 07:54:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,317,1309762800"; d="scan'208";a="35382222"
-Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
-	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2011 07:54:28 -0700
-Message-ID: <4E3AB2A4.9060604@linux.intel.com>
-Date: Thu, 04 Aug 2011 07:54:28 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
-	Lightning/1.0b3pre Thunderbird/3.1.10
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1311942290-27217-1-git-send-email-noor_ahsan@mentor.com>
-In-Reply-To: <1311942290-27217-1-git-send-email-noor_ahsan@mentor.com>
-Subject: Re: [PATCH] kernel,cml1.bbclass: Move menuconfig to cml1
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1QozOX-0003hx-11 for openembedded-core@lists.openembedded.org;
+	Thu, 04 Aug 2011 16:59:33 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p74EtAWV002870;
+	Thu, 4 Aug 2011 15:55:10 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02625-04; Thu,  4 Aug 2011 15:55:06 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p74Et0iP002850
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 4 Aug 2011 15:55:00 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: yocto <yocto@yoctoproject.org>
+Date: Thu, 04 Aug 2011 15:54:40 +0100
+Message-ID: <1312469680.14274.8.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Yocto post 1.1 development focus areas?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,69 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 14:58:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 04 Aug 2011 14:59:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/29/2011 05:24 AM, Noor, Ahsan wrote:
-> * The menuconfig target exists in places other than the kernel that use kernel style config.
->
-> Signed-off-by: Noor, Ahsan<noor_ahsan@mentor.com>
-> ---
->   meta/classes/cml1.bbclass   |   12 ++++++++++++
->   meta/classes/kernel.bbclass |   15 ---------------
->   2 files changed, 12 insertions(+), 15 deletions(-)
->
-> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-> index 79218b4..a747af5 100644
-> --- a/meta/classes/cml1.bbclass
-> +++ b/meta/classes/cml1.bbclass
-> @@ -6,3 +6,15 @@ cml1_do_configure() {
->
->   EXPORT_FUNCTIONS do_configure
->   addtask configure after do_unpack do_patch before do_compile
-> +
-> +do_menuconfig() {
-> +	export TERMWINDOWTITLE="${PN} Configuration"
-> +	export SHELLCMDS="make menuconfig"
-> +	${TERMCMDRUN}
-> +	if [ $? -ne 0 ]; then
-> +		oefatal "'${TERMCMD}' not found. Check TERMCMD variable."
-> +	fi
-> +}
-> +do_menuconfig[nostamp] = "1"
-> +addtask menuconfig after do_configure
-> +
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 9c492a3..25d2629 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -197,21 +197,6 @@ kernel_do_configure() {
->
->   do_configure[depends] += "${INITRAMFS_TASK}"
->
-> -do_menuconfig() {
-> -        export DISPLAY='${DISPLAY}'
-> -        export DBUS_SESSION_BUS_ADDRESS='${DBUS_SESSION_BUS_ADDRESS}'
-> -        export XAUTHORITY='${XAUTHORITY}'
-> -	export TERMWINDOWTITLE="${PN} Kernel Configuration"
-> -	export SHELLCMDS="make menuconfig"
-> -	${TERMCMDRUN}
-> -	if [ $? -ne 0 ]; then
-> -		echo "Fatal: '${TERMCMD}' not found. Check TERMCMD variable."
-> -		exit 1
-> -	fi
-> -}
-> -do_menuconfig[nostamp] = "1"
-> -addtask menuconfig after do_configure
-> -
->   pkg_postinst_kernel () {
->   	cd /${KERNEL_IMAGEDEST}; update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
->   }
+[Cross posted but please reply on the Yocto list]
 
-Merged into OE-Core
+We're starting to think about the development focus for post Yocto 1.1
+and are collecting ideas on the unscheduled feature list on the wiki:
 
-Thanks
-	Sau!
+https://wiki.yoctoproject.org/wiki/Yocto_Project_Unscheduled_Feature_List
+
+This is an opportunity for people to mention all the "if only we had X
+functionality" ideas they might think of as they use the system.
+
+Obviously there are no promises anything listed will get worked on but
+if its not there, the likelihood of it not happening is significantly
+higher :)
+
+Cheers,
+
+Richard
+
+
+
+
+
+
 
 
