@@ -1,16 +1,16 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QozQN-00048h-5O
+	(envelope-from <sgw@linux.intel.com>) id 1QozS6-0004Cd-0A
 	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 17:01:27 +0200
+	Thu, 04 Aug 2011 17:03:14 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Aug 2011 07:57:02 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 04 Aug 2011 07:58:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,317,1309762800"; d="scan'208";a="37853486"
+X-IronPort-AV: E=Sophos;i="4.67,317,1309762800"; d="scan'208";a="37854088"
 Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2011 07:57:02 -0700
-Message-ID: <4E3AB33E.50305@linux.intel.com>
-Date: Thu, 04 Aug 2011 07:57:02 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2011 07:58:49 -0700
+Message-ID: <4E3AB3A9.1020908@linux.intel.com>
+Date: Thu, 04 Aug 2011 07:58:49 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
@@ -18,9 +18,9 @@ User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1311807353.git.tom_rini@mentor.com>
-In-Reply-To: <cover.1311807353.git.tom_rini@mentor.com>
-Subject: Re: [PATCH 0/9] Re-sync and update siteinfo, round 2
+References: <cover.1311990837.git.ke.yu@intel.com>
+In-Reply-To: <cover.1311990837.git.ke.yu@intel.com>
+Subject: Re: [PATCH 0/1] replace PN with BPN in SRC_URI and S for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,74 +35,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 15:01:27 -0000
+X-List-Received-Date: Thu, 04 Aug 2011 15:03:14 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/27/2011 03:56 PM, Tom Rini wrote:
-> Hey all,
+On 07/29/2011 06:59 PM, Yu Ke wrote:
+> in multilibcase, PN has multilib prefix, so it is not
+> correct to use PN in SRC_URI and S. instead,  we've
+> dedicately pruned multilib prefix in BPN, so BPN is
+> the right alternative for PN.
 >
-> Here's my last series before I try the "clean slate" approach to updating
-> the siteinfo files.  In a few cases there's some behavior change and
-> that's a good thing.  In short, for sudo we set a variable to the default
-> if not set, so stop doing that.  For tcl, we had correctly figured out
-> an optional variable in one case, and now we re-use it everywhere.  We
-> drop out totally monotone (not in oe-core nor meta-oe nor oe.dev),
-> rp-pppoe (meta-oe, correctly) and enca (not needed when oe.dev is moved
-> over, not in oe-core nor meta-oe).  Finally there's a few sets of $libc
-> variables being moved to the common-$libc files.  Of slight note here
-> is that va_copy doing a value copy (va_val_copy) is arch dependent and
-> we were getting this wrong in some cases on x86_64.  Given that it's
-> assumed to be true when not set from what I can see, it's possible we're
-> going from implicit breakage to explicit breakage here in some of the less
-> common arches, but that's better (IMHO) that the alternative.
->
-> I've build-tested world on qemux86/qemux86-64 and core-image-sato on
-> qemuppc/qemumips for eglibc and some smaller subsets (in checking the
-> "is it really?" in making uclibc changes) for uclibc over the past few
-> weeks.  I've got a world build going now for qemux86-64 and will kick off
-> qemux86 next but I don't expect any failures nor believe waiting on these
-> to complete should be gating.
->
-> The following changes since commit 1fe892ab6876c405599c79657221a8b4675b6ecf:
->    Matthew McClintock (1):
->          Update TERMCMD message to align with previous change
+> The following changes since commit f94b781695cd8fa387daff16ecbf3987a0883018:
+>    Bruce Ashfield (1):
+>          poky.conf: explicitly referenced preferred linux-yocto version
 >
 > are available in the git repository at:
 >
->    git://git.openembedded.org/openembedded-core-contrib trini/update-siteinfo-round-2-v1
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=trini/update-siteinfo-round-2-v1
+>    git://git.pokylinux.org/poky-contrib kyu3/src-uri
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kyu3/src-uri
 >
-> Tom Rini (9):
->    sudo: Drop sudo_cv_uid_t_len from site files
->    tcl: Add tcl_cv_api_serial to siteinfo
->    Various site files: Drop monotone
->    Various siteinfo files: Consolidate ac_cv_func_getaddrinfo
->    Various siteinfo files: Drop enca section
->    Various siteinfo files: Consolidate va_copy/__va_copy/va_val_copy
->    site/common-linux: Add ac_cv_file__dev_zero=yes
->    siteinfo: Add posix_getpwuid_r posix_getgrgid_r posix_getpwnam_r to
->      uclibc
->    Various siteinfo: Drop rp-pppoe variables
+> Yu Ke (1):
+>    SRC_URI, S: use BPN instead of PN for multilib case
 >
->   meta/recipes-devtools/tcltk/tcl_8.5.9.bb |    2 +-
->   meta/site/arm-common                     |   25 +----------------------
->   meta/site/arm-linux                      |    9 --------
->   meta/site/common-glibc                   |   12 ++++++++--
->   meta/site/common-linux                   |    3 ++
->   meta/site/common-uclibc                  |   15 ++++++++++++++
->   meta/site/ix86-common                    |   31 ++---------------------------
->   meta/site/mips-common                    |   18 ++++++++++++----
->   meta/site/mips-linux                     |   25 +-----------------------
->   meta/site/mips-linux-uclibc              |   24 +----------------------
->   meta/site/mipsel-linux                   |   26 +-----------------------
->   meta/site/mipsel-linux-uclibc            |   12 +----------
->   meta/site/powerpc-linux                  |   13 ++++++++---
->   meta/site/powerpc32-linux                |   17 ----------------
->   meta/site/sh-common                      |   24 +---------------------
->   meta/site/x86_64-linux                   |   14 ++++++------
->   meta/site/x86_64-linux-uclibc            |   12 +++++++---
->   17 files changed, 77 insertions(+), 205 deletions(-)
+>   .../farsight/farsight2_0.0.9.bb                    |    2 +-
+>   .../loudmouth/loudmouth_1.4.0.bb                   |    2 +-
+>   .../opensync/libopensync-plugin_0.36.inc           |    2 +-
+>   .../telepathy/telepathy-farsight_0.0.7.bb          |    2 +-
+>   .../telepathy/telepathy-gabble_0.7.8.bb            |    2 +-
+>   .../recipes-connectivity/wbxml/wbxml2_0.9.2.bb     |    2 +-
+>   .../recipes-gnome/gcalctool/gcalctool_5.7.32.bb    |    2 +-
+>   .../recipes-gnome/gcalctool/gcalctool_5.8.17.bb    |    2 +-
+>   .../recipes-gnome/libgtkstylus/libgtkstylus_0.5.bb |    2 +-
+>   meta-demoapps/recipes-gnome/wv/wv_1.2.0.bb         |    2 +-
+>   meta-demoapps/recipes-sato/kf/kf_0.5.4.1.bb        |    2 +-
+>   .../matchbox-themes-extra_git.bb                   |    2 +-
+>   .../recipes-support/poppler/poppler-data_0.1.bb    |    2 +-
+>   meta-demoapps/recipes-support/poppler/poppler.inc  |    2 +-
+>   .../omap3-sgx-modules_1.3.13.1397.bb               |    4 ++--
+>   meta/recipes-bsp/zaurusd/zaurusd_svn.bb            |    2 +-
+>   .../galago/galago-daemon_0.5.1.bb                  |    2 +-
+>   .../iproute2/iproute2_2.6.38.bb                    |    2 +-
+>   meta/recipes-connectivity/ofono/ofono_0.50.bb      |    2 +-
+>   .../telepathy/telepathy-glib_0.14.3.bb             |    2 +-
+>   .../telepathy/telepathy-idle_0.1.8.bb              |    2 +-
+>   .../telepathy/telepathy-python_0.15.19.bb          |    2 +-
+>   meta/recipes-core/dbus-wait/dbus-wait_svn.bb       |    2 +-
+>   .../glib-networking/glib-networking_2.28.7.bb      |    2 +-
+>   meta/recipes-devtools/distcc/distcc_2.18.3.bb      |    2 +-
+>   .../subversion/subversion_1.6.15.bb                |    2 +-
+>   meta/recipes-extended/blktool/blktool_4-6.bb       |    2 +-
+>   .../recipes-extended/chkconfig/chkconfig_1.3.52.bb |    2 +-
+>   meta/recipes-extended/libidn/libidn_0.6.14.bb      |    2 +-
+>   meta/recipes-extended/libidn/libidn_1.22.bb        |    2 +-
+>   meta/recipes-extended/libtirpc/libtirpc_0.2.2.bb   |    4 ++--
+>   meta/recipes-extended/mktemp/mktemp_1.7.bb         |    2 +-
+>   meta/recipes-extended/xdg-utils/xdg-utils_1.0.2.bb |    2 +-
+>   .../ttf-fonts/liberation-fonts_1.06.bb             |    2 +-
+>   .../xorg-driver/xf86-driver-common.inc             |    2 +-
+>   meta/recipes-multimedia/libomxil/libomxil_0.3.3.bb |    2 +-
+>   meta/recipes-sato/eds/eds-tools_bzr.bb             |    2 +-
+>   meta/recipes-sato/gaku/gaku_svn.bb                 |    2 +-
+>   meta/recipes-sato/libical/libical_0.46.bb          |    2 +-
+>   meta/recipes-sato/libowl/libowl_svn.bb             |    2 +-
+>   .../recipes-sato/owl-video-widget/libowl-av_svn.bb |    2 +-
+>   meta/recipes-sato/puzzles/oh-puzzles_svn.bb        |    2 +-
+>   meta/recipes-sato/puzzles/puzzles_r9175.bb         |    2 +-
+>   meta/recipes-sato/screenshot/screenshot_svn.bb     |    2 +-
+>   meta/recipes-support/apr/apr-util_1.3.10.bb        |    2 +-
+>   meta/recipes-support/apr/apr_1.4.2.bb              |    2 +-
+>   meta/recipes-support/liboil/liboil_0.3.17.bb       |    2 +-
+>   meta/recipes-support/neon/neon_0.29.5.bb           |    2 +-
+>   48 files changed, 50 insertions(+), 50 deletions(-)
 >
 >
 > _______________________________________________
@@ -113,8 +116,7 @@ On 07/27/2011 03:56 PM, Tom Rini wrote:
 
 Merged into OE-Core
 
-Thanks for your help and patience on getting this one merged.
-
-Sau!
+Thanks
+	Sau!
 
 
