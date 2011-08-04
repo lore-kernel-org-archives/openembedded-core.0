@@ -1,26 +1,34 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from [93.97.173.237] (helo=tim.rpsys.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Qoz2b-00036q-0a
-	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Aug 2011 16:36:53 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Aug 2011 07:32:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,316,1309762800"; d="scan'208";a="37846066"
-Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2011 07:32:28 -0700
-Message-ID: <4E3AAD7B.2080407@linux.intel.com>
-Date: Thu, 04 Aug 2011 07:32:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13
-	Lightning/1.0b3pre Thunderbird/3.1.10
-MIME-Version: 1.0
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Qoz6x-0003C1-6w for openembedded-core@lists.openembedded.org;
+	Thu, 04 Aug 2011 16:41:23 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p74Eb02i002709
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Aug 2011 15:37:00 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02492-04 for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Aug 2011 15:36:56 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p74Eapph002703
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Aug 2011 15:36:52 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1311804095-3244-1-git-send-email-tom_rini@mentor.com>
-In-Reply-To: <1311804095-3244-1-git-send-email-tom_rini@mentor.com>
-Subject: Re: [PATCH] connman_test.sh: Rework for busybox 'ps'
+In-Reply-To: <1312401799.4007.3.camel@lenovo.internal.reciva.com>
+References: <1312386236-11826-1-git-send-email-galak@kernel.crashing.org>
+	<1312401799.4007.3.camel@lenovo.internal.reciva.com>
+Date: Thu, 04 Aug 2011 15:36:31 +0100
+Message-ID: <1312468591.2344.751.camel@rex>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.2 
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] tcl: Fix packaging of platform independent files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,56 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 14:36:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 04 Aug 2011 14:41:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/27/2011 03:01 PM, Tom Rini wrote:
-> This script has two problems today.  First, it does 'ps -ef cmd'
-> in failure which real ps doesn't grok and busybox ps just ignores
-> the argument on.  Switch that to 'ps -ef'.  Second, busybox ps -o
-> doesn't understand cmd but does understand comm.  Using comm lets
-> us simplify the test logic as well, so switch to that.
->
-> Signed-off-by: Tom Rini<tom_rini@mentor.com>
-> ---
->   scripts/qemuimage-tests/tools/connman_test.sh |    8 ++++----
->   1 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/qemuimage-tests/tools/connman_test.sh b/scripts/qemuimage-tests/tools/connman_test.sh
-> index d7e63e7..dd5554c 100644
-> --- a/scripts/qemuimage-tests/tools/connman_test.sh
-> +++ b/scripts/qemuimage-tests/tools/connman_test.sh
-> @@ -27,21 +27,21 @@ if [ ! -f /usr/sbin/connmand ]; then
->   fi
->
->   # Check if connmand is running in background
-> -count=`ps -eo cmd | cut -d " " -f 1 | grep -c connmand`
-> +count=`ps -eo comm | grep -c connmand`
->
->   if [ $count -ne 1 ]; then
->   	Target_Info "connmand has issue when running in background, Pls, check the output of ps"
-> -	ps -ef cmd | grep connmand
-> +	ps -ef | grep connmand
->   	exit 1
->   fi
->
->   # Check if there is always only one connmand running in background
->   if [ connmand>  /dev/null 2>&1 ]; then
->   	Target_Info "connmand command run without problem"
-> -	count=`ps -eo cmd | cut -d " " -f 1 | grep -c connmand`
-> +	count=`ps -eo comm | grep -c connmand`
->   	if [ $count -ne 1 ]; then
->   		Target_Info "There are more than one connmand running in background, Pls, check the output of ps"
-> -		ps -ef cmd | grep connmand
-> +		ps -ef | grep connmand
->   		exit 1
->   	else
->   		Target_Info "There is always one connmand running in background, test pass"
+On Wed, 2011-08-03 at 21:03 +0100, Phil Blundell wrote:
+> On Wed, 2011-08-03 at 10:43 -0500, Kumar Gala wrote:
+> > Tcl's doesn't utilize ${baselib} for platform independent files but
+> > defines it as follows:
+> > 
+> > TCL_LIBRARY             = $(prefix)/lib/tcl$(VERSION)
+> > 
+> > Match that so if ${baselib} is not just /lib things work properly.
+> > 
+> > Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
+> > ---
+> 
+> Even better would be bashing tcl so that it puts its bits in ${datadir}
+> where they belong. :-)  But your patch is fine though.
 
-Merged into OE-Core
+Agreed, this would be the ideal solution...
 
-Thanks
-	Sau!
+Cheers,
+
+Richard
+
 
 
