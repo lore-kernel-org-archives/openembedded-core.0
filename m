@@ -1,39 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-iy0-f171.google.com ([209.85.210.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Qp6wg-0007xY-Nv
+	(envelope-from <raj.khem@gmail.com>) id 1Qp7Fz-0008Ej-9A
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 01:03:18 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Aug 2011 15:58:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,320,1309762800"; d="scan'208";a="38006708"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2011 15:58:52 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.226.213) by
-	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 4 Aug 2011 15:58:48 -0700
-Received: from orsmsx504.amr.corp.intel.com ([10.22.226.207]) by
-	orsmsx601.amr.corp.intel.com ([10.22.226.213]) with mapi;
-	Thu, 4 Aug 2011 15:58:48 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 4 Aug 2011 15:58:48 -0700
-Thread-Topic: [OE-core] [PATCH 04/10] glibc: bring back the needed support
-	for glibc recipes
-Thread-Index: AcxS+K9gCS7cTqnaQKq/64f0GUvjjwAAUuOg
-Message-ID: <9DA5872FEF993D41B7173F58FCF6BE94DE85F588@orsmsx504.amr.corp.intel.com>
+	Fri, 05 Aug 2011 01:23:15 +0200
+Received: by iyf13 with SMTP id 13so3766102iyf.16
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Aug 2011 16:18:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=qQASPGRGAgRxQvStrVyvdzJ0yWC9mJsWDIS8Z5GBvlQ=;
+	b=bR4A4s5A5H0GraVoVmROXAIwEW3hpSTZszY3E4k14xMXloBey+eg207MWOvjlXmr8Z
+	ODbMf2SDE32kYfuGFy8/RbUaHc0DSropB2cu8HlM2koX9i8PMh+uKUaumZRrR/WTLWtP
+	XYBYugTqVBAiGiHN/WBZABUczOfHM7sqzRR2w=
+Received: by 10.42.149.199 with SMTP id x7mr1306742icv.246.1312499930893;
+	Thu, 04 Aug 2011 16:18:50 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id v16sm1553070ibf.42.2011.08.04.16.18.49
+	(version=SSLv3 cipher=OTHER); Thu, 04 Aug 2011 16:18:49 -0700 (PDT)
+Message-ID: <4E3B28D7.8030208@gmail.com>
+Date: Thu, 04 Aug 2011 16:18:47 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:5.0) Gecko/20110627 Thunderbird/5.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
 References: <e5fc6a2b0a315f9ade50a7f357b98068c38d49e3.1312469789.git.nitin.a.kamble@intel.com>
 	<03d062a7104f31d03893833485ec3836c07e8f90.1312469790.git.nitin.a.kamble@intel.com>
-	<1312494646.3169.2.camel@lenovo.internal.reciva.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94DE85F4C1@orsmsx504.amr.corp.intel.com>
-	<CA+M6bX=xN7Ek_rh4Qu=RxbRJQ5CrSK7qRy=Vh=S7L-OdR4SHyw@mail.gmail.com>
-In-Reply-To: <CA+M6bX=xN7Ek_rh4Qu=RxbRJQ5CrSK7qRy=Vh=S7L-OdR4SHyw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
-MIME-Version: 1.0
+In-Reply-To: <03d062a7104f31d03893833485ec3836c07e8f90.1312469790.git.nitin.a.kamble@intel.com>
 Subject: Re: [PATCH 04/10] glibc: bring back the needed support for glibc recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -49,59 +44,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Aug 2011 23:03:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 04 Aug 2011 23:23:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 08/04/2011 08:01 AM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>
+> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+> ---
+>   meta/conf/distro/include/tclibc-glibc.inc   |   32 +++++++++++++++++++++++++++
+>   meta/conf/distro/include/tcmode-default.inc |    5 ++++
+>   2 files changed, 37 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/conf/distro/include/tclibc-glibc.inc
+>
+> diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
+> new file mode 100644
+> index 0000000..823195c
+> --- /dev/null
+> +++ b/meta/conf/distro/include/tclibc-glibc.inc
+> @@ -0,0 +1,32 @@
+> +#
+> +# glibc specific configuration
+> +#
+> +
+> +LIBCEXTENSION = "${@['', '-gnu'][(d.getVar('ABIEXTENSION', True) or '') != '']}"
 
+why is this specific to glibc and not eglibc ?
+since glibc is deleted from metadata this file should go away too
+if its for external toolchains then they could use tclibc-eglibc.inc
+or tclibc-uclibc.inc as needed.
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Tom Rini
-> Sent: Thursday, August 04, 2011 3:49 PM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] [PATCH 04/10] glibc: bring back the needed
-> support for glibc recipes
->=20
-> On Thu, Aug 4, 2011 at 3:04 PM, Kamble, Nitin A
-> <nitin.a.kamble@intel.com> wrote:
-> >
-> >
-> >> -----Original Message-----
-> >> From: openembedded-core-bounces@lists.openembedded.org
-> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of
-> >> Phil Blundell
-> >> Sent: Thursday, August 04, 2011 2:51 PM
-> >> To: Patches and discussions about the oe-core layer
-> >> Subject: Re: [OE-core] [PATCH 04/10] glibc: bring back the needed
-> >> support for glibc recipes
-> >>
-> >> On Thu, 2011-08-04 at 08:01 -0700, nitin.a.kamble@intel.com wrote:
-> >> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >> >
-> >> > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >>
-> >> This commit message is very terse. =A0Why is this change necessary?
-> >
-> > Because meta-x32 layer has glibc, which needs these support files. I
-> will update the commit message in the tree.
->=20
-> Can x32 not use eglibc?
-Not yet, x32 work is done on the glibc tip, and eglibc is not there to pick=
- up the work.
+I am in favour of generally using linux-gnu extention for eglibc/glibc
+based systems.
 
-Nitin
+> +
+> +# Add glibc to the overrides.
+> +OVERRIDES =. "libc-glibc:"
+> +
+> +PREFERRED_PROVIDER_virtual/libiconv ?= "glibc"
+> +PREFERRED_PROVIDER_virtual/libiconv-nativesdk ?= "glibc-nativesdk"
+> +PREFERRED_PROVIDER_virtual/libintl ?= "glibc"
+> +PREFERRED_PROVIDER_virtual/libc ?= "glibc"
+> +PREFERRED_PROVIDER_virtual/libc-nativesdk ?= "glibc-nativesdk"
+> +PREFERRED_PROVIDER_virtual/libc-locale ?= "glibc-locale"
+> +
+> +CXXFLAGS += "-fvisibility-inlines-hidden"
+> +
+> +LIBC_DEPENDENCIES = "\
+> +    libsegfault \
+> +    glibc \
+> +    glibc-dbg \
+> +    glibc-dev \
+> +    glibc-utils \
+> +    glibc-thread-db \
+> +    glibc-localedata-i18n \
+> +    glibc-gconv-ibm850 \
+> +    glibc-gconv-cp1252 \
+> +    glibc-gconv-iso8859-1 \
+> +    glibc-gconv-iso8859-15 \
+> +    locale-base-en-gb \
+> +    "
+> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> index 0d0af38..5f66c9e 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -48,6 +48,11 @@ PREFERRED_VERSION_binutils-crosssdk ?= "${BINUVERSION}"
+>   PREFERRED_VERSION_binutils-cross-canadian ?= "${BINUVERSION}"
+>   PREFERRED_VERSION_linux-libc-headers ?= "${LINUXLIBCVERSION}"
+>   PREFERRED_VERSION_linux-libc-headers-nativesdk ?= "${LINUXLIBCVERSION}"
+> +PREFERRED_VERSION_glibc ?= "${GLIBCVERSION}"
+> +PREFERRED_VERSION_glibc-locale ?= "${GLIBCVERSION}"
+> +PREFERRED_VERSION_glibc-nativesdk ?= "${GLIBCVERSION}"
+> +PREFERRED_VERSION_glibc-initial ?= "${GLIBCVERSION}"
+> +PREFERRED_VERSION_glibc-initial-nativesdk ?= "${GLIBCVERSION}"
+>   PREFERRED_VERSION_eglibc                   ?= "${EGLIBCVERSION}"
+>   PREFERRED_VERSION_eglibc-locale            ?= "${EGLIBCVERSION}"
+>   PREFERRED_VERSION_eglibc-nativesdk         ?= "${EGLIBCVERSION}"
 
->=20
-> --
-> Tom
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
