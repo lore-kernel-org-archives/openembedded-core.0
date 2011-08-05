@@ -1,24 +1,36 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-vx0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dongxiao.xu@intel.com>) id 1QpDMN-0002Xw-Mf
+	(envelope-from <kergoth@gmail.com>) id 1QpDOV-0002cg-Os
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 07:54:15 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 04 Aug 2011 22:49:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,321,1309762800"; d="scan'208";a="35618445"
-Received: from dongxiao-osel.sh.intel.com (HELO localhost) ([10.239.36.52])
-	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2011 22:49:50 -0700
-From: Dongxiao Xu <dongxiao.xu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Aug 2011 13:48:25 +0800
-Message-Id: <acf0ee2a4a18f8a50bcb7dc81dfec290bf8d6656.1312522526.git.dongxiao.xu@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1312522526.git.dongxiao.xu@intel.com>
-References: <cover.1312522526.git.dongxiao.xu@intel.com>
-In-Reply-To: <cover.1312522526.git.dongxiao.xu@intel.com>
-References: <cover.1312522526.git.dongxiao.xu@intel.com>
-Subject: [PATCH 1/1] task-core-boot.bb: Add PACKAGE definition to facilitate multilib
+	Fri, 05 Aug 2011 07:56:27 +0200
+Received: by vxj14 with SMTP id 14so1593197vxj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Aug 2011 22:52:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=7YWDyBNe0z9CeKldAeQDIywVKF8CMHo35IMu2SdmUZo=;
+	b=EQcCtFjKGM9FkN7qhgqhc+0xrKXjDGmU7K5/2trl67STsc3ZE1Cw4gYs1N0CP3MHgU
+	yr+SNfbSt/Ctw8d8VoamEHfjqrQk6Pkw27TJRXx9LeVfmDH3prdhLjf7oJ6mFsB1XWJr
+	sH8EJ9JOR+S+hUO2YtiHx+2xsFVUtXRQkGCUk=
+Received: by 10.52.90.12 with SMTP id bs12mr2034745vdb.495.1312523523142; Thu,
+	04 Aug 2011 22:52:03 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.52.112.194 with HTTP; Thu, 4 Aug 2011 22:51:43 -0700 (PDT)
+In-Reply-To: <DF702E9E-8D68-4088-9178-E4C7B22EC0C4@dominion.thruhere.net>
+References: <1312196922-20019-1-git-send-email-koen@dominion.thruhere.net>
+	<4E3B542C.1070306@linux.intel.com>
+	<ADE3B9A3-1B0B-4ECA-A472-D241AA542051@dominion.thruhere.net>
+	<4E3B8082.5010909@linux.intel.com>
+	<DF702E9E-8D68-4088-9178-E4C7B22EC0C4@dominion.thruhere.net>
+From: Chris Larson <clarson@kergoth.com>
+Date: Thu, 4 Aug 2011 22:51:43 -0700
+X-Google-Sender-Auth: eyxm9-LEeOyNfchnzERhSL52GDU
+Message-ID: <CABcZANmC-K=S7E0vL_4B1ys4VA_OV_r8CHpk2DNFDY0wU+7cCw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gtk-icon-cache bbclass: only add runtime dependencies on hicolor-icon-theme when installing icons
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 05:54:15 -0000
+X-List-Received-Date: Fri, 05 Aug 2011 05:56:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If there is no PACKAGES defined in bb file, its default definition would
-be "${PN}-dbg ${PN} ${PN}-doc ${PN}-dev ${PN}-staticdev ${PN}-locale".
-In multilib case, ${PN} is extended with ${MLPREFIX}, so there is no
-rename occurred for the PACKAGES. Therefore for task-core-boot,
-RDEPENDS_lib32-task-core-boot will be empty, resulting busybox,
-tinylogin, etc. are not bulit out.
+On Thu, Aug 4, 2011 at 10:48 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>
+> Op 5 aug. 2011, om 07:32 heeft Saul Wold het volgende geschreven:
+>
+>> On 08/04/2011 10:28 PM, Koen Kooi wrote:
+>>>
+>>> Op 5 aug. 2011, om 04:23 heeft Saul Wold het volgende geschreven:
+>>>
+>>>> On 08/01/2011 04:08 AM, Koen Kooi wrote:
+>>>>> Tested with gnome-icon-theme and libsoup recipes on angstrom.
+>>>>>
 
-This fixed the issue that /bin/sh is not provided while do_rootfs.
-
-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
----
- meta/recipes-core/tasks/task-core-boot.bb |    8 +++++++-
- 1 files changed, 7 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-core/tasks/task-core-boot.bb b/meta/recipes-core/tasks/task-core-boot.bb
-index 5aea771..eb2b548 100644
---- a/meta/recipes-core/tasks/task-core-boot.bb
-+++ b/meta/recipes-core/tasks/task-core-boot.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- DEPENDS = "virtual/kernel"
- ALLOW_EMPTY = "1"
--PR = "r7"
-+PR = "r8"
- 
- #
- # Set by the machine configuration with packages essential for device bootup
-@@ -17,6 +17,12 @@ PR = "r7"
- MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
- MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
- 
-+PACKAGES = "\
-+    task-core-boot \
-+    task-core-boot-dbg \
-+    task-core-boot-dev \
-+"
-+
- RDEPENDS_task-core-boot = "\
-     base-files \
-     base-passwd \
+Can someone explain why this patch added the dependency to the global
+RDEPENDS, rather than the RDEPENDS_<pkg> for the pkg in question?
 -- 
-1.7.1
-
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
