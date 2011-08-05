@@ -1,37 +1,41 @@
 Received: from mail-iy0-f171.google.com ([209.85.210.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1QpO7n-0007IQ-Fu
+	(envelope-from <raj.khem@gmail.com>) id 1QpOLP-0007bZ-6k
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 19:23:55 +0200
-Received: by iyf13 with SMTP id 13so5460604iyf.16
+	Fri, 05 Aug 2011 19:37:59 +0200
+Received: by iyf13 with SMTP id 13so5484595iyf.16
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Aug 2011 10:19:30 -0700 (PDT)
+	Fri, 05 Aug 2011 10:33:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=message-id:date:from:user-agent:mime-version:to:subject:references
 	:in-reply-to:x-enigmail-version:content-type
 	:content-transfer-encoding;
-	bh=CKb5j8Fb+eL0YBketARNRHb+8j6h5V1N9ozJMqAXh/8=;
-	b=AfLlgWcxJ7w8HmNmy7BP9Jce+uUI83xhGeYrj7EPN1jtsDGVwc5gWg9fxdqPRWWnEB
-	EqKsCbjLCJ+vssxBz8dGBhvyn7GlD0HuzzcRgr+J47hzZd7QDPzIwdhf/M826AxLAsHJ
-	REMKm7pNlvQmq6CmQ7W9WAyX7ZfLe73WablIk=
-Received: by 10.231.181.95 with SMTP id bx31mr1876032ibb.191.1312564770027;
-	Fri, 05 Aug 2011 10:19:30 -0700 (PDT)
+	bh=e1Hz9HevDuurMmaT4patZANTJtDpNqWsGGfIyfmcNlY=;
+	b=ZrBh/1v0wUlgdvTkt7dqtH5u7Z8sBufHiyy0Y4O6rADy61LiVpX6ktq4ZwC3oVkiYd
+	jJjLucCVswqa/0s28hVYUSuj3C8lqBoP6NHCobyf2K+6VXFruztH+F1sUkUuoWwFc0NY
+	x97IASMpHcx+Slgk4HgWpmJ3Dxv28bvQL9Hsk=
+Received: by 10.42.154.131 with SMTP id q3mr2047919icw.312.1312565613344;
+	Fri, 05 Aug 2011 10:33:33 -0700 (PDT)
 Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
 	[99.57.141.118])
-	by mx.google.com with ESMTPS id q4sm2150393ibb.32.2011.08.05.10.19.27
-	(version=SSLv3 cipher=OTHER); Fri, 05 Aug 2011 10:19:27 -0700 (PDT)
-Message-ID: <4E3C261D.5020702@gmail.com>
-Date: Fri, 05 Aug 2011 10:19:25 -0700
+	by mx.google.com with ESMTPS id q13sm2154413ibi.60.2011.08.05.10.33.32
+	(version=SSLv3 cipher=OTHER); Fri, 05 Aug 2011 10:33:32 -0700 (PDT)
+Message-ID: <4E3C295C.6060700@gmail.com>
+Date: Fri, 05 Aug 2011 10:33:16 -0700
 From: Khem Raj <raj.khem@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:6.0) Gecko/20110801 Thunderbird/6.0
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <359B10B9B28B294BAA6405D9320312E0111E934067@naemmail08.na.leapfrog.com>
-	<CABcZANkf_xBxAfs584Mo7370oLO8ggyy0BMQPfBy-dFN-qkWpA@mail.gmail.com>
-In-Reply-To: <CABcZANkf_xBxAfs584Mo7370oLO8ggyy0BMQPfBy-dFN-qkWpA@mail.gmail.com>
+References: <CAGiJk9dWLc6TqMRfG4nqfgHbBHnRVb3V7b_QQwH9UPjip1aNeg@mail.gmail.com>
+	<CAGiJk9e01+q-P51iknAFut7jWgSP4NrzLoNDKAjM-wC+=7U+4w@mail.gmail.com>
+	<4E396097.1000207@gmail.com>
+	<CAGiJk9fsRGZiA92vpOcT8X95KscOg-vFxqdB7hcW16MOSk0PWQ@mail.gmail.com>
+	<4E3ABA58.9040408@gmail.com>
+	<CAGiJk9eZgic_cL23CEJYq+++OW3233cdhpehwhsJkwo4=1yr9Q@mail.gmail.com>
+In-Reply-To: <CAGiJk9eZgic_cL23CEJYq+++OW3233cdhpehwhsJkwo4=1yr9Q@mail.gmail.com>
 X-Enigmail-Version: 1.2pre
-Subject: Re: [PATCH] Immediately append TCLIBCAPPEND to TMPDIR in defaultsetup.conf
+Subject: Re: Error running QEMU with oe-core / angstrom console-image, hwclock: can't open '/dev/misc/rtc' : No such file or directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,57 +50,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 17:23:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 05 Aug 2011 17:37:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-On 08/04/2011 09:59 PM, Chris Larson wrote:
-> On Wed, Aug 3, 2011 at 2:54 PM, Daniel Lazzari
-> <dlazzari@leapfrog.com> wrote:
->> Immediately append TCLIBCAPPEND to TMPDIR in defaultsetup.conf 
->> instead of lazily appending it with _append. This fixes a bug
->> where the wrong cache was cleared when BB_SRCREV_POLICY = "clear".
+On 08/04/2011 10:25 PM, Samuel Stirtzel wrote:
+> 2011/8/4 Khem Raj <raj.khem@gmail.com>:
+>> On 08/04/2011 01:08 AM, Samuel Stirtzel wrote:
+>>> 
+>>> 2011/8/3 Khem Raj<raj.khem@gmail.com>:
+>>>> 
+>>>> There is a smart script in scripts/ dir that you could use 
+>>>> something like this
+>>>> 
+>>>> runqemu 
+>>>> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>> 
+/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
+>>>> 
+>>>> and it will setup everything (even networking) for you
+>>>> 
+>>> Already tried this one, but for some unknown reasons it doesn't 
+>>> work, I get the following output: - 
+>>> samuel@S-Linux:/var/oe-core/setup-scripts$ runqemu 
+>>> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin
+>>> 
+>>> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>> 
+Set MACHINE to [qemuarm] based on kernel
+>>> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>> 
+Continuing with the following parameters:
+>>> KERNEL: 
+>>> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>> 
+ROOTFS:
+>>> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2]
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>> 
+FSTYPE: [ext2]
+>>> Setting up tap interface under sudo [sudo] password for samuel: 
+>>> sudo runqemu-ifup<gid>  <native-sysroot-basedir> 
+>>> samuel@S-Linux:/var/oe-core/setup-scripts$
 >> 
+>> A fix for this problem has been committed to oe-core already. 
+>> Update and retry
 >> 
->> Signed-off-by: Daniel Lazzari Jr <dlazzari@leapfrog.com> --- 
->> meta/conf/distro/defaultsetup.conf |    2 +- 1 files changed, 1
->> insertions(+), 1 deletions(-)
->> 
->> diff --git a/meta/conf/distro/defaultsetup.conf
->> b/meta/conf/distro/defaultsetup.conf index 072f03c..951e5be 100644 
->> --- a/meta/conf/distro/defaultsetup.conf +++
->> b/meta/conf/distro/defaultsetup.conf @@ -14,7 +14,7 @@ require
->> conf/distro/include/tclibc-${TCLIBC}.inc
->> 
->> # Allow single libc distros to disable this code TCLIBCAPPEND ?=
->> "-${TCLIBC}" -TMPDIR_append = "${TCLIBCAPPEND}" +TMPDIR :=
->> "${TMPDIR}${TCLIBCAPPEND}"
->> 
->> CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' +
->> str(bb.data.getVar('MACHINE', d,
->> 1))][bool(bb.data.getVar('MACHINE', d, 1))]}${@['', '/' +
->> str(bb.data.getVar('SDKMACHINE', d,
->> 1))][bool(bb.data.getVar('SDKMACHINE', d, 1))]}"
+> After i updated my oe-core files the script still won't work for me. 
+> The new output is:: - 
+> samuel@S-Stirtzel-Linux:/var/oe-core/setup-scripts$ runqemu 
+> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin 
+> /var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2
+>
+>
+>
+>
+>
+>
+>
 > 
-> If all you want is an immediate concatenation, you can use .=. Using 
-> := like this forces an early expansion of TMPDIR unnecessarily, as
-> far as I can tell.
+Set MACHINE to [qemuarm] based on kernel
+> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin]
+> 
+> Continuing with the following parameters: KERNEL: 
+> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/zImage-qemuarm.bin] 
+> ROOTFS: 
+> [/var/oe-core/tmp-eglibc/deploy/images/qemuarm/console-image-qemuarm.ext2]
+>
+>
+>
+>
+>
+>
+>
+> 
+FSTYPE: [ext2]
+> Setting up tap interface under sudo [sudo] password for samuel: 
+> Acquiring lockfile for tap0... Error: Unable to support this 
+> combination of options
 
-I think you mean TMPDIR .= "${TCLIBCAPPEND}" ?
-I think that will work too. I have tested the original patch too and it
-has worked ok but .= would be better I think let me try that as well.
+It means QEMUOPTIONS is empty in your case because you are sing ext2
+image. It supports ext3 and btrfs
 
-- -- 
+but it should be easy to add ext2 to mix. Can you try something like below
+
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index c15632d..64635df 100755
+- --- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -277,7 +277,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" =
+"qemuarmv6" -o "$MACHINE" = "qemuarm
+     MACHINE_SUBTYPE=versatilepb
+     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
+     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
+- -    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
++    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" -o "$FSTYPE" =
+"ext2" ]; then
+         KERNCMDLINE="root=/dev/sda rw console=ttyAMA0,115200
+console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY hi
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -M versatilepb -hda $ROOTFS
+- -no-reboot $QEMU_UI_OPTIONS"
+     fi
+
+
+> Set 'tap0' nonpersistent Releasing lockfile of preconfigured tap 
+> device 'tap0' -
+> 
+> This error was not created from the runqemu script itself. Maybe the
+>  runqemu-initial script was expecting other options?
+> 
+> 
+> Regards Samuel
+> 
+> _______________________________________________ Openembedded-core 
+> mailing list Openembedded-core@lists.openembedded.org 
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+- --
+>
+>
+>
+>
+>
+>
+> 
 - -Khem
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEARECAAYFAk48Jh0ACgkQuwUzVZGdMxT+FwCfcQ38C1x6DlSYtnLIlC0ov2aY
-ZHYAn3SfzV483FUFCVdTZX67MJQQBZdw
-=bUgM
+iEYEARECAAYFAk48KVsACgkQuwUzVZGdMxSNaACffDYUHfK9qKdnYNdzCJCGr+3W
+lqoAn2AFkMaezl4MLN7WbaE/zDjvu4vR
+=pUFt
 -----END PGP SIGNATURE-----
 
 
