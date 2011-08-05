@@ -1,27 +1,37 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-iy0-f171.google.com ([209.85.210.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1QpNlN-0006mK-Pg
+	(envelope-from <raj.khem@gmail.com>) id 1QpO7n-0007IQ-Fu
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 19:00:46 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 05 Aug 2011 09:56:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,324,1309762800"; 
-   d="scan'208";a="4501645"
-Received: from unknown (HELO [10.255.14.76]) ([10.255.14.76])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Aug 2011 09:56:14 -0700
-Message-ID: <4E3C20AE.9070907@linux.intel.com>
-Date: Fri, 05 Aug 2011 09:56:14 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.17) Gecko/20110428 Fedora/3.1.10-1.fc13 Thunderbird/3.1.10
+	Fri, 05 Aug 2011 19:23:55 +0200
+Received: by iyf13 with SMTP id 13so5460604iyf.16
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Aug 2011 10:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=CKb5j8Fb+eL0YBketARNRHb+8j6h5V1N9ozJMqAXh/8=;
+	b=AfLlgWcxJ7w8HmNmy7BP9Jce+uUI83xhGeYrj7EPN1jtsDGVwc5gWg9fxdqPRWWnEB
+	EqKsCbjLCJ+vssxBz8dGBhvyn7GlD0HuzzcRgr+J47hzZd7QDPzIwdhf/M826AxLAsHJ
+	REMKm7pNlvQmq6CmQ7W9WAyX7ZfLe73WablIk=
+Received: by 10.231.181.95 with SMTP id bx31mr1876032ibb.191.1312564770027;
+	Fri, 05 Aug 2011 10:19:30 -0700 (PDT)
+Received: from [192.168.1.70] (99-57-141-118.lightspeed.sntcca.sbcglobal.net
+	[99.57.141.118])
+	by mx.google.com with ESMTPS id q4sm2150393ibb.32.2011.08.05.10.19.27
+	(version=SSLv3 cipher=OTHER); Fri, 05 Aug 2011 10:19:27 -0700 (PDT)
+Message-ID: <4E3C261D.5020702@gmail.com>
+Date: Fri, 05 Aug 2011 10:19:25 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:6.0) Gecko/20110801 Thunderbird/6.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1312484099-29314-1-git-send-email-galak@kernel.crashing.org>
-	<6E357E06-687D-4B2C-B82E-973ABC9973F9@kernel.crashing.org>
-In-Reply-To: <6E357E06-687D-4B2C-B82E-973ABC9973F9@kernel.crashing.org>
-Subject: Re: [PATCH] gcc: use ${base_lib} to match gcc default	configuration
+To: openembedded-core@lists.openembedded.org
+References: <359B10B9B28B294BAA6405D9320312E0111E934067@naemmail08.na.leapfrog.com>
+	<CABcZANkf_xBxAfs584Mo7370oLO8ggyy0BMQPfBy-dFN-qkWpA@mail.gmail.com>
+In-Reply-To: <CABcZANkf_xBxAfs584Mo7370oLO8ggyy0BMQPfBy-dFN-qkWpA@mail.gmail.com>
+X-Enigmail-Version: 1.2pre
+Subject: Re: [PATCH] Immediately append TCLIBCAPPEND to TMPDIR in defaultsetup.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,54 +46,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 17:00:46 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Fri, 05 Aug 2011 17:23:55 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 08/05/2011 09:53 AM, Kumar Gala wrote:
->
-> On Aug 4, 2011, at 1:54 PM, Kumar Gala wrote:
->
->> Rather than tweaking MULTILIB_DIRNAMES&  MULTILIB_OSDIRNAMES like is
->> done for x86-64 via 64bithack.patch.  We can just go with gcc defaults
->> and utilize ${base_lib} for where to find gcc libs.
->>
->> Signed-off-by: Kumar Gala<galak@kernel.crashing.org>
->> ---
->> .../gcc/gcc-cross-intermediate.inc                 |    2 +-
->> 1 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
->> index df5958a..7b1bb38 100644
->> --- a/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
->> @@ -34,7 +34,7 @@ do_compile () {
->> do_install () {
->> 	oe_runmake 'DESTDIR=${D}' install
->> 	install -d ${D}${target_base_libdir}/
->> -	mv ${D}${exec_prefix}/${TARGET_SYS}/lib/* ${D}${target_base_libdir}/
->> +	mv ${D}${exec_prefix}/${TARGET_SYS}/${baselib}/* ${D}${target_base_libdir}/
->>
->> 	# We don't really need this (here shares/ contains man/, info/, locale/).
->> 	rm -rf ${D}${datadir}/
->> --
->> 1.7.3.4
->
-> ping
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-Kumar,
+On 08/04/2011 09:59 PM, Chris Larson wrote:
+> On Wed, Aug 3, 2011 at 2:54 PM, Daniel Lazzari
+> <dlazzari@leapfrog.com> wrote:
+>> Immediately append TCLIBCAPPEND to TMPDIR in defaultsetup.conf 
+>> instead of lazily appending it with _append. This fixes a bug
+>> where the wrong cache was cleared when BB_SRCREV_POLICY = "clear".
+>> 
+>> 
+>> Signed-off-by: Daniel Lazzari Jr <dlazzari@leapfrog.com> --- 
+>> meta/conf/distro/defaultsetup.conf |    2 +- 1 files changed, 1
+>> insertions(+), 1 deletions(-)
+>> 
+>> diff --git a/meta/conf/distro/defaultsetup.conf
+>> b/meta/conf/distro/defaultsetup.conf index 072f03c..951e5be 100644 
+>> --- a/meta/conf/distro/defaultsetup.conf +++
+>> b/meta/conf/distro/defaultsetup.conf @@ -14,7 +14,7 @@ require
+>> conf/distro/include/tclibc-${TCLIBC}.inc
+>> 
+>> # Allow single libc distros to disable this code TCLIBCAPPEND ?=
+>> "-${TCLIBC}" -TMPDIR_append = "${TCLIBCAPPEND}" +TMPDIR :=
+>> "${TMPDIR}${TCLIBCAPPEND}"
+>> 
+>> CACHE = "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' +
+>> str(bb.data.getVar('MACHINE', d,
+>> 1))][bool(bb.data.getVar('MACHINE', d, 1))]}${@['', '/' +
+>> str(bb.data.getVar('SDKMACHINE', d,
+>> 1))][bool(bb.data.getVar('SDKMACHINE', d, 1))]}"
+> 
+> If all you want is an immediate concatenation, you can use .=. Using 
+> := like this forces an early expansion of TMPDIR unnecessarily, as
+> far as I can tell.
 
-I need to check with Richard on the bitbake.conf and this change, it's 
-in my pending queue for a pull later today.
+I think you mean TMPDIR .= "${TCLIBCAPPEND}" ?
+I think that will work too. I have tested the original patch too and it
+has worked ok but .= would be better I think let me try that as well.
 
-Sau!
+- -- 
+- -Khem
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
 
->
-> - k
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+iEYEARECAAYFAk48Jh0ACgkQuwUzVZGdMxT+FwCfcQ38C1x6DlSYtnLIlC0ov2aY
+ZHYAn3SfzV483FUFCVdTZX67MJQQBZdw
+=bUgM
+-----END PGP SIGNATURE-----
 
 
