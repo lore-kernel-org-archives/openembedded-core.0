@@ -1,35 +1,31 @@
-Received: from mail-ew0-f47.google.com ([209.85.215.47])
+Received: from mail-gx0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <agnel.joel@gmail.com>) id 1QpBMo-0004XE-GA
+	(envelope-from <bruce.ashfield@gmail.com>) id 1QpBn3-0005DH-1Y
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 05:46:34 +0200
-Received: by ewy5 with SMTP id 5so1327614ewy.6
+	Fri, 05 Aug 2011 06:13:41 +0200
+Received: by gxk3 with SMTP id 3so599610gxk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Aug 2011 20:42:10 -0700 (PDT)
+	Thu, 04 Aug 2011 21:09:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=DHqsObfEbS6H3Qsrq5coJ2fwvVU2A6mdR6OZl4erjnA=;
-	b=ub42yWfQF1FuBRRfsSU/1T0qyAjNK7eOJwY+wXIw4QYF09Z76J0mCVtfpAOWddmUjt
-	8c0Z9/RiQ+2ZkYNo69uJcIwG9HgKcbZStMUTaJg6t1ZrnYzeJUGhy9BLfuJy/TpPNM05
-	j4Zl4gF18OZd6QMr2C9Hk0K0kN62c3CZOOGF8=
+	:content-type:content-transfer-encoding;
+	bh=56B9KUQ2sZkdEsWYowjjDz7hRL3FIn3cjTJ+e8alknU=;
+	b=wE6/ntRLXe4L8ueSPO+J4c/SNQB12pUJNAIRX8NFCgyPvV7Yb2t+laQqfW2blTfYbu
+	RaEfgKToSqDgM56oc4KliVhlNIgKj5jEITmAv2SnfAaekgQlZGiARN60Mh6KPrMkkqxI
+	fb80AKkUXrqlYf705zhCboWW2jWcZb4FZq51k=
 MIME-Version: 1.0
-Received: by 10.213.3.198 with SMTP id 6mr28509ebo.15.1312515728148; Thu, 04
-	Aug 2011 20:42:08 -0700 (PDT)
-Received: by 10.213.113.196 with HTTP; Thu, 4 Aug 2011 20:42:08 -0700 (PDT)
-In-Reply-To: <2753681.lWo6xksBfj@perseus>
-References: <CAG+hza7G2jZDtHQ5iOK3KCwYRGcZ-YPBfUcyMfJuWnKaxJdSKw@mail.gmail.com>
-	<CAD=GYpbOnTOuEsNXiPuoC+cyuyo6MGFh1TqGKf8BB3o=S-YSmA@mail.gmail.com>
-	<CAD=GYpYWZYYe0d6dqGyHn0+N5p-QM+VAryomfOfo-CtHMFQUdQ@mail.gmail.com>
-	<2753681.lWo6xksBfj@perseus>
-Date: Thu, 4 Aug 2011 22:42:08 -0500
-Message-ID: <CAD=GYpbT1K+YHkwCjiU4eRiu0SNrDAUB9zx9TgJ0vrHPbdcfZA@mail.gmail.com>
-From: Joel A Fernandes <agnel.joel@gmail.com>
+Received: by 10.100.244.3 with SMTP id r3mr1475760anh.118.1312517356318; Thu,
+	04 Aug 2011 21:09:16 -0700 (PDT)
+Received: by 10.101.86.1 with HTTP; Thu, 4 Aug 2011 21:09:16 -0700 (PDT)
+In-Reply-To: <e5fc6a2b0a315f9ade50a7f357b98068c38d49e3.1312469789.git.nitin.a.kamble@intel.com>
+References: <cover.1312469789.git.nitin.a.kamble@intel.com>
+	<e5fc6a2b0a315f9ade50a7f357b98068c38d49e3.1312469789.git.nitin.a.kamble@intel.com>
+Date: Fri, 5 Aug 2011 00:09:16 -0400
+Message-ID: <CADkTA4PDcxHw-4TVExHAgAvqUpYnfLergDx7mdTpPZCs2UqkEA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: enrico.butera@ise-srl.it, "Kridner, Jason" <jdk@ti.com>, "Kooi,
-	Koen" <k-kooi@ti.com>
-Subject: Re: gstreamer-ti, questions
+Subject: Re: [PATCH 01/10] kern-tools: extend arbitrary repository support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,52 +40,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 03:46:34 -0000
+X-List-Received-Date: Fri, 05 Aug 2011 04:13:41 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 4, 2011 at 9:41 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Thursday, August 04, 2011 08:59:23 PM Joel A Fernandes wrote:
->> > Here's the compiler log:
->> > [..]
->> > #
->> > # lnkv5T bin/ti_platforms_evm3530/app_remote.xv5T ...
->> > /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-egli
->> > bc/sysroots/i686-linux/usr/bin/armv7a-angstrom-linux-gnueabi/arm-angstro
->> > m-linux-gnueabi-gcc -o bin/ti_platforms_evm3530/app_remote.xv5T
->> > package/cfg/bin/ti_platforms_evm3530/app_remote/main_native.ov5T
->> > package/cfg/bin/ti_platforms_evm3530/app_remote_xv5T.ov5T
->> > package/cfg/bin/ti_platforms_evm3530/app_remote/app.ov5T
->> > package/cfg/bin/ti_platforms_evm3530/app_remote_xv5T.xdl
->> > -L/home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eg
->> > libc/sysroots/i686-linux/usr/bin/armv7a-angstrom-linux-gnueabi/arm-angst
->> > rom-linux-gnueabi/lib -lpthread
->>
->> Interestingly the path:
->> /home/joel/angstrom-oe/setup-scripts-core/build/tmp-angstrom_2010_x-eglibc/s
->> ysroots/i686-linux/usr/bin/armv7a-angstrom-linux-gnueabi/arm-angstrom-linux-
->> gnueabi/lib
->>
->> doesn't exist, which explains the symbol errors.
->>
->> libgcc contains the symbol `__aeabi_uidivmod'
->>
->> Does this point to another problem with the toolchain?
+On Thu, Aug 4, 2011 at 11:01 AM,  <nitin.a.kamble@intel.com> wrote:
+> From: Bruce Ashfield <bruce.ashfield@windriver.com>
 >
-> I doubt that
+> Updating the kern-tools SRCREV to pickup better support for
+> non-yocto repository support.
 >
->> How would we fix
->> this?
+> =A059859ca createme: use branch name when creating meta data
+> =A091b4275 configme: determine meta branch based on directories, not bran=
+ch naming
+> =A0f5a915c kgit-meta: make branch creation and renaming more robust
+
+This one still needs a bit more testing. I'll be sending a pull request whe=
+n
+I'm happy with it on Friday. So let's wait a just a bit longer for this.
+
+Bruce
+
 >
-> make sure libgcc is linked in. It seems the linker commandline is customized
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+> =A0.../kern-tools/kern-tools-native_git.bb =A0 =A0 =A0 =A0 =A0 =A0| =A0 =
+=A02 +-
+> =A01 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/me=
+ta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> index 1fbb1f7..7ede52a 100644
+> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =3D "file://git/tools/kgit;beginline=3D5=
+;endline=3D9;md5=3De2bf4415f3d8
+>
+> =A0DEPENDS =3D "git-native guilt-native"
+>
+> -SRCREV =3D "f5a915c277a37ba5949b4c0778356189e7dd9ec0"
+> +SRCREV =3D "cdcb97cfea5f98003b2e0fb1a77b6d0d016a69e7"
+> =A0PR =3D r10
+> =A0PV =3D "0.1+git${SRCPV}"
+>
+> --
+> 1.7.6
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
-Thanks, the issue seems to be with a linker script generated by an
-older xdctools (3.20) which is said to be fixed in 3.21 [1]. I will
-try this tomorrow morning.
 
-Regards,
-Joel
 
-[1] http://www.eclipse.org/forums/index.php?t=tree&th=197704&S=bf2c36fb547f9973f300fdf573c34d81
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
