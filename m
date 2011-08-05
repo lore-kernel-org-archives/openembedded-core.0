@@ -1,32 +1,33 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-vw0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1QpBpC-0005Gw-Fn
+	(envelope-from <kergoth@gmail.com>) id 1QpCa0-0001SJ-Ro
 	for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 06:15:54 +0200
-Received: by yxi19 with SMTP id 19so1531581yxi.6
+	Fri, 05 Aug 2011 07:04:16 +0200
+Received: by vws2 with SMTP id 2so109836vws.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Aug 2011 21:11:29 -0700 (PDT)
+	Thu, 04 Aug 2011 21:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=povbj9UoIP0CcUyeI0SPbodyrSLdGGPoEnOptxn/1v8=;
-	b=UQc/A8mbcwaf6VZIHRUU+ThYebPqWlTPlTJ40RqidrPuCzRILTinhHT69/2X67ZqUF
-	LpQqhIrdAKnhQGVvbny9lgusGZcYh2mXFRQBFW+MnBtodVqz1tomN69SxOI8pkqlCxgl
-	Uj3Q6dI0D6qGEZFfLUwLArLul3Z6/rAEBSuL4=
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=iUas2JW4hGRSFRKfKsU8KiKnW4Y9aIAdGxZGqezqBrw=;
+	b=FyCmtqc5/Bh3Au0E86olsIfpU6W27vZAZjPQH21ssEigfP7Bgf6EQelKXHkQypEis9
+	0mDSEIDY/EL6Hp+pAokn9pg6M5NgGZv1ngcQ98N1z460Z9fBhQYLBdz3guLwbxta5V8A
+	LOVVKwh3WsiPyAzZ7ULebM57HiPlTYOnEXd+g=
+Received: by 10.52.90.12 with SMTP id bs12mr1987555vdb.495.1312520392100; Thu,
+	04 Aug 2011 21:59:52 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.101.63.5 with SMTP id q5mr1422877ank.140.1312517487917; Thu,
-	04 Aug 2011 21:11:27 -0700 (PDT)
-Received: by 10.101.86.1 with HTTP; Thu, 4 Aug 2011 21:11:27 -0700 (PDT)
-In-Reply-To: <80e4be5ce59752125ef341926ab869acc496dc86.1312469789.git.nitin.a.kamble@intel.com>
-References: <cover.1312469789.git.nitin.a.kamble@intel.com>
-	<e5fc6a2b0a315f9ade50a7f357b98068c38d49e3.1312469789.git.nitin.a.kamble@intel.com>
-	<80e4be5ce59752125ef341926ab869acc496dc86.1312469789.git.nitin.a.kamble@intel.com>
-Date: Fri, 5 Aug 2011 00:11:27 -0400
-Message-ID: <CADkTA4N2idH46wn9iksYjc88M33Ntfv9Ut=4pYRuh-6i+C1r+A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Sender: kergoth@gmail.com
+Received: by 10.52.112.194 with HTTP; Thu, 4 Aug 2011 21:59:32 -0700 (PDT)
+In-Reply-To: <359B10B9B28B294BAA6405D9320312E0111E934067@naemmail08.na.leapfrog.com>
+References: <359B10B9B28B294BAA6405D9320312E0111E934067@naemmail08.na.leapfrog.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Thu, 4 Aug 2011 21:59:32 -0700
+X-Google-Sender-Auth: nNTg7CcvSPf8VW41dSKkXLLgoyI
+Message-ID: <CABcZANkf_xBxAfs584Mo7370oLO8ggyy0BMQPfBy-dFN-qkWpA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/10] linux-yocto: process the existing branch for configuration
+Subject: Re: [PATCH] Immediately append TCLIBCAPPEND to TMPDIR in defaultsetup.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,64 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 04:15:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 05 Aug 2011 05:04:17 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 4, 2011 at 11:01 AM,  <nitin.a.kamble@intel.com> wrote:
-> From: Bruce Ashfield <bruce.ashfield@windriver.com>
+On Wed, Aug 3, 2011 at 2:54 PM, Daniel Lazzari <dlazzari@leapfrog.com> wrot=
+e:
+> =C2=A0Immediately append TCLIBCAPPEND to TMPDIR in defaultsetup.conf
+> =C2=A0 =C2=A0instead of lazily appending it with _append. This fixes a bu=
+g where
+> =C2=A0 =C2=A0the wrong cache was cleared when BB_SRCREV_POLICY =3D "clear=
+".
 >
-> When building an external tree or bootstrapping a BSP the
-> external branch may not have been checked out. The tools now ensure
-> that the tree is ready for configuration, so we no longer need to
-> force the checkout of the external branch.
-
-This broke one use case, which may be fine, but I'll include this in my
-pull request once all testing is complete.
-
-Bruce
-
 >
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> Signed-off-by: Daniel Lazzari Jr <dlazzari@leapfrog.com>
 > ---
-> =A0meta/classes/kernel-yocto.bbclass | =A0 =A09 +--------
-> =A01 files changed, 1 insertions(+), 8 deletions(-)
+> =C2=A0meta/conf/distro/defaultsetup.conf | =C2=A0 =C2=A02 +-
+> =C2=A01 files changed, 1 insertions(+), 1 deletions(-)
 >
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yoct=
-o.bbclass
-> index a374df1..8df5f31 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -87,14 +87,7 @@ do_kernel_configme() {
-> =A0 =A0 =A0 =A0echo "[INFO] doing kernel configme"
+> diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaul=
+tsetup.conf
+> index 072f03c..951e5be 100644
+> --- a/meta/conf/distro/defaultsetup.conf
+> +++ b/meta/conf/distro/defaultsetup.conf
+> @@ -14,7 +14,7 @@ require conf/distro/include/tclibc-${TCLIBC}.inc
 >
-> =A0 =A0 =A0 =A0kbranch=3D${KBRANCH}
-> - =A0 =A0 =A0 if [ -n "${YOCTO_KERNEL_EXTERNAL_BRANCH}" ]; then
-> - =A0 =A0 =A0 =A0 =A0 # switch from a generic to a specific branch
-> - =A0 =A0 =A0 =A0 =A0 kbranch=3D${YOCTO_KERNEL_EXTERNAL_BRANCH}
-> - =A0 =A0 =A0 =A0 =A0 cd ${S}
-> - =A0 =A0 =A0 =A0 =A0 git checkout ${kbranch}
-> - =A0 =A0 =A0 else
-> - =A0 =A0 =A0 =A0 =A0cd ${S}
-> - =A0 =A0 =A0 fi
-> + =A0 =A0 =A0 cd ${S}
+> =C2=A0# Allow single libc distros to disable this code
+> =C2=A0TCLIBCAPPEND ?=3D "-${TCLIBC}"
+> -TMPDIR_append =3D "${TCLIBCAPPEND}"
+> +TMPDIR :=3D "${TMPDIR}${TCLIBCAPPEND}"
 >
-> =A0 =A0 =A0 =A0configme --reconfig --output ${B} ${kbranch} ${MACHINE}
-> =A0 =A0 =A0 =A0if [ $? -ne 0 ]; then
-> --
-> 1.7.6
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+> =C2=A0CACHE =3D "${TMPDIR}/cache/${TCMODE}-${TCLIBC}${@['', '/' + str(bb.=
+data.getVar('MACHINE', d, 1))][bool(bb.data.getVar('MACHINE', d, 1))]}${@['=
+', '/' + str(bb.data.getVar('SDKMACHINE', d, 1))][bool(bb.data.getVar('SDKM=
+ACHINE', d, 1))]}"
 
-
-
+If all you want is an immediate concatenation, you can use .=3D. Using
+:=3D like this forces an early expansion of TMPDIR unnecessarily, as far
+as I can tell.
 --=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
 
