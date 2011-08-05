@@ -1,36 +1,31 @@
 Received: from [93.97.173.237] (helo=tim.rpsys.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1QpMjB-0002VA-SW for openembedded-core@lists.openembedded.org;
-	Fri, 05 Aug 2011 17:54:26 +0200
+	id 1QpMlc-0003tQ-BQ for openembedded-core@lists.openembedded.org;
+	Fri, 05 Aug 2011 17:56:57 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p75Fo2eV013544
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p75FqXc8013578
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Aug 2011 16:50:02 +0100
+	Fri, 5 Aug 2011 16:52:33 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 13123-04 for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Aug 2011 16:49:58 +0100 (BST)
+	id 13123-05 for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Aug 2011 16:52:29 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p75Fntqp013532
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id p75FqSkM013572
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Aug 2011 16:49:56 +0100
+	Fri, 5 Aug 2011 16:52:29 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <9DA5872FEF993D41B7173F58FCF6BE94DE85F584@orsmsx504.amr.corp.intel.com>
+In-Reply-To: <4E3B28D7.8030208@gmail.com>
 References: <e5fc6a2b0a315f9ade50a7f357b98068c38d49e3.1312469789.git.nitin.a.kamble@intel.com>
 	<03d062a7104f31d03893833485ec3836c07e8f90.1312469790.git.nitin.a.kamble@intel.com>
-	<1312494646.3169.2.camel@lenovo.internal.reciva.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94DE85F4C1@orsmsx504.amr.corp.intel.com>
-	<1312495815.3169.9.camel@lenovo.internal.reciva.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94DE85F563@orsmsx504.amr.corp.intel.com>
-	<CA+M6bXmzQdpJfADuj65emFTfED=o-HhF7QufdVtMTJCbcCgGGQ@mail.gmail.com>
-	<9DA5872FEF993D41B7173F58FCF6BE94DE85F584@orsmsx504.amr.corp.intel.com>
-Date: Fri, 05 Aug 2011 16:49:31 +0100
-Message-ID: <1312559371.14274.116.camel@rex>
+	<4E3B28D7.8030208@gmail.com>
+Date: Fri, 05 Aug 2011 16:52:05 +0100
+Message-ID: <1312559525.14274.118.camel@rex>
 Mime-Version: 1.0
 X-Mailer: Evolution 2.32.2 
 X-Virus-Scanned: amavisd-new at rpsys.net
@@ -49,29 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2011 15:54:26 -0000
+X-List-Received-Date: Fri, 05 Aug 2011 15:56:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2011-08-04 at 15:57 -0700, Kamble, Nitin A wrote:
-> > > It can go in the meta-x32 layer, but I think better place for this
-> > support file is in the meta layer. It would help avoid duplication of
-> > the code in multiple layers.
-> > 
-> > Part of the answer here is that obsolete / etc things don't belong in
-> > the core, but in other layers that need them.  My read on things is
-> > that we've removed glibc in favor of eglibc...
+On Thu, 2011-08-04 at 16:18 -0700, Khem Raj wrote:
+> On 08/04/2011 08:01 AM, nitin.a.kamble@intel.com wrote:
+> > From: Nitin A Kamble<nitin.a.kamble@intel.com>
+> >
+> > Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+> > ---
+> >   meta/conf/distro/include/tclibc-glibc.inc   |   32 +++++++++++++++++++++++++++
+> >   meta/conf/distro/include/tcmode-default.inc |    5 ++++
+> >   2 files changed, 37 insertions(+), 0 deletions(-)
+> >   create mode 100644 meta/conf/distro/include/tclibc-glibc.inc
+> >
+> > diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
+> > new file mode 100644
+> > index 0000000..823195c
+> > --- /dev/null
+> > +++ b/meta/conf/distro/include/tclibc-glibc.inc
+> > @@ -0,0 +1,32 @@
+> > +#
+> > +# glibc specific configuration
+> > +#
+> > +
+> > +LIBCEXTENSION = "${@['', '-gnu'][(d.getVar('ABIEXTENSION', True) or '') != '']}"
 > 
-> With high demand I will move the glibc file in the meta-x32 layer. I
-> was trying to do what felt right at 1st, but I wasn't aware that
-> eglibc is favored so much over glibc.
+> why is this specific to glibc and not eglibc ?
 
-Please just place that file in the x32 layer. If you need the
-PREFERRED_VERSION config, please also place that there.
+eglibc has the same code.
+
+> since glibc is deleted from metadata this file should go away too
+> if its for external toolchains then they could use tclibc-eglibc.inc
+> or tclibc-uclibc.inc as needed.
+> 
+> I am in favour of generally using linux-gnu extention for eglibc/glibc
+> based systems.
+
+I think it should be up to the user. We've ensured the recent changes
+don't change the defaults, you can certainly use linux-gnu if you want
+(but it will cause issues as not everything accepts that format as
+things stand iirc).
 
 Cheers,
 
 Richard
+
+
 
 
 
